@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Box_CompetencesBasiques {
+class Bral_Box_CompetencesMetiers {
 	
 	function __construct($request, $view) {
 		$this->_request = $request;
@@ -8,11 +8,11 @@ class Bral_Box_CompetencesBasiques {
 	}
 	
 	function getTitreOnglet() {
-		return "Basiques";
+		return "M&eacute;tiers";
 	}
 	
 	function getNomInterne() {
-		return "competences_basiques";		
+		return "competences_metiers";		
 	}
 	
 	function setDisplay($display) {
@@ -21,7 +21,7 @@ class Bral_Box_CompetencesBasiques {
 	
 	function render() {
 		$this->view->nom_interne = $this->getNomInterne();
-		return $this->view->render("interface/competences_basiques.phtml");
+		return $this->view->render("interface/competences_metiers.phtml");
 	}
 }
 ?>

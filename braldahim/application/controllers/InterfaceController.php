@@ -38,6 +38,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->outputXmlReponse($xml_response);
 	}	
 	
+	
 	function vueAction() {
 		$this->init();
 		$this->view->affichageInterne = true;
@@ -61,6 +62,8 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->addBox(new Bral_Box_Profil($this->_request, $this->view), "boite_a");
 		
 		$this->addBox(new Bral_Box_CompetencesBasiques($this->_request, $this->view), "boite_b");
+		$this->addBox(new Bral_Box_CompetencesCommunes($this->_request, $this->view), "boite_b");
+		$this->addBox(new Bral_Box_CompetencesMetiers($this->_request, $this->view), "boite_b");
 		
 		$this->addBox(new Bral_Box_Vue($this->_request, $this->view), "boite_c");
 		

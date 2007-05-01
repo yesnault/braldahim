@@ -20,6 +20,8 @@ Zend_Loader::loadClass("Bral_Box_Vue");
 Zend_Loader::loadClass("Bral_Box_Profil");
 Zend_Loader::loadClass("Bral_Box_Equipement");
 Zend_Loader::loadClass("Bral_Box_CompetencesBasiques");
+Zend_Loader::loadClass("Bral_Box_CompetencesCommunes");
+Zend_Loader::loadClass("Bral_Box_CompetencesMetiers");
 
 // load configuration
 $config = new Zend_Config_Ini('./application/config.ini', 'general');
