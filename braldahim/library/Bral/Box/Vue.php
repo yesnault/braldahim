@@ -23,6 +23,7 @@ class Bral_Box_Vue {
 	
 	function render() {
 		$this->data();
+		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/vue.phtml");
 	}
 

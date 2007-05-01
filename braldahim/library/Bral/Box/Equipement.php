@@ -20,6 +20,7 @@ class Bral_Box_Equipement {
 	}
 	
 	function render() {
+		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/profil.phtml");
 	}
 }
