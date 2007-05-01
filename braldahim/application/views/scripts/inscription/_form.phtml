@@ -1,0 +1,20 @@
+<form action="<?php echo $this->baseUrl ?>/inscription/<?php 
+    echo $this->action; ?>" method="post">
+<div>
+    <label for="hobbit">Hobbit</label>
+    <input type="text" name="nom_hobbit" 
+        value="<?php echo $this->escape(trim($this->hobbit->nom_hobbit));?>"/>
+</div>
+<div>
+    <label for="title">Email</label>
+    <input type="text" name="email_hobbit" 
+        value="<?php echo $this->escape($this->hobbit->email_hobbit);?>"/>
+</div>
+
+<div id="formbutton">
+<input type="hidden" name="id" value="<?php echo $this->hobbit->id; ?>" />
+<input type="submit" name="add" 
+    value="<?php echo $this->escape($this->buttonText); ?>" />
+</div>
+</form>
+

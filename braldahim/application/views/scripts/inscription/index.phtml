@@ -1,0 +1,27 @@
+<?php echo $this->render('header.phtml'); ?>
+<h1><?php echo $this->escape($this->title); ?></h1>
+<p><a href="<?php echo $this->baseUrl; ?>/inscription/ajouter">Ajouter un nouvel hobbit</a></p>
+<table>
+<tr>
+	<th>ID</th>
+	<th>Nom</th>
+	<th>Email</th>
+	<th>&nbsp;</th>
+</tr>
+
+<?php foreach($this->hobbits as $hobbit) : ?>
+<tr>
+	<td><?php echo $this->escape($hobbit->id);?></td>
+	<td><?php echo $this->escape($hobbit->nom_hobbit);?></td>
+	<td><?php echo $this->escape($hobbit->email_hobbit);?></td>
+	<td>
+	  <a href="<?php echo $this->baseUrl; ?>/index/modifier/id/<?php 
+          echo $album->id;?>">Modifier</a>
+  <a href="<?php echo $this->baseUrl; ?>/index/supprimer/id/<?php 
+      echo $album->id;?>">Supprimer</a>
+	</td>
+</tr>
+<?php endforeach; ?>
+</table>
+<?php echo $this->render('footer.phtml'); ?>
+

@@ -1,0 +1,40 @@
+@import "box.css";
+@import "box_onglets.css";
+@import "messages.css";
+@import "vue.css";
+
+/*
+@import "competences.css";
+@import "vue2d.css";
+@import "popup.css";
+*/
+
+body {
+  font:11px 'Trebuchet MS',verdana,sans-serif;
+}
+
+input {
+  border:1px solid #CCC;
+  background: #FFF;
+  font:11px 'Trebuchet MS',verdana,sans-serif;
+  color: #000;
+  margin: 2px;
+}
+
+input:focus {
+  border:1px dashed #000;
+  color:#00339A;
+  background-color: white;
+}
+
+input:hover {
+  border:1px solid #000;
+  color: #00339A;
+  background-color: white;
+}
+
+.racine_gauche , .racine_milieu, .racine_droite {
+  top:10px;
+  float: left;
+  padding: 10px;
+}

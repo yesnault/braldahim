@@ -1,0 +1,85 @@
+.box_authentification {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background-color : #ffd363;
+  color: black;
+  border-style : dashed;
+  border-width: 1px;
+  width: 220px;
+  height: auto;
+  margin-top: -100px;
+  margin-left: -110px;
+  text-align: center;
+}
+
+.box_chargement {
+  position: absolute;
+  left: 50%; top: 50%;
+  width:200px; height: 15px;
+  margin-left: -110px;
+  margin-top: -100px;
+  text-align: center;
+  border-width: 1px;
+  border-style: solid;
+  background-color: #eeeeee;
+  color: black;
+  font-weight: bold
+}
+
+.box_contenu1 {
+  text-align:right;
+}
+
+.box_contenu2 {
+  text-align:center;
+}
+
+.box_contenu3 {
+  text-align:left;
+}
+
+.box_info {
+  background-color: #CCCC99;
+  color: red;
+  font-weight: bold;
+}
+
+.box_menu {
+  position: absolute;
+  top : 0px;
+  left: 0px;
+  background-color : #ffd363;
+  color: black;
+  border-style : dashed;
+  border-width: 1px;
+  margin-left: 1px;
+  width: 99.5%;
+  height: auto;
+  text-align: left;
+}
+
+.box_equipement, .box_profil, .box_vue{
+  position: absolute;
+  background-color : #ffd363;
+  color: black;
+  border-style : dashed;
+  border-width: 1px;
+  width: 220px;
+  height: auto;
+  text-align: center;
+  z-index:10;
+}
+
+.box_equipement {
+  position: relative;
+}
+
+.box_profil {
+  position: relative;
+}
+
+.box_vue {
+  position: relative;
+    width: 400px;
+}

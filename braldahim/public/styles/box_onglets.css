@@ -1,0 +1,35 @@
+.boite_a {
+  position: absolute;
+  top:30px;
+}
+
+.boite_b {
+  position: absolute;
+  top:300px;
+}
+
+.boite_c {
+  position: absolute;
+  top:30px;
+  left:300px;
+  width: 500px;
+}
+
+.onglet {
+  border-style : dashed;
+  border-width: 1px;
+  margin: 2px;
+}
+
+.onglet.actif {
+  background-color : #CCCC99;
+}
+
+.onglet.inactif {
+  background-color : #eeeeee;
+}
+
+.onglet:hover {
+  background-color : #ffd363;
+  cursor: pointer;
+}

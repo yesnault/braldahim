@@ -1,0 +1,59 @@
+<?php if ($this->affichageInterne == false) : ?>
+<div class="box_vue" id="box_vue" style="display:<?php $this->display; ?>"> 
+<?php endif; ?>
+ <div class="box_titre1">
+  <div style=" float: left;">
+   Vue 2D<br/>
+    X=  <?=$this->user->x_hobbit ?> , Y= <?=$this->user->y_hobbit ?> Vue : <?=$this->user->vue_base_hobbit ?> <?=$this->environnement ?> <br />
+    Centrage : X= <?=$this->centre_x ?> , Y= <?=$this->centre_y ?> <?=$this->centre_environnement ?> <br />
+  </div>
+  <div>
+    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?valeur_1=hg&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
+         src="public/images/puce_haut_gauche.gif" border="0">
+    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?valeur_1=h&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
+    src="public/images/puce_haut.gif" border="0">
+    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?valeur_1=hd&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
+    src="public/images/puce_haut_droit.gif" border="0"><br />
+    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?valeur_1=g&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
+    src="public/images/puce_gauche.gif" border="0">
+    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?valeur_1=d&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
+    src="public/images/puce_droite.gif" border="0"><br />
+    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?valeur_1=bg&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
+    src="public/images/puce_bas_gauche.gif" border="0">
+     <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?valeur_1=b&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
+     src="public/images/puce_bas.gif" border="0">
+      <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?valeur_1=bd&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
+      src="public/images/puce_bas_droit.gif" border="0">
+  </div>
+ 
+  <div class="box_contenu2">
+  &nbsp;
+    <table class='vue2d' align='center'>
+     <?php $col="" ?>
+     
+     <?php 
+     foreach($this->tableau as $case) : ?>
+
+		
+		<?php if ($case["change_level"] == 1 && $col == "ok") : ?>
+		</tr>
+        <?php endif; ?>
+        <?php if ($case["change_level"] == true) : 
+          $col="ok"; ?>
+        <tr>                
+        <?php endif; ?>
+      	<td class='vue2d <?=$case["css"] ?>' nowrap>
+      	
+      	<div class="vue2d_case_num"><?php echo $case["x"]. "," . $case["y"] ?>   </div>
+      	&nbsp;
+        <?php if ($case["position_actuelle"] == true) : ?>
+      	
+      	<?php endif; ?>
+      	</td>
+     <?php endforeach; ?>
+     </tr>
+    </table>
+ 
+  </div>
+ </div>
+</div>

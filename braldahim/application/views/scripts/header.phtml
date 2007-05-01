@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/prototype.js"></script>
+    <script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/m_action.js"></script>
+    <script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/m_display.js"></script>
+    
+	<title><?php echo $this->escape($this->title); ?></title>
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl;?>/public/styles/site.css" />
+</head>
+
+<?php if($this->user) : ?> 
+ <body onLoad="_get_('<?=$this->baseUrl ?>/interface/boxes');">
+<?php else: ?>
+<body>
+<?php endif; ?>
+  <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
+
+<?php if($this->user) : ?> 
+ <div class="box_menu" id="box_menu">
+  <div class="box_contenur1">
+  <?php echo $this->escape($this->user->nom_hobbit);?>.
+  <a href="<?=$this->baseUrl ?>/auth/logout">Déconnexion</a>
+  </div>
+ </div>
+<?php endif; ?>
+
+  <div id="box_action" class="box_action"></div>
+  <div id="erreur" class="box_erreur"></div>
+  <div id="informations" class="box_informations"></div>
+  <div id="racine" class="box_racine">
+    <?php if($this->user) : ?> 
+    <div id="box_chargement" class="box_chargement">Chargement en Cours</div>
+    <?php endif; ?>
+  </div>

@@ -1,0 +1,38 @@
+<?php echo $this->render('header.phtml'); ?> 
+<h1>Braldahim</h1> 
+ 
+<form action="<?php echo $this->baseUrl ?>/auth/login" method="post"> 
+<div class="box_authentification">
+
+    <div class="box_titre1">Authentification</div><br />
+    
+	<?php if(!empty($this->message)) :?> 
+	<div class="message_erreur" id="message_erreur"> 
+	<?php echo $this->escape($this->message);?> 
+	</div> 
+	<?php endif; ?> 
+
+    <div class="box_contenu1">
+    Joueur : <input type="text" name="nom" /> <br />
+
+    Mot de passe : <input type="password" name="password" /> <br />
+
+    Activation :
+    oui <input type="radio" id="auth_activation" name="auth_activation" value="oui">
+    non <input type="radio" id="auth_activation" name="auth_activation" value="non" checked> <br />
+
+    Sitting :
+    oui <input type="radio" id="auth_sitting" name="auth_sitting" value="oui">
+    non <input type="radio" id="auth_sitting" name="auth_sitting" value="non" checked> <br />
+
+    </div>
+    
+    <div class="box_contenu2">
+    <input type="submit" value="Connexion" />
+    <p><a href="<?php echo $this->baseUrl ?>/perdu">Perdu ?</a> ou <a href="<?php echo $this->baseUrl ?>/inscription">Pas encore inscrit ?</a></p>
+    </div>    
+
+</div>
+</form> 
+ 
+<?php echo $this->render('footer.phtml'); ?>  
