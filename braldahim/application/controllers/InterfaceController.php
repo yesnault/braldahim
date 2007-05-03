@@ -37,8 +37,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$xml_response->add_entry($xml_entry);
 		$this->outputXmlReponse($xml_response);
 	}	
-	
-	
+		
 	function vueAction() {
 		$this->init();
 		$this->view->affichageInterne = true;

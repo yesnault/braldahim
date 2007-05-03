@@ -5,6 +5,14 @@ class Bral_Box_CompetencesCommunes {
 	function __construct($request, $view) {
 		$this->_request = $request;
 		$this->view = $view;
+		
+		// chargement des competences
+		$hobbitTable = new Hobbit();
+		$hobbitRowset = $hobbitTable->find($this->view->user->id);
+		$hobbit = $hobbitRowset->current();
+		$this->competences = $hobbit->findCompetenceViaHobbitsCompetences();
+		
+		print_r($hobbit->findHobbitsCompetences());
 	}
 	
 	function getTitreOnglet() {
@@ -20,7 +28,17 @@ class Bral_Box_CompetencesCommunes {
 	}
 	
 	function render() {
+		$tabCompetence = null;
 		$this->view->nom_interne = $this->getNomInterne();
+		
+		foreach($this->competences as $competence) {
+			$c = array("id" => $competence->id, "nom" => $competence->nom_competence);
+			$tabCompetence[] = $c;
+			
+		}
+
+		print_r($tabCompetence);
+
 		return $this->view->render("interface/competences_communes.phtml");
 	}
 }

@@ -4,7 +4,15 @@
  <div class="box_titre1">
   Comp&eacute;tences communes</div>
  <div class="box_contenu2">
-COMPETENCES COMMUNES
+ {foreach name=outer item=competence from=$contenu}
+   {* foreach key=key item=item from=$competence *}
+  <div>
+         {$competence.pa_utilisation} PA -
+      <input type="button" value="{$competence.nom}"
+         onClick="Javascript:_get_('ask_competence_{$competence.nom_systeme}')">
+       - {$competence.pourcentage}%
+  </div>
+   {/foreach}
  </div>
  <?php if ($this->affichageInterne == false) : ?>
 </div>

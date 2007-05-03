@@ -23,6 +23,10 @@ Zend_Loader::loadClass("Bral_Box_CompetencesBasiques");
 Zend_Loader::loadClass("Bral_Box_CompetencesCommunes");
 Zend_Loader::loadClass("Bral_Box_CompetencesMetiers");
 
+Zend_Loader::loadClass("Hobbit");
+Zend_Loader::loadClass("HobbitsCompetences");
+Zend_Loader::loadClass("Competence");
+
 // load configuration
 $config = new Zend_Config_Ini('./application/config.ini', 'general');
 $registry = Zend_Registry::getInstance();
