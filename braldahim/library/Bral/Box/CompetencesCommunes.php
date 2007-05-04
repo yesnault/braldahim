@@ -12,7 +12,13 @@ class Bral_Box_CompetencesCommunes {
 		$hobbit = $hobbitRowset->current();
 		$this->competences = $hobbit->findCompetenceViaHobbitsCompetences();
 		
+		
 		print_r($hobbit->findHobbitsCompetences());
+		
+		echo "YVO AA";
+		$competences = Zend_Registry::get('competences');
+		print_r($competences);
+		echo "YVO FIN";
 	}
 	
 	function getTitreOnglet() {

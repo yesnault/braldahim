@@ -14,6 +14,7 @@ Zend_Loader::loadClass('Zend_Db');
 Zend_Loader::loadClass('Zend_Db_Table');
 Zend_Loader::loadClass("Zend_Auth");
 
+Zend_Loader::loadClass("Bral_Util_Registre");
 Zend_Loader::loadClass("Bral_Xml_Response");
 Zend_Loader::loadClass("Bral_Xml_Entry");
 Zend_Loader::loadClass("Bral_Box_Vue");
@@ -37,6 +38,8 @@ $dbAdapter = Zend_Db::factory($config->db->adapter,
 $config->db->config->asArray());
 Zend_Db_Table::setDefaultAdapter($dbAdapter);
 Zend_Registry::set('dbAdapter', $dbAdapter); 
+
+Bral_Util_Registre::chargement();
 
 // setup controller
 $frontController = Zend_Controller_Front::getInstance();
