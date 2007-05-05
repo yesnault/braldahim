@@ -4,15 +4,20 @@
  <div class="box_titre1">
   Comp&eacute;tences communes</div>
  <div class="box_contenu2">
- {foreach name=outer item=competence from=$contenu}
-   {* foreach key=key item=item from=$competence *}
+ 
+ <?php 
+ if (count($this->competences) > 0) {
+ 	foreach($this->competences as $c) : ?>
   <div>
-         {$competence.pa_utilisation} PA -
-      <input type="button" value="{$competence.nom}"
-         onClick="Javascript:_get_('ask_competence_{$competence.nom_systeme}')">
-       - {$competence.pourcentage}%
+       <?=$c["pa_utilisation"]?> PA -
+      <input type="button" value="<?=$c["nom"]?>"
+         onClick="Javascript:_get_('competences/DoAction?caction=ask_competence_<?=$c["nom_systeme"] ?>')">
   </div>
-   {/foreach}
+ <?php endforeach ;
+  } else {	
+ 	echo "Aucune comp&eacute;tence commune";
+  }
+ ?>
  </div>
  <?php if ($this->affichageInterne == false) : ?>
 </div>

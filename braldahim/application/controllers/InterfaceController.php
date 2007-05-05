@@ -8,6 +8,10 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
 	}
+	
+	function clearAction() {
+		echo $this->view->render("interface/clear.phtml");
+	}
 
 	function indexAction() {
 		$this->view->title = "Profil";
@@ -23,7 +27,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$box = new Bral_Box_Profil($this->_request, $this->view);
 		$xml_entry->set_data($box->render());
 		$xml_response->add_entry($xml_entry);
-		$this->outputXmlReponse($xml_response);
+		$xml_response->render();
 	}	
 	
 	function equipementAction() {
@@ -35,7 +39,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$box = new Bral_Box_Equipement($this->_request, $this->view);
 		$xml_entry->set_data($box->render());
 		$xml_response->add_entry($xml_entry);
-		$this->outputXmlReponse($xml_response);
+		$xml_response->render();
 	}	
 		
 	function vueAction() {
@@ -45,26 +49,21 @@ class InterfaceController extends Zend_Controller_Action {
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("display");
 		$xml_entry->set_valeur("box_vue");
-		$box = new Bral_Box_Vue($this->_request, $this->view);
+		$box = Bral_Box_Factory::getVue($this->_request, $this->view);
 		$xml_entry->set_data($box->render());
 		$xml_response->add_entry($xml_entry);
-		$this->outputXmlReponse($xml_response);
-	}
-	
-	private function outputXmlReponse($xml_response) {
-		header("Content-Type: text/xml");
-		echo $xml_response->get_xml();
+		$xml_response->render();
 	}
 	
 	function boxesAction() {
-		$this->addBox(new Bral_Box_Equipement($this->_request, $this->view), "boite_a");
-		$this->addBox(new Bral_Box_Profil($this->_request, $this->view), "boite_a");
+		$this->addBox(Bral_Box_Factory::getEquipement($this->_request, $this->view), "boite_a");
+		$this->addBox(Bral_Box_Factory::getProfil($this->_request, $this->view), "boite_a");
 		
-		$this->addBox(new Bral_Box_CompetencesBasiques($this->_request, $this->view), "boite_b");
-		$this->addBox(new Bral_Box_CompetencesCommunes($this->_request, $this->view), "boite_b");
-		$this->addBox(new Bral_Box_CompetencesMetiers($this->_request, $this->view), "boite_b");
+		$this->addBox(Bral_Box_Factory::getCompetences($this->_request, $this->view, "commun"), "boite_b");
+		$this->addBox(Bral_Box_Factory::getCompetences($this->_request, $this->view, "metier"), "boite_b");
+		$this->addBox(Bral_Box_Factory::getCompetences($this->_request, $this->view, "basic"), "boite_b");
 		
-		$this->addBox(new Bral_Box_Vue($this->_request, $this->view), "boite_c");
+		$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view), "boite_c");
 		
 		$xml_response = new Bral_Xml_Response();
 		$xml_entry = new Bral_Xml_Entry();
@@ -73,7 +72,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$xml_entry->set_data($this->getBoxesData());
 		
 		$xml_response->add_entry($xml_entry);
-		$this->outputXmlReponse($xml_response);
+		$xml_response->render();
 	}
 	
 	private function addBox($p, $position = "aucune") {

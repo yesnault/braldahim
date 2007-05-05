@@ -1,12 +1,11 @@
-function findSelectedRadioButton( groupname )
-{
-        var radioButtons = document.myForm.elements[groupname];
-        for( var i = 0; i < radioButtons.length; i++ )
-        {
-                if( radioButtons[i].checked )
-                        return radioButtons[i];
-        }
-        return null;
+function findSelectedRadioButton( groupname ) {
+	var radioButtons = document.myForm.elements[groupname];
+	for( var i = 0; i < radioButtons.length; i++ ) {
+		if( radioButtons[i].checked ) {
+			return radioButtons[i];
+		}
+	}
+	return null;
 }
 
 function _get_(url){
@@ -35,57 +34,71 @@ function _get_(url){
 
 function showResponse(originalRequest) {
     var xmldoc = originalRequest.responseXML;
+	var display_action = false;
+	var display_informations = false;
+	var display_erreur = false;
     if (xmldoc == null) {
-    	alert('Erreur survenue:'+xmldoc);
-    }
-    	
-    var root = xmldoc.getElementsByTagName('root').item(0);
-    var display_action = false;
-    var display_informations = false;
-
-    for (var iNode = 0; iNode < root.childNodes.length; iNode++) {
-      var node = root.childNodes.item(iNode);
-
-      for (i = 0; i < node.childNodes.length; i++) {
-           var sibl = node.childNodes.item(i);
-           for (x = 0; x < sibl.childNodes.length; x++) {
-            if (i == 1)
-              m_type = node.childNodes.item(1).childNodes.item(0).data;
-            if (i == 3)
-              m_type_valeur = node.childNodes.item(3).childNodes.item(0).data;
-            if (i == 5)
-              m_data = node.childNodes.item(5).childNodes.item(0).data;
-            if (i == 5) {
-            
-			  //alert('Fin entrie');
-              if (m_type_valeur == "box_action")
-                display_action = true;
-              else if (m_type_valeur == "informations" && m_data !="")
-                display_informations = true; // affichage de la boite d'informations
-
-              if (m_type == "display")
-                _display_(m_type_valeur, m_data);
-            }
-           }
-      }
-    }
-
+    	textdoc = originalRequest.responseText;
+    	if (textdoc != "clear") {
+    		alert('Erreur survenue xml:'+xmldoc+'\n text:'+textdoc);
+    	}
+    } else {
+	    var root = xmldoc.getElementsByTagName('root').item(0);
+	
+	    for (var iNode = 0; iNode < root.childNodes.length; iNode++) {
+	      var node = root.childNodes.item(iNode);
+	
+	      for (i = 0; i < node.childNodes.length; i++) {
+	           var sibl = node.childNodes.item(i);
+	           for (x = 0; x < sibl.childNodes.length; x++) {
+	            if (i == 1)
+	              m_type = node.childNodes.item(1).childNodes.item(0).data;
+	            if (i == 3)
+	              m_type_valeur = node.childNodes.item(3).childNodes.item(0).data;
+	            if (i == 5)
+	              m_data = node.childNodes.item(5).childNodes.item(0).data;
+	            if (i == 5) {
+	            
+				  //alert('Fin entrie');
+	              if (m_type_valeur == "box_action")
+	                display_action = true;
+	              else if (m_type_valeur == "informations" && m_data !="")
+	                display_informations = true; // affichage de la boite d'informations
+	              else if (m_type_valeur == "erreur" && m_data !="")
+	                display_erreur = true; // affichage de la boite d'erreur
+	                
+	              if (m_type == "display")
+	                _display_(m_type_valeur, m_data);
+	            }
+	           }
+	      }
+	    }
+	}
     // Box action
     if (display_action) {
       $("box_action").style.display = "block";
     } else {
-      if ($("box_action"))
-           $("box_action").style.display = "none";
+      if ($("box_action")) {
+      	$("box_action").style.display = "none";
+      }
     }
-
 
     // Box informations
     if (display_informations) {
       $("informations").style.display = "block";
     } else {
-      if ($("informations"))
-       $("informations").style.display = "none";
+      if ($("informations")) {
+      	$("informations").style.display = "none";
+      }
     }
-
+    
+    // Box erreur
+    if (display_erreur) {
+      $("erreur").style.display = "block";
+    } else {
+      if ($("erreur")) {
+      	$("erreur").style.display = "none";
+      }
+    }
     return ;
 }

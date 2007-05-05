@@ -4,7 +4,20 @@
  <div class="box_titre1">
   Comp&eacute;tences m&eacute;tiers</div>
  <div class="box_contenu2">
-COMPETENCES METIERS
+ 
+ <?php 
+ if (count($this->competences) > 0) {
+ 	foreach($this->competences as $c) : ?>
+  <div>
+       <?=$c["pa_utilisation"]?> PA -
+      <input type="button" value="<?=$c["nom"]?>"
+         onClick="Javascript:_get_('competences/DoAction?caction=ask_competence_<?=$c["nom_systeme"] ?>')">
+  </div>
+ <?php endforeach ;
+  } else {	
+ 	echo "Aucune comp&eacute;tence m&eacute;tier";
+  }
+ ?>
  </div>
  <?php if ($this->affichageInterne == false) : ?>
 </div>

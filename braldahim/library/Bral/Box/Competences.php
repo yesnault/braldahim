@@ -13,36 +13,32 @@ class Bral_Box_Competences {
 		$hobbit = $hobbitRowset->current();
 		$this->hobbitCompetences = $hobbit->findCompetenceViaHobbitsCompetences();
 		$this->competences = Zend_Registry::get('competences');
+		
+		switch($this->type) {
+			case "basic":
+				$this->titreOnglet = "Basiques";
+				$this->nomInterne = "competences_basiques";
+				$this->render = "interface/competences_basiques.phtml";
+				break;
+			case "commun":
+				$this->titreOnglet = "Communes";
+				$this->nomInterne = "competences_communes";
+				$this->render = "interface/competences_communes.phtml";
+				break;
+			case "metier":
+				$this->titreOnglet = "M&eacute;tiers";
+				$this->nomInterne = "competences_metiers";
+				$this->render = "interface/competences_metiers.phtml";
+				break;	
+		}
 	}
 	
 	function getTitreOnglet() {
-		switch($this->type) {
-			case "basic":
-				$r = "Basiques";
-				break;
-			case "commun":
-				$r = "Communes";
-				break;
-			case "metier":
-				$r = "M&eacute;iers";
-				break;	
-		}
-		return $r;	
+		return $this->titreOnglet;	
 	}
 	
 	function getNomInterne() {
-		switch($this->type) {
-			case "basic":
-				$r = "competences_basiques";
-				break;
-			case "commun":
-				$r = "competences_communes";
-				break;
-			case "metier":
-				$r = "competences_metiers";
-				break;	
-		}
-		return $r;		
+		return $this->nomInterne;		
 	}
 	
 	function setDisplay($display) {
@@ -55,12 +51,16 @@ class Bral_Box_Competences {
 		
 		foreach($this->hobbitCompetences as $c) {
 			if ($this->competences[$c->id]["type"] == $this->type) {
-				$t = array("id" => $c->id, "nom" => $this->competences[$c->id]["nom"], "pa_utilisation" => $this->competences[$c->id]["pa_utilisation"]);
+				$t = array("id" => $c->id, 
+				"nom" => $this->competences[$c->id]["nom"], 
+				"pa_utilisation" => $this->competences[$c->id]["pa_utilisation"],
+				"nom_systeme" => $this->competences[$c->id]["nom_systeme"]);
 				$tabCompetences[] = $t;
 			}
 		}
 		$this->view->competences = $tabCompetences;
-		return $this->view->render("interface/competences_communes.phtml");
+		return $this->view->render($this->render);
 	}
+	
 }
 ?>

@@ -27,3 +27,13 @@ function my_switch(box,conteneur) {
  document.getElementById("onglet_"+box).className="onglet actif";
 
 }
+
+function swith2div(div1, div2, message) {
+	if (document.getElementById(div1).style.display=="none") {
+		document.getElementById(div1).style.display="block";
+		document.getElementById(div2).style.display="none";
+	} else {
+		document.getElementById(div1).style.display="none";
+		document.getElementById(div2).style.display="block";
+	}
+}

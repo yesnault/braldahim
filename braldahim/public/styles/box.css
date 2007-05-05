@@ -59,6 +59,30 @@
   text-align: left;
 }
 
+.box_action {
+  position: absolute;
+  left: 50%; bottom: 0%;
+  width:auto; height: auto;
+  margin-left: -110px;
+  margin-top: -100px;
+  text-align: center;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #990000;
+  background-color: #eeeeee;
+  color: black;
+  font-weight: bold; 
+  z-index: 1000;
+}
+
+.box_erreur {
+  background-color : red;
+  color: black;
+  position: absolute;
+  text-align: center;
+  z-index: 1000;
+}
+
 .box_competences_basiques,.box_metiers,.box_competences_communes,.box_competences_metiers ,
 .box_equipement, .box_profil, .box_vue{
   position: absolute;
