@@ -1,7 +1,26 @@
-Marcher<br>
+<div class='comp_titre'>Marcher</div>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ <form name='myForm'>
+ <div class='comp_contenu'>
 
-saisie des criteres ici
+ <?=$this->environnement ?>: <?=$this->nb_pa ?> PA, <?=$this->nb_cases ?>
+ <?php if ($this->nb_cases == 1) :?>
+   case
+ <?php else :?>
+   cases
+ <?php endif; ?>
+<br><br>
 
+<?php if ($this->assezDePa == false) : ?>
+ Vous n'avez pas assez de PA
+<?php else : ?>
+
+<? endif ?>
+</div>
+
+</form>
 <br>
+<?php if ($this->assezDePa == false) : ?>
 <input type='button' value='Action !' onClick='_get_("interface/clear");'>
+<? endif ?>
 <input type='button' value='Annuler' onClick='_get_("interface/clear");'>

@@ -1,0 +1,22 @@
+.comp_titre {
+  background-color: #ffd363;
+  color: black;
+}
+
+.comp_boutons {
+  background-color: #CCCC99;
+  margin-bottom:10px;
+}
+
+.comp_contenu {
+  display: block;
+  list-style-type: none;
+}
+
+.comp_marcher_position {
+  border: 1px solid #000000;
+}
+
+.comp_marcher_position_td {
+  border: 1px dashed #CCCC99;
+ }

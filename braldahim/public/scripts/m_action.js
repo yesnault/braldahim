@@ -11,8 +11,17 @@ function findSelectedRadioButton( groupname ) {
 function _get_(url){
   var valeurs = "";
   var nb_valeurs = 0;
+  var action = "";
   
-  if ($('nb_valeurs') && (p[0] == "d" && p[1] == "o")) {
+  if (url.length == 11) {
+  	if (url.substring(0, 11) == "competences") {
+  		if (url.substring(12, 14) == "Do") {
+  			action = "do";
+  		}
+  	}
+  }
+
+  if ($('nb_valeurs') && (action == "do")) {
       // Recuperation du nombre de valeur que l'action a besoin
       nb_valeurs = $('nb_valeurs').value;
       for (i = 1; i<=nb_valeurs ; i++) {
