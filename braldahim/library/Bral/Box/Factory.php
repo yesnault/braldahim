@@ -17,4 +17,8 @@ class Bral_Box_Factory {
 	public static function getVue($request, $view) {
 		return new Bral_Box_Vue($request, $view);
 	}
+	
+	public static function getErreur($request, $view, $message) {
+		return new Bral_Box_Erreur($request, $view, $message);
+	}
 }

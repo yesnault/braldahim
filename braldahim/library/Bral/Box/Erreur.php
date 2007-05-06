@@ -5,7 +5,7 @@ class Bral_Box_Erreur {
 	function __construct($request, $view, $message) {
 		$this->_request = $request;
 		$this->view = $view;
-		$this->view->messageErreur = $message;
+		$this->view->messageErreur = $message ;
 	}
 	
 	function getIdBox() {

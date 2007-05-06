@@ -27,7 +27,7 @@ class Bral_Competences_Factory {
 		if (($construct != null) && (class_exists($construct))) {                
 			return new $construct ($request, $view, $action);
 		} else {
-			return new Bral_Box_Erreur($request, $view, "Comp&eacute;tence invalide: ".$nomSystemeCompetence);
+			throw new Zend_Exception("Comp&eacute;tence invalide: ".$nomSystemeCompetence);
 		}
 	}
 }
