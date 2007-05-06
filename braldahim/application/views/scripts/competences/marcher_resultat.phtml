@@ -1,7 +1,22 @@
-Marcher<br>
+<div class='comp_titre'>Marcher</div>
 
-resultat
+ <div class='comp_contenu'>
+	 <div id='marcher_text' style="display:block"  onClick="javascript:switch2div('marcher_text','marcher_copie');">
+		D&eacute;placement r&eacute;ussi jusqu'en : <br>
+		x=<?=$this->user->x_hobbit?>, y=<?=$this->user->y_hobbit?> <br>
+	 
+		Type de terrain de d&eacute;part : <?=$this->environnement?><br>
+		Cela vous a cout&eacute; <?=$this->nb_pa?> PA.
+	 </div>
+	 
+	 <div id='marcher_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40>D&eacute;placement r&eacute;ussi jusqu'en : 
+x=<?=$this->user->x_hobbit?>, y=<?=$this->user->y_hobbit?> 
+Type de terrain de d&eacute;part : <?=$this->environnement?>  
+Cela vous a cout&eacute; <?=$this->nb_pa?> PA. 
+		</textarea>
+	</div>
+ </div>
 
-<br>
-<input type='button' value='Copier' onClick="javascript:swith2div('','');">
+<input type='button' value='Copier' onClick="javascript:switch2div('marcher_text','marcher_copie');">
 <input type='button' value='Fermer' onClick='_get_("interface/clear");'>

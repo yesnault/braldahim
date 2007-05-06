@@ -2,17 +2,18 @@
 
 class Bral_Box_Profil {
 	
-	function __construct($request, $view) {
+	function __construct($request, $view, $interne) {
 		$this->_request = $request;
 		$this->view = $view;
+		$this->view->affichageInterne = $interne;
 	}
 	
 	function getTitreOnglet() {
-		return "Equipement";
+		return "Profil";
 	}
 	
 	function getNomInterne() {
-		return "equipement";		
+		return "box_profil";		
 	}
 	
 	function setDisplay($display) {
@@ -21,7 +22,7 @@ class Bral_Box_Profil {
 	
 	function render() {
 		$this->view->nom_interne = $this->getNomInterne();
-		return $this->view->render("interface/equipement.phtml");
+		return $this->view->render("interface/profil.phtml");
 	}
 }
 ?>

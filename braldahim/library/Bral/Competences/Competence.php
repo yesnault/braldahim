@@ -1,7 +1,7 @@
 <?php
 
 abstract class Bral_Competences_Competence {
-	function getIdBox() {
+	function getNomInterne() {
 		return "box_action";
 	}
 

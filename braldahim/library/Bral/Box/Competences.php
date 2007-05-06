@@ -2,10 +2,11 @@
 
 class Bral_Box_Competences {
 	
-	function __construct($request, $view, $type) {
+	function __construct($request, $view, $interne, $type) {
 		$this->_request = $request;
 		$this->view = $view;
 		$this->type = $type;
+		$this->view->affichageInterne = $interne;
 		
 		// chargement des competences
 		$hobbitTable = new Hobbit();
@@ -17,17 +18,17 @@ class Bral_Box_Competences {
 		switch($this->type) {
 			case "basic":
 				$this->titreOnglet = "Basiques";
-				$this->nomInterne = "competences_basiques";
+				$this->nomInterne = "box_competences_basiques";
 				$this->render = "interface/competences_basiques.phtml";
 				break;
 			case "commun":
 				$this->titreOnglet = "Communes";
-				$this->nomInterne = "competences_communes";
+				$this->nomInterne = "box_competences_communes";
 				$this->render = "interface/competences_communes.phtml";
 				break;
 			case "metier":
 				$this->titreOnglet = "M&eacute;tiers";
-				$this->nomInterne = "competences_metiers";
+				$this->nomInterne = "box_competences_metiers";
 				$this->render = "interface/competences_metiers.phtml";
 				break;	
 		}

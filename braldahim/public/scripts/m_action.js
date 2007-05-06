@@ -13,7 +13,7 @@ function _get_(url){
   var nb_valeurs = 0;
   var action = "";
   
-  if (url.length == 11) {
+  if (url.length > 11) {
   	if (url.substring(0, 11) == "competences") {
   		if (url.substring(12, 14) == "Do") {
   			action = "do";
@@ -38,22 +38,25 @@ function _get_(url){
   
   var pars = valeurs;
   //alert("url="+url);
+  //alert("pars="+pars);
   var myAjax = new Ajax.Request( url, {method: 'get', parameters: pars, onComplete: showResponse} );
 }
 
 function showResponse(originalRequest) {
     var xmldoc = originalRequest.responseXML;
+    var textdoc = originalRequest.responseText;
 	var display_action = false;
 	var display_informations = false;
 	var display_erreur = false;
-    if (xmldoc == null) {
-    	textdoc = originalRequest.responseText;
+	
+	var xmlHeader = '<?xml version="1.0" encoding="utf-8" ?>';
+	
+    if ((xmldoc == null) || (textdoc.substring(0, 39) != xmlHeader)) {
     	if (textdoc != "clear") {
-    		alert('Erreur survenue xml:'+xmldoc+'\n text:'+textdoc);
+    		alert('Une erreur inconnue est survenue. Text:\n'+textdoc);
     	}
     } else {
 	    var root = xmldoc.getElementsByTagName('root').item(0);
-	
 	    for (var iNode = 0; iNode < root.childNodes.length; iNode++) {
 	      var node = root.childNodes.item(iNode);
 	
@@ -68,7 +71,7 @@ function showResponse(originalRequest) {
 	              m_data = node.childNodes.item(5).childNodes.item(0).data;
 	            if (i == 5) {
 	            
-				  //alert('Fin entrie');
+				  //alert('Fin entrie \n m_type='+m_type+' \n m_type_valeur='+m_type_valeur);
 	              if (m_type_valeur == "box_action")
 	                display_action = true;
 	              else if (m_type_valeur == "informations" && m_data !="")

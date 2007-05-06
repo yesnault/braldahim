@@ -16,15 +16,25 @@ class CompetencesController extends Zend_Controller_Action {
 		
 		try {
 			$competence = Bral_Competences_Factory::getAction($this->_request, $this->view);
-			$xml_entry->set_valeur($competence->getIdBox());
+			$xml_entry->set_valeur($competence->getNomInterne());
 			$xml_entry->set_data($competence->render());
+			$xml_response->add_entry($xml_entry);
+			$boxToRefresh = $competence->getListBoxRefresh();
+			for ($i=0; $i<count($boxToRefresh); $i++) {
+				//$this->initView();
+				$xml_entry = new Bral_Xml_Entry();
+				$xml_entry->set_type("display");
+				$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, true);
+				$xml_entry->set_valeur($c->getNomInterne());
+				$xml_entry->set_data($c->render());
+				$xml_response->add_entry($xml_entry);
+			}
 		} catch (Zend_Exception $e) {
-			$b = Bral_Box_Factory::getErreur($this->_request, $this->view, $e->getMessage());
-			$xml_entry->set_valeur($b->getIdBox());
+			$b = Bral_Box_Factory::getErreur($this->_request, $this->view, false, $e->getMessage());
+			$xml_entry->set_valeur($b->getNomInterne());
 			$xml_entry->set_data($b->render());
+			$xml_response->add_entry($xml_entry);
 		}
-		
-		$xml_response->add_entry($xml_entry);
 		$xml_response->render();
 	}
 }

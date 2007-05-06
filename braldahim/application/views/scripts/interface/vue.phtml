@@ -1,5 +1,5 @@
 <?php if ($this->affichageInterne == false) : ?>
-<div class="box_<?=$this->nom_interne ?>" id="box_<?=$this->nom_interne ?>" style="display:<?php $this->display; ?>"> 
+<div class="<?=$this->nom_interne ?>" id="<?=$this->nom_interne ?>" style="display:<?php $this->display; ?>"> 
 <?php endif; ?>
  <div class="box_titre1">
   <div style=" float: left;">
@@ -8,21 +8,21 @@
     Centrage : X= <?=$this->centre_x ?> , Y= <?=$this->centre_y ?> <?=$this->centre_environnement ?> <br />
   </div>
   <div>
-    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?valeur_1=hg&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
+    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?caction=box_vue&valeur_1=hg&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
          src="public/images/puce_haut_gauche.gif" border="0">
-    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?valeur_1=h&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
+    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?caction=box_vue&valeur_1=h&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
     src="public/images/puce_haut.gif" border="0">
-    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?valeur_1=hd&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
+    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?caction=box_vue&valeur_1=hd&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
     src="public/images/puce_haut_droit.gif" border="0"><br />
-    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?valeur_1=g&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
+    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?caction=box_vue&valeur_1=g&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
     src="public/images/puce_gauche.gif" border="0">
-    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?valeur_1=d&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
+    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?caction=box_vue&valeur_1=d&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
     src="public/images/puce_droite.gif" border="0"><br />
-    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?valeur_1=bg&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
+    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?caction=box_vue&valeur_1=bg&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
     src="public/images/puce_bas_gauche.gif" border="0">
-     <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?valeur_1=b&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
+     <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?caction=box_vue&valeur_1=b&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
      src="public/images/puce_bas.gif" border="0">
-      <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?valeur_1=bd&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
+      <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?caction=box_vue&valeur_1=bd&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
       src="public/images/puce_bas_droit.gif" border="0">
   </div>
  

@@ -35,7 +35,7 @@
            <?=$case["display"] ?><br>
 
 		<?php if ($case["valid"] == true) : ?>
-              <input type='radio' name='valeur_1' id='valeur_1' value='{$case.x_offset}h{$case.y_offset}' {$case.default}>
+              <input type='radio' name='valeur_1' id='valeur_1' value='<?php echo $case["x_offset"]."h".$case["y_offset"] ?>' <?=$case["default"]?>>
 		<?php endif; ?>
           </td>
        <?php endforeach; ?>
@@ -50,6 +50,6 @@
 </form>
 <br>
 <?php if ($this->assezDePa == true) : ?>
-<input type='button' value='Marcher !' onClick='_get_("interface/clear");'>
+<input type='button' value='Marcher !' onClick='_get_("competences/DoAction?caction=do_competence_marcher");'>
 <? endif ?>
 <input type='button' value='Annuler' onClick='_get_("interface/clear");'>

@@ -2,9 +2,10 @@
 
 class Bral_Box_Vue {
 	
-	function __construct($request, $view) {
+	function __construct($request, $view, $interne) {
 		$this->_request = $request;
 		$this->view = $view;
+		$this->view->affichageInterne = $interne;
 		$this->prepare();
 		$this->deplacement();
 	}
@@ -14,7 +15,7 @@ class Bral_Box_Vue {
 	}
 	
 	function getNomInterne() {
-		return "vue";		
+		return "box_vue";		
 	}
 	
 	function setDisplay($display) {
@@ -34,7 +35,7 @@ class Bral_Box_Vue {
 		$this->view->y_min = $this->view->user->y_hobbit - $this->view->nb_cases;
 		$this->view->y_max = $this->view->user->y_hobbit + $this->view->nb_cases;
 		
-		if ($this->_request->get("valeur_1") != "") { // si le joueur a cliqu? sur une icone  
+		if (($this->_request->get("caction") == "box_vue") && ($this->_request->get("valeur_1") != "")) { // si le joueur a cliqu? sur une icone  
 	    	$this->deplacement = $this->_request->get("valeur_1");                      
 			$this->view->centre_x = $this->get_deplacement_verif($this->view->x_min, $this->view->x_max, $this->_request->get("valeur_2"), 0);                        
 			$this->view->centre_y = $this->get_deplacement_verif($this->view->y_min, $this->view->y_max, $this->_request->get("valeur_3"), 0);                

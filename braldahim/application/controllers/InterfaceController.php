@@ -18,30 +18,30 @@ class InterfaceController extends Zend_Controller_Action {
  		$this->render();
 	}
 
-	function profilAction() {
-		$this->init();
-		$xml_response = new Bral_Xml_Response();
-		$xml_entry = new Bral_Xml_Entry();
-		$xml_entry->set_type("display");
-		$xml_entry->set_valeur("box_profil");
-		$box = new Bral_Box_Profil($this->_request, $this->view);
-		$xml_entry->set_data($box->render());
-		$xml_response->add_entry($xml_entry);
-		$xml_response->render();
-	}	
-	
-	function equipementAction() {
-		$this->init();
-		$xml_response = new Bral_Xml_Response();
-		$xml_entry = new Bral_Xml_Entry();
-		$xml_entry->set_type("display");
-		$xml_entry->set_valeur("box_equipement");
-		$box = new Bral_Box_Equipement($this->_request, $this->view);
-		$xml_entry->set_data($box->render());
-		$xml_response->add_entry($xml_entry);
-		$xml_response->render();
-	}	
-		
+//	function profilAction() {
+//		$this->init();
+//		$xml_response = new Bral_Xml_Response();
+//		$xml_entry = new Bral_Xml_Entry();
+//		$xml_entry->set_type("display");
+//		$xml_entry->set_valeur("box_profil");
+//		$box = new Bral_Box_Profil($this->_request, $this->view);
+//		$xml_entry->set_data($box->render());
+//		$xml_response->add_entry($xml_entry);
+//		$xml_response->render();
+//	}	
+//	
+//	function equipementAction() {
+//		$this->init();
+//		$xml_response = new Bral_Xml_Response();
+//		$xml_entry = new Bral_Xml_Entry();
+//		$xml_entry->set_type("display");
+//		$xml_entry->set_valeur("box_equipement");
+//		$box = new Bral_Box_Equipement($this->_request, $this->view);
+//		$xml_entry->set_data($box->render());
+//		$xml_response->add_entry($xml_entry);
+//		$xml_response->render();
+//	}	
+//		
 	function vueAction() {
 		$this->init();
 		$this->view->affichageInterne = true;
@@ -49,21 +49,21 @@ class InterfaceController extends Zend_Controller_Action {
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("display");
 		$xml_entry->set_valeur("box_vue");
-		$box = Bral_Box_Factory::getVue($this->_request, $this->view);
+		$box = Bral_Box_Factory::getVue($this->_request, $this->view, true);
 		$xml_entry->set_data($box->render());
 		$xml_response->add_entry($xml_entry);
 		$xml_response->render();
 	}
 	
 	function boxesAction() {
-		$this->addBox(Bral_Box_Factory::getEquipement($this->_request, $this->view), "boite_a");
-		$this->addBox(Bral_Box_Factory::getProfil($this->_request, $this->view), "boite_a");
+		$this->addBox(Bral_Box_Factory::getProfil($this->_request, $this->view, false), "boite_a");
+		$this->addBox(Bral_Box_Factory::getEquipement($this->_request, $this->view, false), "boite_a");
 		
-		$this->addBox(Bral_Box_Factory::getCompetences($this->_request, $this->view, "commun"), "boite_b");
-		$this->addBox(Bral_Box_Factory::getCompetences($this->_request, $this->view, "metier"), "boite_b");
-		$this->addBox(Bral_Box_Factory::getCompetences($this->_request, $this->view, "basic"), "boite_b");
+		$this->addBox(Bral_Box_Factory::getCompetencesCommun($this->_request, $this->view, false), "boite_b");
+		$this->addBox(Bral_Box_Factory::getCompetencesBasic($this->_request, $this->view, false), "boite_b");
+		$this->addBox(Bral_Box_Factory::getCompetencesMetier($this->_request, $this->view, false), "boite_b");
 		
-		$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view), "boite_c");
+		$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view, false), "boite_c");
 		
 		$xml_response = new Bral_Xml_Response();
 		$xml_entry = new Bral_Xml_Entry();

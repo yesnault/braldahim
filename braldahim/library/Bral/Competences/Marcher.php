@@ -6,6 +6,8 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		$this->view = $view;
 		$this->request = $request;
 		$this->action = $action;
+
+		$this->prepareCommun();
 		
 		switch($this->action) {
 			case "ask" :
@@ -32,7 +34,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		}
 	}
 	
-	function prepareFormulaire() {
+	function prepareCommun() {
 		Zend_Loader::loadClass('zone'); 
 		$zoneTable = new Zone();
 		$zone = $zoneTable->selectCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
@@ -47,14 +49,35 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		$this->view->environnement = $case["nom_environnement"];
 		$this->nom_systeme_environnement = $case["nom_systeme_environnement"];
 		$this->calculPaNbCases();
-		
-		if ($this->view->assezDePa) {
-			$this->prepareFormulaireTableau();
-		}
 	}
 	
 	function prepareResultat() {
+		$x_y = $this->request->get("valeur_1");
+		list ($offset_x, $offset_y) = split("h", $x_y);
 		
+		if ($offset_x < -$this->view->nb_cases || $offset_x > $this->view->nb_cases) {
+			throw new Zend_Exception(get_class($this)."Deplacement X impossible : ".$offset_x);
+		}
+		
+		if ($offset_y < -$this->view->nb_cases || $offset_y > $this->view->nb_cases) {
+			throw new Zend_Exception(get_class($this)."Deplacement Y impossible : ".$offset_y);
+		}
+		
+		$this->view->user->x_hobbit = $this->view->user->x_hobbit + $offset_x;
+		$this->view->user->y_hobbit = $this->view->user->y_hobbit + $offset_y;
+		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit + $this->view->nb_pa;
+				
+		$hobbitTable = new Hobbit();
+		$hobbitRowset = $hobbitTable->find($this->view->user->id);
+		$hobbit = $hobbitRowset->current();
+
+		$data = array( 
+			'x_hobbit' => $this->view->user->x_hobbit,
+			'y_hobbit'  => $this->view->user->y_hobbit,
+			'pa_hobbit' => $this->view->user->pa_hobbit,
+		); 
+		$where = "id=".$this->view->user->y_hobbit;
+		$hobbitTable->update($data, $where);
 	}
 	
 	/* Pour marcher, le nombre de PA utilise est variable suivant l'environnement'
@@ -98,7 +121,11 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		}
 	}
 	
-	private function prepareFormulaireTableau() {
+	function prepareFormulaire() {
+		if ($this->view->assezDePa == false) {
+			return;
+		}
+		
 		for ($j = $this->view->nb_cases; $j >= -$this->view->nb_cases; $j --) {
 			 $change_level = true;
 			 for ($i = -$this->view->nb_cases; $i <= $this->view->nb_cases; $i ++) {
@@ -131,5 +158,9 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			 }
 		}
 		$this->view->tableau = $tab;
+	}
+	
+	function getListBoxRefresh() {
+		return array("box_profil", "box_vue", "box_competences_communes", "box_competences_basiques", "box_competences_metiers");
 	}
 }
