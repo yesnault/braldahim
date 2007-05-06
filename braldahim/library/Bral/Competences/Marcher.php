@@ -38,7 +38,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('zone'); 
 		$zoneTable = new Zone();
 		$zone = $zoneTable->selectCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		
+
 		// La requete ne doit renvoyer qu'une seule case
 		if (count($zone) == 1) {
 			$case = $zone[0];
@@ -65,7 +65,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		
 		$this->view->user->x_hobbit = $this->view->user->x_hobbit + $offset_x;
 		$this->view->user->y_hobbit = $this->view->user->y_hobbit + $offset_y;
-		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit + $this->view->nb_pa;
+		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
 				
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->find($this->view->user->id);
@@ -76,7 +76,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			'y_hobbit'  => $this->view->user->y_hobbit,
 			'pa_hobbit' => $this->view->user->pa_hobbit,
 		); 
-		$where = "id=".$this->view->user->y_hobbit;
+		$where = "id=".$this->view->user->id;
 		$hobbitTable->update($data, $where);
 	}
 	

@@ -13,6 +13,8 @@ function _get_(url){
   var nb_valeurs = 0;
   var action = "";
   
+  $("box_chargement").style.display = "block";
+  
   if (url.length > 11) {
   	if (url.substring(0, 11) == "competences") {
   		if (url.substring(12, 14) == "Do") {
@@ -112,5 +114,6 @@ function showResponse(originalRequest) {
       	$("erreur").style.display = "none";
       }
     }
+    $("box_chargement").style.display = "none";
     return ;
 }

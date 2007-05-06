@@ -24,7 +24,8 @@
   border-style: solid;
   background-color: #eeeeee;
   color: black;
-  font-weight: bold
+  font-weight: bold;
+  z-index: 1000;
 }
 
 .box_contenu1 {
