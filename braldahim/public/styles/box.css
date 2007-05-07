@@ -46,6 +46,21 @@
   font-weight: bold;
 }
 
+.box_informations {
+  background-color : #d9ffd6;
+  color: black;
+  position: absolute;
+  text-align: center;
+  z-index: 1000;
+  top: 90%;
+  left: 50%;
+  width:auto;
+  margin-top: -10px;
+  margin-left: -110px;
+  border: thin solid black;
+  z-index: 1000;
+}
+
 .box_menu {
   position: absolute;
   top : 0px;

@@ -1,0 +1,12 @@
+<div id='tour_text' style="display:block"  onClick="javascript:switch2div('tour_text','tour_copie');">
+	Activation d'un nouveau tour
+</div>
+	 
+<div id='tour_copie' style="display:none">
+	<textarea onClick="javascript:this.select();" rows=4 cols=40>D&eacute;placement r&eacute;ussi jusqu'en : 
+	Activation d'un nouveau tour
+	</textarea>
+</div>
+
+<input type='button' value='Copier' onClick="javascript:switch2div('tour_text','tour_copie');">
+<input type='button' value='Fermer' onClick='_get_("interface/clear");'>

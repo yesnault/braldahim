@@ -78,9 +78,9 @@ class Bral_Box_Vue {
 	         default :                                
 	             return null;               
 	     		}                
-             $this->view->centre_x_min = $this->view->centre_x - $this->view->config->game->box_vue_taille;                
-             $this->view->centre_x_max = $this->view->centre_x + $this->view->config->game->box_vue_taille;                
-             $this->view->centre_y_min = $this->view->centre_y - $this->view->config->game->box_vue_taille;                
+             $this->view->centre_x_min = $this->view->centre_x - $this->view->config->game->box_vue_taille;
+             $this->view->centre_x_max = $this->view->centre_x + $this->view->config->game->box_vue_taille;
+             $this->view->centre_y_min = $this->view->centre_y - $this->view->config->game->box_vue_taille;
              $this->view->centre_y_max = $this->view->centre_y + $this->view->config->game->box_vue_taille;
 	}
 

@@ -1,7 +1,6 @@
 <?php
 
-class IndexController extends Zend_Controller_Action 
-{
+class IndexController extends Zend_Controller_Action {
 	
 	function init() {
 		$this->initView();
@@ -9,19 +8,16 @@ class IndexController extends Zend_Controller_Action
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 	}
 	
-    function indexAction()
-    {
+    function indexAction() {
     	$this->view->title = "Braldahim";
         $this->render();
     }
     
-    function preDispatch() 
-    { 
+    function preDispatch() { 
         $auth = Zend_Auth::getInstance(); 
         if (!$auth->hasIdentity()) { 
             $this->_redirect('auth/login'); 
         } 
     } 
-    
 }
 

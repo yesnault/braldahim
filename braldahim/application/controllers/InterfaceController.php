@@ -7,6 +7,16 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
+		
+		$this->xml_response = new Bral_Xml_Response();
+		$t = Bral_Box_Factory::getTour($this->_request, $this->view, false);
+		if ($t->activer()) {
+			$xml_entry = new Bral_Xml_Entry();
+			$xml_entry->set_type("display");
+			$xml_entry->set_valeur("informations");
+			$xml_entry->set_data($t->render());
+			$this->xml_response->add_entry($xml_entry);
+		}
 	}
 	
 	function clearAction() {
@@ -14,7 +24,6 @@ class InterfaceController extends Zend_Controller_Action {
 	}
 
 	function indexAction() {
-		$this->view->title = "Profil";
  		$this->render();
 	}
 
@@ -45,14 +54,13 @@ class InterfaceController extends Zend_Controller_Action {
 	function vueAction() {
 		$this->init();
 		$this->view->affichageInterne = true;
-		$xml_response = new Bral_Xml_Response();
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("display");
 		$xml_entry->set_valeur("box_vue");
 		$box = Bral_Box_Factory::getVue($this->_request, $this->view, true);
 		$xml_entry->set_data($box->render());
-		$xml_response->add_entry($xml_entry);
-		$xml_response->render();
+		$this->xml_response->add_entry($xml_entry);
+		$this->xml_response->render();
 	}
 	
 	function boxesAction() {
@@ -65,14 +73,13 @@ class InterfaceController extends Zend_Controller_Action {
 		
 		$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view, false), "boite_c");
 		
-		$xml_response = new Bral_Xml_Response();
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("display");
 		$xml_entry->set_valeur("racine");
 		$xml_entry->set_data($this->getBoxesData());
 		
-		$xml_response->add_entry($xml_entry);
-		$xml_response->render();
+		$this->xml_response->add_entry($xml_entry);
+		$this->xml_response->render();
 	}
 	
 	private function addBox($p, $position = "aucune") {
