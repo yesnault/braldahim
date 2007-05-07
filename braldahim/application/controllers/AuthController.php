@@ -1,21 +1,17 @@
 <?
-class AuthController extends Zend_Controller_Action  
-{ 
-    function init() 
-    { 
+class AuthController extends Zend_Controller_Action { 
+    function init() { 
         $this->initView(); 
         Zend_Loader::loadClass('Hobbit'); 
         $this->view->baseUrl = $this->_request->getBaseUrl(); 
         $this->view->user = Zend_Auth::getInstance()->getIdentity(); 
     } 
 	
-    function indexAction() 
-    { 
+    function indexAction() { 
        $this->_redirect('/'); 
     }
 
-	function loginAction() 
-    { 
+	function loginAction() { 
         $this->view->message = ''; 
         if (strtolower($_SERVER['REQUEST_METHOD']) == 'post') { 
             // collect the data from the user 
@@ -44,6 +40,10 @@ class AuthController extends Zend_Controller_Action
                 // (not the password though!) 
                 $data = $authAdapter->getResultRowObject(null,'password_hobbit'); 
                 $auth->getStorage()->write($data); 
+				// activation du tour
+                Zend_Auth::getInstance()->getIdentity()->activation = ($f->filter($this->_request->getPost('auth_activation')) == 'oui');
+                // Hobbit sitting
+                Zend_Auth::getInstance()->getIdentity()->sitting = ($f->filter($this->_request->getPost('auth_sitting')) == 'oui');
                 $this->_redirect('/'); 
             } else { 
                 // failure: clear database row from session 
@@ -54,11 +54,8 @@ class AuthController extends Zend_Controller_Action
         $this->render();   
     } 
     
-    function logoutAction() 
-    { 
+    function logoutAction() { 
         Zend_Auth::getInstance()->clearIdentity(); 
         $this->_redirect('/'); 
     } 
-    
-    
 } 
