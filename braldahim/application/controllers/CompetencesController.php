@@ -7,10 +7,11 @@ class CompetencesController extends Zend_Controller_Action {
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
+		$this->xml_response = new Bral_Xml_Response();
 	}
 	
 	function DoActionAction() {
-		$xml_response = new Bral_Xml_Response();
+		
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("display");
 		
@@ -33,8 +34,8 @@ class CompetencesController extends Zend_Controller_Action {
 			$b = Bral_Box_Factory::getErreur($this->_request, $this->view, false, $e->getMessage());
 			$xml_entry->set_valeur($b->getNomInterne());
 			$xml_entry->set_data($b->render());
-			$xml_response->add_entry($xml_entry);
+			$this->xml_response->add_entry($xml_entry);
 		}
-		$xml_response->render();
+		$this->xml_response->render();
 	}
 }
