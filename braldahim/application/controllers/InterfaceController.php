@@ -7,7 +7,6 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
-		
 		$this->xml_response = new Bral_Xml_Response();
 		$t = Bral_Box_Factory::getTour($this->_request, $this->view, false);
 		if ($t->activer()) {
@@ -16,6 +15,10 @@ class InterfaceController extends Zend_Controller_Action {
 			$xml_entry->set_valeur("informations");
 			$xml_entry->set_data($t->render());
 			$this->xml_response->add_entry($xml_entry);
+			
+			if ($this->_request->action != 'boxes') {
+				$this->refreshAll();
+			}
 		}
 	}
 	
@@ -52,7 +55,6 @@ class InterfaceController extends Zend_Controller_Action {
 //	}	
 //		
 	function vueAction() {
-		$this->init();
 		$this->view->affichageInterne = true;
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("display");
@@ -132,7 +134,18 @@ class InterfaceController extends Zend_Controller_Action {
 		 	 $this->view->conteneur = $nom;
 		 	 return $this->view->render("interface/box_onglets.phtml");
 		 }
+	}
 	
+	private function refreshAll() {
+		$boxToRefresh = array("box_profil", "box_vue", "box_competences_communes", "box_competences_basiques", "box_competences_metiers");
+		for ($i=0; $i<count($boxToRefresh); $i++) {
+			$xml_entry = new Bral_Xml_Entry();
+			$xml_entry->set_type("display");
+			$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, true);
+			$xml_entry->set_valeur($c->getNomInterne());
+			$xml_entry->set_data($c->render());
+			$this->xml_response->add_entry($xml_entry);
+		}
 	}
 }
 

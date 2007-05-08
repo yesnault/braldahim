@@ -15,9 +15,9 @@ function _get_(url){
   
   $("box_chargement").style.display = "block";
   
-  if (url.length > 11) {
-  	if (url.substring(0, 11) == "competences") {
-  		if (url.substring(12, 14) == "Do") {
+  if (url.length > 32) {
+  	if (url.substring(0, 11) == "competences") { //competences/DoAction?caction=ask/do
+  		if ((url.substring(12, 14) == "Do") && (url.substring(29, 31) == "do")) {
   			action = "do";
   		}
   	}

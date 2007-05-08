@@ -1,10 +1,26 @@
 <div id='tour_text' style="display:block"  onClick="javascript:switch2div('tour_text','tour_copie');">
-	Activation d'un nouveau tour. A COMPLETER
+	<?php if ($this->user->is_nouveau_tour): ?>
+		Activation d'un nouveau tour : <br>
+	<?php elseif ($this->user->is_update_tour) : ?>
+		Information tour : <br>
+	<?php endif; ?>
+		<?php if ($this->user->is_tour_manque) : ?>
+			<b>Vous avez manqué un (ou plusieurs) tours de jeu.</b>  <br>
+		<?php endif; ?>
+		Date limite d'action : <?=$this->user->date_fin_tour_hobbit ?> <br>
+		Durée du tour : <?=$this->user->duree_courant_tour_hobbit ?> <br>
+		Position dans le tour : <?=$this->nom_tour ?> <br>
+		Nombre de Points d'Action : <?=$this->user->pa_hobbit ?>
 </div>
 	 
 <div id='tour_copie' style="display:none">
-	<textarea onClick="javascript:this.select();" rows=4 cols=40>Activation d'un nouveau tour
-	</textarea>
+	<textarea onClick="javascript:this.select();" rows=5 cols=40><?php if ($this->user->is_nouveau_tour): ?>
+Activation d'un nouveau tour <?php endif; ?>
+<?php if ($this->user->is_tour_manque) : ?>Vous avez manqué un (ou plusieurs) tour de jeu<?php endif; ?> 
+Date limite d'action : <?=$this->user->date_fin_tour_hobbit ?> 
+Durée du tour : <?=$this->user->duree_courant_tour_hobbit ?> 
+Position dans le tour : <?=$this->nom_tour ?> 
+Nombre de Points d'Action : <?=$this->user->pa_hobbit ?></textarea>
 </div>
 
 <input type='button' value='Copier' onClick="javascript:switch2div('tour_text','tour_copie');">

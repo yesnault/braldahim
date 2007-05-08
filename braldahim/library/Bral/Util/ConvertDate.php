@@ -43,8 +43,7 @@ class Bral_Util_ConvertDate {
   	$m = $time[1] * 60;
   	$s = $time[2] * 1;
   	$n = $h + $m + $s;
-  	$n2 = $n / 2;
-  	$r = $n2;
+  	$n2 = $n / $div;
   	$h2 = intval($n2/3600);
   	$restant = $n2- ($h2 * 3600);
   	$m2 = intval($restant / 60);

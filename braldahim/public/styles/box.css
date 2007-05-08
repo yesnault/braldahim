@@ -52,9 +52,9 @@
   position: absolute;
   text-align: center;
   z-index: 1000;
-  top: 90%;
-  left: 50%;
-  width:auto;
+  top: 85%;
+  left: 40%;
+  width:400px;
   margin-top: -10px;
   margin-left: -110px;
   border: thin solid black;
