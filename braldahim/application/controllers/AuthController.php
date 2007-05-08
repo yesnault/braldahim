@@ -30,7 +30,7 @@ class AuthController extends Zend_Controller_Action {
              
             // Set the input credential values to authenticate against 
             $authAdapter->setIdentity($username); 
-            $authAdapter->setCredential($password); 
+            $authAdapter->setCredential(md5($password)); 
              
             // do the authentication  
             $auth = Zend_Auth::getInstance(); 

@@ -29,31 +29,7 @@ class InterfaceController extends Zend_Controller_Action {
 	function indexAction() {
  		$this->render();
 	}
-
-//	function profilAction() {
-//		$this->init();
-//		$xml_response = new Bral_Xml_Response();
-//		$xml_entry = new Bral_Xml_Entry();
-//		$xml_entry->set_type("display");
-//		$xml_entry->set_valeur("box_profil");
-//		$box = new Bral_Box_Profil($this->_request, $this->view);
-//		$xml_entry->set_data($box->render());
-//		$xml_response->add_entry($xml_entry);
-//		$xml_response->render();
-//	}	
-//	
-//	function equipementAction() {
-//		$this->init();
-//		$xml_response = new Bral_Xml_Response();
-//		$xml_entry = new Bral_Xml_Entry();
-//		$xml_entry->set_type("display");
-//		$xml_entry->set_valeur("box_equipement");
-//		$box = new Bral_Box_Equipement($this->_request, $this->view);
-//		$xml_entry->set_data($box->render());
-//		$xml_response->add_entry($xml_entry);
-//		$xml_response->render();
-//	}	
-//		
+	
 	function vueAction() {
 		$this->view->affichageInterne = true;
 		$xml_entry = new Bral_Xml_Entry();

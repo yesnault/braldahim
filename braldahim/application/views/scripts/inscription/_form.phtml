@@ -1,20 +1,61 @@
-<form action="<?php echo $this->baseUrl ?>/inscription/<?php 
-    echo $this->action; ?>" method="post">
+<div class="box_inscription">
+<div class="box_titre1">Inscription d'un nouvel hobbit</div><br />
+
+<form action="<?=$this->baseUrl ?>/inscription/ajouter" method="post">
+
+	<?php if(!empty($this->messages)) :?> 
+	<div class="message_erreur" id="message_erreur"> 
+	<?php foreach($this->messages as $message) :?>
+		<?=$this->escape($message);?><br>
+	<?php endforeach; ?>
+	</div> 
+	<?php endif; ?> 
+	
 <div>
+	<?php if(!empty($this->messagesNom)) :?> 
+	<div class="message_erreur" id="message_erreur"> 
+	<?php foreach($this->messagesNom as $message) :?>
+		<?=$this->escape($message);?><br>
+	<?php endforeach; ?>
+	</div> 
+	<?php endif; ?>
     <label for="hobbit">Hobbit</label>
     <input type="text" name="nom_hobbit" 
-        value="<?php echo $this->escape(trim($this->hobbit->nom_hobbit));?>"/>
+        value="<?php echo $this->escape(trim($this->hobbit->nom_hobbit));?>"/> Entre 6 et 20 caract&egrave;res
 </div>
 <div>
+	<?php if(!empty($this->messagesEmail)) :?> 
+	<div class="message_erreur" id="message_erreur"> 
+		<?=$this->escape($this->messagesEmail);?><br>
+	</div>
+	<?php endif; ?>
     <label for="title">Email</label>
     <input type="text" name="email_hobbit" 
-        value="<?php echo $this->escape($this->hobbit->email_hobbit);?>"/>
+        value="<?php echo $this->escape($this->hobbit->email_hobbit);?>"/> Un email de confirmation vous sera demandé à cette adresse
+</div>
+<div>
+	<?php if(!empty($this->messagesPassword)) :?>
+	<div class="message_erreur" id="message_erreur"> 
+	<?php foreach($this->messagesPassword as $message) :?>
+		<?=$this->escape($message);?><br>
+	<?php endforeach; ?>
+	</div>
+	<?php endif; ?>
+    <label for="title">Password</label>
+    <input type="password" name="password_hobbit" value=""/> Entre 6 et 20 caract&egrave;res
+</div>
+<div>
+	<?php if(!empty($this->messagesSexe)) :?> 
+	<div class="message_erreur" id="message_erreur"> 
+		<?=$this->escape($this->messagesSexe);?><br>
+	</div>
+	<?php endif; ?>
+Sexe du Hobbit : <input type="radio" name="sexe_hobbit" value="feminin">F&eacute;minin <input type="radio" name="sexe_hobbit" value="masculin">Masculin 
 </div>
 
 <div id="formbutton">
 <input type="hidden" name="id" value="<?php echo $this->hobbit->id; ?>" />
-<input type="submit" name="add" 
-    value="<?php echo $this->escape($this->buttonText); ?>" />
+<input type="submit" name="add" value="ajouter" /> <input type="button" name="add" value="Annuler" onClick="javascript:document.location.href='/'"/>
 </div>
 </form>
-
+</div>

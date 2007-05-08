@@ -80,6 +80,21 @@
   z-index: 1000;
 }
 
+.box_inscription {
+  #position: absolute;
+  left: 50%;
+  top: 50%;
+  background-color : #ffd363;
+  color: black;
+  border-style : dashed;
+  border-width: 1px;
+  width: 500px;
+  height: auto;
+  #margin-top: -100px;
+  #margin-left: -140px;
+  text-align: left;
+}
+
 .box_menu {
   position: absolute;
   top : 0px;
@@ -137,6 +152,15 @@
 
 .box_profil {
   position: relative;
+}
+
+.box_titre1  { 
+  background-color: #CCCC99;
+  font-size: 12px;
+  font-weight: bold;
+  color: #003300;
+  padding: 3px;
+  text-align: center;
 }
 
 .box_vue {
