@@ -7,8 +7,12 @@
  <div class="box_contenu2">
     Tour de base : <?php echo $this->escape($this->user->duree_base_tour_hobbit) ?><br>
     DLA : <?php echo $this->escape($this->user->date_fin_tour_hobbit) ?><br>
+    Position Tour Courant : <?=$this->user->nom_tour ?><br>
+    <? if ($this->user->info_prochaine_position != "") : ?>
+    	<?=$this->user->info_prochaine_position ?><br>
+    <? endif; ?>
     Dur&eacute;e du prochain tour : <?php echo $this->escape($this->user->duree_prochain_tour_hobbit) ?><br>
-
+	
     Points de Vie : <?=$this->user->pv_hobbit ?> / <?=$this->user->pv_hobbit ?><br>
     PA restants : <?=$this->user->pa_hobbit ?><br>
     PX : <?=$this->user->px_hobbit ?><br>

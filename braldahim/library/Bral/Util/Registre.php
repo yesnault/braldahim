@@ -6,6 +6,7 @@ class Bral_Util_Registre {
 
 	public static function chargement() {
 		self::chargementCompetence();
+		self::chargementNomTour();
 	}
 	
 	private static function chargementCompetence() {
@@ -27,5 +28,12 @@ class Bral_Util_Registre {
 		}
 		Zend_Registry::set('competences', $tab);
 		Zend_Registry::set('competencesId', $tab);
+	}
+	
+	private static function chargementNomTour() {
+		$tab[1] = "Latence";
+		$tab[2] = "Milieu";
+		$tab[3] = "Cumul";
+		Zend_Registry::set('nomsTour', $tab);
 	}
 }

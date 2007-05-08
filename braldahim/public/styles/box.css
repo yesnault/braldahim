@@ -46,6 +46,25 @@
   font-weight: bold;
 }
 
+.menu_classic {	
+	float: left;
+}
+
+.menu_date_heure {	
+	float: right;
+}
+
+.menu_deconnexion {
+  background-color : #CCCC99;
+  float: right;
+}
+
+
+.menu_deconnexion:hover {
+  background-color : #ffd363;
+  cursor: pointer;
+}
+
 .box_informations {
   background-color : #d9ffd6;
   color: black;

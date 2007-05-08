@@ -6,7 +6,8 @@
     <script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/prototype.js"></script>
     <script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/m_action.js"></script>
     <script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/m_display.js"></script>
-    
+    <script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/overlib/overlib.js"><!-- overLIB (c) Erik Bosrup --></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/overlib/overlib_exclusive.js"><!-- overLIB (c) Erik Bosrup --></script>
 	<title><?php echo $this->escape($this->title); ?></title>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl;?>/public/styles/site.css" />
 </head>
@@ -21,8 +22,9 @@
 <?php if($this->user) : ?> 
  <div class="box_menu" id="box_menu">
   <div class="box_contenur1">
-  <?php echo $this->escape($this->user->nom_hobbit);?>.
-  <a href="<?=$this->baseUrl ?>/auth/logout">Déconnexion</a>
+  <span class='menu_classic'><?=$this->escape($this->user->nom_hobbit);?> | </span>
+  <span class='menu_deconnexion'><a href="<?=$this->baseUrl ?>/auth/logout">Déconnexion </a></span>
+  <span id='date_heure' class='menu_date_heure'>&nbsp;</span>
   </div>
  </div>
 <?php endif; ?>

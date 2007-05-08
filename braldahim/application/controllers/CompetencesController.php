@@ -34,7 +34,6 @@ class CompetencesController extends Zend_Controller_Action {
 				$this->xml_response->add_entry($xml_entry);
 				$boxToRefresh = $competence->getListBoxRefresh();
 				for ($i=0; $i<count($boxToRefresh); $i++) {
-					//$this->initView();
 					$xml_entry = new Bral_Xml_Entry();
 					$xml_entry->set_type("display");
 					$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, true);

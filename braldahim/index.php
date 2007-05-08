@@ -33,7 +33,6 @@ Zend_Loader::loadClass("Bral_Util_ConvertDate");
 Zend_Loader::loadClass("Bral_Xml_Response");
 Zend_Loader::loadClass("Bral_Xml_Entry");
 
-
 Zend_Loader::loadClass("Hobbit");
 Zend_Loader::loadClass("HobbitsCompetences");
 Zend_Loader::loadClass("Competence");

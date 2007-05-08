@@ -96,30 +96,40 @@ class Bral_Box_Vue {
     
 	private function data() {
 		Zend_Loader::loadClass('zone'); 
-		$zone = new Zone();
-		$zones = $zone->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$zoneTable = new Zone();
+		$zones = $zoneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$hobbitTable = new Hobbit();
+		$hobbits = $hobbitTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		
 		$centre_x_min = $this->view->centre_x - $this->view->config->game->box_vue_taille;
 		$centre_x_max = $this->view->centre_x + $this->view->config->game->box_vue_taille;
 		$centre_y_min = $this->view->centre_y - $this->view->config->game->box_vue_taille;
 		$centre_y_max = $this->view->centre_y + $this->view->config->game->box_vue_taille;
 
+		
 		for ($j = $centre_y_max; $j >= $centre_y_min; $j --) {
 			$change_level = true;
 			for ($i = $centre_x_min; $i <= $centre_x_max; $i ++) {
       			$display_x = $i;
       			$display_y = $j;
+      			$tabHobbits = null;
       			
 				foreach($zones as $z) {
-					// -19 93
-					if ($display_x >= $z["x_min_zone"] && //-100
-						$display_x <= $z["x_max_zone"] && // 100
-						$display_y <= $z["y_min_zone"] && // 150
-						$display_y >= $z["y_max_zone"]) { // 0
+					if ($display_x >= $z["x_min_zone"] && 
+						$display_x <= $z["x_max_zone"] && 
+						$display_y <= $z["y_min_zone"] && 
+						$display_y >= $z["y_max_zone"]) { 
 						$nom_zone = $z["nom_zone"];
 						$description_zone = $z["description_zone"];
 						$nom_systeme_environnement = $z["nom_systeme_environnement"];
 						$nom_environnement = htmlentities($z["nom_environnement"]);
          				break;
+					}
+				}
+				
+				foreach($hobbits as $h) {
+					if ($display_x == $h["x_hobbit"] && $display_y == $h["y_hobbit"]) {
+						$tabHobbits[] = array("id_hobbit" => $h["id"], "nom_hobbit" => $h["nom_hobbit"]);
 					}
 				}
 				
@@ -139,7 +149,10 @@ class Bral_Box_Vue {
                           "position_actuelle" => $actuelle,
                           "nom_zone" => $nom_zone,
                           "description_zone" => $nom_zone,
-                          "css" => $css);
+                          "css" => $css,
+                          "n_hobbits" => count($tabHobbits),
+                          "hobbits" => $tabHobbits,
+                          );
 				$tableau[] = $tab;
            	    if ($change_level) {
            	    	$change_level = false;

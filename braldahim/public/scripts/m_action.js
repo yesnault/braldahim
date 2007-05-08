@@ -89,31 +89,31 @@ function showResponse(originalRequest) {
 	    }
 	}
     // Box action
-    if (display_action) {
-      $("box_action").style.display = "block";
-    } else {
-      if ($("box_action")) {
-      	$("box_action").style.display = "none";
-      }
-    }
+	if (display_action) {
+		$("box_action").style.display = "block";
+	} else {
+		if ($("box_action")) {
+			$("box_action").style.display = "none";
+		}
+	}
 
     // Box informations
-    if (display_informations) {
-      $("informations").style.display = "block";
-    } else {
-      if ($("informations")) {
-      	$("informations").style.display = "none";
-      }
-    }
+	if (display_informations) {
+		$("informations").style.display = "block";
+	} else {
+		if ($("informations")) {
+			$("informations").style.display = "none";
+		}
+	}
     
     // Box erreur
-    if (display_erreur) {
-      $("erreur").style.display = "block";
-    } else {
-      if ($("erreur")) {
-      	$("erreur").style.display = "none";
-      }
-    }
+	if (display_erreur) {
+		$("erreur").style.display = "block";
+	} else {
+		if ($("erreur")) {
+			$("erreur").style.display = "none";
+		}
+	}
     $("box_chargement").style.display = "none";
     return ;
 }

@@ -46,8 +46,24 @@
       	<div class="vue2d_case_num"><?php echo $case["x"]. "," . $case["y"] ?>   </div>
       	&nbsp;
         <?php if ($case["position_actuelle"] == true) : ?>
-      	
       	<?php endif; ?>
+      	
+      	<?php if ($case["n_hobbits"] > 0) : ?>
+      		<?php 
+      			$textHobbit = "";
+      			foreach($case["hobbits"] as $h) {
+      				$textHobbit .= $h["nom_hobbit"] ." (".$h["id_hobbit"].")<br>";
+				} ?>
+      		<span onmouseover="return overlib('<?=$textHobbit?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> Clique !');"
+      			onclick="return overlib('<?=$textHobbit?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?>', CLOSECLICK, EXCLUSIVE);"
+      			onmouseout="return nd();">
+	      	<?php if ($case["n_hobbits"] == 1) : ?>
+	      		1 hobbit
+	      	<?php elseif ($case["n_hobbits"] > 1) : ?>
+	      		<?=$case["n_hobbits"] ?> hobbits
+	      	<?php endif; ?>
+	      	</span>
+	      <?php endif; ?>
       	</td>
      <?php endforeach; ?>
      </tr>
