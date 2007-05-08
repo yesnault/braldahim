@@ -17,48 +17,71 @@ class Bral_Box_Tour {
 	}
 
 	public function activer() {
-
+		
+		$this->is_update = false;
+		$this->is_nouveau_tour = false;
+		
 		if ($this->view->user->activation === false) {
 			return false;
 		}
 
-		/* on verifie d'abord que le tour est bien nouveau */
-		if ($this->calcul_debut_nouveau() == false) {
-			return false;
-		}
+		$this->calcul_debut_nouveau();
 
 		// Calcul de la nouvelle date de fin
 		$convert_date = new Bral_Util_ConvertDate();
 		$date_courante = date("Y-m-d H:i:s");
 
-		if ($this->view->user->date_fin_tour_hobbit > date("Y-m-d H:i:s")) { // mort
-			// date_fin_tour = duree_prochain_tour + date_courante
-			$convert_date->get_date_add_time_to_date($date_courante, $this->view->user->duree_prochain_tour_hobbit);
+		//if ($this->view->user->date_fin_tour_hobbit > date("Y-m-d H:i:s")) { // mort
+		// En cas de mort : la date de fin de tour doit être positionnée à la mort 
+		if ($this->is_nouveau_tour) {
+			$this->view->user->duree_courant_tour_hobbit = $this->view->user->duree_prochain_tour_hobbit;
+			$this->date_fin = $convert_date->get_date_add_time_to_date($this->view->user->date_fin_tour_hobbit, $this->view->user->duree_courant_tour_hobbit);
 		} else {
-			// date_fin_tour = duree_prochain_tour + date_fin_tour
-			$this->date_fin = $convert_date->get_date_add_time_to_date($this->view->user->date_fin_tour_hobbit, $this->view->user->duree_prochain_tour_hobbit);
+			$this->date_fin = $this->view->user->date_fin_tour_hobbit;
 		}
-
+		
 		/* Si des DLA ont ete manquees, on prend comme date de debut la date courante
-		 * et la date de fin, la date courante + 6 heures
-		 * Surement a modifier plus tard avec les bonus / malus
+		 * et la date de fin, la date courante + 6 heures, le joueur se trouve
+		 * directement en position de cumul
 		 */
-		if ($this->date_fin < $date_courante) {
-			$this->date_fin = $convert_date->get_date_add_time_to_date($date_courante, "6:0:0");
-		}
 
+		$time_latence = $convert_date->get_divise_time_to_time($this->view->user->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_latence);
+		$time_cumul = $convert_date->get_divise_time_to_time($this->view->user->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_cumul);
+		
+		$date_fin_latence =  $convert_date->get_date_add_time_to_date($this->view->user->date_debut_tour_hobbit, $time_latence);
+		$date_debut_cumul =  $convert_date->get_date_add_time_to_date($this->view->user->date_debut_tour_hobbit, $time_cumul);
+		
+		// Mise a jour du nombre de PA + position tour
+		if ($date_courante > $this->date_fin) { // Perte d'un tour
+			$this->date_fin = $convert_date->get_date_add_time_to_date($date_courante, "6:0:0");
+			$this->view->user->tour_position_hobbit = $this->view->config->game->tour->position_cumul;
+			$this->view->user->pa_hobbit = $this->view->config->game->pa_max;
+			$this->is_update = true;
+		} elseif(($date_courante < $date_fin_latence) && ($this->view->user->tour_position_hobbit != $this->view->config->game->tour->position_latence)) {
+			$this->view->user->tour_position_hobbit = $this->view->config->game->tour->position_latence;
+			$this->view->user->pa_hobbit = 0;
+			$this->is_update = true;
+		} elseif(($date_courante < $date_debut_cumul) && ($this->view->user->tour_position_hobbit != $this->view->config->game->tour->position_milieu)) {
+			$this->view->user->tour_position_hobbit = $this->view->config->game->tour->position_milieu;
+			$this->view->user->pa_hobbit = $this->view->config->game->pa_max;
+			$this->is_update = true;
+		} elseif(($date_courante < $this->date_fin) && ($this->view->user->tour_position_hobbit != $this->view->config->game->tour->position_cumul)) {
+			$this->view->user->tour_position_hobbit = $this->view->config->game->tour->position_cumul;
+			$this->view->user->pa_hobbit = $this->view->user->pa_hobbit + $this->view->config->game->pa_max;
+			$this->is_update = true;
+		}
+		
 		// Mise a jour en cas de mort
 //		$this->calcul_mort();
 
-		// Mise a jour des dates
-		$this->view->user->date_debut_tour_hobbit = $date_courante;
-		$this->view->user->date_fin_tour_hobbit = $this->date_fin;
-
-		// Mise a jour de la duree du prochain tour
-		$this->update_duree_prochain();
-
-		// Mise a jour du nombre de PA
-		$this->view->user->pa_hobbit = $this->view->config->game->pa_max;
+		// Mise a jour en cas d'update
+		if ($this->is_update) {
+			$this->view->user->date_debut_tour_hobbit = $date_courante;
+			$this->view->user->date_fin_tour_hobbit = $this->date_fin;
+	
+			// Mise a jour de la duree du prochain tour
+			$this->update_duree_prochain();
+		}
 
 		// Mise a jour de la balance faim
 //		$this->joueur->diminuer_balance_faim ($this->view->config->game->tour_faim);
@@ -70,27 +93,31 @@ class Bral_Box_Tour {
 		niveau de VIG + niveau de FOR = 10 -> 2 ARM NAT
 		niveau de VIG + niveau de FOR = 15 -> 3 ARM NAT
 		*/
-
-		$this->view->user->armure_naturelle_hobbit = intval(($this->view->user->force_base_hobbit + $this->view->user->vigueur_base_hobbit) / 5);
-
-		// Mise a jour du jouer dans la base de donnees
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id);
-		$hobbit = $hobbitRowset->current();
-
-		$data = array( 
-			'x_hobbit' => $this->view->user->x_hobbit,
-			'y_hobbit'  => $this->view->user->y_hobbit,
-			'date_debut_tour_hobbit' => $this->view->user->date_debut_tour_hobbit,
-			'date_fin_tour_hobbit' => $this->view->user->date_fin_tour_hobbit,
-			'pa_hobbit' => $this->view->user->pa_hobbit,
-			'armure_naturelle_hobbit' => $this->view->user->armure_naturelle_hobbit,
-			'duree_prochain_tour_hobbit' => $this->view->user->duree_prochain_tour_hobbit,
-			'est_mort_hobbit' => $this->view->user->est_mort_hobbit,
-		); 
-		$where = "id=".$this->view->user->id;
-		$hobbitTable->update($data, $where);
-
+		
+		if ($this->is_nouveau_tour) {
+			$this->view->user->armure_naturelle_hobbit = intval(($this->view->user->force_base_hobbit + $this->view->user->vigueur_base_hobbit) / 5);
+		}
+		
+		if ($this->is_update) {
+			// Mise a jour du jouer dans la base de donnees
+			$hobbitTable = new Hobbit();
+			$hobbitRowset = $hobbitTable->find($this->view->user->id);
+			$hobbit = $hobbitRowset->current();
+	
+			$data = array( 
+				'x_hobbit' => $this->view->user->x_hobbit,
+				'y_hobbit'  => $this->view->user->y_hobbit,
+				'date_debut_tour_hobbit' => $this->view->user->date_debut_tour_hobbit,
+				'date_fin_tour_hobbit' => $this->view->user->date_fin_tour_hobbit,
+				'pa_hobbit' => $this->view->user->pa_hobbit,
+				'armure_naturelle_hobbit' => $this->view->user->armure_naturelle_hobbit,
+				'duree_prochain_tour_hobbit' => $this->view->user->duree_prochain_tour_hobbit,
+				'est_mort_hobbit' => $this->view->user->est_mort_hobbit,
+				'tour_position_hobbit' => $this->view->user->tour_position_hobbit,
+			); 
+			$where = "id=".$this->view->user->id;
+			//$hobbitTable->update($data, $where);
+		}
 		return true;
 	}
 	/* Verification que c'est bien le debut d'un

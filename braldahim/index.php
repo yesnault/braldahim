@@ -10,6 +10,7 @@ include "Zend/Loader.php";
 Zend_Loader::loadClass('Zend_Controller_Front');
 Zend_Loader::loadClass('Zend_Config_Ini');
 Zend_Loader::loadClass('Zend_Registry');
+Zend_Loader::loadClass('Zend_Date');
 Zend_Loader::loadClass('Zend_Db');
 Zend_Loader::loadClass('Zend_Db_Table');
 Zend_Loader::loadClass("Zend_Auth");

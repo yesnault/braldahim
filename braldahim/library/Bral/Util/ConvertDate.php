@@ -36,6 +36,24 @@ class Bral_Util_ConvertDate {
     return date("Y-m-d H:i:s", $this->get_epoch_add_time_to_date($date, $add_time));
   }
 
+  function get_divise_time_to_time($time, $div) {
+  	$time = explode(":", $time);
+  	
+  	$h = $time[0] * 3600;
+  	$m = $time[1] * 60;
+  	$s = $time[2] * 1;
+  	$n = $h + $m + $s;
+  	$n2 = $n / 2;
+  	$r = $n2;
+  	$h2 = intval($n2/3600);
+  	$restant = $n2- ($h2 * 3600);
+  	$m2 = intval($restant / 60);
+  	$restant = $restant - ($m2 * 60);
+  	$s2 = intval($restant);
+  	$r = $h2.":".$m2.":".$s2;
+  	return $r;
+  }
+  
   public function __construct() {
     
   }
