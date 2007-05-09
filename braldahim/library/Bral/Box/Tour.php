@@ -18,12 +18,10 @@ class Bral_Box_Tour {
 		if ($this->view->user->tour_position_hobbit == $this->view->config->game->tour->position_latence) {
 			$time_latence = $convert_date->get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_latence);
 			$date_fin_latence =  $convert_date->get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_latence);
-		//	$d = date("H:i:s", $date_fin_latence);
 			$info = "Fin latence &agrave; ".$date_fin_latence;
 		} else if ($this->view->user->tour_position_hobbit == $this->view->config->game->tour->position_milieu) {
 			$time_cumul = $convert_date->get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_cumul);
 			$date_debut_cumul =  $convert_date->get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_cumul);
-		//	$d = date("H:i:s", $date_debut_cumul);
 			$info = "D&eacute;but cumul &agrave; ".$date_debut_cumul;
 		}
 		$this->view->user->info_prochaine_position = $info;

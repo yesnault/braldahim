@@ -19,21 +19,31 @@
 	<?php endforeach; ?>
 	</div> 
 	<?php endif; ?>
-    <label for="hobbit">Hobbit</label>
+    <label for="hobbit">Hobbit</label><br>
+    Entre 5 et 20 caract&egrave;res<br>
     <input type="text" name="nom_hobbit" 
-        value="<?php echo $this->escape(trim($this->hobbit->nom_hobbit));?>"/> Entre 6 et 20 caract&egrave;res
+        value="<?php echo $this->escape(trim($this->hobbit->nom_hobbit));?>" size="25" maxlength="20"/>
 </div>
-<div>
+<div><br>
 	<?php if(!empty($this->messagesEmail)) :?> 
 	<div class="message_erreur" id="message_erreur"> 
-		<?=$this->escape($this->messagesEmail);?><br>
+	<?php foreach($this->messagesEmail as $message) :?>
+		<?=$this->escape($message);?><br>
+	<?php endforeach; ?>
 	</div>
 	<?php endif; ?>
-    <label for="title">Email</label>
-    <input type="text" name="email_hobbit" 
-        value="<?php echo $this->escape($this->hobbit->email_hobbit);?>"/> Un email de confirmation vous sera demandé à cette adresse
+    <label for="title">Email</label><br>
+    Un email de confirmation vous sera demandé à cette adresse<br>
+    <input type="text" name="email_hobbit" value="<?=$this->escape($this->hobbit->email_hobbit);?>" size="25" maxlength="100"/> 
+    <?php if(!empty($this->messagesEmailConfirm)) :?> 
+	<div class="message_erreur" id="message_erreur"> 
+		<?=$this->escape($this->messagesEmailConfirm);?><br>
+	</div>
+	<?php endif; ?>
+	<br><label for="title">Confirmation Email</label><br>
+    <input type="text" name="email_confirm_hobbit" value="<?=$this->escape($this->hobbit->email_confirm_hobbit);?>" size="25" maxlength="100"/>      
 </div>
-<div>
+<div><br>
 	<?php if(!empty($this->messagesPassword)) :?>
 	<div class="message_erreur" id="message_erreur"> 
 	<?php foreach($this->messagesPassword as $message) :?>
@@ -41,16 +51,25 @@
 	<?php endforeach; ?>
 	</div>
 	<?php endif; ?>
-    <label for="title">Password</label>
-    <input type="password" name="password_hobbit" value=""/> Entre 6 et 20 caract&egrave;res
+    <label for="title">Mot de Passe</label><br>
+    Entre 5 et 20 caract&egrave;res<br>
+    <input type="password" name="password_hobbit" value="" size="25" maxlength="20"/>
+	<?php if(!empty($this->messagesPasswordConfirm)) :?> 
+	<div class="message_erreur" id="message_erreur"> 
+		<?=$this->escape($this->messagesPasswordConfirm);?><br>
+	</div>
+	<?php endif; ?>
+    <br><label for="title">Confirmation Mot de Passe</label><br>
+    <input type="password" name="password_confirm_hobbit" value="" size="25" maxlength="20"/>
 </div>
-<div>
+<div><br>
 	<?php if(!empty($this->messagesSexe)) :?> 
 	<div class="message_erreur" id="message_erreur"> 
 		<?=$this->escape($this->messagesSexe);?><br>
 	</div>
 	<?php endif; ?>
-Sexe du Hobbit : <input type="radio" name="sexe_hobbit" value="feminin">F&eacute;minin <input type="radio" name="sexe_hobbit" value="masculin">Masculin 
+Sexe du Hobbit : <input type="radio" name="sexe_hobbit" value="feminin">F&eacute;minin 
+<input type="radio" name="sexe_hobbit" value="masculin">Masculin <br><br>
 </div>
 
 <div id="formbutton">

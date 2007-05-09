@@ -92,7 +92,7 @@
   height: auto;
   #margin-top: -100px;
   #margin-left: -140px;
-  text-align: left;
+  text-align: center;
 }
 
 .box_menu {
@@ -156,8 +156,8 @@
 
 .box_titre1  { 
   background-color: #CCCC99;
-  font-size: 12px;
-  font-weight: bold;
+  #font-size: 10px;
+  #font-weight: bold;
   color: #003300;
   padding: 3px;
   text-align: center;

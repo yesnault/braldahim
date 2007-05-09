@@ -10,9 +10,10 @@ class Bral_Util_Registre {
 	}
 	
 	private static function chargementCompetence() {
-		$competence = new Competence();
-		$competences = $competence->fetchall();
-		
+		$competenceTable = new Competence();
+		$competences = $competenceTable->fetchall();
+		$tab = null;
+		$tab2 = null;
 		foreach ($competences as $c) {
 			$tab[$c->id]["nom"] = $c->nom_competence;
 			$tab[$c->id]["nom_systeme"] = $c->nom_systeme_competence;
@@ -24,10 +25,10 @@ class Bral_Util_Registre {
 			$tab[$c->id]["pa_utilisation"] = $c->pa_utilisation_competence;
 			$tab[$c->id]["type"] = $c->type_competence;
 			
-			$tab2[$c->nom_systeme_competence]["id"] = $c->id;
+			//$tab2[$c->nom_systeme_competence]["id"] = $c->id;
 		}
 		Zend_Registry::set('competences', $tab);
-		Zend_Registry::set('competencesId', $tab);
+		//Zend_Registry::set('competencesId', $tab2);
 	}
 	
 	private static function chargementNomTour() {

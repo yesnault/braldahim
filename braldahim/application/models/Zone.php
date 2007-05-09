@@ -15,7 +15,7 @@ class Zone extends Zend_Db_Table
 		->where('y_max_zone <= ?',$y_max)
 		->where('zone.id_fk_environnement_zone = environnement.id');
 		$sql = $select->__toString();
-		
+
 		return $db->fetchAll($sql);
     }
     

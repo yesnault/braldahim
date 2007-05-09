@@ -14,9 +14,6 @@ Zend_Loader::loadClass('Zend_Date');
 Zend_Loader::loadClass('Zend_Db');
 Zend_Loader::loadClass('Zend_Db_Table');
 Zend_Loader::loadClass("Zend_Auth");
-Zend_Loader::loadClass("Zend_Validate");
-Zend_Loader::loadClass("Zend_Validate_EmailAddress");
-
 
 Zend_Loader::loadClass("Bral_Box_Competences");
 Zend_Loader::loadClass("Bral_Box_Equipement");
@@ -30,17 +27,19 @@ Zend_Loader::loadClass("Bral_Competences_Competence");
 Zend_Loader::loadClass("Bral_Competences_Factory");
 Zend_Loader::loadClass("Bral_Competences_Marcher");
 
+Zend_Loader::loadClass("Bral_Util_De");
 Zend_Loader::loadClass("Bral_Util_Registre");
 Zend_Loader::loadClass("Bral_Util_ConvertDate");
-
-Zend_Loader::loadClass("Bral_Validate_StringLength");
 
 Zend_Loader::loadClass("Bral_Xml_Response");
 Zend_Loader::loadClass("Bral_Xml_Entry");
 
+Zend_Loader::loadClass("Competence");
 Zend_Loader::loadClass("Hobbit");
 Zend_Loader::loadClass("HobbitsCompetences");
-Zend_Loader::loadClass("Competence");
+Zend_Loader::loadClass("Lieu");
+Zend_Loader::loadClass("TypeLieu");
+
 
 // load configuration
 $config = new Zend_Config_Ini('./application/config.ini', 'general');

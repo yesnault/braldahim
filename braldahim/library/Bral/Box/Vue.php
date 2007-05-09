@@ -100,7 +100,7 @@ class Bral_Box_Vue {
 		$zones = $zoneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$hobbitTable = new Hobbit();
 		$hobbits = $hobbitTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
-		
+
 		$centre_x_min = $this->view->centre_x - $this->view->config->game->box_vue_taille;
 		$centre_x_max = $this->view->centre_x + $this->view->config->game->box_vue_taille;
 		$centre_y_min = $this->view->centre_y - $this->view->config->game->box_vue_taille;
@@ -113,36 +113,48 @@ class Bral_Box_Vue {
       			$display_x = $i;
       			$display_y = $j;
       			$tabHobbits = null;
+      			$nom_systeme_environnement = null;
+      			$nom_environnement = null;
+      			$nom_zone = null;
+      			$description_zone = null;
       			
-				foreach($zones as $z) {
-					if ($display_x >= $z["x_min_zone"] && 
-						$display_x <= $z["x_max_zone"] && 
-						$display_y <= $z["y_min_zone"] && 
-						$display_y >= $z["y_max_zone"]) { 
-						$nom_zone = $z["nom_zone"];
-						$description_zone = $z["description_zone"];
-						$nom_systeme_environnement = $z["nom_systeme_environnement"];
-						$nom_environnement = htmlentities($z["nom_environnement"]);
-         				break;
+      			
+      			if (($j > $this->view->y_max) || ($j < $this->view->y_min) || 
+      				($i < $this->view->x_min) || ($i > $this->view->x_max)) {
+      				$nom_systeme_environnement = "inconnu";
+      			} else {
+					foreach($zones as $z) {
+						if ($display_x >= $z["x_min_zone"] && 
+							$display_x <= $z["x_max_zone"] && 
+							$display_y <= $z["y_min_zone"] && 
+							$display_y >= $z["y_max_zone"]) { 
+							$nom_zone = $z["nom_zone"];
+							$description_zone = $z["description_zone"];	
+							$nom_systeme_environnement = $z["nom_systeme_environnement"];
+							$nom_environnement = htmlentities($z["nom_environnement"]);
+	         				break;
+						}
 					}
-				}
-				
-				foreach($hobbits as $h) {
-					if ($display_x == $h["x_hobbit"] && $display_y == $h["y_hobbit"]) {
-						$tabHobbits[] = array("id_hobbit" => $h["id"], "nom_hobbit" => $h["nom_hobbit"]);
+					
+					foreach($hobbits as $h) {
+						if ($display_x == $h["x_hobbit"] && $display_y == $h["y_hobbit"]) {
+							$tabHobbits[] = array("id_hobbit" => $h["id"], "nom_hobbit" => $h["nom_hobbit"]);
+						}
 					}
-				}
+      			}
 				
 				if ($this->view->user->x_hobbit == $display_x && $this->view->user->y_hobbit == $display_y) { // Position du joueur
 					$actuelle = true;
 					$css = "actuelle";
+					$this->view->environnement = $nom_environnement;
 				} else {
 					$actuelle = false;
 					$css = $nom_systeme_environnement;
-					$this->view->environnement = $nom_environnement;
+				}
+				
+				if ($this->view->centre_x == $display_x && $this->view->centre_y == $display_y) {
 					$this->view->centre_environnement = $nom_environnement;
 				}
-
 				
 				$tab = array ("x" => $display_x, "y" => $display_y, //
                           "change_level" => $change_level, // nouvelle ligne dans le tableau ;

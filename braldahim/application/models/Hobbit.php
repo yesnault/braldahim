@@ -18,5 +18,15 @@ class Hobbit extends Zend_Db_Table {
 		
 		return $db->fetchAll($sql);
     }
+    
+	public function findByNom($nom){ 
+		$where = $this->getAdapter()->quoteInto('lcase(nom_hobbit) = ?',(string)strtolower(trim($nom))); 
+		return $this->fetchRow($where); 
+	} 
+
+	public function findByEmail($email){ 
+		$where = $this->getAdapter()->quoteInto('lcase(email_hobbit) = ?',(string)strtolower(trim($email))); 
+		return $this->fetchRow($where); 
+	} 
 }
 
