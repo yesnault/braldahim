@@ -1,0 +1,16 @@
+<?php echo $this->render('header.phtml'); ?>
+<h1><?php echo $this->escape($this->title); ?></h1>
+
+<? if ($this->validationOk) : ?>
+Votre validation est prise en compte. <br>
+
+Pour vous connecter, cliquer ici : <a href="/"> Page d'accueil </a>
+
+<? else : ?>
+Une erreur est survenu lors de la validation de votre compte.<br>
+
+Veuillez contacter le maitre du jeu à l'adresse suivante :
+<?= $this->emailMaitreJeu ?> 
+<? endif; ?>
+<?php echo $this->render('footer.phtml'); ?>
+

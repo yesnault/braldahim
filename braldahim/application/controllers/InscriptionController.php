@@ -10,6 +10,8 @@ class InscriptionController extends Zend_Controller_Action {
 		Zend_Loader::loadClass("Bral_Validate_StringLength");
 		Zend_Loader::loadClass("Zend_Validate_EmailAddress");
 		Zend_Loader::loadClass("Zend_Validate");
+		Zend_Loader::loadClass("Zend_Mail");
+		Zend_Loader::loadClass("Zend_Mail_Transport_Smtp");
 		$this->view->config = Zend_Registry::get('config');
 	}
 
@@ -20,10 +22,35 @@ class InscriptionController extends Zend_Controller_Action {
 // 		$this->render();
 		$this->_redirect('inscription/ajouter');
 	}
-
+	function validationAction() {
+		$this->view->title = "Validation de l'inscription";
+		$this->view->validationOk = false;
+		$this->view->emailMaitreJeu = $this->view->config->general->mail->from_email;
+		
+		$email_hobbit = $this->_request->get("e");
+		$md5_nom_hobbit = $this->_request->get("h");
+		$md5_password_hobbit = $this->_request->get("p");
+		
+		$hobbitTable = new Hobbit();
+		$hobbit = $hobbitTable->findByEmail($email_hobbit);
+		
+		if (count($hobbit) > 0) {
+			if ($md5_nom_hobbit == md5($hobbit->nom_hobbit) && ($md5_password_hobbit == $hobbit->password_hobbit)) {
+				$this->view->validationOk = true;
+				
+				$data = array(
+					'est_compte_actif_hobbit' => "oui",
+				);
+				$where = "id=".$hobbit->id;
+				$hobbitTable->update($data, $where);
+			}
+		} 
+		
+		$this->render();
+	}
+	
 	function ajouterAction() {
 		$this->view->title = "Nouvel Hobbit";
-		
 		$this->nom_hobbit = "";
 		$this->email_hobbit = "";
 		$this->email_confirm_hobbit = "";
@@ -66,6 +93,7 @@ class InscriptionController extends Zend_Controller_Action {
 				$data = $this->initialiseDataHobbit();
 				$hobbit = new Hobbit();
 				$hobbit->insert($data);
+				$this->envoiEmail();
 				$this->_redirect('/');
 				return;
 			} else {
@@ -132,7 +160,31 @@ class InscriptionController extends Zend_Controller_Action {
 			'date_creation_hobbit' => date("Y-m-d H:i:s"),
 			'tour_position_hobbit' => $this->view->config->game->inscription->tour_position,
 		);
+		
 		return $data;
+	}
+	
+	private function envoiEmail() {
+		$urlValidation = $this->view->config->general->url;
+		$urlValidation .= "/inscription/validation?e=".$this->email_hobbit;
+		$urlValidation .= "&h=".md5($this->nom_hobbit);
+		$urlValidation .= "&p=".md5($this->password_hobbit);
+		
+		$contenu = "Vous venez de vous inscrire sur Braldahim.";
+		$contenu .= " Pour valider votre compte, allez ici :";
+		$fin=  "Le Maitre du jeu";
+		$contenuText = $contenu.$urlValidation.'\n\n'.$fin;
+		$contenuHtml = $contenu. "<a href='".$urlValidation."'>$urlValidation</a><br><br>".$fin;
+		
+		$transport = new Zend_Mail_Transport_Smtp($this->view->config->general->mail->smtp_server);
+		Zend_Mail::setDefaultTransport($transport);
+		$mail = new Zend_Mail();
+		$mail->setFrom($this->view->config->general->mail->from_email, $this->view->config->general->mail->from_nom);
+		$mail->addTo($this->email_hobbit, $this->nom_hobbit);
+		$mail->setSubject($this->view->config->game->inscription->titre_mail);
+		$mail->setBodyText($contenuText);
+		$mail->setBodyHtml($contenuHtml);
+		$mail->send();
 	}
 }
 
