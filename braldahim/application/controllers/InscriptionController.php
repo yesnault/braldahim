@@ -91,10 +91,12 @@ class InscriptionController extends Zend_Controller_Action {
 				&& ($validPasswordConfirm)) {
 					
 				$data = $this->initialiseDataHobbit();
-				$hobbit = new Hobbit();
-				$hobbit->insert($data);
+				$hobbitTable = new Hobbit();
+				$this->view->id_hobbit = $hobbitTable->insert($data);
+				$this->view->nom_hobbit = $this->nom_hobbit;
+				$this->view->email_hobbit = $this->email_hobbit;
 				$this->envoiEmail();
-				$this->_redirect('/');
+				echo $this->view->render("inscription/fin.phtml");
 				return;
 			} else {
 				$tabNom = null;
@@ -165,16 +167,14 @@ class InscriptionController extends Zend_Controller_Action {
 	}
 	
 	private function envoiEmail() {
-		$urlValidation = $this->view->config->general->url;
-		$urlValidation .= "/inscription/validation?e=".$this->email_hobbit;
-		$urlValidation .= "&h=".md5($this->nom_hobbit);
-		$urlValidation .= "&p=".md5($this->password_hobbit);
+		$this->view->urlValidation = $this->view->config->general->url;
+		$this->view->adresseSupport = $this->view->config->general->adresseSupport;
+		$this->view->urlValidation .= "/inscription/validation?e=".$this->email_hobbit;
+		$this->view->urlValidation .= "&h=".md5($this->nom_hobbit);
+		$this->view->urlValidation .= "&p=".md5($this->password_hobbit);
 		
-		$contenu = "Vous venez de vous inscrire sur Braldahim.";
-		$contenu .= " Pour valider votre compte, allez ici :";
-		$fin=  "Le Maitre du jeu";
-		$contenuText = $contenu.$urlValidation.'\n\n'.$fin;
-		$contenuHtml = $contenu. "<a href='".$urlValidation."'>$urlValidation</a><br><br>".$fin;
+		$contenuText = $this->view->render("inscription/mailText.phtml");
+		$contenuHtml = $this->view->render("inscription/mailHtml.phtml");
 		
 		$transport = new Zend_Mail_Transport_Smtp($this->view->config->general->mail->smtp_server);
 		Zend_Mail::setDefaultTransport($transport);

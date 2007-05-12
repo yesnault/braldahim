@@ -3,6 +3,9 @@
 class CompetencesController extends Zend_Controller_Action {
 
 	function init() {
+		if (!Zend_Auth::getInstance()->hasIdentity()) {
+			$this->_redirect('/'); 
+		}
 		$this->initView();
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();

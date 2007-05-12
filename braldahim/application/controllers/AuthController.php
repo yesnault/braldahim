@@ -35,16 +35,22 @@ class AuthController extends Zend_Controller_Action {
             // do the authentication  
             $auth = Zend_Auth::getInstance(); 
             $result = $auth->authenticate($authAdapter); 
-            if ($result->isValid()) { 
-                // success : store database row to auth's storage system 
-                // (not the password though!) 
-                $data = $authAdapter->getResultRowObject(null,'password_hobbit'); 
-                $auth->getStorage()->write($data); 
-				// activation du tour
-                Zend_Auth::getInstance()->getIdentity()->activation = ($f->filter($this->_request->getPost('auth_activation')) == 'oui');
-                // Hobbit sitting
-                Zend_Auth::getInstance()->getIdentity()->sitting = ($f->filter($this->_request->getPost('auth_sitting')) == 'oui');
-                $this->_redirect('/'); 
+            if ($result->isValid()) {
+            	
+            	$hobbit = $authAdapter->getResultRowObject(null,'password_hobbit'); 
+            	if ($hobbit->est_compte_actif_hobbit == "oui") {
+	                // success : store database row to auth's storage system 
+	                // (not the password though!) 
+	                $auth->getStorage()->write($hobbit); 
+					// activation du tour
+	                Zend_Auth::getInstance()->getIdentity()->activation = ($f->filter($this->_request->getPost('auth_activation')) == 'oui');
+	                // Hobbit sitting
+	                Zend_Auth::getInstance()->getIdentity()->sitting = ($f->filter($this->_request->getPost('auth_sitting')) == 'oui');
+	                $this->_redirect('/'); 
+            	} else {
+            		$this->view->message = "Ce compte n'est pas actif";
+            		Zend_Auth::getInstance()->clearIdentity();
+            	}
             } else { 
                 // failure: clear database row from session 
                 $this->view->message = "Echec d'authentification"; 
