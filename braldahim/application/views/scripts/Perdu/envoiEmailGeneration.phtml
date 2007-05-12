@@ -1,0 +1,21 @@
+<?php echo $this->render('header.phtml'); ?>
+<h1><?php echo $this->escape($this->title); ?></h1>
+<div class="box_perdu">
+<div class="box_titre1">Perte de mot de passe</div><br />
+
+	<? if ($this->emailGenerationOk) : ?>
+		Pour g&eacute;n&eacute;rer un nouveau mot de passe, 
+		suivez les indications que vous venez de recevoir
+		 à l'adresse suivante : <br>
+		<?= $this->email_hobbit ?>
+
+	<? else : ?>
+		Erreur : l'adresse email est inconnue.
+	<? endif ?>
+		<br><br>
+		Courbettes distingu&eacute;es, <br><br>
+		Les ma&icirc;tres du jeu.<br><br>
+	 <input type="button" value="Accueil" onClick="javascript:document.location.href='/'"/>
+</div>
+
+<?php echo $this->render('footer.phtml'); ?>

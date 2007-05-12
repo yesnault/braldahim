@@ -80,7 +80,7 @@
   z-index: 1000;
 }
 
-.box_inscription {
+.box_inscription, .box_perdu {
   #position: absolute;
   left: 50%;
   top: 50%;

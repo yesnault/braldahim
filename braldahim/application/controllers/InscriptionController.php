@@ -183,7 +183,9 @@ class InscriptionController extends Zend_Controller_Action {
 		$mail->addTo($this->email_hobbit, $this->nom_hobbit);
 		$mail->setSubject($this->view->config->game->inscription->titre_mail);
 		$mail->setBodyText($contenuText);
-		$mail->setBodyHtml($contenuHtml);
+		if ($this->view->config->general->envoi_mail_html == true) {
+			$mail->setBodyHtml($contenuHtml);
+		}
 		$mail->send();
 	}
 }
