@@ -10,8 +10,7 @@ class InscriptionController extends Zend_Controller_Action {
 		Zend_Loader::loadClass("Bral_Validate_StringLength");
 		Zend_Loader::loadClass("Zend_Validate_EmailAddress");
 		Zend_Loader::loadClass("Zend_Validate");
-		Zend_Loader::loadClass("Zend_Mail");
-		Zend_Loader::loadClass("Zend_Mail_Transport_Smtp");
+		Zend_Loader::loadClass("Bral_Util_Mail");
 		$this->view->config = Zend_Registry::get('config');
 	}
 
@@ -176,9 +175,7 @@ class InscriptionController extends Zend_Controller_Action {
 		$contenuText = $this->view->render("inscription/mailText.phtml");
 		$contenuHtml = $this->view->render("inscription/mailHtml.phtml");
 		
-		$transport = new Zend_Mail_Transport_Smtp($this->view->config->general->mail->smtp_server);
-		Zend_Mail::setDefaultTransport($transport);
-		$mail = new Zend_Mail();
+		$mail = Bral_Util_Mail::getNewZendMail();
 		$mail->setFrom($this->view->config->general->mail->from_email, $this->view->config->general->mail->from_nom);
 		$mail->addTo($this->email_hobbit, $this->nom_hobbit);
 		$mail->setSubject($this->view->config->game->inscription->titre_mail);

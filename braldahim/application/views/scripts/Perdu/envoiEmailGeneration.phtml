@@ -8,10 +8,9 @@
 		suivez les indications que vous venez de recevoir
 		 à l'adresse suivante : <br>
 		<?= $this->email_hobbit ?>
-
 	<? else : ?>
-		Erreur : l'adresse email est inconnue.
-	<? endif ?>
+		Erreur :  <?=$this->view->message?>
+	<? endif; ?>
 		<br><br>
 		Courbettes distingu&eacute;es, <br><br>
 		Les ma&icirc;tres du jeu.<br><br>
