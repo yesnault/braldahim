@@ -59,8 +59,16 @@
   float: right;
 }
 
-
 .menu_deconnexion:hover {
+  background-color : #ffd363;
+  cursor: pointer;
+}
+
+.menu_lien {
+	background-color : #CCCC99;
+}
+
+.menu_lien:hover {
   background-color : #ffd363;
   cursor: pointer;
 }
@@ -80,18 +88,19 @@
   z-index: 1000;
 }
 
-.box_inscription, .box_perdu {
-  #position: absolute;
-  left: 50%;
-  top: 50%;
+.box_inscription, .box_perdu, .box_pamaretres {
+#  position: absolute;
+#  left: 50%;
+#  top: 50%;
   background-color : #ffd363;
   color: black;
   border-style : dashed;
   border-width: 1px;
   width: 500px;
   height: auto;
-  #margin-top: -100px;
-  #margin-left: -140px;
+  margin-left: auto;
+  margin-right:auto;
+  margin-top: 20px;
   text-align: center;
 }
 

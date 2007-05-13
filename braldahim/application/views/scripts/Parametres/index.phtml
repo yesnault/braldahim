@@ -1,0 +1,11 @@
+<?php echo $this->render('header.phtml'); ?>
+<div class="box_pamaretres">
+<div class="box_titre1">Param&ecirc;tres</div><br />
+	<? if (!empty($this->message)): ?>
+		<?=$this->message; ?><br><br>
+	<? endif; ?>
+	<input type="button" value="Changer de mot de passe" onClick="javascript:document.location.href='/parametres/motdepasse'"/><br>
+	<input type="button" value="Changer d'adresse mail" onClick="javascript:document.location.href='/parametres/email'"/>
+	<br><br>
+</div>
+<?php echo $this->render('footer.phtml'); ?>

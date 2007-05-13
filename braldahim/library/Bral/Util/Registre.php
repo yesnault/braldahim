@@ -28,7 +28,7 @@ class Bral_Util_Registre {
 			//$tab2[$c->nom_systeme_competence]["id"] = $c->id;
 		}
 		Zend_Registry::set('competences', $tab);
-		//Zend_Registry::set('competencesId', $tab2);
+		Zend_Registry::set('competencesId', $tab2);
 	}
 	
 	private static function chargementNomTour() {

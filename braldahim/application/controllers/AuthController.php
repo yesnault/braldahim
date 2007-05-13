@@ -46,7 +46,7 @@ class AuthController extends Zend_Controller_Action {
 	                Zend_Auth::getInstance()->getIdentity()->activation = ($f->filter($this->_request->getPost('auth_activation')) == 'oui');
 	                // Hobbit sitting
 	                Zend_Auth::getInstance()->getIdentity()->sitting = ($f->filter($this->_request->getPost('auth_sitting')) == 'oui');
-	                $this->_redirect('/'); 
+	                $this->_redirect('/interface/'); 
             	} else {
             		$this->view->message = "Ce compte n'est pas actif";
             		Zend_Auth::getInstance()->clearIdentity();

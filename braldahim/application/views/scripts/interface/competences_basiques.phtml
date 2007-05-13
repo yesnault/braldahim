@@ -11,7 +11,7 @@
   <div>
        <?=$c["pa_utilisation"]?> PA -
       <input type="button" value="<?=$c["nom"]?>"
-        onClick="Javascript:_get_('competences/DoAction?caction=ask_competence_<?=$c["nom_systeme"] ?>')">
+        onClick="Javascript:_get_('/competences/DoAction?caction=ask_competence_<?=$c["nom_systeme"] ?>')">
   </div>
  <?php endforeach ;
   } else {	

@@ -10,6 +10,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
+		$this->view->controleur = $this->_request->controller;
 		$this->xml_response = new Bral_Xml_Response();
 		$t = Bral_Box_Factory::getTour($this->_request, $this->view, false);
 		if ($t->activer()) {

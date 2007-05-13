@@ -1,0 +1,51 @@
+<?php echo $this->render('header.phtml'); ?>
+<div class="box_pamaretres">
+<div class="box_titre1">Changement d'adresse email</div><br />
+
+<div><br>
+<form action="<?=$this->baseUrl ?>/parametres/email" method="post">
+
+	<?php if(!empty($this->messagesPassword)) :?>
+		<div class="message_erreur" id="message_erreur"> 
+		<?=$this->escape($this->messagesPassword); ?><br>
+		</div>
+	<? endif; ?>
+	<label for="title">Mot de Passe Actuel</label><br>
+    <input type="password" name="email_password_actuel_hobbit" value="" size="25" maxlength="20"/>
+    <br><br>
+
+	<?php if(!empty($this->messagesEmailActuel)) :?> 
+	<div class="message_erreur" id="message_erreur"> 
+		<?=$this->escape($this->messagesEmailActuel);?><br>
+	</div>
+	<?php endif; ?>
+    <label for="title">Adresse mail actuelle</label><br>
+    <input type="text" name="email_actuel_hobbit" value="<?=$this->escape($this->email_actuel_hobbit);?>" size="25" maxlength="100"/> 
+    
+    <br><br>
+	<?php if(!empty($this->messagesEmailNouveau)) :?> 
+	<div class="message_erreur" id="message_erreur"> 
+	<?php foreach($this->messagesEmailNouveau as $message) :?>
+		<?=$this->escape($message);?><br>
+	<?php endforeach; ?>
+	</div>
+	<?php endif; ?>
+    <label for="title">Nouvelle adresse mail</label><br>
+    <input type="text" name="email_nouveau_hobbit" value="<?=$this->escape($this->email_nouveau_hobbit);?>" size="25" maxlength="100"/> 
+    
+	<?php if(!empty($this->messagesEmailConfirm)) :?> 
+	<div class="message_erreur" id="message_erreur"> 
+		<?=$this->escape($this->messagesEmailConfirm);?><br>
+	</div>
+	<?php endif; ?>
+	<br><label for="title">Confirmation nouvelle adresse mail</label><br>
+    <input type="text" name="email_confirm_hobbit" value="<?=$this->escape($this->email_confirm_hobbit);?>" size="25" maxlength="100"/>      
+	<br><br>
+	
+	<div id="formbutton">
+	<input type="submit" name="add" value="Modifier" /> <input type="button" name="add" value="Annuler" onClick="javascript:document.location.href='/parametres/'"/>
+	</div>
+</form>
+</div>
+</div>
+<?php echo $this->render('footer.phtml'); ?>

@@ -12,7 +12,7 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl;?>/public/styles/site.css" />
 </head>
 
-<?php if($this->user) : ?> 
+<?php if($this->user && $this->controleur == "interface") : ?> 
  <body onLoad="_get_('<?=$this->baseUrl ?>/interface/boxes');">
 <?php else: ?>
 <body>
@@ -22,18 +22,22 @@
 <?php if($this->user) : ?> 
  <div class="box_menu" id="box_menu">
   <div class="box_contenur1">
-  <span class='menu_classic'><?=$this->escape($this->user->nom_hobbit);?> | </span>
+  <span class='menu_classic'><?=$this->escape($this->user->nom_hobbit);?> | 
+  <a href="<?=$this->baseUrl ?>/interface/" class="menu_lien">Interface</a> |
+  <a href="<?=$this->baseUrl ?>/parametres/" class="menu_lien">Param&ecirc;tres</a> |
+  
+  </span>
   <span class='menu_deconnexion'><a href="<?=$this->baseUrl ?>/auth/logout">Déconnexion </a></span>
   <span id='date_heure' class='menu_date_heure'>&nbsp;</span>
   </div>
  </div>
 <?php endif; ?>
 
+<?php if($this->user && $this->controleur == "interface") : ?> 
   <div id="box_action" class="box_action"></div>
-    <?php if($this->user) : ?> 
   	<div id="erreur" class="box_erreur"></div>
   	<div id="informations" class="box_informations"></div>
     <div id="box_chargement" class="box_chargement" style="display:block">Chargement en Cours</div>
-  <?php endif; ?>
   <div id="racine" class="box_racine">
-  </div>
+<?php endif; ?>
+</div>

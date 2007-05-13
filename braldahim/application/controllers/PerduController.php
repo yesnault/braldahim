@@ -44,7 +44,7 @@ class PerduController extends Zend_Controller_Action {
 					try {
 						$this->envoiEmailGeneration();
 					} catch (Zend_Mail_Protocol_Exception $e) {
-						$this->view->emailGenerationOk = true;
+						$this->view->emailGenerationOk = false;
 						$this->view->message = $e->getMessage();
 					}
 				}
