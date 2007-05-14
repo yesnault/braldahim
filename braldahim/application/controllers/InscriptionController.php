@@ -90,10 +90,17 @@ class InscriptionController extends Zend_Controller_Action {
 				&& ($validPasswordConfirm)) {
 					
 				$data = $this->initialiseDataHobbit();
+				
 				$hobbitTable = new Hobbit();
 				$this->view->id_hobbit = $hobbitTable->insert($data);
 				$this->view->nom_hobbit = $this->nom_hobbit;
 				$this->view->email_hobbit = $this->email_hobbit;
+				
+				$dataCompetences = $this->initialiseDataHobbitsCompetences();
+				
+				$hobbitCompetenceTable = new HobbitsCompetences();
+				$hobbitCompetenceTable->insert($dataCompetences);
+				
 				$this->envoiEmail();
 				echo $this->view->render("inscription/fin.phtml");
 				return;
@@ -160,6 +167,18 @@ class InscriptionController extends Zend_Controller_Action {
 			'duree_courant_tour_hobbit' => $this->view->config->game->inscription->duree_courant_tour,
 			'date_creation_hobbit' => date("Y-m-d H:i:s"),
 			'tour_position_hobbit' => $this->view->config->game->inscription->tour_position,
+		);
+		
+		return $data;
+	}
+	
+	private function initialiseDataHobbitsCompetences() {
+		
+		$data = array(
+			'id_hobbit_hcomp' => $this->view->id_hobbit,
+			'id_competence_hcomp'  => 1, // marcher
+			'pourcentage_hcomp'  => 100,
+			'date_gain_tour_hcomp'  => "0000-00-00 00:00:00",
 		);
 		
 		return $data;

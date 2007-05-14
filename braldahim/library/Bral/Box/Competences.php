@@ -9,12 +9,6 @@ class Bral_Box_Competences {
 		$this->view->affichageInterne = $interne;
 		
 		// chargement des competences
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id);
-		$hobbit = $hobbitRowset->current();
-		$this->hobbitCompetences = $hobbit->findCompetenceViaHobbitsCompetences();
-		$this->competences = Zend_Registry::get('competences');
-		
 		switch($this->type) {
 			case "basic":
 				$this->titreOnglet = "Basiques";
@@ -50,18 +44,28 @@ class Bral_Box_Competences {
 		$tabCompetences = null;
 		$this->view->nom_interne = $this->getNomInterne();
 		
-		foreach($this->hobbitCompetences as $c) {
-			if ($this->competences[$c->id]["type"] == $this->type) {
-				$t = array("id" => $c->id, 
-				"nom" => $this->competences[$c->id]["nom"], 
-				"pa_utilisation" => $this->competences[$c->id]["pa_utilisation"],
-				"nom_systeme" => $this->competences[$c->id]["nom_systeme"]);
-				$tabCompetences[] = $t;
+		if ($this->type == 'basic') {
+			$tabCompetences = Zend_Registry::get('competencesBasiques');
+		} else {
+			$hobbitTable = new Hobbit();
+			$hobbitRowset = $hobbitTable->find($this->view->user->id);
+			$hobbit = $hobbitRowset->current();
+			$hobbitCompetences = $hobbit->findCompetenceViaHobbitsCompetences();
+			$competences = Zend_Registry::get('competences');
+			
+			foreach($hobbitCompetences as $c) {
+				if ($competences[$c->id]["type"] == $this->type) {
+					$t = array("id" => $c->id, 
+					"nom" => $competences[$c->id]["nom"], 
+					"pa_utilisation" => $competences[$c->id]["pa_utilisation"],
+					"nom_systeme" => $competences[$c->id]["nom_systeme"]);
+					$tabCompetences[] = $t;
+				}
 			}
 		}
+		
 		$this->view->competences = $tabCompetences;
 		return $this->view->render($this->render);
 	}
 	
 }
-?>

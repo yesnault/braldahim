@@ -44,8 +44,8 @@ class AuthController extends Zend_Controller_Action {
 	                $auth->getStorage()->write($hobbit); 
 					// activation du tour
 	                Zend_Auth::getInstance()->getIdentity()->activation = ($f->filter($this->_request->getPost('auth_activation')) == 'oui');
-	                // Hobbit sitting
-	                Zend_Auth::getInstance()->getIdentity()->sitting = ($f->filter($this->_request->getPost('auth_sitting')) == 'oui');
+	                // Gardiennage
+	                Zend_Auth::getInstance()->getIdentity()->gardiennage = ($f->filter($this->_request->getPost('auth_gardiennage')) == 'oui');
 	                $this->_redirect('/interface/'); 
             	} else {
             		$this->view->message = "Ce compte n'est pas actif";

@@ -18,6 +18,41 @@ class Bral_Validate_Inscription_NomHobbit implements Zend_Validate_Interface {
 			$valid = false;
     	}
 		
+		$tab = array(
+			'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',  'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',  'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+			'\'', '.', ',', 
+			'ä', 'â', 'à', 'Ä', 'Â', 'À',
+			'é', 'è', 'ê', 'É', 'È', 'Ê',
+			'î', 'ï', 'ì', 'Î', 'Ï', 'Ì',
+			'ö', 'ô', 'ò', 'Ö', 'Ô', 'Ò',
+			'û', 'ü', 'ù', 'Û', 'Ü', 'Ù',
+			'ÿ', 'Ÿ',
+			'ç', 'Ç', 'æ', 'Æ', 'œ', 'Œ', '°', '-',
+			'ñ', 'Ñ', 'ã', 'Ã',
+			' ', 
+			);
+    	
+		$flag = true;
+		$val = null;
+		for ($i = 0; $i< strlen($valeur); $i++) {
+			if (!in_array($valeur[$i], $tab)) {
+				$this->_messages[] = "Le nom du hobbit contient un ou plusieurs caractères invalides";
+				foreach ($tab as $t) {
+					$val .= $t. " ";
+				}	
+				$this->_messages[] = "Seuls les caractères suivants sont autorisés : ";
+				$this->_messages[] = $val ." (espace)";
+				$valid = false;
+				break;
+			}
+		}
+		
+        if (strlen($valeur) > 20) {
+			$this->_messages[] = "Le nom du hobbit doit contenir au maximum 20 caractères";
+			$valid = false;
+    	}
+    	
 		if ($valid) {
 			$hobbitTable = new Hobbit();
 			$r = $hobbitTable->findByNom($valeur);

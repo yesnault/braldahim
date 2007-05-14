@@ -1,0 +1,15 @@
+<div class='comp_titre'>Gardiennage</div>
+
+ <div class='comp_contenu'>
+	 <div id='gardiennage_text' style="display:block"  onClick="javascript:switch2div('gardiennage_text','gardiennage_copie');">
+		Gardiennage resultat
+	 </div>
+	 
+	 <div id='gardiennage_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40>Gardiennage resultat
+		</textarea>
+	</div>
+ </div>
+
+<input type='button' value='Copier' onClick="javascript:switch2div('gardiennage_text','gardiennage_copie');">
+<input type='button' value='Fermer' onClick='_get_("/interface/clear");'>

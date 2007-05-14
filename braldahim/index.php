@@ -23,9 +23,7 @@ Zend_Loader::loadClass("Bral_Box_Profil");
 Zend_Loader::loadClass("Bral_Box_Tour");
 Zend_Loader::loadClass("Bral_Box_Vue");
 
-Zend_Loader::loadClass("Bral_Competences_Competence");
 Zend_Loader::loadClass("Bral_Competences_Factory");
-Zend_Loader::loadClass("Bral_Competences_Marcher");
 
 Zend_Loader::loadClass("Bral_Util_De");
 Zend_Loader::loadClass("Bral_Util_Registre");
