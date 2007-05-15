@@ -55,19 +55,23 @@ class InscriptionController extends Zend_Controller_Action {
 		$this->email_confirm_hobbit = "";
 		
 		if ($this->_request->isPost()) {
+			Zend_Loader::loadClass('Zend_Filter');
 			Zend_Loader::loadClass('Zend_Filter_StripTags');
+			Zend_Loader::loadClass('Zend_Filter_StringTrim');
 			
 			$validateurEmail = new Bral_Validate_Inscription_EmailHobbit();
 			$validateurNom = new Bral_Validate_Inscription_NomHobbit();
 			$validateurPassword = new Bral_Validate_StringLength(5, 20);
 			
-			$filter = new Zend_Filter_StripTags();
-			$this->nom_hobbit = $filter->filter(trim($this->_request->getPost('nom_hobbit')));
-			$this->email_hobbit = trim($filter->filter(trim($this->_request->getPost('email_hobbit'))));
-			$this->email_confirm_hobbit = trim($filter->filter(trim($this->_request->getPost('email_confirm_hobbit'))));
-			$this->password_hobbit = trim($filter->filter(trim($this->_request->getPost('password_hobbit'))));
-			$this->password_confirm_hobbit = trim($filter->filter(trim($this->_request->getPost('password_confirm_hobbit'))));
-			$this->sexe_hobbit = trim($filter->filter($this->_request->getPost('sexe_hobbit')));
+			$filter = new Zend_Filter();
+			$filter->addFilter(new Zend_StringTrim())
+					->addFilter(new Zend_StripTags());
+			$this->nom_hobbit = $filter->filter($this->_request->getPost('nom_hobbit'));
+			$this->email_hobbit = $filter->filter($this->_request->getPost('email_hobbit'));
+			$this->email_confirm_hobbit = $filter->filter($this->_request->getPost('email_confirm_hobbit'));
+			$this->password_hobbit = $filter->filter($this->_request->getPost('password_hobbit'));
+			$this->password_confirm_hobbit = $filter->filter(trim($this->_request->getPost('password_confirm_hobbit'));
+			$this->sexe_hobbit = $filter->filter($this->_request->getPost('sexe_hobbit'));
 			
 			$validNom = $validateurNom->isValid($this->nom_hobbit);
 			$validEmail = $validateurEmail->isValid($this->email_hobbit);

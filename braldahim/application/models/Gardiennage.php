@@ -29,4 +29,15 @@ class Gardiennage extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
     }
+    
+    function findGardiennageEnCours($id_hobbit_garde) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('gardiennage', '*')
+		->from('hobbit', 'nom_hobbit')
+		->where('gardiennage.id_hobbit_gardiennage = hobbit.id');
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+    }
 }

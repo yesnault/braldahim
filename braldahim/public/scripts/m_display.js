@@ -32,3 +32,29 @@ function switch2div(div1, div2) {
 		document.getElementById(div2).style.display="block";
 	}
 }
+
+// n'autorise que des chiffres.
+// exemple d'utilisation : <input type="text" onkeypress="chiffres(event)">
+function chiffres(event) {
+	// Compatibilité IE / Firefox
+	if(!event&&window.event) {
+		event=window.event;
+	}
+	
+	// IE 
+	if (event.keyCode == 37 || event.keyCode == 39 || // fleches deplacement
+		event.keyCode == 46 || event.keyCode == 8) { // backspace ou delete
+		return;
+	} else if(event.keyCode < 48 || event.keyCode > 57) {
+		event.returnValue = false;
+		event.cancelBubble = true;
+	}
+	
+	// DOM
+	if (event.which == 46 || event.which == 8) { // backspace ou delete
+		return;
+	} else if(event.which < 48 || event.which > 57) {
+		event.preventDefault();
+		event.stopPropagation();
+	}
+}

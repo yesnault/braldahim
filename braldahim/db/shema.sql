@@ -3,11 +3,11 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- GŽnŽrŽ le : Mercredi 09 Mai 2007 ˆ 21:57
+-- Généré le : Mardi 15 Mai 2007 à 23:46
 -- Version du serveur: 5.0.33
 -- Version de PHP: 5.2.0
 -- 
--- Base de donnŽes: `braldahim`
+-- Base de données: `braldahim`
 -- 
 
 -- --------------------------------------------------------
@@ -29,7 +29,7 @@ CREATE TABLE `competence` (
   `type_competence` enum('basic','commun','metier') NOT NULL default 'basic',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `nom_competence` (`nom_competence`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -44,7 +44,23 @@ CREATE TABLE `environnement` (
   `nom_systeme_environnement` varchar(20) NOT NULL,
   `image_environnement` varchar(100) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `gardiennage`
+-- 
+
+CREATE TABLE `gardiennage` (
+  `id` int(11) NOT NULL auto_increment,
+  `id_hobbit_gardiennage` int(11) NOT NULL,
+  `id_gardien_gardiennage` int(11) NOT NULL,
+  `date_debut_gardiennage` date NOT NULL,
+  `nb_jours_gardiennage` int(11) NOT NULL,
+  `commentaire_gardiennage` varchar(100) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -87,8 +103,9 @@ CREATE TABLE `hobbit` (
   `pv_hobbit` int(11) NOT NULL,
   `est_mort_hobbit` enum('oui','non') NOT NULL default 'non',
   `est_compte_actif_hobbit` enum('oui','non') NOT NULL default 'non',
+  `date_creation_hobbit` datetime NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tables des Hobbits';
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tables des Hobbits' AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -120,7 +137,7 @@ CREATE TABLE `lieu` (
   `id_fk_type_lieu` int(11) NOT NULL,
   `date_creation_lieu` datetime NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 -- --------------------------------------------------------
 
@@ -157,4 +174,4 @@ CREATE TABLE `zone` (
   `x_max_zone` int(11) NOT NULL,
   `y_max_zone` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;

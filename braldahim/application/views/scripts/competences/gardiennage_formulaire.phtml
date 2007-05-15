@@ -1,13 +1,14 @@
 <div class='comp_titre'>Gardiennage</div>
  <form name='myForm'>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='4'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='6'>
+ <input type='hidden' id='valeur_1' name='valeur_1' value='voir'>
  <div class='comp_contenu'>
- <table>
+ <table width='400px'>
   <th class='comp_titre'>Nouveau Gardiennage</th><th class='comp_titre'>Informations</th>
   <tr width='50%'>
    <td>Premier jour :</td>
    <td>
-   <select name='valeur_1' id='valeur_1'> 
+   <select name='valeur_2' id='valeur_2'> 
    	 <? foreach($this->tabJoursDebut as $d) : ?>
      <option value='<?=$d["valeur"]?>'><?=$d["affichage"]?></option>
      <? endforeach; ?>
@@ -17,7 +18,7 @@
   <tr>
    <td>Nombre de jour(s) : </td>
    <td>
-   <select name='valeur_2' id='valeur_2'>
+   <select name='valeur_3' id='valeur_3'>
     		<option value='1'> 1 </option>
     		<option value='2'> 2 </option>
     		<option value='3'> 3 </option>
@@ -29,7 +30,7 @@
   <tr>
    <td>Gardien : </td>
    <td>
-   <select name='valeur_3' id='valeur_3'>
+   <select name='valeur_4' id='valeur_4' onChange="$('valeur_5').value=''">
      <option value='-1'>(Choisir)</option>
      <? foreach($this->tabGardiens as $g) : ?>
      <option value='<?=$g["id_gardien"]?>'><?=$g["nom_gardien"]." (".$g["id_gardien"].")" ?></option>
@@ -38,9 +39,9 @@
    </td>
   </tr>
   <tr>
-   <td>ou nouveau N° <br />du hobbit Gardien : </td>
+   <td>ou Numéro <br />du hobbit Gardien : </td>
    <td>
-   <input type='textbox' maxlength='5' size='5' name='valeur_7' id='valeur_7' value=''>
+   <input type='textbox' maxlength='5' size='5' name='valeur_5' id='valeur_5' value='' onkeypress="chiffres(event); $('valeur_4').value=-1">
    </td>
   </tr>
   <tr>
@@ -54,12 +55,13 @@
   
   <tr>
     <td colspan='2'>
-    <textarea onkeyup="this.value = this.value.slice(0, 100)" rows='3' cols='30' name='valeur_4' id='valeur_4'></textarea>
+    <textarea onkeyup="this.value = this.value.slice(0, 100)" rows='3' cols='30' name='valeur_6' id='valeur_6'></textarea>
     </td>
   </tr>
  </table>
  </div>
 </form>
 <br>
-<input type='button' value='Gardiennage !' onClick='_get_("/competences/DoAction?caction=do_competence_gardiennage");'>
+<input type='button' value='Nouveau Gardiennage !' onClick='$("valeur_1").value="nouveau"; _get_("/competences/DoAction?caction=do_competence_gardiennage");'>
+<input type='button' value='Voir Gardiennage en cours' onClick='$("valeur_1").value="voir"; _get_("/competences/DoAction?caction=do_competence_gardiennage");'>
 <input type='button' value='Annuler' onClick='_get_("/interface/clear");'>
