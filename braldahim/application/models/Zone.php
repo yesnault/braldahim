@@ -1,7 +1,6 @@
 <?php
 
-class Zone extends Zend_Db_Table
-{
+class Zone extends Zend_Db_Table {
     protected $_name = 'zone';
     
     function selectVue($x_min, $y_min, $x_max, $y_max) {

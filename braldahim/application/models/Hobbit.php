@@ -3,7 +3,7 @@
 class Hobbit extends Zend_Db_Table {
     protected $_name = 'hobbit';
     
-    protected $_dependentTables = array('hobbits_competences');
+    protected $_dependentTables = array('hobbits_competences', 'gardiennage');
     
     function selectVue($x_min, $y_min, $x_max, $y_max) {
 		$db = $this->getAdapter();
