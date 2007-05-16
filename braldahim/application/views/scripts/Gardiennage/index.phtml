@@ -1,0 +1,52 @@
+<?php echo $this->render('header.phtml'); ?>
+<h1><?php echo $this->escape($this->title); ?></h1>
+<div class="box_gardiennage">
+
+<div class="box_titre1">Gardiennage</div>
+
+<form action="<?=$this->baseUrl ?>/gardiennage/garde" method="post">
+   <div class='box_contenu2Clair'>
+      	<? if (!empty($this->message)) : ?>
+   			<?=$this->message?>
+   		<? else: ?>
+			<? if (empty($this->tabHobbitGarde)) : ?>
+				Vous n'avez aucun Hobbit en garde actuellement.
+			<? else: ?>
+				Vos gardes en cours : 
+				<table align="center">
+				<th class='comp_titre'>Sélectionner</th>
+				<th class='comp_titre'>Hobbit</th>
+				<th class='comp_titre'>Date de d&eacute;but</th>
+				<th class='comp_titre'>Nombre de jour(s)</th>
+				<th class='comp_titre'>Commentaire</th>
+				<? foreach($this->tabHobbitGarde as $g): ?>
+					<tr>
+						<td><input type="radio" name="id_gardiennage" value="<?=$g["id_gardiennage"]?>" /></td>
+						<td><?=$g["nom_hobbit"]. ' ('.$g["id_hobbit"].')';?></td>
+						<td><?=$g["date_debut"] ?></td>
+						<td><?=$g["nb_jours"] ?></td>
+						<td><?=$g["commentaire"] ?></td>
+					</tr>
+				<? endforeach; ?>
+				</table>
+			    Activation du tour :
+			    oui <input type="radio" id="activation_tour_gardiennage" name="activation_tour_gardiennage" value="oui" checked>
+			    non <input type="radio" id="activation_tour_gardiennage" name="activation_tour_gardiennage" value="non"> <br />
+			<? endif; ?>
+		<? endif; ?>
+<br>
+<div id="formbutton">
+<? if (!empty($this->tabHobbitGarde)) : ?>
+<input type="submit" name="add" value="Jouer !" />
+<? endif; ?>
+<input type="button" name="retour" value="Retour Interface" onClick="javascript:document.location.href='/interface/'"/>
+<? if (!empty($this->message)) : ?>
+<input type="button" name="deconnexion" value="D&eacute;connexion" onClick="javascript:document.location.href='/auth/logout'"/>
+<? endif; ?>
+</div>
+  </div>
+</form>
+</div>
+
+<?php echo $this->render('footer.phtml'); ?>
+

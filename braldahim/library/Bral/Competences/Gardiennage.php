@@ -13,8 +13,6 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 					"affichage" => date("d/m/Y", mktime(0, 0, 0, date("m")  , date("d")+$i, date("Y"))));
 			$this->tabJoursDebutValides[] = date("Y-m-d", mktime(0, 0, 0, date("m")  , date("d")+$i, date("Y")));
 		}
-		
-		
 	}
 	
 	function prepareFormulaire() {

@@ -32,7 +32,12 @@
   text-align:right;
 }
 
-.box_contenu2 {
+.box_contenu2Clair {
+  text-align:center;
+    background-color: #eeeeee;
+}
+
+.box_contenu2Fonce {
   text-align:center;
 }
 
@@ -88,7 +93,7 @@
   z-index: 1000;
 }
 
-.box_inscription, .box_perdu, .box_pamaretres {
+.box_inscription, .box_perdu, .box_pamaretres, .box_gardiennage {
 #  position: absolute;
 #  left: 50%;
 #  top: 50%;

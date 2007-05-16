@@ -24,8 +24,9 @@
   <div class="box_contenur1">
   <span class='menu_classic'><?=$this->escape($this->user->nom_hobbit);?> | 
   <a href="<?=$this->baseUrl ?>/interface/" class="menu_lien">Interface</a> |
-  <a href="<?=$this->baseUrl ?>/parametres/" class="menu_lien">Param&ecirc;tres</a> |
-  
+  <? if ($this->user->gardeEnCours === false) : ?>
+  	<a href="<?=$this->baseUrl ?>/parametres/" class="menu_lien">Param&ecirc;tres</a> |
+  <? endif; ?>  
   </span>
   <span class='menu_deconnexion'><a href="<?=$this->baseUrl ?>/auth/logout">Déconnexion </a></span>
   <span id='date_heure' class='menu_date_heure'>&nbsp;</span>

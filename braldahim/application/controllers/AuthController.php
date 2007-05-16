@@ -12,6 +12,11 @@ class AuthController extends Zend_Controller_Action {
     }
 
 	function loginAction() { 
+		// si le joueur est connecte, on le deconnecte !
+		if (Zend_Auth::getInstance()->hasIdentity()) {
+			$this->_redirect('/auth/logout'); 
+		}
+		
         $this->view->message = ''; 
         if (strtolower($_SERVER['REQUEST_METHOD']) == 'post') { 
             // collect the data from the user 
@@ -23,6 +28,8 @@ class AuthController extends Zend_Controller_Action {
             // setup Zend_Auth adapter for a database table 
             Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable'); 
             $dbAdapter = Zend_Registry::get('dbAdapter'); 
+            // Suppression de la sessions courante
+            Zend_Auth::getInstance()->clearIdentity();
             $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter); 
             $authAdapter->setTableName('hobbit'); 
             $authAdapter->setIdentityColumn('nom_hobbit'); 
@@ -46,7 +53,13 @@ class AuthController extends Zend_Controller_Action {
 	                Zend_Auth::getInstance()->getIdentity()->activation = ($f->filter($this->_request->getPost('auth_activation')) == 'oui');
 	                // Gardiennage
 	                Zend_Auth::getInstance()->getIdentity()->gardiennage = ($f->filter($this->_request->getPost('auth_gardiennage')) == 'oui');
-	                $this->_redirect('/interface/'); 
+	                Zend_Auth::getInstance()->getIdentity()->gardeEnCours = false;
+	                
+	                if (Zend_Auth::getInstance()->getIdentity()->gardiennage === true) {
+	                	$this->_redirect('/gardiennage/'); 
+	                } else {
+	                	$this->_redirect('/interface/'); 
+	                }
             	} else {
             		$this->view->message = "Ce compte n'est pas actif";
             		Zend_Auth::getInstance()->clearIdentity();

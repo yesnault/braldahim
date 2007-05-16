@@ -6,6 +6,12 @@ class ParametresController extends Zend_Controller_Action {
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/'); 
 		}
+		
+		// Fonction non accessible pour les gardiens
+		if (Zend_Auth::getInstance()->getIdentity()->gardeEnCours === true) {
+			$this->_redirect('/erreur/gardiennage'); 
+		}
+			
 		$this->initView();
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		$this->view->config = Zend_Registry::get('config');

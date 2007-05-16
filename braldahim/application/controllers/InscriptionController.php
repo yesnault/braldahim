@@ -19,7 +19,7 @@ class InscriptionController extends Zend_Controller_Action {
 //		$hobbit = new Hobbit();
 //		$this->view->hobbits = $hobbit->fetchAll();
 // 		$this->render();
-		$this->_redirect('inscription/ajouter');
+		$this->_redirect('/inscription/ajouter');
 	}
 	function validationAction() {
 		$this->view->title = "Validation de l'inscription";
@@ -70,7 +70,7 @@ class InscriptionController extends Zend_Controller_Action {
 			$this->email_hobbit = $filter->filter($this->_request->getPost('email_hobbit'));
 			$this->email_confirm_hobbit = $filter->filter($this->_request->getPost('email_confirm_hobbit'));
 			$this->password_hobbit = $filter->filter($this->_request->getPost('password_hobbit'));
-			$this->password_confirm_hobbit = $filter->filter(trim($this->_request->getPost('password_confirm_hobbit'));
+			$this->password_confirm_hobbit = $filter->filter($this->_request->getPost('password_confirm_hobbit'));
 			$this->sexe_hobbit = $filter->filter($this->_request->getPost('sexe_hobbit'));
 			
 			$validNom = $validateurNom->isValid($this->nom_hobbit);
