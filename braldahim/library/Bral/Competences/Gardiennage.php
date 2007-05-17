@@ -19,15 +19,22 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		$tabGardiens = null;
 		$gardiennageTable = new Gardiennage();
 		$gardiens = $gardiennageTable->findGardiens($this->view->user->id);
+		$gardiennageEnCours = $gardiennageTable->findGardiennageEnCours($this->view->user->id);
 		
 		foreach($gardiens as $gardien) {
 			$tabGardiens[] = array(
 				"id_gardien" => $gardien["id_gardien_gardiennage"], 
 				"nom_gardien" => $gardien["nom_hobbit"]);
 		}
+		if (count($gardiennageEnCours) < $this->view->config->game->gardiennage->nb_max_en_cours) {
+			$this->view->tabJoursDebut = $this->tabJoursDebut;
+			$this->view->tabGardiens = $tabGardiens;
+			$this->view->nbEnCours = count($gardiennageEnCours);
+			$this->view->nbMax = $this->view->config->game->gardiennage->nb_max_en_cours;
+		} else {
+			$this->view->messageMax = "Vous avez d&eacute;j&agrave; deux gardiennages en cours<br><br> Vous ne pouvez plus en  cr&eacute;er";
+		}
 		
-		$this->view->tabJoursDebut = $this->tabJoursDebut;
-		$this->view->tabGardiens = $tabGardiens;
 	}
 	
 	function prepareResultat() {
@@ -87,11 +94,18 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Gardien invalide : Vous ne devez pas être le gardien de vous même. Gardien:".$idGardien. " Vous:".$this->view->user->id);
 		}
 		
+		$break = explode("-", $premierJour);
+		$jour = $break[2];
+		$mois = $break[1];
+		$annee = $break[0];
+		$dernierJour = date("Y-m-d", mktime(0, 0, 0, $mois  , $jour+$nbJour, $annee));
+		
 		$gardiennageTable = new Gardiennage();
 		$data = array (
 			'id_hobbit_gardiennage' => $this->view->user->id,
 			'id_gardien_gardiennage' => $idGardien,
 			'date_debut_gardiennage' => $premierJour,
+			'date_fin_gardiennage' => $dernierJour,
 			'nb_jours_gardiennage' => $nbJour,
 			'commentaire_gardiennage' => $commentaire
 		);

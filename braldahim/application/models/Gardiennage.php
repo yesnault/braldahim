@@ -31,24 +31,28 @@ class Gardiennage extends Zend_Db_Table {
     }
     
     function findGardiennageEnCours($id_hobbit_garde) {
+    	$date_courante = date("Y-m-d", mktime(0, 0, 0, date("m")  , date("d"), date("Y")));
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('gardiennage', '*')
 		->from('hobbit', 'nom_hobbit')
 		->where('gardiennage.id_gardien_gardiennage = hobbit.id')
-		->where('gardiennage.id_hobbit_gardiennage = '.$id_hobbit_garde);
+		->where('gardiennage.id_hobbit_gardiennage = '.$id_hobbit_garde)
+		->where('gardiennage.date_fin_gardiennage >= '.$date_courante);
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
     }
     
     function findGardeEnCours($id_hobbit_gardien) {
+    	$date_courante = date("Y-m-d", mktime(0, 0, 0, date("m")  , date("d"), date("Y")));
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('gardiennage', '*')
 		->from('hobbit', 'nom_hobbit')
 		->where('gardiennage.id_hobbit_gardiennage = hobbit.id')
-		->where('gardiennage.id_gardien_gardiennage = '.$id_hobbit_gardien);
+		->where('gardiennage.id_gardien_gardiennage = '.$id_hobbit_gardien)
+		->where('gardiennage.date_fin_gardiennage >= '.$date_courante);
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

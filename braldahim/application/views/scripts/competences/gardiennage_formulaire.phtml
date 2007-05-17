@@ -3,6 +3,9 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='6'>
  <input type='hidden' id='valeur_1' name='valeur_1' value='voir'>
  <div class='comp_contenu'>
+ <? if (!empty($this->messageMax)) : ?>
+ 	<?=$this->messageMax ?>
+ <? else: ?>
  <table width='400px'>
   <th class='comp_titre'>Nouveau Gardiennage</th><th class='comp_titre'>Informations</th>
   <tr width='50%'>
@@ -59,9 +62,16 @@
     </td>
   </tr>
  </table>
+<br>
+Actuellement, vous avez programm&eacute; <?=$this->nbEnCours?> gardiennage<?if ($this->nbEnCours>1) echo 's';?> <br> <br> 
+Vous ne pouvez programmer que <?=$this->nbMax?> gardiennages maximum<br> 
+<br> 
+ <? endif; ?>
  </div>
 </form>
-<br>
+<br> 
+<? if (empty($this->messageMax)) : ?>
 <input type='button' value='Nouveau Gardiennage !' onClick='$("valeur_1").value="nouveau"; _get_("/competences/DoAction?caction=do_competence_gardiennage");'>
-<input type='button' value='Voir Gardiennage en cours' onClick='$("valeur_1").value="voir"; _get_("/competences/DoAction?caction=do_competence_gardiennage");'>
+<? endif; ?>
+<input type='button' value='Voir Gardiennage en cours' onClick='$("nb_valeurs").value=1;$("valeur_1").value="voir"; _get_("/competences/DoAction?caction=do_competence_gardiennage");'>
 <input type='button' value='Annuler' onClick='_get_("/interface/clear");'>

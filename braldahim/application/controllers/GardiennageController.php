@@ -24,14 +24,21 @@ class GardiennageController extends Zend_Controller_Action {
 			$gardiennageTable = new Gardiennage();
 			$gardiennage = $gardiennageTable->findGardeEnCours($this->view->user->id);
 			
+			$dateCourante = date("Y-m-d", mktime(0, 0, 0, date("m")  , date("d"), date("Y")));
+			
 			foreach($gardiennage as $g) {
+				$dateOk = false;
+				if ($g["date_debut_gardiennage"] <= $dateCourante) {
+					$dateOk = true;
+				}
 				$tabHobbitGarde[] = array(
 					"id_gardiennage" => $g["id"], 
 					"id_hobbit" => $g["id_hobbit_gardiennage"], 
 					"nom_hobbit" => $g["nom_hobbit"],
 					"date_debut" => $g["date_debut_gardiennage"],
 					"nb_jours" => $g["nb_jours_gardiennage"],
-					"commentaire" => $g["commentaire_gardiennage"]);
+					"commentaire" => $g["commentaire_gardiennage"],
+					"date_ok" => $dateOk) ;
 			}
 			$this->view->tabHobbitGarde = $tabHobbitGarde;
 		} else {
@@ -53,8 +60,12 @@ class GardiennageController extends Zend_Controller_Action {
 			$gardiennageTable = new Gardiennage();
 			$gardiennage = $gardiennageTable->findGardeEnCours($this->view->user->id);
 			$garde = false;
+			$dateCourante = date("Y-m-d", mktime(0, 0, 0, date("m")  , date("d"), date("Y")));
+			
 			foreach($gardiennage as $g) {
-				if ($id_garde == $g["id"]) {
+				if ($id_garde == $g["id"] 
+					&& $g["date_debut_gardiennage"] <= $dateCourante
+					&& $g["date_fin_gardiennage"] >= $dateCourante) {
 					$garde = true;
 					$id_hobbit = $g["id_hobbit_gardiennage"];
 					$nom_hobbit = $g["nom_hobbit"];
