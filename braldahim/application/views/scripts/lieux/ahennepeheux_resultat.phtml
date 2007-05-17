@@ -1,0 +1,15 @@
+<div class='comp_titre'>Ahenne Peheux</div>
+
+ <div class='comp_contenu'>
+	 <div id='lieu_text' style="display:block"  onClick="javascript:switch2div('lieu_text','lieu_copie');">
+	RESULTAT TODO
+	 </div>
+	 
+	 <div id='lieu_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40>
+		</textarea>
+	</div>
+ </div>
+
+<input type='button' value='Copier' onClick="javascript:switch2div('lieu_text','lieu_copie');">
+<input type='button' value='Fermer' onClick='_get_("/interface/clear");'>

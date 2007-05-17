@@ -148,7 +148,7 @@
 }
 
 .box_competences_basiques,.box_metiers,.box_competences_communes,.box_competences_metiers ,
-.box_equipement, .box_profil, .box_vue{
+.box_equipement, .box_profil, .box_vue, .box_lieu {
   position: absolute;
   background-color : #ffd363;
   color: black;
@@ -178,6 +178,9 @@
 }
 
 .box_vue {
-  position: relative;
     width: 400px;
+}
+
+.box_lieu {
+  width: 400px;
 }

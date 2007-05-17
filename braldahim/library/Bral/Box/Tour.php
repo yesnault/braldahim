@@ -56,6 +56,7 @@ class Bral_Box_Tour {
 			$this->hobbit->duree_courant_tour_hobbit = $this->hobbit->duree_prochain_tour_hobbit;
 			$this->hobbit->date_debut_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;
 			$this->hobbit->date_fin_tour_hobbit = $convert_date->get_date_add_time_to_date($this->hobbit->date_fin_tour_hobbit, $this->hobbit->duree_courant_tour_hobbit);
+			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_latence;
 			$this->is_update_tour = true;
 		}
 		
@@ -138,18 +139,18 @@ class Bral_Box_Tour {
 			$hobbitTable = new Hobbit();
 			$hobbitRowset = $hobbitTable->find($this->hobbit->id);
 			$hobbit = $hobbitRowset->current();
+		
+			$this->view->user->x_hobbit = $this->hobbit->x_hobbit;
+			$this->view->user->y_hobbit  = $this->hobbit->y_hobbit;
+			$this->view->user->date_debut_tour_hobbit = $this->hobbit->date_debut_tour_hobbit;
+			$this->view->user->date_fin_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;
+			$this->view->user->duree_courant_tour_hobbit = $this->hobbit->duree_courant_tour_hobbit;
+			$this->view->user->duree_prochain_tour_hobbit = $this->hobbit->duree_prochain_tour_hobbit;
+			$this->view->user->tour_position_hobbit = $this->hobbit->tour_position_hobbit;
+			$this->view->user->pa_hobbit = $this->hobbit->pa_hobbit;
+			$this->view->user->armure_naturelle_hobbit = $this->hobbit->armure_naturelle_hobbit;
+			$this->hobbit->est_mort_hobbit = $this->hobbit->est_mort_hobbit;
 			
-				$this->view->user->x_hobbit = $this->hobbit->x_hobbit;
-				$this->view->user->y_hobbit  = $this->hobbit->y_hobbit;
-				$this->view->user->date_debut_tour_hobbit = $this->hobbit->date_debut_tour_hobbit;
-				$this->view->user->date_fin_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;
-				$this->view->user->duree_courant_tour_hobbit = $this->hobbit->duree_courant_tour_hobbit;
-				$this->view->user->duree_prochain_tour_hobbit = $this->hobbit->duree_prochain_tour_hobbit;
-				$this->view->user->tour_position_hobbit = $this->hobbit->tour_position_hobbit;
-				$this->view->user->pa_hobbit = $this->hobbit->pa_hobbit;
-				$this->view->user->armure_naturelle_hobbit = $this->hobbit->armure_naturelle_hobbit;
-				$this->hobbit->est_mort_hobbit = $this->hobbit->est_mort_hobbit;
-				
 			$data = array( 
 				'x_hobbit' => $this->hobbit->x_hobbit,
 				'y_hobbit'  => $this->hobbit->y_hobbit,

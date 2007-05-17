@@ -13,6 +13,9 @@ class Bral_Box_Factory {
 			case "box_vue" : 
 				return self::getVue($request, $view, $interne);
 				break;
+			case "box_lieu" : 
+				return self::getLieu($request, $view, $interne);
+				break;
 			case "box_competences_basiques" : 
 				return self::getCompetencesBasic($request, $view, $interne);
 				break;
@@ -45,6 +48,10 @@ class Bral_Box_Factory {
 
 	public static function getEquipement($request, $view, $interne) {
 		return new Bral_Box_Equipement($request, $view, $interne);
+	}
+	
+	public static function getLieu($request, $view, $interne) {
+		return new Bral_Box_Lieu($request, $view, $interne);
 	}
 	
 	public static function getProfil($request, $view, $interne) {

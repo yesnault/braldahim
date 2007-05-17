@@ -26,7 +26,7 @@
      src="/public/images/puce_bas_droit.gif" border="0">
   </div>
  </div>
-  <div class="box_contenu2">
+ <div class="box_contenu2">
   &nbsp;
     <table class='vue2d' align='center'>
      <?php $col="" ?>
@@ -48,13 +48,34 @@
         <?php if ($case["position_actuelle"] == true) : ?>
       	<?php endif; ?>
       	
+      	<?php if ($case["n_lieux"] > 0) : ?>
+      		<div>
+      		<?php 
+      			$textLieu = "";
+      			foreach($case["lieux"] as $l) {
+      				$textLieu .= $l["nom_lieu"] ." : ".$l["nom_type_lieu"];
+				} ?>
+      		<span onmouseover="return overlib('<?=$textLieu?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> Lieux. Clique !');"
+      			onclick="return overlib('<?=$textLieu?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?>', CLOSECLICK, EXCLUSIVE);"
+      			onmouseout="return nd();">
+	      	<?php if ($case["n_lieux"] == 1) : ?>
+	      		<?echo $l["nom_lieu"];?>
+	      	<?php elseif ($case["n_lieux"] > 1) : ?>
+	      		<?=$case["n_lieux"] ?> lieux
+	      	<?php endif; ?>
+	      	</span>
+	      	<br>
+	      	</div>
+	     <?php endif; ?>
+	     
       	<?php if ($case["n_hobbits"] > 0) : ?>
+      		<div>
       		<?php 
       			$textHobbit = "";
       			foreach($case["hobbits"] as $h) {
       				$textHobbit .= $h["nom_hobbit"] ." (".$h["id_hobbit"].")<br>";
 				} ?>
-      		<span onmouseover="return overlib('<?=$textHobbit?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> Clique !');"
+      		<span onmouseover="return overlib('<?=$textHobbit?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> Hobbits. Clique !');"
       			onclick="return overlib('<?=$textHobbit?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?>', CLOSECLICK, EXCLUSIVE);"
       			onmouseout="return nd();">
 	      	<?php if ($case["n_hobbits"] == 1) : ?>
@@ -63,12 +84,15 @@
 	      		<?=$case["n_hobbits"] ?> hobbits
 	      	<?php endif; ?>
 	      	</span>
-	      <?php endif; ?>
+	      	</div>
+	    <?php endif; ?>
+	      
+
       	</td>
      <?php endforeach; ?>
      </tr>
     </table>
- 
-  </div>
  </div>
+ <?php if ($this->affichageInterne == false) : ?>
 </div>
+<?php endif; ?>
