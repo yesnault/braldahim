@@ -1,6 +1,14 @@
 <?php
 
 class Bral_Util_ConvertDate {
+
+  /* Convertit un date mysql vers un date php
+   * @return date
+   */
+  function get_date_mysql_datetime($pattern, $pdate) {
+    $mdate = explode("-", $pdate);
+    return date($pattern, mktime(0,0,0,$mdate[1],$mdate[2],$mdate[0]));
+  }
   
   /* Convertit un datetime mysql vers un timestamp
    * @return timestamp

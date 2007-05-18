@@ -16,7 +16,8 @@
 .box_chargement {
   position: absolute;
   left: 50%; top: 50%;
-  width:200px; height: 15px;
+  width:200px; height: 45px;
+  valign:center;
   margin-left: -110px;
   margin-top: -100px;
   text-align: center;
@@ -147,7 +148,7 @@
   z-index: 1000;
 }
 
-.box_competences_basiques,.box_metiers,.box_competences_communes,.box_competences_metiers ,
+.box_competences_basiques,.box_metier,.box_competences_communes,.box_competences_metiers ,
 .box_equipement, .box_profil, .box_vue, .box_lieu {
   position: absolute;
   background-color : #ffd363;

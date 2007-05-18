@@ -47,6 +47,7 @@ class InterfaceController extends Zend_Controller_Action {
 	
 	function boxesAction() {
 		$this->addBox(Bral_Box_Factory::getProfil($this->_request, $this->view, false), "boite_a");
+		$this->addBox(Bral_Box_Factory::getMetier($this->_request, $this->view, false), "boite_a");
 		$this->addBox(Bral_Box_Factory::getEquipement($this->_request, $this->view, false), "boite_a");
 		
 		$this->addBox(Bral_Box_Factory::getCompetencesCommun($this->_request, $this->view, false), "boite_b");
@@ -117,16 +118,16 @@ class InterfaceController extends Zend_Controller_Action {
 		 }
 	}
 	
-	private function refreshAll() {
-		$boxToRefresh = array("box_profil", "box_vue", "box_competences_communes", "box_competences_basiques", "box_competences_metiers");
-		for ($i=0; $i<count($boxToRefresh); $i++) {
-			$xml_entry = new Bral_Xml_Entry();
-			$xml_entry->set_type("display");
-			$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, true);
-			$xml_entry->set_valeur($c->getNomInterne());
-			$xml_entry->set_data($c->render());
-			$this->xml_response->add_entry($xml_entry);
-		}
-	}
+//	private function refreshAll() {
+//		$boxToRefresh = array("box_profil", "box_vue", "box_competences_communes", "box_competences_basiques", "box_competences_metiers");
+//		for ($i=0; $i<count($boxToRefresh); $i++) {
+//			$xml_entry = new Bral_Xml_Entry();
+//			$xml_entry->set_type("display");
+//			$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, true);
+//			$xml_entry->set_valeur($c->getNomInterne());
+//			$xml_entry->set_data($c->render());
+//			$this->xml_response->add_entry($xml_entry);
+//		}
+//	}
 }
 

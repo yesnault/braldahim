@@ -15,15 +15,7 @@ Zend_Loader::loadClass('Zend_Db');
 Zend_Loader::loadClass('Zend_Db_Table');
 Zend_Loader::loadClass("Zend_Auth");
 
-Zend_Loader::loadClass("Bral_Box_Competences");
-Zend_Loader::loadClass("Bral_Box_Equipement");
-Zend_Loader::loadClass("Bral_Box_Erreur");
 Zend_Loader::loadClass("Bral_Box_Factory");
-Zend_Loader::loadClass("Bral_Box_Lieu");
-Zend_Loader::loadClass("Bral_Box_Profil");
-Zend_Loader::loadClass("Bral_Box_Tour");
-Zend_Loader::loadClass("Bral_Box_Vue");
-
 Zend_Loader::loadClass("Bral_Competences_Factory");
 Zend_Loader::loadClass("Bral_Lieux_Factory");
 
