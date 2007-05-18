@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Mardi 15 Mai 2007 à 23:46
+-- Généré le : Vendredi 18 Mai 2007 à 19:06
 -- Version du serveur: 5.0.33
 -- Version de PHP: 5.2.0
 -- 
@@ -31,6 +31,14 @@ CREATE TABLE `competence` (
   UNIQUE KEY `nom_competence` (`nom_competence`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
+-- 
+-- Contenu de la table `competence`
+-- 
+
+INSERT INTO `competence` VALUES (1, 'marcher', 'Marcher', 'Et oui, çà arrive de marcher !', 0, 0, 0, 0, 1, 'commun');
+INSERT INTO `competence` VALUES (2, 'decaler_dla', 'Decaler sa DLA', '', 0, 0, 0, 0, 0, 'basic');
+INSERT INTO `competence` VALUES (3, 'gardiennage', 'Gardiennage', 'Description Gardiennage', 0, 0, 0, 0, 0, 'basic');
+
 -- --------------------------------------------------------
 
 -- 
@@ -46,6 +54,16 @@ CREATE TABLE `environnement` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
+-- 
+-- Contenu de la table `environnement`
+-- 
+
+INSERT INTO `environnement` VALUES (1, 'Plaine', 'Description Plaine', 'plaine', '');
+INSERT INTO `environnement` VALUES (2, 'Forêt', 'Description Forêt', 'foret', '');
+INSERT INTO `environnement` VALUES (3, 'Marais', 'Description marais', 'marais', '');
+INSERT INTO `environnement` VALUES (4, 'Montagne', 'Description Montagne', 'montagne', '');
+INSERT INTO `environnement` VALUES (5, 'Caverne', 'Description Caverne', 'caverne', '');
+
 -- --------------------------------------------------------
 
 -- 
@@ -57,10 +75,12 @@ CREATE TABLE `gardiennage` (
   `id_hobbit_gardiennage` int(11) NOT NULL,
   `id_gardien_gardiennage` int(11) NOT NULL,
   `date_debut_gardiennage` date NOT NULL,
+  `date_fin_gardiennage` date NOT NULL,
   `nb_jours_gardiennage` int(11) NOT NULL,
   `commentaire_gardiennage` varchar(100) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
 
 -- --------------------------------------------------------
 
@@ -157,6 +177,12 @@ CREATE TABLE `type_lieu` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- 
+-- Contenu de la table `type_lieu`
+-- 
+
+INSERT INTO `type_lieu` VALUES (1, 'Ahenne Peheux', 'ahennepeheux', 'Description Ahenne Peheux', 0, 0, 'non', 'oui');
+
 -- --------------------------------------------------------
 
 -- 
@@ -175,3 +201,5 @@ CREATE TABLE `zone` (
   `y_max_zone` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
+
+
