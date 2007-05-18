@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Vendredi 18 Mai 2007 à 19:06
+-- Généré le : Samedi 19 Mai 2007 à 00:42
 -- Version du serveur: 5.0.33
 -- Version de PHP: 5.2.0
 -- 
@@ -81,7 +81,6 @@ CREATE TABLE `gardiennage` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
-
 -- --------------------------------------------------------
 
 -- 
@@ -144,6 +143,20 @@ CREATE TABLE `hobbits_competences` (
 -- --------------------------------------------------------
 
 -- 
+-- Structure de la table `hobbits_metiers`
+-- 
+
+CREATE TABLE `hobbits_metiers` (
+  `id_hobbit_hmetier` int(11) NOT NULL,
+  `id_metier_hmetier` int(11) NOT NULL,
+  `est_actif_hmetier` enum('oui','non') NOT NULL,
+  `date_apprentissage_hmetier` date NOT NULL,
+  PRIMARY KEY  (`id_hobbit_hmetier`,`id_metier_hmetier`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
 -- Structure de la table `lieu`
 -- 
 
@@ -158,6 +171,35 @@ CREATE TABLE `lieu` (
   `date_creation_lieu` datetime NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `metier`
+-- 
+
+CREATE TABLE `metier` (
+  `id` int(11) NOT NULL auto_increment,
+  `nom_metier` varchar(20) NOT NULL,
+  `nom_systeme_metier` varchar(20) NOT NULL,
+  `description_metier` varchar(200) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+
+-- 
+-- Contenu de la table `metier`
+-- 
+
+INSERT INTO `metier` VALUES (1, 'Mineur', 'mineur', 'Description du métier mineur');
+INSERT INTO `metier` VALUES (2, 'Chasseur', 'chasseur', 'Description du métier chasseur');
+INSERT INTO `metier` VALUES (3, 'Bûcheron', 'bucheron', 'Description du métier Bûcheron');
+INSERT INTO `metier` VALUES (4, 'Herboriste', 'herboriste', 'Description du métier Herboriste');
+INSERT INTO `metier` VALUES (5, 'Forgeron', 'forgeron', 'Description du métier Forgeron');
+INSERT INTO `metier` VALUES (6, 'Apothicaire', 'apothicaire', 'Description du métier Apothicaire');
+INSERT INTO `metier` VALUES (7, 'Menuisier', 'menuisier', 'Description du métier menuisier');
+INSERT INTO `metier` VALUES (8, 'Cuisiner', 'cuisinier', 'Description du métier Cuisinier');
+INSERT INTO `metier` VALUES (9, 'Tanneur', 'tanneur', 'Description du métier Tanneur');
+INSERT INTO `metier` VALUES (10, 'Guerrier', 'guerrier', 'Description du métier Guerrier');
 
 -- --------------------------------------------------------
 
@@ -201,5 +243,3 @@ CREATE TABLE `zone` (
   `y_max_zone` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
-
-
