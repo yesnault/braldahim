@@ -10,6 +10,16 @@ class Bral_Util_ConvertDate {
     return date($pattern, mktime(0,0,0,$mdate[1],$mdate[2],$mdate[0]));
   }
   
+  /* Convertit un datetime mysql vers un date php
+   * @return date
+   */
+  function get_datetime_mysql_datetime($pattern, $pdatetime) {
+    $break = explode(" ", $pdatetime);
+    $datebreak = explode("-", $break[0]);
+    $time = explode(":", $break[1]);
+    return date($pattern, mktime($time[0],$time[1],$time[2],$datebreak[1],$datebreak[2],$datebreak[0]));
+  }
+  
   /* Convertit un datetime mysql vers un timestamp
    * @return timestamp
    */

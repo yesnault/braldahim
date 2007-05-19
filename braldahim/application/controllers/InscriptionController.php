@@ -3,6 +3,7 @@
 class InscriptionController extends Zend_Controller_Action {
 
 	function init() {
+		Zend_Loader::loadClass("Bral_Util_De");
 		$this->initView();
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		Zend_Loader::loadClass("Bral_Validate_Inscription_EmailHobbit");

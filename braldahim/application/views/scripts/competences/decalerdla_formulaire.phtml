@@ -1,0 +1,34 @@
+<div class='comp_titre'>D&eacute;caler sa DLA</div>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
+ <form name='myForm'>
+ <div class='comp_contenu'>
+ 	Votre Date Limite d'Action est actuellement fix&eacute;e &agrave; : <br>
+ 	<?=$this->dlaActuelle?>
+ 	<br>Vous pouvez la décaler si vous souhaitez...<br><br>
+   <table width='300px'>
+    <th class='comp_titre'>Heures</th>
+    <th class='comp_titre'>Minutes</th>
+   	<tr>
+   		<td>
+	   		<select id='valeur_1' name='valeur_1' onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || ($('valeur_1').value==0 && $('valeur_2').value==0)){$('bouton_decalerdla').disabled=true } else {$('bouton_decalerdla').disabled=false }">
+			<option value='-1'>(Choisis)</option>
+			<? foreach ($this->tabHeures as $h): ?>
+			<option value='<?=$h?>'><?=$h?></option>
+			<? endforeach; ?>
+			</select>
+   		</td>
+   			<select id='valeur_2' name='valeur_2' onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || ($('valeur_1').value==0 && $('valeur_2').value==0)){$('bouton_decalerdla').disabled=true } else {$('bouton_decalerdla').disabled=false }">
+			<option value='-1'>(Choisis)</option>
+			<? foreach ($this->tabMinutes as $m): ?>
+			<option value='<?=$m?>'><?=$m?></option>
+			<? endforeach; ?>
+			</select>
+   		<td>
+   		</td>
+   	</tr>
+   </table>
+ </div>
+ </form>
+<br>
+<input type='button' id='bouton_decalerdla' value='D&eacute;caler !' onClick='_get_("/competences/DoAction?caction=do_competence_decalerdla");' disabled>
+<input type='button' value='Annuler' onClick='_get_("/interface/clear");'>

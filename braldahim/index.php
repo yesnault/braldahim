@@ -19,7 +19,6 @@ Zend_Loader::loadClass("Bral_Box_Factory");
 Zend_Loader::loadClass("Bral_Competences_Factory");
 Zend_Loader::loadClass("Bral_Lieux_Factory");
 
-Zend_Loader::loadClass("Bral_Util_De");
 Zend_Loader::loadClass("Bral_Util_Registre");
 Zend_Loader::loadClass("Bral_Util_ConvertDate");
 
@@ -28,10 +27,6 @@ Zend_Loader::loadClass("Bral_Xml_Entry");
 
 Zend_Loader::loadClass("Competence");
 Zend_Loader::loadClass("Hobbit");
-Zend_Loader::loadClass("HobbitsCompetences");
-Zend_Loader::loadClass("Lieu");
-Zend_Loader::loadClass("TypeLieu");
-
 
 // load configuration
 $config = new Zend_Config_Ini('./application/config.ini', 'general');

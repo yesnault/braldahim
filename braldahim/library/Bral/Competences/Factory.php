@@ -3,8 +3,9 @@
 class Bral_Competences_Factory {
 	static function getAction($request, $view) {
 		Zend_Loader::loadClass("Bral_Competences_Competence");
-		Zend_Loader::loadClass("Bral_Competences_Marcher");
+		Zend_Loader::loadClass("Bral_Competences_Decalerdla");
 		Zend_Loader::loadClass("Bral_Competences_Gardiennage");
+		Zend_Loader::loadClass("Bral_Competences_Marcher");
 		
 		$matches = null;
 		preg_match('/(.*)_competence_(.*)/', $request->get("caction"), $matches);

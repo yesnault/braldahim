@@ -3,7 +3,7 @@
  <form name='myForm'>
  <div class='comp_contenu'>
 
- <?=$this->environnement ?>: <?=$this->nb_pa ?> PA, <?=$this->nb_cases ?>
+ <?=htmlentities($this->environnement) ?>: <?=$this->nb_pa ?> PA, <?=$this->nb_cases ?>
  <?php if ($this->nb_cases == 1) :?>
    case
  <?php else :?>

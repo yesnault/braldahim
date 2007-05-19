@@ -3,6 +3,9 @@
 class Bral_Box_Vue {
 
 	function __construct($request, $view, $interne) {
+		Zend_Loader::loadClass("Lieu");
+		Zend_Loader::loadClass("TypeLieu");
+
 		$this->_request = $request;
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;
@@ -123,7 +126,7 @@ class Bral_Box_Vue {
 				$nom_environnement = null;
 				$nom_zone = null;
 				$description_zone = null;
-				 
+					
 				if (($j > $this->view->y_max) || ($j < $this->view->y_min) ||
 				($i < $this->view->x_min) || ($i > $this->view->x_max)) {
 					$nom_systeme_environnement = "inconnu";
@@ -168,15 +171,15 @@ class Bral_Box_Vue {
 				}
 
 				$tab = array ("x" => $display_x, "y" => $display_y, //
-					"change_level" => $change_level, // nouvelle ligne dans le tableau ;
-					"position_actuelle" => $actuelle,
-					"nom_zone" => $nom_zone,
-					"description_zone" => $nom_zone,
-					"css" => $css,
-					"n_hobbits" => count($tabHobbits),
-					"hobbits" => $tabHobbits,
-					"n_lieux" => count($tabLieux),
-					"lieux" => $tabLieux,
+				"change_level" => $change_level, // nouvelle ligne dans le tableau ;
+				"position_actuelle" => $actuelle,
+				"nom_zone" => $nom_zone,
+				"description_zone" => $nom_zone,
+				"css" => $css,
+				"n_hobbits" => count($tabHobbits),
+				"hobbits" => $tabHobbits,
+				"n_lieux" => count($tabLieux),
+				"lieux" => $tabLieux,
 				);
 				$tableau[] = $tab;
 				if ($change_level) {
