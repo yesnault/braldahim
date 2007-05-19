@@ -2,12 +2,16 @@
 
  <div class='comp_contenu'>
 	 <div id='lieu_text' style="display:block"  onClick="javascript:switch2div('lieu_text','lieu_copie');">
-	TODO
+	Vous &ecirc;tes arriv&eacute;s en x:<?=$this->user->x_hobbit?> y:<?=$this->user->y_hobbit?> <br> <br>
+	 <i>Tous les voyageurs descendent de la charette<br> Veuillez n'avoir rien laiss&eacute; derri&egrave;re vous</i><br><br>
 	 </div>
 	 
 	 <div id='lieu_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><? 
-			echo "TODO";
+			echo "Vous &ecirc;tes arriv&eacute;s en x:".$this->user->x_hobbit." y:".$this->user->y_hobbit;
+			echo "
+";
+			echo "Tous les voyageurs descendent de la charette. Veuillez n'avoir rien laiss&eacute; derri&egrave;re vous.";
 		?></textarea>
 	</div>
  </div>

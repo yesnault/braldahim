@@ -1,7 +1,6 @@
 <div class='comp_titre'>Essene Cehef</div>
  <form name='myForm'>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
- <input type='hidden' id='valeur_1' name='valeur_1' value=''>
  <div class='comp_contenu'>
  	<br>
  	Pour utiliser la charette, il faut <?=$this->coutCastars?> castars<br><br>
@@ -10,9 +9,11 @@
    		<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
    	<? else : ?>
    	   Choisir une destination : <br>
-   	   <select name='valeur_1' onChange="javascript:if($('valeur_1').value==-1){$('bouton_essenecehef').disabled=true} else {$('bouton_essenecehef').disabled=false}">
+   	   <select id='valeur_1' name='valeur_1' onChange="javascript:if($('valeur_1').value==-1){$('bouton_essenecehef').disabled=true} else {$('bouton_essenecehef').disabled=false}">
    	     <option value='-1'>(Choisis une destination)</option>
-   	     <option value=''>TODO</option>
+   	     <? foreach($this->tabDestinations as $d) :?>
+   	     <option value='<?=$d["id"]?>'><?=htmlentities($d["nom"])?> (<?=$d["x"]?>,<?=$d["y"]?>) </option>
+   	     <? endforeach; ?>
    	   </select>
    	<? endif; ?>
  </div> 
@@ -20,7 +21,6 @@
 <br> 
 
 <? if ($this->utilisationPossible === true): ?>
-<input type='button' id="bouton_essenecehef" value='Utiliser la charrette !' onClick="$('valeur_1').value='apprendre';_get_('/lieux/DoAction?caction=do_lieu_essenecehef');"  disabled>
+<input type='button' id="bouton_essenecehef" value='Utiliser la charrette !' onClick="_get_('/lieux/DoAction?caction=do_lieu_essenecehef');"  disabled>
 <? endif; ?>
-<br>
 <input type='button' value='Annuler' onClick='javascript:_get_("/interface/clear");'>
