@@ -1,0 +1,11 @@
+<?php if ($this->affichageInterne == false) : ?>
+<div class="<?=$this->nom_interne ?>" id="<?=$this->nom_interne ?>" style="display:<?=$this->display; ?>">
+<?php endif; ?>
+ <div class="box_titre1">
+   Laban </div>
+ <div class="box_contenu2">
+   Castars : <?=$this->user->castars_hobbit ?><br>
+</div>
+ <?php if ($this->affichageInterne == false) : ?>
+</div>
+<?php endif; ?>

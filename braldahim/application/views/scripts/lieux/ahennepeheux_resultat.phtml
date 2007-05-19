@@ -2,12 +2,44 @@
 
  <div class='comp_contenu'>
 	 <div id='lieu_text' style="display:block"  onClick="javascript:switch2div('lieu_text','lieu_copie');">
-	RESULTAT TODO
+		<? if($this->apprentissageMetier === true) : ?>
+			Vous avez appris le m&eacute;tier suivant :<br>
+			<?=htmlentities($this->nomMetier) ?>
+			<br><br>
+			C'est &eacute;galement votre m&eacute;tier courant<br>
+			Il vous reste <?=$this->user->castars_hobbit; ?>
+			<? if ($this->user->castars_hobbit == 0): ?>
+			castar
+			<? else: ?>
+			castars
+			<? endif; ?>
+		<? elseif ($this->changementMetier === true) : ?>
+			Votre m&eacute;tier courant est maintenant :<br>
+			<?=htmlentities($this->nomMetier) ?>
+		<? endif; ?>
 	 </div>
 	 
 	 <div id='lieu_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40>
-		</textarea>
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><? 
+			if($this->apprentissageMetier === true) {
+				echo "Vous avez appris le m&eacute;tier suivant : ";
+				echo htmlentities($this->nomMetier);
+				echo " 
+";
+				echo "C'est &eacute;galement votre m&eacute;tier courant";
+				echo " 
+";
+				echo "Il vous reste ".$this->user->castars_hobbit;
+				if ($this->user->castars_hobbit == 0) {
+					echo " castar";
+				} else {
+					echo " castars";
+				}
+			}elseif ($this->changementMetier === true) {
+				echo "Votre m&eacute;tier courant est maintenant :";
+				echo htmlentities($this->nomMetier);
+			}
+		?></textarea>
 	</div>
  </div>
 

@@ -90,11 +90,11 @@ if (typeof ol_mouseoff=='undefined') var ol_mouseoff=0;
 if (typeof ol_closetitle=='undefined') var ol_closetitle='Close';
 if (typeof ol_compatmode=='undefined') var ol_compatmode=0;
 if (typeof ol_css=='undefined') var ol_css=CSSOFF;
-if (typeof ol_fgclass=='undefined') var ol_fgclass="";
-if (typeof ol_bgclass=='undefined') var ol_bgclass="";
-if (typeof ol_textfontclass=='undefined') var ol_textfontclass="";
-if (typeof ol_captionfontclass=='undefined') var ol_captionfontclass="";
-if (typeof ol_closefontclass=='undefined') var ol_closefontclass="";
+if (typeof ol_fgclass=='undefined') var ol_fgclass="popup_fg";
+if (typeof ol_bgclass=='undefined') var ol_bgclass="popup_bg";
+if (typeof ol_textfontclass=='undefined') var ol_textfontclass="popup_text";
+if (typeof ol_captionfontclass=='undefined') var ol_captionfontclass="popup_caption";
+if (typeof ol_closefontclass=='undefined') var ol_closefontclass="popup_close";
 
 ////////
 // ARRAY CONFIGURATION

@@ -5,14 +5,14 @@
    M&eacute;tier </div>
  <div class="box_contenu2">
    <? if (!$this->possedeMetier): ?>
-   	Vous ne pratiquez aucun m&eacute;tier. <br><br>
+   	Vous ne pratiquez aucun m&eacute;tier <br><br>
    	
-   	Vous pouvez aller vous renseigner dans un Ahenne Peheux.
+   	Vous pouvez aller vous renseigner dans un Ahenne Peheux
    <? else : ?>
    	Vous &ecirc;tes actuellement : <?=htmlentities($this->tabMetierCourant["nom"]) ?> <br>
    	Vous avez appris ce m&eacute;tier le <?=$this->tabMetierCourant["date_apprentissage"] ?>
    	<br><br>
-   	<?=$this->tabMetierCourant["nom"] ?> : <?=htmlentities($this->tabMetierCourant["description"]) ?>
+   	<?=htmlentities($this->tabMetierCourant["nom"]) ?> : <?=htmlentities($this->tabMetierCourant["description"]) ?>
    	<br><br>
    	<? if (count($this->tabMetiers) == 1): ?>
    		Vous pratiquez &eacute;galement le m&eacute;tier suivant : <br>
@@ -21,7 +21,7 @@
    	<? endif; ?>	
    	<? if (count($this->tabMetiers) >= 1): ?>
 		<? foreach ($this->tabMetiers as $m) : ?>
-			<?=htmlentities($m["nom_metier"]);?>
+			<?=htmlentities($m["nom"]);?>, appris le <?=htmlentities($m["date_apprentissage"]);?>
 		<? endforeach; ?>
     <? endif; ?>
    <? endif; ?>

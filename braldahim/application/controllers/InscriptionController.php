@@ -160,6 +160,7 @@ class InscriptionController extends Zend_Controller_Action {
 			'email_hobbit'  => $this->email_hobbit,
 			'password_hobbit'  => md5($this->password_hobbit),
 			'est_compte_actif_hobbit'  => "non",
+			'castars_hobbit' => $this->view->config->game->inscription->castars, 
 			'x_hobbit' => $lieu["x_lieu"], 
 			'y_hobbit' => $lieu["y_lieu"], 
 			'vue_base_hobbit' => $this->view->config->game->inscription->vue_base, 

@@ -27,4 +27,22 @@ class HobbitsMetiers extends Zend_Db_Table
 
 		return $db->fetchAll($sql);
 	}
+
+	public function updateTousMetierVersNonActif($idHobbit) {
+		$db = $this->getAdapter();
+
+		$data = array('est_actif_metier' => 'non');
+		$where = array("id_hobbit_hmetier" => intval($idHobbit));
+
+		$db->update($data, $where);
+	}
+
+	public function updateMetierVersActif($idHobbit, $idMetier) {
+		$db = $this->getAdapter();
+
+		$data = array('est_actif_metier' => 'oui');
+		$where = array("id_hobbit_hmetier" => intval($idHobbit), " AND id_metier_hmetier" => intval($idMetier));
+
+		$db->update($data, $where);
+	}
 }

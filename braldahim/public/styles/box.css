@@ -6,7 +6,7 @@
   color: black;
   border-style : dashed;
   border-width: 1px;
-  width: 220px;
+  width: 250px;
   height: auto;
   margin-top: -100px;
   margin-left: -110px;
@@ -149,7 +149,7 @@
 }
 
 .box_competences_basiques,.box_metier,.box_competences_communes,.box_competences_metiers ,
-.box_equipement, .box_profil, .box_vue, .box_lieu {
+.box_equipement, .box_profil, .box_vue, .box_lieu, .box_laban {
   position: absolute;
   background-color : #ffd363;
   color: black;
