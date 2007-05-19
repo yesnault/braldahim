@@ -63,11 +63,11 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		list ($offset_x, $offset_y) = split("h", $x_y);
 		
 		if ($offset_x < -$this->view->nb_cases || $offset_x > $this->view->nb_cases) {
-			throw new Zend_Exception(get_class($this)."Deplacement X impossible : ".$offset_x);
+			throw new Zend_Exception(get_class($this)." Deplacement X impossible : ".$offset_x);
 		}
 		
 		if ($offset_y < -$this->view->nb_cases || $offset_y > $this->view->nb_cases) {
-			throw new Zend_Exception(get_class($this)."Deplacement Y impossible : ".$offset_y);
+			throw new Zend_Exception(get_class($this)." Deplacement Y impossible : ".$offset_y);
 		}
 		
 		$this->view->user->x_hobbit = $this->view->user->x_hobbit + $offset_x;
@@ -88,7 +88,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_competences_communes", "box_competences_basiques", "box_competences_metiers");
+		return array("box_profil", "box_vue", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_lieu");
 	}
 	
 	/* Pour marcher, le nombre de PA utilise est variable suivant l'environnement'

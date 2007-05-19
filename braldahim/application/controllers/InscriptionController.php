@@ -151,10 +151,10 @@ class InscriptionController extends Zend_Controller_Action {
 	private function initialiseDataHobbit() {
 		
 		$lieuTable = new Lieu();
-		$ahenne_peheux_rowset = $lieuTable->findByType($this->view->config->game->lieu->type->ahenne_peheux);
-		$de = Bral_Util_De::get_de_specifique(0, count($ahenne_peheux_rowset)-1);
-		$ahenne_peheux_array = $ahenne_peheux_rowset->toArray();
-		$lieu = $ahenne_peheux_array[$de];
+		$mairiesRowset = $lieuTable->findByType($this->view->config->game->lieu->type->mairie);
+		$de = Bral_Util_De::get_de_specifique(0, count($mairiesRowset)-1);
+		$mairiesArray = $mairiesRowset->toArray();
+		$lieu = $mairiesRowset[$de];
 		
 		$data = array(
 			'nom_hobbit' => $this->nom_hobbit,

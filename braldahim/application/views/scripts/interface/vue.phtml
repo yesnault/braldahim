@@ -53,13 +53,13 @@
       		<?php 
       			$textLieu = "";
       			foreach($case["lieux"] as $l) {
-      				$textLieu .= $l["nom_lieu"] ." : ".$l["nom_type_lieu"];
+      				$textLieu .= htmlentities($l["nom_lieu"]) ." : ".htmlentities($l["nom_type_lieu"]);
 				} ?>
       		<span onmouseover="return overlib('<?=$textLieu?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> Lieux. Clique !');"
       			onclick="return overlib('<?=$textLieu?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?>', CLOSECLICK, EXCLUSIVE);"
       			onmouseout="return nd();">
 	      	<?php if ($case["n_lieux"] == 1) : ?>
-	      		<?echo $l["nom_lieu"];?>
+	      		<?=htmlentities($l["nom_type_lieu"]);?>
 	      	<?php elseif ($case["n_lieux"] > 1) : ?>
 	      		<?=$case["n_lieux"] ?> lieux
 	      	<?php endif; ?>

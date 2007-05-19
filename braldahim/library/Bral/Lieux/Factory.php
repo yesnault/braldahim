@@ -4,6 +4,7 @@ class Bral_Lieux_Factory {
 	static function getAction($request, $view) {
 		Zend_Loader::loadClass("Bral_Lieux_Lieu");
 		Zend_Loader::loadClass("Bral_Lieux_Ahennepeheux");
+		Zend_Loader::loadClass("Bral_Lieux_Essenecehef");
 		
 		$matches = null;
 		preg_match('/(.*)_lieu_(.*)/', $request->get("caction"), $matches);
@@ -19,7 +20,7 @@ class Bral_Lieux_Factory {
 		if (($construct != null) && (class_exists($construct))) {                
 			return new $construct ($nomSystemeLieu, $request, $view, $action);
 		} else {
-			throw new Zend_Exception("Lieu invalide: ".$nomSystemeLieu);
+			throw new Zend_Exception("Bral_Lieux_Factory Lieu invalide: ".$nomSystemeLieu);
 		}
 	}
 }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Samedi 19 Mai 2007 à 10:41
+-- Généré le : Samedi 19 Mai 2007 à 18:37
 -- Version du serveur: 5.0.33
 -- Version de PHP: 5.2.0
 -- 
@@ -19,7 +19,7 @@
 DROP TABLE IF EXISTS `lieu`;
 CREATE TABLE `lieu` (
   `id` int(11) NOT NULL auto_increment,
-  `nom_lieu` varchar(20) NOT NULL,
+  `nom_lieu` varchar(30) NOT NULL,
   `description_lieu` varchar(250) NOT NULL,
   `x_lieu` int(11) NOT NULL,
   `y_lieu` int(11) NOT NULL,
@@ -27,4 +27,4 @@ CREATE TABLE `lieu` (
   `id_fk_type_lieu` int(11) NOT NULL,
   `date_creation_lieu` datetime NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;

@@ -7,7 +7,7 @@
  <div class="box_contenu2">
  	<? if ($this->estLieuCourant === true) : ?>
  		Vous vous trouvez sur un lieu particulier ! <br>
- 		<?=$this->nomLieu ?>, <?=$this->nomTypeLieu; ?><br>
+ 		<?=htmlentities($this->nomLieu) ?>, <?=htmlentities($this->nomTypeLieu); ?><br>
  		<i><?=htmlentities($this->descriptionLieu); ?></i><br>
  		<br>
  		

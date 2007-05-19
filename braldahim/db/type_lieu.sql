@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Samedi 19 Mai 2007 à 10:42
+-- Généré le : Samedi 19 Mai 2007 à 18:35
 -- Version du serveur: 5.0.33
 -- Version de PHP: 5.2.0
 -- 
@@ -33,4 +33,7 @@ CREATE TABLE `type_lieu` (
 -- Contenu de la table `type_lieu`
 -- 
 
-INSERT INTO `type_lieu` VALUES (1, 'Ahenne Peheux', 'ahennepeheux', 'Description Ahenne Peheux', 0, 0, 'non', 'oui');
+
+INSERT INTO `type_lieu` VALUES (1, 'Mairie', 'mairie', 'Description Marie', 0, 0, 'non', 'oui');
+INSERT INTO `type_lieu` VALUES (2, 'Ahenne Peheux', 'ahennepeheux', 'Description Ahenne Peheux', 0, 0, 'non', 'oui');
+INSERT INTO `type_lieu` VALUES (3, 'Essene Cehef', 'essenecehef', 'Description Essene Cehef', 0, 6, 'non', 'oui');
