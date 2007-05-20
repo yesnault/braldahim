@@ -12,13 +12,29 @@ class Bral_Lieux_Essenecehef extends Bral_Lieux_Lieu {
 		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) > 0);
 
 		$lieuTable = new Lieu();
+		$esseneCehefCourantt = $lieuTable->findCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$esseneCehefCourant = $esseneCehefCourantt[0];
+		//print_r($esseneCehefCourant);
 		$esseneCehefRowset = $lieuTable->findByType($this->view->config->game->lieu->type->essene_cehef);
 
 		foreach($esseneCehefRowset as $e) {
-			if ($e->x_lieu == $this->view->user->x_hobbit && $e->y_lieu == $this->view->user->y_hobbit) {
+			if ($e["x_lieu"] == $this->view->user->x_hobbit && $e["y_lieu"] == $this->view->user->y_hobbit) {
 				// on ne propose pas le lieu ou le hobbit est present
 			} else {
-				$this->_tabDestinations[] = array("id" => $e->id, "nom" => $e->nom_lieu, "x" => $e->x_lieu, "y" => $e->y_lieu) ;
+				$est_capitale = ($e["est_capitale_ville"] == "oui");
+				if ($esseneCehefCourant["est_capitale_ville"] == "oui") {
+					// deplacement vers les ville de la comtée et vers les capitales
+					if ($est_capitale === true) { 
+						$this->_tabDestinations[] = array("id" => $e["id"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
+					} else if ($esseneCehefCourant["id_fk_region_ville"] == $e["id_fk_region_ville"]) {
+						$this->_tabDestinations[] = array("id" => $e["id"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
+					}
+				} else {
+					// deplacement uniquement vers la capitale
+					if ($esseneCehefCourant["id_fk_region_ville"] == $e["id_fk_region_ville"] && $e["est_capitale_ville"] == "non") {
+						$this->_tabDestinations[] = array("id" => $e["id"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
+					}
+				}
 			}
 		}
 	}

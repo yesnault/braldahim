@@ -30,4 +30,4 @@ CREATE TABLE `zone` (
   `x_max_zone` int(11) NOT NULL,
   `y_max_zone` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

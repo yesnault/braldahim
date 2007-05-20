@@ -10,8 +10,8 @@ class Zone extends Zend_Db_Table {
 		->from('environnement', '*')
 		->where('x_min_zone <= ?',$x_max)
 		->where('x_max_zone >= ?',$x_min)
-		->where('y_min_zone >= ?',$y_min)
-		->where('y_max_zone <= ?',$y_max)
+		->where('y_min_zone <= ?',$y_max)
+		->where('y_max_zone >= ?',$y_min)
 		->where('zone.id_fk_environnement_zone = environnement.id');
 		$sql = $select->__toString();
 
@@ -25,8 +25,8 @@ class Zone extends Zend_Db_Table {
 		->from('environnement', '*')
 		->where('x_min_zone <= ?',$x)
 		->where('x_max_zone >= ?',$x)
-		->where('y_min_zone >= ?',$y)
-		->where('y_max_zone <= ?',$y)
+		->where('y_min_zone <= ?',$y)
+		->where('y_max_zone >= ?',$y)
 		->where('zone.id_fk_environnement_zone = environnement.id');
 		$sql = $select->__toString();
 

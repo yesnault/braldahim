@@ -5,7 +5,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass('zone'); 
 		$zoneTable = new Zone();
-		$zone = $zoneTable->selectCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$zone = $zoneTable->findCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 
 		// La requete ne doit renvoyer qu'une seule case
 		if (count($zone) == 1) {

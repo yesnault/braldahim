@@ -13,7 +13,6 @@ class Hobbit extends Zend_Db_Table {
 		->where('x_hobbit >= ?',$x_min)
 		->where('y_hobbit >= ?',$y_min)
 		->where('y_hobbit <= ?',$y_max);
-		
 		$sql = $select->__toString();
 		
 		return $db->fetchAll($sql);

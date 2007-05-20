@@ -37,7 +37,7 @@ class Bral_Box_Vue {
 		$this->view->x_max = $this->view->user->x_hobbit + $this->view->nb_cases;
 		$this->view->y_min = $this->view->user->y_hobbit - $this->view->nb_cases;
 		$this->view->y_max = $this->view->user->y_hobbit + $this->view->nb_cases;
-
+		
 		if (($this->_request->get("caction") == "box_vue") && ($this->_request->get("valeur_1") != "")) { // si le joueur a cliqu? sur une icone
 			$this->deplacement = $this->_request->get("valeur_1");
 			$this->view->centre_x = $this->get_deplacement_verif($this->view->x_min, $this->view->x_max, $this->_request->get("valeur_2"), 0);
@@ -133,9 +133,9 @@ class Bral_Box_Vue {
 				} else {
 					foreach($zones as $z) {
 						if ($display_x >= $z["x_min_zone"] &&
-						$display_x <= $z["x_max_zone"] &&
-						$display_y <= $z["y_min_zone"] &&
-						$display_y >= $z["y_max_zone"]) {
+							$display_x <= $z["x_max_zone"] &&
+							$display_y >= $z["y_min_zone"] &&
+							$display_y <= $z["y_max_zone"]) {
 							$nom_zone = $z["nom_zone"];
 							$description_zone = $z["description_zone"];
 							$nom_systeme_environnement = $z["nom_systeme_environnement"];
@@ -191,4 +191,3 @@ class Bral_Box_Vue {
 		$this->view->tableau = $tableau;
 	}
 }
-?>
