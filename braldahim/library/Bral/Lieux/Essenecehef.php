@@ -31,7 +31,7 @@ class Bral_Lieux_Essenecehef extends Bral_Lieux_Lieu {
 					}
 				} else {
 					// deplacement uniquement vers la capitale
-					if ($esseneCehefCourant["id_fk_region_ville"] == $e["id_fk_region_ville"] && $e["est_capitale_ville"] == "non") {
+					if ($esseneCehefCourant["id_fk_region_ville"] == $e["id_fk_region_ville"] && $e["est_capitale_ville"] == "oui") {
 						$this->_tabDestinations[] = array("id" => $e["id"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
 					}
 				}

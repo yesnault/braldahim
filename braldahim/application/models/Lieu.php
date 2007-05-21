@@ -4,15 +4,13 @@ class Lieu extends Zend_Db_Table {
     protected $_name = 'lieu';
     
     public function findByType($type){ 
-		//$where = $this->getAdapter()->quoteInto('id_fk_type_lieu = ?',$type); 
-		//return $this->fetchAll($where); 
-		
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
-		//->from('type_lieu', '*')
+		->from('type_lieu', '*')
 		->from('ville', '*')
-		->where('id_fk_type_lieu = ?',$type)
+		->where('lieu.id_fk_type_lieu = ?',$type)
+		->where('lieu.id_fk_type_lieu = type_lieu.id')
 		->where('lieu.id_fk_ville_lieu = ville.id');
 		$sql = $select->__toString();
 
