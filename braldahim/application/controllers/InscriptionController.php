@@ -164,7 +164,6 @@ class InscriptionController extends Zend_Controller_Action {
 			'castars_hobbit' => $this->view->config->game->inscription->castars, 
 			'x_hobbit' => $lieu["x_lieu"], 
 			'y_hobbit' => $lieu["y_lieu"], 
-			'vue_base_hobbit' => $this->view->config->game->inscription->vue_base, 
 			'vue_bm_hobbit' => $this->view->config->game->inscription->vue_bm,
 			'date_debut_tour_hobbit' => date("Y-m-d H:i:s"),
 			'date_fin_tour_hobbit' => date("Y-m-d H:i:s"),

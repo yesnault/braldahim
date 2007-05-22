@@ -18,7 +18,7 @@ class Zone extends Zend_Db_Table {
 		return $db->fetchAll($sql);
     }
     
-    function selectCase($x, $y) {
+    function findCase($x, $y) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('zone', '*')

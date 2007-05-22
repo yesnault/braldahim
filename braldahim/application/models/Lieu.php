@@ -22,13 +22,11 @@ class Lieu extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('lieu', '*')
 		->from('type_lieu', '*')
-		->from('ville', '*')
 		->where('x_lieu <= ?',$x_max)
 		->where('x_lieu >= ?',$x_min)
 		->where('y_lieu >= ?',$y_min)
 		->where('y_lieu <= ?',$y_max)
-		->where('lieu.id_fk_type_lieu = type_lieu.id')
-		->where('lieu.id_fk_ville_lieu = ville.id');
+		->where('lieu.id_fk_type_lieu = type_lieu.id');
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

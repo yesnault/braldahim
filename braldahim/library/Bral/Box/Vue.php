@@ -7,6 +7,7 @@ class Bral_Box_Vue {
 		Zend_Loader::loadClass("TypeLieu");
 		Zend_Loader::loadClass("Ville");
 		Zend_Loader::loadClass("Region");
+		Zend_Loader::loadClass("Zone");
 
 		$this->_request = $request;
 		$this->view = $view;
@@ -34,11 +35,14 @@ class Bral_Box_Vue {
 	}
 
 	private function prepare() {
-		$this->view->nb_cases = $this->view->user->vue_base_hobbit + $this->view->user->vue_bm_hobbit;
-		$this->view->x_min = $this->view->user->x_hobbit - $this->view->nb_cases;
-		$this->view->x_max = $this->view->user->x_hobbit + $this->view->nb_cases;
-		$this->view->y_min = $this->view->user->y_hobbit - $this->view->nb_cases;
-		$this->view->y_max = $this->view->user->y_hobbit + $this->view->nb_cases;
+		$zoneTable = new Zone();
+		$zones = $zoneTable->findCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$zone = $zones[0];
+		$this->view->vue_nb_cases = $this->getVueBase($zone["nom_systeme_environnement"]) + $this->view->user->vue_bm_hobbit;
+		$this->view->x_min = $this->view->user->x_hobbit - $this->view->vue_nb_cases;
+		$this->view->x_max = $this->view->user->x_hobbit + $this->view->vue_nb_cases;
+		$this->view->y_min = $this->view->user->y_hobbit - $this->view->vue_nb_cases;
+		$this->view->y_max = $this->view->user->y_hobbit + $this->view->vue_nb_cases;
 
 		if (($this->_request->get("caction") == "box_vue") && ($this->_request->get("valeur_1") != "")) { // si le joueur a cliqu? sur une icone
 			$this->deplacement = $this->_request->get("valeur_1");
@@ -103,19 +107,21 @@ class Bral_Box_Vue {
 	}
 
 	private function data() {
-		Zend_Loader::loadClass('zone');
 		$zoneTable = new Zone();
 		$zones = $zoneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$hobbitTable = new Hobbit();
 		$hobbits = $hobbitTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$lieuxTable = new Lieu();
 		$lieux = $lieuxTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
-
+		$villeTable = new Ville();
+		$villes = $villeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$regionTable = new Region();
+		$regions = $regionTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		
 		$centre_x_min = $this->view->centre_x - $this->view->config->game->box_vue_taille;
 		$centre_x_max = $this->view->centre_x + $this->view->config->game->box_vue_taille;
 		$centre_y_min = $this->view->centre_y - $this->view->config->game->box_vue_taille;
 		$centre_y_max = $this->view->centre_y + $this->view->config->game->box_vue_taille;
-
 
 		for ($j = $centre_y_max; $j >= $centre_y_min; $j --) {
 			$change_level = true;
@@ -128,6 +134,7 @@ class Bral_Box_Vue {
 				$nom_environnement = null;
 				$nom_zone = null;
 				$description_zone = null;
+				$ville = null;
 					
 				if (($j > $this->view->y_max) || ($j < $this->view->y_min) ||
 				($i < $this->view->x_min) || ($i > $this->view->x_max)) {
@@ -155,6 +162,32 @@ class Bral_Box_Vue {
 					foreach($lieux as $l) {
 						if ($display_x == $l["x_lieu"] && $display_y == $l["y_lieu"]) {
 							$tabLieux[] = array("id_lieu" => $l["id"], "nom_lieu" => $l["nom_lieu"], "nom_type_lieu" => $l["nom_type_lieu"]);
+							$lieuCourant = $l;
+							$estLimiteVille = false;
+						}
+					}
+
+					foreach($villes as $v) {
+						if ($display_x >= $v["x_min_ville"] &&
+						$display_x <= $v["x_max_ville"] &&
+						$display_y >= $v["y_min_ville"] &&
+						$display_y <= $v["y_max_ville"]) {
+							$estLimiteVille = false;
+
+							if ($v["x_min_ville"] == $display_x || $v["x_max_ville"] == $display_y || $v["y_min_ville"] == $display_x || $v["y_max_ville"] == $display_y ) {
+								$estLimiteVille = true;
+							}
+							$ville = array("estLimite" => $estLimiteVille, "nom_ville" => $v["nom_ville"], "est_capitale" => $v["est_capitale_ville"] , "nom_systeme" => $v["nom_systeme_ville"], "nom_region" => $v["nom_region"]);
+							break;
+						}
+					}
+					foreach($regions as $r) {
+					if ($display_x >= $r["x_min_region"] &&
+						$display_x <= $r["x_max_region"] &&
+						$display_y >= $r["y_min_region"] &&
+						$display_y <= $r["y_max_region"]) {
+							$region = array("nom" => $r["nom_region"]);
+							break;
 						}
 					}
 				}
@@ -163,6 +196,9 @@ class Bral_Box_Vue {
 					$actuelle = true;
 					$css = "actuelle";
 					$this->view->environnement = $nom_environnement;
+					$this->view->centre_nom_region = $region["nom"];
+					$this->view->centre_nom_ville = $ville["nom_ville"];
+					$this->view->centre_est_capitale = ($ville["est_capitale"] == "oui");
 				} else {
 					$actuelle = false;
 					$css = $nom_systeme_environnement;
@@ -182,6 +218,7 @@ class Bral_Box_Vue {
 				"hobbits" => $tabHobbits,
 				"n_lieux" => count($tabLieux),
 				"lieux" => $tabLieux,
+				"ville" => $ville,
 				);
 				$tableau[] = $tab;
 				if ($change_level) {
@@ -191,5 +228,28 @@ class Bral_Box_Vue {
 		}
 
 		$this->view->tableau = $tableau;
+	}
+
+	private function getVueBase($environnement) {
+		$r = 0;
+		switch($environnement) {
+			case "marais":
+				$r = 3;
+				break;
+			case "montagne":
+				$r = 5;
+				break;
+			case "caverne":
+				$r = 2;
+				break;
+			case "plaine" :
+				$r = 6;
+				break;
+			case "foret" :
+				$r = 4;
+			default :
+				throw new Exception("getVueBase Environnement invalide:".$environnement);
+		}
+		return $r;
 	}
 }

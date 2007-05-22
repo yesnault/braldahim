@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Samedi 19 Mai 2007 à 10:40
+-- Généré le : Mercredi 23 Mai 2007 à 00:19
 -- Version du serveur: 5.0.33
 -- Version de PHP: 5.2.0
 -- 
@@ -33,7 +33,6 @@ CREATE TABLE `hobbit` (
   `duree_courant_tour_hobbit` time NOT NULL,
   `tour_position_hobbit` int(11) NOT NULL,
   `pa_hobbit` int(11) NOT NULL,
-  `vue_base_hobbit` int(11) NOT NULL,
   `vue_bm_hobbit` int(11) NOT NULL,
   `force_base_hobbit` int(11) NOT NULL,
   `force_bm_hobbit` int(11) NOT NULL,
