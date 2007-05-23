@@ -94,7 +94,7 @@
   z-index: 1000;
 }
 
-.box_inscription, .box_perdu, .box_pamaretres, .box_gardiennage {
+.box_inscription, .box_perdu, .box_pamaretres, .box_gardiennage, .box_administration {
 #  position: absolute;
 #  left: 50%;
 #  top: 50%;
@@ -108,6 +108,10 @@
   margin-right:auto;
   margin-top: 20px;
   text-align: center;
+}
+
+.box_administration {
+	  width: 700px;
 }
 
 .box_menu {
