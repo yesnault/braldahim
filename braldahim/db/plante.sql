@@ -22,8 +22,8 @@ CREATE TABLE `plante` (
   `x_plante` int(11) NOT NULL,
   `y_plante` int(11) NOT NULL,
   `partie_1_plante` int(11) NOT NULL,
-  `partie_2_plante` int(11) NOT NULL,
-  `partie_3_plante` int(11) NOT NULL,
-  `partie_4_plante` int(11) NOT NULL,
+  `partie_2_plante` int(11) NULL,
+  `partie_3_plante` int(11) NULL,
+  `partie_4_plante` int(11) NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

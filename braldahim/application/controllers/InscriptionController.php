@@ -3,9 +3,9 @@
 class InscriptionController extends Zend_Controller_Action {
 
 	function init() {
-		Zend_Loader::loadClass("Bral_Util_De");
 		$this->initView();
 		$this->view->baseUrl = $this->_request->getBaseUrl();
+		Zend_Loader::loadClass("Bral_Util_De");
 		Zend_Loader::loadClass("Bral_Validate_Inscription_EmailHobbit");
 		Zend_Loader::loadClass("Bral_Validate_Inscription_NomHobbit");
 		Zend_Loader::loadClass("Bral_Validate_StringLength");
@@ -65,8 +65,8 @@ class InscriptionController extends Zend_Controller_Action {
 			$validateurPassword = new Bral_Validate_StringLength(5, 20);
 			
 			$filter = new Zend_Filter();
-			$filter->addFilter(new Zend_StringTrim())
-					->addFilter(new Zend_StripTags());
+			$filter->addFilter(new Zend_Filter_StringTrim())
+					->addFilter(new Zend_Filter_StripTags());
 			$this->nom_hobbit = $filter->filter($this->_request->getPost('nom_hobbit'));
 			$this->email_hobbit = $filter->filter($this->_request->getPost('email_hobbit'));
 			$this->email_confirm_hobbit = $filter->filter($this->_request->getPost('email_confirm_hobbit'));

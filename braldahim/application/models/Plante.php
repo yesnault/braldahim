@@ -28,6 +28,7 @@ class Plante extends Zend_Db_Table {
 		->where('y_plante <= ?',$y_max);
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
+		
 		$nombre = $resultat[0]["nombre"];
 		return $nombre;
     }

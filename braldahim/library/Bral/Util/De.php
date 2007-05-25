@@ -58,9 +58,7 @@ class Bral_Util_De {
 		return $mot;
 	}
 	
-	private function __construct() {
-
-	}
+	private function __construct() {}
 
 	private static function make_seed() {
 		list ($usec, $sec) = explode(' ', microtime());
