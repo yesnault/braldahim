@@ -25,7 +25,7 @@ class Bral_Box_Metier {
 	function render() {
 
 		$hobbitsMetiersTable = new HobbitsMetiers();
-		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id);
+		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
 		$tabMetiers = null;
 		$tabMetierCourant = null;
 		$possedeMetier = false;
@@ -34,7 +34,7 @@ class Bral_Box_Metier {
 		foreach($hobbitsMetierRowset as $m) {
 			$possedeMetier = true;
 
-			$t = array("id" => $m["id"],
+			$t = array("id_metier" => $m["id_metier"],
 			"nom" => $m["nom_metier"],
 			"nom_systeme" => $m["nom_systeme_metier"],
 			"est_actif" => $m["est_actif_hmetier"],

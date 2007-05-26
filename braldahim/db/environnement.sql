@@ -18,12 +18,12 @@
 
 DROP TABLE IF EXISTS `environnement`;
 CREATE TABLE `environnement` (
-  `id` int(11) NOT NULL auto_increment,
+  `id_environnement` int(11) NOT NULL auto_increment,
   `nom_environnement` varchar(20) NOT NULL,
   `description_environnement` varchar(250) NOT NULL,
   `nom_systeme_environnement` varchar(20) NOT NULL,
   `image_environnement` varchar(100) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id_environnement`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- 

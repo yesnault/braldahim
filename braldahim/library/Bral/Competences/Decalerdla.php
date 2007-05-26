@@ -52,7 +52,7 @@ class Bral_Competences_Decalerdla extends Bral_Competences_Competence {
 		}
 		
 		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id);
+		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 		$hobbit = $hobbitRowset->current();
 		
 		$convertDate = new Bral_Util_ConvertDate();
@@ -63,7 +63,7 @@ class Bral_Competences_Decalerdla extends Bral_Competences_Competence {
 		$data = array( 
 			'date_fin_tour_hobbit' => $this->view->user->date_fin_tour_hobbit,
 		); 
-		$where = "id=".$this->view->user->id;
+		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
 		
 		$this->view->heures = $newHeure;

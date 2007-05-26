@@ -18,8 +18,8 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 	function prepareFormulaire() {
 		$tabGardiens = null;
 		$gardiennageTable = new Gardiennage();
-		$gardiens = $gardiennageTable->findGardiens($this->view->user->id);
-		$gardiennageEnCours = $gardiennageTable->findGardiennageEnCours($this->view->user->id);
+		$gardiens = $gardiennageTable->findGardiens($this->view->user->id_hobbit);
+		$gardiennageEnCours = $gardiennageTable->findGardiennageEnCours($this->view->user->id_hobbit);
 		
 		foreach($gardiens as $gardien) {
 			$tabGardiens[] = array(
@@ -90,8 +90,8 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		}
 		
 		// Il ne faut pas que le gardien soit le joueur lui même
-		if ($idGardien == $this->view->user->id) {
-			throw new Zend_Exception(get_class($this)." Gardien invalide : Vous ne devez pas être le gardien de vous même. Gardien:".$idGardien. " Vous:".$this->view->user->id);
+		if ($idGardien == $this->view->user->id_hobbit) {
+			throw new Zend_Exception(get_class($this)." Gardien invalide : Vous ne devez pas être le gardien de vous même. Gardien:".$idGardien. " Vous:".$this->view->user->id_hobbit);
 		}
 		
 		$break = explode("-", $premierJour);
@@ -102,7 +102,7 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		
 		$gardiennageTable = new Gardiennage();
 		$data = array (
-			'id_hobbit_gardiennage' => $this->view->user->id,
+			'id_hobbit_gardiennage' => $this->view->user->id_hobbit,
 			'id_gardien_gardiennage' => $idGardien,
 			'date_debut_gardiennage' => $premierJour,
 			'date_fin_gardiennage' => $dernierJour,
@@ -117,7 +117,7 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		$this->view->nouveauGardiennage = false;
 		
 		$gardiennageTable = new Gardiennage();
-		$gardiennages = $gardiennageTable->findGardiennageEnCours($this->view->user->id);
+		$gardiennages = $gardiennageTable->findGardiennageEnCours($this->view->user->id_hobbit);
 		
 		$tabGardiennage = null;
 		

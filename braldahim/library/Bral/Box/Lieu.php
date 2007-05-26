@@ -31,7 +31,7 @@ class Bral_Box_Lieu {
 		} elseif (count($lieuRowset) == 1) {
 			$lieu = $lieuRowset[0];
 			$this->view->estLieuCourant = true;
-			$this->view->idLieu = $lieu["id"];
+			$this->view->idLieu = $lieu["id_lieu"];
 			$this->view->nomLieu = $lieu["nom_lieu"];
 			$this->view->nomTypeLieu = $lieu["nom_type_lieu"];
 			$this->view->nomSystemeLieu = $lieu["nom_systeme_type_lieu"];

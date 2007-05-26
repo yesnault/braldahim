@@ -40,7 +40,7 @@ class PerduController extends Zend_Controller_Action {
 					$this->view->emailGenerationOk = true;
 					$this->nom_hobbit = $hobbit->nom_hobbit;
 					$this->password_hobbit = $hobbit->password_hobbit;
-					$this->id_hobbit = $hobbit->id;
+					$this->id_hobbit = $hobbit->id_hobbit;
 					
 					try {
 						$this->envoiEmailGeneration();
@@ -85,7 +85,7 @@ class PerduController extends Zend_Controller_Action {
 			if ($md5_nom_hobbit == md5($hobbit->nom_hobbit) && ($md5_password_hobbit == $hobbit->password_hobbit)) {
 				$this->view->generationOk = true;
 				$this->nom_hobbit = $hobbit->nom_hobbit;
-				$this->id_hobbit = $hobbit->id;
+				$this->id_hobbit = $hobbit->id_hobbit;
 				$this->view->email_hobbit = $this->email_hobbit;
 				
 				$this->password_hobbit = Bral_Util_De::get_chaine_aleatoire(6);
@@ -93,7 +93,7 @@ class PerduController extends Zend_Controller_Action {
 				$data = array(
 					'password_hobbit' => md5($this->password_hobbit),
 				);
-				$where = "id=".$hobbit->id;
+				$where = "id_hobbit=".$hobbit->id_hobbit;
 				$hobbitTable->update($data, $where);
 				
 				$this->envoiEmailNouveauPassword();

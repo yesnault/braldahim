@@ -13,14 +13,14 @@
 		<td>
 			<select name="id_zone">
 			<? foreach ($this->zones as $z) : ?>
-			<option value="<?=$z["id"]?>"><?=$z["id"]?></option>
+			<option value="<?=$z["id_zone"]?>"><?=$z["id_zone"]?></option>
 			<? endforeach; ?>
 			</select>
 		</td>
 		<td>
 			<select name="id_type_plante">
 			<? foreach ($this->typePlantes as $p) : ?>
-			<option value="<?=$z["id"]?>"><?=htmlentities($p["nom"])?> - <?=htmlentities($p["categorie"]) ?> - <?=htmlentities($p["environnement"])?> - A:<?=htmlentities($p["nom_partie_1"])?> - B:<?=htmlentities($p["nom_partie_2"])?> - C:<?=htmlentities($p["nom_partie_3"])?> - D:<?=htmlentities($p["nom_partie_4"]) ?></option>
+			<option value="<?=$p["id_type_plante"]?>"><?=htmlentities($p["nom"])?> - <?=htmlentities($p["categorie"]) ?> - <?=htmlentities($p["environnement"])?> - A:<?=htmlentities($p["nom_partie_1"])?> - B:<?=htmlentities($p["nom_partie_2"])?> - C:<?=htmlentities($p["nom_partie_3"])?> - D:<?=htmlentities($p["nom_partie_4"]) ?></option>
 			<? endforeach; ?>
 			</select>
 			<br>
@@ -56,7 +56,7 @@
 	<th class='comp_titre'>Couverture</th>
 	<? foreach ($this->zones as $zone) : ?>
 		<tr>
-			<td><?=$zone["id"] ?></td>
+			<td><?=$zone["id_zone"] ?></td>
 			<td><?=htmlentities($zone["environnement"]) ?></td>
 			<td><?=$zone["x_min"] ?></td>
 			<td><?=$zone["x_max"] ?></td>

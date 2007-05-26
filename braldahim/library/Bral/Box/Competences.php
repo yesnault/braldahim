@@ -48,17 +48,17 @@ class Bral_Box_Competences {
 			$tabCompetences = Zend_Registry::get('competencesBasiques');
 		} else {
 			$hobbitTable = new Hobbit();
-			$hobbitRowset = $hobbitTable->find($this->view->user->id);
+			$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 			$hobbit = $hobbitRowset->current();
 			$hobbitCompetences = $hobbit->findCompetenceViaHobbitsCompetences();
 			$competences = Zend_Registry::get('competences');
 			
 			foreach($hobbitCompetences as $c) {
-				if ($competences[$c->id]["type"] == $this->type) {
-					$t = array("id" => $c->id, 
-					"nom" => $competences[$c->id]["nom"], 
-					"pa_utilisation" => $competences[$c->id]["pa_utilisation"],
-					"nom_systeme" => $competences[$c->id]["nom_systeme"]);
+				if ($competences[$c->id_competence]["type"] == $this->type) {
+					$t = array("id_competence" => $c->id_competence, 
+					"nom" => $competences[$c->id_competence]["nom"], 
+					"pa_utilisation" => $competences[$c->id_competence]["pa_utilisation"],
+					"nom_systeme" => $competences[$c->id_competence]["nom_systeme"]);
 					$tabCompetences[] = $t;
 				}
 			}

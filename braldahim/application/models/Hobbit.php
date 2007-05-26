@@ -2,6 +2,7 @@
 
 class Hobbit extends Zend_Db_Table {
     protected $_name = 'hobbit';
+    protected $_primary = 'id_hobbit';
     
     protected $_dependentTables = array('hobbits_competences', 'gardiennage');
     

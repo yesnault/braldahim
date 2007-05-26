@@ -34,7 +34,7 @@ class AuthController extends Zend_Controller_Action {
 			$authAdapter->setTableName('hobbit');
 
 			if (intval($username_ou_id) > 0) {
-				$authAdapter->setIdentityColumn('id');
+				$authAdapter->setIdentityColumn('id_hobbit');
 			} else {
 				$authAdapter->setIdentityColumn('nom_hobbit');
 			}

@@ -18,7 +18,7 @@
 
 DROP TABLE IF EXISTS `competence`;
 CREATE TABLE `competence` (
-  `id` int(11) NOT NULL auto_increment,
+  `id_competence` int(11) NOT NULL auto_increment,
   `nom_systeme_competence` varchar(255) NOT NULL default '',
   `nom_competence` varchar(255) NOT NULL default '',
   `description_competence` mediumtext NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE `competence` (
   `pourcentage_max_competence` int(11) NOT NULL default '90',
   `pa_utilisation_competence` int(11) NOT NULL default '6',
   `type_competence` enum('basic','commun','metier') NOT NULL default 'basic',
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY  (`id_competence`),
   UNIQUE KEY `nom_competence` (`nom_competence`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 

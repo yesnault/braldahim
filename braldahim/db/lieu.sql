@@ -17,7 +17,7 @@
 -- 
 
 CREATE TABLE `lieu` (
-  `id` int(11) NOT NULL auto_increment,
+  `id_lieu` int(11) NOT NULL auto_increment,
   `nom_lieu` varchar(30) NOT NULL,
   `description_lieu` varchar(250) NOT NULL,
   `x_lieu` int(11) NOT NULL,
@@ -26,5 +26,5 @@ CREATE TABLE `lieu` (
   `id_fk_type_lieu` int(11) NOT NULL,
   `id_fk_ville_lieu` int(11) default NULL,
   `date_creation_lieu` datetime NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id_lieu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

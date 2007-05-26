@@ -75,7 +75,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
 				
 		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id);
+		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 		$hobbit = $hobbitRowset->current();
 
 		$data = array( 
@@ -83,7 +83,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			'y_hobbit'  => $this->view->user->y_hobbit,
 			'pa_hobbit' => $this->view->user->pa_hobbit,
 		); 
-		$where = "id=".$this->view->user->id;
+		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
 	}
 	

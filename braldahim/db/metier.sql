@@ -18,11 +18,11 @@
 
 DROP TABLE IF EXISTS `metier`;
 CREATE TABLE `metier` (
-  `id` int(11) NOT NULL auto_increment,
+  `id_metier` int(11) NOT NULL auto_increment,
   `nom_metier` varchar(20) NOT NULL,
   `nom_systeme_metier` varchar(20) NOT NULL,
   `description_metier` varchar(200) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id_metier`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 -- 

@@ -14,7 +14,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 		Zend_Loader::loadClass("HobbitsMetiers");
 
 		$hobbitsMetiersTable = new HobbitsMetiers();
-		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id);
+		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
 		$this->_tabMetiers = null;
 		$this->_possedeMetier = false;
 		$convertDate = new Bral_Util_ConvertDate();
@@ -22,7 +22,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 		foreach($hobbitsMetierRowset as $m) {
 			$this->_possedeMetier = true;
 
-			$this->_tabMetiers[] = array("id" => $m["id"],
+			$this->_tabMetiers[] = array("id_metier" => $m["id_metier"],
 			"nom" => $m["nom_metier"],
 			"nom_systeme" => $m["nom_systeme_metier"],
 			"est_actif" => ($m["est_actif_hmetier"] == "oui"),
@@ -42,14 +42,14 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 				$nouveau = true;
 				if ($this->_possedeMetier == true) {
 					foreach ($this->_tabMetiers as $t) {
-						if ($m->id == $t["id"]) {
+						if ($m->id_metier == $t["id_metier"]) {
 							$nouveau = false;
 						}
 					}
 				}
 
 				if ($nouveau === true) {
-					$this->_tabNouveauMetiers[] = array("id" => $m->id,
+					$this->_tabNouveauMetiers[] = array("id_metier" => $m->id_metier,
 					"nom" => $m->nom_metier,
 					"nom_systeme" => $m->nom_systeme_metier,
 					"description" => $m->description_metier);
@@ -96,7 +96,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 			$changementOk = false;
 			if ($this->_possedeMetier == true) {
 				foreach ($this->_tabMetiers as $t) {
-					if ($idNouveauMetierCourant == $t["id"]) {
+					if ($idNouveauMetierCourant == $t["id_metier"]) {
 						$nomMetier = $t["nom"];
 						$changementOk = true;
 					}
@@ -114,7 +114,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 			$nouveau = false;
 			if (count($this->_tabNouveauMetiers) > 0) {
 				foreach ($this->_tabNouveauMetiers as $t) {
-					if ($idNouveauMetier == $t["id"]) {
+					if ($idNouveauMetier == $t["id_metier"]) {
 						$nouveau = true;
 						$nomMetier = $t["nom"];
 						break;
@@ -129,24 +129,24 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 		if ($changementMetier) {
 			$hobbitsMetiersTable = new HobbitsMetiers();
 			$data = array('est_actif_hmetier' => 'non');
-			$where = array("id_hobbit_hmetier" => intval($this->view->user->id));
+			$where = array("id_hobbit_hmetier" => intval($this->view->user->id_hobbit));
 			$hobbitsMetiersTable->update($data, $where);
 
-			//$hobbitsMetiersTable->updateTousMetierVersNonActif($this->view->user->id);
-			//$hobbitsMetiersTable->updateMetierVersActif($this->view->user->id, $idNouveauMetierCourant);
+			//$hobbitsMetiersTable->updateTousMetierVersNonActif($this->view->user->id_hobbit);
+			//$hobbitsMetiersTable->updateMetierVersActif($this->view->user->id_hobbit, $idNouveauMetierCourant);
 			$data = array('est_actif_hmetier' => 'oui');
-			$where = array("id_hobbit_hmetier = ".intval($this->view->user->id)." AND id_metier_hmetier = ".intval($idNouveauMetierCourant));
+			$where = array("id_hobbit_hmetier = ".intval($this->view->user->id_hobbit)." AND id_metier_hmetier = ".intval($idNouveauMetierCourant));
 			$hobbitsMetiersTable->update($data, $where);
 
 		} else { // apprentissage
 			$hobbitsMetiersTable = new HobbitsMetiers();
 			$data = array('est_actif_hmetier' => 'non');
-			$where = array("id_hobbit_hmetier" => intval($this->view->user->id));
+			$where = array("id_hobbit_hmetier" => intval($this->view->user->id_hobbit));
 			$hobbitsMetiersTable->update($data, $where);
-			//$hobbitsMetiersTable->updateTousMetierVersNonActif($this->view->user->id);
+			//$hobbitsMetiersTable->updateTousMetierVersNonActif($this->view->user->id_hobbit);
 
 			$dataNouveauMetier = array(
-			'id_hobbit_hmetier' => $this->view->user->id,
+			'id_hobbit_hmetier' => $this->view->user->id_hobbit,
 			'id_metier_hmetier'  => $idNouveauMetier, // marcher
 			'date_apprentissage_hmetier'  => date("Y-m-d"),
 			'est_actif_hmetier'  => "oui",
@@ -158,7 +158,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 			$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
 
 			$data = array('castars_hobbit' => $this->view->user->castars_hobbit);
-			$where = "id=".$this->view->user->id;
+			$where = "id_hobbit=".$this->view->user->id_hobbit;
 			$hobbitTable->update($data, $where);
 
 		}

@@ -18,7 +18,7 @@
 
 DROP TABLE IF EXISTS `hobbit`;
 CREATE TABLE `hobbit` (
-  `id` int(11) NOT NULL auto_increment,
+  `id_hobbit` int(11) NOT NULL auto_increment,
   `nom_hobbit` varchar(20) NOT NULL,
   `password_hobbit` varchar(50) NOT NULL,
   `email_hobbit` varchar(100) NOT NULL,
@@ -53,5 +53,5 @@ CREATE TABLE `hobbit` (
   `est_mort_hobbit` enum('oui','non') NOT NULL default 'non',
   `est_compte_actif_hobbit` enum('oui','non') NOT NULL default 'non',
   `date_creation_hobbit` datetime NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id_hobbit`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tables des Hobbits' AUTO_INCREMENT=4 ;

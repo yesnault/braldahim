@@ -31,7 +31,7 @@
 					m&eacute;tier courant <br>
 					<input type="radio" id="valeur_defaut" name="valeur_2" value="-1" checked onClick="javascript:$('changer_metier').disabled=true;$('apprendre_metier').disabled=true;">
 				<? else: ?>
-					<input type="radio" id="valeur_2" name="valeur_2" value="<?=$m["id"]?>" onClick="javascript:$('apprendre_metier').disabled=true;$('changer_metier').disabled=false;$('valeur_3').value='-1'"/>
+					<input type="radio" id="valeur_2" name="valeur_2" value="<?=$m["id_metier"]?>" onClick="javascript:$('apprendre_metier').disabled=true;$('changer_metier').disabled=false;$('valeur_3').value='-1'"/>
 				<? endif; ?>
 	   			</td>
 			</tr>
@@ -51,7 +51,7 @@
 		    	<select id='valeur_3' name='valeur_3' onChange="javascript:$('changer_metier').disabled=true;$('valeur_defaut').checked=true;if(this.value!=-1){$('apprendre_metier').disabled=false;} else { $('apprendre_metier').disabled=true}">
 		    		<option value='-1'>(Choisis un m&eacute;tier)</option>
 		    		<? foreach ($this->tabNouveauMetiers as $t) : ?>
-		    			<option value='<?=$t["id"]?>'><?=htmlentities($t["nom"])?></option>
+		    			<option value='<?=$t["id_metier"]?>'><?=htmlentities($t["nom"])?></option>
 		    		<? endforeach; ?>
 		    	</select>
 		    <? else : ?>

@@ -7,7 +7,7 @@ class Bral_Box_Tour {
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;
 		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id);
+		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 		$this->hobbit = $hobbitRowset->current();
 		
 		$nomsTour = Zend_Registry::get('nomsTour');
@@ -137,7 +137,7 @@ class Bral_Box_Tour {
 		if ($this->is_update_tour) {
 			// Mise a jour du jouer dans la base de donnees
 			$hobbitTable = new Hobbit();
-			$hobbitRowset = $hobbitTable->find($this->hobbit->id);
+			$hobbitRowset = $hobbitTable->find($this->hobbit->id_hobbit);
 			$hobbit = $hobbitRowset->current();
 		
 			$this->view->user->x_hobbit = $this->hobbit->x_hobbit;
@@ -163,7 +163,7 @@ class Bral_Box_Tour {
 				'armure_naturelle_hobbit' => $this->hobbit->armure_naturelle_hobbit,
 				'est_mort_hobbit' => $this->hobbit->est_mort_hobbit,
 			); 
-			$where = "id=".$this->hobbit->id;
+			$where = "id_hobbit=".$this->hobbit->id_hobbit;
 			$hobbitTable->update($data, $where);
 		}
 		

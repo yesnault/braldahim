@@ -37,7 +37,7 @@ class ParametresController extends Zend_Controller_Action {
 			
 			$validPasswordActuel = false;
 			$hobbitTable = new Hobbit();
-			$hobbitRowset = $hobbitTable->find($this->view->user->id);
+			$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 			$hobbit = $hobbitRowset->current();
 			
 			$validPasswordActuel = (md5($this->password_actuel_hobbit) == $hobbit->password_hobbit);
@@ -49,7 +49,7 @@ class ParametresController extends Zend_Controller_Action {
 				$data = array(
 					'password_hobbit' => md5($this->password_nouveau_hobbit),
 				);
-				$where = "id=".$hobbit->id;
+				$where = "id_hobbit=".$hobbit->id_hobbit;
 				$hobbitTable->update($data, $where);
 				$this->view->message = "Votre mot de passe est modifi&eacute;";
 				echo $this->view->render("parametres/index.phtml");
@@ -94,7 +94,7 @@ class ParametresController extends Zend_Controller_Action {
 			
 			$validEmailActuel = false;
 			$hobbitTable = new Hobbit();
-			$hobbitRowset = $hobbitTable->find($this->view->user->id);
+			$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 			$hobbit = $hobbitRowset->current();
 			
 			$validPassword = (md5($this->password_hobbit) == $hobbit->password_hobbit);
@@ -107,7 +107,7 @@ class ParametresController extends Zend_Controller_Action {
 				$data = array(
 					'email_hobbit' => $this->email_nouveau_hobbit,
 				);
-				$where = "id=".$hobbit->id;
+				$where = "id_hobbit=".$hobbit->id_hobbit;
 				$hobbitTable->update($data, $where);
 				$this->view->message = "L'adresse ".$this->email_actuel_hobbit." est bien prise en compte";
 				echo $this->view->render("parametres/index.phtml");

@@ -2,6 +2,7 @@
 
 class Region extends Zend_Db_Table {
 	protected $_name = 'region';
+	protected $_primary = 'id_region';
 
 	function selectVue($x_min, $y_min, $x_max, $y_max) {
 		$db = $this->getAdapter();

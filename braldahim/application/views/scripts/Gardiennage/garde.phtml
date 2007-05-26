@@ -10,7 +10,7 @@
    			<?=$this->message?>
    		<? endif; ?>
 		<? if ($this->user->gardeEnCours) : ?>
-			Hobbit en cours : <?=$this->user->nom_hobbit ?> (<?=$this->user->id?>)
+			Hobbit en cours : <?=$this->user->nom_hobbit ?> (<?=$this->user->id_hobbit?>)
 			<div id="formbutton">
 				<input type="button" name="retour" value="Aller &agrave; l'interface" onClick="javascript:document.location.href='/interface'"/>
 			</div>

@@ -108,6 +108,24 @@
 	      	</div>
 	    <?php endif; ?>
 
+      	<?php if ($case["n_plantes"] > 0) : ?>
+      		<div>
+      		<?php 
+      			$textPlante = "";
+      			foreach($case["plantes"] as $p) {
+      				$textPlante .= $p["type"]." - ". $p["categorie"] ." (".$p["id_plante"].")<br>";
+				} ?>
+      		<span onmouseover="return overlib('<?=$textPlante?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> Plantes Clique !');"
+      			onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?>', CLOSECLICK, EXCLUSIVE);"
+      			onmouseout="return nd();">
+	      	<?php if ($case["n_plantes"] == 1) : ?>
+	      		1 plante
+	      	<?php elseif ($case["n_plantes"] > 1) : ?>
+	      		<?=$case["n_plantes"] ?> plantes
+	      	<?php endif; ?>
+	      	</span>
+	      	</div>
+	    <?php endif; ?>
       	</td>
      <?php endforeach; ?>
      </tr>

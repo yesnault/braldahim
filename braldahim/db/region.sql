@@ -17,12 +17,12 @@
 -- 
 
 CREATE TABLE `region` (
-  `id` int(11) NOT NULL auto_increment,
+  `id_region` int(11) NOT NULL auto_increment,
   `nom_region` varchar(20) NOT NULL,
   `description_region` varchar(200) NOT NULL,
   `x_min_region` int(11) NOT NULL,
   `x_max_region` int(11) NOT NULL,
   `y_min_region` int(11) NOT NULL,
   `y_max_region` int(11) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id_region`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;

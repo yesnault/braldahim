@@ -12,7 +12,7 @@ class HobbitsMetiers extends Zend_Db_Table
 	'Metier' => array(
 	'columns'           => array('id_metier_hmetier'),
 	'refTableClass'     => 'Metier',
-	'refColumns'        => array('id')
+	'refColumns'        => array('id_metier')
 	)
 	);
 
@@ -21,7 +21,7 @@ class HobbitsMetiers extends Zend_Db_Table
 		$select = $db->select();
 		$select->from('hobbits_metiers', '*')
 		->from('metier', '*')
-		->where('hobbits_metiers.id_metier_hmetier = metier.id')
+		->where('hobbits_metiers.id_metier_hmetier = metier.id_metier')
 		->where('hobbits_metiers.id_hobbit_hmetier = '.intval($idHobbit));
 		$sql = $select->__toString();
 

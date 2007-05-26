@@ -7,12 +7,12 @@ class HobbitsCompetences extends Zend_Db_Table
         'Hobbit' => array(
             'columns'           => array('id_hobbit_hcomp'),
             'refTableClass'     => 'Hobbit',
-            'refColumns'        => array('id')
+            'refColumns'        => array('id_hobbit')
         ),
         'Competence' => array(
             'columns'           => array('id_competence_hcomp'),
             'refTableClass'     => 'Competence',
-            'refColumns'        => array('id')
+            'refColumns'        => array('id_competence')
         )
 	);
 	

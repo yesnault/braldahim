@@ -18,12 +18,12 @@
 
 DROP TABLE IF EXISTS `gardiennage`;
 CREATE TABLE `gardiennage` (
-  `id` int(11) NOT NULL auto_increment,
+  `id_gardiennage` int(11) NOT NULL auto_increment,
   `id_hobbit_gardiennage` int(11) NOT NULL,
   `id_gardien_gardiennage` int(11) NOT NULL,
   `date_debut_gardiennage` date NOT NULL,
   `date_fin_gardiennage` date NOT NULL,
   `nb_jours_gardiennage` int(11) NOT NULL,
   `commentaire_gardiennage` varchar(100) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id_gardiennage`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;

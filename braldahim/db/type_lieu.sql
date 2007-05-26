@@ -18,7 +18,7 @@
 
 DROP TABLE IF EXISTS `type_lieu`;
 CREATE TABLE `type_lieu` (
-  `id` int(11) NOT NULL,
+  `id_type_lieu` int(11) NOT NULL,
   `nom_type_lieu` varchar(20) NOT NULL,
   `nom_systeme_type_lieu` varchar(20) NOT NULL,
   `description_type_lieu` varchar(250) NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE `type_lieu` (
   `pa_utilisation_type_lieu` int(1) NOT NULL,
   `est_alterable_type_lieu` enum('oui','non') NOT NULL,
   `est_franchissable_type_lieu` enum('oui','non') NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id_type_lieu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- 

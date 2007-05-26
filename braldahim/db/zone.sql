@@ -20,7 +20,7 @@
 
 DROP TABLE IF EXISTS `zone`;
 CREATE TABLE `zone` (
-  `id` int(11) NOT NULL auto_increment,
+  `id_zone` int(11) NOT NULL auto_increment,
   `id_fk_environnement_zone` int(11) NOT NULL,
   `nom_zone` varchar(100) NOT NULL,
   `description_zone` varchar(100) NOT NULL,
@@ -29,5 +29,5 @@ CREATE TABLE `zone` (
   `y_min_zone` int(11) NOT NULL,
   `x_max_zone` int(11) NOT NULL,
   `y_max_zone` int(11) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id_zone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

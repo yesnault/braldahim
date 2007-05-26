@@ -41,7 +41,7 @@ class InscriptionController extends Zend_Controller_Action {
 				$data = array(
 					'est_compte_actif_hobbit' => "oui",
 				);
-				$where = "id=".$hobbit->id;
+				$where = "id_hobbit=".$hobbit->id_hobbit;
 				$hobbitTable->update($data, $where);
 			}
 		} 
@@ -140,7 +140,7 @@ class InscriptionController extends Zend_Controller_Action {
 		
 		// hobbit par défaut
 		$this->view->hobbit= new stdClass();
-		$this->view->hobbit->id = null;
+		$this->view->hobbit->id_hobbit = null;
 		$this->view->hobbit->nom_hobbit = $this->nom_hobbit;
 		$this->view->hobbit->email_hobbit = $this->email_hobbit;
 		$this->view->hobbit->email_confirm_hobbit = $this->email_confirm_hobbit;

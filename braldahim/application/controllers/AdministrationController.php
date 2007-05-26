@@ -56,7 +56,7 @@ class AdministrationController extends Zend_Controller_Action {
 			$planteTable = new Plante();
 
 			foreach ($this->view->zones as $t) {
-				if ($t["id"] == $id_zone) {
+				if ($t["id_zone"] == $id_zone) {
 					$zone = $t;
 					break;
 				}
@@ -65,7 +65,7 @@ class AdministrationController extends Zend_Controller_Action {
 			$nb_cases = $t["nombre_cases"];
 			$nb_creation = (int)(($nb_cases * $couverture) / 100);
 
-			for ($i=1; $i< $nb_creation; $i++) {
+			for ($i=1; $i<= $nb_creation; $i++) {
 				$x = Bral_Util_De::get_de_specifique($zone["x_min"], $zone["x_max"]);
 				$y = Bral_Util_De::get_de_specifique($zone["y_min"], $zone["y_max"]);
 
@@ -118,7 +118,7 @@ class AdministrationController extends Zend_Controller_Action {
 			$nombrePlantes = $planteTable->countVue($z["x_min_zone"] ,$z["y_min_zone"] ,$z["x_max_zone"] ,$z["y_max_zone"]);
 			$nombreCases = ($z["x_max_zone"]  - $z["x_min_zone"] ) * ($z["y_max_zone"]  - $z["y_min_zone"] );
 			$couverture = ($nombrePlantes * 100) / $nombreCases;
-			$zones[] = array("id" =>$z["id"],
+			$zones[] = array("id" =>$z["id_zone"],
 			"x_min" =>$z["x_min_zone"] ,
 			"x_max" =>$z["x_max_zone"] ,
 			"y_min" =>$z["y_min_zone"] ,
@@ -130,7 +130,7 @@ class AdministrationController extends Zend_Controller_Action {
 		}
 
 		foreach($typePlanteRowset as $t) {
-			$typePlantes[] = array("id" => $t["id"],
+			$typePlantes[] = array("id" => $t["id_type_plante"],
 			"nom" => $t["nom_type_plante"],
 			"categorie" => $t["categorie_type_plante"],
 			"environnement" => $t["nom_environnement"],

@@ -6,12 +6,12 @@ class Gardiennage extends Zend_Db_Table {
         'Hobbitgarde' => array(
             'columns'           => array('id_hobbit_gardiennage'),
             'refTableClass'     => 'Hobbit',
-            'refColumns'        => array('id')
+            'refColumns'        => array('id_hobbit')
         ),
         'Gardien' => array(
             'columns'           => array('id_gardien_gardiennage'),
             'refTableClass'     => 'Hobbit',
-            'refColumns'        => array('id')
+            'refColumns'        => array('id_hobbit')
         )
 	);
 	
@@ -23,7 +23,7 @@ class Gardiennage extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('gardiennage', 'id_gardien_gardiennage')
 		->from('hobbit', 'nom_hobbit')
-		->where('gardiennage.id_gardien_gardiennage = hobbit.id')
+		->where('gardiennage.id_gardien_gardiennage = hobbit.id_hobbit')
 		->group('id_gardien_gardiennage', 'nom_hobbit');
 		$sql = $select->__toString();
 
@@ -36,7 +36,7 @@ class Gardiennage extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('gardiennage', '*')
 		->from('hobbit', 'nom_hobbit')
-		->where('gardiennage.id_gardien_gardiennage = hobbit.id')
+		->where('gardiennage.id_gardien_gardiennage = hobbit.id_hobbit')
 		->where('gardiennage.id_hobbit_gardiennage = '.$id_hobbit_garde)
 		->where('gardiennage.date_fin_gardiennage >= '.$date_courante);
 		$sql = $select->__toString();
@@ -50,7 +50,7 @@ class Gardiennage extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('gardiennage', '*')
 		->from('hobbit', 'nom_hobbit')
-		->where('gardiennage.id_hobbit_gardiennage = hobbit.id')
+		->where('gardiennage.id_hobbit_gardiennage = hobbit.id_hobbit')
 		->where('gardiennage.id_gardien_gardiennage = '.$id_hobbit_gardien)
 		->where('gardiennage.date_fin_gardiennage >= '.$date_courante);
 		$sql = $select->__toString();

@@ -25,7 +25,7 @@ class Bral_Competences_Factory {
 		// verification que le joueur a accès à la compétence
 		if ($construct == null) {
 			$hobbitTable = new Hobbit();
-			$hobbitRowset = $hobbitTable->find($view->user->id);
+			$hobbitRowset = $hobbitTable->find($view->user->id_hobbit);
 			$hobbit = $hobbitRowset->current();
 			$hobbitCompetences = $hobbit->findCompetenceViaHobbitsCompetences();
 			$competences = Zend_Registry::get('competences');

@@ -17,7 +17,7 @@
 -- 
 
 CREATE TABLE `type_plante` (
-  `id` int(11) NOT NULL auto_increment,
+  `id_type_plante` int(11) NOT NULL auto_increment,
   `nom_type_plante` varchar(20) NOT NULL,
   `nom_systeme_type_plante` varchar(200) NOT NULL,
   `categorie_type_plante` enum('Arbre','Buisson','Fleur') NOT NULL,
@@ -26,5 +26,5 @@ CREATE TABLE `type_plante` (
   `nom_partie_2_type_plante` varchar(10) NOT NULL,
   `nom_partie_3_type_plante` varchar(10) NOT NULL,
   `nom_partie_4_type_plante` varchar(10) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id_type_plante`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;

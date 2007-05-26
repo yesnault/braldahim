@@ -25,14 +25,14 @@ class Bral_Lieux_Essenecehef extends Bral_Lieux_Lieu {
 				if ($esseneCehefCourant["est_capitale_ville"] == "oui") {
 					// deplacement vers les ville de la comtée et vers les capitales
 					if ($est_capitale === true) { 
-						$this->_tabDestinations[] = array("id" => $e["id"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
+						$this->_tabDestinations[] = array("id" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
 					} else if ($esseneCehefCourant["id_fk_region_ville"] == $e["id_fk_region_ville"]) {
-						$this->_tabDestinations[] = array("id" => $e["id"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
+						$this->_tabDestinations[] = array("id" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
 					}
 				} else {
 					// deplacement uniquement vers la capitale
 					if ($esseneCehefCourant["id_fk_region_ville"] == $e["id_fk_region_ville"] && $e["est_capitale_ville"] == "oui") {
-						$this->_tabDestinations[] = array("id" => $e["id"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
+						$this->_tabDestinations[] = array("id" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
 					}
 				}
 			}
@@ -58,7 +58,7 @@ class Bral_Lieux_Essenecehef extends Bral_Lieux_Lieu {
 		// verification que la destination etait bien dans la liste des destinations proposees
 		$destinationOk = false;
 		foreach($this->_tabDestinations as $d) {
-			if ($d["id"] == $idDestination) {
+			if ($d["id_lieu"] == $idDestination) {
 				$xDestination = $d["x"];
 				$yDestination = $d["y"];
 				$destinationOk = true;
@@ -79,7 +79,7 @@ class Bral_Lieux_Essenecehef extends Bral_Lieux_Lieu {
 		'y_hobbit' => $this->view->user->y_hobbit,
 		'castars_hobbit' => $this->view->user->castars_hobbit);
 		
-		$where = "id=".$this->view->user->id;
+		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
 	}
 

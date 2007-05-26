@@ -8,6 +8,7 @@ class Bral_Box_Vue {
 		Zend_Loader::loadClass("Ville");
 		Zend_Loader::loadClass("Region");
 		Zend_Loader::loadClass("Zone");
+		Zend_Loader::loadClass("Plante");
 
 		$this->_request = $request;
 		$this->view = $view;
@@ -117,7 +118,10 @@ class Bral_Box_Vue {
 		$villes = $villeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$regionTable = new Region();
 		$regions = $regionTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
-		
+		$planteTable = new Plante();
+		$plantes = $planteTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+
+
 		$centre_x_min = $this->view->centre_x - $this->view->config->game->box_vue_taille;
 		$centre_x_max = $this->view->centre_x + $this->view->config->game->box_vue_taille;
 		$centre_y_min = $this->view->centre_y - $this->view->config->game->box_vue_taille;
@@ -130,6 +134,7 @@ class Bral_Box_Vue {
 				$display_y = $j;
 				$tabHobbits = null;
 				$tabLieux = null;
+				$tabPlantes = null;
 				$nom_systeme_environnement = null;
 				$nom_environnement = null;
 				$nom_zone = null;
@@ -155,13 +160,13 @@ class Bral_Box_Vue {
 
 					foreach($hobbits as $h) {
 						if ($display_x == $h["x_hobbit"] && $display_y == $h["y_hobbit"]) {
-							$tabHobbits[] = array("id_hobbit" => $h["id"], "nom_hobbit" => $h["nom_hobbit"]);
+							$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"], "nom_hobbit" => $h["nom_hobbit"]);
 						}
 					}
 
 					foreach($lieux as $l) {
 						if ($display_x == $l["x_lieu"] && $display_y == $l["y_lieu"]) {
-							$tabLieux[] = array("id_lieu" => $l["id"], "nom_lieu" => $l["nom_lieu"], "nom_type_lieu" => $l["nom_type_lieu"]);
+							$tabLieux[] = array("id_lieu" => $l["id_lieu"], "nom_lieu" => $l["nom_lieu"], "nom_type_lieu" => $l["nom_type_lieu"]);
 							$lieuCourant = $l;
 							$estLimiteVille = false;
 						}
@@ -182,12 +187,17 @@ class Bral_Box_Vue {
 						}
 					}
 					foreach($regions as $r) {
-					if ($display_x >= $r["x_min_region"] &&
+						if ($display_x >= $r["x_min_region"] &&
 						$display_x <= $r["x_max_region"] &&
 						$display_y >= $r["y_min_region"] &&
 						$display_y <= $r["y_max_region"]) {
 							$region = array("nom" => $r["nom_region"]);
 							break;
+						}
+					}
+					foreach($plantes as $p) {
+						if ($display_x == $p["x_plante"] && $display_y == $p["y_plante"]) {
+							$tabPlantes[] = array("id_plante" => $p["id_plante"], "type" => $p["nom_type_plante"], "categorie" => $p["categorie_type_plante"], "quantite_1" =>$p["partie_1_plante"], "quantite_2" =>$p["partie_2_plante"], "quantite_3" =>$p["partie_3_plante"], "nom_partie_1" =>$p["nom_partie_1_type_plante"], "nom_partie_2" =>$p["nom_partie_2_type_plante"], "nom_partie_3" =>$p["nom_partie_3_type_plante"], "nom_partie_4" =>$p["nom_partie_4_type_plante"]);
 						}
 					}
 				}
@@ -219,6 +229,8 @@ class Bral_Box_Vue {
 				"n_lieux" => count($tabLieux),
 				"lieux" => $tabLieux,
 				"ville" => $ville,
+				"n_plantes" => count($tabPlantes),
+				"plantes" => $tabPlantes,
 				);
 				$tableau[] = $tab;
 				if ($change_level) {
