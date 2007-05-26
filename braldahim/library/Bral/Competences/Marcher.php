@@ -16,7 +16,6 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		
 		$this->view->environnement = $case["nom_environnement"];
 		$this->nom_systeme_environnement = $case["nom_systeme_environnement"];
-		$this->calculPaNbCases();
 	}
 	
 	function prepareFormulaire() {
@@ -99,7 +98,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 	* Montagneux : 2 PA pour 1 case
 	* Caverneux : 1 PA pour 1 case
 	*/
-	private function calculPaNbCases() {
+	public function calculNbPa() {
 		switch($this->nom_systeme_environnement) {
 			case "plaine" :
 				$this->view->nb_cases = 1;

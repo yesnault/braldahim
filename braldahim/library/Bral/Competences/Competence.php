@@ -1,14 +1,16 @@
 <?php
 
 abstract class Bral_Competences_Competence {
-	
-	function __construct($nomSystemeCompetence, $request, $view, $action) {
+
+	function __construct($competence, $request, $view, $action) {
 		$this->view = $view;
 		$this->request = $request;
 		$this->action = $action;
-		$this->nom_systeme = $nomSystemeCompetence;
+		$this->nom_systeme = $competence["nom_systeme"];
+		$this->competence = $competence;
 
 		$this->prepareCommun();
+		$this->calculNbPa();
 		
 		switch($this->action) {
 			case "ask" :
@@ -21,17 +23,26 @@ abstract class Bral_Competences_Competence {
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
 		}
 	}
-	
+
 	abstract function prepareCommun();
 	abstract function prepareFormulaire();
 	abstract function prepareResultat();
 	abstract function getListBoxRefresh();
-	
-	function getNomInterne() {
+
+	public function calculNbPa() {
+		if ($this->view->user->pa_hobbit - $this->competence["pa_utilisation"] < 0) {
+			$this->view->assezDePa = false;
+		} else {
+			$this->view->assezDePa = true;
+		}
+		$this->view->nb_pa = $this->competence["pa_utilisation"];
+	}
+
+	public function getNomInterne() {
 		return "box_action";
 	}
-	
-	function render() {
+
+	public function render() {
 		switch($this->action) {
 			case "ask":
 				return $this->view->render("competences/".$this->nom_systeme."_formulaire.phtml");

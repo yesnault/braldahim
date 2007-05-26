@@ -95,15 +95,16 @@
       			$textHobbit = "";
       			foreach($case["hobbits"] as $h) {
       				$textHobbit .= $h["nom_hobbit"] ." (".$h["id_hobbit"].")<br>";
-				} ?>
-      		<span onmouseover="return overlib('<?=$textHobbit?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> Hobbits. Clique !');"
-      			onclick="return overlib('<?=$textHobbit?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?>', CLOSECLICK, EXCLUSIVE);"
+				} 
+				$s = "";
+				if ($case["n_hobbits"] > 1) {
+					$s = "s";
+				}
+			?>
+      		<span onmouseover="return overlib('<?=$textHobbit?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_hobbits"] ?> Hobbit<?=$s?> - Clique !');"
+      			onclick="return overlib('<?=$textHobbit?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_hobbits"] ?> Hobbit<?=$s?> - ', CLOSECLICK, EXCLUSIVE);"
       			onmouseout="return nd();">
-	      	<?php if ($case["n_hobbits"] == 1) : ?>
-	      		1 hobbit
-	      	<?php elseif ($case["n_hobbits"] > 1) : ?>
-	      		<?=$case["n_hobbits"] ?> hobbits
-	      	<?php endif; ?>
+	      		<?=$case["n_hobbits"] ?> hobbit<?=$s?>
 	      	</span>
 	      	</div>
 	    <?php endif; ?>
@@ -114,15 +115,16 @@
       			$textPlante = "";
       			foreach($case["plantes"] as $p) {
       				$textPlante .= $p["type"]." - ". $p["categorie"] ." (".$p["id_plante"].")<br>";
-				} ?>
-      		<span onmouseover="return overlib('<?=$textPlante?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> Plantes Clique !');"
-      			onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?>', CLOSECLICK, EXCLUSIVE);"
+				} 
+				$s = "";
+				if ($case["n_plantes"] > 1) {
+					$s = "s";
+				}	
+			?>
+      		<span onmouseover="return overlib('<?=$textPlante?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_plantes"] ?> Plante<?=$s?> - Clique !');"
+      			onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_plantes"] ?> Plante<?=$s?>', CLOSECLICK, EXCLUSIVE);"
       			onmouseout="return nd();">
-	      	<?php if ($case["n_plantes"] == 1) : ?>
-	      		1 plante
-	      	<?php elseif ($case["n_plantes"] > 1) : ?>
-	      		<?=$case["n_plantes"] ?> plantes
-	      	<?php endif; ?>
+	      		<?=$case["n_plantes"] ?> plante<?=$s?>
 	      	</span>
 	      	</div>
 	    <?php endif; ?>

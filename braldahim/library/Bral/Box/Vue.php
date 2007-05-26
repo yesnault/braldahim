@@ -259,6 +259,7 @@ class Bral_Box_Vue {
 				break;
 			case "foret" :
 				$r = 4;
+				break;
 			default :
 				throw new Exception("getVueBase Environnement invalide:".$environnement);
 		}

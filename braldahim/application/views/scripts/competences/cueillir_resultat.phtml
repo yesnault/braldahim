@@ -1,0 +1,18 @@
+<div class='comp_titre'>Recherche de Plante</div>
+
+ <div class='comp_contenu'>
+	 <div id='rechercherplante_text' style="display:block"  onClick="javascript:switch2div('rechercherplante_text','rechercherplante_copie');">
+	
+		Cela vous a cout&eacute; <?=$this->nb_pa?> PA<br>
+	 </div>
+	 
+	 <div id='rechercherplante_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><? 
+	echo "Cela vous a cout&eacute; ".$this->nb_pa." PA";
+	?>
+	</textarea>
+	</div>
+ </div>
+
+<input type='button' value='Copier' onClick="javascript:switch2div('rechercherplante_text','rechercherplante_copie');">
+<input type='button' value='Fermer' onClick='_get_("/interface/clear");'>

@@ -1,0 +1,29 @@
+<div class='comp_titre'>Cueillette</div>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ <form name='myForm'>
+ <div class='comp_contenu'>
+
+<?php if ($this->assezDePa == false) : ?>
+ Vous n'avez pas assez de PA
+<?php else : ?>
+	 <? if ($this->planteOk === true) : ?>
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez cueillir une plante.<br><br>
+	 
+	 <select name="valeur_1" id="valeur_1"  onChange="javascript:if ($('valeur_1').value==-1){$('bouton_cueillir').disabled=true } else {$('bouton_cueillir').disabled=false }">
+	 	<option value="-1">(Choisis une plante)</option>
+	 	<? foreach($this->plantes as $p) : ?>
+	 		<option value="<?=$p["id_plante"]?>"><?=$p["categorie"]?> <?=$p["nom_type"]?> (<?=$p["id_plante"]?>)</option>
+	 	<? endforeach; ?>
+	 </select>
+	 <? else: ?>
+	 Il n'y a pas de plante ici...
+	 <? endif; ?>
+<? endif ?>
+</div>
+
+</form>
+<br>
+<?php if ($this->assezDePa == true) : ?>
+<input type='button' id='bouton_cueillir' value='Cueillir !' onClick='_get_("/competences/DoAction?caction=do_competence_cueillir");' disabled>
+<? endif ?>
+<input type='button' value='Annuler' onClick='_get_("/interface/clear");'>

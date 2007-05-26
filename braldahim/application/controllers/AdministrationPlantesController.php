@@ -1,6 +1,6 @@
 <?php
 
-class AdministrationController extends Zend_Controller_Action {
+class AdministrationPlantesController extends Zend_Controller_Action {
 
 	function init() {
 		/** TODO a completer */
@@ -118,7 +118,7 @@ class AdministrationController extends Zend_Controller_Action {
 			$nombrePlantes = $planteTable->countVue($z["x_min_zone"] ,$z["y_min_zone"] ,$z["x_max_zone"] ,$z["y_max_zone"]);
 			$nombreCases = ($z["x_max_zone"]  - $z["x_min_zone"] ) * ($z["y_max_zone"]  - $z["y_min_zone"] );
 			$couverture = ($nombrePlantes * 100) / $nombreCases;
-			$zones[] = array("id" =>$z["id_zone"],
+			$zones[] = array("id_zone" =>$z["id_zone"],
 			"x_min" =>$z["x_min_zone"] ,
 			"x_max" =>$z["x_max_zone"] ,
 			"y_min" =>$z["y_min_zone"] ,

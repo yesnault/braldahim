@@ -12,6 +12,8 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 		Zend_Loader::loadClass("Hobbit");
 		Zend_Loader::loadClass("Metier");
 		Zend_Loader::loadClass("HobbitsMetiers");
+		Zend_Loader::loadClass("HobbitsCompetences");
+		Zend_Loader::loadClass("Competence");
 
 		$hobbitsMetiersTable = new HobbitsMetiers();
 		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
@@ -154,6 +156,20 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 
 			$hobbitsMetiersTable->insert($dataNouveauMetier);
 
+			$hobbitsCompetencesTable = new HobbitsCompetences();
+
+			$competenceTable = new Competence();
+			$competencesMetier = $competenceTable->findByIdMetier($idNouveauMetier);
+			foreach($competencesMetier as $e) {
+				$data = array(
+				'id_hobbit_hcomp' => $this->view->user->id_hobbit,
+				'id_competence_hcomp'  => $e->id_competence,
+				'pourcentage_hcomp'  => 100,
+				'date_gain_tour_hcomp'  => "0000-00-00 00:00:00",
+				);
+				$hobbitsCompetencesTable->insert($data);
+			}
+				
 			$hobbitTable = new Hobbit();
 			$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
 

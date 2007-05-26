@@ -23,9 +23,11 @@ class Bral_Util_Registre {
 			$tab[$c->id_competence]["niveau_requis"] = $c->niveau_requis_competence;
 			$tab[$c->id_competence]["pi_cout"] = $c->pi_cout_competence;
 			$tab[$c->id_competence]["px_gain"] = $c->px_gain_competence;
+			$tab[$c->id_competence]["balance_faim"] = $c->balance_faim_competence;
 			$tab[$c->id_competence]["pourcentage_max"] = $c->pourcentage_max_competence;
 			$tab[$c->id_competence]["pa_utilisation"] = $c->pa_utilisation_competence;
 			$tab[$c->id_competence]["type"] = $c->type_competence;
+			$tab[$c->id_competence]["id_fk_metier"] = $c->id_fk_metier_competence;
 			
 			$tab2[$c->nom_systeme_competence]["id_competence"] = $c->id_competence;
 			
@@ -34,7 +36,8 @@ class Bral_Util_Registre {
 				( "id_competence" => $c->id_competence,
 					"nom" => $c->nom_competence,
 					"nom_systeme" => $c->nom_systeme_competence,
-					"description" => $c->description_competence
+					"description" => $c->description_competence,
+					"pa_utilisation" => $c->pa_utilisation_competence,
 				);
 				$tabBasiquesId[$c->nom_systeme_competence]["id_competence"] = $c->id_competence;
 			}

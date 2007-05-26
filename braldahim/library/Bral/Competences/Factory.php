@@ -6,6 +6,8 @@ class Bral_Competences_Factory {
 		Zend_Loader::loadClass("Bral_Competences_Decalerdla");
 		Zend_Loader::loadClass("Bral_Competences_Gardiennage");
 		Zend_Loader::loadClass("Bral_Competences_Marcher");
+		Zend_Loader::loadClass("Bral_Competences_Rechercherplante");
+		Zend_Loader::loadClass("Bral_Competences_Cueillir");
 		
 		$matches = null;
 		preg_match('/(.*)_competence_(.*)/', $request->get("caction"), $matches);
@@ -18,6 +20,7 @@ class Bral_Competences_Factory {
 		foreach($competencesBasiques as $c) {
 			if ($c["nom_systeme"] == $nomSystemeCompetence) {
 				$construct = "Bral_Competences_".$nomSystemeCompetence;
+				$competence = $c;
 				break;
 			}
 		}
@@ -34,6 +37,7 @@ class Bral_Competences_Factory {
 			foreach($hobbitCompetences as $c) {
 				if ($c->nom_systeme_competence == $nomSystemeCompetence) {
 					$construct = "Bral_Competences_".$nomSystemeCompetence;
+					$competence = $competences[$c->id_competence];
 					break;
 				}
 			}
@@ -41,7 +45,7 @@ class Bral_Competences_Factory {
 		
 	    // verification que la classe de la competence existe.            
 		if (($construct != null) && (class_exists($construct))) {                
-			return new $construct ($nomSystemeCompetence, $request, $view, $action);
+			return new $construct ($competence, $request, $view, $action);
 		} else {
 			throw new Zend_Exception("Comp&eacute;tence invalide: ".$nomSystemeCompetence);
 		}
