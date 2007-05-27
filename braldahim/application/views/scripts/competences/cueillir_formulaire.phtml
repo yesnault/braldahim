@@ -23,7 +23,7 @@
 
 </form>
 <br>
-<?php if ($this->assezDePa == true) : ?>
+<?php if ($this->assezDePa == true && $this->planteOk === true) : ?>
 <input type='button' id='bouton_cueillir' value='Cueillir !' onClick='_get_("/competences/DoAction?caction=do_competence_cueillir");' disabled>
 <? endif ?>
 <input type='button' value='Annuler' onClick='_get_("/interface/clear");'>

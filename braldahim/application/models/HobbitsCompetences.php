@@ -1,7 +1,6 @@
 <?php
 
-class HobbitsCompetences extends Zend_Db_Table
-{
+class HobbitsCompetences extends Zend_Db_Table {
     protected $_name = 'hobbits_competences';
 	protected $_referenceMap    = array(
         'Hobbit' => array(
@@ -16,4 +15,15 @@ class HobbitsCompetences extends Zend_Db_Table
         )
 	);
 	
+    function findByIdHobbit($id_hobbit) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbits_competences', '*')
+		->from('competence', '*')
+		->where('hobbits_competences.id_hobbit_hcomp = '.intval($id_hobbit))
+		->where('hobbits_competences.id_competence_hcomp = competence.id_competence');
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+    }
 }

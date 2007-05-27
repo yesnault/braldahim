@@ -59,7 +59,8 @@
       			}
       			$textVille .= "<br>R&eacute;gion : ".htmlentities($case["ville"]["nom_region"]);
       		?>
-      		<img src='/public/images/villes/puce_<?=$case["ville"]["nom_systeme"]?>.gif' onmouseover="return overlib('<?=$textVille?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> Ville');"
+      		<img src='/public/images/villes/puce_<?=$case["ville"]["nom_systeme"]?>.gif' 
+      			onmouseover="return overlib('<?=$textVille?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> Ville');"
       			onclick="return overlib('<?=$textVille?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?>', CLOSECLICK, EXCLUSIVE);"
       			onmouseout="return nd();"/>
       		<? endif; ?>

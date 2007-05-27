@@ -28,7 +28,7 @@ class GardiennageController extends Zend_Controller_Action {
 			
 			foreach($gardiennage as $g) {
 				$dateOk = false;
-				if ($g["date_debut_gardiennage"] <= $dateCourante) {
+				if ($g["date_debut_gardiennage"] <= $dateCourante && $g["date_fin_gardiennage"] >= $dateCourante) {
 					$dateOk = true;
 				}
 				$tabHobbitGarde[] = array(

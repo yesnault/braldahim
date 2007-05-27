@@ -19,7 +19,7 @@
 					<td><?=$g["nom_gardien"]. ' ('.$g["id_gardien"].')';?></td>
 					<td><?=$g["date_debut"] ?></td>
 					<td><?=$g["nb_jours"] ?></td>
-					<td><?=$g["commentaire"] ?></td>
+					<td><?=htmlentities(stripslashes($g["commentaire"])) ?></td>
 				</tr>
 			<? endforeach; ?>
 			</table>
@@ -32,7 +32,7 @@
 		endif;
 		
 		foreach($this->tabGardiennage as $g): 
-			echo$g["nom_gardien"]. ' ('.$g["id_gardien"].')' .' '. $g["date_debut"] .' '. $g["nb_jours"] .' '. $g["commentaire"];
+			echo$g["nom_gardien"]. ' ('.$g["id_gardien"].')' .' '. $g["date_debut"] .' '. $g["nb_jours"] .' '. htmlentities(stripslashes($g["commentaire"]));
 		endforeach; ?>
 		</textarea>
 	</div>

@@ -164,7 +164,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 				$data = array(
 				'id_hobbit_hcomp' => $this->view->user->id_hobbit,
 				'id_competence_hcomp'  => $e->id_competence,
-				'pourcentage_hcomp'  => 100,
+				'pourcentage_hcomp'  => 10,
 				'date_gain_tour_hcomp'  => "0000-00-00 00:00:00",
 				);
 				$hobbitsCompetencesTable->insert($data);
