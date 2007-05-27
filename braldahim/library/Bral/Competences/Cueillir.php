@@ -63,8 +63,6 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Plante invalide : ".$idPlante);
 		}
 
-		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
-
 		// calcul des jets
 		$this->calculJets();
 
@@ -86,18 +84,11 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			$where = "id_plante=".$idPlante;
 			$planteTable->delete($where);
 
-			$hobbitTable = new Hobbit();
-			$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-			$hobbit = $hobbitRowset->current();
-
-			$data = array(
-			'pa_hobbit' => $this->view->user->pa_hobbit,
-			);
-			$where = "id_hobbit=".$this->view->user->id_hobbit;
-			$hobbitTable->update($data, $where);
-
 			$this->view->plante = $plante;
 		}
+		$this->calculPx();
+		$this->calculBalanceFaim();
+		$this->majHobbit();
 	}
 
 	function getListBoxRefresh() {

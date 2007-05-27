@@ -155,7 +155,7 @@
 }
 
 .box_competences_basiques,.box_metier,.box_competences_communes,.box_competences_metiers 
-	 , .box_equipement,.box_profil,.box_vue,.box_lieu,.box_laban {
+	  , .box_equipement,.box_profil,.box_vue,.box_lieu,.box_laban {
 	position: absolute;
 	background-color: #ffd363;
 	color: black;
@@ -207,7 +207,6 @@
 	overflow: auto
 }
 
-
 .box_titre1 {
 	background-color: #CCCC99;
 	color: #003300;
@@ -221,4 +220,15 @@
 
 .box_lieu {
 	width: 400px;
+}
+
+.barre_faim,.barre_vie {
+	background-color: #FFFFFF;
+	width: 100px;
+	height: 10px;
+	text-align: left;
+	border-style: solid;
+	border-width: 1px;
+	margin-left: 60px;
+	border-color: #6f5f6f;
 }

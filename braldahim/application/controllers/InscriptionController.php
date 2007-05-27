@@ -172,6 +172,7 @@ class InscriptionController extends Zend_Controller_Action {
 			'duree_courant_tour_hobbit' => $this->view->config->game->inscription->duree_courant_tour,
 			'date_creation_hobbit' => date("Y-m-d H:i:s"),
 			'tour_position_hobbit' => $this->view->config->game->inscription->tour_position,
+			'balance_faim_hobbit' => $this->view->config->game->inscription->balance_faim,
 		);
 		
 		return $data;

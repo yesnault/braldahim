@@ -40,6 +40,14 @@ abstract class Bral_Competences_Competence {
 		}
 		$this->view->nb_pa = $this->competence["pa_utilisation"];
 	}
+	
+	public function calculPx() {
+		$this->view->nb_px = $this->competence["px_gain"];
+	}
+	
+	public function calculBalanceFaim() {
+		$this->view->balance_faim = $this->competence["balance_faim"];
+	}
 
 	public function calculJets() {
 		Zend_Loader::loadClass("Bral_Util_De");
@@ -66,7 +74,7 @@ abstract class Bral_Competences_Competence {
 		if ($this->view->okJet1 === true || $this->hobbit_competence["pourcentage_hcomp"] < 50) {
 			$this->view->jet2 = Bral_Util_De::get_1d100();
 			$this->view->jet2Possible = true;
-			if ($this->view->jet2 <= $this->hobbit_competence["pourcentage_hcomp"]) {
+			if ($this->view->jet2 > $this->hobbit_competence["pourcentage_hcomp"]) {
 				$this->view->okJet2 = true;
 			}
 		}
@@ -105,6 +113,31 @@ abstract class Bral_Competences_Competence {
 			$where = array("id_competence_hcomp = ".$this->hobbit_competence["id_competence_hcomp"]." AND id_hobbit_hcomp = ".$this->view->user->id_hobbit);
 			$hobbitsCompetencesTable->update($data, $where);
 		}
+	}
+
+	/*
+	 * Mise à jour des PA, des PX et de la balance de faim
+	 */
+	public function majHobbit() {
+		$hobbitTable = new Hobbit();
+		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
+		$hobbit = $hobbitRowset->current();
+
+		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
+		$this->view->user->px_hobbit = $this->view->user->px_hobbit + $this->view->nb_px;
+		$this->view->user->balance_faim_hobbit = $this->view->user->balance_faim_hobbit + $this->view->balance_faim;
+		
+		if ($this->view->user->balance_faim_hobbit < 0) {
+			$this->view->user->balance_faim_hobbit = 0; 
+		}
+		
+		$data = array(
+		'pa_hobbit' => $this->view->user->pa_hobbit,
+		'px_hobbit' => $this->view->user->px_hobbit,
+		'balance_faim_hobbit' => $this->view->user->balance_faim_hobbit,
+		);
+		$where = "id_hobbit=".$this->view->user->id_hobbit;
+		$hobbitTable->update($data, $where);
 	}
 
 	public function getNomInterne() {

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Mercredi 23 Mai 2007 à 00:19
+-- Généré le : Lundi 28 Mai 2007 à 00:09
 -- Version du serveur: 5.0.33
 -- Version de PHP: 5.2.0
 -- 
@@ -44,14 +44,16 @@ CREATE TABLE `hobbit` (
   `vigueur_bm_hobbit` int(11) NOT NULL,
   `regeneration_hobbit` int(11) NOT NULL,
   `px_hobbit` int(11) NOT NULL,
+  `pi_hobbit` int(11) NOT NULL default '0',
   `balance_faim_hobbit` int(11) NOT NULL,
   `armure_naturelle_hobbit` int(11) NOT NULL,
   `armure_equipement_hobbit` int(11) NOT NULL,
   `poids_transportable_hobbit` int(11) NOT NULL,
   `castars_hobbit` int(11) NOT NULL,
-  `pv_hobbit` int(11) NOT NULL,
+  `pv_max_hobbit` int(11) NOT NULL,
+  `pv_restant_hobbit` int(11) NOT NULL,
   `est_mort_hobbit` enum('oui','non') NOT NULL default 'non',
   `est_compte_actif_hobbit` enum('oui','non') NOT NULL default 'non',
   `date_creation_hobbit` datetime NOT NULL,
   PRIMARY KEY  (`id_hobbit`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tables des Hobbits' AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tables des Hobbits' AUTO_INCREMENT=1 ;

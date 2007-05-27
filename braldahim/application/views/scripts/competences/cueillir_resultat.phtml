@@ -3,25 +3,7 @@
  <div class='comp_contenu'>
 	 <div id='cueillir_text' style="display:block"  onClick="javascript:switch2div('cueillir_text','cueillir_copie');">
 		
-		<? if ($this->okJet1 === true):?>
-			<? if ($this->okJet2 === true && $this->okJet3 === true):?>
-				Vous avez r&eacute;ussi votre jet d'action <?=$this->jet1 ?> %<br>
-				Vous am&eacute;liorez votre comp&eacute;tence de <?=$this->jet3?> % !<br><br>
-			<? elseif ($this->okJet2 === true && $this->okJet3 === false): ?>
-				Vous avez r&eacute;ussi votre jet d'action <?=$this->jet1 ?> %<br>
-				Vous ne pouvez plus am&eacute;liorer cette comp&eacute;tence<br><br>
-			<? else: ?>
-				Vous avez r&eacute;ussi votre jet d'action <?=$this->jet1 ?> %<br>
-				Vous avez rat&eacute; votre jet d'am&eacute;lioration : <?=$this->jet2?> %<br><br>
-			<? endif; ?>
-		<? else: ?>
-			Vous avez rat&eacute; votre jet d'action <?=$this->jet1 ?> %<br>
-			<? if ($this->okJet2 === true && $this->okJet3 === true):?>
-				Mais, vous am&eacute;liorez votre comp&eacute;tence de <?=$this->jet3?> % !<br><br>
-			<? elseif ($this->jet2Possible === true): ?>
-				Vous avez rat&eacute; votre jet d'am&eacute;lioration : <?=$this->jet2?> %
-			<? endif; ?>
-		<? endif; ?>
+		<? include("commun_text_resultat.phtml") ?>
 		
 		<? if ($this->okJet1 === true):?>
 		Vous avez cueilli avec succ&egrave;s cette plante:<br>
@@ -44,47 +26,11 @@
 		?>
 		<? endif; ?>
 		<br>
-		Cela vous a cout&eacute; <?=$this->nb_pa?> PA<br>
 	 </div>
 	 
 	 <div id='cueillir_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
-		
-		if ($this->okJet1 === true) {
-			if ($this->okJet2 === true && $this->okJet3 === true) {
-				echo "Vous avez r&eacute;ussi votre jet d'action ".$this->jet1." %";
-				echo "
-";
-				echo "Vous am&eacute;liorez votre comp&eacute;tence de ".$this->jet3." %";
-echo "
-";
-			} elseif ($this->okJet2 === true && $this->okJet3 === false) {
-				echo "Vous avez r&eacute;ussi votre jet d'action ".$this->jet1." %";
-				echo "
-";
-				echo "Vous ne pouvez plus am&eacute;liorer cette comp&eacute;tence";
-echo "
-";
-			} else {
-				echo "Vous avez r&eacute;ussi votre jet d'action ".$this->jet1. " %";
-				echo "
-";
-				echo "Vous avez rat&eacute; votre jet d'am&eacute;lioration : ".$this->jet2. " %";
-				echo "
-";
-			}
-		} else {
-			echo "Vous avez rat&eacute; votre jet d'action ".$this->jet1." %";
-			echo "
-";
-			if ($this->okJet2 === true && $this->okJet3 === true) {
-				echo "Mais, vous am&eacute;liorez votre comp&eacute;tence de ".$this->jet3." % !";
-				echo "
-";
-			} elseif ($this->jet2Possible === true) {
-				echo "Vous avez rat&eacute; votre jet d'am&eacute;lioration : ".$this->jet2." %";
-			}
-		}
+		include("commun_copie_resultat.phtml");
 		
 		if ($this->okJet1 === true) {
 		echo "Vous avez cueilli avec succ&egrave;s cette plante:";
@@ -118,7 +64,6 @@ echo "
 ";
 		}
 		}
-	echo "Cela vous a cout&eacute; ".$this->nb_pa." PA";
 	?>
 	</textarea>
 	</div>
