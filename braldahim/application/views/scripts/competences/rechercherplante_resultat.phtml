@@ -2,13 +2,32 @@
 
  <div class='comp_contenu'>
 	 <div id='rechercherplante_text' style="display:block"  onClick="javascript:switch2div('rechercherplante_text','rechercherplante_copie');">
-	
-		Cela vous a cout&eacute; <?=$this->nb_pa?> PA<br>
+		<? include("commun_text_resultat.phtml") ?>
+		<? if ($this->okJet1 === true):?>
+			<? if ($this->trouve == true): ?>
+			La plante la plus proche, de cat&eacute;gorie : <?=$this->plante["categorie"] ?><br> 
+			se situe en : 
+			X=<?=$this->plante["x_plante"]?> et Y=<?=$this->plante["y_plante"]?><br>
+			 <? else: ?>
+			Aucune plante n'a &eacute;t&eacute; trouv&eacute;e dans <br>
+			un rayon de <?=$this->rayon;?>
+			<? endif; ?>
+		<? endif; ?>
 	 </div>
 	 
 	 <div id='rechercherplante_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><? 
-	echo "Cela vous a cout&eacute; ".$this->nb_pa." PA";
+		include("commun_copie_resultat.phtml");
+		
+		if ($this->okJet1 === true) {
+			if ($this->trouve == true) {
+				echo "La plante la plus proche, de cat&eacute;gorie : ".$this->plante["categorie"];
+				echo " se situe en : ";
+				echo " X=".$this->plante["x_plante"]." et Y=".$this->plante["y_plante"];
+			} else {
+				echo "Aucune plante n'a &eacute;t&eacute; trouv&eacute;e dans un rayon de ".$this->rayon;
+			}
+		}
 	?>
 	</textarea>
 	</div>
