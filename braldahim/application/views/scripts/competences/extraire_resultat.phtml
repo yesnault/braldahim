@@ -1,0 +1,44 @@
+<div class='comp_titre'>Extaire un minerai</div>
+
+ <div class='comp_contenu'>
+	 <div id='extraire_text' style="display:block"  onClick="javascript:switch2div('extraire_text','extraire_copie');">
+		
+		<? include("commun_text_resultat.phtml") ?>
+		
+		<? if ($this->okJet1 === true):?>
+		   <? if ($this->filonOk === true): ?>
+				Vous avez extrait avec succ&egrave;s un minerai:<br>
+				Type : <?=$this->minerai["nom_type"]?> - Quantit&eacute; : <?=$this->minerai["quantite_extraite"]?><br><br>
+				<? if ($this->filonDetruit === true): ?>
+				Pfiou, il n'y a plus rien dans le filon...
+				<? endif; ?>
+			<? else: ?>
+				Il n'y a pas de minerai ici... Il faut sonder !
+			<? endif; ?>
+		<br><br>
+		<? endif; ?>
+		<br>
+	 </div>
+	 
+	 <div id='extraire_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+		include("commun_copie_resultat.phtml");
+		
+		if ($this->okJet1 === true) {
+			if ($this->filonOk === true) {
+				echo "Vous avez extrait avec succ&egrave;s un minerai: ";
+				echo "Type : ".$this->minerai["nom_type_minerai"]." - Quantit&eacute; : ".$this->minerai["quantite"];
+				if ($this->filonDetruit === true) {
+					echo "Pfiou, il n'y a plus rien dans le filon...";
+				}
+			} else {
+				echo "Il n'y a pas de minerai ici... Il faut sonder !";
+			}
+		}
+	?>
+	</textarea>
+	</div>
+ </div>
+
+<input type='button' value='Copier' onClick="javascript:switch2div('extraire_text','extraire_copie');">
+<input type='button' value='Fermer' onClick='_get_("/interface/clear");'>

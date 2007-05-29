@@ -1,0 +1,35 @@
+<div class='comp_titre'>Sonder un filon</div>
+
+ <div class='comp_contenu'>
+	 <div id='sonder_text' style="display:block"  onClick="javascript:switch2div('sonder_text','sonder_copie');">
+		<? include("commun_text_resultat.phtml") ?>
+		<? if ($this->okJet1 === true):?>
+			<? if ($this->trouve == true): ?>
+			Le filon le plus proche se situe en : 
+			X=<?=$this->filon["x_filon"]?> et Y=<?=$this->filon["y_filon"]?><br>
+			 <? else: ?>
+			Aucun filon n'a &eacute;t&eacute; trouv&eacute; dans <br>
+			un rayon de <?=$this->rayon;?>
+			<? endif; ?>
+		<? endif; ?>
+	 </div>
+	 
+	 <div id='sonder_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><? 
+		include("commun_copie_resultat.phtml");
+		
+		if ($this->okJet1 === true) {
+			if ($this->trouve == true) {
+				echo "Le filon le plus proche se situe en : ";
+				echo " X=".$this->filon["x_filon"]." et Y=".$this->filon["y_filon"];
+			} else {
+				echo "Aucun filon n'a &eacute;t&eacute; trouv&eacute; dans un rayon de ".$this->rayon;
+			}
+		}
+	?>
+	</textarea>
+	</div>
+ </div>
+
+<input type='button' value='Copier' onClick="javascript:switch2div('sonder_text','sonder_copie');">
+<input type='button' value='Fermer' onClick='_get_("/interface/clear");'>

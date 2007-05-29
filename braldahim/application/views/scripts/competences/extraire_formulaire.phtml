@@ -1,0 +1,19 @@
+<div class='comp_titre'>Extraire un minerai</div>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ <input type='hidden' id='valeur_1' name='valeur_1' value='go'>
+ <form name='myForm'>
+ <div class='comp_contenu'>
+
+<?php if ($this->assezDePa == false) : ?>
+ Vous n'avez pas assez de PA
+<?php else : ?>
+	Pour <?=$this->nb_pa ?> PA, vous pouvez extraire un minerai.<br><br>
+<? endif ?>
+</div>
+
+</form>
+<br>
+<?php if ($this->assezDePa == true) : ?>
+<input type='button' id='bouton_extraire' value='Extraire un minerai !' onClick='_get_("/competences/DoAction?caction=do_competence_extraire");'>
+<? endif ?>
+<input type='button' value='Annuler' onClick='_get_("/interface/clear");'>

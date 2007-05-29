@@ -1,0 +1,21 @@
+<div class='comp_titre'>Sonder un filon</div>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+  <input type='hidden' id='valeur_1' name='valeur_1' value='go'>
+ <form name='myForm'>
+ <div class='comp_contenu'>
+
+<?php if ($this->assezDePa == false) : ?>
+ Vous n'avez pas assez de PA
+<?php else : ?>
+ <? if ($this->nb_cases == 1): $s=''; else: $s='s'; endif ?>
+ Pour <?=$this->nb_pa ?> PA, vous pouvez sonder un filon <br>
+ dans un rayon de  <?=$this->rayon ?> case<?=$s?> aux alentours<br><br>
+<? endif ?>
+</div>
+
+</form>
+<br>
+<?php if ($this->assezDePa == true) : ?>
+<input type='button' value='Sonder un filon !' onClick='_get_("/competences/DoAction?caction=do_competence_sonder");'>
+<? endif ?>
+<input type='button' value='Annuler' onClick='_get_("/interface/clear");'>

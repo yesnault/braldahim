@@ -20,7 +20,7 @@ class AdministrationFilonsController extends Zend_Controller_Action {
 	function FilonsAction() {
 		Zend_Loader::loadClass('Zone');
 		Zend_Loader::loadClass('Filon');
-		Zend_Loader::loadClass('TypeFilon');
+		Zend_Loader::loadClass('TypeMinerai');
 			
 		$this->filonsPrepare();
 
@@ -38,7 +38,7 @@ class AdministrationFilonsController extends Zend_Controller_Action {
 			$filter = new Zend_Filter();
 			$filter->addFilter(new Zend_Filter_StringTrim())->addFilter(new Zend_Filter_StripTags());
 			$id_zone = $filter->filter($this->_request->getPost('id_zone'));
-			$id_type_filon = $filter->filter($this->_request->getPost('id_type_filon'));
+			$id_type_minerai = $filter->filter($this->_request->getPost('id_type_minerai'));
 			$quantite_min = (int)$filter->filter($this->_request->getPost('quantite_min'));
 			$quantite_max = (int)$filter->filter($this->_request->getPost('quantite_max'));
 			
@@ -67,7 +67,7 @@ class AdministrationFilonsController extends Zend_Controller_Action {
 				$quantite = Bral_Util_De::get_de_specifique($quantite_min, $quantite_max);
 				
 				$data = array(
-				'id_fk_type_filon' => $id_type_filon,
+				'id_fk_type_minerai_filon' => $id_type_minerai,
 				'x_filon' => $x,
 				'y_filon' => $y,
 				'quantite_restante_filon' => $quantite,
@@ -87,10 +87,10 @@ class AdministrationFilonsController extends Zend_Controller_Action {
 
 		$zoneTable = new Zone();
 		$filonTable = new Filon();
-		$typeFilonTable = new TypeFilon();
+		$typeMineraiTable = new TypeMinerai();
 
 		$zonesRowset = $zoneTable->fetchAllAvecEnvironnement();
-		$typeFilonRowset = $typeFilonTable->fetchAll();
+		$typeMineraiRowset = $typeMineraiTable->fetchAll();
 
 		foreach($zonesRowset as $z) {
 			$nombreFilons = $filonTable->countVue($z["x_min_zone"] ,$z["y_min_zone"] ,$z["x_max_zone"] ,$z["y_max_zone"]);
@@ -107,15 +107,15 @@ class AdministrationFilonsController extends Zend_Controller_Action {
 			"couverture" => round($couverture));
 		}
 
-		foreach($typeFilonRowset as $t) {
-			$typeFilons[] = array("id_type_filon" => $t->id_type_filon,
-			"nom" => $t->nom_type_filon,
-			"nom_systeme" => $t->nom_systeme_type_filon,
-			"description" => $t->description_type_filon,
+		foreach($typeMineraiRowset as $t) {
+			$typeMinerais[] = array("id_type_minerai" => $t->id_type_minerai,
+			"nom" => $t->nom_type_minerai,
+			"nom_systeme" => $t->nom_systeme_type_minerai,
+			"description" => $t->description_type_minerai,
 			);
 		}
 
-		$this->view->typeFilons = $typeFilons;
+		$this->view->typeMinerais = $typeMinerais;
 		$this->view->zones = $zones;
 	}
 }

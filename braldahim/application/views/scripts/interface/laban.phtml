@@ -46,6 +46,30 @@
     </table>
    <? endif; ?>
    </div>
+   
+   <div class="laban_minerai">
+   <? if ($this->nb_minerais == 0) : ?>
+   	Aucun minerai
+   <? else : ?>
+    <? if ($this->nb_minerais==1):$s=''; else:$s='s';endif; ?>
+    <?=$this->nb_minerais?> minerai<?=$s?> : <br>
+    
+    <table width='100%'>
+    <? $i = 0;
+      foreach ($this->minerais as $m) : 
+     	 if ($i % 3 == 0) echo "<tr>"; 
+    	?>
+    	<td>
+    		<?=$m["type"]?> : Quantit&eacute; : <?=$m["quantite"]?>
+    	</td>
+    	<? if ($i % 3 == 2) echo "</tr>"; 
+    	$i++; 
+     endforeach;
+     if  ($i % 3 != 0) echo "</tr>"; 
+     ?>
+    </table> 
+    <? endif; ?>
+   </div>
    <br>
 </div>
  <?php if ($this->affichageInterne == false) : ?>

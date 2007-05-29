@@ -19,7 +19,7 @@
 DROP TABLE IF EXISTS `filon`;
 CREATE TABLE `filon` (
   `id_filon` int(11) NOT NULL auto_increment,
-  `id_fk_type_filon` int(11) NOT NULL,
+  `id_fk_type_minerai_filon` int(11) NOT NULL,
   `x_filon` int(11) NOT NULL,
   `y_filon` int(11) NOT NULL,
   `quantite_restante_filon` INT NOT NULL ,

@@ -8,6 +8,8 @@ class Bral_Competences_Factory {
 		Zend_Loader::loadClass("Bral_Competences_Marcher");
 		Zend_Loader::loadClass("Bral_Competences_Rechercherplante");
 		Zend_Loader::loadClass("Bral_Competences_Cueillir");
+		Zend_Loader::loadClass("Bral_Competences_Sonder");
+		Zend_Loader::loadClass("Bral_Competences_Extraire");
 		
 		$matches = null;
 		preg_match('/(.*)_competence_(.*)/', $request->get("caction"), $matches);
