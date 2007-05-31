@@ -23,4 +23,4 @@ CREATE TABLE `type_minerai` (
   `nom_systeme_type_minerai` varchar(10) NOT NULL,
   `description_type_minerai` varchar(200) NOT NULL,
   PRIMARY KEY  (`id_type_minerai`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
