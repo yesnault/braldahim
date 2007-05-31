@@ -3,7 +3,7 @@
 class Bral_Box_Laban {
 
 	function __construct($request, $view, $interne) {
-		Zend_Loader::loadClass('LabanPlante');
+		Zend_Loader::loadClass('LabanPartieplante');
 		Zend_Loader::loadClass('LabanMinerai');
 		$this->_request = $request;
 		$this->view = $view;
@@ -23,23 +23,14 @@ class Bral_Box_Laban {
 	}
 
 	function render() {
-		$tabPlantes = null;
-		$labanPlanteTable = new LabanPlante();
-		$plantes = $labanPlanteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$tabPartiePlantes = null;
+		$labanPartiePlanteTable = new LabanPartieplante();
+		$partiePlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
 
-		foreach ($plantes as $p) {
-			$tabPlantes[] = array(
-			"id_laban_plante" => $p["id_laban_plante"],
-			"type" => $p["nom_type_plante"],
-			"categorie" => $p["categorie_type_plante"],
-			"nom_partie_1" => $p["nom_partie_1_type_plante"],
-			"nom_partie_2" => $p["nom_partie_2_type_plante"],
-			"nom_partie_3" => $p["nom_partie_3_type_plante"],
-			"nom_partie_4" => $p["nom_partie_4_type_plante"],
-			"partie_1" => $p["partie_1_laban_plante"],
-			"partie_2" => $p["partie_2_laban_plante"],
-			"partie_3" => $p["partie_3_laban_plante"],
-			"partie_4" => $p["partie_4_laban_plante"],
+		foreach ($partiePlantes as $p) {
+			$tabPartiePlantes[] = array(
+			"nom_type" => $p["nom_type_partieplante"],
+			"quantite" => $p["quantite_laban_partieplante"],
 			);
 		}
 
@@ -54,8 +45,8 @@ class Bral_Box_Laban {
 			);
 		}
 
-		$this->view->nb_plantes = count($tabPlantes);
-		$this->view->plantes = $tabPlantes;
+		$this->view->nb_partieplantes = count($tabPartiePlantes);
+		$this->view->partieplantes = $tabPartiePlantes;
 		$this->view->nb_minerais = count($tabMinerais);
 		$this->view->minerais = $tabMinerais;
 		$this->view->nom_interne = $this->getNomInterne();
