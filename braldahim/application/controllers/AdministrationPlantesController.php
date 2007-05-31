@@ -21,6 +21,7 @@ class AdministrationPlantesController extends Zend_Controller_Action {
 		Zend_Loader::loadClass('Zone');
 		Zend_Loader::loadClass('Plante');
 		Zend_Loader::loadClass('TypePlante');
+		Zend_Loader::loadClass('TypePartieplante');
 			
 		$this->plantesPrepare();
 
@@ -110,10 +111,12 @@ class AdministrationPlantesController extends Zend_Controller_Action {
 		$zoneTable = new Zone();
 		$planteTable = new Plante();
 		$typePlanteTable = new TypePlante();
+		$typePartiePlanteTable = new TypePartieplante();
 
 		$zonesRowset = $zoneTable->fetchAllAvecEnvironnement();
 		$typePlanteRowset = $typePlanteTable->fetchAllAvecEnvironnement();
-
+		$typePartiePlanteRowset = $typePartiePlanteTable->fetchall();
+		
 		foreach($zonesRowset as $z) {
 			$nombrePlantes = $planteTable->countVue($z["x_min_zone"] ,$z["y_min_zone"] ,$z["x_max_zone"] ,$z["y_max_zone"]);
 			$nombreCases = ($z["x_max_zone"]  - $z["x_min_zone"] ) * ($z["y_max_zone"]  - $z["y_min_zone"] );
@@ -128,16 +131,27 @@ class AdministrationPlantesController extends Zend_Controller_Action {
 			"nombre_cases" => $nombreCases,
 			"couverture" => round($couverture));
 		}
-
+		
+		foreach($typePartiePlanteRowset as $p) {
+			$tabPartiePlante[$p->id_type_partieplante]["id"] = $p->id_type_partieplante;
+			$tabPartiePlante[$p->id_type_partieplante]["nom"] = $p->nom_type_partieplante;
+			$tabPartiePlante[$p->id_type_partieplante]["nom_systeme"] = $p->nom_systeme_type_partieplante;
+			$tabPartiePlante[$p->id_type_partieplante]["description"] = $p->description_type_partieplante;
+		}
+		
 		foreach($typePlanteRowset as $t) {
 			$typePlantes[] = array("id" => $t["id_type_plante"],
 			"nom" => $t["nom_type_plante"],
 			"categorie" => $t["categorie_type_plante"],
 			"environnement" => $t["nom_environnement"],
-			"nom_partie_1" => $t["nom_partie_1_type_plante"],
-			"nom_partie_2" => $t["nom_partie_2_type_plante"],
-			"nom_partie_3" => $t["nom_partie_3_type_plante"],
-			"nom_partie_4" => $t["nom_partie_4_type_plante"],
+			"nom_partie_1" => $tabPartiePlante[$t["id_fk_partieplante1_type_plante"]]["nom"],
+			"nom_partie_2" => $tabPartiePlante[$t["id_fk_partieplante2_type_plante"]]["nom"],
+			"nom_partie_3" => $tabPartiePlante[$t["id_fk_partieplante3_type_plante"]]["nom"],
+			"nom_partie_4" => $tabPartiePlante[$t["id_fk_partieplante4_type_plante"]]["nom"],
+			"id_fk_partieplante1" => $t["id_fk_partieplante1_type_plante"],
+			"id_fk_partieplante2" => $t["id_fk_partieplante2_type_plante"],
+			"id_fk_partieplante3" => $t["id_fk_partieplante3_type_plante"],
+			"id_fk_partieplante4" => $t["id_fk_partieplante4_type_plante"],
 			);
 		}
 

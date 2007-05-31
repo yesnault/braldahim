@@ -19,24 +19,13 @@
     	 
     	 if ($i % 3 == 0) echo "<tr>"; 
     	 
-    	$textPlante = "Cat&eacute;gorie : ".htmlentities($p["categorie"]). "<br>"; 
-    	$textPlante .= "Nom : ".htmlentities($p["type"])." \(".$p["id_laban_plante"]."\)<br>";
-    	$textPlante .= " Ce qu\'elle porte sur elle : <br>";
-    	$textPlante .= htmlentities($p["nom_partie_1"]). ", quantit&eacute; : ".$p["partie_1"]; 
-    	if ($p["nom_partie_2"] != "") {
-    		$textPlante .= htmlentities($p["nom_partie_2"]). ", quantit&eacute; : ".$p["partie_2"]; 
-    	}
-    	if ($p["nom_partie_3"] != "") {
-    		$textPlante .= htmlentities($p["nom_partie_3"]). ", quantit&eacute; : ".$p["partie_3"]; 
-    	}
-    	if ($p["nom_partie_4"] != "") {
-    		$textPlante .= htmlentities($p["nom_partie_4"]). ", quantit&eacute; : ".$p["partie_4"]; 
-    	}
+    	$textPlante = "Type : ".htmlentities($p["nom_type"]). "<br>"; 
+    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite"])."<br>";
     	?>
-    	<td onmouseover="return overlib('<?=$textPlante?>',CAPTION,'<?=htmlentities($p["type"])?>\(<?=$p["id_laban_plante"]?>\) - D&eacute;tails');"
-      		onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'Plante <?=htmlentities($p["type"])?>\(<?=$p["id_laban_plante"]?>\) - D&eacute;tails', CLOSECLICK, EXCLUSIVE);"
+    	<td onmouseover="return overlib('<?=$textPlante?>',CAPTION,'<?=htmlentities($p["nom_type"])?> - D&eacute;tails');"
+      		onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'Plante <?=htmlentities($p["nom_type"])?> - D&eacute;tails', CLOSECLICK, EXCLUSIVE);"
       		onmouseout="return nd();">
-    		<?=$p["categorie"]?> : <?=$p["type"]?> (<?=$p["id_laban_plante"]?>)
+    		<?=$p["nom_type"]?> - Quantit&eacute;: <?=$p["quantite"]?>
     	</td>
     	<? if ($i % 3 == 2) echo "</tr>"; 
     	$i++; 
