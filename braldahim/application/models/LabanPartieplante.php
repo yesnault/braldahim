@@ -15,4 +15,26 @@ class LabanPartieplante extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
     }
+    
+	function insertOrUpdate($data) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('laban_partieplante', 'count(*) as nombre, quantite_laban_partieplante as quantite')
+		->where('id_fk_type_laban_partieplante = ?',$data["id_fk_type_laban_partieplante"])
+		->where('id_hobbit_laban_partieplante = ?',$data["id_hobbit_laban_partieplante"])
+		->group('quantite');
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		if (count($resultat) == 0) { // insert
+			$this->insert($data);
+		} else { // update
+			$nombre = $resultat[0]["nombre"];
+			$quantite = $resultat[0]["quantite"];
+			$dataUpdate = array('quantite_laban_partieplante' => $quantite + $data["quantite_laban_partieplante"]);
+			$where = ' id_fk_type_laban_partieplante = '.$data["id_fk_type_laban_partieplante"];
+			$where .= ' AND id_hobbit_laban_partieplante = '.$data["id_hobbit_laban_partieplante"];
+			$this->update($dataUpdate, $where);
+		}
+	}
 }

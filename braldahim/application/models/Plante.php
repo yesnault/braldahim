@@ -49,15 +49,16 @@ class Plante extends Zend_Db_Table {
 	function findLaPlusProche($x, $y, $rayon) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('plante', '*')
+		$select->from('plante', 'id_plante, y_plante, x_plante, id_fk_type_plante, SQRT(((x_plante - '.$x.') * (x_plante - '.$x.')) + ((y_plante - '.$y.') * ( y_plante - '.$y.'))) as distance')
 		->from('type_plante', '*')
 		->where('x_plante >= ?', $x - $rayon)
 		->where('x_plante <= ?', $x + $rayon)
 		->where('y_plante >= ?', $y - $rayon)
 		->where('y_plante <= ?', $y + $rayon)
 		->where('plante.id_fk_type_plante = type_plante.id_type_plante')
-		->order('SQRT(((x_plante - '.$x.') * (x_plante - '.$x.')) + ((y_plante - '.$y.') * ( y_plante - '.$y.'))) ASC');
+		->order('distance ASC');
 		$sql = $select->__toString();
 		return $db->fetchRow($sql);
 	}
 }
+

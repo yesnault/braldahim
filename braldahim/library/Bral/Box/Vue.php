@@ -197,7 +197,12 @@ class Bral_Box_Vue {
 					}
 					foreach($plantes as $p) {
 						if ($display_x == $p["x_plante"] && $display_y == $p["y_plante"]) {
-							$tabPlantes[] = array("id_plante" => $p["id_plante"], "type" => $p["nom_type_plante"], "categorie" => $p["categorie_type_plante"], "quantite_1" =>$p["partie_1_plante"], "quantite_2" =>$p["partie_2_plante"], "quantite_3" =>$p["partie_3_plante"], "nom_partie_1" =>$p["nom_partie_1_type_plante"], "nom_partie_2" =>$p["nom_partie_2_type_plante"], "nom_partie_3" =>$p["nom_partie_3_type_plante"], "nom_partie_4" =>$p["nom_partie_4_type_plante"]);
+							$tabPlantes[] = array("id_plante" => $p["id_plante"], "type" => $p["nom_type_plante"],
+							"categorie" => $p["categorie_type_plante"],
+							"quantite_1" =>$p["partie_1_plante"], "quantite_2" =>$p["partie_2_plante"],
+							"quantite_3" =>$p["partie_3_plante"], "quantite_4" =>$p["partie_4_plante"],
+							"nom_partie_1" =>"TODO", "nom_partie_2" =>"TODO",
+							"nom_partie_3" =>"TODO", "nom_partie_4" =>"TODO");
 						}
 					}
 				}

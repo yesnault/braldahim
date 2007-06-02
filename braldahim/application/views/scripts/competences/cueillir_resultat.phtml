@@ -6,24 +6,31 @@
 		<? include("commun_text_resultat.phtml") ?>
 		
 		<? if ($this->okJet1 === true):?>
-		Vous avez cueilli avec succ&egrave;s cette plante:<br>
-		<?=$this->plante["categorie"]?> - <?=$this->plante["nom_type"]?> (<?=$this->plante["id_plante"]?>)
-		<br><br>
+			<? if ($this->nbCueillette > 1):?>
+			Vous avez cueilli avec succ&egrave;s des &eacute;l&eacute;ments sur la plante :<br>
+			<? else: ?>
+			Vous avez cueilli avec succ&egrave;s un &eacute;l&eacute;ment sur la plante :<br>
+			<? endif; ?>
+			<?=$this->plante["categorie"]?> - <?=$this->plante["nom_type"]?> (<?=$this->plante["id_plante"]?>)
+			<br><br>
 		
-		<? if ($this->plante["nom_partie_1"] != "") {
-			echo "Cette plante contient : <br>";
-			echo $this->plante["nom_partie_1"]. ', quantit&eacute; : '.$this->plante["partie_1_plante"]. "<br>";
-		}
-		if ($this->plante["nom_partie_2"] != "") {
-			echo $this->plante["nom_partie_2"]. ', quantit&eacute; : '.$this->plante["partie_2_plante"]. "<br>";
-		}
-		if ($this->plante["nom_partie_3"] != "") {
-			echo $this->plante["nom_partie_3"]. ', quantit&eacute; : '.$this->plante["partie_3_plante"]. "<br>";
-		}
-		if ($this->plante["nom_partie_4"] != "") {
-			echo $this->plante["nom_partie_4"]. ', quantit&eacute; : '.$this->plante["partie_4_plante"]. "<br>";
-		}
-		?>
+			<? if ($this->cueillette[1]["quantite"] != 0) {
+				echo $this->cueillette[1]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[1]["quantite"]. "<br>";
+			}
+			if ($this->cueillette[2]["quantite"] != 0) {
+				echo $this->cueillette[2]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[2]["quantite"]. "<br>";
+			}
+			if ($this->cueillette[3]["quantite"] != 0) {
+				echo $this->cueillette[3]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[3]["quantite"]. "<br>";
+			}
+			if ($this->cueillette[4]["quantite"] != 0) {
+				echo $this->cueillette[4]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[4]["quantite"]. "<br>";
+			}
+			?>
+			<? if ($this->planteDetruite === true) : ?>
+				Vous avez pris ce qu'il restait sur la plante... elle n'existe plus donc. <br>
+			<? endif; ?>
+		
 		<? endif; ?>
 		<br>
 	 </div>
@@ -33,36 +40,22 @@
 		include("commun_copie_resultat.phtml");
 		
 		if ($this->okJet1 === true) {
-		echo "Vous avez cueilli avec succ&egrave;s cette plante:";
-		echo "
-";
-		echo $this->plante["categorie"]. " - ".$this->plante["nom_type"]. " (". $this->plante["id_plante"].")";
-		echo "
-";
-		
-		 if ($this->plante["nom_partie_1"] != "") {
-			echo "Cette plante contient : ";
+			if ($this->nbCueillette > 1) {
+				echo "Vous avez cueilli avec succ&egrave;s des &eacute;l&eacute;ments sur la plante :";
+			} else {
+				echo "Vous avez cueilli avec succ&egrave;s un &eacute;l&eacute;ment sur la plante :";
+			}
+
+			echo $this->plante["categorie"]. " - ".$this->plante["nom_type"]. " (". $this->plante["id_plante"].")";
 			echo "
 ";
-			echo $this->plante["nom_partie_1"]. ', quantit&eacute; : '.$this->plante["partie_1_plante"];
-			echo "
+			for ($i = 1; $i<=4; $i++) {
+				if ($this->cueillette[$i]["quantite"] != 0) {
+					echo $this->cueillette[$i]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[$i]["quantite"];
+					echo "
 ";
-		 }
-		if ($this->plante["nom_partie_2"] != "") {
-			echo $this->plante["nom_partie_2"]. ', quantit&eacute; : '.$this->plante["partie_2_plante"];
-			echo "
-";
-		}
-		if ($this->plante["nom_partie_3"] != "") {
-			echo $this->plante["nom_partie_3"]. ', quantit&eacute; : '.$this->plante["partie_3_plante"];
-			echo "
-";
-		}
-		if ($this->plante["nom_partie_4"] != "") {
-			echo $this->plante["nom_partie_4"]. ', quantit&eacute; : '.$this->plante["partie_4_plante"];
-			echo "
-";
-		}
+				}
+			}
 		}
 	?>
 	</textarea>

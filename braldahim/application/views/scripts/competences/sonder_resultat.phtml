@@ -5,11 +5,33 @@
 		<? include("commun_text_resultat.phtml") ?>
 		<? if ($this->okJet1 === true):?>
 			<? if ($this->trouve == true): ?>
-			Le filon le plus proche se situe en : 
-			X=<?=$this->filon["x_filon"]?> et Y=<?=$this->filon["y_filon"]?><br>
-			 <? else: ?>
-			Aucun filon n'a &eacute;t&eacute; trouv&eacute; dans <br>
-			un rayon de <?=$this->rayon;?>
+				<? if ($this->proche === true): ?>
+					Le filon le plus proche se situe en : 
+					X=<?=$this->filon["x_filon"]?> et Y=<?=$this->filon["y_filon"]?>,<br>
+					en direction  
+				<? elseif ($this->proche === false): ?>
+					Le filon le plus proche se situe en direction <br>
+				<? endif; ?>
+				<? if ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit == $this->filon["x_filon"]): ?>
+				du Nord
+				<? elseif ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit < $this->filon["x_filon"]): ?>
+				du Nord Est
+				<? elseif ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit > $this->filon["x_filon"]): ?>
+				du Nord Ouest
+				<? elseif ($this->user->y_hobbit > $this->filon["y_filon"] && $this->user->x_hobbit == $this->filon["x_filon"]): ?>
+				du Sud 
+				<? elseif ($this->user->y_hobbit > $this->filon["y_filon"] && $this->user->x_hobbit < $this->filon["x_filon"]): ?>
+				du Sud Est		
+				<? elseif ($this->user->y_hobbit > $this->filon["y_filon"] && $this->user->x_hobbit > $this->filon["x_filon"]): ?>
+				du Sud Ouest
+				<? elseif ($this->user->y_hobbit == $this->filon["y_filon"] && $this->user->x_hobbit < $this->filon["x_filon"]): ?>
+				de l'Est
+				<? elseif ($this->user->y_hobbit == $this->filon["y_filon"] && $this->user->x_hobbit > $this->filon["x_filon"]): ?>
+				de l'Ouest
+				<? endif; ?>
+			<? else: ?>
+				Aucun filon n'a &eacute;t&eacute; trouv&eacute; dans <br>
+				un rayon de <?=$this->rayon_max;?> cases
 			<? endif; ?>
 		<? endif; ?>
 	 </div>
@@ -20,14 +42,35 @@
 		
 		if ($this->okJet1 === true) {
 			if ($this->trouve == true) {
-				echo "Le filon le plus proche se situe en : ";
-				echo " X=".$this->filon["x_filon"]." et Y=".$this->filon["y_filon"];
+				if ($this->proche === true) {
+					echo "Le filon le plus proche se situe en : ";
+					echo " X=".$this->filon["x_filon"]." et Y=".$this->filon["y_filon"];
+					echo ", en direction ";
+				} elseif ($this->proche === false) {
+					echo "Le filon le plus proche se situe en direction ";
+				}
+				if ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit == $this->filon["x_filon"]) {
+					echo "du Nord";
+				} elseif ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit < $this->filon["x_filon"]) {
+					echo "du Nord Est";
+				} elseif ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit > $this->filon["x_filon"]) {
+					echo "du Nord Ouest";
+				} elseif ($this->user->y_hobbit > $this->filon["y_filon"] && $this->user->x_hobbit == $this->filon["x_filon"]) {
+					echo "du Sud";
+				} elseif ($this->user->y_hobbit > $this->filon["y_filon"] && $this->user->x_hobbit < $this->filon["x_filon"]) {
+					echo "du Sud Est";		
+				} elseif ($this->user->y_hobbit > $this->filon["y_filon"] && $this->user->x_hobbit > $this->filon["x_filon"]) {
+					echo "du Sud Ouest";
+				} elseif ($this->user->y_hobbit == $this->filon["y_filon"] && $this->user->x_hobbit < $this->filon["x_filon"]) {
+					echo "de l'Est";
+				} elseif ($this->user->y_hobbit == $this->filon["y_filon"] && $this->user->x_hobbit > $this->filon["x_filon"]) {
+					echo "du l'Ouest";
+				}
 			} else {
-				echo "Aucun filon n'a &eacute;t&eacute; trouv&eacute; dans un rayon de ".$this->rayon;
+				echo "Aucun filon n'a &eacute;t&eacute; trouv&eacute; dans un rayon de ".$this->rayon. " cases";
 			}
 		}
-	?>
-	</textarea>
+	?></textarea>
 	</div>
  </div>
 

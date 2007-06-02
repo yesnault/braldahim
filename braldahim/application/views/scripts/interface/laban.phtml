@@ -7,15 +7,13 @@
    Castars : <?=$this->user->castars_hobbit ?><br>
    <hr>
    <div class="laban_plante">
-   <? if ($this->nb_plantes == 0) : ?>
-   	Aucune plante
-   <? else : ?>
-    <? if ($this->nb_plantes==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_plantes?> plante<?=$s?> : <br>
+   <? if ($this->nb_partieplantes > 0) : ?>
+    <? if ($this->nb_partieplantes==1):$s=''; else:$s='s';endif; ?>
+    <?=$this->nb_partieplantes?> &eacute;l&eacute;ment<?=$s?> de plantes : <br>
     
     <table width='100%'>
     <? $i = 0;
-      foreach ($this->plantes as $p) : 
+      foreach ($this->partieplantes as $p) : 
     	 
     	 if ($i % 3 == 0) echo "<tr>"; 
     	 
