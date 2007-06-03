@@ -3,8 +3,10 @@
 class Bral_Competences_Sonder extends Bral_Competences_Competence {
 
 	function prepareCommun() {
+		Zend_Loader::loadClass('Bral_Util_Commun');
+		$commun = new Bral_Util_Commun();
 		$this->view->rayon_max = $this->view->config->game->competence->sonder->rayon_max;
-		$this->view->rayon_precis = $this->view->config->game->competence->sonder->rayon_precis;
+		$this->view->rayon_precis =  $commun->getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) * 2;
 	}
 
 	function prepareFormulaire() {

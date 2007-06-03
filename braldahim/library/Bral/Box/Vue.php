@@ -9,6 +9,7 @@ class Bral_Box_Vue {
 		Zend_Loader::loadClass("Region");
 		Zend_Loader::loadClass("Zone");
 		Zend_Loader::loadClass("Plante");
+		Zend_Loader::loadClass('Bral_Util_Commun');
 
 		$this->_request = $request;
 		$this->view = $view;
@@ -36,10 +37,8 @@ class Bral_Box_Vue {
 	}
 
 	private function prepare() {
-		$zoneTable = new Zone();
-		$zones = $zoneTable->findCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		$zone = $zones[0];
-		$this->view->vue_nb_cases = $this->getVueBase($zone["nom_systeme_environnement"]) + $this->view->user->vue_bm_hobbit;
+		$commun = new Bral_Util_Commun();
+		$this->view->vue_nb_cases = $commun->getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
 		$this->view->x_min = $this->view->user->x_hobbit - $this->view->vue_nb_cases;
 		$this->view->x_max = $this->view->user->x_hobbit + $this->view->vue_nb_cases;
 		$this->view->y_min = $this->view->user->y_hobbit - $this->view->vue_nb_cases;
@@ -245,29 +244,5 @@ class Bral_Box_Vue {
 		}
 
 		$this->view->tableau = $tableau;
-	}
-
-	private function getVueBase($environnement) {
-		$r = 0;
-		switch($environnement) {
-			case "marais":
-				$r = 3;
-				break;
-			case "montagne":
-				$r = 5;
-				break;
-			case "caverne":
-				$r = 2;
-				break;
-			case "plaine" :
-				$r = 6;
-				break;
-			case "foret" :
-				$r = 4;
-				break;
-			default :
-				throw new Exception("getVueBase Environnement invalide:".$environnement);
-		}
-		return $r;
 	}
 }

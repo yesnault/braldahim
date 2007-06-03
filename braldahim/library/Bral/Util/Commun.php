@@ -1,0 +1,37 @@
+<?php
+
+class Bral_Util_Commun {
+
+	function __construct() {
+	}
+	
+	public function getVueBase($x, $y) {
+		Zend_Loader::loadClass('Zone');
+		
+		$zoneTable = new Zone();
+		$zones = $zoneTable->findCase($x, $y);
+		$zone = $zones[0];
+
+		$r = 0;
+		switch($zone["nom_systeme_environnement"]) {
+			case "marais":
+				$r = 3;
+				break;
+			case "montagne":
+				$r = 5;
+				break;
+			case "caverne":
+				$r = 2;
+				break;
+			case "plaine" :
+				$r = 6;
+				break;
+			case "foret" :
+				$r = 4;
+				break;
+			default :
+				throw new Exception("getVueBase Environnement invalide:".$zone["nom_systeme_environnement"]);
+		}
+		return $r;
+	}
+}

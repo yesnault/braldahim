@@ -124,7 +124,7 @@ abstract class Bral_Competences_Competence {
 		$hobbit = $hobbitRowset->current();
 
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
-		$this->view->user->px_hobbit = $this->view->user->px_hobbit + $this->view->nb_px;
+		$this->view->user->px_perso_hobbit = $this->view->user->px_perso_hobbit + $this->view->nb_px;
 		$this->view->user->balance_faim_hobbit = $this->view->user->balance_faim_hobbit + $this->view->balance_faim;
 		
 		if ($this->view->user->balance_faim_hobbit < 0) {
@@ -133,7 +133,7 @@ abstract class Bral_Competences_Competence {
 		
 		$data = array(
 		'pa_hobbit' => $this->view->user->pa_hobbit,
-		'px_hobbit' => $this->view->user->px_hobbit,
+		'px_perso_hobbit' => $this->view->user->px_perso_hobbit,
 		'balance_faim_hobbit' => $this->view->user->balance_faim_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;

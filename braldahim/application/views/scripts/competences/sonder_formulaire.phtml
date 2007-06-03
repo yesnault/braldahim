@@ -9,7 +9,8 @@
 <?php else : ?>
  <? if ($this->nb_cases == 1): $s=''; else: $s='s'; endif ?>
  Pour <?=$this->nb_pa ?> PA, vous pouvez sonder un filon <br>
- dans un rayon de  <?=$this->rayon_max ?> case<?=$s?> aux alentours<br><br>
+ dans un rayon de  <?=$this->rayon_max ?> case<?=$s?> aux alentours<br>
+ et de mani&egrave;re pr&eacute;cise dans un rayon de <?=$this->rayon_precis ?> cases<br><br>
 <? endif ?>
 </div>
 
