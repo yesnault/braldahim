@@ -27,6 +27,20 @@ class Hobbit extends Zend_Db_Table {
 	public function findByEmail($email){ 
 		$where = $this->getAdapter()->quoteInto('lcase(email_hobbit) = ?',(string)strtolower(trim($email))); 
 		return $this->fetchRow($where); 
-	} 
+	}
+	
+	function findLesPlusProches($x, $y, $rayon, $nombre) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', 'id_hobbit, nom_hobbit, y_hobbit, x_hobbit, SQRT(((x_hobbit - '.$x.') * (x_hobbit - '.$x.')) + ((y_hobbit - '.$y.') * ( y_hobbit - '.$y.'))) as distance')
+		->where('x_hobbit >= ?', $x - $rayon)
+		->where('x_hobbit <= ?', $x + $rayon)
+		->where('y_hobbit >= ?', $y - $rayon)
+		->where('y_hobbit <= ?', $y + $rayon)
+		->limit($nombre)
+		->order('distance ASC');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }
 

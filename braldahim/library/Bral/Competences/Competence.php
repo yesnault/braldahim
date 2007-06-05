@@ -42,7 +42,11 @@ abstract class Bral_Competences_Competence {
 	}
 	
 	public function calculPx() {
-		$this->view->nb_px = $this->competence["px_gain"];
+		if ($this->view->okJet1 === true) {
+			$this->view->nb_px = $this->competence["px_gain"];
+		} else {
+			$this->view->nb_px = 0;
+		}
 	}
 	
 	public function calculBalanceFaim() {
@@ -131,9 +135,14 @@ abstract class Bral_Competences_Competence {
 			$this->view->user->balance_faim_hobbit = 0; 
 		}
 		
+		$this->view->changeNiveau = false;
+		$this->calculNiveau();
+		
 		$data = array(
 		'pa_hobbit' => $this->view->user->pa_hobbit,
 		'px_perso_hobbit' => $this->view->user->px_perso_hobbit,
+		'niveau_hobbit' => $this->view->user->niveau_hobbit,
+		'px_base_niveau_hobbit' => $this->view->user->px_base_niveau_hobbit,
 		'balance_faim_hobbit' => $this->view->user->balance_faim_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
@@ -154,6 +163,29 @@ abstract class Bral_Competences_Competence {
 				break;
 			default:
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
+		}
+	}
+	
+	
+	/**
+	 * Le niveau suivant est calculé à partir d'un certain nombre de px perso
+	 * qui doit être >= à :
+	 * NiveauSuivantPX = NiveauSuivant x 3 + debutNiveauPrecedentPx
+	 */
+	private function calculNiveau() {
+		
+		$niveauSuivantPx = ($this->view->user->niveau_hobbit + 1) * 3 + $this->view->user->px_base_niveau_hobbit;
+		if ($this->view->user->px_perso_hobbit >= $niveauSuivantPx) {
+			$this->view->user->px_perso_hobbit = $this->view->user->px_perso_hobbit - $niveauSuivantPx;
+			$this->view->user->niveau_hobbit = $this->view->user->niveau_hobbit + 1;
+			$this->view->user->px_base_niveau_hobbit = $niveauSuivantPx;
+			$this->view->user->pi_hobbit = $this->view->user->pi_hobbit + $niveauSuivantPx;
+			$this->view->changeNiveau = true;
+		}
+		
+		$niveauSuivantPx = ($this->view->user->niveau_hobbit + 1) * 3 + $this->view->user->px_base_niveau_hobbit;
+		if ($this->view->user->px_perso_hobbit >= $niveauSuivantPx) {
+			$this->calculNiveau();
 		}
 	}
 }

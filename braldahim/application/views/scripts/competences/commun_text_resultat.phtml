@@ -20,3 +20,9 @@
 		<? endif; ?>
 		Influence sur la balance de faim : <?=$this->balance_faim ?> %<br><br>
 		Cela vous a cout&eacute; <?=$this->nb_pa?> PA<br><br>
+		
+		<? if ($this->changeNiveau === true):?>
+		Vous avez chang&eacute; de niveau ! <br>
+		Vous &ecirc;tes maintenant Niveau <?=$this->user->niveau_hobbit ?><br>
+		Vous avez  <?=$this->user->pi_hobbit ?> PI<br><br>
+		<? endif; ?>

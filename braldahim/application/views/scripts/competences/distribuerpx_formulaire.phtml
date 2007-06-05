@@ -1,0 +1,33 @@
+<div class='comp_titre'>Distribuer des PX</div>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='<?$this->n_hobbits?>'>
+ <form name='myForm'>
+ <div class='comp_contenu'>
+ 	
+ 	Cagnotte : <input type='text' id='cagnotte' name='cagnotte' value='2' size='3' disabled> PX<br><br>
+ 	
+ 	<? if ($this->estMaxHobbit === true): ?>
+ 		Il y a plus de <?=$this->config->game->competence->distribuerpx->nb_max_hobbit?> dans votre vue.<br><br>
+ 		Seuls les <?=$this->config->game->competence->distribuerpx->nb_max_hobbit?> hobbits les plus proches<br> sont disponibles pour recevoir des px.<br><br>
+ 	<? endif; ?>
+
+	<table>
+ 	<? $i=0;
+ 	foreach ($this->tabHobbits as $h) : 
+ 		$i = $i+2;
+ 	?>
+ 		<tr>
+ 			<td>
+ 			<input type='hidden' id='valeur_<?=($i-1)?>' name='valeur_<?=($i-1)?>'>
+ 			<?=$h["nom_hobbit"]?> (<?=$h["id_hobbit"]?>)
+ 			</td>
+ 			<td>
+ 				<input type='text' id='valeur_<?=$i?>' name='valeur_<?=$i?>' value='0' size='3' maxlength='2'>
+ 			</td>
+ 		</tr>
+ 	<? endforeach; ?>
+ 	</table>
+ </div>
+ </form>
+<br>
+<input type='button' id='bouton_distribuer' value='Distribuer !' onClick='_get_("/competences/DoAction?caction=do_competence_distribuer");' disabled>
+<input type='button' value='Annuler' onClick='_get_("/interface/clear");'>

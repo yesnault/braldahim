@@ -18,7 +18,7 @@
     <div class="barre_faim"><img src="/public/images/barre_vie.gif" height="10px" width="<?=floor($this->user->pv_restant_hobbit*100)/$this->user->pv_max_hobbit ?>px"></div>
     PA restants : <?=$this->user->pa_hobbit ?><br>
     PX Perso: <?=$this->user->px_perso_hobbit ?> - PX Commun : <?=$this->user->px_commun_hobbit ?><br>
-    PI : <?=$this->user->pi_hobbit ?><br>
+    PI : <?=$this->user->pi_hobbit ?> - Niveau : <?=$this->user->niveau_hobbit ?><br>
     <hr>
     Vue BM : <?=$this->user->vue_bm_hobbit ?> | Reg&eacute;n&eacute;ration : <?=$this->user->regeneration_hobbit ?><br>
     Force : <?=$this->user->force_base_hobbit ?> D<?=$this->config->game->de_force ?> + <?php echo $this->escape($this->user->force_bm_hobbit) ?> | 

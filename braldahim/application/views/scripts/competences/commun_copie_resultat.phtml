@@ -45,3 +45,12 @@ echo "
 		echo "Cela vous a cout&eacute; ".$this->nb_pa." PA";
 		echo "
 ";
+
+		if ($this->changeNiveau === true) {
+		echo "Vous avez chang&eacute; de niveau !";
+		
+		echo " Vous &ecirc;tes maintenant Niveau ".$this->user->niveau_hobbit;
+		echo " Vous avez ".$this->user->pi_hobbit." PI";
+		echo "
+";
+		}

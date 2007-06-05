@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Lundi 28 Mai 2007 à 00:09
+-- Généré le : Mardi 05 Juin 2007 à 22:29
 -- Version du serveur: 5.0.33
 -- Version de PHP: 5.2.0
 -- 
@@ -16,7 +16,6 @@
 -- Structure de la table `hobbit`
 -- 
 
-DROP TABLE IF EXISTS `hobbit`;
 CREATE TABLE `hobbit` (
   `id_hobbit` int(11) NOT NULL auto_increment,
   `nom_hobbit` varchar(20) NOT NULL,
@@ -44,8 +43,10 @@ CREATE TABLE `hobbit` (
   `vigueur_bm_hobbit` int(11) NOT NULL,
   `regeneration_hobbit` int(11) NOT NULL,
   `px_perso_hobbit` int(11) NOT NULL default '0',
-  `px_commun_hobbit` int(11) NOT NULL default '0',
+  `px_commun_hobbit` int(11) NOT NULL,
+  `px_base_niveau_hobbit` int(11) NOT NULL default '0',
   `pi_hobbit` int(11) NOT NULL default '0',
+  `niveau_hobbit` int(11) NOT NULL default '0',
   `balance_faim_hobbit` int(11) NOT NULL,
   `armure_naturelle_hobbit` int(11) NOT NULL,
   `armure_equipement_hobbit` int(11) NOT NULL,
