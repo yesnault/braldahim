@@ -1,11 +1,35 @@
 <div class='comp_titre'>Distribuer des PX</div>
  <div class='comp_contenu'>
 	 <div id='distribuerpx_text' style="display:block"  onClick="javascript:switch2div('distribuerpx_text','distribuerpx_copie');">
+		Vous avez distribu&eacute; <?=$this->totalDistribution?> px.<br><br>
 		
+	<table>
+ 	<? foreach ($this->tabAffiche as $t):?>
+ 		<tr>
+ 			<td>
+ 			<?=$t["nom_hobbit"]?> (<?=$t["id_hobbit"]?>)
+ 			</td>
+ 			<td>
+ 			<?=$t["px_recu"]?>  PX
+ 			</td>
+ 		</tr>
+ 	<? endforeach; ?>
+ 	</table>
+ 	
 	 </div>
 	 
 	 <div id='distribuerpx_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+		
+		echo "Vous avez distribu&eracute; <?=$this->totalDistribution?> px.";
+		echo "
+";
+ 		foreach ($this->tabAffiche as $t) {
+ 			echo $t["nom_hobbit"]." (".$t["id_hobbit"]."):";
+ 			echo $t["px_recu"]." PX";
+ 			echo "
+";
+ 		}
 		?></textarea>
 	</div>
  </div>
