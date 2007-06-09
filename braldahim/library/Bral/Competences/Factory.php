@@ -3,6 +3,8 @@
 class Bral_Competences_Factory {
 	static function getAction($request, $view) {
 		Zend_Loader::loadClass("Bral_Competences_Competence");
+		
+		Zend_Loader::loadClass("Bral_Competences_Attaquer");
 		Zend_Loader::loadClass("Bral_Competences_Cueillir");
 		Zend_Loader::loadClass("Bral_Competences_Decalerdla");
 		Zend_Loader::loadClass("Bral_Competences_Distribuerpx");

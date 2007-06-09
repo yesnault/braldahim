@@ -13,9 +13,29 @@ class Hobbit extends Zend_Db_Table {
 		->where('x_hobbit <= ?',$x_max)
 		->where('x_hobbit >= ?',$x_min)
 		->where('y_hobbit >= ?',$y_min)
-		->where('y_hobbit <= ?',$y_max);
+		->where('y_hobbit <= ?',$y_max)
+		->where('est_mort_hobbit = ?', "non");
 		$sql = $select->__toString();
 		
+		return $db->fetchAll($sql);
+    }
+    
+    function findByCase($x, $y, $sansHobbitCourant = -1) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		if ($sansHobbitCourant != -1) {
+			$select->from('hobbit', '*')
+			->where('x_hobbit = ?',$x)
+			->where('y_hobbit = ?',$y)
+			->where('id_hobbit != ?',$sansHobbitCourant)
+			->where('est_mort_hobbit = ?', "non");
+		} else {
+			$select->from('hobbit', '*')
+			->where('x_hobbit = ?',$x)
+			->where('y_hobbit = ?',$y)
+			->where('est_mort_hobbit = ?', "non");
+		}
+		$sql = $select->__toString();
 		return $db->fetchAll($sql);
     }
     
@@ -37,6 +57,7 @@ class Hobbit extends Zend_Db_Table {
 		->where('x_hobbit <= ?', $x + $rayon)
 		->where('y_hobbit >= ?', $y - $rayon)
 		->where('y_hobbit <= ?', $y + $rayon)
+		->where('est_mort_hobbit = ?', "non")
 		->limit($nombre)
 		->order('distance ASC');
 		$sql = $select->__toString();

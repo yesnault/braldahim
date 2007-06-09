@@ -10,7 +10,7 @@
  	foreach($this->competences as $c) : ?>
   <div>
        <?=$c["pa_utilisation"]?> PA -
-      <input type="button" value="<?=$c["nom"]?>"
+      <input type="button" value="<?=$c["nom"]?> : <?=$c["pourcentage"]?> % "
          onClick="Javascript:_get_('/competences/DoAction?caction=ask_competence_<?=$c["nom_systeme"] ?>')">
   </div>
  <?php endforeach ;

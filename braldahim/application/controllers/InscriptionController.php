@@ -153,7 +153,6 @@ class InscriptionController extends Zend_Controller_Action {
 		$lieuTable = new Lieu();
 		$mairiesRowset = $lieuTable->findByType($this->view->config->game->lieu->type->mairie);
 		$de = Bral_Util_De::get_de_specifique(0, count($mairiesRowset)-1);
-		$mairiesArray = $mairiesRowset->toArray();
 		$lieu = $mairiesRowset[$de];
 		
 		$data = array(
@@ -173,6 +172,8 @@ class InscriptionController extends Zend_Controller_Action {
 			'date_creation_hobbit' => date("Y-m-d H:i:s"),
 			'tour_position_hobbit' => $this->view->config->game->inscription->tour_position,
 			'balance_faim_hobbit' => $this->view->config->game->inscription->balance_faim,
+			'pv_max_hobbit' => $this->view->config->game->inscription->pv_max,
+			'pv_restant_hobbit' => $this->view->config->game->inscription->pv_restant,
 		);
 		
 		return $data;

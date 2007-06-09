@@ -42,6 +42,7 @@ abstract class Bral_Competences_Competence {
 	}
 	
 	public function calculPx() {
+		$this->view->calcul_px_generique = true;
 		if ($this->view->okJet1 === true) {
 			$this->view->nb_px = $this->competence["px_gain"];
 		} else {
@@ -141,9 +142,11 @@ abstract class Bral_Competences_Competence {
 		$data = array(
 		'pa_hobbit' => $this->view->user->pa_hobbit,
 		'px_perso_hobbit' => $this->view->user->px_perso_hobbit,
+		'px_commun_hobbit' => $this->view->user->px_commun_hobbit,
 		'niveau_hobbit' => $this->view->user->niveau_hobbit,
 		'px_base_niveau_hobbit' => $this->view->user->px_base_niveau_hobbit,
 		'balance_faim_hobbit' => $this->view->user->balance_faim_hobbit,
+		'nb_kill_hobbit' => $this->view->user->nb_kill_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);

@@ -29,7 +29,7 @@ class Bral_Util_Registre {
 			$tab[$c->id_competence]["type"] = $c->type_competence;
 			$tab[$c->id_competence]["id_fk_metier"] = $c->id_fk_metier_competence;
 			
-			$tab2[$c->nom_systeme_competence]["id_competence"] = $c->id_competence;
+			//$tab2[$c->nom_systeme_competence]["id_competence"] = $c->id_competence;
 			
 			if ($c->type_competence == 'basic') {
 				$tabBasiques[] = array 
@@ -43,7 +43,7 @@ class Bral_Util_Registre {
 			}
 		}
 		Zend_Registry::set('competences', $tab);
-		Zend_Registry::set('competencesId', $tab2);
+		//Zend_Registry::set('competencesId', $tab2);
 		Zend_Registry::set('competencesBasiques', $tabBasiques);
 	}
 	

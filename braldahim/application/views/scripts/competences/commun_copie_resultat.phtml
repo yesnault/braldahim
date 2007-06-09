@@ -22,9 +22,12 @@ echo "
 				echo "
 ";
 			}
-			echo "Vous avez gagn&eacute; ".$this->nb_px." PX";
-			echo "
+			if ($this->calcul_px_generique === true) {
+				echo "Vous avez gagn&eacute; ".$this->nb_px." PX";
+				echo "
 ";
+			}
+			
 		} else {
 			echo "Vous avez rat&eacute; votre jet d'action ".$this->jet1." %";
 			echo "

@@ -9,7 +9,9 @@
 				Vous avez r&eacute;ussi votre jet d'action <?=$this->jet1 ?> %<br>
 				Vous avez rat&eacute; votre jet d'am&eacute;lioration : <?=$this->jet2?> %<br><br>
 			<? endif; ?>
+			<? if ($this->calcul_px_generique === true) : ?>
 			Vous avez gagn&eacute; <?=$this->nb_px?> PX<br><br>
+			<? endif; ?>
 		<? else: ?>
 			Vous avez rat&eacute; votre jet d'action <?=$this->jet1 ?> %<br>
 			<? if ($this->okJet2 === true && $this->okJet3 === true):?>

@@ -1,0 +1,34 @@
+<div class='comp_titre'>Attaquer</div>
+
+ <div class='comp_contenu'>
+	 <div id='attaquer_text' style="display:block"  onClick="javascript:switch2div('attaquer_text','attaquer_copie');">
+	 <? include("commun_text_resultat.phtml") ?>
+	 <? if ($this->okJet1 === true):?>
+		 Vous avez attaqu&eacute; <?=$this->cible["nom_cible"]?> (<?=$this->cible["id_cible"]?>) :<br><br>
+		 Jet d'attaque : <?=$this->jetAttaquant?><br>
+		 Jet de r&eacute;sistance de la cible : <?=$this->jetCible?><br>
+		 
+	 	<? if ($this->attaqueReussie === true) : ?>
+	 		<? if ($this->jetDegat>1):$s='s'; endif;?>
+	 		Vous avez inflig&eacute; <?=$this->jetDegat?> point<?=$s?> de d&eacute;gat.<br><br>
+	 		
+	 		<? if ($this->mort): ?>
+	 			Vous avez tu&eacute; <?=$this->cible["nom_cible"]?> (<?=$this->cible["id_cible"]?>)<br><br>
+	 		<? endif; ?>
+	 		Vous avez gagn&eacute; <?=$this->nb_px?> PX<br><br>
+	 	<? endif; ?>
+	 <? endif; ?>
+	 </div>
+	 
+	 <div id='attaquer_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+		include("commun_copie_resultat.phtml");
+		if ($this->okJet1 === true) {
+			
+		}
+		?></textarea>
+	</div>
+ </div>
+
+<input type='button' value='Copier' onClick="javascript:switch2div('attaquer_text','attaquer_copie');">
+<input type='button' value='Fermer' onClick='_get_("/interface/clear");'>

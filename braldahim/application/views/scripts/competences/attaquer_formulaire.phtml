@@ -1,0 +1,45 @@
+<div class='comp_titre'>Attaquer</div>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
+ <form name='myForm'>
+ <div class='comp_contenu'>
+ <?php if ($this->assezDePa == true) : ?>
+ 	<? if ($this->nHobbits == 0 && $this->nMonstres == 0): ?>
+ 		Il n'y a rien &agrave attaquer ici...<br>
+ 	<? else: ?>
+ 		Pour <?=$this->nb_pa?> PA, vous pouvez attaquer :<br><br>
+ 		
+		<? if ($this->nMonstres > 0): ?>
+		Un monstre<br>
+			<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_attaquer').disabled=true } else {$('valeur_2').value=-1; $('bouton_attaquer').disabled=false }">
+			<option value='-1'>(Choisis un monstre)</option>
+			<? foreach ($this->tabMonstres as $m) : ?>
+			<option value="<?=$m["id_montre"]?>"><?=$m["nom_montre"]?> (<?=$m["id_montre"]?>)</option>
+			<? endforeach; ?>
+			</select><br><br>
+		<? else: ?>
+		<input type="hidden" name='valeur_1' value="-1" id="valeur_1" >
+		<? endif; ?>
+		
+ 		<? if ($this->nHobbits > 0): ?>
+ 		 Un hobbit<br>
+ 			<select name='valeur_2' id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_attaquer').disabled=true } else {$('valeur_1').value=-1; $('bouton_attaquer').disabled=false }">
+			<? foreach ($this->tabHobbits as $h) : ?>
+			<option value='-1'>(Choisis un hobbit)</option>
+			<option value="<?=$h["id_hobbit"]?>"><?=$h["nom_hobbit"]?> (<?=$h["id_hobbit"]?>)</option>
+			<? endforeach; ?>
+			</select><br><br>
+		<? else: ?>
+		<input type="hidden" name='valeur_2' value="-1" id="valeur_2">
+		<? endif;?>
+	<? endif; ?>
+  <? else: ?>
+  Vous n'avez pas assez de PA
+  <? endif; ?>
+ </div>
+
+</form>
+<br>
+<?php if ($this->assezDePa == true) : ?>
+<input type='button' value='Attaquer !' id='bouton_attaquer' onClick='_get_("/competences/DoAction?caction=do_competence_attaquer");' disabled>
+<? endif ?>
+<input type='button' value='Annuler' onClick='_get_("/interface/clear");'>
