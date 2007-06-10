@@ -5,6 +5,9 @@ class InterfaceController extends Zend_Controller_Action {
 	function init() {
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
+		} else {
+			Zend_Loader::loadClass('Bral_Util_BralSession');
+			Bral_Util_BralSession::refreshSession();
 		}
 		$this->initView();
 		$this->view->baseUrl = $this->_request->getBaseUrl();
@@ -21,7 +24,7 @@ class InterfaceController extends Zend_Controller_Action {
 				$xml_entry->set_valeur("informations");
 				$xml_entry->set_data($t->render());
 				$this->xml_response->add_entry($xml_entry);
-					
+
 				if ($this->_request->action != 'boxes') {
 					$this->refreshAll();
 				}
@@ -86,7 +89,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$liste = "";
 		$data = "";
 		$onglets = null;
-			
+
 		if ($nom != "aucune") {
 			for ($i = 0; $i < count($l); $i ++) {
 				if ($i == 0) {
@@ -94,7 +97,7 @@ class InterfaceController extends Zend_Controller_Action {
 				} else {
 					$css = "inactif";
 				}
-				 
+
 				$tab = array ("titre" => $l[$i]->getTitreOnglet(), "nom" => $l[$i]->getNomInterne(), "css" => $css);
 				$onglets[] = $tab;
 				$liste .= $l[$i]->getNomInterne();
@@ -109,11 +112,11 @@ class InterfaceController extends Zend_Controller_Action {
 				} else {
 					$display = "none";
 				}
-					
+
 				$l[$i]->setDisplay($display);
 				$data .= $l[$i]->render();
 			}
-			 
+
 			$this->view->onglets = $onglets;
 			$this->view->liste = $liste;
 			$this->view->data = $data;

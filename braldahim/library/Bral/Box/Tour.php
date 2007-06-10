@@ -24,7 +24,7 @@ class Bral_Box_Tour {
 		return $this->view->render("interface/tour.phtml");
 	}
 
-	public function activer() {
+	public function modificationTour() {
 
 		$this->is_update_tour = false;
 		$this->is_nouveau_tour = false;
@@ -32,7 +32,7 @@ class Bral_Box_Tour {
 		if ($this->view->user->activation === false) {
 			return false;
 		}
-		
+
 		$this->calcul_debut_nouveau();
 
 		// Calcul de la nouvelle date de fin
@@ -58,20 +58,20 @@ class Bral_Box_Tour {
 		$date_fin_latence =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_latence);
 		$date_debut_cumul =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_cumul);
 
-//				echo " time_latence=".$time_latence;
-//				echo " time_cumul=".$time_cumul;
-//				echo " date_fin_latence=".$date_fin_latence;
-//				echo " date_debut_cumul".$date_debut_cumul;
-//				echo " date_courante=".$date_courante;
-//				echo " date fin tour=".$this->hobbit->date_fin_tour_hobbit;
+		//				echo " time_latence=".$time_latence;
+		//				echo " time_cumul=".$time_cumul;
+		//				echo " date_fin_latence=".$date_fin_latence;
+		//				echo " date_debut_cumul".$date_debut_cumul;
+		//				echo " date_courante=".$date_courante;
+		//				echo " date fin tour=".$this->hobbit->date_fin_tour_hobbit;
 
-		$is_tour_manque = false;
+		$this->is_tour_manque = false;
 		// Mise a jour du nombre de PA + position tour
 		if ($date_courante > $this->hobbit->date_fin_tour_hobbit) { // Perte d'un tour
 			$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($date_courante, "6:0:0");
 			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_cumul;
 			$this->hobbit->pa_hobbit = $this->view->config->game->pa_max;
-			$is_tour_manque = true;
+			$this->is_tour_manque  = true;
 			$this->is_update_tour = true;
 		} elseif(($date_courante < $date_fin_latence) // Latence
 		&& $this->is_nouveau_tour) {
@@ -97,9 +97,18 @@ class Bral_Box_Tour {
 			$this->is_update_tour = true;
 		}
 
+		if (($this->is_update_tour) || ($this->is_nouveau_tour) || ($this->hobbit->est_mort_hobbit == "oui")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function activer() {
+		$this->modificationTour();
 		// Mise a jour de la balance faim
 		//		$this->joueur->diminuer_balance_faim ($this->view->config->game->tour_faim);
-		
+
 		// Mise a jour en cas de mort
 		$this->calcul_mort();
 
@@ -141,7 +150,7 @@ class Bral_Box_Tour {
 			$this->view->user->px_perso_hobbit = $this->hobbit->px_perso_hobbit;
 			$this->view->user->pv_restant_hobbit = $this->hobbit->pv_restant_hobbit;
 			$this->view->user->balance_faim_hobbit = $this->hobbit->balance_faim_hobbit;
-				
+
 			$data = array(
 			'x_hobbit' => $this->hobbit->x_hobbit,
 			'y_hobbit'  => $this->hobbit->y_hobbit,
@@ -164,7 +173,7 @@ class Bral_Box_Tour {
 
 		$this->view->is_update_tour = $this->is_update_tour;
 		$this->view->is_nouveau_tour = $this->is_nouveau_tour;
-		$this->view->is_tour_manque = $is_tour_manque;
+		$this->view->is_tour_manque = $this->is_tour_manque;
 		$this->view->is_mort = $this->est_mort;
 
 		if (($this->is_update_tour) || ($this->is_nouveau_tour)) {
@@ -196,7 +205,7 @@ class Bral_Box_Tour {
 			Zend_Loader::loadClass('Lieu');
 			Zend_Loader::loadClass('Bral_Util_De');
 			$this->is_update_tour = true;
-			
+
 			// remise en vu
 			$this->hobbit->est_mort_hobbit = "non";
 
@@ -206,19 +215,19 @@ class Bral_Box_Tour {
 
 			// balance de faim
 			$this->hobbit->balance_faim_hobbit = 50;
-				
+
 			// points de vie
 			$this->hobbit->pv_restant_hobbit = floor($this->hobbit->pv_max_hobbit / 2);
-				
+
 			// recalcul de la position
 			$lieuTable = new Lieu();
 			$chuRowset = $lieuTable->findByType($this->view->config->game->lieu->type->ceachehu);
 			$de = Bral_Util_De::get_de_specifique(0, count($chuRowset)-1);
 			$lieu = $chuRowset[$de];
-			
+
 			$this->hobbit->x_hobbit = $lieu["x_lieu"];
 			$this->hobbit->y_hobbit = $lieu["y_lieu"];
-			
+
 		}
 
 	}

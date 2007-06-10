@@ -85,8 +85,14 @@ function showResponse(originalRequest) {
 	              else if (m_type_valeur == "erreur" && m_data !="")
 	                display_erreur = true; // affichage de la boite d'erreur
 	                
-	              if (m_type == "display")
+	              if (m_type == "display") {
 	                _display_(m_type_valeur, m_data);
+	              } else if  (m_type == "action") {
+	              	if (m_type_valeur == "goto" && m_data !="") {
+	              		redirection = true;
+	              		redirection_url = m_data;
+	              	}
+	              }
 	            }
 	           }
 	      }
@@ -119,5 +125,10 @@ function showResponse(originalRequest) {
 		}
 	}
     $("box_chargement").style.display = "none";
+    
+	if (redirection) {
+		document.location.href = redirection_url;
+	}
+    
     return ;
 }

@@ -5,6 +5,8 @@ class Bral_Lieux_Factory {
 		Zend_Loader::loadClass("Bral_Lieux_Lieu");
 		Zend_Loader::loadClass("Bral_Lieux_Ahennepeheux");
 		Zend_Loader::loadClass("Bral_Lieux_Essenecehef");
+		Zend_Loader::loadClass("Bral_Lieux_Laffaque");
+		Zend_Loader::loadClass("Bral_Lieux_Eujimenasiumme");
 		
 		$matches = null;
 		preg_match('/(.*)_lieu_(.*)/', $request->get("caction"), $matches);

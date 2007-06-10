@@ -42,12 +42,14 @@ abstract class Bral_Competences_Competence {
 	}
 	
 	public function calculPx() {
+		$this->view->nb_px_commun = 0;
 		$this->view->calcul_px_generique = true;
 		if ($this->view->okJet1 === true) {
-			$this->view->nb_px = $this->competence["px_gain"];
+			$this->view->nb_px_perso = $this->competence["px_gain"];
 		} else {
-			$this->view->nb_px = 0;
+			$this->view->nb_px_perso = 0;
 		}
+		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
 	}
 	
 	public function calculBalanceFaim() {
@@ -129,7 +131,8 @@ abstract class Bral_Competences_Competence {
 		$hobbit = $hobbitRowset->current();
 
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
-		$this->view->user->px_perso_hobbit = $this->view->user->px_perso_hobbit + $this->view->nb_px;
+		$this->view->user->px_perso_hobbit = $this->view->user->px_perso_hobbit + $this->view->nb_px_perso + $this->view->nb_px_perso;
+		$this->view->user->px_commun_hobbit = $this->view->user->px_commun_hobbit + $this->view->nb_px_commun + $this->view->nb_px_commun;
 		$this->view->user->balance_faim_hobbit = $this->view->user->balance_faim_hobbit + $this->view->balance_faim;
 		
 		if ($this->view->user->balance_faim_hobbit < 0) {

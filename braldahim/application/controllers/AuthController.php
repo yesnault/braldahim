@@ -79,6 +79,7 @@ class AuthController extends Zend_Controller_Action {
 		$this->render();
 	}
 
+
 	function logoutAction() {
 		Zend_Auth::getInstance()->clearIdentity();
 		$this->_redirect('/');

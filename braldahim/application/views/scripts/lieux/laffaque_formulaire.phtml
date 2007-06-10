@@ -1,0 +1,13 @@
+<div class='comp_titre'>Laffaque</div>
+ <form name='myForm'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ <div class='comp_contenu'>
+
+ </div> 
+</form>
+<br> 
+
+<? if ($this->utilisationPossible === true): ?>
+<input type='button' id="bouton_essenecehef" value='Apprendre cette comp&eacute;tence !' onClick="_get_('/lieux/DoAction?caction=do_lieu_laffaque');"  disabled>
+<? endif; ?>
+<input type='button' value='Annuler' onClick='javascript:_get_("/interface/clear");'>
