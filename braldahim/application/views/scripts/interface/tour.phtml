@@ -1,8 +1,9 @@
 <div id='tour_text' style="display:block"  onClick="javascript:switch2div('tour_text','tour_copie');">
 	
 	<?php if ($this->is_mort): ?>
-		Vous avez &eacute;t&eacute; tu&eacute;<br>
-		Vous r&eacute;apparaissez dans un C&eacute;ache Hu.<br><br>
+		<? if ($this->user->sexe_hobbit == "feminin"):$e='e';else:$e='';endif;?>
+		Vous avez &eacute;t&eacute; tu&eacute;<?=$e?><br>
+		Vous r&eacute;apparaissez dans un C&eacute;ache Hu<br><br>
 	<? endif; ?>
 
 	<?php if ($this->is_nouveau_tour): ?>

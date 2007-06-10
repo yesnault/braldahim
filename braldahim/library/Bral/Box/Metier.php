@@ -29,7 +29,6 @@ class Bral_Box_Metier {
 		$tabMetiers = null;
 		$tabMetierCourant = null;
 		$possedeMetier = false;
-		$convertDate = new Bral_Util_ConvertDate();
 
 		foreach($hobbitsMetierRowset as $m) {
 			$possedeMetier = true;
@@ -38,7 +37,7 @@ class Bral_Box_Metier {
 			"nom" => $m["nom_metier"],
 			"nom_systeme" => $m["nom_systeme_metier"],
 			"est_actif" => $m["est_actif_hmetier"],
-			"date_apprentissage" => $convertDate->get_date_mysql_datetime("d/m/Y", $m["date_apprentissage_hmetier"]),
+			"date_apprentissage" => Bral_Util_ConvertDate::get_date_mysql_datetime("d/m/Y", $m["date_apprentissage_hmetier"]),
 			"description" => $m["description_metier"]);
 			if ($m["est_actif_hmetier"] == "non") {
 				$tabMetiers[] = $t;

@@ -19,7 +19,6 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
 		$this->_tabMetiers = null;
 		$this->_possedeMetier = false;
-		$convertDate = new Bral_Util_ConvertDate();
 
 		foreach($hobbitsMetierRowset as $m) {
 			$this->_possedeMetier = true;
@@ -28,7 +27,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 			"nom" => $m["nom_metier"],
 			"nom_systeme" => $m["nom_systeme_metier"],
 			"est_actif" => ($m["est_actif_hmetier"] == "oui"),
-			"date_apprentissage" => $convertDate->get_date_mysql_datetime("d/m/Y", $m["date_apprentissage_hmetier"]),
+			"date_apprentissage" => Bral_Util_ConvertDate::get_date_mysql_datetime("d/m/Y", $m["date_apprentissage_hmetier"]),
 			"description" => $m["description_metier"]);
 		}
 

@@ -13,19 +13,7 @@ class Bral_Box_Tour {
 
 		$nomsTour = Zend_Registry::get('nomsTour');
 		$this->view->user->nom_tour = $nomsTour[$this->view->user->tour_position_hobbit];
-
-		$convert_date = new Bral_Util_ConvertDate();
-		$info = "";
-		if ($this->view->user->tour_position_hobbit == $this->view->config->game->tour->position_latence) {
-			$time_latence = $convert_date->get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_latence);
-			$date_fin_latence =  $convert_date->get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_latence);
-			$info = "Fin latence &agrave; ".$date_fin_latence;
-		} else if ($this->view->user->tour_position_hobbit == $this->view->config->game->tour->position_milieu) {
-			$time_cumul = $convert_date->get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_cumul);
-			$date_debut_cumul =  $convert_date->get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_cumul);
-			$info = "D&eacute;but cumul &agrave; ".$date_debut_cumul;
-		}
-		$this->view->user->info_prochaine_position = $info;
+		$this->calculInfoTour();
 	}
 
 	function getNomInterne() {
@@ -45,20 +33,16 @@ class Bral_Box_Tour {
 			return false;
 		}
 		
-
-		
 		$this->calcul_debut_nouveau();
 
 		// Calcul de la nouvelle date de fin
-		$convert_date = new Bral_Util_ConvertDate();
 		$date_courante = date("Y-m-d H:i:s");
 
-		//if ($this->hobbit->date_fin_tour_hobbit > date("Y-m-d H:i:s")) { // mort
 		// En cas de mort : la date de fin de tour doit être positionnée à la mort
 		if ($this->is_nouveau_tour) {
 			$this->hobbit->duree_courant_tour_hobbit = $this->hobbit->duree_prochain_tour_hobbit;
 			$this->hobbit->date_debut_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;
-			$this->hobbit->date_fin_tour_hobbit = $convert_date->get_date_add_time_to_date($this->hobbit->date_fin_tour_hobbit, $this->hobbit->duree_courant_tour_hobbit);
+			$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_fin_tour_hobbit, $this->hobbit->duree_courant_tour_hobbit);
 			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_latence;
 			$this->is_update_tour = true;
 		}
@@ -68,23 +52,23 @@ class Bral_Box_Tour {
 		 * directement en position de cumul
 		 */
 
-		$time_latence = $convert_date->get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_latence);
-		$time_cumul = $convert_date->get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_cumul);
+		$time_latence = Bral_Util_ConvertDate::get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_latence);
+		$time_cumul = Bral_Util_ConvertDate::get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_cumul);
 
-		$date_fin_latence =  $convert_date->get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_latence);
-		$date_debut_cumul =  $convert_date->get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_cumul);
+		$date_fin_latence =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_latence);
+		$date_debut_cumul =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_cumul);
 
-		//		echo " time_latence=".$time_latence;
-		//		echo " time_cumul=".$time_cumul;
-		//		echo " date_fin_latence=".$date_fin_latence;
-		//		echo " date_debut_cumul".$date_debut_cumul;
-		//		echo " date_fin".$this->date_fin;
-		//		echo " date_courante=".$date_courante;
+//				echo " time_latence=".$time_latence;
+//				echo " time_cumul=".$time_cumul;
+//				echo " date_fin_latence=".$date_fin_latence;
+//				echo " date_debut_cumul".$date_debut_cumul;
+//				echo " date_courante=".$date_courante;
+//				echo " date fin tour=".$this->hobbit->date_fin_tour_hobbit;
 
 		$is_tour_manque = false;
 		// Mise a jour du nombre de PA + position tour
 		if ($date_courante > $this->hobbit->date_fin_tour_hobbit) { // Perte d'un tour
-			$this->hobbit->date_fin_tour_hobbit = $convert_date->get_date_add_time_to_date($date_courante, "6:0:0");
+			$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($date_courante, "6:0:0");
 			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_cumul;
 			$this->hobbit->pa_hobbit = $this->view->config->game->pa_max;
 			$is_tour_manque = true;
@@ -104,7 +88,7 @@ class Bral_Box_Tour {
 		&& ( (!$this->is_nouveau_tour && ($this->hobbit->tour_position_hobbit != $this->view->config->game->tour->position_cumul))
 		|| ($this->is_nouveau_tour))) {
 			// Si le joueur a déjà eu des PA
-			if ($this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_milieu) {
+			if ($this->hobbit->tour_position_hobbit == $this->view->config->game->tour->position_milieu) {
 				$this->hobbit->pa_hobbit = $this->hobbit->pa_hobbit + $this->view->config->game->pa_max;
 			} else { // S'il vient d'activer et qu'il n'a jamais eu de PA dans ce tour
 				$this->hobbit->pa_hobbit = $this->view->config->game->pa_max_cumul;
@@ -113,6 +97,9 @@ class Bral_Box_Tour {
 			$this->is_update_tour = true;
 		}
 
+		// Mise a jour de la balance faim
+		//		$this->joueur->diminuer_balance_faim ($this->view->config->game->tour_faim);
+		
 		// Mise a jour en cas de mort
 		$this->calcul_mort();
 
@@ -121,9 +108,6 @@ class Bral_Box_Tour {
 			// Mise a jour de la duree du prochain tour
 			$this->update_duree_prochain();
 		}
-
-		// Mise a jour de la balance faim
-		//		$this->joueur->diminuer_balance_faim ($this->view->config->game->tour_faim);
 
 		// Mise a jour de l'armure naturelle
 		/* valeur entiere((Des de Force + Des de Vigueur)/5)=Armure naturelle
@@ -138,7 +122,7 @@ class Bral_Box_Tour {
 		}
 
 		if ($this->is_update_tour) {
-			// Mise a jour du jouer dans la base de donnees
+			// Mise a jour du joueur dans la base de donnees
 			$hobbitTable = new Hobbit();
 			$hobbitRowset = $hobbitTable->find($this->hobbit->id_hobbit);
 			$hobbit = $hobbitRowset->current();
@@ -184,6 +168,7 @@ class Bral_Box_Tour {
 		$this->view->is_mort = $this->est_mort;
 
 		if (($this->is_update_tour) || ($this->is_nouveau_tour)) {
+			$this->calculInfoTour();
 			return true;
 		} else {
 			return false;
@@ -249,5 +234,18 @@ class Bral_Box_Tour {
 		$this->hobbit->duree_prochain_tour_hobbit = $duree;
 	}
 
+	private function calculInfoTour() {
+		$info = "";
+		if ($this->view->user->tour_position_hobbit == $this->view->config->game->tour->position_latence) {
+			$time_latence = Bral_Util_ConvertDate::get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_latence);
+			$date_fin_latence =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_latence);
+			$info = "Fin latence &agrave; ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$date_fin_latence);
+		} else if ($this->view->user->tour_position_hobbit == $this->view->config->game->tour->position_milieu) {
+			$time_cumul = Bral_Util_ConvertDate::get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_cumul);
+			$date_debut_cumul =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_cumul);
+			$info = "D&eacute;but cumul &agrave; ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$date_debut_cumul);
+		}
+		$this->view->user->info_prochaine_position = $info;
+	}
 }
 ?>

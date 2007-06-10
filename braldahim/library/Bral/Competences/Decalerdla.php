@@ -15,8 +15,7 @@ class Bral_Competences_Decalerdla extends Bral_Competences_Competence {
 	}
 
 	function prepareFormulaire() {
-		$convertDate = new Bral_Util_ConvertDate();
-		$this->view->dlaActuelle = $convertDate->get_datetime_mysql_datetime("H:i:s, \l\e d/m/Y", $this->view->user->date_fin_tour_hobbit);
+		$this->view->dlaActuelle = Bral_Util_ConvertDate::get_datetime_mysql_datetime("H:i:s, \l\e d/m/Y", $this->view->user->date_fin_tour_hobbit);
 		$this->view->tabHeures = $this->_tabHeures;
 		$this->view->tabMinutes = $this->_tabMinutes;
 	}
@@ -55,9 +54,8 @@ class Bral_Competences_Decalerdla extends Bral_Competences_Competence {
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 		$hobbit = $hobbitRowset->current();
 		
-		$convertDate = new Bral_Util_ConvertDate();
 		$ajout = $newHeure.":".$newMinutes.":0";
-		$nouvelleDla = $convertDate->get_date_add_time_to_date($this->view->user->date_fin_tour_hobbit, $ajout);
+		$nouvelleDla = Bral_Util_ConvertDate::get_date_add_time_to_date($this->view->user->date_fin_tour_hobbit, $ajout);
 		$this->view->user->date_fin_tour_hobbit = $nouvelleDla;
 		
 		$data = array( 
@@ -68,7 +66,7 @@ class Bral_Competences_Decalerdla extends Bral_Competences_Competence {
 		
 		$this->view->heures = $newHeure;
 		$this->view->minutes = $newMinutes;
-		$this->view->dlaActuelle = $convertDate->get_datetime_mysql_datetime("H:i:s, \l\e d/m/Y", $this->view->user->date_fin_tour_hobbit);
+		$this->view->dlaActuelle = Bral_Util_ConvertDate::get_datetime_mysql_datetime("H:i:s, \l\e d/m/Y", $this->view->user->date_fin_tour_hobbit);
 	}
 
 	function getListBoxRefresh() {

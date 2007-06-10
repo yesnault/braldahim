@@ -7,7 +7,7 @@
  </div>
  <div class="box_contenu2">
     Tour de base : <?php echo $this->escape($this->user->duree_base_tour_hobbit) ?><br>
-    DLA : <?php echo $this->escape($this->user->date_fin_tour_hobbit) ?><br>
+    DLA : <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_hobbit);?><br>
     Position Tour Courant : <?=$this->user->nom_tour ?><br>
     <? if ($this->user->info_prochaine_position != "") : ?>
     	<?=$this->user->info_prochaine_position ?><br>
