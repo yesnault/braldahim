@@ -7,7 +7,28 @@ class Competence extends Zend_Db_Table {
 
 	public function findBasiques(){
 		$where = $this->getAdapter()->quoteInto("type_competence = ?", "basic");
-		return $this->fetchRow($where);
+		return $this->fetchAll($where);
+	}
+	
+	public function findCommunesInscription($niveau){
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('competence', '*')
+		->where('type_competence = ?', "commun")
+		->where('niveau_requis_competence = 0');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
+	public function findCommunesByNiveau($niveau){
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('competence', '*')
+		->where('type_competence = ?', "commun")
+		->where('niveau_requis_competence <= ?', $niveau)
+		->where('niveau_requis_competence >= 1');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
 	}
 	
 	public function findByIdMetier($idMetier){

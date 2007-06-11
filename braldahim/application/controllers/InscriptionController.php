@@ -101,10 +101,7 @@ class InscriptionController extends Zend_Controller_Action {
 				$this->view->nom_hobbit = $this->nom_hobbit;
 				$this->view->email_hobbit = $this->email_hobbit;
 				
-				$dataCompetences = $this->initialiseDataHobbitsCompetences();
-				
-				$hobbitCompetenceTable = new HobbitsCompetences();
-				$hobbitCompetenceTable->insert($dataCompetences);
+				$this->initialiseDataHobbitsCompetences();
 				
 				$this->envoiEmail();
 				echo $this->view->render("inscription/fin.phtml");
@@ -181,12 +178,17 @@ class InscriptionController extends Zend_Controller_Action {
 	
 	private function initialiseDataHobbitsCompetences() {
 		
+		// TODO utiliser : findCommunesInscription
+		
 		$data = array(
 			'id_hobbit_hcomp' => $this->view->id_hobbit,
 			'id_competence_hcomp'  => 1, // marcher
 			'pourcentage_hcomp'  => 100,
 			'date_gain_tour_hcomp'  => "0000-00-00 00:00:00",
 		);
+		
+		$hobbitCompetenceTable = new HobbitsCompetences();
+		$hobbitCompetenceTable->insert($data);
 		
 		return $data;
 	}
