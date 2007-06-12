@@ -70,4 +70,27 @@ abstract class Bral_Lieux_Lieu {
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
 		}
 	}
+	
+	public function majHobbit() {
+		$hobbitTable = new Hobbit();
+		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
+		$hobbit = $hobbitRowset->current();
+
+		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->paUtilisationLieu;
+		
+		if ($this->view->user->balance_faim_hobbit < 0) {
+			$this->view->user->balance_faim_hobbit = 0; 
+		}
+		
+		$this->view->changeNiveau = false;
+		$this->calculNiveau();
+		
+		$data = array(
+		'pa_hobbit' => $this->view->user->pa_hobbit,
+		'castars_hobbit' => $this->view->user->castars_hobbit,
+		'pi_hobbit' => $this->view->user->pi_hobbit,
+		);
+		$where = "id_hobbit=".$this->view->user->id_hobbit;
+		$hobbitTable->update($data, $where);
+	}
 }

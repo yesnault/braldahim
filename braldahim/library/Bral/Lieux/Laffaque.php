@@ -13,17 +13,15 @@ class Bral_Lieux_Laffaque extends Bral_Lieux_Lieu {
 
 		$competenceTable = new Competence();
 		$comptenceRowset = $competenceTable->findCommunesByNiveau($this->view->user->niveau_hobbit);
-
 		$hobbitsCompetencesTables = new HobbitsCompetences();
 		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($this->view->user->id_hobbit);
-			
 		$achatPiPossible = false;
 
 		foreach ($comptenceRowset as $c) {
 
 			$possible = true;
 			foreach ($hobbitCompetences as $h) {
-				if ($h["id_competence"] == $c->id_competence) {
+				if ($h["id_competence"] == $c["id_competence"]) {
 					$possible = false;
 					break;
 				}
@@ -31,18 +29,18 @@ class Bral_Lieux_Laffaque extends Bral_Lieux_Lieu {
 
 			if ($possible === true) {
 				$tropCher = true;
-				if ($c->pi_cout_competence <= $this->view->user->pi_hobbit) {
+				if ($c["pi_cout_competence"] <= $this->view->user->pi_hobbit) {
 					$tropCher = false;
 					$achatPiPossible = true;
 				}
 					
 				$tab = array(
-				"id_competence" => $c->id_competence,
-				"nom" => $c->nom_competence,
-				"nom_systeme" => $c->nom_systeme_competence,
-				"description" => $c->description_competence,
-				"niveau_requis" => $c->niveau_requis_competence,
-				"pi_cout" => $c->pi_cout_competence,
+				"id_competence" => $c["id_competence"],
+				"nom" => $c["nom_competence"],
+				"nom_systeme" => $c["nom_systeme_competence"],
+				"description" => $c["description_competence"],
+				"niveau_requis" => $c["niveau_requis_competence"],
+				"pi_cout" => $c["pi_cout_competence"],
 				"trop_cher" => $tropCher,
 				);
 				$this->_tabCompetences[] = $tab;
@@ -50,8 +48,9 @@ class Bral_Lieux_Laffaque extends Bral_Lieux_Lieu {
 		}
 		$this->view->achatPiPossible = $achatPiPossible;
 		$this->view->tabCompetences = $this->_tabCompetences;
+		$this->view->nCompetences = count($this->_tabCompetences);
 		$this->view->coutCastars = $this->_coutCastars;
-		$this->view->achatPossibleCastars = "TODO";
+		$this->view->achatPossibleCastars = ($this->view->user->castars_hobbit - $this->_coutCastars > 0);
 		// $this->view->utilisationPaPossible initialisé dans Bral_Lieux_Lieu
 	}
 
@@ -60,11 +59,19 @@ class Bral_Lieux_Laffaque extends Bral_Lieux_Lieu {
 	}
 
 	function prepareResultat() {
-
-		if ($this->utilisationPaPossible == false) {
+		// verification que la valeur recue est bien numerique
+		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
+			throw new Zend_Exception(get_class($this)." Valeur invalide : val=".$this->request->get("valeur_1"));
+		} else {
+			$idCompetence = (int)$this->request->get("valeur_1");
+		}
+			
+		// verification qu'il a assez de PA
+		if ($this->view->utilisationPaPossible == false) {
 			throw new Zend_Exception(get_class($this)." Utilisation impossible : PA:".$this->view->user->pa_hobbit);
 		}
 
+		// verification qu'il a assez de PI
 		if ($this->achatPiPossible == false) {
 			throw new Zend_Exception(get_class($this)." Utilisation impossible : PI:".$this->view->user->pi_hobbit);
 		}
@@ -74,10 +81,34 @@ class Bral_Lieux_Laffaque extends Bral_Lieux_Lieu {
 			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_hobbit." cout:".$this->_coutCastars);
 		}
 
+		$comptenceOk = false;
+		foreach ($this->view->tabCompetences as $c) {
+			if ($idCompetence == $c["id_competence"]) {
+				$this->view->nomCompetence = $c["nom_competence"];
+				$this->view->coutPi = $c["pi_cout"];
+				$comptenceOk = true;
+				break;
+			}
+		}
 
-		// TODO
-		$this->view->coutPi = "TODO";
-		$this->view->nomCompetence = "TODO";
+		if ($comptenceOk == false) {
+			throw new Zend_Exception(get_class($this)." competence non trouvee");
+		}
+
+		$data = array(
+		'id_hobbit_hcomp' => $this->view->user->id_hobbit,
+		'id_competence_hcomp'  => $idCompetence,
+		'pourcentage_hcomp'  => 10,
+		'date_gain_tour_hcomp'  => "0000-00-00 00:00:00",
+		);
+
+		$hobbitCompetenceTable = new HobbitsCompetences();
+		$hobbitCompetenceTable->insert($data);
+
+		$hobbitTable = new Hobbit();
+		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
+
+		$this->majHobbit();
 	}
 
 

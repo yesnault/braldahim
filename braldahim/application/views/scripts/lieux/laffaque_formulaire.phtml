@@ -7,37 +7,43 @@
  
  <? if ($this->nCompetences == 0): ?>
 	Il n'y a aucune comp&eacute;tence pour vous...
- <? elseif ($this->utilisationPaPossible === false) : ?>
+ <? elseif ($this->utilisationPaPossible == false) : ?>
  	Vous ne pouvez rien apprendre, vous n'avez pas assez de PA<br><br>
- <? elseif ($this->achatPossiblePi === false): ?>
+ <? elseif ($this->achatPiPossible == false): ?>
  	Vous ne pouvez rien apprendre, vous n'avez pas assez de PI<br><br>
- <? elseif ($this->achatPossibleCastars === false): ?>
- 	Vous ne pouvez rien apprendre, vous n'avez pas assez de PI<br><br>
+ <? elseif ($this->achatPossibleCastars == false): ?>
+ 	Vous ne pouvez rien apprendre, vous n'avez pas assez de Castars<br><br>
  <? else: ?>
   Choisissez une comp&eacute;tence : <br>
  <? endif; ?>
  
- <? if ($this->nCompetences > 0): ?>
- <table>
- <? foreach ($this->tabCompetences as $c):?>
-   <tr>
-     <td><?=$c["nom"]?></td>
-     <td> co&ucirc;t : <?=$c["pi_cout"]?> PI </td>
-     <td>
-     <? if ($this->utilisationPaPossible === true && $this->achatPossiblePi === true && $c["trop_cher"] === false): ?>
-       <input type="radio" name="valeur_1" id="valeur_1" value="<?=$c["id_competence"]?>" onChange="$('bouton_essenecehef').disabled=false;">
+<? if ($this->nCompetences > 0): ?>
+  <? if ($this->utilisationPaPossible == true && $this->achatPiPossible == true):?>
+  <select name="valeur_1" id="valeur_1">
+  <option value="-1">(Choisissez une comp&eacute;cence) TODO ON CHANGE</option>
+  <?endif;?>
+  <? foreach ($this->tabCompetences as $c):?>
+     <? if ($this->utilisationPaPossible == true && $this->achatPiPossible == true && $c["trop_cher"] == false): ?>
+     <option value='<?=$c["id_competence"]?>'><?=$c["nom"]?> co&ucirc;t : <?=$c["pi_cout"]?> PI </option>
      <? endif;?>
-     </td>
-   </tr>
- <? endforeach; ?>
- </table>
+  <? endforeach; ?>
+  <? if ($this->utilisationPaPossible == true && $this->achatPiPossible == true):?>
+  </select>
+  <?endif;?>
+  
+  <? foreach ($this->tabCompetences as $c):?>
+     <? if ($this->utilisationPaPossible == false || $this->achatPiPossible == false || $c["trop_cher"] == true): ?>
+  		<?=$c["nom"]?> co&ucirc;t : <?=$c["pi_cout"]?> PI 
+  	<? endif; ?>
+  <? endforeach; ?>
  <? endif; ?>
+
  
  </div> 
 </form>
-<br> 
+<br>
 
-<? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->nCompetences > 0): ?>
+<? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->achatPossibleCastars === true && $this->nCompetences > 0): ?>
 <input type='button' id="bouton_laffaque" value='Apprendre cette comp&eacute;tence !' onClick="_get_('/lieux/DoAction?caction=do_lieu_laffaque');"  disabled>
 <? endif; ?>
 <input type='button' value='Annuler' onClick='javascript:_get_("/interface/clear");'>
