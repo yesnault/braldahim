@@ -1,7 +1,6 @@
 function findSelectedRadioButton( groupname ) {
 	var radioButtons = document.myForm.elements[groupname];
 	for( var i = 0; i < radioButtons.length; i++ ) {
-	alert(radioButtons[i].checked);
 		if( radioButtons[i].checked ) {
 			return radioButtons[i];
 		}

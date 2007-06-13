@@ -18,7 +18,7 @@ abstract class Bral_Competences_Competence {
 		switch($this->action) {
 			case "ask" :
 				$this->prepareFormulaire();
-				break;·
+				break;
 			case "do":
 				$this->prepareResultat();
 				break;

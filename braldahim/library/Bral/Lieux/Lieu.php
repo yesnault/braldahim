@@ -82,9 +82,6 @@ abstract class Bral_Lieux_Lieu {
 			$this->view->user->balance_faim_hobbit = 0; 
 		}
 		
-		$this->view->changeNiveau = false;
-		$this->calculNiveau();
-		
 		$data = array(
 		'pa_hobbit' => $this->view->user->pa_hobbit,
 		'castars_hobbit' => $this->view->user->castars_hobbit,

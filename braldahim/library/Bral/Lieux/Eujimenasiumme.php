@@ -8,13 +8,21 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Lieu");
 		$this->_coutCastars = $this->calculCoutCastars();
-		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) > 0);
-
+		
+		$achatPiPossible = false;
+		
+		//TODO
+		$coutForce =  ($this->view->user->force_hobbit+1 - 1) * $this->view->user->force_hobbit+1;
+		$coutAgilite = $this->view->config->game->inscription->agilite_base;
+		$coutVigueur = $this->view->config->game->inscription->vigueur_base;
+		$coutSagesse = $this->view->config->game->inscription->sagesse_base;
+		
+		$this->view->achatPiPossible = $achatPiPossible;
 	}
 
 	function prepareFormulaire() {
-		$this->view->utilisationPossible = $this->_utilisationPossible;
 		$this->view->coutCastars = $this->_coutCastars;
+		// $this->view->utilisationPaPossible initialisé dans Bral_Lieux_Lieu
 	}
 
 	function prepareResultat() {
@@ -26,7 +34,6 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 		
 		// TODO
 	}
-
 
 	function getListBoxRefresh() {
 		return array("box_profil", "box_metier", "box_laban", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_vue", "box_lieu");

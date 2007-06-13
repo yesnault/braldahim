@@ -65,26 +65,30 @@ class Bral_Lieux_Laffaque extends Bral_Lieux_Lieu {
 		} else {
 			$idCompetence = (int)$this->request->get("valeur_1");
 		}
-			
+		
+		if ($idCompetence == -1) {
+			throw new Zend_Exception(get_class($this)." Valeur competence invalide:-1");
+		}
+		
 		// verification qu'il a assez de PA
 		if ($this->view->utilisationPaPossible == false) {
 			throw new Zend_Exception(get_class($this)." Utilisation impossible : PA:".$this->view->user->pa_hobbit);
 		}
 
 		// verification qu'il a assez de PI
-		if ($this->achatPiPossible == false) {
+		if ($this->view->achatPiPossible == false) {
 			throw new Zend_Exception(get_class($this)." Utilisation impossible : PI:".$this->view->user->pi_hobbit);
 		}
 
 		// verification qu'il y a assez de castars
-		if ($this->achatPossibleCastars == false) {
+		if ($this->view->achatPossibleCastars == false) {
 			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_hobbit." cout:".$this->_coutCastars);
 		}
 
 		$comptenceOk = false;
 		foreach ($this->view->tabCompetences as $c) {
 			if ($idCompetence == $c["id_competence"]) {
-				$this->view->nomCompetence = $c["nom_competence"];
+				$this->view->nomCompetence = $c["nom"];
 				$this->view->coutPi = $c["pi_cout"];
 				$comptenceOk = true;
 				break;

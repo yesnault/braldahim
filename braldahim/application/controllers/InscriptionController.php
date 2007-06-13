@@ -171,6 +171,10 @@ class InscriptionController extends Zend_Controller_Action {
 			'balance_faim_hobbit' => $this->view->config->game->inscription->balance_faim,
 			'pv_max_hobbit' => $this->view->config->game->inscription->pv_max,
 			'pv_restant_hobbit' => $this->view->config->game->inscription->pv_restant,
+			'force_base_hobbit' => $this->view->config->game->inscription->force_base,
+			'agilite_base_hobbit' => $this->view->config->game->inscription->agilite_base,
+			'vigueur_base_hobbit' => $this->view->config->game->inscription->vigueur_base,
+			'sagesse_base_hobbit' => $this->view->config->game->inscription->sagesse_base,
 		);
 		
 		return $data;

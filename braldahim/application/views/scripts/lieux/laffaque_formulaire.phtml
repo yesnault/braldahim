@@ -2,7 +2,7 @@
  <form name='myForm'>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
- Pour <?=$this->paUtilisationLieu ?> PA, le pr&eacute;sident de Laffaque <br>
+ Pour <?=$this->paUtilisationLieu ?> PA et <?=$this->coutCastars?> castars, le pr&eacute;sident de Laffaque <br>
   vous propose d'apprendre une nouvelle comp&eacute;tence<br><br>
  
  <? if ($this->nCompetences == 0): ?>
@@ -13,31 +13,26 @@
  	Vous ne pouvez rien apprendre, vous n'avez pas assez de PI<br><br>
  <? elseif ($this->achatPossibleCastars == false): ?>
  	Vous ne pouvez rien apprendre, vous n'avez pas assez de Castars<br><br>
- <? else: ?>
-  Choisissez une comp&eacute;tence : <br>
  <? endif; ?>
  
 <? if ($this->nCompetences > 0): ?>
-  <? if ($this->utilisationPaPossible == true && $this->achatPiPossible == true):?>
-  <select name="valeur_1" id="valeur_1">
-  <option value="-1">(Choisissez une comp&eacute;cence) TODO ON CHANGE</option>
-  <?endif;?>
-  <? foreach ($this->tabCompetences as $c):?>
-     <? if ($this->utilisationPaPossible == true && $this->achatPiPossible == true && $c["trop_cher"] == false): ?>
-     <option value='<?=$c["id_competence"]?>'><?=$c["nom"]?> co&ucirc;t : <?=$c["pi_cout"]?> PI </option>
-     <? endif;?>
-  <? endforeach; ?>
-  <? if ($this->utilisationPaPossible == true && $this->achatPiPossible == true):?>
-  </select>
-  <?endif;?>
-  
-  <? foreach ($this->tabCompetences as $c):?>
-     <? if ($this->utilisationPaPossible == false || $this->achatPiPossible == false || $c["trop_cher"] == true): ?>
-  		<?=$c["nom"]?> co&ucirc;t : <?=$c["pi_cout"]?> PI 
-  	<? endif; ?>
-  <? endforeach; ?>
+ <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->achatPossibleCastars === true && $this->nCompetences > 0): ?>
+  Choisissez une comp&eacute;tence ci-dessous <input type='radio' name='valeur_1' id='valeur_1' value='-1' onChange="$('bouton_laffaque').disabled=true;" checked>
  <? endif; ?>
-
+ <table>
+ <? foreach ($this->tabCompetences as $c):?>
+   <tr>
+     <td><?=$c["nom"]?></td>
+     <td> co&ucirc;t : <?=$c["pi_cout"]?> PI </td>
+     <td>
+     <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $c["trop_cher"] === false): ?>
+       <input type="radio" name="valeur_1" id="valeur_1" value="<?=$c["id_competence"]?>" onChange="$('bouton_laffaque').disabled=false;">
+     <? endif;?>
+     </td>
+   </tr>
+ <? endforeach; ?>
+ </table>
+ <? endif; ?>
  
  </div> 
 </form>

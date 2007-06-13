@@ -2,12 +2,34 @@
  <form name='myForm'>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
+  Pour <?=$this->paUtilisationLieu ?> PA et <?=$this->coutCastars?> castars, l'entra&icirc;neur <br>
+  vous propose d'am&eacute;liorer une caract&eacute;ristique<br><br>
+ 
+ <? if ($this->utilisationPaPossible == false) : ?>
+ 	Vous ne pouvez rien am&eacute;liorer, vous n'avez pas assez de PA<br><br>
+ <? elseif ($this->achatPiPossible == false): ?>
+ 	Vous ne pouvez rien am&eacute;liorer, vous n'avez pas assez de PI<br><br>
+ <? elseif ($this->achatPossibleCastars == false): ?>
+ 	Vous ne pouvez rien am&eacute;liorer, vous n'avez pas assez de Castars<br><br>
+ <? endif; ?>
+ 
+ <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->achatPossibleCastars === true): ?>
+  Choisissez une caract&eacute;ristique ci-dessous <input type='radio' name='valeur_1' id='valeur_1' value='-1' onChange="$('bouton_eujimenasiumme').disabled=true;" checked>
 
+   Agilit&eacute; (AGI): 
+   <input type="radio" name="valeur_1" id="valeur_1" value="AGI" onChange="$('bouton_eujimenasiumme').disabled=false;"><br>
+   Force (FOR) : 
+   <input type="radio" name="valeur_1" id="valeur_1" value="FOR" onChange="$('bouton_eujimenasiumme').disabled=false;"><br>
+   Vigueur (VIG) : 
+   <input type="radio" name="valeur_1" id="valeur_1" value="VIG" onChange="$('bouton_eujimenasiumme').disabled=false;"><br>
+   Sagesse (SAG) :  
+   <input type="radio" name="valeur_1" id="valeur_1" value="SAG" onChange="$('bouton_eujimenasiumme').disabled=false;"><br>
+ <? endif; ?>
  </div> 
 </form>
 <br> 
 
-<? if ($this->utilisationPossible === true): ?>
-<input type='button' id="bouton_essenecehef" value="S'am&eacute;liorer !" onClick="_get_('/lieux/DoAction?caction=do_lieu_eujimenasiumme');"  disabled>
+<? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->achatPossibleCastars === true): ?>
+<input type='button' id="bouton_eujimenasiumme" value="S'am&eacute;liorer !" onClick="_get_('/lieux/DoAction?caction=do_lieu_eujimenasiumme');"  disabled>
 <? endif; ?>
 <input type='button' value='Annuler' onClick='javascript:_get_("/interface/clear");'>
