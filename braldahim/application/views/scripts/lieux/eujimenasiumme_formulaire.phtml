@@ -13,18 +13,43 @@
  	Vous ne pouvez rien am&eacute;liorer, vous n'avez pas assez de Castars<br><br>
  <? endif; ?>
  
- <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->achatPossibleCastars === true): ?>
+  <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->achatPossibleCastars === true): ?>
   Choisissez une caract&eacute;ristique ci-dessous <input type='radio' name='valeur_1' id='valeur_1' value='-1' onChange="$('bouton_eujimenasiumme').disabled=true;" checked>
-
-   Agilit&eacute; (AGI): 
-   <input type="radio" name="valeur_1" id="valeur_1" value="AGI" onChange="$('bouton_eujimenasiumme').disabled=false;"><br>
-   Force (FOR) : 
-   <input type="radio" name="valeur_1" id="valeur_1" value="FOR" onChange="$('bouton_eujimenasiumme').disabled=false;"><br>
-   Vigueur (VIG) : 
-   <input type="radio" name="valeur_1" id="valeur_1" value="VIG" onChange="$('bouton_eujimenasiumme').disabled=false;"><br>
-   Sagesse (SAG) :  
-   <input type="radio" name="valeur_1" id="valeur_1" value="SAG" onChange="$('bouton_eujimenasiumme').disabled=false;"><br>
- <? endif; ?>
+  <? endif ?>
+  
+   <br><br>
+   Agilit&eacute; (AGI): <?=$this->coutAgilite?> PI
+   <? if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true): ?>
+     <? if ($this->coutAgilite <= $this->user->pi_hobbit): ?>
+      <input type="radio" name="valeur_1" id="valeur_1" value="AGI" onChange="$('bouton_eujimenasiumme').disabled=false;">
+     <? else :?>
+       Trop cher !
+     <? endif;?>
+   <? endif; ?>
+    <br>Force (FOR) : <?=$this->coutForce?> PI
+   <? if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true): ?>
+     <? if ($this->coutForce <= $this->user->pi_hobbit): ?>
+     <input type="radio" name="valeur_1" id="valeur_1" value="FOR" onChange="$('bouton_eujimenasiumme').disabled=false;">
+     <? else :?>
+       Trop cher !
+     <? endif;?>
+   <? endif;?>
+      <br>Vigueur (VIG) : <?=$this->coutVigueur?> PI
+   <? if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true): ?>
+     <? if ($this->coutVigueur <= $this->user->pi_hobbit): ?>
+     <input type="radio" name="valeur_1" id="valeur_1" value="VIG" onChange="$('bouton_eujimenasiumme').disabled=false;">
+     <? else :?>
+       Trop cher !
+     <? endif;?>
+   <? endif;?>
+    <br>Sagesse (SAG) :  <?=$this->coutSagesse?> PI
+   <? if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true): ?>
+     <? if ($this->coutSagesse <= $this->user->pi_hobbit): ?>
+     <input type="radio" name="valeur_1" id="valeur_1" value="SAG" onChange="$('bouton_eujimenasiumme').disabled=false;">
+     <? else :?>
+       Trop cher !
+     <? endif;?>
+   <? endif;?>
  </div> 
 </form>
 <br> 

@@ -50,7 +50,7 @@ class Bral_Lieux_Laffaque extends Bral_Lieux_Lieu {
 		$this->view->tabCompetences = $this->_tabCompetences;
 		$this->view->nCompetences = count($this->_tabCompetences);
 		$this->view->coutCastars = $this->_coutCastars;
-		$this->view->achatPossibleCastars = ($this->view->user->castars_hobbit - $this->_coutCastars > 0);
+		$this->view->achatPossibleCastars = ($this->view->user->castars_hobbit - $this->_coutCastars >= 0);
 		// $this->view->utilisationPaPossible initialisé dans Bral_Lieux_Lieu
 	}
 
