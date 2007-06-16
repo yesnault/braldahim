@@ -5,14 +5,24 @@
 @import "popup.css";
 @import "vue.css";
 
-/*
-@import "competences.css";
-@import "vue2d.css";
-@import "popup.css";
-*/
+* {
+	font:11px 'Trebuchet MS',verdana,sans-serif;
+}
 
 body {
   font:11px 'Trebuchet MS',verdana,sans-serif;
+  
+  background-image:url(/public/images/fond.gif);
+  background-repeat:repeat-y;
+  background-position:center top;
+  
+}
+
+#logo {float:left;font-weight:bolder;margin-top:0.5em;text-align:left;}
+#logo a:link, #logo a:visited, #logo a:hover, #logo a:active {color:#791E1E;font-size:2em;font-variant:small-caps;letter-spacing:2pt;text-decoration:none;}
+
+#logo a:hover, #logo a:active {
+	color:#a92929;
 }
 
 input {
@@ -39,4 +49,15 @@ input:hover {
   top:10px;
   float: left;
   padding: 10px;
+}
+
+a {
+	color: #791e1e;
+	text-align: center;
+    /*font-weight: bold;
+      font-variant: small-caps;
+      text-decoration: none;*/
+}
+a:hover {
+	color: #a92929;
 }
