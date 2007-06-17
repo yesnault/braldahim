@@ -17,7 +17,7 @@
   Choisissez une caract&eacute;ristique ci-dessous <input type='radio' name='valeur_1' id='valeur_1' value='-1' onChange="$('bouton_eujimenasiumme').disabled=true;" checked>
   <? endif ?>
   
-   <br><br>
+   <ul class="ligne_espace">
    Agilit&eacute; (AGI): <?=$this->coutAgilite?> PI
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true): ?>
      <? if ($this->coutAgilite <= $this->user->pi_hobbit): ?>
@@ -26,7 +26,9 @@
        Trop cher !
      <? endif;?>
    <? endif; ?>
-    <br>Force (FOR) : <?=$this->coutForce?> PI
+    </ul>
+    <ul class="ligne_espace">
+    Force (FOR) : <?=$this->coutForce?> PI
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true): ?>
      <? if ($this->coutForce <= $this->user->pi_hobbit): ?>
      <input type="radio" name="valeur_1" id="valeur_1" value="FOR" onChange="$('bouton_eujimenasiumme').disabled=false;">
@@ -34,7 +36,9 @@
        Trop cher !
      <? endif;?>
    <? endif;?>
-      <br>Vigueur (VIG) : <?=$this->coutVigueur?> PI
+    </ul>
+    <ul class="ligne_espace">
+	Vigueur (VIG) : <?=$this->coutVigueur?> PI
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true): ?>
      <? if ($this->coutVigueur <= $this->user->pi_hobbit): ?>
      <input type="radio" name="valeur_1" id="valeur_1" value="VIG" onChange="$('bouton_eujimenasiumme').disabled=false;">
@@ -42,7 +46,9 @@
        Trop cher !
      <? endif;?>
    <? endif;?>
-    <br>Sagesse (SAG) :  <?=$this->coutSagesse?> PI
+       </ul>
+    <ul class="ligne_espace">
+    Sagesse (SAG) :  <?=$this->coutSagesse?> PI
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true): ?>
      <? if ($this->coutSagesse <= $this->user->pi_hobbit): ?>
      <input type="radio" name="valeur_1" id="valeur_1" value="SAG" onChange="$('bouton_eujimenasiumme').disabled=false;">
@@ -52,7 +58,6 @@
    <? endif;?>
  </div> 
 </form>
-<br> 
 
 <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->achatPossibleCastars === true): ?>
 <input type='button' class='button1' id="bouton_eujimenasiumme" value="S'am&eacute;liorer !" onClick="_get_('/lieux/DoAction?caction=do_lieu_eujimenasiumme');"  disabled>

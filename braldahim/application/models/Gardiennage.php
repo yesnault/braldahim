@@ -23,10 +23,9 @@ class Gardiennage extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('gardiennage', 'id_gardien_gardiennage')
 		->from('hobbit', 'nom_hobbit')
-		->where('gardiennage.id_gardien_gardiennage = hobbit.id_hobbit')
+		->where('gardiennage.id_gardien_gardiennage = hobbit.id_hobbit AND gardiennage.id_hobbit_gardiennage = '.$id_hobbit_garde)
 		->group('id_gardien_gardiennage', 'nom_hobbit');
 		$sql = $select->__toString();
-
 		return $db->fetchAll($sql);
     }
     

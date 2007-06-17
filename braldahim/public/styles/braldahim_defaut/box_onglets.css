@@ -6,7 +6,7 @@
 
 .boite_b {
   position: absolute;
-  top:320px;
+  top:380px;
 }
 
 .boite_c {
@@ -20,6 +20,7 @@
   border-style : dashed;
   border-width: 1px;
   margin: 2px;
+  margin-left: 5px;
 }
 
 .onglet.actif {
