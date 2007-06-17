@@ -33,7 +33,7 @@ class InterfaceController extends Zend_Controller_Action {
 	}
 
 	function clearAction() {
-		echo $this->view->render("interface/clear.phtml");
+		$this->render();
 	}
 
 	function indexAction() {

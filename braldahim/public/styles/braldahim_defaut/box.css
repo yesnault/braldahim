@@ -27,21 +27,21 @@ span.corners-bottom {
 	margin:0pt -5px;
 }
 span.corners-bottom span {
-background-image:none;
-background-position: 100% 100%;
+	background-image:none;
+	background-position: 100% 100%;
 }
 
 span.corners-top {
-background-image:url(/public/styles/braldahim_defaut/images/layout/corners_left.png);
+	background-image:url(/public/styles/braldahim_defaut/images/layout/corners_left.png);
 }
 span.corners-top span {
-background-image:url(/public/styles/braldahim_defaut/images/layout/corners_right.png);
+	background-image:url(/public/styles/braldahim_defaut/images/layout/corners_right.png);
 }
 span.corners-bottom {
-background-image:url(/public/styles/braldahim_defaut/images/layout/corners_left.png);
+	background-image:url(/public/styles/braldahim_defaut/images/layout/corners_left.png);
 }
 span.corners-bottom span {
-background-image:url(/public/styles/braldahim_defaut/images/layout/corners_right.png);
+	background-image:url(/public/styles/braldahim_defaut/images/layout/corners_right.png);
 }
 
 .box_corners {
@@ -206,7 +206,7 @@ background-image:url(/public/styles/braldahim_defaut/images/layout/corners_right
 }
 
 .box_inscription,.box_perdu,.box_pamaretres,.box_gardiennage,.box_administration
-	{
+{
 	background-color: #ffd363;
 	color: black;
 	border-style: dashed;

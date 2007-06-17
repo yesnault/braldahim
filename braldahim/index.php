@@ -43,6 +43,7 @@ Bral_Util_Registre::chargement();
 
 // setup controller
 $frontController = Zend_Controller_Front::getInstance();
+$frontController->setParam('noViewRenderer', true);
 $frontController->throwExceptions(true);
 //$frontController->setBaseUrl('/braldahim/');
 $frontController->setControllerDirectory('./application/controllers');

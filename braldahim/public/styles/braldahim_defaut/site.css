@@ -25,11 +25,12 @@ body {
 }
 
 input {
+	margin: 2px 0pt;
 	background:#FAFAFA none repeat-x scroll center top;
 	color:#000000;
 	font-family:"Lucida Grande",Verdana,Helvetica,Arial,sans-serif;
 	padding-bottom:1px;
-	padding-top:1px;
+	padding-top:2px;
 	width:auto !important;
 	border:1px solid #666666;
 }
