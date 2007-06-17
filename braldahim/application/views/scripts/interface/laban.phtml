@@ -1,9 +1,8 @@
-<?php if ($this->affichageInterne == false) : ?>
-<div class="<?=$this->nom_interne ?>" id="<?=$this->nom_interne ?>" style="display:<?=$this->display; ?>">
-<?php endif; ?>
- <div class="box_titre1">
-   Laban </div>
- <div class="box_contenu2">
+<? include("box_header.phtml") ?>
+<div class="inner">
+<ul class="titre textalia textsizec">Mon Laban</ul>
+ <div class="contenu">
+  <ul class="box_contenu1 textalic">
    Castars : <?=$this->user->castars_hobbit ?><br>
    <hr>
    <div class="laban_plante">
@@ -58,7 +57,7 @@
     <? endif; ?>
    </div>
    <br>
+   </ul>
 </div>
- <?php if ($this->affichageInterne == false) : ?>
 </div>
-<?php endif; ?>
+<? include("box_bottom.phtml") ?>

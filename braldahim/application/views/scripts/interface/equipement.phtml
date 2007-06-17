@@ -1,11 +1,10 @@
-<?php if ($this->affichageInterne == false) : ?>
-<div class="<?=$this->nom_interne ?>" id="<?=$this->nom_interne ?>" style="display:<?=$this->display; ?>">
-<?php endif; ?>
- <div class="box_titre1">
-   Equipement </div>
- <div class="box_contenu2">
+<? include("box_header.phtml") ?>
+<div class="inner">
+<ul class="titre textalia textsizeb">Mon Equipement</ul>
+ <div class="contenu">
+  <ul class="box_contenu1 textalic">
    Equipement ICI
+   </ul>
 </div>
- <?php if ($this->affichageInterne == false) : ?>
 </div>
-<?php endif; ?>
+<? include("box_bottom.phtml") ?>

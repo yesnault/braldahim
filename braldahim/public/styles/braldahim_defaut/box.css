@@ -270,7 +270,7 @@ background-image:url(/public/styles/braldahim_defaut/images/layout/corners_right
 	  , .box_equipement,.box_profil,.box_vue,.box_lieu,.box_laban {
 	position: absolute;
 	color: black;
-	width: 220px;
+	width: 230px;
 	height: auto;
 	text-align: center;
 	z-index: 10;
@@ -328,7 +328,8 @@ background-image:url(/public/styles/braldahim_defaut/images/layout/corners_right
 .box_lieu {
 	position: relative;
 	height: 400px;
-	overflow: auto
+	width: auto;
+	overflow: auto;
 }
 
 .barre_faim,.barre_vie {
@@ -340,4 +341,8 @@ background-image:url(/public/styles/braldahim_defaut/images/layout/corners_right
 	border-width: 1px;
 	margin-left: 60px;
 	border-color: #6f5f6f;
+}
+
+.ligne_competence {
+padding: 2px 0pt;
 }

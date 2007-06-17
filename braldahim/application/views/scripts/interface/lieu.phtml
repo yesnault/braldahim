@@ -1,10 +1,9 @@
-<?php if ($this->affichageInterne == false) : ?>
-<div class="<?=$this->nom_interne ?>" id="<?=$this->nom_interne ?>" style="display:<?=$this->display; ?>"> 
-<?php endif; ?>
- <div class="box_titre1">
-   Lieu
- </div>
- <div class="box_contenu2">
+<? include("box_header.phtml") ?>
+<div class="inner">
+  <ul class="titre textalia textsizec">Lieu actuel</ul>
+  <ul class="titre textalib textsizeb"><?=htmlentities($this->nomTypeLieu); ?></ul>
+  <div class="contenu">
+    <ul class="box_contenu1 textalic">
  	<? if ($this->estLieuCourant === true) : ?>
  		Vous vous trouvez sur un lieu particulier ! <br>
  		<?=htmlentities($this->nomLieu) ?>, <?=htmlentities($this->nomTypeLieu); ?><br>
@@ -25,9 +24,9 @@
  	<? else: ?>
  	Le lieu où vous vous trouvez n'a rien de particulier
  	<? endif; ?>
- 	
+ 
  	<br><br>
+ 	</ul>
+   </div>
  </div>
- <?php if ($this->affichageInterne == false) : ?>
-</div>
-<?php endif; ?>
+<? include("box_bottom.phtml") ?>

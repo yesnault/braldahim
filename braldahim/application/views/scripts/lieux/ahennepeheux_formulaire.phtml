@@ -64,10 +64,10 @@
 <br> 
 
 <? if (count($this->tabMetiers) > 1) : ?>
-<input type='button' id="changer_metier" value='Changer de m&eacute;tier' onClick="javascript:$('valeur_1').value='changer';_get_('/lieux/DoAction?caction=do_lieu_ahennepeheux');" disabled>
+<input type='button' class='button1' id="changer_metier" value='Changer de m&eacute;tier' onClick="javascript:$('valeur_1').value='changer';_get_('/lieux/DoAction?caction=do_lieu_ahennepeheux');" disabled>
 <? endif; ?>
 <? if ($this->achatPossible === true && count($this->tabNouveauMetiers) > 1): ?>
-<input type='button' id="apprendre_metier" value='Apprendre un m&eacute;tier' onClick="$('valeur_1').value='apprendre';_get_('/lieux/DoAction?caction=do_lieu_ahennepeheux');"  disabled>
+<input type='button' class='button1' id="apprendre_metier" value='Apprendre un m&eacute;tier' onClick="$('valeur_1').value='apprendre';_get_('/lieux/DoAction?caction=do_lieu_ahennepeheux');"  disabled>
 <? endif; ?>
 <br>
-<input type='button' value='Annuler' onClick='javascript:_get_("/interface/clear");'>
+<input type='button' class='button1' value='Annuler' onClick='javascript:_get_("/interface/clear");'>

@@ -1,31 +1,31 @@
-<?php if ($this->affichageInterne == false) : ?>
-<div class="<?=$this->nom_interne ?>" id="<?=$this->nom_interne ?>" style="display:<?=$this->display; ?>">
-<?php endif; ?>
- <div class="box_titre1">
-   M&eacute;tier </div>
- <div class="box_contenu2">
-   <? if (!$this->possedeMetier): ?>
-   	Vous ne pratiquez aucun m&eacute;tier <br><br>
-   	
-   	Vous pouvez aller vous renseigner dans un Ahenne Peheux
-   <? else : ?>
-   	Vous &ecirc;tes actuellement : <?=htmlentities($this->tabMetierCourant["nom"]) ?> <br>
-   	Vous avez appris ce m&eacute;tier le <?=$this->tabMetierCourant["date_apprentissage"] ?>
-   	<br><br>
-   	<?=htmlentities($this->tabMetierCourant["nom"]) ?> : <?=htmlentities($this->tabMetierCourant["description"]) ?>
-   	<br><br>
-   	<? if (count($this->tabMetiers) == 1): ?>
-   		Vous pratiquez &eacute;galement le m&eacute;tier suivant : <br>
-   	<? elseif (count($this->tabMetiers) > 1): ?>
-   		Vous pratiquez &eacute;galement les m&eacute;tiers suivants : <br>
-   	<? endif; ?>	
-   	<? if (count($this->tabMetiers) >= 1): ?>
-		<? foreach ($this->tabMetiers as $m) : ?>
-			<?=htmlentities($m["nom"]);?>, appris le <?=htmlentities($m["date_apprentissage"]);?>
-		<? endforeach; ?>
-    <? endif; ?>
-   <? endif; ?>
+<? include("box_header.phtml") ?>
+<div class="inner">
+  <ul class="titre textalia textsizeb">Mes M&eacute;tiers</ul>
+  <div class="contenu">
+	  <ul class="box_contenu1 textalic">
+	   <? if (!$this->possedeMetier): ?>
+	   	Vous ne pratiquez aucun m&eacute;tier <br><br>
+	   	
+	   	Vous pouvez aller vous renseigner dans un Ahenne Peheux
+	   <? else : ?>
+	   	Vous &ecirc;tes actuellement : <?=htmlentities($this->tabMetierCourant["nom"]) ?> <br>
+	   	Vous avez appris ce m&eacute;tier le <?=$this->tabMetierCourant["date_apprentissage"] ?>
+	   	<br><br>
+	   	<?=htmlentities($this->tabMetierCourant["nom"]) ?> : <?=htmlentities($this->tabMetierCourant["description"]) ?>
+	   	<br><br>
+
+	   	<? if (count($this->tabMetiers) == 1): ?>
+	   		Vous pratiquez &eacute;galement le m&eacute;tier suivant : <br>
+	   	<? elseif (count($this->tabMetiers) > 1): ?>
+	   		Vous pratiquez &eacute;galement les m&eacute;tiers suivants : <br>
+	   	<? endif; ?>	
+	   	<? if (count($this->tabMetiers) >= 1): ?>
+			<? foreach ($this->tabMetiers as $m) : ?>
+				<?=htmlentities($m["nom"]);?>, appris le <?=htmlentities($m["date_apprentissage"]);?>
+			<? endforeach; ?>
+	    <? endif; ?>
+	   <? endif; ?>
+	</ul> 
+  </div>
 </div>
- <?php if ($this->affichageInterne == false) : ?>
-</div>
-<?php endif; ?>
+<? include("box_bottom.phtml") ?>

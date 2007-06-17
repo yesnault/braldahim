@@ -1,24 +1,22 @@
-<?php if ($this->affichageInterne == false) : ?>
-<div class="<?=$this->nom_interne ?>" id="<?=$this->nom_interne ?>" style="display:<?=$this->display; ?>"> 
-<?php endif; ?>
- <div class="box_titre1">
-  Comp&eacute;tences m&eacute;tiers</div>
- <div class="box_contenu2">
- 
+<? include("box_header.phtml") ?>
+<div class="inner">
+<ul class="titre textalia textsizec">Mes Comp&eacute;tences m&eacute;tiers</ul>
+ <div class="contenu">
+  <ul class="box_contenu1 textalic">
  <?php 
  if (count($this->competences) > 0) {
  	foreach($this->competences as $c) : ?>
-  <div>
+  <ul class="ligne_competence">
        <?=$c["pa_utilisation"]?> PA -
-      <input type="button" value="<?=$c["nom"]?> : <?=$c["pourcentage"]?> % "
+      <input type="button" class='button1' value="<?=$c["nom"]?> : <?=$c["pourcentage"]?> % "
          onClick="Javascript:_get_('/competences/DoAction?caction=ask_competence_<?=$c["nom_systeme"] ?>')">
-  </div>
+  </ul>
  <?php endforeach ;
   } else {	
  	echo "Aucune comp&eacute;tence m&eacute;tier";
   }
  ?>
+ </ul>
  </div>
- <?php if ($this->affichageInterne == false) : ?>
 </div>
-<?php endif; ?>
+<? include("box_bottom.phtml") ?>

@@ -1,36 +1,34 @@
-<?php if ($this->affichageInterne == false) : ?>
-<div class="<?=$this->nom_interne ?>" id="<?=$this->nom_interne ?>" style="display:<?=$this->display; ?>"> 
-<?php endif; ?>
- <div class="box_titre1">
-   Profil<br>
-   <?php echo $this->escape($this->user->nom_hobbit) ." (".$this->user->id_hobbit.")"; ?> 
+<? include("box_header.phtml") ?>
+<div class="inner">
+  <ul class="titre textalia textsizec">Mon Profil</ul>
+  <ul class="titre textalib textsizeb"><?=$this->escape($this->user->nom_hobbit) ." (".$this->user->id_hobbit.")"; ?></ul>
+  <div class="contenu">
+	  <ul class="box_contenu1 textalic">
+	    Tour de base : <?php echo $this->escape($this->user->duree_base_tour_hobbit) ?><br>
+	    DLA : <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_hobbit);?><br>
+	    Position Tour Courant : <?=$this->user->nom_tour ?><br>
+	    <? if ($this->user->info_prochaine_position != "") : ?>
+	    	<?=$this->user->info_prochaine_position ?><br>
+	    <? endif; ?>
+	    Dur&eacute;e du prochain tour : <?php echo $this->escape($this->user->duree_prochain_tour_hobbit) ?><br>
+		
+	    Points de Vie : <?=$this->user->pv_restant_hobbit ?> / <?=$this->user->pv_max_hobbit ?>
+	    <div class="barre_faim"><img src="/public/images/barre_vie.gif" height="10px" width="<?=floor($this->user->pv_restant_hobbit*100)/$this->user->pv_max_hobbit ?>px"></div>
+	    PA restants : <?=$this->user->pa_hobbit ?><br>
+	    PX Perso: <?=$this->user->px_perso_hobbit ?> - PX Commun : <?=$this->user->px_commun_hobbit ?><br>
+	    PI : <?=$this->user->pi_hobbit ?> - Niveau : <?=$this->user->niveau_hobbit ?><br>
+	    <hr>
+	    Vue BM : <?=$this->user->vue_bm_hobbit ?> | Reg&eacute;n&eacute;ration : <?=$this->user->regeneration_hobbit ?><br>
+	    Force : <?=$this->user->force_base_hobbit ?> D<?=$this->config->game->de_force ?> + <?php echo $this->escape($this->user->force_bm_hobbit) ?> | 
+	    Agilite : <?=$this->user->agilite_base_hobbit ?> D<?=$this->config->game->de_agilite ?> + <?=$this->user->agilite_bm_hobbit ?> <br>
+	    Sagesse : <?=$this->user->sagesse_base_hobbit ?> D<?=$this->config->game->de_sagesse ?> + <?=$this->user->sagesse_bm_hobbit ?> | 
+	    Vigueur : <?=$this->user->vigueur_base_hobbit ?> D<?=$this->config->game->de_vigueur ?> + <?=$this->user->vigueur_bm_hobbit ?><br>
+	    Balance faim : <?=$this->user->balance_faim_hobbit ?> %
+	    <div class="barre_faim"><img src="/public/images/barre_faim.gif" height="10px" width="<?=$this->user->balance_faim_hobbit ?>px"></div>
+	    <br>
+	    Poids transportable : <?=$this->user->poids_transportable_hobbit ?><br>
+	    Armure naturelle : <?=$this->user->armure_naturelle_hobbit ?>, &eacute;quipement : <?=$this->user->armure_naturelle_hobbit ?><br>
+	  </ul>
  </div>
- <div class="box_contenu2">
-    Tour de base : <?php echo $this->escape($this->user->duree_base_tour_hobbit) ?><br>
-    DLA : <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_hobbit);?><br>
-    Position Tour Courant : <?=$this->user->nom_tour ?><br>
-    <? if ($this->user->info_prochaine_position != "") : ?>
-    	<?=$this->user->info_prochaine_position ?><br>
-    <? endif; ?>
-    Dur&eacute;e du prochain tour : <?php echo $this->escape($this->user->duree_prochain_tour_hobbit) ?><br>
-	
-    Points de Vie : <?=$this->user->pv_restant_hobbit ?> / <?=$this->user->pv_max_hobbit ?>
-    <div class="barre_faim"><img src="/public/images/barre_vie.gif" height="10px" width="<?=floor($this->user->pv_restant_hobbit*100)/$this->user->pv_max_hobbit ?>px"></div>
-    PA restants : <?=$this->user->pa_hobbit ?><br>
-    PX Perso: <?=$this->user->px_perso_hobbit ?> - PX Commun : <?=$this->user->px_commun_hobbit ?><br>
-    PI : <?=$this->user->pi_hobbit ?> - Niveau : <?=$this->user->niveau_hobbit ?><br>
-    <hr>
-    Vue BM : <?=$this->user->vue_bm_hobbit ?> | Reg&eacute;n&eacute;ration : <?=$this->user->regeneration_hobbit ?><br>
-    Force : <?=$this->user->force_base_hobbit ?> D<?=$this->config->game->de_force ?> + <?php echo $this->escape($this->user->force_bm_hobbit) ?> | 
-    Agilite : <?=$this->user->agilite_base_hobbit ?> D<?=$this->config->game->de_agilite ?> + <?=$this->user->agilite_bm_hobbit ?> <br>
-    Sagesse : <?=$this->user->sagesse_base_hobbit ?> D<?=$this->config->game->de_sagesse ?> + <?=$this->user->sagesse_bm_hobbit ?> | 
-    Vigueur : <?=$this->user->vigueur_base_hobbit ?> D<?=$this->config->game->de_vigueur ?> + <?=$this->user->vigueur_bm_hobbit ?><br>
-    Balance faim : <?=$this->user->balance_faim_hobbit ?> %
-    <div class="barre_faim"><img src="/public/images/barre_faim.gif" height="10px" width="<?=$this->user->balance_faim_hobbit ?>px"></div>
-    <br>
-    Poids transportable : <?=$this->user->poids_transportable_hobbit ?><br>
-    Armure naturelle : <?=$this->user->armure_naturelle_hobbit ?>, &eacute;quipement : <?=$this->user->armure_naturelle_hobbit ?><br>
- </div>
- <?php if ($this->affichageInterne == false) : ?>
 </div>
-<?php endif; ?>
+<? include("box_bottom.phtml") ?>

@@ -1,19 +1,23 @@
-<?php if ($this->affichageInterne == false) : ?>
-<div class="<?=$this->nom_interne ?>" id="<?=$this->nom_interne ?>" style="display:<?php $this->display; ?>"> 
-<?php endif; ?>
- <div class="box_titre1">
+<? include("box_header.phtml") ?>
+<div class="inner">
   <div style=" float: left;">
-    X=  <?=$this->user->x_hobbit ?> , Y= <?=$this->user->y_hobbit ?> Vue : <?=$this->vue_nb_cases ?> <?=$this->environnement ?> <br />
-    <?=htmlentities($this->centre_nom_region) ?>
+  	<ul class="titre textalia textsizec"> Ma Vue</ul>
+  	<ul class="titre textalia textsized">
+    <?=htmlentities($this->centre_nom_region) ?><br />
     <? if (!empty($this->centre_nom_ville)):?>
-    , <?=htmlentities($this->centre_nom_ville) ?> 
+     <?=htmlentities($this->centre_nom_ville) ?> 
     <? endif; ?>
     <? if ($this->centre_est_capitale) : ?>
     	- Capitale
-    <? endif; ?>
-    <br>
+    <? endif; ?><br>
+  </ul>
+  </div>
+  <div style=" float: right;">
+  <ul class="titre textalia textsized">
+	<br>
+    X=  <?=$this->user->x_hobbit ?> , Y= <?=$this->user->y_hobbit ?> Vue : <?=$this->vue_nb_cases ?> <?=$this->environnement ?> <br />
     Centrage : X= <?=$this->centre_x ?> , Y= <?=$this->centre_y ?> <?=$this->centre_environnement ?> <br />
-    <br>
+  	</ul>
   </div>
   <div>
     <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?caction=box_vue&valeur_1=hg&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
@@ -33,8 +37,8 @@
     <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?caction=box_vue&valeur_1=bd&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
      src="/public/images/puce_bas_droit.gif" border="0">
   </div>
- </div>
- <div class="box_contenu2">
+ <div class="contenu">
+  <ul class="box_contenu1 textalic">
   &nbsp;
     <table class='vue2d' align='center'>
      <?php $col="" ?>
@@ -133,7 +137,8 @@
      <?php endforeach; ?>
      </tr>
     </table>
+      &nbsp;
+    </ul>
  </div>
- <?php if ($this->affichageInterne == false) : ?>
 </div>
-<?php endif; ?>
+<? include("box_bottom.phtml") ?>
