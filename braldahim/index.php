@@ -35,7 +35,7 @@ $registry->set('config', $config);
 
 // setup database
 $dbAdapter = Zend_Db::factory($config->db->adapter, 
-$config->db->config->asArray());
+$config->db->config->toArray());
 Zend_Db_Table::setDefaultAdapter($dbAdapter);
 Zend_Registry::set('dbAdapter', $dbAdapter); 
 

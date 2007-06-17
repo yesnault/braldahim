@@ -55,9 +55,6 @@ background-image:url(/public/styles/braldahim_defaut/images/layout/corners_right
 }
 
 .box_authentification {
-	background:#CCCC99 none repeat-x scroll 0pt;
-	padding:0pt 5px;
-	color: black;
 	width: 300px;
 	height: auto;
 	margin-left: auto;
