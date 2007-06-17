@@ -1,11 +1,12 @@
 .boite_a {
   position: absolute;
   top:30px;
+  width: auto;
 }
 
 .boite_b {
   position: absolute;
-  top:300px;
+  top:320px;
 }
 
 .boite_c {

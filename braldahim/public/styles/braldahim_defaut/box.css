@@ -1,16 +1,145 @@
-.box_authentification {
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	background-color: #ffd363;
+* html span.corners-top, * html span.corners-bottom {
+	background-image:url(/public/styles/braldahim_defaut/images/layout/corners_left.gif);
+}
+* html span.corners-top span, * html span.corners-bottom span {
+	background-image:url(/public/styles/braldahim_defaut/images/layout/corners_right.gif);
+}
+span.corners-top, span.corners-bottom, span.corners-top span, span.corners-bottom span {
+	background-repeat:no-repeat;
+	display:block;
+	font-size:1px;
+	height:5px;
+	line-height:1px;
+}
+span.corners-top {
+	background-image:none;
+	background-position: 0pt 0%;
+	margin:0pt -5px;
+}
+span.corners-top span {
+	background-image:none;
+	background-position:100% 0pt;
+}
+span.corners-bottom {
+	background-image:none;
+	background-position:0pt 100%;
+	clear:both;
+	margin:0pt -5px;
+}
+span.corners-bottom span {
+background-image:none;
+background-position: 100% 100%;
+}
+
+span.corners-top {
+background-image:url(/public/styles/braldahim_defaut/images/layout/corners_left.png);
+}
+span.corners-top span {
+background-image:url(/public/styles/braldahim_defaut/images/layout/corners_right.png);
+}
+span.corners-bottom {
+background-image:url(/public/styles/braldahim_defaut/images/layout/corners_left.png);
+}
+span.corners-bottom span {
+background-image:url(/public/styles/braldahim_defaut/images/layout/corners_right.png);
+}
+
+.box_corners {
+	background:#CCCC99 none repeat-x scroll 0pt;
+	padding:0pt 5px;
 	color: black;
+	width: auto;
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.box_authentification {
+	background:#CCCC99 none repeat-x scroll 0pt;
+	padding:0pt 5px;
+	color: black;
+	width: 300px;
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 60px;
+	text-align: center;
+}
+
+.contenu {
 	border-style: dashed;
 	border-width: 1px;
-	width: 250px;
-	height: auto;
-	margin-top: -100px;
-	margin-left: -110px;
+	border-color: #791E1E;
+}
+
+.box_contenu1 {
+	background-color: #ffd363;
+	padding: 0px;
+	margin: 0px;
+}
+
+.box_contenu2Clair {
 	text-align: center;
+	background-color: #eeeeee;
+}
+
+.box_contenu2Fonce {
+	background-color: #ffd363;
+	padding: 0px;
+	margin: 0px;
+}
+
+.box_contenu3 {
+	text-align: left;
+}
+
+.titre {
+	padding: 0px;
+	font-weight:bolder;
+	margin:0.0em;
+	color:#791E1E;
+	font-variant:small-caps;
+	letter-spacing:2pt;
+}
+
+.textsizea {
+	font-size:2em;
+}
+
+.textsizeb {
+	font-size:1.4em;
+}
+
+.textsizec {
+	font-size:1.2em;
+}
+
+.textsized {
+	font-size:1.1em;
+	letter-spacing:1pt;
+}
+
+.textalia{
+	text-align:left;
+}
+.textalib{
+	text-align:right;
+}
+.textalic{
+	text-align:center;
+}
+
+.box_titre1 {
+	color: #003300;
+	padding: 0px;
+	font-weight:bolder;
+	margin-top:0.5em;
+	text-align:left;
+	color:#791E1E;
+	font-size:1.4em;
+	font-variant:small-caps;
+	letter-spacing:2pt;
+	text-decoration:none;
 }
 
 .box_chargement {
@@ -29,23 +158,6 @@
 	color: black;
 	font-weight: bold;
 	z-index: 1000;
-}
-
-.box_contenu1 {
-	text-align: right;
-}
-
-.box_contenu2Clair {
-	text-align: center;
-	background-color: #eeeeee;
-}
-
-.box_contenu2Fonce {
-	text-align: center;
-}
-
-.box_contenu3 {
-	text-align: left;
 }
 
 .box_info {
@@ -157,20 +269,22 @@
 .box_competences_basiques,.box_metier,.box_competences_communes,.box_competences_metiers 
 	  , .box_equipement,.box_profil,.box_vue,.box_lieu,.box_laban {
 	position: absolute;
-	background-color: #ffd363;
 	color: black;
-	border-style: dashed;
-	border-width: 1px;
 	width: 220px;
 	height: auto;
 	text-align: center;
 	z-index: 10;
 }
 
+.inner{
+	background:#CCCC99 none repeat-x scroll 0pt;
+	padding:0pt 5px;
+}
+	
 .box_competences_basiques,.box_metier,.box_competences_communes,.box_competences_metiers
-	{
+{
 	position: relative;
-	height: 100px;
+	height: 200px;
 	overflow: auto
 }
 
@@ -183,7 +297,7 @@
 .box_laban {
 	position: relative;
 	height: 300px;
-	width: 400px;
+	width: auto;
 	overflow: auto;
 }
 
@@ -203,15 +317,8 @@
 
 .box_profil {
 	position: relative;
-	height: 250px;
+	height: auto;
 	overflow: auto
-}
-
-.box_titre1 {
-	background-color: #CCCC99;
-	color: #003300;
-	padding: 3px;
-	text-align: center;
 }
 
 .box_vue {
@@ -219,7 +326,9 @@
 }
 
 .box_lieu {
-	width: 400px;
+	position: relative;
+	height: 400px;
+	overflow: auto
 }
 
 .barre_faim,.barre_vie {

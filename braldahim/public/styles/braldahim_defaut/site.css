@@ -11,14 +11,13 @@
 
 body {
   font:11px 'Trebuchet MS',verdana,sans-serif;
-  
-  background-image:url(/public/images/fond.gif);
+  background-image:url(/public/styles/braldahim_defaut/images/layout/fond.gif);
   background-repeat:repeat-y;
   background-position:center top;
   
 }
 
-#logo {float:left;font-weight:bolder;margin-top:0.5em;text-align:left;}
+#logo {float:left;font-weight:bolder;margin-top:0.5em;text-align:left;}
 #logo a:link, #logo a:visited, #logo a:hover, #logo a:active {color:#791E1E;font-size:2em;font-variant:small-caps;letter-spacing:2pt;text-decoration:none;}
 
 #logo a:hover, #logo a:active {
@@ -26,11 +25,18 @@ body {
 }
 
 input {
-  border:1px solid #CCC;
-  background: #FFF;
-  font:11px 'Trebuchet MS',verdana,sans-serif;
-  color: #000;
-  margin: 2px;
+	background:#FAFAFA none repeat-x scroll center top;
+	color:#000000;
+	font-family:"Lucida Grande",Verdana,Helvetica,Arial,sans-serif;
+	padding-bottom:1px;
+	padding-top:1px;
+	width:auto !important;
+	border:1px solid #666666;
+}
+
+input:active{
+	color:#000000;
+	text-decoration:none;
 }
 
 input:focus {
@@ -43,6 +49,35 @@ input:hover {
   border:1px solid #000;
   color: #00339A;
   background-color: white;
+}
+
+* html input.button1 {
+	margin-bottom:1px;
+	padding-bottom:0pt;
+}
+
+input.button1 {
+	background-color:#FAFAFA;
+	background-image:url(/public/styles/braldahim_defaut/images/layout/bg_button.gif);
+	color:#000000;
+	border-color:#666666;
+	font-size:1em;
+	border:1px solid #666666;
+}
+
+input.button1:hover {
+	border-color:#791E1E;
+	color:#791E1E;
+}
+
+input.button1:active {
+	color:#000000;
+}
+
+input.button1:disabled {
+	background-position:0pt 100%;
+	border:1px solid #BCBCBC;
+	color:#BCBCBC;
 }
 
 .racine_gauche , .racine_milieu, .racine_droite {
