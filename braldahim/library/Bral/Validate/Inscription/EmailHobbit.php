@@ -42,4 +42,8 @@ class Bral_Validate_Inscription_EmailHobbit implements Zend_Validate_Interface {
     public function getMessages(){
         return $this->_messages;
     }
+    
+    public function getErrors() {
+    	return $this->_messages;
+    }
 }
