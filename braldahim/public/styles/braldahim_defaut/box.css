@@ -55,7 +55,7 @@ span.corners-bottom span {
 }
 
 .box_authentification {
-	width: 300px;
+	width: 340px;
 	height: auto;
 	margin-left: auto;
 	margin-right: auto;
@@ -76,8 +76,9 @@ span.corners-bottom span {
 }
 
 .box_contenu2Clair {
-	text-align: center;
 	background-color: #eeeeee;
+	padding: 0px;
+	margin: 0px;
 }
 
 .box_contenu2Fonce {

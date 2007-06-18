@@ -1,11 +1,16 @@
 <?php echo $this->render('header.phtml'); ?>
-<h1><?php echo $this->escape($this->title); ?></h1>
-<div class="box_gardiennage">
-
-<div class="box_titre1">Gardiennage</div>
-
 <form action="<?=$this->baseUrl ?>/gardiennage/garde" method="post">
-   <div class='box_contenu2Clair'>
+
+<div class="box_gardiennage">
+	<div class="box_corners">
+		<span class="corners-top"><span></span></span>
+	</div>
+<div class="inner">
+	<ul class="titre textalia textsizea">Gardiennage</ul>
+	&nbsp;
+	<div class="contenu">
+	    <ul class="box_contenu2Clair textalic">
+	    <br>
       	<? if (!empty($this->message)) : ?>
    			<?=$this->message?>
    		<? else: ?>
@@ -47,10 +52,15 @@
 <? if (!empty($this->message)) : ?>
 <input type="button" name="deconnexion" value="D&eacute;connexion" onClick="javascript:document.location.href='/auth/logout'"/>
 <? endif; ?>
+		</ul>
+	</div>
+	&nbsp;
 </div>
-  </div>
+	<div class="box_corners">
+		<span class="corners-bottom"><span></span></span>
+	</div>
+</div>
 </form>
-</div>
 
 <?php echo $this->render('footer.phtml'); ?>
 

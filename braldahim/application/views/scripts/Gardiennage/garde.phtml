@@ -1,19 +1,24 @@
 <?php echo $this->render('header.phtml'); ?>
-<h1><?php echo $this->escape($this->title); ?></h1>
-<div class="box_gardiennage">
-
-<div class="box_titre1">Gardiennage</div>
-
 <form action="<?=$this->baseUrl ?>/gardiennage/" method="post">
-   <div class='box_contenu2'>
+<div class="box_gardiennage">
+	<div class="box_corners">
+		<span class="corners-top"><span></span></span>
+	</div>
+<div class="inner">
+	<ul class="titre textalia textsizea">Gardiennage</ul>
+	&nbsp;
+	<div class="contenu">
+	    <ul class="box_contenu1 textalic">
+	    <br>
    		<? if (!empty($this->message)) : ?>
    			<?=$this->message?>
    		<? endif; ?>
 		<? if ($this->user->gardeEnCours) : ?>
-			Hobbit en cours : <?=$this->user->nom_hobbit ?> (<?=$this->user->id_hobbit?>)
+			Hobbit en cours : <?=$this->user->nom_hobbit ?> (<?=$this->user->id_hobbit?>)<br><br>
 			<div id="formbutton">
 				<input type="button" name="retour" value="Aller &agrave; l'interface" onClick="javascript:document.location.href='/interface'"/>
 			</div>
+			&nbsp;
 		<? else: ?>
 		<br>
 			Vous devez sélectionner un hobbit en garde
@@ -21,9 +26,15 @@
 				<input type="button" name="retour" value="Retour Gardiennage" onClick="javascript:document.location.href='/gardiennage'"/>
 			</div>
 		<? endif; ?>
+		</ul>
 	</div>
-</form>
+	&nbsp;
 </div>
+	<div class="box_corners">
+		<span class="corners-bottom"><span></span></span>
+	</div>
+</div>
+</form>
 
 <?php echo $this->render('footer.phtml'); ?>
 

@@ -72,7 +72,7 @@ class GardiennageController extends Zend_Controller_Action {
 				}
 			}
 			
-			// s'il peut garde, on lance l'authentification 
+			// s'il peut garder, on lance l'authentification 
 			if ($garde === false) {
 				$this->view->message = "Erreur. Garde inconnue $id_garde";
 			} else {
@@ -81,7 +81,7 @@ class GardiennageController extends Zend_Controller_Action {
 	            $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter); 
 	            $authAdapter->setTableName('hobbit'); 
 	            $authAdapter->setIdentityColumn('nom_hobbit'); 
-	            $authAdapter->setCredentialColumn('id'); 
+	            $authAdapter->setCredentialColumn('id_hobbit'); 
 	             
 	            // Set the input credential values to authenticate against 
 	            $authAdapter->setIdentity($nom_hobbit); 

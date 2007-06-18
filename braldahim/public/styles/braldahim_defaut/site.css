@@ -6,14 +6,16 @@
 @import "vue.css";
 
 * {
-	font:11px 'Trebuchet MS',verdana,sans-serif;
+	font:11px arial,verdana,sans-serif;
+	letter-spacing:0pt;
 }
 
 body {
-  font:11px 'Trebuchet MS',verdana,sans-serif;
+  font:11x arial,verdana,sans-serif;
   background-image:url(/public/styles/braldahim_defaut/images/layout/fond.gif);
   background-repeat:repeat-y;
   background-position:center top;
+  letter-spacing:0pt;
   
 }
 
