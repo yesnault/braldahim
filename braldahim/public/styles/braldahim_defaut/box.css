@@ -207,15 +207,22 @@ span.corners-bottom span {
 
 .box_inscription,.box_perdu,.box_pamaretres,.box_gardiennage,.box_administration
 {
-	background-color: #ffd363;
-	color: black;
-	border-style: dashed;
-	border-width: 1px;
+#	background-color: #ffd363;
+#	color: black;
+#	border-style: dashed;
+#	border-width: 1px;
+#	width: 500px;
+#	height: auto;
+#	margin-left: auto;
+#	margin-right: auto;
+#	margin-top: 20px;
+#	text-align: center;
+	
 	width: 500px;
 	height: auto;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 20px;
+	margin-top: 60px;
 	text-align: center;
 }
 
