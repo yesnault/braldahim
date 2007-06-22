@@ -10,6 +10,9 @@ class Bral_Box_Factory {
 			case "box_equipement" :
 				return self::getEquipement($request, $view, $interne);
 				break;
+			case "box_evenements" :
+				return self::getEvenements($request, $view, $interne);
+				break;
 			case "box_vue" :
 				return self::getVue($request, $view, $interne);
 				break;
@@ -61,6 +64,10 @@ class Bral_Box_Factory {
 		return new Bral_Box_Equipement($request, $view, $interne);
 	}
 
+	public static function getEvenements($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Evenements");
+		return new Bral_Box_Evenements($request, $view, $interne);
+	}
 
 	public static function getErreur($request, $view, $interne, $message) {
 		Zend_Loader::loadClass("Bral_Box_Erreur");

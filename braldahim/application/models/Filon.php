@@ -44,7 +44,7 @@ class Filon extends Zend_Db_Table {
 		->order('filon.id_filon');
 		$sql = $select->__toString();
 
-		return $db->fetchRow($sql);
+		return $db->fetchAll($sql);
 	}
 
 	function findLePlusProche($x, $y, $rayon) {

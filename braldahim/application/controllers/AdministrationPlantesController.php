@@ -33,9 +33,9 @@ class AdministrationPlantesController extends Zend_Controller_Action {
 			Zend_Loader::loadClass('Zend_Filter');
 			Zend_Loader::loadClass('Zend_Filter_StripTags');
 			Zend_Loader::loadClass('Zend_Filter_StringTrim');
-				
+
 			$creation = true;
-				
+
 			$filter = new Zend_Filter();
 			$filter->addFilter(new Zend_Filter_StringTrim())->addFilter(new Zend_Filter_StripTags());
 			$id_zone = $filter->filter($this->_request->getPost('id_zone'));
@@ -49,7 +49,7 @@ class AdministrationPlantesController extends Zend_Controller_Action {
 			$partie_4a = (int)$filter->filter($this->_request->getPost('partie_4a'));
 			$partie_4b = (int)$filter->filter($this->_request->getPost('partie_4b'));
 			$couverture = $filter->filter($this->_request->getPost('couverture'));
-				
+
 			if ($partie_1a == 0 || $partie_1b == 0) {
 				throw new Zend_Exception("::PlantesAction : partie 1 min invalide");
 			}
@@ -116,7 +116,7 @@ class AdministrationPlantesController extends Zend_Controller_Action {
 		$zonesRowset = $zoneTable->fetchAllAvecEnvironnement();
 		$typePlanteRowset = $typePlanteTable->fetchAllAvecEnvironnement();
 		$typePartiePlanteRowset = $typePartiePlanteTable->fetchall();
-		
+
 		foreach($zonesRowset as $z) {
 			$nombrePlantes = $planteTable->countVue($z["x_min_zone"] ,$z["y_min_zone"] ,$z["x_max_zone"] ,$z["y_max_zone"]);
 			$nombreCases = ($z["x_max_zone"]  - $z["x_min_zone"] ) * ($z["y_max_zone"]  - $z["y_min_zone"] );
@@ -131,23 +131,35 @@ class AdministrationPlantesController extends Zend_Controller_Action {
 			"nombre_cases" => $nombreCases,
 			"couverture" => round($couverture));
 		}
-		
+
 		foreach($typePartiePlanteRowset as $p) {
 			$tabPartiePlante[$p->id_type_partieplante]["id"] = $p->id_type_partieplante;
 			$tabPartiePlante[$p->id_type_partieplante]["nom"] = $p->nom_type_partieplante;
 			$tabPartiePlante[$p->id_type_partieplante]["nom_systeme"] = $p->nom_systeme_type_partieplante;
 			$tabPartiePlante[$p->id_type_partieplante]["description"] = $p->description_type_partieplante;
 		}
-		
+
 		foreach($typePlanteRowset as $t) {
+			$nom_partie2 = "";
+			if ($t["id_fk_partieplante2_type_plante"] > 0) {
+				$nom_partie2 = $tabPartiePlante[$t["id_fk_partieplante2_type_plante"]]["nom"];
+			}
+			$nom_partie3 = "";
+			if ($t["id_fk_partieplante2_type_plante"] > 0) {
+				$nom_partie3 = $tabPartiePlante[$t["id_fk_partieplante2_type_plante"]]["nom"];
+			}
+			$nom_partie4 = "";
+			if ($t["id_fk_partieplante2_type_plante"] > 0) {
+				$nom_partie4 = $tabPartiePlante[$t["id_fk_partieplante2_type_plante"]]["nom"];
+			}
 			$typePlantes[] = array("id" => $t["id_type_plante"],
 			"nom" => $t["nom_type_plante"],
 			"categorie" => $t["categorie_type_plante"],
 			"environnement" => $t["nom_environnement"],
 			"nom_partie_1" => $tabPartiePlante[$t["id_fk_partieplante1_type_plante"]]["nom"],
-			"nom_partie_2" => $tabPartiePlante[$t["id_fk_partieplante2_type_plante"]]["nom"],
-			"nom_partie_3" => $tabPartiePlante[$t["id_fk_partieplante3_type_plante"]]["nom"],
-			"nom_partie_4" => $tabPartiePlante[$t["id_fk_partieplante4_type_plante"]]["nom"],
+			"nom_partie_2" => $nom_partie2,
+			"nom_partie_3" => $nom_partie3,
+			"nom_partie_4" => $nom_partie4,
 			"id_fk_partieplante1" => $t["id_fk_partieplante1_type_plante"],
 			"id_fk_partieplante2" => $t["id_fk_partieplante2_type_plante"],
 			"id_fk_partieplante3" => $t["id_fk_partieplante3_type_plante"],

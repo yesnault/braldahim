@@ -7,8 +7,12 @@
 			<? if ($this->trouve == true): ?>
 				<? if ($this->proche === true): ?>
 					Le filon le plus proche se situe en : 
-					X=<?=$this->filon["x_filon"]?> et Y=<?=$this->filon["y_filon"]?>,<br>
-					en direction  
+					X=<?=$this->filon["x_filon"]?> et Y=<?=$this->filon["y_filon"]?><br>
+					<? if (($this->user->y_hobbit == $this->filon["y_filon"]) && ($this->user->x_hobbit == $this->filon["x_filon"])) : ?>
+						Vous &ecirc;tes sur le filon !
+					<? else: ?>
+						 , en direction
+					<? endif; ?>
 				<? elseif ($this->proche === false): ?>
 					Le filon le plus proche se situe en direction <br>
 				<? endif; ?>
@@ -45,7 +49,13 @@
 				if ($this->proche === true) {
 					echo "Le filon le plus proche se situe en : ";
 					echo " X=".$this->filon["x_filon"]." et Y=".$this->filon["y_filon"];
-					echo ", en direction ";
+					if (($this->user->y_hobbit == $this->filon["y_filon"]) && ($this->user->x_hobbit == $this->filon["x_filon"])) {
+						echo "
+";
+						echo "Vous &ecirc;tes sur le filon ! ";
+					} else {
+						echo ", en direction ";
+					}
 				} elseif ($this->proche === false) {
 					echo "Le filon le plus proche se situe en direction ";
 				}

@@ -10,7 +10,6 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 
 		$filonTable = new Filon();
 		$this->view->filon = $filonTable->findCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-
 		if (count($this->view->filon) > 0) {
 			$this->view->filonOk = true;
 		}
@@ -26,8 +25,6 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('LabanMinerai');
 		Zend_Loader::loadClass('Hobbit');
 
-		$idFilon = intval($this->request->get("valeur_1"));
-
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
@@ -37,12 +34,25 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		$this->calculJets();
 
 		if ($this->view->okJet1 === true && $this->view->filonOk  === true) {
-
+			$valid = false;
+			foreach($this->view->filon as $f) {
+				$idFilon = $f["id_filon"];
+				$id_fk_type_minerai_filon = $f["id_fk_type_minerai_filon"];
+				$quantite_restante_filon = $f["quantite_restante_filon"];
+				$nom_type_minerai = $f["nom_type_minerai"];
+				$valid = true;
+				break;
+			}
+			
+			if ($valid===false) {
+				throw new Zend_Exception(get_class($this)." Erreur inconnue. Valid=".$valid);
+			}
+			
 			$quantiteExtraite = $this->calculQuantiteAExtraire();
 
 			$labanMineraiTable = new LabanMinerai();
 			$data = array(
-			'id_fk_type_laban_minerai' => $this->view->filon["id_fk_type_minerai_filon"],
+			'id_fk_type_laban_minerai' => $id_fk_type_minerai_filon,
 			'id_hobbit_laban_minerai' => $this->view->user->id_hobbit,
 			'quantite_laban_minerai' => $quantiteExtraite,
 			);
@@ -50,22 +60,22 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			$labanMineraiTable->insertOrUpdate($data);
 
 			// Destruction du filon s'il ne reste plus rien
-			if ($this->view->filon["quantite_restante_filon"] - $quantiteExtraite <= 0) {
+			if ($quantite_restante_filon - $quantiteExtraite <= 0) {
 				$filonTable = new Filon();
 				$where = "id_filon=".$idFilon;
-				$planteTable->delete($where);
+				$filonTable->delete($where);
 				$filonDetruit = true;
 			} else {
 				$filonTable = new Filon();
 				$data = array(
-				'quantite_restante_filon' => $this->view->filon["quantite_restante_filon"] - $quantiteExtraite,
+				'quantite_restante_filon' => $quantite_restante_filon - $quantiteExtraite,
 				);
 				$where = "id_filon=".$idFilon;
 				$filonTable->update($data, $where);
 				$filonDetruit = false;
 			}
-				
-			$minerai = array("nom_type" => $this->view->filon["nom_type_minerai"], "quantite_extraite" => $quantiteExtraite);
+
+			$minerai = array("nom_type" => $nom_type_minerai, "quantite_extraite" => $quantiteExtraite);
 
 			$this->view->minerai = $minerai;
 			$this->view->filonDetruit = $filonDetruit;
@@ -79,8 +89,8 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		return array("box_profil", "box_vue", "box_competences_metiers", "box_laban");
 	}
 
-	/* La quantité de minerai extraite est fonction de la quantité de minerai 
-	 * disponible à cet endroit du filon (ce qu’il reste à exploiter) et 
+	/* La quantité de minerai extraite est fonction de la quantité de minerai
+	 * disponible à cet endroit du filon (ce qu’il reste à exploiter) et
 	 * le niveau de FOR du Hobbit :
 	 * de 0 à 4 : 1D3
 	 * de 5 à 9 : 1D3+1
