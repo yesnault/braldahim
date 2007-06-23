@@ -1,75 +1,87 @@
 <?php echo $this->render('header.phtml'); ?>
 <div class="box_administration">
-<div class="box_titre1">Administration Filons</div><br />
-	<? if ($this->creation === true) : ?>
-	<b>Cr&eacute;ation de <?=$this->nb_creation ?> filons<b> <br>
-	<? endif; ?>
-	<form action="<?=$this->baseUrl ?>/administrationfilons/filons" method="post">
-	<table>
-	<th class='comp_titre'>Zone</th>
-	<th class='comp_titre'>Filon</th>
-	<th class='comp_titre'>Couverture</th>
-	<tr valign='top'>
-		<td>
-			<select name="id_zone">
-			<? foreach ($this->zones as $z) : ?>
-			<option value="<?=$z["id_zone"]?>"><?=$z["id_zone"]?></option>
+	<div class="box_corners">
+		<span class="corners-top"><span></span></span>
+	</div>
+<div class="inner">
+    <ul class="titre textalic textsizea">Administration Filons</ul>
+    	&nbsp;
+	<div class="contenu">
+	    <ul class="box_contenu1 textalic">
+	    
+			<? if ($this->creation === true) : ?>
+			<b>Cr&eacute;ation de <?=$this->nb_creation ?> filons<b> <br>
+			<? endif; ?>
+			<form action="<?=$this->baseUrl ?>/administrationfilons/filons" method="post">
+			<table align='center'>
+			<th class='comp_titre'>Zone</th>
+			<th class='comp_titre'>Filon</th>
+			<th class='comp_titre'>Couverture</th>
+			<tr valign='top'>
+				<td>
+					<select name="id_zone">
+					<? foreach ($this->zones as $z) : ?>
+					<option value="<?=$z["id_zone"]?>"><?=$z["id_zone"]?></option>
+					<? endforeach; ?>
+					</select>
+				</td>
+				<td>
+					<select name="id_type_minerai_filon">
+					<? foreach ($this->typeMinerais as $p) : ?>
+					<option value="<?=$p["id_type_minerai"]?>"><?=htmlentities($p["nom"])?></option>
+					<? endforeach; ?>
+					</select>
+					<br>
+					Quantit&eacute; min <input type="textbox" name="quantite_min" onkeypress="chiffres(event);" />
+					 max : <input type="textbox" name="quantite_max" onkeypress="chiffres(event);" /> <br>
+				</td>
+				<td>
+					<select name="couverture">
+					<? for ($i=1; $i<100; $i++) : ?>
+						<option value="<?=$i?>"><?=$i?> %</option>
+					<? endfor; ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td colspan='3'> <input type="submit"  class='button1' name="Ajouter" value="Ajouter la couverture de filon" /></td>
+			</tr>
+			</table>
+			</form>
+		<br><br>
+			<table  align='center'>
+			<th class='comp_titre'>N°</th>
+			<th class='comp_titre'>Environnement</th>
+			<th class='comp_titre'>x_min</th>
+			<th class='comp_titre'>x_max</th>
+			<th class='comp_titre'>y_min</th>
+			<th class='comp_titre'>y_max</th>
+			<th class='comp_titre'>Nombre Cases</th>
+			<th class='comp_titre'>Nombre Filons</th>
+			<th class='comp_titre'>Couverture</th>
+			<? foreach ($this->zones as $zone) : ?>
+				<tr>
+					<td><?=$zone["id_zone"] ?></td>
+					<td><?=htmlentities($zone["environnement"]) ?></td>
+					<td><?=$zone["x_min"] ?></td>
+					<td><?=$zone["x_max"] ?></td>
+					<td><?=$zone["y_min"] ?></td>
+					<td><?=$zone["y_max"] ?></td>
+					<td><?=$zone["nombre_cases"] ?></td>
+					<td><?=$zone["nombre_filons"] ?></td>
+					<td><?=$zone["couverture"] ?> % </td>
+					<td>
+					
+					</td>
+				</tr>
 			<? endforeach; ?>
-			</select>
-		</td>
-		<td>
-			<select name="id_type_minerai_filon">
-			<? foreach ($this->typeFilons as $p) : ?>
-			<option value="<?=$p["id_type_minerai"]?>"><?=htmlentities($p["nom"])?></option>
-			<? endforeach; ?>
-			</select>
-			<br>
-			Quantit&eacute; min <input type="textbox" name="quantite_min" onkeypress="chiffres(event);" />
-			 max : <input type="textbox" name="quantite_max" onkeypress="chiffres(event);" <br>
-		</td>
-		<td>
-			<select name="couverture">
-			<? for ($i=1; $i<100; $i++) : ?>
-				<option value="<?=$i?>"><?=$i?> %</option>
-			<? endfor; ?>
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td colspan='3'> <input type="submit" name="add" value="Ajouter la couverture de filon" /></td>
-	</tr>
-	</table>
-	</form>
-<br><br>
- <div class="box_contenu2">
-	<table>
-	<th class='comp_titre'>N°</th>
-	<th class='comp_titre'>Environnement</th>
-	<th class='comp_titre'>x_min</th>
-	<th class='comp_titre'>x_max</th>
-	<th class='comp_titre'>y_min</th>
-	<th class='comp_titre'>y_max</th>
-	<th class='comp_titre'>Nombre Cases</th>
-	<th class='comp_titre'>Nombre Filons</th>
-	<th class='comp_titre'>Couverture</th>
-	<? foreach ($this->zones as $zone) : ?>
-		<tr>
-			<td><?=$zone["id_zone"] ?></td>
-			<td><?=htmlentities($zone["environnement"]) ?></td>
-			<td><?=$zone["x_min"] ?></td>
-			<td><?=$zone["x_max"] ?></td>
-			<td><?=$zone["y_min"] ?></td>
-			<td><?=$zone["y_max"] ?></td>
-			<td><?=$zone["nombre_cases"] ?></td>
-			<td><?=$zone["nombre_filons"] ?></td>
-			<td><?=$zone["couverture"] ?> % </td>
-			<td>
-			
-			</td>
-		</tr>
-	<? endforeach; ?>
-	</table>
- </div>
+			</table>
+		</ul>
+	</div>
+	&nbsp;
 </div>
+	<div class="box_corners">
+		<span class="corners-bottom"><span></span></span>
+	</div>
 </div>
 <?php echo $this->render('footer.phtml'); ?>

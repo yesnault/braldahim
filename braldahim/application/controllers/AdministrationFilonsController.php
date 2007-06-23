@@ -21,7 +21,7 @@ class AdministrationFilonsController extends Zend_Controller_Action {
 		Zend_Loader::loadClass('Zone');
 		Zend_Loader::loadClass('Filon');
 		Zend_Loader::loadClass('TypeMinerai');
-			
+
 		$this->filonsPrepare();
 
 		$creation = false;

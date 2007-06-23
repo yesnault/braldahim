@@ -1,10 +1,29 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-<ul class="titre textalia textsizeb">Mes Ev&egrave;nements</ul>
+<ul class="titre textalia textsizeb">Mes &Eacute;v&egrave;nements</ul>
  <div class="contenu">
   <ul class="box_contenu1 textalic">
-   Evènement ICI
+  	
+  	<ul class="mtable">
+  	<? foreach($this->evenements as $e): ?>
+  		<li class="row">
+  			<dl>
+  				<dd><?=$e["date"]?></dd>
+  				<dd><?=htmlentities($e["type"])?></dd>
+  				<dd><?=htmlentities($e["details"])?>&nbsp;</dd>
+  			</dl>
+  		</li>
+  	<? endforeach; ?>
+  	</ul>
+   <br><br>
+   <? if ($this->precedentOk === true) : ?>
+   <input type="button" class='button1' onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/evenements?caction=box_evenements&valeur_1=p&valeur_2=<?=$this->page ?>')" value="Page pr&eacute;c&eacute;dente">
+   <? endif; ?>
+   <? if ($this->suivantOk === true) : ?>
+   <input type="button" class='button1' onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/evenements?caction=box_evenements&valeur_1=s&valeur_2=<?=$this->page ?>')" value="Page suivante">
+   <? endif; ?>
    </ul>
 </div>
+</ul>
 </div>
 <? include("box_bottom.phtml") ?>

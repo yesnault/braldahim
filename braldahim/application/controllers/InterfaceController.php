@@ -40,6 +40,17 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->render();
 	}
 
+	function evenementsAction() {
+		$this->view->affichageInterne = true;
+		$xml_entry = new Bral_Xml_Entry();
+		$xml_entry->set_type("display");
+		$xml_entry->set_valeur("box_evenements");
+		$box = Bral_Box_Factory::getEvenements($this->_request, $this->view, true);
+		$xml_entry->set_data($box->render());
+		$this->xml_response->add_entry($xml_entry);
+		$this->xml_response->render();
+	}
+	
 	function vueAction() {
 		$this->view->affichageInterne = true;
 		$xml_entry = new Bral_Xml_Entry();
