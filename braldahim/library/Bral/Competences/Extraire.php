@@ -79,6 +79,8 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 
 			$this->view->minerai = $minerai;
 			$this->view->filonDetruit = $filonDetruit;
+			
+			$this->majEvenementsStandard();
 		}
 		$this->calculPx();
 		$this->calculBalanceFaim();
@@ -86,11 +88,11 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_competences_metiers", "box_laban");
+		return array("box_profil", "box_vue", "box_competences_metiers", "box_laban", "box_evenements");
 	}
 
 	/* La quantité de minerai extraite est fonction de la quantité de minerai
-	 * disponible à cet endroit du filon (ce quâ€™il reste à exploiter) et
+	 * disponible à cet endroit du filon (ce qu'il reste à exploiter) et
 	 * le niveau de FOR du Hobbit :
 	 * de 0 à 4 : 1D3
 	 * de 5 à 9 : 1D3+1

@@ -15,9 +15,9 @@
 	  	<? foreach($this->evenements as $e): ?>
 	  		<li class="row">
 	  			<dl>
-	  				<dd><?=$e["date"]?></dd>
-	  				<dd><?=htmlentities($e["type"])?></dd>
-	  				<dd><?=htmlentities($e["details"])?>&nbsp;</dd>
+	  				<dd class="date_evenement"><?=$e["date"]?></dd>
+	  				<dd class="type_evenement"><?=htmlentities($e["type"])?></dd>
+	  				<dd class="detail_evenement"><?=htmlentities($e["details"])?>&nbsp;</dd>
 	  			</dl>
 	  		</li>
 	  	<? endforeach; ?>

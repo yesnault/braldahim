@@ -44,6 +44,8 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 			} else {
 				$this->view->trouve= false;
 			}
+			
+			$this->majEvenementsStandard();
 		}
 
 		$this->calculPx();
@@ -52,6 +54,6 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_competences_metiers");
+		return array("box_profil", "box_competences_metiers", "box_evenements");
 	}
 }

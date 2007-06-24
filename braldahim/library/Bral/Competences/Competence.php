@@ -125,18 +125,27 @@ abstract class Bral_Competences_Competence {
 	/*
 	 * Mise à jour des évènements du hobbit.
 	 */
-	public function majEvenements($id_type_evenement, $details) {
+	public function majEvenements($id_hobbit, $id_type_evenement, $details) {
 		Zend_Loader::loadClass('Evenement');
-		
+
 		$evenementTable = new Evenement();
 
 		$data = array(
-		'id_hobbit_evenement' => $this->view->user->id_hobbit,
+		'id_hobbit_evenement' => $id_hobbit,
 		'date_evenement' => date("Y-m-d H:i:s"),
 		'id_fk_type_evenement' => $id_type_evenement,
 		'details_evenement' => $details,
 		);
 		$evenementTable->insert($data);
+	}
+
+	/*
+	 * Mise à jour des évènements du hobbit : type : compétence.
+	 */
+	public function majEvenementsStandard() {
+		$id_type = $this->view->config->game->evenements->type->competence;
+		$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a réussi l'utilisation d'une compétence";
+		$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
 	}
 
 	/*

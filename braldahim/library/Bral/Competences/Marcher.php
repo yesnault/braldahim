@@ -134,5 +134,4 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			$this->view->assezDePa = true;
 		}
 	}
-
 }

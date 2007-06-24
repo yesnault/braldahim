@@ -9,7 +9,7 @@
 		 Jet de r&eacute;sistance de la cible : <?=$this->jetCible?><br>
 		 
 	 	<? if ($this->attaqueReussie === true) : ?>
-	 		<? if ($this->jetDegat>1):$s='s'; endif;?>
+	 		<? if ($this->jetDegat>1):$s='s'; else:$s=''; endif;?>
 	 		Vous avez inflig&eacute; <?=$this->jetDegat?> point<?=$s?> de d&eacute;gat.<br><br>
 	 		
 	 		<? if ($this->mort): ?>
@@ -24,7 +24,29 @@
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
 		include("commun_copie_resultat.phtml");
 		if ($this->okJet1 === true) {
-			
+		 echo "Vous avez attaqu&eacute; ".$this->cible["nom_cible"]." (".$this->cible["id_cible"].") :";
+		 echo "
+";
+		 echo "Jet d'attaque : ".$this->jetAttaquant;
+		 echo "
+";
+		 echo "Jet de r&eacute;sistance de la cible : ".$this->jetCible;
+		 echo "
+";
+		 
+	 	 if ($this->attaqueReussie === true) {
+	 		if ($this->jetDegat>1):$s='s'; else:$s=''; endif;
+	 		echo "Vous avez inflig&eacute; ".$this->jetDegat." point".$s." de d&eacute;gat.";
+	 		echo "
+";
+	 		
+	 		if ($this->mort) {
+	 			echo "Vous avez tu&eacute; ".$this->cible["nom_cible"]." (". $this->cible["id_cible"].")";
+	 			echo "
+";
+			}
+	 		echo "Vous avez gagn&eacute; ".$this->nb_px." PX";
+	 	  }
 		}
 		?></textarea>
 	</div>

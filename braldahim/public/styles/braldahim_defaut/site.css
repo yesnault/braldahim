@@ -100,3 +100,7 @@ a {
 a:hover {
 	color: #a92929;
 }
+
+span.id_hobbit {
+	color: red;
+}

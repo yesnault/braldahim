@@ -45,6 +45,17 @@ class InscriptionController extends Zend_Controller_Action {
 				);
 				$where = "id_hobbit=".$hobbit->id_hobbit;
 				$hobbitTable->update($data, $where);
+
+				$details = $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") est apparu sur Braldahim";
+				Zend_Loader::loadClass('Evenement');
+				$evenementTable = new Evenement();
+				$data = array(
+				'id_hobbit_evenement' => $hobbit->id_hobbit,
+				'date_evenement' => date("Y-m-d H:i:s"),
+				'id_fk_type_evenement' => $this->view->config->game->evenements->type->naissance,
+				'details_evenement' => $details,
+				);
+				$evenementTable->insert($data);
 			}
 		}
 
@@ -186,7 +197,7 @@ class InscriptionController extends Zend_Controller_Action {
 
 		$competenceTable = new Competence();
 		$tab = $competenceTable->findCommunesInscription(0);
-		
+
 		foreach($tab as $c) {
 			$data = array(
 			'id_hobbit_hcomp' => $this->view->id_hobbit,
@@ -194,7 +205,7 @@ class InscriptionController extends Zend_Controller_Action {
 			'pourcentage_hcomp'  => $c["pourcentage_init_competence"],
 			'date_gain_tour_hcomp'  => "0000-00-00 00:00:00",
 			);
-	
+
 			$hobbitCompetenceTable = new HobbitsCompetences();
 			$hobbitCompetenceTable->insert($data);
 		}

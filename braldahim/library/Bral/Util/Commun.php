@@ -34,4 +34,21 @@ class Bral_Util_Commun {
 		}
 		return $r;
 	}
+	
+	/*
+	 * Mise à jour des évènements du hobbit.
+	 */
+	public function majEvenements($id_hobbit, $id_type_evenement, $details) {
+		Zend_Loader::loadClass('Evenement');
+
+		$evenementTable = new Evenement();
+
+		$data = array(
+		'id_hobbit_evenement' => $id_hobbit,
+		'date_evenement' => date("Y-m-d H:i:s"),
+		'id_fk_type_evenement' => $id_type_evenement,
+		'details_evenement' => $details,
+		);
+		$evenementTable->insert($data);
+	}
 }

@@ -83,15 +83,14 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 				throw new Zend_Exception(get_class($this)." Erreur inconnue");
 			}
 		}
-		
+
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
-		
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_lieu");
+		return array("box_profil", "box_vue", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_lieu", "box_evenements");
 	}
 
 
@@ -107,7 +106,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 
 		$jetCible = 0;
 		for ($i=1; $i<=$hobbit->agilite_base_hobbit; $i++) {
-			$jetCible = $jetAttaque + Bral_Util_De::get_1d6();
+			$jetCible = $jetCible + Bral_Util_De::get_1d6();
 		}
 		$this->view->jetCible = $jetCible + $hobbit->agilite_bm_hobbit;
 
@@ -140,6 +139,19 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 			$where = "id_hobbit=".$hobbit->id_hobbit;
 			$hobbitTable->update($data, $where);
 		}
+
+		$id_type = $this->view->config->game->evenements->type->attaquer;
+		$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a attaqué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ")";
+		$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
+		$this->majEvenements($cible["id_cible"], $id_type, $details);
+
+		if ($this->view->mort === true) {
+			$id_type = $this->view->config->game->evenements->type->kill;
+			$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a tué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ")";
+			$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
+			$id_type = $this->view->config->game->evenements->type->mort;
+			$this->majEvenements($cible["id_cible"], $id_type, $details);
+		}
 	}
 
 	private function attaqueMonstre($idMonstre) {
@@ -151,7 +163,9 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 			$this->calculDegat();
 		}
 
-		$this->calculDegat();
+		$id_type = $this->view->config->game->evenements->type->attaqer;
+		$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a attaqué le monstre ".$cible["nom_cible"]." (".$cible["id_cible"] . ")";
+		$this->majEvenements($id_type, $details);
 	}
 
 	private function calculJetAttaque() {
@@ -171,19 +185,19 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		$jetDegat = $jetDegat + $this->view->user->force_bm_hobbit;
 		$this->view->jetDegat = $jetDegat;
 	}
-	
+
 	public function calculPx() {
 		parent::calculPx();
 		$this->view->calcul_px_generique = false;
-		
+
 		if ($this->view->attaqueReussie === true) {
 			$this->view->nb_px_perso = $this->view->nb_px_perso + 1;
 		}
-		
+
 		if ($this->view->mort === true) {
 			// [10+2*(diff de niveau) + Niveau Cible ]
 			$this->view->nb_px_commun = 10+2*($this->view->user->niveau_hobbit - $this->view->cible["niveau_cible"]) + $this->view->cible["niveau_cible"];
 		}
-		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun; 
+		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
 	}
 }

@@ -180,6 +180,8 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			$this->view->nbCueillette = count($cueillette);
 			$this->view->planteDetruite = $planteADetruire;
 			$this->view->plante = $plante;
+				
+			$this->majEvenementsStandard();
 		}
 		$this->calculPx();
 		$this->calculBalanceFaim();
@@ -187,7 +189,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_competences_metiers", "box_laban");
+		return array("box_profil", "box_vue", "box_competences_metiers", "box_laban", "box_evenements");
 	}
 
 	/*

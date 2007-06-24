@@ -11,7 +11,7 @@ class Evenement extends Zend_Db_Table {
 		->from('type_evenement', '*')
 		->where('evenement.id_fk_type_evenement = type_evenement.id_type_evenement')
 		->where('evenement.id_hobbit_evenement = '.intval($idHobbit))
-		->order('date_evenement DESC')
+		->order('id_evenement DESC')
 		->limitPage($pageMin, $pageMax);
 		if ($filtre <> -1) {
 			$select->where('type_evenement.id_type_evenement = '.$filtre);

@@ -36,7 +36,7 @@ class Bral_Box_Evenements {
 		foreach ($evenements as $p) {
 			$tabEvenements[] = array(
 			"type" => $p["nom_type_evenement"],
-			"date" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y à H:i:s',$p["date_evenement"]),
+			"date" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y \&\a\g\r\a\v\e; H:i:s',$p["date_evenement"]),
 			"details" => $p["details_evenement"],
 			);
 		}

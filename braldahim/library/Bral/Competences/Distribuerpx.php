@@ -59,7 +59,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 			if ($tab["px_recu"] > 0) {
 				$tabDistribution[] = $tab;
 			}
-				
+
 			$total_distribution = $total_distribution + $tab["px_recu"];
 		}
 
@@ -84,12 +84,17 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 			}
 			$tab["id_hobbit"] = $t["id_hobbit"];
 			if ($t["id_hobbit"] == $this->view->user->id_hobbit) {
-				$tab["nom_hobbit"] = "Vous-MÃªme : ".$hobbit->nom_hobbit;
+				$tab["nom_hobbit"] = "Vous-Même : ".$hobbit->nom_hobbit;
 			} else {
 				$tab["nom_hobbit"] = $hobbit->nom_hobbit;
 			}
 			$tab["px_recu"] = $t["px_recu"];
 			$tabAffiche[] = $tab;
+
+			$id_type = $this->view->config->game->evenements->type->don;
+			$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a donné des PX à ".$t["nom_hobbit"]." (".$t["id_hobbit"].")";
+			$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
+			$this->majEvenements($t["id_hobbit"], $id_type, $details);
 		}
 
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
@@ -100,13 +105,13 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
-		
+
 		$this->view->tabAffiche = $tabAffiche;
 		$this->view->totalDistribution = $total_distribution;
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil");
+		return array("box_profil", "box_evenements");
 	}
 
 }
