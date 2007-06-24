@@ -6,7 +6,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		$commun = new Bral_Util_Commun();
 
-		// rÃ©cupÃ©ration des hobbits qui sont prÃ©sents dans la vue
+		// récupération des hobbits qui sont présents dans la vue
 		$hobbitTable = new Hobbit();
 		// s'il y a trop de hobbits, on prend que les plus proches
 		$this->view->estMaxHobbits = false;

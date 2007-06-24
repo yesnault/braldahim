@@ -84,7 +84,6 @@ class AdministrationFilonsController extends Zend_Controller_Action {
 	}
 
 	private function filonsPrepare() {
-
 		$zoneTable = new Zone();
 		$filonTable = new Filon();
 		$typeMineraiTable = new TypeMinerai();

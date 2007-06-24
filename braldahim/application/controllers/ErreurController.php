@@ -17,4 +17,3 @@ class ErreurController extends Zend_Controller_Action {
 		$this->render();
 	}
 }
-

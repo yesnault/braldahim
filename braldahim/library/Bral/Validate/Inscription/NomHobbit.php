@@ -9,12 +9,12 @@ class Bral_Validate_Inscription_NomHobbit implements Zend_Validate_Interface {
 		$valid = true;
 		
 		if (strlen($valeur) < 5) {
-			$this->_messages[] = "Le nom du hobbit doit contenir plus de 5 caract√®res";
+			$this->_messages[] = "Le nom du hobbit doit contenir plus de 5 caractËres";
 			$valid = false;
 		}
 		
     	if (strlen($valeur) > 20) {
-			$this->_messages[] = "Le nom du hobbit doit contenir au maximum 20 caract√®res";
+			$this->_messages[] = "Le nom du hobbit doit contenir au maximum 20 caractËres";
 			$valid = false;
     	}
 		
@@ -22,14 +22,14 @@ class Bral_Validate_Inscription_NomHobbit implements Zend_Validate_Interface {
 			'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',  'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',  'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
 			'\'', '.', ',', 
-			'√§', '√¢', '√†', '√Ñ', '√Ç', '√Ä',
-			'√©', '√®', '√™', '√â', '√à', '√ä',
-			'√Æ', '√Ø', '√¨', '√é', '√è', '√å',
-			'√∂', '√¥', '√≤', '√ñ', '√î', '√í',
-			'√ª', '√º', '√π', '√õ', '√ú', '√ô',
-			'√ø', '≈∏',
-			'√ß', '√á', '√¶', '√Ü', '≈ì', '≈í', '¬∞', '-',
-			'√±', '√ë', '√£', '√É',
+			'‰', '‚', '‡', 'ƒ', '¬', '¿',
+			'È', 'Ë', 'Í', '…', '»', ' ',
+			'Ó', 'Ô', 'Ï', 'Œ', 'œ', 'Ã',
+			'ˆ', 'Ù', 'Ú', '÷', '‘', '“',
+			'˚', '¸', '˘', '€', '‹', 'Ÿ',
+			'ˇ',
+			'Á', '«', 'Ê', '∆', '∞', '-',
+			'Ò', '—', '„', '√',
 			' ', 
 			);
     	
@@ -37,11 +37,11 @@ class Bral_Validate_Inscription_NomHobbit implements Zend_Validate_Interface {
 		$val = null;
 		for ($i = 0; $i< strlen($valeur); $i++) {
 			if (!in_array($valeur[$i], $tab)) {
-				$this->_messages[] = "Le nom du hobbit contient un ou plusieurs caract√®res invalides";
+				$this->_messages[] = "Le nom du hobbit contient un ou plusieurs caractËres invalides";
 				foreach ($tab as $t) {
 					$val .= $t. " ";
 				}	
-				$this->_messages[] = "Seuls les caract√®res suivants sont autoris√©s : ";
+				$this->_messages[] = "Seuls les caractËres suivants sont autorisÈs : ";
 				$this->_messages[] = $val ." (espace)";
 				$valid = false;
 				break;
@@ -49,7 +49,7 @@ class Bral_Validate_Inscription_NomHobbit implements Zend_Validate_Interface {
 		}
 		
         if (strlen($valeur) > 20) {
-			$this->_messages[] = "Le nom du hobbit doit contenir au maximum 20 caract√®res";
+			$this->_messages[] = "Le nom du hobbit doit contenir au maximum 20 caractËres";
 			$valid = false;
     	}
     	
@@ -57,7 +57,7 @@ class Bral_Validate_Inscription_NomHobbit implements Zend_Validate_Interface {
 			$hobbitTable = new Hobbit();
 			$r = $hobbitTable->findByNom($valeur);
 			if (count($r) > 0) {
-				$this->_messages[] = "Ce nom de hobbit est d√©j√† utilis√©";
+				$this->_messages[] = "Ce nom de hobbit est dÈj‡ utilisÈ";
 				$valid = false;
 			}
 		}

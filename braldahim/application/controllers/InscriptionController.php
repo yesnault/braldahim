@@ -126,10 +126,10 @@ class InscriptionController extends Zend_Controller_Action {
 					$this->view->messagesSexe = "Choisis un genre !";
 				}
 				if (!$validEmailConfirm) {
-					$this->view->messagesEmailConfirm = "Les deux emails sont diffÃ©rents";
+					$this->view->messagesEmailConfirm = "Les deux emails sont différents";
 				}
 				if (!$validPasswordConfirm) {
-					$this->view->messagesPasswordConfirm = "Les deux mots de passe sont diffÃ©rents";
+					$this->view->messagesPasswordConfirm = "Les deux mots de passe sont différents";
 				}
 				$this->view->messagesNom = $tabNom;
 				$this->view->messagesEmail = $tabEmail;
@@ -137,7 +137,7 @@ class InscriptionController extends Zend_Controller_Action {
 			}
 		}
 
-		// hobbit par dÃ©faut
+		// hobbit par défaut
 		$this->view->hobbit= new stdClass();
 		$this->view->hobbit->id_hobbit = null;
 		$this->view->hobbit->nom_hobbit = $this->nom_hobbit;

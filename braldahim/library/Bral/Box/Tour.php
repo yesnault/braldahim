@@ -38,7 +38,7 @@ class Bral_Box_Tour {
 		// Calcul de la nouvelle date de fin
 		$date_courante = date("Y-m-d H:i:s");
 
-		// En cas de mort : la date de fin de tour doit Ãªtre positionnÃ©e Ã  la mort
+		// En cas de mort : la date de fin de tour doit Ãªtre positionnée à la mort
 		if ($this->is_nouveau_tour) {
 			$this->hobbit->duree_courant_tour_hobbit = $this->hobbit->duree_prochain_tour_hobbit;
 			$this->hobbit->date_debut_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;
@@ -87,7 +87,7 @@ class Bral_Box_Tour {
 		} elseif(($date_courante >= $date_debut_cumul && $date_courante < $this->hobbit->date_fin_tour_hobbit)  // Cumul
 		&& ( (!$this->is_nouveau_tour && ($this->hobbit->tour_position_hobbit != $this->view->config->game->tour->position_cumul))
 		|| ($this->is_nouveau_tour))) {
-			// Si le joueur a dÃ©jÃ  eu des PA
+			// Si le joueur a déjà eu des PA
 			if ($this->hobbit->tour_position_hobbit == $this->view->config->game->tour->position_milieu) {
 				$this->hobbit->pa_hobbit = $this->hobbit->pa_hobbit + $this->view->config->game->pa_max;
 			} else { // S'il vient d'activer et qu'il n'a jamais eu de PA dans ce tour

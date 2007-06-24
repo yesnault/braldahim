@@ -47,7 +47,7 @@
     	<? else : ?>
     	    <? if (count($this->tabNouveauMetiers) > 1) : ?>
 	    	Pour <?=$this->coutCastars?> castars, <br>
-	    	vous pouvez aprendre un nouveau mÃ©tier : <br>
+	    	vous pouvez aprendre un nouveau métier : <br>
 		    	<select id='valeur_3' name='valeur_3' onChange="javascript:$('changer_metier').disabled=true;$('valeur_defaut').checked=true;if(this.value!=-1){$('apprendre_metier').disabled=false;} else { $('apprendre_metier').disabled=true}">
 		    		<option value='-1'>(Choisis un m&eacute;tier)</option>
 		    		<? foreach ($this->tabNouveauMetiers as $t) : ?>

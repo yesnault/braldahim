@@ -40,7 +40,7 @@ abstract class Bral_Competences_Competence {
 		}
 		$this->view->nb_pa = $this->competence["pa_utilisation"];
 	}
-	
+
 	public function calculPx() {
 		$this->view->nb_px_commun = 0;
 		$this->view->calcul_px_generique = true;
@@ -51,23 +51,23 @@ abstract class Bral_Competences_Competence {
 		}
 		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
 	}
-	
+
 	public function calculBalanceFaim() {
 		$this->view->balance_faim = $this->competence["balance_faim"];
 	}
 
 	public function calculJets() {
 		Zend_Loader::loadClass("Bral_Util_De");
-		$this->view->okJet1 = false; // jet de comp√©tence
-		$this->view->okJet2 = false; // jet am√©lioration de la comp√©tence
-		$this->view->okJet3 = false; // jet du % d'am√©lioration
+		$this->view->okJet1 = false; // jet de compÈtence
+		$this->view->okJet2 = false; // jet amÈlioration de la compÈtence
+		$this->view->okJet3 = false; // jet du % d'amÈlioration
 		$this->calculJets1();
 		$this->calculJets2et3();
 		$this->majSuiteJets();
 	}
 
 	public function calculJets1() {
-		// 1er Jet : r√©ussite ou non de la comp√©tence
+		// 1er Jet : rÈussite ou non de la compÈtence
 		$this->view->jet1 = Bral_Util_De::get_1d100();
 		if ($this->view->jet1 <= $this->hobbit_competence["pourcentage_hcomp"]) {
 			$this->view->okJet1 = true;
@@ -76,8 +76,8 @@ abstract class Bral_Competences_Competence {
 
 	public function calculJets2et3() {
 		$this->view->jet2Possible = false;
-		// 2nd Jet : r√©ussite ou non de l'am√©lioration de la comp√©tence
-		// seulement si la maitrise de la comp√©tence est < 50 ou si le jet1 est r√©ussi
+		// 2nd Jet : rÈussite ou non de l'amÈlioration de la compÈtence
+		// seulement si la maitrise de la compÈtence est < 50 ou si le jet1 est rÈussi
 		if ($this->view->okJet1 === true || $this->hobbit_competence["pourcentage_hcomp"] < 50) {
 			$this->view->jet2 = Bral_Util_De::get_1d100();
 			$this->view->jet2Possible = true;
@@ -86,9 +86,9 @@ abstract class Bral_Competences_Competence {
 			}
 		}
 
-		// 3√®me Jet : % d'am√©lioration de la comp√©tence
+		// 3Ëme Jet : % d'amÈlioration de la compÈtence
 		if ($this->view->okJet2 === true) {
-			// pas d'am√©lioration au del√† de 90 %
+			// pas d'amÈlioration au del‡ de 90 %
 			if ($this->hobbit_competence["pourcentage_hcomp"] >= 90) {
 				$this->view->okJet3 = false;
 			} else {
@@ -108,9 +108,9 @@ abstract class Bral_Competences_Competence {
 		}
 	}
 
-	// mise √† jour de la table hobbit competence
+	// mise ‡ jour de la table hobbit competence
 	public function majSuiteJets() {
-		if ($this->view->okJet3 === true) { // uniquement dans le cas de r√©ussite du jet3
+		if ($this->view->okJet3 === true) { // uniquement dans le cas de rÈussite du jet3
 			$hobbitsCompetencesTable = new HobbitsCompetences();
 			$pourcentage = $this->hobbit_competence["pourcentage_hcomp"] + $this->view->jet3;
 			if ($pourcentage > 90) { // 90% maximum
@@ -123,7 +123,24 @@ abstract class Bral_Competences_Competence {
 	}
 
 	/*
-	 * Mise √† jour des PA, des PX et de la balance de faim
+	 * Mise ‡ jour des ÈvËnements du hobbit.
+	 */
+	public function majEvenements($id_type_evenement, $details) {
+		Zend_Loader::loadClass('Evenement');
+		
+		$evenementTable = new Evenement();
+
+		$data = array(
+		'id_hobbit_evenement' => $this->view->user->id_hobbit,
+		'date_evenement' => date("Y-m-d H:i:s"),
+		'id_fk_type_evenement' => $id_type_evenement,
+		'details_evenement' => $details,
+		);
+		$evenementTable->insert($data);
+	}
+
+	/*
+	 * Mise ‡ jour des PA, des PX et de la balance de faim.
 	 */
 	public function majHobbit() {
 		$hobbitTable = new Hobbit();
@@ -134,14 +151,14 @@ abstract class Bral_Competences_Competence {
 		$this->view->user->px_perso_hobbit = $this->view->user->px_perso_hobbit + $this->view->nb_px_perso + $this->view->nb_px_perso;
 		$this->view->user->px_commun_hobbit = $this->view->user->px_commun_hobbit + $this->view->nb_px_commun + $this->view->nb_px_commun;
 		$this->view->user->balance_faim_hobbit = $this->view->user->balance_faim_hobbit + $this->view->balance_faim;
-		
+
 		if ($this->view->user->balance_faim_hobbit < 0) {
-			$this->view->user->balance_faim_hobbit = 0; 
+			$this->view->user->balance_faim_hobbit = 0;
 		}
-		
+
 		$this->view->changeNiveau = false;
 		$this->calculNiveau();
-		
+
 		$data = array(
 		'pa_hobbit' => $this->view->user->pa_hobbit,
 		'px_perso_hobbit' => $this->view->user->px_perso_hobbit,
@@ -171,15 +188,15 @@ abstract class Bral_Competences_Competence {
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
 		}
 	}
-	
-	
+
+
 	/**
-	 * Le niveau suivant est calcul√© √† partir d'un certain nombre de px perso
-	 * qui doit √™tre >= √† :
+	 * Le niveau suivant est calculÈ ‡ partir d'un certain nombre de px perso
+	 * qui doit √™tre >= ‡ :
 	 * NiveauSuivantPX = NiveauSuivant x 3 + debutNiveauPrecedentPx
 	 */
 	private function calculNiveau() {
-		
+
 		$niveauSuivantPx = ($this->view->user->niveau_hobbit + 1) * 3 + $this->view->user->px_base_niveau_hobbit;
 		if ($this->view->user->px_perso_hobbit >= $niveauSuivantPx) {
 			$this->view->user->px_perso_hobbit = $this->view->user->px_perso_hobbit - $niveauSuivantPx;
@@ -188,7 +205,7 @@ abstract class Bral_Competences_Competence {
 			$this->view->user->pi_hobbit = $this->view->user->pi_hobbit + $niveauSuivantPx;
 			$this->view->changeNiveau = true;
 		}
-		
+
 		$niveauSuivantPx = ($this->view->user->niveau_hobbit + 1) * 3 + $this->view->user->px_base_niveau_hobbit;
 		if ($this->view->user->px_perso_hobbit >= $niveauSuivantPx) {
 			$this->calculNiveau();

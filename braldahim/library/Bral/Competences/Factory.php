@@ -31,7 +31,7 @@ class Bral_Competences_Factory {
 			}
 		}
 		
-		// verification que le joueur a accÃ¨s Ã  la compÃ©tence
+		// verification que le joueur a accès à la compétence
 		if ($construct == null) {
 			Zend_Loader::loadClass("HobbitsCompetences");
 			//$hobbitTable = new Hobbit();

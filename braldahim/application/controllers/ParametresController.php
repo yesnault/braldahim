@@ -64,7 +64,7 @@ class ParametresController extends Zend_Controller_Action {
 					 $tabPassword[] = $message;
 				}
 				if (!$validPasswordConfirm) {
-					$this->view->messagesPasswordConfirm = "Les deux mots de passe sont diffÃ©rents";
+					$this->view->messagesPasswordConfirm = "Les deux mots de passe sont différents";
 				}
 				$this->view->messagesPasswordNouveau = $tabPassword;
 			}
@@ -127,7 +127,7 @@ class ParametresController extends Zend_Controller_Action {
 					 $tabEmail[] = $message;
 				}
 				if (!$validEmailConfirm) {
-					$this->view->messagesEmailConfirm = "Les deux adresses sont diffÃ©rentes";
+					$this->view->messagesEmailConfirm = "Les deux adresses sont différentes";
 				}
 				$this->view->messagesEmailNouveau = $tabEmail;
 			}

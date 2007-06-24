@@ -107,7 +107,6 @@ class AdministrationPlantesController extends Zend_Controller_Action {
 	}
 
 	private function plantesPrepare() {
-
 		$zoneTable = new Zone();
 		$planteTable = new Plante();
 		$typePlanteTable = new TypePlante();

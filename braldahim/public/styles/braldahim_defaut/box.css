@@ -307,6 +307,10 @@ span.corners-bottom span {
 	overflow: auto
 }
 
+.box_evenements {
+	width: 650px;
+}
+
 .box_laban {
 	position: relative;
 	height: 300px;

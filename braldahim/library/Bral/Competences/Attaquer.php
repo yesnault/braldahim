@@ -6,7 +6,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		$tabHobbits = null;
 		$tabMonstres = null;
 
-		// rÃ©cupÃ©ration des hobbits qui sont prÃ©sents sur la case
+		// récupération des hobbits qui sont présents sur la case
 		$hobbitTable = new Hobbit();
 
 		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit);
@@ -25,7 +25,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 	}
 
 	function prepareFormulaire() {
-		// rien Ã  faire ici
+		// rien à faire ici
 	}
 
 	function prepareResultat() {
@@ -87,6 +87,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
+		
 	}
 
 	function getListBoxRefresh() {
@@ -113,7 +114,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		$cible = array('nom_cible' => $hobbit->nom_hobbit, 'id_cible' => $hobbit->id_hobbit, 'niveau_cible' =>$hobbit->niveau_hobbit);
 		$this->view->cible = $cible;
 
-		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaquÃ©
+		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
 		if ($this->view->jetAttaquant > $this->view->jetCible) {
 			$this->view->attaqueReussie = true;
 			$this->calculDegat();
@@ -144,7 +145,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 	private function attaqueMonstre($idMonstre) {
 		$this->calculJetAttaque();
 
-		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaquÃ©
+		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
 		if ($this->view->jetAttaquant > $this->view->jetCible) {
 			$attaqueReussie = true;
 			$this->calculDegat();

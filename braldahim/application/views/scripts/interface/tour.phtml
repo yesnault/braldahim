@@ -12,10 +12,10 @@
 		Information tour : <br>
 	<?php endif; ?>
 	<?php if ($this->is_tour_manque) : ?>
-		<b>Vous avez manqué un (ou plusieurs) tours de jeu.</b>  <br>
+		<b>Vous avez manqu&eacute; un (ou plusieurs) tours de jeu.</b>  <br>
 	<?php endif; ?>
 	Date limite d'action : <?=$this->user->date_fin_tour_hobbit ?> <br>
-	Durée du tour : <?=$this->user->duree_courant_tour_hobbit ?> <br>
+	Dur&eacute;e du tour : <?=$this->user->duree_courant_tour_hobbit ?> <br>
 	Position dans le tour : <?=$this->user->nom_tour ?> <br>
 	Nombre de Points d'Action : <?=$this->user->pa_hobbit ?>
 </div>
@@ -23,9 +23,9 @@
 <div id='tour_copie' style="display:none">
 	<textarea onClick="javascript:this.select();" rows=5 cols=40><?php if ($this->is_nouveau_tour): ?>
 Activation d'un nouveau tour <?php endif; ?>
-<?php if ($this->is_tour_manque) : ?>Vous avez manqué un (ou plusieurs) tour de jeu<?php endif; ?> 
+<?php if ($this->is_tour_manque) : ?>Vous avez manqu&eacute; un (ou plusieurs) tour de jeu<?php endif; ?> 
 Date limite d'action : <?=$this->user->date_fin_tour_hobbit ?> 
-Durée du tour : <?=$this->user->duree_courant_tour_hobbit ?> 
+Dur&eacute;e du tour : <?=$this->user->duree_courant_tour_hobbit ?> 
 Position dans le tour : <?=$this->user->nom_tour  ?> 
 Nombre de Points d'Action : <?=$this->user->pa_hobbit ?></textarea>
 </div>

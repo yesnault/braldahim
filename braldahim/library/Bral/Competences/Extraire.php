@@ -89,13 +89,13 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		return array("box_profil", "box_vue", "box_competences_metiers", "box_laban");
 	}
 
-	/* La quantitÃ© de minerai extraite est fonction de la quantitÃ© de minerai
-	 * disponible Ã  cet endroit du filon (ce quâ€™il reste Ã  exploiter) et
+	/* La quantité de minerai extraite est fonction de la quantité de minerai
+	 * disponible à cet endroit du filon (ce quâ€™il reste à exploiter) et
 	 * le niveau de FOR du Hobbit :
-	 * de 0 Ã  4 : 1D3
-	 * de 5 Ã  9 : 1D3+1
-	 * de 10 Ã  14 :1D3+2
-	 * de 15 Ã  19 : 1D3+3 etc.â€¦
+	 * de 0 à 4 : 1D3
+	 * de 5 à 9 : 1D3+1
+	 * de 10 à 14 :1D3+2
+	 * de 15 à 19 : 1D3+3 etc.â€¦
 	 */
 	private function calculQuantiteAExtraire() {
 		Zend_Loader::loadClass("Bral_Util_De");

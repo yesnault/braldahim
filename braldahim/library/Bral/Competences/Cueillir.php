@@ -164,7 +164,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 				$planteTable = new Plante();
 				$where = "id_plante=".$idPlante;
 				$planteTable->delete($where);
-			} else { // sinon, il faut la mettre Ã  jour
+			} else { // sinon, il faut la mettre à jour
 				$data = array(
 				"partie_1_plante" => $p["partie_1_plante"] - $cueillette[1]["quantite"],
 				"partie_2_plante" => $p["partie_2_plante"] - $cueillette[2]["quantite"],
@@ -191,9 +191,9 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 	}
 
 	/*
-	 * La quantitÃ© extraite est fonction de la quantitÃ© disponible Ã  cet endroit.
-	 * (Directement dans le sac Ã  dos)
-	 *  QuantitÃ© maximum ramassÃ©e est fonction du niveau de sagesse du Hobbit :
+	 * La quantité extraite est fonction de la quantité disponible à cet endroit.
+	 * (Directement dans le sac à dos)
+	 *  Quantité maximum ramassée est fonction du niveau de sagesse du Hobbit :
 	 *  SAG : QUANTITE
 	 *  0-4 : 1D3
 	 *  5-9 : 1D3+1

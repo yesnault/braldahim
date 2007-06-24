@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr"> 
 <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1" />
     <script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/prototype.js"></script>
     <script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/m_action.js"></script>
     <script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/m_display.js"></script>
@@ -25,10 +25,10 @@
   <span class='menu_classic'><?=$this->escape($this->user->nom_hobbit);?> | 
   <a href="<?=$this->baseUrl ?>/interface/" class="menu_lien">Interface</a> |
   <? if ($this->user->gardeEnCours === false) : ?>
-  	<a href="<?=$this->baseUrl ?>/parametres/" class="menu_lien">ParamÃ¨tres</a> |
+  	<a href="<?=$this->baseUrl ?>/parametres/" class="menu_lien">Paramètres</a> |
   <? endif; ?>  
   </span>
-  <span class='menu_deconnexion'><a href="<?=$this->baseUrl ?>/auth/logout"> DÃ©connexion </a></span>
+  <span class='menu_deconnexion'><a href="<?=$this->baseUrl ?>/auth/logout"> Déconnexion </a></span>
   <span id='date_heure' class='menu_date_heure'>&nbsp;</span>
   </div>
  </div>

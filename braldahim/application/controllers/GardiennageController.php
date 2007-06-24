@@ -42,7 +42,7 @@ class GardiennageController extends Zend_Controller_Action {
 			}
 			$this->view->tabHobbitGarde = $tabHobbitGarde;
 		} else {
-			$this->view->message = "Vous n'avez pas activÃ© le gardiennage Ã  la connexion";
+			$this->view->message = "Vous n'avez pas activé le gardiennage à la connexion";
 		}
  		$this->render();
 	}

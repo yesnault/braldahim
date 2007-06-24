@@ -30,11 +30,11 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 		$this->view->achatPiPossible = $achatPiPossible;
 		$this->view->coutCastars = $this->_coutCastars;
 		$this->view->achatPossibleCastars = ($this->view->user->castars_hobbit - $this->_coutCastars >= 0);
-		// $this->view->utilisationPaPossible initialisÃ© dans Bral_Lieux_Lieu
+		// $this->view->utilisationPaPossible initialisé dans Bral_Lieux_Lieu
 	}
 
 	function prepareFormulaire() {
-		// rien Ã  faire ici
+		// rien à faire ici
 	}
 
 	function prepareResultat() {

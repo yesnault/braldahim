@@ -1,7 +1,7 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-  <ul class="titre textalia textsizec">Mon Profil, n°<?=$this->user->id_hobbit;?></ul>
-  <ul class="titre textalib textsizeb"><?=$this->escape($this->user->nom_hobbit);?></ul>
+  <ul class="titre textalia textsizec">Mon Profil, n&deg;<?=$this->user->id_hobbit;?></ul>
+  <ul class="titre textalib textsizeb"><?=htmlentities($this->escape($this->user->nom_hobbit));?></ul>
   <div class="contenu">
 	  <ul class="box_contenu1 textalic">
 	    Tour de base : <?php echo $this->escape($this->user->duree_base_tour_hobbit) ?><br>

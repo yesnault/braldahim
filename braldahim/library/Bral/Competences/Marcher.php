@@ -84,10 +84,14 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		); 
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
+		
+		$id_type = $this->view->config->game->evenements->type->deplacement;
+		$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a marché";
+		$this->majEvenements($id_type, $details);
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_lieu");
+		return array("box_profil", "box_vue", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_lieu", "box_evenements");
 	}
 	
 	/* Pour marcher, le nombre de PA utilise est variable suivant l'environnement'

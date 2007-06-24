@@ -57,7 +57,7 @@ class PerduController extends Zend_Controller_Action {
 					 $tabEmail[] = $message;
 				}
 				if (!$validEmailConfirm) {
-					$this->view->messagesEmailConfirm = "Les deux emails sont diffÃ©rents";
+					$this->view->messagesEmailConfirm = "Les deux emails sont différents";
 				}
 				$this->view->messagesEmail = $tabEmail;
 			}
@@ -70,7 +70,7 @@ class PerduController extends Zend_Controller_Action {
 	}
 	
 	function generationAction() {
-		$this->view->title = "GÃ©nÃ©ration d'un nouveau mot de passe";
+		$this->view->title = "Génération d'un nouveau mot de passe";
 		$this->view->generationOk = false;
 		$this->view->emailMaitreJeu = $this->view->config->general->mail->from_email;
 		$this->generationOk = false;

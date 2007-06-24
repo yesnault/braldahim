@@ -135,10 +135,10 @@ class Bral_Validate_StringLength implements Zend_Validate_Interface
 		$valueString = (string) $value;
 		$length = strlen($valueString);
 		if ($length < $this->_min) {
-			$this->_messages[] = "Ce champ doit contenir au minimum $this->_min caractÃ¨res";
+			$this->_messages[] = "Ce champ doit contenir au minimum $this->_min caractères";
 		}
 		if (null !== $this->_max && $this->_max < $length) {
-			$this->_messages[] = "Ce champ doit contenir au maximum $this->_max caractÃ¨res";
+			$this->_messages[] = "Ce champ doit contenir au maximum $this->_max caractères";
 		}
 		if (count($this->_messages)) {
 			return false;
