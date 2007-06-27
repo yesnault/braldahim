@@ -257,4 +257,4 @@ class Bral_Box_Tour {
 		$this->view->user->info_prochaine_position = $info;
 	}
 }
-?>
+

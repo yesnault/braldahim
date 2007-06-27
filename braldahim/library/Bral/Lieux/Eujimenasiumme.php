@@ -11,10 +11,10 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 
 		$achatPiPossible = false;
 
-		$coutForce =  $this->calculCoutAmelioration($this->view->user->force_base_hobbit);
-		$coutAgilite = $this->calculCoutAmelioration($this->view->user->agilite_base_hobbit);
-		$coutVigueur = $this->calculCoutAmelioration($this->view->user->vigueur_base_hobbit);
-		$coutSagesse = $this->calculCoutAmelioration($this->view->user->sagesse_base_hobbit);
+		$coutForce =  $this->calculCoutAmelioration($this->view->user->force_base_hobbit - $this->view->config->game->inscription->force_base);
+		$coutAgilite = $this->calculCoutAmelioration($this->view->user->agilite_base_hobbit - $this->view->config->game->inscription->agilite_base);
+		$coutVigueur = $this->calculCoutAmelioration($this->view->user->vigueur_base_hobbit - $this->view->config->game->inscription->vigueur_base);
+		$coutSagesse = $this->calculCoutAmelioration($this->view->user->sagesse_base_hobbit - $this->view->config->game->inscription->sagesse_base);
 
 		if ($coutForce <= $this->view->user->pi_hobbit
 		&& $coutAgilite <= $this->view->user->pi_hobbit
@@ -107,11 +107,11 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 		return 50;
 	}
 
-	private function calculCoutAmelioration($nbDeActuel) {
-		if ($nbDeActuel <= 1) {
+	private function calculCoutAmelioration($niveau) {
+		if ($niveau <= 1) {
 			return 1;
 		} else {
-			return (($nbDeActuel - 1) * $nbDeActuel);
+			return (($niveau - 1) * $niveau);
 		}
 	}
 }

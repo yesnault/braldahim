@@ -201,7 +201,7 @@ abstract class Bral_Competences_Competence {
 
 	/**
 	 * Le niveau suivant est calculé à partir d'un certain nombre de px perso
-	 * qui doit Ãªtre >= à :
+	 * qui doit être >= à :
 	 * NiveauSuivantPX = NiveauSuivant x 3 + debutNiveauPrecedentPx
 	 */
 	private function calculNiveau() {
