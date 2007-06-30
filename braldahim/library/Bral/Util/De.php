@@ -29,13 +29,13 @@ class Bral_Util_De {
 
 	public static function get_de_specifique($a, $b) {
 		if (!is_int(intval($a))) {
-			throw new Exception("de::get_de_specifique : a invalides : ".$a);
+			throw new Exception("De::get_de_specifique : a invalides : ".$a);
 		}
 		if (!is_int(intval($b))) {
-			throw new Exception("joueur::get_de_specifique : b invalides : ".$b);
+			throw new Exception("De::get_de_specifique : b invalides : ".$b);
 		}
 		if ($a > $b) {
-			throw new Exception("joueur::get_de_specifique : parametre invalides : a(".$a.") > b(".$b.")");
+			throw new Exception("De::get_de_specifique : parametre invalides : a(".$a.") > b(".$b.")");
 		}
 
 		srand(self::make_seed());

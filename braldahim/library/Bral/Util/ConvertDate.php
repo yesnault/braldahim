@@ -58,7 +58,7 @@ class Bral_Util_ConvertDate {
 
 	public static function get_divise_time_to_time($time, $div) {
 		$time = explode(":", $time);
-		 
+			
 		$h = $time[0] * 3600;
 		$m = $time[1] * 60;
 		$s = $time[2] * 1;
@@ -70,6 +70,14 @@ class Bral_Util_ConvertDate {
 		$restant = $restant - ($m2 * 60);
 		$s2 = intval($restant);
 		$r = $h2.":".$m2.":".$s2;
+		return $r;
+	}
+
+	public static function get_time_from_minutes($minutes) {
+		$h = floor($minutes / 60);
+		$m = ($minutes - $h * 60);
+		$s = 0;
+		$r = $h.":".$m.":".$s;
 		return $r;
 	}
 

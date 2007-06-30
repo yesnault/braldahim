@@ -10,8 +10,10 @@ class ReferentielMonstre extends Zend_Db_Table {
 		$select->from('ref_monstre', '*')
 		->from('type_monstre', '*')
 		->from('taille_monstre', '*')
+		->from('type_groupe_monstre', '*')
 		->where('ref_monstre.id_fk_type_ref_monstre = type_monstre.id_type_monstre')
-		->where('ref_monstre.id_fk_taille_ref_monstre = taille_monstre.id_taille_monstre');
+		->where('ref_monstre.id_fk_taille_ref_monstre = taille_monstre.id_taille_monstre')
+		->where('type_monstre.id_fk_type_groupe_monstre = type_groupe_monstre.id_type_groupe_monstre');
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

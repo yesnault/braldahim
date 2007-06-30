@@ -2,6 +2,8 @@
 
 class AdministrationMonstresController extends Zend_Controller_Action {
 
+	private $_tabCreation = null;
+
 	function init() {
 		/** TODO a completer */
 
@@ -11,8 +13,11 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		$this->initView();
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
+		$this->view->config = Zend_Registry::get('config');
 
 		Zend_Loader::loadClass('ReferentielMonstre');
+		Zend_Loader::loadClass('GroupeMonstre');
+		Zend_Loader::loadClass('Monstre');
 		Zend_Loader::loadClass('TailleMonstre');
 		Zend_Loader::loadClass('TypeMonstre');
 
@@ -21,6 +26,7 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		Zend_Loader::loadClass('Zend_Filter_StringTrim');
 
 		Zend_Loader::loadClass("Bral_Util_De");
+		Zend_Loader::loadClass("Bral_Util_ConvertDate");
 
 		$this->prepareCommun();
 	}
@@ -31,6 +37,7 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 
 
 	function creationAction() {
+		$creation = false;
 		if ($this->_request->isPost()) {
 			$filter = new Zend_Filter();
 			$filter->addFilter(new Zend_Filter_StringTrim())->addFilter(new Zend_Filter_StripTags());
@@ -58,73 +65,111 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 				throw new Zend_Exception(get_class($this)." Valeur invalide. y_max : ".$y_max);
 			}
 
-			$referenceCourante = null;
-			foreach($this->view->refMonstre as $r) {
-				// si l'on veut modifier une reference, on prepare l'objet
-				if (($id_fk_type_ref_monstre == $r["id_ref_monstre"]) && ($id_taille == $r["id_taille_monstre"])) {
-					$referenceCourante = array(
-					"id_ref_monstre" => $r["id_ref_monstre"],
-					"id_type_monstre" => $r["id_type_monstre"],
-					"id_type_groupe_monstre" => $r["id_type_groupe_monstre"],
-					"id_taille_monstre" => $r["id_taille_monstre"],
-					"niveau_min" => $r["niveau_min"],
-					"niveau_max" => $r["niveau_max"],
-					"p_force" => $r["p_force"],
-					"p_sagesse" => $r["p_sagesse"],
-					"p_vigueur" => $r["p_vigueur"],
-					"p_agilite" => $r["p_agilite"],
-					"vue" => $r["vue"]
-					);
-					break;
-				}
-			}
-			if ($referenceCourante == null) {
-				throw new Zend_Exception(get_class($this)." creationCalcul referenceCourante invalide");
-			}
-
-			// TODO gestion de groupe de monstre.
-			// diminuer x_m* et y_m* pour former un groupe
-			// Attention au nombre de monstres par groupe
+			$referenceCourante = $this->recupereReferenceMonstre($id_fk_type_ref_monstre);
+			$this->view->nb_creation_monstres = 0;
+			$this->view->nb_creation_groupes_monstres = 0;
+			$creation = true;
 			if ($referenceCourante["id_type_groupe_monstre"] > 1) { //1 => type Solitaire
 
 				for ($i = 1; $i < $nombre; $i++) {
-					$x_min_groupe = 'TODO';
-					$x_max_groupe = 'TODO';
-					$y_min_groupe = 'TODO';
-					$y_max_groupe = 'TODO';
-					
-					// TODO gestion du nombre de monstre par groupe
-					// TODO ajouter le nombre de monstre par groupe en base dans type_groupe_monstre
-					$this->creationCalcul($referenceCourante, $x_min_groupe, $x_max_groupe, $y_min_groupe, $y_max_groupe);
+					$nb_membres = Bral_Util_De::get_de_specifique($referenceCourante["nb_membres_min"], $referenceCourante["nb_membres_max"]);
+					$i = $i + $nb_membres;
+
+					$x_min_groupe = Bral_Util_De::get_de_specifique($x_min, $x_max);
+					$x_max_groupe = $x_min_groupe + 4;
+					$y_min_groupe = Bral_Util_De::get_de_specifique($y_min, $y_max);
+					$y_max_groupe = $y_min_groupe + 4;
+					$id_groupe = $this->creationGroupe($referenceCourante["id_type_groupe_monstre"], $nb_membres);
+					for ($j = 1; $j <= $nb_membres; $j++) {
+						$this->creationCalcul($referenceCourante, $x_min_groupe, $x_max_groupe, $y_min_groupe, $y_max_groupe, $id_groupe);
+					}
 				}
 			} else {
-				// insertion de solitaire
+				// insertion de solitaires
 				for ($i = 1; $i < $nombre; $i++) {
 					$this->creationCalcul($referenceCourante, $x_min, $x_max, $y_min, $y_max);
 				}
 			}
+			$this->view->tabCreation = $this->_tabCreation;
 		}
+		$this->view->creation = $creation;
 		$this->render();
 	}
 
-	private function creationCalcul($referenceCourante, $x_min, $x_max, $y_min, $y_max) {
+	private function recupereReferenceMonstre($id_fk_type_ref_monstre, $taille = 1) {
+		$referenceCourante = null;
+		foreach($this->view->refMonstre as $r) {
+			if (($id_fk_type_ref_monstre == $r["id_type_monstre"]) && ((int)$taille == (int)$r["id_taille_monstre"])) {
+				$referenceCourante = array(
+				"id_ref_monstre" => $r["id_ref_monstre"],
+				"id_type_monstre" => $r["id_type_monstre"],
+				"id_type_groupe_monstre" => $r["id_type_groupe_monstre"],
+				"id_taille_monstre" => $r["id_taille_monstre"],
+				"niveau_min" => $r["niveau_min"],
+				"niveau_max" => $r["niveau_max"],
+				"p_force" => $r["p_force"],
+				"p_sagesse" => $r["p_sagesse"],
+				"p_vigueur" => $r["p_vigueur"],
+				"p_agilite" => $r["p_agilite"],
+				"vue" => $r["vue"],
+				"nb_membres_min" => $r["nb_membres_min"],
+				"nb_membres_max" => $r["nb_membres_max"],
+				"taille" => $r["taille"],
+				"nom_type" => $r["nom_type"],
+				);
+				break;
+			}
+		}
+
+		if ($referenceCourante == null) {
+			throw new Zend_Exception(get_class($this)." creationCalcul referenceCourante invalide. id_fk_type_ref_monstre=".$id_fk_type_ref_monstre. " taille=".$taille);
+		}
+		return $referenceCourante;
+	}
+	private function creationGroupe($id_type, $nb_membres) {
+		$data = array(
+		"id_fk_type_groupe_monstre" => $id_type,
+		"date_creation_groupe_monstre" => date("Y-m-d H:i:s"),
+		"id_cible_groupe_monstre"  => 'NULL',
+		"nb_membres_max_groupe_monstre"  => $nb_membres,
+		"nb_membres_restant_groupe_monstre" => $nb_membres,
+		"phase_tactique_groupe_monstre" => 0,
+		"id_role_a_groupe_monstre" => 'NULL',
+		"id_role_b_groupe_monstre" => 'NULL'
+		);
+
+		$groupeMonstreTable = new GroupeMonstre();
+		$id_groupe = $groupeMonstreTable->insert($data);
+		$data["id_groupe_monstre"] = $id_groupe;
+		$this->_tabCreation["groupesMonstres"][] = $data;
+		return $id_groupe;
+	}
+
+	private function creationCalcul($referenceCourante, $x_min, $x_max, $y_min, $y_max, $id_groupe_monstre = 'NULL') {
+		$id_fk_taille_monstre = $this->creationCalculTaille();
+
+		$referenceCourante = $this->recupereReferenceMonstre($referenceCourante["id_type_monstre"], $id_fk_taille_monstre);
+
 		$id_fk_type_monstre = $referenceCourante["id_type_monstre"];
 		$id_type_groupe_monstre = $referenceCourante["id_type_groupe_monstre"];
-		$id_fk_taille_monstre = Bral_Util_De::get_de_specifique(1, count($this->view->taillesMonstre));
+
 		$niveau_monstre = Bral_Util_De::get_de_specifique($referenceCourante["niveau_min"], $referenceCourante["niveau_max"]);
 		$x_monstre = Bral_Util_De::get_de_specifique($x_min, $x_max);
 		$y_monstre = Bral_Util_De::get_de_specifique($y_min, $y_max);
 
 		// NiveauSuivantPX = NiveauSuivant x 3 + debutNiveauPrecedentPx
 		$pi_min = 0;
-		for ($n = 0; $n <=$referenceCourante["niveau_min"]; $n++) {
+		for ($n = 0; $n <=$niveau_monstre; $n++) {
 			$pi_min = $pi_min + 3 * $n;
 		}
 		$pi_max = 0;
-		for ($n = 0; $n <=$referenceCourante["niveau_max"]; $n++) {
+		for ($n = 0; $n <=$niveau_monstre + 1; $n++) {
 			$pi_max = $pi_max + 3 * $n;
 		}
-		$pi_max = $pi_max - 1;
+		if ($pi_max > $pi_min) {
+			$pi_max = $pi_max - 1;
+		}
+
 
 		$nb_pi = Bral_Util_De::get_de_specifique($pi_min, $pi_max);
 
@@ -162,7 +207,7 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		$armure_naturelle_monstre = floor(($force_base_monstre + $vigueur_base_monstre) / 5);
 
 		//DLA
-		$dla_monstre = 1440 - 10 * $niveau_sagesse;
+		$dla_monstre = Bral_Util_ConvertDate::get_time_from_minutes(1440 - 10 * $niveau_sagesse);
 
 		//PV
 		$pv_restant_monstre = 20 + $niveau_vigueur * 4;
@@ -173,12 +218,13 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		$data = array(
 		"id_fk_type_monstre" => $id_fk_type_monstre,
 		"id_fk_taille_monstre" => $id_fk_taille_monstre,
-		"id_fk_groupe_monstre" => $id_type_groupe_monstre,
+		"id_fk_groupe_monstre" => $id_groupe_monstre,
 		"x_monstre" => $x_monstre,
 		"y_monstre" => $y_monstre,
-		"id_cible_monstre" => NULL,
+		"id_cible_monstre" => 'NULL',
 		"pv_restant_monstre" => $pv_restant_monstre,
 		"pv_max_monstre" => $pv_restant_monstre,
+		"niveau_monstre" => $niveau_monstre,
 		"vue_monstre" => $vue_monstre,
 		"force_base_monstre" => $force_base_monstre,
 		"force_bm_monstre" => 0,
@@ -197,9 +243,30 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		);
 
 		$monstreTable = new Monstre();
-		$refTable->insert($data);
+		$id_monstre = $monstreTable->insert($data);
+
+		$data["id_monstre"] = $id_monstre;
+		$data["taille"] = $referenceCourante["taille"];
+		$data["nom_type"] = $referenceCourante["nom_type"];
+
+		$this->_tabCreation["monstres"][] = $data;
 	}
 
+	private function creationCalculTaille() {
+		$id_taille = null;
+
+		$n = Bral_Util_De::get_de_specifique(1, 100);
+		$total = 0;
+		foreach($this->view->taillesMonstre as $t) {
+			$total = $total + $t["pourcentage_apparition"];
+			if ($total >= $n) {
+				$id_taille = $t["id_taille_monstre"];
+				break;
+			}
+		}
+
+		return $id_taille;
+	}
 	private function calculNiveau($pi_caract) {
 		$niveau = 0;
 		$pi = 0;
@@ -358,7 +425,9 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 			"p_sagesse" => $r["pourcentage_sagesse_ref_monstre"],
 			"p_vigueur" => $r["pourcentage_vigueur_ref_monstre"],
 			"p_agilite" => $r["pourcentage_agilite_ref_monstre"],
-			"vue" => $r["vue_ref_monstre"]
+			"vue" => $r["vue_ref_monstre"],
+			"nb_membres_min" => $r["nb_membres_min_type_groupe_monstre"],
+			"nb_membres_max" => $r["nb_membres_max_type_groupe_monstre"],
 			);
 		}
 
@@ -366,7 +435,8 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 			$tailles[] = array(
 			"id_taille_monstre" => $t->id_taille_monstre,
 			"nom_feminin" => $t->nom_taille_f_monstre,
-			"nom_masculin" => $t->nom_taille_m_monstre
+			"nom_masculin" => $t->nom_taille_m_monstre,
+			"pourcentage_apparition" => $t->pourcentage_taille_monstre
 			);
 		}
 

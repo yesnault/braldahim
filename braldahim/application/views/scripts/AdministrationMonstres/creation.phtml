@@ -26,25 +26,25 @@
 					X min
 				</td>
 				<td>
-					<input type="textbox" name="x_min" onkeypress="chiffres(event);" size="3" maxlength="3" />
+					<input type="textbox" name="x_min" size="3" maxlength="3" />
 				</td>
 				<td>
 					X max
 				</td>
 				<td>
-					<input type="textbox" name="x_max" onkeypress="chiffres(event);" size="3" maxlength="3" />
+					<input type="textbox" name="x_max" size="3" maxlength="3" />
 				</td>
 				<td>
 					Y min
 				</td>
 				<td>
-					<input type="textbox" name="y_min" onkeypress="chiffres(event);" size="3" maxlength="3" />
+					<input type="textbox" name="y_min" size="3" maxlength="3" />
 				</td>
 				<td>
 					Y max
 				</td>
 				<td>
-					<input type="textbox" name="y_max" onkeypress="chiffres(event);" size="3" maxlength="3" />
+					<input type="textbox" name="y_max" size="3" maxlength="3" />
 				</td>
 				<td>
 					Nombre de monstre<br>
@@ -57,6 +57,25 @@
 			</table>
 			<input type="submit" class="button1" name="Ajouter" value="Ajouter" />
 			</form>
+			
+			<? if ($this->creation === true): ?>
+				Cr&eacute;ation de <?=count($this->tabCreation["monstres"])?> monstre(s) et de <?=count($this->tabCreation["groupesMonstres"])?> groupe(s) de monstres<br>
+				
+				Groupes : <br>
+				<? foreach($this->tabCreation["groupesMonstres"] as $g): ?>
+					Groupe Id <?=$g["id_groupe_monstre"]?> Nombre de membres <?=$g["nb_membres_max_groupe_monstre"]?><br>
+				<? endforeach; ?>
+				
+				Monstres : <br>
+				<? foreach($this->tabCreation["monstres"] as $g): ?>
+					Monstre Id <?=$g["id_monstre"]?> <?=$g["nom_type"]?> (<?=$g["taille"]?>) 
+					niveau:<?=$g["niveau_monstre"]?> pv:<?=$g["pv_restant_monstre"]?>
+					x:<?=$g["x_monstre"]?> y:<?=$g["y_monstre"]?>
+					FOR:<?=$g["force_base_monstre"]?> SAG:<?=$g["sagesse_base_monstre"]?>
+					AGI:<?=$g["agilite_base_monstre"]?> VIG:<?=$g["vigueur_base_monstre"]?>
+					ARMNAT :<?=$g["armure_naturelle_monstre"]?> DLA:<?=$g["duree_base_tour_monstre"]?><br>
+				<? endforeach; ?>
+			<? endif; ?>
 		</ul>
 	</div>
 	&nbsp;
