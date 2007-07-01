@@ -12,6 +12,15 @@
 	    	<form action="<?=$this->baseUrl ?>/administrationmonstres/creation" method="post">
 			<table align='center'>
 			<tr>
+			<td colspan='20'>
+				<select name="id_zone">
+					<? foreach ($this->zones as $z) : ?>
+					<option value="<?=$z["id_zone"]?>"><?=$z["id_zone"]?></option>
+					<? endforeach; ?>
+					</select>
+			</td>
+			</tr>
+			<tr>
 				<td>
 					Type
 				</td>
@@ -58,7 +67,51 @@
 			<input type="submit" class="button1" name="Ajouter" value="Ajouter" />
 			</form>
 			
+			<br><ul class="titre textalic textsizea">Statistiques actuelles</ul><br>
+			
+			Nombre de monstre actuellement en base : <?=$this->stats["nb_monstres"] ?><br>
+			Pourcentage de couverture globale : <?=$this->stats["couverture_globale"] ?> % (si l'on considère 1 monstre par case).<br>
+
+			<br>
+			<br><ul class="titre textalic textsizec">Nombre de monstres par type</ul>
+			<? foreach($this->stats["nb_monstre_par_type"] as $t): ?>
+				<?=$t["nom_type"]?> : <?=$t["nombre"]?><br>
+			<? endforeach; ?>
+			
+			<br>
+			<br><ul class="titre textalic textsizec">Nombre de monstres par taille</ul>
+			<? foreach($this->stats["nb_monstre_par_taille"] as $t): ?>
+				<?=$t["nom_feminin"]?> / <?=$t["nom_masculin"]?> : <?=$t["nombre"]?><br>
+			<? endforeach; ?>
+			<br><ul class="titre textalic textsizec">Couverture par zone</ul><br>
+			<table align='center'>
+			<th class='comp_titre'>N°</th>
+			<th class='comp_titre'>Environnement</th>
+			<th class='comp_titre'>x_min</th>
+			<th class='comp_titre'>x_max</th>
+			<th class='comp_titre'>y_min</th>
+			<th class='comp_titre'>y_max</th>
+			<th class='comp_titre'>Nombre Cases</th>
+			<th class='comp_titre'>Nombre Monstres</th>
+			<th class='comp_titre'>Couverture</th>
+			<? foreach ($this->zones as $zone) : ?>
+				<tr>
+					<td><?=$zone["id_zone"] ?></td>
+					<td><?=htmlentities($zone["environnement"]) ?></td>
+					<td><?=$zone["x_min"] ?></td>
+					<td><?=$zone["x_max"] ?></td>
+					<td><?=$zone["y_min"] ?></td>
+					<td><?=$zone["y_max"] ?></td>
+					<td><?=$zone["nombre_cases"] ?></td>
+					<td><?=$zone["nombre_monstres"] ?></td>
+					<td><?=$zone["couverture"] ?> % </td>
+				</tr>
+			<? endforeach; ?>
+			</table>
+			
+			<br><br>
 			<? if ($this->creation === true): ?>
+			<ul class="titre textalic textsizeb">R&eacute;sultats Cr&eacute;ation</ul>
 				Cr&eacute;ation de <?=count($this->tabCreation["monstres"])?> monstre(s) et de <?=count($this->tabCreation["groupesMonstres"])?> groupe(s) de monstres<br>
 				
 				Groupes : <br>

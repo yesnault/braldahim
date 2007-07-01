@@ -20,6 +20,7 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		Zend_Loader::loadClass('Monstre');
 		Zend_Loader::loadClass('TailleMonstre');
 		Zend_Loader::loadClass('TypeMonstre');
+		Zend_Loader::loadClass('Zone');
 
 		Zend_Loader::loadClass('Zend_Filter');
 		Zend_Loader::loadClass('Zend_Filter_StripTags');
@@ -397,14 +398,18 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		$ref = null;
 		$tailles = null;
 		$types = null;
+		$stats = null;
 
 		$refTable = new ReferentielMonstre();
 		$taillesTable = new TailleMonstre();
 		$typesTable = new TypeMonstre();
+		$monstresTable = new Monstre();
+		$zoneTable = new Zone();
 
 		$refRowset = $refTable->findAll();
 		$taillesRowset = $taillesTable->fetchall();
 		$typesRowset = $typesTable->fetchall();
+		$zonesRowset = $zoneTable->fetchAllAvecEnvironnement();
 
 		foreach($refRowset as $r) {
 			if ($r["genre_type_monstre"] == 'feminin') {
@@ -438,6 +443,12 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 			"nom_masculin" => $t->nom_taille_m_monstre,
 			"pourcentage_apparition" => $t->pourcentage_taille_monstre
 			);
+
+			$stats["nb_monstre_par_taille"][] = array(
+			"nom_feminin" => $t->nom_taille_f_monstre,
+			"nom_masculin" => $t->nom_taille_m_monstre,
+			"nombre" => $monstresTable->countAllByTaille($t->id_taille_monstre)
+			);
 		}
 
 		foreach($typesRowset as $t) {
@@ -445,10 +456,40 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 			"id_type_monstre" => $t->id_type_monstre,
 			"nom_type" => $t->nom_type_monstre,
 			);
+
+			$stats["nb_monstre_par_type"][] = array(
+			"nom_type" => $t->nom_type_monstre,
+			"nombre" => $monstresTable->countAllByType($t->id_type_monstre)
+			);
 		}
 
+		foreach($zonesRowset as $z) {
+			$nombreMonstres = $monstresTable->countVue($z["x_min_zone"] ,$z["y_min_zone"] ,$z["x_max_zone"] ,$z["y_max_zone"]);
+			$nombreCases = ($z["x_max_zone"]  - $z["x_min_zone"] ) * ($z["y_max_zone"]  - $z["y_min_zone"] );
+			if ($nombreMonstres > 0) {
+				$couverture = ($nombreMonstres * 100) / $nombreMonstres;
+			} else {
+				$couverture = 0;
+			}
+			
+			$zones[] = array("id_zone" =>$z["id_zone"],
+			"x_min" =>$z["x_min_zone"] ,
+			"x_max" =>$z["x_max_zone"] ,
+			"y_min" =>$z["y_min_zone"] ,
+			"y_max" =>$z["y_max_zone"] ,
+			"environnement" =>$z["nom_environnement"] ,
+			"nombre_monstres" => $nombreMonstres,
+			"nombre_cases" => $nombreCases,
+			"couverture" => round($couverture));
+		}
+
+		$stats["nb_monstres"] = $monstresTable->countAll();
+		$stats["couverture_globale"] = ($stats["nb_monstres"] * 100) / ((abs($this->view->config->game->x_min) + $this->view->config->game->x_max) * (abs($this->view->config->game->y_min) + $this->view->config->game->y_max));
+
+		$this->view->stats = $stats;
 		$this->view->refMonstre = $ref;
 		$this->view->taillesMonstre = $tailles;
 		$this->view->typesMonstre = $types;
+		$this->view->zones = $zones;
 	}
 }
