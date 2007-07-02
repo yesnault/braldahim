@@ -12,6 +12,7 @@ class Bral_Util_BralSession {
 		$activation = $user->activation;
 		$gardiennage = $user->gardiennage;
 		$gardeEnCours = $user->gardeEnCours;
+		$administrateur = $user->administrateur;
 
 		$dbAdapter = Zend_Registry::get('dbAdapter');
 			
@@ -28,6 +29,7 @@ class Bral_Util_BralSession {
 		Zend_Auth::getInstance()->getIdentity()->activation = $activation;
 		Zend_Auth::getInstance()->getIdentity()->gardiennage = $gardiennage;
 		Zend_Auth::getInstance()->getIdentity()->gardeEnCours = $gardeEnCours;
+		Zend_Auth::getInstance()->getIdentity()->administrateur = $administrateur;
 
 	}
 }

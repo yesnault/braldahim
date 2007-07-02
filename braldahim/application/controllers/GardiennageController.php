@@ -98,6 +98,7 @@ class GardiennageController extends Zend_Controller_Action {
 		                Zend_Auth::getInstance()->getIdentity()->activation = ($f->filter($this->_request->getPost('activation_tour_gardiennage')) == 'oui');
 	            		Zend_Auth::getInstance()->getIdentity()->gardiennage = false;
 	            		Zend_Auth::getInstance()->getIdentity()->gardeEnCours = true;
+	            		Zend_Auth::getInstance()->getIdentity()->administrateur = false;
 	            		$this->_redirect('/gardiennage/garde'); 
 	            	}
 	            }

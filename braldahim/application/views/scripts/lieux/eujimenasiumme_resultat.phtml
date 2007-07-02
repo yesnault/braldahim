@@ -6,8 +6,11 @@
 	 la caract&eacute;ristique : <?=$this->nomCaracteristique?> <br><br>
 	 
 	 Faites-en bon usage...<br><br>
+	 </div>
 	 <div id='lieu_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40><? 
+		<textarea onClick="javascript:this.select();" rows="4" cols="40"><? 
+		echo "Pour ".$this->coutCastars." castars et ".$this->coutPi." PI, vous avez am&eacute;lior&eacute;";
+	 	echo " la caract&eacute;ristique : ".$this->nomCaracteristique;
 		?></textarea>
 	</div>
  </div>

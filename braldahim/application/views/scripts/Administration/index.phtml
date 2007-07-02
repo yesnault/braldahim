@@ -1,0 +1,32 @@
+<?php echo $this->render('header.phtml'); ?>
+<div class="box_administration">
+	<div class="box_corners">
+		<span class="corners-top"><span></span></span>
+	</div>
+<div class="inner">
+    <ul class="titre textalic textsizea">Administration</ul>
+    	&nbsp;
+	<div class="contenu">
+	    <ul class="box_contenu1 textalic">
+	    
+	    <a href='<?$this->baseUrl?>/AdministrationFilons/filons'>Administration Filons</a> 
+	    
+	     <br> <br> <br>
+	     
+	    Administration Monstres 
+	    <a href='<?$this->baseUrl?>/AdministrationMonstres/creation'>[ Cr&eacute;ation ]</a> 
+	    <a href='<?$this->baseUrl?>/AdministrationMonstres/referentiel'>[ R&eacute;f&eacute;rentiel ]</a>
+	    
+	    <br> <br> <br>
+	    
+	    <a href='<?$this->baseUrl?>/AdministrationPlantes/plantes'>Administration Plantes</a><br>
+		
+		</ul>
+	</div>
+	&nbsp;
+</div>
+	<div class="box_corners">
+		<span class="corners-bottom"><span></span></span>
+	</div>
+</div>
+<?php echo $this->render('footer.phtml'); ?>

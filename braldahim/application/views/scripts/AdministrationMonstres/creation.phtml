@@ -13,9 +13,14 @@
 			<table align='center'>
 			<tr>
 			<td colspan='20'>
-				<select name="id_zone">
+				<select name="id_zone" onChange="javascript:t=this.value.split(':'); $('x_min').value=t[0]; $('x_max').value=t[1]; $('y_min').value=t[2]; $('y_max').value=t[3]">
+					<option value=":::">
+						(Zones pr&eacute;d&eacute;finies)
+					</option>
 					<? foreach ($this->zones as $z) : ?>
-					<option value="<?=$z["id_zone"]?>"><?=$z["id_zone"]?></option>
+					<option value="<?=$z["x_min"]?>:<?=$z["x_max"]?>:<?=$z["y_min"]?>:<?=$z["y_max"]?>">
+						Zone <?=$z["id_zone"]?>
+					</option>
 					<? endforeach; ?>
 					</select>
 			</td>
@@ -35,25 +40,25 @@
 					X min
 				</td>
 				<td>
-					<input type="textbox" name="x_min" size="3" maxlength="3" />
+					<input type="textbox" name="x_min" id="x_min" size="3" maxlength="3" />
 				</td>
 				<td>
 					X max
 				</td>
 				<td>
-					<input type="textbox" name="x_max" size="3" maxlength="3" />
+					<input type="textbox" name="x_max" id="x_max" size="3" maxlength="3" />
 				</td>
 				<td>
 					Y min
 				</td>
 				<td>
-					<input type="textbox" name="y_min" size="3" maxlength="3" />
+					<input type="textbox" name="y_min" id="y_min" size="3" maxlength="3" />
 				</td>
 				<td>
 					Y max
 				</td>
 				<td>
-					<input type="textbox" name="y_max" size="3" maxlength="3" />
+					<input type="textbox" name="y_max" id="y_max" size="3" maxlength="3" />
 				</td>
 				<td>
 					Nombre de monstre<br>
@@ -83,7 +88,8 @@
 			<? foreach($this->stats["nb_monstre_par_taille"] as $t): ?>
 				<?=$t["nom_feminin"]?> / <?=$t["nom_masculin"]?> : <?=$t["nombre"]?><br>
 			<? endforeach; ?>
-			<br><ul class="titre textalic textsizec">Couverture par zone</ul><br>
+			<br>
+			<br><ul class="titre textalic textsizec">Couverture par zone</ul>
 			<table align='center'>
 			<th class='comp_titre'>N°</th>
 			<th class='comp_titre'>Environnement</th>

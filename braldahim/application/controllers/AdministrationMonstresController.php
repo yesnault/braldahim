@@ -467,7 +467,7 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 			$nombreMonstres = $monstresTable->countVue($z["x_min_zone"] ,$z["y_min_zone"] ,$z["x_max_zone"] ,$z["y_max_zone"]);
 			$nombreCases = ($z["x_max_zone"]  - $z["x_min_zone"] ) * ($z["y_max_zone"]  - $z["y_min_zone"] );
 			if ($nombreMonstres > 0) {
-				$couverture = ($nombreMonstres * 100) / $nombreMonstres;
+				$couverture = ($nombreMonstres * 100) / $nombreCases;
 			} else {
 				$couverture = 0;
 			}
@@ -480,11 +480,11 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 			"environnement" =>$z["nom_environnement"] ,
 			"nombre_monstres" => $nombreMonstres,
 			"nombre_cases" => $nombreCases,
-			"couverture" => round($couverture));
+			"couverture" => round($couverture, 5));
 		}
-
+ 
 		$stats["nb_monstres"] = $monstresTable->countAll();
-		$stats["couverture_globale"] = ($stats["nb_monstres"] * 100) / ((abs($this->view->config->game->x_min) + $this->view->config->game->x_max) * (abs($this->view->config->game->y_min) + $this->view->config->game->y_max));
+		$stats["couverture_globale"] = round(($stats["nb_monstres"] * 100) / ((abs($this->view->config->game->x_min) + $this->view->config->game->x_max) * (abs($this->view->config->game->y_min) + $this->view->config->game->y_max)), 5);
 
 		$this->view->stats = $stats;
 		$this->view->refMonstre = $ref;

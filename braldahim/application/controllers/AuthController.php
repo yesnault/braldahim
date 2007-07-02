@@ -60,7 +60,8 @@ class AuthController extends Zend_Controller_Action {
 					// Gardiennage
 					Zend_Auth::getInstance()->getIdentity()->gardiennage = ($f->filter($this->_request->getPost('auth_gardiennage')) == 'oui');
 					Zend_Auth::getInstance()->getIdentity()->gardeEnCours = false;
-
+					Zend_Auth::getInstance()->getIdentity()->administrateur = (Zend_Auth::getInstance()->getIdentity()->sysgroupe_hobbit == 'admin');
+					
 					if (Zend_Auth::getInstance()->getIdentity()->gardiennage === true) {
 						$this->_redirect('/gardiennage/');
 					} else {
@@ -71,7 +72,6 @@ class AuthController extends Zend_Controller_Action {
 					Zend_Auth::getInstance()->clearIdentity();
 				}
 			} else {
-				// failure: clear database row from session
 				$this->view->message = "Echec d'authentification";
 			}
 		}

@@ -11,18 +11,18 @@
  		<br>
  		
  		<? if ($this->estFranchissableLieu === true && $this->estAlterableLieu === true) : ?>
- 			Ce lieu est franchissable et altérable
+ 			Ce lieu est franchissable et alt&eacute;rable
  		<? elseif ($this->estFranchissableLieu === true && $this->estAlterableLieu === false) : ?>
- 			Ce lieu est franchissable mais pas altérable
+ 			Ce lieu est franchissable mais pas alt&eacute;rable
 		<? elseif ($this->estFranchissableLieu === false && $this->estAlterableLieu === true) : ?>
- 			Ce lieu n'est pas franchissable et il est altérable
+ 			Ce lieu n'est pas franchissable et il est alt&eacute;rable
  		<? else: ?>
- 			Ce lieu n'est ni franchissable, ni altérable
+ 			Ce lieu n'est ni franchissable, ni alt&eacute;rable
  		<? endif; ?>
  		
  		<?=$this->htmlLieu?>
  	<? else: ?>
- 	Le lieu oÃ¹ vous vous trouvez n'a rien de particulier
+ 	Le lieu o&ugrave; vous vous trouvez n'a rien de particulier
  	<? endif; ?>
  
  	<br><br>
