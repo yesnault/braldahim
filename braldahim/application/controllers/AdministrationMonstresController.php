@@ -75,11 +75,15 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 				for ($i = 1; $i < $nombre; $i++) {
 					$nb_membres = Bral_Util_De::get_de_specifique($referenceCourante["nb_membres_min"], $referenceCourante["nb_membres_max"]);
 					$i = $i + $nb_membres;
-
 					$x_min_groupe = Bral_Util_De::get_de_specifique($x_min, $x_max);
-					$x_max_groupe = $x_min_groupe + 4;
 					$y_min_groupe = Bral_Util_De::get_de_specifique($y_min, $y_max);
-					$y_max_groupe = $y_min_groupe + 4;
+					if ($referenceCourante["id_type_groupe_monstre"] > 2) { //2 => nuée : tous sur la même case
+						$x_max_groupe = $x_min_groupe + 4;
+						$y_max_groupe = $y_min_groupe + 4;
+					} else {
+						$x_max_groupe = $x_min_groupe;
+						$y_max_groupe = $y_min_groupe;
+					}
 					$id_groupe = $this->creationGroupe($referenceCourante["id_type_groupe_monstre"], $nb_membres);
 					for ($j = 1; $j <= $nb_membres; $j++) {
 						$this->creationCalcul($referenceCourante, $x_min_groupe, $x_max_groupe, $y_min_groupe, $y_max_groupe, $id_groupe);
@@ -170,7 +174,6 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		if ($pi_max > $pi_min) {
 			$pi_max = $pi_max - 1;
 		}
-
 
 		$nb_pi = Bral_Util_De::get_de_specifique($pi_min, $pi_max);
 
@@ -471,7 +474,7 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 			} else {
 				$couverture = 0;
 			}
-			
+
 			$zones[] = array("id_zone" =>$z["id_zone"],
 			"x_min" =>$z["x_min_zone"] ,
 			"x_max" =>$z["x_max_zone"] ,
@@ -482,7 +485,7 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 			"nombre_cases" => $nombreCases,
 			"couverture" => round($couverture, 5));
 		}
- 
+
 		$stats["nb_monstres"] = $monstresTable->countAll();
 		$stats["couverture_globale"] = round(($stats["nb_monstres"] * 100) / ((abs($this->view->config->game->x_min) + $this->view->config->game->x_max) * (abs($this->view->config->game->y_min) + $this->view->config->game->y_max)), 5);
 

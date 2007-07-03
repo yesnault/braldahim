@@ -4,11 +4,13 @@ class Bral_Box_Vue {
 
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass("Lieu");
+		Zend_Loader::loadClass("Monstre");
+		Zend_Loader::loadClass("Plante");
+		Zend_Loader::loadClass("Region");
 		Zend_Loader::loadClass("TypeLieu");
 		Zend_Loader::loadClass("Ville");
-		Zend_Loader::loadClass("Region");
 		Zend_Loader::loadClass("Zone");
-		Zend_Loader::loadClass("Plante");
+
 		Zend_Loader::loadClass('Bral_Util_Commun');
 
 		$this->_request = $request;
@@ -107,19 +109,21 @@ class Bral_Box_Vue {
 	}
 
 	private function data() {
-		$zoneTable = new Zone();
-		$zones = $zoneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+
 		$hobbitTable = new Hobbit();
 		$hobbits = $hobbitTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$lieuxTable = new Lieu();
 		$lieux = $lieuxTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
-		$villeTable = new Ville();
-		$villes = $villeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
-		$regionTable = new Region();
-		$regions = $regionTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$monstreTable = new Monstre();
+		$monstres = $monstreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$planteTable = new Plante();
 		$plantes = $planteTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
-
+		$regionTable = new Region();
+		$regions = $regionTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$villeTable = new Ville();
+		$villes = $villeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$zoneTable = new Zone();
+		$zones = $zoneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 
 		$centre_x_min = $this->view->centre_x - $this->view->config->game->box_vue_taille;
 		$centre_x_max = $this->view->centre_x + $this->view->config->game->box_vue_taille;
@@ -133,6 +137,7 @@ class Bral_Box_Vue {
 				$display_y = $j;
 				$tabHobbits = null;
 				$tabLieux = null;
+				$tabMonstres = null;
 				$tabPlantes = null;
 				$nom_systeme_environnement = null;
 				$nom_environnement = null;
@@ -159,7 +164,7 @@ class Bral_Box_Vue {
 
 					foreach($hobbits as $h) {
 						if ($display_x == $h["x_hobbit"] && $display_y == $h["y_hobbit"]) {
-							$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"], "nom_hobbit" => $h["nom_hobbit"]);
+							$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"], "nom_hobbit" => $h["nom_hobbit"], "niveau_hobbit" => $h["niveau_hobbit"]);
 						}
 					}
 
@@ -171,6 +176,17 @@ class Bral_Box_Vue {
 						}
 					}
 
+					foreach($monstres as $m) {
+						if ($display_x == $m["x_monstre"] && $display_y == $m["y_monstre"]) {
+							if ($m["genre_type_monstre"] == 'feminin') {
+								$m_taille = $m["nom_taille_f_monstre"];
+							} else {
+								$m_taille = $m["nom_taille_m_monstre"];
+							}
+							$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"]);
+						}
+					}
+					
 					foreach($villes as $v) {
 						if ($display_x >= $v["x_min_ville"] &&
 						$display_x <= $v["x_max_ville"] &&
@@ -232,6 +248,8 @@ class Bral_Box_Vue {
 				"hobbits" => $tabHobbits,
 				"n_lieux" => count($tabLieux),
 				"lieux" => $tabLieux,
+				"n_monstres" => count($tabMonstres),
+				"monstres" => $tabMonstres,
 				"ville" => $ville,
 				"n_plantes" => count($tabPlantes),
 				"plantes" => $tabPlantes,

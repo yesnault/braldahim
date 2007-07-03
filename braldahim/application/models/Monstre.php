@@ -51,8 +51,38 @@ class Monstre extends Zend_Db_Table {
 		->where('est_mort_monstre = ?', 'non');
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
-
 		$nombre = $resultat[0]["nombre"];
 		return $nombre;
+	}
+
+	function selectVue($x_min, $y_min, $x_max, $y_max) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('monstre', '*')
+		->from('type_monstre', '*')
+		->from('taille_monstre', '*')
+		->where('monstre.id_fk_type_monstre = type_monstre.id_type_monstre')
+		->where('monstre.id_fk_taille_monstre = taille_monstre.id_taille_monstre')
+		->where('x_monstre <= ?',$x_max)
+		->where('x_monstre >= ?',$x_min)
+		->where('y_monstre >= ?',$y_min)
+		->where('y_monstre <= ?',$y_max)
+		->where('est_mort_monstre = ?', "non");
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
+	function findByGroupeId($idGroupe) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('monstre', '*')
+		->from('type_monstre', '*')
+		->from('taille_monstre', '*')
+		->where('monstre.id_fk_type_monstre = type_monstre.id_type_monstre')
+		->where('monstre.id_fk_taille_monstre = taille_monstre.id_taille_monstre')
+		->where('monstre.id_fk_groupe_monstre = ?', intval($idGroupe))
+		->where('est_mort_monstre = ?', "non");
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
 	}
 }

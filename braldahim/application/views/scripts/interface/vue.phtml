@@ -99,7 +99,7 @@
       		<?php 
       			$textHobbit = "";
       			foreach($case["hobbits"] as $h) {
-      				$textHobbit .= $h["nom_hobbit"] ." (".$h["id_hobbit"].")<br>";
+      				$textHobbit .= htmlentities($h["nom_hobbit"]) ." (".$h["id_hobbit"].") N".$h["niveau_hobbit"]."<br>";
 				} 
 				$s = "";
 				if ($case["n_hobbits"] > 1) {
@@ -113,6 +113,26 @@
 	      	</span>
 	      	</div>
 	    <?php endif; ?>
+	    
+      	<?php if ($case["n_monstres"] > 0) : ?>
+      		<div>
+      		<?php 
+      			$textMonstre = "";
+      			foreach($case["monstres"] as $m) {
+      				$textMonstre .= htmlentities($m["nom_monstre"]) ." - ".htmlentities($m["taille_monstre"])." (".$m["id_monstre"].") N".$m["niveau_monstre"]."<br>";
+				} 
+				$s = "";
+				if ($case["n_monstres"] > 1) {
+					$s = "s";
+				}
+			?>
+      		<span onmouseover="return overlib('<?=$textMonstre?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_monstres"] ?> Monstre<?=$s?> - Clique !');"
+      			onclick="return overlib('<?=$textMonstre?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_monstres"] ?> Monstre<?=$s?> - ', CLOSECLICK, EXCLUSIVE);"
+      			onmouseout="return nd();">
+	      		<?=$case["n_monstres"] ?> monstre<?=$s?>
+	      	</span>
+	      	</div>
+	    <?php endif; ?>	    
 
       	<?php if ($case["n_plantes"] > 0) : ?>
       		<div>
