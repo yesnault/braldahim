@@ -36,7 +36,6 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-
 	function creationAction() {
 		$creation = false;
 		if ($this->_request->isPost()) {
@@ -85,8 +84,22 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 						$y_max_groupe = $y_min_groupe;
 					}
 					$id_groupe = $this->creationGroupe($referenceCourante["id_type_groupe_monstre"], $nb_membres);
+					$num_role_a = Bral_Util_De::get_de_specifique(1,$nb_membres);
+					$num_role_b = Bral_Util_De::get_de_specifique(1,$nb_membres);
+					while($num_role_a == $num_role_b) {
+						$num_role_b = Bral_Util_De::get_de_specifique(1,$nb_membres);
+					}
 					for ($j = 1; $j <= $nb_membres; $j++) {
-						$this->creationCalcul($referenceCourante, $x_min_groupe, $x_max_groupe, $y_min_groupe, $y_max_groupe, $id_groupe);
+						$est_role_a = false;
+						$est_role_b = false;
+						if ($j == $num_role_a) {
+							$est_role_a = true;
+						}
+						if ($j == $num_role_b) {
+							$est_role_b = true;
+						}
+
+						$this->creationCalcul($referenceCourante, $x_min_groupe, $x_max_groupe, $y_min_groupe, $y_max_groupe, $id_groupe, $est_role_a, $est_role_b);
 					}
 				}
 			} else {
@@ -150,7 +163,7 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		return $id_groupe;
 	}
 
-	private function creationCalcul($referenceCourante, $x_min, $x_max, $y_min, $y_max, $id_groupe_monstre = 'NULL') {
+	private function creationCalcul($referenceCourante, $x_min, $x_max, $y_min, $y_max, $id_groupe_monstre = 'NULL', $est_role_a = false, $est_role_b = false) {
 		$id_fk_taille_monstre = $this->creationCalculTaille();
 
 		$referenceCourante = $this->recupereReferenceMonstre($referenceCourante["id_type_monstre"], $id_fk_taille_monstre);
@@ -254,6 +267,19 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		$data["nom_type"] = $referenceCourante["nom_type"];
 
 		$this->_tabCreation["monstres"][] = $data;
+		
+		// mise à jour des roles
+		if (($est_role_a === true) || ($est_role_b === true)) {
+			if ($est_role_a) {
+				$data = array("id_role_a_groupe_monstre" => $id_monstre);
+			}
+			if ($est_role_b) {
+				$data = array("id_role_b_groupe_monstre" => $id_monstre);
+			}
+			$groupeMonstreTable = new GroupeMonstre();
+			$where = "id_groupe_monstre=".$id_groupe_monstre;
+			$groupeMonstreTable->update($data, $where);
+		}
 	}
 
 	private function creationCalculTaille() {
