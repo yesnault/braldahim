@@ -24,21 +24,22 @@ class Bral_Monstres_VieGroupe {
 			return;
 		}
 
-		$this->majRoleA($groupe, $monstres);
+		$monstre_role_a = $this->majRoleA($groupe, $monstres);
 
 		// on regarde s'il y a une cible en cours
 		if ($groupe["id_cible_groupe_monstre"] != null) {
-			// on regarde si la cible est dans la vue du role_a
-			// si la cible est dans la vue, on attaque
-			//TODO
+			$hobbitTable = new Hobbit();
+			$cible = $hobbitTable->findHobbitAvecRayon($monstre_role_a["x_monstre"], $monstre_role_a["y_monstre"], $monstre_role_a["vue_monstre"], $groupe["id_cible_groupe_monstre"]);
 			// si la cible n'est pas dans la vue, on se déplace
-			// TODO
-			$this->deplacementGroupe();
+			if ($cible == null) {
+				$this->deplacementGroupe($groupe, $monstres);
+			} else { // si la cible est dans la vue, on attaque
+				$this->attaqueGroupe($groupe, $monstres, $cible);
+			}
 		} else {
-			$this->deplacementGroupe();
+			$this->deplacementGroupe($groupe, $monstres);
 		}
 
-		// TODO
 		//print_r($groupe);
 	}
 
@@ -49,6 +50,7 @@ class Bral_Monstres_VieGroupe {
 		foreach($monstres as $m) {
 			if ($m["id_monstre"] == $id_role_a) {
 				$vivant = true;
+				$monstre_role_a = $m;
 				break;
 			}
 		}
@@ -61,13 +63,43 @@ class Bral_Monstres_VieGroupe {
 			$groupeMonstreTable = new GroupeMonstre();
 			$where = "id_groupe_monstre=".$groupe["id_groupe_monstre"];
 			$groupeMonstreTable->update($data, $where);
+			$monstre_role_a = $monstres[$idx];
 		}
+		return $monstre_role_a;
 	}
 
-	private function deplacementGroupe() {
+	private function attaqueGroupe($groupe, $monstres, $cible) {
+		$mort_cible = false;
+	// boucle sur les monstres
+		// si le monstre n'a pas de PA, prochain monstre
+		
+		// si la cible est morte (mort_cible == true), recherche d'une nouvelle cible
+		
 
+		// si le monstre n''est pas sur la cible, deplacement vers la cible
+		// Bral_Monstres_VieMonstre::deplacementMonstre
+		
+		// si le monstre est sur la cible, attaque de la cible
+		// mort_cible = Bral_Monstres_VieMonstre::attaqueCible
+		
+	// fin boucle
+		$this->majDlaGroupe($groupe, $monstres);
 	}
-
+	
+	private function deplacementGroupe($groupe, $monstres) {
+	// boucle sur les monstres
+		// si le monstre n'a pas de PA, prochain monstre
+	// fin boucle
+		$this->majDlaGroupe($groupe, $monstres);
+	}
+	
+	/**
+	 * mise a jour de la DLA du groupe, suivant la dla la plus lointaine d'un 
+	 * membre du groupe
+	 */
+	private function majDlaGroupe($groupe, $monstres) {
+		// TODO
+	}
 	private function suppressionGroupe($idGroupe) {
 		echo "Suppression du groupe ".$idGroupe;
 		$groupeMonstreTable = new GroupeMonstre();

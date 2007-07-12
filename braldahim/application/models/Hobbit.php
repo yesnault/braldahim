@@ -1,12 +1,12 @@
 <?php
 
 class Hobbit extends Zend_Db_Table {
-    protected $_name = 'hobbit';
-    protected $_primary = 'id_hobbit';
-    
-    protected $_dependentTables = array('hobbits_competences', 'gardiennage');
-    
-    function selectVue($x_min, $y_min, $x_max, $y_max) {
+	protected $_name = 'hobbit';
+	protected $_primary = 'id_hobbit';
+
+	protected $_dependentTables = array('hobbits_competences', 'gardiennage');
+
+	function selectVue($x_min, $y_min, $x_max, $y_max) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('hobbit', '*')
@@ -16,11 +16,11 @@ class Hobbit extends Zend_Db_Table {
 		->where('y_hobbit <= ?',$y_max)
 		->where('est_mort_hobbit = ?', "non");
 		$sql = $select->__toString();
-		
+
 		return $db->fetchAll($sql);
-    }
-    
-    function findByCase($x, $y, $sansHobbitCourant = -1) {
+	}
+
+	function findByCase($x, $y, $sansHobbitCourant = -1) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		if ($sansHobbitCourant != -1) {
@@ -37,18 +37,23 @@ class Hobbit extends Zend_Db_Table {
 		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
-    }
-    
-	public function findByNom($nom){ 
-		$where = $this->getAdapter()->quoteInto('lcase(nom_hobbit) = ?',(string)strtolower(trim($nom))); 
-		return $this->fetchRow($where); 
-	} 
-
-	public function findByEmail($email){ 
-		$where = $this->getAdapter()->quoteInto('lcase(email_hobbit) = ?',(string)strtolower(trim($email))); 
-		return $this->fetchRow($where); 
 	}
-	
+
+	public function findById($id){
+		$where = $this->getAdapter()->quoteInto('id_hobbit = ?',$id);
+		return $this->fetchRow($where);
+	}
+
+	public function findByNom($nom){
+		$where = $this->getAdapter()->quoteInto('lcase(nom_hobbit) = ?',(string)strtolower(trim($nom)));
+		return $this->fetchRow($where);
+	}
+
+	public function findByEmail($email){
+		$where = $this->getAdapter()->quoteInto('lcase(email_hobbit) = ?',(string)strtolower(trim($email)));
+		return $this->fetchRow($where);
+	}
+
 	function findLesPlusProches($x, $y, $rayon, $nombre) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -62,6 +67,20 @@ class Hobbit extends Zend_Db_Table {
 		->order('distance ASC');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
+	}
+
+	function findHobbitAvecRayon($x, $y, $rayon, $idHobbit) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', '*')
+		->where('x_hobbit >= ?', $x - $rayon)
+		->where('x_hobbit <= ?', $x + $rayon)
+		->where('y_hobbit >= ?', $y - $rayon)
+		->where('y_hobbit <= ?', $y + $rayon)
+		->where('est_mort_hobbit = ?', "non")
+		->where('id_hobbit = ?', $idHobbit);
+		$sql = $select->__toString();
+		return $db->fetchRow($sql);
 	}
 }
 
