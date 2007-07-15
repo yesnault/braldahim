@@ -149,12 +149,12 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		$data = array(
 		"id_fk_type_groupe_monstre" => $id_type,
 		"date_creation_groupe_monstre" => date("Y-m-d H:i:s"),
-		"id_cible_groupe_monstre"  => 'NULL',
+		"id_cible_groupe_monstre"  => null,
 		"nb_membres_max_groupe_monstre"  => $nb_membres,
 		"nb_membres_restant_groupe_monstre" => $nb_membres,
 		"phase_tactique_groupe_monstre" => 0,
-		"id_role_a_groupe_monstre" => 'NULL',
-		"id_role_b_groupe_monstre" => 'NULL'
+		"id_role_a_groupe_monstre" => null,
+		"id_role_b_groupe_monstre" => null
 		);
 
 		$groupeMonstreTable = new GroupeMonstre();
@@ -225,7 +225,7 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		$armure_naturelle_monstre = floor(($force_base_monstre + $vigueur_base_monstre) / 5);
 
 		//DLA
-		$dla_monstre = Bral_Util_ConvertDate::get_time_from_minutes(1440 - 10 * $niveau_sagesse);
+		$dla_monstre = Bral_Util_ConvertDate::get_time_from_minutes(720 - 10 * $niveau_sagesse);
 		$date_fin_tour_monstre = Bral_Util_ConvertDate::get_date_add_time_to_date(date("Y-m-d H:i:s"), $dla_monstre);
 
 		//PV
@@ -240,7 +240,7 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		"id_fk_groupe_monstre" => $id_groupe_monstre,
 		"x_monstre" => $x_monstre,
 		"y_monstre" => $y_monstre,
-		"id_cible_monstre" => 'NULL',
+		"id_cible_monstre" => null,
 		"pv_restant_monstre" => $pv_restant_monstre,
 		"pv_max_monstre" => $pv_restant_monstre,
 		"niveau_monstre" => $niveau_monstre,
@@ -259,7 +259,8 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		"duree_base_tour_monstre" => $dla_monstre,
 		"nb_kill_monstre" => 0,
 		"date_creation_monstre" => date("Y-m-d H:i:s"),
-		"est_mort_monstre" => 'non'
+		"est_mort_monstre" => 'non',
+		"pa_monstre" => $this->view->config->game->pa_max,
 		);
 
 		$monstreTable = new Monstre();

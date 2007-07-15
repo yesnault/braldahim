@@ -57,7 +57,7 @@ class Hobbit extends Zend_Db_Table {
 	function findLesPlusProches($x, $y, $rayon, $nombre) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('hobbit', 'id_hobbit, nom_hobbit, y_hobbit, x_hobbit, SQRT(((x_hobbit - '.$x.') * (x_hobbit - '.$x.')) + ((y_hobbit - '.$y.') * ( y_hobbit - '.$y.'))) as distance')
+		$select->from('hobbit', '*, SQRT(((x_hobbit - '.$x.') * (x_hobbit - '.$x.')) + ((y_hobbit - '.$y.') * ( y_hobbit - '.$y.'))) as distance')
 		->where('x_hobbit >= ?', $x - $rayon)
 		->where('x_hobbit <= ?', $x + $rayon)
 		->where('y_hobbit >= ?', $y - $rayon)
@@ -80,7 +80,7 @@ class Hobbit extends Zend_Db_Table {
 		->where('est_mort_hobbit = ?', "non")
 		->where('id_hobbit = ?', $idHobbit);
 		$sql = $select->__toString();
-		return $db->fetchRow($sql);
+		return $db->fetchAll($sql);
 	}
 }
 
