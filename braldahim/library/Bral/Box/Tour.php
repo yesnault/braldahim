@@ -38,7 +38,7 @@ class Bral_Box_Tour {
 		// Calcul de la nouvelle date de fin
 		$date_courante = date("Y-m-d H:i:s");
 
-		// En cas de mort : la date de fin de tour doit Ãªtre positionnée à la mort
+		// En cas de mort : la date de fin de tour doit être positionnée à la mort
 		if ($this->is_nouveau_tour) {
 			$this->hobbit->duree_courant_tour_hobbit = $this->hobbit->duree_prochain_tour_hobbit;
 			$this->hobbit->date_debut_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;

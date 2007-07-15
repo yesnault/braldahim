@@ -7,6 +7,11 @@ class Bral_Util_De {
 		return rand(1, 100);
 	}
 
+	public static function get_1d20() {
+		srand(self::make_seed());
+		return rand(1, 20);
+	}
+
 	public static function get_1d6() {
 		srand(self::make_seed());
 		return rand(1, 6);

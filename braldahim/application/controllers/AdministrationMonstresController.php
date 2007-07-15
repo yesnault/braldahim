@@ -144,6 +144,7 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		}
 		return $referenceCourante;
 	}
+
 	private function creationGroupe($id_type, $nb_membres) {
 		$data = array(
 		"id_fk_type_groupe_monstre" => $id_type,
@@ -225,6 +226,7 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 
 		//DLA
 		$dla_monstre = Bral_Util_ConvertDate::get_time_from_minutes(1440 - 10 * $niveau_sagesse);
+		$date_fin_tour_monstre = Bral_Util_ConvertDate::get_date_add_time_to_date(date("Y-m-d H:i:s"), $dla_monstre);
 
 		//PV
 		$pv_restant_monstre = 20 + $niveau_vigueur * 4;
@@ -253,6 +255,7 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		"vigueur_bm_monstre" => 0,
 		"regeneration_monstre" => $regeneration_monstre,
 		"armure_naturelle_monstre" => $armure_naturelle_monstre,
+		"date_fin_tour_monstre" => $date_fin_tour_monstre,
 		"duree_base_tour_monstre" => $dla_monstre,
 		"nb_kill_monstre" => 0,
 		"date_creation_monstre" => date("Y-m-d H:i:s"),
@@ -267,11 +270,16 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		$data["nom_type"] = $referenceCourante["nom_type"];
 
 		$this->_tabCreation["monstres"][] = $data;
-		
+
 		// mise à jour des roles
 		if (($est_role_a === true) || ($est_role_b === true)) {
 			if ($est_role_a) {
-				$data = array("id_role_a_groupe_monstre" => $id_monstre);
+				$data = array(
+				"id_role_a_groupe_monstre" => $id_monstre,
+				"x_direction_groupe_monstre" => $x_monstre,
+				"y_direction_groupe_monstre" => $y_monstre,
+				"date_fin_tour_groupe_monstre" => $date_fin_tour_monstre,
+				);
 			}
 			if ($est_role_b) {
 				$data = array("id_role_b_groupe_monstre" => $id_monstre);
@@ -297,6 +305,7 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 
 		return $id_taille;
 	}
+	
 	private function calculNiveau($pi_caract) {
 		$niveau = 0;
 		$pi = 0;
@@ -311,7 +320,6 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 	}
 
 	function referentielAction() {
-
 		$modifier = false;
 		$nomAction = '';
 		if ($this->_request->isPost()) {

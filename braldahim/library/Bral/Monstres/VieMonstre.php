@@ -1,36 +1,75 @@
 <?php
 
 class Bral_Monstres_VieMonstre {
-	private $instance = null;
+	private static $instance = null;
 	private $monstre = null;
 
-	public function getInstance() {
-		if ($this->instance == null) {
-			return new $this();
+	public static function getInstance() {
+		if (self::$instance == null) {
+			Zend_Loader::loadClass("Bral_Util_De");
+			return new self();
 		} else {
 			return $this->instance;
 		}
 	}
 
-	private function __construct($view) {
-		$this->view = $view;
+	private function __construct() {
 	}
 
+	/**
+	 * Déplacement du monstre une une position.
+	 *
+	 * @param int $x_destination
+	 * @param int $y_destination
+	 * @return boolean : le monstre a bougé (true) ou non (false)
+	 */
 	public function deplacementMonstre($x_destination, $y_destination) {
 		if ($monstre == null) {
 			new Zend_Exception("Bral_Monstres_VieMonstre::deplacementMonstre, monstre inconnu");
 		}
-		// TODO
+
+		$this->calculTour();
+
+		// on regarde si le monstre est déjà dans la position
+		if (($x_destination == $monstre["x_monstre"]) && ($y_destination == $monstre["y_monstre"])) {
+			return false;
+		}
+		$modif = false;
+		while (($x_destination != $monstre["x_monstre"]) && ($y_destination != $monstre["y_monstre"]) && ($monstre["pa_monstre"] > 0)) {
+			if ($monstre["x_monstre"] < $x_destination) {
+				$monstre["x_monstre"] = $monstre["x_monstre"] + 1;
+				$modif = true;
+			} else if ($monstre["x_monstre"] > $x_destination) {
+				$monstre["x_monstre"] = $monstre["x_monstre"] - 1;
+				$modif = true;
+			}
+			if ($monstre["y_monstre"] < $y_destination) {
+				$monstre["y_monstre"] = $monstre["y_monstre"] + 1;
+				$modif = true;
+			} else if ($monstre["y_monstre"] > $y_destination) {
+				$monstre["y_monstre"] = $monstre["y_monstre"] - 1;
+				$modif = true;
+			}
+
+			if ($modif === true) {
+				$monstre["pa_monstre"] = $monstre["pa_monstre"] - 1;
+			}
+		}
+		if ($modif === true) {
+			return true;
+			$this->updateMonstre();
+		} else
+		return false;
 	}
 
 	public function attaqueCible($cible) {
-		Zend_Loader::loadClass("Bral_Util_De");
-
 		$mortCible = false;
 
 		if ($monstre == null) {
 			new Zend_Exception("Bral_Monstres_VieMonstre::attaqueCible, monstre inconnu");
 		}
+
+		$this->calculTour();
 
 		// on regarde si la cible est dans la vue du monstre
 		if (($cible["x_hobbit"] > $monstre["x_monstre"] + $monstre["vue_monstre"])
@@ -40,9 +79,9 @@ class Bral_Monstres_VieMonstre {
 			// cible en dehors de la vue du monstre
 			return null;
 		}
-		
+
 		$monstre["pa_monstre"] = $monstre["pa_monstre"] - 4;
-		
+
 		$jetAttaquant = $this->calculJetAttaque();
 		$jetCible = $this->calculJetCible($cible);
 
@@ -61,8 +100,8 @@ class Bral_Monstres_VieMonstre {
 				$cible["est_mort_hobbit"] = "non";
 			}
 
-			$this->miseAJourCible($cible);
-			$this->miseAJourMonstre();
+			$this->updateCible($cible);
+			$this->updateMonstre();
 		}
 		return $mortCible;
 	}
@@ -74,6 +113,20 @@ class Bral_Monstres_VieMonstre {
 		$this->monstre = $m;
 	}
 
+	private function calculTour() {
+		if ($m == null) {
+			new Zend_Exception("Bral_Monstres_VieMonstre::calculTour, monstre invalide");
+		}
+
+		$date_courante = date("Y-m-d H:i:s");
+
+		if ($date_courante > $monstre["date_fin_tour_monstre"]) {
+			$monstre["date_fin_tour_monstre"] = Bral_Util_ConvertDate::get_date_add_time_to_date($monstre["date_fin_tour_monstre"], $monstre["duree_prochain_tour_monstre"]);
+			$monstre["duree_prochain_tour_monstre"] = $monstre["duree_base_tour_monstre"];
+			$this->updateMonstre();
+		}
+	}
+	
 	private function calculJetCible($cible) {
 		$jetCible = 0;
 		for ($i=1; $i<=$cible["agilite_base_hobbit"]; $i++) {
@@ -101,7 +154,7 @@ class Bral_Monstres_VieMonstre {
 		return $jetDegat;
 	}
 
-	private function miseAJourCible($cible) {
+	private function updateCible($cible) {
 		// Mise a jour de la cible
 		$hobbitTable = new Hobbit();
 		$data = array(
@@ -114,14 +167,16 @@ class Bral_Monstres_VieMonstre {
 		$hobbitTable->update($data, $where);
 	}
 
-	private function miseAJourMonstre() {
+	private function majMonstre() {
 		if ($monstre == null) {
 			new Zend_Exception("Bral_Monstres_VieMonstre::miseAJourMonstre, monstre inconnu");
 		}
-		
+
 		$monstreTable = new Monstre();
 		$data = array(
 		'pa_monstre' => $monstre["pa_monstre"],
+		'x_monstre' => $monstre["x_monstre"],
+		'y_monstre' => $monstre["y_monstre"],
 		);
 		$where = "id_monstre=".$monstre["id_monstre"];
 		$monstreTable->update($data, $where);
