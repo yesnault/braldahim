@@ -48,6 +48,7 @@ class Bral_Util_Log {
 		self::$tech->addWriter($redacteur);
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->tech);
 		self::$tech->addFilter($filtre);
+		self::$tech->addPriority('TRACE', 8);
 		
 		if (self::$config->log->general->debug_browser == "oui") {
 			$redacteur = new Zend_Log_Writer_Stream('php://output');
@@ -65,6 +66,7 @@ class Bral_Util_Log {
 		self::$erreur->addWriter($redacteur);
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->erreur);
 		self::$erreur->addFilter($filtre);
+		self::$erreur->addPriority('TRACE', 8);
 
 		if (self::$config->log->general == "oui") {
 			$redacteur = new Zend_Log_Writer_Stream('php://output');
