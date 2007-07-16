@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Samedi 30 Juin 2007 à 18:38
+-- Généré le : Lundi 16 Juillet 2007 à 21:58
 -- Version du serveur: 5.0.33
 -- Version de PHP: 5.2.0
 -- 
@@ -26,6 +26,7 @@ CREATE TABLE `monstre` (
   `id_cible_monstre` int(11) default NULL,
   `pv_restant_monstre` int(11) NOT NULL,
   `pv_max_monstre` int(11) NOT NULL,
+  `pa_monstre` int(11) NOT NULL,
   `niveau_monstre` int(11) NOT NULL,
   `vue_monstre` int(11) NOT NULL,
   `force_base_monstre` int(11) NOT NULL,
@@ -38,6 +39,8 @@ CREATE TABLE `monstre` (
   `vigueur_bm_monstre` int(11) NOT NULL,
   `regeneration_monstre` int(11) NOT NULL,
   `armure_naturelle_monstre` int(11) NOT NULL,
+  `date_fin_tour_monstre` datetime NOT NULL,
+  `duree_prochain_tour_monstre` time NOT NULL,
   `duree_base_tour_monstre` time NOT NULL,
   `nb_kill_monstre` int(11) NOT NULL,
   `date_creation_monstre` datetime NOT NULL,
@@ -45,9 +48,4 @@ CREATE TABLE `monstre` (
   PRIMARY KEY  (`id_monstre`),
   KEY `id_fk_groupe_monstre` (`id_fk_groupe_monstre`),
   KEY `idx_x_monstre_y_monstre` (`x_monstre`,`y_monstre`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- 
--- Contenu de la table `monstre`
--- 
-
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

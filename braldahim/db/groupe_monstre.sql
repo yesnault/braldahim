@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Samedi 30 Juin 2007 à 16:46
+-- Généré le : Lundi 16 Juillet 2007 à 21:57
 -- Version du serveur: 5.0.33
 -- Version de PHP: 5.2.0
 -- 
@@ -26,5 +26,8 @@ CREATE TABLE `groupe_monstre` (
   `phase_tactique_groupe_monstre` int(11) NOT NULL,
   `id_role_a_groupe_monstre` int(11) default NULL,
   `id_role_b_groupe_monstre` int(11) default NULL,
+  `date_fin_tour_groupe_monstre` datetime default NULL COMMENT 'DLA du dernier monstre à jouer dans ce groupe',
+  `x_direction_groupe_monstre` int(11) NOT NULL,
+  `y_direction_groupe_monstre` int(11) NOT NULL,
   PRIMARY KEY  (`id_groupe_monstre`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

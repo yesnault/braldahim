@@ -124,14 +124,22 @@ class Bral_Monstres_VieMonstre {
 			$nb_kills = $this->monstre["nb_kill_monstre"];
 			$nb_morts = $cible["nb_mort_hobbit"];
 			if ($cible["pv_restant_hobbit"]  <= 0) {
-				Bral_Util_Log::tech()->trace(get_class($this)." - Mort de la cible");
+				Bral_Util_Log::tech()->debug(get_class($this)." - Mort de la cible");
 				$this->monstre["nb_kill_monstre"] = $this->monstre["nb_kill_monstre"] + 1;
 				$cible["nb_mort_hobbit"] = $cible["nb_mort_hobbit"] + 1;
 				$cible["est_mort_hobbit"] = "oui";
+				$id_type_evenement = self::$config->game->evenements->type->kill;
+				$id_type_evenement_cible = self::$config->game->evenements->type->mort;
+				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a tué le hobbit ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ")";
+				$this->majEvenements(null, $this->monstre["id_monstre"], $id_type_evenement, $details);
+				$this->majEvenements($cible["id_hobbit"], null, $id_type_evenement_cible, $details);
 				$mortCible = true;
 			} else {
-				Bral_Util_Log::tech()->trace(get_class($this)." - La cible survie");
+				Bral_Util_Log::tech()->debug(get_class($this)." - La cible survie");
 				$cible["est_mort_hobbit"] = "non";
+				$id_type_evenement = self::$config->game->evenements->type->attaquer;
+				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a attaqué le hobbit ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ")";
+				$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details);
 			}
 
 			$this->updateCible($cible);
@@ -227,9 +235,30 @@ class Bral_Monstres_VieMonstre {
 		'pa_monstre' => $this->monstre["pa_monstre"],
 		'x_monstre' => $this->monstre["x_monstre"],
 		'y_monstre' => $this->monstre["y_monstre"],
+		'nb_kill_monstre' => $this->monstre["nb_kill_monstre"],
+		'date_fin_tour_monstre' => $this->monstre["date_fin_tour_monstre"],
+		'duree_prochain_tour_monstre' => $this->monstre["duree_prochain_tour_monstre"]
 		);
 		$where = "id_monstre=".$this->monstre["id_monstre"];
 		$monstreTable->update($data, $where);
 		Bral_Util_Log::tech()->trace(get_class($this)." - updateMonstre - exit");
+	}
+
+	/*
+	 * Mise à jour des évènements du monstre.
+	 */
+	public function majEvenements($id_hobbit, $id_monstre, $id_type_evenement, $details) {
+		Bral_Util_Log::tech()->trace(get_class($this)." - majEvenements - enter");
+		Zend_Loader::loadClass('Evenement');
+		$evenementTable = new Evenement();
+		$data = array(
+		'id_hobbit_evenement' => $id_hobbit,
+		'id_monstre_evenement' => $id_monstre,
+		'date_evenement' => date("Y-m-d H:i:s"),
+		'id_fk_type_evenement' => $id_type_evenement,
+		'details_evenement' => $details,
+		);
+		$evenementTable->insert($data);
+		Bral_Util_Log::tech()->trace(get_class($this)." - majEvenements - exit");
 	}
 }

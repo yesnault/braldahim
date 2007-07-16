@@ -1,10 +1,10 @@
 <?php
 
 class Zone extends Zend_Db_Table {
-    protected $_name = 'zone';
-    	protected $_primary = 'id_zone';
-    
-    function selectVue($x_min, $y_min, $x_max, $y_max) {
+	protected $_name = 'zone';
+	protected $_primary = 'id_zone';
+
+	function selectVue($x_min, $y_min, $x_max, $y_max) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('zone', '*')
@@ -17,9 +17,9 @@ class Zone extends Zend_Db_Table {
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
-    }
-    
-    function findCase($x, $y) {
+	}
+
+	function findCase($x, $y) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('zone', '*')
@@ -32,8 +32,8 @@ class Zone extends Zend_Db_Table {
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
-    }
-    
+	}
+
 	public function fetchAllAvecEnvironnement() {
 		$db = $this->getAdapter();
 		$select = $db->select();
