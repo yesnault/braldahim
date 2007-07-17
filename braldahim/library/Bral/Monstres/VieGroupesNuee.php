@@ -5,6 +5,7 @@ class Bral_Monstres_VieGroupesNuee {
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
 		Zend_Loader::loadClass("Bral_Util_De");
 		Zend_Loader::loadClass("Bral_Util_Log");
+		Zend_Loader::loadClass("Ville");
 		$this->view = $view;
 	}
 
@@ -129,8 +130,21 @@ class Bral_Monstres_VieGroupesNuee {
 		// si le role_a est sur la direction, on déplacement le groupe
 		if (($monstre_role_a["x_monstre"] == $groupe["x_direction_groupe_monstre"]) && //
 		($monstre_role_a["y_monstre"] == $groupe["y_direction_groupe_monstre"])) {
-			$groupe["x_direction_groupe_monstre"] = $groupe["x_direction_groupe_monstre"] + Bral_Util_De::get_1d20();
-			$groupe["y_direction_groupe_monstre"] = $groupe["y_direction_groupe_monstre"] + Bral_Util_De::get_1d20();
+
+			$dx = Bral_Util_De::get_1d20();
+			$dy = Bral_Util_De::get_1d20();
+
+			$villeTable = new Ville();
+			$villes = $villeTable->selectByPosition($groupe["x_direction_groupe_monstre"] + $dx, $groupe["y_direction_groupe_monstre"] + $dy);
+
+			// Si l'on se dirige vers une ville, on va dans la direction opposée
+			if (count($villes) > 0) {
+				$groupe["x_direction_groupe_monstre"] = $groupe["x_direction_groupe_monstre"] - $dx;
+				$groupe["y_direction_groupe_monstre"] = $groupe["y_direction_groupe_monstre"] - $dy;
+			} else {
+				$groupe["x_direction_groupe_monstre"] = $groupe["x_direction_groupe_monstre"] + $dx;
+				$groupe["y_direction_groupe_monstre"] = $groupe["y_direction_groupe_monstre"] + $dy;
+			}
 				
 			if ($groupe["x_direction_groupe_monstre"] < $this->view->config->game->x_min) {
 				$groupe["x_direction_groupe_monstre"] = $this->view->config->game->x_min;
@@ -144,7 +158,7 @@ class Bral_Monstres_VieGroupesNuee {
 			if ($groupe["y_direction_groupe_monstre"] > $this->view->config->game->y_max) {
 				$groupe["y_direction_groupe_monstre"] = $this->view->config->game->y_max;
 			}
-			// TODO ne pas entrer dans les villes...
+
 			Bral_Util_Log::tech()->debug(get_class($this)." - calcul nouvelle valeur direction x=".$groupe["x_direction_groupe_monstre"]." y=".$groupe["y_direction_groupe_monstre"]." ");
 		}
 
