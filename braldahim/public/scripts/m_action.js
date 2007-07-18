@@ -100,7 +100,8 @@ function showResponse(originalRequest) {
 	}
     // Box action
 	if (display_action) {
-		$("box_action").style.display = "block";
+		//$("box_action").style.display = "block";
+		Modalbox.show($("box_action").innerHTML, {title: 'Action', width: 400, overlayClose:false});
 	} else {
 		if ($("box_action")) {
 			$("box_action").style.display = "none";
@@ -109,7 +110,8 @@ function showResponse(originalRequest) {
 
     // Box informations
 	if (display_informations) {
-		$("informations").style.display = "block";
+		//$("informations").style.display = "block";
+		Modalbox.show($("informations").innerHTML, {title: 'Informations', width: 300, overlayClose:false});
 	} else {
 		if ($("informations")) {
 			$("informations").style.display = "none";
@@ -118,7 +120,8 @@ function showResponse(originalRequest) {
     
     // Box erreur
 	if (display_erreur) {
-		$("erreur").style.display = "block";
+		//$("erreur").style.display = "block";
+		Modalbox.show($("erreur").innerHTML, {title: 'Une erreur est survenu', width: 300, overlayClose:false});
 	} else {
 		if ($("erreur")) {
 			$("erreur").style.display = "none";

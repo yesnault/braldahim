@@ -19,4 +19,4 @@
 <?php if ($this->assezDePa == true) : ?>
 <input type='button' class='button1' value='Sonder un filon !' onClick='_get_("/competences/DoAction?caction=do_competence_sonder");'>
 <? endif ?>
-<input type='button' class='button1' value='Annuler' onClick='_get_("/interface/clear");'>
+<? include("commun_fermer.phtml") ?>

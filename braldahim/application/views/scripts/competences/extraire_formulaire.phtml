@@ -16,4 +16,4 @@
 <?php if ($this->assezDePa == true) : ?>
 <input type='button' class='button1' id='bouton_extraire' value='Extraire un minerai !' onClick='_get_("/competences/DoAction?caction=do_competence_extraire");'>
 <? endif ?>
-<input type='button' class='button1' value='Annuler' onClick='_get_("/interface/clear");'>
+<? include("commun_fermer.phtml") ?>

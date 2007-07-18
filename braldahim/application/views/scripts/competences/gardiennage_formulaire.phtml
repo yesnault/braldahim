@@ -74,4 +74,4 @@ Vous ne pouvez programmer que <?=$this->nbMax?> gardiennages maximum<br>
 <input type='button' class='button1' value='Nouveau Gardiennage !' onClick='$("valeur_1").value="nouveau"; _get_("/competences/DoAction?caction=do_competence_gardiennage");'>
 <? endif; ?>
 <input type='button' class='button1' value='Voir Gardiennage en cours' onClick='$("nb_valeurs").value=1;$("valeur_1").value="voir"; _get_("/competences/DoAction?caction=do_competence_gardiennage");'>
-<input type='button' class='button1' value='Annuler' onClick='_get_("/interface/clear");'>
+<? include("commun_fermer.phtml") ?>
