@@ -4,7 +4,7 @@
 	top: 0;	left: 0;
 	width: 100%; height: 100%;
 	z-index: 9999;
-	#background-color: #eee!important;
+	background-color: #EFEFEF!important;
 }
 #MB_overlay[id] { position: fixed; }
 
@@ -12,7 +12,7 @@
 	position:absolute;
 	top: 0;
 	border: 0 solid;
-	text-align:left;
+	text-align:center;
 	z-index:10000;
 }
 #MB_window[id] { position: fixed!important; }
@@ -25,7 +25,7 @@
 
 #MB_header {
 	margin:0;
-	height: 28px;
+	height: 18px;
 }
 
 #MB_content {

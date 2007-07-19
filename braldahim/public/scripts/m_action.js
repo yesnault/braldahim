@@ -1,5 +1,5 @@
 function findSelectedRadioButton( groupname ) {
-	var radioButtons = document.myForm.elements[groupname];
+	var radioButtons = $('myForm').elements[groupname];
 	for( var i = 0; i < radioButtons.length; i++ ) {
 		if( radioButtons[i].checked ) {
 			return radioButtons[i];
@@ -35,11 +35,12 @@ function _get_(url){
             var elem = $(nom);
             if (elem.type == "radio") {
                     valeurs = valeurs + "&valeur_" +i+ "=" +findSelectedRadioButton(nom).value;
-                    //valeurs = valeurs + "&valeur_" +i+ "=" +$F(nom).value;
             } else {
                     valeurs = valeurs + "&valeur_" +i+ "=" +elem.value;
             }
       }
+  } else if ($('nb_valeurs') && (action == "ask")) {
+	Modalbox.hide();
   }
   
   var pars = valeurs;

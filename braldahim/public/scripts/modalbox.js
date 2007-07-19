@@ -15,17 +15,17 @@ Modalbox.Methods = {
 	focusableElements: new Array,
 	options: {
 		title: "ModalBox Window", // Title of the ModalBox window
-		overlayClose: true, // Close modal box by clicking on overlay
+		overlayClose: false, // Close modal box by clicking on overlay
 		width: 500, // Default width in px
 		height: 90, // Default height in px
-		overlayOpacity: .75, // Default overlay opacity
+		overlayOpacity: .5, // Default overlay opacity
 		overlayDuration: .50, // Default overlay fade in/out duration in seconds
 		slideDownDuration: .75, // Default Modalbox appear slide down effect in seconds
 		slideUpDuration: .35, // Default Modalbox hiding slide up effect in seconds
 		resizeDuration: .35, // Default resize duration seconds
 		inactiveFade: true, // Fades MB window on inactive state
-		loadingString: "Please wait. Loading...", // Default loading string message
-		closeString: "Close window", // Default title attribute for close window link
+		loadingString: "Veuillez patienter. Chargement en cours...", // Default loading string message
+		closeString: "Fermer", // Default title attribute for close window link
 		params: {},
 		method: 'get' // Default Ajax request method
 	},
@@ -40,7 +40,9 @@ Modalbox.Methods = {
 		Object.extend(this._options, this.options);
 		this.setOptions(options);
 		//Create the overlay
-		this.MBoverlay = Builder.node("div", { id: "MB_overlay", opacity: "0" });
+		// Modif YVONNICK : display:none
+		this.MBoverlay = Builder.node("div", { id: "MB_overlay", opacity: "0", style: "display: none" });
+		
 		//Create the window
 		this.MBwindow = Builder.node("div", {id: "MB_window", style: "display: none"}, [
 			this.MBframe = Builder.node("div", {id: "MB_frame"}, [
@@ -71,6 +73,7 @@ Modalbox.Methods = {
 
 		this.initialized = true; // Mark as initialized
 		this.active = true; // Mark as active
+		//this.MBoverlay.style.display='block';
 	},
 	
 	show: function(content, options) {
@@ -89,6 +92,9 @@ Modalbox.Methods = {
 			this._update();
 			this.event("onUpdate"); // Passing onUpdate callback
 		} 
+		// Ajout YVONNICK
+		this.MBoverlay.style.display='block';
+		// FIN Ajout
 	},
 	
 	hide: function(options) { // External hide method to use from external HTML and JS
