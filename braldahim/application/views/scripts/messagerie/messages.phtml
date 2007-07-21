@@ -1,0 +1,9 @@
+			
+			
+<?php foreach($this->messages as $message) :?>
+	<ul class="message">
+	<span class="message date"><?=$message["date_envoi"];?></span>
+	<span class="message titre_message"><?=$message["titre"];?></span>
+	<span class="message destinataire"><?=$message["destinataires"];?></span>
+	</ul>
+<?php endforeach; ?>

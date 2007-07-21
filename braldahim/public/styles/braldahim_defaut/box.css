@@ -224,14 +224,28 @@ span.corners-bottom span {
 	z-index: 1000;
 }
 
-.box_inscription,.box_perdu,.box_pamaretres,.box_gardiennage,.box_administration
-	{
+.box_inscription,.box_perdu,.box_pamaretres,.box_gardiennage,.box_administration,
+.box_messagerie	{
 	width: 500px;
 	height: auto;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 60px;
 	text-align: center;
+}
+
+.box_messagerie {
+	width: 600px;
+	margin-left: 300px;
+}
+
+.box_messagerie_menu {
+	position: absolute;
+	color: black;
+	width: 250px;
+	height: auto;
+	text-align: center;
+	z-index: 10;
 }
 
 .box_administration {

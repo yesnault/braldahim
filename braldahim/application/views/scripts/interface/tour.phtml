@@ -14,10 +14,13 @@
 	<?php if ($this->is_tour_manque) : ?>
 		<b>Vous avez manqu&eacute; un (ou plusieurs) tours de jeu.</b>  <br>
 	<?php endif; ?>
+	<br>
 	Date limite d'action : <?=$this->user->date_fin_tour_hobbit ?> <br>
 	Dur&eacute;e du tour : <?=$this->user->duree_courant_tour_hobbit ?> <br>
 	Position dans le tour : <?=$this->user->nom_tour ?> <br>
 	Nombre de Points d'Action : <?=$this->user->pa_hobbit ?>
+	
+	<br><br>
 </div>
 	 
 <div id='tour_copie' style="display:none">

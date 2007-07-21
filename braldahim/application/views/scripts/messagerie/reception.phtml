@@ -1,16 +1,20 @@
 <?php echo $this->render('header.phtml'); ?>
-<div class="box_pamaretres">
+
+<?php include('menu.phtml'); ?>
+<div class="box_messagerie">
 	<div class="box_corners">
 		<span class="corners-top"><span></span></span>
 	</div>
 <div class="inner">
-    <ul class="titre textalic textsizea">Ma Messagerie</ul>
+    <ul class="titre textalic textsizea">Messages</ul>
 	&nbsp;
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">
+	    <? if (!empty($this->message)): ?>
+			<?=$this->message; ?><br><br>
+		<? endif; ?>
 	    <br>
-		TODO
-		
+		<?php include('messages.phtml'); ?>
 		<br><br>
 		</ul>
 	</div>
