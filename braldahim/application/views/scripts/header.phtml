@@ -35,7 +35,7 @@
   <a href="<?=$this->baseUrl ?>/interface/" class="menu_lien">Interface</a> |
   <? if ($this->user->gardeEnCours === false) : ?>
   	<a href="<?=$this->baseUrl ?>/parametres/" class="menu_lien">Param&egrave;tres</a> |
-  	<a href="<?=$this->baseUrl ?>/messagerie/" class="menu_lien">Mesagerie</a> |
+  	<a href="<?=$this->baseUrl ?>/messagerie/" class="menu_lien">Messagerie</a> |
   <? endif; ?>  
   </span>
   <span class='menu_deconnexion'><a href="<?=$this->baseUrl ?>/auth/logout"> Déconnexion </a></span>
@@ -44,7 +44,7 @@
  </div>
 <?php endif; ?>
 
-<?php if($this->user && $this->controleur == "interface") : ?> 
+<?php if($this->user && ($this->controleur == "interface" || $this->controleur == "messagerie")) : ?> 
   <div id="box_action" class="box_action"></div>
   	<div id="erreur" class="box_erreur"></div>
   	<div id="informations" class="box_informations"></div>
