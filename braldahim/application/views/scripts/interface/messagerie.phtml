@@ -1,0 +1,40 @@
+<? include("box_header.phtml") ?>
+<div class="inner">
+<ul class="titre textalia textsizeb">Mes messages</ul>
+ <div class="contenu">
+  <ul class="box_contenu1 textalic">
+  	Type:
+  	<select name='valeur_2'  onChange="Javascript:_get_('<?=$this->baseUrl ?>/interface/messagerie?caction=box_messagerie&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0')">
+  	<? foreach ($this->typeMessages as $t) : ?>
+  	<option value='<?=$t["id_type_message"]?>' <?if ($this->filtre == $t["id_type_message"]){echo "selected";}?>><?=htmlentities($t["nom"])?></option>
+  	<? endforeach; ?>
+  	</select>
+  	<br>
+  	<? if (!empty($this->messages)): ?>
+	  	<ul class="mtable">
+	  	<? foreach($this->messages as $message): ?>
+	  		<li class="row">
+	  			<dl>
+	  				<dd class="date_message"><?=$message["date"];?></dd>
+	  				<dd class="titre_message"><?=$message["titre"];?></dd>
+	  				<dd class="destinataires_message"><?=$message["destinataires"];?>&nbsp;</dd>
+	  			</dl>
+	  		</li>
+	  	<? endforeach; ?>
+	  	</ul>
+   <? else: ?>
+   		Aucun message
+   <? endif; ?>
+   <br><br>
+   <? if ($this->precedentOk === true) : ?>
+   <input type="button" class='button1' onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/messagerie?caction=box_messagerie&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page pr&eacute;c&eacute;dente">
+   <? endif; ?>
+   <? if ($this->suivantOk === true) : ?>
+   <input type="button" class='button1' onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/messagerie?caction=box_messagerie&valeur_1=s&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page suivante">
+   <? endif; ?>
+   
+  </ul>
+ </div>
+</ul>
+</div>
+<? include("box_bottom.phtml") ?>

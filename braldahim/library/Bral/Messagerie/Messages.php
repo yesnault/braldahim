@@ -26,6 +26,10 @@ class Bral_Messagerie_Messages {
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
 		}
 	}
+	
+	public function refreshMessages() {
+		return false;
+	}
 
 	private function prepareMessages() {
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {

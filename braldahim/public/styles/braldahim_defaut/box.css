@@ -213,26 +213,17 @@ span.corners-bottom span {
 	background-color: #d9ffd6;
 	color: black;
 	text-align: center;
-	z-index: 1000;
-	top: 85%;
-	left: 40%;
 	width: 400px;
 	border: thin solid black;
 }
 
-.box_inscription,.box_perdu,.box_pamaretres,.box_gardiennage,.box_administration,
-.box_messagerie	{
+.box_inscription,.box_perdu,.box_pamaretres,.box_gardiennage,.box_administration{
 	width: 500px;
 	height: auto;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 60px;
 	text-align: center;
-}
-
-.box_messagerie {
-	width: 600px;
-	margin-left: 300px;
 }
 
 .box_messagerie_menu {
@@ -283,7 +274,7 @@ span.corners-bottom span {
 }
 
 .box_competences_basiques,.box_metier,.box_competences_communes,.box_competences_metiers 
-	    , .box_equipement,.box_profil,.box_vue,.box_lieu,.box_laban {
+	    , .box_equipement,.box_profil,.box_vue,.box_lieu,.box_laban, .box_messagerie {
 	position: absolute;
 	color: black;
 	width: 250px;
@@ -311,6 +302,10 @@ span.corners-bottom span {
 }
 
 .box_evenements {
+	width: 670px;
+}
+
+.box_messagerie {
 	width: 670px;
 }
 

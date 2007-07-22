@@ -19,4 +19,20 @@ class Bral_Messagerie_Factory {
 			throw new Zend_Exception("Bral_Messagerie_Factory section invalide: ".$section);
 		}
 	}
+
+	static function getMessages($request, $view) {
+		Zend_Loader::loadClass("Bral_Messagerie_Messages");
+		$matches = null;
+		preg_match('/(.*)_messagerie_(.*)/', $request->get("caction"), $matches);
+		$action = $matches[1]; // "do" ou "ask"
+		return new Bral_Messagerie_Messages($request, $view, $action);
+	}
+	
+	static function getMessage($request, $view) {
+		Zend_Loader::loadClass("Bral_Messagerie_Message");
+		$matches = null;
+		preg_match('/(.*)_messagerie_(.*)/', $request->get("caction"), $matches);
+		$action = $matches[1]; // "do" ou "ask"
+		return new Bral_Messagerie_Message($request, $view, $action);
+	}
 }

@@ -9,7 +9,11 @@ class Bral_Messagerie_Message {
 		$this->request = $request;
 		$this->action = $action;
 
-		$this->prepareMessage();
+		$this->view->message = null;
+		$this->view->information = null;
+		$this->refreshMessages = false;
+		$this->prepareAction();
+
 	}
 
 	public function getNomInterne() {
@@ -26,16 +30,75 @@ class Bral_Messagerie_Message {
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
 		}
 	}
+	
+	public function refreshMessages() {
+		return $this->refreshMessages;
+	}
 
-	private function prepareMessage() {
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Message invalide : val=".$this->request->get("valeur_1"));
+	private function prepareAction() {
+		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
+			throw new Zend_Exception(get_class($this)." Message invalide : val=".$this->request->get("valeur_2"));
 		}
 
+		switch($this->request->get("valeur_3")) {
+			case "repondre" :
+				$this->prepareRepondre();
+				break;
+			case "repondretous" :
+				$this->prepareRepondreTous();
+				break;
+			case "archiver" :
+				$this->prepareArchiver();
+				break;
+			case "supprimer" :
+				$this->prepareSupprimer();
+				break;
+			default :
+				$this->prepareMessage();
+		}
+	}
+
+	private function prepareRepondre() {
+		// TODO
+	}
+
+	private function prepareRepondreTous() {
+		// TODO
+	}
+
+	private function prepareArchiver() {
+		$messageTable = new Message();
+		$message = $messageTable->findByIdHobbitAndIdMessage($this->view->user->id_hobbit, (int)$this->request->get("valeur_2"));
+		if ($message != null) {
+			$data = array('id_fk_type_message' => $this->view->config->messagerie->message->type->archive);
+			$where = "id_message=".(int)$this->request->get("valeur_2");
+			$messageTable->update($data, $where);
+			$this->view->information = "Le message est archiv&eacute;";
+			$this->refreshMessages = true;
+		} else {
+			throw new Zend_Exception(get_class($this)."::archiver Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
+		}
+	}
+
+	private function prepareSupprimer() {
+		$messageTable = new Message();
+		$message = $messageTable->findByIdHobbitAndIdMessage($this->view->user->id_hobbit, (int)$this->request->get("valeur_2"));
+		if ($message != null) {
+			$data = array('id_fk_type_message' => $this->view->config->messagerie->message->type->supprime);
+			$where = "id_message=".(int)$this->request->get("valeur_2");
+			$messageTable->update($data, $where);
+			$this->view->information = "Le message est supprim&eacute;";
+			$this->refreshMessages = true;
+		} else {
+			throw new Zend_Exception(get_class($this)."::supprimer Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
+		}
+	}
+
+	private function prepareMessage() {
 		$messageTable = new Message();
 		$hobbitTable = new Hobbit();
 
-		$message = $messageTable->findByIdHobbitAndIdMessage($this->view->user->id_hobbit, (int)$this->request->get("valeur_1"));
+		$message = $messageTable->findByIdHobbitAndIdMessage($this->view->user->id_hobbit, (int)$this->request->get("valeur_2"));
 		$tabMessage = null;
 		foreach($message as $m) {
 			$idDestinatairesTab = split(',', $m["destinataires_message"]);
@@ -60,6 +123,11 @@ class Bral_Messagerie_Message {
 					}
 				}
 
+			}
+			if ($m["date_lecture_message"] == null) {
+				$data = array('date_lecture_message' => date("Y-m-d H:i:s"));
+				$where = "id_message=".$m["id_message"];
+				$messageTable->update($data, $where);
 			}
 			$tabMessage = array(
 			'id_message' => $m["id_message"],

@@ -15,6 +15,10 @@ class MessagerieController extends Zend_Controller_Action {
 
 		Zend_Loader::loadClass('Message');
 		Zend_Loader::loadClass('Bral_Messagerie_Factory');
+
+		if ($this->_request->getParam('message') != null && ((int)$this->_request->getParam("message").""==$this->_request->getParam("message")."")) {
+			$this->view->id_message = $this->_request->getParam('message');
+		}
 	}
 
 	function indexAction() {
@@ -23,73 +27,18 @@ class MessagerieController extends Zend_Controller_Action {
 
 	function nouveauAction() {
 		if ($this->_request->isPost()) {
-			Zend_Loader::loadClass("Bral_Validate_StringLength");
-			Zend_Loader::loadClass("Bral_Validate_Messagerie_Destinataires");
-			Zend_Loader::loadClass('Zend_Filter_StripTags');
-
-			$filter = new Zend_Filter_StripTags();
-
-			$this->view->destinataires = trim($filter->filter(trim($this->_request->getPost('destinataires'))));
-			$this->view->copies = trim($filter->filter(trim($this->_request->getPost('copies'))));
-			$this->view->titre = trim($filter->filter(trim($this->_request->getPost('titre'))));
-			$this->view->contenu = trim($filter->filter(trim($this->_request->getPost('contenu'))));
-
-			$validateurDestinataires = new Bral_Validate_Messagerie_Destinataires(true);
-			$validateurCopies = new Bral_Validate_Messagerie_Destinataires(false);
-			$validateurTitre = new Bral_Validate_StringLength(1, 80);
-			$validateurContenu = new Bral_Validate_StringLength(1, 80);
-
-			$validDestinataires = $validateurDestinataires->isValid($this->view->destinataires);
-			$validCopies = $validateurCopies->isValid($this->view->copies);
-			$validTitre = $validateurTitre->isValid($this->view->titre);
-			$validContenu = $validateurContenu->isValid($this->view->contenu);
-
-			if (($validTitre) && ($validDestinataires) && ($validCopies) && ($validContenu)) {
-				$messageTable = new Message();
-				$data = array(
-				'titre_message' => $this->view->titre,
-				'id_fk_hobbit_message' => $this->view->user->id_hobbit,
-				'id_fk_type_message' => $this->view->config->messagerie->message->type->envoye,
-				'date_envoi_message' => date("Y-m-d H:i:s"),
-				'date_lecture_message' => null,
-				'destinataires_message' => $this->view->destinataires,
-				'copies_message' =>  $this->view->copies,
-				'est_lu_message' => 'oui',
-				'titre_message' => $this->view->titre,
-				'contenu_message' => $this->view->contenu,
-				);
-				$messageTable->insert($data);
-				$idDestinatairesTab = split(',', $this->view->destinataires);
-				$idEnvoye = array();
-				foreach ($idDestinatairesTab as $id) {
-					if (!in_array((int)$id, $idEnvoye)) {
-						$data["id_fk_hobbit_message"] = (int)$id;
-						$data["est_lu_message"] = 'non';
-						$data["id_fk_type_message"] = $this->view->config->messagerie->message->type->reception;
-						$messageTable->insert($data);
-						$idEnvoye[] = (int)$id;
-					}
-				}
-				$this->view->message = "Votre message est envoy&eacute;";
-				echo $this->view->render("messagerie/index.phtml");
-				return;
-			} else {
+			$this->envoiMessage();
+		} else { // nouveau message
+			if ($this->_request->getParam('hobbit') != null && ((int)$this->_request->getParam("hobbit").""==$this->_request->getParam("hobbit")."")) {
+				Zend_Loader::loadClass("Bral_Validate_Messagerie_Destinataires");
+				$validateurDestinataires = new Bral_Validate_Messagerie_Destinataires(true);
+				$this->view->destinataires = $this->_request->getParam('hobbit');
+				$validDestinataires = $validateurDestinataires->isValid($this->view->destinataires);
 				if (!$validDestinataires) {
 					foreach ($validateurDestinataires->getMessages() as $message) {
 						$destinatairesErreur[] = $message;
 					}
 					$this->view->destinatairesErreur = $destinatairesErreur;
-				}
-
-				if (!$validCopies) {
-					foreach ($validateurCopies->getMessages() as $message) {
-						$copiesErreur[] = $message;
-					}
-					$this->view->copiesErreur = $copiesErreur;
-				}
-
-				if (!$validTitre) {
-					$this->view->titreErreur = "Le titre doit comporter entre 1 et 80 caract&egrave;s !";
 				}
 			}
 		}
@@ -126,6 +75,14 @@ class MessagerieController extends Zend_Controller_Action {
 			$xml_entry->set_valeur($messagerie->getNomInterne());
 			$xml_entry->set_data($messagerie->render());
 			$xml_response->add_entry($xml_entry);
+			if ($messagerie->refreshMessages() === true) {
+				$xml_entry = new Bral_Xml_Entry();
+				$xml_entry->set_type("display");
+				$messagerie = Bral_Messagerie_Factory::getMessages($this->_request, $this->view);
+				$xml_entry->set_valeur($messagerie->getNomInterne());
+				$xml_entry->set_data($messagerie->render());
+				$xml_response->add_entry($xml_entry);
+			}
 		} catch (Zend_Exception $e) {
 			$b = Bral_Box_Factory::getErreur($this->_request, $this->view, false, $e->getMessage());
 			$xml_entry->set_valeur($b->getNomInterne());
@@ -133,5 +90,76 @@ class MessagerieController extends Zend_Controller_Action {
 			$xml_response->add_entry($xml_entry);
 		}
 		$xml_response->render();
+	}
+
+	private function envoiMessage() {
+		Zend_Loader::loadClass("Bral_Validate_StringLength");
+		Zend_Loader::loadClass("Bral_Validate_Messagerie_Destinataires");
+		Zend_Loader::loadClass('Zend_Filter_StripTags');
+
+		$filter = new Zend_Filter_StripTags();
+
+		$this->view->destinataires = trim($filter->filter(trim($this->_request->getPost('destinataires'))));
+		$this->view->copies = trim($filter->filter(trim($this->_request->getPost('copies'))));
+		$this->view->titre = trim($filter->filter(trim($this->_request->getPost('titre'))));
+		$this->view->contenu = trim($filter->filter(trim($this->_request->getPost('contenu'))));
+
+		$validateurDestinataires = new Bral_Validate_Messagerie_Destinataires(true);
+		$validateurCopies = new Bral_Validate_Messagerie_Destinataires(false);
+		$validateurTitre = new Bral_Validate_StringLength(1, 80);
+		$validateurContenu = new Bral_Validate_StringLength(1, 80);
+
+		$validDestinataires = $validateurDestinataires->isValid($this->view->destinataires);
+		$validCopies = $validateurCopies->isValid($this->view->copies);
+		$validTitre = $validateurTitre->isValid($this->view->titre);
+		$validContenu = $validateurContenu->isValid($this->view->contenu);
+
+		if (($validTitre) && ($validDestinataires) && ($validCopies) && ($validContenu)) {
+			$messageTable = new Message();
+			$data = array(
+			'titre_message' => $this->view->titre,
+			'id_fk_hobbit_message' => $this->view->user->id_hobbit,
+			'id_fk_type_message' => $this->view->config->messagerie->message->type->envoye,
+			'date_envoi_message' => date("Y-m-d H:i:s"),
+			'date_lecture_message' => null,
+			'destinataires_message' => $this->view->destinataires,
+			'copies_message' =>  $this->view->copies,
+			'titre_message' => $this->view->titre,
+			'contenu_message' => $this->view->contenu,
+			);
+			$messageTable->insert($data);
+			$idDestinatairesTab = split(',', $this->view->destinataires);
+			$idEnvoye = array();
+			foreach ($idDestinatairesTab as $id) {
+				if (!in_array((int)$id, $idEnvoye)) {
+					$data["id_fk_hobbit_message"] = (int)$id;
+					$data["est_lu_message"] = 'non';
+					$data["id_fk_type_message"] = $this->view->config->messagerie->message->type->reception;
+					$messageTable->insert($data);
+					$idEnvoye[] = (int)$id;
+				}
+			}
+			$this->view->message = "Votre message est envoy&eacute;";
+			echo $this->view->render("messagerie/index.phtml");
+			return;
+		} else {
+			if (!$validDestinataires) {
+				foreach ($validateurDestinataires->getMessages() as $message) {
+					$destinatairesErreur[] = $message;
+				}
+				$this->view->destinatairesErreur = $destinatairesErreur;
+			}
+
+			if (!$validCopies) {
+				foreach ($validateurCopies->getMessages() as $message) {
+					$copiesErreur[] = $message;
+				}
+				$this->view->copiesErreur = $copiesErreur;
+			}
+
+			if (!$validTitre) {
+				$this->view->titreErreur = "Le titre doit comporter entre 1 et 80 caract&egrave;s !";
+			}
+		}
 	}
 }

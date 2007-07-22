@@ -34,6 +34,9 @@ class Bral_Box_Factory {
 			case "box_metier" :
 				return self::getMetier($request, $view, $interne);
 				break;
+			case "box_messagerie" :
+				return self::getMessagerie($request, $view, $interne);
+				break;
 			default :
 				throw new Zend_Exception("getBox::nom invalide :".$nom);
 		}
@@ -92,6 +95,11 @@ class Bral_Box_Factory {
 	public static function getMetier($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Metier");
 		return new Bral_Box_Metier($request, $view, $interne);
+	}
+
+	public static function getMessagerie($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Messagerie");
+		return new Bral_Box_Messagerie($request, $view, $interne);
 	}
 
 	public static function getVue($request, $view, $interne) {

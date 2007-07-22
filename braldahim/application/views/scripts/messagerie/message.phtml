@@ -1,13 +1,19 @@
-		<label for="title">Destinataires</label> : 
-	    <input type="text" name="destinataires" value="<?=$this->escape($this->message["destinataires"]);?>" size="25" maxlength="1000"/>
+	<? if ($this->information != null) : ?>
+		<?=$this->information?>
+	<? endif; ?>
+	<? if ($this->message != null) : ?>
+		Destinataires : <?=$this->escape($this->message["destinataires"]);?>
 	    <br>
-
-		<label for="title">Copies</label> : 
-	    <input type="text" name="copies" value="<?=$this->escape($this->message["copies"]);?>" size="25" maxlength="1000"/>
+		Copies : <?=$this->escape($this->message["copies"]);?>
 	    <br>
-	
-	    <label for="title">Titre</label> : 
-	    <?=$this->escape($this->message["titre"]);?>
+	    Titre : <?=$this->escape($this->message["titre"]);?>
 		<br>
 	    <?=$this->escape($this->message["contenu"]);?>
+	    
+	    <br><br>
+	    <input type='button' class='button1' value='R&eacute;pondre' onClick='javascript:_get_("/messagerie/DoAction?caction=do_messagerie_message&valeur_2=<?=$this->message["id_message"];?>&valeur_3=repondre");'>
+	    <input type='button' class='button1' value='R&eacute;pondre &agrave; tous' onClick='javascript:_get_("/messagerie/DoAction?caction=do_messagerie_message&valeur_2=<?=$this->message["id_message"];?>&valeur_3=repondretous");'>
+	    <input type='button' class='button1' value='Archiver' onClick='javascript:_get_("/messagerie/DoAction?caction=do_messagerie_message&valeur_2=<?=$this->message["id_message"];?>&valeur_3=archiver");'>
+	    <input type='button' class='button1' value='Supprimer' onClick='javascript:_get_("/messagerie/DoAction?caction=do_messagerie_message&valeur_2=<?=$this->message["id_message"];?>&valeur_3=supprimer");'>
+	<? endif; ?>
 	    
