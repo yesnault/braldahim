@@ -14,7 +14,11 @@
 			<?=$this->message; ?><br><br>
 		<? endif; ?>
 	    <br>
-		<?php include('messages.phtml'); ?>
+	    <form name='myForm'>
+ 			<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ 			<input type='hidden' id='valeur_1' name='valeur_1' value='<?=$this->config->messagerie->message->type->brouillon;?>'>
+	    </form>
+		<?php include('cadre.phtml'); ?>
 		<br><br>
 		</ul>
 	</div>

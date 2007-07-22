@@ -50,13 +50,13 @@ class Hobbit extends Zend_Db_Table {
 			if ($liste == "") {
 				$liste = $id;
 			} else {
-				$liste = $liste.",".$id;
+				$liste = $liste." OR id_hobbit=".$id;
 			}
 		}
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('hobbit', '*')
-		->where('id_hobbit in (?)', $liste);
+		->where('id_hobbit ='.$liste);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

@@ -15,4 +15,14 @@ class Message extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+
+	public function findByIdHobbitAndIdMessage($idHobbit, $idMessage) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('message', '*')
+		->where('message.id_message = '.intval($idMessage))
+		->where('message.id_fk_hobbit_message = '.intval($idHobbit));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }

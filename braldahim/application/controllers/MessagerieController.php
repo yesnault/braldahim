@@ -14,6 +14,7 @@ class MessagerieController extends Zend_Controller_Action {
 		$this->view->controleur = $this->_request->controller;
 
 		Zend_Loader::loadClass('Message');
+		Zend_Loader::loadClass('Bral_Messagerie_Factory');
 	}
 
 	function indexAction() {
@@ -97,74 +98,40 @@ class MessagerieController extends Zend_Controller_Action {
 	}
 
 	function receptionAction() {
-		$this->prepareMessages($this->view->config->messagerie->message->type->reception);
 		$this->render();
 	}
 
 	function archivesAction() {
-		$this->prepareMessages($this->view->config->messagerie->message->type->archive);
 		$this->render();
 	}
 
 	function corbeilleAction() {
-		$this->prepareMessages($this->view->config->messagerie->message->type->corbeille);
 		$this->render();
 	}
 
 	function envoyesAction() {
-		$this->prepareMessages($this->view->config->messagerie->message->type->envoye);
 		$this->render();
 	}
 
 	function brouillonsAction() {
-		$this->prepareMessages($this->view->config->messagerie->message->type->brouillon);
 		$this->render();
 	}
 
 	function DoActionAction() {
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("display");
-
+		$xml_response = new Bral_Xml_Response();
 		try {
 			$messagerie = Bral_Messagerie_Factory::getAction($this->_request, $this->view);
 			$xml_entry->set_valeur($messagerie->getNomInterne());
 			$xml_entry->set_data($messagerie->render());
-			$this->xml_response->add_entry($xml_entry);
+			$xml_response->add_entry($xml_entry);
 		} catch (Zend_Exception $e) {
 			$b = Bral_Box_Factory::getErreur($this->_request, $this->view, false, $e->getMessage());
 			$xml_entry->set_valeur($b->getNomInterne());
 			$xml_entry->set_data($b->render());
-			$this->xml_response->add_entry($xml_entry);
+			$xml_response->add_entry($xml_entry);
 		}
-		$this->xml_response->render();
-	}
-
-	private function prepareMessages($type) {
-		$messageTable = new Message();
-		$hobbitTable = new Hobbit();
-		$this->_page = 1;
-		$this->_nbMax = $this->view->config->messagerie->messages->nb_affiche;
-
-		$messages = $messageTable->findByIdHobbit($this->view->user->id_hobbit, $type, $this->_page, $this->_nbMax);
-		$tabMessages = null;
-		foreach($messages as $m) {
-			$idDestinatairesTab = split(',', $m["destinataires_message"]);
-			$hobbits = $hobbitTable->findByIdList($idDestinatairesTab);
-			$destinataires = "";
-			foreach($hobbits as $h) {
-				if ($destinataires == "") {
-					$destinataires = $h["nom_hobbit"];
-				} else {
-					$destinataires = $destinataires.", ".$h["nom_hobbit"];
-				}
-			}
-			$tabMessages[] = array(
-			'id_message' => $m["id_message"],
-			'titre' => $m["titre_message"],
-			'date_envoi' => $m["date_envoi_message"],
-			'destinataires' => $destinataires,
-			);
-		}
-		$this->view->messages = $tabMessages;
+		$xml_response->render();
 	}
 }

@@ -212,16 +212,12 @@ span.corners-bottom span {
 .box_informations {
 	background-color: #d9ffd6;
 	color: black;
-	position: absolute;
 	text-align: center;
 	z-index: 1000;
 	top: 85%;
 	left: 40%;
 	width: 400px;
-	margin-top: -10px;
-	margin-left: -110px;
 	border: thin solid black;
-	z-index: 1000;
 }
 
 .box_inscription,.box_perdu,.box_pamaretres,.box_gardiennage,.box_administration,
@@ -267,13 +263,8 @@ span.corners-bottom span {
 }
 
 .box_action {
-	position: absolute;
-	left: 50%;
-	bottom: 0%;
 	width: auto;
 	height: auto;
-	margin-left: -110px;
-	margin-top: -100px;
 	text-align: center;
 	border-width: 2px;
 	border-style: solid;
@@ -282,7 +273,6 @@ span.corners-bottom span {
 	color: black;
 	font-weight: bold;
 	padding: 5pt 5px;
-	z-index: 1000;
 }
 
 .box_erreur {
@@ -290,7 +280,6 @@ span.corners-bottom span {
 	color: black;
 	position: absolute;
 	text-align: center;
-	z-index: 1000;
 }
 
 .box_competences_basiques,.box_metier,.box_competences_communes,.box_competences_metiers 

@@ -24,12 +24,17 @@ function _get_(url){
   		if ((url.substring(7, 9) == "Do") && (url.substring(24, 26) == "do")) {
   			action = "do";
   		}
+  	} else if (url.substring(0, 11) == "/messagerie") { // /lieux/DoAction?caction=ask/do
+  		if ((url.substring(12, 14) == "Do") && (url.substring(29, 31) == "do")) {
+  			action = "do";
+  		}
   	}
   }
 
   if ($('nb_valeurs') && (action == "do")) {
       // Recuperation du nombre de valeur que l'action a besoin
       nb_valeurs = $('nb_valeurs').value;
+      //alert('nb_valeurs='+nb_valeurs);
       for (i = 1; i<=nb_valeurs ; i++) {
             var nom = 'valeur_'+i;
             var elem = $(nom);
@@ -39,6 +44,7 @@ function _get_(url){
                     valeurs = valeurs + "&valeur_" +i+ "=" +elem.value;
             }
       }
+      //alert('valeurs='+valeurs);
   } else if ($('nb_valeurs') && (action == "ask")) {
 	Modalbox.hide();
   }
@@ -85,7 +91,11 @@ function showResponse(originalRequest) {
 	                display_informations = true; // affichage de la boite d'informations
 	              else if (m_type_valeur == "erreur" && m_data !="")
 	                display_erreur = true; // affichage de la boite d'erreur
-	                
+	              else if (m_type_valeur == "message" && m_data !="")
+	                display_message = true; // affichage d'un messsage
+	              else if (m_type_valeur == "messages" && m_data !="")
+	                display_messages = true; // affichage d'une liste de message
+	                     
 	              if (m_type == "display") {
 	                _display_(m_type_valeur, m_data);
 	              } else if  (m_type == "action") {
@@ -102,7 +112,7 @@ function showResponse(originalRequest) {
     // Box action
 	if (display_action) {
 		//$("box_action").style.display = "block";
-		Modalbox.show($("box_action").innerHTML, {title: 'Action', width: 400, overlayClose:false});
+		Modalbox.show($("box_action"), {title: 'Action', width: 400, overlayClose:false});
 	} else {
 		if ($("box_action")) {
 			$("box_action").style.display = "none";
@@ -112,7 +122,7 @@ function showResponse(originalRequest) {
     // Box informations
 	if (display_informations) {
 		//$("informations").style.display = "block";
-		Modalbox.show($("informations").innerHTML, {title: 'Informations', width: 300, overlayClose:false});
+		Modalbox.show($("informations"), {title: 'Informations', width: 300, overlayClose:false});
 	} else {
 		if ($("informations")) {
 			$("informations").style.display = "none";
@@ -122,12 +132,13 @@ function showResponse(originalRequest) {
     // Box erreur
 	if (display_erreur) {
 		//$("erreur").style.display = "block";
-		Modalbox.show($("erreur").innerHTML, {title: 'Une erreur est survenu', width: 300, overlayClose:false});
+		Modalbox.show($("erreur"), {title: 'Une erreur est survenu', width: 300, overlayClose:false});
 	} else {
 		if ($("erreur")) {
 			$("erreur").style.display = "none";
 		}
 	}
+		
     $("box_chargement").style.display = "none";
     
 	if (redirection) {
