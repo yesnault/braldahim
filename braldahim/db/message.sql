@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Samedi 21 Juillet 2007 à 12:41
+-- Généré le : Lundi 23 Juillet 2007 à 16:21
 -- Version du serveur: 5.0.33
 -- Version de PHP: 5.2.0
 -- 
@@ -22,6 +22,7 @@ CREATE TABLE `message` (
   `id_fk_type_message` int(11) NOT NULL,
   `date_envoi_message` datetime NOT NULL,
   `date_lecture_message` datetime default NULL,
+  `expediteur_message` int(11) NOT NULL,
   `destinataires_message` varchar(1000) NOT NULL,
   `copies_message` varchar(1000) default NULL,
   `titre_message` varchar(80) NOT NULL,

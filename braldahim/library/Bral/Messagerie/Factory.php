@@ -2,7 +2,6 @@
 
 class Bral_Messagerie_Factory {
 	static function getAction($request, $view) {
-		Zend_Loader::loadClass("Bral_Messagerie_Messages");
 		Zend_Loader::loadClass("Bral_Messagerie_Message");
 
 		$matches = null;
@@ -20,14 +19,6 @@ class Bral_Messagerie_Factory {
 		}
 	}
 
-	static function getMessages($request, $view) {
-		Zend_Loader::loadClass("Bral_Messagerie_Messages");
-		$matches = null;
-		preg_match('/(.*)_messagerie_(.*)/', $request->get("caction"), $matches);
-		$action = $matches[1]; // "do" ou "ask"
-		return new Bral_Messagerie_Messages($request, $view, $action);
-	}
-	
 	static function getMessage($request, $view) {
 		Zend_Loader::loadClass("Bral_Messagerie_Message");
 		$matches = null;

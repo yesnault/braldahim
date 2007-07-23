@@ -55,11 +55,12 @@ class MessagerieController extends Zend_Controller_Action {
 			$xml_entry->set_data($messagerie->render());
 			$xml_response->add_entry($xml_entry);
 			if ($messagerie->refreshMessages() === true) {
+				$this->view->affichageInterne = true;
 				$xml_entry = new Bral_Xml_Entry();
 				$xml_entry->set_type("display");
-				$messagerie = Bral_Messagerie_Factory::getMessages($this->_request, $this->view);
-				$xml_entry->set_valeur($messagerie->getNomInterne());
-				$xml_entry->set_data($messagerie->render());
+				$xml_entry->set_valeur("box_messagerie");
+				$box = Bral_Box_Factory::getMessagerie($this->_request, $this->view, true);
+				$xml_entry->set_data($box->render());
 				$xml_response->add_entry($xml_entry);
 			}
 		} catch (Zend_Exception $e) {

@@ -11,9 +11,9 @@ class Bral_Box_Messagerie {
 		$this->view->affichageInterne = $interne;
 
 		$this->preparePage();
-		
+
 	}
- 
+
 	function getTitreOnglet() {
 		return "Messagerie";
 	}
@@ -43,15 +43,21 @@ class Bral_Box_Messagerie {
 
 		foreach ($messages as $m) {
 			$idDestinatairesTab = split(',', $m["destinataires_message"]);
-			$hobbits = $hobbitTable->findByIdList($idDestinatairesTab);
+			$idExpediteurTab = split(',', $m["expediteur_message"]);
+			$idTab = array_merge($idDestinatairesTab, $idExpediteurTab);
+			$hobbits = $hobbitTable->findByIdList($idTab);
+			
 			$destinataires = "";
+			$expediteur = "";
 			foreach($hobbits as $h) {
-				if (in_array($h["id_hobbit"],$idDestinatairesTab)) {
-					if ($destinataires == "") {
-						$destinataires = $h["nom_hobbit"] . " (".$h["id_hobbit"].")";
-					} else {
-						$destinataires = $destinataires.", ".$h["nom_hobbit"] . " (".$h["id_hobbit"].")";
-					}
+				if ($destinataires == "") {
+					$destinataires = $h["nom_hobbit"] . " (".$h["id_hobbit"].")";
+				} else {
+					$destinataires = $destinataires.", ".$h["nom_hobbit"] . " (".$h["id_hobbit"].")";
+				}
+
+				if (in_array($h["id_hobbit"],$idExpediteurTab)) {
+					$expediteur = $h["nom_hobbit"] . " (".$h["id_hobbit"].")";
 				}
 			}
 
@@ -60,6 +66,7 @@ class Bral_Box_Messagerie {
 			"titre" => $m["titre_message"],
 			"date" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y \&\a\g\r\a\v\e; H:i:s',$m["date_envoi_message"]),
 			"destinataires" => $destinataires,
+			'expediteur' => $expediteur,
 			);
 		}
 
@@ -105,6 +112,11 @@ class Bral_Box_Messagerie {
 		} else if (($this->_request->get("caction") == "box_messagerie") && ($this->_request->get("valeur_1") == "s")) {
 			$this->_page = $this->getValeurVerif($this->_request->get("valeur_3")) + 1;
 			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_4"));
+		} else if (($this->_request->get("caction") == "do_messagerie_message") && ($this->_request->get("valeur_1") != "")  && ($this->_request->get("valeur_1") != -1)) {
+			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_1"));
+			if ($this->_request->get("valeur_3") != "" && $this->_request->get("valeur_3") != -1) {
+				$this->_page = $this->getValeurVerif($this->_request->get("valeur_3"));
+			}
 		} else {
 			$this->_page = 1;
 			$this->_filtre = $this->view->config->messagerie->message->type->reception;

@@ -3,10 +3,13 @@
 	Votre message est envoy&eacute;
 <? else: ?>
 <form name='myForm'>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='7'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='10'>
  		<input type='hidden' name='valeur_1' id='valeur_1' value='-1' />
  		<input type='hidden' name='valeur_2' id='valeur_2' value='-1' />
- 		<input type='hidden' name='valeur_3' id='valeur_3' value='envoi' />
+ 		<input type='hidden' name='valeur_2' id='valeur_3' value='-1' />
+ 		<input type='hidden' name='valeur_2' id='valeur_4' value='-1' />
+ 		<input type='hidden' name='valeur_3' id='valeur_5' value='-1' />
+ 		<input type='hidden' name='valeur_3' id='valeur_6' value='envoi' />
 	    <br>
 		<?php if(!empty($this->destinatairesErreur)) :?>
 			<div class="message_erreur" id="message_erreur"> 
@@ -16,7 +19,7 @@
 			</div>
 		<? endif; ?>
 		<label for="title">Destinataires</label><br>
-	    <input type="text" name="valeur_4" id="valeur_4" value="<?=$this->escape($this->destinataires);?>" size="25" maxlength="1000"/>
+	    <input type="text" name="valeur_7" id="valeur_7" value="<?=$this->escape($this->message["destinataires"]);?>" size="25" maxlength="1000"/>
 	    <br><br>
 	    
 	    <?php if(!empty($this->copiesErreur)) :?>
@@ -27,17 +30,16 @@
 			</div>
 		<? endif; ?>
 		<label for="title">Copies</label><br>
-	    <input type="text" name="valeur_5" id="valeur_5" name="copies" value="<?=$this->escape($this->copies);?>" size="25" maxlength="1000"/>
+	    <input type="text" name="valeur_8" id="valeur_8" name="copies" value="<?=$this->escape($this->message["copies"]);?>" size="25" maxlength="1000"/>
 	    <br><br>
 	    
-	
 		<?php if(!empty($this->titreErreur)) :?> 
 		<div class="message_erreur" id="message_erreur"> 
 			<?=htmlentities($this->escape($this->titreErreur));?><br>
 		</div>
 		<?php endif; ?>
 	    <label for="title">Titre</label><br>
-	    <input type="text" name="valeur_6" id="valeur_6" name="titre" value="<?=$this->escape($this->titre);?>" size="60" maxlength="80"/> 
+	    <input type="text" name="valeur_9" id="valeur_9" name="titre" value="<?=$this->escape($this->message["titre"]);?>" size="60" maxlength="80"/> 
 	    
 	    <br><br>
 		<?php if(!empty($this->contenuErreur)) :?> 
@@ -46,11 +48,11 @@
 		</div>
 		<?php endif; ?>
 		<label for="title">Message</label><br>
-	    <textarea  name="valeur_7" id="valeur_7" rows='10' cols='90'><?=htmlentities($this->escape($this->contenu));?></textarea>
+	    <textarea  name="valeur_10" id="valeur_10" rows='10' cols='80'><?=htmlentities($this->escape($this->message["contenu"]));?></textarea>
 	    
 		<div id="formbutton">
 		<input type="button" class='button1' name="Envoyer" value="Envoyer" onClick='Javascript:_get_("/messagerie/DoAction?caction=do_messagerie_message");' /> 
-		<input type="button" class='button1' name="Annuler" value="Annuler" onClick='Javascript:_get_("/messagerie/AskAction?caction=do_messagerie_message&valeur_1=-1&valeur_2=-1&valeur_3=annuler");'>
+		<input type="button" class='button1' name="Annuler" value="Annuler" onClick='$("messagerie_message").innerHTML="";'>
 		</div>
 </form>
 <? endif; ?>
