@@ -23,7 +23,7 @@
 	<div class="contenu">
 	    <ul class="box_contenu1 textalib">
 	    <br>
-	    Nom ou n° du Joueur : <input type="text" name="nom" /> <br />
+	    Nom ou n° du Joueur : <input type="text" name="nom" id='nom'/> <br />
 	
 	    Mot de passe : <input type="password" name="password" /> <br />
 	
@@ -48,5 +48,8 @@
 	</div>
 </div>
 </form> 
- 
+
+<script language="javascript">
+$('nom').focus();
+</script>
 <?php echo $this->render('footer.phtml'); ?>  

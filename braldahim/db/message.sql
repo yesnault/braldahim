@@ -24,7 +24,6 @@ CREATE TABLE `message` (
   `date_lecture_message` datetime default NULL,
   `destinataires_message` varchar(1000) NOT NULL,
   `copies_message` varchar(1000) default NULL,
-  `est_lu_message` enum('oui','non') NOT NULL default 'non',
   `titre_message` varchar(80) NOT NULL,
   `contenu_message` varchar(1000) NOT NULL,
   PRIMARY KEY  (`id_message`),

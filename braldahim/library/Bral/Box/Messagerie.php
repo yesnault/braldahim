@@ -11,8 +11,9 @@ class Bral_Box_Messagerie {
 		$this->view->affichageInterne = $interne;
 
 		$this->preparePage();
+		
 	}
-
+ 
 	function getTitreOnglet() {
 		return "Messagerie";
 	}
@@ -26,6 +27,12 @@ class Bral_Box_Messagerie {
 	}
 
 	function render() {
+		$this->view->nom_interne = $this->getNomInterne();
+		$this->prepareMessages();
+		return $this->view->render("interface/messagerie.phtml");
+	}
+
+	private function prepareMessages() {
 		$suivantOk = false;
 		$precedentOk = false;
 		$tabMessages = null;
@@ -49,6 +56,7 @@ class Bral_Box_Messagerie {
 			}
 
 			$tabMessages[] = array(
+			"id_message" => $m["id_message"],
 			"titre" => $m["titre_message"],
 			"date" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y \&\a\g\r\a\v\e; H:i:s',$m["date_envoi_message"]),
 			"destinataires" => $destinataires,
@@ -83,10 +91,8 @@ class Bral_Box_Messagerie {
 		$this->view->typeMessages = $tabTypeMessages;
 		$this->view->nbMessages = count($this->view->messages);
 
-		$this->view->nom_interne = $this->getNomInterne();
 		$this->view->page = $this->_page;
 		$this->view->filtre = $this->_filtre;
-		return $this->view->render("interface/messagerie.phtml");
 	}
 
 	private function preparePage() {

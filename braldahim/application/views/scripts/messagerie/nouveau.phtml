@@ -1,73 +1,56 @@
-<?php echo $this->render('header.phtml'); ?>
 
-<?php include('menu.phtml'); ?>
-
-<form action="<?=$this->baseUrl ?>/messagerie/nouveau" method="post">
-
-<div class="box_messagerie">
-	<div class="box_corners">
-		<span class="corners-top"><span></span></span>
-	</div>
-<div class="inner">
-	<ul class="titre textalic textsizea">Nouveau message</ul>
-	&nbsp;
-	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+<? if ($this->envoiMessage == true): ?>
+	Votre message est envoy&eacute;
+<? else: ?>
+<form name='myForm'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='7'>
+ 		<input type='hidden' name='valeur_1' id='valeur_1' value='-1' />
+ 		<input type='hidden' name='valeur_2' id='valeur_2' value='-1' />
+ 		<input type='hidden' name='valeur_3' id='valeur_3' value='envoi' />
 	    <br>
 		<?php if(!empty($this->destinatairesErreur)) :?>
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->destinatairesErreur as $message) :?>
-				<?=$this->escape($message);?><br>
+				<?=htmlentities($this->escape($message));?><br>
 			<?php endforeach; ?>
 			</div>
 		<? endif; ?>
 		<label for="title">Destinataires</label><br>
-	    <input type="text" name="destinataires" value="<?=$this->escape($this->destinataires);?>" size="25" maxlength="1000"/>
+	    <input type="text" name="valeur_4" id="valeur_4" value="<?=$this->escape($this->destinataires);?>" size="25" maxlength="1000"/>
 	    <br><br>
 	    
 	    <?php if(!empty($this->copiesErreur)) :?>
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->copiesErreur as $message) :?>
-				<?=$this->escape($message);?><br>
+				<?=htmlentities($this->escape($message));?><br>
 			<?php endforeach; ?>
 			</div>
 		<? endif; ?>
 		<label for="title">Copies</label><br>
-	    <input type="text" name="copies" value="<?=$this->escape($this->copies);?>" size="25" maxlength="1000"/>
+	    <input type="text" name="valeur_5" id="valeur_5" name="copies" value="<?=$this->escape($this->copies);?>" size="25" maxlength="1000"/>
 	    <br><br>
 	    
 	
 		<?php if(!empty($this->titreErreur)) :?> 
 		<div class="message_erreur" id="message_erreur"> 
-			<?=$this->escape($this->titreErreur);?><br>
+			<?=htmlentities($this->escape($this->titreErreur));?><br>
 		</div>
 		<?php endif; ?>
 	    <label for="title">Titre</label><br>
-	    <input type="text" name="titre" value="<?=$this->escape($this->titre);?>" size="60" maxlength="80"/> 
+	    <input type="text" name="valeur_6" id="valeur_6" name="titre" value="<?=$this->escape($this->titre);?>" size="60" maxlength="80"/> 
 	    
 	    <br><br>
 		<?php if(!empty($this->contenuErreur)) :?> 
 		<div class="message_erreur" id="message_erreur"> 
-			<?=$this->escape($this->contenuErreur);?><br>
+			<?=htmlentities($this->escape($this->contenuErreur));?><br>
 		</div>
 		<?php endif; ?>
 		<label for="title">Message</label><br>
-	    <textarea name="contenu" rows='15' cols='90'><?=$this->escape($this->contenu);?></textarea>
+	    <textarea  name="valeur_7" id="valeur_7" rows='10' cols='90'><?=htmlentities($this->escape($this->contenu));?></textarea>
 	    
 		<div id="formbutton">
-		<input type="submit" class='button1' name="Envoyer" value="Envoyer" /> 
-		<input type="button" class='button1' name="Annuler" value="Annuler" onClick="javascript:document.location.href='/messagerie/'"/>
+		<input type="button" class='button1' name="Envoyer" value="Envoyer" onClick='Javascript:_get_("/messagerie/DoAction?caction=do_messagerie_message");' /> 
+		<input type="button" class='button1' name="Annuler" value="Annuler" onClick='Javascript:_get_("/messagerie/AskAction?caction=do_messagerie_message&valeur_1=-1&valeur_2=-1&valeur_3=annuler");'>
 		</div>
-		</ul>
-	</div>
-	&nbsp;
-</div>
-	<div class="box_corners">
-		<span class="corners-bottom"><span></span></span>
-	</div>
-</div>
 </form>
-<script language='javascript'>
-    $("box_chargement").style.display = "none";
-</script>
-<?php echo $this->render('footer.phtml'); ?>
+<? endif; ?>

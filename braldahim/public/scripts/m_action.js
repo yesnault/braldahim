@@ -91,10 +91,6 @@ function showResponse(originalRequest) {
 	                display_informations = true; // affichage de la boite d'informations
 	              else if (m_type_valeur == "erreur" && m_data !="")
 	                display_erreur = true; // affichage de la boite d'erreur
-	              else if (m_type_valeur == "message" && m_data !="")
-	                display_message = true; // affichage d'un messsage
-	              else if (m_type_valeur == "messages" && m_data !="")
-	                display_messages = true; // affichage d'une liste de message
 	                     
 	              if (m_type == "display") {
 	                _display_(m_type_valeur, m_data);

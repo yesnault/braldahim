@@ -16,6 +16,11 @@ class Bral_Validate_Messagerie_Destinataires implements Zend_Validate_Interface 
 			$this->_messages[] = "Ce champ est obligatoire";
 			$valid = false;
 		}
+		
+		// si le champ est vide, mais qu'il n'est pas obligatoire, on sort tout de suite
+		if ((strlen($valeur) < 1) && ($this->estObligatoire === false)) {
+			return true;
+		}
 
 		if (strlen($valeur) > 1000) {
 			$this->_messages[] = "Ce champ doit contenir au maximum 100 caractères";
@@ -28,8 +33,8 @@ class Bral_Validate_Messagerie_Destinataires implements Zend_Validate_Interface 
 				$valid = false;
 			}
 		}
+		
 		if ($valid) {
-			
 			$hobbitTable = new Hobbit();
 			$idDestinatairesTab = split(',', $valeur);
 			foreach ($idDestinatairesTab as $id) {
