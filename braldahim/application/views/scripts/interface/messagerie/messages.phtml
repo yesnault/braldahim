@@ -12,16 +12,21 @@
 	  				<dd class="date_message">Date d'envoi</dd>
 	  				<dd class="titre_message">Titre</dd>
 	  				<dd class="expediteur_message">Exp&eacute;diteur&nbsp;</dd>
-	  				<dd class="destinataire_message">Destinataire(s)&nbsp;</dd>
+	  				<dd class="destinataires_message">Destinataire(s)&nbsp;</dd>
 	  			</dl>
 	  		</li>
 	  	<? foreach($this->messages as $message): ?>
 	  		<li class="row" onClick='_get_("/messagerie/AskAction?caction=do_messagerie_message&valeur_1=<?=$this->filtre?>&valeur_2=-1&valeur_3=-1&valeur_4=-1&valeur_5=<?=$message["id_message"];?>&valeur_6=message");'>
-	  			<dl>
+	  			<? $text = "Titre :".htmlentities($message["titre"])."<br><br>"; 
+	  			   $text .= "Exp&eacute;diteur : ".htmlentities($message["expediteur"])."<br><br>";
+	  			   $text .= "Destinataire(s) : ".htmlentities($message["destinataires"])."<br><br>";
+	  			   $text .= "Clique pour voir le message";
+	  			?>
+	  			<dl onmouseover="return overlib('<?=$text?>',CAPTION,'Informations');" onmouseout="return nd();">
 	  				<dd class="date_message"><?=$message["date"];?></dd>
-	  				<dd class="titre_message"><?=$message["titre"];?></dd>
-	  				<dd class="expediteur_message"><?=$message["expediteur"];?>&nbsp;</dd>
-	  				<dd class="destinataire_message"><?=$message["destinataires"];?>&nbsp;</dd>
+	  				<dd class="titre_message"><?if (strlen($message["titre"]) > 25) echo substr($message["titre"], 0, 25)."..."; else echo $message["titre"];?></dd>
+	  				<dd class="expediteur_message"><?if (strlen($message["expediteur"]) > 20) echo substr($message["expediteur"], 0, 20)."..."; else echo $message["expediteur"];?>&nbsp;</dd>
+	  				<dd class="destinataires_message"><?if (strlen($message["destinataires"]) > 20) echo substr($message["destinataires"], 0, 20)."..."; else echo $message["destinataires"];?>&nbsp;</dd>
 	  			</dl>
 	  		</li>
 	  	<? endforeach; ?>
@@ -30,7 +35,7 @@
    		Aucun message
    <? endif; ?>
    <br><br>
-    <input type="button" class='button1' onClick='Javascript:_get_("/messagerie/DoAction?caction=do_messagerie_message&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=-1&valeur_6=nouveau");' value="Nouveau">
+    <input type="button" class='button1' onClick='Javascript:_get_("/messagerie/AskAction?caction=do_messagerie_message&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=-1&valeur_6=nouveau");' value="Nouveau">
     
    <? if ($this->precedentOk === true) : ?>
    <input type="button" class='button1' onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/messagerie?caction=box_messagerie&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page pr&eacute;c&eacute;dente">

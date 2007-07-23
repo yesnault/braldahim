@@ -419,3 +419,23 @@ li.row:hover dd {
 .row .detail_evenement {
 	width: auto;
 }
+
+.row .date_message {
+	width: 18%;
+	cursor: pointer;
+}
+
+.row .titre_message {
+	width: 32%;
+	cursor: pointer;
+}
+
+.row .expediteur_message {
+	width: 25%;
+	cursor: pointer;
+}
+
+.row .destinataires_message {
+	width: auto;
+	cursor: pointer;
+}

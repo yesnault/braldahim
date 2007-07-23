@@ -18,8 +18,10 @@
 			<?php endforeach; ?>
 			</div>
 		<? endif; ?>
-		<label for="title">Destinataires</label><br>
-	    <input type="text" name="valeur_7" id="valeur_7" value="<?=$this->escape($this->message["destinataires"]);?>" size="25" maxlength="1000"/>
+		<? $text = htmlentities("N° de hobbit, séparés par des vigules : exemple 1, 2, 3"); ?>
+		<label for="title" onmouseover="return overlib('<?=$text?>',CAPTION,'Informations');" onmouseout="return nd();">
+		Destinataires </label><br>
+	    <input type="text" name="valeur_7" id="valeur_7" value="<?=$this->escape($this->message["destinataires"]);?>" size="25" maxlength="1000" onmouseover="return overlib('<?=$text?>',CAPTION,'Informations');" onmouseout="return nd();"/>
 	    <br><br>
 	    
 	    <?php if(!empty($this->copiesErreur)) :?>
@@ -29,8 +31,8 @@
 			<?php endforeach; ?>
 			</div>
 		<? endif; ?>
-		<label for="title">Copies</label><br>
-	    <input type="text" name="valeur_8" id="valeur_8" name="copies" value="<?=$this->escape($this->message["copies"]);?>" size="25" maxlength="1000"/>
+		<label for="title" onmouseover="return overlib('<?=$text?>',CAPTION,'Informations');" onmouseout="return nd();">Copies </label><br>
+	    <input type="text" name="valeur_8" id="valeur_8" name="copies" value="<?=$this->escape($this->message["copies"]);?>" size="25" maxlength="1000" onmouseover="return overlib('<?=$text?>',CAPTION,'Informations');" onmouseout="return nd();"/>
 	    <br><br>
 	    
 		<?php if(!empty($this->titreErreur)) :?> 
