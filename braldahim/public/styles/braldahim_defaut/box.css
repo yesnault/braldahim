@@ -213,7 +213,8 @@ span.corners-bottom span {
 	background-color: #d9ffd6;
 	color: black;
 	text-align: center;
-	width: 400px;
+	width: auto;
+	height: auto;
 	border: thin solid black;
 }
 

@@ -3,6 +3,7 @@
 class Bral_Box_Tour {
 
 	function __construct($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Util_Log");
 		$this->_request = $request;
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;
@@ -58,39 +59,45 @@ class Bral_Box_Tour {
 		$date_fin_latence =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_latence);
 		$date_debut_cumul =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_cumul);
 
-		//				echo " time_latence=".$time_latence;
-		//				echo " time_cumul=".$time_cumul;
-		//				echo " date_fin_latence=".$date_fin_latence;
-		//				echo " date_debut_cumul".$date_debut_cumul;
-		//				echo " date_courante=".$date_courante;
-		//				echo " date fin tour=".$this->hobbit->date_fin_tour_hobbit;
+		Bral_Util_Log::tech()->debug(get_class($this)." time_latence=".$time_latence);
+		Bral_Util_Log::tech()->debug(get_class($this)." time_cumul=".$time_cumul);
+		Bral_Util_Log::tech()->debug(get_class($this)."	date_fin_latence=".$date_fin_latence);
+		Bral_Util_Log::tech()->debug(get_class($this)."	date_debut_cumul".$date_debut_cumul);
+		Bral_Util_Log::tech()->debug(get_class($this)."	date_courante=".$date_courante);
+		Bral_Util_Log::tech()->debug(get_class($this)."	date fin tour=".$this->hobbit->date_fin_tour_hobbit);
 
 		$this->is_tour_manque = false;
 		// Mise a jour du nombre de PA + position tour
 		if ($date_courante > $this->hobbit->date_fin_tour_hobbit) { // Perte d'un tour
-			$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($date_courante, "6:0:0");
+			Bral_Util_Log::tech()->debug(get_class($this)." Perte d'un tour");
+			$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($date_courante, $this->config->game->tour->duree_tour_manque);
 			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_cumul;
-			$this->hobbit->pa_hobbit = $this->view->config->game->pa_max;
+			$this->hobbit->pa_hobbit = $this->view->config->game->pa_max_cumul;
 			$this->is_tour_manque  = true;
 			$this->is_update_tour = true;
 		} elseif(($date_courante < $date_fin_latence) // Latence
 		&& $this->is_nouveau_tour) {
+			Bral_Util_Log::tech()->debug(get_class($this)." Latence Tour");
 			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_latence;
 			$this->hobbit->pa_hobbit = 0;
 			$this->is_update_tour = true;
 		} elseif(($date_courante >= $date_fin_latence && $date_courante < $date_debut_cumul) // Milieu
 		&& ( (!$this->is_nouveau_tour && ($this->hobbit->tour_position_hobbit != $this->view->config->game->tour->position_milieu))
 		|| ($this->is_nouveau_tour))) {
+			Bral_Util_Log::tech()->debug(get_class($this)." Milieu Tour");
 			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_milieu;
 			$this->hobbit->pa_hobbit = $this->view->config->game->pa_max;
 			$this->is_update_tour = true;
 		} elseif(($date_courante >= $date_debut_cumul && $date_courante < $this->hobbit->date_fin_tour_hobbit)  // Cumul
 		&& ( (!$this->is_nouveau_tour && ($this->hobbit->tour_position_hobbit != $this->view->config->game->tour->position_cumul))
 		|| ($this->is_nouveau_tour))) {
+			Bral_Util_Log::tech()->debug(get_class($this)." Cumul tour");
 			// Si le joueur a déjà eu des PA
 			if ($this->hobbit->tour_position_hobbit == $this->view->config->game->tour->position_milieu) {
+				Bral_Util_Log::tech()->debug(get_class($this)." Le joueur a deja eu des PA");
 				$this->hobbit->pa_hobbit = $this->hobbit->pa_hobbit + $this->view->config->game->pa_max;
 			} else { // S'il vient d'activer et qu'il n'a jamais eu de PA dans ce tour
+				Bral_Util_Log::tech()->debug(get_class($this)." Le joueur n'a pas encore eu de PA");
 				$this->hobbit->pa_hobbit = $this->view->config->game->pa_max_cumul;
 			}
 			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_cumul;
@@ -98,8 +105,10 @@ class Bral_Box_Tour {
 		}
 
 		if (($this->is_update_tour) || ($this->is_nouveau_tour) || ($this->hobbit->est_mort_hobbit == "oui")) {
+			Bral_Util_Log::tech()->debug(get_class($this)." modificationTour true");
 			return true;
 		} else {
+			Bral_Util_Log::tech()->debug(get_class($this)." modificationTour false");
 			return false;
 		}
 	}
@@ -229,7 +238,6 @@ class Bral_Box_Tour {
 			$this->hobbit->y_hobbit = $lieu["y_lieu"];
 
 		}
-
 	}
 
 	/* Mise a jour de la duree du prochain tour
