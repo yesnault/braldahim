@@ -1,3 +1,6 @@
+
+activeRechercheHobbit = false;
+
 function findSelectedRadioButton( groupname ) {
 	var radioButtons = $('myForm').elements[groupname];
 	for( var i = 0; i < radioButtons.length; i++ ) {
@@ -142,4 +145,25 @@ function showResponse(originalRequest) {
 	}
     
     return ;
+}
+
+function activerRechercheHobbit() {
+
+if (activeRechercheHobbit == false) {
+activeRechercheHobbit = true;
+alert('Activation Recherche');
+new Ajax.Autocompleter ('recherche',
+                        'recherche_update',
+                        '/Recherche/hobbit',
+                        {});
+
+}
+}
+
+function activer_wysiwyg(id) {
+	tinyMCE.execCommand('mceAddControl', false, id);
+}
+
+function desactiver_wysiwyg(id) {
+	tinyMCE.execCommand('mceRemoveControl', false, id);
 }

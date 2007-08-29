@@ -4,6 +4,7 @@
 @import "messages.css";
 @import "popup.css";
 @import "vue.css";
+@import "recherche.css";
 
 * {
 	font:11px arial,verdana,sans-serif;

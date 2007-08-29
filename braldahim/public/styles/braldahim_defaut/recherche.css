@@ -1,0 +1,35 @@
+/* Autocompletion */
+.recherche{
+        position:absolute;
+        width:250px;
+        background-color:white;
+        border:1px solid #888;
+        margin:0px;
+        padding:0px;
+}
+
+ul.resultats {
+        list-style-type: none;
+        margin:0px;
+        padding:0px;
+        text-align: left;
+}
+ul.resultats li.selected { background-color: #ffb; cursor: pointer; }
+li.resultat {
+        list-style-type: none;
+        display:block;
+        margin:0;
+        padding:2px;
+        height:32px;
+}
+li.resultat div.image {
+        float:left;
+        width:32px;
+        height:32px;
+        margin-right:8px;
+}
+li.resultat div.nom {
+        font-weight:bold;
+        font-size:12px;
+        line-height:1.2em;
+}
