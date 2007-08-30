@@ -3,7 +3,7 @@
         position:absolute;
         width:250px;
         background-color:white;
-        border:1px solid #888;
+        border:0px solid #888;
         margin:0px;
         padding:0px;
 }
@@ -20,16 +20,16 @@ li.resultat {
         display:block;
         margin:0;
         padding:2px;
-        height:32px;
+        height:12px;
 }
 li.resultat div.image {
         float:left;
         width:32px;
-        height:32px;
+        height:15px;
         margin-right:8px;
 }
 li.resultat div.nom {
         font-weight:bold;
-        font-size:12px;
+        font-size:15px;
         line-height:1.2em;
 }

@@ -21,10 +21,12 @@
 		<? $text = htmlentities("N° de hobbit, séparés par des vigules : exemple 1, 2, 3"); ?>
 		<label for="title" onmouseover="return overlib('<?=$text?>',CAPTION,'Informations');" onmouseout="return nd();">
 		Destinataires </label><br>
-	    <input type="text" name="valeur_7" id="valeur_7" disabled value="<?=$this->escape($this->message["destinataires"]);?>" size="25" maxlength="1000" onmouseover="return overlib('<?=$text?>',CAPTION,'Informations');" onmouseout="return nd();"/>
-		<input type="text" name="recherche" id="recherche" value="Entre un nom" onFocus='this.selected=true; $("ajouter").disabled=false;activerRechercheHobbit();' />
-		<div class="recherche" id="recherche_update" ></div> 
-	    <input type='button' id="ajouter" name="ajouter" class='button1' onClick="ajouterAuContenu('recherche', 'valeur_7'); $('recherche').value=''; this.disabled=true;" value='Ajouter' disabled />
+		<input type="text" name="valeur_7" size='20' id="valeur_7" value="Entre un nom" onFocus='this.select(); activerRechercheHobbit("recherche_destinataire_actif", "valeur_7", "recherche_destinataire_update", "indicateur_recherche_destinataire");' />
+		<input type="hidden" name="recherche_destinataire_actif" id="recherche_destinataire_actif" value="0" />
+		<div class="recherche" id="recherche_destinataire_update" ></div> 
+	    <span id="indicateur_recherche_destinataire" style="display: none"><img src="<?=$this->baseUrl ?>/public/images/wait.gif" alt="Recherche..." /></span>
+	    <input type='button' id="effacer_destinataire" name="effacer_destinataire" class='button1' onClick="$('valeur_7').value='';" value='Effacer' />
+	   
 	    <br><br>
 	    
 	    <?php if(!empty($this->copiesErreur)) :?>
@@ -35,7 +37,12 @@
 			</div>
 		<? endif; ?>
 		<label for="title" onmouseover="return overlib('<?=$text?>',CAPTION,'Informations');" onmouseout="return nd();">Copies </label><br>
-	    <input type="text" name="valeur_8" id="valeur_8" name="copies" value="<?=$this->escape($this->message["copies"]);?>" size="25" maxlength="1000" onmouseover="return overlib('<?=$text?>',CAPTION,'Informations');" onmouseout="return nd();"/>
+	    <input type="text" name="valeur_8" size='20' id="valeur_8" value="Entre un nom" onFocus='this.select(); activerRechercheHobbit("recherche_copie_actif", "valeur_8", "recherche_copie_update", "indicateur_recherche_copie");' />
+	    <input type="hidden" name="recherche_copie_actif" id="recherche_copie_actif" value="0" />
+	    <div class="recherche" id="recherche_copie_update" ></div> 
+	    <span id="indicateur_recherche_copie" style="display: none"><img src="<?=$this->baseUrl ?>/public/images/wait.gif" alt="Recherche..." /></span>
+	    <input type='button' id="effacer_copie" name="effacer_copie" class='button1' onClick="$('valeur_8').value='';" value='Effacer' />
+	   
 	    <br><br>
 	    
 		<?php if(!empty($this->titreErreur)) :?> 
@@ -53,8 +60,9 @@
 		</div>
 		<?php endif; ?>
 		<label for="title">Message</label><br>
+		<center>
 	    <textarea  name="valeur_10" id="valeur_10" rows='10' cols='80' onClick='javascript:activer_wysiwyg("valeur_10");'><?=htmlentities($this->escape($this->message["contenu"]));?></textarea>
-	    
+	    </center>
 		<div id="formbutton">
 		<input type="button" class='button1' name="Envoyer" value="Envoyer" onClick='Javascript:_get_("/messagerie/DoAction?caction=do_messagerie_message");' /> 
 		<input type="button" class='button1' name="Annuler" value="Annuler" onClick='$("messagerie_message").innerHTML="";'>

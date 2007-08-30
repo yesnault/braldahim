@@ -99,5 +99,14 @@ class Hobbit extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+	
+	function findHobbitsParNom($nom) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', '*')
+		->where('lcase(nom_hobbit) like ?', (string)strtolower(trim($nom)));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }
 

@@ -1,8 +1,25 @@
+
+
 <ul class="resultats">
-<li class="resultat">
-test1
-</li>
-<li class="resultat">
-test2
-</li>
+<? if (count($this->tabHobbits) == 0): ?>
+		<li class="resultat">
+			Aucun Hobbit
+		</li>
+<? elseif (count($this->tabHobbits) > 15): ?>
+		<li class="resultat">
+			Trop de hobbits !
+		</li>
+<? else: ?>
+	<?php
+		$i = 0; 
+		foreach ($this->tabHobbits as $h) : 
+		$i++;
+	?>
+		<li class="resultat" id='<?=$i?>'><?
+			$pos = stripos($h["nom"], $this->pattern);
+			$nom = substr($h["nom"], 0, $pos) . '<font color="red">'.substr($h["nom"], $pos , strlen($this->pattern)) .'</font>'.substr($h["nom"], $pos + strlen($this->pattern));
+
+			echo $nom ." (".$h["id_hobbit"].")" ?></li>
+	<?php endforeach; ?>
+<? endif; ?>
 </ul>

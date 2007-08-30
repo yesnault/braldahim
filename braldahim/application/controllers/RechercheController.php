@@ -17,6 +17,21 @@ class RechercheController extends Zend_Controller_Action {
 	}
 
 	function hobbitAction() {
+		
+		$this->_request->get("valeur");
+		
+		$tabHobbits = null;
+		$hobbitTable = new Hobbit();
+		$hobbitRowset = $hobbitTable->findHobbitsParNom('%'.$this->_request->get("valeur").'%');
+		
+		foreach ($hobbitRowset as $h) {
+			$tabHobbits[] = array(
+				"id_hobbit" => $h["id_hobbit"],
+				"nom" => $h["nom_hobbit"],
+			);
+		}
+		$this->view->pattern = $this->_request->get("valeur");
+		$this->view->tabHobbits = $tabHobbits;
 		$this->render();
 	}
 }
