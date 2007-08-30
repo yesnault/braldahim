@@ -22,6 +22,8 @@
 		<label for="title" onmouseover="return overlib('<?=$text?>',CAPTION,'Informations');" onmouseout="return nd();">
 		Destinataires </label><br>
 	    <input type="text" name="valeur_7" id="valeur_7" value="<?=$this->escape($this->message["destinataires"]);?>" size="25" maxlength="1000" onmouseover="return overlib('<?=$text?>',CAPTION,'Informations');" onmouseout="return nd();"/>
+		<input type="text" name="recherche" id="recherche" value="" onFocus='activerRechercheHobbit()'/>
+		<div class="recherche" id="recherche_update"></div> 
 	    <br><br>
 	    
 	    <?php if(!empty($this->copiesErreur)) :?>
@@ -50,7 +52,7 @@
 		</div>
 		<?php endif; ?>
 		<label for="title">Message</label><br>
-	    <textarea  name="valeur_10" id="valeur_10" rows='10' cols='80'><?=htmlentities($this->escape($this->message["contenu"]));?></textarea>
+	    <textarea  name="valeur_10" id="valeur_10" rows='10' cols='80' onClick='javascript:activer_wysiwyg("valeur_10");'><?=htmlentities($this->escape($this->message["contenu"]));?></textarea>
 	    
 		<div id="formbutton">
 		<input type="button" class='button1' name="Envoyer" value="Envoyer" onClick='Javascript:_get_("/messagerie/DoAction?caction=do_messagerie_message");' /> 

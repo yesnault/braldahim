@@ -9,9 +9,7 @@ class Bral_Box_Messagerie {
 		$this->_request = $request;
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;
-
 		$this->preparePage();
-
 	}
 
 	function getTitreOnglet() {

@@ -28,7 +28,7 @@ class Bral_Validate_Messagerie_Destinataires implements Zend_Validate_Interface 
 		}
 
 		if ($valid) {
-			if (!preg_match('`^([[:digit:]]+(,|[[:space:]])*)+$`',$valeur)) {
+			if (!preg_match_all('/([[:digit:]])/',$valeur, $matches)) {
 				$this->_messages[] = "Ce champ contient des caractères invalides";
 				$valid = false;
 			}
@@ -36,9 +36,8 @@ class Bral_Validate_Messagerie_Destinataires implements Zend_Validate_Interface 
 		
 		if ($valid) {
 			$hobbitTable = new Hobbit();
-			$idDestinatairesTab = split(',', $valeur);
-			foreach ($idDestinatairesTab as $id) {
-				$r = $hobbitTable->findById(trim($valeur));
+			foreach ($matches[0] as $id) {
+				$r = $hobbitTable->findById(trim($id));
 				if (count($r) == 0) {
 					$this->_messages[] = "Le hobbit n°$id est inconnu";
 					$valid = false;

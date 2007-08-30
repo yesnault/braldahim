@@ -2,26 +2,36 @@
       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr"> 
 <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1" />
-    <script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/prototype.js"></script>
+	<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1" />
+	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/prototype.js"></script>
 
-    <script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/scriptaculous.js?load=builder,effects"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/scriptaculous.js?load=builder,effects,controls"></script>
 	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/modalbox.js"></script>
-
+	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/tiny_mce/tiny_mce.js"></script>
     
-    <script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/m_action.js"></script>
-    <script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/m_display.js"></script>
-    <script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/overlib/overlib.js"><!-- overLIB (c) Erik Bosrup --></script>
+    
+	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/m_action.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/m_display.js"></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/overlib/overlib.js"><!-- overLIB (c) Erik Bosrup --></script>
 	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/overlib/overlib_exclusive.js"><!-- overLIB (c) Erik Bosrup --></script>
+	<script language="javascript" type="text/javascript">
+		tinyMCE.init({
+			mode : "none",
+			theme : "simple"
+		});
+	</script>
+	
 	<title><?php echo $this->escape($this->title); ?></title>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl;?>/public/styles/braldahim_defaut/site.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl;?>/public/styles/braldahim_defaut/modalbox.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl;?>/public/styles/braldahim_defaut/modalbox.css" />
 </head>
 
 <?php if($this->user && $this->controleur == "interface") : ?> 
  <body onLoad="_get_('<?=$this->baseUrl ?>/interface/boxes');">
 <?php else: ?>
 <body>
+
+
 <?php endif; ?>
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 
