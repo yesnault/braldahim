@@ -21,9 +21,10 @@
 		<? $text = htmlentities("N° de hobbit, séparés par des vigules : exemple 1, 2, 3"); ?>
 		<label for="title" onmouseover="return overlib('<?=$text?>',CAPTION,'Informations');" onmouseout="return nd();">
 		Destinataires </label><br>
-	    <input type="text" name="valeur_7" id="valeur_7" value="<?=$this->escape($this->message["destinataires"]);?>" size="25" maxlength="1000" onmouseover="return overlib('<?=$text?>',CAPTION,'Informations');" onmouseout="return nd();"/>
-		<input type="text" name="recherche" id="recherche" value="" onFocus='activerRechercheHobbit()'/>
-		<div class="recherche" id="recherche_update"></div> 
+	    <input type="text" name="valeur_7" id="valeur_7" disabled value="<?=$this->escape($this->message["destinataires"]);?>" size="25" maxlength="1000" onmouseover="return overlib('<?=$text?>',CAPTION,'Informations');" onmouseout="return nd();"/>
+		<input type="text" name="recherche" id="recherche" value="Entre un nom" onFocus='this.selected=true; $("ajouter").disabled=false;activerRechercheHobbit();' />
+		<div class="recherche" id="recherche_update" ></div> 
+	    <input type='button' id="ajouter" name="ajouter" class='button1' onClick="ajouterAuContenu('recherche', 'valeur_7'); $('recherche').value=''; this.disabled=true;" value='Ajouter' disabled />
 	    <br><br>
 	    
 	    <?php if(!empty($this->copiesErreur)) :?>
