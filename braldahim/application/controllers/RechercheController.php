@@ -23,6 +23,8 @@ class RechercheController extends Zend_Controller_Action {
 		$tabHobbits = null;
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->findHobbitsParNom('%'.$this->_request->get("valeur").'%');
+		$this->view->champ = $this->_request->get("champ");
+		
 		
 		foreach ($hobbitRowset as $h) {
 			$tabHobbits[] = array(
