@@ -25,21 +25,21 @@ class MessagerieController extends Zend_Controller_Action {
 		$this->_redirect('/messagerie/reception');
 	}
 
-	function nouveauAction() {
+	/*	function nouveauAction() {
 		if ($this->_request->getParam('hobbit') != null && ((int)$this->_request->getParam("hobbit").""==$this->_request->getParam("hobbit")."")) {
-			Zend_Loader::loadClass("Bral_Validate_Messagerie_Destinataires");
-			$validateurDestinataires = new Bral_Validate_Messagerie_Destinataires(true);
-			$this->view->destinataires = $this->_request->getParam('hobbit');
-			$validDestinataires = $validateurDestinataires->isValid($this->view->destinataires);
-			if (!$validDestinataires) {
-				foreach ($validateurDestinataires->getMessages() as $message) {
-					$destinatairesErreur[] = $message;
-				}
-				$this->view->destinatairesErreur = $destinatairesErreur;
-			}
+		Zend_Loader::loadClass("Bral_Validate_Messagerie_Destinataires");
+		$validateurDestinataires = new Bral_Validate_Messagerie_Destinataires(true);
+		$this->view->destinataires = $this->_request->getParam('hobbit');
+		$validDestinataires = $validateurDestinataires->isValid($this->view->destinataires);
+		if (!$validDestinataires) {
+		foreach ($validateurDestinataires->getMessages() as $message) {
+		$destinatairesErreur[] = $message;
+		}
+		$this->view->destinatairesErreur = $destinatairesErreur;
+		}
 		}
 		$this->render();
-	}
+		}*/
 
 	function AskActionAction() {
 		$this->DoActionAction();
@@ -54,6 +54,13 @@ class MessagerieController extends Zend_Controller_Action {
 			$xml_entry->set_valeur($messagerie->getNomInterne());
 			$xml_entry->set_data($messagerie->render());
 			$xml_response->add_entry($xml_entry);
+			if ($messagerie->getActiverWysiwyg() == true) {
+				$xml_entry = new Bral_Xml_Entry();
+				$xml_entry->set_type("action");
+				$xml_entry->set_valeur("activer_wysiwyg");
+				$xml_entry->set_data("valeur_10");
+				$xml_response->add_entry($xml_entry);
+			}
 			if ($messagerie->refreshMessages() === true) {
 				$this->view->affichageInterne = true;
 				$xml_entry = new Bral_Xml_Entry();

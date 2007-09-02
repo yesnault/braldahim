@@ -22,7 +22,7 @@
 		
 		<div id='aff_valeur_7' name='aff_valeur_7'></div>
 		<input type="hidden" name="valeur_7" id="valeur_7" value="" />
-		<input type="text" name="recherche_valeur_7" size='20' id="recherche_valeur_7" value="Entre un nom" onFocus='this.select(); activerRechercheHobbit("valeur_7");' />
+		<input type="text" name="recherche_valeur_7" size='20' id="recherche_valeur_7" value="Entre un nom" onFocus='this.value=""; activerRechercheHobbit("valeur_7");' />
 		<input type="hidden" name="recherche_valeur_7_actif" id="recherche_valeur_7_actif" value="0" />
 		<div class="recherche" id="recherche_valeur_7_update" ></div> <img src="<?=$this->baseUrl ?>/public/images/loupe.gif" />
 	    <span id="indicateur_recherche_valeur_7" style="display: none"><img src="<?=$this->baseUrl ?>/public/images/wait.gif" alt="Recherche..." /></span>
@@ -39,7 +39,7 @@
 		Copies </label><br>
 		<div id='aff_valeur_8' name='aff_valeur_8'></div>
 		<input type="hidden" name="valeur_8" id="valeur_8" value="" />
-		<input type="text" name="recherche_valeur_8" size='20' id="recherche_valeur_8" value="Entre un nom" onFocus='this.select(); activerRechercheHobbit("valeur_8");' />
+		<input type="text" name="recherche_valeur_8" size='20' id="recherche_valeur_8" value="Entre un nom" onFocus='this.value=""; activerRechercheHobbit("valeur_8");' />
 		<input type="hidden" name="recherche_valeur_8_actif" id="recherche_valeur_8_actif" value="0" />
 		<div class="recherche" id="recherche_valeur_8_update" ></div> <img src="<?=$this->baseUrl ?>/public/images/loupe.gif" />
 	    <span id="indicateur_recherche_valeur_8" style="display: none"><img src="<?=$this->baseUrl ?>/public/images/wait.gif" alt="Recherche..." /></span>
@@ -62,10 +62,10 @@
 		<?php endif; ?>
 		<label for="title">Message</label><br>
 		<center>
-	    <textarea  name="valeur_10" id="valeur_10" rows='10' cols='80' onFocus='javascript:activer_wysiwyg("valeur_10");'><?=htmlentities($this->escape($this->message["contenu"]));?></textarea>
+	    <textarea  name="valeur_10" id="valeur_10" rows='10' cols='80'><?=$this->message["contenu"];?></textarea>
 	    </center>
 		<div id="formbutton">
-		<input type="button" class='button1' name="Envoyer" value="Envoyer" onClick='Javascript:_get_("/messagerie/DoAction?caction=do_messagerie_message");' /> 
+		<input type="button" class='button1' name="Envoyer" value="Envoyer" onClick="Javascript:$('valeur_10').value = tinyMCE.getContent();_get_('/messagerie/DoAction?caction=do_messagerie_message');" /> 
 		<input type="button" class='button1' name="Annuler" value="Annuler" onClick='$("messagerie_message").innerHTML="";'>
 		</div>
 </form>

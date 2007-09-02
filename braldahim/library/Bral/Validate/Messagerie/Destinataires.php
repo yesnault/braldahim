@@ -23,13 +23,13 @@ class Bral_Validate_Messagerie_Destinataires implements Zend_Validate_Interface 
 		}
 
 		if (strlen($valeur) > 1000) {
-			$this->_messages[] = "Ce champ doit contenir au maximum 1000 caractères";
+			$this->_messages[] = "Trop de Hobbit destinataires";
 			$valid = false;
 		}
 		
 		//  TODO A MODIFIER avec split
 		if ($valid) {
-			if (!preg_match_all('/([[:digit:]])/',$valeur, $matches)) {
+			if (!preg_match_all('`^([[:digit:]]+(,|[[:space:]])*)+$`',$valeur, $matches)) {
 				$this->_messages[] = "Ce champ contient des caractères invalides";
 				$valid = false;
 			}

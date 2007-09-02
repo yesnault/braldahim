@@ -13,6 +13,7 @@ class Bral_Messagerie_Message {
 		$this->view->information = " ";
 		$this->refreshMessages = false;
 		$this->view->envoiMessage = false;
+		$this->activerWysiwyg = false;
 		$this->prepareAction();
 	}
 
@@ -42,6 +43,10 @@ class Bral_Messagerie_Message {
 	public function refreshMessages() {
 		return $this->refreshMessages;
 	}
+	
+	public function getActiverWysiwyg() {
+		return $this->activerWysiwyg;
+	}
 
 	private function prepareAction() {
 		if (((int)$this->request->get("valeur_5").""!=$this->request->get("valeur_5")."")) {
@@ -58,9 +63,11 @@ class Bral_Messagerie_Message {
 				$this->envoiMessage();
 				break;
 			case "nouveau" :
+				$this->activerWysiwyg = true;
 				$this->prepareNouveau();
 				break;
 			case "repondre" :
+				$this->activerWysiwyg = true;
 				$this->prepareRepondre();
 				break;
 			case "archiver" :
@@ -123,9 +130,14 @@ class Bral_Messagerie_Message {
 		if (count($message) == 1) {
 			$m = $message[0];
 			$idDestinatairesTab = split(',', $m["destinataires_message"]);
-			$idCopiesTab = split(',', $m["copies_message"]);
 			$idExpediteurTab = split(',', $m["expediteur_message"]);
-			$idTab1 = array_merge($idDestinatairesTab, $idCopiesTab);
+			if ($m["copies_message"] != null) {
+				$idCopiesTab = split(',', $m["copies_message"]);
+				$idTab1 = array_merge($idDestinatairesTab, $idCopiesTab);
+			} else {
+				$idCopiesTab = null;
+				$idTab1 = $idDestinatairesTab;
+			}
 			$idTab = array_merge($idTab1, $idExpediteurTab);
 			$hobbits = $hobbitTable->findByIdList($idTab);
 			$expediteur = "";
@@ -139,7 +151,7 @@ class Bral_Messagerie_Message {
 						$destinataires = $destinataires.", ".$h["nom_hobbit"] . " (".$h["id_hobbit"].")";
 					}
 				}
-				if (in_array($h["id_hobbit"],$idCopiesTab)) {
+				if (($idCopiesTab != null) && (in_array($h["id_hobbit"],$idCopiesTab))) {
 					if ($copies == "") {
 						$copies = $h["nom_hobbit"] . " (".$h["id_hobbit"].")";
 					} else {
@@ -182,20 +194,20 @@ class Bral_Messagerie_Message {
 		'titre' => trim($filter->filter(trim($this->request->get('valeur_9')))),
 		'destinataires' => trim($filter->filter(trim($this->request->get('valeur_7')))),
 		'copies' => trim($filter->filter(trim($this->request->get('valeur_8')))),
-		'contenu' => trim($filter->filter(trim($this->request->get('valeur_10')))),
+		'contenu' => trim($this->request->get('valeur_10')),
 		);
 		$this->view->message = $tabMessage;
 			
 		$validateurDestinataires = new Bral_Validate_Messagerie_Destinataires(true);
 		$validateurCopies = new Bral_Validate_Messagerie_Destinataires(false);
 		$validateurTitre = new Bral_Validate_StringLength(1, 80);
-		$validateurContenu = new Bral_Validate_StringLength(1, 80);
+		$validateurContenu = new Bral_Validate_StringLength(1, 65000);
 
 		$validDestinataires = $validateurDestinataires->isValid($this->view->message["destinataires"]);
 		$validCopies = $validateurCopies->isValid($this->view->message["copies"]);
 		$validTitre = $validateurTitre->isValid($this->view->message["titre"]);
 		$validContenu = $validateurContenu->isValid($this->view->message["contenu"]);
-
+		
 		if (($validTitre) && ($validDestinataires) && ($validCopies) && ($validContenu)) {
 			$messageTable = new Message();
 			$data = array(
@@ -210,8 +222,9 @@ class Bral_Messagerie_Message {
 			'contenu_message' => $this->view->message["contenu"],
 			);
 			$messageTable->insert($data);
-			$idDestinatairesTab = split(',', $this->view->destinataires);
+			$idDestinatairesTab = split(',', $this->view->message["destinataires"]);
 			$idEnvoye = array();
+			print_r($this->view->destinataires);
 			foreach ($idDestinatairesTab as $id) {
 				if (!in_array((int)$id, $idEnvoye)) {
 					$data["id_fk_hobbit_message"] = (int)$id;
@@ -220,7 +233,9 @@ class Bral_Messagerie_Message {
 					$idEnvoye[] = (int)$id;
 				}
 			}
+			
 			$this->view->envoiMessage = true;
+			$this->refreshMessages = true;
 		} else {
 			if (!$validDestinataires) {
 				foreach ($validateurDestinataires->getMessages() as $message) {
@@ -239,6 +254,9 @@ class Bral_Messagerie_Message {
 			if (!$validTitre) {
 				$this->view->titreErreur = "Le titre doit comporter entre 1 et 80 caractères !";
 			}
+			$this->activerWysiwyg = true;
 		}
 	}
+	
+	
 }

@@ -14,14 +14,14 @@ function getSelectionId(text, li) {
 		return;
 	}
 	if ($(li.getAttribute('champ')).value == '') {
-		$(li.getAttribute('champ')).value = li.getAttribute('id_hobbit') + ',';
+		$(li.getAttribute('champ')).value = li.getAttribute('id_hobbit');
 	} else {
-		$(li.getAttribute('champ')).value = $(li.getAttribute('champ')).value + li.getAttribute('id_hobbit')+ ',';
+		$(li.getAttribute('champ')).value = $(li.getAttribute('champ')).value + ',' + li.getAttribute('id_hobbit');
 	}
 	
 	var contenu = window.document.createElement('span');
 	contenu.name = 'm_'+li.getAttribute('champ')+'_'+li.getAttribute('id_hobbit');
-	var texte = li.getAttribute('valeur') + ' <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\''+'aff_'+li.getAttribute('champ')+'\',\''+contenu.name+'\', \''+li.getAttribute('champ')+'\', '+li.getAttribute('id_hobbit')+')" />';
+	var texte = li.getAttribute('valeur')  + ' (' + li.getAttribute('id_hobbit') + ') ' + ' <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\''+'aff_'+li.getAttribute('champ')+'\',\''+contenu.name+'\', \''+li.getAttribute('champ')+'\', '+li.getAttribute('id_hobbit')+')" />';
 	contenu.id = contenu.name;
 	contenu.innerHTML = texte;
 	$('aff_'+li.getAttribute('champ')).appendChild(contenu);
@@ -36,19 +36,15 @@ function supprimerElement(id_conteneur, id_contenu, id_champ, valeur) {
 	for (i=0; i<tab_valeur.length ; i++) {
 		if (tab_valeur[i] != valeur) {
 			if (tab_valeur[i] != "") {
-				nouvelle_valeur = nouvelle_valeur + tab_valeur[i] + ',';
+				if (nouvelle_valeur == "") {
+					nouvelle_valeur = tab_valeur[i] ;
+				} else {
+					nouvelle_valeur = nouvelle_valeur + ',' + tab_valeur[i];
+				}
 			}
 		}
 	}
     $(id_champ).value = nouvelle_valeur;
-}
-
-function activer_wysiwyg(id) {
-	tinyMCE.execCommand('mceAddControl', false, id);
-}
-
-function desactiver_wysiwyg(id) {
-	tinyMCE.execCommand('mceRemoveControl', false, id);
 }
 
 function ajouterAuContenu(idsource, iddestination) {

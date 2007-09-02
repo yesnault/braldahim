@@ -58,3 +58,12 @@ function chiffres(event) {
 		event.stopPropagation();
 	}
 }
+
+function activer_wysiwyg(id) {
+	alert('Activation');
+	//tinyMCE.execCommand('mceAddControl', false, id);
+}
+
+function desactiver_wysiwyg(id) {
+	tinyMCE.execCommand('mceRemoveControl', false, id);
+}

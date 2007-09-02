@@ -40,9 +40,9 @@ function _get_(url){
             var nom = 'valeur_'+i;
             var elem = $(nom);
             if (elem.type == "radio") {
-                    valeurs = valeurs + "&valeur_" +i+ "=" +findSelectedRadioButton(nom).value;
+                valeurs = valeurs + "&valeur_" +i+ "=" +findSelectedRadioButton(nom).value;
             } else {
-                    valeurs = valeurs + "&valeur_" +i+ "=" +elem.value;
+               valeurs = valeurs + "&valeur_" +i+ "=" +elem.value;
             }
       }
       //alert('valeurs='+valeurs);
@@ -53,7 +53,7 @@ function _get_(url){
   var pars = valeurs;
   //alert("url="+url);
   //alert("pars="+pars);
-  var myAjax = new Ajax.Request( url, {method: 'get', parameters: pars, onComplete: showResponse} );
+  var myAjax = new Ajax.Request( url, {method: 'post', parameters: pars, onComplete: showResponse} );
 }
 
 function showResponse(originalRequest) {
@@ -62,6 +62,7 @@ function showResponse(originalRequest) {
 	var display_action = false;
 	var display_informations = false;
 	var display_erreur = false;
+	var activer_wysiwyg = false;
 	
 	var xmlHeader = '<?xml version="1.0" encoding="utf-8" ?>';
 	
@@ -100,9 +101,12 @@ function showResponse(originalRequest) {
 	              		redirection = true;
 	              		redirection_url = m_data;
 	              	}
+	              	if (m_type_valeur == "activer_wysiwyg" && m_data !="") {
+	              		tinyMCE.execCommand('mceAddControl', false, m_data);
+	              	}
 	              }
 	            }
-	           }
+	         }
 	      }
 	    }
 	}
