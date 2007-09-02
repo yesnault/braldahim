@@ -26,7 +26,6 @@ class Bral_Messagerie_Message {
 			case "envoi" :
 			case "nouveau" :
 			case "repondre" :
-			case "repondretous" :
 				return $this->view->render("messagerie/nouveau.phtml");
 				break;
 			case "archiver" :
@@ -43,9 +42,15 @@ class Bral_Messagerie_Message {
 	public function refreshMessages() {
 		return $this->refreshMessages;
 	}
-	
+
 	public function getActiverWysiwyg() {
 		return $this->activerWysiwyg;
+	}
+	
+	public function getInformations() {
+		if ($this->view->envoiMessage == true) {
+			return "Votre message est envoy&eacute;";		
+		}
 	}
 
 	private function prepareAction() {
@@ -85,12 +90,18 @@ class Bral_Messagerie_Message {
 	}
 
 	private function prepareNouveau() {
-		// TODO
+		// rien à faire ici
 	}
 
 	private function prepareRepondre() {
 		$this->prepareMessage();
 		$this->view->message["titre"] = "RE:".$this->view->message["titre"];
+		$this->view->message["copies"] = $this->view->message["destinataires"] . $this->view->message["copies"];
+		$this->view->message["aff_copies"] = $this->view->message["aff_destinataires"] . $this->view->message["aff_copies"];
+		$this->view->message["aff_js_copies"] = $this->view->message["aff_js_destinataires"] . $this->view->message["aff_js_copies"];
+		$this->view->message["destinataires"] = $this->view->message["expediteur"];
+		$this->view->message["aff_destinataires"] = $this->view->message["aff_expediteur"];
+		$this->view->message["aff_js_destinataires"] = $this->view->message["aff_js_expediteur"];
 	}
 
 	private function prepareArchiver() {
@@ -121,48 +132,84 @@ class Bral_Messagerie_Message {
 		}
 	}
 
+	private function constructTabHobbit($tab_destinataire, $tab_copies, $tab_expediteur) {
+		$hobbitTable = new Hobbit();
+
+		$idDestinatairesTab = split(',', $tab_destinataire);
+		if ($tab_expediteur != null) {
+			$idExpediteurTab = split(',', $tab_expediteur);
+		}
+		if ($tab_copies != null) {
+			$idCopiesTab = split(',', $tab_copies);
+			$idTab1 = array_merge($idDestinatairesTab, $idCopiesTab);
+		} else {
+			$idCopiesTab = null;
+			$idTab1 = $idDestinatairesTab;
+		}
+		if ($tab_expediteur != null) {
+			$idTab = array_merge($idTab1, $idExpediteurTab);
+		} else {
+			$idTab = $idTab1;
+		}
+		$hobbits = $hobbitTable->findByIdList($idTab);
+		$expediteur = "";
+		$aff_expediteur = "";
+		$aff_js_expediteur = "";
+		$destinataires = "";
+		$aff_destinataires = "";
+		$aff_js_destinataires = "";
+		$copies = "";
+		$aff_copies = "";
+		$aff_js_copies = "";
+		foreach($hobbits as $h) {
+			if (in_array($h["id_hobbit"],$idDestinatairesTab)) {
+				if ($destinataires == "") {
+					$destinataires = $h["id_hobbit"];
+				} else {
+					$destinataires = $destinataires.",".$h["id_hobbit"];
+				}
+				$aff_js_destinataires = $h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'aff_valeur_7\',\'m_valeur_7_'.$h["id_hobbit"].'\', \'valeur_7\', '.$h["id_hobbit"].')" />';
+				$aff_destinataires = $aff_destinataires.$h["nom_hobbit"].' ('.$h["id_hobbit"].') ';
+			}
+			if (($idCopiesTab != null) && (in_array($h["id_hobbit"],$idCopiesTab))) {
+				if ($copies == "") {
+					$copies = $h["id_hobbit"];
+				} else {
+					$copies = $copies.",".$h["id_hobbit"];
+				}
+				$aff_js_copies = $h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'aff_valeur_7\',\'m_valeur_7_'.$h["id_hobbit"].'\', \'valeur_7\', '.$h["id_hobbit"].')" />';
+				$aff_copies = $aff_copies.$h["nom_hobbit"].' ('.$h["id_hobbit"].') ';
+			}
+			if ($tab_expediteur != null) {
+				if (in_array($h["id_hobbit"],$idExpediteurTab)) {
+					$expediteur = $h["id_hobbit"];
+					$aff_expediteur = $h["nom_hobbit"] . " (".$h["id_hobbit"].") ";
+					$aff_js_expediteur = $h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'aff_valeur_7\',\'m_valeur_7_'.$h["id_hobbit"].'\', \'valeur_7\', '.$h["id_hobbit"].')" />';
+				}
+			}
+		}
+		$tab = array("destinataires" => $destinataires,
+		"aff_destinataires" => $aff_destinataires,
+		"aff_js_destinataires" => $aff_js_destinataires,
+		"copies" => $copies,
+		"aff_copies" => $aff_copies,
+		"aff_js_copies" => $aff_js_copies,
+		"expediteur" => $expediteur,
+		"aff_expediteur" => $aff_expediteur,
+		"aff_js_expediteur" => $aff_js_expediteur
+		);
+		return $tab;
+	}
+
 	private function prepareMessage() {
 		$messageTable = new Message();
-		$hobbitTable = new Hobbit();
 
 		$message = $messageTable->findByIdHobbitAndIdMessage($this->view->user->id_hobbit, (int)$this->request->get("valeur_5"));
 		$tabMessage = null;
 		if (count($message) == 1) {
 			$m = $message[0];
-			$idDestinatairesTab = split(',', $m["destinataires_message"]);
-			$idExpediteurTab = split(',', $m["expediteur_message"]);
-			if ($m["copies_message"] != null) {
-				$idCopiesTab = split(',', $m["copies_message"]);
-				$idTab1 = array_merge($idDestinatairesTab, $idCopiesTab);
-			} else {
-				$idCopiesTab = null;
-				$idTab1 = $idDestinatairesTab;
-			}
-			$idTab = array_merge($idTab1, $idExpediteurTab);
-			$hobbits = $hobbitTable->findByIdList($idTab);
-			$expediteur = "";
-			$destinataires = "";
-			$copies = "";
-			foreach($hobbits as $h) {
-				if (in_array($h["id_hobbit"],$idDestinatairesTab)) {
-					if ($destinataires == "") {
-						$destinataires = $h["nom_hobbit"] . " (".$h["id_hobbit"].")";
-					} else {
-						$destinataires = $destinataires.", ".$h["nom_hobbit"] . " (".$h["id_hobbit"].")";
-					}
-				}
-				if (($idCopiesTab != null) && (in_array($h["id_hobbit"],$idCopiesTab))) {
-					if ($copies == "") {
-						$copies = $h["nom_hobbit"] . " (".$h["id_hobbit"].")";
-					} else {
-						$copies = $copies.", ".$h["nom_hobbit"] . " (".$h["id_hobbit"].")";
-					}
-				}
-				if (in_array($h["id_hobbit"],$idExpediteurTab)) {
-					$expediteur = $h["nom_hobbit"] . " (".$h["id_hobbit"].")";
-				}
+			$tabHobbit = $this->constructTabHobbit($m["destinataires_message"], $m["copies_message"], $m["expediteur_message"]);
 
-			}
 			if ($m["date_lecture_message"] == null) {
 				$data = array('date_lecture_message' => date("Y-m-d H:i:s"));
 				$where = "id_message=".$m["id_message"];
@@ -172,9 +219,15 @@ class Bral_Messagerie_Message {
 			'id_message' => $m["id_message"],
 			'titre' => $m["titre_message"],
 			'date_envoi' => $m["date_envoi_message"],
-			'expediteur' => $expediteur,
-			'destinataires' => $destinataires,
-			'copies' => $copies,
+			'expediteur' => $tabHobbit["expediteur"],
+			'aff_expediteur' => $tabHobbit["aff_expediteur"],
+			'aff_js_expediteur' => $tabHobbit["aff_js_expediteur"],
+			'destinataires' => $tabHobbit["destinataires"],
+			'aff_destinataires' => $tabHobbit["aff_destinataires"],
+			'aff_js_destinataires' => $tabHobbit["aff_js_destinataires"],
+			'copies' => $tabHobbit["copies"],
+			'aff_js_copies' => $tabHobbit["aff_js_copies"],
+			'aff_copies' => $tabHobbit["aff_copies"],
 			'contenu' => $m["contenu_message"],
 			);
 		} else {
@@ -189,15 +242,22 @@ class Bral_Messagerie_Message {
 		Zend_Loader::loadClass('Zend_Filter_StripTags');
 
 		$filter = new Zend_Filter_StripTags();
+		$tabHobbit = $this->constructTabHobbit(trim($filter->filter(trim($this->request->get('valeur_7')))), trim($filter->filter(trim($this->request->get('valeur_8')))), null);
 
 		$tabMessage = array(
 		'titre' => trim($filter->filter(trim($this->request->get('valeur_9')))),
-		'destinataires' => trim($filter->filter(trim($this->request->get('valeur_7')))),
-		'copies' => trim($filter->filter(trim($this->request->get('valeur_8')))),
 		'contenu' => trim($this->request->get('valeur_10')),
+		'expediteur' => $tabHobbit["expediteur"],
+		'aff_expediteur' => $tabHobbit["aff_expediteur"],
+		'destinataires' => $tabHobbit["destinataires"],
+		'aff_destinataires' => $tabHobbit["aff_destinataires"],
+		'aff_js_destinataires' => $tabHobbit["aff_js_destinataires"],
+		'copies' => $tabHobbit["copies"],
+		'aff_js_copies' => $tabHobbit["aff_js_copies"],
+		'aff_copies' => $tabHobbit["aff_copies"],
 		);
 		$this->view->message = $tabMessage;
-			
+
 		$validateurDestinataires = new Bral_Validate_Messagerie_Destinataires(true);
 		$validateurCopies = new Bral_Validate_Messagerie_Destinataires(false);
 		$validateurTitre = new Bral_Validate_StringLength(1, 80);
@@ -207,7 +267,7 @@ class Bral_Messagerie_Message {
 		$validCopies = $validateurCopies->isValid($this->view->message["copies"]);
 		$validTitre = $validateurTitre->isValid($this->view->message["titre"]);
 		$validContenu = $validateurContenu->isValid($this->view->message["contenu"]);
-		
+
 		if (($validTitre) && ($validDestinataires) && ($validCopies) && ($validContenu)) {
 			$messageTable = new Message();
 			$data = array(
@@ -233,7 +293,7 @@ class Bral_Messagerie_Message {
 					$idEnvoye[] = (int)$id;
 				}
 			}
-			
+
 			$this->view->envoiMessage = true;
 			$this->refreshMessages = true;
 		} else {
@@ -257,6 +317,4 @@ class Bral_Messagerie_Message {
 			$this->activerWysiwyg = true;
 		}
 	}
-	
-	
 }

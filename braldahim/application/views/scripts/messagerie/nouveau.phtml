@@ -20,8 +20,8 @@
 		<? endif; ?>
 		<label>Destinataires </label><br>
 		
-		<div id='aff_valeur_7' name='aff_valeur_7'></div>
-		<input type="hidden" name="valeur_7" id="valeur_7" value="" />
+		<div id='aff_valeur_7' name='aff_valeur_7'><?=$this->message["aff_js_destinataires"]?></div>
+		<input type="hidden" name="valeur_7" id="valeur_7" value="<?=$this->message["destinataires"]?>" />
 		<input type="text" name="recherche_valeur_7" size='20' id="recherche_valeur_7" value="Entre un nom" onFocus='this.value=""; activerRechercheHobbit("valeur_7");' />
 		<input type="hidden" name="recherche_valeur_7_actif" id="recherche_valeur_7_actif" value="0" />
 		<div class="recherche" id="recherche_valeur_7_update" ></div> <img src="<?=$this->baseUrl ?>/public/images/loupe.gif" />
@@ -37,8 +37,8 @@
 			</div>
 		<? endif; ?>
 		Copies </label><br>
-		<div id='aff_valeur_8' name='aff_valeur_8'></div>
-		<input type="hidden" name="valeur_8" id="valeur_8" value="" />
+		<div id='aff_valeur_8' name='aff_valeur_8'><?=$this->message["aff_js_copies"]?></div>
+		<input type="hidden" name="valeur_8" id="valeur_8" value="<?=$this->message["copies"]?>" />
 		<input type="text" name="recherche_valeur_8" size='20' id="recherche_valeur_8" value="Entre un nom" onFocus='this.value=""; activerRechercheHobbit("valeur_8");' />
 		<input type="hidden" name="recherche_valeur_8_actif" id="recherche_valeur_8_actif" value="0" />
 		<div class="recherche" id="recherche_valeur_8_update" ></div> <img src="<?=$this->baseUrl ?>/public/images/loupe.gif" />
