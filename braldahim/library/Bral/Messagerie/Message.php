@@ -82,7 +82,7 @@ class Bral_Messagerie_Message {
 				$this->prepareSupprimer();
 				break;
 			case "message" :
-				$this->prepareMessage();
+				$this->prepareMessage(false);
 				break;
 			default :
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->request->get("valeur_5"));
@@ -94,14 +94,9 @@ class Bral_Messagerie_Message {
 	}
 
 	private function prepareRepondre() {
-		$this->prepareMessage();
+		$this->prepareMessage(true);
 		$this->view->message["titre"] = "RE:".$this->view->message["titre"];
 		$this->view->message["copies"] = $this->view->message["destinataires"] . $this->view->message["copies"];
-		$this->view->message["aff_copies"] = $this->view->message["aff_destinataires"] . $this->view->message["aff_copies"];
-		$this->view->message["aff_js_copies"] = $this->view->message["aff_js_destinataires"] . $this->view->message["aff_js_copies"];
-		$this->view->message["destinataires"] = $this->view->message["expediteur"];
-		$this->view->message["aff_destinataires"] = $this->view->message["aff_expediteur"];
-		$this->view->message["aff_js_destinataires"] = $this->view->message["aff_js_expediteur"];
 	}
 
 	private function prepareArchiver() {
@@ -132,10 +127,15 @@ class Bral_Messagerie_Message {
 		}
 	}
 
-	private function constructTabHobbit($tab_destinataire, $tab_copies, $tab_expediteur) {
+	private function constructTabHobbit($isPourCopie,$tab_destinataires, $tab_copies, $tab_expediteur) {
 		$hobbitTable = new Hobbit();
-
-		$idDestinatairesTab = split(',', $tab_destinataire);
+		
+		if ($isPourCopie === true && strlen($tab_destinataires) > 0 && strlen($tab_copies) > 0) {
+			$tab_copies = $tab_destinataires.",".$tab_copies;
+			$tab_destinataires = $tab_expediteur;
+		}
+		
+		$idDestinatairesTab = split(',', $tab_destinataires);
 		if ($tab_expediteur != null) {
 			$idExpediteurTab = split(',', $tab_expediteur);
 		}
@@ -168,16 +168,16 @@ class Bral_Messagerie_Message {
 				} else {
 					$destinataires = $destinataires.",".$h["id_hobbit"];
 				}
-				$aff_js_destinataires = $h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'aff_valeur_7\',\'m_valeur_7_'.$h["id_hobbit"].'\', \'valeur_7\', '.$h["id_hobbit"].')" />';
+				$aff_js_destinataires = '<span id="m_valeur_7_'.$h["id_hobbit"].'">'.$h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'aff_valeur_7\',\'m_valeur_7_'.$h["id_hobbit"].'\', \'valeur_7\', '.$h["id_hobbit"].')" /></span>';
 				$aff_destinataires = $aff_destinataires.$h["nom_hobbit"].' ('.$h["id_hobbit"].') ';
 			}
-			if (($idCopiesTab != null) && (in_array($h["id_hobbit"],$idCopiesTab))) {
+			if (($idCopiesTab != null) && (in_array($h["id_hobbit"],$idCopiesTab)) && (!in_array($h["id_hobbit"],$idDestinatairesTab))) {
 				if ($copies == "") {
 					$copies = $h["id_hobbit"];
 				} else {
 					$copies = $copies.",".$h["id_hobbit"];
 				}
-				$aff_js_copies = $h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'aff_valeur_7\',\'m_valeur_7_'.$h["id_hobbit"].'\', \'valeur_7\', '.$h["id_hobbit"].')" />';
+				$aff_js_copies = '<span id="m_valeur_8_'.$h["id_hobbit"].'">'.$h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'aff_valeur_8\',\'m_valeur_8_'.$h["id_hobbit"].'\', \'valeur_8\', '.$h["id_hobbit"].')" /></span>';
 				$aff_copies = $aff_copies.$h["nom_hobbit"].' ('.$h["id_hobbit"].') ';
 			}
 			if ($tab_expediteur != null) {
@@ -201,14 +201,14 @@ class Bral_Messagerie_Message {
 		return $tab;
 	}
 
-	private function prepareMessage() {
+	private function prepareMessage($isPourCopie) {
 		$messageTable = new Message();
 
 		$message = $messageTable->findByIdHobbitAndIdMessage($this->view->user->id_hobbit, (int)$this->request->get("valeur_5"));
 		$tabMessage = null;
 		if (count($message) == 1) {
 			$m = $message[0];
-			$tabHobbit = $this->constructTabHobbit($m["destinataires_message"], $m["copies_message"], $m["expediteur_message"]);
+			$tabHobbit = $this->constructTabHobbit($isPourCopie, $m["destinataires_message"], $m["copies_message"], $m["expediteur_message"]);
 
 			if ($m["date_lecture_message"] == null) {
 				$data = array('date_lecture_message' => date("Y-m-d H:i:s"));
@@ -242,11 +242,11 @@ class Bral_Messagerie_Message {
 		Zend_Loader::loadClass('Zend_Filter_StripTags');
 
 		$filter = new Zend_Filter_StripTags();
-		$tabHobbit = $this->constructTabHobbit(trim($filter->filter(trim($this->request->get('valeur_7')))), trim($filter->filter(trim($this->request->get('valeur_8')))), null);
+		$tabHobbit = $this->constructTabHobbit(false,trim($filter->filter(trim($this->request->get('valeur_7')))), trim($filter->filter(trim($this->request->get('valeur_8')))), null);
 
 		$tabMessage = array(
 		'titre' => trim($filter->filter(trim($this->request->get('valeur_9')))),
-		'contenu' => trim($this->request->get('valeur_10')),
+		'contenu' => $this->request->get('valeur_10'),
 		'expediteur' => $tabHobbit["expediteur"],
 		'aff_expediteur' => $tabHobbit["aff_expediteur"],
 		'destinataires' => $tabHobbit["destinataires"],
@@ -284,7 +284,6 @@ class Bral_Messagerie_Message {
 			$messageTable->insert($data);
 			$idDestinatairesTab = split(',', $this->view->message["destinataires"]);
 			$idEnvoye = array();
-			print_r($this->view->destinataires);
 			foreach ($idDestinatairesTab as $id) {
 				if (!in_array((int)$id, $idEnvoye)) {
 					$data["id_fk_hobbit_message"] = (int)$id;

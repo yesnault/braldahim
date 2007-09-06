@@ -42,7 +42,8 @@ function _get_(url){
             if (elem.type == "radio") {
                 valeurs = valeurs + "&valeur_" +i+ "=" +findSelectedRadioButton(nom).value;
             } else {
-               valeurs = valeurs + "&valeur_" +i+ "=" +elem.value;
+               valeurs = valeurs + "&valeur_" +i+ "=" +encodeURIComponent(elem.value);
+               //valeurs = valeurs + "&" + $('valeur_'+i).serialize();
             }
       }
       //alert('valeurs='+valeurs);
@@ -102,6 +103,7 @@ function showResponse(originalRequest) {
 	              		redirection_url = m_data;
 	              	}
 	              	if (m_type_valeur == "activer_wysiwyg" && m_data !="") {
+	              		tinyMCE.idCounter=0;
 	              		tinyMCE.execCommand('mceAddControl', false, m_data);
 	              	}
 	              }
