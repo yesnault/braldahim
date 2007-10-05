@@ -29,8 +29,8 @@ function getSelectionId(text, li) {
 }
 
 function supprimerElement(id_conteneur, id_contenu, id_champ, valeur) {
-alert('id_contenu='+id_contenu);
-alert('id_conteneur='+id_conteneur);
+//alert('id_contenu='+id_contenu);
+//alert('id_conteneur='+id_conteneur);
 
 	$(id_conteneur).removeChild($(id_contenu));
 	var tab_valeur = $(id_champ).value.split(',');

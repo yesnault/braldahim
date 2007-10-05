@@ -47,18 +47,25 @@ class Hobbit extends Zend_Db_Table {
 	public function findByIdList($listId){
 		$liste = "";
 		foreach($listId as $id) {
-			if ($liste == "") {
-				$liste = $id;
-			} else {
-				$liste = $liste." OR id_hobbit=".$id;
+			if ((int) $id."" == $id."") {
+				if ($liste == "") {
+					$liste = $id;
+				} else {
+					$liste = $liste." OR id_hobbit=".$id;
+				}
 			}
 		}
-		$db = $this->getAdapter();
-		$select = $db->select();
-		$select->from('hobbit', '*')
-		->where('id_hobbit ='.$liste);
-		$sql = $select->__toString();
-		return $db->fetchAll($sql);
+		
+		if ($liste != "") {
+			$db = $this->getAdapter();
+			$select = $db->select();
+			$select->from('hobbit', '*')
+			->where('id_hobbit ='.$liste);
+			$sql = $select->__toString();
+			return $db->fetchAll($sql);
+		} else {
+			return null;
+		}
 	}
 
 	public function findByNom($nom){

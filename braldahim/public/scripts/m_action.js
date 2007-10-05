@@ -72,21 +72,30 @@ function showResponse(originalRequest) {
     		alert('Une erreur inconnue est survenue. Text:\n'+textdoc);
     	}
     } else {
+    	estInternetExplorer = false;
+		if (navigator.appName=="Microsoft Internet Explorer") {
+			estInternetExplorer = false;
+		} else {
+			estInternetExplorer = true;
+		}
+		
 	    var root = xmldoc.getElementsByTagName('root').item(0);
 	    for (var iNode = 0; iNode < root.childNodes.length; iNode++) {
 	      var node = root.childNodes.item(iNode);
 	
 	      for (i = 0; i < node.childNodes.length; i++) {
 	           var sibl = node.childNodes.item(i);
-	           for (x = 0; x < sibl.childNodes.length; x++) {
-	            if (i == 1)
-	              m_type = node.childNodes.item(1).childNodes.item(0).data;
-	            if (i == 3)
-	              m_type_valeur = node.childNodes.item(3).childNodes.item(0).data;
-	            if (i == 5)
-	              m_data = node.childNodes.item(5).childNodes.item(0).data;
-	            if (i == 5) {
-	            
+	           if (estInternetExplorer == false) {
+				if (i == 0) {
+		              m_type = sibl.text
+				}
+		        if (i == 1) {
+		              m_type_valeur = sibl.text
+				}
+		        if (i == 2) {
+		            m_data = sibl.text
+				}
+	            if (i == 2) {
 				  //alert('Fin entrie \n m_type='+m_type+' \n m_type_valeur='+m_type_valeur);
 	              if (m_type_valeur == "box_action")
 	                display_action = true;
@@ -101,13 +110,43 @@ function showResponse(originalRequest) {
 	              	if (m_type_valeur == "goto" && m_data !="") {
 	              		redirection = true;
 	              		redirection_url = m_data;
-	              	}
-	              	if (m_type_valeur == "activer_wysiwyg" && m_data !="") {
-	              		tinyMCE.idCounter=0;
-	              		tinyMCE.execCommand('mceAddControl', false, m_data);
+	              	} else if (m_type_valeur == "effect.appear" && m_data !="") {
+	              		Effect.Appear(m_data, { duration: 2.0 });
 	              	}
 	              }
 	            }
+	           } else {
+	             for (x = 0; x < sibl.childNodes.length; x++) {
+	              if (i == 1)
+	                m_type = node.childNodes.item(1).childNodes.item(0).data;
+	              if (i == 3)
+	                m_type_valeur = node.childNodes.item(3).childNodes.item(0).data;
+	              if (i == 5)
+	                m_data = node.childNodes.item(5).childNodes.item(0).data;
+	              if (i == 5) {
+	            
+				   //alert('Fin entrie \n m_type='+m_type+' \n m_type_valeur='+m_type_valeur);
+	               if (m_type_valeur == "box_action")
+	                 display_action = true;
+	               else if (m_type_valeur == "informations" && m_data !="")
+	                 display_informations = true; // affichage de la boite d'informations
+	               else if (m_type_valeur == "erreur" && m_data !="")
+	                 display_erreur = true; // affichage de la boite d'erreur
+	                     
+	                if (m_type == "display") {
+	                  _display_(m_type_valeur, m_data);
+	                } else if  (m_type == "action") {
+	                	if (m_type_valeur == "goto" && m_data !="") {
+	              		redirection = true;
+	              		redirection_url = m_data;
+	              	}
+	              	if (m_type_valeur == "activer_wysiwyg" && m_data !="") {
+	              		tinyMCE.idCounter=0;
+	               		tinyMCE.execCommand('mceAddControl', false, m_data);
+	                  }
+	                }
+	              }
+	            }	         
 	         }
 	      }
 	    }

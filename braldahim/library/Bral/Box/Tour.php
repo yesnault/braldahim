@@ -70,7 +70,7 @@ class Bral_Box_Tour {
 		// Mise a jour du nombre de PA + position tour
 		if ($date_courante > $this->hobbit->date_fin_tour_hobbit) { // Perte d'un tour
 			Bral_Util_Log::tech()->debug(get_class($this)." Perte d'un tour");
-			$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($date_courante, $this->config->game->tour->duree_tour_manque);
+			$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($date_courante, $this->view->config->game->tour->duree_tour_manque);
 			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_cumul;
 			$this->hobbit->pa_hobbit = $this->view->config->game->pa_max_cumul;
 			$this->is_tour_manque  = true;

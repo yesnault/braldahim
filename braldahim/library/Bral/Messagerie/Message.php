@@ -152,6 +152,9 @@ class Bral_Messagerie_Message {
 			$idTab = $idTab1;
 		}
 		$hobbits = $hobbitTable->findByIdList($idTab);
+		if ($hobbits == null) {
+			return null;
+		}
 		$expediteur = "";
 		$aff_expediteur = "";
 		$aff_js_expediteur = "";
@@ -245,8 +248,8 @@ class Bral_Messagerie_Message {
 		$tabHobbit = $this->constructTabHobbit(false,trim($filter->filter(trim($this->request->get('valeur_7')))), trim($filter->filter(trim($this->request->get('valeur_8')))), null);
 
 		$tabMessage = array(
-		'titre' => trim($filter->filter(trim($this->request->get('valeur_9')))),
-		'contenu' => $this->request->get('valeur_10'),
+		'titre' => $filter->filter(trim(stripslashes($this->request->get('valeur_9')))),
+		'contenu' => stripslashes($this->request->get('valeur_10')),
 		'expediteur' => $tabHobbit["expediteur"],
 		'aff_expediteur' => $tabHobbit["aff_expediteur"],
 		'destinataires' => $tabHobbit["destinataires"],
@@ -281,6 +284,7 @@ class Bral_Messagerie_Message {
 			'titre_message' => $this->view->message["titre"],
 			'contenu_message' => $this->view->message["contenu"],
 			);
+			
 			$messageTable->insert($data);
 			$idDestinatairesTab = split(',', $this->view->message["destinataires"]);
 			$idEnvoye = array();
@@ -311,7 +315,7 @@ class Bral_Messagerie_Message {
 			}
 
 			if (!$validTitre) {
-				$this->view->titreErreur = "Le titre doit comporter entre 1 et 80 caractères !";
+				$this->view->titreErreur = "Le titre doit comporter entre 1 et 80 caract&egrave;res !";
 			}
 			$this->activerWysiwyg = true;
 		}

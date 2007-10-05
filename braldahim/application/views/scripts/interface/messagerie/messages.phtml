@@ -17,12 +17,12 @@
 	  		</li>
 	  	<? foreach($this->messages as $message): ?>
 	  		<li class="row" onClick='_get_("/messagerie/AskAction?caction=do_messagerie_message&valeur_1=<?=$this->filtre?>&valeur_2=-1&valeur_3=-1&valeur_4=-1&valeur_5=<?=$message["id_message"];?>&valeur_6=message");'>
-	  			<? $text = "Titre :".htmlentities($message["titre"])."<br><br>"; 
-	  			   $text .= "Exp&eacute;diteur : ".htmlentities($message["expediteur"])."<br><br>";
-	  			   $text .= "Destinataire(s) : ".htmlentities($message["destinataires"])."<br><br>";
+	  			<? $text = "Titre :".$message["titre"]."<br><br>"; 
+	  			   $text .= "Exp&eacute;diteur : ".$message["expediteur"]."<br><br>";
+	  			   $text .= "Destinataire(s) : ".$message["destinataires"]."<br><br>";
 	  			   $text .= "Clique pour voir le message";
 	  			?>
-	  			<dl onmouseover="return overlib('<?=$text?>',CAPTION,'Informations');" onmouseout="return nd();">
+	  			<dl onmouseover="return overlib('<?=addslashes($text)?>',CAPTION,'Informations');" onmouseout="return nd();">
 	  				<dd class="date_message"><?=$message["date"];?></dd>
 	  				<dd class="titre_message"><?if (strlen($message["titre"]) > 25) echo substr($message["titre"], 0, 25)."..."; else echo $message["titre"];?></dd>
 	  				<dd class="expediteur_message"><?if (strlen($message["expediteur"]) > 20) echo substr($message["expediteur"], 0, 20)."..."; else echo $message["expediteur"];?>&nbsp;</dd>
