@@ -18,10 +18,11 @@
 }
 
 .onglet {
-  border-style : dashed;
+  border-style : solid;
+  border-color : #999999;
   border-width: 1px;
   margin: 2px;
-  margin-left: 5px;
+  margin-left: 10px;
 }
 
 .onglet.actif {

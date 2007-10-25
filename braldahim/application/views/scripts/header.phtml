@@ -39,14 +39,14 @@
 <?php else: ?>
 <body>
 
-
 <?php endif; ?>
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 
-<?php if($this->user) : ?> 
- <div class="box_menu" id="box_menu">
-  <div class="box_contenur1">
-  <span class='menu_classic'><?=$this->escape($this->user->nom_hobbit);?> | 
+<?php if (isset($this->user) && isset($this->user->nom_hobbit)) : ?> 
+<b class="xb1"></b><b class="xb2"></b><b class="xb3"></b><b class="xb4"></b><b class="xb5"></b><b class="xb6"></b><b class="xb7"></b>
+ <div class="inner">
+ <span id='date_heure' class=''>&nbsp;</span>
+  <?=$this->escape($this->user->nom_hobbit);?> | 
   <? if ($this->user->administrateur === true) : ?>
   	<a href="<?=$this->baseUrl ?>/administration/" class="menu_lien">Administration</a> |
   <? endif; ?>
@@ -54,18 +54,23 @@
   <? if ($this->user->gardeEnCours === false) : ?>
   	<a href="<?=$this->baseUrl ?>/parametres/" class="menu_lien">Param&egrave;tres</a> |
   <? endif; ?>  
-  </span>
-  <span class='menu_deconnexion'><a href="<?=$this->baseUrl ?>/auth/logout"> Déconnexion </a></span>
-  <span id='date_heure' class='menu_date_heure'>&nbsp;</span>
-  </div>
+  <a href="<?=$this->baseUrl ?>/auth/logout"> D&eacute;connexion </a>
+  
  </div>
+<b class="xb7"></b><b class="xb6"></b><b class="xb5"></b><b class="xb4"></b><b class="xb3"></b><b class="xb2"></b><b class="xb1"></b>
 <?php endif; ?>
 
-<?php if($this->user && ($this->controleur == "interface")) : ?> 
+<?php if ($this->user && ($this->controleur == "interface")) : ?> 
   <div id="box_action" class="box_action" style="display:none"></div>
   	<div id="erreur" class="box_erreur" style="display:none"></div>
   	<div id="informations" class="box_informations" style="display:none"></div>
-    <div id="box_chargement" class="box_chargement" style="display:block"><br>Chargement en Cours<br><img src="<?=$this->baseUrl ?>/public/images/wait.gif" /> </div>
+    <div id="box_chargement" class="box_chargement" style="display:block">
+	 <b class="xb1"></b><b class="xb2"></b><b class="xb3"></b><b class="xb4" style='background-color:#CC6666'></b><b class="xb5" style='background-color:#CC6666'></b><b class="xb6" style='background-color:#CC6666'></b><b class="xb7" style='background-color:#CC6666'></b>
+	 <div class="inner" style='background-color:#CC6666'>
+	 Chargement en Cours<br><img src="<?=$this->baseUrl ?>/public/images/wait.gif" />
+	 </div>
+	 <b class="xb7" style='background-color:#CC6666'></b><b class="xb6" style='background-color:#CC6666'></b><b class="xb5" style='background-color:#CC6666'></b><b class="xb4" style='background-color:#CC6666'></b><b class="xb3"></b><b class="xb2"></b><b class="xb1"></b>
+	</div>
   <div id="racine" class="box_racine">
 <?php endif; ?>
 </div>

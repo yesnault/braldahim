@@ -1,73 +1,61 @@
-* html span.corners-top,* html span.corners-bottom {
-	background-image:
-		url(/public/styles/braldahim_defaut/images/layout/corners_left.gif);
-}
-
-* html span.corners-top span,* html span.corners-bottom span {
-	background-image:
-		url(/public/styles/braldahim_defaut/images/layout/corners_right.gif);
-}
-
-span.corners-top,span.corners-bottom,span.corners-top span,span.corners-bottom span
-	{
-	background-repeat: no-repeat;
+.xb1,.xb2,.xb3,.xb4,.xb5,.xb6,.xb7 {
 	display: block;
-	font-size: 1px;
-	height: 5px;
-	line-height: 1px;
+	font-size: 0pt;
+	overflow: hidden;
 }
 
-span.corners-top {
-	background-image: none;
-	background-position: 0pt 0%;
-	margin: 0pt -5px;
+.xb1, .xb2{
+	height: 0px;
 }
 
-span.corners-top span {
-	background-image: none;
-	background-position: 100% 0pt;
+.xb3,.xb4,.xb5,.xb6 {
+	height: 1px;
 }
 
-span.corners-bottom {
-	background-image: none;
-	background-position: 0pt 100%;
-	clear: both;
-	margin: 0pt -5px;
+.xb4,.xb5,.xb6,.xb7 {
+	background: #CCCCCC none repeat scroll 0%;
+	border-left: 1px solid #999999;
+	border-right: 1px solid #999999;
 }
 
-span.corners-bottom span {
-	background-image: none;
-	background-position: 100% 100%;
+.xb1 {
+	background: #999999 none repeat scroll 0%;
+	margin: 0pt 8px;
 }
 
-span.corners-top {
-	background-image:
-		url(/public/styles/braldahim_defaut/images/layout/corners_left.png);
+.xb2 {
+	background: #999999 none repeat scroll 0%;
+	margin: 0pt 7px;
 }
 
-span.corners-top span {
-	background-image:
-		url(/public/styles/braldahim_defaut/images/layout/corners_right.png);
+.xb3 {
+	background: #999999 none repeat scroll 0%;
+	margin: 0pt 5px;
 }
 
-span.corners-bottom {
-	background-image:
-		url(/public/styles/braldahim_defaut/images/layout/corners_left.png);
+.xb4 {
+	background: #CCCC99 none repeat scroll 0%;
+	border-width: 0pt 1px;
+	margin: 0pt 4px;
 }
 
-span.corners-bottom span {
-	background-image:
-		url(/public/styles/braldahim_defaut/images/layout/corners_right.png);
+.xb5 {
+	background: #CCCC99 none repeat scroll 0%;
+	border-width: 0pt 1px;
+	margin: 0pt 3px;
 }
 
-.box_corners {
-	background: #CCCC99 none repeat-x scroll 0pt;
-	padding: 0pt 5px;
-	color: black;
-	width: auto;
-	height: auto;
-	margin-left: auto;
-	margin-right: auto;
+.xb6 {
+	background: #CCCC99 none repeat scroll 0%;
+	border-width: 0pt 1px;
+	margin: 0pt 2px;
+}
+
+.xb7 {
+	background: #CCCC99 none repeat scroll 0%;
+	border-width: 0pt 1px;
+	height: 1px;
+	margin: 0pt 1px;
 }
 
 .box_authentification {
@@ -81,7 +69,7 @@ span.corners-bottom span {
 
 .contenu {
 	border-style: dashed;
-	border-width: 1px;
+	border-width: 0px;
 	border-color: #791E1E;
 }
 
@@ -168,9 +156,7 @@ span.corners-bottom span {
 	margin-left: -110px;
 	margin-top: -100px;
 	text-align: center;
-	border-width: 1px;
-	border-style: solid;
-	background-color: #eeeeee;
+	border-width: 0px;
 	color: black;
 	font-weight: bold;
 	z-index: 1000;
@@ -218,7 +204,8 @@ span.corners-bottom span {
 	border: thin solid black;
 }
 
-.box_inscription,.box_perdu,.box_pamaretres,.box_gardiennage,.box_administration{
+.box_inscription,.box_perdu,.box_pamaretres,.box_gardiennage,.box_administration
+	{
 	width: 500px;
 	height: auto;
 	margin-left: auto;
@@ -241,7 +228,7 @@ span.corners-bottom span {
 }
 
 .box_menu {
-	position: absolute;
+	#position: absolute;
 	top: 0px;
 	left: 0px;
 	background-color: #ffd363;
@@ -275,7 +262,8 @@ span.corners-bottom span {
 }
 
 .box_competences_basiques,.box_metier,.box_competences_communes,.box_competences_metiers 
-	    , .box_equipement,.box_profil,.box_vue,.box_lieu,.box_laban, .box_messagerie {
+	     , .box_equipement,.box_profil,.box_vue,.box_lieu,.box_laban,.box_messagerie
+	{
 	position: absolute;
 	color: black;
 	width: 250px;
@@ -287,6 +275,10 @@ span.corners-bottom span {
 .inner {
 	background: #CCCC99 none repeat-x scroll 0pt;
 	padding: 0pt 5px;
+	border-color: #999999;
+	border-style: solid;
+	border-width: 0pt 1px;
+	display: block;
 }
 
 .box_competences_basiques,.box_metier,.box_competences_communes,.box_competences_metiers
