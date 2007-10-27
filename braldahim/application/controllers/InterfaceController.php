@@ -3,15 +3,15 @@
 class InterfaceController extends Zend_Controller_Action {
 
 	function init() {
-		if (!Zend_Auth::getInstance()->hasIdentity()) {
+		$this->initView();
+		$this->view->user = Zend_Auth::getInstance()->getIdentity();
+		if (!Zend_Auth::getInstance()->hasIdentity() || !isset($this->view->user) || !isset($this->view->user->nom_hobbit)) {
 			$this->_redirect('/');
 		} else {
 			Zend_Loader::loadClass('Bral_Util_BralSession');
 			Bral_Util_BralSession::refreshSession();
 		}
-		$this->initView();
 		$this->view->baseUrl = $this->_request->getBaseUrl();
-		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
 		$this->view->controleur = $this->_request->controller;
 
@@ -102,9 +102,12 @@ class InterfaceController extends Zend_Controller_Action {
 	}
 
 	private function getBoxesData() {
-		$r = $this->getDataList("boite_a");
+		$r = "<table width='100%'><tr valign='top'><td width='30%'>";
+		$r .= $this->getDataList("boite_a");
 		$r .= $this->getDataList("boite_b");
+		$r .= "</td><td width='70%'>";
 		$r .= $this->getDataList("boite_c");
+		$r .= "</tr></table>";
 		return $r;
 	}
 

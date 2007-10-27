@@ -2,7 +2,7 @@
 <div class="inner">
   <ul class="titre textalia textsizec">Mon Profil, n&deg;<?=$this->user->id_hobbit;?></ul>
   <ul class="titre textalib textsizeb"><?=htmlentities($this->escape($this->user->nom_hobbit));?></ul>
-  <div class="contenu">
+  <div class="contenuA">
 	  <ul class="box_contenu1 textalic">
 	    Tour de base : <?php echo $this->escape($this->user->duree_base_tour_hobbit) ?><br>
 	    DLA : <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_hobbit);?><br>

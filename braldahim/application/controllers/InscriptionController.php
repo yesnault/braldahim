@@ -19,9 +19,6 @@ class InscriptionController extends Zend_Controller_Action {
 
 	function indexAction() {
 		$this->view->title = "Inscription";
-		//		$hobbit = new Hobbit();
-		//		$this->view->hobbits = $hobbit->fetchAll();
-		// 		$this->render();
 		$this->_redirect('/inscription/ajouter');
 	}
 	function validationAction() {

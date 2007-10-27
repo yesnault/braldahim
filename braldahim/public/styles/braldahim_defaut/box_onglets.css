@@ -1,20 +1,6 @@
-.boite_a {
-  position: absolute;
-  top:30px;
+.boite_a, .boite_b, .boite_c {
+  margin-top:10px;
   width: auto;
-}
-
-.boite_b {
-  position: absolute;
-  top:380px;
-  width: auto;
-}
-
-.boite_c {
-  position: absolute;
-  top:30px;
-  left:300px;
-  width: 500px;
 }
 
 .onglet {

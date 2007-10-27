@@ -68,15 +68,33 @@
 }
 
 .contenu {
-	border-style: dashed;
 	border-width: 0px;
 	border-color: #791E1E;
+	
+	height: 230px;
+	overflow: auto
+}
+
+.contenuA, .contenuB {
+	border-width: 0px;
+	border-color: #791E1E;
+	
+	height: 220px;
+	overflow: auto
+}
+
+.contenuC {
+	border-width: 0px;
+	border-color: #791E1E;
+	
+	height: 400px;
+	overflow: auto
 }
 
 .box_contenu1 {
 	background-color: #ffd363;
 	padding: 0px;
-	margin: 0px;
+	margin: 0px;	
 }
 
 .box_contenu2Clair {
@@ -228,7 +246,6 @@
 }
 
 .box_menu {
-	#position: absolute;
 	top: 0px;
 	left: 0px;
 	background-color: #ffd363;
@@ -264,9 +281,7 @@
 .box_competences_basiques,.box_metier,.box_competences_communes,.box_competences_metiers 
 	     , .box_equipement,.box_profil,.box_vue,.box_lieu,.box_laban,.box_messagerie
 	{
-	position: absolute;
 	color: black;
-	width: 250px;
 	height: auto;
 	text-align: center;
 	z-index: 10;
@@ -281,63 +296,8 @@
 	display: block;
 }
 
-.box_competences_basiques,.box_metier,.box_competences_communes,.box_competences_metiers
-	{
-	position: relative;
-	height: 200px;
-	overflow: auto
-}
-
-.box_equipement {
-	position: relative;
-	height: 250px;
-	overflow: auto
-}
-
-.box_evenements {
-	width: 670px;
-}
-
-.box_messagerie {
-	width: 670px;
-}
-
-.box_laban {
-	position: relative;
-	height: 300px;
-	width: auto;
-	overflow: auto;
-}
-
 .laban_plante {
-	position: relative;
-	height: 100px;
-	width: 400px;
-	overflow: auto;
 	background-color: #eeeeee;
-}
-
-.box_metier {
-	position: relative;
-	height: 250px;
-	overflow: auto
-}
-
-.box_profil {
-	position: relative;
-	height: auto;
-	overflow: auto
-}
-
-.box_vue {
-	width: 650px;
-}
-
-.box_lieu {
-	position: relative;
-	height: 400px;
-	width: auto;
-	overflow: auto;
 }
 
 .barre_faim,.barre_vie {
@@ -410,7 +370,7 @@ li.row:hover dd {
 }
 
 .row .detail_evenement {
-	width: auto;
+	width: 30%;
 }
 
 .row .date_message {
