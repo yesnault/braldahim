@@ -4,7 +4,7 @@
 	overflow: hidden;
 }
 
-.xb1, .xb2{
+.xb1,.xb2 {
 	height: 0px;
 }
 
@@ -70,31 +70,25 @@
 .contenu {
 	border-width: 0px;
 	border-color: #791E1E;
-	
-	height: 230px;
-	overflow: auto
+	height: auto;
 }
 
-.contenuA, .contenuB {
+.contenuA,.contenuB {
 	border-width: 0px;
 	border-color: #791E1E;
-	
-	height: 220px;
-	overflow: auto
+	height: auto;
 }
 
 .contenuC {
 	border-width: 0px;
 	border-color: #791E1E;
-	
-	height: 400px;
-	overflow: auto
+	height: auto;
 }
 
 .box_contenu1 {
 	background-color: #ffd363;
 	padding: 0px;
-	margin: 0px;	
+	margin: 0px;
 }
 
 .box_contenu2Clair {
@@ -279,7 +273,7 @@
 }
 
 .box_competences_basiques,.box_metier,.box_competences_communes,.box_competences_metiers 
-	     , .box_equipement,.box_profil,.box_vue,.box_lieu,.box_laban,.box_messagerie
+	      , .box_equipement,.box_profil,.box_vue,.box_lieu,.box_laban,.box_messagerie
 	{
 	color: black;
 	height: auto;

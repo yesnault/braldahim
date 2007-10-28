@@ -107,7 +107,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$r .= $this->getDataList("boite_b");
 		$r .= "</td><td width='70%'>";
 		$r .= $this->getDataList("boite_c");
-		$r .= "</tr></table>";
+		$r .= "</td></tr></table>";
 		return $r;
 	}
 
