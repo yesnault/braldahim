@@ -1,0 +1,36 @@
+<?php echo $this->render('header.phtml'); ?>
+<div class="box_administration">
+<b class="xb1"></b><b class="xb2"></b><b class="xb3"></b><b class="xb4"></b><b class="xb5"></b><b class="xb6"></b><b class="xb7"></b>
+<div class="inner">
+    <ul class="titre textalic textsizea">Administration Hobbits</ul>
+    	&nbsp;
+	<div class="contenu">
+	    <ul class="box_contenu1 textalic">
+	    
+		<br><br>
+			<table  align='center'>
+			<? foreach ($this->hobbits as $h) : ?>
+			<? foreach ($h as $key => $value) : ?>
+			<th class='comp_titre'><?=$key?></th>
+			<? endforeach; ?>
+			<? break;endforeach; ?>
+			
+			<? foreach ($this->hobbits as $h) : ?>
+			<tr>
+			<? foreach ($h as $key => $value) : ?>
+			<? if ($key=="id_hobbit"):
+				$id_hobbit = $value;
+			   endif; ?>
+					<td style='cursor:pointer' onClick='document.location.href="<?=$this->baseUrl ?>/administrationHobbits/Hobbit/mode/simple/idHobbit/<?=$id_hobbit ?>"'>
+					<?=$value ?></td>
+			<? endforeach; ?>
+			</tr>
+			<? endforeach; ?>
+			</table>
+		</ul>
+	</div>
+	&nbsp;
+</div>
+<b class="xb7"></b><b class="xb6"></b><b class="xb5"></b><b class="xb4"></b><b class="xb3"></b><b class="xb2"></b><b class="xb1"></b>
+</div>
+<?php echo $this->render('footer.phtml'); ?>

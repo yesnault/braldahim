@@ -9,27 +9,28 @@
 					La plante la plus proche, de cat&eacute;gorie : <?=$this->plante["categorie"] ?><br> 
 					se situe en : 
 					X=<?=$this->plante["x_plante"]?> et Y=<?=$this->plante["y_plante"]?><br>
-					en direction 
 				<? elseif ($this->proche === false): ?>
 					La plante la plus proche, de cat&eacute;gorie : <?=$this->plante["categorie"] ?><br> 
-					se situe en direction  
+					se situe   
 				<? endif; ?>
 				<? if ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit == $this->plante["x_plante"]): ?>
-				du Nord
+				en direction du Nord
 				<? elseif ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit < $this->plante["x_plante"]): ?>
-				du Nord Est
+				en direction du Nord Est
 				<? elseif ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit > $this->plante["x_plante"]): ?>
-				du Nord Ouest
+				en direction du Nord Ouest
 				<? elseif ($this->user->y_hobbit > $this->plante["y_plante"] && $this->user->x_hobbit == $this->plante["x_plante"]): ?>
-				du Sud 
+				en direction du Sud 
 				<? elseif ($this->user->y_hobbit > $this->plante["y_plante"] && $this->user->x_hobbit < $this->plante["x_plante"]): ?>
-				du Sud Est		
+				en direction du Sud Est		
 				<? elseif ($this->user->y_hobbit > $this->plante["y_plante"] && $this->user->x_hobbit > $this->plante["x_plante"]): ?>
-				du Sud Ouest
+				en direction du Sud Ouest
 				<? elseif ($this->user->y_hobbit == $this->plante["y_plante"] && $this->user->x_hobbit < $this->plante["x_plante"]): ?>
-				de l'Est
+				en direction de l'Est
 				<? elseif ($this->user->y_hobbit == $this->plante["y_plante"] && $this->user->x_hobbit > $this->plante["x_plante"]): ?>
-				de l'Ouest
+				en direction de l'Ouest
+				<? else: ?>
+				sur place !
 				<? endif; ?>
 			<? else: ?>
 				Aucune plante n'a &eacute;t&eacute; trouv&eacute;e dans <br>

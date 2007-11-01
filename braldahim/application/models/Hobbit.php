@@ -6,6 +6,16 @@ class Hobbit extends Zend_Db_Table {
 
 	protected $_dependentTables = array('hobbits_competences', 'gardiennage');
 
+	function findAll($page, $nbMax) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', '*')
+		->order('nom_hobbit')
+		->limitPage($page, $nbMax);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
 	function selectVue($x_min, $y_min, $x_max, $y_max) {
 		$db = $this->getAdapter();
 		$select = $db->select();

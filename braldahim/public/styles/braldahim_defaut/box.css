@@ -222,7 +222,7 @@
 	height: auto;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 60px;
+	margin-top: 10px;
 	text-align: center;
 }
 
@@ -236,7 +236,7 @@
 }
 
 .box_administration {
-	width: 700px;
+	width: auto;
 }
 
 .box_menu {

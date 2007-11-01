@@ -39,7 +39,8 @@ class Zone extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('environnement', '*')
 		->from('zone', '*')
-		->where('zone.id_fk_environnement_zone = environnement.id_environnement');
+		->where('zone.id_fk_environnement_zone = environnement.id_environnement')
+		->order('zone.id_zone');
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

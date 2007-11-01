@@ -3,12 +3,12 @@
 class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 
 	function prepareCommun() {
+		Zend_Loader::loadClass("Monstre");
 		$tabHobbits = null;
 		$tabMonstres = null;
 
-		// récupération des hobbits qui sont présents sur la case
+		// recuperation des hobbits qui sont presents sur la case
 		$hobbitTable = new Hobbit();
-
 		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit);
 		foreach($hobbits as $h) {
 			$tab = array(
@@ -16,6 +16,18 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 			'nom_hobbit' => $h["nom_hobbit"],
 			);
 			$tabHobbits[] = $tab;
+		}
+		
+		// recuperation des monstres qui sont presents sur la case
+		$monstreTable = new Monstre();
+		$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit);
+		foreach($monstres as $m) {
+			if ($m["genre_type_monstre"] == 'feminin') {
+				$m_taille = $m["nom_taille_f_monstre"];
+			} else {
+				$m_taille = $m["nom_taille_m_monstre"];
+			}
+			$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"]);
 		}
 
 		$this->view->tabHobbits = $tabHobbits;
@@ -140,13 +152,13 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		}
 
 		$id_type = $this->view->config->game->evenements->type->attaquer;
-		$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a attaqué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ")";
+		$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") N".$this->view->user->niveau_hobbit." a attaqué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"]."";
 		$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
 		$this->majEvenements($cible["id_cible"], $id_type, $details);
 
 		if ($this->view->mort === true) {
 			$id_type = $this->view->config->game->evenements->type->kill;
-			$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a tué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ")";
+			$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") N".$this->view->user->niveau_hobbit." a tué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
 			$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
 			$id_type = $this->view->config->game->evenements->type->mort;
 			$this->majEvenements($cible["id_cible"], $id_type, $details);
@@ -156,15 +168,67 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 	private function attaqueMonstre($idMonstre) {
 		$this->calculJetAttaque();
 
+		$monstreTable = new Monstre();
+		$monstreRowset = $monstreTable->findById($idMonstre);
+		$monstre = $monstreRowset;
+
+		if ($monstre["genre_type_monstre"] == 'feminin') {
+			$m_taille = $monstre["nom_taille_f_monstre"];
+		} else {
+			$m_taille = $monstre["nom_taille_m_monstre"];
+		}
+			
+		$jetCible = 0;
+		for ($i=1; $i <= $monstre["agilite_base_monstre"]; $i++) {
+			$jetCible = $jetCible + Bral_Util_De::get_1d6();
+		}
+		$this->view->jetCible = $jetCible + $monstre["agilite_bm_monstre"];
+		
+		$cible = array('nom_cible' => $monstre["nom_type_monstre"]." ".$m_taille, 'id_cible' => $monstre["id_monstre"], 'niveau_cible' => $monstre["niveau_monstre"]);
+		$this->view->cible = $cible;
+
 		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
 		if ($this->view->jetAttaquant > $this->view->jetCible) {
-			$attaqueReussie = true;
+			$this->view->attaqueReussie = true;
 			$this->calculDegat();
+
+			$pv = $monstre["pv_restant_monstre"] - $this->view->jetDegat;
+			if ($pv <= 0) {
+				$this->view->mort = true;
+				$where = "id_monstre=".$cible["id_cible"];
+				$monstreTable->delete($where);
+			} else {
+				$agilite_bm_monstre = $monstre["agilite_bm_monstre"] - 1;
+				$this->view->fragilisee = true;
+				
+				$this->view->mort = false;
+				$data = array(
+				'pv_restant_monstre' => $pv,
+				'agilite_bm_monstre' => $agilite_bm_monstre);
+				$where = "id_monstre=".$cible["id_cible"];
+				$monstreTable->update($data, $where);
+			}
+		} else if ($this->view->jetCible/2 < $this->view->jetAttaquant) {
+			$agilite_bm_monstre = $monstre["agilite_bm_monstre"] - 1;
+			$this->view->mort = false;
+			$data = array('agilite_bm_monstre' => $agilite_bm_monstre);
+			$where = "id_monstre=".$cible["id_cible"];
+			$monstreTable->update($data, $where);
+			$this->view->fragilisee = true;
 		}
 
-		$id_type = $this->view->config->game->evenements->type->attaqer;
-		$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a attaqué le monstre ".$cible["nom_cible"]." (".$cible["id_cible"] . ")";
-		$this->majEvenements($id_type, $details);
+		$id_type = $this->view->config->game->evenements->type->attaquer;
+		$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") N".$this->view->user->niveau_hobbit." a attaqué le monstre ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
+		$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
+		$this->majEvenements($cible["id_cible"], $id_type, $details, "monstre");
+		
+		if ($this->view->mort === true) {
+			$id_type = $this->view->config->game->evenements->type->kill;
+			$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") N".$this->view->user->niveau_hobbit." a tué le monstre ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
+			$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
+			$id_type = $this->view->config->game->evenements->type->mort;
+			$this->majEvenements($cible["id_cible"], $id_type, $details, "monstre");
+		}
 	}
 
 	private function calculJetAttaque() {

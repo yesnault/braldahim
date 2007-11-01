@@ -20,6 +20,7 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		Zend_Loader::loadClass('Monstre');
 		Zend_Loader::loadClass('TailleMonstre');
 		Zend_Loader::loadClass('TypeMonstre');
+		Zend_Loader::loadClass('Ville');
 		Zend_Loader::loadClass('Zone');
 
 		Zend_Loader::loadClass('Zend_Filter');
@@ -443,12 +444,16 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		$typesTable = new TypeMonstre();
 		$monstresTable = new Monstre();
 		$zoneTable = new Zone();
-
+		$groupeMonstreTable = new GroupeMonstre();
+		$villeTable = new Ville();
+		
 		$refRowset = $refTable->findAll();
 		$taillesRowset = $taillesTable->fetchall();
 		$typesRowset = $typesTable->fetchall();
 		$zonesRowset = $zoneTable->fetchAllAvecEnvironnement();
-
+		$villesRowset = $villeTable->fetchAll();
+		
+		
 		foreach($refRowset as $r) {
 			if ($r["genre_type_monstre"] == 'feminin') {
 				$m_taille = $r["nom_taille_f_monstre"];
@@ -509,19 +514,29 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 			} else {
 				$couverture = 0;
 			}
-
+			
+			$villes = "";
+			foreach($villesRowset as $v) {
+				if ($z["x_min_zone"] <= $v->x_max_ville && $z["x_max_zone"] >= $v->x_min_ville &&
+				$z["y_min_zone"] <= $v->y_max_ville && $z["y_max_zone"] >= $v->y_min_ville) {
+					$villes .= $v->nom_ville.", ";
+				}
+			}
+			
 			$zones[] = array("id_zone" =>$z["id_zone"],
-			"x_min" =>$z["x_min_zone"] ,
-			"x_max" =>$z["x_max_zone"] ,
-			"y_min" =>$z["y_min_zone"] ,
-			"y_max" =>$z["y_max_zone"] ,
+			"x_min" => $z["x_min_zone"] ,
+			"x_max" => $z["x_max_zone"] ,
+			"y_min" => $z["y_min_zone"] ,
+			"y_max" => $z["y_max_zone"] ,
 			"environnement" =>$z["nom_environnement"] ,
 			"nombre_monstres" => $nombreMonstres,
 			"nombre_cases" => $nombreCases,
-			"couverture" => round($couverture, 5));
+			"couverture" => round($couverture, 5),
+			"villes" => $villes);
 		}
 
 		$stats["nb_monstres"] = $monstresTable->countAll();
+		$stats["nb_groupes"] = $groupeMonstreTable->countAll();
 		$stats["couverture_globale"] = round(($stats["nb_monstres"] * 100) / ((abs($this->view->config->game->x_min) + $this->view->config->game->x_max) * (abs($this->view->config->game->y_min) + $this->view->config->game->y_max)), 5);
 
 		$this->view->stats = $stats;

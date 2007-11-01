@@ -16,4 +16,15 @@ class GroupeMonstre extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+	
+	function countAll() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('groupe_monstre', 'count(id_groupe_monstre) as nombre');
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
+	}
 }

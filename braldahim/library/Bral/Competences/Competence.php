@@ -123,22 +123,31 @@ abstract class Bral_Competences_Competence {
 	}
 
 	/*
-	 * Mise à jour des évènements du hobbit.
+	 * Mise à jour des évènements du hobbit / du monstre.
 	 */
-	public function majEvenements($id_hobbit, $id_type_evenement, $details) {
+	public function majEvenements($id_concerne, $id_type_evenement, $details, $type="hobbit") {
 		Zend_Loader::loadClass('Evenement');
 
 		$evenementTable = new Evenement();
-
-		$data = array(
-		'id_hobbit_evenement' => $id_hobbit,
-		'date_evenement' => date("Y-m-d H:i:s"),
-		'id_fk_type_evenement' => $id_type_evenement,
-		'details_evenement' => $details,
-		);
+		
+		if ($type == "hobbit") {
+			$data = array(
+			'id_hobbit_evenement' => $id_concerne,
+			'date_evenement' => date("Y-m-d H:i:s"),
+			'id_fk_type_evenement' => $id_type_evenement,
+			'details_evenement' => $details,
+			);
+		} else {
+			$data = array(
+			'id_monstre_evenement' => $id_concerne,
+			'date_evenement' => date("Y-m-d H:i:s"),
+			'id_fk_type_evenement' => $id_type_evenement,
+			'details_evenement' => $details,
+			);
+		}
 		$evenementTable->insert($data);
 	}
-
+	
 	/*
 	 * Mise à jour des évènements du hobbit : type : compétence.
 	 */
@@ -147,7 +156,7 @@ abstract class Bral_Competences_Competence {
 		$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a réussi l'utilisation d'une compétence";
 		$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
 	}
-
+	
 	/*
 	 * Mise à jour des PA, des PX et de la balance de faim.
 	 */

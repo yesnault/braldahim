@@ -71,6 +71,33 @@ class Monstre extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+	
+	function findByCase($x, $y) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('monstre', '*')
+		->from('type_monstre', '*')
+		->from('taille_monstre', '*')
+		->where('monstre.id_fk_type_monstre = type_monstre.id_type_monstre')
+		->where('monstre.id_fk_taille_monstre = taille_monstre.id_taille_monstre')
+		->where('x_monstre = ?',$x)
+		->where('y_monstre = ?',$y);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
+	function findById($id) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('monstre', '*')
+		->from('type_monstre', '*')
+		->from('taille_monstre', '*')
+		->where('monstre.id_fk_type_monstre = type_monstre.id_type_monstre')
+		->where('monstre.id_fk_taille_monstre = taille_monstre.id_taille_monstre')
+		->where('id_monstre = ?',$id);
+		$sql = $select->__toString();
+		return $db->fetchRow($sql);
+	}
 
 	function findByGroupeId($idGroupe) {
 		$db = $this->getAdapter();

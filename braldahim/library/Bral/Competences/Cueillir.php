@@ -131,8 +131,13 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 				if ($tab[$idx]["quantite"] > 0 && $tab[$idx]["estVide"] === false) {
 					$cueillette[$idx]["quantite"] = $cueillette[$idx]["quantite"] + 1;
 					$tab[$idx]["quantite"] = $tab[$idx]["quantite"] - 1;
-					if ($tab[$idx]["quantite"] == 0) {
+					if ($tab[$idx]["quantite"] < 1) {
 						$tab[$idx]["estVide"] = true;
+						if ($tab[1]["estVide"] === true && $tab[2]["estVide"] === true  &&
+							$tab[3]["estVide"] === true && $tab[4]["estVide"] === true ) {
+							$planteADetruire = true;
+							break; // si la plante est vide, on sort
+						}
 					}
 				} else {
 					$tab[$idx]["estVide"] = true;

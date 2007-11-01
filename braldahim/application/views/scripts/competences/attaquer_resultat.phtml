@@ -4,18 +4,24 @@
 	 <div id='attaquer_text' style="display:block"  onClick="javascript:switch2div('attaquer_text','attaquer_copie');">
 	 <? include("commun_text_resultat.phtml") ?>
 	 <? if ($this->okJet1 === true):?>
-		 Vous avez attaqu&eacute; <?=$this->cible["nom_cible"]?> (<?=$this->cible["id_cible"]?>) :<br><br>
+		 Vous avez attaqu&eacute; <?=htmlentities($this->cible["nom_cible"])?> (<?=$this->cible["id_cible"]?>) :<br><br>
 		 Jet d'attaque : <?=$this->jetAttaquant?><br>
 		 Jet de r&eacute;sistance de la cible : <?=$this->jetCible?><br>
 		 
 	 	<? if ($this->attaqueReussie === true) : ?>
 	 		<? if ($this->jetDegat>1):$s='s'; else:$s=''; endif;?>
-	 		Vous avez inflig&eacute; <?=$this->jetDegat?> point<?=$s?> de d&eacute;gat.<br><br>
+	 		Vous avez inflig&eacute; <?=$this->jetDegat?> point<?=$s?> de d&eacute;gat.
+	 		<br><br>
 	 		
 	 		<? if ($this->mort): ?>
-	 			Vous avez tu&eacute; <?=$this->cible["nom_cible"]?> (<?=$this->cible["id_cible"]?>)<br><br>
+	 			Vous avez tu&eacute; <?=htmlentities($this->cible["nom_cible"])?> (<?=$this->cible["id_cible"]?>) N<?=$this->cible["niveau_cible"] ?><br><br>
 	 		<? endif; ?>
 	 		Vous avez gagn&eacute; <?=$this->nb_px?> PX<br><br>
+	 	<? else: ?>
+	 		Votre attaque a &eacute;t&eacute; esquiv&eacute;e<br>
+	 		<? if ($this->fragilisee === true) : ?>
+	 		 La cible est fragilis&eacute;e pour les prochaines attaques
+	 		<? endif; ?>
 	 	<? endif; ?>
 	 <? endif; ?>
 	 </div>
@@ -24,7 +30,7 @@
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
 		include("commun_copie_resultat.phtml");
 		if ($this->okJet1 === true) {
-		 echo "Vous avez attaqu&eacute; ".$this->cible["nom_cible"]." (".$this->cible["id_cible"].") :";
+		 echo "Vous avez attaqu&eacute; ".htmlentities($this->cible["nom_cible"])." (".$this->cible["id_cible"].") N".$this->cible["niveau_cible"]." :";
 		 echo "
 ";
 		 echo "Jet d'attaque : ".$this->jetAttaquant;
@@ -41,11 +47,18 @@
 ";
 	 		
 	 		if ($this->mort) {
-	 			echo "Vous avez tu&eacute; ".$this->cible["nom_cible"]." (". $this->cible["id_cible"].")";
+	 			echo "Vous avez tu&eacute; ".htmlentities($this->cible["nom_cible"])." (". $this->cible["id_cible"].") N".$this->cible["niveau_cible"]." :";
 	 			echo "
 ";
 			}
 	 		echo "Vous avez gagn&eacute; ".$this->nb_px." PX";
+	 	  } else {
+	 	  	echo "Votre attaque a &eacute;t&eacute; esquiv&eacute;e";
+	 	  	echo "
+";
+	 	  	 if ($this->fragilisee === true) {
+	 		 	echo "La cible est fragilis&eacute;e pour les prochaines attaques";
+	 	  	 }
 	 	  }
 		}
 		?></textarea>

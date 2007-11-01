@@ -18,6 +18,7 @@ class AdministrationPlantesController extends Zend_Controller_Action {
 	}
 
 	function PlantesAction() {
+		Zend_Loader::loadClass('Ville');
 		Zend_Loader::loadClass('Zone');
 		Zend_Loader::loadClass('Plante');
 		Zend_Loader::loadClass('TypePlante');
@@ -111,15 +112,26 @@ class AdministrationPlantesController extends Zend_Controller_Action {
 		$planteTable = new Plante();
 		$typePlanteTable = new TypePlante();
 		$typePartiePlanteTable = new TypePartieplante();
+		$villeTable = new Ville();
 
 		$zonesRowset = $zoneTable->fetchAllAvecEnvironnement();
 		$typePlanteRowset = $typePlanteTable->fetchAllAvecEnvironnement();
 		$typePartiePlanteRowset = $typePartiePlanteTable->fetchall();
-
+		$villesRowset = $villeTable->fetchAll();
+		
 		foreach($zonesRowset as $z) {
 			$nombrePlantes = $planteTable->countVue($z["x_min_zone"] ,$z["y_min_zone"] ,$z["x_max_zone"] ,$z["y_max_zone"]);
 			$nombreCases = ($z["x_max_zone"]  - $z["x_min_zone"] ) * ($z["y_max_zone"]  - $z["y_min_zone"] );
 			$couverture = ($nombrePlantes * 100) / $nombreCases;
+			
+			$villes = "";
+			foreach($villesRowset as $v) {
+				if ($z["x_min_zone"] <= $v->x_max_ville && $z["x_max_zone"] >= $v->x_min_ville &&
+				$z["y_min_zone"] <= $v->y_max_ville && $z["y_max_zone"] >= $v->y_min_ville) {
+					$villes .= $v->nom_ville.", ";
+				}
+			}
+			
 			$zones[] = array("id_zone" =>$z["id_zone"],
 			"x_min" =>$z["x_min_zone"] ,
 			"x_max" =>$z["x_max_zone"] ,
@@ -128,7 +140,9 @@ class AdministrationPlantesController extends Zend_Controller_Action {
 			"environnement" =>$z["nom_environnement"] ,
 			"nombre_plantes" => $nombrePlantes,
 			"nombre_cases" => $nombreCases,
-			"couverture" => round($couverture));
+			"couverture" => round($couverture),
+			"villes" => $villes
+			);
 		}
 
 		foreach($typePartiePlanteRowset as $p) {
