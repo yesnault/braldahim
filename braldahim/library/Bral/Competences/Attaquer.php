@@ -259,7 +259,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 
 		if ($this->view->mort === true) {
 			// [10+2*(diff de niveau) + Niveau Cible ]
-			$this->view->nb_px_commun = 10+2*($this->view->user->niveau_hobbit - $this->view->cible["niveau_cible"]) + $this->view->cible["niveau_cible"];
+			$this->view->nb_px_commun = 10+2*($this->view->cible["niveau_cible"] - $this->view->user->niveau_hobbit) + $this->view->cible["niveau_cible"];
 		}
 		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
 	}

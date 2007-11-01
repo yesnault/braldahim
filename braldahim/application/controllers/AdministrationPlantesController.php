@@ -165,7 +165,7 @@ class AdministrationPlantesController extends Zend_Controller_Action {
 			if ($t["id_fk_partieplante2_type_plante"] > 0) {
 				$nom_partie4 = $tabPartiePlante[$t["id_fk_partieplante2_type_plante"]]["nom"];
 			}
-			$typePlantes[] = array("id" => $t["id_type_plante"],
+			$typePlantes[] = array("id_type_plante" => $t["id_type_plante"],
 			"nom" => $t["nom_type_plante"],
 			"categorie" => $t["categorie_type_plante"],
 			"environnement" => $t["nom_environnement"],
