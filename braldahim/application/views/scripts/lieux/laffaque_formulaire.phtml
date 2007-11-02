@@ -41,4 +41,4 @@
 <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->achatPossibleCastars === true && $this->nCompetences > 0): ?>
 <input type='button' class='button1' id="bouton_laffaque" value='Apprendre cette comp&eacute;tence !' onClick="_get_('/lieux/DoAction?caction=do_lieu_laffaque');"  disabled>
 <? endif; ?>
-<input type='button' class='button1' value='Annuler' onClick='javascript:_get_("/interface/clear");'>
+<? include("commun_fermer.phtml") ?>

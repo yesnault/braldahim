@@ -71,11 +71,13 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 
 		// Verification de la plante
 		$planteOk = false;
-		foreach ($this->_tabPlantes as $p) {
-			if ($p["id_plante"] == $idPlante) {
-				$planteOk = true;
-				$plante = $p;
-				break;
+		if ($this->_tabPlantes != null) {
+			foreach ($this->_tabPlantes as $p) {
+				if ($p["id_plante"] == $idPlante) {
+					$planteOk = true;
+					$plante = $p;
+					break;
+				}
 			}
 		}
 

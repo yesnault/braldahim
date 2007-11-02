@@ -5,8 +5,10 @@ class Bral_Competences_Factory {
 		Zend_Loader::loadClass("Bral_Competences_Competence");
 		
 		Zend_Loader::loadClass("Bral_Competences_Attaquer");
+		Zend_Loader::loadClass("Bral_Competences_Chasser");
 		Zend_Loader::loadClass("Bral_Competences_Cueillir");
 		Zend_Loader::loadClass("Bral_Competences_Decalerdla");
+		Zend_Loader::loadClass("Bral_Competences_Depiauter");
 		Zend_Loader::loadClass("Bral_Competences_Distribuerpx");
 		Zend_Loader::loadClass("Bral_Competences_Extraire");
 		Zend_Loader::loadClass("Bral_Competences_Gardiennage");

@@ -11,7 +11,7 @@
 			<? else: ?>
 			Vous avez cueilli avec succ&egrave;s un &eacute;l&eacute;ment sur la plante :<br>
 			<? endif; ?>
-			<?=$this->plante["categorie"]?> - <?=$this->plante["nom_type"]?> (<?=$this->plante["id_plante"]?>)
+			<?=htmlentities($this->plante["categorie"])?> - <?=htmlentities($this->plante["nom_type"])?> (<?=$this->plante["id_plante"]?>)
 			<br><br>
 		
 			<? if ($this->cueillette[1]["quantite"] != 0) {
@@ -45,7 +45,7 @@
 				echo "Vous avez cueilli avec succ&egrave;s un &eacute;l&eacute;ment sur la plante :";
 			}
 
-			echo $this->plante["categorie"]. " - ".$this->plante["nom_type"]. " (". $this->plante["id_plante"].")";
+			echo htmlentities($this->plante["categorie"]). " - ".htmlentities($this->plante["nom_type"]). " (". $this->plante["id_plante"].")";
 			echo "
 ";
 			for ($i = 1; $i<=4; $i++) {
