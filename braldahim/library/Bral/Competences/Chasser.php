@@ -1,17 +1,9 @@
 <?php
-/**
-Plaine : 60 %
-Forêt : 80 %
-Marais : 30 %
-Montagneux : 30 %
 
-*/
 class Bral_Competences_Chasser extends Bral_Competences_Competence {
 
-	private $_tabPlantes = null;
-
 	function prepareCommun() {
-		Zend_Loader::loadClass("LabanChasse");
+		Zend_Loader::loadClass("Laban");
 		Zend_Loader::loadClass("Ville");
 		Zend_Loader::loadClass("Zone");
 		
@@ -28,6 +20,12 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 		$zone = $zones[0];
 
 		$r = 0;
+		/**
+		 * Plaine : 60 %
+		 * Forêt : 80 %
+		 * Marais : 30 %
+		 * Montagneux : 30 %
+		 */
 		switch($zone["nom_systeme_environnement"]) {
 			case "marais":
 				$r = 30;
@@ -113,15 +111,15 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 			$this->view->nbFourrure = $n + floor($this->view->user->agilite_base_hobbit / 5);
 		}
 		
-		$labanChasseTable = new LabanChasse();
+		$labanTable = new Laban();
 		$data = array(
-			'id_hobbit_laban_chasse' => $this->view->user->id_hobbit,
-			'quantite_viande_laban_chasse' => $this->view->nbViande,
-			'quantite_peau_laban_chasse' => $this->view->nbPeau,
-			'quantite_fourrure_laban_chasse' => $this->view->nbFourrure,
+			'id_hobbit_laban' => $this->view->user->id_hobbit,
+			'quantite_viande_laban' => $this->view->nbViande,
+			'quantite_peau_laban' => $this->view->nbPeau,
+			'quantite_fourrure_laban' => $this->view->nbFourrure,
 		);
 
-		$labanChasseTable->insertOrUpdate($data);
+		$labanTable->insertOrUpdate($data);
 	}
 	
 	function getListBoxRefresh() {

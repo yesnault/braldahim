@@ -18,7 +18,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 	private $_tabPlantes = null;
 	function prepareCommun() {
 		Zend_Loader::loadClass("Cadavre");
-		Zend_Loader::loadClass("LabanChasse");
+		Zend_Loader::loadClass("Laban");
 		Zend_Loader::loadClass("Ville");
 		
 		// On regarde si le hobbit n'est pas dans une ville
@@ -130,12 +130,12 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 				break;
 		}
 		
-		$labanChasseTable = new LabanChasse();
+		$labanTable = new Laban();
 		$data = array(
-			'id_hobbit_laban_chasse' => $this->view->user->id_hobbit,
-			'quantite_viande_laban_chasse' => $this->view->nbViande,
+			'id_hobbit_laban' => $this->view->user->id_hobbit,
+			'quantite_viande_laban' => $this->view->nbViande,
 		);
-		$labanChasseTable->insertOrUpdate($data);
+		$labanTable->insertOrUpdate($data);
 		
 		$where = "id_cadavre=".$id_cadavre;
 		$cadavreTable->delete($where);

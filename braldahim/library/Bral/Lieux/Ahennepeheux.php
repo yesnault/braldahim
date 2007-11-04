@@ -32,7 +32,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 		}
 
 		$metiersTable = new Metier();
-		$metiersRowset = $metiersTable->fetchall();
+		$metiersRowset = $metiersTable->fetchall(null, "nom_metier");
 		$this->_coutCastars = $this->calculCoutCastars(count($hobbitsMetierRowset));
 
 		$this->_tabNouveauMetiers = null;
@@ -130,7 +130,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 		if ($changementMetier) {
 			$hobbitsMetiersTable = new HobbitsMetiers();
 			$data = array('est_actif_hmetier' => 'non');
-			$where = array("id_hobbit_hmetier" => intval($this->view->user->id_hobbit));
+			$where = "id_hobbit_hmetier =".intval($this->view->user->id_hobbit);
 			$hobbitsMetiersTable->update($data, $where);
 
 			//$hobbitsMetiersTable->updateTousMetierVersNonActif($this->view->user->id_hobbit);
@@ -142,7 +142,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 		} else { // apprentissage
 			$hobbitsMetiersTable = new HobbitsMetiers();
 			$data = array('est_actif_hmetier' => 'non');
-			$where = array("id_hobbit_hmetier" => intval($this->view->user->id_hobbit));
+			$where = "id_hobbit_hmetier =".intval($this->view->user->id_hobbit);
 			$hobbitsMetiersTable->update($data, $where);
 			//$hobbitsMetiersTable->updateTousMetierVersNonActif($this->view->user->id_hobbit);
 

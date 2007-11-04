@@ -1,0 +1,23 @@
+<div class='comp_titre'>Assaisonner</div>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
+ <form name='myForm'>
+ <div class='comp_contenu'>
+
+<?php if ($this->assezDePa == false) : ?>
+ Vous n'avez pas assez de PA
+<?php else : ?>
+	 <? if ($this->assaisonnerNbViandeOk === true) : ?>
+	 	Pour <?=$this->nb_pa ?> PA, vous pouvez assaisonner de la viande : <br>
+	 	transformer 2 unit&eacute;s de viande en 1D2 unit&eacute; de viande pr&eacute;par&eacute;e<br><br>
+	 <? else: ?>
+	 Vous n'avez pas assez d'unit&eacute; de viande fra&icirc;che pour assaissonner...
+	 <? endif; ?>
+<? endif ?>
+</div>
+
+</form>
+<br>
+<?php if ($this->assezDePa == true && $this->assaisonnerNbViandeOk === true) : ?>
+<input type='button' class='button1' id='bouton_assaisonner' value='Assaisonner !' onClick='_get_("/competences/DoAction?caction=do_competence_assaisonner");'>
+<? endif ?>
+<? include("commun_fermer.phtml") ?>

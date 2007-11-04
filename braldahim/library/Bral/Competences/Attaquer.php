@@ -64,20 +64,24 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		$attaqueMonstre = false;
 		$attaqueHobbit = false;
 		if ($idHobbit != -1) {
-			foreach ($this->view->tabHobbits as $h) {
-				if ($h["id_hobbit"] == $idHobbit) {
-					$attaqueHobbit = true;
-					break;
+			if (isset($this->view->tabHobbits) && count($this->view->tabHobbits) > 0) {
+				foreach ($this->view->tabHobbits as $h) {
+					if ($h["id_hobbit"] == $idHobbit) {
+						$attaqueHobbit = true;
+						break;
+					}
 				}
 			}
 			if ($attaqueHobbit === false) {
 				throw new Zend_Exception(get_class($this)." Hobbit invalide (".$idHobbit.")");
 			}
 		} else {
-			foreach ($this->view->tabMonstres as $m) {
-				if ($m["id_monstre"] == $idMonstre) {
-					$attaqueMonstre = true;
-					break;
+			if (isset($this->view->tabMonstres) && count($this->view->tabMonstres) > 0) {
+				foreach ($this->view->tabMonstres as $m) {
+					if ($m["id_monstre"] == $idMonstre) {
+						$attaqueMonstre = true;
+						break;
+					}
 				}
 			}
 			if ($attaqueMonstre === false) {

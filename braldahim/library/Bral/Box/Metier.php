@@ -39,6 +39,7 @@ class Bral_Box_Metier {
 			"est_actif" => $m["est_actif_hmetier"],
 			"date_apprentissage" => Bral_Util_ConvertDate::get_date_mysql_datetime("d/m/Y", $m["date_apprentissage_hmetier"]),
 			"description" => $m["description_metier"]);
+			
 			if ($m["est_actif_hmetier"] == "non") {
 				$tabMetiers[] = $t;
 			}

@@ -4,9 +4,11 @@ class Bral_Competences_Factory {
 	static function getAction($request, $view) {
 		Zend_Loader::loadClass("Bral_Competences_Competence");
 		
+		Zend_Loader::loadClass("Bral_Competences_Assaisonner");
 		Zend_Loader::loadClass("Bral_Competences_Attaquer");
 		Zend_Loader::loadClass("Bral_Competences_Chasser");
 		Zend_Loader::loadClass("Bral_Competences_Cueillir");
+		Zend_Loader::loadClass("Bral_Competences_Cuisiner");
 		Zend_Loader::loadClass("Bral_Competences_Decalerdla");
 		Zend_Loader::loadClass("Bral_Competences_Depiauter");
 		Zend_Loader::loadClass("Bral_Competences_Distribuerpx");

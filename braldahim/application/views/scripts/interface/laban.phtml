@@ -14,7 +14,7 @@
     <? $i = 0;
       foreach ($this->partieplantes as $p) : 
     	 
-    	 if ($i % 3 == 0) echo "<tr>"; 
+    	if ($i % 3 == 0) echo "<tr>"; 
     	 
     	$textPlante = "Type : ".htmlentities($p["nom_type"]). "<br>"; 
     	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite"])."<br>";
@@ -57,8 +57,12 @@
     <? endif; ?>
    </div>
    <br>
-   <div class="laban_chasse">
-   	Viande : <?=$this->chasse["nb_viande"] ?>, Peau : <?=$this->chasse["nb_peau"] ?>, Fourrure : <?=$this->chasse["nb_fourrure"] ?>
+   <div class="laban">
+   	Peau : <?=$this->laban["nb_peau"] ?>, Fourrure : <?=$this->laban["nb_fourrure"] ?>
+   	<br>
+   	Viande fra&icirc;che: <?=$this->laban["nb_viande"] ?>, Viande pr&eacute;par&eacute;e <?=$this->laban["nb_viande_preparee"] ?> 
+    <br>
+    Ration : <?=$this->laban["nb_ration"] ?>
    </div>
    <br>
    </ul>

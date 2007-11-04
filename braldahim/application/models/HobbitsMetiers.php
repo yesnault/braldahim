@@ -22,7 +22,8 @@ class HobbitsMetiers extends Zend_Db_Table
 		$select->from('hobbits_metiers', '*')
 		->from('metier', '*')
 		->where('hobbits_metiers.id_metier_hmetier = metier.id_metier')
-		->where('hobbits_metiers.id_hobbit_hmetier = '.intval($idHobbit));
+		->where('hobbits_metiers.id_hobbit_hmetier = '.intval($idHobbit))
+		->order('metier.nom_metier');
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
@@ -32,7 +33,7 @@ class HobbitsMetiers extends Zend_Db_Table
 		$db = $this->getAdapter();
 
 		$data = array('est_actif_metier' => 'non');
-		$where = array("id_hobbit_hmetier" => intval($idHobbit));
+		$where = "id_hobbit_hmetier =".intval($idHobbit);
 
 		$db->update($data, $where);
 	}
