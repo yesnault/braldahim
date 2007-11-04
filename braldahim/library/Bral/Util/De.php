@@ -2,36 +2,53 @@
 
 class Bral_Util_De {
 
-	public static function get_1d100() {
+	public static function get_1d1() {
 		srand(self::make_seed());
-		return rand(1, 100);
+		return rand(0, 1);
 	}
-
-	public static function get_1d20() {
+	
+	public static function get_1d2() {
 		srand(self::make_seed());
-		return rand(1, 20);
-	}
-
-	public static function get_1d6() {
-		srand(self::make_seed());
-		return rand(1, 6);
-	}
-
-	public static function get_1d5() {
-		srand(self::make_seed());
-		return rand(1, 5);
+		return rand(1, 2);
 	}
 
 	public static function get_1d3() {
 		srand(self::make_seed());
 		return rand(1, 3);
 	}
-
-	public static function get_1d1() {
+	
+	public static function get_1d5() {
 		srand(self::make_seed());
-		return rand(0, 1);
+		return rand(1, 5);
 	}
-
+	
+	public static function get_1d6() {
+		srand(self::make_seed());
+		return rand(1, 6);
+	}
+	
+	public static function get_1d20() {
+		srand(self::make_seed());
+		return rand(1, 20);
+	}
+	
+	public static function get_1d100() {
+		srand(self::make_seed());
+		return rand(1, 100);
+	}
+	
+	public static function get_2d3() {
+		$n = self::get_1d3();
+		$n = $n + self::get_1d3();
+		return $n;
+	}
+	
+	public static function get_3d3() {
+		$n = self::get_2d3();
+		$n = $n + self::get_1d3();
+		return $n;
+	}
+	
 	public static function get_de_specifique($a, $b) {
 		if (!is_int(intval($a))) {
 			throw new Exception("De::get_de_specifique : a invalides : ".$a);

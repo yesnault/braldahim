@@ -23,23 +23,39 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			return;
 		}
 		
+		$defautChecked = false;
+		
 		for ($j = $this->view->nb_cases; $j >= -$this->view->nb_cases; $j --) {
 			 $change_level = true;
 			 for ($i = -$this->view->nb_cases; $i <= $this->view->nb_cases; $i ++) {
-			 	if ($i == -1 && $j == 1) {
-					$default = "checked";
-			 	} else {
-			 		$default = "";
-			 	}
+
 			 	
-			 	$display = $this->view->user->x_hobbit + $i;
+			 	$x = $this->view->user->x_hobbit + $i;
+			 	$y = $this->view->user->y_hobbit + $j;
+			 	
+			 	$display = $x;
 			 	$display .= " ; ";
-			 	$display .= $this->view->user->y_hobbit + $j;
+			 	$display .= $y;
 			 	
 			 	if (($j == 0 && $i == 0) == false) { // on n'affiche pas de boutons dans la case du milieu
 					$valid = true;
 			 	} else {
 			 		$valid = false;
+			 	}
+			 	
+			 	if ($x < $this->view->config->game->x_min || $x > $this->view->config->game->x_max
+			 		|| $y < $this->view->config->game->y_min || $y > $this->view->config->game->y_max ) { // on n'affiche pas de boutons dans la case du milieu
+					$valid = false;
+			 	}
+			 	
+			 	if ($i == -1 && $j == 1 && $valid === true && $defautChecked == false) {
+					$default = "checked";
+					$defautChecked = true;
+			 	} else if ($i == 1 && $j == -1 && $valid === true && $defautChecked == false) {
+			 		$default = "checked";
+			 		$defautChecked = true;
+			 	} else {
+			 		$default = "";
 			 	}
 			 	
 			 	$tab[] = array ("x_offset" => $i,
@@ -94,9 +110,9 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		return array("box_profil", "box_vue", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_lieu", "box_evenements");
 	}
 	
-	/* Pour marcher, le nombre de PA utilise est variable suivant l'environnement'
+	/* Pour marcher, le nombre de PA utilise est variable suivant l'environnement
 	* sur lequel le hobbit marche :
-	* Plaine : 1 PA jusqu'? 2 case
+	* Plaine : 1 PA jusqu'a 2 cases
 	* Foret : 1 PA pour 1 case
 	* Marais : 2 PA pour 1 case
 	* Montagneux : 2 PA pour 1 case
@@ -105,7 +121,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 	public function calculNbPa() {
 		switch($this->nom_systeme_environnement) {
 			case "plaine" :
-				$this->view->nb_cases = 1;
+				$this->view->nb_cases = 2;
 				$this->view->nb_pa = 1;
 				break;
 			case "marais" :
@@ -113,8 +129,8 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 				$this->view->nb_pa = 1; 
 				break;
 			case "montagne" :
-				$this->view->nb_cases = 2;
-				$this->view->nb_pa = 1;
+				$this->view->nb_cases = 1;
+				$this->view->nb_pa = 2;
 				break;
 			case "foret" :
 				$this->view->nb_cases = 1;

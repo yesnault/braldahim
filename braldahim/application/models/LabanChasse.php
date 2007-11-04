@@ -30,11 +30,16 @@ class LabanChasse extends Zend_Db_Table {
 			$quantitePeau = $resultat[0]["quantitePeau"];
 			$quantiteViande = $resultat[0]["quantiteViande"];
 			$quantiteFourrure = $resultat[0]["quantiteFourrure"];
-			$dataUpdate = array(
-			'quantite_viande_laban_chasse' => $quantiteViande + $data["quantite_viande_laban_chasse"],
-			'quantite_peau_laban_chasse' => $quantitePeau + $data["quantite_peau_laban_chasse"],
-			'quantite_fourrure_laban_chasse' => $quantiteFourrure + $data["quantite_fourrure_laban_chasse"],
-			);
+			
+			if (isset($data["quantite_viande_laban_chasse"])) {
+				$dataUpdate['quantite_viande_laban_chasse'] = $quantiteViande + $data["quantite_viande_laban_chasse"];
+			}
+			if (isset($data["quantite_peau_laban_chasse"])) {
+				$dataUpdate['quantite_peau_laban_chasse'] = $quantitePeau + $data["quantite_peau_laban_chasse"];
+			}
+			if (isset($dataUpdate['quantite_fourrure_laban_chasse'])) {
+				$dataUpdate['quantite_fourrure_laban_chasse'] = $quantiteFourrure + $data["quantite_fourrure_laban_chasse"];
+			}
 			$where = 'id_hobbit_laban_chasse = '.$data["id_hobbit_laban_chasse"];
 			$this->update($dataUpdate, $where);
 		}

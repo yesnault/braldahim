@@ -35,7 +35,9 @@
            <?=$case["display"] ?><br>
 
 		<?php if ($case["valid"] == true) : ?>
-              <input type='radio' name='valeur_1' id='valeur_1' value='<?php echo $case["x_offset"]."h".$case["y_offset"] ?>' <?=$case["default"]?>>
+            <input type='radio' name='valeur_1' id='valeur_1' value='<?php echo $case["x_offset"]."h".$case["y_offset"] ?>' <?=$case["default"]?>>
+		<?php else: ?>
+			&nbsp;
 		<?php endif; ?>
           </td>
        <?php endforeach; ?>

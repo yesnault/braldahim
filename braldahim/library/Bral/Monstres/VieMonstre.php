@@ -261,4 +261,40 @@ class Bral_Monstres_VieMonstre {
 		$evenementTable->insert($data);
 		Bral_Util_Log::tech()->trace(get_class($this)." - majEvenements - exit");
 	}
+	
+	/*
+	 * Mort d'un monstre : suppression de la table des monstre
+	 * et ajout dans la table cadavre
+	 */
+	public function mortMonstreDb($id_monstre) {
+	
+		if ($id_monstre == null || (int)$id_monstre<=0 ) {
+			throw new Zend_Exception(get_class($this)."::mortMonstreDb id_monstre inconnu:".$id_monstre);
+		}
+		
+		Zend_Loader::loadClass("Cadavre");
+		Zend_Loader::loadClass("Monstre");
+		
+		$monstreTable = new Monstre();
+		$monstreRowset = $monstreTable->findById($id_monstre);
+		$monstre = $monstreRowset;
+		
+		if ($monstre == null || $monstre["id_monstre"] == null || $monstre["id_monstre"] == "") {
+			throw new Zend_Exception(get_class($this)."::mortMonstreDb monstre inconnu");
+		}
+		
+		$data = array(
+		"id_cadavre" => $monstre["id_monstre"],
+		"id_fk_type_cadavre"  => $monstre["id_fk_type_monstre"],
+		"id_fk_taille_cadavre" => $monstre["id_fk_taille_monstre"],
+		"x_cadavre" => $monstre["x_monstre"],
+		"y_cadavre" => $monstre["y_monstre"],
+		);
+		
+		$cadavreTable = new Cadavre();
+		$cadavreTable->insert($data);
+		
+		$where = "id_monstre=".$id_monstre;
+		$monstreTable->delete($where);
+	}
 }

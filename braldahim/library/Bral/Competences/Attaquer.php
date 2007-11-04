@@ -4,6 +4,8 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Monstre");
+		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
+		
 		$tabHobbits = null;
 		$tabMonstres = null;
 
@@ -195,8 +197,8 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 			$pv = $monstre["pv_restant_monstre"] - $this->view->jetDegat;
 			if ($pv <= 0) {
 				$this->view->mort = true;
-				$where = "id_monstre=".$cible["id_cible"];
-				$monstreTable->delete($where);
+				$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
+				$vieMonstre->mortMonstreDb($cible["id_cible"]);
 			} else {
 				$agilite_bm_monstre = $monstre["agilite_bm_monstre"] - 1;
 				$this->view->fragilisee = true;

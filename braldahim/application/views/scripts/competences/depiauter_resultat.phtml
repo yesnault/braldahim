@@ -1,22 +1,27 @@
 <div class='comp_titre'>D&eacute;piauter</div>
 
  <div class='comp_contenu'>
-	 <div id='chasser_text' style="display:block"  onClick="javascript:switch2div('depiauter_text','depiauter_copie');">
+	 <div id='depiauter_text' style="display:block"  onClick="javascript:switch2div('depiauter_text','depiauter_copie');">
 		
 		<? include("commun_text_resultat.phtml") ?>
 		
-		<? if ($this->okJet1 === true):?>
-			
+		<? if ($this->okJet1 === true):
+			$s = "";
+			if ($this->nbViande > 1) : $s = "s"; endif;
+		?>
+			Vous avez d&eacute;piaut&eacute; <?=$this->nbViande ?> unit&eacute;<?=$s ?> de viande. <br>
 		<? endif; ?>
 		<br>
 	 </div>
 	 
-	 <div id='cueillir_copie' style="display:none">
+	 <div id='depiauter_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
 		include("commun_copie_resultat.phtml");
 		
 		if ($this->okJet1 === true) {
-			
+			$s = "";
+			if ($this->nbViande > 1) : $s = "s"; endif;
+			echo " Vous avez d&eacute;piaut&eacute; ".$this->nbViande." unit&eacute;".$s." de viande";
 		}
 	?>
 	</textarea>

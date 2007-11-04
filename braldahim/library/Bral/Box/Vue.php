@@ -3,6 +3,7 @@
 class Bral_Box_Vue {
 
 	function __construct($request, $view, $interne) {
+		Zend_Loader::loadClass("Cadavre");
 		Zend_Loader::loadClass("Lieu");
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Plante");
@@ -109,7 +110,9 @@ class Bral_Box_Vue {
 	}
 
 	private function data() {
-
+	
+		$cadavreTable = new Cadavre();
+		$cadavres = $cadavreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$hobbitTable = new Hobbit();
 		$hobbits = $hobbitTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$lieuxTable = new Lieu();
@@ -135,6 +138,7 @@ class Bral_Box_Vue {
 			for ($i = $centre_x_min; $i <= $centre_x_max; $i ++) {
 				$display_x = $i;
 				$display_y = $j;
+				$tabCadavres = null;
 				$tabHobbits = null;
 				$tabLieux = null;
 				$tabMonstres = null;
@@ -162,6 +166,17 @@ class Bral_Box_Vue {
 						}
 					}
 
+					foreach($cadavres as $c) {
+						if ($display_x == $c["x_cadavre"] && $display_y == $c["y_cadavre"]) {
+							if ($c["genre_type_monstre"] == 'feminin') {
+								$c_taille = $c["nom_taille_f_monstre"];
+							} else {
+								$c_taille = $c["nom_taille_m_monstre"];
+							}
+							$tabCadavres[] = array("id_cadavre" => $c["id_cadavre"], "nom_cadavre" => $c["nom_type_monstre"], 'taille_cadavre' => $c_taille);
+						}
+					}
+					
 					foreach($hobbits as $h) {
 						if ($display_x == $h["x_hobbit"] && $display_y == $h["y_hobbit"]) {
 							$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"], "nom_hobbit" => $h["nom_hobbit"], "niveau_hobbit" => $h["niveau_hobbit"]);
@@ -244,6 +259,8 @@ class Bral_Box_Vue {
 				"nom_zone" => $nom_zone,
 				"description_zone" => $nom_zone,
 				"css" => $css,
+				"n_cadavres" => count($tabCadavres),
+				"cadavres" => $tabCadavres,
 				"n_hobbits" => count($tabHobbits),
 				"hobbits" => $tabHobbits,
 				"n_lieux" => count($tabLieux),
