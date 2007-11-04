@@ -3,8 +3,9 @@
 class Bral_Box_Laban {
 
 	function __construct($request, $view, $interne) {
-		Zend_Loader::loadClass('LabanPartieplante');
+		Zend_Loader::loadClass('LabanChasse');
 		Zend_Loader::loadClass('LabanMinerai');
+		Zend_Loader::loadClass('LabanPartieplante');
 		$this->_request = $request;
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;
@@ -45,11 +46,26 @@ class Bral_Box_Laban {
 			);
 		}
 
+		$tabChasse = null;
+		$labanChasseTable = new LabanChasse();
+		$chasse = $labanChasseTable->findByIdHobbit($this->view->user->id_hobbit);
+
+		foreach ($chasse as $p) {
+			$tabChasse = array(
+			"nb_peau" => $p["quantite_viande_laban_chasse"],
+			"nb_fourrure" => $p["quantite_fourrure_laban_chasse"],
+			"nb_viande" => $p["quantite_viande_laban_chasse"],
+			);
+		}
+		
 		$this->view->nb_partieplantes = count($tabPartiePlantes);
 		$this->view->partieplantes = $tabPartiePlantes;
 		$this->view->nb_minerais = count($tabMinerais);
 		$this->view->minerais = $tabMinerais;
+		$this->view->chasse = $tabChasse;
 		$this->view->nom_interne = $this->getNomInterne();
+
+		
 		return $this->view->render("interface/laban.phtml");
 	}
 }

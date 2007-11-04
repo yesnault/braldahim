@@ -23,7 +23,7 @@ class Bral_Box_Lieu {
 	function render() {
 		
 		$lieuxTable = new Lieu();
-		$lieuRowset = $lieuxTable->findCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$lieuRowset = $lieuxTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		$this->view->estLieuCourant = false;
 		
 		if (count($lieuRowset) > 1) {

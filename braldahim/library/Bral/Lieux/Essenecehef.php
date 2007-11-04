@@ -12,7 +12,7 @@ class Bral_Lieux_Essenecehef extends Bral_Lieux_Lieu {
 		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) > 0);
 
 		$lieuTable = new Lieu();
-		$esseneCehefCourantt = $lieuTable->findCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$esseneCehefCourantt = $lieuTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		$esseneCehefCourant = $esseneCehefCourantt[0];
 		//print_r($esseneCehefCourant);
 		$esseneCehefRowset = $lieuTable->findByType($this->view->config->game->lieu->type->essene_cehef);

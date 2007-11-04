@@ -19,7 +19,7 @@ class Ville extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function selectByPosition($x, $y) {
+	function findByCase($x, $y) {
 		return $this->selectVue($x, $y, $x, $y);
 	}
 }

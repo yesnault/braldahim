@@ -11,7 +11,7 @@ abstract class Bral_Lieux_Lieu {
 		$this->nom_systeme = $nomSystemeLieu;
 
 		$lieuxTable = new Lieu();
-		$lieuRowset = $lieuxTable->findCase($view->user->x_hobbit, $view->user->y_hobbit);
+		$lieuRowset = $lieuxTable->findByCase($view->user->x_hobbit, $view->user->y_hobbit);
 		$this->view->estLieuCourant = false;
 
 		if (count($lieuRowset) > 1) {

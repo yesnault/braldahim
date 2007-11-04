@@ -135,7 +135,7 @@ class Bral_Monstres_VieGroupesNuee {
 			$dy = Bral_Util_De::get_1d20();
 
 			$villeTable = new Ville();
-			$villes = $villeTable->selectByPosition($groupe["x_direction_groupe_monstre"] + $dx, $groupe["y_direction_groupe_monstre"] + $dy);
+			$villes = $villeTable->findByCase($groupe["x_direction_groupe_monstre"] + $dx, $groupe["y_direction_groupe_monstre"] + $dy);
 
 			// Si l'on se dirige vers une ville, on va dans la direction opposee
 			if (count($villes) > 0) {

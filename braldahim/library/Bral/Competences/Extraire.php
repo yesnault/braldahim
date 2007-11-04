@@ -9,7 +9,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		$this->view->filonOk = false;
 
 		$filonTable = new Filon();
-		$this->view->filon = $filonTable->findCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$this->view->filon = $filonTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		if (count($this->view->filon) > 0) {
 			$this->view->filonOk = true;
 		}

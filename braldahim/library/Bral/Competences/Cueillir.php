@@ -19,7 +19,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		}
 
 		$planteTable = new Plante();
-		$plantes = $planteTable->findCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$plantes = $planteTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		if (count($plantes) > 0) {
 			$this->view->planteOk = true;
 		}

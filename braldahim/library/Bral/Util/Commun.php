@@ -9,7 +9,7 @@ class Bral_Util_Commun {
 		Zend_Loader::loadClass('Zone');
 		
 		$zoneTable = new Zone();
-		$zones = $zoneTable->findCase($x, $y);
+		$zones = $zoneTable->findByCase($x, $y);
 		$zone = $zones[0];
 
 		$r = 0;

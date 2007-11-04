@@ -33,7 +33,7 @@ class Filon extends Zend_Db_Table {
 		return $nombre;
 	}
 	
-	function findCase($x, $y) {
+	function findByCase($x, $y) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('filon', '*')

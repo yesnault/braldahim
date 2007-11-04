@@ -1,10 +1,54 @@
 <?php
+/**
+Plaine : 60 %
+Forêt : 80 %
+Marais : 30 %
+Montagneux : 30 %
 
+*/
 class Bral_Competences_Chasser extends Bral_Competences_Competence {
 
 	private $_tabPlantes = null;
+
 	function prepareCommun() {
-		//TODO
+		Zend_Loader::loadClass("LabanChasse");
+		Zend_Loader::loadClass("Ville");
+		Zend_Loader::loadClass("Zone");
+		
+		// On regarde si le hobbit n'est pas dans une ville
+		$villeTable = new Ville();
+		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		
+		if (count($villes) == 0) {
+			$this->view->chasserOk = true;
+		}
+		
+		$zoneTable = new Zone();
+		$zones = $zoneTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$zone = $zones[0];
+
+		$r = 0;
+		switch($zone["nom_systeme_environnement"]) {
+			case "marais":
+				$r = 30;
+				break;
+			case "montagne":
+				$r = 30;
+				break;
+			case "caverne":
+				$r = 0;
+				break;
+			case "plaine" :
+				$r = 60;
+				break;
+			case "foret" :
+				$r = 80;
+				break;
+			default :
+				throw new Exception("Chasser Environnement invalide:".$zone["nom_systeme_environnement"]. " x=".$x." y=".$y);
+		}
+		$this->view->tauxReussite = $r;
+		
 	}
 
 	function prepareFormulaire() {
@@ -22,18 +66,64 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
 		}
 
+		// Verification chasse
+		if ($this->view->chasserOk == false) {
+			throw new Zend_Exception(get_class($this)." Chasse interdite ");
+		}
+		
 		// calcul des jets
 		$this->calculJets();
 
 		if ($this->view->okJet1 === true) {
-			//TODO
+			$this->view->jetChasse = Bral_Util_De::get_1d100();
+			if ((int)$this->view->jetChasse <= (int)$this->view->tauxReussite) {
+				$this->view->jetChasseOk = true;
+				$this->calculChasse();
+			}
+			
 			$this->majEvenementsStandard();
 		}
+		
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}
+	
+	private function calculChasse() {
+	/*
+	 * La quantité de viande et de peau trouvée est fonction du niveau d'AGILITE du chasseur.
+	 * de 0 à 4 : 1D3 unité de viande + 1D2 unité de peau/fourrure (50% de chance peau ou fourrure)
+	 * de 5 à 9 : 1D3+1 unité de viande + 1D2+1 unité de peau/fourrure (50% de chance peau ou fourrure)
+	 * de 10 à 14 :1D3+2 unité de viande + 1D2+2 unité de peau/fourrure (50% de chance peau ou fourrure)
+	 * de 15 à 19 : 1D3+3 unité de viande + 1D2+3 unité de peau/fourrure (50% de chance peau ou fourrure)
+	 */
+		$this->view->nbViande = 0;
+		$this->view->nbPeau = 0;
+		$this->view->nbFourrure = 0;
+		
+		$n = Bral_Util_De::get_1d3();
+		$this->view->nbViande = $n + floor($this->view->user->agilite_base_hobbit / 5);
+		
+		$n = Bral_Util_De::get_1d100();
+		if ($n <= 50) {
+			$n = Bral_Util_De::get_1d3();
+			$this->view->nbPeau = $n + floor($this->view->user->agilite_base_hobbit / 5);
+		} else {
+			$n = Bral_Util_De::get_1d3();
+			$this->view->nbFourrure = $n + floor($this->view->user->agilite_base_hobbit / 5);
+		}
+		
+		$labanChasseTable = new LabanChasse();
+		$data = array(
+			'id_hobbit_laban_chasse' => $this->view->user->id_hobbit,
+			'quantite_viande_laban_chasse' => $this->view->nbViande,
+			'quantite_peau_laban_chasse' => $this->view->nbPeau,
+			'quantite_fourrure_laban_chasse' => $this->view->nbFourrure,
+		);
 
+		$labanChasseTable->insertOrUpdate($data);
+	}
+	
 	function getListBoxRefresh() {
 		return array("box_profil", "box_vue", "box_competences_metiers", "box_laban", "box_evenements");
 	}
