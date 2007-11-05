@@ -173,6 +173,26 @@
 	      	</span>
 	      	</div>
 	    <?php endif; ?>
+	    
+      	<?php if ($case["n_runes"] > 0) : ?>
+      		<div>
+      		<?php 
+      			$textRune = "";
+      			foreach($case["runes"] as $r) {
+      				$textRune .= "1 rune (".$r["id_rune"].")<br>";
+				} 
+				$s = "";
+				if ($case["n_runes"] > 1) {
+					$s = "s";
+				}	
+			?>
+      		<span onmouseover="return overlib('<?=$textRune?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_runes"] ?> Rune<?=$s?> - Clique !');"
+      			onclick="return overlib('<?=$textRune?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_runes"] ?> Rune<?=$s?>', CLOSECLICK, EXCLUSIVE);"
+      			onmouseout="return nd();">
+	      		<?=$case["n_runes"] ?> rune<?=$s?>
+	      	</span>
+	      	</div>
+	    <?php endif; ?>
       	</td>
      <?php endforeach; ?>
      </tr>

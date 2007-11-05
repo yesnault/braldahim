@@ -21,7 +21,7 @@
 	   	<? endif; ?>	
 	   	<? if (count($this->tabMetiers) >= 1): ?>
 			<? foreach ($this->tabMetiers as $m) : ?>
-				<?=htmlentities($m["nom"]);?>, appris le <?=htmlentities($m["date_apprentissage"]);?>
+				<?=htmlentities($m["nom"]);?>, appris le <?=htmlentities($m["date_apprentissage"]);?><br>
 			<? endforeach; ?>
 	    <? endif; ?>
 	   <? endif; ?>

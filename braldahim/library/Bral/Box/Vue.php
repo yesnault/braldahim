@@ -8,6 +8,7 @@ class Bral_Box_Vue {
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Plante");
 		Zend_Loader::loadClass("Region");
+		Zend_Loader::loadClass("Rune");
 		Zend_Loader::loadClass("TypeLieu");
 		Zend_Loader::loadClass("Ville");
 		Zend_Loader::loadClass("Zone");
@@ -127,7 +128,9 @@ class Bral_Box_Vue {
 		$villes = $villeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$zoneTable = new Zone();
 		$zones = $zoneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
-
+		$runeTable = new Rune();
+		$runes = $runeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		
 		$centre_x_min = $this->view->centre_x - $this->view->config->game->box_vue_taille;
 		$centre_x_max = $this->view->centre_x + $this->view->config->game->box_vue_taille;
 		$centre_y_min = $this->view->centre_y - $this->view->config->game->box_vue_taille;
@@ -143,6 +146,7 @@ class Bral_Box_Vue {
 				$tabLieux = null;
 				$tabMonstres = null;
 				$tabPlantes = null;
+				$tabRunes = null;
 				$nom_systeme_environnement = null;
 				$nom_environnement = null;
 				$nom_zone = null;
@@ -235,6 +239,11 @@ class Bral_Box_Vue {
 							"nom_partie_3" =>"TODO", "nom_partie_4" =>"TODO");
 						}
 					}
+					foreach($runes as $r) {
+						if ($display_x == $r["x_rune"] && $display_y == $r["y_rune"]) {
+							$tabRunes[] = array("id_rune" => $r["id_rune"]);
+						}
+					}
 				}
 
 				if ($this->view->user->x_hobbit == $display_x && $this->view->user->y_hobbit == $display_y) { // Position du joueur
@@ -267,6 +276,8 @@ class Bral_Box_Vue {
 				"lieux" => $tabLieux,
 				"n_monstres" => count($tabMonstres),
 				"monstres" => $tabMonstres,
+				"n_runes" => count($tabRunes),
+				"runes" => $tabRunes,
 				"ville" => $ville,
 				"n_plantes" => count($tabPlantes),
 				"plantes" => $tabPlantes,

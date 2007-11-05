@@ -114,26 +114,26 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)."::calculDepiauter cadavre inconnu");
 		}
 		
-		$this->view->nbViande = 0;
+		$this->view->nbPeau = 0;
 		switch ($cadavre["id_fk_taille_cadavre"]) {
 			case 1 : // petit
-				$this->view->nbViande = Bral_Util_De::get_1d2();
+				$this->view->nbPeau = Bral_Util_De::get_1d2();
 				break;
 			case 2 : // normal
-				$this->view->nbViande = Bral_Util_De::get_1d3();
+				$this->view->nbPeau = Bral_Util_De::get_1d3();
 				break;
 			case 3 : // grand
-				$this->view->nbViande = Bral_Util_De::get_2d3();
+				$this->view->nbPeau = Bral_Util_De::get_2d3();
 				break;
 			case 4 : // gigantesque
-				$this->view->nbViande = Bral_Util_De::get_3d3();
+				$this->view->nbPeau = Bral_Util_De::get_3d3();
 				break;
 		}
 		
 		$labanTable = new Laban();
 		$data = array(
 			'id_hobbit_laban' => $this->view->user->id_hobbit,
-			'quantite_viande_laban' => $this->view->nbViande,
+			'quantite_peau_laban' => $this->view->nbPeau,
 		);
 		$labanTable->insertOrUpdate($data);
 		

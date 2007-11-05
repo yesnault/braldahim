@@ -7,9 +7,9 @@
 		
 		<? if ($this->okJet1 === true):
 			$s = "";
-			if ($this->nbViande > 1) : $s = "s"; endif;
+			if ($this->nbPeau > 1) : $s = "s"; endif;
 		?>
-			Vous avez d&eacute;piaut&eacute; <?=$this->nbViande ?> unit&eacute;<?=$s ?> de viande. <br>
+			Vous avez d&eacute;piaut&eacute; <?=$this->nbPeau ?> unit&eacute;<?=$s ?> de peau. <br>
 		<? endif; ?>
 		<br>
 	 </div>
@@ -21,7 +21,7 @@
 		if ($this->okJet1 === true) {
 			$s = "";
 			if ($this->nbViande > 1) : $s = "s"; endif;
-			echo " Vous avez d&eacute;piaut&eacute; ".$this->nbViande." unit&eacute;".$s." de viande";
+			echo " Vous avez d&eacute;piaut&eacute; ".$this->nbPeau." unit&eacute;".$s." de peau";
 		}
 	?>
 	</textarea>

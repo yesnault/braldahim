@@ -265,6 +265,7 @@ class Bral_Monstres_VieMonstre {
 	/*
 	 * Mort d'un monstre : suppression de la table des monstre
 	 * et ajout dans la table cadavre
+	 * Drop Rune
 	 */
 	public function mortMonstreDb($id_monstre) {
 	
@@ -296,5 +297,36 @@ class Bral_Monstres_VieMonstre {
 		
 		$where = "id_monstre=".$id_monstre;
 		$monstreTable->delete($where);
+		
+		$this->dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"]);
+	}
+	
+	private function dropRune($x, $y, $niveau) {
+		Zend_Loader::loadClass("Bral_Util_De");
+		Zend_Loader::loadClass("Rune");
+		Zend_Loader::loadClass("TypeRune");
+		
+		$tirage = Bral_Util_De::get_1d100();
+		
+		$typeRuneTable = new TypeRune();
+		$typeRuneRowset = $typeRuneTable->findByTirage($tirage);
+		
+		if (!isset($typeRuneRowset) || count($typeRuneRowset) == 0) {
+			return; // pas de rune, tirage > 90%
+		}
+		
+		$nbType = count($typeRuneRowset);
+		$numeroRune = Bral_Util_De::get_de_specifique(0, $nbType-1);
+		$typeRune = $typeRuneRowset[$numeroRune];
+		
+		$runeTable = new Rune();
+		$data = array(
+		"x_rune"  => $x,
+		"y_rune" => $y,
+		"id_fk_type_rune" => $typeRune["id_type_rune"],
+		);
+		
+		$runeTable = new Rune();
+		$runeTable->insert($data);
 	}
 }
