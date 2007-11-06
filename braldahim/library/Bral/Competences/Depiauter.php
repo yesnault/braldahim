@@ -15,7 +15,6 @@ Ne peut pas être utilisé en ville.
 */
 class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 
-	private $_tabPlantes = null;
 	function prepareCommun() {
 		Zend_Loader::loadClass("Cadavre");
 		Zend_Loader::loadClass("Laban");

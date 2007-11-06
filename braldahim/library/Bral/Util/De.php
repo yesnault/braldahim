@@ -64,6 +64,22 @@ class Bral_Util_De {
 		return rand($a, $b);
 	}
 	
+	public static function get_de_specifique_hors_liste($a, $b, $liste) {
+		$n = self::get_de_specifique($a, $b);
+
+		if (is_array($liste)) {
+			if (in_array($n, $liste)) {
+				return self::get_de_specifique_hors_liste($a, $b, $liste);
+			} else {
+				return $n;
+			}
+		} else if ($liste == null) {
+			return $n;
+		} else {
+			throw new Exception("De::get_de_specifique_hors_liste : liste invalide ");
+		}
+	}
+	
 	public static function get_chaine_aleatoire($longueur) {
 		srand(self::make_seed());
 		// 10 + 26 + 26 = 62
