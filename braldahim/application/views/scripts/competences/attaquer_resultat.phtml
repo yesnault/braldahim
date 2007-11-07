@@ -3,7 +3,6 @@
  <div class='comp_contenu'>
 	 <div id='attaquer_text' style="display:block"  onClick="javascript:switch2div('attaquer_text','attaquer_copie');">
 	 <? include("commun_text_resultat.phtml") ?>
-	 <? if ($this->okJet1 === true):?>
 		 Vous avez attaqu&eacute; <?=htmlentities($this->cible["nom_cible"])?> (<?=$this->cible["id_cible"]?>) :<br><br>
 		 Jet d'attaque : <?=$this->jetAttaquant?><br>
 		 Jet de r&eacute;sistance de la cible : <?=$this->jetCible?><br>
@@ -23,13 +22,11 @@
 	 		 La cible est fragilis&eacute;e pour les prochaines attaques
 	 		<? endif; ?>
 	 	<? endif; ?>
-	 <? endif; ?>
 	 </div>
 	 
 	 <div id='attaquer_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
 		include("commun_copie_resultat.phtml");
-		if ($this->okJet1 === true) {
 		 echo "Vous avez attaqu&eacute; ".htmlentities($this->cible["nom_cible"])." (".$this->cible["id_cible"].") N".$this->cible["niveau_cible"]." :";
 		 echo "
 ";
@@ -60,7 +57,6 @@
 	 		 	echo "La cible est fragilis&eacute;e pour les prochaines attaques";
 	 	  	 }
 	 	  }
-		}
 		?></textarea>
 	</div>
  </div>

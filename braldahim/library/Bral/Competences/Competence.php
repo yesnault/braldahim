@@ -8,6 +8,7 @@ abstract class Bral_Competences_Competence {
 		$this->action = $action;
 		$this->nom_systeme = $competence["nom_systeme"];
 		$this->competence = $competence;
+		$this->view->jetUtilise = false;
 
 		// recuperation de hobbit competence
 		$this->hobbit_competence = $hobbitCompetence;
@@ -58,6 +59,7 @@ abstract class Bral_Competences_Competence {
 
 	public function calculJets() {
 		Zend_Loader::loadClass("Bral_Util_De");
+		$this->view->jetUtilise = true;
 		$this->view->okJet1 = false; // jet de compétence
 		$this->view->okJet2 = false; // jet amélioration de la compétence
 		$this->view->okJet3 = false; // jet du % d'amélioration

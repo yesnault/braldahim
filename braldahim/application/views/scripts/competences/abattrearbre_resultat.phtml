@@ -1,0 +1,38 @@
+<div class='comp_titre'>Abattre un arbre</div>
+
+ <div class='comp_contenu'>
+	 <div id='abattrearbre_text' style="display:block"  onClick="javascript:switch2div('abattrearbre_text','abattrearbre_copie');">
+		<? include("commun_text_resultat.phtml") ?>
+		
+		<? if ($this->okJet1 === true):
+			$s = "";
+			if ($this->nbRondins > 1) : $s = "s"; endif;
+		?>
+			Vous avez abattu un arbre.<br> 
+			Vous avez r&eacute;cup&eacute;r&eacute; <?=$this->nbRondins ?> 
+			rondin<?=$s ?> <br>
+		<? endif; ?>
+		<br>
+	 </div>
+	 
+	 <div id='abattrearbre_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+		include("commun_copie_resultat.phtml");
+		
+		if ($this->okJet1 === true) {
+			$s = "";
+			if ($this->nbRondins > 1) : $s = "s"; endif;
+			
+			echo "Vous avez abattu un arbre.";
+			echo "
+";
+			echo "ous avez r&eacute;cup&eacute;r&eacute; ".$this->nbRondins;
+			echo " rondin".$s;
+		}
+	?>
+	</textarea>
+	</div>
+ </div>
+
+<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('abattrearbre_text','abattrearbre_copie');">
+<? include("commun_fermer.phtml") ?>

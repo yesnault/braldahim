@@ -43,6 +43,8 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
+		Zend_Loader::loadClass("Bral_Util_De");
+		
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
 			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_1"));
 		} else {
@@ -89,17 +91,12 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 			}
 		}
 
-		// calcul des jets
-		$this->calculJets();
-
-		if ($this->view->okJet1 === true) {
-			if ($attaqueHobbit === true) {
-				$this->attaqueHobbit($idHobbit);
-			} elseif ($attaqueMonstre === true) {
-				$this->attaqueMonstre($idMonstre);
-			} else {
-				throw new Zend_Exception(get_class($this)." Erreur inconnue");
-			}
+		if ($attaqueHobbit === true) {
+			$this->attaqueHobbit($idHobbit);
+		} elseif ($attaqueMonstre === true) {
+			$this->attaqueMonstre($idMonstre);
+		} else {
+			throw new Zend_Exception(get_class($this)." Erreur inconnue");
 		}
 
 		$this->calculPx();

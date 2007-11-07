@@ -6,6 +6,7 @@ class Bral_Box_Laban {
 		Zend_Loader::loadClass('Laban');
 		Zend_Loader::loadClass('LabanMinerai');
 		Zend_Loader::loadClass('LabanPartieplante');
+		Zend_Loader::loadClass('LabanRune');
 		$this->_request = $request;
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;
@@ -60,13 +61,25 @@ class Bral_Box_Laban {
 			);
 		}
 		
+		$tabRunes = null;
+		$labanRuneTable = new LabanRune();
+		$runes = $labanRuneTable->findByIdHobbit($this->view->user->id_hobbit);
+
+		foreach ($runes as $r) {
+			$tabRunes[] = array(
+			"id_rune" => $r["id_rune_laban_rune"],
+			"type" => $r["nom_type_rune"],
+			);
+		}
+		
 		$this->view->nb_partieplantes = count($tabPartiePlantes);
 		$this->view->partieplantes = $tabPartiePlantes;
 		$this->view->nb_minerais = count($tabMinerais);
 		$this->view->minerais = $tabMinerais;
+		$this->view->nb_runes = count($tabRunes);
+		$this->view->runes = $tabRunes;
 		$this->view->laban = $tabLaban;
 		$this->view->nom_interne = $this->getNomInterne();
-
 		
 		return $this->view->render("interface/laban.phtml");
 	}

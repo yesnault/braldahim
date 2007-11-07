@@ -308,15 +308,32 @@ class Bral_Monstres_VieMonstre {
 		
 		$tirage = Bral_Util_De::get_1d100();
 		
+		Bral_Util_Log::tech()->trace(get_class($this)." - dropRune - tirage=".$tirage. " niveau_monstre=".$niveau);
+		
+		if ($tirage >= 1 && $tirage <= 1 + ($niveau/4)) {
+			$niveau = 'a';
+		} else if ($tirage >= 2 && $tirage <= 6 + ($niveau/4)) {
+			$niveau = 'b';
+		} else if ($tirage >= 7 && $tirage <= 21 - ($niveau/4)) {
+			$niveau = 'c';
+		} else if ($tirage >= 22 && $tirage <= 90 - ($niveau/4)) {
+			$niveau = 'd';
+		} else {
+			return;
+		}
+		
+		Bral_Util_Log::tech()->trace(get_class($this)."  - dropRune - niveau retenu=".$niveau);
+		
 		$typeRuneTable = new TypeRune();
-		$typeRuneRowset = $typeRuneTable->findByTirage($tirage);
+		$typeRuneRowset = $typeRuneTable->findByNiveau($niveau);
 		
 		if (!isset($typeRuneRowset) || count($typeRuneRowset) == 0) {
-			return; // pas de rune, tirage > 90%
+			return; // rien à faire, doit jamais arriver
 		}
 		
 		$nbType = count($typeRuneRowset);
 		$numeroRune = Bral_Util_De::get_de_specifique(0, $nbType-1);
+		
 		$typeRune = $typeRuneRowset[$numeroRune];
 		
 		$runeTable = new Rune();
@@ -325,6 +342,8 @@ class Bral_Monstres_VieMonstre {
 		"y_rune" => $y,
 		"id_fk_type_rune" => $typeRune["id_type_rune"],
 		);
+		
+		
 		
 		$runeTable = new Rune();
 		$runeTable->insert($data);

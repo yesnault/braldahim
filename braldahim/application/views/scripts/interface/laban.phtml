@@ -65,6 +65,32 @@
     Ration : <?=$this->laban["nb_ration"] ?>
    </div>
    <br>
+   
+   <div class="laban">
+   <? if ($this->nb_minerais == 0) : ?>
+   	Aucune rune
+   <? else : ?>
+    <? if ($this->nb_runes==1):$s=''; else:$s='s';endif; ?>
+    <?=$this->nb_runes?> rune<?=$s?> : <br>
+    
+    <table width='100%'>
+    <? $i = 0;
+      foreach ($this->runes as $r) : 
+     	 if ($i % 3 == 0) echo "<tr>"; 
+    	?>
+    	<td>
+    		<?=$r["type"]?>
+    	</td>
+    	<? if ($i % 3 == 2) echo "</tr>"; 
+    	$i++; 
+     endforeach;
+     if  ($i % 3 != 0) echo "</tr>"; 
+     ?>
+    </table> 
+    <? endif; ?>
+   </div>
+   <br>
+   
    </ul>
 </div>
 </div>
