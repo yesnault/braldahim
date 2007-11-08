@@ -84,4 +84,3 @@ class Bral_Box_Laban {
 		return $this->view->render("interface/laban.phtml");
 	}
 }
-?>

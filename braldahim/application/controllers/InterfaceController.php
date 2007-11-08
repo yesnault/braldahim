@@ -74,6 +74,7 @@ class InterfaceController extends Zend_Controller_Action {
 	}
 
 	function boxesAction() {
+		Zend_Loader::loadClass('Charrette');
 		$this->addBox(Bral_Box_Factory::getProfil($this->_request, $this->view, false), "boite_a");
 		$this->addBox(Bral_Box_Factory::getMetier($this->_request, $this->view, false), "boite_a");
 		$this->addBox(Bral_Box_Factory::getEquipement($this->_request, $this->view, false), "boite_a");
@@ -85,6 +86,13 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view, false), "boite_c");
 		$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), "boite_c");
 		$this->addBox(Bral_Box_Factory::getLaban($this->_request, $this->view, false), "boite_c");
+		
+		$charretteTable = new Charrette();
+		$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
+		if ($nombre > 0) {
+			$this->addBox(Bral_Box_Factory::getCharrette($this->_request, $this->view, false), "boite_c");
+		}
+		
 		$this->addBox(Bral_Box_Factory::getEvenements($this->_request, $this->view, false), "boite_c");
 		$this->addBox(Bral_Box_Factory::getMessagerie($this->_request, $this->view, false), "boite_c");
 

@@ -53,8 +53,10 @@ class Laban extends Zend_Db_Table {
 			if (isset($data['quantite_ration_laban'])) {
 				$dataUpdate['quantite_ration_laban'] = $quantiteRation + $data["quantite_ration_laban"];
 			}
-			$where = 'id_hobbit_laban = '.$data["id_hobbit_laban"];
-			$this->update($dataUpdate, $where);
+			if (isset($dataUpdate)) {
+				$where = 'id_hobbit_laban = '.$data["id_hobbit_laban"];
+				$this->update($dataUpdate, $where);
+			}
 		}
 	}
 }

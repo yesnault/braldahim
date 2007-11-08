@@ -154,6 +154,26 @@
 	      	</div>
 	    <?php endif; ?>	    
 
+      	<?php if ($case["n_palissades"] > 0) : ?>
+      		<div>
+      		<?php 
+      			$textPalissade = "";
+      			foreach($case["palissades"] as $p) {
+      				$textPalissade .= htmlentities($p["id_palissade"])."<br>";
+				} 
+				$s = "";
+				if ($case["n_palissades"] > 1) {
+					$s = "s";
+				}	
+			?>
+      		<span onmouseover="return overlib('<?=$textPalissade?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_palissades"] ?> Palissade<?=$s?> - Clique !');"
+      			onclick="return overlib('<?=$textPalissade?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_palissades"] ?> Palissade<?=$s?>', CLOSECLICK, EXCLUSIVE);"
+      			onmouseout="return nd();">
+	      		<?=$case["n_palissades"] ?> palissade<?=$s?>
+	      	</span>
+	      	</div>
+	    <?php endif; ?>
+
       	<?php if ($case["n_plantes"] > 0) : ?>
       		<div>
       		<?php 

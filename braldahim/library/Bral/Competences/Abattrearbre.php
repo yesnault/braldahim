@@ -11,19 +11,17 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 
 		switch($zone["nom_systeme_environnement"]) {
 			case "foret" :
-				$this->view->abattreArbreOk = true;
+				$this->view->abattreArbreEnvironnementOk = true;
 				break;
 			case "marais":
 			case "montagne":
 			case "caverne":
 			case "plaine" :
-			case "foret" :
-				$this->view->abattreArbreOk = true;
+				$this->view->abattreArbreEnvironnementOk = false;
 				break;
 			default :
 				throw new Exception("Abattre un arbre Environnement invalide:".$zone["nom_systeme_environnement"]. " x=".$x." y=".$y);
 		}
-		
 	}
 
 	function prepareFormulaire() {
@@ -41,8 +39,8 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
 		}
 		
-		// Verification assaisonner
-		if ($this->view->abattreArbreOk == false) {
+		// Verification abattre arbre
+		if ($this->view->abattreArbreEnvironnementOk == false) {
 			throw new Zend_Exception(get_class($this)." Abattre un arbre interdit ");
 		}
 		
@@ -63,21 +61,21 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 	 *  
 	 */
 	private function calculAbattreArbre() {
-		Zend_Loader::loadClass("Laban");
+		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("Bral_Util_De");
 		
 		$n = Bral_Util_De::get_1d3();
 		$this->view->nbRondins = $n + floor($this->view->user->sagesse_base_hobbit / 5);
 		
-		$labanTable = new Laban();
+		$charretteTable = new Charrette();
 		$data = array(
-			'id_hobbit_laban' => $this->view->user->id_hobbit,
-			'quantite_rondin_laban' => $this->view->nbRondins,
+			'quantite_rondin_charrette' => $this->view->nbRondins,
+			'id_hobbit_charrette' => $this->view->user->id_hobbit,
 		);
-		$labanTable->insertOrUpdate($data);
+		$charretteTable->updateCharrette($data);
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_competences_metiers", "box_laban", "box_evenements");
+		return array("box_profil", "box_vue", "box_competences_metiers", "box_laban", "box_charrette", "box_evenements");
 	}
 }

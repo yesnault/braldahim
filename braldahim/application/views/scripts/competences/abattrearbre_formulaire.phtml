@@ -6,17 +6,17 @@
 <?php if ($this->assezDePa == false) : ?>
  Vous n'avez pas assez de PA
 <?php else : ?>
-	 <? if ($this->abattreArbreOk === true) : ?>
+	 <? if ($this->abattreArbreEnvironnementOk === true) : ?>
 	 	Pour <?=$this->nb_pa ?> PA, vous pouvez abattre un arbre : <br>
 	 <? else:?>
-		 	Vous ne pouvez pas abattre un arbre en ville.<br>
+		 	Vous pouvez abattre un arbre qu'en for&ecirc;t.<br>
 	 <? endif; ?>
 <? endif ?>
 </div>
 
 </form>
 <br>
-<?php if ($this->assezDePa == true && $this->abattreArbreOk === true) : ?>
+<?php if ($this->assezDePa == true && $this->abattreArbreEnvironnementOk === true) : ?>
 <input type='button' class='button1' id='bouton_abattrearbre' value='Abattre un arbre !' onClick='_get_("/competences/DoAction?caction=do_competence_abattrearbre");'>
 <? endif ?>
 <? include("commun_fermer.phtml") ?>

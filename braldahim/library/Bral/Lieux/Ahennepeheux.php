@@ -53,7 +53,8 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 					$this->_tabNouveauMetiers[] = array("id_metier" => $m->id_metier,
 					"nom" => $m->nom_metier,
 					"nom_systeme" => $m->nom_systeme_metier,
-					"description" => $m->description_metier);
+					"description" => $m->description_metier
+					"construction_charrette" => $m->construction_charrette_metier);
 				}
 			}
 		}
@@ -118,6 +119,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 					if ($idNouveauMetier == $t["id_metier"]) {
 						$nouveau = true;
 						$nomMetier = $t["nom"];
+						$constructionCharrette = ($t["construction_charrette"] == 'oui')
 						break;
 					}
 				}
@@ -175,7 +177,15 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 			$data = array('castars_hobbit' => $this->view->user->castars_hobbit);
 			$where = "id_hobbit=".$this->view->user->id_hobbit;
 			$hobbitTable->update($data, $where);
-
+			
+			if ($constructionCharrette === true) {
+				$charretteTable = new Charrette();
+				$data = array(
+					"id_hobbit_charrette" => $this->view->user->id_hobbit;
+					"quantite_rondin_charrette" => 0,
+				);
+				$charretteTable->insert($data);
+			}
 		}
 
 		$this->view->nomMetier = $nomMetier;

@@ -6,6 +6,7 @@ class Bral_Box_Vue {
 		Zend_Loader::loadClass("Cadavre");
 		Zend_Loader::loadClass("Lieu");
 		Zend_Loader::loadClass("Monstre");
+		Zend_Loader::loadClass("Palissade");
 		Zend_Loader::loadClass("Plante");
 		Zend_Loader::loadClass("Region");
 		Zend_Loader::loadClass("Rune");
@@ -111,7 +112,6 @@ class Bral_Box_Vue {
 	}
 
 	private function data() {
-	
 		$cadavreTable = new Cadavre();
 		$cadavres = $cadavreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$hobbitTable = new Hobbit();
@@ -120,6 +120,8 @@ class Bral_Box_Vue {
 		$lieux = $lieuxTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$monstreTable = new Monstre();
 		$monstres = $monstreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$palissadeTable = new Palissade();
+		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$planteTable = new Plante();
 		$plantes = $planteTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$regionTable = new Region();
@@ -145,6 +147,7 @@ class Bral_Box_Vue {
 				$tabHobbits = null;
 				$tabLieux = null;
 				$tabMonstres = null;
+				$tabPalissades = null;
 				$tabPlantes = null;
 				$tabRunes = null;
 				$nom_systeme_environnement = null;
@@ -229,6 +232,11 @@ class Bral_Box_Vue {
 							break;
 						}
 					}
+					foreach($palissades as $p) {
+						if ($display_x == $p["x_palissade"] && $display_y == $p["y_palissade"]) {
+							$tabPalissades[] = array("id_palissade" => $p["id_palissade"]);
+						}
+					}
 					foreach($plantes as $p) {
 						if ($display_x == $p["x_plante"] && $display_y == $p["y_plante"]) {
 							$tabPlantes[] = array("id_plante" => $p["id_plante"], "type" => $p["nom_type_plante"],
@@ -276,6 +284,8 @@ class Bral_Box_Vue {
 				"lieux" => $tabLieux,
 				"n_monstres" => count($tabMonstres),
 				"monstres" => $tabMonstres,
+				"n_palissades" => count($tabPalissades),
+				"palissades" => $tabPalissades,
 				"n_runes" => count($tabRunes),
 				"runes" => $tabRunes,
 				"ville" => $ville,

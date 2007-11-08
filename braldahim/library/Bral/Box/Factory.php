@@ -19,6 +19,9 @@ class Bral_Box_Factory {
 			case "box_laban" :
 				return self::getLaban($request, $view, $interne);
 				break;
+			case "box_charrette" :
+				return self::getCharrette($request, $view, $interne);
+				break;
 			case "box_lieu" :
 				return self::getLieu($request, $view, $interne);
 				break;
@@ -80,6 +83,11 @@ class Bral_Box_Factory {
 	public static function getLaban($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Laban");
 		return new Bral_Box_Laban($request, $view, $interne);
+	}
+	
+	public static function getCharrette($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Charrette");
+		return new Bral_Box_Charrette($request, $view, $interne);
 	}
 
 	public static function getLieu($request, $view, $interne) {

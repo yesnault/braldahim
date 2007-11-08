@@ -343,8 +343,6 @@ class Bral_Monstres_VieMonstre {
 		"id_fk_type_rune" => $typeRune["id_type_rune"],
 		);
 		
-		
-		
 		$runeTable = new Rune();
 		$runeTable->insert($data);
 	}

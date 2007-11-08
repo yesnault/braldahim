@@ -48,6 +48,40 @@ class Bral_Util_ConvertDate {
 		return $epoch;
 	}
 
+	/* Ajoute une date (Y-m-d H:m:s) a un datetime mysql et
+	 * retourne le resultat en timestamp
+	 * @return timestamp
+	 */
+	public static function get_epoch_add_date_to_date($date, $add_date) {
+		$break = explode(" ", $date);
+		$datebreak = explode("-", $break[0]);
+		$time = explode(":", $break[1]);
+		
+		$add_break = explode(" ", $add_date);
+		$add_datebreak = explode("-", $add_break[0]);
+		$add_time = explode(":", $add_break[1]);
+		
+		$epoch = date("U", mktime($time[0]+$add_time[0],$time[1]+$add_time[1],$time[2]+$add_time[2],
+		$datebreak[1]+$add_datebreak[1],$datebreak[2]+$add_datebreak[2],$datebreak[0]+$add_datebreak[0]));
+
+		return $epoch;
+	}
+	
+	/* Ajoute une date (Y-m-d H:m:s) a un datetime mysql et
+	 * retourne le resultat en timestamp
+	 * @return timestamp
+	 */
+	public static function get_epoch_add_day_to_date($date, $add_day) {
+		$break = explode(" ", $date);
+		$datebreak = explode("-", $break[0]);
+		$time = explode(":", $break[1]);
+		
+		$epoch = date("U", mktime($time[0],$time[1],$time[2],
+		$datebreak[1],$datebreak[2]+$add_day,$datebreak[0]));
+
+		return $epoch;
+	}
+	
 	/* Ajoute une heure (H:m:s) a un datetime mysql et
 	 * retourne le resultat en date
 	 * @return date
@@ -56,6 +90,22 @@ class Bral_Util_ConvertDate {
 		return date("Y-m-d H:i:s", self::get_epoch_add_time_to_date($date, $add_time));
 	}
 
+	/* Ajoute une date (Y-m-d H:m:s) a un datetime mysql et
+	 * retourne le resultat en date
+	 * @return date
+	 */
+	public static function get_date_add_date_to_date($date, $add_time) {
+		return date("Y-m-d H:i:s", self::get_epoch_add_date_to_date($date, $add_time));
+	}
+	
+	/* Ajoute un/des jours a un datetime mysql et
+	 * retourne le resultat en date
+	 * @return date
+	 */
+	public static function get_date_add_day_to_date($date, $add_day) {
+		return date("Y-m-d H:i:s", self::get_epoch_add_day_to_date($date, $add_day));
+	}
+	
 	public static function get_divise_time_to_time($time, $div) {
 		$time = explode(":", $time);
 			

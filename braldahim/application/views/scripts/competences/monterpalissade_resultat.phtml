@@ -5,7 +5,11 @@
 		<? include("commun_text_resultat.phtml") ?>
 		
 		<? if ($this->okJet1 === true): ?>
-		//TODO
+			Vous avez mont&eacute; une palissade avec les caract&eacute;ristiques suivantes : <br>
+			Position : <?=$this->palissade["x_palissade"] ?>, <?=$this->palissade["y_palissade"] ?><br>
+			Armure naturelle : <?=$this->palissade["armure_naturelle_palissade"] ?><br>
+			PV Palissade : <?=$this->palissade["pv_restant_palissade"] ?><br>
+			Date de destruction : <?=$this->palissade["date_fin_palissade"] ?>
 		<? endif; ?>
 		<br>
 	 </div>
@@ -15,7 +19,19 @@
 		include("commun_copie_resultat.phtml");
 		
 		if ($this->okJet1 === true) {
-			echo "//TODO";
+			echo "Vous avez mont&eacute; une palissade avec les caract&eacute;ristiques suivantes :";
+			echo "
+";
+			echo "Position : ".$this->palissade["x_palissade"].", ".$this->palissade["y_palissade"];
+			echo "
+";
+			echo "Armure naturelle : ".$this->palissade["armure_naturelle_palissade"];
+			echo "
+";
+			echo "PV Palissade : ".$this->palissade["pv_restant_palissade"];
+			echo "
+";
+			echo "Date de destruction : ".$this->palissade["date_fin_palissade"];
 		}
 	?>
 	</textarea>

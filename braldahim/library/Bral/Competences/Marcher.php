@@ -28,8 +28,6 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		for ($j = $this->view->nb_cases; $j >= -$this->view->nb_cases; $j --) {
 			 $change_level = true;
 			 for ($i = -$this->view->nb_cases; $i <= $this->view->nb_cases; $i ++) {
-
-			 	
 			 	$x = $this->view->user->x_hobbit + $i;
 			 	$y = $this->view->user->y_hobbit + $j;
 			 	
