@@ -3,7 +3,9 @@
 class Bral_Competences_Marcher extends Bral_Competences_Competence {
 	
 	function prepareCommun() {
-		Zend_Loader::loadClass('zone'); 
+		Zend_Loader::loadClass('Zone'); 
+		Zend_Loader::loadClass('Palissade');
+		
 		$zoneTable = new Zone();
 		$zone = $zoneTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 
@@ -23,6 +25,27 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			return;
 		}
 		
+		$this->distance = $this->view->nb_cases;
+		$this->view->x_min = $this->view->user->x_hobbit - $this->distance;
+		$this->view->x_max = $this->view->user->x_hobbit + $this->distance;
+		$this->view->y_min = $this->view->user->y_hobbit - $this->distance;
+		$this->view->y_max = $this->view->user->y_hobbit + $this->distance;
+		
+		$palissadeTable = new Palissade();
+		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		
+		$tabValidationPalissade = null;
+		for ($j = $this->view->nb_cases; $j >= -$this->view->nb_cases; $j --) {
+			 for ($i = -$this->view->nb_cases; $i <= $this->view->nb_cases; $i ++) {
+				$x = $this->view->user->x_hobbit + $i;
+			 	$y = $this->view->user->y_hobbit + $j;
+			 	$tabValidationPalissade[$x][$y] = true;
+			 }
+		}
+		foreach($palissades as $p) {
+			$tabValidationPalissade[$p["x_palissade"]][$p["y_palissade"]] = false;
+		}
+		
 		$defautChecked = false;
 		
 		for ($j = $this->view->nb_cases; $j >= -$this->view->nb_cases; $j --) {
@@ -30,7 +53,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			 for ($i = -$this->view->nb_cases; $i <= $this->view->nb_cases; $i ++) {
 			 	$x = $this->view->user->x_hobbit + $i;
 			 	$y = $this->view->user->y_hobbit + $j;
-			 	
+
 			 	$display = $x;
 			 	$display .= " ; ";
 			 	$display .= $y;
@@ -45,13 +68,17 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			 		|| $y < $this->view->config->game->y_min || $y > $this->view->config->game->y_max ) { // on n'affiche pas de boutons dans la case du milieu
 					$valid = false;
 			 	}
+				
+			 	// on regarde s'il n'y a pas de palissade
+			 	if ($tabValidationPalissade != null && isset($tabValidationPalissade[$x]) && isset($tabValidationPalissade[$x][$y])) {
+		 			if ($tabValidationPalissade[$x][$y] === false) {
+		 				$valid = false;
+		 			}
+			 	}
 			 	
-			 	if ($i == -1 && $j == 1 && $valid === true && $defautChecked == false) {
+			 	if ($valid === true && $defautChecked == false) {
 					$default = "checked";
 					$defautChecked = true;
-			 	} else if ($i == 1 && $j == -1 && $valid === true && $defautChecked == false) {
-			 		$default = "checked";
-			 		$defautChecked = true;
 			 	} else {
 			 		$default = "";
 			 	}
@@ -83,10 +110,17 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Deplacement Y impossible : ".$offset_y);
 		}
 		
+		$palissadeTable = new Palissade();
+		$palissades = $palissadeTable->findByCase($this->view->user->x_hobbit + $offset_x, $this->view->user->y_hobbit + $offset_y);
+		
+		if (count($palissades) > 0) {
+			throw new Zend_Exception(get_class($this)." Deplacement invalide, palissade sur le chemin");
+		}
+		
 		$this->view->user->x_hobbit = $this->view->user->x_hobbit + $offset_x;
 		$this->view->user->y_hobbit = $this->view->user->y_hobbit + $offset_y;
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
-				
+		
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 		$hobbit = $hobbitRowset->current();

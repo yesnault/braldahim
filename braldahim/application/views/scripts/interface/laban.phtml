@@ -79,7 +79,11 @@
      	 if ($i % 3 == 0) echo "<tr>"; 
     	?>
     	<td>
-    		<?=$r["type"]?>
+    		<? if ($r["est_identifiee"] == 'oui'): ?>
+	    		<?=$r["type"]?> (<?=$r["id_rune"]?>)
+    		<? else: ?>
+    			1 rune non identifi&eacute;e (<?=$r["id_rune"]?>)
+    		<? endif; ?>
     	</td>
     	<? if ($i % 3 == 2) echo "</tr>"; 
     	$i++; 

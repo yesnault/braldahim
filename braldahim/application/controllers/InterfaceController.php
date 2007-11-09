@@ -171,4 +171,13 @@ class InterfaceController extends Zend_Controller_Action {
 			$this->xml_response->add_entry($xml_entry);
 		}
 	}
+	
+	public function reloadInterfaceAction() {
+		$xml_entry = new Bral_Xml_Entry();
+		$xml_entry->set_type("action");
+		$xml_entry->set_valeur("goto");
+		$xml_entry->set_data("/interface/");
+		$this->xml_response->add_entry($xml_entry);
+		$this->xml_response->render();
+	}
 }

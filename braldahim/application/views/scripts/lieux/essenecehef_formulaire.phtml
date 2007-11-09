@@ -29,4 +29,4 @@
 <? if ($this->utilisationPossible === true): ?>
 <input type='button' class='button1' id="bouton_essenecehef" value='Utiliser la charrette !' onClick="_get_('/lieux/DoAction?caction=do_lieu_essenecehef');"  disabled>
 <? endif; ?>
-<input type='button' class='button1' value='Annuler' onClick='javascript:_get_("/interface/clear");'>
+<? include("commun_fermer.phtml") ?>

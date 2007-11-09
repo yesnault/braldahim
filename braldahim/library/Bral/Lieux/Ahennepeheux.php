@@ -9,11 +9,12 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 	private $_possedeMetier;
 
 	function prepareCommun() {
+		Zend_Loader::loadClass("Charrette");
+		Zend_Loader::loadClass("Competence");
 		Zend_Loader::loadClass("Hobbit");
 		Zend_Loader::loadClass("Metier");
 		Zend_Loader::loadClass("HobbitsMetiers");
 		Zend_Loader::loadClass("HobbitsCompetences");
-		Zend_Loader::loadClass("Competence");
 
 		$hobbitsMetiersTable = new HobbitsMetiers();
 		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
@@ -65,7 +66,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 					$this->_tabNouveauMetiers[] = array("id_metier" => $m->id_metier,
 					"nom" => $nom_metier,
 					"nom_systeme" => $m->nom_systeme_metier,
-					"description" => $m->description_metier
+					"description" => $m->description_metier,
 					"construction_charrette" => $m->construction_charrette_metier);
 				}
 			}
@@ -131,7 +132,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 					if ($idNouveauMetier == $t["id_metier"]) {
 						$nouveau = true;
 						$nomMetier = $t["nom"];
-						$constructionCharrette = ($t["construction_charrette"] == 'oui')
+						$constructionCharrette = ($t["construction_charrette"] == 'oui');
 						break;
 					}
 				}
@@ -190,13 +191,16 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 			$where = "id_hobbit=".$this->view->user->id_hobbit;
 			$hobbitTable->update($data, $where);
 			
+			$this->view->constructionCharrette = false;
+			
 			if ($constructionCharrette === true) {
 				$charretteTable = new Charrette();
 				$data = array(
-					"id_hobbit_charrette" => $this->view->user->id_hobbit;
+					"id_hobbit_charrette" => $this->view->user->id_hobbit,
 					"quantite_rondin_charrette" => 0,
 				);
 				$charretteTable->insert($data);
+				$this->view->constructionCharrette = true;
 			}
 		}
 
@@ -207,7 +211,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 
 
 	function getListBoxRefresh() {
-		return array("box_metier", "box_laban", "box_competences_communes", "box_competences_basiques", "box_competences_metiers");
+		return array("box_metier", "box_laban", "box_charrette", "box_competences_communes", "box_competences_basiques", "box_competences_metiers");
 	}
 
 	private function calculCoutCastars($nbMetiersAcquis) {

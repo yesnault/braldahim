@@ -13,6 +13,10 @@
 			<? else: ?>
 			castars
 			<? endif; ?>
+			<br>
+			<? if ($this->constructionCharrette === true): ?>
+				De plus, vous avez r&eacute;cup&eacute;r&eacute; une charrette !
+			<? endif; ?>
 		<? elseif ($this->changementMetier === true) : ?>
 			Votre m&eacute;tier courant est maintenant :<br>
 			<?=htmlentities($this->nomMetier) ?>
@@ -35,6 +39,12 @@
 				} else {
 					echo " castars";
 				}
+				
+				if ($this->constructionCharrette === true) {
+					echo "
+";
+					echo "De plus, vous avez r&eacute;cup&eacute;r&eacute; une charrette !";
+				}
 			}elseif ($this->changementMetier === true) {
 				echo "Votre m&eacute;tier courant est maintenant :";
 				echo htmlentities($this->nomMetier);
@@ -44,4 +54,9 @@
  </div>
 
 <input type='button' class='button1' value='Copier' onClick="javascript:switch2div('lieu_text','lieu_copie');">
-<? include("commun_fermer.phtml") ?>
+<? if ($this->constructionCharrette === true): ?>
+	<input type='button' class='button1' value='Fermer' onClick='_get_("/interface/reloadInterface");Modalbox.hide();'>
+<? else: ?>
+	<? include("commun_fermer.phtml") ?>
+<? endif; ?>
+

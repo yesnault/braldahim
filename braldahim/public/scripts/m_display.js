@@ -6,9 +6,9 @@ function _display_(box,data) {
 function _display_box(box, data) {
 	if (document.getElementById(box)) {
 		document.getElementById(box).innerHTML = data;
-	} else {
-		alert('Erreur m_display : box:'+box+' inconnue');
-	}
+	} //else {
+		//alert('Erreur m_display : box:'+box+' inconnue');
+	//}
 }
 
 // Switch pour les onglets sur les box

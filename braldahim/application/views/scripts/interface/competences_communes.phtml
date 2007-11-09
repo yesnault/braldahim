@@ -8,7 +8,7 @@
  	foreach($this->competences as $c) : ?>
   <ul class="ligne_espace">
        
-      <input type="button" class='button1' value="<?=$c["pa_utilisation"]?> PA - <?=htmlentities($c["nom"])?> : <?=$c["pourcentage"]?> % "
+      <input type="button" class='button1' value="<?=$c["pa_utilisation"]?> PA - <?=htmlentities($c["nom"])?>"
          onClick="Javascript:_get_('/competences/DoAction?caction=ask_competence_<?=$c["nom_systeme"] ?>')">
   </ul>
  <?php endforeach ;

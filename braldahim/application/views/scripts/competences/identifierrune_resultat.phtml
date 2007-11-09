@@ -1,0 +1,42 @@
+<div class='comp_titre'>Identifier des Runes</div>
+
+ <div class='comp_contenu'>
+	 <div id='identifierrune_text' style="display:block"  onClick="javascript:switch2div('identifierrune_text','identifierrune_copie');">
+		
+		<? include("commun_text_resultat.phtml") ?>
+		
+		Votre Jet d'identification : <?=$this->jetHobbit ?> <br>
+		<? if ($this->identificationReussieOk === true): ?>
+			Vous avez r&eacute;ussi &agrave; identifier la rune n&deg; <?=$this->rune["id_rune"] ?><br>
+			Le type de cette rune est : <?=$this->rune["type"] ?>
+		<? else: ?>
+			Vous avez manqu&eacute; votre identification<br>
+			<?if ($this->jetHobbitLoin === true) :?>
+				Vous &ecirc;tes loin d'identifier cette rune...
+			<? endif; ?>
+		<? endif; ?>
+		<br>
+	 </div>
+	 
+	 <div id='identifierrune_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+		include("commun_copie_resultat.phtml");
+		
+			echo "Votre Jet d'identification : ".$this->jetHobbit;
+			echo "
+";
+			if ($this->identificationReussieOk === true) {
+				echo "Vous avez r&eacute;ussi &agrave; identifier la rune n&deg; ".$this->rune["id_rune"];
+				echo "
+";
+				echo "Le type de cette rune est : ".$this->rune["type"];
+			} else {
+				echo "Vous avez manqu&eacute; votre identification";
+			}
+	?>
+	</textarea>
+	</div>
+ </div>
+
+<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('identifierrune_text','identifierrune_copie');">
+<? include("commun_fermer.phtml") ?>

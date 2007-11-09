@@ -14,6 +14,7 @@ class Bral_Competences_Factory {
 		Zend_Loader::loadClass("Bral_Competences_Depiauter");
 		Zend_Loader::loadClass("Bral_Competences_Distribuerpx");
 		Zend_Loader::loadClass("Bral_Competences_Extraire");
+		Zend_Loader::loadClass("Bral_Competences_Identifierrune");
 		Zend_Loader::loadClass("Bral_Competences_Gardiennage");
 		Zend_Loader::loadClass("Bral_Competences_Marcher");
 		Zend_Loader::loadClass("Bral_Competences_Monterpalissade");

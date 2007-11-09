@@ -172,7 +172,7 @@ class InscriptionController extends Zend_Controller_Action {
 		'y_hobbit' => $lieu["y_lieu"],
 		'vue_bm_hobbit' => $this->view->config->game->inscription->vue_bm,
 		'date_debut_tour_hobbit' => date("Y-m-d H:i:s"),
-		'date_fin_tour_hobbit' => date("Y-m-d H:i:s"),
+		'date_fin_tour_hobbit' => Bral_Util_ConvertDate::get_date_add_time_to_date(date("Y-m-d H:i:s"), $this->view->config->game->tour->duree_tour_manque),
 		'duree_base_tour_hobbit' => $this->view->config->game->tour->duree_base,
 		'duree_prochain_tour_hobbit' => $this->view->config->game->inscription->duree_prochain_tour,
 		'duree_courant_tour_hobbit' => $this->view->config->game->inscription->duree_courant_tour,
@@ -185,6 +185,7 @@ class InscriptionController extends Zend_Controller_Action {
 		'agilite_base_hobbit' => $this->view->config->game->inscription->agilite_base,
 		'vigueur_base_hobbit' => $this->view->config->game->inscription->vigueur_base,
 		'sagesse_base_hobbit' => $this->view->config->game->inscription->sagesse_base,
+		'pa_hobbit' => $this->view->config->game->inscription->pa,
 		);
 
 		return $data;

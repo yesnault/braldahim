@@ -82,6 +82,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 				'id_hobbit_laban_rune' => $this->view->user->id_hobbit,
 				'id_rune_laban_rune' => $runeRowset[$t]["id_rune"],
 				'id_fk_type_laban_rune' => $runeRowset[$t]["id_fk_type_rune"],
+				'est_identifiee_rune' => 'non',
 			);
 			$labanRuneTable->insert($data);
 			
