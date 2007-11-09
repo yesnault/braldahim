@@ -23,7 +23,7 @@ class HobbitsMetiers extends Zend_Db_Table
 		->from('metier', '*')
 		->where('hobbits_metiers.id_metier_hmetier = metier.id_metier')
 		->where('hobbits_metiers.id_hobbit_hmetier = '.intval($idHobbit))
-		->order('metier.nom_metier');
+		->order('metier.nom_masculin_metier');
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

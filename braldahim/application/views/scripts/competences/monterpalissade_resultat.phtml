@@ -5,11 +5,25 @@
 		<? include("commun_text_resultat.phtml") ?>
 		
 		<? if ($this->okJet1 === true): ?>
-			Vous avez mont&eacute; une palissade avec les caract&eacute;ristiques suivantes : <br>
-			Position : <?=$this->palissade["x_palissade"] ?>, <?=$this->palissade["y_palissade"] ?><br>
-			Armure naturelle : <?=$this->palissade["armure_naturelle_palissade"] ?><br>
-			PV Palissade : <?=$this->palissade["pv_restant_palissade"] ?><br>
-			Date de destruction : <?=$this->palissade["date_fin_palissade"] ?>
+		
+			<? if ($this->nRondinsSuffisants !==true) : ?>
+				Vous n'avez pas eu assez de rondins. Il vous fallait : 
+				<?=$this->nRondinsNecessaires ?> et vous avez <?=$this->nRondins ?> rondins<br><br>
+				
+				Le nombre de rondins n&eacute;cessaire a &eacute;t&eacute; calcul&eacute;
+				avec la formule suivante : <?=$this->nRondinsNecessairesFormule ?>
+			<? else: ?>
+			
+				Vous avez mont&eacute; une palissade !<br>
+				Il vous a fallu <?=$this->nRondinsNecessaires ?> rondins, calcul&eacute;s 
+				avec la formule suivante : <?=$this->nRondinsNecessairesFormule ?><br><br>
+				
+				La palissade a les caract&eacute;ristiques suivantes : <br>
+				Position : <?=$this->palissade["x_palissade"] ?>, <?=$this->palissade["y_palissade"] ?><br>
+				Armure naturelle : <?=$this->palissade["armure_naturelle_palissade"] ?><br>
+				PV Palissade : <?=$this->palissade["pv_restant_palissade"] ?><br>
+				Date de destruction : <?=$this->palissade["date_fin_palissade"] ?>
+			<? endif; ?>
 		<? endif; ?>
 		<br>
 	 </div>
@@ -19,19 +33,37 @@
 		include("commun_copie_resultat.phtml");
 		
 		if ($this->okJet1 === true) {
-			echo "Vous avez mont&eacute; une palissade avec les caract&eacute;ristiques suivantes :";
-			echo "
+		
+			if ($this->nRondinsSuffisants !==true) {
+				echo "Vous n'avez pas eu assez de rondins. Il vous fallait : ";
+				echo $this->nRondinsNecessaires." et vous avez ".$this->nRondins. " rondins";
+				echo "
+	";
+				echo "Le nombre de rondins n&eacute;cessaire a &eacute;t&eacute; calcul&eacute;s";
+				echo " avec la formule suivante : ".$this->nRondinsNecessairesFormule;
+			} else {
+				echo "Vous avez mont&eacute; une palissade !";
+				echo "
 ";
-			echo "Position : ".$this->palissade["x_palissade"].", ".$this->palissade["y_palissade"];
-			echo "
+				echo "Il vous a fallu ".$this->nRondinsNecessaires." rondins, calcul&eacute; ";
+				echo "avec la formule suivante : ".$this->nRondinsNecessairesFormule;
+				echo "
 ";
-			echo "Armure naturelle : ".$this->palissade["armure_naturelle_palissade"];
-			echo "
-";
-			echo "PV Palissade : ".$this->palissade["pv_restant_palissade"];
-			echo "
-";
-			echo "Date de destruction : ".$this->palissade["date_fin_palissade"];
+			
+				echo "Vous avez mont&eacute; une palissade avec les caract&eacute;ristiques suivantes :";
+				echo "
+	";
+				echo "Position : ".$this->palissade["x_palissade"].", ".$this->palissade["y_palissade"];
+				echo "
+	";
+				echo "Armure naturelle : ".$this->palissade["armure_naturelle_palissade"];
+				echo "
+	";
+				echo "PV Palissade : ".$this->palissade["pv_restant_palissade"];
+				echo "
+	";
+				echo "Date de destruction : ".$this->palissade["date_fin_palissade"];
+			}
 		}
 	?>
 	</textarea>

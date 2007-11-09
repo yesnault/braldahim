@@ -5,6 +5,10 @@
 
 <?php if ($this->assezDePa == false) : ?>
  Vous n'avez pas assez de PA
+<?php elseif ($this->monterPalissadeCharretteOk == false) : ?>
+ Vous n'avez pas de charrette ?!
+<?php elseif ($this->nRondins < 2) : ?>
+ Vous n'avez pas assez de rondins 
 <?php elseif ($this->monterPalissadeOk == false) : ?>
  Vous ne pouvez pas monter de palissade aux alentours de vous
 <?php else : ?>

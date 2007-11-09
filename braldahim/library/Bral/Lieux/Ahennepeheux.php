@@ -22,9 +22,15 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 
 		foreach($hobbitsMetierRowset as $m) {
 			$this->_possedeMetier = true;
-
+			
+			if ($this->view->user->sexe_hobbit == 'feminin') {
+				$nom_metier = $m["nom_feminin_metier"];
+			} else {
+				$nom_metier = $m["nom_masculin_metier"];
+			}
+			
 			$this->_tabMetiers[] = array("id_metier" => $m["id_metier"],
-			"nom" => $m["nom_metier"],
+			"nom" => $nom_metier,
 			"nom_systeme" => $m["nom_systeme_metier"],
 			"est_actif" => ($m["est_actif_hmetier"] == "oui"),
 			"date_apprentissage" => Bral_Util_ConvertDate::get_date_mysql_datetime("d/m/Y", $m["date_apprentissage_hmetier"]),
@@ -32,7 +38,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 		}
 
 		$metiersTable = new Metier();
-		$metiersRowset = $metiersTable->fetchall(null, "nom_metier");
+		$metiersRowset = $metiersTable->fetchall(null, "nom_masculin_metier");
 		$this->_coutCastars = $this->calculCoutCastars(count($hobbitsMetierRowset));
 
 		$this->_tabNouveauMetiers = null;
@@ -50,8 +56,14 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 				}
 
 				if ($nouveau === true) {
+					if ($this->view->user->sexe_hobbit == 'feminin') {
+						$nom_metier = $m->nom_feminin_metier;
+					} else {
+						$nom_metier = $m->nom_masculin_metier;
+					}
+			
 					$this->_tabNouveauMetiers[] = array("id_metier" => $m->id_metier,
-					"nom" => $m->nom_metier,
+					"nom" => $nom_metier,
 					"nom_systeme" => $m->nom_systeme_metier,
 					"description" => $m->description_metier
 					"construction_charrette" => $m->construction_charrette_metier);

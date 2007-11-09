@@ -1,41 +1,1 @@
--- phpMyAdmin SQL Dump
--- version 2.9.2
--- http://www.phpmyadmin.net
--- 
--- Serveur: localhost
--- GÈnÈrÈ le : Samedi 19 Mai 2007 ‡ 10:42
--- Version du serveur: 5.0.33
--- Version de PHP: 5.2.0
--- 
--- Base de donnÈes: `braldahim`
--- 
-
--- --------------------------------------------------------
-
--- 
--- Structure de la table `metier`
--- 
-
-DROP TABLE IF EXISTS `metier`;
-CREATE TABLE `metier` (
-  `id_metier` int(11) NOT NULL auto_increment,
-  `nom_metier` varchar(20) NOT NULL,
-  `nom_systeme_metier` varchar(20) NOT NULL,
-  `description_metier` varchar(200) NOT NULL,
-  PRIMARY KEY  (`id_metier`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
-
--- 
--- Contenu de la table `metier`
--- 
-
-INSERT INTO `metier` VALUES (1, 'Mineur', 'mineur', 'Description du mÈtier mineur');
-INSERT INTO `metier` VALUES (2, 'Chasseur', 'chasseur', 'Description du mÈtier chasseur');
-INSERT INTO `metier` VALUES (3, 'B˚cheron', 'bucheron', 'Description du mÈtier B˚cheron');
-INSERT INTO `metier` VALUES (4, 'Herboriste', 'herboriste', 'Description du mÈtier Herboriste');
-INSERT INTO `metier` VALUES (5, 'Forgeron', 'forgeron', 'Description du mÈtier Forgeron');
-INSERT INTO `metier` VALUES (6, 'Apothicaire', 'apothicaire', 'Description du mÈtier Apothicaire');
-INSERT INTO `metier` VALUES (7, 'Menuisier', 'menuisier', 'Description du mÈtier menuisier');
-INSERT INTO `metier` VALUES (8, 'Cuisiner', 'cuisinier', 'Description du mÈtier Cuisinier');
-INSERT INTO `metier` VALUES (9, 'Tanneur', 'tanneur', 'Description du mÈtier Tanneur');
-INSERT INTO `metier` VALUES (10, 'Guerrier', 'guerrier', 'Description du mÈtier Guerrier');
+-- phpMyAdmin SQL Dump-- version 2.9.2-- http://www.phpmyadmin.net-- -- Serveur: localhost-- Généré le : Vendredi 09 Novembre 2007 à 19:49-- Version du serveur: 5.0.33-- Version de PHP: 5.2.0-- -- Base de données: `braldahim`-- -- ---------------------------------------------------------- -- Structure de la table `metier`-- CREATE TABLE `metier` (  `id_metier` int(11) NOT NULL auto_increment,  `nom_masculin_metier` varchar(20) NOT NULL,  `nom_feminin_metier` varchar(20) NOT NULL,  `nom_systeme_metier` varchar(20) NOT NULL,  `description_metier` varchar(200) NOT NULL,  `construction_charrette_metier` enum('oui','non') NOT NULL,  PRIMARY KEY  (`id_metier`)) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;-- -- Contenu de la table `metier`-- INSERT INTO `metier` VALUES (1, 'Mineur', 'Mineur', 'mineur', 'Description du métier mineur', 'non');INSERT INTO `metier` VALUES (2, 'Chasseur', 'Chasseuse', 'chasseur', 'Description du métier chasseur', 'non');INSERT INTO `metier` VALUES (3, 'Bûcheron', 'Bûcherone', 'bucheron', 'Description du métier Bûcheron', 'oui');INSERT INTO `metier` VALUES (4, 'Herboriste', 'Herboriste', 'herboriste', 'Description du métier Herboriste', 'non');INSERT INTO `metier` VALUES (5, 'Forgeron', 'Forgerone', 'forgeron', 'Description du métier Forgeron', 'non');INSERT INTO `metier` VALUES (6, 'Apothicaire', 'Apothicaire', 'apothicaire', 'Description du métier Apothicaire', 'non');INSERT INTO `metier` VALUES (7, 'Menuisier', 'Menuisière', 'menuisier', 'Description du métier menuisier', 'non');INSERT INTO `metier` VALUES (8, 'Cuisinier', 'Cuisinière', 'cuisinier', 'Description du métier Cuisinier', 'non');INSERT INTO `metier` VALUES (9, 'Tanneur', 'Tanneuse', 'tanneur', 'Description du métier Tanneur', 'non');INSERT INTO `metier` VALUES (10, 'Guerrier', 'Guerrière', 'guerrier', 'Description du métier Guerrier', 'non');

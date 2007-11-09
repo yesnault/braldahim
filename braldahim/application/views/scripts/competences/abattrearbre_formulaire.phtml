@@ -6,11 +6,16 @@
 <?php if ($this->assezDePa == false) : ?>
  Vous n'avez pas assez de PA
 <?php else : ?>
-	 <? if ($this->abattreArbreEnvironnementOk === true) : ?>
-	 	Pour <?=$this->nb_pa ?> PA, vous pouvez abattre un arbre : <br>
-	 <? else:?>
-		 	Vous pouvez abattre un arbre qu'en for&ecirc;t.<br>
+	 <? if ($this->abattreArbreEnvironnementOk !== true) : ?>
+	 	Vous pouvez abattre un arbre qu'en for&ecirc;t
+	 <? elseif ($this->abattreArbreVilleOk !== true) : ?>
+		Vous ne pouvez pas abattre un arbre en ville
+	 <? elseif ($this->abattreArbreLieuOk !== true) : ?>
+	 	Vous ne pouvez pas abattre un arbre sur un lieu
+	 <? else: ?>
+		 Pour <?=$this->nb_pa ?> PA, vous pouvez abattre un arbre
 	 <? endif; ?>
+	 <br>
 <? endif ?>
 </div>
 

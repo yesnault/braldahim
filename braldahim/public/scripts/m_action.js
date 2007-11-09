@@ -39,7 +39,12 @@ function _get_(url){
             var nom = 'valeur_'+i;
             var elem = $(nom);
             if (elem.type == "radio") {
-                valeurs = valeurs + "&valeur_" +i+ "=" +findSelectedRadioButton(nom).value;
+            	radioButton = findSelectedRadioButton(nom);
+            	if (radioButton != null) {
+                	valeurs = valeurs + "&valeur_" +i+ "=" +findSelectedRadioButton(nom).value;
+            	} else {
+            		valeurs = valeurs + "&valeur_" +i+ "=" +elem.value;
+            	}
             } else {
                valeurs = valeurs + "&valeur_" +i+ "=" +encodeURIComponent(elem.value);
                //valeurs = valeurs + "&" + $('valeur_'+i).serialize();

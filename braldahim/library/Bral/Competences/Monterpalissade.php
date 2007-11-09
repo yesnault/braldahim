@@ -3,6 +3,7 @@
 class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 
 	function prepareCommun() {
+		Zend_Loader::loadClass('Charrette'); 	
 		Zend_Loader::loadClass('Echoppe'); 	
 		Zend_Loader::loadClass('Hobbit'); 	
 		Zend_Loader::loadClass('Lieu'); 	
@@ -11,12 +12,27 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Ville'); 	
 	
 		$this->view->monterPalissadeOk = false;
-	
+		$this->view->monterPalissadeCharretteOk = false;
 		/*
-		 * La quantitee de rondins necessaires a la construction de la 
-		 * palissade varie suivant la maitrise de la competence : 
-		 * 
+		 * On verifie qu'il y a au moins 2 rondins
 		 */
+		$charretteTable = new Charrette();
+		$charrette = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+	
+		if (!isset($charrette)) {
+			return;
+		}
+		
+		$this->view->nRondins = 0;
+		foreach ($charrette as $c) {
+			$this->view->nRondins = $c["quantite_rondin_charrette"];
+			$this->view->monterPalissadeCharretteOk = true;
+			break;
+		}
+		
+		if ($this->view->nRondins < 2) {
+			return;
+		}
 		
 		$this->distance = 1;
 		$this->view->x_min = $this->view->user->x_hobbit - $this->distance;
@@ -149,6 +165,14 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		if ($this->view->monterPalissadeOk == false) {
 			throw new Zend_Exception(get_class($this)." Monter Palissade interdit");
 		}
+
+		if ($this->view->nRondins < 2 ) {
+			throw new Zend_Exception(get_class($this)." Monter Palissade interdit : rondins insuffisants");
+		}
+		
+		if ($this->view->monterPalissadeCharretteOk == false) {
+			throw new Zend_Exception(get_class($this)." Monter Palissade interdit : pas de charrette");
+		}
 		
 		// on verifie que l'on peut monter une palissade sur la case
 		$x_y = $this->request->get("valeur_1");
@@ -180,6 +204,44 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 	
 	private function calculMonterPalissade($x, $y) {
 		
+		/*
+		 * [11.1-11*0.68] % -> 2+1D3
+		 * [100-(11.1-11*0.68)-(10*0.68)] % -> 1+1D3
+		 * [10*0.68] % -> 1D3
+		 */
+		$maitrise = $this->hobbit_competence["pourcentage_hcomp"];
+		$chance_a = 11.1-11 * $maitrise;
+		$chance_b = 100-(11.1-11 * $maitrise)-(10 * $maitrise);
+		$chance_c = 10 * $maitrise;
+		
+		$tirage = Bral_Util_De::get_1d100();
+		
+		if ($tirage > 0 && $tirage <= $chance_a) {
+			$this->view->nRondinsNecessaires = 2 + Bral_Util_De::get_1d3();
+			$this->view->nRondinsNecessairesFormule = "2 + 1D3";
+		} elseif ($tirage > $chance_a && $tirage <= $chance_b) {
+			$this->view->nRondinsNecessaires = 1 + Bral_Util_De::get_1d3();
+			$this->view->nRondinsNecessairesFormule = "1 + 1D3";
+		} elseif ($tirage > $chance_b && $tirage <= 100) {
+			$this->view->nRondinsNecessaires = Bral_Util_De::get_1d3();
+			$this->view->nRondinsNecessairesFormule = "1D3";
+		}
+		
+		$this->view->nRondinsSuffisants = false;
+		
+		if ($this->view->nRondins >= $this->view->nRondinsNecessaires) {
+			$this->view->nRondinsSuffisants = true;
+		} else {
+			return;
+		}
+		
+		$charretteTable = new Charrette();
+		$data = array(
+			'quantite_rondin_charrette' => -$this->view->nRondinsNecessaires,
+			'id_hobbit_charrette' => $this->view->user->id_hobbit,
+		);
+		$charretteTable->updateCharrette($data);
+		
 		$date_creation = date("Y-m-d H:i:s");
 		$nb_jours = $this->view->user->vigueur_base_hobbit / 2;
 		$date_fin = Bral_Util_ConvertDate::get_date_add_day_to_date($date_creation, $nb_jours);
@@ -201,6 +263,6 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_competences_metiers", "box_laban", "box_evenements");
+		return array("box_profil", "box_vue", "box_competences_metiers", "box_laban", "box_charrette", "box_evenements");
 	}
 }

@@ -4,11 +4,28 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Zone");
+		Zend_Loader::loadClass('Lieu'); 	
+		Zend_Loader::loadClass('Ville'); 
+		
+		$villeTable = new Ville();
+		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$lieuxTable = new Lieu();
+		$lieux = $lieuxTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		$zoneTable = new Zone();
-
 		$zones = $zoneTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		
+		$this->view->abattreArbreLieuOk = true;
+		$this->view->abattreArbreVilleOk = true;
+		
+		if (count($lieux) > 0) {
+			$this->view->abattreArbreLieuOk = false;
+		}
+		
+		if (count($villes) > 0) {
+			$this->view->abattreArbreVilleOk = false;
+		}		
+				
 		$zone = $zones[0];
-
 		switch($zone["nom_systeme_environnement"]) {
 			case "foret" :
 				$this->view->abattreArbreEnvironnementOk = true;
