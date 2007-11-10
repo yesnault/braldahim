@@ -13,7 +13,7 @@
 			<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_attaquer').disabled=true } else {$('valeur_2').value=-1; $('bouton_attaquer').disabled=false }">
 			<option value='-1'>(Choisis un monstre)</option>
 			<? foreach ($this->tabMonstres as $m) : ?>
-			<option value="<?=$m["id_monstre"]?>"><?=htmlentities($m["nom_monstre"])?> <?=htmlentities($m["taille_monstre"])?>  (<?=$m["id_monstre"]?>) N<?=$m["niveau_monstre"]?></option>
+			<option value="<?=$m["id_monstre"]?>"><?=htmlentities($m["nom_monstre"])?> <?=htmlentities($m["taille_monstre"])?>  (<?=$m["id_monstre"]?>)</option>
 			<? endforeach; ?>
 			</select><br><br>
 		<? else: ?>
