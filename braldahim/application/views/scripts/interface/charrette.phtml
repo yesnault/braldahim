@@ -6,7 +6,8 @@
   
    <br>
    <div class="charrette">
-   	Rondin : <?=$this->charrette["nb_rondin"] ?>
+    <? $s=""; if ($this->charrette["nb_rondin"] > 0):$s='s'; endif; ?>
+   	Rondin<?=$s ?> : <?=$this->charrette["nb_rondin"] ?>
    </div>
    <br>
    

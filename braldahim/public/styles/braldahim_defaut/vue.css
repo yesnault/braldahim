@@ -7,10 +7,10 @@ able.vue2d {
 }
 
 td.vue2d {
-  border-style : dashed;
-  border-color: black;
+  border-style : solid;
+  border-color: #eeeeee;
   border-spacing: 0;
-  border-width: 0.5pt;
+  border-width: 0.0pt;
   font-size: 7pt;
   vertical-align: top;
   width: 50px;

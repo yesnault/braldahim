@@ -50,31 +50,59 @@ class Bral_Monstres_VieMonstre {
 		if ($this->monstre["pa_monstre"] == 0) {
 			Bral_Util_Log::tech()->debug(get_class($this)." - Le monstre n'a plus de PA");
 		}
-
+		
+		$palissadeTable = new Palissade();
+		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		
+		$this->tabValidationPalissade = null;
+		for ($j = 12; $j >= -12; $j--) {
+			for ($i = -12; $i <= 12; $i++) {
+				$x = $this->monstre["x_monstre"] + $i;
+			 	$y = $this->monstre["y_monstre"] + $j;
+			 	$this->tabValidationPalissade[$x][$y] = true;
+			}
+		}
+		foreach($palissades as $p) {
+			$this->tabValidationPalissade[$p["x_palissade"]][$p["y_palissade"]] = false;
+		}
+			
 		$pa_a_jouer = Bral_Util_De::get_de_specifique(0, $this->monstre["pa_monstre"]);
 		Bral_Util_Log::tech()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") - nb pa a jouer=".$pa_a_jouer. " destination x=".$x_destination." y=".$y_destination);
 		$nb_pa_joues = 0;
 		while ((($x_destination != $this->monstre["x_monstre"]) || ($y_destination != $this->monstre["y_monstre"])) && ($nb_pa_joues < $pa_a_jouer)) {
+
 			if ($this->monstre["x_monstre"] < $x_destination) {
-				$this->monstre["x_monstre"] = $this->monstre["x_monstre"] + 1;
-				$modif = true;
+				$x_monstre = $this->monstre["x_monstre"] + 1;
+				$x_offset = +1;
 			} else if ($this->monstre["x_monstre"] > $x_destination) {
-				$this->monstre["x_monstre"] = $this->monstre["x_monstre"] - 1;
-				$modif = true;
+				$x_monstre = $this->monstre["x_monstre"] - 1;
+				$x_offset = -1;
 			}
 			if ($this->monstre["y_monstre"] < $y_destination) {
-				$this->monstre["y_monstre"] = $this->monstre["y_monstre"] + 1;
-				$modif = true;
+				$y_monstre = $this->monstre["y_monstre"] + 1;
+				$y_offset = +1;
 			} else if ($this->monstre["y_monstre"] > $y_destination) {
-				$this->monstre["y_monstre"] = $this->monstre["y_monstre"] - 1;
+				$y_monstre = $this->monstre["y_monstre"] - 1;
+				$y_offset = -1;
+			}
+			
+			if ($this->tabValidationPalissade[$x_monstre][$y_monstre] == true) {
+				$this->monstre["x_monstre"] = $x_monstre;
+				$this->monstre["y_monstre"] = $y_monstre;
+				$modif = true;
+			} elseif ($this->tabValidationPalissade[$this->monstre["x_monstre"] + $x_offset][$this->monstre["y_monstre"]] == true) {
+				$this->monstre["x_monstre"] = $this->monstre["x_monstre"]  + $x_offset;
+				$this->monstre["y_monstre"] = $this->monstre["y_monstre"];
+				$modif = true;
+			} elseif ($this->tabValidationPalissade[$this->monstre["x_monstre"]][$this->monstre["y_monstre"] + $y_offset] == true) {
+				$this->monstre["x_monstre"] = $this->monstre["x_monstre"] ;
+				$this->monstre["y_monstre"] = $this->monstre["y_monstre"] + $y_offset;
 				$modif = true;
 			}
-
-			if ($modif === true) {
-				$nb_pa_joues = $nb_pa_joues + 1;
-				$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - 1;
-				Bral_Util_Log::tech()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") nouvelle position x=".$this->monstre["x_monstre"]." y=".$this->monstre["y_monstre"].", pa restant=".$this->monstre["pa_monstre"]);
-			}
+				
+			$nb_pa_joues = $nb_pa_joues + 1;
+			$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - 1;
+			Bral_Util_Log::tech()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") nouvelle position x=".$this->monstre["x_monstre"]." y=".$this->monstre["y_monstre"].", pa restant=".$this->monstre["pa_monstre"]);
 		}
 		if ($modif === true) {
 			$this->updateMonstre();
