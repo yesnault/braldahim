@@ -34,16 +34,20 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		$palissadeTable = new Palissade();
 		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		
-		$tabValidationPalissade = null;
-		for ($j = $this->view->nb_cases; $j >= -$this->view->nb_cases; $j --) {
-			 for ($i = -$this->view->nb_cases; $i <= $this->view->nb_cases; $i ++) {
+		$this->tabValidationPalissade = null;
+		for ($j = $this->view->nb_cases; $j >= -$this->view->nb_cases; $j--) {
+			 for ($i = -$this->view->nb_cases; $i <= $this->view->nb_cases; $i++) {
 				$x = $this->view->user->x_hobbit + $i;
 			 	$y = $this->view->user->y_hobbit + $j;
-			 	$tabValidationPalissade[$x][$y] = true;
+			 	$this->tabValidationPalissade[$x][$y] = true;
 			 }
 		}
 		foreach($palissades as $p) {
-			$tabValidationPalissade[$p["x_palissade"]][$p["y_palissade"]] = false;
+			$this->tabValidationPalissade[$p["x_palissade"]][$p["y_palissade"]] = false;
+		}
+		
+		if ($this->view->nb_cases == 2) {
+			$this->calculPalissade();
 		}
 		
 		$defautChecked = false;
@@ -70,13 +74,11 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			 	}
 				
 			 	// on regarde s'il n'y a pas de palissade
-			 	if ($tabValidationPalissade != null && isset($tabValidationPalissade[$x]) && isset($tabValidationPalissade[$x][$y])) {
-		 			if ($tabValidationPalissade[$x][$y] === false) {
-		 				$valid = false;
-		 			}
-			 	}
-			 	
-			 	if ($valid === true && $defautChecked == false) {
+		 		if ($this->tabValidationPalissade[$x][$y] === false) {
+		 			$valid = false;
+		 		}
+
+		 		if ($valid === true && $defautChecked == false) {
 					$default = "checked";
 					$defautChecked = true;
 			 	} else {
@@ -180,6 +182,102 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			$this->view->assezDePa = false;
 		} else {
 			$this->view->assezDePa = true;
+		}
+	}
+	
+	private function calculPalissade() {
+		$nbCase = 1;
+		
+		for ($j = $nbCase; $j >= -$nbCase; $j--) {
+			 for ($i = -$nbCase; $i <= $nbCase; $i++) {
+			 	if ($j == 0 && $i == 0) {
+			 		continue;
+			 	}
+			 	$x = $this->view->user->x_hobbit + $i;
+			 	$y = $this->view->user->y_hobbit + $j;
+			 	
+			 	// d'abord les coins
+			 	if ($j == 1 && $i == -1) {
+			 		if ($this->tabValidationPalissade[$x][$y] == false) {
+			 			$this->tabValidationPalissade[$x-1][$y+1] = false;
+			 		}
+			 	}
+			 	if ($j == -1 && $i == -1) {
+			 		if ($this->tabValidationPalissade[$x][$y] == false) {
+			 			$this->tabValidationPalissade[$x-1][$y-1] = false;
+			 		}
+			 	}
+			 	if ($j == -1 && $i == 1) {
+			 		if ($this->tabValidationPalissade[$x][$y] == false) {
+			 			$this->tabValidationPalissade[$x+1][$y-1] = false;
+			 		}
+			 	}
+			 	if ($j == 1 && $i == 1) {
+			 		if ($this->tabValidationPalissade[$x][$y] == false) {
+			 			$this->tabValidationPalissade[$x+1][$y+1] = false;
+			 		}
+			 	}
+			 	
+			 	
+			 	if ($j == 0 && $i == -1) {
+			 		if ($this->tabValidationPalissade[$x][$y] == false) {
+			 			if ($this->tabValidationPalissade[$x][$y+1] == false &&
+			 				$this->tabValidationPalissade[$x][$y-1] == false) {
+			 				$this->tabValidationPalissade[$x-1][$y] = false;
+			 			}
+				 		if ($this->tabValidationPalissade[$x][$y+1] == false) {
+				 			$this->tabValidationPalissade[$x-1][$y+1] = false;
+				 		}
+			 			if ($this->tabValidationPalissade[$x][$y-1] == false) {
+				 			$this->tabValidationPalissade[$x-1][$y-1] = false;
+				 		}
+			 		}
+			 	}
+			 	if ($j == 0 && $i == 1) {
+			 		if ($this->tabValidationPalissade[$x][$y] == false) {
+			 			if ($this->tabValidationPalissade[$x][$y+1] == false &&
+			 				$this->tabValidationPalissade[$x][$y-1] == false) {
+			 				$this->tabValidationPalissade[$x+1][$y] = false;
+			 			}
+				 		if ($this->tabValidationPalissade[$x][$y+1] == false) {
+				 			$this->tabValidationPalissade[$x+1][$y+1] = false;
+				 		}
+			 			if ($this->tabValidationPalissade[$x][$y-1] == false) {
+				 			$this->tabValidationPalissade[$x+1][$y-1] = false;
+				 		}
+			 		}
+			 	}
+			 	
+			 	if ($j == 1 && $i == 0) {
+			 		if ($this->tabValidationPalissade[$x][$y] == false) {
+			 			if ($this->tabValidationPalissade[$x-1][$y] == false &&
+			 				$this->tabValidationPalissade[$x+1][$y] == false) {
+			 				$this->tabValidationPalissade[$x][$y+1] = false;
+			 			}
+				 		if ($this->tabValidationPalissade[$x-1][$y] == false) {
+				 			$this->tabValidationPalissade[$x-1][$y+1] = false;
+				 		}
+			 			if ($this->tabValidationPalissade[$x+1][$y] == false) {
+				 			$this->tabValidationPalissade[$x+1][$y+1] = false;
+				 		}
+			 		}
+			 	}
+			 	
+			 	if ($j == -1 && $i == 0) {
+			 		if ($this->tabValidationPalissade[$x][$y] == false) {
+			 			if ($this->tabValidationPalissade[$x-1][$y] == false &&
+			 				$this->tabValidationPalissade[$x+1][$y] == false) {
+			 				$this->tabValidationPalissade[$x][$y-1] = false;
+			 			}
+				 		if ($this->tabValidationPalissade[$x-1][$y] == false) {
+				 			$this->tabValidationPalissade[$x-1][$y-1] = false;
+				 		}
+			 			if ($this->tabValidationPalissade[$x+1][$y] == false) {
+				 			$this->tabValidationPalissade[$x+1][$y-1] = false;
+				 		}
+			 		}
+			 	}
+			 }
 		}
 	}
 }
