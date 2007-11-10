@@ -207,7 +207,7 @@ class Bral_Monstres_VieMonstre {
 	private function calculJetCible($cible) {
 		Bral_Util_Log::tech()->trace(get_class($this)." - calculJetCible - enter");
 		$jetCible = 0;
-		for ($i=1; $i<=$cible["agilite_base_hobbit"]; $i++) {
+		for ($i=1; $i<= self::$config->game->base_agilite + $cible["agilite_base_hobbit"]; $i++) {
 			$jetCible = $jetCible + Bral_Util_De::get_1d6();
 		}
 		$jetCible = $jetCible + $cible["agilite_bm_hobbit"];
@@ -229,8 +229,8 @@ class Bral_Monstres_VieMonstre {
 	private function calculDegat() {
 		Bral_Util_Log::tech()->trace(get_class($this)." - calculDegat - enter");
 		$jetDegat = 0;
-		for ($i=1; $i<=$this->monstre["force_base_monstre"]; $i++) {
-			$jetDegat = $jetDegat + Bral_Util_De::get_1d3();
+		for ($i=1; $i<=self::$config->game->base_force + $this->monstre["force_base_monstre"]; $i++) {
+			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
 		}
 		$jetDegat = $jetDegat + $this->monstre["force_bm_monstre"];
 		Bral_Util_Log::tech()->trace(get_class($this)." - calculDegat - exit (jet=$jetDegat)");

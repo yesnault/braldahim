@@ -71,11 +71,13 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 	}
 	
 	/*
-	 *  
+	 * jet de SAG > SAG de la rune
+	 * En cas de jet inferieur mettre une échelle afin de donner un ordre d'idee au joueur
+	 * s'il peut l'identifier ou si le niveau de sagesse est vraiment trop important pour lui. 
 	 */
 	private function calculIdentifierRune($rune) {
 		$jetHobbit = 0;
-		for ($i = 1; $i <= $this->view->user->sagesse_base_hobbit; $i++) {
+		for ($i = 1; $i <= $this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit; $i++) {
 			$jetHobbit = $jetHobbit + Bral_Util_De::get_1d6();
 		}
 		$this->view->jetHobbit = $jetHobbit + $this->view->user->sagesse_bm_hobbit;

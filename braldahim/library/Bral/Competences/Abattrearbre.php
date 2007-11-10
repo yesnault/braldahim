@@ -75,7 +75,12 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 	}
 	
 	/*
-	 *  
+	 * Uniquement utilisable en forêt.
+	 * Le Hobbit abat un arbre : il ramasse n rondins (directement dans la charrette). Le nombre de rondins ramassés est fonction de la VIGUEUR :
+	 * de 0 à 4 : 1D3
+	 * de 5 à 9 : 1D3+1
+	 * de 10 à 14 :1D3+2
+	 * de 15 à 19 : 1D3+3 
 	 */
 	private function calculAbattreArbre() {
 		Zend_Loader::loadClass("Charrette");

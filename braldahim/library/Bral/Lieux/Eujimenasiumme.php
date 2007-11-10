@@ -11,10 +11,10 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 
 		$achatPiPossible = false;
 
-		$coutForce =  $this->calculCoutAmelioration(1+$this->view->user->force_base_hobbit - $this->view->config->game->inscription->force_base);
-		$coutAgilite = $this->calculCoutAmelioration(1+$this->view->user->agilite_base_hobbit - $this->view->config->game->inscription->agilite_base);
-		$coutVigueur = $this->calculCoutAmelioration(1+$this->view->user->vigueur_base_hobbit - $this->view->config->game->inscription->vigueur_base);
-		$coutSagesse = $this->calculCoutAmelioration(1+$this->view->user->sagesse_base_hobbit - $this->view->config->game->inscription->sagesse_base);
+		$coutForce =  $this->calculCoutAmelioration(1+$this->view->user->force_base_hobbit);
+		$coutAgilite = $this->calculCoutAmelioration(1+$this->view->user->agilite_base_hobbit);
+		$coutVigueur = $this->calculCoutAmelioration(1+$this->view->user->vigueur_base_hobbit);
+		$coutSagesse = $this->calculCoutAmelioration(1+$this->view->user->sagesse_base_hobbit);
 
 		if ($coutForce <= $this->view->user->pi_hobbit
 		&& $coutAgilite <= $this->view->user->pi_hobbit

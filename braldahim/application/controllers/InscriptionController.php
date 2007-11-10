@@ -162,6 +162,11 @@ class InscriptionController extends Zend_Controller_Action {
 		$de = Bral_Util_De::get_de_specifique(0, count($mairiesRowset)-1);
 		$lieu = $mairiesRowset[$de];
 
+		$pv = $this->view->config->game->pv_base + 0 * 4;
+		$poids = 0 * 2 + 1;
+		$armure_nat = 0;
+		$reg = 1;
+		
 		$data = array(
 		'nom_hobbit' => $this->nom_hobbit,
 		'email_hobbit'  => $this->email_hobbit,
@@ -180,13 +185,16 @@ class InscriptionController extends Zend_Controller_Action {
 		'date_creation_hobbit' => date("Y-m-d H:i:s"),
 		'tour_position_hobbit' => $this->view->config->game->inscription->tour_position,
 		'balance_faim_hobbit' => $this->view->config->game->inscription->balance_faim,
-		'pv_max_hobbit' => $this->view->config->game->inscription->pv_max,
-		'pv_restant_hobbit' => $this->view->config->game->inscription->pv_restant,
+		'pv_max_hobbit' => $pv,
+		'pv_restant_hobbit' => $pv,
 		'force_base_hobbit' => $this->view->config->game->inscription->force_base,
 		'agilite_base_hobbit' => $this->view->config->game->inscription->agilite_base,
 		'vigueur_base_hobbit' => $this->view->config->game->inscription->vigueur_base,
 		'sagesse_base_hobbit' => $this->view->config->game->inscription->sagesse_base,
 		'pa_hobbit' => $this->view->config->game->inscription->pa,
+		'poids_transportable_hobbit' => $poids,
+		'armure_naturelle_hobbit' => $armure_nat,
+		'regeneration_hobbit' => $reg,
 		);
 
 		return $data;

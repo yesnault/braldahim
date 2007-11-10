@@ -119,7 +119,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		$hobbit = $hobbitRowset->current();
 
 		$jetCible = 0;
-		for ($i=1; $i<=$hobbit->agilite_base_hobbit; $i++) {
+		for ($i=1; $i<=$this->view->config->base_agilite + $hobbit->agilite_base_hobbit; $i++) {
 			$jetCible = $jetCible + Bral_Util_De::get_1d6();
 		}
 		$this->view->jetCible = $jetCible + $hobbit->agilite_bm_hobbit;
@@ -236,7 +236,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 
 	private function calculJetAttaque() {
 		$jetAttaquant = 0;
-		for ($i=1; $i<=$this->view->user->agilite_base_hobbit; $i++) {
+		for ($i=1; $i<=$this->view->config->base_agilite + $this->view->user->agilite_base_hobbit; $i++) {
 			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
 		}
 		$jetAttaquant = $jetAttaquant + $this->view->user->agilite_bm_hobbit;
@@ -245,8 +245,8 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 
 	private function calculDegat() {
 		$jetDegat = 0;
-		for ($i=1; $i<=$this->view->user->force_base_hobbit; $i++) {
-			$jetDegat = $jetDegat + Bral_Util_De::get_1d3();
+		for ($i=1; $i<=$this->view->config->game->base_force + $this->view->user->force_base_hobbit; $i++) {
+			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
 		}
 		$jetDegat = $jetDegat + $this->view->user->force_bm_hobbit;
 		$this->view->jetDegat = $jetDegat;
