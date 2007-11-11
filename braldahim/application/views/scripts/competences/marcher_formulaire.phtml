@@ -14,6 +14,10 @@
 <?php if ($this->assezDePa == false) : ?>
  Vous n'avez pas assez de PA
 <?php else : ?>
+	<?php if ($this->marcherPossible == false) : ?>
+ 		Vous &ecirc;tes entour&eacute;, vous ne pouvez pas marcher !
+  	<?php endif; ?>
+  
   <table align='center'>
    <tr>
      <th>Position [x;y]</th>
@@ -23,23 +27,22 @@
      <table class='comp_marcher_position'>
      	<?php $col=null ?>
 		<?php foreach ($this->tableau as $case) : ?>
-
-		<?php if ($case["change_level"] == 1 && $col == "ok") : ?>
-          </tr>
-		<?php endif; ?>
-		<?php if ($case["change_level"] == true) : 
-			$col="ok"; ?>
-                  <tr>
-		<?php endif; ?>
-          <td class='comp_marcher_position_td' nowrap>
-           <?=$case["display"] ?><br>
-
-		<?php if ($case["valid"] == true) : ?>
-            <input type='radio' name='valeur_1' id='valeur_1' value='<?php echo $case["x_offset"]."h".$case["y_offset"] ?>' <?=$case["default"]?>>
-		<?php else: ?>
-			&nbsp;
-		<?php endif; ?>
-          </td>
+			<?php if ($case["change_level"] == 1 && $col == "ok") : ?>
+	          </tr>
+			<?php endif; ?>
+			<?php if ($case["change_level"] == true) : 
+				$col="ok"; ?>
+	                  <tr>
+			<?php endif; ?>
+	          <td class='comp_marcher_position_td' nowrap>
+	           <?=$case["display"] ?><br>
+	
+			<?php if ($case["valid"] == true) : ?>
+	            <input type='radio' name='valeur_1' id='valeur_1' value='<?php echo $case["x_offset"]."h".$case["y_offset"] ?>' <?=$case["default"]?>>
+			<?php else: ?>
+				&nbsp;
+			<?php endif; ?>
+	          </td>
        <?php endforeach; ?>
        </tr>
      </table>
@@ -51,7 +54,7 @@
 
 </form>
 <br>
-<?php if ($this->assezDePa == true) : ?>
+<?php if ($this->assezDePa == true && $this->marcherPossible === true) : ?>
 <input type='button' class='button1' value='Marcher !' onClick='_get_("/competences/DoAction?caction=do_competence_marcher");'>
 <? endif ?>
 <? include("commun_fermer.phtml") ?>

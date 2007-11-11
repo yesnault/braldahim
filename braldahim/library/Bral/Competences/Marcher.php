@@ -18,12 +18,16 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		
 		$this->view->environnement = $case["nom_environnement"];
 		$this->nom_systeme_environnement = $case["nom_systeme_environnement"];
-	}
-	
-	function prepareFormulaire() {
-		if ($this->view->assezDePa == false) {
+		
+		/*
+		 * Si le hobbit n'a pas de PA, on ne fait aucun traitement
+		 */
+		$this->calculNbPa();
+		if ($this->view->assezDePa = false) {
 			return;
 		}
+		
+		$this->view->marcherPossible = false;
 		
 		$this->distance = $this->view->nb_cases;
 		$this->view->x_min = $this->view->user->x_hobbit - $this->distance;
@@ -81,6 +85,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		 		if ($valid === true && $defautChecked == false) {
 					$default = "checked";
 					$defautChecked = true;
+					$this->view->marcherPossible = true;
 			 	} else {
 			 		$default = "";
 			 	}
@@ -90,7 +95,9 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			 	"default" => $default,
 			 	"display" => $display,
 			 	"change_level" => $change_level, // nouvelle ligne dans le tableau
-				"valid" => $valid);	
+				"valid" => $valid);
+			 	
+			 	$tabValidation[$i][$j] = $valid;
 				
 				if ($change_level) {
 					$change_level = false;
@@ -98,6 +105,13 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			 }
 		}
 		$this->view->tableau = $tab;
+		$this->tableauValidation = $tabValidation;
+	}
+	
+	function prepareFormulaire() {
+		if ($this->view->assezDePa == false) {
+			return;
+		}
 	}
 	
 	function prepareResultat() {
@@ -112,11 +126,8 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Deplacement Y impossible : ".$offset_y);
 		}
 		
-		$palissadeTable = new Palissade();
-		$palissades = $palissadeTable->findByCase($this->view->user->x_hobbit + $offset_x, $this->view->user->y_hobbit + $offset_y);
-		
-		if (count($palissades) > 0) {
-			throw new Zend_Exception(get_class($this)." Deplacement invalide, palissade sur le chemin");
+		if ($this->tableauValidation[$offset_x][$offset_y] !== true) {
+			throw new Zend_Exception(get_class($this)." Deplacement XY impossible : ".$offset_x.$offset_y);
 		}
 		
 		$this->view->user->x_hobbit = $this->view->user->x_hobbit + $offset_x;
@@ -141,7 +152,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_lieu", "box_evenements");
+		return array("box_profil", "box_vue", "box_lieu", "box_evenements");
 	}
 	
 	/* Pour marcher, le nombre de PA utilise est variable suivant l'environnement
