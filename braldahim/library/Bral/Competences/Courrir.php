@@ -131,11 +131,7 @@ class Bral_Competences_Courrir extends Bral_Competences_Competence {
 		
 		$this->calculPalissade($offset_x, $offset_y);
 		
-		$this->view->palissadeRencontree = false;
 		
-		if ($this->offset_x_calcul != $offset_x || $this->offset_y_calcul != $offset_y) {
-			$this->view->palissadeRencontree = true;
-		}
 	 	
 		$this->view->user->x_hobbit = $this->view->user->x_hobbit + $this->offset_x_calcul;
 		$this->view->user->y_hobbit = $this->view->user->y_hobbit + $this->offset_y_calcul;
@@ -169,6 +165,7 @@ class Bral_Competences_Courrir extends Bral_Competences_Competence {
 		$y = $this->view->user->y_hobbit;
 		
 		$k = 0;
+		$this->view->palissadeRencontree = false;
 		
 		for ($i = 1; $i <= $this->distance; $i++) {
 			if ($this->tabValidationPalissade[$x + $i * $offset_x][$y + $i * $offset_y] == false 
@@ -177,6 +174,7 @@ class Bral_Competences_Courrir extends Bral_Competences_Competence {
 			 	|| $y + $i*$offset_y < $this->view->config->game->y_min 
 			 	|| $y + $i*$offset_y > $this->view->config->game->y_max) {
 			 	$k = $i-1;
+			 	$this->view->palissadeRencontree = true;
 				break;
 			} else {
 				$k = $i;
