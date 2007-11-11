@@ -17,7 +17,7 @@
  
 <? if ($this->nCompetences > 0): ?>
  <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->achatPossibleCastars === true && $this->nCompetences > 0): ?>
-  Choisissez une comp&eacute;tence ci-dessous <input type='radio' name='valeur_1' id='valeur_1' value='-1' onChange="$('bouton_laffaque').disabled=true;" checked>
+  Choisissez une comp&eacute;tence ci-dessous <input type='radio' name='valeur_1' id='valeur_1' value='-1' onChange="$('bouton_laffaque').disabled=true;" checked style="display:none">
  <? endif; ?>
  <table>
  <? foreach ($this->tabCompetences as $c):?>

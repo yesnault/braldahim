@@ -1,0 +1,27 @@
+<div class='comp_titre'>Manger</div>
+
+ <div class='comp_contenu'>
+	 <div id='manger_text' style="display:block"  onClick="javascript:switch2div('manger_text','manger_copie');">
+		<? include("commun_text_resultat.phtml") ?>
+		
+		Vous avez mang&eacute; 1 ration.<br> 
+		Votre balance de faim est maintenant de <?=$this->user->balance_faim_hobbit ?> %<br>
+		<br>
+	 </div>
+	 
+	 <div id='manger_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+		include("commun_copie_resultat.phtml");
+		
+		echo "Vous avez mang&eacute; 1 ration.";
+		echo "
+";
+		echo "Votre balance de faim est maintenant de ";
+		echo $this->user->balance_faim_hobbit." %";
+	?>
+	</textarea>
+	</div>
+ </div>
+
+<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('manger_text','manger_copie');">
+<? include("commun_fermer.phtml") ?>

@@ -25,8 +25,7 @@ class Competence extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('competence', '*')
 		->where('type_competence = ?', "commun")
-		->where('niveau_requis_competence <= ?', $niveau)
-		->where('niveau_requis_competence >= 1');
+		->where('niveau_requis_competence <= ?', $niveau);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

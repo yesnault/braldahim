@@ -90,6 +90,7 @@ abstract class Bral_Lieux_Lieu {
 		'agilite_base_hobbit' => $this->view->user->agilite_base_hobbit,
 		'vigueur_base_hobbit' => $this->view->user->vigueur_base_hobbit,
 		'sagesse_base_hobbit' => $this->view->user->sagesse_base_hobbit,
+		'balance_faim_hobbit' => $this->view->user->balance_faim_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
