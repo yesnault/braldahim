@@ -273,6 +273,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 	}
 	
 	private function dropHobbitCastars(&$cible) {
+		Zend_Loader::loadClass("Castar");
 		//Lorqu'un Hobbit meurt il perd une partie de ces castars : 1/3 arr inférieur.
 		
 		if ($cible["castars_hobbit"] > 0) {
