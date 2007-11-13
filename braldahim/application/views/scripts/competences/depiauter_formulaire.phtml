@@ -28,6 +28,6 @@
 </form>
 <br>
 <?php if ($this->assezDePa == true && $this->depiauterOk === true && $this->nCadavres > 0) : ?>
-<input type='button' class='button1' id='bouton_depiauter' value='D&eacute;piauter !' onClick='_get_("/competences/DoAction?caction=do_competence_depiauter");' disabled>
+<input type='button' class='button1' id='bouton_depiauter' value='D&eacute;piauter !' onClick='this.disabled=true;_get_("/competences/DoAction?caction=do_competence_depiauter");' disabled>
 <? endif ?>
 <? include("commun_fermer.phtml") ?>

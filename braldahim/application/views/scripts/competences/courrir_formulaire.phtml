@@ -50,6 +50,6 @@ Pour <?=$this->nb_pa ?> PA, vous pouvez courrir jusqu'&agrave; 6 cases.<br>
 </form>
 <br>
 <?php if ($this->assezDePa == true && $this->courrirPossible == true) : ?>
-<input type='button' class='button1' value='Courir !' onClick='_get_("/competences/DoAction?caction=do_competence_courrir");'>
+<input type='button' class='button1' value='Courir !' onClick='this.disabled=true;_get_("/competences/DoAction?caction=do_competence_courrir");'>
 <? endif ?>
 <? include("commun_fermer.phtml") ?>

@@ -124,7 +124,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		}
 		$this->view->jetCible = $jetCible + $hobbit->agilite_bm_hobbit;
 
-		$cible = array('nom_cible' => $hobbit->nom_hobbit, 'id_cible' => $hobbit->id_hobbit, 'niveau_cible' =>$hobbit->niveau_hobbit);
+		$cible = array('nom_cible' => $hobbit->nom_hobbit, 'id_cible' => $hobbit->id_hobbit, 'niveau_cible' =>$hobbit->niveau_hobbit, 'castar_hobbit' => $hobbit->castar_hobbit);
 		$this->view->cible = $cible;
 
 		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
@@ -140,11 +140,13 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 				$nb_mort = $nb_mort + 1;
 				$this->view->user->nb_kill_hobbit = $this->view->user->nb_kill_hobbit + 1;
 				$this->view->mort = true;
+				$this->dropHobbitCastars($cible);
 			} else {
 				$mort = "non";
 				$this->view->mort = false;
 			}
 			$data = array(
+			'castar_hobbit' => $cible["castar_hobbit"],
 			'pv_restant_hobbit' => $pv,
 			'est_mort_hobbit' => $mort,
 			'nb_mort_hobbit' => $nb_mort,
@@ -263,7 +265,36 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		if ($this->view->mort === true) {
 			// [10+2*(diff de niveau) + Niveau Cible ]
 			$this->view->nb_px_commun = 10+2*($this->view->cible["niveau_cible"] - $this->view->user->niveau_hobbit) + $this->view->cible["niveau_cible"];
+			if ($this->view->nb_px_commun < $this->view->nb_px_perso ) {
+				$this->view->nb_px_commun = $this->view->nb_px_perso;
+			}
 		}
 		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
+	}
+	
+	private function dropHobbitCastars(&$cible) {
+		//Lorqu'un Hobbit meurt il perd une partie de ces castars : 1/3 arr inférieur.
+		
+		if ($cible["castars_hobbit"] > 0) {
+			if (Bral_Util_De::get_1d1() == 1) { 
+				$nbCastars = floor($cible["castars_hobbit"] / 3) + Bral_Util_De::get_1d5();
+			} else {
+				$nbCastars = floor($cible["castars_hobbit"] / 3) - Bral_Util_De::get_1d5() ;
+			}
+			
+			$cible["castars_hobbit"] = $cible["castars_hobbit"] - $nbCastars;
+			
+			Zend_Loader::loadClass("Rune");
+		
+			$castarTable = new Castar();
+			$data = array(
+			"x_castar"  => $cible["x_hobbit"],
+			"y_castar" => $cible["y_hobbit"],
+			"nb_castar" => $nbCastars,
+			);
+			
+			$castarTable = new Castar();
+			$castarTable->insertOrUpdate($data);
+		}
 	}
 }

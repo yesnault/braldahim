@@ -24,6 +24,6 @@
 </form>
 <br>
 <?php if ($this->assezDePa == true && $this->planteOk === true) : ?>
-<input type='button' class='button1' id='bouton_cueillir' value='Cueillir !' onClick='_get_("/competences/DoAction?caction=do_competence_cueillir");' disabled>
+<input type='button' class='button1' id='bouton_cueillir' value='Cueillir !' onClick='this.disabled=true;_get_("/competences/DoAction?caction=do_competence_cueillir");' disabled>
 <? endif ?>
 <? include("commun_fermer.phtml") ?>

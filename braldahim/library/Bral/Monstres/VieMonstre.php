@@ -327,6 +327,7 @@ class Bral_Monstres_VieMonstre {
 		$monstreTable->delete($where);
 		
 		$this->dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"]);
+		$this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"]);
 	}
 	
 	private function dropRune($x, $y, $niveau) {
@@ -373,5 +374,25 @@ class Bral_Monstres_VieMonstre {
 		
 		$runeTable = new Rune();
 		$runeTable->insert($data);
+	}
+	
+	private function dropCastars($x, $y, $niveau) {
+		Zend_Loader::loadClass("Castar");
+		
+		if (Bral_Util_De::get_1d1() == 1) { 
+			$nbCastars = 10*$niveau + Bral_Util_De::get_1d5();
+		} else {
+			$nbCastars = 10*$niveau - Bral_Util_De::get_1d5() ;
+		}
+			
+		$castarTable = new Castar();
+		$data = array(
+		"x_castar"  => $x,
+		"y_castar" => $y,
+		"nb_castar" => $nbCastars,
+		);
+		
+		$castarTable = new Castar();
+		$castarTable->insertOrUpdate($data);
 	}
 }

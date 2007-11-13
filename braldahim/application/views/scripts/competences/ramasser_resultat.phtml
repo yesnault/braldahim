@@ -6,7 +6,12 @@
 		<? include("commun_text_resultat.phtml") ?>
 		
 		Vous avez ramass&eacute; : <br>
-		Rune : <?=$this->nbRunes ?><br>
+		<? if ($this->nbCastarsRamasses > 0) :?>
+			<?=$this->nbCastarsRamasses ?> Castar<? if ($this->nbCastarsRamasses > 1):echo "s";endif; ?><br>
+		<? endif; ?>
+		<? if ($this->nbRunesRamassees > 0) :?>
+			<?=$this->nbRunesRamassees ?> Rune<? if ($this->nbRunesRamassees > 1):echo "s";endif; ?><br>
+		<? endif; ?>
 		<br>
 	 </div>
 	 
@@ -15,9 +20,23 @@
 		include("commun_copie_resultat.phtml");
 		
 			echo "Vous avez ramass&eacute; : ";
-			echo "
+			if ($this->nbCastarsRamasses > 0) {
+				echo $this->nbCastarsRamasses ." Castar";
+				if ($this->nbCastarsRamasses > 0) {
+					echo "s";
+				}
+				echo "
 ";
-			echo "Rune : ".$this->nbRunes;
+			}
+			
+			if ($this->nbRunesRamassees > 0) {
+				echo $this->nbRunesRamassees ." Rune";
+				if ($this->nbRunesRamassees > 0) {
+					echo "s";
+				}
+				echo "
+";
+			}
 	?>
 	</textarea>
 	</div>

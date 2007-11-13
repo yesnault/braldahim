@@ -114,6 +114,28 @@
 	      	</div>
 	    <?php endif; ?>	
 	    
+      	<?php if ($case["n_castars"] > 0) : ?>
+      		<div>
+      		<?php 
+      			$textCastar = "";
+
+      			foreach($case["castars"] as $c) {
+      				$s = "";
+					if ($c["nb_castar"] > 1) {
+							$s = "s";
+					}
+      				$textCastar .= $c["nb_castar"]. " castar".$s;
+      			} 
+
+			?>
+      		<span onmouseover="return overlib('<?=$textCastar?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$textCastar?> - Clique !');"
+      			onclick="return overlib('<?=$textCastar?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$textCastar?> - ', CLOSECLICK, EXCLUSIVE);"
+      			onmouseout="return nd();">
+	      		<?=$textCastar?>
+	      	</span>
+	      	</div>
+	    <?php endif; ?>	
+	    
       	<?php if ($case["n_hobbits"] > 0) : ?>
       		<div>
       		<?php 

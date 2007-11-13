@@ -27,6 +27,6 @@
 <br> 
 
 <? if ($this->utilisationPossible === true): ?>
-<input type='button' class='button1' id="bouton_essenecehef" value='Utiliser la charrette !' onClick="_get_('/lieux/DoAction?caction=do_lieu_essenecehef');"  disabled>
+<input type='button' class='button1' id="bouton_essenecehef" value='Utiliser la charrette !' onClick="this.disabled=true;_get_('/lieux/DoAction?caction=do_lieu_essenecehef');"  disabled>
 <? endif; ?>
 <? include("commun_fermer.phtml") ?>

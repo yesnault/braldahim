@@ -55,6 +55,6 @@
 </form>
 <br>
 <?php if ($this->assezDePa == true && $this->marcherPossible === true) : ?>
-<input type='button' class='button1' value='Marcher !' onClick='_get_("/competences/DoAction?caction=do_competence_marcher");'>
+<input type='button' class='button1' value='Marcher !' onClick='this.disabled=true;_get_("/competences/DoAction?caction=do_competence_marcher");'>
 <? endif ?>
 <? include("commun_fermer.phtml") ?>

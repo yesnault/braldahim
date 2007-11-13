@@ -23,6 +23,6 @@
 </form>
 <br>
 <?php if ($this->assezDePa == true && $this->cuisinerLieuOk === true && $this->cuisinerNbViandeOk === true) : ?>
-<input type='button' class='button1' id='bouton_cuisiner' value='Cuisiner !' onClick='_get_("/competences/DoAction?caction=do_competence_cuisiner");'>
+<input type='button' class='button1' id='bouton_cuisiner' value='Cuisiner !' onClick='this.disabled=true;_get_("/competences/DoAction?caction=do_competence_cuisiner");'>
 <? endif ?>
 <? include("commun_fermer.phtml") ?>

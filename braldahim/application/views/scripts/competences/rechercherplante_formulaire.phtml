@@ -17,6 +17,6 @@
 </form>
 <br>
 <?php if ($this->assezDePa == true) : ?>
-<input type='button' class='button1' value='Rechercher une plante !' onClick='_get_("/competences/DoAction?caction=do_competence_rechercherplante");'>
+<input type='button' class='button1' value='Rechercher une plante !' onClick='this.disabled=true;_get_("/competences/DoAction?caction=do_competence_rechercherplante");'>
 <? endif ?>
 <? include("commun_fermer.phtml") ?>

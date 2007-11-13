@@ -94,6 +94,7 @@ input.button1 {
 input.button1:hover {
 	border-color: #791E1E;
 	color: #791E1E;
+	cursor: pointer;
 }
 
 input.button1:active {
@@ -106,7 +107,7 @@ input.button1:disabled {
 	color: #BCBCBC;
 }
 
-.racine_gauche  , .racine_milieu,.racine_droite {
+.racine_gauche, .racine_milieu,.racine_droite {
 	top: 10px;
 	float: left;
 	padding: 10px;
