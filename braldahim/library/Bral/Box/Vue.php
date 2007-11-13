@@ -5,7 +5,9 @@ class Bral_Box_Vue {
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass("Cadavre");
 		Zend_Loader::loadClass("Castar");
+		Zend_Loader::loadClass("Filon");
 		Zend_Loader::loadClass("Lieu");
+		Zend_Loader::loadClass("HobbitsMetiers");
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Palissade");
 		Zend_Loader::loadClass("Plante");
@@ -113,10 +115,23 @@ class Bral_Box_Vue {
 	}
 
 	private function data() {
+		$hobbitsMetiersTable = new HobbitsMetiers();
+		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
+		$tabMetiers = null;
+		foreach($hobbitsMetierRowset as $m) {
+			$possedeMetier = true;
+			$tabMetiers[] = $m["nom_systeme_metier"];
+		}
+		
 		$cadavreTable = new Cadavre();
 		$cadavres = $cadavreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$castarTable = new Castar();
 		$castars = $castarTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$filons = null;
+		if (in_array("mineur", $tabMetiers)) {
+			$filonsTable = new Filon();
+			$filons = $filonsTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		}
 		$hobbitTable = new Hobbit();
 		$hobbits = $hobbitTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$lieuxTable = new Lieu();
@@ -125,8 +140,11 @@ class Bral_Box_Vue {
 		$monstres = $monstreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$palissadeTable = new Palissade();
 		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
-		$planteTable = new Plante();
-		$plantes = $planteTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$plantes = null;
+		if (in_array("herboriste", $tabMetiers)) {
+			$planteTable = new Plante();
+			$plantes = $planteTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		}
 		$regionTable = new Region();
 		$regions = $regionTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$villeTable = new Ville();
@@ -148,6 +166,7 @@ class Bral_Box_Vue {
 				$display_y = $j;
 				$tabCadavres = null;
 				$tabCastars = null;
+				$tabFilons = null;
 				$tabHobbits = null;
 				$tabLieux = null;
 				$tabMonstres = null;
@@ -191,6 +210,12 @@ class Bral_Box_Vue {
 					foreach($castars as $c) {
 						if ($display_x == $c["x_castar"] && $display_y == $c["y_castar"]) {
 							$tabCastars[] = array("nb_castar" => $c["nb_castar"]);
+						}
+					}
+					
+					foreach($filons as $f) {
+						if ($display_x == $f["x_filon"] && $display_y == $f["y_filon"]) {
+							$tabFilons[] = array("type" => $f["nom_type_minerai"]);
 						}
 					}
 					
@@ -290,6 +315,8 @@ class Bral_Box_Vue {
 				"cadavres" => $tabCadavres,
 				"n_castars" => count($tabCastars),
 				"castars" => $tabCastars,
+				"n_filons" => count($tabFilons),
+				"filons" => $tabFilons,
 				"n_hobbits" => count($tabHobbits),
 				"hobbits" => $tabHobbits,
 				"n_lieux" => count($tabLieux),

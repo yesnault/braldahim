@@ -135,6 +135,26 @@
 	      	</span>
 	      	</div>
 	    <?php endif; ?>	
+
+      	<?php if ($case["n_filons"] > 0) : ?>
+      		<div>
+      		<?php 
+      			$textFilon = "";
+      			foreach($case["filons"] as $f) {
+      				$textFilon .= " 1 filon de ".htmlentities($f["type"])."<br>";
+				}
+				$s = "";
+				if ($case["n_filons"] > 1) {
+					$s = "s";
+				}	
+			?>
+      		<span onmouseover="return overlib('<?=$textFilon?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_filons"] ?> Filon<?=$s?> - Clique !');"
+      			onclick="return overlib('<?=$textFilon?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_filons"] ?> Filon<?=$s?>', CLOSECLICK, EXCLUSIVE);"
+      			onmouseout="return nd();">
+	      		<?=$case["n_filons"] ?> filon<?=$s?>
+	      	</span>
+	      	</div>
+	    <?php endif; ?>
 	    
       	<?php if ($case["n_hobbits"] > 0) : ?>
       		<div>
@@ -202,7 +222,7 @@
       			$textPlante = "";
       			foreach($case["plantes"] as $p) {
       				$textPlante .= htmlentities($p["type"])." - ". htmlentities($p["categorie"]) ." (".$p["id_plante"].")<br>";
-				} 
+				}
 				$s = "";
 				if ($case["n_plantes"] > 1) {
 					$s = "s";
