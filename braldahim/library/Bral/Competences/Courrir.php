@@ -4,6 +4,7 @@ class Bral_Competences_Courrir extends Bral_Competences_Competence {
 	
 	function prepareCommun() {
 		Zend_Loader::loadClass('Palissade');
+		Zend_Loader::loadClass('Bral_Util_Commun');
 		
 		/*
 		 * Si le hobbit n'a pas de PA, on ne fait aucun traitement
@@ -15,8 +16,17 @@ class Bral_Competences_Courrir extends Bral_Competences_Competence {
 		
 		$this->view->courrirPossible = false;
 		
+		$commun = new Bral_Util_Commun();
+		$vue_nb_cases = $commun->getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
+		
 		$this->view->nb_cases = 1;
 		$this->distance = 6;
+		
+		if ($vue_nb_cases < 6) {
+			$this->distance = $vue_nb_cases;
+		} else {
+			$this->distance = 6;
+		}
 		$this->x_min = $this->view->user->x_hobbit - $this->distance;
 		$this->x_max = $this->view->user->x_hobbit + $this->distance;
 		$this->y_min = $this->view->user->y_hobbit - $this->distance;
@@ -131,8 +141,6 @@ class Bral_Competences_Courrir extends Bral_Competences_Competence {
 		
 		$this->calculPalissade($offset_x, $offset_y);
 		
-		
-	 	
 		$this->view->user->x_hobbit = $this->view->user->x_hobbit + $this->offset_x_calcul;
 		$this->view->user->y_hobbit = $this->view->user->y_hobbit + $this->offset_y_calcul;
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
@@ -159,8 +167,7 @@ class Bral_Competences_Courrir extends Bral_Competences_Competence {
 	}
 		
 	private function calculPalissade($offset_x, $offset_y) {
-		$nbCase = 6;
-		
+
 		$x = $this->view->user->x_hobbit;
 		$y = $this->view->user->y_hobbit;
 		
