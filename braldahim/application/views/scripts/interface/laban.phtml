@@ -80,7 +80,11 @@
     	?>
     	<td>
     		<? if ($r["est_identifiee"] == 'oui'): ?>
-	    		<?=$r["type"]?> (<?=$r["id_rune"]?>)
+    			<? if ($r["image"] != ""): ?>
+    				<img src="<?=$r["image"]?>" title="<?=$r["type"]?> (<?=$r["id_rune"]?>)" />
+    			<? else: ?>
+	    			<?=$r["type"]?> (<?=$r["id_rune"]?>)
+	    		<? endif; ?>
     		<? else: ?>
     			1 rune non identifi&eacute;e (<?=$r["id_rune"]?>)
     		<? endif; ?>

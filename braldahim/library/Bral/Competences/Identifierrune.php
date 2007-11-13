@@ -21,6 +21,7 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 			"id_rune" => $r["id_rune_laban_rune"],
 			"type" => $r["nom_type_rune"],
 			"sagesse_type_rune" => $r["sagesse_type_rune"],
+			"image" => $r["image_type_rune"],
 			);
 		}
 		$this->view->runes = $tabRunes;

@@ -214,7 +214,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 				$monstreTable->update($data, $where);
 			}
 		} else if ($this->view->jetCible/2 < $this->view->jetAttaquant) {
-			$agilite_bm_monstre = $monstre["agilite_bm_monstre"] - 1;
+			$agilite_bm_monstre = $monstre["agilite_bm_monstre"] - $monstre["agilite_base_monstre"];
 			$this->view->mort = false;
 			$data = array('agilite_bm_monstre' => $agilite_bm_monstre);
 			$where = "id_monstre=".$cible["id_cible"];

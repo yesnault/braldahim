@@ -8,7 +8,9 @@
 		Votre Jet d'identification : <?=$this->jetHobbit ?> <br>
 		<? if ($this->identificationReussieOk === true): ?>
 			Vous avez r&eacute;ussi &agrave; identifier la rune n&deg; <?=$this->rune["id_rune"] ?><br>
-			Le type de cette rune est : <?=$this->rune["type"] ?>
+			<? if ($this->rune["image"] != ""): ?>
+    			<img src="<?=$this->rune["image"]?>" title="<?=$this->rune["type"]?> (<?=$this->rune["id_rune"]?>)" />
+	   		<? endif; ?>
 		<? else: ?>
 			Vous avez manqu&eacute; votre identification<br>
 			<?if ($this->jetHobbitLoin === true) :?>
