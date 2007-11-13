@@ -146,7 +146,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 				$this->view->mort = false;
 			}
 			$data = array(
-			'castar_hobbit' => $cible["castar_hobbit"],
+			'castars_hobbit' => $cible["castars_hobbit"],
 			'pv_restant_hobbit' => $pv,
 			'est_mort_hobbit' => $mort,
 			'nb_mort_hobbit' => $nb_mort,
