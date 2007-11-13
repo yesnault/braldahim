@@ -7,9 +7,9 @@
 		
 		<? if ($this->okJet1 === true):?>
 			<? if ($this->nbCueillette > 1):?>
-			Vous avez cueilli avec succ&egrave;s des &eacute;l&eacute;ments sur la plante :<br>
+			Vous avez cueilli avec succ&egrave;s des &eacute;l&eacute;ments sur la plante <br>
 			<? else: ?>
-			Vous avez cueilli avec succ&egrave;s un &eacute;l&eacute;ment sur la plante :<br>
+			Vous avez cueilli avec succ&egrave;s un &eacute;l&eacute;ment sur la plante <br>
 			<? endif; ?>
 			<?=htmlentities($this->plante["categorie"])?> - <?=htmlentities($this->plante["nom_type"])?> (<?=$this->plante["id_plante"]?>)
 			<br><br>
@@ -30,6 +30,15 @@
 			<? if ($this->planteDetruite === true) : ?>
 				Vous avez pris ce qu'il restait sur la plante... elle n'existe donc plus. <br>
 			<? endif; ?>
+		<? else: ?>
+			<? if ($this->planteDetruite === true) : ?>
+				Vous avez tout g&acirc;ch&eacute; ! La plante 
+				<?=htmlentities($this->plante["categorie"])?> - <?=htmlentities($this->plante["nom_type"])?> (<?=$this->plante["id_plante"]?>)
+				est d&eacutre;truite.
+			<? else: ?>
+				Vous avez n'avez pas r&eacute;ussi &agrave; cueillir en &eacute;tat des &eacute;l&eacute;ments de 
+				la plante... ils sont d&eacute;truits.
+			<? endif; ?>
 		<? endif; ?>
 		<br>
 	 </div>
@@ -40,9 +49,9 @@
 		
 		if ($this->okJet1 === true) {
 			if ($this->nbCueillette > 1) {
-				echo "Vous avez cueilli avec succ&egrave;s des &eacute;l&eacute;ments sur la plante :";
+				echo "Vous avez cueilli avec succ&egrave;s des &eacute;l&eacute;ments sur la plante ";
 			} else {
-				echo "Vous avez cueilli avec succ&egrave;s un &eacute;l&eacute;ment sur la plante :";
+				echo "Vous avez cueilli avec succ&egrave;s un &eacute;l&eacute;ment sur la plante ";
 			}
 
 			echo htmlentities($this->plante["categorie"]). " - ".htmlentities($this->plante["nom_type"]). " (". $this->plante["id_plante"].")";
@@ -54,6 +63,15 @@
 					echo "
 ";
 				}
+			}
+		} else {
+			if ($this->planteDetruite === true) {
+				echo "Vous avez tout g&acirc;ch&eacute;, la plante ";
+				echo htmlentities($this->plante["categorie"])." - ".htmlentities($this->plante["nom_type"])."(".$this->plante["id_plante"].")";
+				echo "est d&eacutre;truite !";
+			} else {
+				echo "Vous avez n'avez pas r&eacute;ussi &agrave; cueillir en &eacute;tat des &eacute;l&eacute;ments de ";
+				echo "la plante... ils sont d&eacute;truits.";
 			}
 		}
 	?>

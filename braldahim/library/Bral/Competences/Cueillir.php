@@ -87,74 +87,74 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 
 		// calcul des jets
 		$this->calculJets();
+		$quantiteExtraite = $this->calculQuantiteAExtraire();
 
-		if ($this->view->okJet1 === true) {
-			$quantiteExtraite = $this->calculQuantiteAExtraire();
-
-			for ($i=1; $i<=4; $i++) {
-				$tab[$i]["estVide"] = true;
-				$tab[$i]["quantite"] = 0;
-				$tab[$i]["id_fk"] = -1;
-				$cueillette[$i]["quantite"] = 0;
-				$cueillette[$i]["id_fk"] = -1;
-				if ($i == 1 && $plante["partie_1_plante"] > 0) {
-					$tab[$i]["id_fk"] = $plante["id_fk_partie_1"];
-					$tab[$i]["quantite"] = $plante["partie_1_plante"];
-					$tab[$i]["estVide"] = false;
-					$cueillette[$i]["id_fk"] = $plante["id_fk_partie_1"];
-					$cueillette[$i]["nom_partie"] = $plante["nom_partie_1"];
-				}
-				if ($i == 2 && $plante["partie_2_plante"] > 0) {
-					$tab[$i]["id_fk"] = $plante["id_fk_partie_2"];
-					$tab[$i]["quantite"] = $plante["partie_2_plante"];
-					$tab[$i]["estVide"] = false;
-					$cueillette[$i]["id_fk"] = $plante["id_fk_partie_1"];
-					$cueillette[$i]["nom_partie"] = $plante["nom_partie_2"];
-				}
-				if ($i == 3 && $plante["partie_3_plante"] > 0) {
-					$tab[$i]["id_fk"] = $plante["id_fk_partie_3"];
-					$tab[$i]["quantite"] = $plante["partie_3_plante"];
-					$tab[$i]["estVide"] = false;
-					$cueillette[$i]["id_fk"] = $plante["id_fk_partie_1"];
-					$cueillette[$i]["nom_partie"] = $plante["nom_partie_3"];
-				}
-				if ($i == 4 && $plante["partie_4_plante"] > 0) {
-					$tab[$i]["id_fk"] = $plante["id_fk_partie_4"];
-					$tab[$i]["quantite"] = $plante["partie_4_plante"];
-					$tab[$i]["estVide"] = false;
-					$cueillette[$i]["id_fk"] = $plante["id_fk_partie_1"];
-					$cueillette[$i]["nom_partie"] = $plante["nom_partie_4"];
-				}
+		for ($i=1; $i<=4; $i++) {
+			$tab[$i]["estVide"] = true;
+			$tab[$i]["quantite"] = 0;
+			$tab[$i]["id_fk"] = -1;
+			$cueillette[$i]["quantite"] = 0;
+			$cueillette[$i]["id_fk"] = -1;
+			if ($i == 1 && $plante["partie_1_plante"] > 0) {
+				$tab[$i]["id_fk"] = $plante["id_fk_partie_1"];
+				$tab[$i]["quantite"] = $plante["partie_1_plante"];
+				$tab[$i]["estVide"] = false;
+				$cueillette[$i]["id_fk"] = $plante["id_fk_partie_1"];
+				$cueillette[$i]["nom_partie"] = $plante["nom_partie_1"];
 			}
+			if ($i == 2 && $plante["partie_2_plante"] > 0) {
+				$tab[$i]["id_fk"] = $plante["id_fk_partie_2"];
+				$tab[$i]["quantite"] = $plante["partie_2_plante"];
+				$tab[$i]["estVide"] = false;
+				$cueillette[$i]["id_fk"] = $plante["id_fk_partie_1"];
+				$cueillette[$i]["nom_partie"] = $plante["nom_partie_2"];
+			}
+			if ($i == 3 && $plante["partie_3_plante"] > 0) {
+				$tab[$i]["id_fk"] = $plante["id_fk_partie_3"];
+				$tab[$i]["quantite"] = $plante["partie_3_plante"];
+				$tab[$i]["estVide"] = false;
+				$cueillette[$i]["id_fk"] = $plante["id_fk_partie_1"];
+				$cueillette[$i]["nom_partie"] = $plante["nom_partie_3"];
+			}
+			if ($i == 4 && $plante["partie_4_plante"] > 0) {
+				$tab[$i]["id_fk"] = $plante["id_fk_partie_4"];
+				$tab[$i]["quantite"] = $plante["partie_4_plante"];
+				$tab[$i]["estVide"] = false;
+				$cueillette[$i]["id_fk"] = $plante["id_fk_partie_1"];
+				$cueillette[$i]["nom_partie"] = $plante["nom_partie_4"];
+			}
+		}
 
-			$planteADetruire = false;
-			for ($i=1; $i<=$quantiteExtraite; $i++) {
-				$idx = Bral_Util_De::get_de_specifique(1, 4);
-				if ($tab[$idx]["quantite"] > 0 && $tab[$idx]["estVide"] === false) {
-					$cueillette[$idx]["quantite"] = $cueillette[$idx]["quantite"] + 1;
-					$tab[$idx]["quantite"] = $tab[$idx]["quantite"] - 1;
-					if ($tab[$idx]["quantite"] < 1) {
-						$tab[$idx]["estVide"] = true;
-						if ($tab[1]["estVide"] === true && $tab[2]["estVide"] === true  &&
-							$tab[3]["estVide"] === true && $tab[4]["estVide"] === true ) {
-							$planteADetruire = true;
-							break; // si la plante est vide, on sort
-						}
-					}
-				} else {
+		$planteADetruire = false;
+		for ($i=1; $i<=$quantiteExtraite; $i++) {
+			$idx = Bral_Util_De::get_de_specifique(1, 4);
+			if ($tab[$idx]["quantite"] > 0 && $tab[$idx]["estVide"] === false) {
+				$cueillette[$idx]["quantite"] = $cueillette[$idx]["quantite"] + 1;
+				$tab[$idx]["quantite"] = $tab[$idx]["quantite"] - 1;
+				if ($tab[$idx]["quantite"] < 1) {
 					$tab[$idx]["estVide"] = true;
 					if ($tab[1]["estVide"] === true && $tab[2]["estVide"] === true  &&
-					$tab[3]["estVide"] === true && $tab[4]["estVide"] === true ) {
+						$tab[3]["estVide"] === true && $tab[4]["estVide"] === true ) {
 						$planteADetruire = true;
 						break; // si la plante est vide, on sort
-					} else {
-						$i--;
 					}
 				}
+			} else {
+				$tab[$idx]["estVide"] = true;
+				if ($tab[1]["estVide"] === true && $tab[2]["estVide"] === true  &&
+				$tab[3]["estVide"] === true && $tab[4]["estVide"] === true ) {
+					$planteADetruire = true;
+					break; // si la plante est vide, on sort
+				} else {
+					$i--;
+				}
 			}
-
+		}
+		
+		// reussite, on met dans le laban
+		if ($this->view->okJet1 === true) {
 			$labanPartiePlanteTable = new LabanPartieplante();
-
+	
 			for ($i=1; $i<=4; $i++) {
 				if ($cueillette[$i]["quantite"] > 0) {
 					$data = array(
@@ -165,31 +165,32 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 					$labanPartiePlanteTable->insertOrUpdate($data);
 				}
 			}
-
-			// s'il n'y a plus rien sur la plante, il faut la supprimer
-			if ($planteADetruire === true) {
-				$planteTable = new Plante();
-				$where = "id_plante=".$idPlante;
-				$planteTable->delete($where);
-			} else { // sinon, il faut la mettre à jour
-				$data = array(
-				"partie_1_plante" => $p["partie_1_plante"] - $cueillette[1]["quantite"],
-				"partie_2_plante" => $p["partie_2_plante"] - $cueillette[2]["quantite"],
-				"partie_3_plante" => $p["partie_3_plante"] - $cueillette[3]["quantite"],
-				"partie_4_plante" => $p["partie_4_plante"] - $cueillette[4]["quantite"],
-				);
-				$planteTable = new Plante();
-				$where = "id_plante=".$idPlante;
-				$planteTable->update($data, $where);
-			}
-
-			$this->view->cueillette = $cueillette;
-			$this->view->nbCueillette = count($cueillette);
-			$this->view->planteDetruite = $planteADetruire;
-			$this->view->plante = $plante;
-				
-			$this->majEvenementsStandard();
 		}
+		
+		// s'il n'y a plus rien sur la plante, il faut la supprimer
+		if ($planteADetruire === true) {
+			$planteTable = new Plante();
+			$where = "id_plante=".$idPlante;
+			$planteTable->delete($where);
+		} else { // sinon, il faut la mettre à jour
+			$data = array(
+			"partie_1_plante" => $p["partie_1_plante"] - $cueillette[1]["quantite"],
+			"partie_2_plante" => $p["partie_2_plante"] - $cueillette[2]["quantite"],
+			"partie_3_plante" => $p["partie_3_plante"] - $cueillette[3]["quantite"],
+			"partie_4_plante" => $p["partie_4_plante"] - $cueillette[4]["quantite"],
+			);
+			$planteTable = new Plante();
+			$where = "id_plante=".$idPlante;
+			$planteTable->update($data, $where);
+		}
+
+		$this->view->cueillette = $cueillette;
+		$this->view->nbCueillette = count($cueillette);
+		$this->view->planteDetruite = $planteADetruire;
+		$this->view->plante = $plante;
+			
+		$this->majEvenementsStandard();
+
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->majHobbit();

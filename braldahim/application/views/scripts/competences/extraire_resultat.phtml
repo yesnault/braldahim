@@ -7,17 +7,24 @@
 		
 		<? if ($this->okJet1 === true):?>
 		   <? if ($this->filonOk === true): ?>
-				Vous avez extrait avec succ&egrave;s un minerai:<br>
-				Type : <?=$this->minerai["nom_type"]?> - Quantit&eacute; : <?=$this->minerai["quantite_extraite"]?><br><br>
+				Vous avez extrait avec succ&egrave;s 
+				<?=$this->minerai["quantite_extraite"]?> morceau<?if($this->minerai["quantite_extraite"] > 0): echo "x";endif; ?>
+				de <?=$this->minerai["nom_type"]?><br>
 				<? if ($this->filonDetruit === true): ?>
 				Pfiou, il n'y a plus rien dans le filon...
 				<? endif; ?>
 			<? else: ?>
 				Il n'y a pas de minerai ici... Il faut sonder !
 			<? endif; ?>
-		<br><br>
+		<? else :  ?>
+			<? if ($this->filonDetruit === true) : ?>
+				Vous avez tout g&acirc;ch&eacute; ! Les derniers fragments de <?=$this->minerai["nom_type"]?>
+				tombent en miettes dans vos mains et le filon est d&eacute;truit !
+			<? else: ?>
+				Des fragments de <?=$this->minerai["nom_type"]?> tombent en miettes dans vos mains et sont d&eacute;truits.
+			<? endif; ?>
 		<? endif; ?>
-		<br>
+		<br><br>
 	 </div>
 	 
 	 <div id='extraire_copie' style="display:none">
@@ -26,13 +33,24 @@
 		
 		if ($this->okJet1 === true) {
 			if ($this->filonOk === true) {
-				echo "Vous avez extrait avec succ&egrave;s un minerai: ";
-				echo "Type : ".$this->minerai["nom_type_minerai"]." - Quantit&eacute; : ".$this->minerai["quantite"];
+				echo "Vous avez extrait avec succ&egrave;s ";
+				echo $this->minerai["quantite_extraite"]." morceau";
+				if($this->minerai["quantite_extraite"] > 0) {
+					echo "x";
+				}
+				echo " de ".$this->minerai["nom_type"];
 				if ($this->filonDetruit === true) {
 					echo "Pfiou, il n'y a plus rien dans le filon...";
 				}
 			} else {
 				echo "Il n'y a pas de minerai ici... Il faut sonder !";
+			}
+		} else {
+			if ($this->filonDetruit === true) {
+				echo "Vous avez tout g&acirc;ch&eacute; ! Le filon est d&eacute;truit !";
+			} else {
+				echo "Des fragments de ".$this->minerai["nom_type"];
+				echo " tombent en miettes dans vos mains et sont d&eacute;truits.";
 			}
 		}
 	?>
