@@ -124,7 +124,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		}
 		$this->view->jetCible = $jetCible + $hobbit->agilite_bm_hobbit;
 
-		$cible = array('nom_cible' => $hobbit->nom_hobbit, 'id_cible' => $hobbit->id_hobbit, 'niveau_cible' =>$hobbit->niveau_hobbit, 'castar_hobbit' => $hobbit->castar_hobbit);
+		$cible = array('nom_cible' => $hobbit->nom_hobbit, 'id_cible' => $hobbit->id_hobbit, 'niveau_cible' =>$hobbit->niveau_hobbit, 'castars_hobbit' => $hobbit->castars_hobbit);
 		$this->view->cible = $cible;
 
 		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
