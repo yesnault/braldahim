@@ -1,35 +1,52 @@
 <?php
 
-class Bral_Competences_Attaquer extends Bral_Competences_Competence {
+class Bral_Competences_Charger extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
+		Zend_Loader::loadClass('Bral_Util_Commun');
+		
+		$commun = new Bral_Util_Commun();
+		$this->view->vue_nb_cases = $commun->getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
+		$x_min = $this->view->user->x_hobbit - $this->view->vue_nb_cases;
+		$x_max = $this->view->user->x_hobbit + $this->view->vue_nb_cases;
+		$y_min = $this->view->user->y_hobbit - $this->view->vue_nb_cases;
+		$y_max = $this->view->user->y_hobbit + $this->view->vue_nb_cases;
 		
 		$tabHobbits = null;
 		$tabMonstres = null;
 
-		// recuperation des hobbits qui sont presents sur la case
+		// recuperation des hobbits qui sont presents sur la vue
 		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit);
+		$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->id_hobbit);
 		foreach($hobbits as $h) {
 			$tab = array(
 			'id_hobbit' => $h["id_hobbit"],
 			'nom_hobbit' => $h["nom_hobbit"],
+			'x_hobbit' => $h["x_hobbit"],
+			'y_hobbit' => $h["y_hobbit"],
 			);
 			$tabHobbits[] = $tab;
 		}
 		
-		// recuperation des monstres qui sont presents sur la case
+		// recuperation des monstres qui sont presents sur la vue
 		$monstreTable = new Monstre();
-		$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$monstres = $monstreTable->selectVue($x_min, $y_min, $x_max, $y_max);
 		foreach($monstres as $m) {
 			if ($m["genre_type_monstre"] == 'feminin') {
 				$m_taille = $m["nom_taille_f_monstre"];
 			} else {
 				$m_taille = $m["nom_taille_m_monstre"];
 			}
-			$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"]);
+			$tabMonstres[] = array(
+			'id_monstre' => $m["id_monstre"], 
+			'nom_monstre' => $m["nom_type_monstre"], 
+			'taille_monstre' => $m_taille, 
+			'niveau_monstre' => $m["niveau_monstre"],
+			'x_monstre' => $m["x_monstre"],
+			'y_monstre' => $m["y_monstre"],
+			);
 		}
 
 		$this->view->tabHobbits = $tabHobbits;
@@ -111,7 +128,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 	private function attaqueHobbit($idHobbit) {
 		Zend_Loader::loadClass("Bral_Util_De");
 
-		$this->view->attaqueReussie = false;
+		$this->view->chargeReussie = false;
 		$this->calculJetAttaque();
 
 		$hobbitTable = new Hobbit();
@@ -131,7 +148,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		if ($this->view->jetAttaquant > $this->view->jetCible) {
 			$this->view->critique = false;
 			$this->view->fragilisee = false;
-			$this->view->attaqueReussie = true;
+			$this->view->chargeReussie = true;
 			
 			if ($this->view->jetAttaquant / 2 > $this->view->jetCible ) {
 				$this->view->critique = true;
@@ -212,7 +229,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		if ($this->view->jetAttaquant > $this->view->jetCible) {
 			$this->view->critique = false;
 			$this->view->fragilisee = false;
-			$this->view->attaqueReussie = true;
+			$this->view->chargeReussie = true;
 			
 			if ($this->view->jetAttaquant / 2 > $this->view->jetCible ) {
 				$this->view->critique = true;
@@ -287,7 +304,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		parent::calculPx();
 		$this->view->calcul_px_generique = false;
 
-		if ($this->view->attaqueReussie === true) {
+		if ($this->view->chargeReussie === true) {
 			$this->view->nb_px_perso = $this->view->nb_px_perso + 1;
 		}
 

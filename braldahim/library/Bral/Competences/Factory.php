@@ -8,6 +8,7 @@ class Bral_Competences_Factory {
 		Zend_Loader::loadClass("Bral_Competences_Assaisonner");
 		Zend_Loader::loadClass("Bral_Competences_Attaquer");
 		Zend_Loader::loadClass("Bral_Competences_Chasser");
+		Zend_Loader::loadClass("Bral_Competences_Charger");
 		Zend_Loader::loadClass("Bral_Competences_Courir");
 		Zend_Loader::loadClass("Bral_Competences_Cueillir");
 		Zend_Loader::loadClass("Bral_Competences_Cuisiner");
@@ -15,6 +16,7 @@ class Bral_Competences_Factory {
 		Zend_Loader::loadClass("Bral_Competences_Depiauter");
 		Zend_Loader::loadClass("Bral_Competences_Distribuerpx");
 		Zend_Loader::loadClass("Bral_Competences_Extraire");
+		Zend_Loader::loadClass("Bral_Competences_Frenesie");
 		Zend_Loader::loadClass("Bral_Competences_Identifierrune");
 		Zend_Loader::loadClass("Bral_Competences_Gardiennage");
 		Zend_Loader::loadClass("Bral_Competences_Manger");

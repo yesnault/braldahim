@@ -16,15 +16,27 @@ class Hobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function selectVue($x_min, $y_min, $x_max, $y_max) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $sansHobbitCourant = -1) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('hobbit', '*')
-		->where('x_hobbit <= ?',$x_max)
-		->where('x_hobbit >= ?',$x_min)
-		->where('y_hobbit >= ?',$y_min)
-		->where('y_hobbit <= ?',$y_max)
-		->where('est_mort_hobbit = ?', "non");
+		if ($sansHobbitCourant != -1) {
+			$select->from('hobbit', '*')
+			->where('x_hobbit <= ?',$x_max)
+			->where('x_hobbit >= ?',$x_min)
+			->where('y_hobbit >= ?',$y_min)
+			->where('y_hobbit <= ?',$y_max)
+			->where('est_mort_hobbit = ?', "non")
+			->where('id_hobbit != ?',$sansHobbitCourant)
+			;
+		} else {
+			$select->from('hobbit', '*')
+			->where('x_hobbit <= ?',$x_max)
+			->where('x_hobbit >= ?',$x_min)
+			->where('y_hobbit >= ?',$y_min)
+			->where('y_hobbit <= ?',$y_max)
+			->where('est_mort_hobbit = ?', "non");
+		}
+		
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

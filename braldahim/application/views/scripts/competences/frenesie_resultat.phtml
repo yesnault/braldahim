@@ -1,0 +1,76 @@
+<div class='comp_titre'>Fr&eacute;n&eacute;sie</div>
+
+ <div class='comp_contenu'>
+	 <div id='frenesie_text' style="display:block"  onClick="javascript:switch2div('frenesie_text','frenesie_copie');">
+	 <? include("commun_text_resultat.phtml") ?>
+		 Vous avez attaqu&eacute; <?=htmlentities($this->cible["nom_cible"])?> (<?=$this->cible["id_cible"]?>) :<br><br>
+		 Jet d'attaque : <?=$this->jetAttaquant?><br>
+		 Jet de r&eacute;sistance de la cible : <?=$this->jetCible?><br>
+		 
+	 	<? if ($this->frenesieeussie === true) : ?>
+	 		<? if ($this->jetDegat>1):$s='s'; else:$s=''; endif;?>
+	 		Vous avez inflig&eacute; <?=$this->jetDegat?> point<?=$s?> de d&eacute;gat
+	 		<? if ($this->critique == true): ?>
+	 		en attaque critique
+	 		<? endif; ?>
+	 		<br><br>
+	 		
+	 		<? if ($this->mort): ?>
+	 			Vous avez tu&eacute; <?=htmlentities($this->cible["nom_cible"])?> (<?=$this->cible["id_cible"]?>) N<?=$this->cible["niveau_cible"] ?><br><br>
+	 		<? endif; ?>
+	 		Vous avez gagn&eacute; <?=$this->nb_px?> PX<br><br>
+	 	<? else: ?>
+	 		Votre attaque a &eacute;t&eacute; esquiv&eacute;e 
+	 		<? if ($this->fragilisee === true) : ?>
+	 		<br> La cible est fragilis&eacute;e pour les prochaines attaques
+	 		<? else: ?>
+	 		parfaitement.
+	 		<? endif; ?>
+	 	<? endif; ?>
+	 </div>
+	 
+	 <div id='frenesie_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+		include("commun_copie_resultat.phtml");
+		 echo "Vous avez charg&eacute; ".htmlentities($this->cible["nom_cible"])." (".$this->cible["id_cible"].") N".$this->cible["niveau_cible"]." :";
+		 echo "
+";
+		 echo "Jet d'attaque : ".$this->jetAttaquant;
+		 echo "
+";
+		 echo "Jet de r&eacute;sistance de la cible : ".$this->jetCible;
+		 echo "
+";
+		 
+	 	 if ($this->frenesieeussie === true) {
+	 		if ($this->jetDegat>1):$s='s'; else:$s=''; endif;
+	 		echo "Vous avez inflig&eacute; ".$this->jetDegat." point".$s." de d&eacute;gat ";
+	 		if ($this->critique == true) {
+	 			echo "en attaque critique";
+	 		}
+	 		echo "
+";
+	 		
+	 		if ($this->mort) {
+	 			echo "Vous avez tu&eacute; ".htmlentities($this->cible["nom_cible"])." (". $this->cible["id_cible"].") N".$this->cible["niveau_cible"]." :";
+	 			echo "
+";
+			}
+	 		echo "Vous avez gagn&eacute; ".$this->nb_px." PX";
+	 	  } else {
+	 	  	echo "Votre attaque a &eacute;t&eacute; esquiv&eacute;e";
+	 	  	
+	 	  	 if ($this->fragilisee === true) {
+	 	  	 	echo "
+";
+	 		 	echo "La cible est fragilis&eacute;e pour les prochaines attaques";
+	 	  	 } else {
+	 	  	 	echo " parfaitement"
+;	 	  	 }
+	 	  }
+		?></textarea>
+	</div>
+ </div>
+
+<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('frenesie_text','frenesie_copie');">
+<? include("commun_fermer.phtml") ?>
