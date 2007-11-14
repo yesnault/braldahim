@@ -115,6 +115,7 @@ class Bral_Competences_Courrir extends Bral_Competences_Competence {
 		}
 		$this->view->tableau = $tab;
 		$this->tableauValidation = $tabValidation;
+		$this->view->distance = $this->distance;
 	}
 	
 	function prepareFormulaire() {
