@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Competences_Courrir extends Bral_Competences_Competence {
+class Bral_Competences_Courir extends Bral_Competences_Competence {
 	
 	function prepareCommun() {
 		Zend_Loader::loadClass('Palissade');
@@ -14,7 +14,7 @@ class Bral_Competences_Courrir extends Bral_Competences_Competence {
 			return;
 		}
 		
-		$this->view->courrirPossible = false;
+		$this->view->courirPossible = false;
 		
 		$commun = new Bral_Util_Commun();
 		$vue_nb_cases = $commun->getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
@@ -94,7 +94,7 @@ class Bral_Competences_Courrir extends Bral_Competences_Competence {
 		 		if ($valid === true && $defautChecked == false) {
 					$default = "checked";
 					$defautChecked = true;
-					$this->view->courrirPossible = true;
+					$this->view->courirPossible = true;
 			 	} else {
 			 		$default = "";
 			 	}
@@ -146,21 +146,13 @@ class Bral_Competences_Courrir extends Bral_Competences_Competence {
 		$this->view->user->y_hobbit = $this->view->user->y_hobbit + $this->offset_y_calcul;
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
 		
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-		$hobbit = $hobbitRowset->current();
-
-		$data = array( 
-			'x_hobbit' => $this->view->user->x_hobbit,
-			'y_hobbit'  => $this->view->user->y_hobbit,
-			'pa_hobbit' => $this->view->user->pa_hobbit,
-		); 
-		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
-		
 		$id_type = $this->view->config->game->evenements->type->deplacement;
-		$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a courru";
+		$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a couru";
 		$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
+		
+		$this->calculPx();
+		$this->calculBalanceFaim();
+		$this->majHobbit();
 	}
 	
 	function getListBoxRefresh() {

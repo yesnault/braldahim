@@ -134,21 +134,12 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		$this->view->user->y_hobbit = $this->view->user->y_hobbit + $offset_y;
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
 		
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-		$hobbit = $hobbitRowset->current();
-
-		$data = array( 
-			'x_hobbit' => $this->view->user->x_hobbit,
-			'y_hobbit'  => $this->view->user->y_hobbit,
-			'pa_hobbit' => $this->view->user->pa_hobbit,
-		); 
-		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
-		
 		$id_type = $this->view->config->game->evenements->type->deplacement;
 		$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a marché";
 		$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
+		
+		$this->calculBalanceFaim();
+		$this->majHobbit();
 	}
 	
 	function getListBoxRefresh() {

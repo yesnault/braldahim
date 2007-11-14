@@ -1,8 +1,10 @@
-<div class='comp_titre'>Courrir</div>
+<div class='comp_titre'>Courir</div>
 
  <div class='comp_contenu'>
 	 <div id='courrir_text' style="display:block"  onClick="javascript:switch2div('courrir_text','courrir_copie');">
-		Vous avez courru jusqu'en  : <br>
+		<? include("commun_text_resultat.phtml") ?>
+		
+		Vous avez couru jusqu'en  : <br>
 		x=<?=$this->user->x_hobbit?>, y=<?=$this->user->y_hobbit?> <br><br>
 		
 		<? if ($this->palissadeRencontree === true) : ?>
@@ -14,6 +16,8 @@
 	 
 	 <div id='courrir_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+			include("commun_copie_resultat.phtml");
+			
 			echo "Vous avez r&eacute;ussi votre course jusqu'en  :";
 			echo "x=".$this->user->x_hobbit.", y=".$this->user->y_hobbit;
 			if ($this->palissadeRencontree === true) {
@@ -27,5 +31,5 @@
 	</div>
  </div>
 
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('courrir_text','courrir_copie');">
+<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('courir_text','courir_copie');">
 <? include("commun_fermer.phtml") ?>

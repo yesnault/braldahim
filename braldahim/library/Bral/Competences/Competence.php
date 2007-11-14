@@ -188,6 +188,8 @@ abstract class Bral_Competences_Competence {
 		'px_base_niveau_hobbit' => $this->view->user->px_base_niveau_hobbit,
 		'balance_faim_hobbit' => $this->view->user->balance_faim_hobbit,
 		'nb_kill_hobbit' => $this->view->user->nb_kill_hobbit,
+		'x_hobbit' => $this->view->user->x_hobbit,
+		'y_hobbit'  => $this->view->user->y_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
