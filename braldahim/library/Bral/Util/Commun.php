@@ -15,7 +15,7 @@ class Bral_Util_Commun {
 		$r = 0;
 		switch($zone["nom_systeme_environnement"]) {
 			case "marais":
-				$r = 4;
+				$r = 5;
 				break;
 			case "montagne":
 				$r = 5;
