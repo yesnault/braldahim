@@ -318,7 +318,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 			$castarTable = new Castar();
 			$data = array(
 			"x_castar"  => $cible["x_cible"],
-			"y_castar" => $cible["x_cible"],
+			"y_castar" => $cible["y_cible"],
 			"nb_castar" => $nbCastars,
 			);
 			
