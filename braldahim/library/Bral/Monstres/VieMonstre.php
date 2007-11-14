@@ -146,6 +146,11 @@ class Bral_Monstres_VieMonstre {
 		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
 		Bral_Util_Log::tech()->debug(get_class($this)." - Jets : attaque=".$jetAttaquant. " resistance=".$jetCible."");
 		if ($jetAttaquant > $jetCible) {
+			$critique = false;
+			if ($jetAttaquant / 2 > $jetCible ) {
+				$critique = true;
+			}
+			$this->calculDegat($critique);
 			$jetDegat = $this->calculDegat();
 
 			$cible["pv_restant_hobbit"] = $cible["pv_restant_hobbit"] - $jetDegat;
@@ -164,6 +169,7 @@ class Bral_Monstres_VieMonstre {
 				$mortCible = true;
 			} else {
 				Bral_Util_Log::tech()->debug(get_class($this)." - La cible survie");
+				$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - ( floor($cible["niveau_hobbit"] / 10) + 1 );
 				$cible["est_mort_hobbit"] = "non";
 				$id_type_evenement = self::$config->game->evenements->type->attaquer;
 				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a attaqué le hobbit ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ")";
@@ -172,6 +178,9 @@ class Bral_Monstres_VieMonstre {
 
 			$this->updateCible($cible);
 			$this->updateMonstre();
+		} else if ($jetCible/2 < $jetAttaquant) {
+			$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - ( floor($cible["niveau_hobbit"] / 10) + 1 );
+			$this->updateCible($cible);
 		}
 		Bral_Util_Log::tech()->trace(get_class($this)." - attaqueCible - exit (return=".$mortCible.")");
 		return $mortCible;
@@ -226,10 +235,14 @@ class Bral_Monstres_VieMonstre {
 		return $jetAttaquant;
 	}
 
-	private function calculDegat() {
-		Bral_Util_Log::tech()->trace(get_class($this)." - calculDegat - enter");
+	private function calculDegat($estCritique) {
+		Bral_Util_Log::tech()->trace(get_class($this)." - calculDegat - enter (critique=".$estCritique.")");
 		$jetDegat = 0;
-		for ($i=1; $i<=self::$config->game->base_force + $this->monstre["force_base_monstre"]; $i++) {
+		$coefCritique = 1;
+		if ($estCritique === true) {
+			$coefCritique = 1.5;
+		}
+		for ($i=1; $i <= (self::$config->game->base_force + $this->monstre["force_base_monstre"])  * $coefCritique; $i++) {
 			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
 		}
 		$jetDegat = $jetDegat + $this->monstre["force_bm_monstre"];
@@ -245,7 +258,7 @@ class Bral_Monstres_VieMonstre {
 		'pv_restant_hobbit' => $cible["pv_restant_hobbit"],
 		'est_mort_hobbit' => $cible["est_mort_hobbit"],
 		'nb_mort_hobbit' => $cible["nb_mort_hobbit"],
-		'date_fin_tour_hobbit' => date("Y-m-d H:i:s"),
+		'agilite_bm_hobbit' => $cible["agilite_bm_hobbit"],
 		);
 		$where = "id_hobbit=".$cible["id_hobbit"];
 		$hobbitTable->update($data, $where);

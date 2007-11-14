@@ -164,10 +164,10 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 			$where = "id_hobbit=".$hobbit->id_hobbit;
 			$hobbitTable->update($data, $where);
 		} else if ($this->view->jetCible/2 < $this->view->jetAttaquant) {
-			$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - $cible["niveau_hobbit"];
+			$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - ( floor($cible["niveau_hobbit"] / 10) + 1 );
 			$data = array('agilite_bm_hobbit' => $cible["agilite_bm_hobbit"]);
 			$where = "id_hobbit=".$cible["id_cible"];
-			$monstreTable->update($data, $where);
+			$hobbitTable->update($data, $where);
 			$this->view->mort = false;
 			$this->view->fragilisee = true;
 		}
@@ -237,7 +237,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 				$monstreTable->update($data, $where);
 			}
 		} else if ($this->view->jetCible/2 < $this->view->jetAttaquant) {
-			$agilite_bm_monstre = $monstre["agilite_bm_monstre"] - $monstre["niveau_monstre"];
+			$agilite_bm_monstre = $monstre["agilite_bm_monstre"] - ( floor($monstre["niveau_monstre"] / 10) + 1 );
 			$this->view->mort = false;
 			$data = array('agilite_bm_monstre' => $agilite_bm_monstre);
 			$where = "id_monstre=".$cible["id_cible"];
@@ -275,7 +275,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 			$coefCritique = 1.5;
 		}
 		
-		for ($i=1; $i<= ($this->view->config->game->base_force * $coefCritique) + $this->view->user->force_base_hobbit; $i++) {
+		for ($i=1; $i<= ($this->view->config->game->base_force + $this->view->user->force_base_hobbit) * $coefCritique; $i++) {
 			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
 		}
 		//TODO Rajouter le bonus de degat de l'arme s'il y en a
