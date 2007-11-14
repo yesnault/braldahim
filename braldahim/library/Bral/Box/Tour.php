@@ -12,8 +12,8 @@ class Bral_Box_Tour {
 		$this->hobbit = $hobbitRowset->current();
 		//$this->view->user = $this->hobbit;
 
-		$nomsTour = Zend_Registry::get('nomsTour');
-		$this->view->user->nom_tour = $nomsTour[$this->view->user->tour_position_hobbit];
+		$this->nomsTour = Zend_Registry::get('nomsTour');
+		$this->view->user->nom_tour = $this->nomsTour[$this->view->user->tour_position_hobbit];
 		$this->calculInfoTour();
 	}
 
@@ -22,6 +22,7 @@ class Bral_Box_Tour {
 	}
 
 	function render() {
+		$this->view->user->nom_tour = $this->nomsTour[$this->view->user->tour_position_hobbit];
 		return $this->view->render("interface/tour.phtml");
 	}
 
@@ -103,7 +104,7 @@ class Bral_Box_Tour {
 			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_cumul;
 			$this->is_update_tour = true;
 		}
-
+		
 		if (($this->is_update_tour) || ($this->is_nouveau_tour) || ($this->hobbit->est_mort_hobbit == "oui")) {
 			Bral_Util_Log::tech()->debug(get_class($this)." modificationTour true");
 			return true;

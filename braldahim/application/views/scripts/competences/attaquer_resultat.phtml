@@ -9,7 +9,10 @@
 		 
 	 	<? if ($this->attaqueReussie === true) : ?>
 	 		<? if ($this->jetDegat>1):$s='s'; else:$s=''; endif;?>
-	 		Vous avez inflig&eacute; <?=$this->jetDegat?> point<?=$s?> de d&eacute;gat.
+	 		Vous avez inflig&eacute; <?=$this->jetDegat?> point<?=$s?> de d&eacute;gat
+	 		<? if ($this->critique == true): ?>
+	 		en attaque critique
+	 		<? endif; ?>
 	 		<br><br>
 	 		
 	 		<? if ($this->mort): ?>
@@ -17,9 +20,11 @@
 	 		<? endif; ?>
 	 		Vous avez gagn&eacute; <?=$this->nb_px?> PX<br><br>
 	 	<? else: ?>
-	 		Votre attaque a &eacute;t&eacute; esquiv&eacute;e<br>
+	 		Votre attaque a &eacute;t&eacute; esquiv&eacute;e 
 	 		<? if ($this->fragilisee === true) : ?>
-	 		 La cible est fragilis&eacute;e pour les prochaines attaques
+	 		<br> La cible est fragilis&eacute;e pour les prochaines attaques
+	 		<? else: ?>
+	 		parfaitement.
 	 		<? endif; ?>
 	 	<? endif; ?>
 	 </div>
@@ -39,7 +44,10 @@
 		 
 	 	 if ($this->attaqueReussie === true) {
 	 		if ($this->jetDegat>1):$s='s'; else:$s=''; endif;
-	 		echo "Vous avez inflig&eacute; ".$this->jetDegat." point".$s." de d&eacute;gat.";
+	 		echo "Vous avez inflig&eacute; ".$this->jetDegat." point".$s." de d&eacute;gat ";
+	 		if ($this->critique == true) {
+	 			echo "en attaque critique";
+	 		}
 	 		echo "
 ";
 	 		
@@ -51,11 +59,14 @@
 	 		echo "Vous avez gagn&eacute; ".$this->nb_px." PX";
 	 	  } else {
 	 	  	echo "Votre attaque a &eacute;t&eacute; esquiv&eacute;e";
-	 	  	echo "
-";
+	 	  	
 	 	  	 if ($this->fragilisee === true) {
+	 	  	 	echo "
+";
 	 		 	echo "La cible est fragilis&eacute;e pour les prochaines attaques";
-	 	  	 }
+	 	  	 } else {
+	 	  	 	echo " parfaitement"
+;	 	  	 }
 	 	  }
 		?></textarea>
 	</div>
