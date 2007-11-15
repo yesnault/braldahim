@@ -56,9 +56,6 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 			$idHobbit = (int)$this->request->get("valeur_2");
 		}
 
-		if ($idMonstre != -1 && $idHobbit != -1) {
-			throw new Zend_Exception(get_class($this)." Montre ou Hobbit invalide (!=-1)");
-		}
 		if ($idMonstre == -1 && $idHobbit == -1) {
 			throw new Zend_Exception(get_class($this)." Montre ou Hobbit invalide (==-1)");
 		}

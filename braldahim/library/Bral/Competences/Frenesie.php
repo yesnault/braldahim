@@ -12,19 +12,12 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
 		
-		$commun = new Bral_Util_Commun();
-		$this->view->vue_nb_cases = $commun->getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
-		$x_min = $this->view->user->x_hobbit - $this->view->vue_nb_cases;
-		$x_max = $this->view->user->x_hobbit + $this->view->vue_nb_cases;
-		$y_min = $this->view->user->y_hobbit - $this->view->vue_nb_cases;
-		$y_max = $this->view->user->y_hobbit + $this->view->vue_nb_cases;
-		
 		$tabHobbits = null;
 		$tabMonstres = null;
 
 		// recuperation des hobbits qui sont presents sur la vue
 		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->id_hobbit);
+		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit);
 		foreach($hobbits as $h) {
 			$tab = array(
 			'id_hobbit' => $h["id_hobbit"],
@@ -35,7 +28,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		
 		// recuperation des monstres qui sont presents sur la vue
 		$monstreTable = new Monstre();
-		$monstres = $monstreTable->selectVue($x_min, $y_min, $x_max, $y_max);
+		$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		foreach($monstres as $m) {
 			if ($m["genre_type_monstre"] == 'feminin') {
 				$m_taille = $m["nom_taille_f_monstre"];

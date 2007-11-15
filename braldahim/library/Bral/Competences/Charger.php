@@ -1,5 +1,29 @@
 <?php
 
+/*
+ * La distance de charge est basé sur la vigueur avec une réduction suivant le terrain de départ :
+ * En plaine :
+ * VIG 0-2 -> 1 case
+ * 3-5 -> 2 cases
+ * 6-8 -> 3 cases
+ * 9-11 -> 4 cases
+ * 12-14 -> 5 cases
+ * 15+  -> 6 cases
+ * En forêt un malus de -1, ne marais et montagne un malus de -2 sur la distance est apliqué (minimum 0).
+ * La distance de charge est borné par la vue.
+ * 
+ * Le jet d'attaque d'une charge est différent : (0.5 jet AGI) + BM + bonus arme
+ * 
+ * Le jet de dégats diffère aussi : jet FOR + BM FOR + bonus arme + jet VIG + BM VIG
+ * cas du critique :
+ * 1.5(jet FOR) + BM FOR + bonus arme + jet VIG + BM VIG
+ * 
+ * On ne peut pas charger sur un cible qui est sur sa propre case.
+ * 
+ * On ne peut pas charger si l'une des cases entre le chargeur et le charger est une palissade.
+ * 
+ * Ne peut pas être utilisé en ville.
+ */
 class Bral_Competences_Charger extends Bral_Competences_Competence {
 
 	function prepareCommun() {
@@ -8,11 +32,47 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		
 		$commun = new Bral_Util_Commun();
-		$this->view->vue_nb_cases = $commun->getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
-		$x_min = $this->view->user->x_hobbit - $this->view->vue_nb_cases;
-		$x_max = $this->view->user->x_hobbit + $this->view->vue_nb_cases;
-		$y_min = $this->view->user->y_hobbit - $this->view->vue_nb_cases;
-		$y_max = $this->view->user->y_hobbit + $this->view->vue_nb_cases;
+		
+		$this->view->charge_nb_cases = floor($this->view->user->vigueur_base_hobbit / 3) + 1;
+		if ($this->view->charge_nb_cases > 6) {
+			$this->view->charge_nb_cases = 6;
+		}
+		
+		$vue = $commun->getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
+		if ($vue < $this->view->charge_nb_cases) {
+			$this->view->charge_nb_cases = $vue;
+		}
+		
+		$environnement = $commun->getEnvironnement($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		if ($environnement == "montage" || $environnement == "marais") {
+			$this->view->charge_nb_cases = $this->view->charge_nb_cases  - 2;
+		} elseif ($environnement == "foret") {
+			$this->view->charge_nb_cases = $this->view->charge_nb_cases  - 1;
+		}
+		
+		$x_min = $this->view->user->x_hobbit - $this->view->charge_nb_cases;
+		$x_max = $this->view->user->x_hobbit + $this->view->charge_nb_cases;
+		$y_min = $this->view->user->y_hobbit - $this->view->charge_nb_cases;
+		$y_max = $this->view->user->y_hobbit + $this->view->charge_nb_cases;
+		
+		$tabValide = null;
+		for ($i = $x_min ; $i <= $x_max ; $i++) {
+			$tabValide[$i][$this->view->user->y_hobbit] = true;
+			for ($j = $y_min ; $j <= $y_max ; $j++) {
+				if (!isset($tabValide[$i][$j])) {
+					$tabValide[$i][$j] = false;
+				}
+				$tabValide[$this->view->user->y_hobbit][$j] = true;
+			}
+		}
+		for ($i = 1 ; $i <= $this->view->vue_nb_cases ; $i++) {
+			$xdiagonale_bas_haut = $x_min + $i;
+			$xdiagonale_haut_bas = $x_max - $i;
+			$ydiagonale_bas_haut = $y_min + $i;
+			$ydiagonale_haut_bas = $y_max - $i;
+			$tabValide[$xdiagonale_bas_haut][$ydiagonale_bas_haut] = true;
+			$tabValide[$xdiagonale_haut_bas][$ydiagonale_haut_bas] = true;
+		}
 		
 		$tabHobbits = null;
 		$tabMonstres = null;
@@ -20,14 +80,17 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		// recuperation des hobbits qui sont presents sur la vue
 		$hobbitTable = new Hobbit();
 		$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->id_hobbit);
+		
 		foreach($hobbits as $h) {
-			$tab = array(
-			'id_hobbit' => $h["id_hobbit"],
-			'nom_hobbit' => $h["nom_hobbit"],
-			'x_hobbit' => $h["x_hobbit"],
-			'y_hobbit' => $h["y_hobbit"],
-			);
-			$tabHobbits[] = $tab;
+			if ($tabValide[$h["x_hobbit"]][$h["y_hobbit"]] === true) {
+				$tab = array(
+				'id_hobbit' => $h["id_hobbit"],
+				'nom_hobbit' => $h["nom_hobbit"],
+				'x_hobbit' => $h["x_hobbit"],
+				'y_hobbit' => $h["y_hobbit"],
+				);
+				$tabHobbits[] = $tab;
+			}
 		}
 		
 		// recuperation des monstres qui sont presents sur la vue
@@ -39,14 +102,16 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			} else {
 				$m_taille = $m["nom_taille_m_monstre"];
 			}
-			$tabMonstres[] = array(
-			'id_monstre' => $m["id_monstre"], 
-			'nom_monstre' => $m["nom_type_monstre"], 
-			'taille_monstre' => $m_taille, 
-			'niveau_monstre' => $m["niveau_monstre"],
-			'x_monstre' => $m["x_monstre"],
-			'y_monstre' => $m["y_monstre"],
-			);
+			if ($tabValide[$m["x_monstre"]][$m["y_monstre"]] === true) {
+				$tabMonstres[] = array(
+				'id_monstre' => $m["id_monstre"], 
+				'nom_monstre' => $m["nom_type_monstre"], 
+				'taille_monstre' => $m_taille, 
+				'niveau_monstre' => $m["niveau_monstre"],
+				'x_monstre' => $m["x_monstre"],
+				'y_monstre' => $m["y_monstre"],
+				);
+			}
 		}
 
 		$this->view->tabHobbits = $tabHobbits;
@@ -75,9 +140,6 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 
 		if ($idMonstre != -1 && $idHobbit != -1) {
 			throw new Zend_Exception(get_class($this)." Montre ou Hobbit invalide (!=-1)");
-		}
-		if ($idMonstre == -1 && $idHobbit == -1) {
-			throw new Zend_Exception(get_class($this)." Montre ou Hobbit invalide (==-1)");
 		}
 
 		$attaqueMonstre = false;
@@ -109,9 +171,9 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		}
 
 		if ($attaqueHobbit === true) {
-			$this->attaqueHobbit($idHobbit);
+			$this->chargeHobbit($idHobbit);
 		} elseif ($attaqueMonstre === true) {
-			$this->attaqueMonstre($idMonstre);
+			$this->chargeMonstre($idMonstre);
 		} else {
 			throw new Zend_Exception(get_class($this)." Erreur inconnue");
 		}
@@ -125,7 +187,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		return array("box_profil", "box_vue", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_lieu", "box_evenements");
 	}
 
-	private function attaqueHobbit($idHobbit) {
+	private function chargeHobbit($idHobbit) {
 		Zend_Loader::loadClass("Bral_Util_De");
 
 		$this->view->chargeReussie = false;
@@ -149,6 +211,9 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			$this->view->critique = false;
 			$this->view->fragilisee = false;
 			$this->view->chargeReussie = true;
+			
+			$this->view->user->x_hobbit = $cible["x_cible"];
+			$this->view->user->y_hobbit = $cible["y_cible"];
 			
 			if ($this->view->jetAttaquant / 2 > $this->view->jetCible ) {
 				$this->view->critique = true;
@@ -203,7 +268,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		}
 	}
 
-	private function attaqueMonstre($idMonstre) {
+	private function chargeMonstre($idMonstre) {
 		$this->calculJetAttaque();
 
 		$monstreTable = new Monstre();
@@ -230,6 +295,9 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			$this->view->critique = false;
 			$this->view->fragilisee = false;
 			$this->view->chargeReussie = true;
+			
+			$this->view->user->x_hobbit = $cible["x_cible"];
+			$this->view->user->y_hobbit = $cible["y_cible"];
 			
 			if ($this->view->jetAttaquant / 2 > $this->view->jetCible ) {
 				$this->view->critique = true;

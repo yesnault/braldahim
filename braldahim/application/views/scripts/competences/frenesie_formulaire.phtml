@@ -25,7 +25,7 @@
  			<select name='valeur_2' id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_frenesie').disabled=true } else {$('valeur_1').value=-1; $('bouton_frenesie').disabled=false }">
 			<option value='-1'>(Choisis un hobbit)</option>
  			<? foreach ($this->tabHobbits as $h) : ?>
-			<option value="<?=$h["id_hobbit"]?>"><?=$h["nom_hobbit"]?> (<?=$h["id_hobbit"]?>)</option>
+			<option value="<?=$h["id_hobbit"]?>"><?=htmlentities($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>)</option>
 			<? endforeach; ?>
 			</select><br><br>
 		<? else: ?>

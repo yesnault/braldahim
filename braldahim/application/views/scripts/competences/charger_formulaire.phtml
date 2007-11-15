@@ -4,9 +4,9 @@
  <div class='comp_contenu'>
  <?php if ($this->assezDePa == true) : ?>
  	<? if ($this->nHobbits == 0 && $this->nMonstres == 0): ?>
- 		Il n'y a rien &agrave charger dans votre vue de <?=$this->vue_nb_cases ?> case<?if ($this->vue_nb_cases>0):echo 's'; endif; ?><br>
+ 		Il n'y a rien &agrave charger dans votre distance de charge de <?=$this->charge_nb_cases ?> case<?if ($this->charge_nb_cases > 1): echo 's'; endif; ?><br>
  	<? else: ?>
- 		Pour <?=$this->nb_pa?> PA, vous pouvez charger &agrave; <?=$this->vue_nb_cases ?> case<?if ($this->vue_nb_cases>0):echo 's'; endif; ?>.<br><br>
+ 		Pour <?=$this->nb_pa?> PA, vous pouvez charger &agrave; <?=$this->charge_nb_cases ?> case<?if ($this->charge_nb_cases > 1): echo 's'; endif; ?>.<br><br>
  		Charger : <br><br>
 		<? if ($this->nMonstres > 0): ?>
 		Un monstre<br>
@@ -25,7 +25,7 @@
  			<select name='valeur_2' id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_charger').disabled=true } else {$('valeur_1').value=-1; $('bouton_charger').disabled=false }">
 			<option value='-1'>(Choisis un hobbit)</option>
  			<? foreach ($this->tabHobbits as $h) : ?>
-			<option value="<?=$h["id_hobbit"]?>"><?=$h["nom_hobbit"]?> (<?=$h["id_hobbit"]?>) x:<?=$h["x_hobbit"]?> , y:<?=$h["y_hobbit"]?></option>
+			<option value="<?=$h["id_hobbit"]?>"><?=htmlentities($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>) x:<?=$h["x_hobbit"]?> , y:<?=$h["y_hobbit"]?></option>
 			<? endforeach; ?>
 			</select><br><br>
 		<? else: ?>

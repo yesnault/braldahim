@@ -35,6 +35,14 @@ class Bral_Util_Commun {
 		return $r;
 	}
 	
+	public function getEnvironnement($x, $y) {
+		Zend_Loader::loadClass('Zone');
+		$zoneTable = new Zone();
+		$zones = $zoneTable->findByCase($x, $y);
+		$zone = $zones[0];
+		return $zone["nom_systeme_environnement"];
+	}
+	
 	/*
 	 * Mise à jour des évènements du hobbit.
 	 */

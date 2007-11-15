@@ -26,8 +26,7 @@ class Hobbit extends Zend_Db_Table {
 			->where('y_hobbit >= ?',$y_min)
 			->where('y_hobbit <= ?',$y_max)
 			->where('est_mort_hobbit = ?', "non")
-			->where('id_hobbit != ?',$sansHobbitCourant)
-			;
+			->where('id_hobbit != ?',$sansHobbitCourant);
 		} else {
 			$select->from('hobbit', '*')
 			->where('x_hobbit <= ?',$x_max)
