@@ -18,7 +18,7 @@
  * cas du critique :
  * 1.5(jet FOR) + BM FOR + bonus arme + jet VIG + BM VIG
  * 
- * On ne peut pas charger sur un cible qui est sur sa propre case.
+ * On ne peut pas charger sur une cible qui est sur sa propre case.
  * 
  * On ne peut pas charger si l'une des cases entre le chargeur et le charger est une palissade.
  * 
@@ -27,9 +27,10 @@
 class Bral_Competences_Charger extends Bral_Competences_Competence {
 
 	function prepareCommun() {
-		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
 		Zend_Loader::loadClass('Bral_Util_Commun');
+		Zend_Loader::loadClass("Monstre");
+		Zend_Loader::loadClass('Palissade');
 		
 		$commun = new Bral_Util_Commun();
 		
@@ -65,13 +66,73 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 				$tabValide[$this->view->user->y_hobbit][$j] = true;
 			}
 		}
-		for ($i = 1 ; $i <= $this->view->vue_nb_cases ; $i++) {
+		for ($i = 0 ; $i <= $this->view->charge_nb_cases ; $i++) {
 			$xdiagonale_bas_haut = $x_min + $i;
 			$xdiagonale_haut_bas = $x_max - $i;
 			$ydiagonale_bas_haut = $y_min + $i;
 			$ydiagonale_haut_bas = $y_max - $i;
 			$tabValide[$xdiagonale_bas_haut][$ydiagonale_bas_haut] = true;
 			$tabValide[$xdiagonale_haut_bas][$ydiagonale_haut_bas] = true;
+		}
+		// On ne peut pas charger sur une cible qui est sur sa propre case.
+		$tabValide[$this->view->user->x_hobbit][$this->view->user->y_hobbit] = false;
+		
+		$palissadeTable = new Palissade();
+		$palissades = $palissadeTable->selectVue($x_min, $y_min, $x_max, $y_max);
+		
+		foreach($palissades as $p) {
+			$tabValide[$p["x_palissade"]][$p["y_palissade"]] = false;
+			if ($p["x_palissade"] == $this->view->user->x_hobbit) {
+				if ($p["x_palissade"] < $this->view->user->x_hobbit) {
+					for ($i = $y_min; $i<= $p["y_palissade"]; $i++) {
+						$tabValide[$p["x_palissade"]][$i] = false;
+					}
+				} else {
+					for ($i = $y_max; $i>= $p["y_palissade"]; $i--) {
+						$tabValide[$p["x_palissade"]][$i] = false;
+					}
+				}
+			}
+			if ($p["y_palissade"] == $this->view->user->y_hobbit) {
+				if ($p["y_palissade"] < $this->view->user->x_hobbit) {
+					for ($i = $x_min; $i<= $p["x_palissade"]; $i++) {
+						$tabValide[$i][$p["x_palissade"]] = false;
+					}
+				} else {
+					for ($i = $x_max; $i>= $p["x_palissade"]; $i--) {
+						$tabValide[$i][$p["y_palissade"]] = false;
+					}
+				}
+			}
+			if ($p["x_palissade"] <= $this->view->user->x_hobbit && 
+				$p["y_palissade"] >= $this->view->user->y_hobbit) {
+				for ($i = $x_min; $i<= $p["x_palissade"]; $i++) {
+					for ($j = $y_max; $j>= $p["y_palissade"]; $j--) {
+							$tabValide[$i][$j] = false;
+					}
+				}
+			} elseif ($p["x_palissade"] >= $this->view->user->x_hobbit && 
+					  $p["y_palissade"] >= $this->view->user->y_hobbit) {
+  				for ($i = $x_max; $i>= $p["x_palissade"]; $i--) {
+					for ($j = $y_max; $j>= $p["y_palissade"]; $j--) {
+							$tabValide[$i][$j] = false;
+					}
+				}
+			} elseif ($p["x_palissade"] <= $this->view->user->x_hobbit && 
+					  $p["y_palissade"] <= $this->view->user->y_hobbit) {
+  				for ($i = $x_min; $i<= $p["x_palissade"]; $i++) {
+					for ($j = $y_min; $j<= $p["y_palissade"]; $j++) {
+							$tabValide[$i][$j] = false;
+					}
+				}
+			} elseif ($p["x_palissade"] >= $this->view->user->x_hobbit && 
+					  $p["y_palissade"] <= $this->view->user->y_hobbit) {
+  				for ($i = $x_max; $i>= $p["x_palissade"]; $i--) {
+					for ($j = $y_min; $j<= $p["y_palissade"]; $j++) {
+							$tabValide[$i][$j] = false;
+					}
+				}
+			}
 		}
 		
 		$tabHobbits = null;
@@ -141,7 +202,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		if ($idMonstre != -1 && $idHobbit != -1) {
 			throw new Zend_Exception(get_class($this)." Montre ou Hobbit invalide (!=-1)");
 		}
-
+		
 		$attaqueMonstre = false;
 		$attaqueHobbit = false;
 		if ($idHobbit != -1) {
@@ -169,13 +230,16 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 				throw new Zend_Exception(get_class($this)." Monstre invalide (".$idMonstre.")");
 			}
 		}
-
-		if ($attaqueHobbit === true) {
-			$this->chargeHobbit($idHobbit);
-		} elseif ($attaqueMonstre === true) {
-			$this->chargeMonstre($idMonstre);
-		} else {
-			throw new Zend_Exception(get_class($this)." Erreur inconnue");
+		
+		$this->calculJets();
+		if ($this->view->okJet1 === true) {
+			if ($attaqueHobbit === true) {
+				$this->chargeHobbit($idHobbit);
+			} elseif ($attaqueMonstre === true) {
+				$this->chargeMonstre($idMonstre);
+			} else {
+				throw new Zend_Exception(get_class($this)." Erreur inconnue");
+			}
 		}
 
 		$this->calculPx();
@@ -205,15 +269,15 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 
 		$cible = array('nom_cible' => $hobbit->nom_hobbit, 'id_cible' => $hobbit->id_hobbit, 'x_cible' => $hobbit->x_hobbit, 'y_cible' => $hobbit->y_hobbit,'niveau_cible' =>$hobbit->niveau_hobbit, 'castars_hobbit' => $hobbit->castars_hobbit, 'agilite_bm_hobbit' => $hobbit->agilite_bm_hobbit);
 		$this->view->cible = $cible;
-
+	
+		$this->view->user->x_hobbit = $cible["x_cible"];
+		$this->view->user->y_hobbit = $cible["y_cible"];
+			
 		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
 		if ($this->view->jetAttaquant > $this->view->jetCible) {
 			$this->view->critique = false;
 			$this->view->fragilisee = false;
 			$this->view->chargeReussie = true;
-			
-			$this->view->user->x_hobbit = $cible["x_cible"];
-			$this->view->user->y_hobbit = $cible["y_cible"];
 			
 			if ($this->view->jetAttaquant / 2 > $this->view->jetCible ) {
 				$this->view->critique = true;
@@ -290,14 +354,14 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		$cible = array('nom_cible' => $monstre["nom_type_monstre"]." ".$m_taille, 'id_cible' => $monstre["id_monstre"], 'niveau_cible' => $monstre["niveau_monstre"]);
 		$this->view->cible = $cible;
 
+		$this->view->user->x_hobbit = $cible["x_cible"];
+		$this->view->user->y_hobbit = $cible["y_cible"];
+			
 		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
 		if ($this->view->jetAttaquant > $this->view->jetCible) {
 			$this->view->critique = false;
 			$this->view->fragilisee = false;
 			$this->view->chargeReussie = true;
-			
-			$this->view->user->x_hobbit = $cible["x_cible"];
-			$this->view->user->y_hobbit = $cible["y_cible"];
 			
 			if ($this->view->jetAttaquant / 2 > $this->view->jetCible ) {
 				$this->view->critique = true;
@@ -344,15 +408,25 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		}
 	}
 
+	/*
+	 * Le jet d'attaque d'une charge est différent : (0.5 jet AGI) + BM + bonus arme
+	 */
 	private function calculJetAttaque() {
 		$jetAttaquant = 0;
 		for ($i=1; $i<=$this->view->config->base_agilite + $this->view->user->agilite_base_hobbit; $i++) {
 			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
 		}
-		$jetAttaquant = $jetAttaquant + $this->view->user->agilite_bm_hobbit;
+		// TODO rajouter le bonus arme
+		$jetAttaquant = 0.5 * $jetAttaquant + $this->view->user->agilite_bm_hobbit;
 		$this->view->jetAttaquant = $jetAttaquant;
 	}
-
+	
+	/*
+	 * Le jet de dégats diffère aussi : 
+	 * jet FOR + BM FOR + bonus arme + jet VIG + BM VIG
+	 * cas du critique :
+	 * 1.5(jet FOR) + BM FOR + bonus arme + jet VIG + BM VIG
+	 */
 	private function calculDegat($estCritique) {
 		$jetDegat = 0;
 		$coefCritique = 1;
@@ -363,8 +437,14 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		for ($i=1; $i<= ($this->view->config->game->base_force + $this->view->user->force_base_hobbit) * $coefCritique; $i++) {
 			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
 		}
-		//TODO Rajouter le bonus de degat de l'arme s'il y en a
 		$jetDegat = $jetDegat + $this->view->user->force_bm_hobbit;
+		
+		for ($i=1; $i<= $this->view->config->game->base_vigueur + $this->view->user->force_vigueur_hobbit; $i++) {
+			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
+		}
+		$jetDegat = $jetDegat + $this->view->user->vigueur_bm_hobbit;
+		
+		//TODO Rajouter le bonus de degat de l'arme s'il y en a
 		$this->view->jetDegat = $jetDegat;
 	}
 
@@ -384,31 +464,5 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			}
 		}
 		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
-	}
-	
-	private function dropHobbitCastars(&$cible) {
-		//Lorqu'un Hobbit meurt il perd une partie de ces castars : 1/3 arr inférieur.
-		
-		if ($cible["castars_hobbit"] > 0) {
-			if (Bral_Util_De::get_1d1() == 1) { 
-				$nbCastars = floor($cible["castars_hobbit"] / 3) + Bral_Util_De::get_1d5();
-			} else {
-				$nbCastars = floor($cible["castars_hobbit"] / 3) - Bral_Util_De::get_1d5() ;
-			}
-			
-			$cible["castars_hobbit"] = $cible["castars_hobbit"] - $nbCastars;
-			
-			Zend_Loader::loadClass("Castar");
-		
-			$castarTable = new Castar();
-			$data = array(
-			"x_castar"  => $cible["x_cible"],
-			"y_castar" => $cible["y_cible"],
-			"nb_castar" => $nbCastars,
-			);
-			
-			$castarTable = new Castar();
-			$castarTable->insertOrUpdate($data);
-		}
 	}
 }

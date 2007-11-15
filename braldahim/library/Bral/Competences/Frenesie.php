@@ -266,14 +266,18 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 	}
 
 	private function calculJetAttaque() {
+		//Attaque : 0.5*(jet d'AGI)+BM AGI + bonus arme att
 		$jetAttaquant = 0;
 		for ($i=1; $i<=$this->view->config->base_agilite + $this->view->user->agilite_base_hobbit; $i++) {
 			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
 		}
-		$jetAttaquant = $jetAttaquant + $this->view->user->agilite_bm_hobbit;
+		// TODO ajouter bonus arme att
+		$jetAttaquant = (0.5 * $jetAttaquant) + $this->view->user->agilite_bm_hobbit;
 		$this->view->jetAttaquant = $jetAttaquant;
 	}
 
+	// * dégats : 0.5*(jet FOR)+BM FOR+ bonus arme dégats
+ 	// * dégats critiques : (1.5*(0.5*FOR))+BM FOR+bonus arme dégats
 	private function calculDegat($estCritique) {
 		$jetDegat = 0;
 		$coefCritique = 1;
@@ -281,11 +285,11 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			$coefCritique = 1.5;
 		}
 		
-		for ($i=1; $i<= ($this->view->config->game->base_force + $this->view->user->force_base_hobbit) * $coefCritique; $i++) {
+		for ($i=1; $i<= ($this->view->config->game->base_force + $this->view->user->force_base_hobbit); $i++) {
 			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
 		}
 		//TODO Rajouter le bonus de degat de l'arme s'il y en a
-		$jetDegat = $jetDegat + $this->view->user->force_bm_hobbit;
+		$jetDegat = $coefCritique * (0.5 * $jetDegat) + $this->view->user->force_bm_hobbit;
 		$this->view->jetDegat = $jetDegat;
 	}
 
@@ -305,31 +309,5 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			}
 		}
 		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
-	}
-	
-	private function dropHobbitCastars(&$cible) {
-		//Lorqu'un Hobbit meurt il perd une partie de ces castars : 1/3 arr inférieur.
-		
-		if ($cible["castars_hobbit"] > 0) {
-			if (Bral_Util_De::get_1d1() == 1) { 
-				$nbCastars = floor($cible["castars_hobbit"] / 3) + Bral_Util_De::get_1d5();
-			} else {
-				$nbCastars = floor($cible["castars_hobbit"] / 3) - Bral_Util_De::get_1d5() ;
-			}
-			
-			$cible["castars_hobbit"] = $cible["castars_hobbit"] - $nbCastars;
-			
-			Zend_Loader::loadClass("Castar");
-		
-			$castarTable = new Castar();
-			$data = array(
-			"x_castar"  => $cible["x_cible"],
-			"y_castar" => $cible["y_cible"],
-			"nb_castar" => $nbCastars,
-			);
-			
-			$castarTable = new Castar();
-			$castarTable->insertOrUpdate($data);
-		}
 	}
 }
