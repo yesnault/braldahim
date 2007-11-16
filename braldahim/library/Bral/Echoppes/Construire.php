@@ -10,6 +10,27 @@ class Bral_Echoppes_Construire extends Bral_Echoppes_Echoppe {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass('Lieu'); 	
+		Zend_Loader::loadClass("Region");
+		
+		$regionTable = new Region();
+		$regions = $regionTable->fetchAll(null, 'nom_region');
+		$regions = $regions->toArray();
+		
+		$regionCourante = null;
+		foreach ($regions as $r) {
+			if ($r["x_min_region"]<=$this->view->user->x_hobbit && 
+			$r["x_max_region"]>=$this->view->user->x_hobbit && 
+			$r["y_min_region"]<=$this->view->user->y_hobbit && 
+			$r["y_max_region"]>=$this->view->user->y_hobbit) {
+				$this->regionCourante = $r;
+				break;
+			}
+		}
+		
+		if ($this->regionCourante == null) {
+			throw new Zend_Exception(get_class($this)." Region inconnue x:".$this->view->user->x_hobbit." y:".$this->view->user->y_hobbit);
+		}
+		$this->view->tabRegionCourante = $this->regionCourante;
 		
 		// on verifie que l'on est pas sur un lieu
 		$lieuxTable = new Lieu();
@@ -108,18 +129,18 @@ class Bral_Echoppes_Construire extends Bral_Echoppes_Echoppe {
 		
 		$echoppesTable = new Echoppe();
 		$data = array(
-		'id_hobbit_echoppe' => $this->view->user->x_hobbit,
+		'id_hobbit_echoppe' => $this->view->user->id_hobbit,
 		'x_echoppe' => $this->view->user->x_hobbit,
-		'y_echoppe' => $this->view->user->x_hobbit,
+		'y_echoppe' => $this->view->user->y_hobbit,
 		'id_fk_metier_echoppe' => $this->id_metier_courant,
-		'date_creation_echoppe' => $this->view->user->x_hobbit,
+		'date_creation_echoppe' => date("Y-m-d H:i:s"),
 		);
-		$echoppesTable->insertOrUpdate($data);
-		
+		$echoppesTable->insert($data);
+		$this->view->constructionEchoppeOk = true;
 	}
 
 	function getListBoxRefresh() {
-		return array("box_laban");
+		return array("box_laban", "box_echoppes");
 	}
 
 }

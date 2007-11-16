@@ -20,7 +20,7 @@
    		<? foreach($m["regions"] as $r) :?>
    			<?=htmlentities($r["nom_region"]) ?>
    			<? if ($r["echoppe"] != null): ?>
-   			Echoppe x:<?=$r["echoppe"]["x_echoppe"] ?> , y:<?=$r["echoppe"]["y_echoppe"] ?>
+   			Votre &eacute;choppe se trouve en x:<?=$r["echoppe"]["x_echoppe"] ?> y:<?=$r["echoppe"]["y_echoppe"] ?>
    			<? else: ?>
    				<? if ($this->tabRegionCourante["id_region"] != $r["id_region"] || $this->tabMetierCourant["id_metier"] != $m["id_metier"]):$disabled="disabled";else:$disabled="";endif; ?>
    				<input type='button' class='button1' value='Construire une &eacute;choppe' onClick="_get_('/echoppes/DoAction?caction=ask_echoppes_construire');" <?=$disabled ?>>

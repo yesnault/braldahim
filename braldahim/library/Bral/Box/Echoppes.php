@@ -34,8 +34,8 @@ class Bral_Box_Echoppes {
 		foreach ($regions as $r) {
 			if ($r["x_min_region"]<=$this->view->user->x_hobbit && 
 			$r["x_max_region"]>=$this->view->user->x_hobbit && 
-			$r["y_min_region"]<=$this->view->user->x_hobbit && 
-			$r["y_max_region"]>=$this->view->user->x_hobbit) {
+			$r["y_min_region"]<=$this->view->user->y_hobbit && 
+			$r["y_max_region"]>=$this->view->user->y_hobbit) {
 				$regionCourante = $r;
 				break;
 			}
@@ -50,7 +50,6 @@ class Bral_Box_Echoppes {
 			"id_echoppe" => $e["id_echoppe"],
 			"x_echoppe" => $e["x_echoppe"],
 			"y_echoppe" => $e["y_echoppe"],
-			"nom_metier" => $e["nom_metier"],
 			"id_metier" =>  $e["id_metier"],
 			"id_region" => $e["id_region"],
 			"nom_region" => $e["nom_region"]
@@ -108,7 +107,6 @@ class Bral_Box_Echoppes {
 				}
 			}
 		}
-		
 		
 		$this->view->tabRegionCourante = $regionCourante;
 		$this->view->tabMetierCourant = $tabMetierCourant;

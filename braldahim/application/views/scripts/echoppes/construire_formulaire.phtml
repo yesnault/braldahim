@@ -3,9 +3,11 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
  <div class='comp_contenu'>
  	<? if ($this->construireMetierPossible === true && $this->construireLieuOk === true && $this->aucuneEchoppe === true) : ?>
-		Vous pouvez construire une &eacute;choppe
+		Dans cette comt&eacute; (<?=htmlentities($this->tabRegionCourante["nom_region"])?>),
+		 vous pouvez construire une &eacute;choppe
 		<? if ($this->nom_metier_courant{0} == 'A') : echo 'd'; else: echo "de"; endif; ?>
-		<?=$this->nom_metier_courant ?> sur votre case
+		<?=$this->nom_metier_courant ?><br><br>
+		Elle se trouvera sur votre case, soit en  x:<?=$this->user->x_hobbit ?> y:<?=$this->user->y_hobbit ?> 
 	<? else: ?>
 		<? if ($this->construireLieuOk == false) : ?>
 			Vous ne pouvez pas construire d'&eacute;choppe sur un lieu...

@@ -2,7 +2,16 @@
 
  <div class='comp_contenu'>
 	 <div id='echoppe_text' style="display:block"  onClick="javascript:switch2div('echoppe_text','echoppe_copie');">
-		Vous avez construit une &eacute;choppe avec succ&egrave;s !
+		
+		<? if ($this->constructionEchoppeOk === true): ?>
+		Vous avez construit une &eacute;choppe avec succ&egrave;s ! <br><br>
+		
+		Elle se trouve en x:<?=$this->user->x_hobbit ?> y:<?=$this->user->y_hobbit ?> 
+		dans la <?=htmlentities($this->tabRegionCourante["nom_region"]) ?> .<br><br>
+		
+		C'est une &eacute;choppe <? if ($this->nom_metier_courant{0} == 'A') : echo 'd'; else: echo "de"; endif; ?>
+		<?=$this->nom_metier_courant ?>
+		<? endif; ?><br><br>
 	 </div>
 	 
 	 <div id='echoppe_copie' style="display:none">
