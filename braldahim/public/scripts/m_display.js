@@ -67,3 +67,40 @@ function activer_wysiwyg(id) {
 function desactiver_wysiwyg(id) {
 	tinyMCE.execCommand('mceRemoveControl', false, id);
 }
+
+function accordion(el) {
+    if ($('visible') == el) {
+        return;
+    }
+    if ($('visible')) {
+        var eldown = el.parentNode.id+'-body';
+        var elup = $('visible').parentNode.id+'-body';
+        
+        if ($(elup) && $(eldown)) {
+	        new Effect.Parallel(
+	        [
+	            new Effect.SlideUp(elup),
+	            new Effect.SlideDown(eldown)
+	        ], {
+	            duration: 0.1
+	        });
+        } else {
+	        if ($(elup)) {
+	        	new Effect.SlideUp(elup, {duration: 0.1});
+	        }
+	        if ($(eldown)) {
+	        	new Effect.SlideDown(eldown, {duration: 0.1});
+	        }
+        }
+        el.style.backgroundImage = "url(/public/images/expanded.gif);";
+        
+        if ($($('ancien').value+""+'-head')) {
+        	$($('ancien').value+""+'-head').style.backgroundImage = "url(/public/images/collapsed.gif);";
+        }
+        $('visible').style.backgroundImage = "url(/public/images/collapsed.gif);";
+        $('visible').id = '';
+        $('ancien').value = el.parentNode.id;
+        
+    }
+    el.id = 'visible';
+}

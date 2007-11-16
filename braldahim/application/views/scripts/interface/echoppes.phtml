@@ -1,33 +1,14 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-<ul class="titre textalia textsizec">Mes Echoppes</ul>
+<ul class="titre textalia textsizec">Gestion des &Eacute;choppes</ul>
  <div class="contenuc">
   <ul class="box_contenu1 textalic">
-  	Vous &ecirc;tes actuellement <?=$this->tabMetierCourant["nom_metier"] ?> et vous vous 
-  	situez dans la <?=htmlentities($this->tabRegionCourante["nom_region"]) ?><br>
- 	
- 	<? if ($this->constructionPossible == false): ?>
- 		Vous ne pouvez pas contruire d'&eacute;choppe avec votre m&eacute;tier courant<br>
- 	<? endif; ?>
- 	<br>
-	<? if ($this->nEchoppes < 1) : ?>
-  		Vous n'avez aucune &eacute;choppe.<br><br>
-   	<? endif; ?>
-   	
-   	
-   	<? foreach($this->tabMetiers as $m) : ?>
-   		<?=htmlentities($m["nom_metier"]) ?><br>
-   		<? foreach($m["regions"] as $r) :?>
-   			<?=htmlentities($r["nom_region"]) ?>
-   			<? if ($r["echoppe"] != null): ?>
-   			Votre &eacute;choppe se trouve en x:<?=$r["echoppe"]["x_echoppe"] ?> y:<?=$r["echoppe"]["y_echoppe"] ?>
-   			<? else: ?>
-   				<? if ($this->tabRegionCourante["id_region"] != $r["id_region"] || $this->tabMetierCourant["id_metier"] != $m["id_metier"]):$disabled="disabled";else:$disabled="";endif; ?>
-   				<input type='button' class='button1' value='Construire une &eacute;choppe' onClick="_get_('/echoppes/DoAction?caction=ask_echoppes_construire');" <?=$disabled ?>>
-   			<? endif; ?>
-   			<br>
-   		<? endforeach; ?>
-   	<? endforeach; ?>
+  	<table>
+  	<tr valign="top">
+  	<td><?=$this->htmlMenu ?></td>
+  	<td><div id="contenu_menu"><?=$this->htmlContenu ?></div></td>
+  	</tr>
+  	</table>
    </ul>
 </div>
 </div>

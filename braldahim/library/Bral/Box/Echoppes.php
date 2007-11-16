@@ -116,6 +116,10 @@ class Bral_Box_Echoppes {
 		$this->view->nEchoppes = count($tabEchoppes);
 		
 		$this->view->nom_interne = $this->getNomInterne();
+		
+		$this->view->htmlMenu = $this->view->render("interface/echoppes/menu.phtml");
+		$this->view->htmlContenu = $this->view->render("interface/echoppes/liste_echoppes.phtml");
+		
 		return $this->view->render("interface/echoppes.phtml");
 	}
 	

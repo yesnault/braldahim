@@ -42,7 +42,7 @@ class Bral_Box_Lieu {
 			$this->view->paUtilisationLieu = $lieu["pa_utilisation_type_lieu"];
 			$this->view->niveauMinLieu = $lieu["niveau_min_type_lieu"];
 			
-			$this->view->htmlLieu = $this->view->render("interface/lieux/".$lieu["nom_systeme_type_lieu"].".phtml");;
+			$this->view->htmlLieu = $this->view->render("interface/lieux/".$lieu["nom_systeme_type_lieu"].".phtml");
 		}
 		
 		$this->view->nom_interne = $this->getNomInterne();

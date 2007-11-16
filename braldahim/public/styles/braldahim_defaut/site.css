@@ -125,3 +125,57 @@ a:hover {
 span.id_hobbit {
 	color: red;
 }
+
+
+
+#navigation {
+background-color:#E2E2E2;
+border:1px solid #999999;
+margin:0px;
+padding:0px;
+text-indent:0px;
+width:200px;
+}
+#navigation h3.head {
+background:#CCCC99 url(/public/images/collapsed.gif) no-repeat scroll 3px 4px;
+border:1px solid #CCCCCC;
+color:#791E1E;
+cursor:pointer;
+display:block;
+font-weight:bold;
+margin:0px;
+padding:0px;
+text-decoration:none;
+text-indent:14px;
+}
+#navigation h3.head:hover {
+color:#000000;
+}
+#navigation h3.selected {
+background-image:url(/public/images/expanded.gif);
+}
+#navigation h3.current {
+background-color:#FFFF99;
+}
+#navigation ul {
+border-width:0px;
+margin:0px;
+padding:0px;
+text-indent:0px;
+}
+#navigation li {
+display:inline;
+list-style-image:none;
+list-style-position:outside;
+list-style-type:none;
+}
+#navigation li li h3 {
+color:#000000;
+display:block;
+text-decoration:none;
+text-indent:10px;
+}
+#navigation li li h3:hover {
+background-color:#FFFF99;
+color:#FF0000;
+}
