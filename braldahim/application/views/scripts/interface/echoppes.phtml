@@ -3,9 +3,23 @@
 <ul class="titre textalia textsizec">Mes Echoppes</ul>
  <div class="contenuc">
   <ul class="box_contenu1 textalic">
-  
-  
-   
+  	
+  	<? if ($this->nEchoppes < 1) : ?>
+  		Vous n'avez aucune &eacute;choppe.<br><br>
+   	<? endif; ?>
+   	
+   	<? foreach($this->tabMetiers as $m) : ?>
+   		<?=htmlentities($m["nom_metier"]) ?><br>
+   		<? foreach($m["regions"] as $r) :?>
+   			<?=htmlentities($r["nom_region"]) ?>
+   			<? if ($r["echoppe"] != null): ?>
+   			Echoppe x:<?=$r["echoppe"]["x_echoppe"] ?> , y:<?=$r["echoppe"]["y_echoppe"] ?>
+   			<? else: ?>
+   				<input type='button' class='button1' value='Construire une &eacute;choppe' onClick="_get_('/echoppes/DoAction?caction=ask_echoppes_construire');">
+   			<? endif; ?>
+   			<br>
+   		<? endforeach; ?>
+   	<? endforeach; ?>
    </ul>
 </div>
 </div>

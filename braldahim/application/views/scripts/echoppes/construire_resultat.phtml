@@ -1,0 +1,16 @@
+<div class='comp_titre'>Construire une &eacute;choppe</div>
+
+ <div class='comp_contenu'>
+	 <div id='echoppe_text' style="display:block"  onClick="javascript:switch2div('echoppe_text','echoppe_copie');">
+		Vous avez construit une &eacute;choppe avec succ&egrave;s !
+	 </div>
+	 
+	 <div id='echoppe_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><? 
+			echo "Vous avez construit une &eacute;choppe avec succ&egrave;s !";
+		?></textarea>
+	</div>
+ </div>
+
+<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('echoppe_text','echoppe_copie');">
+<? include("commun_fermer.phtml") ?>

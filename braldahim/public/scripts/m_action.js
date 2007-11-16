@@ -20,6 +20,10 @@ function _get_(url){
   		if ((url.substring(13, 15) == "Do") && (url.substring(30, 32) == "do")) {
   			action = "do";
   		}
+   	} else if (url.substring(0, 9) == "/echoppes") { // /echoppes/DoAction?caction=ask/do
+  		if ((url.substring(10, 12) == "Do") && (url.substring(27, 29) == "do")) {
+  			action = "do";
+  		}
   	} else if (url.substring(0, 6) == "/lieux") { // /lieux/DoAction?caction=ask/do
   		if ((url.substring(7, 9) == "Do") && (url.substring(24, 26) == "do")) {
   			action = "do";
