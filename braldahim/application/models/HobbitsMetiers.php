@@ -60,4 +60,22 @@ class HobbitsMetiers extends Zend_Db_Table
 
 		$db->update($data, $where);
 	}
+	
+	public function peutPossederEchoppeIdHobbit($idHobbit) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbits_metiers', 'count(id_metier_hmetier) as nombre')
+		->from('metier', 'id_metier')
+		->where("metier.construction_echoppe_metier = 'oui'")
+		->where("hobbits_metiers.id_hobbit_hmetier = ".intval($idHobbit))
+		->group("id_metier");
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		
+		if (!isset($resultat[0]) || $resultat[0]["nombre"] <1) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 }

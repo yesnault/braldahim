@@ -30,9 +30,19 @@ class Bral_Box_Echoppes {
 		$regions = $regionTable->fetchAll(null, 'nom_region');
 		$regions = $regions->toArray();
 		
+		$regionCourante = null;
+		foreach ($regions as $r) {
+			if ($r["x_min_region"]<=$this->view->user->x_hobbit && 
+			$r["x_max_region"]>=$this->view->user->x_hobbit && 
+			$r["y_min_region"]<=$this->view->user->x_hobbit && 
+			$r["y_max_region"]>=$this->view->user->x_hobbit) {
+				$regionCourante = $r;
+				break;
+			}
+		}
+		
 		$echoppesTable = new Echoppe();
 		$echoppesRowset = $echoppesTable->findByIdHobbit($this->view->user->id_hobbit);
-		$this->view->estLieuCourant = false;
 		
 		$tabEchoppes = null;
 		foreach($echoppesRowset as $e) {
@@ -48,9 +58,10 @@ class Bral_Box_Echoppes {
 		}
 		
 		$hobbitsMetiersTable = new HobbitsMetiers();
-		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersEchoppeByHobbitId($this->view->user->id_hobbit);
+		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
 		$tabMetiers = null;
 		$tabMetierCourant = null;
+		$this->view->constructionPossible = false;
 
 		foreach($hobbitsMetierRowset as $m) {
 			if ($this->view->user->sexe_hobbit == 'feminin') {
@@ -64,6 +75,7 @@ class Bral_Box_Echoppes {
 			foreach ($regions as $r) {
 				$regionMetier = null;
 				$regionMetier["nom_region"] = $r["nom_region"];
+				$regionMetier["id_region"] = $r["id_region"];
 				$regionMetier["echoppe"] = null;
 				if (count($tabEchoppes) > 0) {
 					foreach($tabEchoppes as $e) {
@@ -83,13 +95,22 @@ class Bral_Box_Echoppes {
 			"regions" => $regionsMetier,
 			);
 			
-			$tabMetiers[] = $t;
+			if ($m["construction_echoppe_metier"] == "oui") {
+				$tabMetiers[] = $t;
+			}
+			
 			if ($m["est_actif_hmetier"] == "oui") {
 				$tabMetierCourant = $t;
+				if ($m["construction_echoppe_metier"] == "oui") {
+					$this->view->constructionPossible = true;
+				} else {
+					$this->view->constructionPossible = false;
+				}
 			}
 		}
 		
 		
+		$this->view->tabRegionCourante = $regionCourante;
 		$this->view->tabMetierCourant = $tabMetierCourant;
 		$this->view->tabMetiers = $tabMetiers;
 		

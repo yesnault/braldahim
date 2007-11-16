@@ -19,8 +19,6 @@ class Echoppe extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe', 'count(id_echoppe) as nombre')
-		->from('type_echoppe', '*')
-		->from('metier', '*')
 		->where('x_echoppe <= ?',$x_max)
 		->where('x_echoppe >= ?',$x_min)
 		->where('y_echoppe >= ?',$y_min)
@@ -35,14 +33,12 @@ class Echoppe extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe', '*')
-		->from('type_echoppe', '*')
 		->from('metier', '*')
 		->where('x_echoppe <= ?',$x_max)
 		->where('x_echoppe >= ?',$x_min)
 		->where('y_echoppe >= ?',$y_min)
 		->where('y_echoppe <= ?',$y_max)
-		->where('echoppe.id_fk_type_echoppe = type_echoppe.id_type_echoppe')
-		->where('type_echoppe.id_fk_metier_type_echoppe = metier.id_metier');
+		->where('echoppe.id_fk_metier_echoppe = metier.id_metier');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -51,12 +47,10 @@ class Echoppe extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe', '*')
-		->from('type_echoppe', '*')
 		->from('metier', '*')
 		->where('x_echoppe = ?',$x)
 		->where('y_echoppe = ?',$y)
-		->where('echoppe.id_fk_type_echoppe = type_echoppe.id_type_echoppe')
-		->where('type_echoppe.id_fk_metier_type_echoppe = metier.id_metier');
+		->where('echoppe.id_fk_metier_echoppe = metier.id_metier');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -65,12 +59,10 @@ class Echoppe extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe', '*')
-		->from('type_echoppe', '*')
 		->from('metier', '*')
 		->from('region')
 		->where('id_hobbit_echoppe = ?', $id_hobbit)
-		->where('echoppe.id_fk_type_echoppe = type_echoppe.id_type_echoppe')
-		->where('type_echoppe.id_fk_metier_type_echoppe = metier.id_metier')
+		->where('echoppe.id_fk_metier_echoppe = metier.id_metier')
 		->where('region.x_min_region <= echoppe.x_echoppe')
 		->where('region.x_max_region >= echoppe.x_echoppe')
 		->where('region.y_min_region <= echoppe.y_echoppe')
@@ -83,11 +75,9 @@ class Echoppe extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echopppe', '*')
-		->from('type_echoppe', '*')
 		->from('metier', '*')
 		->where('id_echopppe = ?', $id)
-		->where('echoppe.id_fk_type_echoppe = type_echoppe.id_type_echoppe')
-		->where('type_echoppe.id_fk_metier_type_echoppe = metier.id_metier');
+		->where('echoppe.id_fk_metier_echoppe = metier.id_metier');
 		$sql = $select->__toString();
 		return $db->fetchRow($sql);
 	}
