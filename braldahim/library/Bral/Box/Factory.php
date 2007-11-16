@@ -7,6 +7,9 @@ class Bral_Box_Factory {
 			case "box_profil" :
 				return self::getProfil($request, $view, $interne);
 				break;
+			case "box_echoppes" :
+				return self::getEchoppes($request, $view, $interne);
+				break;
 			case "box_equipement" :
 				return self::getEquipement($request, $view, $interne);
 				break;
@@ -64,7 +67,12 @@ class Bral_Box_Factory {
 		Zend_Loader::loadClass("Bral_Box_Competences");
 		return new Bral_Box_Competences($request, $view, $interne, $type);
 	}
-
+	
+	public static function getEchoppes($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Echoppes");
+		return new Bral_Box_Echoppes($request, $view, $interne);
+	}
+	
 	public static function getEquipement($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Equipement");
 		return new Bral_Box_Equipement($request, $view, $interne);

@@ -75,6 +75,7 @@ class InterfaceController extends Zend_Controller_Action {
 
 	function boxesAction() {
 		Zend_Loader::loadClass('Charrette');
+		Zend_Loader::loadClass('TypeEchoppe');
 		$this->addBox(Bral_Box_Factory::getProfil($this->_request, $this->view, false), "boite_a");
 		$this->addBox(Bral_Box_Factory::getMetier($this->_request, $this->view, false), "boite_a");
 		$this->addBox(Bral_Box_Factory::getEquipement($this->_request, $this->view, false), "boite_a");
@@ -85,6 +86,14 @@ class InterfaceController extends Zend_Controller_Action {
 
 		$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view, false), "boite_c");
 		$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), "boite_c");
+		
+		// uniquement s'il possède un metier dans les metiers possedant des echoppes
+		$typeEchoppeTable = new TypeEchoppe();
+		$possibleEchoppe = $typeEchoppeTable->peutPossederEchoppeIdHobbit($this->view->user->id_hobbit);
+		if ($possibleEchoppe > 0) {
+			$this->addBox(Bral_Box_Factory::getEchoppes($this->_request, $this->view, false), "boite_c");
+		}
+		
 		$this->addBox(Bral_Box_Factory::getLaban($this->_request, $this->view, false), "boite_c");
 		
 		$charretteTable = new Charrette();
