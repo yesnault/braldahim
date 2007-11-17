@@ -39,7 +39,7 @@ class InterfaceController extends Zend_Controller_Action {
 	function indexAction() {
 		$this->render();
 	}
-
+	
 	function evenementsAction() {
 		$this->view->affichageInterne = true;
 		$xml_entry = new Bral_Xml_Entry();

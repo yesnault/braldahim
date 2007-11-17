@@ -34,10 +34,12 @@ class Echoppe extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('echoppe', '*')
 		->from('metier', '*')
+		->from('hobbit', array('nom_hobbit', 'sexe_hobbit', 'id_hobbit'))
 		->where('x_echoppe <= ?',$x_max)
 		->where('x_echoppe >= ?',$x_min)
 		->where('y_echoppe >= ?',$y_min)
 		->where('y_echoppe <= ?',$y_max)
+		->where('hobbit.id_hobbit = echoppe.id_hobbit_echoppe' )
 		->where('echoppe.id_fk_metier_echoppe = metier.id_metier');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

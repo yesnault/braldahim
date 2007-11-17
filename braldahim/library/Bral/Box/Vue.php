@@ -5,6 +5,7 @@ class Bral_Box_Vue {
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass("Cadavre");
 		Zend_Loader::loadClass("Castar");
+		Zend_Loader::loadClass("Echoppe");
 		Zend_Loader::loadClass("Filon");
 		Zend_Loader::loadClass("Lieu");
 		Zend_Loader::loadClass("HobbitsMetiers");
@@ -127,6 +128,9 @@ class Bral_Box_Vue {
 		$cadavres = $cadavreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$castarTable = new Castar();
 		$castars = $castarTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$echoppeTable = new Echoppe();
+		$echoppes = $echoppeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		
 		$filons = null;
 		if (in_array("mineur", $tabMetiers)) {
 			$filonsTable = new Filon();
@@ -166,6 +170,7 @@ class Bral_Box_Vue {
 				$display_y = $j;
 				$tabCadavres = null;
 				$tabCastars = null;
+				$tabEchoppes = null;
 				$tabFilons = null;
 				$tabHobbits = null;
 				$tabLieux = null;
@@ -210,6 +215,17 @@ class Bral_Box_Vue {
 					foreach($castars as $c) {
 						if ($display_x == $c["x_castar"] && $display_y == $c["y_castar"]) {
 							$tabCastars[] = array("nb_castar" => $c["nb_castar"]);
+						}
+					}
+
+					foreach($echoppes as $e) {
+						if ($display_x == $e["x_echoppe"] && $display_y == $e["y_echoppe"]) {
+							if ($e["sexe_hobbit"] == 'feminin') {
+								$nom_metier = $e["nom_feminin_metier"];
+							} else {
+								$nom_metier = $e["nom_masculin_metier"];
+							}
+							$tabEchoppes[] = array("id_echoppe" => $e["id_echoppe"], "nom_metier" => $nom_metier, "nom_hobbit" => $e["nom_hobbit"], "id_hobbit" => $e["id_hobbit"]);
 						}
 					}
 					
@@ -313,6 +329,8 @@ class Bral_Box_Vue {
 				"css" => $css,
 				"n_cadavres" => count($tabCadavres),
 				"cadavres" => $tabCadavres,
+				"n_echoppes" => count($tabEchoppes),
+				"echoppes" => $tabEchoppes,
 				"n_castars" => count($tabCastars),
 				"castars" => $tabCastars,
 				"n_filons" => count($tabFilons),

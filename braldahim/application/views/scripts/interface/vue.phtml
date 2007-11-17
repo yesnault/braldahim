@@ -135,7 +135,29 @@
 	      	</span>
 	      	</div>
 	    <?php endif; ?>	
-
+	    
+      	<?php if ($case["n_echoppes"] > 0) : ?>
+      		<div>
+      		<?php 
+      			$textEchoppe = "";
+      			foreach($case["echoppes"] as $c) {
+      				if ($this->nom_metier_courant{0} == 'A') : $d="d'"; else: $d="de "; endif;
+      				$textEchoppe .= "E&acute;choppe ".$d.htmlentities($c["nom_metier"])." appartenant &agrave; ";
+      				$textEchoppe .= htmlentities($c["nom_hobbit"])." (".$c["id_hobbit"].")<br>";
+				}
+				$s = "";
+				if ($case["n_echoppes"] > 1) {
+					$s = "s";
+				}
+			?>
+      		<span onmouseover="return overlib('<?=$textEchoppe?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_echoppes"] ?> Echoppe<?=$s?> - Clique !');"
+      			onclick="return overlib('<?=$textEchoppe?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_echoppes"] ?> Echoppe<?=$s?> - ', CLOSECLICK, EXCLUSIVE);"
+      			onmouseout="return nd();">
+	      		<?=$case["n_echoppes"] ?> echoppe<?=$s?>
+	      	</span>
+	      	</div>
+	    <?php endif; ?>
+	    
       	<?php if ($case["n_filons"] > 0) : ?>
       		<div>
       		<?php 

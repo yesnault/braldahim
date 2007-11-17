@@ -2,12 +2,12 @@
 
 abstract class Bral_Echoppes_Echoppe {
 
-	function __construct($nomSystemeLieu, $request, $view, $action) {
+	function __construct($nomSystemeAction, $request, $view, $action) {
 
 		$this->view = $view;
 		$this->request = $request;
 		$this->action = $action;
-		$this->nom_systeme = $nomSystemeLieu;
+		$this->nom_systeme = $nomSystemeAction;
 		
 		$this->prepareCommun();
 
