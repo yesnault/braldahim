@@ -1,16 +1,12 @@
 <?php
 
-class Bral_Echoppes_Construire extends Bral_Echoppes_Echoppe {
-
-	private $_achatPossible;
-	private $_coutCastars;
-	private $_tabNouveauMetiers;
-	private $_tabMetiers;
-	private $_possedeMetier;
+class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass('Lieu'); 	
 		Zend_Loader::loadClass("Region");
+		$this->view->coutCastars = $this->calculCoutCastars();
+		$this->view->achatPossible = (($this->view->user->castars_hobbit -  $this->view->coutCastars) > 0);
 		
 		$regionTable = new Region();
 		$regions = $regionTable->fetchAll(null, 'nom_region');
@@ -31,16 +27,6 @@ class Bral_Echoppes_Construire extends Bral_Echoppes_Echoppe {
 			throw new Zend_Exception(get_class($this)." Region inconnue x:".$this->view->user->x_hobbit." y:".$this->view->user->y_hobbit);
 		}
 		$this->view->tabRegionCourante = $this->regionCourante;
-		
-		// on verifie que l'on est pas sur un lieu
-		$lieuxTable = new Lieu();
-		$lieux = $lieuxTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		
-		$this->view->construireLieuOk = true;
-		
-		if (count($lieux) > 0) {
-			$this->view->construireLieuOk = false;
-		}
 		
 		Zend_Loader::loadClass("Echoppe");
 		Zend_Loader::loadClass("HobbitsMetiers");
@@ -70,12 +56,14 @@ class Bral_Echoppes_Construire extends Bral_Echoppes_Echoppe {
 			"id_echoppe" => $e["id_echoppe"],
 			"x_echoppe" => $e["x_echoppe"],
 			"y_echoppe" => $e["y_echoppe"],
-			"nom_metier" => $e["nom_metier"],
+			"nom_metier" => $e["nom_masculin_metier"],
 			"id_metier" =>  $e["id_metier"],
 			"id_region" => $e["id_region"],
 			"nom_region" => $e["nom_region"]
 			);
 		}
+		
+		$this->view->nEchoppes = count($tabEchoppes);
 		
 		$hobbitsMetiersTable = new HobbitsMetiers();
 		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersEchoppeByHobbitId($this->view->user->id_hobbit);
@@ -98,7 +86,6 @@ class Bral_Echoppes_Construire extends Bral_Echoppes_Echoppe {
 			}
 			
 			foreach ($regions as $r) {
-				$this->view->aucuneEchoppe = true;
 				if (count($tabEchoppes) > 0) {
 					foreach($tabEchoppes as $e) {
 						if ($e["id_metier"] == $m["id_metier"] && 
@@ -114,7 +101,6 @@ class Bral_Echoppes_Construire extends Bral_Echoppes_Echoppe {
 				break;
 			}
 		}
-		
 	}
 
 	function prepareFormulaire() {
@@ -123,24 +109,60 @@ class Bral_Echoppes_Construire extends Bral_Echoppes_Echoppe {
 	function prepareResultat() {
 		if ($this->view->aucuneEchoppe !== true || 
 			$this->view->construireMetierPossible !== true ||
-			$this->view->construireMetierPossible !== true) {
+			$this->view->achatPossible !== true) {
 			throw new Zend_Exception(get_class($this)." Construction interdite");
 		}
+		$x = intval($this->request->get("valeur_2"));
+		$y = intval($this->request->get("valeur_3"));
+		
+		// on verifie que l'on est pas sur un lieu
+		$lieuxTable = new Lieu();
+		$lieux = $lieuxTable->findByCase($x, $y);
+		
+		$this->view->construireLieuOk = true;
+		if (count($lieux) > 0) {
+			$this->view->construireLieuOk = false;
+			return;
+		}
+		
+		// on verifie que la position est dans la comté de la tentative
+		$this->view->construireRegionOk = true;
+		if ($this->regionCourante["x_min"] > $x 
+			|| $this->regionCourante["x_max"] < $x
+			|| $this->regionCourante["y_min"] > $y 
+			|| $this->regionCourante["y_max"] < $y)
+			$this->view->construireRegionOk = false;
+			return;
+		}
+		
 		
 		$echoppesTable = new Echoppe();
 		$data = array(
 		'id_hobbit_echoppe' => $this->view->user->id_hobbit,
-		'x_echoppe' => $this->view->user->x_hobbit,
-		'y_echoppe' => $this->view->user->y_hobbit,
+		'x_echoppe' => $x,
+		'y_echoppe' => $y,
 		'id_fk_metier_echoppe' => $this->id_metier_courant,
 		'date_creation_echoppe' => date("Y-m-d H:i:s"),
 		);
 		$echoppesTable->insert($data);
 		$this->view->constructionEchoppeOk = true;
+		
+		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
+		
+		$this->majHobbit();
 	}
 
 	function getListBoxRefresh() {
-		return array("box_laban", "box_echoppes");
+		return array("box_profil", "box_vue", "box_laban", "box_echoppes");
+	}
+	
+	/* la premiere echoppe est gratuite */
+	private function calculCoutCastars() {
+		if ($this->view->nEchoppes < 1) {
+			return 0;
+		} else {
+			return 500;
+		}
 	}
 
 }

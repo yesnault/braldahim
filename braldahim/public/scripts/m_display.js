@@ -35,7 +35,7 @@ function switch2div(div1, div2) {
 
 // n'autorise que des chiffres.
 // exemple d'utilisation : <input type="text" onkeypress="chiffres(event)">
-function chiffres(event) {
+function chiffres(event, negatif) {
 	// Compatibilité IE / Firefox
 	if(!event&&window.event) {
 		event=window.event;
@@ -52,6 +52,8 @@ function chiffres(event) {
 	
 	// DOM
 	if (event.which == 46 || event.which == 8) { // backspace ou delete
+		return;
+	} else if (negatif != null && event.which == 45) { // signe -
 		return;
 	} else if(event.which < 48 || event.which > 57) {
 		event.preventDefault();

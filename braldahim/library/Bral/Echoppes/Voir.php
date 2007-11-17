@@ -16,6 +16,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
 		
 		$tabEchoppe = null;
+		$id_metier = null;
 		foreach ($echoppes as $e) {
 			if ($e["id_echoppe"] == $id_echoppe) {
 				if ($this->view->user->sexe_hobbit == 'feminin') {
@@ -23,6 +24,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 				} else {
 					$nom_metier = $e["nom_masculin_metier"];
 				}
+				$id_metier = $e["id_metier"];
 				$tabEchoppe = array(
 				'id_echoppe' => $e["id_echoppe"],
 				'x_echoppe' => $e["x_echoppe"],
@@ -38,6 +40,22 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 			throw new Zend_Exception(get_class($this)." Echoppe invalide idh:".$this->view->user->id_hobbit." ide:".$id_echoppe);
 		}
 		
+		Zend_Loader::loadClass("HobbitsCompetences");
+		$hobbitsCompetencesTables = new HobbitsCompetences();
+		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($this->view->user->id_hobbit);
+
+		$competence = null;
+		foreach($hobbitCompetences as $c) {
+			if ($id_metier == $c["id_fk_metier_competence"]) {
+				$tabCompetences[] = array("id_competence" => $c["id_competence_hcomp"],
+				"nom" => $c["nom_competence"],
+				"pa_utilisation" => $c["pa_utilisation_competence"],
+				"pourcentage" => $c["pourcentage_hcomp"],
+				"nom_systeme" => $c["nom_systeme_competence"]);
+			}
+		}
+		
+		$this->view->competences = $tabCompetences;
 		$this->view->echoppe = $tabEchoppe;
 	}
 

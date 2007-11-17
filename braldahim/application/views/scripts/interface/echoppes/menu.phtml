@@ -1,7 +1,7 @@
 <input type='hidden' id='menuAncienEchoppes' />
 <ul id="navigation">
 	<li id="menuVisibleEchoppes">
-		<h3 id="" class="head">Construction d'&eacute;choppes</h3>
+		<h3 id="" class="head" onClick="_get_('/echoppes/DoAction?caction=ask_echoppes_liste')">Construction d'&eacute;choppes</h3>
 	</li>	
 	<? foreach($this->tabMetiers as $m) : ?>	
 	<li id="menuEchoppes<?=$m["nom_systeme_metier"]?>">

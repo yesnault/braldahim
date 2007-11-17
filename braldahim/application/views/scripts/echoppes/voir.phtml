@@ -7,3 +7,35 @@
  	DESCRIPTION ECHOPPE ICI
    </ul>
 </div>
+
+<br><hr>
+<ul class="titre textalic textsizec">L'arri&egrave;rre boutique</ul>
+ <div class="contenuc">
+  <ul class="box_contenu1 textalic">
+  <br>
+ 	Etal ICI
+   </ul>
+</div>
+
+<br><hr>
+<ul class="titre textalic textsizec">L'atelier</ul>
+ <div class="contenuc">
+  <ul class="box_contenu1 textalic">
+  <br>
+		<? foreach($this->competences as $c) : ?>
+				<input type="button" class='button1' value="<?=$c["pa_utilisation"]?> PA - <?=htmlentities($c["nom"])?> : <?=$c["pourcentage"]?> % "
+       		  onClick="Javascript:_get_('/competences/DoAction?caction=ask_competence_<?=$c["nom_systeme"] ?>')">
+		<? endforeach; ?>
+   </ul>
+</div>
+
+<br><hr>
+<ul class="titre textalic textsizec">l'&eacute;tal</ul>
+ <div class="contenuc">
+  <ul class="box_contenu1 textalic">
+  <br>
+ 	Etal ICI
+   </ul>
+</div>
+
+

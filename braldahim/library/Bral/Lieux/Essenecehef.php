@@ -74,13 +74,8 @@ class Bral_Lieux_Essenecehef extends Bral_Lieux_Lieu {
 		$this->view->user->x_hobbit = $xDestination;
 		$this->view->user->y_hobbit = $yDestination;
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
-
-		$data = array('x_hobbit' => $this->view->user->x_hobbit,
-		'y_hobbit' => $this->view->user->y_hobbit,
-		'castars_hobbit' => $this->view->user->castars_hobbit);
 		
-		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
+		$this->majHobbit();
 	}
 
 

@@ -3,7 +3,6 @@
 class Bral_Echoppes_Factory {
 	static function getAction($request, $view) {
 		Zend_Loader::loadClass("Bral_Echoppes_Echoppe");
-		Zend_Loader::loadClass("Bral_Echoppes_Construire");
 		Zend_Loader::loadClass("Bral_Echoppes_Liste");
 		Zend_Loader::loadClass("Bral_Echoppes_Voir");
 		

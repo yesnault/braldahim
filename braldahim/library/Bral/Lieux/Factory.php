@@ -4,6 +4,7 @@ class Bral_Lieux_Factory {
 	static function getAction($request, $view) {
 		Zend_Loader::loadClass("Bral_Lieux_Lieu");
 		Zend_Loader::loadClass("Bral_Lieux_Ahennepeheux");
+		Zend_Loader::loadClass("Bral_Lieux_Behennepee");
 		Zend_Loader::loadClass("Bral_Lieux_Essenecehef");
 		Zend_Loader::loadClass("Bral_Lieux_Laffaque");
 		Zend_Loader::loadClass("Bral_Lieux_Eujimenasiumme");

@@ -1,0 +1,47 @@
+<div class='comp_titre'>B&eacute;hennep&eacute;e</div>
+ <form name='myForm' id='myForm'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
+ <input type='hidden' id='valeur_1' name='valeur_1' value=''>
+ <div class='comp_contenu'>
+ 	
+ 	<ul class="titre textalic textsizec">Construction d'&eacute;choppes</ul>
+ 	<? if ($this->nEchoppes < 1) : ?>
+ 		Vous ne poss&eacute;dez pas encore d'&eacute;choppe. La premi&egrave;re est gratuite (<?=$this->coutCastars?> castar).<br><br>
+ 	<? else: ?>
+ 		Vous poss&eacute;ssedez d&eacute;j&agrave; une &eacute;choppe, il 
+ 		vous faut <?=$this->coutCastars?> castars pour constuire une &eacute;choppe<br><br>
+ 	<? endif; ?>
+ 	
+   	<? if ($this->achatPossible === false): ?>
+   		Vous n'avez pas assez de castars <br>
+   		<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
+   	<? else : ?>
+	 	<? if ($this->construireMetierPossible === true && $this->aucuneEchoppe === true) : ?>
+			Dans cette comt&eacute; (<?=htmlentities($this->tabRegionCourante["nom_region"])?>),
+			 vous pouvez construire une &eacute;choppe
+			<? if ($this->nom_metier_courant{0} == 'A') : echo 'd'; else: echo "de"; endif; ?>
+			<?=$this->nom_metier_courant ?><br><br>
+			
+			Indiquez la position de l'&eacute;choppe : <br>
+			X = <input type='textbox' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeypress="chiffres(event, true);if($('valeur_2').value!='' && $('valeur_3').value!='') {$('construire_echoppe').disabled=false} else {$('construire_echoppe').disabled=true}" >
+			<br>
+			Y = <input type='textbox' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeypress="chiffres(event, true);if($('valeur_2').value!='' && $('valeur_3').value!='') {$('construire_echoppe').disabled=false} else {$('construire_echoppe').disabled=true}">
+			<br>
+		<? else: ?>
+			<? if ($this->aucuneEchoppe == false) : ?>
+				Vous poss&eacute;dez d&eacute;j&agrave; une &eacute;choppe pour ce m&eacute;tier dans
+				cette r&eacute;gion
+			<? else: ?>
+				Vous ne pouvez pas construire d'&eacute;choppe avec votre m&eacute;tier courant...
+			<? endif; ?>
+		<? endif; ?>
+	<? endif; ?>
+ </div> 
+</form>
+<br>
+
+<? if ($this->construireMetierPossible === true && $this->aucuneEchoppe === true) : ?>
+<input type='button' class='button1' id="construire_echoppe" value='Construire une echoppe' onClick="this.disabled=true;_get_('/lieux/DoAction?caction=do_lieu_behennepee');" disabled>
+<? endif; ?>
+<br>
+<? include("commun_fermer.phtml") ?>
