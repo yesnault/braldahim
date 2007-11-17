@@ -164,7 +164,7 @@ padding:0px;
 text-indent:0px;
 }
 #navigation li {
-display:inline;
+display:block;
 list-style-image:none;
 list-style-position:outside;
 list-style-type:none;

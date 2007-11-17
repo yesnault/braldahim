@@ -1,16 +1,16 @@
-<input type='hidden' id='ancien' />
+<input type='hidden' id='menuAncienEchoppes' />
 <ul id="navigation">
 	<li>
-		<h3 id="visible" class="head">Liste</h3>
+		<h3 id="menuVisibleEchoppes" class="head">Liste</h3>
 	</li>
 	<li id="menu_forgeron">
-		<h3 id="menu_forgeron-head" class="head" onClick="accordion(this)">Forgeron</h3>
+		<h3 id="menu_forgeron-head" class="head" onClick="accordion(this, 'menuAncienEchoppes', 'menuVisibleEchoppes')">Forgeron</h3>
 		<ul  id="menu_forgeron-body" style="display:none">
 			<li><a href="?p=1.1.1.1">Echoppe 1</a></li>
 		</ul>
 	</li>
 	<li id="menu_appothicaire">
-		<h3 id="menu_appothicaire-head" class="head" onClick="accordion(this)">Appothicaire</h3>
+		<h3 id="menu_appothicaire-head" class="head" onClick="accordion(this, 'menuAncienEchoppes', 'menuVisibleEchoppes')">Appothicaire</h3>
 		<ul id="menu_appothicaire-body" style="display:none">
 			<li><a href="?p=1.1.1.1">Echoppe 1</a></li>
 			<li><a href="?p=1.1.1.1">Echoppe 2</a></li>

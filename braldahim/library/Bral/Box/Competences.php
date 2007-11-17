@@ -47,6 +47,39 @@ class Bral_Box_Competences {
 
 		if ($this->type == 'basic') {
 			$tabCompetences = Zend_Registry::get('competencesBasiques');
+		} else if ($this->type == 'metier') {
+			Zend_Loader::loadClass("HobbitsCompetences");
+			Zend_Loader::loadClass("HobbitsMetiers");
+			$hobbitsMetiersTable = new HobbitsMetiers();
+			$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
+			$hobbitsCompetencesTables = new HobbitsCompetences();
+			$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($this->view->user->id_hobbit);
+			
+			$tabMetiers = null;
+	
+			foreach($hobbitsMetierRowset as $m) {
+				if ($this->view->user->sexe_hobbit == 'feminin') {
+					$nom_metier = $m["nom_feminin_metier"];
+				} else {
+					$nom_metier = $m["nom_masculin_metier"];
+				}
+				$competence = null;
+				foreach($hobbitCompetences as $c) {
+					if ($c["type_competence"] == $this->type && $m["id_metier"] == $c["id_fk_metier_competence"]) {
+						$competence[] = array("id_competence" => $c["id_competence_hcomp"],
+						"nom" => $c["nom_competence"],
+						"pa_utilisation" => $c["pa_utilisation_competence"],
+						"pourcentage" => $c["pourcentage_hcomp"],
+						"nom_systeme" => $c["nom_systeme_competence"]);
+					}
+				}
+				
+				$tabCompetences[] = array("id_metier" => $m["id_metier"],
+				"nom_metier" => $nom_metier,
+				"nom_systeme_metier" => $m["nom_systeme_metier"],
+				"competences" => $competence);
+			}
+			
 		} else {
 			Zend_Loader::loadClass("HobbitsCompetences");
 			$hobbitsCompetencesTables = new HobbitsCompetences();
