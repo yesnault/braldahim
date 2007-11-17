@@ -201,106 +201,133 @@ class Bral_Box_Vue {
 						}
 					}
 
-					foreach($cadavres as $c) {
-						if ($display_x == $c["x_cadavre"] && $display_y == $c["y_cadavre"]) {
-							if ($c["genre_type_monstre"] == 'feminin') {
-								$c_taille = $c["nom_taille_f_monstre"];
-							} else {
-								$c_taille = $c["nom_taille_m_monstre"];
+					if ($cadavres != null) {
+						foreach($cadavres as $c) {
+							if ($display_x == $c["x_cadavre"] && $display_y == $c["y_cadavre"]) {
+								if ($c["genre_type_monstre"] == 'feminin') {
+									$c_taille = $c["nom_taille_f_monstre"];
+								} else {
+									$c_taille = $c["nom_taille_m_monstre"];
+								}
+								$tabCadavres[] = array("id_cadavre" => $c["id_cadavre"], "nom_cadavre" => $c["nom_type_monstre"], 'taille_cadavre' => $c_taille);
 							}
-							$tabCadavres[] = array("id_cadavre" => $c["id_cadavre"], "nom_cadavre" => $c["nom_type_monstre"], 'taille_cadavre' => $c_taille);
 						}
 					}
 
-					foreach($castars as $c) {
-						if ($display_x == $c["x_castar"] && $display_y == $c["y_castar"]) {
-							$tabCastars[] = array("nb_castar" => $c["nb_castar"]);
+					if ($castars != null) {
+						foreach($castars as $c) {
+							if ($display_x == $c["x_castar"] && $display_y == $c["y_castar"]) {
+								$tabCastars[] = array("nb_castar" => $c["nb_castar"]);
+							}
 						}
 					}
 
-					foreach($echoppes as $e) {
-						if ($display_x == $e["x_echoppe"] && $display_y == $e["y_echoppe"]) {
-							if ($e["sexe_hobbit"] == 'feminin') {
-								$nom_metier = $e["nom_feminin_metier"];
-							} else {
-								$nom_metier = $e["nom_masculin_metier"];
+					if ($echoppes != null) {
+						foreach($echoppes as $e) {
+							if ($display_x == $e["x_echoppe"] && $display_y == $e["y_echoppe"]) {
+								if ($e["sexe_hobbit"] == 'feminin') {
+									$nom_metier = $e["nom_feminin_metier"];
+								} else {
+									$nom_metier = $e["nom_masculin_metier"];
+								}
+								$tabEchoppes[] = array("id_echoppe" => $e["id_echoppe"], "nom_metier" => $nom_metier, "nom_hobbit" => $e["nom_hobbit"], "id_hobbit" => $e["id_hobbit"]);
 							}
-							$tabEchoppes[] = array("id_echoppe" => $e["id_echoppe"], "nom_metier" => $nom_metier, "nom_hobbit" => $e["nom_hobbit"], "id_hobbit" => $e["id_hobbit"]);
 						}
 					}
 					
-					foreach($filons as $f) {
-						if ($display_x == $f["x_filon"] && $display_y == $f["y_filon"]) {
-							$tabFilons[] = array("type" => $f["nom_type_minerai"]);
+					if ($filons != null) {
+						foreach($filons as $f) {
+							if ($display_x == $f["x_filon"] && $display_y == $f["y_filon"]) {
+								$tabFilons[] = array("type" => $f["nom_type_minerai"]);
+							}
 						}
 					}
 					
-					foreach($hobbits as $h) {
-						if ($display_x == $h["x_hobbit"] && $display_y == $h["y_hobbit"]) {
-							$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"], "nom_hobbit" => $h["nom_hobbit"], "niveau_hobbit" => $h["niveau_hobbit"]);
-						}
-					}
-
-					foreach($lieux as $l) {
-						if ($display_x == $l["x_lieu"] && $display_y == $l["y_lieu"]) {
-							$tabLieux[] = array("id_lieu" => $l["id_lieu"], "nom_lieu" => $l["nom_lieu"], "nom_type_lieu" => $l["nom_type_lieu"]);
-							$lieuCourant = $l;
-							$estLimiteVille = false;
-						}
-					}
-
-					foreach($monstres as $m) {
-						if ($display_x == $m["x_monstre"] && $display_y == $m["y_monstre"]) {
-							if ($m["genre_type_monstre"] == 'feminin') {
-								$m_taille = $m["nom_taille_f_monstre"];
-							} else {
-								$m_taille = $m["nom_taille_m_monstre"];
+					if ($hobbits != null) {
+						foreach($hobbits as $h) {
+							if ($display_x == $h["x_hobbit"] && $display_y == $h["y_hobbit"]) {
+								$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"], "nom_hobbit" => $h["nom_hobbit"], "niveau_hobbit" => $h["niveau_hobbit"]);
 							}
-							$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"]);
+						}
+					}
+
+					if ($lieux != null) {
+						foreach($lieux as $l) {
+							if ($display_x == $l["x_lieu"] && $display_y == $l["y_lieu"]) {
+								$tabLieux[] = array("id_lieu" => $l["id_lieu"], "nom_lieu" => $l["nom_lieu"], "nom_type_lieu" => $l["nom_type_lieu"]);
+								$lieuCourant = $l;
+								$estLimiteVille = false;
+							}
+						}
+					}
+
+					if ($monstres != null) {
+						foreach($monstres as $m) {
+							if ($display_x == $m["x_monstre"] && $display_y == $m["y_monstre"]) {
+								if ($m["genre_type_monstre"] == 'feminin') {
+									$m_taille = $m["nom_taille_f_monstre"];
+								} else {
+									$m_taille = $m["nom_taille_m_monstre"];
+								}
+								$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"]);
+							}
 						}
 					}
 					
-					foreach($villes as $v) {
-						if ($display_x >= $v["x_min_ville"] &&
-						$display_x <= $v["x_max_ville"] &&
-						$display_y >= $v["y_min_ville"] &&
-						$display_y <= $v["y_max_ville"]) {
-							$estLimiteVille = false;
-
-							if ($v["x_min_ville"] == $display_x || $v["x_max_ville"] == $display_y || $v["y_min_ville"] == $display_x || $v["y_max_ville"] == $display_y ) {
-								$estLimiteVille = true;
+					if ($villes != null) {
+						foreach($villes as $v) {
+							if ($display_x >= $v["x_min_ville"] &&
+							$display_x <= $v["x_max_ville"] &&
+							$display_y >= $v["y_min_ville"] &&
+							$display_y <= $v["y_max_ville"]) {
+								$estLimiteVille = false;
+	
+								if ($v["x_min_ville"] == $display_x || $v["x_max_ville"] == $display_y || $v["y_min_ville"] == $display_x || $v["y_max_ville"] == $display_y ) {
+									$estLimiteVille = true;
+								}
+								$ville = array("estLimite" => $estLimiteVille, "nom_ville" => $v["nom_ville"], "est_capitale" => $v["est_capitale_ville"] , "nom_systeme" => $v["nom_systeme_ville"], "nom_region" => $v["nom_region"]);
+								break;
 							}
-							$ville = array("estLimite" => $estLimiteVille, "nom_ville" => $v["nom_ville"], "est_capitale" => $v["est_capitale_ville"] , "nom_systeme" => $v["nom_systeme_ville"], "nom_region" => $v["nom_region"]);
-							break;
 						}
 					}
-					foreach($regions as $r) {
-						if ($display_x >= $r["x_min_region"] &&
-						$display_x <= $r["x_max_region"] &&
-						$display_y >= $r["y_min_region"] &&
-						$display_y <= $r["y_max_region"]) {
-							$region = array("nom" => $r["nom_region"]);
-							break;
+					
+					if ($regions != null) {
+						foreach($regions as $r) {
+							if ($display_x >= $r["x_min_region"] &&
+							$display_x <= $r["x_max_region"] &&
+							$display_y >= $r["y_min_region"] &&
+							$display_y <= $r["y_max_region"]) {
+								$region = array("nom" => $r["nom_region"]);
+								break;
+							}
 						}
 					}
-					foreach($palissades as $p) {
-						if ($display_x == $p["x_palissade"] && $display_y == $p["y_palissade"]) {
-							$tabPalissades[] = array("id_palissade" => $p["id_palissade"]);
+					
+					if ($palissades != null) {
+						foreach($palissades as $p) {
+							if ($display_x == $p["x_palissade"] && $display_y == $p["y_palissade"]) {
+								$tabPalissades[] = array("id_palissade" => $p["id_palissade"]);
+							}
 						}
 					}
-					foreach($plantes as $p) {
-						if ($display_x == $p["x_plante"] && $display_y == $p["y_plante"]) {
-							$tabPlantes[] = array("id_plante" => $p["id_plante"], "type" => $p["nom_type_plante"],
-							"categorie" => $p["categorie_type_plante"],
-							"quantite_1" =>$p["partie_1_plante"], "quantite_2" =>$p["partie_2_plante"],
-							"quantite_3" =>$p["partie_3_plante"], "quantite_4" =>$p["partie_4_plante"],
-							"nom_partie_1" =>"TODO", "nom_partie_2" =>"TODO",
-							"nom_partie_3" =>"TODO", "nom_partie_4" =>"TODO");
+					
+					if ($plantes != null) {
+						foreach($plantes as $p) {
+							if ($display_x == $p["x_plante"] && $display_y == $p["y_plante"]) {
+								$tabPlantes[] = array("id_plante" => $p["id_plante"], "type" => $p["nom_type_plante"],
+								"categorie" => $p["categorie_type_plante"],
+								"quantite_1" =>$p["partie_1_plante"], "quantite_2" =>$p["partie_2_plante"],
+								"quantite_3" =>$p["partie_3_plante"], "quantite_4" =>$p["partie_4_plante"],
+								"nom_partie_1" =>"TODO", "nom_partie_2" =>"TODO",
+								"nom_partie_3" =>"TODO", "nom_partie_4" =>"TODO");
+							}
 						}
 					}
-					foreach($runes as $r) {
-						if ($display_x == $r["x_rune"] && $display_y == $r["y_rune"]) {
-							$tabRunes[] = array("id_rune" => $r["id_rune"]);
+					if ($runes != null) {
+						foreach($runes as $r) {
+							if ($display_x == $r["x_rune"] && $display_y == $r["y_rune"]) {
+								$tabRunes[] = array("id_rune" => $r["id_rune"]);
+							}
 						}
 					}
 				}
