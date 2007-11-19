@@ -64,8 +64,8 @@
       			$textVille .= "<br>R&eacute;gion : ".htmlentities($case["ville"]["nom_region"]);
       		?>
       		<img src='/public/images/villes/puce_<?=$case["ville"]["nom_systeme"]?>.gif' 
-      			onmouseover="return overlib('<?=$textVille?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> Ville');"
-      			onclick="return overlib('<?=$textVille?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?>', CLOSECLICK, EXCLUSIVE);"
+      			onmouseover="return overlib('<?=$textVille?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> Ville');"
+      			onclick="return overlib('<?=$textVille?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?>', CLOSECLICK, EXCLUSIVE);"
       			onmouseout="return nd();"/>
       		<? endif; ?>
       		<?=$case["x"]. "," . $case["y"] ?>
@@ -81,8 +81,8 @@
       			foreach($case["lieux"] as $l) {
       				$textLieu .= htmlentities($l["nom_lieu"]) ." : ".htmlentities($l["nom_type_lieu"]);
 				} ?>
-      		<span onmouseover="return overlib('<?=$textLieu?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> Lieux. Clique !');"
-      			onclick="return overlib('<?=$textLieu?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?>', CLOSECLICK, EXCLUSIVE);"
+      		<span onmouseover="return overlib('<?=$textLieu?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> Lieux. Clique !');"
+      			onclick="return overlib('<?=$textLieu?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?>', CLOSECLICK, EXCLUSIVE);"
       			onmouseout="return nd();">
 	      	<?php if ($case["n_lieux"] == 1) : ?>
 	      		<?=htmlentities($l["nom_type_lieu"]);?>
@@ -106,8 +106,8 @@
 					$s = "s";
 				}
 			?>
-      		<span onmouseover="return overlib('<?=$textCadavre?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_cadavres"] ?> Cadavre<?=$s?> - Clique !');"
-      			onclick="return overlib('<?=$textCadavre?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_cadavres"] ?> Cadavre<?=$s?> - ', CLOSECLICK, EXCLUSIVE);"
+      		<span onmouseover="return overlib('<?=$textCadavre?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_cadavres"] ?> Cadavre<?=$s?> - Clique !');"
+      			onclick="return overlib('<?=$textCadavre?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_cadavres"] ?> Cadavre<?=$s?> - ', CLOSECLICK, EXCLUSIVE);"
       			onmouseout="return nd();">
 	      		<?=$case["n_cadavres"] ?> cadavre<?=$s?>
 	      	</span>
@@ -128,8 +128,8 @@
       			} 
 
 			?>
-      		<span onmouseover="return overlib('<?=$textCastar?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$textCastar?> - Clique !');"
-      			onclick="return overlib('<?=$textCastar?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$textCastar?> - ', CLOSECLICK, EXCLUSIVE);"
+      		<span onmouseover="return overlib('<?=$textCastar?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$textCastar?> - Clique !');"
+      			onclick="return overlib('<?=$textCastar?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$textCastar?> - ', CLOSECLICK, EXCLUSIVE);"
       			onmouseout="return nd();">
 	      		<?=$textCastar?>
 	      	</span>
@@ -150,8 +150,8 @@
 					$s = "s";
 				}
 			?>
-      		<span onmouseover="return overlib('<?=$textEchoppe?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_echoppes"] ?> Echoppe<?=$s?> - Clique !');"
-      			onclick="return overlib('<?=$textEchoppe?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_echoppes"] ?> Echoppe<?=$s?> - ', CLOSECLICK, EXCLUSIVE);"
+      		<span onmouseover="return overlib('<?=$textEchoppe?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_echoppes"] ?> Echoppe<?=$s?> - Clique !');"
+      			onclick="return overlib('<?=$textEchoppe?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_echoppes"] ?> Echoppe<?=$s?> - ', CLOSECLICK, EXCLUSIVE);"
       			onmouseout="return nd();">
 	      		<?=$case["n_echoppes"] ?> echoppe<?=$s?>
 	      	</span>
@@ -170,8 +170,8 @@
 					$s = "s";
 				}	
 			?>
-      		<span onmouseover="return overlib('<?=$textFilon?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_filons"] ?> Filon<?=$s?> - Clique !');"
-      			onclick="return overlib('<?=$textFilon?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_filons"] ?> Filon<?=$s?>', CLOSECLICK, EXCLUSIVE);"
+      		<span onmouseover="return overlib('<?=$textFilon?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_filons"] ?> Filon<?=$s?> - Clique !');"
+      			onclick="return overlib('<?=$textFilon?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_filons"] ?> Filon<?=$s?>', CLOSECLICK, EXCLUSIVE);"
       			onmouseout="return nd();">
 	      		<?=$case["n_filons"] ?> filon<?=$s?>
 	      	</span>
@@ -190,8 +190,8 @@
 					$s = "s";
 				}
 			?>
-      		<span onmouseover="return overlib('<?=$textHobbit?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_hobbits"] ?> Hobbit<?=$s?> - Clique !');"
-      			onclick="return overlib('<?=$textHobbit?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_hobbits"] ?> Hobbit<?=$s?> - ', CLOSECLICK, EXCLUSIVE);"
+      		<span onmouseover="return overlib('<?=$textHobbit?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_hobbits"] ?> Hobbit<?=$s?> - Clique !');"
+      			onclick="return overlib('<?=$textHobbit?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_hobbits"] ?> Hobbit<?=$s?> - ', CLOSECLICK, EXCLUSIVE);"
       			onmouseout="return nd();">
 	      		<?=$case["n_hobbits"] ?> hobbit<?=$s?>
 	      	</span>
@@ -210,8 +210,8 @@
 					$s = "s";
 				}
 			?>
-      		<span onmouseover="return overlib('<?=$textMonstre?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_monstres"] ?> Monstre<?=$s?> - Clique !');"
-      			onclick="return overlib('<?=$textMonstre?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_monstres"] ?> Monstre<?=$s?> - ', CLOSECLICK, EXCLUSIVE);"
+      		<span onmouseover="return overlib('<?=$textMonstre?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_monstres"] ?> Monstre<?=$s?> - Clique !');"
+      			onclick="return overlib('<?=$textMonstre?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_monstres"] ?> Monstre<?=$s?> - ', CLOSECLICK, EXCLUSIVE);"
       			onmouseout="return nd();">
 	      		<?=$case["n_monstres"] ?> monstre<?=$s?>
 	      	</span>
@@ -230,8 +230,8 @@
 					$s = "s";
 				}	
 			?>
-      		<span onmouseover="return overlib('<?=$textPalissade?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_palissades"] ?> Palissade<?=$s?> - Clique !');"
-      			onclick="return overlib('<?=$textPalissade?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_palissades"] ?> Palissade<?=$s?>', CLOSECLICK, EXCLUSIVE);"
+      		<span onmouseover="return overlib('<?=$textPalissade?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_palissades"] ?> Palissade<?=$s?> - Clique !');"
+      			onclick="return overlib('<?=$textPalissade?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_palissades"] ?> Palissade<?=$s?>', CLOSECLICK, EXCLUSIVE);"
       			onmouseout="return nd();">
 	      		<?=$case["n_palissades"] ?> palissade<?=$s?>
 	      	</span>
@@ -250,8 +250,8 @@
 					$s = "s";
 				}	
 			?>
-      		<span onmouseover="return overlib('<?=$textPlante?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_plantes"] ?> Plante<?=$s?> - Clique !');"
-      			onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_plantes"] ?> Plante<?=$s?>', CLOSECLICK, EXCLUSIVE);"
+      		<span onmouseover="return overlib('<?=$textPlante?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_plantes"] ?> Plante<?=$s?> - Clique !');"
+      			onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_plantes"] ?> Plante<?=$s?>', CLOSECLICK, EXCLUSIVE);"
       			onmouseout="return nd();">
 	      		<?=$case["n_plantes"] ?> plante<?=$s?>
 	      	</span>
@@ -270,8 +270,8 @@
 					$s = "s";
 				}	
 			?>
-      		<span onmouseover="return overlib('<?=$textRune?>',CAPTION,'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_runes"] ?> Rune<?=$s?> - Clique !');"
-      			onclick="return overlib('<?=$textRune?>', STICKY, CAPTION, 'X=<?=$case["x"]?> Y=<?=$case["y"]?> - <?=$case["n_runes"] ?> Rune<?=$s?>', CLOSECLICK, EXCLUSIVE);"
+      		<span onmouseover="return overlib('<?=$textRune?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_runes"] ?> Rune<?=$s?> - Clique !');"
+      			onclick="return overlib('<?=$textRune?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_runes"] ?> Rune<?=$s?>', CLOSECLICK, EXCLUSIVE);"
       			onmouseout="return nd();">
 	      		<?=$case["n_runes"] ?> rune<?=$s?>
 	      	</span>

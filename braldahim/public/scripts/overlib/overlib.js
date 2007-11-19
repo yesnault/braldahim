@@ -47,9 +47,9 @@ if (typeof ol_closefont=='undefined') var ol_closefont="Verdana,Arial,Helvetica"
 if (typeof ol_textsize=='undefined') var ol_textsize="1";
 if (typeof ol_captionsize=='undefined') var ol_captionsize="1";
 if (typeof ol_closesize=='undefined') var ol_closesize="1";
-if (typeof ol_width=='undefined') var ol_width="200";
+if (typeof ol_width=='undefined') var ol_width="auto";
 if (typeof ol_border=='undefined') var ol_border="1";
-if (typeof ol_cellpad=='undefined') var ol_cellpad=2;
+if (typeof ol_cellpad=='undefined') var ol_cellpad=6;
 if (typeof ol_offsetx=='undefined') var ol_offsetx=10;
 if (typeof ol_offsety=='undefined') var ol_offsety=10;
 if (typeof ol_text=='undefined') var ol_text="Default Text";
