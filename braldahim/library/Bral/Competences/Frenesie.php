@@ -117,7 +117,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 	private function attaqueHobbit($idHobbit) {
 		Zend_Loader::loadClass("Bral_Util_De");
 
-		$this->view->attaqueReussie = false;
+		$this->view->frenesieReussie = false;
 		$this->calculJetAttaque();
 
 		$hobbitTable = new Hobbit();
@@ -137,7 +137,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		if ($this->view->jetAttaquant > $this->view->jetCible) {
 			$this->view->critique = false;
 			$this->view->fragilisee = false;
-			$this->view->attaqueReussie = true;
+			$this->view->frenesieReussie = true;
 			
 			if ($this->view->jetAttaquant / 2 > $this->view->jetCible ) {
 				$this->view->critique = true;
@@ -194,7 +194,8 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 
 	private function attaqueMonstre($idMonstre) {
 		$this->calculJetAttaque();
-
+		$this->view->frenesieReussie = false;
+		
 		$monstreTable = new Monstre();
 		$monstreRowset = $monstreTable->findById($idMonstre);
 		$monstre = $monstreRowset;
@@ -218,7 +219,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		if ($this->view->jetAttaquant > $this->view->jetCible) {
 			$this->view->critique = false;
 			$this->view->fragilisee = false;
-			$this->view->attaqueReussie = true;
+			$this->view->frenesieReussie = true;
 			
 			if ($this->view->jetAttaquant / 2 > $this->view->jetCible ) {
 				$this->view->critique = true;
