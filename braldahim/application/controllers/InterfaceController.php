@@ -90,7 +90,7 @@ class InterfaceController extends Zend_Controller_Action {
 		// uniquement s'il possède un metier dans les metiers possedant des echoppes
 		$hobbitsMetiers = new HobbitsMetiers();
 		$possibleEchoppe = $hobbitsMetiers->peutPossederEchoppeIdHobbit($this->view->user->id_hobbit);
-		if ($possibleEchoppe > 0) {
+		if ($possibleEchoppe === true) {
 			$this->addBox(Bral_Box_Factory::getEchoppes($this->_request, $this->view, false), "boite_c");
 		}
 		
