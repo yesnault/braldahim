@@ -227,7 +227,7 @@ class Bral_Box_Tour {
 			$this->hobbit->balance_faim_hobbit = 50;
 
 			// points de vie
-			$this->hobbit->pv_restant_hobbit = floor($this->hobbit->pv_max_hobbit / 2);
+			$this->hobbit->pv_restant_hobbit = floor(($this->view->config->game->pv_base + $this->hobbit->vigueur_base_hobbit*$this->view->config->game->pv_max_coef) / 2);
 
 			// recalcul de la position
 			$lieuTable = new Lieu();
@@ -250,6 +250,7 @@ class Bral_Box_Tour {
 		//TODO
 		$duree = $this->hobbit->duree_base_tour_hobbit;
 		$this->hobbit->duree_prochain_tour_hobbit = $duree;
+		$this->hobbit->pv_restant = $this->view->config->game->pv_base + $this->hobbit->vigueur_base_hobbit*$this->view->config->game->pv_max_coef;
 	}
 
 	private function calculInfoTour() {

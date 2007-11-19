@@ -52,7 +52,6 @@ CREATE TABLE `hobbit` (
   `armure_equipement_hobbit` int(11) NOT NULL,
   `poids_transportable_hobbit` int(11) NOT NULL,
   `castars_hobbit` int(11) NOT NULL,
-  `pv_max_hobbit` int(11) NOT NULL,
   `pv_restant_hobbit` int(11) NOT NULL,
   `est_mort_hobbit` enum('oui','non') NOT NULL default 'non',
   `nb_mort_hobbit` int(11) NOT NULL default '0',

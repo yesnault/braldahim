@@ -162,7 +162,7 @@ class InscriptionController extends Zend_Controller_Action {
 		$de = Bral_Util_De::get_de_specifique(0, count($mairiesRowset)-1);
 		$lieu = $mairiesRowset[$de];
 
-		$pv = $this->view->config->game->pv_base + 0 * 4;
+		$pv = $this->view->config->game->pv_base + 0 * $this->view->config->game->pv_max_coef;
 		$poids = 0 * 2 + 1;
 		$armure_nat = 0;
 		$reg = 1;
@@ -185,7 +185,6 @@ class InscriptionController extends Zend_Controller_Action {
 		'date_creation_hobbit' => date("Y-m-d H:i:s"),
 		'tour_position_hobbit' => $this->view->config->game->inscription->tour_position,
 		'balance_faim_hobbit' => $this->view->config->game->inscription->balance_faim,
-		'pv_max_hobbit' => $pv,
 		'pv_restant_hobbit' => $pv,
 		'force_base_hobbit' => $this->view->config->game->inscription->force_base,
 		'agilite_base_hobbit' => $this->view->config->game->inscription->agilite_base,

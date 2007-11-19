@@ -25,7 +25,6 @@ CREATE TABLE `monstre` (
   `y_monstre` int(11) NOT NULL,
   `id_cible_monstre` int(11) default NULL,
   `pv_restant_monstre` int(11) NOT NULL,
-  `pv_max_monstre` int(11) NOT NULL,
   `pa_monstre` int(11) NOT NULL,
   `niveau_monstre` int(11) NOT NULL,
   `vue_monstre` int(11) NOT NULL,

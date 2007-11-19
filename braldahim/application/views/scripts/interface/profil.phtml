@@ -12,8 +12,8 @@
 	    <? endif; ?>
 	    Dur&eacute;e du prochain tour : <?php echo $this->escape($this->user->duree_prochain_tour_hobbit) ?><br>
 		
-	    Points de Vie : <?=$this->user->pv_restant_hobbit ?> / <?=$this->user->pv_max_hobbit ?>
-	    <div class="barre_faim"><img src="/public/images/barre_vie.gif" height="10px" width="<?=floor($this->user->pv_restant_hobbit*100)/$this->user->pv_max_hobbit ?>px"></div>
+	    Points de Vie : <?=$this->user->pv_restant_hobbit ?> / <?=($this->config->game->pv_base + $this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) ?>
+	    <div class="barre_faim"><img src="/public/images/barre_vie.gif" height="10px" width="<?=floor($this->user->pv_restant_hobbit*100)/($this->config->game->pv_base + $this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef)?>px"></div>
 	    PA restants : <?=$this->user->pa_hobbit ?><br>
 	    PX Perso: <?=$this->user->px_perso_hobbit ?> - PX Commun : <?=$this->user->px_commun_hobbit ?><br>
 	    PI : <?=$this->user->pi_hobbit ?> - Niveau : <?=$this->user->niveau_hobbit ?><br>

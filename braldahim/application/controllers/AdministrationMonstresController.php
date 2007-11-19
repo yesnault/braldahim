@@ -243,7 +243,6 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		"y_monstre" => $y_monstre,
 		"id_cible_monstre" => null,
 		"pv_restant_monstre" => $pv_restant_monstre,
-		"pv_max_monstre" => $pv_restant_monstre,
 		"niveau_monstre" => $niveau_monstre,
 		"vue_monstre" => $vue_monstre,
 		"force_base_monstre" => $force_base_monstre,
