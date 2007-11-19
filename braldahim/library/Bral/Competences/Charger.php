@@ -63,7 +63,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 				if (!isset($tabValide[$i][$j])) {
 					$tabValide[$i][$j] = false;
 				}
-				$tabValide[$this->view->user->y_hobbit][$j] = true;
+				$tabValide[$this->view->user->x_hobbit][$j] = true;
 			}
 		}
 		for ($i = 0 ; $i <= $this->view->charge_nb_cases ; $i++) {
