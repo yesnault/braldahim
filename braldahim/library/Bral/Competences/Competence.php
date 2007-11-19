@@ -9,7 +9,8 @@ abstract class Bral_Competences_Competence {
 		$this->nom_systeme = $competence["nom_systeme"];
 		$this->competence = $competence;
 		$this->view->jetUtilise = false;
-
+		$this->view->balanceFaimUtilisee = false;
+		
 		// recuperation de hobbit competence
 		$this->hobbit_competence = $hobbitCompetence;
 
@@ -54,6 +55,7 @@ abstract class Bral_Competences_Competence {
 	}
 
 	public function calculBalanceFaim() {
+		$this->view->balanceFaimUtilisee = true;
 		$this->view->balance_faim = $this->competence["balance_faim"];
 	}
 

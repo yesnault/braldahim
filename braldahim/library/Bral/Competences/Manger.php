@@ -51,7 +51,6 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		$this->majEvenementsStandard();
 		
 		$this->calculPx();
-		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}
 	

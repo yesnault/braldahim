@@ -68,6 +68,7 @@ class HobbitsMetiers extends Zend_Db_Table
 		->from('metier', 'id_metier')
 		->where("metier.construction_echoppe_metier = 'oui'")
 		->where("hobbits_metiers.id_hobbit_hmetier = ".intval($idHobbit))
+		->where("hobbits_metiers.id_metier_hmetier = metier.id_metier")
 		->group("id_metier");
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
