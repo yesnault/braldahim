@@ -119,9 +119,11 @@ class Bral_Box_Vue {
 		$hobbitsMetiersTable = new HobbitsMetiers();
 		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
 		$tabMetiers = null;
-		foreach($hobbitsMetierRowset as $m) {
-			$possedeMetier = true;
-			$tabMetiers[] = $m["nom_systeme_metier"];
+		if ($hobbitsMetierRowset != null) {
+			foreach($hobbitsMetierRowset as $m) {
+				$possedeMetier = true;
+				$tabMetiers[] = $m["nom_systeme_metier"];
+			}
 		}
 		
 		$cadavreTable = new Cadavre();
@@ -132,9 +134,11 @@ class Bral_Box_Vue {
 		$echoppes = $echoppeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		
 		$filons = null;
-		if (in_array("mineur", $tabMetiers)) {
-			$filonsTable = new Filon();
-			$filons = $filonsTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		if ($tabMetiers != null) {
+			if (in_array("mineur", $tabMetiers)) {
+				$filonsTable = new Filon();
+				$filons = $filonsTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+			}
 		}
 		$hobbitTable = new Hobbit();
 		$hobbits = $hobbitTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
@@ -145,9 +149,11 @@ class Bral_Box_Vue {
 		$palissadeTable = new Palissade();
 		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$plantes = null;
-		if (in_array("herboriste", $tabMetiers)) {
-			$planteTable = new Plante();
-			$plantes = $planteTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		if ($tabMetiers != null) {
+			if (in_array("herboriste", $tabMetiers)) {
+				$planteTable = new Plante();
+				$plantes = $planteTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+			}
 		}
 		$regionTable = new Region();
 		$regions = $regionTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
