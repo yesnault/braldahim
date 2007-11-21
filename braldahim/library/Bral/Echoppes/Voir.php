@@ -32,6 +32,10 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 				'id_metier' => $e["id_metier"],
 				'nom_metier' => $nom_metier,
 				'nom_region' => $e["nom_region"],
+				'quantite_bois_caisse_echoppe' => $e["quantite_bois_caisse_echoppe"],
+				'quantite_fourrure_caisse_echoppe' => $e["quantite_fourrure_caisse_echoppe"],
+				'quantite_cuir_caisse_echoppe' => $e["quantite_cuir_caisse_echoppe"],
+				'quantite_castars_caisse_echoppe' => $e["quantite_castars_caisse_echoppe"],
 				);				
 				break;
 			}
@@ -55,6 +59,8 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 			}
 		}
 		
+		$this->prepareCommunCaisse($tabEchoppe["id_echoppe"]);
+		
 		$this->view->competences = $tabCompetences;
 		$this->view->echoppe = $tabEchoppe;
 	}
@@ -68,4 +74,39 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 	function getListBoxRefresh() {
 	}
 
+	private function prepareCommunCaisse($idEchoppe) {
+		Zend_Loader::loadClass("CaissePartiePlante");
+		Zend_Loader::loadClass("CaisseMinerai");
+		
+		$tabPartiePlantes = null;
+		$caissePartiePlanteTable = new CaissePartieplante();
+		$partiePlantes = $caissePartiePlanteTable->findByIdEchoppe($idEchoppe);
+		
+		if ($partiePlantes != null) {
+			foreach ($partiePlantes as $p) {
+				$tabPartiePlantes[] = array(
+				"nom_type" => $p["nom_type_partieplante"],
+				"quantite" => $p["quantite_caisse_partieplante"],
+				);
+			}
+		}
+
+		$tabMinerais = null;
+		$caisseMineraiTable = new CaisseMinerai();
+		$minerais = $caisseMineraiTable->findByIdEchoppe($this->view->user->id_hobbit);
+		
+		if ($minerais != null) {
+			foreach ($minerais as $m) {
+				$tabMinerais[] = array(
+				"type" => $m["nom_type_minerai"],
+				"quantite" => $m["quantite_caisse_minerai"],
+				);
+			}
+		}
+
+		$this->view->nb_partieplantes = count($tabPartiePlantes);
+		$this->view->partieplantes = $tabPartiePlantes;
+		$this->view->nb_minerais = count($tabMinerais);
+		$this->view->minerais = $tabMinerais;
+	}
 }

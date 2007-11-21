@@ -4,7 +4,7 @@ class CaisseMinerai extends Zend_Db_Table {
 	protected $_name = 'caisse_minerai';
 	protected $_primary = array('id_fk_echoppe_caisse_minerai', 'id_fk_type_caisse_minerai');
 
-	function findByIdCaisse($id_fk_echoppe) {
+	function findByIdEchoppe($id_fk_echoppe) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('caisse_minerai', '*')
