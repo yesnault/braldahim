@@ -1,4 +1,4 @@
-	<? if ($this->nb_minerais == 0 && $this->nb_partieplantes == 0) : ?>
+	<? if ($this->nb_caisseMinerai == 0 && $this->nb_caissePartiePlantes == 0) : ?>
 		Votre caisse est vide<br>
 	<? endif; ?>
 	
@@ -7,50 +7,62 @@
 	Cuir : <?=$this->echoppe["quantite_cuir_caisse_echoppe"] ?>,
 	Fourrure : <?=$this->echoppe["quantite_fourrure_caisse_echoppe"] ?><br>
 
-   <? if ($this->nb_partieplantes == 0) : ?>
+   <? if ($this->nb_caissePartiePlantes == 0) : ?>
    	Aucune plante<br>
    <? else: ?>
-    <? if ($this->nb_partieplantes==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_partieplantes?> &eacute;l&eacute;ment<?=$s?> de plantes : <br>
+    <? if ($this->nb_caissePartiePlantes==1):$s=''; else:$s='s';endif; ?>
+    <?=$this->nb_caissePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plantes : <br>
     
     <table width='100%'>
     <? $i = 0;
+      $enter = false;
       foreach ($this->partieplantes as $p) : 
-    	if ($i % 3 == 0) echo "<tr>"; 
-    	$textPlante = "Type : ".htmlentities($p["nom_type"]). "<br>"; 
-    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite"])."<br>";
-    	?>
-    	<td onmouseover="return overlib('<?=$textPlante?>',CAPTION,'<?=htmlentities($p["nom_type"])?> - D&eacute;tails');"
-      		onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'Plante <?=htmlentities($p["nom_type"])?> - D&eacute;tails', CLOSECLICK, EXCLUSIVE);"
-      		onmouseout="return nd();">
-    		<?=$p["nom_type"]?> - Quantit&eacute;: <?=$p["quantite"]?>
-    	</td>
-    	<? if ($i % 3 == 2) echo "</tr>"; 
-    	$i++; 
+      	if ($p["quantite_caisse"] > 0) :
+      		$enter = true;
+	    	if ($i % 3 == 0) echo "<tr>"; 
+	    	$textPlante = "Type : ".htmlentities($p["nom_type"]). "<br>"; 
+	    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite_caisse"])."<br>";
+	    	?>
+	    	<td onmouseover="return overlib('<?=$textPlante?>',CAPTION,'<?=htmlentities($p["nom_type"])?> - D&eacute;tails');"
+	      		onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'Plante <?=htmlentities($p["nom_type"])?> - D&eacute;tails', CLOSECLICK, EXCLUSIVE);"
+	      		onmouseout="return nd();">
+	    		<?=$p["nom_type"]?> - Quantit&eacute;: <?=$p["quantite_caisse"]?>
+	    	</td>
+	    	<? if ($i % 3 == 2) echo "</tr>"; 
+	    	$i++; 
+	    endif;
      endforeach;
-     if  ($i % 3 != 0) echo "</tr>"; 
+     if ($enter == true) :
+     	if  ($i % 3 != 0) echo "</tr>"; 
+     endif;
      ?>
     </table>
    <? endif; ?>
    
-   <? if ($this->nb_minerais == 0) : ?>
+   <? if ($this->nb_caisseMinerai == 0) : ?>
    	Aucun minerai<br>
    <? else: ?>
-    <? if ($this->nb_minerais==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_minerais?> minerai<?=$s?> : <br>
+    <? if ($this->nb_caisseMinerai==1):$s=''; else:$s='s';endif; ?>
+    <?=$this->nb_caisseMinerai?> minerai<?=$s?> : <br>
     
     <table width='100%'>
     <? $i = 0;
+      $enter = false;
       foreach ($this->minerais as $m) : 
-     	 if ($i % 3 == 0) echo "<tr>"; 
-    	?>
-    	<td>
-    		<?=$m["type"]?> : Quantit&eacute; : <?=$m["quantite"]?>
-    	</td>
-    	<? if ($i % 3 == 2) echo "</tr>"; 
-    	$i++; 
+      	if ($m["quantite_caisse"] > 0) :
+      		$enter = true;
+	     	if ($i % 3 == 0) echo "<tr>"; 
+	    	?>
+	    	<td>
+	    		<?=$m["type"]?> : Quantit&eacute; : <?=$m["quantite_caisse"]?>
+	    	</td>
+	    	<? if ($i % 3 == 2) echo "</tr>"; 
+	    	$i++; 
+	    endif;
      endforeach;
-     if  ($i % 3 != 0) echo "</tr>"; 
+     if ($enter == true) :
+     	if  ($i % 3 != 0) echo "</tr>"; 
+     endif;
      ?>
     </table> 
     <? endif; ?>

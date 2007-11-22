@@ -1,0 +1,1 @@
+CREATE TABLE `echoppe_partieplante` (  `id_fk_type_echoppe_partieplante` int(11) NOT NULL,  `id_fk_echoppe_echoppe_partieplante` int(11) NOT NULL,  `quantite_echoppe_partieplante` int(11) NOT NULL,  PRIMARY KEY  (`id_fk_type_echoppe_partieplante`,`id_fk_echoppe_echoppe_partieplante`)) ENGINE=InnoDB DEFAULT CHARSET=latin1;

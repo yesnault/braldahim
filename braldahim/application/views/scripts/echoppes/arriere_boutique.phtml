@@ -1,0 +1,126 @@
+	<? if ($this->nb_arriereMinerai == 0 && $this->nb_lingotsMinerai == 0 &&
+		   $this->nb_arrierePartiePlantes == 0 && $this->nb_prepareePartiePlantes == 0) : ?>
+		Votre arri&egrave;re boutique est vide<br>
+	<? endif; ?>
+	
+   <? if ($this->nb_arrierePartiePlantes == 0) : ?>
+   	Aucune plante brute<br>
+   <? else: ?>
+    <? if ($this->nb_arrierePartiePlantes==1):$s=''; else:$s='s';endif; ?>
+    <?=$this->nb_arrierePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plantes : <br>
+    
+    <table width='100%'>
+    <? $i = 0;
+      $enter = false;
+      foreach ($this->partieplantes as $p) : 
+      	if ($p["quantite_arriere"] > 0) :
+      		$enter = true;
+	    	if ($i % 3 == 0) echo "<tr>"; 
+	    	$textPlante = "Type : ".htmlentities($p["nom_type"]). "<br>"; 
+	    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite_arriere"])."<br>";
+	    	?>
+	    	<td onmouseover="return overlib('<?=$textPlante?>',CAPTION,'<?=htmlentities($p["nom_type"])?> - D&eacute;tails');"
+	      		onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'Plante <?=htmlentities($p["nom_type"])?> - D&eacute;tails', CLOSECLICK, EXCLUSIVE);"
+	      		onmouseout="return nd();">
+	    		<?=$p["nom_type"]?> - Quantit&eacute;: <?=$p["quantite_arriere"]?>
+	    	</td>
+	    	<? if ($i % 3 == 2) echo "</tr>"; 
+	    	$i++; 
+	    endif;
+     endforeach;
+     if ($enter == true) :
+     	if  ($i % 3 != 0) echo "</tr>"; 
+     endif;
+     ?>
+    </table>
+   <? endif; ?>
+   
+   <? if ($this->nb_arrierePartiePlantes == 0) : ?>
+   	Aucune plante pr&eacute;par&eacute;e<br>
+   <? else: ?>
+    <? if ($this->nb_prepareePartiePlantes==1):$s=''; else:$s='s';endif; ?>
+    <?=$this->nb_prepareePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plantes : <br>
+    
+    <table width='100%'>
+    <? $i = 0;
+      $enter = false;
+      foreach ($this->partieplantes as $p) : 
+      	if ($p["quantite_preparee"] > 0) :
+      		$enter = true;
+	    	if ($i % 3 == 0) echo "<tr>"; 
+	    	$textPlante = "Type : ".htmlentities($p["nom_type"]). "<br>"; 
+	    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite_preparee"])."<br>";
+	    	?>
+	    	<td onmouseover="return overlib('<?=$textPlante?>',CAPTION,'<?=htmlentities($p["nom_type"])?> - D&eacute;tails');"
+	      		onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'Plante <?=htmlentities($p["nom_type"])?> - D&eacute;tails', CLOSECLICK, EXCLUSIVE);"
+	      		onmouseout="return nd();">
+	    		<?=$p["nom_type"]?> - Quantit&eacute;: <?=$p["quantite_preparee"]?>
+	    	</td>
+	    	<? if ($i % 3 == 2) echo "</tr>"; 
+	    	$i++; 
+	    endif;
+     endforeach;
+     if ($enter == true) :
+     	if  ($i % 3 != 0) echo "</tr>"; 
+     endif;
+     ?>
+    </table>
+   <? endif; ?>
+   
+   <? if ($this->nb_arriereMinerai == 0) : ?>
+   	Aucun minerai brut<br>
+   <? else: ?>
+    <? if ($this->nb_arriereMinerai==1):$s=''; else:$s='s';endif; ?>
+    <?=$this->nb_arriereMinerai?> minerai<?=$s?> : <br>
+    
+    <table width='100%'>
+    <? $i = 0;
+      $enter = false;
+      foreach ($this->minerais as $m) : 
+      	if ($m["quantite_arriere"] > 0) :
+      		$enter = true;
+	     	if ($i % 3 == 0) echo "<tr>"; 
+	    	?>
+	    	<td>
+	    		<?=$m["type"]?> : Quantit&eacute; : <?=$m["quantite_arriere"]?>
+	    	</td>
+	    	<? if ($i % 3 == 2) echo "</tr>"; 
+	    	$i++; 
+	    endif;
+     endforeach;
+     if ($enter == true) :
+     	if  ($i % 3 != 0) echo "</tr>"; 
+     endif;
+     ?>
+    </table> 
+    <? endif; ?>
+    
+   <? if ($this->nb_lingotsMinerai == 0) : ?>
+   	Aucun lingot<br>
+   <? else: ?>
+    <? if ($this->nb_lingotsMinerai==1):$s=''; else:$s='s';endif; ?>
+    <?=$this->nb_lingotsMinerai?> minerai<?=$s?> : <br>
+    
+    <table width='100%'>
+    <? $i = 0;
+      $enter = false;
+      foreach ($this->minerais as $m) : 
+      	if ($m["quantite_lingots"] > 0) :
+      		$enter = true;
+	     	if ($i % 3 == 0) echo "<tr>"; 
+	    	?>
+	    	<td>
+	    		<?=$m["type"]?> : Quantit&eacute; : <?=$m["quantite_lingots"]?>
+	    	</td>
+	    	<? if ($i % 3 == 2) echo "</tr>"; 
+	    	$i++; 
+	    endif;
+     endforeach;
+     if ($enter == true) :
+     	if  ($i % 3 != 0) echo "</tr>"; 
+     endif;
+     ?>
+    </table> 
+    <? endif; ?>
+    
+    

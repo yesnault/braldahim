@@ -59,7 +59,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 			}
 		}
 		
-		$this->prepareCommunCaisse($tabEchoppe["id_echoppe"]);
+		$this->prepareCommunPlanteMinerai($tabEchoppe["id_echoppe"]);
 		
 		$this->view->competences = $tabCompetences;
 		$this->view->echoppe = $tabEchoppe;
@@ -74,39 +74,57 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 	function getListBoxRefresh() {
 	}
 
-	private function prepareCommunCaisse($idEchoppe) {
-		Zend_Loader::loadClass("CaissePartiePlante");
-		Zend_Loader::loadClass("CaisseMinerai");
+	private function prepareCommunPlanteMinerai($idEchoppe) {
+		Zend_Loader::loadClass("EchoppePartiePlante");
+		Zend_Loader::loadClass("EchoppeMinerai");
 		
 		$tabPartiePlantes = null;
-		$caissePartiePlanteTable = new CaissePartieplante();
-		$partiePlantes = $caissePartiePlanteTable->findByIdEchoppe($idEchoppe);
+		$echoppePartiePlanteTable = new EchoppePartieplante();
+		$partiePlantes = $echoppePartiePlanteTable->findByIdEchoppe($idEchoppe);
+		
+		$this->view->nb_caissePartiePlantes = 0;
+		$this->view->nb_arrierePartiePlantes = 0;
+		$this->view->nb_prepareePartiePlantes = 0;
 		
 		if ($partiePlantes != null) {
 			foreach ($partiePlantes as $p) {
 				$tabPartiePlantes[] = array(
 				"nom_type" => $p["nom_type_partieplante"],
-				"quantite" => $p["quantite_caisse_partieplante"],
+				"quantite_caisse" => $p["quantite_caisse_echoppe_partieplante"],
+				"quantite_arriere" => $p["quantite_arriere_echoppe_partieplante"],
+				"quantite_preparee" => $p["quantite_preparee_echoppe_partieplante"],
 				);
+				
+				$this->view->nb_caissePartiePlantes = $this->view->nb_caissePartiePlantes + $p["quantite_caisse_echoppe_partieplante"];
+				$this->view->nb_arrierePartiePlantes = $this->view->nb_arrierePartiePlantes + $p["quantite_arriere_echoppe_partieplante"];
+				$this->view->nb_prepareePartiePlantes = $this->view->nb_prepareePartiePlantes  + $p["quantite_preparee_echoppe_partieplante"];
 			}
 		}
 
 		$tabMinerais = null;
-		$caisseMineraiTable = new CaisseMinerai();
-		$minerais = $caisseMineraiTable->findByIdEchoppe($this->view->user->id_hobbit);
+		$echoppeMineraiTable = new EchoppeMinerai();
+		$minerais = $echoppeMineraiTable->findByIdEchoppe($this->view->user->id_hobbit);
+		
+		$this->view->nb_caisseMinerai = 0;
+		$this->view->nb_arriereMinerai = 0;
+		$this->view->nb_lingotsMinerai = 0;
 		
 		if ($minerais != null) {
 			foreach ($minerais as $m) {
 				$tabMinerais[] = array(
 				"type" => $m["nom_type_minerai"],
-				"quantite" => $m["quantite_caisse_minerai"],
+				"quantite_caisse" => $m["quantite_caisse_echoppe_minerai"],
+				"quantite_arriere" => $m["quantite_arriere_echoppe_minerai"],
+				"quantite_lingots" => $m["quantite_lingots_echoppe_minerai"],
 				);
+				
+				$this->view->nb_caisseMinerai = $this->view->nb_caisseMinerai + $m["quantite_caisse_echoppe_minerai"];
+				$this->view->nb_arriereMinerai = $this->view->nb_arriereMinerai + $m["quantite_arriere_echoppe_minerai"];
+				$this->view->nb_lingotsMinerai = $this->view->nb_lingotsMinerai  + $m["quantite_lingots_echoppe_minerai"];
 			}
 		}
 
-		$this->view->nb_partieplantes = count($tabPartiePlantes);
 		$this->view->partieplantes = $tabPartiePlantes;
-		$this->view->nb_minerais = count($tabMinerais);
 		$this->view->minerais = $tabMinerais;
 	}
 }

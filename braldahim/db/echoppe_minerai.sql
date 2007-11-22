@@ -1,0 +1,1 @@
+CREATE TABLE `echoppe_minerai` (  `id_fk_type_echoppe_minerai` int(11) NOT NULL,  `id_fk_echoppe_echoppe_minerai` int(11) NOT NULL,  `quantite_echoppe_minerai` int(11) default NULL,  PRIMARY KEY  (`id_fk_type_echoppe_minerai`,`id_fk_echoppe_echoppe_minerai`)) ENGINE=InnoDB DEFAULT CHARSET=latin1;
