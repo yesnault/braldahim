@@ -11,7 +11,7 @@
    	Aucune plante<br>
    <? else: ?>
     <? if ($this->nb_caissePartiePlantes==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_caissePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plantes : <br>
+    <?=$this->nb_caissePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plantes brute<?=$s?>: <br>
     
     <table width='100%'>
     <? $i = 0;
@@ -26,7 +26,7 @@
 	    	<td onmouseover="return overlib('<?=$textPlante?>',CAPTION,'<?=htmlentities($p["nom_type"])?> - D&eacute;tails');"
 	      		onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'Plante <?=htmlentities($p["nom_type"])?> - D&eacute;tails', CLOSECLICK, EXCLUSIVE);"
 	      		onmouseout="return nd();">
-	    		<?=$p["nom_type"]?> - Quantit&eacute;: <?=$p["quantite_caisse"]?>
+	    		<?=htmlentities($p["nom_type"])?> - Quantit&eacute;: <?=$p["quantite_caisse"]?>
 	    	</td>
 	    	<? if ($i % 3 == 2) echo "</tr>"; 
 	    	$i++; 
@@ -43,7 +43,7 @@
    	Aucun minerai<br>
    <? else: ?>
     <? if ($this->nb_caisseMinerai==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_caisseMinerai?> minerai<?=$s?> : <br>
+    <?=$this->nb_caisseMinerai?> minerai<?=$s?> brut<?=$s?>: <br>
     
     <table width='100%'>
     <? $i = 0;
@@ -54,7 +54,7 @@
 	     	if ($i % 3 == 0) echo "<tr>"; 
 	    	?>
 	    	<td>
-	    		<?=$m["type"]?> : Quantit&eacute; : <?=$m["quantite_caisse"]?>
+	    		<?=htmlentities($m["type"])?> : Quantit&eacute; : <?=$m["quantite_caisse"]?>
 	    	</td>
 	    	<? if ($i % 3 == 2) echo "</tr>"; 
 	    	$i++; 

@@ -1,0 +1,32 @@
+<div class='comp_titre'>Fondre</div>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ <form name='myForm'>
+ <div class='comp_contenu'>
+
+<?php if ($this->assezDePa == false) : ?>
+ Vous n'avez pas assez de PA
+<?php else : ?>
+	 <? if ($this->fondreEchoppeOk === true && $this->fondreMineraiOk === true) : ?>
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez fondre du 2 unit&eacute;s de minerai en 1D2 lingot(s) ...<br>
+	 <select name="valeur_1" id="valeur_1"  onChange="javascript:if ($('valeur_1').value==-1){$('bouton_fondre').disabled=true } else {$('bouton_fondre').disabled=false }">
+	 	<option value="-1">(Choisis un minerai)</option>
+	 	<? foreach($this->minerais as $m) :
+			if ($m["quantite_arriere"]==1):$s=''; else:$s='s';endif;
+	 	?>
+	 		<option value="<?=$m["id_type"]?>"><?=$m["quantite_arriere"]?> minerai<?=$s?> de <?=htmlentities($m["nom_type"])?></option>
+	 	<? endforeach; ?>
+	 </select>
+	<? elseif ($this->fondreEchoppeOk == false) : ?>
+		Vous ne pouvez fondre que dans une de vos &eacute;choppes de Forgeron.
+	<? else: ?>
+		Vous n'avez aucun minerai &agrave; fondre...
+	<? endif; ?>
+<? endif ?>
+</div>
+
+</form>
+<br>
+<?php if ($this->assezDePa == true && $this->fondreEchoppeOk === true && $this->fondreMineraiOk) : ?>
+<input type='button' class='button1' id='bouton_fondre' value='Fondre !' onClick='this.disabled=true;_get_("/competences/DoAction?caction=do_competence_fondre");' disabled>
+<? endif ?>
+<? include("commun_fermer.phtml") ?>

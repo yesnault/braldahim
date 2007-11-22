@@ -39,7 +39,7 @@ class Echoppe extends Zend_Db_Table {
 		->where('x_echoppe >= ?',$x_min)
 		->where('y_echoppe >= ?',$y_min)
 		->where('y_echoppe <= ?',$y_max)
-		->where('hobbit.id_hobbit = echoppe.id_hobbit_echoppe' )
+		->where('hobbit.id_hobbit = echoppe.id_fk_hobbit_echoppe' )
 		->where('echoppe.id_fk_metier_echoppe = metier.id_metier');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -63,7 +63,7 @@ class Echoppe extends Zend_Db_Table {
 		$select->from('echoppe', '*')
 		->from('metier', '*')
 		->from('region', '*')
-		->where('id_hobbit_echoppe = ?', $id_hobbit)
+		->where('id_fk_hobbit_echoppe = ?', $id_hobbit)
 		->where('echoppe.id_fk_metier_echoppe = metier.id_metier')
 		->where('region.x_min_region <= echoppe.x_echoppe')
 		->where('region.x_max_region >= echoppe.x_echoppe')

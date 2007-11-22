@@ -138,7 +138,7 @@ class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
 		
 		$echoppesTable = new Echoppe();
 		$data = array(
-		'id_hobbit_echoppe' => $this->view->user->id_hobbit,
+		'id_fk_hobbit_echoppe' => $this->view->user->id_hobbit,
 		'x_echoppe' => $x,
 		'y_echoppe' => $y,
 		'id_fk_metier_echoppe' => $this->id_metier_courant,

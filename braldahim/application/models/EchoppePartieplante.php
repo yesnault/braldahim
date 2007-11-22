@@ -37,11 +37,18 @@ class EchoppePartieplante extends Zend_Db_Table {
 			$quantiteArriere = $resultat[0]["quantiteArriere"];
 			$quantitePreparee = $resultat[0]["quantitePreparee"];
 			
+			$quantiteCaisse = $quantiteCaisse + $data["quantite_caisse_echoppe_partieplante"];
+			$quantiteArriere = $quantiteArriere + $data["quantite_arriere_echoppe_partieplante"];
+			$quantitePreparee = $quantitePreparee + $data["quantite_preparee_echoppe_partieplante"];
+			
+			if ($quantiteCaisse < 0) $quantiteCaisse = 0;
+			if ($quantiteArriere < 0) $quantiteArriere = 0;
+			if ($quantitePreparee < 0) $quantitePreparee = 0;
 			
 			$dataUpdate = array(
-			'quantite_caisse_echoppe_partieplante' => $quantiteCaisse + $data["quantite_caisse_echoppe_partieplante"],
-			'quantite_arriere_echoppe_partieplante' => $quantiteArriere + $data["quantite_arriere_echoppe_partieplante"],
-			'quantite_preparee_echoppe_partieplante' => $quantitePreparee + $data["quantite_preparee_echoppe_partieplante"],
+			'quantite_caisse_echoppe_partieplante' => $quantiteCaisse,
+			'quantite_arriere_echoppe_partieplante' => $quantiteArriere,
+			'quantite_preparee_echoppe_partieplante' => $quantitePreparee,
 			);
 			$where = ' id_fk_type_echoppe_partieplante = '.$data["id_fk_type_echoppe_partieplante"];
 			$where .= ' AND id_fk_echoppe_echoppe_partieplante = '.$data["id_fk_echoppe_echoppe_partieplante"];

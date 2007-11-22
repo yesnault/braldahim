@@ -103,7 +103,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 
 		$tabMinerais = null;
 		$echoppeMineraiTable = new EchoppeMinerai();
-		$minerais = $echoppeMineraiTable->findByIdEchoppe($this->view->user->id_hobbit);
+		$minerais = $echoppeMineraiTable->findByIdEchoppe($idEchoppe);
 		
 		$this->view->nb_caisseMinerai = 0;
 		$this->view->nb_arriereMinerai = 0;

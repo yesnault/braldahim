@@ -34,6 +34,11 @@
 				echo "Le type de cette rune est : ".$this->rune["type"];
 			} else {
 				echo "Vous avez manqu&eacute; votre identification";
+				echo "
+";
+				if ($this->jetHobbitLoin === true) {
+					echo "Vous &ecirc;tes loin d'identifier cette rune...";
+				}
 			}
 	?>
 	</textarea>

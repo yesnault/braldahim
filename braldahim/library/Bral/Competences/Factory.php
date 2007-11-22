@@ -4,28 +4,6 @@ class Bral_Competences_Factory {
 	static function getAction($request, $view) {
 		Zend_Loader::loadClass("Bral_Competences_Competence");
 		
-		Zend_Loader::loadClass("Bral_Competences_Abattrearbre");
-		Zend_Loader::loadClass("Bral_Competences_Assaisonner");
-		Zend_Loader::loadClass("Bral_Competences_Attaquer");
-		Zend_Loader::loadClass("Bral_Competences_Chasser");
-		Zend_Loader::loadClass("Bral_Competences_Charger");
-		Zend_Loader::loadClass("Bral_Competences_Courir");
-		Zend_Loader::loadClass("Bral_Competences_Cueillir");
-		Zend_Loader::loadClass("Bral_Competences_Cuisiner");
-		Zend_Loader::loadClass("Bral_Competences_Decalerdla");
-		Zend_Loader::loadClass("Bral_Competences_Depiauter");
-		Zend_Loader::loadClass("Bral_Competences_Distribuerpx");
-		Zend_Loader::loadClass("Bral_Competences_Extraire");
-		Zend_Loader::loadClass("Bral_Competences_Frenesie");
-		Zend_Loader::loadClass("Bral_Competences_Identifierrune");
-		Zend_Loader::loadClass("Bral_Competences_Gardiennage");
-		Zend_Loader::loadClass("Bral_Competences_Manger");
-		Zend_Loader::loadClass("Bral_Competences_Marcher");
-		Zend_Loader::loadClass("Bral_Competences_Monterpalissade");
-		Zend_Loader::loadClass("Bral_Competences_Ramasser");
-		Zend_Loader::loadClass("Bral_Competences_Rechercherplante");
-		Zend_Loader::loadClass("Bral_Competences_Sonder");
-		
 		$matches = null;
 		preg_match('/(.*)_competence_(.*)/', $request->get("caction"), $matches);
 		$action = $matches[1]; // "do" ou "ask"
@@ -67,8 +45,15 @@ class Bral_Competences_Factory {
 			}
 		}
 		
-	    // verification que la classe de la competence existe.            
-		if (($construct != null) && (class_exists($construct))) {                
+	    // verification que la classe de la competence existe. 
+	    try {
+			Zend_Loader::loadClass($construct);  
+	    } catch(Exception $e) {
+	  	  throw new Zend_Exception("Comp&eacute;tence invalide (classe): ".$nomSystemeCompetence);
+	    }
+	    
+		if (($construct != null) && (class_exists($construct))) {
+			Zend_Loader::loadClass($construct);         
 			return new $construct ($competence, $hobbitCompetence, $request, $view, $action);
 		} else {
 			throw new Zend_Exception("Comp&eacute;tence invalide: ".$nomSystemeCompetence);

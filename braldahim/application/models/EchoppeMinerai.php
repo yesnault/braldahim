@@ -26,7 +26,7 @@ class EchoppeMinerai extends Zend_Db_Table {
 		.', quantite_lingots_echoppe_minerai as quantiteLingots')
 		->where('id_fk_type_echoppe_minerai = ?',$data["id_fk_type_echoppe_minerai"])
 		->where('id_fk_echoppe_echoppe_minerai = ?',$data["id_fk_echoppe_echoppe_minerai"])
-		->group('quantite');
+		->group(array('quantiteCaisse', 'quantiteArriere', 'quantiteLingots'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -38,10 +38,18 @@ class EchoppeMinerai extends Zend_Db_Table {
 			$quantiteArriere = $resultat[0]["quantiteArriere"];
 			$quantiteLingots = $resultat[0]["quantiteLingots"];
 			
+			$quantiteCaisse = $quantiteCaisse + $data["quantite_caisse_echoppe_minerai"];
+			$quantiteArriere = $quantiteArriere + $data["quantite_arriere_echoppe_minerai"];
+			$quantiteLingots = $quantiteLingots + $data["quantite_lingots_echoppe_minerai"];
+			
+			if ($quantiteCaisse < 0) $quantiteCaisse = 0;
+			if ($quantiteArriere < 0) $quantiteArriere = 0;
+			if ($quantiteLingots < 0) $quantiteLingots = 0;
+			
 			$dataUpdate = array(
-			'quantite_caisse_echoppe_minerai' => $quantiteCaisse + $data["quantite_caisse_echoppe_minerai"],
-			'quantite_arriere_echoppe_minerai' => $quantiteArriere + $data["quantite_arriere_echoppe_minerai"],
-			'quantite_lingots_echoppe_minerai' => $quantiteLingots + $data["quantite_lingots_echoppe_minerai"],
+			'quantite_caisse_echoppe_minerai' => $quantiteCaisse,
+			'quantite_arriere_echoppe_minerai' => $quantiteArriere,
+			'quantite_lingots_echoppe_minerai' => $quantiteLingots,
 			);
 			$where = ' id_fk_type_echoppe_minerai = '.$data["id_fk_type_echoppe_minerai"];
 			$where .= ' AND id_fk_echoppe_echoppe_minerai = '.$data["id_fk_echoppe_echoppe_minerai"];

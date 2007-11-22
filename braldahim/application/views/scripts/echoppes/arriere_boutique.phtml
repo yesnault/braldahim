@@ -7,7 +7,7 @@
    	Aucune plante brute<br>
    <? else: ?>
     <? if ($this->nb_arrierePartiePlantes==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_arrierePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plantes : <br>
+    <?=$this->nb_arrierePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plantes brute<?=$s?>: <br>
     
     <table width='100%'>
     <? $i = 0;
@@ -22,7 +22,7 @@
 	    	<td onmouseover="return overlib('<?=$textPlante?>',CAPTION,'<?=htmlentities($p["nom_type"])?> - D&eacute;tails');"
 	      		onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'Plante <?=htmlentities($p["nom_type"])?> - D&eacute;tails', CLOSECLICK, EXCLUSIVE);"
 	      		onmouseout="return nd();">
-	    		<?=$p["nom_type"]?> - Quantit&eacute;: <?=$p["quantite_arriere"]?>
+	    		<?=htmlentities($p["nom_type"])?> - Quantit&eacute;: <?=$p["quantite_arriere"]?>
 	    	</td>
 	    	<? if ($i % 3 == 2) echo "</tr>"; 
 	    	$i++; 
@@ -39,7 +39,7 @@
    	Aucune plante pr&eacute;par&eacute;e<br>
    <? else: ?>
     <? if ($this->nb_prepareePartiePlantes==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_prepareePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plantes : <br>
+    <?=$this->nb_prepareePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plantes pr&eacute;par&eacute;e<?=$s?>: <br>
     
     <table width='100%'>
     <? $i = 0;
@@ -54,7 +54,7 @@
 	    	<td onmouseover="return overlib('<?=$textPlante?>',CAPTION,'<?=htmlentities($p["nom_type"])?> - D&eacute;tails');"
 	      		onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'Plante <?=htmlentities($p["nom_type"])?> - D&eacute;tails', CLOSECLICK, EXCLUSIVE);"
 	      		onmouseout="return nd();">
-	    		<?=$p["nom_type"]?> - Quantit&eacute;: <?=$p["quantite_preparee"]?>
+	    		<?=htmlentities($p["nom_type"])?> - Quantit&eacute;: <?=$p["quantite_preparee"]?>
 	    	</td>
 	    	<? if ($i % 3 == 2) echo "</tr>"; 
 	    	$i++; 
@@ -70,8 +70,9 @@
    <? if ($this->nb_arriereMinerai == 0) : ?>
    	Aucun minerai brut<br>
    <? else: ?>
+   
     <? if ($this->nb_arriereMinerai==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_arriereMinerai?> minerai<?=$s?> : <br>
+    <?=$this->nb_arriereMinerai?> minerai<?=$s?> brut<?=$s?>: <br>
     
     <table width='100%'>
     <? $i = 0;
@@ -82,7 +83,7 @@
 	     	if ($i % 3 == 0) echo "<tr>"; 
 	    	?>
 	    	<td>
-	    		<?=$m["type"]?> : Quantit&eacute; : <?=$m["quantite_arriere"]?>
+	    		<?=htmlentities($m["type"])?> : Quantit&eacute; : <?=$m["quantite_arriere"]?>
 	    	</td>
 	    	<? if ($i % 3 == 2) echo "</tr>"; 
 	    	$i++; 
@@ -99,7 +100,7 @@
    	Aucun lingot<br>
    <? else: ?>
     <? if ($this->nb_lingotsMinerai==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_lingotsMinerai?> minerai<?=$s?> : <br>
+    <?=$this->nb_lingotsMinerai?> lingot<?=$s?> : <br>
     
     <table width='100%'>
     <? $i = 0;
@@ -110,7 +111,7 @@
 	     	if ($i % 3 == 0) echo "<tr>"; 
 	    	?>
 	    	<td>
-	    		<?=$m["type"]?> : Quantit&eacute; : <?=$m["quantite_lingots"]?>
+	    		<?=htmlentities($m["type"])?> : Quantit&eacute; : <?=$m["quantite_lingots"]?>
 	    	</td>
 	    	<? if ($i % 3 == 2) echo "</tr>"; 
 	    	$i++; 
