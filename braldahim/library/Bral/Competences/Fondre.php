@@ -17,7 +17,9 @@ class Bral_Competences_Fondre extends Bral_Competences_Competence {
 		$idEchoppe = -1;
 		foreach($echoppes as $e) {
 			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit && 
-				$e["nom_systeme_metier"] == "forgeron" ) {
+				$e["nom_systeme_metier"] == "forgeron" && 
+				$e["x_echoppe"] == $this->view->user->x_hobbit && 
+				$e["y_echoppe"] == $this->view->user->y_hobbit) {
 				$this->view->fondreEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
 				break;
@@ -115,6 +117,14 @@ class Bral_Competences_Fondre extends Bral_Competences_Competence {
 			'quantite_arriere_echoppe_minerai' => -2,
 		);
 		$echoppeMineraiTable->insertOrUpdate($data);
+	}
+	
+	public function getIdEchoppeCourante() {
+		if (isset($this->idEchoppe)) {
+			return $this->idEchoppe;
+		} else {
+			return false;
+		}
 	}
 	
 	function getListBoxRefresh() {

@@ -7,7 +7,7 @@
 		
 		<? if ($this->okJet1 === true): ?>
 			Vous avez r&eacute;ussi &agrave; fondre du minerai de <?=htmlentities($this->mineraiNomType) ?>.
-			Vous avez fondu <?=$this->nbLingots ?> lingot<?if($this->nbLingots > 1):$s='s';endif;?><br>
+			Vous avez fondu <?=$this->nbLingots ?> lingot<?if($this->nbLingots > 1):echo 's';endif;?><br>
 		<? else: ?>
 			Vous avez manqu&eacute; votre fonte<br>
 		<? endif; ?>

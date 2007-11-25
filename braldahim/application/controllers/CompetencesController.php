@@ -47,6 +47,12 @@ class CompetencesController extends Zend_Controller_Action {
 					$xml_entry->set_data($c->render());
 					$this->xml_response->add_entry($xml_entry);
 				}
+				if ($competence->getIdEchoppeCourante() !== false) {
+					$c = Bral_Echoppes_Factory::getVoir($this->_request, $this->view, $competence->getIdEchoppeCourante());
+					$xml_entry->set_valeur($c->getNomInterne());
+					$xml_entry->set_data($c->render());
+					$this->xml_response->add_entry($xml_entry);
+				}
 			} catch (Zend_Exception $e) {
 				$b = Bral_Box_Factory::getErreur($this->_request, $this->view, false, $e->getMessage());
 				$xml_entry->set_valeur($b->getNomInterne());
@@ -68,4 +74,5 @@ class CompetencesController extends Zend_Controller_Action {
 			$this->xml_response->add_entry($xml_entry);
 		}
 	}
+	
 }

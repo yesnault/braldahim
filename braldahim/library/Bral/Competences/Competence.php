@@ -34,6 +34,10 @@ abstract class Bral_Competences_Competence {
 	abstract function prepareResultat();
 	abstract function getListBoxRefresh();
 
+	public function getIdEchoppeCourante() {
+		return false;
+	}
+	
 	public function calculNbPa() {
 		if ($this->view->user->pa_hobbit - $this->competence["pa_utilisation"] < 0) {
 			$this->view->assezDePa = false;

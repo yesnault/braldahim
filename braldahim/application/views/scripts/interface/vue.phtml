@@ -142,7 +142,7 @@
       			$textEchoppe = "";
       			foreach($case["echoppes"] as $c) {
       				if ($this->nom_metier_courant{0} == 'A') : $d="d'"; else: $d="de "; endif;
-      				$textEchoppe .= "E&acute;choppe ".$d.htmlentities($c["nom_metier"])." appartenant &agrave; ";
+      				$textEchoppe .= "&Eacute;choppe ".$d.htmlentities($c["nom_metier"])." appartenant &agrave; ";
       				$textEchoppe .= htmlentities($c["nom_hobbit"])." (".$c["id_hobbit"].")<br>";
 				}
 				$s = "";

@@ -2,18 +2,31 @@
 
 class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 	
+	function __construct($nomSystemeAction, $request, $view, $action, $id_echoppe = false) {
+		if ($id_echoppe !== false) {
+			$this->idEchoppe = $id_echoppe;
+		}
+		parent::__construct($nomSystemeAction, $request, $view, $action);
+	}
 	function getNomInterne() {
 		return "box_echoppe";
 	}
 	function render() {
 		return $this->view->render("echoppes/voir.phtml");
 	}
+	
 	function prepareCommun() {
-		$id_echoppe = (int)$this->request->get("valeur_1");
+		if (!isset($this->idEchoppe)) {
+			$id_echoppe = (int)$this->request->get("valeur_1");
+		} else {
+			$id_echoppe = $this->idEchoppe;
+		}
 		
 		Zend_Loader::loadClass("Echoppe");
 		$echoppeTable = new Echoppe();
 		$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
+		
+		$this->view->estSurEchoppe == false;
 		
 		$tabEchoppe = null;
 		$id_metier = null;
@@ -36,7 +49,11 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 				'quantite_fourrure_caisse_echoppe' => $e["quantite_fourrure_caisse_echoppe"],
 				'quantite_cuir_caisse_echoppe' => $e["quantite_cuir_caisse_echoppe"],
 				'quantite_castars_caisse_echoppe' => $e["quantite_castars_caisse_echoppe"],
-				);				
+				);
+				if ($this->view->user->x_hobbit == $e["x_echoppe"] &&
+				 	$this->view->user->y_hobbit == $e["y_echoppe"]) {
+				 	$this->view->estSurEchoppe = true;
+				 }
 				break;
 			}
 		}
