@@ -26,6 +26,17 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 				$e["y_echoppe"] == $this->view->user->y_hobbit) {
 				$this->view->forgerEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
+				
+				$echoppeCourante = array(
+				'id_echoppe' => $e["id_echoppe"],
+				'x_echoppe' => $e["x_echoppe"],
+				'y_echoppe' => $e["y_echoppe"],
+				'id_metier' => $e["id_metier"],
+				'quantite_bois_caisse_echoppe' => $e["quantite_bois_caisse_echoppe"],
+				'quantite_fourrure_caisse_echoppe' => $e["quantite_fourrure_caisse_echoppe"],
+				'quantite_cuir_caisse_echoppe' => $e["quantite_cuir_caisse_echoppe"],
+				'quantite_castars_caisse_echoppe' => $e["quantite_castars_caisse_echoppe"],
+				);
 				break;
 			}
 		}
@@ -34,10 +45,23 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 			return;
 		}
 		
+		Zend_Loader::loadClass("HobbitsMetiers");
+		$hobbitsMetiersTable = new HobbitsMetiers();
+		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
+		$tabMetierCourant = null;
+		foreach($hobbitsMetierRowset as $m) {
+			if ($m["est_actif_hmetier"] == "oui") {
+				$tabMetierCourant = $m;
+				break;
+			}
+		}
+		if ($tabMetierCourant == null) {
+			throw new Zend_Exception(get_class($this)." Metier courant inconnu : ");
+		}
+		
 		Zend_Loader::loadClass("TypeEquipement");
 		$typeEquipementTable = new TypeEquipement();
-		$typeEquipementsRowset = $typeEquipementTable->fetchAll(null, 'nom_type_equipement');
-		$typeEquipementsRowset = $typeEquipementsRowset->toArray();
+		$typeEquipementsRowset = $typeEquipementTable->findByIdMetier($tabMetierCourant["id_metier"]);
 		$tabTypeEquipement = null;
 		foreach($typeEquipementsRowset as $t) {
 			$selected = "";
@@ -59,32 +83,40 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 		$tabNiveaux = null;
 		$tabRunes = null;
 		$tabCout = null;
+		
 		if (isset($typeEquipementCourant)) {
-			Zend_Loader::loadClass("RecetteEquipement");
+			Zend_Loader::loadClass("RecetteCout");
+			Zend_Loader::loadClass("RecetteCoutMinerai");
+			Zend_Loader::loadClass("EchoppeMinerai");
+			
 			for ($i = 0; $i <= $this->view->user->niveau_hobbit / 10 ; $i++) {
-				$tabNiveaux[] = array('niveau' => $i, 'niveauText' => 'Niveau '.$i);
+				$tabNiveaux[$i] = array('niveauText' => 'Niveau '.$i);
 			}
 			
-			$recetteEquipementTable = new RecetteEquipement();
-			$recetteEquipement = $recetteEquipementTable->findByIdType($typeEquipementCourant["id_type_equipement"]);
+			$recetteCoutTable = new RecetteCout();
+			$recetteCout = $recetteCoutTable->findByIdTypeEquipement($typeEquipementCourant["id_type_equipement"]);
 			
-			foreach($recetteEquipement as $r) {
-				if ($r["qualite_recette_equipement"] == 'standard' && 
-					$r["niveau_recette_equipement"] <=floor($this->view->user->niveau_hobbit / 10) ) {
-				if ($r["cuir_recette_equipement"] > 0)
-				$tabCout[$r["qualite_recette_equipement"]][$r["niveau_recette_equipement"]][] = array("nom"=>"Cuir", "cout" => $r["cuir_recette_equipement"]);
-				if ($r["fourrure_recette_equipement"] > 0)
-				$tabCout[$r["qualite_recette_equipement"]][$r["niveau_recette_equipement"]][] = array("nom"=>"Fourrure", "cout" => $r["fourrure_recette_equipement"]);
-				if ($r["bois_recette_equipement"] > 0)
-				$tabCout[$r["qualite_recette_equipement"]][$r["niveau_recette_equipement"]][] = array("nom"=>"Bois", "cout" => $r["bois_recette_equipement"]);
-				if ($r["tambe_recette_equipement"] > 0)
-				$tabCout[$r["qualite_recette_equipement"]][$r["niveau_recette_equipement"]][] = array("nom"=>"Tambë", "cout" => $r["tambe_recette_equipement"]);
-				if ($r["anga_recette_equipement"] > 0)
-				$tabCout[$r["qualite_recette_equipement"]][$r["niveau_recette_equipement"]][] = array("nom"=>"Anga", "cout" => $r["anga_recette_equipement"]);
-				if ($r["mithril_recette_equipement"] > 0)
-				$tabCout[$r["qualite_recette_equipement"]][$r["niveau_recette_equipement"]][] = array("nom"=>"Mithril", "cout" => $r["mithril_recette_equipement"]);
-				if ($r["galvorn_recette_equipement"] > 0)
-				$tabCout[$r["qualite_recette_equipement"]][$r["niveau_recette_equipement"]][] = array("nom"=>"Galvorn", "cout" => $r["galvorn_recette_equipement"]);
+			foreach($recetteCout as $r) {
+				if ($r["niveau_recette_cout"] <=floor($this->view->user->niveau_hobbit / 10) ) {
+					if ($r["cuir_recette_cout"] > 0) {
+						$tabCout[$r["niveau_recette_cout"]][] = array("nom"=>"Cuir", "cout" => $r["cuir_recette_cout"]);
+					}
+					if ($r["fourrure_recette_cout"] > 0) {
+						$tabCout[$r["niveau_recette_cout"]][] = array("nom"=>"Fourrure", "cout" => $r["fourrure_recette_cout"]);
+					}
+					if ($r["bois_recette_cout"] > 0) {
+						$tabCout[$r["niveau_recette_cout"]][] = array("nom"=>"Bois", "cout" => $r["bois_recette_cout"]);
+					}
+				}
+			}
+			
+			$recetteCoutMineraiTable = new RecetteCoutMinerai();
+			$recetteCoutMinerai = $recetteCoutMineraiTable->findByIdTypeEquipement($typeEquipementCourant["id_type_equipement"]);
+			
+			foreach($recetteCoutMinerai as $r) {
+			if (($r["quantite_recette_cout_minerai"] > 0) &&
+				($r["niveau_recette_cout_minerai"] <=floor($this->view->user->niveau_hobbit / 10))) {
+					$tabCout[$r["niveau_recette_cout_minerai"]][] = array("nom"=>$r["nom_type_minerai"], "cout" => $r["quantite_recette_cout_minerai"]);
 				}
 			}
 			

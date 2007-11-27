@@ -9,8 +9,12 @@ class RecetteEquipement extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('recette_equipements', '*')
 		->from('type_equipement')
+		->from('type_qualite')
+		->from('type_emplacement')
 		->where('id_fk_type_recette_equipement = ?',$idType)
-		->where('id_fk_type_recette_equipement = id_type_equipement');
+		->where('id_fk_type_recette_equipement = id_type_equipement')
+		->where('id_fk_type_qualite_recette_equipement = id_type_qualite')
+		->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement');
 		
 		$sql = $select->__toString();
 
