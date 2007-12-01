@@ -22,9 +22,9 @@
      	<?php $col=null ?>
 		<?php foreach ($this->tableau as $case) : ?>
 
-		<?php if ($case["change_level"] == 1 && $col == "ok") : ?>
-          </tr>
-		<?php endif; ?>
+		<?php if ($case["change_level"] == 1 && $col == "ok") :
+          echo "</tr>";
+		 endif; ?>
 		<?php if ($case["change_level"] == true) : 
 			$col="ok"; ?>
                   <tr>
