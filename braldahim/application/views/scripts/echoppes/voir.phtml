@@ -15,8 +15,15 @@
 <ul class="titre textalic textsizec">L'arri&egrave;rre boutique</ul>
  <div class="contenuc">
   <ul class="box_contenu1 textalic">
-  <br>
- 	<? include("arriere_boutique.phtml") ?>
+  	<table  width='100%'>
+  	<tr><td><ul class="titre textalic textsizec">Ressources</ul></td>
+  	<td><ul class="titre textalic textsizec">&Eacute;quipements cr&eacute;&eacute;s</ul></td></tr>
+  	<tr valign='top'><td>
+ 	<? include("arriere_boutique_ressources.phtml") ?>
+ 	</td><td>
+ 	<? include("arriere_boutique_equipements.phtml") ?>
+ 	</td></tr>
+ 	</table>
    </ul>
 </div>
 
@@ -45,8 +52,7 @@
 <ul class="titre textalic textsizec">l'&eacute;tal</ul>
  <div class="contenuc">
   <ul class="box_contenu1 textalic">
-  <br>
- 	Etal ICI
+ 	<? include("etal.phtml") ?>
    </ul>
 </div>
 

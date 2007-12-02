@@ -1,0 +1,9 @@
+
+<? if ($this->nbEquipementsEtal > 0) : ?>
+	<? foreach($this->equipementsEtal as $e) :?>
+		<?=htmlentities($e["nom"]) ?> : qualit&eacute; <?=htmlentities($e["qualite"]) ?>,
+		 niveau: <?=$e["niveau"] ?>, nb. emplacements: <?=$e["nb_runes"] ?><br>
+	<? endforeach; ?>
+<? else: ?>
+	Vous n'avez aucun &eacute;quipement en vente
+<? endif; ?>
