@@ -27,10 +27,7 @@ abstract class Bral_Echoppes_Echoppe {
 	abstract function prepareFormulaire();
 	abstract function prepareResultat();
 	abstract function getListBoxRefresh();
-
-	function getNomInterne() {
-		return "box_action";
-	}
+	abstract function getNomInterne();
 
 	function render() {
 		switch($this->action) {

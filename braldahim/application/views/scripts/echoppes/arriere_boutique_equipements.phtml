@@ -4,6 +4,9 @@
 		<?=htmlentities($e["nom"]) ?> : qualit&eacute; <?=htmlentities($e["qualite"]) ?>,
 		 niveau: <?=$e["niveau"] ?>, nb. emplacements: <?=$e["nb_runes"] ?><br>
 	<? endforeach; ?>
+	<br>
+	<input type="button" class='button1' value="0 PA - Mettre en vente"
+       		  onClick="Javascript:_get_('/echoppes/DoAction?caction=ask_echoppes_vendre')" />
 <? else: ?>
 	Vous n'avez aucun &eacute;quipement en r&eacut;serve
 <? endif; ?>

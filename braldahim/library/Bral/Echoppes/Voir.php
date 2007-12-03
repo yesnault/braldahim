@@ -14,7 +14,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 	function render() {
 		return $this->view->render("echoppes/voir.phtml");
 	}
-
+	
 	function prepareCommun() {
 		if (!isset($this->idEchoppe)) {
 			$id_echoppe = (int)$this->request->get("valeur_1");

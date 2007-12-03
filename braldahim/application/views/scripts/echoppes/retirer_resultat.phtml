@@ -1,0 +1,18 @@
+<div class='comp_titre'>Retirer de la vente</div>
+
+ <div class='comp_contenu'>
+	 <div id='retirer_text' style="display:block"  onClick="javascript:switch2div('retirer_text','retirer_copie');">
+
+		<br>
+	 </div>
+	 
+	 <div id='retirer_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+
+	?>
+	</textarea>
+	</div>
+ </div>
+
+<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('retirer_text','retirer_copie');">
+<? include("commun_fermer.phtml") ?>
