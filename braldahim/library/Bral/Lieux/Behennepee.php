@@ -5,7 +5,7 @@ class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
 	function prepareCommun() {
 		Zend_Loader::loadClass('Lieu');
 		Zend_Loader::loadClass("Region");
-		$this->view->coutCastars = $this->calculCoutCastars();
+		
 		$this->view->achatPossible = (($this->view->user->castars_hobbit -  $this->view->coutCastars) > 0);
 
 		$regionTable = new Region();
@@ -42,7 +42,7 @@ class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
 			$r["x_max_region"]>=$this->view->user->x_hobbit &&
 			$r["y_min_region"]<=$this->view->user->x_hobbit &&
 			$r["y_max_region"]>=$this->view->user->x_hobbit) {
-				$regionCourante = $r;
+				$this->view->regionCourante = $r;
 				break;
 			}
 		}
@@ -101,6 +101,7 @@ class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
 				break;
 			}
 		}
+		$this->view->coutCastars = $this->calculCoutCastars();
 	}
 
 	function prepareFormulaire() {
@@ -112,9 +113,22 @@ class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
 		$this->view->achatPossible !== true) {
 			throw new Zend_Exception(get_class($this)." Construction interdite");
 		}
-		$x = intval($this->request->get("valeur_2"));
-		$y = intval($this->request->get("valeur_3"));
+		$x = $this->request->get("valeur_2");
+		$y = $this->request->get("valeur_3");
 
+		if ($x == "") {
+			throw new Zend_Exception(get_class($this)." X interdit");
+		}
+		
+		if ($y == "") {
+			throw new Zend_Exception(get_class($this)." y interdit");
+		}
+		$x = intval($x);
+		$y = intval($y);
+		
+		$this->view->x_construction = $x;
+		$this->view->y_construction = $y;
+		
 		// on verifie que l'on est pas sur un lieu
 		$lieuxTable = new Lieu();
 		$lieux = $lieuxTable->findByCase($x, $y);
@@ -127,10 +141,10 @@ class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
 
 		// on verifie que la position est dans la comté de la tentative
 		$this->view->construireRegionOk = true;
-		if ($this->regionCourante["x_min"] > $x
-		|| $this->regionCourante["x_max"] < $x
-		|| $this->regionCourante["y_min"] > $y
-		|| $this->regionCourante["y_max"] < $y) {
+		if ($this->regionCourante["x_min_region"] > $x
+		|| $this->regionCourante["x_max_region"] < $x
+		|| $this->regionCourante["y_min_region"] > $y
+		|| $this->regionCourante["y_max_region"] < $y) {
 			$this->view->construireRegionOk = false;
 			return;
 		} else {
@@ -147,7 +161,6 @@ class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
 			$this->view->constructionEchoppeOk = true;
 
 			$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
-
 			$this->majHobbit();
 		}
 	}

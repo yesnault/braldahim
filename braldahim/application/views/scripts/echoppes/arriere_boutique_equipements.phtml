@@ -1,12 +1,12 @@
 
-<? if ($this->nbEquipementsArriereBoutique): ?>
+<? if ($this->nbEquipementsArriereBoutique > 0): ?>
 	<? foreach($this->equipementsArriereBoutique as $e) :?>
 		<?=htmlentities($e["nom"]) ?> : qualit&eacute; <?=htmlentities($e["qualite"]) ?>,
 		 niveau: <?=$e["niveau"] ?>, nb. emplacements: <?=$e["nb_runes"] ?><br>
 	<? endforeach; ?>
 	<br>
 	<input type="button" class='button1' value="0 PA - Mettre en vente"
-       		  onClick="Javascript:_get_('/echoppes/DoAction?caction=ask_echoppes_vendre')" />
+       		  onClick="Javascript:_get_('/echoppes/DoAction?caction=ask_echoppes_vendre&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" />
 <? else: ?>
-	Vous n'avez aucun &eacute;quipement en r&eacut;serve
+	Vous n'avez aucun &eacute;quipement en r&eacute;serve
 <? endif; ?>
