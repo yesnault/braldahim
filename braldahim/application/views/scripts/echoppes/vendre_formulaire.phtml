@@ -12,11 +12,37 @@
 				 niveau: <?=$e["niveau"] ?>, nb. emplacements: <?=$e["nb_runes"] ?></option>
 			<? endforeach; ?>
 		</select>
-		<br>
+		<br><br>
 		
 		Vous pouvez vendre votre &eacute;quipement &agrave; l'aide de trois unit&eacute;s diff&eacute;rentes : 
 		
-		
+		<input type='textbox' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeypress="chiffres(event, false);">
+		unit&eacute;(s) de 
+		<select name="valeur_3" id="valeur_3">
+	 		<option value="-1">(Choisis une unit&eacute;)</option>
+			<? foreach($this->unites as $u) :?>
+				<option value="<?=$u["nom_systeme_type_unite"] ?>"><?=htmlentities($u["nom_type_unite"]) ?> </option>
+			<? endforeach; ?>
+		</select> OU 
+		<br>
+		<input type='textbox' maxlength='4' size='4' name='valeur_4' id='valeur_4' value='' onkeypress="chiffres(event, false);">
+		unit&eacute;(s) de 
+		<select name="valeur_5" id="valeur_5">
+	 		<option value="-1">(Choisis une unit&eacute;)</option>
+			<? foreach($this->unites as $u) :?>
+				<option value="<?=$u["nom_systeme_type_unite"] ?>"><?=htmlentities($u["nom_type_unite"]) ?> </option>
+			<? endforeach; ?>
+		</select> OU
+		<br>
+		<input type='textbox' maxlength='4' size='4' name='valeur_6' id='valeur_6' value='' onkeypress="chiffres(event, false);">
+		unit&eacute;(s) de 
+		<select name="valeur_7" id="valeur_7">
+	 		<option value="-1">(Choisis une unit&eacute;)</option>
+			<? foreach($this->unites as $u) :?>
+				<option value="<?=$u["nom_systeme_type_unite"] ?>"><?=htmlentities($u["nom_type_unite"]) ?> </option>
+			<? endforeach; ?>
+		</select>
+		<br>
 	<? else: ?>
 		Vous n'avez aucun &eacute;quipement en r&eacut;serve
 	<? endif; ?>

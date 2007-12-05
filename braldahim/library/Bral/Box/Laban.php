@@ -32,6 +32,7 @@ class Bral_Box_Laban {
 		foreach ($partiePlantes as $p) {
 			$tabPartiePlantes[] = array(
 			"nom_type" => $p["nom_type_partieplante"],
+			"nom_plante" => $p["nom_type_plante"],
 			"quantite" => $p["quantite_laban_partieplante"],
 			);
 		}

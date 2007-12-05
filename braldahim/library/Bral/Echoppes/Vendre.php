@@ -16,6 +16,10 @@ class Bral_Echoppes_Vendre extends Bral_Echoppes_Echoppe {
 	function prepareCommun() {
 		Zend_Loader::loadClass("EchoppeEquipement");
 		Zend_Loader::loadClass("Echoppe");
+		Zend_Loader::loadClass("TypeUnite");
+		Zend_Loader::loadClass("TypeMinerai");
+		Zend_Loader::loadClass("TypePlante");
+		Zend_Loader::loadClass("TypePartiePlante");
 		
 		$id_echoppe = $this->request->get("valeur_1");
 		
@@ -59,6 +63,57 @@ class Bral_Echoppes_Vendre extends Bral_Echoppes_Echoppe {
 		}
 		$this->view->equipementsArriereBoutique = $tabEquipementsArriereBoutique;
 		$this->view->nbEquipementsArriereBoutique = count($tabEquipementsArriereBoutique);
+		
+		$typeUniteTable = new TypeUnite();
+		$typeUniteRowset = $typeUniteTable->fetchall(null, "nom_type_unite");
+		$typeUniteRowset = $typeUniteRowset->toArray();
+		
+		foreach($typeUniteRowset as $t) {
+			$unites[] = array("nom_systeme_type_unite" => $t["nom_systeme_type_unite"] ,
+							  "nom_type_unite" => $t["nom_type_unite"]);
+		}
+		
+		$typeMineraiTable = new TypeMinerai();
+		$typeMineraiRowset = $typeMineraiTable->fetchall(null, "nom_type_minerai");
+		$typeMineraiRowset = $typeMineraiRowset->toArray();
+		
+		foreach($typeMineraiRowset as $t) {
+			$unites[] = array("nom_systeme_type_unite" => "minerai:".$t["nom_systeme_type_minerai"] ,
+							  "nom_type_unite" => "Minerai : ".$t["nom_type_minerai"]);
+		}
+		
+		$typePartiePlanteTable = new TypePartiePlante();
+		$typePartiePlanteRowset = $typePartiePlanteTable->fetchall(null, "nom_type_partieplante");
+		$typePartiePlanteRowset = $typePartiePlanteRowset->toArray();
+		foreach($typePartiePlanteRowset as $t) {
+			$partiePlante[$t["id_type_partieplante"]] = array("nom_partieplante" => $t["nom_type_partieplante"],
+															  "nom_systeme_partieplante" => $t["nom_systeme_type_partieplante"]);
+		}
+		
+		$typePlanteTable = new TypePlante();
+		$typePlanteRowset = $typePlanteTable->fetchall(null, "nom_type_plante");
+		$typePlanteRowset = $typePlanteRowset->toArray();
+		foreach($typePlanteRowset as $t) {
+			$unites[] = array("nom_systeme_type_unite" => "plante:".$t["nom_systeme_type_plante"] ,
+							  "nom_type_unite" => "Plante : ".$t["nom_type_plante"]. ' '.$partiePlante[$t["id_fk_partieplante1_type_plante"]]["nom_partieplante"] );
+			if ($t["id_fk_partieplante2_type_plante"] != "") {
+			$unites[] = array("nom_systeme_type_unite" => "plante:".$t["nom_systeme_type_plante"] ,
+							  "nom_type_unite" => "Plante : ".$t["nom_type_plante"]. ' '.$partiePlante[$t["id_fk_partieplante2_type_plante"]]["nom_partieplante"] );
+				
+			}
+			if ($t["id_fk_partieplante3_type_plante"] != "") {
+			$unites[] = array("nom_systeme_type_unite" => "plante:".$t["nom_systeme_type_plante"] ,
+							  "nom_type_unite" => "Plante : ".$t["nom_type_plante"]. ' '.$partiePlante[$t["id_fk_partieplante3_type_plante"]]["nom_partieplante"] );
+				
+			}
+			if ($t["id_fk_partieplante4_type_plante"] != "") {
+			$unites[] = array("nom_systeme_type_unite" => "plante:".$t["nom_systeme_type_plante"] ,
+							  "nom_type_unite" => "Plante : ".$t["nom_type_plante"]. ' '.$partiePlante[$t["id_fk_partieplante4_type_plante"]]["nom_partieplante"] );
+				
+			}
+		}
+		
+		$this->view->unites = $unites;
 	}
 
 	function prepareFormulaire() {

@@ -14,4 +14,5 @@ class TypePlante extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
+	
 }

@@ -95,6 +95,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			$tab[$i]["id_fk"] = -1;
 			$cueillette[$i]["quantite"] = 0;
 			$cueillette[$i]["id_fk"] = -1;
+			$cueillette[$i]["id_type_plante"] = $plante["id_fk_type_plante"];
 			if ($i == 1 && $plante["partie_1_plante"] > 0) {
 				$tab[$i]["id_fk"] = $plante["id_fk_partie_1"];
 				$tab[$i]["quantite"] = $plante["partie_1_plante"];
@@ -159,7 +160,8 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 				if ($cueillette[$i]["quantite"] > 0) {
 					$data = array(
 					'id_fk_type_laban_partieplante' => $cueillette[$i]["id_fk"],
-					'id_hobbit_laban_partieplante' => $this->view->user->id_hobbit,
+					'id_fk_type_plante_laban_partieplante' => $cueillette[$i]["id_type_plante"],
+					'id_fk_hobbit_laban_partieplante' => $this->view->user->id_hobbit,
 					'quantite_laban_partieplante' => $cueillette[$i]["quantite"],
 					);
 					$labanPartiePlanteTable->insertOrUpdate($data);

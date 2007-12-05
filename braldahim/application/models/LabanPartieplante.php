@@ -9,8 +9,11 @@ class LabanPartieplante extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('laban_partieplante', '*')
 		->from('type_partieplante', '*')
-		->where('id_hobbit_laban_partieplante = '.intval($id_hobbit))
-		->where('laban_partieplante.id_fk_type_laban_partieplante = type_partieplante.id_type_partieplante');
+		->from('type_plante', '*')
+		->where('id_fk_hobbit_laban_partieplante = '.intval($id_hobbit))
+		->where('laban_partieplante.id_fk_type_laban_partieplante = type_partieplante.id_type_partieplante')
+		->where('laban_partieplante.id_fk_type_plante_laban_partieplante = type_plante.id_type_plante')
+		->order(array('nom_type_plante', 'nom_type_partieplante'));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
@@ -21,7 +24,8 @@ class LabanPartieplante extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('laban_partieplante', 'count(*) as nombre, quantite_laban_partieplante as quantite')
 		->where('id_fk_type_laban_partieplante = ?',$data["id_fk_type_laban_partieplante"])
-		->where('id_hobbit_laban_partieplante = ?',$data["id_hobbit_laban_partieplante"])
+		->where('id_fk_hobbit_laban_partieplante = ?',$data["id_fk_hobbit_laban_partieplante"])
+		->where('id_fk_type_plante_laban_partieplante = ?',$data["id_fk_type_plante_laban_partieplante"])
 		->group('quantite');
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
@@ -33,7 +37,8 @@ class LabanPartieplante extends Zend_Db_Table {
 			$quantite = $resultat[0]["quantite"];
 			$dataUpdate = array('quantite_laban_partieplante' => $quantite + $data["quantite_laban_partieplante"]);
 			$where = ' id_fk_type_laban_partieplante = '.$data["id_fk_type_laban_partieplante"];
-			$where .= ' AND id_hobbit_laban_partieplante = '.$data["id_hobbit_laban_partieplante"];
+			$where .= ' AND id_fk_hobbit_laban_partieplante = '.$data["id_fk_hobbit_laban_partieplante"];
+			$where .= ' AND id_fk_type_plante_laban_partieplante = '.$data["id_fk_type_plante_laban_partieplante"];
 			$this->update($dataUpdate, $where);
 		}
 	}
