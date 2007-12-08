@@ -16,13 +16,14 @@
       	if ($p["quantite_arriere"] > 0) :
       		$enter = true;
 	    	if ($i % 3 == 0) echo "<tr>"; 
-	    	$textPlante = "Type : ".htmlentities($p["nom_type"]). "<br>"; 
+	    	$textPlante = "Plante : ".htmlentities($p["nom_plante"]). "<br>"; 
+	    	$textPlante = "Partie : ".htmlentities($p["nom_type"]). "<br>"; 
 	    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite_arriere"])."<br>";
 	    	?>
-	    	<td onmouseover="return overlib('<?=$textPlante?>',CAPTION,'<?=htmlentities($p["nom_type"])?> - D&eacute;tails');"
+	    	<td onmouseover="return overlib('<?=$textPlante?>',CAPTION,'<?=htmlentities($p["nom_plante"])?> : <?=htmlentities($p["nom_type"])?> - D&eacute;tails');"
 	      		onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'Plante <?=htmlentities($p["nom_type"])?> - D&eacute;tails', CLOSECLICK, EXCLUSIVE);"
 	      		onmouseout="return nd();">
-	    		<?=htmlentities($p["nom_type"])?> - Quantit&eacute;: <?=$p["quantite_arriere"]?>
+	    		<?=htmlentities($p["nom_plante"])?> : <?=$p["quantite_arriere"]?> <?=htmlentities($p["nom_type"])?><? if ($p["quantite_arriere"] > 0) echo "s"; ?>
 	    	</td>
 	    	<? if ($i % 3 == 2) echo "</tr>"; 
 	    	$i++; 
@@ -48,13 +49,14 @@
       	if ($p["quantite_preparee"] > 0) :
       		$enter = true;
 	    	if ($i % 3 == 0) echo "<tr>"; 
-	    	$textPlante = "Type : ".htmlentities($p["nom_type"]). "<br>"; 
+	    	$textPlante = "Plante : ".htmlentities($p["nom_plante"]). "<br>"; 
+	    	$textPlante = "Partie : ".htmlentities($p["nom_type"]). "<br>"; 
 	    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite_preparee"])."<br>";
 	    	?>
-	    	<td onmouseover="return overlib('<?=$textPlante?>',CAPTION,'<?=htmlentities($p["nom_type"])?> - D&eacute;tails');"
+	    	<td onmouseover="return overlib('<?=$textPlante?>',CAPTION,'<?=htmlentities($p["nom_plante"])?> <?=htmlentities($p["nom_type"])?> - D&eacute;tails');"
 	      		onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'Plante <?=htmlentities($p["nom_type"])?> - D&eacute;tails', CLOSECLICK, EXCLUSIVE);"
 	      		onmouseout="return nd();">
-	    		<?=htmlentities($p["nom_type"])?> - Quantit&eacute;: <?=$p["quantite_preparee"]?>
+	    		<?=htmlentities($p["nom_plante"])?> : <?=$p["quantite_preparee"]?> <?=htmlentities($p["nom_type"])?><? if ($p["quantite_preparee"]>0) echo "s"; ?>
 	    	</td>
 	    	<? if ($i % 3 == 2) echo "</tr>"; 
 	    	$i++; 

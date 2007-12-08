@@ -48,6 +48,8 @@ class CompetencesController extends Zend_Controller_Action {
 					$this->xml_response->add_entry($xml_entry);
 				}
 				if ($competence->getIdEchoppeCourante() !== false) {
+					$xml_entry = new Bral_Xml_Entry();
+					$xml_entry->set_type("display");
 					$c = Bral_Echoppes_Factory::getVoir($this->_request, $this->view, $competence->getIdEchoppeCourante());
 					$xml_entry->set_valeur($c->getNomInterne());
 					$xml_entry->set_data($c->render());

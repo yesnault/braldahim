@@ -108,6 +108,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 			foreach ($partiePlantes as $p) {
 				$tabPartiePlantes[] = array(
 				"nom_type" => $p["nom_type_partieplante"],
+				"nom_plante" => $p["nom_type_plante"],
 				"quantite_caisse" => $p["quantite_caisse_echoppe_partieplante"],
 				"quantite_arriere" => $p["quantite_arriere_echoppe_partieplante"],
 				"quantite_preparee" => $p["quantite_preparee_echoppe_partieplante"],
@@ -152,8 +153,8 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$tabEquipementsArriereBoutique = null;
 		$tabEquipementsEtal = null;
 		$echoppeEquipementTable = new EchoppeEquipement();
-		$equipements = $echoppeEquipementTable->findByIdEchoppeArriereBoutique($idEchoppe);
-
+		$equipements = $echoppeEquipementTable->findByIdEchoppe($idEchoppe);
+		
 		if (count($equipements) > 0) {
 			foreach($equipements as $e) {
 				if ($e["type_vente_echoppe_equipement"] == "aucune") {
@@ -177,6 +178,9 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->view->nbEquipementsArriereBoutique = count($tabEquipementsArriereBoutique);
 		$this->view->equipementsEtal = $tabEquipementsEtal;
 		$this->view->nbEquipementsEtal = count($tabEquipementsEtal);
-		
+	}
+	
+	public function getIdEchoppeCourante() {
+		return false;
 	}
 }

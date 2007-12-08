@@ -1,11 +1,12 @@
 <div class='comp_titre'>Mettre en vente un &eacute;quipement</div>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='8'>
+ <input type='hidden' id='valeur_1' name='valeur_1' value='<?=$this->idEchoppe ?>'>
  <form name='myForm'>
  <div class='comp_contenu'>
 	<br>
 	<? if ($this->nbEquipementsArriereBoutique > 0): ?>
-		Vous pouvez mettre en vente en &eacute;quipement pr&eacute;sent dans la r&eacute;serve : <br>
-		<select name="valeur_1" id="valeur_1"  onChange="javascript:if ($('valeur_1').value==-1){$('bouton_cueillir').disabled=true } else {$('bouton_cueillir').disabled=false }">
+		Vous pouvez mettre en vente un &eacute;quipement pr&eacute;sent dans la r&eacute;serve : <br>
+		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value=='' || $('valeur_4').value==-1 ){$('bouton_vendre').disabled=true } else {$('bouton_vendre').disabled=false }">
 	 		<option value="-1">(Choisis un &eacute;quipement)</option>
 			<? foreach($this->equipementsArriereBoutique as $e) :?>
 				<option value="<?=$e["id_echoppe_equipement"] ?>"><?=htmlentities($e["nom"]) ?> : qualit&eacute; <?=htmlentities($e["qualite"]) ?>,
@@ -14,32 +15,32 @@
 		</select>
 		<br><br>
 		
-		Vous pouvez vendre votre &eacute;quipement &agrave; l'aide de trois unit&eacute;s diff&eacute;rentes : 
+		Vous pouvez vendre l'&eacute;quipement &agrave; l'aide de trois unit&eacute;s diff&eacute;rentes : 
 		
-		<input type='textbox' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeypress="chiffres(event, false);">
+		<input type='textbox' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeypress="chiffres(event, false);" onChange="if ($('valeur_2').value==-1 || $('valeur_3').value=='' || $('valeur_4').value==-1 ){$('bouton_vendre').disabled=true } else {$('bouton_vendre').disabled=false }">
 		unit&eacute;(s) de 
-		<select name="valeur_3" id="valeur_3">
+		<select name="valeur_4" id="valeur_4" onChange="if ($('valeur_2').value==-1 || $('valeur_3').value=='' || $('valeur_4').value==-1 ){$('bouton_vendre').disabled=true } else {$('bouton_vendre').disabled=false }">
 	 		<option value="-1">(Choisis une unit&eacute;)</option>
-			<? foreach($this->unites as $u) :?>
-				<option value="<?=$u["nom_systeme_type_unite"] ?>"><?=htmlentities($u["nom_type_unite"]) ?> </option>
+			<? foreach($this->unites as $k => $u) :?>
+				<option value="<?=$k ?>"><?=htmlentities($u["nom_type_unite"]) ?> </option>
 			<? endforeach; ?>
 		</select> OU 
 		<br>
-		<input type='textbox' maxlength='4' size='4' name='valeur_4' id='valeur_4' value='' onkeypress="chiffres(event, false);">
+		<input type='textbox' maxlength='4' size='4' name='valeur_5' id='valeur_5' value='' onkeypress="chiffres(event, false);" onChange="if ($('valeur_2').value==-1 || $('valeur_3').value=='' || $('valeur_4').value==-1 ){$('bouton_vendre').disabled=true } else {$('bouton_vendre').disabled=false }">
 		unit&eacute;(s) de 
-		<select name="valeur_5" id="valeur_5">
+		<select name="valeur_6" id="valeur_6">
 	 		<option value="-1">(Choisis une unit&eacute;)</option>
-			<? foreach($this->unites as $u) :?>
-				<option value="<?=$u["nom_systeme_type_unite"] ?>"><?=htmlentities($u["nom_type_unite"]) ?> </option>
+			<? foreach($this->unites as $k => $u) :?>
+				<option value="<?=$k ?>"><?=htmlentities($u["nom_type_unite"]) ?> </option>
 			<? endforeach; ?>
 		</select> OU
 		<br>
-		<input type='textbox' maxlength='4' size='4' name='valeur_6' id='valeur_6' value='' onkeypress="chiffres(event, false);">
+		<input type='textbox' maxlength='4' size='4' name='valeur_7' id='valeur_7' value='' onkeypress="chiffres(event, false);" onChange="if ($('valeur_2').value==-1 || $('valeur_3').value=='' || $('valeur_4').value==-1 ){$('bouton_vendre').disabled=true } else {$('bouton_vendre').disabled=false }">
 		unit&eacute;(s) de 
-		<select name="valeur_7" id="valeur_7">
+		<select name="valeur_8" id="valeur_8">
 	 		<option value="-1">(Choisis une unit&eacute;)</option>
-			<? foreach($this->unites as $u) :?>
-				<option value="<?=$u["nom_systeme_type_unite"] ?>"><?=htmlentities($u["nom_type_unite"]) ?> </option>
+			<? foreach($this->unites as $k => $u) :?>
+				<option value="<?=$k ?>"><?=htmlentities($u["nom_type_unite"]) ?> </option>
 			<? endforeach; ?>
 		</select>
 		<br>
@@ -50,7 +51,7 @@
 
 </form>
 <br>
-<?php if ($this->nbEquipementsArriereBoutique > 0) : ?>
-<input type='button' class='button1' id='bouton_vendre' value='Mettre en vente !' onClick='this.disabled=true;_get_("/echoppes/DoAction?caction=do_competence_vendre");' disabled>
+<?php if ($this->vendreOk > 0) : ?>
+<input type='button' class='button1' id='bouton_vendre' value='Mettre en vente !' onClick='this.disabled=true;_get_("/echoppes/DoAction?caction=do_echoppes_vendre");' disabled>
 <? endif ?>
 <? include("commun_fermer.phtml") ?>

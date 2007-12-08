@@ -105,6 +105,10 @@ class Bral_Echoppes_Liste extends Bral_Echoppes_Echoppe {
 		$this->view->nom_interne = $this->getNomInterne();
 	}
 
+	public function getIdEchoppeCourante() {
+		return false;
+	}
+	
 	function prepareFormulaire() {
 	}
 

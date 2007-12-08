@@ -9,8 +9,10 @@ class EchoppePartieplante extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('echoppe_partieplante', '*')
 		->from('type_partieplante', '*')
+		->from('type_plante', '*')
 		->where('id_fk_echoppe_echoppe_partieplante = '.intval($id_echoppe))
-		->where('echoppe_partieplante.id_fk_type_echoppe_partieplante = type_partieplante.id_type_partieplante');
+		->where('echoppe_partieplante.id_fk_type_echoppe_partieplante = type_partieplante.id_type_partieplante')
+		->where('echoppe_partieplante.id_fk_type_plante_echoppe_partieplante = type_plante.id_type_plante');
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
@@ -25,6 +27,7 @@ class EchoppePartieplante extends Zend_Db_Table {
 		.' quantite_preparees_echoppe_minerai as quantitePreparee')
 		->where('id_fk_type_echoppe_partieplante = ?',$data["id_fk_type_echoppe_partieplante"])
 		->where('id_fk_echoppe_echoppe_partieplantefk_fk_ = ?',$data["id_fk_echoppe_echoppe_partieplante"])
+		->where('id_fk_type_plante_echoppe_partieplante = ?', $data["id_fk_type_plante_echoppe_partieplante"])
 		->group('quantite');
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
@@ -52,6 +55,7 @@ class EchoppePartieplante extends Zend_Db_Table {
 			);
 			$where = ' id_fk_type_echoppe_partieplante = '.$data["id_fk_type_echoppe_partieplante"];
 			$where .= ' AND id_fk_echoppe_echoppe_partieplante = '.$data["id_fk_echoppe_echoppe_partieplante"];
+			$where .= ' AND id_fk_type_plante_echoppe_partieplante = '.$data["id_fk_type_plante_echoppe_partieplante"];
 			$this->update($dataUpdate, $where);
 		}
 	}

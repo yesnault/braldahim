@@ -41,7 +41,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 		for ($i=2 ;$i<=$this->view->n_hobbits*2; $i=$i+2) {
 			$tab["px_recu"] = 0;
 			$tab["id_hobbit"] = (int)$this->request->get("valeur_".($i-1));
-			if (((int)$this->request->get("valeur_".$i).""!=$this->request->get("valeur_".$i)."")) {
+			if ((int)$this->request->get("valeur_".$i).""!=$this->request->get("valeur_".$i)."") {
 				throw new Zend_Exception(get_class($this)." Valeur invalide : i=$i val=".$this->request->get("valeur_".$i));
 			} else {
 				$tab["px_recu"] = (int)$this->request->get("valeur_".$i);

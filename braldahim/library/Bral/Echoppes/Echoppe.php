@@ -28,7 +28,8 @@ abstract class Bral_Echoppes_Echoppe {
 	abstract function prepareResultat();
 	abstract function getListBoxRefresh();
 	abstract function getNomInterne();
-
+	abstract function getIdEchoppeCourante();
+	
 	function render() {
 		switch($this->action) {
 			case "ask":
@@ -60,4 +61,5 @@ abstract class Bral_Echoppes_Echoppe {
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
 	}
+	
 }
