@@ -38,9 +38,15 @@ class EchoppeMinerai extends Zend_Db_Table {
 			$quantiteArriere = $resultat[0]["quantiteArriere"];
 			$quantiteLingots = $resultat[0]["quantiteLingots"];
 			
-			$quantiteCaisse = $quantiteCaisse + $data["quantite_caisse_echoppe_minerai"];
-			$quantiteArriere = $quantiteArriere + $data["quantite_arriere_echoppe_minerai"];
-			$quantiteLingots = $quantiteLingots + $data["quantite_lingots_echoppe_minerai"];
+			if (isset($data["quantite_caisse_echoppe_minerai"])) {
+				$quantiteCaisse = $quantiteCaisse + $data["quantite_caisse_echoppe_minerai"];
+			}
+			if (isset($data["quantite_arriere_echoppe_minerai"])) {
+				$quantiteArriere = $quantiteArriere + $data["quantite_arriere_echoppe_minerai"];
+			}
+			if (isset($data["quantite_lingots_echoppe_minerai"])) {
+				$quantiteLingots = $quantiteLingots + $data["quantite_lingots_echoppe_minerai"];
+			}
 			
 			if ($quantiteCaisse < 0) $quantiteCaisse = 0;
 			if ($quantiteArriere < 0) $quantiteArriere = 0;

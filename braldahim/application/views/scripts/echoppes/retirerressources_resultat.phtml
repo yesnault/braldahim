@@ -1,14 +1,15 @@
 <div class='comp_titre'>Retirer des mati&egrave;res premi&egrave;res</div>
  <div class='comp_contenu'>
 	 <div id='retirerressources_text' style="display:block"  onClick="javascript:switch2div('retirerressources_text','retirerressources_copie');">
-		Vous avez retir&eacute; les mati&egrave;res premi&egraves;res suivantes : <br>
-		TODO
+		Vous avez retir&eacute; les &eacute;l&eacute;ments suivants : <br>
+		<?=htmlentities($this->elementsRetires) ?>
 		<br>
 	 </div>
 	 
 	 <div id='retirerressources_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
-		echo "Vous avez retir&eacute; les mati&egrave;res premi&egraves;res suivantes : ";
+		echo "Vous avez retir&eacute; les &eacute;l&eacute;ments suivants : ";
+		echo htmlentities($this->elementsRetires);
 	?>
 	</textarea>
 	</div>

@@ -115,12 +115,12 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 				"nom_plante" => $p["nom_type_plante"],
 				"quantite_caisse" => $p["quantite_caisse_echoppe_partieplante"],
 				"quantite_arriere" => $p["quantite_arriere_echoppe_partieplante"],
-				"quantite_preparee" => $p["quantite_preparee_echoppe_partieplante"],
+				"quantite_preparee" => $p["quantite_preparees_echoppe_partieplante"],
 				);
 
 				$this->view->nb_caissePartiePlantes = $this->view->nb_caissePartiePlantes + $p["quantite_caisse_echoppe_partieplante"];
 				$this->view->nb_arrierePartiePlantes = $this->view->nb_arrierePartiePlantes + $p["quantite_arriere_echoppe_partieplante"];
-				$this->view->nb_prepareePartiePlantes = $this->view->nb_prepareePartiePlantes  + $p["quantite_preparee_echoppe_partieplante"];
+				$this->view->nb_prepareePartiePlantes = $this->view->nb_prepareePartiePlantes  + $p["quantite_preparees_echoppe_partieplante"];
 			}
 		}
 

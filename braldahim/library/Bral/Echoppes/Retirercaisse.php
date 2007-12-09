@@ -21,7 +21,9 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 
 		$tabEchoppe = null;
 		foreach ($echoppes as $e) {
-			if ($e["id_echoppe"] == $id_echoppe) {
+			if ($e["id_echoppe"] == $id_echoppe && 
+				$e["x_echoppe"] == $this->view->user->x_hobbit && 
+				$e["y_echoppe"] == $this->view->user->y_hobbit) {
 				$tabEchoppe = array(
 				'id_echoppe' => $e["id_echoppe"],
 				'quantite_rondin_caisse_echoppe' => $e["quantite_rondin_caisse_echoppe"],
@@ -45,11 +47,11 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 		}
 		$this->prepareCommunRessources($tabEchoppe["id_echoppe"]);
 		
-		$this->view->charetteOk = false;
+		$this->view->charretteOk = false;
 		$charretteTable = new Charrette();
 		$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
 		if ($nombre > 0) {
-			$this->view->charetteOk = true;
+			$this->view->charretteOk = true;
 		}
 		
 		$this->view->idEchoppe = $id_echoppe;
@@ -72,18 +74,33 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 		} else {
 			$nb_castars = (int)$nb_castars;
 		}
+		if ($nb_castars > $this->view->echoppe["quantite_castar_caisse_echoppe"]) {
+			throw new Zend_Exception(get_class($this)." NB Castars interdit=".$nb_castars);
+		}
 		if ((int) $nb_rondins."" != $this->request->get("valeur_3")."") {
 			throw new Zend_Exception(get_class($this)." NB Rondins invalide=".$nb_rondins);
 		} else {
 			$nb_rondins = (int)$nb_rondins;
+		}
+		if ($nb_rondins > $this->view->echoppe["quantite_rondin_caisse_echoppe"]) {
+			throw new Zend_Exception(get_class($this)." NB Rondin interdit=".$nb_rondins);
 		}
 		if ((int) $nb_peau."" != $this->request->get("valeur_4")."") {
 			throw new Zend_Exception(get_class($this)." NB Peau invalide=".$nb_peau);
 		} else {
 			$nb_peau = (int)$nb_peau;
 		}
+		if ($nb_peau > $this->view->echoppe["quantite_peau_caisse_echoppe"]) {
+			throw new Zend_Exception(get_class($this)." NB Peau interdit=".$nb_peau);
+		}
 		
+		$this->view->elementsRetires = "";
 		$this->calculEchoppe($nb_rondins, $nb_peau, $nb_castars);
+		$this->calculPartiesPlantes();
+		$this->calculMinerais();
+		if ($this->view->elementsRetires != "") {
+			$this->view->elementsRetires = substr($this->view->elementsRetires, 0, -2);
+		}
 	}
 	
 	
@@ -93,49 +110,142 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 		
 		$echoppeTable = new Echoppe();
 		
-		// on place dans le laban
-		$labanTable = new Laban();
-		$data = array(
-			'id_hobbit_laban' => $this->view->user->id_hobbit,
-			'quantite_peau_laban' => $nb_peau,
-		);
-		$labanTable->insertOrUpdate($data);
-		
-		// on place dans la charette
-		if ($this->view->charetteOk === true) {
-			$charretteTable = new Charrette();
+		if ($nb_peau > 0) {
+			// on place dans le laban
+			$labanTable = new Laban();
 			$data = array(
-				'quantite_rondin_charrette' => $nb_rondins,
-				'id_hobbit_charrette' => $this->view->user->id_hobbit,
+				'id_hobbit_laban' => $this->view->user->id_hobbit,
+				'quantite_peau_laban' => $nb_peau,
 			);
-			$charretteTable->updateCharrette($data);
-			
-			$nb_rondins = $this->view->echoppe["quantite_rondin_caisse_echoppe"] - $nb_rondins;
-		} else {
-			$nb_rondins = $this->view->echoppe["quantite_rondin_caisse_echoppe"];
+			$labanTable->insertOrUpdate($data);
+			$this->view->elementsRetires .= $nb_peau. " peau";
+			if ($nb_peau > 1) $this->view->elementsRetires .= "x";
+			$this->view->elementsRetires .= ", ";
 		}
 		
-		$nb_peau = $this->view->echoppe["quantite_peau_caisse_echoppe"] - $nb_peau;
-		$nb_castars = $this->view->echoppe["quantite_castar_caisse_echoppe"] - $nb_castars;
+		if ($nb_rondins > 0) {
+			// on place dans la charette
+			if ($this->view->charretteOk === true) {
+				$charretteTable = new Charrette();
+				$data = array(
+					'quantite_rondin_charrette' => $nb_rondins,
+					'id_hobbit_charrette' => $this->view->user->id_hobbit,
+				);
+				$charretteTable->updateCharrette($data);
+				
+				$this->view->elementsRetires .= $nb_rondins. " rondin";
+				if ($nb_rondins > 1) $this->view->elementsRetires .= "s";
+				$this->view->elementsRetires .= ", ";
+				
+				$nb_rondins = $this->view->echoppe["quantite_rondin_caisse_echoppe"] - $nb_rondins;
+			} else {
+				$nb_rondins = $this->view->echoppe["quantite_rondin_caisse_echoppe"];
+			}
+		}
+		
 		if ($nb_peau < 0) $nb_peau = 0;
 		if ($nb_castars < 0) $nb_castars = 0;
 		
 		$data = array(
 				'quantite_rondin_caisse_echoppe' => $nb_rondins,
-				'quantite_peau_caisse_echoppe' => $nb_peau,
-				'quantite_castar_caisse_echoppe' => $nb_castars,
+				'quantite_peau_caisse_echoppe' => $this->view->echoppe["quantite_peau_caisse_echoppe"] - $nb_peau,
+				'quantite_castar_caisse_echoppe' => $this->view->echoppe["quantite_castar_caisse_echoppe"] - $nb_castars,
 		);
 		$where = "id_echoppe=".$this->view->echoppe["id_echoppe"];
 		$echoppeTable->update($data, $where);
 		
-		$hobbitTable = new Hobbit();
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit + $nb_castars;
-		$data = array(
-		'castars_hobbit'  => $this->view->user->castars_hobbit,
-		);
-		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
+		if ($nb_castars > 0) {
+			$hobbitTable = new Hobbit();
+			$this->view->user->castars_hobbit = $this->view->user->castars_hobbit + $nb_castars;
+			$data = array(
+			'castars_hobbit'  => $this->view->user->castars_hobbit,
+			);
+			$where = "id_hobbit=".$this->view->user->id_hobbit;
+			$hobbitTable->update($data, $where);
 		
+			$this->view->elementsRetires .= $nb_castars . " castar";
+			if ($nb_castars > 0) $this->view->elementsRetires .= "s";
+			$this->view->elementsRetires .= ", ";
+			
+		}
+		
+	}
+	
+	private function calculPartiesPlantes() {
+		Zend_Loader::loadClass("EchoppePartiePlante");
+		Zend_Loader::loadClass('LabanPartieplante');
+		
+		$echoppePartiePlanteTable = new EchoppePartieplante();
+		$labanPartiePlanteTable = new LabanPartieplante();
+		
+		for($i=5; $i<=$this->view->valeur_fin_partieplantes; $i++) {
+			$nb = $this->request->get($indice);
+			if ((int) $nb."" != $this->request->get("valeur_".$i)."") {
+				throw new Zend_Exception(get_class($this)." NB Partie Plante invalide=".$nb);
+			} else {
+				$nb = (int)$nb;
+			}
+			if ($nb > $this->view->partieplantes[$indice]["quantite_caisse"]) {
+				throw new Zend_Exception(get_class($this)." NB Partie Plante interdit=".$nb);
+			}
+			if ($nb > 0) {
+				$data = array('quantite_caisse_echoppe_partieplante' => -$nb,
+							  'id_fk_type_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_echoppe_partieplante"],
+							  'id_fk_type_plante_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_echoppe_partieplante"],
+							  'id_fk_echoppe_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_echoppe_echoppe_partieplante"]);
+				$echoppePartiePlanteTable->insertOrUpdate($data);
+				
+				$data = array(
+						'id_fk_type_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_echoppe_partieplante"],
+						'id_fk_type_plante_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_echoppe_partieplante"],
+						'id_fk_hobbit_laban_partieplante' => $this->view->user->id_hobbit,
+						'quantite_laban_partieplante' => $nb,
+				);
+				$labanPartiePlanteTable->insertOrUpdate($data);
+			}
+			
+			$this->view->elementsRetires .= $this->view->partieplantes[$indice]["nom_plante"]. " : ".$nb. " ".$this->view->partieplantes[$indice]["nom_type"];
+			if ($nb > 0) $this->view->elementsRetires .= "s";
+			$this->view->elementsRetires .= ", ";
+		}
+	}
+
+	private function calculMinerais() {
+		Zend_Loader::loadClass("EchoppeMinerai");
+		Zend_Loader::loadClass('LabanMinerai');
+		
+		$echoppeMineraiTable = new EchoppeMinerai();
+		$labanMineraiTable = new LabanMinerai();
+		
+		for($i=$this->view->valeur_fin_partieplantes + 1; $i<=$this->view->nb_valeurs; $i++) {
+			$indice = "valeur_".$i;
+			$nb = $this->request->get($indice);
+			if ((int) $nb."" != $this->request->get($indice)."") {
+				throw new Zend_Exception(get_class($this)." NB Minerai invalide=".$nb);
+			} else {
+				$nb = (int)$nb;
+			}
+			if ($nb > $this->view->minerais[$indice]["quantite_caisse"]) {
+				throw new Zend_Exception(get_class($this)." NB Minerais interdit=".$nb);
+			}
+			if ($nb > 0) {
+				$data = array('quantite_caisse_echoppe_minerai' => -$nb,
+							  'id_fk_type_echoppe_minerai' => $this->view->minerais[$indice]["id_fk_type_echoppe_minerai"],
+							  'id_fk_echoppe_echoppe_minerai' => $this->view->minerais[$indice]["id_fk_echoppe_echoppe_minerai"]);
+				$echoppeMineraiTable->insertOrUpdate($data);
+				
+				$data = array(
+				'id_fk_type_laban_minerai' => $this->view->minerais[$indice]["id_fk_type_echoppe_minerai"],
+				'id_hobbit_laban_minerai' => $this->view->user->id_hobbit,
+				'quantite_laban_minerai' => $nb,
+				);
+		
+				$labanMineraiTable->insertOrUpdate($data);
+			}
+			
+			$this->view->elementsRetires .= $this->view->minerais[$indice]["type"]. " : ".$nb;
+			$this->view->elementsRetires .= ", ";
+		}
 	}
 	
 	private function prepareCommunRessources($idEchoppe) {
@@ -150,23 +260,30 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 		$this->view->nb_caissePartiePlantes = 0;
 		$this->view->nb_arrierePartiePlantes = 0;
 		$this->view->nb_prepareePartiePlantes = 0;
-
+		
 		if ($partiePlantes != null) {
 			foreach ($partiePlantes as $p) {
-				$this->view->nb_valeurs = $this->view->nb_valeurs + 1;
-				$tabPartiePlantes[] = array(
-				"nom_type" => $p["nom_type_partieplante"],
-				"nom_plante" => $p["nom_type_plante"],
-				"quantite_caisse" => $p["quantite_caisse_echoppe_partieplante"],
-				"indice_valeur" => $this->view->nb_valeurs,
-				);
 				if ($p["quantite_caisse_echoppe_partieplante"] > 0) {
-					$this->view->retirerCaisseOk = true;
+					$this->view->nb_valeurs = $this->view->nb_valeurs + 1;
+					$tabPartiePlantes["valeur_".$this->view->nb_valeurs] = array(
+					"nom_type" => $p["nom_type_partieplante"],
+					"nom_plante" => $p["nom_type_plante"],
+					"id_fk_type_echoppe_partieplante" => $p["id_fk_type_echoppe_partieplante"],
+					"id_fk_type_plante_echoppe_partieplante" => $p["id_fk_type_plante_echoppe_partieplante"],
+					"id_fk_echoppe_echoppe_partieplante" => $p["id_fk_echoppe_echoppe_partieplante"],
+					"quantite_caisse" => $p["quantite_caisse_echoppe_partieplante"],
+					"indice_valeur" => $this->view->nb_valeurs,
+					);
+					if ($p["quantite_caisse_echoppe_partieplante"] > 0) {
+						$this->view->retirerCaisseOk = true;
+					}
+					$this->view->nb_caissePartiePlantes = $this->view->nb_caissePartiePlantes + $p["quantite_caisse_echoppe_partieplante"];
 				}
-				$this->view->nb_caissePartiePlantes = $this->view->nb_caissePartiePlantes + $p["quantite_caisse_echoppe_partieplante"];
 			}
 		}
-
+		
+		$this->view->valeur_fin_partieplantes = $this->view->nb_valeurs;
+		
 		$tabMinerais = null;
 		$echoppeMineraiTable = new EchoppeMinerai();
 		$minerais = $echoppeMineraiTable->findByIdEchoppe($idEchoppe);
@@ -177,16 +294,20 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 
 		if ($minerais != null) {
 			foreach ($minerais as $m) {
-				$this->view->nb_valeurs = $this->view->nb_valeurs + 1;
-				$tabMinerais[] = array(
-				"type" => $m["nom_type_minerai"],
-				"quantite_caisse" => $m["quantite_caisse_echoppe_minerai"],
-				"indice_valeur" => $this->view->nb_valeurs,
-				);
 				if ($m["quantite_caisse_echoppe_minerai"] > 0) {
-					$this->view->retirerCaisseOk = true;
+					$this->view->nb_valeurs = $this->view->nb_valeurs + 1;
+					$tabMinerais["valeur_".$this->view->nb_valeurs] = array(
+					"type" => $m["nom_type_minerai"],
+					"id_fk_echoppe_echoppe_minerai" => $m["id_fk_echoppe_echoppe_minerai"],
+					"id_fk_type_echoppe_minerai" => $m["id_fk_echoppe_echoppe_minerai"],
+					"quantite_caisse" => $m["quantite_caisse_echoppe_minerai"],
+					"indice_valeur" => $this->view->nb_valeurs,
+					);
+					if ($m["quantite_caisse_echoppe_minerai"] > 0) {
+						$this->view->retirerCaisseOk = true;
+					}
+					$this->view->nb_caisseMinerai = $this->view->nb_caisseMinerai + $m["quantite_caisse_echoppe_minerai"];
 				}
-				$this->view->nb_caisseMinerai = $this->view->nb_caisseMinerai + $m["quantite_caisse_echoppe_minerai"];
 			}
 		}
 
@@ -203,5 +324,6 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 	}
 	
 	function getListBoxRefresh() {
+		return array("box_laban", "box_charrette", "box_profil");
 	}
 }

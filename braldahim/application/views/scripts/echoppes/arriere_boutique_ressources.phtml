@@ -17,8 +17,8 @@
    <? if ($this->nb_arrierePartiePlantes == 0) : ?>
    	Aucune plante brute<br>
    <? else: ?>
-    <? if ($this->nb_arrierePartiePlantes==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_arrierePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plantes brute<?=$s?>: <br>
+    <? if ($this->nb_arrierePartiePlantes<=1):$s=''; else:$s='s';endif; ?>
+    <?=$this->nb_arrierePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plante<?=$s?>  brute<?=$s?>: <br>
     
     <table width='100%'>
     <? $i = 0;
@@ -34,7 +34,7 @@
 	    	<td onmouseover="return overlib('<?=$textPlante?>',CAPTION,'<?=htmlentities($p["nom_plante"])?> : <?=htmlentities($p["nom_type"])?> - D&eacute;tails');"
 	      		onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'Plante <?=htmlentities($p["nom_type"])?> - D&eacute;tails', CLOSECLICK, EXCLUSIVE);"
 	      		onmouseout="return nd();">
-	    		<?=htmlentities($p["nom_plante"])?> : <?=$p["quantite_arriere"]?> <?=htmlentities($p["nom_type"])?><? if ($p["quantite_arriere"] > 0) echo "s"; ?>
+	    		<?=htmlentities($p["nom_plante"])?> : <?=$p["quantite_arriere"]?> <?=htmlentities($p["nom_type"])?><? if ($p["quantite_arriere"] > 1) echo "s"; ?>
 	    	</td>
 	    	<? if ($i % 3 == 2) echo "</tr>"; 
 	    	$i++; 
@@ -50,8 +50,8 @@
    <? if ($this->nb_arrierePartiePlantes == 0) : ?>
    	Aucune plante pr&eacute;par&eacute;e<br>
    <? else: ?>
-    <? if ($this->nb_prepareePartiePlantes==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_prepareePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plantes pr&eacute;par&eacute;e<?=$s?>: <br>
+    <? if ($this->nb_prepareePartiePlantes<=1):$s=''; else:$s='s';endif; ?>
+    <?=$this->nb_prepareePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plante<?=$s?>  pr&eacute;par&eacute;e<?=$s?>: <br>
     
     <table width='100%'>
     <? $i = 0;
@@ -67,7 +67,7 @@
 	    	<td onmouseover="return overlib('<?=$textPlante?>',CAPTION,'<?=htmlentities($p["nom_plante"])?> <?=htmlentities($p["nom_type"])?> - D&eacute;tails');"
 	      		onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'Plante <?=htmlentities($p["nom_type"])?> - D&eacute;tails', CLOSECLICK, EXCLUSIVE);"
 	      		onmouseout="return nd();">
-	    		<?=htmlentities($p["nom_plante"])?> : <?=$p["quantite_preparee"]?> <?=htmlentities($p["nom_type"])?><? if ($p["quantite_preparee"]>0) echo "s"; ?>
+	    		<?=htmlentities($p["nom_plante"])?> : <?=$p["quantite_preparee"]?> <?=htmlentities($p["nom_type"])?><? if ($p["quantite_preparee"]>1) echo "s"; ?>
 	    	</td>
 	    	<? if ($i % 3 == 2) echo "</tr>"; 
 	    	$i++; 
@@ -84,7 +84,7 @@
    	Aucun minerai brut<br>
    <? else: ?>
    
-    <? if ($this->nb_arriereMinerai==1):$s=''; else:$s='s';endif; ?>
+    <? if ($this->nb_arriereMinerai<=1):$s=''; else:$s='s';endif; ?>
     <?=$this->nb_arriereMinerai?> minerai<?=$s?> brut<?=$s?>: <br>
     
     <table width='100%'>
@@ -112,7 +112,7 @@
    <? if ($this->nb_lingotsMinerai == 0) : ?>
    	Aucun lingot<br>
    <? else: ?>
-    <? if ($this->nb_lingotsMinerai==1):$s=''; else:$s='s';endif; ?>
+    <? if ($this->nb_lingotsMinerai<=1):$s=''; else:$s='s';endif; ?>
     <?=$this->nb_lingotsMinerai?> lingot<?=$s?> : <br>
     
     <table width='100%'>
@@ -137,11 +137,20 @@
     </table> 
     <? endif; ?>
     
+    <? if ($this->estSurEchoppe === true): 
+  		$disabled = "";
+  	?>
+  	<? else: 
+  		$disabled = "disabled" ;
+  	?>
+  		Vous n'&ecirc;tes pas dans votre &eacute;choppe, vous n'avez pas acc&egrave; aux actions...<br>
+  	<? endif; ?>
+    
     
     <input type="button" class='button1' value="Retirer des mati&egrave;res premi&egrave;res"
-       	   onClick="Javascript:_get_('/echoppes/DoAction?caction=ask_echoppes_retirerressources&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" />
+       	   onClick="Javascript:_get_('/echoppes/DoAction?caction=ask_echoppes_retirerressources&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')"  <?=$disabled ?>/>
        		<br>  
     <input type="button" class='button1' value="D&eacute;poser des mati&egrave;res premi&egrave;res"
-       	   onClick="Javascript:_get_('/echoppes/DoAction?caction=ask_echoppes_deposerressources&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" />
+       	   onClick="Javascript:_get_('/echoppes/DoAction?caction=ask_echoppes_deposerressources&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')"  <?=$disabled ?> />
     
     

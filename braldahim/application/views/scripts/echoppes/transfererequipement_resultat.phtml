@@ -1,0 +1,21 @@
+<div class='comp_titre'>Transf&eacute;rer un &eacute;quipement</div>
+
+ <div class='comp_contenu'>
+	 <div id='transfererequipement_text' style="display:block"  onClick="javascript:switch2div('transfererequipement_text','transfererequipement_copie');">
+		Vous avez transf&eacut;r&eacute; l'&eacute;quipement suivant : <br>
+		<?=htmlentities($this->equipement["nom"]) ?> dans :TODO
+		<br>
+	 </div>
+	 
+	 <div id='transfererequipement_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+		echo "Vous avez transf&eacut;r&eacute; l'&eacute;quipement suivant : ";
+		echo htmlentities($this->equipement["nom"]); 
+		echo " dans :TODO";
+	?>
+	</textarea>
+	</div>
+ </div>
+
+<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('transfererequipement_text','transfererequipement_copie');">
+<? include("commun_fermer.phtml") ?>

@@ -1,20 +1,20 @@
 <?php
 
-class Bral_Echoppes_Deposercaisse extends Bral_Echoppes_Echoppe {
+class Bral_Echoppes_TransfererEquipement extends Bral_Echoppes_Echoppe {
 
 	function getNomInterne() {
 		return "box_action";
 	}
 
 	function prepareCommun() {
-		
+
 	}
 
 	function prepareFormulaire() {
 	}
 
 	function prepareResultat() {
-		
+	
 	}
 	
 	public function getIdEchoppeCourante() {
@@ -24,7 +24,6 @@ class Bral_Echoppes_Deposercaisse extends Bral_Echoppes_Echoppe {
 			return false;
 		}
 	}
-	
 	function getListBoxRefresh() {
 	}
 }
