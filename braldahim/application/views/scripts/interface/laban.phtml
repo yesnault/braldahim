@@ -8,11 +8,38 @@
    <div class="laban_plante">
    <? if ($this->nb_partieplantes > 0) : ?>
     <? if ($this->nb_partieplantes==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_partieplantes?> &eacute;l&eacute;ment<?=$s?> de plantes : <br>
+    &eacute;l&eacute;ment<?=$s?> (brut<?=$s?>) de plantes : <br>
     
     <table width='100%'>
     <? $i = 0;
       foreach ($this->partieplantes as $p) : 
+    	 
+    	if ($i % 3 == 0) echo "<tr>"; 
+    	 
+    	$textPlante = "Plante : ".htmlentities($p["nom_plante"]). "<br>"; 
+    	$textPlante = "Partie : ".htmlentities($p["nom_type"]). "<br>"; 
+    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite"])."<br>";
+    	?>
+    	<td onmouseover="return overlib('<?=$textPlante?>',CAPTION,'<?=htmlentities($p["nom_type"])?> - D&eacute;tails');"
+      		onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'Plante <?=htmlentities($p["nom_type"])?> - D&eacute;tails', CLOSECLICK, EXCLUSIVE);"
+      		onmouseout="return nd();">
+    		<?=htmlentities($p["nom_plante"])?> : <?=$p["quantite"]?> <?=htmlentities($p["nom_type"])?><?if ($p["quantite"]>0) echo "s"; ?>
+    	</td>
+    	<? if ($i % 3 == 2) echo "</tr>"; 
+    	$i++; 
+     endforeach;
+     if  ($i % 3 != 0) echo "</tr>"; 
+     ?>
+    </table>
+   <? endif; ?>
+   
+    <? if ($this->nb_partieplantesPreparees > 0) : ?>
+    <? if ($this->nb_partieplantesPreparees==1):$s=''; else:$s='s';endif; ?>
+    &eacute;l&eacute;ment<?=$s?> (pr&eacute;par&eacute;<?=$s?>) de plantes : <br>
+    
+    <table width='100%'>
+    <? $i = 0;
+      foreach ($this->partieplantesPreparees as $p) : 
     	 
     	if ($i % 3 == 0) echo "<tr>"; 
     	 
@@ -59,7 +86,7 @@
    </div>
    <br>
    <div class="laban">
-   	Peau : <?=$this->laban["nb_peau"] ?>, Fourrure : <?=$this->laban["nb_fourrure"] ?>
+   	Peau : <?=$this->laban["nb_peau"] ?>
    	<br>
    	Viande fra&icirc;che: <?=$this->laban["nb_viande"] ?>, Viande pr&eacute;par&eacute;e <?=$this->laban["nb_viande_preparee"] ?> 
     <br>

@@ -45,10 +45,14 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 				'id_metier' => $e["id_metier"],
 				'nom_metier' => $nom_metier,
 				'nom_region' => $e["nom_region"],
-				'quantite_bois_caisse_echoppe' => $e["quantite_bois_caisse_echoppe"],
-				'quantite_fourrure_caisse_echoppe' => $e["quantite_fourrure_caisse_echoppe"],
-				'quantite_cuir_caisse_echoppe' => $e["quantite_cuir_caisse_echoppe"],
-				'quantite_castars_caisse_echoppe' => $e["quantite_castars_caisse_echoppe"],
+				'quantite_castar_caisse_echoppe' => $e["quantite_castar_caisse_echoppe"],
+				'quantite_rondin_caisse_echoppe' => $e["quantite_rondin_caisse_echoppe"],
+				'quantite_peau_caisse_echoppe' => $e["quantite_peau_caisse_echoppe"],
+				'quantite_rondin_arriere_echoppe' => $e["quantite_rondin_arriere_echoppe"],
+				'quantite_peau_arriere_echoppe' => $e["quantite_peau_arriere_echoppe"],
+				'quantite_cuir_arriere_echoppe' => $e["quantite_cuir_arriere_echoppe"],
+				'quantite_fourrure_arriere_echoppe' => $e["quantite_fourrure_arriere_echoppe"],
+				'quantite_planche_arriere_echoppe' => $e["quantite_planche_arriere_echoppe"],
 				);
 				if ($this->view->user->x_hobbit == $e["x_echoppe"] &&
 				$this->view->user->y_hobbit == $e["y_echoppe"]) {

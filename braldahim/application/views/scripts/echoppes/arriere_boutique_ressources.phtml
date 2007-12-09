@@ -1,7 +1,18 @@
 	<? if ($this->nb_arriereMinerai == 0 && $this->nb_lingotsMinerai == 0 &&
-		   $this->nb_arrierePartiePlantes == 0 && $this->nb_prepareePartiePlantes == 0) : ?>
+		   $this->nb_arrierePartiePlantes == 0 && $this->nb_prepareePartiePlantes == 0 &&
+		   $this->echoppe["quantite_cuir_arriere_echoppe"] == 0 &&
+		   $this->echoppe["quantite_fourrure_arriere_echoppe"] == 0 &&
+		   $this->echoppe["quantite_rondin_arriere_echoppe"] == 0 &&
+		   $this->echoppe["quantite_peau_arriere_echoppe"] == 0 ) : ?>
 		Votre arri&egrave;re-boutique est vide<br>
 	<? endif; ?>
+	
+	Rondins : <?=$this->echoppe["quantite_rondin_arriere_echoppe"] ?>,
+	Peau : <?=$this->echoppe["quantite_peau_arriere_echoppe"] ?><br>
+	
+	Cuir : <?=$this->echoppe["quantite_cuir_arriere_echoppe"] ?>, 
+	Fourrure : <?=$this->echoppe["quantite_fourrure_arriere_echoppe"] ?>,
+	Planches : <?=$this->echoppe["quantite_planche_arriere_echoppe"] ?><br>
 	
    <? if ($this->nb_arrierePartiePlantes == 0) : ?>
    	Aucune plante brute<br>

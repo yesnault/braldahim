@@ -26,15 +26,25 @@ class Bral_Box_Laban {
 
 	function render() {
 		$tabPartiePlantes = null;
+		$tabPartiePlantesPreparees = null;
 		$labanPartiePlanteTable = new LabanPartieplante();
 		$partiePlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
 
 		foreach ($partiePlantes as $p) {
-			$tabPartiePlantes[] = array(
-			"nom_type" => $p["nom_type_partieplante"],
-			"nom_plante" => $p["nom_type_plante"],
-			"quantite" => $p["quantite_laban_partieplante"],
-			);
+			if ($p["quantite_laban_partieplante"] > 0) {
+				$tabPartiePlantes[] = array(
+				"nom_type" => $p["nom_type_partieplante"],
+				"nom_plante" => $p["nom_type_plante"],
+				"quantite" => $p["quantite_laban_partieplante"],
+				);
+			}
+			if ($p["quantite_preparee_laban_partieplante"] > 0) {
+				$tabPartiePlantesPreparees[] = array(
+				"nom_type" => $p["nom_type_partieplante"],
+				"nom_plante" => $p["nom_type_plante"],
+				"quantite" => $p["quantite_preparee_laban_partieplante"],
+				);
+			}
 		}
 
 		$tabMinerais = null;
@@ -55,7 +65,6 @@ class Bral_Box_Laban {
 		foreach ($laban as $p) {
 			$tabLaban = array(
 			"nb_peau" => $p["quantite_peau_laban"],
-			"nb_fourrure" => $p["quantite_fourrure_laban"],
 			"nb_viande" => $p["quantite_viande_laban"],
 			"nb_viande_preparee" => $p["quantite_viande_preparee_laban"],
 			"nb_ration" => $p["quantite_ration_laban"],
@@ -77,6 +86,8 @@ class Bral_Box_Laban {
 		
 		$this->view->nb_partieplantes = count($tabPartiePlantes);
 		$this->view->partieplantes = $tabPartiePlantes;
+		$this->view->nb_partieplantesPreparees = count($tabPartiePlantesPreparees);
+		$this->view->partieplantesPreparees = $tabPartiePlantesPreparees;
 		$this->view->nb_minerais = count($tabMinerais);
 		$this->view->minerais = $tabMinerais;
 		$this->view->nb_runes = count($tabRunes);
