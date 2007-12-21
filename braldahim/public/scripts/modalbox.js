@@ -279,7 +279,9 @@ Modalbox.Methods = {
 		} else if (typeof content == 'object') { // HTML Object is given
 			var _htmlObj = content.cloneNode(true); // If node already a part of DOM we'll clone it
 			// If clonable element has ID attribute defined, modifying it to prevent duplicates
-			if(content.id) content.id = "MB_" + content.id;
+			// MODIF YVONNICK : Mise en commentaire... (depuis la 1.6 de Modalbox)
+			// if(content.id) content.id = "MB_" + content.id;
+			// FIN MODIF YVONNICK
 			/* Add prefix for IDs on all elements inside the DOM node */
 			$(content).select('*[id]').each(function(el){ el.id = "MB_" + el.id; });
 			this.MBcontent.appendChild(_htmlObj);
@@ -462,7 +464,6 @@ Modalbox.Methods = {
 			this._prepareIE("", ""); // If set to auto MSIE will show horizontal scrolling
 			window.scrollTo(this.initScrollX, this.initScrollY);
 		}
-		
 		/* Replacing prefixes 'MB_' in IDs for the original content */
 		if(typeof this.content == 'object') {
 			if(this.content.id && this.content.id.match(/MB_/)) {
