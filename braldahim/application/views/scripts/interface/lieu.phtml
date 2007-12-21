@@ -5,15 +5,19 @@
   <div class="contenuC">
     <ul class="box_contenu1 textalic">
  	<? if ($this->estLieuCourant === true) : ?>
- 		Vous vous trouvez sur un lieu particulier ! <br>
- 		<?=htmlentities($this->nomLieu) ?>, <?=htmlentities($this->nomTypeLieu); ?><br>
- 		<i><?=htmlentities($this->descriptionLieu); ?></i><br>
+ 		Vous vous trouvez sur un lieu particulier ! <br><br>
+ 		<ul class="titre textalic textsizec"><?=htmlentities($this->nomLieu) ?></ul>
+ 		<br>
+ 		<table width='80%' align='center'>
+ 		<tr><td style='text-align:justify'><?=nl2br(htmlentities($this->descriptionLieu)); ?>
+ 		</td></tr>
+ 		</table>
  		<br>
  		
  		<? if ($this->estFranchissableLieu === true && $this->estAlterableLieu === true) : ?>
  			Ce lieu est franchissable et alt&eacute;rable
  		<? elseif ($this->estFranchissableLieu === true && $this->estAlterableLieu === false) : ?>
- 			Ce lieu est franchissable mais pas alt&eacute;rable
+ 			Ce lieu est franchissable mais n'est pas alt&eacute;rable
 		<? elseif ($this->estFranchissableLieu === false && $this->estAlterableLieu === true) : ?>
  			Ce lieu n'est pas franchissable et il est alt&eacute;rable
  		<? else: ?>

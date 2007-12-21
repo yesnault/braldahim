@@ -2,8 +2,13 @@
 <div class="inner">
   <div style=" float: left;">
   	<ul class="titre textalia textsizec"> Ma Vue</ul>
-  	<ul class="titre textalia textsized">
-    <?=htmlentities($this->centre_nom_region) ?><br />
+  	<ul class="titre textalia textsized" 
+	   	onmouseover="return overlib('<div style=\'width:300px\'><p style=\'text-align:justify\'><?=str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($this->centre_description_region))))?></p></div>',CAPTION,'Description de la <?=htmlentities($this->centre_nom_region) ?>');"
+      	onclick="return overlib('<div style=\'width:300px\'><p style=\'text-align:justify\'><?=str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($this->centre_description_region))));?></p></div>', STICKY, CAPTION, 'Description de la <?=htmlentities($this->centre_nom_region) ?>', CLOSECLICK, EXCLUSIVE);"
+      	onmouseout="return nd();" style="cursor:pointer">
+    <?=htmlentities($this->centre_nom_region) ?>
+    </ul>
+    <ul class="titre textalia textsized" >
     <? if (!empty($this->centre_nom_ville)):?>
      <?=htmlentities($this->centre_nom_ville) ?> 
     <? endif; ?>
