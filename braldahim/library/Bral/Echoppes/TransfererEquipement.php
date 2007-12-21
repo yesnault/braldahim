@@ -45,7 +45,7 @@ class Bral_Echoppes_TransfererEquipement extends Bral_Echoppes_Echoppe {
 				if ($e["type_vente_echoppe_equipement"] == "aucune") {
 					$tabEquipementsArriereBoutique[] = array(
 					"id_echoppe_equipement" => $e["id_echoppe_equipement"],
-					"id_fk_type_recette_equipement" => $e["id_fk_type_recette_equipement"],
+					"id_fk_recette_echoppe_equipement" => $e["id_fk_recette_echoppe_equipement"],
 					"nom" => $e["nom_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
@@ -57,7 +57,7 @@ class Bral_Echoppes_TransfererEquipement extends Bral_Echoppes_Echoppe {
 		
 		$tabDestinationTransfert = null;
 		
-		$tabDestinationTransfert[] = array("id_destination" => "laban", "texte" => "Laban");
+		$tabDestinationTransfert[] = array("id_destination" => "laban", "texte" => "votre laban");
 		// TODO Autre ECHOPPE
 		
 		$this->view->destinationTransfert = $tabDestinationTransfert;
@@ -133,12 +133,15 @@ class Bral_Echoppes_TransfererEquipement extends Bral_Echoppes_Echoppe {
 		$labanEquipementTable = new LabanEquipement();
 		$data = array(
 			'id_laban_equipement' => $equipement["id_echoppe_equipement"],
-			'id_fk_recette_laban_equipement' => $equipement["id_fk_type_recette_equipement"],
+			'id_fk_recette_laban_equipement' => $equipement["id_fk_recette_echoppe_equipement"],
 			'id_fk_hobbit_laban_equipement' => $this->view->user->id_hobbit,
 			'nb_runes_laban_equipement' => $equipement["nb_runes"],
 		);
-		
 		$labanEquipementTable->insert($data);
+		
+		$echoppeEquipementTable = new EchoppeEquipement();
+		$where = "id_echoppe_equipement=".$equipement["id_echoppe_equipement"];
+		$echoppeEquipementTable->delete($where);
 	}
 	
 	public function getIdEchoppeCourante() {
@@ -148,6 +151,8 @@ class Bral_Echoppes_TransfererEquipement extends Bral_Echoppes_Echoppe {
 			return false;
 		}
 	}
+	
 	function getListBoxRefresh() {
+		return array("box_laban");
 	}
 }

@@ -4,6 +4,7 @@ class Bral_Box_Laban {
 
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass('Laban');
+		Zend_Loader::loadClass('LabanEquipement');
 		Zend_Loader::loadClass('LabanMinerai');
 		Zend_Loader::loadClass('LabanPartieplante');
 		Zend_Loader::loadClass('LabanRune');
@@ -95,6 +96,26 @@ class Bral_Box_Laban {
 		$this->view->laban = $tabLaban;
 		$this->view->nom_interne = $this->getNomInterne();
 		
+		$this->renderEquipement();
 		return $this->view->render("interface/laban.phtml");
+	}
+	
+	private function renderEquipement() {
+		$tabEquipements = null;
+		$labanEquipementTable = new LabanEquipement();
+		$equipements = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
+
+		foreach ($equipements as $e) {
+			$tabEquipements[] = array(
+					"nom" => $e["nom_type_equipement"],
+					"qualite" => $e["nom_type_qualite"],
+					"niveau" => $e["niveau_recette_equipement"],
+					"nb_runes" => $e["nb_runes_laban_equipement"]
+			);
+		}
+		
+		$this->view->nb_equipements = count($tabEquipements);
+		$this->view->equipements = $tabEquipements;
+	
 	}
 }

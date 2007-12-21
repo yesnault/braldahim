@@ -32,10 +32,9 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 				'x_echoppe' => $e["x_echoppe"],
 				'y_echoppe' => $e["y_echoppe"],
 				'id_metier' => $e["id_metier"],
-				'quantite_bois_caisse_echoppe' => $e["quantite_bois_caisse_echoppe"],
-				'quantite_fourrure_caisse_echoppe' => $e["quantite_fourrure_caisse_echoppe"],
-				'quantite_cuir_caisse_echoppe' => $e["quantite_cuir_caisse_echoppe"],
-				'quantite_castars_caisse_echoppe' => $e["quantite_castars_caisse_echoppe"],
+				'quantite_planche_arriere_echoppe' => $e["quantite_planche_arriere_echoppe"],
+				'quantite_fourrure_arriere_echoppe' => $e["quantite_fourrure_arriere_echoppe"],
+				'quantite_cuir_arriere_echoppe' => $e["quantite_cuir_arriere_echoppe"],
 				);
 				break;
 			}
@@ -108,19 +107,19 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 				if ($r["niveau_recette_cout"] <= floor($this->view->user->niveau_hobbit / 10) ) {
 					if ($r["cuir_recette_cout"] > 0) {
 						$tabCout[$r["niveau_recette_cout"]][] = array("nom"=>"Cuir", "nom_systeme"=>"cuir", "cout" => $r["cuir_recette_cout"]);
-						if ($r["cuir_recette_cout"] > $echoppeCourante["quantite_cuir_caisse_echoppe"]) {
+						if ($r["cuir_recette_cout"] > $echoppeCourante["quantite_cuir_arriere_echoppe"]) {
 							$tabNiveaux[$r["niveau_recette_cout"]]["ressourcesOk"] = false;
 						}
 					}
 					if ($r["fourrure_recette_cout"] > 0) {
 						$tabCout[$r["niveau_recette_cout"]][] = array("nom"=>"Fourrure", "nom_systeme"=>"fourrure", "cout" => $r["fourrure_recette_cout"]);
-						if ($r["fourrure_recette_cout"] > $echoppeCourante["quantite_fourrure_caisse_echoppe"]) {
+						if ($r["fourrure_recette_cout"] > $echoppeCourante["quantite_fourrure_arriere_echoppe"]) {
 							$tabNiveaux[$r["niveau_recette_cout"]]["ressourcesOk"] = false;
 						}
 					}
-					if ($r["bois_recette_cout"] > 0) {
-						$tabCout[$r["niveau_recette_cout"]][] = array("nom"=>"Bois", "nom_systeme"=>"bois", "cout" => $r["bois_recette_cout"]);
-						if ($r["bois_recette_cout"] > $echoppeCourante["quantite_bois_caisse_echoppe"]) {
+					if ($r["planche_recette_cout"] > 0) {
+						$tabCout[$r["niveau_recette_cout"]][] = array("nom"=>"Planche", "nom_systeme"=>"planche", "cout" => $r["planche_recette_cout"]);
+						if ($r["planche_recette_cout"] > $echoppeCourante["quantite_planche_arriere_echoppe"]) {
 							$tabNiveaux[$r["niveau_recette_cout"]]["ressourcesOk"] = false;
 						}
 					}
@@ -140,7 +139,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 					$ressourceMinerai = false;
 					foreach($this->echoppeMinerai as $m) {
 						if ($m["id_fk_type_echoppe_minerai"] == $r["id_type_minerai"]) {
-							if ($r["quantite_recette_cout_minerai"] <= $m["quantite_arriere_echoppe_minerai"]) {
+							if ($r["quantite_recette_cout_minerai"] <= $m["quantite_lingots_echoppe_minerai"]) {
 								$ressourceMinerai = true;
 							} else {
 								$ressourceMinerai = false;
@@ -214,10 +213,15 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 		}
 
 		$runesOk = false;
-		foreach ($this->view->runes as $r) {
-			if ($nbRunes == $r["nombre"]) {
-				$runesOk = true;
+		$nbRunes = 0;
+		if ($this->view->peutRunes === true) {
+			foreach ($this->view->runes as $r) {
+				if ($nbRunes == $r["nombre"]) {
+					$runesOk = true;
+				}
 			}
+		} else {
+			$runesOk = true;
 		}
 		if ($runesOk == false) {
 			throw new Zend_Exception(get_class($this)." NbRunes interdit ");
@@ -262,21 +266,21 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 			foreach($this->view->cout[$niveau] as $c) {
 				switch ($c["nom_systeme"]) {
 					case "cuir" :
-						$this->echoppeCourante["quantite_cuir_caisse_echoppe"] = $this->echoppeCourante["quantite_cuir_caisse_echoppe"] - $c["cout"];
-						if ($this->echoppeCourante["quantite_cuir_caisse_echoppe"] < 0) {
-							$this->echoppeCourante["quantite_cuir_caisse_echoppe"] = 0;
+						$this->echoppeCourante["quantite_cuir_arriere_echoppe"] = $this->echoppeCourante["quantite_cuir_arriere_echoppe"] - $c["cout"];
+						if ($this->echoppeCourante["quantite_cuir_arriere_echoppe"] < 0) {
+							$this->echoppeCourante["quantite_cuir_arriere_echoppe"] = 0;
 						}
 						break;
 					case "fourrure" :
-						$this->echoppeCourante["quantite_fourrure_caisse_echoppe"] = $this->echoppeCourante["quantite_fourrure_caisse_echoppe"] - $c["cout"];
-						if ($this->echoppeCourante["quantite_fourrure_caisse_echoppe"] < 0) {
-							$this->echoppeCourante["quantite_fourrure_caisse_echoppe"] = 0;
+						$this->echoppeCourante["quantite_fourrure_arriere_echoppe"] = $this->echoppeCourante["quantite_fourrure_arriere_echoppe"] - $c["cout"];
+						if ($this->echoppeCourante["quantite_fourrure_arriere_echoppe"] < 0) {
+							$this->echoppeCourante["quantite_fourrure_arriere_echoppe"] = 0;
 						}
 						break;
-					case "bois" :
-						$this->echoppeCourante["quantite_bois_caisse_echoppe"] = $this->echoppeCourante["quantite_bois_caisse_echoppe"] - $c["cout"];
-						if ($this->echoppeCourante["quantite_bois_caisse_echoppe"] < 0) {
-							$this->echoppeCourante["quantite_bois_caisse_echoppe"] = 0;
+					case "planche" :
+						$this->echoppeCourante["quantite_planche_arriere_echoppe"] = $this->echoppeCourante["quantite_planche_arriere_echoppe"] - $c["cout"];
+						if ($this->echoppeCourante["quantite_planche_arriere_echoppe"] < 0) {
+							$this->echoppeCourante["quantite_planche_arriere_echoppe"] = 0;
 						}
 						break;
 					default :
@@ -285,11 +289,11 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 						}
 						foreach($this->echoppeMinerai as $m) {
 							if ($m["id_fk_type_echoppe_minerai"] == $c["id_type_minerai"]) {
-								$quantite = $this->echoppeMinerai["quantite_arriere_echoppe_minerai"] - $c["cout"];
+								$quantite = $this->echoppeMinerai["quantite_lingots_echoppe_minerai"] - $c["cout"];
 								if ($quantite < 0) {
 									$quantite = 0;
 								}
-								$data = array('quantite_arriere_echoppe_minerai' => $quantite);
+								$data = array('quantite_lingots_echoppe_minerai' => $quantite);
 								$where = 'id_fk_type_echoppe_minerai = '. $c["id_type_minerai"];
 								$where .= ' AND id_fk_echoppe_echoppe_minerai='.$this->echoppeCourante["id_echoppe"];
 								$echoppeMineraiTable->update($data, $where);
@@ -301,9 +305,9 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 			Zend_Loader::loadClass("Echoppe");
 			$echoppeTable = new Echoppe();
 			$data = array(
-			'quantite_cuir_caisse_echoppe' => $this->echoppeCourante["quantite_cuir_caisse_echoppe"],
-			'quantite_fourrure_caisse_echoppe' => $this->echoppeCourante["quantite_fourrure_caisse_echoppe"],
-			'quantite_bois_caisse_echoppe' => $this->echoppeCourante["quantite_bois_caisse_echoppe"],
+			'quantite_cuir_arriere_echoppe' => $this->echoppeCourante["quantite_cuir_arriere_echoppe"],
+			'quantite_fourrure_arriere_echoppe' => $this->echoppeCourante["quantite_fourrure_arriere_echoppe"],
+			'quantite_planche_arriere_echoppe' => $this->echoppeCourante["quantite_planche_arriere_echoppe"],
 			);
 			$echoppeTable->update($data, 'id_echoppe = '.$this->echoppeCourante["id_echoppe"]);
 				

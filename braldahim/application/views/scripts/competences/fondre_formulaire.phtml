@@ -11,7 +11,7 @@
 	 <select name="valeur_1" id="valeur_1"  onChange="javascript:if ($('valeur_1').value==-1){$('bouton_fondre').disabled=true } else {$('bouton_fondre').disabled=false }">
 	 	<option value="-1">(Choisis un minerai)</option>
 	 	<? foreach($this->minerais as $m) :
-			if ($m["quantite_arriere"]==1):$s=''; else:$s='s';endif;
+			if ($m["quantite_arriere"]<=1):$s=''; else:$s='s';endif;
 	 	?>
 	 		<option value="<?=$m["id_type"]?>"><?=$m["quantite_arriere"]?> minerai<?=$s?> de <?=htmlentities($m["nom_type"])?></option>
 	 	<? endforeach; ?>

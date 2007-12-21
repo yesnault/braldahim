@@ -3,15 +3,15 @@
  <div class='comp_contenu'>
 	 <div id='transfererequipement_text' style="display:block"  onClick="javascript:switch2div('transfererequipement_text','transfererequipement_copie');">
 		Vous avez transf&eacute;r&eacute; l'&eacute;quipement suivant : <br>
-		<?=htmlentities($this->equipement["nom"]) ?> dans :TODO
+		<?=htmlentities($this->equipement["nom"]) ?> dans <?=htmlentities($this->destination["texte"]) ?>
 		<br>
 	 </div>
 	 
 	 <div id='transfererequipement_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
-		echo "Vous avez transf&eacut;r&eacute; l'&eacute;quipement suivant : ";
+		echo "Vous avez transf&eacute;r&eacute; l'&eacute;quipement suivant : ";
 		echo htmlentities($this->equipement["nom"]); 
-		echo " dans :TODO";
+		echo " dans ".htmlentities($this->destination["texte"]);
 	?>
 	</textarea>
 	</div>

@@ -16,7 +16,7 @@ CREATE TABLE `recette_equipements` (
   `id_fk_metier_recette_equipement` int(11) NOT NULL,
   `cuir_recette_equipement` int(11) NOT NULL,
   `fourrure_recette_equipement` int(11) NOT NULL,
-  `bois_recette_equipement` int(11) NOT NULL,
+  `planche_recette_equipement` int(11) NOT NULL,
   `tambe_recette_equipement` int(11) NOT NULL,
   `anga_recette_equipement` int(11) NOT NULL,
   `mithril_recette_equipement` int(11) NOT NULL,

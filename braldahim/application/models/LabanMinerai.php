@@ -31,10 +31,18 @@ class LabanMinerai extends Zend_Db_Table {
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
 			$quantite = $resultat[0]["quantite"];
+			
 			$dataUpdate = array('quantite_laban_minerai' => $quantite + $data["quantite_laban_minerai"]);
 			$where = ' id_fk_type_laban_minerai = '.$data["id_fk_type_laban_minerai"];
 			$where .= ' AND id_hobbit_laban_minerai = '.$data["id_hobbit_laban_minerai"];
-			$this->update($dataUpdate, $where);
+			
+			if ($quantite + $data["quantite_laban_minerai"] = 0) { // delete
+				$this->delete($where);
+			} else { // update
+				$this->update($dataUpdate, $where);
+			}
+
+			
 		}
 	}
 

@@ -59,7 +59,14 @@ class EchoppeMinerai extends Zend_Db_Table {
 			);
 			$where = ' id_fk_type_echoppe_minerai = '.$data["id_fk_type_echoppe_minerai"];
 			$where .= ' AND id_fk_echoppe_echoppe_minerai = '.$data["id_fk_echoppe_echoppe_minerai"];
-			$this->update($dataUpdate, $where);
+			
+			if ($quantiteCaisse == 0 && $quantiteArriere == 0 && $quantiteLingots == 0) { // delete
+				$this->delete($where);
+			} else { // update
+				$this->update($dataUpdate, $where);
+			}
+			
+			
 		}
 	}
 
