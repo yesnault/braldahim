@@ -208,12 +208,16 @@
 }
 
 .box_informations {
-	background-color: #d9ffd6;
-	color: black;
-	text-align: center;
 	width: auto;
 	height: auto;
-	border: thin solid black;
+	text-align: center;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #990000;
+	background-color: #d9ffd6;
+	color: black;
+	font-weight: bold;
+	padding: 5pt 5px;
 }
 
 .box_inscription,.box_perdu,.box_pamaretres,.box_gardiennage,.box_administration

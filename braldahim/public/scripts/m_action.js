@@ -172,7 +172,7 @@ function showResponse(originalRequest) {
     // Box informations
 	if (display_informations) {
 		//$("informations").style.display = "block";
-		Modalbox.show($("informations"), {title: 'Informations', width: 300, overlayClose:false});
+		Modalbox.show($("informations"), {title: 'Informations', width: 450, overlayClose:false});
 	} else {
 		if ($("informations")) {
 			$("informations").style.display = "none";
@@ -182,7 +182,7 @@ function showResponse(originalRequest) {
     // Box erreur
 	if (display_erreur) {
 		//$("erreur").style.display = "block";
-		Modalbox.show($("erreur"), {title: 'Une erreur est survenu', width: 300, overlayClose:false});
+		Modalbox.show($("erreur"), {title: 'Une erreur est survenu', width: 400, overlayClose:false});
 	} else {
 		if ($("erreur")) {
 			$("erreur").style.display = "none";

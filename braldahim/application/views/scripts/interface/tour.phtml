@@ -1,10 +1,22 @@
 <div id='tour_text' style="display:block"  onClick="javascript:switch2div('tour_text','tour_copie');">
 	
 	<?php if ($this->is_mort): ?>
-		<? if ($this->user->sexe_hobbit == "feminin"):$e='e';else:$e='';endif;?>
-		Vous avez &eacute;t&eacute; tu&eacute;<?=$e?><br>
-		Vous r&eacute;apparaissez dans un C&eacute;ache Hu<br><br>
-	<? endif; ?>
+			<p style='text-align:justify'>
+			<? echo htmlentities("Vous venez d'ouvrir les yeux, une lumière blafarde vous éblouit. 
+			Vous essayez de remuer vos bras et vos jambes mais ils sont tout engourdis. 
+			Vous tournez doucement la tête et constatez que vous êtes dans un lit qui n'est pas le votre... 
+			Il y  a un lit vide à côté du votre. Vous êtes dans une petite pièce aux fenêtres arrondies. 
+			Vous rassemblez vos esprits et quelques images vous reviennent... Le choc, ce flash aveuglant, puis plus rien. 
+			Vous devez être dans un Céache Hu. Vous observez alors autour de vous : quelques chaises, une petite table, 
+			sur cette petite table vous apercevez une petite clochette. Vous l'attrapez tant bien que mal et l'agitez tout doucement. 
+			Elle émet un son cristallin. Au bout de quelques instants une jolie hobbite souriante, probablement une infirmière, 
+			fait son apparition :");
+			echo "<br><br>";
+			echo htmlentities(" \"Bonjour ".$this->user->nom_hobbit. " ! Vous nous avez fait une sacrée peur, mais je vois que vous allez mieux ! 
+			Vous allez certainement nous quitter rapidement pour poursuivre ce que vous aviez entrepris. J'espère ne pas vous revoir trop vite dans ce Céache Hu, alors ne prenez pas de risques inutiles... \"");
+			echo "<br><br>";
+		endif; ?>
+		</p>
 
 	<?php if ($this->is_nouveau_tour): ?>
 		Activation d'un nouveau tour : <br>
@@ -24,7 +36,24 @@
 </div>
 	 
 <div id='tour_copie' style="display:none">
-	<textarea onClick="javascript:this.select();" rows=5 cols=40><?php if ($this->is_nouveau_tour): ?>
+	<textarea onClick="javascript:this.select();" rows=5 cols=40><?php if ($this->is_mort): 
+	 echo htmlentities("Vous venez d'ouvrir les yeux, une lumière blafarde vous éblouit. ");
+	 echo htmlentities("Vous essayez de remuer vos bras et vos jambes mais ils sont tout engourdis. ");
+	 echo htmlentities("Vous tournez doucement la tête et constatez que vous êtes dans un lit qui n'est pas le votre... ");
+	 echo htmlentities("Il y  a un lit vide à côté du votre. Vous êtes dans une petite pièce aux fenêtres arrondies. ");
+	 echo htmlentities("Vous rassemblez vos esprits et quelques images vous reviennent... Le choc, ce flash aveuglant, puis plus rien. ");
+	 echo htmlentities("Vous devez être dans un Céache Hu. Vous observez alors autour de vous : quelques chaises, une petite table, ");
+	 echo htmlentities("sur cette petite table vous apercevez une petite clochette. Vous l'attrapez tant bien que mal et l'agitez tout doucement. ");
+	 echo htmlentities("Elle émet un son cristallin. Au bout de quelques instants une jolie hobbite souriante, probablement une infirmière, ");
+	 echo htmlentities("fait son apparition :");
+	 echo "
+";
+	echo htmlentities(" \"Bonjour ".$this->user->nom_hobbit. " ! Vous nous avez fait une sacrée peur, mais je vois que vous allez mieux ! ");
+	echo htmlentities(" Vous allez certainement nous quitter rapidement pour poursuivre ce que vous aviez entrepris. J'espère ne pas vous revoir trop vite dans ce Céache Hu, alors ne prenez pas de risques inutiles... \"");
+			echo "
+";
+		endif;
+		 if ($this->is_nouveau_tour): ?>
 Activation d'un nouveau tour <?php endif; ?>
 <?php if ($this->is_tour_manque) : ?>Vous avez manqu&eacute; un (ou plusieurs) tour de jeu<?php endif; ?> 
 Date limite d'action : <?=$this->user->date_fin_tour_hobbit ?> 
