@@ -67,7 +67,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		
 		$labanTable = new Laban();
 		$data = array(
-			'id_hobbit_laban' => $this->view->user->id_hobbit,
+			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
 			'quantite_ration_laban' => -1,
 		);
 		$labanTable->insertOrUpdate($data);

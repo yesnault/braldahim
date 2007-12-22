@@ -58,7 +58,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			$labanMineraiTable = new LabanMinerai();
 			$data = array(
 			'id_fk_type_laban_minerai' => $id_fk_type_minerai_filon,
-			'id_hobbit_laban_minerai' => $this->view->user->id_hobbit,
+			'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
 			'quantite_laban_minerai' => $quantiteExtraite,
 			);
 	

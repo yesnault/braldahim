@@ -130,7 +130,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 				throw new Exception("calculRamasser : tirage invalide");
 			}
 			$data = array(
-				'id_hobbit_laban_rune' => $this->view->user->id_hobbit,
+				'id_fk_hobbit_laban_rune' => $this->view->user->id_hobbit,
 				'id_rune_laban_rune' => $runeRowset[$t]["id_rune"],
 				'id_fk_type_laban_rune' => $runeRowset[$t]["id_fk_type_rune"],
 				'est_identifiee_rune' => 'non',

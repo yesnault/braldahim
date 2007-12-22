@@ -125,7 +125,7 @@ abstract class Bral_Competences_Competence {
 				$pourcentage = 90;
 			}
 			$data = array('pourcentage_hcomp' => $pourcentage);
-			$where = array("id_competence_hcomp = ".$this->hobbit_competence["id_competence_hcomp"]." AND id_hobbit_hcomp = ".$this->view->user->id_hobbit);
+			$where = array("id_fk_competence_hcomp = ".$this->hobbit_competence["id_fk_competence_hcomp"]." AND id_fk_hobbit_hcomp = ".$this->view->user->id_hobbit);
 			$hobbitsCompetencesTable->update($data, $where);
 		}
 	}
@@ -140,14 +140,14 @@ abstract class Bral_Competences_Competence {
 		
 		if ($type == "hobbit") {
 			$data = array(
-			'id_hobbit_evenement' => $id_concerne,
+			'id_fk_hobbit_evenement' => $id_concerne,
 			'date_evenement' => date("Y-m-d H:i:s"),
 			'id_fk_type_evenement' => $id_type_evenement,
 			'details_evenement' => $details,
 			);
 		} else {
 			$data = array(
-			'id_monstre_evenement' => $id_concerne,
+			'id_fk_monstre_evenement' => $id_concerne,
 			'date_evenement' => date("Y-m-d H:i:s"),
 			'id_fk_type_evenement' => $id_type_evenement,
 			'details_evenement' => $details,

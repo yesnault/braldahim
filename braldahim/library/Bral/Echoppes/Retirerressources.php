@@ -102,7 +102,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 			// on place dans le laban
 			$labanTable = new Laban();
 			$data = array(
-				'id_hobbit_laban' => $this->view->user->id_hobbit,
+				'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
 				'quantite_peau_laban' => $nb_peau,
 			);
 			$labanTable->insertOrUpdate($data);
@@ -117,7 +117,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 				$charretteTable = new Charrette();
 				$data = array(
 					'quantite_rondin_charrette' => $nb_rondins,
-					'id_hobbit_charrette' => $this->view->user->id_hobbit,
+					'id_fk_hobbit_charrette' => $this->view->user->id_hobbit,
 				);
 				$charretteTable->updateCharrette($data);
 				
@@ -207,7 +207,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 				
 				$data = array(
 				'id_fk_type_laban_minerai' => $this->view->minerais[$indice]["id_fk_type_echoppe_minerai"],
-				'id_hobbit_laban_minerai' => $this->view->user->id_hobbit,
+				'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
 				'quantite_laban_minerai' => $nb,
 				);
 		

@@ -92,7 +92,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		$charretteTable = new Charrette();
 		$data = array(
 			'quantite_rondin_charrette' => $this->view->nbRondins,
-			'id_hobbit_charrette' => $this->view->user->id_hobbit,
+			'id_fk_hobbit_charrette' => $this->view->user->id_hobbit,
 		);
 		$charretteTable->updateCharrette($data);
 	}

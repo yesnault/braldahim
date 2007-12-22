@@ -23,7 +23,7 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		
 		foreach($gardiens as $gardien) {
 			$tabGardiens[] = array(
-				"id_gardien" => $gardien["id_gardien_gardiennage"], 
+				"id_gardien" => $gardien["id_fk_gardien_gardiennage"], 
 				"nom_gardien" => $gardien["nom_hobbit"]);
 		}
 		if (count($gardiennageEnCours) < $this->view->config->game->gardiennage->nb_max_en_cours) {
@@ -102,8 +102,8 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		
 		$gardiennageTable = new Gardiennage();
 		$data = array (
-			'id_hobbit_gardiennage' => $this->view->user->id_hobbit,
-			'id_gardien_gardiennage' => $idGardien,
+			'id_fk_hobbit_gardiennage' => $this->view->user->id_hobbit,
+			'id_fk_gardien_gardiennage' => $idGardien,
 			'date_debut_gardiennage' => $premierJour,
 			'date_fin_gardiennage' => $dernierJour,
 			'nb_jours_gardiennage' => $nbJour,
@@ -123,7 +123,7 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		
 		foreach($gardiennages as $g) {
 			$tabGardiennage[] = array(
-				"id_gardien" => $g["id_gardien_gardiennage"], 
+				"id_gardien" => $g["id_fk_gardien_gardiennage"], 
 				"nom_gardien" => $g["nom_hobbit"],
 				"date_debut" => $g["date_debut_gardiennage"],
 				"nb_jours" => $g["nb_jours_gardiennage"],

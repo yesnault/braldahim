@@ -10,7 +10,7 @@ class Evenement extends Zend_Db_Table {
 		$select->from('evenement', '*')
 		->from('type_evenement', '*')
 		->where('evenement.id_fk_type_evenement = type_evenement.id_type_evenement')
-		->where('evenement.id_hobbit_evenement = '.intval($idHobbit))
+		->where('evenement.id_fk_hobbit_evenement = '.intval($idHobbit))
 		->order('id_evenement DESC')
 		->limitPage($pageMin, $pageMax);
 		if ($filtre <> -1) {

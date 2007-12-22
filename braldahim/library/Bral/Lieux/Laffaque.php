@@ -100,8 +100,8 @@ class Bral_Lieux_Laffaque extends Bral_Lieux_Lieu {
 		}
 
 		$data = array(
-		'id_hobbit_hcomp' => $this->view->user->id_hobbit,
-		'id_competence_hcomp'  => $idCompetence,
+		'id_fk_hobbit_hcomp' => $this->view->user->id_hobbit,
+		'id_fk_competence_hcomp'  => $idCompetence,
 		'pourcentage_hcomp'  => 10,
 		'date_gain_tour_hcomp'  => "0000-00-00 00:00:00",
 		);

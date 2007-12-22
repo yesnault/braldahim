@@ -150,7 +150,7 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		$data = array(
 		"id_fk_type_groupe_monstre" => $id_type,
 		"date_creation_groupe_monstre" => date("Y-m-d H:i:s"),
-		"id_cible_groupe_monstre"  => null,
+		"id_fk_hobbit_cible_groupe_monstre"  => null,
 		"nb_membres_max_groupe_monstre"  => $nb_membres,
 		"nb_membres_restant_groupe_monstre" => $nb_membres,
 		"phase_tactique_groupe_monstre" => 0,
@@ -241,7 +241,7 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		"id_fk_groupe_monstre" => $id_groupe_monstre,
 		"x_monstre" => $x_monstre,
 		"y_monstre" => $y_monstre,
-		"id_cible_monstre" => null,
+		"id_fk_hobbit_cible_monstre" => null,
 		"pv_restant_monstre" => $pv_restant_monstre,
 		"niveau_monstre" => $niveau_monstre,
 		"vue_monstre" => $vue_monstre,

@@ -131,7 +131,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		
 		$labanTable = new Laban();
 		$data = array(
-			'id_hobbit_laban' => $this->view->user->id_hobbit,
+			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
 			'quantite_peau_laban' => $this->view->nbPeau,
 		);
 		$labanTable->insertOrUpdate($data);

@@ -47,7 +47,7 @@ class InscriptionController extends Zend_Controller_Action {
 				Zend_Loader::loadClass('Evenement');
 				$evenementTable = new Evenement();
 				$data = array(
-				'id_hobbit_evenement' => $hobbit->id_hobbit,
+				'id_fk_hobbit_evenement' => $hobbit->id_hobbit,
 				'date_evenement' => date("Y-m-d H:i:s"),
 				'id_fk_type_evenement' => $this->view->config->game->evenements->type->naissance,
 				'details_evenement' => $details,
@@ -206,8 +206,8 @@ class InscriptionController extends Zend_Controller_Action {
 
 		foreach($tab as $c) {
 			$data = array(
-			'id_hobbit_hcomp' => $this->view->id_hobbit,
-			'id_competence_hcomp'  => $c["id_competence"],
+			'id_fk_hobbit_hcomp' => $this->view->id_hobbit,
+			'id_fk_competence_hcomp'  => $c["id_competence"],
 			'pourcentage_hcomp'  => $c["pourcentage_init_competence"],
 			'date_gain_tour_hcomp'  => "0000-00-00 00:00:00",
 			);

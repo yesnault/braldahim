@@ -8,7 +8,7 @@ class Charrette extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', '*')
-		->where('id_hobbit_charrette = '.intval($id_hobbit));
+		->where('id_fk_hobbit_charrette = '.intval($id_hobbit));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
@@ -18,7 +18,7 @@ class Charrette extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', 'count(*) as nombre')
-		->where('id_hobbit_charrette = '.intval($id_hobbit));
+		->where('id_fk_hobbit_charrette = '.intval($id_hobbit));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -30,7 +30,7 @@ class Charrette extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', 'quantite_rondin_charrette as quantiteRondin')
-		->where('id_hobbit_charrette = ?',$data["id_hobbit_charrette"]);
+		->where('id_fk_hobbit_charrette = ?',$data["id_fk_hobbit_charrette"]);
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -42,7 +42,7 @@ class Charrette extends Zend_Db_Table {
 				$dataUpdate['quantite_rondin_charrette'] = $quantiteRodin + $data["quantite_rondin_charrette"];
 			}
 			if (isset($dataUpdate)) {
-				$where = 'id_hobbit_charrette = '.$data["id_hobbit_charrette"];
+				$where = 'id_fk_hobbit_charrette = '.$data["id_fk_hobbit_charrette"];
 				$this->update($dataUpdate, $where);
 			}
 		}

@@ -148,25 +148,25 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 		if ($changementMetier) {
 			$hobbitsMetiersTable = new HobbitsMetiers();
 			$data = array('est_actif_hmetier' => 'non');
-			$where = "id_hobbit_hmetier =".intval($this->view->user->id_hobbit);
+			$where = "id_fk_hobbit_hmetier =".intval($this->view->user->id_hobbit);
 			$hobbitsMetiersTable->update($data, $where);
 
 			//$hobbitsMetiersTable->updateTousMetierVersNonActif($this->view->user->id_hobbit);
 			//$hobbitsMetiersTable->updateMetierVersActif($this->view->user->id_hobbit, $idNouveauMetierCourant);
 			$data = array('est_actif_hmetier' => 'oui');
-			$where = array("id_hobbit_hmetier = ".intval($this->view->user->id_hobbit)." AND id_metier_hmetier = ".intval($idNouveauMetierCourant));
+			$where = array("id_fk_hobbit_hmetier = ".intval($this->view->user->id_hobbit)." AND id_fk_metier_hmetier = ".intval($idNouveauMetierCourant));
 			$hobbitsMetiersTable->update($data, $where);
 
 		} else { // apprentissage
 			$hobbitsMetiersTable = new HobbitsMetiers();
 			$data = array('est_actif_hmetier' => 'non');
-			$where = "id_hobbit_hmetier =".intval($this->view->user->id_hobbit);
+			$where = "id_fk_hobbit_hmetier =".intval($this->view->user->id_hobbit);
 			$hobbitsMetiersTable->update($data, $where);
 			//$hobbitsMetiersTable->updateTousMetierVersNonActif($this->view->user->id_hobbit);
 
 			$dataNouveauMetier = array(
-			'id_hobbit_hmetier' => $this->view->user->id_hobbit,
-			'id_metier_hmetier'  => $idNouveauMetier, // marcher
+			'id_fk_hobbit_hmetier' => $this->view->user->id_hobbit,
+			'id_fk_metier_hmetier'  => $idNouveauMetier, // marcher
 			'date_apprentissage_hmetier'  => date("Y-m-d"),
 			'est_actif_hmetier'  => "oui",
 			);
@@ -179,8 +179,8 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 			$competencesMetier = $competenceTable->findByIdMetier($idNouveauMetier);
 			foreach($competencesMetier as $e) {
 				$data = array(
-				'id_hobbit_hcomp' => $this->view->user->id_hobbit,
-				'id_competence_hcomp'  => $e->id_competence,
+				'id_fk_hobbit_hcomp' => $this->view->user->id_hobbit,
+				'id_fk_competence_hcomp'  => $e->id_competence,
 				'pourcentage_hcomp'  => 10,
 				'date_gain_tour_hcomp'  => "0000-00-00 00:00:00",
 				);
@@ -200,7 +200,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 			if ($constructionCharrette === true) {
 				$charretteTable = new Charrette();
 				$data = array(
-					"id_hobbit_charrette" => $this->view->user->id_hobbit,
+					"id_fk_hobbit_charrette" => $this->view->user->id_hobbit,
 					"quantite_rondin_charrette" => 0,
 				);
 				$charretteTable->insert($data);

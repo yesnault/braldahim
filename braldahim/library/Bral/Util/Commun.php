@@ -52,7 +52,7 @@ class Bral_Util_Commun {
 		$evenementTable = new Evenement();
 
 		$data = array(
-		'id_hobbit_evenement' => $id_hobbit,
+		'id_fk_hobbit_evenement' => $id_hobbit,
 		'date_evenement' => date("Y-m-d H:i:s"),
 		'id_fk_type_evenement' => $id_type_evenement,
 		'details_evenement' => $details,

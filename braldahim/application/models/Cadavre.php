@@ -35,7 +35,7 @@ class Cadavre extends Zend_Db_Table {
 		$select->from('cadavre', '*')
 		->from('type_monstre', '*')
 		->from('taille_monstre', '*')
-		->where('cadavre.id_fk_type_cadavre = type_monstre.id_type_monstre')
+		->where('cadavre.id_fk_type_monstre_cadavre = type_monstre.id_type_monstre')
 		->where('cadavre.id_fk_taille_cadavre = taille_monstre.id_taille_monstre')
 		->where('x_cadavre <= ?',$x_max)
 		->where('x_cadavre >= ?',$x_min)
@@ -51,7 +51,7 @@ class Cadavre extends Zend_Db_Table {
 		$select->from('cadavre', '*')
 		->from('type_monstre', '*')
 		->from('taille_monstre', '*')
-		->where('cadavre.id_fk_type_cadavre = type_monstre.id_type_monstre')
+		->where('cadavre.id_fk_type_monstre_cadavre = type_monstre.id_type_monstre')
 		->where('cadavre.id_fk_taille_cadavre = taille_monstre.id_taille_monstre')
 		->where('x_cadavre = ?',$x)
 		->where('y_cadavre = ?',$y);
@@ -65,7 +65,7 @@ class Cadavre extends Zend_Db_Table {
 		$select->from('cadavre', '*')
 		->from('type_monstre', '*')
 		->from('taille_monstre', '*')
-		->where('cadavre.id_fk_type_cadavre = type_monstre.id_type_monstre')
+		->where('cadavre.id_fk_type_monstre_cadavre = type_monstre.id_type_monstre')
 		->where('cadavre.id_fk_taille_cadavre = taille_monstre.id_taille_monstre')
 		->where('id_cadavre = ?', $id);
 		$sql = $select->__toString();

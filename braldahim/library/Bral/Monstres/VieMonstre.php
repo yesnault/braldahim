@@ -293,8 +293,8 @@ class Bral_Monstres_VieMonstre {
 		Zend_Loader::loadClass('Evenement');
 		$evenementTable = new Evenement();
 		$data = array(
-		'id_hobbit_evenement' => $id_hobbit,
-		'id_monstre_evenement' => $id_monstre,
+		'id_fk_hobbit_evenement' => $id_hobbit,
+		'id_fk_monstre_evenement' => $id_monstre,
 		'date_evenement' => date("Y-m-d H:i:s"),
 		'id_fk_type_evenement' => $id_type_evenement,
 		'details_evenement' => $details,
@@ -327,7 +327,7 @@ class Bral_Monstres_VieMonstre {
 		
 		$data = array(
 		"id_cadavre" => $monstre["id_monstre"],
-		"id_fk_type_cadavre"  => $monstre["id_fk_type_monstre"],
+		"id_fk_type_monstre_cadavre"  => $monstre["id_fk_type_monstre"],
 		"id_fk_taille_cadavre" => $monstre["id_fk_taille_monstre"],
 		"x_cadavre" => $monstre["x_monstre"],
 		"y_cadavre" => $monstre["y_monstre"],

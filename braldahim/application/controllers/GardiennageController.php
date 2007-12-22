@@ -33,7 +33,7 @@ class GardiennageController extends Zend_Controller_Action {
 				}
 				$tabHobbitGarde[] = array(
 					"id_gardiennage" => $g["id_gardiennage"], 
-					"id_hobbit" => $g["id_hobbit_gardiennage"], 
+					"id_hobbit" => $g["id_fk_hobbit_gardiennage"], 
 					"nom_hobbit" => $g["nom_hobbit"],
 					"date_debut" => $g["date_debut_gardiennage"],
 					"nb_jours" => $g["nb_jours_gardiennage"],
@@ -67,7 +67,7 @@ class GardiennageController extends Zend_Controller_Action {
 					&& $g["date_debut_gardiennage"] <= $dateCourante
 					&& $g["date_fin_gardiennage"] >= $dateCourante) {
 					$garde = true;
-					$id_hobbit = $g["id_hobbit_gardiennage"];
+					$id_hobbit = $g["id_fk_hobbit_gardiennage"];
 					$nom_hobbit = $g["nom_hobbit"];
 				}
 			}

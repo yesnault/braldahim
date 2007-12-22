@@ -113,7 +113,7 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 		
 		$labanTable = new Laban();
 		$data = array(
-			'id_hobbit_laban' => $this->view->user->id_hobbit,
+			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
 			'quantite_viande_laban' => $this->view->nbViande,
 			'quantite_peau_laban' => $this->view->nbPeau,
 		);

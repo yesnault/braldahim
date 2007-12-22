@@ -77,7 +77,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		
 		$labanTable = new Laban();
 		$data = array(
-			'id_hobbit_laban' => $this->view->user->id_hobbit,
+			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
 			'quantite_ration_laban' => $this->view->nbRation,
 			'quantite_viande_preparee_laban' => -1,
 		);

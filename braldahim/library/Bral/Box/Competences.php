@@ -66,7 +66,7 @@ class Bral_Box_Competences {
 				$competence = null;
 				foreach($hobbitCompetences as $c) {
 					if ($c["type_competence"] == $this->type && $m["id_metier"] == $c["id_fk_metier_competence"]) {
-						$competence[] = array("id_competence" => $c["id_competence_hcomp"],
+						$competence[] = array("id_competence" => $c["id_fk_competence_hcomp"],
 						"nom" => $c["nom_competence"],
 						"pa_utilisation" => $c["pa_utilisation_competence"],
 						"pourcentage" => $c["pourcentage_hcomp"],
@@ -87,7 +87,7 @@ class Bral_Box_Competences {
 
 			foreach($hobbitCompetences as $c) {
 				if ($c["type_competence"] == $this->type ) {
-					$tabCompetences[] = array("id_competence" => $c["id_competence_hcomp"],
+					$tabCompetences[] = array("id_competence" => $c["id_fk_competence_hcomp"],
 					"nom" => $c["nom_competence"],
 					"pa_utilisation" => $c["pa_utilisation_competence"],
 					"pourcentage" => $c["pourcentage_hcomp"],

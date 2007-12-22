@@ -1,11 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 2.9.2
+-- version 2.10.2
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Lundi 16 Juillet 2007 à 21:58
--- Version du serveur: 5.0.33
--- Version de PHP: 5.2.0
+-- Généré le : Sam 22 Décembre 2007 à 20:17
+-- Version du serveur: 5.0.41
+-- Version de PHP: 5.2.3
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
 -- 
 -- Base de données: `braldahim`
 -- 
@@ -23,7 +26,7 @@ CREATE TABLE `monstre` (
   `id_fk_groupe_monstre` int(11) default NULL,
   `x_monstre` int(11) NOT NULL,
   `y_monstre` int(11) NOT NULL,
-  `id_cible_monstre` int(11) default NULL,
+  `id_fk_hobbit_cible_monstre` int(11) default NULL,
   `pv_restant_monstre` int(11) NOT NULL,
   `pa_monstre` int(11) NOT NULL,
   `niveau_monstre` int(11) NOT NULL,
@@ -46,5 +49,21 @@ CREATE TABLE `monstre` (
   `est_mort_monstre` enum('oui','non') NOT NULL default 'non',
   PRIMARY KEY  (`id_monstre`),
   KEY `id_fk_groupe_monstre` (`id_fk_groupe_monstre`),
-  KEY `idx_x_monstre_y_monstre` (`x_monstre`,`y_monstre`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `idx_x_monstre_y_monstre` (`x_monstre`,`y_monstre`),
+  KEY `id_fk_type_monstre` (`id_fk_type_monstre`),
+  KEY `id_fk_taille_monstre` (`id_fk_taille_monstre`),
+  KEY `id_fk_hobbit_cible_monstre` (`id_fk_hobbit_cible_monstre`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- 
+-- Contraintes pour les tables exportées
+-- 
+
+-- 
+-- Contraintes pour la table `monstre`
+-- 
+ALTER TABLE `monstre`
+  ADD CONSTRAINT `monstre_ibfk_11` FOREIGN KEY (`id_fk_hobbit_cible_monstre`) REFERENCES `hobbit` (`id_hobbit`) ON DELETE SET NULL,
+  ADD CONSTRAINT `monstre_ibfk_10` FOREIGN KEY (`id_fk_groupe_monstre`) REFERENCES `groupe_monstre` (`id_groupe_monstre`),
+  ADD CONSTRAINT `monstre_ibfk_8` FOREIGN KEY (`id_fk_type_monstre`) REFERENCES `type_monstre` (`id_type_monstre`),
+  ADD CONSTRAINT `monstre_ibfk_9` FOREIGN KEY (`id_fk_taille_monstre`) REFERENCES `taille_monstre` (`id_taille_monstre`);
