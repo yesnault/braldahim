@@ -1,0 +1,58 @@
+<div class='comp_titre'>Joaillier</div>
+ <form name='myForm'  id='myForm'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ <div class='comp_contenu'>
+ Pour <?=$this->paUtilisationLieu ?> PA et <?=$this->coutCastars?> castars, le joaillier <br>
+  vous propose de sertir une pi&egrave;ce d'&eacute;quipement<br><br>
+ 
+ 	<? if ($this->nbEquipementsLaban > 0): ?>
+ 		&Eacute;quipement:<br>
+		<select name="valeur_1" id="valeur_1" onChange="_get_('/lieux/DoAction?caction=ask_lieu_joaillier&id_equipement='+this.value);">
+	 		<option value="-1">(Choisis un &eacute;quipement)</option>
+			<? foreach($this->equipementsLaban as $e) :?>
+				<option value="<?=$e["id_laban_equipement"] ?>" <?=$e["selected"]?>><?=htmlentities($e["nom"]) ?> : qualit&eacute; <?=htmlentities($e["qualite"]) ?>,
+				 niveau: <?=$e["niveau"] ?>, nb. emplacements: <?=$e["nb_runes"] ?></option>
+			<? endforeach; ?>
+		</select>
+		<br><br>
+	<? endif; ?>
+	
+	<? if (isset($this->equipementCourant) ) : ?>
+		<? if ($this->equipementCourant["nb_runes"] < 1) : ?>
+			Ce type d'&eacute;quipement ne peut pas &eacute;tre serti de rune.
+		<? else : ?>
+			<? if ($this->nbEquipementRune > 1) $s="s"; else $s=""; ?>
+			Il y a <?=$this->nbEquipementRune ?> rune<?=$s ?> de sertie<?=$s ?> sur cet &eacute;quipement. <br>
+			
+			Toute rune d&eacute;j&agrave; sertie est d&eacute;truite lors d'un sertissage.
+			
+			<br><br>
+			
+			<div id='testd' style="cursor:pointer">
+				<img src="" alt="IMG"  />
+			</div>
+			
+			<? $js =""; ?>
+			<? for($i = 0; $i<$this->equipementCourant["nb_runes"]; $i++) :?>
+			<div id='mdrop_<?=$i ?>'><br><br>Emplacement <?=$i ?><br><br></div>
+			
+			<? $js .= "function D".$i."(){alert('HOP')};Droppables.add('mdrop_".$i."',{onDrop:D".$i."});" ?>
+			<? endfor; ?>
+			
+			<input type="button" value="Choisir l'ordre" onClick="new Draggable('testd',{revert:false});<?=$js ?>">
+	
+		<? endif; ?>
+		
+	<? endif; ?>
+	
+	
+	
+	
+ </div> 
+</form>
+<br>
+
+<? if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true): ?>
+<input type='button' class='button1' id="bouton_joaillier" value='Sertir !' onClick="this.disabled=true;_get_('/lieux/DoAction?caction=do_lieu_joaillier');"  disabled>
+<? endif; ?>
+<? include("commun_fermer.phtml") ?>

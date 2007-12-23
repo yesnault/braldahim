@@ -289,7 +289,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 						}
 						foreach($this->echoppeMinerai as $m) {
 							if ($m["id_fk_type_echoppe_minerai"] == $c["id_type_minerai"]) {
-								$quantite = $this->echoppeMinerai["quantite_lingots_echoppe_minerai"] - $c["cout"];
+								$quantite = $m["quantite_lingots_echoppe_minerai"] - $c["cout"];
 								if ($quantite < 0) {
 									$quantite = 0;
 								}

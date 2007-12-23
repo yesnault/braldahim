@@ -3,17 +3,19 @@
 class Bral_Lieux_Factory {
 	static function getAction($request, $view) {
 		Zend_Loader::loadClass("Bral_Lieux_Lieu");
-		Zend_Loader::loadClass("Bral_Lieux_Ahennepeheux");
-		Zend_Loader::loadClass("Bral_Lieux_Behennepee");
-		Zend_Loader::loadClass("Bral_Lieux_Essenecehef");
-		Zend_Loader::loadClass("Bral_Lieux_Laffaque");
-		Zend_Loader::loadClass("Bral_Lieux_Eujimenasiumme");
 		
 		$matches = null;
 		preg_match('/(.*)_lieu_(.*)/', $request->get("caction"), $matches);
 		$action = $matches[1]; // "do" ou "ask"
 		$nomSystemeLieu = $matches[2];
 		$construct = null;
+		
+		$construct = "Bral_Lieux_".$nomSystemeLieu;
+		try {
+			Zend_Loader::loadClass($construct);
+		} catch(Exception $e) {
+			throw new Zend_Exception("Bral_Lieux_Factory construct invalide (classe): ".$nomSystemeLieu);
+		}
 		
 		// verification que le joueur est sur le lieu
 		// TODO
