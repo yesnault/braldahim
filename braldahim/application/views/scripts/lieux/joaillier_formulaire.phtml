@@ -1,6 +1,6 @@
 <div class='comp_titre'>Joaillier</div>
  <form name='myForm'  id='myForm'>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <div class='comp_contenu'>
  Pour <?=$this->paUtilisationLieu ?> PA et <?=$this->coutCastars?> castars, le joaillier <br>
   vous propose de sertir une pi&egrave;ce d'&eacute;quipement<br><br>
@@ -21,32 +21,61 @@
 		<? if ($this->equipementCourant["nb_runes"] < 1) : ?>
 			Ce type d'&eacute;quipement ne peut pas &eacute;tre serti de rune.
 		<? else : ?>
-			<? if ($this->nbEquipementRune > 1) $s="s"; else $s=""; ?>
+			<? if ($this->nbEquipementRune > 0) :
+			
+				if ($this->nbEquipementRune > 1) $s="s"; else $s=""; ?>
 			Il y a <?=$this->nbEquipementRune ?> rune<?=$s ?> de sertie<?=$s ?> sur cet &eacute;quipement. <br>
 			
-			Toute rune d&eacute;j&agrave; sertie est d&eacute;truite lors d'un sertissage.
+			Vous ne pouvez pas sertir de nouvelles runes dessus.
 			
-			<br><br>
+			<? else : ?>
 			
-			<div id='testd' style="cursor:pointer">
-				<img src="" alt="IMG"  />
-			</div>
-			
-			<? $js =""; ?>
-			<? for($i = 0; $i<$this->equipementCourant["nb_runes"]; $i++) :?>
-			<div id='mdrop_<?=$i ?>'><br><br>Emplacement <?=$i ?><br><br></div>
-			
-			<? $js .= "function D".$i."(){alert('HOP')};Droppables.add('mdrop_".$i."',{onDrop:D".$i."});" ?>
-			<? endfor; ?>
-			
-			<input type="button" value="Choisir l'ordre" onClick="new Draggable('testd',{revert:false});<?=$js ?>">
+				Glissez une rune sur l'&eacute;quipement ci-dessous. L'ordre des runes ayant une importance,
+				vous pouvez les r&eacute;organiser avant que le joaillier les sertisse.<br><br>
+				Vous n'&ecirc;tes pas oblig&eacute; de remplir tous les emplacements disponibles.
+				<br>
+				<? $js="sections = ['group1','group2'];
+					function calculNbRune(total){ 
+						liste=Sortable.serialize('group2'); 
+						if (liste.length > 0) {tliste=liste.split('&'); nb=tliste.length;
+						} else { nb=0; } 
+						nb = total - nb;
+						$('valeur_2').value=nb; 
+						$('valeur_3').value=Sortable.sequence($('group2')); 
+						if (nb < 0 || nb >= total) { $('bouton_joaillier').disabled=true; 
+						} else { $('bouton_joaillier').disabled=false; }
+						return nb;
+					};
+					Sortable.create('group1',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune'});
+					Sortable.create('group2',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune', onUpdate:function(){\$('dispo').innerHTML=calculNbRune(".$this->equipementCourant["nb_runes"].");}});" ?>
+				
+				<input type="button" value="Choisir les runes" onClick="<?=$js ?>; $('choix_runes').style.display='block';this.style.display='none';">
+				
+					<div id="choix_runes" style="display:none">
+					<h3 class="handle">Vos runes disponibles</h3>
+					<div id="group1" class="section">
+						
+						<? 
+						$i = 0;
+						foreach($this->labanRunes as $l) :
+						$i = $i++;
+						?>
+						<img id="item_<?=$i ?>" class="rune" src="TODO" alt="<?=$l["nom_type_rune"] ?>" />
+						<? endforeach; ?>
+					</div>
+					<br>
+					<input type="hidden" id="valeur_2" name="valeur_2">
+					<input type="hidden" id="valeur_3" name="valeur_3">
+					<br>
+					<? if ($this->equipementCourant["nb_runes"] > 1): $s="s"; else:$s=""; endif; ?>Sur <?=$this->equipementCourant["nb_runes"]?> emplacement<?=$s?> au total, il en reste <label id="dispo"><?=$this->equipementCourant["nb_runes"]?></label>.
+					
+					<div id="group2" class="joaillier_runes" style="height:50px"><br>
+					</div>
+				</div>
 	
+			<? endif; ?>
 		<? endif; ?>
-		
 	<? endif; ?>
-	
-	
-	
 	
  </div> 
 </form>

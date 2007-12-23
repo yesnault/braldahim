@@ -66,6 +66,21 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			$this->view->nbEquipementRune = count($tabEquipementsRune);
 			$this->view->equipementRunes = $tabEquipementsRune;
 			$this->view->equipementCourant = $equipementCourant;
+			
+			Zend_Loader::loadClass("LabanRune");
+			$tabLabanRune = null;
+			$labanRuneTable = new LabanRune();
+			$labanRunes = $labanRuneTable->findByIdHobbit($this->view->user->id_hobbit);
+			
+			foreach($labanRunes as $l) {
+				$tabLabanRune[] = array(
+				"id_rune_laban_rune" => $l["id_rune_laban_rune"],
+				"id_fk_type_rune_laban_rune" => $l["id_fk_type_laban_rune"],
+				"nom_type_rune" => $l["nom_type_rune"],
+				);
+			}
+			$this->view->nbLabanRune = count($tabLabanRune);
+			$this->view->labanRunes = $tabLabanRune;
 		}
 	}
 
