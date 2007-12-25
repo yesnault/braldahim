@@ -3,14 +3,14 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <div class='comp_contenu'>
  Pour <?=$this->paUtilisationLieu ?> PA et <?=$this->coutCastars?> castars, le joaillier <br>
-  vous propose de sertir une pi&egrave;ce d'&eacute;quipement<br><br>
+  vous propose de sertir une pi&egrave;ce d'&eacute;quipement, pr&eacute;sente dans votre laban.<br><br>
  
  	<? if ($this->nbEquipementsLaban > 0): ?>
  		&Eacute;quipement:<br>
 		<select name="valeur_1" id="valeur_1" onChange="_get_('/lieux/DoAction?caction=ask_lieu_joaillier&id_equipement='+this.value);">
 	 		<option value="-1">(Choisis un &eacute;quipement)</option>
 			<? foreach($this->equipementsLaban as $e) :?>
-				<option value="<?=$e["id_laban_equipement"] ?>" <?=$e["selected"]?>><?=htmlentities($e["nom"]) ?> : qualit&eacute; <?=htmlentities($e["qualite"]) ?>,
+				<option value="<?=$e["id_laban_equipement"] ?>" <?=$e["selected"]?>><?=htmlentities($e["nom"]) ?> : n&deg;<?=$e["id_laban_equipement"] ?>, qualit&eacute; <?=htmlentities($e["qualite"]) ?>,
 				 niveau: <?=$e["niveau"] ?>, nb. emplacements: <?=$e["nb_runes"] ?></option>
 			<? endforeach; ?>
 		</select>
@@ -24,9 +24,9 @@
 			<? if ($this->nbEquipementRune > 0) :
 			
 				if ($this->nbEquipementRune > 1) $s="s"; else $s=""; ?>
-			Il y a <?=$this->nbEquipementRune ?> rune<?=$s ?> de sertie<?=$s ?> sur cet &eacute;quipement. <br>
+			Il y a d&eacute;j&agrave; <?=$this->nbEquipementRune ?> rune<?=$s ?> de sertie<?=$s ?> sur cet &eacute;quipement. <br>
 			
-			Vous ne pouvez pas sertir de nouvelles runes dessus.
+			Vous ne pouvez pas sertir de rune sur un &eacute;quipement d&eacute;j&agrave; serti.
 			
 			<? else : ?>
 			
@@ -37,30 +37,35 @@
 				<? $js="sections = ['group1','group2'];
 					function calculNbRune(total){ 
 						liste=Sortable.serialize('group2'); 
-						if (liste.length > 0) {tliste=liste.split('&'); nb=tliste.length;
-						} else { nb=0; } 
-						nb = total - nb;
-						$('valeur_2').value=nb; 
+						if (liste.length > 0) {
+							tliste=liste.split('&'); 
+							nbPlacees=tliste.length;
+						} else { 
+							nbPlacees=0; 
+						} 
+						$('valeur_2').value=nbPlacees; 
+						nb = total - nbPlacees;
 						$('valeur_3').value=Sortable.sequence($('group2')); 
 						if (nb < 0 || nb >= total) { $('bouton_joaillier').disabled=true; 
 						} else { $('bouton_joaillier').disabled=false; }
 						return nb;
 					};
+					function upd() {
+						$('dispo').innerHTML=calculNbRune(".$this->equipementCourant["nb_runes"].");
+					}
 					Sortable.create('group1',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune'});
-					Sortable.create('group2',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune', onUpdate:function(){\$('dispo').innerHTML=calculNbRune(".$this->equipementCourant["nb_runes"].");}});" ?>
+					Sortable.create('group2',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune', onUpdate:upd});" ?>
 				
 				<input type="button" value="Choisir les runes" onClick="<?=$js ?>; $('choix_runes').style.display='block';this.style.display='none';">
 				
 					<div id="choix_runes" style="display:none">
 					<h3 class="handle">Vos runes disponibles</h3>
-					<div id="group1" class="section">
-						
+					<div id="group1" class="joaillier_runes">
 						<? 
 						$i = 0;
-						foreach($this->labanRunes as $l) :
-						$i = $i++;
+						foreach($this->labanRunes as $k => $v) :
 						?>
-						<img id="item_<?=$i ?>" class="rune" src="TODO" alt="<?=$l["nom_type_rune"] ?>" />
+						<img id="item_<?=$k ?>" class="rune" src="/public/images/runes/<?=$v["image_type_rune"]?>" title="<?=$v["nom_type_rune"]?>" alt="<?=$v["nom_type_rune"] ?>" style="cursor:pointer;"/>
 						<? endforeach; ?>
 					</div>
 					<br>
@@ -82,6 +87,6 @@
 <br>
 
 <? if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true): ?>
-<input type='button' class='button1' id="bouton_joaillier" value='Sertir !' onClick="this.disabled=true;_get_('/lieux/DoAction?caction=do_lieu_joaillier');"  disabled>
+<input type='button' class='button1' id="bouton_joaillier" value='Sertir !' onClick="this.disabled=true;_get_('/lieux/DoAction?caction=do_lieu_joaillier&id_equipement='+$('valeur_1').value);"  disabled>
 <? endif; ?>
 <? include("commun_fermer.phtml") ?>

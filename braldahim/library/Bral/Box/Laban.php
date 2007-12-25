@@ -104,14 +104,34 @@ class Bral_Box_Laban {
 		$tabEquipements = null;
 		$labanEquipementTable = new LabanEquipement();
 		$equipements = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
-
+		
+		$tabWhere = null;
 		foreach ($equipements as $e) {
-			$tabEquipements[] = array(
+			$tabEquipements[$e["id_laban_equipement"]] = array(
 					"nom" => $e["nom_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
-					"nb_runes" => $e["nb_runes_laban_equipement"]
+					"nb_runes" => $e["nb_runes_laban_equipement"],
+					"runes" => array(),
 			);
+			$tabWhere[] = $e["id_laban_equipement"];
+		}
+		
+		if ($tabWhere != null) {
+			Zend_Loader::loadClass("EquipementRune");
+			$equipementRuneTable = new EquipementRune();
+			$equipementRunes = $equipementRuneTable->findByIdsEquipement($tabWhere);
+			
+			foreach($equipementRunes as $e) {
+				$tabEquipements[$e["id_equipement_rune"]]["runes"][] = array(
+				"id_rune_equipement_rune" => $e["id_rune_equipement_rune"],
+				"id_fk_type_rune_equipement_rune" => $e["id_fk_type_rune_equipement_rune"],
+				"nom_type_rune" => $e["nom_type_rune"],
+				"image_type_rune" => $e["image_type_rune"],
+				);
+			}
+			
+			
 		}
 		
 		$this->view->nb_equipements = count($tabEquipements);

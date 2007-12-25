@@ -9,10 +9,32 @@ class EquipementRune extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('equipement_rune', '*')
 		->from('type_rune', '*')
-		->where('id_equipement_rune = ?', intval($id_equipement))
+		->where('id_equipement_rune = ?', (int)$id_equipement)
 		->where('equipement_rune.id_fk_type_rune_equipement_rune = type_rune.id_type_rune');
 		$sql = $select->__toString();
 
+		return $db->fetchAll($sql);
+    }
+    
+    function findByIdsEquipement($tabId) {
+    	$where = "";
+    	foreach($tabId as $id) {
+			if ($where == "") {
+				$or = "";
+			} else {
+				$or = " OR ";
+			}
+			$where .= " $or id_equipement_rune=".(int)$id;
+    	}
+    	
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('equipement_rune', '*')
+		->from('type_rune', '*')
+		->where($where)
+		->where('equipement_rune.id_fk_type_rune_equipement_rune = type_rune.id_type_rune');
+		$sql = $select->__toString();
+		
 		return $db->fetchAll($sql);
     }
 }

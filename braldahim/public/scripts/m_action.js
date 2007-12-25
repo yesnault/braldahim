@@ -162,7 +162,7 @@ function showResponse(originalRequest) {
     // Box action
 	if (display_action) {
 		//$("box_action").style.display = "block";
-		Modalbox.show($("box_action"), {title: 'Action', width: 400, overlayClose:false});
+		Modalbox.show($("box_action"), {title: 'Action', width: 450, overlayClose:false});
 	} else {
 		if ($("box_action")) {
 			$("box_action").style.display = "none";

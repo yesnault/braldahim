@@ -23,6 +23,7 @@ CREATE TABLE `equipement_rune` (
   `id_equipement_rune` int(11) NOT NULL,
   `id_rune_equipement_rune` int(11) NOT NULL,
   `id_fk_type_rune_equipement_rune` int(11) NOT NULL,
+  `ordre_equipement_rune` int(11) NOT NULL,
   PRIMARY KEY  (`id_equipement_rune`),
   KEY `id_fk_type_rune_equipement_rune` (`id_fk_type_rune_equipement_rune`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

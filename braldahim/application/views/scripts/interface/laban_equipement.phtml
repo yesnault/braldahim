@@ -8,12 +8,28 @@
     
     <table width='100%'>
     <? $i = 0;
-      foreach ($this->equipements as $e) : 
-     	 if ($i % 3 == 0) echo "<tr>"; 
+      foreach ($this->equipements as $id => $e) : 
+     	 if ($i % 3 == 0) echo "<tr>";
+     	 
+     	 $text = "Qualit&eacute; : ".htmlentities($e["qualite"])."<br>";
+     	 $text .= "Niveau : ".$e["niveau"]."<br>";
+     	 $text .= "Nombre d\'emplacement runique : ".$e["nb_runes"]."<br>";
+     	 
+     	 if (count($e["runes"]) > 1) $s='s'; else $s="";
+     	 
+     	 
+     	 $text .= count($e["runes"]) ." Rune$s sertie$s "."<br>";
+     	 foreach($e["runes"] as $r) {
+     	 	$text .= "<img src=\'/public/images/runes/".$r["image_type_rune"]."\'  class=\'rune\' title=\'".$r["nom_type_rune"]."\' n&deg;".$r["id_rune_equipement_rune"]." alt=\'".$r["nom_type_rune"]."\' n&deg;".$r["id_rune_equipement_rune"]."  />";
+     	 }
+     	 $titre = htmlentities($e["nom"])." n&deg;".$id. " - D&eacute;tails"
     	?>
     	<td>
-    		<?=htmlentities($e["nom"]) ?> : qualit&eacute; <?=htmlentities($e["qualite"]) ?>,
-			 niveau: <?=$e["niveau"] ?>, nb. emplacements: <?=$e["nb_runes"] ?>
+    	<span onmouseover="return overlib('<?=$text?>',CAPTION,'<?=$titre ?>');"
+      		onclick="return overlib('<?=$text?>', STICKY, CAPTION, '<?=$titre ?>', CLOSECLICK, EXCLUSIVE);"
+      		onmouseout="return nd();">
+    		<?=htmlentities($e["nom"]) ?> n&deg;<?=$id ?>
+			 </span>
     	</td>
     	<? if ($i % 3 == 2) echo "</tr>"; 
     	$i++; 

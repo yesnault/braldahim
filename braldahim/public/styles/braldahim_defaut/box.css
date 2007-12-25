@@ -393,16 +393,12 @@ li.row:hover dd {
 }
 
 .rune {
-	border: 1px solid #000;
-	color: #00339A;
-	background-color: white;
-	padding: 2pt 2pt 2pt 2px;
-	cursor:pointer;
+	width:30px;
 }
 
 .joaillier_runes {
 	border: 1px solid #000;
 	color: #000;
 	background-color: #eeeeee;
-	height: 100px;
+	height:50px
 }

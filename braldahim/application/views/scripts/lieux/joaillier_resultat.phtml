@@ -2,13 +2,51 @@
 
  <div class='comp_contenu'>
 	 <div id='lieu_text' style="display:block"  onClick="javascript:switch2div('lieu_text','lieu_copie');">
-	 Pour <?=$this->coutCastars?> castars et <?=$this->coutPi?> PI, vous avez serti <br>
-	 l'&eacute;quipement : TODO <br><br>
+	 Pour <?=$this->coutCastars?> castars et <?=$this->coutPi?> PI, vous avez serti <?=$this->nbRunes ?>
+	 rune<? if ($this->nbRunes > 1) echo "s"; ?> sur <br>
+	 l'&eacute;quipement n&deg;<?=$this->equipementCourant["id_laban_equipement"] ?> : <?=htmlentities($this->equipementCourant["nom"]) ?>  
+	 qualit&eacute; <?=htmlentities($this->equipementCourant["qualite"]) ?>,
+	 niveau: <?=$this->equipementCourant["niveau"] ?><br><br>
 	 
+	 <? if ($this->nbRunes > 1) : ?>
+	 	Les runes serties sont dans l'ordre :
+	 <? else : ?>
+	 	La rune sertie est : 
+	 <? endif; ?>
+	 <br>
+	 <? foreach($this->tabRunes as $k => $v) : ?>
+	 	<img id="item_<?=$k ?>" class="rune" src="/public/images/runes/<?=$v["image_type_rune"]?>" title="<?=$v["nom_type_rune"]?>" alt="<?=$v["nom_type_rune"] ?>"/>
+	 <? endforeach ?>
+	 <br><br>
 	 Faites-en bon usage...<br><br>
+	 
 	 </div>
 	 <div id='lieu_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40>TODO</textarea>
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+			echo "Pour ".$this->coutCastars." castars et ".$this->coutPi." PI, vous avez serti ".$this->nbRunes;
+			echo " rune";
+			if ($this->nbRunes > 1) echo "s";
+	 		echo " sur l'&eacute;quipement n&deg;".$this->equipementCourant["id_laban_equipement"];
+	 		echo " : ".htmlentities($this->equipementCourant["nom"]);  
+	 		echo " qualit&eacute; ".htmlentities($this->equipementCourant["qualite"]) ." ,";
+	 		echo " niveau: ".$this->equipementCourant["niveau"];
+	 		echo "
+";
+	 
+	 		if ($this->nbRunes > 1) :
+	 			echo "Les runes serties sont dans l'ordre :";
+	 		else :
+	 			echo "La rune sertie est :";
+	 		endif;
+	 		echo "
+";
+	 		foreach($this->tabRunes as $k => $v) :
+	 			echo $v["nom_type_rune"] . " "; 
+	 		endforeach;
+			echo "
+";
+			echo "Faites-en bon usage...";
+		?></textarea>
 	</div>
  </div>
 

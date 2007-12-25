@@ -54,7 +54,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			Zend_Loader::loadClass("EquipementRune");
 			$tabEquipementsRune = null;
 			$equipementRuneTable = new EquipementRune();
-			$equipementRunes = $equipementRuneTable->findByIdEquipement($this->view->user->id_hobbit);
+			$equipementRunes = $equipementRuneTable->findByIdEquipement($id_equipement_courant);
 			
 			foreach($equipementRunes as $e) {
 				$tabEquipementsRune[] = array(
@@ -73,10 +73,10 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			$labanRunes = $labanRuneTable->findByIdHobbit($this->view->user->id_hobbit);
 			
 			foreach($labanRunes as $l) {
-				$tabLabanRune[] = array(
-				"id_rune_laban_rune" => $l["id_rune_laban_rune"],
+				$tabLabanRune[$l["id_rune_laban_rune"]] = array(
 				"id_fk_type_rune_laban_rune" => $l["id_fk_type_laban_rune"],
 				"nom_type_rune" => $l["nom_type_rune"],
+				"image_type_rune" => $l["image_type_rune"],
 				);
 			}
 			$this->view->nbLabanRune = count($tabLabanRune);
@@ -90,9 +90,82 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 
 	function prepareResultat() {
 	
+		$idEquipementLaban = $this->request->get("valeur_1");
+		$nbRunes = $this->request->get("valeur_2");
+		$runes = $this->request->get("valeur_3");
+		
+		if ((int) $idEquipementLaban."" != $this->request->get("valeur_1")."") {
+			throw new Zend_Exception(get_class($this)." Equipement Laban invalide=".$idEquipementLaban);
+		} else {
+			$idEquipementLaban = (int)$idEquipementLaban;
+		}
+		
+		if ($idEquipementLaban != $this->view->equipementCourant["id_laban_equipement"]) {
+			throw new Zend_Exception(get_class($this)." idEquipement interdit A=".$idEquipementLaban. " B=".$this->view->equipementCourant["id_laban_equipement"]);
+		}
+		
+		if ((int) $nbRunes."" != $this->request->get("valeur_2")."") {
+			throw new Zend_Exception(get_class($this)." Nb Rune invalide =".$nbRunes);
+		} else {
+			$nbRunes = (int)$nbRunes;
+		}
+		
+		if ($runes == "" || $runes == null) {
+			throw new Zend_Exception(get_class($this)." Runes invalides =".$runes);
+		}
+		
+		$tabRunesJs = explode(",", $runes);
+		$tabRunes = null;
+		// on regarde si les runes sont présentes dans le laban
+		
+		$tmp = $this->view->labanRunes;
+		$nb = 0;
+		foreach($tabRunesJs as $u) {
+			$trouve = false;
+			foreach($tmp as $k => $r) {
+				if ((int)$u == $k) {
+					$tabRunes[$k] = $r;
+					$trouve = true;
+					$nb++;
+					break;
+				}
+			}
+			if ($trouve == false) {
+				throw new Zend_Exception(get_class($this)." Rune invalide =".$u);
+			}
+		}
+		
+		if ($nb != $nbRunes){
+				throw new Zend_Exception(get_class($this)." Nombre de runes invalides A n1=".$nb. " n2=".$nbRunes);
+		}
+
+		if ($nb == 0 || $nb > $this->view->equipementCourant["nb_runes"]){
+				throw new Zend_Exception(get_class($this)." Nombre de runes invalides B n1=".$nb. " n2=".$this->view->equipementCourant["nb_runes"]);
+		}
+		
+		$this->calculSertir($tabRunes);
+		$this->view->nbRunes = $nb;
+		$this->view->tabRunes = $tabRunes;
+		
 	}
 
-
+	private function calculSertir($tabRunes) {
+		$equipementRuneTable = new EquipementRune();
+		
+		$ordre = 0;
+		foreach($tabRunes as $k => $v) {
+			$ordre++;
+			$data = array(
+				'id_equipement_rune' => $this->view->equipementCourant["id_laban_equipement"],
+				'id_rune_equipement_rune' => $k,
+				'id_fk_type_rune_equipement_rune' => $v["id_fk_type_rune_laban_rune"],
+				'ordre_equipement_rune' => $ordre
+			);
+			$equipementRuneTable->insert($data);
+		}
+		
+	}
+	
 	function getListBoxRefresh() {
 		return array("box_profil", "box_metier", "box_laban");
 	}
