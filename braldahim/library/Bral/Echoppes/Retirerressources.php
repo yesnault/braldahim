@@ -208,7 +208,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 				$data = array(
 				'id_fk_type_laban_minerai' => $this->view->minerais[$indice]["id_fk_type_echoppe_minerai"],
 				'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
-				'quantite_laban_minerai' => $nb,
+				'quantite_brut_laban_minerai' => $nb,
 				);
 		
 				$labanMineraiTable->insertOrUpdate($data);

@@ -6,7 +6,12 @@
 		<? include("commun_text_resultat.phtml") ?>
 		
 		<? if ($this->okJet1 === true): ?>
-			Vous avez r&eacute;ussi &agrave; forger une pi&egrave;ce d'&eacute;quipement.
+			Vous avez r&eacute;ussi &agrave; forger une pi&egrave;ce d'&eacute;quipement : 
+			<br>
+			<?=htmlentities($this->typeEquipementCourant["nom_type_equipement"]) ?>, de qualit&eacute; <?=$this->qualite ?>
+			et de niveau <?=$this->niveau ?>.
+			<br>
+			Il y a <?=$this->nbRunes ?> emplacement<? if ($this->nbRunes > 1) echo 's'; ?> runique<? if ($this->nbRunes > 1) echo 's'; ?>.
 		<? else: ?>
 			Vous avez manqu&eacute; votre forgeage<br>
 		<? endif; ?>
@@ -16,12 +21,19 @@
 	 <div id='forger_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
 		include("commun_copie_resultat.phtml");
-		
-			echo "Votre Jet d'identification : ".$this->jetHobbit;
-			echo "
-";
 			if ($this->okJet1 === true) {
-				echo "Vous avez r&eacute;ussi &agrave; forger du minerai de ".htmlentities($this->mineraiNomType);
+				echo "Vous avez r&eacute;ussi &agrave; forger une pi&egrave;ce d'&eacute;quipement :";
+				echo "
+"; 
+				echo htmlentities($this->typeEquipementCourant["nom_type_equipement"]);
+				echo ", de qualit&eacute; ".$this->qualite;
+				echo " et de niveau ".$this->niveau.".";
+				$s = "";
+				if ($this->nbRunes > 1) $s='s';
+				echo "
+";
+				echo " Il y a ".$this->nbRunes. " emplacement$s";
+				echo " runique$s";
 				echo "
 ";
 			} else {

@@ -84,7 +84,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 		$tabCout = null;
 		$this->view->ressourcesOk = true;
 		$this->view->etape1 = false;
-		$this->typeEquipementCourant = null;
+		$this->view->typeEquipementCourant = null;
 		$this->view->cout = null;
 		$this->view->niveaux = null;
 		$this->view->runes = null;
@@ -165,7 +165,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 			$this->view->niveaux = $tabNiveaux;
 			$this->view->runes = $tabRunes;
 
-			$this->typeEquipementCourant = $typeEquipementCourant;
+			$this->view->typeEquipementCourant = $typeEquipementCourant;
 		}
 
 		$this->view->typeEquipement = $tabTypeEquipement;
@@ -198,8 +198,8 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 		$niveau = (int)$this->request->get("valeur_2");
 		$nbRunes = (int)$this->request->get("valeur_3");
 
-		if ($idTypeEquipement != $this->typeEquipementCourant["id_type_equipement"]) {
-			throw new Zend_Exception(get_class($this)." idTypeEqupement interdit A=".$idTypeEquipement. " B=".$this->typeEquipementCourant["id_type_equipement"]);
+		if ($idTypeEquipement != $this->view->typeEquipementCourant["id_type_equipement"]) {
+			throw new Zend_Exception(get_class($this)." idTypeEqupement interdit A=".$idTypeEquipement. " B=".$this->view->typeEquipementCourant["id_type_equipement"]);
 		}
 
 		$niveauxOk = false;
@@ -213,7 +213,6 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 		}
 
 		$runesOk = false;
-		$nbRunes = 0;
 		if ($this->view->peutRunes === true) {
 			foreach ($this->view->runes as $r) {
 				if ($nbRunes == $r["nombre"]) {
@@ -250,12 +249,17 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 		$qualite = -1;
 		if ($tirage > 0 && $tirage <= $chance_a) {
 			$qualite = 1;
+			$this->view->qualite = "m&eacute;diocre";
 		} elseif ($tirage > $chance_a && $tirage <= $chance_b) {
 			$qualite = 2;
+			$this->view->qualite = "standard";
 		} elseif ($tirage > $chance_b && $tirage <= 100) {
 			$qualite = 3;
+			$this->view->qualite = "bonne";
 		}
-
+		$this->view->niveau = $niveau;
+		$this->view->nbRunes = $nbRunes;
+		
 		Zend_Loader::loadClass("RecetteEquipement");
 		$recetteEquipementTable = new RecetteEquipement();
 		$recetteEquipement = $recetteEquipementTable->findByIdTypeAndNiveauAndQualite($idTypeEquipement, $niveau, $qualite);

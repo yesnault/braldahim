@@ -15,10 +15,14 @@ function _display_box(box, data) {
 function my_switch(box,conteneur) {
 	val = $('switch_'+conteneur).value.split(',');
 	for (i=0; i<val.length; i++) {
-		$(val[i]).style.display="none";
+		if ($(val[i])) {
+			$(val[i]).style.display="none";
+		}
 		$("onglet_"+val[i]).className="onglet inactif";
 	}
-	$(box).style.display="block";
+	if ($(box)) {
+		$(box).style.display="block";
+	}
 	$("onglet_"+box).className="onglet actif";
 }
 

@@ -3,13 +3,11 @@
 <ul class="titre textalia textsizec">Gestion des &Eacute;choppes</ul>
  <div class="contenuc">
   <ul class="box_contenu1 textalic">
-  	<table>
-  	<tr valign="top">
-  	<td><?=$this->htmlMenu ?></td>
-  	<td width="100%"><div id="box_echoppe"><?=$this->htmlContenu ?></div></td>
-  	</tr>
-  	</table>
-   </ul>
+  
+  <?=$this->htmlMenu ?>
+  <div id="box_echoppe">
+  <?=$this->htmlContenu ?>
+  </div>
 </div>
 </div>
 <? include("box_bottom.phtml") ?>

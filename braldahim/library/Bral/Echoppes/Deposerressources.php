@@ -286,18 +286,31 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		$echoppeMineraiTable = new EchoppeMinerai();
 		$labanMineraiTable = new LabanMinerai();
 		
-		for($i=$this->view->valeur_fin_partieplantes + 1; $i<=$this->view->nb_valeurs; $i++) {
-			$indice = "valeur_".$i;
-			$nb = $this->request->get($indice);
-			if ((int) $nb."" != $this->request->get($indice)."") {
-				throw new Zend_Exception(get_class($this)." NB Minerai invalide=".$nb. " indice=".$indice);
+		for($i=$this->view->valeur_fin_partieplantes + 1; $i<=$this->view->nb_valeurs; $i = $i + 2) {
+			$indiceBrut = "valeur_".($i-1);
+			$indiceLingot = "valeur_".$i;
+			$nbBrut = $this->request->get($indiceBrut);
+			$nbLingot = $this->request->get($indiceLingot);
+			
+			if ((int) $nbBrut."" != $this->request->get($indiceBrut)."") {
+				throw new Zend_Exception(get_class($this)." NB Minerai brut invalide=".$nbBrut. " indice=".$indiceBrut);
 			} else {
-				$nb = (int)$nb;
+				$nbBrut = (int)$nbBrut;
 			}
-			if ($nb > $this->view->minerais[$indice]["quantite_laban_minerai"]) {
-				throw new Zend_Exception(get_class($this)." NB Partie Plante interdit=".$nb);
+			if ($nbBrut > $this->view->minerais[$indiceBrut]["quantite_brut_laban_minerai"]) {
+				throw new Zend_Exception(get_class($this)." NB Minerai brut interdit=".$nbBrut);
 			}
-			if ($nb > 0) {
+			
+			if ((int) $nbLingot."" != $this->request->get($indiceLingot)."") {
+				throw new Zend_Exception(get_class($this)." NB Minerai lingot invalide=".$nbLingot. " indice=".$indiceLingot);
+			} else {
+				$nbLingot = (int)$nbLingot;
+			}
+			if ($nbLingot > $this->view->minerais[$indiceLingot]["quantite_lingots_laban_minerai"]) {
+				throw new Zend_Exception(get_class($this)." NB Minerai lingot interdit=".$nbLingot);
+			}
+			
+			if ($nbBrut > 0 || $nbLingot > 0) {
 				$data = array('quantite_arriere_echoppe_minerai' => $nb,
 							  'id_fk_type_echoppe_minerai' => $this->view->minerais[$indice]["id_fk_type_laban_minerai"],
 							  'id_fk_echoppe_echoppe_minerai' => $this->view->idEchoppe);
@@ -306,7 +319,8 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 				$data = array(
 				'id_fk_type_laban_minerai' => $this->view->minerais[$indice]["id_fk_type_laban_minerai"],
 				'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
-				'quantite_laban_minerai' => -$nb,
+				'quantite_brut_laban_minerai' => -$nbBrut,
+				'quantite_lingots_laban_minerai' => -$nbLingot,
 				);
 		
 				$labanMineraiTable->insertOrUpdate($data);
@@ -354,23 +368,27 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		$labanMineraiTable = new labanMinerai();
 		$minerais = $labanMineraiTable->findByIdHobbit($this->view->user->id_hobbit);
 
-		$this->view->nb_minerai = 0;
+		$this->view->nb_minerai_brut = 0;
+		$this->view->nb_minerai_lingot = 0;
 
 		if ($minerais != null) {
 			foreach ($minerais as $m) {
-				if ($m["quantite_laban_minerai"] > 0) {
-					$this->view->nb_valeurs = $this->view->nb_valeurs + 1;
-					$tabMinerais["valeur_".$this->view->nb_valeurs] = array(
+				if ($m["quantite_brut_laban_minerai"] > 0 || $m["quantite_lingots_laban_minerai"] > 0) {
+					$this->view->nb_valeurs = $this->view->nb_valeurs + 1; // brut
+					$tabMinerais[$this->view->nb_valeurs] = array(
 					"type" => $m["nom_type_minerai"],
 					"id_fk_type_laban_minerai" => $m["id_fk_type_laban_minerai"],
 					"id_fk_hobbit_laban_minerai" => $m["id_fk_hobbit_laban_minerai"],
-					"quantite_laban_minerai" => $m["quantite_laban_minerai"],
+					"quantite_brut_laban_minerai" => $m["quantite_brut_laban_minerai"],
+					"quantite_lingots_laban_minerai" => $m["quantite_lingots_laban_minerai"],
 					"indice_valeur" => $this->view->nb_valeurs,
 					);
-					if ($m["quantite_laban_minerai"] > 0) {
+					if ($m["quantite_brut_laban_minerai"] > 0 || $m["quantite_lingots_laban_minerai"] > 0) {
 						$this->view->deposerRessourcesOk = true;
 					}
-					$this->view->nb_minerai = $this->view->nb_minerai + $m["quantite_laban_minerai"];
+					$this->view->nb_valeurs = $this->view->nb_valeurs + 1; // lingot
+					$this->view->nb_minerai_brut = $this->view->nb_minerai_brut + $m["quantite_brut_laban_minerai"];
+					$this->view->nb_minerai_lingot = $this->view->nb_minerai_lingot + $m["quantite_lingots_laban_minerai"];
 				}
 			}
 		}

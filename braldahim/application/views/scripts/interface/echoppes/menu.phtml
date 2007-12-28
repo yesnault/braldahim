@@ -1,26 +1,35 @@
-<input type='hidden' id='menuAncienEchoppes' />
-<ul id="navigation">
-	<li id="menuVisibleEchoppes">
-		<h3 id="" class="head" onClick="_get_('/echoppes/DoAction?caction=ask_echoppes_liste')">Construction d'&eacute;choppes</h3>
-	</li>	
-	<? foreach($this->tabMetiers as $m) : ?>	
-	<li id="menuEchoppes<?=$m["nom_systeme_metier"]?>">
-		<h3 id="menuEchoppes<?=$m["nom_systeme_metier"]?>-head" class="head" onClick="accordion(this, 'menuAncienEchoppes', 'menuVisibleEchoppes')">Vos &eacute;choppes 
-			<? if ($this->nom_metier_courant{0} == 'A') : echo 'd'; else: echo "de"; endif; ?>
-			<?=htmlentities($m["nom_metier"])?>
-		</h3>
-		<ul  id="menuEchoppes<?=$m["nom_systeme_metier"]?>-body" style="display:none">
-			<? foreach($m["regions"] as $r) : ?>
-			<li <? if (isset($r["echoppe"])) : ?> style="cursor:pointer" onClick="_get_('/echoppes/DoAction?caction=ask_echoppes_voir&valeur_1=<?=$r["echoppe"]["id_echoppe"]?>')"<?endif;?>>
-				<?=htmlentities($r["nom_region"])?> 
-				<? if (isset($r["echoppe"])) : ?>
-					x:<?=$r["echoppe"]["x_echoppe"]?> y:<?=$r["echoppe"]["y_echoppe"]?>
-				<? else: ?>
-					: aucune
-				<? endif; ?>
-			</li>
-			<? endforeach; ?>
-		</ul>
-	</li>
-	<? endforeach; ?>
-</ul>
+
+<div id="menu_echoppes_metier">
+  <? $liste =""; $sep = "";  ?>
+  <? foreach($this->tabMetiers as $m) : ?>
+      <span id='onglet_echoppes_<?=$m["nom_systeme_metier"] ?>' class='onglet inactif' onClick='Javascript:my_switch("echoppes_<?=$m["nom_systeme_metier"]?>", "menu_echoppes_metier");'>
+      &nbsp;<?=htmlentities($m["nom_metier"]) ?>&nbsp;
+    </span>
+    <? $liste = $liste.$sep."echoppes_".$m["nom_systeme_metier"]; $sep = ",";?>
+  <? endforeach; ?>
+  <input type='hidden' id='switch_menu_echoppes_metier' value='<?=$liste ?>'>
+</div>
+
+<div id="menu_echoppes">
+  <? $liste =""; $sep = ""; ?>
+  <? foreach($this->tabMetiers as $m) : ?>
+  	<div id="echoppes_<?=$m["nom_systeme_metier"] ?>" style="display:none;">
+  	<? foreach($m["regions"] as $r) : ?>
+  		<? if (isset($r["echoppe"])) : ?>
+  			<span id='onglet_echoppe_<?=$m["nom_systeme_metier"]."_".$r["nom_systeme_region"]?>' class='onglet inactif' onClick="Javascript:my_switch('echoppe_<?=$m["nom_systeme_metier"] ?>_<?= $r["nom_systeme_region"]?>', 'menu_echoppes');_get_('/echoppes/DoAction?caction=ask_echoppes_voir&valeur_1=<?=$r["echoppe"]["id_echoppe"]?>')"'>
+     		 &nbsp;<?=htmlentities($r["nom_region"])?>&nbsp;
+			x:<?=$r["echoppe"]["x_echoppe"]?> y:<?=$r["echoppe"]["y_echoppe"]?>
+			</span>
+		<? else: ?>
+			<span id='onglet_echoppe_<?=$m["nom_systeme_metier"]."_".$r["nom_systeme_region"]?>' class='onglet inactif' style="cursor:default;">
+     		 &nbsp;<?=htmlentities($r["nom_region"])?>&nbsp;
+			: aucune
+			</span>
+		<? endif; ?>
+    	<? $liste = $liste.$sep."echoppe_".$m["nom_systeme_metier"]."_".$r["nom_systeme_region"]; $sep = ","; ?>
+    <? endforeach; ?>
+    </div>
+  <? endforeach; ?>
+  <input type='hidden' id='switch_menu_echoppes' value='<?=$liste ?>'>
+</div>
+<hr>

@@ -55,8 +55,6 @@ class Bral_Box_Competences {
 			$hobbitsCompetencesTables = new HobbitsCompetences();
 			$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($this->view->user->id_hobbit);
 			
-			$tabMetiers = null;
-	
 			foreach($hobbitsMetierRowset as $m) {
 				if ($this->view->user->sexe_hobbit == 'feminin') {
 					$nom_metier = $m["nom_feminin_metier"];

@@ -19,7 +19,9 @@ class LabanMinerai extends Zend_Db_Table {
 	function insertOrUpdate($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('laban_minerai', 'count(*) as nombre, quantite_laban_minerai as quantite')
+		$select->from('laban_minerai', 'count(*) as nombre, 
+		quantite_brut_laban_minerai as quantiteBrut, 
+		quantite_lingots_laban_minerai as quantiteLingots')
 		->where('id_fk_type_laban_minerai = ?',$data["id_fk_type_laban_minerai"])
 		->where('id_fk_hobbit_laban_minerai = ?',$data["id_fk_hobbit_laban_minerai"])
 		->group('quantite');
@@ -31,12 +33,20 @@ class LabanMinerai extends Zend_Db_Table {
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
 			$quantite = $resultat[0]["quantite"];
+			$quantiteBrut = $resultat[0]["quantiteBruts"];
+			$quantiteLingots = $resultat[0]["quantiteLingots"];
 			
-			$dataUpdate = array('quantite_laban_minerai' => $quantite + $data["quantite_laban_minerai"]);
+			if (isset($data["quantite_brut_laban_minerai"])) {
+				$dataUpdate['quantite_brut_laban_minerai'] = $quantiteBrut + $data["quantite_brut_laban_minerai"];
+			}
+			if (isset($data["quantite_lingots_laban_minerai"])) {
+				$dataUpdate['quantite_lingots_laban_minerai'] = $quantiteLingots + $data["quantite_lingots_laban_minerai"];
+			}
+			
 			$where = ' id_fk_type_laban_minerai = '.$data["id_fk_type_laban_minerai"];
 			$where .= ' AND id_fk_hobbit_laban_minerai = '.$data["id_fk_hobbit_laban_minerai"];
 			
-			if ($quantite + $data["quantite_laban_minerai"] = 0) { // delete
+			if ($dataUpdate['quantite_brut_laban_minerai'] == 0 && $dataUpdate['quantite_lingots_laban_minerai'] == 0) { // delete
 				$this->delete($where);
 			} else { // update
 				$this->update($dataUpdate, $where);

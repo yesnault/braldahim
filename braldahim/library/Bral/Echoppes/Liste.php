@@ -61,6 +61,7 @@ class Bral_Echoppes_Liste extends Bral_Echoppes_Echoppe {
 			foreach ($regions as $r) {
 				$regionMetier = null;
 				$regionMetier["nom_region"] = $r["nom_region"];
+				$regionMetier["nom_systeme_region"] = $r["nom_systeme_region"];
 				$regionMetier["id_region"] = $r["id_region"];
 				$regionMetier["echoppe"] = null;
 				if (count($tabEchoppes) > 0) {

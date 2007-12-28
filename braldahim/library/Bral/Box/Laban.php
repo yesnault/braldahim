@@ -55,7 +55,8 @@ class Bral_Box_Laban {
 		foreach ($minerais as $m) {
 			$tabMinerais[] = array(
 			"type" => $m["nom_type_minerai"],
-			"quantite" => $m["quantite_laban_minerai"],
+			"quantiteBrut" => $m["quantite_brut_laban_minerai"],
+			"quantiteLingot" => $m["quantite_lingots_laban_minerai"],
 			);
 		}
 

@@ -22,7 +22,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 CREATE TABLE `laban_minerai` (
   `id_fk_type_laban_minerai` int(11) NOT NULL,
   `id_fk_hobbit_laban_minerai` int(11) NOT NULL,
-  `quantite_laban_minerai` int(11) default NULL,
+  `quantite_brut_laban_minerai` int(11) default NULL,
   `quantite_lingots_laban_minerai` int(11) NOT NULL,
   PRIMARY KEY  (`id_fk_type_laban_minerai`,`id_fk_hobbit_laban_minerai`),
   KEY `id_fk_hobbit_laban_minerai` (`id_fk_hobbit_laban_minerai`)
