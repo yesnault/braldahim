@@ -69,6 +69,9 @@ class Bral_Box_Laban {
 			"nb_viande" => $p["quantite_viande_laban"],
 			"nb_viande_preparee" => $p["quantite_viande_preparee_laban"],
 			"nb_ration" => $p["quantite_ration_laban"],
+			"nb_cuir" => $p["quantite_cuir_laban"],
+			"nb_fourrure" => $p["quantite_fourrure_laban"],
+			"nb_planche" => $p["quantite_planche_laban"],
 			);
 		}
 		

@@ -29,6 +29,9 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 				'id_echoppe' => $e["id_echoppe"],
 				'quantite_peau_arriere_echoppe' => $e["quantite_peau_arriere_echoppe"],
 				'quantite_rondin_arriere_echoppe' => $e["quantite_rondin_arriere_echoppe"],
+				'quantite_cuir_arriere_echoppe' => $e["quantite_cuir_arriere_echoppe"],
+				'quantite_fourrure_arriere_echoppe' => $e["quantite_fourrure_arriere_echoppe"],
+				'quantite_planche_arriere_echoppe' => $e["quantite_planche_arriere_echoppe"],
 				);
 				break;
 			}
@@ -46,6 +49,9 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		foreach ($laban as $p) {
 			$tabLaban = array(
 			"nb_peau" => $p["quantite_peau_laban"],
+			"nb_cuir" => $p["quantite_cuir_laban"],
+			"nb_fourrure" => $p["quantite_fourrure_laban"],
+			"nb_planche" => $p["quantite_planche_laban"],
 			);
 		}
 		
@@ -89,26 +95,55 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		
 		$nb_rondins = $this->request->get("valeur_2");
 		$nb_peau = $this->request->get("valeur_3");
+		$nb_cuir = $this->request->get("valeur_4");
+		$nb_fourrure = $this->request->get("valeur_5");
+		$nb_planche = $this->request->get("valeur_6");
 		
 		if ((int) $nb_rondins."" != $this->request->get("valeur_2")."") {
 			throw new Zend_Exception(get_class($this)." NB Rondins invalide=".$nb_rondins);
 		} else {
 			$nb_rondins = (int)$nb_rondins;
 		}
-		if ($nb_rondins > $this->view->charrette["nb_rondin"]) {
-			throw new Zend_Exception(get_class($this)." NB Rondin interdit=".$nb_rondins);
-		}
 		if ((int) $nb_peau."" != $this->request->get("valeur_3")."") {
 			throw new Zend_Exception(get_class($this)." NB Peau invalide=".$nb_peau);
 		} else {
 			$nb_peau = (int)$nb_peau;
 		}
+		if ((int) $nb_cuir."" != $this->request->get("valeur_4")."") {
+			throw new Zend_Exception(get_class($this)." NB Cuir invalide=".$nb_cuir);
+		} else {
+			$nb_cuir = (int)$nb_cuir;
+		}
+		if ((int) $nb_fourrure."" != $this->request->get("valeur_5")."") {
+			throw new Zend_Exception(get_class($this)." NB Fourrure invalide=".$nb_fourrure);
+		} else {
+			$nb_fourrure = (int)$nb_fourrure;
+		}
+		if ((int) $nb_planche."" != $this->request->get("valeur_6")."") {
+			throw new Zend_Exception(get_class($this)." NB Planche invalide=".$nb_planche);
+		} else {
+			$nb_planche = (int)$nb_planche;
+		}
+		
+		
+		if ($nb_rondins > $this->view->charrette["nb_rondin"]) {
+			throw new Zend_Exception(get_class($this)." NB Rondin interdit=".$nb_rondins);
+		}	
 		if ($nb_peau > $this->view->laban["nb_peau"]) {
 			throw new Zend_Exception(get_class($this)." NB Peau interdit=".$nb_peau);
 		}
+		if ($nb_cuir > $this->view->laban["nb_cuir"]) {
+			throw new Zend_Exception(get_class($this)." NB Cuir interdit=".$nb_cuir);
+		}
+		if ($nb_fourrure > $this->view->laban["nb_fourrure"]) {
+			throw new Zend_Exception(get_class($this)." NB Fourrure interdit=".$nb_fourrure);
+		}
+			if ($nb_planche > $this->view->laban["nb_planche"]) {
+			throw new Zend_Exception(get_class($this)." NB Planche interdit=".$nb_planche);
+		}
 		
 		$this->view->elementsRetires = "";
-		$this->calculEchoppe($nb_rondins, $nb_peau);
+		$this->calculEchoppe($nb_rondins, $nb_peau, $nb_cuir, $nb_fourrure, $nb_planche);
 		$this->calculPartiesPlantes();
 		$this->calculMinerais();
 		if ($this->view->elementsRetires != "") {
@@ -116,7 +151,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		}
 	}
 	
-	private function calculEchoppe($nb_rondins, $nb_peau) {
+	private function calculEchoppe($nb_rondins, $nb_peau, $nb_cuir, $nb_fourrure, $nb_planche) {
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("Laban");
 		
@@ -134,6 +169,42 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 			if ($nb_peau > 1) $this->view->elementsRetires .= "x";
 			$this->view->elementsRetires .= ", ";
 		}
+		if ($nb_cuir > 0) {
+			// on retire du laban
+			$labanTable = new Laban();
+			$data = array(
+				'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
+				'quantite_cuir_laban' => -$nb_cuir,
+			);
+			$labanTable->insertOrUpdate($data);
+			$this->view->elementsRetires .= $nb_cuir. " cuir";
+			if ($nb_cuir > 1) $this->view->elementsRetires .= "s";
+			$this->view->elementsRetires .= ", ";
+		}
+		if ($nb_fourrure > 0) {
+			// on retire du laban
+			$labanTable = new Laban();
+			$data = array(
+				'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
+				'quantite_fourrure_laban' => -$nb_fourrure,
+			);
+			$labanTable->insertOrUpdate($data);
+			$this->view->elementsRetires .= $nb_fourrure. " fourrure";
+			if ($nb_fourrure > 1) $this->view->elementsRetires .= "s";
+			$this->view->elementsRetires .= ", ";
+		}		
+		if ($nb_planche > 0) {
+			// on retire du laban
+			$labanTable = new Laban();
+			$data = array(
+				'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
+				'quantite_planche_laban' => -$nb_planche,
+			);
+			$labanTable->insertOrUpdate($data);
+			$this->view->elementsRetires .= $nb_planche. " planche";
+			if ($nb_planche > 1) $this->view->elementsRetires .= "s";
+			$this->view->elementsRetires .= ", ";
+		}	
 		
 		if ($nb_rondins > 0) {
 			// on retire de la charette
@@ -160,6 +231,9 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		$data = array(
 				'quantite_rondin_arriere_echoppe' => $nb_rondins,
 				'quantite_peau_arriere_echoppe' => $this->view->echoppe["quantite_peau_arriere_echoppe"] + $nb_peau,
+				'quantite_cuir_arriere_echoppe' => $this->view->echoppe["quantite_cuir_arriere_echoppe"] + $nb_cuir,
+				'quantite_fourrure_arriere_echoppe' => $this->view->echoppe["quantite_fourrure_arriere_echoppe"] + $nb_fourrure,
+				'quantite_planche_arriere_echoppe' => $this->view->echoppe["quantite_planche_arriere_echoppe"] + $nb_planche,
 		);
 		$where = "id_echoppe=".$this->view->echoppe["id_echoppe"];
 		$echoppeTable->update($data, $where);
@@ -173,7 +247,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 		$labanPartiePlanteTable = new LabanPartieplante();
 		
-		for($i=4; $i<=$this->view->valeur_fin_partieplantes; $i++) {
+		for($i=7; $i<=$this->view->valeur_fin_partieplantes; $i++) {
 			$indice = "valeur_".$i;
 			$nb = $this->request->get($indice);
 			if ((int) $nb."" != $this->request->get("valeur_".$i)."") {
@@ -250,7 +324,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		$labanPartiePlanteTable = new LabanPartieplante();
 		$partiePlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
 		
-		$this->view->nb_valeurs = 3;
+		$this->view->nb_valeurs = 6;
 		$this->view->nb_partiePlantes = 0;
 		
 		if ($partiePlantes != null) {

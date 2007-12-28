@@ -87,9 +87,15 @@ class Bral_Box_Competences {
 
 			foreach($hobbitCompetences as $c) {
 				if ($c["type_competence"] == $this->type ) {
+					if ($c["nom_systeme_competence"] == "marcher") {
+						$pa = "1 ou 2";
+					} else {
+						$pa =  $c["pa_utilisation_competence"];
+					}
+						
 					$tabCompetences[] = array("id_competence" => $c["id_fk_competence_hcomp"],
 					"nom" => $c["nom_competence"],
-					"pa_utilisation" => $c["pa_utilisation_competence"],
+					"pa_utilisation" => $pa,
 					"pourcentage" => $c["pourcentage_hcomp"],
 					"nom_systeme" => $c["nom_systeme_competence"]);
 				}

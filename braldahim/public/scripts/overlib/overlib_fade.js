@@ -21,7 +21,7 @@ registerCommands('fadein,fadeout,fadetime,opacity');
 ////////
 if (typeof ol_fadein=='undefined') var ol_fadein=0;
 if (typeof ol_fadeout=='undefined') var ol_fadeout=1;
-if (typeof ol_fadetime=='undefined') var  ol_fadetime=500;  // 0.5 sec fade time
+if (typeof ol_fadetime=='undefined') var  ol_fadetime=350;  // 0.5 sec fade time
 if (typeof ol_opacity=='undefined') var ol_opacity=88;
 ////////
 // END OF CONFIGURATION

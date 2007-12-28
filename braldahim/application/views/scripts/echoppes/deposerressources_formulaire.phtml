@@ -20,7 +20,18 @@
 	Quantit&eacute; &agrave; d&eacute;poser : 
 	<input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_peau"]?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
 	<br>
-	
+	Cuir : <?=$this->laban["nb_cuir"] ?>.
+	Quantit&eacute; &agrave; d&eacute;poser : 
+	<input type='text' maxlength='4' size='4' name='valeur_4' id='valeur_4' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_cuir"]?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
+	<br>
+	Fourrure : <?=$this->laban["nb_fourrure"] ?>.
+	Quantit&eacute; &agrave; d&eacute;poser : 
+	<input type='text' maxlength='4' size='4' name='valeur_5' id='valeur_5' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_fourrure"]?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
+	<br>
+	Planche : <?=$this->laban["nb_planche"] ?>.
+	Quantit&eacute; &agrave; d&eacute;poser : 
+	<input type='text' maxlength='4' size='4' name='valeur_6' id='valeur_6' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_planche"]?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
+	<br>
 	<br>
    <? if ($this->nb_partiePlantes == 0) : ?>
    	Aucune plante brute<br>

@@ -1,6 +1,6 @@
 
    <div class="laban">
-   <? if ($this->nb_runes == 0) : ?>
+   <? if ($this->nb_equipements == 0) : ?>
    	Aucun &eacute;quipement
    <? else : ?>
     <? if ($this->nb_equipements==1):$s=''; else:$s='s';endif; ?>
@@ -8,6 +8,7 @@
     
     <table width='100%'>
     <? $i = 0;
+      
       foreach ($this->equipements as $id => $e) : 
      	 if ($i % 3 == 0) echo "<tr>";
      	 

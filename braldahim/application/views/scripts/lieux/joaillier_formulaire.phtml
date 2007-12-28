@@ -48,10 +48,21 @@
 						$('valeur_3').value=Sortable.sequence($('group2')); 
 						if (nb < 0 || nb >= total) { $('bouton_joaillier').disabled=true; 
 						} else { $('bouton_joaillier').disabled=false; }
+						text = '';
+						s = '';
+						for (i=0; i<nbPlacees; i++) {
+							text = text + ' ' + $('item_'+tliste[i].substr(9,tliste[i].length-8)).alt;
+							if (i > 0) {
+								s = 's';
+							}
+						}
+						text = 'Rune' + s + ' : ' + text;
+						$('rune_text').innerHTML = text;
 						return nb;
 					};
 					function upd() {
 						$('dispo').innerHTML=calculNbRune(".$this->equipementCourant["nb_runes"].");
+						
 					}
 					Sortable.create('group1',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune'});
 					Sortable.create('group2',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune', onUpdate:upd});" ?>
@@ -73,8 +84,9 @@
 					<input type="hidden" id="valeur_3" name="valeur_3">
 					<br>
 					<? if ($this->equipementCourant["nb_runes"] > 1): $s="s"; else:$s=""; endif; ?>Sur <?=$this->equipementCourant["nb_runes"]?> emplacement<?=$s?> au total, il en reste <label id="dispo"><?=$this->equipementCourant["nb_runes"]?></label>.
-					
-					<div id="group2" class="joaillier_runes" style="height:50px"><br>
+					<br>
+					<label id='rune_text'></label>
+					<div id="group2" class="joaillier_runes" style="height:40px">
 					</div>
 				</div>
 	
