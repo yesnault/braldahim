@@ -9,8 +9,7 @@
 		Elle se trouve en x:<?=$this->x_construction ?> y:<?=$this->y_construction ?> 
 		dans la <?=htmlentities($this->tabRegionCourante["nom_region"]) ?> .<br><br>
 		
-		C'est une &eacute;choppe <? if ($this->nom_metier_courant{0} == 'A') : echo 'd'; else: echo "de"; endif; ?>
-		<?=htmlentities($this->nom_metier_courant) ?>
+		C'est une &eacute;choppe <? if ($this->nom_metier_courant{0} == 'A') : echo 'd\''; else: echo "de "; endif; ?><?=htmlentities($this->nom_metier_courant) ?>
 		
 		<? elseif ($this->construireLieuOk == false) : ?>
 		Un lieu particulier existe en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas construire d'&eacute;choppe 
@@ -35,7 +34,7 @@
 			echo "
 ";
 			echo "C'est une &eacute;choppe ";
-			if ($this->nom_metier_courant{0} == 'A') : echo 'd'; else: echo "de"; endif; 
+			if ($this->nom_metier_courant{0} == 'A') : echo 'd\''; else: echo "de "; endif; 
 			echo htmlentities($this->nom_metier_courant);
 
 		 } elseif ($this->construireLieuOk == false) {

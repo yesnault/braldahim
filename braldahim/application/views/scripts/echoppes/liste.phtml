@@ -25,8 +25,7 @@
    				se trouve en x:<?=$r["echoppe"]["x_echoppe"] ?> y:<?=$r["echoppe"]["y_echoppe"] ?>
    			<? else: ?>
    				Vous n'avez aucune &eacute;choppe
-   				<? if ($this->nom_metier_courant{0} == 'A') : echo 'd'; else: echo "de"; endif; ?> 
-   				 <?=htmlentities($m["nom_metier"]) ?> dans la <?=htmlentities($r["nom_region"]) ?>
+   				<? if ($m["nom_metier"]{0} == 'A') : echo 'd\''; else: echo "de "; endif; ?><?=htmlentities($m["nom_metier"]) ?> dans la <?=htmlentities($r["nom_region"]) ?>
    			<? endif; ?>
    			<br>
    		<? endforeach; ?>
