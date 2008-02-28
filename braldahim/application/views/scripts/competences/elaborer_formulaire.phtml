@@ -6,13 +6,57 @@
 <?php if ($this->assezDePa == false) : ?>
  Vous n'avez pas assez de PA
 <?php else : ?>
+
+	 <? if ($this->elaborerEchoppeOk === true) : ?>
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez &eacute;laborer une potion<br><br>
+     
+     Type de potion :<br>
+     <select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/DoAction?caction=ask_competence_elaborer&type_potion='+this.value);">
+	 	<option value="-1">(Choisis une potion)</option>
+	 	<? foreach($this->typePotion as $t) : ?>
+	 		<option value="<?=$t["id_type_potion"]?>" <?=$t["selected"]?>><?=htmlentities($t["nom_type_potion"])?></option>
+	 	<? endforeach; ?>
+	 </select>
+	<? endif; ?>
+
+	 <? if ($this->niveaux != null) : ?>
+	 <br><br>
+	 Niveau de la potion<br>
+	 <select name="valeur_2" id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1){$('bouton_elaborer').disabled=true } else {$('bouton_elaborer').disabled=false }">
+	 	<option value="-1">(Choisis un niveau)</option>
+	 	<? foreach($this->niveaux as $k => $v) : ?>
+	 		<option value="<?=$k?>" <? if ($v["ressourcesOk"] === false) echo "disabled"; ?>><?=htmlentities($v["niveauText"])?></option>
+	 	<? endforeach; ?>
+	 </select>
+	 <? endif; ?>
+	 
+	<? if (isset($this->cout)): ?>
+		<br><br>Co&ucirc;t en plante pr&eacute;par&eacute;es : 
+	 	<? foreach($this->cout as $key1 => $value1) :?>
+	 			<br>Niveau <?=$key1 ?> -> 
+		 		<? 
+		 			$i = 0;
+		 			foreach($value1 as $c) :
+		 			$i++;
+		 		?>
+		 		<?=htmlentities($c["nom_type_plante"]) ?>, <?=htmlentities($c["nom_type_partieplante"]) ?>: <?=$c["cout"] ?><?if ($i<count($value1))echo ","; else echo "."; ?>
+		 	<? endforeach; ?>
+		 	<? if ($this->niveaux[$key1]["ressourcesOk"] === false) : ?>
+		 		Pas assez de ressource dans l'&eacute;choppe
+			<? endif; ?>
+	 	<? endforeach; ?>
+	<? endif; ?>
+	 
+	 <? if ($this->elaborerEchoppeOk == false) : ?>
+		<br>Vous ne pouvez &eacute;laborer une potion que dans une de vos &eacute;choppes d'Aphoticaire.
+	<? endif; ?>
 	
 <? endif ?>
 </div>
 
 </form>
 <br>
-<?php if ($this->assezDePa == true && $this->elaborerEchoppeOk === true) : ?>
+<?php if ($this->assezDePa == true && $this->elaborerEchoppeOk === true && $this->etape1 === true) : ?>
 <input type='button' class='button1' id='bouton_elaborer' value='Concocter !' onClick='this.disabled=true;_get_("/competences/DoAction?caction=do_competence_elaborer");' disabled>
 <? endif ?>
 <? include("commun_fermer.phtml") ?>
