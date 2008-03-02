@@ -6,9 +6,13 @@
 		<? include("commun_text_resultat.phtml") ?>
 		
 		<? if ($this->okJet1 === true): ?>
-			
+			Vous avez r&eacute;ussi &agrave; &eacute;laborer une potion : 
+			<br>
+			<?=htmlentities($this->typePotionCourante["nom_type_potion"]) ?>, de qualit&eacute; <?=$this->qualite ?>
+			et de niveau <?=$this->niveau ?>.
+			<br>
 		<? else: ?>
-
+			Vous avez manqu&eacute; votre potion<br>
 		<? endif; ?>
 		<br>
 	 </div>
@@ -16,7 +20,18 @@
 	 <div id='elaborer_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
 		include("commun_copie_resultat.phtml");
-		
+		if ($this->okJet1 === true) {
+				echo "Vous avez r&eacute;ussi &agrave; &eacute;larborer une potion :";
+				echo "
+"; 
+				echo htmlentities($this->typePotionCourante["nom_type_potion"]);
+				echo ", de qualit&eacute; ".$this->qualite;
+				echo " et de niveau ".$this->niveau.".";
+				echo "
+";
+			} else {
+				echo "Vous avez manqu&eacute; votre potion";
+			}
 	?>
 	</textarea>
 	</div>

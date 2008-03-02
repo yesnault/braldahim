@@ -315,7 +315,6 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 			);
 			$echoppeTable->update($data, 'id_echoppe = '.$this->echoppeCourante["id_echoppe"]);
 				
-			
 			foreach($recetteEquipement as $r) {
 				$id_fk_recette_equipement = $r["id_recette_equipement"];
 				break;
@@ -332,7 +331,6 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 			$echoppeEquipementTable->insert($data);
 		} else {
 			throw new Zend_Exception(get_class($this)." Recette inconnue: id=".$idTypeEquipement." n=".$niveau. " q=".$qualite);
-				
 		}
 	}
 
@@ -345,6 +343,6 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_competences_metiers", "box_laban", "box_evenements");
+		return array("box_profil", "box_laban", "box_evenements");
 	}
 }
