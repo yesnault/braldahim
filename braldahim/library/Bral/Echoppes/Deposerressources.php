@@ -55,7 +55,6 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 			);
 		}
 		
-		
 		$tabCharrette["nb_rondin"] = 0;
 		$charretteTable = new Charrette();
 		$charrette = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
@@ -124,7 +123,6 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		} else {
 			$nb_planche = (int)$nb_planche;
 		}
-		
 		
 		if ($nb_rondins > $this->view->charrette["nb_rondin"]) {
 			throw new Zend_Exception(get_class($this)." NB Rondin interdit=".$nb_rondins);

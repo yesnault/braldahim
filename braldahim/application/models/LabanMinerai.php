@@ -51,8 +51,6 @@ class LabanMinerai extends Zend_Db_Table {
 			} else { // update
 				$this->update($dataUpdate, $where);
 			}
-
-			
 		}
 	}
 

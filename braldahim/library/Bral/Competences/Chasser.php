@@ -90,10 +90,10 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 	private function calculChasse() {
 	/*
 	 * La quantité de viande et de peau trouvée est fonction du niveau d'AGILITE du chasseur.
-	 * de 0 à 4 : 1D3 unité de viande + 1D2 unité de peau/fourrure (50% de chance peau ou fourrure)
-	 * de 5 à 9 : 1D3+1 unité de viande + 1D2+1 unité de peau/fourrure (50% de chance peau ou fourrure)
-	 * de 10 à 14 :1D3+2 unité de viande + 1D2+2 unité de peau/fourrure (50% de chance peau ou fourrure)
-	 * de 15 à 19 : 1D3+3 unité de viande + 1D2+3 unité de peau/fourrure (50% de chance peau ou fourrure)
+	 * de 0 à 4 : 1D3 unité de viande + 1D2 unité de peau
+	 * de 5 à 9 : 1D3+1 unité de viande + 1D2+1 unité de peau
+	 * de 10 à 14 :1D3+2 unité de viande + 1D2+2 unité de peau
+	 * de 15 à 19 : 1D3+3 unité de viande + 1D2+3 unité de peau
 	 */
 		$this->view->nbViande = 0;
 		$this->view->nbPeau = 0;
@@ -102,14 +102,8 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 		$n = Bral_Util_De::get_1d3();
 		$this->view->nbViande = $n + floor($this->view->user->agilite_base_hobbit / 5);
 		
-		$n = Bral_Util_De::get_1d100();
-		if ($n <= 50) {
-			$n = Bral_Util_De::get_1d3();
-			$this->view->nbPeau = $n + floor($this->view->user->agilite_base_hobbit / 5);
-		} else {
-			$n = Bral_Util_De::get_1d3();
-			$this->view->nbFourrure = $n + floor($this->view->user->agilite_base_hobbit / 5);
-		}
+		$n = Bral_Util_De::get_1d2();
+		$this->view->nbPeau = $n + floor($this->view->user->agilite_base_hobbit / 5);
 		
 		$labanTable = new Laban();
 		$data = array(

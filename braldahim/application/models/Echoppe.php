@@ -84,4 +84,38 @@ class Echoppe extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchRow($sql);
 	}
+	
+	function insertOrUpdate($data) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('echoppe', '
+		quantite_peau_arriere_echoppe as quantitePeauArriere, 
+		quantite_cuir_arriere_echoppe as quantiteCuirArriere,
+		quantite_fourrure_arriere_echoppe as quantiteFourrureArriere')
+		->where('id_echoppe = ?',$data["id_echoppe"]);
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		if (count($resultat) == 0) { // insert
+			$this->insert($data);
+		} else { // update
+			$nombre = $resultat[0]["nombre"];
+			$quantitePeauArriere = $resultat[0]["quantitePeauArriere"];
+			$quantiteCuirArriere = $resultat[0]["quantiteCuirArriere"];
+			$quantiteFourrureArriere = $resultat[0]["quantiteFourrureArriere"];
+			
+			if (isset($data["quantite_peau_arriere_echoppe"])) {
+				$dataUpdate['quantite_peau_arriere_echoppe'] = $quantitePeauArriere + $data["quantite_peau_arriere_echoppe"];
+			}
+			if (isset($data["quantite_cuir_arriere_echoppe"])) {
+				$dataUpdate['quantite_cuir_arriere_echoppe'] = $quantiteCuirArriere + $data["quantite_cuir_arriere_echoppe"];
+			}
+			if (isset($data["quantite_fourrure_arriere_echoppe"])) {
+				$dataUpdate['quantite_fourrure_arriere_echoppe'] = $quantiteFourrureArriere + $data["quantite_fourrure_arriere_echoppe"];
+			}
+			
+			$where = 'id_echoppe = '.$data["id_echoppe"];
+			$this->update($dataUpdate, $where);
+		}
+	}
 }
