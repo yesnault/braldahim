@@ -10,6 +10,8 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 		$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		
 		$this->view->tannerEchoppeOk = false;
+		$this->view->tannerPeauOk = false;
+		
 		if ($echoppes == null || count($echoppes) == 0) {
 			$this->view->tannerEchoppeOk = false;
 			return;
@@ -20,7 +22,7 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 				$e["nom_systeme_metier"] == "tanneur" &&
 				$e["x_echoppe"] == $this->view->user->x_hobbit &&
 				$e["y_echoppe"] == $this->view->user->y_hobbit) {
-				$this->view->forgerEchoppeOk = true;
+				$this->view->tannerEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
 
 				$echoppeCourante = array(
@@ -30,6 +32,9 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 				'id_metier' => $e["id_metier"],
 				'quantite_peau_arriere_echoppe' => $e["quantite_peau_arriere_echoppe"],
 				);
+				if ($e["quantite_peau_arriere_echoppe"] >=2) {
+					$this->view->tannerPeauOk = true;
+				}
 				break;
 			}
 		}
@@ -57,7 +62,7 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 		}
 
 		// Verification chasse
-		if ($this->view->tannerEchoppeOk == false || $this->view->tannerPlanteOk == false) {
+		if ($this->view->tannerEchoppeOk == false || $this->view->tannerPeauOk == false) {
 			throw new Zend_Exception(get_class($this)." tanner interdit ");
 		}
 		
@@ -65,7 +70,7 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 		$this->calculJets();
 
 		if ($this->view->okJet1 === true) {
-			$this->calculTanner($idTypePartiePlante, $idTypePlante);
+			$this->calculTanner();
 			$this->majEvenementsStandard();
 		}
 		
@@ -78,24 +83,27 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 		//Transforme 2 unités de peau en 1D2 unités de cuir ou de fourrure (suivant la peau).
 		$this->view->nbPartiesPlantesPreparees = Bral_Util_De::get_1d2();
 		
-		$quantite_cuir = 0;
-		$quantite_fourrure = 0;
+		$quantiteCuir = 0;
+		$quantiteFourrure = 0;
 		
 		$n = Bral_Util_De::get_1d100();
 		if ($n <= 50) {
-			$quantite_cuir = Bral_Util_De::get_1d2();
+			$quantiteCuir = Bral_Util_De::get_1d2();
 		} else {
-			$quantite_fourrure = Bral_Util_De::get_1d2();
+			$quantiteFourrure = Bral_Util_De::get_1d2();
 		}
 		
 		$echoppeTable = new Echoppe();
 		$data = array(
 				'id_echoppe' => $this->idEchoppe,
 				'quantite_peau_arriere_echoppe' => -2,
-				'quantite_cuir_arriere_echoppe' => $quantite_cuir,
-				'quantite_fourrure_arriere_echoppe' => $quantite_fourrure,
+				'quantite_cuir_arriere_echoppe' => $quantiteCuir,
+				'quantite_fourrure_arriere_echoppe' => $quantiteFourrure,
 		);
 		$echoppeTable->insertOrUpdate($data);
+		
+		$this->view->quantiteCuir = $quantiteCuir;
+		$this->view->quantiteFourrure = $quantiteFourrure;
 	}
 	
 	public function getIdEchoppeCourante() {
@@ -107,6 +115,6 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_echoppe", "box_evenements");
+		return array("box_profil", "box_echoppes", "box_evenements");
 	}
 }

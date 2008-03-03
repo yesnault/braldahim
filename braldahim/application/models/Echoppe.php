@@ -88,11 +88,12 @@ class Echoppe extends Zend_Db_Table {
 	function insertOrUpdate($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('echoppe', '
+		$select->from('echoppe', 'count(*) as nombre, 
 		quantite_peau_arriere_echoppe as quantitePeauArriere, 
 		quantite_cuir_arriere_echoppe as quantiteCuirArriere,
 		quantite_fourrure_arriere_echoppe as quantiteFourrureArriere')
-		->where('id_echoppe = ?',$data["id_echoppe"]);
+		->where('id_echoppe = ?',$data["id_echoppe"])
+		->group(array('quantitePeauArriere', 'quantiteCuirArriere', 'quantiteFourrureArriere'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 

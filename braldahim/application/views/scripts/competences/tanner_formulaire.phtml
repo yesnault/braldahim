@@ -1,0 +1,24 @@
+<div class='comp_titre'>Tanner</div>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
+ <form name='myForm'>
+ <div class='comp_contenu'>
+
+<?php if ($this->assezDePa == false) : ?>
+ Vous n'avez pas assez de PA
+<?php else : ?>
+	 <? if ($this->tannerEchoppeOk === true && $this->tannerPeauOk === true) : ?>
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez tanner du 2 pi&egrave;ces de peau en 1D2 pi&egrave;ce(s) de fourrure ou de cuir ...<br>
+	<? elseif ($this->tannerEchoppeOk == false) : ?>
+		Vous ne pouvez tanner que dans une de vos &eacute;choppes de Tanneur.
+	<? else: ?>
+		Vous n'avez aucune peau &agrave; tanner...
+	<? endif; ?>
+<? endif ?>
+</div>
+
+</form>
+<br>
+<?php if ($this->assezDePa == true && $this->tannerEchoppeOk === true && $this->tannerPeauOk) : ?>
+<input type='button' class='button1' id='bouton_tanner' value='Tanner !' onClick='this.disabled=true;_get_("/competences/DoAction?caction=do_competence_tanner");'/>
+<? endif ?>
+<? include("commun_fermer.phtml") ?>
