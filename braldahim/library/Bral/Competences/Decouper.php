@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Competences_Tanner extends Bral_Competences_Competence {
+class Bral_Competences_Decouper extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Echoppe");
@@ -9,20 +9,20 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 		$echoppeTable = new Echoppe();
 		$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		
-		$this->view->tannerEchoppeOk = false;
-		$this->view->tannerPeauOk = false;
+		$this->view->decouperEchoppeOk = false;
+		$this->view->decouperPlancheOk = false;
 		
 		if ($echoppes == null || count($echoppes) == 0) {
-			$this->view->tannerEchoppeOk = false;
+			$this->view->decouperEchoppeOk = false;
 			return;
 		}
 		$idEchoppe = -1;
 			foreach($echoppes as $e) {
 			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit &&
-				$e["nom_systeme_metier"] == "tanneur" &&
+				$e["nom_systeme_metier"] == "menuisier" &&
 				$e["x_echoppe"] == $this->view->user->x_hobbit &&
 				$e["y_echoppe"] == $this->view->user->y_hobbit) {
-				$this->view->tannerEchoppeOk = true;
+				$this->view->decouperEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
 
 				$echoppeCourante = array(
@@ -30,16 +30,14 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 				'x_echoppe' => $e["x_echoppe"],
 				'y_echoppe' => $e["y_echoppe"],
 				'id_metier' => $e["id_metier"],
-				'quantite_peau_arriere_echoppe' => $e["quantite_peau_arriere_echoppe"],
+				'quantite_rondin_arriere_echoppe' => $e["quantite_rondin_arriere_echoppe"],
 				);
-				if ($e["quantite_peau_arriere_echoppe"] >=2) {
-					$this->view->tannerPeauOk = true;
-				}
+				$this->view->decouperPlancheOk = true;
 				break;
 			}
 		}
 		
-		if ($this->view->tannerEchoppeOk == false) {
+		if ($this->view->decouperEchoppeOk == false) {
 			return;
 		}
 		
@@ -62,15 +60,15 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 		}
 
 		// Verification chasse
-		if ($this->view->tannerEchoppeOk == false || $this->view->tannerPeauOk == false) {
-			throw new Zend_Exception(get_class($this)." tanner interdit ");
+		if ($this->view->decouperEchoppeOk == false || $this->view->decouperPlancheOk == false) {
+			throw new Zend_Exception(get_class($this)." decouper interdit ");
 		}
 		
 		// calcul des jets
 		$this->calculJets();
 
 		if ($this->view->okJet1 === true) {
-			$this->calculTanner();
+			$this->calculDecouper();
 			$this->majEvenementsStandard();
 		}
 		
@@ -79,29 +77,21 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 		$this->majHobbit();
 	}
 	
-	private function calculTanner() {
-		//Transforme 2 unités de peau en 1D2 unités de cuir ou de fourrure (suivant la peau).
-		$quantiteCuir = 0;
-		$quantiteFourrure = 0;
-		
-		$n = Bral_Util_De::get_1d100();
-		if ($n <= 50) {
-			$quantiteCuir = Bral_Util_De::get_1d2();
-		} else {
-			$quantiteFourrure = Bral_Util_De::get_1d2();
-		}
+	/*Découpe un rondin présent dans l'échoppe en planches.
+	 * 4D3 de planches par rondin.
+	 */
+	private function calculDecouper() {
+		$quantitePlanches = Bral_Util_De::get_4d3();
 		
 		$echoppeTable = new Echoppe();
 		$data = array(
 				'id_echoppe' => $this->idEchoppe,
-				'quantite_peau_arriere_echoppe' => -2,
-				'quantite_cuir_arriere_echoppe' => $quantiteCuir,
-				'quantite_fourrure_arriere_echoppe' => $quantiteFourrure,
+				'quantite_rondin_arriere_echoppe' => -1,
+				'quantite_planche_arriere_echoppe' => $quantitePlanches,
 		);
 		$echoppeTable->insertOrUpdate($data);
 		
-		$this->view->quantiteCuir = $quantiteCuir;
-		$this->view->quantiteFourrure = $quantiteFourrure;
+		$this->view->quantitePlanches = $quantitePlanches;
 	}
 	
 	public function getIdEchoppeCourante() {

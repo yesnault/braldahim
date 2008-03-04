@@ -89,11 +89,13 @@ class Echoppe extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe', 'count(*) as nombre, 
+		quantite_rondin_arriere_echoppe as quantiteRondinArriere, 
+		quantite_planche_arriere_echoppe as quantitePlancheArriere, 
 		quantite_peau_arriere_echoppe as quantitePeauArriere, 
 		quantite_cuir_arriere_echoppe as quantiteCuirArriere,
 		quantite_fourrure_arriere_echoppe as quantiteFourrureArriere')
 		->where('id_echoppe = ?',$data["id_echoppe"])
-		->group(array('quantitePeauArriere', 'quantiteCuirArriere', 'quantiteFourrureArriere'));
+		->group(array('quantiteRondinArriere', 'quantitePlancheArriere', 'quantitePeauArriere', 'quantiteCuirArriere', 'quantiteFourrureArriere'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -101,10 +103,18 @@ class Echoppe extends Zend_Db_Table {
 			$this->insert($data);
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
+			$quantiteRondinArriere = $resultat[0]["quantiteRondinArriere"];
+			$quantitePlancheArriere = $resultat[0]["quantitePlancheArriere"];
 			$quantitePeauArriere = $resultat[0]["quantitePeauArriere"];
 			$quantiteCuirArriere = $resultat[0]["quantiteCuirArriere"];
 			$quantiteFourrureArriere = $resultat[0]["quantiteFourrureArriere"];
-			
+
+			if (isset($data["quantite_rondin_arriere_echoppe"])) {
+				$dataUpdate['quantite_rondin_arriere_echoppe'] = $quantiteRondinArriere + $data["quantite_rondin_arriere_echoppe"];
+			}
+			if (isset($data["quantite_planche_arriere_echoppe"])) {
+				$dataUpdate['quantite_planche_arriere_echoppe'] = $quantitePlancheArriere + $data["quantite_planche_arriere_echoppe"];
+			}
 			if (isset($data["quantite_peau_arriere_echoppe"])) {
 				$dataUpdate['quantite_peau_arriere_echoppe'] = $quantitePeauArriere + $data["quantite_peau_arriere_echoppe"];
 			}

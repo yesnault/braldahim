@@ -1,0 +1,41 @@
+<div class='comp_titre'>D&eacute;couper</div>
+
+ <div class='comp_contenu'>
+	 <div id='decouper_text' style="display:block"  onClick="javascript:switch2div('decouper_text','decouper_copie');">
+		
+		<? include("commun_text_resultat.phtml") ?>
+		
+		<? if ($this->okJet1 === true): ?>
+			Vous avez r&eacute;ussi &agrave; decouper un rondin en 
+			<? if ($this->quantitePlanches > 1): $s='s'; else: $s=""; endif; ?>
+			<?=$this->quantitePlanches  ?> planche<?=$s ?>.
+			<br>
+		<? else: ?>
+			Vous avez manqu&eacute; votre d&eacute;coupe.<br>
+		<? endif; ?>
+		<br>
+	 </div>
+	 
+	 <div id='decouper_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+		include("commun_copie_resultat.phtml");
+		
+			echo "
+";
+			if ($this->okJet1 === true) {
+				echo "Vous avez r&eacute;ussi &agrave; decouper un rondin en ";
+				
+				if ($this->quantitePlanches > 1): $s='s'; else: $s=""; endif; 
+				echo $this->quantitePlanches." planche".$s.".";
+				echo "
+";
+			} else {
+				echo "Vous avez manqu&eacute; votre d&eacute;coupe.";
+			}
+	?>
+	</textarea>
+	</div>
+ </div>
+
+<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('decouper_text','decouper_copie');">
+<? include("commun_fermer.phtml") ?>

@@ -49,6 +49,12 @@ class Bral_Util_De {
 		return $n;
 	}
 	
+	public static function get_4d3() {
+		$n = self::get_3d3();
+		$n = $n + self::get_1d3();
+		return $n;
+	}
+	
 	public static function get_de_specifique($a, $b) {
 		if (!is_int(intval($a))) {
 			throw new Exception("De::get_de_specifique : a invalides : ".$a);
