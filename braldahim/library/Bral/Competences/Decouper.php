@@ -32,7 +32,9 @@ class Bral_Competences_Decouper extends Bral_Competences_Competence {
 				'id_metier' => $e["id_metier"],
 				'quantite_rondin_arriere_echoppe' => $e["quantite_rondin_arriere_echoppe"],
 				);
-				$this->view->decouperPlancheOk = true;
+				if ($e["quantite_rondin_arriere_echoppe"] >= 1) {
+					$this->view->decouperPlancheOk = true;
+				}
 				break;
 			}
 		}

@@ -7,12 +7,15 @@
 		Votre arri&egrave;re-boutique est vide<br>
 	<? endif; ?>
 	
-	Rondins : <?=$this->echoppe["quantite_rondin_arriere_echoppe"] ?>,
+	<? if ($this->echoppe["quantite_rondin_arriere_echoppe"] > 1) $s = "s" ; else $s = "";?>
+	Rondin<?=$s ?> : <?=$this->echoppe["quantite_rondin_arriere_echoppe"] ?>,
 	Peau : <?=$this->echoppe["quantite_peau_arriere_echoppe"] ?><br>
 	
 	Cuir : <?=$this->echoppe["quantite_cuir_arriere_echoppe"] ?>, 
 	Fourrure : <?=$this->echoppe["quantite_fourrure_arriere_echoppe"] ?>,
-	Planches : <?=$this->echoppe["quantite_planche_arriere_echoppe"] ?><br>
+	
+	<? if ($this->echoppe["quantite_planche_arriere_echoppe"] > 1) $s = "s" ; else $s = "";?>
+	Planche<?=$s ?> : <?=$this->echoppe["quantite_planche_arriere_echoppe"] ?><br>
 	
    <? if ($this->nb_arrierePartiePlantes == 0) : ?>
    	Aucune plante brute<br>
