@@ -245,7 +245,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 		$labanPartiePlanteTable = new LabanPartieplante();
 		
-		for($i=7; $i<=$this->view->valeur_fin_partieplantes; $i++) {
+		for ($i=7; $i<=$this->view->valeur_fin_partieplantes; $i++) {
 			$indice = "valeur_".$i;
 			$nb = $this->request->get($indice);
 			if ((int) $nb."" != $this->request->get("valeur_".$i)."") {
@@ -284,32 +284,34 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		$echoppeMineraiTable = new EchoppeMinerai();
 		$labanMineraiTable = new LabanMinerai();
 		
-		for($i=$this->view->valeur_fin_partieplantes + 1; $i<=$this->view->nb_valeurs; $i = $i + 2) {
-			$indiceBrut = "valeur_".($i-1);
-			$indiceLingot = "valeur_".$i;
-			$nbBrut = $this->request->get($indiceBrut);
-			$nbLingot = $this->request->get($indiceLingot);
+		for ($i=$this->view->valeur_fin_partieplantes + 1; $i<=$this->view->nb_valeurs; $i = $i + 2) {
+			$indice = $i;
+			$indiceBrut = $i;
+			$indiceLingot = $i+1;
+			$nbBrut = $this->request->get("valeur_".$indiceBrut);
+			$nbLingot = $this->request->get("valeur_".$indiceLingot);
 			
-			if ((int) $nbBrut."" != $this->request->get($indiceBrut)."") {
+			if ((int) $nbBrut."" != $this->request->get("valeur_".$indiceBrut)."") {
 				throw new Zend_Exception(get_class($this)." NB Minerai brut invalide=".$nbBrut. " indice=".$indiceBrut);
 			} else {
 				$nbBrut = (int)$nbBrut;
 			}
-			if ($nbBrut > $this->view->minerais[$indiceBrut]["quantite_brut_laban_minerai"]) {
+			if ($nbBrut > $this->view->minerais[$indice]["quantite_brut_laban_minerai"]) {
 				throw new Zend_Exception(get_class($this)." NB Minerai brut interdit=".$nbBrut);
 			}
 			
-			if ((int) $nbLingot."" != $this->request->get($indiceLingot)."") {
+			if ((int) $nbLingot."" != $this->request->get("valeur_".$indiceLingot)."") {
 				throw new Zend_Exception(get_class($this)." NB Minerai lingot invalide=".$nbLingot. " indice=".$indiceLingot);
 			} else {
 				$nbLingot = (int)$nbLingot;
 			}
-			if ($nbLingot > $this->view->minerais[$indiceLingot]["quantite_lingots_laban_minerai"]) {
+			if ($nbLingot > $this->view->minerais[$indice]["quantite_lingots_laban_minerai"]) {
 				throw new Zend_Exception(get_class($this)." NB Minerai lingot interdit=".$nbLingot);
 			}
 			
 			if ($nbBrut > 0 || $nbLingot > 0) {
-				$data = array('quantite_arriere_echoppe_minerai' => $nb,
+				$data = array('quantite_arriere_echoppe_minerai' => $nbBrut,
+							  'quantite_lingots_echoppe_minerai' => $nbLingot,
 							  'id_fk_type_echoppe_minerai' => $this->view->minerais[$indice]["id_fk_type_laban_minerai"],
 							  'id_fk_echoppe_echoppe_minerai' => $this->view->idEchoppe);
 				$echoppeMineraiTable->insertOrUpdate($data);
@@ -322,7 +324,12 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 				);
 		
 				$labanMineraiTable->insertOrUpdate($data);
-				$this->view->elementsRetires .= $this->view->minerais[$indice]["type"]. " : ".$nb;
+				
+				$sbrut = "";
+				$slingot = "";
+				if ($nbBrut > 1) $sbrut = "s";
+				if ($nbLingot > 1) $slingot = "s";
+				$this->view->elementsRetires .= $this->view->minerais[$indice]["type"]. " : ".$nbBrut. " brut".$sbrut." et ".$nbLingot." lingot".$slingot;
 				$this->view->elementsRetires .= ", ";
 			}
 		}

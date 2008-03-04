@@ -24,7 +24,7 @@ class LabanMinerai extends Zend_Db_Table {
 		quantite_lingots_laban_minerai as quantiteLingots')
 		->where('id_fk_type_laban_minerai = ?',$data["id_fk_type_laban_minerai"])
 		->where('id_fk_hobbit_laban_minerai = ?',$data["id_fk_hobbit_laban_minerai"])
-		->group('quantite');
+		->group(array('quantiteBrut', 'quantiteLingots'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -32,8 +32,7 @@ class LabanMinerai extends Zend_Db_Table {
 			$this->insert($data);
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
-			$quantite = $resultat[0]["quantite"];
-			$quantiteBrut = $resultat[0]["quantiteBruts"];
+			$quantiteBrut = $resultat[0]["quantiteBrut"];
 			$quantiteLingots = $resultat[0]["quantiteLingots"];
 			
 			if (isset($data["quantite_brut_laban_minerai"])) {
@@ -46,7 +45,7 @@ class LabanMinerai extends Zend_Db_Table {
 			$where = ' id_fk_type_laban_minerai = '.$data["id_fk_type_laban_minerai"];
 			$where .= ' AND id_fk_hobbit_laban_minerai = '.$data["id_fk_hobbit_laban_minerai"];
 			
-			if ($dataUpdate['quantite_brut_laban_minerai'] == 0 && $dataUpdate['quantite_lingots_laban_minerai'] == 0) { // delete
+			if ($dataUpdate['quantite_brut_laban_minerai'] <= 0 && $dataUpdate['quantite_lingots_laban_minerai'] <= 0) { // delete
 				$this->delete($where);
 			} else { // update
 				$this->update($dataUpdate, $where);
