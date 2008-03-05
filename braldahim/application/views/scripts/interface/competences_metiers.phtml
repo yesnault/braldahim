@@ -10,7 +10,7 @@
 	<ul id="navigation" style="width:100%;">
 	<? foreach($this->competences as $m) : ?>
 		<li id="menuCompetencesMetier<?=htmlentities($m["nom_systeme_metier"])?>">
-			<h3 id="menuCompetencesMetier<?=htmlentities($m["nom_systeme_metier"])?>-head" class="head" onClick="accordion(this, 'menuAncienCompetencesMetier', 'menuVisibleCompetencesMetier')"><?=htmlentities($m["nom_metier"])?></h3>
+			<h3 id="menuCompetencesMetier<?=htmlentities($m["nom_systeme_metier"])?>-head" class="head" onClick="accordion(this, 'menuAncienCompetencesMetier', 'menuVisibleCompetencesMetier') ; " /><?=htmlentities($m["nom_metier"])?></h3>
 			<ul id="menuCompetencesMetier<?=$m["nom_systeme_metier"]?>-body" style="display:none">
 			<? foreach($m["competences"] as $c) : ?>
 				<li>

@@ -1,0 +1,32 @@
+<div class='comp_titre'>Attraper une charrette</div>
+
+ <div class='comp_contenu'>
+	 <div id='attrapercharrette_text' style="display:block"  onClick="javascript:switch2div('attrapercharrette_text','attrapercharrette_copie');">
+		<? include("commun_text_resultat.phtml") ?>
+		
+		<? if ($this->okJet1 === true): ?>
+			Vous avez attrap&eacute; la charrette n&deg; <?=$this->idCharrette ?>.
+		<? endif; ?>
+		<br>
+	 </div>
+	 
+	 <div id='attrapercharrette_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+		include("commun_copie_resultat.phtml");
+		
+		if ($this->okJet1 === true) {
+			echo "Vous avez attrap&eacute; la charrette n&deg; ".$this->idCharrette.".";
+			echo "
+";
+		}
+	?>
+	</textarea>
+	</div>
+ </div>
+
+<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('attrapercharrette_text','attrapercharrette_copie');">
+<? if ($this->okJet1 === true): ?>
+	<input type='button' class='button1' value='Fermer' onClick='_get_("/interface/reloadInterface");Modalbox.hide();'>
+<? else: ?>
+	<? include("commun_fermer.phtml") ?>
+<? endif; ?>

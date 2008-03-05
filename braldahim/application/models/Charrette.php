@@ -14,6 +14,38 @@ class Charrette extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
+	function findByCase($x, $y, $avecProprietaire = true) {
+		$and = "";
+		if ($avecProprietaire === false) {
+			$and = " AND id_fk_hobbit_charrette is null";
+		}
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('charrette', '*')
+		->where('x_charrette = '.intval($x))
+		->where('y_charrette = '.intval($y).$and);
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
+	
+	function findByCaseSansProprietaire($x, $y) {
+		return findByCase($x, $y, false);
+	}
+	
+	function selectVue($x_min, $y_min, $x_max, $y_max) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('charrette', '*')
+		->where('x_charrette <= ?', $x_max)
+		->where('x_charrette >= ?', $x_min)
+		->where('y_charrette >= ?', $y_min)
+		->where('y_charrette <= ?', $y_max)
+		->where('id_fk_hobbit_charrette is NULL');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
 	function countByIdHobbit($id_hobbit) {
 		$db = $this->getAdapter();
 		$select = $db->select();

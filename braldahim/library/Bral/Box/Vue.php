@@ -5,6 +5,7 @@ class Bral_Box_Vue {
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass("Cadavre");
 		Zend_Loader::loadClass("Castar");
+		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("Echoppe");
 		Zend_Loader::loadClass("Filon");
 		Zend_Loader::loadClass("Lieu");
@@ -130,6 +131,8 @@ class Bral_Box_Vue {
 		$cadavres = $cadavreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$castarTable = new Castar();
 		$castars = $castarTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$charretteTable = new Charrette();
+		$charrettes = $charretteTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$echoppeTable = new Echoppe();
 		$echoppes = $echoppeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		
@@ -176,6 +179,7 @@ class Bral_Box_Vue {
 				$display_y = $j;
 				$tabCadavres = null;
 				$tabCastars = null;
+				$tabCharrettes = null;
 				$tabEchoppes = null;
 				$tabFilons = null;
 				$tabHobbits = null;
@@ -224,6 +228,14 @@ class Bral_Box_Vue {
 						foreach($castars as $c) {
 							if ($display_x == $c["x_castar"] && $display_y == $c["y_castar"]) {
 								$tabCastars[] = array("nb_castar" => $c["nb_castar"]);
+							}
+						}
+					}
+					
+					if ($charrettes != null) {
+						foreach($charrettes as $c) {
+							if ($display_x == $c["x_charrette"] && $display_y == $c["y_charrette"]) {
+								$tabCharrettes[] = array("id_charrette" => $c["id_charrette"]);
 							}
 						}
 					}
@@ -367,6 +379,8 @@ class Bral_Box_Vue {
 				"echoppes" => $tabEchoppes,
 				"n_castars" => count($tabCastars),
 				"castars" => $tabCastars,
+				"n_charrettes" => count($tabCharrettes),
+				"charrettes" => $tabCharrettes,
 				"n_filons" => count($tabFilons),
 				"filons" => $tabFilons,
 				"n_hobbits" => count($tabHobbits),

@@ -20,8 +20,8 @@ registerCommands('fadein,fadeout,fadetime,opacity');
 // changed on your html page or through an overLIB call.
 ////////
 if (typeof ol_fadein=='undefined') var ol_fadein=0;
-if (typeof ol_fadeout=='undefined') var ol_fadeout=1;
-if (typeof ol_fadetime=='undefined') var  ol_fadetime=350;  // 0.5 sec fade time
+if (typeof ol_fadeout=='undefined') var ol_fadeout=0;
+if (typeof ol_fadetime=='undefined') var  ol_fadetime=0;  // 0.5 sec fade time
 if (typeof ol_opacity=='undefined') var ol_opacity=88;
 ////////
 // END OF CONFIGURATION

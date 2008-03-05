@@ -141,6 +141,27 @@
 	      	</div>
 	    <?php endif; ?>	
 	    
+      	<?php if ($case["n_charrettes"] > 0) : ?>
+      		<div>
+      		<?php 
+      			$textCharrette = "";
+
+      			foreach($case["charrettes"] as $c) {
+      				$textCharrette .= "Charrette n&deg; ".$c["id_charrette"]. "<br>";
+      			} 
+				$s = "";
+				if ($case["n_charrettes"] > 1) {
+					$s = "s";
+				}
+			?>
+      		<span onmouseover="return overlib('<?=$textCharrette?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_charrettes"] ?> Charrette<?=$s?> - Clique !');"
+      			onclick="return overlib('<?=$textCharrette?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_charrettes"] ?> Charrette<?=$s?> - ', CLOSECLICK, EXCLUSIVE);"
+      			onmouseout="return nd();">
+	      		<?=$case["n_charrettes"] ?> charrette<?=$s?>
+	      	</span>
+	      	</div>
+	    <?php endif; ?>	
+	    
       	<?php if ($case["n_echoppes"] > 0) : ?>
       		<div>
       		<?php 
