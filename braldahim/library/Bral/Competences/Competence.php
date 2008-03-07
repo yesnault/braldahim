@@ -79,6 +79,8 @@ abstract class Bral_Competences_Competence {
 		$this->view->jet1 = Bral_Util_De::get_1d100();
 		if ($this->view->jet1 <= $this->hobbit_competence["pourcentage_hcomp"]) {
 			$this->view->okJet1 = true;
+		} else { // si le jet est manquee, on recalcule le cout en PA
+			$this->view->nb_pa = $this->competence["pa_manquee"];
 		}
 	}
 

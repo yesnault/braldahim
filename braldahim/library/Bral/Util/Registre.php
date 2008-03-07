@@ -26,6 +26,7 @@ class Bral_Util_Registre {
 			$tab[$c->id_competence]["balance_faim"] = $c->balance_faim_competence;
 			$tab[$c->id_competence]["pourcentage_max"] = $c->pourcentage_max_competence;
 			$tab[$c->id_competence]["pa_utilisation"] = $c->pa_utilisation_competence;
+			$tab[$c->id_competence]["pa_manquee"] = $c->pa_manquee_competence;
 			$tab[$c->id_competence]["type"] = $c->type_competence;
 			$tab[$c->id_competence]["id_fk_metier"] = $c->id_fk_metier_competence;
 			

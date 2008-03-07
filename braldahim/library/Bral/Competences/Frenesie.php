@@ -111,7 +111,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_lieu", "box_evenements");
+		return array("box_profil", "box_vue", "box_lieu", "box_evenements");
 	}
 
 	private function attaqueHobbit($idHobbit) {
