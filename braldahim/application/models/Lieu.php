@@ -18,6 +18,26 @@ class Lieu extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
+	public function findByTypeAndRegion($type, $region){
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('lieu', '*')
+		->from('type_lieu', '*')
+		->from('ville', '*')
+		->from('region', '*')
+		->where('region.id_region = ?', $region)
+		->where('lieu.id_fk_type_lieu = ?', $type)
+		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+		->where('lieu.id_fk_ville_lieu = ville.id_ville')
+		->where('lieu.x_lieu >= region.x_min_region')
+		->where('lieu.x_lieu <= region.x_max_region')
+		->where('lieu.y_lieu >= region.y_min_region')
+		->where('lieu.y_lieu <= region.y_max_region');
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
+	
 	function selectVue($x_min, $y_min, $x_max, $y_max) {
 		$db = $this->getAdapter();
 		$select = $db->select();

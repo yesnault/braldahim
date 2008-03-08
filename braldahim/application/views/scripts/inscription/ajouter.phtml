@@ -41,7 +41,7 @@
 			<?php if(!empty($this->messagesEmail)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesEmail as $message) :?>
-				FF<?=$message;?><br>
+				<?=$message;?><br>
 			<?php endforeach; ?>
 			</div>
 			<?php endif; ?>
@@ -85,6 +85,16 @@
 			<input type="radio" name="sexe_hobbit" value="masculin">Masculin <br><br>
 		</div>
 	
+		<div><br>
+			
+			Comt&eacute; : 
+			<select name='id_region' id='id_region'>
+				<option value='-1' <? if ($this->id_region == -1) echo "selected" ?>>Comt&eacute; Al&eacute;atoire</option>
+				<? foreach ($this->regions as $k => $v) : ?>
+				<option value="<?=$k?>" <? if ($this->id_region == $k) echo "selected" ?>><?=htmlentities($v)?></option>
+				<? endforeach; ?>
+			</select><br><br>
+		</div>
 		<div id="formbutton">
 			<input type="submit" class='button1' name="ajouter" value="Inscription !" /> 
 			<input type="button" class='button1' name="Annuler" value="Annuler" onClick="javascript:document.location.href='/'"/>

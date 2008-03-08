@@ -15,6 +15,7 @@ class InscriptionController extends Zend_Controller_Action {
 		Zend_Loader::loadClass("Lieu");
 		Zend_Loader::loadClass("HobbitsCompetences");
 		Zend_Loader::loadClass("Nom");
+		Zend_Loader::loadClass("Region");
 		$this->view->config = Zend_Registry::get('config');
 	}
 
@@ -66,6 +67,16 @@ class InscriptionController extends Zend_Controller_Action {
 		$this->prenom_hobbit = "";
 		$this->email_hobbit = "";
 		$this->email_confirm_hobbit = "";
+		$this->id_region = -1;
+		
+		$regionTable =  new Region();
+		$regionsRowset = $regionTable->fetchAll();
+		$regionsRowset = $regionsRowset->toArray();
+		
+		$regions = null;
+		foreach ($regionsRowset as $r) {
+			$regions[$r["id_region"]] = $r["nom_region"];		
+		}
 
 		if ($this->_request->isPost()) {
 			Zend_Loader::loadClass('Zend_Filter');
@@ -85,20 +96,26 @@ class InscriptionController extends Zend_Controller_Action {
 			$this->password_hobbit = $filter->filter($this->_request->getPost('password_hobbit'));
 			$this->password_confirm_hobbit = $filter->filter($this->_request->getPost('password_confirm_hobbit'));
 			$this->sexe_hobbit = $filter->filter($this->_request->getPost('sexe_hobbit'));
+			$this->id_region = $filter->filter($this->_request->getPost('id_region'));
 
 			$validPrenom = $validateurPrenom->isValid($this->prenom_hobbit);
 			$validEmail = $validateurEmail->isValid($this->email_hobbit);
 			$validPassword = $validateurPassword->isValid($this->password_hobbit);
-
+	
 			$validEmailConfirm = ($this->email_confirm_hobbit == $this->email_hobbit);
 			$validPasswordConfirm = ($this->password_confirm_hobbit == $this->password_hobbit);
-
+			
 			if ($this->sexe_hobbit == "feminin" || $this->sexe_hobbit == "masculin") {
 				$validSexe = true;
 			} else {
 				$validSexe = false;
 			}
 			
+			// Verification de la plante
+			if (!isset($this->id_region)) {
+				$this->id_region = -1;
+			}
+	
 			if (($validPrenom)
 			&& ($validEmail)
 			&& ($validPassword)
@@ -147,20 +164,34 @@ class InscriptionController extends Zend_Controller_Action {
 			}
 		}
 
+		
 		// hobbit par défaut
 		$this->view->hobbit= new stdClass();
 		$this->view->hobbit->id_hobbit = null;
 		$this->view->hobbit->prenom_hobbit = $this->prenom_hobbit;
 		$this->view->hobbit->email_hobbit = $this->email_hobbit;
 		$this->view->hobbit->email_confirm_hobbit = $this->email_confirm_hobbit;
+		$this->view->regions = $regions;
+		$this->view->id_region = $this->id_region;
 
 		$this->render();
 	}
 
 	private function initialiseDataHobbit() {
-
+		
+		// region aleatoire
+		if ($this->id_region == -1) {
+			$regionTable = new Region();
+			$regionsRowset = $regionTable->fetchAll();
+			$de = Bral_Util_De::get_de_specifique(0, count($regionsRowset)-1);
+			$regionsRowset = $regionsRowset->toArray();
+			$region = $regionsRowset[$de];
+			$this->id_region = $region["id_region"];
+		}
+		
+		// Mairie aleatoire dans la region
 		$lieuTable = new Lieu();
-		$mairiesRowset = $lieuTable->findByType($this->view->config->game->lieu->type->mairie);
+		$mairiesRowset = $lieuTable->findByTypeAndRegion($this->view->config->game->lieu->type->mairie, $this->id_region);
 		$de = Bral_Util_De::get_de_specifique(0, count($mairiesRowset)-1);
 		$lieu = $mairiesRowset[$de];
 
