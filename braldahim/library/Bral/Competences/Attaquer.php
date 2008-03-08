@@ -16,6 +16,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 			$tab = array(
 			'id_hobbit' => $h["id_hobbit"],
 			'nom_hobbit' => $h["nom_hobbit"],
+			'prenom_hobbit' => $h["prenom_hobbit"],
 			);
 			$tabHobbits[] = $tab;
 		}
@@ -121,7 +122,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		}
 		$this->view->jetCible = $jetCible + $hobbit->agilite_bm_hobbit;
 
-		$cible = array('nom_cible' => $hobbit->nom_hobbit, 'id_cible' => $hobbit->id_hobbit, 'x_cible' => $hobbit->x_hobbit, 'y_cible' => $hobbit->y_hobbit,'niveau_cible' =>$hobbit->niveau_hobbit, 'castars_hobbit' => $hobbit->castars_hobbit, 'agilite_bm_hobbit' => $hobbit->agilite_bm_hobbit);
+		$cible = array('nom_cible' => $hobbit->prenom_hobbit." ".$hobbit->nom_hobbit, 'id_cible' => $hobbit->id_hobbit, 'x_cible' => $hobbit->x_hobbit, 'y_cible' => $hobbit->y_hobbit,'niveau_cible' =>$hobbit->niveau_hobbit, 'castars_hobbit' => $hobbit->castars_hobbit, 'agilite_bm_hobbit' => $hobbit->agilite_bm_hobbit);
 		$this->view->cible = $cible;
 
 		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
@@ -170,13 +171,13 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		}
 
 		$id_type = $this->view->config->game->evenements->type->attaquer;
-		$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") N".$this->view->user->niveau_hobbit." a attaqué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"]."";
+		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") N".$this->view->user->niveau_hobbit." a attaqué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"]."";
 		$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
 		$this->majEvenements($cible["id_cible"], $id_type, $details);
 
 		if ($this->view->mort === true) {
 			$id_type = $this->view->config->game->evenements->type->kill;
-			$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") N".$this->view->user->niveau_hobbit." a tué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
+			$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") N".$this->view->user->niveau_hobbit." a tué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
 			$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
 			$id_type = $this->view->config->game->evenements->type->mort;
 			$this->majEvenements($cible["id_cible"], $id_type, $details);
@@ -243,13 +244,13 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		}
 
 		$id_type = $this->view->config->game->evenements->type->attaquer;
-		$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") N".$this->view->user->niveau_hobbit." a attaqué le monstre ".$cible["nom_cible"].", n&deg; ".$cible["id_cible"];
+		$details = $this->view->user->prenom_hobbit ." ".$this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") N".$this->view->user->niveau_hobbit." a attaqué le monstre ".$cible["nom_cible"].", n&deg; ".$cible["id_cible"];
 		$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
 		$this->majEvenements($cible["id_cible"], $id_type, $details, "monstre");
 		
 		if ($this->view->mort === true) {
 			$id_type = $this->view->config->game->evenements->type->kill;
-			$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") N".$this->view->user->niveau_hobbit." a tué le monstre ".$cible["nom_cible"]." n&deg; ".$cible["id_cible"];
+			$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") N".$this->view->user->niveau_hobbit." a tué le monstre ".$cible["nom_cible"]." n&deg; ".$cible["id_cible"];
 			$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
 			$id_type = $this->view->config->game->evenements->type->mort;
 			$this->majEvenements($cible["id_cible"], $id_type, $details, "monstre");

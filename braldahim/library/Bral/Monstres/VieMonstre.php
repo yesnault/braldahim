@@ -163,7 +163,7 @@ class Bral_Monstres_VieMonstre {
 				$cible["est_mort_hobbit"] = "oui";
 				$id_type_evenement = self::$config->game->evenements->type->kill;
 				$id_type_evenement_cible = self::$config->game->evenements->type->mort;
-				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a tué le hobbit ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ")";
+				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a tué le hobbit ".$cible["prenom_hobbit"] ." ". $cible["nom_hobbit"]." (".$cible["id_hobbit"] . ")";
 				$this->majEvenements(null, $this->monstre["id_monstre"], $id_type_evenement, $details);
 				$this->majEvenements($cible["id_hobbit"], null, $id_type_evenement_cible, $details);
 				$mortCible = true;

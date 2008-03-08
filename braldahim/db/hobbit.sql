@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Sam 22 Décembre 2007 à 20:15
+-- Généré le : Sam 08 Mars 2008 à 11:32
 -- Version du serveur: 5.0.41
 -- Version de PHP: 5.2.3
 
@@ -23,6 +23,8 @@ CREATE TABLE `hobbit` (
   `id_hobbit` int(11) NOT NULL auto_increment,
   `sysgroupe_hobbit` varchar(10) default NULL,
   `nom_hobbit` varchar(20) NOT NULL,
+  `prenom_hobbit` varchar(10) NOT NULL,
+  `id_fk_nom_initial_hobbit` int(11) NOT NULL,
   `password_hobbit` varchar(50) NOT NULL,
   `email_hobbit` varchar(100) NOT NULL,
   `etat_hobbit` int(11) NOT NULL,
@@ -64,4 +66,4 @@ CREATE TABLE `hobbit` (
   `date_creation_hobbit` datetime NOT NULL,
   PRIMARY KEY  (`id_hobbit`),
   KEY `idx_x_hobbit_y_hobbit` (`x_hobbit`,`y_hobbit`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tables des Hobbits' AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tables des Hobbits' AUTO_INCREMENT=1 ;

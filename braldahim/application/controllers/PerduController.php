@@ -38,7 +38,7 @@ class PerduController extends Zend_Controller_Action {
 				
 				if (count($hobbit) > 0) {
 					$this->view->emailGenerationOk = true;
-					$this->nom_hobbit = $hobbit->nom_hobbit;
+					$this->prenom_hobbit = $hobbit->prenom_hobbit;
 					$this->password_hobbit = $hobbit->password_hobbit;
 					$this->id_hobbit = $hobbit->id_hobbit;
 					
@@ -76,15 +76,15 @@ class PerduController extends Zend_Controller_Action {
 		$this->generationOk = false;
 		
 		$this->email_hobbit = $this->_request->get("e");
-		$md5_nom_hobbit = $this->_request->get("h");
+		$md5_prenom_hobbit = $this->_request->get("h");
 		$md5_password_hobbit = $this->_request->get("p");
 		
 		$hobbitTable = new Hobbit();
 		$hobbit = $hobbitTable->findByEmail($this->email_hobbit);
 		if (count($hobbit) > 0) {
-			if ($md5_nom_hobbit == md5($hobbit->nom_hobbit) && ($md5_password_hobbit == $hobbit->password_hobbit)) {
+			if ($md5_prenom_hobbit == md5($hobbit->prenom_hobbit) && ($md5_password_hobbit == $hobbit->password_hobbit)) {
 				$this->view->generationOk = true;
-				$this->nom_hobbit = $hobbit->nom_hobbit;
+				$this->prenom_hobbit = $hobbit->prenom_hobbit;
 				$this->id_hobbit = $hobbit->id_hobbit;
 				$this->view->email_hobbit = $this->email_hobbit;
 				
@@ -106,10 +106,10 @@ class PerduController extends Zend_Controller_Action {
 		$this->view->urlGeneration = $this->view->config->general->url;
 		$this->view->adresseSupport = $this->view->config->general->adresseSupport;
 		$this->view->urlGeneration .= "/perdu/generation?e=".$this->email_hobbit;
-		$this->view->urlGeneration .= "&h=".md5($this->nom_hobbit);
+		$this->view->urlGeneration .= "&h=".md5($this->prenom_hobbit);
 		$this->view->urlGeneration .= "&p=".$this->password_hobbit;
 		
-		$this->view->nom_hobbit = $this->nom_hobbit;
+		$this->view->prenom_hobbit = $this->prenom_hobbit;
 		$this->view->id_hobbit = $this->id_hobbit;
 		
 		$contenuText = $this->view->render("perdu/mailGenerationText.phtml");
@@ -117,7 +117,7 @@ class PerduController extends Zend_Controller_Action {
 		
 		$mail = Bral_Util_Mail::getNewZendMail();
 		$mail->setFrom($this->view->config->general->mail->from_email, $this->view->config->general->mail->from_nom);
-		$mail->addTo($this->email_hobbit, $this->nom_hobbit);
+		$mail->addTo($this->email_hobbit, $this->prenom_hobbit);
 		$mail->setSubject($this->view->config->game->perdu->titre_mail);
 		$mail->setBodyText($contenuText);
 		if ($this->view->config->general->envoi_mail_html == true) {
@@ -130,7 +130,7 @@ class PerduController extends Zend_Controller_Action {
 		$this->view->urlValidation = $this->view->config->general->url;
 		$this->view->adresseSupport = $this->view->config->general->adresseSupport;
 		$this->view->urlValidation .= "/perdu/generation?e=".$this->email_hobbit;
-		$this->view->urlValidation .= "&h=".md5($this->nom_hobbit);
+		$this->view->urlValidation .= "&h=".md5($this->prenom_hobbit);
 		$this->view->urlValidation .= "&p=".md5($this->password_hobbit);
 		
 		$this->view->nom_hobbit = $this->nom_hobbit;

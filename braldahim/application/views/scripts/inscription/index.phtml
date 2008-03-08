@@ -12,7 +12,7 @@
 <?php foreach($this->hobbits as $hobbit) : ?>
 <tr>
 	<td><?php echo $this->escape($hobbit->id_hobbit);?></td>
-	<td><?php echo $this->escape($hobbit->nom_hobbit);?></td>
+	<td><?php echo $this->escape($hobbit->prenom_hobbit);?> <?php echo $this->escape($hobbit->nom_hobbit);?></td>
 	<td><?php echo $this->escape($hobbit->email_hobbit);?></td>
 	<td>
 	  <a href="<?php echo $this->baseUrl; ?>/index/modifier/id/<?php 

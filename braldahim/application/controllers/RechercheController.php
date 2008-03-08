@@ -30,6 +30,7 @@ class RechercheController extends Zend_Controller_Action {
 			$tabHobbits[] = array(
 				"id_hobbit" => $h["id_hobbit"],
 				"nom" => $h["nom_hobbit"],
+				"prenom" => $h["prenom_hobbit"],
 			);
 		}
 		$this->view->pattern = $this->_request->get("valeur");

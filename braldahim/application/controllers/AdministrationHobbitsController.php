@@ -60,6 +60,7 @@ class AdministrationHobbitsController extends Zend_Controller_Action {
 			"x_hobbit" =>$h["x_hobbit"] ,
 			"y_hobbit" =>$h["y_hobbit"] ,
 			"nom_hobbit" =>$h["nom_hobbit"],
+			"prenom_hobbit" =>$h["prenom_hobbit"],
 			"pa_hobbit" =>$h["pa_hobbit"]);
 		}
 		$this->view->hobbits = $hobbitsRowset;

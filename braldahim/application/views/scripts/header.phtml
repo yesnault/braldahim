@@ -43,11 +43,11 @@
 <?php endif; ?>
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>
 
-<?php if (isset($this->user) && isset($this->user->nom_hobbit)) : ?> 
+<?php if (isset($this->user) && isset($this->user->email_hobbit)) : ?> 
 <b class="xb1"></b><b class="xb2"></b><b class="xb3"></b><b class="xb4"></b><b class="xb5"></b><b class="xb6"></b><b class="xb7"></b>
  <div class="inner">
  <span id='date_heure' class=''>&nbsp;</span>
-  <?=$this->escape($this->user->nom_hobbit);?> | 
+  <?=$this->escape($this->user->prenom_hobbit);?> <?=$this->escape($this->user->nom_hobbit);?> | 
   <? if ($this->user->administrateur === true) : ?>
   	<a href="<?=$this->baseUrl ?>/administration/" class="menu_lien">Administration</a> |
   <? endif; ?>

@@ -16,11 +16,10 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 		$hobbits = $hobbitTable->findLesPlusProches($this->view->user->x_hobbit, $this->view->user->y_hobbit, $vue, $this->view->config->game->competence->distribuerpx->nb_max_hobbit);
 
 		foreach($hobbits as $h) {
-			$nom = $h["nom_hobbit"];
 			if ($h["id_hobbit"] == $this->view->user->id_hobbit) {
-				$nom = " Vous-MÃªme : ".$h["nom_hobbit"];
+				$nom = " Vous-Même : ".$h["prenom_hobbit"]. " ". $h["nom_hobbit"];
 			}
-			$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"], "nom_hobbit" => $nom);
+			$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"], "nom_hobbit" => $h["nom_hobbit"], "prenom_hobbit" => $h["prenom_hobbit"]);
 		}
 
 		if (count($tabHobbits) >= $this->view->config->game->competence->distribuerpx->nb_max_hobbit) {
@@ -84,15 +83,15 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 			}
 			$tab["id_hobbit"] = $t["id_hobbit"];
 			if ($t["id_hobbit"] == $this->view->user->id_hobbit) {
-				$tab["nom_hobbit"] = "Vous-Même : ".$hobbit->nom_hobbit;
+				$tab["nom_hobbit"] = "Vous-Même : ".$hobbit->prenom_hobbit. " ". $hobbit->nom_hobbit;
 			} else {
-				$tab["nom_hobbit"] = $hobbit->nom_hobbit;
+				$tab["nom_hobbit"] = $hobbit->prenom_hobbit. " ". $hobbit->nom_hobbit;
 			}
 			$tab["px_recu"] = $t["px_recu"];
 			$tabAffiche[] = $tab;
 
 			$id_type = $this->view->config->game->evenements->type->don;
-			$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a donné des PX à ".$t["nom_hobbit"]." (".$t["id_hobbit"].")";
+			$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a donné des PX à ".$t["nom_hobbit"]." (".$t["id_hobbit"].")";
 			$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
 			$this->majEvenements($t["id_hobbit"], $id_type, $details);
 		}

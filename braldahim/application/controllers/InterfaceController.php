@@ -5,7 +5,7 @@ class InterfaceController extends Zend_Controller_Action {
 	function init() {
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
-		if (!Zend_Auth::getInstance()->hasIdentity() || !isset($this->view->user) || !isset($this->view->user->nom_hobbit)) {
+		if (!Zend_Auth::getInstance()->hasIdentity() || !isset($this->view->user) || !isset($this->view->user->email_hobbit)) {
 			$this->_redirect('/');
 		} else {
 			Zend_Loader::loadClass('Bral_Util_BralSession');

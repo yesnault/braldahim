@@ -7,13 +7,14 @@ class InscriptionController extends Zend_Controller_Action {
 		$this->view->baseUrl = $this->_request->getBaseUrl();
 		Zend_Loader::loadClass("Bral_Util_De");
 		Zend_Loader::loadClass("Bral_Validate_Inscription_EmailHobbit");
-		Zend_Loader::loadClass("Bral_Validate_Inscription_NomHobbit");
+		Zend_Loader::loadClass("Bral_Validate_Inscription_PrenomHobbit");
 		Zend_Loader::loadClass("Bral_Validate_StringLength");
 		Zend_Loader::loadClass("Zend_Validate_EmailAddress");
 		Zend_Loader::loadClass("Zend_Validate");
 		Zend_Loader::loadClass("Bral_Util_Mail");
 		Zend_Loader::loadClass("Lieu");
 		Zend_Loader::loadClass("HobbitsCompetences");
+		Zend_Loader::loadClass("Nom");
 		$this->view->config = Zend_Registry::get('config');
 	}
 
@@ -21,20 +22,21 @@ class InscriptionController extends Zend_Controller_Action {
 		$this->view->title = "Inscription";
 		$this->_redirect('/inscription/ajouter');
 	}
+	
 	function validationAction() {
 		$this->view->title = "Validation de l'inscription";
 		$this->view->validationOk = false;
 		$this->view->emailMaitreJeu = $this->view->config->general->mail->from_email;
 
 		$email_hobbit = $this->_request->get("e");
-		$md5_nom_hobbit = $this->_request->get("h");
+		$md5_prenom_hobbit = $this->_request->get("h");
 		$md5_password_hobbit = $this->_request->get("p");
 
 		$hobbitTable = new Hobbit();
 		$hobbit = $hobbitTable->findByEmail($email_hobbit);
 
 		if (count($hobbit) > 0) {
-			if ($md5_nom_hobbit == md5($hobbit->nom_hobbit) && ($md5_password_hobbit == $hobbit->password_hobbit)) {
+			if ($md5_prenom_hobbit == md5($hobbit->prenom_hobbit) && ($md5_password_hobbit == $hobbit->password_hobbit)) {
 				$this->view->validationOk = true;
 
 				$data = array(
@@ -43,7 +45,7 @@ class InscriptionController extends Zend_Controller_Action {
 				$where = "id_hobbit=".$hobbit->id_hobbit;
 				$hobbitTable->update($data, $where);
 
-				$details = $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") est apparu sur Braldahim";
+				$details = $hobbit->prenom_hobbit ." ".$hobbit->nom_hobbit." (".$hobbit->id_hobbit.") est apparu sur Braldahim";
 				Zend_Loader::loadClass('Evenement');
 				$evenementTable = new Evenement();
 				$data = array(
@@ -61,7 +63,7 @@ class InscriptionController extends Zend_Controller_Action {
 
 	function ajouterAction() {
 		$this->view->title = "Nouvel Hobbit";
-		$this->nom_hobbit = "";
+		$this->prenom_hobbit = "";
 		$this->email_hobbit = "";
 		$this->email_confirm_hobbit = "";
 
@@ -71,20 +73,20 @@ class InscriptionController extends Zend_Controller_Action {
 			Zend_Loader::loadClass('Zend_Filter_StringTrim');
 
 			$validateurEmail = new Bral_Validate_Inscription_EmailHobbit();
-			$validateurNom = new Bral_Validate_Inscription_NomHobbit();
+			$validateurPrenom = new Bral_Validate_Inscription_PrenomHobbit();
 			$validateurPassword = new Bral_Validate_StringLength(5, 20);
 
 			$filter = new Zend_Filter();
 			$filter->addFilter(new Zend_Filter_StringTrim())
 			->addFilter(new Zend_Filter_StripTags());
-			$this->nom_hobbit = $filter->filter($this->_request->getPost('nom_hobbit'));
+			$this->prenom_hobbit = $filter->filter($this->_request->getPost('prenom_hobbit'));
 			$this->email_hobbit = $filter->filter($this->_request->getPost('email_hobbit'));
 			$this->email_confirm_hobbit = $filter->filter($this->_request->getPost('email_confirm_hobbit'));
 			$this->password_hobbit = $filter->filter($this->_request->getPost('password_hobbit'));
 			$this->password_confirm_hobbit = $filter->filter($this->_request->getPost('password_confirm_hobbit'));
 			$this->sexe_hobbit = $filter->filter($this->_request->getPost('sexe_hobbit'));
 
-			$validNom = $validateurNom->isValid($this->nom_hobbit);
+			$validPrenom = $validateurPrenom->isValid($this->prenom_hobbit);
 			$validEmail = $validateurEmail->isValid($this->email_hobbit);
 			$validPassword = $validateurPassword->isValid($this->password_hobbit);
 
@@ -96,8 +98,8 @@ class InscriptionController extends Zend_Controller_Action {
 			} else {
 				$validSexe = false;
 			}
-
-			if (($validNom)
+			
+			if (($validPrenom)
 			&& ($validEmail)
 			&& ($validPassword)
 			&& ($validSexe)
@@ -108,7 +110,7 @@ class InscriptionController extends Zend_Controller_Action {
 
 				$hobbitTable = new Hobbit();
 				$this->view->id_hobbit = $hobbitTable->insert($data);
-				$this->view->nom_hobbit = $this->nom_hobbit;
+				$this->view->prenom_hobbit = $this->prenom_hobbit;
 				$this->view->email_hobbit = $this->email_hobbit;
 
 				$this->initialiseDataHobbitsCompetences();
@@ -117,15 +119,15 @@ class InscriptionController extends Zend_Controller_Action {
 				echo $this->view->render("inscription/fin.phtml");
 				return;
 			} else {
-				$tabNom = null;
+				$tabPrenom = null;
 				$tabEmail = null;
 				$tabPassword = null;
 
 				foreach ($validateurEmail->getMessages() as $message) {
 					$tabEmail[] = $message;
 				}
-				foreach ($validateurNom->getMessages() as $message) {
-					$tabNom[] = $message;
+				foreach ($validateurPrenom->getMessages() as $message) {
+					$tabPrenom[] = $message;
 				}
 				foreach ($validateurPassword->getMessages() as $message) {
 					$tabPassword[] = $message;
@@ -139,7 +141,7 @@ class InscriptionController extends Zend_Controller_Action {
 				if (!$validPasswordConfirm) {
 					$this->view->messagesPasswordConfirm = "Les deux mots de passe sont différents";
 				}
-				$this->view->messagesNom = $tabNom;
+				$this->view->messagesPrenom = $tabPrenom;
 				$this->view->messagesEmail = $tabEmail;
 				$this->view->messagesPassword = $tabPassword;
 			}
@@ -148,7 +150,7 @@ class InscriptionController extends Zend_Controller_Action {
 		// hobbit par défaut
 		$this->view->hobbit= new stdClass();
 		$this->view->hobbit->id_hobbit = null;
-		$this->view->hobbit->nom_hobbit = $this->nom_hobbit;
+		$this->view->hobbit->prenom_hobbit = $this->prenom_hobbit;
 		$this->view->hobbit->email_hobbit = $this->email_hobbit;
 		$this->view->hobbit->email_confirm_hobbit = $this->email_confirm_hobbit;
 
@@ -167,8 +169,17 @@ class InscriptionController extends Zend_Controller_Action {
 		$armure_nat = 0;
 		$reg = 1;
 		
+		Zend_Loader::loadClass('Bral_Util_Nom');
+    	$nom = new Bral_Util_Nom();
+    	
+		$dataNom = $nom->calculNom($this->prenom_hobbit);
+		$nom_hobbit = $dataNom["nom"];
+		$id_fk_nom_initial_hobbit = $dataNom["id_nom"];
+		
 		$data = array(
-		'nom_hobbit' => $this->nom_hobbit,
+		'nom_hobbit' => $nom_hobbit,
+		'prenom_hobbit' => $this->prenom_hobbit,
+		'id_fk_nom_initial_hobbit' => $id_fk_nom_initial_hobbit,
 		'email_hobbit'  => $this->email_hobbit,
 		'password_hobbit'  => md5($this->password_hobbit),
 		'est_compte_actif_hobbit'  => "non",
@@ -221,7 +232,7 @@ class InscriptionController extends Zend_Controller_Action {
 		$this->view->urlValidation = $this->view->config->general->url;
 		$this->view->adresseSupport = $this->view->config->general->adresseSupport;
 		$this->view->urlValidation .= "/inscription/validation?e=".$this->email_hobbit;
-		$this->view->urlValidation .= "&h=".md5($this->nom_hobbit);
+		$this->view->urlValidation .= "&h=".md5($this->prenom_hobbit);
 		$this->view->urlValidation .= "&p=".md5($this->password_hobbit);
 
 		$contenuText = $this->view->render("inscription/mailText.phtml");
@@ -229,13 +240,24 @@ class InscriptionController extends Zend_Controller_Action {
 
 		$mail = Bral_Util_Mail::getNewZendMail();
 		$mail->setFrom($this->view->config->general->mail->from_email, $this->view->config->general->mail->from_nom);
-		$mail->addTo($this->email_hobbit, $this->nom_hobbit);
+		$mail->addTo($this->email_hobbit, $this->prenom_hobbit);
 		$mail->setSubject($this->view->config->game->inscription->titre_mail);
 		$mail->setBodyText($contenuText);
 		if ($this->view->config->general->envoi_mail_html == true) {
 			$mail->setBodyHtml($contenuHtml);
 		}
 		$mail->send();
+	}
+	
+	function shuffle_assoc(&$array) {
+		if (count($array)>1) { //$keys needs to be an array, no need to shuffle 1 item anyway
+			$keys = array_rand($array, count($array));
+			foreach($keys as $key) {
+				$new[$key] = $array[$key];
+			}
+			$array = $new;
+		}
+		return true; //because it's a wannabe shuffle(), which returns true
 	}
 }
 

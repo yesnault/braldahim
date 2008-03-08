@@ -1,0 +1,68 @@
+<?php
+
+class Bral_Util_Nom {
+
+	function __construct() {
+	}
+	
+	function calculNom($prenom) {
+		$idNom = $this->calculIdNom($prenom);
+		
+		$nomTable = new Nom();
+		$nomRowset = $nomTable->findById($idNom);
+		
+		$dataNom["nom"] = $nomRowset->nom;
+		$dataNom["id_nom"] = $idNom;
+		return $dataNom;
+	}
+	
+	function estValidPrenom($prenom) {
+		$idNom = $this->calculIdNom($prenom);
+		
+		if ($idNom == -1) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	private function calculIdNom($prenom) {
+		$nomTable = new Nom();
+		$nomRowset = $nomTable->fetchAllId();
+		
+		foreach ($nomRowset as $n) {
+			$idNoms[] = $n["id_nom"];
+		}
+		$idNomsBis = $idNoms;
+		
+		srand((float)microtime()*1000000);
+		shuffle($idNoms);
+		
+		$idNom = -1;
+		
+		$hobbitTable = new Hobbit();
+		$nomOk = false;
+		while ($nomOk != true) {
+			$idNom = array_pop($idNoms);
+			$r = $hobbitTable->findByIdNomInitialPrenom($idNom, $prenom);
+			if (count($r) > 0) {
+				// association nom / prenom deja presente
+				// on regarde s'il reste des noms dispo dans la liste
+				if (count($idNoms) == 0) {
+					// on n'a pas trouve de nom, on re-initialise la liste de nom
+					$idNoms = $idNomsBis;
+					// et on rajoute Bis au prenom
+					if (strlen($prenom) <= 18) { // "1234567890 Bis Bis" et l'on rajoute un " Bis"
+						$prenom = $prenom. " Bis";
+					} else {
+						// ici, on ne peut vraiment pas accepter le prenom
+						throw Exception("Prenom trop utilise");
+					}
+				}
+			} else {
+				$nomOk = true;
+			}
+		}
+		return $idNom;
+	}
+}

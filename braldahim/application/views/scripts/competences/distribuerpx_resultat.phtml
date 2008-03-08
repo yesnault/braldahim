@@ -7,7 +7,7 @@
  	<? foreach ($this->tabAffiche as $t):?>
  		<tr>
  			<td>
- 			<?=$t["nom_hobbit"]?> (<?=$t["id_hobbit"]?>)
+ 			<?=htmlentities($t["prenom_hobbit"])?> <?=htmlentities($t["nom_hobbit"])?> (<?=$t["id_hobbit"]?>)
  			</td>
  			<td>
  			<?=$t["px_recu"]?>  PX
@@ -25,7 +25,7 @@
 		echo "
 ";
  		foreach ($this->tabAffiche as $t) {
- 			echo $t["nom_hobbit"]." (".$t["id_hobbit"]."):";
+ 			echo htmlentities($t["prenom_hobbit"]). " " . htmlentities($t["nom_hobbit"])." (".$t["id_hobbit"]."):";
  			echo $t["px_recu"]." PX";
  			echo "
 ";

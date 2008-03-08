@@ -35,6 +35,7 @@ class GardiennageController extends Zend_Controller_Action {
 					"id_gardiennage" => $g["id_gardiennage"], 
 					"id_hobbit" => $g["id_fk_hobbit_gardiennage"], 
 					"nom_hobbit" => $g["nom_hobbit"],
+					"prenom_hobbit" => $g["prenom_hobbit"],
 					"date_debut" => $g["date_debut_gardiennage"],
 					"nb_jours" => $g["nb_jours_gardiennage"],
 					"commentaire" => $g["commentaire_gardiennage"],
@@ -68,7 +69,7 @@ class GardiennageController extends Zend_Controller_Action {
 					&& $g["date_fin_gardiennage"] >= $dateCourante) {
 					$garde = true;
 					$id_hobbit = $g["id_fk_hobbit_gardiennage"];
-					$nom_hobbit = $g["nom_hobbit"];
+					$email_hobbit = $g["email_hobbit"];
 				}
 			}
 			
@@ -80,11 +81,11 @@ class GardiennageController extends Zend_Controller_Action {
 	            $dbAdapter = Zend_Registry::get('dbAdapter'); 
 	            $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter); 
 	            $authAdapter->setTableName('hobbit'); 
-	            $authAdapter->setIdentityColumn('nom_hobbit'); 
+	            $authAdapter->setIdentityColumn('email_hobbit'); 
 	            $authAdapter->setCredentialColumn('id_hobbit'); 
 	             
 	            // Set the input credential values to authenticate against 
-	            $authAdapter->setIdentity($nom_hobbit); 
+	            $authAdapter->setIdentity($email_hobbit); 
 	            $authAdapter->setCredential($id_hobbit); 
 	             
 	            // authentication  

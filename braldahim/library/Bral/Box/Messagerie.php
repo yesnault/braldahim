@@ -49,13 +49,13 @@ class Bral_Box_Messagerie {
 			$expediteur = "";
 			foreach($hobbits as $h) {
 				if ($destinataires == "") {
-					$destinataires = $h["nom_hobbit"] . " (".$h["id_hobbit"].")";
+					$destinataires = $h["prenom_hobbit"]. " ".$h["nom_hobbit"] . " (".$h["id_hobbit"].")";
 				} else {
-					$destinataires = $destinataires.", ".$h["nom_hobbit"] . " (".$h["id_hobbit"].")";
+					$destinataires = $destinataires.", ".$h["prenom_hobbit"]. " ".$h["nom_hobbit"]. " (".$h["id_hobbit"].")";
 				}
 
 				if (in_array($h["id_hobbit"],$idExpediteurTab)) {
-					$expediteur = $h["nom_hobbit"] . " (".$h["id_hobbit"].")";
+					$expediteur = $h["prenom_hobbit"]. " ".$h["nom_hobbit"] . " (".$h["id_hobbit"].")";
 				}
 			}
 

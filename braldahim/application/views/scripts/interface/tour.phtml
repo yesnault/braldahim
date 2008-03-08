@@ -12,7 +12,7 @@
 			Elle émet un son cristallin. Au bout de quelques instants une jolie hobbite souriante, probablement une infirmière, 
 			fait son apparition :");
 			echo "<br><br>";
-			echo htmlentities(" \"Bonjour ".$this->user->nom_hobbit. " ! Vous nous avez fait une sacrée peur, mais je vois que vous allez mieux ! 
+			echo htmlentities(" \"Bonjour ".$this->user->prenom_hobbit. " ".$this->user->nom_hobbit. " ! Vous nous avez fait une sacrée peur, mais je vois que vous allez mieux ! 
 			Vous allez certainement nous quitter rapidement pour poursuivre ce que vous aviez entrepris. J'espère ne pas vous revoir trop vite dans ce Céache Hu, alors ne prenez pas de risques inutiles... \"");
 			echo "<br><br>";
 		endif; ?>
@@ -48,7 +48,7 @@
 	 echo htmlentities("fait son apparition :");
 	 echo "
 ";
-	echo htmlentities(" \"Bonjour ".$this->user->nom_hobbit. " ! Vous nous avez fait une sacrée peur, mais je vois que vous allez mieux ! ");
+	echo htmlentities(" \"Bonjour ".$this->user->prenom_hobbit." ".$this->user->nom_hobbit. " ! Vous nous avez fait une sacrée peur, mais je vois que vous allez mieux ! ");
 	echo htmlentities(" Vous allez certainement nous quitter rapidement pour poursuivre ce que vous aviez entrepris. J'espère ne pas vous revoir trop vite dans ce Céache Hu, alors ne prenez pas de risques inutiles... \"");
 			echo "
 ";

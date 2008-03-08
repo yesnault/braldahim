@@ -20,17 +20,22 @@
 		<?php endif; ?> 
 		
 		<div>
-			<?php if(!empty($this->messagesNom)) :?> 
+			<?php if(!empty($this->messagesPrenom)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
-			<?php foreach($this->messagesNom as $message) :?>
+			<?php foreach($this->messagesPrenom as $message) :?>
 				<?=$this->escape($message);?><br>
 			<?php endforeach; ?>
 			</div> 
 			<?php endif; ?>
-		    <label for="hobbit">Hobbit</label><br>
-		    Entre 5 et 20 caract&egrave;res<br>
-		    <input type="text" name="nom_hobbit" 
-		        value="<?php echo $this->escape(trim($this->hobbit->nom_hobbit));?>" size="25" maxlength="20"/>
+			<label>Nom de Hobbit : Un nom de famille vous sera automatiquement attribu&eacute;
+		    lors de la validation d'inscription.<br>
+		    </label>
+		    <br>
+		    <label for="hobbit">Pr&eacute;nom du Hobbit.
+		    </label><br>
+		    Entre 5 et 10 caract&egrave;res<br>
+		    <input type="text" name="prenom_hobbit" 
+		        value="<?php echo $this->escape(trim($this->hobbit->prenom_hobbit));?>" size="25" maxlength="20"/>
 		</div>
 		<div><br>
 			<?php if(!empty($this->messagesEmail)) :?> 

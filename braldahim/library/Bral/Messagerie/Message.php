@@ -171,8 +171,8 @@ class Bral_Messagerie_Message {
 				} else {
 					$destinataires = $destinataires.",".$h["id_hobbit"];
 				}
-				$aff_js_destinataires = '<span id="m_valeur_7_'.$h["id_hobbit"].'">'.$h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'aff_valeur_7\',\'m_valeur_7_'.$h["id_hobbit"].'\', \'valeur_7\', '.$h["id_hobbit"].')" /></span>';
-				$aff_destinataires = $aff_destinataires.$h["nom_hobbit"].' ('.$h["id_hobbit"].') ';
+				$aff_js_destinataires = '<span id="m_valeur_7_'.$h["id_hobbit"].'">'.$h["prenom_hobbit"].' '.$h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'aff_valeur_7\',\'m_valeur_7_'.$h["id_hobbit"].'\', \'valeur_7\', '.$h["id_hobbit"].')" /></span>';
+				$aff_destinataires = $aff_destinataires.$h["prenom_hobbit"]." ".$h["nom_hobbit"].' ('.$h["id_hobbit"].') ';
 			}
 			if (($idCopiesTab != null) && (in_array($h["id_hobbit"],$idCopiesTab)) && (!in_array($h["id_hobbit"],$idDestinatairesTab))) {
 				if ($copies == "") {
@@ -180,14 +180,14 @@ class Bral_Messagerie_Message {
 				} else {
 					$copies = $copies.",".$h["id_hobbit"];
 				}
-				$aff_js_copies = '<span id="m_valeur_8_'.$h["id_hobbit"].'">'.$h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'aff_valeur_8\',\'m_valeur_8_'.$h["id_hobbit"].'\', \'valeur_8\', '.$h["id_hobbit"].')" /></span>';
-				$aff_copies = $aff_copies.$h["nom_hobbit"].' ('.$h["id_hobbit"].') ';
+				$aff_js_copies = '<span id="m_valeur_8_'.$h["id_hobbit"].'">'.$h["prenom_hobbit"].' '.$h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'aff_valeur_8\',\'m_valeur_8_'.$h["id_hobbit"].'\', \'valeur_8\', '.$h["id_hobbit"].')" /></span>';
+				$aff_copies = $aff_copies.$h["prenom_hobbit"].' '.$h["nom_hobbit"].' ('.$h["id_hobbit"].') ';
 			}
 			if ($tab_expediteur != null) {
 				if (in_array($h["id_hobbit"],$idExpediteurTab)) {
 					$expediteur = $h["id_hobbit"];
-					$aff_expediteur = $h["nom_hobbit"] . " (".$h["id_hobbit"].") ";
-					$aff_js_expediteur = $h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'aff_valeur_7\',\'m_valeur_7_'.$h["id_hobbit"].'\', \'valeur_7\', '.$h["id_hobbit"].')" />';
+					$aff_expediteur = $h["prenom_hobbit"] ." ". $h["nom_hobbit"] . " (".$h["id_hobbit"].") ";
+					$aff_js_expediteur = $h["prenom_hobbit"].' '.$h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'aff_valeur_7\',\'m_valeur_7_'.$h["id_hobbit"].'\', \'valeur_7\', '.$h["id_hobbit"].')" />';
 				}
 			}
 		}

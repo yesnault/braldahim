@@ -147,7 +147,7 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
 		
 		$id_type = $this->view->config->game->evenements->type->deplacement;
-		$details = $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a couru";
+		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a couru";
 		$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
 		
 		$this->calculPx();

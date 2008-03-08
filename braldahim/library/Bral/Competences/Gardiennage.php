@@ -24,7 +24,8 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		foreach($gardiens as $gardien) {
 			$tabGardiens[] = array(
 				"id_gardien" => $gardien["id_fk_gardien_gardiennage"], 
-				"nom_gardien" => $gardien["nom_hobbit"]);
+				"nom_gardien" => $gardien["nom_hobbit"],
+				"prenom_gardien" => $gardien["prenom_hobbit"]);
 		}
 		if (count($gardiennageEnCours) < $this->view->config->game->gardiennage->nb_max_en_cours) {
 			$this->view->tabJoursDebut = $this->tabJoursDebut;
@@ -125,6 +126,7 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 			$tabGardiennage[] = array(
 				"id_gardien" => $g["id_fk_gardien_gardiennage"], 
 				"nom_gardien" => $g["nom_hobbit"],
+				"prenom_gardien" => $g["prenom_hobbit"],
 				"date_debut" => $g["date_debut_gardiennage"],
 				"nb_jours" => $g["nb_jours_gardiennage"],
 				"commentaire" => $g["commentaire_gardiennage"]);

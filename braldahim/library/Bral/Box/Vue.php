@@ -248,7 +248,7 @@ class Bral_Box_Vue {
 								} else {
 									$nom_metier = $e["nom_masculin_metier"];
 								}
-								$tabEchoppes[] = array("id_echoppe" => $e["id_echoppe"], "nom_metier" => $nom_metier, "nom_hobbit" => $e["nom_hobbit"], "id_hobbit" => $e["id_hobbit"]);
+								$tabEchoppes[] = array("id_echoppe" => $e["id_echoppe"], "nom_metier" => $nom_metier, "nom_hobbit" => $e["nom_hobbit"], "prenom_hobbit" => $e["prenom_hobbit"], "id_hobbit" => $e["id_hobbit"]);
 							}
 						}
 					}
@@ -264,7 +264,7 @@ class Bral_Box_Vue {
 					if ($hobbits != null) {
 						foreach($hobbits as $h) {
 							if ($display_x == $h["x_hobbit"] && $display_y == $h["y_hobbit"]) {
-								$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"], "nom_hobbit" => $h["nom_hobbit"], "niveau_hobbit" => $h["niveau_hobbit"]);
+								$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"], "nom_hobbit" => $h["nom_hobbit"], "prenom_hobbit" => $h["prenom_hobbit"], "niveau_hobbit" => $h["niveau_hobbit"]);
 							}
 						}
 					}

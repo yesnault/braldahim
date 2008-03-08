@@ -1,7 +1,7 @@
 <?php
 require_once 'Zend/Validate/Interface.php';
 
-class Bral_Validate_Inscription_NomHobbit implements Zend_Validate_Interface {
+class Bral_Validate_Inscription_PrenomHobbit implements Zend_Validate_Interface {
     protected $_messages = array();
 
     public function isValid($valeur) {
@@ -9,12 +9,12 @@ class Bral_Validate_Inscription_NomHobbit implements Zend_Validate_Interface {
 		$valid = true;
 		
 		if (strlen($valeur) < 5) {
-			$this->_messages[] = "Le nom du hobbit doit contenir plus de 5 caractères";
+			$this->_messages[] = "Le prénom du hobbit doit contenir plus de 5 caractères";
 			$valid = false;
 		}
 		
     	if (strlen($valeur) > 20) {
-			$this->_messages[] = "Le nom du hobbit doit contenir au maximum 20 caractères";
+			$this->_messages[] = "Le prénom du hobbit doit contenir au maximum 20 caractères";
 			$valid = false;
     	}
 		
@@ -48,19 +48,19 @@ class Bral_Validate_Inscription_NomHobbit implements Zend_Validate_Interface {
 			}
 		}
 		
-        if (strlen($valeur) > 20) {
-			$this->_messages[] = "Le nom du hobbit doit contenir au maximum 20 caractères";
+        if (strlen($valeur) > 10) {
+			$this->_messages[] = "Le prénom du hobbit doit contenir au maximum 10 caractères";
 			$valid = false;
     	}
     	
-		if ($valid) {
-			$hobbitTable = new Hobbit();
-			$r = $hobbitTable->findByNom($valeur);
-			if (count($r) > 0) {
-				$this->_messages[] = "Ce nom de hobbit est déjà utilisé";
-				$valid = false;
-			}
-		}
+    	Zend_Loader::loadClass('Bral_Util_Nom');
+    	$nom = new Bral_Util_Nom();
+    	
+    	if ($nom->estValidPrenom($valeur) == false) {
+			$this->_messages[] = "Ce prénom est déjà trop utilisé...";
+			$valid = false;
+    	}
+    	
 		return $valid;
     }
 

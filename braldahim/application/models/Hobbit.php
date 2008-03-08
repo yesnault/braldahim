@@ -10,7 +10,7 @@ class Hobbit extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('hobbit', '*')
-		->order('nom_hobbit')
+		->order(array('nom_hobbit', 'prenom_hobbit'))
 		->limitPage($page, $nbMax);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -89,9 +89,14 @@ class Hobbit extends Zend_Db_Table {
 		}
 	}
 
-	public function findByNom($nom){
-		$where = $this->getAdapter()->quoteInto('lcase(nom_hobbit) = ?',(string)strtolower(trim($nom)));
-		return $this->fetchRow($where);
+	public function findByIdNomInitialPrenom($idNom, $prenom){
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', '*')
+		->where('id_fk_nom_initial_hobbit = ?', $idNom)
+		->where('lcase(prenom_hobbit) = ?', (string)strtolower(trim($prenom)));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
 	}
 
 	public function findByEmail($email){
@@ -128,11 +133,12 @@ class Hobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function findHobbitsParNom($nom) {
+	function findHobbitsParNomPrenom($nom, $prenom) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('hobbit', '*')
-		->where('lcase(nom_hobbit) like ?', (string)strtolower(trim($nom)));
+		->where('lcase(nom_hobbit) like ?', (string)strtolower(trim($nom)))
+		->where('lcase(prenom_hobbit) like ?', (string)strtolower(trim($prenom)));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

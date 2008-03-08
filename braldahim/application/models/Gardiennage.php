@@ -22,9 +22,9 @@ class Gardiennage extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('gardiennage', 'id_fk_gardien_gardiennage')
-		->from('hobbit', 'nom_hobbit')
+		->from('hobbit', 'nom_hobbit', 'prenom_hobbit')
 		->where('gardiennage.id_fk_gardien_gardiennage = hobbit.id_hobbit AND gardiennage.id_fk_hobbit_gardiennage = '.$id_hobbit_garde)
-		->group('id_fk_gardien_gardiennage', 'nom_hobbit');
+		->group('id_fk_gardien_gardiennage', 'nom_hobbit', 'prenom_hobbit');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
     }
@@ -34,7 +34,7 @@ class Gardiennage extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('gardiennage', '*')
-		->from('hobbit', 'nom_hobbit')
+		->from('hobbit', 'nom_hobbit', 'prenom_hobbit')
 		->where('gardiennage.id_fk_gardien_gardiennage = hobbit.id_hobbit')
 		->where('gardiennage.id_fk_hobbit_gardiennage = '.$id_hobbit_garde)
 		->where('gardiennage.date_fin_gardiennage >= \''.$date_courante.'\'');
@@ -48,7 +48,7 @@ class Gardiennage extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('gardiennage', '*')
-		->from('hobbit', 'nom_hobbit')
+		->from('hobbit', 'nom_hobbit', 'prenom_hobbit')
 		->where('gardiennage.id_fk_hobbit_gardiennage = hobbit.id_hobbit')
 		->where('gardiennage.id_fk_gardien_gardiennage = '.$id_hobbit_gardien)
 		->where('gardiennage.date_fin_gardiennage >= \''.$date_courante.'\'');

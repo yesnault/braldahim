@@ -22,7 +22,7 @@ class AuthController extends Zend_Controller_Action {
 			// collect the data from the user
 			Zend_Loader::loadClass('Zend_Filter_StripTags');
 			$f = new Zend_Filter_StripTags();
-			$username_ou_id = $f->filter($this->_request->getPost('nom'));
+			$email = $f->filter($this->_request->getPost('email'));
 			$password = $f->filter($this->_request->getPost('password'));
 
 			// setup Zend_Auth adapter for a database table
@@ -33,16 +33,11 @@ class AuthController extends Zend_Controller_Action {
 			$authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
 			$authAdapter->setTableName('hobbit');
 
-			if (intval($username_ou_id) > 0) {
-				$authAdapter->setIdentityColumn('id_hobbit');
-			} else {
-				$authAdapter->setIdentityColumn('nom_hobbit');
-			}
-
+			$authAdapter->setIdentityColumn('email_hobbit');
 			$authAdapter->setCredentialColumn('password_hobbit');
 
 			// Set the input credential values to authenticate against
-			$authAdapter->setIdentity($username_ou_id);
+			$authAdapter->setIdentity($email);
 			$authAdapter->setCredential(md5($password));
 
 			// do the authentication
