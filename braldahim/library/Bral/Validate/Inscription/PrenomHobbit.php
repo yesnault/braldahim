@@ -13,8 +13,8 @@ class Bral_Validate_Inscription_PrenomHobbit implements Zend_Validate_Interface 
 			$valid = false;
 		}
 		
-    	if (strlen($valeur) > 20) {
-			$this->_messages[] = "Le prénom du hobbit doit contenir au maximum 20 caractères";
+    	if (strlen($valeur) > 15) {
+			$this->_messages[] = "Le prénom du hobbit doit contenir au maximum 15 caractères";
 			$valid = false;
     	}
 		
@@ -48,11 +48,6 @@ class Bral_Validate_Inscription_PrenomHobbit implements Zend_Validate_Interface 
 			}
 		}
 		
-        if (strlen($valeur) > 10) {
-			$this->_messages[] = "Le prénom du hobbit doit contenir au maximum 10 caractères";
-			$valid = false;
-    	}
-    	
     	Zend_Loader::loadClass('Bral_Util_Nom');
     	$nom = new Bral_Util_Nom();
     	
