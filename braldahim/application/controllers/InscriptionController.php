@@ -14,6 +14,7 @@ class InscriptionController extends Zend_Controller_Action {
 		Zend_Loader::loadClass("Bral_Util_Mail");
 		Zend_Loader::loadClass("Lieu");
 		Zend_Loader::loadClass("HobbitsCompetences");
+		Zend_Loader::loadClass("Couple");
 		Zend_Loader::loadClass("Nom");
 		Zend_Loader::loadClass("Region");
 		$this->view->config = Zend_Registry::get('config');
@@ -37,11 +38,16 @@ class InscriptionController extends Zend_Controller_Action {
 		$hobbit = $hobbitTable->findByEmail($email_hobbit);
 
 		if (count($hobbit) > 0) {
-			if ($md5_prenom_hobbit == md5($hobbit->prenom_hobbit) && ($md5_password_hobbit == $hobbit->password_hobbit)) {
+			if ($md5_prenom_hobbit == md5($hobbit->prenom_hobbit) && ($md5_password_hobbit == $hobbit->password_hobbit)
+			&& $hobbit->est_compte_actif_hobbit == 'non') {
 				$this->view->validationOk = true;
-
+				
+				$dataParents = $this->calculParent($hobbit->id_hobbit);
+		
 				$data = array(
 				'est_compte_actif_hobbit' => "oui",
+				'id_fk_pere_hobbit' => $dataParents["id_fk_pere_hobbit"],
+				'id_fk_mere_hobbit' => $dataParents["id_fk_mere_hobbit"],
 				);
 				$where = "id_hobbit=".$hobbit->id_hobbit;
 				$hobbitTable->update($data, $where);
@@ -58,7 +64,6 @@ class InscriptionController extends Zend_Controller_Action {
 				$evenementTable->insert($data);
 			}
 		}
-
 		$this->render();
 	}
 
@@ -280,15 +285,51 @@ class InscriptionController extends Zend_Controller_Action {
 		$mail->send();
 	}
 	
-	function shuffle_assoc(&$array) {
-		if (count($array)>1) { //$keys needs to be an array, no need to shuffle 1 item anyway
-			$keys = array_rand($array, count($array));
-			foreach($keys as $key) {
-				$new[$key] = $array[$key];
+	private function calculParent($idHobbit) {
+		// on va regarder s'il y a des couples dispo
+		$coupleTable = new Couple();
+		$couplesRowset = $coupleTable->findAllEnfantPossible();
+		
+		$dataParents["id_fk_pere_hobbit"] = null;
+		$dataParents["id_fk_mere_hobbit"] = null;
+			
+		if (count($couplesRowset) >= 1) {
+			$de = Bral_Util_De::get_de_specifique(0, count($couplesRowset)-1);
+			$couple = $couplesRowset[$de];
+			
+			$dataParents["id_fk_pere_hobbit"] = $couple["id_fk_m_hobbit_couple"];
+			$dataParents["id_fk_mere_hobbit"] = $couple["id_fk_f_hobbit_couple"];
+			
+			$where = array('id_fk_m_hobbit_couple' => $couple["id_fk_m_hobbit_couple"],
+						   'id_fk_f_hobbit_couple' => $couple["id_fk_f_hobbit_couple"]);
+			$data = array('nb_enfants_couple' => $couple["nb_enfants_couple"] + 1);
+			
+			$coupleTable->update($data, $where);
+		} else { // pas de couple dispo, on tente d'en creer un nouveau
+			$hobbitTable = new Hobbit();
+			$hobbitsMasculinRowset = $hobbitTable->findHobbitsMasculinSansConjoint($idHobbit);
+			if (count($hobbitsMasculinRowset) > 0) {
+				$hobbitsFemininRowset = $hobbitTable->findHobbitsFemininSansConjoint($idHobbit);
+				if (count($hobbitsFemininRowset) > 0) { // création d'un nouveau couple
+					$de = Bral_Util_De::get_de_specifique(0, count($hobbitsMasculinRowset)-1);
+					$pere = $hobbitsMasculinRowset[$de];
+					
+					$de = Bral_Util_De::get_de_specifique(0, count($hobbitsFemininRowset)-1);
+					$mere = $hobbitsFemininRowset[$de];
+					
+					$data = array('id_fk_m_hobbit_couple' => $pere["id_hobbit"],
+					 'id_fk_f_hobbit_couple' => $mere["id_hobbit"],
+					 'date_creation_couple' => date("Y-m-d H:i:s"),
+					 'nb_enfants_couple' => 1);
+					$coupleTable->insert($data);
+					
+					$dataParents["id_fk_pere_hobbit"] = $pere["id_hobbit"];
+					$dataParents["id_fk_mere_hobbit"] = $mere["id_hobbit"];
+				}
 			}
-			$array = $new;
 		}
-		return true; //because it's a wannabe shuffle(), which returns true
+		return $dataParents;
 	}
+	
 }
 
