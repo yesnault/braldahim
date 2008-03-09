@@ -156,5 +156,20 @@ class Hobbit extends Zend_Db_Table {
 		$sql = "SELECT id_hobbit FROM hobbit WHERE sexe_hobbit='feminin' AND id_hobbit <> ".(int)$idHobbit." AND id_hobbit NOT IN (SELECT id_fk_m_hobbit_couple FROM couple)";
 		return $db->fetchAll($sql);
 	}
+
+	function findEnfants($sexe, $idHobbit) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		if ($sexe == "masculin") {
+			$select->from('hobbit', '*')
+			->where('id_fk_pere_hobbit = ?', (int)$idHobbit);
+		} else {
+			$select->from('hobbit', '*')
+			->where('id_fk_mere_hobbit = ?', (int)$idHobbit);
+		}
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
 }
 

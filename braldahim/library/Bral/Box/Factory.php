@@ -16,6 +16,9 @@ class Bral_Box_Factory {
 			case "box_evenements" :
 				return self::getEvenements($request, $view, $interne);
 				break;
+			case "box_famille" :
+				return self::getFamille($request, $view, $interne);
+				break;
 			case "box_vue" :
 				return self::getVue($request, $view, $interne);
 				break;
@@ -91,6 +94,11 @@ class Bral_Box_Factory {
 	public static function getLaban($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Laban");
 		return new Bral_Box_Laban($request, $view, $interne);
+	}
+	
+	public static function getFamille($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Famille");
+		return new Bral_Box_Famille($request, $view, $interne);
 	}
 	
 	public static function getCharrette($request, $view, $interne) {

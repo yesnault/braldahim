@@ -79,6 +79,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->addBox(Bral_Box_Factory::getProfil($this->_request, $this->view, false), "boite_a");
 		$this->addBox(Bral_Box_Factory::getMetier($this->_request, $this->view, false), "boite_a");
 		$this->addBox(Bral_Box_Factory::getEquipement($this->_request, $this->view, false), "boite_a");
+		$this->addBox(Bral_Box_Factory::getFamille($this->_request, $this->view, false), "boite_a");
 
 		$this->addBox(Bral_Box_Factory::getCompetencesCommun($this->_request, $this->view, false), "boite_b");
 		$this->addBox(Bral_Box_Factory::getCompetencesBasic($this->_request, $this->view, false), "boite_b");

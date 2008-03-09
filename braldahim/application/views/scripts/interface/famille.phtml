@@ -1,0 +1,36 @@
+<? include("box_header.phtml") ?>
+<div class="inner">
+<ul class="titre textalia textsizeb">Ma Famille</ul>
+ <div class="contenuC">
+  <ul class="box_contenu1 textalic">
+  
+  	<? if ($this->pereMereOk === true) :?>
+  	Suite &agrave; l'heureuse rencontre entre votre m&egrave;re 
+  		<?=htmlentities($this->mere->prenom_hobbit) ?> <?=htmlentities($this->mere->nom_hobbit) ?> (n&deg;<?=htmlentities($this->mere->id_hobbit) ?>)
+  	et votre p&egrave;re 
+  		<?=htmlentities($this->pere->prenom_hobbit) ?> <?=htmlentities($this->pere->nom_hobbit) ?> (n&deg;<?=htmlentities($this->pere->id_hobbit) ?>)
+  	vous &ecirc;tes n&eacute;<? if ($this->user->sexe_hobbit == 'feminin') echo "e"?> le <?=$this->dateNaissance ?>
+  	
+  	<? else: ?>
+  	Vous &ecirc;tes n&eacute;<? if ($this->user->sexe_hobbit == 'feminin') echo "e"?> le <?=$this->dateNaissance ?>
+  	<? endif; ?>
+    <br><br>
+    
+    <? if ($this->nbEnfants == 0 && $this->conjoint == null) :?>
+    	Vous n'avez ni d'enfant, ni conjoint
+    <? else : ?>
+    	Avec votre conjoint 
+    	<?=htmlentities($this->conjoint["prenom"]) ?> <?=htmlentities($this->conjoint["nom"]) ?> (n&deg;<?=htmlentities($this->conjoint["id_hobbit"]) ?>)
+    	 vous avez eu <?=$this->nbEnfants ?> enfant<? if ($this->nbEnfants > 1) echo 's' ?> : <br>
+    	
+    	<? foreach($this->enfants as $e) :?>
+    		<?=htmlentities($e["prenom"]) ?> <?=htmlentities($e["nom"]) ?> (n&deg;<?=htmlentities($e["id_hobbit"])?>) n&eacute;<? if ($e["sexe_hobbit"] == 'feminin') echo "e"?> le <?=$e["date_naissance"] ?> <br>
+    	<? endforeach; ?>
+    <? endif; ?>
+    
+   <br>
+   
+   </ul>
+</div>
+</div>
+<? include("box_bottom.phtml") ?>

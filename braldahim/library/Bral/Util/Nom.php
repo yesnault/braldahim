@@ -56,7 +56,8 @@ class Bral_Util_Nom {
 						$prenom = $prenom. " Junior";
 					} else {
 						// ici, on ne peut vraiment pas accepter le prenom
-						throw Exception("Prenom trop utilise");
+						$nomOk = true;
+						$idNom = -1;
 					}
 				}
 			} else {
