@@ -22,7 +22,7 @@
  <table>
  <? foreach ($this->tabCompetences as $c):?>
    <tr>
-     <td><?=$c["nom"]?></td>
+     <td><?=htmlentities($c["nom"])?></td>
      <td> co&ucirc;t : <?=$c["pi_cout"]?> PI </td>
      <td>
      <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $c["trop_cher"] === false): ?>

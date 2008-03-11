@@ -29,40 +29,44 @@ class InscriptionController extends Zend_Controller_Action {
 		$this->view->title = "Validation de l'inscription";
 		$this->view->validationOk = false;
 		$this->view->emailMaitreJeu = $this->view->config->general->mail->from_email;
-
+		$this->view->compteActif = false;
+		
 		$email_hobbit = $this->_request->get("e");
 		$md5_prenom_hobbit = $this->_request->get("h");
 		$md5_password_hobbit = $this->_request->get("p");
 
 		$hobbitTable = new Hobbit();
 		$hobbit = $hobbitTable->findByEmail($email_hobbit);
-
-		if (count($hobbit) > 0) {
-			if ($md5_prenom_hobbit == md5($hobbit->prenom_hobbit) && ($md5_password_hobbit == $hobbit->password_hobbit)
-			&& $hobbit->est_compte_actif_hobbit == 'non') {
-				$this->view->validationOk = true;
-				
-				$dataParents = $this->calculParent($hobbit->id_hobbit);
 		
-				$data = array(
-				'est_compte_actif_hobbit' => "oui",
-				'id_fk_pere_hobbit' => $dataParents["id_fk_pere_hobbit"],
-				'id_fk_mere_hobbit' => $dataParents["id_fk_mere_hobbit"],
-				);
-				$where = "id_hobbit=".$hobbit->id_hobbit;
-				$hobbitTable->update($data, $where);
-
-				$details = $hobbit->prenom_hobbit ." ".$hobbit->nom_hobbit." (".$hobbit->id_hobbit.") est apparu sur Braldahim";
-				Zend_Loader::loadClass('Evenement');
-				$evenementTable = new Evenement();
-				$data = array(
-				'id_fk_hobbit_evenement' => $hobbit->id_hobbit,
-				'date_evenement' => date("Y-m-d H:i:s"),
-				'id_fk_type_evenement' => $this->view->config->game->evenements->type->naissance,
-				'details_evenement' => $details,
-				);
-				$evenementTable->insert($data);
+		if ($hobbit->est_compte_actif_hobbit == 'non') {
+			if (count($hobbit) > 0) {
+				if ($md5_prenom_hobbit == md5($hobbit->prenom_hobbit) && ($md5_password_hobbit == $hobbit->password_hobbit)) {
+					$this->view->validationOk = true;
+					
+					$dataParents = $this->calculParent($hobbit->id_hobbit);
+			
+					$data = array(
+					'est_compte_actif_hobbit' => "oui",
+					'id_fk_pere_hobbit' => $dataParents["id_fk_pere_hobbit"],
+					'id_fk_mere_hobbit' => $dataParents["id_fk_mere_hobbit"],
+					);
+					$where = "id_hobbit=".$hobbit->id_hobbit;
+					$hobbitTable->update($data, $where);
+	
+					$details = $hobbit->prenom_hobbit ." ".$hobbit->nom_hobbit." (".$hobbit->id_hobbit.") est apparu sur Braldahim";
+					Zend_Loader::loadClass('Evenement');
+					$evenementTable = new Evenement();
+					$data = array(
+					'id_fk_hobbit_evenement' => $hobbit->id_hobbit,
+					'date_evenement' => date("Y-m-d H:i:s"),
+					'id_fk_type_evenement' => $this->view->config->game->evenements->type->naissance,
+					'details_evenement' => $details,
+					);
+					$evenementTable->insert($data);
+				}
 			}
+		} else {
+			$this->view->compteActif = true;
 		}
 		$this->render();
 	}
@@ -286,6 +290,13 @@ class InscriptionController extends Zend_Controller_Action {
 	}
 	
 	private function calculParent($idHobbit) {
+		// on tente de créer de nouveaux couples si besoin
+		$de = Bral_Util_De::get_de_specifique(0, 3);
+		
+		for ($i = 0; $i < $de; $i++) {
+			$this->creationCouple($idHobbit);
+		}
+		
 		// on va regarder s'il y a des couples dispo
 		$coupleTable = new Couple();
 		$couplesRowset = $coupleTable->findAllEnfantPossible();
@@ -306,30 +317,36 @@ class InscriptionController extends Zend_Controller_Action {
 			
 			$coupleTable->update($data, $where);
 		} else { // pas de couple dispo, on tente d'en creer un nouveau
-			$hobbitTable = new Hobbit();
-			$hobbitsMasculinRowset = $hobbitTable->findHobbitsMasculinSansConjoint($idHobbit);
-			if (count($hobbitsMasculinRowset) > 0) {
-				$hobbitsFemininRowset = $hobbitTable->findHobbitsFemininSansConjoint($idHobbit);
-				if (count($hobbitsFemininRowset) > 0) { // création d'un nouveau couple
-					$de = Bral_Util_De::get_de_specifique(0, count($hobbitsMasculinRowset)-1);
-					$pere = $hobbitsMasculinRowset[$de];
-					
-					$de = Bral_Util_De::get_de_specifique(0, count($hobbitsFemininRowset)-1);
-					$mere = $hobbitsFemininRowset[$de];
-					
-					$data = array('id_fk_m_hobbit_couple' => $pere["id_hobbit"],
-					 'id_fk_f_hobbit_couple' => $mere["id_hobbit"],
-					 'date_creation_couple' => date("Y-m-d H:i:s"),
-					 'nb_enfants_couple' => 1);
-					$coupleTable->insert($data);
-					
-					$dataParents["id_fk_pere_hobbit"] = $pere["id_hobbit"];
-					$dataParents["id_fk_mere_hobbit"] = $mere["id_hobbit"];
-				}
-			}
+			$dataParents = $this->creationCouple($idHobbit);
 		}
 		return $dataParents;
 	}
 	
+	private function creationCouple($idHobbit) {
+		$dataParents["id_fk_pere_hobbit"] = null;
+		$dataParents["id_fk_mere_hobbit"] = null;
+		$hobbitTable = new Hobbit();
+		$hobbitsMasculinRowset = $hobbitTable->findHobbitsMasculinSansConjoint($idHobbit);
+		if (count($hobbitsMasculinRowset) > 0) {
+			$hobbitsFemininRowset = $hobbitTable->findHobbitsFemininSansConjoint($idHobbit);
+			if (count($hobbitsFemininRowset) > 0) { // création d'un nouveau couple
+				$de = Bral_Util_De::get_de_specifique(0, count($hobbitsMasculinRowset)-1);
+				$pere = $hobbitsMasculinRowset[$de];
+					
+				$de = Bral_Util_De::get_de_specifique(0, count($hobbitsFemininRowset)-1);
+				$mere = $hobbitsFemininRowset[$de];
+					
+				$data = array('id_fk_m_hobbit_couple' => $pere["id_hobbit"],
+				 'id_fk_f_hobbit_couple' => $mere["id_hobbit"],
+				 'date_creation_couple' => date("Y-m-d H:i:s"),
+				 'nb_enfants_couple' => 1);
+				$coupleTable->insert($data);
+					
+				$dataParents["id_fk_pere_hobbit"] = $pere["id_hobbit"];
+				$dataParents["id_fk_mere_hobbit"] = $mere["id_hobbit"];
+			}
+		}
+		return $dataParents;
+	}
 }
 

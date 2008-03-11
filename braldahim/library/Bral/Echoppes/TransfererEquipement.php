@@ -78,7 +78,7 @@ class Bral_Echoppes_TransfererEquipement extends Bral_Echoppes_Echoppe {
 
 	function prepareResultat() {
 		if ($this->view->transfererOk == false) {
-			throw new Zend_Exception(get_class($this)." Tranferer interdit");
+			throw new Zend_Exception(get_class($this)." Transferer interdit");
 		}
 		
 		$id_equipement = $this->request->get("valeur_2");

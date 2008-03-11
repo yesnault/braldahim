@@ -3,14 +3,14 @@
  <div class='comp_contenu'>
 	 <div id='lieu_text' style="display:block"  onClick="javascript:switch2div('lieu_text','lieu_copie');">
 	 Pour <?=$this->coutCastars?> castars et <?=$this->coutPi?> PI, vous avez appris <br>
-	 la comp&eacute;tence : <?=$this->nomCompetence?> <br><br>
+	 la comp&eacute;tence : <?=htmlentities($this->nomCompetence) ?> <br><br>
 	 
 	 Faites-en bon usage...<br><br>
 	 </div>
 	 <div id='lieu_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><? 
 		echo "Pour ".$this->coutCastars." castars et ".$this->coutPi." PI, vous avez appris";
-	 	echo " la comp&eacute;tence : ".$this->nomCompetence;
+	 	echo " la comp&eacute;tence : ".htmlentities($this->nomCompetence);
 	 	echo "
 ";
 	 	echo "Faites-en bon usage...";

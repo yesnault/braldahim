@@ -14,7 +14,9 @@
 		
 			Pour vous connecter, cliquer ici : 
 			<input type="button" class='button1' value="Accueil" onClick="javascript:document.location.href='/'"/>
-	
+		
+		<? elseif ($this->compteActif == 'oui') :?>
+			Vous avez d&eacute;j&agrave; valid&eacute; votre compte
 		<? else : ?>
 			<b>Une erreur est survenu lors de la validation de votre compte.</b><br><br>
 			

@@ -22,18 +22,8 @@ class Bral_Box_Famille {
 	}
 
 	function render() {
-		/*$tabCharrette = null;
-		$charretteTable = new Charrette();
-		$charrette = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
-
-		foreach ($charrette as $c) {
-			$tabCharrette = array(
-			"nb_rondin" => $c["quantite_rondin_charrette"],
-			);
-		}
-		
-		$this->view->charrette = $tabCharrette;
-*/		
+		$hobbitTable = new Hobbit();
+	
 		$this->view->pereMereOk = false;
 		if ($this->view->user->id_fk_mere_hobbit != null && $this->view->user->id_fk_pere_hobbit != null) {
 			$this->view->pereMereOk = true;
