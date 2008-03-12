@@ -1,17 +1,28 @@
-<div class='comp_titre'>Concocter</div>
+<div class='comp_titre'>S'&eacute;quiper</div>
 
  <div class='comp_contenu'>
 	 <div id='concocter_text' style="display:block"  onClick="javascript:switch2div('concocter_text','concocter_copie');">
 		
 		<? include("commun_text_resultat.phtml") ?>
 		
-		<? if ($this->okJet1 === true): ?>
-			Vous avez r&eacute;ussi &agrave; concocter une plante <?=htmlentities($this->planteNomType) ?>.
-			Vous avez concoct&eacute; <?=$this->nbPartiesPlantesPreparees ?> <?=$this->planteNomTypePartiePlante?><?if($this->nbPartiesPlantesPreparees > 1):echo 's';endif;?>
+			Vous avez r&eacute;ussi &agrave; changer d'&eacute;quipement. <br>
+			
+			<? if (count($this->equipementRetire) > 0) :?>
+				Vous avez retir&eacute; : <br>
+				<? foreach($this->equipementRetire as $r) :?>
+					<?=htmlentities($r["nom"]) ?><br>
+				<? endforeach; ?>
+			<? else : ?>
+				Vous n'avez rien retir&eacute;
+			<? endif; ?>
+			
+			<? if (count($this->equipementAjoute)) :?>
+				et vous avez rajout&eacute; sur vous : <br>
+				<? foreach($this->equipementAjoute as $r) :?>
+					<?=htmlentities($r["nom"]) ?>, n&deg;<?=htmlentities($r["id_equipement"]) ?>, niveau <?=htmlentities($r["niveau"]) ?><br>
+				<? endforeach; ?>
+			<? endif; ?>
 			<br>
-		<? else: ?>
-			Vous avez manqu&eacute; votre pr&eacute;paration<br>
-		<? endif; ?>
 		<br>
 	 </div>
 	 
@@ -21,17 +32,34 @@
 		
 			echo "
 ";
-			if ($this->okJet1 === true) {
-				echo "Vous avez r&eacute;ussi &agrave; concocter une plante ".htmlentities($this->planteNomType);
+				echo "Vous avez r&eacute;ussi &agrave; changer d'&eacute;quipement";
 				echo "
 ";
-				echo "Vous avez concoct&eacute; ".$this->nbPartiesPlantesPreparees." ".$this->planteNomTypePartiePlante;
-				if($this->nbPartiesPlantesPreparees > 1):echo 's';endif;
+				if (count($this->equipementRetire) > 0) :
+				echo "Vous avez retir&eacute; : ";
 				echo "
 ";
-			} else {
-				echo "Vous avez manqu&eacute; votre pr&eacute;paration";
-			}
+				foreach($this->equipementRetire as $r) :
+					echo htmlentities($r["nom"]);
+					echo "
+";
+				endforeach;
+			else :
+				echo "Vous n'avez rien retir&eacute;";
+			endif;
+			
+			if (count($this->equipementAjoute)) :
+				echo " et vous avez rajout&eacute; sur vous :";
+				echo "
+";
+				foreach($this->equipementAjoute as $r) :
+					echo htmlentities($r["nom"]) ." , n&deg;".htmlentities($r["id_equipement"]) .", niveau ".htmlentities($r["niveau"]);
+					echo "
+";
+				endforeach;
+			endif;
+				echo "
+";
 	?>
 	</textarea>
 	</div>
