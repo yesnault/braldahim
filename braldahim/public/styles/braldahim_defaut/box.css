@@ -403,3 +403,19 @@ li.row:hover dd {
 	height:auto;
 	vertical-align:center;
 }
+
+
+table.equipement {
+  border-style : solid;
+  border: solid #777;
+  border-spacing: 1;
+  border-width: 0.0pt;
+}
+
+td.equipement {
+  border-style : solid;
+  border-color: #eeeeee;
+  border-spacing: 1;
+  border-width: 0.1pt;
+  vertical-align: top;
+}

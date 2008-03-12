@@ -134,8 +134,6 @@ class Bral_Box_Laban {
 				"image_type_rune" => $e["image_type_rune"],
 				);
 			}
-			
-			
 		}
 		
 		$this->view->nb_equipements = count($tabEquipements);
