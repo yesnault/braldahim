@@ -112,10 +112,20 @@ class Bral_Box_Laban {
 		$tabWhere = null;
 		foreach ($equipements as $e) {
 			$tabEquipements[$e["id_laban_equipement"]] = array(
+					"id_equipement" => $e["id_laban_equipement"],
 					"nom" => $e["nom_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
 					"nb_runes" => $e["nb_runes_laban_equipement"],
+					"armure" => $e["armure_recette_equipement"],
+					"force" => $e["force_recette_equipement"],
+					"agilite" => $e["agilite_recette_equipement"],
+					"vigueur" => $e["vigueur_recette_equipement"],
+					"sagesse" => $e["sagesse_recette_equipement"],
+					"vue" => $e["vue_recette_equipement"],
+					"bm_attaque" => $e["bm_attaque_recette_equipement"],
+					"bm_degat" => $e["bm_degat_recette_equipement"],
+					"bm_defense" => $e["bm_defense_recette_equipement"],
 					"runes" => array(),
 			);
 			$tabWhere[] = $e["id_laban_equipement"];

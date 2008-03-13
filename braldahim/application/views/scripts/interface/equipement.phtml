@@ -11,8 +11,8 @@ Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
 	  <tr>
 	    <td>
 	 	<table align="center" border='1'>
-	 	<? foreach($this->typesEmplacement as $k => $e) :
-	 	?>
+	 	
+	 	<? foreach($this->typesEmplacement as $k => $e) : ?>
 	 		<? if ($e["position"] == "gauche" && $e["affiche"] == "oui") : ?>
 	 		<tr>
 	 			<td class="equipement">
@@ -61,7 +61,7 @@ Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
 	  </td>
 	 </tr>
     </table>
-	 	
+  	
    </ul>
 </div>
 </div>

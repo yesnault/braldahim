@@ -6,52 +6,88 @@
 
 <?php if ($this->assezDePa == false) : ?>
  Vous n'avez pas assez de PA
-<?php else : ?>
+<?php else : 
+Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
+?>
 	 <? if ($this->sequiperOk === true) : ?>
 	 	Pour <?=$this->nb_pa ?> PA, vous pouvez mettre ou enlever une pi&egrave;ce d'&eacute;quipement.<br><br>
 	 	
 	 	Si vous mettez une pi&egrave;ce d'&eacute;quipement &agrave; la place d'une pi&egrave;ce existante (ou de plusieurs pi&egrave;ces existantes), la pi&egrave;ce
 	 	existante sera automatiquement transf&eacute;r&eacute;e dans votre laban.<br>
 	 	
-	 	<br>
 	 	&Eacute;quipement pr&eacute;sent sur vous : <br>
-
+	<table align="center" border="0">
+	  <tr>
+	    <td>
 	 	<table align="center" border='1'>
-	 	<? 
-	 		foreach($this->typesEmplacement as $k => $e) :
-	 			if ($e["ordre_emplacement"] % 2 == 1) : echo "<tr>"; endif;
-	 		?>
-	 		<td>
-	 			
+	 	
+	 	<? foreach($this->typesEmplacement as $k => $e) : ?>
+	 		<? if ($e["position"] == "gauche" && $e["affiche"] == "oui") : ?>
+	 		<tr>
+	 			<td class="equipement">
 	 			<?=htmlentities($e["nom_type_emplacement"]) ?><br>
 	 			<? if (count($e["equipementPorte"]) > 0): ?>
-	 				<select name="porte_<?=$k?>" id="porte_<?=$k?>" onChange="for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($('bouton_enlever_'+i)) {$('bouton_enlever_'+i).style.display='none'; ; if (<?=$k?> != i){$('porte_'+i).selectedIndex = 0}} ; if ($('bouton_mettre_'+i)) {$('bouton_mettre_'+i).style.display='none' ; if (<?=$k?> != i){$('laban_'+i).selectedIndex = 0}}} ; if (this.value==-1) {$('bouton_enlever_<?=$k?>').style.display='none'} else {$('bouton_enlever_<?=$k?>').style.display='block'}" >
-	 					<option value="-1">(Choisis un &eacute;quipement)</option>
-	 					<? foreach($e["equipementPorte"] as $p) : ?>
-	 					<option value="<?=$p["id_equipement"] ?>">
-	 						<?=htmlentities($p["nom"]) ?>, n&deg;<?=$p["id_equipement"] ?>
-	 					</option>
-	 					<? endforeach; ?>
-	 				</select>
-	 				<input type='button' class='button1' id='bouton_enlever_<?=$k?>' value="Enlever (<?=$this->nb_pa ?> PA) !" onClick='this.disabled=true;$("valeur_1").value=$("porte_<?=$k?>").value;_get_("/competences/DoAction?caction=do_competence_sequiper");' style="display:none">
+					<? foreach($e["equipementPorte"] as $p) : ?>
+						<? echo Bral_Helper_DetailEquipement::afficher($p); ?>
+						<input type="hidden" id="porte_<?=$e["id_type_emplacement"]?>" value="<?=$p["id_equipement"] ?>">
+						<input type='button' class='button1' id='bouton_enlever_<?=$e["id_type_emplacement"]?>' value="Enlever (<?=$this->nb_pa ?> PA) !" onClick='this.disabled=true;for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($("bouton_mettre_"+i)) {$("bouton_mettre_"+i).style.display="none" ; if (<?=$e["id_type_emplacement"]?> != i){$("laban_"+i).selectedIndex = 0}}} ;$("valeur_1").value=$("porte_<?=$e["id_type_emplacement"]?>").value;_get_("/competences/DoAction?caction=do_competence_sequiper");'>
+ 					<? endforeach; ?>
+ 				<? else : ?>
+ 					Libre
 	 			<? endif;  ?>
-	 		</td>
-	 	<? 	if ($e["ordre_emplacement"] % 2 == 0) : echo "</tr>"; endif;
-	 	endforeach; ?>
+	 			</td>
+	 		</tr>
+	 		<? endif; ?>
+	 	<?  endforeach; ?>
 	 	</table>
+	  </td>
+	  <td>
+	 	<table align="center" border="1">
+	 		<tr>
+	 	<? 	$i = 0;
+	 		foreach($this->typesEmplacement as $k => $e) : ?>
+	 			
+	 		<? if ($e["position"] == "droite" && $e["affiche"] == "oui") : 
+	 			$i++;
+	 			if ($e["position"] == "deuxmains") {
+	 				$i++;
+	 			}
+	 			?>
+	 			<td class="equipement">
+	 			<?=htmlentities($e["nom_type_emplacement"]) ?><br>
+	 			<? if (count($e["equipementPorte"]) > 0): ?>
+					<? foreach($e["equipementPorte"] as $p) : ?>
+ 						<? echo Bral_Helper_DetailEquipement::afficher($p); ?>
+ 						<input type="hidden" id="porte_<?=$e["id_type_emplacement"]?>" value="<?=$p["id_equipement"] ?>">
+ 						<input type='button' class='button1' id='bouton_enlever_<?=$e["id_type_emplacement"]?>' value="Enlever (<?=$this->nb_pa ?> PA) !" onClick='this.disabled=true;for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($('bouton_mettre_'+i)) {$('bouton_mettre_'+i).style.display='none' ; if (<?=$e["id_type_emplacement"]?> != i){$('laban_'+i).selectedIndex = 0}}} ; $("valeur_1").value=$("porte_<?=$e["id_type_emplacement"]?>").value;_get_("/competences/DoAction?caction=do_competence_sequiper");'>
+ 					<? endforeach; ?>
+	 			<? endif;  ?>
+	 			</td>
+	 		<? endif; ?>
+	 	<?  endforeach; ?>
+	 		<? if ($i == 1) : ?>
+	 			<td class="equipement">1 main de libre</td>
+	 		<? else : ?>
+	 			<td class="equipement">2 mains de libres</td>
+	 		<? endif;?>
+	 	  </tr>
+	 	</table>
+	</td>
+	</tr>
+	</table>
 	 	
 	 	<br><br>
 	 	&Eacute;quipement pr&eacute;sent dans votre laban : <br>
 	 	
 	 	<table align="center" border='1'>
 	 	<? 
-	 		foreach($this->typesEmplacement as $k => $e) :
+	 		foreach($this->typesEmplacement as $e) :
 	 			if ($e["ordre_emplacement"] % 2 == 1) : echo "<tr>"; endif;
 	 		?>
-	 		<td>
+	 		<td class="equipement">
 	 			<?=htmlentities($e["nom_type_emplacement"]) ?><br>
 	 			<? if (count($e["equipementLaban"]) > 0): ?>
-	 				<select name="laban_<?=$k?>" id="laban_<?=$k?>"  onChange="for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($('bouton_enlever_'+i)) {$('bouton_enlever_'+i).style.display='none'; ; if (<?=$k?> != i){$('porte_'+i).selectedIndex = 0}} ; if ($('bouton_mettre_'+i)) {$('bouton_mettre_'+i).style.display='none' ; if (<?=$k?> != i){$('laban_'+i).selectedIndex = 0}}} ; if (this.value==-1) {$('bouton_mettre_<?=$k?>').style.display='none'} else {$('bouton_mettre_<?=$k?>').style.display='block'}">
+	 				<select name="laban_<?=$e["id_type_emplacement"]?>" id="laban_<?=$e["id_type_emplacement"]?>"  onChange="for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($('bouton_mettre_'+i)) {$('bouton_mettre_'+i).style.display='none' ; if (<?=$e["id_type_emplacement"]?> != i){$('laban_'+i).selectedIndex = 0}}} ; if (this.value==-1) {$('bouton_mettre_<?=$e["id_type_emplacement"]?>').style.display='none'} else {$('bouton_mettre_<?=$e["id_type_emplacement"]?>').style.display='block'}">
 	 					<option value="-1">(Choisis un &eacute;quipement)</option>
 	 					<? foreach($e["equipementLaban"] as $p) : ?>
 	 					<option value="<?=$p["id_equipement"] ?>">
@@ -59,7 +95,7 @@
 	 					</option>
 	 					<? endforeach; ?>
 	 				</select>
-	 				<input type='button' class='button1' id='bouton_mettre_<?=$k?>' value="Mettre (<?=$this->nb_pa ?> PA) !" onClick='this.disabled=true;$("valeur_1").value=$("laban_<?=$k?>").value;_get_("/competences/DoAction?caction=do_competence_sequiper");' style="display:none">
+	 				<input type='button' class='button1' id='bouton_mettre_<?=$e["id_type_emplacement"]?>' value="Mettre (<?=$this->nb_pa ?> PA) !" onClick='this.disabled=true;for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($("bouton_enlever_"+i)) {$("bouton_mettre_"+i).style.display="none"}} ; $("valeur_1").value=$("laban_<?=$e["id_type_emplacement"]?>").value;_get_("/competences/DoAction?caction=do_competence_sequiper");' style="display:none">
 	 			<? endif;  ?>
 	 		</td>
 	 	<? 	if ($e["ordre_emplacement"] % 2 == 0) : echo "</tr>"; endif;

@@ -6,6 +6,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("TypeEmplacement");
 		Zend_Loader::loadClass("HobbitEquipement");
 		Zend_Loader::loadClass("LabanEquipement");
+		Zend_Loader::loadClass("EquipementRune");
 		
 		$this->view->sequiperOk = false;
 		$this->equipementPorte = null;
@@ -20,11 +21,24 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$typesEmplacement = $typesEmplacement->toArray();
 		
 		foreach ($typesEmplacement as $t) {
-			$tabTypesEmplacement[$t["id_type_emplacement"]] = array(
+			$affiche = "oui";
+			$position = "gauche";
+			if ($t["nom_systeme_type_emplacement"] == "deuxmains" ||
+				$t["nom_systeme_type_emplacement"] == "main" ||
+				$t["nom_systeme_type_emplacement"] == "maingauche" ||
+				$t["nom_systeme_type_emplacement"] == "maindroite") {
+				$affiche = "non";
+				$position = "droite";
+			}
+			
+			$tabTypesEmplacement[$t["nom_systeme_type_emplacement"]] = array(
 					"nom_type_emplacement" => $t["nom_type_emplacement"],
+					"id_type_emplacement" => $t["id_type_emplacement"],
 					"ordre_emplacement" => $t["ordre_emplacement"],
 					"equipementPorte" => null,
 					"equipementLaban" => null,
+					"affiche" => $affiche,
+					"position" => $position,
 			);
 		}
 		
@@ -33,9 +47,30 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$hobbitEquipementTable = new HobbitEquipement();
 		$equipementPorteRowset = $hobbitEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
 		
+		$idEquipements = null;
+		foreach ($equipementPorteRowset as $e) {
+			$idEquipements[] = $e["id_equipement_hequipement"];
+		}
+		$equipementRuneTable = new EquipementRune();
+		$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
+		
 		$tabWhere = null;
 		foreach ($equipementPorteRowset as $e) {
 			$this->view->sequiperOk = true;
+			$runes = null;
+			if (count($equipementRunes) > 0) {
+				foreach($equipementRunes as $r) {
+					if ($r["id_equipement_rune"] == $e["id_equipement_hequipement"]) {
+						$runes[] = array(
+						"id_rune_equipement_rune" => $r["id_rune_equipement_rune"],
+						"id_fk_type_rune_equipement_rune" => $r["id_fk_type_rune_equipement_rune"],
+						"nom_type_rune" => $r["nom_type_rune"],
+						"image_type_rune" => $r["image_type_rune"],
+						);
+					}
+				}
+			}
+				
 			$equipement = array(
 					"id_equipement" => $e["id_equipement_hequipement"],
 					"nom" => $e["nom_type_equipement"],
@@ -44,10 +79,21 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					"id_type_emplacement" => $e["id_type_emplacement"],
 					"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
 					"nb_runes" => $e["nb_runes_hequipement"],
-					"id_fk_recette_equipement" => $e["id_fk_recette_hequipement"]
+					"id_fk_recette_equipement" => $e["id_fk_recette_hequipement"],
+					"armure" => $e["armure_recette_equipement"],
+					"force" => $e["force_recette_equipement"],
+					"agilite" => $e["agilite_recette_equipement"],
+					"vigueur" => $e["vigueur_recette_equipement"],
+					"sagesse" => $e["sagesse_recette_equipement"],
+					"vue" => $e["vue_recette_equipement"],
+					"bm_attaque" => $e["bm_attaque_recette_equipement"],
+					"bm_degat" => $e["bm_degat_recette_equipement"],
+					"bm_defense" => $e["bm_defense_recette_equipement"],
+					"runes" => $runes,
 			);
 			$this->equipementPorte[] = $equipement;
-			$tabTypesEmplacement[$e["id_type_emplacement"]]["equipementPorte"][] = $equipement;
+			$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["equipementPorte"][] = $equipement;
+			$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["affiche"] = "oui";
 		}
 		
 		// on va chercher l'équipement présent dans le laban
@@ -69,12 +115,11 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					"id_fk_recette_equipement" => $e["id_fk_recette_laban_equipement"]
 			);
 			$this->equipementLaban[] = $equipement;
-			$tabTypesEmplacement[$e["id_type_emplacement"]]["equipementLaban"][] = $equipement;
+			$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["equipementLaban"][] = $equipement;
 		}
 		
 		$this->view->typesEmplacement = $tabTypesEmplacement;
 		$this->view->nbTypesEmplacement = count($tabTypesEmplacement);
-		
 	}
 
 	function prepareFormulaire() {
