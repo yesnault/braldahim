@@ -18,6 +18,10 @@ class EquipementRune extends Zend_Db_Table {
     
     function findByIdsEquipement($tabId) {
     	$where = "";
+    	if ($tabId == null || count($tabId) == 0) {
+    		return null;
+    	}
+    	
     	foreach($tabId as $id) {
 			if ($where == "") {
 				$or = "";
