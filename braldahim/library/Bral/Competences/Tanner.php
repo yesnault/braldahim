@@ -113,6 +113,6 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_echoppes", "box_evenements");
+		return array("box_profil", "box_competences_metiers", "box_echoppes", "box_evenements");
 	}
 }

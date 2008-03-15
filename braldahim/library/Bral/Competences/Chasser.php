@@ -116,6 +116,6 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_laban", "box_evenements");
+		return array("box_profil", "box_competences_metiers", "box_vue", "box_laban", "box_evenements");
 	}
 }

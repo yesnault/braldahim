@@ -249,7 +249,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_lieu", "box_evenements");
+		return array("box_profil", "box_competences_metiers", "box_vue", "box_lieu", "box_evenements");
 	}
 
 	private function chargeHobbit($idHobbit) {

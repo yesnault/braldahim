@@ -6,19 +6,23 @@
 		<? include("commun_text_resultat.phtml") ?>
 		
 		<? if ($this->okJet1 === true):?>
-		   <? if ($this->filonOk === true): ?>
+			<? if ($this->filonOk === true): ?>
 				Vous avez extrait avec succ&egrave;s 
-				<?=$this->minerai["quantite_extraite"]?> morceau<?if($this->minerai["quantite_extraite"] > 0): echo "x";endif; ?>
+				<?=$this->minerai["quantite_extraite"]?> morceau<?if($this->minerai["quantite_extraite"] > 0): echo "x"; endif; ?>
 				de <?=$this->minerai["nom_type"]?><br>
 				<? if ($this->filonDetruit === true): ?>
-				Pfiou, il n'y a plus rien dans le filon...
+					Pfiou, il n'y a plus rien dans le filon...
+				<? endif; ?>
+				<br><br>
+				<? if ($this->effetRune) :?>
+					Une rune que vous portez a eu de l'effet sur la quantit&eacute; de minerai extrait.
 				<? endif; ?>
 			<? else: ?>
 				Il n'y a pas de minerai ici... Il faut sonder !
 			<? endif; ?>
 		<? else :  ?>
 			<? if ($this->filonDetruit === true) : ?>
-				Vous avez tout g&acirc;ch&eacute; ! Les derniers fragments de <?=$this->minerai["nom_type"]?>
+				Vous avez tout g&acirc;ch&eacute; ! Les derniers fragments de <?=htmlentities($this->minerai["nom_type"])?>
 				tombent en miettes dans vos mains et le filon est d&eacute;truit !
 			<? else: ?>
 				Des fragments de <?=$this->minerai["nom_type"]?> tombent en miettes dans vos mains et sont d&eacute;truits.
@@ -42,6 +46,11 @@
 				if ($this->filonDetruit === true) {
 					echo "Pfiou, il n'y a plus rien dans le filon...";
 				}
+				if ($this->effetRune) {
+					echo "
+";
+					echo "Une rune que vous portez a eu de l'effet sur la quantit&eacute; de minerai extrait.";
+				}
 			} else {
 				echo "Il n'y a pas de minerai ici... Il faut sonder !";
 			}
@@ -49,7 +58,7 @@
 			if ($this->filonDetruit === true) {
 				echo "Vous avez tout g&acirc;ch&eacute; ! Le filon est d&eacute;truit !";
 			} else {
-				echo "Des fragments de ".$this->minerai["nom_type"];
+				echo "Des fragments de ".htmlentities($this->minerai["nom_type"]);
 				echo " tombent en miettes dans vos mains et sont d&eacute;truits.";
 			}
 		}

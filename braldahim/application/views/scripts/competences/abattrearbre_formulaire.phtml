@@ -21,7 +21,7 @@
 
 </form>
 <br>
-<?php if ($this->assezDePa == true && $this->abattreArbreEnvironnementOk === true) : ?>
+<?php if ($this->assezDePa == true && $this->abattreArbreEnvironnementOk === true && $this->abattreArbreLieuOk === true && $this->abattreArbreVilleOk === true) : ?>
 <input type='button' class='button1' id='bouton_abattrearbre' value='Abattre un arbre !' onClick='this.disabled=true;_get_("/competences/DoAction?caction=do_competence_abattrearbre");'>
 <? endif ?>
 <? include("commun_fermer.phtml") ?>

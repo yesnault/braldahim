@@ -10,7 +10,11 @@
 		?>
 			Vous avez abattu un arbre.<br> 
 			Vous avez r&eacute;cup&eacute;r&eacute; <?=$this->nbRondins ?> 
-			rondin<?=$s ?> <br>
+			rondin<?=$s ?>.
+			<br><br>
+			<? if ($this->effetRune) :?>
+				Une rune que vous portez a eu de l'effet sur la quantit&eacute; de rondins r&eacute;cup&eacute;r&eacute;e.
+			<? endif; ?>
 		<? endif; ?>
 		<br>
 	 </div>
@@ -26,8 +30,13 @@
 			echo "Vous avez abattu un arbre.";
 			echo "
 ";
-			echo "ous avez r&eacute;cup&eacute;r&eacute; ".$this->nbRondins;
+			echo "Vous avez r&eacute;cup&eacute;r&eacute; ".$this->nbRondins;
 			echo " rondin".$s;
+			echo "
+";
+			if ($this->effetRune) {
+				echo "Une rune que vous portez a eu de l'effet sur la quantit&eacute; de rondins r&eacute;cup&eacute;r&eacute;e.";
+			}
 		}
 	?>
 	</textarea>

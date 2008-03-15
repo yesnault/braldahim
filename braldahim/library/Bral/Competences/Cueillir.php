@@ -31,21 +31,21 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			if ($p["partie_3_plante"] > 0) $nom_partie_3 = $tabPartiePlante[$p["id_fk_partieplante3_type_plante"]]["nom"]; else $nom_partie_3="";
 			if ($p["partie_4_plante"] > 0) $nom_partie_4 = $tabPartiePlante[$p["id_fk_partieplante4_type_plante"]]["nom"]; else $nom_partie_4="";
 			$this->_tabPlantes[] = array("id_plante" => $p["id_plante"],
-			"nom_type" => $p["nom_type_plante"],
-			"categorie" => $p["categorie_type_plante"],
-			"id_fk_type_plante" => $p["id_fk_type_plante"],
-			"partie_1_plante" => $p["partie_1_plante"],
-			"partie_2_plante" => $p["partie_2_plante"],
-			"partie_3_plante" => $p["partie_3_plante"],
-			"partie_4_plante" => $p["partie_4_plante"],
-			"id_fk_partie_1" => $p["id_fk_partieplante1_type_plante"],
-			"id_fk_partie_2" => $p["id_fk_partieplante2_type_plante"],
-			"id_fk_partie_3" => $p["id_fk_partieplante3_type_plante"],
-			"id_fk_partie_4" => $p["id_fk_partieplante4_type_plante"],
-			"nom_partie_1" => $nom_partie_1,
-			"nom_partie_2" => $nom_partie_2,
-			"nom_partie_3" => $nom_partie_3,
-			"nom_partie_4" => $nom_partie_4
+				"nom_type" => $p["nom_type_plante"],
+				"categorie" => $p["categorie_type_plante"],
+				"id_fk_type_plante" => $p["id_fk_type_plante"],
+				"partie_1_plante" => $p["partie_1_plante"],
+				"partie_2_plante" => $p["partie_2_plante"],
+				"partie_3_plante" => $p["partie_3_plante"],
+				"partie_4_plante" => $p["partie_4_plante"],
+				"id_fk_partie_1" => $p["id_fk_partieplante1_type_plante"],
+				"id_fk_partie_2" => $p["id_fk_partieplante2_type_plante"],
+				"id_fk_partie_3" => $p["id_fk_partieplante3_type_plante"],
+				"id_fk_partie_4" => $p["id_fk_partieplante4_type_plante"],
+				"nom_partie_1" => $nom_partie_1,
+				"nom_partie_2" => $nom_partie_2,
+				"nom_partie_3" => $nom_partie_3,
+				"nom_partie_4" => $nom_partie_4
 			);
 		}
 		$this->view->plantes = $this->_tabPlantes;
@@ -159,10 +159,10 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			for ($i=1; $i<=4; $i++) {
 				if ($cueillette[$i]["quantite"] > 0) {
 					$data = array(
-					'id_fk_type_laban_partieplante' => $cueillette[$i]["id_fk"],
-					'id_fk_type_plante_laban_partieplante' => $cueillette[$i]["id_type_plante"],
-					'id_fk_hobbit_laban_partieplante' => $this->view->user->id_hobbit,
-					'quantite_laban_partieplante' => $cueillette[$i]["quantite"],
+						'id_fk_type_laban_partieplante' => $cueillette[$i]["id_fk"],
+						'id_fk_type_plante_laban_partieplante' => $cueillette[$i]["id_type_plante"],
+						'id_fk_hobbit_laban_partieplante' => $this->view->user->id_hobbit,
+						'quantite_laban_partieplante' => $cueillette[$i]["quantite"],
 					);
 					$labanPartiePlanteTable->insertOrUpdate($data);
 				}
@@ -176,10 +176,10 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			$planteTable->delete($where);
 		} else { // sinon, il faut la mettre à jour
 			$data = array(
-			"partie_1_plante" => $p["partie_1_plante"] - $cueillette[1]["quantite"],
-			"partie_2_plante" => $p["partie_2_plante"] - $cueillette[2]["quantite"],
-			"partie_3_plante" => $p["partie_3_plante"] - $cueillette[3]["quantite"],
-			"partie_4_plante" => $p["partie_4_plante"] - $cueillette[4]["quantite"],
+				"partie_1_plante" => $p["partie_1_plante"] - $cueillette[1]["quantite"],
+				"partie_2_plante" => $p["partie_2_plante"] - $cueillette[2]["quantite"],
+				"partie_3_plante" => $p["partie_3_plante"] - $cueillette[3]["quantite"],
+				"partie_4_plante" => $p["partie_4_plante"] - $cueillette[4]["quantite"],
 			);
 			$planteTable = new Plante();
 			$where = "id_plante=".$idPlante;
@@ -199,7 +199,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_laban", "box_evenements");
+		return array("box_profil", "box_competences_metiers", "box_vue", "box_laban", "box_evenements");
 	}
 
 	/*
@@ -214,8 +214,18 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 	 *  20-24 : 1D3+4
 	 */
 	private function calculQuantiteAExtraire() {
+		Zend_Loader::loadClass('Bral_Util_Commun');
+		$commun = new Bral_Util_Commun();
+		$this->view->effetRune = false;
+		
 		$n = Bral_Util_De::get_1d3();
 		$n = $n + floor($this->view->user->sagesse_base_hobbit / 5);
+		
+		if ($commun->isRunePortee($this->view->user->id_hobbit, "RI")) { // s'il possède une rune RI
+			$this->view->effetRune = true;
+			$n = ceil($n * 1.5);
+		}
+		
 		return $n;
 	}
 }

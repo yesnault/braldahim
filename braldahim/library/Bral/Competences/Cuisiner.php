@@ -64,7 +64,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 	}
 	
 	/*
-	 * Transforme 1 unité de viande préparée en 1D2+1 rations (conservation illimitée) 
+	 * Transforme 1 unité de viande préparée en 1D2+1 ration (conservation illimitée) 
 	 * 1 ration fait 1 repas complet. 
 	 * Un repas complet fait +80% dans la balance de faim.
 	 * Peut être utilisé partout sauf en ville
@@ -73,7 +73,16 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Laban");
 		Zend_Loader::loadClass("Bral_Util_De");
 		
-		$this->view->nbRation = Bral_Util_De::get_1d2() + 1;
+		Zend_Loader::loadClass('Bral_Util_Commun');
+		$commun = new Bral_Util_Commun();
+		$this->view->effetRune = false;
+		
+		if ($commun->isRunePortee($this->view->user->id_hobbit, "RU")) { // s'il possède une rune RU
+			$this->view->nbRation = Bral_Util_De::get_1d2() + 2;
+			$this->view->effetRune = true;
+		} else {
+			$this->view->nbRation = Bral_Util_De::get_1d2() + 1;
+		}
 		
 		$labanTable = new Laban();
 		$data = array(
@@ -85,6 +94,6 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_laban", "box_evenements");
+		return array("box_profil", "box_competences_metiers", "box_vue", "box_laban", "box_evenements");
 	}
 }

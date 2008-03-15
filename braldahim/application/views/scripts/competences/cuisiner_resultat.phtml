@@ -11,7 +11,11 @@
 				Vous avez r&eacute;ussi votre cuisine.<br> 
 				Vous avez transform&eacute;
 				1 unit&eacute; de viande pr&eacute;par&eacute;e en : <?=$this->nbRation ?> 
-				ration<?=$s ?> <br>
+				ration<?=$s ?>.
+				<br><br>
+				<? if ($this->effetRune) :?>
+					Une rune que vous portez a eu de l'effet sur le nombre de rations pr&eacute;par&eacute;.
+				<? endif; ?>
 		<? endif; ?>
 		<br>
 	 </div>
@@ -24,12 +28,17 @@
 			$s = "";
 			if ($this->nbRation > 1) : $s = "s"; endif;
 			
-			echo "Vous avez r&eacuteu;ssi votre cuisine.";
+			echo "Vous avez r&eacute;ussi votre cuisine.";
 			echo "
 ";
 			echo "Vous avez transform&eacute;";
 			echo "1 unit&eacute; de viande pr&eacute;par&eacute;e en ";
 			echo $this->nbRation ." ration".$s;
+			echo "
+";
+			if ($this->effetRune) {
+				echo "Une rune que vous portez a eu de l'effet sur le nombre de rations pr&eacute;par&eacute;.";
+			}
 		}
 	?>
 	</textarea>

@@ -129,6 +129,15 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 				break;
 		}
 		
+		Zend_Loader::loadClass('Bral_Util_Commun');
+		$commun = new Bral_Util_Commun();
+		$this->view->effetRune = false;
+		
+		if ($commun->isRunePortee($this->view->user->id_hobbit, "FO")) { // s'il possède une rune FO
+			$this->view->effetRune = true;
+			$this->view->nbPeau = ceil($this->view->nbPeau * 1.5);
+		}
+		
 		$labanTable = new Laban();
 		$data = array(
 			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
@@ -142,6 +151,6 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 	
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_laban", "box_evenements");
+		return array("box_profil", "box_competences_metiers", "box_vue", "box_laban", "box_evenements");
 	}
 }

@@ -9,7 +9,12 @@
 			$s = "";
 			if ($this->nbPeau > 1) : $s = "s"; endif;
 		?>
-			Vous avez d&eacute;piaut&eacute; <?=$this->nbPeau ?> unit&eacute;<?=$s ?> de peau. <br>
+			Vous avez d&eacute;piaut&eacute; <?=$this->nbPeau ?> unit&eacute;<?=$s ?> de peau.
+			
+			<br><br>
+			<? if ($this->effetRune) :?>
+				Une rune que vous portez a eu de l'effet sur la quantit&eacute; de peau d&eacute;piaut&eacutee;.
+			<? endif; ?>
 		<? endif; ?>
 		<br>
 	 </div>
@@ -22,6 +27,11 @@
 			$s = "";
 			if ($this->nbViande > 1) : $s = "s"; endif;
 			echo " Vous avez d&eacute;piaut&eacute; ".$this->nbPeau." unit&eacute;".$s." de peau";
+			if ($this->effetRune) {
+				echo "
+";
+				echo "Une rune que vous portez a eu de l'effet sur la quantit&eacute; de peau d&eacute;piaut&eacutee;.";
+			}
 		}
 	?>
 	</textarea>

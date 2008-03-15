@@ -30,6 +30,10 @@
 			<? if ($this->planteDetruite === true) : ?>
 				Vous avez pris ce qu'il restait sur la plante... elle n'existe donc plus. <br>
 			<? endif; ?>
+			<br>
+			<? if ($this->effetRune) :?>
+				Une rune que vous portez a eu de l'effet sur la quantit&eacute; d'&eacute;l&eacute;ments cueillis.
+			<? endif; ?>
 		<? else: ?>
 			<? if ($this->planteDetruite === true) : ?>
 				Vous avez tout g&acirc;ch&eacute; ! La plante 
@@ -63,6 +67,9 @@
 					echo "
 ";
 				}
+			}
+			if ($this->effetRune) {
+				echo "Une rune que vous portez a eu de l'effet sur la quantit&eacute; d'&eacute;l&eacute;ments cueillis.";
 			}
 		} else {
 			if ($this->planteDetruite === true) {
