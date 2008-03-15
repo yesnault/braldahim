@@ -24,16 +24,11 @@ class Bral_Competences_Factory {
 		// verification que le joueur a accès à la compétence
 		if ($construct == null) {
 			Zend_Loader::loadClass("HobbitsCompetences");
-			//$hobbitTable = new Hobbit();
-			//$hobbitRowset = $hobbitTable->find($view->user->id_hobbit);
-			//$hobbit = $hobbitRowset->current();
-			//$hobbitCompetences = $hobbit->findCompetenceViaHobbitsCompetences();
 
 			$hobbitsCompetencesTables = new HobbitsCompetences();
 			$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($view->user->id_hobbit);
 			
 			$competences = Zend_Registry::get('competences');
-			//$c = Zend_Registry::get('competencesId');
 	
 			foreach($hobbitCompetences as $c) {
 				if ($c["nom_systeme_competence"] == $nomSystemeCompetence) {

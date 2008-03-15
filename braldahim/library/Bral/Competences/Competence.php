@@ -46,7 +46,31 @@ abstract class Bral_Competences_Competence {
 		}
 		$this->view->nb_pa = $this->competence["pa_utilisation"];
 	}
-
+	
+	public function ameliorationCompetenceMetier() {
+		Zend_Loader::loadClass("HobbitsMetiers");
+		$hobbitsMetiersTable = new HobbitsMetiers();
+		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
+		$ameliorationCompetence = false;
+		foreach($hobbitsMetierRowset as $m) {
+			if ($this->competence["id_fk_metier_competence"] == $m["id_metier"]) {
+				if ($m["est_actif_hmetier"] == "oui") {
+					$ameliorationCompetence = true;
+				}
+				break;
+			}
+		}
+		return $ameliorationCompetence;
+	}
+	
+	public function getIdMetier() {
+		if ($this->competence["type_competence"] == "metier") {
+			return $this->competence["id_fk_metier_competence"];
+		} else {
+			return null;
+		}
+	}
+	
 	public function calculPx() {
 		$this->view->nb_px_commun = 0;
 		$this->view->calcul_px_generique = true;
@@ -86,9 +110,21 @@ abstract class Bral_Competences_Competence {
 
 	public function calculJets2et3() {
 		$this->view->jet2Possible = false;
-		// 2nd Jet : réussite ou non de l'amélioration de la compétence
-		// seulement si la maitrise de la compétence est < 50 ou si le jet1 est réussi
-		if ($this->view->okJet1 === true || $this->hobbit_competence["pourcentage_hcomp"] < 50) {
+		
+		
+		$this->view->estCompetenceMetier = false;
+		if ($this->competence["type_competence"] == "metier") {
+			$this->view->estCompetenceMetier = true;
+			$this->view->ameliorationCompetenceMetierCourant = $this->ameliorationCompetenceMetier();
+		}
+		
+		// a t-on le droit d'améliorer la compétence métier
+		if ($this->view->estCompetenceMetier === true && $this->view->ameliorationCompetenceMetierCourant === false) { 
+			$this->view->okJet2 = false;
+			
+		}  else if ($this->view->okJet1 === true || $this->hobbit_competence["pourcentage_hcomp"] < 50) {
+			// 2nd Jet : réussite ou non de l'amélioration de la compétence
+			// seulement si la maitrise de la compétence est < 50 ou si le jet1 est réussi
 			$this->view->jet2 = Bral_Util_De::get_1d100();
 			$this->view->jet2Possible = true;
 			if ($this->view->jet2 > $this->hobbit_competence["pourcentage_hcomp"]) {
@@ -98,8 +134,7 @@ abstract class Bral_Competences_Competence {
 
 		// 3ème Jet : % d'amélioration de la compétence
 		if ($this->view->okJet2 === true) {
-			// pas d'amélioration au delà de 90 %
-			if ($this->hobbit_competence["pourcentage_hcomp"] >= 90) {
+			if ($this->hobbit_competence["pourcentage_hcomp"] >= 90) { // pas d'amélioration au delà de 90 %
 				$this->view->okJet3 = false;
 			} else {
 				$this->view->okJet3 = true;
@@ -188,16 +223,16 @@ abstract class Bral_Competences_Competence {
 		$this->calculNiveau();
 
 		$data = array(
-		'pa_hobbit' => $this->view->user->pa_hobbit,
-		'px_perso_hobbit' => $this->view->user->px_perso_hobbit,
-		'px_commun_hobbit' => $this->view->user->px_commun_hobbit,
-		'pi_hobbit' => $this->view->user->pi_hobbit,
-		'niveau_hobbit' => $this->view->user->niveau_hobbit,
-		'px_base_niveau_hobbit' => $this->view->user->px_base_niveau_hobbit,
-		'balance_faim_hobbit' => $this->view->user->balance_faim_hobbit,
-		'nb_kill_hobbit' => $this->view->user->nb_kill_hobbit,
-		'x_hobbit' => $this->view->user->x_hobbit,
-		'y_hobbit'  => $this->view->user->y_hobbit,
+			'pa_hobbit' => $this->view->user->pa_hobbit,
+			'px_perso_hobbit' => $this->view->user->px_perso_hobbit,
+			'px_commun_hobbit' => $this->view->user->px_commun_hobbit,
+			'pi_hobbit' => $this->view->user->pi_hobbit,
+			'niveau_hobbit' => $this->view->user->niveau_hobbit,
+			'px_base_niveau_hobbit' => $this->view->user->px_base_niveau_hobbit,
+			'balance_faim_hobbit' => $this->view->user->balance_faim_hobbit,
+			'nb_kill_hobbit' => $this->view->user->nb_kill_hobbit,
+			'x_hobbit' => $this->view->user->x_hobbit,
+			'y_hobbit'  => $this->view->user->y_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);

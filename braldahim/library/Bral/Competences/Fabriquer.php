@@ -28,13 +28,13 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 				$idEchoppe = $e["id_echoppe"];
 
 				$echoppeCourante = array(
-				'id_echoppe' => $e["id_echoppe"],
-				'x_echoppe' => $e["x_echoppe"],
-				'y_echoppe' => $e["y_echoppe"],
-				'id_metier' => $e["id_metier"],
-				'quantite_planche_arriere_echoppe' => $e["quantite_planche_arriere_echoppe"],
-				'quantite_fourrure_arriere_echoppe' => $e["quantite_fourrure_arriere_echoppe"],
-				'quantite_cuir_arriere_echoppe' => $e["quantite_cuir_arriere_echoppe"],
+					'id_echoppe' => $e["id_echoppe"],
+					'x_echoppe' => $e["x_echoppe"],
+					'y_echoppe' => $e["y_echoppe"],
+					'id_metier' => $e["id_metier"],
+					'quantite_planche_arriere_echoppe' => $e["quantite_planche_arriere_echoppe"],
+					'quantite_fourrure_arriere_echoppe' => $e["quantite_fourrure_arriere_echoppe"],
+					'quantite_cuir_arriere_echoppe' => $e["quantite_cuir_arriere_echoppe"],
 				);
 				break;
 			}
@@ -44,23 +44,9 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 			return;
 		}
 
-		Zend_Loader::loadClass("HobbitsMetiers");
-		$hobbitsMetiersTable = new HobbitsMetiers();
-		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
-		$tabMetierCourant = null;
-		foreach($hobbitsMetierRowset as $m) {
-			if ($m["est_actif_hmetier"] == "oui") {
-				$tabMetierCourant = $m;
-				break;
-			}
-		}
-		if ($tabMetierCourant == null) {
-			throw new Zend_Exception(get_class($this)." Metier courant inconnu : ");
-		}
-
 		Zend_Loader::loadClass("TypeEquipement");
 		$typeEquipementTable = new TypeEquipement();
-		$typeEquipementsRowset = $typeEquipementTable->findByIdMetier($tabMetierCourant["id_metier"]);
+		$typeEquipementsRowset = $typeEquipementTable->findByIdMetier($this->getIdMetier());
 		$tabTypeEquipement = null;
 		foreach($typeEquipementsRowset as $t) {
 			$selected = "";
@@ -68,10 +54,10 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 				$selected = "selected";
 			}
 			$t = array(
-			'id_type_equipement' => $t["id_type_equipement"],
-			'nom_type_equipement' => $t["nom_type_equipement"],
-			'nb_runes_max_type_equipement' => $t["nb_runes_max_type_equipement"],
-			'selected' => $selected
+				'id_type_equipement' => $t["id_type_equipement"],
+				'nom_type_equipement' => $t["nom_type_equipement"],
+				'nb_runes_max_type_equipement' => $t["nb_runes_max_type_equipement"],
+				'selected' => $selected
 			);
 			if ($id_type_courant == $t["id_type_equipement"]) {
 				$typeEquipementCourant = $t;
@@ -96,7 +82,7 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 
 			$this->view->etape1 = true;
 
-			for ($i = 0; $i <= $this->view->user->niveau_hobbit / 10 ; $i++) {
+			for ($i = 0; $i <= floor($this->view->user->niveau_hobbit / 10) ; $i++) {
 				$tabNiveaux[$i] = array('niveauText' => 'Niveau '.$i, 'ressourcesOk' => true);
 			}
 
@@ -192,8 +178,6 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Fabriquer Echoppe interdit ");
 		}
 
-		// verification ressource  : todo
-
 		$idTypeEquipement = (int)$this->request->get("valeur_1");
 		$niveau = (int)$this->request->get("valeur_2");
 		$nbRunes = (int)$this->request->get("valeur_3");
@@ -240,10 +224,22 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 	}
 
 	private function calculFabriquer($idTypeEquipement, $niveau, $nbRunes) {
+		Zend_Loader::loadClass('Bral_Util_Commun');
+		$commun = new Bral_Util_Commun();
+		$this->view->effetRune = false;
+		
 		$maitrise = $this->hobbit_competence["pourcentage_hcomp"];
-		$chance_a = 11.1-11 * $maitrise;
-		$chance_b = 100-(11.1-11 * $maitrise)-(10 * $maitrise);
-		$chance_c = 10 * $maitrise;
+		
+		if ($commun->isRunePortee($this->view->user->id_hobbit, "ZA")) { // s'il possède une rune AP
+			$this->view->effetRune = true;
+			$chance_a = 0;
+			$chance_b = 100-(10 * $maitrise);
+			$chance_c = 10 * $maitrise;
+		} else {
+			$chance_a = 11.1-11 * $maitrise;
+			$chance_b = 100-(11.1-11 * $maitrise)-(10 * $maitrise);
+			$chance_c = 10 * $maitrise;
+		}
 
 		$tirage = Bral_Util_De::get_1d100();
 		$qualite = -1;
@@ -259,6 +255,7 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 		}
 		$this->view->niveau = $niveau;
 		$this->view->nbRunes = $nbRunes;
+		$this->view->niveauQualite = $qualite;
 		
 		Zend_Loader::loadClass("RecetteEquipement");
 		$recetteEquipementTable = new RecetteEquipement();
@@ -342,6 +339,18 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 		}
 	}
 
+	// Gain : [(nivP+1)/(nivH+1)+1+NivQ]*10 PX
+	public function calculPx() {
+		$this->view->nb_px_commun = 0;
+		$this->view->calcul_px_generique = true;
+		if ($this->view->okJet1 === true) {
+			$this->view->nb_px_perso = (($this->view->niveau +1)/(floor($this->view->user->niveau_hobbit/10) + 1) + 1 + ($this->view->niveauQualite - 1) )*10;
+		} else {
+			$this->view->nb_px_perso = 0;
+		}
+		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
+	}	
+	
 	function getListBoxRefresh() {
 		return array("box_profil", "box_laban", "box_evenements");
 	}

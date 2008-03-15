@@ -52,11 +52,31 @@ class Bral_Util_Commun {
 		$evenementTable = new Evenement();
 
 		$data = array(
-		'id_fk_hobbit_evenement' => $id_hobbit,
-		'date_evenement' => date("Y-m-d H:i:s"),
-		'id_fk_type_evenement' => $id_type_evenement,
-		'details_evenement' => $details,
+			'id_fk_hobbit_evenement' => $id_hobbit,
+			'date_evenement' => date("Y-m-d H:i:s"),
+			'id_fk_type_evenement' => $id_type_evenement,
+			'details_evenement' => $details,
 		);
 		$evenementTable->insert($data);
+	}
+
+	/*
+	 * Regarde si la rune de @param est portée
+	 */
+	public function isRunePortee($id_hobbit, $nom_type_rune) {
+		$retour = false;
+		Zend_Loader::loadClass("HobbitEquipement");
+		$hobbitEquipementTable = new HobbitEquipement();
+		$runesRowset = $hobbitEquipementTable->findRunesOnly($id_hobbit);
+		
+		if ($runesRowset != null && count($runesRowset) > 0) {
+			foreach ($runesRowset as $r) {
+				if ($r["nom_type_rune"] == $nom_type_rune) {
+					$retour = true;
+					break;
+				}
+			}
+		}
+		return $retour;
 	}
 }

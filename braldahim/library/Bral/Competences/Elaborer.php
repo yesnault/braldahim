@@ -30,10 +30,10 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 				$idEchoppe = $e["id_echoppe"];
 
 				$echoppeCourante = array(
-				'id_echoppe' => $e["id_echoppe"],
-				'x_echoppe' => $e["x_echoppe"],
-				'y_echoppe' => $e["y_echoppe"],
-				'id_metier' => $e["id_metier"]
+					'id_echoppe' => $e["id_echoppe"],
+					'x_echoppe' => $e["x_echoppe"],
+					'y_echoppe' => $e["y_echoppe"],
+					'id_metier' => $e["id_metier"]
 				);
 				break;
 			}
@@ -54,9 +54,9 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 				$selected = "selected";
 			}
 			$t = array(
-			'id_type_potion' => $t["id_type_potion"],
-			'nom_type_potion' => $t["nom_type_potion"],
-			'selected' => $selected
+				'id_type_potion' => $t["id_type_potion"],
+				'nom_type_potion' => $t["nom_type_potion"],
+				'selected' => $selected
 			);
 			if ($id_type_courant == $t["id_type_potion"]) {
 				$typePotionCourante = $t;
@@ -178,11 +178,23 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 	}
 
 	private function calculElaborer($idTypePotion, $niveau) {
+		Zend_Loader::loadClass('Bral_Util_Commun');
+		$commun = new Bral_Util_Commun();
+		$this->view->effetRune = false;
+		
 		$maitrise = $this->hobbit_competence["pourcentage_hcomp"];
-		$chance_a = 11.1-11 * $maitrise;
-		$chance_b = 100-(11.1-11 * $maitrise)-(10 * $maitrise);
-		$chance_c = 10 * $maitrise;
-
+		
+		if ($commun->isRunePortee($this->view->user->id_hobbit, "AP")) { // s'il possède une rune AP
+			$this->view->effetRune = true;
+			$chance_a = 0;
+			$chance_b = 100-(10 * $maitrise);
+			$chance_c = 10 * $maitrise;
+		} else {
+			$chance_a = 11.1-11 * $maitrise;
+			$chance_b = 100-(11.1-11 * $maitrise)-(10 * $maitrise);
+			$chance_c = 10 * $maitrise;
+		}
+		
 		$tirage = Bral_Util_De::get_1d100();
 		$qualite = -1;
 		if ($tirage > 0 && $tirage <= $chance_a) {
@@ -196,13 +208,14 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			$this->view->qualite = "bonne";
 		}
 		$this->view->niveau = $niveau;
+		$this->view->niveauQualite = $qualite;
 		
 		Zend_Loader::loadClass("EchoppePartiePlante");
 		
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 		
 		foreach ($this->view->cout[$niveau] as $c)
-		$data = array('quantite_arriere_echoppe_partieplante' => $c["cout"],
+		$data = array('quantite_arriere_echoppe_partieplante' => -$c["cout"],
 					  'id_fk_type_echoppe_partieplante' => $c["id_type_partieplante"],
 					  'id_fk_type_plante_echoppe_partieplante' => $c["id_type_plante"],
 					  'id_fk_echoppe_echoppe_partieplante' => $this->idEchoppe);
@@ -211,15 +224,26 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("EchoppePotion");
 		$echoppePotionTable = new EchoppePotion();
 		$data = array(
-		'id_fk_echoppe_echoppe_potion' => $this->idEchoppe,
-		'id_fk_type_potion_echoppe_potion' => $idTypePotion,
-		'type_vente_echoppe_potion' => 'aucune',
-		'id_fk_type_qualite_echoppe_potion' => $qualite,
-		'niveau_echoppe_potion' => $niveau,
+			'id_fk_echoppe_echoppe_potion' => $this->idEchoppe,
+			'id_fk_type_potion_echoppe_potion' => $idTypePotion,
+			'type_vente_echoppe_potion' => 'aucune',
+			'id_fk_type_qualite_echoppe_potion' => $qualite,
+			'niveau_echoppe_potion' => $niveau,
 		);
 		$echoppePotionTable->insert($data);
-
 	}
+	
+	// Gain : [(nivP+1)/(nivH+1)+1+NivQ]*10 PX
+	public function calculPx() {
+		$this->view->nb_px_commun = 0;
+		$this->view->calcul_px_generique = true;
+		if ($this->view->okJet1 === true) {
+			$this->view->nb_px_perso = (($this->view->niveau +1)/(floor($this->view->user->niveau_hobbit/10) + 1) + 1 + ($this->view->niveauQualite - 1) )*10;
+		} else {
+			$this->view->nb_px_perso = 0;
+		}
+		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
+	}	
 
 	public function getIdEchoppeCourante() {
 		if (isset($this->idEchoppe)) {
@@ -228,7 +252,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			return false;
 		}
 	}
-
+	
 	function getListBoxRefresh() {
 		return array("box_profil", "box_echoppes", "box_evenements");
 	}

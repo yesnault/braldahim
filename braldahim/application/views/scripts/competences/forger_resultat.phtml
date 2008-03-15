@@ -12,6 +12,10 @@
 			et de niveau <?=$this->niveau ?>.
 			<br>
 			Il y a <?=$this->nbRunes ?> emplacement<? if ($this->nbRunes > 1) echo 's'; ?> runique<? if ($this->nbRunes > 1) echo 's'; ?>.
+			<br><br>
+			<? if ($this->effetRune) :?>
+				Une rune que vous portez a eu de l'effet sur la qualit&eacute; de cette pi&egrave;ce d'&eacute;quipement.
+			<? endif; ?>
 		<? else: ?>
 			Vous avez manqu&eacute; votre forgeage<br>
 		<? endif; ?>
@@ -36,6 +40,9 @@
 				echo " runique$s";
 				echo "
 ";
+				if ($this->effetRune) {
+					echo "Une rune que vous portez a eu de l'effet sur la qualit&eacute; de cette pi&egrave;ce d'&eacute;quipement.";
+				}
 			} else {
 				echo "Vous avez manqu&eacute; votre forgeage";
 			}

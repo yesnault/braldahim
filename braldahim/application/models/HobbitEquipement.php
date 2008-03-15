@@ -22,4 +22,18 @@ class HobbitEquipement extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+	
+    function findRunesOnly($id_hobbit) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('equipement_rune', 'id_equipement_rune')
+		->from('type_rune', '*')
+		->from('hobbits_equipement', 'id_equipement_hequipement')
+		->where('equipement_rune.id_fk_type_rune_equipement_rune = type_rune.id_type_rune')
+		->where('hobbits_equipement.id_equipement_hequipement = equipement_rune.id_equipement_rune')
+		->where('hobbits_equipement.id_fk_hobbit_hequipement = ?', intval($id_hobbit));
+		$sql = $select->__toString();
+		
+		return $db->fetchAll($sql);
+    }
 }

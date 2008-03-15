@@ -10,11 +10,14 @@
 			<br>
 			<?=htmlentities($this->typePotionCourante["nom_type_potion"]) ?>, de qualit&eacute; <?=$this->qualite ?>
 			et de niveau <?=$this->niveau ?>.
-			<br>
+			<br><br>
+			<? if ($this->effetRune) :?>
+				Une rune que vous portez a eu de l'effet sur la qualit&eacute; de cette potion.
+			<? endif; ?>
 		<? else: ?>
 			Vous avez manqu&eacute; votre potion<br>
 		<? endif; ?>
-		<br>
+		<br><br>
 	 </div>
 	 
 	 <div id='elaborer_copie' style="display:none">
@@ -29,6 +32,9 @@
 				echo " et de niveau ".$this->niveau.".";
 				echo "
 ";
+				if ($this->effetRune) {
+					echo "Une rune que vous portez a eu de l'effet sur la qualit&eacute; de cette potion.";
+				}
 			} else {
 				echo "Vous avez manqu&eacute; votre potion";
 			}

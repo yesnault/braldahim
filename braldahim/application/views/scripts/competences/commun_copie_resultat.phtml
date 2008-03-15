@@ -19,9 +19,16 @@ echo "
 				echo "Vous avez r&eacute;ussi votre jet d'action ".$this->jet1. " %";
 				echo "
 ";
-				echo "Vous avez rat&eacute; votre jet d'am&eacute;lioration : ".$this->jet2. " %";
-				echo "
+				if ($this->estCompetenceMetier === true && $this->ameliorationCompetenceMetierCourant === false) {
+					echo "Vous ne pouvez pas am&eacute;liorer cette comp&eacute;tence, elle n'appartient pas &agrave;";
+					echo " votre m&eacute;tier courant";
+					echo "
 ";
+				} else {
+					echo "Vous avez rat&eacute; votre jet d'am&eacute;lioration : ".$this->jet2. " %";
+					echo "
+";
+				}
 			}
 			if ($this->calcul_px_generique === true) {
 				echo "Vous avez gagn&eacute; ".$this->nb_px." PX";
@@ -35,6 +42,11 @@ echo "
 ";
 			if ($this->okJet2 === true && $this->okJet3 === true) {
 				echo "Mais, vous am&eacute;liorez votre comp&eacute;tence de ".$this->jet3." % !";
+				echo "
+";
+			} elseif ($this->estCompetenceMetier === true && $this->ameliorationCompetenceMetierCourant === false) {
+				echo "Vous ne pouvez pas am&eacute;liorer cette comp&eacute;tence, elle n'appartient pas &agrave;";
+				echo " votre m&eacute;tier courant";
 				echo "
 ";
 			} elseif ($this->jet2Possible === true) {

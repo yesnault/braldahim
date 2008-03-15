@@ -5,10 +5,15 @@
 				Vous am&eacute;liorez votre comp&eacute;tence de <?=$this->jet3?> % !<br><br>
 			<? elseif ($this->okJet2 === true && $this->okJet3 === false): ?>
 				<span class="action_ok">Vous avez r&eacute;ussi votre jet d'action <?=$this->jet1 ?> %</span><br>
-				Vous ne pouvez plus am&eacute;liorer cette comp&eacute;tence<br><br>
+					Vous ne pouvez plus am&eacute;liorer cette comp&eacute;tence<br><br>
 			<? else: ?>
 				<span class="action_ok">Vous avez r&eacute;ussi votre jet d'action <?=$this->jet1 ?> %</span><br>
+				<? if ($this->estCompetenceMetier === true && $this->ameliorationCompetenceMetierCourant === false): ?>
+					Vous ne pouvez pas am&eacute;liorer cette comp&eacute;tence, elle n'appartient pas &agrave; 
+					votre m&eacute;tier courant<br><br>
+				<? else: ?>
 				Vous avez rat&eacute; votre jet d'am&eacute;lioration : <?=$this->jet2?> %<br><br>
+				<? endif; ?>
 			<? endif; ?>
 			<? if ($this->calcul_px_generique === true) : ?>
 			Vous avez gagn&eacute; <?=$this->nb_px?> PX<br><br>
@@ -17,6 +22,9 @@
 			<span class="action_ko">Vous avez rat&eacute; votre jet d'action <?=$this->jet1 ?> %</span><br>
 			<? if ($this->okJet2 === true && $this->okJet3 === true):?>
 				Mais, vous am&eacute;liorez votre comp&eacute;tence de <?=$this->jet3?> % !<br><br>
+			<? elseif ($this->estCompetenceMetier === true && $this->ameliorationCompetenceMetierCourant === false): ?>
+				Vous ne pouvez pas am&eacute;liorer cette comp&eacute;tence, elle n'appartient pas &agrave; 
+				votre m&eacute;tier courant<br><br>
 			<? elseif ($this->jet2Possible === true): ?>
 				Vous avez rat&eacute; votre jet d'am&eacute;lioration : <?=$this->jet2?> %<br><br>
 			<? endif; ?>
