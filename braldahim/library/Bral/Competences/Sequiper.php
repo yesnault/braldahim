@@ -51,10 +51,19 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		foreach ($equipementPorteRowset as $e) {
 			$idEquipements[] = $e["id_equipement_hequipement"];
 		}
+		
+		// on va chercher l'équipement présent dans le laban
+		$tabEquipementLaban = null;
+		$labanEquipementTable = new LabanEquipement();
+		$equipementLabanRowset = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
+		
+		foreach ($equipementLabanRowset as $e) {
+			$idEquipements[] = $e["id_laban_equipement"];
+		}
+		
 		$equipementRuneTable = new EquipementRune();
 		$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
 		
-		$tabWhere = null;
 		foreach ($equipementPorteRowset as $e) {
 			$this->view->sequiperOk = true;
 			$runes = null;
@@ -98,14 +107,22 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 			$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["affiche"] = "oui";
 		}
 		
-		// on va chercher l'équipement présent dans le laban
-		$tabEquipementLaban = null;
-		$labanEquipementTable = new LabanEquipement();
-		$equipementLabanRowset = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
-		
-		$tabWhere = null;
 		foreach ($equipementLabanRowset as $e) {
 			$this->view->sequiperOk = true;
+			$runes = null;
+			if (count($equipementRunes) > 0) {
+				foreach($equipementRunes as $r) {
+					if ($r["id_equipement_rune"] == $e["id_laban_equipement"]) {
+						$runes[] = array(
+						"id_rune_equipement_rune" => $r["id_rune_equipement_rune"],
+						"id_fk_type_rune_equipement_rune" => $r["id_fk_type_rune_equipement_rune"],
+						"nom_type_rune" => $r["nom_type_rune"],
+						"image_type_rune" => $r["image_type_rune"],
+						);
+					}
+				}
+			}
+
 			$equipement = array(
 					"id_equipement" => $e["id_laban_equipement"],
 					"nom" => $e["nom_type_equipement"],
@@ -116,6 +133,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					"nb_runes" => $e["nb_runes_laban_equipement"],
 					"id_fk_recette_equipement" => $e["id_fk_recette_laban_equipement"],
 					"id_fk_mot_runique" => $e["id_fk_mot_runique_laban_equipement"],
+					"runes" => $runes,
 			);
 			$this->equipementLaban[] = $equipement;
 			$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["equipementLaban"][] = $equipement;
@@ -234,11 +252,13 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 				}
 			}
 			$this->calculTransfertVersEquipement($equipement);
+			$this->calculAjoutEffetRunes($equipement);
 			
 			// TODO Calcul des BM attaque, BM Defense, BM Degat, BM armure, BM Force, BM Vigueur, BM Sagesse, 
 			// et ARM equipement
 		} else { // destination laban
 			$this->calculTransfertVersLaban($equipement);
+			$this->calculRetireEffetRunes($equipement);
 		}
 	}
 	
@@ -278,6 +298,111 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$hobbitEquipementTable->delete($where);
 	}
 	
+	private function calculAjoutEffetRunes($equipement) {
+		$updateHobbit = false;
+		if ($equipement["runes"] != null && count($equipement["runes"]) > 0) {
+			foreach($equipement["runes"] as $r) {
+				if ($r["nom_type_rune"] == "KR") {
+					$updateHobbit = true;
+					// KR Bonus de AGI = Niveau d'AGI/3 arrondi inférieur
+					$this->view->user->agilite_bm_hobbit = $this->view->user->agilite_bm_hobbit + floor($this->view->user->agilite_base_hobbit / 3); 
+				} else if ($r["nom_type_rune"] == "ZE") {
+					$updateHobbit = true;
+					// ZE Bonus de FOR = Niveau de FOR/3 arrondi inférieur
+					$this->view->user->force_bm_hobbit = $this->view->user->force_bm_hobbit + floor($this->view->user->force_base_hobbit / 3); 
+				} else if ($r["nom_type_rune"] == "IL") {
+					$updateHobbit = true;
+					// IL Réduit le tour de jeu de 10 minutes ==> on rajoute 10 minutes donc
+					$this->view->user->duree_prochain_tour_hobbit = Bral_Util_ConvertDate::get_time_remove_time_to_time($this->view->user->duree_prochain_tour_hobbit, "00:10:00");
+				} else if ($r["nom_type_rune"] == "MU") {
+					$updateHobbit = true;
+					// MU PV + niveau du Hobbit/10 arrondi inférieur
+					$this->view->user->pv_max_bm_hobbit = $this->view->user->pv_max_bm_hobbit + floor($this->view->user->niveau_hobbit / 10);
+				} else if ($r["nom_type_rune"] == "RE") {
+					$updateHobbit = true;
+					// RE ARM NAT + Niveau du Hobbit/10 arrondi inférieur
+					$this->view->user->armure_naturelle_hobbit = $this->view->user->armure_naturelle_hobbit + floor($this->view->user->niveau_hobbit / 10);
+				} else if ($r["nom_type_rune"] == "OG") {
+					$updateHobbit = true;
+					// OG Bonus de VIG = Niveau de VIG/3 arrondi inférieur
+					$this->view->user->vigueur_bm_hobbit = $this->view->user->vigueur_bm_hobbit + floor($this->view->user->vigueur_base_hobbit / 3); 
+				} else if ($r["nom_type_rune"] == "OX") {
+					$updateHobbit = true;
+					// OX Poids maximum porté augmenté de Niveau du Hobbit/10 arrondi inférieur
+					$this->view->user->poids_transportable_hobbit = $this->view->user->poids_transportable_hobbit + floor($this->view->user->niveau_hobbit / 10);
+				} else if ($r["nom_type_rune"] == "UP") {
+					$updateHobbit = true;
+					// UP Bonus de SAG = Niveau de SAG/3 arrondi inférieur
+					$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit + floor($this->view->user->sagesse_base_hobbit / 3); 
+				}
+			}
+		}
+		if ($updateHobbit) {
+			$this->majHobbitEffet();
+		}
+	}
+	
+	private function calculRetireEffetRunes($equipement) {
+		$updateHobbit = false;
+		if ($equipement["runes"] != null && count($equipement["runes"]) > 0) {
+			foreach($equipement["runes"] as $r) {
+				if ($r["nom_type_rune"] == "KR") {
+					$updateHobbit = true;
+					// KR Bonus de AGI = Niveau d'AGI/3 arrondi inférieur
+					$this->view->user->agilite_bm_hobbit = $this->view->user->agilite_bm_hobbit - floor($this->view->user->agilite_base_hobbit / 3); 
+				} else if ($r["nom_type_rune"] == "ZE") {
+					$updateHobbit = true;
+					// ZE Bonus de FOR = Niveau de FOR/3 arrondi inférieur
+					$this->view->user->force_bm_hobbit = $this->view->user->force_bm_hobbit - floor($this->view->user->force_base_hobbit / 3); 
+				} else if ($r["nom_type_rune"] == "IL") {
+					$updateHobbit = true;
+					// IL Réduit le tour de jeu de 10 minutes ==> on rajoute 10 minutes donc
+					$this->view->user->duree_prochain_tour_hobbit = Bral_Util_ConvertDate::get_time_add_time_to_time($this->view->user->duree_prochain_tour_hobbit, "00:10:00");
+				} else if ($r["nom_type_rune"] == "MU") {
+					$updateHobbit = true;
+					// MU PV + niveau du Hobbit/10 arrondi inférieur
+					$this->view->user->pv_max_bm_hobbit = $this->view->user->pv_max_bm_hobbit - floor($this->view->user->niveau_hobbit / 10);
+				} else if ($r["nom_type_rune"] == "RE") {
+					$updateHobbit = true;
+					// RE ARM NAT + Niveau du Hobbit/10 arrondi inférieur
+					$this->view->user->armure_naturelle_hobbit = $this->view->user->armure_naturelle_hobbit - floor($this->view->user->niveau_hobbit / 10);
+				} else if ($r["nom_type_rune"] == "OG") {
+					$updateHobbit = true;
+					// OG Bonus de VIG = Niveau de VIG/3 arrondi inférieur
+					$this->view->user->vigueur_bm_hobbit = $this->view->user->vigueur_bm_hobbit - floor($this->view->user->vigueur_base_hobbit / 3); 
+				} else if ($r["nom_type_rune"] == "OX") {
+					$updateHobbit = true;
+					// OX Poids maximum porté augmenté de Niveau du Hobbit/10 arrondi inférieur
+					$this->view->user->poids_transportable_hobbit = $this->view->user->poids_transportable_hobbit - floor($this->view->user->niveau_hobbit / 10);
+				} else if ($r["nom_type_rune"] == "UP") {
+					$updateHobbit = true;
+					// UP Bonus de SAG = Niveau de SAG/3 arrondi inférieur
+					$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit - floor($this->view->user->sagesse_base_hobbit / 3); 
+				}
+			}
+		}
+		
+		if ($updateHobbit) {
+			$this->majHobbitEffet();
+		}
+	}
+	
+	private function majHobbitEffet() {
+		$hobbitTable = new Hobbit();
+			$data = array(
+				'agilite_bm_hobbit' => $this->view->user->agilite_bm_hobbit,
+				'force_bm_hobbit' => $this->view->user->force_bm_hobbit,
+				'armure_naturelle_hobbit' => $this->view->user->armure_naturelle_hobbit,
+				'vigueur_bm_hobbit' => $this->view->user->vigueur_bm_hobbit,
+				'poids_transportable_hobbit' => $this->view->user->poids_transportable_hobbit,
+				'sagesse_bm_hobbit' => $this->view->user->sagesse_bm_hobbit,
+				'duree_prochain_tour_hobbit' => $this->view->user->duree_prochain_tour_hobbit,
+				'pv_max_bm_hobbit' => $this->view->user->pv_max_bm_hobbit,
+			);
+			$where = "id_hobbit=".$this->view->user->id_hobbit;
+			$hobbitTable->update($data, $where);
+	}
+
 	function getListBoxRefresh() {
 		return array("box_profil", "box_equipement", "box_laban", "box_evenements");
 	}

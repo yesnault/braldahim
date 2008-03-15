@@ -4,7 +4,7 @@ class Bral_Util_ConvertDate {
 
 	private function __construct(){}
 
-	/* Convertit un date mysql vers un date php
+	/* Convertit un date mysql vers une date php
 	 * @return date
 	 */
 	public static function get_date_mysql_datetime($pattern, $pdate) {
@@ -12,7 +12,7 @@ class Bral_Util_ConvertDate {
 		return date($pattern, mktime(0,0,0,$mdate[1],$mdate[2],$mdate[0]));
 	}
 
-	/* Convertit un datetime mysql vers un date php
+	/* Convertit un datetime mysql vers une date php
 	 * @return date
 	 */
 	public static function get_datetime_mysql_datetime($pattern, $pdatetime) {
@@ -109,7 +109,7 @@ class Bral_Util_ConvertDate {
 	public static function get_divise_time_to_time($time, $div) {
 		$time = explode(":", $time);
 			
-		$h = $time[0] * 3600;
+		$h = $time[0] * 3600;	
 		$m = $time[1] * 60;
 		$s = $time[2] * 1;
 		$n = $h + $m + $s;
@@ -131,4 +131,63 @@ class Bral_Util_ConvertDate {
 		return $r;
 	}
 
+	/* Soustrait une heure (H:m:s) a un time mysql et
+	 * retourne le resultat en time
+	 * @return timestamp
+	 */
+	public static function get_time_remove_time_to_time($time, $add_time) {
+		$time = explode(":", $time);
+		$add_time = explode(":", $add_time);
+
+		$h = $time[0] * 3600;	
+		$m = $time[1] * 60;
+		$s = $time[2] * 1;
+		$stime = $h + $m + $s;
+		
+		$h = $add_time[0] * 3600;	
+		$m = $add_time[1] * 60;
+		$s = $add_time[2] * 1;
+		$sadd_time = $h + $m + $s;
+		
+		$seconds = $stime - $sadd_time;
+		
+		$h2 = intval($seconds/3600);
+		$restant = $seconds - ($h2 * 3600);
+		$m2 = intval($restant / 60);
+		$restant = $restant - ($m2 * 60);
+		$s2 = intval($restant);
+		$r = $h2.":".$m2.":".$s2;
+		
+		return $r;
+	}
+	
+	/* Ajoute une heure (H:m:s) a un time mysql et
+	 * retourne le resultat en time
+	 * @return timestamp
+	 */
+	public static function get_time_add_time_to_time($time, $add_time) {
+		$time = explode(":", $time);
+		$add_time = explode(":", $add_time);
+
+		$h = $time[0] * 3600;	
+		$m = $time[1] * 60;
+		$s = $time[2] * 1;
+		$stime = $h + $m + $s;
+		
+		$h = $add_time[0] * 3600;	
+		$m = $add_time[1] * 60;
+		$s = $add_time[2] * 1;
+		$sadd_time = $h + $m + $s;
+		
+		$seconds = $stime + $sadd_time;
+		
+		$h2 = intval($seconds/3600);
+		$restant = $seconds - ($h2 * 3600);
+		$m2 = intval($restant / 60);
+		$restant = $restant - ($m2 * 60);
+		$s2 = intval($restant);
+		$r = $h2.":".$m2.":".$s2;
+		
+		return $r;
+	}
 }

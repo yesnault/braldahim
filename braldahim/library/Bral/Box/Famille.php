@@ -25,7 +25,8 @@ class Bral_Box_Famille {
 		$hobbitTable = new Hobbit();
 	
 		$this->view->pereMereOk = false;
-		if ($this->view->user->id_fk_mere_hobbit != null && $this->view->user->id_fk_pere_hobbit != null) {
+		if ($this->view->user->id_fk_mere_hobbit != null && $this->view->user->id_fk_pere_hobbit != null &&
+			$this->view->user->id_fk_mere_hobbit != 0 && $this->view->user->id_fk_pere_hobbit != 0 ) {
 			$this->view->pereMereOk = true;
 			
 			$hobbitTable = new Hobbit();

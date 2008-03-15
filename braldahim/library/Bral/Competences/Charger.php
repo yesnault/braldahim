@@ -301,12 +301,12 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 				$this->view->fragilisee = true;
 			}
 			$data = array(
-			'castars_hobbit' => $cible["castars_hobbit"],
-			'pv_restant_hobbit' => $pv,
-			'est_mort_hobbit' => $mort,
-			'nb_mort_hobbit' => $nb_mort,
-			'date_fin_tour_hobbit' => date("Y-m-d H:i:s"),
-			'agilite_bm_hobbit' => $cible["agilite_bm_hobbit"],
+				'castars_hobbit' => $cible["castars_hobbit"],
+				'pv_restant_hobbit' => $pv,
+				'est_mort_hobbit' => $mort,
+				'nb_mort_hobbit' => $nb_mort,
+				'date_fin_tour_hobbit' => date("Y-m-d H:i:s"),
+				'agilite_bm_hobbit' => $cible["agilite_bm_hobbit"],
 			);
 			$where = "id_hobbit=".$hobbit->id_hobbit;
 			$hobbitTable->update($data, $where);

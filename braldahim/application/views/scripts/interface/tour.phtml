@@ -20,6 +20,10 @@
 
 	<?php if ($this->is_nouveau_tour): ?>
 		Activation d'un nouveau tour : <br>
+		<? if ($this->jetRegeneration != -1): ?>
+			<br>
+			Vous avez r&eacute;g&eacute;n&eacute;r&eacute; <?=$this->jetRegeneration ?> point<? if ($this->jetRegeneration > 1): echo "s"; endif;?> de vie.<br>
+		<? endif; ?>		
 	<?php elseif ($this->is_update_tour) : ?>
 		Information tour : <br>
 	<?php endif; ?>
@@ -27,10 +31,11 @@
 		<b>Vous avez manqu&eacute; un (ou plusieurs) tours de jeu.</b>  <br>
 	<?php endif; ?>
 	<br>
-	Date limite d'action : <?=$this->user->date_fin_tour_hobbit ?> <br>
+	Points de vie : <?=$this->user->pv_restant_hobbit ?> / <?=($this->config->game->pv_base + $this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) ?>  + <?= $this->user->pv_max_bm_hobbit ?><br>
+	Date limite d'action : <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y &\a\g\r\a\v\e\; H:i:s ',$this->user->date_fin_tour_hobbit);?> <br>
 	Dur&eacute;e du tour : <?=$this->user->duree_courant_tour_hobbit ?> <br>
 	Position dans le tour : <?=$this->user->nom_tour ?> <br>
-	Nombre de Points d'Action : <?=$this->user->pa_hobbit ?>
+	Nombre de Points d'Action : <?=$this->user->pa_hobbit ?><br>
 	
 	<br><br>
 </div>
@@ -54,12 +59,15 @@
 ";
 		endif;
 		 if ($this->is_nouveau_tour): ?>
-Activation d'un nouveau tour <?php endif; ?>
+Activation d'un nouveau tour <?php endif; ?> 
+Vous avez r&eacute;g&eacute;n&eacute;r&eacute; <?=$this->jetRegeneration ?> point<? if ($this->jetRegeneration > 1): echo "s"; endif;?> de vie.
 <?php if ($this->is_tour_manque) : ?>Vous avez manqu&eacute; un (ou plusieurs) tour de jeu<?php endif; ?> 
-Date limite d'action : <?=$this->user->date_fin_tour_hobbit ?> 
+Points de vie : <?=$this->user->pv_restant_hobbit ?> / <?=($this->config->game->pv_base + $this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) ?>  + <?= $this->user->pv_max_bm_hobbit ?> 
+Date limite d'action : <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y &\a\g\r\a\v\e\; H:i:s ',$this->user->date_fin_tour_hobbit);?> 
 Dur&eacute;e du tour : <?=$this->user->duree_courant_tour_hobbit ?> 
 Position dans le tour : <?=$this->user->nom_tour  ?> 
-Nombre de Points d'Action : <?=$this->user->pa_hobbit ?></textarea>
+Nombre de Points d'Action : <?=$this->user->pa_hobbit ?>
+</textarea>
 </div>
 
 <input type='button' class='button1' value='Copier' onClick="javascript:switch2div('tour_text','tour_copie');">
