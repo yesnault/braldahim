@@ -3,73 +3,92 @@
  <div class='comp_contenu'>
 	 <div id='frenesie_text' style="display:block"  onClick="javascript:switch2div('frenesie_text','frenesie_copie');">
 	 <? include("commun_text_resultat.phtml") ?>
-		 Vous avez attaqu&eacute; <?=htmlentities($this->cible["nom_cible"])?> (<?=$this->cible["id_cible"]?>) 
-		 avec fr&eacute;n&eacute;sie :<br><br>
-		 Jet d'attaque : <?=$this->jetAttaquant?><br>
-		 Jet de r&eacute;sistance de la cible : <?=$this->jetCible?><br>
-		 
-	 	<? if ($this->frenesieReussie === true) : ?>
-	 		<? if ($this->jetDegat>1):$s='s'; else:$s=''; endif;?>
-	 		Vous avez inflig&eacute; <?=$this->jetDegat?> point<?=$s?> de d&eacute;gat
-	 		<? if ($this->critique == true): ?>
-	 		en attaque critique
-	 		<? endif; ?>
-	 		<br><br>
-	 		
-	 		<? if ($this->mort): ?>
-	 			Vous avez tu&eacute; <?=htmlentities($this->cible["nom_cible"])?> (<?=$this->cible["id_cible"]?>) N<?=$this->cible["niveau_cible"] ?><br><br>
-	 		<? endif; ?>
-	 		Vous avez gagn&eacute; <?=$this->nb_px?> PX<br><br>
+	 	<? if ($this->okJet1 === true): ?>
+			 Vous avez attaqu&eacute; <?=htmlentities($this->cible["nom_cible"])?> (<?=$this->cible["id_cible"]?>)  N <?=$this->cible["niveau_cible"]?> 
+			 avec fr&eacute;n&eacute;sie :<br><br>
+			 Jet d'attaque : <?=$this->jetAttaquant?><br>
+			 Jet de r&eacute;sistance de la cible : <?=$this->jetCible?><br>
+			 
+		 	<? if ($this->frenesieReussie === true) : ?>
+		 		<? if ($this->jetDegat>1):$s='s'; else:$s=''; endif;?>
+		 		Vous avez inflig&eacute; <?=$this->jetDegat?> point<?=$s?> de d&eacute;g&acirc;t
+		 		<? if ($this->critique == true): ?>
+		 		en attaque critique
+		 		<? endif; ?>
+		 		<br><br>
+		 		
+		 		<? if ($this->mort): ?>
+		 			Vous avez tu&eacute; <?=htmlentities($this->cible["nom_cible"])?> (<?=$this->cible["id_cible"]?>) N<?=$this->cible["niveau_cible"] ?><br><br>
+		 		<? endif; ?>
+		 		Vous avez gagn&eacute; <?=$this->nb_px?> PX<br><br>
+		 		
+		 		<? if ($this->effetRune) :?>
+					Une rune que vous portez a eu de l'effet sur les d&eacute;g&acirc;ts inflig&eacute;s.
+				<? endif; ?>
+				
+		 	<? else: ?>
+		 		Votre attaque a &eacute;t&eacute; esquiv&eacute;e 
+		 		<? if ($this->fragilisee === true) : ?>
+		 		<br> La cible est fragilis&eacute;e pour les prochaines attaques
+		 		<? else: ?>
+		 		parfaitement.
+		 		<? endif; ?>
+		 	<? endif; ?>
 	 	<? else: ?>
-	 		Votre attaque a &eacute;t&eacute; esquiv&eacute;e 
-	 		<? if ($this->fragilisee === true) : ?>
-	 		<br> La cible est fragilis&eacute;e pour les prochaines attaques
-	 		<? else: ?>
-	 		parfaitement.
-	 		<? endif; ?>
-	 	<? endif; ?>
+			Vous avez manqu&eacute; votre fr&eacute;n&eacute;sie.<br>
+		<? endif; ?>
 	 </div>
 	 
 	 <div id='frenesie_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
 		include("commun_copie_resultat.phtml");
-		 echo "Vous avez charg&eacute; ".htmlentities($this->cible["nom_cible"])." (".$this->cible["id_cible"].") N".$this->cible["niveau_cible"];
-		 echo " avec fr&eacute;n&eacute;sie :";
-		 echo "
+		 if ($this->okJet1 === true) {
+			 echo "Vous avez attaqu&eacute; ".htmlentities($this->cible["nom_cible"])." (".$this->cible["id_cible"].") N".$this->cible["niveau_cible"];
+			 echo " avec fr&eacute;n&eacute;sie :";
+			 echo "
 ";
-		 echo "Jet d'attaque : ".$this->jetAttaquant;
-		 echo "
+			 echo "Jet d'attaque : ".$this->jetAttaquant;
+			 echo "
 ";
-		 echo "Jet de r&eacute;sistance de la cible : ".$this->jetCible;
-		 echo "
+			 echo "Jet de r&eacute;sistance de la cible : ".$this->jetCible;
+			 echo "
 ";
-		 
-	 	 if ($this->frenesieReussie === true) {
-	 		if ($this->jetDegat>1):$s='s'; else:$s=''; endif;
-	 		echo "Vous avez inflig&eacute; ".$this->jetDegat." point".$s." de d&eacute;gat ";
-	 		if ($this->critique == true) {
-	 			echo "en attaque critique";
-	 		}
-	 		echo "
+			 
+		 	 if ($this->frenesieReussie === true) {
+		 		if ($this->jetDegat>1):$s='s'; else:$s=''; endif;
+		 		echo "Vous avez inflig&eacute; ".$this->jetDegat." point".$s." de d&eacute;g&acirc;t ";
+		 		if ($this->critique == true) {
+		 			echo "en attaque critique";
+		 		}
+		 		echo "
 ";
-	 		
-	 		if ($this->mort) {
-	 			echo "Vous avez tu&eacute; ".htmlentities($this->cible["nom_cible"])." (". $this->cible["id_cible"].") N".$this->cible["niveau_cible"]." :";
-	 			echo "
+		 		
+		 		if ($this->mort) {
+		 			echo "Vous avez tu&eacute; ".htmlentities($this->cible["nom_cible"])." (". $this->cible["id_cible"].") N".$this->cible["niveau_cible"]." :";
+		 			echo "
 ";
-			}
-	 		echo "Vous avez gagn&eacute; ".$this->nb_px." PX";
-	 	  } else {
-	 	  	echo "Votre attaque a &eacute;t&eacute; esquiv&eacute;e";
-	 	  	
-	 	  	 if ($this->fragilisee === true) {
-	 	  	 	echo "
+				}
+		 		echo "Vous avez gagn&eacute; ".$this->nb_px." PX";
+		 		if ($this->effetRune) {
+					echo "
 ";
-	 		 	echo "La cible est fragilis&eacute;e pour les prochaines attaques";
-	 	  	 } else {
-	 	  	 	echo " parfaitement"
-;	 	  	 }
-	 	  }
+		 			echo "Une rune que vous portez a eu de l'effet sur le nombre de rations pr&eacute;par&eacute;.";
+				}
+		 	  } else {
+		 	  	echo "Votre attaque a &eacute;t&eacute; esquiv&eacute;e";
+		 	  	
+		 	  	 if ($this->fragilisee === true) {
+		 	  	 	echo "
+";
+		 		 	echo "La cible est fragilis&eacute;e pour les prochaines attaques";
+		 	  	 } else {
+		 	  	 	echo " parfaitement";
+		 	  	 }
+		 	 }
+		 } else {
+		 	echo "Vous avez manqu&eacute; votre fr&eacute;n&eacute;sie.";
+		 }
+		
 		?></textarea>
 	</div>
  </div>

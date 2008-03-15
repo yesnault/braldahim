@@ -30,7 +30,7 @@ class Bral_Helper_DetailEquipement {
 	     	 if ($e["suffixe"] != null && $e["suffixe"] != "") {
 	     	 	$text .= "<br>Mot runique associ&eacute; &agrave; ces runes : ".htmlentities($e["suffixe"]);
 	     	 } else {
-	     	 	$text .= "<br>Aucun mot runique associ&eacute; &agrave; ces runes";
+	     	 	$text .= "<br>Aucun mot runique n\'est associ&eacute; &agrave; ces runes";
 	     	 }
     	}
     	$text .= "<br>";

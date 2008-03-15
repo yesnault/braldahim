@@ -3,7 +3,10 @@
  <form name='myForm'>
  <div class='comp_contenu'>
  <?php if ($this->assezDePa == true) : ?>
- 	<? if ($this->nHobbits == 0 && $this->nMonstres == 0): ?>
+ 	
+ 	<? if ($this->frenesieVilleOk == false): ?>
+ 		Vous ne pouvez pas utiliser cette comp&eacute;tence en ville.<br>
+ 	<? elseif ($this->nHobbits == 0 && $this->nMonstres == 0): ?>
  		Il n'y a rien &agrave attaquer ici...<br>
  	<? else: ?>
  		Pour <?=$this->nb_pa?> PA, vous pouvez attaquer :<br><br>
@@ -39,7 +42,7 @@
 
 </form>
 <br>
-<?php if ($this->assezDePa == true) : ?>
+<?php if ($this->assezDePa == true && $this->frenesieVilleOk == true) : ?>
 <input type='button' class='button1' value='Fr&eacute;n&eacute;sie !' id='bouton_frenesie' onClick='this.disabled=true;_get_("/competences/DoAction?caction=do_competence_frenesie");' disabled>
 <? endif ?>
 <? include("commun_fermer.phtml") ?>

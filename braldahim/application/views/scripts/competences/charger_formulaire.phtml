@@ -3,7 +3,10 @@
  <form name='myForm'>
  <div class='comp_contenu'>
  <?php if ($this->assezDePa == true) : ?>
- 	<? if ($this->nHobbits == 0 && $this->nMonstres == 0): ?>
+ 
+ 	<? if ($this->chargerVilleOk == false): ?>
+ 		Vous ne pouvez pas utiliser cette comp&eacute;tence en ville.<br>
+ 	<? elseif ($this->nHobbits == 0 && $this->nMonstres == 0): ?>
  		Il n'y a rien &agrave charger dans votre distance de charge de <?=$this->charge_nb_cases ?> case<?if ($this->charge_nb_cases > 1): echo 's'; endif; ?><br>
  	<? else: ?>
  		Pour <?=$this->nb_pa?> PA, vous pouvez charger &agrave; <?=$this->charge_nb_cases ?> case<?if ($this->charge_nb_cases > 1): echo 's'; endif; ?>.<br><br>
@@ -39,7 +42,7 @@
 
 </form>
 <br>
-<?php if ($this->assezDePa == true) : ?>
+<?php if ($this->assezDePa == true && $this->chargerVilleOk == true) : ?>
 <input type='button' class='button1' value='Charger !' id='bouton_charger' onClick='this.disabled=true;_get_("/competences/DoAction?caction=do_competence_charger");' disabled>
 <? endif ?>
 <? include("commun_fermer.phtml") ?>

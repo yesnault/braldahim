@@ -31,6 +31,16 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass('Palissade');
+		Zend_Loader::loadClass("Ville"); 
+		
+		$villeTable = new Ville();
+		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$this->view->chargerVilleOk = true;
+		
+		if (count($villes) > 0) {
+			$this->view->chargerVilleOk = false;
+			return;
+		}	
 		
 		$commun = new Bral_Util_Commun();
 		
@@ -73,6 +83,10 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			$ydiagonale_haut_bas = $y_max - $i;
 			$tabValide[$xdiagonale_bas_haut][$ydiagonale_bas_haut] = true;
 			$tabValide[$xdiagonale_haut_bas][$ydiagonale_haut_bas] = true;
+			$tabValide[$xdiagonale_bas_haut][$ydiagonale_haut_bas] = true;
+			$tabValide[$xdiagonale_haut_bas][$ydiagonale_bas_haut] = true;
+		//	echo " 1=".$xdiagonale_bas_haut. " ". $ydiagonale_bas_haut;
+		//	echo " 2=".$xdiagonale_haut_bas. " ". $ydiagonale_haut_bas;
 		}
 		// On ne peut pas charger sur une cible qui est sur sa propre case.
 		$tabValide[$this->view->user->x_hobbit][$this->view->user->y_hobbit] = false;
@@ -145,11 +159,11 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		foreach($hobbits as $h) {
 			if ($tabValide[$h["x_hobbit"]][$h["y_hobbit"]] === true) {
 				$tab = array(
-				'id_hobbit' => $h["id_hobbit"],
-				'nom_hobbit' => $h["nom_hobbit"],
-				'prenom_hobbit' => $h["prenom_hobbit"],
-				'x_hobbit' => $h["x_hobbit"],
-				'y_hobbit' => $h["y_hobbit"],
+					'id_hobbit' => $h["id_hobbit"],
+					'nom_hobbit' => $h["nom_hobbit"],
+					'prenom_hobbit' => $h["prenom_hobbit"],
+					'x_hobbit' => $h["x_hobbit"],
+					'y_hobbit' => $h["y_hobbit"],
 				);
 				$tabHobbits[] = $tab;
 			}
@@ -166,12 +180,12 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			}
 			if ($tabValide[$m["x_monstre"]][$m["y_monstre"]] === true) {
 				$tabMonstres[] = array(
-				'id_monstre' => $m["id_monstre"], 
-				'nom_monstre' => $m["nom_type_monstre"], 
-				'taille_monstre' => $m_taille, 
-				'niveau_monstre' => $m["niveau_monstre"],
-				'x_monstre' => $m["x_monstre"],
-				'y_monstre' => $m["y_monstre"],
+					'id_monstre' => $m["id_monstre"], 
+					'nom_monstre' => $m["nom_type_monstre"], 
+					'taille_monstre' => $m_taille, 
+					'niveau_monstre' => $m["niveau_monstre"],
+					'x_monstre' => $m["x_monstre"],
+					'y_monstre' => $m["y_monstre"],
 				);
 			}
 		}
@@ -188,6 +202,10 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 
 	function prepareResultat() {
 		Zend_Loader::loadClass("Bral_Util_De");
+		
+		if ($this->view->chargerVilleOk == false) {
+			throw new Zend_Exception(get_class($this)." Charger interdit ville");
+		}
 		
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
 			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_1"));
@@ -285,7 +303,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			}
 			$this->calculDegat($this->view->critique);
 
-			$pv = $hobbit->pv_restant_hobbit - $this->view->jetDegat;
+			$pv = ($hobbit->pv_restant_hobbit +  + $hobbit->bm_defense_hobbit) - $this->view->jetDegat;
 			$nb_mort = $hobbit->nb_mort_hobbit;
 			if ($pv <= 0) {
 				$pv = 0;
@@ -352,7 +370,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		}
 		$this->view->jetCible = $jetCible + $monstre["agilite_bm_monstre"];
 		
-		$cible = array('nom_cible' => $monstre["nom_type_monstre"]." ".$m_taille, 'id_cible' => $monstre["id_monstre"], 'niveau_cible' => $monstre["niveau_monstre"]);
+		$cible = array('nom_cible' => $monstre["nom_type_monstre"]." ".$m_taille, 'id_cible' => $monstre["id_monstre"], 'niveau_cible' => $monstre["niveau_monstre"], 'x_cible' => $monstre["x_monstre"], 'y_cible' => $monstre["y_monstre"]);
 		$this->view->cible = $cible;
 
 		$this->view->user->x_hobbit = $cible["x_cible"];
@@ -381,8 +399,9 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 				
 				$this->view->mort = false;
 				$data = array(
-				'pv_restant_monstre' => $pv,
-				'agilite_bm_monstre' => $agilite_bm_monstre);
+					'pv_restant_monstre' => $pv,
+					'agilite_bm_monstre' => $agilite_bm_monstre
+				);
 				$where = "id_monstre=".$cible["id_cible"];
 				$monstreTable->update($data, $where);
 			}
@@ -417,8 +436,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		for ($i=1; $i<=$this->view->config->base_agilite + $this->view->user->agilite_base_hobbit; $i++) {
 			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
 		}
-		// TODO rajouter le bonus arme
-		$jetAttaquant = 0.5 * $jetAttaquant + $this->view->user->agilite_bm_hobbit;
+		$jetAttaquant = 0.5 * $jetAttaquant + $this->view->user->agilite_bm_hobbit + $this->view->user->bm_attaque_hobbit;
 		$this->view->jetAttaquant = $jetAttaquant;
 	}
 	
@@ -440,12 +458,11 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		}
 		$jetDegat = $jetDegat + $this->view->user->force_bm_hobbit;
 		
-		for ($i=1; $i<= $this->view->config->game->base_vigueur + $this->view->user->force_vigueur_hobbit; $i++) {
+		for ($i=1; $i<= $this->view->config->game->base_vigueur + $this->view->user->vigueur_base_hobbit; $i++) {
 			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
 		}
-		$jetDegat = $jetDegat + $this->view->user->vigueur_bm_hobbit;
+		$jetDegat = $jetDegat + $this->view->user->vigueur_bm_hobbit + $this->view->user->bm_degat_hobbit;
 		
-		//TODO Rajouter le bonus de degat de l'arme s'il y en a
 		$this->view->jetDegat = $jetDegat;
 	}
 

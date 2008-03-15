@@ -11,6 +11,16 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
+		Zend_Loader::loadClass("Ville"); 
+		
+		$villeTable = new Ville();
+		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$this->view->frenesieVilleOk = true;
+		
+		if (count($villes) > 0) {
+			$this->view->frenesieVilleOk = false;
+			return;
+		}	
 		
 		$tabHobbits = null;
 		$tabMonstres = null;
@@ -20,9 +30,9 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit);
 		foreach($hobbits as $h) {
 			$tab = array(
-			'id_hobbit' => $h["id_hobbit"],
-			'nom_hobbit' => $h["nom_hobbit"],
-			'prenom_hobbit' => $h["prenom_hobbit"],
+				'id_hobbit' => $h["id_hobbit"],
+				'nom_hobbit' => $h["nom_hobbit"],
+				'prenom_hobbit' => $h["prenom_hobbit"],
 			);
 			$tabHobbits[] = $tab;
 		}
@@ -52,6 +62,10 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 	function prepareResultat() {
 		Zend_Loader::loadClass("Bral_Util_De");
 		
+		if ($this->view->frenesieVilleOk == false) {
+			throw new Zend_Exception(get_class($this)." Frenesie interdit ville");
+		}
+		
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
 			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_1"));
 		} else {
@@ -69,7 +83,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		if ($idMonstre == -1 && $idHobbit == -1) {
 			throw new Zend_Exception(get_class($this)." Montre ou Hobbit invalide (==-1)");
 		}
-
+		
 		$attaqueMonstre = false;
 		$attaqueHobbit = false;
 		if ($idHobbit != -1) {
@@ -97,13 +111,18 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 				throw new Zend_Exception(get_class($this)." Monstre invalide (".$idMonstre.")");
 			}
 		}
-
-		if ($attaqueHobbit === true) {
-			$this->attaqueHobbit($idHobbit);
-		} elseif ($attaqueMonstre === true) {
-			$this->attaqueMonstre($idMonstre);
-		} else {
-			throw new Zend_Exception(get_class($this)." Erreur inconnue");
+	
+		// calcul des jets
+		$this->calculJets();
+		
+		if ($this->view->okJet1 === true) {
+			if ($attaqueHobbit === true) {
+				$this->attaqueHobbit($idHobbit);
+			} elseif ($attaqueMonstre === true) {
+				$this->attaqueMonstre($idMonstre);
+			} else {
+				throw new Zend_Exception(get_class($this)." Erreur inconnue");
+			}
 		}
 
 		$this->calculPx();
@@ -145,7 +164,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			}
 			$this->calculDegat($this->view->critique);
 
-			$pv = $hobbit->pv_restant_hobbit - $this->view->jetDegat;
+			$pv = ($hobbit->pv_restant_hobbit + $hobbit->bm_defense_hobbit) - $this->view->jetDegat;
 			$nb_mort = $hobbit->nb_mort_hobbit;
 			if ($pv <= 0) {
 				$pv = 0;
@@ -161,12 +180,12 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 				$this->view->fragilisee = true;
 			}
 			$data = array(
-			'castars_hobbit' => $cible["castars_hobbit"],
-			'pv_restant_hobbit' => $pv,
-			'est_mort_hobbit' => $mort,
-			'nb_mort_hobbit' => $nb_mort,
-			'date_fin_tour_hobbit' => date("Y-m-d H:i:s"),
-			'agilite_bm_hobbit' => $cible["agilite_bm_hobbit"],
+				'castars_hobbit' => $cible["castars_hobbit"],
+				'pv_restant_hobbit' => $pv,
+				'est_mort_hobbit' => $mort,
+				'nb_mort_hobbit' => $nb_mort,
+				'date_fin_tour_hobbit' => date("Y-m-d H:i:s"),
+				'agilite_bm_hobbit' => $cible["agilite_bm_hobbit"],
 			);
 			$where = "id_hobbit=".$hobbit->id_hobbit;
 			$hobbitTable->update($data, $where);
@@ -239,8 +258,9 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 				
 				$this->view->mort = false;
 				$data = array(
-				'pv_restant_monstre' => $pv,
-				'agilite_bm_monstre' => $agilite_bm_monstre);
+					'pv_restant_monstre' => $pv,
+					'agilite_bm_monstre' => $agilite_bm_monstre
+				);
 				$where = "id_monstre=".$cible["id_cible"];
 				$monstreTable->update($data, $where);
 			}
@@ -273,30 +293,44 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		for ($i=1; $i<=$this->view->config->base_agilite + $this->view->user->agilite_base_hobbit; $i++) {
 			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
 		}
-		// TODO ajouter bonus arme att
-		$jetAttaquant = (0.5 * $jetAttaquant) + $this->view->user->agilite_bm_hobbit;
+		$jetAttaquant = (0.5 * $jetAttaquant) + $this->view->user->agilite_bm_hobbit + $this->view->user->bm_attaque_hobbit;
 		$this->view->jetAttaquant = $jetAttaquant;
 	}
 
-	// * dégats : 0.5*(jet FOR)+BM FOR+ bonus arme dégats
- 	// * dégats critiques : (1.5*(0.5*FOR))+BM FOR+bonus arme dégats
+
 	private function calculDegat($estCritique) {
+		Zend_Loader::loadClass('Bral_Util_Commun');
+		$commun = new Bral_Util_Commun();
+		$this->view->effetRune = false;
+		
 		$jetDegat = 0;
 		$coefCritique = 1;
 		if ($estCritique === true) {
 			$coefCritique = 1.5;
 		}
-		
+			
 		for ($i=1; $i<= ($this->view->config->game->base_force + $this->view->user->force_base_hobbit); $i++) {
 			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
 		}
-		//TODO Rajouter le bonus de degat de l'arme s'il y en a
-		$jetDegat = $coefCritique * (0.5 * $jetDegat) + $this->view->user->force_bm_hobbit;
+		if ($commun->isRunePortee($this->view->user->id_hobbit, "EM")) { 
+			$this->view->effetRune = true;
+			// dégats : Jet FOR + BM + Bonus de dégat de l'arme
+			// dégats critiques : Jet FOR *1,5 + BM + Bonus de l'arme
+			$jetDegat = $coefCritique * $jetDegat;
+		} else {
+			// * dégats : 0.5*(jet FOR)+BM FOR+ bonus arme dégats
+ 			// * dégats critiques : (1.5*(0.5*FOR))+BM FOR+bonus arme dégats
+			$jetDegat = $coefCritique * (0.5 * $jetDegat);
+		}
+		$jetDegat = $coefCritique * (0.5 * $jetDegat) + $this->view->user->force_bm_hobbit + $this->view->user->bm_degat_hobbit;
+		
 		$this->view->jetDegat = $jetDegat;
 	}
 
 	public function calculPx() {
 		parent::calculPx();
+			
+		$this->view->nb_px_commun = 0;
 		$this->view->calcul_px_generique = false;
 
 		if ($this->view->attaqueReussie === true) {

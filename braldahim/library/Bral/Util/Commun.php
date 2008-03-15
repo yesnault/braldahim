@@ -63,18 +63,33 @@ class Bral_Util_Commun {
 	/*
 	 * Regarde si la rune de @param est portée
 	 */
-	public function isRunePortee($id_hobbit, $nom_type_rune) {
+	public function isRunePortee($idHobbit, $nomTypeRune) {
 		$retour = false;
 		Zend_Loader::loadClass("HobbitEquipement");
 		$hobbitEquipementTable = new HobbitEquipement();
-		$runesRowset = $hobbitEquipementTable->findRunesOnly($id_hobbit);
+		$runesRowset = $hobbitEquipementTable->findRunesOnly($idHobbit);
 		
 		if ($runesRowset != null && count($runesRowset) > 0) {
 			foreach ($runesRowset as $r) {
-				if ($r["nom_type_rune"] == $nom_type_rune) {
+				if ($r["nom_type_rune"] == $nomTypeRune) {
 					$retour = true;
 					break;
 				}
+			}
+		}
+		return $retour;
+	}
+	
+	public function getEquipementByIdMot($idHobbit, $idMot) {
+		$retour = null;
+		Zend_Loader::loadClass("HobbitEquipement");
+		$hobbitEquipementTable = new HobbitEquipement();
+		$equipementRowset = $hobbitEquipementTable->findByIdMot($id_hobbit);
+		
+		if ($equipementRowset != null && count($equipementRowset) > 0) {
+			foreach ($equipementRowset as $e) {
+				$retour = $e;
+				break;
 			}
 		}
 		return $retour;
