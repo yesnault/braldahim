@@ -103,6 +103,7 @@ class Bral_Box_Equipement {
 						"bm_attaque" => $e["bm_attaque_recette_equipement"],
 						"bm_degat" => $e["bm_degat_recette_equipement"],
 						"bm_defense" => $e["bm_defense_recette_equipement"],
+						"suffixe" => $e["suffixe_mot_runique"],
 						"runes" => $runes,
 				);
 				$this->equipementPorte[] = $equipement;

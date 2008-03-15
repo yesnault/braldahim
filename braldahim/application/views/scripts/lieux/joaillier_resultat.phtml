@@ -18,6 +18,13 @@
 	 	<img id="item_<?=$k ?>" class="rune" src="/public/images/runes/<?=$v["image_type_rune"]?>" title="<?=$v["nom_type_rune"]?>" alt="<?=$v["nom_type_rune"] ?>"/>
 	 <? endforeach ?>
 	 <br><br>
+	 <? if ($this->suffixe != "") :?>
+	 	Vous avez trouv&eacute; un mot runique : <?=htmlentities($this->suffixe) ?><br>
+	 	L'&eacute;quipement est devenu : <?=htmlentities($this->equipementCourant["nom"]) ?> <?=htmlentities($this->suffixe) ?>
+	 <? else: ?>
+	 	Aucun mot runique n'est associ&eacute; &agrave; ce sertissage
+	 <? endif; ?>
+	 <br><br>
 	 Faites-en bon usage...<br><br>
 	 
 	 </div>
@@ -44,6 +51,17 @@
 	 			echo $v["nom_type_rune"] . " "; 
 	 		endforeach;
 			echo "
+";
+			if ($this->suffixe != "") {
+	 			echo "Vous avez trouv&eacute; un mot runique : ".htmlentities($this->suffixe);
+	 			echo "
+";
+	 			echo "L'&eacute;quipement est devenu : ".($this->equipementCourant["nom"])." ";
+	 			echo htmlentities($this->suffixe);
+			} else {
+	 			echo "Aucun mot runique n'est associ&eacute; &agrave; ce sertissage";
+	 		}
+	 		echo "
 ";
 			echo "Faites-en bon usage...";
 		?></textarea>

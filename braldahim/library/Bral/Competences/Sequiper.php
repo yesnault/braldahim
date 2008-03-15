@@ -89,6 +89,8 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					"bm_attaque" => $e["bm_attaque_recette_equipement"],
 					"bm_degat" => $e["bm_degat_recette_equipement"],
 					"bm_defense" => $e["bm_defense_recette_equipement"],
+					"suffixe" => $e["suffixe_mot_runique"],
+					"id_fk_mot_runique" => $e["id_fk_mot_runique_hequipement"],
 					"runes" => $runes,
 			);
 			$this->equipementPorte[] = $equipement;
@@ -112,7 +114,8 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					"id_type_emplacement" => $e["id_type_emplacement"],
 					"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
 					"nb_runes" => $e["nb_runes_laban_equipement"],
-					"id_fk_recette_equipement" => $e["id_fk_recette_laban_equipement"]
+					"id_fk_recette_equipement" => $e["id_fk_recette_laban_equipement"],
+					"id_fk_mot_runique" => $e["id_fk_mot_runique_laban_equipement"],
 			);
 			$this->equipementLaban[] = $equipement;
 			$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["equipementLaban"][] = $equipement;
@@ -231,6 +234,9 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 				}
 			}
 			$this->calculTransfertVersEquipement($equipement);
+			
+			// TODO Calcul des BM attaque, BM Defense, BM Degat, BM armure, BM Force, BM Vigueur, BM Sagesse, 
+			// et ARM equipement
 		} else { // destination laban
 			$this->calculTransfertVersLaban($equipement);
 		}
@@ -245,6 +251,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 			'id_fk_recette_hequipement' => $equipement["id_fk_recette_equipement"],
 			'id_fk_hobbit_hequipement' => $this->view->user->id_hobbit,
 			'nb_runes_hequipement' => $equipement["nb_runes"],
+			'id_fk_mot_runique_hequipement' => $equipement["id_fk_mot_runique"],
 		);
 		$hobbitEquipementTable->insert($data);
 		
@@ -262,6 +269,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 			'id_fk_recette_laban_equipement' => $equipement["id_fk_recette_equipement"],
 			'id_fk_hobbit_laban_equipement' => $this->view->user->id_hobbit,
 			'nb_runes_laban_equipement' => $equipement["nb_runes"],
+			'id_fk_mot_runique_laban_equipement' => $equipement["id_fk_mot_runique"],
 		);
 		$labanEquipementTable->insert($data);
 		

@@ -95,7 +95,7 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 			default:
 				throw new Zend_Exception(get_class($this)." Valeur invalide : val=".$this->request->get("valeur_1"));
 		}
-
+		
 		$this->majHobbit();
 	}
 
