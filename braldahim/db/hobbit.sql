@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Sam 15 Mars 2008 à 00:01
+-- Généré le : Dim 16 Mars 2008 à 20:16
 -- Version du serveur: 5.0.41
 -- Version de PHP: 5.2.3
 
@@ -48,6 +48,7 @@ CREATE TABLE `hobbit` (
   `vigueur_base_hobbit` int(11) NOT NULL,
   `vigueur_bm_hobbit` int(11) NOT NULL,
   `regeneration_hobbit` int(11) NOT NULL,
+  `regeneration_malus_hobbit` int(11) NOT NULL,
   `px_perso_hobbit` int(11) NOT NULL default '0',
   `px_commun_hobbit` int(11) NOT NULL,
   `px_base_niveau_hobbit` int(11) NOT NULL default '0',
@@ -62,6 +63,7 @@ CREATE TABLE `hobbit` (
   `poids_transportable_hobbit` int(11) NOT NULL,
   `castars_hobbit` int(11) NOT NULL,
   `pv_restant_hobbit` int(11) NOT NULL,
+  `pv_max_bm_hobbit` int(11) NOT NULL,
   `est_mort_hobbit` enum('oui','non') NOT NULL default 'non',
   `nb_mort_hobbit` int(11) NOT NULL default '0',
   `nb_kill_hobbit` int(11) NOT NULL default '0',
@@ -72,4 +74,4 @@ CREATE TABLE `hobbit` (
   PRIMARY KEY  (`id_hobbit`),
   UNIQUE KEY `email_hobbit` (`email_hobbit`),
   KEY `idx_x_hobbit_y_hobbit` (`x_hobbit`,`y_hobbit`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tables des Hobbits' AUTO_INCREMENT=1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tables des Hobbits' AUTO_INCREMENT=1 ;

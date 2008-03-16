@@ -147,13 +147,21 @@ class Bral_Monstres_VieMonstre {
 		Bral_Util_Log::tech()->debug(get_class($this)." - Jets : attaque=".$jetAttaquant. " resistance=".$jetCible."");
 		if ($jetAttaquant > $jetCible) {
 			$critique = false;
-			if ($jetAttaquant / 2 > $jetCible ) {
-				$critique = true;
+			if ($jetAttaquant / 2 > $jetCible) {
+				if ($commun->getEffetMotX($hobbit->id_hobbit) == true) {
+					$critique = false;
+				} else {
+					$critique = true;
+				}
 			}
 			$this->calculDegat($critique);
 			$jetDegat = $this->calculDegat();
-
-			$cible["pv_restant_hobbit"] = $cible["pv_restant_hobbit"] - $jetDegat;
+			
+			Zend_Loader::loadClass('Bral_Util_Commun');
+			$commun = new Bral_Util_Commun();
+			$jetDegat = $commun->getEffetMotA($cible["id_hobbit"], $jetDegat);
+			
+			$cible["pv_restant_hobbit"] = ($cible["pv_restant_hobbit"] + $cible["bm_defense_hobbit"]) - $jetDegat;
 			$nb_kills = $this->monstre["nb_kill_monstre"];
 			$nb_morts = $cible["nb_mort_hobbit"];
 			if ($cible["pv_restant_hobbit"]  <= 0) {
@@ -163,7 +171,7 @@ class Bral_Monstres_VieMonstre {
 				$cible["est_mort_hobbit"] = "oui";
 				$id_type_evenement = self::$config->game->evenements->type->kill;
 				$id_type_evenement_cible = self::$config->game->evenements->type->mort;
-				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a tué le hobbit ".$cible["prenom_hobbit"] ." ". $cible["nom_hobbit"]." (".$cible["id_hobbit"] . ")";
+				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a tué le hobbit ".$cible["prenom_hobbit"] ." ". $cible["nom_hobbit"]." (".$cible["id_hobbit"].")";
 				$this->majEvenements(null, $this->monstre["id_monstre"], $id_type_evenement, $details);
 				$this->majEvenements($cible["id_hobbit"], null, $id_type_evenement_cible, $details);
 				$mortCible = true;

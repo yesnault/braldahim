@@ -309,9 +309,9 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 			Zend_Loader::loadClass("Echoppe");
 			$echoppeTable = new Echoppe();
 			$data = array(
-			'quantite_cuir_arriere_echoppe' => $this->echoppeCourante["quantite_cuir_arriere_echoppe"],
-			'quantite_fourrure_arriere_echoppe' => $this->echoppeCourante["quantite_fourrure_arriere_echoppe"],
-			'quantite_planche_arriere_echoppe' => $this->echoppeCourante["quantite_planche_arriere_echoppe"],
+				'quantite_cuir_arriere_echoppe' => $this->echoppeCourante["quantite_cuir_arriere_echoppe"],
+				'quantite_fourrure_arriere_echoppe' => $this->echoppeCourante["quantite_fourrure_arriere_echoppe"],
+				'quantite_planche_arriere_echoppe' => $this->echoppeCourante["quantite_planche_arriere_echoppe"],
 			);
 			$echoppeTable->update($data, 'id_echoppe = '.$this->echoppeCourante["id_echoppe"]);
 				
@@ -323,10 +323,10 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 			Zend_Loader::loadClass("EchoppeEquipement");
 			$echoppeEquipementTable = new EchoppeEquipement();
 			$data = array(
-			'id_fk_echoppe_echoppe_equipement' => $this->idEchoppe,
-			'id_fk_recette_echoppe_equipement' => $id_fk_recette_equipement,
-			'nb_runes_echoppe_equipement' => $nbRunes,
-			'type_vente_echoppe_equipement' => 'aucune',
+				'id_fk_echoppe_echoppe_equipement' => $this->idEchoppe,
+				'id_fk_recette_echoppe_equipement' => $id_fk_recette_equipement,
+				'nb_runes_echoppe_equipement' => $nbRunes,
+				'type_vente_echoppe_equipement' => 'aucune',
 			);
 			$echoppeEquipementTable->insert($data);
 		} else {

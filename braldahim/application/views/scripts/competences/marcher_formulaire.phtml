@@ -11,12 +11,17 @@
  <?php endif; ?>
 <br><br>
 
+
 <?php if ($this->assezDePa == false) : ?>
  Vous n'avez pas assez de PA
 <?php else : ?>
 	<?php if ($this->marcherPossible == false) : ?>
  		Vous &ecirc;tes entour&eacute;, vous ne pouvez pas marcher !
   	<?php endif; ?>
+  
+  <? if ($this->effetMot == true) : ?>
+  	Votre &eacute;quipement a de l'effet sur le co&ucirc;t en PA ou sur le nombre de cases possible.<br><br>
+  <? endif; ?>
   
   <table align='center'>
    <tr>

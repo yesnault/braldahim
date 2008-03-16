@@ -225,11 +225,11 @@ class Bral_Monstres_VieGroupesNuee {
 		Bral_Util_Log::tech()->trace(get_class($this)." - updateGroupe - enter");
 		$groupeMonstreTable = new GroupeMonstre();
 		$data = array(
-		"id_fk_hobbit_cible_groupe_monstre" => $groupe["id_fk_hobbit_cible_groupe_monstre"],
-		"id_role_a_groupe_monstre" => $groupe["id_role_a_groupe_monstre"],
-		"x_direction_groupe_monstre" => $groupe["x_direction_groupe_monstre"],
-		"y_direction_groupe_monstre" => $groupe["y_direction_groupe_monstre"],
-		"date_fin_tour_groupe_monstre" => $groupe["date_fin_tour_groupe_monstre"],
+			"id_fk_hobbit_cible_groupe_monstre" => $groupe["id_fk_hobbit_cible_groupe_monstre"],
+			"id_role_a_groupe_monstre" => $groupe["id_role_a_groupe_monstre"],
+			"x_direction_groupe_monstre" => $groupe["x_direction_groupe_monstre"],
+			"y_direction_groupe_monstre" => $groupe["y_direction_groupe_monstre"],
+			"date_fin_tour_groupe_monstre" => $groupe["date_fin_tour_groupe_monstre"],
 		);
 		$where = "id_groupe_monstre=".$groupe["id_groupe_monstre"];
 		$groupeMonstreTable->update($data, $where);

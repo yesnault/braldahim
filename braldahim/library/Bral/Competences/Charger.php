@@ -76,6 +76,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 				$tabValide[$this->view->user->x_hobbit][$j] = true;
 			}
 		}
+		
 		for ($i = 0 ; $i <= $this->view->charge_nb_cases ; $i++) {
 			$xdiagonale_bas_haut = $x_min + $i;
 			$xdiagonale_haut_bas = $x_max - $i;
@@ -85,9 +86,8 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			$tabValide[$xdiagonale_haut_bas][$ydiagonale_haut_bas] = true;
 			$tabValide[$xdiagonale_bas_haut][$ydiagonale_haut_bas] = true;
 			$tabValide[$xdiagonale_haut_bas][$ydiagonale_bas_haut] = true;
-		//	echo " 1=".$xdiagonale_bas_haut. " ". $ydiagonale_bas_haut;
-		//	echo " 2=".$xdiagonale_haut_bas. " ". $ydiagonale_haut_bas;
 		}
+		
 		// On ne peut pas charger sur une cible qui est sur sa propre case.
 		$tabValide[$this->view->user->x_hobbit][$this->view->user->y_hobbit] = false;
 		
@@ -253,14 +253,17 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		$this->calculJets();
 		if ($this->view->okJet1 === true) {
 			if ($attaqueHobbit === true) {
-				$this->chargeHobbit($idHobbit);
+				$this->view->attaqueReussie = $this->attaqueHobbit($idHobbit);
 			} elseif ($attaqueMonstre === true) {
-				$this->chargeMonstre($idMonstre);
+				$this->view->attaqueReussie = $this->attaqueMonstre($idMonstre);
 			} else {
 				throw new Zend_Exception(get_class($this)." Erreur inconnue");
 			}
+			/* on va à la position de la cible. */
+			$this->view->user->x_hobbit = $this->view->cible["x_cible"];
+			$this->view->user->y_hobbit = $this->view->cible["y_cible"];
 		}
-
+		
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
@@ -270,168 +273,10 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		return array("box_profil", "box_competences_metiers", "box_vue", "box_lieu", "box_evenements");
 	}
 
-	private function chargeHobbit($idHobbit) {
-		Zend_Loader::loadClass("Bral_Util_De");
-
-		$this->view->chargeReussie = false;
-		$this->calculJetAttaque();
-
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($idHobbit);
-		$hobbit = $hobbitRowset->current();
-
-		$jetCible = 0;
-		for ($i=1; $i<=$this->view->config->base_agilite + $hobbit->agilite_base_hobbit; $i++) {
-			$jetCible = $jetCible + Bral_Util_De::get_1d6();
-		}
-		$this->view->jetCible = $jetCible + $hobbit->agilite_bm_hobbit;
-
-		$cible = array('nom_cible' => $hobbit->prenom_hobbit. " ". $hobbit->nom_hobbit, 'id_cible' => $hobbit->id_hobbit, 'x_cible' => $hobbit->x_hobbit, 'y_cible' => $hobbit->y_hobbit,'niveau_cible' =>$hobbit->niveau_hobbit, 'castars_hobbit' => $hobbit->castars_hobbit, 'agilite_bm_hobbit' => $hobbit->agilite_bm_hobbit);
-		$this->view->cible = $cible;
-	
-		$this->view->user->x_hobbit = $cible["x_cible"];
-		$this->view->user->y_hobbit = $cible["y_cible"];
-			
-		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
-		if ($this->view->jetAttaquant > $this->view->jetCible) {
-			$this->view->critique = false;
-			$this->view->fragilisee = false;
-			$this->view->chargeReussie = true;
-			
-			if ($this->view->jetAttaquant / 2 > $this->view->jetCible ) {
-				$this->view->critique = true;
-			}
-			$this->calculDegat($this->view->critique);
-
-			$pv = ($hobbit->pv_restant_hobbit +  + $hobbit->bm_defense_hobbit) - $this->view->jetDegat;
-			$nb_mort = $hobbit->nb_mort_hobbit;
-			if ($pv <= 0) {
-				$pv = 0;
-				$mort = "oui";
-				$nb_mort = $nb_mort + 1;
-				$this->view->user->nb_kill_hobbit = $this->view->user->nb_kill_hobbit + 1;
-				$this->view->mort = true;
-				$this->dropHobbitCastars($cible);
-			} else {
-				$cible["agilite_bm_hobbit"]  = $cible["agilite_bm_hobbit"] - $cible["niveau_hobbit"];
-				$mort = "non";
-				$this->view->mort = false;
-				$this->view->fragilisee = true;
-			}
-			$data = array(
-				'castars_hobbit' => $cible["castars_hobbit"],
-				'pv_restant_hobbit' => $pv,
-				'est_mort_hobbit' => $mort,
-				'nb_mort_hobbit' => $nb_mort,
-				'date_fin_tour_hobbit' => date("Y-m-d H:i:s"),
-				'agilite_bm_hobbit' => $cible["agilite_bm_hobbit"],
-			);
-			$where = "id_hobbit=".$hobbit->id_hobbit;
-			$hobbitTable->update($data, $where);
-		} else if ($this->view->jetCible/2 < $this->view->jetAttaquant) {
-			$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - ( floor($cible["niveau_hobbit"] / 10) + 1 );
-			$data = array('agilite_bm_hobbit' => $cible["agilite_bm_hobbit"]);
-			$where = "id_hobbit=".$cible["id_cible"];
-			$hobbitTable->update($data, $where);
-			$this->view->mort = false;
-			$this->view->fragilisee = true;
-		}
-
-		$id_type = $this->view->config->game->evenements->type->attaquer;
-		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") N".$this->view->user->niveau_hobbit." a attaqué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"]."";
-		$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
-		$this->majEvenements($cible["id_cible"], $id_type, $details);
-
-		if ($this->view->mort === true) {
-			$id_type = $this->view->config->game->evenements->type->kill;
-			$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") N".$this->view->user->niveau_hobbit." a tué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
-			$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
-			$id_type = $this->view->config->game->evenements->type->mort;
-			$this->majEvenements($cible["id_cible"], $id_type, $details);
-		}
-	}
-
-	private function chargeMonstre($idMonstre) {
-		$this->calculJetAttaque();
-
-		$monstreTable = new Monstre();
-		$monstreRowset = $monstreTable->findById($idMonstre);
-		$monstre = $monstreRowset;
-
-		if ($monstre["genre_type_monstre"] == 'feminin') {
-			$m_taille = $monstre["nom_taille_f_monstre"];
-		} else {
-			$m_taille = $monstre["nom_taille_m_monstre"];
-		}
-			
-		$jetCible = 0;
-		for ($i=1; $i <= $monstre["agilite_base_monstre"]; $i++) {
-			$jetCible = $jetCible + Bral_Util_De::get_1d6();
-		}
-		$this->view->jetCible = $jetCible + $monstre["agilite_bm_monstre"];
-		
-		$cible = array('nom_cible' => $monstre["nom_type_monstre"]." ".$m_taille, 'id_cible' => $monstre["id_monstre"], 'niveau_cible' => $monstre["niveau_monstre"], 'x_cible' => $monstre["x_monstre"], 'y_cible' => $monstre["y_monstre"]);
-		$this->view->cible = $cible;
-
-		$this->view->user->x_hobbit = $cible["x_cible"];
-		$this->view->user->y_hobbit = $cible["y_cible"];
-			
-		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
-		if ($this->view->jetAttaquant > $this->view->jetCible) {
-			$this->view->critique = false;
-			$this->view->fragilisee = false;
-			$this->view->chargeReussie = true;
-			
-			if ($this->view->jetAttaquant / 2 > $this->view->jetCible ) {
-				$this->view->critique = true;
-			}
-			$this->calculDegat($this->view->critique);
-			
-			$pv = $monstre["pv_restant_monstre"] - $this->view->jetDegat;
-			
-			if ($pv <= 0) {
-				$this->view->mort = true;
-				$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
-				$vieMonstre->mortMonstreDb($cible["id_cible"]);
-			} else {
-				$agilite_bm_monstre = $monstre["agilite_bm_monstre"] - $monstre["niveau_monstre"];
-				$this->view->fragilisee = true;
-				
-				$this->view->mort = false;
-				$data = array(
-					'pv_restant_monstre' => $pv,
-					'agilite_bm_monstre' => $agilite_bm_monstre
-				);
-				$where = "id_monstre=".$cible["id_cible"];
-				$monstreTable->update($data, $where);
-			}
-		} else if ($this->view->jetCible/2 < $this->view->jetAttaquant) {
-			$agilite_bm_monstre = $monstre["agilite_bm_monstre"] - ( floor($monstre["niveau_monstre"] / 10) + 1 );
-			$this->view->mort = false;
-			$data = array('agilite_bm_monstre' => $agilite_bm_monstre);
-			$where = "id_monstre=".$cible["id_cible"];
-			$monstreTable->update($data, $where);
-			$this->view->fragilisee = true;
-		}
-
-		$id_type = $this->view->config->game->evenements->type->attaquer;
-		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") N".$this->view->user->niveau_hobbit." a attaqué le monstre ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
-		$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
-		$this->majEvenements($cible["id_cible"], $id_type, $details, "monstre");
-		
-		if ($this->view->mort === true) {
-			$id_type = $this->view->config->game->evenements->type->kill;
-			$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") N".$this->view->user->niveau_hobbit." a tué le monstre ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
-			$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
-			$id_type = $this->view->config->game->evenements->type->mort;
-			$this->majEvenements($cible["id_cible"], $id_type, $details, "monstre");
-		}
-	}
-
 	/*
 	 * Le jet d'attaque d'une charge est différent : (0.5 jet AGI) + BM + bonus arme
 	 */
-	private function calculJetAttaque() {
+	protected function calculJetAttaque() {
 		$jetAttaquant = 0;
 		for ($i=1; $i<=$this->view->config->base_agilite + $this->view->user->agilite_base_hobbit; $i++) {
 			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
@@ -446,7 +291,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 	 * cas du critique :
 	 * 1.5(jet FOR) + BM FOR + bonus arme + jet VIG + BM VIG
 	 */
-	private function calculDegat($estCritique) {
+	protected function calculDegat($estCritique) {
 		$jetDegat = 0;
 		$coefCritique = 1;
 		if ($estCritique === true) {
@@ -461,7 +306,11 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		for ($i=1; $i<= $this->view->config->game->base_vigueur + $this->view->user->vigueur_base_hobbit; $i++) {
 			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
 		}
-		$jetDegat = $jetDegat + $this->view->user->vigueur_bm_hobbit + $this->view->user->bm_degat_hobbit;
+		
+		$commun = new Bral_Util_Commun();
+		$bm_degat_hobbit = $commun->getEffetMotG($this->view->user->id_hobbit, $this->view->user->bm_degat_hobbit);
+		
+		$jetDegat = $jetDegat + $this->view->user->vigueur_bm_hobbit + $bm_degat_hobbit;
 		
 		$this->view->jetDegat = $jetDegat;
 	}
@@ -470,7 +319,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		parent::calculPx();
 		$this->view->calcul_px_generique = false;
 
-		if ($this->view->chargeReussie === true) {
+		if ($this->view->attaqueReussie === true) {
 			$this->view->nb_px_perso = $this->view->nb_px_perso + 1;
 		}
 

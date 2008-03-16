@@ -80,17 +80,100 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 	
-	public function getEquipementByIdMot($idHobbit, $idMot) {
+	public function getEquipementByNomSystemeMot($idHobbit, $nomSystemeMot) {
 		$retour = null;
 		Zend_Loader::loadClass("HobbitEquipement");
 		$hobbitEquipementTable = new HobbitEquipement();
-		$equipementRowset = $hobbitEquipementTable->findByIdMot($id_hobbit);
+		$equipementRowset = $hobbitEquipementTable->findByNomSystemeMot($idHobbit, $nomSystemeMot);
 		
 		if ($equipementRowset != null && count($equipementRowset) > 0) {
 			foreach ($equipementRowset as $e) {
 				$retour = $e;
 				break;
 			}
+		}
+		return $retour;
+	}
+	
+	public function ajouteEffetMotR($idHobbit) {
+		Zend_Loader::loadClass("HobbitsCompetences");
+		$hobbitsCompetencesTables = new HobbitsCompetences();
+		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($idHobbit);
+		foreach($hobbitCompetences as $c) {
+			if ($c["type_competence"] == "metier") {
+				$data = array("pourcentage_hcomp" => $c["pourcentage_hcomp"] + 2);
+				$where = array("id_fk_hobbit_hcomp = ".intval($idHobbit). " AND id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]);
+				$hobbitsCompetencesTables->update($data, $where);
+			}
+		}
+	}
+	
+	public function retireEffetMotR($idHobbit) {
+		Zend_Loader::loadClass("HobbitsCompetences");
+		$hobbitsCompetencesTables = new HobbitsCompetences();
+		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($idHobbit);
+		foreach($hobbitCompetences as $c) {
+			if ($c["type_competence"] == "metier") {
+				$data = array("pourcentage_hcomp" => $c["pourcentage_hcomp"] - 2);
+				$where = array("id_fk_hobbit_hcomp = ".intval($idHobbit). " AND id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]);
+				$hobbitsCompetencesTables->update($data, $where);
+			}
+		}
+	}
+	
+	public function getEffetMotA($idHobbit, $jetDegat) {
+		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_a");
+		if ($equipement != null) {
+			if ($jetDegat > $equipementCible["niveau_recette_equipement"]) {
+				$jetDegat = $equipementCible["niveau_recette_equipement"];
+			}
+		}
+		return $jetDegat;
+	}
+	
+	public function getEffetMotG($idHobbit, $bmDegat) {
+		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_g");
+		if ($equipement != null) {
+			if ($bmDegat < 0) {
+				$bmDegat = $bmDegat / 2;
+			} else {
+				$bmDegat = $bmDegat * 2;
+			}
+		}
+		return $bmDegat;
+	}
+	
+	public function getEffetMotI($idHobbit, $regeneration) {
+		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_i");
+		if ($equipement != null) {
+			$regeneration = $regeneration - $equipement["niveau_recette_equipement"];
+		}
+		return $regeneration;
+	}
+	
+	public function getEffetMotJ($idHobbit) {
+		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_j");
+		$retour = 0;
+		if ($equipement != null) {
+			$retour = - $equipementCible["niveau_recette_equipement"];
+		}
+		return $retour;
+	}
+	
+	public function getEffetMotQ($idHobbit) {
+		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_q");
+		$retour = 0;
+		if ($equipement != null) {
+			$retour = - $equipementCible["niveau_recette_equipement"];
+		}
+		return $retour;
+	}
+	
+	public function getEffetMotX($idHobbit) {
+		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_x");
+		$retour = false;
+		if ($equipement != null) {
+			$retour = true;
 		}
 		return $retour;
 	}

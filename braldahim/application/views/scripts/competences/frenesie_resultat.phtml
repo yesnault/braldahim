@@ -9,7 +9,7 @@
 			 Jet d'attaque : <?=$this->jetAttaquant?><br>
 			 Jet de r&eacute;sistance de la cible : <?=$this->jetCible?><br>
 			 
-		 	<? if ($this->frenesieReussie === true) : ?>
+		 	<? if ($this->attaqueReussie === true) : ?>
 		 		<? if ($this->jetDegat>1):$s='s'; else:$s=''; endif;?>
 		 		Vous avez inflig&eacute; <?=$this->jetDegat?> point<?=$s?> de d&eacute;g&acirc;t
 		 		<? if ($this->critique == true): ?>
@@ -54,7 +54,7 @@
 			 echo "
 ";
 			 
-		 	 if ($this->frenesieReussie === true) {
+		 	 if ($this->attaqueReussie === true) {
 		 		if ($this->jetDegat>1):$s='s'; else:$s=''; endif;
 		 		echo "Vous avez inflig&eacute; ".$this->jetDegat." point".$s." de d&eacute;g&acirc;t ";
 		 		if ($this->critique == true) {

@@ -19,7 +19,8 @@
 	    PX Perso: <?=$this->user->px_perso_hobbit ?> - PX Commun : <?=$this->user->px_commun_hobbit ?><br>
 	    PI : <?=$this->user->pi_hobbit ?> - Niveau : <?=$this->user->niveau_hobbit ?><br>
 	    <hr>
-	    Vue BM : <?=$this->user->vue_bm_hobbit ?> | Reg&eacute;n&eacute;ration : <?=$this->user->regeneration_hobbit ?> D<?=$this->config->game->de_regeneration ?><br>
+	    Vue BM : <?=$this->user->vue_bm_hobbit ?> <br>
+	    R&eacute;g&eacute;n&eacute;ration : <?=$this->user->regeneration_hobbit ?> D<?=$this->config->game->de_regeneration ?> | Malus R&eacute;g&eacute;n&eacute;ration prochain tour : <?=$this->user->regeneration_malus_hobbit ?><br>
 	    Force : <?=$this->config->game->base_force + $this->user->force_base_hobbit ?> D<?=$this->config->game->de_force ?> <? if ($this->user->force_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->force_bm_hobbit ?> | 
 	    Agilit&eacute; : <?=$this->config->game->base_agilite + $this->user->agilite_base_hobbit ?> D<?=$this->config->game->de_agilite ?> <? if ($this->user->agilite_bm_hobbit >= 0): echo "+"; endif;?> <?=$this->user->agilite_bm_hobbit ?> <br>
 	    Sagesse : <?=$this->config->game->base_sagesse + $this->user->sagesse_base_hobbit ?> D<?=$this->config->game->de_sagesse ?> <? if ($this->user->sagesse_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->sagesse_bm_hobbit ?> | 

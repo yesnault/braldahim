@@ -131,25 +131,45 @@ class Bral_Box_Tour {
 			$this->hobbit->armure_naturelle_hobbit = 0;
 			$this->hobbit->armure_equipement_hobbit = 0;
 			$this->hobbit->pv_max_bm_hobbit = 0;
+			$this->hobbit->bm_attaque_hobbit = 0;
+			$this->hobbit->bm_degat_hobbit = 0;
+			$this->hobbit->bm_defense_hobbit = 0;
 			
 			// Recalcul de l'armure naturelle
 			$this->hobbit->armure_naturelle_hobbit = intval(($this->hobbit->force_base_hobbit + $this->hobbit->vigueur_base_hobbit) / 5);
-		
+			
+			/* Application du malus de vue. */
+			$this->hobbit->vue_bm_hobbit = $this->hobbit->vue_malus_hobbit;
+			/* Remise à zéro du malus de vue. */
+			$this->hobbit->vue_malus_hobbit = 0;
+			
+			/* Application du malus d'agilite. */
+			$this->hobbit->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit;
+			/* Remise à zéro du malus d'agilite. */
+			$this->hobbit->agilite_malus_hobbit = 0;
+			
 			// Mise a jour de la balance faim
 			//$this->joueur->diminuer_balance_faim ($this->view->config->game->tour_faim);
 			
 			$this->calculBMEquipement();
 			
-			// Mise à jour de le regeneration // c'est aussi mis à jour dans l'eujimnasiumne
+			// Mise à jour de la regeneration // c'est aussi mis à jour dans l'eujimnasiumne
 			$this->hobbit->regeneration_hobbit = floor($this->hobbit->vigueur_base_hobbit / 4) + 1;
 		
 			// calcul des pvs restants avec la regeneration
 			$pvMax = ($this->view->config->game->pv_base + $this->hobbit->vigueur_base_hobbit * $this->view->config->game->pv_max_coef) + $this->hobbit->pv_max_bm_hobbit;
-			$this->view->jetRegeneration = -1;
+			
+			$this->view->jetRegeneration = $this->hobbit->regeneration_malus_hobbit;
+			/* Remise à zéro du malus de régénération. */
+			$this->hobbit->regeneration_malus_hobbit = 0;
+			
 			if ($this->hobbit->pv_restant_hobbit < $pvMax) {
 				for ($i=1; $i <= $this->hobbit->regeneration_hobbit; $i++) {
 					$this->view->jetRegeneration = $this->view->jetRegeneration + Bral_Util_De::get_1d3();
 				}	
+				if ($this->view->jetRegeneration < 0) { // pas de rénération négative (même si le malus est important)
+					$this->view->jetRegeneration = 0;
+				}
 				$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_restant_hobbit + $this->view->jetRegeneration;
 				if ($this->hobbit->pv_restant_hobbit > $pvMax) {
 					$this->view->jetRegeneration = $pvMax - $this->hobbit->pv_restant_hobbit;
@@ -191,6 +211,12 @@ class Bral_Box_Tour {
 			$this->view->user->vue_bm_hobbit = $this->hobbit->vue_bm_hobbit;
 			$this->view->user->poids_transportable_hobbit = $this->hobbit->poids_transportable_hobbit;
 			
+			$this->view->user->bm_attaque_hobbit = $this->hobbit->bm_attaque_hobbit;
+			$this->view->user->bm_degat_hobbit = $this->hobbit->bm_degat_hobbit;
+			$this->view->user->bm_defense_hobbit = $this->hobbit->bm_defense_hobbit;
+			
+			$this->view->user->regeneration_malus_hobbit = $this->hobbit->regeneration_malus_hobbit;
+			
 			$data = array(
 				'x_hobbit' => $this->hobbit->x_hobbit,
 				'y_hobbit'  => $this->hobbit->y_hobbit,
@@ -215,6 +241,11 @@ class Bral_Box_Tour {
 				'vue_bm_hobbit' => $this->hobbit->vue_bm_hobbit,
 				'poids_transportable_hobbit' => $this->hobbit->poids_transportable_hobbit,
 				'regeneration_hobbit' => $this->hobbit->regeneration_hobbit,
+				'regeneration_malus_hobbit' => $this->hobbit->regeneration_malus_hobbit,
+				'bm_attaque_hobbit' => $this->hobbit->bm_attaque_hobbit,
+				'bm_degat_hobbit' => $this->hobbit->bm_degat_hobbit,
+				'bm_defense_hobbit' => $this->hobbit->bm_defense_hobbit,
+				
 			);
 			$where = "id_hobbit=".$this->hobbit->id_hobbit;
 			$hobbitTable->update($data, $where);
@@ -296,9 +327,9 @@ class Bral_Box_Tour {
 			$idEquipements = null;
 			
 			foreach ($equipementPorteRowset as $e) {
-				$idEquipements[] = $e["id_equipement_hequipement"];
+				//$idEquipements[] = $e["id_equipement_hequipement"];
 				
-				$equipement = array(
+				/*$equipement = array(
 						"id_equipement" => $e["id_equipement_hequipement"],
 						"nom" => $e["nom_type_equipement"],
 						"qualite" => $e["nom_type_qualite"],
@@ -317,7 +348,8 @@ class Bral_Box_Tour {
 						"bm_degat" => $e["bm_degat_recette_equipement"],
 						"bm_defense" => $e["bm_defense_recette_equipement"],
 						"suffixe" => $e["suffixe_mot_runique"],
-				);
+						"id_mot_runique" =>  $e["id_fk_mot_runique_hequipement"],
+				);*/
 				
 				$this->hobbit->force_bm_hobbit = $this->hobbit->force_bm_hobbit + $e["force_recette_equipement"];
 				$this->hobbit->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit + $e["agilite_recette_equipement"];
@@ -325,6 +357,36 @@ class Bral_Box_Tour {
 				$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + $e["sagesse_recette_equipement"];
 				$this->hobbit->vue_bm_hobbit = $this->hobbit->vue_bm_hobbit + $e["vue_recette_equipement"];
 				$this->hobbit->armure_equipement_hobbit = $this->hobbit->armure_equipement_hobbit + $e["armure_recette_equipement"];
+				$this->hobbit->bm_attaque_hobbit = $this->hobbit->bm_attaque_hobbit + $e["bm_attaque_recette_equipement"];
+				$this->hobbit->bm_degat_hobbit = $this->hobbit->bm_degat_hobbit + $e["bm_degat_recette_equipement"];
+				$this->hobbit->bm_defense_hobbit = $this->hobbit->bm_defense_hobbit + $e["bm_defense_recette_equipement"];
+			
+				if ($e["nom_systeme_mot_runique"] == "mot_b") {
+					$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + (2 * $e["niveau_recette_equipement"]);
+				}
+				
+				if ($e["nom_systeme_mot_runique"] == "mot_k") {
+					if ($e["bm_attaque_recette_equipement"] > 0) { // positif
+						$val = $e["bm_attaque_recette_equipement"];
+					} else { // negatif
+						$val = abs($e["bm_attaque_recette_equipement"]) / 2;
+					}	
+					$this->hobbit->bm_attaque_hobbit = $this->hobbit->bm_attaque_hobbit + $val;
+				}
+				
+				if ($e["nom_systeme_mot_runique"] == "mot_m") {
+					if ($e["bm_defense_recette_equipement"] > 0) { // positif
+						$val = $e["bm_defense_recette_equipement"];
+					} else { // negatif
+						$val = abs($e["bm_defense_recette_equipement"]) / 2;
+					}	
+					$this->hobbit->bm_defense_hobbit = $this->hobbit->bm_defense_hobbit + $val;
+				}
+				
+				if ($e["nom_systeme_mot_runique"] == "mot_v") {
+					$this->hobbit->vue_bm_hobbit = $this->hobbit->vue_bm_hobbit + 2;
+				}
+				
 			}
 			
 			$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);

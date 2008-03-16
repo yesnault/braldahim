@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Sam 22 Décembre 2007 à 20:17
+-- Généré le : Dim 16 Mars 2008 à 20:37
 -- Version du serveur: 5.0.41
 -- Version de PHP: 5.2.3
 
@@ -40,6 +40,7 @@ CREATE TABLE `monstre` (
   `vigueur_base_monstre` int(11) NOT NULL,
   `vigueur_bm_monstre` int(11) NOT NULL,
   `regeneration_monstre` int(11) NOT NULL,
+  `regeneration_malus_monstre` int(11) NOT NULL,
   `armure_naturelle_monstre` int(11) NOT NULL,
   `date_fin_tour_monstre` datetime NOT NULL,
   `duree_prochain_tour_monstre` time NOT NULL,
@@ -54,16 +55,3 @@ CREATE TABLE `monstre` (
   KEY `id_fk_taille_monstre` (`id_fk_taille_monstre`),
   KEY `id_fk_hobbit_cible_monstre` (`id_fk_hobbit_cible_monstre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- 
--- Contraintes pour les tables exportées
--- 
-
--- 
--- Contraintes pour la table `monstre`
--- 
-ALTER TABLE `monstre`
-  ADD CONSTRAINT `monstre_ibfk_11` FOREIGN KEY (`id_fk_hobbit_cible_monstre`) REFERENCES `hobbit` (`id_hobbit`) ON DELETE SET NULL,
-  ADD CONSTRAINT `monstre_ibfk_10` FOREIGN KEY (`id_fk_groupe_monstre`) REFERENCES `groupe_monstre` (`id_groupe_monstre`),
-  ADD CONSTRAINT `monstre_ibfk_8` FOREIGN KEY (`id_fk_type_monstre`) REFERENCES `type_monstre` (`id_type_monstre`),
-  ADD CONSTRAINT `monstre_ibfk_9` FOREIGN KEY (`id_fk_taille_monstre`) REFERENCES `taille_monstre` (`id_taille_monstre`);
