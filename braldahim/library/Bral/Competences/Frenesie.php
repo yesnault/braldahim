@@ -118,9 +118,9 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		
 		if ($this->view->okJet1 === true) {
 			if ($attaqueHobbit === true) {
-				$this->view->attaqueReussie = $this->attaqueHobbit($idHobbit);
+				$this->view->retourAttaque = $this->attaqueHobbit($this->view->user, $idHobbit);
 			} elseif ($attaqueMonstre === true) {
-				$this->view->attaqueReussie = $this->attaqueMonstre($idMonstre);
+				$this->view->retourAttaque = $this->attaqueMonstre($this->view->user, $idMonstre);
 			} else {
 				throw new Zend_Exception(get_class($this)." Erreur inconnue");
 			}
@@ -135,17 +135,17 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		return array("box_profil", "box_competences_metiers", "box_vue", "box_lieu", "box_evenements");
 	}
 
-	protected function calculJetAttaque() {
+	protected function calculJetAttaque($hobbit) {
 		//Attaque : 0.5*(jet d'AGI)+BM AGI + bonus arme att
 		$jetAttaquant = 0;
-		for ($i=1; $i<=$this->view->config->base_agilite + $this->view->user->agilite_base_hobbit; $i++) {
+		for ($i=1; $i<=$this->view->config->base_agilite + $hobbit->agilite_base_hobbit; $i++) {
 			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
 		}
-		$jetAttaquant = (0.5 * $jetAttaquant) + $this->view->user->agilite_bm_hobbit + $this->view->user->bm_attaque_hobbit;
-		$this->view->jetAttaquant = $jetAttaquant;
+		$jetAttaquant = (0.5 * $jetAttaquant) + $hobbit->agilite_bm_hobbit + $hobbit->bm_attaque_hobbit;
+		return $jetAttaquant;
 	}
 
-	protected function calculDegat($estCritique) {
+	protected function calculDegat($estCritique, $hobbit) {
 		
 		$commun = new Bral_Util_Commun();
 		$this->view->effetRune = false;
@@ -156,10 +156,10 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			$coefCritique = 1.5;
 		}
 			
-		for ($i=1; $i<= ($this->view->config->game->base_force + $this->view->user->force_base_hobbit); $i++) {
+		for ($i=1; $i<= ($this->view->config->game->base_force + $hobbit->force_base_hobbit); $i++) {
 			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
 		}
-		if ($commun->isRunePortee($this->view->user->id_hobbit, "EM")) { 
+		if ($commun->isRunePortee($hobbit->id_hobbit, "EM")) { 
 			$this->view->effetRune = true;
 			// dégats : Jet FOR + BM + Bonus de dégat de l'arme
 			// dégats critiques : Jet FOR *1,5 + BM + Bonus de l'arme
@@ -170,7 +170,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			$jetDegat = $coefCritique * (0.5 * $jetDegat);
 		}
 		
-		$jetDegat = $coefCritique * (0.5 * $jetDegat) + $this->view->user->force_bm_hobbit + $this->view->user->bm_degat_hobbit;
+		$jetDegat = $coefCritique * (0.5 * $jetDegat) + $hobbit->force_bm_hobbit + $hobbit->bm_degat_hobbit;
 		return $jetDegat;
 	}
 
@@ -180,7 +180,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		$this->view->nb_px_commun = 0;
 		$this->view->calcul_px_generique = false;
 
-		if ($this->view->attaqueReussie === true) {
+		if ($this->view->retourAttaque["attaqueReussie"] === true) {
 			$this->view->nb_px_perso = $this->view->nb_px_perso + 1;
 		}
 

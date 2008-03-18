@@ -37,7 +37,6 @@ class Hobbit extends Zend_Db_Table {
 		}
 		
 		$sql = $select->__toString();
-
 		return $db->fetchAll($sql);
 	}
 

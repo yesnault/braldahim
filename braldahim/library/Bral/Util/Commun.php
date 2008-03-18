@@ -95,6 +95,13 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 	
+	public function calculPvMaxSansEffetMotE($config, $vigueur_base_hobbit, $pv_max_bm_hobbit) {
+		// calcul des pvs restants avec la regeneration
+		$pvMax = ($config->game->pv_base + $vigueur_base_hobbit * $config->game->pv_max_coef) + $pv_max_bm_hobbit;
+		
+		return $pvMax;
+	}
+	
 	public function ajouteEffetMotR($idHobbit) {
 		Zend_Loader::loadClass("HobbitsCompetences");
 		$hobbitsCompetencesTables = new HobbitsCompetences();
@@ -134,6 +141,15 @@ class Bral_Util_Commun {
 	public function getEffetMotD($idHobbit) {
 		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_d");
 		$retour = 0;
+		if ($equipement != null) {
+			$retour = $equipementCible["niveau_recette_equipement"];
+		}
+		return $retour;
+	}
+	
+	public function getEffetMotE($idHobbit) {
+		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_e");
+		$retour = null;
 		if ($equipement != null) {
 			$retour = $equipementCible["niveau_recette_equipement"];
 		}
@@ -188,12 +204,39 @@ class Bral_Util_Commun {
 		}
 		return $retour;
 	}
+
+	public function getEffetMotN($idHobbit) {
+		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_n");
+		$retour = null;
+		if ($equipement != null) {
+			$retour = $equipementCible["niveau_recette_equipement"] * 2;
+		}
+		return $retour;
+	}
+	
+	public function getEffetMotO($idHobbit) {
+		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_o");
+		$retour = null;
+		if ($equipement != null) {
+			$retour = $equipementCible["niveau_recette_equipement"] * 2;
+		}
+		return $retour;
+	}
 	
 	public function getEffetMotQ($idHobbit) {
 		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_j");
 		$retour = null;
 		if ($equipement != null) {
 			$retour = - $equipementCible["niveau_recette_equipement"];
+		}
+		return $retour;
+	}
+	
+	public function getEffetMotS($idHobbit) {
+		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_s");
+		$retour = null;
+		if ($equipement != null) {
+			$retour = $equipementCible["niveau_recette_equipement"];
 		}
 		return $retour;
 	}
@@ -205,5 +248,116 @@ class Bral_Util_Commun {
 			$retour = true;
 		}
 		return $retour;
+	}
+	
+	public function calculDegatCase($config, $hobbit, $degats) {
+		$hobbitTable = new Hobbit();
+		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+		
+		$retour["hobbitMorts"] = null;
+		$retour["hobbitTouches"] = null;
+		
+		foreach($hobbits as $h) {
+			$retour["hobbitTouches"][] = $h;
+			
+			$id_type = $config->game->evenements->type->effet;
+			$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a attaqu&eacute; le hobbit ".$h["prenom_hobbit"] ." ". $h["nom_hobbit"] ." (".$h["id_hobbit"].") N".$h["niveau_hobbit"];  
+			$this->majEvenements($hobbit->id_hobbit, $id_type, $details);
+			$this->majEvenements($h["id_hobbit"], $id_type, $details);
+			
+			$h["pv_restant_hobbit"] = $h["pv_restant_hobbit"] - $soins;
+			if ($h["pv_restant_hobbit"] > 0) {
+				$data = array("pv_restant_hobbit" => $h["pv_restant_hobbit"]);
+				$where = "id_hobbit = ".$h["id_hobbit"];
+				$hobbitTable->update($data, $where);
+			} else { // mort
+				$retour["hobbitMorts"][] = $h;
+				
+				$hobbit->nb_kill_hobbit = $hobbit->nb_kill_hobbit + 1;
+				$data = array("nb_kill_hobbit" => $hobbit->nb_kill_hobbit);
+				$where = "id_hobbit = ".$hobbit->id_hobbit;
+				$hobbitTable->update($data, $where);
+				
+				$effetH = $commun->getEffetMotH($hobbit->id_hobbit);
+				if ($effetH == true) {					
+					$this->view->effetMotH = true;
+				}
+				$nbCastars = $this->dropHobbitCastars($h, $effetH);
+				
+				$h["est_mort_hobbit"] = "oui";
+				$h["castars_hobbit"] = $h["castars_hobbit"] - $nbCastars;
+				if ($h["castars_hobbit"] < 0) {
+					$h["castars_hobbit"] = 0;
+				}
+				
+				$data = array(
+					'castars_hobbit' => $h["castars_hobbit"],
+					'pv_restant_hobbit' => 0,
+					'est_mort_hobbit' => "oui",
+					'nb_mort_hobbit' => $h["nb_mort_hobbit"] + 1,
+					'date_fin_tour_hobbit' => date("Y-m-d H:i:s"),
+				);
+				$where = "id_hobbit=".$hobbit->id_hobbit;
+				$hobbitTable->update($data, $where);
+				
+				$id_type = $config->game->evenements->type->kill;
+				$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a tué le hobbit ".$h["prenom_hobbit"] ." ". $h["nom_hobbit"] ." (".$h["id_hobbit"].") N".$h["niveau_hobbit"]; 
+				$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
+				$id_type = $config->evenements->type->mort;
+				$this->majEvenements($h["id_hobbit"], $id_type, $details);
+			}
+		}
+		
+		return $retour;
+	}
+	
+	public function calculSoinCase($config, $hobbit, $soins) {
+		$hobbitTable = new Hobbit();
+		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+		
+		$retour["hobbitsSoignes"] = null;
+		foreach($hobbits as $h) {
+			$retour["hobbitsSoignes"][] = $h;
+			if ($h["pv_max_hobbit"] >  $h["pv_restant_hobbit"]) {
+				$h["pv_restant_hobbit"] = $h["pv_restant_hobbit"] + $soins;
+				if ($h["pv_restant_hobbit"] > $h["pv_max_hobbit"]) {
+					$h["pv_restant_hobbit"] = $h["pv_max_hobbit"];
+					
+					$data = array("pv_restant_hobbit" => $h["pv_restant_hobbit"]);
+					
+					$where = "id_hobbit = ".$h["id_hobbit"];
+					$hobbitTable->update($data, $where);
+					
+					$id_type = $config->game->evenements->type->effet;
+					$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a soign&eacute; le hobbit ".$h["prenom_hobbit"] ." ". $h["nom_hobbit"] ." (".$h["id_hobbit"].") N".$h["niveau_hobbit"];  
+					$this->majEvenements($hobbit->id_hobbit, $id_type, $details);
+					$this->majEvenements($h["id_hobbit"], $id_type, $details);
+				}
+			}
+		}
+		return $retour;
+	}
+	
+	public function dropHobbitCastars($cible, $effetH = null) {
+		//Lorqu'un Hobbit meurt il perd une partie de ces castars : 1/3 arr inférieur.
+		if ($cible["castars_hobbit"] > 0) {
+			$nbCastars = floor($cible["castars_hobbit"] / 3) + Bral_Util_De::get_1d5();
+			
+			if ($effetH != null && $effetH == true) { 
+				$nbCastars = $nbCastars * 2;
+			}
+			
+			Zend_Loader::loadClass("Castar");
+			$castarTable = new Castar();
+			$data = array(
+				"x_castar"  => $cible["x_cible"],
+				"y_castar" => $cible["y_cible"],
+				"nb_castar" => $nbCastars,
+			);
+			$castarTable = new Castar();
+			$castarTable->insertOrUpdate($data);
+		}
+		
+		return $nbCastars;
 	}
 }

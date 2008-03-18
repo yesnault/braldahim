@@ -91,9 +91,9 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		}
 
 		if ($attaqueHobbit === true) {
-			$this->view->attaqueReussie = $this->attaqueHobbit($idHobbit);
+			$this->view->retourAttaque = $this->attaqueHobbit($this->view->user, $idHobbit);
 		} elseif ($attaqueMonstre === true) {
-			$this->view->attaqueReussie = $this->attaqueMonstre($idMonstre);
+			$this->view->retourAttaque = $this->attaqueMonstre($this->view->user, $idMonstre);
 		} else {
 			throw new Zend_Exception(get_class($this)." Erreur inconnue");
 		}
@@ -107,27 +107,27 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		return array("box_profil", "box_vue", "box_lieu", "box_evenements");
 	}
 
-	protected function calculJetAttaque() {
+	protected function calculJetAttaque($hobbit) {
 		$jetAttaquant = 0;
-		for ($i=1; $i<=$this->view->config->base_agilite + $this->view->user->agilite_base_hobbit; $i++) {
+		for ($i=1; $i<=$this->view->config->base_agilite + $hobbit->agilite_base_hobbit; $i++) {
 			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
 		}
-		$jetAttaquant = $jetAttaquant + $this->view->user->agilite_bm_hobbit;
-		$this->view->jetAttaquant = $jetAttaquant;
+		$jetAttaquant = $jetAttaquant + $hobbit->agilite_bm_hobbit;
+		return $jetAttaquant;
 	}
 
-	protected function calculDegat($estCritique) {
+	protected function calculDegat($estCritique, $hobbit) {
 		$jetDegat = 0;
 		$coefCritique = 1;
 		if ($estCritique === true) {
 			$coefCritique = 1.5;
 		}
 		
-		for ($i=1; $i<= ($this->view->config->game->base_force + $this->view->user->force_base_hobbit) * $coefCritique; $i++) {
+		for ($i=1; $i<= ($this->view->config->game->base_force + $hobbit->force_base_hobbit) * $coefCritique; $i++) {
 			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
 		}
 		
-		$jetDegat = $jetDegat + $this->view->user->force_bm_hobbit + $this->view->user->bm_degat_hobbit;
+		$jetDegat = $jetDegat + $hobbit->force_bm_hobbit + $hobbit->bm_degat_hobbit;
 		return $jetDegat;
 	}
 
@@ -135,7 +135,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		parent::calculPx();
 		$this->view->calcul_px_generique = false;
 
-		if ($this->view->attaqueReussie === true) {
+		if ($this->view->retourAttaque["attaqueReussie"] === true) {
 			$this->view->nb_px_perso = $this->view->nb_px_perso + 1;
 		}
 

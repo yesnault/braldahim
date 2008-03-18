@@ -253,15 +253,15 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		$this->calculJets();
 		if ($this->view->okJet1 === true) {
 			if ($attaqueHobbit === true) {
-				$this->view->attaqueReussie = $this->attaqueHobbit($idHobbit);
+				$this->view->retourAttaque = $this->attaqueHobbit($this->view->user, $idHobbit);
 			} elseif ($attaqueMonstre === true) {
-				$this->view->attaqueReussie = $this->attaqueMonstre($idMonstre);
+				$this->view->retourAttaque = $this->attaqueMonstre($this->view->user, $idMonstre);
 			} else {
 				throw new Zend_Exception(get_class($this)." Erreur inconnue");
 			}
 			/* on va à la position de la cible. */
-			$this->view->user->x_hobbit = $this->view->cible["x_cible"];
-			$this->view->user->y_hobbit = $this->view->cible["y_cible"];
+			$this->view->user->x_hobbit = $retourAttaque["cible"]["x_cible"];
+			$this->view->user->y_hobbit = $retourAttaque["cible"]["y_cible"];
 		}
 		
 		$this->calculPx();
@@ -276,13 +276,13 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 	/*
 	 * Le jet d'attaque d'une charge est différent : (0.5 jet AGI) + BM + bonus arme
 	 */
-	protected function calculJetAttaque() {
+	protected function calculJetAttaque($hobbit) {
 		$jetAttaquant = 0;
-		for ($i=1; $i<=$this->view->config->base_agilite + $this->view->user->agilite_base_hobbit; $i++) {
+		for ($i=1; $i<=$this->view->config->base_agilite + $hobbit->agilite_base_hobbit; $i++) {
 			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
 		}
-		$jetAttaquant = 0.5 * $jetAttaquant + $this->view->user->agilite_bm_hobbit + $this->view->user->bm_attaque_hobbit;
-		$this->view->jetAttaquant = $jetAttaquant;
+		$jetAttaquant = 0.5 * $jetAttaquant + $hobbit->agilite_bm_hobbit + $hobbit->bm_attaque_hobbit;
+		return $jetAttaquant;
 	}
 	
 	/*
@@ -291,23 +291,23 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 	 * cas du critique :
 	 * 1.5(jet FOR) + BM FOR + bonus arme + jet VIG + BM VIG
 	 */
-	protected function calculDegat($estCritique) {
+	protected function calculDegat($estCritique, $hobbit) {
 		$jetDegat = 0;
 		$coefCritique = 1;
 		if ($estCritique === true) {
 			$coefCritique = 1.5;
 		}
 		
-		for ($i=1; $i<= ($this->view->config->game->base_force + $this->view->user->force_base_hobbit) * $coefCritique; $i++) {
+		for ($i=1; $i<= ($this->view->config->game->base_force + $hobbit->force_base_hobbit) * $coefCritique; $i++) {
 			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
 		}
 		$jetDegat = $jetDegat + $this->view->user->force_bm_hobbit;
 		
-		for ($i=1; $i<= $this->view->config->game->base_vigueur + $this->view->user->vigueur_base_hobbit; $i++) {
+		for ($i=1; $i<= $this->view->config->game->base_vigueur + $hobbit->vigueur_base_hobbit; $i++) {
 			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
 		}
 		
-		$jetDegat = $jetDegat + $this->view->user->vigueur_bm_hobbit + $this->view->user->bm_degat_hobbit;
+		$jetDegat = $jetDegat + $hobbit->vigueur_bm_hobbit + $hobbit->bm_degat_hobbit;
 		return $jetDegat;
 	}
 
@@ -315,7 +315,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		parent::calculPx();
 		$this->view->calcul_px_generique = false;
 
-		if ($this->view->attaqueReussie === true) {
+		if ($this->view->retourAttaque["attaqueReussie"] === true) {
 			$this->view->nb_px_perso = $this->view->nb_px_perso + 1;
 		}
 
