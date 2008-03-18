@@ -61,9 +61,10 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			
 			foreach($equipementRunes as $e) {
 				$tabEquipementsRune[] = array(
-				"id_rune_equipement_rune" => $e["id_rune_equipement_rune"],
-				"id_fk_type_rune_equipement_rune" => $e["id_fk_type_rune_equipement_rune"],
-				"nom_type_rune" => $e["nom_type_rune"],
+					"id_rune_equipement_rune" => $e["id_rune_equipement_rune"],
+					"id_fk_type_rune_equipement_rune" => $e["id_fk_type_rune_equipement_rune"],
+					"nom_type_rune" => $e["nom_type_rune"],
+					"effet_type_rune" => $r["effet_type_rune"],
 				);
 			}
 			
@@ -78,9 +79,10 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			
 			foreach($labanRunes as $l) {
 				$tabLabanRune[$l["id_rune_laban_rune"]] = array(
-				"id_fk_type_rune_laban_rune" => $l["id_fk_type_laban_rune"],
-				"nom_type_rune" => $l["nom_type_rune"],
-				"image_type_rune" => $l["image_type_rune"],
+					"id_fk_type_rune_laban_rune" => $l["id_fk_type_laban_rune"],
+					"nom_type_rune" => $l["nom_type_rune"],
+					"image_type_rune" => $l["image_type_rune"],
+					"effet_type_rune" => $r["effet_type_rune"],
 				);
 			}
 			$this->view->nbLabanRune = count($tabLabanRune);

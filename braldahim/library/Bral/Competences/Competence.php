@@ -290,7 +290,7 @@ abstract class Bral_Competences_Competence {
 		}
 	}
 	
-	protected function attaqueHobbit(&$hobbitAttaquant, $idHobbitCible) {
+	protected function attaqueHobbit(&$hobbitAttaquant, $idHobbitCible, $effetMotSPossible = true) {
 		$attaqueReussie = false;
 		
 		$retourAttaque = null;
@@ -396,10 +396,12 @@ abstract class Bral_Competences_Competence {
 					$hobbitCible->castars_hobbit = 0;
 				}
 			} else {
-				$effetMotS = $commun->getEffetMotS($hobbitAttaquant->id_hobbit);
-				if ($effetMotS != null) {
-					$this->view->effetMotS = true;
-					//TODO
+				if ($effetMotSPossible) {
+					$effetMotS = $commun->getEffetMotS($hobbitAttaquant->id_hobbit);
+					if ($effetMotS != null) {
+						$this->view->effetMotS = true;
+						$retourAttaque["retourAttaqueEffetMotS"] = $this->attaqueHobbit($hobbitCible, $hobbitAttaquant->id_hobbit, false);
+					}
 				}
 				
 				$hobbitCible->agilite_bm_hobbit = $hobbitCible->agilite_bm_hobbit - $hobbitCible->niveau_hobbit;
@@ -553,12 +555,6 @@ abstract class Bral_Competences_Competence {
 				$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
 				$vieMonstre->mortMonstreDb($cible["id_cible"], $effetD, $effetH);
 			} else {
-				$effetMotS = $commun->getEffetMotS($hobbitAttaquant->id_hobbit);
-				if ($effetMotS != null) {
-					$this->view->effetMotS = true;
-					//TODO
-				}
-				
 				$agilite_bm_monstre = $monstre["agilite_bm_monstre"] - $monstre["niveau_monstre"];
 				$retourAttaque["fragilisee"] = true;
 				

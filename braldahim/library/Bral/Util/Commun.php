@@ -156,6 +156,15 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 	
+	public function getEffetMotF($idHobbit) {
+		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_f");
+		$retour = null;
+		if ($equipement != null) {
+			$retour = $equipementCible["niveau_recette_equipement"];
+		}
+		return $retour;
+	}
+	
 	public function getEffetMotG($idHobbit) {
 		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_g");
 		$retour = null;
@@ -224,7 +233,7 @@ class Bral_Util_Commun {
 	}
 	
 	public function getEffetMotQ($idHobbit) {
-		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_j");
+		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_q");
 		$retour = null;
 		if ($equipement != null) {
 			$retour = - $equipementCible["niveau_recette_equipement"];

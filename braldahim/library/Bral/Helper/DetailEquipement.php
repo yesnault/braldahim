@@ -2,11 +2,11 @@
 class Bral_Helper_DetailEquipement {
     public static function afficher($e) {
         
-    	$titre = htmlentities($e["nom"])." ".htmlentities(addslashes($e["suffixe"]))." n&deg;".$e["id_equipement"]. " - D&eacute;tails";
+    	$titre = htmlentities($e["nom"])." ".htmlentities(addslashes($e["suffixe"]))." de qualit&eacute; ".htmlentities($e["qualite"])." - D&eacute;tails";
     
-    	$text = htmlentities($e["nom"])." ".htmlentities(addslashes($e["suffixe"]))." n&deg;".$e["id_equipement"]."<br><br>";
-    	$text .= "Qualit&eacute; : ".htmlentities($e["qualite"])."<br>";
-     	$text .= "Niveau : ".$e["niveau"]."<br>";
+    	$text = htmlentities($e["nom"])." ".htmlentities(addslashes($e["suffixe"]))." de qualit&eacute; ".htmlentities($e["qualite"])." <br><br>";
+     	$text .= "Num&eacute;ro de la pi&egrave;ce :".$e["id_equipement"]."<br>";
+    	$text .= "Niveau : ".$e["niveau"]."<br>";
      	$text .= "Caract&eacute;ristiques :<br>";
     	$text .= self::display("Armure", $e["armure"]);
     	$text .= self::display("Force", $e["force"] );
@@ -25,7 +25,7 @@ class Bral_Helper_DetailEquipement {
      	$text .= count($e["runes"]) ." rune$s sertie$s "."<br>";
      	if (count($e["runes"]) > 0) {
 	    	 foreach($e["runes"] as $r) {
-	     	 	$text .= "<img src=\'/public/images/runes/".$r["image_type_rune"]."\'  class=\'rune\' title=\'".$r["nom_type_rune"]."\' n&deg;".$r["id_rune_equipement_rune"]." alt=\'".$r["nom_type_rune"]."\' n&deg;".$r["id_rune_equipement_rune"]."  />";
+	     	 	$text .= "<img src=\'/public/images/runes/".$r["image_type_rune"]."\'  class=\'rune\' title=\'".$r["nom_type_rune"]." :".htmlentities(addslashes($r["effet_type_rune"]))."\' n&deg;".$r["id_rune_equipement_rune"]." alt=\'".$r["nom_type_rune"]."\' n&deg;".$r["id_rune_equipement_rune"]."  />";
 	     	 }
 	     	 if ($e["suffixe"] != null && $e["suffixe"] != "") {
 	     	 	$text .= "<br>Mot runique associ&eacute; &agrave; ces runes : ".htmlentities(addslashes($e["suffixe"]));

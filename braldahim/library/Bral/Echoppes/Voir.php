@@ -39,20 +39,20 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 				}
 				$id_metier = $e["id_metier"];
 				$tabEchoppe = array(
-				'id_echoppe' => $e["id_echoppe"],
-				'x_echoppe' => $e["x_echoppe"],
-				'y_echoppe' => $e["y_echoppe"],
-				'id_metier' => $e["id_metier"],
-				'nom_metier' => $nom_metier,
-				'nom_region' => $e["nom_region"],
-				'quantite_castar_caisse_echoppe' => $e["quantite_castar_caisse_echoppe"],
-				'quantite_rondin_caisse_echoppe' => $e["quantite_rondin_caisse_echoppe"],
-				'quantite_peau_caisse_echoppe' => $e["quantite_peau_caisse_echoppe"],
-				'quantite_rondin_arriere_echoppe' => $e["quantite_rondin_arriere_echoppe"],
-				'quantite_peau_arriere_echoppe' => $e["quantite_peau_arriere_echoppe"],
-				'quantite_cuir_arriere_echoppe' => $e["quantite_cuir_arriere_echoppe"],
-				'quantite_fourrure_arriere_echoppe' => $e["quantite_fourrure_arriere_echoppe"],
-				'quantite_planche_arriere_echoppe' => $e["quantite_planche_arriere_echoppe"],
+					'id_echoppe' => $e["id_echoppe"],
+					'x_echoppe' => $e["x_echoppe"],
+					'y_echoppe' => $e["y_echoppe"],
+					'id_metier' => $e["id_metier"],
+					'nom_metier' => $nom_metier,
+					'nom_region' => $e["nom_region"],
+					'quantite_castar_caisse_echoppe' => $e["quantite_castar_caisse_echoppe"],
+					'quantite_rondin_caisse_echoppe' => $e["quantite_rondin_caisse_echoppe"],
+					'quantite_peau_caisse_echoppe' => $e["quantite_peau_caisse_echoppe"],
+					'quantite_rondin_arriere_echoppe' => $e["quantite_rondin_arriere_echoppe"],
+					'quantite_peau_arriere_echoppe' => $e["quantite_peau_arriere_echoppe"],
+					'quantite_cuir_arriere_echoppe' => $e["quantite_cuir_arriere_echoppe"],
+					'quantite_fourrure_arriere_echoppe' => $e["quantite_fourrure_arriere_echoppe"],
+					'quantite_planche_arriere_echoppe' => $e["quantite_planche_arriere_echoppe"],
 				);
 				if ($this->view->user->x_hobbit == $e["x_echoppe"] &&
 				$this->view->user->y_hobbit == $e["y_echoppe"]) {
@@ -111,11 +111,11 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		if ($partiePlantes != null) {
 			foreach ($partiePlantes as $p) {
 				$tabPartiePlantes[] = array(
-				"nom_type" => $p["nom_type_partieplante"],
-				"nom_plante" => $p["nom_type_plante"],
-				"quantite_caisse" => $p["quantite_caisse_echoppe_partieplante"],
-				"quantite_arriere" => $p["quantite_arriere_echoppe_partieplante"],
-				"quantite_preparee" => $p["quantite_preparees_echoppe_partieplante"],
+					"nom_type" => $p["nom_type_partieplante"],
+					"nom_plante" => $p["nom_type_plante"],
+					"quantite_caisse" => $p["quantite_caisse_echoppe_partieplante"],
+					"quantite_arriere" => $p["quantite_arriere_echoppe_partieplante"],
+					"quantite_preparee" => $p["quantite_preparees_echoppe_partieplante"],
 				);
 
 				$this->view->nb_caissePartiePlantes = $this->view->nb_caissePartiePlantes + $p["quantite_caisse_echoppe_partieplante"];
@@ -135,10 +135,10 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		if ($minerais != null) {
 			foreach ($minerais as $m) {
 				$tabMinerais[] = array(
-				"type" => $m["nom_type_minerai"],
-				"quantite_caisse" => $m["quantite_caisse_echoppe_minerai"],
-				"quantite_arriere" => $m["quantite_arriere_echoppe_minerai"],
-				"quantite_lingots" => $m["quantite_lingots_echoppe_minerai"],
+					"type" => $m["nom_type_minerai"],
+					"quantite_caisse" => $m["quantite_caisse_echoppe_minerai"],
+					"quantite_arriere" => $m["quantite_arriere_echoppe_minerai"],
+					"quantite_lingots" => $m["quantite_lingots_echoppe_minerai"],
 				);
 
 				$this->view->nb_caisseMinerai = $this->view->nb_caisseMinerai + $m["quantite_caisse_echoppe_minerai"];
@@ -163,17 +163,17 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 			foreach($equipements as $e) {
 				if ($e["type_vente_echoppe_equipement"] == "aucune") {
 					$tabEquipementsArriereBoutique[] = array(
-					"nom" => $e["nom_type_equipement"],
-					"qualite" => $e["nom_type_qualite"],
-					"niveau" => $e["niveau_recette_equipement"],
-					"nb_runes" => $e["nb_runes_echoppe_equipement"]
+						"nom" => $e["nom_type_equipement"],
+						"qualite" => $e["nom_type_qualite"],
+						"niveau" => $e["niveau_recette_equipement"],
+						"nb_runes" => $e["nb_runes_echoppe_equipement"]
 					);
 				} else {
 					$tabEquipementsEtal[] = array(
-					"nom" => $e["nom_type_equipement"],
-					"qualite" => $e["nom_type_qualite"],
-					"niveau" => $e["niveau_recette_equipement"],
-					"nb_runes" => $e["nb_runes_echoppe_equipement"]
+						"nom" => $e["nom_type_equipement"],
+						"qualite" => $e["nom_type_qualite"],
+						"niveau" => $e["niveau_recette_equipement"],
+						"nb_runes" => $e["nb_runes_echoppe_equipement"]
 					);
 				}
 			}

@@ -80,6 +80,7 @@ class Bral_Box_Equipement {
 							"id_fk_type_rune_equipement_rune" => $r["id_fk_type_rune_equipement_rune"],
 							"nom_type_rune" => $r["nom_type_rune"],
 							"image_type_rune" => $r["image_type_rune"],
+							"effet_type_rune" => $r["effet_type_rune"],
 							);
 						}
 					}

@@ -26,7 +26,9 @@ class Bral_Echoppes_TransfererEquipement extends Bral_Echoppes_Echoppe {
 		
 		$echoppeOk = false;
 		foreach ($echoppes as $e) {
-			if ($e["id_echoppe"] == $id_echoppe) {
+			if ($e["id_echoppe"] == $id_echoppe && 
+				$e["x_echoppe"] == $this->view->user->x_hobbit && 
+				$e["y_echoppe"] == $this->view->user->y_hobbit) {
 				$echoppeOk = true;
 				break;
 			}

@@ -34,16 +34,16 @@ class Bral_Box_Laban {
 		foreach ($partiePlantes as $p) {
 			if ($p["quantite_laban_partieplante"] > 0) {
 				$tabPartiePlantes[] = array(
-				"nom_type" => $p["nom_type_partieplante"],
-				"nom_plante" => $p["nom_type_plante"],
-				"quantite" => $p["quantite_laban_partieplante"],
+					"nom_type" => $p["nom_type_partieplante"],
+					"nom_plante" => $p["nom_type_plante"],
+					"quantite" => $p["quantite_laban_partieplante"],
 				);
 			}
 			if ($p["quantite_preparee_laban_partieplante"] > 0) {
 				$tabPartiePlantesPreparees[] = array(
-				"nom_type" => $p["nom_type_partieplante"],
-				"nom_plante" => $p["nom_type_plante"],
-				"quantite" => $p["quantite_preparee_laban_partieplante"],
+					"nom_type" => $p["nom_type_partieplante"],
+					"nom_plante" => $p["nom_type_plante"],
+					"quantite" => $p["quantite_preparee_laban_partieplante"],
 				);
 			}
 		}
@@ -54,9 +54,9 @@ class Bral_Box_Laban {
 
 		foreach ($minerais as $m) {
 			$tabMinerais[] = array(
-			"type" => $m["nom_type_minerai"],
-			"quantiteBrut" => $m["quantite_brut_laban_minerai"],
-			"quantiteLingot" => $m["quantite_lingots_laban_minerai"],
+				"type" => $m["nom_type_minerai"],
+				"quantiteBrut" => $m["quantite_brut_laban_minerai"],
+				"quantiteLingot" => $m["quantite_lingots_laban_minerai"],
 			);
 		}
 
@@ -66,13 +66,13 @@ class Bral_Box_Laban {
 		
 		foreach ($laban as $p) {
 			$tabLaban = array(
-			"nb_peau" => $p["quantite_peau_laban"],
-			"nb_viande" => $p["quantite_viande_laban"],
-			"nb_viande_preparee" => $p["quantite_viande_preparee_laban"],
-			"nb_ration" => $p["quantite_ration_laban"],
-			"nb_cuir" => $p["quantite_cuir_laban"],
-			"nb_fourrure" => $p["quantite_fourrure_laban"],
-			"nb_planche" => $p["quantite_planche_laban"],
+				"nb_peau" => $p["quantite_peau_laban"],
+				"nb_viande" => $p["quantite_viande_laban"],
+				"nb_viande_preparee" => $p["quantite_viande_preparee_laban"],
+				"nb_ration" => $p["quantite_ration_laban"],
+				"nb_cuir" => $p["quantite_cuir_laban"],
+				"nb_fourrure" => $p["quantite_fourrure_laban"],
+				"nb_planche" => $p["quantite_planche_laban"],
 			);
 		}
 		
@@ -82,10 +82,11 @@ class Bral_Box_Laban {
 
 		foreach ($runes as $r) {
 			$tabRunes[] = array(
-			"id_rune" => $r["id_rune_laban_rune"],
-			"type" => $r["nom_type_rune"],
-			"image" => $r["image_type_rune"],
-			"est_identifiee" => $r["est_identifiee_rune"]
+				"id_rune" => $r["id_rune_laban_rune"],
+				"type" => $r["nom_type_rune"],
+				"image" => $r["image_type_rune"],
+				"est_identifiee" => $r["est_identifiee_rune"],
+				"effet_type_rune" => $r["effet_type_rune"],
 			);
 		}
 		
@@ -139,10 +140,11 @@ class Bral_Box_Laban {
 			
 			foreach($equipementRunes as $e) {
 				$tabEquipements[$e["id_equipement_rune"]]["runes"][] = array(
-				"id_rune_equipement_rune" => $e["id_rune_equipement_rune"],
-				"id_fk_type_rune_equipement_rune" => $e["id_fk_type_rune_equipement_rune"],
-				"nom_type_rune" => $e["nom_type_rune"],
-				"image_type_rune" => $e["image_type_rune"],
+					"id_rune_equipement_rune" => $e["id_rune_equipement_rune"],
+					"id_fk_type_rune_equipement_rune" => $e["id_fk_type_rune_equipement_rune"],
+					"nom_type_rune" => $e["nom_type_rune"],
+					"image_type_rune" => $e["image_type_rune"],
+					"effet_type_rune" => $e["effet_type_rune"],
 				);
 			}
 		}
