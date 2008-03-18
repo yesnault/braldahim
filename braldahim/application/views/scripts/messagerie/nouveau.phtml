@@ -65,7 +65,7 @@
 	    <textarea  name="valeur_10" id="valeur_10" rows='10' cols='80'><?=$this->message["contenu"];?></textarea>
 	    </center>
 		<div id="formbutton">
-		<input type="button" class='button1' name="Envoyer" value="Envoyer" onClick="Javascript:$('valeur_10').value = tinyMCE.getContent();_get_('/messagerie/DoAction?caction=do_messagerie_message');" /> 
+		<input type="button" class='button1' name="Envoyer" value="Envoyer" onClick="Javascript:$('valeur_10').value = tinyMCE.getContent();_get_('/messagerie/doaction?caction=do_messagerie_message');" /> 
 		<input type="button" class='button1' name="Annuler" value="Annuler" onClick='$("messagerie_message").innerHTML="";'>
 		</div>
 </form>

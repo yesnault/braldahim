@@ -17,7 +17,7 @@ class AdministrationFilonsController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	function FilonsAction() {
+	function filonsAction() {
 		Zend_Loader::loadClass('Zone');
 		Zend_Loader::loadClass('Filon');
 		Zend_Loader::loadClass('TypeMinerai');

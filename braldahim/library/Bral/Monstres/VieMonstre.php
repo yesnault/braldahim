@@ -7,9 +7,12 @@ class Bral_Monstres_VieMonstre {
 
 	public static function getInstance() {
 		Bral_Util_Log::tech()->trace("Bral_Monstres_VieMonstre - getInstance - enter");
+		
 		if (self::$instance == null) {
 			Zend_Loader::loadClass("Bral_Util_De");
 			Zend_Loader::loadClass("Bral_Util_Log");
+			Zend_Loader::loadClass("Palissade");
+			
 			self::$config = Zend_Registry::get('config');
 			self::$instance = new self();
 			Bral_Util_Log::tech()->trace("Bral_Monstres_VieMonstre - getInstance - nouvelle instance - exit");
@@ -281,12 +284,12 @@ class Bral_Monstres_VieMonstre {
 
 		$monstreTable = new Monstre();
 		$data = array(
-		'pa_monstre' => $this->monstre["pa_monstre"],
-		'x_monstre' => $this->monstre["x_monstre"],
-		'y_monstre' => $this->monstre["y_monstre"],
-		'nb_kill_monstre' => $this->monstre["nb_kill_monstre"],
-		'date_fin_tour_monstre' => $this->monstre["date_fin_tour_monstre"],
-		'duree_prochain_tour_monstre' => $this->monstre["duree_prochain_tour_monstre"]
+			'pa_monstre' => $this->monstre["pa_monstre"],
+			'x_monstre' => $this->monstre["x_monstre"],
+			'y_monstre' => $this->monstre["y_monstre"],
+			'nb_kill_monstre' => $this->monstre["nb_kill_monstre"],
+			'date_fin_tour_monstre' => $this->monstre["date_fin_tour_monstre"],
+			'duree_prochain_tour_monstre' => $this->monstre["duree_prochain_tour_monstre"]
 		);
 		$where = "id_monstre=".$this->monstre["id_monstre"];
 		$monstreTable->update($data, $where);
@@ -301,11 +304,11 @@ class Bral_Monstres_VieMonstre {
 		Zend_Loader::loadClass('Evenement');
 		$evenementTable = new Evenement();
 		$data = array(
-		'id_fk_hobbit_evenement' => $id_hobbit,
-		'id_fk_monstre_evenement' => $id_monstre,
-		'date_evenement' => date("Y-m-d H:i:s"),
-		'id_fk_type_evenement' => $id_type_evenement,
-		'details_evenement' => $details,
+			'id_fk_hobbit_evenement' => $id_hobbit,
+			'id_fk_monstre_evenement' => $id_monstre,
+			'date_evenement' => date("Y-m-d H:i:s"),
+			'id_fk_type_evenement' => $id_type_evenement,
+			'details_evenement' => $details,
 		);
 		$evenementTable->insert($data);
 		Bral_Util_Log::tech()->trace(get_class($this)." - majEvenements - exit");
@@ -316,7 +319,7 @@ class Bral_Monstres_VieMonstre {
 	 * et ajout dans la table cadavre
 	 * Drop Rune
 	 */
-	public function mortMonstreDb($id_monstre) {
+	public function mortMonstreDb($id_monstre, $effetMotD = null, $effetMotH = null) {
 	
 		if ($id_monstre == null || (int)$id_monstre<=0 ) {
 			throw new Zend_Exception(get_class($this)."::mortMonstreDb id_monstre inconnu:".$id_monstre);
@@ -334,11 +337,11 @@ class Bral_Monstres_VieMonstre {
 		}
 		
 		$data = array(
-		"id_cadavre" => $monstre["id_monstre"],
-		"id_fk_type_monstre_cadavre"  => $monstre["id_fk_type_monstre"],
-		"id_fk_taille_cadavre" => $monstre["id_fk_taille_monstre"],
-		"x_cadavre" => $monstre["x_monstre"],
-		"y_cadavre" => $monstre["y_monstre"],
+			"id_cadavre" => $monstre["id_monstre"],
+			"id_fk_type_monstre_cadavre"  => $monstre["id_fk_type_monstre"],
+			"id_fk_taille_cadavre" => $monstre["id_fk_taille_monstre"],
+			"x_cadavre" => $monstre["x_monstre"],
+			"y_cadavre" => $monstre["y_monstre"],
 		);
 		
 		$cadavreTable = new Cadavre();
@@ -351,22 +354,21 @@ class Bral_Monstres_VieMonstre {
 		$this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"]);
 	}
 	
-	private function dropRune($x, $y, $niveau) {
-		Zend_Loader::loadClass("Bral_Util_De");
+	private function dropRune($x, $y, $niveau, $effetMotD = 0) {
 		Zend_Loader::loadClass("Rune");
 		Zend_Loader::loadClass("TypeRune");
 		
 		$tirage = Bral_Util_De::get_1d100();
 		
-		Bral_Util_Log::tech()->trace(get_class($this)." - dropRune - tirage=".$tirage. " niveau_monstre=".$niveau);
+		Bral_Util_Log::tech()->trace(get_class($this)." - dropRune - tirage=".$tirage. " niveau_monstre=".$niveau. " effetMotD=".$effetMotD);
 		
-		if ($tirage >= 1 && $tirage <= 1 + ($niveau/4)) {
+		if ($tirage >= 1 && $tirage <= 1 + ($niveau/4) + $effetMotD) {
 			$niveau = 'a';
-		} else if ($tirage >= 2 && $tirage <= 6 + ($niveau/4)) {
+		} else if ($tirage >= 2 && $tirage <= 6 + ($niveau/4) + $effetMotD) {
 			$niveau = 'b';
-		} else if ($tirage >= 7 && $tirage <= 21 - ($niveau/4)) {
+		} else if ($tirage >= 7 && $tirage <= 21 - ($niveau/4) + $effetMotD) {
 			$niveau = 'c';
-		} else if ($tirage >= 22 && $tirage <= 90 - ($niveau/4)) {
+		} else if ($tirage >= 22 && $tirage <= 90 - ($niveau/4) + $effetMotD) {
 			$niveau = 'd';
 		} else {
 			return;
@@ -388,29 +390,29 @@ class Bral_Monstres_VieMonstre {
 		
 		$runeTable = new Rune();
 		$data = array(
-		"x_rune"  => $x,
-		"y_rune" => $y,
-		"id_fk_type_rune" => $typeRune["id_type_rune"],
+			"x_rune"  => $x,
+			"y_rune" => $y,
+			"id_fk_type_rune" => $typeRune["id_type_rune"],
 		);
 		
 		$runeTable = new Rune();
 		$runeTable->insert($data);
 	}
 	
-	private function dropCastars($x, $y, $niveau) {
+	private function dropCastars($x, $y, $niveau, $effetMotH = null) {
 		Zend_Loader::loadClass("Castar");
 		
-		if (Bral_Util_De::get_1d1() == 1) { 
-			$nbCastars = 10*$niveau + Bral_Util_De::get_1d5();
-		} else {
-			$nbCastars = 10*$niveau - Bral_Util_De::get_1d5() ;
+		$nbCastars = 10*$niveau + Bral_Util_De::get_1d5();
+		
+		if ($effetMotH == true) { 
+			$nbCastars = $nbCastars * 2;
 		}
 			
 		$castarTable = new Castar();
 		$data = array(
-		"x_castar"  => $x,
-		"y_castar" => $y,
-		"nb_castar" => $nbCastars,
+			"x_castar"  => $x,
+			"y_castar" => $y,
+			"nb_castar" => $nbCastars,
 		);
 		
 		$castarTable = new Castar();

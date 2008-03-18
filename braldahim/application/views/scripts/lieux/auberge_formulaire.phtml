@@ -12,6 +12,6 @@
 <br> 
 
 <? if ($this->utilisationPossible === true): ?>
-<input type='button' class='button1' id="bouton_auberge" value='Se restaurer !' onClick="this.disabled=true;_get_('/lieux/DoAction?caction=do_lieu_auberge');"  <? if ($this->utilisationPossible == false) echo "disabled"?>>
+<input type='button' class='button1' id="bouton_auberge" value='Se restaurer !' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_auberge');"  <? if ($this->utilisationPossible == false) echo "disabled"?>>
 <? endif; ?>
 <? include("commun_fermer.phtml") ?>

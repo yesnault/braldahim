@@ -50,6 +50,6 @@ Pour <?=$this->nb_pa ?> PA, vous pouvez courir jusqu'&agrave; <?=$this->distance
 </form>
 <br>
 <?php if ($this->assezDePa == true && $this->courirPossible == true) : ?>
-<input type='button' class='button1' value='Courir !' onClick='this.disabled=true;_get_("/competences/DoAction?caction=do_competence_courir");'>
+<input type='button' class='button1' value='Courir !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_courir");'>
 <? endif ?>
 <? include("commun_fermer.phtml") ?>

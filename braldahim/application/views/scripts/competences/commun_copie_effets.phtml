@@ -1,0 +1,39 @@
+<?
+
+	if ($this->effetMotD) {
+		echo "Votre case de La Mouette a eu de l'effet sur cette action, vos chances de trouver des runes rares ont &eacute;t&eacute; augment&eacute;es.";
+		echo "
+";
+	}
+	
+	if ($this->effetMotG) {
+		echo "Votre arme de Massacre a eu de l'effet sur cette action : le bonus de d&eacute;g&acirc;ts de votre ";
+		echo "arme a &eacute;t&eacute; doubl&eacute; (ou divis&eacute; par deux s'il est n&eacute;gatif).";
+	}
+	
+	if ($this->effetMotH) {
+		echo "Votre arme d'Appar&acirc;t a eu de l'effet sur cette action, la quantit&eacute; de castars dropp&eacute;s a &eacute;t&eacute; doubl&eacute;e.";
+		echo "
+";
+	}
+
+	if ($this->effetMotI) {
+		echo "Votre arme de Maladie a eu de l'effet sur cette action : la cible subit un malus de r&eacute;g&eacute;n&eacute;ration &eacute;gal au niveau de l'arme.";
+		echo "
+";
+	}
+	
+	if ($this->effetMotL) {
+		echo "Votre arme de Finisseur a eu de l'effet sur cette action, vous gagnez 4 Points d'Action.";
+		echo "
+";
+	}
+	
+	if ($this->effetMotQ) {
+		echo "Votre arme de Glace a eu de l'effet sur cette action : la cible subit un malus d'agilit&eacute; &eacute;gal au niveau de l'arme. ";
+		echo "Le malus est appliqu&eacute; pour le tour actuel et le tour suivant de la cible.";
+		echo "
+";
+	}
+
+?>

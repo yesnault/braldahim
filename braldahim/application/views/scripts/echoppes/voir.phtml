@@ -43,7 +43,7 @@
   	<? endif; ?>
 		<? foreach($this->competences as $c) : ?>
 				<input type="button" class='button1' value="<?=$c["pa_utilisation"]?> PA - <?=htmlentities($c["nom"])?> : <?=$c["pourcentage"]?> % "
-       		  onClick="Javascript:_get_('/competences/DoAction?caction=ask_competence_<?=$c["nom_systeme"] ?>')" <?=$disabled ?>>
+       		  onClick="Javascript:_get_('/competences/doaction?caction=ask_competence_<?=$c["nom_systeme"] ?>')" <?=$disabled ?>>
 		<? endforeach; ?>
    </ul>
 </div>

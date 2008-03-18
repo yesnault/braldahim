@@ -17,19 +17,19 @@ class AdministrationHobbitsController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	function HobbitsAction() {
+	function hobbitsAction() {
 		Zend_Loader::loadClass('Hobbit');
 
 		$this->hobbitsPrepare();
 		$this->render();
 	}
 	
-	function HobbitAction() {
+	function hobbitAction() {
 		Zend_Loader::loadClass('Hobbit');
 
 		$this->modificationHobbit = false;
 		
-		if ($this->_request->isPost() && $this->_request->get('idHobbit') == $this->_request->getPost("id_hobbit")) {
+		if ($this->_request->isPost() && $this->_request->get('idhobbit') == $this->_request->getPost("id_hobbit")) {
 			$tabPost = $this->_request->getPost();
 			foreach($tabPost as $key => $value) {
 				if ($key != 'id_hobbit' && substr($key, -7) == "_hobbit") {
@@ -68,13 +68,13 @@ class AdministrationHobbitsController extends Zend_Controller_Action {
 	
 	private function hobbitPrepare() {
 		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->findById($this->_request->get('idHobbit'));
+		$hobbitRowset = $hobbitTable->findById($this->_request->get('idhobbit'));
 		if (count($hobbitRowset) == 1) {
 			$this->view->hobbit = $hobbitRowset->toArray();
 		} else {
 			$this->view->hobbit = null;
 		}
-		$this->view->id_hobbit = $this->_request->get('idHobbit');
+		$this->view->id_hobbit = $this->_request->get('idhobbit');
 		
 		if ($this->_request->get('mode') == "" || $this->_request->get('mode') == "simple") {
 			$this->view->mode = "simple";

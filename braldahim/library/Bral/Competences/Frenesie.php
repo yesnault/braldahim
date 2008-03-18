@@ -170,12 +170,8 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			$jetDegat = $coefCritique * (0.5 * $jetDegat);
 		}
 		
-		$commun = new Bral_Util_Commun();
-		$bm_degat_hobbit = $commun->getEffetMotG($this->view->user->id_hobbit, $this->view->user->bm_degat_hobbit);
-
-		$jetDegat = $coefCritique * (0.5 * $jetDegat) + $this->view->user->force_bm_hobbit + $bm_degat_hobbit;
-		
-		$this->view->jetDegat = $jetDegat;
+		$jetDegat = $coefCritique * (0.5 * $jetDegat) + $this->view->user->force_bm_hobbit + $this->view->user->bm_degat_hobbit;
+		return $jetDegat;
 	}
 
 	public function calculPx() {

@@ -17,7 +17,7 @@ class AdministrationPlantesController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	function PlantesAction() {
+	function plantesAction() {
 		Zend_Loader::loadClass('Ville');
 		Zend_Loader::loadClass('Zone');
 		Zend_Loader::loadClass('Plante');

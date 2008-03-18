@@ -22,11 +22,12 @@
 	 	<? else: ?>
 	 		Votre attaque a &eacute;t&eacute; esquiv&eacute;e 
 	 		<? if ($this->fragilisee === true) : ?>
-	 		<br> La cible est fragilis&eacute;e pour les prochaines attaques
+	 		<br> La cible est fragilis&eacute;e pour les prochaines attaques<br>
 	 		<? else: ?>
 	 		parfaitement.
 	 		<? endif; ?>
 	 	<? endif; ?>
+	 	<? include("commun_text_resultat.phtml") ?>
 	 </div>
 	 
 	 <div id='attaquer_copie' style="display:none">
@@ -64,10 +65,13 @@
 	 	  	 	echo "
 ";
 	 		 	echo "La cible est fragilis&eacute;e pour les prochaines attaques";
+	 		 	echo "
+";
 	 	  	 } else {
-	 	  	 	echo " parfaitement"
+	 	  	 	echo " parfaitement";
 ;	 	  	 }
 	 	  }
+	 	  include("commun_copie_resultat.phtml");
 		?></textarea>
 	</div>
  </div>

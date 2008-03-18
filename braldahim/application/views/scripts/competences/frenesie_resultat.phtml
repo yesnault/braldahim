@@ -37,6 +37,7 @@
 	 	<? else: ?>
 			Vous avez manqu&eacute; votre fr&eacute;n&eacute;sie.<br>
 		<? endif; ?>
+		<? include("commun_text_resultat.phtml") ?>
 	 </div>
 	 
 	 <div id='frenesie_copie' style="display:none">
@@ -88,7 +89,7 @@
 		 } else {
 		 	echo "Vous avez manqu&eacute; votre fr&eacute;n&eacute;sie.";
 		 }
-		
+		include("commun_copie_resultat.phtml");
 		?></textarea>
 	</div>
  </div>

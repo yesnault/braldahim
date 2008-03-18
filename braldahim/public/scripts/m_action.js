@@ -16,20 +16,20 @@ function _get_(url){
   $("box_chargement").style.display = "block";
   
   if (url.length > 34) {
-  	if (url.substring(0, 12) == "/competences") { // /competences/DoAction?caction=ask/do
-  		if ((url.substring(13, 15) == "Do") && (url.substring(30, 32) == "do")) {
+  	if (url.substring(0, 12) == "/competences") { // /competences/doaction?caction=ask/do
+  		if ((url.substring(13, 15) == "do") && (url.substring(30, 32) == "do")) {
   			action = "do";
   		}
-   	} else if (url.substring(0, 9) == "/echoppes") { // /echoppes/DoAction?caction=ask/do
-  		if ((url.substring(10, 12) == "Do") && (url.substring(27, 29) == "do")) {
+   	} else if (url.substring(0, 9) == "/echoppes") { // /echoppes/doaction?caction=ask/do
+  		if ((url.substring(10, 12) == "do") && (url.substring(27, 29) == "do")) {
   			action = "do";
   		}
-  	} else if (url.substring(0, 6) == "/lieux") { // /lieux/DoAction?caction=ask/do
-  		if ((url.substring(7, 9) == "Do") && (url.substring(24, 26) == "do")) {
+  	} else if (url.substring(0, 6) == "/lieux") { // /lieux/doaction?caction=ask/do
+  		if ((url.substring(7, 9) == "do") && (url.substring(24, 26) == "do")) {
   			action = "do";
   		}
-  	} else if (url.substring(0, 11) == "/messagerie") { // /lieux/DoAction?caction=ask/do
-  		if ((url.substring(12, 14) == "Do") && (url.substring(29, 31) == "do")) {
+  	} else if (url.substring(0, 11) == "/messagerie") { // /lieux/doaction?caction=ask/do
+  		if ((url.substring(12, 14) == "do") && (url.substring(29, 31) == "do")) {
   			action = "do";
   		}
   	}

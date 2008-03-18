@@ -20,6 +20,6 @@
 </form>
 <br>
 <?php if ($this->assezDePa == true && $this->chasserOk === true) : ?>
-<input type='button' class='button1' id='bouton_chasser' value='Chasser !' onClick='this.disabled=true;_get_("/competences/DoAction?caction=do_competence_chasser");'>
+<input type='button' class='button1' id='bouton_chasser' value='Chasser !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_chasser");'>
 <? endif ?>
 <? include("commun_fermer.phtml") ?>

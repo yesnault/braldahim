@@ -131,38 +131,67 @@ class Bral_Util_Commun {
 		return $jetDegat;
 	}
 	
-	public function getEffetMotG($idHobbit, $bmDegat) {
-		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_g");
+	public function getEffetMotD($idHobbit) {
+		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_d");
+		$retour = 0;
 		if ($equipement != null) {
-			if ($bmDegat < 0) {
-				$bmDegat = $bmDegat / 2;
-			} else {
-				$bmDegat = $bmDegat * 2;
-			}
+			$retour = $equipementCible["niveau_recette_equipement"];
 		}
-		return $bmDegat;
+		return $retour;
 	}
 	
-	public function getEffetMotI($idHobbit, $regeneration) {
-		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_i");
+	public function getEffetMotG($idHobbit) {
+		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_g");
+		$retour = null;
 		if ($equipement != null) {
-			$regeneration = $regeneration - $equipement["niveau_recette_equipement"];
+			if ($equipement["bm_degat_recette_equipement"] < 0) {
+				$retour = (- $equipement["bm_degat_recette_equipement"]) / 2; // le malus est divise par deux : on enleve la moitie
+			} else {
+				$retour = $equipement["bm_degat_recette_equipement"]; // double
+			}
 		}
-		return $regeneration;
+		return $retour;
+	}
+	
+	public function getEffetMotH($idHobbit) {
+		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_h");
+		$retour = false;
+		if ($equipement != null) {
+			$retour = true;
+		}
+		return $retour;
+	}
+	
+	public function getEffetMotI($idHobbit) {
+		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_i");
+		$retour = null;
+		if ($equipement != null) {
+			$retour = - $equipement["niveau_recette_equipement"];
+		}
+		return $retour;
 	}
 	
 	public function getEffetMotJ($idHobbit) {
 		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_j");
-		$retour = 0;
+		$retour = null;
 		if ($equipement != null) {
 			$retour = - $equipementCible["niveau_recette_equipement"];
 		}
 		return $retour;
 	}
 	
+	public function getEffetMotL($idHobbit) {
+		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_l");
+		$retour = false;
+		if ($equipement != null) {
+			$retour = true;
+		}
+		return $retour;
+	}
+	
 	public function getEffetMotQ($idHobbit) {
-		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_q");
-		$retour = 0;
+		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_j");
+		$retour = null;
 		if ($equipement != null) {
 			$retour = - $equipementCible["niveau_recette_equipement"];
 		}

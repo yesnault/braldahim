@@ -13,6 +13,14 @@ abstract class Bral_Competences_Competence {
 		$this->view->jetUtilise = false;
 		$this->view->balanceFaimUtilisee = false;
 		
+		$this->view->effetMotD = false;
+		$this->view->effetMotG = false;
+		$this->view->effetMotH = false;
+		$this->view->effetMotI = true;
+		$this->view->effetMotJ = true;
+		$this->view->effetMotL = false;
+		$this->view->effetMotQ = true;
+		
 		// recuperation de hobbit competence
 		$this->hobbit_competence = $hobbitCompetence;
 
@@ -280,14 +288,15 @@ abstract class Bral_Competences_Competence {
 		}
 	}
 	
-	public function dropHobbitCastars(&$cible) {
+	public function dropHobbitCastars(&$cible, $effetH = null) {
 		//Lorqu'un Hobbit meurt il perd une partie de ces castars : 1/3 arr inférieur.
 		
 		if ($cible["castars_hobbit"] > 0) {
-			if (Bral_Util_De::get_1d1() == 1) { 
-				$nbCastars = floor($cible["castars_hobbit"] / 3) + Bral_Util_De::get_1d5();
-			} else {
-				$nbCastars = floor($cible["castars_hobbit"] / 3) - Bral_Util_De::get_1d5() ;
+			
+			$nbCastars = floor($cible["castars_hobbit"] / 3) + Bral_Util_De::get_1d5();
+			
+			if ($effetH == true) { 
+				$nbCastars = $nbCastars * 2;
 			}
 			
 			$cible["castars_hobbit"] = $cible["castars_hobbit"] - $nbCastars;
@@ -296,9 +305,9 @@ abstract class Bral_Competences_Competence {
 		
 			$castarTable = new Castar();
 			$data = array(
-			"x_castar"  => $cible["x_cible"],
-			"y_castar" => $cible["y_cible"],
-			"nb_castar" => $nbCastars,
+				"x_castar"  => $cible["x_cible"],
+				"y_castar" => $cible["y_cible"],
+				"nb_castar" => $nbCastars,
 			);
 			
 			$castarTable = new Castar();
@@ -341,10 +350,33 @@ abstract class Bral_Competences_Competence {
 			$this->calculDegat($this->view->critique);
 			
 			$this->view->jetDegat = $commun->getEffetMotA($hobbit->id_hobbit, $this->view->jetDegat);
-			$hobbit->regeneration_malus_hobbit = $commun->getEffetMotI($this->view->user->id_hobbit, $hobbit->regeneration_malus_hobbit);
-			$hobbit->vue_malus_hobbit = $commun->getEffetMotJ($this->view->user->id_hobbit);
+			
+			$effetMotG = $commun->getEffetMotG($this->view->user->id_hobbit);
+			if ($effetMotG != null) {
+				$this->view->effetMotG = true;
+				$this->view->jetDegat = $this->view->jetDegat + $effetMotG;
+			}
+			
+			$effetMotI = $commun->getEffetMotI($this->view->user->id_hobbit);
+			if ($effetMotI != null) {
+				$this->view->effetMotI = true;
+				$hobbit->regeneration_malus_hobbit = $hobbit->regeneration_malus_hobbit + $effetMotI;
+			}
+			
+			$effetMotJ = $commun->getEffetMotJ($this->view->user->id_hobbit);
+			if ($effetMotJ != null) {
+				$this->view->effetMotJ = true;
+				$hobbit->vue_malus_hobbit = $hobbit->vue_malus_hobbit+ $effetMotJ;
+			}
+			
 			$hobbit->vue_bm_hobbit = $hobbit->vue_bm_hobbit + $hobbit->vue_malus_hobbit;
-			$hobbit->agilite_malus_hobbit = $commun->getEffetMotQ($this->view->user->id_hobbit);
+			
+			$effetMotQ = $commun->getEffetMotQ($this->view->user->id_hobbit);
+			if ($effetMotQ != null) {
+				$this->view->effetMotQ = true;
+				$hobbit->agilite_malus_hobbit = $hobbit->agilite_malus_hobbit + $effetMotQ;
+			}
+			
 			$hobbit->agilite_bm_hobbit = $hobbit->agilite_bm_hobbit + $hobbit->agilite_malus_hobbit;
 			
 			$pv = ($hobbit->pv_restant_hobbit + $hobbit->bm_defense_hobbit) - $this->view->jetDegat;
@@ -354,8 +386,19 @@ abstract class Bral_Competences_Competence {
 				$mort = "oui";
 				$nb_mort = $nb_mort + 1;
 				$this->view->user->nb_kill_hobbit = $this->view->user->nb_kill_hobbit + 1;
+				
+				$effetH = $commun->getEffetMotH($this->view->user->id_hobbit);
+				if ($effetH == true) {					
+					$this->view->effetMotH = true;
+				}
+				
+				if ($commun->getEffetMotL($hobbit->id_hobbit) == true) {
+					$this->view->user->pa_hobbit = $this->view->user->pa_hobbit + 4;
+					$this->view->effetMotL = true;
+				}
+				
 				$this->view->mort = true;
-				$this->dropHobbitCastars($cible);
+				$this->dropHobbitCastars($cible, $effetH);
 			} else {
 				$cible["agilite_bm_hobbit"]  = $cible["agilite_bm_hobbit"] - $cible["niveau_hobbit"];
 				$mort = "non";
@@ -436,19 +479,59 @@ abstract class Bral_Competences_Competence {
 			if ($this->view->jetAttaquant / 2 > $this->view->jetCible ) {
 				$this->view->critique = true;
 			}
-			$this->calculDegat($this->view->critique);
 			
-			$monstre["regeneration_malus_monstre"] = $commun->getEffetMotI($this->view->user->id_hobbit, $monstre["regeneration_malus_monstre"]);
-			$monstre["vue_malus_monstre"] = $commun->getEffetMotJ($this->view->user->id_hobbit);
-			$monstre["agilite_malus_monstre"] = $commun->getEffetMotQ($this->view->user->id_hobbit);
+			$this->view->jetDegat = $this->calculDegat($this->view->critique);
+			
+			$effetMotG = $commun->getEffetMotG($this->view->user->id_hobbit);
+			if ($effetMotG != null) {
+				$this->view->effetMotG = true;
+				$this->view->jetDegat = $this->view->jetDegat + $effetMotG;
+			}
+			
+			$effetMotI = $commun->getEffetMotI($this->view->user->id_hobbit);
+			if ($effetMotI != null) {
+				$this->view->effetMotI = true;
+				$monstre["regeneration_malus_monstre"] = $monstre["regeneration_malus_monstre"] + $effetMotI;
+			}
+			
+			$effetMotJ = $commun->getEffetMotJ($this->view->user->id_hobbit);
+			if ($effetMotJ != null) {
+				$this->view->effetMotJ = true;
+				$monstre["vue_malus_monstre"] = $monstre["vue_malus_monstre"] + $effetMotJ;
+			}
+			
+			$effetMotQ = $commun->getEffetMotQ($this->view->user->id_hobbit);
+			if ($effetMotQ != null) {
+				$this->view->effetMotQ = true;
+				$monstre["agilite_malus_monstre"] = $monstre["agilite_malus_monstre"] + $effetMotQ;
+			}
+			
 			$monstre["agilite_bm_monstre"] = $monstre["agilite_bm_monstre"] + $monstre["agilite_malus_monstre"];
 			
 			$pv = $monstre["pv_restant_monstre"] - $this->view->jetDegat;
 			
 			if ($pv <= 0) {
+				$effetD = null;
+				$effetH = null;
+				
+				$effetD = $commun->getEffetMotD($this->view->user->id_hobbit);
+				if ($effetD != 0) {					
+					$this->view->effetMotD = true;
+				}
+				
+				$effetH = $commun->getEffetMotH($this->view->user->id_hobbit);
+				if ($effetH == true) {					
+					$this->view->effetMotH = true;
+				}
+				
+				if ($commun->getEffetMotL($this->view->user->id_hobbit) == true) {
+					$this->view->user->pa_hobbit = $this->view->user->pa_hobbit + 4;
+					$this->view->effetMotL = true;
+				}
+
 				$this->view->mort = true;
 				$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
-				$vieMonstre->mortMonstreDb($cible["id_cible"]);
+				$vieMonstre->mortMonstreDb($cible["id_cible"], $effetD, $effetH);
 			} else {
 				$agilite_bm_monstre = $monstre["agilite_bm_monstre"] - $monstre["niveau_monstre"];
 				$this->view->fragilisee = true;
@@ -488,5 +571,9 @@ abstract class Bral_Competences_Competence {
 		}
 		
 		return $attaqueReussie;
+	}
+	
+	protected function setEffetMotG($effet) {
+		$this->view->effetMotG = $effet;
 	}
 }

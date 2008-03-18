@@ -5,7 +5,7 @@
 		 niveau: <?=$e["niveau"] ?>, nb. emplacements: <?=$e["nb_runes"] ?><br>
 	<? endforeach; ?>
 		<input type="button" class='button1' value="0 PA - Retirer de la vente"
-       		  onClick="Javascript:_get_('/echoppes/DoAction?caction=ask_echoppes_retirer&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" />
+       		  onClick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_retirer&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" />
 <? else: ?>
 	Vous n'avez aucun &eacute;quipement en vente
 <? endif; ?>

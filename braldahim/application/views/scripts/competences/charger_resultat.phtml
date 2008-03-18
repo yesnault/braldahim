@@ -33,6 +33,7 @@
 		<? else: ?>
 			Vous avez manqu&eacute; votre charge.<br>
 		<? endif; ?>
+		<? include("commun_text_resultat.phtml") ?>
 	 </div>
 	 
 	 <div id='charger_copie' style="display:none">
@@ -79,6 +80,7 @@
 		 } else {
 		 	echo "Vous avez manqu&eacute; votre charge.";
 		 }
+		 include("commun_copie_resultat.phtml");
 		?></textarea>
 	</div>
  </div>

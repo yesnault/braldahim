@@ -127,11 +127,8 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
 		}
 		
-		$commun = new Bral_Util_Commun();
-		$bm_degat_hobbit = $commun->getEffetMotG($this->view->user->id_hobbit, $this->view->user->bm_degat_hobbit);
-		
-		$jetDegat = $jetDegat + $this->view->user->force_bm_hobbit + $bm_degat_hobbit;
-		$this->view->jetDegat = $jetDegat;
+		$jetDegat = $jetDegat + $this->view->user->force_bm_hobbit + $this->view->user->bm_degat_hobbit;
+		return $jetDegat;
 	}
 
 	public function calculPx() {

@@ -25,11 +25,11 @@ class MessagerieController extends Zend_Controller_Action {
 		$this->_redirect('/messagerie/reception');
 	}
 
-	function AskActionAction() {
-		$this->DoActionAction();
+	function askactionAction() {
+		$this->doactionAction();
 	}
 
-	function DoActionAction() {
+	function doactionAction() {
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("display");
 		$xml_response = new Bral_Xml_Response();

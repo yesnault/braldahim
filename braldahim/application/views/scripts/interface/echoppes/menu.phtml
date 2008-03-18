@@ -1,7 +1,7 @@
 
 <div id="menu_echoppes_metier">
   <? $liste = "echoppes_constructions"; $sep = ","  ?>
-   <span id='onglet_echoppes_constructions' class='onglet actif' onClick='Javascript:my_switch("echoppes_constructions", "menu_echoppes_metier");_get_("/echoppes/DoAction?caction=ask_echoppes_liste");'>
+   <span id='onglet_echoppes_constructions' class='onglet actif' onClick='Javascript:my_switch("echoppes_constructions", "menu_echoppes_metier");_get_("/echoppes/doaction?caction=ask_echoppes_liste");'>
       &nbsp;Mes constructions&nbsp;
    </span>
   <? foreach($this->tabMetiers as $m) : ?>
@@ -19,7 +19,7 @@
   	<div id="echoppes_<?=$m["nom_systeme_metier"] ?>" style="display:none;">
   	<? foreach($m["regions"] as $r) : ?>
   		<? if (isset($r["echoppe"])) : ?>
-  			<span id='onglet_echoppe_<?=$m["nom_systeme_metier"]."_".$r["nom_systeme_region"]?>' class='onglet inactif' onClick="Javascript:my_switch('echoppe_<?=$m["nom_systeme_metier"] ?>_<?= $r["nom_systeme_region"]?>', 'menu_echoppes');_get_('/echoppes/DoAction?caction=ask_echoppes_voir&valeur_1=<?=$r["echoppe"]["id_echoppe"]?>')"'>
+  			<span id='onglet_echoppe_<?=$m["nom_systeme_metier"]."_".$r["nom_systeme_region"]?>' class='onglet inactif' onClick="Javascript:my_switch('echoppe_<?=$m["nom_systeme_metier"] ?>_<?= $r["nom_systeme_region"]?>', 'menu_echoppes');_get_('/echoppes/doaction?caction=ask_echoppes_voir&valeur_1=<?=$r["echoppe"]["id_echoppe"]?>')"'>
      		 &nbsp;<?=htmlentities($r["nom_region"])?>&nbsp;
 			x:<?=$r["echoppe"]["x_echoppe"]?> y:<?=$r["echoppe"]["y_echoppe"]?>
 			</span>

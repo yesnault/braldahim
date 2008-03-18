@@ -38,6 +38,9 @@ class Castar extends Zend_Db_Table {
 			
 			if (isset($data["nb_castar"])) {
 				$dataUpdate['nb_castar'] = $quantiteCastars + $data["nb_castar"];
+				if ($dataUpdate['nb_castar'] < 0) {
+					$dataUpdate['nb_castar'] = 0;
+				}
 			}
 			if (isset($dataUpdate)) {
 				$where = 'x_castar = '.$data["x_castar"]. ' AND y_castar = '.$data["y_castar"];
