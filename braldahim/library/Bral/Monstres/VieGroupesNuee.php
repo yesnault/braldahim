@@ -3,20 +3,22 @@
 class Bral_Monstres_VieGroupesNuee {
 	function __construct($view) {
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
-		Zend_Loader::loadClass("Bral_Util_De");
-		Zend_Loader::loadClass("Bral_Util_Log");
 		Zend_Loader::loadClass("Ville");
 		$this->view = $view;
 	}
 
 	function vieGroupesAction() {
 		Bral_Util_Log::tech()->trace(get_class($this)." - vieGroupesAction - enter");
-		// recuperation des monstres a jouer
-		$groupeMonstreTable = new GroupeMonstre();
-		$groupes = $groupeMonstreTable->findGroupesAJouer($this->view->config->game->monstre->nombre_groupe_a_jouer, $this->view->config->game->groupe_monstre->type->nuee);
-		foreach($groupes as $g) {
-			$this->vieGroupeAction($g);
-			$this->updateGroupe($g);
+		try {
+			// recuperation des monstres a jouer
+			$groupeMonstreTable = new GroupeMonstre();
+			$groupes = $groupeMonstreTable->findGroupesAJouer($this->view->config->game->monstre->nombre_groupe_a_jouer, $this->view->config->game->groupe_monstre->type->nuee);
+			foreach($groupes as $g) {
+				$this->vieGroupeAction($g);
+				$this->updateGroupe($g);
+			}
+		} catch (Exception $e) {
+			Bral_Util_Log::erreur()->err(get_class($this)." - vieGroupesAction - Erreur:".$e->getTraceAsString());
 		}
 		Bral_Util_Log::tech()->trace(get_class($this)." - vieGroupesAction - exit");
 	}
@@ -182,7 +184,7 @@ class Bral_Monstres_VieGroupesNuee {
 		$hobbitTable = new Hobbit();
 
 		foreach($monstres as $monstre) {
-			$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["vue_monstre"], 1);
+			$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["vue_monstre"], 1, $monstre["id_type_monstre"]);
 			if ($cibles != null) {
 				$cible = $cibles[0];
 				Bral_Util_Log::tech()->debug(get_class($this)." - nouvelle cible trouvee:".$cible["id_hobbit"]);

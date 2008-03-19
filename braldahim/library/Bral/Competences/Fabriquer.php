@@ -166,8 +166,6 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
-		Zend_Loader::loadClass("Bral_Util_De");
-
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);

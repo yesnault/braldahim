@@ -44,9 +44,10 @@ class AuthController extends Zend_Controller_Action {
 			$auth = Zend_Auth::getInstance();
 			$result = $auth->authenticate($authAdapter);
 			if ($result->isValid()) {
-					
+
 				$hobbit = $authAdapter->getResultRowObject(null,'password_hobbit');
 				if ($hobbit->est_compte_actif_hobbit == "oui") {
+					Bral_Util_Log::authentification()->notice("AuthController - loginAction - authentification OK pour ".$email);
 					// success : store database row to auth's storage system
 					// (not the password though!)
 					$auth->getStorage()->write($hobbit);
@@ -58,15 +59,18 @@ class AuthController extends Zend_Controller_Action {
 					Zend_Auth::getInstance()->getIdentity()->administrateur = (Zend_Auth::getInstance()->getIdentity()->sysgroupe_hobbit == 'admin');
 					
 					if (Zend_Auth::getInstance()->getIdentity()->gardiennage === true) {
+						Bral_Util_Log::authentification()->trace("AuthController - loginAction - appel gardiennage");
 						$this->_redirect('/gardiennage/');
 					} else {
 						$this->_redirect('/interface/');
 					}
 				} else {
+					Bral_Util_Log::authentification()->warn("AuthController - loginAction - compte non actif : ".$email);
 					$this->view->message = "Ce compte n'est pas actif";
 					Zend_Auth::getInstance()->clearIdentity();
 				}
 			} else {
+				Bral_Util_Log::authentification()->notice("AuthController - loginAction - echec d'authentification pour ".$email);
 				$this->view->message = "Echec d'authentification";
 			}
 		}

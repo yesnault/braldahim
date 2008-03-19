@@ -58,9 +58,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
-		Zend_Loader::loadClass("Bral_Util_De");
 		Zend_Loader::loadClass('LabanPartieplante');
-		Zend_Loader::loadClass('Hobbit');
 
 		$idPlante = intval($this->request->get("valeur_1"));
 

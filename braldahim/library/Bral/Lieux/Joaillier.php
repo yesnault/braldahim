@@ -9,6 +9,8 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 	function prepareCommun() {
 		Zend_Loader::loadClass("LabanEquipement");
 		Zend_Loader::loadClass("MotRunique");
+		
+		$this->view->effetMotF = false;
 
 		$id_equipement_courant = $this->request->get("id_equipement");
 
@@ -163,11 +165,13 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 		$motRuniqueTable = new MotRunique();
 		
 		$id_fk_mot_runique_laban_equipement = null;
+		$nom_mot_runique = null;
 		
 		$motsRowset = $motRuniqueTable->findByIdTypePieceAndRunes($this->view->equipementCourant["id_fk_type_piece"], $tabRunes);
 		if (count($motsRowset) > 0) {
 			foreach ($motsRowset as $m) {
 				$id_fk_mot_runique_laban_equipement = $m["id_mot_runique"];
+				$nom_mot_runique = $m["nom_mot_runique"];
 				$this->view->suffixe = $m["suffixe_mot_runique"];
 				break; // s'il y a plusieurs mots (ce qui devrait jamais arriver), on prend le premier
 			}
@@ -196,6 +200,34 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			);
 			$where = "id_laban_equipement=".$this->view->equipementCourant["id_laban_equipement"];
 			$labanEquipementTable->update($data, $where);
+		}
+		
+		if ($nom_mot_runique != null && $nom_mot_runique == "mot_f") {
+			Zend_Loader::loadClass("EffetMotF");
+			Zend_Loader::loadClass("TypeMonstre");
+			
+			$this->view->effetMotF = false;
+			$typeMonstreTable = new TypeMonstre();
+			
+			$typeMonstreRowset = $typeMonstreTable->fetchall();
+			$typeMonstreRowset = $typeMonstreRowset->toArray();
+			
+			$typesMonstre = null;
+			
+			foreach($typeMonstreRowset as $t) {
+				$typesMonstre[] = array(
+					"id_type_monstre" => $t["id_type_monstre"],
+					//"nom_type_monstre" => $t["nom_type_monstre"],
+				);
+			}
+			
+			$nTypeMonstre = Bral_Util_De::get_de_specifique(0, count($typesMonstre)-1);
+			$idTypeMonstre = $typesMonstre[$nTypeMonstre]["id_type_monstre"];
+			
+			$effetMotFTable = new EffetMotF();
+			$data = array("id_fk_hobbit_effet_mot_f" => $this->view-user->id_hobbit, 
+						  "id_fk_type_monstre_effet_mot_f" => $idTypeMonstre);
+			$effetMotDTable->insert($data);
 		}
 	}
 	

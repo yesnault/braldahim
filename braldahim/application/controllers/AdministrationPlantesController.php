@@ -30,7 +30,6 @@ class AdministrationPlantesController extends Zend_Controller_Action {
 		$nb_creation = 0;
 
 		if ($this->_request->isPost()) {
-			Zend_Loader::loadClass("Bral_Util_De");
 			Zend_Loader::loadClass('Zend_Filter');
 			Zend_Loader::loadClass('Zend_Filter_StripTags');
 			Zend_Loader::loadClass('Zend_Filter_StringTrim');

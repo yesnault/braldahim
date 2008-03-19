@@ -48,9 +48,6 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
-		Zend_Loader::loadClass("Bral_Util_De");
-		Zend_Loader::loadClass('Hobbit');
-
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
@@ -84,7 +81,6 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 	 */
 	private function calculAbattreArbre() {
 		Zend_Loader::loadClass("Charrette");
-		Zend_Loader::loadClass("Bral_Util_De");
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		
 		$commun = new Bral_Util_Commun();

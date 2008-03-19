@@ -11,7 +11,6 @@ class VieMonstresController extends Zend_Controller_Action {
 		Zend_Loader::loadClass('GroupeMonstre');
 		Zend_Loader::loadClass('Monstre');
 		Zend_Loader::loadClass("Bral_Monstres_VieGroupesNuee");
-		Zend_Loader::loadClass("Bral_Util_De");
 		Zend_Loader::loadClass("Bral_Util_ConvertDate");
 	}
 

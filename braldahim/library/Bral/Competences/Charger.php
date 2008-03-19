@@ -201,7 +201,6 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
-		Zend_Loader::loadClass("Bral_Util_De");
 		
 		if ($this->view->chargerVilleOk == false) {
 			throw new Zend_Exception(get_class($this)." Charger interdit ville");
@@ -291,23 +290,29 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 	 * cas du critique :
 	 * 1.5(jet FOR) + BM FOR + bonus arme + jet VIG + BM VIG
 	 */
-	protected function calculDegat($estCritique, $hobbit) {
-		$jetDegat = 0;
-		$coefCritique = 1;
-		if ($estCritique === true) {
-			$coefCritique = 1.5;
-		}
+	protected function calculDegat($hobbit) {
+		$jetDegat["critique"] = 0;
+		$jetDegat["noncritique"] = 0;
+		$coefCritique = 1.5;
 		
 		for ($i=1; $i<= ($this->view->config->game->base_force + $hobbit->force_base_hobbit) * $coefCritique; $i++) {
-			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
+			$jetDegat["critique"] = $jetDegat["critique"] + Bral_Util_De::get_1d6();
 		}
-		$jetDegat = $jetDegat + $this->view->user->force_bm_hobbit;
+		$jetDegat["critique"] = $jetDegat["critique"] + $this->view->user->force_bm_hobbit;
+		
+		for ($i=1; $i<= ($this->view->config->game->base_force + $hobbit->force_base_hobbit); $i++) {
+			$jetDegat["noncritique"] = $jetDegat["noncritique"] + Bral_Util_De::get_1d6();
+		}
+		$jetDegat["noncritique"] = $jetDegat["noncritique"] + $this->view->user->force_bm_hobbit;
 		
 		for ($i=1; $i<= $this->view->config->game->base_vigueur + $hobbit->vigueur_base_hobbit; $i++) {
-			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
+			$jetDegat["critique"] = $jetDegat["critique"] + Bral_Util_De::get_1d6();
+			$jetDegat["noncritique"] = $jetDegat["noncritique"] + Bral_Util_De::get_1d6();
 		}
 		
-		$jetDegat = $jetDegat + $hobbit->vigueur_bm_hobbit + $hobbit->bm_degat_hobbit;
+		$jetDegat["critique"] = $jetDegat["critique"] + $hobbit->vigueur_bm_hobbit + $hobbit->bm_degat_hobbit;
+		$jetDegat["noncritique"] = $jetDegat["noncritique"] + $hobbit->vigueur_bm_hobbit + $hobbit->bm_degat_hobbit;
+
 		return $jetDegat;
 	}
 

@@ -6,6 +6,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
 		Zend_Loader::loadClass('Bral_Util_Commun');
+		Zend_Loader::loadClass('Bral_Util_Attaque');
 		
 		$tabHobbits = null;
 		$tabMonstres = null;
@@ -45,7 +46,6 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
-		Zend_Loader::loadClass("Bral_Util_De");
 		
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
 			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_1"));
@@ -108,27 +108,11 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 	}
 
 	protected function calculJetAttaque($hobbit) {
-		$jetAttaquant = 0;
-		for ($i=1; $i<=$this->view->config->base_agilite + $hobbit->agilite_base_hobbit; $i++) {
-			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
-		}
-		$jetAttaquant = $jetAttaquant + $hobbit->agilite_bm_hobbit;
-		return $jetAttaquant;
+		return Bral_Util_Attaque::calculJetAttaqueNormale($hobbit);
 	}
 
-	protected function calculDegat($estCritique, $hobbit) {
-		$jetDegat = 0;
-		$coefCritique = 1;
-		if ($estCritique === true) {
-			$coefCritique = 1.5;
-		}
-		
-		for ($i=1; $i<= ($this->view->config->game->base_force + $hobbit->force_base_hobbit) * $coefCritique; $i++) {
-			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
-		}
-		
-		$jetDegat = $jetDegat + $hobbit->force_bm_hobbit + $hobbit->bm_degat_hobbit;
-		return $jetDegat;
+	protected function calculDegat($hobbit) {
+		return Bral_Util_Attaque::calculDegatAttaqueNormale($hobbit);
 	}
 
 	public function calculPx() {

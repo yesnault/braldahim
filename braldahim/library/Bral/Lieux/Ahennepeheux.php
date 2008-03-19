@@ -10,8 +10,6 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Charrette");
-		Zend_Loader::loadClass("Competence");
-		Zend_Loader::loadClass("Hobbit");
 		Zend_Loader::loadClass("Metier");
 		Zend_Loader::loadClass("HobbitsMetiers");
 		Zend_Loader::loadClass("HobbitsCompetences");

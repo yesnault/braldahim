@@ -111,7 +111,6 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 	 * de 15 à 19 : 1D3+3 etc.
 	 */
 	private function calculQuantiteAExtraire() {
-		Zend_Loader::loadClass("Bral_Util_De");
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		$commun = new Bral_Util_Commun();
 		$this->view->effetRune = false;

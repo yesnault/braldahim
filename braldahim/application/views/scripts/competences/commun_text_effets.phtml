@@ -30,5 +30,26 @@
 		Le malus est appliqu&eacute; pour le tour actuel et le tour suivant de la cible. <br>
 	<? endif; ?>
 	<? if ($this->effetMotS) : ?>
-		<br>TODO avec retourAttaque[retourAttaqueEffetMotS]. <br>
+		<br>Votre cible a rispost&eacute; &agrave; votre attaque !<br>
+		 Jet d'attaque de votre cible : <?=$this->retourAttaque["retourAttaqueEffetMotS"]["jetAttaquant"]?><br>
+		 Votre jet de r&eacute;sistance de la cible : <?=$this->retourAttaque["retourAttaqueEffetMotS"]["jetCible"]?><br>
+		 
+	 	<? if ($this->retourAttaque["retourAttaqueEffetMotS"]["attaqueReussie"] === true) : ?>
+	 		<? if ($this->retourAttaque["retourAttaqueEffetMotS"]["jetDegat"] > 1) : $s='s'; else : $s=''; endif;?>
+	 		Vous avez eu <?=$this->retourAttaque["retourAttaqueEffetMotS"]["jetDegat"]?> point<?=$s?> de d&eacute;gat
+	 		<? if ($this->retourAttaque["retourAttaqueEffetMotS"]["critique"]  == true): ?>
+	 		en attaque critique
+	 		<? endif; ?>
+	 		<br><br>
+	 		<? if ($this->retourAttaque["retourAttaqueEffetMotS"]["mort"] === true): ?>
+	 			Vous avez &eacute;&eacute; tu&eacute; <br><br>
+	 		<? endif; ?>
+	 	<? else: ?>
+	 		Vous avez esquiv&eacute; l'attaque
+	 		<? if ($this->retourAttaque["retourAttaqueEffetMotS"]["fragilisee"] === true) : ?>
+	 		<br> Vous &eacute;tes fragilis&eacute; pour les prochaines attaques<br>
+	 		<? else: ?>
+	 		parfaitement.
+	 		<? endif; ?>
+	 	<? endif; ?>
 	<? endif; ?>

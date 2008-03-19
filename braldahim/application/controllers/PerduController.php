@@ -5,7 +5,6 @@ class PerduController extends Zend_Controller_Action {
 	function init() {
 		$this->initView();
 		$this->view->baseUrl = $this->_request->getBaseUrl();
-		Zend_Loader::loadClass("Bral_Util_De");
 		Zend_Loader::loadClass("Bral_Validate_Perdu_EmailHobbit");
 		Zend_Loader::loadClass("Bral_Util_Mail");
 		Zend_Loader::loadClass("Zend_Validate_EmailAddress");

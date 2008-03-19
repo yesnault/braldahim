@@ -5,7 +5,6 @@ class InscriptionController extends Zend_Controller_Action {
 	function init() {
 		$this->initView();
 		$this->view->baseUrl = $this->_request->getBaseUrl();
-		Zend_Loader::loadClass("Bral_Util_De");
 		Zend_Loader::loadClass("Bral_Validate_Inscription_EmailHobbit");
 		Zend_Loader::loadClass("Bral_Validate_Inscription_PrenomHobbit");
 		Zend_Loader::loadClass("Bral_Validate_StringLength");
@@ -26,6 +25,7 @@ class InscriptionController extends Zend_Controller_Action {
 	}
 	
 	function validationAction() {
+		Bral_Util_Log::inscription()->trace("InscriptionController - validationAction - enter");
 		$this->view->title = "Validation de l'inscription";
 		$this->view->validationOk = false;
 		$this->view->emailMaitreJeu = $this->view->config->general->mail->from_email;
@@ -46,9 +46,9 @@ class InscriptionController extends Zend_Controller_Action {
 					$dataParents = $this->calculParent($hobbit->id_hobbit);
 			
 					$data = array(
-					'est_compte_actif_hobbit' => "oui",
-					'id_fk_pere_hobbit' => $dataParents["id_fk_pere_hobbit"],
-					'id_fk_mere_hobbit' => $dataParents["id_fk_mere_hobbit"],
+						'est_compte_actif_hobbit' => "oui",
+						'id_fk_pere_hobbit' => $dataParents["id_fk_pere_hobbit"],
+						'id_fk_mere_hobbit' => $dataParents["id_fk_mere_hobbit"],
 					);
 					$where = "id_hobbit=".$hobbit->id_hobbit;
 					$hobbitTable->update($data, $where);
@@ -57,21 +57,25 @@ class InscriptionController extends Zend_Controller_Action {
 					Zend_Loader::loadClass('Evenement');
 					$evenementTable = new Evenement();
 					$data = array(
-					'id_fk_hobbit_evenement' => $hobbit->id_hobbit,
-					'date_evenement' => date("Y-m-d H:i:s"),
-					'id_fk_type_evenement' => $this->view->config->game->evenements->type->naissance,
-					'details_evenement' => $details,
+						'id_fk_hobbit_evenement' => $hobbit->id_hobbit,
+						'date_evenement' => date("Y-m-d H:i:s"),
+						'id_fk_type_evenement' => $this->view->config->game->evenements->type->naissance,
+						'details_evenement' => $details,
 					);
 					$evenementTable->insert($data);
+					Bral_Util_Log::inscription()->notice("InscriptionController - validationAction - validation OK pour :".$email_hobbit);
 				}
 			}
 		} else {
+			Bral_Util_Log::tech()->notice("InscriptionController - validationAction - compte deja active");
 			$this->view->compteActif = true;
 		}
+		Bral_Util_Log::inscription()->trace("InscriptionController - validationAction - exit");
 		$this->render();
 	}
 
 	function ajouterAction() {
+		Bral_Util_Log::inscription()->trace("InscriptionController - ajouterAction - enter");
 		$this->view->title = "Nouvel Hobbit";
 		$this->prenom_hobbit = "";
 		$this->email_hobbit = "";
@@ -142,6 +146,7 @@ class InscriptionController extends Zend_Controller_Action {
 				$this->initialiseDataHobbitsCompetences();
 
 				$this->envoiEmail();
+				Bral_Util_Log::tech()->notice("InscriptionController - ajouterAction - envoie email vers :".$this->email_hobbit);
 				echo $this->view->render("inscription/fin.phtml");
 				return;
 			} else {
@@ -173,7 +178,6 @@ class InscriptionController extends Zend_Controller_Action {
 			}
 		}
 
-		
 		// hobbit par défaut
 		$this->view->hobbit= new stdClass();
 		$this->view->hobbit->id_hobbit = null;
@@ -182,7 +186,7 @@ class InscriptionController extends Zend_Controller_Action {
 		$this->view->hobbit->email_confirm_hobbit = $this->email_confirm_hobbit;
 		$this->view->regions = $regions;
 		$this->view->id_region = $this->id_region;
-
+		Bral_Util_Log::inscription()->trace("InscriptionController - ajouterAction - exit");
 		$this->render();
 	}
 
@@ -217,34 +221,34 @@ class InscriptionController extends Zend_Controller_Action {
 		$id_fk_nom_initial_hobbit = $dataNom["id_nom"];
 		
 		$data = array(
-		'nom_hobbit' => $nom_hobbit,
-		'prenom_hobbit' => $this->prenom_hobbit,
-		'id_fk_nom_initial_hobbit' => $id_fk_nom_initial_hobbit,
-		'email_hobbit'  => $this->email_hobbit,
-		'password_hobbit'  => md5($this->password_hobbit),
-		'est_compte_actif_hobbit'  => "non",
-		'castars_hobbit' => $this->view->config->game->inscription->castars,
-		'sexe_hobbit' => $this->sexe_hobbit,
-		'x_hobbit' => $lieu["x_lieu"],
-		'y_hobbit' => $lieu["y_lieu"],
-		'vue_bm_hobbit' => $this->view->config->game->inscription->vue_bm,
-		'date_debut_tour_hobbit' => date("Y-m-d H:i:s"),
-		'date_fin_tour_hobbit' => Bral_Util_ConvertDate::get_date_add_time_to_date(date("Y-m-d H:i:s"), $this->view->config->game->tour->duree_tour_manque),
-		'duree_base_tour_hobbit' => $this->view->config->game->tour->duree_base,
-		'duree_prochain_tour_hobbit' => $this->view->config->game->inscription->duree_prochain_tour,
-		'duree_courant_tour_hobbit' => $this->view->config->game->inscription->duree_courant_tour,
-		'date_creation_hobbit' => date("Y-m-d H:i:s"),
-		'tour_position_hobbit' => $this->view->config->game->inscription->tour_position,
-		'balance_faim_hobbit' => $this->view->config->game->inscription->balance_faim,
-		'pv_restant_hobbit' => $pv,
-		'force_base_hobbit' => $this->view->config->game->inscription->force_base,
-		'agilite_base_hobbit' => $this->view->config->game->inscription->agilite_base,
-		'vigueur_base_hobbit' => $this->view->config->game->inscription->vigueur_base,
-		'sagesse_base_hobbit' => $this->view->config->game->inscription->sagesse_base,
-		'pa_hobbit' => $this->view->config->game->inscription->pa,
-		'poids_transportable_hobbit' => $poids,
-		'armure_naturelle_hobbit' => $armure_nat,
-		'regeneration_hobbit' => $reg,
+			'nom_hobbit' => $nom_hobbit,
+			'prenom_hobbit' => $this->prenom_hobbit,
+			'id_fk_nom_initial_hobbit' => $id_fk_nom_initial_hobbit,
+			'email_hobbit'  => $this->email_hobbit,
+			'password_hobbit'  => md5($this->password_hobbit),
+			'est_compte_actif_hobbit'  => "non",
+			'castars_hobbit' => $this->view->config->game->inscription->castars,
+			'sexe_hobbit' => $this->sexe_hobbit,
+			'x_hobbit' => $lieu["x_lieu"],
+			'y_hobbit' => $lieu["y_lieu"],
+			'vue_bm_hobbit' => $this->view->config->game->inscription->vue_bm,
+			'date_debut_tour_hobbit' => date("Y-m-d H:i:s"),
+			'date_fin_tour_hobbit' => Bral_Util_ConvertDate::get_date_add_time_to_date(date("Y-m-d H:i:s"), $this->view->config->game->tour->duree_tour_manque),
+			'duree_base_tour_hobbit' => $this->view->config->game->tour->duree_base,
+			'duree_prochain_tour_hobbit' => $this->view->config->game->inscription->duree_prochain_tour,
+			'duree_courant_tour_hobbit' => $this->view->config->game->inscription->duree_courant_tour,
+			'date_creation_hobbit' => date("Y-m-d H:i:s"),
+			'tour_position_hobbit' => $this->view->config->game->inscription->tour_position,
+			'balance_faim_hobbit' => $this->view->config->game->inscription->balance_faim,
+			'pv_restant_hobbit' => $pv,
+			'force_base_hobbit' => $this->view->config->game->inscription->force_base,
+			'agilite_base_hobbit' => $this->view->config->game->inscription->agilite_base,
+			'vigueur_base_hobbit' => $this->view->config->game->inscription->vigueur_base,
+			'sagesse_base_hobbit' => $this->view->config->game->inscription->sagesse_base,
+			'pa_hobbit' => $this->view->config->game->inscription->pa,
+			'poids_transportable_hobbit' => $poids,
+			'armure_naturelle_hobbit' => $armure_nat,
+			'regeneration_hobbit' => $reg,
 		);
 
 		return $data;
@@ -257,10 +261,10 @@ class InscriptionController extends Zend_Controller_Action {
 
 		foreach($tab as $c) {
 			$data = array(
-			'id_fk_hobbit_hcomp' => $this->view->id_hobbit,
-			'id_fk_competence_hcomp'  => $c["id_competence"],
-			'pourcentage_hcomp'  => $c["pourcentage_init_competence"],
-			'date_gain_tour_hcomp'  => "0000-00-00 00:00:00",
+				'id_fk_hobbit_hcomp' => $this->view->id_hobbit,
+				'id_fk_competence_hcomp'  => $c["id_competence"],
+				'pourcentage_hcomp'  => $c["pourcentage_init_competence"],
+				'date_gain_tour_hcomp'  => "0000-00-00 00:00:00",
 			);
 
 			$hobbitCompetenceTable = new HobbitsCompetences();
@@ -269,6 +273,7 @@ class InscriptionController extends Zend_Controller_Action {
 	}
 
 	private function envoiEmail() {
+		Bral_Util_Log::inscription()->trace("InscriptionController - envoiEmail - enter");
 		$this->view->urlValidation = $this->view->config->general->url;
 		$this->view->adresseSupport = $this->view->config->general->adresseSupport;
 		$this->view->urlValidation .= "/inscription/validation?e=".$this->email_hobbit;
@@ -287,9 +292,11 @@ class InscriptionController extends Zend_Controller_Action {
 			$mail->setBodyHtml($contenuHtml);
 		}
 		$mail->send();
+		Bral_Util_Log::inscription()->trace("InscriptionController - envoiEmail - enter");
 	}
 	
 	private function calculParent($idHobbit) {
+		Bral_Util_Log::inscription()->trace("InscriptionController - calculParent - enter");
 		// on tente de créer de nouveaux couples si besoin
 		$de = Bral_Util_De::get_de_specifique(0, 3);
 		
@@ -316,13 +323,16 @@ class InscriptionController extends Zend_Controller_Action {
 			$data = array('nb_enfants_couple' => $couple["nb_enfants_couple"] + 1);
 			
 			$coupleTable->update($data, $where);
+			Bral_Util_Log::inscription()->notice("InscriptionController - calculParent - utilisation d'un couple existant");
 		} else { // pas de couple dispo, on tente d'en creer un nouveau
 			$dataParents = $this->creationCouple($idHobbit);
 		}
+		Bral_Util_Log::inscription()->trace("InscriptionController - calculParent - exit");
 		return $dataParents;
 	}
 	
 	private function creationCouple($idHobbit) {
+		Bral_Util_Log::inscription()->trace("InscriptionController - creationCouple - enter");
 		$dataParents["id_fk_pere_hobbit"] = null;
 		$dataParents["id_fk_mere_hobbit"] = null;
 		$hobbitTable = new Hobbit();
@@ -344,8 +354,14 @@ class InscriptionController extends Zend_Controller_Action {
 					
 				$dataParents["id_fk_pere_hobbit"] = $pere["id_hobbit"];
 				$dataParents["id_fk_mere_hobbit"] = $mere["id_hobbit"];
+				Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - creation d'un nouveau couple");
+			} else {
+				Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - plus de hobbit f disponible");
 			}
+		} else {
+			Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - plus de hobbit m disponible");
 		}
+		Bral_Util_Log::inscription()->trace("InscriptionController - creationCouple - exit");
 		return $dataParents;
 	}
 }

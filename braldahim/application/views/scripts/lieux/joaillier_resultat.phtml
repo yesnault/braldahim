@@ -27,6 +27,10 @@
 	 <br><br>
 	 Faites-en bon usage...<br><br>
 	 
+	 <? if ($this->effetMotF === true) : ?>
+	 	F&eacute;licitations ! Votre armure est devenue une armure de Discr&eacute;tion. <br>
+	 	Vous ne vous vous ferez plus attaquer par un type de monstre...<br><br>
+	 <? endif; ?>
 	 </div>
 	 <div id='lieu_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
@@ -64,6 +68,14 @@
 	 		echo "
 ";
 			echo "Faites-en bon usage...";
+			echo "
+"
+			if ($this->effetMotF === true) {
+	 			echo "F&eacute;licitations ! Votre armure est devenue une armure de Discr&eacute;tion.";
+	 			echo "Vous ne vous vous ferez plus attaquer par un type de monstre...";
+	 			echo "
+";
+			}
 		?></textarea>
 	</div>
  </div>

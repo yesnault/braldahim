@@ -27,7 +27,6 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		Zend_Loader::loadClass('Zend_Filter_StripTags');
 		Zend_Loader::loadClass('Zend_Filter_StringTrim');
 
-		Zend_Loader::loadClass("Bral_Util_De");
 		Zend_Loader::loadClass("Bral_Util_ConvertDate");
 
 		$this->prepareCommun();

@@ -66,7 +66,6 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 	}
 	
 	private function calculRamasser() {
-		Zend_Loader::loadClass("Bral_Util_De");
 		Zend_Loader::loadClass("LabanRune");
 		
 		$this->view->nbCastarsRamasses = 0;

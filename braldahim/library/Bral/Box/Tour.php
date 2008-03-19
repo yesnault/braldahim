@@ -130,8 +130,6 @@ class Bral_Box_Tour {
 		// Si c'est un nouveau tour, on met les BM de force, agi, sag, vue, vig à 0 
 		// Ensuite, on les recalcule suivant l'équipement porté et les potions en cours
 		if ($this->is_nouveau_tour) {
-			Zend_Loader::loadClass("Bral_Util_De");
-			
 			$this->hobbit->force_bm_hobbit = 0;
 			$this->hobbit->agilite_bm_hobbit = 0;
 			$this->hobbit->vigueur_bm_hobbit = 0;

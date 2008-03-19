@@ -70,9 +70,6 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Cadavre invalide (".$idCadavre.")");
 		}
 			
-		Zend_Loader::loadClass("Bral_Util_De");
-		Zend_Loader::loadClass('Hobbit');
-
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
@@ -103,7 +100,6 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 	 * gigantesque : 3D3 unité de peau
 	 */
 	private function calculDepiauter($id_cadavre) {
-		Zend_Loader::loadClass("Bral_Util_De");	
 
 		$cadavreTable = new Cadavre();
 		$cadavreRowset = $cadavreTable->findById($id_cadavre);
