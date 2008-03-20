@@ -259,8 +259,8 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 				throw new Zend_Exception(get_class($this)." Erreur inconnue");
 			}
 			/* on va à la position de la cible. */
-			$this->view->user->x_hobbit = $retourAttaque["cible"]["x_cible"];
-			$this->view->user->y_hobbit = $retourAttaque["cible"]["y_cible"];
+			$this->view->user->x_hobbit = $this->view->retourAttaque["cible"]["x_cible"];
+			$this->view->user->y_hobbit = $this->view->retourAttaque["cible"]["y_cible"];
 		}
 		
 		$this->calculPx();

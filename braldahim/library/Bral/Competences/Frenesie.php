@@ -148,32 +148,32 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		$commun = new Bral_Util_Commun();
 		$this->view->effetRune = false;
 		
-		$jetDegat["critique"] = 0;
-		$jetDegat["noncritique"] = 0;
-		$jetDegat = 0;
+		$jetsDegat["critique"] = 0;
+		$jetsDegat["noncritique"] = 0;
+		$jetDegatForce = 0;
 		$coefCritique = 1.5;
 			
 		for ($i=1; $i<= ($this->view->config->game->base_force + $hobbit->force_base_hobbit); $i++) {
-			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
+			$jetDegatForce = $jetDegatForce + Bral_Util_De::get_1d6();
 		}
 		
 		if ($commun->isRunePortee($hobbit->id_hobbit, "EM")) { 
 			$this->view->effetRune = true;
 			// dégats : Jet FOR + BM + Bonus de dégat de l'arme
 			// dégats critiques : Jet FOR *1,5 + BM + Bonus de l'arme
-			$jetDegat["critique"] = $coefCritique * $jetDegat;
-			$jetDegat["noncritique"] = $jetDegat;
+			$jetsDegat["critique"] = $coefCritique * $jetDegatForce;
+			$jetsDegat["noncritique"] = $jetDegatForce;
 		} else {
 			// * dégats : 0.5*(jet FOR)+BM FOR+ bonus arme dégats
  			// * dégats critiques : (1.5*(0.5*FOR))+BM FOR+bonus arme dégats
-			$jetDegat["critique"] = $coefCritique * (0.5 * $jetDegat);
-			$jetDegat["noncritique"] = 0.5 * $jetDegat;
+			$jetsDegat["critique"] = $coefCritique * (0.5 * $jetDegatForce);
+			$jetsDegat["noncritique"] = 0.5 * $jetDegatForce;
 		}
 		
-		$jetDegat["critique"] = $jetDegat["critique"] + $hobbit->force_bm_hobbit + $hobbit->bm_degat_hobbit;
-		$jetDegat["noncritique"] = $jetDegat["noncritique"] + $hobbit->force_bm_hobbit + $hobbit->bm_degat_hobbit;
+		$jetsDegat["critique"] = $jetsDegat["critique"] + $hobbit->force_bm_hobbit + $hobbit->bm_degat_hobbit;
+		$jetsDegat["noncritique"] = $jetsDegat["noncritique"] + $hobbit->force_bm_hobbit + $hobbit->bm_degat_hobbit;
 		
-		return $jetDegat;
+		return $jetsDegat;
 	}
 
 	public function calculPx() {

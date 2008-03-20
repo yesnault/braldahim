@@ -274,17 +274,32 @@ abstract class Bral_Competences_Competence {
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		$jetAttaquant = $this->calculJetAttaque($hobbitAttaquant);
 		$jetsDegat = $this->calculDegat($hobbitAttaquant);
-		return Bral_Util_Attaque::attaqueHobbit(&$hobbitAttaquant, $idHobbitCible, $jetAttaquant, $jetsDegat, $effetMotSPossible);
+		$retourAttaque = Bral_Util_Attaque::attaqueHobbit(&$hobbitAttaquant, $idHobbitCible, $jetAttaquant, $jetsDegat, $effetMotSPossible);
+		$this->updateEffet($retourAttaque);
+		return $retourAttaque;
 	}
 	
 	protected function attaqueMonstre(&$hobbitAttaquant, $idMonstre) {
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		$jetAttaquant = $this->calculJetAttaque($hobbitAttaquant);
 		$jetsDegat = $this->calculDegat($hobbitAttaquant);
-		return Bral_Util_Attaque::attaqueMonstre(&$hobbitAttaquant, $idMonstre, $jetAttaquant, $jetsDegat);
+		$retourAttaque = Bral_Util_Attaque::attaqueMonstre(&$hobbitAttaquant, $idMonstre, $jetAttaquant, $jetsDegat);
+		$this->updateEffet($retourAttaque);
+		return $retourAttaque;
 	}
 	
 	protected function setEffetMotG($effet) {
 		$this->view->effetMotG = $effet;
+	}
+	
+	private function updateEffet($retourAttaque) {
+		$this->view->effetMotD = $retourAttaque["effetMotD"];
+		$this->view->effetMotE = $retourAttaque["effetMotE"];
+		$this->view->effetMotG = $retourAttaque["effetMotG"];
+		$this->view->effetMotH = $retourAttaque["effetMotH"];
+		$this->view->effetMotI = $retourAttaque["effetMotI"];
+		$this->view->effetMotJ = $retourAttaque["effetMotJ"];
+		$this->view->effetMotL = $retourAttaque["effetMotL"];
+		$this->view->effetMotQ = $retourAttaque["effetMotQ"];
 	}
 }
