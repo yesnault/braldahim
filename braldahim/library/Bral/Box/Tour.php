@@ -112,11 +112,15 @@ class Bral_Box_Tour {
 	}
 
 	public function activer() {
-		
+	
+		$this->view->effetMotB = false;
 		$this->view->effetMotE = false;
+		$this->view->effetMotK = false;
+		$this->view->effetMotM = false;
 		$this->view->effetMotN = false;
 		$this->view->effetMotO = false;
 		$this->view->effetMotU = false;
+		$this->view->effetMotV = false;
 		
 		$this->view->ciblesEffetN = null;
 		$this->view->ciblesEffetO = null;
@@ -380,10 +384,12 @@ class Bral_Box_Tour {
 				$this->hobbit->bm_defense_hobbit = $this->hobbit->bm_defense_hobbit + $e["bm_defense_recette_equipement"];
 			
 				if ($e["nom_systeme_mot_runique"] == "mot_b") {
+					$this->view->effetMotB = true;
 					$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + (2 * $e["niveau_recette_equipement"]);
 				}
 				
 				if ($e["nom_systeme_mot_runique"] == "mot_k") {
+					$this->view->effetMotK = true;
 					if ($e["bm_attaque_recette_equipement"] > 0) { // positif
 						$val = $e["bm_attaque_recette_equipement"];
 					} else { // negatif
@@ -393,6 +399,7 @@ class Bral_Box_Tour {
 				}
 				
 				if ($e["nom_systeme_mot_runique"] == "mot_m") {
+					$this->view->effetMotM = true;
 					if ($e["bm_defense_recette_equipement"] > 0) { // positif
 						$val = $e["bm_defense_recette_equipement"];
 					} else { // negatif
@@ -413,7 +420,7 @@ class Bral_Box_Tour {
 					$this->view->ciblesEffetO = $commun->calculSoinCase($this->hobbit, 2 * $e["niveau_recette_equipement"]);
 				}
 				
-				if ($e["nom_systeme_mot_runique"] == "mot_o") {
+				if ($e["nom_systeme_mot_runique"] == "mot_u") {
 					$commun = new Bral_Util_Commun();
 					$this->view->effetMotU = true;
 					$ciblesEffetU = $commun->calculDegatCase($this->hobbit, $e["niveau_recette_equipement"] / 2);
@@ -424,6 +431,7 @@ class Bral_Box_Tour {
 				}
 				
 				if ($e["nom_systeme_mot_runique"] == "mot_v") {
+					$this->view->effetMotV = true;
 					$this->hobbit->vue_bm_hobbit = $this->hobbit->vue_bm_hobbit + 2;
 				}
 				

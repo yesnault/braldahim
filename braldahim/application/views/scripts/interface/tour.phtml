@@ -35,8 +35,34 @@
 	Date limite d'action : <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y &\a\g\r\a\v\e\; H:i:s ',$this->user->date_fin_tour_hobbit);?> <br>
 	Dur&eacute;e du tour : <?=$this->user->duree_courant_tour_hobbit ?> <br>
 	Position dans le tour : <?=$this->user->nom_tour ?> <br>
-	Nombre de Points d'Action : <?=$this->user->pa_hobbit ?><br>
+	Nombre de Points d'Action : <?=$this->user->pa_hobbit ?><br><br>
 	
+	<? if ($this->effetMotB) : ?>
+		Votre casque de Spiritualit&eacute; vous donne un bonus de deux fois son niveau en sagesse.<br>
+	<? endif; ?>
+	<? if ($this->effetMotE) : ?>
+		Votre arme des Vampires a r&eacute;duit votre vie maximum. Cependant, si vous r&eacute;ussissez une attaque, 
+		vous gagnerez en PV la moiti&eacute; des d&eacute;g&acirc;ts inflig&eacutes;s (avec au maxium trois fois le 
+		niveau de l'arme).<br>
+	<? endif; ?>
+	<? if ($this->effetMotK) : ?>
+		Votre arme de Pr&eacute;cision double son bonus d'attaque (ou divise par deux son malus s'il est n&eacute;gatif).<br>
+	<? endif; ?>
+	<? if ($this->effetMotM) : ?>
+		Votre arme de R&acute;flexes double son bonus de d&eacute;fense (ou divise par deux son malus s'il est n&eacute;gatif).<br>
+	<? endif; ?>
+	<? if ($this->effetMotN) : ?>
+	TODO
+	<? endif; ?>
+	<? if ($this->effetMotO) : ?>
+	TODO
+	<? endif; ?>
+	<? if ($this->effetMotU) : ?>
+	TODO
+	<? endif; ?>
+	<? if ($this->effetMotV) : ?>
+	TODO
+	<? endif; ?>
 	<br><br>
 </div>
 	 
@@ -67,6 +93,50 @@ Date limite d'action : <?php echo Bral_Util_ConvertDate::get_datetime_mysql_date
 Dur&eacute;e du tour : <?=$this->user->duree_courant_tour_hobbit ?> 
 Position dans le tour : <?=$this->user->nom_tour  ?> 
 Nombre de Points d'Action : <?=$this->user->pa_hobbit ?>
+<? 
+	if ($this->effetMotB) {
+			echo "Votre casque de Spiritualit&eacute; vous donne un bonus de deux fois son niveau en sagesse.";
+	}
+	if ($this->effetMotE) {
+		echo "Votre arme des Vampires a r&eacute;duit votre vie maximum. Cependant, si vous r&eacute;ussissez une attaque,"; 
+		echo "vous gagnerez en PV la moiti&eacute; des d&eacute;g&acirc;ts inflig&eacutes;s (avec au maxium trois fois le ";
+		echo "niveau de l'arme).";
+		echo"
+";
+	}
+	
+	if ($this->effetMotK) {
+		echo "Votre arme de Pr&eacute;cision double votre son bonus d'attaque (ou divise par deux son malus s'il est n&eacute;gatif).";
+		echo"
+";
+	}
+		
+	if ($this->effetMotM) {
+		echo "Votre arme de R&acute;flexes double son bonus de d&eacute;fense (ou divise par deux son malus s'il est n&eacute;gatif).";
+		echo"
+";
+	}
+	if ($this->effetMotN) {
+		echo "";
+		echo"
+";
+	}
+		
+	if ($this->effetMotO) {
+		echo "";
+		echo"
+";
+	}
+	if ($this->effetMotU) {
+		echo "";
+		echo"
+";
+	}
+	if ($this->effetMotV) {
+		echo "";
+		echo"
+";
+	}?>
 </textarea>
 </div>
 
