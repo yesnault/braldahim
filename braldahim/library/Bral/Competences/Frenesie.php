@@ -136,7 +136,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 	protected function calculJetAttaque($hobbit) {
 		//Attaque : 0.5*(jet d'AGI)+BM AGI + bonus arme att
 		$jetAttaquant = 0;
-		for ($i=1; $i<=$this->view->config->base_agilite + $hobbit->agilite_base_hobbit; $i++) {
+		for ($i=1; $i<=$this->view->config->game->base_agilite + $hobbit->agilite_base_hobbit; $i++) {
 			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
 		}
 		$jetAttaquant = (0.5 * $jetAttaquant) + $hobbit->agilite_bm_hobbit + $hobbit->bm_attaque_hobbit;

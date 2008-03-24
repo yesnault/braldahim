@@ -32,14 +32,14 @@ class Bral_Box_Tour {
 		if ($this->view->user->activation === false) {
 			return false;
 		}
-
-		$this->calcul_debut_nouveau();
-
+	
 		// Calcul de la nouvelle date de fin
 		$date_courante = date("Y-m-d H:i:s");
+		$this->is_nouveau_tour = $this->calcul_debut_nouveau($date_courante);
 
 		// nouveau tour (ou mort : en cas de mort : la date de fin de tour doit être positionnée à la mort) 
 		if ($this->is_nouveau_tour) {
+			Bral_Util_Log::tech()->debug(get_class($this)." Nouveau tour");
 			$this->hobbit->duree_courant_tour_hobbit = $this->hobbit->duree_prochain_tour_hobbit;
 			$this->hobbit->date_debut_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;
 			$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_fin_tour_hobbit, $this->hobbit->duree_courant_tour_hobbit);
@@ -197,7 +197,6 @@ class Bral_Box_Tour {
 		}
 
 		if ($this->is_update_tour) {
-			
 			$duree = $this->hobbit->duree_base_tour_hobbit;
 			$this->hobbit->duree_prochain_tour_hobbit = $duree;
 			
@@ -268,6 +267,7 @@ class Bral_Box_Tour {
 			);
 			$where = "id_hobbit=".$this->hobbit->id_hobbit;
 			$hobbitTable->update($data, $where);
+			Bral_Util_Log::tech()->debug(get_class($this)." activer() - update hobbit ".$this->hobbit->id_hobbit." en base");
 		}
 
 		$this->view->is_update_tour = $this->is_update_tour;
@@ -287,12 +287,16 @@ class Bral_Box_Tour {
 	 * @return false si non
 	 * @return true si oui
 	 */
-	private function calcul_debut_nouveau() {
-		if ($this->hobbit->date_fin_tour_hobbit < date("Y-m-d H:i:s") || $this->hobbit->est_mort_hobbit == 'oui') {
-			$this->is_nouveau_tour = true;
+	private function calcul_debut_nouveau($date_courante) {
+		Bral_Util_Log::tech()->debug(get_class($this)." calcul_debut_nouveau - enter -");
+		Bral_Util_Log::tech()->debug(get_class($this)." calcul_debut_nouveau - this->hobbit->date_fin_tour_hobbit=".$this->hobbit->date_fin_tour_hobbit);
+		Bral_Util_Log::tech()->debug(get_class($this)." calcul_debut_nouveau - date_courante=".$date_courante);
+		Bral_Util_Log::tech()->debug(get_class($this)." calcul_debut_nouveau - this->hobbit->est_mort_hobbit=".$this->hobbit->est_mort_hobbit);
+		if ($this->hobbit->date_fin_tour_hobbit < $date_courante || $this->hobbit->est_mort_hobbit == 'oui') {
+			Bral_Util_Log::tech()->debug(get_class($this)." calcul_debut_nouveau - exit - true");
 			return true;
 		} else {
-			$this->is_nouveau_tour = false;
+			Bral_Util_Log::tech()->debug(get_class($this)." calcul_debut_nouveau - enter - false");
 			return false;
 		}
 	}

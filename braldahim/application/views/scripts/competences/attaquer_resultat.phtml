@@ -9,7 +9,7 @@
 		 
 	 	<? if ($this->retourAttaque["attaqueReussie"] === true) : ?>
 	 		<? if ($this->retourAttaque["jetDegat"] > 1) : $s='s'; else : $s=''; endif;?>
-	 		Vous avez inflig&eacute; <?=$this->retourAttaque["jetDegat"]?> point<?=$s?> de d&eacute;gat
+	 		Vous avez inflig&eacute; <?=$this->retourAttaque["jetDegat"]?> point<?=$s?> de d&eacute;gats
 	 		<? if ($this->retourAttaque["critique"]  == true): ?>
 	 		en attaque critique
 	 		<? endif; ?>
@@ -45,7 +45,7 @@
 		 
 	 	 if ($this->retourAttaque["attaqueReussie"] === true) {
 	 		if ($this->retourAttaque["jetDegat"] > 1) : $s='s'; else : $s=''; endif;
-	 		echo "Vous avez inflig&eacute; ".$this->retourAttaque["jetDegat"]." point".$s." de d&eacute;gat ";
+	 		echo "Vous avez inflig&eacute; ".$this->retourAttaque["jetDegat"]." point".$s." de d&eacute;gats ";
 	 		if ($this->retourAttaque["critique"]  == true) {
 	 			echo "en attaque critique";
 	 		}

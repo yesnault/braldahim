@@ -32,17 +32,17 @@
 	<? if ($this->retourAttaque["effetMotS"]) : ?>
 		<br>Votre cible a rispost&eacute; &agrave; votre attaque !<br>
 		 Jet d'attaque de votre cible : <?=$this->retourAttaque["retourAttaqueEffetMotS"]["jetAttaquant"]?><br>
-		 Votre jet de r&eacute;sistance de la cible : <?=$this->retourAttaque["retourAttaqueEffetMotS"]["jetCible"]?><br>
+		 Votre jet de r&eacute;sistance : <?=$this->retourAttaque["retourAttaqueEffetMotS"]["jetCible"]?><br>
 		 
 	 	<? if ($this->retourAttaque["retourAttaqueEffetMotS"]["attaqueReussie"] === true) : ?>
 	 		<? if ($this->retourAttaque["retourAttaqueEffetMotS"]["jetDegat"] > 1) : $s='s'; else : $s=''; endif;?>
-	 		Vous avez eu <?=$this->retourAttaque["retourAttaqueEffetMotS"]["jetDegat"]?> point<?=$s?> de d&eacute;gat
+	 		Vous avez eu <?=$this->retourAttaque["retourAttaqueEffetMotS"]["jetDegat"]?> point<?=$s?> de d&eacute;gats
 	 		<? if ($this->retourAttaque["retourAttaqueEffetMotS"]["critique"]  == true): ?>
 	 		en attaque critique
 	 		<? endif; ?>
 	 		<br><br>
 	 		<? if ($this->retourAttaque["retourAttaqueEffetMotS"]["mort"] === true): ?>
-	 			Vous avez &eacute;&eacute; tu&eacute; <br><br>
+	 			Vous avez &eacute;t&eacute; tu&eacute; <br><br>
 	 		<? endif; ?>
 	 	<? else: ?>
 	 		Vous avez esquiv&eacute; l'attaque

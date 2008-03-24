@@ -131,8 +131,8 @@ class Bral_Util_Commun {
 	public static function getEffetMotA($idHobbit, $jetDegat) {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_a");
 		if ($equipement != null) {
-			if ($jetDegat > $equipementCible["niveau_recette_equipement"]) {
-				$jetDegat = $equipementCible["niveau_recette_equipement"];
+			if ($jetDegat > $equipement["niveau_recette_equipement"]) {
+				$jetDegat = $equipement["niveau_recette_equipement"];
 			}
 		}
 		return $jetDegat;
@@ -160,7 +160,7 @@ class Bral_Util_Commun {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_f");
 		$retour = null;
 		if ($equipement != null) {
-			$retour = $equipementCible["niveau_recette_equipement"];
+			$retour = $equipement["niveau_recette_equipement"];
 		}
 		return $retour;
 	}
@@ -200,7 +200,7 @@ class Bral_Util_Commun {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_j");
 		$retour = null;
 		if ($equipement != null) {
-			$retour = - $equipementCible["niveau_recette_equipement"];
+			$retour = - $equipement["niveau_recette_equipement"];
 		}
 		return $retour;
 	}
@@ -218,7 +218,7 @@ class Bral_Util_Commun {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_n");
 		$retour = null;
 		if ($equipement != null) {
-			$retour = $equipementCible["niveau_recette_equipement"] * 2;
+			$retour = $equipement["niveau_recette_equipement"] * 2;
 		}
 		return $retour;
 	}
@@ -227,7 +227,7 @@ class Bral_Util_Commun {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_o");
 		$retour = null;
 		if ($equipement != null) {
-			$retour = $equipementCible["niveau_recette_equipement"] * 2;
+			$retour = $equipement["niveau_recette_equipement"] * 2;
 		}
 		return $retour;
 	}
@@ -236,7 +236,7 @@ class Bral_Util_Commun {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_q");
 		$retour = null;
 		if ($equipement != null) {
-			$retour = - $equipementCible["niveau_recette_equipement"];
+			$retour = - $equipement["niveau_recette_equipement"];
 		}
 		return $retour;
 	}
@@ -245,7 +245,7 @@ class Bral_Util_Commun {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_s");
 		$retour = null;
 		if ($equipement != null) {
-			$retour = $equipementCible["niveau_recette_equipement"];
+			$retour = $equipement["niveau_recette_equipement"];
 		}
 		return $retour;
 	}

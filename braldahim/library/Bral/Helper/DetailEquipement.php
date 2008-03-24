@@ -16,7 +16,7 @@ class Bral_Helper_DetailEquipement {
     	$text .= self::display("Vue", $e["vue"]);
     	$text .= self::display("BM Attaque", $e["bm_attaque"]);
     	$text .= self::display("BM Defense", $e["bm_defense"]);
-     	$text .= self::display("BM D&eacute;gat", $e["bm_degat"]);
+     	$text .= self::display("BM D&eacute;gats", $e["bm_degat"]);
     	
      	$text .= "<br>Nombre d\'emplacement runique : ".$e["nb_runes"]."<br>";
      	if (count($e["runes"]) > 1) $s='s'; else $s="";

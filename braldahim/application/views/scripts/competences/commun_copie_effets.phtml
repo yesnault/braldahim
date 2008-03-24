@@ -71,7 +71,7 @@
 		 
 	 	 if ($this->retourAttaque["retourAttaqueEffetMotS"]["attaqueReussie"] === true) {
 	 		if ($this->retourAttaque["retourAttaqueEffetMotS"]["jetDegat"] > 1) : $s='s'; else : $s=''; endif;
-	 		echo "Vous avez eu ".$this->retourAttaque["retourAttaqueEffetMotS"]["jetDegat"]." point".$s." de d&eacute;gat ";
+	 		echo "Vous avez eu ".$this->retourAttaque["retourAttaqueEffetMotS"]["jetDegat"]." point".$s." de d&eacute;gats ";
 	 		if ($this->retourAttaque["retourAttaqueEffetMotS"]["critique"]  == true) {
 	 			echo "en attaque critique";
 	 		}
@@ -79,7 +79,7 @@
 ";
 	 		
 	 		if ($this->retourAttaque["retourAttaqueEffetMotS"]["mort"] === true) {
-	 			echo "Vous avez &eacute;t&eacute; tu&eacute; ".htmlentities($this->retourAttaque["retourAttaqueEffetMotS"]["cible"]["nom_cible"])." (". $this->retourAttaque["retourAttaqueEffetMotS"]["cible"]["id_cible"].") N".$this->retourAttaque["retourAttaqueEffetMotS"]["cible"]["niveau_cible"]." :";
+	 			echo "Vous avez &eacute;t&eacute; tu&eacute;";
 	 			echo "
 ";
 			}
@@ -89,7 +89,7 @@
 	 	  	 if ($this->retourAttaque["retourAttaqueEffetMotS"]["fragilisee"] === true) {
 	 	  	 	echo "
 ";
-	 		 	echo "La cible est fragilis&eacute;e pour les prochaines attaques";
+	 		 	echo "Vous &ecirc;tes fragilis&eacute;e pour les prochaines attaques";
 	 		 	echo "
 ";
 	 	  	 } else {
