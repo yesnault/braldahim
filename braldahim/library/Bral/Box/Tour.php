@@ -417,13 +417,13 @@ class Bral_Box_Tour {
 				if ($e["nom_systeme_mot_runique"] == "mot_o") {
 					$commun = new Bral_Util_Commun();
 					$this->view->effetMotO = true;
-					$this->view->ciblesEffetO = $commun->calculSoinCase($this->hobbit, 2 * $e["niveau_recette_equipement"]);
+					$this->view->ciblesEffetO = $commun->calculSoinCase($this->view->config, $this->hobbit, 2 * $e["niveau_recette_equipement"]);
 				}
 				
 				if ($e["nom_systeme_mot_runique"] == "mot_u") {
 					$commun = new Bral_Util_Commun();
 					$this->view->effetMotU = true;
-					$ciblesEffetU = $commun->calculDegatCase($this->hobbit, $e["niveau_recette_equipement"] / 2);
+					$ciblesEffetU = $commun->calculDegatCase($this->view->config, $this->hobbit, $e["niveau_recette_equipement"] / 2);
 					if ($ciblesEffetU != null && $ciblesEffetU["n_cible"] != null) {
 						$this->hobbit->pv_restant_hobbit = $ciblesEffetU["n_cible"];
 					}

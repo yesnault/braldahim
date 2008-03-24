@@ -1,0 +1,27 @@
+		<? if ($this->ciblesEffet["hobbitTouches"] != null || $this->ciblesEffet["monstreTouches"] != null) : ?>
+			Vous avez touch&eacute; : <br>
+		<? endif; ?>
+		<? if (isset($this->ciblesEffet["hobbitTouches"]) && $this->ciblesEffet["hobbitTouches"] != null) : ?>
+			<? foreach($this->ciblesEffet["hobbitTouches"] as $h) : ?>
+				<?=htmlentities($h["prenom_hobbit"])?>  <?=htmlentities($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>) N<?=$h["niveau_hobbit"] ?><br>
+			<? endforeach; ?>
+		<? endif; ?>
+		<? if (isset($this->ciblesEffet["monstreTouches"]) && $this->ciblesEffet["monstreTouches"] != null) : ?>
+			<? foreach($this->ciblesEffet["monstreTouches"] as $m) : ?>
+				<?=htmlentities($m["nom_type_monstre"])?> (<?=$m["id_monstre"]?>) N<?=$m["niveau_monstre"] ?><br>
+			<? endforeach; ?>
+		<? endif; ?>
+		<? if ($this->ciblesEffet["hobbitMorts"] != null || $this->ciblesEffet["monstreMorts"] != null) : ?>
+			Vous avez tu&eacute; : <br>
+		<? endif; ?>
+		<? if (isset($this->ciblesEffet["hobbitMorts"]) && $this->ciblesEffet["hobbitMorts"] != null) : ?>
+			<? foreach($this->ciblesEffet["hobbitMorts"] as $h) : ?>
+				<?=htmlentities($h["prenom_hobbit"])?>  <?=htmlentities($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>) N<?=$h["niveau_hobbit"] ?><br>
+			<? endforeach; ?>
+		<? endif; ?>
+		<? if (isset($this->ciblesEffet["monstreMorts"]) && $this->ciblesEffet["monstreMorts"] != null) : ?>
+			<? foreach($this->ciblesEffet["monstreMorts"] as $m) : ?>
+				<?=htmlentities($m["nom_type_monstre"])?> (<?=$m["id_monstre"]?>) N<?=$m["niveau_monstre"] ?><br>
+			<? endforeach; ?>
+		<? endif; ?>
+		

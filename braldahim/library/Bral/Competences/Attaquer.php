@@ -114,7 +114,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 	protected function calculDegat($hobbit) {
 		return Bral_Util_Attaque::calculDegatAttaqueNormale($hobbit);
 	}
-
+	
 	public function calculPx() {
 		parent::calculPx();
 		$this->view->calcul_px_generique = false;

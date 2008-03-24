@@ -52,16 +52,22 @@
 		Votre arme de R&acute;flexes double son bonus de d&eacute;fense (ou divise par deux son malus s'il est n&eacute;gatif).<br>
 	<? endif; ?>
 	<? if ($this->effetMotN) : ?>
-	TODO
+		Votre armure de Feu C&eacute;leste inflige en d&eacte;g&acirc;ts une aura de feu de deux fois son niveau &agrave; tout ce qui se trouve sur sa case.<br>
+		<? $this->ciblesEffet = $this->ciblesEffetN; ?>
+		<? include("tour_effet_touches_text.phtml") ?>
 	<? endif; ?>
 	<? if ($this->effetMotO) : ?>
-	TODO
+		Votre armure de B&eacute;n&eacute;diction Divine procure une aura de soin donnant des PVs de deux fois son niveau, &agrave; tout ce qui se trouve sur sa case.<br>
+		<? $this->ciblesEffet = $this->ciblesEffetO; ?>
+		<? include("tour_effet_touches_text.phtml") ?>
 	<? endif; ?>
 	<? if ($this->effetMotU) : ?>
-	TODO
+		Votre armure de Nosferatu inflige un souffle vampirique de la moiti&eacute; de son niveau en d&eacute;g&acirc;ts &agrave; tout ce qui se trouve sur sa case.<br>
+		<? $this->ciblesEffet = $this->ciblesEffetU; ?>
+		<? include("tour_effet_touches_text.phtml") ?>
 	<? endif; ?>
 	<? if ($this->effetMotV) : ?>
-	TODO
+		Votre casque de Vision augmente votre vue de deux cases.<br>
 	<? endif; ?>
 	<br><br>
 </div>
@@ -92,7 +98,7 @@ Points de vie : <?=$this->user->pv_restant_hobbit ?> / <?=($this->config->game->
 Date limite d'action : <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y &\a\g\r\a\v\e\; H:i:s ',$this->user->date_fin_tour_hobbit);?> 
 Dur&eacute;e du tour : <?=$this->user->duree_courant_tour_hobbit ?> 
 Position dans le tour : <?=$this->user->nom_tour  ?> 
-Nombre de Points d'Action : <?=$this->user->pa_hobbit ?>
+Nombre de Points d'Action : <?=$this->user->pa_hobbit ?> 
 <? 
 	if ($this->effetMotB) {
 			echo "Votre casque de Spiritualit&eacute; vous donne un bonus de deux fois son niveau en sagesse.";
@@ -116,24 +122,31 @@ Nombre de Points d'Action : <?=$this->user->pa_hobbit ?>
 		echo"
 ";
 	}
+	
 	if ($this->effetMotN) {
-		echo "";
+		echo "Votre armure de Feu C&eacute;leste inflige en d&eacte;g&acirc;ts une aura de feu de deux fois son niveau &agrave; tout ce qui se trouve sur sa case.";
 		echo"
 ";
 	}
 		
 	if ($this->effetMotO) {
-		echo "";
+		echo "Votre armure de B&eacute;n&eacute;diction Divine procure une aura de soin donnant des PVs de deux fois son niveau, &agrave; tout ce qui se trouve sur sa case.";
 		echo"
 ";
+		echo "Vous avez soign&eacute; : ";
+		echo "
+";
+		include("tour_effet_touches_copie.phtml");
 	}
+	
 	if ($this->effetMotU) {
-		echo "";
+		echo "Votre armure de Nosferatu inflige un souffle vampirique de la moiti&eacute; de son niveau en d&eacute;g&acirc;ts &agrave; tout ce qui se trouve sur sa case.";
 		echo"
 ";
 	}
+	
 	if ($this->effetMotV) {
-		echo "";
+		echo "Votre casque de Vision augmente votre vue de deux cases.";
 		echo"
 ";
 	}?>

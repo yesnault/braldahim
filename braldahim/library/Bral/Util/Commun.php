@@ -260,11 +260,21 @@ class Bral_Util_Commun {
 	}
 	
 	public function calculDegatCase($config, $hobbit, $degats) {
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
-		
+		Zend_Loader::loadClass("Monstre");
 		$retour["hobbitMorts"] = null;
 		$retour["hobbitTouches"] = null;
+		$retour["monstreMorts"] = null;
+		$retour["monstreTouches"] = null;
+		$retour["n_cible"] = 0;
+		$this->calculDegatCaseHobbit($config, $hobbit, $degats, $retour);
+		$this->calculDegatCaseMonstre($config, $hobbit, $degats, $retour);
+		$retour["n_cible"] = count($retour["hobbitTouches"]) + count($retour["monstreTouches"]);
+		return $retour;
+	}
+	
+	public function calculDegatCaseHobbit($config, $hobbit, $degats, &$retour) {
+		$hobbitTable = new Hobbit();
+		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->id_hobbit);
 		
 		foreach($hobbits as $h) {
 			$retour["hobbitTouches"][] = $h;
@@ -274,7 +284,7 @@ class Bral_Util_Commun {
 			$this->majEvenements($hobbit->id_hobbit, $id_type, $details);
 			$this->majEvenements($h["id_hobbit"], $id_type, $details);
 			
-			$h["pv_restant_hobbit"] = $h["pv_restant_hobbit"] - $soins;
+			$h["pv_restant_hobbit"] = $h["pv_restant_hobbit"] - $degats;
 			if ($h["pv_restant_hobbit"] > 0) {
 				$data = array("pv_restant_hobbit" => $h["pv_restant_hobbit"]);
 				$where = "id_hobbit = ".$h["id_hobbit"];
@@ -311,37 +321,85 @@ class Bral_Util_Commun {
 				
 				$id_type = $config->game->evenements->type->kill;
 				$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a tué le hobbit ".$h["prenom_hobbit"] ." ". $h["nom_hobbit"] ." (".$h["id_hobbit"].") N".$h["niveau_hobbit"]; 
-				$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
+				$this->majEvenements($hobbit->id_hobbit, $id_type, $details);
 				$id_type = $config->evenements->type->mort;
 				$this->majEvenements($h["id_hobbit"], $id_type, $details);
 			}
 		}
+		return $retour;
+	}
+	
+	public function calculDegatCaseMonstre($config, $hobbit, $degats, &$retour) {
 		
+		$monstreTable = new Monstre();
+		$monstres = $monstreTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+		
+		foreach($monstres as $m) {
+			$retour["monstreTouches"][] = $m;
+			
+			$id_type = $config->game->evenements->type->effet;
+			$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a attaqu&eacute; le monstre ".$m["nom_type_monstre"] ." (".$m["id_monstre"].") N".$m["niveau_monstre"];  
+			$this->majEvenements($hobbit->id_hobbit, $id_type, $details);
+			$this->majEvenements($m["id_monstre"], $id_type, $details, "monstre");
+			
+			$m["pv_restant_monstre"] = $m["pv_restant_monstre"] - $degats;
+			if ($m["pv_restant_monstre"] > 0) {
+				$data = array("pv_restant_monstre" => $m["pv_restant_monstre"]);
+				$where = "id_monstre = ".$m["id_monstre"];
+				$monstreTable = new Monstre();
+				$monstreTable->update($data, $where);
+			} else { // mort
+				$retour["monstreMorts"][] = $m;
+				
+				$hobbit->nb_kill_hobbit = $hobbit->nb_kill_hobbit + 1;
+				$data = array("nb_kill_hobbit" => $hobbit->nb_kill_hobbit);
+				$where = "id_hobbit = ".$hobbit->id_hobbit;
+				$hobbitTable->update($data, $where);
+				
+				$effetD = $commun->getEffetMotD($hobbit->id_hobbit);
+				if ($effetD == true) {					
+					$this->view->effetMotD = true;
+				}
+				
+				$effetH = $commun->getEffetMotH($hobbit->id_hobbit);
+				if ($effetH == true) {					
+					$this->view->effetMotH = true;
+				}
+				
+				Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
+				$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
+				$vieMonstre->mortMonstreDb($m["id_monstre"], $effetD, $effetH);
+				
+				$id_type = $config->game->evenements->type->kill;
+				$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a tué le monstre ". $m["nom_type_monstre"] ." (".$m["id_monstre"].") N".$m["niveau_monstre"]; 
+				$this->majEvenements($hobbit->id_hobbit, $id_type, $details);
+				$id_type = $config->evenements->type->mort;
+				$this->majEvenements($m["id_monstre"], $id_type, $details, "monstre");
+			}
+		}
 		return $retour;
 	}
 	
 	public function calculSoinCase($config, $hobbit, $soins) {
 		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
-		
-		$retour["hobbitsSoignes"] = null;
+		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->id_hobbit);
+		$retour["hobbitTouches"] = null;
 		foreach($hobbits as $h) {
-			$retour["hobbitsSoignes"][] = $h;
+			$retour["hobbitTouches"][] = $h;
 			if ($h["pv_max_hobbit"] >  $h["pv_restant_hobbit"]) {
 				$h["pv_restant_hobbit"] = $h["pv_restant_hobbit"] + $soins;
 				if ($h["pv_restant_hobbit"] > $h["pv_max_hobbit"]) {
 					$h["pv_restant_hobbit"] = $h["pv_max_hobbit"];
-					
-					$data = array("pv_restant_hobbit" => $h["pv_restant_hobbit"]);
-					
-					$where = "id_hobbit = ".$h["id_hobbit"];
-					$hobbitTable->update($data, $where);
-					
-					$id_type = $config->game->evenements->type->effet;
-					$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a soign&eacute; le hobbit ".$h["prenom_hobbit"] ." ". $h["nom_hobbit"] ." (".$h["id_hobbit"].") N".$h["niveau_hobbit"];  
-					$this->majEvenements($hobbit->id_hobbit, $id_type, $details);
-					$this->majEvenements($h["id_hobbit"], $id_type, $details);
 				}
+				$data = array("pv_restant_hobbit" => $h["pv_restant_hobbit"]);
+					
+				$where = "id_hobbit = ".$h["id_hobbit"];
+				$hobbitTable->update($data, $where);
+					
+				$id_type = $config->game->evenements->type->effet;
+				$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a soign&eacute; le hobbit ".$h["prenom_hobbit"] ." ". $h["nom_hobbit"] ." (".$h["id_hobbit"].") N".$h["niveau_hobbit"];  
+				$this->majEvenements($hobbit->id_hobbit, $id_type, $details);
+				$this->majEvenements($h["id_hobbit"], $id_type, $details);
 			}
 		}
 		return $retour;
