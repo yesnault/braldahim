@@ -26,7 +26,7 @@
 
 <input type='button' class='button1' value='Copier' onClick="javascript:switch2div('lachercharrette_text','lachercharrette_copie');">
 <? if ($this->okJet1 === true): ?>
-	<input type='button' class='button1' value='Fermer' onClick='_get_("/interface/reloadInterface");Modalbox.hide();'>
+	<input type='button' class='button1' value='Fermer' onClick='_get_("/interface/reload");Modalbox.hide();'>
 <? else: ?>
 	<? include("commun_fermer.phtml") ?>
 <? endif; ?>

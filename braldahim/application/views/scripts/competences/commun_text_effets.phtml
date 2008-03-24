@@ -1,4 +1,3 @@
-
 	<? if ($this->retourAttaque["effetMotD"]) : ?>
 		<br>Votre casque de La Mouette a eu de l'effet sur cette action : vos chances de trouver des runes rares ont &eacute;t&eacute; augment&eacute;es. <br>
 	<? endif; ?>
@@ -36,7 +35,7 @@
 		 
 	 	<? if ($this->retourAttaque["retourAttaqueEffetMotS"]["attaqueReussie"] === true) : ?>
 	 		<? if ($this->retourAttaque["retourAttaqueEffetMotS"]["jetDegat"] > 1) : $s='s'; else : $s=''; endif;?>
-	 		Vous avez eu <?=$this->retourAttaque["retourAttaqueEffetMotS"]["jetDegat"]?> point<?=$s?> de d&eacute;gats
+	 		Vous avez eu <?=$this->retourAttaque["retourAttaqueEffetMotS"]["jetDegat"]?> point<?=$s?> de d&eacute;g&acirc;ts
 	 		<? if ($this->retourAttaque["retourAttaqueEffetMotS"]["critique"]  == true): ?>
 	 		en attaque critique
 	 		<? endif; ?>

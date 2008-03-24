@@ -13,6 +13,7 @@ class Bral_Util_Log {
 	private static $erreur = null;
 	private static $inscription = null;
 	private static $tech = null;
+	private static $tour = null;
 
 	public static function authentification() {
 		if (self::$authentification == null) {
@@ -47,6 +48,13 @@ class Bral_Util_Log {
 			self::initLogTech();
 		}
 		return self::$tech;
+	}
+	
+	public static function tour() {
+		if (self::$tour == null) {
+			self::initLogTour();
+		}
+		return self::$tour;
 	}
 
 	//______________
@@ -98,24 +106,6 @@ class Bral_Util_Log {
 			self::$attaque->addWriter($redacteur);
 		}
 	}
-	
-	private static function initLogTech() {
-		if (self::$instance == null) {
-			$instance = self::getInstance();
-		}
-		self::$config = Zend_Registry::get('config');
-		self::$tech = new Zend_Log();
-		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->tech);
-		self::$tech->addWriter($redacteur);
-		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->tech);
-		self::$tech->addFilter($filtre);
-		self::$tech->addPriority('TRACE', 8);
-		
-		if (self::$config->log->general->debug_browser == "oui") {
-			$redacteur = new Zend_Log_Writer_Stream('php://output');
-			self::$tech->addWriter($redacteur);
-		}
-	}
 
 	private static function initLogErreur() {
 		if (self::$instance == null) {
@@ -150,6 +140,24 @@ class Bral_Util_Log {
 		if (self::$config->log->general->debug_browser == "oui") {
 			$redacteur = new Zend_Log_Writer_Stream('php://output');
 			self::$inscription->addWriter($redacteur);
+		}
+	}
+	
+	private static function initLogTour() {
+		if (self::$instance == null) {
+			$instance = self::getInstance();
+		}
+		self::$config = Zend_Registry::get('config');
+		self::$tour = new Zend_Log();
+		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->tour);
+		self::$tour->addWriter($redacteur);
+		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->tour);
+		self::$tour->addFilter($filtre);
+		self::$tour->addPriority('TRACE', 8);
+		
+		if (self::$config->log->general->debug_browser == "oui") {
+			$redacteur = new Zend_Log_Writer_Stream('php://output');
+			self::$tour->addWriter($redacteur);
 		}
 	}
 }

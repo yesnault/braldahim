@@ -12,7 +12,7 @@ if (isset($this->ciblesEffet["hobbitTouches"]) && $this->ciblesEffet["hobbitTouc
 		echo "
 ";
 		$this->retourAttaque = $val["retourAttaque"];
-		$this->render("competences/commun_copie_effets.phtml");
+		echo $this->render("competences/commun_copie_effets.phtml");
 	}
 }
 if (isset($this->ciblesEffet["monstreTouches"]) && $this->ciblesEffet["monstreTouches"] != null) {
@@ -22,7 +22,7 @@ if (isset($this->ciblesEffet["monstreTouches"]) && $this->ciblesEffet["monstreTo
 		echo "
 ";
 		$this->retourAttaque = $val["retourAttaque"];
-		$this->render("competences/commun_copie_effets.phtml");
+		echo $this->render("competences/commun_copie_effets.phtml");
 	}
 }
 if ((isset($this->ciblesEffet["hobbitMorts"])|| isset($this->ciblesEffet["monstreMorts"])) && 

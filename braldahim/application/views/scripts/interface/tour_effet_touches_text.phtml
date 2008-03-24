@@ -8,7 +8,7 @@
 				<?=htmlentities($h["prenom_hobbit"])?>  <?=htmlentities($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>) N<?=$h["niveau_hobbit"] ?><br>
 				<? 
 				$this->retourAttaque = $val["retourAttaque"];
-				$this->render("competences/commun_text_effets.phtml");
+				echo $this->render("competences/commun_text_effets.phtml");
 				?>
 			<? endforeach; ?>
 		<? endif; ?>
@@ -18,7 +18,7 @@
 				<?=htmlentities($m["nom_type_monstre"])?> (<?=$m["id_monstre"]?>) N<?=$m["niveau_monstre"] ?><br>
 				<? 
 				$this->retourAttaque = $val["retourAttaque"];
-				$this->render("competences/commun_text_effets.phtml");
+				echo $this->render("competences/commun_text_effets.phtml");
 				?>
 			<? endforeach; ?>
 		<? endif; ?>

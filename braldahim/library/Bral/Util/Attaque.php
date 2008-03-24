@@ -448,6 +448,8 @@ class Bral_Util_Attaque {
 	public static function calculDegatCase($config, $hobbit, $degats) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatCase - enter -");
 		Zend_Loader::loadClass("Monstre");
+		Zend_Loader::loadClass("Bral_Util_Evenement");
+		
 		$retour["hobbitMorts"] = null;
 		$retour["hobbitTouches"] = null;
 		$retour["monstreMorts"] = null;
@@ -466,17 +468,17 @@ class Bral_Util_Attaque {
 		$hobbitTable = new Hobbit();
 		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->id_hobbit);
 		
-		$jetsDegat["critique"] = $jetsDegat;
-		$jetsDegat["noncritique"] = $jetsDegat;
+		$jetsDegat["critique"] = $degats;
+		$jetsDegat["noncritique"] = $degats;
 		$jetAttaquant = 1;
 		$jetCible = 0;
 		
 		$i = 0;
 		foreach($hobbits as $h) {
-			/*$hobbitRowset = $hobbitTable->find($idHobbitCible);
-			$hobbitCible = $hobbitRowset->current();*/
+			$hobbitRowset = $hobbitTable->find($h["id_hobbit"]);
+			$hobbitCible = $hobbitRowset->current();
 			$retour["hobbitTouches"][$i]["hobbit"] = $h;
-			$retour["hobbitTouches"][$i]["retourAttaque"] = Bral_Util_Attaque::attaqueHobbit($hobbit, $h, $jetAttaquant, $jetCible, $jetsDegat);
+			$retour["hobbitTouches"][$i]["retourAttaque"] = Bral_Util_Attaque::attaqueHobbit($hobbit, $hobbitCible, $jetAttaquant, $jetCible, $jetsDegat);
 			$i++;
 		}
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatCaseHobbit - exit -");

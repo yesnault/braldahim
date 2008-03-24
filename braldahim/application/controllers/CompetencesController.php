@@ -17,7 +17,7 @@ class CompetencesController extends Zend_Controller_Action {
 
 		$this->modification_tour = false;
 		$t = Bral_Box_Factory::getTour($this->_request, $this->view, false);
-		if ($t->modificationTour()) {
+		if ($t->activer()) {
 			$xml_entry = new Bral_Xml_Entry();
 			$xml_entry->set_type("action");
 			$xml_entry->set_valeur("goto");

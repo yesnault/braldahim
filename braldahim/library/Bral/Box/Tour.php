@@ -26,6 +26,8 @@ class Bral_Box_Tour {
 	}
 
 	public function modificationTour() {
+		Bral_Util_Log::tour()->debug(get_class($this)." modificationTour - enter - user=".$this->view->user->id_hobbit);
+		
 		$this->is_update_tour = false;
 		$this->is_nouveau_tour = false;
 
@@ -39,7 +41,7 @@ class Bral_Box_Tour {
 
 		// nouveau tour (ou mort : en cas de mort : la date de fin de tour doit être positionnée à la mort) 
 		if ($this->is_nouveau_tour) {
-			Bral_Util_Log::tech()->debug(get_class($this)." Nouveau tour");
+			Bral_Util_Log::tour()->debug(get_class($this)." Nouveau tour");
 			$this->hobbit->duree_courant_tour_hobbit = $this->hobbit->duree_prochain_tour_hobbit;
 			$this->hobbit->date_debut_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;
 			$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_fin_tour_hobbit, $this->hobbit->duree_courant_tour_hobbit);
@@ -57,17 +59,17 @@ class Bral_Box_Tour {
 		$date_fin_latence =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_latence);
 		$date_debut_cumul =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_cumul);
 
-		Bral_Util_Log::tech()->debug(get_class($this)." time_latence=".$time_latence);
-		Bral_Util_Log::tech()->debug(get_class($this)." time_cumul=".$time_cumul);
-		Bral_Util_Log::tech()->debug(get_class($this)."	date_fin_latence=".$date_fin_latence);
-		Bral_Util_Log::tech()->debug(get_class($this)."	date_debut_cumul".$date_debut_cumul);
-		Bral_Util_Log::tech()->debug(get_class($this)."	date_courante=".$date_courante);
-		Bral_Util_Log::tech()->debug(get_class($this)."	date fin tour=".$this->hobbit->date_fin_tour_hobbit);
+		Bral_Util_Log::tour()->debug(get_class($this)." time_latence=".$time_latence);
+		Bral_Util_Log::tour()->debug(get_class($this)." time_cumul=".$time_cumul);
+		Bral_Util_Log::tour()->debug(get_class($this)."	date_fin_latence=".$date_fin_latence);
+		Bral_Util_Log::tour()->debug(get_class($this)."	date_debut_cumul".$date_debut_cumul);
+		Bral_Util_Log::tour()->debug(get_class($this)."	date_courante=".$date_courante);
+		Bral_Util_Log::tour()->debug(get_class($this)."	date fin tour=".$this->hobbit->date_fin_tour_hobbit);
 
 		$this->is_tour_manque = false;
 		// Mise a jour du nombre de PA + position tour
 		if ($date_courante > $this->hobbit->date_fin_tour_hobbit) { // Perte d'un tour
-			Bral_Util_Log::tech()->debug(get_class($this)." Perte d'un tour");
+			Bral_Util_Log::tour()->debug(get_class($this)." Perte d'un tour");
 			$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($date_courante, $this->view->config->game->tour->duree_tour_manque);
 			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_cumul;
 			$this->hobbit->pa_hobbit = $this->view->config->game->pa_max_cumul;
@@ -75,27 +77,27 @@ class Bral_Box_Tour {
 			$this->is_update_tour = true;
 		} elseif(($date_courante < $date_fin_latence) // Latence
 		&& $this->is_nouveau_tour) {
-			Bral_Util_Log::tech()->debug(get_class($this)." Latence Tour");
+			Bral_Util_Log::tour()->debug(get_class($this)." Latence Tour");
 			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_latence;
 			$this->hobbit->pa_hobbit = 0;
 			$this->is_update_tour = true;
 		} elseif(($date_courante >= $date_fin_latence && $date_courante < $date_debut_cumul) // Milieu
 		&& ( (!$this->is_nouveau_tour && ($this->hobbit->tour_position_hobbit != $this->view->config->game->tour->position_milieu))
 		|| ($this->is_nouveau_tour))) {
-			Bral_Util_Log::tech()->debug(get_class($this)." Milieu Tour");
+			Bral_Util_Log::tour()->debug(get_class($this)." Milieu Tour");
 			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_milieu;
 			$this->hobbit->pa_hobbit = $this->view->config->game->pa_max;
 			$this->is_update_tour = true;
 		} elseif(($date_courante >= $date_debut_cumul && $date_courante < $this->hobbit->date_fin_tour_hobbit)  // Cumul
 		&& ( (!$this->is_nouveau_tour && ($this->hobbit->tour_position_hobbit != $this->view->config->game->tour->position_cumul))
 		|| ($this->is_nouveau_tour))) {
-			Bral_Util_Log::tech()->debug(get_class($this)." Cumul tour");
+			Bral_Util_Log::tour()->debug(get_class($this)." Cumul tour");
 			// Si le joueur a déjà eu des PA
 			if ($this->hobbit->tour_position_hobbit == $this->view->config->game->tour->position_milieu) {
-				Bral_Util_Log::tech()->debug(get_class($this)." Le joueur a deja eu des PA");
+				Bral_Util_Log::tour()->debug(get_class($this)." Le joueur a deja eu des PA");
 				$this->hobbit->pa_hobbit = $this->hobbit->pa_hobbit + $this->view->config->game->pa_max;
 			} else { // S'il vient d'activer et qu'il n'a jamais eu de PA dans ce tour
-				Bral_Util_Log::tech()->debug(get_class($this)." Le joueur n'a pas encore eu de PA");
+				Bral_Util_Log::tour()->debug(get_class($this)." Le joueur n'a pas encore eu de PA");
 				$this->hobbit->pa_hobbit = $this->view->config->game->pa_max_cumul;
 			}
 			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_cumul;
@@ -103,16 +105,16 @@ class Bral_Box_Tour {
 		}
 		
 		if (($this->is_update_tour) || ($this->is_nouveau_tour) || ($this->hobbit->est_mort_hobbit == "oui")) {
-			Bral_Util_Log::tech()->debug(get_class($this)." modificationTour true");
+			Bral_Util_Log::tour()->debug(get_class($this)." modificationTour - exit - true");
 			return true;
 		} else {
-			Bral_Util_Log::tech()->debug(get_class($this)." modificationTour false");
+			Bral_Util_Log::tour()->debug(get_class($this)." modificationTour - exit - false");
 			return false;
 		}
 	}
 
 	public function activer() {
-	
+		Bral_Util_Log::tour()->trace(get_class($this)." activer - enter -");
 		$this->view->effetMotB = false;
 		$this->view->effetMotE = false;
 		$this->view->effetMotK = false;
@@ -134,6 +136,7 @@ class Bral_Box_Tour {
 		// Si c'est un nouveau tour, on met les BM de force, agi, sag, vue, vig à 0 
 		// Ensuite, on les recalcule suivant l'équipement porté et les potions en cours
 		if ($this->is_nouveau_tour) {
+			Bral_Util_Log::tour()->trace(get_class($this)." activer - is_nouveau_tour - true");
 			$this->hobbit->force_bm_hobbit = 0;
 			$this->hobbit->agilite_bm_hobbit = 0;
 			$this->hobbit->vigueur_bm_hobbit = 0;
@@ -173,10 +176,12 @@ class Bral_Box_Tour {
 			
 			$effetMotE = Bral_Util_Commun::getEffetMotE($this->view->user->id_hobbit);
 			if ($effetMotE != null) {
+				Bral_Util_Log::tour()->trace(get_class($this)." activer - effetMotE Actif - effetMotE=".$effetMotE);
 				$this->view->effetMotE = true;
 				$this->hobbit->pv_max_hobbit = $this->hobbit->pv_max_hobbit - ($effetMotE * 3);
 			}
 			
+			Bral_Util_Log::tour()->trace(get_class($this)." activer - this->hobbit->regeneration_malus_hobbit=".$this->hobbit->regeneration_malus_hobbit);
 			$this->view->jetRegeneration = $this->hobbit->regeneration_malus_hobbit;
 			/* Remise à zéro du malus de régénération. */
 			$this->hobbit->regeneration_malus_hobbit = 0;
@@ -189,14 +194,18 @@ class Bral_Box_Tour {
 					$this->view->jetRegeneration = 0;
 				}
 				$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_restant_hobbit + $this->view->jetRegeneration;
+				Bral_Util_Log::tour()->trace(get_class($this)." activer - jet Regeneration=".$this->view->jetRegeneration);
 				if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit) {
 					$this->view->jetRegeneration = $this->hobbit->pv_max_hobbit - $this->hobbit->pv_restant_hobbit;
 					$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit;
 				}
+				Bral_Util_Log::tour()->trace(get_class($this)." activer - jet Regeneration ajuste=".$this->view->jetRegeneration);
+				Bral_Util_Log::tour()->trace(get_class($this)." activer - pv_restant_hobbit=".$this->hobbit->pv_restant_hobbit);
 			}
 		}
 
 		if ($this->is_update_tour) {
+			Bral_Util_Log::tour()->trace(get_class($this)." activer - is_update_tour - true");
 			$duree = $this->hobbit->duree_base_tour_hobbit;
 			$this->hobbit->duree_prochain_tour_hobbit = $duree;
 			
@@ -267,7 +276,7 @@ class Bral_Box_Tour {
 			);
 			$where = "id_hobbit=".$this->hobbit->id_hobbit;
 			$hobbitTable->update($data, $where);
-			Bral_Util_Log::tech()->debug(get_class($this)." activer() - update hobbit ".$this->hobbit->id_hobbit." en base");
+			Bral_Util_Log::tour()->debug(get_class($this)." activer() - update hobbit ".$this->hobbit->id_hobbit." en base");
 		}
 
 		$this->view->is_update_tour = $this->is_update_tour;
@@ -277,8 +286,10 @@ class Bral_Box_Tour {
 
 		if (($this->is_update_tour) || ($this->is_nouveau_tour)) {
 			$this->calculInfoTour();
+			Bral_Util_Log::tour()->trace(get_class($this)." activer - exit - true");
 			return true;
 		} else {
+			Bral_Util_Log::tour()->trace(get_class($this)." activer - exit - false");
 			return false;
 		}
 	}
@@ -288,20 +299,21 @@ class Bral_Box_Tour {
 	 * @return true si oui
 	 */
 	private function calcul_debut_nouveau($date_courante) {
-		Bral_Util_Log::tech()->debug(get_class($this)." calcul_debut_nouveau - enter -");
-		Bral_Util_Log::tech()->debug(get_class($this)." calcul_debut_nouveau - this->hobbit->date_fin_tour_hobbit=".$this->hobbit->date_fin_tour_hobbit);
-		Bral_Util_Log::tech()->debug(get_class($this)." calcul_debut_nouveau - date_courante=".$date_courante);
-		Bral_Util_Log::tech()->debug(get_class($this)." calcul_debut_nouveau - this->hobbit->est_mort_hobbit=".$this->hobbit->est_mort_hobbit);
+		Bral_Util_Log::tour()->trace(get_class($this)." calcul_debut_nouveau - enter -");
+		Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - this->hobbit->date_fin_tour_hobbit=".$this->hobbit->date_fin_tour_hobbit);
+		Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - date_courante=".$date_courante);
+		Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - this->hobbit->est_mort_hobbit=".$this->hobbit->est_mort_hobbit);
 		if ($this->hobbit->date_fin_tour_hobbit < $date_courante || $this->hobbit->est_mort_hobbit == 'oui') {
-			Bral_Util_Log::tech()->debug(get_class($this)." calcul_debut_nouveau - exit - true");
+			Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - exit - true");
 			return true;
 		} else {
-			Bral_Util_Log::tech()->debug(get_class($this)." calcul_debut_nouveau - enter - false");
+			Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - exit - false");
 			return false;
 		}
 	}
 
 	private function calcul_mort() {
+		Bral_Util_Log::tour()->trace(get_class($this)." calcul_mort - enter -");
 		$this->est_mort = ($this->hobbit->est_mort_hobbit == "oui");
 
 		if ($this->est_mort) {
@@ -331,9 +343,11 @@ class Bral_Box_Tour {
 			$this->hobbit->x_hobbit = $lieu["x_lieu"];
 			$this->hobbit->y_hobbit = $lieu["y_lieu"];
 		}
+		Bral_Util_Log::tour()->trace(get_class($this)." calcul_mort - exit -");
 	}
 
 	private function calculBMEquipement() {
+		Bral_Util_Log::tour()->trace(get_class($this)." calculBMEquipement - enter -");
 		Zend_Loader::loadClass("HobbitEquipement");
 		Zend_Loader::loadClass("EquipementRune");
 		Zend_Loader::loadClass("Bral_Util_Attaque");
@@ -387,7 +401,9 @@ class Bral_Box_Tour {
 			
 				if ($e["nom_systeme_mot_runique"] == "mot_b") {
 					$this->view->effetMotB = true;
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotB actif - avant : this->hobbit->sagesse_bm_hobbit".$this->hobbit->sagesse_bm_hobbit);
 					$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + (2 * $e["niveau_recette_equipement"]);
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotB actif - apres : this->hobbit->sagesse_bm_hobbit".$this->hobbit->sagesse_bm_hobbit. " ajout de :".(2 * $e["niveau_recette_equipement"]));
 				}
 				
 				if ($e["nom_systeme_mot_runique"] == "mot_k") {
@@ -396,8 +412,11 @@ class Bral_Box_Tour {
 						$val = $e["bm_attaque_recette_equipement"];
 					} else { // negatif
 						$val = abs($e["bm_attaque_recette_equipement"]) / 2;
-					}	
+					}
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotK actif - avant : val a ajouer au bm_attaque_hobbit=".$val);
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotK actif - avant : this->hobbit->bm_attaque_hobbit".$this->hobbit->bm_attaque_hobbit);
 					$this->hobbit->bm_attaque_hobbit = $this->hobbit->bm_attaque_hobbit + $val;
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotK actif - apres : this->hobbit->bm_attaque_hobbit".$this->hobbit->bm_attaque_hobbit);
 				}
 				
 				if ($e["nom_systeme_mot_runique"] == "mot_m") {
@@ -406,32 +425,41 @@ class Bral_Box_Tour {
 						$val = $e["bm_defense_recette_equipement"];
 					} else { // negatif
 						$val = abs($e["bm_defense_recette_equipement"]) / 2;
-					}	
+					}
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotM actif - avant : val a ajouer au bm_defense_hobbit=".$val);
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotM actif - avant : this->hobbit->bm_defense_hobbit".$this->hobbit->bm_defense_hobbit);
 					$this->hobbit->bm_defense_hobbit = $this->hobbit->bm_defense_hobbit + $val;
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotM actif - apres : this->hobbit->bm_defense_hobbit".$this->hobbit->bm_defense_hobbit);
 				}
 				
 				if ($e["nom_systeme_mot_runique"] == "mot_n") {
 					$this->view->effetMotN = true;
 					$this->view->ciblesEffetN = Bral_Util_Attaque::calculDegatCase($this->view->config, $this->hobbit, 2 * $e["niveau_recette_equipement"]);
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotN actif - logs presents dans bral_attaque.log");
 				}
 				
 				if ($e["nom_systeme_mot_runique"] == "mot_o") {
 					$this->view->effetMotO = true;
 					$this->view->ciblesEffetO = Bral_Util_Attaque::calculSoinCase($this->view->config, $this->hobbit, 2 * $e["niveau_recette_equipement"]);
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotO actif - logs presents dans bral_attaque.log");
 				}
 				
 				if ($e["nom_systeme_mot_runique"] == "mot_u") {
 					$this->view->effetMotU = true;
 					$ciblesEffetU = Bral_Util_Attaque::calculDegatCase($this->view->config, $this->hobbit, $e["niveau_recette_equipement"] / 2);
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotU actif - avant recuperation pv this->hobbit->pv_restant_hobbit=".$this->hobbit->pv_restant_hobbit);
 					if ($ciblesEffetU != null && $ciblesEffetU["n_cible"] != null) {
-						$this->hobbit->pv_restant_hobbit = $ciblesEffetU["n_cible"];
+						$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_restant_hobbit + $ciblesEffetU["n_cible"];
 					}
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotU actif - apres recuperation pv this->hobbit->pv_restant_hobbit=".$this->hobbit->pv_restant_hobbit);
 					$this->view->ciblesEffetU = $ciblesEffetU;
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotU actif - logs presents dans bral_attaque.log");
 				}
 				
 				if ($e["nom_systeme_mot_runique"] == "mot_v") {
 					$this->view->effetMotV = true;
 					$this->hobbit->vue_bm_hobbit = $this->hobbit->vue_bm_hobbit + 2;
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotV actif - this->hobbit->vue_bm_hobbit=".$this->hobbit->vue_bm_hobbit);
 				}
 			}
 			
@@ -441,36 +469,52 @@ class Bral_Box_Tour {
 				foreach($equipementRunes as $r) {
 					if ($r["nom_type_rune"] == "KR") {
 						// KR Bonus de AGI = Niveau d'AGI/3 arrondi inférieur
-						$this->hobbit->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit + floor($this->hobbit->agilite_base_hobbit / 3); 
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune KR active - avant this->hobbit->agilite_bm_hobbit=".$this->hobbit->agilite_bm_hobbit);
+						$this->hobbit->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit + floor($this->hobbit->agilite_base_hobbit / 3);
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune KR active - apres this->hobbit->agilite_bm_hobbit=".$this->hobbit->agilite_bm_hobbit);
 					} else if ($r["nom_type_rune"] == "ZE") {
 						// ZE Bonus de FOR = Niveau de FOR/3 arrondi inférieur
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune ZE active - avant this->hobbit->force_bm_hobbit=".$this->hobbit->force_bm_hobbit);
 						$this->hobbit->force_bm_hobbit = $this->hobbit->force_bm_hobbit + floor($this->hobbit->force_base_hobbit / 3); 
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune Ze active - apres this->hobbit->force_bm_hobbit=".$this->hobbit->force_bm_hobbit);
 					} else if ($r["nom_type_rune"] == "IL") {
 						// IL Réduit le tour de jeu de 10 minutes
 						//$this->hobbit->duree_courant_tour_hobbit = Bral_Util_ConvertDate::get_time_remove_time_to_time($this->hobbit->duree_courant_tour_hobbit, "00:10:00");
 						// effectué dans la compétence s'équiper, pour mettre à jour le temps du prochain tour.
 					} else if ($r["nom_type_rune"] == "MU") {
 						// MU PV + niveau du Hobbit/10 arrondi inférieur
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune MU active - avant this->hobbit->pv_max_bm_hobbit=".$this->hobbit->pv_max_bm_hobbit);
 						$this->hobbit->pv_max_bm_hobbit = $this->hobbit->pv_max_bm_hobbit + floor($this->hobbit->niveau_hobbit / 10);
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune MU active - apres this->hobbit->pv_max_bm_hobbit=".$this->hobbit->pv_max_bm_hobbit);
 					} else if ($r["nom_type_rune"] == "RE") {
 						// RE ARM NAT + Niveau du Hobbit/10 arrondi inférieur
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune RE active - apres this->hobbit->armure_naturelle_hobbit=".$this->hobbit->armure_naturelle_hobbit);
 						$this->hobbit->armure_naturelle_hobbit = $this->hobbit->armure_naturelle_hobbit + floor($this->hobbit->niveau_hobbit / 10);
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune RE active - apres this->hobbit->armure_naturelle_hobbit=".$this->hobbit->armure_naturelle_hobbit);
 					} else if ($r["nom_type_rune"] == "OG") {
 						// OG Bonus de VIG = Niveau de VIG/3 arrondi inférieur
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OG active - avant this->hobbit->vigueur_bm_hobbit=".$this->hobbit->vigueur_bm_hobbit);
 						$this->hobbit->vigueur_bm_hobbit = $this->hobbit->vigueur_bm_hobbit + floor($this->hobbit->vigueur_base_hobbit / 3); 
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OG active - avant this->hobbit->vigueur_bm_hobbit=".$this->hobbit->vigueur_bm_hobbit);
 					} else if ($r["nom_type_rune"] == "OX") {
 						// OX Poids maximum porté augmenté de Niveau du Hobbit/10 arrondi inférieur
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OX active - avant this->hobbit->poids_transportable_hobbit=".$this->hobbit->poids_transportable_hobbit);
 						$this->hobbit->poids_transportable_hobbit = $this->hobbit->poids_transportable_hobbit + floor($this->hobbit->niveau_hobbit / 10);
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OX active - avant this->hobbit->poids_transportable_hobbit=".$this->hobbit->poids_transportable_hobbit);
 					} else if ($r["nom_type_rune"] == "UP") {
 						// UP Bonus de SAG = Niveau de SAG/3 arrondi inférieur
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune UP active - avant this->hobbit->sagesse_bm_hobbit=".$this->hobbit->sagesse_bm_hobbit);
 						$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + floor($this->hobbit->sagesse_base_hobbit / 3); 
+						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune UP active - avant this->hobbit->sagesse_bm_hobbit=".$this->hobbit->sagesse_bm_hobbit);
 					}
 				}
 			}
 		}
+		Bral_Util_Log::tour()->trace(get_class($this)." calculBMEquipement - exit -");
 	}
 	
 	private function calculInfoTour() {
+		Bral_Util_Log::tour()->trace(get_class($this)." calculInfoTour - enter -");
 		$info = "";
 		if ($this->view->user->tour_position_hobbit == $this->view->config->game->tour->position_latence) {
 			$time_latence = Bral_Util_ConvertDate::get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_latence);
@@ -482,6 +526,7 @@ class Bral_Box_Tour {
 			$info = "D&eacute;but cumul &agrave; ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$date_debut_cumul);
 		}
 		$this->view->user->info_prochaine_position = $info;
+		Bral_Util_Log::tour()->trace(get_class($this)." calculInfoTour - exit -");
 	}
 }
 

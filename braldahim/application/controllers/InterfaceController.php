@@ -15,6 +15,8 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->view->config = Zend_Registry::get('config');
 		$this->view->controleur = $this->_request->controller;
 
+		$this->infoTour = false;
+		
 		if ($this->_request->action != 'index') {
 			$this->xml_response = new Bral_Xml_Response();
 			$t = Bral_Box_Factory::getTour($this->_request, $this->view, false);
@@ -24,7 +26,9 @@ class InterfaceController extends Zend_Controller_Action {
 				$xml_entry->set_valeur("informations");
 				$xml_entry->set_data($t->render());
 				$this->xml_response->add_entry($xml_entry);
-
+				
+				$this->infoTour = true;
+				
 				if ($this->_request->action != 'boxes') {
 					$this->refreshAll();
 				}
@@ -33,7 +37,11 @@ class InterfaceController extends Zend_Controller_Action {
 	}
 
 	function clearAction() {
-		$this->render();
+		if ($this->infoTour == false) {
+			$this->render();
+		} else {
+			$this->xml_response->render();
+		}
 	}
 
 	function indexAction() {
@@ -182,7 +190,7 @@ class InterfaceController extends Zend_Controller_Action {
 		}
 	}
 	
-	public function reloadInterfaceAction() {
+	public function reloadAction() {
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("action");
 		$xml_entry->set_valeur("goto");

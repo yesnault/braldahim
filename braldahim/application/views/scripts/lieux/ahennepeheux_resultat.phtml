@@ -63,7 +63,7 @@
 
 <input type='button' class='button1' value='Copier' onClick="javascript:switch2div('lieu_text','lieu_copie');">
 <? if ($this->constructionCharrette === true || $this->constructionEchoppe): ?>
-	<input type='button' class='button1' value='Fermer' onClick='_get_("/interface/reloadInterface");Modalbox.hide();'>
+	<input type='button' class='button1' value='Fermer' onClick='_get_("/interface/reload");Modalbox.hide();'>
 <? else: ?>
 	<? include("commun_fermer.phtml") ?>
 <? endif; ?>
