@@ -103,6 +103,7 @@ Nombre de Points d'Action : <?=$this->user->pa_hobbit ?>
 	if ($this->effetMotB) {
 			echo "Votre casque de Spiritualit&eacute; vous donne un bonus de deux fois son niveau en sagesse.";
 	}
+	
 	if ($this->effetMotE) {
 		echo "Votre arme des Vampires a r&eacute;duit votre vie maximum. Cependant, si vous r&eacute;ussissez une attaque,"; 
 		echo "vous gagnerez en PV la moiti&eacute; des d&eacute;g&acirc;ts inflig&eacutes;s (avec au maxium trois fois le ";
@@ -127,14 +128,12 @@ Nombre de Points d'Action : <?=$this->user->pa_hobbit ?>
 		echo "Votre armure de Feu C&eacute;leste inflige en d&eacte;g&acirc;ts une aura de feu de deux fois son niveau &agrave; tout ce qui se trouve sur sa case.";
 		echo"
 ";
+		include("tour_effet_touches_copie.phtml");
 	}
 		
 	if ($this->effetMotO) {
 		echo "Votre armure de B&eacute;n&eacute;diction Divine procure une aura de soin donnant des PVs de deux fois son niveau, &agrave; tout ce qui se trouve sur sa case.";
 		echo"
-";
-		echo "Vous avez soign&eacute; : ";
-		echo "
 ";
 		include("tour_effet_touches_copie.phtml");
 	}
@@ -143,6 +142,7 @@ Nombre de Points d'Action : <?=$this->user->pa_hobbit ?>
 		echo "Votre armure de Nosferatu inflige un souffle vampirique de la moiti&eacute; de son niveau en d&eacute;g&acirc;ts &agrave; tout ce qui se trouve sur sa case.";
 		echo"
 ";
+		include("tour_effet_touches_copie.phtml");
 	}
 	
 	if ($this->effetMotV) {

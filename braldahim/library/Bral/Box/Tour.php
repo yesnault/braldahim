@@ -168,12 +168,10 @@ class Bral_Box_Tour {
 			// Mise à jour de la regeneration // c'est aussi mis à jour dans l'eujimnasiumne
 			$this->hobbit->regeneration_hobbit = floor($this->hobbit->vigueur_base_hobbit / 4) + 1;
 			
-			$commun = new Bral_Util_Commun();
-			
 			// calcul des pvs restants avec la regeneration
-			$this->hobbit->pv_max_hobbit = $commun->calculPvMaxSansEffetMotE($this->view->config, $this->hobbit->vigueur_base_hobbit, $this->hobbit->pv_max_bm_hobbit);
+			$this->hobbit->pv_max_hobbit = Bral_Util_Commun::calculPvMaxSansEffetMotE($this->view->config, $this->hobbit->vigueur_base_hobbit, $this->hobbit->pv_max_bm_hobbit);
 			
-			$effetMotE = $commun->getEffetMotE($this->view->user->id_hobbit);
+			$effetMotE = Bral_Util_Commun::getEffetMotE($this->view->user->id_hobbit);
 			if ($effetMotE != null) {
 				$this->view->effetMotE = true;
 				$this->hobbit->pv_max_hobbit = $this->hobbit->pv_max_hobbit - ($effetMotE * 3);
@@ -334,7 +332,7 @@ class Bral_Box_Tour {
 	private function calculBMEquipement() {
 		Zend_Loader::loadClass("HobbitEquipement");
 		Zend_Loader::loadClass("EquipementRune");
-		Zend_Loader::loadClass("Bral_Util_Commun");
+		Zend_Loader::loadClass("Bral_Util_Attaque");
 		
 		// on va chercher l'équipement porté et les runes
 		$tabEquipementPorte = null;
@@ -409,21 +407,18 @@ class Bral_Box_Tour {
 				}
 				
 				if ($e["nom_systeme_mot_runique"] == "mot_n") {
-					$commun = new Bral_Util_Commun();
 					$this->view->effetMotN = true;
-					$this->view->ciblesEffetN = $commun->calculDegatCase($this->view->config, $this->hobbit, 2 * $e["niveau_recette_equipement"]);
+					$this->view->ciblesEffetN = Bral_Util_Attaque::calculDegatCase($this->view->config, $this->hobbit, 2 * $e["niveau_recette_equipement"]);
 				}
 				
 				if ($e["nom_systeme_mot_runique"] == "mot_o") {
-					$commun = new Bral_Util_Commun();
 					$this->view->effetMotO = true;
-					$this->view->ciblesEffetO = $commun->calculSoinCase($this->view->config, $this->hobbit, 2 * $e["niveau_recette_equipement"]);
+					$this->view->ciblesEffetO = Bral_Util_Attaque::calculSoinCase($this->view->config, $this->hobbit, 2 * $e["niveau_recette_equipement"]);
 				}
 				
 				if ($e["nom_systeme_mot_runique"] == "mot_u") {
-					$commun = new Bral_Util_Commun();
 					$this->view->effetMotU = true;
-					$ciblesEffetU = $commun->calculDegatCase($this->view->config, $this->hobbit, $e["niveau_recette_equipement"] / 2);
+					$ciblesEffetU = Bral_Util_Attaque::calculDegatCase($this->view->config, $this->hobbit, $e["niveau_recette_equipement"] / 2);
 					if ($ciblesEffetU != null && $ciblesEffetU["n_cible"] != null) {
 						$this->hobbit->pv_restant_hobbit = $ciblesEffetU["n_cible"];
 					}
@@ -434,8 +429,6 @@ class Bral_Box_Tour {
 					$this->view->effetMotV = true;
 					$this->hobbit->vue_bm_hobbit = $this->hobbit->vue_bm_hobbit + 2;
 				}
-				
-				
 			}
 			
 			$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);

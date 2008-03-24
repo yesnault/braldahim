@@ -12,7 +12,6 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
 		Zend_Loader::loadClass("Ville"); 
-		Zend_Loader::loadClass('Bral_Util_Commun');
 		
 		$villeTable = new Ville();
 		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
@@ -145,7 +144,6 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 	}
 
 	protected function calculDegat($hobbit) {
-		$commun = new Bral_Util_Commun();
 		$this->view->effetRune = false;
 		
 		$jetsDegat["critique"] = 0;
@@ -157,7 +155,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			$jetDegatForce = $jetDegatForce + Bral_Util_De::get_1d6();
 		}
 		
-		if ($commun->isRunePortee($hobbit->id_hobbit, "EM")) { 
+		if (Bral_Util_Commun::isRunePortee($hobbit->id_hobbit, "EM")) { 
 			$this->view->effetRune = true;
 			// dégats : Jet FOR + BM + Bonus de dégat de l'arme
 			// dégats critiques : Jet FOR *1,5 + BM + Bonus de l'arme

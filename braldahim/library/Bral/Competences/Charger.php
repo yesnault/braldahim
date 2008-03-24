@@ -42,19 +42,17 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			return;
 		}	
 		
-		$commun = new Bral_Util_Commun();
-		
 		$this->view->charge_nb_cases = floor($this->view->user->vigueur_base_hobbit / 3) + 1;
 		if ($this->view->charge_nb_cases > 6) {
 			$this->view->charge_nb_cases = 6;
 		}
 		
-		$vue = $commun->getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
+		$vue = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
 		if ($vue < $this->view->charge_nb_cases) {
 			$this->view->charge_nb_cases = $vue;
 		}
 		
-		$environnement = $commun->getEnvironnement($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$environnement = Bral_Util_Commun::getEnvironnement($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		if ($environnement == "montage" || $environnement == "marais") {
 			$this->view->charge_nb_cases = $this->view->charge_nb_cases  - 2;
 		} elseif ($environnement == "foret") {

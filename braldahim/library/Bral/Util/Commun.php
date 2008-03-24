@@ -2,10 +2,10 @@
 
 class Bral_Util_Commun {
 
-	function __construct() {
+	private function __construct() {
 	}
 	
-	public function getVueBase($x, $y) {
+	public static function getVueBase($x, $y) {
 		Zend_Loader::loadClass('Zone');
 		
 		$zoneTable = new Zone();
@@ -35,7 +35,7 @@ class Bral_Util_Commun {
 		return $r;
 	}
 	
-	public function getEnvironnement($x, $y) {
+	public static function getEnvironnement($x, $y) {
 		Zend_Loader::loadClass('Zone');
 		$zoneTable = new Zone();
 		$zones = $zoneTable->findByCase($x, $y);
@@ -46,7 +46,7 @@ class Bral_Util_Commun {
 	/*
 	 * Mise à jour des évènements du hobbit.
 	 */
-	public function majEvenements($id_hobbit, $id_type_evenement, $details) {
+	public static function majEvenements($id_hobbit, $id_type_evenement, $details) {
 		Zend_Loader::loadClass('Evenement');
 
 		$evenementTable = new Evenement();
@@ -63,7 +63,7 @@ class Bral_Util_Commun {
 	/*
 	 * Regarde si la rune de @param est portée
 	 */
-	public function isRunePortee($idHobbit, $nomTypeRune) {
+	public static function isRunePortee($idHobbit, $nomTypeRune) {
 		$retour = false;
 		Zend_Loader::loadClass("HobbitEquipement");
 		$hobbitEquipementTable = new HobbitEquipement();
@@ -80,7 +80,7 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 	
-	public function getEquipementByNomSystemeMot($idHobbit, $nomSystemeMot) {
+	public static function getEquipementByNomSystemeMot($idHobbit, $nomSystemeMot) {
 		$retour = null;
 		Zend_Loader::loadClass("HobbitEquipement");
 		$hobbitEquipementTable = new HobbitEquipement();
@@ -95,14 +95,14 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 	
-	public function calculPvMaxSansEffetMotE($config, $vigueur_base_hobbit, $pv_max_bm_hobbit) {
+	public static function calculPvMaxSansEffetMotE($config, $vigueur_base_hobbit, $pv_max_bm_hobbit) {
 		// calcul des pvs restants avec la regeneration
 		$pvMax = ($config->game->pv_base + $vigueur_base_hobbit * $config->game->pv_max_coef) + $pv_max_bm_hobbit;
 		
 		return $pvMax;
 	}
 	
-	public function ajouteEffetMotR($idHobbit) {
+	public static function ajouteEffetMotR($idHobbit) {
 		Zend_Loader::loadClass("HobbitsCompetences");
 		$hobbitsCompetencesTables = new HobbitsCompetences();
 		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($idHobbit);
@@ -115,7 +115,7 @@ class Bral_Util_Commun {
 		}
 	}
 	
-	public function retireEffetMotR($idHobbit) {
+	public static function retireEffetMotR($idHobbit) {
 		Zend_Loader::loadClass("HobbitsCompetences");
 		$hobbitsCompetencesTables = new HobbitsCompetences();
 		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($idHobbit);
@@ -128,8 +128,8 @@ class Bral_Util_Commun {
 		}
 	}
 	
-	public function getEffetMotA($idHobbit, $jetDegat) {
-		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_a");
+	public static function getEffetMotA($idHobbit, $jetDegat) {
+		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_a");
 		if ($equipement != null) {
 			if ($jetDegat > $equipementCible["niveau_recette_equipement"]) {
 				$jetDegat = $equipementCible["niveau_recette_equipement"];
@@ -138,8 +138,8 @@ class Bral_Util_Commun {
 		return $jetDegat;
 	}
 	
-	public function getEffetMotD($idHobbit) {
-		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_d");
+	public static function getEffetMotD($idHobbit) {
+		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_d");
 		$retour = 0;
 		if ($equipement != null) {
 			$retour = $equipementCible["niveau_recette_equipement"];
@@ -147,8 +147,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 	
-	public function getEffetMotE($idHobbit) {
-		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_e");
+	public static function getEffetMotE($idHobbit) {
+		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_e");
 		$retour = null;
 		if ($equipement != null) {
 			$retour = $equipementCible["niveau_recette_equipement"];
@@ -156,8 +156,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 	
-	public function getEffetMotF($idHobbit) {
-		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_f");
+	public static function getEffetMotF($idHobbit) {
+		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_f");
 		$retour = null;
 		if ($equipement != null) {
 			$retour = $equipementCible["niveau_recette_equipement"];
@@ -165,8 +165,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 	
-	public function getEffetMotG($idHobbit) {
-		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_g");
+	public static function getEffetMotG($idHobbit) {
+		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_g");
 		$retour = null;
 		if ($equipement != null) {
 			if ($equipement["bm_degat_recette_equipement"] < 0) {
@@ -178,8 +178,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 	
-	public function getEffetMotH($idHobbit) {
-		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_h");
+	public static function getEffetMotH($idHobbit) {
+		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_h");
 		$retour = false;
 		if ($equipement != null) {
 			$retour = true;
@@ -187,8 +187,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 	
-	public function getEffetMotI($idHobbit) {
-		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_i");
+	public static function getEffetMotI($idHobbit) {
+		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_i");
 		$retour = null;
 		if ($equipement != null) {
 			$retour = - $equipement["niveau_recette_equipement"];
@@ -196,8 +196,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 	
-	public function getEffetMotJ($idHobbit) {
-		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_j");
+	public static function getEffetMotJ($idHobbit) {
+		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_j");
 		$retour = null;
 		if ($equipement != null) {
 			$retour = - $equipementCible["niveau_recette_equipement"];
@@ -205,8 +205,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 	
-	public function getEffetMotL($idHobbit) {
-		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_l");
+	public static function getEffetMotL($idHobbit) {
+		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_l");
 		$retour = false;
 		if ($equipement != null) {
 			$retour = true;
@@ -214,8 +214,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 
-	public function getEffetMotN($idHobbit) {
-		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_n");
+	public static function getEffetMotN($idHobbit) {
+		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_n");
 		$retour = null;
 		if ($equipement != null) {
 			$retour = $equipementCible["niveau_recette_equipement"] * 2;
@@ -223,8 +223,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 	
-	public function getEffetMotO($idHobbit) {
-		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_o");
+	public static function getEffetMotO($idHobbit) {
+		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_o");
 		$retour = null;
 		if ($equipement != null) {
 			$retour = $equipementCible["niveau_recette_equipement"] * 2;
@@ -232,8 +232,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 	
-	public function getEffetMotQ($idHobbit) {
-		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_q");
+	public static function getEffetMotQ($idHobbit) {
+		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_q");
 		$retour = null;
 		if ($equipement != null) {
 			$retour = - $equipementCible["niveau_recette_equipement"];
@@ -241,8 +241,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 	
-	public function getEffetMotS($idHobbit) {
-		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_s");
+	public static function getEffetMotS($idHobbit) {
+		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_s");
 		$retour = null;
 		if ($equipement != null) {
 			$retour = $equipementCible["niveau_recette_equipement"];
@@ -250,8 +250,8 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 	
-	public function getEffetMotX($idHobbit) {
-		$equipement = $this->getEquipementByNomSystemeMot($idHobbit, "mot_x");
+	public static function getEffetMotX($idHobbit) {
+		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_x");
 		$retour = false;
 		if ($equipement != null) {
 			$retour = true;
@@ -259,154 +259,10 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 	
-	public function calculDegatCase($config, $hobbit, $degats) {
-		Zend_Loader::loadClass("Monstre");
-		$retour["hobbitMorts"] = null;
-		$retour["hobbitTouches"] = null;
-		$retour["monstreMorts"] = null;
-		$retour["monstreTouches"] = null;
-		$retour["n_cible"] = 0;
-		$this->calculDegatCaseHobbit($config, $hobbit, $degats, $retour);
-		$this->calculDegatCaseMonstre($config, $hobbit, $degats, $retour);
-		$retour["n_cible"] = count($retour["hobbitTouches"]) + count($retour["monstreTouches"]);
-		return $retour;
-	}
-	
-	public function calculDegatCaseHobbit($config, $hobbit, $degats, &$retour) {
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->id_hobbit);
-		
-		foreach($hobbits as $h) {
-			$retour["hobbitTouches"][] = $h;
-			
-			$id_type = $config->game->evenements->type->effet;
-			$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a attaqu&eacute; le hobbit ".$h["prenom_hobbit"] ." ". $h["nom_hobbit"] ." (".$h["id_hobbit"].") N".$h["niveau_hobbit"];  
-			$this->majEvenements($hobbit->id_hobbit, $id_type, $details);
-			$this->majEvenements($h["id_hobbit"], $id_type, $details);
-			
-			$h["pv_restant_hobbit"] = $h["pv_restant_hobbit"] - $degats;
-			if ($h["pv_restant_hobbit"] > 0) {
-				$data = array("pv_restant_hobbit" => $h["pv_restant_hobbit"]);
-				$where = "id_hobbit = ".$h["id_hobbit"];
-				$hobbitTable->update($data, $where);
-			} else { // mort
-				$retour["hobbitMorts"][] = $h;
-				
-				$hobbit->nb_kill_hobbit = $hobbit->nb_kill_hobbit + 1;
-				$data = array("nb_kill_hobbit" => $hobbit->nb_kill_hobbit);
-				$where = "id_hobbit = ".$hobbit->id_hobbit;
-				$hobbitTable->update($data, $where);
-				
-				$effetH = $commun->getEffetMotH($hobbit->id_hobbit);
-				if ($effetH == true) {					
-					$this->view->effetMotH = true;
-				}
-				$nbCastars = $this->dropHobbitCastars($h, $effetH);
-				
-				$h["est_mort_hobbit"] = "oui";
-				$h["castars_hobbit"] = $h["castars_hobbit"] - $nbCastars;
-				if ($h["castars_hobbit"] < 0) {
-					$h["castars_hobbit"] = 0;
-				}
-				
-				$data = array(
-					'castars_hobbit' => $h["castars_hobbit"],
-					'pv_restant_hobbit' => 0,
-					'est_mort_hobbit' => "oui",
-					'nb_mort_hobbit' => $h["nb_mort_hobbit"] + 1,
-					'date_fin_tour_hobbit' => date("Y-m-d H:i:s"),
-				);
-				$where = "id_hobbit=".$hobbit->id_hobbit;
-				$hobbitTable->update($data, $where);
-				
-				$id_type = $config->game->evenements->type->kill;
-				$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a tué le hobbit ".$h["prenom_hobbit"] ." ". $h["nom_hobbit"] ." (".$h["id_hobbit"].") N".$h["niveau_hobbit"]; 
-				$this->majEvenements($hobbit->id_hobbit, $id_type, $details);
-				$id_type = $config->evenements->type->mort;
-				$this->majEvenements($h["id_hobbit"], $id_type, $details);
-			}
-		}
-		return $retour;
-	}
-	
-	public function calculDegatCaseMonstre($config, $hobbit, $degats, &$retour) {
-		
-		$monstreTable = new Monstre();
-		$monstres = $monstreTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
-		
-		foreach($monstres as $m) {
-			$retour["monstreTouches"][] = $m;
-			
-			$id_type = $config->game->evenements->type->effet;
-			$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a attaqu&eacute; le monstre ".$m["nom_type_monstre"] ." (".$m["id_monstre"].") N".$m["niveau_monstre"];  
-			$this->majEvenements($hobbit->id_hobbit, $id_type, $details);
-			$this->majEvenements($m["id_monstre"], $id_type, $details, "monstre");
-			
-			$m["pv_restant_monstre"] = $m["pv_restant_monstre"] - $degats;
-			if ($m["pv_restant_monstre"] > 0) {
-				$data = array("pv_restant_monstre" => $m["pv_restant_monstre"]);
-				$where = "id_monstre = ".$m["id_monstre"];
-				$monstreTable = new Monstre();
-				$monstreTable->update($data, $where);
-			} else { // mort
-				$retour["monstreMorts"][] = $m;
-				
-				$hobbit->nb_kill_hobbit = $hobbit->nb_kill_hobbit + 1;
-				$data = array("nb_kill_hobbit" => $hobbit->nb_kill_hobbit);
-				$where = "id_hobbit = ".$hobbit->id_hobbit;
-				$hobbitTable->update($data, $where);
-				
-				$effetD = $commun->getEffetMotD($hobbit->id_hobbit);
-				if ($effetD == true) {					
-					$this->view->effetMotD = true;
-				}
-				
-				$effetH = $commun->getEffetMotH($hobbit->id_hobbit);
-				if ($effetH == true) {					
-					$this->view->effetMotH = true;
-				}
-				
-				Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
-				$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
-				$vieMonstre->mortMonstreDb($m["id_monstre"], $effetD, $effetH);
-				
-				$id_type = $config->game->evenements->type->kill;
-				$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a tué le monstre ". $m["nom_type_monstre"] ." (".$m["id_monstre"].") N".$m["niveau_monstre"]; 
-				$this->majEvenements($hobbit->id_hobbit, $id_type, $details);
-				$id_type = $config->evenements->type->mort;
-				$this->majEvenements($m["id_monstre"], $id_type, $details, "monstre");
-			}
-		}
-		return $retour;
-	}
-	
-	public function calculSoinCase($config, $hobbit, $soins) {
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->id_hobbit);
-		$retour["hobbitTouches"] = null;
-		foreach($hobbits as $h) {
-			$retour["hobbitTouches"][] = $h;
-			if ($h["pv_max_hobbit"] >  $h["pv_restant_hobbit"]) {
-				$h["pv_restant_hobbit"] = $h["pv_restant_hobbit"] + $soins;
-				if ($h["pv_restant_hobbit"] > $h["pv_max_hobbit"]) {
-					$h["pv_restant_hobbit"] = $h["pv_max_hobbit"];
-				}
-				$data = array("pv_restant_hobbit" => $h["pv_restant_hobbit"]);
-					
-				$where = "id_hobbit = ".$h["id_hobbit"];
-				$hobbitTable->update($data, $where);
-					
-				$id_type = $config->game->evenements->type->effet;
-				$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a soign&eacute; le hobbit ".$h["prenom_hobbit"] ." ". $h["nom_hobbit"] ." (".$h["id_hobbit"].") N".$h["niveau_hobbit"];  
-				$this->majEvenements($hobbit->id_hobbit, $id_type, $details);
-				$this->majEvenements($h["id_hobbit"], $id_type, $details);
-			}
-		}
-		return $retour;
-	}
-	
-	public function dropHobbitCastars($cible, $effetH = null) {
-		//Lorqu'un Hobbit meurt il perd une partie de ces castars : 1/3 arr inférieur.
+	/*
+	 * Lorqu'un Hobbit meurt il perd une partie de ces castars : 1/3 arr inférieur.
+	 */
+	public static function dropHobbitCastars($cible, $effetH = null) {
 		if ($cible["castars_hobbit"] > 0) {
 			$nbCastars = floor($cible["castars_hobbit"] / 3) + Bral_Util_De::get_1d5();
 			

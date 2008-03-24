@@ -2,14 +2,15 @@
 
 class Bral_Util_Attaque {
 
-	public static function attaqueHobbit(&$hobbitAttaquant, $idHobbitCible, $jetAttaquant, $jetsDegat, $effetMotSPossible = true) {
+	public static function attaqueHobbit(&$hobbitAttaquant, $hobbitCible, $jetAttaquant, $jetCible, $jetsDegat, $effetMotSPossible = true) {
 		$config = Zend_Registry::get('config');
 		$attaqueReussie = false;
 		
-		$retourAttaque = null;
 		$retourAttaque["jetAttaquant"] = $jetAttaquant;
+		$retourAttaque["jetCible"] = $jetCible;
 		$retourAttaque["mort"] = false;
 		$retourAttaque["fragilisee"] = false;
+		$retourAttaque["critique"]  = false;
 		
 		$retourAttaque["effetMotD"] = false;
 		$retourAttaque["effetMotE"] = false;
@@ -20,29 +21,15 @@ class Bral_Util_Attaque {
 		$retourAttaque["effetMotL"] = false;
 		$retourAttaque["effetMotQ"] = false;
 		
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($idHobbitCible);
-		$hobbitCible = $hobbitRowset->current();
-
-		$jetCible = 0;
-		for ($i=1; $i<=$config->base_agilite + $hobbitCible->agilite_base_hobbit; $i++) {
-			$jetCible = $jetCible + Bral_Util_De::get_1d6();
-		}
-		$retourAttaque["jetCible"] = $jetCible + $hobbitCible->agilite_bm_hobbit;
-
 		$cible = array('nom_cible' => $hobbitCible->prenom_hobbit ." ". $hobbitCible->nom_hobbit, 'id_cible' => $hobbitCible->id_hobbit, 'x_cible' => $hobbitCible->x_hobbit, 'y_cible' => $hobbitCible->y_hobbit,'niveau_cible' => $hobbitCible->niveau_hobbit);
 		$retourAttaque["cible"] = $cible;
 
 		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
 		if ($retourAttaque["jetAttaquant"] > $retourAttaque["jetCible"]) {
-			$commun = new Bral_Util_Commun();
-			
-			$retourAttaque["critique"]  = false;
-			$retourAttaque["fragilisee"] = false;
-			$attaqueReussie = true;
+			$retourAttaque["attaqueReussie"] = true;
 			
 			if ($retourAttaque["jetAttaquant"] / 2 > $retourAttaque["jetCible"]) {
-				if ($commun->getEffetMotX($hobbitCible->id_hobbit) == true) {
+				if (Bral_Util_Commun::getEffetMotX($hobbitCible->id_hobbit) == true) {
 					$retourAttaque["critique"]  = false;
 				} else {
 					$retourAttaque["critique"]  = true;
@@ -55,9 +42,9 @@ class Bral_Util_Attaque {
 				$retourAttaque["jetDegat"] = $jetsDegat["noncritique"];
 			}
 			
-			$retourAttaque["jetDegat"] = $commun->getEffetMotA($hobbitCible->id_hobbit, $retourAttaque["jetDegat"]);
+			$retourAttaque["jetDegat"] = Bral_Util_Commun::getEffetMotA($hobbitCible->id_hobbit, $retourAttaque["jetDegat"]);
 			
-			$effetMotE = $commun->getEffetMotE($hobbitAttaquant->id_hobbit);
+			$effetMotE = Bral_Util_Commun::getEffetMotE($hobbitAttaquant->id_hobbit);
 			if ($effetMotE != null) {
 				if ($effetMotSPossible == false) $retourAttaque["effetMotE"] = true;
 				$gainPv = ($retourAttaque["jetDegat"] / 2);
@@ -70,19 +57,19 @@ class Bral_Util_Attaque {
 				}
 			}
 			
-			$effetMotG = $commun->getEffetMotG($hobbitAttaquant->id_hobbit);
+			$effetMotG = Bral_Util_Commun::getEffetMotG($hobbitAttaquant->id_hobbit);
 			if ($effetMotG != null) {
 				if ($effetMotSPossible == false) $retourAttaque["effetMotG"] = true;
 				$retourAttaque["jetDegat"] = $retourAttaque["jetDegat"] + $effetMotG;
 			}
 			
-			$effetMotI = $commun->getEffetMotI($hobbitAttaquant->id_hobbit);
+			$effetMotI = Bral_Util_Commun::getEffetMotI($hobbitAttaquant->id_hobbit);
 			if ($effetMotI != null) {
 				if ($effetMotSPossible == false) $retourAttaque["effetMotI"] = true;
 				$hobbitCible->regeneration_malus_hobbit = $hobbitCible->regeneration_malus_hobbit + $effetMotI;
 			}
 			
-			$effetMotJ = $commun->getEffetMotJ($hobbitAttaquant->id_hobbit);
+			$effetMotJ = Bral_Util_Commun::getEffetMotJ($hobbitAttaquant->id_hobbit);
 			if ($effetMotJ != null) {
 				if ($effetMotSPossible == false) $retourAttaque["effetMotJ"] = true;
 				$hobbitCible->vue_malus_hobbit = $hobbitCible->vue_malus_hobbit+ $effetMotJ;
@@ -90,7 +77,7 @@ class Bral_Util_Attaque {
 			
 			$hobbitCible->vue_bm_hobbit = $hobbitCible->vue_bm_hobbit + $hobbitCible->vue_malus_hobbit;
 			
-			$effetMotQ = $commun->getEffetMotQ($hobbitAttaquant->id_hobbit);
+			$effetMotQ = Bral_Util_Commun::getEffetMotQ($hobbitAttaquant->id_hobbit);
 			if ($effetMotQ != null) {
 				if ($effetMotSPossible == false) $retourAttaque["effetMotQ"]= true;
 				$hobbitCible->agilite_malus_hobbit = $hobbitCible->agilite_malus_hobbit + $effetMotQ;
@@ -106,25 +93,25 @@ class Bral_Util_Attaque {
 				$nb_mort = $nb_mort + 1;
 				$hobbitAttaquant->nb_kill_hobbit = $hobbitAttaquant->nb_kill_hobbit + 1;
 				
-				$effetH = $commun->getEffetMotH($hobbitAttaquant->id_hobbit);
+				$effetH = Bral_Util_Commun::getEffetMotH($hobbitAttaquant->id_hobbit);
 				if ($effetH == true) {					
 					if ($effetMotSPossible == false) $retourAttaque["effetMotH"] = true;
 				}
 				
-				if ($commun->getEffetMotL($hobbitAttaquant->id_hobbit) == true) {
+				if (Bral_Util_Commun::getEffetMotL($hobbitAttaquant->id_hobbit) == true) {
 					$hobbitAttaquant->pa_hobbit = $hobbitAttaquant->pa_hobbit + 4;
 					if ($effetMotSPossible == false) $retourAttaque["effetMotL"] = true;
 				}
 				
 				$retourAttaque["mort"] = true;
-				$nbCastars = $commun->dropHobbitCastars($hobbitCible, $effetH);
+				$nbCastars = Bral_Util_Commun::dropHobbitCastars($hobbitCible, $effetH);
 				$hobbitCible->castars_hobbit = $hobbitCible->castars_hobbit - $nbCastars;
 				if ($hobbitCible->castars_hobbit < 0) {
 					$hobbitCible->castars_hobbit = 0;
 				}
 			} else {
 				if ($effetMotSPossible == true) {
-					$effetMotS = $commun->getEffetMotS($hobbitAttaquant->id_hobbit);
+					$effetMotS = Bral_Util_Commun::getEffetMotS($hobbitAttaquant->id_hobbit);
 					if ($effetMotS != null) {
 						$retourAttaque["effetMotS"] = true;
 						$retourAttaque["retourAttaqueEffetMotS"] = $this->attaqueHobbit($hobbitCible, $hobbitAttaquant->id_hobbit, false);
@@ -171,17 +158,18 @@ class Bral_Util_Attaque {
 			$id_type = $config->game->evenements->type->mort;
 			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details);
 		}
-		
-		$retourAttaque["attaqueReussie"] = $attaqueReussie;
 		return $retourAttaque;
 	}
 	
-	public static function attaqueMonstre(&$hobbitAttaquant, $idMonstre, $jetAttaquant, $jetsDegat) {
+	public static function attaqueMonstre(&$hobbitAttaquant, $idMonstre, $jetAttaquant, $jetCible, $jetsDegat) {
 		$config = Zend_Registry::get('config');
-		$retourAttaque = null;
+
 		$retourAttaque["jetAttaquant"] = $jetAttaquant;
+		$retourAttaque["jetCible"] = $jetCible;
+		
 		$retourAttaque["mort"] = false;
 		$retourAttaque["fragilisee"] = false;
+		$retourAttaque["critique"] = false;
 		
 		$retourAttaque["effetMotD"] = false;
 		$retourAttaque["effetMotE"] = false;
@@ -192,34 +180,20 @@ class Bral_Util_Attaque {
 		$retourAttaque["effetMotL"] = false;
 		$retourAttaque["effetMotQ"] = false;
 				 
-		$attaqueReussie = false;
+		$retourAttaque["attaqueReussie"] = false;
 		
-		$monstreTable = new Monstre();
-		$monstreRowset = $monstreTable->findById($idMonstre);
-		$monstre = $monstreRowset;
-
 		if ($monstre["genre_type_monstre"] == 'feminin') {
 			$m_taille = $monstre["nom_taille_f_monstre"];
 		} else {
 			$m_taille = $monstre["nom_taille_m_monstre"];
 		}
-			
-		$jetCible = 0;
-		for ($i=1; $i <= $monstre["agilite_base_monstre"]; $i++) {
-			$jetCible = $jetCible + Bral_Util_De::get_1d6();
-		}
-		$retourAttaque["jetCible"] = $jetCible + $monstre["agilite_bm_monstre"];
 		
 		$cible = array('nom_cible' => $monstre["nom_type_monstre"]." ".$m_taille, 'id_cible' => $monstre["id_monstre"], 'niveau_cible' => $monstre["niveau_monstre"],  'x_cible' => $monstre["x_monstre"], 'y_cible' => $monstre["y_monstre"]);
 		$retourAttaque["cible"] = $cible;
 
 		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
 		if ($retourAttaque["jetAttaquant"] > $retourAttaque["jetCible"]) {
-			$commun = new Bral_Util_Commun();
-			
-			$retourAttaque["critique"] = false;
-			$retourAttaque["fragilisee"] = false;
-			$attaqueReussie = true;
+			$retourAttaque["attaqueReussie"] = true;
 			
 			if ($retourAttaque["jetAttaquant"] / 2 > $retourAttaque["jetCible"]) {
 				$retourAttaque["critique"]  = true;
@@ -231,7 +205,7 @@ class Bral_Util_Attaque {
 				$retourAttaque["jetDegat"] = $jetsDegat["noncritique"];
 			}
 			
-			$effetMotE = $commun->getEffetMotE($hobbitAttaquant->id_hobbit);
+			$effetMotE = Bral_Util_Commun::getEffetMotE($hobbitAttaquant->id_hobbit);
 			if ($effetMotE != null) {
 				if ($effetMotSPossible == false) $retourAttaque["effetMotE"] = true;
 				$gainPv = ($retourAttaque["jetDegat"] / 2);
@@ -245,25 +219,25 @@ class Bral_Util_Attaque {
 				}
 			}
 			
-			$effetMotG = $commun->getEffetMotG($hobbitAttaquant->id_hobbit);
+			$effetMotG = Bral_Util_Commun::getEffetMotG($hobbitAttaquant->id_hobbit);
 			if ($effetMotG != null) {
 				if ($effetMotSPossible == false) $retourAttaque["effetMotG"] = true;
 				$retourAttaque["jetDegat"] = $retourAttaque["jetDegat"] + $effetMotG;
 			}
 			
-			$effetMotI = $commun->getEffetMotI($hobbitAttaquant->id_hobbit);
+			$effetMotI = Bral_Util_Commun::getEffetMotI($hobbitAttaquant->id_hobbit);
 			if ($effetMotI != null) {
 				if ($effetMotSPossible == false) $retourAttaque["effetMotI"] = true;
 				$monstre["regeneration_malus_monstre"] = $monstre["regeneration_malus_monstre"] + $effetMotI;
 			}
 			
-			$effetMotJ = $commun->getEffetMotJ($hobbitAttaquant->id_hobbit);
+			$effetMotJ = Bral_Util_Commun::getEffetMotJ($hobbitAttaquant->id_hobbit);
 			if ($effetMotJ != null) {
 				if ($effetMotSPossible == false) $retourAttaque["effetMotJ"] = true;
 				$monstre["vue_malus_monstre"] = $monstre["vue_malus_monstre"] + $effetMotJ;
 			}
 			
-			$effetMotQ = $commun->getEffetMotQ($hobbitAttaquant->id_hobbit);
+			$effetMotQ = Bral_Util_Commun::getEffetMotQ($hobbitAttaquant->id_hobbit);
 			if ($effetMotQ != null) {
 				if ($effetMotSPossible == false) $retourAttaque["effetMotQ"] = true;
 				$monstre["agilite_malus_monstre"] = $monstre["agilite_malus_monstre"] + $effetMotQ;
@@ -277,17 +251,17 @@ class Bral_Util_Attaque {
 				$effetD = null;
 				$effetH = null;
 				
-				$effetD = $commun->getEffetMotD($hobbitAttaquant->id_hobbit);
+				$effetD = Bral_Util_Commun::getEffetMotD($hobbitAttaquant->id_hobbit);
 				if ($effetD != 0) {					
 					if ($effetMotSPossible == false) $retourAttaque["effetMotD"]= true;
 				}
 				
-				$effetH = $commun->getEffetMotH($hobbitAttaquant->id_hobbit);
+				$effetH = Bral_Util_Commun::getEffetMotH($hobbitAttaquant->id_hobbit);
 				if ($effetH == true) {					
 					if ($effetMotSPossible == false) $retourAttaque["effetMotH"] = true;
 				}
 				
-				if ($commun->getEffetMotL($hobbitAttaquant->id_hobbit) == true) {
+				if (Bral_Util_Commun::getEffetMotL($hobbitAttaquant->id_hobbit) == true) {
 					$hobbitAttaquant->pa_hobbit = $hobbitAttaquant->pa_hobbit + 4;
 					if ($effetMotSPossible == false) $retourAttaque["effetMotL"] = true;
 				}
@@ -332,9 +306,27 @@ class Bral_Util_Attaque {
 			$id_type = $config->game->evenements->type->mort;
 			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, "monstre");
 		}
-		
-		$retourAttaque["attaqueReussie"] = $attaqueReussie;
 		return $retourAttaque;
+	}
+	
+	public static function calculJetCibleHobbit($hobbitCible) {
+		$config = Zend_Registry::get('config');
+		$jetCible = 0;
+		for ($i=1; $i<=$config->base_agilite + $hobbitCible->agilite_base_hobbit; $i++) {
+			$jetCible = $jetCible + Bral_Util_De::get_1d6();
+		}
+		$jetCible = $jetCible + $hobbitCible->agilite_bm_hobbit;
+		return $jetCible;
+	}
+	
+	public static function calculJetCibleMonstre($monstre) {
+		$config = Zend_Registry::get('config');
+		$jetCible = 0;
+		for ($i=1; $i <= $monstre["agilite_base_monstre"]; $i++) {
+			$jetCible = $jetCible + Bral_Util_De::get_1d6();
+		}
+		$jetCible = $jetCible + $monstre["agilite_bm_monstre"];
+		return $jetCible;
 	}
 	
 	public static function calculJetAttaqueNormale($hobbit) {
@@ -365,7 +357,86 @@ class Bral_Util_Attaque {
 		$jetDegat["noncritique"] = $jetDegat["noncritique"] + $hobbit->force_bm_hobbit + $hobbit->bm_degat_hobbit;
 		return $jetDegat;
 	}
+	
+	public static function calculDegatCase($config, $hobbit, $degats) {
+		Zend_Loader::loadClass("Monstre");
+		$retour["hobbitMorts"] = null;
+		$retour["hobbitTouches"] = null;
+		$retour["monstreMorts"] = null;
+		$retour["monstreTouches"] = null;
+		$retour["n_cible"] = 0;
+		$this->calculDegatCaseHobbit($config, $hobbit, $degats, $retour);
+		$this->calculDegatCaseMonstre($config, $hobbit, $degats, $retour);
+		$retour["n_cible"] = count($retour["hobbitTouches"]) + count($retour["monstreTouches"]);
+		return $retour;
+	}
+	
+	public static function calculDegatCaseHobbit($config, $hobbit, $degats, &$retour) {
+		Zend_Loader::loadClass("Bral_Util_Attaque");
+		$hobbitTable = new Hobbit();
+		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->id_hobbit);
+		
+		$jetsDegat["critique"] = $jetsDegat;
+		$jetsDegat["noncritique"] = $jetsDegat;
+		$jetAttaquant = 1;
+		$jetCible = 0;
+		
+		$i = 0;
+		foreach($hobbits as $h) {
+			/*$hobbitRowset = $hobbitTable->find($idHobbitCible);
+			$hobbitCible = $hobbitRowset->current();*/
+			$retour["hobbitTouches"][$i]["hobbit"] = $h;
+			$retour["hobbitTouches"][$i]["retourAttaque"] = Bral_Util_Attaque::attaqueHobbit($hobbit, $h, $jetAttaquant, $jetCible, $jetsDegat);
+			$i++;
+		}
+		return $retour;
+	}
+	
+	public static function calculDegatCaseMonstre($config, $hobbit, $degats, &$retour) {
+		Zend_Loader::loadClass("Bral_Util_Attaque");
+		$monstreTable = new Monstre();
+		$monstres = $monstreTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+		
+		$jetsDegat["critique"] = $jetsDegat;
+		$jetsDegat["noncritique"] = $jetsDegat;
+		$jetAttaquant = 1;
+		$jetCible = 0;
+		
+		$i = 0;
+		foreach($monstres as $m) {
+			$retour["monstreTouches"][$i]["monstre"] = $m;
+			$retour["monstreTouches"][$i]["retourAttaque"] = Bral_Util_Attaque::attaqueMonstre($hobbit, $m, $jetAttaquant, $jetCible, $jetsDegat);
+			$i++;
+		}
+		return $retour;
+	}
+	
+	public static function calculSoinCase($config, $hobbit, $soins) {
+		$hobbitTable = new Hobbit();
+		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->id_hobbit);
+		$retour["hobbitTouches"] = null;
+		$i = 0;
+		foreach($hobbits as $h) {
+			$retour["hobbitTouches"][$i]["hobbit"] = $h;
+			$i++;
+			if ($h["pv_max_hobbit"] >  $h["pv_restant_hobbit"]) {
+				$h["pv_restant_hobbit"] = $h["pv_restant_hobbit"] + $soins;
+				if ($h["pv_restant_hobbit"] > $h["pv_max_hobbit"]) {
+					$h["pv_restant_hobbit"] = $h["pv_max_hobbit"];
+				}
+				$data = array("pv_restant_hobbit" => $h["pv_restant_hobbit"]);
+					
+				$where = "id_hobbit = ".$h["id_hobbit"];
+				$hobbitTable->update($data, $where);
+					
+				$id_type = $config->game->evenements->type->effet;
+				$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a soign&eacute; le hobbit ".$h["prenom_hobbit"] ." ". $h["nom_hobbit"] ." (".$h["id_hobbit"].") N".$h["niveau_hobbit"];  
+				$this->majEvenements($hobbit->id_hobbit, $id_type, $details);
+				$this->majEvenements($h["id_hobbit"], $id_type, $details);
+			}
+		}
+		return $retour;
+	}
 }
-
 
 ?>

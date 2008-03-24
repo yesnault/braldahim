@@ -225,12 +225,11 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 
 	private function calculConfectionner($idTypeEquipement, $niveau, $nbRunes) {
 		Zend_Loader::loadClass('Bral_Util_Commun');
-		$commun = new Bral_Util_Commun();
 		$this->view->effetRune = false;
 		
 		$maitrise = $this->hobbit_competence["pourcentage_hcomp"];
 		
-		if ($commun->isRunePortee($this->view->user->id_hobbit, "BA")) { // s'il possède une rune BA
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "BA")) { // s'il possède une rune BA
 			$this->view->effetRune = true;
 			$chance_a = 0;
 			$chance_b = 100-(10 * $maitrise);

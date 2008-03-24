@@ -125,11 +125,9 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 				break;
 		}
 		
-		Zend_Loader::loadClass('Bral_Util_Commun');
-		$commun = new Bral_Util_Commun();
 		$this->view->effetRune = false;
 		
-		if ($commun->isRunePortee($this->view->user->id_hobbit, "FO")) { // s'il possède une rune FO
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "FO")) { // s'il possède une rune FO
 			$this->view->effetRune = true;
 			$this->view->nbPeau = ceil($this->view->nbPeau * 1.5);
 		}

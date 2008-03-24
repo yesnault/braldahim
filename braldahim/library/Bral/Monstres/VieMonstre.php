@@ -156,7 +156,7 @@ class Bral_Monstres_VieMonstre {
 		if ($jetAttaquant > $jetCible) {
 			$critique = false;
 			if ($jetAttaquant / 2 > $jetCible) {
-				if ($commun->getEffetMotX($hobbit->id_hobbit) == true) {
+				if (Bral_Util_Commun::getEffetMotX($hobbit->id_hobbit) == true) {
 					$critique = false;
 				} else {
 					$critique = true;
@@ -165,9 +165,7 @@ class Bral_Monstres_VieMonstre {
 			$this->calculDegat($critique);
 			$jetDegat = $this->calculDegat();
 			
-			Zend_Loader::loadClass('Bral_Util_Commun');
-			$commun = new Bral_Util_Commun();
-			$jetDegat = $commun->getEffetMotA($cible["id_hobbit"], $jetDegat);
+			$jetDegat = Bral_Util_Commun::getEffetMotA($cible["id_hobbit"], $jetDegat);
 			
 			$cible["pv_restant_hobbit"] = ($cible["pv_restant_hobbit"] + $cible["bm_defense_hobbit"]) - $jetDegat;
 			$nb_kills = $this->monstre["nb_kill_monstre"];
@@ -191,8 +189,7 @@ class Bral_Monstres_VieMonstre {
 				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a attaqué le hobbit ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ")";
 				$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details);
 				
-				$commun = new Bral_Util_Commun();
-				$effetMotS = $commun->getEffetMotS($hobbitAttaquant->id_hobbit);
+				$effetMotS = Bral_Util_Commun::getEffetMotS($hobbitAttaquant->id_hobbit);
 				if ($effetMotS != null) {
 					Bral_Util_Log::tech()->notice("Bral_Monstres_VieMonstre - attaqueCible - La cible (".$hobbitAttaquant->id_hobbit.") possede le mot S -> Riposte");
 					Zend_Loader::loadClass("Bral_Util_Attaque");
@@ -201,7 +198,8 @@ class Bral_Monstres_VieMonstre {
 					$hobbitAttaquant = $hobbitRowset->current();
 					$jetAttaquant =  Bral_Util_Attaque::calculJetAttaqueNormale($hobbitAttaquant);
 					$jetsDegat = Bral_Util_Attaque::calculDegatAttaqueNormale($hobbitAttaquant);
-					Bral_Util_Attaque::attaqueMonstre($hobbitAttaquant, $this->monstre["id_monstre"], $jetAttaquant, $jetsDegat);
+					$jetCible = Bral_Util_Attaque::calculJetCibleMonstre($this->monstre);
+					Bral_Util_Attaque::attaqueMonstre($hobbitAttaquant, $this->monstre["id_monstre"], $jetAttaquant, $jetCible, $jetsDegat);
 				}
 			}
 

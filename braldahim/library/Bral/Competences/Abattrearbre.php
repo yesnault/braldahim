@@ -83,13 +83,12 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		
-		$commun = new Bral_Util_Commun();
 		$this->view->effetRune = false;
 		
 		$n = Bral_Util_De::get_1d3();
 		$this->view->nbRondins = $n + floor($this->view->user->vigueur_base_hobbit / 5);
 		
-		if ($commun->isRunePortee($this->view->user->id_hobbit, "VA")) { // s'il possède une rune VA
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "VA")) { // s'il possède une rune VA
 			$this->view->effetRune = true;
 			$this->view->nbRondins = ceil($this->view->nbRondins * 1.5);
 		}

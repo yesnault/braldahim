@@ -155,8 +155,6 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 	* Caverneux : 1 PA pour 1 case
 	*/
 	public function calculNbPa() {
-		Zend_Loader::loadClass('Bral_Util_Commun');
-		$commun = new Bral_Util_Commun();
 		$this->view->effetMot = false;
 		
 		switch($this->nom_systeme_environnement) {
@@ -167,7 +165,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			case "marais" :
 				$this->view->nb_cases = 1;
 				$this->view->nb_pa = 2;
-				if ($commun->getEquipementByNomSystemeMot($this->view->user->id_hobbit, "mot_p") != null) {
+				if (Bral_Util_Commun::getEquipementByNomSystemeMot($this->view->user->id_hobbit, "mot_p") != null) {
 					$this->view->effetMot = true;
 					$this->view->nb_pa = 1;
 				}
@@ -175,7 +173,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			case "montagne" :
 				$this->view->nb_cases = 1;
 				$this->view->nb_pa = 2;
-				if ($commun->getEquipementByNomSystemeMot($this->view->user->id_hobbit, "mot_c") != null) {
+				if (Bral_Util_Commun::getEquipementByNomSystemeMot($this->view->user->id_hobbit, "mot_c") != null) {
 					$this->view->effetMot = true;
 					$this->view->nb_pa = 1;
 				}
@@ -183,7 +181,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			case "foret" :
 				$this->view->nb_cases = 1;
 				$this->view->nb_pa = 1;
-				if ($commun->getEquipementByNomSystemeMot($this->view->user->id_hobbit, "mot_t") != null) {
+				if (Bral_Util_Commun::getEquipementByNomSystemeMot($this->view->user->id_hobbit, "mot_t") != null) {
 					$this->view->effetMot = true;
 					$this->view->nb_cases = 2;
 				}

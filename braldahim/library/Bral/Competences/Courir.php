@@ -16,8 +16,7 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 		
 		$this->view->courirPossible = false;
 		
-		$commun = new Bral_Util_Commun();
-		$vue_nb_cases = $commun->getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
+		$vue_nb_cases = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
 		
 		$this->view->nb_cases = 1;
 		$this->distance = 6;

@@ -370,9 +370,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		}
 		
 		if ($equipement["nom_systeme_mot_runique"] == "mot_r") {
-			Zend_Loader::loadClass('Bral_Util_Commun');
-			$commun = new Bral_Util_Commun();
-			$commun->ajouteEffetMotR($this->view->user->id_hobbit);
+			Bral_Util_Commun::ajouteEffetMotR($this->view->user->id_hobbit);
 		}
 		
 		if ($equipement["nom_systeme_mot_runique"] == "mot_v") {
@@ -448,9 +446,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		}
 		
 		if ($equipement["nom_systeme_mot_runique"] == "mot_r") {
-			Zend_Loader::loadClass('Bral_Util_Commun');
-			$commun = new Bral_Util_Commun();
-			$commun->retireEffetMotR($this->view->user->id_hobbit);
+			Bral_Util_Commun::retireEffetMotR($this->view->user->id_hobbit);
 		}
 		
 		if ($equipement["nom_systeme_mot_runique"] == "mot_v") {

@@ -274,7 +274,11 @@ abstract class Bral_Competences_Competence {
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		$jetAttaquant = $this->calculJetAttaque($hobbitAttaquant);
 		$jetsDegat = $this->calculDegat($hobbitAttaquant);
-		$retourAttaque = Bral_Util_Attaque::attaqueHobbit(&$hobbitAttaquant, $idHobbitCible, $jetAttaquant, $jetsDegat, $effetMotSPossible);
+		$hobbitTable = new Hobbit();
+		$hobbitRowset = $hobbitTable->find($idHobbitCible);
+		$hobbitCible = $hobbitRowset->current();
+		$jetCible = Bral_Util_Attaque::calculJetCibleHobbit($hobbitCible);
+		$retourAttaque = Bral_Util_Attaque::attaqueHobbit(&$hobbitAttaquant, $hobbitCible, $jetAttaquant, $jetCible, $jetsDegat, $effetMotSPossible);
 		$this->updateEffet($retourAttaque);
 		return $retourAttaque;
 	}
@@ -283,7 +287,11 @@ abstract class Bral_Competences_Competence {
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		$jetAttaquant = $this->calculJetAttaque($hobbitAttaquant);
 		$jetsDegat = $this->calculDegat($hobbitAttaquant);
-		$retourAttaque = Bral_Util_Attaque::attaqueMonstre(&$hobbitAttaquant, $idMonstre, $jetAttaquant, $jetsDegat);
+		$monstreTable = new Monstre();
+		$monstreRowset = $monstreTable->findById($idMonstre);
+		$monstre = $monstreRowset;
+		$jetCible = Bral_Util_Attaque::calculJetCibleMonstre($monstre);
+		$retourAttaque = Bral_Util_Attaque::attaqueMonstre(&$hobbitAttaquant, $idMonstre, $jetAttaquant, $jetCible, $jetsDegat);
 		$this->updateEffet($retourAttaque);
 		return $retourAttaque;
 	}

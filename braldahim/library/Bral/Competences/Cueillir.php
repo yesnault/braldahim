@@ -213,13 +213,12 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 	 */
 	private function calculQuantiteAExtraire() {
 		Zend_Loader::loadClass('Bral_Util_Commun');
-		$commun = new Bral_Util_Commun();
 		$this->view->effetRune = false;
 		
 		$n = Bral_Util_De::get_1d3();
 		$n = $n + floor($this->view->user->sagesse_base_hobbit / 5);
 		
-		if ($commun->isRunePortee($this->view->user->id_hobbit, "RI")) { // s'il possède une rune RI
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "RI")) { // s'il possède une rune RI
 			$this->view->effetRune = true;
 			$n = ceil($n * 1.5);
 		}

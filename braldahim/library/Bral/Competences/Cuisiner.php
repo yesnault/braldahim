@@ -70,10 +70,9 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Laban");
 		
 		Zend_Loader::loadClass('Bral_Util_Commun');
-		$commun = new Bral_Util_Commun();
 		$this->view->effetRune = false;
 		
-		if ($commun->isRunePortee($this->view->user->id_hobbit, "RU")) { // s'il possède une rune RU
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "RU")) { // s'il possède une rune RU
 			$this->view->nbRation = Bral_Util_De::get_1d2() + 2;
 			$this->view->effetRune = true;
 		} else {

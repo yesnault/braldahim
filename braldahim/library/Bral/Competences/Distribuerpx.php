@@ -4,15 +4,13 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass('Bral_Util_Commun');
-		$commun = new Bral_Util_Commun();
 
 		// récupération des hobbits qui sont présents dans la vue
 		$hobbitTable = new Hobbit();
 		// s'il y a trop de hobbits, on prend que les plus proches
 		$this->view->estMaxHobbits = false;
 
-		$commun = new Bral_Util_Commun();
-		$vue = $commun->getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
+		$vue = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
 		$hobbits = $hobbitTable->findLesPlusProches($this->view->user->x_hobbit, $this->view->user->y_hobbit, $vue, $this->view->config->game->competence->distribuerpx->nb_max_hobbit);
 
 		foreach($hobbits as $h) {
@@ -100,7 +98,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 		$hobbit = $hobbitRowset->current();
 		$this->view->user->px_commun_hobbit = $this->view->user->px_commun_hobbit - $total_distribution;
 		$data = array(
-		'px_commun_hobbit' => $this->view->user->px_commun_hobbit,
+			'px_commun_hobbit' => $this->view->user->px_commun_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
