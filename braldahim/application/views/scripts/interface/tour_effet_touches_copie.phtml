@@ -11,6 +11,8 @@ if (isset($this->ciblesEffet["hobbitTouches"]) && $this->ciblesEffet["hobbitTouc
 		echo htmlentities($h["prenom_hobbit"]). " ". htmlentities($h["nom_hobbit"]). " (".$h["id_hobbit"].") N".$h["niveau_hobbit"];
 		echo "
 ";
+		$this->retourAttaque = $val["retourAttaque"];
+		$this->render("competences/commun_copie_effets.phtml");
 	}
 }
 if (isset($this->ciblesEffet["monstreTouches"]) && $this->ciblesEffet["monstreTouches"] != null) {
@@ -19,6 +21,8 @@ if (isset($this->ciblesEffet["monstreTouches"]) && $this->ciblesEffet["monstreTo
 		echo htmlentities($m["nom_type_monstre"]). " (".$m["id_monstre"].") N".$m["niveau_monstre"];
 		echo "
 ";
+		$this->retourAttaque = $val["retourAttaque"];
+		$this->render("competences/commun_copie_effets.phtml");
 	}
 }
 if ((isset($this->ciblesEffet["hobbitMorts"])|| isset($this->ciblesEffet["monstreMorts"])) && 

@@ -1,35 +1,35 @@
 
-	<? if ($this->effetMotD) : ?>
+	<? if ($this->retourAttaque["effetMotD"]) : ?>
 		<br>Votre casque de La Mouette a eu de l'effet sur cette action : vos chances de trouver des runes rares ont &eacute;t&eacute; augment&eacute;es. <br>
 	<? endif; ?>
 
-	<? if ($this->effetMotE) : ?>
+	<? if ($this->retourAttaque["effetMotE"]) : ?>
 		<br>Votre arme des Vampires a eu de l'effet sur cette action :  
 		Vous avez gagn&eacute; en PV la moiti&eacute;  des d&eacute;g&acirc;ts inflig&eacute;s avec au maximum 3x le niveau de l'arme. <br>
 	<? endif; ?>
 	
-	<? if ($this->effetMotG) : ?>
+	<? if ($this->retourAttaque["effetMotG"]) : ?>
 		<br>Votre arme de Massacre a eu de l'effet sur cette action : le bonus de d&eacute;g&acirc;ts de votre 
 		arme a &eacute;t&eacute; doubl&eacute; (ou divis&eacute; par deux s'il est n&eacute;gatif). <br>
 	<? endif; ?>
 	
-	<? if ($this->effetMotH) : ?>
+	<? if ($this->retourAttaque["effetMotH"]) : ?>
 		<br>Votre arme d'Appar&acirc;t a eu de l'effet sur cette action : la quantit&eacute; de castars dropp&eacute;s a &eacute;t&eacute; doubl&eacute;e. <br>
 	<? endif; ?>
 
-	<? if ($this->effetMotI) : ?>
+	<? if ($this->retourAttaque["effetMotI"]) : ?>
 		<br>Votre arme de Maladie a eu de l'effet sur cette action : la cible subit un malus de r&eacute;g&eacute;n&eacute;ration &eacute;gal au niveau de l'arme. <br>
 	<? endif; ?>
 	
-	<? if ($this->effetMotL) : ?>
+	<? if ($this->retourAttaque["effetMotL"]) : ?>
 		<br>Votre arme de Finisseur a eu de l'effet sur cette action : vous gagnez 4 Points d'Action. <br>
 	<? endif; ?>
 	
-	<? if ($this->effetMotQ) : ?>
+	<? if ($this->retourAttaque["effetMotQ"]) : ?>
 		<br>Votre arme de Glace a eu de l'effet sur cette action : la cible subit un malus d'agilit&eacute; &eacute;gal au niveau de l'arme. 
 		Le malus est appliqu&eacute; pour le tour actuel et le tour suivant de la cible. <br>
 	<? endif; ?>
-	<? if ($this->effetMotS) : ?>
+	<? if ($this->retourAttaque["effetMotS"]) : ?>
 		<br>Votre cible a rispost&eacute; &agrave; votre attaque !<br>
 		 Jet d'attaque de votre cible : <?=$this->retourAttaque["retourAttaqueEffetMotS"]["jetAttaquant"]?><br>
 		 Votre jet de r&eacute;sistance de la cible : <?=$this->retourAttaque["retourAttaqueEffetMotS"]["jetCible"]?><br>

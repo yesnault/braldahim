@@ -6,12 +6,20 @@
 			<? foreach($this->ciblesEffet["hobbitTouches"] as $val) :
 				$h = $val["hobbit"];?>
 				<?=htmlentities($h["prenom_hobbit"])?>  <?=htmlentities($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>) N<?=$h["niveau_hobbit"] ?><br>
+				<? 
+				$this->retourAttaque = $val["retourAttaque"];
+				$this->render("competences/commun_text_effets.phtml");
+				?>
 			<? endforeach; ?>
 		<? endif; ?>
 		<? if (isset($this->ciblesEffet["monstreTouches"]) && $this->ciblesEffet["monstreTouches"] != null) : ?>
 			<? foreach($this->ciblesEffet["monstreTouches"] as $val) : 
 				$m = $val["monstre"]; ?>
 				<?=htmlentities($m["nom_type_monstre"])?> (<?=$m["id_monstre"]?>) N<?=$m["niveau_monstre"] ?><br>
+				<? 
+				$this->retourAttaque = $val["retourAttaque"];
+				$this->render("competences/commun_text_effets.phtml");
+				?>
 			<? endforeach; ?>
 		<? endif; ?>
 		<? if ((isset($this->ciblesEffet["hobbitMorts"]) || isset($this->ciblesEffet["monstreMorts"])) && 
@@ -30,4 +38,5 @@
 				<?=htmlentities($m["nom_type_monstre"])?> (<?=$m["id_monstre"]?>) N<?=$m["niveau_monstre"] ?><br>
 			<? endforeach; ?>
 		<? endif; ?>
+		
 		

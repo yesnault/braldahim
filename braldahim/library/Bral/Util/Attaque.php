@@ -20,6 +20,7 @@ class Bral_Util_Attaque {
 		$retourAttaque["effetMotJ"] = false;
 		$retourAttaque["effetMotL"] = false;
 		$retourAttaque["effetMotQ"] = false;
+		$retourAttaque["effetMotS"] = false;
 		
 		$cible = array('nom_cible' => $hobbitCible->prenom_hobbit ." ". $hobbitCible->nom_hobbit, 'id_cible' => $hobbitCible->id_hobbit, 'x_cible' => $hobbitCible->x_hobbit, 'y_cible' => $hobbitCible->y_hobbit,'niveau_cible' => $hobbitCible->niveau_hobbit);
 		$retourAttaque["cible"] = $cible;
@@ -124,7 +125,7 @@ class Bral_Util_Attaque {
 				$retourAttaque["fragilisee"] = true;
 			}
 			$data = array(
-				'castars_hobbit' => $cible["castars_hobbit"],
+				'castars_hobbit' => $hobbitCible->castars_hobbit,
 				'pv_restant_hobbit' => $pv,
 				'est_mort_hobbit' => $mort,
 				'nb_mort_hobbit' => $nb_mort,
@@ -136,6 +137,7 @@ class Bral_Util_Attaque {
 				'agilite_malus_hobbit' => $hobbitCible->agilite_malus_hobbit,
 			);
 			$where = "id_hobbit=".$hobbitCible->id_hobbit;
+			$hobbitTable = new Hobbit();
 			$hobbitTable->update($data, $where);
 		} else if ($retourAttaque["jetCible"] / 2 < $retourAttaque["jetAttaquant"]) {
 			$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - ( floor($cible["niveau_hobbit"] / 10) + 1 );
@@ -179,7 +181,8 @@ class Bral_Util_Attaque {
 		$retourAttaque["effetMotJ"] = false;
 		$retourAttaque["effetMotL"] = false;
 		$retourAttaque["effetMotQ"] = false;
-				 
+		$retourAttaque["effetMotS"] = false;
+		
 		$retourAttaque["attaqueReussie"] = false;
 		
 		if ($monstre["genre_type_monstre"] == 'feminin') {
@@ -283,6 +286,7 @@ class Bral_Util_Attaque {
 					'agilite_malus_monstre' => $monstre["agilite_malus_monstre"],
 				);
 				$where = "id_monstre=".$cible["id_cible"];
+				$monstreTable = new Monstre();
 				$monstreTable->update($data, $where);
 			}
 		} else if ($retourAttaque["jetCible"] / 2 < $retourAttaque["jetAttaquant"]) {
@@ -418,6 +422,7 @@ class Bral_Util_Attaque {
 		$i = 0;
 		foreach($hobbits as $h) {
 			$retour["hobbitTouches"][$i]["hobbit"] = $h;
+			$retour["hobbitTouches"][$i]["retourAttaque"] = null;
 			$i++;
 			if ($h["pv_max_hobbit"] >  $h["pv_restant_hobbit"]) {
 				$h["pv_restant_hobbit"] = $h["pv_restant_hobbit"] + $soins;

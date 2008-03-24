@@ -279,7 +279,6 @@ abstract class Bral_Competences_Competence {
 		$hobbitCible = $hobbitRowset->current();
 		$jetCible = Bral_Util_Attaque::calculJetCibleHobbit($hobbitCible);
 		$retourAttaque = Bral_Util_Attaque::attaqueHobbit(&$hobbitAttaquant, $hobbitCible, $jetAttaquant, $jetCible, $jetsDegat, $effetMotSPossible);
-		$this->updateEffet($retourAttaque);
 		return $retourAttaque;
 	}
 	
@@ -292,22 +291,7 @@ abstract class Bral_Competences_Competence {
 		$monstre = $monstreRowset;
 		$jetCible = Bral_Util_Attaque::calculJetCibleMonstre($monstre);
 		$retourAttaque = Bral_Util_Attaque::attaqueMonstre(&$hobbitAttaquant, $idMonstre, $jetAttaquant, $jetCible, $jetsDegat);
-		$this->updateEffet($retourAttaque);
 		return $retourAttaque;
 	}
 	
-	protected function setEffetMotG($effet) {
-		$this->view->effetMotG = $effet;
-	}
-	
-	private function updateEffet($retourAttaque) {
-		$this->view->effetMotD = $retourAttaque["effetMotD"];
-		$this->view->effetMotE = $retourAttaque["effetMotE"];
-		$this->view->effetMotG = $retourAttaque["effetMotG"];
-		$this->view->effetMotH = $retourAttaque["effetMotH"];
-		$this->view->effetMotI = $retourAttaque["effetMotI"];
-		$this->view->effetMotJ = $retourAttaque["effetMotJ"];
-		$this->view->effetMotL = $retourAttaque["effetMotL"];
-		$this->view->effetMotQ = $retourAttaque["effetMotQ"];
-	}
 }

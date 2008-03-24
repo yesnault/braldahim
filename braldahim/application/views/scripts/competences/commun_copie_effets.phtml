@@ -1,6 +1,6 @@
 <?
 
-	if ($this->effetMotD) {
+	if ($this->retourAttaque["effetMotD"]) {
 		echo "
 ";
 		echo "Votre casque de La Mouette a eu de l'effet sur cette action, vos chances de trouver des runes rares ont &eacute;t&eacute; augment&eacute;es.";
@@ -8,7 +8,7 @@
 ";
 	}
 	
-	if ($this->effetMotE) {
+	if ($this->retourAttaque["effetMotE"]) {
 		echo "
 ";
 		echo "Votre arme des Vampires a eu de l'effet sur cette action :  ";
@@ -16,7 +16,14 @@
 		echo " le niveau de l'arme.";
 	}
 	
-	if ($this->effetMotH) {
+	if ($this->retourAttaque["effetMotG"]) {
+		echo "Votre arme de Massacre a eu de l'effet sur cette action : le bonus de d&eacute;g&acirc;ts de votre ";
+		echo "arme a &eacute;t&eacute; doubl&eacute; (ou divis&eacute; par deux s'il est n&eacute;gatif).";
+		echo "
+";
+	}
+	
+	if ($this->retourAttaque["effetMotH"]) {
 		echo "
 ";
 		echo "Votre arme d'Appar&acirc;t a eu de l'effet sur cette action, la quantit&eacute; de castars dropp&eacute;s a &eacute;t&eacute; doubl&eacute;e.";
@@ -24,7 +31,7 @@
 ";
 	}
 
-	if ($this->effetMotI) {
+	if ($this->retourAttaque["effetMotI"]) {
 		echo "
 ";
 		echo "Votre arme de Maladie a eu de l'effet sur cette action : la cible subit un malus de r&eacute;g&eacute;n&eacute;ration &eacute;gal au niveau de l'arme.";
@@ -32,7 +39,7 @@
 ";
 	}
 	
-	if ($this->effetMotL) {
+	if ($this->retourAttaque["effetMotL"]) {
 		echo "
 ";
 		echo "Votre arme de Finisseur a eu de l'effet sur cette action, vous gagnez 4 Points d'Action.";
@@ -40,7 +47,7 @@
 ";
 	}
 	
-	if ($this->effetMotQ) {
+	if ($this->retourAttaque["effetMotQ"]) {
 		echo "
 ";
 		echo "Votre arme de Glace a eu de l'effet sur cette action : la cible subit un malus d'agilit&eacute; &eacute;gal au niveau de l'arme. ";
@@ -49,7 +56,7 @@
 ";
 	}
 	
-	if ($this->effetMotS) {
+	if ($this->retourAttaque["effetMotS"]) {
 		echo "
 ";
 		echo "Votre cible a rispost&eacute; &agrave; votre attaque !";

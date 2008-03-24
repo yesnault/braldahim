@@ -263,8 +263,8 @@ class Bral_Util_Commun {
 	 * Lorqu'un Hobbit meurt il perd une partie de ces castars : 1/3 arr inférieur.
 	 */
 	public static function dropHobbitCastars($cible, $effetH = null) {
-		if ($cible["castars_hobbit"] > 0) {
-			$nbCastars = floor($cible["castars_hobbit"] / 3) + Bral_Util_De::get_1d5();
+		if ($cible->castars_hobbit > 0) {
+			$nbCastars = floor($cible->castars_hobbit / 3) + Bral_Util_De::get_1d5();
 			
 			if ($effetH != null && $effetH == true) { 
 				$nbCastars = $nbCastars * 2;
@@ -273,8 +273,8 @@ class Bral_Util_Commun {
 			Zend_Loader::loadClass("Castar");
 			$castarTable = new Castar();
 			$data = array(
-				"x_castar"  => $cible["x_cible"],
-				"y_castar" => $cible["y_cible"],
+				"x_castar"  => $cible->x_hobbit,
+				"y_castar" => $cible->y_hobbit,
 				"nb_castar" => $nbCastars,
 			);
 			$castarTable = new Castar();
