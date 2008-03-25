@@ -5,7 +5,11 @@
 		<? if (isset($this->ciblesEffet["hobbitTouches"]) && $this->ciblesEffet["hobbitTouches"] != null) : ?>
 			<? foreach($this->ciblesEffet["hobbitTouches"] as $val) :
 				$h = $val["hobbit"];?>
-				<?=htmlentities($h["prenom_hobbit"])?>  <?=htmlentities($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>) N<?=$h["niveau_hobbit"] ?><br>
+				<?=htmlentities($h["prenom_hobbit"])?>  <?=htmlentities($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>) N<?=$h["niveau_hobbit"] ?>
+				<? if (isset($val["retourAttaque"])) :?>
+					: <?=$val["retourAttaque"]["jetDegat"] ?> point<? if ($val["retourAttaque"]["jetDegat"] > 1) { echo "s"; }?> de d&eacute;g&acirc;ts
+				<? endif; ?>
+				<br>
 				<? 
 				$this->retourAttaque = $val["retourAttaque"];
 				echo $this->render("competences/commun_text_effets.phtml");

@@ -9,6 +9,14 @@ if (isset($this->ciblesEffet["hobbitTouches"]) && $this->ciblesEffet["hobbitTouc
 	foreach($this->ciblesEffet["hobbitTouches"] as $val) {
 		$h = $val["hobbit"];
 		echo htmlentities($h["prenom_hobbit"]). " ". htmlentities($h["nom_hobbit"]). " (".$h["id_hobbit"].") N".$h["niveau_hobbit"];
+	
+		if (isset($val["retourAttaque"])) {
+			echo " : ".$val["retourAttaque"]["jetDegat"]." point";
+			if ($val["retourAttaque"]["jetDegat"] > 1) { 
+				echo "s";
+			}
+			echo " de d&eacute;g&acirc;ts";
+		}
 		echo "
 ";
 		$this->retourAttaque = $val["retourAttaque"];
