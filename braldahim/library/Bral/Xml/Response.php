@@ -19,7 +19,7 @@ class Bral_Xml_Response {
 		$r .= "<valeur>date_heure</valeur>\n";
 		$r .= "<data>";
 		$r .= new Zend_Date();
-		$r .= "| </data>\n";
+		$r .= " | </data>\n";
 		$r .= "</entrie>\n";
 		
 		foreach ($this->list as $e) {

@@ -19,7 +19,8 @@
 
 body {
 	font: 11x arial, verdana, sans-serif;
-	background-color: #eeeeee; background-position : center top;
+	//background-color: #6EA028; background-position : center top;
+	background:#C3E691 url(/public/styles/braldahim_defaut/images/layout/fond.png) repeat-x scroll 0pt 0pt;
 	letter-spacing: 0pt;
 	background-position: center top;
 	margin-top : 0;
@@ -114,12 +115,12 @@ input.button1:disabled {
 }
 
 a {
-	color: #791e1e;
+	color: #5A8C00;
 	text-align: center;
 }
 
 a:hover {
-	color: #a92929;
+	color: #73C800;
 }
 
 span.id_hobbit {

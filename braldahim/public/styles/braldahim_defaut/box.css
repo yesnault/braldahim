@@ -5,55 +5,70 @@
 }
 
 .xb1,.xb2 {
-	height: 0px;
+	height: 1px;
 }
 
 .xb3,.xb4,.xb5,.xb6 {
 	height: 1px;
 }
 
-.xb4,.xb5,.xb6,.xb7 {
+.xb2,.xb3,.xb4,.xb5,.xb6,.xb7 {
 	background: #CCCCCC none repeat scroll 0%;
-	border-left: 1px solid #999999;
-	border-right: 1px solid #999999;
-}
-
-.xb1 {
-	background: #999999 none repeat scroll 0%;
-	margin: 0pt 8px;
-}
-
-.xb2 {
-	background: #999999 none repeat scroll 0%;
-	margin: 0pt 7px;
+	border-left: 1px solid #791E1E;
+	border-right: 1px solid #791E1E;
 }
 
 .xb3 {
-	background: #999999 none repeat scroll 0%;
+	border-left: 2px solid #791E1E;
+	border-right: 2px solid #791E1E;
+}
+.xb2 {
+	border-left: 2x solid #791E1E;
+	border-right: 2px solid #791E1E;
+}
+
+.xb1 {
+	background: #791E1E none repeat scroll 0%;
+	margin: 0pt 5px;
+	height: 1px;
+}
+
+.xb2 {
+	background: #e7c57b none repeat scroll 0%;
+	height: 0px;
 	margin: 0pt 5px;
 }
 
-.xb4 {
-	background: #CCCC99 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	margin: 0pt 4px;
-}
-
-.xb5 {
-	background: #CCCC99 none repeat scroll 0%;
-	border-width: 0pt 1px;
+.xb3 {
+	background: #e7c57b none repeat scroll 0%;
+	height: 1px;
 	margin: 0pt 3px;
 }
 
-.xb6 {
-	background: #CCCC99 none repeat scroll 0%;
+.xb4 {
+	background: #e7c57b none repeat scroll 0%;
 	border-width: 0pt 1px;
+	height: 1px;
 	margin: 0pt 2px;
 }
 
-.xb7 {
-	background: #CCCC99 none repeat scroll 0%;
+.xb5 {
+	background: #e7c57b none repeat scroll 0%;
 	border-width: 0pt 1px;
+	height: 1px;
+	margin: 0pt 1px;
+}
+
+.xb6 {
+	background: #e7c57b none repeat scroll 0%;
+	border-width: 0pt 1px;
+	height: 0px;
+	margin: 0pt 1px;
+}
+
+.xb7 {
+	background: #e7c57b none repeat scroll 0%;
+	border-width: 0pt 2x;
 	height: 1px;
 	margin: 0pt 1px;
 }
@@ -85,23 +100,6 @@
 	height: auto;
 }
 
-.box_contenu1 {
-	background-color: #ffd363;
-	padding: 0px;
-	margin: 0px;
-}
-
-.box_contenu2Clair {
-	background-color: #eeeeee;
-	padding: 0px;
-	margin: 0px;
-}
-
-.box_contenu2Fonce {
-	background-color: #ffd363;
-	padding: 0px;
-	margin: 0px;
-}
 
 .box_contenu3 {
 	text-align: left;
@@ -146,7 +144,6 @@
 }
 
 .box_titre1 {
-	color: #003300;
 	padding: 0px;
 	font-weight: bolder;
 	margin-top: 0.5em;
@@ -199,11 +196,11 @@
 }
 
 .menu_lien {
-	background-color: #CCCC99;
+	//background-color: #CCCC99;
 }
 
 .menu_lien:hover {
-	background-color: #ffd363;
+	//background-color: #ffd363;
 	cursor: pointer;
 }
 
@@ -284,15 +281,38 @@
 	height: auto;
 	text-align: center;
 	z-index: 10;
+	background:#transparent none repeat scroll 0% 0%;
 }
 
 .inner {
-	background: #CCCC99 none repeat-x scroll 0pt;
-	padding: 0pt 5px;
-	border-color: #999999;
+	//background: #CCCC99 none repeat-x scroll 0pt;
+	padding: 1pt 10px;
+	border-color: #791E1E;
 	border-style: solid;
 	border-width: 0pt 1px;
 	display: block;
+	//background:#eeeeee url(/public/styles/braldahim_defaut/images/layout/gris.png) repeat-x scroll 0pt 0%;
+	background:#e7c57b repeat-x scroll 0pt 0%;
+}
+
+
+.box_contenu1 {
+	background:#FADC9B repeat-x scroll 0pt 0%;
+	//background:#FFFFFF url(/public/styles/braldahim_defaut/images/layout/gris.png) repeat-x scroll 0pt 100%;
+	padding: 0px;
+	margin: 0px;
+}
+
+.box_contenu2Clair {
+	background-color: #eeeeee;
+	padding: 0px;
+	margin: 0px;
+}
+
+.box_contenu2Fonce {
+	background-color: #ffd363;
+	padding: 0px;
+	margin: 0px;
 }
 
 .laban_plante {

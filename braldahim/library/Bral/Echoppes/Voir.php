@@ -82,6 +82,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 
 		$this->prepareCommunRessources($tabEchoppe["id_echoppe"]);
 		$this->prepareCommunEquipements($tabEchoppe["id_echoppe"]);
+		$this->prepareCommunPotions($tabEchoppe["id_echoppe"]);
 
 		$this->view->competences = $tabCompetences;
 		$this->view->echoppe = $tabEchoppe;
@@ -182,6 +183,37 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->view->nbEquipementsArriereBoutique = count($tabEquipementsArriereBoutique);
 		$this->view->equipementsEtal = $tabEquipementsEtal;
 		$this->view->nbEquipementsEtal = count($tabEquipementsEtal);
+	}
+	
+	private function prepareCommunPotions($idEchoppe) {
+		Zend_Loader::loadClass("EchoppePotion");
+
+		$tabPotionsArriereBoutique = null;
+		$tabPotionsEtal = null;
+		$echoppePotionTable = new EchoppePotion();
+		$potions = $echoppePotionTable->findByIdEchoppe($idEchoppe);
+		
+		if (count($potions) > 0) {
+			foreach($potions as $p) {
+				if ($p["type_vente_echoppe_potion"] == "aucune") {
+					$tabPotionsArriereBoutique[] = array(
+						"nom" => $p["nom_type_potion"],
+						"qualite" => $p["nom_type_qualite"],
+						"niveau" => $p["niveau_echoppe_potion"],
+					);
+				} else {
+					$tabPotionsEtal[] = array(
+						"nom" => $p["nom_type_equipement"],
+						"qualite" => $p["nom_type_qualite"],
+						"niveau" => $p["niveau_echoppe_potion"],
+					);
+				}
+			}
+		}
+		$this->view->potionsArriereBoutique = $tabPotionsArriereBoutique;
+		$this->view->nbPotionsArriereBoutique = count($tabPotionsArriereBoutique);
+		$this->view->potionsEtal = $tabPotionsEtal;
+		$this->view->nbPotionsEtal = count($tabPotionsEtal);
 	}
 	
 	public function getIdEchoppeCourante() {

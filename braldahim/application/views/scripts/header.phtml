@@ -42,11 +42,10 @@
 
 <?php endif; ?>
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:100001;"></div>
-
+<div style="height:4px">&nbsp</div>
 <?php if (isset($this->user) && isset($this->user->email_hobbit)) : ?> 
 <b class="xb1"></b><b class="xb2"></b><b class="xb3"></b><b class="xb4"></b><b class="xb5"></b><b class="xb6"></b><b class="xb7"></b>
  <div class="inner">
- <span id='date_heure' class=''>&nbsp;</span>
   <?=$this->escape($this->user->prenom_hobbit);?> <?=$this->escape($this->user->nom_hobbit);?> | 
   <? if ($this->user->administrateur === true) : ?>
   	<a href="<?=$this->baseUrl ?>/administration/" class="menu_lien">Administration</a> |
@@ -75,3 +74,13 @@
   <div id="racine" class="box_racine">
 <?php endif; ?>
 </div>
+
+<?php if (isset($this->user) && isset($this->user->email_hobbit)) : ?> 
+<b class="xb1"></b><b class="xb2"></b><b class="xb3"></b><b class="xb4"></b><b class="xb5"></b><b class="xb6"></b><b class="xb7"></b>
+ <div class="inner" style="text-align: center">
+ 	<span id='date_heure' class=''>&nbsp;</span>
+ 	<a href="http://www.braldahim.com">www.braldahim.com</a> |
+ 	<a href="http://www.yootheme.com/" style="vertical-align:top"><img src="/public/images/validation_yoo.png" style="border:0px; margin:0px; vertical-align:top" alt="Yootheme.com" /></a>
+ </div>
+<b class="xb7"></b><b class="xb6"></b><b class="xb5"></b><b class="xb4"></b><b class="xb3"></b><b class="xb2"></b><b class="xb1"></b>
+<?php endif; ?>

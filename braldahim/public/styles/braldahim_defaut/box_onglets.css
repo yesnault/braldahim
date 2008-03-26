@@ -5,18 +5,19 @@
 
 .onglet {
   border-style : solid;
-  border-color : #999999;
+  border-color : #791E1E;
   border-width: 1px;
   margin: 2px;
   margin-left: 10px;
 }
 
 .onglet.actif {
-  background-color : #CCCC99;
+  background-color : #e7c57b;
+  border-bottom-color : transparent;
 }
 
 .onglet.inactif {
-  background-color : #eeeeee;
+  background-color : #FADC9B;
 }
 
 .onglet:hover {
