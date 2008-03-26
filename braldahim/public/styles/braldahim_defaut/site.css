@@ -19,7 +19,6 @@
 
 body {
 	font: 11x arial, verdana, sans-serif;
-	//background-color: #6EA028; background-position : center top;
 	background:#C3E691 url(/public/styles/braldahim_defaut/images/layout/fond.png) repeat-x scroll 0pt 0pt;
 	letter-spacing: 0pt;
 	background-position: center top;
@@ -51,8 +50,8 @@ body {
 
 input {
 	margin: 2px 2pt;
-	background: #FAFAFA none repeat-x scroll center top;
-	color: #000000;
+	background: #C3E691 none repeat-x scroll center top;
+	color: #791E1E;
 	font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
 	padding-bottom: 1px;
 	padding-top: 2px;
@@ -60,21 +59,14 @@ input {
 	border: 1px solid #666666;
 }
 
-input:active {
-	color: #000000;
-	text-decoration: none;
-}
-
 input:focus {
-	border: 1px dashed #000;
-	color: #00339A;
-	background-color: white;
+	border: 1px solid #791E1E;
+	color: #791E1E;
 }
 
 input:hover {
-	border: 1px solid #000;
-	color: #00339A;
-	background-color: white;
+	border: 1px solid #791E1E;
+	color: #cc0000;
 }
 
 * html input.button1 {
@@ -84,8 +76,7 @@ input:hover {
 
 input.button1 {
 	background-color: #FAFAFA;
-	background-image:
-		url(/public/styles/braldahim_defaut/images/layout/bg_button.gif);
+	background-image: url(/public/styles/braldahim_defaut/images/layout/bg_button.gif);
 	color: #000000;
 	border-color: #666666;
 	font-size: 1em;
@@ -115,12 +106,12 @@ input.button1:disabled {
 }
 
 a {
-	color: #5A8C00;
+	color: #791E1E;
 	text-align: center;
 }
 
 a:hover {
-	color: #73C800;
+	color: #cc0000;
 }
 
 span.id_hobbit {
@@ -130,53 +121,53 @@ span.id_hobbit {
 
 
 #navigation {
-background-color:#E2E2E2;
-border:1px solid #999999;
-margin:0px;
-padding:0px;
-text-indent:0px;
-width:200px;
+	background-color:#FADC9B;
+	border:3px solid #FADC9B;
+	margin:0px;
+	padding:0px;
+	text-indent:0px;
+	width:200px;
 }
 #navigation h3.head {
-background:#CCCC99 url(/public/images/collapsed.gif) no-repeat scroll 3px 4px;
-border:1px solid #CCCCCC;
-color:#791E1E;
-cursor:pointer;
-display:block;
-font-weight:bold;
-margin:0px;
-padding:0px;
-text-decoration:none;
-text-indent:14px;
+	background:#e7c57b url(/public/images/collapsed.gif) no-repeat scroll 3px 4px;
+	border:1px solid #FADC9B;
+	color:#791E1E;
+	cursor:pointer;
+	display:block;
+	font-weight:bold;
+	margin:0px;
+	padding:0px;
+	text-decoration:none;
+	text-indent:14px;
 }
 #navigation h3.head:hover {
-color:#000000;
+	color:#000000;
 }
 #navigation h3.selected {
-background-image:url(/public/images/expanded.gif);
+	background-image:url(/public/images/expanded.gif);
 }
 #navigation h3.current {
-background-color:#FFFF99;
+	background-color:#FFFF99;
 }
 #navigation ul {
-border-width:0px;
-margin:0px;
-padding:0px;
-text-indent:0px;
+	border-width:0px;
+	margin:0px;
+	padding:0px;
+	text-indent:0px;
 }
 #navigation li {
-display:block;
-list-style-image:none;
-list-style-position:outside;
-list-style-type:none;
+	display:block;
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
 }
 #navigation li li h3 {
-color:#000000;
-display:block;
-text-decoration:none;
-text-indent:10px;
+	color:#000000;
+	display:block;
+	text-decoration:none;
+	text-indent:10px;
 }
 #navigation li li h3:hover {
-background-color:#FFFF99;
-color:#FF0000;
+	background-color:#FFFF99;
+	color:#FF0000;
 }

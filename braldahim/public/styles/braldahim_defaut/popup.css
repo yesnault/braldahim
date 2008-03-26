@@ -1,14 +1,17 @@
 
 
 
-.popup_fg {background-color: #eeeeee}
-.popup_bg {background-color: #aaaaaa}
+.popup_fg {
+	background:#FFFFFF url(/public/styles/braldahim_defaut/images/layout/gris.png) repeat-x scroll 0pt 100%;
+}
+.popup_bg {background-color: #791E1E;
+}
 .popup_text {color: #000000; }
 
-.popup_caption {color: #000000; font-weight:bold;}
+.popup_caption {color: #FADC9B; font-weight:bold;}
 
 
-.popup_close A:link {text-decoration: none; color: #333366;}
-.popup_close A:visited {text-decoration: none; color: #333366;}
-.popup_close A:active {text-decoration: none; color: #333366;}
+.popup_close A:link {text-decoration: none; color: #FADC9B;}
+.popup_close A:visited {text-decoration: none; color: #FADC9B;}
+.popup_close A:active {text-decoration: none; color: #FADC9B;}
 .popup_close A:hover {text-decoration: underline; color: #cc0000;}

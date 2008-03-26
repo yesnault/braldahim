@@ -195,15 +195,6 @@
 	cursor: pointer;
 }
 
-.menu_lien {
-	//background-color: #CCCC99;
-}
-
-.menu_lien:hover {
-	//background-color: #ffd363;
-	cursor: pointer;
-}
-
 .box_informations {
 	width: auto;
 	height: auto;
@@ -257,10 +248,10 @@
 	width: auto;
 	height: auto;
 	text-align: center;
-	border-width: 2px;
+	border-width: 1px;
 	border-style: solid;
 	border-color: #990000;
-	background-color: #eeeeee;
+	background:#FFFFFF url(/public/styles/braldahim_defaut/images/layout/gris.png) repeat-x scroll 0pt 100%;
 	color: black;
 	font-weight: bold;
 	padding: 5pt 5px;
@@ -285,20 +276,17 @@
 }
 
 .inner {
-	//background: #CCCC99 none repeat-x scroll 0pt;
 	padding: 1pt 10px;
 	border-color: #791E1E;
 	border-style: solid;
 	border-width: 0pt 1px;
 	display: block;
-	//background:#eeeeee url(/public/styles/braldahim_defaut/images/layout/gris.png) repeat-x scroll 0pt 0%;
 	background:#e7c57b repeat-x scroll 0pt 0%;
 }
 
 
 .box_contenu1 {
 	background:#FADC9B repeat-x scroll 0pt 0%;
-	//background:#FFFFFF url(/public/styles/braldahim_defaut/images/layout/gris.png) repeat-x scroll 0pt 100%;
 	padding: 0px;
 	margin: 0px;
 }

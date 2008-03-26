@@ -1,16 +1,6 @@
 .comp_titre {
-  background-color: #ffd363;
-  color: black;
-}
-
-.comp_boutons {
-  background-color: #CCCC99;
-  margin-bottom:10px;
-}
-
-.comp_contenu {
-  display: block;
-  list-style-type: none;
+  margin : 3px;
+  text-align: center;
 }
 
 .comp_marcher_position {

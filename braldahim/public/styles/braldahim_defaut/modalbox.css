@@ -80,10 +80,10 @@
 }
 #MB_content { border-top: 1px solid #F9F9F9; }
 #MB_header {
-  background-color: #DDD;
-  border-bottom: 1px solid #CCC;
+  background-color: #e7c57b;
+  border-bottom: 1px solid #791E1E;
 }
-#MB_caption { color: #000 }
+#MB_caption { color: #791E1E }
 #MB_close { color: #777 }
 #MB_close:hover { color: #000 }
 
