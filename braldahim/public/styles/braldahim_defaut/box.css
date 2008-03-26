@@ -143,7 +143,7 @@
 	text-align: center;
 }
 
-.box_titre1 {
+.box_titre1, .comp_titre {
 	padding: 0px;
 	font-weight: bolder;
 	margin-top: 0.5em;

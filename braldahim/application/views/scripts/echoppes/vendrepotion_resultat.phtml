@@ -1,0 +1,21 @@
+<div class='comp_titre'>Mettre en vente un potion</div>
+
+ <div class='comp_contenu'>
+	 <div id='vendre_text' style="display:block"  onClick="javascript:switch2div('vendre_text','vendre_copie');">
+		Vous avez mis en vente l'potion suivant : <br>
+		<?=htmlentities($this->potion["nom"]) ?> n&deg;<?=htmlentities($this->potion["id_echoppe_potion"]) ?>
+		<br>
+	 </div>
+	 
+	 <div id='vendre_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+		echo "Vous avez mis en vente la potion suivante: ";
+		echo htmlentities($this->potion["nom"]);
+		echo " n&deg;". htmlentities($this->potion["id_echoppe_potion"]);
+	?>
+	</textarea>
+	</div>
+ </div>
+
+<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('vendre_text','vendre_copie');">
+<? include("commun_fermer.phtml") ?>

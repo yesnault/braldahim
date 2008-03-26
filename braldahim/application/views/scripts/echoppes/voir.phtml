@@ -3,10 +3,10 @@
 <ul class="titre textalic textsizec">x:<?=$this->echoppe["x_echoppe"]?>, y:<?=$this->echoppe["y_echoppe"]?></ul>
 <br>
 <table  width='100%'>
-  	<tr><td><ul class="titre textalic textsizec">La caisse</ul></td>
+  	<tr><td><ul class="titre textalic textsizec">Mati&egrave;res premi&egrave;res</ul></td>
   	<td><ul class="titre textalic textsizec">L'atelier</ul></td></tr>
   	<tr valign='top'><td>
- 	<? include("caisse.phtml") ?>
+ 	<? include("arriere_boutique_ressources.phtml") ?>
  	</td><td>
  		<? if ($this->estSurEchoppe === true): 
   		$disabled = "";
@@ -30,15 +30,21 @@
  <div class="contenuc">
   <ul class="box_contenu1 textalic">
   	<table  width='100%'>
-  	<tr><td><ul class="titre textalic textsizec">Mati&egrave;res premi&egrave;res</ul></td>
-  	<td><ul class="titre textalic textsizec">&Eacute;quipements cr&eacute;&eacute;s</ul></td>
-  	<td><ul class="titre textalic textsizec">Potions cr&eacute;&eacute;es</ul></td></tr>
+  	<tr><td><ul class="titre textalic textsizec">La caisse</ul></td>
+  	
+  	<? if ($this->afficheType == "equipements") :?>
+  		<td><ul class="titre textalic textsizec">&Eacute;quipements cr&eacute;&eacute;s</ul></td>
+  	<? else : ?>
+  		<td><ul class="titre textalic textsizec">Potions cr&eacute;&eacute;es</ul></td></tr>
+  	<? endif; ?>
   	<tr valign='top'><td>
- 	<? include("arriere_boutique_ressources.phtml") ?>
+  	<? include("caisse.phtml") ?>
  	</td><td>
- 	<? include("arriere_boutique_equipements.phtml") ?>
- 	</td><td>
- 	<? include("arriere_boutique_potions.phtml") ?>
+ 	<? if ($this->afficheType == "equipements") :?>
+ 		<? include("arriere_boutique_equipements.phtml") ?>
+ 	<? else: ?>
+ 		<? include("arriere_boutique_potions.phtml") ?>
+ 	<? endif; ?>
  	</td></tr>
  	</table>
    </ul>
@@ -49,12 +55,17 @@
  <div class="contenuc">
   <ul class="box_contenu1 textalic">
   	<table  width='100%'>
-  	<tr><td><ul class="titre textalic textsizec">Equipements en vente</ul></td>
-  	<td><ul class="titre textalic textsizec">Potions en vente</ul></td></tr>
+  	<? if ($this->afficheType == "equipements") :?>
+  		<tr><td><ul class="titre textalic textsizec">Equipements en vente</ul></td>
+  	<? else: ?>
+  		<td><ul class="titre textalic textsizec">Potions en vente</ul></td></tr>
+  	<? endif; ?>
   	<tr valign='top'><td>
- 	<? include("etal_equipements.phtml") ?>
- 	</td><td>
- 	<? include("etal_potions.phtml") ?>
+  	<? if ($this->afficheType == "equipements") :?>
+ 		<? include("etal_equipements.phtml") ?>
+ 	<? else: ?>
+ 		<? include("etal_potions.phtml") ?>
+ 	<? endif; ?>
  	</td></tr>
  	</table>
    </ul>

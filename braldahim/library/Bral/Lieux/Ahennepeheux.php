@@ -151,6 +151,8 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 
 			//$hobbitsMetiersTable->updateTousMetierVersNonActif($this->view->user->id_hobbit);
 			//$hobbitsMetiersTable->updateMetierVersActif($this->view->user->id_hobbit, $idNouveauMetierCourant);
+			
+			//TODO -10% sur les competences de l'ancien metier a rajouter
 			$data = array('est_actif_hmetier' => 'oui');
 			$where = array("id_fk_hobbit_hmetier = ".intval($this->view->user->id_hobbit)." AND id_fk_metier_hmetier = ".intval($idNouveauMetierCourant));
 			$hobbitsMetiersTable->update($data, $where);
@@ -163,10 +165,10 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 			//$hobbitsMetiersTable->updateTousMetierVersNonActif($this->view->user->id_hobbit);
 
 			$dataNouveauMetier = array(
-			'id_fk_hobbit_hmetier' => $this->view->user->id_hobbit,
-			'id_fk_metier_hmetier'  => $idNouveauMetier, // marcher
-			'date_apprentissage_hmetier'  => date("Y-m-d"),
-			'est_actif_hmetier'  => "oui",
+				'id_fk_hobbit_hmetier' => $this->view->user->id_hobbit,
+				'id_fk_metier_hmetier'  => $idNouveauMetier, // marcher
+				'date_apprentissage_hmetier'  => date("Y-m-d"),
+				'est_actif_hmetier'  => "oui",
 			);
 
 			$hobbitsMetiersTable->insert($dataNouveauMetier);
@@ -177,10 +179,10 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 			$competencesMetier = $competenceTable->findByIdMetier($idNouveauMetier);
 			foreach($competencesMetier as $e) {
 				$data = array(
-				'id_fk_hobbit_hcomp' => $this->view->user->id_hobbit,
-				'id_fk_competence_hcomp'  => $e->id_competence,
-				'pourcentage_hcomp'  => 10,
-				'date_gain_tour_hcomp'  => "0000-00-00 00:00:00",
+					'id_fk_hobbit_hcomp' => $this->view->user->id_hobbit,
+					'id_fk_competence_hcomp'  => $e->id_competence,
+					'pourcentage_hcomp'  => 10,
+					'date_gain_tour_hcomp'  => "0000-00-00 00:00:00",
 				);
 				$hobbitsCompetencesTable->insert($data);
 			}

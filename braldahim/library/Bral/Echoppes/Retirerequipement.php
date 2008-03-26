@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Echoppes_Retirer extends Bral_Echoppes_Echoppe {
+class Bral_Echoppes_Retirerequipement extends Bral_Echoppes_Echoppe {
 
 	function getNomInterne() {
 		return "box_action";
@@ -54,9 +54,9 @@ class Bral_Echoppes_Retirer extends Bral_Echoppes_Echoppe {
 		$this->view->idEchoppe = $id_echoppe;
 		
 		if ($this->view->nbEquipementsEtal > 0) {
-			$this->view->retirerOk = true;
+			$this->view->retirerequipementOk = true;
 		} else {
-			$this->view->retirerOk = false;
+			$this->view->retirerequipementOk = false;
 			return;
 		}
 	}
@@ -65,8 +65,8 @@ class Bral_Echoppes_Retirer extends Bral_Echoppes_Echoppe {
 	}
 
 	function prepareResultat() {
-		if ($this->view->retirerOk == false) {
-			throw new Zend_Exception(get_class($this)." Retirer interdit");
+		if ($this->view->retirerequipementOk == false) {
+			throw new Zend_Exception(get_class($this)." Retirerequipement interdit");
 		}
 		$id_equipement = $this->request->get("valeur_2");
 		
@@ -89,10 +89,10 @@ class Bral_Echoppes_Retirer extends Bral_Echoppes_Echoppe {
 			throw new Zend_Exception(get_class($this)." Equipement inconnu=".$id_equipement);
 		}
 		
-		$this->calculRetirer($id_equipement);
+		$this->calculRetirerequipement($id_equipement);
 	}
 	
-	private function calculRetirer($id_equipement) {
+	private function calculRetirerequipement($id_equipement) {
 		Zend_Loader::loadClass("EchoppeEquipement");
 		$data = array("prix_1_vente_echoppe_equipement" => null,
 					  "prix_2_vente_echoppe_equipement" => null,

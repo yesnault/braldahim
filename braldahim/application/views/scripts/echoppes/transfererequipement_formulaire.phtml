@@ -6,7 +6,7 @@
  <br>
 	<? if ($this->nbEquipementsArriereBoutique > 0): ?>
 		Vous pouvez transf&eacute;rer un &eacute;quipement pr&eacute;sent soit dans la r&eacute;serve, 
-		soit dans votre laban, soit un autre de vos &eacute;choppes.<br>
+		soit dans votre laban, soit une autre de vos &eacute;choppes.<br>
 		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_transfererequipement').disabled=true } else {$('bouton_transfererequipement').disabled=false }">
 	 		<option value="-1">(Choisis un &eacute;quipement)</option>
 			<? foreach($this->equipementsArriereBoutique as $e) :?>

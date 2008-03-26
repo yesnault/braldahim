@@ -7,6 +7,7 @@ class Bral_Box_Laban {
 		Zend_Loader::loadClass('LabanEquipement');
 		Zend_Loader::loadClass('LabanMinerai');
 		Zend_Loader::loadClass('LabanPartieplante');
+		Zend_Loader::loadClass('LabanPotion');
 		Zend_Loader::loadClass('LabanRune');
 		$this->_request = $request;
 		$this->view = $view;
@@ -102,6 +103,7 @@ class Bral_Box_Laban {
 		$this->view->nom_interne = $this->getNomInterne();
 		
 		$this->renderEquipement();
+		$this->renderPotion();
 		return $this->view->render("interface/laban.phtml");
 	}
 	
@@ -151,6 +153,25 @@ class Bral_Box_Laban {
 		
 		$this->view->nb_equipements = count($tabEquipements);
 		$this->view->equipements = $tabEquipements;
+	}
 	
+	private function renderPotion() {
+		$tabPotions = null;
+		$labanPotionTable = new LabanPotion();
+		$potions = $labanPotionTable->findByIdHobbit($this->view->user->id_hobbit);
+		
+		foreach ($potions as $p) {
+			$tabPotions[$p["id_laban_potion"]] = array(
+					"id_potion" => $p["id_laban_potion"],
+					"nom" => $p["nom_type_potion"],
+					"qualite" => $p["nom_type_qualite"],
+					"niveau" => $p["niveau_laban_potion"],
+					"caracteristique" => $p["caract_type_potion"],
+					"bm_type" => $p["bm_type_potion"],
+			);
+		}
+		
+		$this->view->nb_potions = count($tabPotions);
+		$this->view->potions = $tabPotions;
 	}
 }

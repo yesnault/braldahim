@@ -1,0 +1,57 @@
+<div class='comp_titre'>Mettre en vente une potion</div>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='8'>
+ <input type='hidden' id='valeur_1' name='valeur_1' value='<?=$this->idEchoppe ?>'>
+ <form name='myForm'>
+ <div class='comp_contenu'>
+	<br>
+	<? if ($this->nbPotionsArriereBoutique > 0): ?>
+		Vous pouvez mettre en vente une potion pr&eacute;sente dans la r&eacute;serve : <br>
+		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value=='' || $('valeur_4').value==-1 ){$('bouton_vendrepotion').disabled=true } else {$('bouton_vendrepotion').disabled=false }">
+	 		<option value="-1">(Choisis un potion)</option>
+			<? foreach($this->potionsArriereBoutique as $e) :?>
+				<option value="<?=$e["id_echoppe_potion"] ?>"><?=htmlentities($e["nom"]) ?> : qualit&eacute; <?=htmlentities($e["qualite"]) ?>,
+				 niveau: <?=$e["niveau"] ?></option>
+			<? endforeach; ?>
+		</select>
+		<br><br>
+		
+		Vous pouvez vendre la potion &agrave; l'aide de trois unit&eacute;s diff&eacute;rentes : 
+		
+		<input type='textbox' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeypress="chiffres(event, false);" onChange="if ($('valeur_2').value==-1 || $('valeur_3').value=='' || $('valeur_4').value==-1 ){$('bouton_vendrepotion').disabled=true } else {$('bouton_vendrepotion').disabled=false }">
+		unit&eacute;(s) de 
+		<select name="valeur_4" id="valeur_4" onChange="if ($('valeur_2').value==-1 || $('valeur_3').value=='' || $('valeur_4').value==-1 ){$('bouton_vendrepotion').disabled=true } else {$('bouton_vendrepotion').disabled=false }">
+	 		<option value="-1">(Choisis une unit&eacute;)</option>
+			<? foreach($this->unites as $k => $u) :?>
+				<option value="<?=$k ?>"><?=htmlentities($u["nom_type_unite"]) ?> </option>
+			<? endforeach; ?>
+		</select> OU 
+		<br>
+		<input type='textbox' maxlength='4' size='4' name='valeur_5' id='valeur_5' value='' onkeypress="chiffres(event, false);" onChange="if ($('valeur_2').value==-1 || $('valeur_3').value=='' || $('valeur_4').value==-1 ){$('bouton_vendrepotion').disabled=true } else {$('bouton_vendrepotion').disabled=false }">
+		unit&eacute;(s) de 
+		<select name="valeur_6" id="valeur_6">
+	 		<option value="-1">(Choisis une unit&eacute;)</option>
+			<? foreach($this->unites as $k => $u) :?>
+				<option value="<?=$k ?>"><?=htmlentities($u["nom_type_unite"]) ?> </option>
+			<? endforeach; ?>
+		</select> OU
+		<br>
+		<input type='textbox' maxlength='4' size='4' name='valeur_7' id='valeur_7' value='' onkeypress="chiffres(event, false);" onChange="if ($('valeur_2').value==-1 || $('valeur_3').value=='' || $('valeur_4').value==-1 ){$('bouton_vendrepotion').disabled=true } else {$('bouton_vendrepotion').disabled=false }">
+		unit&eacute;(s) de 
+		<select name="valeur_8" id="valeur_8">
+	 		<option value="-1">(Choisis une unit&eacute;)</option>
+			<? foreach($this->unites as $k => $u) :?>
+				<option value="<?=$k ?>"><?=htmlentities($u["nom_type_unite"]) ?> </option>
+			<? endforeach; ?>
+		</select>
+		<br>
+	<? else: ?>
+		Vous n'avez aucun potion en r&eacute;serve
+	<? endif; ?>
+ </div>
+
+</form>
+<br>
+<?php if ($this->vendreOk > 0) : ?>
+<input type='button' class='button1' id='bouton_vendrepotion' value='Mettre en vente !' onClick='this.disabled=true;_get_("/echoppes/doaction?caction=do_echoppes_vendrepotion");' disabled>
+<? endif ?>
+<? include("commun_fermer.phtml") ?>

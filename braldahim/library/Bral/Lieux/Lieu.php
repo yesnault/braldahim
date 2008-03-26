@@ -43,6 +43,7 @@ abstract class Bral_Lieux_Lieu {
 				break;
 			case "do":
 				$this->prepareResultat();
+				$this->majEvenements();
 				break;
 			default:
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
@@ -53,7 +54,14 @@ abstract class Bral_Lieux_Lieu {
 	abstract function prepareFormulaire();
 	abstract function prepareResultat();
 	abstract function getListBoxRefresh();
-
+	
+	function majEvenements() {
+		Zend_Loader::loadClass("Bral_Util_Evenement");
+		$id_type = $this->view->config->game->evenements->type->service;
+		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a utilisé un service";
+		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $id_type, $details);
+	}
+	
 	function getNomInterne() {
 		return "box_action";
 	}

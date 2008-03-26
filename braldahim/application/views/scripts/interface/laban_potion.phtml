@@ -1,0 +1,26 @@
+<? Zend_Loader::loadClass("Bral_Helper_DetailPotion"); ?>
+   <div class="laban">
+   <? if ($this->nb_potions == 0) : ?>
+   	Aucune potion
+   <? else : ?>
+    <? if ($this->nb_potions==1):$s=''; else:$s='s';endif; ?>
+    <?=$this->nb_potions?> potion<?=$s?> : <br>
+    
+    <table width='100%'>
+    <? $i = 0;
+      
+      foreach ($this->potions as $id => $p) : 
+     	 if ($i % 3 == 0) echo "<tr>";
+    	?>
+    	<td>
+    	<? echo Bral_Helper_DetailPotion::afficher($p); ?>
+    	</td>
+    	<? if ($i % 3 == 2) echo "</tr>"; 
+    	$i++; 
+     endforeach;
+     if  ($i % 3 != 0) echo "</tr>"; 
+     ?>
+    </table> 
+    <? endif; ?>
+   </div>
+   <br/>

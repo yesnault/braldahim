@@ -52,4 +52,3 @@ class Bral_Helper_DetailEquipement {
     	}
     }
 }
-?>

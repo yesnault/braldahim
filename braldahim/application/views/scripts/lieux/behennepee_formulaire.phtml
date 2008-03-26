@@ -20,7 +20,7 @@
 			Dans cette comt&eacute; (<?=htmlentities($this->tabRegionCourante["nom_region"])?>),
 			 vous pouvez construire une &eacute;choppe
 			<? if ($this->nom_metier_courant{0} == 'A') : echo 'd'; else: echo "de"; endif; ?>
-			<?=$this->nom_metier_courant ?>.<br><br>
+			<?=htmlentities($this->nom_metier_courant) ?>.<br><br>
 			
 			Indiquez la position de l'&eacute;choppe : <br>
 			X = <input type='textbox' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onChange="if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};" onkeypress="chiffres(event, true);">

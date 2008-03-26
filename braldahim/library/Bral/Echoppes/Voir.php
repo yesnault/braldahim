@@ -27,6 +27,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
 
 		$this->view->estSurEchoppe == false;
+		$this->view->afficheType = "equipements";
 
 		$tabEchoppe = null;
 		$id_metier = null;
@@ -57,6 +58,9 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 				if ($this->view->user->x_hobbit == $e["x_echoppe"] &&
 				$this->view->user->y_hobbit == $e["y_echoppe"]) {
 					$this->view->estSurEchoppe = true;
+				}
+				if ($e["nom_systeme_metier"] == "apothicaire") {
+					$this->view->afficheType = "potions";
 				}
 				break;
 			}
@@ -197,15 +201,21 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 			foreach($potions as $p) {
 				if ($p["type_vente_echoppe_potion"] == "aucune") {
 					$tabPotionsArriereBoutique[] = array(
+						"id_potion" => $p["id_echoppe_potion"],
 						"nom" => $p["nom_type_potion"],
 						"qualite" => $p["nom_type_qualite"],
 						"niveau" => $p["niveau_echoppe_potion"],
+						"caracteristique" => $p["caract_type_potion"],
+						"bm_type" => $p["bm_type_potion"],
 					);
 				} else {
 					$tabPotionsEtal[] = array(
-						"nom" => $p["nom_type_equipement"],
+						"id_potion" => $p["id_echoppe_potion"],
+						"nom" => $p["nom_type_potion"],
 						"qualite" => $p["nom_type_qualite"],
 						"niveau" => $p["niveau_echoppe_potion"],
+						"caracteristique" => $p["caract_type_potion"],
+						"bm_type" => $p["bm_type_potion"],
 					);
 				}
 			}

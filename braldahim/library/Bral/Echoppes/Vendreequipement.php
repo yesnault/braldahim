@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Echoppes_Vendre extends Bral_Echoppes_Echoppe {
+class Bral_Echoppes_Vendreequipement extends Bral_Echoppes_Echoppe {
 
 	function getNomInterne() {
 		return "box_action";
@@ -133,7 +133,7 @@ class Bral_Echoppes_Vendre extends Bral_Echoppes_Echoppe {
 
 	function prepareResultat() {
 		if ($this->view->vendreOk == false) {
-			throw new Zend_Exception(get_class($this)." Vendre interdit");
+			throw new Zend_Exception(get_class($this)." Vendre Equipement interdit");
 		}
 		
 		$id_equipement = $this->request->get("valeur_2");

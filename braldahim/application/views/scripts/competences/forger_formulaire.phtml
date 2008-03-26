@@ -58,7 +58,7 @@
 		 			foreach($value1 as $c) :
 		 			$i++;
 		 		?>
-		 		<?=htmlentities($c["nom"]) ?> : <?=$c["cout"] ?><?if ($i<count($value1))echo ","; else echo "."; ?>
+		 		<?=htmlentities($c["nom"]) ?> : <?=$c["cout"] ?> <? if (isset($c["unite"]) && $c["unite"] != "") :?><?=$c["unite"] ?><? if ($c["cout"] > 1) : echo 's'; endif;?><? endif; ?><?if ($i<count($value1))echo ","; else echo "."; ?>
 		 	<? endforeach; ?>
 		 	<? if ($this->niveaux[$key1]["ressourcesOk"] === false) : ?>
 		 		Pas assez de ressource dans l'&eacute;choppe
