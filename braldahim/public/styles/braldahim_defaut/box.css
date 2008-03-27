@@ -1,77 +1,158 @@
-.xb1,.xb2,.xb3,.xb4,.xb5,.xb6,.xb7 {
+/* Bordures top */
+.xb_t1,.xb_t2,.xb_t3,.xb_t4,.xb_t5,.xb_t6,.xb_t7 {
 	display: block;
 	font-size: 0pt;
 	overflow: hidden;
 }
 
-.xb1,.xb2 {
+.xb_t1,.xb_t2 {
 	height: 1px;
 }
 
-.xb3,.xb4,.xb5,.xb6 {
+.xb_t3,.xb_t4,.xb_t5,.xb_t6 {
 	height: 1px;
 }
 
-.xb2,.xb3,.xb4,.xb5,.xb6,.xb7 {
+.xb_t2,.xb_t3,.xb_t4,.xb_t5,.xb_t6,.xb_t7 {
 	background: #CCCCCC none repeat scroll 0%;
 	border-left: 1px solid #791E1E;
 	border-right: 1px solid #791E1E;
 }
 
-.xb3 {
+.xb_t3 {
 	border-left: 2px solid #791E1E;
 	border-right: 2px solid #791E1E;
 }
-.xb2 {
+.xb_t2 {
 	border-left: 2x solid #791E1E;
 	border-right: 2px solid #791E1E;
 }
 
-.xb1 {
+.xb_t1 {
 	background: #791E1E none repeat scroll 0%;
 	margin: 0pt 5px;
 	height: 1px;
 }
 
-.xb2 {
-	background: #e7c57b none repeat scroll 0%;
+.xb_t2 {
+	background: #ffffff none repeat scroll 0%;
 	height: 0px;
 	margin: 0pt 5px;
 }
 
-.xb3 {
-	background: #e7c57b none repeat scroll 0%;
+.xb_t3 {
+	background: #ffffff none repeat scroll 0%;
 	height: 1px;
 	margin: 0pt 3px;
 }
 
-.xb4 {
-	background: #e7c57b none repeat scroll 0%;
+.xb_t4 {
+	background: #ffffff none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 1px;
 	margin: 0pt 2px;
 }
 
-.xb5 {
-	background: #e7c57b none repeat scroll 0%;
+.xb_t5 {
+	background: #ffffff none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 1px;
 	margin: 0pt 1px;
 }
 
-.xb6 {
-	background: #e7c57b none repeat scroll 0%;
+.xb_t6 {
+	background: #ffffff none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 0px;
 	margin: 0pt 1px;
 }
 
-.xb7 {
-	background: #e7c57b none repeat scroll 0%;
+.xb_t7 {
+	background: #ffffff none repeat scroll 0%;
 	border-width: 0pt 2x;
 	height: 1px;
 	margin: 0pt 1px;
 }
+
+/* Bordures bottom */
+.xb_b1,.xb_b2,.xb_b3,.xb_b4,.xb_b5,.xb_b6,.xb_b7 {
+	display: block;
+	font-size: 0pt;
+	overflow: hidden;
+}
+
+.xb_b1,.xb_b2 {
+	height: 1px;
+}
+
+.xb_b3,.xb_b4,.xb_b5,.xb_b6 {
+	height: 1px;
+}
+
+.xb_b2,.xb_b3,.xb_b4,.xb_b5,.xb_b6,.xb_b7 {
+	background: #CCCCCC none repeat scroll 0%;
+	border-left: 1px solid #791E1E;
+	border-right: 1px solid #791E1E;
+}
+
+.xb_b3 {
+	border-left: 2px solid #791E1E;
+	border-right: 2px solid #791E1E;
+}
+.xb_b2 {
+	border-left: 2x solid #791E1E;
+	border-right: 2px solid #791E1E;
+}
+
+.xb_b1 {
+	background: #791E1E none repeat scroll 0%;
+	margin: 0pt 5px;
+	height: 1px;
+}
+
+.xb_b2 {
+	background: #c5c5c5 none repeat scroll 0%;
+	height: 0px;
+	margin: 0pt 5px;
+}
+
+.xb_b3 {
+	background: #c5c5c5 none repeat scroll 0%;
+	height: 1px;
+	margin: 0pt 3px;
+}
+
+.xb_b4 {
+	background: #c5c5c5 none repeat scroll 0%;
+	border-width: 0pt 1px;
+	height: 1px;
+	margin: 0pt 2px;
+}
+
+.xb_b5 {
+	background: #c5c5c5 none repeat scroll 0%;
+	border-width: 0pt 1px;
+	height: 1px;
+	margin: 0pt 1px;
+}
+
+.xb_b6 {
+	background: #c5c5c5 none repeat scroll 0%;
+	border-width: 0pt 1px;
+	height: 0px;
+	margin: 0pt 1px;
+}
+
+.xb_b7 {
+	background: #c5c5c5 none repeat scroll 0%;
+	border-width: 0pt 2x;
+	height: 1px;
+	margin: 0pt 1px;
+}
+
+
+
+
 
 .box_authentification {
 	width: 340px;
@@ -275,17 +356,40 @@
 	background:#transparent none repeat scroll 0% 0%;
 }
 
-.inner {
+.inner { /* extérieur de boite */
 	padding: 1pt 10px;
 	border-color: #791E1E;
 	border-style: solid;
 	border-width: 0pt 1px;
 	display: block;
-	background:#e7c57b repeat-x scroll 0pt 0%;
+	background: #ffffff url(/public/styles/braldahim_defaut/images/layout/inner.png) repeat-x scroll 0pt 100%;
+	/* background:#e7c57b repeat-x scroll 0pt 0%; */
 }
 
+.inner_top { /* Intérieur de la boite pour le bandeau haut*/
+	height:30px;
+	padding: 1pt 10px;
+	border-color: #791E1E;
+	border-style: solid;
+	border-width: 0pt 1px;
+	display: block;
+	background: #ffffff url(/public/styles/braldahim_defaut/images/layout/inner_top.png) repeat-x scroll 0pt 100%;
+	/* background:#e7c57b repeat-x scroll 0pt 0%; */
+}
 
-.box_contenu1 {
+.inner_bot { /* Intérieur de la boite pour le bandeau bas */
+	height:30px;
+	padding: 1pt 10px;
+	border-color: #791E1E;
+	border-style: solid;
+	border-width: 0pt 1px;
+	display: block;
+	background: #ffffff url(/public/styles/braldahim_defaut/images/layout/inner_bot.png) repeat-x scroll 0pt 100%;
+	/* background:#e7c57b repeat-x scroll 0pt 0%; */
+	text-align: center;
+}
+
+.box_contenu1 { /* intérieur de la boite */ 
 	background:#FADC9B repeat-x scroll 0pt 0%;
 	padding: 0px;
 	margin: 0px;
