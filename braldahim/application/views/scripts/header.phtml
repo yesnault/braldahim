@@ -42,10 +42,10 @@
 
 <?php endif; ?>
   <div id="overDiv" style="position:absolute; visibility:hidden; z-index:100001;"></div>
-<div style="height:4px">&nbsp</div>
+<div style="height:10px">&nbsp</div>
 <?php if (isset($this->user) && isset($this->user->email_hobbit)) : ?> 
-<b class="xb1"></b><b class="xb2"></b><b class="xb3"></b><b class="xb4"></b><b class="xb5"></b><b class="xb6"></b><b class="xb7"></b>
- <div class="inner">
+<b class="xb_t1"></b><b class="xb_t2"></b><b class="xb_t3"></b><b class="xb_t4"></b><b class="xb_t5"></b><b class="xb_t6"></b><b class="xb_t7"></b>
+ <div class="inner_top">
   <?=$this->escape($this->user->prenom_hobbit);?> <?=$this->escape($this->user->nom_hobbit);?> | 
   <? if ($this->user->administrateur === true) : ?>
   	<a href="<?=$this->baseUrl ?>/administration/" class="menu_lien">Administration</a> |
@@ -57,7 +57,7 @@
   <a href="<?=$this->baseUrl ?>/auth/logout"> D&eacute;connexion </a>
   
  </div>
-<b class="xb7"></b><b class="xb6"></b><b class="xb5"></b><b class="xb4"></b><b class="xb3"></b><b class="xb2"></b><b class="xb1"></b>
+<b class="xb_b7"></b><b class="xb_b6"></b><b class="xb_b5"></b><b class="xb_b4"></b><b class="xb_b3"></b><b class="xb_b2"></b><b class="xb_b1"></b>
 <?php endif; ?>
 
 <?php if ($this->user && ($this->controleur == "interface")) : ?> 
@@ -65,22 +65,22 @@
   <div id="erreur" class="box_erreur" style="display:none"></div>
   <div id="informations" class="box_informations" style="display:none"></div>
   <div id="box_chargement" class="box_chargement" style="display:block">
-	 <b class="xb1"></b><b class="xb2"></b><b class="xb3"></b><b class="xb4" style='background-color:#CC6666'></b><b class="xb5" style='background-color:#CC6666'></b><b class="xb6" style='background-color:#CC6666'></b><b class="xb7" style='background-color:#CC6666'></b>
+	 <b class="xb_b7"></b><b class="xb_b6"></b><b class="xb_b5"></b><b class="xb_b4"></b><b class="xb_b3"></b><b class="xb_b2"></b><b class="xb_b1"></b>
 	 <div class="inner" style='background-color:#CC6666'>
 	 Chargement en Cours<br><img src="<?=$this->baseUrl ?>/public/images/wait.gif" />
 	 </div>
-	 <b class="xb7" style='background-color:#CC6666'></b><b class="xb6" style='background-color:#CC6666'></b><b class="xb5" style='background-color:#CC6666'></b><b class="xb4" style='background-color:#CC6666'></b><b class="xb3"></b><b class="xb2"></b><b class="xb1"></b>
+	 <b class="xb_b7"></b><b class="xb_b6"></b><b class="xb_b5"></b><b class="xb_b4"></b><b class="xb_b3"></b><b class="xb_b2"></b><b class="xb_b1"></b>
   </div>
   <div id="racine" class="box_racine">
 <?php endif; ?>
 </div>
 
 <?php if (isset($this->user) && isset($this->user->email_hobbit)) : ?> 
-<b class="xb1"></b><b class="xb2"></b><b class="xb3"></b><b class="xb4"></b><b class="xb5"></b><b class="xb6"></b><b class="xb7"></b>
- <div class="inner" style="text-align: center">
+<b class="xb_t1"></b><b class="xb_t2"></b><b class="xb_t3"></b><b class="xb_t4"></b><b class="xb_t5"></b><b class="xb_t6"></b><b class="xb_t7"></b>
+ <div class="inner_bot">
  	<span id='date_heure' class=''>&nbsp;</span>
  	<a href="http://www.braldahim.com">www.braldahim.com</a> |
  	<a href="http://www.yootheme.com/" style="vertical-align:top"><img src="/public/images/validation_yoo.png" style="border:0px; margin:0px; vertical-align:top" alt="Yootheme.com" /></a>
  </div>
-<b class="xb7"></b><b class="xb6"></b><b class="xb5"></b><b class="xb4"></b><b class="xb3"></b><b class="xb2"></b><b class="xb1"></b>
+<b class="xb_b7"></b><b class="xb_b6"></b><b class="xb_b5"></b><b class="xb_b4"></b><b class="xb_b3"></b><b class="xb_b2"></b><b class="xb_b1"></b>
 <?php endif; ?>
