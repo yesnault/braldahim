@@ -1,34 +1,45 @@
 <?php
 
-class Bral_Competences_Attaquer extends Bral_Competences_Competence {
+class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Monstre");
-		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
-		Zend_Loader::loadClass('Bral_Util_Commun');
-		Zend_Loader::loadClass('Bral_Util_Attaque');
+		Zend_Loader::loadClass("LabanPotion");
 		Zend_Loader::loadClass("Ville"); 
 		
 		$villeTable = new Ville();
 		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		$this->view->attaquerVilleOk = true;
+		$this->view->utiliserPotionVilleOk = true;
 		
 		if (count($villes) > 0) {
-			$this->view->attaquerVilleOk = false;
+			$this->view->utiliserPotionVilleOk = false;
 			return;
-		}	
+		}
 		
+		$tabPotions = null;
+		$labanPotionTable = new LabanPotion();
+		$potions = $labanPotionTable->findByIdHobbit($this->view->user->id_hobbit);
+		foreach ($potions as $p) {
+			$tabPotions[$p["id_laban_potion"]] = array(
+					"id_potion" => $p["id_laban_potion"],
+					"nom" => $p["nom_type_potion"],
+					"qualite" => $p["nom_type_qualite"],
+					"niveau" => $p["niveau_laban_potion"],
+					"caracteristique" => $p["caract_type_potion"],
+					"bm_type" => $p["bm_type_potion"],
+			);
+		}
+
 		$tabHobbits = null;
 		$tabMonstres = null;
-
 		// recuperation des hobbits qui sont presents sur la case
 		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit);
+		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		foreach($hobbits as $h) {
 			$tab = array(
-			'id_hobbit' => $h["id_hobbit"],
-			'nom_hobbit' => $h["nom_hobbit"],
-			'prenom_hobbit' => $h["prenom_hobbit"],
+				'id_hobbit' => $h["id_hobbit"],
+				'nom_hobbit' => $h["nom_hobbit"],
+				'prenom_hobbit' => $h["prenom_hobbit"],
 			);
 			$tabHobbits[] = $tab;
 		}
@@ -45,6 +56,8 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 			$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"]);
 		}
 
+		$this->view->nPotions = count($tabPotions);
+		$this->view->tabPotions = $tabPotions;
 		$this->view->tabHobbits = $tabHobbits;
 		$this->view->nHobbits = count($tabHobbits);
 		$this->view->tabMonstres = $tabMonstres;
@@ -72,38 +85,38 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Montre ou Hobbit invalide (==-1)");
 		}
 
-		$attaqueMonstre = false;
-		$attaqueHobbit = false;
+		$utiliserPotionMonstre = false;
+		$utiliserPotionHobbit = false;
 		if ($idHobbit != -1) {
 			if (isset($this->view->tabHobbits) && count($this->view->tabHobbits) > 0) {
 				foreach ($this->view->tabHobbits as $h) {
 					if ($h["id_hobbit"] == $idHobbit) {
-						$attaqueHobbit = true;
+						$utiliserPotionHobbit = true;
 						break;
 					}
 				}
 			}
-			if ($attaqueHobbit === false) {
+			if ($utiliserPotionHobbit === false) {
 				throw new Zend_Exception(get_class($this)." Hobbit invalide (".$idHobbit.")");
 			}
 		} else {
 			if (isset($this->view->tabMonstres) && count($this->view->tabMonstres) > 0) {
 				foreach ($this->view->tabMonstres as $m) {
 					if ($m["id_monstre"] == $idMonstre) {
-						$attaqueMonstre = true;
+						$utiliserPotionMonstre = true;
 						break;
 					}
 				}
 			}
-			if ($attaqueMonstre === false) {
+			if ($utiliserPotionMonstre === false) {
 				throw new Zend_Exception(get_class($this)." Monstre invalide (".$idMonstre.")");
 			}
 		}
 
-		if ($attaqueHobbit === true) {
-			$this->view->retourAttaque = $this->attaqueHobbit($this->view->user, $idHobbit);
-		} elseif ($attaqueMonstre === true) {
-			$this->view->retourAttaque = $this->attaqueMonstre($this->view->user, $idMonstre);
+		if ($utiliserPotionHobbit === true) {
+			$this->utiliserPotionHobbit($this->view->user, $idHobbit);
+		} elseif ($utiliserPotionMonstre === true) {
+			$this->utiliserPotionMonstre($this->view->user, $idMonstre);
 		} else {
 			throw new Zend_Exception(get_class($this)." Erreur inconnue");
 		}
@@ -116,30 +129,16 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 	function getListBoxRefresh() {
 		return array("box_profil", "box_vue", "box_lieu", "box_evenements");
 	}
-
-	protected function calculJetAttaque($hobbit) {
-		return Bral_Util_Attaque::calculJetAttaqueNormale($hobbit);
-	}
-
-	protected function calculDegat($hobbit) {
-		return Bral_Util_Attaque::calculDegatAttaqueNormale($hobbit);
+	
+	private function utiliserPotionHobbit() {
+		Zend_Loader::loadClass("EffetPotionHobbit"); 
+	
+		// TODO
 	}
 	
-	public function calculPx() {
-		parent::calculPx();
-		$this->view->calcul_px_generique = false;
-
-		if ($this->view->retourAttaque["attaqueReussie"] === true) {
-			$this->view->nb_px_perso = $this->view->nb_px_perso + 1;
-		}
-
-		if ($this->view->mort === true) {
-			// [10+2*(diff de niveau) + Niveau Cible ]
-			$this->view->nb_px_commun = 10+2*($this->view->cible["niveau_cible"] - $this->view->user->niveau_hobbit) + $this->view->cible["niveau_cible"];
-			if ($this->view->nb_px_commun < $this->view->nb_px_perso ) {
-				$this->view->nb_px_commun = $this->view->nb_px_perso;
-			}
-		}
-		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
+	private function utiliserPotionMonstre() {
+		Zend_Loader::loadClass("EffetPotionMonstre"); 
+		
+		// TODO
 	}
 }

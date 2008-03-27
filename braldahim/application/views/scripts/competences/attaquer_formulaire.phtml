@@ -3,7 +3,9 @@
  <form name='myForm'>
  <div class='comp_contenu'>
  <?php if ($this->assezDePa == true) : ?>
- 	<? if ($this->nHobbits == 0 && $this->nMonstres == 0): ?>
+    <? if ($this->attaquerVilleOk == false) :?>
+    	Vous ne pouvez pas attaquer en ville. <br>
+ 	<? elseif ($this->nHobbits == 0 && $this->nMonstres == 0): ?>
  		Il n'y a rien &agrave attaquer ici...<br>
  	<? else: ?>
  		Pour <?=$this->nb_pa?> PA, vous pouvez attaquer :<br><br>

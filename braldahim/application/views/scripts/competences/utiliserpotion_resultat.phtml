@@ -1,0 +1,20 @@
+<div class='comp_titre'>Utiliser une potion</div>
+
+ <div class='comp_contenu'>
+	 <div id='utiliserpotion_text' style="display:block"  onClick="javascript:switch2div('utiliserpotion_text','utiliserpotion_copie');">
+	 <? include("commun_text_resultat.phtml") ?>
+		 Vous avez utiliser une potion sur  <?=htmlentities($this->retourAttaque["cible"]["nom_cible"])?> (<?=$this->retourAttaque["cible"]["id_cible"]?>) :<br><br>
+	 </div>
+	 
+	 <div id='utiliserpotion_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+		include("commun_copie_resultat.phtml");
+		 echo "Vous avez utiliser une potion sur ".htmlentities($this->retourAttaque["cible"]["nom_cible"])." (".$this->retourAttaque["cible"]["id_cible"].") N".$this->retourAttaque["cible"]["niveau_cible"]." :";
+		 echo "
+";
+		?></textarea>
+	</div>
+ </div>
+
+<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('utiliserpotion_text','utiliserpotion_copie');">
+<? include("commun_fermer.phtml") ?>

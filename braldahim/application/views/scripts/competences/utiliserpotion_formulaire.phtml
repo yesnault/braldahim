@@ -1,0 +1,57 @@
+<div class='comp_titre'>Utiliser une potion</div>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
+ <form name='myForm'>
+ <div class='comp_contenu'>
+ <?php if ($this->assezDePa == true) : ?>
+ 	<? if ($this->utiliserPotionVilleOk == false) :?>
+    	Vous ne pouvez pas utiliser de potion en ville. <br>
+    <? elseif ($this->nPotions == 0) :?>
+ 		Vous n'avez pas de potion dans votre laban.<br>
+ 	<? else: ?>
+ 		Potion &agrave; utiliser : <br>
+ 		<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false }">
+			<option value='-1'>(Choisis une potion)</option>
+			<? foreach ($this->tabPotions as $p) : ?>
+				<option value="<?=$p["id_laban_potion"] ?>"><?=htmlentities($p["nom"]) ?> : qualit&eacute; <?=htmlentities($p["qualite"]) ?>,
+				 niveau: <?=$p["niveau"] ?></option>
+			<? endforeach; ?>
+		</select><br><br>
+			
+ 		Pour <?=$this->nb_pa?> PA, vous pouvez utiliser la potion choisie sur : <br><br>
+ 		
+		<? if ($this->nMonstres > 0): ?>
+		Un monstre<br>
+			<select name='valeur_2' id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_utiliserpotion').disabled=true } else {$('valeur_3').value=-1; $('bouton_utiliserpotion').disabled=false }">
+			<option value='-1'>(Choisis un monstre)</option>
+			<? foreach ($this->tabMonstres as $m) : ?>
+			<option value="<?=$m["id_monstre"]?>"><?=htmlentities($m["nom_monstre"])?> <?=htmlentities($m["taille_monstre"])?>  (<?=$m["id_monstre"]?>)</option>
+			<? endforeach; ?>
+			</select><br><br>
+		<? else: ?>
+		<input type="hidden" name='valeur_2' value="-1" id="valeur_2" >
+		<? endif; ?>
+		
+ 		<? if ($this->nHobbits > 0): ?>
+ 		 Un hobbit<br>
+ 			<select name='valeur_3' id="valeur_3" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_utiliserpotion').disabled=true } else {$('valeur_2').value=-1; $('bouton_utiliserpotion').disabled=false }">
+			<option value='-1'>(Choisis un hobbit)</option>
+			<? foreach ($this->tabHobbits as $h) : ?>
+			<option value="<?=$h["id_hobbit"]?>"><?=htmlentities($h["prenom_hobbit"])?> <?=htmlentities($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>)</option>
+			<? endforeach; ?>
+			</select><br><br>
+		<? else: ?>
+		<input type="hidden" name='valeur_3' value="-1" id="valeur_3">
+		<? endif;?>
+		
+	<? endif; ?>
+  <? else: ?>
+  Vous n'avez pas assez de PA
+  <? endif; ?>
+ </div>
+
+</form>
+<br>
+<?php if ($this->assezDePa == true) : ?>
+<input type='button' class='button1' value='Utilisr la potion !' id='bouton_utiliserpotion' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_utiliserpotion");' disabled>
+<? endif ?>
+<? include("commun_fermer.phtml") ?>
