@@ -69,20 +69,39 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
-		
+
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_1"));
+			throw new Zend_Exception(get_class($this)." Potion invalide : ".$this->request->get("valeur_1"));
+		} else {
+			$idPotion = (int)$this->request->get("valeur_1");
+		}
+		
+		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
+			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_2"));
 		} else {
 			$idMonstre = (int)$this->request->get("valeur_1");
 		}
-		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
-			throw new Zend_Exception(get_class($this)." Hobbit invalide : ".$this->request->get("valeur_2"));
+		
+		if (((int)$this->request->get("valeur_3").""!=$this->request->get("valeur_3")."")) {
+			throw new Zend_Exception(get_class($this)." Hobbit invalide : ".$this->request->get("valeur_3"));
 		} else {
 			$idHobbit = (int)$this->request->get("valeur_2");
 		}
 
 		if ($idMonstre == -1 && $idHobbit == -1) {
 			throw new Zend_Exception(get_class($this)." Montre ou Hobbit invalide (==-1)");
+		}
+		
+		$potion = null;
+		foreach ($this->view->tabPotions as $p) {
+			if ($p["id_potion"] == $idPotion) {
+				$potion = $p;
+				break;
+			}
+		}
+		
+		if ($potion == null) {
+			throw new Zend_Exception(get_class($this)." Potion invalide (".$idPotion.")");
 		}
 
 		$utiliserPotionMonstre = false;
@@ -114,9 +133,9 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		}
 
 		if ($utiliserPotionHobbit === true) {
-			$this->utiliserPotionHobbit($this->view->user, $idHobbit);
+			$this->utiliserPotionHobbit($idHobbit, $potion);
 		} elseif ($utiliserPotionMonstre === true) {
-			$this->utiliserPotionMonstre($this->view->user, $idMonstre);
+			$this->utiliserPotionMonstre($idMonstre, $potion);
 		} else {
 			throw new Zend_Exception(get_class($this)." Erreur inconnue");
 		}
@@ -130,13 +149,13 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		return array("box_profil", "box_vue", "box_lieu", "box_evenements");
 	}
 	
-	private function utiliserPotionHobbit() {
+	private function utiliserPotionHobbit($potion, $idHobbit) {
 		Zend_Loader::loadClass("EffetPotionHobbit"); 
 	
 		// TODO
 	}
 	
-	private function utiliserPotionMonstre() {
+	private function utiliserPotionMonstre($potion, ) {
 		Zend_Loader::loadClass("EffetPotionMonstre"); 
 		
 		// TODO

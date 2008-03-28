@@ -16,6 +16,12 @@
 	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/overlib/overlib_exclusive.js"><!-- overLIB (c) Erik Bosrup --></script>
 	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/overlib/overlib_fade.js"><!-- overLIB (c) Erik Bosrup --></script>
 	
+	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/yoo/mootools.js"><!-- YooTheme --></script>
+	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/yoo/yoo_tooltip.js"><!-- YooTheme --></script>
+	
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl;?>/public/scripts/yoo/styles/default/style.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl;?>/public/scripts/yoo/styles/default/iehacks.css" />
+	
 	<script language="javascript" type="text/javascript">
 		tinyMCE.init({
 			mode : "textareas",
@@ -85,3 +91,13 @@
  </div>
 <b class="xb_b7"></b><b class="xb_b6"></b><b class="xb_b5"></b><b class="xb_b4"></b><b class="xb_b3"></b><b class="xb_b2"></b><b class="xb_b1"></b>
 <?php endif; ?>
+
+TEST AAAA
+
+<div id="yoo-tooltip-2" class="yoo-tooltip-toggler">Hover here!</div>
+<script type="text/javascript">
+new YOOtooltip('yoo-tooltip-2', 'The YOOtooltip plugin can display any kind of text inside a tooltip.', { mode: 'cursor', display: 'inline', width: 250, style: 'default' });
+</script>
+
+
+TEST BBBB
