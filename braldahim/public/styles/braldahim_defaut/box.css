@@ -35,40 +35,40 @@
 }
 
 .xb_t2 {
-	background: #ffffff none repeat scroll 0%;
+	background: #e7c57b none repeat scroll 0%;
 	height: 0px;
 	margin: 0pt 5px;
 }
 
 .xb_t3 {
-	background: #ffffff none repeat scroll 0%;
+	background: #e7c57b none repeat scroll 0%;
 	height: 1px;
 	margin: 0pt 3px;
 }
 
 .xb_t4 {
-	background: #ffffff none repeat scroll 0%;
+	background: #e7c57b none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 1px;
 	margin: 0pt 2px;
 }
 
 .xb_t5 {
-	background: #ffffff none repeat scroll 0%;
+	background: #e7c57b none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 1px;
 	margin: 0pt 1px;
 }
 
 .xb_t6 {
-	background: #ffffff none repeat scroll 0%;
+	background: #e7c57b none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 0px;
 	margin: 0pt 1px;
 }
 
 .xb_t7 {
-	background: #ffffff none repeat scroll 0%;
+	background: #e7c57b none repeat scroll 0%;
 	border-width: 0pt 2x;
 	height: 1px;
 	margin: 0pt 1px;
@@ -111,40 +111,40 @@
 }
 
 .xb_b2 {
-	background: #c5c5c5 none repeat scroll 0%;
+	background: #e7c57b none repeat scroll 0%;
 	height: 0px;
 	margin: 0pt 5px;
 }
 
 .xb_b3 {
-	background: #c5c5c5 none repeat scroll 0%;
+	background: #e7c57b none repeat scroll 0%;
 	height: 1px;
 	margin: 0pt 3px;
 }
 
 .xb_b4 {
-	background: #c5c5c5 none repeat scroll 0%;
+	background: #e7c57b none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 1px;
 	margin: 0pt 2px;
 }
 
 .xb_b5 {
-	background: #c5c5c5 none repeat scroll 0%;
+	background: #e7c57b none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 1px;
 	margin: 0pt 1px;
 }
 
 .xb_b6 {
-	background: #c5c5c5 none repeat scroll 0%;
+	background: #e7c57b none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 0px;
 	margin: 0pt 1px;
 }
 
 .xb_b7 {
-	background: #c5c5c5 none repeat scroll 0%;
+	background: #e7c57b none repeat scroll 0%;
 	border-width: 0pt 2x;
 	height: 1px;
 	margin: 0pt 1px;
@@ -362,8 +362,7 @@
 	border-style: solid;
 	border-width: 0pt 1px;
 	display: block;
-	background: #ffffff url(/public/styles/braldahim_defaut/images/layout/inner.png) repeat-x scroll 0pt 100%;
-	/* background:#e7c57b repeat-x scroll 0pt 0%; */
+	background:#e7c57b repeat-x scroll 0pt 0%;
 }
 
 .inner_top { /* Intérieur de la boite pour le bandeau haut*/
@@ -373,8 +372,7 @@
 	border-style: solid;
 	border-width: 0pt 1px;
 	display: block;
-	background: #ffffff url(/public/styles/braldahim_defaut/images/layout/inner_top.png) repeat-x scroll 0pt 100%;
-	/* background:#e7c57b repeat-x scroll 0pt 0%; */
+	background:#e7c57b repeat-x scroll 0pt 0%;
 }
 
 .inner_bot { /* Intérieur de la boite pour le bandeau bas */
@@ -384,8 +382,7 @@
 	border-style: solid;
 	border-width: 0pt 1px;
 	display: block;
-	background: #ffffff url(/public/styles/braldahim_defaut/images/layout/inner_bot.png) repeat-x scroll 0pt 100%;
-	/* background:#e7c57b repeat-x scroll 0pt 0%; */
+	background:#e7c57b repeat-x scroll 0pt 0%;
 	text-align: center;
 }
 
