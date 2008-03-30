@@ -24,8 +24,10 @@ class Bral_Box_Vue {
 		$this->_request = $request;
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;
-		$this->prepare();
-		$this->deplacement();
+		if ($interne) {
+			$this->prepare();
+			$this->deplacement();
+		}
 	}
 
 	function getTitreOnglet() {
@@ -41,7 +43,9 @@ class Bral_Box_Vue {
 	}
 
 	function render() {
-		$this->data();
+		if ($this->view->affichageInterne) {
+			$this->data();
+		}
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/vue.phtml");
 	}

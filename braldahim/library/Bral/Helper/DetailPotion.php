@@ -9,11 +9,8 @@ class Bral_Helper_DetailPotion {
     	$text .= "Niveau : ".$p["niveau"]."<br>";
      	$text .= "Caract&eacute;ristique : <br> Cette potion apporte un ".$p["bm_type"];
      	$text .= " sur la caract&eacute;ristique ".$p["caracteristique"];
-    	
     	$text .= "<br>";
     	
-        return "<span onmouseover=\"return overlib('".$text."',CAPTION,'".$titre."');\"".
-        " onclick=\"return overlib('".$text."', STICKY, CAPTION, '".$titre."', CLOSECLICK, EXCLUSIVE);\"".
-        " onmouseout=\"return nd();\">".htmlentities($p["nom"]).", n&deg;".$p["id_potion"]."</span>";
+    	return "<span ".Bral_Helper_Tip::jsTip($text, $titre).">".htmlentities($p["nom"]).", n&deg;".$p["id_potion"]."</span>";
     }
 }

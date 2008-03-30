@@ -26,6 +26,8 @@ Zend_Loader::loadClass("Bral_Util_Log");
 Zend_Loader::loadClass("Bral_Util_Registre");
 Zend_Loader::loadClass("Bral_Util_ConvertDate");
 
+Zend_Loader::loadClass("Bral_Helper_Tip");
+
 Zend_Loader::loadClass("Bral_Xml_Response");
 Zend_Loader::loadClass("Bral_Xml_Entry");
 

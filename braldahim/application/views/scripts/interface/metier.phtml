@@ -9,11 +9,12 @@
 	   	Vous pouvez aller vous renseigner dans un Ahenne Peheux
 	   <? else : ?>
 	   	Vous &ecirc;tes actuellement :
-	   	
-	   	 <span
-	   	onmouseover="return overlib('<div style=\'width:300px\'><p style=\'text-align:justify\'><?=str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($this->tabMetierCourant["description"]))))?></p></div>',CAPTION,'Description du m&eacute;tier <? if ($this->tabMetierCourant["nom"]{0} == 'A') : echo 'd'; else: echo "de"; endif; ?> <?=htmlentities($this->tabMetierCourant["nom"]) ?>');"
-      	onclick="return overlib('<div style=\'width:300px\'><p style=\'text-align:justify\'><?=str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($this->tabMetierCourant["description"]))));?></p></div>', STICKY, CAPTION, 'Description du m&eacute;tier <? if ($this->tabMetierCourant["nom"]{0} == 'A') : echo 'd'; else: echo "de"; endif; ?>  <?=htmlentities($this->tabMetierCourant["nom"]) ?>', CLOSECLICK, EXCLUSIVE);"
-      	onmouseout="return nd();" style="cursor:pointer">	
+	   	<? $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($this->tabMetierCourant["description"])))); ?>
+	   	<? $titre = "Description du m&eacute;tier ";
+	   	 if ($this->tabMetierCourant["nom"]{0} == 'A') : $titre .= 'd\''; else: $titre .=  "de "; endif; 
+	   	 $titre .= htmlentities($this->tabMetierCourant["nom"]) 
+	   	?>
+	   	 <span <?=Bral_Helper_Tip::jsTip($contenu, $titre, true) ?>>
 	   <?=htmlentities($this->tabMetierCourant["nom"]) ?> </span><br>
 	   	Vous avez appris ce m&eacute;tier le <?=$this->tabMetierCourant["date_apprentissage"] ?>
 		<br><br>
@@ -24,10 +25,13 @@
 	   	<? endif; ?>	
 	   	<? if (count($this->tabMetiers) >= 1): ?>
 			<? foreach ($this->tabMetiers as $m) : ?>
-				 <span
-			   	onmouseover="return overlib('<div style=\'width:300px\'><p style=\'text-align:justify\'><?=str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($m["description"]))));?></p></div>',CAPTION,'Description  du m&eacute;tier <? if ($m["nom"]{0} == 'A') : echo 'd'; else: echo "de"; endif; ?> <?=htmlentities($m["nom"]) ?>');"
-		      	onclick="return overlib('<div style=\'width:300px\'><p style=\'text-align:justify\'><?=str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($m["description"]))));?></p></div>', STICKY, CAPTION, 'Description du m&eacute;tier <? if ($m["nom"]{0} == 'A') : echo 'd'; else: echo "de"; endif; ?>  <?=htmlentities($m["nom"]) ?>', CLOSECLICK, EXCLUSIVE);"
-      			onmouseout="return nd();" style="cursor:pointer">
+				
+			   	<? $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($m["description"]))));?>
+			   	<? $titre = "Description du m&eacute;tier ";
+	   	 			if (htmlentities($m["nom"]{0}) == 'A') : $titre .= 'd\''; else: $titre .=  "de "; endif; 
+	   	 			$titre .= htmlentities($m["nom"])?>
+      			
+      			 <span <?=Bral_Helper_Tip::jsTip($contenu, $titre, true) ?> >
 				<?=htmlentities($m["nom"]);?>, appris le <?=htmlentities($m["date_apprentissage"]);?><br>
 				</span>
 			<? endforeach; ?>

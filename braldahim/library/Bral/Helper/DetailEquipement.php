@@ -34,10 +34,7 @@ class Bral_Helper_DetailEquipement {
 	     	 }
     	}
     	$text .= "<br>";
-    	
-        return "<span onmouseover=\"return overlib('".$text."',CAPTION,'".$titre."');\"".
-        " onclick=\"return overlib('".$text."', STICKY, CAPTION, '".$titre."', CLOSECLICK, EXCLUSIVE);\"".
-        " onmouseout=\"return nd();\">".htmlentities($e["nom"]).", n&deg;".$e["id_equipement"]."</span>";
+    	return "<span ".Bral_Helper_Tip::jsTip($text, $titre).">".htmlentities($e["nom"]).", n&deg;".$e["id_equipement"]."</span>";
     }
     
     private static function display($display, $valeur) {

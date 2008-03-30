@@ -6,9 +6,11 @@ function _display_(box,data) {
 function _display_box(box, data) {
 	if ($(box)) {
 		$(box).innerHTML = data;
-	} //else {
-		//alert('Erreur m_display : box:'+box+' inconnue');
-	//}
+	}
+	
+	if (box == 'racine') { // si l'on fait appel a boxes, on appel la vue ensuite
+		_get_('/interface/vue');
+	}
 }
 
 // Switch pour les onglets sur les box

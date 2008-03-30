@@ -33,10 +33,9 @@
 	    	$textPlante = "Plante : ".htmlentities($p["nom_plante"]). "<br>"; 
 	    	$textPlante = "Partie : ".htmlentities($p["nom_type"]). "<br>"; 
 	    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite_arriere"])."<br>";
+	    	$titre = htmlentities($p["nom_plante"])." : ".htmlentities($p["nom_type"]);
 	    	?>
-	    	<td onmouseover="return overlib('<?=$textPlante?>',CAPTION,'<?=htmlentities($p["nom_plante"])?> : <?=htmlentities($p["nom_type"])?> - D&eacute;tails');"
-	      		onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'Plante <?=htmlentities($p["nom_type"])?> - D&eacute;tails', CLOSECLICK, EXCLUSIVE);"
-	      		onmouseout="return nd();">
+	    	<td <?=Bral_Helper_Tip::jsTip($textPlante, $titre) ?>>
 	    		<?=htmlentities($p["nom_plante"])?> : <?=$p["quantite_arriere"]?> <?=htmlentities($p["nom_type"])?><? if ($p["quantite_arriere"] > 1) echo "s"; ?>
 	    	</td>
 	    	<? if ($i % 3 == 2) echo "</tr>"; 
@@ -66,10 +65,9 @@
 	    	$textPlante = "Plante : ".htmlentities($p["nom_plante"]). "<br>"; 
 	    	$textPlante = "Partie : ".htmlentities($p["nom_type"]). "<br>"; 
 	    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite_preparee"])."<br>";
+	    	$titre = htmlentities($p["nom_plante"])." : ".htmlentities($p["nom_type"]);
 	    	?>
-	    	<td onmouseover="return overlib('<?=$textPlante?>',CAPTION,'<?=htmlentities($p["nom_plante"])?> <?=htmlentities($p["nom_type"])?> - D&eacute;tails');"
-	      		onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'Plante <?=htmlentities($p["nom_type"])?> - D&eacute;tails', CLOSECLICK, EXCLUSIVE);"
-	      		onmouseout="return nd();">
+	    	<td <?=Bral_Helper_Tip::jsTip($textPlante, $titre) ?>>
 	    		<?=htmlentities($p["nom_plante"])?> : <?=$p["quantite_preparee"]?> <?=htmlentities($p["nom_type"])?><? if ($p["quantite_preparee"]>1) echo "s"; ?>
 	    	</td>
 	    	<? if ($i % 3 == 2) echo "</tr>"; 

@@ -1,314 +1,54 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-  <div style=" float: left;">
-  	<ul class="titre textalia textsizec"> Ma Vue</ul>
-  	<ul class="titre textalia textsized" 
-	   	onmouseover="return overlib('<div style=\'width:300px\'><p style=\'text-align:justify\'><?=str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($this->centre_description_region))))?></p></div>',CAPTION,'Description de la <?=htmlentities($this->centre_nom_region) ?>');"
-      	onclick="return overlib('<div style=\'width:300px\'><p style=\'text-align:justify\'><?=str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($this->centre_description_region))));?></p></div>', STICKY, CAPTION, 'Description de la <?=htmlentities($this->centre_nom_region) ?>', CLOSECLICK, EXCLUSIVE);"
-      	onmouseout="return nd();" style="cursor:pointer">
-    <?=htmlentities($this->centre_nom_region) ?>
-    </ul>
-    <ul class="titre textalia textsized" >
-    <? if (!empty($this->centre_nom_ville)):?>
-     <?=htmlentities($this->centre_nom_ville) ?> 
-    <? endif; ?>
-    <? if ($this->centre_est_capitale) : ?>
-    	- Capitale
-    <? endif; ?><br>
-  </ul>
-  </div>
-  <div style=" float: right;">
-  <ul class="titre textalia textsized">
-    X=  <?=$this->user->x_hobbit ?> , Y= <?=$this->user->y_hobbit ?> Vue : <?=$this->vue_nb_cases ?> <?=$this->environnement ?> <br />
-    Centrage : X= <?=$this->centre_x ?> , Y= <?=$this->centre_y ?> <?=$this->centre_environnement ?> <br />
-  	</ul>	<br>
-  </div>
-  <div>
-    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?caction=box_vue&valeur_1=hg&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
-     src="/public/images/puce_haut_gauche.gif" border="0">
-    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?caction=box_vue&valeur_1=h&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
-     src="/public/images/puce_haut.gif" border="0">
-    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?caction=box_vue&valeur_1=hd&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
-     src="/public/images/puce_haut_droit.gif" border="0"><br />
-    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?caction=box_vue&valeur_1=g&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
-     src="/public/images/puce_gauche.gif" border="0">
-    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?caction=box_vue&valeur_1=d&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
-     src="/public/images/puce_droite.gif" border="0"><br />
-    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?caction=box_vue&valeur_1=bg&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
-     src="/public/images/puce_bas_gauche.gif" border="0">
-    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?caction=box_vue&valeur_1=b&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
-     src="/public/images/puce_bas.gif" border="0">
-    <img onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/vue?caction=box_vue&valeur_1=bd&valeur_2=<?=$this->centre_x ?>&valeur_3=<?=$this->centre_y ?>')"
-     src="/public/images/puce_bas_droit.gif" border="0">
-  </div>
-  &nbsp;
- <div class="contenuC">
-  <ul class="box_contenu1 textalic">
-  &nbsp;
-    <table class='vue2d' align='center'>
-     <?php $col="" ?>
-     
-     <?php 
-     foreach($this->tableau as $case) : ?>
-		
-		<?php if ($case["change_level"] == 1 && $col == "ok") :
-		echo "</tr>";
-        endif; ?>
-        <?php if ($case["change_level"] == true) : 
-          $col="ok"; ?>
-        <tr nowrap>                
-        <?php endif; ?>
-      	<td class='vue2d <?=$case["css"] ?>' nowrap>
-      	
-      	<div class="vue2d_case_num">
-      		<? if (!empty($case["ville"])) :
-      			$textVille = "Ville : ".htmlentities($case["ville"]["nom_ville"]);
-      			if ($case["ville"]["est_capitale"] === true) {
-      				$textVille .= " - Capitale";
-      			}
-      			$textVille .= "<br>R&eacute;gion : ".htmlentities($case["ville"]["nom_region"]);
-      		?>
-      		<img src='/public/images/villes/puce_<?=$case["ville"]["nom_systeme"]?>.gif' 
-      			onmouseover="return overlib('<?=$textVille?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> Ville');"
-      			onclick="return overlib('<?=$textVille?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?>', CLOSECLICK, EXCLUSIVE);"
-      			onmouseout="return nd();"/>
-      		<? endif; ?>
-      		<?=$case["x"]. "," . $case["y"] ?>
-      	</div>
-      	&nbsp;
-        <?php if ($case["position_actuelle"] == true) : ?>
-      	<?php endif; ?>
-      	
-      	<?php if ($case["n_lieux"] > 0) : ?>
-      		<div>
-      		<?php 
-      			$textLieu = "";
-      			foreach($case["lieux"] as $l) {
-      				$textLieu .= htmlentities($l["nom_lieu"]) ." : ".htmlentities($l["nom_type_lieu"]);
-				} ?>
-      		<span onmouseover="return overlib('<?=$textLieu?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> Lieux. Clique !');"
-      			onclick="return overlib('<?=$textLieu?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?>', CLOSECLICK, EXCLUSIVE);"
-      			onmouseout="return nd();">
-	      	<?php if ($case["n_lieux"] == 1) : ?>
-	      		<?=htmlentities($l["nom_type_lieu"]);?>
-	      	<?php elseif ($case["n_lieux"] > 1) : ?>
-	      		<?=$case["n_lieux"] ?> lieux
-	      	<?php endif; ?>
-	      	</span>
-	      	<br>
-	      	</div>
-	     <?php endif; ?>
+<? if ($this->affichageInterne == true) : ?>
+	<? include('vue/titre_vue.phtml'); ?>
+ 	<div class="contenuC">
+  		<ul class="box_contenu1 textalic">
+  		&nbsp;
+	    <table class='vue2d' align='center'>
+	     <?php $col="" ?>
 	     
-      	<?php if ($case["n_cadavres"] > 0) : ?>
-      		<div>
-      		<?php 
-      			$textCadavre = "";
-      			foreach($case["cadavres"] as $c) {
-      				$textCadavre .= htmlentities($c["nom_cadavre"]) .", n&deg; ".$c["id_cadavre"]." - ".htmlentities($c["taille_cadavre"])."<br>";
-				} 
-				$s = "";
-				if ($case["n_cadavres"] > 1) {
-					$s = "s";
-				}
-			?>
-      		<span onmouseover="return overlib('<?=$textCadavre?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_cadavres"] ?> Cadavre<?=$s?> - Clique !');"
-      			onclick="return overlib('<?=$textCadavre?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_cadavres"] ?> Cadavre<?=$s?> - ', CLOSECLICK, EXCLUSIVE);"
-      			onmouseout="return nd();">
-	      		<?=$case["n_cadavres"] ?> cadavre<?=$s?>
-	      	</span>
-	      	</div>
-	    <?php endif; ?>	
-	    
-      	<?php if ($case["n_castars"] > 0) : ?>
-      		<div>
-      		<?php 
-      			$textCastar = "";
-
-      			foreach($case["castars"] as $c) {
-      				$s = "";
-					if ($c["nb_castar"] > 1) {
-							$s = "s";
-					}
-      				$textCastar .= $c["nb_castar"]. " castar".$s;
-      			} 
-
-			?>
-      		<span onmouseover="return overlib('<?=$textCastar?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$textCastar?> - Clique !');"
-      			onclick="return overlib('<?=$textCastar?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$textCastar?> - ', CLOSECLICK, EXCLUSIVE);"
-      			onmouseout="return nd();">
-	      		<?=$textCastar?>
-	      	</span>
-	      	</div>
-	    <?php endif; ?>	
-	    
-      	<?php if ($case["n_charrettes"] > 0) : ?>
-      		<div>
-      		<?php 
-      			$textCharrette = "";
-
-      			foreach($case["charrettes"] as $c) {
-      				$textCharrette .= "Charrette n&deg; ".$c["id_charrette"]. "<br>";
-      			} 
-				$s = "";
-				if ($case["n_charrettes"] > 1) {
-					$s = "s";
-				}
-			?>
-      		<span onmouseover="return overlib('<?=$textCharrette?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_charrettes"] ?> Charrette<?=$s?> - Clique !');"
-      			onclick="return overlib('<?=$textCharrette?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_charrettes"] ?> Charrette<?=$s?> - ', CLOSECLICK, EXCLUSIVE);"
-      			onmouseout="return nd();">
-	      		<?=$case["n_charrettes"] ?> charrette<?=$s?>
-	      	</span>
-	      	</div>
-	    <?php endif; ?>	
-	    
-      	<?php if ($case["n_echoppes"] > 0) : ?>
-      		<div>
-      		<?php 
-      			$textEchoppe = "";
-      			foreach($case["echoppes"] as $c) {
-      				if ($this->nom_metier_courant{0} == 'A') : $d="d'"; else: $d="de "; endif;
-      				$textEchoppe .= "&Eacute;choppe ".$d.htmlentities($c["nom_metier"])." appartenant &agrave; ";
-      				$textEchoppe .= htmlentities($c["prenom_hobbit"])." ".htmlentities($c["nom_hobbit"]).", n&deg; ".$c["id_hobbit"]."<br>";
-				}
-				$s = "";
-				if ($case["n_echoppes"] > 1) {
-					$s = "s";
-				}
-			?>
-      		<span onmouseover="return overlib('<?=$textEchoppe?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_echoppes"] ?> Echoppe<?=$s?> - Clique !');"
-      			onclick="return overlib('<?=$textEchoppe?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_echoppes"] ?> Echoppe<?=$s?> - ', CLOSECLICK, EXCLUSIVE);"
-      			onmouseout="return nd();">
-	      		<?=$case["n_echoppes"] ?> &eacute;choppe<?=$s?>
-	      	</span>
-	      	</div>
-	    <?php endif; ?>
-	    
-      	<?php if ($case["n_filons"] > 0) : ?>
-      		<div>
-      		<?php 
-      			$textFilon = "";
-      			foreach($case["filons"] as $f) {
-      				$textFilon .= " 1 filon de ".htmlentities($f["type"])."<br>";
-				}
-				$s = "";
-				if ($case["n_filons"] > 1) {
-					$s = "s";
-				}	
-			?>
-      		<span onmouseover="return overlib('<?=$textFilon?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_filons"] ?> Filon<?=$s?> - Clique !');"
-      			onclick="return overlib('<?=$textFilon?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_filons"] ?> Filon<?=$s?>', CLOSECLICK, EXCLUSIVE);"
-      			onmouseout="return nd();">
-	      		<?=$case["n_filons"] ?> filon<?=$s?>
-	      	</span>
-	      	</div>
-	    <?php endif; ?>
-	    
-      	<?php if ($case["n_hobbits"] > 0) : ?>
-      		<div>
-      		<?php 
-      			$textHobbit = "";
-      			foreach($case["hobbits"] as $h) {
-      				$textHobbit .= htmlentities($h["prenom_hobbit"])." ".htmlentities($h["nom_hobbit"]) .", n&deg; ".$h["id_hobbit"].", niveau ".$h["niveau_hobbit"]."<br>";
-				} 
-				$s = "";
-				if ($case["n_hobbits"] > 1) {
-					$s = "s";
-				}
-			?>
-      		<span onmouseover="return overlib('<?=$textHobbit?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_hobbits"] ?> Hobbit<?=$s?> - Clique !');"
-      			onclick="return overlib('<?=$textHobbit?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_hobbits"] ?> Hobbit<?=$s?> - ', CLOSECLICK, EXCLUSIVE);"
-      			onmouseout="return nd();">
-	      		<?=$case["n_hobbits"] ?> hobbit<?=$s?>
-	      	</span>
-	      	</div>
-	    <?php endif; ?>
-	    
-      	<?php if ($case["n_monstres"] > 0) : ?>
-      		<div>
-      		<?php 
-      			$textMonstre = "";
-      			foreach($case["monstres"] as $m) {
-      				$textMonstre .= htmlentities($m["nom_monstre"]) ." n&deg; ".$m["id_monstre"]." - ".htmlentities($m["taille_monstre"])."  <br>";
-				} 
-				$s = "";
-				if ($case["n_monstres"] > 1) {
-					$s = "s";
-				}
-			?>
-      		<span onmouseover="return overlib('<?=$textMonstre?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_monstres"] ?> Monstre<?=$s?> - Clique !');"
-      			onclick="return overlib('<?=$textMonstre?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_monstres"] ?> Monstre<?=$s?> - ', CLOSECLICK, EXCLUSIVE);"
-      			onmouseout="return nd();">
-	      		<?=$case["n_monstres"] ?> monstre<?=$s?>
-	      	</span>
-	      	</div>
-	    <?php endif; ?>	    
-
-      	<?php if ($case["n_palissades"] > 0) : ?>
-      		<div>
-      		<?php 
-      			$textPalissade = "";
-      			foreach($case["palissades"] as $p) {
-      				$textPalissade .= "1 palissade, n&deg; ".htmlentities($p["id_palissade"])."<br>";
-				} 
-				$s = "";
-				if ($case["n_palissades"] > 1) {
-					$s = "s";
-				}	
-			?>
-      		<span onmouseover="return overlib('<?=$textPalissade?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_palissades"] ?> Palissade<?=$s?> - Clique !');"
-      			onclick="return overlib('<?=$textPalissade?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_palissades"] ?> Palissade<?=$s?>', CLOSECLICK, EXCLUSIVE);"
-      			onmouseout="return nd();">
-	      		<?=$case["n_palissades"] ?> palissade<?=$s?>
-	      	</span>
-	      	</div>
-	    <?php endif; ?>
-
-      	<?php if ($case["n_plantes"] > 0) : ?>
-      		<div>
-      		<?php 
-      			$textPlante = "";
-      			foreach($case["plantes"] as $p) {
-      				$textPlante .= htmlentities($p["type"])." - ". htmlentities($p["categorie"]) .", n&deg; ".$p["id_plante"]."<br>";
-				}
-				$s = "";
-				if ($case["n_plantes"] > 1) {
-					$s = "s";
-				}	
-			?>
-      		<span onmouseover="return overlib('<?=$textPlante?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_plantes"] ?> Plante<?=$s?> - Clique !');"
-      			onclick="return overlib('<?=$textPlante?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_plantes"] ?> Plante<?=$s?>', CLOSECLICK, EXCLUSIVE);"
-      			onmouseout="return nd();">
-	      		<?=$case["n_plantes"] ?> plante<?=$s?>
-	      	</span>
-	      	</div>
-	    <?php endif; ?>
-	    
-      	<?php if ($case["n_runes"] > 0) : ?>
-      		<div>
-      		<?php 
-      			$textRune = "";
-      			foreach($case["runes"] as $r) {
-      				$textRune .= "1 rune, n&deg; ".$r["id_rune"]."<br>";
-				} 
-				$s = "";
-				if ($case["n_runes"] > 1) {
-					$s = "s";
-				}	
-			?>
-      		<span onmouseover="return overlib('<?=$textRune?>',CAPTION,'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_runes"] ?> Rune<?=$s?> - Clique !');"
-      			onclick="return overlib('<?=$textRune?>', STICKY, CAPTION, 'X:<?=$case["x"]?> Y:<?=$case["y"]?> - <?=$case["n_runes"] ?> Rune<?=$s?>', CLOSECLICK, EXCLUSIVE);"
-      			onmouseout="return nd();">
-	      		<?=$case["n_runes"] ?> rune<?=$s?>
-	      	</span>
-	      	</div>
-	    <?php endif; ?>
-      	</td>
-     <?php endforeach; ?>
-     </tr>
-    </table>
-      &nbsp;
+	     <?php 
+	     foreach($this->tableau as $case) : ?>
+			
+			<?php if ($case["change_level"] == 1 && $col == "ok") :
+			echo "</tr>";
+	        endif; ?>
+	        <?php if ($case["change_level"] == true) : 
+	          $col="ok"; ?>
+	        <tr nowrap>                
+	        <?php endif; ?>
+	      	<td class='vue2d <?=$case["css"] ?>' nowrap>
+	      	
+			<? include('vue/cases.phtml'); ?>
+	      	
+	      	&nbsp;
+	        <?php if ($case["position_actuelle"] == true) : ?>
+	      	<?php endif; ?>
+	      	
+	      	<? include('vue/lieux.phtml'); ?>
+		    <? include('vue/cadavres.phtml'); ?>
+		    <? include('vue/castars.phtml'); ?>
+	      	<? include('vue/charrettes.phtml'); ?>
+	      	<? include('vue/echoppes.phtml'); ?>
+	      	<? include('vue/filons.phtml'); ?>
+			<? include('vue/hobbits.phtml'); ?>
+			<? include('vue/monstres.phtml'); ?>
+			<? include('vue/palissades.phtml'); ?>
+	 		<? include('vue/plantes.phtml'); ?>
+	 		<? include('vue/runes.phtml'); ?>
+	 		
+	      	</td>
+	     <?php endforeach; ?>
+	     </tr>
+	    </table>
+	    &nbsp;
     </ul>
  </div>
+ 
+<? else: ?>
+	Chargement de la vue en cours
+	<br><img src="<?=$this->baseUrl ?>/public/images/wait.gif" />
+<? endif; ?>
 </div>
 <? include("box_bottom.phtml") ?>

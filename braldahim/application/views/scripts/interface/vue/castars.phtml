@@ -1,0 +1,19 @@
+<?php if ($case["n_castars"] > 0) : ?>
+      		<div>
+      		<?php 
+      			$textCastar = "";
+
+      			foreach($case["castars"] as $c) {
+      				$s = "";
+					if ($c["nb_castar"] > 1) {
+							$s = "s";
+					}
+      				$textCastar .= $c["nb_castar"]. " castar".$s;
+      			} 
+				$titre = "Position X:".$case["x"]." Y:".$case["y"];
+			?>
+      		<span <?=Bral_Helper_Tip::jsTip($textCastar, $titre) ?>>
+	      		<?=$textCastar?>
+	      	</span>
+	      	</div>
+<?php endif; ?>	

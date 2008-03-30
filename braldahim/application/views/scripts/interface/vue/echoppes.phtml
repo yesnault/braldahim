@@ -1,0 +1,20 @@
+<?php if ($case["n_echoppes"] > 0) : ?>
+      		<div>
+      		<?php 
+      			$textEchoppe = "";
+      			foreach($case["echoppes"] as $c) {
+      				if ($this->nom_metier_courant{0} == 'A') : $d="d'"; else: $d="de "; endif;
+      				$textEchoppe .= "&Eacute;choppe ".$d.htmlentities($c["nom_metier"])." appartenant &agrave; ";
+      				$textEchoppe .= htmlentities($c["prenom_hobbit"])." ".htmlentities($c["nom_hobbit"]).", n&deg; ".$c["id_hobbit"]."<br>";
+				}
+				$s = "";
+				if ($case["n_echoppes"] > 1) {
+					$s = "s";
+				}
+				$titre = "Position X:".$case["x"]." Y:".$case["y"]." - ".$case["n_echoppes"]." Echoppe".$s;
+			?>
+      		<span <?=Bral_Helper_Tip::jsTip($textEchoppe, $titre) ?>>
+	      		<?=$case["n_echoppes"] ?> &eacute;choppe<?=$s?>
+	      	</span>
+	      	</div>
+<?php endif; ?>

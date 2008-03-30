@@ -1,0 +1,19 @@
+<?php if ($case["n_lieux"] > 0) : ?>
+	<div>
+      <?php 
+      $textLieu = "";
+      foreach($case["lieux"] as $l) {
+      	$textLieu .= htmlentities($l["nom_lieu"]) ." : ".htmlentities($l["nom_type_lieu"]);
+	} 
+	$titre = "Position X:".$case["x"]." Y:".$case["y"]." Lieux.";
+	?>
+      <span <?=Bral_Helper_Tip::jsTip($textLieu, $titre) ?>>
+      <?php if ($case["n_lieux"] == 1) : ?>
+      	<?=htmlentities($l["nom_type_lieu"]);?>
+      <?php elseif ($case["n_lieux"] > 1) : ?>
+      	<?=$case["n_lieux"] ?> lieux
+      <?php endif; ?>
+      </span>
+      <br>
+      </div>
+<?php endif; ?>

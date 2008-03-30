@@ -3,6 +3,7 @@
 class Bral_Box_Lieu {
 	
 	function __construct($request, $view, $interne) {
+		Zend_Loader::loadClass("Lieu");
 		$this->_request = $request;
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;

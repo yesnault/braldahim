@@ -1,0 +1,18 @@
+      	<?php if ($case["n_monstres"] > 0) : ?>
+      		<div>
+      		<?php 
+      			$textMonstre = "";
+      			foreach($case["monstres"] as $m) {
+      				$textMonstre .= htmlentities($m["nom_monstre"]) ." n&deg; ".$m["id_monstre"]." - ".htmlentities($m["taille_monstre"])."  <br>";
+				} 
+				$s = "";
+				if ($case["n_monstres"] > 1) {
+					$s = "s";
+				}
+				$titre = "Position X:".$case["x"]." Y:".$case["y"]." - ".$case["n_monstres"]." Monstre".$s;
+			?>
+      		<span <?=Bral_Helper_Tip::jsTip($textMonstre, $titre) ?>>
+	      		<?=$case["n_monstres"] ?> monstre<?=$s?>
+	      	</span>
+	      	</div>
+	    <?php endif; ?>	    
