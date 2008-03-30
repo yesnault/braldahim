@@ -33,7 +33,7 @@ abstract class Bral_Lieux_Lieu {
 			throw new Zend_Exception(get_class($this)."::nombre de lieux invalide = 0 !");
 		}
 		
-		$this->view->utilisationPaPossible = (($this->view->paUtilisationLieu - $view->user->pa_hobbit) < 0);
+		$this->view->utilisationPaPossible = (($view->user->pa_hobbit - $this->view->paUtilisationLieu) >= 0);
 		
 		$this->prepareCommun();
 
@@ -42,8 +42,12 @@ abstract class Bral_Lieux_Lieu {
 				$this->prepareFormulaire();
 				break;
 			case "do":
-				$this->prepareResultat();
-				$this->majEvenements();
+				if ($this->view->utilisationPaPossible) {
+					$this->prepareResultat();
+					$this->majEvenements();
+				} else {
+					throw new Zend_Exception(get_class($this)."::pas assez de PA");
+				}
 				break;
 			default:
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);

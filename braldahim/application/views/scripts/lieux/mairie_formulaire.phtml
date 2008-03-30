@@ -1,0 +1,49 @@
+<div class='comp_titre'>Mairie</div>
+ <form name='myForm' id='myForm'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='4'>
+ <div class='comp_contenu'>
+ 
+<? if ($this->utilisationPaPossible == false) : ?>
+ Vous n'avez pas assez de PA
+
+<? else : ?> 
+	<br>
+ 	Pour utiliser les services de la mairie, il faut <?=$this->coutCastars?> castars.<br><br>
+   	<? if ($this->utilisationPossible === false): ?>
+   		Vous n'avez pas assez de castars <br>
+   		<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
+   		<input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
+   		<input type='hidden' id='valeur_3' name='valeur_3' value='-1'>
+   		<input type='hidden' id='valeur_4' name='valeur_4' value='-1'>
+   	<? elseif ($this->hobbitAvecCommunaute == true) : ?>
+   		Vous appartenez &agrave; une communaut&eacute;. Vous pouvez ne sortir de cette communaut&eaucte;...
+   		<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
+   		<input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
+   		<input type='hidden' id='valeur_3' name='valeur_3' value='-1'>
+   		<input type='hidden' id='valeur_4' name='valeur_4' value='1'>
+   	<? else : ?>
+   		<input type='hidden' id='valeur_4' name='valeur_4' value='-1'>
+   		
+   	  	Vous pouvez demander votre entr&eacute;e dans une communaut&eacute; : <br>
+   	  	 <select name='valeur_1' id="valeur_1" onChange="javascript:$('valeur_2').value==-1; $('valeur_3').value==''); $('bouton_mairie_creer').disabled=false; $('bouton_mairie_rentrer').disabled=true;">
+			<option value='-1'>(Choisis une communaut&eacute;)</option>
+			<? foreach ($this->communautes as $c) : ?>
+				<option value="<?=$c["id_communaute"] ?>"><?=htmlentities($c["nom_communaute"]) ?> </option>
+			<? endforeach; ?>
+		</select><br><br>
+   	  	ou cr&eacute;er une communaut&eacute; : <br>
+   	  		<input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
+   	  		<input type='text' id='valeur_3' name='valeur_3' value='' size='30' maxlength='30' onChange="javascript:$('valeur_1').value==-1 ; $('valeur_2').value==1; $('bouton_mairie_creer').disabled=true; $('bouton_mairie_rentrer').disabled=false;">
+   	<? endif; ?>
+ </div> 
+<? endif; ?>
+</form>
+<br> 
+
+<? if ($this->hobbitAvecCommunaute == true) : ?>
+<input type='button' class='button1' id="bouton_mairie_sortir" value='Sortir de la communaut&eacute;' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');"  disabled>
+<? elseif ($this->utilisationPaPossible === true && $this->utilisationPossible === true) : ?>
+<input type='button' class='button1' id="bouton_mairie_creer" value='Creer une communaut&eacute;' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');"  disabled>
+<input type='button' class='button1' id="bouton_mairie_rentrer" value='Renter dans  une communaut&eacute;' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');"  disabled>
+<? endif; ?>
+<? include("commun_fermer.phtml") ?>
