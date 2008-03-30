@@ -235,7 +235,7 @@ class Bral_Util_Attaque {
 		$retourAttaque["cible"] = $cible;
 
 		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
-		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - jetAttaquant".$retourAttaque["jetAttaquant"]. " jetCible=".$retourAttaque["jetCible"]);
+		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetAttaquant=".$retourAttaque["jetAttaquant"]. " jetCible=".$retourAttaque["jetCible"]);
 		if ($retourAttaque["jetAttaquant"] > $retourAttaque["jetCible"]) {
 			$retourAttaque["attaqueReussie"] = true;
 			
@@ -249,6 +249,8 @@ class Bral_Util_Attaque {
 			} else {
 				$retourAttaque["jetDegat"] = $jetsDegat["noncritique"];
 			}
+			
+			Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetDegat=".$retourAttaque["jetDegat"]);
 			
 			$effetMotE = Bral_Util_Commun::getEffetMotE($hobbitAttaquant->id_hobbit);
 			if ($effetMotE != null) {
@@ -483,8 +485,8 @@ class Bral_Util_Attaque {
 		$monstreTable = new Monstre();
 		$monstres = $monstreTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
 		
-		$jetsDegat["critique"] = $jetsDegat;
-		$jetsDegat["noncritique"] = $jetsDegat;
+		$jetsDegat["critique"] = $degats;
+		$jetsDegat["noncritique"] = $degats;
 		$jetAttaquant = 1;
 		$jetCible = 0;
 		

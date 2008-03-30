@@ -26,6 +26,7 @@ class EffetPotionMonstre extends Zend_Db_Table {
 		
 		$sql = $select->__toString();
 		$resultat = $db->fetchRow($sql);
+		
 		if ($resultat != null) {
 			$resultat["nb_tour_restant_effet_potion_monstre"] = $resultat["nb_tour_restant_effet_potion_monstre"] - 1;
 			Bral_Util_Log::potion()->debug('EffetPotionMonstre - enleveUnTour - potion '.$potion["id_potion"].' tour(s) restant(s)='.$resultat["nb_tour_restant_effet_potion_monstre"]);

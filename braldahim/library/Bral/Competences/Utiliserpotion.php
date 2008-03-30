@@ -195,7 +195,8 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			$hobbit = $hobbitRowset->current();
 		}
 		
-		Bral_Util_EffetsPotion::appliquePotionSurHobbit($potion, $this->view->user->id_hobbit, $hobbit, false);
+		$potion["nb_tour_restant"] = $nbTour;
+		$this->retourPotion["effet"] = Bral_Util_EffetsPotion::appliquePotionSurHobbit($potion, $this->view->user->id_hobbit, $hobbit, false);
 	}
 	
 	private function utiliserPotionMonstre($potion, $idMonstre) {
@@ -208,7 +209,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			$data = array(
 				  'id_effet_potion_monstre' => $potion["id_potion"],
 				  'id_fk_type_potion_effet_potion_monstre' => $potion["id_fk_type_potion"],
-				  'id_fk_hobbit_cible_effet_potion_monstre' => $idMonstre,
+				  'id_fk_monstre_cible_effet_potion_monstre' => $idMonstre,
 				  'id_fk_hobbit_lanceur_effet_potion_monstre' => $this->view->user->id_hobbit,
 				  'id_fk_type_qualite_effet_potion_monstre' => $potion["id_fk_type_qualite_potion"],
 				  'nb_tour_restant_effet_potion_monstre' => $nbTour,
@@ -221,7 +222,9 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$monstreTable = new Monstre();
 		$monstreRowset = $monstreTable->find($idMonstre);
 		$monstre = $monstreRowset->current();
-		Bral_Util_EffetsPotion::appliquePotionSurHobbit($potion, $this->view->user->id_hobbit, $monstre, false);
+		
+		$potion["nb_tour_restant"] = $nbTour;
+		$this->retourPotion["effet"] = Bral_Util_EffetsPotion::appliquePotionSurMonstre($potion, $this->view->user->id_hobbit, $monstre, false);
 	}
 	
 	private function calculNbTour($potion) {
@@ -235,7 +238,6 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		if ($nbTour < 1) {
 			$nbTour = 1;
 		}
-		$this->retourPotion["effet"]["nb_tour"] = $nbTour;
 		return $nbTour;
 	}
 	

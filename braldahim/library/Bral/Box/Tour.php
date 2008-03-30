@@ -115,6 +115,9 @@ class Bral_Box_Tour {
 
 	public function activer() {
 		Bral_Util_Log::tour()->trace(get_class($this)." activer - enter -");
+		
+		$this->view->effetPotion = false;
+		
 		$this->view->effetMotB = false;
 		$this->view->effetMotE = false;
 		$this->view->effetMotK = false;
@@ -517,7 +520,12 @@ class Bral_Box_Tour {
 	private function calculBMPotion() {
 		Bral_Util_Log::tour()->trace(get_class($this)." calculBMPotion - enter -");
 		Zend_Loader::loadClass("Bral_Util_EffetsPotion");
-		$data = Bral_Util_EffetsPotion::calculPotionHobbit($this->hobbit);
+		$effetsPotions = Bral_Util_EffetsPotion::calculPotionHobbit($this->hobbit);
+		
+		if (count($effetsPotions) > 0) {
+			$this->view->effetPotion = true;
+			$this->view->effetPotionPotions = $effetsPotions; 
+		}
 		Bral_Util_Log::tour()->trace(get_class($this)." calculBMPotion - exit -");
 	}
 	

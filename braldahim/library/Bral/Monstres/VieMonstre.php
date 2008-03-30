@@ -234,6 +234,18 @@ class Bral_Monstres_VieMonstre {
 			$this->monstre["date_fin_tour_monstre"] = Bral_Util_ConvertDate::get_date_add_time_to_date($this->monstre["date_fin_tour_monstre"], $this->monstre["duree_prochain_tour_monstre"]);
 			$this->monstre["duree_prochain_tour_monstre"] = $this->monstre["duree_base_tour_monstre"];
 			$this->monstre["pa_monstre"] = self::$config->game->monstre->pa_max;
+			
+			Zend_Loader::loadClass("Bral_Util_EffetsPotion");
+			$monstreTable = new Monstre();
+			$monstreRowset = $monstreTable->find($this->monstre["id_monstre"]);
+			$monstre = $monstreRowset->current();
+			$effetsPotions = Bral_Util_EffetsPotion::calculPotionMonstre($monstre);
+			if (count($effetsPotions) > 0) {
+				Bral_Util_Log::tech()->trace(get_class($this)." - calculTour - des potions sur le monstre ont ete trouvee(s). Cf. log potion.log");
+			} else {
+				Bral_Util_Log::tech()->trace(get_class($this)." - calculTour - aucune potion sur le monstre n'a ete trouvee. Cf. log potion.log");
+			}
+		
 			$this->updateMonstre();
 		}
 		Bral_Util_Log::tech()->trace(get_class($this)." - calculTour - exit");

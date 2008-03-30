@@ -169,6 +169,24 @@ class Bral_Util_Log {
 		}
 	}
 	
+	private static function initLogTech() {
+		if (self::$instance == null) {
+			$instance = self::getInstance();
+		}
+		self::$config = Zend_Registry::get('config');
+		self::$tech = new Zend_Log();
+		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->tech);
+		self::$tech->addWriter($redacteur);
+		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->tech);
+		self::$tech->addFilter($filtre);
+		self::$tech->addPriority('TRACE', 8);
+		
+		if (self::$config->log->general->debug_browser == "oui") {
+			$redacteur = new Zend_Log_Writer_Stream('php://output');
+			self::$tech->addWriter($redacteur);
+		}
+	}
+	
 	private static function initLogTour() {
 		if (self::$instance == null) {
 			$instance = self::getInstance();

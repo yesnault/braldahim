@@ -1,0 +1,9 @@
+<?php
+	if ($this->effetPotion == true) {
+		$nb = count($this->effetPotion);
+		if ($nb > 1) { $s = 's'; $verb = 'ont'; } else { $s =''; $verb = 'a'; }
+		echo $nb." potion".$s." eu de l'effet sur vous.";
+		echo "
+";
+	}
+?>
