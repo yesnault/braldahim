@@ -16,6 +16,9 @@ class Bral_Box_Factory {
 			case "box_evenements" :
 				return self::getEvenements($request, $view, $interne);
 				break;
+			case "box_communaute" :
+				return self::getCommunaute($request, $view, $interne);
+				break;
 			case "box_famille" :
 				return self::getFamille($request, $view, $interne);
 				break;
@@ -49,6 +52,11 @@ class Bral_Box_Factory {
 			default :
 				throw new Zend_Exception("getBox::nom invalide :".$nom);
 		}
+	}
+
+	static function getCommunaute($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Communaute");
+		return new Bral_Box_Communaute($request, $view, $interne);
 	}
 
 	static function getCompetencesBasic($request, $view, $interne) {

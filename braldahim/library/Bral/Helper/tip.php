@@ -3,7 +3,7 @@ class Bral_Helper_Tip {
 	private static $CLOSE_YES = true;
 	private static $CLOSE_NO = false;
 	
-    public static function maketip($contenu, $titre, $close = false, $justify=false, $width = '250') {
+    public static function maketip($contenu, $titre="", $close = false, $justify=false, $width = '250') {
     	if ($justify) {
     		$width = '300';
     	}
@@ -41,7 +41,7 @@ class Bral_Helper_Tip {
 		return $retour;
     }
     
-	public static function jsTip($contenu, $titre, $justify = false) {
+	public static function jsTip($contenu, $titre="", $justify = false) {
 		$retour = " onmouseover=\"return overlib('".self::maketip($contenu, $titre, self::$CLOSE_NO, $justify)."');\" ";
 		$retour .= " onclick=\"return overlib('".self::maketip($contenu, $titre, self::$CLOSE_YES, $justify)."', STICKY, CLOSECLICK, EXCLUSIVE);\" ";
       	$retour .= " onmouseout=\"return nd();\" style=\"cursor:pointer\"";
