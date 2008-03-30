@@ -51,7 +51,7 @@ if (typeof ol_width=='undefined') var ol_width="auto";
 if (typeof ol_border=='undefined') var ol_border="1";
 if (typeof ol_cellpad=='undefined') var ol_cellpad=6;
 if (typeof ol_offsetx=='undefined') var ol_offsetx=-130;
-if (typeof ol_offsety=='undefined') var ol_offsety=8;
+if (typeof ol_offsety=='undefined') var ol_offsety=3;
 if (typeof ol_text=='undefined') var ol_text="Default Text";
 if (typeof ol_cap=='undefined') var ol_cap="";
 if (typeof ol_sticky=='undefined') var ol_sticky=0;

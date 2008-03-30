@@ -12,6 +12,7 @@ class Bral_Util_Log {
 	private static $config = null;
 	private static $erreur = null;
 	private static $inscription = null;
+	private static $potion = null;
 	private static $tech = null;
 	private static $tour = null;
 
@@ -41,6 +42,13 @@ class Bral_Util_Log {
 			self::initLogInscription();
 		}
 		return self::$inscription;
+	}
+
+	public static function potion() {
+		if (self::$potion == null) {
+			self::initLogPotion();
+		}
+		return self::$potion;
 	}
 	
 	public static function tech() {
@@ -140,6 +148,24 @@ class Bral_Util_Log {
 		if (self::$config->log->general->debug_browser == "oui") {
 			$redacteur = new Zend_Log_Writer_Stream('php://output');
 			self::$inscription->addWriter($redacteur);
+		}
+	}
+	
+	private static function initLogPotion() {
+		if (self::$instance == null) {
+			$instance = self::getInstance();
+		}
+		self::$config = Zend_Registry::get('config');
+		self::$potion = new Zend_Log();
+		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->potion);
+		self::$potion->addWriter($redacteur);
+		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->potion);
+		self::$potion->addFilter($filtre);
+		self::$potion->addPriority('TRACE', 8);
+		
+		if (self::$config->log->general->debug_browser == "oui") {
+			$redacteur = new Zend_Log_Writer_Stream('php://output');
+			self::$potion->addWriter($redacteur);
 		}
 	}
 	

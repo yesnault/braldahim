@@ -3,13 +3,28 @@
  <div class='comp_contenu'>
 	 <div id='utiliserpotion_text' style="display:block"  onClick="javascript:switch2div('utiliserpotion_text','utiliserpotion_copie');">
 	 <? include("commun_text_resultat.phtml") ?>
-		 Vous avez utiliser une potion sur  <?=htmlentities($this->retourAttaque["cible"]["nom_cible"])?> (<?=$this->retourAttaque["cible"]["id_cible"]?>) :<br><br>
+		 Vous avez utilis&eacute; une potion <?=htmlentities($this->retourPotion['potion']["nom"]) ?> de qualit&eacute; <?=htmlentities($this->retourPotion['potion']["qualite"])?>
+		  sur <?=htmlentities($this->retourPotion["cible"]["nom_cible"])?> (<?=$this->retourPotion["cible"]["id_cible"]?>) N<?=$this->retourPotion["cible"]["niveau_cible"]?>.<br>
+		  
+		  L'effet de la potion porte sur <?=$this->retourPotion['effet']['nb_tour']?> tour<? if ($this->retourPotion['effet']['nb_tour']): echo 's'; endif; ?>.
+		  <br>
+		  L'effet est imm&eacute;diat.<br>
+	 
 	 </div>
 	 
 	 <div id='utiliserpotion_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
 		include("commun_copie_resultat.phtml");
-		 echo "Vous avez utiliser une potion sur ".htmlentities($this->retourAttaque["cible"]["nom_cible"])." (".$this->retourAttaque["cible"]["id_cible"].") N".$this->retourAttaque["cible"]["niveau_cible"]." :";
+		 echo "Vous avez utilis&eacute; une potion ";
+		 echo htmlentities($this->retourPotion['potion']["nom"]). " de qualit&eacute; ".htmlentities($this->retourPotion['potion']["qualite"]);
+		 echo "sur ".htmlentities($this->retourPotion["cible"]["nom_cible"])." (".$this->retourPotion["cible"]["id_cible"].") N".$this->retourPotion["cible"]["niveau_cible"].".";
+		 echo "
+";
+		 echo "L'effet de la potion porte sur ".$this->retourPotion['effet']['nb_tour']." tour";
+		 if ($this->retourPotion['effet']['nb_tour']): echo 's'; endif;
+		 echo ".
+";
+		 echo "L'effet est imm&eacute;diat.";
 		 echo "
 ";
 		?></textarea>

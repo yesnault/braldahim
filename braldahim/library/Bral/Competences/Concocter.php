@@ -44,13 +44,13 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 			foreach ($partiesPlantes as $m) {
 				if ($m["quantite_arriere_echoppe_partieplante"] > 1) {
 					$tabPartiePlantes[] = array(
-					"indicateur" => $i,
-					"id_type" => $m["id_fk_type_echoppe_partieplante"],
-					"id_type_plante" => $m["id_fk_type_plante_echoppe_partieplante"],
-					"nom_type_partieplante" => $m["nom_type_partieplante"],
-					"nom_type" => $m["nom_type_plante"],
-					"quantite_arriere" => $m["quantite_arriere_echoppe_partieplante"],
-					"quantite_preparees" => $m["quantite_preparees_echoppe_partieplante"],
+						"indicateur" => $i,
+						"id_type" => $m["id_fk_type_echoppe_partieplante"],
+						"id_type_plante" => $m["id_fk_type_plante_echoppe_partieplante"],
+						"nom_type_partieplante" => $m["nom_type_partieplante"],
+						"nom_type" => $m["nom_type_plante"],
+						"quantite_arriere" => $m["quantite_arriere_echoppe_partieplante"],
+						"quantite_preparees" => $m["quantite_preparees_echoppe_partieplante"],
 					);
 					$this->view->concocterPlanteOk = true;
 				}

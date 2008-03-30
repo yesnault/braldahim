@@ -167,6 +167,7 @@ class Bral_Box_Tour {
 			//$this->joueur->diminuer_balance_faim ($this->view->config->game->tour_faim);
 			
 			$this->calculBMEquipement();
+			$this->calculBMPotion();
 			
 			// Mise à jour de la regeneration // c'est aussi mis à jour dans l'eujimnasiumne
 			$this->hobbit->regeneration_hobbit = floor($this->hobbit->vigueur_base_hobbit / 4) + 1;
@@ -511,6 +512,13 @@ class Bral_Box_Tour {
 			}
 		}
 		Bral_Util_Log::tour()->trace(get_class($this)." calculBMEquipement - exit -");
+	}
+	
+	private function calculBMPotion() {
+		Bral_Util_Log::tour()->trace(get_class($this)." calculBMPotion - enter -");
+		Zend_Loader::loadClass("Bral_Util_EffetsPotion");
+		$data = Bral_Util_EffetsPotion::calculPotionHobbit($this->hobbit);
+		Bral_Util_Log::tour()->trace(get_class($this)." calculBMPotion - exit -");
 	}
 	
 	private function calculInfoTour() {

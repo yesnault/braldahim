@@ -12,7 +12,7 @@
  		<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false }">
 			<option value='-1'>(Choisis une potion)</option>
 			<? foreach ($this->tabPotions as $p) : ?>
-				<option value="<?=$p["id_laban_potion"] ?>"><?=htmlentities($p["nom"]) ?> : qualit&eacute; <?=htmlentities($p["qualite"]) ?>,
+				<option value="<?=$p["id_potion"] ?>"><?=htmlentities($p["nom"]) ?> : qualit&eacute; <?=htmlentities($p["qualite"]) ?>,
 				 niveau: <?=$p["niveau"] ?></option>
 			<? endforeach; ?>
 		</select><br><br>
@@ -52,6 +52,6 @@
 </form>
 <br>
 <?php if ($this->assezDePa == true) : ?>
-<input type='button' class='button1' value='Utilisr la potion !' id='bouton_utiliserpotion' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_utiliserpotion");' disabled>
+<input type='button' class='button1' value='Utiliser la potion !' id='bouton_utiliserpotion' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_utiliserpotion");' disabled>
 <? endif ?>
 <? include("commun_fermer.phtml") ?>

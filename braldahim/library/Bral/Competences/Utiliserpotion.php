@@ -22,6 +22,9 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		foreach ($potions as $p) {
 			$tabPotions[$p["id_laban_potion"]] = array(
 					"id_potion" => $p["id_laban_potion"],
+					"id_fk_type_potion" => $p["id_fk_type_laban_potion"],
+					"id_fk_type_qualite_potion" => $p["id_fk_type_qualite_laban_potion"],
+					"nom_systeme_type_qualite" => $p["nom_systeme_type_qualite"],
 					"nom" => $p["nom_type_potion"],
 					"qualite" => $p["nom_type_qualite"],
 					"niveau" => $p["niveau_laban_potion"],
@@ -40,6 +43,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 				'id_hobbit' => $h["id_hobbit"],
 				'nom_hobbit' => $h["nom_hobbit"],
 				'prenom_hobbit' => $h["prenom_hobbit"],
+				'niveau_hobbit' => $h["niveau_hobbit"],
 			);
 			$tabHobbits[] = $tab;
 		}
@@ -79,13 +83,13 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
 			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_2"));
 		} else {
-			$idMonstre = (int)$this->request->get("valeur_1");
+			$idMonstre = (int)$this->request->get("valeur_2");
 		}
 		
 		if (((int)$this->request->get("valeur_3").""!=$this->request->get("valeur_3")."")) {
 			throw new Zend_Exception(get_class($this)." Hobbit invalide : ".$this->request->get("valeur_3"));
 		} else {
-			$idHobbit = (int)$this->request->get("valeur_2");
+			$idHobbit = (int)$this->request->get("valeur_3");
 		}
 
 		if ($idMonstre == -1 && $idHobbit == -1) {
@@ -103,7 +107,9 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		if ($potion == null) {
 			throw new Zend_Exception(get_class($this)." Potion invalide (".$idPotion.")");
 		}
-
+		
+		$this->retourPotion = null;
+		
 		$utiliserPotionMonstre = false;
 		$utiliserPotionHobbit = false;
 		if ($idHobbit != -1) {
@@ -111,6 +117,10 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 				foreach ($this->view->tabHobbits as $h) {
 					if ($h["id_hobbit"] == $idHobbit) {
 						$utiliserPotionHobbit = true;
+						$this->retourPotion['cible'] = array('nom_cible' => $h["prenom_hobbit"]. " ". $h["nom_hobbit"], 
+													   'id_cible' => $h["id_hobbit"],
+													   'niveau_cible' => $h["niveau_hobbit"]
+													  );
 						break;
 					}
 				}
@@ -123,6 +133,10 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 				foreach ($this->view->tabMonstres as $m) {
 					if ($m["id_monstre"] == $idMonstre) {
 						$utiliserPotionMonstre = true;
+						$this->retourPotion['cible'] = array('nom_cible' => $m["nom_monstre"], 
+													   'id_cible' => $m["id_monstre"],
+														'niveau_cible' => $m["niveau_monstre"],
+														);
 						break;
 					}
 				}
@@ -131,15 +145,19 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 				throw new Zend_Exception(get_class($this)." Monstre invalide (".$idMonstre.")");
 			}
 		}
-
+		
+		Zend_Loader::loadClass("Bral_Util_EffetsPotion"); 
 		if ($utiliserPotionHobbit === true) {
-			$this->utiliserPotionHobbit($idHobbit, $potion);
+			$this->utiliserPotionHobbit($potion, $idHobbit);
 		} elseif ($utiliserPotionMonstre === true) {
-			$this->utiliserPotionMonstre($idMonstre, $potion);
+			$this->utiliserPotionMonstre($potion, $idMonstre);
 		} else {
 			throw new Zend_Exception(get_class($this)." Erreur inconnue");
 		}
-
+		
+		$this->retourPotion['potion'] = $potion;
+		$this->view->retourPotion = $this->retourPotion;
+		
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
@@ -151,13 +169,79 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 	
 	private function utiliserPotionHobbit($potion, $idHobbit) {
 		Zend_Loader::loadClass("EffetPotionHobbit"); 
-	
-		// TODO
+		
+		$nbTour = $this->calculNbTour($potion);
+		
+		if ($nbTour > 1) {
+			$effetPotionHobbitTable = new EffetPotionHobbit();
+			$data = array(
+				  'id_effet_potion_hobbit' => $potion["id_potion"],
+				  'id_fk_type_potion_effet_potion_hobbit' => $potion["id_fk_type_potion"],
+				  'id_fk_hobbit_cible_effet_potion_hobbit' => $idHobbit,
+				  'id_fk_hobbit_lanceur_effet_potion_hobbit' => $this->view->user->id_hobbit,
+				  'id_fk_type_qualite_effet_potion_hobbit' => $potion["id_fk_type_qualite_potion"],
+				  'nb_tour_restant_effet_potion_hobbit' => $nbTour,
+				  'niveau_effet_potion_hobbit' => $potion["niveau"],
+			);
+			$effetPotionHobbitTable->insert($data);
+		}
+		$this->supprimeDuLaban($potion);
+		
+		if ($this->view->user->id_hobbit == $idHobbit) {
+			$hobbit = $this->view->user;
+		} else {
+			$hobbitTable = new Hobbit();
+			$hobbitRowset = $hobbitTable->find($idHobbit);
+			$hobbit = $hobbitRowset->current();
+		}
+		
+		Bral_Util_EffetsPotion::appliquePotionSurHobbit($potion, $this->view->user->id_hobbit, $hobbit, false);
 	}
 	
-	private function utiliserPotionMonstre($potion, ) {
+	private function utiliserPotionMonstre($potion, $idMonstre) {
 		Zend_Loader::loadClass("EffetPotionMonstre"); 
 		
-		// TODO
+		$nbTour = $this->calculNbTour($potion);
+		
+		if ($nbTour > 1) {
+			$effetPotionMonstreTable = new EffetPotionMonstre();
+			$data = array(
+				  'id_effet_potion_monstre' => $potion["id_potion"],
+				  'id_fk_type_potion_effet_potion_monstre' => $potion["id_fk_type_potion"],
+				  'id_fk_hobbit_cible_effet_potion_monstre' => $idMonstre,
+				  'id_fk_hobbit_lanceur_effet_potion_monstre' => $this->view->user->id_hobbit,
+				  'id_fk_type_qualite_effet_potion_monstre' => $potion["id_fk_type_qualite_potion"],
+				  'nb_tour_restant_effet_potion_monstre' => $nbTour,
+				  'niveau_effet_potion_monstre' => $potion["niveau"],
+			);
+			$effetPotionMonstreTable->insert($data);
+		}
+		$this->supprimeDuLaban($potion);
+		
+		$monstreTable = new Monstre();
+		$monstreRowset = $monstreTable->find($idMonstre);
+		$monstre = $monstreRowset->current();
+		Bral_Util_EffetsPotion::appliquePotionSurHobbit($potion, $this->view->user->id_hobbit, $monstre, false);
+	}
+	
+	private function calculNbTour($potion) {
+		$nbTour = Bral_Util_De::get_1d3();
+		if ($potion["nom_systeme_type_qualite"] == 'standard') {
+			$nbTour = $nbTour + 1;
+		} else if ($potion["nom_systeme_type_qualite"] == 'bonne') {
+			$nbTour = $nbTour + 2;
+		}
+		$nbTour = $nbTour - 1; // tour courant
+		if ($nbTour < 1) {
+			$nbTour = 1;
+		}
+		$this->retourPotion["effet"]["nb_tour"] = $nbTour;
+		return $nbTour;
+	}
+	
+	private function supprimeDuLaban($potion) {
+		$labanPotionTable = new LabanPotion();
+		$where = 'id_laban_potion = '.$potion["id_potion"];
+		$labanPotionTable->delete($where);
 	}
 }

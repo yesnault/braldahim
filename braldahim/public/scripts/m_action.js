@@ -163,21 +163,21 @@ function showResponse(originalRequest) {
 	if (display_action) {
 		//$("box_action").style.display = "block";
 		Modalbox.show($("box_action"), {title: 'Action', width: 450, overlayClose:false});
-	} else {
+	} /*else {
 		if ($("box_action")) {
 			$("box_action").style.display = "none";
 		}
-	}
+	}*/
 
     // Box informations
 	if (display_informations) {
 		//$("informations").style.display = "block";
 		Modalbox.show($("informations"), {title: 'Informations', width: 450, overlayClose:false});
-	} else {
+	} /*else {
 		if ($("informations")) {
 			$("informations").style.display = "none";
 		}
-	}
+	}*/
     
     // Box erreur
 	if (display_erreur) {

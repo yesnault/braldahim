@@ -6,8 +6,6 @@ class Bral_Util_Attaque {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - enter -");
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - jetAttaquant=".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - jetCible=".$jetCible);
-		//$debug = ""print_r($jetsDegat);
-		//Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - jetsDegat=".$debug);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - effetMotSPossible=".$effetMotSPossible);
 		
 		$config = Zend_Registry::get('config');
@@ -196,8 +194,6 @@ class Bral_Util_Attaque {
 			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details);
 		}
 		
-	//	$debug = print_r($retourAttaque);
-	//	Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - retourAttaque=".$debug);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - exit -");
 		return $retourAttaque;
 	}
@@ -206,8 +202,6 @@ class Bral_Util_Attaque {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - enter -");
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetAttaquant=".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetCible=".$jetCible);
-	//	$debug = print_r($jetsDegat);
-	//	Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetsDegat=".$debug);
 		
 		$config = Zend_Registry::get('config');
 
@@ -368,8 +362,6 @@ class Bral_Util_Attaque {
 			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, "monstre");
 		}
 		
-	//	$debug = print_r($retourAttaque);
-	//	Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - retourAttaque=".$debug);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - exit -");
 		return $retourAttaque;
 	}
@@ -537,4 +529,3 @@ class Bral_Util_Attaque {
 	}
 }
 
-?>
