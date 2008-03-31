@@ -17,8 +17,15 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$hobbitCommunauteTable = new HobbitCommunaute();
 		$hobbitCommunaute = $hobbitCommunauteTable->findByIdHobbit($this->view->user->id_hobbit);
 		$this->view->hobbitAvecCommunaute = false;
-	
+		$this->view->createurCommunaute = false;
+		$this->idCommunauteCourante = -1;
+		
 		if (count($hobbitCommunaute) > 0) {
+			foreach ($hobbitCommunaute as $c) {
+				$this->idCommunauteCourante = $c["id_fk_communaute_communaute"];
+				break;
+			}
+			
 			$this->view->hobbitAvecCommunaute = true;
 		}
 		
@@ -32,6 +39,9 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 										'id_communaute' => $c["id_communaute"], 
 										'nom_communaute' => $c["nom_communaute"]
 										);
+			if ($c["id_fk_hobbit_createur_communaute"] == $this->view->user->id_hobbit) {
+				$this->view->createurCommunaute = true;
+			}
 		}
 		$this->view->communautes = $tabCommunaute;
 	}
@@ -71,23 +81,28 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		if (((int)$this->request->getPost("valeur_2").""!=$this->request->getPost("valeur_2")."")) {
 			throw new Zend_Exception(get_class($this)." Val 2 invalide : ".$this->request->getPost("valeur_2"));
 		} else {
-			Zend_Loader::loadClass('Zend_Filter');
-			Zend_Loader::loadClass('Zend_Filter_StripTags');
-			Zend_Loader::loadClass('Zend_Filter_StringTrim');
-			$filter = new Zend_Filter();
-			$filter->addFilter(new Zend_Filter_StringTrim())->addFilter(new Zend_Filter_StripTags());
-			$nomCommunaute = $filter->filter($this->request->getPost('valeur_3'));
-			$nomCommunaute = $this->request->getPost("valeur_3");
-			$this->view->creerCommunaute = true;
+			if ((int)$this->request->getPost("valeur_2") != -1) {
+				Zend_Loader::loadClass('Zend_Filter');
+				Zend_Loader::loadClass('Zend_Filter_StripTags');
+				Zend_Loader::loadClass('Zend_Filter_StringTrim');
+				$filter = new Zend_Filter();
+				$filter->addFilter(new Zend_Filter_StringTrim())->addFilter(new Zend_Filter_StripTags());
+				$nomCommunaute = $filter->filter($this->request->getPost('valeur_3'));
+				$nomCommunaute = $this->request->getPost("valeur_3");
+				$this->view->creerCommunaute = true;
+			}
 		}
 		
 		if (((int)$this->request->getPost("valeur_4").""!=$this->request->getPost("valeur_4")."")) {
 			throw new Zend_Exception(get_class($this)." Val 4 invalide : ".$this->request->getPost("valeur_4"));
 		} else {
-			$this->view->sortirCommunaute = true;
+			if ((int)$this->request->getPost("valeur_4") != -1) {
+				$idCommunaute = $this->idCommunauteCourante;
+				$this->view->sortirCommunaute = true;
+			}
 		}
 		
-		if ($this->view->entrerCommunaute === true) {
+		if ($this->view->entrerCommunaute === true || $this->view->sortirCommunaute === true) {
 			foreach ($this->view->communautes as $c) {
 				if ($c["id_communaute"] == $idCommunaute) {
 					$communaute = $c;
@@ -98,9 +113,10 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 			if ($communaute == null) {
 				throw new Zend_Exception(get_class($this)." Communaute invalide (".$idCommunaute.")");
 			}
-			
-			$this->entrerCommunaute($idCommunaute);
-			
+		}
+
+		if ($this->view->entrerCommunaute === true) {
+			$communaute = $this->entrerCommunaute($idCommunaute);
 		} else if ($this->view->creerCommunaute === true) {
 			$communaute = $this->creerCommunaute($nomCommunaute);
 		} else if ($this->view->sortirCommunaute === true) {
@@ -117,7 +133,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 
 
 	function getListBoxRefresh() {
-		return array("box_metier", "box_laban", "box_competences_metiers", "box_vue", "box_lieu");
+		return array("box_profil", "box_laban", "box_competences_metiers", "box_vue", "box_lieu");
 	}
 
 	private function calculCoutCastars() {
@@ -144,6 +160,13 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		);
 		$rangCommunauteTable->insert($data);
 		
+		$data = array('id_fk_type_rang_communaute' => 20,
+			'id_fk_communaute_rang_communaute' => $communaute["id_communaute"],
+			'nom_rang_communaute' => 'Nouveaux',
+			'description_rang_communaute' => 'Description Rang Nouveaux',
+		);
+		$rangCommunauteTable->insert($data);
+		
 		$hobbitCommunauteTable = new HobbitCommunaute();
 		$data = array('id_fk_communaute_communaute' => $communaute["id_communaute"],
 			'id_fk_hobbit_communaute' => $this->view->user->id_hobbit,
@@ -158,17 +181,35 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 	
 	private function sortirCommunaute($idCommunaute) {
 		$communaute = $this->view->communautes[$idCommunaute];
+		$hobbitCommunauteTable = new HobbitCommunaute();
+		$where = "id_fk_hobbit_communaute = ".$this->view->user->id_hobbit;
+		$hobbitCommunauteTable->delete($where);
 		
+		if ($this->view->createurCommunaute === true) {
+			$this->supprimerCommunaute($idCommunaute);
+		}
 		return $communaute;
 	}
 	
 	private function entrerCommunaute($idCommunaute) {
 		$communaute = $this->view->communautes[$idCommunaute];
 		
+		$hobbitCommunauteTable = new HobbitCommunaute();
+		$data = array('id_fk_communaute_communaute' => $communaute["id_communaute"],
+			'id_fk_hobbit_communaute' => $this->view->user->id_hobbit,
+			'date_entree_hobbit_communaute' => date("Y-m-d H:i:s"),
+			'id_fk_rang_communaute_hobbit_communaute' => 20,
+			'commentaire_hobbit_communaute' => '',
+		);
+		$hobbitCommunauteTable->insert($data);
+		
 		return $communaute;
 	}
 	
-	private function supprimerCommunaute($idCommunate) {
+	private function supprimerCommunaute($idCommunaute) {
+		$communauteTable = new Communaute();
+		$where = "id_communaute = ".$idCommunaute;
+		$communauteTable->delete($where);
 		$this->view->supprimerCommunaute = true;
 	}
 }

@@ -2,8 +2,26 @@
 	if ($this->effetPotion == true) {
 		$nb = count($this->effetPotion);
 		if ($nb > 1) { $s = 's'; $verb = 'ont'; } else { $s =''; $verb = 'a'; }
-		echo $nb." potion".$s." eu de l'effet sur vous.";
 		echo "
 ";
+		echo $nb." potion".$s." ont eu de l'effet sur vous.";
+		echo "
+";
+		foreach($this->effetPotionPotions as $e) {
+			echo htmlentities($e["potion"]["nom"]). " de qualit&eacute; ".htmlentities($e["potion"]["qualite"]).",";
+			echo " niveau ".$e["potion"]["niveau"]." : ";
+			echo "
+";
+			echo $e["retourPotion"]["nEffet"]." point";
+			if ($e["retourPotion"]["nEffet"]): echo 's'; endif;
+			echo " de ".$e["potion"]["bm_type"]." sur ".$e["potion"]["caracteristique"];
+			echo " et ".$e["retourPotion"]["nb_tour_restant"]." tour"; 
+			if ($e["retourPotion"]["nb_tour_restant"] > 1) : $s= 's' ; else : $s = ''; endif; 
+			echo $s." restant". $s;
+			echo "
+";
+			echo "
+";
+		}
 	}
 ?>
