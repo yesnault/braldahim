@@ -8,7 +8,7 @@
 
 <? else : ?> 
 	<br>
- 	Pour utiliser les services de la mairie, il faut <?=$this->coutCastars?> castars.<br><br>
+ 	Pour utiliser les services de la mairie, il faut <?=$this->coutCastars?> castars et <?=$this->paUtilisationLieu?> PA.<br><br>
    	<? if ($this->utilisationPossible === false): ?>
    		Vous n'avez pas assez de castars <br>
    		<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>

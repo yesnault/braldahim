@@ -60,11 +60,11 @@ class Bral_Box_Messagerie {
 			}
 
 			$tabMessages[] = array(
-			"id_message" => $m["id_message"],
-			"titre" => $m["titre_message"],
-			"date" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y \&\a\g\r\a\v\e; H:i:s',$m["date_envoi_message"]),
-			"destinataires" => $destinataires,
-			'expediteur' => $expediteur,
+				"id_message" => $m["id_message"],
+				"titre" => $m["titre_message"],
+				"date" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y \&\a\g\r\a\v\e; H:i:s',$m["date_envoi_message"]),
+				"destinataires" => $destinataires,
+				'expediteur' => $expediteur,
 			);
 		}
 

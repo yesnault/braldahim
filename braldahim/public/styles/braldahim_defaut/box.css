@@ -530,3 +530,40 @@ td.equipement {
   vertical-align: top;
   background: #CCCC99 none repeat-x scroll 0pt;
 }
+
+
+table.communaute_membres {
+border:1px solid #791E1E;
+border-collapse:collapse;
+width:70%;
+margin:auto;
+align:center;
+}
+thead.communaute_membres, tfoot.communaute_membres {
+background-color:#CCCC99;
+border:1px solid #791E1E;
+cursor:pointer;
+}
+tbody.communaute_membres {
+border:1px solid #791E1E;
+}
+th.communaute_membres {
+padding:5px;
+background-color:#791E1E;
+width:25%;
+
+}
+
+tr.communaute_membres0{
+	background:#e7c57b;
+}
+
+tr.communaute_membres1{
+	background:#;
+}
+
+td.communaute_membres{
+padding:5px;
+text-align:center;
+}
+

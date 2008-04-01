@@ -26,10 +26,9 @@ class Bral_Box_Communaute {
 		$tabCommunaute = null;
 		$hobbitCommunauteTable = new HobbitCommunaute();
 		$communauteRowset = $hobbitCommunauteTable->findByIdHobbit($this->view->user->id_hobbit);
-		
 		if (count($communauteRowset) > 0) {
 			foreach ($communauteRowset as $c) {
-				$tabCommunaute = $c["nom_communaute"];
+				$tabCommunaute = $c;
 				break;
 			}
 		}

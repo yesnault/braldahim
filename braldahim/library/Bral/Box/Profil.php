@@ -25,4 +25,3 @@ class Bral_Box_Profil {
 		return $this->view->render("interface/profil.phtml");
 	}
 }
-?>

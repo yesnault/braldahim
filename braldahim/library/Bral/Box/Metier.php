@@ -62,4 +62,3 @@ class Bral_Box_Metier {
 		return $this->view->render("interface/metier.phtml");
 	}
 }
-?>

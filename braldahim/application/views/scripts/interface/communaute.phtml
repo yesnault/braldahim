@@ -1,15 +1,32 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-<ul class="titre textalia textsizeb">Ma Communaute</ul>
+<ul class="titre textalia textsizeb">Ma Communaute
+	<? if ($this->communaute != null) : ?>
+		: <?=htmlentities($this->communaute["nom_communaute"]) ?> 
+		n&deg; <?=$this->communaute["id_communaute"] ?>
+	<? endif; ?>
+</ul>
  <div class="contenuC">
   <ul class="box_contenu1 textalic">
   	<? if ($this->communaute != null) : ?>
+  		Vous faites partie de la communaut&eacute; <?=htmlentities($this->communaute["nom_communaute"]) ?>,
+  		 n&deg; <?=$this->communaute["id_communaute"] ?> depuis le
+  		
+  		<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->communaute["date_entree_hobbit_communaute"]); ?>
+  		
+  		<br><br>
+  		<input type='button' class='button1' value='Voir les membres' onClick='_get_("/communaute/doaction?caction=ask_communaute_membres");'>
   		
   	<? else : ?>
   		Vous ne faites pas partie d'une communaut&eacute;. <br><br>
   		
   		Vous pouvez vous rendre dans une mairie pour rentrer dans une communaut&eacute;.
   	<? endif; ?>
+  	
+  	<div id="box_communaute_action">
+  	
+  	</div>
+  	<br>
   </ul>
  </div>
 </div>

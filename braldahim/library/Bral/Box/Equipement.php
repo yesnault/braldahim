@@ -118,4 +118,3 @@ class Bral_Box_Equipement {
 		return $this->view->render("interface/equipement.phtml");
 	}
 }
-?>

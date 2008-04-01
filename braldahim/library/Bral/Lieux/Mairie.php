@@ -133,7 +133,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_laban", "box_competences_metiers", "box_vue", "box_lieu");
+		return array("box_profil", "box_laban", "box_competences_metiers", "box_communaute");
 	}
 
 	private function calculCoutCastars() {
@@ -146,7 +146,6 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$data = array('nom_communaute' => $nomCommunaute,
 			'date_creation_communaute' => date("Y-m-d H:i:s"),
 			'id_fk_hobbit_createur_communaute' => $this->view->user->id_hobbit,
-			'nb_membre_communaute' => 1,
 			'description_communaute' => '',
 		);
 		$communaute = $data;
@@ -178,19 +177,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		
 		return $communaute;
 	}
-	
-	private function sortirCommunaute($idCommunaute) {
-		$communaute = $this->view->communautes[$idCommunaute];
-		$hobbitCommunauteTable = new HobbitCommunaute();
-		$where = "id_fk_hobbit_communaute = ".$this->view->user->id_hobbit;
-		$hobbitCommunauteTable->delete($where);
-		
-		if ($this->view->createurCommunaute === true) {
-			$this->supprimerCommunaute($idCommunaute);
-		}
-		return $communaute;
-	}
-	
+
 	private function entrerCommunaute($idCommunaute) {
 		$communaute = $this->view->communautes[$idCommunaute];
 		
@@ -203,6 +190,19 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		);
 		$hobbitCommunauteTable->insert($data);
 		
+		return $communaute;
+	}
+	
+	private function sortirCommunaute($idCommunaute) {
+		$communaute = $this->view->communautes[$idCommunaute];
+		$hobbitCommunauteTable = new HobbitCommunaute();
+		$where = "id_fk_hobbit_communaute = ".$this->view->user->id_hobbit;
+		//echo "$where";
+		$hobbitCommunauteTable->delete($where);
+		
+		if ($this->view->createurCommunaute === true) {
+			$this->supprimerCommunaute($idCommunaute);
+		}
 		return $communaute;
 	}
 	
