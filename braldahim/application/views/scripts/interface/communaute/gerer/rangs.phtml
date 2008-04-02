@@ -1,0 +1,38 @@
+
+<br>
+<ul class="titre textalic textsizec">Liste des Rangs</ul><br>
+
+<br>
+Pour modifier un nom ou une description, cliquez dessus.<br>
+<table class="table_liste">
+<thead class="table_liste">
+  <tr class="table_liste">
+	<th>N&deg;</th>
+	<th>Nom</th>
+	<th>Description</th>
+  </tr>
+</thead>
+<tbody>
+<? $i = 0;
+   foreach($this->tabRangs as $r) :?>
+	<tr class="table_liste<?=($i % 2);$i++; ?>">
+	  <td class="table_liste"><?=htmlentities($r["id_rang"]) ?></td>
+	  <td class="table_liste" > 
+	  	<label id="label_nom<?=$r["id_rang"] ?>" onClick="this.style.display='none'; $('value_nom<?=$r["id_rang"] ?>').style.display='block' ; $('bouton_nom<?=$r["id_rang"] ?>').style.display='block'"/>
+	  		<?=htmlentities($r["nom"]) ?><? if (strlen(trim($r["nom"])) == 0 || $r["nom"] == null) :?> [vide]<? endif; ?>
+	  	</label>
+	  	<input type="text" value="<?=htmlentities($r["nom"]) ?>" id="value_nom<?=$r["id_rang"] ?>" style="display:none" maxlength="40" size="41"/>
+	  	<input type="button" class='button1' id="bouton_nom<?=$r["id_rang"] ?>" onClick="$('label_nom<?=$r["id_rang"] ?>').style.display='block'; $('value_nom<?=$r["id_rang"] ?>').style.display='none'; this.style.display='none' ; _get_('/communaute/doaction?caction=ask_communaute_rangs&valeur_1=1&valeur_2=<?=$r["id_rang"] ?>&valeur_3='+$('value_nom<?=$r["id_rang"] ?>').value)" value="Valider" style="display:none">
+	  </td>
+	  <td class="table_liste">
+	  <label id="label_desc<?=$r["id_rang"] ?>" onClick="this.style.display='none'; $('value_desc<?=$r["id_rang"] ?>').style.display='block' ; $('bouton_desc<?=$r["id_rang"] ?>').style.display='block'; $('max_desc<?=$r["id_rang"] ?>').style.display='block'";/>
+	  		<?=htmlentities($r["description"]) ?><? if (strlen(trim($r["description"])) == 0 || $r["description"] == null) :?> [vide]<? endif; ?>
+ 		</label>
+	  	<textarea onkeyup="limiteTailleTextarea(this, 200, 'max_desc<?=$r["id_rang"]?>')"  onkeydown="limiteTailleTexarea(this, 200)" id="value_desc<?=$r["id_rang"] ?>" style="display:none" cols="40" rows="2"><?=htmlentities($r["description"]) ?></textarea>
+	  	<label id="max_desc<?=$r["id_rang"] ?>"><label>
+	  	<input type="button" class='button1' id="bouton_desc<?=$r["id_rang"] ?>" onClick="$('label_nom<?=$r["id_rang"] ?>').style.display='block'; $('value_desc<?=$r["id_rang"] ?>').style.display='none'; this.style.display='none' ; $('max_desc<?=$r["id_rang"] ?>').style.display='none'; _get_('/communaute/doaction?caction=ask_communaute_rangs&valeur_1=2&valeur_2=<?=$r["id_rang"] ?>&valeur_3='+$('value_desc<?=$r["id_rang"] ?>').value)" value="Valider" style="display:none">
+	 </td>
+	</tr>
+<? endforeach; ?>
+</tbody>
+</table>

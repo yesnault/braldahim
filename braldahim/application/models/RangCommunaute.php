@@ -8,7 +8,8 @@ class RangCommunaute extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('rang_communaute')
-		->where('id_fk_communaute_rang_communaute = ?', intval($idCommunaute));
+		->where('id_fk_communaute_rang_communaute = ?', intval($idCommunaute))
+		->order('id_fk_type_rang_communaute');
 		
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

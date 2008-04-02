@@ -219,19 +219,19 @@ class Bral_Messagerie_Message {
 				$messageTable->update($data, $where);
 			}
 			$tabMessage = array(
-			'id_message' => $m["id_message"],
-			'titre' => $m["titre_message"],
-			'date_envoi' => $m["date_envoi_message"],
-			'expediteur' => $tabHobbit["expediteur"],
-			'aff_expediteur' => $tabHobbit["aff_expediteur"],
-			'aff_js_expediteur' => $tabHobbit["aff_js_expediteur"],
-			'destinataires' => $tabHobbit["destinataires"],
-			'aff_destinataires' => $tabHobbit["aff_destinataires"],
-			'aff_js_destinataires' => $tabHobbit["aff_js_destinataires"],
-			'copies' => $tabHobbit["copies"],
-			'aff_js_copies' => $tabHobbit["aff_js_copies"],
-			'aff_copies' => $tabHobbit["aff_copies"],
-			'contenu' => $m["contenu_message"],
+				'id_message' => $m["id_message"],
+				'titre' => $m["titre_message"],
+				'date_envoi' => $m["date_envoi_message"],
+				'expediteur' => $tabHobbit["expediteur"],
+				'aff_expediteur' => $tabHobbit["aff_expediteur"],
+				'aff_js_expediteur' => $tabHobbit["aff_js_expediteur"],
+				'destinataires' => $tabHobbit["destinataires"],
+				'aff_destinataires' => $tabHobbit["aff_destinataires"],
+				'aff_js_destinataires' => $tabHobbit["aff_js_destinataires"],
+				'copies' => $tabHobbit["copies"],
+				'aff_js_copies' => $tabHobbit["aff_js_copies"],
+				'aff_copies' => $tabHobbit["aff_copies"],
+				'contenu' => $m["contenu_message"],
 			);
 		} else {
 			throw new Zend_Exception(get_class($this)."::prepareMessage Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_5"));
@@ -248,16 +248,16 @@ class Bral_Messagerie_Message {
 		$tabHobbit = $this->constructTabHobbit(false,trim($filter->filter(trim($this->request->get('valeur_7')))), trim($filter->filter(trim($this->request->get('valeur_8')))), null);
 
 		$tabMessage = array(
-		'titre' => $filter->filter(trim(stripslashes($this->request->get('valeur_9')))),
-		'contenu' => stripslashes($this->request->get('valeur_10')),
-		'expediteur' => $tabHobbit["expediteur"],
-		'aff_expediteur' => $tabHobbit["aff_expediteur"],
-		'destinataires' => $tabHobbit["destinataires"],
-		'aff_destinataires' => $tabHobbit["aff_destinataires"],
-		'aff_js_destinataires' => $tabHobbit["aff_js_destinataires"],
-		'copies' => $tabHobbit["copies"],
-		'aff_js_copies' => $tabHobbit["aff_js_copies"],
-		'aff_copies' => $tabHobbit["aff_copies"],
+			'titre' => $filter->filter(trim(stripslashes($this->request->get('valeur_9')))),
+			'contenu' => stripslashes($this->request->get('valeur_10')),
+			'expediteur' => $tabHobbit["expediteur"],
+			'aff_expediteur' => $tabHobbit["aff_expediteur"],
+			'destinataires' => $tabHobbit["destinataires"],
+			'aff_destinataires' => $tabHobbit["aff_destinataires"],
+			'aff_js_destinataires' => $tabHobbit["aff_js_destinataires"],
+			'copies' => $tabHobbit["copies"],
+			'aff_js_copies' => $tabHobbit["aff_js_copies"],
+			'aff_copies' => $tabHobbit["aff_copies"],
 		);
 		$this->view->message = $tabMessage;
 
@@ -274,15 +274,15 @@ class Bral_Messagerie_Message {
 		if (($validTitre) && ($validDestinataires) && ($validCopies) && ($validContenu)) {
 			$messageTable = new Message();
 			$data = array(
-			'id_fk_hobbit_message' => $this->view->user->id_hobbit,
-			'id_fk_type_message' => $this->view->config->messagerie->message->type->envoye,
-			'date_envoi_message' => date("Y-m-d H:i:s"),
-			'date_lecture_message' => null,
-			'expediteur_message' => $this->view->user->id_hobbit,
-			'destinataires_message' => $this->view->message["destinataires"],
-			'copies_message' =>  $this->view->message["copies"],
-			'titre_message' => $this->view->message["titre"],
-			'contenu_message' => $this->view->message["contenu"],
+				'id_fk_hobbit_message' => $this->view->user->id_hobbit,
+				'id_fk_type_message' => $this->view->config->messagerie->message->type->envoye,
+				'date_envoi_message' => date("Y-m-d H:i:s"),
+				'date_lecture_message' => null,
+				'expediteur_message' => $this->view->user->id_hobbit,
+				'destinataires_message' => $this->view->message["destinataires"],
+				'copies_message' =>  $this->view->message["copies"],
+				'titre_message' => $this->view->message["titre"],
+				'contenu_message' => $this->view->message["contenu"],
 			);
 			
 			$messageTable->insert($data);

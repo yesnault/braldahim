@@ -10,6 +10,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		Zend_Loader::loadClass("HobbitCommunaute"); 
 		Zend_Loader::loadClass("Communaute"); 
 		Zend_Loader::loadClass("RangCommunaute"); 
+		Zend_Loader::loadClass("TypeRangCommunaute"); 
 		
 		$this->_coutCastars = $this->calculCoutCastars();
 		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) > 0);
@@ -151,20 +152,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$communaute = $data;
 		$communaute["id_communaute"] = $communauteTable->insert($data);
 		
-		$rangCommunauteTable = new RangCommunaute();
-		$data = array('id_fk_type_rang_communaute' => 1,
-			'id_fk_communaute_rang_communaute' => $communaute["id_communaute"],
-			'nom_rang_communaute' => 'Rang Createur',
-			'description_rang_communaute' => 'Description Rang Createur',
-		);
-		$rangCommunauteTable->insert($data);
-		
-		$data = array('id_fk_type_rang_communaute' => 20,
-			'id_fk_communaute_rang_communaute' => $communaute["id_communaute"],
-			'nom_rang_communaute' => 'Nouveaux',
-			'description_rang_communaute' => 'Description Rang Nouveaux',
-		);
-		$rangCommunauteTable->insert($data);
+		$this->creerRangsDefaut($communaute["id_communaute"]);
 		
 		$hobbitCommunauteTable = new HobbitCommunaute();
 		$data = array('id_fk_communaute_communaute' => $communaute["id_communaute"],
@@ -211,5 +199,21 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$where = "id_communaute = ".$idCommunaute;
 		$communauteTable->delete($where);
 		$this->view->supprimerCommunaute = true;
+	}
+	
+	private function creerRangsDefaut($idCommunaute) {
+		$rangCommunauteTable = new RangCommunaute();
+		
+		$typeRangTable = new TypeRangCommunaute();
+		$typeRangRowset = $typeRangTable->fetchAll();
+		$typeRangRowset = $typeRangRowset->toArray();
+		
+		foreach ($typeRangRowset as $t) {
+			$data = array('id_fk_type_rang_communaute' => $t["id_type_rang_communaute"],
+				'id_fk_communaute_rang_communaute' => $idCommunaute,
+				'nom_rang_communaute' => $t["nom_type_rang_communaute"],
+			);
+			$rangCommunauteTable->insert($data);
+		}
 	}
 }

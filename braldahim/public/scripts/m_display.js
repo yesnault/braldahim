@@ -42,7 +42,7 @@ function switch2div(div1, div2) {
 // n'autorise que des chiffres.
 // exemple d'utilisation : <input type="text" onkeypress="chiffres(event)">
 function chiffres(event, negatif) {
-	// Compatibilité IE / Firefox
+	// CompatibilitŽ IE / Firefox
 	if(!event&&window.event) {
 		event=window.event;
 	}
@@ -114,4 +114,13 @@ function accordion(el, ancien, visible) {
 	}
 	$(ancien).value = el.parentNode.id;
 	el.id = visible;
+}
+
+function limiteTailleTextarea(textarea, max, iddesc) {
+    if(textarea.value.length >= max) {
+        textarea.value = textarea.value.substring(0,max);
+    }
+    var reste = max - textarea.value.length;
+    var affichage_reste =  reste + ' caract&egrave;res restants';
+    $(iddesc).innerHTML = affichage_reste;
 }

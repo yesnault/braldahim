@@ -532,14 +532,14 @@ td.equipement {
 }
 
 
-table.communaute_membres {
+table.table_liste {
 border:1px solid #791E1E;
 border-collapse:collapse;
 width:70%;
 margin:auto;
 align:center;
 }
-thead.communaute_membres, tfoot.communaute_membres {
+thead.table_liste, tfoot.table_liste {
 background-color:#CCCC99;
 border:1px solid #791E1E;
 cursor:pointer;
@@ -547,22 +547,22 @@ cursor:pointer;
 tbody.communaute_membres {
 border:1px solid #791E1E;
 }
-th.communaute_membres {
+th.table_liste {
 padding:5px;
 background-color:#791E1E;
 width:25%;
 
 }
 
-tr.communaute_membres0{
+tr.table_liste0 {
 	background:#e7c57b;
 }
 
-tr.communaute_membres1{
+tr.table_liste1 {
 	background:#;
 }
 
-td.communaute_membres{
+td.table_liste {
 padding:5px;
 text-align:center;
 }
