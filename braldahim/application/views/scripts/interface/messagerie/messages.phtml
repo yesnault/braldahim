@@ -5,6 +5,8 @@
   	<? endforeach; ?>
   	</select>
   	<br>
+  	
+  	
   	<? if (!empty($this->messages)): ?>
 	  	<ul class="mtable">
 	  		<li class="row">
@@ -22,7 +24,7 @@
 	  			   $text .= "Destinataire(s) : ".$message["destinataires"]."<br><br>";
 	  			   $text .= "Clique pour voir le message";
 	  			?>
-	  			<dl <?=Bral_Helper_Tip::jsTip(addslashes($text)) ?>>
+	  			<dl <?=Bral_Helper_Tip::jsTip(addslashes($text), "", false, false) ?>>
 	  				<dd class="date_message"><?=$message["date"];?></dd>
 	  				<dd class="titre_message"><?if (strlen($message["titre"]) > 25) echo substr($message["titre"], 0, 25)."..."; else echo $message["titre"];?></dd>
 	  				<dd class="expediteur_message"><?if (strlen($message["expediteur"]) > 20) echo substr($message["expediteur"], 0, 20)."..."; else echo $message["expediteur"];?>&nbsp;</dd>
@@ -35,6 +37,7 @@
    		Aucun message
    <? endif; ?>
    <br><br>
+   
     <div id='messagerie_info' name='messagerie_info'></div>
     <input type="button" class='button1' onClick='Javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=-1&valeur_6=nouveau");' value="Nouveau">
    <? if ($this->precedentOk === true) : ?>

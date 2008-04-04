@@ -28,7 +28,11 @@ function _get_(url){
   		if ((url.substring(7, 9) == "do") && (url.substring(24, 26) == "do")) {
   			action = "do";
   		}
-  	} else if (url.substring(0, 11) == "/messagerie") { // /lieux/doaction?caction=ask/do
+  	} else if (url.substring(0, 11) == "/messagerie") { // /messagerie/doaction?caction=ask/do
+  		if ((url.substring(12, 14) == "do") && (url.substring(29, 31) == "do")) {
+  			action = "do";
+  		}
+	} else if (url.substring(0, 11) == "/communaute") { // /communaute/doaction?caction=ask/do
   		if ((url.substring(12, 14) == "do") && (url.substring(29, 31) == "do")) {
   			action = "do";
   		}
@@ -38,31 +42,34 @@ function _get_(url){
   if ($('nb_valeurs') && (action == "do")) {
       // Recuperation du nombre de valeur que l'action a besoin
       nb_valeurs = $('nb_valeurs').value;
-      //alert('nb_valeurs='+nb_valeurs);
+     // alert('nb_valeurs='+nb_valeurs);
+      var sep = '';
       for (i = 1; i<=nb_valeurs ; i++) {
             var nom = 'valeur_'+i;
             var elem = $(nom);
             if (elem.type == "radio") {
             	radioButton = findSelectedRadioButton(nom);
             	if (radioButton != null) {
-                	valeurs = valeurs + "&valeur_" +i+ "=" +findSelectedRadioButton(nom).value;
+                	valeurs = valeurs + sep + "valeur_" +i+ "=" +findSelectedRadioButton(nom).value;
             	} else {
-            		valeurs = valeurs + "&valeur_" +i+ "=" +elem.value;
+            		valeurs = valeurs + sep + "valeur_" +i+ "=" +elem.value;
             	}
             } else {
-               valeurs = valeurs + "&valeur_" +i+ "=" +encodeURIComponent(elem.value);
+               //valeurs = valeurs + sep + "valeur_" +i+ "=" +encodeURIComponent(elem.value);
+            	valeurs = valeurs + sep + "valeur_" +i+ "=" + elem.value;
                //valeurs = valeurs + "&" + $('valeur_'+i).serialize();
             }
+            sep = "&";
       }
-      //alert('valeurs='+valeurs);
+      alert('valeurs='+valeurs);
   } else if ($('nb_valeurs') && (action == "ask")) {
 	Modalbox.hide();
   }
   
   var pars = valeurs;
   //alert("url="+url);
-  //alert("pars="+pars);
-  var myAjax = new Ajax.Request( url, {method: 'post', parameters: pars, onComplete: showResponse} );
+ // alert("pars="+pars);
+  var myAjax = new Ajax.Request( url, {postBody: pars, onComplete: showResponse} );
 }
 
 function showResponse(originalRequest) {

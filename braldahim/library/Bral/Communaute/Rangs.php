@@ -22,19 +22,27 @@ class Bral_Communaute_Rangs {
 	}
 
 	function preparePage() {
+		$estCreateur = false;
+		
 		$hobbitCommunauteTable = new HobbitCommunaute();
 		$communauteRowset = $hobbitCommunauteTable->findByIdHobbit($this->view->user->id_hobbit);
 		if (count($communauteRowset) > 0) {
 			foreach ($communauteRowset as $c) {
 				$communaute = $c;
+				if ($c["id_fk_rang_communaute_hobbit_communaute"] == 1) { // rang 1 : createur
+					$estCreateur = true;
+				}
 				break;
 			}
 		}
 		
+		if ($estCreateur == false) {
+			throw new Zend_Exception(get_class($this)." Vos n'etes pas Createur");
+		}
 		if ($communaute == null) {
 			throw new Zend_Exception(get_class($this)." Communaute Invalide");
 		}
-		$this->communaute = $communaute["id_communaute"];
+		$this->communaute = $communaute;
 	}
 	
 	function render() {

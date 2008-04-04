@@ -41,10 +41,12 @@ class Bral_Helper_Tip {
 		return $retour;
     }
     
-	public static function jsTip($contenu, $titre="", $justify = false) {
+	public static function jsTip($contenu, $titre="", $justify = false, $click = true) {
 		$retour = " onmouseover=\"return overlib('".self::maketip($contenu, $titre, self::$CLOSE_NO, $justify)."');\" ";
-		$retour .= " onclick=\"return overlib('".self::maketip($contenu, $titre, self::$CLOSE_YES, $justify)."', STICKY, CLOSECLICK, EXCLUSIVE);\" ";
-      	$retour .= " onmouseout=\"return nd();\" style=\"cursor:pointer\"";
+		if ($click == true) {
+			$retour .= " onclick=\"return overlib('".self::maketip($contenu, $titre, self::$CLOSE_YES, $justify)."', STICKY, CLOSECLICK, EXCLUSIVE);\" ";
+		}
+		$retour .= " onmouseout=\"return nd();\" style=\"cursor:pointer\"";
       	return $retour;
 	}
 }
