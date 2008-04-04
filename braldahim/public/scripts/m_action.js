@@ -61,7 +61,7 @@ function _get_(url){
             }
             sep = "&";
       }
-      alert('valeurs='+valeurs);
+    //  alert('valeurs='+valeurs);
   } else if ($('nb_valeurs') && (action == "ask")) {
 	Modalbox.hide();
   }
