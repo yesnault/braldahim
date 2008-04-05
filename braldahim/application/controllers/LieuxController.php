@@ -10,7 +10,6 @@ class LieuxController extends Zend_Controller_Action {
 			Bral_Util_BralSession::refreshSession();
 		}
 		$this->initView();
-		$this->view->baseUrl = $this->_request->getBaseUrl();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
 		$this->xml_response = new Bral_Xml_Response();

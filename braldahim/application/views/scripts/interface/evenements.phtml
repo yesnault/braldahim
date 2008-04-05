@@ -4,7 +4,7 @@
  <div class="contenuC">
   <ul class="box_contenu1 textalic">
   	Type : 
-  	<select name='valeur_2'  onChange="Javascript:_get_('<?=$this->baseUrl ?>/interface/evenements?caction=box_evenements&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0')">
+  	<select name='valeur_2'  onChange="Javascript:_get_('/interface/evenements?caction=box_evenements&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0')">
   	<? foreach ($this->typeEvenements as $t) : ?>
   	<option value='<?=$t["id_type_evenement"]?>' <?if ($this->filtre == $t["id_type_evenement"]){echo "selected";}?>><?=htmlentities($t["nom"])?></option>
   	<? endforeach; ?>
@@ -24,10 +24,10 @@
 		  <tr class="table_liste">
 		    <th colspan='5'>
 			   <? if ($this->precedentOk === true) : ?>
-			   <input type="button" class='button1' onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/evenements?caction=box_evenements&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page pr&eacute;c&eacute;dente">
+			   <input type="button" class='button1' onClick="Javascript:_get_('/interface/evenements?caction=box_evenements&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page pr&eacute;c&eacute;dente">
 			   <? endif; ?>
 			   <? if ($this->suivantOk === true) : ?>
-			   <input type="button" class='button1' onClick="Javascript:_get_('<?=$this->baseUrl ?>/interface/evenements?caction=box_evenements&valeur_1=s&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page suivante">
+			   <input type="button" class='button1' onClick="Javascript:_get_('/interface/evenements?caction=box_evenements&valeur_1=s&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page suivante">
 			   <? endif; ?>
 		    </th>
 		  </tr>

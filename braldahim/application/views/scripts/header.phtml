@@ -2,62 +2,33 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr"> 
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1" />
-	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/prototype.js"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/scriptaculous.js"></script>
+	<meta http-equiv="Cache-Control" Content="no-cache" />
 	
-	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/modalbox.js"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/tiny_mce_306/tiny_mce.js"></script>
+	<script type="text/javascript" src="/public/scripts/prototype_1602/prototype.js"></script> 
+	<script type="text/javascript" src="/public/scripts/scriptaculous_181/scriptaculous.js" ></script>
+	
+	<script type="text/javascript" src="/public/scripts/modalbox_160/modalbox.js"></script>
+	<script type="text/javascript" src="/public/scripts/tiny_mce_306/tiny_mce.js"></script>
     
-	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/m_action.js"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/m_display.js"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/m_recherche.js"></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/overlib/overlib.js"><!-- overLIB (c) Erik Bosrup --></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/overlib/overlib_exclusive.js"><!-- overLIB (c) Erik Bosrup --></script>
-	<script type="text/javascript" src="<?php echo $this->baseUrl;?>/public/scripts/overlib/overlib_fade.js"><!-- overLIB (c) Erik Bosrup --></script>
+	<script type="text/javascript" src="/public/scripts/braldahim_001/m_action.js"></script>
+	<script type="text/javascript" src="/public/scripts/braldahim_001/m_display.js"></script>
+	<script type="text/javascript" src="/public/scripts/braldahim_001/m_recherche.js"></script>
 	
-	
-<!-- 
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.1/build/assets/skins/sam/skin.css">
-<script type="text/javascript" src="http://yui.yahooapis.com/2.5.1/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
-<script type="text/javascript" src="http://yui.yahooapis.com/2.5.1/build/element/element-beta-min.js"></script> 
-<script src="http://yui.yahooapis.com/2.5.1/build/container/container_core-min.js"></script>
-<script src="http://yui.yahooapis.com/2.5.1/build/menu/menu-min.js"></script>
-<script src="http://yui.yahooapis.com/2.5.1/build/button/button-min.js"></script>
-<script src="http://yui.yahooapis.com/2.5.1/build/editor/editor-beta-min.js"></script>
--->
-
-	
+	<script type="text/javascript" src="/public/scripts/overlib/overlib.js"></script>
+	<script type="text/javascript" src="/public/scripts/overlib/overlib_exclusive.js"></script>
+	<script type="text/javascript" src="/public/scripts/overlib/overlib_fade.js"></script>
 	
 	<script language="javascript" type="text/javascript">
-		tinyMCE.init({
-			// General options
-			mode : "textareas",
-			theme : "advanced",
-			language : "fr",
-			plugins : "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
-
-			// Theme options
-			theme_advanced_buttons1 : "newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,fontselect,fontsizeselect",
-			theme_advanced_buttons2 : "bullist,numlist,|,forecolor,backcolor,|,link,unlink,anchor,image,cleanup,emotions,",
-			theme_advanced_buttons3 : "",
-			theme_advanced_buttons4 : "",
-			theme_advanced_toolbar_location : "top",
-			theme_advanced_toolbar_align : "left",
-			theme_advanced_statusbar_location : "bottom",
-			theme_advanced_resizing : true,
-			theme_advanced_path : false
-
-		});
-		
+		init_wisiwig();
 	</script>
 	
-	<title><?php echo $this->escape($this->title); ?></title>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl;?>/public/styles/braldahim_defaut/site.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $this->baseUrl;?>/public/styles/braldahim_defaut/modalbox.css" />
+	<title>Braldahim</title>
+	<link rel="stylesheet" type="text/css" media="screen" href="/public/styles/braldahim_defaut/site.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/public/styles/braldahim_defaut/modalbox.css" />
 </head>
 
 <?php if($this->user && $this->controleur == "interface") : ?> 
- <body onLoad="_get_('<?=$this->baseUrl ?>/interface/boxes');" class="yui-skin-sam" >
+ <body onLoad="_get_('/interface/boxes');" class="yui-skin-sam" >
 <?php else: ?>
 <body>
 
@@ -69,13 +40,13 @@
  <div class="inner_top">
   <?=$this->escape($this->user->prenom_hobbit);?> <?=$this->escape($this->user->nom_hobbit);?> | 
   <? if ($this->user->administrateur === true) : ?>
-  	<a href="<?=$this->baseUrl ?>/administration/" class="menu_lien">Administration</a> |
+  	<a href="/administration/" class="menu_lien">Administration</a> |
   <? endif; ?>
-  <a href="<?=$this->baseUrl ?>/interface/" class="menu_lien">Interface</a> |
+  <a href="/interface/" class="menu_lien">Interface</a> |
   <? if ($this->user->gardeEnCours === false) : ?>
-  	<a href="<?=$this->baseUrl ?>/parametres/" class="menu_lien">Param&egrave;tres</a> |
+  	<a href="/parametres/" class="menu_lien">Param&egrave;tres</a> |
   <? endif; ?>  
-  <a href="<?=$this->baseUrl ?>/auth/logout"> D&eacute;connexion </a>
+  <a href="/auth/logout"> D&eacute;connexion </a>
   
  </div>
 <b class="xb_b7"></b><b class="xb_b6"></b><b class="xb_b5"></b><b class="xb_b4"></b><b class="xb_b3"></b><b class="xb_b2"></b><b class="xb_b1"></b>
@@ -88,7 +59,7 @@
   <div id="box_chargement" class="box_chargement" style="display:block">
 	<b class="xb_t1"></b><b class="xb_t2"></b><b class="xb_t3"></b><b class="xb_t4"></b><b class="xb_t5"></b><b class="xb_t6"></b><b class="xb_t7"></b>
 	 <div class="inner" style='background-color:#CC6666'>
-	 Chargement en Cours<br><img src="<?=$this->baseUrl ?>/public/images/wait.gif" />
+	 Chargement en Cours<br><img src="/public/images/wait.gif" />
 	 </div>
 	 <b class="xb_b7"></b><b class="xb_b6"></b><b class="xb_b5"></b><b class="xb_b4"></b><b class="xb_b3"></b><b class="xb_b2"></b><b class="xb_b1"></b>
   </div>

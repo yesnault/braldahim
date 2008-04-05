@@ -11,7 +11,6 @@ class InterfaceController extends Zend_Controller_Action {
 			Zend_Loader::loadClass('Bral_Util_BralSession');
 			Bral_Util_BralSession::refreshSession();
 		}
-		$this->view->baseUrl = $this->_request->getBaseUrl();
 		$this->view->config = Zend_Registry::get('config');
 		$this->view->controleur = $this->_request->controller;
 

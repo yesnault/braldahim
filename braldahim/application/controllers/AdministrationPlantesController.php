@@ -9,7 +9,6 @@ class AdministrationPlantesController extends Zend_Controller_Action {
 			$this->_redirect('/');
 		}
 		$this->initView();
-		$this->view->baseUrl = $this->_request->getBaseUrl();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 	}
 

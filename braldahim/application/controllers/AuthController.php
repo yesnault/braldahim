@@ -3,7 +3,6 @@ class AuthController extends Zend_Controller_Action {
 	function init() {
 		$this->initView();
 		Zend_Loader::loadClass('Hobbit');
-		$this->view->baseUrl = $this->_request->getBaseUrl();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 	}
 

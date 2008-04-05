@@ -8,7 +8,7 @@
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">
 
-			<form action="<?=$this->baseUrl ?>/administrationmonstres/referentiel/<?=$this->nomAction?>" method="post">
+			<form action="/administrationmonstres/referentiel/<?=$this->nomAction?>" method="post">
 			<table align='center'>
 			<tr>
 				<td>
@@ -94,7 +94,7 @@
 				<td colspan='2'>
 					<? if ($this->modifier === true): ?>
 						<input type="submit" class="button1" name="Modifier" value="Modifier la r&eacute;f&eacute;rence" />
-						<input type="button" class="button1" name="Annuler" value="Annuler" onClick="document.location.href='<?=$this->baseUrl ?>/administrationmonstres/referentiel/'" />
+						<input type="button" class="button1" name="Annuler" value="Annuler" onClick="document.location.href='/administrationmonstres/referentiel/'" />
 						
 					<? else: ?>
 						<input type="submit" class="button1" name="Ajouter" value="Ajouter une nouvelle r&eacute;f&eacute;rence" />
@@ -128,7 +128,7 @@
 					<td><?=$r["p_vigueur"] ?></td>
 					<td><?=$r["p_agilite"] ?></td>
 					<td><?=$r["vue"] ?> % </td>
-					<td> <input type="button" class="button1" name="Modifier" value="Modifier" onClick="document.location.href='<?=$this->baseUrl ?>/administrationmonstres/referentiel/modifier/<?=$r["id_ref_monstre"] ?>';"/></td>
+					<td> <input type="button" class="button1" name="Modifier" value="Modifier" onClick="document.location.href='/administrationmonstres/referentiel/modifier/<?=$r["id_ref_monstre"] ?>';"/></td>
 				</tr>
 			<? endforeach; ?>
 			</table>
