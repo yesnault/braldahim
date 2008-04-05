@@ -3,8 +3,8 @@
 class Bral_Communaute_Rangs {
 
 	function __construct($request, $view, $interne) {
-		Zend_Loader::loadClass("HobbitCommunaute");
 		Zend_Loader::loadClass("RangCommunaute");
+		Zend_Loader::loadClass("Communaute");
 
 		$this->_request = $request;
 		$this->view = $view;
@@ -22,22 +22,19 @@ class Bral_Communaute_Rangs {
 	}
 
 	function preparePage() {
-		$estCreateur = false;
+		$estGestionnaire = false;
 		
-		$hobbitCommunauteTable = new HobbitCommunaute();
-		$communauteRowset = $hobbitCommunauteTable->findByIdHobbit($this->view->user->id_hobbit);
-		if (count($communauteRowset) > 0) {
-			foreach ($communauteRowset as $c) {
-				$communaute = $c;
-				if ($c["id_fk_rang_communaute_hobbit_communaute"] == 1) { // rang 1 : createur
-					$estCreateur = true;
-				}
-				break;
+		$communauteTable = new Communaute();
+		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_hobbit);
+		if (count($communauteRowset) == 1) {
+			$communaute = $communauteRowset[0];
+			if ($communaute["id_fk_hobbit_gestionnaire_communaute"] == $this->view->user->id_hobbit) {
+				$estGestionnaire = true;
 			}
 		}
 		
-		if ($estCreateur == false) {
-			throw new Zend_Exception(get_class($this)." Vos n'etes pas Createur");
+		if ($estGestionnaire == false) {
+			throw new Zend_Exception(get_class($this)." Vos n'etes pas Gestionnaire");
 		}
 		if ($communaute == null) {
 			throw new Zend_Exception(get_class($this)." Communaute Invalide");

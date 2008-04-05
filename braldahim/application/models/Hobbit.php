@@ -33,7 +33,8 @@ class Hobbit extends Zend_Db_Table {
 			->where('x_hobbit >= ?',$x_min)
 			->where('y_hobbit >= ?',$y_min)
 			->where('y_hobbit <= ?',$y_max)
-			->where('est_mort_hobbit = ?', "non");
+			->where('est_mort_hobbit = ?', "non")
+			->joinLeft('communaute','id_fk_communaute_hobbit = id_communaute');;
 		}
 		
 		$sql = $select->__toString();
@@ -175,6 +176,41 @@ class Hobbit extends Zend_Db_Table {
 		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
+	}
+	
+	public function findByIdCommunaute($idCommunaute, $idRang, $page, $nbMax, $ordre, $sens) {
+		if ($idRang != -1) {
+			$and = " AND id_fk_rang_communaute_hobbit = ".intval($idRang); 
+		} else {
+			$and = "";
+		}
+		
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit')
+		->from('communaute')
+		->from('rang_communaute')
+		->where('id_fk_communaute_hobbit = ?', intval($idCommunaute))
+		->where('id_fk_rang_communaute_hobbit = id_fk_type_rang_communaute')
+		->where('id_fk_communaute_rang_communaute = id_fk_communaute_hobbit')
+		->where("id_communaute = id_fk_communaute_hobbit".$and)
+		->order($ordre.$sens)
+		->limitPage($page, $nbMax);
+		
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
+	public function countByIdCommunaute($idCommunaute) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', 'count(*) as nombre')
+		->where('id_fk_communaute_hobbit = ?', intval($idCommunaute));
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
 	}
 	
 }

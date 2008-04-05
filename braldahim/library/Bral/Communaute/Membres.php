@@ -3,7 +3,7 @@
 class Bral_Communaute_Membres {
 
 	function __construct($request, $view, $interne) {
-		Zend_Loader::loadClass("HobbitCommunaute");
+		Zend_Loader::loadClass("Communaute");
 		Zend_Loader::loadClass("RangCommunaute");
 
 		$this->_request = $request;
@@ -28,31 +28,29 @@ class Bral_Communaute_Membres {
 		$this->view->precedentOk = false;
 		$this->view->suivantOk = false;
 		
-		$hobbitCommunauteTable = new HobbitCommunaute();
-		$communauteRowset = $hobbitCommunauteTable->findByIdHobbit($this->view->user->id_hobbit);
-		if (count($communauteRowset) > 0) {
-			foreach ($communauteRowset as $c) {
-				$communaute = $c;
-				break;
-			}
+		$communauteTable = new Communaute();
+		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_hobbit);
+		if (count($communauteRowset) == 1) {
+			$communaute = $communauteRowset[0];
 		}
 		
 		if ($communaute == null) {
 			throw new Zend_Exception(get_class($this)." Communaute Invalide");
 		}
 		
-		$nbMembresTotal = $hobbitCommunauteTable->countByIdCommunaute($communaute["id_communaute"]);
+		$hobbitTable = new Hobbit();
+		$nbMembresTotal = $hobbitTable->countByIdCommunaute($communaute["id_communaute"]);
 		
-		$hobbitCommunauteRowset = $hobbitCommunauteTable->findByIdCommunaute($communaute["id_communaute"], $this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql);
+		$hobbitRowset = $hobbitTable->findByIdCommunaute($communaute["id_communaute"], $this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql);
 		$tabMembres = null;
 
-		foreach($hobbitCommunauteRowset as $m) {
+		foreach($hobbitRowset as $m) {
 			$tabMembres[] = array(
 				"id_hobbit" => $m["id_hobbit"],
 				"nom_hobbit" => $m["nom_hobbit"],
 				"prenom_hobbit" => $m["prenom_hobbit"],
 				"niveau_hobbit" => $m["niveau_hobbit"],
-				"date_entree" => $m["date_entree_hobbit_communaute"],
+				"date_entree" => $m["date_entree_communaute_hobbit"],
 				"id_rang_communaute" => $m["id_fk_type_rang_communaute"],
 				"nom_rang_communaute" => $m["nom_rang_communaute"],
 			);
@@ -151,7 +149,7 @@ class Bral_Communaute_Membres {
 		} elseif ($ordre == 4) {
 			$retour = "niveau_hobbit";
 		} elseif ($ordre == 5) {
-			$retour = "date_entree_hobbit_communaute";
+			$retour = "date_entree_communaute_hobbit";
 		} elseif ($ordre == 6) {
 			$retour = "id_fk_type_rang_communaute";
 		} else {

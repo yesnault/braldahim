@@ -4,7 +4,6 @@ class Bral_Voir_Communaute {
 
 	function __construct($request, $view) {
 		Zend_Loader::loadClass("Communaute");
-		Zend_Loader::loadClass("HobbitCommunaute");
 		Zend_Loader::loadClass("RangCommunaute");
 
 		$this->_request = $request;
@@ -29,8 +28,8 @@ class Bral_Voir_Communaute {
 			$this->view->communaute = $communauteRowset[0];
 			$this->view->connue = true;
 			
-			$hobbitCommunauteTable = new HobbitCommunaute();
-			$nbMembresTotal = $hobbitCommunauteTable->countByIdCommunaute($this->view->communaute["id_communaute"]);
+			$hobbitTable = new Hobbit();
+			$nbMembresTotal = $hobbitTable->countByIdCommunaute($this->view->communaute["id_communaute"]);
 			
 			$this->view->nbMembresTotal = $nbMembresTotal;
 		} else {
@@ -54,17 +53,17 @@ class Bral_Voir_Communaute {
 		$this->view->precedentOk = false;
 		$this->view->suivantOk = false;
 		
-		$hobbitCommunauteTable = new HobbitCommunaute();
-		$hobbitCommunauteRowset = $hobbitCommunauteTable->findByIdCommunaute($this->view->communaute["id_communaute"], $this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql);
+		$hobbitTable = new Hobbit();
+		$communauteRowset = $hobbitTable->findByIdCommunaute($this->view->communaute["id_communaute"], $this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql);
 		$tabMembres = null;
 
-		foreach($hobbitCommunauteRowset as $m) {
+		foreach($communauteRowset as $m) {
 			$tabMembres[] = array(
 				"id_hobbit" => $m["id_hobbit"],
 				"nom_hobbit" => $m["nom_hobbit"],
 				"prenom_hobbit" => $m["prenom_hobbit"],
 				"niveau_hobbit" => $m["niveau_hobbit"],
-				"date_entree" => $m["date_entree_hobbit_communaute"],
+				"date_entree" => $m["date_entree_communaute_hobbit"],
 				"id_rang_communaute" => $m["id_fk_type_rang_communaute"],
 				"nom_rang_communaute" => $m["nom_rang_communaute"],
 			);
@@ -162,7 +161,7 @@ class Bral_Voir_Communaute {
 		} elseif ($ordre == 4) {
 			$retour = "niveau_hobbit";
 		} elseif ($ordre == 5) {
-			$retour = "date_entree_hobbit_communaute";
+			$retour = "date_entree_communaute_hobbit";
 		} elseif ($ordre == 6) {
 			$retour = "id_fk_type_rang_communaute";
 		} else {

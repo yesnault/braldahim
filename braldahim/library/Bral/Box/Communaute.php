@@ -21,25 +21,25 @@ class Bral_Box_Communaute {
 	}
 
 	function render() {
-		Zend_Loader::loadClass("HobbitCommunaute");
-		
-		$estCreateur = false;
-		
-		$tabCommunaute = null;
-		$hobbitCommunauteTable = new HobbitCommunaute();
-		$communauteRowset = $hobbitCommunauteTable->findByIdHobbit($this->view->user->id_hobbit);
-		if (count($communauteRowset) > 0) {
-			foreach ($communauteRowset as $c) {
-				$tabCommunaute = $c;
-				if ($c["id_fk_rang_communaute_hobbit_communaute"] == 1) { // rang 1 : createur
-					$estCreateur = true;
-				}
-				break;
+		$estGestionnaire = false;
+		$communaute = null;
+		if ($this->view->user->id_fk_rang_communaute_hobbit == 1) { // rang 1 : Gestionnaire
+			$estGestionnaire = true;
+		}
+		if ($this->view->user->id_fk_communaute_hobbit != null) {
+			Zend_Loader::loadClass("Communaute");
+			$communauteTable = new Communaute();
+			$communaute = $communauteTable->findById($this->view->user->id_fk_communaute_hobbit);
+			if (count($communaute) == 1) {
+				$communaute = $communaute[0];
+			} else {
+				$communaute = null;
 			}
+			$estDansCommunaute = true;
 		}
 		
-		$this->view->estCreateur = $estCreateur;
-		$this->view->communaute = $tabCommunaute;
+		$this->view->estGestionnaire = $estGestionnaire;
+		$this->view->communaute = $communaute;
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/communaute.phtml");
 	}

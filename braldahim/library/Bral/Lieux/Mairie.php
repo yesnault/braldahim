@@ -7,7 +7,6 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 	private $_tabDestinations = null;
 
 	function prepareCommun() {
-		Zend_Loader::loadClass("HobbitCommunaute"); 
 		Zend_Loader::loadClass("Communaute"); 
 		Zend_Loader::loadClass("RangCommunaute"); 
 		Zend_Loader::loadClass("TypeRangCommunaute"); 
@@ -15,18 +14,12 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$this->_coutCastars = $this->calculCoutCastars();
 		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) > 0);
 		
-		$hobbitCommunauteTable = new HobbitCommunaute();
-		$hobbitCommunaute = $hobbitCommunauteTable->findByIdHobbit($this->view->user->id_hobbit);
 		$this->view->hobbitAvecCommunaute = false;
-		$this->view->createurCommunaute = false;
+		$this->view->gestionnaireCommunaute = false;
 		$this->idCommunauteCourante = -1;
 		
-		if (count($hobbitCommunaute) > 0) {
-			foreach ($hobbitCommunaute as $c) {
-				$this->idCommunauteCourante = $c["id_fk_communaute_communaute"];
-				break;
-			}
-			
+		if ($this->view->user->id_fk_communaute_hobbit != null) {
+			$this->idCommunauteCourante = $this->view->user->id_fk_communaute_hobbit;
 			$this->view->hobbitAvecCommunaute = true;
 		}
 		
@@ -40,8 +33,8 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 										'id_communaute' => $c["id_communaute"], 
 										'nom_communaute' => $c["nom_communaute"]
 										);
-			if ($c["id_fk_hobbit_createur_communaute"] == $this->view->user->id_hobbit) {
-				$this->view->createurCommunaute = true;
+			if ($c["id_fk_hobbit_gestionnaire_communaute"] == $this->view->user->id_hobbit) {
+				$this->view->gestionnaireCommunaute = true;
 			}
 		}
 		$this->view->communautes = $tabCommunaute;
@@ -146,7 +139,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$communauteTable = new Communaute();
 		$data = array('nom_communaute' => $nomCommunaute,
 			'date_creation_communaute' => date("Y-m-d H:i:s"),
-			'id_fk_hobbit_createur_communaute' => $this->view->user->id_hobbit,
+			'id_fk_hobbit_gestionnaire_communaute' => $this->view->user->id_hobbit,
 			'description_communaute' => '',
 		);
 		$communaute = $data;
@@ -154,14 +147,13 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		
 		$this->creerRangsDefaut($communaute["id_communaute"]);
 		
-		$hobbitCommunauteTable = new HobbitCommunaute();
-		$data = array('id_fk_communaute_communaute' => $communaute["id_communaute"],
-			'id_fk_hobbit_communaute' => $this->view->user->id_hobbit,
-			'date_entree_hobbit_communaute' => date("Y-m-d H:i:s"),
-			'id_fk_rang_communaute_hobbit_communaute' => 1,
-			'commentaire_hobbit_communaute' => 'Createur',
+		$hobbitTable = new Hobbit();
+		$data = array('id_fk_communaute_hobbit' => $communaute["id_communaute"],
+			'date_entree_communaute_hobbit' => date("Y-m-d H:i:s"),
+			'id_fk_rang_communaute_hobbit' => 1,
 		);
-		$hobbitCommunauteTable->insert($data);
+		$where = "id_hobbit=".$this->view->user->id_hobbit;
+		$hobbitTable->update($data, $where);
 		
 		return $communaute;
 	}
@@ -169,26 +161,28 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 	private function entrerCommunaute($idCommunaute) {
 		$communaute = $this->view->communautes[$idCommunaute];
 		
-		$hobbitCommunauteTable = new HobbitCommunaute();
-		$data = array('id_fk_communaute_communaute' => $communaute["id_communaute"],
-			'id_fk_hobbit_communaute' => $this->view->user->id_hobbit,
-			'date_entree_hobbit_communaute' => date("Y-m-d H:i:s"),
-			'id_fk_rang_communaute_hobbit_communaute' => 20,
-			'commentaire_hobbit_communaute' => '',
+		$hobbitTable = new Hobbit();
+		$data = array('id_fk_communaute_hobbit' => $communaute["id_communaute"],
+			'date_entree_communaute_hobbit' => date("Y-m-d H:i:s"),
+			'id_fk_rang_communaute_hobbit' => 20,
 		);
-		$hobbitCommunauteTable->insert($data);
+		$where = "id_hobbit=".$this->view->user->id_hobbit;
+		$hobbitTable->update($data, $where);
 		
 		return $communaute;
 	}
 	
 	private function sortirCommunaute($idCommunaute) {
 		$communaute = $this->view->communautes[$idCommunaute];
-		$hobbitCommunauteTable = new HobbitCommunaute();
-		$where = "id_fk_hobbit_communaute = ".$this->view->user->id_hobbit;
-		//echo "$where";
-		$hobbitCommunauteTable->delete($where);
+		$hobbitTable = new Hobbit();
+		$data = array('id_fk_communaute_hobbit' => null,
+			'date_entree_communaute_hobbit' => null,
+			'id_fk_rang_communaute_hobbit' => null,
+		);
+		$where = "id_hobbit=".$this->view->user->id_hobbit;
+		$hobbitTable->update($data, $where);
 		
-		if ($this->view->createurCommunaute === true) {
+		if ($this->view->gestionnaireCommunaute === true) {
 			$this->supprimerCommunaute($idCommunaute);
 		}
 		return $communaute;

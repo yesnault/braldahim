@@ -3,7 +3,13 @@
       		<?php 
       			$textHobbit = "";
       			foreach($case["hobbits"] as $h) {
-      				$textHobbit .= htmlentities($h["prenom_hobbit"])." ".htmlentities($h["nom_hobbit"]) .", n&deg; ".$h["id_hobbit"].", niveau ".$h["niveau_hobbit"]."<br />";
+      				$textHobbit .= htmlentities($h["prenom_hobbit"])." ".htmlentities($h["nom_hobbit"]);
+      				$textHobbit .= ", n&deg; ".$h["id_hobbit"].", niv.".$h["niveau_hobbit"];
+      				$textHobbit .= ' <label class=alabel onClick=ouvrirWin(\\\'\/voir\/hobbit\/?hobbit='.$h["id_hobbit"].'\\\');>[profil]</label>';
+      				if ($h["id_communaute"] != null) {
+      					$textHobbit .= ' - <label class=alabel onClick=ouvrirWin(\\\'\/voir\/communaute\/?communaute='.$h["id_communaute"].'\\\');>'.htmlentities($h["nom_communaute"]).'</label>';
+      				}
+      				$textHobbit .= "<br />";
 				} 
 				$s = "";
 				if ($case["n_hobbits"] > 1) {
@@ -11,7 +17,7 @@
 				}
 				$titre = "Position X:".$case["x"]." Y:".$case["y"]." - ".$case["n_hobbits"]." Hobbit".$s;
 			?>
-      		<span <?=Bral_Helper_Tip::jsTip($textHobbit, $titre) ?>>
+      		<span <?=Bral_Helper_Tip::jsTip($textHobbit, $titre, false, true, 280) ?>>
 	      		<?=$case["n_hobbits"] ?> hobbit<?=$s?>
 	      	</span>
 	      	</div>

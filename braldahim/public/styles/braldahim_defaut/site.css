@@ -105,13 +105,14 @@ input.button1:disabled {
 	padding: 10px;
 }
 
-a {
+a, .alabel {
 	color: #791E1E;
 	text-align: center;
 }
 
-a:hover {
+a:hover, .alabel:hover{
 	color: #cc0000;
+	cursor: pointer;
 }
 
 span.id_hobbit {

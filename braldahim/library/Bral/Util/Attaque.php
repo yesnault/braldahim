@@ -110,8 +110,8 @@ class Bral_Util_Attaque {
 				$hobbitCible->pv_restant_hobbit = 0;
 				$hobbitCible->est_mort_hobbit = "oui";
 				$hobbitCible->nb_mort_hobbit = $hobbitCible->nb_mort_hobbit + 1;
-				$hobbitAttaquant->nb_kill_hobbit = $hobbitAttaquant->nb_kill_hobbit + 1;
-				$hobbitAttaquant->date_fin_tour_hobbit = date("Y-m-d H:i:s");
+				$hobbitAttaquant->nb_hobbit_kill_hobbit = $hobbitAttaquant->nb_hobbit_kill_hobbit + 1;
+				$hobbitCible->date_fin_tour_hobbit = date("Y-m-d H:i:s");
 				
 				$effetH = Bral_Util_Commun::getEffetMotH($hobbitAttaquant->id_hobbit);
 				if ($effetH == true) {					
@@ -301,6 +301,8 @@ class Bral_Util_Attaque {
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Mort du monstre !");
 				$effetD = null;
 				$effetH = null;
+				
+				$hobbitAttaquant->nb_monstre_kill_hobbit = $hobbitAttaquant->nb_monstre_kill_hobbit + 1;
 				
 				$effetD = Bral_Util_Commun::getEffetMotD($hobbitAttaquant->id_hobbit);
 				if ($effetD != 0) {					

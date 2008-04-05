@@ -9,19 +9,31 @@
   </tr>
   <tr class="table_liste">
 	<th>Communaut&eacute;</th>
-	<td class="table_liste" nowrap>TODO</td>
+	<td class="table_liste" nowrap>
+	<? if ($this->communaute == null) : ?>
+		</i>Aucune</i>
+	<? else: ?>
+		<a href="/voir/communaute/?communaute=<?=$this->communaute["id_communaute"] ?>">
+		<?=htmlentities($this->communaute["nom_communaute"]) ?>, n&deg;<?=$this->communaute["id_communaute"] ?>
+		</a>
+	<? endif; ?>
+	</td>
   </tr>
   <tr class="table_liste">
 	<th>Niveau</th>
-	<td class="table_liste">TODO</a></td>
+	<td class="table_liste"><?=$this->hobbit["niveau_hobbit"] ?></a></td>
   </tr>
   <tr class="table_liste">
 	<th>Nombre de morts</th>
-	<td class="table_liste">TODO</td>
+	<td class="table_liste"><?=$this->hobbit["nb_mort_hobbit"] ?></td>
   </tr>
   <tr class="table_liste">
-	<th>Nombre de meutre</th>
-	<td class="table_liste">TODO</a></td>
+	<th>Nombre de meutre Hobbit</th>
+	<td class="table_liste"><?=$this->hobbit["nb_hobbit_kill_hobbit"] ?></a></td>
+  </tr>
+  <tr class="table_liste">
+	<th>Nombre de meutre Monstre</th>
+	<td class="table_liste"><?=$this->hobbit["nb_monstre_kill_hobbit"] ?></a></td>
   </tr>
 </table>
 

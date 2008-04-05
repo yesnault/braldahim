@@ -9,7 +9,7 @@ class Communaute extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('communaute', '*')
 		->from('hobbit', '*')
-		->where('id_fk_hobbit_createur_communaute = id_hobbit')
+		->where('id_fk_hobbit_gestionnaire_communaute = id_hobbit')
 		->where('id_communaute = ?', intval($id));
 		
 		$sql = $select->__toString();

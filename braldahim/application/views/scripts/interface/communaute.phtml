@@ -12,13 +12,13 @@
   		Vous faites partie de la communaut&eacute; <?=htmlentities($this->communaute["nom_communaute"]) ?>,
   		 n&deg; <?=$this->communaute["id_communaute"] ?> depuis le
   		
-  		<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->communaute["date_entree_hobbit_communaute"]); ?>
+  		<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->user->date_entree_communaute_hobbit); ?>
   		
   		<br /><br />
   		<input type='button' class='button1' value='Voir la description' onClick='ouvrirWin("/voir/communaute/?communaute=<?=$this->communaute["id_communaute"] ?>", "Description de la communaut&eacute; n&deg;<?=$this->communaute["id_communaute"] ?>");'>
   		<input type='button' class='button1' value='Voir les membres' onClick='_get_("/communaute/doaction?caction=ask_communaute_membres");'>
   		
-  		<? if ($this->estCreateur == true) : ?>
+  		<? if ($this->estGestionnaire == true) : ?>
   			<br /><br />
   			Vous &ecirc;tes le cr&eacute;ateur de cette communaut&eacute;. Vous avez acc&egrave; aux actions suivantes : <br />
   			<input type='button' class='button1' value='G&eacute;rer les rangs' onClick='_get_("/communaute/doaction?caction=ask_communaute_rangs");'>

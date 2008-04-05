@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Dim 16 Mars 2008 à 20:16
+-- Généré le : Dim 06 Avril 2008 à 00:25
 -- Version du serveur: 5.0.41
 -- Version de PHP: 5.2.3
 
@@ -39,10 +39,12 @@ CREATE TABLE `hobbit` (
   `tour_position_hobbit` int(11) NOT NULL,
   `pa_hobbit` int(11) NOT NULL,
   `vue_bm_hobbit` int(11) NOT NULL,
+  `vue_malus_hobbit` int(11) NOT NULL,
   `force_base_hobbit` int(11) NOT NULL,
   `force_bm_hobbit` int(11) NOT NULL,
   `agilite_base_hobbit` int(11) NOT NULL,
   `agilite_bm_hobbit` int(11) NOT NULL,
+  `agilite_malus_hobbit` int(11) NOT NULL,
   `sagesse_base_hobbit` int(11) NOT NULL,
   `sagesse_bm_hobbit` int(11) NOT NULL,
   `vigueur_base_hobbit` int(11) NOT NULL,
@@ -62,16 +64,35 @@ CREATE TABLE `hobbit` (
   `bm_degat_hobbit` int(11) NOT NULL,
   `poids_transportable_hobbit` int(11) NOT NULL,
   `castars_hobbit` int(11) NOT NULL,
+  `pv_max_hobbit` int(11) NOT NULL COMMENT 'calculé à l''activation du tour',
   `pv_restant_hobbit` int(11) NOT NULL,
   `pv_max_bm_hobbit` int(11) NOT NULL,
   `est_mort_hobbit` enum('oui','non') NOT NULL default 'non',
   `nb_mort_hobbit` int(11) NOT NULL default '0',
-  `nb_kill_hobbit` int(11) NOT NULL default '0',
+  `nb_hobbit_kill_hobbit` int(11) NOT NULL default '0',
+  `nb_monstre_kill_hobbit` int(11) NOT NULL,
   `est_compte_actif_hobbit` enum('oui','non') NOT NULL default 'non',
   `date_creation_hobbit` datetime NOT NULL,
   `id_fk_mere_hobbit` int(11) default NULL,
   `id_fk_pere_hobbit` int(11) default NULL,
+  `description_hobbit` mediumblob NOT NULL,
+  `id_fk_communaute_hobbit` int(11) default NULL,
+  `id_fk_rang_communaute_hobbit` int(11) default NULL,
+  `date_entree_communaute_hobbit` datetime default NULL,
   PRIMARY KEY  (`id_hobbit`),
   UNIQUE KEY `email_hobbit` (`email_hobbit`),
-  KEY `idx_x_hobbit_y_hobbit` (`x_hobbit`,`y_hobbit`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tables des Hobbits' AUTO_INCREMENT=1 ;
+  KEY `idx_x_hobbit_y_hobbit` (`x_hobbit`,`y_hobbit`),
+  KEY `id_fk_communaute_hobbit` (`id_fk_communaute_hobbit`),
+  KEY `id_fk_rang_communaute_hobbit` (`id_fk_rang_communaute_hobbit`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tables des Hobbits' AUTO_INCREMENT=0 ;
+
+-- 
+-- Contraintes pour les tables exportées
+-- 
+
+-- 
+-- Contraintes pour la table `hobbit`
+-- 
+ALTER TABLE `hobbit`
+  ADD CONSTRAINT `hobbit_ibfk_2` FOREIGN KEY (`id_fk_rang_communaute_hobbit`) REFERENCES `rang_communaute` (`id_fk_type_rang_communaute`) ON DELETE SET NULL,
+  ADD CONSTRAINT `hobbit_ibfk_1` FOREIGN KEY (`id_fk_communaute_hobbit`) REFERENCES `communaute` (`id_communaute`) ON DELETE SET NULL;

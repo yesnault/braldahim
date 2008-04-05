@@ -3,7 +3,6 @@
 class Bral_Communaute_Description {
 
 	function __construct($request, $view, $interne) {
-		Zend_Loader::loadClass("HobbitCommunaute");
 		Zend_Loader::loadClass("Communaute");
 		
 		$this->_request = $request;
@@ -32,21 +31,18 @@ class Bral_Communaute_Description {
 	}
 
 	function preparePage() {
-		$estGestionaire = false;
+		$estGestionnaire = false;
 		
-		$hobbitCommunauteTable = new HobbitCommunaute();
-		$communauteRowset = $hobbitCommunauteTable->findByIdHobbit($this->view->user->id_hobbit);
-		if (count($communauteRowset) > 0) {
-			foreach ($communauteRowset as $c) {
-				$communaute = $c;
-				if ($c["id_fk_rang_communaute_hobbit_communaute"] == 1) { // rang 1 : gestionaire
-					$estGestionaire = true;
-				}
-				break;
+		$communauteTable = new Communaute();
+		$communauteRowset = $communauteTable->findById($this->view->user->id_fk_communaute_hobbit);
+		if (count($communauteRowset) == 1) {
+			$communaute = $communauteRowset[0];
+			if ($communaute["id_fk_hobbit_gestionnaire_communaute"] == $this->view->user->id_hobbit) {
+				$estGestionnaire = true;
 			}
 		}
 		
-		if ($estGestionaire == false) {
+		if ($estGestionnaire == false) {
 			throw new Zend_Exception(get_class($this)." Vos n'etes pas Gestionaire");
 		}
 		if ($communaute == null) {
