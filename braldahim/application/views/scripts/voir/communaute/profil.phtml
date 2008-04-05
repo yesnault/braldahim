@@ -1,0 +1,35 @@
+<br / ><br />
+<ul class="titre textalic textsizea">Profil Officiel</ul>
+<br / >
+
+<table class="table_liste" style="width:50%;">
+   <tr class="table_liste">
+	<th>Date de cr&eacute;tion</th>
+	<th>Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->communaute["date_creation_communaute"]); ?></th>
+  </tr>
+  <tr class="table_liste">
+	<th>Gestionnaire</th>
+	<td class="table_liste" nowrap><?=htmlentities($this->communaute["prenom_hobbit"]) ?> <?=htmlentities($this->communaute["nom_hobbit"]) ?>, n&deg;<?=$this->communaute["id_hobbit"] ?></td>
+  </tr>
+  <tr class="table_liste">
+	<th>Nombre de membres</th>
+	<td class="table_liste"><?=$this->nbMembresTotal ?></td>
+  </tr>
+  <tr class="table_liste">
+	<th>Site Web</th>
+	<td class="table_liste"><a href="<?=htmlentities($this->communaute["site_web_description"]) ?>"><?=htmlentities($this->communaute["site_web_communaute"]) ?></a></td>
+  </tr>
+</table>
+
+<br / ><br />
+
+<ul class="titre textalic textsizea">Profil Non Officiel</ul>
+<ul class="titre textalic textsizec">Renseign&eacute; par le gestionnaire de la communaut&eacute;</ul>
+<table class="table_liste" style="width:70%;'>
+<tr class="table_liste">
+	<td class="table_liste">
+<?=stripslashes($this->communaute["description_communaute"]); ?>
+</td>
+</tr>
+</table>
+<br / ><br />

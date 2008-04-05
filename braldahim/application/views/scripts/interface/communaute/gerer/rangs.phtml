@@ -26,9 +26,9 @@ Pour modifier un nom ou une description, cliquez dessus.<br />
 	  </td>
 	  <td class="table_liste">
 	  <label id="label_desc<?=$r["id_rang"] ?>" onClick="this.style.display='none'; $('value_desc<?=$r["id_rang"] ?>').style.display='block' ; $('bouton_desc<?=$r["id_rang"] ?>').style.display='block'; $('max_desc<?=$r["id_rang"] ?>').style.display='block'";/>
-	  		<?=htmlentities($r["description"]) ?><? if (strlen(trim($r["description"])) == 0 || $r["description"] == null) :?> [vide]<? endif; ?>
+	  		<?=$r["description"] ?><? if (strlen(trim($r["description"])) == 0 || $r["description"] == null) :?> [vide]<? endif; ?>
  		</label>
-	  	<textarea onkeyup="limiteTailleTextarea(this, 200, 'max_desc<?=$r["id_rang"]?>')"  onkeydown="limiteTailleTexarea(this, 200)" id="value_desc<?=$r["id_rang"] ?>" style="display:none" cols="40" rows="2"><?=htmlentities($r["description"]) ?></textarea>
+	  	<textarea onkeyup="limiteTailleTextarea(this, 200, 'max_desc<?=$r["id_rang"]?>')"  onkeydown="limiteTailleTexarea(this, 200)" id="value_desc<?=$r["id_rang"] ?>" style="display:none" cols="40" rows="2"><?=$r["description"] ?></textarea>
 	  	<label id="max_desc<?=$r["id_rang"] ?>"><label>
 	  	<input type="button" class='button1' id="bouton_desc<?=$r["id_rang"] ?>" onClick="$('label_nom<?=$r["id_rang"] ?>').style.display='block'; $('value_desc<?=$r["id_rang"] ?>').style.display='none'; this.style.display='none' ; $('max_desc<?=$r["id_rang"] ?>').style.display='none'; _get_('/communaute/doaction?caction=ask_communaute_rangs&valeur_1=2&valeur_2=<?=$r["id_rang"] ?>&valeur_3='+$('value_desc<?=$r["id_rang"] ?>').value)" value="Valider" style="display:none">
 	 </td>

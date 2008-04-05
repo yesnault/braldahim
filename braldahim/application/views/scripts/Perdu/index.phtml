@@ -1,13 +1,10 @@
 <?php echo $this->render('header.phtml'); ?>
-<ul class="titre textalia textsizea">Braldahim - Perdu ?</ul>
 
 <form action="/perdu/" method="post">
 <div class="box_perdu">
-	<div class="box_corners">
-		<span class="corners-top"><span></span></span>
-	</div>
+<?=Bral_Helper_Box::haut(); ?>
 <div class="inner">
-    <ul class="titre textalic textsizea">Mot de passe perdu ?</ul>
+    <ul class="titre textalic textsizea">Braldahim - Mot de passe perdu ?</ul>
 	&nbsp;
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">
@@ -41,9 +38,7 @@
 	</div>
 	&nbsp;
 </div>
-	<div class="box_corners">
-		<span class="corners-bottom"><span></span></span>
-	</div>
+<?=Bral_Helper_Box::bas(); ?>
 </div>
 </form>
 <?php echo $this->render('footer.phtml'); ?>

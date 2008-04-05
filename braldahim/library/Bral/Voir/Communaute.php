@@ -1,19 +1,18 @@
 <?php
 
-class Bral_Communaute_Membres {
+class Bral_Voir_Communaute {
 
-	function __construct($request, $view, $interne) {
+	function __construct($request, $view) {
+		Zend_Loader::loadClass("Communaute");
 		Zend_Loader::loadClass("HobbitCommunaute");
 		Zend_Loader::loadClass("RangCommunaute");
 
 		$this->_request = $request;
 		$this->view = $view;
-		$this->view->affichageInterne = $interne;
-		$this->preparePage();
 	}
 
 	function getNomInterne() {
-		return "box_communaute_action";
+		return "box_voir_communaute_inner";
 	}
 
 	function setDisplay($display) {
@@ -21,7 +20,34 @@ class Bral_Communaute_Membres {
 	}
 
 	function render() {
-		$communaute = null;
+		$this->view->connue = false;
+		$this->view->communaute = null;
+		
+		$communauteTable = new Communaute();
+		$communauteRowset = $communauteTable->findById($this->getValeurVerif($this->_request->get("communaute")));
+		if (count($communauteRowset) == 1) {
+			$this->view->communaute = $communauteRowset[0];
+			$this->view->connue = true;
+			
+			$hobbitCommunauteTable = new HobbitCommunaute();
+			$nbMembresTotal = $hobbitCommunauteTable->countByIdCommunaute($this->view->communaute["id_communaute"]);
+			
+			$this->view->nbMembresTotal = $nbMembresTotal;
+		} else {
+			$communaute = null;
+		}
+		
+		if ($this->_request->get("menu") == "membres" && $this->view->connue != null) {
+			return $this->renderMembres();
+		} else { 
+			return $this->view->render("voir/communaute.phtml");
+		}
+	}
+	
+	function renderMembres() {
+		
+		$this->preparePage();
+		
 		$this->view->tri = "";
 		$this->view->filtre = "";
 		$this->view->page = "";
@@ -29,21 +55,7 @@ class Bral_Communaute_Membres {
 		$this->view->suivantOk = false;
 		
 		$hobbitCommunauteTable = new HobbitCommunaute();
-		$communauteRowset = $hobbitCommunauteTable->findByIdHobbit($this->view->user->id_hobbit);
-		if (count($communauteRowset) > 0) {
-			foreach ($communauteRowset as $c) {
-				$communaute = $c;
-				break;
-			}
-		}
-		
-		if ($communaute == null) {
-			throw new Zend_Exception(get_class($this)." Communaute Invalide");
-		}
-		
-		$nbMembresTotal = $hobbitCommunauteTable->countByIdCommunaute($communaute["id_communaute"]);
-		
-		$hobbitCommunauteRowset = $hobbitCommunauteTable->findByIdCommunaute($communaute["id_communaute"], $this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql);
+		$hobbitCommunauteRowset = $hobbitCommunauteTable->findByIdCommunaute($this->view->communaute["id_communaute"], $this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql);
 		$tabMembres = null;
 
 		foreach($hobbitCommunauteRowset as $m) {
@@ -59,7 +71,7 @@ class Bral_Communaute_Membres {
 		}
 		
 		$rangCommunauteTable = new RangCommunaute();
-		$rangsCommunauteRowset = $rangCommunauteTable->findByIdCommunaute($communaute["id_communaute"]);
+		$rangsCommunauteRowset = $rangCommunauteTable->findByIdCommunaute($this->view->communaute["id_communaute"]);
 		$tabRangs = null;
 
 		foreach($rangsCommunauteRowset as $r) {
@@ -87,29 +99,28 @@ class Bral_Communaute_Membres {
 		$this->view->sensOrdre = $this->_sensOrdre;
 		$this->view->tabRangs = $tabRangs;
 		$this->view->tabMembres = $tabMembres;
-		$this->view->nbMembresTotal = $nbMembresTotal;
 		$this->view->nom_interne = $this->getNomInterne();
-		return $this->view->render("interface/communaute/membres.phtml");
+		return $this->view->render("voir/communaute/membres.phtml");
 	}
 	
 	private function preparePage() {
 		$this->_page = 1;
 		
-		if (($this->_request->get("caction") == "ask_communaute_membres") && ($this->_request->get("valeur_1") == "f")) {
+		if (($this->_request->get("caction") == "ask_voir_communaute") && ($this->_request->get("valeur_1") == "f")) {
 			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_2"));
 			$ordre = $this->getValeurVerif($this->_request->get("valeur_5"));
 			$sensOrdre = $this->getValeurVerif($this->_request->get("valeur_6"));
-		} else if (($this->_request->get("caction") == "ask_communaute_membres") && ($this->_request->get("valeur_1") == "p")) {
+		} else if (($this->_request->get("caction") == "ask_voir_communaute") && ($this->_request->get("valeur_1") == "p")) {
 			$this->_page = $this->getValeurVerif($this->_request->get("valeur_3")) - 1;
 			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_4"));
 			$ordre = $this->getValeurVerif($this->_request->get("valeur_5"));
 			$sensOrdre = $this->getValeurVerif($this->_request->get("valeur_6"));
-		} else if (($this->_request->get("caction") == "ask_communaute_membres") && ($this->_request->get("valeur_1") == "s")) {
+		} else if (($this->_request->get("caction") == "ask_voir_communaute") && ($this->_request->get("valeur_1") == "s")) {
 			$this->_page = $this->getValeurVerif($this->_request->get("valeur_3")) + 1;
 			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_4"));
 			$ordre = $this->getValeurVerif($this->_request->get("valeur_5"));
 			$sensOrdre = $this->getValeurVerif($this->_request->get("valeur_6"));
-		} else if (($this->_request->get("caction") == "ask_communaute_membres") && ($this->_request->get("valeur_1") == "o")) {
+		} else if (($this->_request->get("caction") == "ask_voir_communaute") && ($this->_request->get("valeur_1") == "o")) {
 			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_2"));
 			$ordre = $this->getValeurVerif($this->_request->get("valeur_5"));
 			$sensOrdre = $this->getValeurVerif($this->_request->get("valeur_6")) + 1;

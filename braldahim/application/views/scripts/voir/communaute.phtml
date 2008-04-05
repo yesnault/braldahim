@@ -1,0 +1,34 @@
+<?php echo $this->render('header.phtml'); ?>
+
+<div class="box_public">
+<?=Bral_Helper_Box::haut(); ?>
+<div class="inner">
+
+<? if ($this->connue == false) : ?>
+	<ul class="titre textalic textsizea">Communaut&eacute; inconnue</ul>
+<? else : ?>
+    <ul class="titre textalic textsizea">Communaut&eacute; n&deg; <?=$this->communaute["id_communaute"] ?> - <?=htmlentities($this->communaute["nom_communaute"]) ?></ul>
+	&nbsp;
+	<div class="contenu">
+	    <ul class="box_contenu1 textalic">
+			<table class="table_liste" style="width:150px;">
+			<thead class="table_liste">
+			  <tr class="table_liste">
+				<th onClick='document.location.href="/voir/communaute/?communaute=<?=$this->communaute["id_communaute"] ?>"'>Profil</th>
+				<th onClick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres");'>Membres</th>
+			  </tr>
+			</thead>
+			</table>
+			<div id="box_voir_communaute_inner">
+				<? include('communaute/profil.phtml'); ?>
+			</div>
+	</ul>
+	</div>
+	&nbsp;
+<? endif; ?>
+</div>
+<?=Bral_Helper_Box::bas(); ?>
+</div>
+
+<?php echo $this->render('footer.phtml'); ?>
+
