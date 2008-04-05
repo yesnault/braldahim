@@ -1,0 +1,39 @@
+<br /><br />
+<ul class="titre textalic textsizea">Profil Officiel</ul>
+<br />
+
+<table class="table_liste" style="width:50%;">
+   <tr class="table_liste">
+	<th>Date de cr&eacute;ation</th>
+	<th>Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->hobbit["date_creation_hobbit"]); ?></th>
+  </tr>
+  <tr class="table_liste">
+	<th>Communaut&eacute;</th>
+	<td class="table_liste" nowrap>TODO</td>
+  </tr>
+  <tr class="table_liste">
+	<th>Niveau</th>
+	<td class="table_liste">TODO</a></td>
+  </tr>
+  <tr class="table_liste">
+	<th>Nombre de morts</th>
+	<td class="table_liste">TODO</td>
+  </tr>
+  <tr class="table_liste">
+	<th>Nombre de meutre</th>
+	<td class="table_liste">TODO</a></td>
+  </tr>
+</table>
+
+<br /><br />
+
+<ul class="titre textalic textsizea">Profil Non Officiel</ul>
+<ul class="titre textalic textsizec">Renseign&eacute; par le joueur</ul>
+<table class="table_liste" style="width:70%;'>
+<tr class="table_liste">
+	<td class="table_liste">
+<?=stripslashes($this->communaute["description_hobbit"]); ?>
+</td>
+</tr>
+</table>
+<br /><br />

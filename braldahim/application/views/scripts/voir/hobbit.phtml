@@ -3,23 +3,31 @@
 <div class="box_public">
 <?=Bral_Helper_Box::haut(); ?>
 <div class="inner">
-    <ul class="titre textalic textsizea">Braldahim - Hobbit</ul>
+
+<? if ($this->connu == false) : ?>
+	<ul class="titre textalic textsizea">Hobbit Inconnu</ul>
+<? else : ?>
+    <ul class="titre textalic textsizea">Hobbit : <?=htmlentities($this->hobbit["prenom_hobbit"]) ?> <?=htmlentities($this->hobbit["nom_hobbit"]) ?>, n&deg;<?=$this->hobbit["id_hobbit"] ?></ul>
 	&nbsp;
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">
 			<table class="table_liste">
 			<thead class="table_liste">
 			  <tr class="table_liste">
-				<th>Profil</th>
-				<th>&Eacute;v&egrave;nements</th>
+				<th onClick='document.location.href="/voir/hobbit/?hobbit=<?=$this->hobbit["id_hobbit"] ?>"'>Profil</th>
+				<th onClick='_get_("/voir/doaction?caction=ask_voir_hobbit&hobbit=<?=$this->hobbit["id_hobbit"] ?>&menu=evenements");'>&Eacute;v&eacute;nements</th>
 			  </tr>
 			</thead>
 			</table>
+			<div id="box_voir_hobbit_inner">
+				<? include('hobbit/profil.phtml'); ?>
+			</div>
 		</ul>
 	</div>
 	&nbsp;
+<? endif; ?>
 </div>
 <?=Bral_Helper_Box::bas(); ?>
 </div>
-<?php echo $this->render('footer.phtml'); ?>
 
+<?php echo $this->render('footer.phtml'); ?>

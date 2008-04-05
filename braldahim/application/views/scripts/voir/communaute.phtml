@@ -7,7 +7,7 @@
 <? if ($this->connue == false) : ?>
 	<ul class="titre textalic textsizea">Communaut&eacute; inconnue</ul>
 <? else : ?>
-    <ul class="titre textalic textsizea">Communaut&eacute; n&deg; <?=$this->communaute["id_communaute"] ?> - <?=htmlentities($this->communaute["nom_communaute"]) ?></ul>
+    <ul class="titre textalic textsizea">Communaut&eacute; : <?=htmlentities($this->communaute["nom_communaute"]) ?>, n&deg; <?=$this->communaute["id_communaute"] ?></ul>
 	&nbsp;
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">

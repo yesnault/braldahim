@@ -30,7 +30,7 @@
 <? if($this->user && $this->controleur == "interface") : ?> 
  <body onLoad="_get_('/interface/boxes');">
 <? else: ?>
-<body>
+ <body>
 <? endif; ?>
 
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:100001;"></div>
@@ -58,36 +58,25 @@
   <div id="box_chargement" class="box_chargement" style="display:block">
 	<?=Bral_Helper_Box::haut(); ?>
 	 <div class="inner" style='background-color:#CC6666'>
-	 Chargement en Cours<br /><img src="/public/images/wait.gif" />
+	 	Chargement en Cours<br /><img src="/public/images/wait.gif" />
 	 </div>
 	<?=Bral_Helper_Box::bas(); ?>
   </div>
-  <div id="racine" class="box_racine">
+  
 
 <? else: ?>
 
   <div id="box_chargement" class="box_chargement" style="display:none">
 	<?=Bral_Helper_Box::haut(); ?>
 	 <div class="inner" style='background-color:#CC6666'>
-	 Chargement en Cours<br /><img src="/public/images/wait.gif" />
+		 Chargement en Cours<br /><img src="/public/images/wait.gif" />
 	 </div>
 	<?=Bral_Helper_Box::bas(); ?>
   </div>
 <? endif; ?>
-
 <div id="erreur" class="box_erreur" style="display:none"></div>
 
-
+<div id="racine" class="box_racine">
 </div>
 
-<? if (isset($this->user) && isset($this->user->email_hobbit)) : ?> 
-<div style="height:10px">&nbsp;</div>
-<?=Bral_Helper_Box::haut(); ?>
- <div class="inner_bot">
- 	<span id='date_heure' class=''>&nbsp;</span>
- 	<a href="http://www.braldahim.com">www.braldahim.com</a> |
- 	<a href="http://www.yootheme.com/" style="vertical-align:top"><img src="/public/images/validation_yoo.png" style="border:0px; margin:0px; vertical-align:top" alt="Yootheme.com" /></a>
- </div>
-<?=Bral_Helper_Box::bas(); ?>
-<? endif; ?>
 

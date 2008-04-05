@@ -28,4 +28,9 @@ class Bral_Voir_Factory {
 		Zend_Loader::loadClass("Bral_Voir_Communaute");
 		return new Bral_Voir_Communaute($request, $view);
 	}
+	
+	static function getHobbit($request, $view) {
+		Zend_Loader::loadClass("Bral_Voir_Hobbit");
+		return new Bral_Voir_Hobbit($request, $view);
+	}
 }

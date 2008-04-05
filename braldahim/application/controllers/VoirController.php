@@ -21,7 +21,8 @@ class VoirController extends Zend_Controller_Action {
 	}
 	
 	function hobbitAction() {
-		$this->render();
+		$voir = Bral_Voir_Factory::getHobbit($this->_request, $this->view);
+		echo $voir->render();
 	}
 	
 	function doactionAction() {
