@@ -7,18 +7,18 @@
 	&nbsp;
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">
-	    <br>
+	    <br />
    		<? if (!empty($this->message)) : ?>
    			<?=$this->message?>
    		<? endif; ?>
 		<? if ($this->user->gardeEnCours) : ?>
-			Hobbit en cours : <?=htmlentities($this->user->prenom_hobbit) ?> <?=htmlentities($this->user->nom_hobbit) ?> (<?=$this->user->id_hobbit?>)<br><br>
+			Hobbit en cours : <?=htmlentities($this->user->prenom_hobbit) ?> <?=htmlentities($this->user->nom_hobbit) ?> (<?=$this->user->id_hobbit?>)<br /><br />
 			<div id="formbutton">
 				<input type="button" name="retour" value="Aller &agrave; l'interface" onClick="javascript:document.location.href='/interface'"/>
 			</div>
 			&nbsp;
 		<? else: ?>
-		<br>
+		<br />
 			Vous devez sélectionner un hobbit en garde
 			<div id="formbutton">
 				<input type="button" name="retour" value="Retour Gardiennage" onClick="javascript:document.location.href='/gardiennage'"/>

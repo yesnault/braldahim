@@ -7,7 +7,7 @@
  Vous n'avez pas assez de PA
 <?php else : ?>
 	 <? if ($this->fondreEchoppeOk === true && $this->fondreMineraiOk === true) : ?>
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez fondre du 2 unit&eacute;s de minerai en 1D2 lingot(s) ...<br>
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez fondre du 2 unit&eacute;s de minerai en 1D2 lingot(s) ...<br />
 	 <select name="valeur_1" id="valeur_1"  onChange="javascript:if ($('valeur_1').value==-1){$('bouton_fondre').disabled=true } else {$('bouton_fondre').disabled=false }">
 	 	<option value="-1">(Choisis un minerai)</option>
 	 	<? foreach($this->minerais as $m) :
@@ -25,7 +25,7 @@
 </div>
 
 </form>
-<br>
+<br />
 <?php if ($this->assezDePa == true && $this->fondreEchoppeOk === true && $this->fondreMineraiOk) : ?>
 <input type='button' class='button1' id='bouton_fondre' value='Fondre !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_fondre");' disabled>
 <? endif ?>

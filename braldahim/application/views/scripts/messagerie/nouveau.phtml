@@ -10,15 +10,15 @@
  		<input type='hidden' name='valeur_2' id='valeur_4' value='-1' />
  		<input type='hidden' name='valeur_3' id='valeur_5' value='-1' />
  		<input type='hidden' name='valeur_3' id='valeur_6' value='envoi' />
-	    <br>
+	    <br />
 		<?php if(!empty($this->destinatairesErreur)) :?>
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->destinatairesErreur as $message) :?>
-				<?=htmlentities($this->escape($message));?><br>
+				<?=htmlentities($this->escape($message));?><br />
 			<?php endforeach; ?>
 			</div>
 		<? endif; ?>
-		<label>Destinataires </label><br>
+		<label>Destinataires </label><br />
 		
 		<div id='aff_valeur_7' name='aff_valeur_7'><?=$this->message["aff_js_destinataires"]?></div>
 		<input type="hidden" name="valeur_7" id="valeur_7" value="<?=$this->message["destinataires"]?>" />
@@ -27,16 +27,16 @@
 		<div class="recherche" id="recherche_valeur_7_update" ></div> <img src="/public/images/loupe.gif" />
 	    <span id="indicateur_recherche_valeur_7" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
 	    
-	    <br><br>
+	    <br /><br />
 	    
 	    <?php if(!empty($this->copiesErreur)) :?>
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->copiesErreur as $message) :?>
-				<?=htmlentities($this->escape($message));?><br>
+				<?=htmlentities($this->escape($message));?><br />
 			<?php endforeach; ?>
 			</div>
 		<? endif; ?>
-		<label>Copies </label><br>
+		<label>Copies </label><br />
 		<div id='aff_valeur_8' name='aff_valeur_8'><?=$this->message["aff_js_copies"]?></div>
 		<input type="hidden" name="valeur_8" id="valeur_8" value="<?=$this->message["copies"]?>" />
 		<input type="text" name="recherche_valeur_8" size='20' id="recherche_valeur_8" value="Entre un nom" onFocus='this.value=""; activerRechercheHobbit("valeur_8");' />
@@ -44,23 +44,23 @@
 		<div class="recherche" id="recherche_valeur_8_update" ></div> <img src="/public/images/loupe.gif" />
 	    <span id="indicateur_recherche_valeur_8" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
 	    
-	    <br><br>
+	    <br /><br />
 	    
 		<?php if(!empty($this->titreErreur)) :?> 
 		<div class="message_erreur" id="message_erreur"> 
-			<?=htmlentities($this->escape($this->titreErreur));?><br>
+			<?=htmlentities($this->escape($this->titreErreur));?><br />
 		</div>
 		<?php endif; ?>
-	    <label for="title">Titre</label><br>
+	    <label for="title">Titre</label><br />
 	    <input type="text" name="valeur_9" id="valeur_9" name="titre" value="<?=$this->escape($this->message["titre"]);?>" size="60" maxlength="80"/> 
 	    
-	    <br><br>
+	    <br /><br />
 		<?php if(!empty($this->contenuErreur)) :?> 
 		<div class="message_erreur" id="message_erreur"> 
-			<?=htmlentities($this->escape($this->contenuErreur));?><br>
+			<?=htmlentities($this->escape($this->contenuErreur));?><br />
 		</div>
 		<?php endif; ?>
-		<label for="title">Message</label><br>
+		<label for="title">Message</label><br />
 		<center>
 	    <textarea  name="valeur_10" id="valeur_10" rows='10' cols='80'><?=$this->message["contenu"];?></textarea>
 	    </center>

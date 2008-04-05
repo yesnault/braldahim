@@ -4,9 +4,9 @@
  <form name='myForm'>
  <div class='comp_contenu'>
  	Vous pouvez retirer des mati&egrave;res premi&egrave;res pr&eacute;sentes de cette &eacute;choppe 
- 	pour les mettre dans votre laban (ou dans votre charrette pour les rondins).<br>
+ 	pour les mettre dans votre laban (ou dans votre charrette pour les rondins).<br />
  	
-	<br>
+	<br />
 	Rondins : <?=$this->echoppe["quantite_rondin_arriere_echoppe"] ?>.
 	<? if ($this->charretteOk === true): ?>
 		Quantit&eacute; &agrave; retirer : 
@@ -15,18 +15,18 @@
 		<input type='hidden' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='0' >
 		Vous n'avez pas de charette pour les retirer.
 	<? endif; ?>
-	<br>
+	<br />
 	Peau : <?=$this->echoppe["quantite_peau_arriere_echoppe"] ?>.
 	Quantit&eacute; &agrave; retirer : 
 	<input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$this->echoppe["quantite_peau_arriere_echoppe"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}">
-	<br>
+	<br />
 	
-	<br>
+	<br />
    <? if ($this->nb_arrierePartiePlantes == 0) : ?>
-   	Aucune plante brute<br>
+   	Aucune plante brute<br />
    <? else: ?>
     <? if ($this->nb_arrierePartiePlantes==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_arrierePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plantes brute<?=$s?>: <br>
+    <?=$this->nb_arrierePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plantes brute<?=$s?>: <br />
     
     <table width='100%'>
     <? $i = 0;
@@ -52,13 +52,13 @@
     </table>
    <? endif; ?>
    
-   <br>
+   <br />
    
    <? if ($this->nb_arriereMinerai == 0) : ?>
-   	Aucun minerai<br>
+   	Aucun minerai<br />
    <? else: ?>
     <? if ($this->nb_arriereMinerai==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_arriereMinerai?> minerai<?=$s?> brut<?=$s?>: <br>
+    <?=$this->nb_arriereMinerai?> minerai<?=$s?> brut<?=$s?>: <br />
     
     <table width='100%'>
     <? $i = 0;
@@ -86,7 +86,7 @@
  </div>
 
 </form>
-<br>
+<br />
 <?php if ($this->retirerRessourcesOk === true) : ?>
 <input type='button' class='button1' id='bouton_retirermatierespremieres' value='Retirer des &eacute;l&eacute;ments !' onClick='this.disabled=true;_get_("/echoppes/doaction?caction=do_echoppes_retirerressources");' disabled>
 <? endif ?>

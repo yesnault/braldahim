@@ -3,33 +3,33 @@
  <div class='comp_contenu'>
 	 <div id='lieu_text' style="display:block"  onClick="javascript:switch2div('lieu_text','lieu_copie');">
 	 Pour <?=$this->coutCastars?> castars et <?=$this->coutPi?> PI, vous avez serti <?=$this->nbRunes ?>
-	 rune<? if ($this->nbRunes > 1) echo "s"; ?> sur <br>
+	 rune<? if ($this->nbRunes > 1) echo "s"; ?> sur <br />
 	 l'&eacute;quipement n&deg;<?=$this->equipementCourant["id_laban_equipement"] ?> : <?=htmlentities($this->equipementCourant["nom"]) ?>  
 	 qualit&eacute; <?=htmlentities($this->equipementCourant["qualite"]) ?>,
-	 niveau: <?=$this->equipementCourant["niveau"] ?><br><br>
+	 niveau: <?=$this->equipementCourant["niveau"] ?><br /><br />
 	 
 	 <? if ($this->nbRunes > 1) : ?>
 	 	Les runes serties sont dans l'ordre :
 	 <? else : ?>
 	 	La rune sertie est : 
 	 <? endif; ?>
-	 <br>
+	 <br />
 	 <? foreach($this->tabRunes as $k => $v) : ?>
 	 	<img id="item_<?=$k ?>" class="rune" src="/public/images/runes/<?=$v["image_type_rune"]?>" title="<?=$v["nom_type_rune"]?>" alt="<?=$v["nom_type_rune"] ?>"/>
 	 <? endforeach ?>
-	 <br><br>
+	 <br /><br />
 	 <? if ($this->suffixe != "") :?>
-	 	Vous avez trouv&eacute; un mot runique : <?=htmlentities($this->suffixe) ?><br>
+	 	Vous avez trouv&eacute; un mot runique : <?=htmlentities($this->suffixe) ?><br />
 	 	L'&eacute;quipement est devenu : <?=htmlentities($this->equipementCourant["nom"]) ?> <?=htmlentities($this->suffixe) ?>
 	 <? else: ?>
 	 	Aucun mot runique n'est associ&eacute; &agrave; ce sertissage
 	 <? endif; ?>
-	 <br><br>
-	 Faites-en bon usage...<br><br>
+	 <br /><br />
+	 Faites-en bon usage...<br /><br />
 	 
 	 <? if ($this->effetMotF === true) : ?>
-	 	F&eacute;licitations ! Votre armure est devenue une armure de Discr&eacute;tion. <br>
-	 	Vous ne vous vous ferez plus attaquer par un type de monstre...<br><br>
+	 	F&eacute;licitations ! Votre armure est devenue une armure de Discr&eacute;tion. <br />
+	 	Vous ne vous vous ferez plus attaquer par un type de monstre...<br /><br />
 	 <? endif; ?>
 	 </div>
 	 <div id='lieu_copie' style="display:none">

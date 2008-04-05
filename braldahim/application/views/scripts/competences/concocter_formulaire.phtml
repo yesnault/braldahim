@@ -7,7 +7,7 @@
  Vous n'avez pas assez de PA
 <?php else : ?>
 	 <? if ($this->concocterEchoppeOk === true && $this->concocterPlanteOk === true) : ?>
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez concocter du 2 parties de plante en 1D2 partie(s) de plante pr&eacute;par&eacute;e(s) ...<br>
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez concocter du 2 parties de plante en 1D2 partie(s) de plante pr&eacute;par&eacute;e(s) ...<br />
 	 <select name="valeur_1" id="valeur_1"  onChange="javascript:if ($('valeur_1').value==-1){$('bouton_concocter').disabled=true } else {$('bouton_concocter').disabled=false }">
 	 	<option value="-1">(Choisis une plante)</option>
 	 	<? foreach($this->partiesPlantes as $m) :
@@ -25,7 +25,7 @@
 </div>
 
 </form>
-<br>
+<br />
 <?php if ($this->assezDePa == true && $this->concocterEchoppeOk === true && $this->concocterPlanteOk) : ?>
 <input type='button' class='button1' id='bouton_concocter' value='Concocter !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_concocter");' disabled>
 <? endif ?>

@@ -2,11 +2,11 @@
  <form name='myForm'  id='myForm'>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <div class='comp_contenu'>
- Pour <?=$this->paUtilisationLieu ?> PA et <?=$this->coutCastars?> castars, le joaillier <br>
-  vous propose de sertir une pi&egrave;ce d'&eacute;quipement, pr&eacute;sente dans votre laban.<br><br>
+ Pour <?=$this->paUtilisationLieu ?> PA et <?=$this->coutCastars?> castars, le joaillier <br />
+  vous propose de sertir une pi&egrave;ce d'&eacute;quipement, pr&eacute;sente dans votre laban.<br /><br />
  
  	<? if ($this->nbEquipementsLaban > 0): ?>
- 		&Eacute;quipement:<br>
+ 		&Eacute;quipement:<br />
 		<select name="valeur_1" id="valeur_1" onChange="_get_('/lieux/doaction?caction=ask_lieu_joaillier&id_equipement='+this.value);">
 	 		<option value="-1">(Choisis un &eacute;quipement)</option>
 			<? foreach($this->equipementsLaban as $e) :?>
@@ -14,7 +14,7 @@
 				 niveau: <?=$e["niveau"] ?>, nb. emplacements: <?=$e["nb_runes"] ?></option>
 			<? endforeach; ?>
 		</select>
-		<br><br>
+		<br /><br />
 	<? endif; ?>
 	
 	<? if (isset($this->equipementCourant) ) : ?>
@@ -24,16 +24,16 @@
 			<? if ($this->nbEquipementRune > 0) :
 			
 				if ($this->nbEquipementRune > 1) $s="s"; else $s=""; ?>
-			Il y a d&eacute;j&agrave; <?=$this->nbEquipementRune ?> rune<?=$s ?> de sertie<?=$s ?> sur cet &eacute;quipement. <br>
+			Il y a d&eacute;j&agrave; <?=$this->nbEquipementRune ?> rune<?=$s ?> de sertie<?=$s ?> sur cet &eacute;quipement. <br />
 			
 			Vous ne pouvez pas sertir de rune sur un &eacute;quipement d&eacute;j&agrave; serti.
 			
 			<? else : ?>
 			
 				Glissez une rune sur l'&eacute;quipement ci-dessous. L'ordre des runes ayant une importance,
-				vous pouvez les r&eacute;organiser avant que le joaillier les sertisse.<br><br>
-				Tout objet serti, ne pourra pas faire l'objet d'un nouveau sertissage dans le futur.<br>
-				<br>
+				vous pouvez les r&eacute;organiser avant que le joaillier les sertisse.<br /><br />
+				Tout objet serti, ne pourra pas faire l'objet d'un nouveau sertissage dans le futur.<br />
+				<br />
 				<? $js="sections = ['group1','group2'];
 					function calculNbRune(total){ 
 						liste=Sortable.serialize('group2'); 
@@ -79,12 +79,12 @@
 						<img id="item_<?=$k ?>" class="rune" src="/public/images/runes/<?=$v["image_type_rune"]?>" title="<?=$v["nom_type_rune"]?> : <?=$v["effet_type_rune"]?>" alt="<?=$v["nom_type_rune"] ?>" style="cursor:pointer;"/>
 						<? endforeach; ?>
 					</div>
-					<br>
+					<br />
 					<input type="hidden" id="valeur_2" name="valeur_2">
 					<input type="hidden" id="valeur_3" name="valeur_3">
-					<br>
+					<br />
 					<? if ($this->equipementCourant["nb_runes"] > 1): $s="s"; else:$s=""; endif; ?>Sur <?=$this->equipementCourant["nb_runes"]?> emplacement<?=$s?> au total, il en reste <label id="dispo"><?=$this->equipementCourant["nb_runes"]?></label>.
-					<br>
+					<br />
 					<label id='rune_text'></label>
 					<div id="group2" class="joaillier_runes" style="height:40px">
 					</div>
@@ -96,7 +96,7 @@
 	
  </div> 
 </form>
-<br>
+<br />
 
 <? if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true): ?>
 <input type='button' class='button1' id="bouton_joaillier" value='Sertir !' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_joaillier&id_equipement='+$('valeur_1').value);"  disabled>

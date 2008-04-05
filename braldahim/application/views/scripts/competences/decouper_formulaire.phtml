@@ -7,7 +7,7 @@
  Vous n'avez pas assez de PA
 <?php else : ?>
 	 <? if ($this->decouperEchoppeOk === true && $this->decouperPlancheOk === true) : ?>
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez decouper du 1 rondin en 4D3 planche(s) ...<br>
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez decouper du 1 rondin en 4D3 planche(s) ...<br />
 	<? elseif ($this->decouperEchoppeOk == false) : ?>
 		Vous ne pouvez d&eacute;couper que dans une de vos &eacute;choppes de Menuisier.
 	<? else: ?>
@@ -17,7 +17,7 @@
 </div>
 
 </form>
-<br>
+<br />
 <?php if ($this->assezDePa == true && $this->decouperEchoppeOk === true && $this->decouperPlancheOk) : ?>
 <input type='button' class='button1' id='bouton_decouper' value='D&eacute;couper !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_decouper");'/>
 <? endif ?>

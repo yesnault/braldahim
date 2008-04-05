@@ -14,7 +14,7 @@
 		<?php if(!empty($this->messages)) :?> 
 		<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messages as $message) :?>
-				<?=$this->escape($message);?><br>
+				<?=$this->escape($message);?><br />
 			<?php endforeach; ?>
 		</div> 
 		<?php endif; ?> 
@@ -23,69 +23,69 @@
 			<?php if(!empty($this->messagesPrenom)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesPrenom as $message) :?>
-				<?=$this->escape($message);?><br>
+				<?=$this->escape($message);?><br />
 			<?php endforeach; ?>
 			</div> 
 			<?php endif; ?>
 			<label>Nom de Hobbit : Un nom de famille vous sera automatiquement attribu&eacute;
-		    lors de la validation d'inscription.<br>
+		    lors de la validation d'inscription.<br />
 		    </label>
-		    <br>
+		    <br />
 		    <label for="hobbit">Pr&eacute;nom du Hobbit
-		    </label><br>
-		    Entre 5 et 15 caract&egrave;res<br>
+		    </label><br />
+		    Entre 5 et 15 caract&egrave;res<br />
 		    <input type="text" name="prenom_hobbit" 
 		        value="<?php echo $this->escape(trim($this->hobbit->prenom_hobbit));?>" size="25" maxlength="20"/>
 		</div>
-		<div><br>
+		<div><br />
 			<?php if(!empty($this->messagesEmail)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesEmail as $message) :?>
-				<?=$message;?><br>
+				<?=$message;?><br />
 			<?php endforeach; ?>
 			</div>
 			<?php endif; ?>
-		    <label for="title">Email</label><br>
-		    Un email de confirmation vous sera envoyé à cette adresse<br>
+		    <label for="title">Email</label><br />
+		    Un email de confirmation vous sera envoyé à cette adresse<br />
 		    <input type="text" name="email_hobbit" value="<?=$this->escape($this->hobbit->email_hobbit);?>" size="25" maxlength="100"/> 
 		    <?php if(!empty($this->messagesEmailConfirm)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
-				<?=$this->escape($this->messagesEmailConfirm);?><br>
+				<?=$this->escape($this->messagesEmailConfirm);?><br />
 			</div>
 			<?php endif; ?>
-			<br><label for="title">Confirmation Email</label><br>
+			<br /><label for="title">Confirmation Email</label><br />
 		    <input type="text" name="email_confirm_hobbit" value="<?=$this->escape($this->hobbit->email_confirm_hobbit);?>" size="25" maxlength="100"/>      
 		</div>
-		<div><br>
+		<div><br />
 			<?php if(!empty($this->messagesPassword)) :?>
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesPassword as $message) :?>
-				<?=$this->escape($message);?><br>
+				<?=$this->escape($message);?><br />
 			<?php endforeach; ?>
 			</div>
 			<?php endif; ?>
-		    <label for="title">Mot de Passe</label><br>
-		    Entre 5 et 20 caract&egrave;res<br>
+		    <label for="title">Mot de Passe</label><br />
+		    Entre 5 et 20 caract&egrave;res<br />
 		    <input type="password" name="password_hobbit" value="" size="25" maxlength="20"/>
 			<?php if(!empty($this->messagesPasswordConfirm)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
-				<?=$this->escape($this->messagesPasswordConfirm);?><br>
+				<?=$this->escape($this->messagesPasswordConfirm);?><br />
 			</div>
 			<?php endif; ?>
-		    <br><label for="title">Confirmation Mot de Passe</label><br>
+		    <br /><label for="title">Confirmation Mot de Passe</label><br />
 		    <input type="password" name="password_confirm_hobbit" value="" size="25" maxlength="20"/>
 		</div>
-		<div><br>
+		<div><br />
 			<?php if(!empty($this->messagesSexe)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
-				<?=$this->escape($this->messagesSexe);?><br>
+				<?=$this->escape($this->messagesSexe);?><br />
 			</div>
 			<?php endif; ?>
 			Sexe du Hobbit : <input type="radio" name="sexe_hobbit" value="feminin">F&eacute;minin 
-			<input type="radio" name="sexe_hobbit" value="masculin">Masculin <br><br>
+			<input type="radio" name="sexe_hobbit" value="masculin">Masculin <br /><br />
 		</div>
 	
-		<div><br>
+		<div><br />
 			
 			Comt&eacute; : 
 			<select name='id_region' id='id_region'>
@@ -93,7 +93,7 @@
 				<? foreach ($this->regions as $k => $v) : ?>
 				<option value="<?=$k?>" <? if ($this->id_region == $k) echo "selected" ?>><?=htmlentities($v)?></option>
 				<? endforeach; ?>
-			</select><br><br>
+			</select><br /><br />
 		</div>
 		<div id="formbutton">
 			<input type="submit" class='button1' name="ajouter" value="Inscription !" /> 

@@ -2,15 +2,15 @@
  <form name='myForm' id='myForm'>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
-  Pour <?=$this->paUtilisationLieu ?> PA et <?=$this->coutCastars?> castars, l'entra&icirc;neur <br>
-  vous propose d'am&eacute;liorer une caract&eacute;ristique<br><br>
+  Pour <?=$this->paUtilisationLieu ?> PA et <?=$this->coutCastars?> castars, l'entra&icirc;neur <br />
+  vous propose d'am&eacute;liorer une caract&eacute;ristique<br /><br />
  
  <? if ($this->utilisationPaPossible == false) : ?>
- 	Vous ne pouvez rien am&eacute;liorer, vous n'avez pas assez de PA<br><br>
+ 	Vous ne pouvez rien am&eacute;liorer, vous n'avez pas assez de PA<br /><br />
  <? elseif ($this->achatPiPossible == false): ?>
- 	Vous ne pouvez rien am&eacute;liorer, vous n'avez pas assez de PI<br><br>
+ 	Vous ne pouvez rien am&eacute;liorer, vous n'avez pas assez de PI<br /><br />
  <? elseif ($this->achatPossibleCastars == false): ?>
- 	Vous ne pouvez rien am&eacute;liorer, vous n'avez pas assez de Castars<br><br>
+ 	Vous ne pouvez rien am&eacute;liorer, vous n'avez pas assez de Castars<br /><br />
  <? endif; ?>
  
   <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $this->achatPossibleCastars === true): ?>

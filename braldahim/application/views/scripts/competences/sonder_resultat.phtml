@@ -7,14 +7,14 @@
 			<? if ($this->trouve == true): ?>
 				<? if ($this->proche === true): ?>
 					Le filon le plus proche se situe en : 
-					X=<?=$this->filon["x_filon"]?> et Y=<?=$this->filon["y_filon"]?><br>
+					X=<?=$this->filon["x_filon"]?> et Y=<?=$this->filon["y_filon"]?><br />
 					<? if (($this->user->y_hobbit == $this->filon["y_filon"]) && ($this->user->x_hobbit == $this->filon["x_filon"])) : ?>
 						Vous &ecirc;tes sur le filon !
 					<? else: ?>
 						 en direction
 					<? endif; ?>
 				<? elseif ($this->proche === false): ?>
-					Le filon le plus proche se situe en direction <br>
+					Le filon le plus proche se situe en direction <br />
 				<? endif; ?>
 				<? if ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit == $this->filon["x_filon"]): ?>
 				du Nord
@@ -34,7 +34,7 @@
 				de l'Ouest
 				<? endif; ?>
 			<? else: ?>
-				Aucun filon n'a &eacute;t&eacute; trouv&eacute; dans <br>
+				Aucun filon n'a &eacute;t&eacute; trouv&eacute; dans <br />
 				un rayon de <?=$this->rayon_max;?> cases
 			<? endif; ?>
 		<? endif; ?>

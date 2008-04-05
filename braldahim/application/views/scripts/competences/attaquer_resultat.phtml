@@ -3,9 +3,9 @@
  <div class='comp_contenu'>
 	 <div id='attaquer_text' style="display:block"  onClick="javascript:switch2div('attaquer_text','attaquer_copie');">
 	 <? include("commun_text_resultat.phtml") ?>
-		 Vous avez attaqu&eacute; <?=htmlentities($this->retourAttaque["cible"]["nom_cible"])?> (<?=$this->retourAttaque["cible"]["id_cible"]?>) :<br><br>
-		 Jet d'attaque : <?=$this->retourAttaque["jetAttaquant"]?><br>
-		 Jet de r&eacute;sistance de la cible : <?=$this->retourAttaque["jetCible"]?><br>
+		 Vous avez attaqu&eacute; <?=htmlentities($this->retourAttaque["cible"]["nom_cible"])?> (<?=$this->retourAttaque["cible"]["id_cible"]?>) :<br /><br />
+		 Jet d'attaque : <?=$this->retourAttaque["jetAttaquant"]?><br />
+		 Jet de r&eacute;sistance de la cible : <?=$this->retourAttaque["jetCible"]?><br />
 		 
 	 	<? if ($this->retourAttaque["attaqueReussie"] === true) : ?>
 	 		<? if ($this->retourAttaque["jetDegat"] > 1) : $s='s'; else : $s=''; endif;?>
@@ -13,16 +13,16 @@
 	 		<? if ($this->retourAttaque["critique"]  == true): ?>
 	 		en attaque critique
 	 		<? endif; ?>
-	 		<br><br>
+	 		<br /><br />
 	 		
 	 		<? if ($this->retourAttaque["mort"] === true): ?>
-	 			Vous avez tu&eacute; <?=htmlentities($this->retourAttaque["cible"]["nom_cible"])?> (<?=$this->retourAttaque["cible"]["id_cible"]?>) N<?=$this->retourAttaque["cible"]["niveau_cible"] ?><br><br>
+	 			Vous avez tu&eacute; <?=htmlentities($this->retourAttaque["cible"]["nom_cible"])?> (<?=$this->retourAttaque["cible"]["id_cible"]?>) N<?=$this->retourAttaque["cible"]["niveau_cible"] ?><br /><br />
 	 		<? endif; ?>
-	 		Vous avez gagn&eacute; <?=$this->nb_px?> PX<br><br>
+	 		Vous avez gagn&eacute; <?=$this->nb_px?> PX<br /><br />
 	 	<? else: ?>
 	 		Votre attaque a &eacute;t&eacute; esquiv&eacute;e 
 	 		<? if ($this->retourAttaque["fragilisee"] === true) : ?>
-	 		<br> La cible est fragilis&eacute;e pour les prochaines attaques<br>
+	 		<br /> La cible est fragilis&eacute;e pour les prochaines attaques<br />
 	 		<? else: ?>
 	 		parfaitement.
 	 		<? endif; ?>

@@ -4,7 +4,7 @@
   	<option value='<?=$t["id_type_message"]?>' <?if ($this->filtre == $t["id_type_message"]){echo "selected";}?>><?=htmlentities($t["nom"])?></option>
   	<? endforeach; ?>
   	</select>
-  	<br><br>
+  	<br /><br />
   	
 		<table class="table_liste">
 		<thead class="table_liste">
@@ -34,9 +34,9 @@
 		  	$i = 0;
 		  	foreach($this->messages as $message): ?>
 		  		<? $js = "_get_('/messagerie/askaction?caction=do_messagerie_message&valeur_1=".$this->filtre."&valeur_2=-1&valeur_3=-1&valeur_4=-1&valeur_5=".$message["id_message"]."&valeur_6=message');"; ?>
-		  			<? $text = "Titre :".$message["titre"]."<br><br>"; 
-		  			   $text .= "Exp&eacute;diteur : ".$message["expediteur"]."<br><br>";
-		  			   $text .= "Destinataire(s) : ".$message["destinataires"]."<br><br>";
+		  			<? $text = "Titre :".$message["titre"]."<br /><br />"; 
+		  			   $text .= "Exp&eacute;diteur : ".$message["expediteur"]."<br /><br />";
+		  			   $text .= "Destinataire(s) : ".$message["destinataires"]."<br /><br />";
 		  			   $text .= "Clique pour voir le message";
 		  			?>
 		  			<tr class="table_liste<?=($i % 2);$i++; ?>" <?=Bral_Helper_Tip::jsTip(addslashes($text), "", false, false) ?>>
@@ -54,6 +54,6 @@
 	  	</tbody>
 	  	</table>
 
-   <br><br>
+   <br /><br />
    
     <div id='messagerie_info' name='messagerie_info'></div>

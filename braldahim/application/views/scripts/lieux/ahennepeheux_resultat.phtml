@@ -3,17 +3,17 @@
  <div class='comp_contenu'>
 	 <div id='lieu_text' style="display:block"  onClick="javascript:switch2div('lieu_text','lieu_copie');">
 		<? if($this->apprentissageMetier === true) : ?>
-			Vous avez appris le m&eacute;tier suivant :<br>
+			Vous avez appris le m&eacute;tier suivant :<br />
 			<?=htmlentities($this->nomMetier) ?>
-			<br><br>
-			C'est &eacute;galement votre m&eacute;tier courant<br>
+			<br /><br />
+			C'est &eacute;galement votre m&eacute;tier courant<br />
 			Il vous reste <?=$this->user->castars_hobbit; ?>
 			<? if ($this->user->castars_hobbit == 0): ?>
 			castar
 			<? else: ?>
 			castars
 			<? endif; ?>
-			<br>
+			<br />
 			<? if ($this->constructionCharrette === true): ?>
 				De plus, vous avez r&eacute;cup&eacute;r&eacute; une charrette !
 			<? endif; ?>
@@ -21,7 +21,7 @@
 				De plus, vous pouvez construire une &eacute;choppe !
 			<? endif; ?>
 		<? elseif ($this->changementMetier === true) : ?>
-			Votre m&eacute;tier courant est maintenant :<br>
+			Votre m&eacute;tier courant est maintenant :<br />
 			<?=htmlentities($this->nomMetier) ?>
 		<? endif; ?>
 	 </div>

@@ -6,14 +6,14 @@
 	<? if ($this->emailGenerationOk) : ?>
 		Pour g&eacute;n&eacute;rer un nouveau mot de passe, 
 		suivez les indications que vous venez de recevoir
-		 à l'adresse suivante : <br>
+		 à l'adresse suivante : <br />
 		<?= $this->email_hobbit ?>
 	<? else : ?>
 		Erreur :  <?=$this->view->message?>
 	<? endif; ?>
-		<br><br>
-		Courbettes distingu&eacute;es, <br><br>
-		Les ma&icirc;tres du jeu.<br><br>
+		<br /><br />
+		Courbettes distingu&eacute;es, <br /><br />
+		Les ma&icirc;tres du jeu.<br /><br />
 	 <input type="button" value="Accueil" onClick="javascript:document.location.href='/'"/>
 </div>
 

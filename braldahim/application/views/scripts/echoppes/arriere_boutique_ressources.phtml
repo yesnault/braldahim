@@ -4,24 +4,24 @@
 		   $this->echoppe["quantite_fourrure_arriere_echoppe"] == 0 &&
 		   $this->echoppe["quantite_rondin_arriere_echoppe"] == 0 &&
 		   $this->echoppe["quantite_peau_arriere_echoppe"] == 0 ) : ?>
-		Votre arri&egrave;re-boutique est vide<br>
+		Votre arri&egrave;re-boutique est vide<br />
 	<? endif; ?>
 	
 	<? if ($this->echoppe["quantite_rondin_arriere_echoppe"] > 1) $s = "s" ; else $s = "";?>
 	Rondin<?=$s ?> : <?=$this->echoppe["quantite_rondin_arriere_echoppe"] ?>,
-	Peau : <?=$this->echoppe["quantite_peau_arriere_echoppe"] ?><br>
+	Peau : <?=$this->echoppe["quantite_peau_arriere_echoppe"] ?><br />
 	
 	Cuir : <?=$this->echoppe["quantite_cuir_arriere_echoppe"] ?>, 
 	Fourrure : <?=$this->echoppe["quantite_fourrure_arriere_echoppe"] ?>,
 	
 	<? if ($this->echoppe["quantite_planche_arriere_echoppe"] > 1) $s = "s" ; else $s = "";?>
-	Planche<?=$s ?> : <?=$this->echoppe["quantite_planche_arriere_echoppe"] ?><br>
+	Planche<?=$s ?> : <?=$this->echoppe["quantite_planche_arriere_echoppe"] ?><br />
 	
    <? if ($this->nb_arrierePartiePlantes == 0) : ?>
-   	Aucune plante brute<br>
+   	Aucune plante brute<br />
    <? else: ?>
     <? if ($this->nb_arrierePartiePlantes<=1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_arrierePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plante<?=$s?>  brute<?=$s?>: <br>
+    <?=$this->nb_arrierePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plante<?=$s?>  brute<?=$s?>: <br />
     
     <table width='100%'>
     <? $i = 0;
@@ -30,9 +30,9 @@
       	if ($p["quantite_arriere"] > 0) :
       		$enter = true;
 	    	if ($i % 3 == 0) echo "<tr>"; 
-	    	$textPlante = "Plante : ".htmlentities($p["nom_plante"]). "<br>"; 
-	    	$textPlante = "Partie : ".htmlentities($p["nom_type"]). "<br>"; 
-	    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite_arriere"])."<br>";
+	    	$textPlante = "Plante : ".htmlentities($p["nom_plante"]). "<br />"; 
+	    	$textPlante = "Partie : ".htmlentities($p["nom_type"]). "<br />"; 
+	    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite_arriere"])."<br />";
 	    	$titre = htmlentities($p["nom_plante"])." : ".htmlentities($p["nom_type"]);
 	    	?>
 	    	<td <?=Bral_Helper_Tip::jsTip($textPlante, $titre) ?>>
@@ -50,10 +50,10 @@
    <? endif; ?>
    
    <? if ($this->nb_prepareePartiePlantes == 0) : ?>
-   	Aucune plante pr&eacute;par&eacute;e<br>
+   	Aucune plante pr&eacute;par&eacute;e<br />
    <? else: ?>
     <? if ($this->nb_prepareePartiePlantes<=1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_prepareePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plante<?=$s?>  pr&eacute;par&eacute;e<?=$s?>: <br>
+    <?=$this->nb_prepareePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plante<?=$s?>  pr&eacute;par&eacute;e<?=$s?>: <br />
     
     <table width='100%'>
     <? $i = 0;
@@ -62,9 +62,9 @@
       	if ($p["quantite_preparee"] > 0) :
       		$enter = true;
 	    	if ($i % 3 == 0) echo "<tr>"; 
-	    	$textPlante = "Plante : ".htmlentities($p["nom_plante"]). "<br>"; 
-	    	$textPlante = "Partie : ".htmlentities($p["nom_type"]). "<br>"; 
-	    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite_preparee"])."<br>";
+	    	$textPlante = "Plante : ".htmlentities($p["nom_plante"]). "<br />"; 
+	    	$textPlante = "Partie : ".htmlentities($p["nom_type"]). "<br />"; 
+	    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite_preparee"])."<br />";
 	    	$titre = htmlentities($p["nom_plante"])." : ".htmlentities($p["nom_type"]);
 	    	?>
 	    	<td <?=Bral_Helper_Tip::jsTip($textPlante, $titre) ?>>
@@ -82,11 +82,11 @@
    <? endif; ?>
    
    <? if ($this->nb_arriereMinerai == 0) : ?>
-   	Aucun minerai brut<br>
+   	Aucun minerai brut<br />
    <? else: ?>
    
     <? if ($this->nb_arriereMinerai<=1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_arriereMinerai?> minerai<?=$s?> brut<?=$s?>: <br>
+    <?=$this->nb_arriereMinerai?> minerai<?=$s?> brut<?=$s?>: <br />
     
     <table width='100%'>
     <? $i = 0;
@@ -111,10 +111,10 @@
     <? endif; ?>
     
    <? if ($this->nb_lingotsMinerai == 0) : ?>
-   	Aucun lingot<br>
+   	Aucun lingot<br />
    <? else: ?>
     <? if ($this->nb_lingotsMinerai<=1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_lingotsMinerai?> lingot<?=$s?> : <br>
+    <?=$this->nb_lingotsMinerai?> lingot<?=$s?> : <br />
     
     <table width='100%'>
     <? $i = 0;
@@ -144,13 +144,13 @@
   	<? else: 
   		$disabled = "disabled" ;
   	?>
-  		Vous n'&ecirc;tes pas dans votre &eacute;choppe, vous n'avez pas acc&egrave; aux actions...<br>
+  		Vous n'&ecirc;tes pas dans votre &eacute;choppe, vous n'avez pas acc&egrave; aux actions...<br />
   	<? endif; ?>
     
     
     <input type="button" class='button1' value="Retirer des mati&egrave;res premi&egrave;res"
        	   onClick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_retirerressources&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')"  <?=$disabled ?>/>
-       		<br>  
+       		<br />  
     <input type="button" class='button1' value="D&eacute;poser des mati&egrave;res premi&egrave;res"
        	   onClick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_deposerressources&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')"  <?=$disabled ?> />
     

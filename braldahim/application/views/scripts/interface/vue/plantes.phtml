@@ -3,7 +3,7 @@
       		<?php 
       			$textPlante = "";
       			foreach($case["plantes"] as $p) {
-      				$textPlante .= htmlentities($p["type"])." - ". htmlentities($p["categorie"]) .", n&deg; ".$p["id_plante"]."<br>";
+      				$textPlante .= htmlentities($p["type"])." - ". htmlentities($p["categorie"]) .", n&deg; ".$p["id_plante"]."<br />";
 				}
 				$s = "";
 				if ($case["n_plantes"] > 1) {

@@ -1,24 +1,24 @@
 <ul class="titre textalic textsizec">Construction d'&eacute;choppes</ul>
  <div class="contenuc">
   <ul class="box_contenu1 textalic">
-  <br>
+  <br />
   	Vous &ecirc;tes actuellement <?=htmlentities($this->tabMetierCourant["nom_metier"]) ?> et vous vous 
-  	situez dans la <?=htmlentities($this->tabRegionCourante["nom_region"]) ?><br><br>
+  	situez dans la <?=htmlentities($this->tabRegionCourante["nom_region"]) ?><br /><br />
   	
-  	Pour construire une &eacute;choppe, rendez-vous dans une B&eacute;hennep&eacute;e.<br> 
+  	Pour construire une &eacute;choppe, rendez-vous dans une B&eacute;hennep&eacute;e.<br /> 
   	Vous ne pourrez construire d'&eacute;choppe que dans la comt&eacute; o&ugrave; vous 
-  	serez <br>
+  	serez <br />
  	
  	<? if ($this->constructionPossible == false): ?>
- 		Vous ne pouvez pas contruire d'&eacute;choppe avec votre m&eacute;tier courant<br>
+ 		Vous ne pouvez pas contruire d'&eacute;choppe avec votre m&eacute;tier courant<br />
  	<? endif; ?>
- 	<br>
+ 	<br />
 	<? if ($this->nEchoppes < 1) : ?>
-  		Vous n'avez aucune &eacute;choppe.<br><br>
+  		Vous n'avez aucune &eacute;choppe.<br /><br />
    	<? endif; ?>
    	
    	<? foreach($this->tabMetiers as $m) : ?>
-   		<?=htmlentities($m["nom_metier"]) ?><br>
+   		<?=htmlentities($m["nom_metier"]) ?><br />
    		<? foreach($m["regions"] as $r) :?>
    			<? if ($r["echoppe"] != null): ?>
    				Votre &eacute;choppe dans la <?=htmlentities($r["nom_region"]) ?> 
@@ -27,7 +27,7 @@
    				Vous n'avez aucune &eacute;choppe
    				<? if ($m["nom_metier"]{0} == 'A') : echo 'd\''; else: echo "de "; endif; ?><?=htmlentities($m["nom_metier"]) ?> dans la <?=htmlentities($r["nom_region"]) ?>
    			<? endif; ?>
-   			<br>
+   			<br />
    		<? endforeach; ?>
    	<? endforeach; ?>
    </ul>

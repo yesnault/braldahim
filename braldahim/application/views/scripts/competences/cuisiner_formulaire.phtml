@@ -7,21 +7,21 @@
  Vous n'avez pas assez de PA
 <?php else : ?>
 	 <? if ($this->cuisinerLieuOk === true && $this->cuisinerNbViandeOk === true) : ?>
-	 	Pour <?=$this->nb_pa ?> PA, vous pouvez cuisiner : <br>
+	 	Pour <?=$this->nb_pa ?> PA, vous pouvez cuisiner : <br />
 	 	Transformer 1 unit&eacute; de viande pr&eacute;par&eacute;e en 1D2 + 1 ration.
 	 <? else: ?>
 		 <? if ($this->cuisinerLieuOk != true) :?>
-		 	Vous ne pouvez pas cuisiner en ville.<br>
+		 	Vous ne pouvez pas cuisiner en ville.<br />
 		 <? endif; ?>
 		 <? if ($this->cuisinerNbViandeOk != true) :?>
-		 	Vous n'avez pas assez de viande pr&eacute;par&eacute;e pour cuisiner.<br>
+		 	Vous n'avez pas assez de viande pr&eacute;par&eacute;e pour cuisiner.<br />
 		 <? endif; ?>
 	 <? endif; ?>
 <? endif ?>
 </div>
 
 </form>
-<br>
+<br />
 <?php if ($this->assezDePa == true && $this->cuisinerLieuOk === true && $this->cuisinerNbViandeOk === true) : ?>
 <input type='button' class='button1' id='bouton_cuisiner' value='Cuisiner !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_cuisiner");'>
 <? endif ?>

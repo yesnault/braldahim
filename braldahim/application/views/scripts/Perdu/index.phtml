@@ -16,19 +16,19 @@
 			<?php if(!empty($this->messagesEmail)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesEmail as $message) :?>
-				<?=$this->escape($message);?><br>
+				<?=$this->escape($message);?><br />
 			<?php endforeach; ?>
 			</div>
 			<?php endif; ?>
-		    <label for="title">Email</label><br>
-		    Un email vous parviendra à cette adresse<br>
+		    <label for="title">Email</label><br />
+		    Un email vous parviendra à cette adresse<br />
 		    <input type="text" name="email_hobbit" value="<?=$this->escape($this->email_hobbit);?>" size="25" maxlength="100"/> 
 		    <?php if(!empty($this->messagesEmailConfirm)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
-				<?=$this->escape($this->messagesEmailConfirm);?><br>
+				<?=$this->escape($this->messagesEmailConfirm);?><br />
 			</div>
 			<?php endif; ?>
-			<br><label for="title">Confirmation Email</label><br>
+			<br /><label for="title">Confirmation Email</label><br />
 		    <input type="text" name="email_confirm_hobbit" value="<?=$this->escape($this->email_confirm_hobbit);?>" size="25" maxlength="100"/>      
 		</div>
 

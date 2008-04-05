@@ -5,19 +5,19 @@
 		
 		<? include("commun_text_resultat.phtml") ?>
 		
-		Votre Jet d'identification : <?=$this->jetHobbit ?> <br>
+		Votre Jet d'identification : <?=$this->jetHobbit ?> <br />
 		<? if ($this->identificationReussieOk === true): ?>
-			Vous avez r&eacute;ussi &agrave; identifier la rune n&deg; <?=$this->rune["id_rune"] ?><br>
+			Vous avez r&eacute;ussi &agrave; identifier la rune n&deg; <?=$this->rune["id_rune"] ?><br />
 			<? if ($this->rune["image"] != ""): ?>
     			<img src="<?=$this->rune["image"]?>" title="<?=$this->rune["type"]?> (<?=$this->rune["id_rune"]?>)" />
 	   		<? endif; ?>
 		<? else: ?>
-			Vous avez manqu&eacute; votre identification<br>
+			Vous avez manqu&eacute; votre identification<br />
 			<?if ($this->jetHobbitLoin === true) :?>
 				Vous &ecirc;tes loin d'identifier cette rune...
 			<? endif; ?>
 		<? endif; ?>
-		<br>
+		<br />
 	 </div>
 	 
 	 <div id='identifierrune_copie' style="display:none">

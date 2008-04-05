@@ -9,36 +9,36 @@
 	&nbsp;
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">
-	    <br>
+	    <br />
 
 		<?php if(!empty($this->messagesPasswordActuel)) :?>
 			<div class="message_erreur" id="message_erreur"> 
-			<?=$this->escape($this->messagesPasswordActuel); ?><br>
+			<?=$this->escape($this->messagesPasswordActuel); ?><br />
 			</div>
 		<? endif; ?>
-		<label for="title">Mot de Passe Actuel</label><br>
+		<label for="title">Mot de Passe Actuel</label><br />
 	    <input type="password" name="password_actuel_hobbit" value="" size="25" maxlength="20"/>
-	    <br><br>
+	    <br /><br />
 	    
 		<?php if(!empty($this->messagesPasswordNouveau)) :?>
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesPasswordNouveau as $message) :?>
-				<?=$this->escape($message);?><br>
+				<?=$this->escape($message);?><br />
 			<?php endforeach; ?>
 			</div>
 		<?php endif; ?>
-	    <label for="title">Nouveau Mot de Passe</label><br>
-	    Entre 5 et 20 caract&egrave;res<br>
+	    <label for="title">Nouveau Mot de Passe</label><br />
+	    Entre 5 et 20 caract&egrave;res<br />
 	    <input type="password" name="password_nouveau_hobbit" value="" size="25" maxlength="20"/>
 		
 		<?php if(!empty($this->messagesPasswordConfirm)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
-				<?=$this->escape($this->messagesPasswordConfirm);?><br>
+				<?=$this->escape($this->messagesPasswordConfirm);?><br />
 			</div>
 		<?php endif; ?>
-	    <br><label for="title">Confirmation du nouveau Mot de Passe</label><br>
+	    <br /><label for="title">Confirmation du nouveau Mot de Passe</label><br />
 	    <input type="password" name="password_confirm_hobbit" value="" size="25" maxlength="20"/>
-		<br><br>
+		<br /><br />
 		
 		<div id="formbutton">
 		<input type="submit" class='button1' name="Modifier" value="Modifier" /> 

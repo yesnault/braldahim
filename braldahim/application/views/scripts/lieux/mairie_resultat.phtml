@@ -7,7 +7,7 @@
 	 	F&eacute;licitations ! Vous &ecirc;tes entr&eacute; dans la communaut&eacute; <?=htmlentities($this->communaute["nom_communaute"]) ?>, n&deg; <?=$this->communaute["id_communaute"] ?>.
 	 <? else : // sortie, suppression ?>
 	 	Vous est sorti de la communaut&eacute; <?=htmlentities($this->communaute["nom_communaute"]) ?>, n&deg; <?=$this->communaute["id_communaute"] ?>.
-	 	<br>
+	 	<br />
 	 	<? if ($this->supprimerCommunaute === true) : ?>
 	 		Vous avez supprim&eacute; cette communaut&eacute;.
 	 	<? endif; ?>
@@ -33,6 +33,6 @@
 	</div>
  </div>
 
-<br>
+<br />
 <input type='button' class='button1' value='Copier' onClick="javascript:switch2div('lieu_text','lieu_copie');">
 <? include("commun_fermer.phtml") ?>

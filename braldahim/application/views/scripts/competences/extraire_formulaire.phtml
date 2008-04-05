@@ -7,12 +7,12 @@
 <?php if ($this->assezDePa == false) : ?>
  Vous n'avez pas assez de PA
 <?php else : ?>
-	Pour <?=$this->nb_pa ?> PA, vous pouvez extraire un minerai.<br><br>
+	Pour <?=$this->nb_pa ?> PA, vous pouvez extraire un minerai.<br /><br />
 <? endif ?>
 </div>
 
 </form>
-<br>
+<br />
 <?php if ($this->assezDePa == true) : ?>
 <input type='button' class='button1' id='bouton_extraire' value='Extraire un minerai !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_extraire");'>
 <? endif ?>

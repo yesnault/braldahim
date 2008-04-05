@@ -3,12 +3,12 @@
  <form name='myForm'>
  <div class='comp_contenu'>
  	
- 	Cagnotte : <input type='text' id='cagnotte' name='cagnotte' value='<?=$this->user->px_commun_hobbit?>' size='4' disabled> PX<br><br>
+ 	Cagnotte : <input type='text' id='cagnotte' name='cagnotte' value='<?=$this->user->px_commun_hobbit?>' size='4' disabled> PX<br /><br />
  	<input type='hidden' id='cagnotte_origine' name='cagnotte_origine' value='<?=$this->user->px_commun_hobbit?>'>
  	
  	<? if ($this->estMaxHobbits === true): ?>
- 		Il y a plus de <?=$this->config->game->competence->distribuerpx->nb_max_hobbit?> hobbits dans votre vue<br><br>
- 		Seuls les <?=$this->config->game->competence->distribuerpx->nb_max_hobbit?> hobbits les plus proches<br> sont disponibles pour recevoir des px<br><br>
+ 		Il y a plus de <?=$this->config->game->competence->distribuerpx->nb_max_hobbit?> hobbits dans votre vue<br /><br />
+ 		Seuls les <?=$this->config->game->competence->distribuerpx->nb_max_hobbit?> hobbits les plus proches<br /> sont disponibles pour recevoir des px<br /><br />
  	<? endif; ?>
 
 	<table>
@@ -29,6 +29,6 @@
  	</table>
  </div>
  </form>
-<br>
+<br />
 <input type='button' class='button1' id='bouton_distribuer' value='Distribuer !' onClick="if (parseInt($('cagnotte_origine').value) > parseInt($('cagnotte').value)) {this.disabled=true;_get_('/competences/doaction?caction=do_competence_distribuerpx');} else {alert('Il n\'y a rien &agrave; distribuer');}">
 <? include("commun_fermer.phtml") ?>

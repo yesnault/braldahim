@@ -8,11 +8,11 @@
 		<? if ($this->okJet1 === true): ?>
 			Vous avez r&eacute;ussi &agrave; concocter une plante <?=htmlentities($this->planteNomType) ?>.
 			Vous avez concoct&eacute; <?=$this->nbPartiesPlantesPreparees ?> <?=$this->planteNomTypePartiePlante?><?if($this->nbPartiesPlantesPreparees > 1):echo 's';endif;?>
-			<br>
+			<br />
 		<? else: ?>
-			Vous avez manqu&eacute; votre pr&eacute;paration<br>
+			Vous avez manqu&eacute; votre pr&eacute;paration<br />
 		<? endif; ?>
-		<br>
+		<br />
 	 </div>
 	 
 	 <div id='concocter_copie' style="display:none">

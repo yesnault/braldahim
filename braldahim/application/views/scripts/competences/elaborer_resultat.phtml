@@ -7,17 +7,17 @@
 		
 		<? if ($this->okJet1 === true): ?>
 			Vous avez r&eacute;ussi &agrave; &eacute;laborer une potion : 
-			<br>
+			<br />
 			<?=htmlentities($this->typePotionCourante["nom_type_potion"]) ?>, de qualit&eacute; <?=$this->qualite ?>
 			et de niveau <?=$this->niveau ?>.
-			<br><br>
+			<br /><br />
 			<? if ($this->effetRune) :?>
 				Une rune que vous portez a eu de l'effet sur la qualit&eacute; de cette potion.
 			<? endif; ?>
 		<? else: ?>
-			Vous avez manqu&eacute; votre potion<br>
+			Vous avez manqu&eacute; votre potion<br />
 		<? endif; ?>
-		<br><br>
+		<br /><br />
 	 </div>
 	 
 	 <div id='elaborer_copie' style="display:none">

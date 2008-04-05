@@ -3,20 +3,20 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <input type='hidden' id='valeur_1' name='valeur_1' value=''>
  <div class='comp_contenu'>
- 	<br>
+ 	<br />
     <? if (!$this->possedeMetier): ?>
-   		Vous ne pratiquez aucun m&eacute;tier <br><br>
+   		Vous ne pratiquez aucun m&eacute;tier <br /><br />
    		<input type='hidden' id='valeur_defaut' name='valeur_defaut' value=''>
    		<input type="hidden" id="valeur_2" name="valeur_2" value="-1">
    		<input type="hidden" id="changer_metier" name="changer_metier" value="-1">
    		
    	<? else :?>
    		<? if (count($this->tabMetiers) == 1) : ?>
-   			Le m&eacute;tier que vous avez appris <br>
+   			Le m&eacute;tier que vous avez appris <br />
    			<input type="hidden" id="valeur_2" name="valeur_2" value="-1">
    			<input type="hidden" id="changer_metier" name="changer_metier" value="-1">
    		<? else : ?>
-   			Les m&eacute;tiers que vous avez appris <br>
+   			Les m&eacute;tiers que vous avez appris <br />
    		<? endif; ?>
    		<table width='300px'>
    			<th class='comp_titre'>Nom</th>
@@ -28,7 +28,7 @@
 				<td><?=$m["date_apprentissage"];?></td>
 				<td>
 				<? if ($m["est_actif"]): ?>
-					m&eacute;tier courant <br>
+					m&eacute;tier courant <br />
 					<input type="radio" id="valeur_defaut" name="valeur_2" value="-1" checked onClick="javascript:$('changer_metier').disabled=true;if ($('apprendre_metier')) $('apprendre_metier').disabled=true;">
 				<? else: ?>
 					<input type="radio" id="valeur_2" name="valeur_2" value="<?=$m["id_metier"]?>" onClick="javascript:if ($('apprendre_metier')) $('apprendre_metier').disabled=true;$('changer_metier').disabled=false;$('valeur_3').value='-1'"/>
@@ -38,16 +38,16 @@
 			<? endforeach; ?>
 		</table>
    	<? endif; ?>
-    <br><br>
+    <br /><br />
 
     	<? if ($this->achatPossible === false): ?>
-    		Vous n'avez pas assez de castars <br>
+    		Vous n'avez pas assez de castars <br />
     		Il vous faut <?=$this->coutCastars?> castars pour apprendre un nouveau m&eacute;tier
     		 <input type='hidden' id='valeur_3' name='valeur_3' value='-1'>
     	<? else : ?>
     	    <? if (count($this->tabNouveauMetiers) >= 1) : ?>
-	    	Pour <?=$this->coutCastars?> castars, <br>
-	    	vous pouvez aprendre un nouveau m&eacute;tier : <br>
+	    	Pour <?=$this->coutCastars?> castars, <br />
+	    	vous pouvez aprendre un nouveau m&eacute;tier : <br />
 		    	<select id='valeur_3' name='valeur_3' onChange="javascript:$('changer_metier').disabled=true;$('valeur_defaut').checked=true;if(this.value!=-1){$('apprendre_metier').disabled=false;} else { $('apprendre_metier').disabled=true}">
 		    		<option value='-1'>(Choisis un m&eacute;tier)</option>
 		    		<? foreach ($this->tabNouveauMetiers as $t) : ?>
@@ -61,7 +61,7 @@
     	<? endif; ?>
  </div> 
 </form>
-<br> 
+<br /> 
 
 <? if (count($this->tabMetiers) > 1) : ?>
 <input type='button' class='button1' id="changer_metier" value='Changer de m&eacute;tier' onClick="javascript:this.disabled=true;$('valeur_1').value='changer';_get_('/lieux/doaction?caction=do_lieu_ahennepeheux');" disabled>
@@ -69,5 +69,5 @@
 <? if ($this->achatPossible === true && count($this->tabNouveauMetiers) >= 1): ?>
 <input type='button' class='button1' id="apprendre_metier" value='Apprendre un m&eacute;tier' onClick="this.disabled=true;$('valeur_1').value='apprendre';_get_('/lieux/doaction?caction=do_lieu_ahennepeheux');"  disabled>
 <? endif; ?>
-<br>
+<br />
 <? include("commun_fermer.phtml") ?>

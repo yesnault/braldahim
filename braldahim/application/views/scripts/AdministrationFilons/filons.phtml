@@ -8,7 +8,7 @@
 	    <ul class="box_contenu1 textalic">
 	    
 			<? if ($this->creation === true) : ?>
-			<b>Cr&eacute;ation de <?=$this->nb_creation ?> filons<b> <br>
+			<b>Cr&eacute;ation de <?=$this->nb_creation ?> filons<b> <br />
 			<? endif; ?>
 			<form action="/administrationfilons/filons" method="post">
 			<table align='center'>
@@ -29,9 +29,9 @@
 					<option value="<?=$p["id_type_minerai"]?>"><?=htmlentities($p["nom"])?></option>
 					<? endforeach; ?>
 					</select>
-					<br>
+					<br />
 					Quantit&eacute; min <input type="textbox" name="quantite_min" onkeypress="chiffres(event);" />
-					 max : <input type="textbox" name="quantite_max" onkeypress="chiffres(event);" /> <br>
+					 max : <input type="textbox" name="quantite_max" onkeypress="chiffres(event);" /> <br />
 				</td>
 				<td>
 					<select name="couverture">
@@ -46,7 +46,7 @@
 			</tr>
 			</table>
 			</form>
-		<br><br>
+		<br /><br />
 			<table  align='center'>
 			<th class='comp_titre'>N°</th>
 			<th class='comp_titre'>Environnement</th>

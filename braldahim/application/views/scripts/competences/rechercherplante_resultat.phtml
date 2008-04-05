@@ -6,11 +6,11 @@
 		<? if ($this->okJet1 === true):?>
 			<? if ($this->trouve === true): ?>
 				<? if ($this->proche === true): ?>
-					La plante la plus proche, de cat&eacute;gorie : <?=$this->plante["categorie"] ?><br> 
+					La plante la plus proche, de cat&eacute;gorie : <?=$this->plante["categorie"] ?><br /> 
 					se situe en : 
-					X=<?=$this->plante["x_plante"]?> et Y=<?=$this->plante["y_plante"]?><br>
+					X=<?=$this->plante["x_plante"]?> et Y=<?=$this->plante["y_plante"]?><br />
 				<? elseif ($this->proche === false): ?>
-					La plante la plus proche, de cat&eacute;gorie : <?=$this->plante["categorie"] ?><br> 
+					La plante la plus proche, de cat&eacute;gorie : <?=$this->plante["categorie"] ?><br /> 
 					se situe   
 				<? endif; ?>
 				<? if ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit == $this->plante["x_plante"]): ?>
@@ -33,7 +33,7 @@
 				sur place !
 				<? endif; ?>
 			<? else: ?>
-				Aucune plante n'a &eacute;t&eacute; trouv&eacute;e dans <br>
+				Aucune plante n'a &eacute;t&eacute; trouv&eacute;e dans <br />
 				un rayon de <?=$this->rayon_max;?> cases
 			<? endif; ?>
 			

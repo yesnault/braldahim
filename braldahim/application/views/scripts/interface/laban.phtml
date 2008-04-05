@@ -3,12 +3,12 @@
 <ul class="titre textalia textsizec">Mon Laban</ul>
  <div class="contenuC">
   <ul class="box_contenu1 textalic">
-   Castars : <?=$this->user->castars_hobbit ?><br>
+   Castars : <?=$this->user->castars_hobbit ?><br />
    <hr>
    <div class="laban_plante">
    <? if ($this->nb_partieplantes > 0) : ?>
     <? if ($this->nb_partieplantes==1):$s=''; else:$s='s';endif; ?>
-    &eacute;l&eacute;ment<?=$s?> (brut<?=$s?>) de plantes : <br>
+    &eacute;l&eacute;ment<?=$s?> (brut<?=$s?>) de plantes : <br />
     
     <table width='100%'>
     <? $i = 0;
@@ -16,9 +16,9 @@
     	 
     	if ($i % 3 == 0) echo "<tr>"; 
     	 
-    	$textPlante = "Plante : ".htmlentities($p["nom_plante"]). "<br>"; 
-    	$textPlante = "Partie : ".htmlentities($p["nom_type"]). "<br>"; 
-    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite"])."<br>";
+    	$textPlante = "Plante : ".htmlentities($p["nom_plante"]). "<br />"; 
+    	$textPlante = "Partie : ".htmlentities($p["nom_type"]). "<br />"; 
+    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite"])."<br />";
     	$titre = htmlentities($p["nom_plante"])." : ".htmlentities($p["nom_type"]);
     	?>
     	<td <?=Bral_Helper_Tip::jsTip($textPlante, $titre) ?>>
@@ -34,7 +34,7 @@
    
     <? if ($this->nb_partieplantesPreparees > 0) : ?>
     <? if ($this->nb_partieplantesPreparees==1):$s=''; else:$s='s';endif; ?>
-    &eacute;l&eacute;ment<?=$s?> (pr&eacute;par&eacute;<?=$s?>) de plantes : <br>
+    &eacute;l&eacute;ment<?=$s?> (pr&eacute;par&eacute;<?=$s?>) de plantes : <br />
     
     <table width='100%'>
     <? $i = 0;
@@ -42,9 +42,9 @@
     	 
     	if ($i % 3 == 0) echo "<tr>"; 
     	 
-    	$textPlante = "Plante : ".htmlentities($p["nom_plante"]). "<br>"; 
-    	$textPlante = "Partie : ".htmlentities($p["nom_type"]). "<br>"; 
-    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite"])."<br>";
+    	$textPlante = "Plante : ".htmlentities($p["nom_plante"]). "<br />"; 
+    	$textPlante = "Partie : ".htmlentities($p["nom_type"]). "<br />"; 
+    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite"])."<br />";
     	$titre = htmlentities($p["nom_plante"])." : ".htmlentities($p["nom_type"]);
     	?>
     	<td <?=Bral_Helper_Tip::jsTip($textPlante, $titre) ?>>
@@ -64,7 +64,7 @@
    	Aucun minerai
    <? else : ?>
     <? if ($this->nb_minerais==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_minerais?> minerai<?=$s?> : <br>
+    <?=$this->nb_minerais?> minerai<?=$s?> : <br />
     
     <table width='100%'>
     <? $i = 0;
@@ -82,28 +82,28 @@
     </table> 
     <? endif; ?>
    </div>
-   <br>
+   <br />
    <div class="laban">
    	Peau : <?=$this->laban["nb_peau"] ?>
-   	<br>
+   	<br />
    	Viande fra&icirc;che: <?=$this->laban["nb_viande"] ?>, Viande pr&eacute;par&eacute;e <?=$this->laban["nb_viande_preparee"] ?> 
-    <br>
+    <br />
     Ration : <?=$this->laban["nb_ration"] ?>
-    <br>
+    <br />
     Cuir : <?=$this->laban["nb_cuir"] ?>
-    <br>
+    <br />
     Fourrure : <?=$this->laban["nb_fourrure"] ?>
-    <br>
+    <br />
     Planche : <?=$this->laban["nb_planche"] ?>
    </div>
-   <br>
+   <br />
    
    <div class="laban">
    <? if ($this->nb_runes == 0) : ?>
    	Aucune rune
    <? else : ?>
     <? if ($this->nb_runes==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_runes?> rune<?=$s?> : <br>
+    <?=$this->nb_runes?> rune<?=$s?> : <br />
     
     <table width='100%'>
     <? $i = 0;

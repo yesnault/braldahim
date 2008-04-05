@@ -8,7 +8,7 @@
 <?php else : ?>
 	 <? if ($this->chasserOk === true) : ?>
 	 	Pour <?=$this->nb_pa ?> PA, vous pouvez chasser et r&eacute;cup&eacute;rer de la viande
-	 	et de la fourrure. <br><br>
+	 	et de la fourrure. <br /><br />
 	 	
 		Si votre comp&eacute;tence est r&eacute;ussie, vous avez <?=$this->tauxReussite ?> % de chance de bien chasser.
 	 <? else: ?>
@@ -18,7 +18,7 @@
 </div>
 
 </form>
-<br>
+<br />
 <?php if ($this->assezDePa == true && $this->chasserOk === true) : ?>
 <input type='button' class='button1' id='bouton_chasser' value='Chasser !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_chasser");'>
 <? endif ?>

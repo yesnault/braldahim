@@ -5,7 +5,7 @@ Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
 <ul class="titre textalia textsizeb">Mon Equipement</ul>
  <div class="contenuA">
   <ul class="box_contenu1 textalic">
-   &Eacute;quipement pr&eacute;sent sur vous : <br>
+   &Eacute;quipement pr&eacute;sent sur vous : <br />
 
 	<table align="center" border="0">
 	  <tr>
@@ -16,7 +16,7 @@ Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
 	 		<? if ($e["position"] == "gauche" && $e["affiche"] == "oui") : ?>
 	 		<tr>
 	 			<td class="equipement">
-	 			<?=htmlentities($e["nom_type_emplacement"]) ?><br>
+	 			<?=htmlentities($e["nom_type_emplacement"]) ?><br />
 	 			<? if (count($e["equipementPorte"]) > 0): ?>
 					<? foreach($e["equipementPorte"] as $p) : ?>
 						<? echo Bral_Helper_DetailEquipement::afficher($p); ?>
@@ -42,7 +42,7 @@ Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
 	 			}
 	 			?>
 	 			<td class="equipement">
-	 			<?=htmlentities($e["nom_type_emplacement"]) ?><br>
+	 			<?=htmlentities($e["nom_type_emplacement"]) ?><br />
 	 			<? if (count($e["equipementPorte"]) > 0): ?>
 					<? foreach($e["equipementPorte"] as $p) : ?>
  						<? echo Bral_Helper_DetailEquipement::afficher($p); ?>

@@ -9,11 +9,11 @@
 			<? if ($this->filonOk === true): ?>
 				Vous avez extrait avec succ&egrave;s 
 				<?=$this->minerai["quantite_extraite"]?> morceau<?if($this->minerai["quantite_extraite"] > 0): echo "x"; endif; ?>
-				de <?=$this->minerai["nom_type"]?><br>
+				de <?=$this->minerai["nom_type"]?><br />
 				<? if ($this->filonDetruit === true): ?>
 					Pfiou, il n'y a plus rien dans le filon...
 				<? endif; ?>
-				<br><br>
+				<br /><br />
 				<? if ($this->effetRune) :?>
 					Une rune que vous portez a eu de l'effet sur la quantit&eacute; de minerai extrait.
 				<? endif; ?>
@@ -28,7 +28,7 @@
 				Des fragments de <?=$this->minerai["nom_type"]?> tombent en miettes dans vos mains et sont d&eacute;truits.
 			<? endif; ?>
 		<? endif; ?>
-		<br><br>
+		<br /><br />
 	 </div>
 	 
 	 <div id='extraire_copie' style="display:none">

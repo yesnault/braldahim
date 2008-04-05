@@ -5,25 +5,25 @@
 		
 		<? include("commun_text_resultat.phtml") ?>
 		
-			Vous avez r&eacute;ussi &agrave; changer d'&eacute;quipement. <br>
+			Vous avez r&eacute;ussi &agrave; changer d'&eacute;quipement. <br />
 			
 			<? if (count($this->equipementRetire) > 0) :?>
-				Vous avez retir&eacute; : <br>
+				Vous avez retir&eacute; : <br />
 				<? foreach($this->equipementRetire as $r) :?>
-					<?=htmlentities($r["nom"]) ?><br>
+					<?=htmlentities($r["nom"]) ?><br />
 				<? endforeach; ?>
 			<? else : ?>
 				Vous n'avez rien retir&eacute;
 			<? endif; ?>
 			
 			<? if (count($this->equipementAjoute)) :?>
-				et vous avez rajout&eacute; sur vous : <br>
+				et vous avez rajout&eacute; sur vous : <br />
 				<? foreach($this->equipementAjoute as $r) :?>
-					<?=htmlentities($r["nom"]) ?>, n&deg;<?=htmlentities($r["id_equipement"]) ?>, niveau <?=htmlentities($r["niveau"]) ?><br>
+					<?=htmlentities($r["nom"]) ?>, n&deg;<?=htmlentities($r["id_equipement"]) ?>, niveau <?=htmlentities($r["niveau"]) ?><br />
 				<? endforeach; ?>
 			<? endif; ?>
-			<br>
-		<br>
+			<br />
+		<br />
 	 </div>
 	 
 	 <div id='concocter_copie' style="display:none">

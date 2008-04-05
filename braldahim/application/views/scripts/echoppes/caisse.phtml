@@ -2,18 +2,18 @@
 		$this->echoppe["quantite_castar_caisse_echoppe"] == 0 &&
 		$this->echoppe["quantite_rondin_caisse_echoppe"] == 0 &&
 		$this->echoppe["quantite_peau_caisse_echoppe"] == 0) : ?>
-		Votre caisse est vide<br>
+		Votre caisse est vide<br />
 	<? endif; ?>
 	
 	Castars : <?=$this->echoppe["quantite_castar_caisse_echoppe"] ?>, 
 	Rondins : <?=$this->echoppe["quantite_rondin_caisse_echoppe"] ?>,
-	Peau : <?=$this->echoppe["quantite_peau_caisse_echoppe"] ?><br>
+	Peau : <?=$this->echoppe["quantite_peau_caisse_echoppe"] ?><br />
 
    <? if ($this->nb_caissePartiePlantes == 0) : ?>
-   	Aucune plante brute<br>
+   	Aucune plante brute<br />
    <? else: ?>
     <? if ($this->nb_caissePartiePlantes<=1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_caissePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plante<?=$s?>  brute<?=$s?>: <br>
+    <?=$this->nb_caissePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plante<?=$s?>  brute<?=$s?>: <br />
     
     <table width='100%'>
     <? $i = 0;
@@ -22,9 +22,9 @@
       	if ($p["quantite_caisse"] > 0) :
       		$enter = true;
 	    	if ($i % 3 == 0) echo "<tr>"; 
-	    	$textPlante = "Plante : ".htmlentities($p["nom_plante"]). "<br>"; 
-	    	$textPlante = "Partie : ".htmlentities($p["nom_type"]). "<br>"; 
-	    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite_caisse"])."<br>";
+	    	$textPlante = "Plante : ".htmlentities($p["nom_plante"]). "<br />"; 
+	    	$textPlante = "Partie : ".htmlentities($p["nom_type"]). "<br />"; 
+	    	$textPlante .= "Quantit&eacute; : ".htmlentities($p["quantite_caisse"])."<br />";
 	    	$titre = htmlentities($p["nom_plante"])." : ".htmlentities($p["nom_type"]);
 	    	?>
 	    	<td <?=Bral_Helper_Tip::jsTip($textPlante, $titre) ?>>
@@ -42,10 +42,10 @@
    <? endif; ?>
    
    <? if ($this->nb_caisseMinerai == 0) : ?>
-   	Aucun minerai<br>
+   	Aucun minerai<br />
    <? else: ?>
     <? if ($this->nb_caisseMinerai<=1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_caisseMinerai?> minerai<?=$s?> brut<?=$s?>: <br>
+    <?=$this->nb_caisseMinerai?> minerai<?=$s?> brut<?=$s?>: <br />
     
     <table width='100%'>
     <? $i = 0;
@@ -75,9 +75,9 @@
   	<? else: 
   		$disabled = "disabled" ;
   	?>
-  		Vous n'&ecirc;tes pas dans votre &eacute;choppe, vous n'avez pas acc&egrave; aux actions...<br>
+  		Vous n'&ecirc;tes pas dans votre &eacute;choppe, vous n'avez pas acc&egrave; aux actions...<br />
   	<? endif; ?>
   	
     <input type="button" class='button1' value="Retirer des &eacute;l&eacute;ments"
        	   onClick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_retirercaisse&valeur_1=<?=$this->echoppe["id_echoppe"] ?>') "  <?=$disabled ?> />
-    <br>
+    <br />

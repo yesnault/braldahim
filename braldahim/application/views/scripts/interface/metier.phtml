@@ -4,7 +4,7 @@
   <div class="contenu">
 	  <ul class="box_contenu1 textalic">
 	   <? if (!$this->possedeMetier): ?>
-	   	Vous ne pratiquez aucun m&eacute;tier <br><br>
+	   	Vous ne pratiquez aucun m&eacute;tier <br /><br />
 	   	
 	   	Vous pouvez aller vous renseigner dans un Ahenne Peheux
 	   <? else : ?>
@@ -15,13 +15,13 @@
 	   	 $titre .= htmlentities($this->tabMetierCourant["nom"]) 
 	   	?>
 	   	 <span <?=Bral_Helper_Tip::jsTip($contenu, $titre, true) ?>>
-	   <?=htmlentities($this->tabMetierCourant["nom"]) ?> </span><br>
+	   <?=htmlentities($this->tabMetierCourant["nom"]) ?> </span><br />
 	   	Vous avez appris ce m&eacute;tier le <?=$this->tabMetierCourant["date_apprentissage"] ?>
-		<br><br>
+		<br /><br />
 	   	<? if (count($this->tabMetiers) == 1): ?>
-	   		Vous pratiquez &eacute;galement le m&eacute;tier suivant : <br>
+	   		Vous pratiquez &eacute;galement le m&eacute;tier suivant : <br />
 	   	<? elseif (count($this->tabMetiers) > 1): ?>
-	   		Vous pratiquez &eacute;galement les m&eacute;tiers suivants : <br>
+	   		Vous pratiquez &eacute;galement les m&eacute;tiers suivants : <br />
 	   	<? endif; ?>	
 	   	<? if (count($this->tabMetiers) >= 1): ?>
 			<? foreach ($this->tabMetiers as $m) : ?>
@@ -32,7 +32,7 @@
 	   	 			$titre .= htmlentities($m["nom"])?>
       			
       			 <span <?=Bral_Helper_Tip::jsTip($contenu, $titre, true) ?> >
-				<?=htmlentities($m["nom"]);?>, appris le <?=htmlentities($m["date_apprentissage"]);?><br>
+				<?=htmlentities($m["nom"]);?>, appris le <?=htmlentities($m["date_apprentissage"]);?><br />
 				</span>
 			<? endforeach; ?>
 	    <? endif; ?>

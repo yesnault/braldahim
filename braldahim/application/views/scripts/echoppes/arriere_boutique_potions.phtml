@@ -1,9 +1,9 @@
 <? Zend_Loader::loadClass("Bral_Helper_DetailPotion"); ?>
 <? if ($this->nbPotionsArriereBoutique > 0): ?>
 	<? foreach($this->potionsArriereBoutique as $p) :?>
-		<? echo Bral_Helper_DetailPotion::afficher($p); ?><br>
+		<? echo Bral_Helper_DetailPotion::afficher($p); ?><br />
 	<? endforeach; ?>
-	<br>
+	<br />
 	
 	<? if ($this->estSurEchoppe === true): 
   		$disabled = "";
@@ -20,4 +20,4 @@
 <? else: ?>
 	Vous n'avez aucune potion en r&eacute;serve
 <? endif; ?>
-<br>
+<br />

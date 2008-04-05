@@ -8,43 +8,43 @@
 	&nbsp;
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">
-	    <br>
+	    <br />
 		<?php if(!empty($this->messagesPassword)) :?>
 			<div class="message_erreur" id="message_erreur"> 
-			<?=$this->escape($this->messagesPassword); ?><br>
+			<?=$this->escape($this->messagesPassword); ?><br />
 			</div>
 		<? endif; ?>
-		<label for="title">Mot de Passe Actuel</label><br>
+		<label for="title">Mot de Passe Actuel</label><br />
 	    <input type="password" name="email_password_actuel_hobbit" value="" size="25" maxlength="20"/>
-	    <br><br>
+	    <br /><br />
 	
 		<?php if(!empty($this->messagesEmailActuel)) :?> 
 		<div class="message_erreur" id="message_erreur"> 
-			<?=$this->escape($this->messagesEmailActuel);?><br>
+			<?=$this->escape($this->messagesEmailActuel);?><br />
 		</div>
 		<?php endif; ?>
-	    <label for="title">Adresse mail actuelle</label><br>
+	    <label for="title">Adresse mail actuelle</label><br />
 	    <input type="text" name="email_actuel_hobbit" value="<?=$this->escape($this->email_actuel_hobbit);?>" size="25" maxlength="100"/> 
 	    
-	    <br><br>
+	    <br /><br />
 		<?php if(!empty($this->messagesEmailNouveau)) :?> 
 		<div class="message_erreur" id="message_erreur"> 
 		<?php foreach($this->messagesEmailNouveau as $message) :?>
-			<?=$this->escape($message);?><br>
+			<?=$this->escape($message);?><br />
 		<?php endforeach; ?>
 		</div>
 		<?php endif; ?>
-	    <label for="title">Nouvelle adresse mail</label><br>
+	    <label for="title">Nouvelle adresse mail</label><br />
 	    <input type="text" name="email_nouveau_hobbit" value="<?=$this->escape($this->email_nouveau_hobbit);?>" size="25" maxlength="100"/> 
 	    
 		<?php if(!empty($this->messagesEmailConfirm)) :?> 
 		<div class="message_erreur" id="message_erreur"> 
-			<?=$this->escape($this->messagesEmailConfirm);?><br>
+			<?=$this->escape($this->messagesEmailConfirm);?><br />
 		</div>
 		<?php endif; ?>
-		<br><label for="title">Confirmation nouvelle adresse mail</label><br>
+		<br /><label for="title">Confirmation nouvelle adresse mail</label><br />
 	    <input type="text" name="email_confirm_hobbit" value="<?=$this->escape($this->email_confirm_hobbit);?>" size="25" maxlength="100"/>      
-		<br><br>
+		<br /><br />
 		
 		<div id="formbutton">
 		<input type="submit" class='button1' name="Modifier" value="Modifier" /> 

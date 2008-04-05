@@ -7,7 +7,7 @@
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">
 			<? if ($this->creation === true) : ?>
-			<b>Cr&eacute;ation de <?=$this->nb_creation ?> plantes<b> <br>
+			<b>Cr&eacute;ation de <?=$this->nb_creation ?> plantes<b> <br />
 			<? endif; ?>
 			<form action="/administrationplantes/plantes" method="post">
 			<table align='center'>
@@ -28,11 +28,11 @@
 					<option value="<?=$p["id_type_plante"]?>"><?=htmlentities($p["nom"])?> - <?=htmlentities($p["categorie"]) ?> - <?=htmlentities($p["environnement"])?> - A:<?=htmlentities($p["nom_partie_1"])?> - B:<?=htmlentities($p["nom_partie_2"])?> - C:<?=htmlentities($p["nom_partie_3"])?> - D:<?=htmlentities($p["nom_partie_4"]) ?></option>
 					<? endforeach; ?>
 					</select>
-					<br>
-					Quantit&eacute; partie A : min <input type="textbox" name="partie_1a" onkeypress="chiffres(event);" /> max : <input type="textbox" name="partie_1b" onkeypress="chiffres(event);" /><br>
-					Quantit&eacute; partie B : min <input type="textbox" name="partie_2a" onkeypress="chiffres(event);" /> max : <input type="textbox" name="partie_2b" onkeypress="chiffres(event);" /> <br>
-					Quantit&eacute; partie C : min <input type="textbox" name="partie_3a" onkeypress="chiffres(event);" /> max : <input type="textbox" name="partie_3b" onkeypress="chiffres(event);" /> <br>
-					Quantit&eacute; partie D : min <input type="textbox" name="partie_4a" onkeypress="chiffres(event);" /> max : <input type="textbox" name="partie_4b" onkeypress="chiffres(event);" /> <br>
+					<br />
+					Quantit&eacute; partie A : min <input type="textbox" name="partie_1a" onkeypress="chiffres(event);" /> max : <input type="textbox" name="partie_1b" onkeypress="chiffres(event);" /><br />
+					Quantit&eacute; partie B : min <input type="textbox" name="partie_2a" onkeypress="chiffres(event);" /> max : <input type="textbox" name="partie_2b" onkeypress="chiffres(event);" /> <br />
+					Quantit&eacute; partie C : min <input type="textbox" name="partie_3a" onkeypress="chiffres(event);" /> max : <input type="textbox" name="partie_3b" onkeypress="chiffres(event);" /> <br />
+					Quantit&eacute; partie D : min <input type="textbox" name="partie_4a" onkeypress="chiffres(event);" /> max : <input type="textbox" name="partie_4b" onkeypress="chiffres(event);" /> <br />
 				</td>
 				<td>
 					<select name="couverture">
@@ -47,7 +47,7 @@
 			</tr>
 			</table>
 			</form>
-		<br><br>
+		<br /><br />
 			<table align='center'>
 			<th class='comp_titre'>N°</th>
 			<th class='comp_titre'>Environnement</th>

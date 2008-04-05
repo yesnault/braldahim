@@ -1,7 +1,7 @@
 <ul class="titre textalic textsizec">&Eacute;choppe <? if ($this->nom_metier_courant{0} == 'A') : echo 'd'; else: echo "de"; endif; ?> 
 <?=htmlentities($this->echoppe["nom_metier"])?>, <?=htmlentities($this->echoppe["nom_region"])?> </ul>
 <ul class="titre textalic textsizec">x:<?=$this->echoppe["x_echoppe"]?>, y:<?=$this->echoppe["y_echoppe"]?></ul>
-<br>
+<br />
 <table  width='100%'>
   	<tr><td><ul class="titre textalic textsizec">Mati&egrave;res premi&egrave;res</ul></td>
   	<td><ul class="titre textalic textsizec">L'atelier</ul></td></tr>
@@ -11,11 +11,11 @@
  		<? if ($this->estSurEchoppe === true): 
   		$disabled = "";
 	  	?>
-	  		Vous &ecirc;tes dans votre &eacute;choppe, vous pouvez travailler...<br>
+	  		Vous &ecirc;tes dans votre &eacute;choppe, vous pouvez travailler...<br />
 	  	<? else: 
 	  		$disabled = "disabled" ;
 	  	?>
-	  		Vous n'&ecirc;tes pas dans votre &eacute;choppe, vous ne pouvez pas y travailler...<br>
+	  		Vous n'&ecirc;tes pas dans votre &eacute;choppe, vous ne pouvez pas y travailler...<br />
 	  	<? endif; ?>
 		<? foreach($this->competences as $c) : ?>
 				<input type="button" class='button1' value="<?=$c["pa_utilisation"]?> PA - <?=htmlentities($c["nom"])?> : <?=$c["pourcentage"]?> % "
@@ -25,8 +25,8 @@
  </table>
  	
 
-<br><hr>
-<ul class="titre textalic textsizec">L'arri&egrave;re-boutique</ul><br>
+<br /><hr>
+<ul class="titre textalic textsizec">L'arri&egrave;re-boutique</ul><br />
  <div class="contenuc">
   <ul class="box_contenu1 textalic">
   	<table  width='100%'>
@@ -50,8 +50,8 @@
    </ul>
 </div>
 
-<br><hr>
-<ul class="titre textalic textsizec">L'etal</ul><br>
+<br /><hr>
+<ul class="titre textalic textsizec">L'etal</ul><br />
  <div class="contenuc">
   <ul class="box_contenu1 textalic">
   	<table  width='100%'>

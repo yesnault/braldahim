@@ -6,17 +6,17 @@
 		<? include("commun_text_resultat.phtml") ?>
 		
 		<? if ($this->okJet1 === true):?>
-			Jet de Chasse : <?=$this->jetChasse ?> (pour <?=$this->tauxReussite ?> %) <br><br>
+			Jet de Chasse : <?=$this->jetChasse ?> (pour <?=$this->tauxReussite ?> %) <br /><br />
 		<? if ($this->jetChasseOk === true) : ?>
-				Vous avez r&eacute;ssi votre chasse. Vous avez r&eacute;cup&eacute;r&eacute; : <br>
-				Viande : <?=$this->nbViande ?><br>
-				Peau : <?=$this->nbPeau ?><br>
-				Fourrure : <?=$this->nbFourrure ?><br>
+				Vous avez r&eacute;ssi votre chasse. Vous avez r&eacute;cup&eacute;r&eacute; : <br />
+				Viande : <?=$this->nbViande ?><br />
+				Peau : <?=$this->nbPeau ?><br />
+				Fourrure : <?=$this->nbFourrure ?><br />
 			<? else: ?>
 				Vous avez rat&eacute; votre chasse !
 			<? endif; ?>			
 		<? endif; ?>
-		<br>
+		<br />
 	 </div>
 	 
 	 <div id='chasser_copie' style="display:none">

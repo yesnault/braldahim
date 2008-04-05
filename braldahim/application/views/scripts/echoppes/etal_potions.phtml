@@ -1,7 +1,7 @@
 <? Zend_Loader::loadClass("Bral_Helper_DetailPotion"); ?>
 <? if ($this->nbPotionsEtal > 0) : ?>
 	<? foreach($this->potionsEtal as $p) :?>
-		<? echo Bral_Helper_DetailPotion::afficher($p); ?><br>
+		<? echo Bral_Helper_DetailPotion::afficher($p); ?><br />
 	<? endforeach; ?>
 		<input type="button" class='button1' value="0 PA - Retirer de la vente"
        		  onClick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_retirerpotion&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" />

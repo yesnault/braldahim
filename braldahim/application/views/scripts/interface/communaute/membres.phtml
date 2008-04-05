@@ -1,7 +1,7 @@
 
 <? Zend_Loader::loadClass("Bral_Helper_Tri"); ?>
-<br>
-<ul class="titre textalic textsizec">Liste des Membres</ul><br>
+<br />
+<ul class="titre textalic textsizec">Liste des Membres</ul><br />
 
 Filtrer par rang : 
 <select name='valeur_2'  onChange="Javascript:_get_('/communaute/doaction?caction=ask_communaute_membres&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0&valeur_4=-1&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')">
@@ -10,7 +10,7 @@ Filtrer par rang :
   	<option value='<?=$r["id_type_rang"]?>' <?if ($this->filtre == $r["id_type_rang"]){echo "selected";}?>><?=htmlentities($r["nom"])?></option>
   	<? endforeach; ?>
   	</select>
-  	<br><br>
+  	<br /><br />
   	
 <table class="table_liste">
 <thead class="table_liste">
@@ -25,7 +25,7 @@ Filtrer par rang :
 <tfoot class="table_liste">
   <tr class="table_liste">
     <th colspan='5'>
-    	Affichage de <?=count($this->tabMembres) ?> hobbit<? if (count($this->tabMembres) > 1) : echo 's'; endif; ?> sur un total de <?=$this->nbMembresTotal ?> dans la communaut&eacute;<br>
+    	Affichage de <?=count($this->tabMembres) ?> hobbit<? if (count($this->tabMembres) > 1) : echo 's'; endif; ?> sur un total de <?=$this->nbMembresTotal ?> dans la communaut&eacute;<br />
        <? if ($this->precedentOk === true) : ?>
 	   <input type="button" class='button1' onClick="Javascript:_get_('/communaute/doaction?caction=ask_communaute_membres&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')" value="Page pr&eacute;c&eacute;dente">
 	   <? endif; ?>

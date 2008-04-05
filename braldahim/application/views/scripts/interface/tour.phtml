@@ -11,36 +11,36 @@
 			sur cette petite table vous apercevez une petite clochette. Vous l'attrapez tant bien que mal et l'agitez tout doucement. 
 			Elle émet un son cristallin. Au bout de quelques instants une jolie hobbite souriante, probablement une infirmière, 
 			fait son apparition :");
-			echo "<br><br>";
+			echo "<br /><br />";
 			echo htmlentities(" \"Bonjour ".$this->user->prenom_hobbit. " ".$this->user->nom_hobbit. " ! Vous nous avez fait une sacrée peur, mais je vois que vous allez mieux ! 
 			Vous allez certainement nous quitter rapidement pour poursuivre ce que vous aviez entrepris. J'espère ne pas vous revoir trop vite dans ce Céache Hu, alors ne prenez pas de risques inutiles... \"");
-			echo "<br><br>";
+			echo "<br /><br />";
 		endif; ?>
 		</p>
 
 	<?php if ($this->is_nouveau_tour): ?>
-		Activation d'un nouveau tour : <br>
+		Activation d'un nouveau tour : <br />
 		<? if ($this->jetRegeneration != -1): ?>
-			<br>
-			Vous avez r&eacute;g&eacute;n&eacute;r&eacute; <?=$this->jetRegeneration ?> point<? if ($this->jetRegeneration > 1): echo "s"; endif;?> de vie.<br>
+			<br />
+			Vous avez r&eacute;g&eacute;n&eacute;r&eacute; <?=$this->jetRegeneration ?> point<? if ($this->jetRegeneration > 1): echo "s"; endif;?> de vie.<br />
 		<? endif; ?>		
 	<?php elseif ($this->is_update_tour) : ?>
-		Information tour : <br>
+		Information tour : <br />
 	<?php endif; ?>
 	<?php if ($this->is_tour_manque) : ?>
-		<b>Vous avez manqu&eacute; un (ou plusieurs) tours de jeu.</b>  <br>
+		<b>Vous avez manqu&eacute; un (ou plusieurs) tours de jeu.</b>  <br />
 	<?php endif; ?>
-	<br>
-	Points de vie : <?=$this->user->pv_restant_hobbit ?> / <?=($this->config->game->pv_base + $this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) ?>  + <?= $this->user->pv_max_bm_hobbit ?><br>
-	Date limite d'action : <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y &\a\g\r\a\v\e\; H:i:s ',$this->user->date_fin_tour_hobbit);?> <br>
-	Dur&eacute;e du tour : <?=$this->user->duree_courant_tour_hobbit ?> <br>
-	Position dans le tour : <?=$this->user->nom_tour ?> <br>
-	Nombre de Points d'Action : <?=$this->user->pa_hobbit ?><br><br>
+	<br />
+	Points de vie : <?=$this->user->pv_restant_hobbit ?> / <?=($this->config->game->pv_base + $this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) ?>  + <?= $this->user->pv_max_bm_hobbit ?><br />
+	Date limite d'action : <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y &\a\g\r\a\v\e\; H:i:s ',$this->user->date_fin_tour_hobbit);?> <br />
+	Dur&eacute;e du tour : <?=$this->user->duree_courant_tour_hobbit ?> <br />
+	Position dans le tour : <?=$this->user->nom_tour ?> <br />
+	Nombre de Points d'Action : <?=$this->user->pa_hobbit ?><br /><br />
 	
 	<? include("tour/effet_mot_text.phtml"); ?>
 	<? include("tour/effet_potion_text.phtml"); ?>
 	
-	<br><br>
+	<br /><br />
 </div>
 	 
 <div id='tour_copie' style="display:none">

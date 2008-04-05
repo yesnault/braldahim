@@ -7,30 +7,30 @@
 		
 		<? if ($this->okJet1 === true):?>
 			<? if ($this->nbCueillette > 1):?>
-			Vous avez cueilli avec succ&egrave;s des &eacute;l&eacute;ments sur la plante <br>
+			Vous avez cueilli avec succ&egrave;s des &eacute;l&eacute;ments sur la plante <br />
 			<? else: ?>
-			Vous avez cueilli avec succ&egrave;s un &eacute;l&eacute;ment sur la plante <br>
+			Vous avez cueilli avec succ&egrave;s un &eacute;l&eacute;ment sur la plante <br />
 			<? endif; ?>
 			<?=htmlentities($this->plante["categorie"])?> - <?=htmlentities($this->plante["nom_type"])?> (<?=$this->plante["id_plante"]?>)
-			<br><br>
+			<br /><br />
 		
 			<? if ($this->cueillette[1]["quantite"] != 0) {
-				echo $this->cueillette[1]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[1]["quantite"]. "<br>";
+				echo $this->cueillette[1]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[1]["quantite"]. "<br />";
 			}
 			if ($this->cueillette[2]["quantite"] != 0) {
-				echo $this->cueillette[2]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[2]["quantite"]. "<br>";
+				echo $this->cueillette[2]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[2]["quantite"]. "<br />";
 			}
 			if ($this->cueillette[3]["quantite"] != 0) {
-				echo $this->cueillette[3]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[3]["quantite"]. "<br>";
+				echo $this->cueillette[3]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[3]["quantite"]. "<br />";
 			}
 			if ($this->cueillette[4]["quantite"] != 0) {
-				echo $this->cueillette[4]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[4]["quantite"]. "<br>";
+				echo $this->cueillette[4]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[4]["quantite"]. "<br />";
 			}
 			?>
 			<? if ($this->planteDetruite === true) : ?>
-				Vous avez pris ce qu'il restait sur la plante... elle n'existe donc plus. <br>
+				Vous avez pris ce qu'il restait sur la plante... elle n'existe donc plus. <br />
 			<? endif; ?>
-			<br>
+			<br />
 			<? if ($this->effetRune) :?>
 				Une rune que vous portez a eu de l'effet sur la quantit&eacute; d'&eacute;l&eacute;ments cueillis.
 			<? endif; ?>
@@ -44,7 +44,7 @@
 				la plante... ils sont d&eacute;truits.
 			<? endif; ?>
 		<? endif; ?>
-		<br>
+		<br />
 	 </div>
 	 
 	 <div id='cueillir_copie' style="display:none">

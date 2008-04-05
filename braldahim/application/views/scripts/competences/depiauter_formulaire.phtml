@@ -10,14 +10,14 @@
 		<? if ($this->nCadavres == 0): ?>
  			Il n'y a pas de monstre &agrave; d&eacute;piauter ici...
  		<? else: ?>
- 		<br>
- 			Pour <?=$this->nb_pa?> PA, vous pouvez d&eacute;piauter :<br><br>
+ 		<br />
+ 			Pour <?=$this->nb_pa?> PA, vous pouvez d&eacute;piauter :<br /><br />
 			<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_depiauter').disabled=true } else {$('bouton_depiauter').disabled=false }">
 			<option value='-1'>(Choisis un cadavre)</option>
 			<? foreach ($this->tabCadavres as $m) : ?>
 			<option value="<?=$m["id_cadavre"]?>"><?=htmlentities($m["nom_cadavre"])?> <?=htmlentities($m["taille_cadavre"])?>  (<?=$m["id_cadavre"]?>)</option>
 			<? endforeach; ?>
-			</select><br>
+			</select><br />
  		<? endif; ?>
 	 <? else: ?>
 	 	Vous ne pouvez rien d&eacute;piauter ici...
@@ -26,7 +26,7 @@
 </div>
 
 </form>
-<br>
+<br />
 <?php if ($this->assezDePa == true && $this->depiauterOk === true && $this->nCadavres > 0) : ?>
 <input type='button' class='button1' id='bouton_depiauter' value='D&eacute;piauter !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_depiauter");' disabled>
 <? endif ?>

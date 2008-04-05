@@ -59,7 +59,7 @@
 					<input type="textbox" name="y_max" id="y_max" size="4" maxlength="4" />
 				</td>
 				<td>
-					Nombre de monstre<br>
+					Nombre de monstre<br />
 					(Cr&eacute;ation automatique de groupe)
 				</td>
 				<td>
@@ -70,46 +70,46 @@
 			<input type="submit" class="button1" name="Ajouter" value="Ajouter" />
 			</form>
 			
-			<br><br>
+			<br /><br />
 			<? if ($this->creation === true): ?>
 			<ul class="titre textalic textsizeb">R&eacute;sultats Cr&eacute;ation</ul>
-				Cr&eacute;ation de <?=count($this->tabCreation["monstres"])?> monstre(s) et de <?=count($this->tabCreation["groupesMonstres"])?> groupe(s) de monstres<br>
+				Cr&eacute;ation de <?=count($this->tabCreation["monstres"])?> monstre(s) et de <?=count($this->tabCreation["groupesMonstres"])?> groupe(s) de monstres<br />
 				
-				Groupes : <br>
+				Groupes : <br />
 				<? foreach($this->tabCreation["groupesMonstres"] as $g): ?>
-					Groupe Id <?=$g["id_groupe_monstre"]?> Nombre de membres <?=$g["nb_membres_max_groupe_monstre"]?><br>
+					Groupe Id <?=$g["id_groupe_monstre"]?> Nombre de membres <?=$g["nb_membres_max_groupe_monstre"]?><br />
 				<? endforeach; ?>
 				
-				Monstres : <br>
+				Monstres : <br />
 				<? foreach($this->tabCreation["monstres"] as $g): ?>
 					Monstre Id <?=$g["id_monstre"]?> <?=$g["nom_type"]?> (<?=$g["taille"]?>) 
 					niveau:<?=$g["niveau_monstre"]?> pv:<?=$g["pv_restant_monstre"]?>
 					x:<?=$g["x_monstre"]?> y:<?=$g["y_monstre"]?>
 					FOR:<?=$g["force_base_monstre"]?> SAG:<?=$g["sagesse_base_monstre"]?>
 					AGI:<?=$g["agilite_base_monstre"]?> VIG:<?=$g["vigueur_base_monstre"]?>
-					ARMNAT :<?=$g["armure_naturelle_monstre"]?> DLA:<?=$g["duree_base_tour_monstre"]?><br>
+					ARMNAT :<?=$g["armure_naturelle_monstre"]?> DLA:<?=$g["duree_base_tour_monstre"]?><br />
 				<? endforeach; ?>
 			<? endif; ?>
 			
-			<br><ul class="titre textalic textsizea">Statistiques actuelles</ul><br>
+			<br /><ul class="titre textalic textsizea">Statistiques actuelles</ul><br />
 
-			Nombre de groupe actuellement en base : <?=$this->stats["nb_groupes"] ?><br>
-			Nombre de monstre actuellement en base : <?=$this->stats["nb_monstres"] ?><br>
-			Pourcentage de couverture globale : <?=$this->stats["couverture_globale"] ?> % (si l'on considère 1 monstre par case).<br>
+			Nombre de groupe actuellement en base : <?=$this->stats["nb_groupes"] ?><br />
+			Nombre de monstre actuellement en base : <?=$this->stats["nb_monstres"] ?><br />
+			Pourcentage de couverture globale : <?=$this->stats["couverture_globale"] ?> % (si l'on considère 1 monstre par case).<br />
 
-			<br>
-			<br><ul class="titre textalic textsizec">Nombre de monstres par type</ul>
+			<br />
+			<br /><ul class="titre textalic textsizec">Nombre de monstres par type</ul>
 			<? foreach($this->stats["nb_monstre_par_type"] as $t): ?>
-				<?=$t["nom_type"]?> : <?=$t["nombre"]?><br>
+				<?=$t["nom_type"]?> : <?=$t["nombre"]?><br />
 			<? endforeach; ?>
 			
-			<br>
-			<br><ul class="titre textalic textsizec">Nombre de monstres par taille</ul>
+			<br />
+			<br /><ul class="titre textalic textsizec">Nombre de monstres par taille</ul>
 			<? foreach($this->stats["nb_monstre_par_taille"] as $t): ?>
-				<?=$t["nom_feminin"]?> / <?=$t["nom_masculin"]?> : <?=$t["nombre"]?><br>
+				<?=$t["nom_feminin"]?> / <?=$t["nom_masculin"]?> : <?=$t["nombre"]?><br />
 			<? endforeach; ?>
-			<br>
-			<br><ul class="titre textalic textsizec">Couverture par zone</ul>
+			<br />
+			<br /><ul class="titre textalic textsizec">Couverture par zone</ul>
 			<table align='center'>
 			<th class='comp_titre'>N°</th>
 			<th class='comp_titre'>Environnement</th>

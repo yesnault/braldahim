@@ -16,7 +16,7 @@ class Bral_Helper_Tip {
 				$retour .= "</div>";
 				$retour .= "<div class=\'tooltip-l\' style=\'width: ".$width."px;\'>";
 					$retour .= "<div class=\'tooltip-r\'>";
-						$retour .= "<div class=\'tooltip-m\'>".$titre."<br>";
+						$retour .= "<div class=\'tooltip-m\'>".$titre."<br />";
 				    	if ($justify === true) {
 							$retour .= "<div ><p style=\'text-align:justify\'>";
 						}

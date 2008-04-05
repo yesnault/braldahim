@@ -7,9 +7,9 @@
  Vous n'avez pas assez de PA
 <?php else : ?>
 	 <? if ($this->fabriquerEchoppeOk === true) : ?>
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez fabriquer une pi&egrave;ce d'&eacute;quipement<br><br>
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez fabriquer une pi&egrave;ce d'&eacute;quipement<br /><br />
      
-     Type de l'&eacute;quipement :<br>
+     Type de l'&eacute;quipement :<br />
      <select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_fabriquer&type_equipement='+this.value);">
 	 	<option value="-1">(Choisis un &eacute;quipement)</option>
 	 	<? foreach($this->typeEquipement as $t) : ?>
@@ -17,10 +17,10 @@
 	 	<? endforeach; ?>
 	 </select>
 	 
-	 <br><br>
+	 <br /><br />
 	 
 	 <? if ($this->niveaux != null) : ?>
-	 Niveau de l'&eacute;quipement :<br>
+	 Niveau de l'&eacute;quipement :<br />
 	 <select name="valeur_2" id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_fabriquer').disabled=true } else {$('bouton_fabriquer').disabled=false }">
 	 	<option value="-1">(Choisis un niveau)</option>
 	 	<? foreach($this->niveaux as $k => $v) : ?>
@@ -29,13 +29,13 @@
 	 </select>
 	 <? endif; ?>
 		
-	<br><br>
+	<br /><br />
 	
 	<? if (isset($this->peutRunes)): 
 		if ($this->peutRunes === true) : ?>
-			Cet &eacute;quipement peut porter des runes.<br>
+			Cet &eacute;quipement peut porter des runes.<br />
 			 <? if ($this->runes != null) : ?>
-			 Nombre d'emplacements sur l'&eacute;quipement :<br>
+			 Nombre d'emplacements sur l'&eacute;quipement :<br />
 			 <select name="valeur_3" id="valeur_3"  onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_fabriquer').disabled=true } else {$('bouton_fabriquer').disabled=false }">
 			 	<option value="-1">(Choisis un nombre d'emplacements)</option>
 			 	<? foreach($this->runes as $n) : ?>
@@ -45,14 +45,14 @@
 			 <? endif; ?>
 		<? else: ?>
 			<input type='hidden' id='valeur_3' name='valeur_3' value='0'>
-			Cet &eacute;quipement ne peut pas porter de rune.<br>
+			Cet &eacute;quipement ne peut pas porter de rune.<br />
 		<? endif; ?>
 	<? endif; ?>
 	
 	<? if (isset($this->cout)): ?>
-	<br><br>Co&ucirc;t : 
+	<br /><br />Co&ucirc;t : 
 	 	<? foreach($this->cout as $key1 => $value1) :?>
-	 			<br>Niveau <?=$key1 ?> -> 
+	 			<br />Niveau <?=$key1 ?> -> 
 		 		<? 
 		 			$i = 0;
 		 			foreach($value1 as $c) :
@@ -75,7 +75,7 @@
 </div>
 
 </form>
-<br>
+<br />
 <?php if ($this->assezDePa == true && $this->fabriquerEchoppeOk === true && $this->etape1 === true) : ?>
 <input type='button' class='button1' id='bouton_fabriquer' value='Fabriquer !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_fabriquer&type_equipement="+$("valeur_1").value);' disabled>
 <? endif ?>

@@ -33,7 +33,7 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 			$this->view->nbEnCours = count($gardiennageEnCours);
 			$this->view->nbMax = $this->view->config->game->gardiennage->nb_max_en_cours;
 		} else {
-			$this->view->messageMax = "Vous avez d&eacute;j&agrave; deux gardiennages en cours<br><br> Vous ne pouvez plus en  cr&eacute;er";
+			$this->view->messageMax = "Vous avez d&eacute;j&agrave; deux gardiennages en cours<br /><br /> Vous ne pouvez plus en  cr&eacute;er";
 		}
 		
 	}
