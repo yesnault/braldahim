@@ -28,12 +28,12 @@
 </head>
 
 <?php if($this->user && $this->controleur == "interface") : ?> 
- <body onLoad="_get_('/interface/boxes');" class="yui-skin-sam" >
+ <body onLoad="_get_('/interface/boxes');">
 <?php else: ?>
 <body>
-
 <?php endif; ?>
-  <div id="overDiv" style="position:absolute; visibility:hidden; z-index:100001;"></div>
+
+<div id="overDiv" style="position:absolute; visibility:hidden; z-index:100001;"></div>
 <div style="height:10px">&nbsp;</div>
 <?php if (isset($this->user) && isset($this->user->email_hobbit)) : ?> 
 <b class="xb_t1"></b><b class="xb_t2"></b><b class="xb_t3"></b><b class="xb_t4"></b><b class="xb_t5"></b><b class="xb_t6"></b><b class="xb_t7"></b>
