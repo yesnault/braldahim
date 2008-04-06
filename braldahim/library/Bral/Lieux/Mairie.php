@@ -81,8 +81,9 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 				Zend_Loader::loadClass('Zend_Filter_StringTrim');
 				$filter = new Zend_Filter();
 				$filter->addFilter(new Zend_Filter_StringTrim())->addFilter(new Zend_Filter_StripTags());
-				$nomCommunaute = $filter->filter($this->request->getPost('valeur_3'));
-				$nomCommunaute = $this->request->getPost("valeur_3");
+				$nomCommunaute = stripslashes($filter->filter($this->request->getPost('valeur_3')));
+				
+				//$nomCommunaute =$nomCommunaute
 				$this->view->creerCommunaute = true;
 			}
 		}
@@ -125,7 +126,6 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$this->majHobbit();
 	}
 
-
 	function getListBoxRefresh() {
 		return array("box_profil", "box_laban", "box_competences_metiers", "box_communaute");
 	}
@@ -133,7 +133,6 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 	private function calculCoutCastars() {
 		return 50;
 	}
-	
 	
 	private function creerCommunaute($nomCommunaute) {
 		$communauteTable = new Communaute();
@@ -145,12 +144,15 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$communaute = $data;
 		$communaute["id_communaute"] = $communauteTable->insert($data);
 		
-		$this->creerRangsDefaut($communaute["id_communaute"]);
+		$idRangCreateur = $this->creerRangsDefaut($communaute["id_communaute"]);
 		
 		$hobbitTable = new Hobbit();
-		$data = array('id_fk_communaute_hobbit' => $communaute["id_communaute"],
-			'date_entree_communaute_hobbit' => date("Y-m-d H:i:s"),
-			'id_fk_rang_communaute_hobbit' => 1,
+		$this->view->user->id_fk_communaute_hobbit = $communaute["id_communaute"];
+		$this->view->user->date_entree_communaute_hobbit = date("Y-m-d H:i:s");
+		$this->view->user->id_fk_rang_communaute_hobbit = $idRangCreateur;
+		$data = array('id_fk_communaute_hobbit' => $this->view->user->id_fk_communaute_hobbit,
+			'date_entree_communaute_hobbit' => $this->view->user->date_entree_communaute_hobbit,
+			'id_fk_rang_communaute_hobbit' => $this->view->user->id_fk_rang_communaute_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
@@ -162,9 +164,17 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$communaute = $this->view->communautes[$idCommunaute];
 		
 		$hobbitTable = new Hobbit();
-		$data = array('id_fk_communaute_hobbit' => $communaute["id_communaute"],
-			'date_entree_communaute_hobbit' => date("Y-m-d H:i:s"),
-			'id_fk_rang_communaute_hobbit' => 20,
+		$this->view->user->id_fk_communaute_hobbit = $communaute["id_communaute"];
+		$this->view->user->date_entree_communaute_hobbit = date("Y-m-d H:i:s");
+		
+		$rangCommunauteTable = new RangCommunaute();
+		$rowSet = $rangCommunauteTable->findRangNouveau($communaute["id_communaute"]);
+		
+		$this->view->user->id_fk_rang_communaute_hobbit = $rowSet["id_rang_communaute"];
+		
+		$data = array('id_fk_communaute_hobbit' => $this->view->user->id_fk_communaute_hobbit,
+			'date_entree_communaute_hobbit' => $this->view->user->date_entree_communaute_hobbit,
+			'id_fk_rang_communaute_hobbit' => $this->view->user->id_fk_rang_communaute_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
@@ -174,7 +184,12 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 	
 	private function sortirCommunaute($idCommunaute) {
 		$communaute = $this->view->communautes[$idCommunaute];
+		
 		$hobbitTable = new Hobbit();
+		$this->view->user->id_fk_communaute_hobbit = null;
+		$this->view->user->date_entree_communaute_hobbit = null;
+		$this->view->user->id_fk_rang_communaute_hobbit = null;
+		
 		$data = array('id_fk_communaute_hobbit' => null,
 			'date_entree_communaute_hobbit' => null,
 			'id_fk_rang_communaute_hobbit' => null,
@@ -202,12 +217,18 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$typeRangRowset = $typeRangTable->fetchAll();
 		$typeRangRowset = $typeRangRowset->toArray();
 		
+		$ordre = 0;
 		foreach ($typeRangRowset as $t) {
-			$data = array('id_fk_type_rang_communaute' => $t["id_type_rang_communaute"],
+			$ordre++;
+			$data = array('ordre_rang_communaute' => $ordre,
 				'id_fk_communaute_rang_communaute' => $idCommunaute,
 				'nom_rang_communaute' => $t["nom_type_rang_communaute"],
 			);
-			$rangCommunauteTable->insert($data);
+			$id = $rangCommunauteTable->insert($data);
+			if ($ordre == 1) {
+				$idRangCreateur = $id;
+			}
 		}
+		return $idRangCreateur;
 	}
 }

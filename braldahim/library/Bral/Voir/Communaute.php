@@ -64,8 +64,9 @@ class Bral_Voir_Communaute {
 				"prenom_hobbit" => $m["prenom_hobbit"],
 				"niveau_hobbit" => $m["niveau_hobbit"],
 				"date_entree" => $m["date_entree_communaute_hobbit"],
-				"id_rang_communaute" => $m["id_fk_type_rang_communaute"],
+				"id_rang_communaute" => $m["id_rang_communaute"],
 				"nom_rang_communaute" => $m["nom_rang_communaute"],
+				"ordre_rang_communaute" => $m["ordre_rang_communaute"],
 			);
 		}
 		
@@ -75,8 +76,9 @@ class Bral_Voir_Communaute {
 
 		foreach($rangsCommunauteRowset as $r) {
 			$tabRangs[] = array(
-				"id_type_rang" => $r["id_fk_type_rang_communaute"],
+				"id_type_rang" => $r["id_rang_communaute"],
 				"nom" => $r["nom_rang_communaute"],
+				"ordre_rang_communaute" => $r["ordre_rang_communaute"],
 			);
 		}
 		
@@ -163,7 +165,7 @@ class Bral_Voir_Communaute {
 		} elseif ($ordre == 5) {
 			$retour = "date_entree_communaute_hobbit";
 		} elseif ($ordre == 6) {
-			$retour = "id_fk_type_rang_communaute";
+			$retour = "ordre_rang_communaute";
 		} else {
 			$retour = "prenom_hobbit";
 		}

@@ -23,7 +23,7 @@
 			<?php if(!empty($this->messagesPrenom)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesPrenom as $message) :?>
-				<?=$this->escape($message);?><br />
+				<?=htmlentities($message);?><br />
 			<?php endforeach; ?>
 			</div> 
 			<?php endif; ?>
@@ -46,7 +46,7 @@
 			</div>
 			<?php endif; ?>
 		    <label for="title">Email</label><br />
-		    Un email de confirmation vous sera envoyé à cette adresse<br />
+		    Un email de confirmation vous sera envoy&eacute; &agrave; cette adresse<br />
 		    <input type="text" name="email_hobbit" value="<?=$this->escape($this->hobbit->email_hobbit);?>" size="25" maxlength="100"/> 
 		    <?php if(!empty($this->messagesEmailConfirm)) :?> 
 			<div class="message_erreur" id="message_erreur"> 

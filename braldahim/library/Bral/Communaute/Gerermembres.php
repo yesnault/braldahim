@@ -13,6 +13,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 		$this->view->message = null;
 		$this->preparePage();
 		$this->updateRangHobbit();
+		$this->updateExclureHobbit();
 	}
 
 	function getNomInterne() {
@@ -67,8 +68,9 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 				"prenom_hobbit" => $m["prenom_hobbit"],
 				"niveau_hobbit" => $m["niveau_hobbit"],
 				"date_entree" => $m["date_entree_communaute_hobbit"],
-				"id_rang_communaute" => $m["id_fk_type_rang_communaute"],
+				"id_rang_communaute" => $m["id_rang_communaute"],
 				"nom_rang_communaute" => $m["nom_rang_communaute"],
+				"ordre_rang_communaute" => $m["ordre_rang_communaute"],
 			);
 		}
 		
@@ -78,8 +80,9 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 
 		foreach($rangsCommunauteRowset as $r) {
 			$tabRangs[] = array(
-				"id_type_rang" => $r["id_fk_type_rang_communaute"],
+				"id_rang" => $r["id_rang_communaute"],
 				"nom" => $r["nom_rang_communaute"],
+				"ordre_rang_communaute" => $r["ordre_rang_communaute"],
 			);
 		}
 		
@@ -114,28 +117,28 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 		$this->_page = 1;
 		
 		if ($this->_request->get("valeur_1") == "f") {
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_2"));
-			$ordre = $this->getValeurVerif($this->_request->get("valeur_5"));
-			$sensOrdre = $this->getValeurVerif($this->_request->get("valeur_6"));
+			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
+			$ordre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
+			$sensOrdre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_6"));
 		} else if ($this->_request->get("valeur_1") == "p") {
-			$this->_page = $this->getValeurVerif($this->_request->get("valeur_3")) - 1;
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_4"));
-			$ordre = $this->getValeurVerif($this->_request->get("valeur_5"));
-			$sensOrdre = $this->getValeurVerif($this->_request->get("valeur_6"));
+			$this->_page = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) - 1;
+			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
+			$ordre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
+			$sensOrdre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_6"));
 		} else if ($this->_request->get("valeur_1") == "s") {
-			$this->_page = $this->getValeurVerif($this->_request->get("valeur_3")) + 1;
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_4"));
-			$ordre = $this->getValeurVerif($this->_request->get("valeur_5"));
-			$sensOrdre = $this->getValeurVerif($this->_request->get("valeur_6"));
+			$this->_page = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) + 1;
+			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
+			$ordre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
+			$sensOrdre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_6"));
 		} else if ($this->_request->get("valeur_1") == "o") {
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_2"));
-			$ordre = $this->getValeurVerif($this->_request->get("valeur_5"));
-			$sensOrdre = $this->getValeurVerif($this->_request->get("valeur_6")) + 1;
-		} else if ($this->_request->get("valeur_1") == "a") {
-			$this->_page = $this->getValeurVerif($this->_request->get("valeur_3"));
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_2"));
-			$ordre = $this->getValeurVerif($this->_request->get("valeur_5"));
-			$sensOrdre = $this->getValeurVerif($this->_request->get("valeur_6"));
+			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
+			$ordre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
+			$sensOrdre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_6")) + 1;
+		} else if ($this->_request->get("valeur_1") == "r" || $this->_request->get("valeur_1") == "e") { // rang
+			$this->_page = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3"));
+			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
+			$ordre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
+			$sensOrdre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_6"));
 		} else {
 			$this->_page = 1;
 			$this->_filtre = -1;
@@ -155,14 +158,6 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 		$this->_nbMax = $this->view->config->communaute->membres->nb_affiche;
 	}
 	
-	private function getValeurVerif($val) {
-		if (((int)$val.""!=$val."")) {
-			throw new Zend_Exception(get_class($this)." Valeur invalide : val=".$val);
-		} else {
-			return (int)$val;
-		}
-	}
-	
 	private function getChampOrdre($ordre) {
 		$retour = "";
 		if ($ordre == 1) {
@@ -176,7 +171,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 		} elseif ($ordre == 5) {
 			$retour = "date_entree_communaute_hobbit";
 		} elseif ($ordre == 6) {
-			$retour = "id_fk_type_rang_communaute";
+			$retour = "id_rang_communaute";
 		} else {
 			$retour = "prenom_hobbit";
 		}
@@ -194,15 +189,15 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 	}
 	
 	private function updateRangHobbit() {
-		if ($this->_request->get("valeur_1") == "a") {
+		if ($this->_request->get("valeur_1") == "r") {
 			$this->prepareRender();
 			
-			$idHobbit = $this->getValeurVerif($this->_request->get("valeur_7"));
-			$idRangHobbit = $this->getValeurVerif($this->_request->get("valeur_8"));
+			$idHobbit = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_7"));
+			$idRangHobbit = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_8"));
 			
 			$hobbitTrouve = false;
 			foreach($this->view->tabMembres as $m) {
-				if ($m["id_hobbit"] == $idHobbit && $m["id_rang_communaute"] != 1) { // le gestionnaire ne peut pas etre modifie
+				if ($m["id_hobbit"] == $idHobbit && $m["ordre_rang_communaute"] != 1) { // le gestionnaire ne peut pas etre modifie
 					$hobbitTrouve = true;
 					break;
 				}
@@ -213,7 +208,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			
 			$rangTrouve = false;
 			foreach($this->view->tabRangs as $r) {
-			if ($r["id_type_rang"] == $idRangHobbit) {
+			if ($r["id_rang"] == $idRangHobbit) {
 					$rangTrouve = true;
 					break;
 				}
@@ -228,6 +223,36 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			$hobbitTable->update($data, $where);
 			
 			$this->view->message = "Modification du Hobbit ".$idHobbit. " effectuée";
+		}
+	}
+	
+	private function updateExclureHobbit() {
+		if ($this->_request->get("valeur_1") == "e") {
+			$this->prepareRender();
+			
+			$idHobbit = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_9"));
+			
+			$hobbitTrouve = false;
+			foreach($this->view->tabMembres as $m) {
+				if ($m["id_hobbit"] == $idHobbit && $m["ordre_rang_communaute"] != 1) { // le gestionnaire ne peut pas etre exclu
+					$hobbitTrouve = true;
+					break;
+				}
+			}
+			if ($hobbitTrouve == false) {
+				throw new Zend_Exception(get_class($this)." Hobbit invalide : val=".$idHobbit);
+			}
+			
+			$hobbitTable = new Hobbit();
+			$data = array(
+				'id_fk_communaute_hobbit' => null,
+				'id_fk_rang_communaute_hobbit' => null ,
+				'date_entree_communaute_hobbit' => null,
+			);
+			$where = 'id_hobbit = '.$idHobbit;
+			$hobbitTable->update($data, $where);
+			
+			$this->view->message = "Exclusion du Hobbit ".$idHobbit. " effectuée";
 		}
 	}
 }

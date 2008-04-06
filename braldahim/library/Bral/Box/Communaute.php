@@ -23,7 +23,12 @@ class Bral_Box_Communaute {
 	function render() {
 		$estGestionnaire = false;
 		$communaute = null;
-		if ($this->view->user->id_fk_rang_communaute_hobbit == 1) { // rang 1 : Gestionnaire
+		
+		Zend_Loader::loadClass("RangCommunaute");
+		$rangCommunauteTable = new RangCommunaute();
+		$rang = $rangCommunauteTable->findRangCreateur($this->view->user->id_fk_communaute_hobbit);
+
+		if ($this->view->user->id_fk_rang_communaute_hobbit == $rang["id_rang_communaute"]) { // rang 1 : Gestionnaire
 			$estGestionnaire = true;
 		}
 		if ($this->view->user->id_fk_communaute_hobbit != null) {
@@ -43,5 +48,4 @@ class Bral_Box_Communaute {
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/communaute.phtml");
 	}
-
 }

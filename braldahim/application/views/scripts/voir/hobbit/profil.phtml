@@ -14,7 +14,7 @@
 		</i>Aucune</i>
 	<? else: ?>
 		<a href="/voir/communaute/?communaute=<?=$this->communaute["id_communaute"] ?>">
-		<?=htmlentities($this->communaute["nom_communaute"]) ?>, n&deg;<?=$this->communaute["id_communaute"] ?>
+		<?=$this->communaute["nom_communaute"] ?>, n&deg;<?=$this->communaute["id_communaute"] ?>
 		</a>
 	<? endif; ?>
 	</td>

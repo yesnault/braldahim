@@ -37,9 +37,10 @@
 				<option value="<?=$c["id_communaute"] ?>"><?=htmlentities($c["nom_communaute"]) ?> </option>
 			<? endforeach; ?>
 		</select><br /><br />
-   	  	ou cr&eacute;er une communaut&eacute; : <br />
+   	  	ou cr&eacute;er une communaut&eacute; (<i>40 caract&egrave;res max</i>) : <br />
    	  		<input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
-   	  		<input type='text' id='valeur_3' name='valeur_3' value='' size='30' maxlength='30' onChange="javascript:$('valeur_1').value=-1 ; $('valeur_2').value=1; $('bouton_mairie_rentrer').disabled=true; if ($('valeur_3').value != '') { $('bouton_mairie_creer').disabled=false; } else { $('bouton_mairie_creer').disabled=true; }">
+   	  		<input type='text' id='valeur_3' name='valeur_3' value='' size='40' maxlength='40' onChange="javascript:$('valeur_1').value=-1 ; $('valeur_2').value=1; $('bouton_mairie_rentrer').disabled=true; if ($('valeur_3').value != '') { $('bouton_mairie_creer').disabled=false; } else { $('bouton_mairie_creer').disabled=true; }">
+   	  		
    	<? endif; ?>
  </div> 
 <? endif; ?>
@@ -50,7 +51,7 @@
 	<? if ($this->hobbitAvecCommunaute == true) : ?>
 	<input type='button' class='button1' id="bouton_mairie_sortir" value='Sortir de la communaut&eacute;' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');" />
 	<? else : ?>
-	<input type='button' class='button1' id="bouton_mairie_creer" value='Cr&eacute;er une communaut&eacute;' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');"  disabled>
+	<input type='button' class='button1' id="bouton_mairie_creer" value='Cr&eacute;er une communaut&eacute;' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie', true);"  disabled>
 	<input type='button' class='button1' id="bouton_mairie_rentrer" value='Renter dans  une communaut&eacute;' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');"  disabled>
 	<? endif; ?>
 <? endif; ?>

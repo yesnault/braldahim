@@ -5,6 +5,7 @@ class Bral_Validate_Inscription_PrenomHobbit implements Zend_Validate_Interface 
     protected $_messages = array();
 
     public function isValid($valeur) {
+    
         $this->_messages = array();
 		$valid = true;
 		
@@ -36,8 +37,16 @@ class Bral_Validate_Inscription_PrenomHobbit implements Zend_Validate_Interface 
 		$flag = true;
 		$val = null;
 		for ($i = 0; $i< strlen($valeur); $i++) {
-			if (!in_array($valeur[$i], $tab)) {
-				$this->_messages[] = "Le nom du hobbit contient un ou plusieurs caractères invalides";
+			$trouve = false;
+			foreach ($tab as $v) {
+				if ($v == substr($valeur, $i, 1)) {
+					$trouve = true;
+					echo "A REVOIR";
+				}
+				
+			}
+			if ($trouve == false) {
+				$this->_messages[] = "Le nom du hobbit contient un ou plusieurs caractères invalides".substr($valeur, $i, 1);
 				foreach ($tab as $t) {
 					$val .= $t. " ";
 				}	

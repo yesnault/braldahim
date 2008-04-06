@@ -2,28 +2,29 @@
 <div class="inner">
 <ul class="titre textalia textsizeb">Ma Communaute
 	<? if ($this->communaute != null) : ?>
-		: <?=htmlentities($this->communaute["nom_communaute"]) ?> 
+		: <?=$this->communaute["nom_communaute"] ?>, 
 		n&deg; <?=$this->communaute["id_communaute"] ?>
 	<? endif; ?>
 </ul>
  <div class="contenuC">
   <ul class="box_contenu1 textalic">
   	<? if ($this->communaute != null) : ?>
-  		Vous faites partie de la communaut&eacute; <?=htmlentities($this->communaute["nom_communaute"]) ?>,
+  		Vous faites partie de la communaut&eacute; <?=$this->communaute["nom_communaute"] ?>,
   		 n&deg; <?=$this->communaute["id_communaute"] ?> depuis le
   		
   		<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->user->date_entree_communaute_hobbit); ?>
   		
   		<br /><br />
-  		<input type='button' class='button1' value='Voir le profil publique' onClick='ouvrirWin("/voir/communaute/?communaute=<?=$this->communaute["id_communaute"] ?>", "Description de la communaut&eacute; n&deg;<?=$this->communaute["id_communaute"] ?>");'>
+  		<input type='button' class='button1' value='Voir le profil public' onClick='ouvrirWin("/voir/communaute/?communaute=<?=$this->communaute["id_communaute"] ?>", "Description de la communaut&eacute; n&deg;<?=$this->communaute["id_communaute"] ?>");'>
   		<input type='button' class='button1' value='Voir les membres' onClick='_get_("/communaute/doaction?caction=ask_communaute_membres");'>
   		
   		<? if ($this->estGestionnaire == true) : ?>
   			<br /><br />
-  			Vous &ecirc;tes le cr&eacute;ateur de cette communaut&eacute;. Vous avez acc&egrave; aux actions suivantes : <br />
+  			Vous &ecirc;tes le gestionnaire de cette communaut&eacute;. Vous avez acc&egrave;s aux actions suivantes : <br />
   			<input type='button' class='button1' value='G&eacute;rer les membres' onClick='_get_("/communaute/doaction?caction=ask_communaute_gerermembres");'>
   			<input type='button' class='button1' value='G&eacute;rer les rangs' onClick='_get_("/communaute/doaction?caction=ask_communaute_rangs");'>
   			<input type='button' class='button1' value='Modifier la description / site web' onClick='_get_("/communaute/doaction?caction=ask_communaute_description");'>
+			<input type='button' class='button1' value='Modifier le Gestionnaire' onClick='_get_("/communaute/doaction?caction=ask_communaute_gestionnaire");'>
   		<? endif; ?>
   	<? else : ?>
   		Vous ne faites pas partie d'une communaut&eacute;. <br /><br />

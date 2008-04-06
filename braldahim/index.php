@@ -20,6 +20,7 @@ Zend_Loader::loadClass("Bral_Competences_Factory");
 Zend_Loader::loadClass("Bral_Echoppes_Factory");
 Zend_Loader::loadClass("Bral_Lieux_Factory");
 
+Zend_Loader::loadClass("Bral_Util_Controle");
 Zend_Loader::loadClass("Bral_Util_Commun");
 Zend_Loader::loadClass("Bral_Util_De");
 Zend_Loader::loadClass("Bral_Util_Log");

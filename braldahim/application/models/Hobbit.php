@@ -178,7 +178,7 @@ class Hobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	public function findByIdCommunaute($idCommunaute, $idRang, $page, $nbMax, $ordre, $sens) {
+	public function findByIdCommunaute($idCommunaute, $idRang = -1 , $page = null, $nbMax = null, $ordre = null, $sens = null) {
 		if ($idRang != -1) {
 			$and = " AND id_fk_rang_communaute_hobbit = ".intval($idRang); 
 		} else {
@@ -191,11 +191,19 @@ class Hobbit extends Zend_Db_Table {
 		->from('communaute')
 		->from('rang_communaute')
 		->where('id_fk_communaute_hobbit = ?', intval($idCommunaute))
-		->where('id_fk_rang_communaute_hobbit = id_fk_type_rang_communaute')
-		->where('id_fk_communaute_rang_communaute = id_fk_communaute_hobbit')
-		->where("id_communaute = id_fk_communaute_hobbit".$and)
-		->order($ordre.$sens)
-		->limitPage($page, $nbMax);
+		->where('id_fk_rang_communaute_hobbit = id_rang_communaute')
+		->where('id_rang_communaute = id_fk_rang_communaute_hobbit')
+		->where("id_communaute = id_fk_communaute_hobbit".$and);
+		
+		if ($ordre != null && $sens != null) {
+			$select->order($ordre.$sens);
+		} else {
+			$select->order("prenom_hobbit");
+		}
+		
+		if ($page != null && $nbMax != null) {
+			$select->limitPage($page, $nbMax);
+		}
 		
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

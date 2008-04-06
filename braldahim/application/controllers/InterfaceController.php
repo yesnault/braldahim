@@ -46,6 +46,17 @@ class InterfaceController extends Zend_Controller_Action {
 	function indexAction() {
 		$this->render();
 	}
+
+	function communauteAction() {
+		$this->view->affichageInterne = true;
+		$xml_entry = new Bral_Xml_Entry();
+		$xml_entry->set_type("display");
+		$xml_entry->set_valeur("box_communaute");
+		$box = Bral_Box_Factory::getCommunaute($this->_request, $this->view, true);
+		$xml_entry->set_data($box->render());
+		$this->xml_response->add_entry($xml_entry);
+		$this->xml_response->render();
+	}
 	
 	function evenementsAction() {
 		$this->view->affichageInterne = true;

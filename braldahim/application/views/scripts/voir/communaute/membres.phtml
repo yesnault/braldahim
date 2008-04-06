@@ -45,12 +45,12 @@ Filtrer par rang :
 	  <td class="table_liste"><?=htmlentities($m["id_hobbit"]) ?></td>
 	  <td class="table_liste"><?=htmlentities($m["niveau_hobbit"]) ?></td>
 	  <td class="table_liste"><?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$m["date_entree"]); ?></td>
-	  <td class="table_liste">Rang n&deg;<?=$m["id_rang_communaute"] ?> : <?=htmlentities($m["nom_rang_communaute"]) ?></td>
+	  <td class="table_liste">Rang n&deg;<?=$m["ordre_rang_communaute"] ?> : <?=htmlentities($m["nom_rang_communaute"]) ?></td>
 	</tr>
 <? endforeach; ?>
 <? else: ?>
 	<tr class="table_liste0">
-	  <td class="table_liste" colspan="6">Pas d'autres membres</td>
+	  <td class="table_liste" colspan="6">Pas d'autre membre</td>
 	</tr>
 <? endif; ?>
 </tbody>

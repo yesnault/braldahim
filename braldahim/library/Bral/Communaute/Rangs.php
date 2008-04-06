@@ -49,9 +49,10 @@ class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 
 		foreach($rangsCommunauteRowset as $r) {
 			$tabRangs[] = array(
-				"id_rang" => $r["id_fk_type_rang_communaute"],
+				"id_rang" => $r["id_rang_communaute"],
 				"nom" => $r["nom_rang_communaute"],
 				"description" => $r["description_rang_communaute"],
+				"ordre_rang_communaute" => $r["ordre_rang_communaute"],
 			);
 		}
 		
@@ -62,8 +63,8 @@ class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 	
 	private function updateRang() {
 		if (($this->_request->get("caction") == "ask_communaute_rangs") && ($this->_request->get("valeur_1") != "") && ($this->_request->get("valeur_2") != "")) {
-			$champ = $this->getValeurVerif($this->_request->get("valeur_1"));
-			$idRang = $this->getValeurVerif($this->_request->get("valeur_2"));
+			$champ = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_1"));
+			$idRang = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
 			
 			Zend_Loader::loadClass('Zend_Filter');
 			Zend_Loader::loadClass('Zend_Filter_StripTags');
@@ -96,16 +97,8 @@ class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 		$rangCommunauteTable = new RangCommunaute();
 		
 		$data = array($champSql => $valeurSql);
-		$where = " id_fk_type_rang_communaute=".intval($idRang);
+		$where = " id_rang_communaute=".intval($idRang);
 		$where .= " AND id_fk_communaute_rang_communaute=".$this->communaute["id_communaute"];
 		$rangCommunauteTable->update($data, $where);
-	}
-	
-	private function getValeurVerif($val) {
-		if (((int)$val.""!=$val."")) {
-			throw new Zend_Exception(get_class($this)." Valeur invalide : val=".$val);
-		} else {
-			return (int)$val;
-		}
 	}
 }

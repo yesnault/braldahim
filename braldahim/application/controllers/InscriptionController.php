@@ -102,6 +102,7 @@ class InscriptionController extends Zend_Controller_Action {
 			$filter = new Zend_Filter();
 			$filter->addFilter(new Zend_Filter_StringTrim())
 			->addFilter(new Zend_Filter_StripTags());
+			
 			$this->prenom_hobbit = $filter->filter($this->_request->getPost('prenom_hobbit'));
 			$this->email_hobbit = $filter->filter($this->_request->getPost('email_hobbit'));
 			$this->email_confirm_hobbit = $filter->filter($this->_request->getPost('email_confirm_hobbit'));
@@ -110,6 +111,7 @@ class InscriptionController extends Zend_Controller_Action {
 			$this->sexe_hobbit = $filter->filter($this->_request->getPost('sexe_hobbit'));
 			$this->id_region = $filter->filter($this->_request->getPost('id_region'));
 
+			echo "VPRE=".$this->prenom_hobbit;
 			$validPrenom = $validateurPrenom->isValid($this->prenom_hobbit);
 			$validEmail = $validateurEmail->isValid($this->email_hobbit);
 			$validPassword = $validateurPassword->isValid($this->password_hobbit);

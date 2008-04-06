@@ -2,11 +2,11 @@
  <div class='comp_contenu'>
 	 <div id='lieu_text' style="display:block"  onClick="javascript:switch2div('lieu_text','lieu_copie');">
 	 <? if ($this->creerCommunaute === true) : ?>
-	 	F&eacute;licitations ! Vous avez cr&eacute;&eacute; la communaut&eacute; <?=htmlentities($this->communaute["nom_communaute"]) ?>, n&deg; <?=$this->communaute["id_communaute"] ?>.
+	 	F&eacute;licitations ! Vous avez cr&eacute;&eacute; la communaut&eacute; <?=$this->communaute["nom_communaute"] ?>, n&deg; <?=$this->communaute["id_communaute"] ?>.
 	 <? elseif ($this->entrerCommunaute === true) : ?>
-	 	F&eacute;licitations ! Vous &ecirc;tes entr&eacute; dans la communaut&eacute; <?=htmlentities($this->communaute["nom_communaute"]) ?>, n&deg; <?=$this->communaute["id_communaute"] ?>.
+	 	F&eacute;licitations ! Vous &ecirc;tes entr&eacute; dans la communaut&eacute; <?=$this->communaute["nom_communaute"] ?>, n&deg; <?=$this->communaute["id_communaute"] ?>.
 	 <? else : // sortie, suppression ?>
-	 	Vous est sorti de la communaut&eacute; <?=htmlentities($this->communaute["nom_communaute"]) ?>, n&deg; <?=$this->communaute["id_communaute"] ?>.
+	 	Vous est sorti de la communaut&eacute; <?=$this->communaute["nom_communaute"] ?>, n&deg; <?=$this->communaute["id_communaute"] ?>.
 	 	<br />
 	 	<? if ($this->supprimerCommunaute === true) : ?>
 	 		Vous avez supprim&eacute; cette communaut&eacute;.
@@ -17,11 +17,11 @@
 	 <div id='lieu_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
 	 	if ($this->creerCommunaute === true) {
-	 		echo " F&eacute;licitations ! Vous avez cr&eacute;&eacute; la communaut&eacute; ". htmlentities($this->communaute["nom_communaute"])." , n&deg; ".$this->communaute["id_communaute"].".";
+	 		echo " F&eacute;licitations ! Vous avez cr&eacute;&eacute; la communaut&eacute; ". $this->communaute["nom_communaute"]." , n&deg; ".$this->communaute["id_communaute"].".";
 	 	} elseif ($this->entrerCommunaute === true) {
-	 		echo "F&eacute;licitations ! Vous &ecirc;tes entr&eacute; dans la communaut&eacute; ". htmlentities($this->communaute["nom_communaute"])." , n&deg; ".$this->communaute["id_communaute"]."."; 
+	 		echo "F&eacute;licitations ! Vous &ecirc;tes entr&eacute; dans la communaut&eacute; ". $this->communaute["nom_communaute"]." , n&deg; ".$this->communaute["id_communaute"]."."; 
 	 	} else {
-	 		echo "Vous est sorti de la communaut&eacute; ".htmlentities($this->communaute["nom_communaute"]).", n&deg; ".$this->communaute["id_communaute"].".";
+	 		echo "Vous est sorti de la communaut&eacute; ".$this->communaute["nom_communaute"].", n&deg; ".$this->communaute["id_communaute"].".";
 	 		echo "
 ";
 		 	if ($this->supprimerCommunaute === true) {
