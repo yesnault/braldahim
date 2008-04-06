@@ -2,7 +2,9 @@
 
 class Bral_Communaute_Factory {
 	static function getAction($request, $view) {
-
+		
+		Zend_Loader::loadClass("Bral_Communaute_Communaute");  
+	
 		$matches = null;
 		preg_match('/(.*)_communaute_(.*)/', $request->get("caction"), $matches);
 		$action = $matches[1]; // "do" ou "ask"

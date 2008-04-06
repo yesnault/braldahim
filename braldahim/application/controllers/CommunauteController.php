@@ -33,6 +33,10 @@ class CommunauteController extends Zend_Controller_Action {
 			$xml_entry->set_valeur($communaute->getNomInterne());
 			$xml_entry->set_data($communaute->render());
 			$xml_response->add_entry($xml_entry);
+			
+			if ($communaute->anotherXmlEntry() != null) {
+				$xml_response->add_entry($communaute->anotherXmlEntry());
+			}
 		} catch (Zend_Exception $e) {
 			$b = Bral_Box_Factory::getErreur($this->_request, $this->view, false, $e->getMessage());
 			$xml_entry->set_valeur($b->getNomInterne());

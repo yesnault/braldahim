@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Communaute_Rangs {
+class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass("RangCommunaute");

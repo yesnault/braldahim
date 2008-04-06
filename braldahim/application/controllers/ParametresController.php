@@ -13,12 +13,40 @@ class ParametresController extends Zend_Controller_Action {
 		}
 			
 		$this->initView();
+		Zend_Loader::loadClass('Bral_Util_BralSession');
+		Bral_Util_BralSession::refreshSession();
+		
 		$this->view->config = Zend_Registry::get('config');
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
+		
 		$this->view->controleur = $this->_request->controller;
 	}
 
 	function indexAction() {
+		$this->render();
+	}
+
+	function descriptionAction() {
+		$hobbitTable = new Hobbit();
+		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
+		$hobbit = $hobbitRowset->current();
+			
+		if ($this->_request->isPost()) {
+			$controle = $this->_request->getPost("valeur_1");
+			
+			if ($controle == 2) {
+				$valeur = $this->_request->getPost("valeur_2");
+				$data = array(
+					'description_hobbit' => $valeur,
+				);
+				$where = "id_hobbit=".$this->view->user->id_hobbit;
+				$hobbitTable = new Hobbit();
+				$hobbitTable->update($data, $where);
+				$this->view->message = "Votre description est modifiée";
+				echo $this->view->render("parametres/index.phtml");
+				return;
+			}
+		}
 		$this->render();
 	}
 	

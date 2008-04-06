@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Communaute_Description {
+class Bral_Communaute_Description extends Bral_Communaute_Communaute {
 
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass("Communaute");
@@ -29,7 +29,7 @@ class Bral_Communaute_Description {
 	function setDisplay($display) {
 		$this->view->display = $display;
 	}
-
+	
 	function preparePage() {
 		$estGestionnaire = false;
 		
