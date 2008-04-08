@@ -30,9 +30,9 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$tabCommunaute = null;
 		foreach($communautes as $c) {
 			$tabCommunaute[$c["id_communaute"]] = array(
-										'id_communaute' => $c["id_communaute"], 
-										'nom_communaute' => $c["nom_communaute"]
-										);
+							'id_communaute' => $c["id_communaute"], 
+							'nom_communaute' => $c["nom_communaute"]
+							);
 			if ($c["id_fk_hobbit_gestionnaire_communaute"] == $this->view->user->id_hobbit) {
 				$this->view->gestionnaireCommunaute = true;
 			}

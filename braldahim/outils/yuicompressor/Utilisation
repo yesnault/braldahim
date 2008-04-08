@@ -1,0 +1,10 @@
+cd /Users/yvonnickesnault/Projets/braldahim/outils/yuicompressor;
+cat /Users/yvonnickesnault/Projets/braldahim/public/scripts/braldahim/src/m_action.js > temp.js
+cat /Users/yvonnickesnault/Projets/braldahim/public/scripts/braldahim/src/m_display.js  >> temp.js
+cat /Users/yvonnickesnault/Projets/braldahim/public/scripts/braldahim/src/m_recherche.js  >> temp.js
+java -jar yuicompressor-2.3.4.jar temp.js \
+-o braldahim.js;
+rm temp.js; 
+cp braldahim.js /Users/yvonnickesnault/Projets/braldahim/public/scripts/braldahim/braldahim_001/braldahim.js;
+rm braldahim.js; 
+
