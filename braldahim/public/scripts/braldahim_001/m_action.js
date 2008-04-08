@@ -83,9 +83,9 @@ function showResponse(originalRequest) {
 	var display_erreur = false;
 	var activer_wysiwyg = false;
 	
-	var xmlHeader = '<?xml version="1.0" encoding="utf-8" ?>';
+	var xmlHeader = '<?xml version="1.0" encoding="iso-8859-1" ?>';
 	
-    if ((xmldoc == null) || (textdoc.substring(0, 39) != xmlHeader)) {
+    if ((xmldoc == null) || (textdoc.substring(0, 44) != xmlHeader)) {
     	if (textdoc != "clear") {
     		alert('Une erreur inconnue est survenue. Text:\n'+textdoc);
     	}

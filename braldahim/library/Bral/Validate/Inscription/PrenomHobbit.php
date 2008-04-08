@@ -10,12 +10,12 @@ class Bral_Validate_Inscription_PrenomHobbit implements Zend_Validate_Interface 
 		$valid = true;
 		
 		if (strlen($valeur) < 5) {
-			$this->_messages[] = "Le prénom du hobbit doit contenir plus de 5 caractères";
+			$this->_messages[] = "Le pr&eacute;nom du hobbit doit contenir plus de 5 caract&egrave;res";
 			$valid = false;
 		}
 		
     	if (strlen($valeur) > 15) {
-			$this->_messages[] = "Le prénom du hobbit doit contenir au maximum 15 caractères";
+			$this->_messages[] = "Le pr&eacute;nom du hobbit doit contenir au maximum 15 caract&egrave;res";
 			$valid = false;
     	}
 		
@@ -41,16 +41,15 @@ class Bral_Validate_Inscription_PrenomHobbit implements Zend_Validate_Interface 
 			foreach ($tab as $v) {
 				if ($v == substr($valeur, $i, 1)) {
 					$trouve = true;
-					echo "A REVOIR";
 				}
 				
 			}
 			if ($trouve == false) {
-				$this->_messages[] = "Le nom du hobbit contient un ou plusieurs caractères invalides".substr($valeur, $i, 1);
+				$this->_messages[] = "Le nom du hobbit contient un ou plusieurs caract&egrave;res invalides".substr($valeur, $i, 1);
 				foreach ($tab as $t) {
 					$val .= $t. " ";
 				}	
-				$this->_messages[] = "Seuls les caractères suivants sont autorisés : ";
+				$this->_messages[] = "Seuls les caract&egrave;res suivants sont autoris&eacute;s : ";
 				$this->_messages[] = $val ." (espace)";
 				$valid = false;
 				break;
@@ -61,7 +60,7 @@ class Bral_Validate_Inscription_PrenomHobbit implements Zend_Validate_Interface 
     	$nom = new Bral_Util_Nom();
     	
     	if ($nom->estValidPrenom($valeur) == false) {
-			$this->_messages[] = "Ce prénom est déjà trop utilisé...";
+			$this->_messages[] = "Ce pr&eacute;nom est d&eacute;j&agrave; trop utilis&eacute;...";
 			$valid = false;
     	}
     	

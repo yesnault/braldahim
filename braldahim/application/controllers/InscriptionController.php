@@ -16,6 +16,7 @@ class InscriptionController extends Zend_Controller_Action {
 		Zend_Loader::loadClass("Nom");
 		Zend_Loader::loadClass("Region");
 		$this->view->config = Zend_Registry::get('config');
+		$this->view->setEncoding('utf-8');
 	}
 
 	function indexAction() {
@@ -168,10 +169,10 @@ class InscriptionController extends Zend_Controller_Action {
 					$this->view->messagesSexe = "Choisis un genre !";
 				}
 				if (!$validEmailConfirm) {
-					$this->view->messagesEmailConfirm = "Les deux emails sont différents";
+					$this->view->messagesEmailConfirm = "Les deux emails sont diff&eacute;rents";
 				}
 				if (!$validPasswordConfirm) {
-					$this->view->messagesPasswordConfirm = "Les deux mots de passe sont différents";
+					$this->view->messagesPasswordConfirm = "Les deux mots de passe sont diff&eacute;rents";
 				}
 				$this->view->messagesPrenom = $tabPrenom;
 				$this->view->messagesEmail = $tabEmail;
@@ -179,7 +180,7 @@ class InscriptionController extends Zend_Controller_Action {
 			}
 		}
 
-		// hobbit par défaut
+		// hobbit par dï¿½faut
 		$this->view->hobbit= new stdClass();
 		$this->view->hobbit->id_hobbit = null;
 		$this->view->hobbit->prenom_hobbit = $this->prenom_hobbit;
@@ -298,7 +299,7 @@ class InscriptionController extends Zend_Controller_Action {
 	
 	private function calculParent($idHobbit) {
 		Bral_Util_Log::inscription()->trace("InscriptionController - calculParent - enter");
-		// on tente de créer de nouveaux couples si besoin
+		// on tente de crï¿½er de nouveaux couples si besoin
 		$de = Bral_Util_De::get_de_specifique(0, 3);
 		
 		for ($i = 0; $i < $de; $i++) {
@@ -340,7 +341,7 @@ class InscriptionController extends Zend_Controller_Action {
 		$hobbitsMasculinRowset = $hobbitTable->findHobbitsMasculinSansConjoint($idHobbit);
 		if (count($hobbitsMasculinRowset) > 0) {
 			$hobbitsFemininRowset = $hobbitTable->findHobbitsFemininSansConjoint($idHobbit);
-			if (count($hobbitsFemininRowset) > 0) { // création d'un nouveau couple
+			if (count($hobbitsFemininRowset) > 0) { // crï¿½ation d'un nouveau couple
 				$de = Bral_Util_De::get_de_specifique(0, count($hobbitsMasculinRowset)-1);
 				$pere = $hobbitsMasculinRowset[$de];
 					
@@ -351,6 +352,7 @@ class InscriptionController extends Zend_Controller_Action {
 				 'id_fk_f_hobbit_couple' => $mere["id_hobbit"],
 				 'date_creation_couple' => date("Y-m-d H:i:s"),
 				 'nb_enfants_couple' => 1);
+				$coupleTable = new Couple();
 				$coupleTable->insert($data);
 					
 				$dataParents["id_fk_pere_hobbit"] = $pere["id_hobbit"];

@@ -9,12 +9,12 @@ class Bral_Validate_Inscription_EmailHobbit implements Zend_Validate_Interface {
 		$valid = true;
 		
 		if (strlen($valeur) < 5) {
-			$this->_messages[] = "L'email du hobbit doit contenir plus de 5 caractères";
+			$this->_messages[] = "L'email du hobbit doit contenir plus de 5 caract&egrave;res";
 			$valid = false;
 		}
 		
     	if (strlen($valeur) > 100) {
-			$this->_messages[] = "L'email doit doit contenir au maximum 100 caractères";
+			$this->_messages[] = "L'email doit doit contenir au maximum 100 caract&egrave;res";
 			$valid = false;
     	}
 		
@@ -22,7 +22,7 @@ class Bral_Validate_Inscription_EmailHobbit implements Zend_Validate_Interface {
 			$hobbitTable = new Hobbit();
 			$r = $hobbitTable->findByEmail($valeur);
 			if (count($r) > 0) {
-				$this->_messages[] = "Cette adresse mail déjà utilisée";
+				$this->_messages[] = "Cette adresse mail d&eacute;j&agrave; utilis&eacute;e";
 				$valid = false;
 			}
 		}

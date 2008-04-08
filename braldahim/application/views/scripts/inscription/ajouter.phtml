@@ -23,7 +23,7 @@
 			<?php if(!empty($this->messagesPrenom)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesPrenom as $message) :?>
-				<?=htmlentities($message);?><br />
+				<?=$message?><br />
 			<?php endforeach; ?>
 			</div> 
 			<?php endif; ?>
@@ -60,7 +60,7 @@
 			<?php if(!empty($this->messagesPassword)) :?>
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesPassword as $message) :?>
-				<?=$this->escape($message);?><br />
+				<?=$message?><br />
 			<?php endforeach; ?>
 			</div>
 			<?php endif; ?>
@@ -69,7 +69,7 @@
 		    <input type="password" name="password_hobbit" value="" size="25" maxlength="20"/>
 			<?php if(!empty($this->messagesPasswordConfirm)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
-				<?=$this->escape($this->messagesPasswordConfirm);?><br />
+				<?=$this->messagesPasswordConfirm?><br />
 			</div>
 			<?php endif; ?>
 		    <br /><label for="title">Confirmation Mot de Passe</label><br />

@@ -60,7 +60,8 @@ class AdministrationHobbitsController extends Zend_Controller_Action {
 			"y_hobbit" =>$h["y_hobbit"] ,
 			"nom_hobbit" =>$h["nom_hobbit"],
 			"prenom_hobbit" =>$h["prenom_hobbit"],
-			"pa_hobbit" =>$h["pa_hobbit"]);
+			"pa_hobbit" =>$h["pa_hobbit"],
+			"castar_hobbit" =>$h["castar_hobbit"]);
 		}
 		$this->view->hobbits = $hobbitsRowset;
 	}
@@ -82,6 +83,7 @@ class AdministrationHobbitsController extends Zend_Controller_Action {
 			$keySimple[] = "y_hobbit";
 			$keySimple[] = "pa_hobbit";
 			$keySimple[] = "date_fin_tour_hobbit";
+			$keySimple[] = "castars_hobbit";
 			$this->view->keySimple = $keySimple;
 		} else {
 			$this->view->mode = "complexe";			

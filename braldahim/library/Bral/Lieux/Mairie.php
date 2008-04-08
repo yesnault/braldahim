@@ -80,11 +80,17 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 				Zend_Loader::loadClass('Zend_Filter_StripTags');
 				Zend_Loader::loadClass('Zend_Filter_StringTrim');
 				$filter = new Zend_Filter();
+				$nom = utf8_decode($this->request->getPost('valeur_3'));
 				$filter->addFilter(new Zend_Filter_StringTrim())->addFilter(new Zend_Filter_StripTags());
-				$nomCommunaute = stripslashes($filter->filter($this->request->getPost('valeur_3')));
+				$nomCommunaute = stripslashes($filter->filter($nom));
 				
-				//$nomCommunaute =$nomCommunaute
-				$this->view->creerCommunaute = true;
+				if (strlen($nomCommunaute) > 0) {
+					//$nomCommunaute =$nomCommunaute
+					$this->view->creerCommunaute = true;
+				} else {
+					throw new Zend_Exception(get_class($this)." Nom invalide:".$nomCommunaute);
+				}
+				
 			}
 		}
 		

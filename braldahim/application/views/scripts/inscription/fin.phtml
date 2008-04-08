@@ -2,9 +2,7 @@
 <ul class="titre textalia textsizea">Braldahim - Inscription</ul>
 
 <div class="box_inscription">
-	<div class="box_corners">
-		<span class="corners-top"><span></span></span>
-	</div>
+<?=Bral_Helper_Box::haut(); ?>
 <div class="inner">
     <ul class="titre textalic textsizea">Inscription r&eacute;ussie !</ul>
 	&nbsp;
@@ -18,7 +16,7 @@
 		attribu&eacute; lors de la validation.<br /><br />
 		
 		Pour le valider, suivez les indications que vous venez de recevoir
-		 à l'adresse suivante : <br />
+		 &agrave; l'adresse suivante : <br />
 		<?= $this->email_hobbit ?><br /><br />
 		
 		Courbettes distingu&eacute;es, <br /><br />
@@ -31,9 +29,7 @@
 	</div>
 	&nbsp;
 </div>
-	<div class="box_corners">
-		<span class="corners-bottom"><span></span></span>
-	</div>
+<?=Bral_Helper_Box::bas(); ?>
 </div>
 
 <?php echo $this->render('footer.phtml'); ?>
