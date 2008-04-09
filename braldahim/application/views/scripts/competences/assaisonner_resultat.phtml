@@ -2,31 +2,13 @@
 
  <div class='comp_contenu'>
 	 <div id='assaisonner_text' style="display:block"  onClick="javascript:switch2div('assaisonner_text','assaisonner_copie');">
-		<? include("commun_text_resultat.phtml") ?>
-		
-		<? if ($this->okJet1 === true):
-			$s = "";
-			if ($this->nbViandePreparee > 1) : $s = "s"; endif;
-		?>
-				Vous avez r&eacute;ussi votre assaisonnement.<br /> 
-				Vous avez transform&eacute;	2 unit&eacute;s de Viande en : <?=$this->nbViandePreparee ?> 
-				unit&eacute;<?=$s ?> de viande pr&eacute;par&eacute;e<br />
-		<? endif; ?>
+		<?=$this->texte ?>
 		<br />
 	 </div>
 	 
 	 <div id='assaisonner_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
-		include("commun_copie_resultat.phtml");
-		
-		if ($this->okJet1 === true) {
-			echo "Vous avez r&eacute;ussi votre assaisonnement.";
-			echo " Vous avez transform&eacute; :";
-			echo "
-";
-			echo " 2 unit&eacute;s de Viande en : ".$this->nbViandePreparee;
-			echo " unit&eacute;".$s." de viande pr&eacute;par&eacute;e";
-		}
+			echo Bral_Helper_Affiche::copie($this->texte);
 	?>
 	</textarea>
 	</div>

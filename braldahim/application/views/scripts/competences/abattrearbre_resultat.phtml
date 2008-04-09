@@ -2,42 +2,13 @@
 
  <div class='comp_contenu'>
 	 <div id='abattrearbre_text' style="display:block"  onClick="javascript:switch2div('abattrearbre_text','abattrearbre_copie');">
-		<? include("commun_text_resultat.phtml") ?>
-		
-		<? if ($this->okJet1 === true):
-			$s = "";
-			if ($this->nbRondins > 1) : $s = "s"; endif;
-		?>
-			Vous avez abattu un arbre.<br /> 
-			Vous avez r&eacute;cup&eacute;r&eacute; <?=$this->nbRondins ?> 
-			rondin<?=$s ?>.
-			<br /><br />
-			<? if ($this->effetRune) :?>
-				Une rune que vous portez a eu de l'effet sur la quantit&eacute; de rondins r&eacute;cup&eacute;r&eacute;e.
-			<? endif; ?>
-		<? endif; ?>
+		<?=$this->texte ?>
 		<br />
 	 </div>
 	 
 	 <div id='abattrearbre_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
-		include("commun_copie_resultat.phtml");
-		
-		if ($this->okJet1 === true) {
-			$s = "";
-			if ($this->nbRondins > 1) : $s = "s"; endif;
-			
-			echo "Vous avez abattu un arbre.";
-			echo "
-";
-			echo "Vous avez r&eacute;cup&eacute;r&eacute; ".$this->nbRondins;
-			echo " rondin".$s;
-			echo "
-";
-			if ($this->effetRune) {
-				echo "Une rune que vous portez a eu de l'effet sur la quantit&eacute; de rondins r&eacute;cup&eacute;r&eacute;e.";
-			}
-		}
+		echo Bral_Helper_Affiche::copie($this->texte);
 	?>
 	</textarea>
 	</div>
