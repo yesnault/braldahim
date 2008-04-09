@@ -54,6 +54,7 @@ class Bral_Competences_Attrapercharrette extends Bral_Competences_Competence {
 		$this->calculJets();
 		
 		if ($this->view->okJet1 === true) {
+			$this->reloadInterface = true;
 			$this->calculAttrapperCharrette($this->view->idCharrette);
 			$this->majEvenementsStandard();
 		}

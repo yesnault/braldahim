@@ -3,6 +3,7 @@
 abstract class Bral_Competences_Competence {
 	
 	protected $view;
+	protected $reloadInterface = false;
 	
 	function __construct($competence, $hobbitCompetence, $request, $view, $action) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
@@ -12,6 +13,7 @@ abstract class Bral_Competences_Competence {
 		$this->action = $action;
 		$this->nom_systeme = $competence["nom_systeme"];
 		$this->competence = $competence;
+		
 		$this->view->jetUtilise = false;
 		$this->view->balanceFaimUtilisee = false;
 		
@@ -243,7 +245,12 @@ abstract class Bral_Competences_Competence {
 				return $this->view->render("competences/".$this->nom_systeme."_formulaire.phtml");
 				break;
 			case "do":
-				return $this->view->render("competences/".$this->nom_systeme."_resultat.phtml");
+				$this->view->reloadInterface = $this->reloadInterface;
+				$this->view->competence = $this->competence;
+				
+				$texte = $this->view->render("competences/".$this->nom_systeme."_resultat.phtml");
+				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
+				return $this->view->render("competences/commun_resultat.phtml");
 				break;
 			default:
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
@@ -294,5 +301,4 @@ abstract class Bral_Competences_Competence {
 		$retourAttaque = Bral_Util_Attaque::attaqueMonstre(&$hobbitAttaquant, $idMonstre, $jetAttaquant, $jetCible, $jetsDegat);
 		return $retourAttaque;
 	}
-	
 }

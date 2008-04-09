@@ -1,84 +1,36 @@
-<div class='comp_titre'>Recherche de Plante</div>
-
- <div class='comp_contenu'>
-	 <div id='rechercherplante_text' style="display:block"  onClick="javascript:switch2div('rechercherplante_text','rechercherplante_copie');">
-		<? include("commun_text_resultat.phtml") ?>
-		<? if ($this->okJet1 === true):?>
-			<? if ($this->trouve === true): ?>
-				<? if ($this->proche === true): ?>
-					La plante la plus proche, de cat&eacute;gorie : <?=$this->plante["categorie"] ?><br /> 
-					se situe en : 
-					X=<?=$this->plante["x_plante"]?> et Y=<?=$this->plante["y_plante"]?><br />
-				<? elseif ($this->proche === false): ?>
-					La plante la plus proche, de cat&eacute;gorie : <?=$this->plante["categorie"] ?><br /> 
-					se situe   
-				<? endif; ?>
-				<? if ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit == $this->plante["x_plante"]): ?>
-				en direction du Nord
-				<? elseif ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit < $this->plante["x_plante"]): ?>
-				en direction du Nord Est
-				<? elseif ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit > $this->plante["x_plante"]): ?>
-				en direction du Nord Ouest
-				<? elseif ($this->user->y_hobbit > $this->plante["y_plante"] && $this->user->x_hobbit == $this->plante["x_plante"]): ?>
-				en direction du Sud 
-				<? elseif ($this->user->y_hobbit > $this->plante["y_plante"] && $this->user->x_hobbit < $this->plante["x_plante"]): ?>
-				en direction du Sud Est		
-				<? elseif ($this->user->y_hobbit > $this->plante["y_plante"] && $this->user->x_hobbit > $this->plante["x_plante"]): ?>
-				en direction du Sud Ouest
-				<? elseif ($this->user->y_hobbit == $this->plante["y_plante"] && $this->user->x_hobbit < $this->plante["x_plante"]): ?>
-				en direction de l'Est
-				<? elseif ($this->user->y_hobbit == $this->plante["y_plante"] && $this->user->x_hobbit > $this->plante["x_plante"]): ?>
-				en direction de l'Ouest
-				<? else: ?>
-				sur place !
-				<? endif; ?>
-			<? else: ?>
-				Aucune plante n'a &eacute;t&eacute; trouv&eacute;e dans <br />
-				un rayon de <?=$this->rayon_max;?> cases
-			<? endif; ?>
-			
+<? include("commun_text_resultat.phtml") ?>
+<? if ($this->okJet1 === true):?>
+	<? if ($this->trouve === true): ?>
+		<? if ($this->proche === true): ?>
+			La plante la plus proche, de cat&eacute;gorie : <?=$this->plante["categorie"] ?><br /> 
+			se situe en : 
+			X=<?=$this->plante["x_plante"]?> et Y=<?=$this->plante["y_plante"]?><br />
+		<? elseif ($this->proche === false): ?>
+			La plante la plus proche, de cat&eacute;gorie : <?=$this->plante["categorie"] ?><br /> 
+			se situe   
 		<? endif; ?>
-	 </div>
-	 
-	 <div id='rechercherplante_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40><? 
-		include("commun_copie_resultat.phtml");
-		
-		if ($this->okJet1 === true) {
-			if ($this->trouve == true) {
-				if ($this->proche === true) {
-					echo "La plante la plus proche, de cat&eacute;gorie : ".$this->plante["categorie"];
-					echo " se situe en  ";
-					echo " X=".$this->plante["x_plante"]." et Y=".$this->plante["y_plante"];
-					echo ", en direction ";
-				} elseif ($this->proche === false) {
-					echo "La plante la plus proche, de cat&eacute;gorie : ".$this->plante["categorie"];
-					echo " se situe en direction ";
-				}
-				if ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit == $this->plante["x_plante"]) {
-					echo "du Nord";
-				} elseif ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit < $this->plante["x_plante"]) {
-					echo "du Nord Est";
-				} elseif ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit > $this->plante["x_plante"]) {
-					echo "du Nord Ouest";
-				} elseif ($this->user->y_hobbit > $this->plante["y_plante"] && $this->user->x_hobbit == $this->plante["x_plante"]) {
-					echo "du Sud";
-				} elseif ($this->user->y_hobbit > $this->plante["y_plante"] && $this->user->x_hobbit < $this->plante["x_plante"]) {
-					echo "du Sud Est";		
-				} elseif ($this->user->y_hobbit > $this->plante["y_plante"] && $this->user->x_hobbit > $this->plante["x_plante"]) {
-					echo "du Sud Ouest";
-				} elseif ($this->user->y_hobbit == $this->plante["y_plante"] && $this->user->x_hobbit < $this->plante["x_plante"]) {
-					echo "de l'Est";
-				} elseif ($this->user->y_hobbit == $this->plante["y_plante"] && $this->user->x_hobbit > $this->plante["x_plante"]) {
-					echo "de l'Ouest";
-				}
-			} else {
-				echo "Aucune plante n'a &eacute;t&eacute; trouv&eacute;e dans un rayon de ".$this->rayon_max. " cases";
-			}
-		}
-	?></textarea>
-	</div>
- </div>
-
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('rechercherplante_text','rechercherplante_copie');">
-<? include("commun_fermer.phtml") ?>
+		<? if ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit == $this->plante["x_plante"]): ?>
+		en direction du Nord
+		<? elseif ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit < $this->plante["x_plante"]): ?>
+		en direction du Nord Est
+		<? elseif ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit > $this->plante["x_plante"]): ?>
+		en direction du Nord Ouest
+		<? elseif ($this->user->y_hobbit > $this->plante["y_plante"] && $this->user->x_hobbit == $this->plante["x_plante"]): ?>
+		en direction du Sud 
+		<? elseif ($this->user->y_hobbit > $this->plante["y_plante"] && $this->user->x_hobbit < $this->plante["x_plante"]): ?>
+		en direction du Sud Est		
+		<? elseif ($this->user->y_hobbit > $this->plante["y_plante"] && $this->user->x_hobbit > $this->plante["x_plante"]): ?>
+		en direction du Sud Ouest
+		<? elseif ($this->user->y_hobbit == $this->plante["y_plante"] && $this->user->x_hobbit < $this->plante["x_plante"]): ?>
+		en direction de l'Est
+		<? elseif ($this->user->y_hobbit == $this->plante["y_plante"] && $this->user->x_hobbit > $this->plante["x_plante"]): ?>
+		en direction de l'Ouest
+		<? else: ?>
+		sur place !
+		<? endif; ?>
+	<? else: ?>
+		Aucune plante n'a &eacute;t&eacute; trouv&eacute;e dans <br />
+		un rayon de <?=$this->rayon_max;?> cases
+	<? endif; ?>
+	
+<? endif; ?>

@@ -1,47 +1,14 @@
-<div class='comp_titre'>&Eacute;laborer</div>
+<? include("commun_text_resultat.phtml") ?>
 
- <div class='comp_contenu'>
-	 <div id='elaborer_text' style="display:block"  onClick="javascript:switch2div('elaborer_text','elaborer_copie');">
-		
-		<? include("commun_text_resultat.phtml") ?>
-		
-		<? if ($this->okJet1 === true): ?>
-			Vous avez r&eacute;ussi &agrave; &eacute;laborer une potion : 
-			<br />
-			<?=htmlentities($this->typePotionCourante["nom_type_potion"]) ?>, de qualit&eacute; <?=$this->qualite ?>
-			et de niveau <?=$this->niveau ?>.
-			<br /><br />
-			<? if ($this->effetRune) :?>
-				Une rune que vous portez a eu de l'effet sur la qualit&eacute; de cette potion.
-			<? endif; ?>
-		<? else: ?>
-			Vous avez manqu&eacute; votre potion<br />
-		<? endif; ?>
-		<br /><br />
-	 </div>
-	 
-	 <div id='elaborer_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
-		include("commun_copie_resultat.phtml");
-		if ($this->okJet1 === true) {
-				echo "Vous avez r&eacute;ussi &agrave; &eacute;larborer une potion :";
-				echo "
-"; 
-				echo htmlentities($this->typePotionCourante["nom_type_potion"]);
-				echo ", de qualit&eacute; ".$this->qualite;
-				echo " et de niveau ".$this->niveau.".";
-				echo "
-";
-				if ($this->effetRune) {
-					echo "Une rune que vous portez a eu de l'effet sur la qualit&eacute; de cette potion.";
-				}
-			} else {
-				echo "Vous avez manqu&eacute; votre potion";
-			}
-	?>
-	</textarea>
-	</div>
- </div>
-
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('elaborer_text','elaborer_copie');">
-<? include("commun_fermer.phtml") ?>
+<? if ($this->okJet1 === true): ?>
+	Vous avez r&eacute;ussi &agrave; &eacute;laborer une potion : 
+	<br />
+	<?=htmlentities($this->typePotionCourante["nom_type_potion"]) ?>, de qualit&eacute; <?=$this->qualite ?>
+	et de niveau <?=$this->niveau ?>.
+	<br /><br />
+	<? if ($this->effetRune) :?>
+		Une rune que vous portez a eu de l'effet sur la qualit&eacute; de cette potion.
+	<? endif; ?>
+<? else: ?>
+	Vous avez manqu&eacute; votre potion<br />
+<? endif; ?>

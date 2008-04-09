@@ -1,18 +1,11 @@
-<div class='comp_titre'>Assaisonner</div>
-
- <div class='comp_contenu'>
-	 <div id='assaisonner_text' style="display:block"  onClick="javascript:switch2div('assaisonner_text','assaisonner_copie');">
-		<?=$this->texte ?>
-		<br />
-	 </div>
-	 
-	 <div id='assaisonner_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
-			echo Bral_Helper_Affiche::copie($this->texte);
+<? include("commun_text_resultat.phtml") ?>
+		
+<? if ($this->okJet1 === true):
+	$s = "";
+	if ($this->nbViandePreparee > 1) : $s = "s"; endif;
 	?>
-	</textarea>
-	</div>
- </div>
-
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('assaisonner_text','assaisonner_copie');">
-<? include("commun_fermer.phtml") ?>
+	Vous avez r&eacute;ussi votre assaisonnement.<br /> 
+	Vous avez transform&eacute;	2 unit&eacute;s de Viande en : <?=$this->nbViandePreparee ?> 
+	unit&eacute;<?=$s ?> de viande pr&eacute;par&eacute;e<br />
+<? endif; ?>
+<br />

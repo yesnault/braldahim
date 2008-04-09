@@ -1,51 +1,13 @@
-<div class='comp_titre'>Chasser</div>
+<? include("commun_text_resultat.phtml") ?>
 
- <div class='comp_contenu'>
-	 <div id='chasser_text' style="display:block"  onClick="javascript:switch2div('chasser_text','chasser_copie');">
-		
-		<? include("commun_text_resultat.phtml") ?>
-		
-		<? if ($this->okJet1 === true):?>
-			Jet de Chasse : <?=$this->jetChasse ?> (pour <?=$this->tauxReussite ?> %) <br /><br />
-		<? if ($this->jetChasseOk === true) : ?>
-				Vous avez r&eacute;ssi votre chasse. Vous avez r&eacute;cup&eacute;r&eacute; : <br />
-				Viande : <?=$this->nbViande ?><br />
-				Peau : <?=$this->nbPeau ?><br />
-				Fourrure : <?=$this->nbFourrure ?><br />
-			<? else: ?>
-				Vous avez rat&eacute; votre chasse !
-			<? endif; ?>			
-		<? endif; ?>
-		<br />
-	 </div>
-	 
-	 <div id='chasser_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
-		include("commun_copie_resultat.phtml");
-		
-		if ($this->okJet1 === true) {
-			echo "Jet de Chasse : ".$this->jetChasse." (pour ".$this->tauxReussite." %)";
-			echo "
-";
-			if ($this->jetChasseOk === true) {
-				echo "Vous avez r&eacute;ssi votre chasse. Vous avez r&eacute;cup&eacute;r&eacute; :";
-				echo "
-";
-				echo "Viande : ".$this->nbViande;
-				echo "
-";
-				echo "Peau : ".$this->nbPeau;
-				echo "
-";
-				echo "Fourrure : ".$this->nbFourrure;
-			} else {
-				echo "Vous avez rat&eacute; votre chasse !";
-			}
-		}
-	?>
-	</textarea>
-	</div>
- </div>
-
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('chasser_text','chasser_copie');">
-<? include("commun_fermer.phtml") ?>
+<? if ($this->okJet1 === true):?>
+	Jet de Chasse : <?=$this->jetChasse ?> (pour <?=$this->tauxReussite ?> %) <br /><br />
+<? if ($this->jetChasseOk === true) : ?>
+		Vous avez r&eacute;ssi votre chasse. Vous avez r&eacute;cup&eacute;r&eacute; : <br />
+		Viande : <?=$this->nbViande ?><br />
+		Peau : <?=$this->nbPeau ?><br />
+		Fourrure : <?=$this->nbFourrure ?><br />
+	<? else: ?>
+		Vous avez rat&eacute; votre chasse !
+	<? endif; ?>			
+<? endif; ?>

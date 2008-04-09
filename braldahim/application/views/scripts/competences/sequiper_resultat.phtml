@@ -1,69 +1,19 @@
-<div class='comp_titre'>S'&eacute;quiper</div>
+<? include("commun_text_resultat.phtml") ?>
 
- <div class='comp_contenu'>
-	 <div id='concocter_text' style="display:block"  onClick="javascript:switch2div('concocter_text','concocter_copie');">
-		
-		<? include("commun_text_resultat.phtml") ?>
-		
-			Vous avez r&eacute;ussi &agrave; changer d'&eacute;quipement. <br />
-			
-			<? if (count($this->equipementRetire) > 0) :?>
-				Vous avez retir&eacute; : <br />
-				<? foreach($this->equipementRetire as $r) :?>
-					<?=htmlentities($r["nom"]) ?><br />
-				<? endforeach; ?>
-			<? else : ?>
-				Vous n'avez rien retir&eacute;
-			<? endif; ?>
-			
-			<? if (count($this->equipementAjoute)) :?>
-				et vous avez rajout&eacute; sur vous : <br />
-				<? foreach($this->equipementAjoute as $r) :?>
-					<?=htmlentities($r["nom"]) ?>, n&deg;<?=htmlentities($r["id_equipement"]) ?>, niveau <?=htmlentities($r["niveau"]) ?><br />
-				<? endforeach; ?>
-			<? endif; ?>
-			<br />
-		<br />
-	 </div>
-	 
-	 <div id='concocter_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
-		include("commun_copie_resultat.phtml");
-		
-			echo "
-";
-				echo "Vous avez r&eacute;ussi &agrave; changer d'&eacute;quipement";
-				echo "
-";
-				if (count($this->equipementRetire) > 0) :
-				echo "Vous avez retir&eacute; : ";
-				echo "
-";
-				foreach($this->equipementRetire as $r) :
-					echo htmlentities($r["nom"]);
-					echo "
-";
-				endforeach;
-			else :
-				echo "Vous n'avez rien retir&eacute;";
-			endif;
-			
-			if (count($this->equipementAjoute)) :
-				echo " et vous avez rajout&eacute; sur vous :";
-				echo "
-";
-				foreach($this->equipementAjoute as $r) :
-					echo htmlentities($r["nom"]) ." , n&deg;".htmlentities($r["id_equipement"]) .", niveau ".htmlentities($r["niveau"]);
-					echo "
-";
-				endforeach;
-			endif;
-				echo "
-";
-	?>
-	</textarea>
-	</div>
- </div>
+Vous avez r&eacute;ussi &agrave; changer d'&eacute;quipement. <br />
 
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('concocter_text','concocter_copie');">
-<? include("commun_fermer.phtml") ?>
+<? if (count($this->equipementRetire) > 0) :?>
+	Vous avez retir&eacute; : <br />
+	<? foreach($this->equipementRetire as $r) :?>
+		<?=htmlentities($r["nom"]) ?><br />
+	<? endforeach; ?>
+<? else : ?>
+	Vous n'avez rien retir&eacute;
+<? endif; ?>
+
+<? if (count($this->equipementAjoute)) :?>
+	et vous avez rajout&eacute; sur vous : <br />
+	<? foreach($this->equipementAjoute as $r) :?>
+		<?=htmlentities($r["nom"]) ?>, n&deg;<?=htmlentities($r["id_equipement"]) ?>, niveau <?=htmlentities($r["niveau"]) ?><br />
+	<? endforeach; ?>
+<? endif; ?>

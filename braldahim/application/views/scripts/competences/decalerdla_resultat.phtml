@@ -1,28 +1,5 @@
-<div class='comp_titre'>D&eacute;caler sa DLA</div>
- <div class='comp_contenu'>
-	 <div id='decalerdla_text' style="display:block"  onClick="javascript:switch2div('decalerdla_text','decalerdla_copie');">
-		Vous avez d&eacute;cal&eacute; votre Date Limite d'Action de <br />
-		<?=$this->heures?> h et <?=$this->minutes?> min
-		<br /><br />
-		Vous nouvelle DLA est fix&eacute;e &agrave; : <br />
-		<?=$this->dlaActuelle?>
-	 </div>
-	 
-	 <div id='decalerdla_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
-		echo "Vous avez d&eacute;cal&eacute; votre Date Limite d'Action de ";
-		echo "
-";
-		echo $this->heures."h et ".$this->minutes." min";
-		echo "
-";
-		echo "Vous nouvelle DLA est fix&eacute;e &agrave; : ";
-		echo "
-";
-		echo $this->dlaActuelle;
-		?></textarea>
-	</div>
- </div>
-
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('decalerdla_text','decalerdla_copie');">
-<? include("commun_fermer.phtml") ?>
+Vous avez d&eacute;cal&eacute; votre Date Limite d'Action de <br />
+<?=$this->heures?> h et <?=$this->minutes?> min
+<br /><br />
+Vous nouvelle DLA est fix&eacute;e &agrave; : <br />
+<?=$this->dlaActuelle?>

@@ -1,42 +1,22 @@
-<div class='comp_titre'>Gardiennage</div>
-
- <div class='comp_contenu'>
-	 <div id='gardiennage_text' style="display:block"  onClick="javascript:switch2div('gardiennage_text','gardiennage_copie');">
-		<? if ($this->nouveauGardiennage === true) : ?>
-			Gardiennage enregistr&eacute; avec succ&egrave;s
-		<? endif; ?>
-		<? if (empty($this->tabGardiennage)) : ?>
-			Aucun Gardiennage en cours.
-		<? else: ?>
-			Gardiennage en cours
-			<table>
-			<th class='comp_titre'>Gardien</th>
-			<th class='comp_titre'>Date de d&eacute;but</th>
-			<th class='comp_titre'>Nombre de jour(s)</th>
-			<th class='comp_titre'>Commentaire</th>
-			<? foreach($this->tabGardiennage as $g): ?>
-				<tr>
-					<td><?=$g["nom_gardien"]. ' ('.$g["id_gardien"].')';?></td>
-					<td><?=$g["date_debut"] ?></td>
-					<td><?=$g["nb_jours"] ?></td>
-					<td><?=htmlentities(stripslashes($g["commentaire"])) ?></td>
-				</tr>
-			<? endforeach; ?>
-			</table>
-		<? endif; ?>
-	 </div>
-	 
-	 <div id='gardiennage_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40><? if ($this->nouveauGardiennage === true) : 
-			echo "Gardiennage enregistr&eacute; avec succes";
-		endif;
-		
-		foreach($this->tabGardiennage as $g): 
-			echo$g["nom_gardien"]. ' ('.$g["id_gardien"].')' .' '. $g["date_debut"] .' '. $g["nb_jours"] .' '. htmlentities(stripslashes($g["commentaire"]));
-		endforeach; ?>
-		</textarea>
-	</div>
- </div>
-
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('gardiennage_text','gardiennage_copie');">
-<? include("commun_fermer.phtml") ?>
+<? if ($this->nouveauGardiennage === true) : ?>
+	Gardiennage enregistr&eacute; avec succ&egrave;s
+<? endif; ?>
+<? if (empty($this->tabGardiennage)) : ?>
+	Aucun Gardiennage en cours.
+<? else: ?>
+	Gardiennage en cours
+	<table>
+	<th class='comp_titre'>Gardien</th>
+	<th class='comp_titre'>Date de d&eacute;but</th>
+	<th class='comp_titre'>Nombre de jour(s)</th>
+	<th class='comp_titre'>Commentaire</th>
+	<? foreach($this->tabGardiennage as $g): ?>
+		<tr>
+			<td><?=$g["nom_gardien"]. ' ('.$g["id_gardien"].')';?></td>
+			<td><?=$g["date_debut"] ?></td>
+			<td><?=$g["nb_jours"] ?></td>
+			<td><?=htmlentities(stripslashes($g["commentaire"])) ?></td>
+		</tr>
+	<? endforeach; ?>
+	</table>
+<? endif; ?>

@@ -1,39 +1,8 @@
-<div class='comp_titre'>Fondre</div>
+<? include("commun_text_resultat.phtml") ?>
 
- <div class='comp_contenu'>
-	 <div id='fondre_text' style="display:block"  onClick="javascript:switch2div('fondre_text','fondre_copie');">
-		
-		<? include("commun_text_resultat.phtml") ?>
-		
-		<? if ($this->okJet1 === true): ?>
-			Vous avez r&eacute;ussi &agrave; fondre du minerai de <?=htmlentities($this->mineraiNomType) ?>.
-			Vous avez fondu <?=$this->nbLingots ?> lingot<?if($this->nbLingots > 1):echo 's';endif;?><br />
-		<? else: ?>
-			Vous avez manqu&eacute; votre fonte<br />
-		<? endif; ?>
-		<br />
-	 </div>
-	 
-	 <div id='fondre_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
-		include("commun_copie_resultat.phtml");
-		
-			echo "Votre Jet d'identification : ".$this->jetHobbit;
-			echo "
-";
-			if ($this->okJet1 === true) {
-				echo "Vous avez r&eacute;ussi &agrave; fondre du minerai de ".htmlentities($this->mineraiNomType);
-				echo "Vous avez fondu ".$this->nbLingots." lingot";
-				if($this->nbLingots > 1):echo 's';endif;
-				echo "
-";
-			} else {
-				echo "Vous avez manqu&eacute; votre fonte";
-			}
-	?>
-	</textarea>
-	</div>
- </div>
-
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('fondre_text','fondre_copie');">
-<? include("commun_fermer.phtml") ?>
+<? if ($this->okJet1 === true): ?>
+	Vous avez r&eacute;ussi &agrave; fondre du minerai de <?=htmlentities($this->mineraiNomType) ?>.
+	Vous avez fondu <?=$this->nbLingots ?> lingot<?if($this->nbLingots > 1):echo 's';endif;?><br />
+<? else: ?>
+	Vous avez manqu&eacute; votre fonte<br />
+<? endif; ?>

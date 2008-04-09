@@ -1,14 +1,5 @@
-<div class='comp_titre'>Marcher</div>
-
- <div class='comp_contenu'>
-	 <div id='marcher_text' style="display:block"  onClick="javascript:switch2div('marcher_text','marcher_copie');">
-		<?=$this->texte ?>
-	 </div>
-	 
-	 <div id='marcher_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40><?=Bral_Helper_Affiche::copie($this->texte); ?></textarea>
-	</div>
- </div>
-
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('marcher_text','marcher_copie');">
-<? include("commun_fermer.phtml") ?>
+D&eacute;placement r&eacute;ussi jusqu'en : <br />
+x=<?=$this->user->x_hobbit?>, y=<?=$this->user->y_hobbit?> <br /><br />
+ 
+Type de terrain de d&eacute;part : <?=htmlentities($this->environnement)?><br /><br />
+Cela vous a co&ucirc;t&eacute; <?=$this->nb_pa?> PA<br />

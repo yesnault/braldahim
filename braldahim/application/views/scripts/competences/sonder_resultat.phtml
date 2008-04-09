@@ -1,88 +1,36 @@
-<div class='comp_titre'>Sonder un filon</div>
-
- <div class='comp_contenu'>
-	 <div id='sonder_text' style="display:block"  onClick="javascript:switch2div('sonder_text','sonder_copie');">
-		<? include("commun_text_resultat.phtml") ?>
-		<? if ($this->okJet1 === true):?>
-			<? if ($this->trouve == true): ?>
-				<? if ($this->proche === true): ?>
-					Le filon le plus proche se situe en : 
-					X=<?=$this->filon["x_filon"]?> et Y=<?=$this->filon["y_filon"]?><br />
-					<? if (($this->user->y_hobbit == $this->filon["y_filon"]) && ($this->user->x_hobbit == $this->filon["x_filon"])) : ?>
-						Vous &ecirc;tes sur le filon !
-					<? else: ?>
-						 en direction
-					<? endif; ?>
-				<? elseif ($this->proche === false): ?>
-					Le filon le plus proche se situe en direction <br />
-				<? endif; ?>
-				<? if ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit == $this->filon["x_filon"]): ?>
-				du Nord
-				<? elseif ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit < $this->filon["x_filon"]): ?>
-				du Nord Est
-				<? elseif ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit > $this->filon["x_filon"]): ?>
-				du Nord Ouest
-				<? elseif ($this->user->y_hobbit > $this->filon["y_filon"] && $this->user->x_hobbit == $this->filon["x_filon"]): ?>
-				du Sud 
-				<? elseif ($this->user->y_hobbit > $this->filon["y_filon"] && $this->user->x_hobbit < $this->filon["x_filon"]): ?>
-				du Sud Est		
-				<? elseif ($this->user->y_hobbit > $this->filon["y_filon"] && $this->user->x_hobbit > $this->filon["x_filon"]): ?>
-				du Sud Ouest
-				<? elseif ($this->user->y_hobbit == $this->filon["y_filon"] && $this->user->x_hobbit < $this->filon["x_filon"]): ?>
-				de l'Est
-				<? elseif ($this->user->y_hobbit == $this->filon["y_filon"] && $this->user->x_hobbit > $this->filon["x_filon"]): ?>
-				de l'Ouest
-				<? endif; ?>
+<? include("commun_text_resultat.phtml") ?>
+<? if ($this->okJet1 === true):?>
+	<? if ($this->trouve == true): ?>
+		<? if ($this->proche === true): ?>
+			Le filon le plus proche se situe en : 
+			X=<?=$this->filon["x_filon"]?> et Y=<?=$this->filon["y_filon"]?><br />
+			<? if (($this->user->y_hobbit == $this->filon["y_filon"]) && ($this->user->x_hobbit == $this->filon["x_filon"])) : ?>
+				Vous &ecirc;tes sur le filon !
 			<? else: ?>
-				Aucun filon n'a &eacute;t&eacute; trouv&eacute; dans <br />
-				un rayon de <?=$this->rayon_max;?> cases
+				 en direction
 			<? endif; ?>
+		<? elseif ($this->proche === false): ?>
+			Le filon le plus proche se situe en direction <br />
 		<? endif; ?>
-	 </div>
-	 
-	 <div id='sonder_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40><? 
-		include("commun_copie_resultat.phtml");
-		
-		if ($this->okJet1 === true) {
-			if ($this->trouve == true) {
-				if ($this->proche === true) {
-					echo "Le filon le plus proche se situe en : ";
-					echo " X=".$this->filon["x_filon"]." et Y=".$this->filon["y_filon"];
-					if (($this->user->y_hobbit == $this->filon["y_filon"]) && ($this->user->x_hobbit == $this->filon["x_filon"])) {
-						echo "
-";
-						echo "Vous &ecirc;tes sur le filon ! ";
-					} else {
-						echo ", en direction ";
-					}
-				} elseif ($this->proche === false) {
-					echo "Le filon le plus proche se situe en direction ";
-				}
-				if ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit == $this->filon["x_filon"]) {
-					echo "du Nord";
-				} elseif ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit < $this->filon["x_filon"]) {
-					echo "du Nord Est";
-				} elseif ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit > $this->filon["x_filon"]) {
-					echo "du Nord Ouest";
-				} elseif ($this->user->y_hobbit > $this->filon["y_filon"] && $this->user->x_hobbit == $this->filon["x_filon"]) {
-					echo "du Sud";
-				} elseif ($this->user->y_hobbit > $this->filon["y_filon"] && $this->user->x_hobbit < $this->filon["x_filon"]) {
-					echo "du Sud Est";		
-				} elseif ($this->user->y_hobbit > $this->filon["y_filon"] && $this->user->x_hobbit > $this->filon["x_filon"]) {
-					echo "du Sud Ouest";
-				} elseif ($this->user->y_hobbit == $this->filon["y_filon"] && $this->user->x_hobbit < $this->filon["x_filon"]) {
-					echo "de l'Est";
-				} elseif ($this->user->y_hobbit == $this->filon["y_filon"] && $this->user->x_hobbit > $this->filon["x_filon"]) {
-					echo "du l'Ouest";
-				}
-			} else {
-				echo "Aucun filon n'a &eacute;t&eacute; trouv&eacute; dans un rayon de ".$this->rayon_max. " cases";
-			}
-		}
-	?></textarea>
-	</div>
- </div>
-
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('sonder_text','sonder_copie');">
-<? include("commun_fermer.phtml") ?>
+		<? if ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit == $this->filon["x_filon"]): ?>
+		du Nord
+		<? elseif ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit < $this->filon["x_filon"]): ?>
+		du Nord Est
+		<? elseif ($this->user->y_hobbit < $this->filon["y_filon"] && $this->user->x_hobbit > $this->filon["x_filon"]): ?>
+		du Nord Ouest
+		<? elseif ($this->user->y_hobbit > $this->filon["y_filon"] && $this->user->x_hobbit == $this->filon["x_filon"]): ?>
+		du Sud 
+		<? elseif ($this->user->y_hobbit > $this->filon["y_filon"] && $this->user->x_hobbit < $this->filon["x_filon"]): ?>
+		du Sud Est		
+		<? elseif ($this->user->y_hobbit > $this->filon["y_filon"] && $this->user->x_hobbit > $this->filon["x_filon"]): ?>
+		du Sud Ouest
+		<? elseif ($this->user->y_hobbit == $this->filon["y_filon"] && $this->user->x_hobbit < $this->filon["x_filon"]): ?>
+		de l'Est
+		<? elseif ($this->user->y_hobbit == $this->filon["y_filon"] && $this->user->x_hobbit > $this->filon["x_filon"]): ?>
+		de l'Ouest
+		<? endif; ?>
+	<? else: ?>
+		Aucun filon n'a &eacute;t&eacute; trouv&eacute; dans <br />
+		un rayon de <?=$this->rayon_max;?> cases
+	<? endif; ?>
+<? endif; ?>

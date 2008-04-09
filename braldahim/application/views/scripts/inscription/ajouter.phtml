@@ -35,7 +35,7 @@
 		    </label><br />
 		    Entre 5 et 15 caract&egrave;res<br />
 		    <input type="text" name="prenom_hobbit" 
-		        value="<?php echo $this->escape(trim($this->hobbit->prenom_hobbit));?>" size="25" maxlength="20"/>
+		        value="<?=$this->hobbit->prenom_hobbit;?>" size="25" maxlength="15"/>
 		</div>
 		<div><br />
 			<?php if(!empty($this->messagesEmail)) :?> 

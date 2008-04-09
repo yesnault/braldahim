@@ -1,8 +1,3 @@
-<div class='comp_titre'>Cueillir</div>
-
- <div class='comp_contenu'>
-	 <div id='cueillir_text' style="display:block"  onClick="javascript:switch2div('cueillir_text','cueillir_copie');">
-		
 		<? include("commun_text_resultat.phtml") ?>
 		
 		<? if ($this->okJet1 === true):?>
@@ -44,47 +39,3 @@
 				la plante... ils sont d&eacute;truits.
 			<? endif; ?>
 		<? endif; ?>
-		<br />
-	 </div>
-	 
-	 <div id='cueillir_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
-		include("commun_copie_resultat.phtml");
-		
-		if ($this->okJet1 === true) {
-			if ($this->nbCueillette > 1) {
-				echo "Vous avez cueilli avec succ&egrave;s des &eacute;l&eacute;ments sur la plante ";
-			} else {
-				echo "Vous avez cueilli avec succ&egrave;s un &eacute;l&eacute;ment sur la plante ";
-			}
-
-			echo htmlentities($this->plante["categorie"]). " - ".htmlentities($this->plante["nom_type"]). " (". $this->plante["id_plante"].")";
-			echo "
-";
-			for ($i = 1; $i<=4; $i++) {
-				if ($this->cueillette[$i]["quantite"] != 0) {
-					echo $this->cueillette[$i]["nom_partie"]. ', quantit&eacute; : '.$this->cueillette[$i]["quantite"];
-					echo "
-";
-				}
-			}
-			if ($this->effetRune) {
-				echo "Une rune que vous portez a eu de l'effet sur la quantit&eacute; d'&eacute;l&eacute;ments cueillis.";
-			}
-		} else {
-			if ($this->planteDetruite === true) {
-				echo "Vous avez tout g&acirc;ch&eacute;, la plante ";
-				echo htmlentities($this->plante["categorie"])." - ".htmlentities($this->plante["nom_type"])."(".$this->plante["id_plante"].")";
-				echo "est d&eacutre;truite !";
-			} else {
-				echo "Vous avez n'avez pas r&eacute;ussi &agrave; cueillir en &eacute;tat des &eacute;l&eacute;ments de ";
-				echo "la plante... ils sont d&eacute;truits.";
-			}
-		}
-	?>
-	</textarea>
-	</div>
- </div>
-
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('cueillir_text','cueillir_copie');">
-<? include("commun_fermer.phtml") ?>

@@ -1,46 +1,9 @@
-<div class='comp_titre'>Ramasser</div>
+<? include("commun_text_resultat.phtml") ?>
 
- <div class='comp_contenu'>
-	 <div id='ramasser_text' style="display:block"  onClick="javascript:switch2div('ramasser_text','ramasser_copie');">
-		
-		<? include("commun_text_resultat.phtml") ?>
-		
-		Vous avez ramass&eacute; : <br />
-		<? if ($this->nbCastarsRamasses > 0) :?>
-			<?=$this->nbCastarsRamasses ?> Castar<? if ($this->nbCastarsRamasses > 1):echo "s";endif; ?><br />
-		<? endif; ?>
-		<? if ($this->nbRunesRamassees > 0) :?>
-			<?=$this->nbRunesRamassees ?> Rune<? if ($this->nbRunesRamassees > 1):echo "s";endif; ?><br />
-		<? endif; ?>
-		<br />
-	 </div>
-	 
-	 <div id='ramasser_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
-		include("commun_copie_resultat.phtml");
-		
-			echo "Vous avez ramass&eacute; : ";
-			if ($this->nbCastarsRamasses > 0) {
-				echo $this->nbCastarsRamasses ." Castar";
-				if ($this->nbCastarsRamasses > 0) {
-					echo "s";
-				}
-				echo "
-";
-			}
-			
-			if ($this->nbRunesRamassees > 0) {
-				echo $this->nbRunesRamassees ." Rune";
-				if ($this->nbRunesRamassees > 0) {
-					echo "s";
-				}
-				echo "
-";
-			}
-	?>
-	</textarea>
-	</div>
- </div>
-
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('ramasser_text','ramasser_copie');">
-<? include("commun_fermer.phtml") ?>
+Vous avez ramass&eacute; : <br />
+<? if ($this->nbCastarsRamasses > 0) :?>
+	<?=$this->nbCastarsRamasses ?> Castar<? if ($this->nbCastarsRamasses > 1):echo "s";endif; ?><br />
+<? endif; ?>
+<? if ($this->nbRunesRamassees > 0) :?>
+	<?=$this->nbRunesRamassees ?> Rune<? if ($this->nbRunesRamassees > 1):echo "s";endif; ?><br />
+<? endif; ?>
