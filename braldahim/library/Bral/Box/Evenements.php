@@ -11,6 +11,7 @@ class Bral_Box_Evenements {
 		$this->view->affichageInterne = $interne;
 
 		$this->preparePage();
+		$this->prepareDetails();
 	}
 
 	function getTitreOnglet() {
@@ -35,9 +36,9 @@ class Bral_Box_Evenements {
 
 		foreach ($evenements as $p) {
 			$tabEvenements[] = array(
-			"type" => $p["nom_type_evenement"],
-			"date" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y \&\a\g\r\a\v\e; H:i:s',$p["date_evenement"]),
-			"details" => $p["details_evenement"],
+				"type" => $p["nom_type_evenement"],
+				"date" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y \&\a\g\r\a\v\e; H:i:s',$p["date_evenement"]),
+				"details" => $p["details_evenement"],
 			);
 		}
 
@@ -45,9 +46,9 @@ class Bral_Box_Evenements {
 		$typeEvenements = $typeEvenementTable->fetchall();
 
 		$tabTypeEvenements[] = array(
-		"id_type_evenement" => -1,
-		"nom" => "(Tous)"
-			);
+			"id_type_evenement" => -1,
+			"nom" => "(Tous)"
+		);
 		foreach ($typeEvenements as $t) {
 			$tabTypeEvenements[] = array(
 			"id_type_evenement" => $t->id_type_evenement,
@@ -78,17 +79,45 @@ class Bral_Box_Evenements {
 		$this->view->filtre = $this->_filtre;
 		return $this->view->render("interface/evenements.phtml");
 	}
-
+	
+	private function prepareDetails() {
+		
+		$this->view->evenement = null;
+		$idEvenement = -1;
+		if ($this->_request->get("valeur_5") != null) {
+			$idEvenement = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
+		} else {
+			return;
+		}
+		
+		$trouve = false;
+		foreach ($typeEvenements as $t) {
+			if ($t["id_type_evenement"] == $idEvenement) {
+				$trouve = true;
+			}
+		}
+		
+		if ($trouve == false) {
+			throw new Zend_Exception(get_class($this)." Evenement invalide");
+		}
+		
+		
+		
+	}
+	
 	private function preparePage() {
 		$this->_page = 1;
 		if (($this->_request->get("caction") == "box_evenements") && ($this->_request->get("valeur_1") == "f")) {
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_2"));
-		} else if (($this->_request->get("caction") == "box_evenements") && ($this->_request->get("valeur_1") == "p")) { // si le joueur a clique sur une icone
-			$this->_page = $this->getValeurVerif($this->_request->get("valeur_3")) - 1;
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_4"));
+			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
+		} else if (($this->_request->get("caction") == "box_evenements") && ($this->_request->get("valeur_1") == "p")) { 
+			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) - 1;
+			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
 		} else if (($this->_request->get("caction") == "box_evenements") && ($this->_request->get("valeur_1") == "s")) {
-			$this->_page = $this->getValeurVerif($this->_request->get("valeur_3")) + 1;
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_4"));
+			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) + 1;
+			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
+		} else if (($this->_request->get("caction") == "box_evenements") && ($this->_request->get("valeur_1") == "d")) {
+			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3"));
+			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
 		} else {
 			$this->_page = 1;
 			$this->_filtre = -1;
@@ -98,13 +127,5 @@ class Bral_Box_Evenements {
 			$this->_page = 1;
 		}
 		$this->_nbMax = $this->view->config->game->evenements->nb_affiche;
-	}
-
-	private function getValeurVerif($val) {
-		if (((int)$val.""!=$val."")) {
-			throw new Zend_Exception(get_class($this)." Valeur invalide : val=".$val);
-		} else {
-			return (int)$val;
-		}
 	}
 }

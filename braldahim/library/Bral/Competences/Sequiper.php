@@ -207,7 +207,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$this->calculSequiper($equipement, $destination);
 		$this->view->equipementAjoute = $this->equipementAjoute;
 		$this->view->equipementRetire = $this->equipementRetire;
-		$this->majEvenementsStandard();
+		$this->setEvenementQueSurOkJet1(false);
 		
 		$this->calculPx();
 		$this->calculBalanceFaim();

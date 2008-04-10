@@ -189,7 +189,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		$this->view->planteDetruite = $planteADetruire;
 		$this->view->plante = $plante;
 			
-		$this->majEvenementsStandard();
+		$this->setEvenementQueSurOkJet1(false);
 
 		$this->calculPx();
 		$this->calculBalanceFaim();

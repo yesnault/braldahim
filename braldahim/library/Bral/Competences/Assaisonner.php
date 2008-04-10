@@ -42,7 +42,6 @@ class Bral_Competences_Assaisonner extends Bral_Competences_Competence {
 
 		if ($this->view->okJet1 === true) {
 			$this->calculAssaisonner();
-			$this->majEvenementsStandard();
 		}
 		
 		$this->calculPx();

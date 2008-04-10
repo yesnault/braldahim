@@ -191,7 +191,6 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 
 		if ($this->view->okJet1 === true) {
 			$this->calculMonterPalissade($this->view->user->x_hobbit + $offset_x, $this->view->user->y_hobbit + $offset_y);
-			$this->majEvenementsStandard();
 		}
 		
 		$this->calculPx();

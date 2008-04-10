@@ -220,7 +220,6 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 
 		if ($this->view->okJet1 === true) {
 			$this->calculConfectionner($idTypeEquipement, $niveau, $nbRunes);
-			$this->majEvenementsStandard();
 		}
 
 		$this->calculPx();

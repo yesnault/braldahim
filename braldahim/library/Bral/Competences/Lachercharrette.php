@@ -44,7 +44,6 @@ class Bral_Competences_Lachercharrette extends Bral_Competences_Competence {
 		if ($this->view->okJet1 === true) {
 			$this->reloadInterface = true;
 			$this->calculLacherCharrette();
-			$this->majEvenementsStandard();
 		}
 		
 		$this->calculPx();

@@ -1,19 +1,4 @@
-<div class='comp_titre'>Eujime Nasiumme</div>
-
- <div class='comp_contenu'>
-	 <div id='lieu_text' style="display:block"  onClick="javascript:switch2div('lieu_text','lieu_copie');">
-	 Pour <?=$this->coutCastars?> castars et <?=$this->coutPi?> PI, vous avez am&eacute;lior&eacute; <br />
-	 la caract&eacute;ristique : <?=$this->nomCaracteristique?> <br /><br />
-	 
-	 Faites-en bon usage...<br /><br />
-	 </div>
-	 <div id='lieu_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows="4" cols="40"><? 
-		echo "Pour ".$this->coutCastars." castars et ".$this->coutPi." PI, vous avez am&eacute;lior&eacute;";
-	 	echo " la caract&eacute;ristique : ".$this->nomCaracteristique;
-		?></textarea>
-	</div>
- </div>
-
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('lieu_text','lieu_copie');">
-<? include("commun_fermer.phtml") ?>
+ Pour <?=$this->coutCastars?> castars et <?=$this->coutPi?> PI, vous avez am&eacute;lior&eacute; <br />
+ la caract&eacute;ristique : <?=$this->nomCaracteristique?> <br /><br />
+ 
+ Faites-en bon usage...

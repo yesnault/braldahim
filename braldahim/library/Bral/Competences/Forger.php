@@ -220,7 +220,6 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 
 		if ($this->view->okJet1 === true) {
 			$this->calculForger($idTypeEquipement, $niveau, $nbRunes);
-			$this->majEvenementsStandard();
 		}
 
 		$this->calculPx();

@@ -36,7 +36,6 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		
 		// Verification filon
 		if ($this->view->filonOk == false) {
-			$this->majEvenementsStandard();
 			$this->calculPx();
 			$this->calculBalanceFaim();
 			$this->majHobbit();
@@ -90,8 +89,6 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 
 		$this->view->minerai = $minerai;
 		$this->view->filonDetruit = $filonDetruit;
-		
-		$this->majEvenementsStandard();
 		
 		$this->calculPx();
 		$this->calculBalanceFaim();

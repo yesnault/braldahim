@@ -85,7 +85,6 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 
 		if ($this->view->okJet1 === true) {
 			$this->calculDepiauter($idCadavre);
-			$this->majEvenementsStandard();
 		}
 		$this->calculPx();
 		$this->calculBalanceFaim();

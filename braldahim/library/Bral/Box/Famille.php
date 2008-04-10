@@ -61,9 +61,11 @@ class Bral_Box_Famille {
 		$conjoint = null;
 		if (count($conjointRowset) > 0) {
 			foreach($conjointRowset as $c) {
-				$conjoint = array("prenom" => $c["prenom_hobbit"],
-									"nom" => $c["nom_hobbit"],
-									"id_hobbit" => $c["id_hobbit"]);
+				$conjoint = array(
+					"prenom" => $c["prenom_hobbit"],
+					"nom" => $c["nom_hobbit"],
+					"id_hobbit" => $c["id_hobbit"]
+				);
 			}
 		}
 		
@@ -71,7 +73,6 @@ class Bral_Box_Famille {
 		
 		$this->view->dateNaissance = Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e; H:i:s',$this->view->user->date_creation_hobbit);
 		$this->view->nom_interne = $this->getNomInterne();
-
 		
 		return $this->view->render("interface/famille.phtml");
 	}

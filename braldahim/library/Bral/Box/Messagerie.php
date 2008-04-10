@@ -73,8 +73,8 @@ class Bral_Box_Messagerie {
 
 		foreach ($typeMesssages as $t) {
 			$tabTypeMessages[] = array(
-			"id_type_message" => $t->id_type_message,
-			"nom" => $t->nom_type_message
+				"id_type_message" => $t->id_type_message,
+				"nom" => $t->nom_type_message
 			);
 		}
 
@@ -103,17 +103,17 @@ class Bral_Box_Messagerie {
 	private function preparePage() {
 		$this->_page = 1;
 		if (($this->_request->get("caction") == "box_messagerie") && ($this->_request->get("valeur_1") == "f")) {
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_2"));
+			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
 		} else if (($this->_request->get("caction") == "box_messagerie") && ($this->_request->get("valeur_1") == "p")) { // si le joueur a clique sur une icone
-			$this->_page = $this->getValeurVerif($this->_request->get("valeur_3")) - 1;
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_4"));
+			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) - 1;
+			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
 		} else if (($this->_request->get("caction") == "box_messagerie") && ($this->_request->get("valeur_1") == "s")) {
-			$this->_page = $this->getValeurVerif($this->_request->get("valeur_3")) + 1;
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_4"));
+			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) + 1;
+			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
 		} else if (($this->_request->get("caction") == "do_messagerie_message") && ($this->_request->get("valeur_1") != "")  && ($this->_request->get("valeur_1") != -1)) {
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_1"));
+			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_1"));
 			if ($this->_request->get("valeur_3") != "" && $this->_request->get("valeur_3") != -1) {
-				$this->_page = $this->getValeurVerif($this->_request->get("valeur_3"));
+				$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3"));
 			}
 		} else {
 			$this->_page = 1;
@@ -124,13 +124,5 @@ class Bral_Box_Messagerie {
 			$this->_page = 1;
 		}
 		$this->_nbMax = $this->view->config->messagerie->messages->nb_affiche;
-	}
-
-	private function getValeurVerif($val) {
-		if (((int)$val.""!=$val."")) {
-			throw new Zend_Exception(get_class($this)." Valeur invalide : val=".$val);
-		} else {
-			return (int)$val;
-		}
 	}
 }

@@ -75,8 +75,6 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 				$this->view->jetChasseOk = true;
 				$this->calculChasse();
 			}
-			
-			$this->majEvenementsStandard();
 		}
 		
 		$this->calculPx();

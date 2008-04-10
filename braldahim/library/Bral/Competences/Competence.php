@@ -4,6 +4,11 @@ abstract class Bral_Competences_Competence {
 	
 	protected $view;
 	protected $reloadInterface = false;
+	private $estEvenementAuto = true;
+	private $evenementQueSurOkJet1 = true;
+	private $detailEvenement = null;
+	private $idTypeEvenement = null;
+	
 	
 	function __construct($competence, $hobbitCompetence, $request, $view, $action) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
@@ -184,17 +189,40 @@ abstract class Bral_Competences_Competence {
 	/*
 	 * Mise à jour des évènements du hobbit / du monstre.
 	 */
-	public function majEvenements($id_concerne, $id_type_evenement, $details, $type="hobbit") {
-		Bral_Util_Evenement::majEvenements($id_concerne, $id_type_evenement, $details, $type);
+	public function setDetailsEvenement($details, $idType) {
+		$this->detailsEvenement = $details;
+		$this->idTypeEvenement = $idType;
+	}
+	
+	/*
+	 * Mise à jour des évènements du hobbit / du monstre.
+	 */
+	public function setEstEvenementAuto($flag) {
+		$this->estEvenementAuto = $flag;
+	}
+	
+	/*
+	 * Mise à jour des évènements du hobbit / du monstre.
+	 */
+	public function setEvenementQueSurOkJet1($flag) {
+		$this->evenementQueSurOkJet1 = $flag;
 	}
 	
 	/*
 	 * Mise à jour des évènements du hobbit : type : compétence.
 	 */
-	public function majEvenementsStandard() {
-		$id_type = $this->view->config->game->evenements->type->competence;
-		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a réussi l'utilisation d'une compétence";
-		$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
+	private function majEvenementsStandard($detailsBot) {
+		if ($this->estEvenementAuto === true) {
+			if ($this->idTypeEvenement == null) {
+				$this->idTypeEvenement = $this->view->config->game->evenements->type->competence;
+			}
+			if ($this->detailEvenement == null) {
+				$this->detailEvenement = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a réussi l'utilisation d'une compétence";
+			}
+			if ($this->view->okJet1 === true || $this->evenementQueSurOkJet1 == false) {
+				Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot);
+			}
+		}
 	}
 	
 	/*
@@ -249,7 +277,10 @@ abstract class Bral_Competences_Competence {
 				$this->view->competence = $this->competence;
 				
 				$texte = $this->view->render("competences/".$this->nom_systeme."_resultat.phtml");
+				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
+				
+				$this->majEvenementsStandard(Bral_Helper_Affiche::copie($this->view->texte));
 				return $this->view->render("competences/commun_resultat.phtml");
 				break;
 			default:

@@ -205,6 +205,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 				);
 				$charretteTable->insert($data);
 				$this->view->constructionCharrette = true;
+				$this->reloadInterface = true;
 			}
 		}
 

@@ -91,11 +91,12 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 			 	}
 			 	
 			 	$tab[] = array ("x_offset" => $i,
-			 	"y_offset" => $j,
-			 	"default" => $default,
-			 	"display" => $display,
-			 	"change_level" => $change_level, // nouvelle ligne dans le tableau
-				"valid" => $valid);
+				 	"y_offset" => $j,
+				 	"default" => $default,
+				 	"display" => $display,
+				 	"change_level" => $change_level, // nouvelle ligne dans le tableau
+					"valid" => $valid
+			 	);
 			 	
 			 	$tabValidation[$i][$j] = $valid;
 				
@@ -136,7 +137,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		
 		$id_type = $this->view->config->game->evenements->type->deplacement;
 		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a marché";
-		$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
+		$this->setDetailsEvenement($details, $id_type);
 		
 		$this->calculBalanceFaim();
 		$this->majHobbit();

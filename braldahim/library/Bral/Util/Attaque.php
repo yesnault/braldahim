@@ -356,14 +356,14 @@ class Bral_Util_Attaque {
 		$id_type = $config->game->evenements->type->attaquer;
 		$details = $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.") N".$hobbitAttaquant->niveau_hobbit." a attaqué le monstre ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
 		Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details);
-		Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, "monstre");
+		Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, "", "monstre");
 		
 		if ($retourAttaque["mort"] === true) {
 			$id_type = $config->game->evenements->type->kill;
 			$details = $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.") N".$hobbitAttaquant->niveau_hobbit." a tué le monstre ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
 			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details);
 			$id_type = $config->game->evenements->type->mort;
-			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, "monstre");
+			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, "", "monstre");
 		}
 		
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - exit -");
@@ -524,8 +524,8 @@ class Bral_Util_Attaque {
 					
 				$id_type = $config->game->evenements->type->effet;
 				$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a soign&eacute; le hobbit ".$h["prenom_hobbit"] ." ". $h["nom_hobbit"] ." (".$h["id_hobbit"].") N".$h["niveau_hobbit"];  
-				Bral_Util_Commun::majEvenements($hobbit->id_hobbit, $id_type, $details);
-				Bral_Util_Commun::majEvenements($h["id_hobbit"], $id_type, $details);
+				Bral_Util_Evenement::majEvenements($hobbit->id_hobbit, $id_type, $details);
+				Bral_Util_Evenement::majEvenements($h["id_hobbit"], $id_type, $details);
 			}
 		}
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculSoinCase - exit -");

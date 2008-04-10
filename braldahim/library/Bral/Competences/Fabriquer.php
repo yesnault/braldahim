@@ -218,7 +218,6 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 
 		if ($this->view->okJet1 === true) {
 			$this->calculFabriquer($idTypeEquipement, $niveau, $nbRunes);
-			$this->majEvenementsStandard();
 		}
 
 		$this->calculPx();

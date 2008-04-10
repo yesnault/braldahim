@@ -40,8 +40,6 @@ class Bral_Competences_Rechercherplante extends Bral_Competences_Competence {
 			} else {
 				$this->view->trouve= false;
 			}
-			
-			$this->majEvenementsStandard();
 		}
 
 		$this->calculPx();

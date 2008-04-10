@@ -68,7 +68,6 @@ class Bral_Competences_Decouper extends Bral_Competences_Competence {
 
 		if ($this->view->okJet1 === true) {
 			$this->calculDecouper();
-			$this->majEvenementsStandard();
 		}
 		
 		$this->calculPx();

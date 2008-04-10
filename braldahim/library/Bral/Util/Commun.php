@@ -44,23 +44,6 @@ class Bral_Util_Commun {
 	}
 	
 	/*
-	 * Mise à jour des évènements du hobbit.
-	 */
-	public static function majEvenements($id_hobbit, $id_type_evenement, $details) {
-		Zend_Loader::loadClass('Evenement');
-
-		$evenementTable = new Evenement();
-
-		$data = array(
-			'id_fk_hobbit_evenement' => $id_hobbit,
-			'date_evenement' => date("Y-m-d H:i:s"),
-			'id_fk_type_evenement' => $id_type_evenement,
-			'details_evenement' => $details,
-		);
-		$evenementTable->insert($data);
-	}
-
-	/*
 	 * Regarde si la rune de @param est portée
 	 */
 	public static function isRunePortee($idHobbit, $nomTypeRune) {

@@ -1,7 +1,3 @@
-<div class='comp_titre'>Joaillier</div>
-
- <div class='comp_contenu'>
-	 <div id='lieu_text' style="display:block"  onClick="javascript:switch2div('lieu_text','lieu_copie');">
 	 Pour <?=$this->coutCastars?> castars et <?=$this->coutPi?> PI, vous avez serti <?=$this->nbRunes ?>
 	 rune<? if ($this->nbRunes > 1) echo "s"; ?> sur <br />
 	 l'&eacute;quipement n&deg;<?=$this->equipementCourant["id_laban_equipement"] ?> : <?=htmlentities($this->equipementCourant["nom"]) ?>  
@@ -31,54 +27,3 @@
 	 	F&eacute;licitations ! Votre armure est devenue une armure de Discr&eacute;tion. <br />
 	 	Vous ne vous vous ferez plus attaquer par un type de monstre...<br /><br />
 	 <? endif; ?>
-	 </div>
-	 <div id='lieu_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
-			echo "Pour ".$this->coutCastars." castars et ".$this->coutPi." PI, vous avez serti ".$this->nbRunes;
-			echo " rune";
-			if ($this->nbRunes > 1) echo "s";
-	 		echo " sur l'&eacute;quipement n&deg;".$this->equipementCourant["id_laban_equipement"];
-	 		echo " : ".htmlentities($this->equipementCourant["nom"]);  
-	 		echo " qualit&eacute; ".htmlentities($this->equipementCourant["qualite"]) ." ,";
-	 		echo " niveau: ".$this->equipementCourant["niveau"];
-	 		echo "
-";
-	 
-	 		if ($this->nbRunes > 1) :
-	 			echo "Les runes serties sont dans l'ordre :";
-	 		else :
-	 			echo "La rune sertie est :";
-	 		endif;
-	 		echo "
-";
-	 		foreach($this->tabRunes as $k => $v) :
-	 			echo $v["nom_type_rune"] . " "; 
-	 		endforeach;
-			echo "
-";
-			if ($this->suffixe != "") {
-	 			echo "Vous avez trouv&eacute; un mot runique : ".htmlentities($this->suffixe);
-	 			echo "
-";
-	 			echo "L'&eacute;quipement est devenu : ".($this->equipementCourant["nom"])." ";
-	 			echo htmlentities($this->suffixe);
-			} else {
-	 			echo "Aucun mot runique n'est associ&eacute; &agrave; ce sertissage";
-	 		}
-	 		echo "
-";
-			echo "Faites-en bon usage...";
-			echo "
-"
-			if ($this->effetMotF === true) {
-	 			echo "F&eacute;licitations ! Votre armure est devenue une armure de Discr&eacute;tion.";
-	 			echo "Vous ne vous vous ferez plus attaquer par un type de monstre...";
-	 			echo "
-";
-			}
-		?></textarea>
-	</div>
- </div>
-
-<input type='button' value='Copier' class='button1' onClick="javascript:switch2div('lieu_text','lieu_copie');">
-<? include("commun_fermer.phtml") ?>

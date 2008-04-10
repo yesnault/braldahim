@@ -43,8 +43,6 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 			} else {
 				$this->view->trouve= false;
 			}
-			
-			$this->majEvenementsStandard();
 		}
 
 		$this->calculPx();

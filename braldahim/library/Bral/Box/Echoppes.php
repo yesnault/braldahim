@@ -26,7 +26,6 @@ class Bral_Box_Echoppes {
 		$box = new Bral_Echoppes_Liste("liste", $this->_request, $this->view, "ask");
 		$box->prepareCommun();
 		
-		$this->view->htmlMenu = $this->view->render("interface/echoppes/menu.phtml");
 		$this->view->htmlContenu = $box->render();
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/echoppes.phtml");

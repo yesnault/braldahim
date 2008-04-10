@@ -93,7 +93,6 @@ class Bral_Competences_Fondre extends Bral_Competences_Competence {
 
 		if ($this->view->okJet1 === true) {
 			$this->calculFondre($idTypeMinerai);
-			$this->majEvenementsStandard();
 		}
 		
 		$this->calculPx();

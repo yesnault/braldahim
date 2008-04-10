@@ -1,52 +1,15 @@
-<div class='comp_titre'>B&eacute;hennep&eacute;e</div>
+<? if ($this->constructionEchoppeOk === true): ?>
+Vous avez construit une &eacute;choppe avec succ&egrave;s ! <br /><br />
 
- <div class='comp_contenu'>
-	 <div id='behennepee_text' style="display:block"  onClick="javascript:switch2div('behennepee_text','behennepee_copie');">
-		
-		<? if ($this->constructionEchoppeOk === true): ?>
-		Vous avez construit une &eacute;choppe avec succ&egrave;s ! <br /><br />
-		
-		Elle se trouve en x:<?=$this->x_construction ?> y:<?=$this->y_construction ?> 
-		dans la <?=htmlentities($this->tabRegionCourante["nom_region"]) ?>.<br /><br />
-		
-		C'est une &eacute;choppe <? if ($this->nom_metier_courant{0} == 'A') : echo 'd\''; else: echo "de "; endif; ?><?=htmlentities($this->nom_metier_courant) ?>.
-		
-		<? elseif ($this->construireLieuOk == false) : ?>
-		Un lieu particulier existe en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas construire d'&eacute;choppe 
-		&agrave; cet endroit.
-		<? elseif ($this->construireRegionOk == false) : ?>
-		&Eacute;tant dans la <?=htmlentities($this->regionCourante["nom_region"]) ?>, vous ne pouvez pas 
-		construire d'&eacute;choppe dans une autre comt&eacute;.
-		<? endif; ?>
-		
-		<br /><br />
-	 </div>
-	 
-	 <div id='behennepee_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40><? 
-		 if ($this->constructionEchoppeOk === true) {
-			echo "Vous avez construit une &eacute;choppe avec succ&egrave;s !";
-			echo "
-";
-		
-			echo "Elle se trouve en x:".$this->x_construction." y:".$this->y_construction;
-			echo " dans la ".htmlentities($this->tabRegionCourante["nom_region"]).".";
-			echo "
-";
-			echo "C'est une &eacute;choppe ";
-			if ($this->nom_metier_courant{0} == 'A') : echo 'd\''; else: echo "de "; endif; 
-			echo htmlentities($this->nom_metier_courant).".";
+Elle se trouve en x:<?=$this->x_construction ?> y:<?=$this->y_construction ?> 
+dans la <?=htmlentities($this->tabRegionCourante["nom_region"]) ?>.<br /><br />
 
-		 } elseif ($this->construireLieuOk == false) {
-			echo "Un lieu particulier existe en x:".$this->x_construction.", y:".$this->y_construction.", vous ne pouvez pas construire d'&eacute;choppe"; 
-			echo "&agrave; cet endroit.";
-		 } elseif ($this->construireRegionOk == false) { 
-			echo "&Eacute;tant dans la ".htmlentities($this->regionCourante["nom_region"]) .", vous ne pouvez pas ";
-			echo "construire d'&eacute;choppe dans une autre comt&eacute;.";
-		 }
-		?></textarea>
-	</div>
- </div>
+C'est une &eacute;choppe <? if ($this->nom_metier_courant{0} == 'A') : echo 'd\''; else: echo "de "; endif; ?><?=htmlentities($this->nom_metier_courant) ?>.
 
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('behennepee_text','behennepee_copie');">
-<? include("commun_fermer.phtml") ?>
+<? elseif ($this->construireLieuOk == false) : ?>
+Un lieu particulier existe en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas construire d'&eacute;choppe 
+&agrave; cet endroit.
+<? elseif ($this->construireRegionOk == false) : ?>
+&Eacute;tant dans la <?=htmlentities($this->regionCourante["nom_region"]) ?>, vous ne pouvez pas 
+construire d'&eacute;choppe dans une autre comt&eacute;.
+<? endif; ?>

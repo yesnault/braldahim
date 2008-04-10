@@ -58,7 +58,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		}
 		
 		$this->calculRamasser();
-		$this->majEvenementsStandard();
+		$this->setEvenementQueSurOkJet1(false);
 
 		$this->calculPx();
 		$this->calculBalanceFaim();

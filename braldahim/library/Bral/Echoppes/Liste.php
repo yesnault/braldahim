@@ -96,6 +96,7 @@ class Bral_Echoppes_Liste extends Bral_Echoppes_Echoppe {
 			}
 		}
 		
+		$this->view->tabRegions = $regions;
 		$this->view->tabRegionCourante = $regionCourante;
 		$this->view->tabMetierCourant = $tabMetierCourant;
 		$this->view->tabMetiers = $tabMetiers;

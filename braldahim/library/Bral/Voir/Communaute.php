@@ -23,7 +23,7 @@ class Bral_Voir_Communaute {
 		$this->view->communaute = null;
 		
 		$communauteTable = new Communaute();
-		$communauteRowset = $communauteTable->findById($this->getValeurVerif($this->_request->get("communaute")));
+		$communauteRowset = $communauteTable->findById(Bral_Util_Controle::getValeurIntVerif($this->_request->get("communaute")));
 		if (count($communauteRowset) == 1) {
 			$this->view->communaute = $communauteRowset[0];
 			$this->view->connue = true;
@@ -108,23 +108,23 @@ class Bral_Voir_Communaute {
 		$this->_page = 1;
 		
 		if (($this->_request->get("caction") == "ask_voir_communaute") && ($this->_request->get("valeur_1") == "f")) {
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_2"));
-			$ordre = $this->getValeurVerif($this->_request->get("valeur_5"));
-			$sensOrdre = $this->getValeurVerif($this->_request->get("valeur_6"));
+			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
+			$ordre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
+			$sensOrdre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_6"));
 		} else if (($this->_request->get("caction") == "ask_voir_communaute") && ($this->_request->get("valeur_1") == "p")) {
-			$this->_page = $this->getValeurVerif($this->_request->get("valeur_3")) - 1;
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_4"));
-			$ordre = $this->getValeurVerif($this->_request->get("valeur_5"));
-			$sensOrdre = $this->getValeurVerif($this->_request->get("valeur_6"));
+			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) - 1;
+			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
+			$ordre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
+			$sensOrdre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_6"));
 		} else if (($this->_request->get("caction") == "ask_voir_communaute") && ($this->_request->get("valeur_1") == "s")) {
-			$this->_page = $this->getValeurVerif($this->_request->get("valeur_3")) + 1;
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_4"));
-			$ordre = $this->getValeurVerif($this->_request->get("valeur_5"));
-			$sensOrdre = $this->getValeurVerif($this->_request->get("valeur_6"));
+			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) + 1;
+			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
+			$ordre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
+			$sensOrdre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_6"));
 		} else if (($this->_request->get("caction") == "ask_voir_communaute") && ($this->_request->get("valeur_1") == "o")) {
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_2"));
-			$ordre = $this->getValeurVerif($this->_request->get("valeur_5"));
-			$sensOrdre = $this->getValeurVerif($this->_request->get("valeur_6")) + 1;
+			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
+			$ordre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
+			$sensOrdre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_6")) + 1;
 		} else {
 			$this->_page = 1;
 			$this->_filtre = -1;
@@ -143,15 +143,7 @@ class Bral_Voir_Communaute {
 		}
 		$this->_nbMax = $this->view->config->communaute->membres->nb_affiche;
 	}
-	
-	private function getValeurVerif($val) {
-		if (((int)$val.""!=$val."")) {
-			throw new Zend_Exception(get_class($this)." Valeur invalide : val=".$val);
-		} else {
-			return (int)$val;
-		}
-	}
-	
+		
 	private function getChampOrdre($ordre) {
 		$retour = "";
 		if ($ordre == 1) {

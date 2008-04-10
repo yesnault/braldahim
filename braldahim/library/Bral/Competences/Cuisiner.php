@@ -52,7 +52,6 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 
 		if ($this->view->okJet1 === true) {
 			$this->calculCuisiner();
-			$this->majEvenementsStandard();
 		}
 		
 		$this->calculPx();

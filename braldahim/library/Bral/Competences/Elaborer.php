@@ -167,7 +167,6 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 
 		if ($this->view->okJet1 === true) {
 			$this->calculElaborer($idTypePotion, $niveau);
-			$this->majEvenementsStandard();
 		}
 
 		$this->calculPx();

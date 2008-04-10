@@ -63,7 +63,6 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 
 		if ($this->view->okJet1 === true) {
 			$this->calculAbattreArbre();
-			$this->majEvenementsStandard();
 		}
 		
 		$this->calculPx();

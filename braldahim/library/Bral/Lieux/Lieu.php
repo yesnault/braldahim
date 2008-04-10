@@ -1,6 +1,8 @@
 <?php
 
 abstract class Bral_Lieux_Lieu {
+	
+	protected $reloadInterface = false;
 
 	function __construct($nomSystemeLieu, $request, $view, $action) {
 		Zend_Loader::loadClass("Lieu");
@@ -44,7 +46,6 @@ abstract class Bral_Lieux_Lieu {
 			case "do":
 				if ($this->view->utilisationPaPossible) {
 					$this->prepareResultat();
-					$this->majEvenements();
 				} else {
 					throw new Zend_Exception(get_class($this)."::pas assez de PA");
 				}
@@ -59,11 +60,11 @@ abstract class Bral_Lieux_Lieu {
 	abstract function prepareResultat();
 	abstract function getListBoxRefresh();
 	
-	function majEvenements() {
+	private function majEvenements($detailsBot) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
 		$id_type = $this->view->config->game->evenements->type->service;
 		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a utilisé un service";
-		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $id_type, $details);
+		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $id_type, $details, $detailsBot);
 	}
 	
 	function getNomInterne() {
@@ -76,7 +77,13 @@ abstract class Bral_Lieux_Lieu {
 				return $this->view->render("lieux/".$this->nom_systeme."_formulaire.phtml");
 				break;
 			case "do":
-				return $this->view->render("lieux/".$this->nom_systeme."_resultat.phtml");
+				$this->view->reloadInterface = $this->reloadInterface;
+				$texte = $this->view->render("lieux/".$this->nom_systeme."_resultat.phtml");
+				
+				// suppression des espaces : on met un espace à la place de n espaces à suivre
+				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
+				$this->majEvenements(Bral_Helper_Affiche::copie($this->view->texte));
+				return $this->view->render("lieux/commun_resultat.phtml");
 				break;
 			default:
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);

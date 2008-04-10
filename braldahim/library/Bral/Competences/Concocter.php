@@ -101,7 +101,6 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 
 		if ($this->view->okJet1 === true) {
 			$this->calculConcocter($idTypePartiePlante, $idTypePlante);
-			$this->majEvenementsStandard();
 		}
 		
 		$this->calculPx();

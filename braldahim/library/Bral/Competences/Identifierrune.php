@@ -61,7 +61,7 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 		}
 		
 		$this->calculIdentifierRune($rune);
-		$this->majEvenementsStandard();
+		$this->setEvenementQueSurOkJet1(false);
 		
 		$this->calculPx();
 		$this->calculBalanceFaim();

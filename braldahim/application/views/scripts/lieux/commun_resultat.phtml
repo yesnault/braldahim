@@ -1,0 +1,19 @@
+<div class='comp_titre'><?=htmlentities($this->nomLieu) ?></div>
+
+ <div class='comp_contenu'>
+	 <div id='<?=$this->nomSystemeLieu?>_text' style="display:block"  onClick="javascript:switch2div('<?=$this->nomSystemeLieu?>_text','<?=$this->nomSystemeLieu?>_copie');">
+	<?=$this->texte ?>
+		<br />
+	 </div>
+	 
+	 <div id='<?=$this->nomSystemeLieu?>_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><?=Bral_Helper_Affiche::copie($this->texte); ?></textarea>
+	</div>
+ </div>
+
+<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('<?=$this->nomSystemeLieu?>_text','<?=$this->nomSystemeLieu?>_copie');">
+<? if ($this->reloadInterface == true): ?>
+	<input type='button' class='button1' value='Fermer' onClick='_get_("/interface/reload");Modalbox.hide();'>
+<? else: ?>
+	<? include("commun_fermer.phtml") ?>
+<? endif; ?>

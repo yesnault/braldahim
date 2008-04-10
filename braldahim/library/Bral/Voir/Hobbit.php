@@ -25,7 +25,7 @@ class Bral_Voir_Hobbit {
 		$this->view->communaute = null;
 		
 		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->findById($this->getValeurVerif($this->_request->get("hobbit")));
+		$hobbitRowset = $hobbitTable->findById(Bral_Util_Controle::getValeurIntVerif($this->_request->get("hobbit")));
 		if (count($hobbitRowset) == 1) {
 			$hobbitRowset = $hobbitRowset->toArray();
 			$this->view->hobbit = $hobbitRowset;
@@ -109,13 +109,13 @@ class Bral_Voir_Hobbit {
 	private function preparePage() {
 		$this->_page = 1;
 		if (($this->_request->get("caction") == "ask_voir_hobbit") && ($this->_request->get("valeur_1") == "f")) {
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_2"));
+			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
 		} else if (($this->_request->get("caction") == "ask_voir_hobbit") && ($this->_request->get("valeur_1") == "p")) { // si le joueur a clique sur une icone
-			$this->_page = $this->getValeurVerif($this->_request->get("valeur_3")) - 1;
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_4"));
+			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) - 1;
+			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
 		} else if (($this->_request->get("caction") == "ask_voir_hobbit") && ($this->_request->get("valeur_1") == "s")) {
-			$this->_page = $this->getValeurVerif($this->_request->get("valeur_3")) + 1;
-			$this->_filtre = $this->getValeurVerif($this->_request->get("valeur_4"));
+			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) + 1;
+			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
 		} else {
 			$this->_page = 1;
 			$this->_filtre = -1;
@@ -125,13 +125,5 @@ class Bral_Voir_Hobbit {
 			$this->_page = 1;
 		}
 		$this->_nbMax = $this->view->config->game->evenements->nb_affiche;
-	}
-
-	private function getValeurVerif($val) {
-		if (((int)$val.""!=$val."")) {
-			throw new Zend_Exception(get_class($this)." Valeur invalide : val=".$val);
-		} else {
-			return (int)$val;
-		}
 	}
 }

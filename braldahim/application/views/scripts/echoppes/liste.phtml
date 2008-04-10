@@ -3,32 +3,61 @@
   <ul class="box_contenu1 textalic">
   <br />
   	Vous &ecirc;tes actuellement <?=htmlentities($this->tabMetierCourant["nom_metier"]) ?> et vous vous 
-  	situez dans la <?=htmlentities($this->tabRegionCourante["nom_region"]) ?><br /><br />
+  	situez dans la <?=htmlentities($this->tabRegionCourante["nom_region"]) ?>.<br /><br />
   	
   	Pour construire une &eacute;choppe, rendez-vous dans une B&eacute;hennep&eacute;e.<br /> 
   	Vous ne pourrez construire d'&eacute;choppe que dans la comt&eacute; o&ugrave; vous 
-  	serez <br />
+  	serez. <br />
  	
  	<? if ($this->constructionPossible == false): ?>
- 		Vous ne pouvez pas contruire d'&eacute;choppe avec votre m&eacute;tier courant<br />
+ 		Vous ne pouvez pas contruire d'&eacute;choppe avec votre m&eacute;tier courant.<br />
  	<? endif; ?>
  	<br />
 	<? if ($this->nEchoppes < 1) : ?>
   		Vous n'avez aucune &eacute;choppe.<br /><br />
-   	<? endif; ?>
+   	<? else: ?>
    	
-   	<? foreach($this->tabMetiers as $m) : ?>
-   		<?=htmlentities($m["nom_metier"]) ?><br />
-   		<? foreach($m["regions"] as $r) :?>
-   			<? if ($r["echoppe"] != null): ?>
-   				Votre &eacute;choppe dans la <?=htmlentities($r["nom_region"]) ?> 
-   				se trouve en x:<?=$r["echoppe"]["x_echoppe"] ?> y:<?=$r["echoppe"]["y_echoppe"] ?>
-   			<? else: ?>
-   				Vous n'avez aucune &eacute;choppe
-   				<? if ($m["nom_metier"]{0} == 'A') : echo 'd\''; else: echo "de "; endif; ?><?=htmlentities($m["nom_metier"]) ?> dans la <?=htmlentities($r["nom_region"]) ?>
-   			<? endif; ?>
-   			<br />
-   		<? endforeach; ?>
-   	<? endforeach; ?>
+   	<table class="table_liste">
+		<thead class="table_liste">
+		  <tr class="table_liste">
+			<th>&nbsp;</th>
+			<? foreach($this->tabMetiers as $m) : ?>
+			<th><?=htmlentities($m["nom_metier"]) ?></th>
+			<? endforeach; ?>
+		  </tr>
+		</thead>
+		<tbody>
+		<? $i = 0;
+		   $echoppe = false;
+		   foreach($this->tabRegions as $r) : ?>
+			
+			<tr class="table_liste<?=($i % 2);$i++; ?>">
+			<td class="table_liste">
+			<?=htmlentities($r["nom_region"]); ?>
+			</td>
+				<? foreach($this->tabMetiers as $m) : 
+					$echoppe = false;
+					?>
+			   		<? foreach($m["regions"] as $p) :?>
+			   			<? if ($p["echoppe"] != null && $r["nom_systeme_region"] == $p["nom_systeme_region"]): 
+			   				$echoppe = true;
+			   			?>
+			   				<td class="table_liste" style="cursor:pointer" onClick="_get_('/echoppes/doaction?caction=ask_echoppes_voir&valeur_1=<?=$p["echoppe"]["id_echoppe"]?>')">
+			   					<span title="Cliquez pour regarder le contenu de l'&eacute;choppe"><?=$p["echoppe"]["x_echoppe"] ?> ; <?=$p["echoppe"]["y_echoppe"] ?>
+			   				</td>
+			   			<? else: ?>
+			   				
+			   			<? endif; ?>
+			   		<? endforeach; ?>
+			   		<? if ($echoppe == false) :?>
+			   			<td class="table_liste">&nbsp;</td>	
+			   		<? endif; ?>
+			   	<? endforeach; ?>
+			</tr>
+		<? endforeach; ?>
+		</tbody>
+	</table>
+	<? endif; ?>
+	<br /><br />
    </ul>
 </div>

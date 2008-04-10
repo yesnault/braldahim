@@ -67,6 +67,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 		// distribution
 		$tabAffiche = null;
 		$hobbitTable = new Hobbit();
+		$this->setEstEvenementAuto(false);
 		foreach ($tabDistribution as $t) {
 			$hobbitRowset = $hobbitTable->find($t["id_hobbit"]);
 			$hobbit = $hobbitRowset->current();
@@ -90,8 +91,10 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 
 			$id_type = $this->view->config->game->evenements->type->don;
 			$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a donné des PX à ".$t["nom_hobbit"]." (".$t["id_hobbit"].")";
-			$this->majEvenements($this->view->user->id_hobbit, $id_type, $details);
-			$this->majEvenements($t["id_hobbit"], $id_type, $details);
+			$detailDonneur "Vous avez donné ".$t["px_recu"]." PX à ".$t["nom_hobbit"]." (".$t["id_hobbit"].")";
+			$detailReceveur "Vous avez reçu ".$t["px_recu"]." PX de la part de ".$hobbit->prenom_hobbit. " ". $hobbit->nom_hobbit." (".$this->view->user->id_hobbit.")";
+			Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $id_type, $details, $detailDonneur);
+			Bral_Util_Evenement::majEvenements($t["id_hobbit"], $id_type, $details, $detailReceveur);
 		}
 
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
