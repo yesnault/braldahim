@@ -1,7 +1,7 @@
 <? include("commun_text_resultat.phtml") ?>
  Vous avez attaqu&eacute; <?=htmlentities($this->retourAttaque["cible"]["nom_cible"])?> (<?=$this->retourAttaque["cible"]["id_cible"]?>) :<br /><br />
  Jet d'attaque : <?=$this->retourAttaque["jetAttaquant"]?><br />
- Jet de r&eacute;sistance de la cible : <?=$this->retourAttaque["jetCible"]?><br />
+ Jet de d&eacute;fense de la cible : <?=$this->retourAttaque["jetCible"]?><br />
  
  <? if ($this->retourAttaque["attaqueReussie"] === true) : ?>
  	<? if ($this->retourAttaque["jetDegat"] > 1) : $s='s'; else : $s=''; endif;?>

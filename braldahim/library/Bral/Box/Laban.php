@@ -9,6 +9,8 @@ class Bral_Box_Laban {
 		Zend_Loader::loadClass('LabanPartieplante');
 		Zend_Loader::loadClass('LabanPotion');
 		Zend_Loader::loadClass('LabanRune');
+		Zend_Loader::loadClass("HobbitsMetiers");
+		Zend_Loader::loadClass("Metier");
 		$this->_request = $request;
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;
@@ -27,6 +29,47 @@ class Bral_Box_Laban {
 	}
 
 	function render() {
+		$hobbitsMetiersTable = new HobbitsMetiers();
+		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
+		
+		$metiersTable = new Metier();
+		$metiersRowset = $metiersTable->fetchall(null, "nom_masculin_metier");
+		$metiersRowset = $metiersRowset->toArray();
+		$tabHobbitMetiers = null;
+		$tabMetiers = null;
+		
+		foreach($metiersRowset as $m) {
+			if ($this->view->user->sexe_hobbit == 'feminin') {
+				$nom_metier = $m["nom_feminin_metier"];
+			} else {
+				$nom_metier = $m["nom_masculin_metier"];
+			}
+			
+			$possedeMetier = false;
+			foreach($hobbitsMetierRowset as $h) {
+				if ($h["id_metier"] == $m["id_metier"]) {
+					$possedeMetier = true;
+					break;
+				}
+			}
+			
+			if ($possedeMetier == true) {
+				$tabHobbitMetiers[$m["nom_systeme_metier"]] = array(
+						"id_metier" => $m["id_metier"],
+						"nom" => $nom_metier,
+						"nom_systeme" => $m["nom_systeme_metier"],
+						"a_afficher" => true,
+					);		
+			} else {
+				$tabMetiers[$m["nom_systeme_metier"]] = array(
+					"id_metier" => $m["id_metier"],
+					"nom" => $m["nom_masculin_metier"],
+					"nom_systeme" => $m["nom_systeme_metier"],
+					"a_afficher" => false,
+				);
+			}
+		}
+	
 		$tabPartiePlantes = null;
 		$tabPartiePlantesPreparees = null;
 		$labanPartiePlanteTable = new LabanPartieplante();
@@ -39,6 +82,10 @@ class Bral_Box_Laban {
 					"nom_plante" => $p["nom_type_plante"],
 					"quantite" => $p["quantite_laban_partieplante"],
 				);
+				if (isset($tabMetiers["apothicaire"])) {
+					$tabMetiers["apothicaire"]["a_afficher"] = true;
+				}
+				
 			}
 			if ($p["quantite_preparee_laban_partieplante"] > 0) {
 				$tabPartiePlantesPreparees[] = array(
@@ -46,6 +93,9 @@ class Bral_Box_Laban {
 					"nom_plante" => $p["nom_type_plante"],
 					"quantite" => $p["quantite_preparee_laban_partieplante"],
 				);
+				if (isset($tabMetiers["apothicaire"])) {
+					$tabMetiers["apothicaire"]["a_afficher"] = true; 
+				}
 			}
 		}
 
@@ -59,6 +109,16 @@ class Bral_Box_Laban {
 				"quantiteBrut" => $m["quantite_brut_laban_minerai"],
 				"quantiteLingot" => $m["quantite_lingots_laban_minerai"],
 			);
+			if ($m["quantite_brut_laban_minerai"] > 0) {
+				if (isset($tabMetiers["mineur"])) {
+					$tabMetiers["mineur"]["a_afficher"] = true; 
+				}
+			}
+			if ($m["quantite_lingots_laban_minerai"] > 0) {
+				if (isset($tabMetiers["forgeron"])) {
+					$tabMetiers["forgeron"]["a_afficher"] = true; 
+				}
+			}
 		}
 
 		$tabLaban = null;
@@ -75,6 +135,30 @@ class Bral_Box_Laban {
 				"nb_fourrure" => $p["quantite_fourrure_laban"],
 				"nb_planche" => $p["quantite_planche_laban"],
 			);
+			
+			if ($p["quantite_peau_laban"] > 0 || $p["quantite_viande_laban"] > 0) {
+				if (isset($tabMetiers["chasseur"])) {
+					$tabMetiers["chasseur"]["a_afficher"] = true; 
+				}
+			}
+			
+			if ($p["quantite_viande_preparee_laban"] > 0 || $p["quantite_ration_laban"] > 0) {
+				if (isset($tabMetiers["cuisinier"])) {
+					$tabMetiers["cuisinier"]["a_afficher"] = true; 
+				}
+			}
+			
+			if ($p["quantite_cuir_laban"] > 0 || $p["quantite_fourrure_laban"] > 0) {
+				if (isset($tabMetiers["tanneur"])) {
+					$tabMetiers["tanneur"]["a_afficher"] = true; 
+				}
+			}
+
+			if ($p["quantite_planche_laban"] > 0) {
+				if (isset($tabMetiers["menuisier"])) {
+					$tabMetiers["menuisier"]["a_afficher"] = true; 
+				}
+			}
 		}
 		
 		$tabRunes = null;
@@ -90,7 +174,9 @@ class Bral_Box_Laban {
 				"effet_type_rune" => $r["effet_type_rune"],
 			);
 		}
-		
+
+		$this->view->tabHobbitMetiers = $tabHobbitMetiers;
+		$this->view->tabMetiers = $tabMetiers;
 		$this->view->nb_partieplantes = count($tabPartiePlantes);
 		$this->view->partieplantes = $tabPartiePlantes;
 		$this->view->nb_partieplantesPreparees = count($tabPartiePlantesPreparees);

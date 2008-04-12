@@ -152,7 +152,7 @@ class Bral_Monstres_VieMonstre {
 		$jetCible = $this->calculJetCible($cible);
 
 		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
-		Bral_Util_Log::tech()->debug(get_class($this)." - Jets : attaque=".$jetAttaquant. " resistance=".$jetCible."");
+		Bral_Util_Log::tech()->debug(get_class($this)." - Jets : attaque=".$jetAttaquant. " esquive=".$jetCible."");
 		if ($jetAttaquant > $jetCible) {
 			$critique = false;
 			if ($jetAttaquant / 2 > $jetCible) {
@@ -167,11 +167,16 @@ class Bral_Monstres_VieMonstre {
 			
 			$jetDegat = Bral_Util_Commun::getEffetMotA($cible["id_hobbit"], $jetDegat);
 			
-			$cible["pv_restant_hobbit"] = ($cible["pv_restant_hobbit"] + $cible["bm_defense_hobbit"]) - $jetDegat;
+			$pvPerdus = $cible["bm_defense_hobbit"] - $jetDegat;
+			if ($pvPerdus > 0) {
+				$pvPerdus = 0;
+			}
+			$cible["pv_restant_hobbit"] = $cible["pv_restant_hobbit"] - $pvPerdus;
 			$nb_kills = $this->monstre["nb_kill_monstre"];
 			$nb_morts = $cible["nb_mort_hobbit"];
 			if ($cible["pv_restant_hobbit"]  <= 0) {
 				Bral_Util_Log::tech()->notice("Bral_Monstres_VieMonstre - attaqueCible - Mort de la cible La cible (".$cible["id_hobbit"].") par Monstre id:".$this->monstre["nb_kill_monstre"]);
+				$mortCible = true;
 				$this->monstre["nb_kill_monstre"] = $this->monstre["nb_kill_monstre"] + 1;
 				$cible["nb_mort_hobbit"] = $cible["nb_mort_hobbit"] + 1;
 				$cible["est_mort_hobbit"] = "oui";
@@ -179,16 +184,17 @@ class Bral_Monstres_VieMonstre {
 				$id_type_evenement_cible = self::$config->game->evenements->type->mort;
 				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a tué le hobbit ".$cible["prenom_hobbit"] ." ". $cible["nom_hobbit"]." (".$cible["id_hobbit"].")";
 				$this->majEvenements(null, $this->monstre["id_monstre"], $id_type_evenement, $details);
-				$this->majEvenements($cible["id_hobbit"], null, $id_type_evenement_cible, $details);
-				$mortCible = true;
+				$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus, $mortCible);
+				$this->majEvenements($cible["id_hobbit"], null, $id_type_evenement_cible, $details, $detailsBot);
 			} else {
 				Bral_Util_Log::tech()->notice("Bral_Monstres_VieMonstre - attaqueCible - Survie de la cible La cible (".$cible["id_hobbit"].") attaquee par Monstre id:".$this->monstre["nb_kill_monstre"]);
 				$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - (floor($cible["niveau_hobbit"] / 10) + 1);
 				$cible["est_mort_hobbit"] = "non";
 				$id_type_evenement = self::$config->game->evenements->type->attaquer;
 				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a attaqué le hobbit ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ")";
-				$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details);
-				
+				$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat, $critique);
+				$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot);
+
 				$effetMotS = Bral_Util_Commun::getEffetMotS($hobbitAttaquant->id_hobbit);
 				if ($effetMotS != null) {
 					Bral_Util_Log::tech()->notice("Bral_Monstres_VieMonstre - attaqueCible - La cible (".$hobbitAttaquant->id_hobbit.") possede le mot S -> Riposte");
@@ -208,7 +214,17 @@ class Bral_Monstres_VieMonstre {
 		} else if ($jetCible/2 < $jetAttaquant) {
 			$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - (floor($cible["niveau_hobbit"] / 10) + 1);
 			$this->updateCible($cible);
+			$id_type_evenement = self::$config->game->evenements->type->attaquer;
+			$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a attaqué le hobbit ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ") qui a esquiv&eacute; l'attaque";
+			$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible);
+			$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot);
+		} else {
+			$id_type_evenement = self::$config->game->evenements->type->attaquer;
+			$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a attaqué le hobbit ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ") qui a esquiv&eacute; l'attaque parfaitement";
+			$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible);
+			$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot);
 		}
+		
 		Bral_Util_Log::tech()->trace(get_class($this)." - attaqueCible - exit (return=".$mortCible.")");
 		return $mortCible;
 	}
@@ -326,7 +342,7 @@ class Bral_Monstres_VieMonstre {
 	/*
 	 * Mise à jour des évènements du monstre.
 	 */
-	public function majEvenements($id_hobbit, $id_monstre, $id_type_evenement, $details) {
+	public function majEvenements($id_hobbit, $id_monstre, $id_type_evenement, $details, $detailsBot = "") {
 		Bral_Util_Log::tech()->trace(get_class($this)." - majEvenements - enter");
 		Zend_Loader::loadClass('Evenement');
 		$evenementTable = new Evenement();
@@ -336,6 +352,7 @@ class Bral_Monstres_VieMonstre {
 			'date_evenement' => date("Y-m-d H:i:s"),
 			'id_fk_type_evenement' => $id_type_evenement,
 			'details_evenement' => $details,
+			'details_bot_evenement' => $detailsBot,
 		);
 		$evenementTable->insert($data);
 		Bral_Util_Log::tech()->trace(get_class($this)." - majEvenements - exit");
@@ -444,5 +461,47 @@ class Bral_Monstres_VieMonstre {
 		
 		$castarTable = new Castar();
 		$castarTable->insertOrUpdate($data);
+	}
+	
+	private function getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat = 0, $critique = false, $pvPerdus = 0, $mortCible = false) {
+		Bral_Util_Log::tech()->trace(get_class($this)."  - getDetailsBot - enter");
+		$retour = "";
+
+		$retour .= "Vous avez été attaqué par ".$this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].")";
+		
+		$retour .= "
+Jet d'attaque : ".$jetAttaquant;
+		$retour .= "
+Jet de défense : ".$jetCible;
+		$retour .= "
+Jet de dégâts : ".$jetDegat;
+		
+		if ($jetAttaquant > $jetCible) {
+			if ($critique) {
+				$retour .= "
+Vous avez été touché par une attaque critique";
+			} else {
+			$retour .= "
+Vous avez été touché";
+			}
+			
+			$retour .= "
+Vous avez perdu ".$pvPerdus. " PV (".$cible["pv_restant_hobbit"]." PV restant(s)) ";
+			
+			if ($mortCible) {
+			$retour .= "
+Vous avez été tué";
+			}
+		} else if ($jetCible/2 < $jetAttaquant) { // esquive
+			$retour .= "
+Vous avez esquivé l'attaque";
+		} else { // esquive parfaite
+			$retour .= "
+Vous avez equivé parfaitement l'attaque";
+		}
+		
+		
+		Bral_Util_Log::tech()->trace(get_class($this)."  - getDetailsBot - exit");
+		return $retour;
 	}
 }

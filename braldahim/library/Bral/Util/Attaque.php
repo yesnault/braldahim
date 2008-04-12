@@ -153,6 +153,15 @@ class Bral_Util_Attaque {
 			$where = "id_hobbit=".$hobbitCible->id_hobbit;
 			$hobbitTable = new Hobbit();
 			$hobbitTable->update($data, $where);
+			
+			$id_type = $config->game->evenements->type->attaquer;
+			$details = $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.") N".$hobbitAttaquant->niveau_hobbit." a attaqué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
+			$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"] , $retourAttaque["jetDegat"], $retourAttaque["critique"], $retourAttaque["mort"]);
+			if ($effetMotSPossible == false) {
+				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // uniquement en cas de riposte
+			}
+			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot);
+			
 			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Mise a jour du hobbit ".$hobbitCible->id_hobbit." pv_restant_hobbit=".$hobbitCible->pv_restant_hobbit);
 		} else if ($retourAttaque["jetCible"] / 2 < $retourAttaque["jetAttaquant"]) {
 			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Attaque esquivee malus sur ajoute a agilite_bm_hobbit=".(floor($cible["niveau_cible"] / 10) + 1 ));
@@ -163,6 +172,22 @@ class Bral_Util_Attaque {
 			$hobbitTable->update($data, $where);
 			$retourAttaque["mort"] = false;
 			$retourAttaque["fragilisee"] = true;
+			
+			$id_type = $config->game->evenements->type->attaquer;
+			$details = $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.") N".$hobbitAttaquant->niveau_hobbit." a attaqué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
+			$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
+			if ($effetMotSPossible == false) {
+				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // uniquement en cas de riposte
+			}
+			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot);
+		} else { // esquive parfaite
+			$id_type = $config->game->evenements->type->attaquer;
+			$details = $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.") N".$hobbitAttaquant->niveau_hobbit." a attaqué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
+			$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
+			if ($effetMotSPossible == false) {
+				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // uniquement en cas de riposte
+			}
+			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot);
 		}
 		
 		if ($effetMotSPossible == true && $retourAttaque["mort"] == false) {
@@ -181,18 +206,8 @@ class Bral_Util_Attaque {
 			}
 		}
 				
-		$id_type = $config->game->evenements->type->attaquer;
-		$details = $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.") N".$hobbitAttaquant->niveau_hobbit." a attaqué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"]."";
-		Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details);
-		Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details);
-
-		if ($retourAttaque["mort"] === true) {
-			$id_type = $config->game->evenements->type->kill;
-			$details = $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.") N".$hobbitAttaquant->niveau_hobbit." a tué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
-			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details);
-			$id_type = $config->game->evenements->type->mort;
-			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details);
-		}
+		$retourAttaque["details"] = $details;
+		$retourAttaque["typeEvemenent"] = $id_type;
 		
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - exit -");
 		return $retourAttaque;
@@ -355,16 +370,19 @@ class Bral_Util_Attaque {
 
 		$id_type = $config->game->evenements->type->attaquer;
 		$details = $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.") N".$hobbitAttaquant->niveau_hobbit." a attaqué le monstre ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
-		Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details);
+//		Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);
 		Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, "", "monstre");
 		
 		if ($retourAttaque["mort"] === true) {
 			$id_type = $config->game->evenements->type->kill;
 			$details = $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.") N".$hobbitAttaquant->niveau_hobbit." a tué le monstre ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
-			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details);
+//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);
 			$id_type = $config->game->evenements->type->mort;
 			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, "", "monstre");
 		}
+		
+		$retourAttaque["details"] = $details;
+		$retourAttaque["typeEvemenent"] = $id_type;
 		
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - exit -");
 		return $retourAttaque;
@@ -523,12 +541,52 @@ class Bral_Util_Attaque {
 				$hobbitTable->update($data, $where);
 					
 				$id_type = $config->game->evenements->type->effet;
-				$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a soign&eacute; le hobbit ".$h["prenom_hobbit"] ." ". $h["nom_hobbit"] ." (".$h["id_hobbit"].") N".$h["niveau_hobbit"];  
-				Bral_Util_Evenement::majEvenements($hobbit->id_hobbit, $id_type, $details);
-				Bral_Util_Evenement::majEvenements($h["id_hobbit"], $id_type, $details);
+				$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a soign&eacute; le hobbit ".$h["prenom_hobbit"] ." ". $h["nom_hobbit"] ." (".$h["id_hobbit"].") N".$h["niveau_hobbit"];
+				$detailsBot = $soins." PV soigné";
+				if ($soins > 1) {
+					$detailsBot = $detailsBot . "s";
+				}
+				Bral_Util_Evenement::majEvenements($hobbit->id_hobbit, $id_type, $details, $detailsBot);
+				Bral_Util_Evenement::majEvenements($h["id_hobbit"], $id_type, $details, $detailsBot);
 			}
 		}
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculSoinCase - exit -");
+		return $retour;
+	}
+	
+	private static function getDetailsBot($hobbitAttaquant, $cible, $jetAttaquant, $jetCible, $jetDegat = 0, $critique = false, $mortCible = false) {
+		$retour = "";
+
+		$retour .= $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.") N".$hobbitAttaquant->niveau_hobbit." a attaqué";
+		$retour .= " ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
+		
+		$retour .= "
+Jet d'attaque : ".$jetAttaquant;
+		$retour .= "
+Jet de défense : ".$jetCible;
+		$retour .= "
+Jet de dégâts : ".$jetDegat;
+		
+		if ($jetAttaquant > $jetCible) {
+			if ($critique) {
+				$retour .= "
+La cible a été touchée par une attaque critique";
+			} else {
+			$retour .= "
+La cible a été touchée";
+			}
+			
+			if ($mortCible) {
+			$retour .= "
+La cible a été tuée";
+			}
+		} else if ($jetCible/2 < $jetAttaquant) { // esquive
+			$retour .= "
+La cible a esquivé l'attaque";
+		} else { // esquive parfaite
+			$retour .= "
+La cible a equivé parfaitement l'attaque";
+		}
 		return $retour;
 	}
 }

@@ -73,9 +73,10 @@ class Bral_Box_Competences {
 				}
 				
 				$tabCompetences[] = array("id_metier" => $m["id_metier"],
-				"nom_metier" => $nom_metier,
-				"nom_systeme_metier" => $m["nom_systeme_metier"],
-				"competences" => $competence);
+					"nom_metier" => $nom_metier,
+					"nom_systeme_metier" => $m["nom_systeme_metier"],
+					"competences" => $competence
+				);
 			}
 			
 		} else {

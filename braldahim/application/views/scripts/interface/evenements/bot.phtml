@@ -2,7 +2,9 @@
   <ul class="box_contenu1 textalic">
   <br />
   	<? if ($this->evenement != null) : ?>
-	  
+	  <textarea rows="10" cols="100" readonly><?=$this->evenement["date"]?> : <?=htmlentities($this->evenement["type"])?> - <?=htmlentities($this->evenement["details"])?> 
+------- 
+<?=$this->evenement["details_bot"] ?></textarea>
    <? else: ?>
    		Aucun &eacute;v&egrave;nement s&eacute;lection&eacute;.
    <? endif; ?>

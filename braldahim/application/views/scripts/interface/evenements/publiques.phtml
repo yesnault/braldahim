@@ -32,7 +32,7 @@
 		<tbody>
 	  	<? $i = 0; 
 	  	foreach($this->evenements as $e): ?>
-	  		<tr class="table_liste<?=($i % 2);$i++; ?>" style="cursor:pointer" title="Cliquez pour voir le d&eacute;tail" onClick="Javascript:_get_('/interface/evenements?caction=box_evenements&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')">
+	  		<tr class="table_liste<?=($i % 2);$i++; ?>" style="cursor:pointer" title="Cliquez pour voir le d&eacute;tail" onClick="Javascript:_get_('/interface/evenements?caction=box_evenements&valeur_1=d&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$e["id_evenement"] ?>')">
 		  		<td class="table_liste"><?=$e["date"]?></td>
 		  		<td class="table_liste"><?=htmlentities($e["type"])?></td>
 		  		<td class="table_liste"><?=htmlentities($e["details"])?>&nbsp;</td>

@@ -318,6 +318,8 @@ abstract class Bral_Competences_Competence {
 		$hobbitCible = $hobbitRowset->current();
 		$jetCible = Bral_Util_Attaque::calculJetCibleHobbit($hobbitCible);
 		$retourAttaque = Bral_Util_Attaque::attaqueHobbit(&$hobbitAttaquant, $hobbitCible, $jetAttaquant, $jetCible, $jetsDegat, $effetMotSPossible);
+		$this->detailEvenement = $retourAttaque["details"];
+		$this->idTypeEvenement =$retourAttaque["typeEvemenent"];
 		return $retourAttaque;
 	}
 	
@@ -330,6 +332,8 @@ abstract class Bral_Competences_Competence {
 		$monstre = $monstreRowset;
 		$jetCible = Bral_Util_Attaque::calculJetCibleMonstre($monstre);
 		$retourAttaque = Bral_Util_Attaque::attaqueMonstre(&$hobbitAttaquant, $idMonstre, $jetAttaquant, $jetCible, $jetsDegat);
+		$this->detailEvenement = $retourAttaque["details"];
+		$this->idTypeEvenement =$retourAttaque["typeEvemenent"];
 		return $retourAttaque;
 	}
 }

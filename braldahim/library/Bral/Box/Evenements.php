@@ -9,8 +9,9 @@ class Bral_Box_Evenements {
 		$this->_request = $request;
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;
-
+		
 		$this->preparePage();
+		$this->prepareRender();
 		$this->prepareDetails();
 	}
 
@@ -26,7 +27,7 @@ class Bral_Box_Evenements {
 		$this->view->display = $display;
 	}
 
-	function render() {
+	private function prepareRender() {
 		$suivantOk = false;
 		$precedentOk = false;
 		$tabEvenements = null;
@@ -36,10 +37,15 @@ class Bral_Box_Evenements {
 
 		foreach ($evenements as $p) {
 			$tabEvenements[] = array(
+				"id_evenement" => $p["id_evenement"],
 				"type" => $p["nom_type_evenement"],
 				"date" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y \&\a\g\r\a\v\e; H:i:s',$p["date_evenement"]),
 				"details" => $p["details_evenement"],
+				"details_bot" => $p["details_bot_evenement"],
 			);
+			if ($p["id_evenement"] == 1364) {
+		//		echo "HOP";
+			}
 		}
 
 		$typeEvenementTable = new TypeEvenement();
@@ -51,8 +57,8 @@ class Bral_Box_Evenements {
 		);
 		foreach ($typeEvenements as $t) {
 			$tabTypeEvenements[] = array(
-			"id_type_evenement" => $t->id_type_evenement,
-			"nom" => $t->nom_type_evenement
+				"id_type_evenement" => $t->id_type_evenement,
+				"nom" => $t->nom_type_evenement
 			);
 		}
 
@@ -74,9 +80,12 @@ class Bral_Box_Evenements {
 		$this->view->typeEvenements = $tabTypeEvenements;
 		$this->view->nbEvenements = count($this->view->evenements);
 		
-		$this->view->nom_interne = $this->getNomInterne();
 		$this->view->page = $this->_page;
 		$this->view->filtre = $this->_filtre;
+	}
+	
+	public function render() {
+		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/evenements.phtml");
 	}
 	
@@ -91,18 +100,16 @@ class Bral_Box_Evenements {
 		}
 		
 		$trouve = false;
-		foreach ($typeEvenements as $t) {
-			if ($t["id_type_evenement"] == $idEvenement) {
+		foreach ($this->view->evenements as $t) {
+			if ($t["id_evenement"] == $idEvenement) {
+				$this->view->evenement = $t;
 				$trouve = true;
 			}
 		}
 		
 		if ($trouve == false) {
-			throw new Zend_Exception(get_class($this)." Evenement invalide");
+			throw new Zend_Exception(get_class($this)." Evenement invalide:".$idEvenement);
 		}
-		
-		
-		
 	}
 	
 	private function preparePage() {

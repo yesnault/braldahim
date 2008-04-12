@@ -1,0 +1,29 @@
+   <? if ($this->nb_runes == 0) : ?>
+   	Aucune rune
+   <? else : ?>
+    <? if ($this->nb_runes==1):$s=''; else:$s='s';endif; ?>
+    <?=$this->nb_runes?> rune<?=$s?> : <br />
+    
+    <table width='100%'>
+    <? $i = 0;
+      foreach ($this->runes as $r) : 
+     	 if ($i % 3 == 0) echo "<tr>"; 
+    	?>
+    	<td>
+    		<? if ($r["est_identifiee"] == 'oui'): ?>
+    			<? if ($r["image"] != ""): ?>
+    				<img src="/public/images/runes/<?=$r["image"]?>"  class="rune" title="<?=$r["type"]?> n&deg;<?=$r["id_rune"]?> : <?=htmlentities(addslashes($r["effet_type_rune"])) ?>" alt="<?=$r["type"]?> n&deg;<?=$r["id_rune"]?>"  />
+    			<? else: ?>
+	    			<?=$r["type"]?> (<?=$r["id_rune"]?>)
+	    		<? endif; ?>
+    		<? else: ?>
+    			rune n&deg;<?=$r["id_rune"]?> non identifi&eacute;e
+    		<? endif; ?>
+    	</td>
+    	<? if ($i % 3 == 2) echo "</tr>"; 
+    	$i++; 
+     endforeach;
+     if  ($i % 3 != 0) echo "</tr>"; 
+     ?>
+    </table> 
+    <? endif; ?>

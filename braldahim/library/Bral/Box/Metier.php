@@ -23,7 +23,6 @@ class Bral_Box_Metier {
 	}
 
 	function render() {
-
 		$hobbitsMetiersTable = new HobbitsMetiers();
 		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
 		$tabMetiers = null;

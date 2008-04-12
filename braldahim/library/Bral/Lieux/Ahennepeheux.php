@@ -28,12 +28,14 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 				$nom_metier = $m["nom_masculin_metier"];
 			}
 			
-			$this->_tabMetiers[] = array("id_metier" => $m["id_metier"],
-			"nom" => $nom_metier,
-			"nom_systeme" => $m["nom_systeme_metier"],
-			"est_actif" => ($m["est_actif_hmetier"] == "oui"),
-			"date_apprentissage" => Bral_Util_ConvertDate::get_date_mysql_datetime("d/m/Y", $m["date_apprentissage_hmetier"]),
-			"description" => $m["description_metier"]);
+			$this->_tabMetiers[] = array(
+				"id_metier" => $m["id_metier"],
+				"nom" => $nom_metier,
+				"nom_systeme" => $m["nom_systeme_metier"],
+				"est_actif" => ($m["est_actif_hmetier"] == "oui"),
+				"date_apprentissage" => Bral_Util_ConvertDate::get_date_mysql_datetime("d/m/Y", $m["date_apprentissage_hmetier"]),
+				"description" => $m["description_metier"]
+			);
 		}
 
 		$metiersTable = new Metier();
@@ -62,11 +64,11 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 					}
 			
 					$this->_tabNouveauMetiers[] = array("id_metier" => $m->id_metier,
-					"nom" => $nom_metier,
-					"nom_systeme" => $m->nom_systeme_metier,
-					"description" => $m->description_metier,
-					"construction_charrette" => $m->construction_charrette_metier,
-					"construction_echoppe" => $m->construction_echoppe_metier,
+						"nom" => $nom_metier,
+						"nom_systeme" => $m->nom_systeme_metier,
+						"description" => $m->description_metier,
+						"construction_charrette" => $m->construction_charrette_metier,
+						"construction_echoppe" => $m->construction_echoppe_metier,
 					);
 				}
 			}
