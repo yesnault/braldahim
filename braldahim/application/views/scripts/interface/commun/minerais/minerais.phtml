@@ -1,0 +1,23 @@
+   <? if (count($this->minerais) == 0) : ?>
+   	</i>vide</i>
+   <? else : ?>
+	    <table class="table_liste" style="width:auto; padding:5px;" >
+			<thead class="table_liste">
+			  <tr class="table_liste">
+			  	<? foreach ($this->minerais as $m) :  ?>
+				<th style="width:auto; padding:5px;" ><?=htmlentities($m["type"])?></th>
+				<? endforeach; ?>
+			  </tr>
+			</thead>
+			<tbody>
+				<tr class="table_liste">
+				<? foreach ($this->minerais as $m) : ?>
+				 	<td class="table_liste">
+				 		<?=$m["quantite"]?>
+				 	</td>
+				<? endforeach; ?>
+				</tr>
+			</tbody>
+		</table>
+	<? endif; ?>
+	<br />

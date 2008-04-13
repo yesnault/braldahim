@@ -1,7 +1,6 @@
-/* ************************************************ */ 
-/* ********************** SITE ******************** */ 
-/* ************************************************ */ 
-
+/* ************************************************ */
+	/* ********************** SITE ******************** */
+	/* ************************************************ */
 * {
 	font: 11px arial, verdana, sans-serif;
 	letter-spacing: 0pt;
@@ -9,10 +8,12 @@
 
 body {
 	font: 11x arial, verdana, sans-serif;
-	background:#C3E691 url(/public/styles/braldahim_defaut/images/layout/fond.png) repeat-x scroll 0pt 0pt;
+	background: #C3E691
+		url(/public/styles/braldahim_defaut/images/layout/fond.png) repeat-x
+		scroll 0pt 0pt;
 	letter-spacing: 0pt;
 	background-position: center top;
-	margin-top : 0;
+	margin-top: 0;
 	margin-bottom: 0;
 	margin-left: 10px;
 	margin-right: 10px;
@@ -66,7 +67,8 @@ input:hover {
 
 input.button1 {
 	background-color: #FAFAFA;
-	background-image: url(/public/styles/braldahim_defaut/images/layout/bg_button.gif);
+	background-image:
+		url(/public/styles/braldahim_defaut/images/layout/bg_button.gif);
 	color: #000000;
 	border-color: #666666;
 	font-size: 1em;
@@ -89,18 +91,18 @@ input.button1:disabled {
 	color: #BCBCBC;
 }
 
-.racine_gauche, .racine_milieu,.racine_droite {
+.racine_gauche,.racine_milieu,.racine_droite {
 	top: 10px;
 	float: left;
 	padding: 10px;
 }
 
-a, .alabel {
+a,.alabel {
 	color: #791E1E;
 	text-align: center;
 }
 
-a:hover, .alabel:hover{
+a:hover,.alabel:hover {
 	color: #cc0000;
 	cursor: pointer;
 }
@@ -110,94 +112,100 @@ span.id_hobbit {
 }
 
 #navigation {
-	background-color:#FADC9B;
-	border:3px solid #FADC9B;
-	margin:0px;
-	padding:0px;
-	text-indent:0px;
-	width:200px;
+	background-color: #FADC9B;
+	border: 3px solid #FADC9B;
+	margin: 0px;
+	padding: 0px;
+	text-indent: 0px;
+	width: 200px;
 }
+
 #navigation h3.head {
-	background:#e7c57b url(/public/images/collapsed.gif) no-repeat scroll 3px 4px;
-	border:1px solid #FADC9B;
-	color:#791E1E;
-	cursor:pointer;
-	display:block;
-	font-weight:bold;
-	margin:0px;
-	padding:0px;
-	text-decoration:none;
-	text-indent:14px;
+	background: #e7c57b url(/public/images/collapsed.gif) no-repeat scroll
+		3px 4px;
+	border: 1px solid #FADC9B;
+	color: #791E1E;
+	cursor: pointer;
+	display: block;
+	font-weight: bold;
+	margin: 2px;
+	padding: 2px;
+	text-decoration: none;
+	text-indent: 14px;
 }
+
 #navigation h3.head:hover {
-	color:#000000;
+	color: #000000;
 }
+
 #navigation h3.selected {
-	background-image:url(/public/images/expanded.gif);
+	background-image: url(/public/images/expanded.gif);
 }
+
 #navigation h3.current {
-	background-color:#FFFF99;
+	background-color: #FFFF99;
 }
+
 #navigation ul {
-	border-width:0px;
-	margin:0px;
-	padding:0px;
-	text-indent:0px;
+	border-width: 0px;
+	margin: 0px;
+	padding: 0px;
+	text-indent: 0px;
 }
+
 #navigation li {
-	display:block;
-	list-style-image:none;
-	list-style-position:outside;
-	list-style-type:none;
+	display: block;
+	list-style-image: none;
+	list-style-position: outside;
+	list-style-type: none;
 }
+
 #navigation li li h3 {
-	color:#000000;
-	display:block;
-	text-decoration:none;
-	text-indent:10px;
+	color: #000000;
+	display: block;
+	text-decoration: none;
+	text-indent: 10px;
 }
+
 #navigation li li h3:hover {
-	background-color:#FFFF99;
-	color:#FF0000;
+	background-color: #FFFF99;
+	color: #FF0000;
 }
 
-/* ************************************************ */ 
-/* ********************** Onglets ***************** */ 
-/* ************************************************ */ 
-
-.boite_a, .boite_b, .boite_c {
-  margin-top:10px;
-  width: auto;
+/* ************************************************ */
+	/* ********************** Onglets ***************** */
+	/* ************************************************ */
+.boite_a,.boite_b,.boite_c {
+	margin-top: 10px;
+	width: auto;
 }
 
 .onglet {
-  border-style : solid;
-  border-color : #791E1E;
-  border-width: 1px;
-  margin: 2px;
-  margin-left: 10px;
+	border-style: solid;
+	border-color: #791E1E;
+	border-width: 1px;
+	margin: 2px;
+	margin-left: 10px;
 }
 
 .onglet.actif {
-  background-color : #e7c57b;
-  border-bottom-color : transparent;
+	background-color: #e7c57b;
+	border-bottom-color: transparent;
 }
 
 .onglet.inactif {
-  background-color : #FADC9B;
+	background-color: #FADC9B;
 }
 
 .onglet:hover {
-  background-color : #ffd363;
-  cursor: pointer;
+	background-color: #ffd363;
+	cursor: pointer;
 }
 
-/* ************************************************ */ 
-/* ********************** Box **************£****** */ 
-/* ************************************************ */ 
-
-
-/* Bordures top */
+/* ************************************************ */
+	/* ********************** Box **************£****** */
+	/* ************************************************ */
+	/* Bordures top */
 .xb_t1,.xb_t2,.xb_t3,.xb_t4,.xb_t5,.xb_t6,.xb_t7 {
 	display: block;
 	font-size: 0pt;
@@ -222,6 +230,7 @@ span.id_hobbit {
 	border-left: 2px solid #791E1E;
 	border-right: 2px solid #791E1E;
 }
+
 .xb_t2 {
 	border-left: 2x solid #791E1E;
 	border-right: 2px solid #791E1E;
@@ -298,6 +307,7 @@ span.id_hobbit {
 	border-left: 2px solid #791E1E;
 	border-right: 2px solid #791E1E;
 }
+
 .xb_b2 {
 	border-left: 2x solid #791E1E;
 	border-right: 2px solid #791E1E;
@@ -376,7 +386,6 @@ span.id_hobbit {
 	height: auto;
 }
 
-
 .box_contenu3 {
 	text-align: left;
 }
@@ -419,7 +428,7 @@ span.id_hobbit {
 	text-align: center;
 }
 
-.box_titre1, .comp_titre {
+.box_titre1,.comp_titre {
 	padding: 0px;
 	font-weight: bolder;
 	margin-top: 0.5em;
@@ -484,7 +493,8 @@ span.id_hobbit {
 	padding: 5pt 5px;
 }
 
-.box_inscription,.box_perdu,.box_pamaretres,.box_gardiennage,.box_administration {
+.box_inscription,.box_perdu,.box_pamaretres,.box_gardiennage,.box_administration
+	{
 	width: 500px;
 	height: auto;
 	margin-left: auto;
@@ -527,7 +537,9 @@ span.id_hobbit {
 	border-width: 1px;
 	border-style: solid;
 	border-color: #990000;
-	background:#FFFFFF url(/public/styles/braldahim_defaut/images/layout/gris.png) repeat-x scroll 0pt 100%;
+	background: #FFFFFF
+		url(/public/styles/braldahim_defaut/images/layout/gris.png) repeat-x
+		scroll 0pt 100%;
 	color: black;
 	font-weight: bold;
 	padding: 5pt 5px;
@@ -542,14 +554,13 @@ span.id_hobbit {
 }
 
 .box_competences_basiques,.box_metier,.box_competences_communes,.box_competences_metiers 
-	      , .box_equipement,.box_profil,.box_vue,.box_lieu,.box_laban,.box_messagerie,.box_famille
-	      , .box_communaute
-{
+	       , .box_equipement,.box_profil,.box_vue,.box_lieu,.box_laban,.box_messagerie,.box_famille
+	       , .box_communaute {
 	color: black;
 	height: auto;
 	text-align: center;
 	z-index: 10;
-	background:#transparent none repeat scroll 0% 0%;
+	background: #transparent none repeat scroll 0% 0%;
 }
 
 .inner { /* extérieur de boite */
@@ -558,32 +569,32 @@ span.id_hobbit {
 	border-style: solid;
 	border-width: 0pt 1px;
 	display: block;
-	background:#e7c57b repeat-x scroll 0pt 0%;
+	background: #e7c57b repeat-x scroll 0pt 0%;
 }
 
 .inner_top { /* Intérieur de la boite pour le bandeau haut*/
-	height:30px;
+	height: 30px;
 	padding: 1pt 10px;
 	border-color: #791E1E;
 	border-style: solid;
 	border-width: 0pt 1px;
 	display: block;
-	background:#e7c57b repeat-x scroll 0pt 0%;
+	background: #e7c57b repeat-x scroll 0pt 0%;
 }
 
 .inner_bot { /* Intérieur de la boite pour le bandeau bas */
-	height:30px;
+	height: 30px;
 	padding: 1pt 10px;
 	border-color: #791E1E;
 	border-style: solid;
 	border-width: 0pt 1px;
 	display: block;
-	background:#e7c57b repeat-x scroll 0pt 0%;
+	background: #e7c57b repeat-x scroll 0pt 0%;
 	text-align: center;
 }
 
-.box_contenu1 { /* intérieur de la boite */ 
-	background:#FADC9B repeat-x scroll 0pt 0%;
+.box_contenu1 { /* intérieur de la boite */
+	background: #FADC9B repeat-x scroll 0pt 0%;
 	padding: 0px;
 	margin: 0px;
 }
@@ -628,27 +639,26 @@ span.id_hobbit {
 }
 
 .rune {
-	width:40px;
+	width: 40px;
 }
 
 .joaillier_runes {
 	border: 1px solid #000;
 	color: #000;
 	background-color: #eeeeee;
-	height:auto;
-	vertical-align:center;
+	height: auto;
+	vertical-align: center;
 }
 
-
 table.equipement {
-	border-style : solid;
+	border-style: solid;
 	border: solid #777;
 	border-spacing: 1;
 	border-width: 0.0pt;
 }
 
 td.equipement {
-	border-style : solid;
+	border-style: solid;
 	border-color: #eeeeee;
 	border-spacing: 1;
 	border-width: 0.1pt;
@@ -656,82 +666,91 @@ td.equipement {
 	background: #CCCC99 none repeat-x scroll 0pt;
 }
 
-
 table.table_liste {
-	border:1px solid #791E1E;
-	border-collapse:collapse;
-	width:70%;
-	margin:auto;
-	align:center;
+	border: 1px solid #791E1E;
+	border-collapse: collapse;
+	width: 70%;
+	margin: auto;
+	align: center;
 }
-thead.table_liste, tfoot.table_liste {
-	background-color:#CCCC99;
-	border:1px solid #791E1E;
-	cursor:pointer;
+
+thead.table_liste,tfoot.table_liste {
+	background-color: #CCCC99;
+	border: 1px solid #791E1E;
+	text-align: center;
 }
+
 tbody.communaute_membres {
-	border:1px solid #791E1E;
+	border: 1px solid #791E1E;
 }
+
 th.table_liste {
-	padding:5px;
-	background-color:#791E1E;
-	width:25%;
+	padding: 5px;
+	background-color: #791E1E;
+	width: 25%;
+	text-align: center;
 }
 
 tr.table_liste0 {
-	background:#e7c57b;
+	background: #e7c57b;
 }
 
 tr.table_liste1 {
-	background:#;
+	background: #;
+}
+
+td.table_liste_border {
+	border: 1px solid #791E1E;
 }
 
 td.table_liste {
-	padding:5px;
-	text-align:center;
+	padding: 5px;
+	text-align: center;
 }
 
-/* ************************************************ */ 
-/* ******************* Competence ***************** */ 
-/* ************************************************ */ 
-
+/* ************************************************ */
+	/* ******************* Competence ***************** */
+	/* ************************************************ */
 .comp_titre {
-  margin : 3px;
-  text-align: center;
+	margin: 3px;
+	text-align: center;
 }
 
 .comp_marcher_position {
-  border: 1px solid #000000;
-  width:200px;
+	border: 1px solid #000000;
+	width: 200px;
 }
 
 .comp_marcher_position_td {
-  border: 1px dashed #CCCC99;
- }
-
-/* ************************************************ */ 
-/* ********************* Message ****************** */ 
-/* ************************************************ */ 
-
-.message_erreur {
-  background-color : #FF6666;
-  color: black;
-  text-align: center;
+	border: 1px dashed #CCCC99;
 }
 
-/* ************************************************ */ 
-/* ******************** ModalBox ****************** */ 
-/* ************************************************ */ 
+/* ************************************************ */
+	/* ********************* Message ****************** */
+	/* ************************************************ */
+.message_erreur {
+	background-color: #FF6666;
+	color: black;
+	text-align: center;
+}
 
+/* ************************************************ */
+	/* ******************** ModalBox ****************** */
+	/* ************************************************ */
 #MB_overlay {
 	position: absolute;
 	margin: auto;
-	top: 0;	left: 0;
-	width: 100%; height: 100%;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 	z-index: 9999;
-	background-color: #EFEFEF!important;
+	background-color: #EFEFEF !important;
 }
-#MB_overlay[id] { position: fixed; }
+
+#MB_overlay[id] {
+	position: fixed;
+}
 
 #MB_window {
 	position: absolute;
@@ -740,7 +759,10 @@ td.table_liste {
 	text-align: center;
 	z-index: 10000;
 }
-#MB_window[id] { position: fixed!important; }
+
+#MB_window[id] {
+	position: fixed !important;
+}
 
 #MB_frame {
 	position: relative;
@@ -769,49 +791,64 @@ td.table_liste {
 #MB_close {
 	display: block;
 	position: absolute;
-	right: 5px; top: 4px;
+	right: 5px;
+	top: 4px;
 	padding: 2px 3px;
 	font-weight: bold;
 	text-decoration: none;
 	font-size: 13px;
 }
-#MB_close:hover {
+
+#MB_close :hover {
 	background: transparent;
 }
 
 #MB_loading {
 	padding: 1.5em;
 	text-indent: -10000px;
-	background: transparent url('/public/images/spinner.gif') 50% 0 no-repeat;
+	background: transparent url('/public/images/spinner.gif') 50% 0
+		no-repeat;
 }
 
 /* Color scheme */
 #MB_frame {
 	padding-bottom: 7px;
-	-webkit-border-radius: 7px; 
+	-webkit-border-radius: 7px;
 	-moz-border-radius: 7px;
 	border-radius: 7px;
 }
+
 #MB_window {
 	background-color: #EFEFEF;
 	color: #000;
-	-webkit-box-shadow: 0 8px 64px #000; 
-	-moz-box-shadow: 0 0 64px #000; 
+	-webkit-box-shadow: 0 8px 64px #000;
+	-moz-box-shadow: 0 0 64px #000;
 	box-shadow: 0 0 64px #000;
-	
-	-webkit-border-radius: 7px; 
+	-webkit-border-radius: 7px;
 	-moz-border-radius: 7px;
 	border-radius: 7px;
 }
-#MB_content { border-top: 1px solid #F9F9F9; }
-#MB_header {
-  background-color: #e7c57b;
-  border-bottom: 1px solid #791E1E;
-}
-#MB_caption { color: #791E1E }
-#MB_close { color: #777 }
-#MB_close:hover { color: #000 }
 
+#MB_content {
+	border-top: 1px solid #F9F9F9;
+}
+
+#MB_header {
+	background-color: #e7c57b;
+	border-bottom: 1px solid #791E1E;
+}
+
+#MB_caption {
+	color: #791E1E
+}
+
+#MB_close {
+	color: #777
+}
+
+#MB_close :hover {
+	color: #000
+}
 
 /* Alert message */
 .MB_alert {
@@ -819,52 +856,84 @@ td.table_liste {
 	text-align: center;
 }
 
-/* ************************************************ */ 
-/* *********************** Popup ****************** */ 
-/* ************************************************ */ 
-.popup_fg {
-	#background:#FFFFFF url(/public/styles/braldahim_defaut/images/layout/gris.png) repeat-x scroll 0pt 100%;
-	background:transparent;
+/* ************************************************ */
+	/* *********************** Popup ****************** */
+	/* ************************************************ */
+.popup_fg { #
+	background: #FFFFFF
+		url(/public/styles/braldahim_defaut/images/layout/gris.png) repeat-x
+		scroll 0pt 100%;
+	background: transparent;
 }
-.popup_bg {background:transparent
+
+.popup_bg {
+	background: transparent
 }
-.popup_text {color: #000000; }
 
-.popup_caption {color: #FADC9B; font-weight:bold;}
+.popup_text {
+	color: #000000;
+}
 
+.popup_caption {
+	color: #FADC9B;
+	font-weight: bold;
+}
 
-.popup_close A:link {text-decoration: none; color: #FADC9B;}
-.popup_close A:visited {text-decoration: none; color: #FADC9B;}
-.popup_close A:active {text-decoration: none; color: #FADC9B;}
-.popup_close A:hover {text-decoration: underline; color: #cc0000;}
+.popup_close A:link {
+	text-decoration: none;
+	color: #FADC9B;
+}
 
+.popup_close A:visited {
+	text-decoration: none;
+	color: #FADC9B;
+}
+
+.popup_close A:active {
+	text-decoration: none;
+	color: #FADC9B;
+}
+
+.popup_close A:hover {
+	text-decoration: underline;
+	color: #cc0000;
+}
 
 /* (C) 2007 YOOtheme.com */
-
 div.yoo-tooltip-toggler {
 	cursor: pointer;
 }
 
 div.yoo-tooltip div.yoodefault .tooltip-tl {
-	background: url(/public/styles/braldahim_defaut/images/layout/popup/bubble_tl.png) 0 7pt no-repeat;
+	background:
+		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_tl.png)
+		0 7pt no-repeat;
 }
 
 div.yoo-tooltip div.yoodefault .tooltip-tr {
 	padding: 0px 15px 0px 15px;
-	background: url(/public/styles/braldahim_defaut/images/layout/popup/bubble_tr.png) 100% 7pt no-repeat;
+	background:
+		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_tr.png)
+		100% 7pt no-repeat;
 }
 
 div.yoo-tooltip div.yoodefault .tooltip-t {
-	background: url(/public/styles/braldahim_defaut/images/layout/popup/bubble_t.png) 0 7pt repeat-x;
+	background:
+		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_t.png)
+		0 7pt repeat-x;
 }
 
 div.yoo-tooltip div.yoodefault .tooltip-l {
-	background: url(/public/styles/braldahim_defaut/images/layout/popup/bubble_l.png) 0 7pt repeat-y;
+	background:
+		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_l.png)
+		0 7pt repeat-y;
 }
 
 div.yoo-tooltip div.yoodefault .tooltip-r {
 	padding: 0px 15px 0px 15px;
-	background: url(/public/styles/braldahim_defaut/images/layout/popup/bubble_r.png) 100% 7pt repeat-y;
+	background:
+		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_r.png)
+		100% 7pt repeat-y;
 }
 
 div.yoo-tooltip div.yoodefault .tooltip-m {
@@ -874,114 +943,129 @@ div.yoo-tooltip div.yoodefault .tooltip-m {
 }
 
 div.yoo-tooltip div.yoodefault .tooltip-bl {
-	background: url(/public/styles/braldahim_defaut/images/layout/popup/bubble_bl.png) 0 0 no-repeat;
+	background:
+		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_bl.png)
+		0 0 no-repeat;
 }
 
 div.yoo-tooltip div.yoodefault .tooltip-br {
 	padding: 0px 15px 0px 15px;
-	background: url(/public/styles/braldahim_defaut/images/layout/popup/bubble_br.png) 100% 0 no-repeat;
+	background:
+		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_br.png)
+		100% 0 no-repeat;
 }
 
 div.yoo-tooltip div.yoodefault .tooltip-b {
-	background: url(/public/styles/braldahim_defaut/images/layout/popup/bubble_b.png) 0 0 repeat-x;
+	background:
+		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_b.png)
+		0 0 repeat-x;
 }
 
 div.yoo-tooltip div.yoodefault .tooltip-arrow {
-	background: url(/public/styles/braldahim_defaut/images/layout/popup/bubble_arrow.png) 50% 0 no-repeat;
+	background:
+		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_arrow.png)
+		50% 0 no-repeat;
 }
 
-/* ************************************************ */ 
-/* ******************* Recherche ****************** */ 
-/* ************************************************ */ 
-/* Autocompletion */
-.recherche{
-        position:absolute;
-        width:250px;
-        background-color:white;
-        border:0px solid #888;
-        margin:0px;
-        padding:0px;
+/* ************************************************ */
+	/* ******************* Recherche ****************** */
+	/* ************************************************ */
+	/* Autocompletion */
+.recherche {
+	position: absolute;
+	width: 250px;
+	background-color: white;
+	border: 0px solid #888;
+	margin: 0px;
+	padding: 0px;
 }
 
 ul.resultats {
-        list-style-type: none;
-        margin:0px;
-        padding:0px;
-        text-align: left;
-}
-ul.resultats li.selected { background-color: #ffb; cursor: pointer; }
-li.resultat {
-        list-style-type: none;
-        display:block;
-        margin:0;
-        padding:2px;
-        height:12px;
-}
-li.resultat div.image {
-        float:left;
-        width:32px;
-        height:15px;
-        margin-right:8px;
-}
-li.resultat div.nom {
-        font-weight:bold;
-        font-size:15px;
-        line-height:1.2em;
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+	text-align: left;
 }
 
-/* ************************************************ */ 
-/* ************************* Vue ****************** */ 
-/* ************************************************ */ 
+ul.resultats li.selected {
+	background-color: #ffb;
+	cursor: pointer;
+}
+
+li.resultat {
+	list-style-type: none;
+	display: block;
+	margin: 0;
+	padding: 2px;
+	height: 12px;
+}
+
+li.resultat div.image {
+	float: left;
+	width: 32px;
+	height: 15px;
+	margin-right: 8px;
+}
+
+li.resultat div.nom {
+	font-weight: bold;
+	font-size: 15px;
+	line-height: 1.2em;
+}
+
+/* ************************************************ */
+	/* ************************* Vue ****************** */
+	/* ************************************************ */
 able.vue2d {
-  border: solid #777;
-  text-align: right;
-  background-color: black;
-  border-spacing: 1;
-  border-width: 1pt;
+	border: solid #777;
+	text-align: right;
+	background-color: black;
+	border-spacing: 1;
+	border-width: 1pt;
 }
 
 td.vue2d {
-  border-style : solid;
-  border-color: #eeeeee;
-  border-spacing: 0;
-  border-width: 0.0pt;
-  font-size: 7pt;
-  vertical-align: top;
-  horizontal-align:center;
-  width: 50px;
+	border-style: solid;
+	border-color: #eeeeee;
+	border-spacing: 0;
+	border-width: 0.0pt;
+	font-size: 7pt;
+	vertical-align: top;
+	horizontal-align: center;
+	width: 50px;
 }
 
 td.vue2d.plaine {
-  background-color: rgb(173, 186, 140);
+	background-color: rgb(173, 186, 140);
 }
 
 td.vue2d.foret {
-  background-color: #7E9E50;
+	background-color: #7E9E50;
 }
 
 td.vue2d.marais {
-  background-color: #6699cc;
+	background-color: #6699cc;
 }
 
 td.vue2d.montagne {
-  background-color: #f5f5f5;
+	background-color: #f5f5f5;
 }
 
 td.vue2d.caverne {
-  background-color: #666600;
+	background-color: #666600;
 }
 
 td.vue2d.inconnu {
-  background-color: grey;
+	background-color: grey;
 }
 
 td.vue2d.actuelle {
-  background-color: #ff6666;
+	background-color: #ff6666;
 }
 
 .vue2d_case_num {
-  text-align: right;
-  font-size: 7pt;
-  color: #e0ffe0;
-  background-color: #6f5f6f;
+	text-align: right;
+	font-size: 7pt;
+	color: #e0ffe0;
+	background-color: #6f5f6f;
 }

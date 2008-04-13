@@ -3,14 +3,16 @@
 class Bral_Box_Laban {
 
 	function __construct($request, $view, $interne) {
-		Zend_Loader::loadClass('Laban');
-		Zend_Loader::loadClass('LabanEquipement');
-		Zend_Loader::loadClass('LabanMinerai');
-		Zend_Loader::loadClass('LabanPartieplante');
-		Zend_Loader::loadClass('LabanPotion');
-		Zend_Loader::loadClass('LabanRune');
+		Zend_Loader::loadClass("Laban");
+		Zend_Loader::loadClass("LabanEquipement");
+		Zend_Loader::loadClass("LabanMinerai");
+		Zend_Loader::loadClass("LabanPartieplante");
+		Zend_Loader::loadClass("LabanPotion");
+		Zend_Loader::loadClass("LabanRune");
 		Zend_Loader::loadClass("HobbitsMetiers");
 		Zend_Loader::loadClass("Metier");
+		Zend_Loader::loadClass("TypePlante");
+		Zend_Loader::loadClass("TypePartiePlante");
 		$this->_request = $request;
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;
@@ -69,46 +71,21 @@ class Bral_Box_Laban {
 				);
 			}
 		}
-	
-		$tabPartiePlantes = null;
-		$tabPartiePlantesPreparees = null;
-		$labanPartiePlanteTable = new LabanPartieplante();
-		$partiePlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
-
-		foreach ($partiePlantes as $p) {
-			if ($p["quantite_laban_partieplante"] > 0) {
-				$tabPartiePlantes[] = array(
-					"nom_type" => $p["nom_type_partieplante"],
-					"nom_plante" => $p["nom_type_plante"],
-					"quantite" => $p["quantite_laban_partieplante"],
-				);
-				if (isset($tabMetiers["apothicaire"])) {
-					$tabMetiers["apothicaire"]["a_afficher"] = true;
-				}
-				
-			}
-			if ($p["quantite_preparee_laban_partieplante"] > 0) {
-				$tabPartiePlantesPreparees[] = array(
-					"nom_type" => $p["nom_type_partieplante"],
-					"nom_plante" => $p["nom_type_plante"],
-					"quantite" => $p["quantite_preparee_laban_partieplante"],
-				);
-				if (isset($tabMetiers["apothicaire"])) {
-					$tabMetiers["apothicaire"]["a_afficher"] = true; 
-				}
-			}
-		}
-
+		
 		$tabMinerais = null;
 		$labanMineraiTable = new LabanMinerai();
 		$minerais = $labanMineraiTable->findByIdHobbit($this->view->user->id_hobbit);
 
 		foreach ($minerais as $m) {
-			$tabMinerais[] = array(
+			$tabMineraisBruts[] = array(
 				"type" => $m["nom_type_minerai"],
-				"quantiteBrut" => $m["quantite_brut_laban_minerai"],
-				"quantiteLingot" => $m["quantite_lingots_laban_minerai"],
+				"quantite" => $m["quantite_brut_laban_minerai"],
 			);
+			$tabLingots[] = array(
+				"type" => $m["nom_type_minerai"],
+				"quantite" => $m["quantite_lingots_laban_minerai"],
+			);
+			
 			if ($m["quantite_brut_laban_minerai"] > 0) {
 				if (isset($tabMetiers["mineur"])) {
 					$tabMetiers["mineur"]["a_afficher"] = true; 
@@ -161,36 +138,122 @@ class Bral_Box_Laban {
 			}
 		}
 		
-		$tabRunes = null;
+		$tabRunesIdentifiees = null;
+		$tabRunesNonIdentifiees = null;
 		$labanRuneTable = new LabanRune();
 		$runes = $labanRuneTable->findByIdHobbit($this->view->user->id_hobbit);
 
 		foreach ($runes as $r) {
-			$tabRunes[] = array(
-				"id_rune" => $r["id_rune_laban_rune"],
-				"type" => $r["nom_type_rune"],
-				"image" => $r["image_type_rune"],
-				"est_identifiee" => $r["est_identifiee_rune"],
-				"effet_type_rune" => $r["effet_type_rune"],
-			);
+			if ($r["est_identifiee_rune"] == "oui") {
+				$tabRunesIdentifiees[] = array(
+					"id_rune" => $r["id_rune_laban_rune"],
+					"type" => $r["nom_type_rune"],
+					"image" => $r["image_type_rune"],
+					"est_identifiee" => $r["est_identifiee_rune"],
+					"effet_type_rune" => $r["effet_type_rune"],
+				);
+			} else {
+				$tabRunesNonIdentifiees[] = array(
+					"id_rune" => $r["id_rune_laban_rune"],
+					"type" => $r["nom_type_rune"],
+					"image" => $r["image_type_rune"],
+					"est_identifiee" => $r["est_identifiee_rune"],
+					"effet_type_rune" => $r["effet_type_rune"],
+				);
+			}
 		}
 
 		$this->view->tabHobbitMetiers = $tabHobbitMetiers;
 		$this->view->tabMetiers = $tabMetiers;
-		$this->view->nb_partieplantes = count($tabPartiePlantes);
-		$this->view->partieplantes = $tabPartiePlantes;
-		$this->view->nb_partieplantesPreparees = count($tabPartiePlantesPreparees);
-		$this->view->partieplantesPreparees = $tabPartiePlantesPreparees;
-		$this->view->nb_minerais = count($tabMinerais);
-		$this->view->minerais = $tabMinerais;
-		$this->view->nb_runes = count($tabRunes);
-		$this->view->runes = $tabRunes;
-		$this->view->laban = $tabLaban;
-		$this->view->nom_interne = $this->getNomInterne();
+
 		
+		$this->view->mineraisBruts = $tabMineraisBruts;
+		$this->view->lingots = $tabLingots;
+		
+		$this->view->nb_runes = count($tabRunesIdentifiees) + count($tabRunesNonIdentifiees);
+		$this->view->runesIdentifiees = $tabRunesIdentifiees;
+		$this->view->runesNonIdentifiees = $tabRunesNonIdentifiees;
+		$this->view->laban = $tabLaban;
+		
+		$this->renderPlante($tabMetiers);
 		$this->renderEquipement();
 		$this->renderPotion();
+		
+		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/laban.phtml");
+	}
+	
+	private function renderPlante($tabMetiers) {
+		$typePlantesTable = new TypePlante();
+		$typePlantesRowset = $typePlantesTable->findAll();
+		
+		$typePartiePlantesTable = new TypePartiePlante();
+		$typePartiePlantesRowset = $typePartiePlantesTable->fetchall();
+		$typePartiePlantesRowset = $typePartiePlantesRowset->toArray();
+	
+		$tabPartiePlantes = null;
+		$tabPartiePlantesPreparees = null;
+		$labanPartiePlanteTable = new LabanPartieplante();
+		$partiePlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
+		
+		foreach($typePartiePlantesRowset as $p) {
+			foreach($typePlantesRowset as $t) {
+				$val = false;
+				if ($t["id_fk_partieplante1_type_plante"] == $p["id_type_partieplante"]) {
+					$val = true;
+				}
+				if ($t["id_fk_partieplante2_type_plante"] == $p["id_type_partieplante"]) {
+					$val = true;
+				}
+				if ($t["id_fk_partieplante3_type_plante"] == $p["id_type_partieplante"]) {
+					$val = true;
+				}
+				if ($t["id_fk_partieplante4_type_plante"] == $p["id_type_partieplante"]) {
+					$val = true;
+				}
+				
+				if (!isset($tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]])) {
+					$tab = array(
+						'nom_type_plante' => $t["nom_type_plante"],
+						'nom_systeme_type_plante' => $t["nom_systeme_type_plante"],
+					);
+					$tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]] = $tab;
+				}
+				
+				$tabTypePlantes[$t["categorie_type_plante"]]["a_afficher"] = false;
+				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["a_afficher"] = false;
+				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["possible"] = $val;
+				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = 0;
+				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite_preparee"] = 0;
+			}
+		}
+		
+		$tabTypePlantesBruts = $tabTypePlantes;
+		$tabTypePlantesPrepares = $tabTypePlantes;
+		
+		foreach ($partiePlantes as $p) {
+			if ($p["quantite_laban_partieplante"] > 0) {
+				$tabTypePlantesBruts[$p["categorie_type_plante"]]["a_afficher"] = true;
+				$tabTypePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
+				$tabTypePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_laban_partieplante"];
+				if (isset($tabMetiers["herboriste"])) {
+					$tabMetiers["herboriste"]["a_afficher"] = true;
+				}
+			}
+			
+			if ($p["quantite_preparee_laban_partieplante"] > 0) {
+				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["a_afficher"] = true;
+				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
+				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_preparee_laban_partieplante"];
+				if (isset($tabMetiers["apothicaire"])) {
+					$tabMetiers["apothicaire"]["a_afficher"] = true; 
+				}
+			}
+		}
+
+		$this->view->typePlantesBruts = $tabTypePlantesBruts;
+		$this->view->typePlantesPrepares = $tabTypePlantesPrepares;
+	
 	}
 	
 	private function renderEquipement() {

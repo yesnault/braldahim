@@ -1,0 +1,56 @@
+<? $vide = true; ?>  
+    <? if ($this->typePlantes["Arbre"]["a_afficher"] == true) :?>
+    <? $vide = false; ?>  
+	    <table class="table_liste" style="width:auto; padding:5px;" >
+			<thead class="table_liste">
+			  <tr class="table_liste">
+			  	<th width="20px;"><ul class="titre textsized">Arbres</ul></th>
+				<th style="width:auto; padding:5px;" >Feuilles</th>
+				<th style="width:auto; padding:5px;" >Fleurs</th>
+				<th style="width:auto; padding:5px;" >Fruits</th>
+				<th style="width:auto; padding:5px;" >&Eacute;corce</th>
+			  </tr>
+			</thead>
+			<tbody>
+				<? include("contenu_arbre.phtml") ?>
+			</tbody>
+		</table>
+		<br />
+    <? endif; ?>
+    
+    <? if ($this->typePlantes["Buisson"]["a_afficher"] == true) :?>
+    <? $vide = false; ?>
+		   <table class="table_liste" style="width:auto; padding:5px;" >
+			<thead class="table_liste">
+			  <tr class="table_liste">
+			  	<th width="20px;"><ul class="titre textsized">Buissons</ul></th>
+				<th style="width:auto; padding:5px;" >Feuilles</th>
+				<th style="width:auto; padding:5px;" >Fleurs</th>
+				<th style="width:auto; padding:5px;" >&Eacute;pines</th>
+			  </tr>
+			</thead>
+			<tbody>
+				<? include("contenu_buisson.phtml") ?>
+			</tbody>
+			</table>
+			<br />
+	<? endif; ?>
+	
+   <? if ($this->typePlantes["Fleur"]["a_afficher"] == true) :?>
+   <? $vide = false; ?>
+			<table class="table_liste" style="width:auto; padding:5px;" >
+				<thead class="table_liste">
+				  <tr class="table_liste">
+				  	<th width="20px;"><ul class="titre textsized">Fleurs</ul></th>
+					<th style="width:auto; padding:5px;" >Fleurs</th>
+				  </tr>
+				</thead>
+				<tbody>
+					<? include("contenu_fleur.phtml") ?>
+				</tbody>
+			</table>
+			<br />
+<? endif; ?>
+<? if ($vide == true) : ?>
+ <center></i>Vide</i></center>
+<? endif; ?>

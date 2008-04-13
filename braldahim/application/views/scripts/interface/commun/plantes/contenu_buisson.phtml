@@ -1,0 +1,31 @@
+ <? foreach ($this->typePlantes["Buisson"]["type_plante"] as $k => $v) : ?>
+ 	<? if ($v["a_afficher"] == true) : ?>
+ 	<tr class="table_liste">
+	 	<td class="table_liste" style="text-align: left;">
+	 		<?=htmlentities($k); ?>
+	 	</td>
+	 	
+	 	<td class="table_liste">
+	 	<? if ($v["parties"]["feuille"]["possible"] == false) : ?>
+	 		-
+	 	<? else: ?>
+	 		<?=$v["parties"]["feuille"]["quantite"] ?>
+	 	<? endif; ?>
+	 	</td>
+	 	<td class="table_liste">
+	 	<? if ($v["parties"]["fleur"]["possible"] == false) : ?>
+	 		-
+	 	<? else : ?>
+			<?=$v["parties"]["fleur"]["quantite"] ?>
+	 	<? endif; ?>
+	 	</td>
+	 	<td class="table_liste">
+	 	<? if ($v["parties"]["epine"]["possible"] == false) : ?>
+	 		-
+	 	<? else: ?>
+	 		<?=$v["parties"]["epine"]["quantite"] ?>
+	 	<? endif; ?>
+	 	</td>
+ 	</tr>
+ 	<? endif; ?>
+ <? endforeach; ?>

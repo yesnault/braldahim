@@ -1,3 +1,18 @@
-   	Peau : <?=$this->laban["nb_peau"] ?>
-   	<br />
-   	Viande fra&icirc;che: <?=$this->laban["nb_viande"] ?>
+<table class="table_liste" style="width:auto; padding:5px;" >
+	<thead class="table_liste">
+		<tr class="table_liste">
+			<th style="width:auto; padding:5px;">Peaux</th>
+			<th style="width:auto; padding:5px;">Viande fra&icirc;che</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="table_liste">
+			<td class="table_liste">
+			<?=$this->laban["nb_peau"] ?>
+			</td>
+			<td class="table_liste">
+			<?=$this->laban["nb_viande"] ?>
+			</td>
+		</tr>
+	</tbody>
+</table>

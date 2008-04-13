@@ -15,4 +15,14 @@ class TypePlante extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
+	public function findAll() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('type_plante', '*')
+		->order(array("categorie_type_plante", "nom_type_plante"));
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
+	
 }

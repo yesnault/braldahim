@@ -1,0 +1,17 @@
+ <? foreach ($this->typePlantes["Fleur"]["type_plante"] as $k => $v) : ?>
+ 	<? if ($v["a_afficher"] == true) : ?>
+ 	<tr class="table_liste">
+	 	<td class="table_liste" style="text-align: left;">
+	 		<?=htmlentities($k); ?>
+	 	</td>
+	 	
+	 	<td class="table_liste">
+	 	<? if ($v["parties"]["fleur"]["possible"] == false) : ?>
+	 		-
+	 	<? else: ?>
+	 		<?=$v["parties"]["fleur"]["quantite"] ?>
+	 	<? endif; ?>
+	 	</td>
+ 	</tr>
+ 	<? endif; ?>
+ <? endforeach; ?>
