@@ -1,25 +1,9 @@
-<? Zend_Loader::loadClass("Bral_Helper_DetailEquipement"); ?>
    <div class="laban">
    <? if ($this->nb_equipements == 0) : ?>
    	Aucun &eacute;quipement
    <? else : ?>
-    <? if ($this->nb_equipements==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_equipements?> &eacute;quipement<?=$s?> : <br />
-    
-    <table width='100%'>
-    <? $i = 0;
-      
-      foreach ($this->equipements as $id => $e) : 
-     	 if ($i % 3 == 0) echo "<tr>";
-    	?>
-    	<td>
-    	<? echo Bral_Helper_DetailEquipement::afficher($e); ?>
-    	</td>
-    	<? if ($i % 3 == 2) echo "</tr>"; 
-    	$i++; 
-     endforeach;
-     if  ($i % 3 != 0) echo "</tr>"; 
-     ?>
-    </table> 
+   
+		<?=$this->render("/interface/commun/equipements/equipements.phtml"); ?>
+	
     <? endif; ?>
    </div>

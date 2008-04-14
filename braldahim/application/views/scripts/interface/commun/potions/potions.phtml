@@ -1,0 +1,26 @@
+<table class="table_liste">
+	<thead class="table_liste">
+	  <tr class="table_liste">
+	  	<th>N&deg;</th>
+		<th>Nom</th>
+		<th>Qualit&eacute;</th>
+		<th>Niveau</th>
+		<th>Type</th>
+		<th>Effet sur</th>
+	  </tr>
+	</thead>
+	<tbody>
+		<? $i = 0;
+		   foreach($this->potions as $p) :?>
+			
+			<tr class="table_liste<?=($i % 2);$i++; ?>" <?=Bral_Helper_DetailPotion::afficherJs($p); ?>>
+		  		<td class="table_liste"><?=$p["id_potion"] ?></td>
+		  		<td class="table_liste"><?=htmlentities($p["nom"]) ?></td>
+		  		<td class="table_liste"><?=htmlentities($p["qualite"]) ?></td>
+		  		<td class="table_liste"><?=$p["niveau"] ?></td>
+		  		<td class="table_liste"><?=$p["bm_type"] ?></td>
+		  		<td class="table_liste"><?=$p["caracteristique"] ?></td>
+			  </tr>
+		<? endforeach; ?>
+	</tbody>
+</table>

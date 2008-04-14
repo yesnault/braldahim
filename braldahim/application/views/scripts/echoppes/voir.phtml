@@ -6,72 +6,16 @@
 <?=htmlentities($this->echoppe["nom_metier"])?>, <?=htmlentities($this->echoppe["nom_region"])?> </ul>
 <ul class="titre textalic textsizec">x:<?=$this->echoppe["x_echoppe"]?>, y:<?=$this->echoppe["y_echoppe"]?></ul>
 <br />
-<table  width='100%'>
-  	<tr><td><ul class="titre textalic textsizec">Mati&egrave;res premi&egrave;res</ul></td>
-  	<td><ul class="titre textalic textsizec">L'atelier</ul></td></tr>
-  	<tr valign='top'><td>
- 	<? include("arriere_boutique_ressources.phtml") ?>
- 	</td><td>
- 		<? if ($this->estSurEchoppe === true): 
-  		$disabled = "";
-	  	?>
-	  		Vous &ecirc;tes dans votre &eacute;choppe, vous pouvez travailler...<br />
-	  	<? else: 
-	  		$disabled = "disabled" ;
-	  	?>
-	  		Vous n'&ecirc;tes pas dans votre &eacute;choppe, vous ne pouvez pas y travailler...<br />
-	  	<? endif; ?>
-		<? foreach($this->competences as $c) : ?>
-				<input type="button" class='button1' value="<?=$c["pa_utilisation"]?> PA - <?=htmlentities($c["nom"])?> : <?=$c["pourcentage"]?> % "
-       		  onClick="Javascript:_get_('/competences/doaction?caction=ask_competence_<?=$c["nom_systeme"] ?>')" <?=$disabled ?>>
-		<? endforeach; ?>
- 	</td></tr>
- </table>
- 	
 
-<br /><hr>
-<ul class="titre textalic textsizec">L'arri&egrave;re-boutique</ul><br />
- <div class="contenuc">
-  <ul class="box_contenu1 textalic">
-  	<table  width='100%'>
-  	<tr><td><ul class="titre textalic textsizec">La caisse</ul></td>
+<hr> <br />
+
+<? include("voir/arriere_boutique.phtml") ?>
+
+<hr> <br />
   	
-  	<? if ($this->afficheType == "equipements") :?>
-  		<td><ul class="titre textalic textsizec">&Eacute;quipements cr&eacute;&eacute;s</ul></td>
-  	<? else : ?>
-  		<td><ul class="titre textalic textsizec">Potions cr&eacute;&eacute;es</ul></td></tr>
-  	<? endif; ?>
-  	<tr valign='top'><td>
-  	<? include("caisse.phtml") ?>
- 	</td><td>
- 	<? if ($this->afficheType == "equipements") :?>
- 		<? include("arriere_boutique_equipements.phtml") ?>
- 	<? else: ?>
- 		<? include("arriere_boutique_potions.phtml") ?>
- 	<? endif; ?>
- 	</td></tr>
- 	</table>
-   </ul>
-</div>
+<? include("voir/atelier.phtml") ?>
+  	
+<hr><br />
 
-<br /><hr>
-<ul class="titre textalic textsizec">L'etal</ul><br />
- <div class="contenuc">
-  <ul class="box_contenu1 textalic">
-  	<table  width='100%'>
-  	<? if ($this->afficheType == "equipements") :?>
-  		<tr><td><ul class="titre textalic textsizec">Equipements en vente</ul></td>
-  	<? else: ?>
-  		<td><ul class="titre textalic textsizec">Potions en vente</ul></td></tr>
-  	<? endif; ?>
-  	<tr valign='top'><td>
-  	<? if ($this->afficheType == "equipements") :?>
- 		<? include("etal_equipements.phtml") ?>
- 	<? else: ?>
- 		<? include("etal_potions.phtml") ?>
- 	<? endif; ?>
- 	</td></tr>
- 	</table>
-   </ul>
-</div>
+<? include("voir/etal.phtml") ?>
 

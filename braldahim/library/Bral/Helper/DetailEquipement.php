@@ -1,9 +1,12 @@
 <?php
+
 class Bral_Helper_DetailEquipement {
+
     public static function afficher($e) {
-        
-    	$titre = htmlentities($e["nom"])." ".htmlentities(addslashes($e["suffixe"]))." de qualit&eacute; ".htmlentities($e["qualite"])." - D&eacute;tails";
+    	return "<span ".self::afficherJs($text).">".htmlentities($e["nom"]).", n&deg;".$e["id_equipement"]."</span>";
+    }
     
+    public static function afficherJs($e) {
     	$text = htmlentities($e["nom"])." ".htmlentities(addslashes($e["suffixe"]))." de qualit&eacute; ".htmlentities($e["qualite"])." <br /><br />";
      	$text .= "Num&eacute;ro de la pi&egrave;ce :".$e["id_equipement"]."<br />";
     	$text .= "Niveau : ".$e["niveau"]."<br />";
@@ -34,7 +37,7 @@ class Bral_Helper_DetailEquipement {
 	     	 }
     	}
     	$text .= "<br />";
-    	return "<span ".Bral_Helper_Tip::jsTip($text, $titre).">".htmlentities($e["nom"]).", n&deg;".$e["id_equipement"]."</span>";
+    	return Bral_Helper_Tip::jsTip($text);
     }
     
     private static function display($display, $valeur) {

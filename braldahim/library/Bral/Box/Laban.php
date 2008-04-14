@@ -165,7 +165,6 @@ class Bral_Box_Laban {
 
 		$this->view->tabHobbitMetiers = $tabHobbitMetiers;
 		$this->view->tabMetiers = $tabMetiers;
-
 		
 		$this->view->mineraisBruts = $tabMineraisBruts;
 		$this->view->lingots = $tabLingots;
@@ -224,7 +223,6 @@ class Bral_Box_Laban {
 				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["a_afficher"] = false;
 				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["possible"] = $val;
 				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = 0;
-				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite_preparee"] = 0;
 			}
 		}
 		

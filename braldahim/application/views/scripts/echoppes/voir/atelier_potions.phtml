@@ -1,5 +1,10 @@
 <? Zend_Loader::loadClass("Bral_Helper_DetailPotion"); ?>
 <? if ($this->nbPotionsArriereBoutique > 0): ?>
+
+	<? $this->potions = $this->potionsArriereBoutique; ?>
+	<?=$this->render("/interface/commun/potions/potions.phtml"); ?>
+
+
 	<? foreach($this->potionsArriereBoutique as $p) :?>
 		<? echo Bral_Helper_DetailPotion::afficher($p); ?><br />
 	<? endforeach; ?>

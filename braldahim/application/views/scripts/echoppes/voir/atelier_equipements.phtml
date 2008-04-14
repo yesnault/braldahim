@@ -1,10 +1,8 @@
 
 <? if ($this->nbEquipementsArriereBoutique > 0): ?>
-	<? foreach($this->equipementsArriereBoutique as $e) :?>
-		<?=htmlentities($e["nom"]) ?> : qualit&eacute; <?=htmlentities($e["qualite"]) ?>,
-		 niveau: <?=$e["niveau"] ?>, nb. emplacements: <?=$e["nb_runes"] ?><br />
-	<? endforeach; ?>
-	<br />
+
+	<? $this->equipements = $this->equipementsArriereBoutique; ?>
+	<?=$this->render("/interface/commun/equipements/equipements.phtml"); ?>
 	
 	<? if ($this->estSurEchoppe === true): 
   		$disabled = "";

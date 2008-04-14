@@ -1,16 +1,23 @@
 <?php
 
 class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
-
+	
+	private $arBoutiqueBruts;
+	private $arBoutiqueTransformes;
+	
 	function __construct($nomSystemeAction, $request, $view, $action, $id_echoppe = false) {
+		Zend_Loader::loadClass("Echoppe");
+		
 		if ($id_echoppe !== false) {
 			$this->idEchoppe = $id_echoppe;
 		}
 		parent::__construct($nomSystemeAction, $request, $view, $action);
 	}
+	
 	function getNomInterne() {
 		return "box_echoppe";
 	}
+	
 	function render() {
 		return $this->view->render("echoppes/voir.phtml");
 	}
@@ -22,7 +29,22 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 			$id_echoppe = $this->idEchoppe;
 		}
 
-		Zend_Loader::loadClass("Echoppe");
+		$this->arBoutiqueBruts["rondins"] = array("nom_systeme" => "rondins", "nom" => "Rondins", "a_afficher" => false);
+		$this->arBoutiqueBruts["minerais"] = array("nom_systeme" => "minerais", "nom" => "Minerais Bruts", "a_afficher" => false);
+		$this->arBoutiqueBruts["plantes_bruts"] = array("nom_systeme" => "plantes_bruts", "nom" => "Plantes Bruts", "a_afficher" => false);
+		$this->arBoutiqueBruts["peaux"] = array("nom_systeme" => "peaux", "nom" => "Peaux", "a_afficher" => false);
+		
+		$this->arBoutiqueTransformes["planches"] = array("nom_systeme" => "planches", "nom" => "Planches", "a_afficher" => false);
+		$this->arBoutiqueTransformes["lingots"] = array("nom_systeme" => "lingots", "nom" => "Lingots", "a_afficher" => false);
+		$this->arBoutiqueTransformes["plantes_preparees"] = array("nom_systeme" => "plantes_preparees", "nom" => "Plantes Préparées", "a_afficher" => false);
+		$this->arBoutiqueTransformes["cuir_fourrure"] = array("nom_systeme" => "cuir_fourrure", "nom" => "Cuir / Fourrure", "a_afficher" => false);
+		
+		$this->arBoutiqueCaisse["castars"]  = array("nom_systeme" => "castars", "nom" => "Castars", "a_afficher" => true);
+		$this->arBoutiqueCaisse["minerais"] = array("nom_systeme" => "minerais", "nom" => "Minerais Bruts", "a_afficher" => false);
+		$this->arBoutiqueCaisse["rondins"]  = array("nom_systeme" => "rondins", "nom" => "Rondins", "a_afficher" => false);
+		$this->arBoutiqueCaisse["plantes_bruts"] = array("nom_systeme" => "plantes_bruts", "nom" => "Plantes Bruts", "a_afficher" => false);
+		$this->arBoutiqueCaisse["peaux"]  = array("nom_systeme" => "peaux", "nom" => "Peaux", "a_afficher" => false);
+		
 		$echoppeTable = new Echoppe();
 		$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
 
@@ -55,6 +77,35 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					'quantite_fourrure_arriere_echoppe' => $e["quantite_fourrure_arriere_echoppe"],
 					'quantite_planche_arriere_echoppe' => $e["quantite_planche_arriere_echoppe"],
 				);
+				
+				if ($e["quantite_rondin_arriere_echoppe"] > 0) {
+					$this->arBoutiqueBruts["rondins"]["a_afficher"] = true;
+				}
+				
+				if ($e["quantite_peau_arriere_echoppe"] > 0) {
+					$this->arBoutiqueBruts["peaux"]["a_afficher"] = true;
+				}
+				
+				if ($e["quantite_planche_arriere_echoppe"] > 0) {
+					$this->arBoutiqueTransformes["planches"]["a_afficher"] = true;
+				}
+				
+				if ($e["quantite_fourrure_arriere_echoppe"] > 0 || $e["quantite_planche_arriere_echoppe"] > 0) {
+					$this->arBoutiqueTransformes["cuir_fourrure"]["a_afficher"] = true;
+				}
+
+				if ($e["quantite_castar_caisse_echoppe"] > 0) {
+					$this->arBoutiqueCaisse["castars"]["a_afficher"] = true;
+				}
+				
+				if ($e["quantite_rondin_caisse_echoppe"] > 0) {
+					$this->arBoutiqueCaisse["rondins"]["a_afficher"] = true;
+				}
+				
+				if ($e["quantite_peau_caisse_echoppe"] > 0) {
+					$this->arBoutiqueCaisse["peaux"]["a_afficher"] = true;
+				}
+				
 				if ($this->view->user->x_hobbit == $e["x_echoppe"] &&
 				$this->view->user->y_hobbit == $e["y_echoppe"]) {
 					$this->view->estSurEchoppe = true;
@@ -87,7 +138,11 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->prepareCommunRessources($tabEchoppe["id_echoppe"]);
 		$this->prepareCommunEquipements($tabEchoppe["id_echoppe"]);
 		$this->prepareCommunPotions($tabEchoppe["id_echoppe"]);
-
+		
+		$this->view->arBoutiqueBruts = $this->arBoutiqueBruts;
+		$this->view->arBoutiqueTransformes = $this->arBoutiqueTransformes;
+		$this->view->arBoutiqueCaisse = $this->arBoutiqueCaisse;
+		
 		$this->view->competences = $tabCompetences;
 		$this->view->echoppe = $tabEchoppe;
 	}
@@ -104,56 +159,135 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 	private function prepareCommunRessources($idEchoppe) {
 		Zend_Loader::loadClass("EchoppePartiePlante");
 		Zend_Loader::loadClass("EchoppeMinerai");
-
-		$tabPartiePlantes = null;
+		Zend_Loader::loadClass("TypePlante");
+		Zend_Loader::loadClass("TypePartiePlante");
+		
+		$typePlantesTable = new TypePlante();
+		$typePlantesRowset = $typePlantesTable->findAll();
+		
+		$typePartiePlantesTable = new TypePartiePlante();
+		$typePartiePlantesRowset = $typePartiePlantesTable->fetchall();
+		$typePartiePlantesRowset = $typePartiePlantesRowset->toArray();
+	
+		$tabPartiePlantesCaisse = null;
+		$tabPartiePlantesPreparees = null;
+		$tabPartiePlantesBruts = null;
+		
+		foreach($typePartiePlantesRowset as $p) {
+			foreach($typePlantesRowset as $t) {
+				$val = false;
+				if ($t["id_fk_partieplante1_type_plante"] == $p["id_type_partieplante"]) {
+					$val = true;
+				}
+				if ($t["id_fk_partieplante2_type_plante"] == $p["id_type_partieplante"]) {
+					$val = true;
+				}
+				if ($t["id_fk_partieplante3_type_plante"] == $p["id_type_partieplante"]) {
+					$val = true;
+				}
+				if ($t["id_fk_partieplante4_type_plante"] == $p["id_type_partieplante"]) {
+					$val = true;
+				}
+				
+				if (!isset($tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]])) {
+					$tab = array(
+						'nom_type_plante' => $t["nom_type_plante"],
+						'nom_systeme_type_plante' => $t["nom_systeme_type_plante"],
+					);
+					$tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]] = $tab;
+				}
+				
+				$tabTypePlantes[$t["categorie_type_plante"]]["a_afficher"] = false;
+				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["a_afficher"] = false;
+				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["possible"] = $val;
+				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = 0;
+			}
+		}
+		
+		$tabPartiePlantesCaisse = $tabTypePlantes;
+		$tabPartiePlantesPreparees = $tabTypePlantes;
+		$tabPartiePlantesBruts = $tabTypePlantes;
+		
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 		$partiePlantes = $echoppePartiePlanteTable->findByIdEchoppe($idEchoppe);
 
-		$this->view->nb_caissePartiePlantes = 0;
-		$this->view->nb_arrierePartiePlantes = 0;
-		$this->view->nb_prepareePartiePlantes = 0;
-
 		if ($partiePlantes != null) {
 			foreach ($partiePlantes as $p) {
-				$tabPartiePlantes[] = array(
-					"nom_type" => $p["nom_type_partieplante"],
-					"nom_plante" => $p["nom_type_plante"],
-					"quantite_caisse" => $p["quantite_caisse_echoppe_partieplante"],
-					"quantite_arriere" => $p["quantite_arriere_echoppe_partieplante"],
-					"quantite_preparee" => $p["quantite_preparees_echoppe_partieplante"],
-				);
-
+				if ($p["quantite_caisse_echoppe_partieplante"] > 0) {
+					$this->arBoutiqueCaisse["plantes_bruts"]["a_afficher"] = true;
+					$tabPartiePlantesCaisse[$p["categorie_type_plante"]]["a_afficher"] = true;
+					$tabPartiePlantesCaisse[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
+					$tabPartiePlantesCaisse[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_caisse_echoppe_partieplante"];
+				}
+				
+				if ($p["quantite_arriere_echoppe_partieplante"] > 0) {
+					$this->arBoutiqueBruts["plantes_bruts"]["a_afficher"] = true;
+					$tabPartiePlantesBruts[$p["categorie_type_plante"]]["a_afficher"] = true;
+					$tabPartiePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
+					$tabPartiePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_arriere_echoppe_partieplante"];
+				}
+				
+				if ($p["quantite_preparees_echoppe_partieplante"] > 0) {
+					$this->arBoutiqueTransformes["plantes_preparees"]["a_afficher"] = true;
+					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["a_afficher"] = true;
+					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
+					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_preparees_echoppe_partieplante"];
+				}
+				
 				$this->view->nb_caissePartiePlantes = $this->view->nb_caissePartiePlantes + $p["quantite_caisse_echoppe_partieplante"];
 				$this->view->nb_arrierePartiePlantes = $this->view->nb_arrierePartiePlantes + $p["quantite_arriere_echoppe_partieplante"];
 				$this->view->nb_prepareePartiePlantes = $this->view->nb_prepareePartiePlantes  + $p["quantite_preparees_echoppe_partieplante"];
 			}
 		}
+		
+		$this->view->typePlantesCaisse = $tabPartiePlantesCaisse;
+		$this->view->typePlantesBruts = $tabPartiePlantesBruts;
+		$this->view->typePlantesPrepares = $tabPartiePlantesPreparees;
 
-		$tabMinerais = null;
+		$tabMineraisArriere = null;
+		$tabMineraisCaisse = null;
+		$tabLingots = null;
+		
 		$echoppeMineraiTable = new EchoppeMinerai();
 		$minerais = $echoppeMineraiTable->findByIdEchoppe($idEchoppe);
 
 		$this->view->nb_caisseMinerai = 0;
-		$this->view->nb_arriereMinerai = 0;
-		$this->view->nb_lingotsMinerai = 0;
 
 		if ($minerais != null) {
 			foreach ($minerais as $m) {
-				$tabMinerais[] = array(
+				$tabMineraisArriere[] = array(
 					"type" => $m["nom_type_minerai"],
-					"quantite_caisse" => $m["quantite_caisse_echoppe_minerai"],
-					"quantite_arriere" => $m["quantite_arriere_echoppe_minerai"],
-					"quantite_lingots" => $m["quantite_lingots_echoppe_minerai"],
+					"quantite" => $m["quantite_arriere_echoppe_minerai"],
 				);
-
+				$tabLingots[] = array(
+					"type" => $m["nom_type_minerai"],
+					"quantite" => $m["quantite_lingots_echoppe_minerai"],
+				);
+				$tabMineraisCaisse[] = array(
+					"type" => $m["nom_type_minerai"],
+					"quantite" => $m["quantite_caisse_echoppe_minerai"],
+				);
+				
+				if ($m["quantite_arriere_echoppe_minerai"] > 0) {
+					$this->arBoutiqueBruts["minerais"]["a_afficher"] = true;
+				}
+				
+				if ($m["quantite_lingots_echoppe_minerai"] > 0) {
+					$this->arBoutiqueTransformes["lingots"]["a_afficher"] = true;
+				}
+				
+				if ($m["quantite_lingots_echoppe_minerai"] > 0) {
+					$this->arBoutiqueCaisse["minerais"]["a_afficher"] = true;
+				}
+				
+				
 				$this->view->nb_caisseMinerai = $this->view->nb_caisseMinerai + $m["quantite_caisse_echoppe_minerai"];
-				$this->view->nb_arriereMinerai = $this->view->nb_arriereMinerai + $m["quantite_arriere_echoppe_minerai"];
-				$this->view->nb_lingotsMinerai = $this->view->nb_lingotsMinerai  + $m["quantite_lingots_echoppe_minerai"];
 			}
 		}
 
-		$this->view->partieplantes = $tabPartiePlantes;
-		$this->view->minerais = $tabMinerais;
+		$this->view->mineraisArriere = $tabMineraisArriere;
+		$this->view->mineraisCaisse = $tabMineraisCaisse;
+		$this->view->lingots = $tabLingots;
 	}
 
 	private function prepareCommunEquipements($idEchoppe) {
@@ -168,6 +302,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 			foreach($equipements as $e) {
 				if ($e["type_vente_echoppe_equipement"] == "aucune") {
 					$tabEquipementsArriereBoutique[] = array(
+						"id_equipement" => $e["id_echoppe_equipement"],
 						"nom" => $e["nom_type_equipement"],
 						"qualite" => $e["nom_type_qualite"],
 						"niveau" => $e["niveau_recette_equipement"],
@@ -175,6 +310,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					);
 				} else {
 					$tabEquipementsEtal[] = array(
+						"id" => $e["id_echoppe_equipement"],
 						"nom" => $e["nom_type_equipement"],
 						"qualite" => $e["nom_type_qualite"],
 						"niveau" => $e["niveau_recette_equipement"],
