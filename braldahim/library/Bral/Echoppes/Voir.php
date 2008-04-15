@@ -128,10 +128,11 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		foreach($hobbitCompetences as $c) {
 			if ($id_metier == $c["id_fk_metier_competence"]) {
 				$tabCompetences[] = array("id_competence" => $c["id_fk_competence_hcomp"],
-				"nom" => $c["nom_competence"],
-				"pa_utilisation" => $c["pa_utilisation_competence"],
-				"pourcentage" => $c["pourcentage_hcomp"],
-				"nom_systeme" => $c["nom_systeme_competence"]);
+					"nom" => $c["nom_competence"],
+					"pa_utilisation" => $c["pa_utilisation_competence"],
+					"pourcentage" => $c["pourcentage_hcomp"],
+					"nom_systeme" => $c["nom_systeme_competence"]
+				);
 			}
 		}
 

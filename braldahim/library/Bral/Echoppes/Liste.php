@@ -13,16 +13,18 @@ class Bral_Echoppes_Liste extends Bral_Echoppes_Echoppe {
 		Zend_Loader::loadClass("HobbitsMetiers");
 		Zend_Loader::loadClass("Region");
 		
+		$this->idEchoppeCourante = null;
+		
 		$regionTable = new Region();
 		$regions = $regionTable->fetchAll(null, 'nom_region');
 		$regions = $regions->toArray();
 		
 		$regionCourante = null;
 		foreach ($regions as $r) {
-			if ($r["x_min_region"]<=$this->view->user->x_hobbit && 
-			$r["x_max_region"]>=$this->view->user->x_hobbit && 
-			$r["y_min_region"]<=$this->view->user->y_hobbit && 
-			$r["y_max_region"]>=$this->view->user->y_hobbit) {
+			if ($r["x_min_region"] <= $this->view->user->x_hobbit && 
+			$r["x_max_region"] >= $this->view->user->x_hobbit && 
+			$r["y_min_region"] <= $this->view->user->y_hobbit && 
+			$r["y_max_region"] >= $this->view->user->y_hobbit) {
 				$regionCourante = $r;
 				break;
 			}
@@ -34,13 +36,17 @@ class Bral_Echoppes_Liste extends Bral_Echoppes_Echoppe {
 		$tabEchoppes = null;
 		foreach($echoppesRowset as $e) {
 			$tabEchoppes[] = array(
-			"id_echoppe" => $e["id_echoppe"],
-			"x_echoppe" => $e["x_echoppe"],
-			"y_echoppe" => $e["y_echoppe"],
-			"id_metier" =>  $e["id_metier"],
-			"id_region" => $e["id_region"],
-			"nom_region" => $e["nom_region"]
+				"id_echoppe" => $e["id_echoppe"],
+				"x_echoppe" => $e["x_echoppe"],
+				"y_echoppe" => $e["y_echoppe"],
+				"id_metier" =>  $e["id_metier"],
+				"id_region" => $e["id_region"],
+				"nom_region" => $e["nom_region"]
 			);
+			if ($this->view->user->x_hobbit == $e["x_echoppe"] &&
+				$this->view->user->y_hobbit == $e["y_echoppe"]) {
+				$this->idEchoppeCourante = $e["id_echoppe"];
+			}
 		}
 		
 		$hobbitsMetiersTable = new HobbitsMetiers();
@@ -76,10 +82,10 @@ class Bral_Echoppes_Liste extends Bral_Echoppes_Echoppe {
 			}
 			
 			$t = array("id_metier" => $m["id_metier"],
-			"nom_metier" => $nom_metier,
-			"nom_systeme_metier" => $m["nom_systeme_metier"],
-			"est_actif" => $m["est_actif_hmetier"],
-			"regions" => $regionsMetier,
+				"nom_metier" => $nom_metier,
+				"nom_systeme_metier" => $m["nom_systeme_metier"],
+				"est_actif" => $m["est_actif_hmetier"],
+				"regions" => $regionsMetier,
 			);
 			
 			if ($m["construction_echoppe_metier"] == "oui") {
@@ -105,10 +111,12 @@ class Bral_Echoppes_Liste extends Bral_Echoppes_Echoppe {
 		$this->view->nEchoppes = count($tabEchoppes);
 		
 		$this->view->nom_interne = $this->getNomInterne();
+		
+		return $this->idEchoppeCourante; // utilise dans Bral_Box_Echoppes
 	}
 
 	public function getIdEchoppeCourante() {
-		return false;
+		return false; // toujours null ici, neccessaire pour EchoppesController
 	}
 	
 	function prepareFormulaire() {

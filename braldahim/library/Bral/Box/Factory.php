@@ -78,6 +78,11 @@ class Bral_Box_Factory {
 		Zend_Loader::loadClass("Bral_Box_Competences");
 		return new Bral_Box_Competences($request, $view, $interne, $type);
 	}
+
+	public static function getEchoppe($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Echoppe");
+		return new Bral_Box_Echoppe($request, $view, $interne);
+	}
 	
 	public static function getEchoppes($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Echoppes");
@@ -138,7 +143,6 @@ class Bral_Box_Factory {
 		Zend_Loader::loadClass("Bral_Box_Vue");
 		return new Bral_Box_Vue($request, $view, $interne);
 	}
-
 
 	public static function getTour($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Tour");

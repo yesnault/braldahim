@@ -24,11 +24,17 @@ class Bral_Box_Echoppes {
 		Zend_Loader::loadClass("Bral_Echoppes_Echoppe");
 		Zend_Loader::loadClass("Bral_Echoppes_Liste");
 		$box = new Bral_Echoppes_Liste("liste", $this->_request, $this->view, "ask");
-		$box->prepareCommun();
-		
-		$this->view->htmlContenu = $box->render();
-		$this->view->nom_interne = $this->getNomInterne();
-		return $this->view->render("interface/echoppes.phtml");
+		$idEchoppeCourante = $box->prepareCommun();
+
+		if ($idEchoppeCourante != false) {
+			$box = Bral_Echoppes_Factory::getVoir($this->_request, $this->view, $idEchoppeCourante);
+			$this->view->htmlContenu = $box->render();
+			$this->view->nom_interne = $this->getNomInterne();
+			return $this->view->render("interface/echoppes.phtml");
+		} else {
+			$this->view->htmlContenu = $box->render();
+			$this->view->nom_interne = $this->getNomInterne();
+			return $this->view->render("interface/echoppes.phtml");
+		}
 	}
-	
 }

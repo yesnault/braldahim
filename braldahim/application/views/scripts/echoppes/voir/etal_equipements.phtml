@@ -1,10 +1,8 @@
-
 <? if ($this->nbEquipementsEtal > 0) : ?>
 
 	<? $this->equipements = $this->equipementsEtal; ?>
 	<?=$this->render("/interface/commun/equipements/equipements.phtml"); ?>
 	
-	</table>
 		<input type="button" class='button1' value="0 PA - Retirer de la vente"
        		  onClick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_retirerequipement&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" />
 <? else: ?>

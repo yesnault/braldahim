@@ -17,9 +17,6 @@ class Bral_Lieux_Factory {
 			throw new Zend_Exception("Bral_Lieux_Factory construct invalide (classe): ".$nomSystemeLieu);
 		}
 		
-		// verification que le joueur est sur le lieu
-		// TODO
-
  		$construct = "Bral_Lieux_".$nomSystemeLieu;
 	    // verification que la classe du lieu existe.            
 		if (($construct != null) && (class_exists($construct))) {                

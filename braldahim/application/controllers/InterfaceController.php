@@ -57,6 +57,17 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->xml_response->add_entry($xml_entry);
 		$this->xml_response->render();
 	}
+
+	function echoppeAction() {
+		$this->view->affichageInterne = true;
+		$xml_entry = new Bral_Xml_Entry();
+		$xml_entry->set_type("display");
+		$xml_entry->set_valeur("box_lieu");
+		$box = Bral_Box_Factory::getEchoppe($this->_request, $this->view, true);
+		$xml_entry->set_data($box->render());
+		$this->xml_response->add_entry($xml_entry);
+		$this->xml_response->render();
+	}
 	
 	function evenementsAction() {
 		$this->view->affichageInterne = true;
@@ -75,6 +86,17 @@ class InterfaceController extends Zend_Controller_Action {
 		$xml_entry->set_type("display");
 		$xml_entry->set_valeur("box_messagerie");
 		$box = Bral_Box_Factory::getMessagerie($this->_request, $this->view, true);
+		$xml_entry->set_data($box->render());
+		$this->xml_response->add_entry($xml_entry);
+		$this->xml_response->render();
+	}
+	
+	function lieuAction() {
+		$this->view->affichageInterne = true;
+		$xml_entry = new Bral_Xml_Entry();
+		$xml_entry->set_type("display");
+		$xml_entry->set_valeur("box_lieu");
+		$box = Bral_Box_Factory::getLieu($this->_request, $this->view, true);
 		$xml_entry->set_data($box->render());
 		$this->xml_response->add_entry($xml_entry);
 		$this->xml_response->render();

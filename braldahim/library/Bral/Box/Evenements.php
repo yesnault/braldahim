@@ -43,9 +43,6 @@ class Bral_Box_Evenements {
 				"details" => $p["details_evenement"],
 				"details_bot" => $p["details_bot_evenement"],
 			);
-			if ($p["id_evenement"] == 1364) {
-		//		echo "HOP";
-			}
 		}
 
 		$typeEvenementTable = new TypeEvenement();

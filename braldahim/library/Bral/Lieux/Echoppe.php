@@ -1,0 +1,30 @@
+<?php
+
+class Bral_Lieux_Echoppe extends Bral_Lieux_Lieu {
+
+	private $_utilisationPossible = false;
+	private $_coutCastars = null;
+
+	function prepareCommun() {
+		Zend_Loader::loadClass("Lieu");
+		$this->_coutCastars = 0;
+		$this->_utilisationPossible = true;
+	}
+
+	function prepareFormulaire() {
+		$this->view->utilisationPossible = $this->_utilisationPossible;
+		$this->view->coutCastars = $this->_coutCastars;
+	}
+
+	function prepareResultat() {
+	}
+
+	function getNomInterne() {
+		return "box_lieu";
+	}
+
+	function getListBoxRefresh() {
+		return array();
+	}
+
+}

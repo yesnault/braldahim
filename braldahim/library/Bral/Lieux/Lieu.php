@@ -32,7 +32,17 @@ abstract class Bral_Lieux_Lieu {
 			$this->view->paUtilisationLieu = $lieu["pa_utilisation_type_lieu"];
 			$this->view->niveauMinLieu = $lieu["niveau_min_type_lieu"];
 		} else {
-			throw new Zend_Exception(get_class($this)."::nombre de lieux invalide = 0 !");
+			Zend_Loader::loadClass("Echoppe");
+			$echoppesTable = new Echoppe();
+			$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+			if (count($echoppeRowset) > 1) {
+				throw new Zend_Exception(get_class($this)."::nombre d'echoppe invalide > 1 !");
+			} elseif (count($echoppeRowset) == 1) {
+				$echoppe = $echoppeRowset[0];
+				$this->view->estLieuCourant = true;
+			} else {
+				throw new Zend_Exception(get_class($this)."::nombre de lieux invalide = 0 !");
+			}
 		}
 		
 		$this->view->utilisationPaPossible = (($view->user->pa_hobbit - $this->view->paUtilisationLieu) >= 0);
