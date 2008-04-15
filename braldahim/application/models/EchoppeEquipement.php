@@ -16,7 +16,8 @@ class EchoppeEquipement extends Zend_Db_Table {
 		->where('id_fk_type_recette_equipement = id_type_equipement')
 		->where('id_fk_type_qualite_recette_equipement = id_type_qualite')
 		->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement')
-		->where('id_fk_echoppe_echoppe_equipement = ?', $idEchoppe);
+		->where('id_fk_echoppe_echoppe_equipement = ?', $idEchoppe)
+		->joinLeft('mot_runique','id_fk_mot_runique_echoppe_equipement = id_mot_runique');;
 
 		$sql = $select->__toString();
 
