@@ -1,7 +1,30 @@
 <?php
 
 class Bral_Helper_DetailEquipement {
-
+	
+ 	public static function afficherPrix($e) {
+    	$retour = "<span>";
+		
+    	if ($e["prix_1_vente_echoppe_equipement"] > 0) {
+	    	$retour .= $e["prix_1_vente_echoppe_equipement"]. " ";
+	    	$retour .= Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_equipement"]);
+    	}
+    	
+    	if ($e["prix_2_vente_echoppe_equipement"] > 0) {
+	    	$retour .= $e["prix_2_vente_echoppe_equipement"]. " ";
+	    	$retour .= Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_equipement"]);
+    	}
+    	
+    	if ($e["prix_3_vente_echoppe_equipement"] > 0) {
+	    	$retour .= $e["prix_3_vente_echoppe_equipement"]. " ";
+    		$retour .= Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_equipement"]);
+    	}
+    	
+    	$retour .= "</span>";
+    	
+    	return $retour;
+    }
+    
     public static function afficher($e) {
     	return "<span ".self::afficherJs($text).">".htmlentities($e["nom"]).", n&deg;".$e["id_equipement"]."</span>";
     }

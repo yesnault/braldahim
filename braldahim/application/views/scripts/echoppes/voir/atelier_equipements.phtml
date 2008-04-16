@@ -1,5 +1,5 @@
 
-<? if ($this->nbEquipementsArriereBoutique > 0): ?>
+<? if (count($this->equipementsArriereBoutique) > 0): ?>
 
 	<? $this->equipements = $this->equipementsArriereBoutique; ?>
 	<?=$this->render("/interface/commun/equipements/equipements.phtml"); ?>

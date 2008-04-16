@@ -178,6 +178,9 @@ class Bral_Box_Laban {
 		$this->renderEquipement();
 		$this->renderPotion();
 		
+		$this->view->estEquipementsPotionsEtal = false;
+		$this->view->estEquipementsPotionsEtalAchat = false;
+		
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/laban.phtml");
 	}

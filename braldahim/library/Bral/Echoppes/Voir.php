@@ -146,6 +146,8 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		
 		$this->view->competences = $tabCompetences;
 		$this->view->echoppe = $tabEchoppe;
+		$this->view->estEquipementsPotionsEtal = true;
+		$this->view->estEquipementsPotionsEtalAchat = false;
 	}
 
 	function prepareFormulaire() {
@@ -281,7 +283,6 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					$this->arBoutiqueCaisse["minerais"]["a_afficher"] = true;
 				}
 				
-				
 				$this->view->nb_caisseMinerai = $this->view->nb_caisseMinerai + $m["quantite_caisse_echoppe_minerai"];
 			}
 		}
@@ -299,13 +300,16 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$tabEquipementsEtal = null;
 		$echoppeEquipementTable = new EchoppeEquipement();
 		$equipements = $echoppeEquipementTable->findByIdEchoppe($idEchoppe);
+		$idEquipements = null;
 		
 		foreach ($equipements as $e) {
 			$idEquipements[] = $e["id_echoppe_equipement"];
 		}
 		
-		$equipementRuneTable = new EquipementRune();
-		$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
+		if (count($idEquipements) > 0) {
+			$equipementRuneTable = new EquipementRune();
+			$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
+		}
 		
 		if (count($equipements) > 0) {
 			foreach($equipements as $e) {
@@ -346,6 +350,13 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					"suffixe" => $e["suffixe_mot_runique"],
 					"id_fk_mot_runique" => $e["id_fk_mot_runique_echoppe_equipement"],
 					"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
+					"prix_1_vente_echoppe_equipement" => $e["prix_1_vente_echoppe_equipement"],
+					"prix_2_vente_echoppe_equipement" => $e["prix_2_vente_echoppe_equipement"],
+					"prix_3_vente_echoppe_equipement" => $e["prix_3_vente_echoppe_equipement"],
+					"unite_1_vente_echoppe_equipement" => $e["unite_1_vente_echoppe_equipement"],
+					"unite_2_vente_echoppe_equipement" => $e["unite_2_vente_echoppe_equipement"],
+					"unite_3_vente_echoppe_equipement" => $e["unite_3_vente_echoppe_equipement"],
+					"commentaire_vente_echoppe_equipement" => $e["commentaire_vente_echoppe_equipement"],
 					"runes" => $runes,
 				);
 				
@@ -357,9 +368,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 			}
 		}
 		$this->view->equipementsArriereBoutique = $tabEquipementsArriereBoutique;
-		$this->view->nbEquipementsArriereBoutique = count($tabEquipementsArriereBoutique);
 		$this->view->equipementsEtal = $tabEquipementsEtal;
-		$this->view->nbEquipementsEtal = count($tabEquipementsEtal);
 	}
 	
 	private function prepareCommunPotions($idEchoppe) {
@@ -372,31 +381,31 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		
 		if (count($potions) > 0) {
 			foreach($potions as $p) {
+				$tab = array(
+					"id_potion" => $p["id_echoppe_potion"],
+					"nom" => $p["nom_type_potion"],
+					"qualite" => $p["nom_type_qualite"],
+					"niveau" => $p["niveau_echoppe_potion"],
+					"caracteristique" => $p["caract_type_potion"],
+					"bm_type" => $p["bm_type_potion"],
+					"prix_1_vente_echoppe_potion" => $e["prix_1_vente_echoppe_potion"],
+					"prix_2_vente_echoppe_potion" => $e["prix_2_vente_echoppe_potion"],
+					"prix_3_vente_echoppe_potion" => $e["prix_3_vente_echoppe_potion"],
+					"unite_1_vente_echoppe_potion" => $e["unite_1_vente_echoppe_potion"],
+					"unite_2_vente_echoppe_potion" => $e["unite_2_vente_echoppe_potion"],
+					"unite_3_vente_echoppe_potion" => $e["unite_3_vente_echoppe_potion"],
+					"commentaire_vente_echoppe_potion" => $e["commentaire_vente_echoppe_potion"],
+				);
+					
 				if ($p["type_vente_echoppe_potion"] == "aucune") {
-					$tabPotionsArriereBoutique[] = array(
-						"id_potion" => $p["id_echoppe_potion"],
-						"nom" => $p["nom_type_potion"],
-						"qualite" => $p["nom_type_qualite"],
-						"niveau" => $p["niveau_echoppe_potion"],
-						"caracteristique" => $p["caract_type_potion"],
-						"bm_type" => $p["bm_type_potion"],
-					);
+					$tabPotionsArriereBoutique[] = $tab;
 				} else {
-					$tabPotionsEtal[] = array(
-						"id_potion" => $p["id_echoppe_potion"],
-						"nom" => $p["nom_type_potion"],
-						"qualite" => $p["nom_type_qualite"],
-						"niveau" => $p["niveau_echoppe_potion"],
-						"caracteristique" => $p["caract_type_potion"],
-						"bm_type" => $p["bm_type_potion"],
-					);
+					$tabPotionsEtal[] = $tab;
 				}
 			}
 		}
 		$this->view->potionsArriereBoutique = $tabPotionsArriereBoutique;
-		$this->view->nbPotionsArriereBoutique = count($tabPotionsArriereBoutique);
 		$this->view->potionsEtal = $tabPotionsEtal;
-		$this->view->nbPotionsEtal = count($tabPotionsEtal);
 	}
 	
 	public function getIdEchoppeCourante() {

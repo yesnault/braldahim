@@ -1,3 +1,4 @@
+<? Zend_Loader::loadClass("Bral_Helper_DetailPotion"); ?>
 <table class="table_liste">
 	<thead class="table_liste">
 	  <tr class="table_liste">
@@ -7,20 +8,43 @@
 		<th>Niveau</th>
 		<th>Type</th>
 		<th>Effet sur</th>
+		<th>Caract&eacute;ristiques</th>
+		<? if ($this->estEquipementsPotionsEtal === true) : ?>
+			<th>Prix</th>
+			<th>Commentaire du vendeur</th>
+		<? endif; ?>
+		<? if ($this->estEquipementsPotionsEtalAchat === true) : ?>
+			<th>Marchander / Acheter</th>
+		<? endif; ?>
 	  </tr>
 	</thead>
 	<tbody>
-		<? $i = 0;
-		   foreach($this->potions as $p) :?>
-			
-			<tr class="table_liste<?=($i % 2);$i++; ?>" <?=Bral_Helper_DetailPotion::afficherJs($p); ?>>
-		  		<td class="table_liste"><?=$p["id_potion"] ?></td>
-		  		<td class="table_liste"><?=htmlentities($p["nom"]) ?></td>
-		  		<td class="table_liste"><?=htmlentities($p["qualite"]) ?></td>
-		  		<td class="table_liste"><?=$p["niveau"] ?></td>
-		  		<td class="table_liste"><?=$p["bm_type"] ?></td>
-		  		<td class="table_liste"><?=$p["caracteristique"] ?></td>
-			  </tr>
-		<? endforeach; ?>
+		<? if (count($this->potions) > 0) :?>
+			<? $i = 0;
+			   foreach($this->potions as $p) :?>
+				  <tr class="table_liste<?=($i % 2);$i++; ?>">
+			  		<td class="table_liste"><?=$p["id_potion"] ?></td>
+			  		<td class="table_liste"><?=htmlentities($p["nom"]) ?></td>
+			  		<td class="table_liste"><?=htmlentities($p["qualite"]) ?></td>
+			  		<td class="table_liste"><?=$p["niveau"] ?></td>
+			  		<td class="table_liste"><?=$p["bm_type"] ?></td>
+			  		<td class="table_liste"><?=$p["caracteristique"] ?></td>
+			  		<td class="table_liste">
+						<img src="/public/images/info_icon.gif" <?=Bral_Helper_DetailPotion::afficherJs($p);?> />
+					</td>
+			  		<? if ($this->estEquipementsPotionsEtal === true) : ?>
+						<td class="table_liste"><?=Bral_Helper_DetailPotion::afficherPrix($p);?></td>
+						<td class="table_liste"><?=htmlentities($p["commentaire_vente_echoppe_potion"])?></td>
+					<? endif; ?>
+					<? if ($this->estEquipementsPotionsEtalAchat === true) : ?>
+						<td class="table_liste">
+						<input type="button" class='button1' onClick='_get_("/lieu/doaction?caction=TODO");' value="Acheter">
+						</td>
+					<? endif; ?>
+				  </tr>
+			<? endforeach; ?>
+		<? else: ?>
+			<tr class="table_liste"><td class="table_liste" colspan="20"><i>aucune potion</i></td></tr>
+		<? endif; ?>
 	</tbody>
 </table>

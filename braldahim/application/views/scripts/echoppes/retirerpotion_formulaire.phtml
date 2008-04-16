@@ -4,7 +4,7 @@
  <form name='myForm'>
  <div class='comp_contenu'>
  	<br />
-	<? if ($this->nbPotionsEtal > 0): ?>
+	<? if (count($this->potionsEtal) > 0): ?>
 		Vous pouvez retirer de l'&eacute;tal une potion : <br />
 		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1){$('bouton_retirer').disabled=true } else {$('bouton_retirer').disabled=false }">
 	 		<option value="-1">(Choisis une potion)</option>

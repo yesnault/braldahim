@@ -54,4 +54,29 @@ class Bral_Util_Registre {
 		$tab[3] = "Cumul";
 		Zend_Registry::set('nomsTour', $tab);
 	}
+	
+	public static function getNomUnite($unite) {
+		if (Zend_Registry::isRegistered("typesUnites") == false) {
+			self::chargementTypeUnite();		
+		} 
+		$tabUnite = Zend_Registry::get('typesUnites');
+		
+		if ($unite != null && isset($tabUnite[$unite])) {
+				return $tabUnite[$unite]["nom"];
+		}
+	}
+	
+	private static function chargementTypeUnite() {
+		Zend_Loader::loadClass("TypeUnite");
+		$typeUniteTable = new TypeUnite();
+		$typeUniteRowset = $typeUniteTable->fetchAll();
+		$typeUniteRowset = $typeUniteRowset->toArray();
+		foreach ($typeUniteRowset as $t) {
+			$tabUnite[$t["id_type_unite"]] = array(
+				"nom_systeme" => $t["nom_systeme_type_unite"], 
+				"nom" => $t["nom_type_unite"],
+			);
+		}
+		Zend_Registry::set('typesUnites', $tabUnite);
+	}
 }

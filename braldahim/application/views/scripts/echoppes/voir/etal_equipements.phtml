@@ -1,4 +1,4 @@
-<? if ($this->nbEquipementsEtal > 0) : ?>
+<? if (count($this->equipementsEtal) > 0) : ?>
 
 	<? $this->equipements = $this->equipementsEtal; ?>
 	<?=$this->render("/interface/commun/equipements/equipements.phtml"); ?>

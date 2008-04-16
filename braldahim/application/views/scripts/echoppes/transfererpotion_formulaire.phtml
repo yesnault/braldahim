@@ -4,7 +4,7 @@
  <form name='myForm'>
  <div class='comp_contenu'>
  <br />
-	<? if ($this->nbPotionsArriereBoutique > 0): ?>
+	<? if (count($this->potionsArriereBoutique) > 0): ?>
 		Vous pouvez transf&eacute;rer une potion pr&eacute;sente soit dans la r&eacute;serve, 
 		soit dans votre laban, soit une autre de vos &eacute;choppes.<br />
 		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_transfererpotion').disabled=true } else {$('bouton_transfererpotion').disabled=false }">

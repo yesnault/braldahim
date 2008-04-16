@@ -4,7 +4,7 @@
  <form name='myForm'>
  <div class='comp_contenu'>
 	<br />
-	<? if ($this->nbPotionsArriereBoutique > 0): ?>
+	<? if (count($this->potionsArriereBoutique) > 0): ?>
 		Vous pouvez mettre en vente une potion pr&eacute;sente dans la r&eacute;serve : <br />
 		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value=='' || $('valeur_4').value==-1 ){$('bouton_vendrepotion').disabled=true } else {$('bouton_vendrepotion').disabled=false }">
 	 		<option value="-1">(Choisis un potion)</option>
