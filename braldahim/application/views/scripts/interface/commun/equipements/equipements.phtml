@@ -4,7 +4,6 @@
 	  <tr class="table_liste">
 	  	<th>N&deg;</th>
 		<th>Nom</th>
-		<th>Qualit&eacute;</th>
 		<th>Niveau</th>
 		<th>Nombre d'emplacements <br />runiques</th>
 		<th>Caract&eacute;ristiques</th>
@@ -24,7 +23,6 @@
 					<tr class="table_liste<?=($i % 2);$i++; ?>">
 				  		<td class="table_liste"><?=$e["id_equipement"] ?></td>
 				  		<td class="table_liste"><?=htmlentities($e["nom"])." ".htmlentities(addslashes($e["suffixe"]))." de qualit&eacute; ".htmlentities($e["qualite"]) ?></td>
-				  		<td class="table_liste"><?=htmlentities($e["qualite"]) ?></td>
 				  		<td class="table_liste"><?=$e["niveau"] ?></td>
 				  		<td class="table_liste"><?=$e["nb_runes"] ?></td>
 				  		<td class="table_liste">

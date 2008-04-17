@@ -86,6 +86,8 @@ class Bral_Util_Log {
 		self::$config = Zend_Registry::get('config');
 		self::$authentification = new Zend_Log();
 		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->authentification);
+		$formateur = new Zend_Log_Formatter_Simple($_SERVER['REMOTE_ADDR'].' %message%' . PHP_EOL);
+		$redacteur->setFormatter($formateur);
 		self::$authentification->addWriter($redacteur);
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->authentification);
 		self::$authentification->addFilter($filtre);
@@ -122,6 +124,8 @@ class Bral_Util_Log {
 		self::$config = Zend_Registry::get('config');
 		self::$erreur = new Zend_Log();
 		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->erreur);
+		$formateur = new Zend_Log_Formatter_Simple($_SERVER['REMOTE_ADDR'].' %message%' . PHP_EOL);
+		$redacteur->setFormatter($formateur);
 		self::$erreur->addWriter($redacteur);
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->erreur);
 		self::$erreur->addFilter($filtre);
@@ -140,6 +144,8 @@ class Bral_Util_Log {
 		self::$config = Zend_Registry::get('config');
 		self::$inscription = new Zend_Log();
 		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->inscription);
+		$formateur = new Zend_Log_Formatter_Simple($_SERVER['REMOTE_ADDR'].' %message%' . PHP_EOL);
+		$redacteur->setFormatter($formateur);
 		self::$inscription->addWriter($redacteur);
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->inscription);
 		self::$inscription->addFilter($filtre);
