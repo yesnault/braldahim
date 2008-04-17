@@ -493,9 +493,9 @@ span.id_hobbit {
 	padding: 5pt 5px;
 }
 
-.box_inscription,.box_perdu,.box_pamaretres,.box_gardiennage,.box_administration
+.box_inscription,.box_perdu,.box_parametres,.box_gardiennage,.box_administration
 	{
-	width: 500px;
+	width: 70%;
 	height: auto;
 	margin-left: auto;
 	margin-right: auto;

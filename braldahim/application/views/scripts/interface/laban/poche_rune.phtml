@@ -9,9 +9,10 @@
 		      foreach ($this->runesNonIdentifiees as $r) : 
 		     	 if ($i % 3 == 0) echo "<tr class='table_liste'>"; 
 		    	?>
-		    	<td class="table_liste table_liste_border" align="center">
+		    	<td class="table_liste table_liste_border" align="center" <?=Bral_Helper_Tip::jsTip("Rune non identifi&eacute;e n&deg;".$r["id_rune"]) ?>>
 		    		<ul style="position:absolute; text-align:center;"><br /> n&deg;<?=$r["id_rune"]?></ul>
-		    		<img src="/public/images/runes/rune_transparente.png"  class="rune" title="Rune non identifi&eacute;e n&deg;<?=$r["id_rune"]?>" alt="Rune non identifi&eacute;e n&deg;<?=$r["id_rune"]?>" />
+		    		<img src="/public/images/runes/rune_transparente.png"  class="rune"  alt="Rune non identifi&eacute;e n&deg;<?=$r["id_rune"]?>" />
+		    		
 		    	</td>
 		    	<? if ($i % 3 == 2) echo "</tr>";
 		    	$i++; 
@@ -33,7 +34,7 @@
 		    	?>
 		    	<td class="table_liste table_liste_border">
 		    		<? if ($r["image"] != ""): ?>
-		    			<img src="/public/images/runes/<?=$r["image"]?>"  class="rune" title="<?=$r["type"]?> n&deg;<?=$r["id_rune"]?> : <?=htmlentities(addslashes($r["effet_type_rune"])) ?>" alt="<?=$r["type"]?> n&deg;<?=$r["id_rune"]?>"  />
+		    			<img src="/public/images/runes/<?=$r["image"]?>"  class="rune" <?=Bral_Helper_Tip::jsTip(htmlentities(addslashes($r["effet_type_rune"])), $r["type"]. " n&deg;".$r["id_rune"]) ?> alt="<?=$r["type"]?> n&deg;<?=$r["id_rune"]?>"  />
 	    			<? else: ?>
 		    			<?=$r["type"]?> (<?=$r["id_rune"]?>)
 		    		<? endif; ?>

@@ -22,7 +22,6 @@ class Bral_Competences_Attrapercharrette extends Bral_Competences_Competence {
 			$tabCharrettes[] = array ("id_charrette" => $c["id_charrette"]);
 		}
 		$this->view->charrettes = $tabCharrettes;
-		
 	}
 
 	function prepareFormulaire() {
@@ -33,7 +32,6 @@ class Bral_Competences_Attrapercharrette extends Bral_Competences_Competence {
 
 	function prepareResultat() {
 		
-
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
@@ -50,13 +48,8 @@ class Bral_Competences_Attrapercharrette extends Bral_Competences_Competence {
 			$this->view->idCharrette = (int)$this->request->get("valeur_1");
 		}
 		
-		// calcul des jets
-		$this->calculJets();
-		
-		if ($this->view->okJet1 === true) {
-			$this->reloadInterface = true;
-			$this->calculAttrapperCharrette($this->view->idCharrette);
-		}
+		$this->reloadInterface = true;
+		$this->calculAttrapperCharrette($this->view->idCharrette);
 		
 		$this->calculPx();
 		$this->calculBalanceFaim();

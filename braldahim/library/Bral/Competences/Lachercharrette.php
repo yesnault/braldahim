@@ -38,13 +38,8 @@ class Bral_Competences_Lachercharrette extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Possede aucune charrette ");
 		}
 		
-		// calcul des jets
-		$this->calculJets();
-		
-		if ($this->view->okJet1 === true) {
-			$this->reloadInterface = true;
-			$this->calculLacherCharrette();
-		}
+		$this->reloadInterface = true;
+		$this->calculLacherCharrette();
 		
 		$this->calculPx();
 		$this->calculBalanceFaim();

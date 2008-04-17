@@ -1,7 +1,7 @@
 <?php echo $this->render('header.phtml'); ?>
 
 <form id="form_description" action="/parametres/description" method="post">
-<div class="box_pamaretres">
+<div class="box_parametres">
 <?=Bral_Helper_Box::haut(); ?>
 <div class="inner">
 	<ul class="titre textalia textsizea">Mes Param&egrave;tres</ul>
@@ -22,12 +22,14 @@
 				
 			<input type="button" class='button1' name="Annuler" value="Annuler" onClick="javascript:document.location.href='/parametres/'"/>
 		 
+		 <center>
+		 
 		  <div id="label_description">
 		  <?=stripslashes($this->user->description_hobbit) ?><? if (strlen(trim($this->user->description_hobbit)) == 0 || $this->user->description_hobbit == null) :?> [vide]<? endif; ?>
 		  </div>
 		  <textarea rows='10' cols='80' name="valeur_2"  id="valeur_2"  style="display:none" ><?=stripslashes($this->user->description_hobbit) ?></textarea>
 		 
-		 <center>
+		 
 			  <input type="button" class='button1' id="bouton_description" 
 			  	onClick="
 				  $('valeur_2').value = escape(tinyMCE.get('valeur_2').getContent());
