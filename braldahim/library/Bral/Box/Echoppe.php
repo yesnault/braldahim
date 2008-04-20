@@ -68,6 +68,8 @@ class Bral_Box_Echoppe {
 	
 	private function prepareCommunEquipements($idEchoppe) {
 		Zend_Loader::loadClass("EchoppeEquipement");
+		Zend_Loader::loadClass("EchoppeEquipementMinerai");
+		Zend_Loader::loadClass("EchoppeEquipementPartiePlante");
 		Zend_Loader::loadClass("EquipementRune");
 	
 		$tabEquipementsArriereBoutique = null;
@@ -79,8 +81,16 @@ class Bral_Box_Echoppe {
 			$idEquipements[] = $e["id_echoppe_equipement"];
 		}
 		
-		$equipementRuneTable = new EquipementRune();
-		$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
+		if (count($idEquipements) > 0) {
+			$equipementRuneTable = new EquipementRune();
+			$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
+			
+			$echoppeEquipementMineraiTable = new EchoppeEquipementMinerai();
+			$echoppeEquipementMinerai = $echoppeEquipementMineraiTable->findByIdsEquipement($idEquipements);
+				
+			$echoppeEquipementPartiePlanteTable = new EchoppeEquipementPartiePlante();
+			$echoppeEquipementPartiePlante = $echoppeEquipementPartiePlanteTable->findByIdsEquipement($idEquipements);
+		}
 		
 		if (count($equipements) > 0) {
 			foreach($equipements as $e) {
@@ -95,6 +105,32 @@ class Bral_Box_Echoppe {
 								"nom_type_rune" => $r["nom_type_rune"],
 								"image_type_rune" => $r["image_type_rune"],
 								"effet_type_rune" => $r["effet_type_rune"],
+							);
+						}
+					}
+				}
+
+				$minerai = null;
+				if (count($echoppeEquipementMinerai) > 0) {
+					foreach($echoppeEquipementMinerai as $r) {
+						if ($r["id_fk_echoppe_equipement_minerai"] == $e["id_echoppe_equipement"]) {
+							$minerai[] = array(
+								"prix_echoppe_equipement_minerai" => $r["prix_echoppe_equipement_minerai"],
+								"nom_type_minerai" => $r["nom_type_minerai"],
+							);
+						}
+					}
+				}
+				
+				$partiesPlantes = null;
+				if (count($echoppeEquipementPartiePlante) > 0) {
+					foreach($echoppeEquipementPartiePlante as $p) {
+						if ($p["id_fk_echoppe_equipement_partieplante"] == $e["id_echoppe_equipement"]) {
+							$partiesPlantes[] = array(
+								"prix_echoppe_equipement_partieplante" => $p["prix_echoppe_equipement_partieplante"],
+								"nom_type_plante" => $p["nom_type_plante"],
+								"nom_type_partieplante" => $p["nom_type_partieplante"],
+								"prefix_type_plante" => $p["prefix_type_plante"],
 							);
 						}
 					}
@@ -129,6 +165,8 @@ class Bral_Box_Echoppe {
 					"unite_3_vente_echoppe_equipement" => $e["unite_3_vente_echoppe_equipement"],
 					"commentaire_vente_echoppe_equipement" => $e["commentaire_vente_echoppe_equipement"],
 					"runes" => $runes,
+					"prix_minerais" => $minerai,
+					"prix_parties_plantes" => $partiesPlantes,
 				);
 				
 				if ($e["type_vente_echoppe_equipement"] == "publique") {
@@ -141,14 +179,54 @@ class Bral_Box_Echoppe {
 	
 	private function prepareCommunPotions($idEchoppe) {
 		Zend_Loader::loadClass("EchoppePotion");
-
+		Zend_Loader::loadClass("EchoppePotionMinerai");
+		Zend_Loader::loadClass("EchoppePotionPartiePlante");
+		
 		$tabPotionsArriereBoutique = null;
 		$tabPotionsEtal = null;
 		$echoppePotionTable = new EchoppePotion();
 		$potions = $echoppePotionTable->findByIdEchoppe($idEchoppe);
 		
+		foreach ($potions as $p) {
+			$idPotions[] = $p["id_echoppe_potion"];
+		}
+		
+		if (count($idPotions) > 0) {
+			$echoppPotionMineraiTable = new EchoppePotionMinerai();
+			$echoppePotionMinerai = $echoppPotionMineraiTable->findByIdsPotion($idPotions);
+				
+			$echoppePotionPartiePlanteTable = new EchoppePotionPartiePlante();
+			$echoppePotionPartiePlante = $echoppePotionPartiePlanteTable->findByIdsPotion($idPotions);
+		}
+		
 		if (count($potions) > 0) {
 			foreach($potions as $p) {
+				$minerai = null;
+				if (count($echoppePotionMinerai) > 0) {
+					foreach($echoppePotionMinerai as $r) {
+						if ($r["id_fk_echoppe_potion_minerai"] == $p["id_echoppe_potion"]) {
+							$minerai[] = array(
+								"prix_echoppe_potion_minerai" => $r["prix_echoppe_potion_minerai"],
+								"nom_type_minerai" => $r["nom_type_minerai"],
+							);
+						}
+					}
+				}
+				
+				$partiesPlantes = null;
+				if (count($echoppePotionPartiePlante) > 0) {
+					foreach($echoppePotionPartiePlante as $a) {
+						if ($a["id_fk_echoppe_potion_partieplante"] == $p["id_echoppe_potion"]) {
+							$partiesPlantes[] = array(
+								"prix_echoppe_potion_partieplante" => $a["prix_echoppe_potion_partieplante"],
+								"nom_type_plante" => $a["nom_type_plante"],
+								"nom_type_partieplante" => $a["nom_type_partieplante"],
+								"prefix_type_plante" => $a["prefix_type_plante"],
+							);
+						}
+					}
+				}
+				
 				if ($p["type_vente_echoppe_potion"] == "publique") {
 					$tabPotionsEtal[] = array(
 						"id_potion" => $p["id_echoppe_potion"],
@@ -164,6 +242,8 @@ class Bral_Box_Echoppe {
 						"unite_2_vente_echoppe_potion" => $p["unite_2_vente_echoppe_potion"],
 						"unite_3_vente_echoppe_potion" => $p["unite_3_vente_echoppe_potion"],
 						"commentaire_vente_echoppe_potion" => $p["commentaire_vente_echoppe_potion"],
+						"prix_minerais" => $minerai,
+						"prix_parties_plantes" => $partiesPlantes,
 					);
 				}
 			}

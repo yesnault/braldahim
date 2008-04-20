@@ -9,7 +9,7 @@
 		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value=='' || $('valeur_4').value==-1 ){$('bouton_vendrepotion').disabled=true } else {$('bouton_vendrepotion').disabled=false }">
 	 		<option value="-1">(Choisis un potion)</option>
 			<? foreach($this->potionsArriereBoutique as $e) :?>
-				<option value="<?=$e["id_echoppe_potion"] ?>"><?=htmlentities($e["nom"]) ?> : qualit&eacute; <?=htmlentities($e["qualite"]) ?>,
+				<option value="<?=$e["id_echoppe_potion"] ?>">n&deg; <?=$e["id_echoppe_potion"] ?> : <?=htmlentities($e["nom"]) ?> de qualit&eacute; <?=htmlentities($e["qualite"]) ?>,
 				 niveau: <?=$e["niveau"] ?></option>
 			<? endforeach; ?>
 		</select>

@@ -222,7 +222,8 @@ class Bral_Echoppes_Vendreequipement extends Bral_Echoppes_Echoppe {
 					  "unite_1_vente_echoppe_equipement" => $unite_1_echoppe,
 					  "unite_2_vente_echoppe_equipement" => $unite_2_echoppe,
 					  "unite_3_vente_echoppe_equipement" => $unite_3_echoppe,
-					  "type_vente_echoppe_equipement" => "publique");
+					  "type_vente_echoppe_equipement" => "publique"
+		);
 		
 		$where = "id_echoppe_equipement=".$id_equipement; 
 		$echoppeEquipementTable = new EchoppeEquipement();
@@ -237,7 +238,8 @@ class Bral_Echoppes_Vendreequipement extends Bral_Echoppes_Echoppe {
 			if ($unite_1 == $k && substr($unite_1, 0, 7) == "minerai") {
 				$data = array("prix_echoppe_equipement_minerai" => $prix_1,
 							  "id_fk_type_echoppe_equipement_minerai" => $u["id_type_minerai"],
-							  "id_fk_echoppe_equipement_minerai" => $id_equipement);
+							  "id_fk_echoppe_equipement_minerai" => $id_equipement
+				);
 				$echoppeEquipementMineraiTable->insertOrUpdate($data);
 			}
 			if ($unite_2 == $k && substr($unite_2, 0, 7) == "minerai") {

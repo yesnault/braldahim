@@ -1,0 +1,15 @@
+<div class='comp_titre'>Acheter un &eacute;quipement</div>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='8'>
+ <input type='hidden' id='valeur_1' name='valeur_1' value='<?=$this->idEchoppe ?>'>
+ <form name='myForm'>
+ <div class='comp_contenu'>
+	<br />
+
+ </div>
+
+</form>
+<br />
+<?php if ($this->acheterOk > 0) : ?>
+<input type='button' class='button1' id='bouton_acheterequipement' value='Acheter !' onClick='this.disabled=true;_get_("/echoppe/doaction?caction=do_echoppe_acheterequipement");' disabled>
+<? endif ?>
+<? include("commun_fermer.phtml") ?>

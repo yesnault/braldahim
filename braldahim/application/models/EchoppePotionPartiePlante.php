@@ -36,4 +36,31 @@ class EchoppePotionPartiePlante extends Zend_Db_Table {
 		}
 	}
 
+  function findByIdsPotion($tabId) {
+    	$where = "";
+    	if ($tabId == null || count($tabId) == 0) {
+    		return null;
+    	}
+    	
+    	foreach($tabId as $id) {
+			if ($where == "") {
+				$or = "";
+			} else {
+				$or = " OR ";
+			}
+			$where .= " $or id_fk_echoppe_potion_partieplante =".(int)$id;
+    	}
+    	
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('echoppe_potion_partieplante', '*')
+		->from('type_partieplante', '*')
+		->from('type_plante', '*')
+		->where($where)
+		->where('echoppe_potion_partieplante.id_fk_type_echoppe_potion_partieplante = type_partieplante.id_type_partieplante')
+		->where('echoppe_potion_partieplante.id_fk_type_plante_echoppe_potion_partieplante = type_plante.id_type_plante');
+		$sql = $select->__toString();
+		
+		return $db->fetchAll($sql);
+    }
 }
