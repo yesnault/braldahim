@@ -24,8 +24,9 @@ function _get_(url, encode){
   		if ((url.substring(10, 12) == "do") && (url.substring(27, 29) == "do")) {
   			action = "do";
   		}
-   	} else if (url.substring(0, 8) == "/echoppe") { // /echoppes/doaction?caction=ask/do
-  		if ((url.substring(9, 11) == "do") && (url.substring(26, 28) == "do")) {
+   	} else if (url.substring(0, 8) == "/echoppe") { // /echoppe/doaction?caction=ask/do
+  		if ((url.substring(9, 11) == "do") && (url.substring(26, 28) == "do") ||
+  			(url.substring(9, 11) == "do") && (url.substring(26, 29) == "ask")) {
   			action = "do";
   		}
   	} else if (url.substring(0, 6) == "/lieux") { // /lieux/doaction?caction=ask/do
@@ -64,18 +65,15 @@ function _get_(url, encode){
             	} else {
             		valeurs = valeurs + sep + "valeur_" +i+ "=" + elem.value;
             	}
-               //valeurs = valeurs + "&" + $('valeur_'+i).serialize();
             }
             sep = "&";
       }
-    //  alert('valeurs='+valeurs);
   } else if ($('nb_valeurs') && (action == "ask")) {
+	alert("Code A Supprimer ? m_action.js ligne 72");
 	Modalbox.hide();
   }
   
   var pars = valeurs;
-  //alert("url="+url);
- // alert("pars="+pars);
   var myAjax = new Ajax.Request( url, {postBody: pars, onComplete: showResponse} );
 }
 
@@ -91,7 +89,7 @@ function showResponse(originalRequest) {
 	
     if ((xmldoc == null) || (textdoc.substring(0, 44) != xmlHeader)) {
     	if (textdoc != "clear") {
-    		alert('Une erreur inconnue est survenue. Text:\n'+textdoc);
+    		alert('Une erreur inconnue est survenue. Text:\n' + textdoc);
     	}
     } else {
     	estInternetExplorer = false;
@@ -178,21 +176,13 @@ function showResponse(originalRequest) {
 	if (display_action) {
 		//$("box_action").style.display = "block";
 		Modalbox.show($("box_action"), {title: 'Action', width: 450, overlayClose:false});
-	} /*else {
-		if ($("box_action")) {
-			$("box_action").style.display = "none";
-		}
-	}*/
+	}
 
     // Box informations
 	if (display_informations) {
 		//$("informations").style.display = "block";
 		Modalbox.show($("informations"), {title: 'Informations', width: 450, overlayClose:false});
-	} /*else {
-		if ($("informations")) {
-			$("informations").style.display = "none";
-		}
-	}*/
+	}
     
     // Box erreur
 	if (display_erreur) {

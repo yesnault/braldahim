@@ -254,7 +254,6 @@ class Bral_Box_Laban {
 
 		$this->view->typePlantesBruts = $tabTypePlantesBruts;
 		$this->view->typePlantesPrepares = $tabTypePlantesPrepares;
-	
 	}
 	
 	private function renderEquipement() {

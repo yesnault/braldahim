@@ -5,7 +5,6 @@ abstract class Bral_Echoppe_Echoppe {
 	protected $reloadInterface = false;
 
 	function __construct($nomSystemeAction, $request, $view, $action) {
-
 		$this->view = $view;
 		$this->request = $request;
 		$this->action = $action;

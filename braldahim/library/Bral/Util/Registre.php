@@ -55,14 +55,17 @@ class Bral_Util_Registre {
 		Zend_Registry::set('nomsTour', $tab);
 	}
 	
-	public static function getNomUnite($unite) {
+	public static function getNomUnite($unite, $systeme = false) {
 		if (Zend_Registry::isRegistered("typesUnites") == false) {
 			self::chargementTypeUnite();		
 		} 
 		$tabUnite = Zend_Registry::get('typesUnites');
-		
 		if ($unite != null && isset($tabUnite[$unite])) {
+			if (!$systeme) {
 				return $tabUnite[$unite]["nom"];
+			} else {
+				return $tabUnite[$unite]["nom_systeme"];
+			}
 		}
 	}
 	
