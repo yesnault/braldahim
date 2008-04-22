@@ -1,12 +1,13 @@
 <?php
 
-class Bral_Box_Tour {
+class Bral_Box_Tour extends Bral_Box_Box {
 
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Util_Log");
 		$this->_request = $request;
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;
+		
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 		$this->hobbit = $hobbitRowset->current();
@@ -16,8 +17,16 @@ class Bral_Box_Tour {
 		$this->calculInfoTour();
 	}
 
+	function getTitreOnglet() {
+		return false;
+	}
+	
 	function getNomInterne() {
 		return "box_tour";
+	}
+	
+	function setDisplay($display) {
+		$this->view->display = $display;
 	}
 
 	function render() {

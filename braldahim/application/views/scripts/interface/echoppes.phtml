@@ -4,7 +4,14 @@
  <div class="contenuc">
   <ul class="box_contenu1 textalic">
   <div id="box_echoppe">
-  <?=$this->htmlContenu ?>
+ 
+<? if ($this->affichageInterne == true) : ?>
+    <?=$this->htmlContenu ?>
+<? else: ?>
+	Chargement en cours
+	<br /><img src="/public/images/wait.gif" />
+<? endif; ?>
+
   </div>
 </div>
 </div>

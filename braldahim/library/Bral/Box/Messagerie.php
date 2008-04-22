@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Box_Messagerie {
+class Bral_Box_Messagerie extends Bral_Box_Box {
 
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass('Message');
@@ -20,6 +20,10 @@ class Bral_Box_Messagerie {
 		return "box_messagerie";
 	}
 
+	function getChargementInBoxes() {
+		return false;
+	}
+	
 	function setDisplay($display) {
 		$this->view->display = $display;
 	}

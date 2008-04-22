@@ -4,10 +4,14 @@
  <div class="contenuC">
   <ul class="box_contenu1 textalic">
 
+ <? if ($this->affichageInterne == true) : ?>
    <? include("messagerie/messages.phtml") ?>
-   
   	<div id='messagerie_message'></div>
-   
+<? else: ?>
+	Chargement en cours
+	<br /><img src="/public/images/wait.gif" />
+<? endif; ?>
+
   </ul>
  </div>
 </div>

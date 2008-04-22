@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Box_Laban {
+class Bral_Box_Laban extends Bral_Box_Box {
 
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass("Laban");
@@ -24,6 +24,10 @@ class Bral_Box_Laban {
 
 	function getNomInterne() {
 		return "box_laban";
+	}
+	
+	function getChargementInBoxes() {
+		return false;
 	}
 
 	function setDisplay($display) {

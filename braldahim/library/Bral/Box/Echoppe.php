@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Box_Echoppe {
+class Bral_Box_Echoppe extends Bral_Box_Box {
 	
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass("Echoppe");
@@ -186,6 +186,8 @@ class Bral_Box_Echoppe {
 		$tabPotionsEtal = null;
 		$echoppePotionTable = new EchoppePotion();
 		$potions = $echoppePotionTable->findByIdEchoppe($idEchoppe);
+		
+		$idPotions = null;
 		
 		foreach ($potions as $p) {
 			$idPotions[] = $p["id_echoppe_potion"];

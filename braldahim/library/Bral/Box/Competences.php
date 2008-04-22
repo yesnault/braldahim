@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Box_Competences {
+class Bral_Box_Competences extends Bral_Box_Box {
 
 	function __construct($request, $view, $interne, $type) {
 		$this->_request = $request;

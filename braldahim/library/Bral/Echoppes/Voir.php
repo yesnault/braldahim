@@ -417,6 +417,8 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$echoppePotionTable = new EchoppePotion();
 		$potions = $echoppePotionTable->findByIdEchoppe($idEchoppe);
 		
+		$idPotions = null;
+		
 		foreach ($potions as $p) {
 			$idPotions[] = $p["id_echoppe_potion"];
 		}

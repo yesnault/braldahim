@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Box_Vue {
+class Bral_Box_Vue extends Bral_Box_Box {
 
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass("Cadavre");
@@ -24,6 +24,7 @@ class Bral_Box_Vue {
 		$this->_request = $request;
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;
+		
 		if ($interne) {
 			$this->prepare();
 			$this->deplacement();
@@ -371,34 +372,34 @@ class Bral_Box_Vue {
 				}
 
 				$tab = array ("x" => $display_x, "y" => $display_y, //
-				"change_level" => $change_level, // nouvelle ligne dans le tableau ;
-				"position_actuelle" => $actuelle,
-				"nom_zone" => $nom_zone,
-				"description_zone" => $nom_zone,
-				"css" => $css,
-				"n_cadavres" => count($tabCadavres),
-				"cadavres" => $tabCadavres,
-				"n_echoppes" => count($tabEchoppes),
-				"echoppes" => $tabEchoppes,
-				"n_castars" => count($tabCastars),
-				"castars" => $tabCastars,
-				"n_charrettes" => count($tabCharrettes),
-				"charrettes" => $tabCharrettes,
-				"n_filons" => count($tabFilons),
-				"filons" => $tabFilons,
-				"n_hobbits" => count($tabHobbits),
-				"hobbits" => $tabHobbits,
-				"n_lieux" => count($tabLieux),
-				"lieux" => $tabLieux,
-				"n_monstres" => count($tabMonstres),
-				"monstres" => $tabMonstres,
-				"n_palissades" => count($tabPalissades),
-				"palissades" => $tabPalissades,
-				"n_runes" => count($tabRunes),
-				"runes" => $tabRunes,
-				"ville" => $ville,
-				"n_plantes" => count($tabPlantes),
-				"plantes" => $tabPlantes,
+					"change_level" => $change_level, // nouvelle ligne dans le tableau ;
+					"position_actuelle" => $actuelle,
+					"nom_zone" => $nom_zone,
+					"description_zone" => $nom_zone,
+					"css" => $css,
+					"n_cadavres" => count($tabCadavres),
+					"cadavres" => $tabCadavres,
+					"n_echoppes" => count($tabEchoppes),
+					"echoppes" => $tabEchoppes,
+					"n_castars" => count($tabCastars),
+					"castars" => $tabCastars,
+					"n_charrettes" => count($tabCharrettes),
+					"charrettes" => $tabCharrettes,
+					"n_filons" => count($tabFilons),
+					"filons" => $tabFilons,
+					"n_hobbits" => count($tabHobbits),
+					"hobbits" => $tabHobbits,
+					"n_lieux" => count($tabLieux),
+					"lieux" => $tabLieux,
+					"n_monstres" => count($tabMonstres),
+					"monstres" => $tabMonstres,
+					"n_palissades" => count($tabPalissades),
+					"palissades" => $tabPalissades,
+					"n_runes" => count($tabRunes),
+					"runes" => $tabRunes,
+					"ville" => $ville,
+					"n_plantes" => count($tabPlantes),
+					"plantes" => $tabPlantes,
 				);
 				$tableau[] = $tab;
 				if ($change_level) {

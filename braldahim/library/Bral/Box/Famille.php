@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Box_Famille {
+class Bral_Box_Famille extends Bral_Box_Box {
 
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass('Couple');
@@ -17,6 +17,10 @@ class Bral_Box_Famille {
 		return "box_famille";
 	}
 
+	function getChargementInBoxes() {
+		return false;
+	}
+	
 	function setDisplay($display) {
 		$this->view->display = $display;
 	}

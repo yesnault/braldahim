@@ -16,6 +16,7 @@ Zend_Loader::loadClass('Zend_Db_Table');
 Zend_Loader::loadClass("Zend_Auth");
 
 Zend_Loader::loadClass("Bral_Box_Factory");
+Zend_Loader::loadClass("Bral_Box_Box");
 Zend_Loader::loadClass("Bral_Competences_Factory");
 Zend_Loader::loadClass("Bral_Echoppe_Factory");
 Zend_Loader::loadClass("Bral_Echoppes_Factory");

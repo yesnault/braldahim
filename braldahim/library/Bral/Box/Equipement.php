@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Box_Equipement {
+class Bral_Box_Equipement extends Bral_Box_Box {
 	
 	function __construct($request, $view, $interne) {
 		$this->_request = $request;
@@ -14,6 +14,10 @@ class Bral_Box_Equipement {
 	
 	function getNomInterne() {
 		return "box_equipement";		
+	}
+	
+	function getChargementInBoxes() {
+		return false;
 	}
 	
 	function setDisplay($display) {

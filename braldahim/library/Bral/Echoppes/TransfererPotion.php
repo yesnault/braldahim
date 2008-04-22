@@ -46,12 +46,12 @@ class Bral_Echoppes_TransfererPotion extends Bral_Echoppes_Echoppe {
 			foreach($potions as $e) {
 				if ($e["type_vente_echoppe_potion"] == "aucune") {
 					$tabPotionsArriereBoutique[] = array(
-					"id_echoppe_potion" => $e["id_echoppe_potion"],
-					"id_fk_type_potion_echoppe_potion" => $e["id_fk_type_potion_echoppe_potion"],
-					"id_fk_type_qualite_laban_potion" => $e["id_fk_type_qualite_echoppe_potion"],
-					"nom" => $e["nom_type_potion"],
-					"qualite" => $e["nom_type_qualite"],
-					"niveau" => $e["niveau_echoppe_potion"],
+						"id_echoppe_potion" => $e["id_echoppe_potion"],
+						"id_fk_type_potion_echoppe_potion" => $e["id_fk_type_potion_echoppe_potion"],
+						"id_fk_type_qualite_laban_potion" => $e["id_fk_type_qualite_echoppe_potion"],
+						"nom" => $e["nom_type_potion"],
+						"qualite" => $e["nom_type_qualite"],
+						"niveau" => $e["niveau_echoppe_potion"],
 					);
 				}
 			}

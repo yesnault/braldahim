@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Box_Evenements {
+class Bral_Box_Evenements extends Bral_Box_Box {
 
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass('Evenement');
@@ -23,6 +23,10 @@ class Bral_Box_Evenements {
 		return "box_evenements";
 	}
 
+	function getChargementInBoxes() {
+		return false;
+	}
+	
 	function setDisplay($display) {
 		$this->view->display = $display;
 	}

@@ -3,6 +3,8 @@
   <ul class="titre textalia textsizeb">Mes M&eacute;tiers</ul>
   <div class="contenu">
 	  <ul class="box_contenu1 textalic">
+
+ <? if ($this->affichageInterne == true) : ?>
 	   <? if (!$this->possedeMetier): ?>
 	   	Vous ne pratiquez aucun m&eacute;tier <br /><br />
 	   	
@@ -37,6 +39,11 @@
 			<? endforeach; ?>
 	    <? endif; ?>
 	   <? endif; ?>
+	   
+<? else: ?>
+	Chargement en cours
+	<br /><img src="/public/images/wait.gif" />
+<? endif; ?>
 	</ul> 
   </div>
 </div>

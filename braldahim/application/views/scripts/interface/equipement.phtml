@@ -5,6 +5,9 @@ Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
 <ul class="titre textalia textsizeb">Mon Equipement</ul>
  <div class="contenuA">
   <ul class="box_contenu1 textalic">
+ 
+ <? if ($this->affichageInterne == true) : ?>
+ 
    &Eacute;quipement pr&eacute;sent sur vous : <br />
 
 	<table align="center" border="0">
@@ -62,6 +65,11 @@ Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
 	 </tr>
     </table>
   	
+ <? else: ?>
+	Chargement en cours
+	<br /><img src="/public/images/wait.gif" />
+<? endif; ?>
+
    </ul>
 </div>
 </div>

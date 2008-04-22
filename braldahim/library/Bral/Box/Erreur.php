@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Box_Erreur {
+class Bral_Box_Erreur extends Bral_Box_Box {
 	
 	function __construct($request, $view, $interne, $message) {
 		$this->_request = $request;
@@ -9,8 +9,16 @@ class Bral_Box_Erreur {
 		$this->view->affichageInterne = $interne;
 	}
 	
+	function getTitreOnglet() {
+		return "Erreur";
+	}
+	
 	function getNomInterne() {
 		return "erreur";
+	}
+	
+	function setDisplay($display) {
+		$this->view->display = $display;
 	}
 	
 	function render() {

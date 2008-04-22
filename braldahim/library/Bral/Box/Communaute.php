@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Box_Communaute {
+class Bral_Box_Communaute extends Bral_Box_Box {
 
 	function __construct($request, $view, $interne) {
 		$this->_request = $request;

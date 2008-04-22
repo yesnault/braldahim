@@ -1,6 +1,8 @@
 <?php
 
 class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
+	
+	private $potion = null;
 
 	function getNomInterne() {
 		return "box_action";
@@ -15,8 +17,9 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		Zend_Loader::loadClass("Laban");
 		Zend_Loader::loadClass("LabanMinerai");
 		Zend_Loader::loadClass("LabanPartiePlante");
+		Zend_Loader::loadClass("LabanPotion");
 		
-		$idPotion = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));
+		$this->idPotion = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));
 		
 		$echoppesTable = new Echoppe();
 		$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
@@ -26,7 +29,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			throw new Zend_Exception(get_class($this)."::nombre d'echoppe invalide = 0 !");
 		}
 		
-		$this->preparePotion($idPotion, $echoppeRowset[0]["id_echoppe"]);
+		$this->preparePotion($this->idPotion, $echoppeRowset[0]["id_echoppe"]);
 		$this->preparePrix();
 	}
 
@@ -41,7 +44,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		foreach ($potions as $p) {
 			if ($p["id_echoppe_potion"] == $idPotion && $p["type_vente_echoppe_potion"] == "publique") {
 				$trouve = true;
-				$potion = $p;
+				$this->potion = $p;
 			}
 			$idPotions[] = $p["id_echoppe_potion"];
 		}
@@ -56,7 +59,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		$minerai = null;
 		if (count($echoppePotionMinerai) > 0) {
 			foreach($echoppePotionMinerai as $r) {
-				if ($r["id_fk_echoppe_potion_minerai"] == $potion["id_echoppe_potion"]) {
+				if ($r["id_fk_echoppe_potion_minerai"] == $this->potion["id_echoppe_potion"]) {
 					$possible = false;
 					foreach ($minerais as $m) {
 						if ($m["nom_systeme_type_minerai"] == $r["nom_type_minerai"] 
@@ -84,7 +87,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		$partiesPlantes = null;
 		if (count($echoppePotionPartiePlante) > 0) {
 			foreach($echoppePotionPartiePlante as $a) {
-				if ($a["id_fk_echoppe_potion_partieplante"] == $potion["id_echoppe_potion"]) {
+				if ($a["id_fk_echoppe_potion_partieplante"] == $this->potion["id_echoppe_potion"]) {
 					$possible = false;
 					foreach ($partiePlantes as $p) {
 						if ($p["nom_systeme_type_partieplante"] == $a["nom_systeme_type_partieplante"] 
@@ -107,19 +110,19 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		}
 		
 		$tabPotion = array(
-			"id_potion" => $potion["id_echoppe_potion"],
-			"nom" => $potion["nom_type_potion"],
-			"qualite" => $potion["nom_type_qualite"],
-			"niveau" => $potion["niveau_echoppe_potion"],
-			"caracteristique" => $potion["caract_type_potion"],
-			"bm_type" => $potion["bm_type_potion"],
-			"prix_1_vente_echoppe_potion" => $potion["prix_1_vente_echoppe_potion"],
-			"prix_2_vente_echoppe_potion" => $potion["prix_2_vente_echoppe_potion"],
-			"prix_3_vente_echoppe_potion" => $potion["prix_3_vente_echoppe_potion"],
-			"unite_1_vente_echoppe_potion" => $potion["unite_1_vente_echoppe_potion"],
-			"unite_2_vente_echoppe_potion" => $potion["unite_2_vente_echoppe_potion"],
-			"unite_3_vente_echoppe_potion" => $potion["unite_3_vente_echoppe_potion"],
-			"commentaire_vente_echoppe_potion" => $potion["commentaire_vente_echoppe_potion"],
+			"id_potion" => $this->potion["id_echoppe_potion"],
+			"nom" => $this->potion["nom_type_potion"],
+			"qualite" => $this->potion["nom_type_qualite"],
+			"niveau" => $this->potion["niveau_echoppe_potion"],
+			"caracteristique" => $this->potion["caract_type_potion"],
+			"bm_type" => $this->potion["bm_type_potion"],
+			"prix_1_vente_echoppe_potion" => $this->potion["prix_1_vente_echoppe_potion"],
+			"prix_2_vente_echoppe_potion" => $this->potion["prix_2_vente_echoppe_potion"],
+			"prix_3_vente_echoppe_potion" => $this->potion["prix_3_vente_echoppe_potion"],
+			"unite_1_vente_echoppe_potion" => $this->potion["unite_1_vente_echoppe_potion"],
+			"unite_2_vente_echoppe_potion" => $this->potion["unite_2_vente_echoppe_potion"],
+			"unite_3_vente_echoppe_potion" => $this->potion["unite_3_vente_echoppe_potion"],
+			"commentaire_vente_echoppe_potion" => $this->potion["commentaire_vente_echoppe_potion"],
 			"prix_minerais" => $minerai,
 			"prix_parties_plantes" => $partiesPlantes,
 		);
@@ -225,13 +228,47 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 	}
 	
 	function prepareFormulaire() {
-		
+		// rien ici
 	}
 
 	function prepareResultat() {
-	//TODO
+		$idPrix = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_2"));
+		
+		// on verifie que idPrix est dans la liste des prix Ok.
+		if (!array_key_exists($idPrix, $this->view->prix)) {
+			throw new Zend_Exception(get_class($this)."::prix invalide. non connu");
+		}
+		
+		// on verifie que le hobbit a assez de ressources.
+		if ($this->view->prix[$idPrix]["possible"] !== true) {
+			throw new Zend_Exception(get_class($this)."::prix invalide");
+		}
+		
+		$this->calculAchat($this->view->prix[$idPrix]);
+		$this->calculTransfert();
+	}
+	
+	private function calculAchat($prix) {
+		
+	}
+	
+	private function calculTransfert() {
+		$labanPotionTable = new LabanPotion();
+		$data = array(
+			'id_laban_potion' => $this->potion["id_echoppe_potion"],
+			'id_fk_type_laban_potion' => $this->potion["id_fk_type_potion_echoppe_potion"],
+			'id_fk_hobbit_laban_potion' => $this->view->user->id_hobbit,
+			'id_fk_type_qualite_laban_potion' => $this->potion["id_fk_type_qualite_echoppe_potion"],
+			'niveau_laban_potion' => $this->potion["niveau_echoppe_potion"],
+		);
+		$labanPotionTable->insert($data);
+		
+		$echoppePotionTable = new EchoppePotion();
+		$where = "id_echoppe_potion=".$this->potion["id_echoppe_potion"];
+		$echoppePotionTable->delete($where);
 	}
 	
 	function getListBoxRefresh() {
+		return array("box_echoppes", "box_laban", "box_charrette", "box_evenements");
 	}
 }

@@ -2,9 +2,16 @@
 <div class="inner">
 <ul class="titre textalia textsizeb">Mes &Eacute;v&egrave;nements</ul>
  <div class="contenuC">
- <? include("evenements/publiques.phtml") ?>
-<br />
- <? include("evenements/bot.phtml") ?>
+ 
+ <? if ($this->affichageInterne == true) : ?>
+	 <? include("evenements/publiques.phtml") ?>
+	<br />
+	 <? include("evenements/bot.phtml") ?>
+<? else: ?>
+	Chargement en cours
+	<br /><img src="/public/images/wait.gif" />
+<? endif; ?>
+
  </div>
 </div>
 <? include("box_bottom.phtml") ?>

@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Box_Echoppes {
+class Bral_Box_Echoppes extends Bral_Box_Box {
 	
 	function __construct($request, $view, $interne) {
 		$this->_request = $request;
@@ -16,11 +16,23 @@ class Bral_Box_Echoppes {
 		return "box_echoppes";		
 	}
 	
+	function getChargementInBoxes() {
+		return false;
+	}
+	
 	function setDisplay($display) {
 		$this->view->display = $display;
 	}
 	
 	function render() {
+		if ($this->view->affichageInterne) {
+			$this->data();
+		}
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render("interface/echoppes.phtml");
+	}
+	
+	private function data() {
 		Zend_Loader::loadClass("Bral_Echoppes_Echoppe");
 		Zend_Loader::loadClass("Bral_Echoppes_Liste");
 		$box = new Bral_Echoppes_Liste("liste", $this->_request, $this->view, "ask");
@@ -29,12 +41,8 @@ class Bral_Box_Echoppes {
 		if ($idEchoppeCourante != false) {
 			$box = Bral_Echoppes_Factory::getVoir($this->_request, $this->view, $idEchoppeCourante);
 			$this->view->htmlContenu = $box->render();
-			$this->view->nom_interne = $this->getNomInterne();
-			return $this->view->render("interface/echoppes.phtml");
 		} else {
 			$this->view->htmlContenu = $box->render();
-			$this->view->nom_interne = $this->getNomInterne();
-			return $this->view->render("interface/echoppes.phtml");
 		}
 	}
 }

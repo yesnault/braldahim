@@ -5,6 +5,8 @@ abstract class Bral_Echoppe_Echoppe {
 	protected $reloadInterface = false;
 
 	function __construct($nomSystemeAction, $request, $view, $action) {
+		Zend_Loader::loadClass("Bral_Util_Evenement");
+		
 		$this->view = $view;
 		$this->request = $request;
 		$this->action = $action;
@@ -31,6 +33,15 @@ abstract class Bral_Echoppe_Echoppe {
 	abstract function getListBoxRefresh();
 	abstract function getNomInterne();
 	
+	/*
+	 * Mise à jour des évènements du hobbit : type : compétence.
+	 */
+	private function majEvenementsEchoppe($detailsBot) {
+		$this->idTypeEvenement = $this->view->config->game->evenements->type->service;
+		$this->detailEvenement = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a utilisé les services d'une échoppe";
+		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot);
+	}
+	
 	function render() {
 		switch($this->action) {
 			case "ask":
@@ -42,7 +53,7 @@ abstract class Bral_Echoppe_Echoppe {
 				
 				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
-				$this->majEvenements(Bral_Helper_Affiche::copie($this->view->texte));
+				$this->majEvenementsEchoppe(Bral_Helper_Affiche::copie($this->view->texte));
 				return $this->view->render("echoppe/commun_resultat.phtml");
 				break;
 			default:

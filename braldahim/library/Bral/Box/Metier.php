@@ -1,6 +1,6 @@
 <?php
 
-class Bral_Box_Metier {
+class Bral_Box_Metier extends Bral_Box_Box {
 
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass("HobbitsMetiers");
@@ -18,6 +18,10 @@ class Bral_Box_Metier {
 		return "box_metier";
 	}
 
+	function getChargementInBoxes() {
+		return false;
+	}
+	
 	function setDisplay($display) {
 		$this->view->display = $display;
 	}

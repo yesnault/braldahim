@@ -4,6 +4,7 @@
  <div class="contenuC">
   <ul class="box_contenu1 textalic">
   
+ <? if ($this->affichageInterne == true) : ?>
   	<? if ($this->pereMereOk === true) :?>
   	Suite &agrave; l'heureuse rencontre entre votre m&egrave;re 
   		<?=htmlentities($this->mere->prenom_hobbit) ?> <?=htmlentities($this->mere->nom_hobbit) ?> (n&deg;<?=htmlentities($this->mere->id_hobbit) ?>)
@@ -30,6 +31,10 @@
     
    <br />
    
+ <? else: ?>
+	Chargement en cours
+	<br /><img src="/public/images/wait.gif" />
+<? endif; ?>
    </ul>
 </div>
 </div>
