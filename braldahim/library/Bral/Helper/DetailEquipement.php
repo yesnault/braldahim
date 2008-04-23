@@ -66,7 +66,7 @@ class Bral_Helper_DetailEquipement {
     }
     
     public static function afficher($e) {
-    	return "<span ".self::afficherJs($text).">".htmlentities($e["nom"]).", n&deg;".$e["id_equipement"]."</span>";
+    	return "<span ".self::afficherJs($e).">".htmlentities($e["nom"]).", n&deg;".$e["id_equipement"]."</span>";
     }
     
     public static function afficherJs($e) {

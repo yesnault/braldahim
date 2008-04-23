@@ -171,42 +171,52 @@ class InterfaceController extends Zend_Controller_Action {
 	function boxesAction() {
 		Zend_Loader::loadClass('Charrette');
 		Zend_Loader::loadClass('HobbitsMetiers');
-		$this->addBox(Bral_Box_Factory::getProfil($this->_request, $this->view, false), "boite_a");
-		$this->addBox(Bral_Box_Factory::getMetier($this->_request, $this->view, false), "boite_a");
-		$this->addBox(Bral_Box_Factory::getEquipement($this->_request, $this->view, false), "boite_a");
-		$this->addBox(Bral_Box_Factory::getFamille($this->_request, $this->view, false), "boite_a");
-
-		$this->addBox(Bral_Box_Factory::getCompetencesCommun($this->_request, $this->view, false), "boite_b");
-		$this->addBox(Bral_Box_Factory::getCompetencesBasic($this->_request, $this->view, false), "boite_b");
-		$this->addBox(Bral_Box_Factory::getCompetencesMetier($this->_request, $this->view, false), "boite_b");
-
-		$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view, false), "boite_c");
-		$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), "boite_c");
 		
-		// uniquement s'il possède un metier dans les metiers possedant des echoppes
-		$hobbitsMetiers = new HobbitsMetiers();
-		$possibleEchoppe = $hobbitsMetiers->peutPossederEchoppeIdHobbit($this->view->user->id_hobbit);
-		if ($possibleEchoppe === true) {
-			$this->addBox(Bral_Box_Factory::getEchoppes($this->_request, $this->view, false), "boite_c");
+		try {
+			$this->addBox(Bral_Box_Factory::getProfil($this->_request, $this->view, false), "boite_a");
+			$this->addBox(Bral_Box_Factory::getMetier($this->_request, $this->view, false), "boite_a");
+			$this->addBox(Bral_Box_Factory::getEquipement($this->_request, $this->view, false), "boite_a");
+			$this->addBox(Bral_Box_Factory::getFamille($this->_request, $this->view, false), "boite_a");
+	
+			$this->addBox(Bral_Box_Factory::getCompetencesCommun($this->_request, $this->view, false), "boite_b");
+			$this->addBox(Bral_Box_Factory::getCompetencesBasic($this->_request, $this->view, false), "boite_b");
+			$this->addBox(Bral_Box_Factory::getCompetencesMetier($this->_request, $this->view, false), "boite_b");
+	
+			$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view, false), "boite_c");
+			$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), "boite_c");
+			
+			// uniquement s'il possède un metier dans les metiers possedant des echoppes
+			$hobbitsMetiers = new HobbitsMetiers();
+			$possibleEchoppe = $hobbitsMetiers->peutPossederEchoppeIdHobbit($this->view->user->id_hobbit);
+			if ($possibleEchoppe === true) {
+				$this->addBox(Bral_Box_Factory::getEchoppes($this->_request, $this->view, false), "boite_c");
+			}
+			
+			$this->addBox(Bral_Box_Factory::getLaban($this->_request, $this->view, false), "boite_c");
+			
+			$charretteTable = new Charrette();
+			$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
+			if ($nombre > 0) {
+				$this->addBox(Bral_Box_Factory::getCharrette($this->_request, $this->view, false), "boite_c");
+			}
+			
+			$this->addBox(Bral_Box_Factory::getEvenements($this->_request, $this->view, false), "boite_c");
+			$this->addBox(Bral_Box_Factory::getMessagerie($this->_request, $this->view, false), "boite_c");
+			$this->addBox(Bral_Box_Factory::getCommunaute($this->_request, $this->view, false), "boite_c");
+	
+			$xml_entry = new Bral_Xml_Entry();
+			$xml_entry->set_type("display");
+			$xml_entry->set_valeur("racine");
+			$xml_entry->set_data($this->getBoxesData());
+		
+		} catch (Zend_Exception $e) {
+			$b = Bral_Box_Factory::getErreur($this->_request, $this->view, false, $e->getMessage());
+			$xml_entry = new Bral_Xml_Entry();
+			$xml_entry->set_valeur($b->getNomInterne());
+			$xml_entry->set_data($b->render());
+			$xml_response->add_entry($xml_entry);
 		}
 		
-		$this->addBox(Bral_Box_Factory::getLaban($this->_request, $this->view, false), "boite_c");
-		
-		$charretteTable = new Charrette();
-		$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
-		if ($nombre > 0) {
-			$this->addBox(Bral_Box_Factory::getCharrette($this->_request, $this->view, false), "boite_c");
-		}
-		
-		$this->addBox(Bral_Box_Factory::getEvenements($this->_request, $this->view, false), "boite_c");
-		$this->addBox(Bral_Box_Factory::getMessagerie($this->_request, $this->view, false), "boite_c");
-		$this->addBox(Bral_Box_Factory::getCommunaute($this->_request, $this->view, false), "boite_c");
-
-		$xml_entry = new Bral_Xml_Entry();
-		$xml_entry->set_type("display");
-		$xml_entry->set_valeur("racine");
-		$xml_entry->set_data($this->getBoxesData());
-
 		$this->xml_response->add_entry($xml_entry);
 		$this->xml_response->render();
 	}

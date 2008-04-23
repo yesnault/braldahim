@@ -2,12 +2,11 @@
 
 class Bral_Box_Charrette extends Bral_Box_Box {
 
-	function __construct($request, $view, $interne) {
-		Zend_Loader::loadClass('Charrette');
-		$this->_request = $request;
-		$this->view = $view;
-		$this->view->affichageInterne = $interne;
-	}
+//	function __construct($request, $view, $interne) {
+//		$this->_request = $request;
+//		$this->view = $view;
+//		$this->view->affichageInterne = $interne;
+//	}
 
 	function getTitreOnglet() {
 		return "Charrette";
@@ -22,6 +21,8 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 	}
 
 	function render() {
+		Zend_Loader::loadClass('Charrette');
+		
 		$tabCharrette = null;
 		$charretteTable = new Charrette();
 		$charrette = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);

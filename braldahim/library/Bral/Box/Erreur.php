@@ -10,11 +10,11 @@ class Bral_Box_Erreur extends Bral_Box_Box {
 	}
 	
 	function getTitreOnglet() {
-		return "Erreur";
+		return null;
 	}
 	
 	function getNomInterne() {
-		return "erreur";
+		return null;
 	}
 	
 	function setDisplay($display) {

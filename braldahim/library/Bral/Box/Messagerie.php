@@ -2,15 +2,11 @@
 
 class Bral_Box_Messagerie extends Bral_Box_Box {
 
-	function __construct($request, $view, $interne) {
-		Zend_Loader::loadClass('Message');
-		Zend_Loader::loadClass('TypeMessage');
-		Zend_Loader::loadClass('Bral_Util_ConvertDate');
-		$this->_request = $request;
-		$this->view = $view;
-		$this->view->affichageInterne = $interne;
-		$this->preparePage();
-	}
+//	function __construct($request, $view, $interne) {
+//		$this->_request = $request;
+//		$this->view = $view;
+//		$this->view->affichageInterne = $interne;
+//	}
 
 	function getTitreOnglet() {
 		return "Messagerie";
@@ -29,11 +25,18 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 	}
 
 	function render() {
+		if ($this->view->affichageInterne) {
+			Zend_Loader::loadClass('Message');
+			Zend_Loader::loadClass('TypeMessage');
+			Zend_Loader::loadClass('Bral_Util_ConvertDate');
+		
+			$this->preparePage();
+			$this->prepareMessages();
+		}
 		$this->view->nom_interne = $this->getNomInterne();
-		$this->prepareMessages();
 		return $this->view->render("interface/messagerie.phtml");
 	}
-
+	
 	private function prepareMessages() {
 		$suivantOk = false;
 		$precedentOk = false;

@@ -2,13 +2,11 @@
 
 class Bral_Box_Lieu extends Bral_Box_Box {
 	
-	function __construct($request, $view, $interne) {
-		Zend_Loader::loadClass("Echoppe");
-		Zend_Loader::loadClass("Lieu");
-		$this->_request = $request;
-		$this->view = $view;
-		$this->view->affichageInterne = $interne;
-	}
+//	function __construct($request, $view, $interne) {
+//		$this->_request = $request;
+//		$this->view = $view;
+//		$this->view->affichageInterne = $interne;
+//	}
 	
 	function getTitreOnglet() {
 		return "Lieu";
@@ -23,6 +21,8 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 	}
 	
 	function render() {
+		Zend_Loader::loadClass("Echoppe");
+		Zend_Loader::loadClass("Lieu");
 		
 		$lieuxTable = new Lieu();
 		$lieuRowset = $lieuxTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);

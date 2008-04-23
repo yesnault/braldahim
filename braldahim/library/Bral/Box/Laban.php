@@ -2,21 +2,11 @@
 
 class Bral_Box_Laban extends Bral_Box_Box {
 
-	function __construct($request, $view, $interne) {
-		Zend_Loader::loadClass("Laban");
-		Zend_Loader::loadClass("LabanEquipement");
-		Zend_Loader::loadClass("LabanMinerai");
-		Zend_Loader::loadClass("LabanPartieplante");
-		Zend_Loader::loadClass("LabanPotion");
-		Zend_Loader::loadClass("LabanRune");
-		Zend_Loader::loadClass("HobbitsMetiers");
-		Zend_Loader::loadClass("Metier");
-		Zend_Loader::loadClass("TypePlante");
-		Zend_Loader::loadClass("TypePartiePlante");
-		$this->_request = $request;
-		$this->view = $view;
-		$this->view->affichageInterne = $interne;
-	}
+//	function __construct($request, $view, $interne) {
+//		$this->_request = $request;
+//		$this->view = $view;
+//		$this->view->affichageInterne = $interne;
+//	}
 
 	function getTitreOnglet() {
 		return "Laban";
@@ -35,6 +25,17 @@ class Bral_Box_Laban extends Bral_Box_Box {
 	}
 
 	function render() {
+		Zend_Loader::loadClass("Laban");
+		Zend_Loader::loadClass("LabanEquipement");
+		Zend_Loader::loadClass("LabanMinerai");
+		Zend_Loader::loadClass("LabanPartieplante");
+		Zend_Loader::loadClass("LabanPotion");
+		Zend_Loader::loadClass("LabanRune");
+		Zend_Loader::loadClass("HobbitsMetiers");
+		Zend_Loader::loadClass("Metier");
+		Zend_Loader::loadClass("TypePlante");
+		Zend_Loader::loadClass("TypePartiePlante");
+		
 		$hobbitsMetiersTable = new HobbitsMetiers();
 		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
 		

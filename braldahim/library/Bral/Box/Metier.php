@@ -2,13 +2,11 @@
 
 class Bral_Box_Metier extends Bral_Box_Box {
 
-	function __construct($request, $view, $interne) {
-		Zend_Loader::loadClass("HobbitsMetiers");
-
-		$this->_request = $request;
-		$this->view = $view;
-		$this->view->affichageInterne = $interne;
-	}
+//	function __construct($request, $view, $interne) {
+//		$this->_request = $request;
+//		$this->view = $view;
+//		$this->view->affichageInterne = $interne;
+//	}
 
 	function getTitreOnglet() {
 		return "M&eacute;tier";
@@ -27,6 +25,15 @@ class Bral_Box_Metier extends Bral_Box_Box {
 	}
 
 	function render() {
+		if ($this->view->affichageInterne) {
+			$this->data();
+		}
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render("interface/metier.phtml");
+	}
+	
+	private function data() {
+		Zend_Loader::loadClass("HobbitsMetiers");
 		$hobbitsMetiersTable = new HobbitsMetiers();
 		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
 		$tabMetiers = null;
@@ -62,6 +69,5 @@ class Bral_Box_Metier extends Bral_Box_Box {
 		$this->view->tabMetiers = $tabMetiers;
 		$this->view->possedeMetier = $possedeMetier;
 		$this->view->nom_interne = $this->getNomInterne();
-		return $this->view->render("interface/metier.phtml");
 	}
 }

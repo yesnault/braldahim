@@ -2,12 +2,11 @@
 
 class Bral_Box_Famille extends Bral_Box_Box {
 
-	function __construct($request, $view, $interne) {
-		Zend_Loader::loadClass('Couple');
-		$this->_request = $request;
-		$this->view = $view;
-		$this->view->affichageInterne = $interne;
-	}
+//	function __construct($request, $view, $interne) {
+//		$this->_request = $request;
+//		$this->view = $view;
+//		$this->view->affichageInterne = $interne;
+//	}
 
 	function getTitreOnglet() {
 		return "Famille";
@@ -26,6 +25,15 @@ class Bral_Box_Famille extends Bral_Box_Box {
 	}
 
 	function render() {
+		if ($this->view->affichageInterne) {
+			$this->data();
+		}
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render("interface/famille.phtml");
+	}
+	
+	private function data() {
+		Zend_Loader::loadClass('Couple');
 		$hobbitTable = new Hobbit();
 	
 		$this->view->pereMereOk = false;
@@ -77,7 +85,5 @@ class Bral_Box_Famille extends Bral_Box_Box {
 		
 		$this->view->dateNaissance = Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e; H:i:s',$this->view->user->date_creation_hobbit);
 		$this->view->nom_interne = $this->getNomInterne();
-		
-		return $this->view->render("interface/famille.phtml");
 	}
 }

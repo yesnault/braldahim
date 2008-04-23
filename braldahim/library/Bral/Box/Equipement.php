@@ -2,11 +2,11 @@
 
 class Bral_Box_Equipement extends Bral_Box_Box {
 	
-	function __construct($request, $view, $interne) {
-		$this->_request = $request;
-		$this->view = $view;
-		$this->view->affichageInterne = $interne;
-	}
+//	function __construct($request, $view, $interne) {
+//		$this->_request = $request;
+//		$this->view = $view;
+//		$this->view->affichageInterne = $interne;
+//	}
 	
 	function getTitreOnglet() {
 		return "Equipement";
@@ -25,6 +25,14 @@ class Bral_Box_Equipement extends Bral_Box_Box {
 	}
 	
 	function render() {
+		if ($this->view->affichageInterne) {
+			$this->data();
+		}
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render("interface/equipement.phtml");
+	}
+	
+	private function data() {
 		Zend_Loader::loadClass("TypeEmplacement");
 		Zend_Loader::loadClass("HobbitEquipement");
 		Zend_Loader::loadClass("EquipementRune");
@@ -119,6 +127,5 @@ class Bral_Box_Equipement extends Bral_Box_Box {
 		$this->view->typesEmplacement = $tabTypesEmplacement;
 		
 		$this->view->nom_interne = $this->getNomInterne();
-		return $this->view->render("interface/equipement.phtml");
 	}
 }

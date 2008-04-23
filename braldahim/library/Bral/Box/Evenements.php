@@ -2,18 +2,11 @@
 
 class Bral_Box_Evenements extends Bral_Box_Box {
 
-	function __construct($request, $view, $interne) {
-		Zend_Loader::loadClass('Evenement');
-		Zend_Loader::loadClass('TypeEvenement');
-		Zend_Loader::loadClass('Bral_Util_ConvertDate');
-		$this->_request = $request;
-		$this->view = $view;
-		$this->view->affichageInterne = $interne;
-		
-		$this->preparePage();
-		$this->prepareRender();
-		$this->prepareDetails();
-	}
+//	function __construct($request, $view, $interne) {
+//		$this->_request = $request;
+//		$this->view = $view;
+//		$this->view->affichageInterne = $interne;
+//	}
 
 	function getTitreOnglet() {
 		return "&Eacute;v&egrave;nements";
@@ -31,6 +24,20 @@ class Bral_Box_Evenements extends Bral_Box_Box {
 		$this->view->display = $display;
 	}
 
+	function render() {
+		if ($this->view->affichageInterne) {
+			Zend_Loader::loadClass('Evenement');
+			Zend_Loader::loadClass('TypeEvenement');
+			Zend_Loader::loadClass('Bral_Util_ConvertDate');
+		
+			$this->preparePage();
+			$this->prepareRender();
+			$this->prepareDetails();
+		}
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render("interface/evenements.phtml");
+	}
+	
 	private function prepareRender() {
 		$suivantOk = false;
 		$precedentOk = false;
@@ -85,13 +92,7 @@ class Bral_Box_Evenements extends Bral_Box_Box {
 		$this->view->filtre = $this->_filtre;
 	}
 	
-	public function render() {
-		$this->view->nom_interne = $this->getNomInterne();
-		return $this->view->render("interface/evenements.phtml");
-	}
-	
 	private function prepareDetails() {
-		
 		$this->view->evenement = null;
 		$idEvenement = -1;
 		if ($this->_request->get("valeur_5") != null) {

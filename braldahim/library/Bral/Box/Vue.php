@@ -2,34 +2,11 @@
 
 class Bral_Box_Vue extends Bral_Box_Box {
 
-	function __construct($request, $view, $interne) {
-		Zend_Loader::loadClass("Cadavre");
-		Zend_Loader::loadClass("Castar");
-		Zend_Loader::loadClass("Charrette");
-		Zend_Loader::loadClass("Echoppe");
-		Zend_Loader::loadClass("Filon");
-		Zend_Loader::loadClass("Lieu");
-		Zend_Loader::loadClass("HobbitsMetiers");
-		Zend_Loader::loadClass("Monstre");
-		Zend_Loader::loadClass("Palissade");
-		Zend_Loader::loadClass("Plante");
-		Zend_Loader::loadClass("Region");
-		Zend_Loader::loadClass("Rune");
-		Zend_Loader::loadClass("TypeLieu");
-		Zend_Loader::loadClass("Ville");
-		Zend_Loader::loadClass("Zone");
-
-		Zend_Loader::loadClass('Bral_Util_Commun');
-
-		$this->_request = $request;
-		$this->view = $view;
-		$this->view->affichageInterne = $interne;
-		
-		if ($interne) {
-			$this->prepare();
-			$this->deplacement();
-		}
-	}
+//	function __construct($request, $view, $interne) {
+//		$this->_request = $request;
+//		$this->view = $view;
+//		$this->view->affichageInterne = $interne;
+//	}
 
 	function getTitreOnglet() {
 		return "Vue";
@@ -45,6 +22,25 @@ class Bral_Box_Vue extends Bral_Box_Box {
 
 	function render() {
 		if ($this->view->affichageInterne) {
+			Zend_Loader::loadClass("Cadavre");
+			Zend_Loader::loadClass("Castar");
+			Zend_Loader::loadClass("Charrette");
+			Zend_Loader::loadClass("Echoppe");
+			Zend_Loader::loadClass("Filon");
+			Zend_Loader::loadClass("Lieu");
+			Zend_Loader::loadClass("HobbitsMetiers");
+			Zend_Loader::loadClass("Monstre");
+			Zend_Loader::loadClass("Palissade");
+			Zend_Loader::loadClass("Plante");
+			Zend_Loader::loadClass("Region");
+			Zend_Loader::loadClass("Rune");
+			Zend_Loader::loadClass("TypeLieu");
+			Zend_Loader::loadClass("Ville");
+			Zend_Loader::loadClass("Zone");
+			Zend_Loader::loadClass('Bral_Util_Commun');
+		
+			$this->prepare();
+			$this->deplacement();
 			$this->data();
 		}
 		$this->view->nom_interne = $this->getNomInterne();

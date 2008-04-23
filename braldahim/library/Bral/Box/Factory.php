@@ -101,7 +101,9 @@ class Bral_Box_Factory {
 
 	public static function getErreur($request, $view, $interne, $message) {
 		Zend_Loader::loadClass("Bral_Box_Erreur");
-		return new Bral_Box_Erreur($request, $view, $interne, $message);
+		$box = new Bral_Box_Erreur($request, $view, $interne);
+		$box->setMessage($message);
+		return $box;
 	}
 
 	public static function getLaban($request, $view, $interne) {
