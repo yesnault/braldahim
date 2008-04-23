@@ -28,7 +28,6 @@ class Bral_Validate_Inscription_PrenomHobbit implements Zend_Validate_Interface 
 			'î', 'ï', 'ì', 'Î', 'Ï', 'Ì',
 			'ö', 'ô', 'ò', 'Ö', 'Ô', 'Ò',
 			'û', 'ü', 'ù', 'Û', 'Ü', 'Ù',
-			'ÿ',
 			'ç', 'Ç', 'æ', 'Æ', '°', '-',
 			'ñ', 'Ñ', 'ã', 'Ã',
 			' ', 

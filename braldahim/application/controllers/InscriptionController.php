@@ -10,6 +10,7 @@ class InscriptionController extends Zend_Controller_Action {
 		Zend_Loader::loadClass("Zend_Validate_EmailAddress");
 		Zend_Loader::loadClass("Zend_Validate");
 		Zend_Loader::loadClass("Bral_Util_Mail");
+		Zend_Loader::loadClass("Bral_Util_String");
 		Zend_Loader::loadClass("Lieu");
 		Zend_Loader::loadClass("HobbitsCompetences");
 		Zend_Loader::loadClass("Couple");
@@ -105,6 +106,9 @@ class InscriptionController extends Zend_Controller_Action {
 			->addFilter(new Zend_Filter_StripTags());
 			
 			$this->prenom_hobbit = stripslashes($filter->filter($this->_request->getPost('prenom_hobbit')));
+			
+			$this->prenom_hobbit = Bral_Util_String::toUpper(substr($this->prenom_hobbit, 0, 1)) . substr($this->prenom_hobbit, 1);
+			
 			$this->email_hobbit = $filter->filter($this->_request->getPost('email_hobbit'));
 			$this->email_confirm_hobbit = $filter->filter($this->_request->getPost('email_confirm_hobbit'));
 			$this->password_hobbit = $filter->filter($this->_request->getPost('password_hobbit'));
@@ -256,7 +260,6 @@ class InscriptionController extends Zend_Controller_Action {
 	}
 
 	private function initialiseDataHobbitsCompetences() {
-
 		$competenceTable = new Competence();
 		$tab = $competenceTable->findCommunesInscription(0);
 
@@ -348,9 +351,10 @@ class InscriptionController extends Zend_Controller_Action {
 				$mere = $hobbitsFemininRowset[$de];
 					
 				$data = array('id_fk_m_hobbit_couple' => $pere["id_hobbit"],
-				 'id_fk_f_hobbit_couple' => $mere["id_hobbit"],
-				 'date_creation_couple' => date("Y-m-d H:i:s"),
-				 'nb_enfants_couple' => 1);
+							  'id_fk_f_hobbit_couple' => $mere["id_hobbit"],
+							  'date_creation_couple' => date("Y-m-d H:i:s"),
+							  'nb_enfants_couple' => 1
+							 );
 				$coupleTable = new Couple();
 				$coupleTable->insert($data);
 					

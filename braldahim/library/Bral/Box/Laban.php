@@ -77,7 +77,8 @@ class Bral_Box_Laban extends Bral_Box_Box {
 			}
 		}
 		
-		$tabMinerais = null;
+		$tabMineraisBruts = null;
+		$tabLingots = null;
 		$labanMineraiTable = new LabanMinerai();
 		$minerais = $labanMineraiTable->findByIdHobbit($this->view->user->id_hobbit);
 

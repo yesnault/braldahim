@@ -30,7 +30,7 @@
 				
 			   	<? $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($m["description"]))));?>
 			   	<? $titre = "Description du m&eacute;tier ";
-	   	 			if (htmlentities($m["nom"]{0}) == 'A') : $titre .= 'd\''; else: $titre .=  "de "; endif; 
+	   	 			if (htmlentities($m["nom"]{0}) == 'A') : $titre .= "d\'"; else: $titre .=  "de "; endif; 
 	   	 			$titre .= htmlentities($m["nom"])?>
       			
       			 <span <?=Bral_Helper_Tip::jsTip($contenu, $titre, true) ?> >
