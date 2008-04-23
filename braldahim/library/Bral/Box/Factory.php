@@ -7,6 +7,9 @@ class Bral_Box_Factory {
 			case "box_profil" :
 				return self::getProfil($request, $view, $interne);
 				break;
+			case "box_echoppe" :
+				return self::getEchoppe($request, $view, $interne);
+				break;
 			case "box_echoppes" :
 				return self::getEchoppes($request, $view, $interne);
 				break;

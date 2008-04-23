@@ -13,6 +13,7 @@ abstract class Bral_Echoppe_Echoppe {
 		$this->nom_systeme = $nomSystemeAction;
 		$this->view->nom_systeme = $this->nom_systeme;
 		
+		$this->calculNbPa();
 		$this->prepareCommun();
 
 		switch($this->action) {
@@ -32,6 +33,16 @@ abstract class Bral_Echoppe_Echoppe {
 	abstract function prepareResultat();
 	abstract function getListBoxRefresh();
 	abstract function getNomInterne();
+	abstract function getTitreAction();
+	
+	public function calculNbPa() {
+		if ($this->view->user->pa_hobbit - $this->view->config->game->echoppe->nb_pa_service < 0) {
+			$this->view->assezDePa = false;
+		} else {
+			$this->view->assezDePa = true;
+		}
+		$this->view->nb_pa = $this->view->config->game->echoppe->nb_pa_service;;
+	}
 	
 	/*
 	 * Mise à jour des évènements du hobbit : type : compétence.
@@ -43,6 +54,7 @@ abstract class Bral_Echoppe_Echoppe {
 	}
 	
 	function render() {
+		$this->view->titreAction = $this->getTitreAction();
 		switch($this->action) {
 			case "ask":
 				return $this->view->render("echoppe/".$this->nom_systeme."_formulaire.phtml");
@@ -54,6 +66,7 @@ abstract class Bral_Echoppe_Echoppe {
 				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 				$this->majEvenementsEchoppe(Bral_Helper_Affiche::copie($this->view->texte));
+				$this->majHobbit();
 				return $this->view->render("echoppe/commun_resultat.phtml");
 				break;
 			default:
@@ -66,11 +79,7 @@ abstract class Bral_Echoppe_Echoppe {
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 		$hobbit = $hobbitRowset->current();
 
-		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->paUtilisationLieu;
-		
-		if ($this->view->user->balance_faim_hobbit < 0) {
-			$this->view->user->balance_faim_hobbit = 0; 
-		}
+		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa ;
 		
 		$data = array(
 			'pa_hobbit' => $this->view->user->pa_hobbit,

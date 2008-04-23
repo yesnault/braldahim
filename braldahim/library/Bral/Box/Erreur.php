@@ -2,23 +2,20 @@
 
 class Bral_Box_Erreur extends Bral_Box_Box {
 	
-	function __construct($request, $view, $interne, $message) {
-		$this->_request = $request;
-		$this->view = $view;
-		$this->view->messageErreur = $message ;
-		$this->view->affichageInterne = $interne;
-	}
-	
 	function getTitreOnglet() {
 		return null;
 	}
 	
 	function getNomInterne() {
-		return null;
+		return "erreur";
 	}
 	
 	function setDisplay($display) {
 		$this->view->display = $display;
+	}
+	
+	function setMessage($message) {
+		$this->view->messageErreur = $message ;
 	}
 	
 	function render() {

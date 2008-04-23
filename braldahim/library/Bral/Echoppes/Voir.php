@@ -279,7 +279,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					$this->arBoutiqueTransformes["lingots"]["a_afficher"] = true;
 				}
 				
-				if ($m["quantite_lingots_echoppe_minerai"] > 0) {
+				if ($m["quantite_caisse_echoppe_minerai"] > 0) {
 					$this->arBoutiqueCaisse["minerais"]["a_afficher"] = true;
 				}
 				

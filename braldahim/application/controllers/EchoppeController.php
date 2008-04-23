@@ -46,6 +46,7 @@ class EchoppeController extends Zend_Controller_Action {
 					$this->xml_response->add_entry($xml_entry);
 				}
 			} catch (Zend_Exception $e) {
+				$this->xml_response = new Bral_Xml_Response();
 				$b = Bral_Box_Factory::getErreur($this->_request, $this->view, false, $e->getMessage());
 				$xml_entry->set_valeur($b->getNomInterne());
 				$xml_entry->set_data($b->render());

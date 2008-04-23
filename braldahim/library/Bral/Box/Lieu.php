@@ -1,13 +1,7 @@
 <?php
 
 class Bral_Box_Lieu extends Bral_Box_Box {
-	
-//	function __construct($request, $view, $interne) {
-//		$this->_request = $request;
-//		$this->view = $view;
-//		$this->view->affichageInterne = $interne;
-//	}
-	
+
 	function getTitreOnglet() {
 		return "Lieu";
 	}

@@ -2,12 +2,6 @@
 
 class Bral_Box_Profil extends Bral_Box_Box {
 	
-//	function __construct($request, $view, $interne) {
-//		$this->_request = $request;
-//		$this->view = $view;
-//		$this->view->affichageInterne = $interne;
-//	}
-	
 	function getTitreOnglet() {
 		return "Profil";
 	}

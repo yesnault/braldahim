@@ -35,6 +35,9 @@ class LabanMinerai extends Zend_Db_Table {
 			$quantiteBrut = $resultat[0]["quantiteBrut"];
 			$quantiteLingots = $resultat[0]["quantiteLingots"];
 			
+			$dataUpdate['quantite_brut_laban_minerai']  = $quantiteBrut;
+			$dataUpdate['quantite_lingots_laban_minerai']  = $quantiteLingots;
+			
 			if (isset($data["quantite_brut_laban_minerai"])) {
 				$dataUpdate['quantite_brut_laban_minerai'] = $quantiteBrut + $data["quantite_brut_laban_minerai"];
 			}
