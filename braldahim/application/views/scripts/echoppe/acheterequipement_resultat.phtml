@@ -1,2 +1,3 @@
 	Vous avez achet&eacute; l'&eacute;quipement suivant : <br />
-		<?=htmlentities($this->equipement["nom"]) ?>
+		<?=htmlentities($this->equipement["nom"])." ".htmlentities(addslashes($this->equipement["suffixe"]))." de qualit&eacute; ".htmlentities($this->equipement["qualite"]) ?>,
+		n&deg; <?=$this->equipement["id_equipement"]; ?>

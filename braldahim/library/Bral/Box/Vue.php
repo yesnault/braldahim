@@ -327,11 +327,10 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						foreach($plantes as $p) {
 							if ($display_x == $p["x_plante"] && $display_y == $p["y_plante"]) {
 								$tabPlantes[] = array("id_plante" => $p["id_plante"], "type" => $p["nom_type_plante"],
-								"categorie" => $p["categorie_type_plante"],
-								"quantite_1" =>$p["partie_1_plante"], "quantite_2" =>$p["partie_2_plante"],
-								"quantite_3" =>$p["partie_3_plante"], "quantite_4" =>$p["partie_4_plante"],
-								"nom_partie_1" =>"TODO", "nom_partie_2" =>"TODO",
-								"nom_partie_3" =>"TODO", "nom_partie_4" =>"TODO");
+									"categorie" => $p["categorie_type_plante"],
+									"quantite_1" =>$p["partie_1_plante"], "quantite_2" =>$p["partie_2_plante"],
+									"quantite_3" =>$p["partie_3_plante"], "quantite_4" =>$p["partie_4_plante"]
+								);
 							}
 						}
 					}

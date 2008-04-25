@@ -5,11 +5,12 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 	private $_tabCreation = null;
 
 	function init() {
-		/** TODO a completer */
-
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
 		}
+		
+		Bral_Util_Securite::controlAdmin();
+		
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
@@ -118,21 +119,21 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		foreach($this->view->refMonstre as $r) {
 			if (($id_fk_type_ref_monstre == $r["id_type_monstre"]) && ((int)$taille == (int)$r["id_taille_monstre"])) {
 				$referenceCourante = array(
-				"id_ref_monstre" => $r["id_ref_monstre"],
-				"id_type_monstre" => $r["id_type_monstre"],
-				"id_type_groupe_monstre" => $r["id_type_groupe_monstre"],
-				"id_taille_monstre" => $r["id_taille_monstre"],
-				"niveau_min" => $r["niveau_min"],
-				"niveau_max" => $r["niveau_max"],
-				"p_force" => $r["p_force"],
-				"p_sagesse" => $r["p_sagesse"],
-				"p_vigueur" => $r["p_vigueur"],
-				"p_agilite" => $r["p_agilite"],
-				"vue" => $r["vue"],
-				"nb_membres_min" => $r["nb_membres_min"],
-				"nb_membres_max" => $r["nb_membres_max"],
-				"taille" => $r["taille"],
-				"nom_type" => $r["nom_type"],
+					"id_ref_monstre" => $r["id_ref_monstre"],
+					"id_type_monstre" => $r["id_type_monstre"],
+					"id_type_groupe_monstre" => $r["id_type_groupe_monstre"],
+					"id_taille_monstre" => $r["id_taille_monstre"],
+					"niveau_min" => $r["niveau_min"],
+					"niveau_max" => $r["niveau_max"],
+					"p_force" => $r["p_force"],
+					"p_sagesse" => $r["p_sagesse"],
+					"p_vigueur" => $r["p_vigueur"],
+					"p_agilite" => $r["p_agilite"],
+					"vue" => $r["vue"],
+					"nb_membres_min" => $r["nb_membres_min"],
+					"nb_membres_max" => $r["nb_membres_max"],
+					"taille" => $r["taille"],
+					"nom_type" => $r["nom_type"],
 				);
 				break;
 			}
@@ -146,14 +147,14 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 
 	private function creationGroupe($id_type, $nb_membres) {
 		$data = array(
-		"id_fk_type_groupe_monstre" => $id_type,
-		"date_creation_groupe_monstre" => date("Y-m-d H:i:s"),
-		"id_fk_hobbit_cible_groupe_monstre"  => null,
-		"nb_membres_max_groupe_monstre"  => $nb_membres,
-		"nb_membres_restant_groupe_monstre" => $nb_membres,
-		"phase_tactique_groupe_monstre" => 0,
-		"id_role_a_groupe_monstre" => null,
-		"id_role_b_groupe_monstre" => null
+			"id_fk_type_groupe_monstre" => $id_type,
+			"date_creation_groupe_monstre" => date("Y-m-d H:i:s"),
+			"id_fk_hobbit_cible_groupe_monstre"  => null,
+			"nb_membres_max_groupe_monstre"  => $nb_membres,
+			"nb_membres_restant_groupe_monstre" => $nb_membres,
+			"phase_tactique_groupe_monstre" => 0,
+			"id_role_a_groupe_monstre" => null,
+			"id_role_b_groupe_monstre" => null
 		);
 
 		$groupeMonstreTable = new GroupeMonstre();
@@ -234,31 +235,31 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		$vue_monstre = $referenceCourante["vue"];
 
 		$data = array(
-		"id_fk_type_monstre" => $id_fk_type_monstre,
-		"id_fk_taille_monstre" => $id_fk_taille_monstre,
-		"id_fk_groupe_monstre" => $id_groupe_monstre,
-		"x_monstre" => $x_monstre,
-		"y_monstre" => $y_monstre,
-		"id_fk_hobbit_cible_monstre" => null,
-		"pv_restant_monstre" => $pv_restant_monstre,
-		"niveau_monstre" => $niveau_monstre,
-		"vue_monstre" => $vue_monstre,
-		"force_base_monstre" => $force_base_monstre,
-		"force_bm_monstre" => 0,
-		"agilite_base_monstre" => $agilite_base_monstre,
-		"agilite_bm_monstre" => 0,
-		"sagesse_base_monstre" => $sagesse_base_monstre,
-		"sagesse_bm_monstre" => 0,
-		"vigueur_base_monstre" => $vigueur_base_monstre,
-		"vigueur_bm_monstre" => 0,
-		"regeneration_monstre" => $regeneration_monstre,
-		"armure_naturelle_monstre" => $armure_naturelle_monstre,
-		"date_fin_tour_monstre" => $date_fin_tour_monstre,
-		"duree_base_tour_monstre" => $dla_monstre,
-		"nb_kill_monstre" => 0,
-		"date_creation_monstre" => date("Y-m-d H:i:s"),
-		"est_mort_monstre" => 'non',
-		"pa_monstre" => $this->view->config->game->pa_max,
+			"id_fk_type_monstre" => $id_fk_type_monstre,
+			"id_fk_taille_monstre" => $id_fk_taille_monstre,
+			"id_fk_groupe_monstre" => $id_groupe_monstre,
+			"x_monstre" => $x_monstre,
+			"y_monstre" => $y_monstre,
+			"id_fk_hobbit_cible_monstre" => null,
+			"pv_restant_monstre" => $pv_restant_monstre,
+			"niveau_monstre" => $niveau_monstre,
+			"vue_monstre" => $vue_monstre,
+			"force_base_monstre" => $force_base_monstre,
+			"force_bm_monstre" => 0,
+			"agilite_base_monstre" => $agilite_base_monstre,
+			"agilite_bm_monstre" => 0,
+			"sagesse_base_monstre" => $sagesse_base_monstre,
+			"sagesse_bm_monstre" => 0,
+			"vigueur_base_monstre" => $vigueur_base_monstre,
+			"vigueur_bm_monstre" => 0,
+			"regeneration_monstre" => $regeneration_monstre,
+			"armure_naturelle_monstre" => $armure_naturelle_monstre,
+			"date_fin_tour_monstre" => $date_fin_tour_monstre,
+			"duree_base_tour_monstre" => $dla_monstre,
+			"nb_kill_monstre" => 0,
+			"date_creation_monstre" => date("Y-m-d H:i:s"),
+			"est_mort_monstre" => 'non',
+			"pa_monstre" => $this->view->config->game->pa_max,
 		);
 
 		$monstreTable = new Monstre();
@@ -274,10 +275,10 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		if (($est_role_a === true) || ($est_role_b === true)) {
 			if ($est_role_a) {
 				$data = array(
-				"id_role_a_groupe_monstre" => $id_monstre,
-				"x_direction_groupe_monstre" => $x_monstre,
-				"y_direction_groupe_monstre" => $y_monstre,
-				"date_fin_tour_groupe_monstre" => $date_fin_tour_monstre,
+					"id_role_a_groupe_monstre" => $id_monstre,
+					"x_direction_groupe_monstre" => $x_monstre,
+					"y_direction_groupe_monstre" => $y_monstre,
+					"date_fin_tour_groupe_monstre" => $date_fin_tour_monstre,
 				);
 			}
 			if ($est_role_b) {
@@ -362,15 +363,15 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 				throw new Zend_Exception(get_class($this)." Valeur invalide. vue_ref_monstre : ".$vue_ref_monstre);
 			}
 			$data = array(
-			"id_fk_type_ref_monstre" => $id_fk_type_ref_monstre,
-			"id_fk_taille_ref_monstre" => $id_fk_taille_ref_monstre,
-			"niveau_min_ref_monstre" => $niveau_min_ref_monstre,
-			"niveau_max_ref_monstre" => $niveau_max_ref_monstre,
-			"pourcentage_vigueur_ref_monstre" => $pourcentage_vigueur_ref_monstre,
-			"pourcentage_agilite_ref_monstre" => $pourcentage_agilite_ref_monstre,
-			"pourcentage_sagesse_ref_monstre" => $pourcentage_sagesse_ref_monstre,
-			"pourcentage_force_ref_monstre" => $pourcentage_force_ref_monstre,
-			"vue_ref_monstre" => $vue_ref_monstre,
+				"id_fk_type_ref_monstre" => $id_fk_type_ref_monstre,
+				"id_fk_taille_ref_monstre" => $id_fk_taille_ref_monstre,
+				"niveau_min_ref_monstre" => $niveau_min_ref_monstre,
+				"niveau_max_ref_monstre" => $niveau_max_ref_monstre,
+				"pourcentage_vigueur_ref_monstre" => $pourcentage_vigueur_ref_monstre,
+				"pourcentage_agilite_ref_monstre" => $pourcentage_agilite_ref_monstre,
+				"pourcentage_sagesse_ref_monstre" => $pourcentage_sagesse_ref_monstre,
+				"pourcentage_force_ref_monstre" => $pourcentage_force_ref_monstre,
+				"vue_ref_monstre" => $vue_ref_monstre,
 			);
 
 			$refTable = new ReferentielMonstre();
@@ -397,33 +398,33 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 		$tailles = null;
 		$types = null;
 		$referenceCourante = array(
-		"id_ref_monstre" =>'',
-		"id_type_monstre" => '',
-		"id_taille_monstre" => '',
-		"niveau_min" => '',
-		"niveau_max" => '',
-		"p_force" => '',
-		"p_sagesse" => '',
-		"p_vigueur" => '',
-		"p_agilite" => '',
-		"vue" => ''
+			"id_ref_monstre" =>'',
+			"id_type_monstre" => '',
+			"id_taille_monstre" => '',
+			"niveau_min" => '',
+			"niveau_max" => '',
+			"p_force" => '',
+			"p_sagesse" => '',
+			"p_vigueur" => '',
+			"p_agilite" => '',
+			"vue" => ''
 		);
 
 		foreach($this->view->refMonstre as $r) {
 			// si l'on veut modifier une reference, on prepare l'objet
 			if ($this->_request->getParam('modifier', 0) == $r["id_ref_monstre"]) {
 				$referenceCourante = array(
-				"id_ref_monstre" => $r["id_ref_monstre"],
-				"id_type_monstre" => $r["id_type_monstre"],
-				"id_type_groupe_monstre" => $r["id_type_groupe_monstre"],
-				"id_taille_monstre" => $r["id_taille_monstre"],
-				"niveau_min" => $r["niveau_min"],
-				"niveau_max" => $r["niveau_max"],
-				"p_force" => $r["p_force"],
-				"p_sagesse" => $r["p_sagesse"],
-				"p_vigueur" => $r["p_vigueur"],
-				"p_agilite" => $r["p_agilite"],
-				"vue" => $r["vue"]
+					"id_ref_monstre" => $r["id_ref_monstre"],
+					"id_type_monstre" => $r["id_type_monstre"],
+					"id_type_groupe_monstre" => $r["id_type_groupe_monstre"],
+					"id_taille_monstre" => $r["id_taille_monstre"],
+					"niveau_min" => $r["niveau_min"],
+					"niveau_max" => $r["niveau_max"],
+					"p_force" => $r["p_force"],
+					"p_sagesse" => $r["p_sagesse"],
+					"p_vigueur" => $r["p_vigueur"],
+					"p_agilite" => $r["p_agilite"],
+					"vue" => $r["vue"]
 				);
 			}
 		}
@@ -458,48 +459,48 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 				$m_taille = $r["nom_taille_m_monstre"];
 			}
 			$ref[] = array(
-			"id_ref_monstre" => $r["id_ref_monstre"],
-			"nom_type" => $r["nom_type_monstre"],
-			"id_type_monstre" => $r["id_fk_type_ref_monstre"],
-			"id_type_groupe_monstre" => $r["id_fk_type_groupe_monstre"],
-			"id_taille_monstre" => $r["id_fk_taille_ref_monstre"],
-			"taille" => $m_taille,
-			"niveau_min" => $r["niveau_min_ref_monstre"],
-			"niveau_max" => $r["niveau_max_ref_monstre"],
-			"p_force" => $r["pourcentage_force_ref_monstre"],
-			"p_sagesse" => $r["pourcentage_sagesse_ref_monstre"],
-			"p_vigueur" => $r["pourcentage_vigueur_ref_monstre"],
-			"p_agilite" => $r["pourcentage_agilite_ref_monstre"],
-			"vue" => $r["vue_ref_monstre"],
-			"nb_membres_min" => $r["nb_membres_min_type_groupe_monstre"],
-			"nb_membres_max" => $r["nb_membres_max_type_groupe_monstre"],
+				"id_ref_monstre" => $r["id_ref_monstre"],
+				"nom_type" => $r["nom_type_monstre"],
+				"id_type_monstre" => $r["id_fk_type_ref_monstre"],
+				"id_type_groupe_monstre" => $r["id_fk_type_groupe_monstre"],
+				"id_taille_monstre" => $r["id_fk_taille_ref_monstre"],
+				"taille" => $m_taille,
+				"niveau_min" => $r["niveau_min_ref_monstre"],
+				"niveau_max" => $r["niveau_max_ref_monstre"],
+				"p_force" => $r["pourcentage_force_ref_monstre"],
+				"p_sagesse" => $r["pourcentage_sagesse_ref_monstre"],
+				"p_vigueur" => $r["pourcentage_vigueur_ref_monstre"],
+				"p_agilite" => $r["pourcentage_agilite_ref_monstre"],
+				"vue" => $r["vue_ref_monstre"],
+				"nb_membres_min" => $r["nb_membres_min_type_groupe_monstre"],
+				"nb_membres_max" => $r["nb_membres_max_type_groupe_monstre"],
 			);
 		}
 
 		foreach($taillesRowset as $t) {
 			$tailles[] = array(
-			"id_taille_monstre" => $t->id_taille_monstre,
-			"nom_feminin" => $t->nom_taille_f_monstre,
-			"nom_masculin" => $t->nom_taille_m_monstre,
-			"pourcentage_apparition" => $t->pourcentage_taille_monstre
+				"id_taille_monstre" => $t->id_taille_monstre,
+				"nom_feminin" => $t->nom_taille_f_monstre,
+				"nom_masculin" => $t->nom_taille_m_monstre,
+				"pourcentage_apparition" => $t->pourcentage_taille_monstre
 			);
 
 			$stats["nb_monstre_par_taille"][] = array(
-			"nom_feminin" => $t->nom_taille_f_monstre,
-			"nom_masculin" => $t->nom_taille_m_monstre,
-			"nombre" => $monstresTable->countAllByTaille($t->id_taille_monstre)
+				"nom_feminin" => $t->nom_taille_f_monstre,
+				"nom_masculin" => $t->nom_taille_m_monstre,
+				"nombre" => $monstresTable->countAllByTaille($t->id_taille_monstre)
 			);
 		}
 
 		foreach($typesRowset as $t) {
 			$types[] = array(
-			"id_type_monstre" => $t->id_type_monstre,
-			"nom_type" => $t->nom_type_monstre,
+				"id_type_monstre" => $t->id_type_monstre,
+				"nom_type" => $t->nom_type_monstre,
 			);
 
 			$stats["nb_monstre_par_type"][] = array(
-			"nom_type" => $t->nom_type_monstre,
-			"nombre" => $monstresTable->countAllByType($t->id_type_monstre)
+				"nom_type" => $t->nom_type_monstre,
+				"nombre" => $monstresTable->countAllByType($t->id_type_monstre)
 			);
 		}
 
@@ -521,15 +522,16 @@ class AdministrationMonstresController extends Zend_Controller_Action {
 			}
 			
 			$zones[] = array("id_zone" =>$z["id_zone"],
-			"x_min" => $z["x_min_zone"] ,
-			"x_max" => $z["x_max_zone"] ,
-			"y_min" => $z["y_min_zone"] ,
-			"y_max" => $z["y_max_zone"] ,
-			"environnement" =>$z["nom_environnement"] ,
-			"nombre_monstres" => $nombreMonstres,
-			"nombre_cases" => $nombreCases,
-			"couverture" => round($couverture, 5),
-			"villes" => $villes);
+				"x_min" => $z["x_min_zone"] ,
+				"x_max" => $z["x_max_zone"] ,
+				"y_min" => $z["y_min_zone"] ,
+				"y_max" => $z["y_max_zone"] ,
+				"environnement" =>$z["nom_environnement"] ,
+				"nombre_monstres" => $nombreMonstres,
+				"nombre_cases" => $nombreCases,
+				"couverture" => round($couverture, 5),
+				"villes" => $villes
+			);
 		}
 
 		$stats["nb_monstres"] = $monstresTable->countAll();

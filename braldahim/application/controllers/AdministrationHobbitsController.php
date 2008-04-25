@@ -3,11 +3,12 @@
 class AdministrationHobbitsController extends Zend_Controller_Action {
 
 	function init() {
-		/** TODO a completer */
-
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
 		}
+		
+		Bral_Util_Securite::controlAdmin();
+		
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 	}
@@ -56,12 +57,13 @@ class AdministrationHobbitsController extends Zend_Controller_Action {
 
 		foreach($hobbitsRowset as $h) {
 			$hobbits[] = array("id_hobbit" =>$h["id_hobbit"],
-			"x_hobbit" =>$h["x_hobbit"] ,
-			"y_hobbit" =>$h["y_hobbit"] ,
-			"nom_hobbit" =>$h["nom_hobbit"],
-			"prenom_hobbit" =>$h["prenom_hobbit"],
-			"pa_hobbit" =>$h["pa_hobbit"],
-			"castar_hobbit" =>$h["castar_hobbit"]);
+				"x_hobbit" =>$h["x_hobbit"] ,
+				"y_hobbit" =>$h["y_hobbit"] ,
+				"nom_hobbit" =>$h["nom_hobbit"],
+				"prenom_hobbit" =>$h["prenom_hobbit"],
+				"pa_hobbit" =>$h["pa_hobbit"],
+				"castar_hobbit" =>$h["castar_hobbit"]
+			);
 		}
 		$this->view->hobbits = $hobbitsRowset;
 	}

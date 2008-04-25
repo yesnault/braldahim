@@ -3,11 +3,12 @@
 class AdministrationPlantesController extends Zend_Controller_Action {
 
 	function init() {
-		/** TODO a completer */
-
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
 		}
+		
+		Bral_Util_Securite::controlAdmin();
+		
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 	}
@@ -87,13 +88,13 @@ class AdministrationPlantesController extends Zend_Controller_Action {
 					$partie_4 = Bral_Util_De::get_de_specifique($partie_4a, $partie_4b);
 				}
 				$data = array(
-				'id_fk_type_plante' => $id_type_plante,
-				'x_plante' => $x,
-				'y_plante' => $y,
-				'partie_1_plante' => $partie_1,
-				'partie_2_plante' => $partie_2,
-				'partie_3_plante' => $partie_3,
-				'partie_4_plante' => $partie_4,
+					'id_fk_type_plante' => $id_type_plante,
+					'x_plante' => $x,
+					'y_plante' => $y,
+					'partie_1_plante' => $partie_1,
+					'partie_2_plante' => $partie_2,
+					'partie_3_plante' => $partie_3,
+					'partie_4_plante' => $partie_4,
 				);
 
 				$planteTable->insert($data);
@@ -131,15 +132,15 @@ class AdministrationPlantesController extends Zend_Controller_Action {
 			}
 			
 			$zones[] = array("id_zone" =>$z["id_zone"],
-			"x_min" =>$z["x_min_zone"] ,
-			"x_max" =>$z["x_max_zone"] ,
-			"y_min" =>$z["y_min_zone"] ,
-			"y_max" =>$z["y_max_zone"] ,
-			"environnement" =>$z["nom_environnement"] ,
-			"nombre_plantes" => $nombrePlantes,
-			"nombre_cases" => $nombreCases,
-			"couverture" => round($couverture),
-			"villes" => $villes
+				"x_min" =>$z["x_min_zone"] ,
+				"x_max" =>$z["x_max_zone"] ,
+				"y_min" =>$z["y_min_zone"] ,
+				"y_max" =>$z["y_max_zone"] ,
+				"environnement" =>$z["nom_environnement"] ,
+				"nombre_plantes" => $nombrePlantes,
+				"nombre_cases" => $nombreCases,
+				"couverture" => round($couverture),
+				"villes" => $villes
 			);
 		}
 
@@ -164,17 +165,17 @@ class AdministrationPlantesController extends Zend_Controller_Action {
 				$nom_partie4 = $tabPartiePlante[$t["id_fk_partieplante4_type_plante"]]["nom"];
 			}
 			$typePlantes[] = array("id_type_plante" => $t["id_type_plante"],
-			"nom" => $t["nom_type_plante"],
-			"categorie" => $t["categorie_type_plante"],
-			"environnement" => $t["nom_environnement"],
-			"nom_partie_1" => $tabPartiePlante[$t["id_fk_partieplante1_type_plante"]]["nom"],
-			"nom_partie_2" => $nom_partie2,
-			"nom_partie_3" => $nom_partie3,
-			"nom_partie_4" => $nom_partie4,
-			"id_fk_partieplante1" => $t["id_fk_partieplante1_type_plante"],
-			"id_fk_partieplante2" => $t["id_fk_partieplante2_type_plante"],
-			"id_fk_partieplante3" => $t["id_fk_partieplante3_type_plante"],
-			"id_fk_partieplante4" => $t["id_fk_partieplante4_type_plante"],
+				"nom" => $t["nom_type_plante"],
+				"categorie" => $t["categorie_type_plante"],
+				"environnement" => $t["nom_environnement"],
+				"nom_partie_1" => $tabPartiePlante[$t["id_fk_partieplante1_type_plante"]]["nom"],
+				"nom_partie_2" => $nom_partie2,
+				"nom_partie_3" => $nom_partie3,
+				"nom_partie_4" => $nom_partie4,
+				"id_fk_partieplante1" => $t["id_fk_partieplante1_type_plante"],
+				"id_fk_partieplante2" => $t["id_fk_partieplante2_type_plante"],
+				"id_fk_partieplante3" => $t["id_fk_partieplante3_type_plante"],
+				"id_fk_partieplante4" => $t["id_fk_partieplante4_type_plante"],
 			);
 		}
 

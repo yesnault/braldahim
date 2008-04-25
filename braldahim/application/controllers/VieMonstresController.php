@@ -3,8 +3,9 @@
 class VieMonstresController extends Zend_Controller_Action {
 
 	function init() {
-		/** TODO a completer */
-
+		// TODO a remplacer par controlScript
+		Bral_Util_Securite::controlAdmin();
+	
 		$this->initView();
 		$this->view->config = Zend_Registry::get('config');
 

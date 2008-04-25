@@ -3,11 +3,12 @@
 class AdministrationFilonsController extends Zend_Controller_Action {
 
 	function init() {
-		/** TODO a completer */
-
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
 		}
+		
+		Bral_Util_Securite::controlAdmin();
+		
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 	}
@@ -105,9 +106,9 @@ class AdministrationFilonsController extends Zend_Controller_Action {
 
 		foreach($typeMineraiRowset as $t) {
 			$typeMinerais[] = array("id_type_minerai" => $t->id_type_minerai,
-			"nom" => $t->nom_type_minerai,
-			"nom_systeme" => $t->nom_systeme_type_minerai,
-			"description" => $t->description_type_minerai,
+				"nom" => $t->nom_type_minerai,
+				"nom_systeme" => $t->nom_systeme_type_minerai,
+				"description" => $t->description_type_minerai,
 			);
 		}
 

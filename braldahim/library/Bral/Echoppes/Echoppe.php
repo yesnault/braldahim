@@ -61,5 +61,4 @@ abstract class Bral_Echoppes_Echoppe {
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
 	}
-	
 }

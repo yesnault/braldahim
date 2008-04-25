@@ -23,12 +23,14 @@ Zend_Loader::loadClass("Bral_Echoppes_Factory");
 Zend_Loader::loadClass("Bral_Lieux_Factory");
 
 Zend_Loader::loadClass("Bral_Helper_Affiche");
-Zend_Loader::loadClass("Bral_Util_Controle");
-Zend_Loader::loadClass("Bral_Util_Commun");
 Zend_Loader::loadClass("Bral_Util_De");
+Zend_Loader::loadClass("Bral_Util_Exception");
+Zend_Loader::loadClass("Bral_Util_Controle");
+Zend_Loader::loadClass("Bral_Util_ConvertDate");
+Zend_Loader::loadClass("Bral_Util_Commun");
 Zend_Loader::loadClass("Bral_Util_Log");
 Zend_Loader::loadClass("Bral_Util_Registre");
-Zend_Loader::loadClass("Bral_Util_ConvertDate");
+Zend_Loader::loadClass("Bral_Util_Securite");
 
 Zend_Loader::loadClass("Bral_Helper_Box");
 Zend_Loader::loadClass("Bral_Helper_Tip");
@@ -58,5 +60,8 @@ $frontController->throwExceptions(true);
 $frontController->setControllerDirectory('./application/controllers');
 
 // run! 
-$frontController->dispatch();
-
+try {
+	$frontController->dispatch();
+} catch (Exception $e) {
+	Bral_Util_Exception::traite($e);
+}

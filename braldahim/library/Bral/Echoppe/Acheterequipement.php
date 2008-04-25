@@ -21,6 +21,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		Zend_Loader::loadClass("EchoppeEquipement");
 		Zend_Loader::loadClass("EchoppeEquipementMinerai");
 		Zend_Loader::loadClass("EchoppeEquipementPartiePlante");
+		Zend_Loader::loadClass("EquipementRune");
 		Zend_Loader::loadClass("Laban");
 		Zend_Loader::loadClass("LabanMinerai");
 		Zend_Loader::loadClass("LabanPartiePlante");
@@ -62,9 +63,27 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			throw new Zend_Exception(get_class($this)."::equipement invalide");
 		}
 		
+		$equipementRuneTable = new EquipementRune();
+		$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
+
+		$runes = null;
+		if (count($equipementRunes) > 0) {
+			foreach($equipementRunes as $r) {
+				if ($r["id_equipement_rune"] == $e["id_echoppe_equipement"]) {
+					$runes[] = array(
+						"id_rune_equipement_rune" => $r["id_rune_equipement_rune"],
+						"id_fk_type_rune_equipement_rune" => $r["id_fk_type_rune_equipement_rune"],
+						"nom_type_rune" => $r["nom_type_rune"],
+						"image_type_rune" => $r["image_type_rune"],
+						"effet_type_rune" => $r["effet_type_rune"],
+					);
+				}
+			}
+		}
+				
 		$echoppEquipementMineraiTable = new EchoppeEquipementMinerai();
 		$echoppeEquipementMinerai = $echoppEquipementMineraiTable->findByIdsEquipement($idEquipements);
-				
+		
 		$minerai = null;
 		if (count($echoppeEquipementMinerai) > 0) {
 			foreach($echoppeEquipementMinerai as $r) {
@@ -124,6 +143,24 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		$tabEquipement = array(
 			"id_equipement" => $this->equipement["id_echoppe_equipement"],
 			"nom" => $this->equipement["nom_type_equipement"],
+			"qualite" => $this->equipement["nom_type_qualite"],
+			"niveau" => $this->equipement["niveau_recette_equipement"],
+			"id_type_emplacement" => $this->equipement["id_type_emplacement"],
+			"nom_systeme_type_emplacement" => $this->equipement["nom_systeme_type_emplacement"],
+			"nb_runes" => $this->equipement["nb_runes_echoppe_equipement"],
+			"id_fk_recette_equipement" => $this->equipement["id_fk_recette_echoppe_equipement"],
+			"armure" => $this->equipement["armure_recette_equipement"],
+			"force" => $this->equipement["force_recette_equipement"],
+			"agilite" => $this->equipement["agilite_recette_equipement"],
+			"vigueur" => $this->equipement["vigueur_recette_equipement"],
+			"sagesse" => $this->equipement["sagesse_recette_equipement"],
+			"vue" => $this->equipement["vue_recette_equipement"],
+			"bm_attaque" => $this->equipement["bm_attaque_recette_equipement"],
+			"bm_degat" => $this->equipement["bm_degat_recette_equipement"],
+			"bm_defense" => $this->equipement["bm_defense_recette_equipement"],
+			"suffixe" => $this->equipement["suffixe_mot_runique"],
+			"id_fk_mot_runique" => $this->equipement["id_fk_mot_runique_echoppe_equipement"],
+			"nom_systeme_mot_runique" => $this->equipement["nom_systeme_mot_runique"],
 			"prix_1_vente_echoppe_equipement" => $this->equipement["prix_1_vente_echoppe_equipement"],
 			"prix_2_vente_echoppe_equipement" => $this->equipement["prix_2_vente_echoppe_equipement"],
 			"prix_3_vente_echoppe_equipement" => $this->equipement["prix_3_vente_echoppe_equipement"],
@@ -131,6 +168,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			"unite_2_vente_echoppe_equipement" => $this->equipement["unite_2_vente_echoppe_equipement"],
 			"unite_3_vente_echoppe_equipement" => $this->equipement["unite_3_vente_echoppe_equipement"],
 			"commentaire_vente_echoppe_equipement" => $this->equipement["commentaire_vente_echoppe_equipement"],
+			"runes" => $runes,
 			"prix_minerais" => $minerai,
 			"prix_parties_plantes" => $partiesPlantes,
 		);
@@ -255,7 +293,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		if ($this->view->prix[$idPrix]["possible"] !== true) {
 			throw new Zend_Exception(get_class($this)."::prix invalide");
 		}
-		
+	
 		if ($this->view->prix[$idPrix]["type"] == "echoppe") {
 			$this->calculAchatEchoppe($this->view->prix[$idPrix]);
 		} elseif ($this->view->prix[$idPrix]["type"] == "minerais") {
@@ -265,6 +303,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		}	
 
 		$this->calculTransfert();
+
 	}
 	
 	private function calculAchatEchoppe($prix) {
@@ -350,10 +389,10 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		$labanEquipementTable = new LabanEquipement();
 		$data = array(
 			'id_laban_equipement' => $this->equipement["id_echoppe_equipement"],
-			'id_fk_type_laban_equipement' => $this->equipement["id_fk_type_equipement_echoppe_equipement"],
+			'id_fk_recette_laban_equipement' => $this->equipement["id_fk_recette_echoppe_equipement"],
+			'nb_runes_laban_equipement' => $this->equipement["nb_runes_echoppe_equipement"],
 			'id_fk_hobbit_laban_equipement' => $this->view->user->id_hobbit,
-			'id_fk_type_qualite_laban_equipement' => $this->equipement["id_fk_type_qualite_echoppe_equipement"],
-			'niveau_laban_equipement' => $this->equipement["niveau_echoppe_equipement"],
+			'id_fk_mot_runique_laban_equipement' => $this->equipement["id_fk_mot_runique_echoppe_equipement"],
 		);
 		$labanEquipementTable->insert($data);
 		

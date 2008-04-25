@@ -67,7 +67,6 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		Zend_Loader::loadClass("EchoppeEquipementPartiePlante");
 		Zend_Loader::loadClass("EquipementRune");
 	
-		$tabEquipementsArriereBoutique = null;
 		$tabEquipementsEtal = null;
 		$echoppeEquipementTable = new EchoppeEquipement();
 		$equipements = $echoppeEquipementTable->findByIdEchoppe($idEchoppe);

@@ -181,8 +181,6 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Confectionner Echoppe interdit ");
 		}
 
-		// verification ressource  : todo
-
 		$idTypeEquipement = (int)$this->request->get("valeur_1");
 		$niveau = (int)$this->request->get("valeur_2");
 		$nbRunes = (int)$this->request->get("valeur_3");

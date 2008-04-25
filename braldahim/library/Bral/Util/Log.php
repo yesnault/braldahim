@@ -11,6 +11,7 @@ class Bral_Util_Log {
 	private static $attaque = null;
 	private static $config = null;
 	private static $erreur = null;
+	private static $exception = null;
 	private static $inscription = null;
 	private static $potion = null;
 	private static $tech = null;
@@ -35,6 +36,13 @@ class Bral_Util_Log {
 			self::initLogErreur();
 		}
 		return self::$erreur;
+	}
+	
+	public static function exception() {
+		if (self::$exception == null) {
+			self::initLogException();
+		}
+		return self::$exception;
 	}
 	
 	public static function inscription() {
@@ -86,7 +94,7 @@ class Bral_Util_Log {
 		self::$config = Zend_Registry::get('config');
 		self::$authentification = new Zend_Log();
 		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->authentification);
-		$formateur = new Zend_Log_Formatter_Simple($_SERVER['REMOTE_ADDR'].' %message%' . PHP_EOL);
+		$formateur = new Zend_Log_Formatter_Simple(date("Y-m-d H:m:s"). ' '. $_SERVER['REMOTE_ADDR'].' %message%' . PHP_EOL);
 		$redacteur->setFormatter($formateur);
 		self::$authentification->addWriter($redacteur);
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->authentification);
@@ -124,7 +132,7 @@ class Bral_Util_Log {
 		self::$config = Zend_Registry::get('config');
 		self::$erreur = new Zend_Log();
 		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->erreur);
-		$formateur = new Zend_Log_Formatter_Simple($_SERVER['REMOTE_ADDR'].' %message%' . PHP_EOL);
+		$formateur = new Zend_Log_Formatter_Simple(date("Y-m-d H:m:s"). ' '. $_SERVER['REMOTE_ADDR'].' %message%' . PHP_EOL);
 		$redacteur->setFormatter($formateur);
 		self::$erreur->addWriter($redacteur);
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->erreur);
@@ -137,6 +145,21 @@ class Bral_Util_Log {
 		}
 	}
 	
+	private static function initLogException() {
+		if (self::$instance == null) {
+			$instance = self::getInstance();
+		}
+		self::$config = Zend_Registry::get('config');
+		self::$exception = new Zend_Log();
+		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->exception);
+		$formateur = new Zend_Log_Formatter_Simple(date("Y-m-d H:m:s"). ' '. $_SERVER['REMOTE_ADDR'].' %message%' . PHP_EOL);
+		$redacteur->setFormatter($formateur);
+		self::$exception->addWriter($redacteur);
+		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->erreur);
+		self::$exception->addFilter($filtre);
+		self::$exception->addPriority('TRACE', 8);
+	}
+	
 	private static function initLogInscription() {
 		if (self::$instance == null) {
 			$instance = self::getInstance();
@@ -144,7 +167,7 @@ class Bral_Util_Log {
 		self::$config = Zend_Registry::get('config');
 		self::$inscription = new Zend_Log();
 		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->inscription);
-		$formateur = new Zend_Log_Formatter_Simple($_SERVER['REMOTE_ADDR'].' %message%' . PHP_EOL);
+		$formateur = new Zend_Log_Formatter_Simple(date("Y-m-d H:m:s"). ' '. $_SERVER['REMOTE_ADDR'].' %message%' . PHP_EOL);
 		$redacteur->setFormatter($formateur);
 		self::$inscription->addWriter($redacteur);
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->inscription);
