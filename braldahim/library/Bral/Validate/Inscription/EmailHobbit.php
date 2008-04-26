@@ -30,8 +30,18 @@ class Bral_Validate_Inscription_EmailHobbit implements Zend_Validate_Interface {
 		if ($valid) {
 			$validateur = new Zend_Validate_EmailAddress();
 			if (!$validateur->isValid($valeur)) {
-				print_r($validateur->getMessages());
-				$this->_messages[] = "Cette adresse est invalide:";
+				$tab = $validateur->getMessages();
+				$this->_messages[] = "Cette adresse est invalide: ".$tab["emailAddressInvalidHostname"];
+				$valid = false;
+			}
+		}
+		
+    	if ($valid) {
+    		Zend_Loader::loadClass("Testeur");
+    		$testeurTable = new Testeur();
+			$r = $testeurTable->findByEmail($valeur);
+			if (count($r) == 0) {
+				$this->_messages[] = "Cette adresse mail est invalide en Beta Test";
 				$valid = false;
 			}
 		}
