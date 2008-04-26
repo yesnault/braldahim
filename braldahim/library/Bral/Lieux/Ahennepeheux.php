@@ -7,6 +7,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 	private $_tabNouveauMetiers;
 	private $_tabMetiers;
 	private $_possedeMetier;
+	private $_idAncienMetier;
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Charrette");
@@ -26,6 +27,10 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 				$nom_metier = $m["nom_feminin_metier"];
 			} else {
 				$nom_metier = $m["nom_masculin_metier"];
+			}
+			
+			if ($m["est_actif_hmetier"] == "oui") {
+				$this->_idAncienMetier = $m["id_metier"];
 			}
 			
 			$this->_tabMetiers[] = array(
@@ -151,10 +156,23 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 			$where = "id_fk_hobbit_hmetier =".intval($this->view->user->id_hobbit);
 			$hobbitsMetiersTable->update($data, $where);
 
-			//$hobbitsMetiersTable->updateTousMetierVersNonActif($this->view->user->id_hobbit);
-			//$hobbitsMetiersTable->updateMetierVersActif($this->view->user->id_hobbit, $idNouveauMetierCourant);
+			$hobbitsCompetencesTable = new HobbitsCompetences();
 			
-			//TODO -10% sur les competences de l'ancien metier a rajouter
+			if ($this->_idAncienMetier != null) {
+				$hobbitCompetences = $hobbitsCompetencesTable->findByIdHobbit($this->view->user->id_hobbit);
+				foreach($hobbitCompetences as $e) {
+					if ($e["id_fk_metier_competence"] == $this->_idAncienMetier) {
+						$p = $e["pourcentage_hcomp"] - 10;
+						if ($p < 10) {
+							$p = 10;
+						}
+						$data = array("pourcentage_hcomp" => $p);
+						$where = array("id_fk_hobbit_hcomp = ".intval($this->view->user->id_hobbit). " AND id_fk_competence_hcomp=".$e["id_competence"]);
+						$hobbitsCompetencesTable->update($data, $where);
+					}
+				}
+			}
+			
 			$data = array('est_actif_hmetier' => 'oui');
 			$where = array("id_fk_hobbit_hmetier = ".intval($this->view->user->id_hobbit)." AND id_fk_metier_hmetier = ".intval($idNouveauMetierCourant));
 			$hobbitsMetiersTable->update($data, $where);
@@ -164,7 +182,6 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 			$data = array('est_actif_hmetier' => 'non');
 			$where = "id_fk_hobbit_hmetier =".intval($this->view->user->id_hobbit);
 			$hobbitsMetiersTable->update($data, $where);
-			//$hobbitsMetiersTable->updateTousMetierVersNonActif($this->view->user->id_hobbit);
 
 			$dataNouveauMetier = array(
 				'id_fk_hobbit_hmetier' => $this->view->user->id_hobbit,
