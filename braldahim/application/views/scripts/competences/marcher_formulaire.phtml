@@ -1,6 +1,4 @@
-<div class='comp_titre'>Marcher</div>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
- <form name='myForm' id='myForm'>
  <div class='comp_contenu'>
 
  <?=htmlentities($this->environnement) ?>: <?=$this->nb_pa ?> PA, <?=$this->nb_cases ?>
@@ -57,9 +55,7 @@
 <? endif ?>
 </div>
 
-</form>
 <br />
 <?php if ($this->assezDePa == true && $this->marcherPossible === true) : ?>
 <input type='button' class='button1' value='Marcher !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_marcher");'>
 <? endif ?>
-<? include("commun_fermer.phtml") ?>

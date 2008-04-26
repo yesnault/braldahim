@@ -1,11 +1,5 @@
-<div class='comp_titre'>Fabriquer</div>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
- <form name='myForm'>
  <div class='comp_contenu'>
-
-<?php if ($this->assezDePa == false) : ?>
- Vous n'avez pas assez de PA
-<?php else : ?>
 	 <? if ($this->fabriquerEchoppeOk === true) : ?>
 	 Pour <?=$this->nb_pa ?> PA, vous pouvez fabriquer une pi&egrave;ce d'&eacute;quipement<br /><br />
      
@@ -71,12 +65,9 @@
 	<? else: ?>
 		Vous n'avez aucun lingot pour fabriquer...
 	<? endif; ?>
-<? endif ?>
 </div>
 
-</form>
 <br />
 <?php if ($this->assezDePa == true && $this->fabriquerEchoppeOk === true && $this->etape1 === true) : ?>
 <input type='button' class='button1' id='bouton_fabriquer' value='Fabriquer !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_fabriquer&type_equipement="+$("valeur_1").value);' disabled>
 <? endif ?>
-<? include("commun_fermer.phtml") ?>

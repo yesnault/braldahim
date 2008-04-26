@@ -268,7 +268,8 @@ class InscriptionController extends Zend_Controller_Action {
 				'id_fk_hobbit_hcomp' => $this->view->id_hobbit,
 				'id_fk_competence_hcomp'  => $c["id_competence"],
 				'pourcentage_hcomp'  => $c["pourcentage_init_competence"],
-				'date_gain_tour_hcomp'  => "0000-00-00 00:00:00",
+				'date_debut_tour_hcomp'  => "0000-00-00 00:00:00",
+				'nb_action_tour_hcomp' => 0,
 			);
 
 			$hobbitCompetenceTable = new HobbitsCompetences();

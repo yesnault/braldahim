@@ -1,14 +1,8 @@
-<div class='comp_titre'>S'&eacute;quiper</div>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
- <form name='myForm'>
  <div class='comp_contenu'>
 
-<?php if ($this->assezDePa == false) : ?>
- Vous n'avez pas assez de PA
-<?php else : 
-Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
-?>
+<?php Zend_Loader::loadClass("Bral_Helper_DetailEquipement"); ?>
 	 <? if ($this->sequiperOk === true) : ?>
 	 	Pour <?=$this->nb_pa ?> PA, vous pouvez mettre ou enlever une pi&egrave;ce d'&eacute;quipement.<br /><br />
 	 	
@@ -104,9 +98,5 @@ Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
 	<? else : ?>
 		Vous n'avez pas d'&eacute;quipement &agrave; mettre ou &agrave; enlever..
 	<? endif; ?>
-<? endif ?>
 </div>
-
-</form>
 <br />
-<? include("commun_fermer.phtml") ?>

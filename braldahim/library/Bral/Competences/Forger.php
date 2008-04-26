@@ -127,7 +127,13 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 			foreach($recetteCoutMinerai as $r) {
 				if (($r["quantite_recette_cout_minerai"] > 0) &&
 				($r["niveau_recette_cout_minerai"] <=floor($this->view->user->niveau_hobbit / 10))) {
-					$tabCout[$r["niveau_recette_cout_minerai"]][] = array("nom"=>$r["nom_type_minerai"], "nom_systeme"=>$r["nom_systeme_type_minerai"], "id_type_minerai"=>$r["id_type_minerai"], "cout" => $r["quantite_recette_cout_minerai"], "unite" => "lingot"
+					$tabCout[$r["niveau_recette_cout_minerai"]][] = array(
+						"nom"=>$r["nom_type_minerai"], 
+						"nom_systeme"=>$r["nom_systeme_type_minerai"], 
+						"id_type_minerai"=>$r["id_type_minerai"], 
+						"cout" => $r["quantite_recette_cout_minerai"], 
+						"unite" => "lingot"
+					);
 					foreach($this->echoppeMinerai as $m) {
 						if ($m["id_fk_type_echoppe_minerai"] == $r["id_type_minerai"]) {
 							if ($r["quantite_recette_cout_minerai"] <= $m["quantite_lingots_echoppe_minerai"]) {

@@ -27,6 +27,8 @@ class Bral_Echoppes_Factory {
 
 	static function getVoir($request, $view, $id_echoppe) {
 		Zend_Loader::loadClass("Bral_Echoppes_Voir");
+		Zend_Loader::loadClass("Bral_Echoppes_Echoppe");
+		
 		return new Bral_Echoppes_Voir("voir", $request, $view, "ask", $id_echoppe);
 	}
 }

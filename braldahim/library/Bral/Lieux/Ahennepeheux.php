@@ -201,7 +201,8 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 					'id_fk_hobbit_hcomp' => $this->view->user->id_hobbit,
 					'id_fk_competence_hcomp'  => $e->id_competence,
 					'pourcentage_hcomp'  => 10,
-					'date_gain_tour_hcomp'  => "0000-00-00 00:00:00",
+					'date_debut_tour_hcomp'  => "0000-00-00 00:00:00",
+					'nb_action_tour_hcomp' => 0,
 				);
 				$hobbitsCompetencesTable->insert($data);
 			}

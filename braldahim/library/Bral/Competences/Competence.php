@@ -9,7 +9,6 @@ abstract class Bral_Competences_Competence {
 	private $detailEvenement = null;
 	private $idTypeEvenement = null;
 	
-	
 	function __construct($competence, $hobbitCompetence, $request, $view, $action) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
 		
@@ -33,7 +32,10 @@ abstract class Bral_Competences_Competence {
 		
 		// recuperation de hobbit competence
 		$this->hobbit_competence = $hobbitCompetence;
-
+		
+		// si c'est une competence metier, on verifie que ce n'est pas utilisé plus de 2 fois par DLA
+		$this->view->nbActionMetierParDlaOk = $this->calculNbActionMetierParDlaOk();
+		
 		$this->prepareCommun();
 		$this->calculNbPa();
 
@@ -58,7 +60,7 @@ abstract class Bral_Competences_Competence {
 		return false;
 	}
 	
-	public function calculNbPa() {
+	protected function calculNbPa() {
 		if ($this->view->user->pa_hobbit - $this->competence["pa_utilisation"] < 0) {
 			$this->view->assezDePa = false;
 		} else {
@@ -67,7 +69,7 @@ abstract class Bral_Competences_Competence {
 		$this->view->nb_pa = $this->competence["pa_utilisation"];
 	}
 	
-	public function ameliorationCompetenceMetier() {
+	protected function ameliorationCompetenceMetier() {
 		Zend_Loader::loadClass("HobbitsMetiers");
 		
 		$hobbitsMetiersTable = new HobbitsMetiers();
@@ -84,7 +86,7 @@ abstract class Bral_Competences_Competence {
 		return $ameliorationCompetence;
 	}
 	
-	public function getIdMetier() {
+	protected function getIdMetier() {
 		if ($this->competence["type_competence"] == "metier") {
 			return $this->competence["id_fk_metier_competence"];
 		} else {
@@ -92,7 +94,7 @@ abstract class Bral_Competences_Competence {
 		}
 	}
 	
-	public function calculPx() {
+	protected function calculPx() {
 		$this->view->nb_px_commun = 0;
 		$this->view->calcul_px_generique = true;
 		if ($this->view->okJet1 === true) {
@@ -103,12 +105,12 @@ abstract class Bral_Competences_Competence {
 		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
 	}
 
-	public function calculBalanceFaim() {
+	protected function calculBalanceFaim() {
 		$this->view->balanceFaimUtilisee = true;
 		$this->view->balance_faim = $this->competence["balance_faim"];
 	}
 
-	public function calculJets() {
+	protected function calculJets() {
 		$this->view->jetUtilise = true;
 		$this->view->okJet1 = false; // jet de compétence
 		$this->view->okJet2 = false; // jet amélioration de la compétence
@@ -116,9 +118,10 @@ abstract class Bral_Competences_Competence {
 		$this->calculJets1();
 		$this->calculJets2et3();
 		$this->majSuiteJets();
+		$this->updateCompetenceNbAction();
 	}
 
-	public function calculJets1() {
+	private function calculJets1() {
 		// 1er Jet : réussite ou non de la compétence
 		$this->view->jet1 = Bral_Util_De::get_1d100();
 		if ($this->view->jet1 <= $this->hobbit_competence["pourcentage_hcomp"]) {
@@ -128,7 +131,7 @@ abstract class Bral_Competences_Competence {
 		}
 	}
 
-	public function calculJets2et3() {
+	private function calculJets2et3() {
 		$this->view->jet2Possible = false;
 		
 		$this->view->estCompetenceMetier = false;
@@ -173,7 +176,7 @@ abstract class Bral_Competences_Competence {
 	}
 
 	// mise à jour de la table hobbit competence
-	public function majSuiteJets() {
+	private function majSuiteJets() {
 		if ($this->view->okJet3 === true) { // uniquement dans le cas de réussite du jet3
 			$hobbitsCompetencesTable = new HobbitsCompetences();
 			$pourcentage = $this->hobbit_competence["pourcentage_hcomp"] + $this->view->jet3;
@@ -189,7 +192,7 @@ abstract class Bral_Competences_Competence {
 	/*
 	 * Mise à jour des évènements du hobbit / du monstre.
 	 */
-	public function setDetailsEvenement($details, $idType) {
+	protected function setDetailsEvenement($details, $idType) {
 		$this->detailsEvenement = $details;
 		$this->idTypeEvenement = $idType;
 	}
@@ -197,14 +200,14 @@ abstract class Bral_Competences_Competence {
 	/*
 	 * Mise à jour des évènements du hobbit / du monstre.
 	 */
-	public function setEstEvenementAuto($flag) {
+	protected function setEstEvenementAuto($flag) {
 		$this->estEvenementAuto = $flag;
 	}
 	
 	/*
 	 * Mise à jour des évènements du hobbit / du monstre.
 	 */
-	public function setEvenementQueSurOkJet1($flag) {
+	protected function setEvenementQueSurOkJet1($flag) {
 		$this->evenementQueSurOkJet1 = $flag;
 	}
 	
@@ -228,7 +231,7 @@ abstract class Bral_Competences_Competence {
 	/*
 	 * Mise à jour des PA, des PX et de la balance de faim.
 	 */
-	public function majHobbit() {
+	protected function majHobbit() {
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 		$hobbit = $hobbitRowset->current();
@@ -268,14 +271,17 @@ abstract class Bral_Competences_Competence {
 	}
 
 	public function render() {
+		$this->view->competence = $this->competence;
 		switch($this->action) {
 			case "ask":
-				return $this->view->render("competences/".$this->nom_systeme."_formulaire.phtml");
+				$texte = $this->view->render("competences/".$this->nom_systeme."_formulaire.phtml");
+				// suppression des espaces : on met un espace à la place de n espaces à suivre
+				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
+				
+				return $this->view->render("competences/commun_formulaire.phtml");
 				break;
 			case "do":
 				$this->view->reloadInterface = $this->reloadInterface;
-				$this->view->competence = $this->competence;
-				
 				$texte = $this->view->render("competences/".$this->nom_systeme."_resultat.phtml");
 				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
@@ -335,5 +341,43 @@ abstract class Bral_Competences_Competence {
 		$this->detailEvenement = $retourAttaque["details"];
 		$this->idTypeEvenement =$retourAttaque["typeEvemenent"];
 		return $retourAttaque;
+	}
+	
+	private function updateCompetenceNbAction() {
+		if ($this->view->okJet1 === true) { // uniquement dans le cas de réussite du jet3
+			$hobbitsCompetencesTable = new HobbitsCompetences();
+			$data = array(
+				'date_debut_tour_hcomp' => $this->view->user->date_debut_tour_hobbit,
+				'nb_action_tour_hcomp' => ($this->hobbit_competence["nb_action_tour_hcomp"] + 1),
+			);
+			$where = array("id_fk_competence_hcomp = ".$this->hobbit_competence["id_fk_competence_hcomp"]." AND id_fk_hobbit_hcomp = ".$this->view->user->id_hobbit);
+			$hobbitsCompetencesTable->update($data, $where);
+		}
+	}
+	
+	private function calculNbActionMetierParDlaOk() {
+		$retour = false;
+		if ($this->competence["id_fk_metier_competence"] != null && $this->competence["id_fk_metier_competence"] > 0) {
+			if ($this->view->user->date_debut_tour_hobbit == $this->hobbit_competence["date_debut_tour_hcomp"]) { 
+				if ($this->hobbit_competence["nb_action_tour_hcomp"] >= 2) {
+					$retour = false;
+				} else { // < 2
+					$retour = true;
+				}
+			} else { // premiere utilisation de la competence dans ce tour
+				$retour = true;
+				
+				$hobbitsCompetencesTable = new HobbitsCompetences();
+				$data = array(
+					'date_debut_tour_hcomp' => $this->view->user->date_debut_tour_hobbit,
+					'nb_action_tour_hcomp' => 0,
+				);
+				$where = array("id_fk_competence_hcomp = ".$this->hobbit_competence["id_fk_competence_hcomp"]." AND id_fk_hobbit_hcomp = ".$this->view->user->id_hobbit);
+				$hobbitsCompetencesTable->update($data, $where);
+			}
+		} else { // competence non metier
+			$retour = true;
+		}
+		return $retour;
 	}
 }

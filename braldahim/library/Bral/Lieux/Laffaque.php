@@ -35,13 +35,13 @@ class Bral_Lieux_Laffaque extends Bral_Lieux_Lieu {
 				}
 					
 				$tab = array(
-				"id_competence" => $c["id_competence"],
-				"nom" => $c["nom_competence"],
-				"nom_systeme" => $c["nom_systeme_competence"],
-				"description" => $c["description_competence"],
-				"niveau_requis" => $c["niveau_requis_competence"],
-				"pi_cout" => $c["pi_cout_competence"],
-				"trop_cher" => $tropCher,
+					"id_competence" => $c["id_competence"],
+					"nom" => $c["nom_competence"],
+					"nom_systeme" => $c["nom_systeme_competence"],
+					"description" => $c["description_competence"],
+					"niveau_requis" => $c["niveau_requis_competence"],
+					"pi_cout" => $c["pi_cout_competence"],
+					"trop_cher" => $tropCher,
 				);
 				$this->_tabCompetences[] = $tab;
 			}
@@ -51,7 +51,6 @@ class Bral_Lieux_Laffaque extends Bral_Lieux_Lieu {
 		$this->view->nCompetences = count($this->_tabCompetences);
 		$this->view->coutCastars = $this->_coutCastars;
 		$this->view->achatPossibleCastars = ($this->view->user->castars_hobbit - $this->_coutCastars >= 0);
-		// $this->view->utilisationPaPossible initialisé dans Bral_Lieux_Lieu
 	}
 
 	function prepareFormulaire() {
@@ -100,10 +99,11 @@ class Bral_Lieux_Laffaque extends Bral_Lieux_Lieu {
 		}
 
 		$data = array(
-		'id_fk_hobbit_hcomp' => $this->view->user->id_hobbit,
-		'id_fk_competence_hcomp'  => $idCompetence,
-		'pourcentage_hcomp'  => 10,
-		'date_gain_tour_hcomp'  => "0000-00-00 00:00:00",
+			'id_fk_hobbit_hcomp' => $this->view->user->id_hobbit,
+			'id_fk_competence_hcomp'  => $idCompetence,
+			'pourcentage_hcomp'  => 10,
+			'date_debut_tour_hcomp'  => "0000-00-00 00:00:00",
+			'nb_action_tour_hcomp' => 0,
 		);
 
 		$hobbitCompetenceTable = new HobbitsCompetences();

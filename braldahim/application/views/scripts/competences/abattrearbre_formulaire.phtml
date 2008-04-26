@@ -1,11 +1,5 @@
-<div class='comp_titre'>Abattre un arbre</div>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
- <form name='myForm'>
  <div class='comp_contenu'>
-
-<?php if ($this->assezDePa == false) : ?>
- Vous n'avez pas assez de PA
-<?php else : ?>
 	 <? if ($this->abattreArbreEnvironnementOk !== true) : ?>
 	 	Vous pouvez abattre un arbre qu'en for&ecirc;t
 	 <? elseif ($this->abattreArbreVilleOk !== true) : ?>
@@ -16,12 +10,9 @@
 		 Pour <?=$this->nb_pa ?> PA, vous pouvez abattre un arbre
 	 <? endif; ?>
 	 <br />
-<? endif ?>
 </div>
 
-</form>
 <br />
 <?php if ($this->assezDePa == true && $this->abattreArbreEnvironnementOk === true && $this->abattreArbreLieuOk === true && $this->abattreArbreVilleOk === true) : ?>
 <input type='button' class='button1' id='bouton_abattrearbre' value='Abattre un arbre !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_abattrearbre");'>
 <? endif ?>
-<? include("commun_fermer.phtml") ?>

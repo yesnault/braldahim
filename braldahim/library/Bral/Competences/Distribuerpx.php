@@ -73,7 +73,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 			$hobbit = $hobbitRowset->current();
 			$hobbit->px_perso_hobbit = $hobbit->px_perso_hobbit + $t["px_recu"];
 			$data = array(
-			'px_perso_hobbit' => $hobbit->px_perso_hobbit,
+				'px_perso_hobbit' => $hobbit->px_perso_hobbit,
 			);
 			$where = "id_hobbit=".$t["id_hobbit"];
 			$hobbitTable->update($data, $where);
@@ -82,17 +82,17 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 			}
 			$tab["id_hobbit"] = $t["id_hobbit"];
 			if ($t["id_hobbit"] == $this->view->user->id_hobbit) {
-				$tab["nom_hobbit"] = "Vous-Même : ".$hobbit->prenom_hobbit. " ". $hobbit->nom_hobbit;
+				$tab["nom_hobbit"] = "Vous-Même : ".$hobbit->prenom_hobbit. " " .$hobbit->nom_hobbit;
 			} else {
-				$tab["nom_hobbit"] = $hobbit->prenom_hobbit. " ". $hobbit->nom_hobbit;
+				$tab["nom_hobbit"] = $hobbit->prenom_hobbit. " " .$hobbit->nom_hobbit;
 			}
 			$tab["px_recu"] = $t["px_recu"];
 			$tabAffiche[] = $tab;
 
 			$id_type = $this->view->config->game->evenements->type->don;
 			$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a donné des PX à ".$t["nom_hobbit"]." (".$t["id_hobbit"].")";
-			$detailDonneur "Vous avez donné ".$t["px_recu"]." PX à ".$t["nom_hobbit"]." (".$t["id_hobbit"].")";
-			$detailReceveur "Vous avez reçu ".$t["px_recu"]." PX de la part de ".$hobbit->prenom_hobbit. " ". $hobbit->nom_hobbit." (".$this->view->user->id_hobbit.")";
+			$detailDonneur = "Vous avez donné ".$t["px_recu"]." PX à ".$t["nom_hobbit"]." (".$t["id_hobbit"].")";
+			$detailReceveur = "Vous avez reçu ".$t["px_recu"]." PX de la part de ".$hobbit->prenom_hobbit. " ". $hobbit->nom_hobbit." (".$this->view->user->id_hobbit.")";
 			Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $id_type, $details, $detailDonneur);
 			Bral_Util_Evenement::majEvenements($t["id_hobbit"], $id_type, $details, $detailReceveur);
 		}

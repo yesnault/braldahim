@@ -1,0 +1,23 @@
+<div class='comp_titre'><?=htmlentities($this->competence["nom"]) ?></div>
+<br/>
+<form name='myForm' id='myForm'>
+<?php if ($this->assezDePa == false) : ?>
+	<div class='comp_contenu'>
+	Vous n'avez pas assez de PA.
+	<br /><br/>
+	</div>
+<?php elseif ($this->nbActionMetierParDlaOk == false) : ?>
+	<div class='comp_contenu'>
+	Vous avez d&eacute;j&agrave; utilis&eacute; cette comp&eacute;tence m&eacute;tier 2 fois 
+	au cours de votre tour courant. Vous ne pourrez utiliser cette comp&eacute;tence qu'&agrave;
+	votre prochain tour maintenant.
+	<br/><br/>
+	</div>
+<?php else : ?>
+	
+	<?=$this->texte ?>
+	
+<? endif ?>
+
+<? include("commun_fermer.phtml") ?>
+</form>
