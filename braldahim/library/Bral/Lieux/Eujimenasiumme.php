@@ -7,6 +7,7 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Lieu");
+		
 		$this->_coutCastars = $this->calculCoutCastars();
 
 		$achatPiPossible = false;
@@ -63,6 +64,8 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 					$this->view->user->force_base_hobbit = $this->view->user->force_base_hobbit + 1;
 					$this->view->user->pi_hobbit = $this->view->user->pi_hobbit - $this->view->coutForce;
 					$this->view->coutPi = $this->view->coutForce;
+					Zend_Loader::loadClass("Bral_Util_Poids");
+					$this->view->user->poids_transportable_hobbit = Bral_Util_Poids::calculPoidsTransportable($this->view->user->force_base_hobbit);
 				}
 				break;
 			case "SAG":

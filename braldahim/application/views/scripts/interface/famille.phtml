@@ -20,13 +20,30 @@
     <? if ($this->nbEnfants == 0 && $this->conjoint == null) :?>
     	Vous n'avez ni enfant, ni conjoint.
     <? else : ?>
-    	Avec votre conjoint 
-    	<?=htmlentities($this->conjoint["prenom"]) ?> <?=htmlentities($this->conjoint["nom"]) ?> (n&deg;<?=htmlentities($this->conjoint["id_hobbit"]) ?>)
-    	 vous avez eu <?=$this->nbEnfants ?> enfant<? if ($this->nbEnfants > 1) echo 's' ?> : <br />
+    	Avec votre conjoint
+    	<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->conjoint["id_hobbit"] ?>');">
+    		<?=htmlentities($this->conjoint["prenom"]) ?> <?=htmlentities($this->conjoint["nom"]) ?> (n&deg;<?=htmlentities($this->conjoint["id_hobbit"]) ?>)
+    	</a>
+    	 vous avez eu <?=$this->nbEnfants ?> enfant<? if ($this->nbEnfants > 1) echo 's' ?>.<br />
     	
-    	<? foreach($this->enfants as $e) :?>
-    		<?=htmlentities($e["prenom"]) ?> <?=htmlentities($e["nom"]) ?> (n&deg;<?=htmlentities($e["id_hobbit"])?>) n&eacute;<? if ($e["sexe_hobbit"] == 'feminin') echo "e"?> le <?=$e["date_naissance"] ?> <br />
-    	<? endforeach; ?>
+    	<? if ($this->nbEnfants > 0) : ?>
+	    	<table class="table_liste" style="width:80%">
+				<thead class="table_liste">
+				  <tr class="table_liste" title="Cliquer pour Trier">
+					<th>Hobbit</th>
+					<th>Naissance</th>
+				  </tr>
+				</thead>
+				<tbody>
+					<? foreach($this->enfants as $e) :?>
+					<tr class="table_liste">
+						<td><a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$e["id_hobbit"] ?>');"><?=htmlentities($e["prenom"]) ?> <?=htmlentities($e["nom"]) ?> (n&deg;<?=htmlentities($e["id_hobbit"])?>)</a></td>
+						<td nowrap>n&eacute;<? if ($e["sexe_hobbit"] == 'feminin') echo "e"?> le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$e["date_naissance"] );?></td>
+					</tr>
+					<? endforeach; ?>
+				</tbody>
+			</table>
+		<? endif; ?>
     <? endif; ?>
     
    <br />

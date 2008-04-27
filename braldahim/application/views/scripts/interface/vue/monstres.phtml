@@ -3,7 +3,7 @@
       		<?php 
       			$textMonstre = "";
       			foreach($case["monstres"] as $m) {
-      				$textMonstre .= htmlentities($m["nom_monstre"]) ." n&deg; ".$m["id_monstre"]." - ".htmlentities($m["taille_monstre"])."  <br />";
+      				$textMonstre .= htmlentities($m["nom_monstre"]) ." (n&deg; ".$m["id_monstre"].") - ".htmlentities($m["taille_monstre"])."  <br />";
 				} 
 				$s = "";
 				if ($case["n_monstres"] > 1) {

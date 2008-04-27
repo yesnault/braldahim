@@ -10,34 +10,43 @@
 	   	
 	   	Vous pouvez aller vous renseigner dans un Ahenne Peheux
 	   <? else : ?>
-	   	Vous &ecirc;tes actuellement :
-	   	<? $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($this->tabMetierCourant["description"])))); ?>
-	   	<? $titre = "Description du m&eacute;tier ";
-	   	 if ($this->tabMetierCourant["nom"]{0} == 'A') : $titre .= 'd\''; else: $titre .=  "de "; endif; 
-	   	 $titre .= htmlentities($this->tabMetierCourant["nom"]) 
-	   	?>
-	   	 <span <?=Bral_Helper_Tip::jsTip($contenu, $titre, true) ?>>
-	   <?=htmlentities($this->tabMetierCourant["nom"]) ?> </span><br />
-	   	Vous avez appris ce m&eacute;tier le <?=$this->tabMetierCourant["date_apprentissage"] ?>
-		<br /><br />
-	   	<? if (count($this->tabMetiers) == 1): ?>
-	   		Vous pratiquez &eacute;galement le m&eacute;tier suivant : <br />
-	   	<? elseif (count($this->tabMetiers) > 1): ?>
-	   		Vous pratiquez &eacute;galement les m&eacute;tiers suivants : <br />
-	   	<? endif; ?>	
-	   	<? if (count($this->tabMetiers) >= 1): ?>
-			<? foreach ($this->tabMetiers as $m) : ?>
-				
-			   	<? $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($m["description"]))));?>
-			   	<? $titre = "Description du m&eacute;tier ";
-	   	 			if (htmlentities($m["nom"]{0}) == 'A') : $titre .= "d\'"; else: $titre .=  "de "; endif; 
-	   	 			$titre .= htmlentities($m["nom"])?>
-      			
-      			 <span <?=Bral_Helper_Tip::jsTip($contenu, $titre, true) ?> >
-				<?=htmlentities($m["nom"]);?>, appris le <?=htmlentities($m["date_apprentissage"]);?><br />
-				</span>
-			<? endforeach; ?>
-	    <? endif; ?>
+		   	Vous &ecirc;tes actuellement :
+		   	<? $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($this->tabMetierCourant["description"])))); ?>
+		   	<? $titre = "Description du m&eacute;tier ";
+		   	 if ($this->tabMetierCourant["nom"]{0} == 'A') : $titre .= "d\'"; else: $titre .=  "de "; endif; 
+		   	 $titre .= htmlentities($this->tabMetierCourant["nom"]) 
+		   	?>
+		   	<span <?=Bral_Helper_Tip::jsTip($contenu, $titre, true) ?>>
+		  	 	<?=htmlentities($this->tabMetierCourant["nom"]) ?>, appris le <?=$this->tabMetierCourant["date_apprentissage"] ?>
+		    </span>
+			<br /><br />
+		   	<? if (count($this->tabMetiers) == 1): ?>
+		   		Vous pratiquez &eacute;galement le m&eacute;tier suivant : <br />
+		   	<? elseif (count($this->tabMetiers) > 1): ?>
+		   		Vous pratiquez &eacute;galement les m&eacute;tiers suivants : <br />
+		   	<? endif; ?>	
+		   	<? if (count($this->tabMetiers) >= 1): ?>
+		   		<table class="table_liste">
+					<thead class="table_liste">
+					  <tr class="table_liste" title="Cliquer pour Trier">
+						<th>M&eacute;tier </th>
+						<th>Appris le</th>
+					  </tr>
+					</thead>
+					<tbody>
+						<? foreach ($this->tabMetiers as $m) : ?>
+							<? $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($m["description"]))));?>
+					   		<? $titre = "Description du m&eacute;tier ";
+			   	 			if (htmlentities($m["nom"]{0}) == 'A') : $titre .= "d\'"; else: $titre .=  "de "; endif; 
+			   	 			$titre .= htmlentities($m["nom"])?>
+							<tr class="table_liste">
+								<td class="" <?=Bral_Helper_Tip::jsTip($contenu, $titre, true) ?>><?=htmlentities($m["nom"]);?></td>
+								<td class=""><?=htmlentities($m["date_apprentissage"]);?></td>
+							</tr>
+						<? endforeach; ?>
+					</tbody>
+				</table>
+		    <? endif; ?>
 	   <? endif; ?>
 	   
 <? else: ?>
