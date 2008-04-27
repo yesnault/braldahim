@@ -45,6 +45,7 @@ class Bral_Competences_Assaisonner extends Bral_Competences_Competence {
 		}
 		
 		$this->calculPx();
+		$this->calculPoids();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}

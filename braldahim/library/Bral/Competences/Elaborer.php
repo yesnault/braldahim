@@ -95,9 +95,9 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 				foreach ($partiesPlantes as $m) {
 					if ($m["quantite_preparees_echoppe_partieplante"] > 1) {
 						$tabPartiePlantes[$m["id_fk_type_plante_echoppe_partieplante"]][$m["id_fk_type_echoppe_partieplante"]] = array(
-						"nom_type_partieplante" => $m["nom_type_partieplante"],
-						"nom_type" => $m["nom_type_plante"],
-						"quantite_preparees" => $m["quantite_preparees_echoppe_partieplante"],
+							"nom_type_partieplante" => $m["nom_type_partieplante"],
+							"nom_type" => $m["nom_type_plante"],
+							"quantite_preparees" => $m["quantite_preparees_echoppe_partieplante"],
 						);
 						$this->view->elaborerPlanteOk = true;
 					}

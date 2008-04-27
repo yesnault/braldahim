@@ -24,10 +24,22 @@
 	    <hr>
 	    Vue BM : <?=$this->user->vue_bm_hobbit ?> <br />
 	    R&eacute;g&eacute;n&eacute;ration : <?=$this->user->regeneration_hobbit ?> D<?=$this->config->game->de_regeneration ?> | Malus R&eacute;g&eacute;n&eacute;ration prochain tour : <?=$this->user->regeneration_malus_hobbit ?><br />
-	    Force : <?=$this->config->game->base_force + $this->user->force_base_hobbit ?> D<?=$this->config->game->de_force ?> <? if ($this->user->force_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->force_bm_hobbit ?> | 
-	    Agilit&eacute; : <?=$this->config->game->base_agilite + $this->user->agilite_base_hobbit ?> D<?=$this->config->game->de_agilite ?> <? if ($this->user->agilite_bm_hobbit >= 0): echo "+"; endif;?> <?=$this->user->agilite_bm_hobbit ?> <br />
-	    Sagesse : <?=$this->config->game->base_sagesse + $this->user->sagesse_base_hobbit ?> D<?=$this->config->game->de_sagesse ?> <? if ($this->user->sagesse_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->sagesse_bm_hobbit ?> | 
-	    Vigueur : <?=$this->config->game->base_vigueur + $this->user->vigueur_base_hobbit ?> D<?=$this->config->game->de_vigueur ?> <? if ($this->user->vigueur_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->vigueur_bm_hobbit ?><br />
+	    Force : <?=$this->config->game->base_force + $this->user->force_base_hobbit ?> 
+	    	D<?=$this->config->game->de_force ?> 
+	    	<? if ($this->user->force_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->force_bm_hobbit ?> 
+	    	<? if ($this->user->force_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->force_bbdf_hobbit ?> | 
+	    Agilit&eacute; : <?=$this->config->game->base_agilite + $this->user->agilite_base_hobbit ?> 
+		    D<?=$this->config->game->de_agilite ?> 
+		    <? if ($this->user->agilite_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->agilite_bm_hobbit ?>
+		    <? if ($this->user->agilite_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->agilite_bbdf_hobbit ?> <br />
+	    Sagesse : <?=$this->config->game->base_sagesse + $this->user->sagesse_base_hobbit ?> 
+	    	D<?=$this->config->game->de_sagesse ?> 
+	    	<? if ($this->user->sagesse_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->sagesse_bm_hobbit ?>
+	    	<? if ($this->user->sagesse_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->sagesse_bbdf_hobbit ?> | 
+	    Vigueur : <?=$this->config->game->base_vigueur + $this->user->vigueur_base_hobbit ?> 
+	    	D<?=$this->config->game->de_vigueur ?> 
+	    	<? if ($this->user->vigueur_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->vigueur_bm_hobbit ?>
+	    	<? if ($this->user->vigueur_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->vigueur_bbdf_hobbit ?><br />
 	    Attaque BM : <?=$this->user->bm_attaque_hobbit ?> | D&eacute;fense BM : <?=$this->user->bm_defense_hobbit ?> | D&eacute;g&acirc;ts BM : <?=$this->user->bm_degat_hobbit ?><br />
 	    Balance faim : <?=$this->user->balance_faim_hobbit ?> %
 	    <div class="barre_faim"><img src="/public/images/barre_faim.gif" height="10px" width="<?=$this->user->balance_faim_hobbit ?>px"></div>

@@ -55,6 +55,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		}
 		
 		$this->calculPx();
+		$this->calculPoids();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}

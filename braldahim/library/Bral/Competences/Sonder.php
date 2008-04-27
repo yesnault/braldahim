@@ -29,9 +29,11 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 			$filonRow = $filonTable->findLePlusProche($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->rayon_max);
 
 			if (!empty($filonRow)) {
-				$f = array('type_minerai' => $filonRow["nom_type_minerai"],
-				'x_filon' => $filonRow["x_filon"],
-				'y_filon' => $filonRow["y_filon"]);
+				$f = array(
+					'type_minerai' => $filonRow["nom_type_minerai"],
+					'x_filon' => $filonRow["x_filon"],
+					'y_filon' => $filonRow["y_filon"]
+				);
 				$this->view->trouve = true;
 				$this->view->filon = $f;
 				if ($filonRow["distance"] <= $this->view->rayon_precis) {

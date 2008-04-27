@@ -127,7 +127,9 @@ class Bral_Echoppes_TransfererPotion extends Bral_Echoppes_Echoppe {
 		}
 		$this->view->potion = $potion;
 		$this->view->destination = $destination;
-		
+
+		$this->calculPoids();
+		$this->majHobbit();
 	}
 	
 	private function calculTranfertVersLaban($potion) {

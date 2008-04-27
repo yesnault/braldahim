@@ -128,6 +128,8 @@ class Bral_Echoppes_TransfererEquipement extends Bral_Echoppes_Echoppe {
 		$this->view->equipement = $equipement;
 		$this->view->destination = $destination;
 		
+		$this->calculPoids();
+		$this->majHobbit();
 	}
 	
 	private function calculTranfertVersLaban($equipement) {

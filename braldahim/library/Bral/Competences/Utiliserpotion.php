@@ -159,6 +159,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$this->view->retourPotion = $this->retourPotion;
 		
 		$this->calculPx();
+		$this->calculPoids();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}

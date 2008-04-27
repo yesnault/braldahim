@@ -90,6 +90,9 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 		if ($this->view->elementsRetires != "") {
 			$this->view->elementsRetires = substr($this->view->elementsRetires, 0, -2);
 		}
+		
+		$this->calculPoids();
+		$this->majHobbit();
 	}
 	
 	private function calculEchoppe($nb_rondins, $nb_peau) {

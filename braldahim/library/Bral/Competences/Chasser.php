@@ -78,6 +78,7 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 		}
 		
 		$this->calculPx();
+		$this->calculPoids();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}

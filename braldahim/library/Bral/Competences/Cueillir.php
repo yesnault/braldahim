@@ -190,8 +190,9 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		$this->view->plante = $plante;
 			
 		$this->setEvenementQueSurOkJet1(false);
-
+		
 		$this->calculPx();
+		$this->calculPoids();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}

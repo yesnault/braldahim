@@ -87,6 +87,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 			$this->calculDepiauter($idCadavre);
 		}
 		$this->calculPx();
+		$this->calculPoids();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}

@@ -30,7 +30,9 @@ Zend_Loader::loadClass("Bral_Util_Exception");
 Zend_Loader::loadClass("Bral_Util_Controle");
 Zend_Loader::loadClass("Bral_Util_ConvertDate");
 Zend_Loader::loadClass("Bral_Util_Commun");
+Zend_Loader::loadClass("Bral_Util_Faim");
 Zend_Loader::loadClass("Bral_Util_Log");
+Zend_Loader::loadClass("Bral_Util_Poids");
 Zend_Loader::loadClass("Bral_Util_Registre");
 Zend_Loader::loadClass("Bral_Util_Securite");
 

@@ -2,6 +2,7 @@
 
 class Bral_Util_Poids {
 
+	 const POIDS_CASTARS = 0.008;
 	 const POIDS_PEAU = 0.5;
 	 const POIDS_VIANDE = 0.8;
 	 const POIDS_VIANDE_PREPAREE = 0.6;
@@ -23,9 +24,11 @@ class Bral_Util_Poids {
 		return (2 * $niveauForce) + 1;
 	}
 	
-	public static function calculPoidsTransporte($idHobbit) {
+	public static function calculPoidsTransporte($idHobbit, $castars) {
 		$retour = 0;
-		$retour = self::calculPoidsTransporteLaban($idHobbit);
+		
+		$retour = self::ajoute($retour, $castars, self::POIDS_CASTARS);
+		$retour = $retour + self::calculPoidsTransporteLaban($idHobbit);
 		$retour = $retour + self::calculPoidsTransporteLabanMinerais($idHobbit);
 		$retour = $retour + self::calculPoidsTransporteLabanPartiesPlantes($idHobbit);
 		$retour = $retour + self::calculPoidsTransporteLabanEquipement($idHobbit);

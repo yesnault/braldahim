@@ -106,6 +106,7 @@ abstract class Bral_Lieux_Lieu {
 		$hobbit = $hobbitRowset->current();
 
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->paUtilisationLieu;
+		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
 		
 		if ($this->view->user->balance_faim_hobbit < 0) {
 			$this->view->user->balance_faim_hobbit = 0; 
@@ -121,6 +122,7 @@ abstract class Bral_Lieux_Lieu {
 			'sagesse_base_hobbit' => $this->view->user->sagesse_base_hobbit,
 			'balance_faim_hobbit' => $this->view->user->balance_faim_hobbit,
 			'poids_transportable_hobbit' => $this->view->user->poids_transportable_hobbit,
+			'poids_transporte_hobbit' => $this->view->user->poids_transporte_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);

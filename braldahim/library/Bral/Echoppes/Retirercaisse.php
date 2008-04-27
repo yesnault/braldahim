@@ -101,8 +101,10 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 		if ($this->view->elementsRetires != "") {
 			$this->view->elementsRetires = substr($this->view->elementsRetires, 0, -2);
 		}
+		
+		$this->calculPoids();
+		$this->majHobbit();
 	}
-	
 	
 	private function calculEchoppe($nb_rondins, $nb_peau, $nb_castars) {
 		Zend_Loader::loadClass("Charrette");

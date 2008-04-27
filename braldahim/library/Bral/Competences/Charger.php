@@ -296,20 +296,20 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		for ($i=1; $i<= ($this->view->config->game->base_force + $hobbit->force_base_hobbit) * $coefCritique; $i++) {
 			$jetDegat["critique"] = $jetDegat["critique"] + Bral_Util_De::get_1d6();
 		}
-		$jetDegat["critique"] = $jetDegat["critique"] + $this->view->user->force_bm_hobbit;
+		$jetDegat["critique"] = $jetDegat["critique"] + $this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit;
 		
 		for ($i=1; $i<= ($this->view->config->game->base_force + $hobbit->force_base_hobbit); $i++) {
 			$jetDegat["noncritique"] = $jetDegat["noncritique"] + Bral_Util_De::get_1d6();
 		}
-		$jetDegat["noncritique"] = $jetDegat["noncritique"] + $this->view->user->force_bm_hobbit;
+		$jetDegat["noncritique"] = $jetDegat["noncritique"] + $this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit;
 		
 		for ($i=1; $i<= $this->view->config->game->base_vigueur + $hobbit->vigueur_base_hobbit; $i++) {
 			$jetDegat["critique"] = $jetDegat["critique"] + Bral_Util_De::get_1d6();
 			$jetDegat["noncritique"] = $jetDegat["noncritique"] + Bral_Util_De::get_1d6();
 		}
 		
-		$jetDegat["critique"] = $jetDegat["critique"] + $hobbit->vigueur_bm_hobbit + $hobbit->bm_degat_hobbit;
-		$jetDegat["noncritique"] = $jetDegat["noncritique"] + $hobbit->vigueur_bm_hobbit + $hobbit->bm_degat_hobbit;
+		$jetDegat["critique"] = $jetDegat["critique"] + $hobbit->vigueur_bm_hobbit + $hobbit->vigueur_bbdf_hobbit + $hobbit->bm_degat_hobbit;
+		$jetDegat["noncritique"] = $jetDegat["noncritique"] + $hobbit->vigueur_bm_hobbit + $hobbit->vigueur_bbdf_hobbit + $hobbit->bm_degat_hobbit;
 
 		return $jetDegat;
 	}

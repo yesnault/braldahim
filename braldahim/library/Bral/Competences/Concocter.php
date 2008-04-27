@@ -104,6 +104,7 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 		}
 		
 		$this->calculPx();
+		$this->calculPoids();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}

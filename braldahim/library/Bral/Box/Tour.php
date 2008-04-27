@@ -178,7 +178,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			// Calcul du poids transportable. // c'est aussi mis à jour dans l'eujimnasiumne
 			Zend_Loader::loadClass("Bral_Util_Poids");
 			$this->hobbit->poids_transportable_hobbit = Bral_Util_Poids::calculPoidsTransportable($this->hobbit->force_base_hobbit);
-			$this->hobbit->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->hobbit->id_hobbit);
+			$this->hobbit->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->hobbit->id_hobbit, $this->hobbit->castars_hobbit);
 			
 			// Mise a jour de la balance faim
 			//$this->joueur->diminuer_balance_faim ($this->view->config->game->tour_faim);
@@ -224,6 +224,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit) {
 				$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit;
 			}
+			
+			Bral_Util_Faim::calculBalanceFaim($this->hobbit);
 		}
 
 		if ($this->is_update_tour) {
@@ -286,9 +288,13 @@ class Bral_Box_Tour extends Bral_Box_Box {
 				'pv_max_bm_hobbit' => $this->hobbit->pv_max_bm_hobbit,
 				'balance_faim_hobbit' => $this->hobbit->balance_faim_hobbit,
 				'force_bm_hobbit' => $this->hobbit->force_bm_hobbit,
+				'force_bbdf_hobbit' => $this->hobbit->force_bbdf_hobbit,
 				'agilite_bm_hobbit' => $this->hobbit->agilite_bm_hobbit,
+				'agilite_bbdf_hobbit' => $this->hobbit->agilite_bbdf_hobbit,
 				'vigueur_bm_hobbit' => $this->hobbit->vigueur_bm_hobbit,
+				'vigueur_bbdf_hobbit' => $this->hobbit->vigueur_bbdf_hobbit,
 				'sagesse_bm_hobbit' => $this->hobbit->sagesse_bm_hobbit,
+				'sagesse_bbdf_hobbit' => $this->hobbit->sagesse_bbdf_hobbit,
 				'vue_bm_hobbit' => $this->hobbit->vue_bm_hobbit,
 				'poids_transportable_hobbit' => $this->hobbit->poids_transportable_hobbit,
 				'poids_transporte_hobbit' => $this->hobbit->poids_transporte_hobbit,

@@ -18,10 +18,10 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 		$this->view->identifierRuneOk = true;
 		foreach ($runes as $r) {
 			$tabRunes[] = array(
-			"id_rune" => $r["id_rune_laban_rune"],
-			"type" => $r["nom_type_rune"],
-			"sagesse_type_rune" => $r["sagesse_type_rune"],
-			"image" => $r["image_type_rune"],
+				"id_rune" => $r["id_rune_laban_rune"],
+				"type" => $r["nom_type_rune"],
+				"sagesse_type_rune" => $r["sagesse_type_rune"],
+				"image" => $r["image_type_rune"],
 			);
 		}
 		$this->view->runes = $tabRunes;
@@ -78,7 +78,7 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 		for ($i = 1; $i <= $this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit; $i++) {
 			$jetHobbit = $jetHobbit + Bral_Util_De::get_1d6();
 		}
-		$this->view->jetHobbit = $jetHobbit + $this->view->user->sagesse_bm_hobbit;
+		$this->view->jetHobbit = $jetHobbit + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
 		
 		if ($this->view->jetHobbit >= $rune["sagesse_type_rune"]) {
 			$this->view->identificationReussieOk = true;

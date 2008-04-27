@@ -46,7 +46,6 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
-			
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
@@ -89,6 +88,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 				$this->view->nbRunesRamassees = $this->view->nbRunesRamasse  + 1;
 			}
 		}
+		$this->calculPoids();
 	}
 
 	private function calculRamasserCastars() {
@@ -101,7 +101,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		
 		$hobbitTable = new Hobbit();
 		$data = array(
-		'castars_hobbit' => $this->view->user->castars_hobbit + $this->view->nbCastars,
+			'castars_hobbit' => $this->view->user->castars_hobbit + $this->view->nbCastars,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
@@ -140,7 +140,6 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 			$runeTable->delete($where);
 		}
 	}
-	
 	
 	function getListBoxRefresh() {
 		return array("box_profil", "box_vue", "box_laban", "box_evenements");

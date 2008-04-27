@@ -91,6 +91,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		$this->view->filonDetruit = $filonDetruit;
 		
 		$this->calculPx();
+		$this->calculPoids();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}

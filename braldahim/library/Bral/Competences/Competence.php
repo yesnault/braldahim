@@ -109,6 +109,10 @@ abstract class Bral_Competences_Competence {
 		$this->view->balanceFaimUtilisee = true;
 		$this->view->balance_faim = $this->competence["balance_faim"];
 	}
+	
+	protected function calculPoids() {
+		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
+	}
 
 	protected function calculJets() {
 		$this->view->jetUtilise = true;
@@ -120,7 +124,7 @@ abstract class Bral_Competences_Competence {
 		$this->majSuiteJets();
 		$this->updateCompetenceNbAction();
 	}
-
+	
 	private function calculJets1() {
 		// 1er Jet : réussite ou non de la compétence
 		$this->view->jet1 = Bral_Util_De::get_1d100();
@@ -261,6 +265,7 @@ abstract class Bral_Competences_Competence {
 			'x_hobbit' => $this->view->user->x_hobbit,
 			'y_hobbit'  => $this->view->user->y_hobbit,
 			'pv_restant_hobbit' => $this->view->user->pv_restant_hobbit,
+			'poids_transporte_hobbit' => $this->view->user->poids_transporte_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);

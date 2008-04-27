@@ -3,7 +3,6 @@
 abstract class Bral_Echoppes_Echoppe {
 
 	function __construct($nomSystemeAction, $request, $view, $action) {
-
 		$this->view = $view;
 		$this->request = $request;
 		$this->action = $action;
@@ -43,6 +42,10 @@ abstract class Bral_Echoppes_Echoppe {
 		}
 	}
 	
+	protected function calculPoids() {
+		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
+	}
+	
 	public function majHobbit() {
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
@@ -55,8 +58,9 @@ abstract class Bral_Echoppes_Echoppe {
 		}
 		
 		$data = array(
-		'pa_hobbit' => $this->view->user->pa_hobbit,
-		'castars_hobbit' => $this->view->user->castars_hobbit,
+			'pa_hobbit' => $this->view->user->pa_hobbit,
+			'castars_hobbit' => $this->view->user->castars_hobbit,
+			'poids_transporte_hobbit' => $this->view->user->poids_transporte_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);

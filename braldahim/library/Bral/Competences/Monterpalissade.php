@@ -130,11 +130,12 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 			 	}
 
 			 	$tab[] = array ("x_offset" => $i,
-			 	"y_offset" => $j,
-			 	"default" => $default,
-			 	"display" => $display,
-			 	"change_level" => $change_level, // nouvelle ligne dans le tableau
-				"valid" => $valid);	
+				 	"y_offset" => $j,
+				 	"default" => $default,
+				 	"display" => $display,
+				 	"change_level" => $change_level, // nouvelle ligne dans le tableau
+					"valid" => $valid
+			 	);	
 				
 			 	$tabValidation[$i][$j] = $valid;
 			 	
@@ -194,6 +195,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		}
 		
 		$this->calculPx();
+		$this->calculPoids();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}

@@ -147,6 +147,9 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		if ($this->view->elementsRetires != "") {
 			$this->view->elementsRetires = substr($this->view->elementsRetires, 0, -2);
 		}
+		
+		$this->calculPoids();
+		$this->majHobbit();
 	}
 	
 	private function calculEchoppe($nb_rondins, $nb_peau, $nb_cuir, $nb_fourrure, $nb_planche) {
