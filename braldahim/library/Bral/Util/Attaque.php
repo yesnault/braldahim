@@ -541,7 +541,7 @@ class Bral_Util_Attaque {
 				$hobbitTable->update($data, $where);
 					
 				$id_type = $config->game->evenements->type->effet;
-				$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a soign&eacute; le hobbit ".$h["prenom_hobbit"] ." ". $h["nom_hobbit"] ." (".$h["id_hobbit"].") N".$h["niveau_hobbit"];
+				$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a soigné le hobbit ".$h["prenom_hobbit"] ." ". $h["nom_hobbit"] ." (".$h["id_hobbit"].") N".$h["niveau_hobbit"];
 				$detailsBot = $soins." PV soigné";
 				if ($soins > 1) {
 					$detailsBot = $detailsBot . "s";

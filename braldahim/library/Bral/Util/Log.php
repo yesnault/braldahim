@@ -152,7 +152,7 @@ class Bral_Util_Log {
 		self::$config = Zend_Registry::get('config');
 		self::$exception = new Zend_Log();
 		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->exception);
-		$formateur = new Zend_Log_Formatter_Simple(date("Y-m-d H:m:s"). ' '. $_SERVER['REMOTE_ADDR'].' %message%' . PHP_EOL);
+		$formateur = new Zend_Log_Formatter_Simple("--------> ".date("Y-m-d H:m:s"). ' '. $_SERVER['REMOTE_ADDR'].' %message%' . PHP_EOL);
 		$redacteur->setFormatter($formateur);
 		self::$exception->addWriter($redacteur);
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->erreur);

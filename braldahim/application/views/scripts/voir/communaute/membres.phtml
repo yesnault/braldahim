@@ -11,7 +11,7 @@ Filtrer par rang :
   	</select>
   	<br /><br />
   	
-<table class="table_liste">
+<table class="table_liste" style="width:90%">
 <thead class="table_liste">
   <tr class="table_liste" title="Cliquer pour Trier">
 	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=1&valeur_6=<?=$this->sensOrdre ?>");'>Pr&eacute;nom <?=Bral_Helper_Tri::sens(1, $this->ordre, $this->sensOrdre); ?></th>
@@ -20,11 +20,12 @@ Filtrer par rang :
 	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=4&valeur_6=<?=$this->sensOrdre ?>");'>Niveau <?=Bral_Helper_Tri::sens(4, $this->ordre, $this->sensOrdre); ?></th>
 	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=5&valeur_6=<?=$this->sensOrdre ?>");'>Date d'entr&eacute;e <?=Bral_Helper_Tri::sens(5, $this->ordre, $this->sensOrdre); ?></th>
  	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=6&valeur_6=<?=$this->sensOrdre ?>");'>Rang <?=Bral_Helper_Tri::sens(6, $this->ordre, $this->sensOrdre); ?></th>
+ 	<th style="cursor:pointer" nowrap>Profil Public</th>
   </tr>
 </thead>
 <tfoot class="table_liste">
   <tr class="table_liste">
-    <th colspan='6'>
+    <th colspan='10'>
     	Affichage de <?=count($this->tabMembres) ?> hobbit<? if (count($this->tabMembres) > 1) : echo 's'; endif; ?> sur un total de <?=$this->nbMembresTotal ?> dans la communaut&eacute;<br />
        <? if ($this->precedentOk === true) : ?>
 	   <input type="button" class='button1' onClick="Javascript:_get_('/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')" value="Page pr&eacute;c&eacute;dente">
@@ -42,15 +43,16 @@ Filtrer par rang :
 	<tr class="table_liste<?=($i % 2);$i++; ?>">
 	  <td class="table_liste"><?=htmlentities($m["prenom_hobbit"]) ?></td>	
 	  <td class="table_liste"><?=htmlentities($m["nom_hobbit"]) ?></td>
-	  <td class="table_liste"><?=htmlentities($m["id_hobbit"]) ?></td>
-	  <td class="table_liste"><?=htmlentities($m["niveau_hobbit"]) ?></td>
+	  <td class="table_liste"><?=$m["id_hobbit"] ?></td>
+	  <td class="table_liste"><?=$m["niveau_hobbit"] ?></td>
 	  <td class="table_liste"><?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$m["date_entree"]); ?></td>
 	  <td class="table_liste">Rang n&deg;<?=$m["ordre_rang_communaute"] ?> : <?=htmlentities($m["nom_rang_communaute"]) ?></td>
+	  <td class="table_liste"><input type="button" class='button1' onClick="Javascript:document.location.href='/voir/hobbit/?hobbit=<?=$m["id_hobbit"] ?>';" value="Voir"></td>
 	</tr>
 <? endforeach; ?>
 <? else: ?>
 	<tr class="table_liste0">
-	  <td class="table_liste" colspan="6">Pas d'autre membre</td>
+	  <td class="table_liste" colspan="10">Pas d'autre membre</td>
 	</tr>
 <? endif; ?>
 </tbody>

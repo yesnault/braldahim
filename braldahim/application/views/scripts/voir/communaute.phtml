@@ -14,8 +14,8 @@
 			<table class="table_liste" style="width:150px;">
 			<thead class="table_liste">
 			  <tr class="table_liste">
-				<th style="cursor:pointer" onClick='document.location.href="/voir/communaute/?communaute=<?=$this->communaute["id_communaute"] ?>"'>Profil</th>
-				<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres");'>Membres</th>
+				<th style="cursor:pointer" onClick='document.location.href="/voir/communaute/?communaute=<?=$this->communaute["id_communaute"] ?>"' title="Voir le profil">Profil</th>
+				<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_communaute&communaute=<?=$this->communaute["id_communaute"] ?>&menu=membres");' title="Voir les membres">Membres</th>
 			  </tr>
 			</thead>
 			</table>

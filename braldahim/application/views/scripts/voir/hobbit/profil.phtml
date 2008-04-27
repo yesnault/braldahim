@@ -2,8 +2,10 @@
 <ul class="titre textalic textsizea">Profil Officiel</ul>
 <br />
 
-<table class="table_liste" style="width:50%;">
-   <tr class="table_liste">
+<table class="table_liste" style="width:90%;">
+	
+  <tr class="table_liste">
+	<th rowspan="6"><?=Bral_Helper_Image::afficherAvatar($this->hobbit["url_avatar_hobbit"]); ?></th>
 	<th>Date de cr&eacute;ation</th>
 	<th>Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->hobbit["date_creation_hobbit"]); ?></th>
   </tr>
@@ -28,11 +30,11 @@
 	<td class="table_liste"><?=$this->hobbit["nb_mort_hobbit"] ?></td>
   </tr>
   <tr class="table_liste">
-	<th>Nombre de meutre Hobbit</th>
+	<th>Nombre de meutres Hobbit</th>
 	<td class="table_liste"><?=$this->hobbit["nb_hobbit_kill_hobbit"] ?></a></td>
   </tr>
   <tr class="table_liste">
-	<th>Nombre de meutre Monstre</th>
+	<th>Nombre de meutres Monstre</th>
 	<td class="table_liste"><?=$this->hobbit["nb_monstre_kill_hobbit"] ?></a></td>
   </tr>
 </table>
@@ -41,11 +43,14 @@
 
 <ul class="titre textalic textsizea">Profil Non Officiel</ul>
 <ul class="titre textalic textsizec">Renseign&eacute; par le joueur</ul>
-<table class="table_liste" style="width:70%;'>
+<table class="table_liste" style="width:90%;'>
 <tr class="table_liste">
+	<td class="table_liste" style="text-align:left; width:10%;'">
+		<?=Bral_Helper_Image::afficherBlason($this->hobbit["url_blason_hobbit"]); ?>
+	</td>
 	<td class="table_liste">
-<?=stripslashes($this->communaute["description_hobbit"]); ?>
-</td>
+		<?=stripslashes($this->hobbit["description_hobbit"]); ?>
+	</td>
 </tr>
 </table>
 <br /><br />

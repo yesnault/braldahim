@@ -124,5 +124,5 @@ function limiteTailleTextarea(textarea, max, iddesc) {
 }
 
 function ouvrirWin(url, titre) {
-	window.open(url, titre, "directories=no,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=600,height=600");
+	window.open(url, titre, "directories=no,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=800,height=600");
 }

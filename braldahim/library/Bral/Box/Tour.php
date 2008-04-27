@@ -215,6 +215,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 				Bral_Util_Log::tour()->trace(get_class($this)." activer - jet Regeneration ajuste=".$this->view->jetRegeneration);
 				Bral_Util_Log::tour()->trace(get_class($this)." activer - pv_restant_hobbit=".$this->hobbit->pv_restant_hobbit);
 			}
+			
+			if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit) {
+				$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit;
+			}
 		}
 
 		if ($this->is_update_tour) {

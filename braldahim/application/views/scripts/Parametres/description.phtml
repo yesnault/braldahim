@@ -5,7 +5,7 @@
 <?=Bral_Helper_Box::haut(); ?>
 <div class="inner">
 	<ul class="titre textalia textsizea">Mes Param&egrave;tres</ul>
-    <ul class="titre textalib textsizeb">Changer d'adresse email</ul>
+    <ul class="titre textalib textsizeb">Changer la description</ul>
 	&nbsp;
 	<div class="contenu">
 	<ul class="box_contenu1 textalic">
@@ -28,7 +28,6 @@
 		  <?=stripslashes($this->user->description_hobbit) ?><? if (strlen(trim($this->user->description_hobbit)) == 0 || $this->user->description_hobbit == null) :?> [vide]<? endif; ?>
 		  </div>
 		  <textarea rows='10' cols='80' name="valeur_2"  id="valeur_2"  style="display:none" ><?=stripslashes($this->user->description_hobbit) ?></textarea>
-		 
 		 
 			  <input type="button" class='button1' id="bouton_description" 
 			  	onClick="

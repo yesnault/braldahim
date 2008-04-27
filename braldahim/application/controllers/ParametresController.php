@@ -42,10 +42,46 @@ class ParametresController extends Zend_Controller_Action {
 				$where = "id_hobbit=".$this->view->user->id_hobbit;
 				$hobbitTable = new Hobbit();
 				$hobbitTable->update($data, $where);
-				$this->view->message = "Votre description est modifiée";
-				echo $this->view->render("parametres/index.phtml");
-				return;
+				
+				$this->view->user->description_hobbit = $valeur;
 			}
+		}
+		$this->render();
+	}
+	
+	function imagesAction() {
+		$hobbitTable = new Hobbit();
+		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
+		$hobbit = $hobbitRowset->current();
+			
+		$this->view->urlAvatarValide = true;
+		$this->view->urlBlasonValide = true;
+			
+		if ($this->_request->isPost()) {
+			$urlAvatar = $this->_request->getPost("valeur_1");
+			$urlBlason = $this->_request->getPost("valeur_2");
+			
+			Zend_Loader::loadClass("Bral_Util_Image");
+			
+			$urlAvatarValide = Bral_Util_Image::controlAvatar($urlAvatar);
+			$urlBlasonValide = Bral_Util_Image::controlBlason($urlBlason);
+			
+			if (!$urlAvatarValide) $urlAvatar = $this->view->user->url_avatar_hobbit;
+			if (!$urlBlasonValide) $urlBlason = $this->view->user->url_blason_hobbit;
+			
+			$data = array(
+				'url_avatar_hobbit' => $urlAvatar,
+				'url_blason_hobbit' => $urlBlason,
+			);
+			$where = "id_hobbit=".$this->view->user->id_hobbit;
+			$hobbitTable = new Hobbit();
+			$hobbitTable->update($data, $where);
+			
+			$this->view->user->url_avatar_hobbit = $urlAvatar;
+			$this->view->user->url_blason_hobbit = $urlBlason;
+			
+			$this->view->urlAvatarValide = $urlAvatarValide;
+			$this->view->urlBlasonValide = $urlBlasonValide;
 		}
 		$this->render();
 	}
