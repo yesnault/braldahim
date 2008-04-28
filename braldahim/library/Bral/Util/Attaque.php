@@ -104,7 +104,7 @@ class Bral_Util_Attaque {
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - hobbitCible->agilite_bm_hobbit=".$hobbitCible->agilite_bm_hobbit);
 			}
 			
-			$hobbitCible->pv_restant_hobbit = ($hobbitCible->pv_restant_hobbit + $hobbitCible->bm_defense_hobbit) - $retourAttaque["jetDegat"];
+			$hobbitCible->pv_restant_hobbit = $hobbitCible->pv_restant_hobbit - $retourAttaque["jetDegat"];
 			if ($hobbitCible->pv_restant_hobbit <= 0) {
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Mort du hobbit !");
 				$hobbitCible->pv_restant_hobbit = 0;
@@ -398,7 +398,7 @@ class Bral_Util_Attaque {
 			Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleMonstre - jetCible=".$jetCible);
 		}
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleMonstre - hobbitCible->agilite_bm_hobbit=".$hobbitCible->agilite_bm_hobbit);
-		$jetCible = $jetCible + $hobbitCible->agilite_bm_hobbit;
+		$jetCible = $jetCible + $hobbitCible->agilite_bm_hobbit + $hobbitCible->agilite_bbdf_hobbit + $hobbitCible->bm_defense_hobbit;
 		Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - calculJetCibleHobbit - jetCible=".$jetCible);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleHobbit - exit -");
 		return $jetCible;
@@ -424,8 +424,8 @@ class Bral_Util_Attaque {
 			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
 		}
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetAttaqueNormale - jetAttaquant=".$jetAttaquant);
-		$jetAttaquant = $jetAttaquant + $hobbit->agilite_bm_hobbit;
-		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetAttaqueNormale - jetAttaquant + agilite_bm_hobbit=".$jetAttaquant);
+		$jetAttaquant = $jetAttaquant + $hobbit->agilite_bm_hobbit + $hobbit->agilite_bbdf_hobbit + $hobbit->bm_attaque_hobbit;
+		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetAttaqueNormale - jetAttaquant + agilite_bm_hobbit + bm_attaque_hobbit + =".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetAttaqueNormale - enter -");
 		return $jetAttaquant;
 	}

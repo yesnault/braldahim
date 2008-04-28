@@ -167,7 +167,7 @@ class Bral_Monstres_VieMonstre {
 			
 			$jetDegat = Bral_Util_Commun::getEffetMotA($cible["id_hobbit"], $jetDegat);
 			
-			$pvPerdus = $cible["bm_defense_hobbit"] - $jetDegat;
+			$pvPerdus = - $jetDegat;
 			if ($pvPerdus > 0) {
 				$pvPerdus = 0;
 			}
@@ -273,7 +273,7 @@ class Bral_Monstres_VieMonstre {
 		for ($i=1; $i<= self::$config->game->base_agilite + $cible["agilite_base_hobbit"]; $i++) {
 			$jetCible = $jetCible + Bral_Util_De::get_1d6();
 		}
-		$jetCible = $jetCible + $cible["agilite_bm_hobbit"];
+		$jetCible = $jetCible + $cible["agilite_bm_hobbit"] + $cible["bm_defense_hobbit"] + $cible["agilite_bbdf_hobbit"];
 		Bral_Util_Log::tech()->trace(get_class($this)." - calculJetCible - exit (jet=".$jetCible.")");
 		return $jetCible;
 	}

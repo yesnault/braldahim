@@ -139,7 +139,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		for ($i=1; $i<=$this->view->config->game->base_agilite + $hobbit->agilite_base_hobbit; $i++) {
 			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
 		}
-		$jetAttaquant = (0.5 * $jetAttaquant) + $hobbit->agilite_bm_hobbit + $hobbit->bm_attaque_hobbit;
+		$jetAttaquant = (0.5 * $jetAttaquant) + $hobbit->agilite_bm_hobbit + $hobbit->agilite_bbdf_hobbit + $hobbit->bm_attaque_hobbit;
 		return $jetAttaquant;
 	}
 
