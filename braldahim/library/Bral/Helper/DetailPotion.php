@@ -77,6 +77,6 @@ class Bral_Helper_DetailPotion {
      	$text .= " sur la caract&eacute;ristique ".$p["caracteristique"];
     	$text .= "<br />";
     	
-    	return Bral_Helper_Tip::jsTip($text, $titre);
+    	return Bral_Helper_Tooltip::jsTip($text, $titre);
     }
 }

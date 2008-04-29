@@ -1,5 +1,5 @@
 <?php
-class Bral_Helper_Tip {
+class Bral_Helper_Tooltip {
 	private static $CLOSE_YES = true;
 	private static $CLOSE_NO = false;
 	

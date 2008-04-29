@@ -37,7 +37,7 @@ Zend_Loader::loadClass("Bral_Util_Registre");
 Zend_Loader::loadClass("Bral_Util_Securite");
 
 Zend_Loader::loadClass("Bral_Helper_Box");
-Zend_Loader::loadClass("Bral_Helper_Tip");
+Zend_Loader::loadClass("Bral_Helper_Tooltip");
 
 Zend_Loader::loadClass("Bral_Xml_Response");
 Zend_Loader::loadClass("Bral_Xml_Entry");

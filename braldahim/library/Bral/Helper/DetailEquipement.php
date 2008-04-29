@@ -100,7 +100,7 @@ class Bral_Helper_DetailEquipement {
 	     	 }
     	}
     	$text .= "<br />";
-    	return Bral_Helper_Tip::jsTip($text);
+    	return Bral_Helper_Tooltip::jsTip($text);
     }
     
     private static function display($display, $valeur) {

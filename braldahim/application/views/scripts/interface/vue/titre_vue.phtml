@@ -1,7 +1,7 @@
   <div style=" float: left;">
   	<ul class="titre textalia textsizec"> Ma Vue</ul>
   	<ul class="titre textalia textsized" 
-  		<?=Bral_Helper_Tip::jsTip(str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($this->centre_description_region)))), "Description de la ".htmlentities($this->centre_nom_region), true) ?>>
+  		<?=Bral_Helper_Tooltip::jsTip(str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($this->centre_description_region)))), "Description de la ".htmlentities($this->centre_nom_region), true) ?>>
     <?=htmlentities($this->centre_nom_region) ?>
     </ul>
     <ul class="titre textalia textsized" >

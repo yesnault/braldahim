@@ -8,7 +8,7 @@
       			$titre = "Position : X=".$case["x"]." Y:".$case["y"]." Ville";
       		?>
       		<img src='/public/images/villes/puce_<?=$case["ville"]["nom_systeme"]?>.gif' 
-      			<?=Bral_Helper_Tip::jsTip($textVille, $titre) ?> />
+      			<?=Bral_Helper_Tooltip::jsTip($textVille, $titre) ?> />
       		<? endif; ?>
       		<?=$case["x"]. "," . $case["y"] ?>
       	</div>

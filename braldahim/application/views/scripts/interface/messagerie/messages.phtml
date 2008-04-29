@@ -39,7 +39,7 @@
 		  			   $text .= "Destinataire(s) : ".$message["destinataires"]."<br /><br />";
 		  			   $text .= "Clique pour voir le message";
 		  			?>
-		  			<tr class="table_liste<?=($i % 2);$i++; ?>" <?=Bral_Helper_Tip::jsTip(addslashes($text), "", false, false) ?>>
+		  			<tr class="table_liste<?=($i % 2);$i++; ?>" <?=Bral_Helper_Tooltip::jsTip(addslashes($text), "", false, false) ?>>
 		  				<td class="table_liste" onClick="<?=$js ?>"> <?=$message["date"];?></dd>
 		  				<td class="table_liste" onClick="<?=$js ?>"> <?if (strlen($message["titre"]) > 25) echo substr($message["titre"], 0, 25)."..."; else echo $message["titre"];?></td>
 		  				<td class="table_liste" onClick="<?=$js ?>"> <?if (strlen($message["expediteur"]) > 20) echo substr($message["expediteur"], 0, 20)."..."; else echo $message["expediteur"];?>&nbsp;</td>

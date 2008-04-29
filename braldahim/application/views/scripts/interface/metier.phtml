@@ -16,7 +16,7 @@
 		   	 if ($this->tabMetierCourant["nom"]{0} == 'A') : $titre .= "d\'"; else: $titre .=  "de "; endif; 
 		   	 $titre .= htmlentities($this->tabMetierCourant["nom"]) 
 		   	?>
-		   	<span <?=Bral_Helper_Tip::jsTip($contenu, $titre, true) ?>>
+		   	<span <?=Bral_Helper_Tooltip::jsTip($contenu, $titre, true) ?>>
 		  	 	<?=htmlentities($this->tabMetierCourant["nom"]) ?>, appris le <?=$this->tabMetierCourant["date_apprentissage"] ?>
 		    </span>
 			<br /><br />
@@ -40,7 +40,7 @@
 			   	 			if (htmlentities($m["nom"]{0}) == 'A') : $titre .= "d\'"; else: $titre .=  "de "; endif; 
 			   	 			$titre .= htmlentities($m["nom"])?>
 							<tr class="table_liste">
-								<td class="" <?=Bral_Helper_Tip::jsTip($contenu, $titre, true) ?>><?=htmlentities($m["nom"]);?></td>
+								<td class="" <?=Bral_Helper_Tooltip::jsTip($contenu, $titre, true) ?>><?=htmlentities($m["nom"]);?></td>
 								<td class=""><?=htmlentities($m["date_apprentissage"]);?></td>
 							</tr>
 						<? endforeach; ?>
