@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Mar 29 Avril 2008 à 20:41
+-- Généré le : Mer 30 Avril 2008 à 23:05
 -- Version du serveur: 5.0.41
 -- Version de PHP: 5.2.3
 
@@ -348,6 +348,109 @@ CREATE TABLE `effet_potion_monstre` (
   KEY `id_fk_hobbit_lanceur_effet_potion_monstre` (`id_fk_hobbit_lanceur_effet_potion_monstre`),
   KEY `id_fk_type_qualite_effet_potion_monstre` (`id_fk_type_qualite_effet_potion_monstre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `element`
+-- 
+
+CREATE TABLE `element` (
+  `x_element` int(11) NOT NULL,
+  `y_element` int(11) NOT NULL,
+  `quantite_viande_element` int(11) NOT NULL default '0',
+  `quantite_peau_element` int(11) NOT NULL default '0',
+  `quantite_viande_preparee_element` int(11) NOT NULL default '0',
+  `quantite_ration_element` int(11) NOT NULL default '0',
+  `quantite_cuir_element` int(11) NOT NULL default '0',
+  `quantite_fourrure_element` int(11) NOT NULL default '0',
+  `quantite_planche_element` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`x_element`,`y_element`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `element_equipement`
+-- 
+
+CREATE TABLE `element_equipement` (
+  `id_element_equipement` int(11) NOT NULL,
+  `x_element_equipement` int(11) NOT NULL,
+  `y_element_equipement` int(11) NOT NULL,
+  `id_fk_recette_element_equipement` int(11) NOT NULL,
+  `nb_runes_element_equipement` int(11) NOT NULL,
+  `id_fk_mot_runique_element_equipement` int(11) default NULL,
+  PRIMARY KEY  (`id_element_equipement`),
+  KEY `id_fk_recette_element_equipement` (`id_fk_recette_element_equipement`),
+  KEY `x_element_equipement` (`x_element_equipement`,`y_element_equipement`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `element_minerai`
+-- 
+
+CREATE TABLE `element_minerai` (
+  `x_element_minerai` int(11) NOT NULL,
+  `y_element_minerai` int(11) NOT NULL,
+  `id_fk_type_element_minerai` int(11) NOT NULL,
+  `quantite_brut_element_minerai` int(11) default '0',
+  `quantite_lingots_element_minerai` int(11) NOT NULL,
+  PRIMARY KEY  (`id_fk_type_element_minerai`,`x_element_minerai`,`y_element_minerai`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `element_partieplante`
+-- 
+
+CREATE TABLE `element_partieplante` (
+  `id_fk_type_element_partieplante` int(11) NOT NULL,
+  `id_fk_type_plante_element_partieplante` int(11) NOT NULL,
+  `x_element_partieplante` int(11) NOT NULL,
+  `y_element_partieplante` int(11) NOT NULL,
+  `quantite_element_partieplante` int(11) NOT NULL,
+  `quantite_preparee_element_partieplante` int(11) NOT NULL,
+  PRIMARY KEY  (`id_fk_type_element_partieplante`,`id_fk_type_plante_element_partieplante`,`x_element_partieplante`,`y_element_partieplante`),
+  KEY `id_fk_type_plante_element_partieplante` (`id_fk_type_plante_element_partieplante`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `element_potion`
+-- 
+
+CREATE TABLE `element_potion` (
+  `id_element_potion` int(11) NOT NULL,
+  `x_element_potion` int(11) NOT NULL,
+  `y_element_potion` int(11) NOT NULL,
+  `id_fk_type_element_potion` int(11) NOT NULL,
+  `id_fk_type_qualite_element_potion` int(11) NOT NULL,
+  `niveau_element_potion` int(11) NOT NULL,
+  PRIMARY KEY  (`id_element_potion`),
+  KEY `id_fk_type_element_potion` (`id_fk_type_element_potion`),
+  KEY `id_fk_type_qualite_element_potion` (`id_fk_type_qualite_element_potion`),
+  KEY `x_element_potion` (`x_element_potion`,`y_element_potion`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `element_rune`
+-- 
+
+CREATE TABLE `element_rune` (
+  `x_element_rune` int(11) NOT NULL,
+  `y_element_rune` int(11) NOT NULL,
+  `id_element_rune` int(11) NOT NULL,
+  `id_fk_type_element_rune` int(11) NOT NULL,
+  PRIMARY KEY  (`id_element_rune`),
+  KEY `id_fk_type_element_rune` (`id_fk_type_element_rune`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1469,6 +1572,38 @@ ALTER TABLE `effet_potion_monstre`
   ADD CONSTRAINT `effet_potion_monstre_ibfk_12` FOREIGN KEY (`id_fk_monstre_cible_effet_potion_monstre`) REFERENCES `monstre` (`id_monstre`) ON DELETE CASCADE,
   ADD CONSTRAINT `effet_potion_monstre_ibfk_13` FOREIGN KEY (`id_fk_hobbit_lanceur_effet_potion_monstre`) REFERENCES `hobbit` (`id_hobbit`) ON DELETE CASCADE,
   ADD CONSTRAINT `effet_potion_monstre_ibfk_14` FOREIGN KEY (`id_fk_type_qualite_effet_potion_monstre`) REFERENCES `type_qualite` (`id_type_qualite`) ON DELETE CASCADE;
+
+-- 
+-- Contraintes pour la table `element_equipement`
+-- 
+ALTER TABLE `element_equipement`
+  ADD CONSTRAINT `element_equipement_ibfk_2` FOREIGN KEY (`id_fk_recette_element_equipement`) REFERENCES `recette_equipements` (`id_recette_equipement`);
+
+-- 
+-- Contraintes pour la table `element_minerai`
+-- 
+ALTER TABLE `element_minerai`
+  ADD CONSTRAINT `element_minerai_ibfk_2` FOREIGN KEY (`id_fk_type_element_minerai`) REFERENCES `type_minerai` (`id_type_minerai`);
+
+-- 
+-- Contraintes pour la table `element_partieplante`
+-- 
+ALTER TABLE `element_partieplante`
+  ADD CONSTRAINT `element_partieplante_ibfk_1` FOREIGN KEY (`id_fk_type_element_partieplante`) REFERENCES `type_partieplante` (`id_type_partieplante`),
+  ADD CONSTRAINT `element_partieplante_ibfk_2` FOREIGN KEY (`id_fk_type_plante_element_partieplante`) REFERENCES `type_plante` (`id_type_plante`);
+
+-- 
+-- Contraintes pour la table `element_potion`
+-- 
+ALTER TABLE `element_potion`
+  ADD CONSTRAINT `element_potion_ibfk_3` FOREIGN KEY (`id_fk_type_element_potion`) REFERENCES `type_potion` (`id_type_potion`),
+  ADD CONSTRAINT `element_potion_ibfk_5` FOREIGN KEY (`id_fk_type_qualite_element_potion`) REFERENCES `type_qualite` (`id_type_qualite`);
+
+-- 
+-- Contraintes pour la table `element_rune`
+-- 
+ALTER TABLE `element_rune`
+  ADD CONSTRAINT `element_rune_ibfk_2` FOREIGN KEY (`id_fk_type_element_rune`) REFERENCES `type_rune` (`id_type_rune`);
 
 -- 
 -- Contraintes pour la table `equipement_rune`

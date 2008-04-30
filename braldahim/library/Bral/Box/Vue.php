@@ -20,6 +20,12 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("Castar");
 			Zend_Loader::loadClass("Charrette");
 			Zend_Loader::loadClass("Echoppe");
+			Zend_Loader::loadClass("Element");
+			Zend_Loader::loadClass("ElementEquipement");
+			Zend_Loader::loadClass("ElementPartieplante");
+			Zend_Loader::loadClass("ElementMinerai");
+			Zend_Loader::loadClass("ElementPotion");
+			Zend_Loader::loadClass("ElementRune");
 			Zend_Loader::loadClass("Filon");
 			Zend_Loader::loadClass("Lieu");
 			Zend_Loader::loadClass("HobbitsMetiers");
@@ -27,7 +33,6 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("Palissade");
 			Zend_Loader::loadClass("Plante");
 			Zend_Loader::loadClass("Region");
-			Zend_Loader::loadClass("Rune");
 			Zend_Loader::loadClass("TypeLieu");
 			Zend_Loader::loadClass("Ville");
 			Zend_Loader::loadClass("Zone");
@@ -129,6 +134,18 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$charrettes = $charretteTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$echoppeTable = new Echoppe();
 		$echoppes = $echoppeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$elementTable = new Element();
+		$elements = $elementTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$elementEquipementTable = new ElementEquipement();
+		$elementsEquipements = $elementEquipementTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$elementPartiePlanteTable = new ElementPartieplante();
+		$elementsPartieplantes = $elementPartiePlanteTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$elementMineraisTable = new ElementMinerai();
+		$elementsMinerais = $elementMineraisTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$elementPotionTable = new ElementPotion();
+		$elementsPotions = $elementPotionTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$elementRuneTable = new ElementRune();
+		$elementsRunes = $elementRuneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		
 		$filons = null;
 		if ($tabMetiers != null) {
@@ -158,8 +175,6 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$villes = $villeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$zoneTable = new Zone();
 		$zones = $zoneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
-		$runeTable = new Rune();
-		$runes = $runeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		
 		$centre_x_min = $this->view->centre_x - $this->view->config->game->box_vue_taille;
 		$centre_x_max = $this->view->centre_x + $this->view->config->game->box_vue_taille;
@@ -175,6 +190,12 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabCastars = null;
 				$tabCharrettes = null;
 				$tabEchoppes = null;
+				$tabElements = null;
+				$tabElementsEquipements = null;
+				$tabElementsMinerais = null;
+				$tabElementsPartieplantes = null;
+				$tabElementsPotions = null;
+				$tabElementsRunes = null;
 				$tabFilons = null;
 				$tabHobbits = null;
 				$tabLieux = null;
@@ -243,6 +264,22 @@ class Bral_Box_Vue extends Bral_Box_Box {
 									$nom_metier = $e["nom_masculin_metier"];
 								}
 								$tabEchoppes[] = array("id_echoppe" => $e["id_echoppe"], "nom_metier" => $nom_metier, "nom_hobbit" => $e["nom_hobbit"], "prenom_hobbit" => $e["prenom_hobbit"], "id_hobbit" => $e["id_hobbit"]);
+							}
+						}
+					}
+
+					if ($elementsPotions != null) {
+						foreach($elementsPotions as $p) {
+							if ($display_x == $p["x_element_potion"] && $display_y == $p["y_element_potion"]) {
+								$tabElementsPotions[] = array("id_element_potion" => $p["id_element_rune"]);
+							}
+						}
+					}
+					
+					if ($elementsRunes != null) {
+						foreach($elementsRunes as $r) {
+							if ($display_x == $r["x_element_rune"] && $display_y == $r["y_element_rune"]) {
+								$tabElementsRunes[] = array("id_element_rune" => $r["id_element_rune"]);
 							}
 						}
 					}
@@ -334,13 +371,6 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
-					if ($runes != null) {
-						foreach($runes as $r) {
-							if ($display_x == $r["x_rune"] && $display_y == $r["y_rune"]) {
-								$tabRunes[] = array("id_rune" => $r["id_rune"]);
-							}
-						}
-					}
 				}
 
 				if ($this->view->user->x_hobbit == $display_x && $this->view->user->y_hobbit == $display_y) { // Position du joueur
@@ -374,6 +404,18 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"castars" => $tabCastars,
 					"n_charrettes" => count($tabCharrettes),
 					"charrettes" => $tabCharrettes,
+					"n_elements" => count($tabElements),
+					"elements" => $tabElements,
+					"n_elements_equipements" => count($tabElementsEquipements),
+					"elements_equipements" => $tabElementsEquipements,
+					"n_elements_partieplante" => count($tabElementsPartieplantes),
+					"elements_partieplantes" => $tabElementsPartieplantes,
+					"n_elements_potions" => count($tabElementsPotions),
+					"elements_potions" => $tabElementsPotions,
+					"n_elements_minerais" => count($tabElementsMinerais),
+					"elements_minerais" => $tabElementsMinerais,
+					"n_elements_runes" => count($tabElementsRunes),
+					"elements_runes" => $tabElementsRunes,
 					"n_filons" => count($tabFilons),
 					"filons" => $tabFilons,
 					"n_hobbits" => count($tabHobbits),
@@ -384,8 +426,6 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"monstres" => $tabMonstres,
 					"n_palissades" => count($tabPalissades),
 					"palissades" => $tabPalissades,
-					"n_runes" => count($tabRunes),
-					"runes" => $tabRunes,
 					"ville" => $ville,
 					"n_plantes" => count($tabPlantes),
 					"plantes" => $tabPlantes,

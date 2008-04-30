@@ -1,0 +1,18 @@
+     	<?php if ($case["n_elements_minerais"] > 0) : ?>
+      		<div>
+      		<?php 
+      			$textElementsMinerais = "";
+     			foreach($case["elements_minerais"] as $r) {
+      				$textElementsMinerais .= "1 TODO <br />";
+				} 
+				$s = "";
+				if ($case["n_elements_minerais"] > 1) {
+					$s = "s";
+				}
+				$titre = "Position X:".$case["x"]." Y:".$case["y"]." - Minerai";
+			?>
+      		<span <?=Bral_Helper_Tooltip::jsTip($textElementsMinerais, $titre) ?>>
+	      		<?=$case["n_elements_minerais"] ?> Minerai<?=$s?>
+	      	</span>
+	      	</div>
+	    <?php endif; ?>

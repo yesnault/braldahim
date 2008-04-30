@@ -1,0 +1,18 @@
+     	<?php if ($case["n_elements_equipements"] > 0) : ?>
+      		<div>
+      		<?php 
+      			$textElementsEquipements = "";
+      			foreach($case["elements_equipements"] as $r) {
+      				$textElementsEquipements .= "1 TODO <br />";
+				} 
+				$s = "";
+				if ($case["n_elements_equipements"] > 1) {
+					$s = "s";
+				}
+				$titre = "Position X:".$case["x"]." Y:".$case["y"]." - ".$case["n_elements_equipements"]."  &eacute;quipement".$s;
+			?>
+      		<span <?=Bral_Helper_Tooltip::jsTip($textElementsEquipements, $titre) ?>>
+	      		<?=$case["n_elements_runes"] ?> rune<?=$s?>
+	      	</span>
+	      	</div>
+	    <?php endif; ?>

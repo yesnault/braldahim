@@ -1,0 +1,18 @@
+     <?php if ($case["n_elements_partieplantes"] > 0) : ?>
+      	<div>
+      	<?php 
+      		$textRune = "";
+      		foreach($case["elements_partieplantes"] as $r) {
+      			$textRune .= "1 TODO <br />";
+			} 
+			$s = "";
+			if ($case["n_elements_partieplantes"] > 1) {
+				$s = "s";
+			}
+			$titre = "Position X:".$case["x"]." Y:".$case["y"]." - ".$case["n_elements_partieplantes"]."  Partie".$s. " de plantes";
+		?>
+      	<span <?=Bral_Helper_Tooltip::jsTip($textRune, $titre) ?>>
+      		<?=$case["n_elements_partieplantes"] ?> partie<?=$s?> de plante<?=$s?>
+      	</span>
+      	</div>
+    <?php endif; ?>

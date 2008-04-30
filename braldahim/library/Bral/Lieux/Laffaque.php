@@ -117,7 +117,7 @@ class Bral_Lieux_Laffaque extends Bral_Lieux_Lieu {
 
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_metier", "box_laban", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_vue", "box_lieu");
+		return array("box_profil", "box_competences_communes", "box_competences_basiques", "box_competences_metiers");
 	}
 
 	private function calculCoutCastars() {

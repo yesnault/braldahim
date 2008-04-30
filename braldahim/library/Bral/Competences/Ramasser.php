@@ -5,7 +5,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Castar");
 		Zend_Loader::loadClass("Laban");
-		Zend_Loader::loadClass("Rune");
+		Zend_Loader::loadClass("ElementRune");
 		
 		$this->view->ramasserOk = false;
 		

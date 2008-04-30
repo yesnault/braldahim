@@ -1,0 +1,14 @@
+     	<?php if ($case["n_elements"] > 0) : ?>
+      		<div>
+      		<?php 
+      			$textElements = "";
+      			foreach($case["elements"] as $r) {
+      				$textElements .= "1 Element TODO (n&deg; ".$r["id_rune"].")<br />";
+				} 
+				$titre = "Position X:".$case["x"]." Y:".$case["y"]." - Elements";
+			?>
+      		<span <?=Bral_Helper_Tooltip::jsTip($textElements, $titre) ?>>
+	      		<?=$case["n_elements"] ?> TODO<?=$s?>
+	      	</span>
+	      	</div>
+	    <?php endif; ?>

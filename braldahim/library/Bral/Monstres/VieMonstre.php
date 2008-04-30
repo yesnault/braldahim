@@ -399,7 +399,7 @@ class Bral_Monstres_VieMonstre {
 	}
 	
 	private function dropRune($x, $y, $niveau, $effetMotD = 0) {
-		Zend_Loader::loadClass("Rune");
+		Zend_Loader::loadClass("ElementRune");
 		Zend_Loader::loadClass("TypeRune");
 		
 		$tirage = Bral_Util_De::get_1d100();
@@ -432,15 +432,15 @@ class Bral_Monstres_VieMonstre {
 		
 		$typeRune = $typeRuneRowset[$numeroRune];
 		
-		$runeTable = new Rune();
+		$elementRuneTable = new ElementRune();
 		$data = array(
-			"x_rune"  => $x,
-			"y_rune" => $y,
-			"id_fk_type_rune" => $typeRune["id_type_rune"],
+			"x_element_rune"  => $x,
+			"y_element_rune" => $y,
+			"id_fk_type_element_rune" => $typeRune["id_type_element_rune"],
 		);
 		
-		$runeTable = new Rune();
-		$runeTable->insert($data);
+		$elementRuneTable = new ElementRune();
+		$elementRuneTable->insert($data);
 	}
 	
 	private function dropCastars($x, $y, $niveau, $effetMotH = null) {
