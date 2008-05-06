@@ -60,7 +60,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 						"nom" => $nom_metier,
 						"nom_systeme" => $m["nom_systeme_metier"],
 						"a_afficher" => true,
-					);		
+					);
 			} else {
 				$tabMetiers[$m["nom_systeme_metier"]] = array(
 					"id_metier" => $m["id_metier"],

@@ -47,127 +47,18 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->render();
 	}
 
-	function communauteAction() {
+	function loadAction() {
 		$this->view->affichageInterne = true;
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("display");
-		$xml_entry->set_valeur("box_communaute");
-		$box = Bral_Box_Factory::getCommunaute($this->_request, $this->view, true);
+		$nomBox = $this->_request->get("box");
+		$box = Bral_Box_Factory::getBox($nomBox, $this->_request, $this->view, true);
 		$xml_entry->set_data($box->render());
-		$this->xml_response->add_entry($xml_entry);
-		$this->xml_response->render();
-	}
-
-	function echoppeAction() {
-		$this->view->affichageInterne = true;
-		$xml_entry = new Bral_Xml_Entry();
-		$xml_entry->set_type("display");
-		$xml_entry->set_valeur("box_lieu");
-		$box = Bral_Box_Factory::getEchoppe($this->_request, $this->view, true);
-		$xml_entry->set_data($box->render());
+		$xml_entry->set_valeur($box->getNomInterne());
 		$this->xml_response->add_entry($xml_entry);
 		$this->xml_response->render();
 	}
 	
-	function echoppesAction() {
-		$this->view->affichageInterne = true;
-		$xml_entry = new Bral_Xml_Entry();
-		$xml_entry->set_type("display");
-		$xml_entry->set_valeur("box_echoppes");
-		$box = Bral_Box_Factory::getEchoppes($this->_request, $this->view, true);
-		$xml_entry->set_data($box->render());
-		$this->xml_response->add_entry($xml_entry);
-		$this->xml_response->render();
-	}
-	
-	function equipementAction() {
-		$this->view->affichageInterne = true;
-		$xml_entry = new Bral_Xml_Entry();
-		$xml_entry->set_type("display");
-		$xml_entry->set_valeur("box_equipement");
-		$box = Bral_Box_Factory::getEquipement($this->_request, $this->view, true);
-		$xml_entry->set_data($box->render());
-		$this->xml_response->add_entry($xml_entry);
-		$this->xml_response->render();
-	}
-	
-	function familleAction() {
-		$this->view->affichageInterne = true;
-		$xml_entry = new Bral_Xml_Entry();
-		$xml_entry->set_type("display");
-		$xml_entry->set_valeur("box_famille");
-		$box = Bral_Box_Factory::getFamille($this->_request, $this->view, true);
-		$xml_entry->set_data($box->render());
-		$this->xml_response->add_entry($xml_entry);
-		$this->xml_response->render();
-	}
-	
-	function evenementsAction() {
-		$this->view->affichageInterne = true;
-		$xml_entry = new Bral_Xml_Entry();
-		$xml_entry->set_type("display");
-		$xml_entry->set_valeur("box_evenements");
-		$box = Bral_Box_Factory::getEvenements($this->_request, $this->view, true);
-		$xml_entry->set_data($box->render());
-		$this->xml_response->add_entry($xml_entry);
-		$this->xml_response->render();
-	}
-
-	function metierAction() {
-		$this->view->affichageInterne = true;
-		$xml_entry = new Bral_Xml_Entry();
-		$xml_entry->set_type("display");
-		$xml_entry->set_valeur("box_metier");
-		$box = Bral_Box_Factory::getMetier($this->_request, $this->view, true);
-		$xml_entry->set_data($box->render());
-		$this->xml_response->add_entry($xml_entry);
-		$this->xml_response->render();
-	}
-	
-	function messagerieAction() {
-		$this->view->affichageInterne = true;
-		$xml_entry = new Bral_Xml_Entry();
-		$xml_entry->set_type("display");
-		$xml_entry->set_valeur("box_messagerie");
-		$box = Bral_Box_Factory::getMessagerie($this->_request, $this->view, true);
-		$xml_entry->set_data($box->render());
-		$this->xml_response->add_entry($xml_entry);
-		$this->xml_response->render();
-	}
-
-	function labanAction() {
-		$this->view->affichageInterne = true;
-		$xml_entry = new Bral_Xml_Entry();
-		$xml_entry->set_type("display");
-		$xml_entry->set_valeur("box_laban");
-		$box = Bral_Box_Factory::getLaban($this->_request, $this->view, true);
-		$xml_entry->set_data($box->render());
-		$this->xml_response->add_entry($xml_entry);
-		$this->xml_response->render();
-	}
-	
-	function lieuAction() {
-		$this->view->affichageInterne = true;
-		$xml_entry = new Bral_Xml_Entry();
-		$xml_entry->set_type("display");
-		$xml_entry->set_valeur("box_lieu");
-		$box = Bral_Box_Factory::getLieu($this->_request, $this->view, true);
-		$xml_entry->set_data($box->render());
-		$this->xml_response->add_entry($xml_entry);
-		$this->xml_response->render();
-	}
-	
-	function vueAction() {
-		$this->view->affichageInterne = true;
-		$xml_entry = new Bral_Xml_Entry();
-		$xml_entry->set_type("display");
-		$xml_entry->set_valeur("box_vue");
-		$box = Bral_Box_Factory::getVue($this->_request, $this->view, true);
-		$xml_entry->set_data($box->render());
-		$this->xml_response->add_entry($xml_entry);
-		$this->xml_response->render();
-	}
-
 	function boxesAction() {
 		Zend_Loader::loadClass('Charrette');
 		Zend_Loader::loadClass('HobbitsMetiers');

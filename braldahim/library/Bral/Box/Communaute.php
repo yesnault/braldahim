@@ -9,6 +9,10 @@ class Bral_Box_Communaute extends Bral_Box_Box {
 	function getNomInterne() {
 		return "box_communaute";
 	}
+	
+	function getChargementInBoxes() {
+		return false;
+	}
 
 	function setDisplay($display) {
 		$this->view->display = $display;

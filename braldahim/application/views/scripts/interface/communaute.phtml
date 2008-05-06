@@ -1,13 +1,16 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-<ul class="titre textalia textsizeb">Ma Communaut&eacute;
-	<? if ($this->communaute != null) : ?>
-		: <?=htmlentities($this->communaute["nom_communaute"]) ?>, 
-		n&deg; <?=$this->communaute["id_communaute"] ?>
-	<? endif; ?>
-</ul>
- <div class="contenuC">
-  <ul class="box_contenu1 textalic">
+
+<? if ($this->affichageInterne == true) : ?>
+ 
+	 <ul class="titre textalia textsizeb">Ma Communaut&eacute;
+		<? if ($this->communaute != null) : ?>
+			: <?=htmlentities($this->communaute["nom_communaute"]) ?>, 
+			n&deg; <?=$this->communaute["id_communaute"] ?>
+		<? endif; ?>
+	 </ul>
+	 <div class="contenuC">
+     <ul class="box_contenu1 textalic">
   	<? if ($this->communaute != null) : ?>
   		Vous faites partie de la communaut&eacute; <?=$this->communaute["nom_communaute"] ?>,
   		 n&deg; <?=$this->communaute["id_communaute"] ?> depuis le
@@ -35,8 +38,14 @@
   	<div id="box_communaute_action">
   	
   	</div>
+
   	<br />
   </ul>
- </div>
+   </div>
+<? else: ?>
+	Chargement en cours
+	<br /><img src="/public/images/wait.gif" />
+<? endif; ?>
+
 </div>
 <? include("box_bottom.phtml") ?>

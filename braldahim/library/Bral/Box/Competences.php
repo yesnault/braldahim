@@ -11,20 +11,25 @@ class Bral_Box_Competences extends Bral_Box_Box {
 		// chargement des competences
 		switch($this->type) {
 			case "basic":
+				$this->chargementInBoxes = false;
 				$this->titreOnglet = "Basiques";
 				$this->nomInterne = "box_competences_basiques";
 				$this->render = "interface/competences_basiques.phtml";
 				break;
 			case "commun":
+				$this->chargementInBoxes = true;
 				$this->titreOnglet = "Communes";
 				$this->nomInterne = "box_competences_communes";
 				$this->render = "interface/competences_communes.phtml";
 				break;
 			case "metier":
+				$this->chargementInBoxes = false;
 				$this->titreOnglet = "M&eacute;tiers";
 				$this->nomInterne = "box_competences_metiers";
 				$this->render = "interface/competences_metiers.phtml";
 				break;
+			default:
+				throw new Zend_Exception(get_class($this)." type inconnu=" + $this->type);
 		}
 	}
 
@@ -32,6 +37,10 @@ class Bral_Box_Competences extends Bral_Box_Box {
 		return $this->titreOnglet;
 	}
 
+	function getChargementInBoxes() {
+		return $this->chargementInBoxes;
+	}
+	
 	function getNomInterne() {
 		return $this->nomInterne;
 	}
@@ -41,7 +50,14 @@ class Bral_Box_Competences extends Bral_Box_Box {
 	}
 
 	function render() {
-
+		if ($this->view->affichageInterne || $this->chargementInBoxes === true) {
+			$this->data();
+		}
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render($this->render);
+	}
+	
+	function data() {
 		$tabCompetences = null;
 		$this->view->nom_interne = $this->getNomInterne();
 
@@ -102,9 +118,6 @@ class Bral_Box_Competences extends Bral_Box_Box {
 				}
 			}
 		}
-
 		$this->view->competences = $tabCompetences;
-		return $this->view->render($this->render);
 	}
-
 }

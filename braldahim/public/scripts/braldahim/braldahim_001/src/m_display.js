@@ -7,8 +7,8 @@ function _display_box(box, data) {
 		$(box).innerHTML = data;
 	}
 
-	if (box == 'racine') { // si l'on fait appel a boxes, on appel la vue ensuite
-		_get_('/interface/vue');
+	if (box == 'racine') { // si l'on fait appel a boxes, on appelle la vue ensuite
+		_get_('/interface/load/?box=box_vue');
 	}
 }
 
@@ -28,7 +28,7 @@ function my_switch(box, conteneur) {
 	
 	if ($("loaded_" + box).value != "1") {
 		$("loaded_" + box).value = 1;
-		_get_('/interface/'+ box.substring(4)); // ex:"box_echoppe", on veut "echoppe"
+		_get_('/interface/load/?box='+ box);
 	}
 }
 
