@@ -1,18 +1,24 @@
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
 	 
-	 	Pour <?=$this->nb_pa ?> PA, vous pouvez d&eacute;poser des objets sur la case. <br /><br />
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez d&eacute;poser des objets sur la case. <br /><br />
 	 	
-	 <select name="valeur_1" id="valeur_1"  onChange="$('bouton_deposer').disabled=true;_get_('/competences/doaction?caction=ask_competence_deposer&type_element='+this.value);">
+	 <select name="valeur_1" id="valeur_1"  onChange="if ($('bouton_deposer')) {$('bouton_deposer').disabled=true} ;_get_('/competences/doaction?caction=ask_competence_deposer&valeur_1='+this.value);">
 	 	<option value="-1">(Choisis un &eacute;l&eacute;ment)</option>
 	 	<? foreach($this->typeElements as $t) : ?>
 	 		<option value="<?=$t["id_type_element"]?>" <? if ($t["selected"] == $t["id_type_element"]): echo "selected"; endif;?>><?=htmlentities($t["nom_element"])?></option>
 	 	<? endforeach; ?>
 	 </select>
 	 <br /><br />
-	 <? if ($this->deposerOk === true) : ?>
-	 Vous n'avez rien &agrave; d&eacute;poser.
-	 <? endif; ?>
+	 
+	 <? if ($this->type != null) : ?>
+	 	<? include("deposer/" . $this->type . ".phtml"); ?>
+		<? if ($this->deposerOk === false) : ?>
+		 <br />
+		 Vous n'avez rien &agrave; d&eacute;poser.
+		<? endif; ?>
+	 <? endif ?>
+	 
 </div>
 
 <br />

@@ -9,7 +9,7 @@ class Bral_Util_Controle {
 	 * @return $val
 	 */
 	public static function getValeurIntVerif($val) {
-		if (((int)$val.""!=$val."")) {
+		if (((int)$val."" != $val."")) {
 			throw new Zend_Exception("Bral_Util_Controle Valeur invalide : val=".$val);
 		} else {
 			return (int)$val;

@@ -29,13 +29,13 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 				$idEchoppe = $e["id_echoppe"];
 
 				$echoppeCourante = array(
-				'id_echoppe' => $e["id_echoppe"],
-				'x_echoppe' => $e["x_echoppe"],
-				'y_echoppe' => $e["y_echoppe"],
-				'id_metier' => $e["id_metier"],
-				'quantite_planche_arriere_echoppe' => $e["quantite_planche_arriere_echoppe"],
-				'quantite_fourrure_arriere_echoppe' => $e["quantite_fourrure_arriere_echoppe"],
-				'quantite_cuir_arriere_echoppe' => $e["quantite_cuir_arriere_echoppe"],
+					'id_echoppe' => $e["id_echoppe"],
+					'x_echoppe' => $e["x_echoppe"],
+					'y_echoppe' => $e["y_echoppe"],
+					'id_metier' => $e["id_metier"],
+					'quantite_planche_arriere_echoppe' => $e["quantite_planche_arriere_echoppe"],
+					'quantite_fourrure_arriere_echoppe' => $e["quantite_fourrure_arriere_echoppe"],
+					'quantite_cuir_arriere_echoppe' => $e["quantite_cuir_arriere_echoppe"],
 				);
 				break;
 			}

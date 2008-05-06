@@ -12,7 +12,7 @@
 		<? if ($this->validationOk) : ?>
 			F&eacute;licitations ! Votre validation est prise en compte. <br /> <br />
 		
-			Pour vous connecter, cliquer ici : 
+			Pour vous connecter, cliquez ici : 
 			<input type="button" class='button1' value="Accueil" onClick="javascript:document.location.href='/'"/>
 		
 		<? elseif ($this->compteActif == 'oui') :?>
@@ -20,12 +20,12 @@
 		<? else : ?>
 			<b>Une erreur est survenu lors de la validation de votre compte.</b><br /><br />
 			
-			Veuillez contacter le maitre du jeu à l'adresse suivante :
+			Veuillez contacter le ma&icirc;tre du jeu à l'adresse suivante :
 			<?= $this->emailMaitreJeu ?>. <br /><br />
 			N'oubliez pas d'indiquer : <br />
 			=> votre nom et num&eacute;ro de hobbit<br />
 			=> votre adresse de validation<br />
-			=> le probl&egrave;me rencontr&eacute;.<br />
+			=> le probl&egrave;me rencontr&eacute; (avec copie d'&eacute;cran si possible).<br />
 		<? endif; ?>
 		
 		<br /><br />

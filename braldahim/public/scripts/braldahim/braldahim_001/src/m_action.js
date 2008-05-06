@@ -87,7 +87,7 @@ function showResponse(originalRequest) {
 
 	if ((xmldoc == null) || (textdoc.substring(0, 44) != xmlHeader)) {
 		if (textdoc != "clear") {
-			alert('Une erreur inconnue est survenue. Text:\n' + textdoc);
+			alert('Une erreur est survenue :\n' + textdoc);
 		}
 	} else {
 		estInternetExplorer = false;
