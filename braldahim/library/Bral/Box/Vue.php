@@ -202,7 +202,6 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabMonstres = null;
 				$tabPalissades = null;
 				$tabPlantes = null;
-				$tabRunes = null;
 				$nom_systeme_environnement = null;
 				$nom_environnement = null;
 				$nom_zone = null;
@@ -268,10 +267,26 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						}
 					}
 
+					if ($elementsEquipements != null) {
+						foreach($elementsEquipements as $e) {
+							if ($display_x == $e["x_element_equipement"] && $display_y == $e["y_element_equipement"]) {
+								$tabElementsEquipements[] = array("id_equipement" => $e["id_element_equipement"], 
+									"nom" => $e["nom_type_equipement"],
+									"qualite" => $e["nom_type_qualite"],
+									"niveau" => $e["niveau_recette_equipement"],
+									"suffixe" => $e["suffixe_mot_runique"]);
+							}
+						}
+					}
+					
 					if ($elementsPotions != null) {
 						foreach($elementsPotions as $p) {
 							if ($display_x == $p["x_element_potion"] && $display_y == $p["y_element_potion"]) {
-								$tabElementsPotions[] = array("id_element_potion" => $p["id_element_rune"]);
+								$tabElementsPotions[] = array("id_element_potion" => $p["id_element_potion"],
+								"nom" => $p["nom_type_potion"],
+								"qualite" => $p["nom_type_qualite"],
+								"niveau" => $p["niveau_element_potion"],
+								);
 							}
 						}
 					}

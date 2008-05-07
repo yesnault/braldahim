@@ -2,17 +2,17 @@
       		<div>
       		<?php 
       			$textRune = "";
-      			foreach($case["elements_potions"] as $r) {
-      				$textRune .= "1 potion (n&deg; ".$r["id_element_potion"].")<br />";
+      			foreach($case["elements_potions"] as $p) {
+      				$textRune .= "1 potion ".htmlentities($p["nom"]) ." de qualit&eacute; ".htmlentities($p["qualite"]) ." (n&deg; ".$p["id_element_potion"].") <br />";
 				} 
 				$s = "";
 				if ($case["n_elements_potions"] > 1) {
 					$s = "s";
 				}
-				$titre = "Position X:".$case["x"]." Y:".$case["y"]." - ".$case["n_elements_potions"]."  Rune".$s;
+				$titre = "Position X:".$case["x"]." Y:".$case["y"]." - ".$case["n_elements_potions"]."  Potion".$s;
 			?>
       		<span <?=Bral_Helper_Tooltip::jsTip($textRune, $titre) ?>>
-	      		<?=$case["n_elements_potions"] ?> element_potion<?=$s?>
+	      		<?=$case["n_elements_potions"] ?> potion<?=$s?>
 	      	</span>
 	      	</div>
 	    <?php endif; ?>

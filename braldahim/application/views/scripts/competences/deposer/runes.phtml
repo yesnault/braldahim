@@ -1,1 +1,16 @@
-TODO RUNES
+Choississez une rune &agrave; d&eacute;poser &agrave; terre.<br />
+<? if ($this->deposerOk === true) : ?>
+<select name="valeur_2" id="valeur_2" onChange="if (this.value > 0) {$('bouton_deposer').disabled=false} else {$('bouton_deposer').disabled=true} ">
+	 	<option value="-1">(Choisis une rune)</option>
+	 	<? foreach($this->runes as $r) :?>
+	 		<option value="<?=$r["id_rune"]?>">Rune n&deg;<?=$r["id_rune"] ?>, 
+	 		<? if ($r["est_identifiee"] == "oui") : ?>
+	 			<?=$r["type"] ?>
+	 		<? else: ?>
+	 			rune non identifi&eacute;e
+	 		<? endif; ?>
+	 		
+	 		</option>
+	 	<? endforeach; ?>
+</select>
+<? endif; ?>
