@@ -22,11 +22,11 @@ class LabanPartieplante extends Zend_Db_Table {
 	function insertOrUpdate($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('laban_partieplante', 'count(*) as nombre, quantite_laban_partieplante as quantite')
+		$select->from('laban_partieplante', 'count(*) as nombre, quantite_laban_partieplante as quantiteBrute,  quantite_preparee_laban_partieplante as quantitePreparee')
 		->where('id_fk_type_laban_partieplante = ?',$data["id_fk_type_laban_partieplante"])
 		->where('id_fk_hobbit_laban_partieplante = ?',$data["id_fk_hobbit_laban_partieplante"])
 		->where('id_fk_type_plante_laban_partieplante = ?',$data["id_fk_type_plante_laban_partieplante"])
-		->group('quantite');
+		->group(array('quantiteBrute', 'quantitePreparee'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -34,8 +34,20 @@ class LabanPartieplante extends Zend_Db_Table {
 			$this->insert($data);
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
-			$quantite = $resultat[0]["quantite"];
-			$dataUpdate = array('quantite_laban_partieplante' => $quantite + $data["quantite_laban_partieplante"]);
+			$quantiteBrute = $resultat[0]["quantiteBrute"];
+			$quantitePreparee = $resultat[0]["quantitePreparee"];
+			
+			$dataUpdate['quantite_laban_partieplante']  = $quantiteBrute;
+			$dataUpdate['quantite_preparee_laban_partieplante']  = $quantitePreparee;
+			
+			if (isset($data["quantite_laban_partieplante"])) {
+				$dataUpdate = array('quantite_laban_partieplante' => $quantiteBrute + $data["quantite_laban_partieplante"]);
+			};
+			
+			if (isset($data["quantite_preparee_laban_partieplante"])) {
+				$dataUpdate = array('quantite_preparee_laban_partieplante' => $quantitePreparee + $data["quantite_preparee_laban_partieplante"]);
+			};
+			
 			$where = ' id_fk_type_laban_partieplante = '.$data["id_fk_type_laban_partieplante"];
 			$where .= ' AND id_fk_hobbit_laban_partieplante = '.$data["id_fk_hobbit_laban_partieplante"];
 			$where .= ' AND id_fk_type_plante_laban_partieplante = '.$data["id_fk_type_plante_laban_partieplante"];

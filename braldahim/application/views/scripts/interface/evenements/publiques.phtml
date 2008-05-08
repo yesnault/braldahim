@@ -1,7 +1,7 @@
 <ul class="titre textalic textsizec">&Eacute;v&eacute;nements Publics </ul>
   <ul class="box_contenu1 textalic">
   	Type : 
-  	<select name='valeur_2'  onChange="Javascript:_get_('/interface/evenements?caction=box_evenements&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0')">
+  	<select name='valeur_2'  onChange="Javascript:_get_('/interface/load/?box=box_evenements?caction=box_evenements&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0')">
   	<? foreach ($this->typeEvenements as $t) : ?>
   	<option value='<?=$t["id_type_evenement"]?>' <?if ($this->filtre == $t["id_type_evenement"]){echo "selected";}?>><?=htmlentities($t["nom"])?></option>
   	<? endforeach; ?>
@@ -21,10 +21,10 @@
 		  <tr class="table_liste">
 		    <th colspan='5'>
 			   <? if ($this->precedentOk === true) : ?>
-			   <input type="button" class='button1' onClick="Javascript:_get_('/interface/evenements?caction=box_evenements&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page pr&eacute;c&eacute;dente">
+			   <input type="button" class='button1' onClick="Javascript:_get_('/interface/load/?box=box_evenements&caction=box_evenements&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page pr&eacute;c&eacute;dente">
 			   <? endif; ?>
 			   <? if ($this->suivantOk === true) : ?>
-			   <input type="button" class='button1' onClick="Javascript:_get_('/interface/evenements?caction=box_evenements&valeur_1=s&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page suivante">
+			   <input type="button" class='button1' onClick="Javascript:_get_('/interface/load/?box=box_evenements&caction=box_evenements&valeur_1=s&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page suivante">
 			   <? endif; ?>
 		    </th>
 		  </tr>
@@ -32,7 +32,7 @@
 		<tbody>
 	  	<? $i = 0; 
 	  	foreach($this->evenements as $e): ?>
-	  		<tr class="table_liste<?=($i % 2);$i++; ?>" style="cursor:pointer" title="Cliquez pour voir le d&eacute;tail" onClick="Javascript:_get_('/interface/evenements?caction=box_evenements&valeur_1=d&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$e["id_evenement"] ?>')">
+	  		<tr class="table_liste<?=($i % 2);$i++; ?>" style="cursor:pointer" title="Cliquez pour voir le d&eacute;tail" onClick="Javascript:_get_('/interface/load/?box=box_evenements&caction=box_evenements&valeur_1=d&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$e["id_evenement"] ?>')">
 		  		<td class="table_liste"><?=$e["date"]?></td>
 		  		<td class="table_liste"><?=htmlentities($e["type"])?></td>
 		  		<td class="table_liste"><?=htmlentities($e["details"])?>&nbsp;</td>

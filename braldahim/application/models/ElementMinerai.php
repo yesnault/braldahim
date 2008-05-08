@@ -29,7 +29,8 @@ class ElementMinerai extends Zend_Db_Table {
 		quantite_brut_element_minerai as quantiteBrut, 
 		quantite_lingots_element_minerai as quantiteLingots')
 		->where('id_fk_type_element_minerai = ?',$data["id_fk_type_element_minerai"])
-		->where('id_fk_hobbit_element_minerai = ?',$data["id_fk_hobbit_element_minerai"])
+		->where('x_element_minerai = ?',$data["x_element_minerai"])
+		->where('y_element_minerai = ?',$data["y_element_minerai"])
 		->group(array('quantiteBrut', 'quantiteLingots'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
@@ -52,7 +53,8 @@ class ElementMinerai extends Zend_Db_Table {
 			}
 			
 			$where = ' id_fk_type_element_minerai = '.$data["id_fk_type_element_minerai"];
-			$where .= ' AND id_fk_hobbit_element_minerai = '.$data["id_fk_hobbit_element_minerai"];
+			$where .= ' AND x_element_minerai = '.$data["x_element_minerai"];
+			$where .= ' AND y_element_minerai = '.$data["y_element_minerai"];
 			
 			if ($dataUpdate['quantite_brut_element_minerai'] <= 0 && $dataUpdate['quantite_lingots_element_minerai'] <= 0) { // delete
 				$this->delete($where);

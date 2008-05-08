@@ -192,8 +192,10 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabEchoppes = null;
 				$tabElements = null;
 				$tabElementsEquipements = null;
-				$tabElementsMinerais = null;
-				$tabElementsPartieplantes = null;
+				$tabElementsMineraisBruts = null;
+				$tabElementsLingots = null;
+				$tabElementsPartieplantesBrutes = null;
+				$tabElementsPartieplantesPreparees = null;
 				$tabElementsPotions = null;
 				$tabElementsRunes = null;
 				$tabFilons = null;
@@ -283,10 +285,56 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						foreach($elementsPotions as $p) {
 							if ($display_x == $p["x_element_potion"] && $display_y == $p["y_element_potion"]) {
 								$tabElementsPotions[] = array("id_element_potion" => $p["id_element_potion"],
-								"nom" => $p["nom_type_potion"],
-								"qualite" => $p["nom_type_qualite"],
-								"niveau" => $p["niveau_element_potion"],
+									"nom" => $p["nom_type_potion"],
+									"qualite" => $p["nom_type_qualite"],
+									"niveau" => $p["niveau_element_potion"],
 								);
+							}
+						}
+					}
+
+					if ($elementsMinerais != null) {
+						foreach($elementsMinerais as $m) {
+							if ($m["quantite_brut_element_minerai"] > 0) {
+								if ($display_x == $m["x_element_minerai"] && $display_y == $m["y_element_minerai"]) {
+									$tabElementsMineraisBruts[] = array( 
+										"type" => $m["nom_type_minerai"],
+										"quantite" => $m["quantite_brut_element_minerai"],
+									);
+								}
+							}
+							
+							if ($m["quantite_lingots_element_minerai"] > 0) {
+								if ($display_x == $m["x_element_minerai"] && $display_y == $m["y_element_minerai"]) {
+									$tabElementsLingots[] = array(
+										"type" => $m["nom_type_minerai"],
+										"quantite" => $m["quantite_lingots_element_minerai"],
+									);
+								}
+							}
+						}
+					}
+					
+					if ($elementsPartieplantes != null) {
+						foreach($elementsPartieplantes as $m) {
+							if ($m["quantite_element_partieplante"] > 0) {
+								if ($display_x == $m["x_element_partieplante"] && $display_y == $m["y_element_partieplante"]) {
+									$tabElementsPartieplantesBrutes[] = array( 
+										"type" => $m["nom_type_partieplante"],
+										"type_plante" => $m["nom_type_plante"],
+										"quantite" => $m["quantite_element_partieplante"],
+									);
+								}
+							}
+							
+							if ($m["quantite_preparee_element_partieplante"] > 0) {
+								if ($display_x == $m["x_element_partieplante"] && $display_y == $m["y_element_partieplante"]) {
+									$tabElementsPartieplantesPreparees[] = array(
+										"type" => $m["nom_type_partieplante"],
+										"type_plante" => $m["nom_type_plante"],
+										"quantite" => $m["quantite_preparee_element_partieplante"],
+									);
+								}
 							}
 						}
 					}
@@ -423,12 +471,16 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"elements" => $tabElements,
 					"n_elements_equipements" => count($tabElementsEquipements),
 					"elements_equipements" => $tabElementsEquipements,
-					"n_elements_partieplante" => count($tabElementsPartieplantes),
-					"elements_partieplantes" => $tabElementsPartieplantes,
+					"n_elements_partieplante_brutes" => count($tabElementsPartieplantesBrutes),
+					"elements_partieplantes_brutes" => $tabElementsPartieplantesBrutes,
+					"n_elements_partieplante_preparees" => count($tabElementsPartieplantesPreparees),
+					"elements_partieplantes_preparees" => $tabElementsPartieplantesPreparees,
 					"n_elements_potions" => count($tabElementsPotions),
 					"elements_potions" => $tabElementsPotions,
-					"n_elements_minerais" => count($tabElementsMinerais),
-					"elements_minerais" => $tabElementsMinerais,
+					"n_elements_minerais_bruts" => count($tabElementsMineraisBruts),
+					"elements_minerais_bruts" => $tabElementsMineraisBruts,
+					"n_elements_lingots" => count($tabElementsLingots),
+					"elements_lingots" => $tabElementsLingots,
 					"n_elements_runes" => count($tabElementsRunes),
 					"elements_runes" => $tabElementsRunes,
 					"n_filons" => count($tabFilons),

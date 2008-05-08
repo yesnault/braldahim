@@ -48,6 +48,12 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 			case "potions" :
 				$this->prepareTypePotions();
 				break;
+			case "minerais" :
+				$this->prepareTypeMinerais();
+				break;
+			case "partiesplantes" :
+				$this->prepareTypePartiesPlantes();
+				break;
 			default :
 				throw new Zend_Exception("Bral_Competences_Deposer prepareType invalide : type=".$this->view->type);
 		}
@@ -66,6 +72,11 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 				break;
 			case "potions" :
 				$this->deposeTypePotions();
+			case "minerais" :
+				$this->deposeTypeMinerais();
+				break;
+			case "partiesplantes" :
+				$this->deposeTypePartiesPlantes();
 				break;
 			default :
 				throw new Zend_Exception("Bral_Competences_Deposer prepareType invalide : type=".$this->view->type);
@@ -282,5 +293,229 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 			"id_fk_type_element_potion" => $potion["id_fk_type"],
 		);
 		$elementPotionTable->insert($data);
+	}
+	
+	private function prepareTypeMinerais() {
+		Zend_Loader::loadClass("LabanMinerai");
+		$tabMineraisBruts = null;
+		$tabLingots = null;
+		
+		$labanMineraiTable = new LabanMinerai();
+		$minerais = $labanMineraiTable->findByIdHobbit($this->view->user->id_hobbit);
+		
+		if (count($minerais) > 0) {
+			$this->view->deposerOk = true;
+
+			foreach ($minerais as $m) {
+				if ($m["quantite_brut_laban_minerai"] > 0) {
+					$tabMineraisBruts[$m["id_fk_type_laban_minerai"]] = array(
+						"id_type_minerai" => $m["id_fk_type_laban_minerai"],
+						"type" => $m["nom_type_minerai"],
+						"quantite" => $m["quantite_brut_laban_minerai"],
+					);
+				}
+				
+				if ($m["quantite_lingots_laban_minerai"] > 0) {
+					$tabLingots[$m["id_fk_type_laban_minerai"]] = array(
+						"id_type_minerai" => $m["id_fk_type_laban_minerai"],
+						"type" => $m["nom_type_minerai"],
+						"quantite" => $m["quantite_lingots_laban_minerai"],
+					);
+				}
+			}
+		} else {
+			$this->view->deposerOk = false;
+		}
+		$this->view->mineraisBruts = $tabMineraisBruts;
+		$this->view->lingots = $tabLingots;
+	}
+	
+	private function deposeTypeMinerais() {
+		Zend_Loader::loadClass("ElementMinerai");
+		$this->prepareTypeMinerais();
+		
+		$idMineraiBrut = null;
+		$nbMineraiBrut = null;
+		
+		$idLingot = null;
+		$nbLingot = null;
+		
+		$labanMineraiTable = new LabanMinerai();
+		$elementMineraiTable = new ElementMinerai();
+		
+		if ($this->request->get("valeur_2") > 0 && $this->request->get("valeur_3") > 0) {
+			$idMineraiBrut = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
+			$nbMineraiBrut = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
+			
+			if (!array_key_exists($idMineraiBrut, $this->view->mineraisBruts)) {
+				throw new Zend_Exception(get_class($this)." ID Minerai Brut invalide : ".$idMineraiBrut);
+			} 
+			
+			$minerai = $this->view->mineraisBruts[$idMineraiBrut];
+
+			if ($nbMineraiBrut > $minerai["quantite"] || $nbMineraiBrut < 0) {
+				throw new Zend_Exception(get_class($this)." Quantite Minerai Brut invalide : ".$nbMineraiBrut);
+			}
+			
+			$data = array(
+				"quantite_brut_laban_minerai" => -$nbMineraiBrut,
+				"id_fk_type_laban_minerai" => $minerai["id_type_minerai"],
+				"id_fk_hobbit_laban_minerai" => $this->view->user->id_hobbit,
+			);
+			$labanMineraiTable->insertOrUpdate($data);
+			
+			$data = array (
+				"x_element_minerai" => $this->view->user->x_hobbit,
+				"y_element_minerai" => $this->view->user->y_hobbit,
+				"id_fk_type_element_minerai" => $minerai["id_type_minerai"],
+				"quantite_brut_element_minerai" => $nbMineraiBrut,
+			);
+			$elementMineraiTable->insertOrUpdate($data);
+		}
+		
+		if ($this->request->get("valeur_4") > 0 && $this->request->get("valeur_5") > 0) {
+			$idLingot = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_4"));
+			$nbLingot = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_5"));
+			
+			if (!array_key_exists($idLingot, $this->view->lingots)) {
+				throw new Zend_Exception(get_class($this)." ID Lingot invalide : ".$idLingot);
+			} 
+			
+			$lingot = $this->view->lingots[$idLingot];
+			
+			if ($nbLingot > $lingot["quantite"] || $nbLingot < 0) {
+				throw new Zend_Exception(get_class($this)." Quantite lingot invalide : ".$nbLingot);
+			}
+			
+			$data = array(
+				"quantite_lingots_laban_minerai" => -$nbLingot,
+				"id_fk_type_laban_minerai" => $lingot["id_type_minerai"],
+				"id_fk_hobbit_laban_minerai" => $this->view->user->id_hobbit,
+			);
+			
+			$data = array (
+				"x_element_minerai" => $this->view->user->x_hobbit,
+				"y_element_minerai" => $this->view->user->y_hobbit,
+				"id_fk_type_element_minerai" => $lingot["id_type_minerai"],
+				"quantite_lingots_element_minerai" => $nbLingot,
+			);
+			$elementMineraiTable->insertOrUpdate($data);
+		}
+	}
+	
+	private function prepareTypePartiesPlantes() {
+		Zend_Loader::loadClass("LabanPartiePlante");
+		$tabPartiePlantesBrutes = null;
+		$tabLingots = null;
+		
+		$labanPartiePlanteTable = new LabanPartieplante();
+		$partiesPlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
+		
+		if (count($partiesPlantes) > 0) {
+			$this->view->deposerOk = true;
+
+			foreach ($partiesPlantes as $m) {
+				if ($m["quantite_laban_partieplante"] > 0) {
+					$tabPartiePlantesBrutes[$m["id_fk_type_laban_partieplante"]."-".$m["id_fk_type_plante_laban_partieplante"]] = array(
+						"id_type_partieplante" => $m["id_fk_type_laban_partieplante"],
+						"id_type_plante" => $m["id_fk_type_plante_laban_partieplante"],
+						"type" => $m["nom_type_partieplante"],
+						"type_plante" => $m["nom_type_plante"],
+						"quantite" => $m["quantite_laban_partieplante"],
+					);
+				}
+				
+				if ($m["quantite_preparee_laban_partieplante"] > 0) {
+					$tabPartiePlantesPreparees[$m["id_fk_type_laban_partieplante"]."-".$m["id_fk_type_plante_laban_partieplante"]] = array(
+						"id_type_partieplante" => $m["id_fk_type_laban_partieplante"],
+						"id_type_plante" => $m["id_fk_type_plante_laban_partieplante"],
+						"type" => $m["nom_type_partieplante"],
+						"type_plante" => $m["nom_type_plante"],
+						"quantite" => $m["quantite_preparee_laban_partieplante"],
+					);
+				}
+			}
+		} else {
+			$this->view->deposerOk = false;
+		}
+		$this->view->partiePlantesBrutes = $tabPartiePlantesBrutes;
+		$this->view->partiePlantesPreparees = $tabPartiePlantesPreparees;
+	}
+	
+	private function deposeTypePartiesPlantes() {
+		Zend_Loader::loadClass("ElementPartieplante");
+		$this->prepareTypePartiesPlantes();
+		
+		$idPartiePlanteBrute = null;
+		$nbPartiePlanteBrute = null;
+		
+		$idPartiePlantePreparee = null;
+		$nbPartiePlantePreparee = null;
+		
+		$labanPartiePlanteTable = new LabanPartieplante();
+		$elementPartiePlanteTable = new ElementPartieplante();
+		
+		if ($this->request->get("valeur_2") > 0 && $this->request->get("valeur_3") > 0) {
+			$idPartiePlanteBrute = $this->request->get("valeur_2");
+			$nbPartiePlanteBrute = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
+			
+			if (!array_key_exists($idPartiePlanteBrute, $this->view->partiePlantesBrutes)) {
+				throw new Zend_Exception(get_class($this)." ID PartiePlante Brute invalide : ".$idPartiePlanteBrute);
+			} 
+			
+			$partiePlanteBrute = $this->view->partiePlantesBrutes[$idPartiePlanteBrute];
+
+			if ($nbPartiePlanteBrute > $partiePlanteBrute["quantite"] || $nbPartiePlanteBrute < 0) {
+				throw new Zend_Exception(get_class($this)." Quantite PartiePlante Brute invalide : ".$nbPartiePlanteBrute);
+			}
+			
+			$data = array(
+				"quantite_laban_partieplante" => -$nbPartiePlanteBrute,
+				"id_fk_type_laban_partieplante" => $partiePlanteBrute["id_type_partieplante"],
+				"id_fk_type_plante_laban_partieplante" => $partiePlanteBrute["id_type_plante"],
+				"id_fk_hobbit_laban_partieplante" => $this->view->user->id_hobbit,
+			);
+			$labanPartiePlanteTable->insertOrUpdate($data);
+			
+			$data = array (
+				"x_element_partieplante" => $this->view->user->x_hobbit,
+				"y_element_partieplante" => $this->view->user->y_hobbit,
+				"id_fk_type_element_partieplante" => $partiePlanteBrute["id_type_partieplante"],
+				"id_fk_type_plante_element_partieplante" => $partiePlanteBrute["id_type_plante"],
+				"quantite_element_partieplante" => $nbPartiePlanteBrute,
+			);
+			$elementPartiePlanteTable->insertOrUpdate($data);
+		}
+		
+		if ($this->request->get("valeur_4") > 0 && $this->request->get("valeur_5") > 0) {
+			$idPartiePlantePreparee = $this->request->get("valeur_4");
+			$nbPartiePlantePreparee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_5"));
+			
+			if (!array_key_exists($idPartiePlantePreparee, $this->view->partiePlantesPreparees)) {
+				throw new Zend_Exception(get_class($this)." ID PartiePlantePreparee invalide : ".$idPartiePlantePreparee);
+			} 
+			
+			$partiePlantePreparee = $this->view->partiePlantesPreparees[$idPartiePlantePreparee];
+			
+			if ($nbPartiePlantePreparee > $partiePlantePreparee["quantite"] || $nbPartiePlantePreparee < 0) {
+				throw new Zend_Exception(get_class($this)." Quantite Plante Preparee invalide : ".$nbPartiePlantePreparee);
+			}
+			
+			$data = array(
+				"quantite_preparee_laban_partieplante" => -$nbPartiePlantePreparee,
+				"id_fk_type_laban_partieplante" => $partiePlanteBrute["id_type_partieplante"],
+				"id_fk_type_plante_laban_partieplante" => $partiePlanteBrute["id_type_plante"],
+				"id_fk_hobbit_laban_partieplante" => $this->view->user->id_hobbit,
+			);
+			
+			$data = array (
+				"x_element_partieplante" => $this->view->user->x_hobbit,
+				"y_element_partieplante" => $this->view->user->y_hobbit,
+				"id_fk_type_element_partieplante" => $partiePlantePreparee["id_type_partieplante"],
+				"id_fk_type_plante_element_partieplante" => $partiePlantePreparee["id_type_plante"],
+				"quantite_preparee_element_partieplante" => $nbPartiePlantePreparee,
+			);
+			$elementPartiePlanteTable->insertOrUpdate($data);
+		}
 	}
 }

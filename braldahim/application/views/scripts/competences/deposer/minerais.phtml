@@ -1,1 +1,39 @@
-TODO MINERAIS
+<? if (count($this->mineraisBruts) > 0) :?>
+	Minerais Bruts:<br/>
+	
+	<select name="valeur_2" id="valeur_2" onChange="if ($('valeur_2').value > 0 || $('valeur_4').value > 0) {$('bouton_deposer').disabled=false} else {$('bouton_deposer').disabled=true} ">
+	 	<option value="-1">(Choisis un type de minerai brut)</option>
+	 	<? foreach($this->mineraisBruts as $m) :?>
+	 		<option value="<?=$m["id_type_minerai"]?>"><?=$m["quantite"]?> <?=htmlentities($m["type"])?></option>
+	 	<? endforeach; ?>
+	</select>
+	<br/>
+	Quantit&eacute; &agrave; d&eacute;poser : <br />
+	<input type='textbox' maxlength='7' size='7' name='valeur_3' id='valeur_3' value='0' onkeypress="chiffres(event);">
+	
+<? else: ?>
+	Aucun minerai brut &agrave; d&eacute;poser &agrave; terre.
+	<input type='hidden' name='valeur_2' id='valeur_2' value='-1' />
+	<input type='hidden' name='valeur_3' id='valeur_3' value='0' />
+<? endif; ?>
+
+<br /><br />
+<? if (count($this->lingots) > 0) :?>
+	Lingots : <br/>
+	
+	<select name="valeur_4" id="valeur_4" onChange="if ($('valeur_2').value > 0 || $('valeur_4').value > 0) {$('bouton_deposer').disabled=false} else {$('bouton_deposer').disabled=true} ">
+	 	<option value="-1">(Choisis un type de lingot)</option>
+	 	<? foreach($this->lingot as $m) :?>
+	 		<option value="<?=$m["id_type_minerai"]?>"><?=$m["quantite"]?> <?=htmlentities($m["type"])?></option>
+	 	<? endforeach; ?>
+	</select>
+	<br />
+	Quantit&eacute; &agrave; d&eacute;poser : <br />
+	<input type='textbox' maxlength='7' size='7' name='valeur_5' id='valeur_5' value='0' onkeypress="chiffres(event);">
+	
+<? else: ?>
+	Aucun lingot &agrave; d&eacute;poser &agrave; terre.
+	<input type='hidden' name='valeur_4' id='valeur_4' value='-1' />
+	<input type='hidden' name='valeur_5' id='valeur_5' value='0' />
+<? endif; ?>
+<br />

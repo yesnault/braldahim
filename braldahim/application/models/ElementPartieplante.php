@@ -18,6 +18,7 @@ class ElementPartieplante extends Zend_Db_Table {
 		->where('y_element_partieplante >= ?', $y_min)
 		->order(array('nom_type_plante', 'nom_type_partieplante'));
 		$sql = $select->__toString();
+		return $db->fetchAll($sql);
 	}
 
 	function findByCase($x, $y) {
@@ -27,11 +28,12 @@ class ElementPartieplante extends Zend_Db_Table {
 	function insertOrUpdate($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('element_partieplante', 'count(*) as nombre, quantite_element_partieplante as quantite')
+		$select->from('element_partieplante', 'count(*) as nombre,  quantite_element_partieplante as quantiteBrute,  quantite_preparee_element_partieplante as quantitePreparee')
 		->where('id_fk_type_element_partieplante = ?',$data["id_fk_type_element_partieplante"])
-		->where('id_fk_hobbit_element_partieplante = ?',$data["id_fk_hobbit_element_partieplante"])
+		->where('x_element_partieplante = ?',$data["x_element_partieplante"])
+		->where('y_element_partieplante = ?',$data["y_element_partieplante"])
 		->where('id_fk_type_plante_element_partieplante = ?',$data["id_fk_type_plante_element_partieplante"])
-		->group('quantite');
+		->group(array('quantiteBrute', 'quantitePreparee'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -39,10 +41,23 @@ class ElementPartieplante extends Zend_Db_Table {
 			$this->insert($data);
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
-			$quantite = $resultat[0]["quantite"];
-			$dataUpdate = array('quantite_element_partieplante' => $quantite + $data["quantite_element_partieplante"]);
+			$quantiteBrute = $resultat[0]["quantiteBrute"];
+			$quantitePreparee = $resultat[0]["quantitePreparee"];
+			
+			$dataUpdate['quantite_element_partieplante']  = $quantiteBrute;
+			$dataUpdate['quantite_preparee_element_partieplante']  = $quantitePreparee;
+			
+			if (isset($data["quantite_element_partieplante"])) {
+				$dataUpdate = array('quantite_element_partieplante' => $quantiteBrute + $data["quantite_element_partieplante"]);
+			};
+			
+			if (isset($data["quantite_preparee_element_partieplante"])) {
+				$dataUpdate = array('quantite_preparee_element_partieplante' => $quantitePreparee + $data["quantite_preparee_element_partieplante"]);
+			};
+			
 			$where = ' id_fk_type_element_partieplante = '.$data["id_fk_type_element_partieplante"];
-			$where .= ' AND id_fk_hobbit_element_partieplante = '.$data["id_fk_hobbit_element_partieplante"];
+			$where .= ' AND x_element_partieplante = '.$data["x_element_partieplante"];
+			$where .= ' AND y_element_partieplante = '.$data["y_element_partieplante"];
 			$where .= ' AND id_fk_type_plante_element_partieplante = '.$data["id_fk_type_plante_element_partieplante"];
 			$this->update($dataUpdate, $where);
 		}

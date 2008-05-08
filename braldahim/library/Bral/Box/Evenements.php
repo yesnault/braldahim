@@ -26,7 +26,9 @@ class Bral_Box_Evenements extends Bral_Box_Box {
 		
 			$this->preparePage();
 			$this->prepareRender();
-			$this->prepareDetails();
+			if ($this->_request->get("caction") == "box_evenements") {
+				$this->prepareDetails();
+			}
 		}
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/evenements.phtml");

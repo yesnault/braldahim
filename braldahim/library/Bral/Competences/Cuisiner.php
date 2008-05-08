@@ -20,8 +20,8 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$tabLaban = null;
 		foreach ($laban as $p) {
 			$tabLaban = array(
-			"nb_viande_preparee" => $p["quantite_viande_preparee_laban"],
-			"nb_ration" => $p["quantite_ration_laban"],
+				"nb_viande_preparee" => $p["quantite_viande_preparee_laban"],
+				"nb_ration" => $p["quantite_ration_laban"],
 			);
 		}
 		if (isset($tabLaban) && $tabLaban["nb_viande_preparee"] > 0) {
