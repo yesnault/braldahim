@@ -62,6 +62,8 @@ class Bral_Util_Poids {
 			$poids = self::ajoute($poids, $p["quantite_fourrure_laban"], self::POIDS_FOURRURE);
 			$poids = self::ajoute($poids, $p["quantite_planche_laban"], self::POIDS_PLANCHE);
 		}
+		unset($labanTable);
+		unset($laban);
 		
 		return $poids;
 	}
@@ -76,6 +78,10 @@ class Bral_Util_Poids {
 			$poids = self::ajoute($poids, $m["quantite_brut_laban_minerai"], self::POIDS_MINERAI);
 			$poids = self::ajoute($poids, $m["quantite_lingots_laban_minerai"], self::POIDS_LINGOT);
 		}
+
+		unset($labanMineraiTable);
+		unset($minerais);
+		
 		return $poids;
 	}
 	
@@ -90,6 +96,10 @@ class Bral_Util_Poids {
 			$poids = self::ajoute($poids, $p["quantite_laban_partieplante"], self::POIDS_PARTIE_PLANTE_BRUTE);
 			$poids = self::ajoute($poids, $p["quantite_preparee_laban_partieplante"], self::POIDS_PARTIE_PLANTE_PREPAREE);
 		}
+		
+		unset($labanPartiePlanteTable);
+		unset($partiePlantes);
+		
 		return $poids;
 	}
 	
@@ -113,7 +123,15 @@ class Bral_Util_Poids {
 			if (count($equipementRunes) > 0) {
 				$poids = self::ajoute($poids, count($equipementRunes), self::POIDS_RUNE);
 			}
+			
+			unset($equipementRuneTable);
+			unset($equipementRunes);
 		}
+		
+		unset($labanEquipementTable);
+		unset($equipements);
+		unset($tabWhere);
+		
 		return $poids;
 	}
 	
@@ -121,6 +139,7 @@ class Bral_Util_Poids {
 		Zend_Loader::loadClass("LabanPotion");
 		$labanPotionTable = new LabanPotion();
 		$nbPotions = $labanPotionTable->countByIdHobbit($idHobbit);
+		unset($labanPotionTable);
 		return self::ajoute(0, $nbPotions, self::POIDS_POTION);
 	}
 	
@@ -128,6 +147,7 @@ class Bral_Util_Poids {
 		Zend_Loader::loadClass("LabanRune");
 		$labanRuneTable = new LabanRune();
 		$nbRunes = $labanRuneTable->countByIdHobbit($idHobbit);
+		unset($labanRuneTable);
 		return self::ajoute(0, $nbRunes, self::POIDS_RUNE);
 	}
 	
@@ -151,7 +171,15 @@ class Bral_Util_Poids {
 			if (count($equipementRunes) > 0) {
 				$poids = self::ajoute($poids, count($equipementRunes), self::POIDS_RUNE);
 			}
+			
+			unset($equipementRuneTable);
+			unset($equipementRunes);
 		}
+		
+		unset($hobbitEquipementTable);
+		unset($equipements);
+		unset($tabWhere);
+		
 		return $poids;
 	}
 }

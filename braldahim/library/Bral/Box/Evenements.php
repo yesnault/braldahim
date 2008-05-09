@@ -41,7 +41,8 @@ class Bral_Box_Evenements extends Bral_Box_Box {
 		$tabTypeEvenements = null;
 		$evenementTable = new Evenement();
 		$evenements = $evenementTable->findByIdHobbit($this->view->user->id_hobbit, $this->_page, $this->_nbMax, $this->_filtre);
-
+		unset($evenementTable);
+		
 		foreach ($evenements as $p) {
 			$tabEvenements[] = array(
 				"id_evenement" => $p["id_evenement"],
@@ -51,9 +52,11 @@ class Bral_Box_Evenements extends Bral_Box_Box {
 				"details_bot" => $p["details_bot_evenement"],
 			);
 		}
+		unset($evenements);
 
 		$typeEvenementTable = new TypeEvenement();
 		$typeEvenements = $typeEvenementTable->fetchall();
+		unset($typeEvenementTable);
 
 		$tabTypeEvenements[] = array(
 			"id_type_evenement" => -1,
@@ -65,6 +68,7 @@ class Bral_Box_Evenements extends Bral_Box_Box {
 				"nom" => $t->nom_type_evenement
 			);
 		}
+		unset($typeEvenements);
 
 		if ($this->_page == 1) {
 			$precedentOk = false;
@@ -86,6 +90,11 @@ class Bral_Box_Evenements extends Bral_Box_Box {
 		
 		$this->view->page = $this->_page;
 		$this->view->filtre = $this->_filtre;
+		
+		unset($precedentOk);
+		unset($suivantOk);
+		unset($tabEvenements);
+		unset($tabTypeEvenements);
 	}
 	
 	private function prepareDetails() {

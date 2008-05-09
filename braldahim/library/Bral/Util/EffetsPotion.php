@@ -8,6 +8,7 @@ class Bral_Util_EffetsPotion {
 		Zend_Loader::loadClass("EffetPotionHobbit");
 		$effetPotionHobbitTable = new EffetPotionHobbit();
 		$effetPotionHobbitRowset = $effetPotionHobbitTable->findByIdHobbitCible($hobbitCible->id_hobbit);
+		unset($effetPotionHobbitTable);
 		
 		$potions = null;
 		foreach ($effetPotionHobbitRowset as $p) {
@@ -26,8 +27,9 @@ class Bral_Util_EffetsPotion {
 			
 			$retourPotion = self::appliquePotionSurHobbit($potion, $p["id_fk_hobbit_lanceur_effet_potion_hobbit"], $hobbitCible, true, false);
 			$potions[] = array('potion' => $potion, 'retourPotion' => $retourPotion);
-			
 		}
+		
+		unset($effetPotionHobbitRowset);
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - calculPotionHobbit - exit");
 		return $potions;
 	}
@@ -38,6 +40,7 @@ class Bral_Util_EffetsPotion {
 		Zend_Loader::loadClass("EffetPotionMonstre");
 		$effetPotionMonstreTable = new EffetPotionMonstre();
 		$effetPotionMonstreRowset = $effetPotionMonstreTable->findByIdMonstreCible($monstreCible->id_monstre);
+		unset($effetPotionMonstreTable);
 		
 		$potions = null;
 		foreach ($effetPotionMonstreRowset as $p) {
@@ -56,8 +59,9 @@ class Bral_Util_EffetsPotion {
 			
 			$retourPotion = self::appliquePotionSurMonstre($potion, $p["id_fk_hobbit_lanceur_effet_potion_monstre"], $monstreCible, true, false);
 			$potions[] = array('potion' => $potion, 'retourPotion' => $retourPotion);
-			
 		}
+		
+		unset($effetPotionMonstreRowset);
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - calculPotionMonstre - exit");
 		return $potions;
 	}
@@ -126,12 +130,14 @@ class Bral_Util_EffetsPotion {
 			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurHobbit - maj du hobbit ".$hobbitCible->id_hobbit. " en base");
 			$hobbitTable = new Hobbit();
 			$hobbitTable->update($data, $where);
+			unset($hobbitTable);
 		}
 		
 		if ($majTableEffetPotion === true) {
 			Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - appliquePotionSurHobbit - maj table effet debut");
 			$effetPotionHobbitTable = new EffetPotionHobbit();
 			$effetPotionHobbitTable->enleveUnTour($potion);
+			unset($effetPotionHobbitTable);
 			Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - appliquePotionSurHobbit - maj table effet fin");
 		}
 		
@@ -203,12 +209,14 @@ class Bral_Util_EffetsPotion {
 			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - maj du monstre ".$monstre->id_monstre. " en base");
 			$monstreTable = new Monstre();
 			$monstreTable->update($data, $where);
+			unset($monstreTable);
 		}
 		
 		if ($majTableEffetPotion === true) {
 			Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - appliquePotionSurMonstre - maj table effet debut");
 			$effetPotionMonstreTable = new EffetPotionMonstre();
 			$effetPotionMonstreTable->enleveUnTour($potion);
+			unset($effetPotionMonstreTable);
 			Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - appliquePotionSurMonstre - maj table effet fin");
 		}
 		

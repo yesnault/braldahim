@@ -80,8 +80,8 @@ class Element extends Zend_Db_Table {
 				$dataUpdate['quantite_planche_element'] = $quantitePlanche + $data["quantite_planche_element"];
 			}
 			
-			$where = 'x_element = '.$data["x_element"];
-			$where = 'AND y_element = '.$data["y_element"];
+			$where = ' x_element = '.$data["x_element"];
+			$where .= ' AND y_element = '.$data["y_element"];
 				
 			if ($dataUpdate['quantite_viande_element'] <= 0 && 
 				$dataUpdate['quantite_peau_element'] <= 0 && 

@@ -386,6 +386,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$tabEquipementPorte = null;
 		$hobbitEquipementTable = new HobbitEquipement();
 		$equipementPorteRowset = $hobbitEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($hobbitEquipementTable);
 		
 		if (count($equipementPorteRowset) > 0) {
 			$tabWhere = null;
@@ -491,9 +492,11 @@ class Bral_Box_Tour extends Bral_Box_Box {
 					$this->hobbit->vue_bm_hobbit = $this->hobbit->vue_bm_hobbit + 2;
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotV actif - this->hobbit->vue_bm_hobbit=".$this->hobbit->vue_bm_hobbit);
 				}
+				
 			}
 			
 			$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
+			unset($equipementRuneTable);
 			
 			if (count($equipementRunes) > 0) {
 				foreach($equipementRunes as $r) {
@@ -538,7 +541,11 @@ class Bral_Box_Tour extends Bral_Box_Box {
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune UP active - avant this->hobbit->sagesse_bm_hobbit=".$this->hobbit->sagesse_bm_hobbit);
 					}
 				}
+				
+				unset($equipementRunes);
 			}
+			
+			unset($equipementPorteRowset);
 		}
 		Bral_Util_Log::tour()->trace(get_class($this)." calculBMEquipement - exit -");
 	}

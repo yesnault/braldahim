@@ -25,13 +25,14 @@ class InterfaceController extends Zend_Controller_Action {
 				$xml_entry->set_valeur("informations");
 				$xml_entry->set_data($t->render());
 				$this->xml_response->add_entry($xml_entry);
-				
+				unset($xml_entry);
 				$this->infoTour = true;
 				
 				if ($this->_request->action != 'boxes') {
 					$this->refreshAll();
 				}
 			}
+			unset($t);
 		}
 	}
 
@@ -56,6 +57,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$xml_entry->set_data($box->render());
 		$xml_entry->set_valeur($box->getNomInterne());
 		$this->xml_response->add_entry($xml_entry);
+		unset($xml_entry);
 		$this->xml_response->render();
 	}
 	
@@ -82,6 +84,7 @@ class InterfaceController extends Zend_Controller_Action {
 			if ($possibleEchoppe === true) {
 				$this->addBox(Bral_Box_Factory::getEchoppes($this->_request, $this->view, false), "boite_c");
 			}
+			unset($hobbitsMetiers);
 			
 			$this->addBox(Bral_Box_Factory::getLaban($this->_request, $this->view, false), "boite_c");
 			
@@ -90,6 +93,7 @@ class InterfaceController extends Zend_Controller_Action {
 			if ($nombre > 0) {
 				$this->addBox(Bral_Box_Factory::getCharrette($this->_request, $this->view, false), "boite_c");
 			}
+			unset($charretteTable);
 			
 			$this->addBox(Bral_Box_Factory::getEvenements($this->_request, $this->view, false), "boite_c");
 			$this->addBox(Bral_Box_Factory::getMessagerie($this->_request, $this->view, false), "boite_c");
@@ -109,6 +113,7 @@ class InterfaceController extends Zend_Controller_Action {
 		}
 		
 		$this->xml_response->add_entry($xml_entry);
+		unset($xml_entry);
 		$this->xml_response->render();
 	}
 
@@ -162,6 +167,10 @@ class InterfaceController extends Zend_Controller_Action {
 			$this->view->liste = $liste;
 			$this->view->data = $data;
 			$this->view->conteneur = $nom;
+			unset($onglets);
+			unset($liste);
+			unset($data);
+			unset($nom);
 			return $this->view->render("interface/box_onglets.phtml");
 		}
 	}
@@ -175,6 +184,8 @@ class InterfaceController extends Zend_Controller_Action {
 			$xml_entry->set_valeur($c->getNomInterne());
 			$xml_entry->set_data($c->render());
 			$this->xml_response->add_entry($xml_entry);
+			unset($xml_entry);
+			unset($c);
 		}
 	}
 	
@@ -184,6 +195,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$xml_entry->set_valeur("goto");
 		$xml_entry->set_data("/interface/");
 		$this->xml_response->add_entry($xml_entry);
+		unset($xml_entry);
 		$this->xml_response->render();
 	}
 }

@@ -10,7 +10,9 @@ class Bral_Util_Commun {
 		
 		$zoneTable = new Zone();
 		$zones = $zoneTable->findByCase($x, $y);
+		unset($zoneTable);
 		$zone = $zones[0];
+		unset($zones);
 
 		$r = 0;
 		switch($zone["nom_systeme_environnement"]) {
@@ -32,6 +34,7 @@ class Bral_Util_Commun {
 			default :
 				throw new Exception("getVueBase Environnement invalide:".$zone["nom_systeme_environnement"]. " x=".$x." y=".$y);
 		}
+		unset($zone);
 		return $r;
 	}
 	
@@ -39,7 +42,9 @@ class Bral_Util_Commun {
 		Zend_Loader::loadClass('Zone');
 		$zoneTable = new Zone();
 		$zones = $zoneTable->findByCase($x, $y);
+		unset($zoneTable);
 		$zone = $zones[0];
+		unset($zones);
 		return $zone["nom_systeme_environnement"];
 	}
 	
@@ -51,6 +56,7 @@ class Bral_Util_Commun {
 		Zend_Loader::loadClass("HobbitEquipement");
 		$hobbitEquipementTable = new HobbitEquipement();
 		$runesRowset = $hobbitEquipementTable->findRunesOnly($idHobbit);
+		unset($hobbitEquipementTable);
 		
 		if ($runesRowset != null && count($runesRowset) > 0) {
 			foreach ($runesRowset as $r) {
@@ -59,6 +65,7 @@ class Bral_Util_Commun {
 					break;
 				}
 			}
+			unset($runesRowset);
 		}
 		return $retour;
 	}
@@ -68,12 +75,14 @@ class Bral_Util_Commun {
 		Zend_Loader::loadClass("HobbitEquipement");
 		$hobbitEquipementTable = new HobbitEquipement();
 		$equipementRowset = $hobbitEquipementTable->findByNomSystemeMot($idHobbit, $nomSystemeMot);
+		unset($hobbitEquipementTable);
 		
 		if ($equipementRowset != null && count($equipementRowset) > 0) {
 			foreach ($equipementRowset as $e) {
 				$retour = $e;
 				break;
 			}
+			unset($equipementRowset);
 		}
 		return $retour;
 	}
@@ -81,7 +90,6 @@ class Bral_Util_Commun {
 	public static function calculPvMaxSansEffetMotE($config, $vigueur_base_hobbit, $pv_max_bm_hobbit) {
 		// calcul des pvs restants avec la regeneration
 		$pvMax = ($config->game->pv_base + $vigueur_base_hobbit * $config->game->pv_max_coef) + $pv_max_bm_hobbit;
-		
 		return $pvMax;
 	}
 	
@@ -89,6 +97,8 @@ class Bral_Util_Commun {
 		Zend_Loader::loadClass("HobbitsCompetences");
 		$hobbitsCompetencesTables = new HobbitsCompetences();
 		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($idHobbit);
+		unset($hobbitsCompetencesTables);
+		
 		foreach($hobbitCompetences as $c) {
 			if ($c["type_competence"] == "metier") {
 				$data = array("pourcentage_hcomp" => $c["pourcentage_hcomp"] + 2);
@@ -96,6 +106,7 @@ class Bral_Util_Commun {
 				$hobbitsCompetencesTables->update($data, $where);
 			}
 		}
+		unset($hobbitCompetences);
 	}
 	
 	public static function retireEffetMotR($idHobbit) {
@@ -262,6 +273,8 @@ class Bral_Util_Commun {
 			);
 			$castarTable = new Castar();
 			$castarTable->insertOrUpdate($data);
+			unset($castarTable);
+			unset($data);
 		}
 		
 		return $nbCastars;

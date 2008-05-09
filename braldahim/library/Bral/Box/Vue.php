@@ -118,63 +118,84 @@ class Bral_Box_Vue extends Bral_Box_Box {
 	private function data() {
 		$hobbitsMetiersTable = new HobbitsMetiers();
 		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
+		unset($hobbitsMetiersTable);
 		$tabMetiers = null;
 		if ($hobbitsMetierRowset != null) {
 			foreach($hobbitsMetierRowset as $m) {
 				$possedeMetier = true;
 				$tabMetiers[] = $m["nom_systeme_metier"];
 			}
+			unset($hobbitsMetierRowset);
 		}
 		
 		$cadavreTable = new Cadavre();
 		$cadavres = $cadavreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($cadavreTable);
 		$castarTable = new Castar();
 		$castars = $castarTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($castarTable);
 		$charretteTable = new Charrette();
 		$charrettes = $charretteTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($charretteTable);
 		$echoppeTable = new Echoppe();
 		$echoppes = $echoppeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($echoppeTable);
 		$elementTable = new Element();
 		$elements = $elementTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($elementTable);
 		$elementEquipementTable = new ElementEquipement();
 		$elementsEquipements = $elementEquipementTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($elementEquipementTable);
 		$elementPartiePlanteTable = new ElementPartieplante();
 		$elementsPartieplantes = $elementPartiePlanteTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($elementPartiePlanteTable);
 		$elementMineraisTable = new ElementMinerai();
 		$elementsMinerais = $elementMineraisTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($elementMineraisTable);
 		$elementPotionTable = new ElementPotion();
 		$elementsPotions = $elementPotionTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($elementPotionTable);
 		$elementRuneTable = new ElementRune();
 		$elementsRunes = $elementRuneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($elementRuneTable);
 		
 		$filons = null;
 		if ($tabMetiers != null) {
 			if (in_array("mineur", $tabMetiers)) {
 				$filonsTable = new Filon();
 				$filons = $filonsTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+				unset($filonsTable);
 			}
 		}
 		$hobbitTable = new Hobbit();
 		$hobbits = $hobbitTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($hobbitTable);
 		$lieuxTable = new Lieu();
 		$lieux = $lieuxTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($lieuxTable);
 		$monstreTable = new Monstre();
 		$monstres = $monstreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($monstreTable);
 		$palissadeTable = new Palissade();
 		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($palissadeTable);
 		$plantes = null;
 		if ($tabMetiers != null) {
 			if (in_array("herboriste", $tabMetiers)) {
 				$planteTable = new Plante();
 				$plantes = $planteTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+				unset($planteTable);
 			}
 		}
 		$regionTable = new Region();
 		$regions = $regionTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($regionTable);
 		$villeTable = new Ville();
 		$villes = $villeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($villeTable);
 		$zoneTable = new Zone();
 		$zones = $zoneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($zoneTable);
 		
 		$centre_x_min = $this->view->centre_x - $this->view->config->game->box_vue_taille;
 		$centre_x_max = $this->view->centre_x + $this->view->config->game->box_vue_taille;
@@ -269,6 +290,20 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						}
 					}
 
+					if ($elements != null) {
+						foreach($elements as $e) {
+							if ($display_x == $e["x_element"] && $display_y == $e["y_element"]) {
+								if ($e["quantite_peau_element"] > 0) $tabElements[] = array("nom" => "Peau", "nom_systeme" => "quantite_peau" , "nb" => $e["quantite_peau_element"]);
+								if ($e["quantite_viande_element"] > 0) $tabElements[] = array("nom" => "Viande", "nom_systeme" => "quantite_viande" , "nb" => $e["quantite_viande_element"]);
+								if ($e["quantite_viande_preparee_element"] > 0) $tabElements[] = array("nom" => "Viande pr&eacute;par&eacute;e", "nom_systeme" => "quantite_viande_preparee" , "nb" => $e["quantite_viande_preparee_element"]);
+								if ($e["quantite_ration_element"] > 0) $tabElements[] = array("nom" => "Ration", "nom_systeme" => "quantite_ration" , "nb" => $e["quantite_ration_element"]);
+								if ($e["quantite_cuir_element"] > 0) $tabElements[] = array("nom" => "Cuir", "nom_systeme" => "quantite_cuir" , "nb" => $e["quantite_cuir_element"]);
+								if ($e["quantite_fourrure_element"] > 0) $tabElements[] = array("nom" => "Fourrure", "nom_systeme" => "quantite_fourrure" , "nb" => $e["quantite_fourrure_element"]);
+								if ($e["quantite_planche_element"] > 0) $tabElements[] = array("nom" => "Planche", "nom_systeme" => "quantite_planche" , "nb" => $e["quantite_planche_element"]);
+							}
+						}
+					}
+					
 					if ($elementsEquipements != null) {
 						foreach($elementsEquipements as $e) {
 							if ($display_x == $e["x_element_equipement"] && $display_y == $e["y_element_equipement"]) {
@@ -503,7 +538,25 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				}
 			}
 		}
-
 		$this->view->tableau = $tableau;
+		unset($tableau);
+		
+		unset($cadavres);
+		unset($castars);
+		unset($charrettes);
+		unset($echoppes);
+		unset($elements);
+		unset($elementsEquipements);
+		unset($elementsPartieplantes);
+		unset($elementsMinerais);
+		unset($elementsPotions);
+		unset($elementsRunes);
+		unset($hobbits);
+		unset($lieux);
+		unset($monstres);
+		unset($palissades);
+		unset($regions);
+		unset($villes);
+		unset($zones);
 	}
 }

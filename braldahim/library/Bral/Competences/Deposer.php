@@ -54,6 +54,9 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 			case "partiesplantes" :
 				$this->prepareTypePartiesPlantes();
 				break;
+			case "autres" :
+				$this->prepareTypeAutres();
+				break;
 			default :
 				throw new Zend_Exception("Bral_Competences_Deposer prepareType invalide : type=".$this->view->type);
 		}
@@ -77,6 +80,9 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 				break;
 			case "partiesplantes" :
 				$this->deposeTypePartiesPlantes();
+				break;
+			case "autres" :
+				$this->deposeTypeAutres();
 				break;
 			default :
 				throw new Zend_Exception("Bral_Competences_Deposer prepareType invalide : type=".$this->view->type);
@@ -137,6 +143,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 			"y_castar" => $this->view->user->y_hobbit,
 		);
 		$castarsTable->insertOrUpdate($data);
+		unset($castarsTable);
 	}
 	
 	private function prepareTypeEquipements() {
@@ -144,6 +151,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		$tabEquipements = null;
 		$labanEquipementTable = new LabanEquipement();
 		$equipements = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($labanEquipementTable);
 		
 		if (count($equipements) > 0) {
 			$this->view->deposerOk = true;
@@ -180,6 +188,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		$labanEquipementTable = new LabanEquipement();
 		$where = "id_laban_equipement=".$idEquipement;
 		$labanEquipementTable->delete($where);
+		unset($labanEquipementTable);
 		
 		$elementEquipementTable = new ElementEquipement();
 		$data = array (
@@ -191,6 +200,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 			"id_fk_mot_runique_element_equipement" => $equipement["id_fk_mot_runique"],
 		);
 		$elementEquipementTable->insert($data);
+		unset($elementEquipementTable);
 	}
 	
 	private function prepareTypeRunes() {
@@ -198,6 +208,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		$tabRunes = null;
 		$labanRuneTable = new LabanRune();
 		$runes = $labanRuneTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($labanRuneTable);
 		
 		if (count($runes) > 0) {
 			$this->view->deposerOk = true;
@@ -231,6 +242,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		$labanRuneTable = new LabanRune();
 		$where = "id_rune_laban_rune=".$idRune;
 		$labanRuneTable->delete($where);
+		unset($labanRuneTable);
 		
 		$elementRuneTable = new ElementRune();
 		$data = array (
@@ -240,6 +252,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 			"id_fk_type_element_rune" => $rune["id_fk_type_rune"],
 		);
 		$elementRuneTable->insert($data);
+		unset($elementRuneTable);
 	}
 	
 	private function prepareTypePotions() {
@@ -247,6 +260,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		$tabPotions = null;
 		$labanPotionTable = new LabanPotion();
 		$potions = $labanPotionTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($labanPotionTable);
 		
 		if (count($potions) > 0) {
 			$this->view->deposerOk = true;
@@ -282,6 +296,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		$labanPotionTable = new LabanPotion();
 		$where = "id_laban_potion=".$idPotion;
 		$labanPotionTable->delete($where);
+		unset($labanPotionTable);
 		
 		$elementPotionTable = new ElementPotion();
 		$data = array (
@@ -293,6 +308,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 			"id_fk_type_element_potion" => $potion["id_fk_type"],
 		);
 		$elementPotionTable->insert($data);
+		unset($elementPotionTable);
 	}
 	
 	private function prepareTypeMinerais() {
@@ -302,6 +318,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		
 		$labanMineraiTable = new LabanMinerai();
 		$minerais = $labanMineraiTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($labanMineraiTable);
 		
 		if (count($minerais) > 0) {
 			$this->view->deposerOk = true;
@@ -401,15 +418,19 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 			);
 			$elementMineraiTable->insertOrUpdate($data);
 		}
+		unset($elementMineraiTable);
+		unset($labanMineraiTable);
 	}
 	
 	private function prepareTypePartiesPlantes() {
 		Zend_Loader::loadClass("LabanPartiePlante");
 		$tabPartiePlantesBrutes = null;
+		$tabPartiePlantesPreparees = null;
 		$tabLingots = null;
 		
 		$labanPartiePlanteTable = new LabanPartieplante();
 		$partiesPlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($labanPartiePlanteTable);
 		
 		if (count($partiesPlantes) > 0) {
 			$this->view->deposerOk = true;
@@ -517,5 +538,73 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 			);
 			$elementPartiePlanteTable->insertOrUpdate($data);
 		}
+		unset($elementPartiePlanteTable);
+		unset($labanPartiePlanteTable);
+	}
+	
+	private function prepareTypeAutres() {
+		Zend_Loader::loadClass("Laban");
+		$tabAutres = null;
+		$labanTable = new Laban();
+		$laban = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($labanTable);
+		
+		if (count($laban) == 1) {
+			foreach ($laban as $p) {
+				if ($p["quantite_peau_laban"] > 0) $tabAutres[1] = array("nom" => "Peau", "nom_systeme" => "quantite_peau" , "nb" => $p["quantite_peau_laban"]);
+				if ($p["quantite_viande_laban"] > 0) $tabAutres[2] = array("nom" => "Viande", "nom_systeme" => "quantite_viande" , "nb" => $p["quantite_viande_laban"]);
+				if ($p["quantite_viande_preparee_laban"] > 0) $tabAutres[3] = array("nom" => "Viande pr&eacute;par&eacute;e", "nom_systeme" => "quantite_viande_preparee" , "nb" => $p["quantite_viande_preparee_laban"]);
+				if ($p["quantite_ration_laban"] > 0) $tabAutres[4] = array("nom" => "Ration", "nom_systeme" => "quantite_ration" , "nb" => $p["quantite_ration_laban"]);
+				if ($p["quantite_cuir_laban"] > 0) $tabAutres[5] = array("nom" => "Cuir", "nom_systeme" => "quantite_cuir" , "nb" => $p["quantite_cuir_laban"]);
+				if ($p["quantite_fourrure_laban"] > 0) $tabAutres[6] = array("nom" => "Fourrure", "nom_systeme" => "quantite_fourrure" , "nb" => $p["quantite_fourrure_laban"]);
+				if ($p["quantite_planche_laban"] > 0) $tabAutres[7] = array("nom" => "Planche", "nom_systeme" => "quantite_planche" , "nb" => $p["quantite_planche_laban"]);
+				
+				if (count($tabAutres) > 0) {
+					$this->view->deposerOk = true;
+				}
+			}
+		} else {
+			$this->view->deposerOk = false;
+		}
+		$this->view->autres = $tabAutres;
+	}
+	
+	private function deposeTypeAutres() {
+		Zend_Loader::loadClass("Element");
+		$this->prepareTypeAutres();
+		
+		$idAutre = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
+		$nb = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
+		
+		if (!array_key_exists($idAutre, $this->view->autres)) {
+			throw new Zend_Exception(get_class($this)." ID Autres invalide : ".$idAutre);
+		} 
+		
+		$autre = $this->view->autres[$idAutre];
+
+		if ($nb > $autre["nb"]) {
+			$nb = $autre["nb"];
+		}
+		
+		if ($nb < 0) {
+			throw new Zend_Exception(get_class($this)." Quantite invalide : ".$nb);
+		}
+		
+		$labanTable = new Laban();
+		$data = array(
+			$autre["nom_systeme"]."_laban" => -$nb,
+			"id_fk_hobbit_laban" => $this->view->user->id_hobbit,
+		);
+		$labanTable->insertOrUpdate($data);
+		unset($labanTable);
+		
+		$elementTable = new Element();
+		$data = array(
+			$autre["nom_systeme"]."_element" => $nb,
+			"x_element" => $this->view->user->x_hobbit,
+			"y_element" => $this->view->user->y_hobbit,
+		);
+		$elementTable->insertOrUpdate($data);
+		unset($elementTable);
 	}
 }
