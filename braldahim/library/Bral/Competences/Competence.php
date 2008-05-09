@@ -236,10 +236,6 @@ abstract class Bral_Competences_Competence {
 	 * Mise à jour des PA, des PX et de la balance de faim.
 	 */
 	protected function majHobbit() {
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-		$hobbit = $hobbitRowset->current();
-
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
 		$this->view->user->px_perso_hobbit = $this->view->user->px_perso_hobbit + $this->view->nb_px_perso;
 		$this->view->user->px_commun_hobbit = $this->view->user->px_commun_hobbit + $this->view->nb_px_commun;
@@ -272,7 +268,11 @@ abstract class Bral_Competences_Competence {
 			'castars_hobbit' => $this->view->user->castars_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
+		
+		$hobbitTable = new Hobbit();
 		$hobbitTable->update($data, $where);
+		unset($hobbitTable);
+		unset($data);
 	}
 
 	public function getNomInterne() {

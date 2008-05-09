@@ -35,6 +35,7 @@ class Bral_Box_Equipement extends Bral_Box_Box {
 		$tabTypesEmplacement = null;
 		$typeEmplacementTable = new TypeEmplacement();
 		$typesEmplacement = $typeEmplacementTable->fetchAll(null, "ordre_emplacement");
+		unset($typeEmplacementTable);
 		$typesEmplacement = $typesEmplacement->toArray();
 		
 		foreach ($typesEmplacement as $t) {
@@ -57,11 +58,13 @@ class Bral_Box_Equipement extends Bral_Box_Box {
 					"position" => $position,
 			);
 		}
+		unset($typesEmplacement);
 		
 		// on va chercher l'équipement porté
 		$tabEquipementPorte = null;
 		$hobbitEquipementTable = new HobbitEquipement();
 		$equipementPorteRowset = $hobbitEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($hobbitEquipementTable);
 		
 		if (count($equipementPorteRowset) > 0) {
 			$tabWhere = null;
@@ -75,6 +78,7 @@ class Bral_Box_Equipement extends Bral_Box_Box {
 			}
 			
 			$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
+			unset($equipementRuneTable);
 			
 			foreach ($equipementPorteRowset as $e) {
 				$runes = null;
@@ -117,9 +121,11 @@ class Bral_Box_Equipement extends Bral_Box_Box {
 				$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["affiche"] = "oui";
 				$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["equipementPorte"][] = $equipement;
 			}
+			unset($equipementPorteRowset);
 		}
 		$this->view->typesEmplacement = $tabTypesEmplacement;
 		
+		unset($tabTypesEmplacement);
 		$this->view->nom_interne = $this->getNomInterne();
 	}
 }

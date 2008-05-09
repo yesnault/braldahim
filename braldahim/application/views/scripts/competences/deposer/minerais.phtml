@@ -23,7 +23,7 @@
 	
 	<select name="valeur_4" id="valeur_4" onChange="if ($('valeur_2').value > 0 || $('valeur_4').value > 0) {$('bouton_deposer').disabled=false} else {$('bouton_deposer').disabled=true} ">
 	 	<option value="-1">(Choisis un type de lingot)</option>
-	 	<? foreach($this->lingot as $m) :?>
+	 	<? foreach($this->lingots as $m) :?>
 	 		<option value="<?=$m["id_type_minerai"]?>"><?=$m["quantite"]?> <?=htmlentities($m["type"])?></option>
 	 	<? endforeach; ?>
 	</select>

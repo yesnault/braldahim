@@ -30,7 +30,6 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
 		}
 
-		
 		// calcul des jets
 		$this->calculJets();
 		
@@ -84,6 +83,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			$filonTable->update($data, $where);
 			$filonDetruit = false;
 		}
+		unset($filonTable);
 
 		$minerai = array("nom_type" => $nom_type_minerai, "quantite_extraite" => $quantiteExtraite);
 
@@ -103,10 +103,10 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 	/* La quantité de minerai extraite est fonction de la quantité de minerai
 	 * disponible à cet endroit du filon (ce qu'il reste à exploiter) et
 	 * le niveau de FOR du Hobbit :
-	 * de 0 à 4 : 1D3
-	 * de 5 à 9 : 1D3+1
-	 * de 10 à 14 :1D3+2
-	 * de 15 à 19 : 1D3+3 etc.
+	 * de 0 à 4 : 1D3 + BM FOR
+	 * de 5 à 9 : 1D3+1 + BM FOR
+	 * de 10 à 14 :1D3+2 + BM FOR
+	 * de 15 à 19 : 1D3+3 + BM FOR etc.
 	 */
 	private function calculQuantiteAExtraire() {
 		$this->view->effetRune = false;
@@ -119,6 +119,11 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			$n = ceil($n * 1.5);
 		}
 		
+		$n = $n + ($this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit) / 2 ;
+		$n = intval($n);
+		if ($n < 0) {
+			$n = 0;
+		}
 		return $n;
 	}
 	

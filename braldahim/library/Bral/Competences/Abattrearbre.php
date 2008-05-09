@@ -9,10 +9,13 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		
 		$villeTable = new Ville();
 		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		unset($villeTable);
 		$lieuxTable = new Lieu();
 		$lieux = $lieuxTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		unset($lieuxTable);
 		$zoneTable = new Zone();
 		$zones = $zoneTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		unset($zoneTable);
 		
 		$this->view->abattreArbreLieuOk = true;
 		$this->view->abattreArbreVilleOk = true;
@@ -20,12 +23,16 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		if (count($lieux) > 0) {
 			$this->view->abattreArbreLieuOk = false;
 		}
+		unset($lieux);
 		
 		if (count($villes) > 0) {
 			$this->view->abattreArbreVilleOk = false;
 		}		
+		unset($villes);
 				
 		$zone = $zones[0];
+		unset($zone);
+		
 		switch($zone["nom_systeme_environnement"]) {
 			case "foret" :
 				$this->view->abattreArbreEnvironnementOk = true;
@@ -39,6 +46,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 			default :
 				throw new Exception("Abattre un arbre Environnement invalide:".$zone["nom_systeme_environnement"]. " x=".$x." y=".$y);
 		}
+		unset($zones);
 	}
 
 	function prepareFormulaire() {
@@ -91,13 +99,20 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 			$this->view->effetRune = true;
 			$this->view->nbRondins = ceil($this->view->nbRondins * 1.5);
 		}
-
+		
+		$this->view->nbRondins  = $this->view->nbRondins  + ($this->view->user->vigueur_bm_hobbit + $this->view->user->vigueur_bbdf_hobbit) / 2 ;
+		$this->view->nbRondins  = intval($this->view->nbRondins);
+		if ($this->view->nbRondins < 0) {
+			$this->view->nbRondins  = 0;
+		}
+		
 		$charretteTable = new Charrette();
 		$data = array(
 			'quantite_rondin_charrette' => $this->view->nbRondins,
 			'id_fk_hobbit_charrette' => $this->view->user->id_hobbit,
 		);
 		$charretteTable->updateCharrette($data);
+		unset($charretteTable);
 	}
 	
 	function getListBoxRefresh() {

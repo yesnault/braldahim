@@ -30,6 +30,7 @@ class Bral_Box_Metier extends Bral_Box_Box {
 		Zend_Loader::loadClass("HobbitsMetiers");
 		$hobbitsMetiersTable = new HobbitsMetiers();
 		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
+		unset($hobbitsMetiersTable);
 		$tabMetiers = null;
 		$tabMetierCourant = null;
 		$possedeMetier = false;
@@ -44,11 +45,12 @@ class Bral_Box_Metier extends Bral_Box_Box {
 			}
 			
 			$t = array("id_metier" => $m["id_metier"],
-			"nom" => $nom_metier,
-			"nom_systeme" => $m["nom_systeme_metier"],
-			"est_actif" => $m["est_actif_hmetier"],
-			"date_apprentissage" => Bral_Util_ConvertDate::get_date_mysql_datetime("d/m/Y", $m["date_apprentissage_hmetier"]),
-			"description" => $m["description_metier"]);
+				"nom" => $nom_metier,
+				"nom_systeme" => $m["nom_systeme_metier"],
+				"est_actif" => $m["est_actif_hmetier"],
+				"date_apprentissage" => Bral_Util_ConvertDate::get_date_mysql_datetime("d/m/Y", $m["date_apprentissage_hmetier"]),
+				"description" => $m["description_metier"],
+			);
 			
 			if ($m["est_actif_hmetier"] == "non") {
 				$tabMetiers[] = $t;
@@ -58,6 +60,7 @@ class Bral_Box_Metier extends Bral_Box_Box {
 				$tabMetierCourant = $t;
 			}
 		}
+		unset($hobbitsMetierRowset);
 
 		$this->view->tabMetierCourant = $tabMetierCourant;
 		$this->view->tabMetiers = $tabMetiers;

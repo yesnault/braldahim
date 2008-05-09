@@ -132,6 +132,12 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 			$this->view->nbPeau = ceil($this->view->nbPeau * 1.5);
 		}
 		
+		$this->view->nbPeau = $this->view->nbPeau + ($this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit) / 2 ;
+		$this->view->nbPeau = intval($this->view->nbPeau);
+		if ($this->view->nbPeau < 0) {
+			$this->view->nbPeau = 0;
+		}
+
 		$labanTable = new Laban();
 		$data = array(
 			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,

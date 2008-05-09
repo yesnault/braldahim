@@ -46,7 +46,7 @@ class Bral_Box_Famille extends Bral_Box_Box {
 		// on regarde s'il y a des enfants
 		$enfants = null;
 		$enfantsRowset = $hobbitTable->findEnfants($this->view->user->sexe_hobbit, $this->view->user->id_hobbit);
-		
+		unset($hobbitTable);
 		$this->view->nbEnfants = count($enfantsRowset);
 		
 		if (count($this->view->nbEnfants) > 0) {
@@ -57,13 +57,15 @@ class Bral_Box_Famille extends Bral_Box_Box {
 									"sexe_hobbit" => $e["sexe_hobbit"],
 									"date_naissance" => $e["date_creation_hobbit"]);
 			}
-			
+			unset($enfantsRowset);
 		}
 		$this->view->enfants = $enfants;
 		
 		// on va chercher les informations du conjoint
 		$coupleTable = new Couple();
 		$conjointRowset = $coupleTable->findConjoint($this->view->user->sexe_hobbit, $this->view->user->id_hobbit);
+		unset($coupleTable);
+		
 		$conjoint = null;
 		if (count($conjointRowset) > 0) {
 			foreach($conjointRowset as $c) {
@@ -74,9 +76,10 @@ class Bral_Box_Famille extends Bral_Box_Box {
 				);
 			}
 		}
+		unset($conjointRowset);
 		
 		$this->view->conjoint = $conjoint;
-		
+		unset($conjoint);
 		$this->view->dateNaissance = Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e; H:i:s',$this->view->user->date_creation_hobbit);
 		$this->view->nom_interne = $this->getNomInterne();
 	}

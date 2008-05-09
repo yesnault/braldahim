@@ -239,23 +239,25 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 			'id_fk_hobbit_charrette' => $this->view->user->id_hobbit,
 		);
 		$charretteTable->updateCharrette($data);
+		unset($charretteTable);
 		
 		$date_creation = date("Y-m-d H:i:s");
 		$nb_jours = $this->view->user->vigueur_base_hobbit / 2;
 		$date_fin = Bral_Util_ConvertDate::get_date_add_day_to_date($date_creation, $nb_jours);
 		
 		$data = array(
-		"x_palissade"  => $x,
-		"y_palissade" => $y,
-		"agilite_palissade" => 0,
-		"armure_naturelle_palissade" => $this->view->user->armure_naturelle_hobbit * 4,
-		"pv_restant_palissade" => $this->view->user->pv_restant_hobbit * 4,
-		"date_creation_palissade" => $date_creation,
-		"date_fin_palissade" => $date_fin,
+			"x_palissade"  => $x,
+			"y_palissade" => $y,
+			"agilite_palissade" => 0,
+			"armure_naturelle_palissade" => $this->view->user->armure_naturelle_hobbit * 4,
+			"pv_restant_palissade" => $this->view->user->pv_restant_hobbit * 4,
+			"date_creation_palissade" => $date_creation,
+			"date_fin_palissade" => $date_fin,
 		);
 		
 		$palissadeTable = new Palissade();
 		$palissadeTable->insert($data);
+		unset($palissadeTable);
 		
 		$this->view->palissade = $data;
 	}

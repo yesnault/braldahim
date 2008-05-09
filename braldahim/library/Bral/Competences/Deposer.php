@@ -3,9 +3,6 @@
 class Bral_Competences_Deposer extends Bral_Competences_Competence {
 
 	function prepareCommun() {
-		Zend_Loader::loadClass("Castar");
-		Zend_Loader::loadClass("Laban");
-		
 		$this->view->deposerOk = false;
 		
 		if ($this->request->get("valeur_1") != "") {
@@ -128,6 +125,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 	}
 	
 	private function deposeTypeCastars() {
+		Zend_Loader::loadClass("Castar");
 		$nbCastars = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 		
 		if ($nbCastars > $this->view->user->castars_hobbit || $nbCastars < 0) {
@@ -409,6 +407,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 				"id_fk_type_laban_minerai" => $lingot["id_type_minerai"],
 				"id_fk_hobbit_laban_minerai" => $this->view->user->id_hobbit,
 			);
+			$labanMineraiTable->insertOrUpdate($data);
 			
 			$data = array (
 				"x_element_minerai" => $this->view->user->x_hobbit,

@@ -293,13 +293,13 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if ($elements != null) {
 						foreach($elements as $e) {
 							if ($display_x == $e["x_element"] && $display_y == $e["y_element"]) {
-								if ($e["quantite_peau_element"] > 0) $tabElements[] = array("nom" => "Peau", "nom_systeme" => "quantite_peau" , "nb" => $e["quantite_peau_element"]);
-								if ($e["quantite_viande_element"] > 0) $tabElements[] = array("nom" => "Viande", "nom_systeme" => "quantite_viande" , "nb" => $e["quantite_viande_element"]);
-								if ($e["quantite_viande_preparee_element"] > 0) $tabElements[] = array("nom" => "Viande pr&eacute;par&eacute;e", "nom_systeme" => "quantite_viande_preparee" , "nb" => $e["quantite_viande_preparee_element"]);
-								if ($e["quantite_ration_element"] > 0) $tabElements[] = array("nom" => "Ration", "nom_systeme" => "quantite_ration" , "nb" => $e["quantite_ration_element"]);
-								if ($e["quantite_cuir_element"] > 0) $tabElements[] = array("nom" => "Cuir", "nom_systeme" => "quantite_cuir" , "nb" => $e["quantite_cuir_element"]);
-								if ($e["quantite_fourrure_element"] > 0) $tabElements[] = array("nom" => "Fourrure", "nom_systeme" => "quantite_fourrure" , "nb" => $e["quantite_fourrure_element"]);
-								if ($e["quantite_planche_element"] > 0) $tabElements[] = array("nom" => "Planche", "nom_systeme" => "quantite_planche" , "nb" => $e["quantite_planche_element"]);
+								if ($e["quantite_peau_element"] > 0) $tabElements[] = array("nom" => "Peau", "s" => "x", "nb" => $e["quantite_peau_element"]);
+								if ($e["quantite_viande_element"] > 0) $tabElements[] = array("nom" => "Viande", "s" => "s", "nb" => $e["quantite_viande_element"]);
+								if ($e["quantite_viande_preparee_element"] > 0) $tabElements[] = array("nom" =>  "Viande(s) pr&eacute;par&eacute;e", "s" => "s", "nb" => $e["quantite_viande_preparee_element"]);
+								if ($e["quantite_ration_element"] > 0) $tabElements[] = array("nom" => "Ration", "s" => "s", "nb" => $e["quantite_ration_element"]);
+								if ($e["quantite_cuir_element"] > 0) $tabElements[] = array("nom" => "Cuir", "s" => "s", "nb" => $e["quantite_cuir_element"]);
+								if ($e["quantite_fourrure_element"] > 0) $tabElements[] = array("nom" => "Fourrure", "s" => "s", "nb" => $e["quantite_fourrure_element"]);
+								if ($e["quantite_planche_element"] > 0) $tabElements[] = array("nom" => "Planche", "s" => "s", "nb" => $e["quantite_planche_element"]);
 							}
 						}
 					}

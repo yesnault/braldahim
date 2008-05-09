@@ -204,24 +204,30 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 	/*
 	 * La quantité extraite est fonction de la quantité disponible à cet endroit.
 	 * (Directement dans le sac à dos)
-	 *  Quantité maximum ramassée est fonction du niveau de sagesse du Hobbit :
-	 *  SAG : QUANTITE
-	 *  0-4 : 1D3
-	 *  5-9 : 1D3+1
-	 *  10-14 : 1D3+2
-	 *  15-19 : 1D3+3
-	 *  20-24 : 1D3+4
+	 *  Quantité maximum ramassée est fonction du niveau d'agilite du Hobbit :
+	 *  AGI : QUANTITE
+	 *  0-4 : 1D3 + BM /2
+	 *  5-9 : 1D3+1 + BM /2
+	 *  10-14 : 1D3+2 + BM /2
+	 *  15-19 : 1D3+3 + BM /2
+	 *  20-24 : 1D3+4 + BM /2
 	 */
 	private function calculQuantiteAExtraire() {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		$this->view->effetRune = false;
 		
 		$n = Bral_Util_De::get_1d3();
-		$n = $n + floor($this->view->user->sagesse_base_hobbit / 5);
+		$n = $n + floor($this->view->user->agilite_base_hobbit / 5);
 		
 		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "RI")) { // s'il possède une rune RI
 			$this->view->effetRune = true;
 			$n = ceil($n * 1.5);
+		}
+		
+		$n  = $n  + ($this->view->user->agilite_bm_hobbit + $this->view->user->agilite_bbdf_hobbit) / 2 ;
+		$n  = intval($n);
+		if ($n < 0) {
+			$n  = 0;
 		}
 		
 		return $n;
