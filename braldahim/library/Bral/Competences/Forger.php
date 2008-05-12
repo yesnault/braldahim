@@ -247,7 +247,22 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 			$chance_c = 10 * $maitrise;
 		}
 
-		$tirage = Bral_Util_De::get_1d100();
+		/*
+		 * Seul le meilleur des n jets est gardé. n=(BM FOR/2)+1.
+		 */
+		$n = (($this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit) / 2 ) + 1;
+		
+		if ($n < 1) $n = 1;
+		
+		$tirage = 0;
+		
+		for ($i = 1; $i <= $n; $i ++) {
+			$tirageTemp = Bral_Util_De::get_1d100();
+			if ($tirageTemp > $tirage) {
+				$tirage = $tirageTemp;
+			}
+		}
+		
 		$qualite = -1;
 		if ($tirage > 0 && $tirage <= $chance_a) {
 			$qualite = 1;

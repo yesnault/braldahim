@@ -1,7 +1,7 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
 	 <? if ($this->concocterEchoppeOk === true && $this->concocterPlanteOk === true) : ?>
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez concocter du 2 parties de plante en 1D2 partie(s) de plante pr&eacute;par&eacute;e(s) ...<br />
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez concocter <?=$this->nbPlantes ?> <? if ($this->nbPlantes > 1) : $s='s'; else: $s=''; endif; ?> partie<?=$s ?> de plante en partie(s) de plante pr&eacute;par&eacute;e(s) ...<br />
 	 <select name="valeur_1" id="valeur_1"  onChange="javascript:if ($('valeur_1').value==-1){$('bouton_concocter').disabled=true } else {$('bouton_concocter').disabled=false }">
 	 	<option value="-1">(Choisis une plante)</option>
 	 	<? foreach($this->partiesPlantes as $m) :
@@ -11,9 +11,9 @@
 	 	<? endforeach; ?>
 	 </select>
 	<? elseif ($this->concocterEchoppeOk == false) : ?>
-		Vous ne pouvez concocter que dans une de vos &eacute;choppes de Forgeron.
+		Vous ne pouvez concocter que dans une de vos &eacute;choppes d'Aphoticaire.
 	<? else: ?>
-		Vous n'avez aucune plante &agrave; concocter...
+		Vous n'avez pas assez de plante pour concocter...
 	<? endif; ?>
 </div>
 

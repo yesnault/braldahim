@@ -1,7 +1,7 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
 	 <? if ($this->fondreEchoppeOk === true && $this->fondreMineraiOk === true) : ?>
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez fondre du 2 unit&eacute;s de minerai en 1D2 lingot(s) ...<br />
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez fondre <?=$this->nbMinerai ?> <? if ($this->nbMinerai > 1) : $s='s'; else: $s=''; endif; ?> minerai<?=$s ?> en lingot(s) ...<br />
 	 <select name="valeur_1" id="valeur_1"  onChange="javascript:if ($('valeur_1').value==-1){$('bouton_fondre').disabled=true } else {$('bouton_fondre').disabled=false }">
 	 	<option value="-1">(Choisis un minerai)</option>
 	 	<? foreach($this->minerais as $m) :
@@ -13,7 +13,7 @@
 	<? elseif ($this->fondreEchoppeOk == false) : ?>
 		Vous ne pouvez fondre que dans une de vos &eacute;choppes de Forgeron.
 	<? else: ?>
-		Vous n'avez aucun minerai &agrave; fondre...
+		Vous n'avez pas assez minerai pour fondre...
 	<? endif; ?>
 </div>
 

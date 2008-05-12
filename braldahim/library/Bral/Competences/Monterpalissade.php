@@ -212,7 +212,23 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		$chance_b = 100-(11.1-11 * $maitrise)-(10 * $maitrise);
 		$chance_c = 10 * $maitrise;
 		
-		$tirage = Bral_Util_De::get_1d100();
+		
+		/*
+		 * Afin de déterminer la qualité de la palissage n jet de dés sont effectué. 
+		 * Seul le meilleur des n jets est gardé. n=(BM SAG/2)+1.
+		 */
+		$n = (($this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit) / 2 ) + 1;
+		
+		if ($n < 1) $n = 1;
+		
+		$tirage = 0;
+		
+		for ($i = 1; $i <= $n; $i ++) {
+			$tirageTemp = Bral_Util_De::get_1d100();
+			if ($tirageTemp > $tirage) {
+				$tirage = $tirageTemp;
+			}
+		}
 		
 		if ($tirage > 0 && $tirage <= $chance_a) {
 			$this->view->nRondinsNecessaires = 2 + Bral_Util_De::get_1d3();

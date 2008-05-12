@@ -15,6 +15,10 @@ class Bral_Competences_Fondre extends Bral_Competences_Competence {
 			return;
 		}
 		$idEchoppe = -1;
+		
+		// Le joueur tente de transformer n+1 minerai ou n est son niveau de VIG
+		$this->view->nbMinerai = $this->view->user->vigueur_base_hobbit + 1;
+		
 		foreach($echoppes as $e) {
 			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit && 
 				$e["nom_systeme_metier"] == "forgeron" && 
@@ -40,7 +44,7 @@ class Bral_Competences_Fondre extends Bral_Competences_Competence {
 		
 		if ($minerais != null) {
 			foreach ($minerais as $m) {
-				if ($m["quantite_arriere_echoppe_minerai"] > 1) {
+				if ($m["quantite_arriere_echoppe_minerai"] >= $this->view->nbMinerai) {
 					$tabMinerais[] = array(
 					"id_type" => $m["id_fk_type_echoppe_minerai"],
 					"nom_type" => $m["nom_type_minerai"],
@@ -101,15 +105,26 @@ class Bral_Competences_Fondre extends Bral_Competences_Competence {
 	}
 	
 	private function calculFondre($idTypeMinerai) {
-		//2 unités de minerai donne 1D2 lingot(s) du minerai
-		$this->view->nbLingots = Bral_Util_De::get_1d2();
+	
+		// Le joueur tente de transformer n+1 minerai ou n est son niveau de VIG
+		$nb = $this->view->nbMinerai;
+		
+		// A partir de la quantité choisie on a un % de perte de minerai : p=0,5-0,002*(jet VIG + BM)
+		$tirage = 0;
+		for ($i=1; $i <= ($this->view->config->game->base_vigueur + $hobbit->vigueur_base_hobbit) ; $i++) {
+			$tirage = $tirage + Bral_Util_De::get_1d6();
+		}
+		$perte = 0.5-0.002 * ($tirage + $hobbit->vigueur_bm_hobbit + $hobbit->vigueur_bbdf_hobbit);
+	
+		// Et arrondi ((n+1)-(n+1)*p) lingots en sortie
+		$this->view->nbLingots = intval($nb - $nb * $perte);
 		
 		$echoppeMineraiTable = new EchoppeMinerai();
 		$data = array(
 			'id_fk_type_echoppe_minerai' => $idTypeMinerai,
 			'id_fk_echoppe_echoppe_minerai' => $this->idEchoppe,
 			'quantite_lingots_echoppe_minerai' => $this->view->nbLingots,
-			'quantite_arriere_echoppe_minerai' => -2,
+			'quantite_arriere_echoppe_minerai' => -$nb,
 		);
 		$echoppeMineraiTable->insertOrUpdate($data);
 	}

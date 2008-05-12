@@ -4,8 +4,9 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass('Bral_Util_Commun');
-		$this->view->rayon_max = $this->view->config->game->competence->sonder->rayon_max;
-		$this->view->rayon_precis =  Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) * 2;
+		
+		// Position précise avec (Vue+BM) de vue *2
+		$this->view->rayon_precis =  (Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit ) * 2;
 	}
 
 	function prepareFormulaire() {
@@ -17,6 +18,14 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 	function prepareResultat() {
 		$go = $this->request->get("valeur_1");
 
+		// La distance max de répérage d'un filon est : jet VIG+BM
+		$tirageRayonMax = 0;
+		for ($i=1; $i<= ($this->view->config->game->base_vigueur + $hobbit->vigueur_base_hobbit) ; $i++) {
+			$tirageRayonMax = $tirageRayonMax + Bral_Util_De::get_1d6();
+		}
+		$this->view->rayon_max = $tirageRayonMax + $this->view->user->vigueur_bm_hobbit + $this->view->user->vigueur_bbdf_hobbit;
+		
+		
 		if ($go != "go") {
 			throw new Zend_Exception(get_class($this)." Sonder un filon. Action invalide");
 		}

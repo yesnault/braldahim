@@ -1,11 +1,11 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
  <div class='comp_contenu'>
 	 <? if ($this->decouperEchoppeOk === true && $this->decouperPlancheOk === true) : ?>
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez decouper du 1 rondin en 4D3 planche(s) ...<br />
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez decouper <?=$this->nbRondins ?> <? if ($this->nbRondins > 1) : $s = 's';  else: $s = ''; endif; ?> rondins<?=$s ?> en planche(s) ...<br />
 	<? elseif ($this->decouperEchoppeOk == false) : ?>
 		Vous ne pouvez d&eacute;couper que dans une de vos &eacute;choppes de Menuisier.
 	<? else: ?>
-		Vous n'avez aucune planche &agrave; decouper...
+		Vous n'avez pas assez de rondins pour d&eacute;couper
 	<? endif; ?>
 </div>
 

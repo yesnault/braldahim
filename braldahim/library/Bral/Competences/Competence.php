@@ -241,9 +241,6 @@ abstract class Bral_Competences_Competence {
 		$this->view->user->px_commun_hobbit = $this->view->user->px_commun_hobbit + $this->view->nb_px_commun;
 		$this->view->user->balance_faim_hobbit = $this->view->user->balance_faim_hobbit + $this->view->balance_faim;
 		
-		Zend_Loader::loadClass("Bral_Util_Poids");
-		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
-			
 		if ($this->view->user->balance_faim_hobbit < 0) {
 			$this->view->user->balance_faim_hobbit = 0;
 		}

@@ -1,10 +1,10 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
   <input type='hidden' id='valeur_1' name='valeur_1' value='go'>
  <div class='comp_contenu'>
- <? if ($this->nb_cases == 1): $s=''; else: $s='s'; endif ?>
+ <? if ($this->rayon_precis == 1): $s=''; else: $s='s'; endif ?>
  Pour <?=$this->nb_pa ?> PA, vous pouvez sonder un filon <br />
- dans un rayon de  <?=$this->rayon_max ?> case<?=$s?> aux alentours<br />
- et de mani&egrave;re pr&eacute;cise dans un rayon de <?=$this->rayon_precis ?> cases<br /><br />
+ dans un rayon de <i>jet VIG + BM VIG</i> case(s) aux alentours<br />
+ et de mani&egrave;re pr&eacute;cise dans un rayon de <?=$this->rayon_precis ?> cases<?=$s?>.<br /><br />
 </div>
 
 <br />

@@ -15,6 +15,9 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 			return;
 		}
 		$idEchoppe = -1;
+		// Le joueur tente de transformer n+1 plantes ou n est son niveau de AGI
+		$this->view->nbPlantes = $this->view->user->agilite_base_hobbit + 1;
+		
 		foreach($echoppes as $e) {
 			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit && 
 				$e["nom_systeme_metier"] == "apothicaire" && 
@@ -42,7 +45,7 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 		if ($partiesPlantes != null) {
 			$i++;
 			foreach ($partiesPlantes as $m) {
-				if ($m["quantite_arriere_echoppe_partieplante"] > 1) {
+				if ($m["quantite_arriere_echoppe_partieplante"] > $this->view->nbPlantes) {
 					$tabPartiePlantes[] = array(
 						"indicateur" => $i,
 						"id_type" => $m["id_fk_type_echoppe_partieplante"],
@@ -110,16 +113,27 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 	}
 	
 	private function calculConcocter($idTypePartiePlante, $idTypePlante) {
-		//2 unités de plante donne 1D2 plante(s) preparee(s)
-		$this->view->nbPartiesPlantesPreparees = Bral_Util_De::get_1d2();
+	
+		// Le joueur tente de transformer n+1 plantes ou n est son niveau de AGI
+		$nb = $this->view->nbPlantes;
 		
+		// A partir de la quantité choisie on a un % de perte de plante : p=0,5-0,002*(jet AGI + BM)
+		$tirage = 0;
+		for ($i=1; $i <= ($this->view->config->game->base_agilite + $hobbit->agilite_base_hobbit) ; $i++) {
+			$tirage = $tirage + Bral_Util_De::get_1d6();
+		}
+		$perte = 0.5-0.002 * ($tirage + $hobbit->agilite_bm_hobbit + $hobbit->agilite_bbdf_hobbit);
+	
+		// Et arrondi ((n+1)-(n+1)*p) plantes préparées en sortie
+		$this->view->nbPartiesPlantesPreparees = intval($nb - $nb * $perte);
+			
 		$echoppePlanteTable = new EchoppePartiePlante();
 		$data = array(
 			'id_fk_type_echoppe_partieplante' => $idTypePartiePlante,
 			'id_fk_type_plante_echoppe_partieplante' => $idTypePlante,
 			'id_fk_echoppe_echoppe_partieplante' => $this->idEchoppe,
 			'quantite_preparees_echoppe_partieplante' => $this->view->nbPartiesPlantesPreparees,
-			'quantite_arriere_echoppe_partieplante' => -2,
+			'quantite_arriere_echoppe_partieplante' => -$nb,
 		);
 		$echoppePlanteTable->insertOrUpdate($data);
 	}
