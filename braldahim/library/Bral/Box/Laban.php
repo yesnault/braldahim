@@ -81,21 +81,22 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		unset($labanMineraiTable);
 	
 		foreach ($minerais as $m) {
-			$tabMineraisBruts[] = array(
-				"type" => $m["nom_type_minerai"],
-				"quantite" => $m["quantite_brut_laban_minerai"],
-			);
-			$tabLingots[] = array(
-				"type" => $m["nom_type_minerai"],
-				"quantite" => $m["quantite_lingots_laban_minerai"],
-			);
-			
 			if ($m["quantite_brut_laban_minerai"] > 0) {
+				$tabMineraisBruts[] = array(
+					"type" => $m["nom_type_minerai"],
+					"quantite" => $m["quantite_brut_laban_minerai"],
+				);
+			
 				if (isset($tabMetiers["mineur"])) {
 					$tabMetiers["mineur"]["a_afficher"] = true; 
 				}
 			}
 			if ($m["quantite_lingots_laban_minerai"] > 0) {
+				$tabLingots[] = array(
+					"type" => $m["nom_type_minerai"],
+					"quantite" => $m["quantite_lingots_laban_minerai"],
+				);
+			
 				if (isset($tabMetiers["forgeron"])) {
 					$tabMetiers["forgeron"]["a_afficher"] = true; 
 				}

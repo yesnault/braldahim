@@ -16,6 +16,9 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		
 		$labanTable = new Laban();
 		$laban = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
+
+		// Le joueur tente de transformer n+1 gigots marinés ou n est son niveau de SAG
+		$this->view->nbViandePreparee = $this->view->user->sagesse_base_hobbit + 1;
 		
 		$tabLaban = null;
 		foreach ($laban as $p) {
@@ -72,23 +75,36 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		$this->view->effetRune = false;
 		
+		// Le joueur tente de transformer n+1 rondins ou n est son niveau de SAG
+		$nb = $this->view->nbViandePreparee;
+		
+		// A partir de la quantité choisie on a un % de perte de gigots marinés : p=0,5-0,002*(jet SAG + BM)
+		$tirage = 0;
+		for ($i=1; $i <= ($this->view->config->game->base_sagesse + $hobbit->sagesse_base_hobbit) ; $i++) {
+			$tirage = $tirage + Bral_Util_De::get_1d6();
+		}
+		$perte = 0.5-0.002 * ($tirage + $hobbit->sagesse_bm_hobbit + $hobbit->sagesse_bbdf_hobbit);
+	
+		// Et arrondi ((n+1)-(n+1)*p) rations en sortie
+		$this->view->nbRation = intval($nb - $nb * $perte);
+		
 		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "RU")) { // s'il possède une rune RU
-			$this->view->nbRation = Bral_Util_De::get_1d2() + 2;
+			$this->view->nbRation = $this->view->nbRation + 1;
 			$this->view->effetRune = true;
 		} else {
-			$this->view->nbRation = Bral_Util_De::get_1d2() + 1;
+			$this->view->nbRation = $this->view->nbRation + 0;
 		}
 		
 		$labanTable = new Laban();
 		$data = array(
 			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
 			'quantite_ration_laban' => $this->view->nbRation,
-			'quantite_viande_preparee_laban' => -1,
+			'quantite_viande_preparee_laban' => -$nb,
 		);
 		$labanTable->insertOrUpdate($data);
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_competences_metiers", "box_vue", "box_laban", "box_evenements");
+		return array("box_profil", "box_competences_metiers", "box_laban", "box_evenements");
 	}
 }

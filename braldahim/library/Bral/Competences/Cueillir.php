@@ -3,9 +3,16 @@
 class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 
 	private $_tabPlantes = null;
+	
 	function prepareCommun() {
 		Zend_Loader::loadClass('Plante');
 		Zend_Loader::loadClass('TypePartieplante');
+		
+		$this->preCalculPoids();
+		if ($this->view->poidsPlaceDisponible !== true) {
+			return;
+		}
+		
 		$tabPlantes = null;
 		$this->view->planteOk = false;
 
@@ -23,7 +30,6 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		if (count($plantes) > 0) {
 			$this->view->planteOk = true;
 		}
-
 
 		foreach ($plantes as $p) {
 			if ($p["partie_1_plante"] > 0) $nom_partie_1 = $tabPartiePlante[$p["id_fk_partieplante1_type_plante"]]["nom"]; else $nom_partie_1="";
@@ -65,6 +71,8 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+		} elseif ( $this->view->poidsPlaceDisponible == false) {
+			throw new Zend_Exception(get_class($this)." Poids invalide");
 		}
 
 		// Verification de la plante
@@ -198,7 +206,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_competences_metiers", "box_vue", "box_laban", "box_evenements");
+		return array("box_profil", "box_competences_metiers", "box_laban", "box_evenements");
 	}
 
 	/*
@@ -230,6 +238,22 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			$n  = 0;
 		}
 		
+		if ($n > $this->view->nbElementPossible) {
+			$n = $this->view->nbElementPossible;
+		}
 		return $n;
+	}
+	
+	private function preCalculPoids() {
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		if ($poidsRestant < 0) $poidsRestant = 0;
+		
+		$this->view->nbElementPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);
+		
+		if ($this->view->nbElementPossible < 1) {
+			$this->view->poidsPlaceDisponible = false;
+		} else {
+			$this->view->poidsPlaceDisponible = true;
+		}
 	}
 }

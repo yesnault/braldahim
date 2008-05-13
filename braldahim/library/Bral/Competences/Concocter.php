@@ -45,7 +45,7 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 		if ($partiesPlantes != null) {
 			$i++;
 			foreach ($partiesPlantes as $m) {
-				if ($m["quantite_arriere_echoppe_partieplante"] > $this->view->nbPlantes) {
+				if ($m["quantite_arriere_echoppe_partieplante"] >= $this->view->nbPlantes) {
 					$tabPartiePlantes[] = array(
 						"indicateur" => $i,
 						"id_type" => $m["id_fk_type_echoppe_partieplante"],

@@ -1,6 +1,9 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
-	 <? if ($this->planteOk === true) : ?>
+ 
+ 	<? if ($this->poidsPlaceDisponible !== true) : ?>
+		Vous n'avez pas assez de place dans votre laban ! <br>
+	 <? elseif ($this->planteOk === true) : ?>
 	 Pour <?=$this->nb_pa ?> PA, vous pouvez cueillir des &eacute;l&eacute;ments d'une plante...<br /><br />
 	 
 	 <select name="valeur_1" id="valeur_1"  onChange="javascript:if ($('valeur_1').value==-1){$('bouton_cueillir').disabled=true } else {$('bouton_cueillir').disabled=false }">

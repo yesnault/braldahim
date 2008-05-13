@@ -20,7 +20,7 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 
 		// La distance max de répérage d'un filon est : jet VIG+BM
 		$tirageRayonMax = 0;
-		for ($i=1; $i<= ($this->view->config->game->base_vigueur + $hobbit->vigueur_base_hobbit) ; $i++) {
+		for ($i=1; $i<= ($this->view->config->game->base_vigueur + $this->view->user->vigueur_base_hobbit) ; $i++) {
 			$tirageRayonMax = $tirageRayonMax + Bral_Util_De::get_1d6();
 		}
 		$this->view->rayon_max = $tirageRayonMax + $this->view->user->vigueur_bm_hobbit + $this->view->user->vigueur_bbdf_hobbit;

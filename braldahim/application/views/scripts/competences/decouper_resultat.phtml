@@ -1,7 +1,7 @@
 <? include("commun_text_resultat.phtml") ?>
 
 <? if ($this->okJet1 === true): ?>
-	Vous avez r&eacute;ussi &agrave; decouper un rondin en 
+	Vous avez r&eacute;ussi &agrave; d&eacute;couper <?=$this->nbRondins ?> <? if ($this->nbRondins > 1) : $s = 's';  else: $s = ''; endif; ?> rondins<?=$s ?> en 
 	<? if ($this->quantitePlanches > 1): $s='s'; else: $s=""; endif; ?>
 	<?=$this->quantitePlanches  ?> planche<?=$s ?>.
 	<br />

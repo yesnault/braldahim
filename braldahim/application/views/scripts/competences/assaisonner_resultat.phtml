@@ -5,7 +5,8 @@
 	if ($this->nbViandePreparee > 1) : $s = "s"; endif;
 	?>
 	Vous avez r&eacute;ussi votre assaisonnement.<br /> 
-	Vous avez transform&eacute;	2 unit&eacute;s de Viande en : <?=$this->nbViandePreparee ?> 
+	Vous avez transform&eacute;	transformer <?=$this->nbViande ?> unit&eacute;<? if ($this->nbViande > 1) : echo "s"; endif; ?>
+	 de Viande en : <?=$this->nbViandePreparee ?> 
 	unit&eacute;<?=$s ?> de viande pr&eacute;par&eacute;e<br />
 <? endif; ?>
 <br />

@@ -4,6 +4,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		$this->view->deposerOk = false;
+		$this->listBoxRefresh = array("box_profil", "box_laban", "box_evenements");
 		
 		if ($this->request->get("valeur_1") != "") {
 			$id_type_courant = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_1"));
@@ -60,6 +61,8 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 	}
 	
 	private function calculDeposer() {
+		$this->listBoxRefresh = array("box_profil", "box_vue", "box_laban", "box_evenements");
+		
 		switch($this->view->type) {
 			case "castars" :
 				$this->deposeTypeCastars();
@@ -107,11 +110,12 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		$this->setEvenementQueSurOkJet1(false);
 
 		$this->calculBalanceFaim();
+		$this->calculPoids();
 		$this->majHobbit();
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_laban", "box_evenements");
+		return $this->listBoxRefresh;
 	}
 	
 	private function prepareTypeCastars() {

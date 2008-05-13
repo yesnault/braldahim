@@ -6,7 +6,7 @@
 		?>
 				Vous avez r&eacute;ussi votre cuisine.<br /> 
 				Vous avez transform&eacute;
-				1 unit&eacute; de viande pr&eacute;par&eacute;e en : <?=$this->nbRation ?> 
+				<?=$this->nbViandePreparee ?> unit&eacute;<? if ($this->nbViandePreparee) : echo "s"; endif;?> de viande pr&eacute;par&eacute;e en : <?=$this->nbRation ?> 
 				ration<?=$s ?>.
 				<br /><br />
 				<? if ($this->effetRune) :?>

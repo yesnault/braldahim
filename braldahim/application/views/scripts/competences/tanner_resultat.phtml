@@ -1,7 +1,7 @@
 <? include("commun_text_resultat.phtml") ?>
 
 <? if ($this->okJet1 === true): ?>
-	Vous avez r&eacute;ussi &agrave; tanner deux unit&eacute;s de peau en 
+	Vous avez r&eacute;ussi &agrave; tanner <?=$this->nbPeau ?> pi&egrave;ce<? if ($this->nbPeau > 1): echo "s"; endif; ?> de peau en 
 	
 	<? if ($this->quantiteFourrure > 0): ?>
 		<? if ($this->quantiteFourrure > 1): $s='s'; else: $s=""; endif; ?>

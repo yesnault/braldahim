@@ -20,7 +20,7 @@ class Bral_Competences_Rechercherplante extends Bral_Competences_Competence {
 
 		// La distance max de répérage d'une plante est : jet SAG+BM
 		$tirageRayonMax = 0;
-		for ($i=1; $i <= ($this->view->config->game->base_sagesse + $hobbit->sagesse_base_hobbit) ; $i++) {
+		for ($i=1; $i <= ($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit) ; $i++) {
 			$tirageRayonMax = $tirageRayonMax + Bral_Util_De::get_1d6();
 		}
 		$this->view->rayon_max = $tirageRayonMax + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;

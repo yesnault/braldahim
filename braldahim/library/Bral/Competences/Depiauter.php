@@ -20,6 +20,11 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Laban");
 		Zend_Loader::loadClass("Ville");
 		
+		$this->preCalculPoids();
+		if ($this->view->poidsPlaceDisponible !== true) {
+			return;
+		}
+		
 		// On regarde si le hobbit n'est pas dans une ville
 		$villeTable = new Ville();
 		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
@@ -107,6 +112,8 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		
 		if ($cadavre == null || $cadavre["id_cadavre"] == null || $cadavre["id_cadavre"] == "") {
 			throw new Zend_Exception(get_class($this)."::calculDepiauter cadavre inconnu");
+		} elseif ($this->view->poidsPlaceDisponible == false) {
+			throw new Zend_Exception(get_class($this)." Poids invalide");
 		}
 		
 		$this->view->nbPeau = 0;
@@ -152,5 +159,18 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 	
 	function getListBoxRefresh() {
 		return array("box_profil", "box_competences_metiers", "box_vue", "box_laban", "box_evenements");
+	}
+	
+	private function preCalculPoids() {
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		if ($poidsRestant < 0) $poidsRestant = 0;
+		
+		$this->view->nbElementPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_VIANDE);
+		
+		if ($this->view->nbElementPossible < 1) {
+			$this->view->poidsPlaceDisponible = false;
+		} else {
+			$this->view->poidsPlaceDisponible = true;
+		}
 	}
 }

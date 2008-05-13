@@ -5,6 +5,12 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 	private $_tabPlantes = null;
 	function prepareCommun() {
 		Zend_Loader::loadClass('Filon');
+		
+		$this->preCalculPoids();
+		if ($this->view->poidsPlaceDisponible !== true) {
+			return;
+		}
+		
 		$tabPlantes = null;
 		$this->view->filonOk = false;
 
@@ -28,6 +34,8 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
+		} elseif ($this->view->poidsPlaceDisponible == false) {
+			throw new Zend_Exception(get_class($this)." Poids invalide");
 		}
 
 		// calcul des jets
@@ -97,7 +105,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_competences_metiers", "box_vue", "box_laban", "box_evenements");
+		return array("box_profil", "box_competences_metiers", "box_laban", "box_evenements");
 	}
 
 	/* La quantité de minerai extraite est fonction de la quantité de minerai
@@ -124,6 +132,10 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		if ($n < 0) {
 			$n = 0;
 		}
+		
+		if ($n > $this->view->nbElementPossible) {
+			$n = $this->view->nbElementPossible;
+		}
 		return $n;
 	}
 	
@@ -140,5 +152,18 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			$this->view->nb_px_perso = 0;
 		}
 		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
+	}
+	
+	private function preCalculPoids() {
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		if ($poidsRestant < 0) $poidsRestant = 0;
+		
+		$this->view->nbElementPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_MINERAI);
+		
+		if ($this->view->nbElementPossible < 1) {
+			$this->view->poidsPlaceDisponible = false;
+		} else {
+			$this->view->poidsPlaceDisponible = true;
+		}
 	}
 }

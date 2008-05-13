@@ -12,7 +12,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		$tabLaban = null;
 		foreach ($laban as $p) {
 			$tabLaban = array(
-			"nb_ration" => $p["quantite_ration_laban"],
+				"nb_ration" => $p["quantite_ration_laban"],
 			);
 		}
 		
@@ -48,6 +48,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		$this->setEvenementQueSurOkJet1(false);
 		
 		$this->calculPx();
+		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}
 	
@@ -86,6 +87,6 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_laban", "box_evenements");
+		return array("box_profil", "box_laban", "box_evenements");
 	}
 }

@@ -26,12 +26,10 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("ElementMinerai");
 			Zend_Loader::loadClass("ElementPotion");
 			Zend_Loader::loadClass("ElementRune");
-			Zend_Loader::loadClass("Filon");
 			Zend_Loader::loadClass("Lieu");
 			Zend_Loader::loadClass("HobbitsMetiers");
 			Zend_Loader::loadClass("Monstre");
 			Zend_Loader::loadClass("Palissade");
-			Zend_Loader::loadClass("Plante");
 			Zend_Loader::loadClass("Region");
 			Zend_Loader::loadClass("TypeLieu");
 			Zend_Loader::loadClass("Ville");
@@ -158,15 +156,6 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$elementRuneTable = new ElementRune();
 		$elementsRunes = $elementRuneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($elementRuneTable);
-		
-		$filons = null;
-		if ($tabMetiers != null) {
-			if (in_array("mineur", $tabMetiers)) {
-				$filonsTable = new Filon();
-				$filons = $filonsTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-				unset($filonsTable);
-			}
-		}
 		$hobbitTable = new Hobbit();
 		$hobbits = $hobbitTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($hobbitTable);
@@ -179,14 +168,6 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$palissadeTable = new Palissade();
 		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($palissadeTable);
-		$plantes = null;
-		if ($tabMetiers != null) {
-			if (in_array("herboriste", $tabMetiers)) {
-				$planteTable = new Plante();
-				$plantes = $planteTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-				unset($planteTable);
-			}
-		}
 		$regionTable = new Region();
 		$regions = $regionTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($regionTable);
@@ -219,12 +200,10 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabElementsPartieplantesPreparees = null;
 				$tabElementsPotions = null;
 				$tabElementsRunes = null;
-				$tabFilons = null;
 				$tabHobbits = null;
 				$tabLieux = null;
 				$tabMonstres = null;
 				$tabPalissades = null;
-				$tabPlantes = null;
 				$nom_systeme_environnement = null;
 				$nom_environnement = null;
 				$nom_zone = null;
@@ -382,14 +361,6 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						}
 					}
 					
-					if ($filons != null) {
-						foreach($filons as $f) {
-							if ($display_x == $f["x_filon"] && $display_y == $f["y_filon"]) {
-								$tabFilons[] = array("type" => $f["nom_type_minerai"]);
-							}
-						}
-					}
-					
 					if ($hobbits != null) {
 						foreach($hobbits as $h) {
 							if ($display_x == $h["x_hobbit"] && $display_y == $h["y_hobbit"]) {
@@ -457,18 +428,6 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
-					
-					if ($plantes != null) {
-						foreach($plantes as $p) {
-							if ($display_x == $p["x_plante"] && $display_y == $p["y_plante"]) {
-								$tabPlantes[] = array("id_plante" => $p["id_plante"], "type" => $p["nom_type_plante"],
-									"categorie" => $p["categorie_type_plante"],
-									"quantite_1" =>$p["partie_1_plante"], "quantite_2" =>$p["partie_2_plante"],
-									"quantite_3" =>$p["partie_3_plante"], "quantite_4" =>$p["partie_4_plante"]
-								);
-							}
-						}
-					}
 				}
 
 				if ($this->view->user->x_hobbit == $display_x && $this->view->user->y_hobbit == $display_y) { // Position du joueur
@@ -518,8 +477,6 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"elements_lingots" => $tabElementsLingots,
 					"n_elements_runes" => count($tabElementsRunes),
 					"elements_runes" => $tabElementsRunes,
-					"n_filons" => count($tabFilons),
-					"filons" => $tabFilons,
 					"n_hobbits" => count($tabHobbits),
 					"hobbits" => $tabHobbits,
 					"n_lieux" => count($tabLieux),
@@ -529,8 +486,6 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"n_palissades" => count($tabPalissades),
 					"palissades" => $tabPalissades,
 					"ville" => $ville,
-					"n_plantes" => count($tabPlantes),
-					"plantes" => $tabPlantes,
 				);
 				$tableau[] = $tab;
 				if ($change_level) {

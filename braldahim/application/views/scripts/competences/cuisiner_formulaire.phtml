@@ -2,7 +2,7 @@
  <div class='comp_contenu'>
 	 <? if ($this->cuisinerLieuOk === true && $this->cuisinerNbViandeOk === true) : ?>
 	 	Pour <?=$this->nb_pa ?> PA, vous pouvez cuisiner : <br />
-	 	Transformer 1 unit&eacute; de viande pr&eacute;par&eacute;e en 1D2 + 1 ration.
+	 	Transformer <?=$this->nbViandePreparee ?> unit&eacute;<? if ($this->nbViandePreparee) : echo "s"; endif;?> de viande pr&eacute;par&eacute;e en ration(s).
 	 <? else: ?>
 		 <? if ($this->cuisinerLieuOk != true) :?>
 		 	Vous ne pouvez pas cuisiner en ville.<br />

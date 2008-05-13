@@ -16,6 +16,10 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 			$this->view->tannerEchoppeOk = false;
 			return;
 		}
+		
+		// Le joueur tente de transformer n+1 peaux ou n est son niveau de FOR
+		$this->view->nbPeau = $this->view->user->force_base_hobbit + 1;
+		
 		$idEchoppe = -1;
 			foreach($echoppes as $e) {
 			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit &&
@@ -32,7 +36,7 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 				'id_metier' => $e["id_metier"],
 				'quantite_peau_arriere_echoppe' => $e["quantite_peau_arriere_echoppe"],
 				);
-				if ($e["quantite_peau_arriere_echoppe"] >=2) {
+				if ($e["quantite_peau_arriere_echoppe"] >= $this->view->nbPeau) {
 					$this->view->tannerPeauOk = true;
 				}
 				break;
@@ -79,18 +83,38 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 		//Transforme 2 unités de peau en 1D2 unités de cuir ou de fourrure (suivant la peau).
 		$quantiteCuir = 0;
 		$quantiteFourrure = 0;
-		
+		$cuir = false;
+	
 		$n = Bral_Util_De::get_1d100();
 		if ($n <= 50) {
-			$quantiteCuir = Bral_Util_De::get_1d2();
+			$cuir = true;
 		} else {
-			$quantiteFourrure = Bral_Util_De::get_1d2();
+			$cuir = false;
+		}
+		
+		// Le joueur tente de transformer n+1 peaux ou n est son niveau de FOR
+		$nb = $this->view->nbPeau;
+		
+		// A partir de la quantité choisie on a un % de perte de peaux : p=0,5-0,002*(jet FOR + BM)
+		$tirage = 0;
+		for ($i=1; $i <= ($this->view->config->game->base_force + $hobbit->force_base_hobbit) ; $i++) {
+			$tirage = $tirage + Bral_Util_De::get_1d6();
+		}
+		$perte = 0.5-0.002 * ($tirage + $hobbit->force_bm_hobbit + $hobbit->force_bbdf_hobbit);
+	
+		// Et arrondi ((n+1)-(n+1)*p) cuir en sortie
+		$quantite = intval(($nb - $nb * $perte) / 2);
+		
+		if ($cuir) {
+			$quantiteCuir = $quantite;
+		} else {
+			$quantiteFourrure = $quantite;
 		}
 		
 		$echoppeTable = new Echoppe();
 		$data = array(
 				'id_echoppe' => $this->idEchoppe,
-				'quantite_peau_arriere_echoppe' => -2,
+				'quantite_peau_arriere_echoppe' => -$nb,
 				'quantite_cuir_arriere_echoppe' => $quantiteCuir,
 				'quantite_fourrure_arriere_echoppe' => $quantiteFourrure,
 		);

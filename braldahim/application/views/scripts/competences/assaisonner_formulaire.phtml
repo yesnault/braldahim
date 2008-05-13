@@ -2,7 +2,8 @@
  <div class='comp_contenu'>
 	 <? if ($this->assaisonnerNbViandeOk === true) : ?>
 	 	Pour <?=$this->nb_pa ?> PA, vous pouvez assaisonner de la viande : <br />
-	 	transformer 2 unit&eacute;s de viande en 1D2 unit&eacute;(s) de viande pr&eacute;par&eacute;e<br /><br />
+	 	transformer <?=$this->nbViande ?> unit&eacute;<? if ($this->nbViande > 1) : echo "s"; endif; ?> de 
+	 	viande en unit&eacute;(s) de viande pr&eacute;par&eacute;e<br /><br />
 	 <? else: ?>
 	 Vous n'avez pas assez d'unit&eacute; de viande fra&icirc;che pour assaissonner...
 	 <? endif; ?>

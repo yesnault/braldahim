@@ -1,6 +1,9 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
-	<? if ($this->depiauterOk === true) : ?>
+ 
+ 	 <? if ($this->poidsPlaceDisponible !== true) : ?>
+		Vous n'avez pas assez de place dans votre laban ! <br>
+	 <? elseif ($this->depiauterOk === true) : ?>
 		<? if ($this->nCadavres == 0): ?>
  			Il n'y a pas de monstre &agrave; d&eacute;piauter ici...
  		<? else: ?>

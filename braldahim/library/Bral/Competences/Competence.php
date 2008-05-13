@@ -108,12 +108,13 @@ abstract class Bral_Competences_Competence {
 	protected function calculBalanceFaim() {
 		$this->view->balanceFaimUtilisee = true;
 		$this->view->balance_faim = $this->competence["balance_faim"];
+		Bral_Util_Faim::calculBalanceFaim($this->view->user);
 	}
 	
 	protected function calculPoids() {
 		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
 	}
-
+	
 	protected function calculJets() {
 		$this->view->jetUtilise = true;
 		$this->view->okJet1 = false; // jet de compétence
