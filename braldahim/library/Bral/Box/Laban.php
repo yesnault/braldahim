@@ -28,7 +28,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		Zend_Loader::loadClass("HobbitsMetiers");
 		Zend_Loader::loadClass("Metier");
 		Zend_Loader::loadClass("TypePlante");
-		Zend_Loader::loadClass("TypePartiePlante");
+		Zend_Loader::loadClass("TypePartieplante");
 		
 		$hobbitsMetiersTable = new HobbitsMetiers();
 		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
@@ -208,7 +208,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		$typePlantesRowset = $typePlantesTable->findAll();
 		unset($typePlantesTable);
 		
-		$typePartiePlantesTable = new TypePartiePlante();
+		$typePartiePlantesTable = new TypePartieplante();
 		$typePartiePlantesRowset = $typePartiePlantesTable->fetchall();
 		unset($typePartiePlantesTable);
 		$typePartiePlantesRowset = $typePartiePlantesRowset->toArray();

@@ -12,7 +12,7 @@ class Bral_Echoppes_Vendrepotion extends Bral_Echoppes_Echoppe {
 		Zend_Loader::loadClass("TypeUnite");
 		Zend_Loader::loadClass("TypeMinerai");
 		Zend_Loader::loadClass("TypePlante");
-		Zend_Loader::loadClass("TypePartiePlante");
+		Zend_Loader::loadClass("TypePartieplante");
 		
 		$id_echoppe = $this->request->get("valeur_1");
 		
@@ -80,7 +80,7 @@ class Bral_Echoppes_Vendrepotion extends Bral_Echoppes_Echoppe {
 							  "nom_type_unite" => "Minerai : ".$t["nom_type_minerai"]);
 		}
 		
-		$typePartiePlanteTable = new TypePartiePlante();
+		$typePartiePlanteTable = new TypePartieplante();
 		$typePartiePlanteRowset = $typePartiePlanteTable->fetchall(null, "nom_type_partieplante");
 		$typePartiePlanteRowset = $typePartiePlanteRowset->toArray();
 		foreach($typePartiePlanteRowset as $t) {

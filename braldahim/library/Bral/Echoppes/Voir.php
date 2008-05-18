@@ -163,12 +163,12 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		Zend_Loader::loadClass("EchoppePartiePlante");
 		Zend_Loader::loadClass("EchoppeMinerai");
 		Zend_Loader::loadClass("TypePlante");
-		Zend_Loader::loadClass("TypePartiePlante");
+		Zend_Loader::loadClass("TypePartieplante");
 		
 		$typePlantesTable = new TypePlante();
 		$typePlantesRowset = $typePlantesTable->findAll();
 		
-		$typePartiePlantesTable = new TypePartiePlante();
+		$typePartiePlantesTable = new TypePartieplante();
 		$typePartiePlantesRowset = $typePartiePlantesTable->fetchall();
 		$typePartiePlantesRowset = $typePartiePlantesRowset->toArray();
 	

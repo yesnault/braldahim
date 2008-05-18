@@ -12,7 +12,7 @@ class Bral_Echoppes_TransfererPotion extends Bral_Echoppes_Echoppe {
 		Zend_Loader::loadClass("TypeUnite");
 		Zend_Loader::loadClass("TypeMinerai");
 		Zend_Loader::loadClass("TypePlante");
-		Zend_Loader::loadClass("TypePartiePlante");
+		Zend_Loader::loadClass("TypePartieplante");
 		
 		$id_echoppe = $this->request->get("valeur_1");
 		
