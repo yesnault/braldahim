@@ -6,6 +6,10 @@ class Bral_Util_String {
 	private function __construct() {
 	}
 	
+	public static function firstToUpper($m) {
+		return strtoupper($m{0}) . substr($m, 1);
+	}
+	
 	/*
 	 * Retourne un caractère en majuscule, y compris la majuscule 
 	 * des caractères accentués.

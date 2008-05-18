@@ -2,6 +2,7 @@
 
 class Bral_Competences_Factory {
 	static function getAction($request, $view) {
+		Zend_Loader::loadClass("Bral_Util_String");
 		Zend_Loader::loadClass("Bral_Competences_Competence");
 		Zend_Loader::loadClass("Bral_Echoppes_Echoppe");
 		
@@ -16,7 +17,7 @@ class Bral_Competences_Factory {
 		$competencesBasiques = Zend_Registry::get('competencesBasiques');
 		foreach($competencesBasiques as $c) {
 			if ($c["nom_systeme"] == $nomSystemeCompetence) {
-				$construct = "Bral_Competences_".$nomSystemeCompetence;
+				$construct = "Bral_Competences_".Bral_Util_String::firstToUpper($nomSystemeCompetence);
 				$competence = $c;
 				break;
 			}
@@ -33,7 +34,7 @@ class Bral_Competences_Factory {
 	
 			foreach($hobbitCompetences as $c) {
 				if ($c["nom_systeme_competence"] == $nomSystemeCompetence) {
-					$construct = "Bral_Competences_".$nomSystemeCompetence;
+					$construct = "Bral_Competences_".Bral_Util_String::firstToUpper($nomSystemeCompetence);
 					$competence = $competences[$c["id_competence"]];
 					$hobbitCompetence = $c;
 					break;

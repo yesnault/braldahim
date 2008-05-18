@@ -10,7 +10,7 @@ class Bral_Messagerie_Factory {
 		$section = $matches[2]; // messages ou message
 		$construct = null;
 
-		$construct = "Bral_Messagerie_".$section;
+		$construct = "Bral_Messagerie_".Bral_Util_String::firstToUpper($section);
 		// verification que la classe existe.
 		if (($construct != null) && (class_exists($construct))) {
 			return new $construct ($request, $view, $action);

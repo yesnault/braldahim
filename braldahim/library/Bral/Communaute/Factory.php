@@ -11,7 +11,7 @@ class Bral_Communaute_Factory {
 		$section = $matches[2];
 		$construct = null;
 
-		$construct = "Bral_Communaute_".$section;
+		$construct = "Bral_Communaute_".Bral_Util_String::firstToUpper($section);
 		// verification que la classe existe.
 		try {
 			Zend_Loader::loadClass($construct);  

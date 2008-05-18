@@ -10,7 +10,7 @@ class Bral_Echoppe_Factory {
 		$nomSystemeAction = $matches[2];
 		$construct = null;
 
-		$construct = "Bral_Echoppe_".$nomSystemeAction;
+		$construct = "Bral_Echoppe_".Bral_Util_String::firstToUpper($nomSystemeAction);
 		try {
 			Zend_Loader::loadClass($construct);
 		} catch(Exception $e) {
