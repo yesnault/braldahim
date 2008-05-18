@@ -115,7 +115,7 @@ class ParametresController extends Zend_Controller_Action {
 				$where = "id_hobbit=".$hobbit->id_hobbit;
 				$hobbitTable->update($data, $where);
 				$this->view->message = "Votre mot de passe est modifi&eacute;";
-				echo $this->view->render("parametres/index.phtml");
+				echo $this->view->render("Parametres/index.phtml");
 				return;
 			} else {
 				$tabPassword = null;
@@ -173,7 +173,7 @@ class ParametresController extends Zend_Controller_Action {
 				$where = "id_hobbit=".$hobbit->id_hobbit;
 				$hobbitTable->update($data, $where);
 				$this->view->message = "L'adresse ".$this->email_actuel_hobbit." est bien prise en compte";
-				echo $this->view->render("parametres/index.phtml");
+				echo $this->view->render("Parametres/index.phtml");
 				return;
 			} else {
 				$tabEmail = null;

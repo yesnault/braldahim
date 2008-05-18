@@ -39,6 +39,7 @@ class Bral_Util_Registre {
 					"nom_systeme" => $c->nom_systeme_competence,
 					"description" => $c->description_competence,
 					"pa_utilisation" => $c->pa_utilisation_competence,
+					"id_fk_metier_competence" => null,
 				);
 				$tabBasiquesId[$c->nom_systeme_competence]["id_competence"] = $c->id_competence;
 			}

@@ -2,7 +2,6 @@
 
 class Bral_Competences_Factory {
 	static function getAction($request, $view) {
-		Zend_Loader::loadClass("Bral_Util_String");
 		Zend_Loader::loadClass("Bral_Competences_Competence");
 		Zend_Loader::loadClass("Bral_Echoppes_Echoppe");
 		
@@ -46,7 +45,7 @@ class Bral_Competences_Factory {
 	    try {
 			Zend_Loader::loadClass($construct);  
 	    } catch(Exception $e) {
-	  	  throw new Zend_Exception("Comp&eacute;tence invalide (classe): ".$nomSystemeCompetence);
+	  		throw new Zend_Exception("Comp&eacute;tence invalide (classe): ".$nomSystemeCompetence);
 	    }
 	    
 		if (($construct != null) && (class_exists($construct))) {
