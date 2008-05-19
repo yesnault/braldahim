@@ -14,7 +14,9 @@ class ParametresController extends Zend_Controller_Action {
 			
 		$this->initView();
 		Zend_Loader::loadClass('Bral_Util_BralSession');
-		Bral_Util_BralSession::refreshSession();
+		if (Bral_Util_BralSession::refreshSession() == false) {
+				$this->_redirect('/');
+		} 
 		
 		$this->view->config = Zend_Registry::get('config');
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();

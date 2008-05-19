@@ -11,6 +11,7 @@ class AdministrationFilonsController extends Zend_Controller_Action {
 		
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
+		$this->view->config = Zend_Registry::get('config');
 	}
 
 	function indexAction() {

@@ -7,7 +7,9 @@ class EchoppesController extends Zend_Controller_Action {
 			$this->_redirect('/');
 		} else {
 			Zend_Loader::loadClass('Bral_Util_BralSession');
-			Bral_Util_BralSession::refreshSession();
+			if (Bral_Util_BralSession::refreshSession() == false) {
+				$this->_redirect('/');
+			} 
 		}
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();

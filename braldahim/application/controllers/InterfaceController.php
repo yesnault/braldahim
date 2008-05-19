@@ -9,7 +9,9 @@ class InterfaceController extends Zend_Controller_Action {
 			$this->_redirect('/');
 		} else {
 			Zend_Loader::loadClass('Bral_Util_BralSession');
-			Bral_Util_BralSession::refreshSession();
+			if (Bral_Util_BralSession::refreshSession() == false) {
+				$this->_redirect('/');
+			} 
 		}
 		$this->view->config = Zend_Registry::get('config');
 		$this->view->controleur = $this->_request->controller;

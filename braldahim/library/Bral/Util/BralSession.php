@@ -24,12 +24,16 @@ class Bral_Util_BralSession {
 		$authAdapter->setCredential($user->email_hobbit);
 		$result = $auth->authenticate($authAdapter);
 		$hobbit = $authAdapter->getResultRowObject(null,'password_hobbit');
-
-		$auth->getStorage()->write($hobbit);
-		Zend_Auth::getInstance()->getIdentity()->activation = $activation;
-		Zend_Auth::getInstance()->getIdentity()->gardiennage = $gardiennage;
-		Zend_Auth::getInstance()->getIdentity()->gardeEnCours = $gardeEnCours;
-		Zend_Auth::getInstance()->getIdentity()->administrateur = $administrateur;
-
+		
+		if ($hobbit != null) {
+			$auth->getStorage()->write($hobbit);
+			Zend_Auth::getInstance()->getIdentity()->activation = $activation;
+			Zend_Auth::getInstance()->getIdentity()->gardiennage = $gardiennage;
+			Zend_Auth::getInstance()->getIdentity()->gardeEnCours = $gardeEnCours;
+			Zend_Auth::getInstance()->getIdentity()->administrateur = $administrateur;
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

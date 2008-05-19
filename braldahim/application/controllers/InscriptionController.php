@@ -51,10 +51,17 @@ class InscriptionController extends Zend_Controller_Action {
 						'id_fk_pere_hobbit' => $dataParents["id_fk_pere_hobbit"],
 						'id_fk_mere_hobbit' => $dataParents["id_fk_mere_hobbit"],
 					);
+					
 					$where = "id_hobbit=".$hobbit->id_hobbit;
 					$hobbitTable->update($data, $where);
-	
-					$details = $hobbit->prenom_hobbit ." ".$hobbit->nom_hobbit." (".$hobbit->id_hobbit.") est apparu sur Braldahim";
+					
+					if ($hobbit->sexe_hobbit == "feminin") {
+						$e = "s";
+					} else {
+						$e = "";
+					}
+					
+					$details = $hobbit->prenom_hobbit ." ".$hobbit->nom_hobbit." (".$hobbit->id_hobbit.") est apparu".$e." sur Braldahim";
 					Zend_Loader::loadClass('Evenement');
 					$evenementTable = new Evenement();
 					$data = array(
@@ -225,6 +232,8 @@ class InscriptionController extends Zend_Controller_Action {
 		$nom_hobbit = $dataNom["nom"];
 		$id_fk_nom_initial_hobbit = $dataNom["id_nom"];
 		
+		$mdate = date("Y-m-d H:i:s");
+		
 		$data = array(
 			'nom_hobbit' => $nom_hobbit,
 			'prenom_hobbit' => $this->prenom_hobbit,
@@ -237,20 +246,20 @@ class InscriptionController extends Zend_Controller_Action {
 			'x_hobbit' => $lieu["x_lieu"],
 			'y_hobbit' => $lieu["y_lieu"],
 			'vue_bm_hobbit' => $this->view->config->game->inscription->vue_bm,
-			'date_debut_tour_hobbit' => date("Y-m-d H:i:s"),
-			'date_fin_tour_hobbit' => Bral_Util_ConvertDate::get_date_add_time_to_date(date("Y-m-d H:i:s"), $this->view->config->game->tour->duree_tour_manque),
+			'date_debut_tour_hobbit' => "0000-00-00 00:00:00",
+			'date_fin_tour_hobbit' => Bral_Util_ConvertDate::get_date_add_time_to_date($mdate, $this->view->config->game->tour->duree_base_cumul),
 			'duree_base_tour_hobbit' => $this->view->config->game->tour->duree_base,
-			'duree_prochain_tour_hobbit' => $this->view->config->game->inscription->duree_prochain_tour,
-			'duree_courant_tour_hobbit' => $this->view->config->game->inscription->duree_courant_tour,
-			'date_creation_hobbit' => date("Y-m-d H:i:s"),
-			'tour_position_hobbit' => $this->view->config->game->inscription->tour_position,
+			'duree_prochain_tour_hobbit' => $this->view->config->game->tour->duree_base,
+			'duree_courant_tour_hobbit' => $this->view->config->game->tour->duree_base,
+			'date_creation_hobbit' => $mdate,
+			'tour_position_hobbit' => $this->view->config->game->tour->position_latence, // sera recalcule lors de la connexion avec cumul
 			'balance_faim_hobbit' => $this->view->config->game->inscription->balance_faim,
 			'pv_restant_hobbit' => $pv,
 			'force_base_hobbit' => $this->view->config->game->inscription->force_base,
 			'agilite_base_hobbit' => $this->view->config->game->inscription->agilite_base,
 			'vigueur_base_hobbit' => $this->view->config->game->inscription->vigueur_base,
 			'sagesse_base_hobbit' => $this->view->config->game->inscription->sagesse_base,
-			'pa_hobbit' => $this->view->config->game->inscription->pa,
+			//'pa_hobbit' => $this->view->config->game->inscription->pa, // seront recalcules lors de la connexion en cumul
 			'poids_transportable_hobbit' => $poids,
 			'armure_naturelle_hobbit' => $armure_nat,
 			'regeneration_hobbit' => $reg,

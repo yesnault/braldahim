@@ -245,6 +245,10 @@ abstract class Bral_Competences_Competence {
 		if ($this->view->user->balance_faim_hobbit < 0) {
 			$this->view->user->balance_faim_hobbit = 0;
 		}
+		
+		if ($this->view->user->pa_hobbit  < 0) { // verif au cas où...
+			$this->view->user->pa_hobbit = 0;
+		}
 
 		$this->view->changeNiveau = false;
 		$this->calculNiveau();

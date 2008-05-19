@@ -160,7 +160,7 @@ class Hobbit extends Zend_Db_Table {
 	function findHobbitsFemininSansConjoint($idHobbit) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$sql = "SELECT id_hobbit FROM hobbit WHERE sexe_hobbit='feminin' AND id_hobbit <> ".(int)$idHobbit." AND id_hobbit NOT IN (SELECT id_fk_m_hobbit_couple FROM couple)";
+		$sql = "SELECT id_hobbit FROM hobbit WHERE sexe_hobbit='feminin' AND id_hobbit <> ".(int)$idHobbit." AND id_hobbit NOT IN (SELECT id_fk_f_hobbit_couple FROM couple)";
 		return $db->fetchAll($sql);
 	}
 

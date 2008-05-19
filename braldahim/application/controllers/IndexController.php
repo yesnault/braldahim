@@ -16,6 +16,8 @@ class IndexController extends Zend_Controller_Action {
 		$auth = Zend_Auth::getInstance();
 		if (!$auth->hasIdentity() || !isset($this->view->user) || !isset($this->view->user->email_hobbit)) {
 			$this->_redirect('auth/login');
+		} else {
+			$this->_redirect('interface/');
 		}
 	}
 }
