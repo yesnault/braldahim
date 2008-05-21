@@ -7,12 +7,12 @@
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">
 	    
-	    <a href='/AdministrationFilons/filons'>Administration Filons</a> 
+	    <a href='/Administrationfilon/filons'>Administration Filons</a> 
 	    
 	     <br /> <br /> <br />
 	    Transformation md5 - Chaine &agrave; encoder : 
 	     <input type='text' name='md5_source' id='md5_source' value='' size='20'>
-	     <input type='button' value='MD5' class='button1'  onClick='document.location.href="/administration/?md5_source="+$("md5_source").value;'> 
+	     <input type='button' value='MD5' class='button1'  onClick='document.location.href="/Administration/?md5_source="+$("md5_source").value;'> 
 		 <? if ($this->md5_value != "") : ?>
 		 <br />
 		 Valeur MD5 de <?=$this->md5_source ?> = <?=$this->md5_value ?>
@@ -24,12 +24,12 @@
 	    Hobbit Id <input type='text' name='id_hobbit' id='id_hobbit' value='' size='5'> <input type='button' name='goFiche' value='Ouvrir Fiche'   class='button1'  onClick='document.location.href="/administrationHobbits/Hobbit/mode/simple/idhobbit/"+$("id_hobbit").value;'> 
 	    <br /><br />
 	    Administration Monstres 
-	    <a href='/AdministrationMonstres/creation'>[ Cr&eacute;ation ]</a> 
-	    <a href='/AdministrationMonstres/referentiel'>[ R&eacute;f&eacute;rentiel ]</a>
+	    <a href='/Administrationmonstre/creation'>[ Cr&eacute;ation ]</a> 
+	    <a href='/Administrationmonstre/referentiel'>[ R&eacute;f&eacute;rentiel ]</a>
 	    <a href='/viemonstres/vie'>[ Jouer Vie Monstre ]</a>
 	    <br /> <br /> <br />
 	    
-	    <a href='/AdministrationPlantes/plantes'>Administration Plantes</a><br />
+	    <a href='/Administrationplante/plantes'>Administration Plantes</a><br />
 		
 		</ul>
 	</div>

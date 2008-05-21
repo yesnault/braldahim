@@ -1,0 +1,86 @@
+<?php echo $this->render('header.phtml'); ?>
+<div class="box_administration">
+<?=Bral_Helper_Box::haut(); ?>
+<div class="inner">
+    <ul class="titre textalic textsizea">Administration Plantes</ul>
+    	&nbsp;
+	<div class="contenu">
+	    <ul class="box_contenu1 textalic">
+			<? if ($this->creation === true) : ?>
+			<b>Cr&eacute;ation de <?=$this->nb_creation ?> plantes<b> <br />
+			<? endif; ?>
+			<form action="/Administrationplante/plantes" method="post">
+			<table align='center'>
+			<th class='comp_titre'>Zone</th>
+			<th class='comp_titre'>Plante</th>
+			<th class='comp_titre'>Couverture</th>
+			<tr valign='top'>
+				<td>
+					<select name="id_zone">
+					<? foreach ($this->zones as $z) : ?>
+					<option value="<?=$z["id_zone"]?>"><?=$z["id_zone"]?></option>
+					<? endforeach; ?>
+					</select>
+				</td>
+				<td>
+					<select name="id_type_plante">
+					<? foreach ($this->typePlantes as $p) : ?>
+					<option value="<?=$p["id_type_plante"]?>"><?=htmlentities($p["nom"])?> - <?=htmlentities($p["categorie"]) ?> - <?=htmlentities($p["environnement"])?> - A:<?=htmlentities($p["nom_partie_1"])?> - B:<?=htmlentities($p["nom_partie_2"])?> - C:<?=htmlentities($p["nom_partie_3"])?> - D:<?=htmlentities($p["nom_partie_4"]) ?></option>
+					<? endforeach; ?>
+					</select>
+					<br />
+					Quantit&eacute; partie A : min <input type="textbox" name="partie_1a" onkeypress="chiffres(event);" /> max : <input type="textbox" name="partie_1b" onkeypress="chiffres(event);" /><br />
+					Quantit&eacute; partie B : min <input type="textbox" name="partie_2a" onkeypress="chiffres(event);" /> max : <input type="textbox" name="partie_2b" onkeypress="chiffres(event);" /> <br />
+					Quantit&eacute; partie C : min <input type="textbox" name="partie_3a" onkeypress="chiffres(event);" /> max : <input type="textbox" name="partie_3b" onkeypress="chiffres(event);" /> <br />
+					Quantit&eacute; partie D : min <input type="textbox" name="partie_4a" onkeypress="chiffres(event);" /> max : <input type="textbox" name="partie_4b" onkeypress="chiffres(event);" /> <br />
+				</td>
+				<td>
+					<select name="couverture">
+					<? for ($i=1; $i<100; $i++) : ?>
+						<option value="<?=$i?>"><?=$i?> %</option>
+					<? endfor; ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td colspan='3'> <input type="submit" class="button1" name="add" value="Ajouter la couverture de plante" /></td>
+			</tr>
+			</table>
+			</form>
+		<br /><br />
+			<table align='center'>
+			<th class='comp_titre'>N°</th>
+			<th class='comp_titre'>Environnement</th>
+			<th class='comp_titre'>Ville</th>
+			<th class='comp_titre'>x_min</th>
+			<th class='comp_titre'>x_max</th>
+			<th class='comp_titre'>y_min</th>
+			<th class='comp_titre'>y_max</th>
+			<th class='comp_titre'>Nombre Cases</th>
+			<th class='comp_titre'>Nombre Plantes</th>
+			<th class='comp_titre'>Couverture</th>
+			<? foreach ($this->zones as $zone) : ?>
+				<tr>
+					<td><?=$zone["id_zone"] ?></td>
+					<td><?=htmlentities($zone["environnement"]) ?></td>
+					<td><?=htmlentities($zone["villes"]) ?></td>
+					<td><?=$zone["x_min"] ?></td>
+					<td><?=$zone["x_max"] ?></td>
+					<td><?=$zone["y_min"] ?></td>
+					<td><?=$zone["y_max"] ?></td>
+					<td><?=$zone["nombre_cases"] ?></td>
+					<td><?=$zone["nombre_plantes"] ?></td>
+					<td><?=$zone["couverture"] ?> % </td>
+					<td>
+					
+					</td>
+				</tr>
+			<? endforeach; ?>
+			</table>
+		</ul>
+	</div>
+	&nbsp;
+</div>
+<?=Bral_Helper_Box::bas(); ?>
+</div>
+<?php echo $this->render('footer.phtml'); ?>

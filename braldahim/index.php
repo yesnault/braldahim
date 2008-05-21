@@ -25,6 +25,7 @@ Zend_Loader::loadClass("Bral_Lieux_Factory");
 Zend_Loader::loadClass("Bral_Helper_Affiche");
 Zend_Loader::loadClass("Bral_Helper_Image");
 
+Zend_Loader::loadClass("Bral_Util_BBParser");
 Zend_Loader::loadClass("Bral_Util_De");
 Zend_Loader::loadClass("Bral_Util_Exception");
 Zend_Loader::loadClass("Bral_Util_Controle");
@@ -51,10 +52,14 @@ $config = new Zend_Config_Ini('./application/config.ini', 'general');
 $registry = Zend_Registry::getInstance();
 $registry->set('config', $config);
 
-// setup database
-$dbAdapter = Zend_Db::factory($config->db->adapter, $config->db->config->toArray());
-Zend_Db_Table::setDefaultAdapter($dbAdapter);
-Zend_Registry::set('dbAdapter', $dbAdapter); 
+// setup database Game
+$dbAdapterGame = Zend_Db::factory($config->db->game->adapter, $config->db->game->config->toArray());
+Zend_Db_Table::setDefaultAdapter($dbAdapterGame);
+Zend_Registry::set('dbAdapter', $dbAdapterGame); 
+
+// setup database Site
+$dbAdapterSite = Zend_Db::factory($config->db->site->adapter, $config->db->site->config->toArray());
+Zend_Registry::set('dbSiteAdapter', $dbAdapterSite); 
 
 Bral_Util_Registre::chargement();
 

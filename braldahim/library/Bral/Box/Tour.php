@@ -70,10 +70,12 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 		Bral_Util_Log::tour()->debug(get_class($this)." time_latence=".$time_latence);
 		Bral_Util_Log::tour()->debug(get_class($this)." time_cumul=".$time_cumul);
-		Bral_Util_Log::tour()->debug(get_class($this)."	date_fin_latence=".$date_fin_latence);
-		Bral_Util_Log::tour()->debug(get_class($this)."	date_debut_cumul".$date_debut_cumul);
-		Bral_Util_Log::tour()->debug(get_class($this)."	date_courante=".$date_courante);
-		Bral_Util_Log::tour()->debug(get_class($this)."	date fin tour=".$this->hobbit->date_fin_tour_hobbit);
+		Bral_Util_Log::tour()->debug(get_class($this)." date_fin_latence=".$date_fin_latence);
+		Bral_Util_Log::tour()->debug(get_class($this)." date_debut_cumul".$date_debut_cumul);
+		Bral_Util_Log::tour()->debug(get_class($this)." date_courante=".$date_courante);
+		Bral_Util_Log::tour()->debug(get_class($this)." date fin tour=".$this->hobbit->date_fin_tour_hobbit);
+		Bral_Util_Log::tour()->debug(get_class($this)."	tour position=".$this->hobbit->tour_position_hobbit);
+		
 
 		$this->is_tour_manque = false;
 		// Mise a jour du nombre de PA + position tour
@@ -102,7 +104,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		|| ($this->is_nouveau_tour))) {
 			Bral_Util_Log::tour()->debug(get_class($this)." Cumul tour");
 			// Si le joueur a déjà eu des PA
-			if ($this->hobbit->tour_position_hobbit == $this->view->config->game->tour->position_milieu) {
+			if ($this->hobbit->tour_position_hobbit == $this->view->config->game->tour->position_milieu && !$this->is_nouveau_tour) {
 				Bral_Util_Log::tour()->debug(get_class($this)." Le joueur a deja eu des PA");
 				$this->hobbit->pa_hobbit = $this->hobbit->pa_hobbit + $this->view->config->game->pa_max;
 			} else { // S'il vient d'activer et qu'il n'a jamais eu de PA dans ce tour

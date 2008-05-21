@@ -1,59 +1,47 @@
-  	Type:
-  	<select name='valeur_2'  onChange="Javascript:_get_('/interface/load/?box=box_messagerie?caction=box_messagerie&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0')">
-  	<? foreach ($this->typeMessages as $t) : ?>
-  	<option value='<?=$t["id_type_message"]?>' <?if ($this->filtre == $t["id_type_message"]){echo "selected";}?>><?=htmlentities($t["nom"])?></option>
-  	<? endforeach; ?>
-  	</select>
-  	<br /><br />
-  	
-		<table class="table_liste">
-		<thead class="table_liste">
-		  <tr class="table_liste">
-			<th>Date d'envoi</th>
-			<th>Titre</th>
-			<th>Expediteur</th>
-			<th>Destinataire</th>
-		  </tr>
-		</thead>
-		<tfoot class="table_liste">
-		  <tr class="table_liste">
-		    <th colspan='5'>
-			    <input type="button" class='button1' onClick='Javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=-1&valeur_6=nouveau");' value="Nouveau">
-			   <? if ($this->precedentOk === true) : ?>
-			   <input type="button" class='button1' onClick="Javascript:_get_('/interface/load/?box=box_messagerie?caction=box_messagerie&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page pr&eacute;c&eacute;dente">
-			   <? endif; ?>
-			   <? if ($this->suivantOk === true) : ?>
-			   <input type="button" class='button1' onClick="Javascript:_get_('/interface/load/?box=box_messagerie?caction=box_messagerie&valeur_1=s&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page suivante">
-			   <? endif; ?>
-		    </th>
-		  </tr>
-		</tfoot>
-		<tbody>
-		<? if (!empty($this->messages)): ?>
-		<? 
-		  	$i = 0;
-		  	foreach($this->messages as $message): ?>
-		  		<? $js = "_get_('/messagerie/askaction?caction=do_messagerie_message&valeur_1=".$this->filtre."&valeur_2=-1&valeur_3=-1&valeur_4=-1&valeur_5=".$message["id_message"]."&valeur_6=message');"; ?>
-		  			<? $text = "Titre :".$message["titre"]."<br /><br />"; 
-		  			   $text .= "Exp&eacute;diteur : ".$message["expediteur"]."<br /><br />";
-		  			   $text .= "Destinataire(s) : ".$message["destinataires"]."<br /><br />";
-		  			   $text .= "Clique pour voir le message";
-		  			?>
-		  			<tr class="table_liste<?=($i % 2);$i++; ?>" <?=Bral_Helper_Tooltip::jsTip(addslashes($text), "", false, false) ?>>
-		  				<td class="table_liste" onClick="<?=$js ?>"> <?=$message["date"];?></dd>
-		  				<td class="table_liste" onClick="<?=$js ?>"> <?if (strlen($message["titre"]) > 25) echo substr($message["titre"], 0, 25)."..."; else echo $message["titre"];?></td>
-		  				<td class="table_liste" onClick="<?=$js ?>"> <?if (strlen($message["expediteur"]) > 20) echo substr($message["expediteur"], 0, 20)."..."; else echo $message["expediteur"];?>&nbsp;</td>
-		  				<td class="table_liste" onClick="<?=$js ?>"> <?if (strlen($message["destinataires"]) > 20) echo substr($message["destinataires"], 0, 20)."..."; else echo $message["destinataires"];?>&nbsp;</td>
-		  			</tr>
+
+<br>
+<? if ($this->inscriptionSiteOk == false) :?>
+	Vous devez vous connecter au <a href="http://www.braldahim.com">site</a> avant de voir les messages ici.
+<? else: ?>
+
+<table class="table_liste">
+	<thead class="table_liste">
+		<tr class="table_liste">
+		<th>&nbsp;</th>
+		<th>de</th>
+		<th>Message</th>
+		<th>Date</th>
+		<th>&nbsp;</th>
+	  	</tr>
+	</thead>
+	<tfoot class="table_liste">
+		<tr class="table_liste">
+			<th colspan='5'>&nbsp;</th>
+		</tr>
+	</tfoot>
+	<tbody>
+	
+	<? if (!empty($this->messages)): ?>
+		<? $i = 0;
+		   foreach($this->messages as $message): ?>
+	  			<tr class="table_liste<?=($i % 2);$i++; ?>">
+	  				<td class="table_liste">
+						<img alt="read" title="read" src="/public/images/uddeim/nonew_im.gif" border="0">
+					</td>
+	  				<td class="table_liste" onClick="<?=$js ?>"> <?if (strlen($message["expediteur"]) > 20) echo substr(htmlentities($message["expediteur"]), 0, 20)."..."; else echo htmlentities($message["expediteur"]);?>&nbsp;</td>
+	  				<td class="table_liste" onClick="<?=$js ?>"> <?if (strlen($message["titre"]) > 25) echo Bral_Util_BBParser::bbcodeReplace(substr($message["titre"], 0, 25))."..."; else echo Bral_Util_BBParser::bbcodeReplace($message["titre"]);?></td>
+	  				<td class="table_liste" onClick="<?=$js ?>"> <?=$message["date"];?></td>
+	  				<td class="table_liste">
+						<img src="/public/images/uddeim/forward.gif" alt="Transférer" title="Transférer"><br>
+						<img src="/public/images/uddeim/trash.gif" alt="Effacer" title="Effacer">
+					</td>
+	  			</tr>
 		  	<? endforeach; ?>
 		<? else: ?>
    		<tr class="table_liste">
-   			<td colspan="4">Aucun message</td>
+   			<td colspan="5">Aucun message</td>
    		</tr>
    		<? endif; ?>
-	  	</tbody>
-	  	</table>
-
-   <br /><br />
-   
-    <div id='messagerie_info' name='messagerie_info'></div>
+	</tbody>
+</table>
+<? endif; ?>

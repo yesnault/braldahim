@@ -20,8 +20,7 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 
 	function render() {
 		if ($this->view->affichageInterne) {
-			Zend_Loader::loadClass('Message');
-			Zend_Loader::loadClass('TypeMessage');
+			Zend_Loader::loadClass('JosUddeim');
 			Zend_Loader::loadClass('Bral_Util_ConvertDate');
 		
 			$this->preparePage();
@@ -32,6 +31,74 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 	}
 	
 	private function prepareMessages() {
+		$this->view->inscriptionSiteOk = true;
+		if ($this->view->user->id_fk_jos_users_hobbit == null) {
+			$this->view->inscriptionSiteOk = false;
+			return;
+		}
+		
+		$josUddeimTable = new JosUddeim();
+		$messages = $josUddeimTable->findByToId($this->view->user->id_fk_jos_users_hobbit, $this->_page, $this->_nbMax);
+		
+		$idsHobbit = "";
+		$tabHobbits = null;
+		
+		foreach ($messages as $m) {
+			$idsHobbit[] = $m["fromid"];
+		}
+		
+		if ($idsHobbit != null) {
+			$hobbitTable = new Hobbit();
+			$hobbits = $hobbitTable->findByIdFkJosUsersList($idsHobbit);
+			foreach($hobbits as $h) {
+				$tabHobbits[$h["id_fk_jos_users_hobbit"]] = $h;
+			}
+		}
+		
+		foreach ($messages as $m) {
+			$expediteur = "";
+			if ($tabHobbits != null) {
+				if (array_key_exists($m["fromid"], $tabHobbits)) {
+					$expediteur = $tabHobbits[$m["fromid"]]["prenom_hobbit"] . " ". $tabHobbits[$m["fromid"]]["nom_hobbit"];
+				} else {
+					$expediteur = " Erreur ".$m["fromid"];
+				}
+			}
+			if ($expediteur == "") {
+				$expediteur = " Erreur inconnue";
+			}
+			
+			$tabMessages[] = array(
+				"id_message" => $m["id"],
+				"titre" => $m["message"],
+				"date" => $m["datum"],
+				'expediteur' => $expediteur
+			);
+		}
+		
+		if ($this->_page == 1) {
+			$precedentOk = false;
+		} else {
+			$precedentOk = true;
+		}
+
+		if (count($tabMessages) == 0) {
+			$suivantOk = false;
+		} else {
+			$suivantOk = true;
+		}
+
+		$this->view->precedentOk = $precedentOk;
+		$this->view->suivantOk = $suivantOk;
+		$this->view->messages = $tabMessages;
+		$this->view->nbMessages = count($this->view->messages);
+
+		$this->view->page = $this->_page;
+		$this->view->filtre = $this->_filtre;
+	}
+	
+	
+/*	private function prepareMessages() {
 		$suivantOk = false;
 		$precedentOk = false;
 		$tabMessages = null;
@@ -100,7 +167,7 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 		$this->view->page = $this->_page;
 		$this->view->filtre = $this->_filtre;
 	}
-
+*/
 	private function preparePage() {
 		$this->_page = 1;
 		if (($this->_request->get("caction") == "box_messagerie") && ($this->_request->get("valeur_1") == "f")) {
