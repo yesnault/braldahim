@@ -213,8 +213,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		unset($typePartiePlantesTable);
 		$typePartiePlantesRowset = $typePartiePlantesRowset->toArray();
 	
-		$tabPartiePlantes = null;
-		$tabPartiePlantesPreparees = null;
+		$tabTypePlantes = null;
 		$labanPartiePlanteTable = new LabanPartieplante();
 		$partiePlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($labanPartiePlanteTable);
