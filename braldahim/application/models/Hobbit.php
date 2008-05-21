@@ -26,6 +26,7 @@ class Hobbit extends Zend_Db_Table {
 			->where('y_hobbit >= ?',$y_min)
 			->where('y_hobbit <= ?',$y_max)
 			->where('est_mort_hobbit = ?', "non")
+			->where('est_compte_actif_hobbit = ?', "oui")
 			->where('id_hobbit != ?',$sansHobbitCourant);
 		} else {
 			$select->from('hobbit', '*')
@@ -34,6 +35,7 @@ class Hobbit extends Zend_Db_Table {
 			->where('y_hobbit >= ?',$y_min)
 			->where('y_hobbit <= ?',$y_max)
 			->where('est_mort_hobbit = ?', "non")
+			->where('est_compte_actif_hobbit = ?', "oui")
 			->joinLeft('communaute','id_fk_communaute_hobbit = id_communaute');;
 		}
 		
@@ -49,11 +51,13 @@ class Hobbit extends Zend_Db_Table {
 			->where('x_hobbit = ?',$x)
 			->where('y_hobbit = ?',$y)
 			->where('id_hobbit != ?',$sansHobbitCourant)
+			->where('est_compte_actif_hobbit = ?', "oui")
 			->where('est_mort_hobbit = ?', "non");
 		} else {
 			$select->from('hobbit', '*')
 			->where('x_hobbit = ?',$x)
 			->where('y_hobbit = ?',$y)
+			->where('est_compte_actif_hobbit = ?', "oui")
 			->where('est_mort_hobbit = ?', "non");
 		}
 		$sql = $select->__toString();
@@ -126,6 +130,7 @@ class Hobbit extends Zend_Db_Table {
 		->where('y_hobbit >= ?', $y - $rayon)
 		->where('y_hobbit <= ?', $y + $rayon)
 		->where("est_mort_hobbit = 'non' ".$and)
+		->where('est_compte_actif_hobbit = ?', "oui")
 		->joinLeft('effet_mot_f','id_fk_hobbit_effet_mot_f = id_hobbit')
 		->limit($nombre)
 		->order('distance ASC');
@@ -143,6 +148,7 @@ class Hobbit extends Zend_Db_Table {
 		->where('y_hobbit >= ?', $y - $rayon)
 		->where('y_hobbit <= ?', $y + $rayon)
 		->where('est_mort_hobbit = ?', "non")
+		->where('est_compte_actif_hobbit = ?', "oui")
 		->where('id_hobbit = ?', $idHobbit);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -161,14 +167,14 @@ class Hobbit extends Zend_Db_Table {
 	function findHobbitsMasculinSansConjoint($idHobbit) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$sql = "SELECT id_hobbit FROM hobbit WHERE sexe_hobbit='masculin' AND id_hobbit <> ".(int)$idHobbit." AND id_hobbit NOT IN (SELECT id_fk_m_hobbit_couple FROM couple)";
+		$sql = "SELECT id_hobbit FROM hobbit WHERE sexe_hobbit='masculin' AND est_compte_actif_hobbit='oui' AND id_hobbit <> ".(int)$idHobbit." AND id_hobbit NOT IN (SELECT id_fk_m_hobbit_couple FROM couple)";
 		return $db->fetchAll($sql);
 	}
 	
 	function findHobbitsFemininSansConjoint($idHobbit) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$sql = "SELECT id_hobbit FROM hobbit WHERE sexe_hobbit='feminin' AND id_hobbit <> ".(int)$idHobbit." AND id_hobbit NOT IN (SELECT id_fk_f_hobbit_couple FROM couple)";
+		$sql = "SELECT id_hobbit FROM hobbit WHERE sexe_hobbit='feminin' AND est_compte_actif_hobbit='oui' AND id_hobbit <> ".(int)$idHobbit." AND id_hobbit NOT IN (SELECT id_fk_f_hobbit_couple FROM couple)";
 		return $db->fetchAll($sql);
 	}
 
