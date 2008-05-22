@@ -7,7 +7,7 @@
     	&nbsp;
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">
-	    	<form action="/Administrationonstre/creation" method="post">
+	    	<form action="/Administratiomonstre/creation" method="post">
 			<table align='center'>
 			<tr>
 			<td colspan='20'>
@@ -95,12 +95,12 @@
 
 			Nombre de groupe actuellement en base : <?=$this->stats["nb_groupes"] ?><br />
 			Nombre de monstre actuellement en base : <?=$this->stats["nb_monstres"] ?><br />
-			Pourcentage de couverture globale : <?=$this->stats["couverture_globale"] ?> % (si l'on considère 1 monstre par case).<br />
+			Pourcentage de couverture globale : <?=$this->stats["couverture_globale"] ?> % (si l'on consid&egrave;re 1 monstre par case).<br />
 
 			<br />
 			<br /><ul class="titre textalic textsizec">Nombre de monstres par type</ul>
 			<? foreach($this->stats["nb_monstre_par_type"] as $t): ?>
-				<?=$t["nom_type"]?> : <?=$t["nombre"]?><br />
+				<?=htmlentities($t["nom_type"])?> : <?=$t["nombre"]?><br />
 			<? endforeach; ?>
 			
 			<br />
@@ -111,7 +111,7 @@
 			<br />
 			<br /><ul class="titre textalic textsizec">Couverture par zone</ul>
 			<table align='center'>
-			<th class='comp_titre'>N°</th>
+			<th class='comp_titre'>N&deg;</th>
 			<th class='comp_titre'>Environnement</th>
 			<th class='comp_titre'>Villes</th>
 			<th class='comp_titre'>x_min</th>
