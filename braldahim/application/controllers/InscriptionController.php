@@ -113,8 +113,7 @@ class InscriptionController extends Zend_Controller_Action {
 			->addFilter(new Zend_Filter_StripTags());
 			
 			$this->prenom_hobbit = stripslashes($filter->filter($this->_request->getPost('prenom_hobbit')));
-			
-			$this->prenom_hobbit = Bral_Util_String::toUpper(substr($this->prenom_hobbit, 0, 1)) . substr($this->prenom_hobbit, 1);
+			$this->prenom_hobbit = Bral_Util_String::firstToUpper($this->prenom_hobbit);
 			
 			$this->email_hobbit = $filter->filter($this->_request->getPost('email_hobbit'));
 			$this->email_confirm_hobbit = $filter->filter($this->_request->getPost('email_confirm_hobbit'));

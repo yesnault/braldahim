@@ -13,7 +13,6 @@ class Bral_Messagerie_Message {
 		$this->view->information = " ";
 		$this->refreshMessages = false;
 		$this->view->envoiMessage = false;
-		$this->activerWysiwyg = false;
 		$this->prepareAction();
 	}
 
@@ -22,20 +21,20 @@ class Bral_Messagerie_Message {
 	}
 
 	function render() {
-		switch($this->request->get("valeur_6")) {
+		switch($this->request->get("valeur_1")) {
 			case "envoi" :
 			case "nouveau" :
-			case "repondre" :
+//			case "repondre" :
 				return $this->view->render("messagerie/nouveau.phtml");
 				break;
-			case "archiver" :
-			case "supprimer" :
-			case "annuler" :
+//			case "archiver" :
+//			case "supprimer" :
+//			case "annuler" :
 			case "message" :
 				return $this->view->render("messagerie/message.phtml");
 				break;
 			default :
-				throw new Zend_Exception(get_class($this)."::render invalide :".$this->request->get("valeur_6"));
+				throw new Zend_Exception(get_class($this)."::render invalide :".$this->request->get("valeur_1"));
 		}
 	}
 
@@ -43,10 +42,6 @@ class Bral_Messagerie_Message {
 		return $this->refreshMessages;
 	}
 
-	public function getActiverWysiwyg() {
-		return $this->activerWysiwyg;
-	}
-	
 	public function getInformations() {
 		if ($this->view->envoiMessage == true) {
 			return "Votre message est envoy&eacute;";		
@@ -54,38 +49,29 @@ class Bral_Messagerie_Message {
 	}
 
 	private function prepareAction() {
-		if (((int)$this->request->get("valeur_5").""!=$this->request->get("valeur_5")."")) {
-			throw new Zend_Exception(get_class($this)." Message invalide : val=".$this->request->get("valeur_5"));
-		}
-
 		$this->view->valeur_1 = $this->request->get("valeur_1");
-		$this->view->valeur_2 = $this->request->get("valeur_2");
-		$this->view->valeur_3 = $this->request->get("valeur_3");
-		$this->view->valeur_4 = $this->request->get("valeur_4");
 
-		switch($this->request->get("valeur_6")) {
+		switch($this->request->get("valeur_1")) {
 			case "envoi" :
 				$this->envoiMessage();
 				break;
 			case "nouveau" :
-				$this->activerWysiwyg = true;
 				$this->prepareNouveau();
 				break;
-			case "repondre" :
-				$this->activerWysiwyg = true;
-				$this->prepareRepondre();
-				break;
-			case "archiver" :
-				$this->prepareArchiver();
-				break;
-			case "supprimer" :
-				$this->prepareSupprimer();
-				break;
+//			case "repondre" :
+//				$this->prepareRepondre();
+//				break;
+//			case "archiver" :
+//				$this->prepareArchiver();
+//				break;
+//			case "supprimer" :
+//				$this->prepareSupprimer();
+//				break;
 			case "message" :
 				$this->prepareMessage(false);
 				break;
 			default :
-				throw new Zend_Exception(get_class($this)."::action invalide :".$this->request->get("valeur_5"));
+				throw new Zend_Exception(get_class($this)."::action invalide :".$this->request->get("valeur_1"));
 		}
 	}
 
@@ -93,7 +79,12 @@ class Bral_Messagerie_Message {
 		// rien à faire ici
 	}
 
-	private function prepareRepondre() {
+	private function envoiMessage() {
+		// TODO
+	}
+	
+	
+/*	private function prepareRepondre() {
 		$this->prepareMessage(true);
 		$this->view->message["titre"] = "RE:".$this->view->message["titre"];
 		$this->view->message["copies"] = $this->view->message["destinataires"] . $this->view->message["copies"];
@@ -192,14 +183,14 @@ class Bral_Messagerie_Message {
 			}
 		}
 		$tab = array("destinataires" => $destinataires,
-		"aff_destinataires" => $aff_destinataires,
-		"aff_js_destinataires" => $aff_js_destinataires,
-		"copies" => $copies,
-		"aff_copies" => $aff_copies,
-		"aff_js_copies" => $aff_js_copies,
-		"expediteur" => $expediteur,
-		"aff_expediteur" => $aff_expediteur,
-		"aff_js_expediteur" => $aff_js_expediteur
+			"aff_destinataires" => $aff_destinataires,
+			"aff_js_destinataires" => $aff_js_destinataires,
+			"copies" => $copies,
+			"aff_copies" => $aff_copies,
+			"aff_js_copies" => $aff_js_copies,
+			"expediteur" => $expediteur,
+			"aff_expediteur" => $aff_expediteur,
+			"aff_js_expediteur" => $aff_js_expediteur
 		);
 		return $tab;
 	}
@@ -320,4 +311,5 @@ class Bral_Messagerie_Message {
 			$this->activerWysiwyg = true;
 		}
 	}
+*/
 }

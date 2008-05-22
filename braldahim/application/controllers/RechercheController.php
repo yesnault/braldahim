@@ -16,14 +16,12 @@ class RechercheController extends Zend_Controller_Action {
 	}
 
 	function hobbitAction() {
-		
 		$this->_request->get("valeur");
 		
 		$tabHobbits = null;
 		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->findHobbitsParNom('%'.$this->_request->get("valeur").'%');
+		$hobbitRowset = $hobbitTable->findHobbitsParPrenomIdJoomlaOnly('%'.$this->_request->get("valeur").'%');
 		$this->view->champ = $this->_request->get("champ");
-		
 		
 		foreach ($hobbitRowset as $h) {
 			$tabHobbits[] = array(

@@ -2,15 +2,9 @@
 <? if ($this->envoiMessage == true): ?>
 	Votre message est envoy&eacute;
 <? else: ?>
-<form name='myForm'>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='10'>
- 		<input type='hidden' name='valeur_1' id='valeur_1' value='-1' />
- 		<input type='hidden' name='valeur_2' id='valeur_2' value='-1' />
- 		<input type='hidden' name='valeur_2' id='valeur_3' value='-1' />
- 		<input type='hidden' name='valeur_2' id='valeur_4' value='-1' />
- 		<input type='hidden' name='valeur_3' id='valeur_5' value='-1' />
- 		<input type='hidden' name='valeur_3' id='valeur_6' value='envoi' />
-	    <br />
+<br>
+<form name="myForm" id="myForm">
+
 		<?php if(!empty($this->destinatairesErreur)) :?>
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->destinatairesErreur as $message) :?>
@@ -18,55 +12,68 @@
 			<?php endforeach; ?>
 			</div>
 		<? endif; ?>
-		<label>Destinataires </label><br />
+		<label>Destinataires (entrez le pr&eacute;nom)</label><br />
 		
 		<div id='aff_valeur_7' name='aff_valeur_7'><?=$this->message["aff_js_destinataires"]?></div>
 		<input type="hidden" name="valeur_7" id="valeur_7" value="<?=$this->message["destinataires"]?>" />
-		<input type="text" name="recherche_valeur_7" size='20' id="recherche_valeur_7" value="Entre un nom" onFocus='this.value=""; activerRechercheHobbit("valeur_7");' />
+		<input type="text" name="recherche_valeur_7" size='40' id="recherche_valeur_7" value="Entre un nom" onFocus='this.value=""; activerRechercheHobbit("valeur_7");' />
 		<input type="hidden" name="recherche_valeur_7_actif" id="recherche_valeur_7_actif" value="0" />
 		<div class="recherche" id="recherche_valeur_7_update" ></div> <img src="/public/images/loupe.gif" />
 	    <span id="indicateur_recherche_valeur_7" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
 	    
-	    <br /><br />
-	    
-	    <?php if(!empty($this->copiesErreur)) :?>
-			<div class="message_erreur" id="message_erreur"> 
-			<?php foreach($this->copiesErreur as $message) :?>
-				<?=htmlentities($this->escape($message));?><br />
-			<?php endforeach; ?>
-			</div>
-		<? endif; ?>
-		<label>Copies </label><br />
-		<div id='aff_valeur_8' name='aff_valeur_8'><?=$this->message["aff_js_copies"]?></div>
-		<input type="hidden" name="valeur_8" id="valeur_8" value="<?=$this->message["copies"]?>" />
-		<input type="text" name="recherche_valeur_8" size='20' id="recherche_valeur_8" value="Entre un nom" onFocus='this.value=""; activerRechercheHobbit("valeur_8");' />
-		<input type="hidden" name="recherche_valeur_8_actif" id="recherche_valeur_8_actif" value="0" />
-		<div class="recherche" id="recherche_valeur_8_update" ></div> <img src="/public/images/loupe.gif" />
-	    <span id="indicateur_recherche_valeur_8" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
-	    
-	    <br /><br />
-	    
-		<?php if(!empty($this->titreErreur)) :?> 
-		<div class="message_erreur" id="message_erreur"> 
-			<?=htmlentities($this->escape($this->titreErreur));?><br />
+
+<br><br>
+
+		<div id="uddeim-bbemobox">
+			<table border="0" cellpadding="0" cellspacing="4" align="center">
+				<tbody><tr>
+					<td><img alt="bold" src="/public/images/uddeim/format_bold.gif" style="cursor: pointer;" name="addbbcode0" onclick="bbstyle(0); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" title="Tags BB Code pour définir du texte en gras. Utilisation : [b]bold[/b]"></td>
+
+					<td><img alt="italic" src="/public/images/uddeim/format_italic.gif" style="cursor: pointer;" name="addbbcode2" onclick="bbstyle(2); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" title="Tags BB Code pour définir du texte en italique. Utilisation : [i]italic[/i]"></td>
+					<td><img alt="underline" src="/public/images/uddeim/format_underline.gif" style="cursor: pointer;" name="addbbcode4" onclick="bbstyle(4); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" title="Tags BB Code pour définir du texte souligné. Utilisation : [u]underline[/u]"></td>
+					<td>&nbsp;</td>
+					<td><img alt="red" src="/public/images/uddeim/format_red.gif" style="cursor: pointer;" name="addbbcode6" onclick="bbstyle(6); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" title="Tags BB Code pour définir la couleur du texte. Utilisation : [color=#XXXXXX]en couleurs[/color] où XXXXXX est le code hexadécimal de la couleur que vous voulez, par exemple FF0000 pour du rouge."></td>
+					<td><img alt="green" src="/public/images/uddeim/format_green.gif" style="cursor: pointer;" name="addbbcode8" onclick="bbstyle(8); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" title="Tags BB Code pour définir la couleur du texte. Utilisation : [color=#XXXXXX]en couleurs[/color] où XXXXXX est le code hexadécimal de la couleur que vous voulez, par exemple 00FF00 pour du vert."></td>
+					<td><img alt="blue" src="/public/images/uddeim/format_blue.gif" style="cursor: pointer;" name="addbbcode10" onclick="bbstyle(10); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" title="Tags BB Code pour définir la couleur du texte. Utilisation : [color=#XXXXXX]en couleurs[/color] où XXXXXX est le code hexadécimal de la couleur que vous voulez, par exemple 0000FF pour du bleu."></td>
+					<td>&nbsp;</td>
+					<td><img alt="very small" src="/public/images/uddeim/format_size1.gif" style="cursor: pointer;" name="addbbcode12" onclick="bbstyle(12); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" title="Tags BB Code pour définir du texte de très petite taille. Utilisation : [size=1]texte de très petite taille.[/size]"></td>
+					<td><img alt="small" src="/public/images/uddeim/format_size2.gif" style="cursor: pointer;" name="addbbcode14" onclick="bbstyle(14); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" title="Tags BB Code pour définir du texte de petite taille. Utilisation : [size=2]texte de petite taille.[/size]"></td>
+
+					<td><img alt="large" src="/public/images/uddeim/format_size4.gif" style="cursor: pointer;" name="addbbcode16" onclick="bbstyle(16); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" title="Tags BB Code pour définir du texte de grande taille. Utilisation : [size=4]texte de grande taille.[/size]"></td>
+					<td><img alt="very large" src="/public/images/uddeim/format_size5.gif" style="cursor: pointer;" name="addbbcode18" onclick="bbstyle(18); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" title="Tags BB Code pour définir du texte de très grande taille. Utilisation : [size=5]texte de très grande taille.[/size]"></td>
+							<td>&nbsp;</td>
+					<td><img alt="close tags" src="/public/images/uddeim/format_closeall.gif" style="cursor: pointer;" onclick="bbstyle(-1); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" title="Fermer tous les tags BBcode."></td>
+				</tr>
+			</tbody></table>
 		</div>
-		<?php endif; ?>
-	    <label for="title">Titre</label><br />
-	    <input type="text" name="valeur_9" id="valeur_9" name="titre" value="<?=$this->escape($this->message["titre"]);?>" size="60" maxlength="80"/> 
-	    
-	    <br /><br />
-		<?php if(!empty($this->contenuErreur)) :?> 
-		<div class="message_erreur" id="message_erreur"> 
-			<?=htmlentities($this->escape($this->contenuErreur));?><br />
+			<div id="uddeim-smileybox">
+			<table border="0" cellpadding="2" cellspacing="0" align="center">
+				<tbody>
+				<tr>
+					<td><img style="cursor: pointer;" onclick="emo(':) '); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" src="/public/images/uddeim/emoticon_smile.gif" alt=":)" title=":)"></td>
+					<td><img style="cursor: pointer;" onclick="emo(':( '); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" src="/public/images/uddeim/emoticon_sad.gif" alt=":(" title=":("></td>
+					<td><img style="cursor: pointer;" onclick="emo(':P '); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" src="/public/images/uddeim/emoticon_tongue.gif" alt=":P" title=":P"></td>
+					<td><img style="cursor: pointer;" onclick="emo(':x '); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" src="/public/images/uddeim/emoticon_crossed.gif" alt=":x" title=":x"></td>
+					<td><img style="cursor: pointer;" onclick="emo(':angry: '); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" src="/public/images/uddeim/emoticon_angry.gif" alt=":angry:" title=":angry:"></td>
+					<td><img style="cursor: pointer;" onclick="emo(':blush: '); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" src="/public/images/uddeim/emoticon_blush.gif" alt=":blush:" title=":blush:"></td>
+					<td><img style="cursor: pointer;" onclick="emo('B) '); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" src="/public/images/uddeim/emoticon_cool.gif" alt="B)" title="B)"></td>
+					<td><img style="cursor: pointer;" onclick="emo(':* '); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" src="/public/images/uddeim/emoticon_heart.gif" alt=":*" title=":*"></td>
+
+					<td><img style="cursor: pointer;" onclick="emo(':kiss: '); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" src="/public/images/uddeim/emoticon_kiss.gif" alt=":kiss:" title=":kiss:"></td>
+					<td><img style="cursor: pointer;" onclick="emo(':laugh: '); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" src="/public/images/uddeim/emoticon_laughing.gif" alt=":laugh:" title=":laugh:"></td>
+					<td><img style="cursor: pointer;" onclick="emo(':ohmy: '); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" src="/public/images/uddeim/emoticon_shocked.gif" alt=":ohmy:" title=":ohmy:"></td>
+					<td><img style="cursor: pointer;" onclick="emo(';) '); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" src="/public/images/uddeim/emoticon_wink.gif" alt=";)" title=";)"></td>
+					<td><img style="cursor: pointer;" onclick="emo(':? '); textCount($('myForm').pmessage,$('myForm').characterstyped,2500); return false;" src="/public/images/uddeim/emoticon_wondering.gif" alt=":?" title=":?"></td>
+				</tr>
+				</tbody>
+			</table>
 		</div>
-		<?php endif; ?>
-		<label for="title">Message</label><br />
-		<center>
-	    <textarea  name="valeur_10" id="valeur_10" rows='10' cols='80'><?=$this->message["contenu"];?></textarea>
-	    </center>
-		<div id="formbutton">
-		<input type="button" class='button1' name="Envoyer" value="Envoyer" onClick="Javascript:$('valeur_10').value = escape(tinyMCE.get('valeur_10').getContent());_get_('/messagerie/doaction?caction=do_messagerie_message');" /> 
-		<input type="button" class='button1' name="Annuler" value="Annuler" onClick='$("messagerie_message").innerHTML="";'>
-		</div>
+	<span>Message</span><br>
+	<textarea name="pmessage" class="inputbox" rows="10" cols="60" onkeydown="textCount($('myForm').pmessage,$('myForm').characterstyped,2500);" onkeyup="textCount($('myForm').pmessage,$('myForm').characterstyped,2500);"></textarea>
+	
+	<br>
+	<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" size="4" maxlength="4" value="2500" type="text"> Caractères restants<br>
+	<input type="button" class='button1' name="Envoyer" value="Envoyer" onClick="Javascript:_get_('/messagerie/doaction?caction=do_messagerie_message');" /> 
 </form>
+
 <? endif; ?>

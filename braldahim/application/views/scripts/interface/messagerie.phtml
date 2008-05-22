@@ -4,9 +4,22 @@
  <div class="contenuC">
   <ul class="box_contenu1 textalic">
 
+<span style="cursor:pointer;" title="Nouveau Message" onClick='Javascript:_get_("/interface/load/?box=box_messagerie");'>
+<img src="/public/images/uddeim/menu_inbox.gif" alt="Reçus"> Reçus
+</span> - 
+
+<img src="/public/images/uddeim/menu_outbox.gif" alt="Envoy&eacute;s" border="0"> Envoy&eacute;s - 
+<img src="/public/images/uddeim/menu_trashcan.gif" alt="Corbeille" border="0"> Corbeille - 
+
+<span style="cursor:pointer;" title="Nouveau Message" onClick='Javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau");'>
+<img src="/public/images/uddeim/menu_new.gif" alt="Nouveau" border="0"> 
+Nouveau</span>
+
+<br />
  <? if ($this->affichageInterne == true) : ?>
-   <? include("messagerie/messages.phtml") ?>
-  	<div id='messagerie_message'></div>
+ 	<div id='messagerie_message'>
+   	<? include("messagerie/messages.phtml") ?>
+  	</div>
 <? else: ?>
 	Chargement en cours
 	<br /><img src="/public/images/wait.gif" />

@@ -164,6 +164,16 @@ class Hobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
+	function findHobbitsParPrenomIdJoomlaOnly($prenom) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', '*')
+		->where('lcase(prenom_hobbit) like ?', (string)strtolower(trim($prenom)))
+		->where('id_fk_jos_users_hobbit is not null');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
 	function findHobbitsMasculinSansConjoint($idHobbit) {
 		$db = $this->getAdapter();
 		$select = $db->select();

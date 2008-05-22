@@ -4,11 +4,6 @@
 	Vous devez vous connecter au <a href="http://www.braldahim.com">site</a> avant de voir les messages ici.
 <? else: ?>
 
-<img src="/public/images/uddeim/menu_inbox.gif" alt="Reçus"> Reçus - 
-<img src="/public/images/uddeim/menu_outbox.gif" alt="Envoy&eacute;s" border="0"> Envoy&eacute;s - 
-<img src="/public/images/uddeim/menu_trashcan.gif" alt="Corbeille" border="0"> Corbeille - 
-<img src="/public/images/uddeim/menu_new.gif" alt="Nouveau" border="0"> Nouveau
-
 <table class="table_liste">
 	<thead class="table_liste">
 		<tr class="table_liste">
@@ -22,18 +17,16 @@
 	<tfoot class="table_liste">
 	 <tr class="table_liste">
 		    <th colspan='5'>
-			    <input type="button" class='button1' onClick='Javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=-1&valeur_6=nouveau");' value="Nouveau A SUPPRIMER">
 			   <? if ($this->precedentOk === true) : ?>
-			   <input type="button" class='button1' onClick="Javascript:_get_('/interface/messagerie?caction=box_messagerie&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page pr&eacute;c&eacute;dente">
+			   <input type="button" class='button1' onClick="Javascript:_get_('/interface/load/?box=box_messagerie&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page pr&eacute;c&eacute;dente">
 			   <? endif; ?>
 			   <? if ($this->suivantOk === true) : ?>
-			   <input type="button" class='button1' onClick="Javascript:_get_('/interface/messagerie?caction=box_messagerie&valeur_1=s&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page suivante">
+			   <input type="button" class='button1' onClick="Javascript:_get_('/interface/load/?box=box_messagerie&valeur_1=s&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page suivante">
 			   <? endif; ?>
 		    </th>
 		  </tr>
 	</tfoot>
 	<tbody>
-	
 	<? if (!empty($this->messages)): ?>
 		<? $i = 0;
 		   foreach($this->messages as $message): ?>

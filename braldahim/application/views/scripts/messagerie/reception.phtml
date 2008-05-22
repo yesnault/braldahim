@@ -5,25 +5,25 @@
 	<div class="box_corners">
 		<span class="corners-top"><span></span></span>
 	</div>
-<div class="inner">
-    <ul class="titre textalic textsizea">Boite de r&eacute;ception</ul>
-	&nbsp;
-	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
-	    <? if (!empty($this->message)): ?>
-			<?=$this->message; ?><br /><br />
-		<? endif; ?>
-	    <br />
-	    <form name='myForm'>
- 			<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
- 			<input type='hidden' id='valeur_1' name='valeur_1' value='<?=$this->config->messagerie->message->type->reception;?>'>
-	    </form>
-		<?php include('cadre.phtml'); ?>
-		<br /><br />
-		</ul>
+	<div class="inner">
+	    <ul class="titre textalic textsizea">Boite de r&eacute;ception</ul>
+		&nbsp;
+		<div class="contenu">
+		    <ul class="box_contenu1 textalic">
+		    <? if (!empty($this->message)): ?>
+				<?=$this->message; ?><br /><br />
+			<? endif; ?>
+		    <br />
+		    <form name='myForm'>
+	 			<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+	 			<input type='hidden' id='valeur_1' name='valeur_1' value='<?=$this->config->messagerie->message->type->reception;?>'>
+		    </form>
+			<?php include('cadre.phtml'); ?>
+			<br /><br />
+			</ul>
+		</div>
+		&nbsp;
 	</div>
-	&nbsp;
-</div>
 	<div class="box_corners">
 		<span class="corners-bottom"><span></span></span>
 	</div>
