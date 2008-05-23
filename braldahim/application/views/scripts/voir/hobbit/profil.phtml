@@ -49,7 +49,7 @@
 		<?=Bral_Helper_Image::afficherBlason($this->hobbit["url_blason_hobbit"]); ?>
 	</td>
 	<td class="table_liste">
-		<?=stripslashes($this->hobbit["description_hobbit"]); ?>
+		<?=Bral_Util_BBParser::bbcodeReplace($this->hobbit["description_hobbit"]); ?>
 	</td>
 </tr>
 </table>

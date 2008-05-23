@@ -25,6 +25,7 @@ Zend_Loader::loadClass("Bral_Lieux_Factory");
 Zend_Loader::loadClass("Bral_Helper_Affiche");
 Zend_Loader::loadClass("Bral_Helper_Image");
 
+Zend_Loader::loadClass("Bral_Util_BBBoutons");
 Zend_Loader::loadClass("Bral_Util_BBParser");
 Zend_Loader::loadClass("Bral_Util_De");
 Zend_Loader::loadClass("Bral_Util_Exception");

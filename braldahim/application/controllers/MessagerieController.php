@@ -37,14 +37,7 @@ class MessagerieController extends Zend_Controller_Action {
 			$xml_entry->set_valeur($messagerie->getNomInterne());
 			$xml_entry->set_data($messagerie->render());
 			$xml_response->add_entry($xml_entry);
-/*			if ($messagerie->getActiverWysiwyg() == true) {
-				$xml_entry = new Bral_Xml_Entry();
-				$xml_entry->set_type("action");
-				$xml_entry->set_valeur("activer_wysiwyg");
-				$xml_entry->set_data("valeur_10");
-				$xml_response->add_entry($xml_entry);
-			}
-
+/*			
 			if ($messagerie->refreshMessages() === true) {
 				$this->view->affichageInterne = true;
 				$xml_entry = new Bral_Xml_Entry();

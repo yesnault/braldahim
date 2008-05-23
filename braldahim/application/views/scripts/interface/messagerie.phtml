@@ -8,8 +8,13 @@
 <img src="/public/images/uddeim/menu_inbox.gif" alt="Reçus"> Reçus
 </span> - 
 
-<img src="/public/images/uddeim/menu_outbox.gif" alt="Envoy&eacute;s" border="0"> Envoy&eacute;s - 
-<img src="/public/images/uddeim/menu_trashcan.gif" alt="Corbeille" border="0"> Corbeille - 
+<span style="cursor:pointer;" title="Nouveau Message" onClick='Javascript:_get_("/interface/load/?box=box_messagerie&valeur_4=<?=$this->config->messagerie->message->type->envoye ?>");'>
+<img src="/public/images/uddeim/menu_outbox.gif" alt="Envoy&eacute;s" border="0"> Envoy&eacute;s
+</span> - 
+
+<span style="cursor:pointer;" title="Nouveau Message" onClick='Javascript:_get_("/interface/load/?box=box_messagerie&valeur_4=<?=$this->config->messagerie->message->type->supprime ?>");'>
+<img src="/public/images/uddeim/menu_trashcan.gif" alt="Corbeille" border="0"> Corbeille
+</span> - 
 
 <span style="cursor:pointer;" title="Nouveau Message" onClick='Javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau");'>
 <img src="/public/images/uddeim/menu_new.gif" alt="Nouveau" border="0"> 

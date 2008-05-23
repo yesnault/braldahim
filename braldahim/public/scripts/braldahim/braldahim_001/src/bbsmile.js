@@ -30,9 +30,10 @@ imageTag = false;
 // Replacement for arrayname.length property
 function getarraysize(thearray) {
 	for (i = 0; i < thearray.length; i++) {
-		if ((thearray[i] == "undefined") || (thearray[i] == "") || (thearray[i] == null))
+		if ((thearray[i] == "undefined") || (thearray[i] == "") || (thearray[i] == null)) {
 			return i;
 		}
+	}
 	return thearray.length;
 }
 
@@ -93,8 +94,8 @@ function bbfontstyle(bbopen, bbclose) {
 }
 
 
-function bbstyle(bbnumber) {
-	var txtarea = $('myForm').pmessage;
+function bbstyle(bbnumber, field) {
+	var txtarea = field;
 
 	txtarea.focus();
 	donotinsert = false;
@@ -105,16 +106,15 @@ function bbstyle(bbnumber) {
 		while (bbcode[0]) {
 			butnumber = arraypop(bbcode) - 1;
 			txtarea.value += bbtags[butnumber + 1];
-			buttext = eval('$('myForm').addbbcode' + butnumber + '.src');
-			eval('$('myForm').addbbcode' + butnumber + '.src ="' + buttext.substr(0,(buttext.length - 10)) + '.gif"');
+			buttext = eval('$("myForm").addbbcode' + butnumber + '.src');
+			eval('$("myForm").addbbcode' + butnumber + '.src ="' + buttext.substr(0,(buttext.length - 10)) + '.gif"');
 		}
 		imageTag = false; // All tags are closed including image tags :D
 		txtarea.focus();
 		return;
 	}
 
-	if ((clientVer >= 4) && is_ie && is_win)
-	{
+	if ((clientVer >= 4) && is_ie && is_win) {
 		theSelection = document.selection.createRange().text; // Get text selection
 		if (theSelection) {
 			var sluss;
@@ -150,8 +150,8 @@ function bbstyle(bbnumber) {
 				butnumber = arraypop(bbcode) - 1;
 				// txtarea.value += bbtags[butnumber + 1];
 				pasteAtCursor(txtarea, bbtags[butnumber+1]);
-				buttext = eval('$('myForm').addbbcode' + butnumber + '.src');
-				eval('$('myForm').addbbcode' + butnumber + '.src ="' + buttext.substr(0,(buttext.length - 10)) + '.gif"');
+				buttext = eval('$("myForm").addbbcode' + butnumber + '.src');
+				eval('$("myForm").addbbcode' + butnumber + '.src ="' + buttext.substr(0,(buttext.length - 10)) + '.gif"');
 				imageTag = false;
 			}
 			txtarea.focus();
@@ -176,10 +176,10 @@ function bbstyle(bbnumber) {
 		if ((bbnumber == 24) && (imageTag == false)) imageTag = 1; // Check to stop additional tags after an unclosed image tag
 		arraypush(bbcode,bbnumber+1);
 		// eval('$('myForm').addbbcode'+bbnumber+'.value += "*"');
-		var imgsrcori=eval('$('myForm').addbbcode'+bbnumber+'.src');
+		var imgsrcori=eval('$("myForm").addbbcode'+bbnumber+'.src');
 		var imgsrcnew=imgsrcori.substr(0, (imgsrcori.length - 4));
 		imgsrcnew += "_close.gif";
-		eval('$('myForm').addbbcode'+bbnumber+'.src = "'+imgsrcnew+'"');	
+		eval('$("myForm").addbbcode'+bbnumber+'.src = "'+imgsrcnew+'"');	
 		txtarea.focus();
 		return;
 	}
@@ -219,11 +219,10 @@ function storeCaret(textEl) {
 
 
 // Insert emoticons
-function emo($e)
-{
+function emo(e, field) {
  // $('myForm').pmessage.value=$('myForm').pmessage.value+$e;
- pasteAtCursor($('myForm').pmessage,$e);
- $('myForm').pmessage.focus();
+ pasteAtCursor(field, e);
+ field.focus();
 }
 
 function pasteAtCursor(theGirl, theGuy) {

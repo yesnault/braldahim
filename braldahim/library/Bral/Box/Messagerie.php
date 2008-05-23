@@ -38,7 +38,14 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 		}
 		
 		$josUddeimTable = new JosUddeim();
-		$messages = $josUddeimTable->findByToId($this->view->user->id_fk_jos_users_hobbit, $this->_page, $this->_nbMax);
+		
+		if ($this->_filtre == $this->view->config->messagerie->message->type->envoye) {
+			$messages = $josUddeimTable->findByFromId($this->view->user->id_fk_jos_users_hobbit, $this->_page, $this->_nbMax);
+		} else if ($this->_filtre == $this->view->config->messagerie->message->type->supprime) {
+			$messages = $josUddeimTable->findByToId($this->view->user->id_fk_jos_users_hobbit, $this->_page, $this->_nbMax, true);
+		} else { // reception
+			$messages = $josUddeimTable->findByToId($this->view->user->id_fk_jos_users_hobbit, $this->_page, $this->_nbMax);
+		}
 		
 		$idsHobbit = "";
 		$tabHobbits = null;
@@ -46,7 +53,12 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 		
 		if ($messages != null) {
 			foreach ($messages as $m) {
-				$idsHobbit[] = $m["fromid"];
+				if ($this->_filtre == $this->view->config->messagerie->message->type->envoye) {
+					$fieldId = "toid";
+				} else {
+					$fieldId = "fromid";
+				}
+				$idsHobbit[] = $m[$fieldId];
 			}
 			
 			if ($idsHobbit != null) {
@@ -60,10 +72,10 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 			foreach ($messages as $m) {
 				$expediteur = "";
 				if ($tabHobbits != null) {
-					if (array_key_exists($m["fromid"], $tabHobbits)) {
-						$expediteur = $tabHobbits[$m["fromid"]]["prenom_hobbit"] . " ". $tabHobbits[$m["fromid"]]["nom_hobbit"];
+					if (array_key_exists($m[$fieldId], $tabHobbits)) {
+						$expediteur = $tabHobbits[$m[$fieldId]]["prenom_hobbit"] . " ". $tabHobbits[$m[$fieldId]]["nom_hobbit"]. " (".$tabHobbits[$m[$fieldId]]["id_hobbit"].")";
 					} else {
-						$expediteur = " Erreur ".$m["fromid"];
+						$expediteur = " Erreur ".$m[$fieldId];
 					}
 				}
 				if ($expediteur == "") {
@@ -74,7 +86,7 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 					"id_message" => $m["id"],
 					"titre" => $m["message"],
 					"date" => $m["datum"],
-					'expediteur' => $expediteur
+					'expediteur_destinataire' => $expediteur
 				);
 			}
 		}
@@ -102,22 +114,19 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 	
 	private function preparePage() {
 		$this->_page = 1;
-		if (($this->_request->get("box") == "box_messagerie") && ($this->_request->get("valeur_1") == "f")) {
-			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
-		} else if (($this->_request->get("box") == "box_messagerie") && ($this->_request->get("valeur_1") == "p")) { // si le joueur a clique sur une icone
-			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) - 1;
+		
+		if ($this->_request->get("valeur_4") != "") {
 			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
+		} else {
+			$this->_filtre = $this->view->config->messagerie->message->type->reception;
+		}
+			
+		if (($this->_request->get("box") == "box_messagerie") && ($this->_request->get("valeur_1") == "p")) { // si le joueur a clique sur une icone
+			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) - 1;
 		} else if (($this->_request->get("box") == "box_messagerie") && ($this->_request->get("valeur_1") == "s")) {
 			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) + 1;
-			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
-//		} else if (($this->_request->get("caction") == "do_messagerie_message") && ($this->_request->get("valeur_1") != "")  && ($this->_request->get("valeur_1") != -1)) {
-//			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_1"));
-//			if ($this->_request->get("valeur_3") != "" && $this->_request->get("valeur_3") != -1) {
-//				$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3"));
-//			}
 		} else {
 			$this->_page = 1;
-			$this->_filtre = $this->view->config->messagerie->message->type->reception;
 		}
 
 		if ($this->_page < 1) {

@@ -3,7 +3,7 @@ function textCount(field,counterfield,max) {
 	if (field.value.length > max) // if too long...trim it!
 		field.value = field.value.substring(0, max);
 	else
-	counterfield.value = max - field.value.length;
+		counterfield.value = max - field.value.length;
 }
 function wiglwogl(uddeElement) { 
 	uddeForm = uddeElement.form; 

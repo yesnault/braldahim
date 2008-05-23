@@ -3,7 +3,7 @@
 class Bral_Messagerie_Message {
 
 	function __construct($request, $view, $action) {
-		Zend_Loader::loadClass("Message");
+		Zend_Loader::loadClass("JosUddeim");
 
 		$this->view = $view;
 		$this->request = $request;
@@ -23,6 +23,10 @@ class Bral_Messagerie_Message {
 	function render() {
 		switch($this->request->get("valeur_1")) {
 			case "envoi" :
+				if ($this->view->envoiMessage) {
+					return $this->view->render("messagerie/envoi.phtml");
+					break;
+				}
 			case "nouveau" :
 //			case "repondre" :
 				return $this->view->render("messagerie/nouveau.phtml");
@@ -80,7 +84,89 @@ class Bral_Messagerie_Message {
 	}
 
 	private function envoiMessage() {
-		// TODO
+		Zend_Loader::loadClass("Bral_Validate_StringLength");
+		Zend_Loader::loadClass("Bral_Validate_Messagerie_Destinataires");
+		Zend_Loader::loadClass('Zend_Filter_StripTags');
+
+		$filter = new Zend_Filter_StripTags();
+		$tabHobbit = $this->constructTabHobbit($filter->filter(trim($this->request->get('valeur_2'))));
+
+		$tabMessage = array(
+			'contenu' => stripslashes($this->request->get('valeur_3')),
+			'destinataires' => $tabHobbit["destinataires"],
+			'aff_destinataires' => $tabHobbit["aff_destinataires"],
+			'aff_js_destinataires' => $tabHobbit["aff_js_destinataires"],
+		);
+		$this->view->message = $tabMessage;
+
+		$validateurDestinataires = new Bral_Validate_Messagerie_Destinataires(true);
+		$validateurContenu = new Bral_Validate_StringLength(1, 2500);
+
+		$validDestinataires = $validateurDestinataires->isValid($this->view->message["destinataires"]);
+		$validContenu = $validateurContenu->isValid($this->view->message["contenu"]);
+
+		if (($validDestinataires) && ($validContenu)) {
+			$josUddeimTable = new JosUddeim();
+			
+			$idDestinatairesTab = split(',', $this->view->message["destinataires"]);
+			foreach ($idDestinatairesTab as $id_fk_jos_users_hobbit) {
+			
+				$data = array (
+					'fromid' => $this->view->user->id_fk_jos_users_hobbit,
+					'toid' => $id_fk_jos_users_hobbit,
+					'message' => $tabMessage["contenu"],
+					'datum' => time(),
+					'toread' => 0,
+					'totrash' => 0,
+					'totrashoutbox' => 0,
+					'disablereply' => 0,
+					'archived' => 0,
+					'cryptmode' => 0,
+				);
+				$josUddeimTable->insert($data);
+			}
+
+			$this->view->envoiMessage = true;
+		} else {
+			if (!$validDestinataires) {
+				foreach ($validateurDestinataires->getMessages() as $message) {
+					$destinatairesErreur[] = $message;
+				}
+				$this->view->destinatairesErreur = $destinatairesErreur;
+			}
+		}
+	}
+	
+	private function constructTabHobbit($tab_destinataires) {
+		$hobbitTable = new Hobbit();
+		
+		$idDestinatairesTab = split(',', $tab_destinataires);
+		$hobbits = $hobbitTable->findByIdList($idDestinatairesTab);
+		if ($hobbits == null) {
+			echo "HOP";
+			return null;
+		}
+		
+		$destinataires = "";
+		$aff_destinataires = "";
+		$aff_js_destinataires = "";
+
+		foreach($hobbits as $h) {
+			if (in_array($h["id_hobbit"],$idDestinatairesTab)) {
+				if ($destinataires == "") {
+					$destinataires = $h["id_fk_jos_users_hobbit"];
+				} else {
+					$destinataires = $destinataires.",".$h["id_fk_jos_users_hobbit"];
+				}
+				$aff_js_destinataires = '<span id="m_valeur_7_'.$h["id_hobbit"].'">'.$h["prenom_hobbit"].' '.$h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'aff_valeur_7\',\'m_valeur_7_'.$h["id_hobbit"].'\', \'valeur_7\', '.$h["id_hobbit"].')" /></span>';
+				$aff_destinataires = $aff_destinataires.$h["prenom_hobbit"]." ".$h["nom_hobbit"].' ('.$h["id_hobbit"].') ';
+			}
+		}
+		$tab = array("destinataires" => $destinataires,
+			"aff_destinataires" => $aff_destinataires,
+			"aff_js_destinataires" => $aff_js_destinataires,
+		);
+		return $tab;
 	}
 	
 	

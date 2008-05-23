@@ -69,6 +69,11 @@ class Hobbit extends Zend_Db_Table {
 		return $this->fetchRow($where);
 	}
 
+	public function findByIdFkJosUsers($id){
+		$where = $this->getAdapter()->quoteInto('id_fk_jos_users_hobbit = ?',(int)$id);
+		return $this->fetchRow($where);
+	}
+	
 	public function findByIdList($listId){
 		return $this->findByList("id_hobbit", $listId);
 	}
@@ -79,12 +84,16 @@ class Hobbit extends Zend_Db_Table {
 	
 	private function findByList($nomChamp, $listId) {
 		$liste = "";
-		foreach($listId as $id) {
-			if ((int) $id."" == $id."") {
-				if ($liste == "") {
-					$liste = $id;
-				} else {
-					$liste = $liste." OR id_fk_jos_users_hobbit=".$id;
+		if (count($listId) < 1) {
+			$liste = "";
+		} else {
+			foreach($listId as $id) {
+				if ((int) $id."" == $id."") {
+					if ($liste == "") {
+						$liste = $id;
+					} else {
+						$liste = $liste." OR ".$nomChamp."=".$id;
+					}
 				}
 			}
 		}
@@ -93,7 +102,7 @@ class Hobbit extends Zend_Db_Table {
 			$db = $this->getAdapter();
 			$select = $db->select();
 			$select->from('hobbit', '*')
-			->where('id_fk_jos_users_hobbit ='.$liste);
+			->where($nomChamp .'='. $liste);
 			$sql = $select->__toString();
 			return $db->fetchAll($sql);
 		} else {

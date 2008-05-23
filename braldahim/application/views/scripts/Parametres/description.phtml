@@ -17,21 +17,23 @@
 			onClick="$('label_description').style.display='none'; 
 				$('valeur_2').style.display='block' ; 
 				$('bouton_description').style.display='block'; 
-				 this.style.display='none' ;
-				tinyMCE.execCommand('mceAddControl', false, 'valeur_2'); "/>
+				 this.style.display='none' ;"/>
 				
 			<input type="button" class='button1' name="Annuler" value="Annuler" onClick="javascript:document.location.href='/Parametres/'"/>
 		 
 		 <center>
 		 
+		 <br>
+		 <?=Bral_Util_BBBoutons::affiche('valeur_2')?>
+		 
 		  <div id="label_description">
-		  <?=stripslashes($this->user->description_hobbit) ?><? if (strlen(trim($this->user->description_hobbit)) == 0 || $this->user->description_hobbit == null) :?> [vide]<? endif; ?>
+		  <?=Bral_Util_BBParser::bbcodeReplace($this->user->description_hobbit) ?><? if (strlen(trim($this->user->description_hobbit)) == 0 || $this->user->description_hobbit == null) :?> [vide]<? endif; ?>
 		  </div>
-		  <textarea rows='10' cols='80' name="valeur_2"  id="valeur_2"  style="display:none" ><?=stripslashes($this->user->description_hobbit) ?></textarea>
+		  
+		  <textarea rows='10' cols='80' name="valeur_2"  id="valeur_2"  style="display:none" ><?=$this->user->description_hobbit ?></textarea>
 		 
 			  <input type="button" class='button1' id="bouton_description" 
 			  	onClick="
-				  $('valeur_2').value = escape(tinyMCE.get('valeur_2').getContent());
 				  $('label_description').style.display='block'; 
 				  $('valeur_2').style.display='none'; 
 				  this.style.display='none' ;
