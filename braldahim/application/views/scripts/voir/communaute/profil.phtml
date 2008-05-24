@@ -32,7 +32,7 @@
 <table class="table_liste" style="width:90%;'>
 <tr class="table_liste">
 	<td class="table_liste">
-<?=stripslashes($this->communaute["description_communaute"]); ?>
+<?=Bral_Util_BBParser::bbcodeReplace($this->communaute["description_communaute"]); ?>
 </td>
 </tr>
 </table>

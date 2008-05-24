@@ -436,7 +436,7 @@ class Bral_Monstres_VieMonstre {
 		$data = array(
 			"x_element_rune"  => $x,
 			"y_element_rune" => $y,
-			"id_fk_type_element_rune" => $typeRune["id_type_element_rune"],
+			"id_fk_type_element_rune" => $typeRune["id_type_rune"],
 		);
 		
 		$elementRuneTable = new ElementRune();

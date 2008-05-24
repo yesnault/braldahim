@@ -26,7 +26,7 @@ class Bral_Box_Evenements extends Bral_Box_Box {
 		
 			$this->preparePage();
 			$this->prepareRender();
-			if ($this->_request->get("caction") == "box_evenements") {
+			if ($this->_request->get("box") == "box_evenements") {
 				$this->prepareDetails();
 			}
 		}
@@ -121,15 +121,15 @@ class Bral_Box_Evenements extends Bral_Box_Box {
 	
 	private function preparePage() {
 		$this->_page = 1;
-		if (($this->_request->get("caction") == "box_evenements") && ($this->_request->get("valeur_1") == "f")) {
+		if (($this->_request->get("box") == "box_evenements") && ($this->_request->get("valeur_1") == "f")) {
 			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
-		} else if (($this->_request->get("caction") == "box_evenements") && ($this->_request->get("valeur_1") == "p")) { 
+		} else if (($this->_request->get("box") == "box_evenements") && ($this->_request->get("valeur_1") == "p")) { 
 			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) - 1;
 			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
-		} else if (($this->_request->get("caction") == "box_evenements") && ($this->_request->get("valeur_1") == "s")) {
+		} else if (($this->_request->get("box") == "box_evenements") && ($this->_request->get("valeur_1") == "s")) {
 			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) + 1;
 			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
-		} else if (($this->_request->get("caction") == "box_evenements") && ($this->_request->get("valeur_1") == "d")) {
+		} else if (($this->_request->get("box") == "box_evenements") && ($this->_request->get("valeur_1") == "d")) {
 			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3"));
 			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
 		} else {
