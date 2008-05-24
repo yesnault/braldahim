@@ -7,7 +7,7 @@
     	&nbsp;
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">
-	    	<form action="/Administratiomonstre/creation" method="post">
+	    	<form action="/Administrationmonstre/creation" method="post">
 			<table align='center'>
 			<tr>
 			<td colspan='20'>
@@ -30,7 +30,7 @@
 				<td>
 					<select name="id_type">
 					<? foreach ($this->typesMonstre as $t) : ?>
-					<option value="<?=$t["id_type_monstre"]?>"><?=$t["nom_type"]?></option>
+					<option value="<?=$t["id_type_monstre"]?>"><?=htmlentities($t["nom_type"])?></option>
 					<? endforeach; ?>
 					</select>
 				</td>

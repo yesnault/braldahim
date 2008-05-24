@@ -17,7 +17,7 @@
 				<td>
 					<select name="id_type">
 					<? foreach ($this->typesMonstre as $t) : ?>
-					<option value="<?=$t["id_type_monstre"]?>"  <?if($this->referenceCourante["id_type_monstre"] == $t["id_type_monstre"]){echo "selected";}?>><?=$t["nom_type"]?></option>
+					<option value="<?=$t["id_type_monstre"]?>"  <?if($this->referenceCourante["id_type_monstre"] == $t["id_type_monstre"]){echo "selected";}?>><?=htmlentities($t["nom_type"])?></option>
 					<? endforeach; ?>
 					</select>
 				</td>

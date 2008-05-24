@@ -392,12 +392,12 @@ class Bral_Util_Attaque {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleHobbit - enter -");
 		$config = Zend_Registry::get('config');
 		$jetCible = 0;
-		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleMonstre - config->game->base_agilite=".$config->game->base_agilite." hobbitCible->agilite_base_hobbit=".$hobbitCible->agilite_base_hobbit);
+		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleHobbit - config->game->base_agilite=".$config->game->base_agilite." hobbitCible->agilite_base_hobbit=".$hobbitCible->agilite_base_hobbit);
 		for ($i=1; $i<=$config->game->base_agilite + $hobbitCible->agilite_base_hobbit; $i++) {
 			$jetCible = $jetCible + Bral_Util_De::get_1d6();
-			Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleMonstre - jetCible=".$jetCible);
+			Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleHobbit - jetCible=".$jetCible);
 		}
-		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleMonstre - hobbitCible->agilite_bm_hobbit=".$hobbitCible->agilite_bm_hobbit);
+		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleHobbit - hobbitCible->agilite_bm_hobbit=".$hobbitCible->agilite_bm_hobbit);
 		$jetCible = $jetCible + $hobbitCible->agilite_bm_hobbit + $hobbitCible->agilite_bbdf_hobbit + $hobbitCible->bm_defense_hobbit;
 		Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - calculJetCibleHobbit - jetCible=".$jetCible);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleHobbit - exit -");
