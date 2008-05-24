@@ -13,6 +13,8 @@
 //                This code uses portions of the bbcode script from
 //                phpBB (C) 2001 The phpBB Group
 // *******************************************************************
+// Modified by / for Braldahim
+// *******************************************************************
 
 class Bral_Util_BBParser {
 
@@ -43,31 +45,31 @@ class Bral_Util_BBParser {
 		}
 	
 		// http, https, ftp, mailto
-		$string=str_replace("[url=index.php", "#*#LINKINDEX=#*#", $string);
-		$string=str_replace("[url=http://", "#*#LINKHTTP=#*#", $string);
-		$string=str_replace("[url=ftp://", "#*#LINKFTP=#*#", $string);
-		$string=str_replace("[url=https://", "#*#LINKHTTPS=#*#", $string);
-		$string=str_replace("[url=mailto:", "#*#LINKMAILTO=#*#", $string);	
+		$string = str_replace("[url=index.php", "#*#LINKINDEX=#*#", $string);
+		$string = str_replace("[url=http://", "#*#LINKHTTP=#*#", $string);
+		$string = str_replace("[url=ftp://", "#*#LINKFTP=#*#", $string);
+		$string = str_replace("[url=https://", "#*#LINKHTTPS=#*#", $string);
+		$string = str_replace("[url=mailto:", "#*#LINKMAILTO=#*#", $string);	
 
-		$string=str_replace("[url]index.php", "#*#LINKINDEX]#*#", $string);		
-		$string=str_replace("[url]http://", "#*#LINKHTTP]#*#", $string);
-		$string=str_replace("[url]ftp://", "#*#LINKFTP]#*#", $string);
-		$string=str_replace("[url]https://", "#*#LINKHTTPS]#*#", $string);
-		$string=str_replace("[url]mailto:", "#*#LINKMAILTO]#*#", $string);				
-		$string=str_replace("[url]", "[url]http://", $string);
-		$string=str_replace("[url=", "[url=http://", $string);
+		$string = str_replace("[url]index.php", "#*#LINKINDEX]#*#", $string);		
+		$string = str_replace("[url]http://", "#*#LINKHTTP]#*#", $string);
+		$string = str_replace("[url]ftp://", "#*#LINKFTP]#*#", $string);
+		$string = str_replace("[url]https://", "#*#LINKHTTPS]#*#", $string);
+		$string = str_replace("[url]mailto:", "#*#LINKMAILTO]#*#", $string);				
+		$string = str_replace("[url]", "[url]http://", $string);
+		$string = str_replace("[url=", "[url=http://", $string);
 
-		$string=str_replace("#*#LINKHTTP=#*#", "[url=http://", $string);
-		$string=str_replace("#*#LINKFTP=#*#", "[url=ftp://", $string);
-		$string=str_replace("#*#LINKHTTPS=#*#", "[url=https://", $string);
-		$string=str_replace("#*#LINKMAILTO=#*#", "[url=mailto:", $string);			
-		$string=str_replace("#*#LINKINDEX=#*#", "[url=index.php", $string);			
+		$string = str_replace("#*#LINKHTTP=#*#", "[url=http://", $string);
+		$string = str_replace("#*#LINKFTP=#*#", "[url=ftp://", $string);
+		$string = str_replace("#*#LINKHTTPS=#*#", "[url=https://", $string);
+		$string = str_replace("#*#LINKMAILTO=#*#", "[url=mailto:", $string);			
+		$string = str_replace("#*#LINKINDEX=#*#", "[url=index.php", $string);			
 
-		$string=str_replace("#*#LINKHTTP]#*#", "[url]http://", $string);
-		$string=str_replace("#*#LINKFTP]#*#", "[url]ftp://", $string);
-		$string=str_replace("#*#LINKHTTPS]#*#", "[url]https://", $string);
-		$string=str_replace("#*#LINKMAILTO]#*#", "[url]mailto:", $string);
-		$string=str_replace("#*#LINKINDEX]#*#", "[url]index.php", $string);		
+		$string = str_replace("#*#LINKHTTP]#*#", "[url]http://", $string);
+		$string = str_replace("#*#LINKFTP]#*#", "[url]ftp://", $string);
+		$string = str_replace("#*#LINKHTTPS]#*#", "[url]https://", $string);
+		$string = str_replace("#*#LINKMAILTO]#*#", "[url]mailto:", $string);
+		$string = str_replace("#*#LINKINDEX]#*#", "[url]index.php", $string);		
 
 		$string = preg_replace("/\[img size=([0-9][0-9][0-9])\](http\:\/\/.*?)\[\/img\]/si","[#*#img size=$1]$2[/#*#img]",$string);
 		$string = preg_replace("/\[img size=([0-9][0-9])\](http\:\/\/.*?)\[\/img\]/si","[#*#img size=$1]$2[/#*#img]",$string);
@@ -100,6 +102,7 @@ class Bral_Util_BBParser {
         $string = preg_replace("/\[img\](.*?)\[\/img\]/si","<img src=\"$1\" border=\"0\" />",$string);
         $string = preg_replace("/<img(.*?)javascript(.*?)>/si",'<span style=\'text-decoration: line-through\'>javascript link</span>',$string);	
 		
+       	$string = nl2br($string);
         return self::smileReplace($string);
 	}
 	
@@ -128,7 +131,7 @@ class Bral_Util_BBParser {
 	      ":shock:"    => '<img src="/public/images/uddeim/emoticon_shocked.gif"   alt="" border="0" align="middle" />',
 	      ":blush:"    => '<img src="/public/images/uddeim/emoticon_blush.gif"     alt="" border="0" align="middle" />',
 	      ":kiss:"     => '<img src="/public/images/uddeim/emoticon_kiss.gif"      alt="" border="0" align="middle" />',
-	      );
+	    );
 	
 	/*	if ($config->animatedex) { 
 			$iconfolder="animated-extended";
@@ -154,7 +157,7 @@ class Bral_Util_BBParser {
 	      
 		reset($message_emoticons);
 		while (list($emo_txt,$emo_src)=each($message_emoticons)) {
-			$string=str_replace($emo_txt,$emo_src,$string);
+			$string = str_replace($emo_txt,$emo_src,$string);
 		}
 		return $string;
 	}
@@ -203,30 +206,30 @@ class Bral_Util_BBParser {
 		$string = preg_replace("/\[img size=([0-9][0-9][0-9])\]]/si","",$string);
 	
 		// cut remaining single tags
-		$string=str_replace("[i]", "", $string);
-		$string=str_replace("[/i]", "", $string);
-		$string=str_replace("[b]", "", $string);
-		$string=str_replace("[/b]", "", $string);
-		$string=str_replace("[u]", "", $string);
-		$string=str_replace("[/u]", "", $string);
-		$string=str_replace("[ul]", "", $string);
-		$string=str_replace("[/ul]", "", $string);
-		$string=str_replace("[ol]", "", $string);
-		$string=str_replace("[/ol]", "", $string);
-		$string=str_replace("[li]", "", $string);
-		$string=str_replace("[/li]", "", $string);
+		$string = str_replace("[i]", "", $string);
+		$string = str_replace("[/i]", "", $string);
+		$string = str_replace("[b]", "", $string);
+		$string = str_replace("[/b]", "", $string);
+		$string = str_replace("[u]", "", $string);
+		$string = str_replace("[/u]", "", $string);
+		$string = str_replace("[ul]", "", $string);
+		$string = str_replace("[/ul]", "", $string);
+		$string = str_replace("[ol]", "", $string);
+		$string = str_replace("[/ol]", "", $string);
+		$string = str_replace("[li]", "", $string);
+		$string = str_replace("[/li]", "", $string);
 	
 	    $string = preg_replace('/\[url=(.*?)javascript(.*?)\]/si','',$string);	
 	    $string = preg_replace("/\[img size=([0-9][0-9][0-9])\]/si","",$string);
 	    $string = preg_replace("/\[img size=([0-9][0-9])\]/si","",$string);
 	    $string = preg_replace("/\[size=([1-7])\]/si","",$string);
 	    $string = preg_replace("%\[color=(.*?)\]%si","",$string);
-		$string=str_replace("[img]", "", $string);
-		$string=str_replace("[/img]", "", $string);
-		$string=str_replace("[url]", "", $string);
-		$string=str_replace("[/url]", "", $string);		
-		$string=str_replace("[/color]", "", $string);
-		$string=str_replace("[/size]", "", $string);		
+		$string = str_replace("[img]", "", $string);
+		$string = str_replace("[/img]", "", $string);
+		$string = str_replace("[url]", "", $string);
+		$string = str_replace("[/url]", "", $string);		
+		$string = str_replace("[/color]", "", $string);
+		$string = str_replace("[/size]", "", $string);		
 	
 		return $string;
 	}

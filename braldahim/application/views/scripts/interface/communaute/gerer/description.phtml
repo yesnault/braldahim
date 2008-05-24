@@ -35,22 +35,26 @@
 	<ul class="titre textalic textsizec">Description</ul><br />
 	<input type="button" class='button1' id="bouton_editer" value="Editer la description" 
 	onClick="$('label_description').style.display='none'; 
-		$('valeur_3').style.display='block' ; 
+		$('edition').style.display='block' ; 
 		$('bouton_description').style.display='block'; 
 		 this.style.display='none' ;
-		tinyMCE.execCommand('mceAddControl', false, 'valeur_3');
 		"/>
+		
   <div id="label_description">
-  <?=stripslashes($this->communaute["description"]) ?><? if (strlen(trim($this->communaute["description"])) == 0 || $this->communaute["description"] == null) :?> [vide]<? endif; ?>
+  <?=Bral_Util_BBParser::bbcodeReplace($this->communaute["description"]) ?><? if (strlen(trim($this->communaute["description"])) == 0 || $this->communaute["description"] == null) :?> [vide]<? endif; ?>
   </div>
-  <textarea rows='10' cols='80' name="valeur_3"  id="valeur_3"  style="display:none" ><?=stripslashes($this->communaute["description"]) ?></textarea>
-  <input type="button" class='button1' id="bouton_description" 
-  onClick="
-	  $('valeur_3').value = escape(tinyMCE.get('valeur_3').getContent());
-	  $('label_description').style.display='block'; 
-	  $('valeur_3').style.display='none'; 
-	  this.style.display='none' ;
-	  $('valeur_1').value=2;
-	   _get_('/communaute/doaction?caction=do_communaute_description', false)" value="Valider" style="display:none" />
+  
+  <div id="edition" style="display:none">
+	 <?=Bral_Helper_BBBoutons::affiche('valeur_3')?>
+	
+	  <textarea rows='10' cols='80' name="valeur_3"  id="valeur_3"><?=stripslashes($this->communaute["description"]) ?></textarea>
+	  <input type="button" class='button1' id="bouton_description" 
+	  onClick="
+		  $('label_description').style.display='block'; 
+		  $('edition').style.display='none'; 
+		  this.style.display='none' ;
+		  $('valeur_1').value=2;
+		   _get_('/communaute/doaction?caction=do_communaute_description', false)" value="Valider" style="display:none" />
+	</div>
 </center>
 <? endif; ?>
