@@ -21,7 +21,9 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 	function render() {
 		if ($this->view->affichageInterne) {
 			Zend_Loader::loadClass('JosUddeim');
+			
 			Zend_Loader::loadClass('Bral_Util_ConvertDate');
+			Zend_Loader::loadClass('Bral_Util_JoomlaUser');
 		
 			$this->preparePage();
 			$this->prepareMessages();
@@ -32,7 +34,7 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 	
 	private function prepareMessages() {
 		$this->view->inscriptionSiteOk = true;
-		if ($this->view->user->id_fk_jos_users_hobbit == null) {
+		if (Bral_Util_JoomlaUser::isJoomlaUser(&$this->view->user) === false) {
 			$this->view->inscriptionSiteOk = false;
 			return;
 		}
@@ -64,8 +66,10 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 			if ($idsHobbit != null) {
 				$hobbitTable = new Hobbit();
 				$hobbits = $hobbitTable->findByIdFkJosUsersList($idsHobbit);
-				foreach($hobbits as $h) {
-					$tabHobbits[$h["id_fk_jos_users_hobbit"]] = $h;
+				if ($hobbits != null) {
+					foreach($hobbits as $h) {
+						$tabHobbits[$h["id_fk_jos_users_hobbit"]] = $h;
+					}
 				}
 			}
 			

@@ -1,6 +1,6 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-  <ul class="titre textalia textsizec">Mon Profil, n&deg;<?=$this->user->id_hobbit;?></ul>
+  <ul class="titre textalia textsizec"><a class="titre textalia textsizec"  onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->user->id_hobbit ?>');" title="Cliquez pour voir votre profil">Mon Profil</a>, n&deg;<?=$this->user->id_hobbit;?></span></ul>
   <ul class="titre textalib textsizeb"><?=htmlentities($this->escape($this->user->prenom_hobbit));?> <?=htmlentities($this->escape($this->user->nom_hobbit));?></ul>
   <div class="contenuA">
 	  <ul class="box_contenu1 textalic">
