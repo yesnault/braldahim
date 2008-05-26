@@ -148,9 +148,6 @@ function showResponse(originalRequest) {
 								if (m_type_valeur == "goto" && m_data != "") {
 									redirection = true;
 									redirection_url = m_data;
-								} else if (m_type_valeur == "activer_wysiwyg" && m_data != "") {
-									tinyMCE.idCounter = 0;
-									tinyMCE.execCommand('mceAddControl', false, m_data);
 								} else if (m_type_valeur == "effect.disappear" && m_data != "") {
 									Effect.Appear(m_data, { duration :4.0, from :1.0, to :0.0 });
 								}

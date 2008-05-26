@@ -12,14 +12,14 @@ class Bral_Util_Image {
 		return self::controlImage($filename, 300, 400);
 	}
 	
-	private static function controlImage($filename, $height, $width) {
+	private static function controlImage($filename, $width, $height) {
 		$retour = false;
 		
-		$size = getimagesize($filename);
-		$fp = fopen($filename, "rb");
+		$size = @getimagesize($filename); // @ pour supprimer les warnings
+		$fp = @fopen($filename, "rb"); // @ pour supprimer les warnings
 		
 		if ($size && $fp) {
-			if ($size[0] == 110 && $size[0]  == 110 
+			if ($size[0] == $width && $size[1] == $height
 				&& 
 					($size["mime"] == "image/gif" 
 					|| $size["mime"] == "image/jpeg" 

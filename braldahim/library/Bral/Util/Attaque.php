@@ -382,7 +382,7 @@ class Bral_Util_Attaque {
 				$monstreTable = new Monstre();
 				$monstreTable->update($data, $where);
 			}
-		} else if ($retourAttaque["jetCible"] / 2 < $retourAttaque["jetAttaquant"]) {
+		} else if ($retourAttaque["jetCible"] / 2 <= $retourAttaque["jetAttaquant"]) {
 			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Attaque esquivee malus sur ajoute a agilite_bm_monstre=".( floor($monstre["niveau_monstre"] / 10) + 1 ));
 			$monstre["agilite_bm_monstre"] = $monstre["agilite_bm_monstre"] - ( floor($monstre["niveau_monstre"] / 10) + 1 );
 			$retourAttaque["mort"] = false;
@@ -405,10 +405,12 @@ class Bral_Util_Attaque {
 			$id_type = $config->game->evenements->type->attaquer;
 			$details = $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.") N".$hobbitAttaquant->niveau_hobbit." a attaqué le monstre ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
 			
-			if ($retourAttaque["jetCible"] / 2 < $retourAttaque["jetAttaquant"]) { // esquive
-				$details .= " qui a esquivé";
-			} else { // esquive parfaite
+			if ($retourAttaque["jetAttaquant"] * 2 < $retourAttaque["jetCible"]) { // esquive parfaite
 				$details .= " qui a esquivé parfaitement";
+			} else if ($retourAttaque["jetAttaquant"] < $retourAttaque["jetCible"]) { // esquive
+				$details .= " qui a esquivé ";
+			} else { // attaque reussie
+				$details .= "";
 			}
 			
 			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);
@@ -634,10 +636,10 @@ La cible a été tuée";
 			}
 		} else if ($jetCible > $jetAttaquant * 2) { // esquive
 			$retour .= "
-La cible a esquivé l'attaque";
+La cible a esquivé parfaitement l'attaque";
 		} else { // esquive parfaite
 			$retour .= "
-La cible a equivé parfaitement l'attaque";
+La cible a equivé l'attaque";
 		}
 		return $retour;
 	}
