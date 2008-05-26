@@ -103,7 +103,7 @@ class PerduController extends Zend_Controller_Action {
 	private function envoiEmailGeneration() {
 		$this->view->urlGeneration = $this->view->config->general->url;
 		$this->view->adresseSupport = $this->view->config->general->adresseSupport;
-		$this->view->urlGeneration .= "/perdu/generation?e=".$this->email_hobbit;
+		$this->view->urlGeneration .= "/Perdu/generation?e=".$this->email_hobbit;
 		$this->view->urlGeneration .= "&h=".md5($this->prenom_hobbit);
 		$this->view->urlGeneration .= "&p=".$this->password_hobbit;
 		
@@ -127,7 +127,7 @@ class PerduController extends Zend_Controller_Action {
 	private function envoiEmailNouveauPassword() {
 		$this->view->urlValidation = $this->view->config->general->url;
 		$this->view->adresseSupport = $this->view->config->general->adresseSupport;
-		$this->view->urlValidation .= "/perdu/generation?e=".$this->email_hobbit;
+		$this->view->urlValidation .= "/Perdu/generation?e=".$this->email_hobbit;
 		$this->view->urlValidation .= "&h=".md5($this->prenom_hobbit);
 		$this->view->urlValidation .= "&p=".md5($this->password_hobbit);
 		
