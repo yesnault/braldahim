@@ -244,6 +244,7 @@ class Bral_Util_Attaque {
 
 		$retourAttaque["jetAttaquant"] = $jetAttaquant;
 		$retourAttaque["jetCible"] = $jetCible;
+		$retourAttaque["jetDegat"] = 0;
 		$retourAttaque["attaqueReussie"] = false;
 		
 		$retourAttaque["mort"] = false;
@@ -613,10 +614,12 @@ class Bral_Util_Attaque {
 Jet d'attaque : ".$jetAttaquant;
 		$retour .= "
 Jet de défense : ".$jetCible;
-		$retour .= "
-Jet de dégâts : ".$jetDegat;
+		
 		
 		if ($jetAttaquant > $jetCible) {
+			$retour .= "
+Jet de dégâts : ".$jetDegat;
+		
 			if ($critique) {
 				$retour .= "
 La cible a été touchée par une attaque critique";

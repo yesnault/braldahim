@@ -47,7 +47,7 @@ class PerduController extends Zend_Controller_Action {
 						$this->view->message = $e->getMessage();
 					}
 				}
-				echo $this->view->render("perdu/envoiEmailGeneration.phtml");
+				echo $this->view->render("Perdu/envoiEmailGeneration.phtml");
 				return;
 			} else {
 				$tabEmail = null;
@@ -110,8 +110,8 @@ class PerduController extends Zend_Controller_Action {
 		$this->view->prenom_hobbit = $this->prenom_hobbit;
 		$this->view->id_hobbit = $this->id_hobbit;
 		
-		$contenuText = $this->view->render("perdu/mailGenerationText.phtml");
-		$contenuHtml = $this->view->render("perdu/mailGenerationHtml.phtml");
+		$contenuText = $this->view->render("Perdu/mailGenerationText.phtml");
+		$contenuHtml = $this->view->render("Perdu/mailGenerationHtml.phtml");
 		
 		$mail = Bral_Util_Mail::getNewZendMail();
 		$mail->setFrom($this->view->config->general->mail->from_email, $this->view->config->general->mail->from_nom);
@@ -135,8 +135,8 @@ class PerduController extends Zend_Controller_Action {
 		$this->view->id_hobbit = $this->id_hobbit;
 		$this->view->password_hobbit = $this->password_hobbit;
 		
-		$contenuText = $this->view->render("perdu/mailNouveauPasswordText.phtml");
-		$contenuHtml = $this->view->render("perdu/mailNouveauPasswordHtml.phtml");
+		$contenuText = $this->view->render("Perdu/mailNouveauPasswordText.phtml");
+		$contenuHtml = $this->view->render("Perdu/mailNouveauPasswordHtml.phtml");
 
 		$mail = Bral_Util_Mail::getNewZendMail();
 		$mail->setFrom($this->view->config->general->mail->from_email, $this->view->config->general->mail->from_nom);
