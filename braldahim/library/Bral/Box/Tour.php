@@ -1,7 +1,7 @@
 <?php
 
 class Bral_Box_Tour extends Bral_Box_Box {
-
+	
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Util_Log");
 		$this->_request = $request;
@@ -141,6 +141,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$this->view->ciblesEffetN = null;
 		$this->view->ciblesEffetO = null;
 		$this->view->ciblesEffetU = null;
+		
+		$this->is_tour_manque = false;
 		
 		$this->modificationTour();
 
