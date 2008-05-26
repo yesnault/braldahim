@@ -86,9 +86,9 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			$recettePotionsTable = new RecettePotions();
 			$recettePotions = $recettePotionsTable->findByIdTypePotion($typePotionCourante["id_type_potion"]);
 			
-			Zend_Loader::loadClass("EchoppePartiePlante");
+			Zend_Loader::loadClass("EchoppePartieplante");
 			$tabPartiePlantes = null;
-			$echoppePlanteTable = new EchoppePartiePlante();
+			$echoppePlanteTable = new EchoppePartieplante();
 			$partiesPlantes = $echoppePlanteTable->findByIdEchoppe($idEchoppe);
 			
 			if ($partiesPlantes != null) {
@@ -220,7 +220,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$this->view->niveau = $niveau;
 		$this->view->niveauQualite = $qualite;
 		
-		Zend_Loader::loadClass("EchoppePartiePlante");
+		Zend_Loader::loadClass("EchoppePartieplante");
 		
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 		

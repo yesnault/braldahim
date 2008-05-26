@@ -242,7 +242,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 	}
 	
 	private function calculPartiesPlantes() {
-		Zend_Loader::loadClass("EchoppePartiePlante");
+		Zend_Loader::loadClass("EchoppePartieplante");
 		Zend_Loader::loadClass('LabanPartieplante');
 		
 		$echoppePartiePlanteTable = new EchoppePartieplante();

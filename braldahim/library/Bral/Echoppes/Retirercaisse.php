@@ -174,7 +174,7 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 	}
 	
 	private function calculPartiesPlantes() {
-		Zend_Loader::loadClass("EchoppePartiePlante");
+		Zend_Loader::loadClass("EchoppePartieplante");
 		Zend_Loader::loadClass('LabanPartieplante');
 		
 		$echoppePartiePlanteTable = new EchoppePartieplante();
@@ -251,7 +251,7 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 	}
 	
 	private function prepareCommunRessources($idEchoppe) {
-		Zend_Loader::loadClass("EchoppePartiePlante");
+		Zend_Loader::loadClass("EchoppePartieplante");
 		Zend_Loader::loadClass("EchoppeMinerai");
 
 		$tabPartiePlantes = null;

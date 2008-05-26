@@ -33,9 +33,9 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 			return;
 		}
 		
-		Zend_Loader::loadClass("EchoppePartiePlante");
+		Zend_Loader::loadClass("EchoppePartieplante");
 		$tabPartiePlantes = null;
-		$echoppePlanteTable = new EchoppePartiePlante();
+		$echoppePlanteTable = new EchoppePartieplante();
 		$partiesPlantes = $echoppePlanteTable->findByIdEchoppe($idEchoppe);
 		
 		$this->view->nb_arrierePlante = 0;
@@ -127,7 +127,7 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 		// Et arrondi ((n+1)-(n+1)*p) plantes préparées en sortie
 		$this->view->nbPartiesPlantesPreparees = intval($nb - $nb * $perte);
 			
-		$echoppePlanteTable = new EchoppePartiePlante();
+		$echoppePlanteTable = new EchoppePartieplante();
 		$data = array(
 			'id_fk_type_echoppe_partieplante' => $idTypePartiePlante,
 			'id_fk_type_plante_echoppe_partieplante' => $idTypePlante,

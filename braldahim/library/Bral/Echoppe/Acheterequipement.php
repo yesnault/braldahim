@@ -17,7 +17,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("Echoppe");
 		Zend_Loader::loadClass("EchoppeMinerai");
-		Zend_Loader::loadClass("EchoppePartiePlante");
+		Zend_Loader::loadClass("EchoppePartieplante");
 		Zend_Loader::loadClass("EchoppeEquipement");
 		Zend_Loader::loadClass("EchoppeEquipementMinerai");
 		Zend_Loader::loadClass("EchoppeEquipementPartiePlante");

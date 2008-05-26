@@ -160,7 +160,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 	}
 
 	private function prepareCommunRessources($idEchoppe) {
-		Zend_Loader::loadClass("EchoppePartiePlante");
+		Zend_Loader::loadClass("EchoppePartieplante");
 		Zend_Loader::loadClass("EchoppeMinerai");
 		Zend_Loader::loadClass("TypePlante");
 		Zend_Loader::loadClass("TypePartieplante");
