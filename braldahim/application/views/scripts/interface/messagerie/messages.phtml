@@ -41,7 +41,7 @@
 						<img alt="read" title="read" src="/public/images/uddeim/nonew_im.gif" border="0">
 					</td>
 	  				<td class="table_liste" onClick="<?=$js ?>"> <?if (strlen($message["expediteur_destinataire"]) > 25) echo substr(htmlentities($message["expediteur_destinataire"]), 0, 25)."..."; else echo htmlentities($message["expediteur_destinataire"]);?>&nbsp;</td>
-	  				<td class="table_liste" onClick="<?=$js ?>"> <?if (strlen($message["titre"]) > 25) echo Bral_Util_BBParser::bbcodeReplace(substr($message["titre"], 0, 25))."..."; else echo Bral_Util_BBParser::bbcodeReplace($message["titre"]);?></td>
+	  				<td class="table_liste" onClick="<?=$js ?>"> <?if (strlen($message["titre"]) > 25) echo Bral_Util_BBParser::bbcodeStrip(substr($message["titre"], 0, 25))."..."; else echo Bral_Util_BBParser::bbcodeStrip($message["titre"]);?></td>
 	  				<td class="table_liste" onClick="<?=$js ?>"> le <?=date('d/m/y, H:i', $message["date"]);?></td>
 	  				<td class="table_liste">
 						<img src="/public/images/uddeim/forward.gif" alt="Transférer" title="Transférer"><br>

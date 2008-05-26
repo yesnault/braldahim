@@ -143,7 +143,6 @@ class Bral_Messagerie_Message {
 		$idDestinatairesTab = split(',', $tab_destinataires);
 		$hobbits = $hobbitTable->findByIdList($idDestinatairesTab);
 		if ($hobbits == null) {
-			echo "HOP";
 			return null;
 		}
 		

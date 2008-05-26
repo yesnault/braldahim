@@ -56,7 +56,7 @@ class InscriptionController extends Zend_Controller_Action {
 					$hobbitTable->update($data, $where);
 					
 					if ($hobbit->sexe_hobbit == "feminin") {
-						$e = "s";
+						$e = "e";
 					} else {
 						$e = "";
 					}
