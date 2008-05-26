@@ -23,7 +23,7 @@
 		<br /><br />
 		
 		<ul class="titre textalic textsizec">L'Avatar</ul><br />
-		L'avatar doit &ecirc;tre au format 110px (hauteur) × 110px (largeur). <br/>
+		L'avatar doit &ecirc;tre au format 110px (largeur) x 110px (hauteur). <br/>
 		
 		<? if ($this->urlAvatarValide == false) : ?>
 			<?=Bral_Helper_Image::afficherErreur();?>
@@ -31,7 +31,7 @@
 		<input type='text' id='valeur_1' name='valeur_1' value='<?=$this->user->url_avatar_hobbit ?>' size="50" maxlength="200">
 		
 		<ul class="titre textalic textsizec">Le Blason</ul><br />
-		Le blason doit &ecirc;tre au format 300px (hauteur) × 400px (largeur). <br/>
+		Le blason doit &ecirc;tre au format 300px (largeur) x 400px (hauteur). <br/>
 		
 		<? if ($this->urlBlasonValide == false) : ?>
 			<?=Bral_Helper_Image::afficherErreur();?>
