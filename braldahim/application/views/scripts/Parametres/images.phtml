@@ -15,7 +15,7 @@
 		indiquer ici le lien de l'image.<br /> Exemple de site web pouvant stocker vos images : 
 		<a href="http://imageshack.us">http://imageshack.us</a><br />
 		<br />
-		Les images doivent &ecirc;tes strictement de la taille indiqu&eacute; ci-dessous et au format
+		Les images doivent &ecirc;tes strictement de la taille indiqu&eacute;e ci-dessous et au format
 		gif, png ou jpg (jpg, jpeg, jpe).
 		
 		<br /><br />
@@ -23,7 +23,7 @@
 		<br /><br />
 		
 		<ul class="titre textalic textsizec">L'Avatar</ul><br />
-		L'avatar doit &ecirc;tre au format 110px × 110px. <br/>
+		L'avatar doit &ecirc;tre au format 110px (hauteur) × 110px (largeur). <br/>
 		
 		<? if ($this->urlAvatarValide == false) : ?>
 			<?=Bral_Helper_Image::afficherErreur();?>
@@ -31,7 +31,7 @@
 		<input type='text' id='valeur_1' name='valeur_1' value='<?=$this->user->url_avatar_hobbit ?>' size="50" maxlength="200">
 		
 		<ul class="titre textalic textsizec">Le Blason</ul><br />
-		Le blason doit &ecirc;tre au format 300px × 400px. <br/>
+		Le blason doit &ecirc;tre au format 300px (hauteur) × 400px (largeur). <br/>
 		
 		<? if ($this->urlBlasonValide == false) : ?>
 			<?=Bral_Helper_Image::afficherErreur();?>

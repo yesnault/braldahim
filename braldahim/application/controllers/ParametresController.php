@@ -129,7 +129,7 @@ class ParametresController extends Zend_Controller_Action {
 					 $tabPassword[] = $message;
 				}
 				if (!$validPasswordConfirm) {
-					$this->view->messagesPasswordConfirm = "Les deux mots de passe sont différents";
+					$this->view->messagesPasswordConfirm = "Les deux mots de passe sont diff&eacute;rents";
 				}
 				$this->view->messagesPasswordNouveau = $tabPassword;
 			}

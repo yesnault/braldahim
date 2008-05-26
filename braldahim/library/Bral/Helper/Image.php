@@ -20,7 +20,7 @@ class Bral_Helper_Image {
  	public static function afficherErreur() {
  		$retour = "<br /><div class='message_erreur' id='message_erreur'> 
 		L'image ou l'url rentr&eacute;e pr&eacute;c&eacute;demment est invalide.<br/>
-		 Veuillez vérifier la 
+		 Veuillez v&eacute;rifier la 
 		taille de l'image, son accessibilit&eacute; depuis l'adresse que vous avez rentr&eacute;e et son type (gif, png ou jpg).
 		</div><br />";
 		
