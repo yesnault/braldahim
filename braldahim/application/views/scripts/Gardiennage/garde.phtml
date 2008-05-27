@@ -1,5 +1,5 @@
 <?php echo $this->render('header.phtml'); ?>
-<form action="/gardiennage/" method="post">
+<form action="/Gardiennage/" method="post">
 <div class="box_gardiennage">
 <?=Bral_Helper_Box::haut(); ?>
 <div class="inner">
@@ -14,14 +14,14 @@
 		<? if ($this->user->gardeEnCours) : ?>
 			Hobbit en cours : <?=htmlentities($this->user->prenom_hobbit) ?> <?=htmlentities($this->user->nom_hobbit) ?> (<?=$this->user->id_hobbit?>)<br /><br />
 			<div id="formbutton">
-				<input type="button" name="retour" value="Aller &agrave; l'interface" onClick="javascript:document.location.href='/interface'"/>
+				<input type="button" name="retour" class='button1' value="Aller &agrave; l'interface" onClick="javascript:document.location.href='/interface'"/>
 			</div>
 			&nbsp;
 		<? else: ?>
 		<br />
 			Vous devez s&eacute;lectionner un hobbit en garde
 			<div id="formbutton">
-				<input type="button" name="retour" value="Retour Gardiennage" onClick="javascript:document.location.href='/gardiennage'"/>
+				<input type="button" name="retour" class='button1' value="Retour Gardiennage" onClick="javascript:document.location.href='/Gardiennage'"/>
 			</div>
 		<? endif; ?>
 		</ul>

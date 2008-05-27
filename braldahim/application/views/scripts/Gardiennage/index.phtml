@@ -1,13 +1,13 @@
 <?php echo $this->render('header.phtml'); ?>
-<form action="/gardiennage/garde" method="post">
+<form action="/Gardiennage/garde" method="post">
 
 <div class="box_gardiennage">
 <?=Bral_Helper_Box::haut(); ?>
 <div class="inner">
-	<ul class="titre textalia textsizea">Gardiennage</ul>
+	<ul class="titre textalia textsizea">Gardiennagde</ul>
 	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu2Clair textalic">
+	    <ul class="box_contenu1 textalic">
 	    <br />
       	<? if (!empty($this->message)) : ?>
    			<?=$this->message?>
@@ -44,11 +44,11 @@
 <br />
 <div id="formbutton">
 <? if (!empty($this->tabHobbitGarde)) : ?>
-<input type="submit" name="add" value="Jouer !" />
+<input type="submit" name="add" class='button1' value="Jouer !" />
 <? endif; ?>
-<input type="button" name="retour" value="Retour Interface" onClick="javascript:document.location.href='/interface/'"/>
+<input type="button" name="retour" class='button1' value="Retour Interface" onClick="javascript:document.location.href='/interface/'"/>
 <? if (!empty($this->message)) : ?>
-<input type="button" name="deconnexion" value="D&eacute;connexion" onClick="javascript:document.location.href='/auth/logout'"/>
+<input type="button" name="deconnexion" class='button1' value="D&eacute;connexion" onClick="javascript:document.location.href='/auth/logout'"/>
 <? endif; ?>
 		</ul>
 	</div>

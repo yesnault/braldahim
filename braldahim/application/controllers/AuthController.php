@@ -60,7 +60,7 @@ class AuthController extends Zend_Controller_Action {
 					
 					if (Zend_Auth::getInstance()->getIdentity()->gardiennage === true) {
 						Bral_Util_Log::authentification()->trace("AuthController - loginAction - appel gardiennage");
-						$this->_redirect('/gardiennage/');
+						$this->_redirect('/Gardiennage/');
 					} else {
 						$this->_redirect('/interface/');
 					}

@@ -16,7 +16,7 @@ class GardiennageController extends Zend_Controller_Action {
 	function indexAction() {
 		// Si une garde est en cours, on redirige
 		if ($this->view->user->gardeEnCours === true) {
-			$this->_redirect('/gardiennage/garde'); 
+			$this->_redirect('/Gardiennage/garde'); 
 		// Si le gardiennage est active
 		} else if ($this->view->user->gardiennage === true) {
 			$tabHobbitGarde = null;
@@ -99,7 +99,7 @@ class GardiennageController extends Zend_Controller_Action {
 	            		Zend_Auth::getInstance()->getIdentity()->gardiennage = false;
 	            		Zend_Auth::getInstance()->getIdentity()->gardeEnCours = true;
 	            		Zend_Auth::getInstance()->getIdentity()->administrateur = false;
-	            		$this->_redirect('/gardiennage/garde'); 
+	            		$this->_redirect('/Gardiennage/garde'); 
 	            	}
 	            }
 			}
