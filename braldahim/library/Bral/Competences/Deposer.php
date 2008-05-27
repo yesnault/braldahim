@@ -426,7 +426,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 	}
 	
 	private function prepareTypePartiesPlantes() {
-		Zend_Loader::loadClass("LabanPartiePlante");
+		Zend_Loader::loadClass("LabanPartieplante");
 		$tabPartiePlantesBrutes = null;
 		$tabPartiePlantesPreparees = null;
 		$tabLingots = null;

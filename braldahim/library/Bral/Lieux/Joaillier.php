@@ -225,7 +225,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			$idTypeMonstre = $typesMonstre[$nTypeMonstre]["id_type_monstre"];
 			
 			$effetMotFTable = new EffetMotF();
-			$data = array("id_fk_hobbit_effet_mot_f" => $this->view-user->id_hobbit, 
+			$data = array("id_fk_hobbit_effet_mot_f" => $this->view->user->id_hobbit, 
 						  "id_fk_type_monstre_effet_mot_f" => $idTypeMonstre);
 			$effetMotDTable->insert($data);
 		}

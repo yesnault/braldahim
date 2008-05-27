@@ -23,7 +23,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		Zend_Loader::loadClass("EchoppePotionPartiePlante");
 		Zend_Loader::loadClass("Laban");
 		Zend_Loader::loadClass("LabanMinerai");
-		Zend_Loader::loadClass("LabanPartiePlante");
+		Zend_Loader::loadClass("LabanPartieplante");
 		Zend_Loader::loadClass("LabanPotion");
 		
 		$this->idPotion = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));

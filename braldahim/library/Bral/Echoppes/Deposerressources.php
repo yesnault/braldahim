@@ -339,7 +339,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 	}
 	
 	private function prepareCommunRessources() {
-		Zend_Loader::loadClass("LabanPartiePlante");
+		Zend_Loader::loadClass("LabanPartieplante");
 		Zend_Loader::loadClass("LabanMinerai");
 
 		$tabPartiePlantes = null;

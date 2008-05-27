@@ -24,7 +24,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		Zend_Loader::loadClass("EquipementRune");
 		Zend_Loader::loadClass("Laban");
 		Zend_Loader::loadClass("LabanMinerai");
-		Zend_Loader::loadClass("LabanPartiePlante");
+		Zend_Loader::loadClass("LabanPartieplante");
 		Zend_Loader::loadClass("LabanEquipement");
 		
 		$this->idEquipement = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));
