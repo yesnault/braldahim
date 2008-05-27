@@ -137,6 +137,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		$id_type = $this->view->config->game->evenements->type->deplacement;
 		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a marché";
 		$this->setDetailsEvenement($details, $id_type);
+		$this->setEvenementQueSurOkJet1(false);
 		
 		$this->calculBalanceFaim();
 		$this->majHobbit();

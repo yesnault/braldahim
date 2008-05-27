@@ -198,7 +198,7 @@ abstract class Bral_Competences_Competence {
 	 * Mise à jour des évènements du hobbit / du monstre.
 	 */
 	protected function setDetailsEvenement($details, $idType) {
-		$this->detailsEvenement = $details;
+		$this->detailEvenement = $details;
 		$this->idTypeEvenement = $idType;
 	}
 	
