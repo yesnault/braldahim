@@ -180,7 +180,7 @@ class Bral_Util_Attaque {
 			}
 			
 			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Mise a jour du hobbit ".$hobbitCible->id_hobbit." pv_restant_hobbit=".$hobbitCible->pv_restant_hobbit);
-		} else if ($retourAttaque["jetCible"] / 2 < $retourAttaque["jetAttaquant"]) {
+		} else if ($retourAttaque["jetCible"] / 2 <= $retourAttaque["jetAttaquant"]) {
 			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Attaque esquivee malus sur ajoute a agilite_bm_hobbit=".(floor($cible["niveau_cible"] / 10) + 1 ));
 			$hobbitCible->agilite_bm_hobbit = $hobbitCible->agilite_bm_hobbit - ( floor($cible["niveau_cible"] / 10) + 1 );
 			$data = array('agilite_bm_hobbit' => $hobbitCible->agilite_bm_hobbit);
@@ -407,7 +407,7 @@ class Bral_Util_Attaque {
 			
 			if ($retourAttaque["jetAttaquant"] * 2 < $retourAttaque["jetCible"]) { // esquive parfaite
 				$details .= " qui a esquivé parfaitement";
-			} else if ($retourAttaque["jetAttaquant"] < $retourAttaque["jetCible"]) { // esquive
+			} else if ($retourAttaque["jetAttaquant"] <= $retourAttaque["jetCible"]) { // esquive
 				$details .= " qui a esquivé ";
 			} else { // attaque reussie
 				$details .= "";
