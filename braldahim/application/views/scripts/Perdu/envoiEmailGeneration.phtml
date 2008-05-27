@@ -1,20 +1,33 @@
 <?php echo $this->render('header.phtml'); ?>
-<h1><?php echo $this->escape($this->title); ?></h1>
+
+<form action="/Perdu/" method="post">
 <div class="box_perdu">
-<div class="box_titre1">Perte de mot de passe</div><br />
-
-	<? if ($this->emailGenerationOk) : ?>
-		Pour g&eacute;n&eacute;rer un nouveau mot de passe, 
-		suivez les indications que vous venez de recevoir
-		 à l'adresse suivante : <br />
-		<?= $this->email_hobbit ?>
-	<? else : ?>
-		Erreur :  <?=$this->view->message?>
-	<? endif; ?>
-		<br /><br />
-		Courbettes distingu&eacute;es, <br /><br />
-		Les ma&icirc;tres du jeu.<br /><br />
-	 <input type="button" value="Accueil" onClick="javascript:document.location.href='/'"/>
+<?=Bral_Helper_Box::haut(); ?>
+<div class="inner">
+	<ul class="titre textalic textsizea">Perte de mot de passe</ul>
+	&nbsp;
+	<div class="contenu">
+	    <ul class="box_contenu1 textalic">
+		&nbsp;
+		<div>
+			<? if ($this->emailGenerationOk) : ?>
+				Pour g&eacute;n&eacute;rer un nouveau mot de passe, 
+				suivez les indications que vous venez de recevoir
+				 à l'adresse suivante : <br />
+				<?= $this->email_hobbit ?>
+			<? else : ?>
+				Erreur :  <?=$this->view->message?>
+			<? endif; ?>
+				<br /><br />
+				Courbettes distingu&eacute;es, <br /><br />
+				Les ma&icirc;tres du jeu.<br /><br />
+			 <input type="button" value="Accueil" onClick="javascript:document.location.href='/'"/>
+		</div>
+		</ul>
+	</div>
+	&nbsp;
 </div>
-
+<?=Bral_Helper_Box::bas(); ?>
+</div>
+</form>
 <?php echo $this->render('footer.phtml'); ?>
