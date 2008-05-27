@@ -114,6 +114,12 @@ class Bral_Box_Vue extends Bral_Box_Box {
 	}
 
 	private function data() {
+		$this->view->environnement = null;
+		$this->view->centre_nom_region = null;
+		$this->view->centre_description_region = null;
+		$this->view->centre_nom_ville = null;
+		$this->view->centre_est_capitale = null;
+					
 		$hobbitsMetiersTable = new HobbitsMetiers();
 		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
 		unset($hobbitsMetiersTable);
