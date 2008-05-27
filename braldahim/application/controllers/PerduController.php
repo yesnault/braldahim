@@ -37,6 +37,7 @@ class PerduController extends Zend_Controller_Action {
 				if (count($hobbit) > 0) {
 					$this->view->emailGenerationOk = true;
 					$this->prenom_hobbit = $hobbit->prenom_hobbit;
+					$this->nom_hobbit = $hobbit->nom_hobbit;
 					$this->password_hobbit = $hobbit->password_hobbit;
 					$this->id_hobbit = $hobbit->id_hobbit;
 					
@@ -83,6 +84,7 @@ class PerduController extends Zend_Controller_Action {
 			if ($md5_prenom_hobbit == md5($hobbit->prenom_hobbit) && ($md5_password_hobbit == $hobbit->password_hobbit)) {
 				$this->view->generationOk = true;
 				$this->prenom_hobbit = $hobbit->prenom_hobbit;
+				$this->nom_hobbit = $hobbit->nom_hobbit;
 				$this->id_hobbit = $hobbit->id_hobbit;
 				$this->view->email_hobbit = $this->email_hobbit;
 				
@@ -108,6 +110,7 @@ class PerduController extends Zend_Controller_Action {
 		$this->view->urlGeneration .= "&p=".$this->password_hobbit;
 		
 		$this->view->prenom_hobbit = $this->prenom_hobbit;
+		$this->view->nom_hobbit = $this->nom_hobbit;
 		$this->view->id_hobbit = $this->id_hobbit;
 		
 		$contenuText = $this->view->render("Perdu/mailGenerationText.phtml");
@@ -132,6 +135,10 @@ class PerduController extends Zend_Controller_Action {
 		$this->view->urlValidation .= "&p=".md5($this->password_hobbit);
 		
 		$this->view->nom_hobbit = $this->nom_hobbit;
+		$this->view->prenom_hobbit = $this->prenom_hobbit;
+		
+		$this->destinataire = $this->prenom_hobbit . " ". $this->nom_hobbit;
+		
 		$this->view->id_hobbit = $this->id_hobbit;
 		$this->view->password_hobbit = $this->password_hobbit;
 		
@@ -140,7 +147,7 @@ class PerduController extends Zend_Controller_Action {
 
 		$mail = Bral_Util_Mail::getNewZendMail();
 		$mail->setFrom($this->view->config->general->mail->from_email, $this->view->config->general->mail->from_nom);
-		$mail->addTo($this->email_hobbit, $this->nom_hobbit);
+		$mail->addTo($this->email_hobbit, $this->destinataire);
 		$mail->setSubject($this->view->config->game->perdu->titre_mail);
 		$mail->setBodyText($contenuText);
 		if ($this->view->config->general->envoi_mail_html == true) {
