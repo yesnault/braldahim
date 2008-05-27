@@ -31,7 +31,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		unset($villes);
 				
 		$zone = $zones[0];
-		unset($zone);
+		
 		
 		switch($zone["nom_systeme_environnement"]) {
 			case "foret" :
@@ -44,9 +44,10 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 				$this->view->abattreArbreEnvironnementOk = false;
 				break;
 			default :
-				throw new Exception("Abattre un arbre Environnement invalide:".$zone["nom_systeme_environnement"]. " x=".$x." y=".$y);
+				throw new Exception("Abattre un arbre Environnement invalide:".$zone["nom_systeme_environnement"]. " x=".$this->view->user->x_hobbit." y=".$this->view->user->y_hobbit);
 		}
 		unset($zones);
+		unset($zone);
 	}
 
 	function prepareFormulaire() {
