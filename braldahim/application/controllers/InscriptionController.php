@@ -3,6 +3,7 @@
 class InscriptionController extends Zend_Controller_Action {
 
 	function init() {
+		Zend_Auth::getInstance()->clearIdentity();
 		$this->initView();
 		Zend_Loader::loadClass("Bral_Validate_Inscription_EmailHobbit");
 		Zend_Loader::loadClass("Bral_Validate_Inscription_PrenomHobbit");
@@ -17,7 +18,6 @@ class InscriptionController extends Zend_Controller_Action {
 		Zend_Loader::loadClass("Nom");
 		Zend_Loader::loadClass("Region");
 		$this->view->config = Zend_Registry::get('config');
-		$this->view->setEncoding('utf-8');
 	}
 
 	function indexAction() {
