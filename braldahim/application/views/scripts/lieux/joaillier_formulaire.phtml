@@ -98,6 +98,15 @@
 </form>
 <br />
 
+<? if ($this->achatPossibleCastars !== true) :?>
+Vous n'avez pas assez de castars.<br>
+<? endif; ?>
+
+<? if ($this->utilisationPaPossible !== true) :?>
+Vous n'avez pas assez de PA.<br>
+<? endif; ?>
+
+
 <? if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true): ?>
 <input type='button' class='button1' id="bouton_joaillier" value='Sertir !' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_joaillier&id_equipement='+$('valeur_1').value);"  disabled>
 <? endif; ?>

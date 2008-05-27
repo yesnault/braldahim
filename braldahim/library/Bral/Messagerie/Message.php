@@ -80,7 +80,13 @@ class Bral_Messagerie_Message {
 	}
 
 	private function prepareNouveau() {
-		// rien à faire ici
+		$tabMessage = array(
+			'contenu' => "",
+			'destinataires' => "",
+			'aff_destinataires' => "",
+			'aff_js_destinataires' => "",
+		);
+		$this->view->message = $tabMessage;
 	}
 
 	private function envoiMessage() {

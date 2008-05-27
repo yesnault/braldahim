@@ -7,7 +7,7 @@
       			$textVille .= "<br />R&eacute;gion : ".htmlentities($case["ville"]["nom_region"]);
       			$titre = "Position : X=".$case["x"]." Y:".$case["y"]." Ville";
       		?>
-      		<img src='/public/images/villes/puce_<?=$case["ville"]["nom_systeme"]?>.gif' 
+      		<img src='/public/images/villes/puce_<?=$case["ville"]["nom_systeme"]?>.gif' alt='<?=htmlentities($case["ville"]["nom_ville"])?>' 
       			<?=Bral_Helper_Tooltip::jsTip($textVille, $titre) ?> />
       		<? endif; ?>
       		<?=$case["x"]. "," . $case["y"] ?>
