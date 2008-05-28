@@ -68,6 +68,11 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		Zend_Loader::loadClass("EquipementRune");
 	
 		$tabEquipementsEtal = null;
+		$idEquipements = null;
+		$equipementRunes = null;
+		$echoppeEquipementMinerai = null;
+		$echoppeEquipementPartiePlante = null;
+		
 		$echoppeEquipementTable = new EchoppeEquipement();
 		$equipements = $echoppeEquipementTable->findByIdEchoppe($idEchoppe);
 		
@@ -75,7 +80,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 			$idEquipements[] = $e["id_echoppe_equipement"];
 		}
 		
-		if (count($idEquipements) > 0) {
+		if ($idEquipements != null && count($idEquipements) > 0) {
 			$equipementRuneTable = new EquipementRune();
 			$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
 			
@@ -86,7 +91,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 			$echoppeEquipementPartiePlante = $echoppeEquipementPartiePlanteTable->findByIdsEquipement($idEquipements);
 		}
 		
-		if (count($equipements) > 0) {
+		if ($idEquipements != null && count($equipements) > 0) {
 			foreach($equipements as $e) {
 			
 				$runes = null;
