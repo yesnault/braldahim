@@ -10,15 +10,15 @@
 	    <? if ($this->modificationHobbit === true) :?>
 	    	Modification du hobbit prise en compte.
 	    <? endif; ?>
-	    <form action="/Administrationhobbit/Hobbit/mode/<?=$this->mode?>/idhobbit/<?=$this->id_hobbit?>" method="post">
+	    <form action="/Administrationhobbit/hobbit/mode/<?=$this->mode?>/idhobbit/<?=$this->id_hobbit?>" method="post">
 		<? if ($this->hobbit == null): ?>
 			Hobbit inconnu 
 		<? else: 
 			$nbElement = 0; ?>
 			<? if ($this->mode == "simple") :?>
-	 	   		<input type="button"  class='button1' name="mode" value="Passer en vue complexe" onClick="document.location.href='/Administrationhobbit/Hobbit/mode/complexe/idhobbit/<?=$this->id_hobbit?>'"/>
+	 	   		<input type="button"  class='button1' name="mode" value="Passer en vue complexe" onClick="document.location.href='/Administrationhobbit/hobbit/mode/complexe/idhobbit/<?=$this->id_hobbit?>'"/>
 	   	 	<? else: ?>
-	    		<input type="button"  class='button1' name="mode" value="Passer en vue simple" onClick="document.location.href='/Administrationhobbit/Hobbit/mode/simple/idhobbit/<?=$this->id_hobbit?>'"/>
+	    		<input type="button"  class='button1' name="mode" value="Passer en vue simple" onClick="document.location.href='/Administrationhobbit/hobbit/mode/simple/idhobbit/<?=$this->id_hobbit?>'"/>
 	    	<? endif; ?>
 	    
 			<table  align='center'>
