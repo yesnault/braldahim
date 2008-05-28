@@ -33,7 +33,7 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 		if ($this->_request->isPost() && $this->_request->get('idhobbit') == $this->_request->getPost("id_hobbit")) {
 			$tabPost = $this->_request->getPost();
 			foreach($tabPost as $key => $value) {
-				if ($key != 'id_hobbit' && substr($key, -7) == "_hobbit") {
+				if ($key != 'id_hobbit' && mb_substr($key, -7) == "_hobbit") {
 					$data[$key] = $value;
 				}
 			}

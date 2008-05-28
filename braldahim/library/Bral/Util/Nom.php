@@ -52,7 +52,7 @@ class Bral_Util_Nom {
 					// on n'a pas trouve de nom, on re-initialise la liste de nom
 					$idNoms = $idNomsBis;
 					// et on rajoute Bis au prenom
-					if (strlen($prenom) <= 23) { // "123456789012345 Junior" et l'on rajoute un " Bis"
+					if (mb_strlen($prenom) <= 23) { // "123456789012345 Junior" et l'on rajoute un " Bis"
 						$prenom = $prenom. " Junior";
 					} else {
 						// ici, on ne peut vraiment pas accepter le prenom

@@ -92,7 +92,7 @@
 			<select name='id_region' id='id_region'>
 				<option value='-1' <? if ($this->id_region == -1) echo "selected" ?>>Comt&eacute; Al&eacute;atoire</option>
 				<? foreach ($this->regions as $k => $v) : ?>
-				<option value="<?=$k?>" <? if ($this->id_region == $k) echo "selected" ?>><?=htmlentities($v)?></option>
+				<option value="<?=$k?>" <? if ($this->id_region == $k) echo "selected" ?>><?=htmlspecialchars($v)?></option>
 				<? endforeach; ?>
 			</select><br /><br />
 		</div>

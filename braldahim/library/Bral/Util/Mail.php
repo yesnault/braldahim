@@ -11,6 +11,6 @@ class Bral_Util_Mail {
 			Zend_Mail::setDefaultTransport($transport);
 		}
 		
-		return new Zend_Mail();
+		return new Zend_Mail("UTF-8");
 	}
 }

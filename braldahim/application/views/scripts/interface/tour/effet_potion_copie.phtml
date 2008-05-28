@@ -8,7 +8,7 @@
 		echo "
 ";
 		foreach($this->effetPotionPotions as $e) {
-			echo htmlentities($e["potion"]["nom"]). " de qualit&eacute; ".htmlentities($e["potion"]["qualite"]).",";
+			echo htmlspecialchars($e["potion"]["nom"]). " de qualit&eacute; ".htmlspecialchars($e["potion"]["qualite"]).",";
 			echo " niveau ".$e["potion"]["niveau"]." : ";
 			echo "
 ";

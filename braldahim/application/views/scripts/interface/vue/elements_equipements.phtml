@@ -3,7 +3,7 @@
       	<?php 
       		$textElementsEquipements = "";
       		foreach($case["elements_equipements"] as $e) {
-      			$textElementsEquipements .= "n&deg;".$e["id_equipement"] ." ".htmlentities($e["nom"])." ".htmlentities(addslashes($e["suffixe"]))." de qualit&eacute; ".htmlentities($e["qualite"]) ." niv.".$e["niveau"] ." <br />";
+      			$textElementsEquipements .= "n&deg;".$e["id_equipement"] ." ".htmlspecialchars($e["nom"])." ".htmlspecialchars(addslashes($e["suffixe"]))." de qualit&eacute; ".htmlspecialchars($e["qualite"]) ." niv.".$e["niveau"] ." <br />";
 			} 
 			$s = "";
 			if ($case["n_elements_equipements"] > 1) {

@@ -228,7 +228,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							$nom_zone = $z["nom_zone"];
 							$description_zone = $z["description_zone"];
 							$nom_systeme_environnement = $z["nom_systeme_environnement"];
-							$nom_environnement = htmlentities($z["nom_environnement"]);
+							$nom_environnement = htmlspecialchars($z["nom_environnement"]);
 							break;
 						}
 					}

@@ -3,7 +3,7 @@ Choississez un &eacute;quipement &agrave; d&eacute;poser &agrave; terre.<br />
 	<select name="valeur_2" id="valeur_2" onChange="if (this.value > 0) {$('bouton_deposer').disabled=false} else {$('bouton_deposer').disabled=true} ">
 	 	<option value="-1">(Choisis un &eacute;l&eacute;ment)</option>
 	 	<? foreach($this->equipements as $e) :?>
-	 		<option value="<?=$e["id_equipement"]?>">n&deg;<?=$e["id_equipement"] ?> <?=htmlentities($e["nom"])." ".htmlentities(addslashes($e["suffixe"]))." de qualit&eacute; ".htmlentities($e["qualite"]) ?>, niveau <?=$e["niveau"] ?></option>
+	 		<option value="<?=$e["id_equipement"]?>">n&deg;<?=$e["id_equipement"] ?> <?=$e["nom"]." ".addslashes($e["suffixe"])." de qualit&eacute; ".$e["qualite"] ?>, niveau <?=$e["niveau"] ?></option>
 	 	<? endforeach; ?>
 	</select>
 <? endif; ?>

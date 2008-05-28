@@ -11,13 +11,13 @@
 	   	Vous pouvez aller vous renseigner dans un Ahenne Peheux
 	   <? else : ?>
 		   	Vous &ecirc;tes actuellement :
-		   	<? $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($this->tabMetierCourant["description"])))); ?>
+		   	<? $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlspecialchars(addslashes($this->tabMetierCourant["description"])))); ?>
 		   	<? $titre = "Description du m&eacute;tier ";
 		   	 if ($this->tabMetierCourant["nom"]{0} == 'A') : $titre .= "d\'"; else: $titre .=  "de "; endif; 
-		   	 $titre .= htmlentities($this->tabMetierCourant["nom"]) 
+		   	 $titre .= $this->tabMetierCourant["nom"];
 		   	?>
 		   	<span <?=Bral_Helper_Tooltip::jsTip($contenu, $titre, true) ?>>
-		  	 	<?=htmlentities($this->tabMetierCourant["nom"]) ?>, appris le <?=$this->tabMetierCourant["date_apprentissage"] ?>
+		  	 	<?=$this->tabMetierCourant["nom"] ?>, appris le <?=$this->tabMetierCourant["date_apprentissage"] ?>
 		    </span>
 			<br /><br />
 		   	<? if (count($this->tabMetiers) == 1): ?>
@@ -35,13 +35,13 @@
 					</thead>
 					<tbody>
 						<? foreach ($this->tabMetiers as $m) : ?>
-							<? $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($m["description"]))));?>
+							<? $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlspecialchars(addslashes($m["description"]))));?>
 					   		<? $titre = "Description du m&eacute;tier ";
-			   	 			if (htmlentities($m["nom"]{0}) == 'A') : $titre .= "d\'"; else: $titre .=  "de "; endif; 
-			   	 			$titre .= htmlentities($m["nom"])?>
+			   	 			if ($m["nom"]{0} == 'A') : $titre .= "d\'"; else: $titre .=  "de "; endif; 
+			   	 			$titre .= $m["nom"]?>
 							<tr class="table_liste">
-								<td class="" <?=Bral_Helper_Tooltip::jsTip($contenu, $titre, true) ?>><?=htmlentities($m["nom"]);?></td>
-								<td class=""><?=htmlentities($m["date_apprentissage"]);?></td>
+								<td class="" <?=Bral_Helper_Tooltip::jsTip($contenu, $titre, true) ?>><?=$m["nom"];?></td>
+								<td class=""><?=$m["date_apprentissage"];?></td>
 							</tr>
 						<? endforeach; ?>
 					</tbody>

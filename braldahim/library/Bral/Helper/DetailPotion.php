@@ -36,7 +36,7 @@ class Bral_Helper_DetailPotion {
     				$retour .= $ou;
     			}
 		    	$retour .= $m["prix_echoppe_potion_minerai"]. " ";
-	    		$retour .= htmlentities($m["nom_type_minerai"]);
+	    		$retour .= htmlspecialchars($m["nom_type_minerai"]);
 	    		$firstOu = false; 
  	    	}
     	}
@@ -51,9 +51,9 @@ class Bral_Helper_DetailPotion {
 		    	if ($p["prix_echoppe_potion_partieplante"] > 1) {
 		    		$s = "s";
 		    	}
-	    		$retour .= htmlentities($p["nom_type_partieplante"]). "$s ";
-	    		$retour .= htmlentities($p["prefix_type_plante"]);
-	    		$retour .= htmlentities($p["nom_type_plante"]);
+	    		$retour .= htmlspecialchars($p["nom_type_partieplante"]). "$s ";
+	    		$retour .= htmlspecialchars($p["prefix_type_plante"]);
+	    		$retour .= htmlspecialchars($p["nom_type_plante"]);
 	    		$firstOu = false; 
  	    	}
     	}
@@ -65,11 +65,11 @@ class Bral_Helper_DetailPotion {
     }
     
     public static function afficher($p) {
-    	return "<span ".self::afficherJs($p).">".htmlentities($p["nom"]).", n&deg;".$p["id_potion"]."</span>";
+    	return "<span ".self::afficherJs($p).">".htmlspecialchars($p["nom"]).", n&deg;".$p["id_potion"]."</span>";
     }
     
     public static function afficherJs($p) {
-    	$titre = htmlentities($p["nom"])." de qualit&eacute; ".htmlentities($p["qualite"])." - D&eacute;tails";
+    	$titre = htmlspecialchars($p["nom"])." de qualit&eacute; ".htmlspecialchars($p["qualite"])." - D&eacute;tails";
     	
    		$text = "Num&eacute;ro de la potion :".$p["id_potion"]."<br />";
     	$text .= "Niveau : ".$p["niveau"]."<br />";

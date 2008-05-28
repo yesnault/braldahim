@@ -2,19 +2,20 @@
 	
 	<?php if ($this->is_mort): ?>
 			<p style='text-align:justify'>
-			<? echo htmlentities("Vous venez d'ouvrir les yeux, une lumiËre blafarde vous Èblouit. 
-			Vous essayez de remuer vos bras et vos jambes mais ils sont tout engourdis. 
-			Vous tournez doucement la tÍte et constatez que vous Ítes dans un lit qui n'est pas le votre... 
-			Il y  a un lit vide ‡ cÙtÈ du votre. Vous Ítes dans une petite piËce aux fenÍtres arrondies. 
-			Vous rassemblez vos esprits et quelques images vous reviennent... Le choc, ce flash aveuglant, puis plus rien. 
-			Vous devez Ítre dans un CÈache Hu. Vous observez alors autour de vous : quelques chaises, une petite table, 
-			sur cette petite table vous apercevez une petite clochette. Vous l'attrapez tant bien que mal et l'agitez tout doucement. 
-			Elle Èmet un son cristallin. Au bout de quelques instants une jolie hobbite souriante, probablement une infirmiËre, 
-			fait son apparition :");
+			<? echo "Vous venez d'ouvrir les yeux, une lumi√®re blafarde vous √©blouit.
+			Vous essayez de remuer vos bras et vos jambes mais ils sont tout engourdis.
+			Vous tournez doucement la t√™te et constatez que vous √™tes dans un lit qui n'est pas le votre...
+			Il y  a un lit vide √† c√¥t√© du votre. Vous √™tes dans une petite pi√®ce aux fen√™tres arrondies.
+			Vous rassemblez vos esprits et quelques images vous reviennent... Le choc, ce flash aveuglant, puis plus rien.
+			Vous devez √™tre dans un C√©ache Hu. Vous observez alors autour de vous : quelques chaises, une petite table,
+			sur cette petite table vous apercevez une petite clochette. Vous l'attrapez tant bien que mal et l'agitez tout doucement.
+			Elle √©met un son cristallin. Au bout de quelques instants une jolie hobbite souriante, probablement une infirmi√®re,
+			fait son apparition :";
 			echo "<br /><br />";
-			echo htmlentities(" \"Bonjour ".$this->user->prenom_hobbit. " ".$this->user->nom_hobbit. " ! Vous nous avez fait une sacrÈe peur, mais je vois que vous allez mieux ! 
-			Vous allez certainement nous quitter rapidement pour poursuivre ce que vous aviez entrepris. J'espËre ne pas vous revoir trop vite dans ce CÈache Hu, alors ne prenez pas de risques inutiles... \"");
+			echo " \"Bonjour ".$this->user->prenom_hobbit. " ".$this->user->nom_hobbit. " ! Vous nous avez fait une sacr√©e peur, mais je vois que vous allez mieux !
+			Vous allez certainement nous quitter rapidement pour poursuivre ce que vous aviez entrepris. J'esp√®re ne pas vous revoir trop vite dans ce C√©ache Hu, alors ne prenez pas de risques inutiles... \"";
 			echo "<br /><br />";
+
 		endif; ?>
 		</p>
 
@@ -45,23 +46,23 @@
 	 
 <div id='tour_copie' style="display:none">
 	<textarea onClick="javascript:this.select();" rows=5 cols=40><?php if ($this->is_mort): 
-	 echo htmlentities("Vous venez d'ouvrir les yeux, une lumiËre blafarde vous Èblouit. ");
-	 echo htmlentities("Vous essayez de remuer vos bras et vos jambes mais ils sont tout engourdis. ");
-	 echo htmlentities("Vous tournez doucement la tÍte et constatez que vous Ítes dans un lit qui n'est pas le votre... ");
-	 echo htmlentities("Il y  a un lit vide ‡ cÙtÈ du votre. Vous Ítes dans une petite piËce aux fenÍtres arrondies. ");
-	 echo htmlentities("Vous rassemblez vos esprits et quelques images vous reviennent... Le choc, ce flash aveuglant, puis plus rien. ");
-	 echo htmlentities("Vous devez Ítre dans un CÈache Hu. Vous observez alors autour de vous : quelques chaises, une petite table, ");
-	 echo htmlentities("sur cette petite table vous apercevez une petite clochette. Vous l'attrapez tant bien que mal et l'agitez tout doucement. ");
-	 echo htmlentities("Elle Èmet un son cristallin. Au bout de quelques instants une jolie hobbite souriante, probablement une infirmiËre, ");
-	 echo htmlentities("fait son apparition :");
+	  echo "Vous venez d'ouvrir les yeux, une lumi√®re blafarde vous √©blouit. ";
+	 echo "Vous essayez de remuer vos bras et vos jambes mais ils sont tout engourdis. ";
+	 echo "Vous tournez doucement la t√™te et constatez que vous √™tes dans un lit qui n'est pas le votre... ";
+	 echo "Il y  a un lit vide √† c√¥t√© du votre. Vous √™tes dans une petite pi√®ce aux fen√™tres arrondies. ";
+	 echo "Vous rassemblez vos esprits et quelques images vous reviennent... Le choc, ce flash aveuglant, puis plus rien. ";
+	 echo "Vous devez √™tre dans un C√©ache Hu. Vous observez alors autour de vous : quelques chaises, une petite table, ";
+	 echo "sur cette petite table vous apercevez une petite clochette. Vous l'attrapez tant bien que mal et l'agitez tout doucement. ";
+	 echo "Elle √©met un son cristallin. Au bout de quelques instants une jolie hobbite souriante, probablement une infirmi√®re, ";
+	 echo "fait son apparition :";
 	 echo "
 ";
-	echo htmlentities(" \"Bonjour ".$this->user->prenom_hobbit." ".$this->user->nom_hobbit. " ! Vous nous avez fait une sacrÈe peur, mais je vois que vous allez mieux ! ");
-	echo htmlentities(" Vous allez certainement nous quitter rapidement pour poursuivre ce que vous aviez entrepris. J'espËre ne pas vous revoir trop vite dans ce CÈache Hu, alors ne prenez pas de risques inutiles... \"");
+	echo " \"Bonjour ".$this->user->prenom_hobbit." ".$this->user->nom_hobbit. " ! Vous nous avez fait une sacr√©e peur, mais je vois que vous allez mieux ! ";
+	echo " Vous allez certainement nous quitter rapidement pour poursuivre ce que vous aviez entrepris. J'esp√®re ne pas vous revoir trop vite dans ce C√©ache Hu, alors ne prenez pas de risques inutiles... \"";
 			echo "
 ";
 		endif;
-		 if ($this->is_nouveau_tour): ?>
+	 if ($this->is_nouveau_tour): ?>
 Activation d'un nouveau tour <?php endif; ?> 
 Vous avez r&eacute;g&eacute;n&eacute;r&eacute; <?=$this->jetRegeneration ?> point<? if ($this->jetRegeneration > 1): echo "s"; endif;?> de vie.
 <?php if ($this->is_tour_manque) : ?>Vous avez manqu&eacute; un (ou plusieurs) tour de jeu<?php endif; ?> 

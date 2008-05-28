@@ -27,8 +27,8 @@
 			   foreach($this->potions as $p) :?>
 				  <tr class="table_liste<?=($i % 2);$i++; ?>">
 			  		<td class="table_liste"><?=$p["id_potion"] ?></td>
-			  		<td class="table_liste"><?=htmlentities($p["nom"]) ?></td>
-			  		<td class="table_liste"><?=htmlentities($p["qualite"]) ?></td>
+			  		<td class="table_liste"><?=htmlspecialchars($p["nom"]) ?></td>
+			  		<td class="table_liste"><?=htmlspecialchars($p["qualite"]) ?></td>
 			  		<td class="table_liste"><?=$p["niveau"] ?></td>
 			  		<td class="table_liste"><?=$p["bm_type"] ?></td>
 			  		<td class="table_liste"><?=$p["caracteristique"] ?></td>
@@ -37,7 +37,7 @@
 					</td>
 			  		<? if ($this->estEquipementsPotionsEtal === true) : ?>
 						<td class="table_liste" nowrap><?=Bral_Helper_DetailPotion::afficherPrix($p);?></td>
-						<td class="table_liste"><?=htmlentities($p["commentaire_vente_echoppe_potion"])?></td>
+						<td class="table_liste"><?=htmlspecialchars($p["commentaire_vente_echoppe_potion"])?></td>
 					<? endif; ?>
 					<? if ($this->estEquipementsPotionsEtalAchat === true) : ?>
 						<td class="table_liste">

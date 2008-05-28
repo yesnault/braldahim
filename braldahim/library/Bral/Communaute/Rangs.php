@@ -77,14 +77,14 @@ class Bral_Communaute_Rangs extends Bral_Communaute_Communaute {
 		}
 		
 		if ($champ == 1) {
-			if (strlen($valeur) > 40) {
+			if (mb_strlen($valeur) > 40) {
 				throw new Zend_Exception(get_class($this)." Valeur invalide : valeur=".$valeur);
 			} else {
 				$champSql = "nom_rang_communaute";
 				$valeurSql = $valeur;
 			}
 		} elseif ($champ == 2) {
-			if (strlen($valeur) > 200) {
+			if (mb_strlen($valeur) > 200) {
 				throw new Zend_Exception(get_class($this)." Valeur invalide : valeur=".$valeur);
 			} else {
 				$champSql = "description_rang_communaute";

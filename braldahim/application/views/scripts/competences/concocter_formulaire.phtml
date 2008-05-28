@@ -7,7 +7,7 @@
 	 	<? foreach($this->partiesPlantes as $m) :
 			if ($m["quantite_arriere"]<=1):$s=''; else:$s='s';endif;
 	 	?>
-	 		<option value="<?=$m["indicateur"]?>"><?=$m["quantite_arriere"]?> <?=htmlentities($m["nom_type_partieplante"])?><?=$s?> de <?=htmlentities($m["nom_type"])?></option>
+	 		<option value="<?=$m["indicateur"]?>"><?=$m["quantite_arriere"]?> <?=$m["nom_type_partieplante"]?><?=$s?> de <?=$m["nom_type"]?></option>
 	 	<? endforeach; ?>
 	 </select>
 	<? elseif ($this->concocterEchoppeOk == false) : ?>

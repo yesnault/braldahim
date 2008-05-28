@@ -1,7 +1,7 @@
 <? include("commun_text_resultat.phtml") ?>
 
 <? if ($this->okJet1 === true): ?>
-	Vous avez r&eacute;ussi &agrave; concocter une plante <?=htmlentities($this->planteNomType) ?>.
+	Vous avez r&eacute;ussi &agrave; concocter une plante <?=$this->planteNomType ?>.
 	Vous avez concoct&eacute; <?=$this->nbPartiesPlantesPreparees ?> <?=$this->planteNomTypePartiePlante?><?if($this->nbPartiesPlantesPreparees > 1):echo 's';endif;?>
 	<br />
 <? else: ?>

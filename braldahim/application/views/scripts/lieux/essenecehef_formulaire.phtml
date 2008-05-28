@@ -12,7 +12,7 @@
    	   <select id='valeur_1' name='valeur_1' onChange="javascript:if($('valeur_1').value==-1){$('bouton_essenecehef').disabled=true} else {$('bouton_essenecehef').disabled=false}">
    	     <option value='-1'>(Choisis une destination)</option>
    	     <? foreach($this->tabDestinations as $d) :?>
-   	     <option value='<?=$d["id_lieu"]?>'><?=htmlentities($d["nom"])?> (<?=$d["x"]?>,<?=$d["y"]?>) 
+   	     <option value='<?=$d["id_lieu"]?>'><?=$d["nom"]?> (<?=$d["x"]?>,<?=$d["y"]?>) 
    	     <? if ($d["est_capitale"]): ?>
    	     - Capitale
    	     <? else: ?>

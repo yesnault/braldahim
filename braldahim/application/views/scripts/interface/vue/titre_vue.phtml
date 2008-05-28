@@ -2,15 +2,15 @@
   	<ul class="titre textalia textsizec"> Ma Vue</ul>
   	
   	<? if ($this->centre_nom_region != null) : ?>
-  		<? $js=Bral_Helper_Tooltip::jsTip(str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlentities(addslashes($this->centre_description_region)))), "Description de la ".htmlentities($this->centre_nom_region), true) ?>
+  		<? $js=Bral_Helper_Tooltip::jsTip(str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlspecialchars(addslashes($this->centre_description_region)))), "Description de la ".htmlspecialchars($this->centre_nom_region), true) ?>
   	<? else: $js=""; ?>
   	<? endif; ?>
   	<ul class="titre textalia textsized" <?=$js ?>>
-    <?=htmlentities($this->centre_nom_region) ?>&nbsp;
+    <?=$this->centre_nom_region ?>&nbsp;
     </ul>
     <ul class="titre textalia textsized" >
     <? if (!empty($this->centre_nom_ville)):?>
-     <?=htmlentities($this->centre_nom_ville) ?>
+     <?=$this->centre_nom_ville ?>
     <? endif; ?>
     <? if ($this->centre_est_capitale) : ?>
     	- Capitale

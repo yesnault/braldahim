@@ -3,14 +3,14 @@
  <div class='comp_contenu'>
 	 <div id='retirer_text' style="display:block"  onClick="javascript:switch2div('retirer_text','retirer_copie');">
 		Vous avez retir&eacute; de l'&eacute;tal la potion suivante : <br />
-		<?=htmlentities($this->potion["nom"]) ?>
+		<?=htmlspecialchars($this->potion["nom"]) ?>
 		<br />
 	 </div>
 	 
 	 <div id='retirer_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
 		echo "Vous avez retir&eacute; de l'&eacute;tal l'&eacute;quipement suivant : ";
-		echo htmlentities($this->potion["nom"]);
+		echo htmlspecialchars($this->potion["nom"]);
 	?>
 	</textarea>
 	</div>

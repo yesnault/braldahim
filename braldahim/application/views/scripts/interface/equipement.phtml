@@ -19,7 +19,7 @@ Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
 	 		<? if ($e["position"] == "gauche" && $e["affiche"] == "oui") : ?>
 	 		<tr>
 	 			<td class="equipement">
-	 			<?=htmlentities($e["nom_type_emplacement"]) ?><br />
+	 			<?=$e["nom_type_emplacement"] ?><br />
 	 			<? if (count($e["equipementPorte"]) > 0): ?>
 					<? foreach($e["equipementPorte"] as $p) : ?>
 						<? echo Bral_Helper_DetailEquipement::afficher($p); ?>
@@ -45,7 +45,7 @@ Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
 	 			}
 	 			?>
 	 			<td class="equipement">
-	 			<?=htmlentities($e["nom_type_emplacement"]) ?><br />
+	 			<?=$e["nom_type_emplacement"] ?><br />
 	 			<? if (count($e["equipementPorte"]) > 0): ?>
 					<? foreach($e["equipementPorte"] as $p) : ?>
  						<? echo Bral_Helper_DetailEquipement::afficher($p); ?>

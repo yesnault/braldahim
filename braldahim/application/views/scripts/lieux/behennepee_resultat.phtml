@@ -2,14 +2,14 @@
 Vous avez construit une &eacute;choppe avec succ&egrave;s ! <br /><br />
 
 Elle se trouve en x:<?=$this->x_construction ?> y:<?=$this->y_construction ?> 
-dans la <?=htmlentities($this->tabRegionCourante["nom_region"]) ?>.<br /><br />
+dans la <?=$this->tabRegionCourante["nom_region"] ?>.<br /><br />
 
-C'est une &eacute;choppe <? if ($this->nom_metier_courant{0} == 'A') : echo 'd\''; else: echo "de "; endif; ?><?=htmlentities($this->nom_metier_courant) ?>.
+C'est une &eacute;choppe <? if ($this->nom_metier_courant{0} == 'A') : echo 'd\''; else: echo "de "; endif; ?><?=$this->nom_metier_courant ?>.
 
 <? elseif ($this->construireLieuOk == false) : ?>
 Un lieu particulier existe en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas construire d'&eacute;choppe 
 &agrave; cet endroit.
 <? elseif ($this->construireRegionOk == false) : ?>
-&Eacute;tant dans la <?=htmlentities($this->regionCourante["nom_region"]) ?>, vous ne pouvez pas 
+&Eacute;tant dans la <?=$this->regionCourante["nom_region"] ?>, vous ne pouvez pas 
 construire d'&eacute;choppe dans une autre comt&eacute;.
 <? endif; ?>

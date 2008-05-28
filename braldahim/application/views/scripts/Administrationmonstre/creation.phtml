@@ -30,7 +30,7 @@
 				<td>
 					<select name="id_type">
 					<? foreach ($this->typesMonstre as $t) : ?>
-					<option value="<?=$t["id_type_monstre"]?>"><?=htmlentities($t["nom_type"])?></option>
+					<option value="<?=$t["id_type_monstre"]?>"><?=$t["nom_type"]?></option>
 					<? endforeach; ?>
 					</select>
 				</td>
@@ -100,7 +100,7 @@
 			<br />
 			<br /><ul class="titre textalic textsizec">Nombre de monstres par type</ul>
 			<? foreach($this->stats["nb_monstre_par_type"] as $t): ?>
-				<?=htmlentities($t["nom_type"])?> : <?=$t["nombre"]?><br />
+				<?=$t["nom_type"]?> : <?=$t["nombre"]?><br />
 			<? endforeach; ?>
 			
 			<br />
@@ -124,8 +124,8 @@
 			<? foreach ($this->zones as $zone) : ?>
 				<tr>
 					<td><?=$zone["id_zone"] ?></td>
-					<td><?=htmlentities($zone["environnement"]) ?></td>
-					<td><?=htmlentities($zone["villes"]) ?></td>
+					<td><?=$zone["environnement"] ?></td>
+					<td><?=$zone["villes"] ?></td>
 					<td><?=$zone["x_min"] ?></td>
 					<td><?=$zone["x_max"] ?></td>
 					<td><?=$zone["y_min"] ?></td>

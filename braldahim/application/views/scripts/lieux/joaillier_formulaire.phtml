@@ -10,7 +10,7 @@
 		<select name="valeur_1" id="valeur_1" onChange="_get_('/lieux/doaction?caction=ask_lieu_joaillier&id_equipement='+this.value);">
 	 		<option value="-1">(Choisis un &eacute;quipement)</option>
 			<? foreach($this->equipementsLaban as $e) :?>
-				<option value="<?=$e["id_laban_equipement"] ?>" <?=$e["selected"]?>><?=htmlentities($e["nom"]) ?> : n&deg;<?=$e["id_laban_equipement"] ?>, qualit&eacute; <?=htmlentities($e["qualite"]) ?>,
+				<option value="<?=$e["id_laban_equipement"] ?>" <?=$e["selected"]?>><?=$e["nom"] ?> : n&deg;<?=$e["id_laban_equipement"] ?>, qualit&eacute; <?=$e["qualite"] ?>,
 				 niveau: <?=$e["niveau"] ?>, nb. emplacements: <?=$e["nb_runes"] ?></option>
 			<? endforeach; ?>
 		</select>

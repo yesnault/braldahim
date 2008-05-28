@@ -12,7 +12,7 @@
 			<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_depiauter').disabled=true } else {$('bouton_depiauter').disabled=false }">
 			<option value='-1'>(Choisis un cadavre)</option>
 			<? foreach ($this->tabCadavres as $m) : ?>
-			<option value="<?=$m["id_cadavre"]?>"><?=htmlentities($m["nom_cadavre"])?> <?=htmlentities($m["taille_cadavre"])?>  (<?=$m["id_cadavre"]?>)</option>
+			<option value="<?=$m["id_cadavre"]?>"><?=htmlspecialchars($m["nom_cadavre"])?> <?=htmlspecialchars($m["taille_cadavre"])?>  (<?=$m["id_cadavre"]?>)</option>
 			<? endforeach; ?>
 			</select><br />
  		<? endif; ?>

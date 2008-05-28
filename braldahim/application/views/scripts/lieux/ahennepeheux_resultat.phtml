@@ -1,6 +1,6 @@
 <? if($this->apprentissageMetier === true) : ?>
 	Vous avez appris le m&eacute;tier suivant :<br />
-	<?=htmlentities($this->nomMetier) ?>
+	<?=$this->nomMetier ?>
 	<br /><br />
 	C'est &eacute;galement votre m&eacute;tier courant<br />
 	Il vous reste <?=$this->user->castars_hobbit; ?>
@@ -18,5 +18,5 @@
 	<? endif; ?>
 <? elseif ($this->changementMetier === true) : ?>
 	Votre m&eacute;tier courant est maintenant :<br />
-	<?=htmlentities($this->nomMetier) ?>
+	<?=$this->nomMetier ?>
 <? endif; ?>

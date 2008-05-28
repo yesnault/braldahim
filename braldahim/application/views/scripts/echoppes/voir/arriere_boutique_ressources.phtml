@@ -8,7 +8,7 @@
 					<? if ($v["a_afficher"] == true) :?>
 					<li id="arboutiqueBruts<?=$k?>">
 				      	<h3 id="arboutiqueBruts<?=$k?>-head" class="head" onClick="maccordion(this);" />
-							<?=htmlentities($v["nom"]) ?>
+							<?=htmlspecialchars($v["nom"]) ?>
 						</h3>
 						<ul id="arboutiqueBruts<?=$k?>-body" style="display:none">
 							<li>
@@ -27,7 +27,7 @@
 					<? if ($v["a_afficher"] == true) :?>
 					<li id="arboutiqueTransformes<?=$k?>">
 				      	<h3 id="arboutiqueTransformes<?=$k?>-head" class="head" onClick="maccordion(this);" />
-							<?=htmlentities($v["nom"]) ?>
+							<?=htmlspecialchars($v["nom"]) ?>
 						</h3>
 						<ul id="arboutiqueTransformes<?=$k?>-body" style="display:none">
 							<li>

@@ -9,7 +9,7 @@
 	 <select name="valeur_1" id="valeur_1"  onChange="javascript:if ($('valeur_1').value==-1){$('bouton_cueillir').disabled=true } else {$('bouton_cueillir').disabled=false }">
 	 	<option value="-1">(Choisis une plante)</option>
 	 	<? foreach($this->plantes as $p) : ?>
-	 		<option value="<?=$p["id_plante"]?>"><?=htmlentities($p["categorie"])?> - <?=htmlentities($p["nom_type"])?> (<?=$p["id_plante"]?>)</option>
+	 		<option value="<?=$p["id_plante"]?>"><?=$p["categorie"]?> - <?=$p["nom_type"]?> (<?=$p["id_plante"]?>)</option>
 	 	<? endforeach; ?>
 	 </select>
 	 <? else: ?>

@@ -2,8 +2,8 @@
  <div class="contenuc">
   <ul class="box_contenu1 textalic">
   <br />
-  	Vous &ecirc;tes actuellement <?=htmlentities($this->tabMetierCourant["nom_metier"]) ?> et vous vous 
-  	situez dans la <?=htmlentities($this->tabRegionCourante["nom_region"]) ?>.<br /><br />
+  	Vous &ecirc;tes actuellement <?=htmlspecialchars($this->tabMetierCourant["nom_metier"]) ?> et vous vous 
+  	situez dans la <?=htmlspecialchars($this->tabRegionCourante["nom_region"]) ?>.<br /><br />
   	
   	Pour construire une &eacute;choppe, rendez-vous dans une B&eacute;hennep&eacute;e.<br /> 
   	Vous ne pourrez construire d'&eacute;choppe que dans la comt&eacute; o&ugrave; vous 
@@ -22,7 +22,7 @@
 		  <tr class="table_liste">
 			<th>&nbsp;</th>
 			<? foreach($this->tabMetiers as $m) : ?>
-			<th><?=htmlentities($m["nom_metier"]) ?></th>
+			<th><?=htmlspecialchars($m["nom_metier"]) ?></th>
 			<? endforeach; ?>
 		  </tr>
 		</thead>
@@ -33,7 +33,7 @@
 			
 			<tr class="table_liste<?=($i % 2);$i++; ?>">
 			<td class="table_liste">
-			<?=htmlentities($r["nom_region"]); ?>
+			<?=htmlspecialchars($r["nom_region"]); ?>
 			</td>
 				<? foreach($this->tabMetiers as $m) : 
 					$echoppe = false;

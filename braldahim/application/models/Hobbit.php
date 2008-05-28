@@ -253,6 +253,5 @@ class Hobbit extends Zend_Db_Table {
 		$nombre = $resultat[0]["nombre"];
 		return $nombre;
 	}
-	
 }
 

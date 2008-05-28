@@ -3,7 +3,7 @@
       <?php 
       $textLieu = "";
       foreach($case["lieux"] as $l) {
-      	$textLieu .= htmlentities($l["nom_lieu"]) ." : ".htmlentities($l["nom_type_lieu"]);
+      	$textLieu .= htmlspecialchars($l["nom_lieu"]) ." : ".htmlspecialchars($l["nom_type_lieu"]);
 	}
 	 
 	$titre = "Position X:".$case["x"]." Y:".$case["y"]." Lieux.";
@@ -15,7 +15,7 @@
 	?>
       <span <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu, $titre) ?>>
       <?php if ($case["n_lieux"] == 1) : ?>
-      	<?=htmlentities($l["nom_type_lieu"]);?>
+      	<?=htmlspecialchars($l["nom_type_lieu"]);?>
       <?php elseif ($case["n_lieux"] > 1) : ?>
       	<?=$case["n_lieux"] ?> lieux
       <?php endif; ?>

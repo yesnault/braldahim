@@ -2,7 +2,7 @@
  	<? if ($v["a_afficher"] == true) : ?>
  	<tr class="table_liste">
 	 	<td class="table_liste" style="text-align: left;">
-	 		<?=htmlentities($k); ?>
+	 		<?=htmlspecialchars($k); ?>
 	 	</td>
 	 	
 	 	<td class="table_liste">

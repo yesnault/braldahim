@@ -3,7 +3,7 @@
 </ul>
 
 <ul class="titre textalic textsizec">&Eacute;choppe <? if ($this->nom_metier_courant{0} == 'A') : echo 'd'; else: echo "de"; endif; ?> 
-<?=htmlentities($this->echoppe["nom_metier"])?>, <?=htmlentities($this->echoppe["nom_region"])?> </ul>
+<?=htmlspecialchars($this->echoppe["nom_metier"])?>, <?=htmlspecialchars($this->echoppe["nom_region"])?> </ul>
 <ul class="titre textalic textsizec">x:<?=$this->echoppe["x_echoppe"]?>, y:<?=$this->echoppe["y_echoppe"]?></ul>
 <br />
 

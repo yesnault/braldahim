@@ -12,17 +12,17 @@ class Bral_Validate_Messagerie_Destinataires implements Zend_Validate_Interface 
 		$this->_messages = array();
 		$valid = true;
 
-		if ((strlen($valeur) < 1) && ($this->estObligatoire === true)) {
+		if ((mb_strlen($valeur) < 1) && ($this->estObligatoire === true)) {
 			$this->_messages[] = "Ce champ est obligatoire";
 			$valid = false;
 		}
 		
 		// si le champ est vide, mais qu'il n'est pas obligatoire, on sort tout de suite
-		if ((strlen($valeur) < 1) && ($this->estObligatoire === false)) {
+		if ((mb_strlen($valeur) < 1) && ($this->estObligatoire === false)) {
 			return true;
 		}
 
-		if (strlen($valeur) > 1000) {
+		if (mb_strlen($valeur) > 1000) {
 			$this->_messages[] = "Trop de Hobbit destinataires";
 			$valid = false;
 		}
@@ -30,7 +30,7 @@ class Bral_Validate_Messagerie_Destinataires implements Zend_Validate_Interface 
 		//  TODO A MODIFIER avec split
 		if ($valid) {
 			if (!preg_match_all('`^([[:digit:]]+(,|[[:space:]])*)+$`',$valeur, $matches)) {
-				$this->_messages[] = "Ce champ contient des caractères invalides";
+				$this->_messages[] = "Ce champ contient des caractï¿½res invalides";
 				$valid = false;
 			}
 		}

@@ -53,11 +53,15 @@ $registry->set('config', $config);
 
 // setup database Game
 $dbAdapterGame = Zend_Db :: factory($config->db->game->adapter, $config->db->game->config->toArray());
+$dbAdapterGame->query('SET NAMES UTF8');
+
 Zend_Db_Table :: setDefaultAdapter($dbAdapterGame);
 Zend_Registry :: set('dbAdapter', $dbAdapterGame);
 
 // setup database Site
 $dbAdapterSite = Zend_Db :: factory($config->db->site->adapter, $config->db->site->config->toArray());
+$dbAdapterSite->query('SET NAMES UTF8');
+
 Zend_Registry :: set('dbSiteAdapter', $dbAdapterSite);
 
 Bral_Util_Registre :: chargement();

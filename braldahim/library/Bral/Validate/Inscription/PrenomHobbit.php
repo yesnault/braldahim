@@ -9,42 +9,42 @@ class Bral_Validate_Inscription_PrenomHobbit implements Zend_Validate_Interface 
         $this->_messages = array();
 		$valid = true;
 		
-		if (strlen($valeur) < 5) {
+		if (mb_strlen($valeur) < 5) {
 			$this->_messages[] = "Le pr&eacute;nom du hobbit doit contenir plus de 5 caract&egrave;res";
 			$valid = false;
 		}
 		
-    	if (strlen($valeur) > 15) {
+    	if (mb_strlen($valeur) > 15) {
 			$this->_messages[] = "Le pr&eacute;nom du hobbit doit contenir au maximum 15 caract&egrave;res";
 			$valid = false;
     	}
 		
 		$tab = array(
-			'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',  'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',  'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-			'\'', '.', ',', 
-			'‰', '‚', '‡', 'ƒ', '¬', '¿',
-			'È', 'Ë', 'Í', '…', '»', ' ',
-			'Ó', 'Ô', 'Ï', 'Œ', 'œ', 'Ã',
-			'ˆ', 'Ù', 'Ú', '÷', '‘', '“',
-			'˚', '¸', '˘', '€', '‹', 'Ÿ',
-			'Á', '«', 'Ê', '∆', '∞', '-',
-			'Ò', '—', '„', '√',
-			' ', 
-			);
+					'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',  'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+			        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',  'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+                    '\'', '.', ',', 
+                    '√§', '√¢', '√†', '√Ñ', '√Ç', '√Ä',
+                    '√©', '√®', '√™', '√â', '√à', '√ä',
+                    '√Æ', '√Ø', '√¨', '√é', '√è', '√å',
+                    '√∂', '√¥', '√≤', '√ñ', '√î', '√í',
+                    '√ª', '√º', '√π', '√õ', '√ú', '√ô',
+                    '√ß', '√á', '√¶', '√Ü', '¬∞', '-',
+                    '√±', '√ë', '√£', '√É',
+                    ' ', 
+				);
     	
 		$flag = true;
 		$val = null;
-		for ($i = 0; $i< strlen($valeur); $i++) {
+		for ($i = 0; $i< mb_strlen($valeur); $i++) {
 			$trouve = false;
 			foreach ($tab as $v) {
-				if ($v == substr($valeur, $i, 1)) {
+				if ($v == mb_substr($valeur, $i, 1)) {
 					$trouve = true;
 				}
 				
 			}
 			if ($trouve == false) {
-				$this->_messages[] = "Le nom du hobbit contient un ou plusieurs caract&egrave;res invalides".substr($valeur, $i, 1);
+				$this->_messages[] = "Le nom du hobbit contient un ou plusieurs caract&egrave;res invalides".mb_substr($valeur, $i, 1);
 				foreach ($tab as $t) {
 					$val .= $t. " ";
 				}	

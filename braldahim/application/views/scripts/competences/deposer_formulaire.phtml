@@ -6,7 +6,7 @@
 	 <select name="valeur_1" id="valeur_1"  onChange="if ($('bouton_deposer')) {$('bouton_deposer').disabled=true} ;_get_('/competences/doaction?caction=ask_competence_deposer&valeur_1='+this.value);">
 	 	<option value="-1">(Choisis un &eacute;l&eacute;ment)</option>
 	 	<? foreach($this->typeElements as $t) : ?>
-	 		<option value="<?=$t["id_type_element"]?>" <? if ($t["selected"] == $t["id_type_element"]): echo "selected"; endif;?>><?=htmlentities($t["nom_element"])?></option>
+	 		<option value="<?=$t["id_type_element"]?>" <? if ($t["selected"] == $t["id_type_element"]): echo "selected"; endif;?>><?=htmlspecialchars($t["nom_element"])?></option>
 	 	<? endforeach; ?>
 	 </select>
 	 <br /><br />

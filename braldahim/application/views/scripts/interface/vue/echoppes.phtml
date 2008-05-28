@@ -4,8 +4,8 @@
 	$textEchoppe = "";
 	foreach($case["echoppes"] as $c) {
 		if ($this->nom_metier_courant{0} == 'A') : $d="d'"; else: $d="de "; endif;
-			$textEchoppe .= "&Eacute;choppe ".$d.htmlentities($c["nom_metier"])." appartenant &agrave; ";
-			$textEchoppe .= htmlentities($c["prenom_hobbit"])." ".htmlentities($c["nom_hobbit"]).", n&deg; ".$c["id_hobbit"]."<br />";
+			$textEchoppe .= "&Eacute;choppe ".$d.htmlspecialchars($c["nom_metier"])." appartenant &agrave; ";
+			$textEchoppe .= htmlspecialchars($c["prenom_hobbit"])." ".htmlspecialchars($c["nom_hobbit"]).", n&deg; ".$c["id_hobbit"]."<br />";
 		}
 		$s = "";
 		if ($case["n_echoppes"] > 1) {

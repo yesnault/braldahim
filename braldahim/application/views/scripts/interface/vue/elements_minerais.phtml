@@ -4,7 +4,7 @@
       		$textElementsMineraisBruts = "";
       		$nbMinerais = 0;
      		foreach($case["elements_minerais_bruts"] as $m) {
-      			$textElementsMineraisBruts .= $m["quantite"] . " ".htmlentities($m["type"])."<br />";
+      			$textElementsMineraisBruts .= $m["quantite"] . " ".htmlspecialchars($m["type"])."<br />";
       			$nbMinerais = $nbMinerais + $m["quantite"] ;
 			} 
 			$s = "";
@@ -25,7 +25,7 @@
       		$nbLingots = 0;
       		$textElementsLingots = "";
      		foreach($case["elements_lingots"] as $m) {
-      			$textElementsLingots .= $m["quantite"] . " ".htmlentities($m["type"])."<br />";
+      			$textElementsLingots .= $m["quantite"] . " ".htmlspecialchars($m["type"])."<br />";
       			$nbLingots = $nbLingots + $m["quantite"] ;
 			} 
 			$s = "";

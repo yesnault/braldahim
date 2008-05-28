@@ -1,6 +1,6 @@
  <? include("commun_text_resultat.phtml") ?>
- Vous avez utilis&eacute; une potion <?=htmlentities($this->retourPotion['potion']["nom"]) ?> de qualit&eacute; <?=htmlentities($this->retourPotion['potion']["qualite"])?>
-  sur <?=htmlentities($this->retourPotion["cible"]["nom_cible"])?> (<?=$this->retourPotion["cible"]["id_cible"]?>) N<?=$this->retourPotion["cible"]["niveau_cible"]?>.<br />
+ Vous avez utilis&eacute; une potion <?=htmlspecialchars($this->retourPotion['potion']["nom"]) ?> de qualit&eacute; <?=htmlspecialchars($this->retourPotion['potion']["qualite"])?>
+  sur <?=htmlspecialchars($this->retourPotion["cible"]["nom_cible"])?> (<?=$this->retourPotion["cible"]["id_cible"]?>) N<?=$this->retourPotion["cible"]["niveau_cible"]?>.<br />
   
   L'effet de la potion porte sur <?=$this->retourPotion['effet']['nb_tour_restant']?> tour<? if ($this->retourPotion['effet']['nb_tour_restant'] > 1): echo 's'; endif; ?>.
   <br />

@@ -9,12 +9,12 @@
 	 
 		<ul id="navigation" style="width:100%;">
 		<? foreach($this->competences as $m) : ?>
-			<li id="menuCompetencesMetier<?=htmlentities($m["nom_systeme_metier"])?>">
-				<h3 id="menuCompetencesMetier<?=htmlentities($m["nom_systeme_metier"])?>-head" class="head" onClick="maccordion(this);" /><?=htmlentities($m["nom_metier"])?></h3>
+			<li id="menuCompetencesMetier<?=$m["nom_systeme_metier"]?>">
+				<h3 id="menuCompetencesMetier<?=$m["nom_systeme_metier"]?>-head" class="head" onClick="maccordion(this);" /><?=$m["nom_metier"]?></h3>
 				<ul id="menuCompetencesMetier<?=$m["nom_systeme_metier"]?>-body" style="display:none">
 				<? foreach($m["competences"] as $c) : ?>
 					<li>
-					<input type="button" class='button1' value="<?=$c["pa_utilisation"]?> PA - <?=htmlentities($c["nom"])?><? if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?>"
+					<input type="button" class='button1' value="<?=$c["pa_utilisation"]?> PA - <?=$c["nom"]?><? if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?>"
 	       		  onClick="Javascript:_get_('/competences/doaction?caction=ask_competence_<?=$c["nom_systeme"] ?>')">
 					</li>
 				<? endforeach; ?>

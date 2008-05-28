@@ -4,7 +4,7 @@
 	<select name="valeur_2" id="valeur_2" onChange="if (($('valeur_2').value != -1 && $('valeur_3').value > 0) || ( $('valeur_4').value != -1 && $('valeur_5').value > 0)) {$('bouton_deposer').disabled=false} else {$('bouton_deposer').disabled=true} ">
 	 	<option value="-1">(Choisis une plante brute)</option>
 	 	<? foreach($this->partiePlantesBrutes as $k => $m) :?>
-	 		<option value="<?=$k?>"><?=$m["quantite"]?> <?=htmlentities($m["type"])?><? if ($m["quantite"] > 0): echo "s"; endif; ?> de <?=htmlentities($m["type_plante"])?></option>
+	 		<option value="<?=$k?>"><?=$m["quantite"]?> <?=$m["type"]?><? if ($m["quantite"] > 0): echo "s"; endif; ?> de <?=$m["type_plante"]?></option>
 	 	<? endforeach; ?>
 	</select>
 	<br/>
@@ -24,7 +24,7 @@
 	<select name="valeur_4" id="valeur_4" onChange="if (($('valeur_2').value != -1 && $('valeur_3').value > 0) || ( $('valeur_4').value != -1&& $('valeur_5').value > 0)) {$('bouton_deposer').disabled=false} else {$('bouton_deposer').disabled=true} ">
 	 	<option value="-1">(Choisis une plante pr&eacute;par&eacute;e)</option>
 	 	<? foreach($this->partiePlantesPreparees as $k => $m) :?>
-	 		<option value="<?=$k?>"><?=$m["quantite"]?> <?=htmlentities($m["type"])?><? if ($m["quantite"] > 0): echo "s"; endif; ?> de <?=htmlentities($m["type_plante"])?></option>
+	 		<option value="<?=$k?>"><?=$m["quantite"]?> <?=$m["type"]?><? if ($m["quantite"] > 0): echo "s"; endif; ?> de <?=$m["type_plante"]?></option>
 	 	<? endforeach; ?>
 	</select>
 	<br />

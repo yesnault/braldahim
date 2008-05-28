@@ -3,7 +3,7 @@
 <? if ($this->okJet1 === true): ?>
 	Vous avez r&eacute;ussi &agrave; &eacute;laborer une potion : 
 	<br />
-	<?=htmlentities($this->typePotionCourante["nom_type_potion"]) ?>, de qualit&eacute; <?=$this->qualite ?>
+	<?=htmlspecialchars($this->typePotionCourante["nom_type_potion"]) ?>, de qualit&eacute; <?=$this->qualite ?>
 	et de niveau <?=$this->niveau ?>.
 	<br /><br />
 	<? if ($this->effetRune) :?>

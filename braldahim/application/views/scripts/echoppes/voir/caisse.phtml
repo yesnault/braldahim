@@ -6,7 +6,7 @@
 					<? if ($v["a_afficher"] == true) :?>
 					<li id="arboutiqueCaisse<?=$k?>">
 				      	<h3 id="arboutiqueCaisse<?=$k?>-head" class="head" onClick="maccordion(this);" />
-							<?=htmlentities($v["nom"]) ?>
+							<?=htmlspecialchars($v["nom"]) ?>
 						</h3>
 						<ul id="arboutiqueCaisse<?=$k?>-body" style="display:none">
 							<li>

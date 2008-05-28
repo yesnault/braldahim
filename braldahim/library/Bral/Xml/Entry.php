@@ -38,6 +38,5 @@ class Bral_Xml_Entry {
   }
 
   public function __construct() {
-
   }
 }

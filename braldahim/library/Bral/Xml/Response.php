@@ -12,7 +12,7 @@ class Bral_Xml_Response {
 	}
 
 	public function get_xml() {
-		$r =  '<?xml version="1.0" encoding="iso-8859-1" ?>';
+		$r =  '<?xml version="1.0" encoding="utf-8" ?>';
 		$r .= "<root>\n";
 		$r .= "<entrie>\n";
 		$r .= "<type>display</type>\n";
@@ -35,7 +35,7 @@ class Bral_Xml_Response {
 		header("Content-Type: text/xml");
 		echo $this->get_xml();
 	}
+	
 	public function __construct() {
-
 	}
 }

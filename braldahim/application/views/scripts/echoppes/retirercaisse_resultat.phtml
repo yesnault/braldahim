@@ -2,14 +2,14 @@
  <div class='comp_contenu'>
 	 <div id='retirercaisse_text' style="display:block"  onClick="javascript:switch2div('retirercaisse_text','retirercaisse_copie');">
 		Vous avez retir&eacute; les &eacute;l&eacute;ments suivants : <br />
-		<?=htmlentities($this->elementsRetires) ?>
+		<?=htmlspecialchars($this->elementsRetires) ?>
 		<br />
 	 </div>
 	 
 	 <div id='retirercaisse_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
 		echo "Vous avez retir&eacute; les &eacute;l&eacute;ments suivants : ";
-		echo htmlentities($this->elementsRetires);
+		echo htmlspecialchars($this->elementsRetires);
 	?>
 	</textarea>
 	</div>

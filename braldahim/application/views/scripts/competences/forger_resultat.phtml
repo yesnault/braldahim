@@ -3,7 +3,7 @@
 <? if ($this->okJet1 === true): ?>
 	Vous avez r&eacute;ussi &agrave; forger une pi&egrave;ce d'&eacute;quipement : 
 	<br />
-	<?=htmlentities($this->typeEquipementCourant["nom_type_equipement"]) ?>, de qualit&eacute; <?=$this->qualite ?>
+	<?=htmlspecialchars($this->typeEquipementCourant["nom_type_equipement"]) ?>, de qualit&eacute; <?=$this->qualite ?>
 	et de niveau <?=$this->niveau ?>.
 	<br />
 	Il y a <?=$this->nbRunes ?> emplacement<? if ($this->nbRunes > 1) echo 's'; ?> runique<? if ($this->nbRunes > 1) echo 's'; ?>.

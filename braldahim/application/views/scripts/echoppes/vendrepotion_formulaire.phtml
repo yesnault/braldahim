@@ -9,7 +9,7 @@
 		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value=='' || $('valeur_4').value==-1 ){$('bouton_vendrepotion').disabled=true } else {$('bouton_vendrepotion').disabled=false }">
 	 		<option value="-1">(Choisis un potion)</option>
 			<? foreach($this->potionsArriereBoutique as $e) :?>
-				<option value="<?=$e["id_echoppe_potion"] ?>">n&deg; <?=$e["id_echoppe_potion"] ?> : <?=htmlentities($e["nom"]) ?> de qualit&eacute; <?=htmlentities($e["qualite"]) ?>,
+				<option value="<?=$e["id_echoppe_potion"] ?>">n&deg; <?=$e["id_echoppe_potion"] ?> : <?=htmlspecialchars($e["nom"]) ?> de qualit&eacute; <?=htmlspecialchars($e["qualite"]) ?>,
 				 niveau: <?=$e["niveau"] ?></option>
 			<? endforeach; ?>
 		</select>
@@ -22,7 +22,7 @@
 		<select name="valeur_4" id="valeur_4" onChange="if ($('valeur_2').value==-1 || $('valeur_3').value=='' || $('valeur_4').value==-1 ){$('bouton_vendrepotion').disabled=true } else {$('bouton_vendrepotion').disabled=false }">
 	 		<option value="-1">(Choisis une unit&eacute;)</option>
 			<? foreach($this->unites as $k => $u) :?>
-				<option value="<?=$k ?>"><?=htmlentities($u["nom_type_unite"]) ?> </option>
+				<option value="<?=$k ?>"><?=htmlspecialchars($u["nom_type_unite"]) ?> </option>
 			<? endforeach; ?>
 		</select> OU 
 		<br />
@@ -31,7 +31,7 @@
 		<select name="valeur_6" id="valeur_6">
 	 		<option value="-1">(Choisis une unit&eacute;)</option>
 			<? foreach($this->unites as $k => $u) :?>
-				<option value="<?=$k ?>"><?=htmlentities($u["nom_type_unite"]) ?> </option>
+				<option value="<?=$k ?>"><?=htmlspecialchars($u["nom_type_unite"]) ?> </option>
 			<? endforeach; ?>
 		</select> OU
 		<br />
@@ -40,7 +40,7 @@
 		<select name="valeur_8" id="valeur_8">
 	 		<option value="-1">(Choisis une unit&eacute;)</option>
 			<? foreach($this->unites as $k => $u) :?>
-				<option value="<?=$k ?>"><?=htmlentities($u["nom_type_unite"]) ?> </option>
+				<option value="<?=$k ?>"><?=htmlspecialchars($u["nom_type_unite"]) ?> </option>
 			<? endforeach; ?>
 		</select>
 		<br />

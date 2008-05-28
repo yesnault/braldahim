@@ -5,10 +5,10 @@
 	<li class="resultat">Trop de hobbits !</li>
 <? else: ?>
 	<?php foreach ($this->tabHobbits as $h) : ?>
-		<li class="resultat" id_hobbit='<?=$h["id_hobbit"]?>' champ='<?=$this->champ?>' valeur='<?=htmlentities($h["prenom"])?> <?=htmlentities($h["nom"])?>'><?
+		<li class="resultat" id_hobbit='<?=$h["id_hobbit"]?>' champ='<?=$this->champ?>' valeur='<?=$h["prenom"]?> <?=$h["nom"]?>'><?
 			$pos = stripos($h["nom"], $this->pattern);
-			$nom = htmlentities(substr($h["nom"], 0, $pos)) . '<font color="red">'.htmlentities(substr($h["prenom"], $pos , strlen($this->pattern))) .'</font>'.htmlentities(substr($h["prenom"], $pos + strlen($this->pattern)));
-			$nom .= " ".htmlentities($h["nom"]);
+			$nom = mb_substr($h["nom"], 0, $pos) . '<font color="red">'.mb_substr($h["prenom"], $pos , mb_strlen($this->pattern)) .'</font>'.mb_substr($h["prenom"], $pos + mb_strlen($this->pattern));
+			$nom .= " ".$h["nom"];
 			echo $nom ." (".$h["id_hobbit"].")" ?></li>
 	<?php endforeach; ?>
 <? endif; ?>

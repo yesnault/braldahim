@@ -29,10 +29,10 @@
 							<input type="radio" name="id_gardiennage" value="<?=$g["id_gardiennage"]?>" />
 							<? endif; ?>
 						</td>
-						<td nowrap><?=htmlentities(stripslashes($g["prenom_hobbit"])). " ". htmlentities(stripslashes($g["nom_hobbit"])). ' ('.$g["id_hobbit"].')';?></td>
+						<td nowrap><?=htmlspecialchars(stripslashes($g["prenom_hobbit"])). " ". htmlspecialchars(stripslashes($g["nom_hobbit"])). ' ('.$g["id_hobbit"].')';?></td>
 						<td nowrap><?=$g["date_debut"] ?></td>
 						<td nowrap><?=$g["nb_jours"] ?></td>
-						<td nowrap><?=htmlentities(stripslashes($g["commentaire"])) ?></td>
+						<td nowrap><?=htmlspecialchars(stripslashes($g["commentaire"])) ?></td>
 					</tr>
 				<? endforeach; ?>
 				</table>

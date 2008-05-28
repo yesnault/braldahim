@@ -84,7 +84,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 				$filter->addFilter(new Zend_Filter_StringTrim())->addFilter(new Zend_Filter_StripTags());
 				$nomCommunaute = stripslashes($filter->filter($nom));
 				
-				if (strlen($nomCommunaute) > 0) {
+				if (mb_strlen($nomCommunaute) > 0) {
 					//$nomCommunaute =$nomCommunaute
 					$this->view->creerCommunaute = true;
 				} else {

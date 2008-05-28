@@ -34,7 +34,7 @@
 		    	?>
 		    	<td class="table_liste table_liste_border">
 		    		<? if ($r["image"] != ""): ?>
-		    			<img src="/public/images/runes/<?=$r["image"]?>"  class="rune" <?=Bral_Helper_Tooltip::jsTip(htmlentities(addslashes($r["effet_type_rune"])), $r["type"]. " n&deg;".$r["id_rune"]) ?> alt="<?=$r["type"]?> n&deg;<?=$r["id_rune"]?>"  />
+		    			<img src="/public/images/runes/<?=$r["image"]?>"  class="rune" <?=Bral_Helper_Tooltip::jsTip(htmlspecialchars(addslashes($r["effet_type_rune"])), $r["type"]. " n&deg;".$r["id_rune"]) ?> alt="<?=$r["type"]?> n&deg;<?=$r["id_rune"]?>"  />
 	    			<? else: ?>
 		    			<?=$r["type"]?> (<?=$r["id_rune"]?>)
 		    		<? endif; ?>

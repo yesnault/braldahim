@@ -1,6 +1,6 @@
 	 <? include("commun_text_resultat.phtml") ?>
 	 	<? if ($this->okJet1 === true): ?>
-			 Vous avez attaqu&eacute; <?=htmlentities($this->retourAttaque["cible"]["nom_cible"])?> (<?=$this->retourAttaque["cible"]["id_cible"]?>)  N <?=$this->retourAttaque["cible"]["niveau_cible"]?> 
+			 Vous avez attaqu&eacute; <?=htmlspecialchars($this->retourAttaque["cible"]["nom_cible"])?> (<?=$this->retourAttaque["cible"]["id_cible"]?>)  N <?=$this->retourAttaque["cible"]["niveau_cible"]?> 
 			 avec fr&eacute;n&eacute;sie :<br /><br />
 			 Jet d'attaque : <?=$this->retourAttaque["jetAttaquant"]?><br />
 			 Jet de d&eacute;fense de la cible : <?=$this->retourAttaque["jetCible"]?><br />
@@ -14,7 +14,7 @@
 		 		<br /><br />
 		 		
 		 		<? if ($this->retourAttaque["mort"]): ?>
-		 			Vous avez tu&eacute; <?=htmlentities($this->retourAttaque["cible"]["nom_cible"])?> (<?=$this->retourAttaque["cible"]["id_cible"]?>) N<?=$this->retourAttaque["cible"]["niveau_cible"] ?><br /><br />
+		 			Vous avez tu&eacute; <?=htmlspecialchars($this->retourAttaque["cible"]["nom_cible"])?> (<?=$this->retourAttaque["cible"]["id_cible"]?>) N<?=$this->retourAttaque["cible"]["niveau_cible"] ?><br /><br />
 		 		<? endif; ?>
 		 		Vous avez gagn&eacute; <?=$this->nb_px?> PX<br /><br />
 		 		

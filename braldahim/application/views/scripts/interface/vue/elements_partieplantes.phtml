@@ -5,7 +5,7 @@
       		$nbPartiesPlantesBrutes = 0;
      		foreach($case["elements_partieplantes_brutes"] as $m) {
      			if ($m["quantite"] > 0) $s = "s"; else $s = "s";
-      			$textElementsPartiesPlantesBrutes .= $m["quantite"] . " ".htmlentities($m["type"])."$s de ".htmlentities($m["type_plante"])."<br />";
+      			$textElementsPartiesPlantesBrutes .= $m["quantite"] . " ".htmlspecialchars($m["type"])."$s de ".htmlspecialchars($m["type_plante"])."<br />";
       			$nbPartiesPlantesBrutes = $nbPartiesPlantesBrutes + $m["quantite"] ;
 			} 
 			$s = "";
@@ -27,7 +27,7 @@
       		$textElementsPartiesPlantesPreparees = "";
      		foreach($case["elements_partieplantes_preparees"] as $m) {
      			if ($m["quantite"] > 0) $s = "s"; else $s = "s";
-      			$textElementsPartiesPlantesPreparees .= $m["quantite"] . " ".htmlentities($m["type"])."$s de ".htmlentities($m["type_plante"])."<br />";
+      			$textElementsPartiesPlantesPreparees .= $m["quantite"] . " ".htmlspecialchars($m["type"])."$s de ".htmlspecialchars($m["type_plante"])."<br />";
       			$nbPartiesPlantesPreparees = $nbPartiesPlantesPreparees + $m["quantite"] ;
 			} 
 			$s = "";

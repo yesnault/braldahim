@@ -11,7 +11,7 @@
 	<th>Gestionnaire</th>
 	<td class="table_liste" nowrap>
 	<a href='/voir/hobbit/?hobbit=<?=$this->communaute["id_hobbit"] ?>' title="Voir le profil public">
-	<?=htmlentities($this->communaute["prenom_hobbit"]) ?> <?=htmlentities($this->communaute["nom_hobbit"]) ?>, n&deg;<?=$this->communaute["id_hobbit"] ?>
+	<?=$this->communaute["prenom_hobbit"] ?> <?=$this->communaute["nom_hobbit"] ?>, n&deg;<?=$this->communaute["id_hobbit"] ?>
 	</a>
 	</td>
   </tr>
@@ -21,7 +21,7 @@
   </tr>
   <tr class="table_liste">
 	<th>Site Web</th>
-	<td class="table_liste"><a href="<?=htmlentities($this->communaute["site_web_description"]) ?>"><?=htmlentities($this->communaute["site_web_communaute"]) ?></a></td>
+	<td class="table_liste"><a href="<?=$this->communaute["site_web_description"] ?>"><?=$this->communaute["site_web_communaute"] ?></a></td>
   </tr>
 </table>
 

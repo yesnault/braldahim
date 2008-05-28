@@ -17,7 +17,7 @@
 	<? endif; ?>
 <? else :  ?>
 	<? if ($this->filonDetruit === true) : ?>
-		Vous avez tout g&acirc;ch&eacute; ! Les derniers fragments de <?=htmlentities($this->minerai["nom_type"])?>
+		Vous avez tout g&acirc;ch&eacute; ! Les derniers fragments de <?=htmlspecialchars($this->minerai["nom_type"])?>
 		tombent en miettes dans vos mains et le filon est d&eacute;truit !
 	<? else: ?>
 		Des fragments de <?=$this->minerai["nom_type"]?> tombent en miettes dans vos mains et sont d&eacute;truits.

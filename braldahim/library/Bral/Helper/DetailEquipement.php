@@ -38,7 +38,7 @@ class Bral_Helper_DetailEquipement {
     				$retour .= $ou;
     			}
 		    	$retour .= $m["prix_echoppe_equipement_minerai"]. " ";
-	    		$retour .= htmlentities($m["nom_type_minerai"]);
+	    		$retour .= htmlspecialchars($m["nom_type_minerai"]);
 	    		$firstOu = false; 
  	    	}
     	}
@@ -53,24 +53,23 @@ class Bral_Helper_DetailEquipement {
 		    	if ($p["prix_echoppe_equipement_partieplante"] > 1) {
 		    		$s = "s";
 		    	}
-	    		$retour .= htmlentities($p["nom_type_partieplante"]). "$s ";
-	    		$retour .= htmlentities($p["prefix_type_plante"]);
-	    		$retour .= htmlentities($p["nom_type_plante"]);
+	    		$retour .= htmlspecialchars($p["nom_type_partieplante"]). "$s ";
+	    		$retour .= htmlspecialchars($p["prefix_type_plante"]);
+	    		$retour .= htmlspecialchars($p["nom_type_plante"]);
 	    		$firstOu = false; 
  	    	}
     	}
     	
     	$retour .= "</span>";
-    	
     	return $retour;
     }
     
     public static function afficher($e) {
-    	return "<span ".self::afficherJs($e).">".htmlentities($e["nom"]).", n&deg;".$e["id_equipement"]."</span>";
+    	return "<span ".self::afficherJs($e).">".htmlspecialchars($e["nom"]).", n&deg;".$e["id_equipement"]."</span>";
     }
     
     public static function afficherJs($e) {
-    	$text = htmlentities($e["nom"])." ".htmlentities(addslashes($e["suffixe"]))." de qualit&eacute; ".htmlentities($e["qualite"])." <br /><br />";
+    	$text = htmlspecialchars($e["nom"])." ".htmlspecialchars(addslashes($e["suffixe"]))." de qualit&eacute; ".htmlspecialchars($e["qualite"])." <br /><br />";
      	$text .= "Num&eacute;ro de la pi&egrave;ce :".$e["id_equipement"]."<br />";
     	$text .= "Niveau : ".$e["niveau"]."<br />";
      	$text .= "Caract&eacute;ristiques :<br />";
@@ -91,10 +90,10 @@ class Bral_Helper_DetailEquipement {
      	$text .= count($e["runes"]) ." rune$s sertie$s "."<br />";
      	if (count($e["runes"]) > 0) {
 	    	 foreach($e["runes"] as $r) {
-	     	 	$text .= "<img src=\'/public/images/runes/".$r["image_type_rune"]."\'  class=\'rune\' title=\'".$r["nom_type_rune"]." :".htmlentities(addslashes($r["effet_type_rune"]))."\' n&deg;".$r["id_rune_equipement_rune"]." alt=\'".$r["nom_type_rune"]."\' n&deg;".$r["id_rune_equipement_rune"]."  />";
+	     	 	$text .= "<img src=\'/public/images/runes/".$r["image_type_rune"]."\'  class=\'rune\' title=\'".$r["nom_type_rune"]." :".htmlspecialchars(addslashes($r["effet_type_rune"]))."\' n&deg;".$r["id_rune_equipement_rune"]." alt=\'".$r["nom_type_rune"]."\' n&deg;".$r["id_rune_equipement_rune"]."  />";
 	     	 }
 	     	 if ($e["suffixe"] != null && $e["suffixe"] != "") {
-	     	 	$text .= "<br />Mot runique associ&eacute; &agrave; ces runes : ".htmlentities(addslashes($e["suffixe"]));
+	     	 	$text .= "<br />Mot runique associ&eacute; &agrave; ces runes : ".htmlspecialchars(addslashes($e["suffixe"]));
 	     	 } else {
 	     	 	$text .= "<br />Aucun mot runique n\'est associ&eacute; &agrave; ces runes";
 	     	 }

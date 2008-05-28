@@ -34,7 +34,7 @@
    	  	 <select name='valeur_1' id="valeur_1" onChange="javascript:$('valeur_2').value=-1; $('valeur_3').value=''; $('bouton_mairie_creer').disabled=true; if ($('valeur_1').value!=-1) { $('bouton_mairie_rentrer').disabled=false; } else { $('bouton_mairie_rentrer').disabled=true; } ">
 			<option value='-1'>(Choisis une communaut&eacute;)</option>
 			<? foreach ($this->communautes as $c) : ?>
-				<option value="<?=$c["id_communaute"] ?>"><?=htmlentities($c["nom_communaute"]) ?> </option>
+				<option value="<?=$c["id_communaute"] ?>"><?=$c["nom_communaute"] ?> </option>
 			<? endforeach; ?>
 		</select><br /><br />
    	  	ou cr&eacute;er une communaut&eacute; (<i>40 caract&egrave;res max</i>) : <br />

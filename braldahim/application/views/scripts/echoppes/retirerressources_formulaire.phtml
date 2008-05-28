@@ -37,7 +37,7 @@
 	    	if ($i % 3 == 0) echo "<tr>"; 
 	    	?>
 	    	<td>
-	    		<?=htmlentities($p["nom_plante"])?> : <?=$p["quantite_arriere_echoppe_partieplante"]?> <?=htmlentities($p["nom_type"])?><? if ($p["quantite_arriere_echoppe_partieplante"] > 1) echo "s" ?>.
+	    		<?=htmlspecialchars($p["nom_plante"])?> : <?=$p["quantite_arriere_echoppe_partieplante"]?> <?=htmlspecialchars($p["nom_type"])?><? if ($p["quantite_arriere_echoppe_partieplante"] > 1) echo "s" ?>.
 	    		Quantit&eacute; &agrave; retirer : 
 	    		<input type='text' maxlength='4' size='4' name='<?=$k?>' id='<?=$k?>' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$p["quantite_arriere_echoppe_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}">
 	    	</td>
@@ -69,7 +69,7 @@
 	     	if ($i % 3 == 0) echo "<tr>"; 
 	    	?>
 	    	<td>
-	    		<?=htmlentities($m["type"])?> : Quantit&eacute; : <?=$m["quantite_arriere_echoppe_minerai"]?>.
+	    		<?=htmlspecialchars($m["type"])?> : Quantit&eacute; : <?=$m["quantite_arriere_echoppe_minerai"]?>.
 	    		Quantit&eacute; &agrave; retirer : 
 	    		<input type='text' maxlength='4' size='4' name='<?=$k ?>' id='<?=$k ?>' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_arriere_echoppe_minerai"] ?>) { alert('Valeur trop grande'); this.value = 0 }; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}" >
 	    	</td>

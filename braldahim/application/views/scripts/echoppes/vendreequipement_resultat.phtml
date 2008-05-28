@@ -3,14 +3,14 @@
  <div class='comp_contenu'>
 	 <div id='vendre_text' style="display:block"  onClick="javascript:switch2div('vendre_text','vendre_copie');">
 		Vous avez mis en vente l'&eacute;quipement suivant : <br />
-		<?=htmlentities($this->equipement["nom"]) ?>
+		<?=htmlspecialchars($this->equipement["nom"]) ?>
 		<br />
 	 </div>
 	 
 	 <div id='vendre_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
 		echo "Vous avez mis en vente l'&eacute;quipement suivant : ";
-		echo htmlentities($this->equipement["nom"]);
+		echo htmlspecialchars($this->equipement["nom"]);
 	?>
 	</textarea>
 	</div>

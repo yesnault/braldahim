@@ -28,7 +28,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		$echoppe = $echoppeRowset[0];
 		$this->view->estLieuCourant = true;
 				
-		$nom = "Échoppe";
+		$nom = "ï¿½choppe";
 		if ($echoppe["nom_masculin_metier"] == "A") {
 			$nom .= " d'";
 			
@@ -40,10 +40,10 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		} else {
 			$nom .= $echoppe["nom_feminin_metier"];
 		}
-		$nom = htmlentities($nom). "<br>";
-		$nom .= " appartenant &agrave ".htmlentities($echoppe["prenom_hobbit"]);
-		$nom .= " ".htmlentities($echoppe["nom_hobbit"]);
-		$nom .= " n°".$echoppe["id_hobbit"];
+		$nom = htmlspecialchars($nom). "<br>";
+		$nom .= " appartenant &agrave ".htmlspecialchars($echoppe["prenom_hobbit"]);
+		$nom .= " ".htmlspecialchars($echoppe["nom_hobbit"]);
+		$nom .= " nÂ°".$echoppe["id_hobbit"];
 		
 		if ($echoppe["nom_systeme_metier"] == "apothicaire") {
 			$this->view->afficheType = "potions";

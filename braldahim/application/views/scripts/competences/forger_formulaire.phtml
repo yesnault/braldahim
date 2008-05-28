@@ -7,7 +7,7 @@
      <select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_forger&type_equipement='+this.value);">
 	 	<option value="-1">(Choisis un &eacute;quipement)</option>
 	 	<? foreach($this->typeEquipement as $t) : ?>
-	 		<option value="<?=$t["id_type_equipement"]?>" <?=$t["selected"]?>><?=htmlentities($t["nom_type_equipement"])?></option>
+	 		<option value="<?=$t["id_type_equipement"]?>" <?=$t["selected"]?>><?=htmlspecialchars($t["nom_type_equipement"])?></option>
 	 	<? endforeach; ?>
 	 </select>
 	 
@@ -18,7 +18,7 @@
 	 <select name="valeur_2" id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_forger').disabled=true } else {$('bouton_forger').disabled=false }">
 	 	<option value="-1">(Choisis un niveau)</option>
 	 	<? foreach($this->niveaux as $k => $v) : ?>
-	 		<option value="<?=$k?>" <? if ($v["ressourcesOk"] === false) echo "disabled"; ?>><?=htmlentities($v["niveauText"])?></option>
+	 		<option value="<?=$k?>" <? if ($v["ressourcesOk"] === false) echo "disabled"; ?>><?=htmlspecialchars($v["niveauText"])?></option>
 	 	<? endforeach; ?>
 	 </select>
 	 <? endif; ?>
@@ -52,7 +52,7 @@
 		 			foreach($value1 as $c) :
 		 			$i++;
 		 		?>
-		 		<?=htmlentities($c["nom"]) ?> : <?=$c["cout"] ?> <? if (isset($c["unite"]) && $c["unite"] != "") :?><?=$c["unite"] ?><? if ($c["cout"] > 1) : echo 's'; endif;?><? endif; ?><?if ($i<count($value1))echo ","; else echo "."; ?>
+		 		<?=htmlspecialchars($c["nom"]) ?> : <?=$c["cout"] ?> <? if (isset($c["unite"]) && $c["unite"] != "") :?><?=$c["unite"] ?><? if ($c["cout"] > 1) : echo 's'; endif;?><? endif; ?><?if ($i<count($value1))echo ","; else echo "."; ?>
 		 	<? endforeach; ?>
 		 	<? if ($this->niveaux[$key1]["ressourcesOk"] === false) : ?>
 		 		Pas assez de ressource dans l'&eacute;choppe

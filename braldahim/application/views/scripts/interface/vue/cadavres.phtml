@@ -3,7 +3,7 @@
       <?php 
       	$textCadavre = "";
       	foreach($case["cadavres"] as $c) {
-      		$textCadavre .= htmlentities($c["nom_cadavre"]) ." (n&deg; ".$c["id_cadavre"].") - ".htmlentities($c["taille_cadavre"])."<br />";
+      		$textCadavre .= htmlspecialchars($c["nom_cadavre"]) ." (n&deg; ".$c["id_cadavre"].") - ".htmlspecialchars($c["taille_cadavre"])."<br />";
 		} 
 		$s = "";
 		if ($case["n_cadavres"] > 1) {

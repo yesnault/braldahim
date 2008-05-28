@@ -198,17 +198,17 @@ class Bral_Echoppes_Vendreequipement extends Bral_Echoppes_Echoppe {
 		$prix_2_echoppe = null;
 		$prix_3_echoppe = null;
 		foreach($this->view->unites as $k => $u) {
-			if ($unite_1 == $k && substr($unite_1, 0, 6) != "plante" && substr($unite_1, 0, 7) != "minerai") {
+			if ($unite_1 == $k && mb_substr($unite_1, 0, 6) != "plante" && mb_substr($unite_1, 0, 7) != "minerai") {
 				$prix_1_echoppe = $prix_1;
 				$unite_1_echoppe = $u["id_type_unite"];
 				$unite_1_ok = true;
 			}
-			if ($unite_2 == $k && substr($unite_2, 0, 6) != "plante" && substr($unite_2, 0, 7) != "minerai") {
+			if ($unite_2 == $k && mb_substr($unite_2, 0, 6) != "plante" && mb_substr($unite_2, 0, 7) != "minerai") {
 				$prix_2_echoppe = $prix_2;
 				$unite_2_echoppe = $u["id_type_unite"];
 				$unite_2_ok = true;
 			}
-			if ($unite_3 == $k && substr($unite_3, 0, 6) != "plante" && substr($unite_3, 0, 7) != "minerai") {
+			if ($unite_3 == $k && mb_substr($unite_3, 0, 6) != "plante" && mb_substr($unite_3, 0, 7) != "minerai") {
 				$prix_3_echoppe = $prix_3;
 				$unite_3_echoppe = $u["id_type_unite"];
 				$unite_3_ok = true;
@@ -235,20 +235,20 @@ class Bral_Echoppes_Vendreequipement extends Bral_Echoppes_Echoppe {
 		$echoppeEquipementMineraiTable = new EchoppeEquipementMinerai();
 		
 		foreach($this->view->unites as $k => $u) {
-			if ($unite_1 == $k && substr($unite_1, 0, 7) == "minerai") {
+			if ($unite_1 == $k && mb_substr($unite_1, 0, 7) == "minerai") {
 				$data = array("prix_echoppe_equipement_minerai" => $prix_1,
 							  "id_fk_type_echoppe_equipement_minerai" => $u["id_type_minerai"],
 							  "id_fk_echoppe_equipement_minerai" => $id_equipement
 				);
 				$echoppeEquipementMineraiTable->insertOrUpdate($data);
 			}
-			if ($unite_2 == $k && substr($unite_2, 0, 7) == "minerai") {
+			if ($unite_2 == $k && mb_substr($unite_2, 0, 7) == "minerai") {
 				$data = array("prix_echoppe_equipement_minerai" => $prix_2,
 							  "id_fk_type_echoppe_equipement_minerai" => $u["id_type_minerai"],
 							  "id_fk_echoppe_equipement_minerai" => $id_equipement);
 				$echoppeEquipementMineraiTable->insertOrUpdate($data);
 			}
-			if ($unite_3 == $k && substr($unite_3, 0, 7) == "minerai") {
+			if ($unite_3 == $k && mb_substr($unite_3, 0, 7) == "minerai") {
 				$data = array("prix_echoppe_equipement_minerai" => $prix_3,
 							  "id_fk_type_echoppe_equipement_minerai" => $u["id_type_minerai"],
 							  "id_fk_echoppe_equipement_minerai" => $id_equipement);
@@ -262,21 +262,21 @@ class Bral_Echoppes_Vendreequipement extends Bral_Echoppes_Echoppe {
 		$echoppeEquipementPartiePlanteTable = new EchoppeEquipementPartiePlante();
 		
 		foreach($this->view->unites as $k => $u) {
-			if ($unite_1 == $k && substr($unite_1, 0, 6) == "plante") {
+			if ($unite_1 == $k && mb_substr($unite_1, 0, 6) == "plante") {
 				$data = array("prix_echoppe_equipement_partieplante" => $prix_1,
 							  "id_fk_type_echoppe_equipement_partieplante" => $u["id_type_partieplante"],
 							  "id_fk_type_plante_echoppe_equipement_partieplante" => $u["id_type_plante"],
 							  "id_fk_echoppe_equipement_partieplante" => $id_equipement);
 				$echoppeEquipementPartiePlanteTable->insertOrUpdate($data);
 			}
-			if ($unite_2 == $k && substr($unite_2, 0, 6) == "plante") {
+			if ($unite_2 == $k && mb_substr($unite_2, 0, 6) == "plante") {
 				$data = array("prix_echoppe_equipement_partieplante" => $prix_2,
 							  "id_fk_type_echoppe_equipement_partieplante" => $u["id_type_partieplante"],
 							  "id_fk_type_plante_echoppe_equipement_partieplante" => $u["id_type_plante"],
 							  "id_fk_echoppe_equipement_partieplante" => $id_equipement);
 				$echoppeEquipementPartiePlanteTable->insertOrUpdate($data);
 			}
-			if ($unite_3 == $k && substr($unite_3, 0, 6) == "plante") {
+			if ($unite_3 == $k && mb_substr($unite_3, 0, 6) == "plante") {
 				$data = array("prix_echoppe_equipement_partieplante" => $prix_3,
 							  "id_fk_type_echoppe_equipement_partieplante" => $u["id_type_partieplante"],
 							  "id_fk_type_plante_echoppe_equipement_partieplante" => $u["id_type_plante"],

@@ -3,7 +3,7 @@
       		<?php 
       			$textRune = "";
       			foreach($case["elements_potions"] as $p) {
-      				$textRune .= "1 potion ".htmlentities($p["nom"]) ." de qualit&eacute; ".htmlentities($p["qualite"]) ." (n&deg; ".$p["id_element_potion"].") <br />";
+      				$textRune .= "1 potion ".htmlspecialchars($p["nom"]) ." de qualit&eacute; ".htmlspecialchars($p["qualite"]) ." (n&deg; ".$p["id_element_potion"].") <br />";
 				} 
 				$s = "";
 				if ($case["n_elements_potions"] > 1) {

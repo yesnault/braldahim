@@ -2,17 +2,17 @@
 
  <div class='comp_contenu'>
 	 <div id='transfererpotion_text' style="display:block"  onClick="javascript:switch2div('transfererpotion_text','transfererpotion_copie');">
-		Vous avez transf&eacute;r&eacute; dans <?=htmlentities($this->destination["texte"])?> la potion <br />
-		<?=htmlentities($this->potion["nom"]) ?> n&deg; <?=$this->potion["id_echoppe_potion"] ?>
+		Vous avez transf&eacute;r&eacute; dans <?=htmlspecialchars($this->destination["texte"])?> la potion <br />
+		<?=htmlspecialchars($this->potion["nom"]) ?> n&deg; <?=$this->potion["id_echoppe_potion"] ?>
 		<br />
 	 </div>
 	 
 	 <div id='transfererpotion_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
 		echo "Vous avez transf&eacute;r&eacute; ";
-		echo " dans ".htmlentities($this->destination["texte"]);
+		echo " dans ".htmlspecialchars($this->destination["texte"]);
 		echo " la potion ";
-		echo htmlentities($this->potion["nom"]);
+		echo htmlspecialchars($this->potion["nom"]);
 		echo " n&deg;".$this->potion["id_echoppe_potion"]; 
 		
 	?>

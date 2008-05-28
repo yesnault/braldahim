@@ -12,9 +12,9 @@
 	
 	<ul class="titre textalic textsizec">Site Web</ul><br />
 	<div id="label_site">
-		<a href="<?=htmlentities($this->communaute["site_web"]) ?>"><?=htmlentities($this->communaute["site_web"]) ?></a>
+		<a href="<?=htmlspecialchars($this->communaute["site_web"]) ?>"><?=htmlspecialchars($this->communaute["site_web"]) ?></a>
 	</div>
-	<input type="text" id="valeur_2" size="50" maxlength="250" style="display:none" value="<?=htmlentities($this->communaute["site_web"]) ?>" />
+	<input type="text" id="valeur_2" size="50" maxlength="250" style="display:none" value="<?=htmlspecialchars($this->communaute["site_web"]) ?>" />
 	
 	<input type="button" class='button1' name="bouton_editer_site" id="bouton_editer_site" value="Editer le site web" 
 		onClick="$('label_site').style.display='none'; 
@@ -41,7 +41,7 @@
 		"/>
 		
   <div id="label_description">
-  <?=Bral_Util_BBParser::bbcodeReplace($this->communaute["description"]) ?><? if (strlen(trim($this->communaute["description"])) == 0 || $this->communaute["description"] == null) :?> [vide]<? endif; ?>
+  <?=Bral_Util_BBParser::bbcodeReplace($this->communaute["description"]) ?><? if (mb_strlen(trim($this->communaute["description"])) == 0 || $this->communaute["description"] == null) :?> [vide]<? endif; ?>
   </div>
   
   <div id="edition" style="display:none">

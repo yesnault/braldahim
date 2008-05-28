@@ -40,11 +40,11 @@
 	  				<td class="table_liste">
 						<img alt="read" title="read" src="/public/images/uddeim/nonew_im.gif" border="0">
 					</td>
-	  				<td class="table_liste" onClick="<?=$js ?>"> <?if (strlen($message["expediteur_destinataire"]) > 25) echo substr(htmlentities($message["expediteur_destinataire"]), 0, 25)."..."; else echo htmlentities($message["expediteur_destinataire"]);?>&nbsp;</td>
-	  				<td class="table_liste" onClick="<?=$js ?>"> <?if (strlen($message["titre"]) > 25) echo Bral_Util_BBParser::bbcodeStrip(substr($message["titre"], 0, 25))."..."; else echo Bral_Util_BBParser::bbcodeStrip($message["titre"]);?></td>
+	  				<td class="table_liste" onClick="<?=$js ?>"> <?if (mb_strlen($message["expediteur_destinataire"]) > 25) echo mb_substr(htmlspecialchars($message["expediteur_destinataire"]), 0, 25)."..."; else echo htmlspecialchars($message["expediteur_destinataire"]);?>&nbsp;</td>
+	  				<td class="table_liste" onClick="<?=$js ?>"> <?if (mb_strlen($message["titre"]) > 25) echo Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else echo Bral_Util_BBParser::bbcodeStrip($message["titre"]);?></td>
 	  				<td class="table_liste" onClick="<?=$js ?>"> le <?=date('d/m/y, H:i', $message["date"]);?></td>
 	  				<td class="table_liste">
-						<img src="/public/images/uddeim/forward.gif" alt="Transférer" title="Transférer"><br>
+						<img src="/public/images/uddeim/forward.gif" alt="Transf&eacute;rer" title="Transf&eacute;rer"><br>
 						<img src="/public/images/uddeim/trash.gif" alt="Effacer" title="Effacer">
 					</td>
 	  			</tr>

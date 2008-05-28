@@ -3,7 +3,7 @@
       		<?php 
       			$textPalissade = "";
       			foreach($case["palissades"] as $p) {
-      				$textPalissade .= "1 palissade (n&deg; ".htmlentities($p["id_palissade"]).")<br />";
+      				$textPalissade .= "1 palissade (n&deg; ".htmlspecialchars($p["id_palissade"]).")<br />";
 				} 
 				$s = "";
 				if ($case["n_palissades"] > 1) {

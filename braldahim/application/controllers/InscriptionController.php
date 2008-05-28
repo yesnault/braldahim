@@ -189,7 +189,7 @@ class InscriptionController extends Zend_Controller_Action {
 			}
 		}
 
-		// hobbit par d�faut
+		// hobbit par defaut
 		$this->view->hobbit= new stdClass();
 		$this->view->hobbit->id_hobbit = null;
 		$this->view->hobbit->prenom_hobbit = $this->prenom_hobbit;
@@ -202,7 +202,6 @@ class InscriptionController extends Zend_Controller_Action {
 	}
 
 	private function initialiseDataHobbit() {
-		
 		// region aleatoire
 		if ($this->id_region == -1) {
 			$regionTable = new Region();
@@ -310,7 +309,7 @@ class InscriptionController extends Zend_Controller_Action {
 	
 	private function calculParent($idHobbit) {
 		Bral_Util_Log::inscription()->trace("InscriptionController - calculParent - enter");
-		// on tente de cr�er de nouveaux couples si besoin
+		// on tente de creer de nouveaux couples si besoin
 		$de = Bral_Util_De::get_de_specifique(0, 3);
 		
 		for ($i = 0; $i < $de; $i++) {
@@ -380,4 +379,3 @@ class InscriptionController extends Zend_Controller_Action {
 		return $dataParents;
 	}
 }
-

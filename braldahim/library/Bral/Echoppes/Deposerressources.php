@@ -145,7 +145,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		$this->calculPartiesPlantes();
 		$this->calculMinerais();
 		if ($this->view->elementsRetires != "") {
-			$this->view->elementsRetires = substr($this->view->elementsRetires, 0, -2);
+			$this->view->elementsRetires = mb_substr($this->view->elementsRetires, 0, -2);
 		}
 		
 		$this->calculPoids();

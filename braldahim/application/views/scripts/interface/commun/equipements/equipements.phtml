@@ -25,7 +25,7 @@
 			   foreach($this->equipements as $e) :?>
 					<tr class="table_liste<?=($i % 2);$i++; ?>">
 				  		<td class="table_liste"><?=$e["id_equipement"] ?></td>
-				  		<td class="table_liste"><?=htmlentities($e["nom"])." ".htmlentities(addslashes($e["suffixe"]))." de qualit&eacute; ".htmlentities($e["qualite"]) ?></td>
+				  		<td class="table_liste"><?=$e["nom"]." ".addslashes($e["suffixe"])." de qualit&eacute; ".$e["qualite"] ?></td>
 				  		<td class="table_liste"><?=$e["niveau"] ?></td>
 				  		<td class="table_liste"><?=$e["nb_runes"] ?></td>
 				  		<td class="table_liste">
@@ -33,7 +33,7 @@
 				  		</td>
 				  		<? if ($this->estEquipementsPotionsEtal === true) : ?>
 							<td class="table_liste" nowrap><?=Bral_Helper_DetailEquipement::afficherPrix($e);?></td>
-							<td class="table_liste"><?=htmlentities($e["commentaire_vente_echoppe_equipement"])?></td>
+							<td class="table_liste"><?=$e["commentaire_vente_echoppe_equipement"]?></td>
 						<? endif; ?>
 						<? if ($this->estEquipementsPotionsEtalAchat === true) : ?>
 							<td class="table_liste">

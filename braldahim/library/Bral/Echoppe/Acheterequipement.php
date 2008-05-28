@@ -222,7 +222,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 	     			$acheterOk = true;
 	     		}
 		    	$prix = $m["prix_echoppe_equipement_minerai"];
-	    		$nom = htmlentities($m["nom_type_minerai"]);
+	    		$nom = htmlspecialchars($m["nom_type_minerai"]);
 	    		$type = "minerais";
 	    		$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "minerais" => $m, "possible" => $m["possible"]);
 	    	}
@@ -238,9 +238,9 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		    	if ($p["prix_echoppe_equipement_partieplante"] > 1) {
 		    		$s = "s";
 		    	}
-	    		$nom = htmlentities($p["nom_type_partieplante"]). "$s ";
-	    		$nom .= htmlentities($p["prefix_type_plante"]);
-	    		$nom .= htmlentities($p["nom_type_plante"]);
+	    		$nom = htmlspecialchars($p["nom_type_partieplante"]). "$s ";
+	    		$nom .= htmlspecialchars($p["prefix_type_plante"]);
+	    		$nom .= htmlspecialchars($p["nom_type_plante"]);
 	    		$type = "parties_plantes";
 	    		$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "parties_plantes" => $p, "possible" => $p["possible"]);
     	 	}

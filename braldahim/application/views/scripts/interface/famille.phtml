@@ -7,9 +7,9 @@
  <? if ($this->affichageInterne == true) : ?>
   	<? if ($this->pereMereOk === true) :?>
   	Suite &agrave; l'heureuse rencontre entre votre m&egrave;re 
-  		<?=htmlentities($this->mere->prenom_hobbit) ?> <?=htmlentities($this->mere->nom_hobbit) ?> (n&deg;<?=htmlentities($this->mere->id_hobbit) ?>)
+  		<?=$this->mere->prenom_hobbit ?> <?=$this->mere->nom_hobbit ?> (n&deg;<?=$this->mere->id_hobbit ?>)
   	et votre p&egrave;re 
-  		<?=htmlentities($this->pere->prenom_hobbit) ?> <?=htmlentities($this->pere->nom_hobbit) ?> (n&deg;<?=htmlentities($this->pere->id_hobbit) ?>)
+  		<?=$this->pere->prenom_hobbit ?> <?=$this->pere->nom_hobbit ?> (n&deg;<?=$this->pere->id_hobbit ?>)
   	vous &ecirc;tes n&eacute;<? if ($this->user->sexe_hobbit == 'feminin') echo "e"?> le <?=$this->dateNaissance ?>.
   	
   	<? else: ?>
@@ -22,7 +22,7 @@
     <? else : ?>
     	Avec votre conjoint
     	<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->conjoint["id_hobbit"] ?>');">
-    		<?=htmlentities($this->conjoint["prenom"]) ?> <?=htmlentities($this->conjoint["nom"]) ?> (n&deg;<?=htmlentities($this->conjoint["id_hobbit"]) ?>)
+    		<?=$this->conjoint["prenom"] ?> <?=$this->conjoint["nom"] ?> (n&deg;<?=$this->conjoint["id_hobbit"] ?>)
     	</a>
     	 vous avez eu <?=$this->nbEnfants ?> enfant<? if ($this->nbEnfants > 1) echo 's' ?>.<br />
     	
@@ -37,7 +37,7 @@
 				<tbody>
 					<? foreach($this->enfants as $e) :?>
 					<tr class="table_liste">
-						<td><a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$e["id_hobbit"] ?>');"><?=htmlentities($e["prenom"]) ?> <?=htmlentities($e["nom"]) ?> (n&deg;<?=htmlentities($e["id_hobbit"])?>)</a></td>
+						<td><a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$e["id_hobbit"] ?>');"><?=$e["prenom"] ?> <?=$e["nom"] ?> (n&deg;<?=$e["id_hobbit"]?>)</a></td>
 						<td nowrap>n&eacute;<? if ($e["sexe_hobbit"] == 'feminin') echo "e"?> le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$e["date_naissance"] );?></td>
 					</tr>
 					<? endforeach; ?>

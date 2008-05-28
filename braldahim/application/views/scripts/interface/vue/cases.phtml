@@ -1,13 +1,13 @@
       	<div class="vue2d_case_num">
       		<? if (!empty($case["ville"])) :
-      			$textVille = "Ville : ".htmlentities($case["ville"]["nom_ville"]);
+      			$textVille = "Ville : ".htmlspecialchars($case["ville"]["nom_ville"]);
       			if ($case["ville"]["est_capitale"] === true) {
       				$textVille .= " - Capitale";
       			}
-      			$textVille .= "<br />R&eacute;gion : ".htmlentities($case["ville"]["nom_region"]);
+      			$textVille .= "<br />R&eacute;gion : ".htmlspecialchars($case["ville"]["nom_region"]);
       			$titre = "Position : X=".$case["x"]." Y:".$case["y"]." Ville";
       		?>
-      		<img src='/public/images/villes/puce_<?=$case["ville"]["nom_systeme"]?>.gif' alt='<?=htmlentities($case["ville"]["nom_ville"])?>' 
+      		<img src='/public/images/villes/puce_<?=$case["ville"]["nom_systeme"]?>.gif' alt='<?=htmlspecialchars($case["ville"]["nom_ville"])?>' 
       			<?=Bral_Helper_Tooltip::jsTip($textVille, $titre) ?> />
       		<? endif; ?>
       		<?=$case["x"]. "," . $case["y"] ?>

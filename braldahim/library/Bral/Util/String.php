@@ -1,41 +1,41 @@
 <?php
 
-
 class Bral_Util_String {
 
 	private function __construct() {
 	}
 	
 	public static function firstToUpper($m) {
-		return strtoupper($m{0}) . substr($m, 1);
+		return mb_strtoupper($m{0}) . mb_substr($m, 1);
 	}
 	
 	/*
-	 * Retourne un caractère en majuscule, y compris la majuscule 
-	 * des caractères accentués.
+	 * Retourne un caractÃ¨re en majuscule, y compris la majuscule 
+	 * des caractÃ¨res accentuÃ©s.
 	 */
 	public static function toUpper($c) {
 		$c = strtoupper($c);
 		$tab = array(
-			'ä' => 'Ä',
-			'â' => 'Â',
-			'à' => 'À',
-			'é' => 'É',
-			'è' => 'È',
-			'ê' => 'Ê',  
-			'î' => 'Î',
-			'ï' => 'Ï',
-			'ì' => 'Ì',
-			'ö' => 'Ö',
-			'ô' => 'Ô',
-			'ò' => 'Ò',
-			'û' => 'Û', 
-			'ü' => 'Ü',
-			'ù' => 'Ù', 
-			'ç' => 'Ç', 
-			'ñ' => 'Ñ', 
-			'ã' => 'Ã',
-		);
+                        'Ã¤' => 'Ã„',
+                        'Ã¢' => 'Ã‚',
+                        'Ã ' => 'Ã€',
+                        'Ã©' => 'Ã‰',
+                        'Ã¨' => 'Ãˆ',
+                        'Ãª' => 'ÃŠ',  
+                        'Ã®' => 'Ã',
+                        'Ã¯' => 'Ã',
+                        'Ã¬' => 'ÃŒ',
+                        'Ã¶' => 'Ã–',
+                        'Ã´' => 'Ã”',
+                        'Ã²' => 'Ã’',
+                        'Ã»' => 'Ã›', 
+                        'Ã¼' => 'Ãœ',
+                        'Ã¹' => 'Ã™', 
+                        'Ã§' => 'Ã‡', 
+                        'Ã±' => 'Ã‘', 
+                        'Ã£' => 'Ãƒ',
+                );
+		
 		
 		if (array_key_exists($c, $tab)) {
 			return $tab[$c];

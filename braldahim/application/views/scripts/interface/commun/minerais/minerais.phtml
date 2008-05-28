@@ -5,7 +5,7 @@
 			<thead class="table_liste">
 			  <tr class="table_liste">
 			  	<? foreach ($this->minerais as $m) :  ?>
-				<th style="width:auto; padding:5px;" ><?=htmlentities($m["type"])?></th>
+				<th style="width:auto; padding:5px;" ><?=htmlspecialchars($m["type"])?></th>
 				<? endforeach; ?>
 			  </tr>
 			</thead>

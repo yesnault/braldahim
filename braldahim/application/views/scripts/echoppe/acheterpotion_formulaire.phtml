@@ -1,4 +1,4 @@
-<div class='comp_titre'><?=htmlentities($this->titreAction) ?></div>
+<div class='comp_titre'><?=htmlspecialchars($this->titreAction) ?></div>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <input type='hidden' id='valeur_1' name='valeur_1' value='<?=$this->potion["id_potion"] ?>'>
  <input type='hidden' id='valeur_2' name='valeur_2' value='-1'>

@@ -17,7 +17,7 @@
 				<td>
 					<select name="id_type">
 					<? foreach ($this->typesMonstre as $t) : ?>
-					<option value="<?=$t["id_type_monstre"]?>"  <?if($this->referenceCourante["id_type_monstre"] == $t["id_type_monstre"]){echo "selected";}?>><?=htmlentities($t["nom_type"])?></option>
+					<option value="<?=$t["id_type_monstre"]?>"  <?if($this->referenceCourante["id_type_monstre"] == $t["id_type_monstre"]){echo "selected";}?>><?=$t["nom_type"]?></option>
 					<? endforeach; ?>
 					</select>
 				</td>
@@ -29,7 +29,7 @@
 				<td>
 					<select name="id_taille">
 					<? foreach ($this->taillesMonstre as $t) : ?>
-					<option value="<?=$t["id_taille_monstre"]?>" <?if($this->referenceCourante["id_taille_monstre"] == $t["id_taille_monstre"]){echo "selected";}?>><?=htmlentities($t["nom_feminin"])?> / <?=htmlentities($t["nom_masculin"])?></option>
+					<option value="<?=$t["id_taille_monstre"]?>" <?if($this->referenceCourante["id_taille_monstre"] == $t["id_taille_monstre"]){echo "selected";}?>><?=$t["nom_feminin"]?> / <?=$t["nom_masculin"]?></option>
 					<? endforeach; ?>
 					</select>
 				</td>
@@ -119,8 +119,8 @@
 			<? foreach ($this->refMonstre as $r) : ?>
 				<tr>
 					<td><?=$r["id_ref_monstre"] ?></td>
-					<td><?=htmlentities($r["nom_type"]) ?></td>
-					<td><?=htmlentities($r["taille"]) ?></td>
+					<td><?=$r["nom_type"] ?></td>
+					<td><?=$r["taille"] ?></td>
 					<td><?=$r["niveau_min"] ?></td>
 					<td><?=$r["niveau_max"] ?></td>
 					<td><?=$r["p_force"] ?></td>

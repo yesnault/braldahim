@@ -3,11 +3,11 @@
       		<?php 
       			$textHobbit = "";
       			foreach($case["hobbits"] as $h) {
-      				$textHobbit .= htmlentities($h["prenom_hobbit"])." ".htmlentities($h["nom_hobbit"]);
+      				$textHobbit .= htmlspecialchars($h["prenom_hobbit"])." ".htmlspecialchars($h["nom_hobbit"]);
       				$textHobbit .= " (n&deg; ".$h["id_hobbit"]."), niv.".$h["niveau_hobbit"];
       				$textHobbit .= ' <label class=alabel onClick=ouvrirWin(\\\'\/voir\/hobbit\/?hobbit='.$h["id_hobbit"].'\\\');>[profil]</label>';
       				if ($h["id_communaute"] != null) {
-      					$textHobbit .= ' - <label class=alabel onClick=ouvrirWin(\\\'\/voir\/communaute\/?communaute='.$h["id_communaute"].'\\\');>'.htmlentities($h["nom_communaute"]).'</label>';
+      					$textHobbit .= ' - <label class=alabel onClick=ouvrirWin(\\\'\/voir\/communaute\/?communaute='.$h["id_communaute"].'\\\');>'.htmlspecialchars($h["nom_communaute"]).'</label>';
       				}
       				$textHobbit .= "<br />";
 				} 

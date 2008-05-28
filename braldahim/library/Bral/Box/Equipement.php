@@ -60,7 +60,7 @@ class Bral_Box_Equipement extends Bral_Box_Box {
 		}
 		unset($typesEmplacement);
 		
-		// on va chercher l'équipement porté
+		// on va chercher l'Ã©quipement portÃ©
 		$tabEquipementPorte = null;
 		$hobbitEquipementTable = new HobbitEquipement();
 		$equipementPorteRowset = $hobbitEquipementTable->findByIdHobbit($this->view->user->id_hobbit);

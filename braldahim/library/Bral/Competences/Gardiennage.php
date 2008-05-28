@@ -69,7 +69,7 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		$nbJour = $this->request->get("valeur_3");
 		$idGardienExistant = trim($this->request->get("valeur_4"));
 		$idNouveauGardien = $this->request->get("valeur_5");
-		$commentaire = substr($filtreChaine->filter($this->request->get("valeur_6")), 0, 100);
+		$commentaire = mb_substr($filtreChaine->filter($this->request->get("valeur_6")), 0, 100);
 		
 		// Verification du premier jour
 		if (!in_array($premierJour, $this->tabJoursDebutValides)) {

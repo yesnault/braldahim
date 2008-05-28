@@ -6,7 +6,7 @@
 			<? else: ?>
 			Vous avez cueilli avec succ&egrave;s un &eacute;l&eacute;ment sur la plante <br />
 			<? endif; ?>
-			<?=htmlentities($this->plante["categorie"])?> - <?=htmlentities($this->plante["nom_type"])?> (<?=$this->plante["id_plante"]?>)
+			<?=htmlspecialchars($this->plante["categorie"])?> - <?=htmlspecialchars($this->plante["nom_type"])?> (<?=$this->plante["id_plante"]?>)
 			<br /><br />
 		
 			<? if ($this->cueillette[1]["quantite"] != 0) {
@@ -32,7 +32,7 @@
 		<? else: ?>
 			<? if ($this->planteDetruite === true) : ?>
 				Vous avez tout g&acirc;ch&eacute; ! La plante 
-				<?=htmlentities($this->plante["categorie"])?> - <?=htmlentities($this->plante["nom_type"])?> (<?=$this->plante["id_plante"]?>)
+				<?=htmlspecialchars($this->plante["categorie"])?> - <?=htmlspecialchars($this->plante["nom_type"])?> (<?=$this->plante["id_plante"]?>)
 				est d&eacute;truite.
 			<? else: ?>
 				Vous avez n'avez pas r&eacute;ussi &agrave; cueillir en &eacute;tat des &eacute;l&eacute;ments de 
