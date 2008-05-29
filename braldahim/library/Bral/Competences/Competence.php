@@ -234,7 +234,7 @@ abstract class Bral_Competences_Competence {
 	}
 	
 	/*
-	 * Mise � jour des PA, des PX et de la balance de faim.
+	 * Mise à jour des PA, des PX et de la balance de faim.
 	 */
 	protected function majHobbit() {
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
@@ -246,7 +246,7 @@ abstract class Bral_Competences_Competence {
 			$this->view->user->balance_faim_hobbit = 0;
 		}
 		
-		if ($this->view->user->pa_hobbit  < 0) { // verif au cas o�...
+		if ($this->view->user->pa_hobbit  < 0) { // verif au cas où...
 			$this->view->user->pa_hobbit = 0;
 		}
 

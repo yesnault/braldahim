@@ -5,7 +5,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 
-		// récupération des hobbits qui sont présents dans la vue
+		// rÃ©cupÃ©ration des hobbits qui sont prÃ©sents dans la vue
 		$hobbitTable = new Hobbit();
 		// s'il y a trop de hobbits, on prend que les plus proches
 		$this->view->estMaxHobbits = false;
@@ -15,7 +15,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 
 		foreach($hobbits as $h) {
 			if ($h["id_hobbit"] == $this->view->user->id_hobbit) {
-				$nom = " Vous-Même : ".$h["prenom_hobbit"]. " ". $h["nom_hobbit"];
+				$nom = " Vous-Mï¿½me : ".$h["prenom_hobbit"]. " ". $h["nom_hobbit"];
 			}
 			$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"], "nom_hobbit" => $h["nom_hobbit"], "prenom_hobbit" => $h["prenom_hobbit"]);
 		}
@@ -82,7 +82,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 			}
 			$tab["id_hobbit"] = $t["id_hobbit"];
 			if ($t["id_hobbit"] == $this->view->user->id_hobbit) {
-				$tab["nom_hobbit"] = "Vous-Même : ".$hobbit->prenom_hobbit. " " .$hobbit->nom_hobbit;
+				$tab["nom_hobbit"] = "Vous-Mï¿½me : ".$hobbit->prenom_hobbit. " " .$hobbit->nom_hobbit;
 			} else {
 				$tab["nom_hobbit"] = $hobbit->prenom_hobbit. " " .$hobbit->nom_hobbit;
 			}
@@ -93,26 +93,21 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 			$tabAffiche[] = $tab;
 
 			$id_type = $this->view->config->game->evenements->type->don;
-			$detailsD = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a donné des PX à ".$tab["nom_hobbit_details"]." (".$tab["id_hobbit"].")";
-			$detailsR = $tab["nom_hobbit_details"]." (".$tab["id_hobbit"].") a reçu des PX la part de ".$this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.")";
+			$detailsD = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a donnÃ© des PX Ã  ".$tab["nom_hobbit_details"]." (".$tab["id_hobbit"].")";
+			$detailsR = $tab["nom_hobbit_details"]." (".$tab["id_hobbit"].") a reÃ§u des PX la part de ".$this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.")";
 			
-			$detailDonneur = "Vous avez donné ".$tab["px_recu"]." PX à ".$tab["nom_hobbit"]." (".$tab["id_hobbit"].")";
-			$detailReceveur = "Vous avez reçu ".$tab["px_recu"]." PX de la part de ".$hobbit->prenom_hobbit. " ". $hobbit->nom_hobbit." (".$this->view->user->id_hobbit.")";
+			$detailDonneur = "Vous avez donnÃ© ".$tab["px_recu"]." PX Ã  ".$tab["nom_hobbit"]." (".$tab["id_hobbit"].")";
+			$detailReceveur = "Vous avez reÃ§u ".$tab["px_recu"]." PX de la part de ".$hobbit->prenom_hobbit. " ". $hobbit->nom_hobbit." (".$this->view->user->id_hobbit.")";
 			Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $id_type, $detailsD, $detailDonneur);
 			Bral_Util_Evenement::majEvenements($tab["id_hobbit"], $id_type, $detailsR, $detailReceveur);
 		}
 
-		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
-		$hobbit = $hobbitRowset->current();
 		$this->view->user->px_commun_hobbit = $this->view->user->px_commun_hobbit - $total_distribution;
-		$data = array(
-			'px_commun_hobbit' => $this->view->user->px_commun_hobbit,
-		);
-		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
 
 		$this->view->tabAffiche = $tabAffiche;
 		$this->view->totalDistribution = $total_distribution;
+		
+		$this->majHobbit();
 	}
 
 	function getListBoxRefresh() {
