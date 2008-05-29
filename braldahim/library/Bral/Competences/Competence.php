@@ -33,7 +33,7 @@ abstract class Bral_Competences_Competence {
 		// recuperation de hobbit competence
 		$this->hobbit_competence = $hobbitCompetence;
 		
-		// si c'est une competence metier, on verifie que ce n'est pas utilisé plus de 2 fois par DLA
+		// si c'est une competence metier, on verifie que ce n'est pas utilisï¿½ plus de 2 fois par DLA
 		$this->view->nbActionMetierParDlaOk = $this->calculNbActionMetierParDlaOk();
 		
 		$this->prepareCommun();
@@ -117,9 +117,9 @@ abstract class Bral_Competences_Competence {
 	
 	protected function calculJets() {
 		$this->view->jetUtilise = true;
-		$this->view->okJet1 = false; // jet de compétence
-		$this->view->okJet2 = false; // jet amélioration de la compétence
-		$this->view->okJet3 = false; // jet du % d'amélioration
+		$this->view->okJet1 = false; // jet de compï¿½tence
+		$this->view->okJet2 = false; // jet amï¿½lioration de la compï¿½tence
+		$this->view->okJet3 = false; // jet du % d'amï¿½lioration
 		$this->calculJets1();
 		$this->calculJets2et3();
 		$this->majSuiteJets();
@@ -127,7 +127,7 @@ abstract class Bral_Competences_Competence {
 	}
 	
 	private function calculJets1() {
-		// 1er Jet : réussite ou non de la compétence
+		// 1er Jet : rï¿½ussite ou non de la compï¿½tence
 		$this->view->jet1 = Bral_Util_De::get_1d100();
 		if ($this->view->jet1 <= $this->hobbit_competence["pourcentage_hcomp"]) {
 			$this->view->okJet1 = true;
@@ -145,13 +145,13 @@ abstract class Bral_Competences_Competence {
 			$this->view->ameliorationCompetenceMetierCourant = $this->ameliorationCompetenceMetier();
 		}
 		
-		// a t-on le droit d'améliorer la compétence métier
+		// a t-on le droit d'amï¿½liorer la compï¿½tence mï¿½tier
 		if ($this->view->estCompetenceMetier === true && $this->view->ameliorationCompetenceMetierCourant === false) { 
 			$this->view->okJet2 = false;
 			
 		}  else if ($this->view->okJet1 === true || $this->hobbit_competence["pourcentage_hcomp"] < 50) {
-			// 2nd Jet : réussite ou non de l'amélioration de la compétence
-			// seulement si la maitrise de la compétence est < 50 ou si le jet1 est réussi
+			// 2nd Jet : rï¿½ussite ou non de l'amï¿½lioration de la compï¿½tence
+			// seulement si la maitrise de la compï¿½tence est < 50 ou si le jet1 est rï¿½ussi
 			$this->view->jet2 = Bral_Util_De::get_1d100();
 			$this->view->jet2Possible = true;
 			if ($this->view->jet2 > $this->hobbit_competence["pourcentage_hcomp"]) {
@@ -159,9 +159,9 @@ abstract class Bral_Competences_Competence {
 			}
 		}
 
-		// 3ème Jet : % d'amélioration de la compétence
+		// 3ï¿½me Jet : % d'amï¿½lioration de la compï¿½tence
 		if ($this->view->okJet2 === true) {
-			if ($this->hobbit_competence["pourcentage_hcomp"] >= 90) { // pas d'amélioration au delà de 90 %
+			if ($this->hobbit_competence["pourcentage_hcomp"] >= 90) { // pas d'amï¿½lioration au delï¿½ de 90 %
 				$this->view->okJet3 = false;
 			} else {
 				$this->view->okJet3 = true;
@@ -180,9 +180,9 @@ abstract class Bral_Competences_Competence {
 		}
 	}
 
-	// mise à jour de la table hobbit competence
+	// mise ï¿½ jour de la table hobbit competence
 	private function majSuiteJets() {
-		if ($this->view->okJet3 === true) { // uniquement dans le cas de réussite du jet3
+		if ($this->view->okJet3 === true) { // uniquement dans le cas de rï¿½ussite du jet3
 			$hobbitsCompetencesTable = new HobbitsCompetences();
 			$pourcentage = $this->hobbit_competence["pourcentage_hcomp"] + $this->view->jet3;
 			if ($pourcentage > 90) { // 90% maximum
@@ -195,7 +195,7 @@ abstract class Bral_Competences_Competence {
 	}
 
 	/*
-	 * Mise à jour des évènements du hobbit / du monstre.
+	 * Mise ï¿½ jour des ï¿½vï¿½nements du hobbit / du monstre.
 	 */
 	protected function setDetailsEvenement($details, $idType) {
 		$this->detailEvenement = $details;
@@ -203,21 +203,21 @@ abstract class Bral_Competences_Competence {
 	}
 	
 	/*
-	 * Mise à jour des évènements du hobbit / du monstre.
+	 * Mise ï¿½ jour des ï¿½vï¿½nements du hobbit / du monstre.
 	 */
 	protected function setEstEvenementAuto($flag) {
 		$this->estEvenementAuto = $flag;
 	}
 	
 	/*
-	 * Mise à jour des évènements du hobbit / du monstre.
+	 * Mise ï¿½ jour des ï¿½vï¿½nements du hobbit / du monstre.
 	 */
 	protected function setEvenementQueSurOkJet1($flag) {
 		$this->evenementQueSurOkJet1 = $flag;
 	}
 	
 	/*
-	 * Mise à jour des évènements du hobbit : type : compétence.
+	 * Mise ï¿½ jour des ï¿½vï¿½nements du hobbit : type : compï¿½tence.
 	 */
 	private function majEvenementsStandard($detailsBot) {
 		if ($this->estEvenementAuto === true) {
@@ -225,7 +225,7 @@ abstract class Bral_Competences_Competence {
 				$this->idTypeEvenement = $this->view->config->game->evenements->type->competence;
 			}
 			if ($this->detailEvenement == null) {
-				$this->detailEvenement = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a réussi l'utilisation d'une compétence";
+				$this->detailEvenement = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a rÃ©ussi l'utilisation d'une compÃ©tence";
 			}
 			if ($this->view->okJet1 === true || $this->evenementQueSurOkJet1 == false) {
 				Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot);
@@ -234,7 +234,7 @@ abstract class Bral_Competences_Competence {
 	}
 	
 	/*
-	 * Mise à jour des PA, des PX et de la balance de faim.
+	 * Mise ï¿½ jour des PA, des PX et de la balance de faim.
 	 */
 	protected function majHobbit() {
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
@@ -246,7 +246,7 @@ abstract class Bral_Competences_Competence {
 			$this->view->user->balance_faim_hobbit = 0;
 		}
 		
-		if ($this->view->user->pa_hobbit  < 0) { // verif au cas où...
+		if ($this->view->user->pa_hobbit  < 0) { // verif au cas oï¿½...
 			$this->view->user->pa_hobbit = 0;
 		}
 
@@ -286,7 +286,7 @@ abstract class Bral_Competences_Competence {
 		switch($this->action) {
 			case "ask":
 				$texte = $this->view->render("competences/".$this->nom_systeme."_formulaire.phtml");
-				// suppression des espaces : on met un espace à la place de n espaces à suivre
+				// suppression des espaces : on met un espace ï¿½ la place de n espaces ï¿½ suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 				
 				return $this->view->render("competences/commun_formulaire.phtml");
@@ -294,7 +294,7 @@ abstract class Bral_Competences_Competence {
 			case "do":
 				$this->view->reloadInterface = $this->reloadInterface;
 				$texte = $this->view->render("competences/".$this->nom_systeme."_resultat.phtml");
-				// suppression des espaces : on met un espace à la place de n espaces à suivre
+				// suppression des espaces : on met un espace ï¿½ la place de n espaces ï¿½ suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 				
 				$this->majEvenementsStandard(Bral_Helper_Affiche::copie($this->view->texte));
@@ -306,8 +306,8 @@ abstract class Bral_Competences_Competence {
 	}
 
 	/**
-	 * Le niveau suivant est calculé à partir d'un certain nombre de px perso
-	 * qui doit être >= à :
+	 * Le niveau suivant est calculï¿½ ï¿½ partir d'un certain nombre de px perso
+	 * qui doit ï¿½tre >= ï¿½ :
 	 * NiveauSuivantPX = NiveauSuivant x 3 + debutNiveauPrecedentPx
 	 */
 	private function calculNiveau() {
@@ -355,7 +355,7 @@ abstract class Bral_Competences_Competence {
 	}
 	
 	private function updateCompetenceNbAction() {
-		if ($this->view->okJet1 === true) { // uniquement dans le cas de réussite du jet3
+		if ($this->view->okJet1 === true) { // uniquement dans le cas de rï¿½ussite du jet3
 			$hobbitsCompetencesTable = new HobbitsCompetences();
 			$data = array(
 				'date_debut_tour_hcomp' => $this->view->user->date_debut_tour_hobbit,

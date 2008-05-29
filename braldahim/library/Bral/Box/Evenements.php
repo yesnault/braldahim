@@ -3,7 +3,7 @@
 class Bral_Box_Evenements extends Bral_Box_Box {
 
 	function getTitreOnglet() {
-		return "&Eacute;v&egrave;nements";
+		return "&Eacute;v&eacute;nements";
 	}
 
 	function getNomInterne() {
