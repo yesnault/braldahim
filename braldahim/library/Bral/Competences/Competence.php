@@ -21,6 +21,8 @@ abstract class Bral_Competences_Competence {
 		$this->view->jetUtilise = false;
 		$this->view->balanceFaimUtilisee = false;
 		
+		$this->view->nb_px_commun = 0;
+		
 		$this->view->effetMotD = false;
 		$this->view->effetMotE = false;
 		$this->view->effetMotG = false;
@@ -95,7 +97,7 @@ abstract class Bral_Competences_Competence {
 	}
 	
 	protected function calculPx() {
-		$this->view->nb_px_commun = 0;
+		
 		$this->view->calcul_px_generique = true;
 		if ($this->view->okJet1 === true) {
 			$this->view->nb_px_perso = $this->competence["px_gain"];
