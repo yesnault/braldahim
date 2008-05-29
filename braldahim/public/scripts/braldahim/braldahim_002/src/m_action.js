@@ -43,10 +43,10 @@ function _get_(url, encode) {
 		}
 	}
 
+	var sep = '';
 	if ($('nb_valeurs') && (action == "do")) {
 		// Recuperation du nombre de valeur que l'action a besoin
 		nb_valeurs = $('nb_valeurs').value;
-		var sep = '';
 		for (i = 1; i <= nb_valeurs; i++) {
 			var nom = 'valeur_' + i;
 			var elem = $(nom);
@@ -71,7 +71,7 @@ function _get_(url, encode) {
 		Modalbox.hide();
 	}
 
-	var pars = valeurs;
+	var pars = valeurs + sep + "dateAuth=" + $('dateAuth').value;
 	var myAjax = new Ajax.Request(url, { postBody :pars, onComplete :showResponse });
 }
 
@@ -86,7 +86,10 @@ function showResponse(originalRequest) {
 	var xmlHeader = '<?xml version="1.0" encoding="utf-8" ?>';
 
 	if ((xmldoc == null) || (textdoc.substring(0, 39) != xmlHeader)) {
-		if (textdoc != "clear") {
+		if (textdoc == "logout") {
+			alert("Votre session a expiré, veuillez vous reconnecter.");
+			document.location.href = "/";
+		} else if (textdoc != "clear") {
 			alert('Une erreur est survenue :\n' + textdoc);
 		}
 	} else {

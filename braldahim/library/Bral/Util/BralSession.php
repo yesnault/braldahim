@@ -9,6 +9,7 @@ class Bral_Util_BralSession {
 		$auth = Zend_Auth::getInstance();
 		$user = Zend_Auth::getInstance()->getIdentity();
 
+		$dateAuth = $user->dateAuth;
 		$activation = $user->activation;
 		$gardiennage = $user->gardiennage;
 		$gardeEnCours = $user->gardeEnCours;
@@ -27,6 +28,8 @@ class Bral_Util_BralSession {
 		
 		if ($hobbit != null) {
 			$auth->getStorage()->write($hobbit);
+			Zend_Auth::getInstance()->getIdentity()->initialCall = false;
+			Zend_Auth::getInstance()->getIdentity()->dateAuth = $dateAuth;
 			Zend_Auth::getInstance()->getIdentity()->activation = $activation;
 			Zend_Auth::getInstance()->getIdentity()->gardiennage = $gardiennage;
 			Zend_Auth::getInstance()->getIdentity()->gardeEnCours = $gardeEnCours;

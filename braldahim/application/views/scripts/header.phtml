@@ -28,10 +28,14 @@
 	
 </head>
 
-<? if($this->user && $this->controleur == "interface") : ?> 
+<? if($this->user && $this->controleur == "interface") : ?>
  <body onLoad="_get_('/interface/boxes');">
 <? else: ?>
  <body>
+<? endif; ?>
+
+<? if ($this->user): ?>
+ <input type="hidden" name="dateAuth" id="dateAuth" value="<?=$this->user->dateAuth ?>">
 <? endif; ?>
 
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:100001;"></div>

@@ -3,16 +3,16 @@
 class EchoppeController extends Zend_Controller_Action {
 
 	function init() {
-		if (!Zend_Auth::getInstance()->hasIdentity()) {
-			$this->_redirect('/');
+		$this->initView();
+		$this->view->user = Zend_Auth::getInstance()->getIdentity();
+		if (!Zend_Auth::getInstance()->hasIdentity() || $this->_request->get("dateAuth") != $this->view->user->dateAuth) {
+			$this->_redirect('/auth/logoutajax');
 		} else {
 			Zend_Loader::loadClass('Bral_Util_BralSession');
 			if (Bral_Util_BralSession::refreshSession() == false) {
-				$this->_redirect('/');
+				$this->_redirect('/auth/logoutajax');
 			} 
 		}
-		$this->initView();
-		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
 		$this->xml_response = new Bral_Xml_Response();
 
@@ -29,7 +29,7 @@ class EchoppeController extends Zend_Controller_Action {
 	}
 
 	function doactionAction() {
-		if (!$this->modification_tour) { // S'il n'y a pas eu de modification du tour, on passe à la competence
+		if (!$this->modification_tour) { // S'il n'y a pas eu de modification du tour, on passe ï¿½ la competence
 			$xml_entry = new Bral_Xml_Entry();
 			$xml_entry->set_type("display");
 

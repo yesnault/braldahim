@@ -5,12 +5,14 @@ class InterfaceController extends Zend_Controller_Action {
 	function init() {
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
-		if (!Zend_Auth::getInstance()->hasIdentity() || !isset($this->view->user) || !isset($this->view->user->email_hobbit)) {
-			$this->_redirect('/');
+		if (!Zend_Auth::getInstance()->hasIdentity() 
+			|| ( $this->view->user->initialCall == false && $this->_request->get("dateAuth") != $this->view->user->dateAuth)
+			|| !isset($this->view->user) || !isset($this->view->user->email_hobbit)) {
+			$this->_redirect('/auth/logoutajax');
 		} else {
 			Zend_Loader::loadClass('Bral_Util_BralSession');
 			if (Bral_Util_BralSession::refreshSession() == false) {
-				$this->_redirect('/');
+				$this->_redirect('/auth/logoutajax');
 			} 
 		}
 		$this->view->config = Zend_Registry::get('config');
@@ -80,7 +82,7 @@ class InterfaceController extends Zend_Controller_Action {
 			$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view, false), "boite_c");
 			$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), "boite_c");
 			
-			// uniquement s'il possède un metier dans les metiers possedant des echoppes
+			// uniquement s'il possï¿½de un metier dans les metiers possedant des echoppes
 			$hobbitsMetiers = new HobbitsMetiers();
 			$possibleEchoppe = $hobbitsMetiers->peutPossederEchoppeIdHobbit($this->view->user->id_hobbit);
 			if ($possibleEchoppe === true) {

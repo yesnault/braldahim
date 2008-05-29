@@ -3,12 +3,12 @@
 class MessagerieController extends Zend_Controller_Action {
 
 	function init() {
-		if (!Zend_Auth::getInstance()->hasIdentity()) {
-			$this->_redirect('/');
-		}
-
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
+		if (!Zend_Auth::getInstance()->hasIdentity() || $this->_request->get("dateAuth") != $this->view->user->dateAuth ) {
+			$this->_redirect('/auth/logoutajax');
+		}
+
 		$this->view->config = Zend_Registry::get('config');
 		$this->view->controleur = $this->_request->controller;
 
