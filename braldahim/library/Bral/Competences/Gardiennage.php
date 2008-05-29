@@ -62,8 +62,7 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		
 		$filtreChaine = new Zend_Filter();
 		$filtreChaine->addFilter(new Zend_Filter_StringTrim())
-					->addFilter(new Zend_Filter_StripTags())
-					->addFilter(new Zend_Filter_HtmlEntities());
+					->addFilter(new Zend_Filter_StripTags());
 					
 		$premierJour = $this->request->get("valeur_2");
 		$nbJour = $this->request->get("valeur_3");

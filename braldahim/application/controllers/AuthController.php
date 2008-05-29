@@ -18,13 +18,13 @@ class AuthController extends Zend_Controller_Action {
 		}
 
 		$this->view->message = '';
-		if (strtolower($_SERVER['REQUEST_METHOD']) == 'post') {
-			// collect the data from the user
-			Zend_Loader::loadClass('Zend_Filter_StripTags');
-			$f = new Zend_Filter_StripTags();
-			$email = $f->filter($this->_request->getPost('email'));
-			$password = $f->filter($this->_request->getPost('password'));
-
+		
+		Zend_Loader::loadClass('Zend_Filter_StripTags');
+		$f = new Zend_Filter_StripTags();
+		$email = $f->filter($this->_request->getPost('email'));
+		$password = $f->filter($this->_request->getPost('password'));
+			
+		if (strtolower($_SERVER['REQUEST_METHOD']) == 'post' && $email != "" && $password != "") {
 			// setup Zend_Auth adapter for a database table
 			Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable');
 			$dbAdapter = Zend_Registry::get('dbAdapter');
@@ -73,6 +73,8 @@ class AuthController extends Zend_Controller_Action {
 				Bral_Util_Log::authentification()->notice("AuthController - loginAction - echec d'authentification pour ".$email);
 				$this->view->message = "Echec d'authentification";
 			}
+		} else {
+			$this->view->message = "Veuillez renseigner les champs";
 		}
 		$this->view->title = "Authentification";
 		$this->render();

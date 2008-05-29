@@ -48,7 +48,7 @@ class Gardiennage extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('gardiennage', '*')
-		->from('hobbit', array('nom_hobbit', 'prenom_hobbit'))
+		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'email_hobbit'))
 		->where('gardiennage.id_fk_hobbit_gardiennage = hobbit.id_hobbit')
 		->where('gardiennage.id_fk_gardien_gardiennage = '.$id_hobbit_gardien)
 		->where('gardiennage.date_fin_gardiennage >= \''.$date_courante.'\'');

@@ -42,13 +42,15 @@ class GardiennageController extends Zend_Controller_Action {
 			}
 			$this->view->tabHobbitGarde = $tabHobbitGarde;
 		} else {
-			$this->view->message = "Vous n'avez pas activé le gardiennage à la connexion";
+			$this->view->message = "Vous n'avez pas activÃ© le gardiennage Ã  la connexion";
 		}
  		$this->render();
 	}
 	
 	function gardeAction() {
 		$id_garde = intval($this->_request->getPost('id_gardiennage'));
+		$id_hobbit = null;
+		$email_hobbit = null;
 		
 		if ($this->view->user->gardeEnCours === true) {
 			// rien a faire
@@ -73,8 +75,8 @@ class GardiennageController extends Zend_Controller_Action {
 			}
 			
 			// s'il peut garder, on lance l'authentification 
-			if ($garde === false) {
-				$this->view->message = "Erreur. Garde inconnue $id_garde";
+			if ($garde === false || $id_hobbit == null || $email_hobbit == null) {
+				$this->view->message = "Erreur. Garde inconnue $id_garde idHobbit=$id_hobbit emailHobbit=$email_hobbit";
 			} else {
 				Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable'); 
 	            $dbAdapter = Zend_Registry::get('dbAdapter'); 

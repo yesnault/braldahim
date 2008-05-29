@@ -35,7 +35,7 @@
    <select name='valeur_4' id='valeur_4' onChange="$('valeur_5').value=''">
      <option value='-1'>(Choisir)</option>
      <? foreach($this->tabGardiens as $g) : ?>
-     <option value='<?=$g["id_gardien"]?>'><?=$g["nom_gardien"]." (".$g["id_gardien"].")" ?></option>
+     <option value='<?=$g["id_gardien"]?>'><?=$g["prenom_gardien"] ?> <?=$g["nom_gardien"]." (".$g["id_gardien"].")" ?></option>
      <? endforeach; ?>
     </select>
    </td>
