@@ -73,7 +73,7 @@ class AuthController extends Zend_Controller_Action {
 				Bral_Util_Log::authentification()->notice("AuthController - loginAction - echec d'authentification pour ".$email);
 				$this->view->message = "Echec d'authentification";
 			}
-		} else {
+		} else if (strtolower($_SERVER['REQUEST_METHOD']) == 'post') {
 			$this->view->message = "Veuillez renseigner les champs";
 		}
 		$this->view->title = "Authentification";

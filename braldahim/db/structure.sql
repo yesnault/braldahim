@@ -3,14 +3,14 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Mer 30 Avril 2008 à 23:05
+-- Gï¿½nï¿½rï¿½ le : Mer 30 Avril 2008 ï¿½ 23:05
 -- Version du serveur: 5.0.41
 -- Version de PHP: 5.2.3
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 -- 
--- Base de données: `braldahim`
+-- Base de donnï¿½es: `braldahim`
 -- 
 
 -- --------------------------------------------------------
@@ -554,7 +554,7 @@ CREATE TABLE `groupe_monstre` (
   `phase_tactique_groupe_monstre` int(11) NOT NULL,
   `id_role_a_groupe_monstre` int(11) default NULL,
   `id_role_b_groupe_monstre` int(11) default NULL,
-  `date_fin_tour_groupe_monstre` datetime default NULL COMMENT 'DLA du dernier monstre à jouer dans ce groupe',
+  `date_fin_tour_groupe_monstre` datetime default NULL COMMENT 'DLA du dernier monstre ï¿½ jouer dans ce groupe',
   `x_direction_groupe_monstre` int(11) NOT NULL,
   `y_direction_groupe_monstre` int(11) NOT NULL,
   PRIMARY KEY  (`id_groupe_monstre`),
@@ -621,7 +621,7 @@ CREATE TABLE `hobbit` (
   `regeneration_malus_hobbit` int(11) NOT NULL,
   `px_perso_hobbit` int(11) NOT NULL default '0',
   `px_commun_hobbit` int(11) NOT NULL,
-  `px_base_niveau_hobbit` int(11) NOT NULL default '0',
+  `pi_cumul_hobbit` int(11) NOT NULL default '0',
   `pi_hobbit` int(11) NOT NULL default '0',
   `niveau_hobbit` int(11) NOT NULL default '0',
   `balance_faim_hobbit` int(11) NOT NULL,
@@ -633,7 +633,7 @@ CREATE TABLE `hobbit` (
   `poids_transportable_hobbit` float NOT NULL default '0',
   `poids_transporte_hobbit` float NOT NULL default '0',
   `castars_hobbit` int(11) NOT NULL,
-  `pv_max_hobbit` int(11) NOT NULL COMMENT 'calculé à l''activation du tour',
+  `pv_max_hobbit` int(11) NOT NULL COMMENT 'calculï¿½ ï¿½ l''activation du tour',
   `pv_restant_hobbit` int(11) NOT NULL,
   `pv_max_bm_hobbit` int(11) NOT NULL,
   `est_mort_hobbit` enum('oui','non') NOT NULL default 'non',
@@ -1141,7 +1141,7 @@ CREATE TABLE `rune` (
 CREATE TABLE `taille_monstre` (
   `id_taille_monstre` int(11) NOT NULL auto_increment,
   `nom_taille_m_monstre` varchar(20) NOT NULL COMMENT 'Nom de la taille au masculin',
-  `nom_taille_f_monstre` varchar(20) NOT NULL COMMENT 'Nom de la taille au féminin',
+  `nom_taille_f_monstre` varchar(20) NOT NULL COMMENT 'Nom de la taille au fï¿½minin',
   `pourcentage_taille_monstre` int(11) NOT NULL COMMENT 'Pourcentage d''apparition',
   PRIMARY KEY  (`id_taille_monstre`),
   UNIQUE KEY `nom_taille_f_monstre` (`nom_taille_f_monstre`),
@@ -1278,7 +1278,7 @@ CREATE TABLE `type_minerai` (
 CREATE TABLE `type_monstre` (
   `id_type_monstre` int(11) NOT NULL auto_increment,
   `nom_type_monstre` varchar(30) NOT NULL,
-  `genre_type_monstre` enum('feminin','masculin') NOT NULL COMMENT 'Genre du monstre : masculin ou féminin',
+  `genre_type_monstre` enum('feminin','masculin') NOT NULL COMMENT 'Genre du monstre : masculin ou fï¿½minin',
   `id_fk_type_groupe_monstre` int(11) NOT NULL,
   PRIMARY KEY  (`id_type_monstre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
@@ -1446,7 +1446,7 @@ CREATE TABLE `zone` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
 
 -- 
--- Contraintes pour les tables exportées
+-- Contraintes pour les tables exportï¿½es
 -- 
 
 -- 

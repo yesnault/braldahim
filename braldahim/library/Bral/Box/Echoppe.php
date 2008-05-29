@@ -28,7 +28,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		$echoppe = $echoppeRowset[0];
 		$this->view->estLieuCourant = true;
 				
-		$nom = "�choppe";
+		$nom = "Échoppe";
 		if ($echoppe["nom_masculin_metier"] == "A") {
 			$nom .= " d'";
 			

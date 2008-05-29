@@ -20,12 +20,14 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 		
 		$lieuxTable = new Lieu();
 		$lieuRowset = $lieuxTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		unset($lieuxTable);
 		$this->view->estLieuCourant = false;
 		
 		if (count($lieuRowset) > 1) {
 			throw new Zend_Exception(get_class($this)."::nombre de lieux invalide > 1 !");
 		} elseif (count($lieuRowset) == 1) {
 			$lieu = $lieuRowset[0];
+			unset($lieuRowset);
 			$this->view->estLieuCourant = true;
 			$this->view->idLieu = $lieu["id_lieu"];
 			$this->view->nomLieu = $lieu["nom_lieu"];
@@ -42,13 +44,15 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 		} else {
 			$echoppesTable = new Echoppe();
 			$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+			unset($echoppesTable);
 			if (count($echoppeRowset) > 1) {
 				throw new Zend_Exception(get_class($this)."::nombre d'echoppe invalide > 1 !");
 			} elseif (count($echoppeRowset) == 1) {
 				$echoppe = $echoppeRowset[0];
+				unset($echoppeRowset);
 				$this->view->estLieuCourant = true;
 				
-				$nom = "Échoppe";
+				$nom = "Ã‰choppe";
 				if ($echoppe["nom_masculin_metier"] == "A") {
 					$nom .= " d'";
 				} else {
@@ -59,12 +63,12 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 				} else {
 					$nom .= $echoppe["nom_feminin_metier"];
 				}
-				$nom .= " appartenant à ".$echoppe["prenom_hobbit"];
+				$nom .= " appartenant Ã  ".$echoppe["prenom_hobbit"];
 				$nom .= " ".$echoppe["nom_hobbit"];
-				$nom .= " n°".$echoppe["id_hobbit"];
+				$nom .= " nÂ°".$echoppe["id_hobbit"];
 				
 				$this->view->nomLieu = $nom;
-				$this->view->nomTypeLieu = "Échoppe";
+				$this->view->nomTypeLieu = "Ã©choppe";
 				$this->view->nomSystemeLieu = "echoppe";
 				$this->view->descriptionLieu = $echoppe["commentaire_echoppe"];
 				$this->view->estFranchissableLieu = true;

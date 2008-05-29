@@ -15,7 +15,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 
 		foreach($hobbits as $h) {
 			if ($h["id_hobbit"] == $this->view->user->id_hobbit) {
-				$nom = " Vous-M�me : ".$h["prenom_hobbit"]. " ". $h["nom_hobbit"];
+				$nom = " Vous-Même : ".$h["prenom_hobbit"]. " ". $h["nom_hobbit"];
 			}
 			$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"], "nom_hobbit" => $h["nom_hobbit"], "prenom_hobbit" => $h["prenom_hobbit"]);
 		}

@@ -197,7 +197,7 @@ abstract class Bral_Competences_Competence {
 	}
 
 	/*
-	 * Mise � jour des �v�nements du hobbit / du monstre.
+	 * Mise à jour des événements du hobbit / du monstre.
 	 */
 	protected function setDetailsEvenement($details, $idType) {
 		$this->detailEvenement = $details;
@@ -205,21 +205,21 @@ abstract class Bral_Competences_Competence {
 	}
 	
 	/*
-	 * Mise � jour des �v�nements du hobbit / du monstre.
+	 * Mise à jour des événements du hobbit / du monstre.
 	 */
 	protected function setEstEvenementAuto($flag) {
 		$this->estEvenementAuto = $flag;
 	}
 	
 	/*
-	 * Mise � jour des �v�nements du hobbit / du monstre.
+	 * Mise à jour des événements du hobbit / du monstre.
 	 */
 	protected function setEvenementQueSurOkJet1($flag) {
 		$this->evenementQueSurOkJet1 = $flag;
 	}
 	
 	/*
-	 * Mise � jour des �v�nements du hobbit : type : comp�tence.
+	 * Mise à jour des événements du hobbit : type : comp�tence.
 	 */
 	private function majEvenementsStandard($detailsBot) {
 		if ($this->estEvenementAuto === true) {
@@ -261,7 +261,7 @@ abstract class Bral_Competences_Competence {
 			'px_commun_hobbit' => $this->view->user->px_commun_hobbit,
 			'pi_hobbit' => $this->view->user->pi_hobbit,
 			'niveau_hobbit' => $this->view->user->niveau_hobbit,
-			'px_base_niveau_hobbit' => $this->view->user->px_base_niveau_hobbit,
+			'pi_cumul_hobbit' => $this->view->user->pi_cumul_hobbit,
 			'balance_faim_hobbit' => $this->view->user->balance_faim_hobbit,
 			'nb_hobbit_kill_hobbit' => $this->view->user->nb_hobbit_kill_hobbit,
 			'nb_monstre_kill_hobbit' => $this->view->user->nb_monstre_kill_hobbit,
@@ -288,7 +288,7 @@ abstract class Bral_Competences_Competence {
 		switch($this->action) {
 			case "ask":
 				$texte = $this->view->render("competences/".$this->nom_systeme."_formulaire.phtml");
-				// suppression des espaces : on met un espace � la place de n espaces � suivre
+				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 				
 				return $this->view->render("competences/commun_formulaire.phtml");
@@ -296,7 +296,7 @@ abstract class Bral_Competences_Competence {
 			case "do":
 				$this->view->reloadInterface = $this->reloadInterface;
 				$texte = $this->view->render("competences/".$this->nom_systeme."_resultat.phtml");
-				// suppression des espaces : on met un espace � la place de n espaces � suivre
+				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 				
 				$this->majEvenementsStandard(Bral_Helper_Affiche::copie($this->view->texte));
@@ -308,21 +308,21 @@ abstract class Bral_Competences_Competence {
 	}
 
 	/**
-	 * Le niveau suivant est calcul� � partir d'un certain nombre de px perso
-	 * qui doit �tre >= � :
-	 * NiveauSuivantPX = NiveauSuivant x 3 + debutNiveauPrecedentPx
+	 * Le niveau suivant est calculé à partir d'un certain nombre de px perso
+	 * qui doit être >= à :
+	 * NiveauSuivantPX = NiveauSuivant x 5
 	 */
 	private function calculNiveau() {
-		$niveauSuivantPx = ($this->view->user->niveau_hobbit + 1) * 3 + $this->view->user->px_base_niveau_hobbit;
+		$niveauSuivantPx = ($this->view->user->niveau_hobbit + 1) * 5;
 		if ($this->view->user->px_perso_hobbit >= $niveauSuivantPx) {
 			$this->view->user->px_perso_hobbit = $this->view->user->px_perso_hobbit - $niveauSuivantPx;
 			$this->view->user->niveau_hobbit = $this->view->user->niveau_hobbit + 1;
-			$this->view->user->px_base_niveau_hobbit = $niveauSuivantPx;
+			$this->view->user->pi_cumul_hobbit = $this->view->user->pi_cumul_hobbit + $niveauSuivantPx;
 			$this->view->user->pi_hobbit = $this->view->user->pi_hobbit + $niveauSuivantPx;
 			$this->view->changeNiveau = true;
 		}
 
-		$niveauSuivantPx = ($this->view->user->niveau_hobbit + 1) * 3 + $this->view->user->px_base_niveau_hobbit;
+		$niveauSuivantPx = ($this->view->user->niveau_hobbit + 1) * 5;
 		if ($this->view->user->px_perso_hobbit >= $niveauSuivantPx) {
 			$this->calculNiveau();
 		}
@@ -357,7 +357,7 @@ abstract class Bral_Competences_Competence {
 	}
 	
 	private function updateCompetenceNbAction() {
-		if ($this->view->okJet1 === true) { // uniquement dans le cas de r�ussite du jet3
+		if ($this->view->okJet1 === true) { // uniquement dans le cas de réussite du jet3
 			$hobbitsCompetencesTable = new HobbitsCompetences();
 			$data = array(
 				'date_debut_tour_hcomp' => $this->view->user->date_debut_tour_hobbit,

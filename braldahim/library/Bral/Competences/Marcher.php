@@ -8,13 +8,15 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		
 		$zoneTable = new Zone();
 		$zone = $zoneTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-
+		unset($zoneTable);
+		
 		// La requete ne doit renvoyer qu'une seule case
 		if (count($zone) == 1) {
 			$case = $zone[0];
 		} else {
 			throw new Zend_Exception(get_class($this)."::prepareFormulaire : Nombre de case invalide");
 		}
+		unset($zone);
 		
 		$this->view->environnement = $case["nom_environnement"];
 		$this->nom_systeme_environnement = $case["nom_systeme_environnement"];
@@ -37,6 +39,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		
 		$palissadeTable = new Palissade();
 		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($palissadeTable);
 		
 		$this->tabValidationPalissade = null;
 		for ($j = $this->view->nb_cases; $j >= -$this->view->nb_cases; $j--) {
@@ -49,6 +52,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		foreach($palissades as $p) {
 			$this->tabValidationPalissade[$p["x_palissade"]][$p["y_palissade"]] = false;
 		}
+		unset($palissades);
 		
 		if ($this->view->nb_cases == 2) {
 			$this->calculPalissade();
@@ -107,6 +111,8 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		}
 		$this->view->tableau = $tab;
 		$this->tableauValidation = $tabValidation;
+		unset($tabValidation);
+		unset($tab);
 	}
 	
 	function prepareFormulaire() {

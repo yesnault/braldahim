@@ -3,14 +3,14 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Dim 06 Avril 2008 à 00:25
+-- Gï¿½nï¿½rï¿½ le : Dim 06 Avril 2008 ï¿½ 00:25
 -- Version du serveur: 5.0.41
 -- Version de PHP: 5.2.3
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 -- 
--- Base de données: `braldahim`
+-- Base de donnï¿½es: `braldahim`
 -- 
 
 -- --------------------------------------------------------
@@ -53,7 +53,7 @@ CREATE TABLE `hobbit` (
   `regeneration_malus_hobbit` int(11) NOT NULL,
   `px_perso_hobbit` int(11) NOT NULL default '0',
   `px_commun_hobbit` int(11) NOT NULL,
-  `px_base_niveau_hobbit` int(11) NOT NULL default '0',
+  `pi_cumul_hobbit` int(11) NOT NULL default '0',
   `pi_hobbit` int(11) NOT NULL default '0',
   `niveau_hobbit` int(11) NOT NULL default '0',
   `balance_faim_hobbit` int(11) NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE `hobbit` (
   `bm_degat_hobbit` int(11) NOT NULL,
   `poids_transportable_hobbit` int(11) NOT NULL,
   `castars_hobbit` int(11) NOT NULL,
-  `pv_max_hobbit` int(11) NOT NULL COMMENT 'calculé à l''activation du tour',
+  `pv_max_hobbit` int(11) NOT NULL COMMENT 'calculï¿½ ï¿½ l''activation du tour',
   `pv_restant_hobbit` int(11) NOT NULL,
   `pv_max_bm_hobbit` int(11) NOT NULL,
   `est_mort_hobbit` enum('oui','non') NOT NULL default 'non',
@@ -87,7 +87,7 @@ CREATE TABLE `hobbit` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tables des Hobbits' AUTO_INCREMENT=0 ;
 
 -- 
--- Contraintes pour les tables exportées
+-- Contraintes pour les tables exportï¿½es
 -- 
 
 -- 
