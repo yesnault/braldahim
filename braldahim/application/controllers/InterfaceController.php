@@ -6,7 +6,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		if (!Zend_Auth::getInstance()->hasIdentity() 
-			|| ( $this->view->user->initialCall == false && $this->_request->get("dateAuth") != $this->view->user->dateAuth)
+			|| ($this->_request->action != 'index' && $this->view->user->initialCall == false && $this->_request->get("dateAuth") != $this->view->user->dateAuth)
 			|| !isset($this->view->user) || !isset($this->view->user->email_hobbit)) {
 			$this->_redirect('/auth/logoutajax');
 		} else {
