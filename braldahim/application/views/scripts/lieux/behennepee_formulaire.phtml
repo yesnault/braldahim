@@ -6,13 +6,18 @@
 
  	<ul class="titre textalic textsizec">Construction d'&eacute;choppes</ul>
  	<br />
- 	<? if ($this->nEchoppes < 1) : ?>
+ 	
+ 	<? if ($this->construireMetierPossible !== true) :?>
+		Vous ne pouvez pas construire d'&eacute;choppe avec votre m&eacute;tier courant...
+ 	<? elseif ($this->nEchoppes < 1) : ?>
  		Vous ne poss&eacute;dez pas encore d'&eacute;choppe. La premi&egrave;re est gratuite (<?=$this->coutCastars?> castar).<br /><br />
  	<? else: ?>
  		Il vous faut <?=$this->coutCastars?> castars pour constuire une nouvelle &eacute;choppe.<br /><br />
  	<? endif; ?>
 
-   	<? if ($this->achatPossible === false): ?>
+	<? if ($this->construireMetierPossible !== true) :?>
+		<!-- rien ici -->
+   	<? elseif ($this->achatPossible === false): ?>
    		Vous n'avez pas assez de castars. <br />
    		<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
    	<? else : ?>
@@ -31,7 +36,7 @@
 			<? if ($this->aucuneEchoppe == false) : ?>
 				Vous poss&eacute;dez d&eacute;j&agrave; une &eacute;choppe pour ce m&eacute;tier dans
 				cette r&eacute;gion.
-			<? else: ?>
+			<? else: // doit jamais arrive, mais a cas où... ?>
 				Vous ne pouvez pas construire d'&eacute;choppe avec votre m&eacute;tier courant...
 			<? endif; ?>
 		<? endif; ?>

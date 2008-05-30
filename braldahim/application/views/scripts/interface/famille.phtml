@@ -18,9 +18,9 @@
     <br /><br />
     
     <? if ($this->nbEnfants == 0 && $this->conjoint == null) :?>
-    	Vous n'avez ni enfant, ni conjoint.
+    	Vous n'avez ni enfant, ni conjoint<? if ($this->user->sexe_hobbit != 'feminin') echo "e"?>.
     <? else : ?>
-    	Avec votre conjoint
+    	Avec votre conjoint<? if ($this->user->sexe_hobbit != 'feminin') echo "e"?>
     	<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->conjoint["id_hobbit"] ?>');">
     		<?=$this->conjoint["prenom"] ?> <?=$this->conjoint["nom"] ?> (n&deg;<?=$this->conjoint["id_hobbit"] ?>)
     	</a>
