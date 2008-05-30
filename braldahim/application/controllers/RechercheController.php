@@ -6,7 +6,6 @@ class RechercheController extends Zend_Controller_Action {
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		if (!Zend_Auth::getInstance()->hasIdentity() || 
-			$this->_request->get("dateAuth") != $this->view->user->dateAuth 
 			&& $this->_request->action != 'logoutajax') {
 			$this->_redirect('/Recherche/logoutajax');
 		}
