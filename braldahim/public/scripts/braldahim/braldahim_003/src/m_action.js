@@ -70,8 +70,13 @@ function _get_(url, encode) {
 		alert("Code A Supprimer ? m_action.js ligne 72");
 		Modalbox.hide();
 	}
-
-	var pars = valeurs + sep + "dateAuth=" + $('dateAuth').value;
+	
+	if ($('dateAuth')) {
+		valeurs = valeurs + sep + "dateAuth=" + $('dateAuth').value;
+	} else {
+		valeurs = valeurs + sep + "dateAuth=-1" ;
+	}
+	var pars = valeurs;
 	var myAjax = new Ajax.Request(url, { postBody :pars, onComplete :showResponse });
 }
 
