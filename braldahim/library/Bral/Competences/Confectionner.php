@@ -231,7 +231,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 		
 		$maitrise = $this->hobbit_competence["pourcentage_hcomp"];
 		
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "BA")) { // s'il possède une rune BA
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "BA")) { // s'il possÃ¨de une rune BA
 			$this->view->effetRune = true;
 			$chance_a = 0;
 			$chance_b = 100-(10 * $maitrise);
@@ -243,7 +243,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 		}
 
 		/*
-		 * Seul le meilleur des n jets est gardé. n=(BM AGI/2)+1.
+		 * Seul le meilleur des n jets est gardÃ©. n=(BM AGI/2)+1.
 		 */
 		$n = (($this->view->user->agilite_bm_hobbit + $this->view->user->agilite_bbdf_hobbit) / 2 ) + 1;
 		

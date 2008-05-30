@@ -236,7 +236,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 		
 		$maitrise = $this->hobbit_competence["pourcentage_hcomp"];
 		
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "GE")) { // s'il possède une rune AP
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "GE")) { // s'il possï¿½de une rune AP
 			$this->view->effetRune = true;
 			$chance_a = 0;
 			$chance_b = 100-(10 * $maitrise);
@@ -248,7 +248,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 		}
 
 		/*
-		 * Seul le meilleur des n jets est gardé. n=(BM FOR/2)+1.
+		 * Seul le meilleur des n jets est gardÃ©. n=(BM FOR/2)+1.
 		 */
 		$n = (($this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit) / 2 ) + 1;
 		

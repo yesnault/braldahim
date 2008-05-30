@@ -30,7 +30,7 @@ class Bral_Util_Attaque {
 		$cible = array('nom_cible' => $hobbitCible->prenom_hobbit ." ". $hobbitCible->nom_hobbit, 'id_cible' => $hobbitCible->id_hobbit, 'x_cible' => $hobbitCible->x_hobbit, 'y_cible' => $hobbitCible->y_hobbit,'niveau_cible' => $hobbitCible->niveau_hobbit);
 		$retourAttaque["cible"] = $cible;
 
-		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqu�
+		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
 		Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - attaqueHobbit - jetAttaquant".$retourAttaque["jetAttaquant"]. " jetCible=".$retourAttaque["jetCible"]);
 		if ($retourAttaque["jetAttaquant"] > $retourAttaque["jetCible"]) {
 			$retourAttaque["attaqueReussie"] = true;
@@ -157,9 +157,9 @@ class Bral_Util_Attaque {
 			$id_type = $config->game->evenements->type->attaquer;
 			$details = $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.") N".$hobbitAttaquant->niveau_hobbit;
 			if ($retourAttaque["mort"] == true) {
-				$details .=" a tu�";
+				$details .=" a tué";
 			} else {
-				$details .=" a attaqu� ";
+				$details .=" a attaqué ";
 			}
 			
 			$details .= " le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
@@ -192,7 +192,7 @@ class Bral_Util_Attaque {
 			
 			$id_type = $config->game->evenements->type->attaquer;
 			$details = $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.") N".$hobbitAttaquant->niveau_hobbit." a attaqué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
-			$details .= " qui a esquiv� l'attaque";
+			$details .= " qui a esquivé l'attaque";
 			$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
 			if ($effetMotSPossible == false) {
 				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // uniquement en cas de riposte
@@ -204,7 +204,7 @@ class Bral_Util_Attaque {
 			$id_type = $config->game->evenements->type->attaquer;
 			$details = $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.") N".$hobbitAttaquant->niveau_hobbit." a attaqué le hobbit ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
 			$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
-			$details .= " qui a esquiv� parfaitement l'attaque";
+			$details .= " qui a esquivé parfaitement l'attaque";
 			if ($effetMotSPossible == false) {
 				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // uniquement en cas de riposte
 			}
@@ -406,9 +406,9 @@ class Bral_Util_Attaque {
 			$details = $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.") N".$hobbitAttaquant->niveau_hobbit." a attaqué le monstre ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
 			
 			if ($retourAttaque["jetAttaquant"] * 2 < $retourAttaque["jetCible"]) { // esquive parfaite
-				$details .= " qui a esquiv� parfaitement";
+				$details .= " qui a esquivé parfaitement";
 			} else if ($retourAttaque["jetAttaquant"] <= $retourAttaque["jetCible"]) { // esquive
-				$details .= " qui a esquiv� ";
+				$details .= " qui a esquivé ";
 			} else { // attaque reussie
 				$details .= "";
 			}
@@ -632,7 +632,7 @@ La cible a été touchée";
 			
 			if ($mortCible) {
 			$retour .= "
-La cible a ét2 tu2e";
+La cible a été tuée";
 			}
 		} else if ($jetCible > $jetAttaquant * 2) { // esquive
 			$retour .= "

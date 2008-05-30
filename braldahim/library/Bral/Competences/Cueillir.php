@@ -180,7 +180,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			$planteTable = new Plante();
 			$where = "id_plante=".$idPlante;
 			$planteTable->delete($where);
-		} else { // sinon, il faut la mettre à jour
+		} else { // sinon, il faut la mettre ï¿½ jour
 			$data = array(
 				"partie_1_plante" => $p["partie_1_plante"] - $cueillette[1]["quantite"],
 				"partie_2_plante" => $p["partie_2_plante"] - $cueillette[2]["quantite"],
@@ -210,9 +210,9 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 	}
 
 	/*
-	 * La quantité extraite est fonction de la quantité disponible à cet endroit.
-	 * (Directement dans le sac à dos)
-	 *  Quantité maximum ramassée est fonction du niveau d'agilite du Hobbit :
+	 * La quantitÃ© extraite est fonction de la quantitÃ© disponible Ã  cet endroit.
+	 * (Directement dans le sac Ã  dos)
+	 *  QuantitÃ  maximum ramassÃ©e est fonction du niveau d'agilite du Hobbit :
 	 *  AGI : QUANTITE
 	 *  0-4 : 1D3 + BM /2
 	 *  5-9 : 1D3+1 + BM /2
@@ -227,7 +227,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		$n = Bral_Util_De::get_1d3();
 		$n = $n + floor($this->view->user->agilite_base_hobbit / 5);
 		
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "RI")) { // s'il possède une rune RI
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "RI")) { // s'il possï¿½de une rune RI
 			$this->view->effetRune = true;
 			$n = ceil($n * 1.5);
 		}

@@ -45,11 +45,11 @@ abstract class Bral_Echoppe_Echoppe {
 	}
 	
 	/*
-	 * Mise à jour des évènements du hobbit : type : compétence.
+	 * Mise Ã  jour des Ã©vÃ©nements du hobbit : type : compÃ©tence.
 	 */
 	private function majEvenementsEchoppe($detailsBot) {
 		$this->idTypeEvenement = $this->view->config->game->evenements->type->service;
-		$this->detailEvenement = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a utilisé les services d'une échoppe";
+		$this->detailEvenement = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a utilisÃ© les services d'une Ã©choppe";
 		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot);
 	}
 	
@@ -63,7 +63,7 @@ abstract class Bral_Echoppe_Echoppe {
 				$this->view->reloadInterface = $this->reloadInterface;
 				$texte = $this->view->render("echoppe/".$this->nom_systeme."_resultat.phtml");
 				
-				// suppression des espaces : on met un espace à la place de n espaces à suivre
+				// suppression des espaces : on met un espace Ã  la place de n espaces Ã  suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 				$this->majEvenementsEchoppe(Bral_Helper_Affiche::copie($this->view->texte));
 				$this->majHobbit();

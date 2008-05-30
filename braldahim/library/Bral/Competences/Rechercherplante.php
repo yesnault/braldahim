@@ -5,7 +5,7 @@ class Bral_Competences_Rechercherplante extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		
-		// Position précise avec (Vue+BM) de vue *2
+		// Position prÃ©cise avec (Vue+BM) de vue *2
 		$this->view->rayon_precis =  (Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit ) * 2;
 	}
 
@@ -18,7 +18,7 @@ class Bral_Competences_Rechercherplante extends Bral_Competences_Competence {
 	function prepareResultat() {
 		$go = $this->request->get("valeur_1");
 
-		// La distance max de répérage d'une plante est : jet SAG+BM
+		// La distance max de repÃ©rage d'une plante est : jet SAG+BM
 		$tirageRayonMax = 0;
 		for ($i=1; $i <= ($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit) ; $i++) {
 			$tirageRayonMax = $tirageRayonMax + Bral_Util_De::get_1d6();

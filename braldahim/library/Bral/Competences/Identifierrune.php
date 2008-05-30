@@ -70,7 +70,7 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 	
 	/*
 	 * jet de SAG > SAG de la rune
-	 * En cas de jet inferieur mettre une échelle afin de donner un ordre d'idee au joueur
+	 * En cas de jet inferieur mettre une Ã©chelle afin de donner un ordre d'idee au joueur
 	 * s'il peut l'identifier ou si le niveau de sagesse est vraiment trop important pour lui. 
 	 */
 	private function calculIdentifierRune($rune) {

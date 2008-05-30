@@ -240,16 +240,16 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 	}
 
 	private function calculCoutCastars($nbMetiersAcquis) {
-		/*1er métier : 0 castars
-		 2nd métier : 100 castars
-		 3Ã¨me métier : 500 castars
-		 4ème métier : 1000 castars
-		 5ème métier : 2000 castars
-		 6ème métier : 3000 castars
-		 7ème métier : 4000 castars
-		 8ème métier : 5000 castars
-		 9ème métier : 6000 castars
-		 10ème métier : 7000 castars*/
+		/*1er mÃ©tier : 0 castars
+		 2nd mÃ©tier : 100 castars
+		 3Ã¨me mÃ©tier : 500 castars
+		 4Ã¨me mÃ©tier : 1000 castars
+		 5Ã¨me mÃ©tier : 2000 castars
+		 6Ã¨me mÃ©tier : 3000 castars
+		 7Ã¨me mÃ©tier : 4000 castars
+		 8Ã¨me mÃ©tier : 5000 castars
+		 9Ã¨me mÃ©tier : 6000 castars
+		 10Ã¨me mÃ©tier : 7000 castars*/
 		$v = 0;
 
 		if ($nbMetiersAcquis == 0) {

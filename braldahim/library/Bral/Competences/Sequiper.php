@@ -42,7 +42,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 			);
 		}
 		
-		// on va chercher l'équipement porté
+		// on va chercher l'Ã©quipement portÃ©
 		$tabEquipementPorte = null;
 		$hobbitEquipementTable = new HobbitEquipement();
 		$equipementPorteRowset = $hobbitEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
@@ -52,7 +52,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 			$idEquipements[] = $e["id_equipement_hequipement"];
 		}
 		
-		// on va chercher l'équipement présent dans le laban
+		// on va chercher l'Ã©quipement prÃ©sent dans le laban
 		$tabEquipementLaban = null;
 		$labanEquipementTable = new LabanEquipement();
 		$equipementLabanRowset = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
@@ -180,7 +180,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 			$idEquipement = (int)$this->request->get("valeur_1");
 		}
 		
-		// on verifie que l'id equipement est dans l'équipement porté
+		// on verifie que l'id equipement est dans l'Ã©quipement portÃ©
 		$destination = "";
 		if ($this->equipementPorte != null) {
 			foreach ($this->equipementPorte as $p) {
@@ -223,7 +223,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$nbMain = 0;
 
 		if ($destination == "porte") {
-			// mettre dans le laban présent à la place de la destination
+			// mettre dans le laban prÃ©sent Ã  la place de la destination
 			if ($this->equipementPorte != null) {
 				foreach ($this->equipementPorte as $p) {
 					if ($equipement["id_type_emplacement"] == "deuxmains") {
@@ -322,28 +322,28 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		if ($equipement["runes"] != null && count($equipement["runes"]) > 0) {
 			foreach($equipement["runes"] as $r) {
 				if ($r["nom_type_rune"] == "KR") {
-					// KR Bonus de AGI = Niveau d'AGI/3 arrondi inférieur
+					// KR Bonus de AGI = Niveau d'AGI/3 arrondi infÃ©rieur
 					$this->view->user->agilite_bm_hobbit = $this->view->user->agilite_bm_hobbit + floor($this->view->user->agilite_base_hobbit / 3); 
 				} else if ($r["nom_type_rune"] == "ZE") {
-					// ZE Bonus de FOR = Niveau de FOR/3 arrondi inférieur
+					// ZE Bonus de FOR = Niveau de FOR/3 arrondi infÃ©rieur
 					$this->view->user->force_bm_hobbit = $this->view->user->force_bm_hobbit + floor($this->view->user->force_base_hobbit / 3); 
 				} else if ($r["nom_type_rune"] == "IL") {
-					// IL Réduit le tour de jeu de 10 minutes ==> on rajoute 10 minutes donc
+					// IL Rï¿½duit le tour de jeu de 10 minutes ==> on rajoute 10 minutes donc
 					$this->view->user->duree_prochain_tour_hobbit = Bral_Util_ConvertDate::get_time_remove_time_to_time($this->view->user->duree_prochain_tour_hobbit, "00:10:00");
 				} else if ($r["nom_type_rune"] == "MU") {
-					// MU PV + niveau du Hobbit/10 arrondi inférieur
+					// MU PV + niveau du Hobbit/10 arrondi infÃ©rieur
 					$this->view->user->pv_max_bm_hobbit = $this->view->user->pv_max_bm_hobbit + floor($this->view->user->niveau_hobbit / 10);
 				} else if ($r["nom_type_rune"] == "RE") {
-					// RE ARM NAT + Niveau du Hobbit/10 arrondi inférieur
+					// RE ARM NAT + Niveau du Hobbit/10 arrondi infÃ©rieur
 					$this->view->user->armure_naturelle_hobbit = $this->view->user->armure_naturelle_hobbit + floor($this->view->user->niveau_hobbit / 10);
 				} else if ($r["nom_type_rune"] == "OG") {
-					// OG Bonus de VIG = Niveau de VIG/3 arrondi inférieur
+					// OG Bonus de VIG = Niveau de VIG/3 arrondi infÃ©rieur
 					$this->view->user->vigueur_bm_hobbit = $this->view->user->vigueur_bm_hobbit + floor($this->view->user->vigueur_base_hobbit / 3); 
 				} else if ($r["nom_type_rune"] == "OX") {
-					// OX Poids maximum porté augmenté de Niveau du Hobbit/10 arrondi inférieur
+					// OX Poids maximum portÃ© augmentÃ© de Niveau du Hobbit/10 arrondi infÃ©rieur
 					$this->view->user->poids_transportable_hobbit = $this->view->user->poids_transportable_hobbit + floor($this->view->user->niveau_hobbit / 10);
 				} else if ($r["nom_type_rune"] == "UP") {
-					// UP Bonus de SAG = Niveau de SAG/3 arrondi inférieur
+					// UP Bonus de SAG = Niveau de SAG/3 arrondi infÃ©rieur
 					$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit + floor($this->view->user->sagesse_base_hobbit / 3); 
 				}
 			}
@@ -398,28 +398,28 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		if ($equipement["runes"] != null && count($equipement["runes"]) > 0) {
 			foreach($equipement["runes"] as $r) {
 				if ($r["nom_type_rune"] == "KR") {
-					// KR Bonus de AGI = Niveau d'AGI/3 arrondi inférieur
+					// KR Bonus de AGI = Niveau d'AGI/3 arrondi infÃ©rieur
 					$this->view->user->agilite_bm_hobbit = $this->view->user->agilite_bm_hobbit - floor($this->view->user->agilite_base_hobbit / 3); 
 				} else if ($r["nom_type_rune"] == "ZE") {
-					// ZE Bonus de FOR = Niveau de FOR/3 arrondi inférieur
+					// ZE Bonus de FOR = Niveau de FOR/3 arrondi infÃ©rieur
 					$this->view->user->force_bm_hobbit = $this->view->user->force_bm_hobbit - floor($this->view->user->force_base_hobbit / 3); 
 				} else if ($r["nom_type_rune"] == "IL") {
-					// IL Réduit le tour de jeu de 10 minutes ==> on rajoute 10 minutes donc
+					// IL Rï¿½duit le tour de jeu de 10 minutes ==> on rajoute 10 minutes donc
 					$this->view->user->duree_prochain_tour_hobbit = Bral_Util_ConvertDate::get_time_add_time_to_time($this->view->user->duree_prochain_tour_hobbit, "00:10:00");
 				} else if ($r["nom_type_rune"] == "MU") {
-					// MU PV + niveau du Hobbit/10 arrondi inférieur
+					// MU PV + niveau du Hobbit/10 arrondi infÃ©rieur
 					$this->view->user->pv_max_bm_hobbit = $this->view->user->pv_max_bm_hobbit - floor($this->view->user->niveau_hobbit / 10);
 				} else if ($r["nom_type_rune"] == "RE") {
-					// RE ARM NAT + Niveau du Hobbit/10 arrondi inférieur
+					// RE ARM NAT + Niveau du Hobbit/10 arrondi infÃ©rieur
 					$this->view->user->armure_naturelle_hobbit = $this->view->user->armure_naturelle_hobbit - floor($this->view->user->niveau_hobbit / 10);
 				} else if ($r["nom_type_rune"] == "OG") {
-					// OG Bonus de VIG = Niveau de VIG/3 arrondi inférieur
+					// OG Bonus de VIG = Niveau de VIG/3 arrondi infÃ©rieur
 					$this->view->user->vigueur_bm_hobbit = $this->view->user->vigueur_bm_hobbit - floor($this->view->user->vigueur_base_hobbit / 3); 
 				} else if ($r["nom_type_rune"] == "OX") {
-					// OX Poids maximum porté augmenté de Niveau du Hobbit/10 arrondi inférieur
+					// OX Poids maximum portÃ© augmentÃ© de Niveau du Hobbit/10 arrondi infÃ©rieur
 					$this->view->user->poids_transportable_hobbit = $this->view->user->poids_transportable_hobbit - floor($this->view->user->niveau_hobbit / 10);
 				} else if ($r["nom_type_rune"] == "UP") {
-					// UP Bonus de SAG = Niveau de SAG/3 arrondi inférieur
+					// UP Bonus de SAG = Niveau de SAG/3 arrondi infÃ©rieur
 					$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit - floor($this->view->user->sagesse_base_hobbit / 3); 
 				}
 			}

@@ -214,8 +214,8 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		
 		
 		/*
-		 * Afin de déterminer la qualité de la palissage n jet de dés sont effectué. 
-		 * Seul le meilleur des n jets est gardé. n=(BM SAG/2)+1.
+		 * Afin de dÃ©terminer la qualitÃ© de la palissage n jet de dÃ©s sont effectuÃ©s. 
+		 * Seul le meilleur des n jets est gardÃ©. n=(BM SAG/2)+1.
 		 */
 		$n = (($this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit) / 2 ) + 1;
 		

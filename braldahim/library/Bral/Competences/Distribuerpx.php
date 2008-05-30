@@ -82,7 +82,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 			}
 			$tab["id_hobbit"] = $t["id_hobbit"];
 			if ($t["id_hobbit"] == $this->view->user->id_hobbit) {
-				$tab["nom_hobbit"] = "Vous-M�me : ".$hobbit->prenom_hobbit. " " .$hobbit->nom_hobbit;
+				$tab["nom_hobbit"] = "Vous-Même : ".$hobbit->prenom_hobbit. " " .$hobbit->nom_hobbit;
 			} else {
 				$tab["nom_hobbit"] = $hobbit->prenom_hobbit. " " .$hobbit->nom_hobbit;
 			}

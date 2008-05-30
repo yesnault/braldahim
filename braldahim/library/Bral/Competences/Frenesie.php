@@ -2,9 +2,9 @@
 
 /*
  * Attaque : 0.5*(jet d'AGI)+BM AGI + bonus arme att
- * dégats : 0.5*(jet FOR)+BM FOR+ bonus arme dégats
- * dégats critiques : (1.5*(0.5*FOR))+BM FOR+bonus arme dégats
- * Ne peut pas être utilisé en ville.
+ * dÃ©gats : 0.5*(jet FOR)+BM FOR+ bonus arme dÃ©gats
+ * dÃ©gats critiques : (1.5*(0.5*FOR))+BM FOR+bonus arme dÃ©gats
+ * Ne peut pas Ãªtre utilisÃ© en ville.
  */
 class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 
@@ -56,7 +56,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 	}
 
 	function prepareFormulaire() {
-		// rien à faire ici
+		// rien Ã  faire ici
 	}
 
 	function prepareResultat() {
@@ -157,13 +157,13 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		
 		if (Bral_Util_Commun::isRunePortee($hobbit->id_hobbit, "EM")) { 
 			$this->view->effetRune = true;
-			// dégats : Jet FOR + BM + Bonus de dégat de l'arme
-			// dégats critiques : Jet FOR *1,5 + BM + Bonus de l'arme
+			// dÃ©gats : Jet FOR + BM + Bonus de dÃ©gat de l'arme
+			// dÃ©gats critiques : Jet FOR *1,5 + BM + Bonus de l'arme
 			$jetsDegat["critique"] = $coefCritique * $jetDegatForce;
 			$jetsDegat["noncritique"] = $jetDegatForce;
 		} else {
-			// * dégats : 0.5*(jet FOR)+BM FOR+ bonus arme dégats
- 			// * dégats critiques : (1.5*(0.5*FOR))+BM FOR+bonus arme dégats
+			// * dÃ©gats : 0.5*(jet FOR)+BM FOR+ bonus arme dÃ©gats
+ 			// * dÃ©gats critiques : (1.5*(0.5*FOR))+BM FOR+bonus arme dÃ©gats
 			$jetsDegat["critique"] = $coefCritique * (0.5 * $jetDegatForce);
 			$jetsDegat["noncritique"] = 0.5 * $jetDegatForce;
 		}

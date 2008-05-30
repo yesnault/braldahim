@@ -129,7 +129,7 @@ abstract class Bral_Competences_Competence {
 	}
 	
 	private function calculJets1() {
-		// 1er Jet : r�ussite ou non de la comp�tence
+		// 1er Jet : réussite ou non de la compétence
 		$this->view->jet1 = Bral_Util_De::get_1d100();
 		if ($this->view->jet1 <= $this->hobbit_competence["pourcentage_hcomp"]) {
 			$this->view->okJet1 = true;
@@ -147,13 +147,13 @@ abstract class Bral_Competences_Competence {
 			$this->view->ameliorationCompetenceMetierCourant = $this->ameliorationCompetenceMetier();
 		}
 		
-		// a t-on le droit d'am�liorer la comp�tence m�tier
+		// a t-on le droit d'améliorer la compétence métier
 		if ($this->view->estCompetenceMetier === true && $this->view->ameliorationCompetenceMetierCourant === false) { 
 			$this->view->okJet2 = false;
 			
 		}  else if ($this->view->okJet1 === true || $this->hobbit_competence["pourcentage_hcomp"] < 50) {
-			// 2nd Jet : r�ussite ou non de l'am�lioration de la comp�tence
-			// seulement si la maitrise de la comp�tence est < 50 ou si le jet1 est r�ussi
+			// 2nd Jet : réussite ou non de l'amélioration de la compétence
+			// seulement si la maitrise de la compétence est < 50 ou si le jet1 est réussi
 			$this->view->jet2 = Bral_Util_De::get_1d100();
 			$this->view->jet2Possible = true;
 			if ($this->view->jet2 > $this->hobbit_competence["pourcentage_hcomp"]) {
@@ -161,9 +161,9 @@ abstract class Bral_Competences_Competence {
 			}
 		}
 
-		// 3�me Jet : % d'am�lioration de la comp�tence
+		// 3ème Jet : % d'amélioration de la compétence
 		if ($this->view->okJet2 === true) {
-			if ($this->hobbit_competence["pourcentage_hcomp"] >= 90) { // pas d'am�lioration au del� de 90 %
+			if ($this->hobbit_competence["pourcentage_hcomp"] >= 90) { // pas d'amélioration au delà de 90 %
 				$this->view->okJet3 = false;
 			} else {
 				$this->view->okJet3 = true;
@@ -182,9 +182,9 @@ abstract class Bral_Competences_Competence {
 		}
 	}
 
-	// mise � jour de la table hobbit competence
+	// mise à jour de la table hobbit competence
 	private function majSuiteJets() {
-		if ($this->view->okJet3 === true) { // uniquement dans le cas de r�ussite du jet3
+		if ($this->view->okJet3 === true) { // uniquement dans le cas de réussite du jet3
 			$hobbitsCompetencesTable = new HobbitsCompetences();
 			$pourcentage = $this->hobbit_competence["pourcentage_hcomp"] + $this->view->jet3;
 			if ($pourcentage > 90) { // 90% maximum
@@ -219,7 +219,7 @@ abstract class Bral_Competences_Competence {
 	}
 	
 	/*
-	 * Mise à jour des événements du hobbit : type : comp�tence.
+	 * Mise à jour des événements du hobbit : type : compétence.
 	 */
 	private function majEvenementsStandard($detailsBot) {
 		if ($this->estEvenementAuto === true) {

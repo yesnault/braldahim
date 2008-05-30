@@ -55,7 +55,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 	/*
 	 * PA : 1
 	 * Balance : +80%
-	 * Un repas préparé c'est +80% dans la balance
+	 * Un repas prÃ©parÃ© c'est +80% dans la balance
 	 */
 	private function calculManger() {
 		Zend_Loader::loadClass("Laban");

@@ -80,21 +80,21 @@ class Bral_Competences_Decouper extends Bral_Competences_Competence {
 		$this->majHobbit();
 	}
 	
-	/*Découpe un rondin présent dans l'échoppe en planches.
+	/*DÃ©coupe un rondin prÃ©sent dans l'Ã©choppe en planches.
 	 */
 	private function calculDecouper() {
 	
 		// Le joueur tente de transformer n+1 rondins ou n est son niveau de SAG
 		$nb = $this->view->nbRondins;
 		
-		// A partir de la quantité choisie on a un % de perte de rondins : p=0,5-0,002*(jet SAG + BM)
+		// A partir de la quantitï¿½ choisie on a un % de perte de rondins : p=0,5-0,002*(jet SAG + BM)
 		$tirage = 0;
 		for ($i=1; $i <= ($this->view->config->game->base_sagesse + $hobbit->sagesse_base_hobbit) ; $i++) {
 			$tirage = $tirage + Bral_Util_De::get_1d6();
 		}
 		$perte = 0.5-0.002 * ($tirage + $hobbit->sagesse_bm_hobbit + $hobbit->sagesse_bbdf_hobbit);
 	
-		// Et arrondi ((n+1)-(n+1)*p) plantes préparées en sortie
+		// Et arrondi ((n+1)-(n+1)*p) plantes prï¿½parï¿½es en sortie
 		$quantitePlanches = intval($nb - $nb * $perte);
 		
 		$echoppeTable = new Echoppe();

@@ -109,7 +109,7 @@ class Bral_Competences_Fondre extends Bral_Competences_Competence {
 		// Le joueur tente de transformer n+1 minerai ou n est son niveau de VIG
 		$nb = $this->view->nbMinerai;
 		
-		// A partir de la quantité choisie on a un % de perte de minerai : p=0,5-0,002*(jet VIG + BM)
+		// A partir de la quantitÃ© choisie on a un % de perte de minerai : p=0,5-0,002*(jet VIG + BM)
 		$tirage = 0;
 		for ($i=1; $i <= ($this->view->config->game->base_vigueur + $hobbit->vigueur_base_hobbit) ; $i++) {
 			$tirage = $tirage + Bral_Util_De::get_1d6();

@@ -222,7 +222,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			$where = 'id_hobbit = '.$idHobbit;
 			$hobbitTable->update($data, $where);
 			
-			$this->view->message = "Modification du Hobbit ".$idHobbit. " effectuÈe";
+			$this->view->message = "Modification du Hobbit ".$idHobbit. " effectu√©e";
 		}
 	}
 	
@@ -252,7 +252,7 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			$where = 'id_hobbit = '.$idHobbit;
 			$hobbitTable->update($data, $where);
 			
-			$this->view->message = "Exclusion du Hobbit ".$idHobbit. " effectuÈe";
+			$this->view->message = "Exclusion du Hobbit ".$idHobbit. " effectu√©e";
 		}
 	}
 }

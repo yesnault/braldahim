@@ -80,7 +80,7 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 	}
 	
 	private function calculTanner() {
-		//Transforme 2 unités de peau en 1D2 unités de cuir ou de fourrure (suivant la peau).
+		//Transforme 2 unitÃ©s de peau en 1D2 unitÃ©s de cuir ou de fourrure (suivant la peau).
 		$quantiteCuir = 0;
 		$quantiteFourrure = 0;
 		$cuir = false;
@@ -95,7 +95,7 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 		// Le joueur tente de transformer n+1 peaux ou n est son niveau de FOR
 		$nb = $this->view->nbPeau;
 		
-		// A partir de la quantité choisie on a un % de perte de peaux : p=0,5-0,002*(jet FOR + BM)
+		// A partir de la quantitÃ© choisie on a un % de perte de peaux : p=0,5-0,002*(jet FOR + BM)
 		$tirage = 0;
 		for ($i=1; $i <= ($this->view->config->game->base_force + $hobbit->force_base_hobbit) ; $i++) {
 			$tirage = $tirage + Bral_Util_De::get_1d6();

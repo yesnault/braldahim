@@ -73,7 +73,7 @@ abstract class Bral_Lieux_Lieu {
 	private function majEvenements($detailsBot) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
 		$id_type = $this->view->config->game->evenements->type->service;
-		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a utilisé un service";
+		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a utilisÃ© un service";
 		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $id_type, $details, $detailsBot);
 	}
 	
@@ -90,7 +90,7 @@ abstract class Bral_Lieux_Lieu {
 				$this->view->reloadInterface = $this->reloadInterface;
 				$texte = $this->view->render("lieux/".$this->nom_systeme."_resultat.phtml");
 				
-				// suppression des espaces : on met un espace à la place de n espaces à suivre
+				// suppression des espaces : on met un espace ï¿½ la place de n espaces ï¿½ suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 				$this->majEvenements(Bral_Helper_Affiche::copie($this->view->texte));
 				return $this->view->render("lieux/commun_resultat.phtml");

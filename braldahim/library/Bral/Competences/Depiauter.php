@@ -1,17 +1,17 @@
 <?php
 
 /**
-Enlève la peau d'un cadavre de monstre qui est au sol. 
+EnlÃ¨ve la peau d'un cadavre de monstre qui est au sol. 
 (Pour les monstres qui ont une peau). 
 
-La quantité de peau est fonction de la taille du monstre :
-petit : 1D2 unité de peau
-normal : 1D3 unité de peau
-grand : 2D3 unité de peau
-gigantesque : 3D3 unité de peau
-(Directement dans le sac à dos)
+La quantitÃ© de peau est fonction de la taille du monstre :
+petit : 1D2 unitÃ© de peau
+normal : 1D3 unitÃ© de peau
+grand : 2D3 unitÃ© de peau
+gigantesque : 3D3 unitÃ© de peau
+(Directement dans le sac Ã  dos)
 
-Ne peut pas être utilisé en ville.
+Ne peut pas Ãªtre utilisÃ© en ville.
 */
 class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 
@@ -98,11 +98,11 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 	}
 	
 	/*
-	 * La quantité de peau est fonction de la taille du monstre :
-	 * petit : 1D2 unité de peau
-	 * normal : 1D3 unité de peau
-	 * grand : 2D3 unité de peau
-	 * gigantesque : 3D3 unité de peau
+	 * La quantitÃ© de peau est fonction de la taille du monstre :
+	 * petit : 1D2 unitÃ© de peau
+	 * normal : 1D3 unitÃ© de peau
+	 * grand : 2D3 unitÃ© de peau
+	 * gigantesque : 3D3 unitÃ© de peau
 	 */
 	private function calculDepiauter($id_cadavre) {
 
@@ -134,7 +134,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		
 		$this->view->effetRune = false;
 		
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "FO")) { // s'il possède une rune FO
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "FO")) { // s'il possï¿½de une rune FO
 			$this->view->effetRune = true;
 			$this->view->nbPeau = ceil($this->view->nbPeau * 1.5);
 		}
