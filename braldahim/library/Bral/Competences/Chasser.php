@@ -7,6 +7,8 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Ville");
 		Zend_Loader::loadClass("Zone");
 		
+		$this->view->chasserOk = false;
+		
 		// On regarde si le hobbit n'est pas dans une ville
 		$villeTable = new Ville();
 		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
