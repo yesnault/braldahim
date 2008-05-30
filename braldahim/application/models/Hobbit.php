@@ -115,13 +115,13 @@ class Hobbit extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('hobbit', '*')
 		->where('id_fk_nom_initial_hobbit = ?', $idNom)
-		->where('lcase(prenom_hobbit) = ?', (string)strtolower(trim($prenom)));
+		->where('lcase(prenom_hobbit) = ?', (string)mb_strtolower(trim($prenom)));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
 	public function findByEmail($email){
-		$where = $this->getAdapter()->quoteInto('lcase(email_hobbit) = ?',(string)strtolower(trim($email)));
+		$where = $this->getAdapter()->quoteInto('lcase(email_hobbit) = ?',(string)mb_strtolower(trim($email)));
 		return $this->fetchRow($where);
 	}
 
@@ -167,8 +167,8 @@ class Hobbit extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('hobbit', '*')
-		->where('lcase(nom_hobbit) like ?', (string)strtolower(trim($nom)))
-		->where('lcase(prenom_hobbit) like ?', (string)strtolower(trim($prenom)));
+		->where('lcase(nom_hobbit) like ?', (string)mb_strtolower(trim($nom)))
+		->where('lcase(prenom_hobbit) like ?', (string)mb_strtolower(trim($prenom)));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -177,7 +177,7 @@ class Hobbit extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('hobbit', '*')
-		->where('lcase(prenom_hobbit) like ?', (string)strtolower(trim($prenom)))
+		->where('lcase(prenom_hobbit) like ?', (string)mb_strtolower(trim($prenom)))
 		->where('id_fk_jos_users_hobbit is not null');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

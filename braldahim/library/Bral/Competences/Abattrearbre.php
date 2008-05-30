@@ -80,12 +80,12 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 	}
 	
 	/*
-	 * Uniquement utilisable en forêt.
-	 * Le Hobbit abat un arbre : il ramasse n rondins (directement dans la charrette). Le nombre de rondins ramassés est fonction de la VIGUEUR :
-	 * de 0 à 4 : 1D3
-	 * de 5 à 9 : 1D3+1
-	 * de 10 à 14 :1D3+2
-	 * de 15 à 19 : 1D3+3 
+	 * Uniquement utilisable en forÃªt.
+	 * Le Hobbit abat un arbre : il ramasse n rondins (directement dans la charrette). Le nombre de rondins ramassÃ©s est fonction de la VIGUEUR :
+	 * de 0 Ã  4 : 1D3
+	 * de 5 Ã  9 : 1D3+1
+	 * de 10 Ã  14 :1D3+2
+	 * de 15 Ã  19 : 1D3+3 
 	 */
 	private function calculAbattreArbre() {
 		Zend_Loader::loadClass("Charrette");
@@ -96,7 +96,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		$n = Bral_Util_De::get_1d3();
 		$this->view->nbRondins = $n + floor($this->view->user->vigueur_base_hobbit / 5);
 		
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "VA")) { // s'il possède une rune VA
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "VA")) { // s'il possÃ¨de une rune VA
 			$this->view->effetRune = true;
 			$this->view->nbRondins = ceil($this->view->nbRondins * 1.5);
 		}

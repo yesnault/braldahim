@@ -25,7 +25,7 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 		$r = 0;
 		/**
 		 * Plaine : 60 %
-		 * Forêt : 80 %
+		 * ForÃªt : 80 %
 		 * Marais : 30 %
 		 * Montagneux : 30 %
 		 */
@@ -87,11 +87,11 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 	}
 	
 	/*
-	 * La quantité de viande et de peau trouvée est fonction du niveau d'AGILITE du chasseur.
-	 * de 0 à 4 : 1D3 unité de viande + 1D2 unité de peau
-	 * de 5 à 9 : 1D3+1 unité de viande + 1D2+1 unité de peau
-	 * de 10 à 14 :1D3+2 unité de viande + 1D2+2 unité de peau
-	 * de 15 à 19 : 1D3+3 unité de viande + 1D2+3 unité de peau
+	 * La quantitÃ© de viande et de peau trouvÃ©e est fonction du niveau d'AGILITE du chasseur.
+	 * de 0 Ã  4 : 1D3 unitÃ© de viande + 1D2 unitÃ© de peau
+	 * de 5 Ã  9 : 1D3+1 unitÃ© de viande + 1D2+1 unitÃ© de peau
+	 * de 10 Ã  14 :1D3+2 unitÃ© de viande + 1D2+2 unitÃ© de peau
+	 * de 15 Ã  19 : 1D3+3 unitÃ© de viande + 1D2+3 unitÃ© de peau
 	 */
 	private function calculChasse() {
 		$this->view->nbViande = 0;

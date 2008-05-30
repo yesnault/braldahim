@@ -1,7 +1,7 @@
 <?php
 
 /*
- * La distance de charge est basé sur la vigueur avec une réduction suivant le terrain de départ :
+ * La distance de charge est basÃ© sur la vigueur avec une rÃ©duction suivant le terrain de dÃ©part :
  * En plaine :
  * VIG 0-2 -> 1 case
  * 3-5 -> 2 cases
@@ -9,12 +9,12 @@
  * 9-11 -> 4 cases
  * 12-14 -> 5 cases
  * 15+  -> 6 cases
- * En forêt un malus de -1, ne marais et montagne un malus de -2 sur la distance est apliqué (minimum 0).
- * La distance de charge est borné par la vue.
+ * En forÃªt un malus de -1, ne marais et montagne un malus de -2 sur la distance est apliquÃ© (minimum 0).
+ * La distance de charge est bornÃ© par la vue.
  * 
- * Le jet d'attaque d'une charge est différent : (0.5 jet AGI) + BM + bonus arme
+ * Le jet d'attaque d'une charge est diffÃ©rent : (0.5 jet AGI) + BM + bonus arme
  * 
- * Le jet de dégats diffère aussi : jet FOR + BM FOR + bonus arme + jet VIG + BM VIG
+ * Le jet de dÃ©gats diffÃ¨re aussi : jet FOR + BM FOR + bonus arme + jet VIG + BM VIG
  * cas du critique :
  * 1.5(jet FOR) + BM FOR + bonus arme + jet VIG + BM VIG
  * 
@@ -22,7 +22,7 @@
  * 
  * On ne peut pas charger si l'une des cases entre le chargeur et le charger est une palissade.
  * 
- * Ne peut pas être utilisé en ville.
+ * Ne peut pas Ãªtre utilisÃ© en ville.
  */
 class Bral_Competences_Charger extends Bral_Competences_Competence {
 
@@ -195,7 +195,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 	}
 
 	function prepareFormulaire() {
-		// rien à faire ici
+		// rien Ã  faire ici
 	}
 
 	function prepareResultat() {
@@ -256,7 +256,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			} else {
 				throw new Zend_Exception(get_class($this)." Erreur inconnue");
 			}
-			/* on va à la position de la cible. */
+			/* on va Ã  la position de la cible. */
 			$this->view->user->x_hobbit = $this->view->retourAttaque["cible"]["x_cible"];
 			$this->view->user->y_hobbit = $this->view->retourAttaque["cible"]["y_cible"];
 		}
@@ -271,7 +271,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 	}
 
 	/*
-	 * Le jet d'attaque d'une charge est différent : (0.5 jet AGI) + BM + bonus arme
+	 * Le jet d'attaque d'une charge est diffÃ©rent : (0.5 jet AGI) + BM + bonus arme
 	 */
 	protected function calculJetAttaque($hobbit) {
 		$jetAttaquant = 0;
@@ -283,7 +283,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 	}
 	
 	/*
-	 * Le jet de dégats diffère aussi : 
+	 * Le jet de dÃ©gats diffÃ¨re aussi : 
 	 * jet FOR + BM FOR + bonus arme + jet VIG + BM VIG
 	 * cas du critique :
 	 * 1.5(jet FOR) + BM FOR + bonus arme + jet VIG + BM VIG

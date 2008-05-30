@@ -55,7 +55,7 @@ class Bral_Competences_Assaisonner extends Bral_Competences_Competence {
 	}
 	
 	/*
-	 *  Transforme 2 unités de viande en 1D2 unité de viande préparée
+	 *  Transforme 2 unitÃ©s de viande en 1D2 unitÃ© de viande prÃ©parÃ©e
 	 */
 	private function calculAssaisonner() {
 		Zend_Loader::loadClass("Laban");
@@ -63,14 +63,14 @@ class Bral_Competences_Assaisonner extends Bral_Competences_Competence {
 		// Le joueur tente de transformer n+1 gigots ou n est son niveau de FOR
 		$nb = $this->view->nbViande;
 		
-		// A partir de la quantité choisie on a un % de perte de gigots : p=0,5-0,002*(jet FOR + BM)
+		// A partir de la quantitÃ© choisie on a un % de perte de gigots : p=0,5-0,002*(jet FOR + BM)
 		$tirage = 0;
 		for ($i=1; $i <= ($this->view->config->game->base_force + $hobbit->force_base_hobbit) ; $i++) {
 			$tirage = $tirage + Bral_Util_De::get_1d6();
 		}
 		$perte = 0.5-0.002 * ($tirage + $hobbit->force_bm_hobbit + $hobbit->force_bbdf_hobbit);
 	
-		// Et arrondi ((n+1)-(n+1)*p) gigots marinés en sortie
+		// Et arrondi ((n+1)-(n+1)*p) gigots marinÃ©s en sortie
 		$this->view->nbViandePreparee = intval($nb - $nb * $perte);
 		
 		$labanTable = new Laban();
