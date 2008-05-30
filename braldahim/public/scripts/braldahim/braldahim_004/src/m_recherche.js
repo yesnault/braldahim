@@ -7,9 +7,13 @@ function activerRechercheHobbit(id) {
 }
 
 function getSelectionId(text, li) {
-	if (li.getAttribute('champ') == null) { // aucun ou trop de r�sultats
+	if (li.getAttribute('champ') == null) { // aucun ou trop de résultats
 		return;
+	} else if (li.getAttribute('champ') == 'logout') {
+		alert("Votre session a expiré, veuillez vous reconnecter.");
+		document.location.href = "/";
 	}
+	
 	if ($(li.getAttribute('champ')).value == '') {
 		$(li.getAttribute('champ')).value = li.getAttribute('id_hobbit');
 	} else {

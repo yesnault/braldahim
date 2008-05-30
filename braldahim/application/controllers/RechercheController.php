@@ -5,8 +5,10 @@ class RechercheController extends Zend_Controller_Action {
 	function init() {
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
-		if (!Zend_Auth::getInstance()->hasIdentity() || $this->_request->get("dateAuth") != $this->view->user->dateAuth ) {
-			$this->_redirect('/auth/logoutajax');
+		if (!Zend_Auth::getInstance()->hasIdentity() || 
+			$this->_request->get("dateAuth") != $this->view->user->dateAuth 
+			&& $this->_request->action != 'logoutajax') {
+			$this->_redirect('/Recherche/logoutajax');
 		}
 		$this->view->config = Zend_Registry::get('config');
 	}
@@ -14,7 +16,11 @@ class RechercheController extends Zend_Controller_Action {
 	function indexAction() {
 		$this->render();
 	}
-
+	
+	function logoutajaxAction() {
+		$this->render();
+	}
+	
 	function hobbitAction() {
 		$this->_request->get("valeur");
 		
