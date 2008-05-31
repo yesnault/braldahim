@@ -50,7 +50,7 @@ function switch2div(div1, div2) {
 // n'autorise que des chiffres.
 // exemple d'utilisation : <input type="text" onkeypress="chiffres(event)">
 function chiffres(event, negatif) {
-	// Compatibilit� IE / Firefox
+	// Compatibilité IE / Firefox
 	if (!event && window.event) {
 		event = window.event;
 	}

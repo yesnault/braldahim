@@ -48,7 +48,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$date_courante = date("Y-m-d H:i:s");
 		$this->is_nouveau_tour = $this->calcul_debut_nouveau($date_courante);
 
-		// nouveau tour (ou mort : en cas de mort : la date de fin de tour doit �tre positionn�e � la mort) 
+		// nouveau tour (ou mort : en cas de mort : la date de fin de tour doit être positionnee à la mort) 
 		if ($this->is_nouveau_tour) {
 			Bral_Util_Log::tour()->debug(get_class($this)." Nouveau tour");
 			$this->hobbit->duree_courant_tour_hobbit = $this->hobbit->duree_prochain_tour_hobbit;
@@ -74,7 +74,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		Bral_Util_Log::tour()->debug(get_class($this)." date_debut_cumul".$date_debut_cumul);
 		Bral_Util_Log::tour()->debug(get_class($this)." date_courante=".$date_courante);
 		Bral_Util_Log::tour()->debug(get_class($this)." date fin tour=".$this->hobbit->date_fin_tour_hobbit);
-		Bral_Util_Log::tour()->debug(get_class($this)."	tour position=".$this->hobbit->tour_position_hobbit);
+		Bral_Util_Log::tour()->debug(get_class($this)." tour position=".$this->hobbit->tour_position_hobbit);
 		
 
 		$this->is_tour_manque = false;
@@ -149,8 +149,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		// Mise a jour en cas de mort
 		$this->calcul_mort();
 
-		// Si c'est un nouveau tour, on met les BM de force, agi, sag, vue, vig � 0 
-		// Ensuite, on les recalcule suivant l'équipement port� et les potions en cours
+		// Si c'est un nouveau tour, on met les BM de force, agi, sag, vue, vig à 0 
+		// Ensuite, on les recalcule suivant l'équipement porté et les potions en cours
 		if ($this->is_nouveau_tour) {
 			Bral_Util_Log::tour()->trace(get_class($this)." activer - is_nouveau_tour - true");
 			$this->hobbit->force_bm_hobbit = 0;
@@ -205,14 +205,14 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			
 			Bral_Util_Log::tour()->trace(get_class($this)." activer - this->hobbit->regeneration_malus_hobbit=".$this->hobbit->regeneration_malus_hobbit);
 			$this->view->jetRegeneration = $this->hobbit->regeneration_malus_hobbit;
-			/* Remise à zéro du malus de r�g�n�ration. */
+			/* Remise à zéro du malus de regénération. */
 			$this->hobbit->regeneration_malus_hobbit = 0;
 			
 			if ($this->hobbit->pv_restant_hobbit < $this->hobbit->pv_max_hobbit) {
 				for ($i=1; $i <= $this->hobbit->regeneration_hobbit; $i++) {
 					$this->view->jetRegeneration = $this->view->jetRegeneration + Bral_Util_De::get_1d3();
 				}	
-				if ($this->view->jetRegeneration < 0) { // pas de r�n�ration n�gative (m�me si le malus est important)
+				if ($this->view->jetRegeneration < 0) { // pas de regénération négative (même si le malus est important)
 					$this->view->jetRegeneration = 0;
 				}
 				$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_restant_hobbit + $this->view->jetRegeneration;
@@ -505,41 +505,41 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			if (count($equipementRunes) > 0) {
 				foreach($equipementRunes as $r) {
 					if ($r["nom_type_rune"] == "KR") {
-						// KR Bonus de AGI = Niveau d'AGI/3 arrondi inf�rieur
+						// KR Bonus de AGI = Niveau d'AGI/3 arrondi inférieur
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune KR active - avant this->hobbit->agilite_bm_hobbit=".$this->hobbit->agilite_bm_hobbit);
 						$this->hobbit->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit + floor($this->hobbit->agilite_base_hobbit / 3);
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune KR active - apres this->hobbit->agilite_bm_hobbit=".$this->hobbit->agilite_bm_hobbit);
 					} else if ($r["nom_type_rune"] == "ZE") {
-						// ZE Bonus de FOR = Niveau de FOR/3 arrondi inf�rieur
+						// ZE Bonus de FOR = Niveau de FOR/3 arrondi inférieur
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune ZE active - avant this->hobbit->force_bm_hobbit=".$this->hobbit->force_bm_hobbit);
 						$this->hobbit->force_bm_hobbit = $this->hobbit->force_bm_hobbit + floor($this->hobbit->force_base_hobbit / 3); 
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune Ze active - apres this->hobbit->force_bm_hobbit=".$this->hobbit->force_bm_hobbit);
 					} else if ($r["nom_type_rune"] == "IL") {
-						// IL R�duit le tour de jeu de 10 minutes
+						// IL Réduit le tour de jeu de 10 minutes
 						//$this->hobbit->duree_courant_tour_hobbit = Bral_Util_ConvertDate::get_time_remove_time_to_time($this->hobbit->duree_courant_tour_hobbit, "00:10:00");
-						// effectu� dans la comp�tence s'�quiper, pour mettre � jour le temps du prochain tour.
+						// effectué dans la compétence s'équiper, pour mettre à jour le temps du prochain tour.
 					} else if ($r["nom_type_rune"] == "MU") {
-						// MU PV + niveau du Hobbit/10 arrondi inf�rieur
+						// MU PV + niveau du Hobbit/10 arrondi inférieur
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune MU active - avant this->hobbit->pv_max_bm_hobbit=".$this->hobbit->pv_max_bm_hobbit);
 						$this->hobbit->pv_max_bm_hobbit = $this->hobbit->pv_max_bm_hobbit + floor($this->hobbit->niveau_hobbit / 10);
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune MU active - apres this->hobbit->pv_max_bm_hobbit=".$this->hobbit->pv_max_bm_hobbit);
 					} else if ($r["nom_type_rune"] == "RE") {
-						// RE ARM NAT + Niveau du Hobbit/10 arrondi inf�rieur
+						// RE ARM NAT + Niveau du Hobbit/10 arrondi inférieur
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune RE active - apres this->hobbit->armure_naturelle_hobbit=".$this->hobbit->armure_naturelle_hobbit);
 						$this->hobbit->armure_naturelle_hobbit = $this->hobbit->armure_naturelle_hobbit + floor($this->hobbit->niveau_hobbit / 10);
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune RE active - apres this->hobbit->armure_naturelle_hobbit=".$this->hobbit->armure_naturelle_hobbit);
 					} else if ($r["nom_type_rune"] == "OG") {
-						// OG Bonus de VIG = Niveau de VIG/3 arrondi inf�rieur
+						// OG Bonus de VIG = Niveau de VIG/3 arrondi inférieur
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OG active - avant this->hobbit->vigueur_bm_hobbit=".$this->hobbit->vigueur_bm_hobbit);
 						$this->hobbit->vigueur_bm_hobbit = $this->hobbit->vigueur_bm_hobbit + floor($this->hobbit->vigueur_base_hobbit / 3); 
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OG active - avant this->hobbit->vigueur_bm_hobbit=".$this->hobbit->vigueur_bm_hobbit);
 					} else if ($r["nom_type_rune"] == "OX") {
-						// OX Poids maximum port� augment� de Niveau du Hobbit/10 arrondi inf�rieur
+						// OX Poids maximum porté augmenté de Niveau du Hobbit/10 arrondi inférieur
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OX active - avant this->hobbit->poids_transportable_hobbit=".$this->hobbit->poids_transportable_hobbit);
 						$this->hobbit->poids_transportable_hobbit = $this->hobbit->poids_transportable_hobbit + floor($this->hobbit->niveau_hobbit / 10);
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune OX active - avant this->hobbit->poids_transportable_hobbit=".$this->hobbit->poids_transportable_hobbit);
 					} else if ($r["nom_type_rune"] == "UP") {
-						// UP Bonus de SAG = Niveau de SAG/3 arrondi inf�rieur
+						// UP Bonus de SAG = Niveau de SAG/3 arrondi inférieur
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune UP active - avant this->hobbit->sagesse_bm_hobbit=".$this->hobbit->sagesse_bm_hobbit);
 						$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + floor($this->hobbit->sagesse_base_hobbit / 3); 
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune UP active - avant this->hobbit->sagesse_bm_hobbit=".$this->hobbit->sagesse_bm_hobbit);

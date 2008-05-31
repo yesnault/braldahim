@@ -12,7 +12,7 @@
 	<th class='comp_titre'>Commentaire</th>
 	<? foreach($this->tabGardiennage as $g): ?>
 		<tr>
-			<td><?=$g["nom_gardien"]. ' ('.$g["id_gardien"].')';?></td>
+			<td><?=$g["prenom_gardien"]?> <?=$g["nom_gardien"]. ' ('.$g["id_gardien"].')';?></td>
 			<td><?=$g["date_debut"] ?></td>
 			<td><?=$g["nb_jours"] ?></td>
 			<td><?=htmlspecialchars(stripslashes($g["commentaire"])) ?></td>
