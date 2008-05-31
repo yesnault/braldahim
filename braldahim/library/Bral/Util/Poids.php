@@ -21,7 +21,7 @@ class Bral_Util_Poids {
 	}
 	
 	public static function calculPoidsTransportable($niveauForce) {
-		return (2 * $niveauForce) + 1;
+		return (2 * $niveauForce) + 3;
 	}
 	
 	public static function calculPoidsTransporte($idHobbit, $castars) {

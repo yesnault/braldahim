@@ -125,13 +125,13 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		return array("box_profil", "box_competences_metiers", "box_laban", "box_evenements");
 	}
 
-	/* La quantit� de minerai extraite est fonction de la quantit� de minerai
-	 * disponible � cet endroit du filon (ce qu'il reste � exploiter) et
+	/* La quantité de minerai extraite est fonction de la quantité de minerai
+	 * disponible à cet endroit du filon (ce qu'il reste à exploiter) et
 	 * le niveau de FOR du Hobbit :
-	 * de 0 � 4 : 1D3 + BM FOR
-	 * de 5 � 9 : 1D3+1 + BM FOR
-	 * de 10 � 14 :1D3+2 + BM FOR
-	 * de 15 � 19 : 1D3+3 + BM FOR etc.
+	 * de 0 à 4 : 1D3 + BM FOR
+	 * de 5 à 9 : 1D3+1 + BM FOR
+	 * de 10 à 14 :1D3+2 + BM FOR
+	 * de 15 à 19 : 1D3+3 + BM FOR etc.
 	 */
 	private function calculQuantiteAExtraire() {
 		$this->view->effetRune = false;
@@ -139,7 +139,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		$n = Bral_Util_De::get_1d3();
 		$n = $n + floor($this->view->user->force_base_hobbit / 5);
 		
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "MI")) { // s'il poss�de une rune MI
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "MI")) { // s'il possède une rune MI
 			$this->view->effetRune = true;
 			$n = ceil($n * 1.5);
 		}
