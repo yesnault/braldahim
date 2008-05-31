@@ -38,7 +38,8 @@
 		   foreach($this->messages as $message): ?>
 	  			<tr class="table_liste<?=($i % 2);$i++; ?>">
 	  				<td class="table_liste">
-						<img alt="read" title="read" src="/public/images/uddeim/nonew_im.gif" border="0">
+						<img alt="read" title="read" src="/public/images/uddeim/nonew_im.gif" border="0" 
+						onClick='_get_("/messagerie/doaction?caction=do_messagerie_message&valeur_1=message&valeur_2=<?=$message["id_message"];?>");'>
 					</td>
 	  				<td class="table_liste" onClick="<?=$js ?>"> <?if (mb_strlen($message["expediteur_destinataire"]) > 25) echo mb_substr(htmlspecialchars($message["expediteur_destinataire"]), 0, 25)."..."; else echo htmlspecialchars($message["expediteur_destinataire"]);?>&nbsp;</td>
 	  				<td class="table_liste" onClick="<?=$js ?>"> <?if (mb_strlen($message["titre"]) > 25) echo Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else echo Bral_Util_BBParser::bbcodeStrip($message["titre"]);?></td>

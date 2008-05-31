@@ -86,6 +86,7 @@ function showResponse(originalRequest) {
 	var display_action = false;
 	var display_informations = false;
 	var display_erreur = false;
+	var display_erreur_catch = false;
 	var activer_wysiwyg = false;
 
 	var xmlHeader = '<?xml version="1.0" encoding="utf-8" ?>';
@@ -95,8 +96,8 @@ function showResponse(originalRequest) {
 			alert("Votre session a expiré, veuillez vous reconnecter.");
 			document.location.href = "/";
 		} else if (textdoc != "clear") {
-			_display_("erreur", textdoc);
-			display_erreur = true;
+			_display_("erreur_catch", textdoc);
+			display_erreur_catch = true;
 		}
 	} else {
 		estInternetExplorer = false;
@@ -183,6 +184,15 @@ function showResponse(originalRequest) {
 	} else {
 		if ($("erreur")) {
 			$("erreur").style.display = "none";
+		}
+	}
+	
+	// Box erreur catch
+	if (display_erreur_catch) {
+		Modalbox.show($("erreur_catch"), { title :'Une erreur est survenu', width :400, overlayClose :false });
+	} else {
+		if ($("erreur_catch")) {
+			$("erreur_catch").style.display = "none";
 		}
 	}
 

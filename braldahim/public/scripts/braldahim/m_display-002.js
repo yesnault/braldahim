@@ -1,6 +1,6 @@
 function _display_(box, data) {
-	if (box == "erreur") {
-		$("erreur_contenu").innerHTML = data;
+	if (box == "erreur_catch") {
+		$("erreur_catch_contenu").innerHTML = data;
 	} else {
 		_display_box(box, data);
 	}

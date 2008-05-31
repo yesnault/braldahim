@@ -12,6 +12,17 @@ class JosUddeim extends Zend_Db_Table {
 			}
 		}
 	}
+
+	public function findById($idUser, $id) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		
+		$select->from('jos_uddeim', '*')
+		->where('jos_uddeim.id = '.intval($id))
+		->where('jos_uddeim.toid = '.intval($idUser). ' OR jos_uddeim.fromid = '.intval($idUser));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 	
 	public function findByToId($toId, $page, $nbMax, $trashBoolean = false) {
 		$db = $this->getAdapter();

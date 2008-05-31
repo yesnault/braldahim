@@ -72,7 +72,7 @@ class Bral_Messagerie_Message {
 //				$this->prepareSupprimer();
 //				break;
 			case "message" :
-				$this->prepareMessage(false);
+				$this->prepareMessage();
 				break;
 			default :
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->request->get("valeur_1"));
@@ -174,6 +174,62 @@ class Bral_Messagerie_Message {
 		return $tab;
 	}
 	
+	private function prepareMessage() {
+		$josUddeimTable = new JosUddeim();
+		$message = $josUddeimTable->findById($this->view->user->id_fk_jos_users_hobbit, (int)$this->request->get("valeur_2"));
+
+		$tabMessage = null;
+		if ($message != null && count($message) == 1) {
+			$message = $message[0];
+			
+			$idsHobbit[] = $message["toid"];
+			$idsHobbit[] = $message["fromid"];
+			
+			if ($idsHobbit != null) {
+				$hobbitTable = new Hobbit();
+				$hobbits = $hobbitTable->findByIdFkJosUsersList($idsHobbit);
+				if ($hobbits != null) {
+					foreach($hobbits as $h) {
+						$tabHobbits[$h["id_fk_jos_users_hobbit"]] = $h;
+					}
+				}
+			}
+			
+			$expediteur = "";
+			if ($tabHobbits != null) {
+				if (array_key_exists($message["fromid"], $tabHobbits)) {
+					$expediteur = $tabHobbits[$message["fromid"]]["prenom_hobbit"] . " ". $tabHobbits[$message["fromid"]]["nom_hobbit"]. " (".$tabHobbits[$message["fromid"]]["id_hobbit"].")";
+				} else {
+					$expediteur = " Erreur ".$message["fromid"];
+				}
+				
+				if (array_key_exists($message["fromid"], $tabHobbits)) {
+					$destinataire = $tabHobbits[$message["toid"]]["prenom_hobbit"] . " ". $tabHobbits[$message["toid"]]["nom_hobbit"]. " (".$tabHobbits[$message["toid"]]["id_hobbit"].")";
+				} else {
+					$destinataire = " Erreur ".$message["toid"];
+				}
+			}
+			
+			if ($expediteur == "") {
+				$expediteur = " Erreur inconnue";
+			}
+			
+			if ($destinataire == "") {
+				$destinataire = " Erreur inconnue";
+			}
+			
+			$tabMessage = array(
+				"id_message" => $message["id"],
+				"titre" => $message["message"],
+				"date" => $message["datum"],
+				'expediteur' => $expediteur,
+				'destinataire' => $destinataire
+			);
+		} else {
+			throw new Zend_Exception(get_class($this)."::prepareMessage Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
+		}
+		$this->view->message = $tabMessage;
+	}
 	
 /*	private function prepareRepondre() {
 		$this->prepareMessage(true);
