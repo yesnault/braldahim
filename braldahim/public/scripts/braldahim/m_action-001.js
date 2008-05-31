@@ -95,7 +95,8 @@ function showResponse(originalRequest) {
 			alert("Votre session a expiré, veuillez vous reconnecter.");
 			document.location.href = "/";
 		} else if (textdoc != "clear") {
-			alert('Une erreur est survenue :\n' + textdoc);
+			_display_("erreur", textdoc);
+			display_erreur = true;
 		}
 	} else {
 		estInternetExplorer = false;

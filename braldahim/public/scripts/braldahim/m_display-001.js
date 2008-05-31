@@ -1,5 +1,9 @@
 function _display_(box, data) {
-	_display_box(box, data);
+	if (box == "erreur") {
+		$("erreur_contenu").innerHTML = data;
+	} else {
+		_display_box(box, data);
+	}
 }
 
 function _display_box(box, data) {
