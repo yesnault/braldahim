@@ -145,7 +145,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 					'toid' => $id_fk_jos_users_hobbit,
 					'message' => $tabMessage["contenu"],
 					'datum' => time(),
-					'toread' => 1,
+					'toread' => 0,
 					'totrash' => 0,
 					'totrashoutbox' => 0,
 					'disablereply' => 0,
