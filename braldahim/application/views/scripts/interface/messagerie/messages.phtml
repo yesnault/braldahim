@@ -41,7 +41,7 @@
 		   		<? $js="onClick=\"_get_('/messagerie/doaction?caction=do_messagerie_message&valeur_1=message&valeur_2=".$message['id_message']."');\" style='cursor:pointer' title='Lire le message'"; ?>
 	  			<tr class="table_liste<?=($i % 2);$i++; ?>">
 	  				<td class="table_liste">
-	  					<? if ($message["toread"] == "1") :?>
+	  					<? if ($message["toread"] == "0") :?>
 		  					<img alt="&Agrave; lire" title="read" src="/public/images/uddeim/new_im.gif" border="0" 
 							<?=$js ?>>
 	  					<? else: ?>
