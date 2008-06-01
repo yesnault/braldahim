@@ -44,7 +44,7 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 		if ($this->_filtre == $this->view->config->messagerie->message->type->envoye) {
 			$messages = $josUddeimTable->findByFromId($this->view->user->id_fk_jos_users_hobbit, $this->_page, $this->_nbMax);
 		} else if ($this->_filtre == $this->view->config->messagerie->message->type->supprime) {
-			$messages = $josUddeimTable->findByToId($this->view->user->id_fk_jos_users_hobbit, $this->_page, $this->_nbMax, true);
+			$messages = $josUddeimTable->findByToOrFromIdSupprime($this->view->user->id_fk_jos_users_hobbit, $this->_page, $this->_nbMax);
 		} else { // reception
 			$messages = $josUddeimTable->findByToId($this->view->user->id_fk_jos_users_hobbit, $this->_page, $this->_nbMax);
 		}
@@ -60,7 +60,8 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 				} else {
 					$fieldId = "fromid";
 				}
-				$idsHobbit[] = $m[$fieldId];
+				$idsHobbit[$m["toid"]] = $m["toid"];
+				$idsHobbit[$m["fromid"]] = $m["fromid"];
 			}
 			
 			if ($idsHobbit != null) {
@@ -75,22 +76,34 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 			
 			foreach ($messages as $m) {
 				$expediteur = "";
+				$destinataire = "";
 				if ($tabHobbits != null) {
-					if (array_key_exists($m[$fieldId], $tabHobbits)) {
-						$expediteur = $tabHobbits[$m[$fieldId]]["prenom_hobbit"] . " ". $tabHobbits[$m[$fieldId]]["nom_hobbit"]. " (".$tabHobbits[$m[$fieldId]]["id_hobbit"].")";
+					if (array_key_exists($m["toid"], $tabHobbits)) {
+						$destinataire = $tabHobbits[$m["toid"]]["prenom_hobbit"] . " ". $tabHobbits[$m["toid"]]["nom_hobbit"]. " (".$tabHobbits[$m["toid"]]["id_hobbit"].")";
 					} else {
-						$expediteur = " Erreur ".$m[$fieldId];
+						$destinataire = " Erreur ".$m["toid"];
+					}
+					
+					if (array_key_exists($m["fromid"], $tabHobbits)) {
+						$expediteur = $tabHobbits[$m["fromid"]]["prenom_hobbit"] . " ". $tabHobbits[$m["fromid"]]["nom_hobbit"]. " (".$tabHobbits[$m["fromid"]]["id_hobbit"].")";
+					} else {
+						$expediteur = " Erreur ".$m["fromid"];
 					}
 				}
 				if ($expediteur == "") {
 					$expediteur = " Erreur inconnue";
+				}
+				if ($destinataire == "") {
+					$destinataire = " Erreur inconnue";
 				}
 				
 				$tabMessages[] = array(
 					"id_message" => $m["id"],
 					"titre" => $m["message"],
 					"date" => $m["datum"],
-					'expediteur_destinataire' => $expediteur
+					"expediteur" => $expediteur,
+					"destinataire" => $destinataire,
+					"toread" => $m["toread"],
 				);
 			}
 		}

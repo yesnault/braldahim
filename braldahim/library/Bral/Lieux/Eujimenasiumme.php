@@ -31,11 +31,11 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 		$this->view->achatPiPossible = $achatPiPossible;
 		$this->view->coutCastars = $this->_coutCastars;
 		$this->view->achatPossibleCastars = ($this->view->user->castars_hobbit - $this->_coutCastars >= 0);
-		// $this->view->utilisationPaPossible initialisé dans Bral_Lieux_Lieu
+		// $this->view->utilisationPaPossible initialisÃ© dans Bral_Lieux_Lieu
 	}
 
 	function prepareFormulaire() {
-		// rien à faire ici
+		// rien Ã  faire ici
 	}
 
 	function prepareResultat() {
@@ -99,11 +99,12 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 				throw new Zend_Exception(get_class($this)." Valeur invalide : val=".$this->request->get("valeur_1"));
 		}
 		
+		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
 		$this->majHobbit();
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_metier", "box_laban", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_vue", "box_lieu");
+		return array("box_profil", "box_laban", "box_vue");
 	}
 
 	private function calculCoutCastars() {

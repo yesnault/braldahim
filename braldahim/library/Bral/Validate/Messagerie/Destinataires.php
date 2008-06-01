@@ -30,7 +30,7 @@ class Bral_Validate_Messagerie_Destinataires implements Zend_Validate_Interface 
 		//  TODO A MODIFIER avec split
 		if ($valid) {
 			if (!preg_match_all('`^([[:digit:]]+(,|[[:space:]])*)+$`',$valeur, $matches)) {
-				$this->_messages[] = "Ce champ contient des caract�res invalides";
+				$this->_messages[] = "Ce champ contient des caractères invalides";
 				$valid = false;
 			}
 		}

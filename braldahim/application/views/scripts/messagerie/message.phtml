@@ -1,3 +1,7 @@
+	<? if ($this->information != null) :?>
+		<?=$this->information ?><br/><br/>
+	<? endif; ?>
+
 	<? if ($this->message != null) : ?>
 	<br>
 	
@@ -14,7 +18,7 @@
 		</tr>
 	</thead>
 		<tbody>
-			<tr class="table_liste<?=($i % 2);$i++; ?>">
+			<tr class="table_liste">
 				<td class="table_liste">
 					<?=Bral_Util_BBParser::bbcodeReplace($this->message["titre"]);?>
 				</td>
@@ -23,6 +27,7 @@
 	</table>
 	
 	    <br /><br />
-	    <input type='button' class='button1' value='R&eacute;pondre' onClick='javascript:alert("En DEV"); return; _get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=repondre&valeur_2=<?=$this->message["id_message"];?>");'>
-	    <input type='button' class='button1' value='Supprimer' onClick='javascript:alert("En DEV"); return; _get_("/messagerie/askaction?caction=do_messagerie_message&valeur_5=<?=$this->message["id_message"];?>&valeur_6=supprimer");'>
+	    <input type='button' class='button1' value='R&eacute;pondre' onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=repondre&valeur_2=<?=$this->message["id_message"];?>");'>
+		<input type='button' class='button1' value='Tranf&eacute;rer' onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=transferer&valeur_2=<?=$this->message["id_message"];?>");'>
+	    <input type='button' class='button1' value='Supprimer' onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimer&valeur_2=<?=$this->message["id_message"];?>");'>
 	<? endif; ?>

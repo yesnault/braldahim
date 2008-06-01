@@ -24,31 +24,40 @@ class JosUddeim extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	public function findByToId($toId, $page, $nbMax, $trashBoolean = false) {
+	public function findByToId($toId, $page, $nbMax) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		
-		if ($trashBoolean == false) {
-			$trash = 0;
-		} else {
-			$trash = 1;
-		}
-		
 		$select->from('jos_uddeim', '*')
 		->where('jos_uddeim.toid = '.intval($toId))
-		->where('jos_uddeim.totrash = '.$trash)
+		->where('jos_uddeim.totrash = 0')
 		->order('datum DESC')
 		->limitPage($page, $nbMax);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
+	
 	public function findByFromId($toId, $page, $nbMax) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		
 		$select->from('jos_uddeim', '*')
 		->where('jos_uddeim.fromid = '.intval($toId))
+		->where('jos_uddeim.totrash = 0')
+		->order('datum DESC')
+		->limitPage($page, $nbMax);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
+	public function findByToOrFromIdSupprime($toOrFromId, $page, $nbMax) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		
+		$select->from('jos_uddeim', '*')
+		->where('jos_uddeim.toid = '.intval($toOrFromId). ' OR jos_uddeim.fromid = '.intval($toOrFromId))
+		->where('jos_uddeim.totrash = 1')
 		->order('datum DESC')
 		->limitPage($page, $nbMax);
 		$sql = $select->__toString();

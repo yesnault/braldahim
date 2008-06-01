@@ -51,7 +51,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 
 		$this->view->coutCastars = $this->_coutCastars;
 		$this->view->achatPossibleCastars = ($this->view->user->castars_hobbit - $this->_coutCastars >= 0);
-		// $this->view->utilisationPaPossible initialisé dans Bral_Lieux_Lieu
+		// $this->view->utilisationPaPossible initialisÃ© dans Bral_Lieux_Lieu
 		
 		$this->view->equipementEnCours = null;
 		
@@ -124,7 +124,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 		
 		$tabRunesJs = explode(",", $runes);
 		$tabRunes = null;
-		// on regarde si les runes sont présentes dans le laban
+		// on regarde si les runes sont prÃ©sentes dans le laban
 		
 		$tmp = $this->view->labanRunes;
 		$nb = 0;
@@ -155,6 +155,8 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 		$this->calculSertir($tabRunes);
 		$this->view->nbRunes = $nb;
 		$this->view->tabRunes = $tabRunes;
+		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
+		$this->majHobbit();
 	}
 
 	private function calculSertir($tabRunes) {

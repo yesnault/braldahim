@@ -90,7 +90,7 @@ abstract class Bral_Lieux_Lieu {
 				$this->view->reloadInterface = $this->reloadInterface;
 				$texte = $this->view->render("lieux/".$this->nom_systeme."_resultat.phtml");
 				
-				// suppression des espaces : on met un espace � la place de n espaces � suivre
+				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 				$this->majEvenements(Bral_Helper_Affiche::copie($this->view->texte));
 				return $this->view->render("lieux/commun_resultat.phtml");

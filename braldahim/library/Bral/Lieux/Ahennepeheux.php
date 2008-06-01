@@ -236,7 +236,7 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 
 
 	function getListBoxRefresh() {
-		return array("box_metier", "box_laban", "box_echoppes", "box_charrette", "box_competences_communes", "box_competences_basiques", "box_competences_metiers");
+		return array("box_metier", "box_laban", "box_echoppes", "box_charrette", "box_competences_metiers");
 	}
 
 	private function calculCoutCastars($nbMetiersAcquis) {

@@ -258,7 +258,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		unset($charretteTable);
 		
 		$date_creation = date("Y-m-d H:i:s");
-		$nb_jours = $this->view->user->vigueur_base_hobbit / 2;
+		$nb_jours = ($this->view->user->vigueur_base_hobbit / 2) + Bral_Util_De::get_1d3();;
 		$date_fin = Bral_Util_ConvertDate::get_date_add_day_to_date($date_creation, $nb_jours);
 		
 		$data = array(

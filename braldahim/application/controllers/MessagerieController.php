@@ -20,10 +20,6 @@ class MessagerieController extends Zend_Controller_Action {
 */
 	}
 
-/*	function indexAction() {
-		$this->_redirect('/messagerie/reception');
-	}
-*/
 	function askactionAction() {
 		$this->doactionAction();
 	}

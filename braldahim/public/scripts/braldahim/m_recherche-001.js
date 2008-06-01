@@ -15,15 +15,15 @@ function getSelectionId(text, li) {
 	}
 	
 	if ($(li.getAttribute('champ')).value == '') {
-		$(li.getAttribute('champ')).value = li.getAttribute('id_hobbit');
+		$(li.getAttribute('champ')).value = li.getAttribute('id_fk_jos_users_hobbit');
 	} else {
-		$(li.getAttribute('champ')).value = $(li.getAttribute('champ')).value + ',' + li.getAttribute('id_hobbit');
+		$(li.getAttribute('champ')).value = $(li.getAttribute('champ')).value + ',' + li.getAttribute('id_fk_jos_users_hobbit');
 	}
 
 	var contenu = window.document.createElement('span');
-	contenu.name = 'm_' + li.getAttribute('champ') + '_' + li.getAttribute('id_hobbit');
+	contenu.name = 'm_' + li.getAttribute('champ') + '_' + li.getAttribute('id_fk_jos_users_hobbit');
 	var texte = li.getAttribute('valeur') + ' (' + li.getAttribute('id_hobbit') + ') ' + ' <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'' + 'aff_'
-			+ li.getAttribute('champ') + '\',\'' + contenu.name + '\', \'' + li.getAttribute('champ') + '\', ' + li.getAttribute('id_hobbit') + ')" />';
+			+ li.getAttribute('champ') + '\',\'' + contenu.name + '\', \'' + li.getAttribute('champ') + '\', ' + li.getAttribute('id_fk_jos_users_hobbit') + ')" />';
 	contenu.id = contenu.name;
 	contenu.innerHTML = texte;
 	$('aff_' + li.getAttribute('champ')).appendChild(contenu);

@@ -10,7 +10,7 @@ class Bral_Messagerie_Message {
 		$this->action = $action;
 
 		$this->view->message = null;
-		$this->view->information = " ";
+		$this->view->information = null;
 		$this->refreshMessages = false;
 		$this->view->envoiMessage = false;
 		$this->prepareAction();
@@ -28,12 +28,11 @@ class Bral_Messagerie_Message {
 					break;
 				}
 			case "nouveau" :
-//			case "repondre" :
+			case "repondre" :
+			case "transferer" :
 				return $this->view->render("messagerie/nouveau.phtml");
 				break;
-//			case "archiver" :
-//			case "supprimer" :
-//			case "annuler" :
+			case "supprimer" :
 			case "message" :
 				return $this->view->render("messagerie/message.phtml");
 				break;
@@ -62,15 +61,15 @@ class Bral_Messagerie_Message {
 			case "nouveau" :
 				$this->prepareNouveau();
 				break;
-//			case "repondre" :
-//				$this->prepareRepondre();
-//				break;
-//			case "archiver" :
-//				$this->prepareArchiver();
-//				break;
-//			case "supprimer" :
-//				$this->prepareSupprimer();
-//				break;
+			case "repondre" :	
+				$this->prepareRepondre();
+				break;
+			case "transferer" :
+				$this->prepareRepondre(true);
+				break;
+			case "supprimer" :
+				$this->prepareSupprimer();
+				break;
 			case "message" :
 				$this->prepareMessage();
 				break;
@@ -89,6 +88,31 @@ class Bral_Messagerie_Message {
 		$this->view->message = $tabMessage;
 	}
 
+	private function prepareRepondre($transferer = false) {
+		$this->prepareMessage();
+		if ($transferer == false) {	
+			$tabHobbit = $this->constructTabHobbit($this->view->message["fromid"].",", true);
+		} else {
+			$tabHobbit = array("destinataires" => "",
+				"aff_js_destinataires" => "",
+			);
+		}
+		
+		$contenu = "
+
+
+__________
+Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this->view->message["date"])." : 
+".$this->view->message["titre"];
+		
+		$tabMessage = array(
+			'contenu' => $contenu,
+			'destinataires' => $tabHobbit["destinataires"],
+			'aff_js_destinataires' => $tabHobbit["aff_js_destinataires"],
+		);
+		$this->view->message = $tabMessage;
+	}
+	
 	private function envoiMessage() {
 		Zend_Loader::loadClass("Bral_Validate_StringLength");
 		Zend_Loader::loadClass("Bral_Validate_Messagerie_Destinataires");
@@ -100,7 +124,6 @@ class Bral_Messagerie_Message {
 		$tabMessage = array(
 			'contenu' => stripslashes($this->request->get('valeur_3')),
 			'destinataires' => $tabHobbit["destinataires"],
-			'aff_destinataires' => $tabHobbit["aff_destinataires"],
 			'aff_js_destinataires' => $tabHobbit["aff_js_destinataires"],
 		);
 		$this->view->message = $tabMessage;
@@ -122,7 +145,7 @@ class Bral_Messagerie_Message {
 					'toid' => $id_fk_jos_users_hobbit,
 					'message' => $tabMessage["contenu"],
 					'datum' => time(),
-					'toread' => 0,
+					'toread' => 1,
 					'totrash' => 0,
 					'totrashoutbox' => 0,
 					'disablereply' => 0,
@@ -145,30 +168,28 @@ class Bral_Messagerie_Message {
 	
 	private function constructTabHobbit($tab_destinataires) {
 		$hobbitTable = new Hobbit();
-		
 		$idDestinatairesTab = split(',', $tab_destinataires);
-		$hobbits = $hobbitTable->findByIdList($idDestinatairesTab);
+		
+		$hobbits = $hobbitTable->findByIdFkJosUsersList($idDestinatairesTab);
+		
 		if ($hobbits == null) {
 			return null;
 		}
-		
+			
 		$destinataires = "";
-		$aff_destinataires = "";
 		$aff_js_destinataires = "";
 
 		foreach($hobbits as $h) {
-			if (in_array($h["id_hobbit"],$idDestinatairesTab)) {
+			if (in_array($h["id_fk_jos_users_hobbit"],$idDestinatairesTab)) {
 				if ($destinataires == "") {
 					$destinataires = $h["id_fk_jos_users_hobbit"];
 				} else {
 					$destinataires = $destinataires.",".$h["id_fk_jos_users_hobbit"];
 				}
-				$aff_js_destinataires = '<span id="m_valeur_7_'.$h["id_hobbit"].'">'.$h["prenom_hobbit"].' '.$h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'aff_valeur_7\',\'m_valeur_7_'.$h["id_hobbit"].'\', \'valeur_7\', '.$h["id_hobbit"].')" /></span>';
-				$aff_destinataires = $aff_destinataires.$h["prenom_hobbit"]." ".$h["nom_hobbit"].' ('.$h["id_hobbit"].') ';
+				$aff_js_destinataires = '<span id="m_valeur_2_'.$h["id_hobbit"].'">'.$h["prenom_hobbit"].' '.$h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'aff_valeur_2\',\'m_valeur_2_'.$h["id_hobbit"].'\', \'valeur_2\', '.$h["id_fk_jos_users_hobbit"].')" /></span>';
 			}
 		}
 		$tab = array("destinataires" => $destinataires,
-			"aff_destinataires" => $aff_destinataires,
 			"aff_js_destinataires" => $aff_js_destinataires,
 		);
 		return $tab;
@@ -223,12 +244,32 @@ class Bral_Messagerie_Message {
 				"titre" => $message["message"],
 				"date" => $message["datum"],
 				'expediteur' => $expediteur,
-				'destinataire' => $destinataire
+				'destinataire' => $destinataire,
+				"fromid" => $message["fromid"],
+				"toid" => $message["fromid"],
+				"toread" => $message["toread"],
 			);
 		} else {
 			throw new Zend_Exception(get_class($this)."::prepareMessage Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
 		}
 		$this->view->message = $tabMessage;
+	}
+	
+	private function prepareSupprimer() {
+		$josUddeimTable = new JosUddeim();
+		$message = $josUddeimTable->findById($this->view->user->id_fk_jos_users_hobbit, (int)$this->request->get("valeur_2"));
+		if ($message != null && count($message) == 1) {
+			$data = array(
+				"totrash" => 1,
+				"totrashdate" => time(),
+			);
+			$where = "id=".(int)$this->request->get("valeur_2");
+			$josUddeimTable->update($data, $where);
+			$this->view->information = "Le message est supprim&eacute;";
+			$this->refreshMessages = true;
+		} else {
+			throw new Zend_Exception(get_class($this)."::supprimer Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
+		}
 	}
 	
 /*	private function prepareRepondre() {

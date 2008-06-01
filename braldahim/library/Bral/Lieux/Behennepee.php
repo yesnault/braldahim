@@ -129,7 +129,7 @@ class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
 			return;
 		}
 
-		// on verifie que la position est dans la comté de la tentative
+		// on verifie que la position est dans la comtï¿½ de la tentative
 		$this->view->construireRegionOk = true;
 		if ($this->regionCourante["x_min_region"] > $x || $this->regionCourante["x_max_region"] < $x || $this->regionCourante["y_min_region"] > $y || $this->regionCourante["y_max_region"] < $y) {
 			$this->view->construireRegionOk = false;
@@ -169,5 +169,4 @@ class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
 			return 500;
 		}
 	}
-
 }

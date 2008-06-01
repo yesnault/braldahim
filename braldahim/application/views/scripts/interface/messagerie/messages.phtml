@@ -11,6 +11,8 @@
 		<th>
 		<? if ($this->filtre == $this->config->messagerie->message->type->envoye): ?>
 			&Agrave;
+		<? elseif ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
+			De / &Agrave;
 		<? else: ?>
 			De
 		<? endif; ?>
@@ -36,17 +38,35 @@
 	<? if (!empty($this->messages)): ?>
 		<? $i = 0;
 		   foreach($this->messages as $message): ?>
+		   		<? $js="onClick=\"_get_('/messagerie/doaction?caction=do_messagerie_message&valeur_1=message&valeur_2=".$message['id_message']."');\" style='cursor:pointer' title='Lire le message'"; ?>
 	  			<tr class="table_liste<?=($i % 2);$i++; ?>">
 	  				<td class="table_liste">
-						<img alt="read" title="read" src="/public/images/uddeim/nonew_im.gif" border="0" 
-						onClick='_get_("/messagerie/doaction?caction=do_messagerie_message&valeur_1=message&valeur_2=<?=$message["id_message"];?>");'>
+	  					<? if ($message["toread"] == "1") :?>
+		  					<img alt="&Agrave; lire" title="read" src="/public/images/uddeim/new_im.gif" border="0" 
+							<?=$js ?>>
+	  					<? else: ?>
+							<img alt="D&eacute;j&agrave; lu" title="read" src="/public/images/uddeim/nonew_im.gif" border="0" 
+							<?=$js ?>>
+						<? endif; ?>
 					</td>
-	  				<td class="table_liste" onClick="<?=$js ?>"> <?if (mb_strlen($message["expediteur_destinataire"]) > 25) echo mb_substr(htmlspecialchars($message["expediteur_destinataire"]), 0, 25)."..."; else echo htmlspecialchars($message["expediteur_destinataire"]);?>&nbsp;</td>
-	  				<td class="table_liste" onClick="<?=$js ?>"> <?if (mb_strlen($message["titre"]) > 25) echo Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else echo Bral_Util_BBParser::bbcodeStrip($message["titre"]);?></td>
-	  				<td class="table_liste" onClick="<?=$js ?>"> le <?=date('d/m/y, H:i', $message["date"]);?></td>
+	  				<td class="table_liste" <?=$js ?>">
+	  					<? if ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
+		  					De <? if (mb_strlen($message["expediteur"]) > 25) echo mb_substr(htmlspecialchars($message["expediteur"]), 0, 25)."..."; else echo htmlspecialchars($message["expediteur"]);?>&nbsp;
+		  					&agrave;<br/>
+		  					<? if (mb_strlen($message["destinataire"]) > 25) echo mb_substr(htmlspecialchars($message["destinataire"]), 0, 25)."..."; else echo htmlspecialchars($message["destinataire"]);?>&nbsp;
+	  					<? elseif ($this->filtre == $this->config->messagerie->message->type->envoye): ?>
+	  						<? if (mb_strlen($message["destinataire"]) > 25) echo mb_substr(htmlspecialchars($message["destinataire"]), 0, 25)."..."; else echo htmlspecialchars($message["destinataire"]);?>&nbsp;
+	  					<? else: ?>
+	  						<? if (mb_strlen($message["expediteur"]) > 25) echo mb_substr(htmlspecialchars($message["expediteur"]), 0, 25)."..."; else echo htmlspecialchars($message["expediteur"]);?>&nbsp;
+	  					<? endif; ?>
+	  				</td>
+	  				<td class="table_liste" <?=$js ?>"> <?if (mb_strlen($message["titre"]) > 25) echo Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else echo Bral_Util_BBParser::bbcodeStrip($message["titre"]);?></td>
+	  				<td class="table_liste" <?=$js ?>"> le <?=date('d/m/y, H:i', $message["date"]);?></td>
 	  				<td class="table_liste">
-						<img src="/public/images/uddeim/forward.gif" alt="Transf&eacute;rer" title="Transf&eacute;rer"><br>
-						<img src="/public/images/uddeim/trash.gif" alt="Effacer" title="Effacer">
+						<? if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
+							<img src="/public/images/uddeim/forward.gif" alt="Transf&eacute;rer" title="Transf&eacute;rer"onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=transferer&valeur_2=<?=$message["id_message"];?>");' style="cursor:pointer"><br>
+							<img src="/public/images/uddeim/trash.gif" alt="Effacer" title="Effacer" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimer&valeur_2=<?=$message["id_message"];?>");' style="cursor:pointer">
+						<? endif; ?>
 					</td>
 	  			</tr>
 		  	<? endforeach; ?>

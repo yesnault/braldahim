@@ -119,9 +119,9 @@ abstract class Bral_Competences_Competence {
 	
 	protected function calculJets() {
 		$this->view->jetUtilise = true;
-		$this->view->okJet1 = false; // jet de comp�tence
-		$this->view->okJet2 = false; // jet am�lioration de la comp�tence
-		$this->view->okJet3 = false; // jet du % d'am�lioration
+		$this->view->okJet1 = false; // jet de compétence
+		$this->view->okJet2 = false; // jet amélioration de la compétence
+		$this->view->okJet3 = false; // jet du % d'amélioration
 		$this->calculJets1();
 		$this->calculJets2et3();
 		$this->majSuiteJets();

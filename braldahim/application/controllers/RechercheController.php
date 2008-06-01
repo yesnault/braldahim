@@ -31,6 +31,7 @@ class RechercheController extends Zend_Controller_Action {
 		foreach ($hobbitRowset as $h) {
 			$tabHobbits[] = array(
 				"id_hobbit" => $h["id_hobbit"],
+				"id_fk_jos_users_hobbit" => $h["id_fk_jos_users_hobbit"],
 				"nom" => $h["nom_hobbit"],
 				"prenom" => $h["prenom_hobbit"],
 			);
