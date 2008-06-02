@@ -22,7 +22,7 @@
 	    Nb. Kill Monstre : <?=$this->user->nb_monstre_kill_hobbit ?> - 
 	    Nb. Kill Hobbit : <?=$this->user->nb_hobbit_kill_hobbit ?>
 	    <hr>
-	    Vue BM : <?=$this->user->vue_bm_hobbit ?> <br />
+	    Vue : <?=$this->vue_nb_cases?> <? if ($this->user->vue_bm_hobbit >= 0): echo "+"; endif;?> <?=$this->user->vue_bm_hobbit ?> <br />
 	    R&eacute;g&eacute;n&eacute;ration : <?=$this->user->regeneration_hobbit ?> D<?=$this->config->game->de_regeneration ?> | Malus R&eacute;g&eacute;n&eacute;ration prochain tour : <?=$this->user->regeneration_malus_hobbit ?><br />
 	    Force : <?=$this->config->game->base_force + $this->user->force_base_hobbit ?> 
 	    	D<?=$this->config->game->de_force ?> 
