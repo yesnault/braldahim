@@ -113,21 +113,21 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 				$tab[$i]["id_fk"] = $plante["id_fk_partie_2"];
 				$tab[$i]["quantite"] = $plante["partie_2_plante"];
 				$tab[$i]["estVide"] = false;
-				$cueillette[$i]["id_fk"] = $plante["id_fk_partie_1"];
+				$cueillette[$i]["id_fk"] = $plante["id_fk_partie_2"];
 				$cueillette[$i]["nom_partie"] = $plante["nom_partie_2"];
 			}
 			if ($i == 3 && $plante["partie_3_plante"] > 0) {
 				$tab[$i]["id_fk"] = $plante["id_fk_partie_3"];
 				$tab[$i]["quantite"] = $plante["partie_3_plante"];
 				$tab[$i]["estVide"] = false;
-				$cueillette[$i]["id_fk"] = $plante["id_fk_partie_1"];
+				$cueillette[$i]["id_fk"] = $plante["id_fk_partie_3"];
 				$cueillette[$i]["nom_partie"] = $plante["nom_partie_3"];
 			}
 			if ($i == 4 && $plante["partie_4_plante"] > 0) {
 				$tab[$i]["id_fk"] = $plante["id_fk_partie_4"];
 				$tab[$i]["quantite"] = $plante["partie_4_plante"];
 				$tab[$i]["estVide"] = false;
-				$cueillette[$i]["id_fk"] = $plante["id_fk_partie_1"];
+				$cueillette[$i]["id_fk"] = $plante["id_fk_partie_4"];
 				$cueillette[$i]["nom_partie"] = $plante["nom_partie_4"];
 			}
 		}
@@ -180,7 +180,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			$planteTable = new Plante();
 			$where = "id_plante=".$idPlante;
 			$planteTable->delete($where);
-		} else { // sinon, il faut la mettre � jour
+		} else { // sinon, il faut la mettre à jour
 			$data = array(
 				"partie_1_plante" => $p["partie_1_plante"] - $cueillette[1]["quantite"],
 				"partie_2_plante" => $p["partie_2_plante"] - $cueillette[2]["quantite"],
@@ -227,7 +227,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		$n = Bral_Util_De::get_1d3();
 		$n = $n + floor($this->view->user->agilite_base_hobbit / 5);
 		
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "RI")) { // s'il poss�de une rune RI
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "RI")) { // s'il possède une rune RI
 			$this->view->effetRune = true;
 			$n = ceil($n * 1.5);
 		}

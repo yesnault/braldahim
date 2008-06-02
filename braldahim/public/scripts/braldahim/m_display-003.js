@@ -121,7 +121,7 @@ function messagerie(nbMessageNonLu) {
 		$('message_nb_label').innerHTML = " 1 nouveau message&nbsp;";
 		$('img_message_un_nouveau').style.display = "block";
 	} else if (nbMessageNonLu > 1) {
-		$('message_nb_label').innerHTML = nbMessageNonLu + "nouveaux messages&nbsp;";
+		$('message_nb_label').innerHTML = nbMessageNonLu + " nouveaux messages&nbsp;";
 		$('img_message_un_nouveau').style.display = "block";
 	} else { // 0
 		$('message_nb_label').innerHTML = " pas de nouveau message&nbsp;";
