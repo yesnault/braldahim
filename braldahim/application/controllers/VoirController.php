@@ -26,6 +26,10 @@ class VoirController extends Zend_Controller_Action {
 	}
 	
 	function monstreAction() {
+		if (!Zend_Auth::getInstance()->hasIdentity()) {
+			$this->_redirect('/'); 
+		}
+		
 		Zend_Loader::loadClass('Monstre');
 		$monstreTable = new Monstre();
 		$monstreRowset = $monstreTable->findById($this->_request->get('idmonstre'));
