@@ -68,7 +68,7 @@ class JosUddeim extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('jos_uddeim', 'count(*) as nombre')
-		->where('jos_uddeim.toid = '.intval($id). ' AND jos_uddeim.toread = 0');
+		->where('jos_uddeim.toid = '.intval($id). ' AND jos_uddeim.toread = 0 AND jos_uddeim.totrash = 0');
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 		$nombre = $resultat[0]["nombre"];
