@@ -29,7 +29,7 @@ class EchoppeController extends Zend_Controller_Action {
 	}
 
 	function doactionAction() {
-		if (!$this->modification_tour) { // S'il n'y a pas eu de modification du tour, on passe � la competence
+		if (!$this->modification_tour) { // S'il n'y a pas eu de modification du tour, on passe à la competence
 			$xml_entry = new Bral_Xml_Entry();
 			$xml_entry->set_type("display");
 
