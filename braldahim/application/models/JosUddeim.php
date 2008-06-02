@@ -51,6 +51,7 @@ class JosUddeim extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
+	
 	public function findByToOrFromIdSupprime($toOrFromId, $page, $nbMax) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -61,5 +62,16 @@ class JosUddeim extends Zend_Db_Table {
 		->limitPage($page, $nbMax);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
+	}
+	
+	public function countByToIdNotRead($id) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('jos_uddeim', 'count(*) as nombre')
+		->where('jos_uddeim.toid = '.intval($id). ' AND jos_uddeim.toread = 0');
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
 	}
 }

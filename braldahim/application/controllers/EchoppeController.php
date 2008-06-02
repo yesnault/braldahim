@@ -47,6 +47,7 @@ class EchoppeController extends Zend_Controller_Action {
 					$xml_entry->set_data($c->render());
 					$this->xml_response->add_entry($xml_entry);
 				}
+				Bral_Util_JoomlaUser::setXmlResponseMessagerie($this->xml_response, $this->view->user->id_fk_jos_users_hobbit);
 			} catch (Zend_Exception $e) {
 				$this->xml_response = new Bral_Xml_Response();
 				$b = Bral_Box_Factory::getErreur($this->_request, $this->view, false, $e->getMessage());

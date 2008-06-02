@@ -30,6 +30,7 @@ Zend_Loader :: loadClass("Bral_Util_Controle");
 Zend_Loader :: loadClass("Bral_Util_ConvertDate");
 Zend_Loader :: loadClass("Bral_Util_Commun");
 Zend_Loader :: loadClass("Bral_Util_Faim");
+Zend_Loader :: loadClass("Bral_Util_JoomlaUser");
 Zend_Loader :: loadClass("Bral_Util_Log");
 Zend_Loader :: loadClass("Bral_Util_Poids");
 Zend_Loader :: loadClass("Bral_Util_Registre");
@@ -45,6 +46,7 @@ Zend_Loader :: loadClass("Bral_Xml_Entry");
 
 Zend_Loader :: loadClass("Competence");
 Zend_Loader :: loadClass("Hobbit");
+Zend_Loader :: loadClass("JosUddeim");
 
 // load configuration
 $config = new Zend_Config_Ini('./application/config.ini', 'general');

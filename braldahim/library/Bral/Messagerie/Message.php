@@ -3,8 +3,6 @@
 class Bral_Messagerie_Message {
 
 	function __construct($request, $view, $action) {
-		Zend_Loader::loadClass("JosUddeim");
-
 		$this->view = $view;
 		$this->request = $request;
 		$this->action = $action;

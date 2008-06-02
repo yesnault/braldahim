@@ -13,7 +13,6 @@ class CommunauteController extends Zend_Controller_Action {
 		$this->view->controleur = $this->_request->controller;
 
 		Zend_Loader::loadClass('Bral_Communaute_Factory');
-
 	}
 
 	function indexAction() {
@@ -37,6 +36,7 @@ class CommunauteController extends Zend_Controller_Action {
 			if ($communaute->anotherXmlEntry() != null) {
 				$xml_response->add_entry($communaute->anotherXmlEntry());
 			}
+			Bral_Util_JoomlaUser::setXmlResponseMessagerie($this->xml_response, $this->view->user->id_fk_jos_users_hobbit);
 		} catch (Zend_Exception $e) {
 			$b = Bral_Box_Factory::getErreur($this->_request, $this->view, false, $e->getMessage());
 			$xml_entry->set_valeur($b->getNomInterne());

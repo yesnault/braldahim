@@ -133,6 +133,8 @@ function showResponse(originalRequest) {
 								redirection_url = m_data;
 							} else if (m_type_valeur == "effect.appear" && m_data != "") {
 								Effect.Appear(m_data, { duration :2.0 });
+							} else if (m_type_valeur == "messagerie" && m_data != "") {
+								messagerie(m_data);
 							}
 						}
 					}
@@ -160,6 +162,8 @@ function showResponse(originalRequest) {
 									redirection_url = m_data;
 								} else if (m_type_valeur == "effect.disappear" && m_data != "") {
 									Effect.Appear(m_data, { duration :4.0, from :1.0, to :0.0 });
+								} else if (m_type_valeur == "messagerie" && m_data != "") {
+									messagerie(m_data);
 								}
 							}
 						}
@@ -180,7 +184,7 @@ function showResponse(originalRequest) {
 
 	// Box erreur
 	if (display_erreur) {
-		Modalbox.show($("erreur"), { title :'Une erreur est survenu', width :400, overlayClose :false });
+		Modalbox.show($("erreur"), { title :'Une erreur est survenue', width :400, overlayClose :false });
 	} else {
 		if ($("erreur")) {
 			$("erreur").style.display = "none";
@@ -189,7 +193,7 @@ function showResponse(originalRequest) {
 	
 	// Box erreur catch
 	if (display_erreur_catch) {
-		Modalbox.show($("erreur_catch"), { title :'Une erreur est survenu', width :400, overlayClose :false });
+		Modalbox.show($("erreur_catch"), { title :'Une erreur est survenue', width :400, overlayClose :false });
 	} else {
 		if ($("erreur_catch")) {
 			$("erreur_catch").style.display = "none";

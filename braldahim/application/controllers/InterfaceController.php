@@ -1,7 +1,8 @@
 <?php
 
 class InterfaceController extends Zend_Controller_Action {
-
+	private $xml_response = null;
+	
 	function init() {
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
@@ -61,6 +62,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$xml_entry->set_data($box->render());
 		$xml_entry->set_valeur($box->getNomInterne());
 		$this->xml_response->add_entry($xml_entry);
+		Bral_Util_JoomlaUser::setXmlResponseMessagerie($this->xml_response, $this->view->user->id_fk_jos_users_hobbit);
 		unset($xml_entry);
 		$this->xml_response->render();
 	}
@@ -82,7 +84,7 @@ class InterfaceController extends Zend_Controller_Action {
 			$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view, false), "boite_c");
 			$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), "boite_c");
 			
-			// uniquement s'il poss�de un metier dans les metiers possedant des echoppes
+			// uniquement s'il possède un metier dans les metiers possedant des echoppes
 			$hobbitsMetiers = new HobbitsMetiers();
 			$possibleEchoppe = $hobbitsMetiers->peutPossederEchoppeIdHobbit($this->view->user->id_hobbit);
 			if ($possibleEchoppe === true) {

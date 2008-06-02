@@ -9,8 +9,8 @@
 	<script type="text/javascript" src="/public/scripts/modalbox_160/modalbox.js"></script>
 	<!-- <script type="text/javascript" src="/public/scripts/braldahim/braldahim_001/braldahim.js-BAK"></script>-->
     
-	<script type="text/javascript" src="/public/scripts/braldahim/m_action-002.js"></script>
-	<script type="text/javascript" src="/public/scripts/braldahim/m_display-002.js"></script>
+	<script type="text/javascript" src="/public/scripts/braldahim/m_action-003.js"></script>
+	<script type="text/javascript" src="/public/scripts/braldahim/m_display-003.js"></script>
 	<script type="text/javascript" src="/public/scripts/braldahim/m_recherche-002.js"></script>
 	<script type="text/javascript" src="/public/scripts/braldahim/uddeimtools-001.js"></script>
 	<script type="text/javascript" src="/public/scripts/braldahim/bbsmile-001.js"></script>
@@ -41,6 +41,18 @@
 <div style="height:10px">&nbsp;</div>
 <? if (isset($this->user) && isset($this->user->email_hobbit)) : ?> 
 <?=Bral_Helper_Box::haut(); ?>
+
+<? if ($this->controleur == "interface") : ?>
+
+<span id="message_nb_img" style="float:right; " style="display:none">
+ 	<img id="img_message_un_nouveau" src="/public/images/uddeim/env.gif" alt="" border="0" style="display:none"/>
+	<img id="img_message_ancien" src="/public/images/uddeim/env_ani.gif" alt="" border="0" style="display:none"/>
+</span>
+<span id="message_nb" style="float:right; " style="display:none;">
+	<label id="message_nb_label" class="alabel" style="text-decoration:underline" onClick='Javascript:_get_("/interface/load/?box=box_messagerie");my_switch("box_messagerie","boite_c");	'></label>
+</span>
+<? endif; ?>
+ 
  <div class="inner_top">
   <?=$this->escape($this->user->prenom_hobbit);?> <?=$this->escape($this->user->nom_hobbit);?> | 
   <? if ($this->user->administrateur === true) : ?>
@@ -52,8 +64,9 @@
   <? endif; ?>
   <a href="http://www.braldahim.com">Site</a> | 
   <a href="/auth/logout"> D&eacute;connexion </a>
-  
+ 
  </div>
+
 <?=Bral_Helper_Box::bas(); ?>
 <? endif; ?>
 
