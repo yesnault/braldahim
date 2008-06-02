@@ -249,6 +249,17 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 				"toid" => $message["fromid"],
 				"toread" => $message["toread"],
 			);
+			
+			// Flag de lecture
+			if ($message["toid"] == $this->view->user->id_fk_jos_users_hobbit && $message["toread"] == 0) {
+				$data = array(
+					"toread" => 1,
+				);
+				$where = "id=".$message["id"];
+				$josUddeimTable->update($data, $where);
+			}
+			unset($josUddeimTable);
+			unset($message);
 		} else {
 			throw new Zend_Exception(get_class($this)."::prepareMessage Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
 		}
@@ -259,10 +270,18 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 		$josUddeimTable = new JosUddeim();
 		$message = $josUddeimTable->findById($this->view->user->id_fk_jos_users_hobbit, (int)$this->request->get("valeur_2"));
 		if ($message != null && count($message) == 1) {
-			$data = array(
-				"totrash" => 1,
-				"totrashdate" => time(),
-			);
+			$message = $message[0];
+			if ($message["fromid"] == $this->view->user->id_fk_jos_users_hobbit) {
+				$data = array(
+					"totrashoutbox" => 1,
+					"totrashdateoutbox" => time(),
+				);
+			} else {
+				$data = array(
+					"totrash" => 1,
+					"totrashdate" => time(),
+				);
+			}
 			$where = "id=".(int)$this->request->get("valeur_2");
 			$josUddeimTable->update($data, $where);
 			$this->view->information = "Le message est supprim&eacute;";
@@ -270,6 +289,8 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 		} else {
 			throw new Zend_Exception(get_class($this)."::supprimer Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
 		}
+		unset($josUddeimTable);
+		unset($message);
 	}
 	
 /*	private function prepareRepondre() {

@@ -56,8 +56,7 @@ class JosUddeim extends Zend_Db_Table {
 		$select = $db->select();
 		
 		$select->from('jos_uddeim', '*')
-		->where('jos_uddeim.toid = '.intval($toOrFromId). ' OR jos_uddeim.fromid = '.intval($toOrFromId))
-		->where('jos_uddeim.totrash = 1')
+		->where('(jos_uddeim.toid = '.intval($toOrFromId). ' AND jos_uddeim.totrash = 1) OR (jos_uddeim.fromid = '.intval($toOrFromId).' AND jos_uddeim.totrashoutbox = 1)')
 		->order('datum DESC')
 		->limitPage($page, $nbMax);
 		$sql = $select->__toString();
