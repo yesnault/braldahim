@@ -97,7 +97,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 			$detailsR = $tab["nom_hobbit_details"]." (".$tab["id_hobbit"].") a reçu des PX la part de ".$this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.")";
 			
 			$detailDonneur = "Vous avez donné ".$tab["px_recu"]." PX à ".$tab["nom_hobbit"]." (".$tab["id_hobbit"].")";
-			$detailReceveur = "Vous avez reçu ".$tab["px_recu"]." PX de la part de ".$hobbit->prenom_hobbit. " ". $hobbit->nom_hobbit." (".$this->view->user->id_hobbit.")";
+			$detailReceveur = "Vous avez reçu ".$tab["px_recu"]." PX de la part de ".$this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.")";
 			Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $id_type, $detailsD, $detailDonneur);
 			Bral_Util_Evenement::majEvenements($tab["id_hobbit"], $id_type, $detailsR, $detailReceveur);
 		}

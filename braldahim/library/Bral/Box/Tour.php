@@ -103,7 +103,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		&& ( (!$this->is_nouveau_tour && ($this->hobbit->tour_position_hobbit != $this->view->config->game->tour->position_cumul))
 		|| ($this->is_nouveau_tour))) {
 			Bral_Util_Log::tour()->debug(get_class($this)." Cumul tour");
-			// Si le joueur a d�j� eu des PA
+			// Si le joueur a déjà eu des PA
 			if ($this->hobbit->tour_position_hobbit == $this->view->config->game->tour->position_milieu && !$this->is_nouveau_tour) {
 				Bral_Util_Log::tour()->debug(get_class($this)." Le joueur a deja eu des PA");
 				$this->hobbit->pa_hobbit = $this->hobbit->pa_hobbit + $this->view->config->game->pa_max;
@@ -386,7 +386,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		Zend_Loader::loadClass("EquipementRune");
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		
-		// on va chercher l'�quipement port� et les runes
+		// on va chercher l'équipement porté et les runes
 		$tabEquipementPorte = null;
 		$hobbitEquipementTable = new HobbitEquipement();
 		$equipementPorteRowset = $hobbitEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
@@ -545,10 +545,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune UP active - avant this->hobbit->sagesse_bm_hobbit=".$this->hobbit->sagesse_bm_hobbit);
 					}
 				}
-				
 				unset($equipementRunes);
 			}
-			
 			unset($equipementPorteRowset);
 		}
 		Bral_Util_Log::tour()->trace(get_class($this)." calculBMEquipement - exit -");

@@ -18,9 +18,9 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 		$coutSagesse = $this->calculCoutAmelioration(1+$this->view->user->sagesse_base_hobbit);
 
 		if ($coutForce <= $this->view->user->pi_hobbit
-		&& $coutAgilite <= $this->view->user->pi_hobbit
-		&& $coutVigueur <= $this->view->user->pi_hobbit
-		&& $coutSagesse <= $this->view->user->pi_hobbit ) {
+		|| $coutAgilite <= $this->view->user->pi_hobbit
+		|| $coutVigueur <= $this->view->user->pi_hobbit
+		|| $coutSagesse <= $this->view->user->pi_hobbit ) {
 			$achatPiPossible = true;
 		}
 

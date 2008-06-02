@@ -34,9 +34,9 @@ class Bral_Util_Faim {
 			$coef = -1;
 		}
 		
-		$hobbit->force_bbdf_hobbit = floor($coef * ($hobbit->force_base_hobbit / $div));
-		$hobbit->agilite_bbdf_hobbit = floor($coef * ($hobbit->agilite_base_hobbit / $div));
-		$hobbit->vigueur_bbdf_hobbit = floor($coef * ($hobbit->vigueur_base_hobbit / $div));
-		$hobbit->sagesse_bbdf_hobbit = floor($coef * ($hobbit->sagesse_base_hobbit / $div));
+		$hobbit->force_bbdf_hobbit = floor($coef * ($hobbit->niveau_hobbit / $div));
+		$hobbit->agilite_bbdf_hobbit = floor($coef * ($hobbit->niveau_hobbit / $div));
+		$hobbit->vigueur_bbdf_hobbit = floor($coef * ($hobbit->niveau_hobbit / $div));
+		$hobbit->sagesse_bbdf_hobbit = floor($coef * ($hobbit->niveau_hobbit / $div));
 	}
 }
