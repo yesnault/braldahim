@@ -8,8 +8,7 @@
   	</select>
   	<br /><br />
   	
-  	<? if ($this->nbEvenements > 0): ?>
-	  	<table class="table_liste">
+  	<table class="table_liste">
 		<thead class="table_liste">
 		  <tr class="table_liste">
 			<th>Date</th>
@@ -29,6 +28,7 @@
 		    </th>
 		  </tr>
 		</tfoot>
+  	<? if ($this->nbEvenements > 0): ?>
 		<tbody>
 	  	<? $i = 0; 
 	  	foreach($this->evenements as $e): ?>
@@ -40,8 +40,12 @@
 	  		</tr>
 	  	<? endforeach; ?>
 	  	</tbody>
-	  	</table>
    <? else: ?>
-   		Aucun &eacute;v&eacute;nement
+   		<tr class="table_liste">
+   			<td colspan="5">
+	   			Aucun &eacute;v&eacute;nement
+	   		</td>
+   		</tr>
    <? endif; ?>
+   </table>
   </ul>
