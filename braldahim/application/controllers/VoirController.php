@@ -25,6 +25,19 @@ class VoirController extends Zend_Controller_Action {
 		echo $voir->render();
 	}
 	
+	function monstreAction() {
+		Zend_Loader::loadClass('Monstre');
+		$monstreTable = new Monstre();
+		$monstreRowset = $monstreTable->findById($this->_request->get('idmonstre'));
+		if (count($monstreRowset) > 1) {
+			$this->view->monstre = $monstreRowset;
+		} else {
+			$this->view->monstre = null;
+		}
+		$this->view->id_monstre = $this->_request->get('idmonstre');
+		$this->render();
+	}
+	
 	function doactionAction() {
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("display");
