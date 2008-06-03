@@ -1,6 +1,3 @@
-
-var isLockClick = false;
-
 function findSelectedRadioButton(groupname) {
 	var radioButtons = $('myForm').elements[groupname];
 	for ( var i = 0; i < radioButtons.length; i++) {

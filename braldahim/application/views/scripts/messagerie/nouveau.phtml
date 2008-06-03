@@ -6,6 +6,8 @@
 <form name="myForm" id="myForm">
 	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
 	<input type='hidden' name='valeur_1' id='valeur_1' value='envoi' />
+	<input type='hidden' name='valeur_2' id='valeur_2' value='' />
+	<input type='hidden' name='valeur_3' id='valeur_3' value='' />
 
 	<?php if(!empty($this->destinatairesErreur)) :?>
 		<div class="message_erreur" id="message_erreur"> 
@@ -19,22 +21,22 @@
 	Sinon, ils n'appara&icirc;tront pas dans le r&eacute;sultat de la recherche ci-dessous.<br>
 	
 	<div id='aff_valeur_2' name='aff_valeur_2'><?=$this->message["aff_js_destinataires"]?></div>
-	<input type="hidden" name="valeur_2" id="valeur_2" value="<?=$this->message["destinataires"]?>" />
-	<input type="text" name="recherche_valeur_2" size='40' id="recherche_valeur_2" value="Entre un nom" onFocus='this.value=""; activerRechercheHobbit("valeur_2");' />
+	<input type="hidden" name="valeur_2_dest" id="valeur_2_dest" value="<?=$this->message["destinataires"]?>" />
+	<input type="text" name="recherche_valeur_2" size='40' id="recherche_valeur_2" value="Entre un nom" onFocus='this.value=""; activerRechercheHobbit("valeur_2_dest");' />
 	<input type="hidden" name="recherche_valeur_2_actif" id="recherche_valeur_2_actif" value="0" />
 	<div class="recherche" id="recherche_valeur_2_update" ></div> <img src="/public/images/loupe.gif" />
     <span id="indicateur_recherche_valeur_2" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
 
 <br><br>
 
-	<?=Bral_Helper_BBBoutons::affiche('valeur_3')?>
+	<?=Bral_Helper_BBBoutons::affiche('valeur_message')?>
 	
 	<span>Message</span><br>
-	<textarea name="valeur_3" id="valeur_3" class="inputbox" rows="10" cols="60" onkeydown="textCount($('valeur_3'),$('characterstyped'),2500);" onkeyup="textCount($('valeur_3'),$('characterstyped'),2500);"><?=$this->message["contenu"];?></textarea>
+	<textarea name="valeur_message" id="valeur_message" class="inputbox" rows="10" cols="60" onkeydown="textCount($('valeur_message'),$('characterstyped'),2500);" onkeyup="textCount($('valeur_message'),$('characterstyped'),2500);"><?=$this->message["contenu"];?></textarea>
 	
 	<br>
 	<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="2500" type="text"> Caract&egrave;res restants<br>
-	<input type="button" class='button1' name="Envoyer" value="Envoyer" onClick="Javascript:_get_('/messagerie/doaction?caction=do_messagerie_message');" /> 
+	<input type="button" class='button1' name="Envoyer" value="Envoyer" onClick="Javascript:$('nb_valeurs').value=3;$('valeur_1').value='envoi';$('valeur_2').value = $('valeur_2_dest').value;$('valeur_3').value=$('valeur_message').value; _get_('/messagerie/doaction?caction=do_messagerie_message');" /> 
 </form>
 
 <? endif; ?>
