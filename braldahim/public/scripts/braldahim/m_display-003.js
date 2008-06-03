@@ -127,5 +127,14 @@ function messagerie(nbMessageNonLu) {
 		$('message_nb_label').innerHTML = " Pas de nouveau message&nbsp;";
 		$('img_message_ancien').style.display = "block";
 	}
-	
+}
+
+function revealModal(divID) {
+    window.onscroll = function () { $(divID).style.top = document.body.scrollTop; };
+    $(divID).style.display = "block";
+    $(divID).style.top = document.body.scrollTop;
+}
+
+function hideModal(divID) {
+    $(divID).style.display = "none";
 }

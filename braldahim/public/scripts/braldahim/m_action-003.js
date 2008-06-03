@@ -1,3 +1,6 @@
+
+var isLockClick = false;
+
 function findSelectedRadioButton(groupname) {
 	var radioButtons = $('myForm').elements[groupname];
 	for ( var i = 0; i < radioButtons.length; i++) {
@@ -12,9 +15,10 @@ function _get_(url, encode) {
 	var valeurs = "";
 	var nb_valeurs = 0;
 	var action = "";
-
-	$("box_chargement").style.display = "block";
-
+	
+	//$("box_chargement").style.display = "block";
+	revealModal('modalPage');
+	
 	if (url.length > 34) {
 		if (url.substring(0, 12) == "/competences") { // /competences/doaction?caction=ask/do
 			if ((url.substring(13, 15) == "do") && (url.substring(30, 32) == "do")) {
@@ -200,8 +204,9 @@ function showResponse(originalRequest) {
 		}
 	}
 
-	$("box_chargement").style.display = "none";
-
+	//$("box_chargement").style.display = "none";
+	hideModal('modalPage');
+	
 	if (redirection) {
 		document.location.href = redirection_url;
 	}
