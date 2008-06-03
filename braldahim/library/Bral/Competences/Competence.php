@@ -97,7 +97,6 @@ abstract class Bral_Competences_Competence {
 	}
 	
 	protected function calculPx() {
-		
 		$this->view->calcul_px_generique = true;
 		if ($this->view->okJet1 === true) {
 			$this->view->nb_px_perso = $this->competence["px_gain"];

@@ -1091,7 +1091,7 @@ td.vue2d.actuelle {
     position: absolute;
     width: 300px;
     left: 50%;
-    top: 50%;
+    top: 20%;
     z-index: 750;
 }
 .modal

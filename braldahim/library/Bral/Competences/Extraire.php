@@ -160,8 +160,8 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		$this->view->nb_px_commun = 0;
 		$this->view->calcul_px_generique = true;
 		if ($this->view->okJet1 === true) {
-			if ($this->view->filonOk == false) {
-				$this->view->nb_px_perso = 0;
+			if ($this->view->filonOk === true) {
+				$this->view->nb_px_perso =  $this->competence["px_gain"] + 1;
 			} else {
 				$this->view->nb_px_perso = $this->competence["px_gain"];
 			}

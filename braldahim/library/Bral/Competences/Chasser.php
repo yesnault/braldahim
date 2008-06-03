@@ -131,4 +131,19 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 	function getListBoxRefresh() {
 		return array("box_profil", "box_competences_metiers", "box_laban", "box_evenements");
 	}
+	
+	public function calculPx() {
+		$this->view->nb_px_commun = 0;
+		$this->view->calcul_px_generique = true;
+		if ($this->view->okJet1 === true) {
+			if ($this->view->jetChasseOk === true) {
+				$this->view->nb_px_perso = $this->competence["px_gain"] + 1;
+			} else {
+				$this->view->nb_px_perso = $this->competence["px_gain"];
+			}
+		} else {
+			$this->view->nb_px_perso = 0;
+		}
+		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
+	}
 }
