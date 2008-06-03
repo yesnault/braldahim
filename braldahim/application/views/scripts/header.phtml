@@ -9,8 +9,8 @@
 	<script type="text/javascript" src="/public/scripts/modalbox_160/modalbox.js"></script>
 	<!-- <script type="text/javascript" src="/public/scripts/braldahim/braldahim_001/braldahim.js-BAK"></script>-->
     
-	<script type="text/javascript" src="/public/scripts/braldahim/m_action-003.js"></script>
-	<script type="text/javascript" src="/public/scripts/braldahim/m_display-003.js"></script>
+	<script type="text/javascript" src="/public/scripts/braldahim/m_action-004.js"></script>
+	<script type="text/javascript" src="/public/scripts/braldahim/m_display-004.js"></script>
 	<script type="text/javascript" src="/public/scripts/braldahim/m_recherche-002.js"></script>
 	<script type="text/javascript" src="/public/scripts/braldahim/uddeimtools-001.js"></script>
 	<script type="text/javascript" src="/public/scripts/braldahim/bbsmile-001.js"></script>
@@ -24,7 +24,6 @@
 	<link rel="stylesheet" type="text/css" media="screen" href="/public/styles/braldahim_defaut/uddeim.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="/public/styles/braldahim_defaut/braldahim.css" />
 	
-	
 </head>
 
 <? if($this->user && $this->controleur == "interface") : ?>
@@ -32,6 +31,19 @@
 <? else: ?>
  <body>
 <? endif; ?>
+
+<div id="modalPage">
+    <div class="modalBackground"></div>
+    <div class="modalContainer">
+          <div id="box_chargement" class="box_chargement">
+			<?=Bral_Helper_Box::haut(); ?>
+			 <div class="inner" style='background-color:#CC6666'>
+				 Chargement en Cours<br /><img src="/public/images/wait.gif" />
+			 </div>
+			<?=Bral_Helper_Box::bas(); ?>
+		  </div>
+    </div>
+</div>
 
 <? if ($this->user): ?>
  <input type="hidden" name="dateAuth" id="dateAuth" value="<?=$this->user->dateAuth ?>">
@@ -77,17 +89,6 @@
 	<?=Bral_Helper_Box::haut(); ?>
 	 <div class="inner" style='background-color:#CC6666'>
 	 	Chargement en Cours<br /><img src="/public/images/wait.gif" />
-	 </div>
-	<?=Bral_Helper_Box::bas(); ?>
-  </div>
-  
-
-<? else: ?>
-
-  <div id="box_chargement" class="box_chargement" style="display:none">
-	<?=Bral_Helper_Box::haut(); ?>
-	 <div class="inner" style='background-color:#CC6666'>
-		 Chargement en Cours<br /><img src="/public/images/wait.gif" />
 	 </div>
 	<?=Bral_Helper_Box::bas(); ?>
   </div>

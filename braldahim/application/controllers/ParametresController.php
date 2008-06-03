@@ -196,7 +196,7 @@ class ParametresController extends Zend_Controller_Action {
 					 $tabEmail[] = $message;
 				}
 				if (!$validEmailConfirm) {
-					$this->view->messagesEmailConfirm = "Les deux adresses sont différentes";
+					$this->view->messagesEmailConfirm = "Les deux adresses sont diffÃ©rentes";
 				}
 				$this->view->messagesEmailNouveau = $tabEmail;
 			}

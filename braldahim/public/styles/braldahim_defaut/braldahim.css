@@ -442,8 +442,6 @@ span.id_hobbit {
 
 .box_chargement {
 	position: absolute;
-	left: 50%;
-	top: 50%;
 	width: 200px;
 	height: 60px;
 	valign: center;
@@ -1068,4 +1066,58 @@ td.vue2d.actuelle {
 	font-size: 7pt;
 	color: #e0ffe0;
 	background-color: #6f5f6f;
+}
+
+
+
+#modalPage
+{
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 1500px;
+    top: 0px; left: 0px;
+}
+.modalBackground
+{
+    filter: Alpha(Opacity=40); -moz-opacity:0.0; opacity: 0.0;
+    width: 100%; height: 100%; background-color: #999999;
+    position: absolute;
+    z-index: 500;
+    top: 0px; left: 0px;
+}
+.modalContainer
+{
+    position: absolute;
+    width: 300px;
+    left: 50%;
+    top: 50%;
+    z-index: 750;
+}
+.modal
+{
+    background-color: white;
+    border: solid 4px black; position: relative;
+    top: -150px;
+    left: -150px;
+    z-index: 1000;
+    width: 300px;
+    height: 300px;
+    padding: 0px;
+}
+.modalTop
+{
+    width: 292px;
+    background-color: #000099;
+    padding: 4px;
+    color: #ffffff;
+    text-align: right;
+}
+.modalTop a, .modalTop a:visited
+{
+    color: #ffffff;
+}
+.modalBody
+{
+    padding: 10px;
 }

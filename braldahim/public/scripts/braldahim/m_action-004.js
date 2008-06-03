@@ -96,7 +96,9 @@ function showResponse(originalRequest) {
 	var xmlHeader = '<?xml version="1.0" encoding="utf-8" ?>';
 
 	if ((xmldoc == null) || (textdoc.substring(0, 39) != xmlHeader)) {
-		if (textdoc == "logout") {
+		if (textdoc == "") {
+			return;
+		} else if (textdoc == "logout") {
 			alert("Votre session a expiré, veuillez vous reconnecter.");
 			document.location.href = "/";
 		} else if (textdoc != "clear") {

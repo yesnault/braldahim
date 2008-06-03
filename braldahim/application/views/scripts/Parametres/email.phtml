@@ -11,7 +11,7 @@
 	    <br />
 		<?php if(!empty($this->messagesPassword)) :?>
 			<div class="message_erreur" id="message_erreur"> 
-			<?=$this->escape($this->messagesPassword); ?><br />
+			<?=$this->messagesPassword; ?><br />
 			</div>
 		<? endif; ?>
 		<label for="title">Mot de Passe Actuel</label><br />
@@ -20,7 +20,7 @@
 	
 		<?php if(!empty($this->messagesEmailActuel)) :?> 
 		<div class="message_erreur" id="message_erreur"> 
-			<?=$this->escape($this->messagesEmailActuel);?><br />
+			<?=$this->messagesEmailActuel;?><br />
 		</div>
 		<?php endif; ?>
 	    <label for="title">Adresse mail actuelle</label><br />
@@ -30,7 +30,7 @@
 		<?php if(!empty($this->messagesEmailNouveau)) :?> 
 		<div class="message_erreur" id="message_erreur"> 
 		<?php foreach($this->messagesEmailNouveau as $message) :?>
-			<?=$this->escape($message);?><br />
+			<?=$message;?><br />
 		<?php endforeach; ?>
 		</div>
 		<?php endif; ?>
@@ -39,7 +39,7 @@
 	    
 		<?php if(!empty($this->messagesEmailConfirm)) :?> 
 		<div class="message_erreur" id="message_erreur"> 
-			<?=$this->escape($this->messagesEmailConfirm);?><br />
+			<?=$this->messagesEmailConfirm;?><br />
 		</div>
 		<?php endif; ?>
 		<br /><label for="title">Confirmation nouvelle adresse mail</label><br />

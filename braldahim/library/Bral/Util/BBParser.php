@@ -103,7 +103,7 @@ class Bral_Util_BBParser {
         $string = preg_replace("/<img(.*?)javascript(.*?)>/si",'<span style=\'text-decoration: line-through\'>javascript link</span>',$string);	
 		
        	$string = nl2br($string);
-        return self::smileReplace($string);
+        return stripslashes(self::smileReplace($string));
 	}
 	
 	public static function smileReplace($string) {	

@@ -19,32 +19,13 @@ class Bral_Validate_Inscription_PrenomHobbit implements Zend_Validate_Interface 
 			$valid = false;
     	}
 		
-		$tab = array(
-					'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',  'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-			        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',  'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-                    '\'', '.', ',', 
-                    'ä', 'â', 'à', 'Ä', 'Â', 'À',
-                    'é', 'è', 'ê', 'É', 'È', 'Ê',
-                    'î', 'ï', 'ì', 'Î', 'Ï', 'Ì',
-                    'ö', 'ô', 'ò', 'Ö', 'Ô', 'Ò',
-                    'û', 'ü', 'ù', 'Û', 'Ü', 'Ù',
-                    'ç', 'Ç', 'æ', 'Æ', '°', '-',
-                    'ñ', 'Ñ', 'ã', 'Ã',
-                    ' ', 
-				);
-    	
 		$flag = true;
 		$val = null;
 		for ($i = 0; $i< mb_strlen($valeur); $i++) {
-			$trouve = false;
-			foreach ($tab as $v) {
-				if ($v == mb_substr($valeur, $i, 1)) {
-					$trouve = true;
-				}
-				
-			}
+			$trouve = Bral_Util_String::isCaractereValid(mb_substr($valeur, $i, 1));
 			if ($trouve == false) {
 				$this->_messages[] = "Le nom du hobbit contient un ou plusieurs caract&egrave;res invalides".mb_substr($valeur, $i, 1);
+				$tab = Bral_Util_String::getTabCaractereValid();
 				foreach ($tab as $t) {
 					$val .= $t. " ";
 				}	
