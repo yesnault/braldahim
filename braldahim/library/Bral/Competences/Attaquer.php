@@ -52,7 +52,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 	}
 
 	function prepareFormulaire() {
-		// rien à faire ici
+		// rien Ã  faire ici
 	}
 
 	function prepareResultat() {

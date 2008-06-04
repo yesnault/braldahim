@@ -171,7 +171,7 @@ class Bral_Util_Attaque {
 			
 			if ($retourAttaque["mort"] == false) {
 				Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot);
-				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);
+//				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);  // fait dans competence.php avec le détail du résulat
 			} else {
 				$id_type = $config->game->evenements->type->mort;
 				Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot);
@@ -198,7 +198,7 @@ class Bral_Util_Attaque {
 				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // uniquement en cas de riposte
 			}
 			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot);
-			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);
+//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
 			
 		} else { // esquive parfaite
 			$id_type = $config->game->evenements->type->attaquer;
@@ -209,7 +209,7 @@ class Bral_Util_Attaque {
 				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // uniquement en cas de riposte
 			}
 			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot);
-			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);
+//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
 		}
 		
 		if ($effetMotSPossible == true && $retourAttaque["mort"] == false) {
@@ -222,9 +222,6 @@ class Bral_Util_Attaque {
 				$jetsDegatRiposte = Bral_Util_Attaque::calculDegatAttaqueNormale($hobbitCible);
 				$retourAttaque["retourAttaqueEffetMotS"] = self::attaqueHobbit($hobbitCible, $hobbitAttaquant, $jetAttaquantRiposte, $jetCibleRiposte, $jetsDegatRiposte, false);
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - EffetMotS Riposte Fin !");
-				/*$hobbitTable = new Hobbit();
-				$hobbitRowset = $hobbitTable->find($hobbitAttaquant->id_hobbit);
-				$hobbitAttaquant = $hobbitRowset->current();*/
 			}
 		}
 				
