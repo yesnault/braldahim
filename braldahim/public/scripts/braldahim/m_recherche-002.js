@@ -1,7 +1,7 @@
 function activerRechercheHobbit(id) {
 	if ($('recherche_' + id + '_actif').value == 0) {
 		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/hobbit/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
-			afterUpdateElement :getSelectionId, parameters : { champ :'value' } });
+		afterUpdateElement :getSelectionId, parameters : { champ :'value' } });
 		$('recherche_' + id + '_actif').value = 1;
 	}
 }

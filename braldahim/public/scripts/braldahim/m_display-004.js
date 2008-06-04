@@ -138,3 +138,16 @@ function revealModal(divID) {
 function hideModal(divID) {
     $(divID).style.display = "none";
 }
+
+function ecrireMessage(idJoomla) {
+	cClick();
+	//_get_("/interface/load/?box=box_messagerie");
+	my_switch("box_messagerie","boite_c");
+	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_2="+idJoomla);
+	//setTimeout("nouveauMessage("+idJoomla+");",800);
+}
+
+//function nouveauMessage(idJoomla){
+//	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_2="+idJoomla);
+//}
+
