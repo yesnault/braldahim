@@ -77,11 +77,19 @@ class Bral_Messagerie_Message {
 	}
 
 	private function prepareNouveau() {
+		Zend_Loader::loadClass('Zend_Filter_StripTags');
+		$filter = new Zend_Filter_StripTags();
+		
+		$tabHobbit["destinataires"] = "";
+		$tabHobbit["aff_js_destinataires"] = "";
+		if ($this->request->get('valeur_2') != "") {
+			$tabHobbit = $this->constructTabHobbit($filter->filter(trim($this->request->get('valeur_2'))));
+		} 
+		
 		$tabMessage = array(
 			'contenu' => "",
-			'destinataires' => "",
-			'aff_destinataires' => "",
-			'aff_js_destinataires' => "",
+			'destinataires' => $tabHobbit["destinataires"],
+			'aff_js_destinataires' => $tabHobbit["aff_js_destinataires"],
 		);
 		$this->view->message = $tabMessage;
 	}

@@ -270,7 +270,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 								} else {
 									$nom_metier = $e["nom_masculin_metier"];
 								}
-								$tabEchoppes[] = array("id_echoppe" => $e["id_echoppe"], "nom_metier" => $nom_metier, "nom_hobbit" => $e["nom_hobbit"], "prenom_hobbit" => $e["prenom_hobbit"], "id_hobbit" => $e["id_hobbit"]);
+								$tabEchoppes[] = array("id_echoppe" => $e["id_echoppe"], "nom_metier" => $nom_metier, "nom_hobbit" => $e["nom_hobbit"], "prenom_hobbit" => $e["prenom_hobbit"], "id_hobbit" => $e["id_hobbit"], "id_fk_jos_users_hobbit" => $e["id_fk_jos_users_hobbit"]);
 							}
 						}
 					}
@@ -370,7 +370,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if ($hobbits != null) {
 						foreach($hobbits as $h) {
 							if ($display_x == $h["x_hobbit"] && $display_y == $h["y_hobbit"]) {
-								$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"], "nom_hobbit" => $h["nom_hobbit"], "prenom_hobbit" => $h["prenom_hobbit"], "niveau_hobbit" => $h["niveau_hobbit"], "id_communaute" => $h["id_fk_communaute_hobbit"], "nom_communaute" => $h["nom_communaute"]);
+								$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"], "nom_hobbit" => $h["nom_hobbit"], "prenom_hobbit" => $h["prenom_hobbit"], "niveau_hobbit" => $h["niveau_hobbit"], "id_communaute" => $h["id_fk_communaute_hobbit"], "nom_communaute" => $h["nom_communaute"], "id_fk_jos_users_hobbit" => $h["id_fk_jos_users_hobbit"]);
 							}
 						}
 					}
