@@ -13,11 +13,6 @@ class MessagerieController extends Zend_Controller_Action {
 		$this->view->controleur = $this->_request->controller;
 
 		Zend_Loader::loadClass('Bral_Messagerie_Factory');
-
-/*		if ($this->_request->getParam('message') != null && ((int)$this->_request->getParam("message").""==$this->_request->getParam("message")."")) {
-			$this->view->id_message = $this->_request->getParam('message');
-		}
-*/
 	}
 
 	function askactionAction() {

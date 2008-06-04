@@ -20,6 +20,8 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Laban");
 		Zend_Loader::loadClass("Ville");
 		
+		$this->view->depiauterOk = false;
+		
 		$this->preCalculPoids();
 		if ($this->view->poidsPlaceDisponible !== true) {
 			return;
@@ -134,7 +136,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		
 		$this->view->effetRune = false;
 		
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "FO")) { // s'il poss�de une rune FO
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "FO")) { // s'il possède une rune FO
 			$this->view->effetRune = true;
 			$this->view->nbPeau = ceil($this->view->nbPeau * 1.5);
 		}

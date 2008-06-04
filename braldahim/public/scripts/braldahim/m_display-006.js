@@ -140,14 +140,13 @@ function hideModal(divID) {
 }
 
 function ecrireMessage(idJoomla) {
-	cClick();
-	//_get_("/interface/load/?box=box_messagerie");
-	my_switch("box_messagerie","boite_c");
+	cClick(); // Fermeture de la popup overdiv
+	if ($("loaded_box_messagerie").value != "1") {
+		// pour eviter de recharger box_messagerie lors du my_switch en dessous
+		// si l'onglet n'a jamais été vu.
+		$("loaded_box_messagerie").value = "1"; 
+	}
 	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_2="+idJoomla);
-	//setTimeout("nouveauMessage("+idJoomla+");",800);
+	my_switch("box_messagerie","boite_c");
 }
-
-//function nouveauMessage(idJoomla){
-//	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_2="+idJoomla);
-//}
 

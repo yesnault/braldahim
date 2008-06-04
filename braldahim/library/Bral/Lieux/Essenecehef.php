@@ -22,7 +22,7 @@ class Bral_Lieux_Essenecehef extends Bral_Lieux_Lieu {
 			} else {
 				$est_capitale = ($e["est_capitale_ville"] == "oui");
 				if ($esseneCehefCourant["est_capitale_ville"] == "oui") {
-					// deplacement vers les ville de la comtée et vers les capitales
+					// deplacement vers les ville de la comtÃ©e et vers les capitales
 					if ($est_capitale === true) { 
 						$this->_tabDestinations[] = array("id_lieu" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
 					} else if ($esseneCehefCourant["id_fk_region_ville"] == $e["id_fk_region_ville"]) {

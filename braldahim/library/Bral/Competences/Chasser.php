@@ -9,6 +9,11 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 		
 		$this->view->chasserOk = false;
 		
+		$this->preCalculPoids();
+		if ($this->view->poidsPlaceDisponible !== true) {
+			return;
+		}
+		
 		// On regarde si le hobbit n'est pas dans une ville
 		$villeTable = new Ville();
 		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
@@ -117,6 +122,8 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 			$this->view->nbPeau  = 0;
 		}
 		
+		$this->controlePoids();
+		
 		$labanTable = new Laban();
 		$data = array(
 			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
@@ -145,5 +152,33 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 			$this->view->nb_px_perso = 0;
 		}
 		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
+	}
+	
+	private function preCalculPoids() {
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		if ($poidsRestant < 0) $poidsRestant = 0;
+		
+		// on regarde le poids de la peau, plus légère que la viande
+		$nbElementPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_PEAU);
+		
+		if ($nbElementPossible < 1) {
+			$this->view->poidsPlaceDisponible = false;
+		} else {
+			$this->view->poidsPlaceDisponible = true;
+		}
+	}
+	
+	private function controlePoids() {
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		while ($this->view->nbViande * Bral_Util_Poids::POIDS_VIANDE + $this->view->nbPeau * Bral_Util_Poids::POIDS_PEAU > $poidsRestant) {
+			$this->view->nbViande = $this->view->nbViande - 1;
+			$this->view->nbPeau = $this->view->nbPeau - 1;
+			if ($this->view->nbPeau <= 0 && $this->view->nbViande <= 0) {
+				break;
+			}
+		}
+		if ($this->view->nbPeau <= 0 && $this->view->nbViande <= 0) {
+			$this->view->nbPeau = 1;
+		}
 	}
 }

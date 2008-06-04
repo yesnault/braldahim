@@ -9,34 +9,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		
 		$this->view->ramasserOk = false;
 		
-		$runeTable = new ElementRune();
-		$runeRowset = $runeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		
-		$this->tabObjets = null;
-		$tabRunes = null;
-		if (count($runeRowset) > 0) {
-			foreach($runeRowset as $r) {
-				$tabRunes[] = array("id_element_rune" => $r["id_element_rune"]);
-				$this->tabObjets[] = "rune";
-				$this->view->ramasserOk = true;
-			}
-		}
-		$this->view->tabRunes = $tabRunes;
-		$this->view->nRunes = count($tabRunes);
-		
-		$castarTable = new Castar();
-		$castarRowset = $castarTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		
-		$nbCastars = 0;
-		if (count($castarRowset) > 0) {
-			foreach($castarRowset as $c) {
-				$nbCastars = $c["nb_castar"];
-				$this->tabObjets[] = "castars";
-				$this->view->ramasserOk = true;
-				break;
-			}
-		}
-		$this->view->nbCastars = $nbCastars;
+
 	}
 
 	function prepareFormulaire() {
@@ -65,80 +38,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 	}
 	
 	private function calculRamasser() {
-		Zend_Loader::loadClass("LabanRune");
-		
-		$this->view->nbCastarsRamasses = 0;
-		$this->view->nbRunesRamassees = 0;
-		
-		$nbObjets = count($this->tabObjets);
-		$tirage = Bral_Util_De::get_1d3();
-		
-		if ($tirage > $nbObjets) {
-			$tirage = $nbObjets;
-		}
-		
-		srand((float)microtime()*1000000);
-		shuffle($this->tabObjets);
-		for ($i = 0; $i < $tirage; $i++) {
-			if ($this->tabObjets[$i] == "castars") {
-				$this->calculRamasserCastars();
-				$this->view->nbCastarsRamasses = $this->view->nbCastars;
-			} else {
-				$this->calculRamasserRune();
-				$this->view->nbRunesRamassees = $this->view->nbRunesRamasse  + 1;
-			}
-		}
-		$this->calculPoids();
-	}
-
-	private function calculRamasserCastars() {
-		Zend_Loader::loadClass("Castar");
-		
-		$castarTable = new Castar();
-		$where = 'x_castar = '.$this->view->user->x_hobbit;
-		$where .= ' AND y_castar = '.$this->view->user->y_hobbit;
-		$castarTable->delete($where);
-		
-		$hobbitTable = new Hobbit();
-		$data = array(
-			'castars_hobbit' => $this->view->user->castars_hobbit + $this->view->nbCastars,
-		);
-		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		$hobbitTable->update($data, $where);
-	}
 	
-	private function calculRamasserRune() {
-		$runeTable = new ElementRune();
-		$runeRowset = $runeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		
-		$nbRunes = count($runeRowset);
-		
-		$tirage = null;
-		if ($nbRunes == 1) {
-			$tirage[] = 0;		
-		} else {
-			for($i = 1; $i<= $nbRunes; $i++) {
-				$tirage[] = Bral_Util_De::get_de_specifique_hors_liste(0, count($runeRowset)-1, $tirage);
-			}
-		}
-
-		$labanRuneTable = new LabanRune();
-		
-		foreach($tirage as $t) {
-			if (!isset($runeRowset[$t]) || !isset($runeRowset[$t]["id_element_rune"])) {
-				throw new Exception("calculRamasser : tirage invalide");
-			}
-			$data = array(
-				'id_fk_hobbit_laban_rune' => $this->view->user->id_hobbit,
-				'id_rune_laban_rune' => $runeRowset[$t]["id_element_rune"],
-				'id_fk_type_laban_rune' => $runeRowset[$t]["id_fk_type_element_rune"],
-				'est_identifiee_rune' => 'non',
-			);
-			$labanRuneTable->insert($data);
-			
-			$where = "id_element_rune=".$runeRowset[$t]["id_element_rune"];
-			$runeTable->delete($where);
-		}
 	}
 	
 	function getListBoxRefresh() {

@@ -3,15 +3,21 @@
 	<?php 
 	$textEchoppe = "";
 	foreach($case["echoppes"] as $c) {
-		if ($this->nom_metier_courant{0} == 'A') : $d="d'"; else: $d="de "; endif;
-			$textEchoppe .= "&Eacute;choppe ".$d.htmlspecialchars($c["nom_metier"])." appartenant &agrave; ";
-			$textEchoppe .= htmlspecialchars($c["prenom_hobbit"])." ".htmlspecialchars($c["nom_hobbit"]).", n&deg; ".$c["id_hobbit"]."<br />";
+		if ($c["nom_metier"]{0} == 'A') : $d="d'"; else: $d="de "; endif;
+			$textEchoppe .= "&Eacute;choppe ".$d.htmlspecialchars($c["nom_metier"])." appartenant &agrave; <br>";
+			$textEchoppe .= htmlspecialchars($c["prenom_hobbit"])." ".htmlspecialchars($c["nom_hobbit"]).", n&deg; ".$c["id_hobbit"];
+			if ($c["id_fk_jos_users_hobbit"] != null) {
+      			$textEchoppe .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$c["id_fk_jos_users_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
+      		} else {
+      			$textEchoppe .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' alt=\\\'Ecrire impossible\\\' title=\\\'Ce hobbit ne peut pas recevoir de message, il doit se connecter au site avant\\\' border=\\\'0\\\' /> ';
+      		}
+      		$textEchoppe .= "<br />";
 		}
 		$s = "";
 		if ($case["n_echoppes"] > 1) {
 			$s = "s";
 		}
-		$titre = "Position X:".$case["x"]." Y:".$case["y"]." - ".$case["n_echoppes"]." Echoppe".$s;
+		$titre = "Position X:".$case["x"]." Y:".$case["y"]." - Echoppe".$s;
 		
 		$doubleClick = "";
 		if ($this->user->x_hobbit == $case["x"] && $this->user->y_hobbit == $case["y"]) {
@@ -19,7 +25,7 @@
 			$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return cClick(); \"";
 		}
 		?>
-		<span <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textEchoppe, $titre) ?>>
+		<span <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textEchoppe, $titre, false, true, 240) ?>>
 		<?=$case["n_echoppes"] ?> &eacute;choppe<?=$s?>
 		</span>
 </div>

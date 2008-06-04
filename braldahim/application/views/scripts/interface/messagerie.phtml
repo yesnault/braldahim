@@ -21,14 +21,14 @@
 Nouveau</span>
 
 <br />
- <? if ($this->affichageInterne == true) : ?>
- 	<div id='messagerie_message'>
-   	<? include("messagerie/messages.phtml") ?>
-  	</div>
-<? else: ?>
-	Chargement en cours
-	<br /><img src="/public/images/wait.gif" />
-<? endif; ?>
+<div id='messagerie_message'>
+	<? if ($this->affichageInterne == true) : ?>
+	   	<? include("messagerie/messages.phtml") ?>
+	<? else: ?>
+		Chargement en cours
+		<br /><img src="/public/images/wait.gif" />
+	<? endif; ?>
+</div>
 
   </ul>
  </div>

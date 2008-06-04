@@ -1,13 +1,16 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
  <div class='comp_contenu'>
-	 <? if ($this->chasserOk === true) : ?>
+ 
+	<? if ($this->poidsPlaceDisponible !== true) : ?>
+		Vous n'avez pas assez de place dans votre laban ! <br>
+	<? elseif ($this->chasserOk === true) : ?>
 	 	Pour <?=$this->nb_pa ?> PA, vous pouvez chasser et r&eacute;cup&eacute;rer de la viande
 	 	et de la fourrure. <br /><br />
 	 	
 		Si votre comp&eacute;tence est r&eacute;ussie, vous avez <?=$this->tauxReussite ?> % de chance de bien chasser.
-	 <? else: ?>
+	<? else: ?>
 	 Vous ne pouvez pas chasser en ville...
-	 <? endif; ?>
+	<? endif; ?>
 </div>
 
 <br />
