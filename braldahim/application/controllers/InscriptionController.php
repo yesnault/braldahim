@@ -261,6 +261,7 @@ class InscriptionController extends Zend_Controller_Action {
 			'poids_transportable_hobbit' => $poids,
 			'armure_naturelle_hobbit' => $armure_nat,
 			'regeneration_hobbit' => $reg,
+			'poids_transporte_hobbit' => Bral_Util_Poids::calculPoidsTransporte(-1, $this->view->config->game->inscription->castars),
 		);
 
 		return $data;
