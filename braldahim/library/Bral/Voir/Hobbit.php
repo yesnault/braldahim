@@ -6,6 +6,7 @@ class Bral_Voir_Hobbit {
 		Zend_Loader::loadClass("Evenement");
 		Zend_Loader::loadClass("TypeEvenement");
 		Zend_Loader::loadClass("Communaute");
+		Zend_Loader::loadClass("Bral_Util_Metier");
 
 		$this->_request = $request;
 		$this->view = $view;
@@ -24,6 +25,10 @@ class Bral_Voir_Hobbit {
 		$this->view->hobbit = null;
 		$this->view->communaute = null;
 		
+		$tabMetier["tabMetierCourant"] = null;
+		$tabMetier["tabMetiers"] = null;
+		$tabMetier["possedeMetier"] = false;
+		
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->findById(Bral_Util_Controle::getValeurIntVerif($this->_request->get("hobbit")));
 		if (count($hobbitRowset) == 1) {
@@ -38,16 +43,62 @@ class Bral_Voir_Hobbit {
 					$this->view->communaute = $communaute[0];
 				}
 			}
-			
+			$tabMetier = Bral_Util_Metier::prepareMetier($this->view->hobbit["id_hobbit"], $this->view->hobbit["sexe_hobbit"]);
 		} else {
 			$hobbit = null;
 		}
+		
+		$this->view->tabMetierCourant = $tabMetier["tabMetierCourant"];
+		$this->view->tabMetiers = $tabMetier["tabMetiers"];
+		$this->view->possedeMetier = $tabMetier["possedeMetier"];
 		
 		if ($this->_request->get("menu") == "evenements" && $this->view->connu != null) {
 			return $this->renderEvenements();
 		} else { 
 			return $this->view->render("voir/hobbit.phtml");
 		}
+	}
+	
+	private function prepareMetier() {
+		Zend_Loader::loadClass("HobbitsMetiers");
+		$hobbitsMetiersTable = new HobbitsMetiers();
+		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
+		unset($hobbitsMetiersTable);
+		$tabMetiers = null;
+		$tabMetierCourant = null;
+		$possedeMetier = false;
+
+		foreach($hobbitsMetierRowset as $m) {
+			$possedeMetier = true;
+			
+			if ($this->view->user->sexe_hobbit == 'feminin') {
+				$nom_metier = $m["nom_feminin_metier"];
+			} else {
+				$nom_metier = $m["nom_masculin_metier"];
+			}
+			
+			$t = array("id_metier" => $m["id_metier"],
+				"nom" => $nom_metier,
+				"nom_systeme" => $m["nom_systeme_metier"],
+				"est_actif" => $m["est_actif_hmetier"],
+				"date_apprentissage" => Bral_Util_ConvertDate::get_date_mysql_datetime("d/m/Y", $m["date_apprentissage_hmetier"]),
+				"description" => $m["description_metier"],
+			);
+			
+			if ($m["est_actif_hmetier"] == "non") {
+				$tabMetiers[] = $t;
+			}
+
+			if ($m["est_actif_hmetier"] == "oui") {
+				$tabMetierCourant = $t;
+			}
+		}
+		unset($hobbitsMetierRowset);
+
+		$this->view->tabMetierCourant = $tabMetierCourant;
+		$this->view->tabMetiers = $tabMetiers;
+		$this->view->possedeMetier = $possedeMetier;
+		$this->view->nom_interne = $this->getNomInterne();
 	}
 	
 	function renderEvenements() {

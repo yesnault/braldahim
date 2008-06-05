@@ -5,7 +5,7 @@
 <table class="table_liste" style="width:90%;">
 	
   <tr class="table_liste">
-	<th rowspan="6"><?=Bral_Helper_Image::afficherAvatar($this->hobbit["url_avatar_hobbit"]); ?></th>
+	<th rowspan="7"><?=Bral_Helper_Image::afficherAvatar($this->hobbit["url_avatar_hobbit"]); ?></th>
 	<th>Date de cr&eacute;ation</th>
 	<th>Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->hobbit["date_creation_hobbit"]); ?></th>
   </tr>
@@ -36,6 +36,31 @@
   <tr class="table_liste">
 	<th>Nombre de meutres Monstre</th>
 	<td class="table_liste"><?=$this->hobbit["nb_monstre_kill_hobbit"] ?></a></td>
+  </tr>
+  <tr class="table_liste" valign="top">
+	<th>M&eacute;tier<? if ($this->possedeMetier && $this->tabMetierCourant != null && count($this->tabMetiers) > 0) :
+		echo "s";
+	   endif; ?>
+	</th>
+	<td class="table_liste">
+	<? if (!$this->possedeMetier): ?>
+	   	Aucun m&eacute;tier
+	<? else : ?>
+		   	Actuellement :
+		  	 	<?=$this->tabMetierCourant["nom"] ?>
+			<br /><br />
+		   	<? if (count($this->tabMetiers) == 1): ?>
+		   		Il pratique &eacute;galement le m&eacute;tier suivant : <br />
+		   	<? elseif (count($this->tabMetiers) > 1): ?>
+		   		Il pratique &eacute;galement les m&eacute;tiers suivants : <br />
+		   	<? endif; ?>	
+		   	<? if (count($this->tabMetiers) >= 1): ?>
+				<? foreach ($this->tabMetiers as $m) : ?>
+						<?=$m["nom"];?><br>
+				<? endforeach; ?>
+		    <? endif; ?>
+	   <? endif; ?>
+	</td>
   </tr>
 </table>
 

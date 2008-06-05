@@ -27,44 +27,11 @@ class Bral_Box_Metier extends Bral_Box_Box {
 	}
 	
 	private function data() {
-		Zend_Loader::loadClass("HobbitsMetiers");
-		$hobbitsMetiersTable = new HobbitsMetiers();
-		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
-		unset($hobbitsMetiersTable);
-		$tabMetiers = null;
-		$tabMetierCourant = null;
-		$possedeMetier = false;
-
-		foreach($hobbitsMetierRowset as $m) {
-			$possedeMetier = true;
-			
-			if ($this->view->user->sexe_hobbit == 'feminin') {
-				$nom_metier = $m["nom_feminin_metier"];
-			} else {
-				$nom_metier = $m["nom_masculin_metier"];
-			}
-			
-			$t = array("id_metier" => $m["id_metier"],
-				"nom" => $nom_metier,
-				"nom_systeme" => $m["nom_systeme_metier"],
-				"est_actif" => $m["est_actif_hmetier"],
-				"date_apprentissage" => Bral_Util_ConvertDate::get_date_mysql_datetime("d/m/Y", $m["date_apprentissage_hmetier"]),
-				"description" => $m["description_metier"],
-			);
-			
-			if ($m["est_actif_hmetier"] == "non") {
-				$tabMetiers[] = $t;
-			}
-
-			if ($m["est_actif_hmetier"] == "oui") {
-				$tabMetierCourant = $t;
-			}
-		}
-		unset($hobbitsMetierRowset);
-
-		$this->view->tabMetierCourant = $tabMetierCourant;
-		$this->view->tabMetiers = $tabMetiers;
-		$this->view->possedeMetier = $possedeMetier;
+		Zend_Loader::loadClass("Bral_Util_Metier");
+		$tab = Bral_Util_Metier::prepareMetier($this->view->user->id_hobbit, $this->view->user->sexe_hobbit);
+		$this->view->tabMetierCourant = $tab["tabMetierCourant"];
+		$this->view->tabMetiers = $tab["tabMetiers"];
+		$this->view->possedeMetier = $tab["possedeMetier"];
 		$this->view->nom_interne = $this->getNomInterne();
 	}
 }
