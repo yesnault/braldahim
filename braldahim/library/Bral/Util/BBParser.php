@@ -229,8 +229,16 @@ class Bral_Util_BBParser {
 		$string = str_replace("[url]", "", $string);
 		$string = str_replace("[/url]", "", $string);		
 		$string = str_replace("[/color]", "", $string);
-		$string = str_replace("[/size]", "", $string);		
+		$string = str_replace("[/size]", "", $string);	
+		
+		// Rajout Yvo
+		$string = self::bbcodeStripPlus($string);		
 	
+		return $string;
+	}
+	
+	public static function bbcodeStripPlus($string) {
+		$string = str_replace("[plus]", "+", $string);		
 		return $string;
 	}
 }

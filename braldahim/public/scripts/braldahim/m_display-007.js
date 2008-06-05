@@ -150,3 +150,7 @@ function ecrireMessage(idJoomla) {
 	my_switch("box_messagerie","boite_c");
 }
 
+function encodePlus(chaine) {
+	var reg=new RegExp("(\\+)", "g");
+	return chaine.replace(reg,"[plus]");
+}

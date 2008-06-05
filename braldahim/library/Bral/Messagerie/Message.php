@@ -128,7 +128,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 		$tabHobbit = $this->constructTabHobbit($filter->filter(trim($this->request->get('valeur_2'))));
 
 		$tabMessage = array(
-			'contenu' => stripslashes($this->request->get('valeur_3')),
+			'contenu' => stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_3'))),
 			'destinataires' => $tabHobbit["destinataires"],
 			'aff_js_destinataires' => $tabHobbit["aff_js_destinataires"],
 		);
