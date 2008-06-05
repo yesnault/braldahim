@@ -44,7 +44,7 @@ class JosUddeim extends Zend_Db_Table {
 		
 		$select->from('jos_uddeim', '*')
 		->where('jos_uddeim.fromid = '.intval($toId))
-		->where('jos_uddeim.totrash = 0')
+		->where('jos_uddeim.totrashoutbox = 0')
 		->order('datum DESC')
 		->limitPage($page, $nbMax);
 		$sql = $select->__toString();
