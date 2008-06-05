@@ -219,7 +219,7 @@ class InscriptionController extends Zend_Controller_Action {
 		$lieu = $mairiesRowset[$de];
 
 		$pv = $this->view->config->game->pv_base + 0 * $this->view->config->game->pv_max_coef;
-		$poids = 0 * 2 + 1;
+		$poids = Bral_Util_Poids::calculPoidsTransportable(0);
 		$armure_nat = 0;
 		$reg = 1;
 		
