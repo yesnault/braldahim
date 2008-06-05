@@ -75,7 +75,7 @@ class Bral_Communaute_Description extends Bral_Communaute_Communaute {
 	}
 	
 	private function updateDescription() {
-		$champ = $this->_request->getPost("valeur_3");
+		$champ = Bral_Util_BBParser::bbcodeStripPlus($this->_request->getPost("valeur_3"));
 		
 		$communauteTable = new Communaute();
 		$data = array("description_communaute" => $champ);

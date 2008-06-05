@@ -9,6 +9,7 @@
 <center>
 	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
 	<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
+	<input type='hidden' id='valeur_3' name='valeur_3' value=''>
 	
 	<ul class="titre textalic textsizec">Site Web</ul><br />
 	<div id="label_site">
@@ -45,15 +46,16 @@
   </div>
   
   <div id="edition" style="display:none">
-	 <?=Bral_Helper_BBBoutons::affiche('valeur_3')?>
+	 <?=Bral_Helper_BBBoutons::affiche('valeur_description')?>
 	
-	  <textarea rows='10' cols='80' name="valeur_3"  id="valeur_3"><?=stripslashes($this->communaute["description"]) ?></textarea>
+	  <textarea rows='10' cols='80' name="valeur_description"  id="valeur_description"><?=stripslashes($this->communaute["description"]) ?></textarea>
 	  <input type="button" class='button1' id="bouton_description" 
 	  onClick="
 		  $('label_description').style.display='block'; 
 		  $('edition').style.display='none'; 
 		  this.style.display='none' ;
 		  $('valeur_1').value=2;
+		  $('valeur_3').value = encodePlus($('valeur_description').value);
 		   _get_('/communaute/doaction?caction=do_communaute_description', false)" value="Valider" style="display:none" />
 	</div>
 </center>
