@@ -4,48 +4,236 @@
   <ul class="titre textalib textsizeb"><?=$this->escape($this->user->prenom_hobbit);?> <?=$this->escape($this->user->nom_hobbit);?></ul>
   <div class="contenuA">
 	  <ul class="box_contenu1 textalic">
-	    Tour de base : <?php echo $this->escape($this->user->duree_base_tour_hobbit) ?><br />
-	    DLA : <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_hobbit);?><br />
-	    Position Tour Courant : <?=$this->user->nom_tour ?><br />
-	    <? if ($this->user->info_prochaine_position != "") : ?>
-	    	<?=$this->user->info_prochaine_position ?><br />
-	    <? endif; ?>
-	    Dur&eacute;e de ce tour : <?php echo $this->escape($this->user->duree_courant_tour_hobbit) ?><br />
-	    Dur&eacute;e du prochain tour : <?php echo $this->escape($this->user->duree_prochain_tour_hobbit) ?><br />
+	  
+ 		<ul class="titre textalia textsized" >
+				&nbsp;Informations tour courant
+		</ul>
+			
+			
+		<table class="table_liste" style="width:98%; border:0" >
+		<tbody>
+			<tr class="table_liste" align="left" valign="top">
+				<td>
+				  Dur&eacute;e
+				</td>
+				<td>
+				<?php echo $this->escape($this->user->duree_courant_tour_hobbit) ?>
+				</td>
+				<td>&nbsp;&nbsp;</td>
+				<td style="font-weight: bolder;">
+				PA
+				</td>
+				<td style="font-weight: bolder;">
+				<?=$this->user->pa_hobbit ?>
+				</td>
+			</tr>
+			<tr class="table_liste" align="left" valign="top">
+				<td>
+				  Position tour courant
+				</td>
+				<td>
+				<?=$this->user->nom_tour ?>
+				</td>
+				<td>&nbsp;&nbsp;</td>
+				<td style="font-weight: bolder;">
+				DLA
+				</td>
+				<td style="font-weight: bolder;">
+				<?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_hobbit);?>
+				</td>
+			</tr>
+			<tr class="table_liste" align="left" valign="top">
+				<td>
+				  Durée tour de base
+				</td>
+				<td>
+				<?php echo $this->escape($this->user->duree_base_tour_hobbit) ?>
+				<td>&nbsp;&nbsp;</td>
+				<td colspan="2">
+				<? if ($this->user->info_prochaine_position != "") : ?>
+				    	<?=$this->user->info_prochaine_position ?><br />
+				    <? endif; ?>
+				</td>
+			</tr>
+			<tr class="table_liste" align="left" valign="top">
+				<td>
+				 Dur&eacute;e du prochain tour
+				</td>
+				<td>
+				<?php echo $this->escape($this->user->duree_prochain_tour_hobbit) ?>
+				</td>
+			</tr>
+		</tbody>
+	  </table>
+<hr style="margin:0px">
+		<ul class="titre textalia textsized">
+			&nbsp;Sant&eacute; du hobbit
+		</ul>
 		
-	    Points de Vie : <?=$this->user->pv_restant_hobbit ?> / <?=($this->config->game->pv_base + $this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) ?> + <?= $this->user->pv_max_bm_hobbit ?>
-	    <div class="barre_faim"><img src="/public/images/barre_vie.gif" height="10px" width="<?=floor($this->user->pv_restant_hobbit*100)/($this->config->game->pv_base + ($this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) + $this->user->pv_max_bm_hobbit)?>px"></div>
-	    PA restants : <?=$this->user->pa_hobbit ?><br />
-	    PX Perso: <?=$this->user->px_perso_hobbit ?> - PX Commun : <?=$this->user->px_commun_hobbit ?><br />
-	    PI : <?=$this->user->pi_hobbit ?> - Niveau : <?=$this->user->niveau_hobbit ?><br />
-	    Nb. Morts : <?=$this->user->nb_mort_hobbit ?> - 
-	    Nb. Kill Monstre : <?=$this->user->nb_monstre_kill_hobbit ?> - 
-	    Nb. Kill Hobbit : <?=$this->user->nb_hobbit_kill_hobbit ?>
-	    <hr>
-	    Vue : <?=$this->vue_nb_cases?> <? if ($this->user->vue_bm_hobbit >= 0): echo "+"; endif;?> <?=$this->user->vue_bm_hobbit ?> <br />
-	    R&eacute;g&eacute;n&eacute;ration : <?=$this->user->regeneration_hobbit ?> D<?=$this->config->game->de_regeneration ?> | Malus R&eacute;g&eacute;n&eacute;ration prochain tour : <?=$this->user->regeneration_malus_hobbit ?><br />
-	    Force : <?=$this->config->game->base_force + $this->user->force_base_hobbit ?> 
-	    	D<?=$this->config->game->de_force ?> 
-	    	<? if ($this->user->force_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->force_bm_hobbit ?> 
-	    	<? if ($this->user->force_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->force_bbdf_hobbit ?> | 
-	    Agilit&eacute; : <?=$this->config->game->base_agilite + $this->user->agilite_base_hobbit ?> 
-		    D<?=$this->config->game->de_agilite ?> 
-		    <? if ($this->user->agilite_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->agilite_bm_hobbit ?>
-		    <? if ($this->user->agilite_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->agilite_bbdf_hobbit ?> <br />
-	    Sagesse : <?=$this->config->game->base_sagesse + $this->user->sagesse_base_hobbit ?> 
-	    	D<?=$this->config->game->de_sagesse ?> 
-	    	<? if ($this->user->sagesse_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->sagesse_bm_hobbit ?>
-	    	<? if ($this->user->sagesse_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->sagesse_bbdf_hobbit ?> | 
-	    Vigueur : <?=$this->config->game->base_vigueur + $this->user->vigueur_base_hobbit ?> 
-	    	D<?=$this->config->game->de_vigueur ?> 
-	    	<? if ($this->user->vigueur_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->vigueur_bm_hobbit ?>
-	    	<? if ($this->user->vigueur_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->vigueur_bbdf_hobbit ?><br />
-	    Attaque BM : <?=$this->user->bm_attaque_hobbit ?> | D&eacute;fense BM : <?=$this->user->bm_defense_hobbit ?> | D&eacute;g&acirc;ts BM : <?=$this->user->bm_degat_hobbit ?><br />
-	    Balance faim : <?=$this->user->balance_faim_hobbit ?> %
-	    <div class="barre_faim"><img src="/public/images/barre_faim.gif" height="10px" width="<?=$this->user->balance_faim_hobbit ?>px"></div>
-	    <br />
-	    Poids transportable : <?=$this->user->poids_transportable_hobbit ?> Kg - transport&eacute; : <?=$this->user->poids_transporte_hobbit ?> Kg<br /><br />
-	    Armure naturelle : <?=$this->user->armure_naturelle_hobbit ?>, &eacute;quipement : <?=$this->user->armure_equipement_hobbit ?><br />
+		<table class="table_liste" style="width:98%; border:0" >
+		<tbody>
+			<tr class="table_liste" align="left" valign="middle">
+				<td width="10%" nowrap>
+					Points de Vie <br/>
+					Balance faim  
+	    		</td>
+	    		<td width="80%">
+		    		<div class="barre_vie"><img src="/public/images/barre_vie.gif" height="10px" width="<?=2*floor($this->user->pv_restant_hobbit*100)/($this->config->game->pv_base + ($this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) + $this->user->pv_max_bm_hobbit)?>px"></div>
+		   			<div class="barre_faim"><img src="/public/images/barre_faim.gif" height="10px" width="<?=2*$this->user->balance_faim_hobbit ?>px"></div>
+				</td>
+				<td width="10%" nowrap>
+					<?=$this->user->pv_restant_hobbit ?> / <?=($this->config->game->pv_base + $this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) ?> + <?= $this->user->pv_max_bm_hobbit ?>
+		    		<br />
+					<?=$this->user->balance_faim_hobbit ?> %
+				</td>
+			</tr>
+		</tbody>
+		</table>
+		<hr style="margin:0px">
+		<ul class="titre textalia textsized">
+			&nbsp;Caract&eacute;ristiques
+		</ul>
+		
+		 <table class="table_liste" style="width:98%; border:0">
+		<tbody>
+			
+			<tr class="table_liste" align="left" valign="middle">
+				<td>
+					AGI<br />
+					SAG
+	    		</td>
+	    		<td>
+	    			<?=$this->config->game->base_agilite + $this->user->agilite_base_hobbit ?> 
+				    D<?=$this->config->game->de_agilite ?> 
+				    <? if ($this->user->agilite_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->agilite_bm_hobbit ?>
+				    <? if ($this->user->agilite_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->agilite_bbdf_hobbit ?> <br />
+				    
+				    <?=$this->config->game->base_sagesse + $this->user->sagesse_base_hobbit ?> 
+			    	D<?=$this->config->game->de_sagesse ?> 
+			    	<? if ($this->user->sagesse_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->sagesse_bm_hobbit ?>
+			    	<? if ($this->user->sagesse_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->sagesse_bbdf_hobbit ?>
+		    	</td>
+				<td>
+					FOR<br />
+	    			VIG
+				</td>
+				<td>
+				<?=$this->config->game->base_force + $this->user->force_base_hobbit ?> 
+		    	D<?=$this->config->game->de_force ?> 
+		    	<? if ($this->user->force_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->force_bm_hobbit ?> 
+		    	<? if ($this->user->force_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->force_bbdf_hobbit ?> <br/>
+	    		
+	    		<?=$this->config->game->base_vigueur + $this->user->vigueur_base_hobbit ?> 
+		    	D<?=$this->config->game->de_vigueur ?> 
+		    	<? if ($this->user->vigueur_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->vigueur_bm_hobbit ?>
+		    	<? if ($this->user->vigueur_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->vigueur_bbdf_hobbit ?>
+	    		</td>
+	    		
+	    		<td>
+	    			Vue
+	    		</td>
+	    		<td>
+	    		<?=$this->vue_nb_cases?> <? if ($this->user->vue_bm_hobbit >= 0): echo "+"; endif;?> <?=$this->user->vue_bm_hobbit ?>
+	    		</td>
+	    		
+	    		<tr align="center" >
+				<td colspan="6">
+					R&eacute;g&eacute;n&eacute;ration : <?=$this->user->regeneration_hobbit ?> D<?=$this->config->game->de_regeneration ?>
+				 (malus prochain tour : <?=$this->user->regeneration_malus_hobbit ?>)
+				</td>
+			</tr>
+			</tr>
+		</tbody>
+		</table>
+	  <hr style="margin:0px">
+		<ul class="titre textalia textsized">
+			&nbsp;Points
+		</ul>
+		<table class="table_liste" style="width:98%; border:0">
+		<tbody>
+			<tr class="table_liste" align="left" valign="middle">
+				<td>
+					PX Perso<br />
+					PI
+	    		</td>
+	    		<td>
+	    			<?=$this->user->px_perso_hobbit ?> <br/>
+	    			<?=$this->user->pi_hobbit ?>
+		    	</td>
+				<td>
+					PX Commun<br />
+	    			Niveau
+				</td>
+				<td>
+					<?=$this->user->px_commun_hobbit ?> <br/> 
+					<?=$this->user->niveau_hobbit ?>
+	    		</td>
+			</tr>
+		</tbody>
+		</table>
+		<hr style="margin:0px">
+		<ul class="titre textalia textsized">
+			&nbsp;Poids du laban
+		</ul>
+		<table class="table_liste" style="width:98%; border:0">
+		<tbody>
+			<tr class="table_liste"  valign="middle">
+				<td>
+					Transportable : <?=$this->user->poids_transportable_hobbit ?> Kg
+	    		</td>
+	    		<td>
+	    			Transport&eacute; transport&eacute; : <?=$this->user->poids_transporte_hobbit ?> Kg
+	    		</td>
+			</tr>
+		</tbody>
+		</table>
+		<hr style="margin:0px">
+		<ul class="titre textalia textsized">
+			&nbsp;Armure
+		</ul>
+		<table class="table_liste" style="width:98%; border:0">
+		<tbody>
+			<tr class="table_liste"  valign="middle">
+				<td>
+					Naturelle : <?=$this->user->armure_naturelle_hobbit ?><br />
+	    		</td>
+	    		<td>
+	    			&Eacute;quipement : <?=$this->user->armure_equipement_hobbit ?>
+	    		</td>
+			</tr>
+		</tbody>
+		</table>
+		
+		<hr style="margin:0px">
+		<ul class="titre textalia textsized">
+			&nbsp;Combat
+		</ul>
+		<table class="table_liste" style="width:98%; border:0">
+		<tbody>
+			<tr class="table_liste" align="left" valign="middle">
+				<td colspan="2">
+				Attaque BM : <?=$this->user->bm_attaque_hobbit ?>
+				</td>
+				<td colspan="2">
+				D&eacute;fense BM : <?=$this->user->bm_defense_hobbit ?>
+				</td>
+				<td colspan="2">
+				D&eacute;g&acirc;ts BM : <?=$this->user->bm_degat_hobbit ?>
+				</td>
+			</tr>
+			<tr class="table_liste" align="left" valign="middle">
+				<td colspan="2">
+				Nb. Morts : <?=$this->user->nb_mort_hobbit ?>
+				</td>
+				<td colspan="2">
+				Nb. Kill Monstre : <?=$this->user->nb_monstre_kill_hobbit ?>
+				</td>
+				<td colspan="2">
+				Nb. Kill Hobbit : <?=$this->user->nb_hobbit_kill_hobbit ?>
+				</td>
+			</tr>
+		</tbody>
+		</table>
 	  </ul>
  </div>
 </div>

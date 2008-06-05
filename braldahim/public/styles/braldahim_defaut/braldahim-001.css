@@ -615,12 +615,12 @@ span.id_hobbit {
 
 .barre_faim,.barre_vie {
 	background-color: #FFFFFF;
-	width: 100px;
+	width: 200px;
 	height: 10px;
 	text-align: left;
 	border-style: solid;
 	border-width: 1px;
-	margin-left: 60px;
+	margin-left: 10px;
 	border-color: #6f5f6f;
 }
 

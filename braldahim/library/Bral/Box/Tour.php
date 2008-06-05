@@ -574,7 +574,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		} else if ($this->view->user->tour_position_hobbit == $this->view->config->game->tour->position_milieu) {
 			$time_cumul = Bral_Util_ConvertDate::get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_cumul);
 			$date_debut_cumul =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_cumul);
-			$info = "D&eacute;but cumul &agrave; ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$date_debut_cumul);
+			$info = "Cumul &agrave; ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$date_debut_cumul);
 		}
 		$this->view->user->info_prochaine_position = $info;
 		Bral_Util_Log::tour()->trace(get_class($this)." calculInfoTour - exit -");
