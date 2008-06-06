@@ -3,14 +3,14 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- G�n�r� le : Mer 30 Avril 2008 � 23:05
+-- Généré le : Ven 06 Juin 2008 à 12:51
 -- Version du serveur: 5.0.41
 -- Version de PHP: 5.2.3
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 -- 
--- Base de donn�es: `braldahim`
+-- Base de données: `braldahim`
 -- 
 
 -- --------------------------------------------------------
@@ -100,7 +100,7 @@ CREATE TABLE `competence` (
   PRIMARY KEY  (`id_competence`),
   UNIQUE KEY `nom_competence` (`nom_competence`),
   KEY `id_fk_metier_competence` (`id_fk_metier_competence`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=35 ;
 
 -- --------------------------------------------------------
 
@@ -347,7 +347,7 @@ CREATE TABLE `effet_potion_monstre` (
   KEY `id_fk_monstre_cible_effet_potion_monstre` (`id_fk_monstre_cible_effet_potion_monstre`),
   KEY `id_fk_hobbit_lanceur_effet_potion_monstre` (`id_fk_hobbit_lanceur_effet_potion_monstre`),
   KEY `id_fk_type_qualite_effet_potion_monstre` (`id_fk_type_qualite_effet_potion_monstre`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -446,11 +446,11 @@ CREATE TABLE `element_potion` (
 CREATE TABLE `element_rune` (
   `x_element_rune` int(11) NOT NULL,
   `y_element_rune` int(11) NOT NULL,
-  `id_element_rune` int(11) NOT NULL,
+  `id_element_rune` int(11) NOT NULL auto_increment,
   `id_fk_type_element_rune` int(11) NOT NULL,
   PRIMARY KEY  (`id_element_rune`),
   KEY `id_fk_type_element_rune` (`id_fk_type_element_rune`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -499,7 +499,7 @@ CREATE TABLE `evenement` (
   PRIMARY KEY  (`id_evenement`),
   KEY `idx_id_hobbit_evenement` (`id_fk_hobbit_evenement`),
   KEY `idx_id_monstre_evenement` (`id_fk_monstre_evenement`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1440 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1652 ;
 
 -- --------------------------------------------------------
 
@@ -517,7 +517,7 @@ CREATE TABLE `filon` (
   PRIMARY KEY  (`id_filon`),
   KEY `idx_x_filon_y_filon` (`x_filon`,`y_filon`),
   KEY `id_fk_type_minerai_filon` (`id_fk_type_minerai_filon`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=2087 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3130 ;
 
 -- --------------------------------------------------------
 
@@ -532,11 +532,11 @@ CREATE TABLE `gardiennage` (
   `date_debut_gardiennage` date NOT NULL,
   `date_fin_gardiennage` date NOT NULL,
   `nb_jours_gardiennage` int(11) NOT NULL,
-  `commentaire_gardiennage` varchar(100) NOT NULL,
+  `commentaire_gardiennage` varchar(100) character set utf8 NOT NULL,
   PRIMARY KEY  (`id_gardiennage`),
   KEY `id_gardien_gardiennage` (`id_fk_gardien_gardiennage`),
   KEY `id_fk_hobbit_gardiennage` (`id_fk_hobbit_gardiennage`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -554,7 +554,7 @@ CREATE TABLE `groupe_monstre` (
   `phase_tactique_groupe_monstre` int(11) NOT NULL,
   `id_role_a_groupe_monstre` int(11) default NULL,
   `id_role_b_groupe_monstre` int(11) default NULL,
-  `date_fin_tour_groupe_monstre` datetime default NULL COMMENT 'DLA du dernier monstre � jouer dans ce groupe',
+  `date_fin_tour_groupe_monstre` datetime default NULL COMMENT 'DLA du dernier monstre à jouer dans ce groupe',
   `x_direction_groupe_monstre` int(11) NOT NULL,
   `y_direction_groupe_monstre` int(11) NOT NULL,
   PRIMARY KEY  (`id_groupe_monstre`),
@@ -585,6 +585,7 @@ CREATE TABLE `historique_equipement` (
 
 CREATE TABLE `hobbit` (
   `id_hobbit` int(11) NOT NULL auto_increment,
+  `id_fk_jos_users_hobbit` int(11) default NULL COMMENT 'identifiant vers User Joomla : jos_users.id',
   `sysgroupe_hobbit` varchar(10) default NULL,
   `nom_hobbit` varchar(20) NOT NULL,
   `prenom_hobbit` varchar(23) NOT NULL,
@@ -633,29 +634,30 @@ CREATE TABLE `hobbit` (
   `poids_transportable_hobbit` float NOT NULL default '0',
   `poids_transporte_hobbit` float NOT NULL default '0',
   `castars_hobbit` int(11) NOT NULL,
-  `pv_max_hobbit` int(11) NOT NULL COMMENT 'calcul� � l''activation du tour',
+  `pv_max_hobbit` int(11) NOT NULL COMMENT 'calculé à l''activation du tour',
   `pv_restant_hobbit` int(11) NOT NULL,
   `pv_max_bm_hobbit` int(11) NOT NULL,
-  `est_mort_hobbit` enum('oui','non') NOT NULL default 'non',
+  `est_mort_hobbit` enum('oui','non') character set latin1 NOT NULL default 'non',
   `nb_mort_hobbit` int(11) NOT NULL default '0',
   `nb_hobbit_kill_hobbit` int(11) NOT NULL default '0',
   `nb_monstre_kill_hobbit` int(11) NOT NULL,
-  `est_compte_actif_hobbit` enum('oui','non') NOT NULL default 'non',
+  `est_compte_actif_hobbit` enum('oui','non') character set latin1 NOT NULL default 'non',
   `date_creation_hobbit` datetime NOT NULL,
   `id_fk_mere_hobbit` int(11) default NULL,
   `id_fk_pere_hobbit` int(11) default NULL,
-  `description_hobbit` mediumtext NOT NULL,
+  `description_hobbit` mediumtext character set latin1 NOT NULL,
   `id_fk_communaute_hobbit` int(11) default NULL,
   `id_fk_rang_communaute_hobbit` int(11) default NULL,
   `date_entree_communaute_hobbit` datetime default NULL,
-  `url_blason_hobbit` varchar(200) default 'http://',
-  `url_avatar_hobbit` varchar(200) default 'http://',
+  `url_blason_hobbit` varchar(200) character set latin1 default 'http://',
+  `url_avatar_hobbit` varchar(200) character set latin1 default 'http://',
   PRIMARY KEY  (`id_hobbit`),
   UNIQUE KEY `email_hobbit` (`email_hobbit`),
   KEY `idx_x_hobbit_y_hobbit` (`x_hobbit`,`y_hobbit`),
   KEY `id_fk_communaute_hobbit` (`id_fk_communaute_hobbit`),
-  KEY `id_fk_rang_communaute_hobbit` (`id_fk_rang_communaute_hobbit`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tables des Hobbits' AUTO_INCREMENT=38 ;
+  KEY `id_fk_rang_communaute_hobbit` (`id_fk_rang_communaute_hobbit`),
+  KEY `id_fk_jos_users_hobbit` (`id_fk_jos_users_hobbit`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tables des Hobbits' AUTO_INCREMENT=51 ;
 
 -- --------------------------------------------------------
 
@@ -966,7 +968,7 @@ CREATE TABLE `palissade` (
   `date_fin_palissade` datetime NOT NULL,
   PRIMARY KEY  (`id_palissade`),
   UNIQUE KEY `xy_palissade` (`x_palissade`,`y_palissade`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 -- --------------------------------------------------------
 
@@ -1120,28 +1122,13 @@ CREATE TABLE `region` (
 -- --------------------------------------------------------
 
 -- 
--- Structure de la table `rune`
--- 
-
-CREATE TABLE `rune` (
-  `id_rune` int(11) NOT NULL auto_increment,
-  `id_fk_type_rune` int(11) NOT NULL,
-  `x_rune` int(11) NOT NULL,
-  `y_rune` int(11) NOT NULL,
-  PRIMARY KEY  (`id_rune`),
-  KEY `xy_rune` (`x_rune`,`y_rune`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
-
--- --------------------------------------------------------
-
--- 
 -- Structure de la table `taille_monstre`
 -- 
 
 CREATE TABLE `taille_monstre` (
   `id_taille_monstre` int(11) NOT NULL auto_increment,
   `nom_taille_m_monstre` varchar(20) NOT NULL COMMENT 'Nom de la taille au masculin',
-  `nom_taille_f_monstre` varchar(20) NOT NULL COMMENT 'Nom de la taille au f�minin',
+  `nom_taille_f_monstre` varchar(20) NOT NULL COMMENT 'Nom de la taille au féminin',
   `pourcentage_taille_monstre` int(11) NOT NULL COMMENT 'Pourcentage d''apparition',
   PRIMARY KEY  (`id_taille_monstre`),
   UNIQUE KEY `nom_taille_f_monstre` (`nom_taille_f_monstre`),
@@ -1159,7 +1146,7 @@ CREATE TABLE `testeur` (
   `email_testeur` varchar(100) NOT NULL,
   PRIMARY KEY  (`id_testeur`),
   UNIQUE KEY `email_testeur` (`email_testeur`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
 -- --------------------------------------------------------
 
@@ -1278,7 +1265,7 @@ CREATE TABLE `type_minerai` (
 CREATE TABLE `type_monstre` (
   `id_type_monstre` int(11) NOT NULL auto_increment,
   `nom_type_monstre` varchar(30) NOT NULL,
-  `genre_type_monstre` enum('feminin','masculin') NOT NULL COMMENT 'Genre du monstre : masculin ou f�minin',
+  `genre_type_monstre` enum('feminin','masculin') NOT NULL COMMENT 'Genre du monstre : masculin ou féminin',
   `id_fk_type_groupe_monstre` int(11) NOT NULL,
   PRIMARY KEY  (`id_type_monstre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
@@ -1446,20 +1433,8 @@ CREATE TABLE `zone` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
 
 -- 
--- Contraintes pour les tables export�es
+-- Contraintes pour les tables exportées
 -- 
-
--- 
--- Contraintes pour la table `cadavre`
--- 
-ALTER TABLE `cadavre`
-  ADD CONSTRAINT `cadavre_ibfk_1` FOREIGN KEY (`id_fk_type_monstre_cadavre`) REFERENCES `type_monstre` (`id_type_monstre`);
-
--- 
--- Contraintes pour la table `charrette`
--- 
-ALTER TABLE `charrette`
-  ADD CONSTRAINT `charrette_ibfk_1` FOREIGN KEY (`id_fk_hobbit_charrette`) REFERENCES `hobbit` (`id_hobbit`) ON DELETE CASCADE;
 
 -- 
 -- Contraintes pour la table `communaute`
