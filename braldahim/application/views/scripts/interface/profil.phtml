@@ -4,42 +4,42 @@
   <ul class="titre textalib textsizeb"><?=$this->escape($this->user->prenom_hobbit);?> <?=$this->escape($this->user->nom_hobbit);?></ul>
   <div class="contenuA">
 	  <ul class="box_contenu1 textalic">
-	  
+	  		<p style="float: right; width: 100px; margin: 0px;font-weight: bolder; text-align:right;">
+			PA <?=$this->user->pa_hobbit ?>&nbsp;&nbsp;
+			</p>
+			
  		<ul class="titre textalia textsized" >
 				&nbsp;Informations tour courant
 		</ul>
-			
-			
+
 		<table class="table_liste" style="width:98%; border:0" >
 		<tbody>
-			<tr class="table_liste" align="left" valign="top">
-				<td>
+			<tr class="table_liste" valign="top">
+				<td align="left" >
 				  Dur&eacute;e
 				</td>
-				<td>
+				<td align="left" >
 				<?php echo $this->escape($this->user->duree_courant_tour_hobbit) ?>
 				</td>
 				<td>&nbsp;&nbsp;</td>
-				<td style="font-weight: bolder;">
-				PA
-				</td>
-				<td style="font-weight: bolder;">
-				<?=$this->user->pa_hobbit ?>
+				<td style="font-weight: bolder;" align="right" >
+				DLA &nbsp;&nbsp;
+				
+				<?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_hobbit);?>
 				</td>
 			</tr>
-			<tr class="table_liste" align="left" valign="top">
-				<td>
+			<tr class="table_liste" valign="top">
+				<td align="left" >
 				  Position tour courant
 				</td>
-				<td>
+				<td align="left" >
 				<?=$this->user->nom_tour ?>
 				</td>
 				<td>&nbsp;&nbsp;</td>
-				<td style="font-weight: bolder;">
-				DLA
-				</td>
-				<td style="font-weight: bolder;">
-				<?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_hobbit);?>
+				<td  align="right" >
+				<? if ($this->user->info_prochaine_position != "") : ?>
+				    	<?=$this->user->info_prochaine_position ?><br />
+				    <? endif; ?>
 				</td>
 			</tr>
 			<tr class="table_liste" align="left" valign="top">
@@ -49,11 +49,7 @@
 				<td>
 				<?php echo $this->escape($this->user->duree_base_tour_hobbit) ?>
 				<td>&nbsp;&nbsp;</td>
-				<td colspan="2">
-				<? if ($this->user->info_prochaine_position != "") : ?>
-				    	<?=$this->user->info_prochaine_position ?><br />
-				    <? endif; ?>
-				</td>
+				<td>&nbsp;&nbsp;</td>
 			</tr>
 			<tr class="table_liste" align="left" valign="top">
 				<td>
@@ -62,6 +58,7 @@
 				<td>
 				<?php echo $this->escape($this->user->duree_prochain_tour_hobbit) ?>
 				</td>
+				<td>&nbsp;&nbsp;</td>
 			</tr>
 		</tbody>
 	  </table>
