@@ -18,6 +18,6 @@
 		Position : <?=$this->palissade["x_palissade"] ?>, <?=$this->palissade["y_palissade"] ?><br />
 		Armure naturelle : <?=$this->palissade["armure_naturelle_palissade"] ?><br />
 		PV Palissade : <?=$this->palissade["pv_restant_palissade"] ?><br />
-		Date de destruction : <?=$this->palissade["date_fin_palissade"] ?>
+		Date de destruction : le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->palissade["date_fin_palissade"]); ?>
 	<? endif; ?>
 <? endif; ?>
