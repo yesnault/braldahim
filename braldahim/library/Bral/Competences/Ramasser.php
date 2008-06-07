@@ -17,8 +17,8 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		
 		$typesElements[1] = array("id_type_element" => 1, "selected" => $id_type_courant, "nom_systeme" => "castars", "nom_element" => "Castars");
 		$typesElements[2] = array("id_type_element" => 2, "selected" => $id_type_courant, "nom_systeme" => "equipements", "nom_element" => "Equipements");
-//		$typesElements[3] = array("id_type_element" => 3, "selected" => $id_type_courant, "nom_systeme" => "minerais", "nom_element" => "Minerais");
-//		$typesElements[4] = array("id_type_element" => 4, "selected" => $id_type_courant, "nom_systeme" => "partiesplantes", "nom_element" => "Parties de Plantes");
+		$typesElements[3] = array("id_type_element" => 3, "selected" => $id_type_courant, "nom_systeme" => "minerais", "nom_element" => "Minerais");
+		$typesElements[4] = array("id_type_element" => 4, "selected" => $id_type_courant, "nom_systeme" => "partiesplantes", "nom_element" => "Parties de Plantes");
 		$typesElements[5] = array("id_type_element" => 5, "selected" => $id_type_courant, "nom_systeme" => "potions", "nom_element" => "Potions");
 		$typesElements[6] = array("id_type_element" => 6, "selected" => $id_type_courant, "nom_systeme" => "runes", "nom_element" => "Runes");
 		$typesElements[7] = array("id_type_element" => 7, "selected" => $id_type_courant, "nom_systeme" => "autres", "nom_element" => "Autres Elements");
@@ -391,31 +391,43 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 	}
 	
 	private function prepareTypeMinerais() {
-		Zend_Loader::loadClass("LabanMinerai");
+		Zend_Loader::loadClass("ElementMinerai");
 		$tabMineraisBruts = null;
 		$tabLingots = null;
 		
-		$labanMineraiTable = new LabanMinerai();
-		$minerais = $labanMineraiTable->findByIdHobbit($this->view->user->id_hobbit);
-		unset($labanMineraiTable);
+		$elementMineraiTable = new ElementMinerai();
+		$minerais = $elementMineraiTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		unset($elementMineraiTable);
+		
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		if ($poidsRestant < 0) $poidsRestant = 0;
+		$this->view->nbMineraisPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_MINERAI);
+		$this->view->nbLingotsPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_LINGOT);
+		$this->view->poidsRestant = $poidsRestant;
+		
+		if ($this->view->nbMineraisPossible < 1 && $this->view->nbLingotsPossible < 1) {
+			$this->view->poidsPlaceDisponible = false;
+		} else {
+			$this->view->poidsPlaceDisponible = true;
+		}
 		
 		if (count($minerais) > 0) {
 			$this->view->ramasserOk = true;
 
 			foreach ($minerais as $m) {
-				if ($m["quantite_brut_laban_minerai"] > 0) {
-					$tabMineraisBruts[$m["id_fk_type_laban_minerai"]] = array(
-						"id_type_minerai" => $m["id_fk_type_laban_minerai"],
+				if ($m["quantite_brut_element_minerai"] > 0) {
+					$tabMineraisBruts[$m["id_fk_type_element_minerai"]] = array(
+						"id_type_minerai" => $m["id_fk_type_element_minerai"],
 						"type" => $m["nom_type_minerai"],
-						"quantite" => $m["quantite_brut_laban_minerai"],
+						"quantite" => $m["quantite_brut_element_minerai"],
 					);
 				}
 				
-				if ($m["quantite_lingots_laban_minerai"] > 0) {
-					$tabLingots[$m["id_fk_type_laban_minerai"]] = array(
-						"id_type_minerai" => $m["id_fk_type_laban_minerai"],
+				if ($m["quantite_lingots_element_minerai"] > 0) {
+					$tabLingots[$m["id_fk_type_element_minerai"]] = array(
+						"id_type_minerai" => $m["id_fk_type_element_minerai"],
 						"type" => $m["nom_type_minerai"],
-						"quantite" => $m["quantite_lingots_laban_minerai"],
+						"quantite" => $m["quantite_lingots_element_minerai"],
 					);
 				}
 			}
@@ -427,8 +439,12 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 	}
 	
 	private function ramasseTypeMinerais() {
-		Zend_Loader::loadClass("ElementMinerai");
+		Zend_Loader::loadClass("LabanMinerai");
 		$this->prepareTypeMinerais();
+		
+		if ($this->view->poidsPlaceDisponible == false) {
+			throw new Zend_Exception(get_class($this)." Minerais place non disponible");
+		}
 		
 		$idMineraiBrut = null;
 		$nbMineraiBrut = null;
@@ -439,6 +455,12 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		$labanMineraiTable = new LabanMinerai();
 		$elementMineraiTable = new ElementMinerai();
 		
+		$this->view->texteRamassage = "";
+		
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		if ($poidsRestant < 0) $poidsRestant = 0;
+		$nbMineraisPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_MINERAI);
+		
 		if ($this->request->get("valeur_2") > 0 && $this->request->get("valeur_3") > 0) {
 			$idMineraiBrut = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 			$nbMineraiBrut = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
@@ -448,13 +470,18 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 			} 
 			
 			$minerai = $this->view->mineraisBruts[$idMineraiBrut];
-
+			
+			if ($nbMineraiBrut > $nbMineraisPossible) {
+				$nbMineraiBrut = $nbMineraisPossible;
+				$poidsRestant = $poidsRestant - $nbMineraiBrut * Bral_Util_Poids::POIDS_MINERAI;
+			}
+			
 			if ($nbMineraiBrut > $minerai["quantite"] || $nbMineraiBrut < 0) {
 				throw new Zend_Exception(get_class($this)." Quantite Minerai Brut invalide : ".$nbMineraiBrut);
 			}
 			
 			$data = array(
-				"quantite_brut_laban_minerai" => -$nbMineraiBrut,
+				"quantite_brut_laban_minerai" => $nbMineraiBrut,
 				"id_fk_type_laban_minerai" => $minerai["id_type_minerai"],
 				"id_fk_hobbit_laban_minerai" => $this->view->user->id_hobbit,
 			);
@@ -464,10 +491,18 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 				"x_element_minerai" => $this->view->user->x_hobbit,
 				"y_element_minerai" => $this->view->user->y_hobbit,
 				"id_fk_type_element_minerai" => $minerai["id_type_minerai"],
-				"quantite_brut_element_minerai" => $nbMineraiBrut,
+				"quantite_brut_element_minerai" => -$nbMineraiBrut,
 			);
 			$elementMineraiTable->insertOrUpdate($data);
+			if ($nbMineraiBrut > 1) {
+				$s = "s";
+			} else {
+				$s = "";
+			}
+			$this->view->texteRamassage = $nbMineraiBrut." minerai".$s. " brut".$s;
 		}
+		
+		$nbLingotsPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_LINGOT);
 		
 		if ($this->request->get("valeur_4") > 0 && $this->request->get("valeur_5") > 0) {
 			$idLingot = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_4"));
@@ -479,12 +514,17 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 			
 			$lingot = $this->view->lingots[$idLingot];
 			
+			if ($nbLingot > $nbLingotsPossible) {
+				$nbLingot = $nbLingotsPossible;
+				$poidsRestant = $poidsRestant - $nbLingot * Bral_Util_Poids::POIDS_LINGOT;
+			}
+			
 			if ($nbLingot > $lingot["quantite"] || $nbLingot < 0) {
 				throw new Zend_Exception(get_class($this)." Quantite lingot invalide : ".$nbLingot);
 			}
 			
 			$data = array(
-				"quantite_lingots_laban_minerai" => -$nbLingot,
+				"quantite_lingots_laban_minerai" => $nbLingot,
 				"id_fk_type_laban_minerai" => $lingot["id_type_minerai"],
 				"id_fk_hobbit_laban_minerai" => $this->view->user->id_hobbit,
 			);
@@ -494,45 +534,67 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 				"x_element_minerai" => $this->view->user->x_hobbit,
 				"y_element_minerai" => $this->view->user->y_hobbit,
 				"id_fk_type_element_minerai" => $lingot["id_type_minerai"],
-				"quantite_lingots_element_minerai" => $nbLingot,
+				"quantite_lingots_element_minerai" => -$nbLingot,
 			);
 			$elementMineraiTable->insertOrUpdate($data);
+			
+			if ($nbLingot > 1) {
+				$s = "s";
+			} else {
+				$s = "";
+			}
+			if ($this->view->texteRamassage != "" ) {
+				$this->view->texteRamassage .= " et ";
+			}
+			$this->view->texteRamassage .= $nbLingot." lingot".$s;
 		}
 		unset($elementMineraiTable);
 		unset($labanMineraiTable);
 	}
 	
 	private function prepareTypePartiesPlantes() {
-		Zend_Loader::loadClass("LabanPartieplante");
+		Zend_Loader::loadClass("ElementPartieplante");
 		$tabPartiePlantesBrutes = null;
 		$tabPartiePlantesPreparees = null;
 		$tabLingots = null;
 		
-		$labanPartiePlanteTable = new LabanPartieplante();
-		$partiesPlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
-		unset($labanPartiePlanteTable);
+		$elementPartiePlanteTable = new ElementPartieplante();
+		$partiesPlantes = $elementPartiePlanteTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		unset($elementPartiePlanteTable);
+		
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		if ($poidsRestant < 0) $poidsRestant = 0;
+		$this->view->nbPartiesPlantesBrutesPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);
+		$this->view->nbPartiesPlantesPrepareesPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE);
+		$this->view->poidsRestant = $poidsRestant;
+		
+		if ($this->view->nbPartiesPlantesBrutesPossible < 1 && $this->view->nbPartiesPlantesPrepareesPossible < 1) {
+			$this->view->poidsPlaceDisponible = false;
+		} else {
+			$this->view->poidsPlaceDisponible = true;
+		}
 		
 		if (count($partiesPlantes) > 0) {
 			$this->view->ramasserOk = true;
 
 			foreach ($partiesPlantes as $m) {
-				if ($m["quantite_laban_partieplante"] > 0) {
-					$tabPartiePlantesBrutes[$m["id_fk_type_laban_partieplante"]."-".$m["id_fk_type_plante_laban_partieplante"]] = array(
-						"id_type_partieplante" => $m["id_fk_type_laban_partieplante"],
-						"id_type_plante" => $m["id_fk_type_plante_laban_partieplante"],
+				if ($m["quantite_element_partieplante"] > 0) {
+					$tabPartiePlantesBrutes[$m["id_fk_type_element_partieplante"]."-".$m["id_fk_type_plante_element_partieplante"]] = array(
+						"id_type_partieplante" => $m["id_fk_type_element_partieplante"],
+						"id_type_plante" => $m["id_fk_type_plante_element_partieplante"],
 						"type" => $m["nom_type_partieplante"],
 						"type_plante" => $m["nom_type_plante"],
-						"quantite" => $m["quantite_laban_partieplante"],
+						"quantite" => $m["quantite_element_partieplante"],
 					);
 				}
 				
-				if ($m["quantite_preparee_laban_partieplante"] > 0) {
-					$tabPartiePlantesPreparees[$m["id_fk_type_laban_partieplante"]."-".$m["id_fk_type_plante_laban_partieplante"]] = array(
-						"id_type_partieplante" => $m["id_fk_type_laban_partieplante"],
-						"id_type_plante" => $m["id_fk_type_plante_laban_partieplante"],
+				if ($m["quantite_preparee_element_partieplante"] > 0) {
+					$tabPartiePlantesPreparees[$m["id_fk_type_element_partieplante"]."-".$m["id_fk_type_plante_element_partieplante"]] = array(
+						"id_type_partieplante" => $m["id_fk_type_element_partieplante"],
+						"id_type_plante" => $m["id_fk_type_plante_element_partieplante"],
 						"type" => $m["nom_type_partieplante"],
 						"type_plante" => $m["nom_type_plante"],
-						"quantite" => $m["quantite_preparee_laban_partieplante"],
+						"quantite" => $m["quantite_preparee_element_partieplante"],
 					);
 				}
 			}
@@ -544,7 +606,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 	}
 	
 	private function ramasseTypePartiesPlantes() {
-		Zend_Loader::loadClass("ElementPartieplante");
+		Zend_Loader::loadClass("LabanPartieplante");
 		$this->prepareTypePartiesPlantes();
 		
 		$idPartiePlanteBrute = null;
@@ -556,6 +618,10 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		$labanPartiePlanteTable = new LabanPartieplante();
 		$elementPartiePlanteTable = new ElementPartieplante();
 		
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		if ($poidsRestant < 0) $poidsRestant = 0;
+		$nbPartiesPlantesBrutesPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);
+		
 		if ($this->request->get("valeur_2") > 0 && $this->request->get("valeur_3") > 0) {
 			$idPartiePlanteBrute = $this->request->get("valeur_2");
 			$nbPartiePlanteBrute = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
@@ -565,13 +631,18 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 			} 
 			
 			$partiePlanteBrute = $this->view->partiePlantesBrutes[$idPartiePlanteBrute];
-
+			
+			if ($nbPartiePlanteBrute > $nbPartiesPlantesBrutesPossible) {
+				$nbPartiePlanteBrute = $nbPartiesPlantesBrutesPossible;
+				$poidsRestant = $poidsRestant - $nbPartiePlanteBrute * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE;
+			}
+			
 			if ($nbPartiePlanteBrute > $partiePlanteBrute["quantite"] || $nbPartiePlanteBrute < 0) {
 				throw new Zend_Exception(get_class($this)." Quantite PartiePlante Brute invalide : ".$nbPartiePlanteBrute);
 			}
 			
 			$data = array(
-				"quantite_laban_partieplante" => -$nbPartiePlanteBrute,
+				"quantite_laban_partieplante" => $nbPartiePlanteBrute,
 				"id_fk_type_laban_partieplante" => $partiePlanteBrute["id_type_partieplante"],
 				"id_fk_type_plante_laban_partieplante" => $partiePlanteBrute["id_type_plante"],
 				"id_fk_hobbit_laban_partieplante" => $this->view->user->id_hobbit,
@@ -583,10 +654,18 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 				"y_element_partieplante" => $this->view->user->y_hobbit,
 				"id_fk_type_element_partieplante" => $partiePlanteBrute["id_type_partieplante"],
 				"id_fk_type_plante_element_partieplante" => $partiePlanteBrute["id_type_plante"],
-				"quantite_element_partieplante" => $nbPartiePlanteBrute,
+				"quantite_element_partieplante" => -$nbPartiePlanteBrute,
 			);
 			$elementPartiePlanteTable->insertOrUpdate($data);
+			if ($nbPartiePlanteBrute > 1) {
+				$s = "s";
+			} else {
+				$s = "";
+			}
+			$this->view->texteRamassage = $nbPartiePlanteBrute." &eacute;l&eacute;ment".$s." de plante".$s." brute".$s;
 		}
+		
+		$nbPartiesPlantesPrepareesPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE);
 		
 		if ($this->request->get("valeur_4") > 0 && $this->request->get("valeur_5") > 0) {
 			$idPartiePlantePreparee = $this->request->get("valeur_4");
@@ -598,14 +677,19 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 			
 			$partiePlantePreparee = $this->view->partiePlantesPreparees[$idPartiePlantePreparee];
 			
+			if ($nbPartiePlantePreparee > $nbPartiesPlantesPrepareesPossible) {
+				$nbPartiePlantePreparee = $nbPartiesPlantesPrepareesPossible;
+				$poidsRestant = $poidsRestant - $nbPartiePlantePreparee * Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE;
+			}
+			
 			if ($nbPartiePlantePreparee > $partiePlantePreparee["quantite"] || $nbPartiePlantePreparee < 0) {
 				throw new Zend_Exception(get_class($this)." Quantite Plante Preparee invalide : ".$nbPartiePlantePreparee);
 			}
 			
 			$data = array(
-				"quantite_preparee_laban_partieplante" => -$nbPartiePlantePreparee,
-				"id_fk_type_laban_partieplante" => $partiePlanteBrute["id_type_partieplante"],
-				"id_fk_type_plante_laban_partieplante" => $partiePlanteBrute["id_type_plante"],
+				"quantite_preparee_laban_partieplante" => $nbPartiePlantePreparee,
+				"id_fk_type_laban_partieplante" => $partiePlantePreparee["id_type_partieplante"],
+				"id_fk_type_plante_laban_partieplante" => $partiePlantePreparee["id_type_plante"],
 				"id_fk_hobbit_laban_partieplante" => $this->view->user->id_hobbit,
 			);
 			
@@ -614,9 +698,19 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 				"y_element_partieplante" => $this->view->user->y_hobbit,
 				"id_fk_type_element_partieplante" => $partiePlantePreparee["id_type_partieplante"],
 				"id_fk_type_plante_element_partieplante" => $partiePlantePreparee["id_type_plante"],
-				"quantite_preparee_element_partieplante" => $nbPartiePlantePreparee,
+				"quantite_preparee_element_partieplante" => -$nbPartiePlantePreparee,
 			);
 			$elementPartiePlanteTable->insertOrUpdate($data);
+			
+			if ($nbPartiePlantePreparee > 1) {
+				$s = "s";
+			} else {
+				$s = "";
+			}
+			if ($this->view->texteRamassage != "" ) {
+				$this->view->texteRamassage .= " et ";
+			}
+			$this->view->texteRamassage .= $nbPartiePlantePreparee." &eacute;l&eacute;ment".$s. " de plante".$s." pr&eacute;par&eacute;e".$s;
 		}
 		unset($elementPartiePlanteTable);
 		unset($labanPartiePlanteTable);

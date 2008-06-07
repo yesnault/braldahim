@@ -527,8 +527,8 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 			
 			$data = array(
 				"quantite_preparee_laban_partieplante" => -$nbPartiePlantePreparee,
-				"id_fk_type_laban_partieplante" => $partiePlanteBrute["id_type_partieplante"],
-				"id_fk_type_plante_laban_partieplante" => $partiePlanteBrute["id_type_plante"],
+				"id_fk_type_laban_partieplante" => $partiePlantePreparee["id_type_partieplante"],
+				"id_fk_type_plante_laban_partieplante" => $partiePlantePreparee["id_type_plante"],
 				"id_fk_hobbit_laban_partieplante" => $this->view->user->id_hobbit,
 			);
 			

@@ -1,18 +1,31 @@
+
+Il vous reste <?=$this->poidsRestant ?> Kg de place disponible dans votre laban.<br>
+
+Vous pouvez ramasser <?=$this->nbMineraisPossible ?> minerai<? if ($this->nbMineraisPossible > 1): echo "s"; endif; ?> brut<? if ($this->nbMineraisPossible > 1): echo "s"; endif; ?>
+ ou 
+<?=$this->nbLingotsPossible ?> lingot<?if ($this->nbLingotsPossible > 1): echo "s"; endif; ?><br>
+<br>
+Ceci dit, vous pouvez ramasser des minerais et des lingots en même temps. <br>
+Si lors du ramassage il ne vous reste plus de place dans votre laban, les &eacute;l&eacute;ments en trop ne seront pas ramass&eacute;s :-) 
+
+<br>
+<br>
+
 <? if (count($this->mineraisBruts) > 0) :?>
 	Minerais Bruts:<br/>
-	
-	<select name="valeur_2" id="valeur_2" onChange="if (($('valeur_2').value > 0 && $('valeur_3').value > 0) || ( $('valeur_4').value > 0 && $('valeur_5').value > 0)) {$('bouton_deposer').disabled=false} else {$('bouton_deposer').disabled=true} ">
+	<? if ($this->nbMineraisPossible < 1) : $disabled="disabled"; else: $disabled=""; endif;?>
+	<select name="valeur_2" id="valeur_2" <?=$disabled ?> onChange="if (($('valeur_2').value > 0 && $('valeur_3').value > 0) || ( $('valeur_4').value > 0 && $('valeur_5').value > 0)) {$('bouton_ramasser').disabled=false} else {$('bouton_ramasser').disabled=true} ">
 	 	<option value="-1">(Choisis un type de minerai brut)</option>
 	 	<? foreach($this->mineraisBruts as $m) :?>
 	 		<option value="<?=$m["id_type_minerai"]?>"><?=$m["quantite"]?> <?=$m["type"]?></option>
 	 	<? endforeach; ?>
 	</select>
 	<br/>
-	Quantit&eacute; &agrave; d&eacute;poser : <br />
-	<input type='textbox' maxlength='7' size='7' name='valeur_3' id='valeur_3' value='0' onkeypress="chiffres(event);" onChange="if (($('valeur_2').value > 0 && $('valeur_3').value > 0) || ( $('valeur_4').value > 0 && $('valeur_5').value > 0)) {$('bouton_deposer').disabled=false} else {$('bouton_deposer').disabled=true}">
+	Quantit&eacute; &agrave; ramasser : <br />
+	<input type='textbox' maxlength='7' size='7' name='valeur_3' id='valeur_3' value='0' onkeypress="chiffres(event);" onkeyup="if (($('valeur_2').value > 0 && $('valeur_3').value > 0) || ( $('valeur_4').value > 0 && $('valeur_5').value > 0)) {$('bouton_ramasser').disabled=false} else {$('bouton_ramasser').disabled=true}">
 	
 <? else: ?>
-	Aucun minerai brut &agrave; d&eacute;poser &agrave; terre.
+	Aucun minerai brut &agrave; ramasser &agrave; terre.
 	<input type='hidden' name='valeur_2' id='valeur_2' value='-1' />
 	<input type='hidden' name='valeur_3' id='valeur_3' value='0' />
 <? endif; ?>
@@ -21,18 +34,19 @@
 <? if (count($this->lingots) > 0) :?>
 	Lingots : <br/>
 	
-	<select name="valeur_4" id="valeur_4" onChange="if (($('valeur_2').value > 0 && $('valeur_3').value > 0) || ( $('valeur_4').value > 0 && $('valeur_5').value > 0)) {$('bouton_deposer').disabled=false} else {$('bouton_deposer').disabled=true} "
+	<? if ($this->nbLingotsPossible < 1) : $disabled="disabled"; else: $disabled=""; endif;?>
+	<select name="valeur_4" id="valeur_4" <?=$disabled ?> onChange="if (($('valeur_2').value > 0 && $('valeur_3').value > 0) || ( $('valeur_4').value > 0 && $('valeur_5').value > 0)) {$('bouton_ramasser').disabled=false} else {$('bouton_ramasser').disabled=true} "
 	 	<option value="-1">(Choisis un type de lingot)</option>
 	 	<? foreach($this->lingots as $m) :?>
 	 		<option value="<?=$m["id_type_minerai"]?>"><?=$m["quantite"]?> <?=$m["type"]?></option>
 	 	<? endforeach; ?>
 	</select>
 	<br />
-	Quantit&eacute; &agrave; d&eacute;poser : <br />
-	<input type='textbox' maxlength='7' size='7' name='valeur_5' id='valeur_5' value='0' onkeypress="chiffres(event);" onChange="if (($('valeur_2').value > 0 && $('valeur_3').value > 0) || ( $('valeur_4').value > 0 && $('valeur_5').value > 0)) {$('bouton_deposer').disabled=false} else {$('bouton_deposer').disabled=true} ">
+	Quantit&eacute; &agrave; ramasser : <br />
+	<input type='textbox' maxlength='7' size='7' name='valeur_5' id='valeur_5' value='0' onkeypress="chiffres(event);" onkeyup="if (($('valeur_2').value > 0 && $('valeur_3').value > 0) || ( $('valeur_4').value > 0 && $('valeur_5').value > 0)) {$('bouton_ramasser').disabled=false} else {$('bouton_ramasser').disabled=true} ">
 	
 <? else: ?>
-	Aucun lingot &agrave; d&eacute;poser &agrave; terre.
+	Aucun lingot &agrave; ramasser &agrave; terre.
 	<input type='hidden' name='valeur_4' id='valeur_4' value='-1' />
 	<input type='hidden' name='valeur_5' id='valeur_5' value='0' />
 <? endif; ?>

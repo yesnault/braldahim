@@ -22,7 +22,7 @@ dans votre laban.
 
 <input type="hidden" id="nbPossible" name="nbPossible" value="0">
 <br>
-Quantit&eacute; &agrave; d&eacute;poser : <br />
+Quantit&eacute; &agrave; ramasser : <br />
 	<input type='textbox' maxlength='7' size='7' name='valeur_3' id='valeur_3' value='0' onkeypress="chiffres(event);"  
 	onkeyup="if (this.value > 0 && $('valeur_2').value > 0 && Number(this.value) <= Number($('nbPossible').value)) {$('bouton_ramasser').disabled=false} else {$('bouton_ramasser').disabled=true} ">
 

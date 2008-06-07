@@ -27,7 +27,6 @@ class Bral_Util_Poids {
 	// $idHobbit => -1 pour un nouvel hobbit
 	public static function calculPoidsTransporte($idHobbit, $castars) {
 		$retour = 0;
-		
 		$retour = self::ajoute($retour, $castars, self::POIDS_CASTARS);
 		
 		if ($idHobbit > 0) {
@@ -37,7 +36,6 @@ class Bral_Util_Poids {
 			$retour = $retour + self::calculPoidsTransporteLabanEquipement($idHobbit);
 			$retour = $retour + self::calculPoidsTransporteLabanPotion($idHobbit);
 			$retour = $retour + self::calculPoidsTransporteLabanRune($idHobbit);
-			
 			$retour = $retour + self::calculPoidsTransporteEquipement($idHobbit);
 		}
 		return $retour;
