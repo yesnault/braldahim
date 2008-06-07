@@ -4,9 +4,15 @@
 	$s = "";
 	if ($this->nbRondins > 1) : $s = "s"; endif;
 ?>
-	Vous avez abattu un arbre.<br /> 
-	Vous avez r&eacute;cup&eacute;r&eacute; <?=$this->nbRondins ?> 
-	rondin<?=$s ?>.
+
+	<? if ($this->nbRondins < 1) :?>
+		Vous avez r&eacute;ssi votre comp&eacute;tence, mais vous n'avez rien abattu
+			&agrave; cause de vos malus importants en Vigueur.<br>
+	<? else: ?>
+		Vous avez abattu un arbre.<br /> 
+		Vous avez r&eacute;cup&eacute;r&eacute; <?=$this->nbRondins ?> 
+		rondin<?=$s ?>.
+	<? endif; ?>
 	<br /><br />
 	<? if ($this->effetRune) :?>
 		Une rune que vous portez a eu de l'effet sur la quantit&eacute; de rondins r&eacute;cup&eacute;r&eacute;e.
