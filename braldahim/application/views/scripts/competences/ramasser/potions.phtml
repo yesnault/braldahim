@@ -1,0 +1,13 @@
+<? if ($this->ramasserOk === true) : ?>
+	Choississez une potion &agrave; d&eacute;poser &agrave; terre.<br />
+	<select name="valeur_2" id="valeur_2" onChange="if (this.value > 0) {$('bouton_ramasser').disabled=false} else {$('bouton_ramasser').disabled=true} ">
+	 	<option value="-1">(Choisis une potion)</option>
+	 	<? foreach($this->potions as $p) :?>
+	 		<option value="<?=$p["id_potion"]?>">Potion <?=$p["nom"] ?> de qualit&eacute; <?=$p["qualite"] ?> (n&deg;<?=$p["id_potion"] ?>) </option>
+	 	<? endforeach; ?>
+	</select>
+<? endif; ?>
+
+	<input type='hidden' name='valeur_3' id='valeur_3' value='0' />
+	<input type='hidden' name='valeur_4' id='valeur_4' value='0' />
+	<input type='hidden' name='valeur_5' id='valeur_5' value='0' />

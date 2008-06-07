@@ -1,17 +1,30 @@
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='5'>
  <div class='comp_contenu'>
- 	Compétence en Développement.
- 	
- 	
-	 <? if ($this->ramasserOk === true) : ?>
-	 	Pour <?=$this->nb_pa ?> PA, vous pouvez ramasser des objets sur la case. <br /><br />
+	 
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez ramasser des objets sur la case. <br /><br />
 	 	
-	 <? else: ?>
-	 Il n'y a rien &agrave; ramasser ici...
-	 <? endif; ?>
+	 <select name="valeur_1" id="valeur_1"  onChange="if ($('bouton_ramasser')) {$('bouton_ramasser').disabled=true} ;_get_('/competences/doaction?caction=ask_competence_ramasser&valeur_1='+this.value);">
+	 	<option value="-1">(Choisis un &eacute;l&eacute;ment)</option>
+	 	<? foreach($this->typeElements as $t) : ?>
+	 		<option value="<?=$t["id_type_element"]?>" <? if ($t["selected"] == $t["id_type_element"]): echo "selected"; endif;?>><?=htmlspecialchars($t["nom_element"])?></option>
+	 	<? endforeach; ?>
+	 </select>
+	 <br /><br />
+	 
+	 <? if ($this->type != null) : ?>
+	 	<? include("ramasser/" . $this->type . ".phtml"); ?>
+	 	 <br /> <br />
+		<? if ($this->ramasserOk === false) : ?>
+		
+		Il n'y a rien &agrave; ramasser
+		<? elseif ($this->poidsPlaceDisponible === false) : ?>
+		Vous n'avez pas assez de place dans votre laban
+		<? endif; ?>
+	 <? endif ?>
+	 
 </div>
 
 <br />
-<?php if ($this->assezDePa == true && $this->ramasserOk === true) : ?>
-<input type='button' class='button1' id='bouton_ramasser' value='Ramasser !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_ramasser");'>
+<?php if ($this->assezDePa == true && $this->ramasserOk === true && $this->poidsPlaceDisponible === true) : ?>
+<input type='button' class='button1' id='bouton_ramasser' value='Ramasser !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_ramasser");' disabled>
 <? endif ?>

@@ -8,6 +8,8 @@ class ElementRune extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('element_rune', '*')
+		->from('type_rune', '*')
+		->where('element_rune.id_fk_type_element_rune = type_rune.id_type_rune')
 		->where('x_element_rune <= ?',$x_max)
 		->where('x_element_rune >= ?',$x_min)
 		->where('y_element_rune <= ?',$y_max)

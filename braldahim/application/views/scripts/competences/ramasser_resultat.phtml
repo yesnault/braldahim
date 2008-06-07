@@ -1,9 +1,3 @@
 <? include("commun_text_resultat.phtml") ?>
 
-Vous avez ramass&eacute; : <br />
-<? if ($this->nbCastarsRamasses > 0) :?>
-	<?=$this->nbCastarsRamasses ?> Castar<? if ($this->nbCastarsRamasses > 1):echo "s";endif; ?><br />
-<? endif; ?>
-<? if ($this->nbRunesRamassees > 0) :?>
-	<?=$this->nbRunesRamassees ?> Rune<? if ($this->nbRunesRamassees > 1):echo "s";endif; ?><br />
-<? endif; ?>
+Vous avez ramass&eacute; <?=$this->texteRamassage ?>.<br />
