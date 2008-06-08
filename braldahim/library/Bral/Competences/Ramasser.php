@@ -692,6 +692,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 				"id_fk_type_plante_laban_partieplante" => $partiePlantePreparee["id_type_plante"],
 				"id_fk_hobbit_laban_partieplante" => $this->view->user->id_hobbit,
 			);
+			$labanPartiePlanteTable->insertOrUpdate($data);
 			
 			$data = array (
 				"x_element_partieplante" => $this->view->user->x_hobbit,

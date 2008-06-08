@@ -29,12 +29,13 @@ class Castar extends Zend_Db_Table {
 		->group(array('quantiteCastars'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
-
+		
 		if (count($resultat) == 0) { // insert
 			$this->insert($data);
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
 			$quantiteCastars = $resultat[0]["quantiteCastars"];
+			$dataUpdate['nb_castar'] = $quantiteCastars;
 			
 			if (isset($data["nb_castar"])) {
 				$dataUpdate['nb_castar'] = $quantiteCastars + $data["nb_castar"];
@@ -42,7 +43,12 @@ class Castar extends Zend_Db_Table {
 					$dataUpdate['nb_castar'] = 0;
 				}
 			}
-			if (isset($dataUpdate)) {
+			
+			$where = 'x_castar = '.$data["x_castar"]. ' AND y_castar = '.$data["y_castar"];
+			
+			if ($dataUpdate['nb_castar'] < 1) {
+				$this->delete($where);
+			} else {
 				$where = 'x_castar = '.$data["x_castar"]. ' AND y_castar = '.$data["y_castar"];
 				$this->update($dataUpdate, $where);
 			}

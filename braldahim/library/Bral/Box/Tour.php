@@ -167,7 +167,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->hobbit->bm_defense_hobbit = 0;
 			
 			// Recalcul de l'armure naturelle
-			$this->hobbit->armure_naturelle_hobbit = intval(($this->hobbit->force_base_hobbit + $this->hobbit->vigueur_base_hobbit) / 5);
+			$this->hobbit->armure_naturelle_hobbit = intval(($this->hobbit->force_base_hobbit + $this->hobbit->vigueur_base_hobbit) / 5) + 1;
 			
 			/* Application du malus de vue. */
 			$this->hobbit->vue_bm_hobbit = $this->hobbit->vue_malus_hobbit;

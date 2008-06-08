@@ -48,18 +48,24 @@ class ElementPartieplante extends Zend_Db_Table {
 			$dataUpdate['quantite_preparee_element_partieplante']  = $quantitePreparee;
 			
 			if (isset($data["quantite_element_partieplante"])) {
-				$dataUpdate = array('quantite_element_partieplante' => $quantiteBrute + $data["quantite_element_partieplante"]);
+				$dataUpdate['quantite_element_partieplante'] = $quantiteBrute + $data["quantite_element_partieplante"];
 			};
 			
 			if (isset($data["quantite_preparee_element_partieplante"])) {
-				$dataUpdate = array('quantite_preparee_element_partieplante' => $quantitePreparee + $data["quantite_preparee_element_partieplante"]);
+				$dataUpdate['quantite_preparee_element_partieplante'] = $quantitePreparee + $data["quantite_preparee_element_partieplante"];
 			};
 			
 			$where = ' id_fk_type_element_partieplante = '.$data["id_fk_type_element_partieplante"];
 			$where .= ' AND x_element_partieplante = '.$data["x_element_partieplante"];
 			$where .= ' AND y_element_partieplante = '.$data["y_element_partieplante"];
 			$where .= ' AND id_fk_type_plante_element_partieplante = '.$data["id_fk_type_plante_element_partieplante"];
-			$this->update($dataUpdate, $where);
+			
+			if ($dataUpdate['quantite_element_partieplante'] < 1 && 
+				$dataUpdate['quantite_preparee_element_partieplante'] < 1) {
+				$this->delete($where);
+			} else { // update
+				$this->update($dataUpdate, $where);
+			}
 		}
 	}
 }
