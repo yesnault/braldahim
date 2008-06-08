@@ -2,15 +2,21 @@
 
 <? if ($this->okJet1 === true):?>
 	<? if ($this->filonOk === true): ?>
-		Vous avez extrait avec succ&egrave;s 
-		<?=$this->minerai["quantite_extraite"]?> morceau<?if($this->minerai["quantite_extraite"] > 0): echo "x"; endif; ?>
-		de <?=$this->minerai["nom_type"]?><br />
-		<? if ($this->filonDetruit === true): ?>
-			Pfiou, il n'y a plus rien dans le filon...
-		<? endif; ?>
-		<br /><br />
-		<? if ($this->effetRune) :?>
-			Une rune que vous portez a eu de l'effet sur la quantit&eacute; de minerai extrait.
+		
+		<? if ($this->minerai["quantite_extraite"] < 1) : ?>
+			Vous n'avez rien extrait  
+			&agrave; cause de vos malus importants en Force.<br> <br />
+		<? else: ?>
+			Vous avez extrait avec succ&egrave;s 
+			<?=$this->minerai["quantite_extraite"]?> morceau<?if($this->minerai["quantite_extraite"] > 0): echo "x"; endif; ?>
+			de <?=$this->minerai["nom_type"]?><br />
+			<? if ($this->filonDetruit === true): ?>
+				Pfiou, il n'y a plus rien dans le filon...
+			<? endif; ?>
+			<br /><br />
+			<? if ($this->effetRune) :?>
+				Une rune que vous portez a eu de l'effet sur la quantit&eacute; de minerai extrait.
+			<? endif; ?>
 		<? endif; ?>
 	<? else: ?>
 		Il n'y a pas de minerai ici... Il faut sonder !

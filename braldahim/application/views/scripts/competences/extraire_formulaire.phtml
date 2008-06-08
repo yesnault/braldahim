@@ -15,6 +15,6 @@
  </div>
 
 <br />
-<?php if ($this->assezDePa == true && $this->extraireOK === true) : ?>
+<?php if ($this->assezDePa == true && $this->extraireOK === true && $this->poidsPlaceDisponible === true) : ?>
 <input type='button' class='button1' id='bouton_extraire' value='Extraire un minerai !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_extraire");'>
 <? endif ?>
