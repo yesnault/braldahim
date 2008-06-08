@@ -3,7 +3,8 @@
 class Bral_Messagerie_Factory {
 	static function getAction($request, $view) {
 		Zend_Loader::loadClass("Bral_Messagerie_Message");
-
+		Zend_Loader::loadClass("Bral_Messagerie_Contacts");
+		
 		$matches = null;
 		preg_match('/(.*)_messagerie_(.*)/', $request->get("caction"), $matches);
 		$action = $matches[1]; // "do" ou "ask"
@@ -15,7 +16,7 @@ class Bral_Messagerie_Factory {
 		if (($construct != null) && (class_exists($construct))) {
 			return new $construct ($request, $view, $action);
 		} else {
-			throw new Zend_Exception("Bral_Messagerie_Factory section invalide: ".$section);
+			throw new Zend_Exception("Bral_Messagerie_Factory classe invalide: ".$construct);
 		}
 	}
 

@@ -1,0 +1,37 @@
+
+<? if ($this->information != null): ?>
+	<?=$this->information ?>
+<? else: ?>
+<br>
+<form name="myForm" id="myForm">
+	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
+	<input type='hidden' name='valeur_1' id='valeur_1' value='editer' />
+	<input type='hidden' name='valeur_2' id='valeur_2' value='' />
+	<input type='hidden' name='valeur_3' id='valeur_3' value='' />
+
+	<?php if(!empty($this->destinatairesErreur)) :?>
+		<div class="message_erreur" id="message_erreur"> 
+		<?php foreach($this->destinatairesErreur as $message) :?>
+			<?=$this->escape($message);?><br />
+		<?php endforeach; ?>
+		</div>
+	<? endif; ?>
+	<label>Destinataires (entrez le pr&eacute;nom)</label><br />
+	Le ou les destinataires doivent s'&ecirc;tre d&eacute;j&agrave; connect&eacute;s au site au moins une fois.<br>
+	Sinon, ils n'appara&icirc;tront pas dans le r&eacute;sultat de la recherche ci-dessous.<br>
+	
+	<div id='aff_valeur_2_dest' name='aff_valeur_2_dest'><?=$this->message["aff_js_destinataires"]?></div>
+	<input type="hidden" name="valeur_2_dest" id="valeur_2_dest" value="<?=$this->message["destinataires"]?>" />
+	<input type="text" name="recherche_valeur_2_dest" size='40' id="recherche_valeur_2_dest" value="Entre un nom" onFocus='this.value=""; activerRechercheHobbit("valeur_2_dest");' />
+	<input type="hidden" name="recherche_valeur_2_dest_actif" id="recherche_valeur_2_dest_actif" value="0" />
+	<div class="recherche" id="recherche_valeur_2_dest_update" ></div> <img src="/public/images/loupe.gif" />
+    <span id="indicateur_recherche_valeur_2_dest" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
+
+<br><br>
+
+	<br>
+	<input type="button" class='button1' name="Creer" value="Cr&eacute;er" onClick="Javascript:$('nb_valeurs').value=3;$('valeur_1').value='envoi';$('valeur_2').value = $('valeur_2_dest').value;$('valeur_3').value=encodePlus($('valeur_message').value); _get_('/messagerie/doaction?caction=do_messagerie_message');" />
+	<input type="button" class='button1' name="Annuler" value="Annuler" onClick="Javascript:_get_('/messagerie/doaction?caction=do_messagerie_contacts&valeur_1=liste');" /> 
+</form>
+
+<? endif; ?>

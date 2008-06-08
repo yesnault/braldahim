@@ -6,22 +6,26 @@
 
 <span style="cursor:pointer;" title="Nouveau Message" onClick='Javascript:_get_("/interface/load/?box=box_messagerie");'>
 <img src="/public/images/uddeim/menu_inbox.gif" alt="Reçus"> Reçus
-</span> - 
+</span> &nbsp;&nbsp;
 
 <span style="cursor:pointer;" title="Nouveau Message" onClick='Javascript:_get_("/interface/load/?box=box_messagerie&valeur_4=<?=$this->config->messagerie->message->type->envoye ?>");'>
 <img src="/public/images/uddeim/menu_outbox.gif" alt="Envoy&eacute;s" border="0"> Envoy&eacute;s
-</span> - 
+</span> &nbsp;&nbsp;
 
 <span style="cursor:pointer;" title="Nouveau Message" onClick='Javascript:_get_("/interface/load/?box=box_messagerie&valeur_4=<?=$this->config->messagerie->message->type->supprime ?>");'>
 <img src="/public/images/uddeim/menu_trashcan.gif" alt="Corbeille" border="0"> Corbeille
-</span> - 
+</span> &nbsp;&nbsp;
+
+<span style="cursor:pointer;" title="Nouveau Message" onClick='Javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=liste");'>
+<img src="/public/images/uddeim/menu_book.gif" alt="Contacts" border="0"> 
+Contacts</span> &nbsp;&nbsp;
 
 <span style="cursor:pointer;" title="Nouveau Message" onClick='Javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau");'>
 <img src="/public/images/uddeim/menu_new.gif" alt="Nouveau" border="0"> 
 Nouveau</span>
 
 <br />
-<div id='messagerie_message'>
+<div id='messagerie_contenu'>
 	<? if ($this->affichageInterne == true) : ?>
 	   	<? include("messagerie/messages.phtml") ?>
 	<? else: ?>

@@ -1,0 +1,37 @@
+
+<br>
+
+<table class="table_liste">
+	<thead class="table_liste">
+		<tr class="table_liste">
+		<th>Nom</th>
+		<th>Description</th>
+		<th>&nbsp;</th>
+	  	</tr>
+	</thead>
+	<tbody>
+	<? if (!empty($this->listesContacts)): ?>
+		<? $i = 0;
+		   foreach($this->listesContacts as $listesContacts): ?>
+		   		<? $js="onClick=\"_get_('/messagerie/doaction?caction=do_messagerie_contacts&valeur_1=editer&valeur_2=".$listesContacts['id']."');\" style='cursor:pointer' title='Lire le message'"; ?>
+	  			<tr class="table_liste<?=($i % 2);$i++; ?>">
+	  				<td class="table_liste">
+	  					<?=$listesContacts["nom"] ?>
+					</td>
+					<td class="table_liste">
+					<?=$listesContacts["description"] ?>
+					</td>
+	  				<td class="table_liste">
+							<img src="/public/images/uddeim/trash.gif" alt="Supprimer" title="Supprimer" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=supprimer&valeur_2=<?=$listesContacts["id_message"];?>");' style="cursor:pointer">
+					</td>
+	  			</tr>
+		  	<? endforeach; ?>
+		<? else: ?>
+   		<tr class="table_liste">
+   			<td colspan="5">Aucune liste de contact</td>
+   		</tr>
+   		<? endif; ?>
+	</tbody>
+</table>
+<input type="button" class='button1' name="Nouvelle liste" value="Nouvelle liste" onClick="_get_('/messagerie/doaction?caction=do_messagerie_contacts&valeur_1=nouveau');" /> 
+<br>
