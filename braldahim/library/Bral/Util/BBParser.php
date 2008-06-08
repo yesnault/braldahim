@@ -234,7 +234,7 @@ class Bral_Util_BBParser {
 		// Rajout Yvo
 		$string = self::bbcodeStripPlus($string);		
 	
-		return $string;
+		return stripslashes($string);
 	}
 	
 	public static function bbcodeStripPlus($string) {

@@ -65,10 +65,10 @@ class Bral_Competences_Assaisonner extends Bral_Competences_Competence {
 		
 		// A partir de la quantité choisie on a un % de perte de gigots : p=0,5-0,002*(jet FOR + BM)
 		$tirage = 0;
-		for ($i=1; $i <= ($this->view->config->game->base_force + $hobbit->force_base_hobbit) ; $i++) {
+		for ($i=1; $i <= ($this->view->config->game->base_force + $this->view->user->force_base_hobbit) ; $i++) {
 			$tirage = $tirage + Bral_Util_De::get_1d6();
 		}
-		$perte = 0.5-0.002 * ($tirage + $hobbit->force_bm_hobbit + $hobbit->force_bbdf_hobbit);
+		$perte = 0.5-0.002 * ($tirage + $this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit);
 	
 		// Et arrondi ((n+1)-(n+1)*p) gigots marinés en sortie
 		$this->view->nbViandePreparee = intval($nb - $nb * $perte);
