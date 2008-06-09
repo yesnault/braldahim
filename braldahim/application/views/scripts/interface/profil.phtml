@@ -96,34 +96,34 @@
 			
 			<tr class="table_liste" align="left" valign="middle">
 				<td>
-					AGI<br />
-					SAG
+					AGI <span title="Niveau de la caract&eacute;ristique" style="cursor:pointer">(<?=$this->user->agilite_base_hobbit; ?>)</span><br />
+					SAG <span title="Niveau de la caract&eacute;ristique" style="cursor:pointer">(<?=$this->user->sagesse_base_hobbit; ?>)</span>
 	    		</td>
 	    		<td>
 	    			<?=$this->config->game->base_agilite + $this->user->agilite_base_hobbit ?> 
 				    D<?=$this->config->game->de_agilite ?> 
-				    <? if ($this->user->agilite_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->agilite_bm_hobbit ?>
-				    <? if ($this->user->agilite_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->agilite_bbdf_hobbit ?> <br />
+				    <span title="Bonus / Malus" style="cursor:pointer"><? if ($this->user->agilite_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->agilite_bm_hobbit ?></span>
+				    <span title="Bonus / Malus Balance de faim" style="cursor:pointer"><? if ($this->user->agilite_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->agilite_bbdf_hobbit ?></span> <br />
 				    
 				    <?=$this->config->game->base_sagesse + $this->user->sagesse_base_hobbit ?> 
 			    	D<?=$this->config->game->de_sagesse ?> 
-			    	<? if ($this->user->sagesse_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->sagesse_bm_hobbit ?>
-			    	<? if ($this->user->sagesse_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->sagesse_bbdf_hobbit ?>
+			    	<span title="Bonus / Malus" style="cursor:pointer"><? if ($this->user->sagesse_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->sagesse_bm_hobbit ?></span>
+			    	<span title="Bonus / Malus Balance de faim" style="cursor:pointer"><? if ($this->user->sagesse_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->sagesse_bbdf_hobbit ?></span>
 		    	</td>
 				<td>
-					FOR<br />
-	    			VIG
+					FOR <span title="Niveau de la caract&eacute;ristique" style="cursor:pointer">(<?=$this->user->force_base_hobbit; ?>)</span><br />
+	    			VIG <span title="Niveau de la caract&eacute;ristique" style="cursor:pointer">(<?=$this->user->vigueur_base_hobbit;  ?>)</span>
 				</td>
 				<td>
 				<?=$this->config->game->base_force + $this->user->force_base_hobbit ?> 
 		    	D<?=$this->config->game->de_force ?> 
-		    	<? if ($this->user->force_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->force_bm_hobbit ?> 
-		    	<? if ($this->user->force_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->force_bbdf_hobbit ?> <br/>
+		    	<span title="Bonus / Malus" style="cursor:pointer"><? if ($this->user->force_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->force_bm_hobbit ?></span>
+		    	<span title="Bonus / Malus Balance de faim" style="cursor:pointer"><? if ($this->user->force_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->force_bbdf_hobbit ?></span> <br/>
 	    		
 	    		<?=$this->config->game->base_vigueur + $this->user->vigueur_base_hobbit ?> 
 		    	D<?=$this->config->game->de_vigueur ?> 
-		    	<? if ($this->user->vigueur_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->vigueur_bm_hobbit ?>
-		    	<? if ($this->user->vigueur_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->vigueur_bbdf_hobbit ?>
+		    	<span title="Bonus / Malus" style="cursor:pointer"><? if ($this->user->vigueur_bm_hobbit >= 0): echo "+"; endif;?><?=$this->user->vigueur_bm_hobbit ?></span>
+		    	<span title="Bonus / Malus Balance de faim" style="cursor:pointer"><? if ($this->user->vigueur_bbdf_hobbit >= 0): echo "+"; endif;?><?=$this->user->vigueur_bbdf_hobbit ?></span>
 	    		</td>
 	    		
 	    		<td>

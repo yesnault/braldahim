@@ -26,12 +26,12 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 				$e["x_echoppe"] == $this->view->user->x_hobbit && 
 				$e["y_echoppe"] == $this->view->user->y_hobbit) {
 				$tabEchoppe = array(
-				'id_echoppe' => $e["id_echoppe"],
-				'quantite_peau_arriere_echoppe' => $e["quantite_peau_arriere_echoppe"],
-				'quantite_rondin_arriere_echoppe' => $e["quantite_rondin_arriere_echoppe"],
-				'quantite_cuir_arriere_echoppe' => $e["quantite_cuir_arriere_echoppe"],
-				'quantite_fourrure_arriere_echoppe' => $e["quantite_fourrure_arriere_echoppe"],
-				'quantite_planche_arriere_echoppe' => $e["quantite_planche_arriere_echoppe"],
+					'id_echoppe' => $e["id_echoppe"],
+					'quantite_peau_arriere_echoppe' => $e["quantite_peau_arriere_echoppe"],
+					'quantite_rondin_arriere_echoppe' => $e["quantite_rondin_arriere_echoppe"],
+					'quantite_cuir_arriere_echoppe' => $e["quantite_cuir_arriere_echoppe"],
+					'quantite_fourrure_arriere_echoppe' => $e["quantite_fourrure_arriere_echoppe"],
+					'quantite_planche_arriere_echoppe' => $e["quantite_planche_arriere_echoppe"],
 				);
 				break;
 			}
@@ -48,10 +48,10 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		
 		foreach ($laban as $p) {
 			$tabLaban = array(
-			"nb_peau" => $p["quantite_peau_laban"],
-			"nb_cuir" => $p["quantite_cuir_laban"],
-			"nb_fourrure" => $p["quantite_fourrure_laban"],
-			"nb_planche" => $p["quantite_planche_laban"],
+				"nb_peau" => $p["quantite_peau_laban"],
+				"nb_cuir" => $p["quantite_cuir_laban"],
+				"nb_fourrure" => $p["quantite_fourrure_laban"],
+				"nb_planche" => $p["quantite_planche_laban"],
 			);
 		}
 		
@@ -61,7 +61,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		if ($charrette != null && count($charrette) > 0) {
 			foreach ($charrette as $c) {
 				$tabCharrette = array(
-				"nb_rondin" => $c["quantite_rondin_charrette"],
+					"nb_rondin" => $c["quantite_rondin_charrette"],
 				);
 			}
 		}

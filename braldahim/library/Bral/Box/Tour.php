@@ -75,7 +75,6 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		Bral_Util_Log::tour()->debug(get_class($this)." date_courante=".$date_courante);
 		Bral_Util_Log::tour()->debug(get_class($this)." date fin tour=".$this->hobbit->date_fin_tour_hobbit);
 		Bral_Util_Log::tour()->debug(get_class($this)." tour position=".$this->hobbit->tour_position_hobbit);
-		
 
 		$this->is_tour_manque = false;
 		// Mise a jour du nombre de PA + position tour
