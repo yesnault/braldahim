@@ -71,7 +71,7 @@ class Bral_Competences_Assaisonner extends Bral_Competences_Competence {
 		$perte = 0.5-0.002 * ($tirage + $this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit);
 	
 		// Et arrondi ((n+1)-(n+1)*p) gigots marinés en sortie
-		$this->view->nbViandePreparee = intval($nb - $nb * $perte);
+		$this->view->nbViandePreparee = round($nb - $nb * $perte);
 		
 		$labanTable = new Laban();
 		$data = array(
