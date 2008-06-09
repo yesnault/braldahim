@@ -43,10 +43,14 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		$this->view->echoppe = $tabEchoppe;
 		
 		$tabLaban["nb_peau"] = 0;
+		$tabLaban["nb_cuir"] = 0;
+		$tabLaban["nb_fourrure"] = 0;
+		$tabLaban["nb_planche"] = 0;
 		$labanTable = new Laban();
 		$laban = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
 		
-		foreach ($laban as $p) {
+		if (count($laban) == 1) {
+			$p = $laban[0];
 			$tabLaban = array(
 				"nb_peau" => $p["quantite_peau_laban"],
 				"nb_cuir" => $p["quantite_cuir_laban"],

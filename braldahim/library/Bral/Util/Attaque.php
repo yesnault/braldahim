@@ -410,7 +410,7 @@ class Bral_Util_Attaque {
 				$details .= "";
 			}
 			
-			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);
+//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);
 			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, "", "monstre");
 		}
 		

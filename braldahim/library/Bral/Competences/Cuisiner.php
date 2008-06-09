@@ -17,7 +17,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$labanTable = new Laban();
 		$laban = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
 
-		// Le joueur tente de transformer n+1 gigots marinés ou n est son niveau de SAG
+		// Le joueur tente de transformer n+1 gigots marinÃ©s ou n est son niveau de SAG
 		$this->view->nbViandePreparee = $this->view->user->sagesse_base_hobbit + 1;
 		
 		$tabLaban = null;
@@ -64,10 +64,10 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 	}
 	
 	/*
-	 * Transforme 1 unité de viande préparée en 1D2+1 ration (conservation illimitée) 
+	 * Transforme 1 unitÃ© de viande prÃ©parÃ©e en 1D2+1 ration (conservation illimitÃ©e) 
 	 * 1 ration fait 1 repas complet. 
 	 * Un repas complet fait +80% dans la balance de faim.
-	 * Peut être utilisé partout sauf en ville
+	 * Peut Ãªtre utilisÃ© partout sauf en ville
 	 */	
 	private function calculCuisiner() {
 		Zend_Loader::loadClass("Laban");
@@ -78,17 +78,17 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		// Le joueur tente de transformer n+1 rondins ou n est son niveau de SAG
 		$nb = $this->view->nbViandePreparee;
 		
-		// A partir de la quantité choisie on a un % de perte de gigots marinés : p=0,5-0,002*(jet SAG + BM)
+		// A partir de la quantitÃ© choisie on a un % de perte de gigots marinÃ©s : p=0,5-0,002*(jet SAG + BM)
 		$tirage = 0;
-		for ($i=1; $i <= ($this->view->config->game->base_sagesse + $hobbit->sagesse_base_hobbit) ; $i++) {
+		for ($i=1; $i <= ($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit) ; $i++) {
 			$tirage = $tirage + Bral_Util_De::get_1d6();
 		}
-		$perte = 0.5-0.002 * ($tirage + $hobbit->sagesse_bm_hobbit + $hobbit->sagesse_bbdf_hobbit);
+		$perte = 0.5-0.002 * ($tirage + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit);
 	
 		// Et arrondi ((n+1)-(n+1)*p) rations en sortie
 		$this->view->nbRation = intval($nb - $nb * $perte);
 		
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "RU")) { // s'il possède une rune RU
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "RU")) { // s'il possÃ¨de une rune RU
 			$this->view->nbRation = $this->view->nbRation + 1;
 			$this->view->effetRune = true;
 		} else {

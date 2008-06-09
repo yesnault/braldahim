@@ -30,6 +30,7 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 		if ($this->view->user->balance_faim_hobbit > 100) {
 			$this->view->user->balance_faim_hobbit = 100; 
 		}
+		Bral_Util_Faim::calculBalanceFaim($this->view->user);
 		$this->majHobbit();
 	}
 

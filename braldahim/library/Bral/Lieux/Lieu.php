@@ -123,6 +123,11 @@ abstract class Bral_Lieux_Lieu {
 			'balance_faim_hobbit' => $this->view->user->balance_faim_hobbit,
 			'poids_transportable_hobbit' => $this->view->user->poids_transportable_hobbit,
 			'poids_transporte_hobbit' => $this->view->user->poids_transporte_hobbit,
+			'force_bbdf_hobbit' => $this->view->user->force_bbdf_hobbit, 
+			'agilite_bbdf_hobbit' => $this->view->user->agilite_bbdf_hobbit,
+			'vigueur_bbdf_hobbit' => $this->view->user->vigueur_bbdf_hobbit, 
+			'sagesse_bbdf_hobbit' => $this->view->user->sagesse_bbdf_hobbit,
+		
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
