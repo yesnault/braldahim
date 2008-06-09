@@ -86,7 +86,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$perte = 0.5-0.002 * ($tirage + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit);
 	
 		// Et arrondi ((n+1)-(n+1)*p) rations en sortie
-		$this->view->nbRation = intval($nb - $nb * $perte);
+		$this->view->nbRation = round($nb - $nb * $perte);
 		
 		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "RU")) { // s'il possède une rune RU
 			$this->view->nbRation = $this->view->nbRation + 1;
