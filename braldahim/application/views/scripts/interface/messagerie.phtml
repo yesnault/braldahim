@@ -4,19 +4,19 @@
  <div class="contenuC">
   <ul class="box_contenu1 textalic">
 
-<span style="cursor:pointer;" title="Nouveau Message" onClick='Javascript:_get_("/interface/load/?box=box_messagerie");'>
+<span style="cursor:pointer;" title="Messages reçus" onClick='Javascript:_get_("/interface/load/?box=box_messagerie");'>
 <img src="/public/images/uddeim/menu_inbox.gif" alt="Reçus"> Reçus
 </span> &nbsp;&nbsp;
 
-<span style="cursor:pointer;" title="Nouveau Message" onClick='Javascript:_get_("/interface/load/?box=box_messagerie&valeur_4=<?=$this->config->messagerie->message->type->envoye ?>");'>
+<span style="cursor:pointer;" title="Messages envoy&eacute;s" onClick='Javascript:_get_("/interface/load/?box=box_messagerie&valeur_4=<?=$this->config->messagerie->message->type->envoye ?>");'>
 <img src="/public/images/uddeim/menu_outbox.gif" alt="Envoy&eacute;s" border="0"> Envoy&eacute;s
 </span> &nbsp;&nbsp;
 
-<span style="cursor:pointer;" title="Nouveau Message" onClick='Javascript:_get_("/interface/load/?box=box_messagerie&valeur_4=<?=$this->config->messagerie->message->type->supprime ?>");'>
+<span style="cursor:pointer;" title="Corbeille" onClick='Javascript:_get_("/interface/load/?box=box_messagerie&valeur_4=<?=$this->config->messagerie->message->type->supprime ?>");'>
 <img src="/public/images/uddeim/menu_trashcan.gif" alt="Corbeille" border="0"> Corbeille
 </span> &nbsp;&nbsp;
 
-<span style="cursor:pointer;" title="Nouveau Message" onClick='Javascript:alert("En Développement");return;_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=liste");'>
+<span style="cursor:pointer;" title="Contacts" onClick='Javascript:alert("En Développement");return;_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=liste");'>
 <img src="/public/images/uddeim/menu_book.gif" alt="Contacts" border="0"> 
 Contacts</span> &nbsp;&nbsp;
 

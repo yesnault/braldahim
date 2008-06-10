@@ -1,14 +1,43 @@
 
 <? if ($this->information != null): ?>
+	<br>
 	<?=$this->information ?>
+	<br>
 <? else: ?>
 <br>
 <form name="myForm" id="myForm">
-	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
+	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='5'>
 	<input type='hidden' name='valeur_1' id='valeur_1' value='editer' />
 	<input type='hidden' name='valeur_2' id='valeur_2' value='' />
 	<input type='hidden' name='valeur_3' id='valeur_3' value='' />
-
+	<input type='hidden' name='valeur_4' id='valeur_4' value='' />
+	<input type='hidden' name='valeur_5' id='valeur_5' value='' />
+	
+	Nom de la liste <br>
+	Ne seront conserv&eacute;s que les chiffres et les 26 lettres de l'alphabet (minuscules et majuscules). 
+	<br>
+	<?php if(!empty($this->nomErreur)) :?>
+		<div class="message_erreur" id="message_erreur"> 
+		<?php foreach($this->nomErreur as $message) :?>
+			<?=$this->escape($message);?><br />
+		<?php endforeach; ?>
+		</div>
+	<? endif; ?>
+	<input type="text" name="nom_liste_contact" size='40' maxlength='40' id="nom_liste_contact" value="<?=$this->contactsListe["nom"] ?>">
+	<br><br>
+	
+	Description de la liste <br>
+	
+	<?php if(!empty($this->descriptionErreur)) :?>
+		<div class="message_erreur" id="message_erreur"> 
+		<?php foreach($this->descriptionErreur as $message) :?>
+			<?=$this->escape($message);?><br />
+		<?php endforeach; ?>
+		</div>
+	<? endif; ?>
+	<input type="text" name="description_liste_contact" size='60' maxlength='200' id="description_liste_contact" value="<?=$this->contactsListe["description"] ?>">
+	<br><br>
+	
 	<?php if(!empty($this->destinatairesErreur)) :?>
 		<div class="message_erreur" id="message_erreur"> 
 		<?php foreach($this->destinatairesErreur as $message) :?>
@@ -20,17 +49,26 @@
 	Le ou les destinataires doivent s'&ecirc;tre d&eacute;j&agrave; connect&eacute;s au site au moins une fois.<br>
 	Sinon, ils n'appara&icirc;tront pas dans le r&eacute;sultat de la recherche ci-dessous.<br>
 	
-	<div id='aff_valeur_2_dest' name='aff_valeur_2_dest'><?=$this->message["aff_js_destinataires"]?></div>
-	<input type="hidden" name="valeur_2_dest" id="valeur_2_dest" value="<?=$this->message["destinataires"]?>" />
-	<input type="text" name="recherche_valeur_2_dest" size='40' id="recherche_valeur_2_dest" value="Entre un nom" onFocus='this.value=""; activerRechercheHobbit("valeur_2_dest");' />
-	<input type="hidden" name="recherche_valeur_2_dest_actif" id="recherche_valeur_2_dest_actif" value="0" />
-	<div class="recherche" id="recherche_valeur_2_dest_update" ></div> <img src="/public/images/loupe.gif" />
-    <span id="indicateur_recherche_valeur_2_dest" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
+	<div id='aff_valeur_3_dest' name='aff_valeur_3_dest'><?=$this->contactsListe["aff_js_destinataires"]?></div>
+	<input type="hidden" name="valeur_3_dest" id="valeur_3_dest" value="<?=$this->contactsListe["destinataires"]?>" />
+	<input type="text" name="recherche_valeur_3_dest" size='40' id="recherche_valeur_3_dest" value="Entre un nom" onFocus='this.value=""; activerRechercheHobbit("valeur_3_dest");' />
+	<input type="hidden" name="recherche_valeur_3_dest_actif" id="recherche_valeur_3_dest_actif" value="0" />
+	<div class="recherche" id="recherche_valeur_3_dest_update" ></div> <img src="/public/images/loupe.gif" />
+    <span id="indicateur_recherche_valeur_3_dest" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
 
 <br><br>
 
 	<br>
-	<input type="button" class='button1' name="Creer" value="Cr&eacute;er" onClick="Javascript:$('nb_valeurs').value=3;$('valeur_1').value='envoi';$('valeur_2').value = $('valeur_2_dest').value;$('valeur_3').value=encodePlus($('valeur_message').value); _get_('/messagerie/doaction?caction=do_messagerie_message');" />
+	
+	<? $libelle = "Modifier"; if ($this->contactsListe["id"] == "-1"): $libelle = "Cr&eacute;er"; endif; ?>
+	<input type="button" class='button1' name="<?=$libelle ?>" value="<?=$libelle ?>" onClick="
+	Javascript:$('nb_valeurs').value=5;
+	$('valeur_1').value='editer';
+	$('valeur_2').value=<?=$this->contactsListe["id"] ?>;
+	$('valeur_3').value=$('valeur_3_dest').value;
+	$('valeur_4').value=$('nom_liste_contact').value;
+	$('valeur_5').value=$('description_liste_contact').value;
+	 _get_('/messagerie/doaction?caction=do_messagerie_contacts');this.disabled=true;" />
 	<input type="button" class='button1' name="Annuler" value="Annuler" onClick="Javascript:_get_('/messagerie/doaction?caction=do_messagerie_contacts&valeur_1=liste');" /> 
 </form>
 

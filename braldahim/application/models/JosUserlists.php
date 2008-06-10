@@ -24,7 +24,7 @@ class JosUserlists extends Zend_Db_Table {
 	}
 	
 	public function findByIdList($idList, $userId) {
-		$where = 'jos_uddeim_userlists.userid = '.intval($idList);
+		$where = 'jos_uddeim_userlists.id = '.intval($idList);
 		$where .= ' AND jos_uddeim_userlists.userid = '.intval($userId);
 		return $this->fetchRow($where);
 	}

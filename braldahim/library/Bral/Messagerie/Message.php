@@ -3,6 +3,7 @@
 class Bral_Messagerie_Message {
 
 	function __construct($request, $view, $action) {
+		Zend_Loader::loadClass('Bral_Util_Messagerie');
 		$this->view = $view;
 		$this->request = $request;
 		$this->action = $action;
@@ -83,7 +84,7 @@ class Bral_Messagerie_Message {
 		$tabHobbit["destinataires"] = "";
 		$tabHobbit["aff_js_destinataires"] = "";
 		if ($this->request->get('valeur_2') != "") {
-			$tabHobbit = $this->constructTabHobbit($filter->filter(trim($this->request->get('valeur_2'))));
+			$tabHobbit = Bral_Util_Messagerie::constructTabHobbit($filter->filter(trim($this->request->get('valeur_2'))));
 		} 
 		
 		$tabMessage = array(
@@ -97,7 +98,7 @@ class Bral_Messagerie_Message {
 	private function prepareRepondre($transferer = false) {
 		$this->prepareMessage();
 		if ($transferer == false) {	
-			$tabHobbit = $this->constructTabHobbit($this->view->message["fromid"].",", true);
+			$tabHobbit = Bral_Util_Messagerie::constructTabHobbit($this->view->message["fromid"].",", true);
 		} else {
 			$tabHobbit = array("destinataires" => "",
 				"aff_js_destinataires" => "",
@@ -125,7 +126,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 		Zend_Loader::loadClass('Zend_Filter_StripTags');
 
 		$filter = new Zend_Filter_StripTags();
-		$tabHobbit = $this->constructTabHobbit($filter->filter(trim($this->request->get('valeur_2'))));
+		$tabHobbit = Bral_Util_Messagerie::constructTabHobbit($filter->filter(trim($this->request->get('valeur_2'))));
 
 		$tabMessage = array(
 			'contenu' => stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_3'))),
@@ -172,34 +173,34 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 		}
 	}
 	
-	private function constructTabHobbit($tab_destinataires) {
-		$hobbitTable = new Hobbit();
-		$idDestinatairesTab = split(',', $tab_destinataires);
-		
-		$hobbits = $hobbitTable->findByIdFkJosUsersList($idDestinatairesTab);
-		
-		if ($hobbits == null) {
-			return null;
-		}
-			
-		$destinataires = "";
-		$aff_js_destinataires = "";
-
-		foreach($hobbits as $h) {
-			if (in_array($h["id_fk_jos_users_hobbit"],$idDestinatairesTab)) {
-				if ($destinataires == "") {
-					$destinataires = $h["id_fk_jos_users_hobbit"];
-				} else {
-					$destinataires = $destinataires.",".$h["id_fk_jos_users_hobbit"];
-				}
-				$aff_js_destinataires = '<span id="m_valeur_2_'.$h["id_hobbit"].'">'.$h["prenom_hobbit"].' '.$h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'aff_valeur_2\',\'m_valeur_2_'.$h["id_hobbit"].'\', \'valeur_2\', '.$h["id_fk_jos_users_hobbit"].')" /></span>';
-			}
-		}
-		$tab = array("destinataires" => $destinataires,
-			"aff_js_destinataires" => $aff_js_destinataires,
-		);
-		return $tab;
-	}
+//	private function constructTabHobbit($tab_destinataires, $valeur="2") {
+//		$hobbitTable = new Hobbit();
+//		$idDestinatairesTab = split(',', $tab_destinataires);
+//		
+//		$hobbits = $hobbitTable->findByIdFkJosUsersList($idDestinatairesTab);
+//		
+//		if ($hobbits == null) {
+//			return null;
+//		}
+//			
+//		$destinataires = "";
+//		$aff_js_destinataires = "";
+//
+//		foreach($hobbits as $h) {
+//			if (in_array($h["id_fk_jos_users_hobbit"],$idDestinatairesTab)) {
+//				if ($destinataires == "") {
+//					$destinataires = $h["id_fk_jos_users_hobbit"];
+//				} else {
+//					$destinataires = $destinataires.",".$h["id_fk_jos_users_hobbit"];
+//				}
+//				$aff_js_destinataires = '<span id="m_valeur_'.$valeur.'_'.$h["id_hobbit"].'">'.$h["prenom_hobbit"].' '.$h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'aff_valeur_'.$valeur.'\',\'m_valeur_'.$valeur.'_'.$h["id_hobbit"].'\', \'valeur_'.$valeur.'\', '.$h["id_fk_jos_users_hobbit"].')" /></span>';
+//			}
+//		}
+//		$tab = array("destinataires" => $destinataires,
+//			"aff_js_destinataires" => $aff_js_destinataires,
+//		);
+//		return $tab;
+//	}
 	
 	private function prepareMessage() {
 		$josUddeimTable = new JosUddeim();

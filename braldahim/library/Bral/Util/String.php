@@ -63,6 +63,24 @@ class Bral_Util_String {
 		}
 	}
 	
+	public static function isCaractereValidStrict($c) {
+		if (in_array($c, self::getTabCaractereValidStrict())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static function stripNonValideStrict($chaine) {
+		$retour = "";
+		for ($i = 0; $i< mb_strlen($chaine); $i++) {
+			if (Bral_Util_String::isCaractereValidStrict(mb_substr($chaine, $i, 1)) == true) {
+				$retour .= mb_substr($chaine, $i, 1);
+			}
+		}
+		return $retour;
+	}
+	
 	public static function getTabCaractereValid() {
 		return array(
 					'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',  'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
@@ -76,6 +94,14 @@ class Bral_Util_String {
                     'ç', 'Ç', 'æ', 'Æ', '°', '-',
                     'ñ', 'Ñ', 'ã', 'Ã',
                     ' ', 
+				);
+	}
+	
+	public static function getTabCaractereValidStrict() {
+		return array(
+					'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+			        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+					'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
 				);
 	}
 }

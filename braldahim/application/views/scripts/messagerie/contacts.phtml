@@ -22,7 +22,8 @@
 					<?=$listesContacts["description"] ?>
 					</td>
 	  				<td class="table_liste">
-							<img src="/public/images/uddeim/trash.gif" alt="Supprimer" title="Supprimer" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=supprimer&valeur_2=<?=$listesContacts["id_message"];?>");' style="cursor:pointer">
+						<img src="/public/images/uddeim/edit.gif" alt="&Eacute;diter" title="&Eacute;diter" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=voir&valeur_2=<?=$listesContacts["id"];?>");' style="cursor:pointer"> <br>
+						<img src="/public/images/uddeim/trash.gif" alt="Supprimer" title="Supprimer" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_contacts&valeur_1=supprimer&valeur_2=<?=$listesContacts["id"];?>");' style="cursor:pointer">
 					</td>
 	  			</tr>
 		  	<? endforeach; ?>
