@@ -71,7 +71,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		}
 		
 		$this->view->deposerRessourcesOk = false;
-		if ($tabLaban["nb_peau"] > 0 && $tabCharrette["nb_rondin"] > 0) {
+		if ($tabLaban["nb_peau"] > 0 || $tabCharrette["nb_rondin"] > 0) {
 			$this->view->deposerRessourcesOk = true;
 		}
 		$this->prepareCommunRessources();
