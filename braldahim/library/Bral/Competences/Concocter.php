@@ -124,8 +124,8 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 		}
 		$perte = 0.5-0.002 * ($tirage + $hobbit->agilite_bm_hobbit + $hobbit->agilite_bbdf_hobbit);
 	
-		// Et arrondi ((n+1)-(n+1)*p) plantes pr�par�es en sortie
-		$this->view->nbPartiesPlantesPreparees = intval($nb - $nb * $perte);
+		// Et arrondi ((n+1)-(n+1)*p) plantes préparées en sortie
+		$this->view->nbPartiesPlantesPreparees = round($nb - $nb * $perte);
 			
 		$echoppePlanteTable = new EchoppePartieplante();
 		$data = array(

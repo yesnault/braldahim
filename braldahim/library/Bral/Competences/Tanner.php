@@ -103,7 +103,7 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 		$perte = 0.5-0.002 * ($tirage + $hobbit->force_bm_hobbit + $hobbit->force_bbdf_hobbit);
 	
 		// Et arrondi ((n+1)-(n+1)*p) cuir en sortie
-		$quantite = intval(($nb - $nb * $perte) / 2);
+		$quantite = round(($nb - $nb * $perte) / 2);
 		
 		if ($cuir) {
 			$quantiteCuir = $quantite;

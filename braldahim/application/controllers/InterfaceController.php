@@ -10,9 +10,11 @@ class InterfaceController extends Zend_Controller_Action {
 		if (!Zend_Auth::getInstance()->hasIdentity() && ($this->_request->action == 'index')) {
 			$this->_redirect('/auth/logout');
 		} else if (!Zend_Auth::getInstance()->hasIdentity() 
-			|| ($this->_request->action != 'index' && $this->view->user->initialCall == false && $this->_request->get("dateAuth") != $this->view->user->dateAuth)
+			|| ($this->_request->action != 'index' && 
+				$this->view->user->initialCall == false && 
+				$this->_request->get("dateAuth") != $this->view->user->dateAuth)
 			|| !isset($this->view->user) || !isset($this->view->user->email_hobbit)) {
-			$this->_redirect('/auth/logoutajax');
+				$this->_redirect('/auth/logoutajax');
 		} else {
 			Zend_Loader::loadClass('Bral_Util_BralSession');
 			if (Bral_Util_BralSession::refreshSession() == false) {

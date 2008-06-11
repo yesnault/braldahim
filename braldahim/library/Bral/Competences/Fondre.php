@@ -111,13 +111,13 @@ class Bral_Competences_Fondre extends Bral_Competences_Competence {
 		
 		// A partir de la quantité choisie on a un % de perte de minerai : p=0,5-0,002*(jet VIG + BM)
 		$tirage = 0;
-		for ($i=1; $i <= ($this->view->config->game->base_vigueur + $hobbit->vigueur_base_hobbit) ; $i++) {
+		for ($i=1; $i <= ($this->view->config->game->base_vigueur + $this->view->user->vigueur_base_hobbit) ; $i++) {
 			$tirage = $tirage + Bral_Util_De::get_1d6();
 		}
-		$perte = 0.5-0.002 * ($tirage + $hobbit->vigueur_bm_hobbit + $hobbit->vigueur_bbdf_hobbit);
+		$perte = 0.5-0.002 * ($tirage + $this->view->user->vigueur_bm_hobbit + $this->view->user->vigueur_bbdf_hobbit);
 	
 		// Et arrondi ((n+1)-(n+1)*p) lingots en sortie
-		$this->view->nbLingots = intval($nb - $nb * $perte);
+		$this->view->nbLingots = round($nb - $nb * $perte);
 		
 		$echoppeMineraiTable = new EchoppeMinerai();
 		$data = array(
