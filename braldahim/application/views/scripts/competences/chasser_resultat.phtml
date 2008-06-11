@@ -4,7 +4,7 @@
 	Jet de Chasse : <?=$this->jetChasse ?> (pour <?=$this->tauxReussite ?> %) <br /><br />
 	<? if ($this->jetChasseOk === true) : ?>
 		
-		<? if ($this->nbViande > 0 && $this->nbPeau > 0) : ?>
+		<? if ($this->nbViande > 0 || $this->nbPeau > 0) : ?>
 			Vous avez r&eacute;ssi votre jet de chasse. <br />
 			Vous avez r&eacute;cup&eacute;r&eacute; : <br />
 			Viande : <?=$this->nbViande ?><br />

@@ -95,26 +95,25 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 	
 	/*
 	 * La quantité de viande et de peau trouvée est fonction du niveau d'AGILITE du chasseur.
-	 * de 0 à 4 : 1D3 unité de viande + 1D2 unité de peau
-	 * de 5 à 9 : 1D3+1 unité de viande + 1D2+1 unité de peau
-	 * de 10 à 14 :1D3+2 unité de viande + 1D2+2 unité de peau
-	 * de 15 à 19 : 1D3+3 unité de viande + 1D2+3 unité de peau
+	 * de 0 à 4 : 1D3 + BM AGI/2 unité de viande + 1D3 + BM AGI/2 unité de peau
+	 * de 5 à 9 : 2D3 + BM AGI/2 unité de viande + 2D3 + BM AGI/2 unité de peau
+	 * de 10 à 14 :3D3 + BM AGI/2 unité de viande + 3D3 + BM AGI/2 unité de peau
+	 * de 15 à 19 : 4D3 + BM AGI/2 unité de viande + 4D3 + BM AGI/2 unité de peau
 	 */
 	private function calculChasse() {
 		$this->view->nbViande = 0;
 		$this->view->nbPeau = 0;
 		
-		$n = Bral_Util_De::get_1d3();
-		$this->view->nbViande = $n + floor($this->view->user->agilite_base_hobbit / 5);
-		
+		$nb = floor($this->view->user->agilite_base_hobbit / 5) + 1;
+		$this->view->nbViande = Bral_Util_De::getLanceDeSpecifique($nb, 1, 3);
 		$this->view->nbViande  = $this->view->nbViande  + ($this->view->user->agilite_bm_hobbit + $this->view->user->agilite_bbdf_hobbit) / 2 ;
 		$this->view->nbViande  = intval($this->view->nbViande);
 		if ($this->view->nbViande < 0) {
 			$this->view->nbViande  = 0;
 		}
 		
-		$n = Bral_Util_De::get_1d2();
-		$this->view->nbPeau = $n + floor($this->view->user->agilite_base_hobbit / 5);
+		$nb = floor($this->view->user->agilite_base_hobbit / 5) + 1;
+		$this->view->nbPeau = Bral_Util_De::getLanceDeSpecifique($nb, 1, 3);
 		
 		$this->view->nbPeau  = $this->view->nbPeau  + ($this->view->user->agilite_bm_hobbit + $this->view->user->agilite_bbdf_hobbit) / 2 ;
 		$this->view->nbPeau  = intval($this->view->nbPeau);

@@ -55,6 +55,15 @@ class Bral_Util_De {
 		return $n;
 	}
 	
+	public static function getLanceDeSpecifique($n, $a, $b) {
+		$retour = 0;
+		for ($i = 1; $i <= $n; $i++) {
+			$retour = $retour + self::get_de_specifique($a, $b);
+		}
+		
+		return $retour;
+	}
+	
 	public static function get_de_specifique($a, $b) {
 		if (!is_int(intval($a))) {
 			throw new Exception("De::get_de_specifique : a invalides : ".$a);
