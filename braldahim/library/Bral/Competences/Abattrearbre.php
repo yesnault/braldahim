@@ -95,7 +95,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		$this->view->effetRune = false;
 		
 		$nb = floor($this->view->user->vigueur_base_hobbit / 5) + 1;
-		$this->view->nbViande = Bral_Util_De::getLanceDeSpecifique($nb, 1, 3);
+		$this->view->nbRondins = Bral_Util_De::getLanceDeSpecifique($nb, 1, 3);
 		
 		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "VA")) { // s'il possède une rune VA
 			$this->view->effetRune = true;
