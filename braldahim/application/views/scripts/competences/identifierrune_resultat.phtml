@@ -4,7 +4,7 @@
 		<? if ($this->identificationReussieOk === true): ?>
 			Vous avez r&eacute;ussi &agrave; identifier la rune n&deg; <?=$this->rune["id_rune"] ?><br />
 			<? if ($this->rune["image"] != ""): ?>
-    			<img src="<?=$this->rune["image"]?>" title="<?=$this->rune["type"]?> (<?=$this->rune["id_rune"]?>)" />
+    			<img src="/public/images/runes/<?=$this->rune["image"]?>" title="<?=$this->rune["type"]?> (<?=$this->rune["id_rune"]?>)" />
 	   		<? endif; ?>
 		<? else: ?>
 			Vous avez manqu&eacute; votre identification<br />
