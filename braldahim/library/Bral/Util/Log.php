@@ -2,7 +2,7 @@
 
 /**
  * Ecriture de Log.
- * Les logs sont paramétrés dans le fichier de configuration.
+ * Les logs sont paramÃ©trÃ©s dans le fichier de configuration.
  */
 class Bral_Util_Log {
 	private static $instance = null;

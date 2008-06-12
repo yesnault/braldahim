@@ -6,10 +6,12 @@ class CompetencesController extends Zend_Controller_Action {
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		if (!Zend_Auth::getInstance()->hasIdentity() || $this->_request->get("dateAuth") != $this->view->user->dateAuth ) {
+			Bral_Util_Log::tech()->warn("CompetencesController - logoutajax 1 - dateAuth=".$this->_request->get("dateAuth") . " dateAuth2=".$this->view->user->dateAuth);
 			$this->_redirect('/auth/logoutajax');
 		} else {
 			Zend_Loader::loadClass('Bral_Util_BralSession');
 			if (Bral_Util_BralSession::refreshSession() == false) {
+				Bral_Util_Log::tech()->warn("CompetencesController - logoutajax 2");
 				$this->_redirect('/auth/logoutajax');
 			} 
 		}
