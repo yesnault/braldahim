@@ -14,7 +14,12 @@ class InterfaceController extends Zend_Controller_Action {
 				$this->view->user->initialCall == false && 
 				$this->_request->get("dateAuth") != $this->view->user->dateAuth)
 			|| !isset($this->view->user) || !isset($this->view->user->email_hobbit)) {
-				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1 action=".$this->_request->action. " initialCall=".$this->view->user->initialCall. " dateAuth=".$this->_request->get("dateAuth"). " dateAuth2=".$this->view->user->dateAuth);
+				if (!Zend_Auth::getInstance()->hasIdentity() ) {
+					Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1A - Session perdue");
+				} else {
+					Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1B action=".$this->_request->action. " initialCall=".$this->view->user->initialCall. " dateAuth=".$this->_request->get("dateAuth"). " dateAuth2=".$this->view->user->dateAuth);
+				}
+				
 				$this->_redirect('/auth/logoutajax');
 				
 		} else {
