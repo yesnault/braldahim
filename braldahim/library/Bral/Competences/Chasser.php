@@ -176,6 +176,14 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 				break;
 			}
 		}
+		if ($this->view->nbPeau <= 0) {
+			$this->view->nbPeau = 0;
+		}
+		
+		if ($this->view->nbViande <= 0) {
+			$this->view->nbViande = 0;
+		}
+		
 		if ($this->view->nbPeau <= 0 && $this->view->nbViande <= 0) {
 			$this->view->nbPeau = 1;
 		}

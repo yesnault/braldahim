@@ -49,6 +49,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		
 		$this->calculPx();
 		$this->calculBalanceFaim();
+		$this->calculPoids();
 		$this->majHobbit();
 	}
 	
@@ -59,8 +60,6 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 	 */
 	private function calculManger() {
 		Zend_Loader::loadClass("Laban");
-		
-		$this->view->nbRation = Bral_Util_De::get_1d2() + 1;
 		
 		$labanTable = new Laban();
 		$data = array(

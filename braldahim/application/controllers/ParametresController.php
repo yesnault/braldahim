@@ -29,6 +29,16 @@ class ParametresController extends Zend_Controller_Action {
 	}
 
 	function descriptionAction() {
+		Zend_Loader::loadClass('Zend_Filter');
+		Zend_Loader::loadClass('Zend_Filter_StripTags');
+		Zend_Loader::loadClass('Zend_Filter_StringTrim');
+	
+		$filter = new Zend_Filter();
+		$filter->addFilter(new Zend_Filter_StringTrim())
+		->addFilter(new Zend_Filter_StripTags());
+		
+		$valeur = stripslashes($filter->filter($this->_request->getPost("valeur_2")));
+			
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 		$hobbit = $hobbitRowset->current();
@@ -37,7 +47,7 @@ class ParametresController extends Zend_Controller_Action {
 			$controle = $this->_request->getPost("valeur_1");
 			
 			if ($controle == 2) {
-				$valeur = $this->_request->getPost("valeur_2");
+				//$valeur = $this->_request->getPost("valeur_2");
 				$data = array(
 					'description_hobbit' => $valeur,
 				);

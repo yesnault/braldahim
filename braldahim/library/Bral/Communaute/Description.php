@@ -75,7 +75,17 @@ class Bral_Communaute_Description extends Bral_Communaute_Communaute {
 	}
 	
 	private function updateDescription() {
-		$champ = Bral_Util_BBParser::bbcodeStripPlus($this->_request->getPost("valeur_3"));
+		Zend_Loader::loadClass('Zend_Filter');
+		Zend_Loader::loadClass('Zend_Filter_StripTags');
+		Zend_Loader::loadClass('Zend_Filter_StringTrim');
+	
+		$filter = new Zend_Filter();
+		$filter->addFilter(new Zend_Filter_StringTrim())
+		->addFilter(new Zend_Filter_StripTags());
+		
+		$valeur = stripslashes($filter->filter($this->_request->getPost("valeur_3")));
+		
+		$champ = Bral_Util_BBParser::bbcodeStripPlus($valeur);
 		
 		$communauteTable = new Communaute();
 		$data = array("description_communaute" => $champ);
