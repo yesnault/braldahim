@@ -26,7 +26,19 @@
 	<input type="hidden" name="recherche_valeur_2_dest_actif" id="recherche_valeur_2_dest_actif" value="0" />
 	<div class="recherche" id="recherche_valeur_2_dest_update" ></div> <img src="/public/images/loupe.gif" />
     <span id="indicateur_recherche_valeur_2_dest" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
-
+	
+	<? if ($this->listesContacts != null) :?>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		Contacts
+		<select name="contacts_liste">
+			<option value="-1">EN DEVELOPPEMENT</option>
+			<? foreach($this->listesContacts as $c) :?>
+				<option value="<?=$c["id"] ?>"><?=$c["nom"] ?></option>
+			<? endforeach; ?>
+		</select>
+	
+	<? endif; ?>
+	
 <br><br>
 
 	<?=Bral_Helper_BBBoutons::affiche('valeur_message')?>

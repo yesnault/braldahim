@@ -22,9 +22,9 @@ class Bral_Messagerie_Contacts {
 			case "editer" :
 			case "voir" :
 			case "nouveau" :
+			case "supprimer" :
 				return $this->view->render("messagerie/contact.phtml");
 				break;
-			case "supprimer" :
 			case "liste" :
 				return $this->view->render("messagerie/contacts.phtml");
 				break;
@@ -58,21 +58,7 @@ class Bral_Messagerie_Contacts {
 	}
 
 	private function prepareListe() {
-		$josUserlistsTable = new JosUserlists();
-		$listesContacts = $josUserlistsTable->findByUserId($this->view->user->id_fk_jos_users_hobbit);
-		
-		$tabListes = null;
-		if ($listesContacts != null && count($listesContacts) > 0) {
-			$idsHobbit = null;
-			foreach($listesContacts as $l) {
-				$tabListes[] = array(
-					'id' => $l["id"],
-					'nom' => $l["name"],
-					'description' => $l["description"]
-				);
-			}
-		}
-		$this->view->listesContacts = $tabListes;
+		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_fk_jos_users_hobbit);
 	}
 	
 	private function prepareNouveau() {
@@ -113,7 +99,7 @@ class Bral_Messagerie_Contacts {
 		$destinataires = $filter->filter(trim($this->request->get('valeur_3')));
 		$nom = $filter->filter(trim($this->request->get('valeur_4')));
 		$nom = Bral_Util_String::stripNonValideStrict($nom);
-		$description = $filter->filter(trim($this->request->get('valeur_5')));
+		$description = stripslashes($filter->filter(trim($this->request->get('valeur_5'))));
 			
 		$validateurDestinataires = new Bral_Validate_Messagerie_Destinataires(true);
 		$validateurNom = new Bral_Validate_StringLength(1, 40);
@@ -206,4 +192,17 @@ class Bral_Messagerie_Contacts {
 		return $contactsListe;
 	}
 	
+	private function prepareSupprimer() {
+		Zend_Loader::loadClass('Zend_Filter_StripTags');
+		$filter = new Zend_Filter_StripTags();
+		
+		$josUserlistsTable = new JosUserlists();
+		Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_2'));
+		$id = $filter->filter(trim($this->request->get('valeur_2')));
+		
+		$where = " userid = ". $this->view->user->id_fk_jos_users_hobbit; // secu
+		$where .= " AND id=".intval($id);
+		$josUserlistsTable->delete($where);
+		$this->view->information = "La liste est supprimée";
+	}
 }

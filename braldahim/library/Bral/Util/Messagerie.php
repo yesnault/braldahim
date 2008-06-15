@@ -35,4 +35,24 @@ class Bral_Util_Messagerie {
 		);
 		return $tab;
 	}
+	
+	public static function prepareListe($id_fk_jos_users_hobbit) {
+		Zend_Loader::loadClass("JosUserlists");
+		$josUserlistsTable = new JosUserlists();
+		$listesContacts = $josUserlistsTable->findByUserId($id_fk_jos_users_hobbit);
+		
+		$tabListes = null;
+		if ($listesContacts != null && count($listesContacts) > 0) {
+			$idsHobbit = null;
+			foreach($listesContacts as $l) {
+				$tabListes[] = array(
+					'id' => $l["id"],
+					'nom' => $l["name"],
+					'description' => $l["description"]
+				);
+			}
+		}
+		
+		return $tabListes;
+	}
 }

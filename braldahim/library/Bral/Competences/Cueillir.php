@@ -158,12 +158,14 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			}
 		}
 		
+		$nbCueillette = 0;
 		// reussite, on met dans le laban
 		if ($this->view->okJet1 === true) {
 			$labanPartiePlanteTable = new LabanPartieplante();
 	
 			for ($i=1; $i<=4; $i++) {
 				if ($cueillette[$i]["quantite"] > 0) {
+					$nbCueillette = $nbCueillette + $cueillette[$i]["quantite"];
 					$data = array(
 						'id_fk_type_laban_partieplante' => $cueillette[$i]["id_fk"],
 						'id_fk_type_plante_laban_partieplante' => $cueillette[$i]["id_type_plante"],
@@ -193,7 +195,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		}
 
 		$this->view->cueillette = $cueillette;
-		$this->view->nbCueillette = count($cueillette);
+		$this->view->nbCueillette = $nbCueillette;
 		$this->view->planteDetruite = $planteADetruire;
 		$this->view->plante = $plante;
 			

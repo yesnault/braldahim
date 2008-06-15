@@ -18,7 +18,8 @@ class JosUserlists extends Zend_Db_Table {
 		$select = $db->select();
 		
 		$select->from('jos_uddeim_userlists', '*')
-		->where('jos_uddeim_userlists.userid = '.intval($userId));
+		->where('jos_uddeim_userlists.userid = '.intval($userId))
+		->order('jos_uddeim_userlists.name');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
