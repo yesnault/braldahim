@@ -108,7 +108,11 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 	}
 
 	private function calculCoutCastars() {
-		return 50;
+		if ($this->view->user->pi_hobbit < 50) {
+			return $this->view->user->pi_hobbit;
+		} else {
+			return 50;
+		}
 	}
 
 	private function calculCoutAmelioration($niveau) {
