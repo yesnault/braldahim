@@ -29,4 +29,42 @@ class JosUserlists extends Zend_Db_Table {
 		$where .= ' AND jos_uddeim_userlists.userid = '.intval($userId);
 		return $this->fetchRow($where);
 	}
+	
+	public function findByIdsList($listIds, $userId) {
+		return $this->findByList("jos_uddeim_userlists.id", $listIds, $userId);
+	}
+	
+	private function findByList($nomChamp, $listIds, $userId) {
+		$liste = "";
+		if (count($listIds) < 1) {
+			$liste = "";
+		} else {
+			foreach($listIds as $id) {
+				if ((int) $id."" == $id."") {
+					if ($liste == "") {
+						$liste = $id;
+					} else {
+						$liste = $liste." OR ".$nomChamp."=".$id;
+					}
+				}
+			}
+		}
+		
+		if ($liste != "") {
+			$liste = $liste . ' AND jos_uddeim_userlists.userid = '.intval($userId);
+		} else {
+			$liste = 'jos_uddeim_userlists.userid = '.intval($userId);
+		}
+		
+		if ($liste != "") {
+			$db = $this->getAdapter();
+			$select = $db->select();
+			$select->from('jos_uddeim_userlists', '*')
+			->where($nomChamp .'='. $liste);
+			$sql = $select->__toString();
+			return $db->fetchAll($sql);
+		} else {
+			return null;
+		}
+	}
 }

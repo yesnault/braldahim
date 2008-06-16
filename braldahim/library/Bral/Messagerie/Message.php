@@ -91,6 +91,8 @@ class Bral_Messagerie_Message {
 			'contenu' => "",
 			'destinataires' => $tabHobbit["destinataires"],
 			'aff_js_destinataires' => $tabHobbit["aff_js_destinataires"],
+			'contacts' => "",
+			'aff_js_contacts' => "",
 		);
 		$this->view->message = $tabMessage;
 		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_fk_jos_users_hobbit);
@@ -114,9 +116,11 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 ".$this->view->message["titre"];
 		
 		$tabMessage = array(
-			'contenu' => $contenu,
-			'destinataires' => $tabHobbit["destinataires"],
-			'aff_js_destinataires' => $tabHobbit["aff_js_destinataires"],
+			"contenu" => $contenu,
+			"destinataires" => $tabHobbit["destinataires"],
+			"aff_js_destinataires" => $tabHobbit["aff_js_destinataires"],
+			"contacts" => "",
+			"aff_js_contacts" => "",
 		);
 		$this->view->message = $tabMessage;
 		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_fk_jos_users_hobbit);
@@ -129,11 +133,15 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 
 		$filter = new Zend_Filter_StripTags();
 		$tabHobbit = Bral_Util_Messagerie::constructTabHobbit($filter->filter(trim($this->request->get('valeur_2'))));
+		
+		$tabContacts = Bral_Util_Messagerie::constructTabContacts($filter->filter(trim($this->request->get('valeur_4'))), $this->view->user->id_fk_jos_users_hobbit);
 
 		$tabMessage = array(
 			'contenu' => stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_3'))),
 			'destinataires' => $tabHobbit["destinataires"],
 			'aff_js_destinataires' => $tabHobbit["aff_js_destinataires"],
+			"contacts" => $tabContacts["contacts"],
+			"aff_js_contacts" => $tabContacts["aff_js_contacts"],
 		);
 		$this->view->message = $tabMessage;
 
@@ -149,6 +157,23 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 			$idDestinatairesTab = split(',', $this->view->message["destinataires"]);
 			foreach ($idDestinatairesTab as $id_fk_jos_users_hobbit) {
 			
+				$data = array (
+					'fromid' => $this->view->user->id_fk_jos_users_hobbit,
+					'toid' => $id_fk_jos_users_hobbit,
+					'message' => $tabMessage["contenu"],
+					'datum' => time(),
+					'toread' => 0,
+					'totrash' => 0,
+					'totrashoutbox' => 0,
+					'disablereply' => 0,
+					'archived' => 0,
+					'cryptmode' => 0,
+				);
+				$josUddeimTable->insert($data);
+			}
+			
+			$idContactsTab = split(',', $this->view->message["contacts"]);
+			foreach ($idContactsTab as $id_fk_jos_users_hobbit) {
 				$data = array (
 					'fromid' => $this->view->user->id_fk_jos_users_hobbit,
 					'toid' => $id_fk_jos_users_hobbit,

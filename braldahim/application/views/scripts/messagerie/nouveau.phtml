@@ -8,6 +8,7 @@
 	<input type='hidden' name='valeur_1' id='valeur_1' value='envoi' />
 	<input type='hidden' name='valeur_2' id='valeur_2' value='' />
 	<input type='hidden' name='valeur_3' id='valeur_3' value='' />
+	<input type='hidden' name='valeur_4' id='valeur_4' value='' />
 
 	<?php if(!empty($this->destinatairesErreur)) :?>
 		<div class="message_erreur" id="message_erreur"> 
@@ -22,6 +23,11 @@
 	
 	<div id='aff_valeur_2_dest' name='aff_valeur_2_dest'><?=$this->message["aff_js_destinataires"]?></div>
 	<input type="hidden" name="valeur_2_dest" id="valeur_2_dest" value="<?=$this->message["destinataires"]?>" />
+	
+	<div id='aff_valeur_4_contacts' name='aff_valeur_4_contacts'><?=$this->message["aff_js_contacts"]?></div>
+	<input type="hidden" name="valeur_4_contacts" id="valeur_4_contacts" value="<?=$this->message["contacts"]?>" />
+	
+	
 	<input type="text" name="recherche_valeur_2_dest" size='40' id="recherche_valeur_2_dest" value="Entre un nom" onFocus='this.value=""; activerRechercheHobbit("valeur_2_dest");' />
 	<input type="hidden" name="recherche_valeur_2_dest_actif" id="recherche_valeur_2_dest_actif" value="0" />
 	<div class="recherche" id="recherche_valeur_2_dest_update" ></div> <img src="/public/images/loupe.gif" />
@@ -30,7 +36,8 @@
 	<? if ($this->listesContacts != null) :?>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		Contacts
-		<select name="contacts_liste">
+		<select name="contacts_liste" 
+				onChange="makeJsListeAvecSupprimer('valeur_4_contacts', this.options[this.selectedIndex].text, this.value, null);">
 			<option value="-1">EN DEVELOPPEMENT</option>
 			<? foreach($this->listesContacts as $c) :?>
 				<option value="<?=$c["id"] ?>"><?=$c["nom"] ?></option>
@@ -48,7 +55,7 @@
 	
 	<br>
 	<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="2500" type="text"> Caract&egrave;res restants<br>
-	<input type="button" class='button1' name="Envoyer" value="Envoyer" onClick="Javascript:$('nb_valeurs').value=3;$('valeur_1').value='envoi';$('valeur_2').value = $('valeur_2_dest').value;$('valeur_3').value=encodePlus($('valeur_message').value); _get_('/messagerie/doaction?caction=do_messagerie_message');" /> 
+	<input type="button" class='button1' name="Envoyer" value="Envoyer" onClick="Javascript:$('nb_valeurs').value=3;$('valeur_1').value='envoi';$('valeur_2').value = $('valeur_2_dest').value;$('valeur_3').value=encodePlus($('valeur_message').value);$('valeur_4').value = $('valeur_4_contacts').value; _get_('/messagerie/doaction?caction=do_messagerie_message');" /> 
 </form>
 
 <? endif; ?>
