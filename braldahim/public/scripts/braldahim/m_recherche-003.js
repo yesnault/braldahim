@@ -13,40 +13,50 @@ function getSelectionId(text, li) {
 		alert("Votre session a expiré, veuillez vous reconnecter.");
 		document.location.href = "/";
 	}
-	
-	if ($(li.getAttribute('champ')).value == '') {
-		$(li.getAttribute('champ')).value = li.getAttribute('id_fk_jos_users_hobbit');
-	} else {
-		$(li.getAttribute('champ')).value = $(li.getAttribute('champ')).value + ',' + li.getAttribute('id_fk_jos_users_hobbit');
-	}
 
-	var contenu = window.document.createElement('span');
-	contenu.name = 'm_' + li.getAttribute('champ') + '_' + li.getAttribute('id_fk_jos_users_hobbit');
-	var texte = li.getAttribute('valeur') + ' (' + li.getAttribute('id_hobbit') + ') ' + ' <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'' + 'aff_'
-			+ li.getAttribute('champ') + '\',\'' + contenu.name + '\', \'' + li.getAttribute('champ') + '\', ' + li.getAttribute('id_fk_jos_users_hobbit') + ')" />';
-	contenu.id = contenu.name;
-	contenu.innerHTML = texte;
-	$('aff_' + li.getAttribute('champ')).appendChild(contenu);
-	$('recherche_' + li.getAttribute('champ')).value = '';
+	makeJsListeAvecSupprimer(li.getAttribute('champ'), li.getAttribute('valeur'), li.getAttribute('id_fk_jos_users_hobbit'), li.getAttribute('id_hobbit'));
+	$('recherche_' + champ).value = '';
 }
 
-function supprimerElement(id_conteneur, id_contenu, id_champ, valeur) {
-	$(id_conteneur).removeChild($(id_contenu));
-	var tab_valeur = $(id_champ).value.split(',');
-	var nouvelle_valeur = '';
+function makeJsListeAvecSupprimer(champ, valeur, idJos, idHobbit) {
+	if ($(champ).value == '') {
+		$(champ).value = idJos;
+	} else {
+		$(champ).value = $(champ).value + ',' + idJos;
+	}
+	
+	var contenu = window.document.createElement('span');
+	contenu.name = 'm_' + champ + '_' + idJos;
+	
+	var texte = valeur;
+	if (idHobbit != null) {
+		texte = texte + ' (' + idHobbit + ') ';
+	}
+	texte = texte + ' <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'' + 'aff_' + champ + '\'';
+	texte = texte + ',\'' + contenu.name + '\', \'' + champ + '\', ' + idJos + ')" />';
+	
+	contenu.id = contenu.name;
+	contenu.innerHTML = texte;
+	$('aff_' + champ).appendChild(contenu);
+}
 
-	for (i = 0; i < tab_valeur.length; i++) {
-		if (tab_valeur[i] != valeur) {
-			if (tab_valeur[i] != "") {
-				if (nouvelle_valeur == "") {
-					nouvelle_valeur = tab_valeur[i];
+function supprimerElement(idConteneur, idContenu, idChamp, valeur) {
+	$(idConteneur).removeChild($(idContenu));
+	var tabValeur = $(idChamp).value.split(',');
+	var nouvelleValeur = '';
+
+	for (i = 0; i < tabValeur.length; i++) {
+		if (tabValeur[i] != valeur) {
+			if (tabValeur[i] != "") {
+				if (nouvelleValeur == "") {
+					nouvelleValeur = tabValeur[i];
 				} else {
-					nouvelle_valeur = nouvelle_valeur + ',' + tab_valeur[i];
+					nouvelleValeur = nouvelleValeur + ',' + tabValeur[i];
 				}
 			}
 		}
 	}
-	$(id_champ).value = nouvelle_valeur;
+	$(idChamp).value = nouvelleValeur;
 }
 
 function ajouterAuContenu(idsource, iddestination) {
@@ -56,3 +66,4 @@ function ajouterAuContenu(idsource, iddestination) {
 		$(iddestination).value = $(iddestination).value + ', ' + $(idsource).value;
 	}
 }
+
