@@ -171,7 +171,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 		if ($poidsRestant < 0) $poidsRestant = 0;
 		
-		$this->view->nbElementPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_VIANDE);
+		$this->view->nbElementPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_PEAU);
 		
 		if ($this->view->nbElementPossible < 1) {
 			$this->view->poidsPlaceDisponible = false;
