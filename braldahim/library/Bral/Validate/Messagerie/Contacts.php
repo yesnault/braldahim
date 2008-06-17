@@ -1,11 +1,12 @@
 <?php
 require_once 'Zend/Validate/Interface.php';
 
-class Bral_Validate_Messagerie_Destinataires implements Zend_Validate_Interface {
+class Bral_Validate_Messagerie_Contacts implements Zend_Validate_Interface {
 	protected $_messages = array();
 	
-	public function __construct($estObligatoire) {
+	public function __construct($estObligatoire, $idFkJosUsersHobbit) {
 		$this->estObligatoire = $estObligatoire;
+		$this->idFkJosUsersHobbit = $idFkJosUsersHobbit;
 	}
 	
 	public function isValid($valeur) {
@@ -23,11 +24,10 @@ class Bral_Validate_Messagerie_Destinataires implements Zend_Validate_Interface 
 		}
 
 		if (mb_strlen($valeur) > 30) {
-			$this->_messages[] = "Trop de Hobbit destinataires";
+			$this->_messages[] = "Trop de Contacts destinataires";
 			$valid = false;
 		}
 		
-		//  TODO A MODIFIER avec split
 		if ($valid) {
 			if (!preg_match_all('`^([[:digit:]]+(,|[[:space:]])*)+$`',$valeur, $matches)) {
 				$this->_messages[] = "Ce champ contient des caractères invalides";
@@ -35,17 +35,27 @@ class Bral_Validate_Messagerie_Destinataires implements Zend_Validate_Interface 
 			}
 		}
 		
+		Zend_Loader::loadClass('JosUserlists');
+		$josUserListsTable = new JosUserlists();
+		$idContactsTab = split(',', $valeur);
+		$josUserLists = $josUserListsTable->findByIdsList($idContactsTab, $this->idFkJosUsersHobbit);
+		
 		if ($valid) {
-			$hobbitTable = new Hobbit();
-			foreach ($matches[0] as $id) {
-				$r = $hobbitTable->findByIdFkJosUsers(trim($id));
-				if ($r == null || count($r) == 0) {
-					$this->_messages[] = "Le hobbit est inconnu";
+			foreach ($idContactsTab as $id) {
+				$trouve = false;
+				
+				foreach($josUserLists as $j) {
+					if ($j["id"] == $id) {
+						$trouve = true;
+					}
+				}
+				if ($trouve == false) {
+					$this->_messages[] = "Ce contact est inconnu ". $j["name"];
 					$valid = false;
 				}
 			}
 		}
-
+		
 		return $valid;
 	}
 

@@ -36,35 +36,50 @@ class Bral_Util_Messagerie {
 		return $tab;
 	}
 	
-	public static function constructTabContacts($tabContacts, $idFkJosUsersHobbit, $valeur = "valeur_4") {
+	public static function constructTabContacts($tabContacts, $idFkJosUsersHobbit, $valeur = "valeur_4_contacts") {
 		Zend_Loader::loadClass('JosUserlists');
+		
+		$tab = array("contacts" => "", "aff_js_contacts" => "", "userids" => "");
+		
+		if ($tabContacts == null || $tabContacts == "") {
+			return $tab;
+		}
+		
 		$josUserListsTable = new JosUserlists();
 		$idContactsTab = split(',', $tabContacts);
 		
-		$hobbits = $josUserListsTable->findByIdsList($idContactsTab, $idFkJosUsersHobbit);
+		$contactsTab = $josUserListsTable->findByIdsList($idContactsTab, $idFkJosUsersHobbit);
 		
-		if ($hobbits == null) {
-			return null;
+		if ($contactsTab == null) {
+			return $tab;
 		}
 			
 		$contacts = "";
 		$aff_js_contacts = "";
-
-		foreach($hobbits as $h) {
-			if (in_array($h["id_fk_jos_users_hobbit"], $idContactsTab)) {
+		$userIds = "";
+		
+		foreach($contactsTab as $c) {
+			if (in_array($c["id"], $idContactsTab)) {
 				if ($contacts == "") {
-					$contacts = $h["id_fk_jos_users_hobbit"];
+					$contacts = $c["id"];
 				} else {
-					$contacts = $contacts.",".$h["id_fk_jos_users_hobbit"];
+					$contacts = $contacts.",".$c["id"];
 				}
-				$aff_js_contacts .= '<span id="m_'.$valeur.'_'.$h["id_hobbit"].'">';
-				$aff_js_contacts .= $h["prenom_hobbit"].' '.$h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" ';
-				$aff_js_contacts .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'_dest\',\'m_'.$valeur.'_'.$h["id_hobbit"].'\', \''.$valeur.'_dest\', '.$h["id_fk_jos_users_hobbit"].')" />';
+				$aff_js_contacts .= '<span id="m_'.$valeur.'_'.$c["id"].'">';
+				$aff_js_contacts .= $c["name"]. ' <img src="/public/images/supprimer.gif" ';
+				$aff_js_contacts .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'\',\'m_'.$valeur.'_'.$c["id"].'\', \''.$valeur.'\', '.$c["id"].')" />';
 				$aff_js_contacts .= '</span>';
 			}
+			
+			if ($userIds != "") {
+				$userIds .= ",";
+			}
+			$userIds .= $c["userids"];
 		}
+		
 		$tab = array("contacts" => $contacts,
 			"aff_js_contacts" => $aff_js_contacts,
+			"userids" => $userIds,
 		);
 		return $tab;
 	}

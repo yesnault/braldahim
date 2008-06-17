@@ -4,7 +4,7 @@
 <? else: ?>
 <br>
 <form name="myForm" id="myForm">
-	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
+	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='-1'>
 	<input type='hidden' name='valeur_1' id='valeur_1' value='envoi' />
 	<input type='hidden' name='valeur_2' id='valeur_2' value='' />
 	<input type='hidden' name='valeur_3' id='valeur_3' value='' />
@@ -17,6 +17,16 @@
 		<?php endforeach; ?>
 		</div>
 	<? endif; ?>
+	
+	<?php if(!empty($this->contactsErreur)) :?>
+		<div class="message_erreur" id="message_erreur"> 
+		<?php foreach($this->contactsErreur as $message) :?>
+			<?=$this->escape($message);?><br />
+		<?php endforeach; ?>
+		</div>
+	<? endif; ?>
+		
+		
 	<label>Destinataires (entrez le pr&eacute;nom)</label><br />
 	Le ou les destinataires doivent s'&ecirc;tre d&eacute;j&agrave; connect&eacute;s au site au moins une fois.<br>
 	Sinon, ils n'appara&icirc;tront pas dans le r&eacute;sultat de la recherche ci-dessous.<br>
@@ -38,7 +48,7 @@
 		Contacts
 		<select name="contacts_liste" 
 				onChange="makeJsListeAvecSupprimer('valeur_4_contacts', this.options[this.selectedIndex].text, this.value, null);">
-			<option value="-1">EN DEVELOPPEMENT</option>
+			<option value="-1"></option>
 			<? foreach($this->listesContacts as $c) :?>
 				<option value="<?=$c["id"] ?>"><?=$c["nom"] ?></option>
 			<? endforeach; ?>
@@ -55,7 +65,7 @@
 	
 	<br>
 	<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="2500" type="text"> Caract&egrave;res restants<br>
-	<input type="button" class='button1' name="Envoyer" value="Envoyer" onClick="Javascript:$('nb_valeurs').value=3;$('valeur_1').value='envoi';$('valeur_2').value = $('valeur_2_dest').value;$('valeur_3').value=encodePlus($('valeur_message').value);$('valeur_4').value = $('valeur_4_contacts').value; _get_('/messagerie/doaction?caction=do_messagerie_message');" /> 
+	<input type="button" class='button1' name="Envoyer" value="Envoyer" onClick="Javascript:$('nb_valeurs').value=4;$('valeur_1').value='envoi';$('valeur_2').value = $('valeur_2_dest').value;$('valeur_3').value=encodePlus($('valeur_message').value);$('valeur_4').value = $('valeur_4_contacts').value; _get_('/messagerie/doaction?caction=do_messagerie_message');" /> 
 </form>
 
 <? endif; ?>
