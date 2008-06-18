@@ -19,6 +19,11 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 	}
 
 	function render() {
+		$this->view->inscriptionSiteOk = true;
+		if (Bral_Util_JoomlaUser::isJoomlaUser(&$this->view->user) === false) {
+			$this->view->inscriptionSiteOk = false;
+		}
+		
 		if ($this->view->affichageInterne) {
 			Zend_Loader::loadClass('JosUddeim');
 			
@@ -33,12 +38,6 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 	}
 	
 	private function prepareMessages() {
-		$this->view->inscriptionSiteOk = true;
-		if (Bral_Util_JoomlaUser::isJoomlaUser(&$this->view->user) === false) {
-			$this->view->inscriptionSiteOk = false;
-			return;
-		}
-		
 		$josUddeimTable = new JosUddeim();
 		
 		if ($this->_filtre == $this->view->config->messagerie->message->type->envoye) {
