@@ -9,7 +9,7 @@
  * 9-11 -> 4 cases
  * 12-14 -> 5 cases
  * 15+  -> 6 cases
- * En forêt un malus de -1, ne marais et montagne un malus de -2 sur la distance est apliqué (minimum 0).
+ * En forêt un malus de -1, ne marais et montagne un malus de -2 sur la distance est apliqué (minimum 1).
  * La distance de charge est borné par la vue.
  * 
  * Le jet d'attaque d'une charge est différent : (0.5 jet AGI) + BM + bonus arme
@@ -47,16 +47,23 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			$this->view->charge_nb_cases = 6;
 		}
 		
-		$vue = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
-		if ($vue < $this->view->charge_nb_cases) {
-			$this->view->charge_nb_cases = $vue;
-		}
-		
+		//En forêt un malus de -1 en distance, en marais et montagne un malus de -2 sur la distance est appliqué
 		$environnement = Bral_Util_Commun::getEnvironnement($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		if ($environnement == "montage" || $environnement == "marais") {
 			$this->view->charge_nb_cases = $this->view->charge_nb_cases  - 2;
 		} elseif ($environnement == "foret") {
 			$this->view->charge_nb_cases = $this->view->charge_nb_cases  - 1;
+		}
+		
+		//minimum de distance de charge à 1 case dans tous les cas
+		if ($this->view->charge_nb_cases < 1) {
+			$this->view->charge_nb_cases = 1;
+		}
+		
+		//La distance de charge est bornée par la VUE
+		$vue = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
+		if ($vue < $this->view->charge_nb_cases) {
+			$this->view->charge_nb_cases = $vue;
 		}
 		
 		$x_min = $this->view->user->x_hobbit - $this->view->charge_nb_cases;
