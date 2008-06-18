@@ -22,7 +22,7 @@ class Bral_Util_Faim {
 			$coef = 1;
 		} elseif ($hobbit->balance_faim_hobbit >= 31) {
 			$div = 1;
-			$coef = 1;
+			$coef = 0;
 		} elseif ($hobbit->balance_faim_hobbit >= 11) {
 			$div = 4;
 			$coef = -1;

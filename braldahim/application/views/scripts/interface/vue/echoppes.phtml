@@ -5,7 +5,7 @@
 	foreach($case["echoppes"] as $c) {
 		if ($c["nom_metier"]{0} == 'A') : $d="d'"; else: $d="de "; endif;
 			$textEchoppe .= "&Eacute;choppe ".$d.htmlspecialchars($c["nom_metier"])." appartenant &agrave; <br>";
-			$textEchoppe .= htmlspecialchars($c["prenom_hobbit"])." ".htmlspecialchars($c["nom_hobbit"]).", n&deg; ".$c["id_hobbit"];
+			$textEchoppe .= addslashes(htmlspecialchars($c["prenom_hobbit"]))." ".addslashes(htmlspecialchars($c["nom_hobbit"])).", n&deg; ".$c["id_hobbit"];
 			if ($c["id_fk_jos_users_hobbit"] != null) {
       			$textEchoppe .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$c["id_fk_jos_users_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
       		} else {

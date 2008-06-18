@@ -1,13 +1,13 @@
 <div class='comp_titre'>Transf&eacute;rer un &eacute;quipement</div>
 
  <div class='comp_contenu'>
-	 <div id='transfererequipement_text' style="display:block"  onClick="javascript:switch2div('transfererequipement_text','transfererequipement_copie');">
+	 <div id='transferequipement_text' style="display:block"  onClick="javascript:switch2div('transferequipement_text','transferequipement_copie');">
 		Vous avez transf&eacute;r&eacute; l'&eacute;quipement suivant : <br />
 		<?=htmlspecialchars($this->equipement["nom"]) ?> dans <?=htmlspecialchars($this->destination["texte"]) ?>
 		<br />
 	 </div>
 	 
-	 <div id='transfererequipement_copie' style="display:none">
+	 <div id='transferequipement_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
 		echo "Vous avez transf&eacute;r&eacute; l'&eacute;quipement suivant : ";
 		echo htmlspecialchars($this->equipement["nom"]); 
@@ -17,5 +17,5 @@
 	</div>
  </div>
 
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('transfererequipement_text','transfererequipement_copie');">
+<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('transferequipement_text','transferequipement_copie');">
 <? include("commun_fermer.phtml") ?>

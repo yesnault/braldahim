@@ -3,7 +3,7 @@
       		<?php 
       			$textHobbit = "";
       			foreach($case["hobbits"] as $h) {
-      				$textHobbit .= htmlspecialchars($h["prenom_hobbit"])." ".htmlspecialchars($h["nom_hobbit"]);
+      				$textHobbit .= addslashes(htmlspecialchars($h["prenom_hobbit"]))." ".addslashes(htmlspecialchars($h["nom_hobbit"]));
       				$textHobbit .= " (n&deg; ".$h["id_hobbit"]."), niv.".$h["niveau_hobbit"];
       				//$textHobbit .= ' <label class=alabel onClick=ouvrirWin(\\\'\/voir\/hobbit\/?hobbit='.$h["id_hobbit"].'\\\');>[profil]</label>';
       				$textHobbit .= ' <img src=\\\'/public/images/profil.gif\\\' title=\\\'Voir le profil\\\' alt=\\\'Profil\\\' border=\\\'0\\\' onClick=ouvrirWin(\\\'\/voir\/hobbit\/?hobbit='.$h["id_hobbit"].'\\\'); style=\\\'cursor:pointer\\\'/> ';

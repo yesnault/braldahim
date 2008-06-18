@@ -1,13 +1,13 @@
 <?php
 
-class Bral_Echoppes_TransfererEquipement extends Bral_Echoppes_Echoppe {
+class Bral_Echoppes_Transferpotion extends Bral_Echoppes_Echoppe {
 
 	function getNomInterne() {
 		return "box_action";
 	}
 
 	function prepareCommun() {
-		Zend_Loader::loadClass("EchoppeEquipement");
+		Zend_Loader::loadClass("EchoppePotion");
 		Zend_Loader::loadClass("Echoppe");
 		Zend_Loader::loadClass("TypeUnite");
 		Zend_Loader::loadClass("TypeMinerai");
@@ -38,20 +38,20 @@ class Bral_Echoppes_TransfererEquipement extends Bral_Echoppes_Echoppe {
 			throw new Zend_Exception(get_class($this)." Echoppe interdite=".$id_echoppe);
 		}
 		
-		$tabEquipementsArriereBoutique = null;
-		$echoppeEquipementTable = new EchoppeEquipement();
-		$equipements = $echoppeEquipementTable->findByIdEchoppe($id_echoppe);
+		$tabPotionsArriereBoutique = null;
+		$echoppePotionTable = new EchoppePotion();
+		$potions = $echoppePotionTable->findByIdEchoppe($id_echoppe);
 
-		if (count($equipements) > 0) {
-			foreach($equipements as $e) {
-				if ($e["type_vente_echoppe_equipement"] == "aucune") {
-					$tabEquipementsArriereBoutique[] = array(
-					"id_echoppe_equipement" => $e["id_echoppe_equipement"],
-					"id_fk_recette_echoppe_equipement" => $e["id_fk_recette_echoppe_equipement"],
-					"nom" => $e["nom_type_equipement"],
-					"qualite" => $e["nom_type_qualite"],
-					"niveau" => $e["niveau_recette_equipement"],
-					"nb_runes" => $e["nb_runes_echoppe_equipement"]
+		if (count($potions) > 0) {
+			foreach($potions as $e) {
+				if ($e["type_vente_echoppe_potion"] == "aucune") {
+					$tabPotionsArriereBoutique[] = array(
+						"id_echoppe_potion" => $e["id_echoppe_potion"],
+						"id_fk_type_potion_echoppe_potion" => $e["id_fk_type_potion_echoppe_potion"],
+						"id_fk_type_qualite_laban_potion" => $e["id_fk_type_qualite_echoppe_potion"],
+						"nom" => $e["nom_type_potion"],
+						"qualite" => $e["nom_type_qualite"],
+						"niveau" => $e["niveau_echoppe_potion"],
 					);
 				}
 			}
@@ -63,10 +63,10 @@ class Bral_Echoppes_TransfererEquipement extends Bral_Echoppes_Echoppe {
 		// TODO Autre ECHOPPE
 		
 		$this->view->destinationTransfert = $tabDestinationTransfert;
-		$this->view->equipementsArriereBoutique = $tabEquipementsArriereBoutique;
-		$this->view->nbEquipementsArriereBoutique = count($tabEquipementsArriereBoutique);
+		$this->view->potionsArriereBoutique = $tabPotionsArriereBoutique;
+		$this->view->nbPotionsArriereBoutique = count($tabPotionsArriereBoutique);
 			
-		if ($this->view->nbEquipementsArriereBoutique > 0) {
+		if ($this->view->nbPotionsArriereBoutique > 0) {
 			$this->view->transfererOk = true;
 		} else {
 			$this->view->transfererOk = false;
@@ -83,28 +83,28 @@ class Bral_Echoppes_TransfererEquipement extends Bral_Echoppes_Echoppe {
 			throw new Zend_Exception(get_class($this)." Transferer interdit");
 		}
 		
-		$id_equipement = $this->request->get("valeur_2");
+		$id_potion = $this->request->get("valeur_2");
 		$id_destination = $this->request->get("valeur_3");
 		
-		if ((int) $id_equipement."" != $this->request->get("valeur_2")."") {
-			throw new Zend_Exception(get_class($this)." id equipement invalide=".$id_equipement);
+		if ((int) $id_potion."" != $this->request->get("valeur_2")."") {
+			throw new Zend_Exception(get_class($this)." id potion invalide=".$id_potion);
 		} else {
-			$id_equipement = (int)$id_equipement;
+			$id_potion = (int)$id_potion;
 		}
 		
-		// on regarde si l'equipement est dans la liste
+		// on regarde si l'potion est dans la liste
 		$flag = false;
-		$equipement = null;
-		foreach($this->view->equipementsArriereBoutique  as $e) {
-			if ($e["id_echoppe_equipement"] == $id_equipement) {
-				$equipement = $e;
+		$potion = null;
+		foreach($this->view->potionsArriereBoutique  as $e) {
+			if ($e["id_echoppe_potion"] == $id_potion) {
+				$potion = $e;
 				$flag = true;
 				break;
 			}
 		}
 		
 		if ($flag == false) {
-			throw new Zend_Exception(get_class($this)." id equipement inconnu=".$id_equipement);
+			throw new Zend_Exception(get_class($this)." id potion inconnu=".$id_potion);
 		}
 		
 		// on regarde si l'on connait la destination
@@ -123,29 +123,30 @@ class Bral_Echoppes_TransfererEquipement extends Bral_Echoppes_Echoppe {
 		}
 		
 		if ($id_destination == "laban") {
-			$this->calculTranfertVersLaban($equipement);
+			$this->calculTranfertVersLaban($potion);
 		}
-		$this->view->equipement = $equipement;
+		$this->view->potion = $potion;
 		$this->view->destination = $destination;
-		
+
 		$this->calculPoids();
 		$this->majHobbit();
 	}
 	
-	private function calculTranfertVersLaban($equipement) {
-		Zend_Loader::loadClass("LabanEquipement");
-		$labanEquipementTable = new LabanEquipement();
+	private function calculTranfertVersLaban($potion) {
+		Zend_Loader::loadClass("LabanPotion");
+		$labanPotionTable = new LabanPotion();
 		$data = array(
-			'id_laban_equipement' => $equipement["id_echoppe_equipement"],
-			'id_fk_recette_laban_equipement' => $equipement["id_fk_recette_echoppe_equipement"],
-			'id_fk_hobbit_laban_equipement' => $this->view->user->id_hobbit,
-			'nb_runes_laban_equipement' => $equipement["nb_runes"],
+			'id_laban_potion' => $potion["id_echoppe_potion"],
+			'id_fk_type_laban_potion' => $potion["id_fk_type_potion_echoppe_potion"],
+			'id_fk_hobbit_laban_potion' => $this->view->user->id_hobbit,
+			'id_fk_type_qualite_laban_potion' => $potion["id_fk_type_qualite_laban_potion"],
+			'niveau_laban_potion' => $potion["niveau"],
 		);
-		$labanEquipementTable->insert($data);
+		$labanPotionTable->insert($data);
 		
-		$echoppeEquipementTable = new EchoppeEquipement();
-		$where = "id_echoppe_equipement=".$equipement["id_echoppe_equipement"];
-		$echoppeEquipementTable->delete($where);
+		$echoppePotionTable = new EchoppePotion();
+		$where = "id_echoppe_potion=".$potion["id_echoppe_potion"];
+		$echoppePotionTable->delete($where);
 	}
 	
 	public function getIdEchoppeCourante() {

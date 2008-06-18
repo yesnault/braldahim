@@ -25,8 +25,7 @@
 		<?php endforeach; ?>
 		</div>
 	<? endif; ?>
-		
-		
+
 	<label>Destinataires (entrez le pr&eacute;nom)</label><br />
 	Le ou les destinataires doivent s'&ecirc;tre d&eacute;j&agrave; connect&eacute;s au site au moins une fois.<br>
 	Sinon, ils n'appara&icirc;tront pas dans le r&eacute;sultat de la recherche ci-dessous.<br>
@@ -36,7 +35,6 @@
 	
 	<div id='aff_valeur_4_contacts' name='aff_valeur_4_contacts'><?=$this->message["aff_js_contacts"]?></div>
 	<input type="hidden" name="valeur_4_contacts" id="valeur_4_contacts" value="<?=$this->message["contacts"]?>" />
-	
 	
 	<input type="text" name="recherche_valeur_2_dest" size='40' id="recherche_valeur_2_dest" value="Entre un nom" onFocus='this.value=""; activerRechercheHobbit("valeur_2_dest");' />
 	<input type="hidden" name="recherche_valeur_2_dest_actif" id="recherche_valeur_2_dest_actif" value="0" />
@@ -53,8 +51,9 @@
 				<option value="<?=$c["id"] ?>"><?=$c["nom"] ?></option>
 			<? endforeach; ?>
 		</select>
-	
 	<? endif; ?>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<?=Bral_Helper_Messagerie::destinatairesZoneJs($this->user->x_hobbit, $this->user->y_hobbit, $this->user->x_hobbit, $this->user->y_hobbit, $this->user->id_hobbit, "Hobbit sur la case") ?>
 	
 <br><br>
 

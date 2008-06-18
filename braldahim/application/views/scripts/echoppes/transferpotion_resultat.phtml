@@ -1,13 +1,13 @@
 <div class='comp_titre'>Transf&eacute;rer une potion</div>
 
  <div class='comp_contenu'>
-	 <div id='transfererpotion_text' style="display:block"  onClick="javascript:switch2div('transfererpotion_text','transfererpotion_copie');">
+	 <div id='transferpotion_text' style="display:block"  onClick="javascript:switch2div('transferpotion_text','transferpotion_copie');">
 		Vous avez transf&eacute;r&eacute; dans <?=htmlspecialchars($this->destination["texte"])?> la potion <br />
 		<?=htmlspecialchars($this->potion["nom"]) ?> n&deg; <?=$this->potion["id_echoppe_potion"] ?>
 		<br />
 	 </div>
 	 
-	 <div id='transfererpotion_copie' style="display:none">
+	 <div id='transferpotion_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
 		echo "Vous avez transf&eacute;r&eacute; ";
 		echo " dans ".htmlspecialchars($this->destination["texte"]);
@@ -20,5 +20,5 @@
 	</div>
  </div>
 
-<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('transfererpotion_text','transfererpotion_copie');">
+<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('transferpotion_text','transferpotion_copie');">
 <? include("commun_fermer.phtml") ?>

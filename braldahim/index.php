@@ -40,6 +40,7 @@ Zend_Loader :: loadClass("Bral_Util_String");
 Zend_Loader :: loadClass("Bral_Helper_BBBoutons");
 Zend_Loader :: loadClass("Bral_Helper_Box");
 Zend_Loader :: loadClass("Bral_Helper_Tooltip");
+Zend_Loader :: loadClass("Bral_Helper_Messagerie");
 
 Zend_Loader :: loadClass("Bral_Xml_Response");
 Zend_Loader :: loadClass("Bral_Xml_Entry");
