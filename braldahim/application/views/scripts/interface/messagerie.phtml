@@ -4,6 +4,10 @@
  <div class="contenuC">
   <ul class="box_contenu1 textalic">
 
+<? if ($this->inscriptionSiteOk == false) :?>
+	Vous devez vous connecter au <a href="http://www.braldahim.com">site</a> avant de voir les messages ici.
+<? else: ?>
+
 <span style="cursor:pointer;" title="Messages reçus" onClick='Javascript:_get_("/interface/load/?box=box_messagerie");'>
 <img src="/public/images/uddeim/menu_inbox.gif" alt="Reçus"> Reçus
 </span> &nbsp;&nbsp;
@@ -34,6 +38,7 @@ Nouveau</span>
 	<? endif; ?>
 </div>
 
+<? endif; ?>
   </ul>
  </div>
 </div>
