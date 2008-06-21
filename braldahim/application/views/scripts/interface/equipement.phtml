@@ -36,27 +36,27 @@ Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
 	  <td>
 	 	<table align="center" border="1">
 	 		<tr>
-	 	<? 	$i = 0;
-	 		foreach($this->typesEmplacement as $k => $e) : ?>
-	 		<? if ($e["position"] == "droite" && $e["affiche"] == "oui") : 
-	 			$i++;
-	 			if ($e["position"] == "deuxmains") {
-	 				$i++;
-	 			}
-	 			?>
-	 			<td class="equipement">
-	 			<?=$e["nom_type_emplacement"] ?><br />
-	 			<? if (count($e["equipementPorte"]) > 0): ?>
-					<? foreach($e["equipementPorte"] as $p) : ?>
- 						<? echo Bral_Helper_DetailEquipement::afficher($p); ?>
- 					<? endforeach; ?>
-	 			<? endif;  ?>
-	 			</td>
-	 		<? endif; ?>
-	 	<?  endforeach; ?>
+		 	<? 	$i = 0;
+		 		foreach($this->typesEmplacement as $k => $e) : ?>
+		 		<? if ($e["position"] == "droite" && $e["affiche"] == "oui") : 
+		 			$i++;
+		 			if ($k == "deuxmains") {
+		 				$i++;
+		 			}
+		 			?>
+		 			<td class="equipement">
+		 			<?=$e["nom_type_emplacement"] ?><br />
+		 			<? if (count($e["equipementPorte"]) > 0): ?>
+						<? foreach($e["equipementPorte"] as $p) : ?>
+	 						<? echo Bral_Helper_DetailEquipement::afficher($p); ?>
+	 					<? endforeach; ?>
+		 			<? endif;  ?>
+		 			</td>
+		 		<? endif; ?>
+		 	<? endforeach; ?>
 	 		<? if ($i == 1) : ?>
 	 			<td class="equipement">1 main de libre</td>
-	 		<? else : ?>
+	 		<? elseif ($i == 0) : ?>
 	 			<td class="equipement">2 mains de libres</td>
 	 		<? endif;?>
 	 	  </tr>
