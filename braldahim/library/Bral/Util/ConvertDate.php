@@ -190,4 +190,29 @@ class Bral_Util_ConvertDate {
 		
 		return $r;
 	}
+	
+	/*
+	 * Retourne le temps en minutes d'une heure donnée (H:m:s)
+	 */
+	public static function getMinuteFromHeure($time) {
+		$time = explode(":", $time);
+
+		$h = $time[0] * 60;	
+		$m = $time[1] * 1;
+		//$s = $time[2] * 1;
+		$minutes = $h + $m;
+		
+		return $minutes;
+	}
+	
+	/*
+	 * Converti en heure H:m:s un temps un minute.
+	 */
+	public static function getHeureFromMinute($minutes) {
+		$heures = floor($minutes / 60);
+		$min = $minutes - $heures * 60;
+		
+		return $heures.":".$min.":00";
+	}
+	
 }

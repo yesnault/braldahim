@@ -16,7 +16,7 @@
 		<tbody>
 			<tr class="table_liste" valign="top">
 				<td align="left" >
-				  Dur&eacute;e
+				  Dur&eacute;e de ce tour
 				</td>
 				<td align="left" >
 				<?php echo $this->escape($this->user->duree_courant_tour_hobbit) ?>
@@ -44,16 +44,7 @@
 			</tr>
 			<tr class="table_liste" align="left" valign="top">
 				<td>
-				  Durée tour de base
-				</td>
-				<td>
-				<?php echo $this->escape($this->user->duree_base_tour_hobbit) ?>
-				<td>&nbsp;&nbsp;</td>
-				<td>&nbsp;&nbsp;</td>
-			</tr>
-			<tr class="table_liste" align="left" valign="top">
-				<td>
-				 Dur&eacute;e du prochain tour
+				<label title="Durée du prochain tour sans prendre en compte les blessures">Durée du prochain tour</label>
 				</td>
 				<td>
 				<?php echo $this->escape($this->user->duree_prochain_tour_hobbit) ?>

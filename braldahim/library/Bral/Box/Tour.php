@@ -50,10 +50,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 		// nouveau tour (ou mort : en cas de mort : la date de fin de tour doit être positionnee à la mort) 
 		if ($this->is_nouveau_tour) {
+			
 			Bral_Util_Log::tour()->debug(get_class($this)." Nouveau tour");
-			$this->hobbit->duree_courant_tour_hobbit = $this->hobbit->duree_prochain_tour_hobbit;
-			$this->hobbit->date_debut_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;
-			$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_fin_tour_hobbit, $this->hobbit->duree_courant_tour_hobbit);
+			$this->calculDLA();
+			
 			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_latence;
 			$this->is_update_tour = true;
 		}
@@ -183,9 +183,6 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->hobbit->poids_transportable_hobbit = Bral_Util_Poids::calculPoidsTransportable($this->hobbit->force_base_hobbit);
 			$this->hobbit->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->hobbit->id_hobbit, $this->hobbit->castars_hobbit);
 			
-			// Mise a jour de la balance faim
-			//$this->joueur->diminuer_balance_faim ($this->view->config->game->tour_faim);
-			
 			$this->calculBMEquipement();
 			$this->calculBMPotion();
 			
@@ -207,109 +204,14 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			/* Remise à zéro du malus de regénération. */
 			$this->hobbit->regeneration_malus_hobbit = 0;
 			
-			if ($this->hobbit->pv_restant_hobbit < $this->hobbit->pv_max_hobbit) {
-				for ($i=1; $i <= $this->hobbit->regeneration_hobbit; $i++) {
-					$this->view->jetRegeneration = $this->view->jetRegeneration + Bral_Util_De::get_1d3();
-				}	
-				if ($this->view->jetRegeneration < 0) { // pas de regénération négative (même si le malus est important)
-					$this->view->jetRegeneration = 0;
-				}
-				$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_restant_hobbit + $this->view->jetRegeneration;
-				Bral_Util_Log::tour()->trace(get_class($this)." activer - jet Regeneration=".$this->view->jetRegeneration);
-				if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit) {
-					$this->view->jetRegeneration = $this->hobbit->pv_max_hobbit - $this->hobbit->pv_restant_hobbit;
-					$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit;
-				}
-				Bral_Util_Log::tour()->trace(get_class($this)." activer - jet Regeneration ajuste=".$this->view->jetRegeneration);
-				Bral_Util_Log::tour()->trace(get_class($this)." activer - pv_restant_hobbit=".$this->hobbit->pv_restant_hobbit);
-			}
-			
-			if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit) {
-				$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit;
-			}
+			$this->calculPv();
 			
 			Bral_Util_Faim::calculBalanceFaim($this->hobbit);
 		}
 
 		if ($this->is_update_tour) {
 			Bral_Util_Log::tour()->trace(get_class($this)." activer - is_update_tour - true");
-			$duree = $this->hobbit->duree_base_tour_hobbit;
-			$this->hobbit->duree_prochain_tour_hobbit = $duree;
-			
-			// Mise a jour du joueur dans la base de donnees
-			$hobbitTable = new Hobbit();
-			$hobbitRowset = $hobbitTable->find($this->hobbit->id_hobbit);
-			$hobbit = $hobbitRowset->current();
-
-			$this->view->user->x_hobbit = $this->hobbit->x_hobbit;
-			$this->view->user->y_hobbit  = $this->hobbit->y_hobbit;
-			$this->view->user->date_debut_tour_hobbit = $this->hobbit->date_debut_tour_hobbit;
-			$this->view->user->date_fin_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;
-			$this->view->user->duree_courant_tour_hobbit = $this->hobbit->duree_courant_tour_hobbit;
-			$this->view->user->duree_prochain_tour_hobbit = $this->hobbit->duree_prochain_tour_hobbit;
-			$this->view->user->tour_position_hobbit = $this->hobbit->tour_position_hobbit;
-			$this->view->user->pa_hobbit = $this->hobbit->pa_hobbit;
-			$this->view->user->armure_naturelle_hobbit = $this->hobbit->armure_naturelle_hobbit;
-			$this->view->user->est_mort_hobbit = $this->hobbit->est_mort_hobbit;
-			$this->view->user->px_commun_hobbit = $this->hobbit->px_commun_hobbit;
-			$this->view->user->px_perso_hobbit = $this->hobbit->px_perso_hobbit;
-			$this->view->user->pv_max_hobbit = $this->hobbit->pv_max_hobbit;
-			$this->view->user->pv_restant_hobbit = $this->hobbit->pv_restant_hobbit;
-			$this->view->user->pv_max_bm_hobbit = $this->hobbit->pv_max_bm_hobbit;
-			$this->view->user->balance_faim_hobbit = $this->hobbit->balance_faim_hobbit;
-			
-			$this->view->user->force_bm_hobbit = $this->hobbit->force_bm_hobbit;
-			$this->view->user->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit;
-			$this->view->user->vigueur_bm_hobbit = $this->hobbit->vigueur_bm_hobbit;
-			$this->view->user->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit;
-			$this->view->user->vue_bm_hobbit = $this->hobbit->vue_bm_hobbit;
-			$this->view->user->poids_transportable_hobbit = $this->hobbit->poids_transportable_hobbit;
-			$this->view->user->poids_transporte_hobbit = $this->hobbit->poids_transporte_hobbit;
-			
-			$this->view->user->bm_attaque_hobbit = $this->hobbit->bm_attaque_hobbit;
-			$this->view->user->bm_degat_hobbit = $this->hobbit->bm_degat_hobbit;
-			$this->view->user->bm_defense_hobbit = $this->hobbit->bm_defense_hobbit;
-			
-			$this->view->user->regeneration_malus_hobbit = $this->hobbit->regeneration_malus_hobbit;
-			
-			$data = array(
-				'x_hobbit' => $this->hobbit->x_hobbit,
-				'y_hobbit'  => $this->hobbit->y_hobbit,
-				'date_debut_tour_hobbit' => $this->hobbit->date_debut_tour_hobbit,
-				'date_fin_tour_hobbit' => $this->hobbit->date_fin_tour_hobbit,
-				'duree_courant_tour_hobbit' => $this->hobbit->duree_courant_tour_hobbit,
-				'duree_prochain_tour_hobbit' => $this->hobbit->duree_prochain_tour_hobbit,
-				'tour_position_hobbit' => $this->hobbit->tour_position_hobbit,
-				'pa_hobbit' => $this->hobbit->pa_hobbit,
-				'armure_naturelle_hobbit' => $this->hobbit->armure_naturelle_hobbit,
-				'armure_equipement_hobbit' => $this->hobbit->armure_equipement_hobbit,
-				'est_mort_hobbit' => $this->hobbit->est_mort_hobbit,
-				'px_commun_hobbit' => $this->hobbit->px_commun_hobbit,
-				'px_perso_hobbit' => $this->hobbit->px_perso_hobbit,
-				'pv_max_hobbit' => $this->hobbit->pv_max_hobbit,
-				'pv_restant_hobbit' => $this->hobbit->pv_restant_hobbit,
-				'pv_max_bm_hobbit' => $this->hobbit->pv_max_bm_hobbit,
-				'balance_faim_hobbit' => $this->hobbit->balance_faim_hobbit,
-				'force_bm_hobbit' => $this->hobbit->force_bm_hobbit,
-				'force_bbdf_hobbit' => $this->hobbit->force_bbdf_hobbit,
-				'agilite_bm_hobbit' => $this->hobbit->agilite_bm_hobbit,
-				'agilite_bbdf_hobbit' => $this->hobbit->agilite_bbdf_hobbit,
-				'vigueur_bm_hobbit' => $this->hobbit->vigueur_bm_hobbit,
-				'vigueur_bbdf_hobbit' => $this->hobbit->vigueur_bbdf_hobbit,
-				'sagesse_bm_hobbit' => $this->hobbit->sagesse_bm_hobbit,
-				'sagesse_bbdf_hobbit' => $this->hobbit->sagesse_bbdf_hobbit,
-				'vue_bm_hobbit' => $this->hobbit->vue_bm_hobbit,
-				'poids_transportable_hobbit' => $this->hobbit->poids_transportable_hobbit,
-				'poids_transporte_hobbit' => $this->hobbit->poids_transporte_hobbit,
-				'regeneration_hobbit' => $this->hobbit->regeneration_hobbit,
-				'regeneration_malus_hobbit' => $this->hobbit->regeneration_malus_hobbit,
-				'bm_attaque_hobbit' => $this->hobbit->bm_attaque_hobbit,
-				'bm_degat_hobbit' => $this->hobbit->bm_degat_hobbit,
-				'bm_defense_hobbit' => $this->hobbit->bm_defense_hobbit,
-			);
-			$where = "id_hobbit=".$this->hobbit->id_hobbit;
-			$hobbitTable->update($data, $where);
-			Bral_Util_Log::tour()->debug(get_class($this)." activer() - update hobbit ".$this->hobbit->id_hobbit." en base");
+			$this->updateDb();
 		}
 
 		$this->view->is_update_tour = $this->is_update_tour;
@@ -577,6 +479,141 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		}
 		$this->view->user->info_prochaine_position = $info;
 		Bral_Util_Log::tour()->trace(get_class($this)." calculInfoTour - exit -");
+	}
+	
+	private function calculDLA() {
+		Bral_Util_Log::tour()->trace(get_class($this)." calculDLA - enter -");
+		$this->hobbit->duree_courant_tour_hobbit = $this->hobbit->duree_prochain_tour_hobbit;
+		// Ajouter la prise en compte du niveau de sagesse
+		//Durée DLA (en minutes) = 1440 – 10 * Niveau SAG
+
+		Bral_Util_Log::tour()->debug(get_class($this)." this->hobbit->duree_prochain_tour_hobbit=".$this->hobbit->duree_prochain_tour_hobbit);			
+		
+		$minutesCourant = Bral_Util_ConvertDate::getMinuteFromHeure($this->hobbit->duree_prochain_tour_hobbit);// - 10 * $this->hobbit->sagesse_base_hobbit;
+		Bral_Util_Log::tour()->debug(get_class($this)." minutesCourant=".$minutesCourant);			
+		// Ajouter les blessures : pour chaque PV : Arrondi inférieur [durée DLA (+BM) / (4*max PV du Hobbit)]. 
+		
+		$minutesAAjouter = floor($minutesCourant / (4 * $this->hobbit->pv_max_hobbit)) * ($this->hobbit->pv_max_hobbit - $this->hobbit->pv_restant_hobbit);
+		Bral_Util_Log::tour()->debug(get_class($this)." minutesAAjouter=".$minutesAAjouter);	
+		
+		$this->hobbit->duree_courant_tour_hobbit = Bral_Util_ConvertDate::getHeureFromMinute($minutesCourant + $minutesAAjouter);
+		Bral_Util_Log::tour()->debug(get_class($this)." this->hobbit->duree_courant_tour_hobbit=".$this->hobbit->duree_courant_tour_hobbit);			
+		
+		$minutesProchain = Bral_Util_ConvertDate::getMinuteFromHeure($this->view->config->game->tour->duree_base) - 10 * $this->hobbit->sagesse_base_hobbit;
+		Bral_Util_Log::tour()->debug(get_class($this)." minutesProchain=".$minutesProchain);	
+		
+		$this->hobbit->duree_prochain_tour_hobbit =  Bral_Util_ConvertDate::getHeureFromMinute($minutesProchain); // TODO Rajouter les BM
+		Bral_Util_Log::tour()->debug(get_class($this)." this->hobbit->duree_prochain_tour_hobbit=".$this->hobbit->duree_prochain_tour_hobbit);			
+		
+		$this->hobbit->date_debut_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;
+		$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_fin_tour_hobbit, $this->hobbit->duree_courant_tour_hobbit);
+		Bral_Util_Log::tour()->debug(get_class($this)." this->hobbit->date_fin_tour_hobbit=".$this->hobbit->date_fin_tour_hobbit);
+		Bral_Util_Log::tour()->trace(get_class($this)." calculDLA - exit -");
+	}
+	
+	private function calculPv() {
+		Bral_Util_Log::tour()->trace(get_class($this)." calculPv - enter -");
+		if ($this->hobbit->pv_restant_hobbit < $this->hobbit->pv_max_hobbit) {
+			for ($i=1; $i <= $this->hobbit->regeneration_hobbit; $i++) {
+				$this->view->jetRegeneration = $this->view->jetRegeneration + Bral_Util_De::get_1d3();
+			}	
+			if ($this->view->jetRegeneration < 0) { // pas de regénération négative (même si le malus est important)
+				$this->view->jetRegeneration = 0;
+			}
+			$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_restant_hobbit + $this->view->jetRegeneration;
+			Bral_Util_Log::tour()->trace(get_class($this)." activer - jet Regeneration=".$this->view->jetRegeneration);
+			if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit) {
+				$this->view->jetRegeneration = $this->hobbit->pv_max_hobbit - $this->hobbit->pv_restant_hobbit;
+				$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit;
+			}
+			Bral_Util_Log::tour()->trace(get_class($this)." activer - jet Regeneration ajuste=".$this->view->jetRegeneration);
+			Bral_Util_Log::tour()->trace(get_class($this)." activer - pv_restant_hobbit=".$this->hobbit->pv_restant_hobbit);
+		}
+		
+		if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit) {
+			$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit;
+		}
+		Bral_Util_Log::tour()->trace(get_class($this)." calculPv - exit -");
+	}
+	
+	private function updateDb() {
+		Bral_Util_Log::tour()->trace(get_class($this)." updateDb - enter -");
+		
+		// Mise a jour du joueur dans la base de donnees
+		$hobbitTable = new Hobbit();
+		$hobbitRowset = $hobbitTable->find($this->hobbit->id_hobbit);
+		$hobbit = $hobbitRowset->current();
+
+		$this->view->user->x_hobbit = $this->hobbit->x_hobbit;
+		$this->view->user->y_hobbit  = $this->hobbit->y_hobbit;
+		$this->view->user->date_debut_tour_hobbit = $this->hobbit->date_debut_tour_hobbit;
+		$this->view->user->date_fin_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;
+		$this->view->user->duree_courant_tour_hobbit = $this->hobbit->duree_courant_tour_hobbit;
+		$this->view->user->duree_prochain_tour_hobbit = $this->hobbit->duree_prochain_tour_hobbit;
+		$this->view->user->tour_position_hobbit = $this->hobbit->tour_position_hobbit;
+		$this->view->user->pa_hobbit = $this->hobbit->pa_hobbit;
+		$this->view->user->armure_naturelle_hobbit = $this->hobbit->armure_naturelle_hobbit;
+		$this->view->user->est_mort_hobbit = $this->hobbit->est_mort_hobbit;
+		$this->view->user->px_commun_hobbit = $this->hobbit->px_commun_hobbit;
+		$this->view->user->px_perso_hobbit = $this->hobbit->px_perso_hobbit;
+		$this->view->user->pv_max_hobbit = $this->hobbit->pv_max_hobbit;
+		$this->view->user->pv_restant_hobbit = $this->hobbit->pv_restant_hobbit;
+		$this->view->user->pv_max_bm_hobbit = $this->hobbit->pv_max_bm_hobbit;
+		$this->view->user->balance_faim_hobbit = $this->hobbit->balance_faim_hobbit;
+		
+		$this->view->user->force_bm_hobbit = $this->hobbit->force_bm_hobbit;
+		$this->view->user->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit;
+		$this->view->user->vigueur_bm_hobbit = $this->hobbit->vigueur_bm_hobbit;
+		$this->view->user->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit;
+		$this->view->user->vue_bm_hobbit = $this->hobbit->vue_bm_hobbit;
+		$this->view->user->poids_transportable_hobbit = $this->hobbit->poids_transportable_hobbit;
+		$this->view->user->poids_transporte_hobbit = $this->hobbit->poids_transporte_hobbit;
+		
+		$this->view->user->bm_attaque_hobbit = $this->hobbit->bm_attaque_hobbit;
+		$this->view->user->bm_degat_hobbit = $this->hobbit->bm_degat_hobbit;
+		$this->view->user->bm_defense_hobbit = $this->hobbit->bm_defense_hobbit;
+		
+		$this->view->user->regeneration_malus_hobbit = $this->hobbit->regeneration_malus_hobbit;
+		
+		$data = array(
+			'x_hobbit' => $this->hobbit->x_hobbit,
+			'y_hobbit'  => $this->hobbit->y_hobbit,
+			'date_debut_tour_hobbit' => $this->hobbit->date_debut_tour_hobbit,
+			'date_fin_tour_hobbit' => $this->hobbit->date_fin_tour_hobbit,
+			'duree_courant_tour_hobbit' => $this->hobbit->duree_courant_tour_hobbit,
+			'duree_prochain_tour_hobbit' => $this->hobbit->duree_prochain_tour_hobbit,
+			'tour_position_hobbit' => $this->hobbit->tour_position_hobbit,
+			'pa_hobbit' => $this->hobbit->pa_hobbit,
+			'armure_naturelle_hobbit' => $this->hobbit->armure_naturelle_hobbit,
+			'armure_equipement_hobbit' => $this->hobbit->armure_equipement_hobbit,
+			'est_mort_hobbit' => $this->hobbit->est_mort_hobbit,
+			'px_commun_hobbit' => $this->hobbit->px_commun_hobbit,
+			'px_perso_hobbit' => $this->hobbit->px_perso_hobbit,
+			'pv_max_hobbit' => $this->hobbit->pv_max_hobbit,
+			'pv_restant_hobbit' => $this->hobbit->pv_restant_hobbit,
+			'pv_max_bm_hobbit' => $this->hobbit->pv_max_bm_hobbit,
+			'balance_faim_hobbit' => $this->hobbit->balance_faim_hobbit,
+			'force_bm_hobbit' => $this->hobbit->force_bm_hobbit,
+			'force_bbdf_hobbit' => $this->hobbit->force_bbdf_hobbit,
+			'agilite_bm_hobbit' => $this->hobbit->agilite_bm_hobbit,
+			'agilite_bbdf_hobbit' => $this->hobbit->agilite_bbdf_hobbit,
+			'vigueur_bm_hobbit' => $this->hobbit->vigueur_bm_hobbit,
+			'vigueur_bbdf_hobbit' => $this->hobbit->vigueur_bbdf_hobbit,
+			'sagesse_bm_hobbit' => $this->hobbit->sagesse_bm_hobbit,
+			'sagesse_bbdf_hobbit' => $this->hobbit->sagesse_bbdf_hobbit,
+			'vue_bm_hobbit' => $this->hobbit->vue_bm_hobbit,
+			'poids_transportable_hobbit' => $this->hobbit->poids_transportable_hobbit,
+			'poids_transporte_hobbit' => $this->hobbit->poids_transporte_hobbit,
+			'regeneration_hobbit' => $this->hobbit->regeneration_hobbit,
+			'regeneration_malus_hobbit' => $this->hobbit->regeneration_malus_hobbit,
+			'bm_attaque_hobbit' => $this->hobbit->bm_attaque_hobbit,
+			'bm_degat_hobbit' => $this->hobbit->bm_degat_hobbit,
+			'bm_defense_hobbit' => $this->hobbit->bm_defense_hobbit,
+		);
+		$where = "id_hobbit=".$this->hobbit->id_hobbit;
+		$hobbitTable->update($data, $where);
+		Bral_Util_Log::tour()->debug(get_class($this)." activer() - update hobbit ".$this->hobbit->id_hobbit." en base");
+		Bral_Util_Log::tour()->trace(get_class($this)." updateDb - exit -");
 	}
 }
 

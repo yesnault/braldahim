@@ -34,10 +34,10 @@
 				<td class='comp_titre'><?=$key?></td>
 				<td>
 				<? if ($key == "id_hobbit"): ?>
-					<input type='hidden' name="<?=$key ?>" value="<?=$value?>">
+					<input type='hidden' name="<?=$key ?>" value="<?=stripslashes($value)?>">
 					<?=$value ?>
 				<? else: ?>
-					<input type='text' name="<?=$key ?>" value="<?=$value?>">
+					<input type='text' name="<?=$key ?>" value="<?=stripslashes($value)?>">
 				<? endif; ?>
 				</td>
 				<td>				
