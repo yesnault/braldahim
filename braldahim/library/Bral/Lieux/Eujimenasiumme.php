@@ -8,29 +8,45 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Lieu");
 		
-		$this->_coutCastars = $this->calculCoutCastars();
+		$coutPIForce =  $this->calculCoutAmelioration(1 + $this->view->user->force_base_hobbit);
+		$coutPIAgilite = $this->calculCoutAmelioration(1 + $this->view->user->agilite_base_hobbit);
+		$coutPIVigueur = $this->calculCoutAmelioration(1 + $this->view->user->vigueur_base_hobbit);
+		$coutPISagesse = $this->calculCoutAmelioration(1 + $this->view->user->sagesse_base_hobbit);
 
-		$achatPiPossible = false;
-
-		$coutForce =  $this->calculCoutAmelioration(1+$this->view->user->force_base_hobbit);
-		$coutAgilite = $this->calculCoutAmelioration(1+$this->view->user->agilite_base_hobbit);
-		$coutVigueur = $this->calculCoutAmelioration(1+$this->view->user->vigueur_base_hobbit);
-		$coutSagesse = $this->calculCoutAmelioration(1+$this->view->user->sagesse_base_hobbit);
-
-		if ($coutForce <= $this->view->user->pi_hobbit
-		|| $coutAgilite <= $this->view->user->pi_hobbit
-		|| $coutVigueur <= $this->view->user->pi_hobbit
-		|| $coutSagesse <= $this->view->user->pi_hobbit ) {
-			$achatPiPossible = true;
+		$this->view->coutPIForce = $coutPIForce;
+		$this->view->coutPIAgilite = $coutPIAgilite;
+		$this->view->coutPIVigueur = $coutPIVigueur;
+		$this->view->coutPISagesse = $coutPISagesse;
+		
+		$this->view->coutCastarsForce = $this->calculCoutCastars($coutPIForce);
+		$this->view->coutCastarsAgilite = $this->calculCoutCastars($coutPIAgilite);
+		$this->view->coutCastarsVigueur = $this->calculCoutCastars($coutPIVigueur);
+		$this->view->coutCastarsSagesse = $this->calculCoutCastars($coutPISagesse);
+		
+		$this->view->achatPossibleForce = false;
+		$this->view->achatPossibleAgilite = false;
+		$this->view->achatPossibleVigueur = false;
+		$this->view->achatPossibleSagesse = false;
+		$this->view->achatPossible  = false;
+		
+		if ($coutPIForce <= $this->view->user->pi_hobbit && $this->view->coutCastarsForce <= $this->view->user->castars_hobbit) {
+			$this->view->achatPossibleForce = true;
 		}
-
-		$this->view->coutForce = $coutForce;
-		$this->view->coutAgilite = $coutAgilite;
-		$this->view->coutVigueur = $coutVigueur;
-		$this->view->coutSagesse = $coutSagesse;
-		$this->view->achatPiPossible = $achatPiPossible;
-		$this->view->coutCastars = $this->_coutCastars;
-		$this->view->achatPossibleCastars = ($this->view->user->castars_hobbit - $this->_coutCastars >= 0);
+		if ($coutPIAgilite <= $this->view->user->pi_hobbit && $this->view->coutCastarsAgilite <= $this->view->user->castars_hobbit) {
+			$this->view->achatPossibleAgilite = true;
+		}
+		if ($coutPIVigueur <= $this->view->user->pi_hobbit && $this->view->coutCastarsVigueur <= $this->view->user->castars_hobbit) {
+			$this->view->achatPossibleVigueur = true;
+		}
+		if ($coutPISagesse <= $this->view->user->pi_hobbit && $this->view->coutCastarsSagesse <= $this->view->user->castars_hobbit) {
+			$this->view->achatPossibleSagesse = true;
+		}
+		
+		if ($this->view->achatPossibleForce || $this->view->achatPossibleAgilite || 
+			$this->view->achatPossibleVigueur || $this->view->achatPossibleSagesse) {
+			$this->view->achatPossible  = true;
+		}
+		
 		// $this->view->utilisationPaPossible initialisé dans Bral_Lieux_Lieu
 	}
 
@@ -45,21 +61,17 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 			throw new Zend_Exception(get_class($this)." Utilisation impossible : PA:".$this->view->user->pa_hobbit);
 		}
 
-		// verification qu'il a assez de PI
-		if ($this->view->achatPiPossible == false) {
-			throw new Zend_Exception(get_class($this)." Utilisation impossible : PI:".$this->view->user->pi_hobbit);
+		// verification qu'il a assez de resssource
+		if ($this->view->achatPossible == false) {
+			throw new Zend_Exception(get_class($this)." Utilisation impossible (ressources)");
 		}
 
-		// verification qu'il y a assez de castars
-		if ($this->view->achatPossibleCastars == false) {
-			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_hobbit." cout:".$this->_coutCastars);
-		}
 		$this->view->nomCaracteristique = $this->request->get("valeur_1");
 		// verification que la valeur recue est bien connue
 		switch($this->request->get("valeur_1")) {
 			case "FOR":
-				if ($this->view->coutForce > $this->view->user->pi_hobbit) {
-					throw new Zend_Exception(get_class($this)." Achat FOR invalide : pi=".$this->view->user->pi_hobbit. " cout=".$this->view->coutForce);
+				if ($this->view->achatPossibleForce == false) {
+					throw new Zend_Exception(get_class($this)." Achat FOR invalide : pi=".$this->view->user->pi_hobbit. " coutPI=".$this->view->coutPIForce. " coutCastars=".$this->view->coutCastarsForce. " castars=".$this->view->user->castars_hobbit);
 				} else {
 					$this->view->user->force_base_hobbit = $this->view->user->force_base_hobbit + 1;
 					$this->view->user->pi_hobbit = $this->view->user->pi_hobbit - $this->view->coutForce;
@@ -69,8 +81,8 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 				}
 				break;
 			case "SAG":
-				if ($this->view->coutSagesse > $this->view->user->pi_hobbit) {
-					throw new Zend_Exception(get_class($this)." Achat SAG invalide : pi=".$this->view->user->pi_hobbit. " cout=".$this->view->coutSagesse);
+				if ($this->view->achatPossibleSagesse == false) {
+					throw new Zend_Exception(get_class($this)." Achat SAG invalide : pi=".$this->view->user->pi_hobbit. " coutPI=".$this->view->coutPISagesse. " coutCastars=".$this->view->coutCastarsSagesse. " castars=".$this->view->user->castars_hobbit);
 				} else {
 					$this->view->user->sagesse_base_hobbit = $this->view->user->sagesse_base_hobbit + 1;
 					$this->view->user->pi_hobbit = $this->view->user->pi_hobbit - $this->view->coutSagesse;
@@ -78,8 +90,8 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 				}
 				break;
 			case "VIG":
-				if ($this->view->coutVigueur > $this->view->user->pi_hobbit) {
-					throw new Zend_Exception(get_class($this)." Achat VIG invalide : pi=".$this->view->user->pi_hobbit. " cout=".$this->view->coutVigueur);
+				if ($this->view->achatPossibleVigueur == false) {
+					throw new Zend_Exception(get_class($this)." Achat VIG invalide : pi=".$this->view->user->pi_hobbit. " coutPI=".$this->view->coutPIVigueur. " coutCastars=".$this->view->coutCastarsVigueur. " castars=".$this->view->user->castars_hobbit);
 				} else {
 					$this->view->user->vigueur_base_hobbit = $this->view->user->vigueur_base_hobbit + 1;
 					$this->view->user->pi_hobbit = $this->view->user->pi_hobbit - $this->view->coutVigueur;
@@ -87,8 +99,8 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 				}
 				break;
 			case "AGI":
-				if ($this->view->coutAgilite > $this->view->user->pi_hobbit) {
-					throw new Zend_Exception(get_class($this)." Achat AGI invalide : pi=".$this->view->user->pi_hobbit. " cout=".$this->view->coutAgilite);
+				if ($this->view->achatPossibleAgilite == false) {
+					throw new Zend_Exception(get_class($this)." Achat AGI invalide : pi=".$this->view->user->pi_hobbit. " coutPI=".$this->view->coutPIAgilite. " coutCastars=".$this->view->coutCastarsAgilite. " castars=".$this->view->user->castars_hobbit);
 				} else {
 					$this->view->user->agilite_base_hobbit = $this->view->user->agilite_base_hobbit + 1;
 					$this->view->user->pi_hobbit = $this->view->user->pi_hobbit - $this->view->coutAgilite;
@@ -107,9 +119,9 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 		return array("box_profil", "box_laban", "box_vue");
 	}
 
-	private function calculCoutCastars() {
-		if ($this->view->user->pi_hobbit < 50) {
-			return $this->view->user->pi_hobbit;
+	private function calculCoutCastars($pi) {
+		if ($pi < 50) {
+			return $pi;
 		} else {
 			return 50;
 		}
