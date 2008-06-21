@@ -206,11 +206,19 @@ class Bral_Util_ConvertDate {
 	}
 	
 	/*
-	 * Converti en heure H:m:s un temps un minute.
+	 * Converti un temps un minute en heure H:m:s .
 	 */
 	public static function getHeureFromMinute($minutes) {
 		$heures = floor($minutes / 60);
 		$min = $minutes - $heures * 60;
+		
+		if ($heures == 0) {
+			$heures = "00";
+		}
+		
+		if ($min == 0) {
+			$min = "00";
+		}
 		
 		return $heures.":".$min.":00";
 	}
