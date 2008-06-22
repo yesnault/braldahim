@@ -25,6 +25,11 @@ class VoirController extends Zend_Controller_Action {
 		echo $voir->render();
 	}
 	
+	function hobbitsAction() {
+		$voir = Bral_Voir_Factory::getHobbits($this->_request, $this->view);
+		echo $voir->render();
+	}
+	
 	function monstreAction() {
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/'); 

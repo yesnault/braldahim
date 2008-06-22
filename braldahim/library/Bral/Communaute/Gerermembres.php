@@ -35,7 +35,6 @@ class Bral_Communaute_Gerermembres extends Bral_Communaute_Communaute {
 			return null;
 		}
 	}			
-			
 	
 	private function prepareRender() {
 		$communaute = null;

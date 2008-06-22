@@ -16,6 +16,36 @@ class Hobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
+	function findByCriteres($niveau = -1 , $page = null, $nbMax = null, $ordre = null, $sens = null) {
+		if ($niveau != -1) {
+			$and = " niveau_hobbit = ".intval($niveau); 
+		} else {
+			$and = null;
+		}
+		
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit')
+		->where('est_compte_actif_hobbit = ?', "oui");
+		
+		if ($and != null) {
+			$select->where($and);
+		}
+		
+		if ($ordre != null && $sens != null) {
+			$select->order($ordre.$sens);
+		} else {
+			$select->order("prenom_hobbit");
+		}
+		
+		if ($page != null && $nbMax != null) {
+			$select->limitPage($page, $nbMax);
+		}
+		
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
 	function selectVue($x_min, $y_min, $x_max, $y_max, $sansHobbitCourant = -1) {
 		$db = $this->getAdapter();
 		$select = $db->select();

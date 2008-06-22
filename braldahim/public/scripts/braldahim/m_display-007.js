@@ -108,7 +108,7 @@ function limiteTailleTextarea(textarea, max, iddesc) {
 }
 
 function ouvrirWin(url, titre) {
-	window.open(url, titre, "directories=no,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=800,height=600");
+	window.open(url, titre, "directories=no,location=yes,menubar=yes,resizable=yes,scrollbars=yes,status=yes,toolbar=yes,width=800,height=600");
 }
 
 function messagerie(nbMessageNonLu) {
@@ -146,7 +146,7 @@ function ecrireMessage(idJoomla) {
 		// si l'onglet n'a jamais été vu.
 		$("loaded_box_messagerie").value = "1"; 
 	}
-	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_2="+idJoomla);
+	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_2=" + idJoomla);
 	my_switch("box_messagerie","boite_c");
 }
 
