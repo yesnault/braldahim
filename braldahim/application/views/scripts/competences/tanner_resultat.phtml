@@ -5,8 +5,13 @@
 	
 	<? if ($this->quantiteFourrure > 0): ?>
 		<? if ($this->quantiteFourrure > 1): $s='s'; else: $s=""; endif; ?>
-		<?=$this->quantiteFourrure  ?> pi&egrave;ce<?=$s ?> de fourrure.
-	<? else : ?>
+		<?=$this->quantiteFourrure  ?> pi&egrave;ce<?=$s ?> de fourrure
+	<? endif; ?>
+	
+	<? if ($this->quantiteCuir > 1): ?>
+		<? if ($this->quantiteFourrure > 0): ?>
+		et 
+		<? endif; ?>
 		<? if ($this->quantiteCuir > 1): $s='s'; else: $s=""; endif; ?>
 		<?=$this->quantiteCuir  ?> pi&egrave;ce<?=$s ?> de cuir.
 	<? endif; ?>

@@ -80,18 +80,10 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 	}
 	
 	private function calculTanner() {
-		//Transforme 2 unités de peau en 1D2 unités de cuir ou de fourrure (suivant la peau).
+		//Transforme 2 unités de peau en 1D2 unités de cuir ou de fourrure.
 		$quantiteCuir = 0;
 		$quantiteFourrure = 0;
-		$cuir = false;
 	
-		$n = Bral_Util_De::get_1d100();
-		if ($n <= 50) {
-			$cuir = true;
-		} else {
-			$cuir = false;
-		}
-		
 		// Le joueur tente de transformer n+1 peaux ou n est son niveau de FOR
 		$nb = $this->view->nbPeau;
 		
@@ -102,14 +94,9 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 		}
 		$perte = 0.5-0.002 * ($tirage + $this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit);
 	
-		// Et arrondi ((n+1)-(n+1)*p) cuir en sortie
-		$quantite = round(($nb - $nb * $perte) / 2);
-		
-		if ($cuir) {
-			$quantiteCuir = $quantite;
-		} else {
-			$quantiteFourrure = $quantite;
-		}
+		// Et arrondi ((n+1)-(n+1)*p) /2 cuir en sortie
+		$quantiteCuir = round(($nb - $nb * $perte) / 2);
+		$quantiteFourrure = round(($nb - $nb * $perte) / 2);
 		
 		$echoppeTable = new Echoppe();
 		$data = array(

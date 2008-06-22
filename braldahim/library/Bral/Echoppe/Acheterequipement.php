@@ -177,15 +177,6 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 	}
 
 	private function preparePrix() {
-		$labanTable = new Laban();
-		$laban = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
-		
-		if (count($laban) != 1) {
-			throw new Zend_Exception(get_class($this)."::laban invalide =! 1");
-		} else {
-			$laban = $laban[0];
-		}
-		
 		$e = $this->view->equipement;
 		$tabPrix = null;
 		
@@ -196,7 +187,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 	    	$prix = $e["prix_1_vente_echoppe_equipement"];
 	    	$nom = Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_equipement"]);
 	    	$type = "echoppe";
-	    	$possible = $this->calculPrixUnitaire($laban, $prix, Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_equipement"], true));
+	    	$possible = $this->calculPrixUnitaire($prix, Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_equipement"], true));
 	    	$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_1_vente_echoppe_equipement"]);
     	}
     	
@@ -204,7 +195,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 	    	$prix = $e["prix_2_vente_echoppe_equipement"];
 	    	$nom = Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_equipement"]);
 	    	$type = "echoppe";
-	    	$possible = $this->calculPrixUnitaire($laban, $prix, Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_equipement"], true));
+	    	$possible = $this->calculPrixUnitaire($prix, Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_equipement"], true));
 	    	$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_2_vente_echoppe_equipement"]);
     	}	
 	    
@@ -212,7 +203,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 	    	$prix = $e["prix_3_vente_echoppe_equipement"];
 	    	$nom = Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_equipement"]);
 	    	$type = "echoppe";
-	    	$possible = $this->calculPrixUnitaire($laban, $prix, Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_equipement"], true));
+	    	$possible = $this->calculPrixUnitaire($prix, Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_equipement"], true));
 	    	$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_3_vente_echoppe_equipement"]);
     	}
     	
@@ -252,6 +243,17 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 	
 	private function calculPrixUnitaire($laban, $prix, $nomSysteme) {
 		$retour = false;
+		
+		$labanTable = new Laban();
+		$laban = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
+		
+		if (count($laban) != 1) {
+			$possedeLaban = false;
+		} else {
+			$possedeLaban = true;
+			$laban = $laban[0];
+		}
+		
 		if ($nomSysteme == "rondin") {
 			$charretteTable = new Charrette();
 			$charrette = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
@@ -261,11 +263,11 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 					$retour = true;
 				}
 			}
-		} elseif ($nomSysteme == "peau") {
+		} elseif ($nomSysteme == "peau" && $possedeLaban == true) {
 			if ($laban["quantite_peau_laban"] >= $prix) {
 				$retour = true;
 			}
-		} elseif ($nomSysteme == "castar") {
+		} elseif ($nomSysteme == "castar" && $possedeLaban == true) {
 			if ($this->view->user->castars_hobbit >= $prix) {
 				$retour = true;
 			}
