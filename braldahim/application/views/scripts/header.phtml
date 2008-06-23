@@ -6,23 +6,9 @@
  <body>
 <? endif; ?>
 
-<div id="modalPage">
-    <div class="modalBackground"></div>
-    <div class="modalContainer">
- 		<div id="box_chargement" class="box_chargement">
-			<?=Bral_Helper_Box::haut(); ?>
-			 <div class="inner" style='background-color:#CC6666'>
-			 Chargement en Cours<br /><img src="/public/images/wait.gif" />
-		 	</div>
-			<?=Bral_Helper_Box::bas(); ?>
-		 </div>
-    </div>
-</div>
+<? include('headerDiv.phtml'); ?>
 
 <? include('headerAuth.phtml'); ?>
-
-<div id="overDiv" style="position:absolute; visibility:hidden; z-index:100001;"></div>
-<div style="height:10px">&nbsp;</div>
 
 <? include('headerMenu.phtml'); ?>
 
@@ -38,12 +24,6 @@
   </div>
 <? endif; ?>
 
-<div id="erreur" class="box_erreur" style="display:none"></div>
-<div id="erreur_catch" class="box_erreur" style="display:none">
-<textarea id="erreur_catch_contenu" rows="15" COLS="60"></textarea>
-</div>
-
-<div id="racine" class="box_racine">
-</div>
+<? include('headerErreurRacine.phtml'); ?>
 
 
