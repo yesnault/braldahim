@@ -1,0 +1,29 @@
+<? if (isset($this->user) && isset($this->user->email_hobbit) && $this->controleur != "voir") : ?> 
+	<?=Bral_Helper_Box::haut(); ?>
+
+	<? if ($this->controleur == "interface") : ?>
+		<span id="message_nb_img" style="float:right; " style="display:none">
+		 	<img id="img_message_ancien" src="/public/images/uddeim/env.gif" alt="" border="0" style="display:none"/>
+			<img id="img_message_nouveau" src="/public/images/uddeim/env_ani.gif" alt="" border="0" style="display:none"/>
+		</span>
+		<span id="message_nb" style="float:right; " style="display:none;">
+			<label id="message_nb_label" class="alabel" style="text-decoration:underline" onClick='Javascript:_get_("/interface/load/?box=box_messagerie");my_switch("box_messagerie","boite_c");	'></label>
+		</span>
+	<? endif; ?>
+	 
+	 <div class="inner_top">
+		 <?=$this->escape($this->user->prenom_hobbit);?> <?=$this->escape($this->user->nom_hobbit);?> | 
+		 <? if ($this->user->administrateur === true) : ?>
+		  	<a href="/Administration/" class="menu_lien">Administration</a> |
+		 <? endif; ?>
+		 <a href="/interface/" class="menu_lien">Interface</a> |
+		 <? if ($this->user->gardeEnCours === false) : ?>
+		  	<a href="/Parametres/" class="menu_lien">Param&egrave;tres</a> |
+		 <? endif; ?>
+		 <a href="http://www.braldahim.com">Site</a> | 
+		 <a href="/voir/">Voir</a> | 
+		 <a href="/auth/logout"> D&eacute;connexion </a>
+	 </div>
+	
+	<?=Bral_Helper_Box::bas(); ?>
+<? endif; ?>

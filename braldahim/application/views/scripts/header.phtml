@@ -1,30 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr"> 
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta http-equiv="Cache-Control" content="no-cache" />
-	
-	<script type="text/javascript" src="/public/scripts/prototype_1602/prototype.js"></script> 
-	<script type="text/javascript" src="/public/scripts/scriptaculous_181/scriptaculous.js" ></script>
-	<script type="text/javascript" src="/public/scripts/modalbox_160/modalbox.js"></script>
-	<!-- <script type="text/javascript" src="/public/scripts/braldahim/braldahim_001/braldahim.js-BAK"></script>-->
-    
-	<script type="text/javascript" src="/public/scripts/braldahim/m_action-004.js"></script>
-	<script type="text/javascript" src="/public/scripts/braldahim/m_display-007.js"></script>
-	<script type="text/javascript" src="/public/scripts/braldahim/m_recherche-004.js"></script>
-	<script type="text/javascript" src="/public/scripts/braldahim/uddeimtools-001.js"></script>
-	<script type="text/javascript" src="/public/scripts/braldahim/bbsmile-001.js"></script>
-	
-	<script type="text/javascript" src="/public/scripts/overlib_421/overlib.js"></script>
-	<script type="text/javascript" src="/public/scripts/overlib_421/overlib_exclusive.js"></script>
-	<script type="text/javascript" src="/public/scripts/overlib_421/overlib_fade.js"></script>
-	
-	<title>Braldahim</title>
-	<link href="/public/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-	<link rel="stylesheet" type="text/css" media="screen" href="/public/styles/braldahim_defaut/uddeim.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="/public/styles/braldahim_defaut/braldahim-002.css" />
-	
-</head>
+<? include('headerHead.phtml'); ?>
 
 <? if($this->user && $this->controleur == "interface") : ?>
  <body onLoad="_get_('/interface/boxes');">
@@ -35,51 +9,22 @@
 <div id="modalPage">
     <div class="modalBackground"></div>
     <div class="modalContainer">
-          <div id="box_chargement" class="box_chargement">
+ 		<div id="box_chargement" class="box_chargement">
 			<?=Bral_Helper_Box::haut(); ?>
 			 <div class="inner" style='background-color:#CC6666'>
-				 Chargement en Cours<br /><img src="/public/images/wait.gif" />
-			 </div>
+			 Chargement en Cours<br /><img src="/public/images/wait.gif" />
+		 	</div>
 			<?=Bral_Helper_Box::bas(); ?>
-		  </div>
+		 </div>
     </div>
 </div>
 
-<? if ($this->user): ?>
- <input type="hidden" name="dateAuth" id="dateAuth" value="<?=$this->user->dateAuth ?>">
-<? endif; ?>
+<? include('headerAuth.phtml'); ?>
 
 <div id="overDiv" style="position:absolute; visibility:hidden; z-index:100001;"></div>
 <div style="height:10px">&nbsp;</div>
-<? if (isset($this->user) && isset($this->user->email_hobbit)) : ?> 
-<?=Bral_Helper_Box::haut(); ?>
 
-<? if ($this->controleur == "interface") : ?>
-
-<span id="message_nb_img" style="float:right; " style="display:none">
- 	<img id="img_message_ancien" src="/public/images/uddeim/env.gif" alt="" border="0" style="display:none"/>
-	<img id="img_message_nouveau" src="/public/images/uddeim/env_ani.gif" alt="" border="0" style="display:none"/>
-</span>
-<span id="message_nb" style="float:right; " style="display:none;">
-	<label id="message_nb_label" class="alabel" style="text-decoration:underline" onClick='Javascript:_get_("/interface/load/?box=box_messagerie");my_switch("box_messagerie","boite_c");	'></label>
-</span>
-<? endif; ?>
- 
- <div class="inner_top">
-  <?=$this->escape($this->user->prenom_hobbit);?> <?=$this->escape($this->user->nom_hobbit);?> | 
-  <? if ($this->user->administrateur === true) : ?>
-  	<a href="/Administration/" class="menu_lien">Administration</a> |
-  <? endif; ?>
-  <a href="/interface/" class="menu_lien">Interface</a> |
-  <? if ($this->user->gardeEnCours === false) : ?>
-  	<a href="/Parametres/" class="menu_lien">Param&egrave;tres</a> |
-  <? endif; ?>
-  <a href="http://www.braldahim.com">Site</a> | 
-  <a href="/auth/logout"> D&eacute;connexion </a>
- </div>
-
-<?=Bral_Helper_Box::bas(); ?>
-<? endif; ?>
+<? include('headerMenu.phtml'); ?>
 
 <? if ($this->user && ($this->controleur == "interface")) : ?> 
   <div id="box_action" class="box_action" style="display:none"></div>

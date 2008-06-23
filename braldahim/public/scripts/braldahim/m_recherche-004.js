@@ -1,3 +1,4 @@
+
 function activerRechercheHobbit(id) {
 	if ($('recherche_' + id + '_actif').value == 0) {
 		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/hobbit/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
@@ -6,16 +7,38 @@ function activerRechercheHobbit(id) {
 	}
 }
 
-function getSelectionId(text, li) {
+function activerRechercheVoirHobbit(id) {
+	if ($('recherche_' + id + '_actif').value == 0) {
+		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/hobbit/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
+		afterUpdateElement :getVoirId, parameters : { champ :'value' } });
+		$('recherche_' + id + '_actif').value = 1;
+	}
+}
+
+function controleSession(li) {
 	if (li.getAttribute('champ') == null) { // aucun ou trop de résultats
-		return;
+		return false;
 	} else if (li.getAttribute('champ') == 'logout') {
 		alert("Votre session a expiré, veuillez vous reconnecter.");
 		document.location.href = "/";
+		return false;
+	} else {
+		return true;
 	}
+}
 
-	makeJsListeAvecSupprimer(li.getAttribute('champ'), li.getAttribute('valeur'), li.getAttribute('id_fk_jos_users_hobbit'), li.getAttribute('id_hobbit'));
-	$('recherche_' + champ).value = '';
+function getVoirId(text, li) {
+	if (controleSession(li) == true) {
+		document.location.href = "/voir/hobbit/?hobbit=" + li.getAttribute('id_hobbit');
+		$('recherche_' + champ).value = 'Chargement en cours...';
+	}
+}
+
+function getSelectionId(text, li) {
+	if (controleSession(li) == true) {
+		makeJsListeAvecSupprimer(li.getAttribute('champ'), li.getAttribute('valeur'), li.getAttribute('id_fk_jos_users_hobbit'), li.getAttribute('id_hobbit'));
+		$('recherche_' + champ).value = '';
+	}
 }
 
 function makeJsListeAvecSupprimer(champ, valeur, idJos, idHobbit) {

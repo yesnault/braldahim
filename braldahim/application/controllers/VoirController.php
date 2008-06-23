@@ -4,7 +4,7 @@ class VoirController extends Zend_Controller_Action {
 
 	function init() {
 		$this->initView();
-		
+		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
 		$this->view->controleur = $this->_request->controller;
 		
@@ -12,7 +12,7 @@ class VoirController extends Zend_Controller_Action {
 	}
 
 	function indexAction() {
-		$this->_redirect('auth/login');
+		echo $this->render();
 	}
 
 	function communauteAction() {
@@ -27,6 +27,11 @@ class VoirController extends Zend_Controller_Action {
 	
 	function hobbitsAction() {
 		$voir = Bral_Voir_Factory::getHobbits($this->_request, $this->view);
+		echo $voir->render();
+	}
+	
+	function communautesAction() {
+		$voir = Bral_Voir_Factory::getCommunautes($this->_request, $this->view);
 		echo $voir->render();
 	}
 	
