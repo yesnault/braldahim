@@ -515,7 +515,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		Bral_Util_Log::tour()->trace(get_class($this)." calculPv - enter -");
 		if ($this->hobbit->pv_restant_hobbit < $this->hobbit->pv_max_hobbit) {
 			for ($i=1; $i <= $this->hobbit->regeneration_hobbit; $i++) {
-				$this->view->jetRegeneration = $this->view->jetRegeneration + Bral_Util_De::get_1d3();
+				$this->view->jetRegeneration = $this->view->jetRegeneration + Bral_Util_De::get_1d6();
 			}	
 			if ($this->view->jetRegeneration < 0) { // pas de regénération négative (même si le malus est important)
 				$this->view->jetRegeneration = 0;

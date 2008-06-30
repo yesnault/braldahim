@@ -123,7 +123,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 
 			$echoppeMineraiTable = new EchoppeMinerai();
 			$this->echoppeMinerai = $echoppeMineraiTable->findByIdEchoppe($idEchoppe);
-
+			
 			foreach($recetteCoutMinerai as $r) {
 				if (($r["quantite_recette_cout_minerai"] > 0) &&
 				($r["niveau_recette_cout_minerai"] <=floor($this->view->user->niveau_hobbit / 10))) {
@@ -134,6 +134,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 						"cout" => $r["quantite_recette_cout_minerai"], 
 						"unite" => "lingot"
 					);
+					$ressourceMinerai = false;
 					foreach($this->echoppeMinerai as $m) {
 						if ($m["id_fk_type_echoppe_minerai"] == $r["id_type_minerai"]) {
 							if ($r["quantite_recette_cout_minerai"] <= $m["quantite_lingots_echoppe_minerai"]) {

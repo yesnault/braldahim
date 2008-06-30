@@ -1,0 +1,23 @@
+<? include("commun_text_resultat.phtml") ?>
+
+<? if ($this->okJet1 === true): ?>
+
+	<? if ($this->nRondinsSuffisants !==true) : ?>
+		Vous n'avez pas eu assez de rondins. Il vous fallait : 
+		<?=$this->nRondinsNecessaires ?> et vous avez <?=$this->nRondins ?> rondins<br /><br />
+		
+		Le nombre de rondins n&eacute;cessaire a &eacute;t&eacute; calcul&eacute;
+		avec la formule suivante : <?=$this->nRondinsNecessairesFormule ?>
+	<? else: ?>
+	
+		Vous avez mont&eacute; une palissade !<br />
+		Il vous a fallu <?=$this->nRondinsNecessaires ?> rondins, calcul&eacute;s 
+		avec la formule suivante : <?=$this->nRondinsNecessairesFormule ?><br /><br />
+		
+		La palissade a les caract&eacute;ristiques suivantes : <br />
+		Position : <?=$this->palissade["x_palissade"] ?>, <?=$this->palissade["y_palissade"] ?><br />
+		Armure naturelle : <?=$this->palissade["armure_naturelle_palissade"] ?><br />
+		PV Palissade : <?=$this->palissade["pv_restant_palissade"] ?><br />
+		Date de destruction : le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->palissade["date_fin_palissade"]); ?>
+	<? endif; ?>
+<? endif; ?>

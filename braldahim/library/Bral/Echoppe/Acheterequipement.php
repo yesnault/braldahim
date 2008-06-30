@@ -187,7 +187,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 	    	$prix = $e["prix_1_vente_echoppe_equipement"];
 	    	$nom = Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_equipement"]);
 	    	$type = "echoppe";
-	    	$possible = $this->calculPrixUnitaire($prix, Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_equipement"], true));
+	    	$possible = $this->calculPrixUnitaire($prix, Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_equipement"]));
 	    	$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_1_vente_echoppe_equipement"]);
     	}
     	
@@ -195,7 +195,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 	    	$prix = $e["prix_2_vente_echoppe_equipement"];
 	    	$nom = Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_equipement"]);
 	    	$type = "echoppe";
-	    	$possible = $this->calculPrixUnitaire($prix, Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_equipement"], true));
+	    	$possible = $this->calculPrixUnitaire($prix, Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_equipement"]));
 	    	$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_2_vente_echoppe_equipement"]);
     	}	
 	    
@@ -203,7 +203,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 	    	$prix = $e["prix_3_vente_echoppe_equipement"];
 	    	$nom = Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_equipement"]);
 	    	$type = "echoppe";
-	    	$possible = $this->calculPrixUnitaire($prix, Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_equipement"], true));
+	    	$possible = $this->calculPrixUnitaire($prix, Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_equipement"]));
 	    	$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_3_vente_echoppe_equipement"]);
     	}
     	
@@ -241,7 +241,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
     	$this->view->prix = $tabPrix;
 	}
 	
-	private function calculPrixUnitaire($laban, $prix, $nomSysteme) {
+	private function calculPrixUnitaire($prix, $nomSysteme) {
 		$retour = false;
 		
 		$labanTable = new Laban();

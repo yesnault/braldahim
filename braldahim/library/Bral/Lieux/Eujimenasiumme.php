@@ -112,6 +112,11 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 		}
 		
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
+		$this->view->user->pi_hobbit = $this->view->user->pi_hobbit - $this->view->coutPi;
+		if ($this->view->user->pi_hobbit < 0) {
+			$this->view->user->pi_hobbit = 0;
+		}
+		
 		$this->majHobbit();
 	}
 

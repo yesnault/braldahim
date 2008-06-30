@@ -19,5 +19,4 @@ abstract class Bral_Box_Box {
 	
 	abstract function setDisplay($display) ;
 	abstract function render() ;
-	
 }

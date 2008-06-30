@@ -25,7 +25,7 @@
      <td><?=$c["nom"]?></td>
      <td> co&ucirc;t : <?=$c["pi_cout"]?> PI </td>
      <td>
-     <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $c["trop_cher"] === false): ?>
+     <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $c["trop_cher"] === false && $this->achatPossibleCastars === true): ?>
        <input type="radio" name="valeur_1" id="valeur_1" value="<?=$c["id_competence"]?>" onChange="$('bouton_laffaque').disabled=false;">
      <? endif;?>
      </td>
