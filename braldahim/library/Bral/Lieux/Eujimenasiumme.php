@@ -75,7 +75,8 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 				} else {
 					$this->view->user->force_base_hobbit = $this->view->user->force_base_hobbit + 1;
 					$this->view->user->pi_hobbit = $this->view->user->pi_hobbit - $this->view->coutForce;
-					$this->view->coutPi = $this->view->coutForce;
+					$this->view->coutPi = $this->view->coutPIForce;
+					$this->view->coutCastars = $this->view->coutCastarsForce;
 					Zend_Loader::loadClass("Bral_Util_Poids");
 					$this->view->user->poids_transportable_hobbit = Bral_Util_Poids::calculPoidsTransportable($this->view->user->force_base_hobbit);
 				}
@@ -86,7 +87,8 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 				} else {
 					$this->view->user->sagesse_base_hobbit = $this->view->user->sagesse_base_hobbit + 1;
 					$this->view->user->pi_hobbit = $this->view->user->pi_hobbit - $this->view->coutSagesse;
-					$this->view->coutPi = $this->view->coutSagesse;
+					$this->view->coutPi = $this->view->coutPISagesse;
+					$this->view->coutCastars = $this->view->coutCastarsSagesse;
 				}
 				break;
 			case "VIG":
@@ -95,7 +97,8 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 				} else {
 					$this->view->user->vigueur_base_hobbit = $this->view->user->vigueur_base_hobbit + 1;
 					$this->view->user->pi_hobbit = $this->view->user->pi_hobbit - $this->view->coutVigueur;
-					$this->view->coutPi = $this->view->coutVigueur;
+					$this->view->coutPi = $this->view->coutPIVigueur;
+					$this->view->coutCastars = $this->view->coutCastarsVigueur;
 				}
 				break;
 			case "AGI":
@@ -104,14 +107,15 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 				} else {
 					$this->view->user->agilite_base_hobbit = $this->view->user->agilite_base_hobbit + 1;
 					$this->view->user->pi_hobbit = $this->view->user->pi_hobbit - $this->view->coutAgilite;
-					$this->view->coutPi = $this->view->coutAgilite;
+					$this->view->coutPi = $this->view->coutPIAgilite;
+					$this->view->coutCastars = $this->view->coutCastarsAgilite;
 				}
 				break;
 			default:
 				throw new Zend_Exception(get_class($this)." Valeur invalide : val=".$this->request->get("valeur_1"));
 		}
 		
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
+		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		$this->view->user->pi_hobbit = $this->view->user->pi_hobbit - $this->view->coutPi;
 		if ($this->view->user->pi_hobbit < 0) {
 			$this->view->user->pi_hobbit = 0;
