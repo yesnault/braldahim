@@ -110,6 +110,7 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." AttaquerPalissade Null");
 		}
 		
+		$this->setEvenementQueSurOkJet1(false);
 		$this->calculAttaquerPalissade();
 		$this->calculPx();
 		$this->calculBalanceFaim();
@@ -143,8 +144,6 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 			$where = "id_palissade=".intval($this->view->palissade["id_palissade"]);
 			$palissadeTable->update($data, $where);
 		}
-		
-		
 		
 		unset($palissadeTable);
 	}
