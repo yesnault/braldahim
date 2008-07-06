@@ -1,6 +1,6 @@
 <? include("commun_text_resultat.phtml") ?>
 
-Vous avez attaqu&eacute; une palissade !<br />
+Vous avez attaqu&eacute; une palissade en x:<?=$this->palissade["x_palissade"]?> et y:<?=$this->palissade["y_palissade"]?> !<br />
 <? if ($this->degats > 1) : $s='s'; else : $s=''; endif;?>
  Vous avez inflig&eacute; <?=$this->degats?> point<?=$s?> de d&eacute;g&acirc;ts.<br />
 
