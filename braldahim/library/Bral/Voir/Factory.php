@@ -43,4 +43,9 @@ class Bral_Voir_Factory {
 		Zend_Loader::loadClass("Bral_Voir_Communautes");
 		return new Bral_Voir_Communautes($request, $view);
 	}
+	
+	static function getVue($request, $view) {
+		Zend_Loader::loadClass("Bral_Voir_Vue");
+		return new Bral_Voir_Vue($request, $view);
+	}
 }

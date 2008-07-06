@@ -50,11 +50,15 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$this->view->x_max = $this->view->user->x_hobbit + $this->view->vue_nb_cases;
 		$this->view->y_min = $this->view->user->y_hobbit - $this->view->vue_nb_cases;
 		$this->view->y_max = $this->view->user->y_hobbit + $this->view->vue_nb_cases;
-
+		
+		$this->view->estVueEtendue = false;
+		
 		if (($this->_request->get("caction") == "box_vue") && ($this->_request->get("valeur_1") != "")) { // si le joueur a clique sur une icone
 			$this->deplacement = $this->_request->get("valeur_1");
 			$this->view->centre_x = $this->get_deplacement_verif($this->view->x_min, $this->view->x_max, $this->_request->get("valeur_2"), 0);
 			$this->view->centre_y = $this->get_deplacement_verif($this->view->y_min, $this->view->y_max, $this->_request->get("valeur_3"), 0);
+		} else if ($this->_request->get("caction") == "voir") {
+			$this->view->estVueEtendue = true;
 		} else {
 			$this->view->centre_x = $this->view->user->x_hobbit;
 			$this->view->centre_y = $this->view->user->y_hobbit;
@@ -184,10 +188,17 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$zones = $zoneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($zoneTable);
 		
-		$centre_x_min = $this->view->centre_x - $this->view->config->game->box_vue_taille;
-		$centre_x_max = $this->view->centre_x + $this->view->config->game->box_vue_taille;
-		$centre_y_min = $this->view->centre_y - $this->view->config->game->box_vue_taille;
-		$centre_y_max = $this->view->centre_y + $this->view->config->game->box_vue_taille;
+		if ($this->view->estVueEtendue == false) {
+			$centre_x_min = $this->view->centre_x - $this->view->config->game->box_vue_taille;
+			$centre_x_max = $this->view->centre_x + $this->view->config->game->box_vue_taille;
+			$centre_y_min = $this->view->centre_y - $this->view->config->game->box_vue_taille;
+			$centre_y_max = $this->view->centre_y + $this->view->config->game->box_vue_taille;
+		} else {
+			$centre_x_min = $this->view->x_min;
+			$centre_x_max = $this->view->x_max;
+			$centre_y_min = $this->view->y_min;
+			$centre_y_max = $this->view->y_max;
+		}
 
 		for ($j = $centre_y_max; $j >= $centre_y_min; $j --) {
 			$change_level = true;

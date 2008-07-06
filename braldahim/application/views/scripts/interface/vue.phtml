@@ -1,7 +1,17 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
 <? if ($this->affichageInterne == true) : ?>
-	<? include('vue/titre_vue.phtml'); ?>
+	<? 
+		if ($this->estVueEtendue == false) {
+			include('vue/titre_vue.phtml'); 
+		} else {
+			?><ul class="titre textalic textsizea">Ma Vue &Eacute;tendue</ul>
+			<ul class="titre textalic textsizef">
+			<?=$this->vue_nb_cases ?> case<? if ($this->vue_nb_cases > 1): echo "s"; endif; ?>
+			aux alentours
+			</ul> <?
+		}
+	?>
  	<div class="contenuC">
   		<ul class="box_contenu1 textalic">
   		&nbsp;
