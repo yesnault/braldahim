@@ -3,7 +3,7 @@ Vous avez <?=$this->castars ?> castar<? if ($this->castars > 1): echo "s"; endif
 <? if ($this->deposerOk === true) : ?>
 	<br />
 	Nombre de castars &agrave; d&eacute;poser : 
-	<input type='textbox' maxlength='7' size='7' name='valeur_2' id='valeur_2' value='' onkeypress="chiffres(event);" onkeyup="if (this.value != '' && this.value > 0) {$('bouton_deposer').disabled=false} else {$('bouton_deposer').disabled=true}">
+	<input type='text' maxlength='7' size='7' name='valeur_2' id='valeur_2' value='' onkeypress="chiffres(event);" onkeyup="if (this.value != '' && this.value > 0) {$('bouton_deposer').disabled=false} else {$('bouton_deposer').disabled=true}">
 <? endif; ?>
 
 	<input type='hidden' name='valeur_3' id='valeur_3' value='0' />

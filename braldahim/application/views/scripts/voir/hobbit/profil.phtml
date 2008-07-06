@@ -14,7 +14,7 @@
 	<th>Communaut&eacute;</th>
 	<td class="table_liste" nowrap>
 	<? if ($this->communaute == null) : ?>
-		</i>Aucune</i>
+		<i>Aucune</i>
 	<? else: ?>
 		<a href="/voir/communaute/?communaute=<?=$this->communaute["id_communaute"] ?>">
 		<?=$this->communaute["nom_communaute"] ?>, n&deg;<?=$this->communaute["id_communaute"] ?>
@@ -24,7 +24,7 @@
   </tr>
   <tr class="table_liste">
 	<th>Niveau</th>
-	<td class="table_liste"><?=$this->hobbit["niveau_hobbit"] ?></a></td>
+	<td class="table_liste"><?=$this->hobbit["niveau_hobbit"] ?></td>
   </tr>
   <tr class="table_liste">
 	<th>Nombre de morts</th>
@@ -32,11 +32,11 @@
   </tr>
   <tr class="table_liste">
 	<th>Nombre de meurtres Hobbit</th>
-	<td class="table_liste"><?=$this->hobbit["nb_hobbit_kill_hobbit"] ?></a></td>
+	<td class="table_liste"><?=$this->hobbit["nb_hobbit_kill_hobbit"] ?></td>
   </tr>
   <tr class="table_liste">
 	<th>Nombre de meurtres Monstre</th>
-	<td class="table_liste"><?=$this->hobbit["nb_monstre_kill_hobbit"] ?></a></td>
+	<td class="table_liste"><?=$this->hobbit["nb_monstre_kill_hobbit"] ?></td>
   </tr>
   <tr class="table_liste" valign="top">
 	<th>M&eacute;tier<? if ($this->possedeMetier && $this->tabMetierCourant != null && count($this->tabMetiers) > 0) :
@@ -69,7 +69,7 @@
 
 <ul class="titre textalic textsizea">Profil Non Officiel</ul>
 <ul class="titre textalic textsizec">Renseign&eacute; par le joueur</ul>
-<table class="table_liste" style="width:90%;'>
+<table class="table_liste" style="width:90%;">
 <tr class="table_liste">
 	<td class="table_liste" style="text-align:left; width:10%;'">
 		<?=Bral_Helper_Image::afficherBlason($this->hobbit["url_blason_hobbit"]); ?>

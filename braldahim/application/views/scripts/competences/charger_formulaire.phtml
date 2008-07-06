@@ -3,7 +3,7 @@
  	<? if ($this->chargerVilleOk == false): ?>
  		Vous ne pouvez pas utiliser cette comp&eacute;tence en ville.<br />
  	<? elseif ($this->nHobbits == 0 && $this->nMonstres == 0): ?>
- 		Il n'y a rien &agrave charger dans votre distance de charge de <?=$this->charge_nb_cases ?> case<?if ($this->charge_nb_cases > 1): echo 's'; endif; ?><br />
+ 		Il n'y a rien &agrave; charger dans votre distance de charge de <?=$this->charge_nb_cases ?> case<?if ($this->charge_nb_cases > 1): echo 's'; endif; ?><br />
  	<? else: ?>
  		Pour <?=$this->nb_pa?> PA, vous pouvez charger &agrave; <?=$this->charge_nb_cases ?> case<?if ($this->charge_nb_cases > 1): echo 's'; endif; ?>.<br /><br />
  		Charger : <br /><br />
