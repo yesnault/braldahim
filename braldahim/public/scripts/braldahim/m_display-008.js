@@ -112,20 +112,22 @@ function ouvrirWin(url, titre) {
 }
 
 function messagerie(nbMessageNonLu) {
-	$('message_nb').style.display = "block";
-	$('message_nb_img').style.display = "block";
-	$('img_message_nouveau').style.display = "none";
-	$('img_message_ancien').style.display = "none";
-	
-	if (nbMessageNonLu == 1) {
-		$('message_nb_label').innerHTML = " 1 nouveau message&nbsp;";
-		$('img_message_nouveau').style.display = "block";
-	} else if (nbMessageNonLu > 1) {
-		$('message_nb_label').innerHTML = nbMessageNonLu + " nouveaux messages&nbsp;";
-		$('img_message_nouveau').style.display = "block";
-	} else { // 0
-		$('message_nb_label').innerHTML = " Pas de nouveau message&nbsp;";
-		$('img_message_ancien').style.display = "block";
+	if ($('message_nb_label')) {
+		$('message_nb').style.display = "block";
+		$('message_nb_img').style.display = "block";
+		$('img_message_nouveau').style.display = "none";
+		$('img_message_ancien').style.display = "none";
+		
+		if (nbMessageNonLu == 1) {
+			$('message_nb_label').innerHTML = " 1 nouveau message&nbsp;";
+			$('img_message_nouveau').style.display = "block";
+		} else if (nbMessageNonLu > 1) {
+			$('message_nb_label').innerHTML = nbMessageNonLu + " nouveaux messages&nbsp;";
+			$('img_message_nouveau').style.display = "block";
+		} else { // 0
+			$('message_nb_label').innerHTML = " Pas de nouveau message&nbsp;";
+			$('img_message_ancien').style.display = "block";
+		}
 	}
 }
 

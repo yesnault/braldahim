@@ -30,14 +30,14 @@ function controleSession(li) {
 function getVoirId(text, li) {
 	if (controleSession(li) == true) {
 		document.location.href = "/voir/hobbit/?hobbit=" + li.getAttribute('id_hobbit');
-		$('recherche_' + champ).value = 'Chargement en cours...';
+		$('recherche_' + li.getAttribute('champ')).value = 'Chargement en cours...';
 	}
 }
 
 function getSelectionId(text, li) {
 	if (controleSession(li) == true) {
 		makeJsListeAvecSupprimer(li.getAttribute('champ'), li.getAttribute('valeur'), li.getAttribute('id_fk_jos_users_hobbit'), li.getAttribute('id_hobbit'));
-		$('recherche_' + champ).value = '';
+		$('recherche_' + li.getAttribute('champ')).value = '';
 	}
 }
 
