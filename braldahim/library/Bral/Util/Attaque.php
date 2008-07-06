@@ -269,7 +269,7 @@ class Bral_Util_Attaque {
 		$cible = array('nom_cible' => $monstre["nom_type_monstre"]." ".$m_taille, 'id_cible' => $monstre["id_monstre"], 'niveau_cible' => $monstre["niveau_monstre"],  'x_cible' => $monstre["x_monstre"], 'y_cible' => $monstre["y_monstre"]);
 		$retourAttaque["cible"] = $cible;
 
-		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqu�
+		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetAttaquant=".$retourAttaque["jetAttaquant"]. " jetCible=".$retourAttaque["jetCible"]);
 		if ($retourAttaque["jetAttaquant"] > $retourAttaque["jetCible"]) {
 			$retourAttaque["attaqueReussie"] = true;

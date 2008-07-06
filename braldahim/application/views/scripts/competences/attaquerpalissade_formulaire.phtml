@@ -41,5 +41,5 @@
 
 <br />
 <?php if ($this->assezDePa === true && $this->attaquerPalissadeOk === true) : ?>
-<input type='button' class='button1' value='Attaquer la palissade !' onClick='alert("En Développement");return;this.disabled=true;_get_("/competences/doaction?caction=do_competence_attaquerpalissade");'>
+<input type='button' class='button1' value='Attaquer la palissade !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_attaquerpalissade");'>
 <? endif ?>

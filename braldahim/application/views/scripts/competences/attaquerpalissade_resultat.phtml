@@ -1,23 +1,23 @@
 <? include("commun_text_resultat.phtml") ?>
 
-<? if ($this->okJet1 === true): ?>
+Vous avez attaqu&eacute; une palissade !<br />
+<? if ($this->degats > 1) : $s='s'; else : $s=''; endif;?>
+ Vous avez inflig&eacute; <?=$this->degats?> point<?=$s?> de d&eacute;g&acirc;ts.<br />
 
-	<? if ($this->nRondinsSuffisants !==true) : ?>
-		Vous n'avez pas eu assez de rondins. Il vous fallait : 
-		<?=$this->nRondinsNecessaires ?> et vous avez <?=$this->nRondins ?> rondins<br /><br />
-		
-		Le nombre de rondins n&eacute;cessaire a &eacute;t&eacute; calcul&eacute;
-		avec la formule suivante : <?=$this->nRondinsNecessairesFormule ?>
-	<? else: ?>
-	
-		Vous avez mont&eacute; une palissade !<br />
-		Il vous a fallu <?=$this->nRondinsNecessaires ?> rondins, calcul&eacute;s 
-		avec la formule suivante : <?=$this->nRondinsNecessairesFormule ?><br /><br />
-		
-		La palissade a les caract&eacute;ristiques suivantes : <br />
-		Position : <?=$this->palissade["x_palissade"] ?>, <?=$this->palissade["y_palissade"] ?><br />
-		Armure naturelle : <?=$this->palissade["armure_naturelle_palissade"] ?><br />
-		PV Palissade : <?=$this->palissade["pv_restant_palissade"] ?><br />
-		Date de destruction : le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->palissade["date_fin_palissade"]); ?>
-	<? endif; ?>
+<? if ($this->degatsInfliges != $this->degats) : ?>
+	<? if ($this->degatsInfliges > 1) : $s='s'; else : $s=''; endif;?>
+	Son armure la prot&egrave;ge, elle ne perd que <?=$this->degatsInfliges?> point<?=$s?> de d&eacute;g&acirc;ts.<br />
 <? endif; ?>
+
+<? if ($this->detruire) :?>
+	La palissade est d&eacute;truite.
+<? else: ?>
+	La palissade est touch&eacute;e &agrave; <?=100 - ($this->palissade["pv_restant_palissade"]*100 / $this->palissade["pv_max_palissade"]) ?> %
+<? endif; ?>
+<br /><br />
+<? if ($this->nb_px > 0) :?>
+	Vous avez gagn&eacute; <?=$this->nb_px?> PX.
+<? else : ?>
+	Vous n'avez pas gagn&eacute; de PX.
+<? endif; ?>
+<br /><br />

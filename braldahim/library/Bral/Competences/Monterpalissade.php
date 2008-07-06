@@ -266,6 +266,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 			"agilite_palissade" => 0,
 			"armure_naturelle_palissade" => $this->view->user->armure_naturelle_hobbit * 4,
 			"pv_restant_palissade" => $this->view->user->pv_restant_hobbit * 4,
+			"pv_max_palissade" => $this->view->user->pv_restant_hobbit * 4,
 			"date_creation_palissade" => $date_creation,
 			"date_fin_palissade" => $date_fin,
 		);

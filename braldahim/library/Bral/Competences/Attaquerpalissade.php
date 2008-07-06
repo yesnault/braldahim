@@ -3,8 +3,8 @@
 class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 
 	function prepareCommun() {
-		Zend_Loader::loadClass('Echoppe'); 	
-		Zend_Loader::loadClass('Palissade');  	
+		Zend_Loader::loadClass('Bral_Util_Attaque'); 	
+		Zend_Loader::loadClass('Palissade');
 
 		$this->view->attaquerPalissadeOk = false;
 	
@@ -30,10 +30,12 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 			 	$display .= $y;
 			 	
 				$valid = false;
+				$palissade = null;
 			 	
 			 	foreach($palissades as $p) {
 					if ($x == $p["x_palissade"] && $y == $p["y_palissade"]) {
 						$valid = true;
+						$palissade = $p;
 						break;
 					}
 				}
@@ -54,6 +56,14 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 					"valid" => $valid
 			 	);	
 				
+			 	if ($this->request->get("valeur_1") != null) { // attaque palissade en cours
+				 	$x_y = $this->request->get("valeur_1");
+					list ($offset_x, $offset_y) = split("h", $x_y);
+					if ($offset_x == $i && $offset_y == $j && $valid == true) {
+						$this->view->palissade = $palissade;
+					}
+			 	}
+		
 			 	$tabValidation[$i][$j] = $valid;
 			 	
 				if ($change_level) {
@@ -96,98 +106,60 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." AttaquerPalissade XY impossible : ".$offset_x.$offset_y);
 		}
 		
-		// calcul des jets
-		$this->calculJets();
-
-		if ($this->view->okJet1 === true) {
-			$this->calculAttaquerPalissade($this->view->user->x_hobbit + $offset_x, $this->view->user->y_hobbit + $offset_y);
+		if ($this->view->palissade == null) {
+			throw new Zend_Exception(get_class($this)." AttaquerPalissade Null");
 		}
 		
+		$this->calculAttaquerPalissade();
 		$this->calculPx();
-		$this->calculPoids();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}
 	
-	private function calculAttaquerPalissade($x, $y) {
+	private function calculAttaquerPalissade() {
 		
-		/*
-		 * [11.1-11*0.68] % -> 2+1D3
-		 * [100-(11.1-11*0.68)-(10*0.68)] % -> 1+1D3
-		 * [10*0.68] % -> 1D3
-		 */
-		$maitrise = $this->hobbit_competence["pourcentage_hcomp"];
-		$chance_a = 11.1-11 * $maitrise;
-		$chance_b = 100-(11.1-11 * $maitrise)-(10 * $maitrise);
-		$chance_c = 10 * $maitrise;
+		$tabDegats = Bral_Util_Attaque::calculDegatAttaqueNormale($this->view->user);
+		$this->view->degats = $tabDegats["noncritique"];
 		
+		$this->view->detruire = false;
+		$this->view->degatsInfliges = $this->view->degats - $this->view->palissade["armure_naturelle_palissade"];
 		
-		/*
-		 * Afin de déterminer la qualité de la palissage n jet de dés sont effectués. 
-		 * Seul le meilleur des n jets est gardé. n=(BM SAG/2)+1.
-		 */
-		$n = (($this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit) / 2 ) + 1;
-		
-		if ($n < 1) $n = 1;
-		
-		$tirage = 0;
-		
-		for ($i = 1; $i <= $n; $i ++) {
-			$tirageTemp = Bral_Util_De::get_1d100();
-			if ($tirageTemp > $tirage) {
-				$tirage = $tirageTemp;
-			}
+		$this->view->palissade["pv_restant_palissade"] = $this->view->palissade["pv_restant_palissade"] - $this->view->degatsInfliges;
+		if ($this->view->palissade["pv_restant_palissade"] <= 0) {
+			$this->view->palissade["pv_restant_palissade"] = 0;
+			$this->view->detruire = true;
 		}
-		
-		if ($tirage > 0 && $tirage <= $chance_a) {
-			$this->view->nRondinsNecessaires = 2 + Bral_Util_De::get_1d3();
-			$this->view->nRondinsNecessairesFormule = "2 + 1D3";
-		} elseif ($tirage > $chance_a && $tirage <= $chance_b) {
-			$this->view->nRondinsNecessaires = 1 + Bral_Util_De::get_1d3();
-			$this->view->nRondinsNecessairesFormule = "1 + 1D3";
-		} elseif ($tirage > $chance_b && $tirage <= 100) {
-			$this->view->nRondinsNecessaires = Bral_Util_De::get_1d3();
-			$this->view->nRondinsNecessairesFormule = "1D3";
-		}
-		
-		$this->view->nRondinsSuffisants = false;
-		
-		if ($this->view->nRondins >= $this->view->nRondinsNecessaires) {
-			$this->view->nRondinsSuffisants = true;
-		} else {
-			return;
-		}
-		
-		$charretteTable = new Charrette();
-		$data = array(
-			'quantite_rondin_charrette' => -$this->view->nRondinsNecessaires,
-			'id_fk_hobbit_charrette' => $this->view->user->id_hobbit,
-		);
-		$charretteTable->updateCharrette($data);
-		unset($charretteTable);
-		
-		$date_creation = date("Y-m-d H:i:s");
-		$nb_jours = ($this->view->user->vigueur_base_hobbit / 2) + Bral_Util_De::get_1d3();;
-		$date_fin = Bral_Util_ConvertDate::get_date_add_day_to_date($date_creation, $nb_jours);
-		
-		$data = array(
-			"x_palissade"  => $x,
-			"y_palissade" => $y,
-			"agilite_palissade" => 0,
-			"armure_naturelle_palissade" => $this->view->user->armure_naturelle_hobbit * 4,
-			"pv_restant_palissade" => $this->view->user->pv_restant_hobbit * 4,
-			"date_creation_palissade" => $date_creation,
-			"date_fin_palissade" => $date_fin,
-		);
 		
 		$palissadeTable = new Palissade();
-		$palissadeTable->insert($data);
-		unset($palissadeTable);
 		
-		$this->view->palissade = $data;
+		if ($this->view->detruire) {
+			$where = "id_palissade=".intval($this->view->palissade["id_palissade"]);
+			$palissadeTable->delete($where);
+		} else {
+			$data = array(
+				"pv_restant_palissade" => $this->view->palissade["pv_restant_palissade"],
+			);
+			
+			$where = "id_palissade=".intval($this->view->palissade["id_palissade"]);
+			$palissadeTable->update($data, $where);
+		}
+		
+		
+		
+		unset($palissadeTable);
+	}
+	
+	protected function calculPx() {
+		$this->view->calcul_px_generique = false;
+		if ($this->view->degatsInfliges > 0) {
+			$this->view->nb_px = 1;
+		} else {
+			$this->view->nb_px = 0;
+		}
+		$this->view->nb_px_perso = $this->view->nb_px;
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_competences_metiers", "box_vue", "box_laban", "box_charrette", "box_evenements");
+		return array("box_profil", "box_vue", "box_evenements");
 	}
 }
