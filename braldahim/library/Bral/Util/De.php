@@ -3,8 +3,7 @@
 class Bral_Util_De {
 
 	public static function get_1d1() {
-		srand(self::make_seed());
-		return rand(0, 1);
+		return 1;
 	}
 	
 	public static function get_1d2() {

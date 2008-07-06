@@ -76,13 +76,11 @@ class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
 				$this->view->nom_metier_courant = $m["nom_masculin_metier"];
 			}
 
-			foreach ($regions as $r) {
-				if (count($tabEchoppes) > 0) {
-					foreach ($tabEchoppes as $e) {
-						if ($e["id_metier"] == $m["id_metier"] && $r["id_region"] == $e["id_region"]) {
-							$this->view->aucuneEchoppe = false;
-							break;
-						}
+			if (count($tabEchoppes) > 0) {
+				foreach ($tabEchoppes as $e) {
+					if ($e["id_metier"] == $m["id_metier"] && $this->view->regionCourante["id_region"] == $e["id_region"]) {
+						$this->view->aucuneEchoppe = false;
+						break;
 					}
 				}
 			}
@@ -129,7 +127,7 @@ class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
 			return;
 		}
 
-		// on verifie que la position est dans la comt� de la tentative
+		// on verifie que la position est dans la comté de la tentative
 		$this->view->construireRegionOk = true;
 		if ($this->regionCourante["x_min_region"] > $x || $this->regionCourante["x_max_region"] < $x || $this->regionCourante["y_min_region"] > $y || $this->regionCourante["y_max_region"] < $y) {
 			$this->view->construireRegionOk = false;
@@ -143,7 +141,9 @@ class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
 				'y_echoppe' => $y,
 				'id_fk_metier_echoppe' => $this->id_metier_courant,
 				'date_creation_echoppe' => date("Y-m-d H:i:s"),
-				);
+
+				
+			);
 			$echoppesTable->insert($data);
 			$this->view->constructionEchoppeOk = true;
 

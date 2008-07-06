@@ -119,10 +119,10 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 		
 		// A partir de la quantité choisie on a un % de perte de plante : p=0,5-0,002*(jet AGI + BM)
 		$tirage = 0;
-		for ($i=1; $i <= ($this->view->config->game->base_agilite + $hobbit->agilite_base_hobbit) ; $i++) {
+		for ($i=1; $i <= ($this->view->config->game->base_agilite + $this->view->user->agilite_base_hobbit) ; $i++) {
 			$tirage = $tirage + Bral_Util_De::get_1d6();
 		}
-		$perte = 0.5-0.002 * ($tirage + $hobbit->agilite_bm_hobbit + $hobbit->agilite_bbdf_hobbit);
+		$perte = 0.5-0.002 * ($tirage + $this->view->user->agilite_bm_hobbit + $this->view->user->agilite_bbdf_hobbit);
 	
 		// Et arrondi ((n+1)-(n+1)*p) plantes préparées en sortie
 		$this->view->nbPartiesPlantesPreparees = round($nb - $nb * $perte);
