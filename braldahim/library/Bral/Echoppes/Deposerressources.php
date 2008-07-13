@@ -162,50 +162,34 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		
 		$echoppeTable = new Echoppe();
 		
-		if ($nb_peau > 0) {
+		
 			// on retire du laban
 			$labanTable = new Laban();
 			$data = array(
 				'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
 				'quantite_peau_laban' => -$nb_peau,
+				'quantite_cuir_laban' => -$nb_cuir,
+				'quantite_fourrure_laban' => -$nb_fourrure,
+				'quantite_planche_laban' => -$nb_planche,
 			);
 			$labanTable->insertOrUpdate($data);
+		
+		if ($nb_peau > 0) {
 			$this->view->elementsRetires .= $nb_peau. " peau";
 			if ($nb_peau > 1) $this->view->elementsRetires .= "x";
 			$this->view->elementsRetires .= ", ";
 		}
 		if ($nb_cuir > 0) {
-			// on retire du laban
-			$labanTable = new Laban();
-			$data = array(
-				'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
-				'quantite_cuir_laban' => -$nb_cuir,
-			);
-			$labanTable->insertOrUpdate($data);
 			$this->view->elementsRetires .= $nb_cuir. " cuir";
 			if ($nb_cuir > 1) $this->view->elementsRetires .= "s";
 			$this->view->elementsRetires .= ", ";
 		}
 		if ($nb_fourrure > 0) {
-			// on retire du laban
-			$labanTable = new Laban();
-			$data = array(
-				'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
-				'quantite_fourrure_laban' => -$nb_fourrure,
-			);
-			$labanTable->insertOrUpdate($data);
 			$this->view->elementsRetires .= $nb_fourrure. " fourrure";
 			if ($nb_fourrure > 1) $this->view->elementsRetires .= "s";
 			$this->view->elementsRetires .= ", ";
 		}		
 		if ($nb_planche > 0) {
-			// on retire du laban
-			$labanTable = new Laban();
-			$data = array(
-				'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
-				'quantite_planche_laban' => -$nb_planche,
-			);
-			$labanTable->insertOrUpdate($data);
 			$this->view->elementsRetires .= $nb_planche. " planche";
 			if ($nb_planche > 1) $this->view->elementsRetires .= "s";
 			$this->view->elementsRetires .= ", ";
@@ -252,19 +236,32 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 		$labanPartiePlanteTable = new LabanPartieplante();
 		
-		for ($i=7; $i<=$this->view->valeur_fin_partieplantes; $i++) {
-			$indice = "valeur_".$i;
-			$nb = $this->request->get($indice);
-			if ((int) $nb."" != $this->request->get("valeur_".$i)."") {
-				throw new Zend_Exception(get_class($this)." NB Partie Plante invalide=".$nb);
+		for ($i=7; $i<=$this->view->valeur_fin_partieplantes; $i = $i + 2) {
+			$indice = $i;
+			$indiceBrutes = $i;
+			$indicePreparees = $i + 1;
+			$nbBrutes = $this->request->get("valeur_".$indiceBrutes);
+			$nbPreparees = $this->request->get("valeur_".$indicePreparees);
+			
+			if ((int) $nbBrutes."" != $this->request->get("valeur_".$indiceBrutes)."") {
+				throw new Zend_Exception(get_class($this)." NB Partie Plante Brute invalide=".$nbBrutes);
 			} else {
-				$nb = (int)$nb;
+				$nbBrutes = (int)$nbBrutes;
 			}
-			if ($nb > $this->view->partieplantes[$indice]["quantite_laban_partieplante"]) {
-				throw new Zend_Exception(get_class($this)." NB Partie Plante interdit=".$nb);
+			if ($nbBrutes > $this->view->partieplantes[$indice]["quantite_laban_partieplante"]) {
+				throw new Zend_Exception(get_class($this)." NB Partie Plante Brute interdit=".$nbBrutes);
 			}
-			if ($nb > 0) {
-				$data = array('quantite_arriere_echoppe_partieplante' => $nb,
+			if ((int) $nbPreparees."" != $this->request->get("valeur_".$indicePreparees)."") {
+				throw new Zend_Exception(get_class($this)." NB Partie Plante Preparee invalide=".$nbPreparees);
+			} else {
+				$nbPreparees = (int)$nbPreparees;
+			}
+			if ($nbPreparees > $this->view->partieplantes[$indice]["quantite_preparee_laban_partieplante"]) {
+				throw new Zend_Exception(get_class($this)." NB Partie Plante Preparee interdit=".$nbPreparees);
+			}
+			if ($nbBrutes > 0 || $nbPreparees > 0) {
+				$data = array('quantite_arriere_echoppe_partieplante' => $nbBrutes,
+							  'quantite_preparee_laban_partieplante' => $nbPreparees,
 							  'id_fk_type_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_laban_partieplante"],
 							  'id_fk_type_plante_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_laban_partieplante"],
 							  'id_fk_echoppe_echoppe_partieplante' => $this->view->idEchoppe);
@@ -274,11 +271,17 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 						'id_fk_type_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_laban_partieplante"],
 						'id_fk_type_plante_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_laban_partieplante"],
 						'id_fk_hobbit_laban_partieplante' => $this->view->user->id_hobbit,
-						'quantite_laban_partieplante' => -$nb,
+						'quantite_laban_partieplante' => -$nbBrutes,
+						'quantite_preparee_laban_partieplante' => -$nbPreparees,
 				);
 				$labanPartiePlanteTable->insertOrUpdate($data);
-				$this->view->elementsRetires .= $this->view->partieplantes[$indice]["nom_plante"]. " : ".$nb. " ".$this->view->partieplantes[$indice]["nom_type"];
-				if ($nb > 1) $this->view->elementsRetires .= "s";
+				$sbrute = "";
+				$spreparee = "";
+				if ($nbBrutes > 1) $sbrute = "s";
+				if ($nbPreparees > 1) $spreparee = "s";
+				$this->view->elementsRetires .= $this->view->partieplantes[$indice]["nom_plante"]. " : ";
+				$this->view->elementsRetires .= $nbBrutes. " ".$this->view->partieplantes[$indice]["nom_type"]. " brute".$sbrute;
+				$this->view->elementsRetires .=  " et ".$nbPreparees. " ".$this->view->partieplantes[$indice]["nom_type"]. " préparée".$spreparee;
 				$this->view->elementsRetires .= ", ";
 			}
 		}
@@ -324,10 +327,10 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 				$echoppeMineraiTable->insertOrUpdate($data);
 				
 				$data = array(
-				'id_fk_type_laban_minerai' => $this->view->minerais[$indice]["id_fk_type_laban_minerai"],
-				'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
-				'quantite_brut_laban_minerai' => -$nbBrut,
-				'quantite_lingots_laban_minerai' => -$nbLingot,
+					'id_fk_type_laban_minerai' => $this->view->minerais[$indice]["id_fk_type_laban_minerai"],
+					'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
+					'quantite_brut_laban_minerai' => -$nbBrut,
+					'quantite_lingots_laban_minerai' => -$nbLingot,
 				);
 		
 				$labanMineraiTable->insertOrUpdate($data);
@@ -336,7 +339,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 				$slingot = "";
 				if ($nbBrut > 1) $sbrut = "s";
 				if ($nbLingot > 1) $slingot = "s";
-				$this->view->elementsRetires .= $this->view->minerais[$indice]["type"]. " : ".$nbBrut. " brut".$sbrut." et ".$nbLingot." lingot".$slingot;
+				$this->view->elementsRetires .= $this->view->minerais[$indice]["type"]. " : ".$nbBrut. " minerai."$sbrut." brut".$sbrut." et ".$nbLingot." lingot".$slingot;
 				$this->view->elementsRetires .= ", ";
 			}
 		}
@@ -352,24 +355,26 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		
 		$this->view->nb_valeurs = 6;
 		$this->view->nb_partiePlantes = 0;
+		$this->view->nb_prepareesPartiePlantes = 0;
 		
 		if ($partiePlantes != null) {
 			foreach ($partiePlantes as $p) {
-				if ($p["quantite_laban_partieplante"] > 0) {
-					$this->view->nb_valeurs = $this->view->nb_valeurs + 1;
-					$tabPartiePlantes["valeur_".$this->view->nb_valeurs] = array(
-					"nom_type" => $p["nom_type_partieplante"],
-					"nom_plante" => $p["nom_type_plante"],
-					"id_fk_type_laban_partieplante" => $p["id_fk_type_laban_partieplante"],
-					"id_fk_type_plante_laban_partieplante" => $p["id_fk_type_plante_laban_partieplante"],
-					"id_fk_hobbit_laban_partieplante" => $p["id_fk_hobbit_laban_partieplante"],
-					"quantite_laban_partieplante" => $p["quantite_laban_partieplante"],
-					"indice_valeur" => $this->view->nb_valeurs,
+				if ($p["quantite_laban_partieplante"] > 0 || $p["quantite_preparee_laban_partieplante"] > 0) {
+						$this->view->nb_valeurs = $this->view->nb_valeurs + 1; // brute
+						$tabPartiePlantes[$this->view->nb_valeurs] = array(
+						"nom_type" => $p["nom_type_partieplante"],
+						"nom_plante" => $p["nom_type_plante"],
+						"id_fk_type_laban_partieplante" => $p["id_fk_type_laban_partieplante"],
+						"id_fk_type_plante_laban_partieplante" => $p["id_fk_type_plante_laban_partieplante"],
+						"id_fk_hobbit_laban_partieplante" => $p["id_fk_hobbit_laban_partieplante"],
+						"quantite_laban_partieplante" => $p["quantite_laban_partieplante"],
+						"quantite_preparee_laban_partieplante" => $p["quantite_preparee_laban_partieplante"],
+						"indice_valeur" => $this->view->nb_valeurs,
 					);
-					if ($p["quantite_laban_partieplante"] > 0) {
-						$this->view->deposerRessourcesOk = true;
-					}
+					$this->view->deposerRessourcesOk = true;
+					$this->view->nb_valeurs = $this->view->nb_valeurs + 1; // préparée
 					$this->view->nb_partiePlantes = $this->view->nb_partiePlantes + $p["quantite_laban_partieplante"];
+					$this->view->nb_prepareesPartiePlantes = $this->view->nb_prepareesPartiePlantes + $p["quantite_preparee_laban_partieplante"];
 				}
 			}
 		}
@@ -388,16 +393,14 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 				if ($m["quantite_brut_laban_minerai"] > 0 || $m["quantite_lingots_laban_minerai"] > 0) {
 					$this->view->nb_valeurs = $this->view->nb_valeurs + 1; // brut
 					$tabMinerais[$this->view->nb_valeurs] = array(
-					"type" => $m["nom_type_minerai"],
-					"id_fk_type_laban_minerai" => $m["id_fk_type_laban_minerai"],
-					"id_fk_hobbit_laban_minerai" => $m["id_fk_hobbit_laban_minerai"],
-					"quantite_brut_laban_minerai" => $m["quantite_brut_laban_minerai"],
-					"quantite_lingots_laban_minerai" => $m["quantite_lingots_laban_minerai"],
-					"indice_valeur" => $this->view->nb_valeurs,
+						"type" => $m["nom_type_minerai"],
+						"id_fk_type_laban_minerai" => $m["id_fk_type_laban_minerai"],
+						"id_fk_hobbit_laban_minerai" => $m["id_fk_hobbit_laban_minerai"],
+						"quantite_brut_laban_minerai" => $m["quantite_brut_laban_minerai"],
+						"quantite_lingots_laban_minerai" => $m["quantite_lingots_laban_minerai"],
+						"indice_valeur" => $this->view->nb_valeurs,
 					);
-					if ($m["quantite_brut_laban_minerai"] > 0 || $m["quantite_lingots_laban_minerai"] > 0) {
-						$this->view->deposerRessourcesOk = true;
-					}
+					$this->view->deposerRessourcesOk = true;
 					$this->view->nb_valeurs = $this->view->nb_valeurs + 1; // lingot
 					$this->view->nb_minerai_brut = $this->view->nb_minerai_brut + $m["quantite_brut_laban_minerai"];
 					$this->view->nb_minerai_lingot = $this->view->nb_minerai_lingot + $m["quantite_lingots_laban_minerai"];

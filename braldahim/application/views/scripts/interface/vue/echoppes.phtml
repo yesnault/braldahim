@@ -3,7 +3,7 @@
 	<?php 
 	$textEchoppe = "";
 	foreach($case["echoppes"] as $c) {
-		if ($c["nom_metier"]{0} == 'A') : $d="d'"; else: $d="de "; endif;
+		if ($c["nom_metier"]{0} == 'A') : $d="d\'"; else: $d="de "; endif;
 			$textEchoppe .= "&Eacute;choppe ".$d.htmlspecialchars($c["nom_metier"])." appartenant &agrave; <br>";
 			$textEchoppe .= addslashes(htmlspecialchars($c["prenom_hobbit"]))." ".addslashes(htmlspecialchars($c["nom_hobbit"])).", n&deg; ".$c["id_hobbit"];
 			if ($c["id_fk_jos_users_hobbit"] != null) {
