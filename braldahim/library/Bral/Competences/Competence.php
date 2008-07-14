@@ -267,12 +267,20 @@ abstract class Bral_Competences_Competence {
 			'x_hobbit' => $this->view->user->x_hobbit,
 			'y_hobbit'  => $this->view->user->y_hobbit,
 			'pv_restant_hobbit' => $this->view->user->pv_restant_hobbit,
+			'pv_max_bm_hobbit' => $this->view->user->pv_max_bm_hobbit,
 			'poids_transporte_hobbit' => $this->view->user->poids_transporte_hobbit,
+			'poids_transportable_hobbit' => $this->view->user->poids_transportable_hobbit,
 			'castars_hobbit' => $this->view->user->castars_hobbit,
 			'force_bbdf_hobbit' => $this->view->user->force_bbdf_hobbit,
 			'agilite_bbdf_hobbit' => $this->view->user->agilite_bbdf_hobbit,
 			'vigueur_bbdf_hobbit' => $this->view->user->vigueur_bbdf_hobbit,
 			'sagesse_bbdf_hobbit' => $this->view->user->sagesse_bbdf_hobbit,
+			'agilite_bm_hobbit' => $this->view->user->agilite_bm_hobbit,
+			'force_bm_hobbit' => $this->view->user->force_bm_hobbit,
+			'vigueur_bm_hobbit' => $this->view->user->vigueur_bm_hobbit,
+			'sagesse_bm_hobbit' => $this->view->user->sagesse_bm_hobbit,
+			'duree_prochain_tour_hobbit' => $this->view->user->duree_prochain_tour_hobbit ,
+			'armure_naturelle_hobbit' => $this->view->user->armure_naturelle_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		

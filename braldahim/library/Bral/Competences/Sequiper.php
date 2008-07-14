@@ -328,7 +328,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					// ZE Bonus de FOR = Niveau de FOR/3 arrondi inférieur
 					$this->view->user->force_bm_hobbit = $this->view->user->force_bm_hobbit + floor($this->view->user->force_base_hobbit / 3); 
 				} else if ($r["nom_type_rune"] == "IL") {
-					// IL R�duit le tour de jeu de 10 minutes ==> on rajoute 10 minutes donc
+					// IL Réduit le tour de jeu de 10 minutes ==> on rajoute 10 minutes donc
 					$this->view->user->duree_prochain_tour_hobbit = Bral_Util_ConvertDate::get_time_remove_time_to_time($this->view->user->duree_prochain_tour_hobbit, "00:10:00");
 				} else if ($r["nom_type_rune"] == "MU") {
 					// MU PV + niveau du Hobbit/10 arrondi inférieur
@@ -404,7 +404,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					// ZE Bonus de FOR = Niveau de FOR/3 arrondi inférieur
 					$this->view->user->force_bm_hobbit = $this->view->user->force_bm_hobbit - floor($this->view->user->force_base_hobbit / 3); 
 				} else if ($r["nom_type_rune"] == "IL") {
-					// IL R�duit le tour de jeu de 10 minutes ==> on rajoute 10 minutes donc
+					// IL Réduit le tour de jeu de 10 minutes ==> on rajoute 10 minutes donc
 					$this->view->user->duree_prochain_tour_hobbit = Bral_Util_ConvertDate::get_time_add_time_to_time($this->view->user->duree_prochain_tour_hobbit, "00:10:00");
 				} else if ($r["nom_type_rune"] == "MU") {
 					// MU PV + niveau du Hobbit/10 arrondi inférieur
