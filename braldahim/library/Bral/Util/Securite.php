@@ -17,7 +17,7 @@ class Bral_Util_Securite {
 	public static function controlBatchsOrAdmin($request) {
 		$passe = $request->get("batchspassword");
 		$config = Zend_Registry::get('config');
-		if (md5($passe) == $config->batchs->password) { // mot de passe Ok
+		if ($passe == md5($config->batchs->password)) { // mot de passe Ok
 			return true;
 		} else {
 			self::controlAdmin();
