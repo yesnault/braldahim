@@ -9,6 +9,7 @@ class Bral_Util_Log {
 	
 	private static $authentification = null;
 	private static $attaque = null;
+	private static $batchs = null;
 	private static $config = null;
 	private static $erreur = null;
 	private static $exception = null;
@@ -29,6 +30,13 @@ class Bral_Util_Log {
 			self::initLogAttaque();
 		}
 		return self::$attaque;
+	}
+	
+	public static function batchs() {
+		if (self::$batchs == null) {
+			self::initLogBatchs();
+		}
+		return self::$batchs;
 	}
 	
 	public static function erreur() {
@@ -118,6 +126,24 @@ class Bral_Util_Log {
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->attaque);
 		self::$attaque->addFilter($filtre);
 		self::$attaque->addPriority('TRACE', 8);
+		
+		if (self::$config->log->general->debug_browser == "oui") {
+			$redacteur = new Zend_Log_Writer_Stream('php://output');
+			self::$attaque->addWriter($redacteur);
+		}
+	}
+	
+	private static function initLogBatchs() {
+		if (self::$instance == null) {
+			$instance = self::getInstance();
+		}
+		self::$config = Zend_Registry::get('config');
+		self::$batchs = new Zend_Log();
+		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->batchs);
+		self::$batchs->addWriter($redacteur);
+		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->batchs);
+		self::$batchs->addFilter($filtre);
+		self::$batchs->addPriority('TRACE', 8);
 		
 		if (self::$config->log->general->debug_browser == "oui") {
 			$redacteur = new Zend_Log_Writer_Stream('php://output');

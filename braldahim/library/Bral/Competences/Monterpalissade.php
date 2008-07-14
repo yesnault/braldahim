@@ -200,7 +200,6 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 	}
 	
 	private function calculMonterPalissade($x, $y) {
-		
 		/*
 		 * [11.1-11*0.68] % -> 2+1D3
 		 * [100-(11.1-11*0.68)-(10*0.68)] % -> 1+1D3
@@ -256,7 +255,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		$charretteTable->updateCharrette($data);
 		unset($charretteTable);
 		
-		$date_creation = date("Y-m-d H:i:s");
+		$date_creation = date("Y-m-d H:00:00");
 		$nb_jours = ($this->view->user->vigueur_base_hobbit / 2) + Bral_Util_De::get_1d3();;
 		$date_fin = Bral_Util_ConvertDate::get_date_add_day_to_date($date_creation, $nb_jours);
 		
