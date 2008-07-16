@@ -339,7 +339,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 				$slingot = "";
 				if ($nbBrut > 1) $sbrut = "s";
 				if ($nbLingot > 1) $slingot = "s";
-				$this->view->elementsRetires .= $this->view->minerais[$indice]["type"]. " : ".$nbBrut. " minerai."$sbrut." brut".$sbrut." et ".$nbLingot." lingot".$slingot;
+				$this->view->elementsRetires .= $this->view->minerais[$indice]["type"]. " : ".$nbBrut. " minerai.".$sbrut." brut".$sbrut." et ".$nbLingot." lingot".$slingot;
 				$this->view->elementsRetires .= ", ";
 			}
 		}
