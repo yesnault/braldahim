@@ -76,7 +76,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 					$i = $i + $nb_membres;
 					$x_min_groupe = Bral_Util_De::get_de_specifique($x_min, $x_max);
 					$y_min_groupe = Bral_Util_De::get_de_specifique($y_min, $y_max);
-					if ($referenceCourante["id_type_groupe_monstre"] > 2) { //2 => nuée : tous sur la même case
+					if ($referenceCourante["id_type_groupe_monstre"] > 2) { //2 => nuï¿½e : tous sur la mï¿½me case
 						$x_max_groupe = $x_min_groupe + 4;
 						$y_max_groupe = $y_min_groupe + 4;
 					} else {
@@ -107,6 +107,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				for ($i = 1; $i < $nombre; $i++) {
 					$this->creationCalcul($referenceCourante, $x_min, $x_max, $y_min, $y_max);
 				}
+				$this->_tabCreation["groupesMonstres"] = null;
 			}
 			$this->view->tabCreation = $this->_tabCreation;
 		}
@@ -164,7 +165,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		return $id_groupe;
 	}
 
-	private function creationCalcul($referenceCourante, $x_min, $x_max, $y_min, $y_max, $id_groupe_monstre = 'NULL', $est_role_a = false, $est_role_b = false) {
+	private function creationCalcul($referenceCourante, $x_min, $x_max, $y_min, $y_max, $id_groupe_monstre = null, $est_role_a = false, $est_role_b = false) {
 		$id_fk_taille_monstre = $this->creationCalculTaille();
 
 		$referenceCourante = $this->recupereReferenceMonstre($referenceCourante["id_type_monstre"], $id_fk_taille_monstre);
@@ -201,13 +202,13 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
 		$p_vigueur = $referenceCourante["p_vigueur"] + $alea;
 
-		//Calcul des pi pour chaque caractéristique
+		//Calcul des pi pour chaque caractï¿½ristique
 		$pi_force = round($nb_pi * $p_force / 100);
 		$pi_sagesse = round($nb_pi * $p_sagesse / 100);
 		$pi_agilite = round($nb_pi * $p_agilite / 100);
 		$pi_vigueur = round($nb_pi * $p_vigueur / 100);
 
-		// Détermination du nb d'améliorations possibles avec les PI dans chaque caractéristique
+		// Dï¿½termination du nb d'amï¿½liorations possibles avec les PI dans chaque caractï¿½ristique
 		$niveau_force = $this->calculNiveau($pi_force);
 		$niveau_sagesse = $this->calculNiveau($pi_sagesse);
 		$niveau_agilite = $this->calculNiveau($pi_agilite);
@@ -271,7 +272,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 
 		$this->_tabCreation["monstres"][] = $data;
 
-		// mise à jour des roles
+		// mise ï¿½ jour des roles
 		if (($est_role_a === true) || ($est_role_b === true)) {
 			if ($est_role_a) {
 				$data = array(
@@ -376,7 +377,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 
 			$refTable = new ReferentielMonstre();
 			if ($this->_request->getParam('update', 0) != 0) {
-				// Mise à jour
+				// Mise ï¿½ jour
 				$where = "id_ref_monstre=".(int)$this->_request->getParam('update', 0);
 				$refTable->update($data, $where);
 			} else {

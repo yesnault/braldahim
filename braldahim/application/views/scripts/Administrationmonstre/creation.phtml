@@ -75,10 +75,12 @@
 			<ul class="titre textalic textsizeb">R&eacute;sultats Cr&eacute;ation</ul>
 				Cr&eacute;ation de <?=count($this->tabCreation["monstres"])?> monstre(s) et de <?=count($this->tabCreation["groupesMonstres"])?> groupe(s) de monstres<br />
 				
-				Groupes : <br />
-				<? foreach($this->tabCreation["groupesMonstres"] as $g): ?>
-					Groupe Id <?=$g["id_groupe_monstre"]?> Nombre de membres <?=$g["nb_membres_max_groupe_monstre"]?><br />
-				<? endforeach; ?>
+				<? if ($this->tabCreation["groupesMonstres"] != null) { ?>
+					Groupes : <br />
+					<? foreach($this->tabCreation["groupesMonstres"] as $g): ?>
+						Groupe Id <?=$g["id_groupe_monstre"]?> Nombre de membres <?=$g["nb_membres_max_groupe_monstre"]?><br />
+					<? endforeach; ?>
+				<? } ?>
 				
 				Monstres : <br />
 				<? foreach($this->tabCreation["monstres"] as $g): ?>

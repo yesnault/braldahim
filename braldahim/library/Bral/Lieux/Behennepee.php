@@ -126,6 +126,16 @@ class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
 			$this->view->construireLieuOk = false;
 			return;
 		}
+		
+		// on verifie que l'on est pas sur une echoppe
+		$echoppesTable = new Echoppe();
+		$echoppes = $echoppesTable->findByCase($x, $y);
+
+		$this->view->construireLieuEchoppeOk = true;
+		if (count($echoppes) > 0) {
+			$this->view->construireLieuEchoppeOk = false;
+			return;
+		}
 
 		// on verifie que la position est dans la comté de la tentative
 		$this->view->construireRegionOk = true;
@@ -133,7 +143,6 @@ class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
 			$this->view->construireRegionOk = false;
 			return;
 		} else {
-
 			$echoppesTable = new Echoppe();
 			$data = array (
 				'id_fk_hobbit_echoppe' => $this->view->user->id_hobbit,
@@ -141,8 +150,6 @@ class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
 				'y_echoppe' => $y,
 				'id_fk_metier_echoppe' => $this->id_metier_courant,
 				'date_creation_echoppe' => date("Y-m-d H:i:s"),
-
-				
 			);
 			$echoppesTable->insert($data);
 			$this->view->constructionEchoppeOk = true;
