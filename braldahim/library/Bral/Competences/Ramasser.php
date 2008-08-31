@@ -150,7 +150,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		$nbCastars = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 		
 		if ($nbCastars > $this->view->castars || $nbCastars < 0) {
-			throw new Zend_Exception(get_class($this)." NB Castars invalide : ".$nbcastars);
+			throw new Zend_Exception(get_class($this)." NB Castars invalide : ".$nbCastars);
 		} 
 		
 		if ($this->view->poidsPlaceDisponible == false) {

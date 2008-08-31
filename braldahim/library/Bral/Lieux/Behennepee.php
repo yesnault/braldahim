@@ -4,6 +4,7 @@ class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
 	function prepareCommun() {
 		Zend_Loader :: loadClass('Lieu');
 		Zend_Loader :: loadClass("Region");
+		Zend_Loader :: loadClass("Palissade");
 
 		$regionTable = new Region();
 		$regions = $regionTable->fetchAll(null, 'nom_region');
@@ -134,6 +135,16 @@ class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
 		$this->view->construireLieuEchoppeOk = true;
 		if (count($echoppes) > 0) {
 			$this->view->construireLieuEchoppeOk = false;
+			return;
+		}
+		
+		// on verifie que l'on est pas sur une palissade
+		$palissadesTable = new Palissade();
+		$palissades = $palissadesTable->findByCase($x, $y);
+
+		$this->view->construireLieuPalissadeOk = true;
+		if (count($palissades) > 0) {
+			$this->view->construireLieuPalissadeOk = false;
 			return;
 		}
 
