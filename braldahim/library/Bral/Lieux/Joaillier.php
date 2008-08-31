@@ -66,7 +66,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 					"id_rune_equipement_rune" => $e["id_rune_equipement_rune"],
 					"id_fk_type_rune_equipement_rune" => $e["id_fk_type_rune_equipement_rune"],
 					"nom_type_rune" => $e["nom_type_rune"],
-					"effet_type_rune" => $r["effet_type_rune"],
+					"effet_type_rune" => $e["effet_type_rune"],
 				);
 			}
 			

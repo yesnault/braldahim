@@ -75,7 +75,7 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
 		}
 
-		// Verification chasse
+		// Verification concocter
 		if ($this->view->concocterEchoppeOk == false || $this->view->concocterPlanteOk == false) {
 			throw new Zend_Exception(get_class($this)." Concocter interdit ");
 		}

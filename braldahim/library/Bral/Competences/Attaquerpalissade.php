@@ -125,6 +125,10 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 		$this->view->detruire = false;
 		$this->view->degatsInfliges = $this->view->degats - $this->view->palissade["armure_naturelle_palissade"];
 		
+		if ($this->view->degatsInfliges < 0) {
+			$this->view->degatsInfliges = 0;
+		}
+		
 		$this->view->palissade["pv_restant_palissade"] = $this->view->palissade["pv_restant_palissade"] - $this->view->degatsInfliges;
 		if ($this->view->palissade["pv_restant_palissade"] <= 0) {
 			$this->view->palissade["pv_restant_palissade"] = 0;
@@ -137,12 +141,14 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 			$where = "id_palissade=".intval($this->view->palissade["id_palissade"]);
 			$palissadeTable->delete($where);
 		} else {
-			$data = array(
-				"pv_restant_palissade" => $this->view->palissade["pv_restant_palissade"],
-			);
-			
-			$where = "id_palissade=".intval($this->view->palissade["id_palissade"]);
-			$palissadeTable->update($data, $where);
+			if ($this->view->degatsInfliges > 0) {
+				$data = array(
+					"pv_restant_palissade" => $this->view->palissade["pv_restant_palissade"],
+				);
+				
+				$where = "id_palissade=".intval($this->view->palissade["id_palissade"]);
+				$palissadeTable->update($data, $where);
+			}
 		}
 		
 		unset($palissadeTable);

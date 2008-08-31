@@ -69,7 +69,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 	}
 
 	function prepareFormulaire() {
-		// rien à faire ici
+		// rien a faire ici
 	}
 
 	function prepareResultat() {
@@ -165,7 +165,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_lieu", "box_evenements");
+		return array("box_profil", "box_vue", "box_lieu", "box_evenements", "box_laban");
 	}
 	
 	private function utiliserPotionHobbit($potion, $idHobbit) {
