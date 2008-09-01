@@ -408,14 +408,12 @@ class Bral_Monstres_VieMonstre {
 		
 		if ($tirage >= 1 && $tirage <= 1 + ($niveau/4) + $effetMotD) {
 			$niveau = 'a';
-		} else if ($tirage >= 2 && $tirage <= 10 + ($niveau/4) + $effetMotD) {
+		} else if ($tirage >= 2 && $tirage <= 20 + ($niveau/4) + $effetMotD) {
 			$niveau = 'b';
-		} else if ($tirage >= 11 && $tirage <= 20 - ($niveau/4) + $effetMotD) {
+		} else if ($tirage >= 21 && $tirage <= 30 - ($niveau/4) + $effetMotD) {
 			$niveau = 'c';
-		} else if ($tirage >= 21 && $tirage <= 90 - ($niveau/4) + $effetMotD) {
+		} else { //if ($tirage >= 31 && $tirage <= 100 - ($niveau/4) + $effetMotD) {
 			$niveau = 'd';
-		} else {
-			return;
 		}
 		
 		Bral_Util_Log::tech()->trace(get_class($this)."  - dropRune - niveau retenu=".$niveau);
