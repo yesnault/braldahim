@@ -80,7 +80,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 				Zend_Loader::loadClass('Zend_Filter_StripTags');
 				Zend_Loader::loadClass('Zend_Filter_StringTrim');
 				$filter = new Zend_Filter();
-				$nom = utf8_decode($this->request->getPost('valeur_3'));
+				$nom = $this->request->getPost('valeur_3');
 				$filter->addFilter(new Zend_Filter_StringTrim())->addFilter(new Zend_Filter_StripTags());
 				$nomCommunaute = stripslashes($filter->filter($nom));
 				
