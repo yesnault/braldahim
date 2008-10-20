@@ -108,12 +108,15 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 					throw new Zend_Exception(get_class($this)." Nouveau Metier inconnu : ".$idNouveauMetier);
 				}
 				$apprentissageMetier = true;
+				if ($this->_idAncienMetier != null) {
+					$changementMetier = true;
+				}
 				break;
 			default:
 				throw new Zend_Exception(get_class($this)." Mode inconnu : ".$mode);
 		}
 
-		if ($changementMetier) {
+		if ($changementMetier && !$apprentissageMetier) {
 			// verification que le metier est bien possede par le hobbit
 			$changementOk = false;
 			if ($this->_possedeMetier == true) {
@@ -127,7 +130,9 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 			if (!$changementOk) {
 				throw new Zend_Exception(get_class($this)." Metier non possede : ".$idNouveauMetierCourant);
 			}
-		} else { // apprentissage
+		} 
+		
+		if ($apprentissageMetier){ // apprentissage
 			// verification que le hobbit peut acheter le metier
 			if ($this->_achatPossible === false) {
 				throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_hobbit." cout:".$this->_coutCastars);
@@ -177,7 +182,8 @@ class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
 			$where = array("id_fk_hobbit_hmetier = ".intval($this->view->user->id_hobbit)." AND id_fk_metier_hmetier = ".intval($idNouveauMetierCourant));
 			$hobbitsMetiersTable->update($data, $where);
 
-		} else { // apprentissage
+		}
+		if ($apprentissageMetier){ // apprentissage
 			$hobbitsMetiersTable = new HobbitsMetiers();
 			$data = array('est_actif_hmetier' => 'non');
 			$where = "id_fk_hobbit_hmetier =".intval($this->view->user->id_hobbit);

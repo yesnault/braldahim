@@ -16,7 +16,11 @@
 	<? if ($this->constructionEchoppe === true): ?>
 		De plus, vous pouvez construire une &eacute;choppe !
 	<? endif; ?>
-<? elseif ($this->changementMetier === true) : ?>
-	Votre m&eacute;tier courant est maintenant :<br />
-	<?=$this->nomMetier ?>
+<? endif; ?>
+<? if ($this->changementMetier === true) : ?>
+	<? if ($this->apprentissageMetier === false) : ?>
+		Votre m&eacute;tier courant est maintenant :<br />
+		<?=$this->nomMetier ?>
+	<? endif; ?>
+	<br />Vous avez &eacute;galement perdu 10% sur les comp&eacute;tences de votre ancien m&eacute;tier.
 <? endif; ?>
