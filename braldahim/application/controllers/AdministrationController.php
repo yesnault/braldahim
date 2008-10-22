@@ -1,10 +1,13 @@
 <?php
 
 /**
- * $Id:$
+ * $Id$
  * $LastChangedDate$
  * $LastChangedRevision$
+ * $Revision$
  * $LastChangedBy$
+ * $Author$
+ * $Date$
  */
 class AdministrationController extends Zend_Controller_Action {
 	
