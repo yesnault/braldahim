@@ -1,7 +1,7 @@
 <?php
 
 class AdministrationController extends Zend_Controller_Action {
-
+	
 	function init() {
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
@@ -13,7 +13,7 @@ class AdministrationController extends Zend_Controller_Action {
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
 	}
-
+	
 	function indexAction() {
 		$this->view->md5_value = "";
 		if ($this->_request->get("md5_source") != "") {
