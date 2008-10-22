@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Auteur : $Author$
+ * Date : $Date$
+ * Revision : $Revision$
+ */
 class AdministrationController extends Zend_Controller_Action {
 	
 	function init() {
