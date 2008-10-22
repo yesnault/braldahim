@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Id : $Id$
- * Auteur : $Author$
- * Date : $Date$ 
- * Revision : $Revision$
+ * Id : $Id:$
+ * Auteur : $Author:$
+ * Date : $Date:$ 
+ * Revision : $Revision:$
  */
 class AdministrationController extends Zend_Controller_Action {
 	
