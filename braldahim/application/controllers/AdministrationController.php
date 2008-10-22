@@ -2,7 +2,7 @@
 
 /**
  * Auteur : $Author$
- * Date : $Date$
+ * Date : $Date$ 
  * Revision : $Revision$
  */
 class AdministrationController extends Zend_Controller_Action {
