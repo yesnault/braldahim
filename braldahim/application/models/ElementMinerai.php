@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * $Id:$
+ * $Author:$
+ * $LastChangedDate:$
+ * $LastChangedRevision:$
+ * $LastChangedBy:$
+ */
 class ElementMinerai extends Zend_Db_Table {
 	protected $_name = 'element_minerai';
 	protected $_primary = array('x_element_minerai',  'y_element_minerai', 'id_fk_type_element_minerai');

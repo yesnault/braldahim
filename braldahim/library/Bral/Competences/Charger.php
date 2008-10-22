@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * $Id:$
+ * $Author:$
+ * $LastChangedDate:$
+ * $LastChangedRevision:$
+ * $LastChangedBy:$
+ */
 /*
  * La distance de charge est basé sur la vigueur avec une réduction suivant le terrain de départ :
  * En plaine :

@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * $Id:$
+ * $Author:$
+ * $LastChangedDate:$
+ * $LastChangedRevision:$
+ * $LastChangedBy:$
+ */
 class PerduController extends Zend_Controller_Action {
 
 	function init() {
@@ -56,7 +66,7 @@ class PerduController extends Zend_Controller_Action {
 					 $tabEmail[] = $message;
 				}
 				if (!$validEmailConfirm) {
-					$this->view->messagesEmailConfirm = "Les deux emails sont différents";
+					$this->view->messagesEmailConfirm = "Les deux emails sont diffï¿½rents";
 				}
 				$this->view->messagesEmail = $tabEmail;
 			}
@@ -69,7 +79,7 @@ class PerduController extends Zend_Controller_Action {
 	}
 	
 	function generationAction() {
-		$this->view->title = "Génération d'un nouveau mot de passe";
+		$this->view->title = "Gï¿½nï¿½ration d'un nouveau mot de passe";
 		$this->view->generationOk = false;
 		$this->view->emailMaitreJeu = $this->view->config->general->mail->from_email;
 		$this->generationOk = false;

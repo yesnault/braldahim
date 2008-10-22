@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * $Id:$
+ * $Author:$
+ * $LastChangedDate:$
+ * $LastChangedRevision:$
+ * $LastChangedBy:$
+ */
+/**
 Enlève la peau d'un cadavre de monstre qui est au sol. 
 (Pour les monstres qui ont une peau). 
 

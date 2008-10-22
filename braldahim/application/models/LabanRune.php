@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * $Id:$
+ * $Author:$
+ * $LastChangedDate:$
+ * $LastChangedRevision:$
+ * $LastChangedBy:$
+ */
 class LabanRune extends Zend_Db_Table {
 	protected $_name = 'laban_rune';
 	protected $_primary = array('id_laban_rune', 'id_fk_hobbit_laban_rune');

@@ -1,9 +1,19 @@
 <?php
 
+/**
+ * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * $Id:$
+ * $Author:$
+ * $LastChangedDate:$
+ * $LastChangedRevision:$
+ * $LastChangedBy:$
+ */
 class Bral_Util_Evenement {
 
 	/*
-	 * Mise à jour des évènements du hobbit / du monstre.
+	 * Mise ï¿½ jour des ï¿½vï¿½nements du hobbit / du monstre.
 	 */
 	public static function majEvenements($idConcerne, $idTypeEvenement, $details, $detailsBot, $type="hobbit") {
 		Zend_Loader::loadClass('Evenement');

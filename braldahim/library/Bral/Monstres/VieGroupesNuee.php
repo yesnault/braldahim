@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * $Id:$
+ * $Author:$
+ * $LastChangedDate:$
+ * $LastChangedRevision:$
+ * $LastChangedBy:$
+ */
 class Bral_Monstres_VieGroupesNuee {
 	function __construct($view) {
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
@@ -221,7 +231,7 @@ class Bral_Monstres_VieGroupesNuee {
 	}
 
 	/**
-	 * Mise à jour du groupe en base.
+	 * Mise ï¿½ jour du groupe en base.
 	 */
 	private function updateGroupe(&$groupe) {
 		Bral_Util_Log::tech()->trace(get_class($this)." - updateGroupe - enter");

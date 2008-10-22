@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * $Id:$
+ * $Author:$
+ * $LastChangedDate:$
+ * $LastChangedRevision:$
+ * $LastChangedBy:$
+ */
 class Bral_Util_Commun {
 
 	private function __construct() {
@@ -49,7 +59,7 @@ class Bral_Util_Commun {
 	}
 	
 	/*
-	 * Regarde si la rune de @param est portée
+	 * Regarde si la rune de @param est portï¿½e
 	 */
 	public static function isRunePortee($idHobbit, $nomTypeRune) {
 		$retour = false;
@@ -254,7 +264,7 @@ class Bral_Util_Commun {
 	}
 	
 	/*
-	 * Lorqu'un Hobbit meurt il perd une partie de ces castars : 1/3 arr inférieur.
+	 * Lorqu'un Hobbit meurt il perd une partie de ces castars : 1/3 arr infï¿½rieur.
 	 */
 	public static function dropHobbitCastars($cible, $effetH = null) {
 		$nbCastars = 0;

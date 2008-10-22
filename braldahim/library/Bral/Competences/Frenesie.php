@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * $Id:$
+ * $Author:$
+ * $LastChangedDate:$
+ * $LastChangedRevision:$
+ * $LastChangedBy:$
+ */
+
 /*
  * Attaque : 0.5*(jet d'AGI)+BM AGI + bonus arme att
  * dégats : 0.5*(jet FOR)+BM FOR+ bonus arme dégats
