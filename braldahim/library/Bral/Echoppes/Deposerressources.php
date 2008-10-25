@@ -242,7 +242,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 	
 	private function calculPartiesPlantes() {
 		Zend_Loader::loadClass("EchoppePartieplante");
-		Zend_Loader::loadClass('LabanPartieplante');
+		Zend_Loader::loadClass("LabanPartieplante");
 		
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 		$labanPartiePlanteTable = new LabanPartieplante();
@@ -272,7 +272,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 			}
 			if ($nbBrutes > 0 || $nbPreparees > 0) {
 				$data = array('quantite_arriere_echoppe_partieplante' => $nbBrutes,
-							  'quantite_preparee_laban_partieplante' => $nbPreparees,
+							  'quantite_preparees_echoppe_partieplante' => $nbPreparees,
 							  'id_fk_type_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_laban_partieplante"],
 							  'id_fk_type_plante_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_laban_partieplante"],
 							  'id_fk_echoppe_echoppe_partieplante' => $this->view->idEchoppe);
@@ -283,7 +283,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 						'id_fk_type_plante_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_laban_partieplante"],
 						'id_fk_hobbit_laban_partieplante' => $this->view->user->id_hobbit,
 						'quantite_laban_partieplante' => -$nbBrutes,
-						'quantite_preparee_laban_partieplante' => -$nbPreparees,
+						'quantite_preparee_laban_partieplante' => -$nbPreparees
 				);
 				$labanPartiePlanteTable->insertOrUpdate($data);
 				$sbrute = "";
