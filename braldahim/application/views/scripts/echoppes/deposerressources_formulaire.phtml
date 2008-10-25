@@ -5,35 +5,55 @@
  <div class='comp_contenu'>
  	Vous pouvez d&eacute;poser des mati&egrave;res premi&egrave;res pr&eacute;sentes 
  	dans votre laban (ou dans votre charrette pour les rondins) pour les mettre dans
- 	l'arri&egrave;rre-boutique de cette &eacute;choppe.<br />
+ 	l'arri&egrave;re-boutique de cette &eacute;choppe.<br />
  	
 	<br />
-	<? if ($this->charretteOk === true): ?>
+	<? if ($this->charretteOk === true && $this->charrette["nb_rondin"] > 0): ?>
 		Rondins : <?=$this->charrette["nb_rondin"] ?>
 		Quantit&eacute; &agrave; d&eacute;poser : 
 		<input type='text' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0; if (this.value > <?=$this->charrette["nb_rondin"]  ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}" >
+		<br />
 	<? else : ?>
 		<input type='hidden' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='0' >
 	<? endif; ?>
-	<br />
+	<? if ($this->laban["nb_peau"] > 0): ?>
 	Peau : <?=$this->laban["nb_peau"] ?>.
 	Quantit&eacute; &agrave; d&eacute;poser : 
 	<input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_peau"]?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
+	<? else : ?>
+		Aucune Peau.
+		<input type='hidden' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='0' >
+	<? endif; ?>
 	<br />
+	<? if ($this->laban["nb_cuir"] > 0): ?>
 	Cuir : <?=$this->laban["nb_cuir"] ?>.
 	Quantit&eacute; &agrave; d&eacute;poser : 
 	<input type='text' maxlength='4' size='4' name='valeur_4' id='valeur_4' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_cuir"]?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
+	<? else : ?>
+		Aucun cuir.
+		<input type='hidden' maxlength='4' size='4' name='valeur_4' id='valeur_4' value='0' >
+	<? endif; ?>
 	<br />
+	<? if ($this->laban["nb_fourrure"] > 0): ?>
 	Fourrure : <?=$this->laban["nb_fourrure"] ?>.
 	Quantit&eacute; &agrave; d&eacute;poser : 
 	<input type='text' maxlength='4' size='4' name='valeur_5' id='valeur_5' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_fourrure"]?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
+	<? else : ?>
+		Aucune fourrure.
+		<input type='hidden' maxlength='4' size='4' name='valeur_5' id='valeur_5' value='0' >
+	<? endif; ?>
 	<br />
+	<? if ($this->laban["nb_planche"] > 0): ?>
 	Planche : <?=$this->laban["nb_planche"] ?>.
 	Quantit&eacute; &agrave; d&eacute;poser : 
 	<input type='text' maxlength='4' size='4' name='valeur_6' id='valeur_6' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_planche"]?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
+	<? else : ?>
+		Aucune planche.
+		<input type='hidden' maxlength='4' size='4' name='valeur_6' id='valeur_6' value='0' >
+	<? endif; ?>
 	<br />
 	<br />
-   <? if ($this->nb_partiePlantes == 0|| $this->nb_prepareesPartiePlantes == 0) : ?>
+   <? if ($this->nb_partiePlantes == 0 && $this->nb_prepareesPartiePlantes == 0) : ?>
    		Aucune plante brute ou pr&eacute;par&eacute;e<br />
     <? else : ?>
 	    <? if ($this->nb_partiePlantes==1):$s=''; else:$s='s';endif; ?>
@@ -57,7 +77,7 @@
 		    		<?=htmlspecialchars($p["nom_plante"])?> : <?=$p["quantite_laban_partieplante"]?> <?=htmlspecialchars($p["nom_type"])?><?=$s ?> brute<?=$s ?> et <?=$p["quantite_preparee_laban_partieplante"]?> <?=htmlspecialchars($p["nom_type"])?><?=$s2 ?> pr&eacute;par&eacute;<?=$s2 ?>.
 	    		<br />Quantit&eacute; &agrave; d&eacute;poser : 
 	    		<br>Brute : <input type='text' maxlength='4' size='4' name='valeur_<?=$k?>' id='valeur_<?=$k?>' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$p["quantite_laban_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
-	    		<br>Pr&eacute;par&eacute;e : <input type='text' maxlength='4' size='4' name='valeur_<?=($k+1)?>' id='valeur_<?=($k+1)?>' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$p["quantite_laban_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
+	    		<br>Pr&eacute;par&eacute;e : <input type='text' maxlength='4' size='4' name='valeur_<?=($k+1)?>' id='valeur_<?=($k+1)?>' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$p["quantite_preparee_laban_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_deposermatierespremieres').disabled=false;}else{$('bouton_deposermatierespremieres').disabled=true;}">
 	    	</td>
 	    	<? if ($i % 3 == 2) echo "</tr>"; 
 	    	$i++; 

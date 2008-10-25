@@ -51,12 +51,17 @@ class LabanPartieplante extends Zend_Db_Table {
 			$dataUpdate['quantite_preparee_laban_partieplante']  = $quantitePreparee;
 			
 			if (isset($data["quantite_laban_partieplante"])) {
-				$dataUpdate = array('quantite_laban_partieplante' => $quantiteBrute + $data["quantite_laban_partieplante"]);
+				$quantiteBrute += $data["quantite_laban_partieplante"];
 			};
 			
 			if (isset($data["quantite_preparee_laban_partieplante"])) {
-				$dataUpdate = array('quantite_preparee_laban_partieplante' => $quantitePreparee + $data["quantite_preparee_laban_partieplante"]);
+				$quantitePreparee += $data["quantite_preparee_laban_partieplante"];
 			};
+			
+			$dataUpdate = array(
+					'quantite_laban_partieplante' => $quantiteBrute,
+					'quantite_preparee_laban_partieplante' => $quantitePreparee,
+			);
 			
 			$where = ' id_fk_type_laban_partieplante = '.$data["id_fk_type_laban_partieplante"];
 			$where .= ' AND id_fk_hobbit_laban_partieplante = '.$data["id_fk_hobbit_laban_partieplante"];
