@@ -142,8 +142,12 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Castar");
 		$nbCastars = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 		
-		if ($nbCastars > $this->view->user->castars_hobbit || $nbCastars < 0) {
-			throw new Zend_Exception(get_class($this)." NB Castars invalide : ".$nbcastars);
+		if ($nbCastars > $this->view->user->castars_hobbit) {
+			$nbCastars = $this->view->user->castars_hobbit;
+		}
+		
+		if ($nbCastars < 0) {
+			throw new Zend_Exception(get_class($this)." NB Castars invalide : ".$nbCastars);
 		} 
 		
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $nbCastars;
