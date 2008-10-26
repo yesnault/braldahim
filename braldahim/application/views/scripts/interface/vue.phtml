@@ -16,9 +16,10 @@
   		<ul class="box_contenu1 textalic">
   		&nbsp;
 	    <table class='vue2d' align='center'>
-	     <?php $col="" ?>
 	     
 	     <?php 
+	     $col="";
+	     
 	     foreach($this->tableau as $case) : ?>
 			
 			<?php if ($case["change_level"] == 1 && $col == "ok") :
@@ -31,25 +32,23 @@
 	      	<td class='vue2d <?=$case["css"] ?>' nowrap>
 	      	
 			<? include('vue/cases.phtml'); ?>
-	      	
 	      	&nbsp;
-	        <?php if ($case["position_actuelle"] == true) : ?>
-	      	<?php endif; ?>
-	      	
-	      	<? include('vue/lieux.phtml'); ?>
-		    <? include('vue/cadavres.phtml'); ?>
-		    <? include('vue/castars.phtml'); ?>
-	      	<? include('vue/charrettes.phtml'); ?>
-	      	<? include('vue/echoppes.phtml'); ?>
-			<? include('vue/hobbits.phtml'); ?>
-			<? include('vue/monstres.phtml'); ?>
-			<? include('vue/palissades.phtml'); ?>
-	 		<? include('vue/elements_runes.phtml'); ?>
-	 		<? include('vue/elements_potions.phtml'); ?>
-	 		<? include('vue/elements_equipements.phtml'); ?>
-	 		<? include('vue/elements_minerais.phtml'); ?>
-	 		<? include('vue/elements_partieplantes.phtml'); ?>
-	 		<? include('vue/elements.phtml'); ?>
+	      	<? 
+	      	 include('vue/lieux.phtml'); 
+		     include('vue/cadavres.phtml'); 
+		     include('vue/castars.phtml'); 
+	      	 include('vue/charrettes.phtml');
+	      	 include('vue/echoppes.phtml'); 
+			 include('vue/hobbits.phtml'); 
+			 include('vue/monstres.phtml'); 
+			 include('vue/palissades.phtml'); 
+	 		 include('vue/elements_runes.phtml'); 
+	 		 include('vue/elements_potions.phtml');
+	 		 include('vue/elements_equipements.phtml'); 
+	 		 include('vue/elements_minerais.phtml'); 
+	 		 include('vue/elements_partieplantes.phtml'); 
+	 		 include('vue/elements.phtml'); 
+	 		?>
 	 		
 	      	</td>
 	     <?php endforeach; ?>

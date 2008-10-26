@@ -45,7 +45,7 @@ abstract class Bral_Competences_Competence {
 		// recuperation de hobbit competence
 		$this->hobbit_competence = $hobbitCompetence;
 		
-		// si c'est une competence metier, on verifie que ce n'est pas utilis� plus de 2 fois par DLA
+		// si c'est une competence metier, on verifie que ce n'est pas utilise plus de 2 fois par DLA
 		$this->view->nbActionMetierParDlaOk = $this->calculNbActionMetierParDlaOk();
 		
 		$this->prepareCommun();

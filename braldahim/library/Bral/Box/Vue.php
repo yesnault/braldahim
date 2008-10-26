@@ -44,7 +44,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("TypeLieu");
 			Zend_Loader::loadClass("Ville");
 			Zend_Loader::loadClass("Zone");
-			Zend_Loader::loadClass('Bral_Util_Commun');
+			Zend_Loader::loadClass('Bral_Util_Marcher');
 		
 			$this->prepare();
 			$this->deplacement();
@@ -209,7 +209,13 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			$centre_y_min = $this->view->y_min;
 			$centre_y_max = $this->view->y_max;
 		}
-
+		
+		$marcher = null;
+		if ($this->view->estVueEtendue === false) {
+			$utilMarcher = new Bral_Util_Marcher();
+			$marcher = $utilMarcher->calcul($this->view->user);
+		}
+		
 		for ($j = $centre_y_max; $j >= $centre_y_min; $j --) {
 			$change_level = true;
 			for ($i = $centre_x_min; $i <= $centre_x_max; $i ++) {
@@ -473,7 +479,13 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				if ($this->view->centre_x == $display_x && $this->view->centre_y == $display_y) {
 					$this->view->centre_environnement = $nom_environnement;
 				}
-
+				
+				if ($marcher != null && array_key_exists($display_x, $marcher["tableauValidationXY"]) && array_key_exists($display_y, $marcher["tableauValidationXY"][$display_x])) {
+					$tabMarcher = $marcher["tableauValidationXY"][$display_x][$display_y];
+				} else {
+					$tabMarcher = null;
+				}
+				
 				$tab = array ("x" => $display_x, "y" => $display_y, //
 					"change_level" => $change_level, // nouvelle ligne dans le tableau ;
 					"position_actuelle" => $actuelle,
@@ -513,6 +525,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"n_palissades" => count($tabPalissades),
 					"palissades" => $tabPalissades,
 					"ville" => $ville,
+					"marcher" => $tabMarcher,
 				);
 				$tableau[] = $tab;
 				if ($change_level) {
