@@ -313,6 +313,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 					"bm_degat" => $e["bm_degat_recette_equipement"],
 					"bm_defense" => $e["bm_defense_recette_equipement"],
 					"suffixe" => $e["suffixe_mot_runique"],
+					"poids" => $e["poids_recette_equipement"],
 					"runes" => array(),
 			);
 			$tabWhere[] = $e["id_laban_equipement"];
