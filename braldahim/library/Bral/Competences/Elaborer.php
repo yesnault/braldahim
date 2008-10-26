@@ -189,7 +189,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		
 		$maitrise = $this->hobbit_competence["pourcentage_hcomp"];
 		
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "AP")) { // s'il poss�de une rune AP
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "AP")) { // s'il possede une rune AP
 			$this->view->effetRune = true;
 			$chance_a = 0;
 			$chance_b = 100-(10 * $maitrise);
@@ -234,13 +234,14 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 		
-		foreach ($this->view->cout[$niveau] as $c)
-		$data = array('quantite_arriere_echoppe_partieplante' => -$c["cout"],
-					  'id_fk_type_echoppe_partieplante' => $c["id_type_partieplante"],
-					  'id_fk_type_plante_echoppe_partieplante' => $c["id_type_plante"],
-					  'id_fk_echoppe_echoppe_partieplante' => $this->idEchoppe);
-		$echoppePartiePlanteTable->insertOrUpdate($data);
-
+		foreach ($this->view->cout[$niveau] as $c) {
+			$data = array('quantite_preparees_echoppe_partieplante' => -$c["cout"],
+						  'id_fk_type_echoppe_partieplante' => $c["id_type_partieplante"],
+						  'id_fk_type_plante_echoppe_partieplante' => $c["id_type_plante"],
+						  'id_fk_echoppe_echoppe_partieplante' => $this->idEchoppe);
+			$echoppePartiePlanteTable->insertOrUpdate($data);
+		}
+		
 		Zend_Loader::loadClass("EchoppePotion");
 		$echoppePotionTable = new EchoppePotion();
 		$data = array(
