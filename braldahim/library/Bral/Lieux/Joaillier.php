@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id:$
- * $Author:$
- * $LastChangedDate:$
- * $LastChangedRevision:$
- * $LastChangedBy:$
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 
@@ -43,7 +43,6 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 					"nom" => $e["nom_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
-					"nb_runes" => $e["nb_runes_laban_equipement"],
 					"nb_runes" => $e["nb_runes_laban_equipement"],
 					"id_fk_type_piece" => $e["id_fk_type_piece_type_equipement"],
 					"selected" => $selected
@@ -156,8 +155,9 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 		if ($nb != $nbRunes) {
 				throw new Zend_Exception(get_class($this)." Nombre de runes invalides A n1=".$nb. " n2=".$nbRunes);
 		}
-
-		if ($nb == 0 || $nb > $this->view->equipementCourant["nb_runes"]) {
+		
+		// tous les emplacements runiques doivent etre utilises
+		if ($nb == 0 || $nb != $this->view->equipementCourant["nb_runes"]) {
 				throw new Zend_Exception(get_class($this)." Nombre de runes invalides B n1=".$nb. " n2=".$this->view->equipementCourant["nb_runes"]);
 		}
 		
@@ -183,7 +183,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 		if (count($motsRowset) > 0) {
 			foreach ($motsRowset as $m) {
 				$id_fk_mot_runique_laban_equipement = $m["id_mot_runique"];
-				$nom_mot_runique = $m["nom_mot_runique"];
+				$nom_mot_runique = $m["nom_systeme_mot_runique"];
 				$this->view->suffixe = $m["suffixe_mot_runique"];
 				break; // s'il y a plusieurs mots (ce qui devrait jamais arriver), on prend le premier
 			}

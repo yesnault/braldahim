@@ -32,6 +32,7 @@
 			
 				Glissez une rune sur l'&eacute;quipement ci-dessous. L'ordre des runes ayant une importance,
 				vous pouvez les r&eacute;organiser avant que le joaillier les sertisse.<br /><br />
+				Tous les emplacements runiques doit &ecirc;tre utilis&eacute;s.<br />
 				Tout objet serti, ne pourra pas faire l'objet d'un nouveau sertissage dans le futur.<br />
 				<br />
 				<? $js="sections = ['group1','group2'];
@@ -46,8 +47,11 @@
 						$('valeur_2').value=nbPlacees; 
 						nb = total - nbPlacees;
 						$('valeur_3').value=Sortable.sequence($('group2')); 
-						if (nb < 0 || nb >= total) { $('bouton_joaillier').disabled=true; 
-						} else { $('bouton_joaillier').disabled=false; }
+						if (nb != 0) { 
+							$('bouton_joaillier').disabled=true; 
+						} else { 
+							$('bouton_joaillier').disabled=false; 
+						}
 						text = '';
 						s = '';
 						for (i=0; i<nbPlacees; i++) {
@@ -67,7 +71,7 @@
 					Sortable.create('group1',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune'});
 					Sortable.create('group2',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune', onUpdate:upd});" ?>
 				
-				<input type="button" value="Choisir les runes" onClick="<?=$js ?>; $('choix_runes').style.display='block';this.style.display='none';">
+				<input type="button" class='button1' value="Choisir les runes" onClick="<?=$js ?>; $('choix_runes').style.display='block';this.style.display='none';">
 				
 					<div id="choix_runes" style="display:none">
 					<h3 class="handle">Vos runes disponibles</h3>
