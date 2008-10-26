@@ -2,7 +2,7 @@
 		$nb = count($this->effetPotionPotions);
 		if ($nb > 1) { $s = 's'; $verb = 'ont'; } else { $s =''; $verb = 'a'; }
 		?>
-		<br /><?=$nb ?> potion<?=$s ?> ont eu de l'effet sur vous.<br />
+		<br /><?=$nb ?> potion<?=$s ?> <?=$verb?> eu de l'effet sur vous.<br />
 		
 		<? foreach($this->effetPotionPotions as $e) : ?>
 			<?=htmlspecialchars($e["potion"]["nom"]) ?> de qualit&eacute; <?=htmlspecialchars($e["potion"]["qualite"]) ?>, 

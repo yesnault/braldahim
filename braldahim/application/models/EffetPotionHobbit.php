@@ -41,10 +41,14 @@ class EffetPotionHobbit extends Zend_Db_Table {
 			$resultat["nb_tour_restant_effet_potion_hobbit"] = $resultat["nb_tour_restant_effet_potion_hobbit"] - 1;
 			Bral_Util_Log::potion()->debug('EffetPotionHobbit - enleveUnTour - potion '.$potion["id_potion"].' tour(s) restant(s)='.$resultat["nb_tour_restant_effet_potion_hobbit"]);
 			
+			$where = 'id_effet_potion_hobbit = '.intval($potion["id_potion"]);
 			if ($resultat["nb_tour_restant_effet_potion_hobbit"] < 1) {
 				Bral_Util_Log::potion()->debug('EffetPotionHobbit - enleveUnTour - suppression de la potion '.$potion["id_potion"].' de la table EffetPotionHobbit');
-				$where = 'id_effet_potion_hobbit = '.intval($potion["id_potion"]);
 				$this->delete($where);
+			} else {
+				Bral_Util_Log::potion()->debug('EffetPotionHobbit - enleveUnTour - mise a jour de la potion '.$potion["id_potion"].' de la table EffetPotionHobbit');
+				$dataUpdate["nb_tour_restant_effet_potion_hobbit"] = $resultat["nb_tour_restant_effet_potion_hobbit"];
+				$this->update($dataUpdate, $where);
 			}
 		}
 		Bral_Util_Log::potion()->debug('EffetPotionHobbit - enleveUnTour - exit');

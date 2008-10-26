@@ -4,7 +4,7 @@
 		if ($nb > 1) { $s = 's'; $verb = 'ont'; } else { $s =''; $verb = 'a'; }
 		echo "
 ";
-		echo $nb." potion".$s." ont eu de l'effet sur vous.";
+		echo $nb." potion".$s." ".$verb." eu de l'effet sur vous.";
 		echo "
 ";
 		foreach($this->effetPotionPotions as $e) {

@@ -40,11 +40,15 @@ class EffetPotionMonstre extends Zend_Db_Table {
 		if ($resultat != null) {
 			$resultat["nb_tour_restant_effet_potion_monstre"] = $resultat["nb_tour_restant_effet_potion_monstre"] - 1;
 			Bral_Util_Log::potion()->debug('EffetPotionMonstre - enleveUnTour - potion '.$potion["id_potion"].' tour(s) restant(s)='.$resultat["nb_tour_restant_effet_potion_monstre"]);
-			
+
+			$where = 'id_effet_potion_monstre = '.intval($potion["id_potion"]);
 			if ($resultat["nb_tour_restant_effet_potion_monstre"] < 1) {
-				Bral_Util_Log::potion()->debug('EffetPotionMonstre - enleveUnTour - suppression de la potion '.$potion["id_potion"].' de la table EffetPotionHobbit');
-				$where = 'id_effet_potion_monstre = '.intval($potion["id_potion"]);
+				Bral_Util_Log::potion()->debug('EffetPotionMonstre - enleveUnTour - suppression de la potion '.$potion["id_potion"].' de la table EffetPotionMonstre');
 				$this->delete($where);
+			} else {
+				Bral_Util_Log::potion()->debug('EffetPotionHobbit - enleveUnTour - mise a jour de la potion '.$potion["id_potion"].' de la table EffetPotionMonstre');
+				$dataUpdate["nb_tour_restant_effet_potion_monstre"] = $resultat["nb_tour_restant_effet_potion_monstre"];
+				$this->update($dataUpdate, $where);
 			}
 		}
 		Bral_Util_Log::potion()->debug('EffetPotionMonstre - enleveUnTour - exit');
