@@ -158,6 +158,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					"suffixe" => $e["suffixe_mot_runique"],
 					"id_fk_mot_runique" => $e["id_fk_mot_runique_laban_equipement"],
 					"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
+					"poids" => $e["poids_recette_equipement"],
 					"runes" => $runes,
 			);
 			$this->equipementLaban[] = $equipement;
