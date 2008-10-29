@@ -37,7 +37,7 @@
 					</td>
 			  		<? if ($this->estEquipementsPotionsEtal === true) : ?>
 						<td class="table_liste" nowrap><?=Bral_Helper_DetailPotion::afficherPrix($p);?></td>
-						<td class="table_liste"><?=htmlspecialchars($p["commentaire_vente_echoppe_potion"])?></td>
+						<td class="table_liste"><?=Bral_Util_BBParser::bbcodeReplace($p["commentaire_vente_echoppe_potion"])?></td>
 					<? endif; ?>
 					<? if ($this->estEquipementsPotionsEtalAchat === true) : ?>
 						<td class="table_liste">

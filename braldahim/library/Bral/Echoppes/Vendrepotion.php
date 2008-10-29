@@ -58,6 +58,7 @@ class Bral_Echoppes_Vendrepotion extends Bral_Echoppes_Echoppe {
 					"nom" => $e["nom_type_potion"],
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_echoppe_potion"],
+					"commentaire" => $e["commentaire_vente_echoppe_potion"],
 					);
 				}
 			}
@@ -224,6 +225,8 @@ class Bral_Echoppes_Vendrepotion extends Bral_Echoppes_Echoppe {
 			}
 		}
 		
+		$commentaire = stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_9')));
+		
 		Zend_Loader::loadClass("EchoppePotion");
 		$data = array("prix_1_vente_echoppe_potion" => $prix_1_echoppe,
 					  "prix_2_vente_echoppe_potion" => $prix_2_echoppe,
@@ -231,7 +234,8 @@ class Bral_Echoppes_Vendrepotion extends Bral_Echoppes_Echoppe {
 					  "unite_1_vente_echoppe_potion" => $unite_1_echoppe,
 					  "unite_2_vente_echoppe_potion" => $unite_2_echoppe,
 					  "unite_3_vente_echoppe_potion" => $unite_3_echoppe,
-					  "type_vente_echoppe_potion" => "publique");
+					  "type_vente_echoppe_potion" => "publique",
+					  "commentaire_vente_echoppe_potion" => $commentaire);
 		
 		$where = "id_echoppe_potion=".$id_potion; 
 		$echoppePotionTable = new EchoppePotion();

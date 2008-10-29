@@ -58,7 +58,8 @@ class Bral_Echoppes_Vendreequipement extends Bral_Echoppes_Echoppe {
 					"nom" => $e["nom_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
-					"nb_runes" => $e["nb_runes_echoppe_equipement"]
+					"nb_runes" => $e["nb_runes_echoppe_equipement"],
+					"commentaire" => $e["commentaire_vente_echoppe_equipement"],
 					);
 				}
 			}
@@ -225,6 +226,8 @@ class Bral_Echoppes_Vendreequipement extends Bral_Echoppes_Echoppe {
 			}
 		}
 		
+		$commentaire = stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_9')));
+		
 		Zend_Loader::loadClass("EchoppeEquipement");
 		$data = array("prix_1_vente_echoppe_equipement" => $prix_1_echoppe,
 					  "prix_2_vente_echoppe_equipement" => $prix_2_echoppe,
@@ -232,7 +235,8 @@ class Bral_Echoppes_Vendreequipement extends Bral_Echoppes_Echoppe {
 					  "unite_1_vente_echoppe_equipement" => $unite_1_echoppe,
 					  "unite_2_vente_echoppe_equipement" => $unite_2_echoppe,
 					  "unite_3_vente_echoppe_equipement" => $unite_3_echoppe,
-					  "type_vente_echoppe_equipement" => "publique"
+					  "type_vente_echoppe_equipement" => "publique",
+					  "commentaire_vente_echoppe_equipement" => $commentaire,
 		);
 		
 		$where = "id_echoppe_equipement=".$id_equipement; 
