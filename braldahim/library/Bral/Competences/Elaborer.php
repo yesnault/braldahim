@@ -177,13 +177,28 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 
 		if ($this->view->okJet1 === true) {
 			$this->calculElaborer($idTypePotion, $niveau);
+		} else { // Jet Raté
+			$this->calculRateElaborer($niveau);
 		}
 
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}
-
+	
+	private function calculRateElaborer($niveau) {
+		Zend_Loader::loadClass("EchoppePartieplante");
+		$echoppePartiePlanteTable = new EchoppePartieplante();
+		
+		foreach ($this->view->cout[$niveau] as $c) {
+			$data = array('quantite_preparees_echoppe_partieplante' => -intval($c["cout"]/2),
+						  'id_fk_type_echoppe_partieplante' => $c["id_type_partieplante"],
+						  'id_fk_type_plante_echoppe_partieplante' => $c["id_type_plante"],
+						  'id_fk_echoppe_echoppe_partieplante' => $this->idEchoppe);
+			$echoppePartiePlanteTable->insertOrUpdate($data);
+		}
+	}
+	
 	private function calculElaborer($idTypePotion, $niveau) {
 		$this->view->effetRune = false;
 		
@@ -231,7 +246,6 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$this->view->niveauQualite = $qualite;
 		
 		Zend_Loader::loadClass("EchoppePartieplante");
-		
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 		
 		foreach ($this->view->cout[$niveau] as $c) {

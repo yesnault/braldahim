@@ -228,6 +228,8 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 
 		if ($this->view->okJet1 === true) {
 			$this->calculConfectionner($idTypeEquipement, $niveau, $nbRunes);
+		} else {
+			$this->calculRateConfectionner($niveau);	
 		}
 
 		$this->calculPx();
@@ -235,6 +237,10 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 		$this->majHobbit();
 	}
 
+	private function calculRateConfectionner($niveau) {
+		$this->majCout($niveau, false);	
+	}
+		
 	private function calculConfectionner($idTypeEquipement, $niveau, $nbRunes) {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		$this->view->effetRune = false;
@@ -288,56 +294,9 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 		$recetteEquipement = $recetteEquipementTable->findByIdTypeAndNiveauAndQualite($idTypeEquipement, $niveau, $qualite);
 
 		if (count($recetteEquipement) > 0) {
-			$echoppeMineraiTable = new EchoppeMinerai();
+			
+			$this->majCout($niveau, true);
 
-			foreach($this->view->cout[$niveau] as $c) {
-				switch ($c["nom_systeme"]) {
-					case "cuir" :
-						$this->echoppeCourante["quantite_cuir_arriere_echoppe"] = $this->echoppeCourante["quantite_cuir_arriere_echoppe"] - $c["cout"];
-						if ($this->echoppeCourante["quantite_cuir_arriere_echoppe"] < 0) {
-							$this->echoppeCourante["quantite_cuir_arriere_echoppe"] = 0;
-						}
-						break;
-					case "fourrure" :
-						$this->echoppeCourante["quantite_fourrure_arriere_echoppe"] = $this->echoppeCourante["quantite_fourrure_arriere_echoppe"] - $c["cout"];
-						if ($this->echoppeCourante["quantite_fourrure_arriere_echoppe"] < 0) {
-							$this->echoppeCourante["quantite_fourrure_arriere_echoppe"] = 0;
-						}
-						break;
-					case "planche" :
-						$this->echoppeCourante["quantite_planche_arriere_echoppe"] = $this->echoppeCourante["quantite_planche_arriere_echoppe"] - $c["cout"];
-						if ($this->echoppeCourante["quantite_planche_arriere_echoppe"] < 0) {
-							$this->echoppeCourante["quantite_planche_arriere_echoppe"] = 0;
-						}
-						break;
-					default :
-						if (!isset($c["id_type_minerai"])) {
-							throw new Zend_Exception(get_class($this)." Minerai inconnu ".$c["nom_systeme"]);
-						}
-						foreach($this->echoppeMinerai as $m) {
-							if ($m["id_fk_type_echoppe_minerai"] == $c["id_type_minerai"]) {
-								$quantite = $m["quantite_lingots_echoppe_minerai"] - $c["cout"];
-								if ($quantite < 0) {
-									$quantite = 0;
-								}
-								$data = array('quantite_lingots_echoppe_minerai' => $quantite);
-								$where = 'id_fk_type_echoppe_minerai = '. $c["id_type_minerai"];
-								$where .= ' AND id_fk_echoppe_echoppe_minerai='.$this->echoppeCourante["id_echoppe"];
-								$echoppeMineraiTable->update($data, $where);
-							}
-						}
-				}
-			}
-
-			Zend_Loader::loadClass("Echoppe");
-			$echoppeTable = new Echoppe();
-			$data = array(
-				'quantite_cuir_arriere_echoppe' => $this->echoppeCourante["quantite_cuir_arriere_echoppe"],
-				'quantite_fourrure_arriere_echoppe' => $this->echoppeCourante["quantite_fourrure_arriere_echoppe"],
-				'quantite_planche_arriere_echoppe' => $this->echoppeCourante["quantite_planche_arriere_echoppe"],
-			);
-			$echoppeTable->update($data, 'id_echoppe = '.$this->echoppeCourante["id_echoppe"]);
-				
 			foreach($recetteEquipement as $r) {
 				$id_fk_recette_equipement = $r["id_recette_equipement"];
 				break;
@@ -357,6 +316,65 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 		}
 	}
 
+	private function majCout($niveau, $estReussi) {
+		
+		if ($estReussi) {
+			$coef = 1;	
+		} else {
+			$coef = 2;
+		}
+		
+		$echoppeMineraiTable = new EchoppeMinerai();
+
+		foreach($this->view->cout[$niveau] as $c) {
+			switch ($c["nom_systeme"]) {
+				case "cuir" :
+					$this->echoppeCourante["quantite_cuir_arriere_echoppe"] = $this->echoppeCourante["quantite_cuir_arriere_echoppe"] - intval($c["cout"] / $coef);
+					if ($this->echoppeCourante["quantite_cuir_arriere_echoppe"] < 0) {
+						$this->echoppeCourante["quantite_cuir_arriere_echoppe"] = 0;
+					}
+					break;
+				case "fourrure" :
+					$this->echoppeCourante["quantite_fourrure_arriere_echoppe"] = $this->echoppeCourante["quantite_fourrure_arriere_echoppe"] - intval($c["cout"] / $coef);
+					if ($this->echoppeCourante["quantite_fourrure_arriere_echoppe"] < 0) {
+						$this->echoppeCourante["quantite_fourrure_arriere_echoppe"] = 0;
+					}
+					break;
+				case "planche" :
+					$this->echoppeCourante["quantite_planche_arriere_echoppe"] = $this->echoppeCourante["quantite_planche_arriere_echoppe"] - intval($c["cout"] / $coef);
+					if ($this->echoppeCourante["quantite_planche_arriere_echoppe"] < 0) {
+						$this->echoppeCourante["quantite_planche_arriere_echoppe"] = 0;
+					}
+					break;
+				default :
+					if (!isset($c["id_type_minerai"])) {
+						throw new Zend_Exception(get_class($this)." Minerai inconnu ".$c["nom_systeme"]);
+					}
+					foreach($this->echoppeMinerai as $m) {
+						if ($m["id_fk_type_echoppe_minerai"] == $c["id_type_minerai"]) {
+							$quantite = $m["quantite_lingots_echoppe_minerai"] - intval($c["cout"] / $coef);
+							if ($quantite < 0) {
+								$quantite = 0;
+							}
+							$data = array('quantite_lingots_echoppe_minerai' => $quantite);
+							$where = 'id_fk_type_echoppe_minerai = '. $c["id_type_minerai"];
+							$where .= ' AND id_fk_echoppe_echoppe_minerai='.$this->echoppeCourante["id_echoppe"];
+							$echoppeMineraiTable->update($data, $where);
+						}
+					}
+			}
+		}
+		
+		Zend_Loader::loadClass("Echoppe");
+		$echoppeTable = new Echoppe();
+		$data = array(
+			'quantite_cuir_arriere_echoppe' => $this->echoppeCourante["quantite_cuir_arriere_echoppe"],
+			'quantite_fourrure_arriere_echoppe' => $this->echoppeCourante["quantite_fourrure_arriere_echoppe"],
+			'quantite_planche_arriere_echoppe' => $this->echoppeCourante["quantite_planche_arriere_echoppe"],
+		);
+		$echoppeTable->update($data, 'id_echoppe = '.$this->echoppeCourante["id_echoppe"]);
+	}
+	
 	public function getIdEchoppeCourante() {
 		if (isset($this->idEchoppe)) {
 			return $this->idEchoppe;
