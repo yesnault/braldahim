@@ -246,8 +246,8 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		
 		$n  = $n  + ($this->view->user->agilite_bm_hobbit + $this->view->user->agilite_bbdf_hobbit) / 2 ;
 		$n  = intval($n);
-		if ($n < 0) {
-			$n  = 0;
+		if ($n <= 0) {
+			$n  = 1;
 		}
 		
 		if ($n > $this->view->nbElementPossible) {

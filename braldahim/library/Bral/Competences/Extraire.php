@@ -155,8 +155,8 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		
 		$n = $n + ($this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit) / 2 ;
 		$n = intval($n);
-		if ($n < 0) {
-			$n = 0;
+		if ($n <= 0) {
+			$n = 1;
 		}
 		
 		if ($n > $this->view->nbElementPossible) {

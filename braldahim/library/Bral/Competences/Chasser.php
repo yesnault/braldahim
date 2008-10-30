@@ -131,6 +131,14 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 			$this->view->nbPeau  = 0;
 		}
 		
+		if ($this->view->nbPeau == 0 && $this->view->nbViande == 0) {
+			if (Bral_Util_De::get_1d2() == 1) {
+				$this->view->nbViande = 1;
+			} else {
+				$this->view->nbPeau = 1;
+			}
+		}
+		
 		$this->controlePoids();
 		
 		$labanTable = new Laban();

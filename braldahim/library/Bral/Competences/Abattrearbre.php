@@ -114,8 +114,8 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		
 		$this->view->nbRondins  = $this->view->nbRondins  + ($this->view->user->vigueur_bm_hobbit + $this->view->user->vigueur_bbdf_hobbit) / 2 ;
 		$this->view->nbRondins  = intval($this->view->nbRondins);
-		if ($this->view->nbRondins < 0) {
-			$this->view->nbRondins  = 0;
+		if ($this->view->nbRondins <= 0) {
+			$this->view->nbRondins  = 1;
 		}
 		
 		$charretteTable = new Charrette();
