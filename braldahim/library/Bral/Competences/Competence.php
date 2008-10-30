@@ -119,6 +119,7 @@ abstract class Bral_Competences_Competence {
 	protected function calculBalanceFaim() {
 		$this->view->balanceFaimUtilisee = true;
 		$this->view->balance_faim = $this->competence["balance_faim"];
+		$this->view->user->balance_faim_hobbit = $this->view->user->balance_faim_hobbit + $this->view->balance_faim;
 		Bral_Util_Faim::calculBalanceFaim($this->view->user);
 	}
 	
@@ -248,10 +249,10 @@ abstract class Bral_Competences_Competence {
 	 * Mise à jour des PA, des PX et de la balance de faim.
 	 */
 	protected function majHobbit() {
+		Bral_Util_Faim::calculBalanceFaim($this->view->user);
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
 		$this->view->user->px_perso_hobbit = $this->view->user->px_perso_hobbit + $this->view->nb_px_perso;
 		$this->view->user->px_commun_hobbit = $this->view->user->px_commun_hobbit + $this->view->nb_px_commun;
-		$this->view->user->balance_faim_hobbit = $this->view->user->balance_faim_hobbit + $this->view->balance_faim;
 		
 		if ($this->view->user->balance_faim_hobbit < 0) {
 			$this->view->user->balance_faim_hobbit = 0;
