@@ -377,6 +377,6 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_echoppe", "box_echoppes", "box_laban", "box_charrette", "box_evenements");
+		return array("box_profil", "box_equipement", "box_echoppe", "box_echoppes", "box_laban", "box_charrette", "box_evenements");
 	}
 }

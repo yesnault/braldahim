@@ -51,7 +51,7 @@ abstract class Bral_Echoppe_Echoppe {
 		} else {
 			$this->view->assezDePa = true;
 		}
-		$this->view->nb_pa = $this->view->config->game->echoppe->nb_pa_service;;
+		$this->view->nb_pa = $this->view->config->game->echoppe->nb_pa_service;
 	}
 	
 	/*
@@ -88,12 +88,14 @@ abstract class Bral_Echoppe_Echoppe {
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 		$hobbit = $hobbitRowset->current();
-
+		
+		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa ;
 		
 		$data = array(
 			'pa_hobbit' => $this->view->user->pa_hobbit,
 			'castars_hobbit' => $this->view->user->castars_hobbit,
+			'poids_transporte_hobbit' => $this->view->user->poids_transporte_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
