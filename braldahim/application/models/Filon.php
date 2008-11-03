@@ -71,4 +71,25 @@ class Filon extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchRow($sql);
 	}
+	
+	/**
+	 * Supprime les filons qui sont en ville.
+	 */
+	function deleteInVille() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('ville', '*');
+		
+		$sql = $select->__toString();
+		$villes = $db->fetchAll($sql);
+		
+		foreach($villes as $v) {
+			$where = " x_filon >= ". $v["x_min_ville"];
+			$where .= " AND x_filon <= ". $v["x_max_ville"];
+			$where .= " AND y_filon >= ". $v["y_min_ville"];
+			$where .= " AND y_filon <= ". $v["y_max_ville"];
+			$this->delete($where);
+		}
+		
+	}
 }

@@ -122,4 +122,25 @@ class Monstre extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+	
+	/**
+	 * Supprime les monstres qui sont en ville.
+	 */
+	function deleteInVille() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('ville', '*');
+		
+		$sql = $select->__toString();
+		$villes = $db->fetchAll($sql);
+		
+		foreach($villes as $v) {
+			$where = " x_monstre >= ". $v["x_min_ville"];
+			$where .= " AND x_monstre <= ". $v["x_max_ville"];
+			$where .= " AND y_monstre >= ". $v["y_min_ville"];
+			$where .= " AND y_monstre <= ". $v["y_max_ville"];
+			$this->delete($where);
+		}
+		
+	}
 }

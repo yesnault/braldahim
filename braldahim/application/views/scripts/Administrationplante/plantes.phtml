@@ -7,7 +7,8 @@
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">
 			<? if ($this->creation === true) : ?>
-			<b>Cr&eacute;ation de <?=$this->nb_creation ?> plantes<b> <br />
+			<b>Cr&eacute;ation de <?=$this->nb_creation ?> plantes</b> <br />
+			<b>Les plantes créées en villes ont été ensuite supprimées</b>.<br />
 			<? endif; ?>
 			<form action="/Administrationplante/plantes" method="post">
 			<table align='center'>

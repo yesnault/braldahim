@@ -78,6 +78,7 @@ class AdministrationfilonController extends Zend_Controller_Action {
 				$data = array('id_fk_type_minerai_filon' => $id_type_minerai, 'x_filon' => $x, 'y_filon' => $y, 'quantite_restante_filon' => $quantite, 'quantite_max_filon' => $quantite);
 				$filonTable->insert($data);
 			}
+			$filonTable->deleteInVille();
 		}
 		
 		$this->view->creation = $creation;

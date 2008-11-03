@@ -59,7 +59,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			$y_max = $filter->filter($this->_request->getPost('y_max'));
 			$nombre = $filter->filter($this->_request->getPost('nombre'));
 
-			if (((int)$id_fk_type_ref_monstre.""!=$id_fk_type_ref_monstre."")) {
+			if (((int)$id_fk_type_ref_monstre."" != $id_fk_type_ref_monstre."")) {
 				throw new Zend_Exception(get_class($this)." Valeur invalide. id_fk_type_ref_monstre : ".$id_fk_type_ref_monstre);
 			}
 			if (((int)$x_min.""!=$x_min."")) {
@@ -74,7 +74,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			if (((int)$y_max.""!=$y_max."")) {
 				throw new Zend_Exception(get_class($this)." Valeur invalide. y_max : ".$y_max);
 			}
-
+			
 			$referenceCourante = $this->recupereReferenceMonstre($id_fk_type_ref_monstre);
 			$this->view->nb_creation_monstres = 0;
 			$this->view->nb_creation_groupes_monstres = 0;
@@ -86,7 +86,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 					$i = $i + $nb_membres;
 					$x_min_groupe = Bral_Util_De::get_de_specifique($x_min, $x_max);
 					$y_min_groupe = Bral_Util_De::get_de_specifique($y_min, $y_max);
-					if ($referenceCourante["id_type_groupe_monstre"] > 2) { //2 => nu�e : tous sur la m�me case
+					if ($referenceCourante["id_type_groupe_monstre"] > 2) { //2 => nuée : tous sur la même case
 						$x_max_groupe = $x_min_groupe + 4;
 						$y_max_groupe = $y_min_groupe + 4;
 					} else {
@@ -94,10 +94,10 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 						$y_max_groupe = $y_min_groupe;
 					}
 					$id_groupe = $this->creationGroupe($referenceCourante["id_type_groupe_monstre"], $nb_membres);
-					$num_role_a = Bral_Util_De::get_de_specifique(1,$nb_membres);
-					$num_role_b = Bral_Util_De::get_de_specifique(1,$nb_membres);
+					$num_role_a = Bral_Util_De::get_de_specifique(1, $nb_membres);
+					$num_role_b = Bral_Util_De::get_de_specifique(1, $nb_membres);
 					while($num_role_a == $num_role_b) {
-						$num_role_b = Bral_Util_De::get_de_specifique(1,$nb_membres);
+						$num_role_b = Bral_Util_De::get_de_specifique(1, $nb_membres);
 					}
 					for ($j = 1; $j <= $nb_membres; $j++) {
 						$est_role_a = false;
@@ -120,7 +120,11 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				$this->_tabCreation["groupesMonstres"] = null;
 			}
 			$this->view->tabCreation = $this->_tabCreation;
+			
+			$monstreTable = new Monstre();
+			$monstreTable->deleteInVille();
 		}
+		
 		$this->view->creation = $creation;
 		$this->render();
 	}
@@ -212,13 +216,13 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
 		$p_vigueur = $referenceCourante["p_vigueur"] + $alea;
 
-		//Calcul des pi pour chaque caract�ristique
+		//Calcul des pi pour chaque caractéristique
 		$pi_force = round($nb_pi * $p_force / 100);
 		$pi_sagesse = round($nb_pi * $p_sagesse / 100);
 		$pi_agilite = round($nb_pi * $p_agilite / 100);
 		$pi_vigueur = round($nb_pi * $p_vigueur / 100);
 
-		// D�termination du nb d'am�liorations possibles avec les PI dans chaque caract�ristique
+		// Détermination du nb d'améliorations possibles avec les PI dans chaque caractéristique
 		$niveau_force = $this->calculNiveau($pi_force);
 		$niveau_sagesse = $this->calculNiveau($pi_sagesse);
 		$niveau_agilite = $this->calculNiveau($pi_agilite);
@@ -283,7 +287,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 
 		$this->_tabCreation["monstres"][] = $data;
 
-		// mise � jour des roles
+		// mise à jour des roles
 		if (($est_role_a === true) || ($est_role_b === true)) {
 			if ($est_role_a) {
 				$data = array(
@@ -388,7 +392,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 
 			$refTable = new ReferentielMonstre();
 			if ($this->_request->getParam('update', 0) != 0) {
-				// Mise � jour
+				// Mise à jour
 				$where = "id_ref_monstre=".(int)$this->_request->getParam('update', 0);
 				$refTable->update($data, $where);
 			} else {

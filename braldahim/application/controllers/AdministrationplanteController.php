@@ -39,7 +39,7 @@ class AdministrationplanteController extends Zend_Controller_Action {
 
 		$creation = false;
 		$nb_creation = 0;
-
+	
 		if ($this->_request->isPost()) {
 			Zend_Loader::loadClass('Zend_Filter');
 			Zend_Loader::loadClass('Zend_Filter_StripTags');
@@ -65,8 +65,6 @@ class AdministrationplanteController extends Zend_Controller_Action {
 				throw new Zend_Exception("::PlantesAction : partie 1 min invalide");
 			}
 
-			$planteTable = new Plante();
-
 			foreach ($this->view->zones as $t) {
 				if ($t["id_zone"] == $id_zone) {
 					$zone = $t;
@@ -74,6 +72,8 @@ class AdministrationplanteController extends Zend_Controller_Action {
 				}
 			}
 
+			$planteTable = new Plante();
+			
 			$nb_cases = $t["nombre_cases"];
 			$nb_creation = (int)(($nb_cases * $couverture) / 100);
 
@@ -110,6 +110,7 @@ class AdministrationplanteController extends Zend_Controller_Action {
 
 				$planteTable->insert($data);
 			}
+			$planteTable->deleteInVille();
 		}
 
 		$this->view->creation = $creation;
