@@ -178,6 +178,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			"unite_2_vente_echoppe_equipement" => $this->equipement["unite_2_vente_echoppe_equipement"],
 			"unite_3_vente_echoppe_equipement" => $this->equipement["unite_3_vente_echoppe_equipement"],
 			"commentaire_vente_echoppe_equipement" => $this->equipement["commentaire_vente_echoppe_equipement"],
+			"poids" => $this->equipement["poids_recette_equipement"],
 			"runes" => $runes,
 			"prix_minerais" => $minerai,
 			"prix_parties_plantes" => $partiesPlantes,
