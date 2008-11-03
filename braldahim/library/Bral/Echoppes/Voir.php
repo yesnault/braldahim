@@ -41,18 +41,18 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 
 		$this->arBoutiqueBruts["rondins"] = array("nom_systeme" => "rondins", "nom" => "Rondins", "a_afficher" => false);
 		$this->arBoutiqueBruts["minerais"] = array("nom_systeme" => "minerais", "nom" => "Minerais Bruts", "a_afficher" => false);
-		$this->arBoutiqueBruts["plantes_bruts"] = array("nom_systeme" => "plantes_bruts", "nom" => "Plantes Bruts", "a_afficher" => false);
+		$this->arBoutiqueBruts["plantes_bruts"] = array("nom_systeme" => "plantes_bruts", "nom" => "Plantes Brutes", "a_afficher" => false);
 		$this->arBoutiqueBruts["peaux"] = array("nom_systeme" => "peaux", "nom" => "Peaux", "a_afficher" => false);
 		
 		$this->arBoutiqueTransformes["planches"] = array("nom_systeme" => "planches", "nom" => "Planches", "a_afficher" => false);
 		$this->arBoutiqueTransformes["lingots"] = array("nom_systeme" => "lingots", "nom" => "Lingots", "a_afficher" => false);
-		$this->arBoutiqueTransformes["plantes_preparees"] = array("nom_systeme" => "plantes_preparees", "nom" => "Plantes Préparées", "a_afficher" => false);
+		$this->arBoutiqueTransformes["plantes_preparees"] = array("nom_systeme" => "plantes_preparees", "nom" => "Plantes Pr&eacute;par&eacute;es", "a_afficher" => false);
 		$this->arBoutiqueTransformes["cuir_fourrure"] = array("nom_systeme" => "cuir_fourrure", "nom" => "Cuir / Fourrure", "a_afficher" => false);
 		
 		$this->arBoutiqueCaisse["castars"]  = array("nom_systeme" => "castars", "nom" => "Castars", "a_afficher" => true);
 		$this->arBoutiqueCaisse["minerais"] = array("nom_systeme" => "minerais", "nom" => "Minerais Bruts", "a_afficher" => false);
 		$this->arBoutiqueCaisse["rondins"]  = array("nom_systeme" => "rondins", "nom" => "Rondins", "a_afficher" => false);
-		$this->arBoutiqueCaisse["plantes_bruts"] = array("nom_systeme" => "plantes_bruts", "nom" => "Plantes Bruts", "a_afficher" => false);
+		$this->arBoutiqueCaisse["plantes_bruts"] = array("nom_systeme" => "plantes_bruts", "nom" => "Plantes Brutes", "a_afficher" => false);
 		$this->arBoutiqueCaisse["peaux"]  = array("nom_systeme" => "peaux", "nom" => "Peaux", "a_afficher" => false);
 		
 		$echoppeTable = new Echoppe();
