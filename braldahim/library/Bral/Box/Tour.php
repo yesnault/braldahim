@@ -504,8 +504,15 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		Bral_Util_Log::tour()->debug(get_class($this)." minutesCourant=".$minutesCourant);			
 		// Ajouter les blessures : pour chaque PV : Arrondi inférieur [durée DLA (+BM) / (4*max PV du Hobbit)]. 
 		
-		$minutesAAjouter = floor($minutesCourant / (4 * $this->hobbit->pv_max_hobbit)) * ($this->hobbit->pv_max_hobbit - $this->hobbit->pv_restant_hobbit);
-		Bral_Util_Log::tour()->debug(get_class($this)." minutesAAjouter=".$minutesAAjouter);	
+		$minutesAAjouter = 0;
+		if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit) {
+			$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit;
+		}
+		if ($this->hobbit->pv_max_hobbit - $this->hobbit->pv_restant_hobbit > 0) {
+			$minutesAAjouter = floor($minutesCourant / (4 * $this->hobbit->pv_max_hobbit)) * ($this->hobbit->pv_max_hobbit - $this->hobbit->pv_restant_hobbit);
+		}
+		
+		Bral_Util_Log::tour()->debug(get_class($this)." minutesAAjouter=".$minutesAAjouter);
 		
 		$this->hobbit->duree_courant_tour_hobbit = Bral_Util_ConvertDate::getHeureFromMinute($minutesCourant + $minutesAAjouter);
 		Bral_Util_Log::tour()->debug(get_class($this)." this->hobbit->duree_courant_tour_hobbit=".$this->hobbit->duree_courant_tour_hobbit);			
