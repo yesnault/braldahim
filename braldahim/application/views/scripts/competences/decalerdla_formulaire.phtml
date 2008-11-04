@@ -1,7 +1,20 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
+ 	
+ 	<?php $js="
+ 	if ($('valeur_2').value != -1 && $('valeur_1').value != -1) {
+		var min = ".$this->dlaActuelle["min"]." + parseInt($('valeur_2').value);
+		var heure = ".$this->dlaActuelle["heure"]." + parseInt($('valeur_1').value);
+	 	var d = new Date(".$this->dlaActuelle["annee"].", ".$this->dlaActuelle["mois"]." -1 , ".$this->dlaActuelle["jour"].", heure, min, ".$this->dlaActuelle["seconde"].");
+ 		$('dla_choisie').innerHTML='Date Limite Choisie : ' + d.getHours() +  ' h ' + d.getMinutes() +' et ' + d.getSeconds() + 's le ' + d.getDate() + '/' + d.getMonth() + '/' + d.getYear();
+ 	} else {
+ 		$('dla_choisie').innerHTML='Choisissez les heures et les minutes';
+ 	}
+ 	"
+ 	?>
+ 	
  	Votre Date Limite d'Action est actuellement fix&eacute;e &agrave; : <br />
- 	<?=$this->dlaActuelle?><br />
+ 	<?=$this->dlaActuelle["texte"]?><br />
  	<br />Vous pouvez la d&eacute;caler si vous souhaitez...<br /><br />
  	
  	Le d&eacute;calage s'exprime en heures et en minutes. <br />
@@ -11,14 +24,14 @@
     <th class='comp_titre'>Minutes</th>
    	<tr>
    		<td>
-	   		<select id='valeur_1' name='valeur_1' onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || ($('valeur_1').value==0 && $('valeur_2').value==0)){$('bouton_decalerdla').disabled=true } else {$('bouton_decalerdla').disabled=false }">
+	   		<select id='valeur_1' name='valeur_1' onChange="javascript:<?=$js?> if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || ($('valeur_1').value==0 && $('valeur_2').value==0)){$('bouton_decalerdla').disabled=true } else {$('bouton_decalerdla').disabled=false }">
 			<option value='-1'>(Choisis)</option>
 			<? foreach ($this->tabHeures as $h): ?>
 			<option value='<?=$h?>'><?=$h?></option>
 			<? endforeach; ?>
 			</select>
    		</td>
-   			<select id='valeur_2' name='valeur_2' onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || ($('valeur_1').value==0 && $('valeur_2').value==0)){$('bouton_decalerdla').disabled=true } else {$('bouton_decalerdla').disabled=false }">
+   			<select id='valeur_2' name='valeur_2' onChange="javascript:<?=$js?> if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || ($('valeur_1').value==0 && $('valeur_2').value==0)){$('bouton_decalerdla').disabled=true } else {$('bouton_decalerdla').disabled=false }">
 			<option value='-1'>(Choisis)</option>
 			<? foreach ($this->tabMinutes as $m): ?>
 			<option value='<?=$m?>'><?=$m?></option>
@@ -28,6 +41,8 @@
    		</td>
    	</tr>
    </table>
+   <br>
+   <span id='dla_choisie' name='dla_choisie'>Choisissez les heures et les minutes</span> <br>
  </div>
 <br />
 <input type='button' class='button1' id='bouton_decalerdla' value='D&eacute;caler !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_decalerdla");' disabled>
