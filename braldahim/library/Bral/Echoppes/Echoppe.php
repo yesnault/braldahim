@@ -45,6 +45,7 @@ abstract class Bral_Echoppes_Echoppe {
 				return $this->view->render("echoppes/".$this->nom_systeme."_formulaire.phtml");
 				break;
 			case "do":
+				$this->majHobbit();
 				return $this->view->render("echoppes/".$this->nom_systeme."_resultat.phtml");
 				break;
 			default:
@@ -52,23 +53,18 @@ abstract class Bral_Echoppes_Echoppe {
 		}
 	}
 	
-	protected function calculPoids() {
-		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
-	}
-	
-	public function majHobbit() {
+	private function majHobbit() {
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 		$hobbit = $hobbitRowset->current();
-
-		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->paUtilisationLieu;
+		
+		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
 		
 		if ($this->view->user->balance_faim_hobbit < 0) {
 			$this->view->user->balance_faim_hobbit = 0; 
 		}
 		
 		$data = array(
-			'pa_hobbit' => $this->view->user->pa_hobbit,
 			'castars_hobbit' => $this->view->user->castars_hobbit,
 			'poids_transporte_hobbit' => $this->view->user->poids_transporte_hobbit,
 		);

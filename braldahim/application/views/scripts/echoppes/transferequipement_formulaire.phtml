@@ -10,8 +10,8 @@
 		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_transferequipement').disabled=true } else {$('bouton_transferequipement').disabled=false }">
 	 		<option value="-1">(Choisis un &eacute;quipement)</option>
 			<? foreach($this->equipementsArriereBoutique as $e) :?>
-				<option value="<?=$e["id_echoppe_equipement"] ?>"><?=htmlspecialchars($e["nom"]) ?> : qualit&eacute; <?=htmlspecialchars($e["qualite"]) ?>,
-				 niveau: <?=$e["niveau"] ?>, nb. emplacements: <?=$e["nb_runes"] ?></option>
+				<option value="<?=$e["id_echoppe_equipement"] ?>" <? if ($e["place_dispo"] == false):echo "disabled"; endif;?>>N&deg; <?=$e["id_echoppe_equipement"] ?> <?=htmlspecialchars($e["nom"]) ?> : qualit&eacute; <?=htmlspecialchars($e["qualite"]) ?>,
+				 niveau: <?=$e["niveau"] ?> <? if ($e["place_dispo"] == false):echo "Trop Lourd !"; endif;?></option>
 			<? endforeach; ?>
 		</select>
 		<br /><br />
@@ -25,6 +25,8 @@
 		</select>
 		
 	<? endif; ?>
+	<br>
+	
  </div>
 
 </form>

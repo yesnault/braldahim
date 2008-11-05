@@ -84,7 +84,7 @@ abstract class Bral_Echoppe_Echoppe {
 		}
 	}
 	
-	public function majHobbit() {
+	private function majHobbit() {
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 		$hobbit = $hobbitRowset->current();

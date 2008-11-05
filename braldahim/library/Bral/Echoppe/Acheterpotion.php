@@ -131,6 +131,14 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			}
 		}
 		
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		
+		if ($poidsRestant < Bral_Util_Poids::POIDS_POTION) {
+			$placeDispo = false;
+		} else {
+			$placeDispo = true;
+		}
+		
 		$tabPotion = array(
 			"id_potion" => $this->potion["id_echoppe_potion"],
 			"nom" => $this->potion["nom_type_potion"],
@@ -147,6 +155,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			"commentaire_vente_echoppe_potion" => $this->potion["commentaire_vente_echoppe_potion"],
 			"prix_minerais" => $minerai,
 			"prix_parties_plantes" => $partiesPlantes,
+			"place_dispo" => $placeDispo,
 		);
 		
 		$this->view->potion = $tabPotion;

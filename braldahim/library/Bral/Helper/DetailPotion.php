@@ -82,8 +82,9 @@ class Bral_Helper_DetailPotion {
     public static function afficherJs($p) {
     	$titre = htmlspecialchars($p["nom"])." de qualit&eacute; ".htmlspecialchars($p["qualite"])." - D&eacute;tails";
     	
-   		$text = "Num&eacute;ro de la potion :".$p["id_potion"]."<br />";
+   		$text = "Num&eacute;ro de la potion : ".$p["id_potion"]."<br />";
     	$text .= "Niveau : ".$p["niveau"]."<br />";
+    	$text .= "Poids : ".Bral_Util_Poids::POIDS_POTION."<br />";
      	$text .= "Caract&eacute;ristique : <br /> Cette potion apporte un ".$p["bm_type"];
      	$text .= " sur la caract&eacute;ristique ".$p["caracteristique"];
     	$text .= "<br />";

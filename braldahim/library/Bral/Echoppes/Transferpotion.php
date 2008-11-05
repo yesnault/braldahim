@@ -75,13 +75,22 @@ class Bral_Echoppes_Transferpotion extends Bral_Echoppes_Echoppe {
 		$this->view->destinationTransfert = $tabDestinationTransfert;
 		$this->view->potionsArriereBoutique = $tabPotionsArriereBoutique;
 		$this->view->nbPotionsArriereBoutique = count($tabPotionsArriereBoutique);
-			
+		
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		
+		if ($poidsRestant < Bral_Util_Poids::POIDS_POTION) {
+			$this->view->placeDispo = false;
+		} else {
+			$this->view->placeDispo = true;
+		}
+		
 		if ($this->view->nbPotionsArriereBoutique > 0) {
 			$this->view->transfererOk = true;
 		} else {
 			$this->view->transfererOk = false;
 			return;
 		}
+		
 		$this->view->idEchoppe = $id_echoppe;
 	}
 
@@ -100,6 +109,10 @@ class Bral_Echoppes_Transferpotion extends Bral_Echoppes_Echoppe {
 			throw new Zend_Exception(get_class($this)." id potion invalide=".$id_potion);
 		} else {
 			$id_potion = (int)$id_potion;
+		}
+		
+		if ($this->view->placeDispo == false) {
+			throw new Zend_Exception(get_class($this)." place invalide=");
 		}
 		
 		// on regarde si l'potion est dans la liste
@@ -137,9 +150,6 @@ class Bral_Echoppes_Transferpotion extends Bral_Echoppes_Echoppe {
 		}
 		$this->view->potion = $potion;
 		$this->view->destination = $destination;
-
-		$this->calculPoids();
-		$this->majHobbit();
 	}
 	
 	private function calculTranfertVersLaban($potion) {
@@ -168,6 +178,6 @@ class Bral_Echoppes_Transferpotion extends Bral_Echoppes_Echoppe {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_laban");
+		return array("box_profil", "box_equipement", "box_echoppe", "box_echoppes", "box_laban", "box_evenements");
 	}
 }

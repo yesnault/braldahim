@@ -35,10 +35,10 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 				$e["x_echoppe"] == $this->view->user->x_hobbit && 
 				$e["y_echoppe"] == $this->view->user->y_hobbit) {
 				$tabEchoppe = array(
-				'id_echoppe' => $e["id_echoppe"],
-				'quantite_rondin_caisse_echoppe' => $e["quantite_rondin_caisse_echoppe"],
-				'quantite_peau_caisse_echoppe' => $e["quantite_peau_caisse_echoppe"],
-				'quantite_castar_caisse_echoppe' => $e["quantite_castar_caisse_echoppe"],
+					'id_echoppe' => $e["id_echoppe"],
+					'quantite_rondin_caisse_echoppe' => $e["quantite_rondin_caisse_echoppe"],
+					'quantite_peau_caisse_echoppe' => $e["quantite_peau_caisse_echoppe"],
+					'quantite_castar_caisse_echoppe' => $e["quantite_castar_caisse_echoppe"],
 				);
 				break;
 			}
@@ -109,11 +109,8 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 		$this->calculPartiesPlantes();
 		$this->calculMinerais();
 		if ($this->view->elementsRetires != "") {
-			$this->view->elementsRetires = mb_substr($this->view->elementsRetires, 0, -2);
+			$this->view->elementsRetires = mb_substr($this->view->elementsRetires, 0, -2); // suppression de la virgule et de l'espace
 		}
-		
-		$this->calculPoids();
-		$this->majHobbit();
 	}
 	
 	private function calculEchoppe($nb_rondins, $nb_peau, $nb_castars) {
@@ -170,7 +167,7 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 			$hobbitTable = new Hobbit();
 			$this->view->user->castars_hobbit = $this->view->user->castars_hobbit + $nb_castars;
 			$data = array(
-			'castars_hobbit'  => $this->view->user->castars_hobbit,
+				'castars_hobbit'  => $this->view->user->castars_hobbit,
 			);
 			$where = "id_hobbit=".$this->view->user->id_hobbit;
 			$hobbitTable->update($data, $where);
@@ -247,9 +244,9 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 				$echoppeMineraiTable->insertOrUpdate($data);
 				
 				$data = array(
-				'id_fk_type_laban_minerai' => $this->view->minerais[$indice]["id_fk_type_echoppe_minerai"],
-				'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
-				'quantite_brut_laban_minerai' => $nb,
+					'id_fk_type_laban_minerai' => $this->view->minerais[$indice]["id_fk_type_echoppe_minerai"],
+					'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
+					'quantite_brut_laban_minerai' => $nb,
 				);
 		
 				$labanMineraiTable->insertOrUpdate($data);
@@ -278,13 +275,13 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 				if ($p["quantite_caisse_echoppe_partieplante"] > 0) {
 					$this->view->nb_valeurs = $this->view->nb_valeurs + 1;
 					$tabPartiePlantes["valeur_".$this->view->nb_valeurs] = array(
-					"nom_type" => $p["nom_type_partieplante"],
-					"nom_plante" => $p["nom_type_plante"],
-					"id_fk_type_echoppe_partieplante" => $p["id_fk_type_echoppe_partieplante"],
-					"id_fk_type_plante_echoppe_partieplante" => $p["id_fk_type_plante_echoppe_partieplante"],
-					"id_fk_echoppe_echoppe_partieplante" => $p["id_fk_echoppe_echoppe_partieplante"],
-					"quantite_caisse" => $p["quantite_caisse_echoppe_partieplante"],
-					"indice_valeur" => $this->view->nb_valeurs,
+						"nom_type" => $p["nom_type_partieplante"],
+						"nom_plante" => $p["nom_type_plante"],
+						"id_fk_type_echoppe_partieplante" => $p["id_fk_type_echoppe_partieplante"],
+						"id_fk_type_plante_echoppe_partieplante" => $p["id_fk_type_plante_echoppe_partieplante"],
+						"id_fk_echoppe_echoppe_partieplante" => $p["id_fk_echoppe_echoppe_partieplante"],
+						"quantite_caisse" => $p["quantite_caisse_echoppe_partieplante"],
+						"indice_valeur" => $this->view->nb_valeurs,
 					);
 					if ($p["quantite_caisse_echoppe_partieplante"] > 0) {
 						$this->view->retirerCaisseOk = true;

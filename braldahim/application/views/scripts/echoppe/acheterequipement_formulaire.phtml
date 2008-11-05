@@ -14,6 +14,11 @@
 	<?=$this->render("/interface/commun/equipements/equipements.phtml"); ?>
 	
 	<br />
+	
+	<? if ($this->equipement["place_dispo"] === false) : ?>
+		Il n'y a pas assez de place dans votre laban <br>
+	<? endif; ?>
+	
 	<ul class="titre textalic textsizec">Prix</ul>
 	
 	<? if (count($this->prix) > 0) : ?>
@@ -21,9 +26,9 @@
 			<?=$p["prix"] ?> <?=$p["nom"] ?>
 			<? if ($this->assezDePa !== true): ?>
 			: Pas assez de PA
-			<? elseif ($p["possible"] === true) : ?>
+			<? elseif ($p["possible"] === true && $this->equipement["place_dispo"] === true) : ?>
 				<input type='button' class='button1' id='bouton_achetereequipement' value='Acheter !' onClick='this.disabled=true;$("valeur_2").value=<?=$k ?>; _get_("/echoppe/doaction?caction=do_echoppe_acheterequipement");'>
-			<? else: ?>
+			<? elseif ($this->equipement["place_dispo"] === true): ?>
 			: Pas assez de ressources
 			<? endif; ?>
 			<br />

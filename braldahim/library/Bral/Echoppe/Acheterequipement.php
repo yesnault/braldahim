@@ -150,6 +150,13 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			}
 		}
 		
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		
+		if ($poidsRestant < $this->equipement["poids_recette_equipement"]) {
+			$placeDispo = false;
+		} else {
+			$placeDispo = true;
+		}
 		$tabEquipement = array(
 			"id_equipement" => $this->equipement["id_echoppe_equipement"],
 			"nom" => $this->equipement["nom_type_equipement"],
@@ -179,6 +186,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			"unite_3_vente_echoppe_equipement" => $this->equipement["unite_3_vente_echoppe_equipement"],
 			"commentaire_vente_echoppe_equipement" => $this->equipement["commentaire_vente_echoppe_equipement"],
 			"poids" => $this->equipement["poids_recette_equipement"],
+			"place_dispo" => $placeDispo,
 			"runes" => $runes,
 			"prix_minerais" => $minerai,
 			"prix_parties_plantes" => $partiesPlantes,
@@ -306,6 +314,10 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		// on verifie que le hobbit a assez de ressources.
 		if ($this->view->prix[$idPrix]["possible"] !== true) {
 			throw new Zend_Exception(get_class($this)."::prix invalide");
+		}
+		
+		if ($this->view->equipement["place_dispo"] !== true) {
+			throw new Zend_Exception(get_class($this)."::place invalide");
 		}
 	
 		if ($this->view->prix[$idPrix]["type"] == "echoppe") {

@@ -52,16 +52,28 @@ class Bral_Echoppes_Transferequipement extends Bral_Echoppes_Echoppe {
 		$echoppeEquipementTable = new EchoppeEquipement();
 		$equipements = $echoppeEquipementTable->findByIdEchoppe($id_echoppe);
 
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		
+		
+			
 		if (count($equipements) > 0) {
 			foreach($equipements as $e) {
 				if ($e["type_vente_echoppe_equipement"] == "aucune") {
+					if ($poidsRestant < $e["poids_recette_equipement"]) {
+						$placeDispo = false;
+					} else {
+						$placeDispo = true;
+					}
+		
 					$tabEquipementsArriereBoutique[] = array(
-					"id_echoppe_equipement" => $e["id_echoppe_equipement"],
-					"id_fk_recette_echoppe_equipement" => $e["id_fk_recette_echoppe_equipement"],
-					"nom" => $e["nom_type_equipement"],
-					"qualite" => $e["nom_type_qualite"],
-					"niveau" => $e["niveau_recette_equipement"],
-					"nb_runes" => $e["nb_runes_echoppe_equipement"]
+						"id_echoppe_equipement" => $e["id_echoppe_equipement"],
+						"id_fk_recette_echoppe_equipement" => $e["id_fk_recette_echoppe_equipement"],
+						"nom" => $e["nom_type_equipement"],
+						"qualite" => $e["nom_type_qualite"],
+						"niveau" => $e["niveau_recette_equipement"],
+						"nb_runes" => $e["nb_runes_echoppe_equipement"],
+						"poids" => $e["poids_recette_equipement"],
+						"place_dispo" => $placeDispo,
 					);
 				}
 			}
@@ -106,7 +118,7 @@ class Bral_Echoppes_Transferequipement extends Bral_Echoppes_Echoppe {
 		$flag = false;
 		$equipement = null;
 		foreach($this->view->equipementsArriereBoutique  as $e) {
-			if ($e["id_echoppe_equipement"] == $id_equipement) {
+			if ($e["id_echoppe_equipement"] == $id_equipement && $e["place_dispo"] === true) {
 				$equipement = $e;
 				$flag = true;
 				break;
@@ -137,9 +149,6 @@ class Bral_Echoppes_Transferequipement extends Bral_Echoppes_Echoppe {
 		}
 		$this->view->equipement = $equipement;
 		$this->view->destination = $destination;
-		
-		$this->calculPoids();
-		$this->majHobbit();
 	}
 	
 	private function calculTranfertVersLaban($equipement) {
@@ -167,6 +176,6 @@ class Bral_Echoppes_Transferequipement extends Bral_Echoppes_Echoppe {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_laban");
+		return array("box_profil", "box_equipement", "box_echoppe", "box_echoppes", "box_laban", "box_evenements");
 	}
 }
