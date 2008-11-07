@@ -19,7 +19,7 @@ class Bral_Lieux_Essenecehef extends Bral_Lieux_Lieu {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Lieu");
 		$this->_coutCastars = $this->calculCoutCastars();
-		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) > 0);
+		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) >= 0);
 
 		$lieuTable = new Lieu();
 		$esseneCehefCourantt = $lieuTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
@@ -89,7 +89,7 @@ class Bral_Lieux_Essenecehef extends Bral_Lieux_Lieu {
 
 
 	function getListBoxRefresh() {
-		return array("box_laban", "box_competences_metiers", "box_vue", "box_lieu");
+		return array("box_profil", "box_laban", "box_competences_metiers", "box_vue", "box_lieu");
 	}
 
 	private function calculCoutCastars() {
