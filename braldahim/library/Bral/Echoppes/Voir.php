@@ -46,7 +46,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		
 		$this->arBoutiqueTransformes["planches"] = array("nom_systeme" => "planches", "nom" => "Planches", "a_afficher" => false);
 		$this->arBoutiqueTransformes["lingots"] = array("nom_systeme" => "lingots", "nom" => "Lingots", "a_afficher" => false);
-		$this->arBoutiqueTransformes["plantes_preparees"] = array("nom_systeme" => "plantes_preparees", "nom" => "Plantes Pr&eacute;par&eacute;es", "a_afficher" => false);
+		$this->arBoutiqueTransformes["plantes_preparees"] = array("nom_systeme" => "plantes_preparees", "nom" => "Plantes Préparées", "a_afficher" => false);
 		$this->arBoutiqueTransformes["cuir_fourrure"] = array("nom_systeme" => "cuir_fourrure", "nom" => "Cuir / Fourrure", "a_afficher" => false);
 		
 		$this->arBoutiqueCaisse["castars"]  = array("nom_systeme" => "castars", "nom" => "Castars", "a_afficher" => true);
