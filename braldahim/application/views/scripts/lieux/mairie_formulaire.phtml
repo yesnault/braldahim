@@ -3,13 +3,9 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='4'>
  <div class='comp_contenu'>
  
-<? if ($this->utilisationPaPossible == false) : ?>
- Vous n'avez pas assez de PA
-
-<? else : ?> 
 	<br />
  	Pour utiliser les services de la mairie, il faut <?=$this->coutCastars?> castars et <?=$this->paUtilisationLieu?> PA.<br /><br />
-   	<? if ($this->utilisationPossible === false): ?>
+   	<? if ($this->utilisationPossible !== true || $this->utilisationPaPossible !== true): ?>
    		Vous n'avez pas assez de castars <br />
    		<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
    		<input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
@@ -43,7 +39,6 @@
    	  		
    	<? endif; ?>
  </div> 
-<? endif; ?>
 </form>
 <br /> 
 <br />
