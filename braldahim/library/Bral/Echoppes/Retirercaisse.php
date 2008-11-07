@@ -121,11 +121,7 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 		
 		$echoppeTable = new Echoppe();
 		
-		if ($nb_peau < 0) $nb_peau = 0;
-		if ($this->poidsRestant < 0) $this->poidsRestant = 0;
-		$nbPeauPossible = floor($this->poidsRestant / Bral_Util_Poids::POIDS_PEAU);
-		if ($nb_peau > $nbPeauPossible) $nb_peau = $nbPeauPossible;
-		$this->poidsRestant = $this->poidsRestant - (Bral_Util_Poids::POIDS_PEAU * $nb_peau);
+		$nb_peau = $this->calculNbPoidsPossible($nb_peau, Bral_Util_Poids::POIDS_PEAU);
 		
 		if ($nb_peau > 0) {
 			// on place dans le laban
@@ -160,12 +156,7 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 			}
 		}
 		
-		
-		if ($nb_castars < 0) $nb_castars = 0;
-		if ($this->poidsRestant < 0) $this->poidsRestant = 0;
-		$nbCastarsPossible = floor($this->poidsRestant / Bral_Util_Poids::POIDS_CASTARS);
-		if ($nb_castars > $nbCastarsPossible) $nb_castars = $nbCastarsPossible;
-		$this->poidsRestant = $this->poidsRestant - (Bral_Util_Poids::POIDS_CASTARS * $nb_castars);
+		$nb_castars = $this->calculNbPoidsPossible($nb_castars, Bral_Util_Poids::POIDS_CASTARS);
 		
 		$data = array(
 				'quantite_rondin_caisse_echoppe' => $nb_rondins,
@@ -192,6 +183,15 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 		
 	}
 	
+	private function calculNbPoidsPossible($quantite, $poidsType) {
+		if ($quantite < 0) $quantite = 0;
+		if ($this->poidsRestant < 0) $this->poidsRestant = 0;
+		$quantitePossible = floor($this->poidsRestant / $poidsType);
+		if ($quantite > $quantitePossible) $quantite = $quantitePossible;
+		$this->poidsRestant = $this->poidsRestant - ($poidsType * $quantite);
+		return $quantite;
+	}
+	
 	private function calculPartiesPlantes() {
 		Zend_Loader::loadClass("EchoppePartieplante");
 		Zend_Loader::loadClass('LabanPartieplante');
@@ -199,42 +199,35 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 		$labanPartiePlanteTable = new LabanPartieplante();
 		
-		if ($this->poidsRestant < 0) $this->poidsRestant = 0;
-		$nbPartiesPlantesBrutesPossible = floor($this->poidsRestant / Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);
-		
-		if ($nbPartiesPlantesBrutesPossible > 0) {
-			for($i=5; $i<=$this->view->valeur_fin_partieplantes; $i++) {
-				$nb = $this->request->get($indice);
-				if ((int) $nb."" != $this->request->get("valeur_".$i)."") {
-					throw new Zend_Exception(get_class($this)." NB Partie Plante invalide=".$nb);
-				} else {
-					$nb = (int)$nb;
-					if ($nb > $nbPartiesPlantesBrutesPossible) {
-						$nbPartiesPlantesBrutesPossible = $nb;
-					}
-					$this->poidsRestant = $this->poidsRestant - (Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE * $nb);
-				}
-				if ($nb > $this->view->partieplantes[$indice]["quantite_caisse"]) {
-					throw new Zend_Exception(get_class($this)." NB Partie Plante interdit=".$nb);
-				}
-				if ($nb > 0) {
-					$data = array('quantite_caisse_echoppe_partieplante' => -$nb,
-								  'id_fk_type_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_echoppe_partieplante"],
-								  'id_fk_type_plante_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_echoppe_partieplante"],
-								  'id_fk_echoppe_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_echoppe_echoppe_partieplante"]);
-					$echoppePartiePlanteTable->insertOrUpdate($data);
-					
-					$data = array(
-							'id_fk_type_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_echoppe_partieplante"],
-							'id_fk_type_plante_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_echoppe_partieplante"],
-							'id_fk_hobbit_laban_partieplante' => $this->view->user->id_hobbit,
-							'quantite_laban_partieplante' => $nb,
-					);
-					$labanPartiePlanteTable->insertOrUpdate($data);
-				}
+		for($i=5; $i<=$this->view->valeur_fin_partieplantes; $i++) {
+			$nb = $this->request->get($indice);
+			if ((int) $nb."" != $this->request->get("valeur_".$i)."") {
+				throw new Zend_Exception(get_class($this)." NB Partie Plante invalide=".$nb);
+			} else {
+				$nb = (int)$nb;
+				$nb = $this->calculNbPoidsPossible($nb, Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);
+			}
+			if ($nb > $this->view->partieplantes[$indice]["quantite_caisse"]) {
+				throw new Zend_Exception(get_class($this)." NB Partie Plante interdit=".$nb);
+			}
+			if ($nb > 0) {
+				$data = array('quantite_caisse_echoppe_partieplante' => -$nb,
+							  'id_fk_type_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_echoppe_partieplante"],
+							  'id_fk_type_plante_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_echoppe_partieplante"],
+							  'id_fk_echoppe_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_echoppe_echoppe_partieplante"]);
+				$echoppePartiePlanteTable->insertOrUpdate($data);
 				
+				$data = array(
+						'id_fk_type_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_echoppe_partieplante"],
+						'id_fk_type_plante_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_echoppe_partieplante"],
+						'id_fk_hobbit_laban_partieplante' => $this->view->user->id_hobbit,
+						'quantite_laban_partieplante' => $nb,
+				);
+				$labanPartiePlanteTable->insertOrUpdate($data);
+			}
+			if ($nb > 0) {
 				$this->view->elementsRetires .= $this->view->partieplantes[$indice]["nom_plante"]. " : ".$nb. " ".$this->view->partieplantes[$indice]["nom_type"];
-				if ($nb > 0) $this->view->elementsRetires .= "s";
+				if ($nb > 1) $this->view->elementsRetires .= "s";
 				$this->view->elementsRetires .= ", ";
 			}
 		}
@@ -247,40 +240,32 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 		$echoppeMineraiTable = new EchoppeMinerai();
 		$labanMineraiTable = new LabanMinerai();
 		
-		if ($this->poidsRestant < 0) $this->poidsRestant = 0;
-		$nbMineraisPossible = floor($this->poidsRestant / Bral_Util_Poids::POIDS_MINERAI);
-		
-		if ($nbMineraisPossible > 0) {
-			for($i=$this->view->valeur_fin_partieplantes + 1; $i<=$this->view->nb_valeurs; $i++) {
-				$indice = "valeur_".$i;
-				$nb = $this->request->get($indice);
-				if ((int) $nb."" != $this->request->get($indice)."") {
-					throw new Zend_Exception(get_class($this)." NB Minerai invalide=".$nb);
-				} else {
-					$nb = (int)$nb;
-					if ($nb > $nbMineraisPossible) {
-						$nbMineraisPossible = $nb;
-					}
-					$this->poidsRestant = $this->poidsRestant - (Bral_Util_Poids::POIDS_MINERAI * $nb);
-				}
-				if ($nb > $this->view->minerais[$indice]["quantite_caisse"]) {
-					throw new Zend_Exception(get_class($this)." NB Minerais interdit=".$nb);
-				}
-				if ($nb > 0) {
-					$data = array('quantite_caisse_echoppe_minerai' => -$nb,
-								  'id_fk_type_echoppe_minerai' => $this->view->minerais[$indice]["id_fk_type_echoppe_minerai"],
-								  'id_fk_echoppe_echoppe_minerai' => $this->view->minerais[$indice]["id_fk_echoppe_echoppe_minerai"]);
-					$echoppeMineraiTable->insertOrUpdate($data);
-					
-					$data = array(
-						'id_fk_type_laban_minerai' => $this->view->minerais[$indice]["id_fk_type_echoppe_minerai"],
-						'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
-						'quantite_brut_laban_minerai' => $nb,
-					);
-			
-					$labanMineraiTable->insertOrUpdate($data);
-				}
+		for($i=$this->view->valeur_fin_partieplantes + 1; $i<=$this->view->nb_valeurs; $i++) {
+			$indice = "valeur_".$i;
+			$nb = $this->request->get($indice);
+			if ((int) $nb."" != $this->request->get($indice)."") {
+				throw new Zend_Exception(get_class($this)." NB Minerai invalide=".$nb);
+			} else {
+				$nb = (int)$nb;
+				$nb = $this->calculNbPoidsPossible($nb, Bral_Util_Poids::POIDS_MINERAI);
+			}
+			if ($nb > $this->view->minerais[$indice]["quantite_caisse"]) {
+				throw new Zend_Exception(get_class($this)." NB Minerais interdit=".$nb);
+			}
+			if ($nb > 0) {
+				$data = array('quantite_caisse_echoppe_minerai' => -$nb,
+							  'id_fk_type_echoppe_minerai' => $this->view->minerais[$indice]["id_fk_type_echoppe_minerai"],
+							  'id_fk_echoppe_echoppe_minerai' => $this->view->minerais[$indice]["id_fk_echoppe_echoppe_minerai"]);
+				$echoppeMineraiTable->insertOrUpdate($data);
 				
+				$data = array(
+					'id_fk_type_laban_minerai' => $this->view->minerais[$indice]["id_fk_type_echoppe_minerai"],
+					'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
+					'quantite_brut_laban_minerai' => $nb,
+				);
+		
+				$labanMineraiTable->insertOrUpdate($data);
+			
 				$this->view->elementsRetires .= $this->view->minerais[$indice]["type"]. " : ".$nb;
 				$this->view->elementsRetires .= ", ";
 			}

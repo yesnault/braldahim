@@ -7,88 +7,118 @@
  	pour les mettre dans votre laban (ou dans votre charrette pour les rondins).<br />
  	
  	<br /><br />
-	Castars : <?=$this->echoppe["quantite_castar_caisse_echoppe"] ?>.
-	Quantit&eacute; &agrave; retirer : 
-	<input type='text' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='0' onkeypress="chiffres(event, false);" onKeyup="if (this.value=='')this.value = 0; if (this.value > <?=$this->echoppe["quantite_castar_caisse_echoppe"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirercaisse').disabled=false;}else{$('bouton_retirercaisse').disabled=true;}" >
+ 	
+	<ul id="navigation" style="width:99%;text-align:left">
+		<li id="retirer_divers">
+			<h3 id="retirer_divers-head" class="head" onClick="maccordion(this);" />
+				Divers
+			</h3>
+			<ul id="retirer_divers-body" style="display:none">
+			<li>
+				Castars : <?=$this->echoppe["quantite_castar_caisse_echoppe"] ?>.
+				Quantit&eacute; &agrave; retirer : 
+				<input type='text' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='0' onkeypress="chiffres(event, false);" onKeyup="if (this.value=='')this.value = 0; if (this.value > <?=$this->echoppe["quantite_castar_caisse_echoppe"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirercaisse').disabled=false;}else{$('bouton_retirercaisse').disabled=true;}" >
+				
+				<br />
+				Rondins : <?=$this->echoppe["quantite_rondin_caisse_echoppe"] ?>.
+				<? if ($this->charretteOk === true): ?>
+					Quantit&eacute; &agrave; retirer : 
+					<input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='0' onkeypress="chiffres(event, false);" onKeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->echoppe["quantite_rondin_caisse_echoppe"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirercaisse').disabled=false;}else{$('bouton_retirercaisse').disabled=true;}">
+				<? else : ?>
+					<input type='hidden' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='0' >
+					Vous n'avez pas de charette pour les retirer.
+				<? endif; ?>
+				<br />
+				Peau : <?=$this->echoppe["quantite_peau_caisse_echoppe"] ?>.
+				Quantit&eacute; &agrave; retirer : 
+				<input type='text' maxlength='4' size='4' name='valeur_4' id='valeur_4' value='0' onkeypress="chiffres(event, false);" onKeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->echoppe["quantite_peau_caisse_echoppe"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirercaisse').disabled=false;}else{$('bouton_retirercaisse').disabled=true;}">
+			</li>
+			</ul>
+		</li>
+	</ul>
 	
-	<br />
-	Rondins : <?=$this->echoppe["quantite_rondin_caisse_echoppe"] ?>.
-	<? if ($this->charretteOk === true): ?>
-		Quantit&eacute; &agrave; retirer : 
-		<input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='0' onkeypress="chiffres(event, false);" onKeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->echoppe["quantite_rondin_caisse_echoppe"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirercaisse').disabled=false;}else{$('bouton_retirercaisse').disabled=true;}">
-	<? else : ?>
-		<input type='hidden' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='0' >
-		Vous n'avez pas de charette pour les retirer.
-	<? endif; ?>
-	<br />
-	Peau : <?=$this->echoppe["quantite_peau_caisse_echoppe"] ?>.
-	Quantit&eacute; &agrave; retirer : 
-	<input type='text' maxlength='4' size='4' name='valeur_4' id='valeur_4' value='0' onkeypress="chiffres(event, false);" onKeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->echoppe["quantite_peau_caisse_echoppe"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirercaisse').disabled=false;}else{$('bouton_retirercaisse').disabled=true;}">
-	<br />
-	
-	<br />
+	<ul id="navigation" style="width:99%;text-align:left">
+	<li id="retirer_plantes">
+		<h3 id="retirer_plantes-head" class="head" onClick="maccordion(this);" />
+			Plantes brutes / pr&eacute;par&eacute;es
+		</h3>
+		<ul id="retirer_plantes-body" style="display:none">
+		<li>
+		   <? if ($this->nb_caissePartiePlantes == 0) : ?>
+		   	Aucune plante brute<br />
+		   <? else: ?>
+		    <? if ($this->nb_caissePartiePlantes==1):$s=''; else:$s='s';endif; ?>
+		    <?=$this->nb_caissePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plantes brute<?=$s?>: <br />
+		    
+		    <table width='100%'>
+		    <? $i = 0;
+		      $enter = false;
+		      foreach ($this->partieplantes as $k => $p) : 
+		      	if ($p["quantite_caisse"] > 0) :
+		      		$enter = true;
+			    	if ($i % 3 == 0) echo "<tr>"; 
+			    	?>
+			    	<td>
+			    		<?=htmlspecialchars($p["nom_plante"])?> : <?=$p["quantite_caisse"]?> <?=htmlspecialchars($p["nom_type"])?><? if ($p["quantite_caisse"] > 1) echo "s" ?>.
+			    		Quantit&eacute; &agrave; retirer : 
+			    		<input type='text' maxlength='4' size='4' name='<?=$k?>' id='<?=$k?>' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$p["quantite_caisse"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirercaisse').disabled=false;}else{$('bouton_retirercaisse').disabled=true;}">
+			    	</td>
+			    	<? if ($i % 3 == 2) echo "</tr>"; 
+			    	$i++; 
+			    endif;
+		     endforeach;
+		     if ($enter == true) :
+		     	if  ($i % 3 != 0) echo "</tr>"; 
+		     endif;
+		     ?>
+		    </table>
+		   <? endif; ?>
+		 </li>
+		 </ul>
+		</li>
+	</ul>
    
-   <? if ($this->nb_caissePartiePlantes == 0) : ?>
-   	Aucune plante brute<br />
-   <? else: ?>
-    <? if ($this->nb_caissePartiePlantes==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_caissePartiePlantes?> &eacute;l&eacute;ment<?=$s?> de plantes brute<?=$s?>: <br />
-    
-    <table width='100%'>
-    <? $i = 0;
-      $enter = false;
-      foreach ($this->partieplantes as $k => $p) : 
-      	if ($p["quantite_caisse"] > 0) :
-      		$enter = true;
-	    	if ($i % 3 == 0) echo "<tr>"; 
-	    	?>
-	    	<td>
-	    		<?=htmlspecialchars($p["nom_plante"])?> : <?=$p["quantite_caisse"]?> <?=htmlspecialchars($p["nom_type"])?><? if ($p["quantite_caisse"] > 1) echo "s" ?>.
-	    		Quantit&eacute; &agrave; retirer : 
-	    		<input type='text' maxlength='4' size='4' name='<?=$k?>' id='<?=$k?>' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$p["quantite_caisse"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirercaisse').disabled=false;}else{$('bouton_retirercaisse').disabled=true;}">
-	    	</td>
-	    	<? if ($i % 3 == 2) echo "</tr>"; 
-	    	$i++; 
-	    endif;
-     endforeach;
-     if ($enter == true) :
-     	if  ($i % 3 != 0) echo "</tr>"; 
-     endif;
-     ?>
-    </table>
-   <? endif; ?>
-   
-   <br />
-   
-   <? if ($this->nb_caisseMinerai == 0) : ?>
-   	Aucun minerai<br />
-   <? else: ?>
-    <? if ($this->nb_caisseMinerai==1):$s=''; else:$s='s';endif; ?>
-    <?=$this->nb_caisseMinerai?> minerai<?=$s?> brut<?=$s?>: <br />
-    
-    <table width='100%'>
-    <? $i = 0;
-      $enter = false;
-      foreach ($this->minerais as $k => $m) : 
-      	if ($m["quantite_caisse"] > 0) :
-      		$enter = true;
-	     	if ($i % 3 == 0) echo "<tr>"; 
-	    	?>
-	    	<td>
-	    		<?=htmlspecialchars($m["type"])?> : Quantit&eacute; : <?=$m["quantite_caisse"]?>.
-	    		Quantit&eacute; &agrave; retirer : 
-	    		<input type='text' maxlength='4' size='4' name='<?=$k ?>' id='<?=$k ?>' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_caisse"] ?>) { alert('Valeur trop grande'); this.value = 0 }; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirercaisse').disabled=false;}else{$('bouton_retirercaisse').disabled=true;}" >
-	    	</td>
-	    	<? if ($i % 3 == 2) echo "</tr>"; 
-	    	$i++; 
-	    endif;
-     endforeach;
-     if ($enter == true) :
-     	if  ($i % 3 != 0) echo "</tr>"; 
-     endif;
-     ?>
-    </table> 
-    <? endif; ?>
+
+   	<ul id="navigation" style="width:99%;text-align:left">
+	<li id="retirer_minerais">
+		<h3 id="retirer_minerais-head" class="head" onClick="maccordion(this);" />
+			Minerais bruts / Lingots
+		</h3>
+		<ul id="retirer_minerais-body" style="display:none">
+		<li>
+		   <? if ($this->nb_caisseMinerai == 0) : ?>
+		   	Aucun minerai<br />
+		   <? else: ?>
+		    <? if ($this->nb_caisseMinerai==1):$s=''; else:$s='s';endif; ?>
+		    <?=$this->nb_caisseMinerai?> minerai<?=$s?> brut<?=$s?>: <br />
+		    
+		    <table width='100%'>
+		    <? $i = 0;
+		      $enter = false;
+		      foreach ($this->minerais as $k => $m) : 
+		      	if ($m["quantite_caisse"] > 0) :
+		      		$enter = true;
+			     	if ($i % 3 == 0) echo "<tr>"; 
+			    	?>
+			    	<td>
+			    		<?=htmlspecialchars($m["type"])?> : Quantit&eacute; : <?=$m["quantite_caisse"]?>.
+			    		Quantit&eacute; &agrave; retirer : 
+			    		<input type='text' maxlength='4' size='4' name='<?=$k ?>' id='<?=$k ?>' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_caisse"] ?>) { alert('Valeur trop grande'); this.value = 0 }; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirercaisse').disabled=false;}else{$('bouton_retirercaisse').disabled=true;}" >
+			    	</td>
+			    	<? if ($i % 3 == 2) echo "</tr>"; 
+			    	$i++; 
+			    endif;
+		     endforeach;
+		     if ($enter == true) :
+		     	if  ($i % 3 != 0) echo "</tr>"; 
+		     endif;
+		     ?>
+		    </table> 
+		    <? endif; ?>
+		  </li>
+		 </ul>
+		</li>
+	</ul>
  </div>
 
 </form>

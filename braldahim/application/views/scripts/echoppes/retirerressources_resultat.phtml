@@ -1,15 +1,22 @@
 <div class='comp_titre'>Retirer des mati&egrave;res premi&egrave;res</div>
  <div class='comp_contenu'>
 	 <div id='retirerressources_text' style="display:block"  onClick="javascript:switch2div('retirerressources_text','retirerressources_copie');">
-		Vous avez retir&eacute; les &eacute;l&eacute;ments suivants : <br />
-		<?=htmlspecialchars($this->elementsRetires) ?>
-		<br />
+	 	<? if (trim($this->elementsRetires) != "") :?>
+			Vous avez retir&eacute; les &eacute;l&eacute;ments suivants : <br />
+			<?=htmlspecialchars($this->elementsRetires) ?>
+		<? else: ?>
+			Vous n'avez rien retir&eacute;, vous n'avez plus de place disponible !
+		<? endif;?>
 	 </div>
 	 
 	 <div id='retirerressources_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
-		echo "Vous avez retir&eacute; les &eacute;l&eacute;ments suivants : ";
-		echo htmlspecialchars($this->elementsRetires);
+		if (trim($this->elementsRetires) != "")  {
+			echo "Vous avez retir&eacute; les &eacute;l&eacute;ments suivants : ";
+			echo htmlspecialchars($this->elementsRetires);
+		} else {
+			echo "Vous n'avez rien retir&eacute;, vous n'avez plus de place disponible !";
+		}
 	?>
 	</textarea>
 	</div>

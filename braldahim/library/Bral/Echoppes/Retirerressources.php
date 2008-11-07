@@ -26,6 +26,8 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 			throw new Zend_Exception(get_class($this)." Echoppe invalide=".$id_echoppe);
 		}
 		
+		$this->poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		
 		$echoppeTable = new Echoppe();
 		$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
 
@@ -147,16 +149,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 		
 		$echoppeTable = new Echoppe();
 		
-		// on retire du laban
-		$labanTable = new Laban();
-		$data = array(
-			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
-			'quantite_peau_laban' => $nb_peau,
-			'quantite_cuir_laban' => $nb_cuir,
-			'quantite_fourrure_laban' => $nb_fourrure,
-			'quantite_planche_laban' => $nb_planche,
-		);
-		$labanTable->insertOrUpdate($data);
+		$nb_peau = $this->calculNbPoidsPossible($nb_peau, Bral_Util_Poids::POIDS_PEAU);
 		
 		if ($nb_peau > 0) {
 			$this->view->elementsRetires .= $nb_peau. " peau";
@@ -164,17 +157,23 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 			$this->view->elementsRetires .= ", ";
 		}
 		
+		$nb_cuir = $this->calculNbPoidsPossible($nb_cuir, Bral_Util_Poids::POIDS_CUIR);
+		
 		if ($nb_cuir > 0) {
 			$this->view->elementsRetires .= $nb_cuir. " cuir";
 			if ($nb_cuir > 1) $this->view->elementsRetires .= "s";
 			$this->view->elementsRetires .= ", ";
 		}
 		
+		$nb_fourrure = $this->calculNbPoidsPossible($nb_fourrure, Bral_Util_Poids::POIDS_FOURRURE);
+		
 		if ($nb_fourrure > 0) {
 			$this->view->elementsRetires .= $nb_fourrure. " fourrure";
 			if ($nb_fourrure > 1) $this->view->elementsRetires .= "s";
 			$this->view->elementsRetires .= ", ";
 		}
+		
+		$nb_planche = $this->calculNbPoidsPossible($nb_planche, Bral_Util_Poids::POIDS_PLANCHE);
 		
 		if ($nb_planche > 0) {
 			$this->view->elementsRetires .= $nb_planche. " planche";
@@ -201,9 +200,30 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 				'quantite_cuir_arriere_echoppe' => $this->view->echoppe["quantite_cuir_arriere_echoppe"] - $nb_cuir,
 				'quantite_fourrure_arriere_echoppe' => $this->view->echoppe["quantite_fourrure_arriere_echoppe"] - $nb_fourrure,
 				'quantite_planche_arriere_echoppe' => $this->view->echoppe["quantite_planche_arriere_echoppe"] - $nb_planche,
+				'quantite_peau_arriere_echoppe' => $this->view->echoppe["quantite_peau_arriere_echoppe"] - $nb_peau,
 		);
 		$where = "id_echoppe=".$this->view->echoppe["id_echoppe"];
 		$echoppeTable->update($data, $where);
+		
+		// on ajoute dans le laban
+		$labanTable = new Laban();
+		$data = array(
+			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
+			'quantite_peau_laban' => $nb_peau,
+			'quantite_cuir_laban' => $nb_cuir,
+			'quantite_fourrure_laban' => $nb_fourrure,
+			'quantite_planche_laban' => $nb_planche,
+		);
+		$labanTable->insertOrUpdate($data);
+	}
+	
+	private function calculNbPoidsPossible($quantite, $poidsType) {
+		if ($quantite < 0) $quantite = 0;
+		if ($this->poidsRestant < 0) $this->poidsRestant = 0;
+		$quantitePossible = floor($this->poidsRestant / $poidsType);
+		if ($quantite > $quantitePossible) $quantite = $quantitePossible;
+		$this->poidsRestant = $this->poidsRestant - ($poidsType * $quantite);
+		return $quantite;
 	}
 	
 	private function calculPartiesPlantes() {
@@ -219,6 +239,9 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 			$indicePreparees = $i + 1;
 			$nbBrutes = $this->request->get("valeur_".$indiceBrutes);
 			$nbPreparees = $this->request->get("valeur_".$indicePreparees);
+			
+			$nbBrutes = $this->calculNbPoidsPossible($nbBrutes, Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);
+			$nbPreparees = $this->calculNbPoidsPossible($nbPreparees, Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE);
 			
 			if ((int) $nbBrutes."" != $this->request->get("valeur_".$indiceBrutes)."") {
 				throw new Zend_Exception(get_class($this)." NB Partie Plante Brute invalide=".$nbBrutes);
@@ -278,6 +301,9 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 			$indiceLingot = $i+1;
 			$nbBrut = $this->request->get("valeur_".$indiceBrut);
 			$nbLingot = $this->request->get("valeur_".$indiceLingot);
+			
+			$nbBrut = $this->calculNbPoidsPossible($nbBrut, Bral_Util_Poids::POIDS_MINERAI);
+			$nbLingot = $this->calculNbPoidsPossible($nbLingot, Bral_Util_Poids::POIDS_LINGOT);
 			
 			if ((int) $nbBrut."" != $this->request->get("valeur_".$indiceBrut)."") {
 				throw new Zend_Exception(get_class($this)." NB Minerai brut invalide=".$nbBrut. " indice=".$indiceBrut);
