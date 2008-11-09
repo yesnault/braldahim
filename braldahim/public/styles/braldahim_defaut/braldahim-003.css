@@ -203,7 +203,7 @@ span.id_hobbit {
 }
 
 /* ************************************************ */
-	/* ********************** Box **************£****** */
+	/* ********************** Box **************ï¿½****** */
 	/* ************************************************ */
 	/* Bordures top */
 .xb_t1,.xb_t2,.xb_t3,.xb_t4,.xb_t5,.xb_t6,.xb_t7 {
@@ -561,7 +561,7 @@ span.id_hobbit {
 	background: #transparent none repeat scroll 0% 0%;
 }
 
-.inner { /* extŽrieur de boite */
+.inner { /* extï¿½rieur de boite */
 	padding: 1pt 10px;
 	border-color: #791E1E;
 	border-style: solid;
@@ -570,7 +570,7 @@ span.id_hobbit {
 	background: #e7c57b repeat-x scroll 0pt 0%;
 }
 
-.inner_top { /* IntŽrieur de la boite pour le bandeau haut*/
+.inner_top { /* Intï¿½rieur de la boite pour le bandeau haut*/
 	height: 30px;
 	padding: 1pt 10px;
 	border-color: #791E1E;
@@ -580,7 +580,7 @@ span.id_hobbit {
 	background: #e7c57b repeat-x scroll 0pt 0%;
 }
 
-.inner_bot { /* IntŽrieur de la boite pour le bandeau bas */
+.inner_bot { /* Intï¿½rieur de la boite pour le bandeau bas */
 	height: 30px;
 	padding: 1pt 10px;
 	border-color: #791E1E;
@@ -591,7 +591,7 @@ span.id_hobbit {
 	text-align: center;
 }
 
-.box_contenu1 { /* intŽrieur de la boite */
+.box_contenu1 { /* intï¿½rieur de la boite */
 	background: #FADC9B repeat-x scroll 0pt 0%;
 	padding: 0px;
 	margin: 0px;
@@ -613,7 +613,7 @@ span.id_hobbit {
 	background-color: #eeeeee;
 }
 
-.barre_faim,.barre_vie {
+.barre_faim,.barre_vie, .barre_niveau {
 	background-color: #FFFFFF;
 	width: 200px;
 	height: 10px;

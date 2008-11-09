@@ -139,6 +139,34 @@
 		<ul class="titre textalia textsized">
 			&nbsp;Exp&eacute;rience
 		</ul>
+		
+		<? 
+		$niveauCourantPx = ($this->user->niveau_hobbit) * 5;
+		$niveauSuivantPx = ($this->user->niveau_hobbit + 1) * 5;
+		$largeur = (($this->user->px_perso_hobbit * 100) / $niveauSuivantPx) * 2;
+		$titre = "Exp&eacute;rience atteinte dans ce niveau";
+		$texte = "Vous avez ".$this->user->px_perso_hobbit. " PX Perso.<br>";
+		$texte .= "Pour passer au niveau ".($this->user->niveau_hobbit + 1).", il vous faut ";
+		$texte .= " ".$niveauSuivantPx. " PX Perso.<br>";
+		$texte .= "Il vous manque donc ".($niveauSuivantPx - $niveauCourantPx)." PX Perso.<br>";
+		?>
+		
+		<table class="table_liste" style="width:98%; border:0" >
+		<tbody>
+			<tr class="table_liste" align="left" valign="middle">
+				<td width="10%" nowrap>
+					Exp / Niveau
+	    		</td>
+	    		<td width="80%" >
+	    			<div class="barre_niveau" <?=Bral_Helper_Tooltip::jsTip($texte, $titre, true) ?>><img src="/public/images/barre_niveau.gif" height="10px" width="<?=$largeur ?>px"></div>
+				</td>
+				<td width="10%" nowrap>
+					<?=intval($largeur/2) ?> %
+				</td>
+			</tr>
+		</tbody>
+		</table>
+		
 		<table class="table_liste" style="width:98%; border:0">
 		<tbody>
 			<tr class="table_liste" align="left" valign="middle">
