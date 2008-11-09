@@ -13,7 +13,6 @@ function _get_(url, encode) {
 	var nb_valeurs = 0;
 	var action = "";
 	
-	//$("box_chargement").style.display = "block";
 	revealModal('modalPage');
 	
 	if (url.length > 34) {
@@ -139,6 +138,8 @@ function showResponse(originalRequest) {
 							} else if (m_type_valeur == "messagerie" && m_data != "") {
 								messagerie(m_data);
 							}
+						} else if (m_type == "load_box") {
+							loadBox(m_type_valeur);
 						}
 					}
 				} else {
@@ -168,6 +169,8 @@ function showResponse(originalRequest) {
 								} else if (m_type_valeur == "messagerie" && m_data != "") {
 									messagerie(m_data);
 								}
+							} else if (m_type == "load_box") {
+								loadBox(m_type_valeur);
 							}
 						}
 					}

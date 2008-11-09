@@ -131,6 +131,10 @@ function messagerie(nbMessageNonLu) {
 	}
 }
 
+function loadBox(nomSysteme) {
+	_get_('/interface/load/?box=' + nomSysteme);
+}
+
 function revealModal(divID) {
     window.onscroll = function () { $(divID).style.top = document.body.scrollTop; };
     $(divID).style.display = "block";
