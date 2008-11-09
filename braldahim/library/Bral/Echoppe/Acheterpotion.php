@@ -166,7 +166,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		$laban = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
 		
 		if (count($laban) != 1) {
-			throw new Zend_Exception(get_class($this)."::laban invalide =! 1");
+			$laban = null;
 		} else {
 			$laban = $laban[0];
 		}
@@ -246,7 +246,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 					$retour = true;
 				}
 			}
-		} elseif ($nomSysteme == "peau") {
+		} elseif ($nomSysteme == "peau" && $laban != null) {
 			if ($laban["quantite_peau_laban"] >= $prix) {
 				$retour = true;
 			}

@@ -29,6 +29,8 @@
 			<? elseif ($p["possible"] === true && $this->potion["place_dispo"] === true) : ?>
 				<input type='button' class='button1' id='bouton_acheterepotion' value='Acheter !' onClick='this.disabled=true;$("valeur_2").value=<?=$k ?>; _get_("/echoppe/doaction?caction=do_echoppe_acheterpotion");'>
 			<? elseif ($this->equipement["place_dispo"] === true): ?>
+			: Pas assez de place disponible
+			<? else: ?>
 			: Pas assez de ressources
 			<? endif; ?>
 			<br />

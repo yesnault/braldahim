@@ -286,8 +286,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			if ($laban["quantite_peau_laban"] >= $prix) {
 				$retour = true;
 			}
-		} elseif ($nomSysteme == "castar" && $possedeLaban == true) {
-		
+		} elseif ($nomSysteme == "castar") {
 			if ($this->view->user->castars_hobbit >= $prix) {
 				$retour = true;
 			}
