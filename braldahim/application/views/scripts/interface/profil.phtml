@@ -148,7 +148,7 @@
 		$texte = "Vous avez ".$this->user->px_perso_hobbit. " PX Perso.<br>";
 		$texte .= "Pour passer au niveau ".($this->user->niveau_hobbit + 1).", il vous faut ";
 		$texte .= " ".$niveauSuivantPx. " PX Perso.<br>";
-		$texte .= "Il vous manque donc ".($niveauSuivantPx - $niveauCourantPx)." PX Perso.<br>";
+		$texte .= "Il vous manque donc ".($niveauSuivantPx - $this->user->px_perso_hobbit)." PX Perso.<br>";
 		?>
 		
 		<table class="table_liste" style="width:98%; border:0" >
