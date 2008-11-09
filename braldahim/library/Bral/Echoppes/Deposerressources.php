@@ -169,18 +169,17 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		Zend_Loader::loadClass("Laban");
 		
 		$echoppeTable = new Echoppe();
-		
-		
-			// on retire du laban
-			$labanTable = new Laban();
-			$data = array(
-				'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
-				'quantite_peau_laban' => -$nb_peau,
-				'quantite_cuir_laban' => -$nb_cuir,
-				'quantite_fourrure_laban' => -$nb_fourrure,
-				'quantite_planche_laban' => -$nb_planche,
-			);
-			$labanTable->insertOrUpdate($data);
+	
+		// on retire du laban
+		$labanTable = new Laban();
+		$data = array(
+			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
+			'quantite_peau_laban' => -$nb_peau,
+			'quantite_cuir_laban' => -$nb_cuir,
+			'quantite_fourrure_laban' => -$nb_fourrure,
+			'quantite_planche_laban' => -$nb_planche,
+		);
+		$labanTable->insertOrUpdate($data);
 		
 		if ($nb_peau > 0) {
 			$this->view->elementsRetires .= $nb_peau. " peau";
