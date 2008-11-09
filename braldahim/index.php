@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id:$
- * $Author:$
- * $LastChangedDate:$
- * $LastChangedRevision:$
- * $LastChangedBy:$
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 error_reporting(E_ALL | E_STRICT);
 date_default_timezone_set('Europe/Paris');
