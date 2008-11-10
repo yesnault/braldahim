@@ -23,6 +23,14 @@ class Bral_Box_Bbois extends Bral_Box_Boutique {
 	public function render() {
 		$this->preRender();
 		
+		$prixBois = "PrixBois";
+		
+		$articles[] = array(
+			"nom" => "Bois",
+			"type" => "bois",
+			"prix" => $prixBois,
+		);
+		$this->view->articles = $articles;
 		return $this->view->render("interface/bbois.phtml");
 	}
 }

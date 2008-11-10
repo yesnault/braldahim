@@ -102,7 +102,8 @@ class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 	
 	private function transfert() {
 		Zend_Loader::loadClass("LabanMinerai");
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - floor($this->view->quantiteAchetee * $this->view->prixUnitaire);
+		$this->view->coutCastars = floor($this->view->quantiteAchetee * $this->view->prixUnitaire);
+		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		
 		$data = array(
 			"id_fk_type_laban_minerai" => $this->view->idTypeMinerai,
@@ -120,6 +121,6 @@ class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_laban", "box_charrette", "box_evenements");
+		return array("box_profil", "box_laban", "box_evenements");
 	}
 }

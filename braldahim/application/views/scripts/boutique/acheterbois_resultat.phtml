@@ -1,0 +1,8 @@
+Vous avez achet&eacute; <?=$this->quantiteAchetee ?>
+
+<? if ($this->quantiteAchetee > 1): $s='s'; else: $s=''; endif;?>
+
+<? if ($this->nomType == "bois"):?>
+		Rondin<?=$s?>
+<? endif;?>
+ pour <?=$this->coutCastars ?> castar<? if ($this->coutCastars > 1): echo 's'; endif;?>

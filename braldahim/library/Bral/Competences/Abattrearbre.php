@@ -56,6 +56,15 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 			default :
 				throw new Exception("Abattre un arbre Environnement invalide:".$zone["nom_systeme_environnement"]. " x=".$this->view->user->x_hobbit." y=".$this->view->user->y_hobbit);
 		}
+		
+		$charretteTable = new Charrette();
+		$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
+		if ($nombre == 1) {
+			$this->view->possedeCharrette = true;
+		} else {
+			$this->view->possedeCharrette = false;
+		}
+		
 		unset($zones);
 		unset($zone);
 	}
@@ -73,7 +82,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		}
 		
 		// Verification abattre arbre
-		if ($this->view->abattreArbreEnvironnementOk == false || $this->view->abattreArbreLieuOk == false || $this->view->abattreArbreVilleOk == false) {
+		if ($this->view->abattreArbreEnvironnementOk == false || $this->view->abattreArbreLieuOk == false || $this->view->abattreArbreVilleOk == false || $this->view->possedeCharrette == false) {
 			throw new Zend_Exception(get_class($this)." Abattre un arbre interdit ");
 		}
 		
