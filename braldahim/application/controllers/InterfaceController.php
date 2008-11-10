@@ -136,9 +136,9 @@ class InterfaceController extends Zend_Controller_Action {
 		} catch (Zend_Exception $e) {
 			$b = Bral_Box_Factory::getErreur($this->_request, $this->view, false, $e->getMessage());
 			$xml_entry = new Bral_Xml_Entry();
+			$xml_entry->set_type("display");
 			$xml_entry->set_valeur($b->getNomInterne());
 			$xml_entry->set_data($b->render());
-			$xml_response->add_entry($xml_entry);
 		}
 		
 		$this->xml_response->add_entry($xml_entry);
