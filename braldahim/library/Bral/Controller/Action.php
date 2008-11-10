@@ -46,16 +46,18 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 
 			try {
 				if ($factory == "Bral_Competences_Factory") {
-					$competence = Bral_Competences_Factory::getAction($this->_request, $this->view);
+					$action = Bral_Competences_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Echoppes_Factory") {
-					$competence = Bral_Echoppes_Factory::getAction($this->_request, $this->view);
+					$action = Bral_Echoppes_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Echoppe_Factory") {
-					$competence = Bral_Echoppe_Factory::getAction($this->_request, $this->view);
+					$action = Bral_Echoppe_Factory::getAction($this->_request, $this->view);
+				} elseif ($factory == "Bral_Boutique_Factory") {
+					$action = Bral_Boutique_Factory::getAction($this->_request, $this->view);
 				}
-				$xml_entry->set_valeur($competence->getNomInterne());
-				$xml_entry->set_data($competence->render());
+				$xml_entry->set_valeur($action->getNomInterne());
+				$xml_entry->set_data($action->render());
 				$this->xml_response->add_entry($xml_entry);
-				$boxToRefresh = $competence->getListBoxRefresh();
+				$boxToRefresh = $action->getListBoxRefresh();
 				for ($i=0; $i<count($boxToRefresh); $i++) {
 					$xml_entry = new Bral_Xml_Entry();
 					if ($boxToRefresh[$i] == "box_vue" || $boxToRefresh[$i] == "box_laban") { 
@@ -70,10 +72,10 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 					$xml_entry->set_valeur($c->getNomInterne());
 					$this->xml_response->add_entry($xml_entry);
 				}
-				if ($competence->getIdEchoppeCourante() !== false) {
+				if ($action->getIdEchoppeCourante() !== false) {
 					$xml_entry = new Bral_Xml_Entry();
 					$xml_entry->set_type("display");
-					$c = Bral_Echoppes_Factory::getVoir($this->_request, $this->view, $competence->getIdEchoppeCourante());
+					$c = Bral_Echoppes_Factory::getVoir($this->_request, $this->view, $action->getIdEchoppeCourante());
 					$xml_entry->set_valeur($c->getNomInterne());
 					$xml_entry->set_data($c->render());
 					$this->xml_response->add_entry($xml_entry);
@@ -89,5 +91,3 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 		$this->xml_response->render();
 	}
 }
-
-?>

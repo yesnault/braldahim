@@ -14,8 +14,29 @@ class Bral_Box_Factory {
 
 	public static function getBox($nom, $request, $view, $interne) {
 		switch($nom) {
-			case "box_profil" :
-				return self::getProfil($request, $view, $interne);
+			case "box_bbois" :
+				return self::getBbois($request, $view, $interne);
+				break;
+			case "box_bminerais" :
+				return self::getBminerais($request, $view, $interne);
+				break;
+			case "box_bpartieplantes" :
+				return self::getBpartieplantes($request, $view, $interne);
+				break;
+			case "box_charrette" :
+				return self::getCharrette($request, $view, $interne);
+				break;
+			case "box_communaute" :
+				return self::getCommunaute($request, $view, $interne);
+				break;
+			case "box_competences_basiques" :
+				return self::getCompetencesBasic($request, $view, $interne);
+				break;
+			case "box_competences_communes" :
+				return self::getCompetencesCommun($request, $view, $interne);
+				break;
+			case "box_competences_metiers":
+				return self::getCompetencesMetier($request, $view, $interne);
 				break;
 			case "box_echoppe" :
 				return self::getEchoppe($request, $view, $interne);
@@ -29,44 +50,50 @@ class Bral_Box_Factory {
 			case "box_evenements" :
 				return self::getEvenements($request, $view, $interne);
 				break;
-			case "box_communaute" :
-				return self::getCommunaute($request, $view, $interne);
-				break;
 			case "box_famille" :
 				return self::getFamille($request, $view, $interne);
-				break;
-			case "box_vue" :
-				return self::getVue($request, $view, $interne);
 				break;
 			case "box_laban" :
 				return self::getLaban($request, $view, $interne);
 				break;
-			case "box_charrette" :
-				return self::getCharrette($request, $view, $interne);
-				break;
 			case "box_lieu" :
 				return self::getLieu($request, $view, $interne);
 				break;
-			case "box_competences_basiques" :
-				return self::getCompetencesBasic($request, $view, $interne);
+			case "box_profil" :
+				return self::getProfil($request, $view, $interne);
 				break;
-			case "box_competences_communes" :
-				return self::getCompetencesCommun($request, $view, $interne);
-				break;
-			case "box_competences_metiers":
-				return self::getCompetencesMetier($request, $view, $interne);
+			case "box_messagerie" :
+				return self::getMessagerie($request, $view, $interne);
 				break;
 			case "box_metier" :
 				return self::getMetier($request, $view, $interne);
 				break;
-			case "box_messagerie" :
-				return self::getMessagerie($request, $view, $interne);
+			case "box_vue" :
+				return self::getVue($request, $view, $interne);
 				break;
 			default :
 				throw new Zend_Exception("getBox::nom invalide :".$nom);
 		}
 	}
 
+	static function getBbois($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Boutique");
+		Zend_Loader::loadClass("Bral_Box_Bbois");
+		return new Bral_Box_Bbois($request, $view, $interne);
+	}
+	
+	static function getBminerais($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Boutique");
+		Zend_Loader::loadClass("Bral_Box_Bminerais");
+		return new Bral_Box_Bminerais($request, $view, $interne);
+	}
+	
+	static function getBpartieplantes($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Boutique");
+		Zend_Loader::loadClass("Bral_Box_Bpartieplantes");
+		return new Bral_Box_Bpartieplantes($request, $view, $interne);
+	}
+	
 	static function getCommunaute($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Communaute");
 		return new Bral_Box_Communaute($request, $view, $interne);
