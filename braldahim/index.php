@@ -26,6 +26,7 @@ Zend_Loader :: loadClass("Zend_Auth");
 
 Zend_Loader :: loadClass("Bral_Box_Factory");
 Zend_Loader :: loadClass("Bral_Box_Box");
+Zend_Loader :: loadClass("Bral_Boutique_Factory");
 Zend_Loader :: loadClass("Bral_Controller_Action");
 Zend_Loader :: loadClass("Bral_Competences_Factory");
 Zend_Loader :: loadClass("Bral_Echoppe_Factory");
@@ -33,6 +34,7 @@ Zend_Loader :: loadClass("Bral_Echoppes_Factory");
 Zend_Loader :: loadClass("Bral_Lieux_Factory");
 
 Zend_Loader :: loadClass("Bral_Helper_Affiche");
+Zend_Loader :: loadClass("Bral_Helper_Fermer");
 Zend_Loader :: loadClass("Bral_Helper_Image");
 
 Zend_Loader :: loadClass("Bral_Util_BBParser");
