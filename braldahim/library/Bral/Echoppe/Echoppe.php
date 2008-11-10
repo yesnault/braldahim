@@ -77,7 +77,7 @@ abstract class Bral_Echoppe_Echoppe {
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 				$this->majEvenementsEchoppe(Bral_Helper_Affiche::copie($this->view->texte));
 				$this->majHobbit();
-				return $this->view->render("echoppe/commun_resultat.phtml");
+				return $this->view->render("commun/commun_resultat.phtml");
 				break;
 			default:
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);

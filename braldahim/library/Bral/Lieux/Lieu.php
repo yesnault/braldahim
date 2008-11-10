@@ -103,7 +103,7 @@ abstract class Bral_Lieux_Lieu {
 				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 				$this->majEvenements(Bral_Helper_Affiche::copie($this->view->texte));
-				return $this->view->render("lieux/commun_resultat.phtml");
+				return $this->view->render("commun/commun_resultat.phtml");
 				break;
 			default:
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
