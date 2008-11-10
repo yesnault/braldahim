@@ -91,6 +91,10 @@ abstract class Bral_Lieux_Lieu {
 		return "box_action";
 	}
 
+	function getIdEchoppeCourante() {
+		return false;
+	}
+	
 	function render() {
 		switch($this->action) {
 			case "ask":
