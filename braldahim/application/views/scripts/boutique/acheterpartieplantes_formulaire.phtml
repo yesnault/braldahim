@@ -1,12 +1,12 @@
 <div class='comp_titre'><?=htmlspecialchars($this->titreAction) ?></div>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <input type='hidden' id='valeur_1' name='valeur_1' value='<?=$this->idTypePlante ?>'>
  <input type='hidden' id='valeur_2' name='valeur_2' value='<?=$this->idTypePartiePlante ?>'>
  <form name='myForm'>
  <div class='comp_contenu'>
 	<br />
 	
-	Acheter des parties de plantes <br />
+	Acheter des parties de plantes : <?=$this->typePlante["nom_type_plante"] ?>, <?=$this->typePartiePlante["nom_type_partieplante"] ?> <br />
 	
 	Co&ucirc;t du service : <?=$this->nb_pa ?> PA<br /><br />
 	
