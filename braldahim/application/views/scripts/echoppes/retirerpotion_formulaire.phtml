@@ -24,4 +24,4 @@
 <?php if ($this->retirerpotionOk === true) : ?>
 <input type='button' class='button1' id='bouton_retirer' value='Retirer de la vente !' onClick='this.disabled=true;_get_("/echoppes/doaction?caction=do_echoppes_retirerpotion");' disabled>
 <? endif ?>
-<? include("commun_fermer.phtml") ?>
+<? echo Bral_Helper_Fermer::affiche(); ?>

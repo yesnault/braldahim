@@ -163,4 +163,4 @@
 <?php if ($this->retirerRessourcesOk === true) : ?>
 <input type='button' class='button1' id='bouton_retirermatierespremieres' value='Retirer des &eacute;l&eacute;ments !' onClick='this.disabled=true;_get_("/echoppes/doaction?caction=do_echoppes_retirerressources");' disabled>
 <? endif ?>
-<? include("commun_fermer.phtml") ?>
+<? echo Bral_Helper_Fermer::affiche(); ?>
