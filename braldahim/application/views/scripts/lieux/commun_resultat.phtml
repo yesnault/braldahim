@@ -15,5 +15,5 @@
 <? if ($this->reloadInterface == true): ?>
 	<input type='button' class='button1' value='Fermer' onClick='_get_("/interface/reload");Modalbox.hide();'>
 <? else: ?>
-	<? include("commun_fermer.phtml") ?>
+	<? echo Bral_Helper_Fermer::affiche(); ?>
 <? endif; ?>

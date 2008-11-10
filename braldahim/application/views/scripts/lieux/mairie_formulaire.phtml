@@ -50,4 +50,4 @@
 	<input type='button' class='button1' id="bouton_mairie_rentrer" value='Renter dans  une communaut&eacute;' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');"  disabled>
 	<? endif; ?>
 <? endif; ?>
-<? include("commun_fermer.phtml") ?>
+<? echo Bral_Helper_Fermer::affiche(); ?>

@@ -32,4 +32,4 @@
 <? if ($this->utilisationPossible === true && $this->utilisationPaPossible === true): ?>
 <input type='button' class='button1' id="bouton_essenecehef" value='Utiliser la charrette !' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_essenecehef');"  disabled>
 <? endif; ?>
-<? include("commun_fermer.phtml") ?>
+<? echo Bral_Helper_Fermer::affiche(); ?>

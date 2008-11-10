@@ -70,4 +70,4 @@
 <input type='button' class='button1' id="apprendre_metier" value='Apprendre un m&eacute;tier' onClick="this.disabled=true;$('valeur_1').value='apprendre';_get_('/lieux/doaction?caction=do_lieu_ahennepeheux');"  disabled>
 <? endif; ?>
 <br />
-<? include("commun_fermer.phtml") ?>
+<? echo Bral_Helper_Fermer::affiche(); ?>
