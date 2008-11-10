@@ -1,1 +1,11 @@
-Vous avez achet&eacute; TODO
+Vous avez achet&eacute; <?=$this->quantiteAchetee ?>
+
+<? if ($this->quantiteAchetee > 1): $s='s'; else: $s=''; endif;?>
+
+<? if ($this->nomTypeMinerai == "brut"):?>
+		Minerai<?=$s?> Brut<?=$s?>
+	<? else: ?>
+		Lingot<?=$s?> 
+	<? endif;?>
+	de type 
+	<?=$this->typeMinerai["nom_type_minerai"]?>

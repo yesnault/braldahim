@@ -16,7 +16,11 @@ function _get_(url, encode) {
 	revealModal('modalPage');
 	
 	if (url.length > 34) {
-		if (url.substring(0, 12) == "/competences") { // /competences/doaction?caction=ask/do
+		if (url.substring(0, 9) == "/boutique") { // /boutique/doaction?caction=ask/do
+			//if ((url.substring(10, 12) == "do") && (url.substring(27, 29) == "do")) {
+				action = "do";
+			//}
+		} else if (url.substring(0, 12) == "/competences") { // /competences/doaction?caction=ask/do
 			if ((url.substring(13, 15) == "do") && (url.substring(30, 32) == "do")) {
 				action = "do";
 			}

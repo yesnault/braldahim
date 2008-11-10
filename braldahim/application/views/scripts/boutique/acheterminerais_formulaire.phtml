@@ -1,17 +1,50 @@
 <div class='comp_titre'><?=htmlspecialchars($this->titreAction) ?></div>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
- <input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
- <input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
+ <input type='hidden' id='valeur_1' name='valeur_1' value='<?=$this->idTypeMinerai ?>'>
+ <input type='hidden' id='valeur_2' name='valeur_2' value='<?=$this->nomTypeMinerai?>'>
  <form name='myForm'>
  <div class='comp_contenu'>
 	<br />
 	
-	Co&ucirc;t du service : <?=$this->nb_pa ?> PA<br />
+	Co&ucirc;t du service : <?=$this->nb_pa ?> PA<br /><br />
+	
+	<? if ($this->nomTypeMinerai == "brut"):?>
+		Minerai Brut 
+	<? else: ?>
+		Lingot 
+	<? endif;?>
+	
+	<?=$this->typeMinerai["nom_type_minerai"]?>
 	
 	<br />
+	Prix unitaire : <?=$this->prixUnitaire ?> Castars.
+	<br /><br />
 	
+	Vous pouvez transporter <?=$this->poidsRestant ?> Kg supplémentaires et vous 
+	avez <?=$this->user->castars_hobbit?> castar<? if ($this->user->castars_hobbit > 1): echo 's'; endif; ?>.
+	<br />
+		
+	<? if ($this->acheterPossible === true) : ?>
+		Vous pouvez donc acheter <?=$this->nombreMaximum ?> article<? if ($this->nombreMaximum > 1): echo 's'; endif; ?>.
+	<? elseif ($this->poidsRestant < 0) :?>
+		Vous n'avez pas assez de place disponible.
+	<? elseif ($this->assezDePa === false) :?>
+		Vous n'avez pas assez de PA.
+	<? else : ?>
+		Vous n'avez pas assez de castars.
+	<? endif;?>
+	<br />
+	<br />
+	
+	 Quantit&eacute; &agrave; acheter :
+	 <input type='text' maxlength='7' size='7' name='valeur_3' id='valeur_3' value='0' onkeypress="chiffres(event);"  onkeyup="if (this.value > 0 && $('valeur_3').value > 0 && $('valeur_3').value <=<?=$this->nombreMaximum  ?>) {$('bouton_acheterminerais').disabled=false} else {$('bouton_acheterminerais').disabled=true} ">
+	 
+	 
  </div>
 
 </form>
 <br />
+<? if ($this->acheterPossible === true && $this->assezDePa === true) : ?>
+	<input type='button' class='button1' id='bouton_acheterminerais' value='Acheter !' onClick='this.disabled=true; _get_("/boutique/doaction?caction=do_boutique_acheterminerais");' disabled="true">
+<? endif;?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

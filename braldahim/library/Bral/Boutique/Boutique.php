@@ -96,7 +96,7 @@ abstract class Bral_Boutique_Boutique {
 				
 				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
-				$this->majEvenementsEchoppe(Bral_Helper_Affiche::copie($this->view->texte));
+				$this->majEvenementsBoutique(Bral_Helper_Affiche::copie($this->view->texte));
 				$this->majHobbit();
 				return $this->view->render("commun/commun_resultat.phtml");
 				break;
