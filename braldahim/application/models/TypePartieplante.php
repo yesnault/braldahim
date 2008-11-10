@@ -13,4 +13,9 @@
 class TypePartieplante extends Zend_Db_Table {
 	protected $_name = 'type_partieplante';
 	protected $_primary = "id_type_partieplante";
+	
+	public function findById($id){
+		$where = $this->getAdapter()->quoteInto('id_type_partieplante = ?',(int)$id);
+		return $this->fetchRow($where);
+	}
 }

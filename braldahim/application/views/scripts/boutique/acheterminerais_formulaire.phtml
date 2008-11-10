@@ -1,20 +1,13 @@
 <div class='comp_titre'><?=htmlspecialchars($this->titreAction) ?></div>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <input type='hidden' id='valeur_1' name='valeur_1' value='<?=$this->idTypeMinerai ?>'>
- <input type='hidden' id='valeur_2' name='valeur_2' value='<?=$this->nomTypeMinerai?>'>
  <form name='myForm'>
  <div class='comp_contenu'>
 	<br />
 	
 	Co&ucirc;t du service : <?=$this->nb_pa ?> PA<br /><br />
 	
-	<? if ($this->nomTypeMinerai == "brut"):?>
-		Minerai Brut 
-	<? else: ?>
-		Lingot 
-	<? endif;?>
-	
-	<?=$this->typeMinerai["nom_type_minerai"]?>
+	Achat de Minerai Brut de type <?=$this->typeMinerai["nom_type_minerai"]?>
 	
 	<br />
 	Prix unitaire : <?=$this->prixUnitaire ?> Castars.
@@ -37,8 +30,7 @@
 	<br />
 	
 	 Quantit&eacute; &agrave; acheter :
-	 <input type='text' maxlength='7' size='7' name='valeur_3' id='valeur_3' value='0' onkeypress="chiffres(event);"  onkeyup="if (this.value > 0 && $('valeur_3').value > 0 && $('valeur_3').value <=<?=$this->nombreMaximum  ?>) {$('bouton_acheterminerais').disabled=false} else {$('bouton_acheterminerais').disabled=true} ">
-	 
+	 <input type='text' maxlength='7' size='7' name='valeur_2' id='valeur_2' value='0' onkeypress="chiffres(event);"  onkeyup="if (this.value > 0 && $('valeur_2').value > 0 && $('valeur_2').value <=<?=$this->nombreMaximum  ?>) {$('bouton_acheterminerais').disabled=false} else {$('bouton_acheterminerais').disabled=true} ">
 	 
  </div>
 

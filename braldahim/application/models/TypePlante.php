@@ -35,4 +35,9 @@ class TypePlante extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
+	public function findById($id){
+		$where = $this->getAdapter()->quoteInto('id_type_plante = ?',(int)$id);
+		return $this->fetchRow($where);
+	}
+	
 }

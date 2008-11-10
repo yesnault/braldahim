@@ -12,9 +12,6 @@
  */
 class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 	
-	private $potion = null;
-	private $idBoutique = null;
-
 	function getNomInterne() {
 		return "box_action";
 	}

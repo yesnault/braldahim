@@ -12,9 +12,6 @@
  */
 class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 	
-	private $potion = null;
-	private $idBoutique = null;
-
 	function getNomInterne() {
 		return "box_action";
 	}
@@ -30,12 +27,6 @@ class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 			throw new Zend_Exception("Bral_Boutique_Acheterminerais :: Type invalide : ".$this->request->get("valeur_1"));
 		} else {
 			$this->view->idTypeMinerai = (int)$this->request->get("valeur_1");
-		}
-		
-		if ($this->request->get("valeur_2") != "brut" && $this->request->get("valeur_2") != "lingot") {
-			throw new Zend_Exception("Bral_Boutique_Acheterminerais :: Type invalide 2: ".$this->request->get("valeur_2"));
-		} else {
-			$this->view->nomTypeMinerai = $this->request->get("valeur_2");
 		}
 		
 		$typeMineraiTable = new TypeMinerai();
@@ -59,10 +50,10 @@ class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 			throw new Zend_Exception(get_class($this)."::pas assez de PA");
 		}
 		
-		if (((int)$this->request->get("valeur_3").""!=$this->request->get("valeur_3")."")) {
-			throw new Zend_Exception("Bral_Boutique_Acheterminerais :: Nombre invalide : ".$this->request->get("valeur_3"));
+		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
+			throw new Zend_Exception("Bral_Boutique_Acheterminerais :: Nombre invalide : ".$this->request->get("valeur_2"));
 		} else {
-			$this->view->quantiteAchetee = (int)$this->request->get("valeur_3");
+			$this->view->quantiteAchetee = (int)$this->request->get("valeur_2");
 		}
 		
 		if ($this->view->quantiteAchetee > $this->view->nombreMaximum) {
@@ -106,15 +97,10 @@ class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		
 		$data = array(
+			"quantite_brut_laban_minerai" => $this->view->quantiteAchetee,
 			"id_fk_type_laban_minerai" => $this->view->idTypeMinerai,
 			"id_fk_hobbit_laban_minerai" => $this->view->user->id_hobbit,
 		);
-		
-		if ($this->view->nomTypeMinerai == "brut") {
-			$data["quantite_brut_laban_minerai"] = $this->view->quantiteAchetee;
-		} else { // Lingot
-			$data["quantite_lingot_laban_minerai"] = $this->view->quantiteAchetee;
-		}
 		
 		$labanMineraiTable = new LabanMinerai();
 		$labanMineraiTable->insertOrUpdate($data);
