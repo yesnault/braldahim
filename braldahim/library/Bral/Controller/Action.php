@@ -52,7 +52,9 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				} elseif ($factory == "Bral_Echoppe_Factory") {
 					$action = Bral_Echoppe_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Boutique_Factory") {
-					$action = Bral_Boutique_Factory::getAction($this->_request, $this->view);
+					$action = Bral_Boutique_Factory::getAction($this->_request, $this->view);	
+				} elseif ($factory == "Bral_Lieux_Factory") {
+					$action = Bral_Lieux_Factory::getAction($this->_request, $this->view);
 				}
 				$xml_entry->set_valeur($action->getNomInterne());
 				$xml_entry->set_data($action->render());
