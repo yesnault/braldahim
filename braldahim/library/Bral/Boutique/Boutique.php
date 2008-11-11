@@ -36,6 +36,7 @@ abstract class Bral_Boutique_Boutique {
 		} elseif (count($lieuRowset) == 1) {
 			$lieu = $lieuRowset[0];
 			unset($lieuRowset);
+			$this->view->idBoutique = $lieu["id_lieu"];
 			$this->view->nomLieu = $lieu["nom_lieu"];
 			$this->paUtilisationBoutique = $lieu["pa_utilisation_type_lieu"];
 		}

@@ -69,7 +69,7 @@ class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 		
 		$this->view->prixUnitaire = floor($prixUnitaire);
 		
-		$this->view->nombreMaximum = floor($this->view->user->castars_hobbit * $prixUnitaire);
+		$this->view->nombreMaximum = floor($this->view->user->castars_hobbit / $prixUnitaire);
 		
 		$this->view->poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 		if ($this->view->poidsRestant < 0) $this->view->poidsRestant = 0;

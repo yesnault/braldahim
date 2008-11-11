@@ -66,8 +66,7 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 		$prixUnitaire = 12;
 		
 		$this->view->prixUnitaire = floor($prixUnitaire);
-		
-		$this->view->nombreMaximum = floor($this->view->user->castars_hobbit * $prixUnitaire);
+		$this->view->nombreMaximum = floor($this->view->user->castars_hobbit / $prixUnitaire);
 		
 		if ($this->view->nombreMaximum < 1 || $this->view->assezDePa == false) {
 			$this->view->acheterPossible = false;
@@ -98,6 +97,18 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 		);
 		$charretteTable->updateCharrette($data);
 		unset($charretteTable);
+		
+		Zend_Loader::loadClass("BoutiqueBois");
+		$boutiqueBoisTable = new BoutiqueBois();
+		
+		$data = array(
+			"date_achat_boutique_bois" => date("Y-m-d H:i:s"),
+			"id_fk_lieu_boutique_bois" => $this->view->idBoutique,
+			"id_fk_hobbit_boutique_bois" => $this->view->user->id_hobbit,
+			"quantite_rondin_boutique_bois" => $this->view->quantiteAchetee,
+			"prix_unitaire_boutique_bois" => $this->view->prixUnitaire,
+		);
+		$boutiqueBoisTable->insertOrUpdate($data);
 	}
 	
 	function getListBoxRefresh() {

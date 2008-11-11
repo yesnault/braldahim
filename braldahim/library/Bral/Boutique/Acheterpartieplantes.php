@@ -91,8 +91,7 @@ class Bral_Boutique_Acheterpartieplantes extends Bral_Boutique_Boutique {
 		$prixUnitaire = 10;
 		
 		$this->view->prixUnitaire = floor($prixUnitaire);
-		
-		$this->view->nombreMaximum = floor($this->view->user->castars_hobbit * $prixUnitaire);
+		$this->view->nombreMaximum = floor($this->view->user->castars_hobbit / $prixUnitaire);
 		
 		$this->view->poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 		if ($this->view->poidsRestant < 0) $this->view->poidsRestant = 0;
