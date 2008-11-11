@@ -1,5 +1,6 @@
-  Castars : <?=$this->user->castars_hobbit ?><br />
-<br />
+  <?=$this->user->castars_hobbit ?> Castar
+<? if ($this->user->castars_hobbit > 1): echo 's'; endif;?>
+<br /><br />
 
 Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez ouvrir. <br /><br />
 

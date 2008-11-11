@@ -22,15 +22,7 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 	
 	function prepareCommun() {
 		Zend_Loader::loadClass("Charrette");
-		
-		if ($this->request->get("valeur_1") != "bois") {
-			throw new Zend_Exception("Bral_Boutique_Acheterbois :: Type invalide : ".$this->request->get("valeur_1"));
-		} else {
-			$this->view->nomType = "bois";
-		}
-		
 		$this->preparePrix();
-		
 	}
 
 	function prepareFormulaire() {
@@ -48,10 +40,10 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 			throw new Zend_Exception(get_class($this)."::achat impossible");
 		}
 		
-		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
-			throw new Zend_Exception("Bral_Boutique_Acheterbois :: Nombre invalide : ".$this->request->get("valeur_2"));
+		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
+			throw new Zend_Exception("Bral_Boutique_Acheterbois :: Nombre invalide : ".$this->request->get("valeur_1"));
 		} else {
-			$this->view->quantiteAchetee = (int)$this->request->get("valeur_2");
+			$this->view->quantiteAchetee = (int)$this->request->get("valeur_1");
 		}
 		
 		if ($this->view->quantiteAchetee > $this->view->nombreMaximum) {

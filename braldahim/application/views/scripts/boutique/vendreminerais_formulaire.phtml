@@ -1,0 +1,60 @@
+<div class='comp_titre'><?=htmlspecialchars($this->titreAction) ?></div>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='<?=$this->nb_valeurs ?>'>
+ <form name='myForm'>
+ <div class='comp_contenu'>
+ 	Vous pouvez d&eacute;poser des minerais bruts pr&eacute;sentes dans votre laban.<br />
+ 	
+	<br />
+   <? if ($this->nb_minerai_brut == 0 ) : ?>
+   	Aucun minerai brut &agrave; vendre<br />
+   <? else: ?>
+    <? if ($this->nb_minerai_brut == 1):$s=''; else:$s='s';endif; ?>
+    <?=$this->nb_minerai_brut?> minerai<?=$s?> brut<?=$s?>
+    
+    <table width='100%'>
+    <? $i = 0;
+      $enter = false;
+      foreach ($this->minerais as $k => $m) : 
+      	$enter = true;
+     	if ($i % 3 == 0) echo "<tr>"; 
+    	?>
+    	<td>
+    		<?=htmlspecialchars($m["type"])?> - brut<? if ($m["quantite_brut_laban_minerai"] > 0) echo "s" ?> : <?=$m["quantite_brut_laban_minerai"]?>
+    		<br />
+    		Quantit&eacute; &agrave; d&eacute;poser -  
+    		Brut : <input type='text' maxlength='4' size='4' name='valeur_<?=$k ?>' id='valeur_<?=$k ?>' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_brut_laban_minerai"] ?>) { alert('Valeur trop grande'); this.value = 0 }; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_vendreminerais').disabled=false;}else{$('bouton_vendreminerais').disabled=true;}" >
+    	
+    		<input type='hidden' maxlength='4' size='4' name='valeur_<?=$k?>_max' id='valeur_<?=$k?>_max' value='<?=$m["quantite_brut_laban_minerai"]?>' >
+    	</td>
+    	<? if ($i % 3 == 2) echo "</tr>"; 
+    	$i++; 
+     endforeach;
+     if ($enter == true) :
+     	if  ($i % 3 != 0) echo "</tr>"; 
+     endif;
+     ?>
+    </table> 
+    <? endif; ?>
+ </div>
+
+</form>
+<br />
+
+<?php 
+$js = "
+	cacher = true;
+	for (i=2; i<=".$this->nb_valeurs."; i++) {
+		$('valeur_' + i).value = $('valeur_' + i + '_max').value;
+		if (cacher == true && $('valeur_' + i + '_max').value > 0) {
+			cacher = false;
+		}
+	}
+	$('bouton_vendreminerais').disabled=cacher;
+
+";
+?>
+<?php if ($this->vendreMineraisOk === true) : ?>
+	<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onClick="<?=$js?>"> <br>
+	<input type='button' class='button1' id='bouton_vendreminerais' value='Vendre !' onClick='this.disabled=true;_get_("/boutique/doaction?caction=do_boutique_vendreminerais");' disabled>
+<? endif ?>
+<? echo Bral_Helper_Fermer::affiche(); ?>
