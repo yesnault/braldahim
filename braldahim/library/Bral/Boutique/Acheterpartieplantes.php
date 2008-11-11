@@ -21,46 +21,10 @@ class Bral_Boutique_Acheterpartieplantes extends Bral_Boutique_Boutique {
 	}
 	
 	function prepareCommun() {
-		Zend_Loader::loadClass('TypePartiePlante');
-		Zend_Loader::loadClass('TypePlante');
+		$this->view->acheterPossible = true;
 		
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception("Bral_Boutique_Acheterpartieplantes :: Type plante invalide : ".$this->request->get("valeur_1"));
-		} else {
-			$this->view->idTypePlante = (int)$this->request->get("valeur_1");
-		}
-		
-		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
-			throw new Zend_Exception("Bral_Boutique_Acheterpartieplantes :: Type partie plante invalide : ".$this->request->get("valeur_2"));
-		} else {
-			$this->view->idTypePartiePlante = (int)$this->request->get("valeur_2");
-		}
-		
-		
-		$typePartiePlanteTable = new TypePartieplante();
-		$typePartiePlanteRowset = $typePartiePlanteTable->findById($this->view->idTypePartiePlante);
-		if (count($typePartiePlanteRowset) == 1) {
-			$this->view->typePartiePlante = $typePartiePlanteRowset->toArray();
-		} else {
-			throw new Zend_Exception("Bral_Boutique_Acheterpartieplantes :: PartiePlante invalide : Id=".$this->view->idTypePartiePlante);
-		}
-		
-		$typePlanteTable = new TypePlante();
-		$typePlanteRowset = $typePlanteTable->findById($this->view->idTypePlante);
-		if (count($typePlanteRowset) == 1) {
-			$this->view->typePlante = $typePlanteRowset->toArray();
-		} else {
-			throw new Zend_Exception("Bral_Boutique_Acheterpartieplantes :: PartiePlante invalide : Id=".$this->view->idTypePlante);
-		}
-		
-		if ($this->view->typePlante["id_fk_partieplante1_type_plante"] != $this->view->idTypePartiePlante &&
-			$this->view->typePlante["id_fk_partieplante2_type_plante"] != $this->view->idTypePartiePlante &&
-			$this->view->typePlante["id_fk_partieplante3_type_plante"] != $this->view->idTypePartiePlante &&
-			$this->view->typePlante["id_fk_partieplante4_type_plante"] != $this->view->idTypePartiePlante) {
-			throw new Zend_Exception("Bral_Boutique_Acheterpartieplantes :: PartiePlante invalide : Id1=".$this->view->idTypePlante. " Id2=".$this->view->idTypePartiePlante);
-		}
-		
-		$this->preparePrix();
+		Zend_Loader::loadClass('Bral_Util_BoutiquePlantes');
+		$this->view->typePlantes = Bral_Util_BoutiquePlantes::construireTabPrix(true);
 		
 	}
 
@@ -73,51 +37,82 @@ class Bral_Boutique_Acheterpartieplantes extends Bral_Boutique_Boutique {
 			throw new Zend_Exception(get_class($this)."::pas assez de PA");
 		}
 		
-		if (((int)$this->request->get("valeur_3").""!=$this->request->get("valeur_3")."")) {
-			throw new Zend_Exception("Bral_Boutique_Acheterpartieplantes :: Nombre invalide : ".$this->request->get("valeur_3"));
-		} else {
-			$this->view->quantiteAchetee = (int)$this->request->get("valeur_3");
-		}
-		
-		if ($this->view->quantiteAchetee > $this->view->nombreMaximum) {
-			throw new Zend_Exception("Bral_Boutique_Acheterpartieplantes :: Nombre invalide : ".$nombre. " max:".$this->view->nombreMaximum);
+		for ($i = 1; $i <= $this->view->typePlantes["nb_valeurs"]; $i++) {
+			if (((int)$this->request->get("valeur_".$i).""!=$this->request->get("valeur_".$i)."")) {
+				throw new Zend_Exception("Bral_Boutique_Acheterpartieplantes :: Nombre invalide (".$i.") : ".$this->request->get("valeur_".$i));
+			} else {
+				$this->view->quantiteAchetee = (int)$this->request->get("valeur_".$i);
+			}
 		}
 		
 		$this->transfert();
 	}
 	
-	private function preparePrix() {
-		
-		$prixUnitaire = 10;
-		
-		$this->view->prixUnitaire = floor($prixUnitaire);
-		$this->view->nombreMaximum = floor($this->view->user->castars_hobbit / $prixUnitaire);
-		
+	private function transfert() {
+		Zend_Loader::loadClass("LabanPartieplante");
+		$this->view->coutCastars = 0;
 		$this->view->poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
-		if ($this->view->poidsRestant < 0) $this->view->poidsRestant = 0;
 		
-		$nbPossible = floor($this->view->poidsRestant / Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);
+		$this->view->elementsAchetes = "";
+		$this->view->manquePlace = false;
+		$this->view->manqueCastars = false;
 		
-		if ($this->view->nombreMaximum > $nbPossible) {
-			$this->view->nombreMaximum = $nbPossible;
+		for ($i = 1; $i <= $this->view->typePlantes["nb_valeurs"]; $i++) {
+			$quantite = (int)$this->request->get("valeur_".$i);
+			$idTypePlante = $this->view->typePlantes["valeurs"]["valeur_".$i]["id_type_plante"];
+			$idTypePartiePlante = $this->view->typePlantes["valeurs"]["valeur_".$i]["id_type_partieplante"];
+			$nomTypePlante = $this->view->typePlantes["valeurs"]["valeur_".$i]["nom_type_plante"];
+			$nomTypePartiePlante = $this->view->typePlantes["valeurs"]["valeur_".$i]["nom_type_partieplante"];
+			
+			$prixUnitaire = $this->view->typePlantes["valeurs"]["valeur_".$i]["prixUnitaire"];
+			$this->transfertElement($quantite, $prixUnitaire, $idTypePlante, $idTypePartiePlante, $nomTypePlante, $nomTypePartiePlante);
 		}
+		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		
-		if ($this->view->nombreMaximum < 1) {
-			$this->view->acheterPossible = false;
-		} else {
-			$this->view->acheterPossible = true;
+		if ($this->view->elementsAchetes != "") {
+			$this->view->elementsAchetes = mb_substr($this->view->elementsAchetes, 0, -2);
+		} else { // rien n'a pu etre achete
+			$this->view->nb_pa = 0;
 		}
 	}
 	
-	private function transfert() {
-		Zend_Loader::loadClass("LabanPartieplante");
-		$this->view->coutCastars = floor($this->view->quantiteAchetee * $this->view->prixUnitaire);
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
+	private function transfertElement($quantite, $prixUnitaire, $idTypePlante, $idTypePartiePlante, $nomTypePlante, $nomTypePartiePlante) {
 		
+		if ($this->view->poidsRestant < 0) $this->view->poidsRestant = 0;
+		$nbPossible = floor($this->view->poidsRestant / Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);
+		
+		if ($quantite > $nbPossible) {
+			$quantite = $nbPossible;
+			$this->view->manquePlace = true;
+		}
+		
+		$prixTotal = $prixUnitaire * $quantite;
+		$castarsRestants = $this->view->user->castars_hobbit - $this->view->coutCastars;
+		if ($prixTotal > $castarsRestants) {
+			$quantite = floor($castarsRestants / $prixUnitaire);
+			$prixTotal = floor($prixUnitaire * $quantite);
+			$this->view->manqueCastars = true;
+		}
+		
+		if ($quantite >= 1) {
+			$this->view->coutCastars += $prixTotal;
+			$this->view->poidsRestant = floor($this->view->poidsRestant - ($quantite * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE));
+			$this->transfertEnBase($quantite, $idTypePlante, $idTypePartiePlante);
+			
+			if ($quantite > 1) {$s = 's';} else {$s = '';};
+			$this->view->elementsAchetes .= $quantite;
+			$this->view->elementsAchetes .= " ".$nomTypePartiePlante.$s;
+			$this->view->elementsAchetes .= " ".$nomTypePlante;
+			if ($prixTotal > 1) {$s = 's';} else {$s = '';};
+			$this->view->elementsAchetes .= " pour ".$prixTotal." castar".$s.", ";
+		}
+	}
+	
+	private function transfertEnBase($quantite, $idTypePlante, $idTypePartiePlante) {
 		$data = array(
-			"quantite_laban_partieplante" => $this->view->quantiteAchetee,
-			"id_fk_type_laban_partieplante" => $this->view->idTypePartiePlante,
-			"id_fk_type_plante_laban_partieplante" => $this->view->idTypePlante,
+			"quantite_laban_partieplante" => $quantite,
+			"id_fk_type_laban_partieplante" => $idTypePartiePlante,
+			"id_fk_type_plante_laban_partieplante" => $idTypePlante,
 			"id_fk_hobbit_laban_partieplante" => $this->view->user->id_hobbit,
 		);
 		

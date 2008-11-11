@@ -4,27 +4,14 @@
 	 	<td class="table_liste" style="text-align: left;">
 	 		<?=htmlspecialchars($k); ?>
 	 	</td>
-	 	
 	 	<td class="table_liste">
-	 	<? if ($v["parties"]["feuille"]["possible"] == false) : ?>
-	 		-
-	 	<? else: ?>
-	 		<?=$v["parties"]["feuille"]["quantite"] ?>
-	 	<? endif; ?>
+	 		<?=Bral_Helper_ContenuPlante::affiche($v["parties"]["feuille"]); ?>
 	 	</td>
 	 	<td class="table_liste">
-	 	<? if ($v["parties"]["fleur"]["possible"] == false) : ?>
-	 		-
-	 	<? else : ?>
-			<?=$v["parties"]["fleur"]["quantite"] ?>
-	 	<? endif; ?>
+	 		<?=Bral_Helper_ContenuPlante::affiche($v["parties"]["fleur"]); ?>
 	 	</td>
 	 	<td class="table_liste">
-	 	<? if ($v["parties"]["epine"]["possible"] == false) : ?>
-	 		-
-	 	<? else: ?>
-	 		<?=$v["parties"]["epine"]["quantite"] ?>
-	 	<? endif; ?>
+	 		<?=Bral_Helper_ContenuPlante::affiche($v["parties"]["epine"]); ?>
 	 	</td>
  	</tr>
  	<? endif; ?>

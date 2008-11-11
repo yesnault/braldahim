@@ -1,10 +1,6 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
 
-<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='-1'>
-<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
-<input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
-
 <ul class="titre textalic textsizeb">
 	<ul style="text-align:left; position:Absolute">
 	<input type="button" class='button1' onClick='_get_("/interface/load/?box=box_lieu");' value="Sortir de la boutique">
@@ -13,34 +9,16 @@
 	</ul>
  	<div class="contenuC">
  		<ul class="box_contenu1 textalic">
-			<br /><br /><br />
-			
-				 <table class="table_liste" style="width:80%; padding:5px;" >
-					<thead class="table_liste">
-					  <tr class="table_liste">
-					  <th style="width:auto; padding:5px;" >Cat&eacute;gorie</th>
-					  <th style="width:auto; padding:5px;" >Article</th>
-					  <th style="width:auto; padding:5px;" >Type</th>
-					  <th style="width:auto; padding:5px;" >Prix</th>
-					  <th style="width:auto; padding:5px;" >Choisir</th>
-					  </tr>
-					</thead>
-					<tbody>
-						<? $i = 0;
-						foreach ($this->articles as $a) :  ?>
-							<tr class="table_liste<?=($i % 2);$i++; ?>">
-								<td style="width:auto; padding:5px;" ><?=htmlspecialchars($a["categorie"])?></td>
-								<td style="width:auto; padding:5px;" ><?=htmlspecialchars($a["nom"])?></td>
-								<td style="width:auto; padding:5px;" ><?=htmlspecialchars($a["nom_type"])?></td>
-								<td style="width:auto; padding:5px;" ><?=htmlspecialchars($a["prix"])?></td>
-								<td style="width:auto; padding:5px;" >
-									<input type="button" class='button1' onClick='$("nb_valeurs").value=2;$("valeur_1").value=<?=$a["id_type_plante"] ?>;$("valeur_2").value="<?=$a["id_type_partie_plante"] ?>"; _get_("/boutique/doaction?caction=ask_boutique_acheterpartieplantes");' value="<?=$this->paUtilisationBoutique ?> PA - Acheter">
-								</td>
-							</tr>
-						<? endforeach; ?>
-					</tbody>
-				</table>
 			<br />
+			<input type="button" class='button1' onClick='_get_("/boutique/doaction?caction=ask_boutique_acheterpartieplantes");' value="<?=$this->paUtilisationBoutique ?> PA - Acheter">
+			<input type="button" class='button1' onClick='_get_("/boutique/doaction?caction=ask_boutique_vendrepartieplantes");' value="<?=$this->paUtilisationBoutique ?> PA - Vendre">
+			<br /><br />
+			
+			<? $this->typePlantes = $this->typePlantesBruts; ?>
+			<?=$this->render("/interface/commun/plantes/plantes.phtml"); ?>
+			
+			<br />
+			
  		</ul>
  	</div>
 </div>

@@ -4,34 +4,17 @@
 	 	<td class="table_liste" style="text-align: left;">
 	 		<?=htmlspecialchars($k); ?>
 	 	</td>
-	 	
 	 	<td class="table_liste">
-	 	<? if ($v["parties"]["feuille"]["possible"] == false) : ?>
-	 		-
-	 	<? else: ?>
-	 		<?=$v["parties"]["feuille"]["quantite"] ?>
-	 	<? endif; ?>
+	 		<?=Bral_Helper_ContenuPlante::affiche($v["parties"]["feuille"]); ?>
 	 	</td>
 	 	<td class="table_liste">
-	 	<? if ($v["parties"]["fleur"]["possible"] == false) : ?>
-	 		-
-	 	<? else : ?>
-			<?=$v["parties"]["fleur"]["quantite"] ?>
-	 	<? endif; ?>
+	 		<?=Bral_Helper_ContenuPlante::affiche($v["parties"]["fleur"]); ?>
 	 	</td>
 	 	<td class="table_liste">
-	 	<? if ($v["parties"]["fruit"]["possible"] == false) : ?>
-	 		-
-	 	<? else: ?>
-	 		<?=$v["parties"]["fruit"]["quantite"] ?>
-	 	<? endif; ?>
+	 		<?=Bral_Helper_ContenuPlante::affiche($v["parties"]["fruit"]); ?>
 	 	</td>
 	 	<td class="table_liste">
-	 	<? if ($v["parties"]["ecorce"]["possible"] == false) : ?>
-	 		-
-	 	<? else: ?>
-	 		<?=$v["parties"]["ecorce"]["quantite"] ?>
-	 	<? endif; ?>
+	 		<?=Bral_Helper_ContenuPlante::affiche($v["parties"]["ecorce"]); ?>
 	 	</td>
  	</tr>
  	<? endif; ?>

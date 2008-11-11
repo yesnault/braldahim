@@ -4,13 +4,8 @@
 	 	<td class="table_liste" style="text-align: left;">
 	 		<?=htmlspecialchars($k); ?>
 	 	</td>
-	 	
 	 	<td class="table_liste">
-	 	<? if ($v["parties"]["fleur"]["possible"] == false) : ?>
-	 		-
-	 	<? else: ?>
-	 		<?=$v["parties"]["fleur"]["quantite"] ?>
-	 	<? endif; ?>
+	 		<?=Bral_Helper_ContenuPlante::affiche($v["parties"]["fleur"]); ?>
 	 	</td>
  	</tr>
  	<? endif; ?>

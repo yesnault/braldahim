@@ -1,4 +1,7 @@
-<? $vide = true; ?>  
+<? 
+Zend_Loader::loadClass('Bral_Helper_ContenuPlante');
+Zend_Loader::loadClass('Bral_Helper_ChampBoutiquePlante');
+$vide = true; ?>  
     <? if ($this->typePlantes["Arbre"]["a_afficher"] == true) :?>
     <? $vide = false; ?>  
 	    <table class="table_liste" style="width:auto; padding:5px;" >
@@ -50,7 +53,7 @@
 				</tbody>
 			</table>
 			<br />
-<? endif; ?>
+	<? endif; ?>
 <? if ($vide == true) : ?>
  <center><i>Vide</i></center>
 <? endif; ?>
