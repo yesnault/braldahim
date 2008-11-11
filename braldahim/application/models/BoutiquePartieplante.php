@@ -12,7 +12,7 @@
  */
 class BoutiquePartieplante extends Zend_Db_Table {
 	protected $_name = 'boutique_partieplante';
-	protected $_primary = array('id_fk_type_boutique_partieplante', 'id_fk_lieu_boutique_partieplante');
+	protected $_primary = array('id_boutique_partieplante');
 	
     function findByIdLieu($id_lieu) {
 		$db = $this->getAdapter();

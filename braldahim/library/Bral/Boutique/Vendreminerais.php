@@ -50,7 +50,7 @@ class Bral_Boutique_Vendreminerais extends Bral_Boutique_Boutique {
 		$echoppeMineraiTable = new EchoppeMinerai();
 		$labanMineraiTable = new LabanMinerai();
 		
-		for ($i=$this->view->valeur_fin_partieplantes + 1; $i<=$this->view->nb_valeurs; $i = $i + 2) {
+		for ($i=1; $i<=$this->view->nb_valeurs; $i = $i++) {
 			$indice = $i;
 			$nbBrut = $this->request->get("valeur_".$indice);
 			

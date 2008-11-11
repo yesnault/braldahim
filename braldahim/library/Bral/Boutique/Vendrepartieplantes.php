@@ -49,7 +49,7 @@ class Bral_Boutique_Deposerressources extends Bral_Boutique_Boutique {
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 		$labanPartiePlanteTable = new LabanPartieplante();
 		
-		for ($i=7; $i<=$this->view->valeur_fin_partieplantes; $i = $i + 2) {
+		for ($i=1; $i<=$this->view->nb_valeurs; $i = $i++) {
 			$indice = $i;
 			$nbBrutes = $this->request->get("valeur_".$indice);
 			
@@ -62,13 +62,13 @@ class Bral_Boutique_Deposerressources extends Bral_Boutique_Boutique {
 				throw new Zend_Exception(get_class($this)." NB Partie Plante Brute interdit=".$nbBrutes);
 			}
 			if ($nbBrutes > 0) {
-				// TODO DOnne vente
+				// TODO DOnnee vente
 				
 				$data = array(
-						'id_fk_type_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_laban_partieplante"],
-						'id_fk_type_plante_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_laban_partieplante"],
-						'id_fk_hobbit_laban_partieplante' => $this->view->user->id_hobbit,
-						'quantite_laban_partieplante' => -$nbBrutes,
+					'id_fk_type_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_laban_partieplante"],
+					'id_fk_type_plante_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_laban_partieplante"],
+					'id_fk_hobbit_laban_partieplante' => $this->view->user->id_hobbit,
+					'quantite_laban_partieplante' => -$nbBrutes,
 				);
 				$labanPartiePlanteTable->insertOrUpdate($data);
 				$sbrute = "";

@@ -12,7 +12,7 @@
  */
 class BoutiqueMinerai extends Zend_Db_Table {
 	protected $_name = 'boutique_minerai';
-	protected $_primary = array('id_fk_lieu_boutique_minerai', 'id_fk_type_boutique_minerai');
+	protected $_primary = array('id_boutique_minerai');
 
 	function findByIdLieu($id_lieu) {
 		$db = $this->getAdapter();
