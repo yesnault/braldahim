@@ -12,7 +12,7 @@
  */
 class BoutiqueBois extends Zend_Db_Table {
 	protected $_name = 'boutique_bois';
-	protected $_primary = array('id_boutique_bois');
+	protected $_primary = array('date_achat_boutique_bois', 'id_fk_lieu_boutique_bois');
 
 	function findByIdLieu($id_lieu) {
 		$db = $this->getAdapter();
@@ -28,7 +28,8 @@ class BoutiqueBois extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('boutique_bois', 'quantite_rondin_boutique_bois as quantiteRondin')
-		->where('id_fk_lieu_boutique_bois = ?',$data["id_fk_lieu_boutique_bois"]);
+		->where('id_fk_lieu_boutique_bois = ?',$data["id_fk_lieu_boutique_bois"])
+		->where('date_achat_boutique_bois = ?',$data["date_achat_boutique_bois"]);
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 

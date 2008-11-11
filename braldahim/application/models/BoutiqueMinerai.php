@@ -30,11 +30,10 @@ class BoutiqueMinerai extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('boutique_minerai', 'count(*) as nombre, 
-		quantite_brut_boutique_minerai as quantiteBrut, 
-		quantite_lingots_boutique_minerai as quantiteLingots')
+		quantite_brut_boutique_minerai as quantiteBrut')
 		->where('id_fk_type_boutique_minerai = ?',$data["id_fk_type_boutique_minerai"])
 		->where('id_fk_lieu_boutique_minerai = ?',$data["id_fk_lieu_boutique_minerai"])
-		->group(array('quantiteBrut', 'quantiteLingots'));
+		->group(array('quantiteBrut'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -43,22 +42,17 @@ class BoutiqueMinerai extends Zend_Db_Table {
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
 			$quantiteBrut = $resultat[0]["quantiteBrut"];
-			$quantiteLingots = $resultat[0]["quantiteLingots"];
 			
 			$dataUpdate['quantite_brut_boutique_minerai']  = $quantiteBrut;
-			$dataUpdate['quantite_lingots_boutique_minerai']  = $quantiteLingots;
 			
 			if (isset($data["quantite_brut_boutique_minerai"])) {
 				$dataUpdate['quantite_brut_boutique_minerai'] = $quantiteBrut + $data["quantite_brut_boutique_minerai"];
-			}
-			if (isset($data["quantite_lingots_boutique_minerai"])) {
-				$dataUpdate['quantite_lingots_boutique_minerai'] = $quantiteLingots + $data["quantite_lingots_boutique_minerai"];
 			}
 			
 			$where = ' id_fk_type_boutique_minerai = '.$data["id_fk_type_boutique_minerai"];
 			$where .= ' AND id_fk_lieu_boutique_minerai = '.$data["id_fk_lieu_boutique_minerai"];
 			
-			if ($dataUpdate['quantite_brut_boutique_minerai'] <= 0 && $dataUpdate['quantite_lingots_boutique_minerai'] <= 0) { // delete
+			if ($dataUpdate['quantite_brut_boutique_minerai'] <= 0) { // delete
 				$this->delete($where);
 			} else { // update
 				$this->update($dataUpdate, $where);

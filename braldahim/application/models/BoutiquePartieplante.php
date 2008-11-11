@@ -32,7 +32,7 @@ class BoutiquePartieplante extends Zend_Db_Table {
 	function insertOrUpdate($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('boutique_partieplante', 'count(*) as nombre, quantite_boutique_partieplante as quantiteBrute,  quantite_preparee_boutique_partieplante as quantitePreparee')
+		$select->from('boutique_partieplante', 'count(*) as nombre, quantite_boutique_partieplante as quantiteBrute')
 		->where('id_fk_type_boutique_partieplante = ?',$data["id_fk_type_boutique_partieplante"])
 		->where('id_fk_lieu_boutique_partieplante = ?',$data["id_fk_lieu_boutique_partieplante"])
 		->where('id_fk_type_plante_boutique_partieplante = ?',$data["id_fk_type_plante_boutique_partieplante"])
@@ -45,22 +45,14 @@ class BoutiquePartieplante extends Zend_Db_Table {
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
 			$quantiteBrute = $resultat[0]["quantiteBrute"];
-			$quantitePreparee = $resultat[0]["quantitePreparee"];
-			
 			$dataUpdate['quantite_boutique_partieplante']  = $quantiteBrute;
-			$dataUpdate['quantite_preparee_boutique_partieplante']  = $quantitePreparee;
 			
 			if (isset($data["quantite_boutique_partieplante"])) {
 				$quantiteBrute += $data["quantite_boutique_partieplante"];
 			};
 			
-			if (isset($data["quantite_preparee_boutique_partieplante"])) {
-				$quantitePreparee += $data["quantite_preparee_boutique_partieplante"];
-			};
-			
 			$dataUpdate = array(
 					'quantite_boutique_partieplante' => $quantiteBrute,
-					'quantite_preparee_boutique_partieplante' => $quantitePreparee,
 			);
 			
 			$where = ' id_fk_type_boutique_partieplante = '.$data["id_fk_type_boutique_partieplante"];
