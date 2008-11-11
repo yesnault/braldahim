@@ -5,13 +5,13 @@
 	 		<?=htmlspecialchars($k); ?>
 	 	</td>
 	 	<td class="table_liste">
-	 		<?=Bral_Helper_ContenuPlante::affiche($v["parties"]["feuille"]); ?>
+	 		<?=Bral_Helper_Contenu::affichePlante($v["parties"]["feuille"]); ?>
 	 	</td>
 	 	<td class="table_liste">
-	 		<?=Bral_Helper_ContenuPlante::affiche($v["parties"]["fleur"]); ?>
+	 		<?=Bral_Helper_Contenu::affichePlante($v["parties"]["fleur"]); ?>
 	 	</td>
 	 	<td class="table_liste">
-	 		<?=Bral_Helper_ContenuPlante::affiche($v["parties"]["epine"]); ?>
+	 		<?=Bral_Helper_Contenu::affichePlante($v["parties"]["epine"]); ?>
 	 	</td>
  	</tr>
  	<? endif; ?>

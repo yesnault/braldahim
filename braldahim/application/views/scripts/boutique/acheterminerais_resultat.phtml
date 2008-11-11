@@ -1,5 +1,24 @@
-Vous avez achet&eacute; <?=$this->quantiteAchetee ?>
 
-<? if ($this->quantiteAchetee > 1): $s='s'; else: $s=''; endif;?>
+<? if ($this->elementsAchetes != "") :?>
+	Vous avez achet&eacute; <?=$this->elementsAchetes?>.<br>
+	
+	Au total, vous avez d&eacute;pens&eacute; <?=$this->coutCastars ?> castar<? if ($this->coutCastars > 1): echo 's'; endif;?>
+<? else: ?>
+	Vous n'avez rien achet&eacute;. <br><br>
+	
+	Aucun PA n'a été dépensé.
+<? endif;?>
 
- Minerai<?=$s?> Brut<?=$s?>	de type <?=$this->typeMinerai["nom_type_minerai"]?>
+<? if ($this->manquePlace || $this->manqueCastars) : ?>
+<br>
+Certains &eacute;l&eacute;ments n'ont pas pu &ecirc;tes achet&eacute;s 
+	<? if ($this->manquePlace) : ?>
+		par manque de place
+	<? endif;?> 
+	<? if ($this->manqueCastars) : ?>
+		<? if ($this->manquePlace) : ?>
+		et
+		<? endif;?>
+		par manque de castars
+	<? endif;?> 
+<? endif;?> 

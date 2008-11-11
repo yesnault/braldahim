@@ -19,27 +19,9 @@
 			<input type="button" class='button1' onClick='_get_("/boutique/doaction?caction=ask_boutique_vendreminerais");' value="<?=$this->paUtilisationBoutique ?> PA - Vendre">
 			
 			<br /><br />
-			
-			 <table class="table_liste" style="width:80%; padding:5px;" >
-				<thead class="table_liste">
-				  <tr class="table_liste">
-				  <th style="width:auto; padding:5px;" >Article</th>
-				  <th style="width:auto; padding:5px;" >Brut / Lingot</th>
-				  <th style="width:auto; padding:5px;" >Prix</th>
-				  </tr>
-				</thead>
-				<tbody>
-					<? $i = 0;
-					foreach ($this->articles as $a) :  ?>
-						<tr class="table_liste<?=($i % 2);$i++; ?>">
-							<td style="width:auto; padding:5px;" ><?=htmlspecialchars($a["nom"])?></td>
-							<td style="width:auto; padding:5px;" ><?=htmlspecialchars($a["nom_type"])?></td>
-							<td style="width:auto; padding:5px;" ><?=htmlspecialchars($a["prix"])?></td>
-							<td style="width:auto; padding:5px;" >
-						</tr>
-					<? endforeach; ?>
-				</tbody>
-			</table>
+			Prix de vente des minerais bruts
+			<br /><br />
+			<?=$this->render("/interface/commun/minerais/minerais.phtml"); ?>
 				
 			<br />
  		</ul>

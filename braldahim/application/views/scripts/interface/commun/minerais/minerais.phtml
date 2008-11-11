@@ -1,23 +1,27 @@
-   <? if (count($this->minerais) == 0) : ?>
-   	<center><i>vide</i></center>
-   <? else : ?>
-	    <table class="table_liste" style="width:auto; padding:5px;" >
-			<thead class="table_liste">
-			  <tr class="table_liste">
-			  	<? foreach ($this->minerais as $m) :  ?>
-				<th style="width:auto; padding:5px;" ><?=htmlspecialchars($m["type"])?></th>
-				<? endforeach; ?>
-			  </tr>
-			</thead>
-			<tbody>
-				<tr class="table_liste">
-				<? foreach ($this->minerais as $m) : ?>
-				 	<td class="table_liste">
-				 		<?=$m["quantite"]?>
-				 	</td>
-				<? endforeach; ?>
-				</tr>
-			</tbody>
-		</table>
-	<? endif; ?>
-	<br />
+<? 
+Zend_Loader::loadClass('Bral_Helper_Contenu');
+Zend_Loader::loadClass('Bral_Helper_ChampBoutique');
+?>
+<? if (count($this->minerais) == 0) : ?>
+   <center><i>vide</i></center>
+<? else : ?>
+    <table class="table_liste" style="width:auto; padding:5px;" >
+		<thead class="table_liste">
+		  <tr class="table_liste">
+		  	<? foreach ($this->minerais as $m) :  ?>
+			<th style="width:auto; padding:5px;" ><?=htmlspecialchars($m["type"])?></th>
+			<? endforeach; ?>
+		  </tr>
+		</thead>
+		<tbody>
+			<tr class="table_liste">
+			<? foreach ($this->minerais as $m) : ?>
+			 	<td class="table_liste">
+			 		<?=Bral_Helper_Contenu::afficheMinerai($m)?>
+			 	</td>
+			<? endforeach; ?>
+			</tr>
+		</tbody>
+	</table>
+<? endif; ?>
+<br />

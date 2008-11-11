@@ -21,24 +21,9 @@ class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 	}
 	
 	function prepareCommun() {
-		Zend_Loader::loadClass('TypeMinerai');
-		
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception("Bral_Boutique_Acheterminerais :: Type invalide : ".$this->request->get("valeur_1"));
-		} else {
-			$this->view->idTypeMinerai = (int)$this->request->get("valeur_1");
-		}
-		
-		$typeMineraiTable = new TypeMinerai();
-		$typeMineraiRowset = $typeMineraiTable->findById($this->view->idTypeMinerai);
-		if (count($typeMineraiRowset) == 1) {
-			$this->view->typeMinerai = $typeMineraiRowset->toArray();
-		} else {
-			throw new Zend_Exception("Bral_Boutique_Acheterminerais :: Minerai invalide : ".$this->view->idTypeMinerai);
-		}
-		
-		$this->preparePrix();
-		
+		$this->view->acheterPossible = true;
+		Zend_Loader::loadClass('Bral_Util_BoutiqueMinerais');
+		$this->view->minerais = Bral_Util_BoutiqueMinerais::construireTabPrix(true);
 	}
 
 	function prepareFormulaire() {
@@ -50,55 +35,77 @@ class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 			throw new Zend_Exception(get_class($this)."::pas assez de PA");
 		}
 		
-		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
-			throw new Zend_Exception("Bral_Boutique_Acheterminerais :: Nombre invalide : ".$this->request->get("valeur_2"));
-		} else {
-			$this->view->quantiteAchetee = (int)$this->request->get("valeur_2");
-		}
-		
-		if ($this->view->quantiteAchetee > $this->view->nombreMaximum) {
-			throw new Zend_Exception("Bral_Boutique_Acheterminerais :: Nombre invalide : ".$nombre. " max:".$this->view->nombreMaximum);
+		for ($i = 1; $i <= count($this->view->minerais); $i++) {
+			if (((int)$this->request->get("valeur_".$i).""!=$this->request->get("valeur_".$i)."")) {
+				throw new Zend_Exception("Bral_Boutique_Acheterminerais :: Nombre invalide (".$i.") : ".$this->request->get("valeur_".$i));
+			}
 		}
 		
 		$this->transfert();
 	}
 	
-	private function preparePrix() {
-		
-		$prixUnitaire = 10;
-		
-		$this->view->prixUnitaire = floor($prixUnitaire);
-		
-		$this->view->nombreMaximum = floor($this->view->user->castars_hobbit / $prixUnitaire);
-		
+	private function transfert() {
+		Zend_Loader::loadClass("LabanMinerai");
+		$this->view->coutCastars = 0;
 		$this->view->poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
-		if ($this->view->poidsRestant < 0) $this->view->poidsRestant = 0;
 		
-		if ($this->view->nomTypeMinerai == "brut") {
-			$nbPossible = floor($this->view->poidsRestant / Bral_Util_Poids::POIDS_MINERAI);
-		} else { // lingot
-			$nbPossible = floor($this->view->poidsRestant / Bral_Util_Poids::POIDS_LINGOT);
+		$this->view->elementsAchetes = "";
+		$this->view->manquePlace = false;
+		$this->view->manqueCastars = false;
+		
+		foreach($this->view->minerais as $m) {
+			$quantite = (int)$this->request->get($m["id_champ"]);
+			
+			$idTypeMinerai = $m["id_type_minerai"];
+			$nomTypeMinerai = $m["type"];
+			
+			$prixUnitaire = $m["prixUnitaire"];
+			$this->transfertElement($quantite, $prixUnitaire, $idTypeMinerai, $nomTypeMinerai);
 		}
+		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		
-		if ($this->view->nombreMaximum > $nbPossible) {
-			$this->view->nombreMaximum = $nbPossible;
-		}
-		
-		if ($this->view->nombreMaximum < 1) {
-			$this->view->acheterPossible = false;
-		} else {
-			$this->view->acheterPossible = true;
+		if ($this->view->elementsAchetes != "") {
+			$this->view->elementsAchetes = mb_substr($this->view->elementsAchetes, 0, -2);
+		} else { // rien n'a pu etre achete
+			$this->view->nb_pa = 0;
 		}
 	}
 	
-	private function transfert() {
-		Zend_Loader::loadClass("LabanMinerai");
-		$this->view->coutCastars = floor($this->view->quantiteAchetee * $this->view->prixUnitaire);
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
+	private function transfertElement($quantite, $prixUnitaire, $idTypeMinerai, $nomTypeMinerai) {
 		
+		if ($this->view->poidsRestant < 0) $this->view->poidsRestant = 0;
+		$nbPossible = floor($this->view->poidsRestant / Bral_Util_Poids::POIDS_MINERAI);
+		
+		if ($quantite > $nbPossible) {
+			$quantite = $nbPossible;
+			$this->view->manquePlace = true;
+		}
+		
+		$prixTotal = $prixUnitaire * $quantite;
+		$castarsRestants = $this->view->user->castars_hobbit - $this->view->coutCastars;
+		if ($prixTotal > $castarsRestants) {
+			$quantite = floor($castarsRestants / $prixUnitaire);
+			$prixTotal = floor($prixUnitaire * $quantite);
+			$this->view->manqueCastars = true;
+		}
+		
+		if ($quantite >= 1) {
+			$this->view->coutCastars += $prixTotal;
+			$this->view->poidsRestant = floor($this->view->poidsRestant - ($quantite * Bral_Util_Poids::POIDS_MINERAI));
+			$this->transfertEnBase($quantite, $idTypeMinerai);
+			
+			if ($quantite > 1) {$s = 's';} else {$s = '';};
+			$this->view->elementsAchetes .= $quantite;
+			$this->view->elementsAchetes .= " minerai".$s." ".$nomTypeMinerai;
+			if ($prixTotal > 1) {$s = 's';} else {$s = '';};
+			$this->view->elementsAchetes .= " pour ".$prixTotal." castar".$s.", ";
+		}
+	}
+	
+	private function transfertEnBase($quantite, $idTypeMinerai) {
 		$data = array(
-			"quantite_brut_laban_minerai" => $this->view->quantiteAchetee,
-			"id_fk_type_laban_minerai" => $this->view->idTypeMinerai,
+			"quantite_brut_laban_minerai" => $quantite,
+			"id_fk_type_laban_minerai" => $idTypeMinerai,
 			"id_fk_hobbit_laban_minerai" => $this->view->user->id_hobbit,
 		);
 		

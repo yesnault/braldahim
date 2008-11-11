@@ -22,10 +22,8 @@ class Bral_Boutique_Acheterpartieplantes extends Bral_Boutique_Boutique {
 	
 	function prepareCommun() {
 		$this->view->acheterPossible = true;
-		
 		Zend_Loader::loadClass('Bral_Util_BoutiquePlantes');
-		$this->view->typePlantes = Bral_Util_BoutiquePlantes::construireTabPrix(true);
-		
+		$this->view->minerais = Bral_Util_BoutiquePlantes::construireTabPrix(true);
 	}
 
 	function prepareFormulaire() {

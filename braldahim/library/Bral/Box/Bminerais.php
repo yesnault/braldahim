@@ -27,32 +27,7 @@ class Bral_Box_Bminerais extends Bral_Box_Boutique {
 	}
 	
 	private function prepareArticles() {
-		Zend_Loader::loadClass('TypeMinerai');
-		
-		$typeMineraiTable = new TypeMinerai();
-		$typeMineraiRowset = $typeMineraiTable->fetchAll();
-		
-		foreach ($typeMineraiRowset as $t) {
-			$prixBrut = "todoBrut";
-			$prixLingot = "todoLingot";
-			
-			$tabBrut = array(
-				"id_type_minerai" => $t->id_type_minerai, 
-				"nom" => $t->nom_type_minerai, 
-				"nom_systeme" => $t->nom_systeme_type_minerai, 
-				"description" => $t->description_type_minerai,
-				"prix" => $prixBrut,
-				"nom_type" => "Brut",
-				"type" => "brut",
-			);
-			
-			$tabLingot = $tabBrut;
-			$tabLingot["prix"] = $prixLingot;
-			$tabLingot["nom_type"] = "Lingot";
-			$tabLingot["type"] = "lingot";
-			$typeMinerais[] = $tabBrut;
-			$typeMinerais[] = $tabLingot;
-		}
-		$this->view->articles = $typeMinerais;
+		Zend_Loader::loadClass('Bral_Util_BoutiqueMinerais');
+		$this->view->minerais = Bral_Util_BoutiqueMinerais::construireTabPrix(false);
 	}
 }
