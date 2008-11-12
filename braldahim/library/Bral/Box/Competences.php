@@ -120,11 +120,14 @@ class Bral_Box_Competences extends Bral_Box_Box {
 						$pa =  $c["pa_utilisation_competence"];
 					}
 						
-					$tabCompetences[] = array("id_competence" => $c["id_fk_competence_hcomp"],
-					"nom" => $c["nom_competence"],
-					"pa_utilisation" => $pa,
-					"pourcentage" => $c["pourcentage_hcomp"],
-					"nom_systeme" => $c["nom_systeme_competence"]);
+					$tabCompetences[] = array(
+						"id_competence" => $c["id_fk_competence_hcomp"],
+						"nom" => $c["nom_competence"],
+						"pa_utilisation" => $pa,
+						"pourcentage" => $c["pourcentage_hcomp"],
+						"nom_systeme" => $c["nom_systeme_competence"],
+						"pourcentage_init" => $c["pourcentage_init_competence"],
+					);
 				}
 			}
 		}
