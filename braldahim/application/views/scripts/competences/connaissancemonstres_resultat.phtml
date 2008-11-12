@@ -1,0 +1,8 @@
+<? include("commun_text_resultat.phtml") ?>
+<? if ($this->okJet1 === true): ?>
+	Vous avez reconnu le monstre : <?=$this->tabCDM['nom_monstre'] ?> <?=$this->tabCDM["taille_monstre"]?> (<?=$this->tabCDM['id_monstre'] ?>)<br />
+<? else: ?>
+	Vous avez manqu&eacute; votre reconnaissance.<br />
+<? endif; ?>
+
+
