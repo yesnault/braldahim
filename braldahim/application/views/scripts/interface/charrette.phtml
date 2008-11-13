@@ -6,8 +6,10 @@
   
    <br />
    <div class="charrette">
-    <? $s=""; if ($this->charrette["nb_rondin"] > 0):$s='s'; endif; ?>
-   	Rondin<?=$s ?> : <?=$this->charrette["nb_rondin"] ?>
+   La charrette peut contenir <?=$this->nbRondinsTransportables ?> rondins. <br>
+   
+    <? $s=""; if ($this->nbRondins > 1):$s='s'; endif; ?>
+   	Il y a actuellement <?=$this->nbRondins ?> rondin<?=$s ?>.
    </div>
    <br />
    

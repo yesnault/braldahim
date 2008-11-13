@@ -11,6 +11,13 @@
 	Co&ucirc;t du service : <?=$this->nb_pa ?> PA<br /><br />
 	
 	Prix unitaire : <?=$this->prixUnitaire ?> Castars.
+	
+	<? if ($this->possedeCharrette === true) : ?>
+		<? if ($this->tabPoidsRondinsCharrette["nb_rondins_presents"] > 1) : $s = 's'; else: $s = ''; endif; ?>
+		<br><br>
+		Votre charrette contient actuellement <?=$this->tabPoidsRondinsCharrette["nb_rondins_presents"]?> rondin<?=$s?>. <br>
+		Elle peut en contenir au maximum <?=$this->tabPoidsRondinsCharrette["nb_rondins_transportables"]?>.
+	<? endif;?>
 	<br /><br />
 	
 	<? if ($this->acheterPossible === true) : ?>
@@ -20,6 +27,8 @@
 		Vous n'avez pas assez de PA.
 	<? elseif ($this->possedeCharrette === false) :?>
 		Vous n'avez pas de charrette pour stocker les rondins !
+	<? elseif ($this->placeDisponible === false) :?>
+		Vous n'avez pas assez de place dans votre charrette.
 	<? else : ?>
 		Vous n'avez pas assez de castars.
 	<? endif;?>

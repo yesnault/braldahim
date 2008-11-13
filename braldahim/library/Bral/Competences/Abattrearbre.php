@@ -111,12 +111,13 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 	
 	/*
 	 * Uniquement utilisable en forêt.
-	 * Le Hobbit abat un arbre : il ramasse n rondins (directement dans la charrette). Le nombre de rondins ramassés est fonction de la VIGUEUR :
-     *  de 0 à 4 : 1D3 + BM VIG/2
+	 * Le Hobbit abat un arbre : il ramasse n rondins (directement dans la charrette). 
+	 * Le nombre de rondins ramassés est fonction de la VIGUEUR :
+     * de 0 à 4 : 1D3 + BM VIG/2
      * de 5 à 9 : 2D3 + BM VIG/2
      * de 10 à 14 :3D3 + BM VIG/2
      * de 15 à 19 : 4D3 + BM VIG/2
-    * etc ... 
+     * etc ... 
 	 */
 	private function calculAbattreArbre() {
 		Zend_Loader::loadClass("Charrette");
@@ -134,8 +135,15 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		
 		$this->view->nbRondins  = $this->view->nbRondins  + ($this->view->user->vigueur_bm_hobbit + $this->view->user->vigueur_bbdf_hobbit) / 2 ;
 		$this->view->nbRondins  = intval($this->view->nbRondins);
+		
+		$tabPoidsRondins = Bral_Util_Poids::calculPoidsCharretteTransportable($this->view->user->id_hobbit, $this->view->user->vigueur_base_hobbit);
+		
 		if ($this->view->nbRondins <= 0) {
 			$this->view->nbRondins  = 1;
+		}
+		
+		if ($this->view->nbRondins > $tabPoidsRondins["nb_rondins_transportables"] - $tabPoidsRondins["nb_rondins_presents"]) {
+			$this->view->nbRondins = $tabPoidsRondins["nb_rondins_transportables"] - $tabPoidsRondins["nb_rondins_presents"];
 		}
 		
 		$charretteTable = new Charrette();

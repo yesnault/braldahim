@@ -27,18 +27,11 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 	function render() {
 		Zend_Loader::loadClass('Charrette');
 		
-		$tabCharrette = null;
-		$charretteTable = new Charrette();
-		$charrette = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
-
-		foreach ($charrette as $c) {
-			$tabCharrette = array(
-			"nb_rondin" => $c["quantite_rondin_charrette"],
-			);
-		}
-		
-		$this->view->charrette = $tabCharrette;
 		$this->view->nom_interne = $this->getNomInterne();
+		
+		$tabPoidsRondins = Bral_Util_Poids::calculPoidsCharretteTransportable($this->view->user->id_hobbit, $this->view->user->vigueur_base_hobbit);
+		$this->view->nbRondins = $tabPoidsRondins["nb_rondins_presents"];
+		$this->view->nbRondinsTransportables = $tabPoidsRondins["nb_rondins_transportables"];
 		
 		return $this->view->render("interface/charrette.phtml");
 	}

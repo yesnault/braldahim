@@ -30,6 +30,33 @@ class Bral_Util_Poids {
 	function __construct() {
 	}
 	
+	/**
+	 * Retourne un tableau avec les cles suivantes: 
+	 * nb_rondins_presents
+	 * nb_rondins_transportables
+	 */
+	public static function calculPoidsCharretteTransportable($idHobbit, $niveauVigueur) {
+		Zend_Loader::loadClass('Charrette');
+		
+		$tabCharrette = null;
+		$charretteTable = new Charrette();
+		$charrette = $charretteTable->findByIdHobbit($idHobbit);
+		$tabRondins = null;
+		
+		foreach ($charrette as $c) {
+			$nbRondinsTransportables = ceil($niveauVigueur / 10) * 10;
+			if ($nbRondinsTransportables == 0) {
+				$nbRondinsTransportables = 10;
+			}
+			$tabRondins = array(
+				"nb_rondins_presents" => $c["quantite_rondin_charrette"],
+				"nb_rondins_transportables" => $nbRondinsTransportables,
+			);
+			break;
+		}
+		return $tabRondins;
+	}
+	
 	public static function calculPoidsTransportable($niveauForce) {
 		return (2 * $niveauForce) + 3;
 	}

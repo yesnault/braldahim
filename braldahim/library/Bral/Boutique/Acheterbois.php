@@ -50,6 +50,10 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 			throw new Zend_Exception("Bral_Boutique_Acheterbois :: Nombre invalide : ".$nombre. " max:".$this->view->nombreMaximum);
 		}
 		
+		if ($this->view->quantiteAchetee == 0) {
+			throw new Zend_Exception("Bral_Boutique_Acheterbois :: Nombre invalide 0");
+		}
+		
 		$this->transfert();
 	}
 	
@@ -60,16 +64,24 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 		$this->view->prixUnitaire = floor($prixUnitaire);
 		$this->view->nombreMaximum = floor($this->view->user->castars_hobbit / $prixUnitaire);
 		
+		$this->view->placeDisponible = true;
+		
 		if ($this->view->nombreMaximum < 1 || $this->view->assezDePa == false) {
 			$this->view->acheterPossible = false;
 		} else {
 			$this->view->acheterPossible = true;
-		
-			$charretteTable = new Charrette();
-			$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
-			if ($nombre == 1) {
+			
+			$this->view->tabPoidsRondinsCharrette = Bral_Util_Poids::calculPoidsCharretteTransportable($this->view->user->id_hobbit, $this->view->user->vigueur_base_hobbit);
+			if ($this->view->tabPoidsRondinsCharrette != null) {
 				$this->view->acheterPossible = true;
 				$this->view->possedeCharrette = true;
+				if ($this->view->nombreMaximum > $this->view->tabPoidsRondinsCharrette["nb_rondins_transportables"] - $this->view->tabPoidsRondinsCharrette["nb_rondins_presents"]) {
+					$this->view->nombreMaximum = $this->view->tabPoidsRondinsCharrette["nb_rondins_transportables"] - $this->view->tabPoidsRondinsCharrette["nb_rondins_presents"];
+					if ($this->view->nombreMaximum < 1) {
+						$this->view->placeDisponible = false;
+						$this->view->acheterPossible = false;
+					}
+				}
 			} else {
 				$this->view->acheterPossible = false;
 				$this->view->possedeCharrette = false;
@@ -78,7 +90,9 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 	}
 	
 	private function transfert() {
+		Zend_Loader::loadClass("BoutiqueBois");
 		Zend_Loader::loadClass("Charrette");
+		Zend_Loader::loadClass("Region");
 		$this->view->coutCastars = floor($this->view->quantiteAchetee * $this->view->prixUnitaire);
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		
@@ -90,8 +104,8 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 		$charretteTable->updateCharrette($data);
 		unset($charretteTable);
 		
-		Zend_Loader::loadClass("BoutiqueBois");
-		$boutiqueBoisTable = new BoutiqueBois();
+		$regionTable = new Region();
+		$idRegion = $regionTable->findIdRegionByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		
 		$data = array(
 			"date_achat_boutique_bois" => date("Y-m-d H:i:s"),
@@ -99,7 +113,10 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 			"id_fk_hobbit_boutique_bois" => $this->view->user->id_hobbit,
 			"quantite_rondin_boutique_bois" => $this->view->quantiteAchetee,
 			"prix_unitaire_boutique_bois" => $this->view->prixUnitaire,
+			"id_fk_region_boutique_bois" => $idRegion,
+			"action_hobbit_boutique_bois" => "achat",
 		);
+		$boutiqueBoisTable = new BoutiqueBois();
 		$boutiqueBoisTable->insertOrUpdate($data);
 	}
 	

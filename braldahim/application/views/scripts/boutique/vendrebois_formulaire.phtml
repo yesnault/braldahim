@@ -5,9 +5,17 @@
  	Vous pouvez vendre des rondins pr&eacute;sents dans votre charrette.<br />
 	<br />
 	<? if ($this->charretteOk === true && $this->charrette["nb_rondin"] > 0): ?>
-		Rondins : <?=$this->charrette["nb_rondin"] ?>
+		<? if ($this->charrette["nb_rondin"] > 1): $s = 's'; else: $s=''; endif;?>
+		Votre charrette contient <?=$this->charrette["nb_rondin"] ?> rondin<?=$s?>.<br>
+		<? if ($this->nbCastarsPossible > 1) : $s='s'; else : $s = ''; endif; ?>
+		Vous pouvez transporter <?=$this->nbCastarsPossible ?> castar<?=$s?> suppl&eacute;mentaire<?=$s?>
+		dans votre laban. <br>
+		Vous pouvez donc vendre au maximum 
+		<? if ($this->nbVenteMax > 1): $s = 's'; else: $s=''; endif;?>
+		<?=$this->nbVenteMax?> rondin<?=$s?>.<br><br>
+		 
 		Quantit&eacute; &agrave; d&eacute;poser : 
-		<input type='text' maxlength='4' size='4' name='valeur_1' id='valeur_1' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0; if (this.value > <?=$this->charrette["nb_rondin"]  ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_vendrebois').disabled=false;}else{$('bouton_vendrebois').disabled=true;}" >
+		<input type='text' maxlength='4' size='4' name='valeur_1' id='valeur_1' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0; if (this.value > <?=$this->charrette["nb_rondin"]  ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=1;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_vendrebois').disabled=false;}else{$('bouton_vendrebois').disabled=true;}" >
 		<input type='hidden' maxlength='4' size='4' name='valeur_1_max' id='valeur_1_max' value='<?=$this->charrette["nb_rondin"] ?>' >
 		<br />
 	<? else : ?>

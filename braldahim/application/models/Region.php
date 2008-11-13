@@ -14,6 +14,19 @@ class Region extends Zend_Db_Table {
 	protected $_name = 'region';
 	protected $_primary = 'id_region';
 
+	function findIdRegionByCase($x, $y) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('region', '*')
+		->where('x_min_region <= ?',$x)
+		->where('x_max_region >= ?',$x)
+		->where('y_min_region <= ?',$y)
+		->where('y_max_region >= ?',$y);
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		return $resultat[0]["id_region"];
+	}
+	
 	function selectVue($x_min, $y_min, $x_max, $y_max) {
 		$db = $this->getAdapter();
 		$select = $db->select();

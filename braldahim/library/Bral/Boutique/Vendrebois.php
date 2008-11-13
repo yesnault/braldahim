@@ -35,8 +35,24 @@ class Bral_Boutique_Vendrebois extends Bral_Boutique_Boutique {
 			}
 		}
 		
+		$this->view->nbVenteMax = 0;
 		$this->view->vendreBoisOk = false;
-		if ($tabCharrette["nb_rondin"] > 0) {
+		
+		$this->view->prixUnitaire = 12;
+		
+		// controle place dispo pour les castars
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		if ($poidsRestant < 0) $poidsRestant = 0;
+		$this->view->nbCastarsPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_CASTARS);
+		
+		$nb_rondinsPossibles = floor($this->view->nbCastarsPossible * $this->view->prixUnitaire);
+		
+		$this->view->nbVenteMax = $tabCharrette["nb_rondin"];
+		if ($this->view->nbVenteMax > $nb_rondinsPossibles) {
+			$this->view->nbVenteMax = $nb_rondinsPossibles;
+		}
+		
+		if ($this->view->nbVenteMax > 0) {
 			$this->view->vendreBoisOk = true;
 		}
 		
@@ -67,7 +83,11 @@ class Bral_Boutique_Vendrebois extends Bral_Boutique_Boutique {
 	}
 	
 	private function calculVendre($nb_rondins) {
+		Zend_Loader::loadClass("BoutiqueBois");
 		Zend_Loader::loadClass("Charrette");
+		Zend_Loader::loadClass("Region");
+		
+		$prixTotal = $this->view->prixUnitaire * $nb_rondins;
 		
 		if ($nb_rondins > 0) {
 			// on retire de la charette
@@ -87,8 +107,22 @@ class Bral_Boutique_Vendrebois extends Bral_Boutique_Boutique {
 			} else {
 				$nb_rondins = $this->view->echoppe["quantite_rondin_arriere_echoppe"];
 			}
+			
+			$regionTable = new Region();
+			$idRegion = $regionTable->findIdRegionByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+			$data = array(
+				"date_achat_boutique_bois" => date("Y-m-d H:i:s"),
+				"id_fk_lieu_boutique_bois" => $this->view->idBoutique,
+				"id_fk_hobbit_boutique_bois" => $this->view->user->id_hobbit,
+				"quantite_rondin_boutique_bois" => $nb_rondins,
+				"prix_unitaire_boutique_bois" => $this->view->prixUnitaire,
+				"id_fk_region_boutique_bois" => $idRegion,
+				"action_hobbit_boutique_bois" => "vente",
+			);
+			$boutiqueBoisTable = new BoutiqueBois();
+			$boutiqueBoisTable->insertOrUpdate($data);
 		}
-		// TODO donnees vente
+		
 	}
 	
 	function getListBoxRefresh() {
