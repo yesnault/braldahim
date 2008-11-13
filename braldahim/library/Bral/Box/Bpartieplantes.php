@@ -28,6 +28,13 @@ class Bral_Box_Bpartieplantes extends Bral_Box_Boutique {
 	
 	private function prepareArticles() {
 		Zend_Loader::loadClass('Bral_Util_BoutiquePlantes');
-		$this->view->typePlantesBruts = Bral_Util_BoutiquePlantes::construireTabPrix(false);
+		Zend_Loader::loadClass('Region');
+		$regionTable = new Region();
+		$idRegion = $regionTable->findIdRegionByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$this->view->typePlantesBruts = Bral_Util_BoutiquePlantes::construireTabPrix(false, $idRegion);
+		
+		if ($this->view->typePlantesBruts == null) {
+			Bral_Util_Log::erreur()->err("Bral_Box_Bpartieplantes - Erreur de prix dans la table stock_partieplante, id_region=".$idRegion);
+		}
 	}
 }

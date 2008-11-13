@@ -13,4 +13,14 @@
 class StockBois extends Zend_Db_Table {
 	protected $_name = 'stock_bois';
 	protected $_primary = array('id_stock_bois');
+	
+	function findDernierStockByIdRegion($idRegion) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('stock_bois', array('max(date_stock_bois) as date_stock_bois', 'nb_rondin_initial_stock_bois', 'nb_rondin_restant_stock_bois', 'prix_unitaire_vente_stock_bois', 'prix_unitaire_reprise_stock_bois'))
+		->where('id_fk_region_stock_bois  = ?', $idRegion)
+		->group(array('nb_rondin_initial_stock_bois', 'nb_rondin_restant_stock_bois', 'prix_unitaire_vente_stock_bois', 'prix_unitaire_reprise_stock_bois'));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }

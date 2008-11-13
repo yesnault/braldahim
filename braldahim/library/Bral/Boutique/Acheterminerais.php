@@ -23,7 +23,10 @@ class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 	function prepareCommun() {
 		$this->view->acheterPossible = true;
 		Zend_Loader::loadClass('Bral_Util_BoutiqueMinerais');
-		$this->view->minerais = Bral_Util_BoutiqueMinerais::construireTabPrix(true);
+		Zend_Loader::loadClass('Region');
+		$regionTable = new Region();
+		$idRegion = $regionTable->findIdRegionByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$this->view->minerais = Bral_Util_BoutiqueMinerais::construireTabPrix(true, $idRegion);
 	}
 
 	function prepareFormulaire() {

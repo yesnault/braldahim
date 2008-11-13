@@ -23,7 +23,10 @@ class Bral_Boutique_Acheterpartieplantes extends Bral_Boutique_Boutique {
 	function prepareCommun() {
 		$this->view->acheterPossible = true;
 		Zend_Loader::loadClass('Bral_Util_BoutiquePlantes');
-		$this->view->minerais = Bral_Util_BoutiquePlantes::construireTabPrix(true);
+		Zend_Loader::loadClass('Region');
+		$regionTable = new Region();
+		$idRegion = $regionTable->findIdRegionByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$this->view->minerais = Bral_Util_BoutiquePlantes::construireTabPrix(true, $idRegion);
 	}
 
 	function prepareFormulaire() {

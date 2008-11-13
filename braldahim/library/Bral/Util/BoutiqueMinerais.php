@@ -12,16 +12,34 @@
  */
 class Bral_Util_BoutiqueMinerais {
 	
-	public static function construireTabPrix($estFormulaire) {
+	public static function construireTabPrix($estFormulaire, $idRegion) {
 		Zend_Loader::loadClass('TypeMinerai');
 		
 		$typeMineraiTable = new TypeMinerai();
 		$typeMineraiRowset = $typeMineraiTable->fetchAll();
 		
+		Zend_Loader::loadClass('StockMinerai');
+		
+		$stockMineraiTable = new StockMinerai();
+		$stockMineraiRowset = $stockMineraiTable->findDernierStockByIdRegion($idRegion);
+		
+		if ($stockMineraiRowset == null) {
+			return null;
+		}
+		
 		$numChamp = 0;
 		
 		foreach ($typeMineraiRowset as $t) {
-			$prixUnitaire = 11;
+			$prixUnitaireVente = "Prix inconnu";
+			$prixUnitaireReprise = "Prix inconnu";
+			
+			foreach ($stockMineraiRowset as $s) {
+				if ($s["id_fk_type_stock_minerai"] == $t->id_type_minerai) {
+					$prixUnitaireVente = $s["prix_unitaire_vente_stock_minerai"];
+					$prixUnitaireReprise = $s["prix_unitaire_reprise_stock_minerai"];
+					break;
+				}
+			}
 			
 			$numChamp++;
 			$idChamp = "valeur_".$numChamp;
@@ -30,7 +48,8 @@ class Bral_Util_BoutiqueMinerais {
 				"id_type_minerai" => $t->id_type_minerai, 
 				"nom_systeme" => $t->nom_systeme_type_minerai, 
 				"description" => $t->description_type_minerai,
-				"prixUnitaire" => $prixUnitaire,
+				"prixUnitaireVente" => $prixUnitaireVente,
+				"prixUnitaireReprise" => $prixUnitaireReprise,
 				"type" => $t->nom_type_minerai,
 			);
 			

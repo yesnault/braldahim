@@ -11,14 +11,17 @@
  		<ul class="box_contenu1 textalic">
 			<br />
 			
-			<input type="button" class='button1' onClick='_get_("/boutique/doaction?caction=ask_boutique_acheterminerais");' value="<?=$this->paUtilisationBoutique ?> PA - Acheter">
-			<input type="button" class='button1' onClick='_get_("/boutique/doaction?caction=ask_boutique_vendreminerais");' value="<?=$this->paUtilisationBoutique ?> PA - Vendre">
-			
-			<br /><br />
-			Prix de vente des minerais bruts
-			<br /><br />
-			<?=$this->render("/interface/commun/minerais/minerais.phtml"); ?>
+			<? if ($this->minerais == null) : ?>
+				Les prix du marché sont inconnus, la boutique est fermée.
+			<? else: ?>
+				<input type="button" class='button1' onClick='_get_("/boutique/doaction?caction=ask_boutique_acheterminerais");' value="<?=$this->paUtilisationBoutique ?> PA - Acheter">
+				<input type="button" class='button1' onClick='_get_("/boutique/doaction?caction=ask_boutique_vendreminerais");' value="<?=$this->paUtilisationBoutique ?> PA - Vendre">
 				
+				<br /><br />
+				Prix de vente et de reprise des minerais bruts
+				<br /><br />
+				<?=$this->render("/interface/commun/minerais/minerais.phtml"); ?>
+			<? endif; ?>
 			<br />
  		</ul>
  	</div>

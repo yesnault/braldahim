@@ -22,11 +22,11 @@ class Bral_Helper_ChampBoutique {
 			$retour = "<input type='text' maxlength='5' size='2' name='".$tab["id_champ"]."' id='".$tab["id_champ"]."' value='0' ";
 			$retour .= "onkeypress=\"chiffres(event);\"  ";
 			$retour .= "onkeyup=\"".$js."\">";
-			$retour .= "<span style='cursor:pointer' title='Prix ".$tab["prixUnitaire"]." castar";
-			if ($tab["prixUnitaire"] > 1) $retour.= "s";
+			$retour .= "<span style='cursor:pointer' title='Prix ".$tab["prixUnitaireVente"]." castar";
+			if ($tab["prixUnitaireVente"] > 1) $retour.= "s";
 			$retour .= "'> [P] </span>";
 		} else {
-			$retour .= $tab["prixUnitaire"];
+			$retour .= $tab["prixUnitaireVente"];
 		}
 		return $retour;
 	}
@@ -41,11 +41,12 @@ class Bral_Helper_ChampBoutique {
 			$retour = "<input type='text' maxlength='5' size='2' name='".$tab["id_champ"]."' id='".$tab["id_champ"]."' value='0' ";
 			$retour .= "onkeypress=\"chiffres(event);\"  ";
 			$retour .= "onkeyup=\"".$js."\">";
-			$retour .= "<span style='cursor:pointer' title='Prix ".$tab["prixUnitaire"]." castar";
-			if ($tab["prixUnitaire"] > 1) $retour.= "s";
-			$retour .= "'> [P] </span>";
+			$retour .= "<span style='cursor:pointer' title='Prix ".$tab["prixUnitaireVente"]." castar";
+			if ($tab["prixUnitaireVente"] > 1) $retour.= "s";
+			$retour .= "'> ".$tab["prixUnitaireVente"]."c </span>";
 		} else {
-			$retour .= $tab["prixUnitaire"];
+			$retour .= "Prix Achat: ".$tab["prixUnitaireVente"].'c';
+			$retour .= "<br>Prix Reprise: ".$tab["prixUnitaireReprise"].'c';
 		}
 		return $retour;
 	}

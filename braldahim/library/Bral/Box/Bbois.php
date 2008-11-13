@@ -23,14 +23,17 @@ class Bral_Box_Bbois extends Bral_Box_Boutique {
 	public function render() {
 		$this->preRender();
 		
-		$prixBois = "PrixBois";
+		Zend_Loader::loadClass('Bral_Util_BoutiqueBois');
+		Zend_Loader::loadClass("Region");
 		
-		$articles[] = array(
-			"nom" => "Bois",
-			"type" => "bois",
-			"prix" => $prixBois,
-		);
-		$this->view->articles = $articles;
+		$regionTable = new Region();
+		$idRegion = $regionTable->findIdRegionByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		
+		$tabStockPrix = Bral_Util_BoutiqueBois::construireTabStockPrix($idRegion);
+		if ($tabStockPrix == null) {
+			Bral_Util_Log::erreur()->err("Bral_Box_Bbois - Erreur de prix dans la table stock_bois, id_region=".$idRegion);
+		}
+		$this->view->tabStockPrix = $tabStockPrix;
 		return $this->view->render("interface/bbois.phtml");
 	}
 }

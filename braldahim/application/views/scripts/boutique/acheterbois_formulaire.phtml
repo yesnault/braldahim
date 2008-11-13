@@ -10,7 +10,7 @@
 	
 	Co&ucirc;t du service : <?=$this->nb_pa ?> PA<br /><br />
 	
-	Prix unitaire : <?=$this->prixUnitaire ?> Castars.
+	Prix unitaire : <?=$this->tabStockPrix["prix_unitaire_vente_stock_bois"] ?> Castars.
 	
 	<? if ($this->possedeCharrette === true) : ?>
 		<? if ($this->tabPoidsRondinsCharrette["nb_rondins_presents"] > 1) : $s = 's'; else: $s = ''; endif; ?>

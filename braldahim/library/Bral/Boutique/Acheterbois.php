@@ -22,6 +22,8 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 	
 	function prepareCommun() {
 		Zend_Loader::loadClass("Charrette");
+		Zend_Loader::loadClass("Bral_Util_BoutiqueBois");
+		
 		$this->preparePrix();
 	}
 
@@ -59,10 +61,20 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 	
 	private function preparePrix() {
 		
-		$prixUnitaire = 12;
+		Zend_Loader::loadClass("Region");
 		
-		$this->view->prixUnitaire = floor($prixUnitaire);
-		$this->view->nombreMaximum = floor($this->view->user->castars_hobbit / $prixUnitaire);
+		$regionTable = new Region();
+		$idRegion = $regionTable->findIdRegionByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		
+		$tabStockPrix = Bral_Util_BoutiqueBois::construireTabStockPrix($idRegion);
+		if ($tabStockPrix == null || count($tabStockPrix) != 1) {
+			Bral_Util_Log::erreur()->err("Bral_Box_Bbois - Erreur de prix dans la table stock_bois, id_region=".$idRegion);
+			throw new Zend_Exception(get_class($this)."::Erreur de prix dans la table stock_bois, id_region=".$idRegion);
+		}
+		$this->view->tabStockPrix = $tabStockPrix[0];
+		
+		$this->view->prixUnitaire = floor($this->view->tabStockPrix["prix_unitaire_vente_stock_bois"]);
+		$this->view->nombreMaximum = floor($this->view->user->castars_hobbit / $this->view->tabStockPrix["prix_unitaire_vente_stock_bois"]);
 		
 		$this->view->placeDisponible = true;
 		
