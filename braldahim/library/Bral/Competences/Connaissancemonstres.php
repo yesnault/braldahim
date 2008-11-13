@@ -12,7 +12,7 @@
 class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence {
 	
 	function prepareCommun() {
-		Zend_Loader::loadClass('Bral_Util_Commun');
+		Zend_Loader::loadClass("Bral_Util_Commun");
 		Zend_Loader::loadClass("Monstre");
 		
 		/*
@@ -106,11 +106,89 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 			$tabCDM["taille_monstre"] = $monstre["nom_taille_f_monstre"];
 		else
 			$tabCDM["taille_monstre"] = $monstre["nom_taille_m_monstre"];
+
+		//Distance du monstre
+		$dist = max(abs($monstre["x_monstre"])-abs($this->view->user->x_hobbit),abs($monstre["y_monstre"])-abs($this->view->user->y_hobbit));
+		
+		/*
+		 * 0 case : +/- [0,5;5] %
+		 * 1 case : +/- [1;10] %
+		 * 2 cases : +/- [1,5;15] %
+		 * 3 cases  : +/- [2;20] %
+		 * 4 cases et plus : +/- [2,5;25] %
+		 */
+		
+		switch ($dist) {
+			case 0:
+				$rand_min = 5;
+				$rand_max = 50;
+				$val_zero = 1;
+				break;
+			case 1:
+				$rand_min = 10;
+				$rand_max = 100;
+				$val_zero = 2;
+				break;
+			case 2:
+				$rand_min = 15;
+				$rand_max = 150;
+				$val_zero = 3;
+				break;
+			case 3:
+				$rand_min = 20;
+				$rand_max = 200;
+				$val_zero = 4;
+				break;
+			default:
+				$rand_min = 25;
+				$rand_max = 250;
+				$val_zero = 5;
+				break;	
+		}
+		
+		$tabCDM["min_niveau_monstre"] = $this->calculMin ($rand_min,$rand_max,$monstre["niveau_monstre"]);
+		$tabCDM["max_niveau_monstre"] = $this->calculMax ($val_zero,$rand_min,$rand_max,$monstre["niveau_monstre"]);
+		
+		$tabCDM["min_vue_monstre"] = $this->calculMin ($rand_min,$rand_max,$monstre["vue_monstre"]);
+		$tabCDM["max_vue_monstre"] = $this->calculMax ($val_zero,$rand_min,$rand_max,$monstre["vue_monstre"]);
+		
+		$tabCDM["min_for_monstre"] = $this->calculMin ($rand_min,$rand_max,$monstre["force_base_monstre"]);
+		$tabCDM["max_for_monstre"] = $this->calculMax ($val_zero,$rand_min,$rand_max,$monstre["force_base_monstre"]);
+		
+		$tabCDM["min_agi_monstre"] = $this->calculMin ($rand_min,$rand_max,$monstre["agilite_base_monstre"]);
+		$tabCDM["max_agi_monstre"] = $this->calculMax ($val_zero,$rand_min,$rand_max,$monstre["agilite_base_monstre"]);
+		
+		$tabCDM["min_sag_monstre"] = $this->calculMin ($rand_min,$rand_max,$monstre["sagesse_base_monstre"]);
+		$tabCDM["max_sag_monstre"] = $this->calculMax ($val_zero,$rand_min,$rand_max,$monstre["sagesse_base_monstre"]);
+		
+		$tabCDM["min_vig_monstre"] = $this->calculMin ($rand_min,$rand_max,$monstre["vigueur_base_monstre"]);
+		$tabCDM["max_vig_monstre"] = $this->calculMax ($val_zero,$rand_min,$rand_max,$monstre["vigueur_base_monstre"]);
+		
+		$tabCDM["min_reg_monstre"] = $this->calculMin ($rand_min,$rand_max,$monstre["regeneration_monstre"]);
+		$tabCDM["max_reg_monstre"] = $this->calculMax ($val_zero,$rand_min,$rand_max,$monstre["regeneration_monstre"]);
+		
+		$tabCDM["min_arm_monstre"] = $this->calculMin ($rand_min,$rand_max,$monstre["armure_naturelle_monstre"]);
+		$tabCDM["max_arm_monstre"] = $this->calculMax ($val_zero,$rand_min,$rand_max,$monstre["armure_naturelle_monstre"]);
+		
 		//TODO
-		//Calculer l'intervalle pour chaque caractèristique en fonction de la distance.
-		$tabCDM["vue_monstre"] = $monstre["vue_monstre"];
+		//PV
+		//ordre affichage dans formulaire
+		//Gestion des PX
 		
 		$this->view->tabCDM = $tabCDM;
+		$this->view->dist = $dist;
+		
+	}
+	
+	private function calculMin($alea_min,$alea_max,$valeur) {
+		return floor($valeur * (1 - rand($alea_min,$alea_max)/1000));
+	}
+	
+	private function calculMax($val_nulle,$alea_min,$alea_max,$valeur) {
+		if ($valeur != 0 )
+			return ceil($valeur * (1 + rand($alea_min,$alea_max)/1000));
+		else
+			return $val_nulle;
 	}
 	
 	function getListBoxRefresh() {
