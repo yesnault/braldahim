@@ -12,9 +12,17 @@
  */
 class Bral_Util_BoutiquePlantes {
 	
-	public static function construireTabPrix($estFormulaire) {
+	public static function construireTabPrix($estFormulaire, $idRegion) {
 		Zend_Loader::loadClass('TypePartieplante');
 		Zend_Loader::loadClass('TypePlante');
+		Zend_Loader::loadClass('StockPartieplante');
+		
+		$stockPartieplanteTable = new StockPartieplante();
+		$stockPartieplanteRowset = $stockPartieplanteTable->findDernierStockByIdRegion($idRegion);
+		
+		if ($stockPartieplanteRowset == null) {
+			return null;
+		}
 		
 		$typePlantesTable = new TypePlante();
 		$typePlantesRowset = $typePlantesTable->findAll();
@@ -60,18 +68,32 @@ class Bral_Util_BoutiquePlantes {
 					$tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]] = $tab;
 				}
 				
+				$prixUnitaireVente = null;
+				$prixUnitaireReprise = null;
+				
+				foreach ($stockPartieplanteRowset as $s) {
+					if ($s["id_fk_type_stock_partieplante"] == $p["id_type_partieplante"] &&
+						$s["id_fk_type_plante_stock_partieplante"] == $t["id_type_plante"]) {
+						$prixUnitaireVente = $s["prix_unitaire_vente_stock_partieplante"];
+						$prixUnitaireReprise = $s["prix_unitaire_reprise_stock_partieplante"];
+						break;
+					}
+				}
+			
 				$tabTypePlantes[$t["categorie_type_plante"]]["a_afficher"] = true;
 				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["a_afficher"] = true;
 				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["possible"] = $val;
 				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["id_type_partieplante"] = $p["id_type_partieplante"];
 				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["id_type_plante"] = $t["id_type_plante"];
-				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["prixUnitaire"] = 5;
+				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["prixUnitaireVente"] = $prixUnitaireVente;
+				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["prixUnitaireReprise"] = $prixUnitaireReprise;
 				
 				if ($estFormulaire) {
 					$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["id_champ"] = $idChamp;
 					$tabTypePlantes["valeurs"][$idChamp]["id_type_plante"] = $t["id_type_plante"];
 					$tabTypePlantes["valeurs"][$idChamp]["id_type_partieplante"] = $p["id_type_partieplante"];
-					$tabTypePlantes["valeurs"][$idChamp]["prixUnitaire"] = 5;
+					$tabTypePlantes["valeurs"][$idChamp]["prixUnitaireVente"] = $prixUnitaireVente;
+					$tabTypePlantes["valeurs"][$idChamp]["prixUnitaireReprise"] = $prixUnitaireReprise;
 					$tabTypePlantes["valeurs"][$idChamp]["nom_type_plante"] = $t["nom_type_plante"];
 					$tabTypePlantes["valeurs"][$idChamp]["nom_type_partieplante"] = $p["nom_type_partieplante"];
 				}

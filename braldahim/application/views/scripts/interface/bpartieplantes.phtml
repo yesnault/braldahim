@@ -10,15 +10,18 @@
  	<div class="contenuC">
  		<ul class="box_contenu1 textalic">
 			<br />
-			<input type="button" class='button1' onClick='_get_("/boutique/doaction?caction=ask_boutique_acheterpartieplantes");' value="<?=$this->paUtilisationBoutique ?> PA - Acheter">
-			<input type="button" class='button1' onClick='_get_("/boutique/doaction?caction=ask_boutique_vendrepartieplantes");' value="<?=$this->paUtilisationBoutique ?> PA - Vendre">
-			<br /><br />
+			<? if ($this->typePlantesBruts == null) : ?>
+				Les prix du marché sont inconnus, la boutique est fermée.<br />
+			<? else: ?>
 			
-			<? $this->typePlantes = $this->typePlantesBruts; ?>
-			<?=$this->render("/interface/commun/plantes/plantes.phtml"); ?>
-			
+				<input type="button" class='button1' onClick='_get_("/boutique/doaction?caction=ask_boutique_acheterpartieplantes");' value="<?=$this->paUtilisationBoutique ?> PA - Acheter">
+				<input type="button" class='button1' onClick='_get_("/boutique/doaction?caction=ask_boutique_vendrepartieplantes");' value="<?=$this->paUtilisationBoutique ?> PA - Vendre">
+				<br /><br />
+				
+				<? $this->typePlantes = $this->typePlantesBruts; ?>
+				<?=$this->render("/interface/commun/plantes/plantes.phtml"); ?>
+			<? endif; ?>
 			<br />
-			
  		</ul>
  	</div>
 </div>

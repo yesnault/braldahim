@@ -65,7 +65,7 @@ class Bral_Boutique_Acheterpartieplantes extends Bral_Boutique_Boutique {
 			$nomTypePlante = $this->view->typePlantes["valeurs"]["valeur_".$i]["nom_type_plante"];
 			$nomTypePartiePlante = $this->view->typePlantes["valeurs"]["valeur_".$i]["nom_type_partieplante"];
 			
-			$prixUnitaire = $this->view->typePlantes["valeurs"]["valeur_".$i]["prixUnitaire"];
+			$prixUnitaire = $this->view->typePlantes["valeurs"]["valeur_".$i]["prixUnitaireVente"];
 			$this->transfertElement($quantite, $prixUnitaire, $idTypePlante, $idTypePartiePlante, $nomTypePlante, $nomTypePartiePlante);
 		}
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;

@@ -77,7 +77,7 @@ class Bral_Util_ConvertDate {
 		return $epoch;
 	}
 	
-	/* Ajoute une date (Y-m-d H:m:s) a un datetime mysql et
+	/* Ajoute un/des jours a un datetime mysql et
 	 * retourne le resultat en timestamp
 	 * @return timestamp
 	 */

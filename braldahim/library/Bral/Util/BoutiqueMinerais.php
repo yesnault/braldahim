@@ -19,7 +19,6 @@ class Bral_Util_BoutiqueMinerais {
 		$typeMineraiRowset = $typeMineraiTable->fetchAll();
 		
 		Zend_Loader::loadClass('StockMinerai');
-		
 		$stockMineraiTable = new StockMinerai();
 		$stockMineraiRowset = $stockMineraiTable->findDernierStockByIdRegion($idRegion);
 		

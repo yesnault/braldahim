@@ -23,4 +23,24 @@ class StockPartieplante extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+	
+	
+	function findByDate($mDate) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('stock_partieplante', '*')
+		->where('date_stock_partieplante  = ?', $mDate)
+		->order(array('id_fk_region_stock_partieplante', 'id_fk_type_plante_stock_partieplante', 'id_fk_type_stock_partieplante'));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
+	function findDistinctDate() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('stock_partieplante', 'distinct(date_stock_partieplante) as date_stock_partieplante')
+		->order(array('date_stock_partieplante DESC'));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }
