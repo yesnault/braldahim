@@ -671,6 +671,7 @@ CREATE TABLE `hobbits_competences` (
   `pourcentage_hcomp` int(11) NOT NULL default '10',
   `date_debut_tour_hcomp` datetime NOT NULL default '0000-00-00 00:00:00',
   `nb_action_tour_hcomp` int(11) NOT NULL default '0',
+  `nb_gain_tour_hcomp` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id_fk_hobbit_hcomp`,`id_fk_competence_hcomp`),
   KEY `id_fk_competence_hcomp` (`id_fk_competence_hcomp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

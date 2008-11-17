@@ -48,6 +48,10 @@ abstract class Bral_Competences_Competence {
 		// si c'est une competence metier, on verifie que ce n'est pas utilise plus de 2 fois par DLA
 		$this->view->nbActionMetierParDlaOk = $this->calculNbActionMetierParDlaOk();
 		
+		// si c'est une competence commune avec un jet de dé, on verifie qu'on ne peut gagner de PX plus de 2 fois par DLA
+		$this->view->nbGainCommunParDlaOk = $this->calculNbGainCommunParDlaOk();
+		//$this->view->nbGainCommunParDlaOk = true;
+		
 		$this->prepareCommun();
 		$this->calculNbPa();
 
@@ -108,7 +112,7 @@ abstract class Bral_Competences_Competence {
 	
 	protected function calculPx() {
 		$this->view->calcul_px_generique = true;
-		if ($this->view->okJet1 === true) {
+		if ($this->view->okJet1 === true && $this->view->nbGainCommunParDlaOk === true) {
 			$this->view->nb_px_perso = $this->competence["px_gain"];
 		} else {
 			$this->view->nb_px_perso = 0;
@@ -136,6 +140,7 @@ abstract class Bral_Competences_Competence {
 		$this->calculJets2et3();
 		$this->majSuiteJets();
 		$this->updateCompetenceNbAction();
+		$this->updateCompetenceNbGain();
 	}
 	
 	private function calculJets1() {
@@ -378,12 +383,36 @@ abstract class Bral_Competences_Competence {
 		return $retourAttaque;
 	}
 	
+	protected function calculConnaissanceMin($valeur, $nbDe3, $distance) {
+		$retour = $valeur - (Bral_Util_De::getLanceDeSpecifique($nbDe3,1,3) + $distance -1);
+		if ($retour < 0) {
+			$retour = 0;
+		}
+		return $retour;
+	}
+	
+	protected function calculConnaissanceMax($valeur, $nbDe3, $distance) {
+		return $valeur + Bral_Util_De::getLanceDeSpecifique($nbDe3,1,3) + $distance -1;
+	}
+	
 	private function updateCompetenceNbAction() {
-		if ($this->view->okJet1 === true) { // uniquement dans le cas de réussite du jet3
+		if ($this->view->okJet1 === true && $this->competence["type_competence"] == "metier") { // uniquement dans le cas de réussite du jet3
 			$hobbitsCompetencesTable = new HobbitsCompetences();
 			$data = array(
 				'date_debut_tour_hcomp' => $this->view->user->date_debut_tour_hobbit,
 				'nb_action_tour_hcomp' => ($this->hobbit_competence["nb_action_tour_hcomp"] + 1),
+			);
+			$where = array("id_fk_competence_hcomp = ".$this->hobbit_competence["id_fk_competence_hcomp"]." AND id_fk_hobbit_hcomp = ".$this->view->user->id_hobbit);
+			$hobbitsCompetencesTable->update($data, $where);
+		}
+	}
+	
+	private function updateCompetenceNbGain() {
+		if ($this->view->okJet1 === true && $this->competence["type_competence"] == "commun") { // uniquement dans le cas de réussite du jet3 et une compétence commune
+			$hobbitsCompetencesTable = new HobbitsCompetences();
+			$data = array(
+				'date_debut_tour_hcomp' => $this->view->user->date_debut_tour_hobbit,
+				'nb_gain_tour_hcomp' => ($this->hobbit_competence["nb_gain_tour_hcomp"] + 1),
 			);
 			$where = array("id_fk_competence_hcomp = ".$this->hobbit_competence["id_fk_competence_hcomp"]." AND id_fk_hobbit_hcomp = ".$this->view->user->id_hobbit);
 			$hobbitsCompetencesTable->update($data, $where);
@@ -415,4 +444,31 @@ abstract class Bral_Competences_Competence {
 		}
 		return $retour;
 	}
+	
+	private function calculNbGainCommunParDlaOk() {
+		$retour = false;
+		if ($this->competence["type_competence"] == "commun" && $this->competence["pourcentage_max"] < 100) {
+			if ($this->view->user->date_debut_tour_hobbit == $this->hobbit_competence["date_debut_tour_hcomp"]) { 
+				if ($this->hobbit_competence["nb_gain_tour_hcomp"] >= 2) {
+					$retour = false;
+				} else { // < 2
+					$retour = true;
+				}
+			} else { // premiere utilisation de la competence dans ce tour
+				$retour = true;
+				
+				$hobbitsCompetencesTable = new HobbitsCompetences();
+				$data = array(
+					'date_debut_tour_hcomp' => $this->view->user->date_debut_tour_hobbit,
+					'nb_gain_tour_hcomp' => 0,
+				);
+				$where = array("id_fk_competence_hcomp = ".$this->hobbit_competence["id_fk_competence_hcomp"]." AND id_fk_hobbit_hcomp = ".$this->view->user->id_hobbit);
+				$hobbitsCompetencesTable->update($data, $where);
+			}
+		} else { // competence non commune et soumise à un jet
+			$retour = true;
+		}
+		return $retour;
+	}
+	
 }

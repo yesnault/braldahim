@@ -16,7 +16,11 @@
 				<? endif; ?>
 			<? endif; ?>
 			<? if ($this->calcul_px_generique === true) : ?>
-			Vous avez gagn&eacute; <?=$this->nb_px?> PX<br /><br />
+				<? if ($this->nb_px == 0) : ?>
+					Vous n'avez gagn&eacute; aucun PX<br /><br /> 
+				<? else: ?>
+					Vous avez gagn&eacute; <?=$this->nb_px?> PX<br /><br />
+				<? endif; ?>
 			<? endif; ?>
 		<? else: ?>
 			<span class="action_ko">Vous avez rat&eacute; votre jet d'action <?=$this->jet1 ?> %</span><br />
