@@ -134,11 +134,11 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		 * Au minimum on borne à 0 (pas de négatif).
 		 * 
 		 * Ensuite pour la DLA, les PV actuels et max on fait un % tout simple (et on affiche en HH:MM pour la DLA) :
-		 * Si distance = 0 : +/- 6%
-		 * Si distance = 1 : +/- 9%
-		 * Si distance = 2 : +/- 12%
-		 * Si distance = 3 : +/- 15%
-		 * Si distance = 4 ou +  : +/- 18%
+		 * Si distance = 0 : +/- [0;6]%
+		 * Si distance = 1 : +/- [0;9]%
+		 * Si distance = 2 : +/- [0;12]%
+		 * Si distance = 3 : +/- [0;15]%
+		 * Si distance = 4 ou +  : +/- [0;18]%
 		 * 
 		 * Attention pour les PV : il faut que cela reste cohérent : pas de PV actuels max supérieur au PV min.
 		 * Genre :
@@ -189,21 +189,18 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		$tabCDM["min_arm_monstre"] = $this->calculConnaissanceMin ($monstre["armure_naturelle_monstre"], $n, $dist);
 		$tabCDM["max_arm_monstre"] = $this->calculConnaissanceMax ($monstre["armure_naturelle_monstre"], $n, $dist);
 		
-		$tabCDM["min_pvmax_monstre"] = floor($monstre["pv_max_monstre"] - $monstre["pv_max_monstre"] * ($dist*3 + 6)/100);
-		$tabCDM["max_pvmax_monstre"] = ceil($monstre["pv_max_monstre"] + $monstre["pv_max_monstre"] * ($dist*3 + 6)/100);
+		$tabCDM["min_pvmax_monstre"] = floor($monstre["pv_max_monstre"] - $monstre["pv_max_monstre"] * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100);
+		$tabCDM["max_pvmax_monstre"] = ceil($monstre["pv_max_monstre"] + $monstre["pv_max_monstre"] * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100);
 		
-		$tabCDM["min_pvact_monstre"] = floor($monstre["pv_restant_monstre"] - $monstre["pv_restant_monstre"] * ($dist*3 + 6)/100);
-		$tabCDM["max_pvact_monstre"] = ceil($monstre["pv_restant_monstre"] + $monstre["pv_restant_monstre"] * ($dist*3 + 6)/100);
+		$tabCDM["min_pvact_monstre"] = floor($monstre["pv_restant_monstre"] - $monstre["pv_restant_monstre"] * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100);
+		$tabCDM["max_pvact_monstre"] = ceil($monstre["pv_restant_monstre"] + $monstre["pv_restant_monstre"] * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100);
 		if ($tabCDM["max_pvact_monstre"] > $tabCDM["max_pvmax_monstre"]) {
 			$tabCDM["max_pvact_monstre"] = $tabCDM["max_pvmax_monstre"];
 		}
 		
-		$tabCDM["min_dla_monstre"] = $monstre["duree_base_tour_monstre"];
-		$tabCDM["max_dla_monstre"] = $monstre["duree_base_tour_monstre"];
-		
-		//TODO
-		//DLA et PV
-		//Evenements hobbit et monstre
+		$duree_base_tour_minute = Bral_Util_ConvertDate::getMinuteFromHeure($monstre["duree_base_tour_monstre"]);
+		$tabCDM["min_dla_monstre"] = Bral_Util_ConvertDate::getHeureFromMinute($duree_base_tour_minute - $duree_base_tour_minute * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100);
+		$tabCDM["max_dla_monstre"] = Bral_Util_ConvertDate::getHeureFromMinute($duree_base_tour_minute + $duree_base_tour_minute * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100);
 		
 		$this->view->tabCDM = $tabCDM;
 	}
