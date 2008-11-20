@@ -383,18 +383,6 @@ abstract class Bral_Competences_Competence {
 		return $retourAttaque;
 	}
 	
-	protected function calculConnaissanceMin($valeur, $nbDe3, $distance) {
-		$retour = $valeur - (Bral_Util_De::getLanceDeSpecifique($nbDe3,1,3) + $distance -1);
-		if ($retour < 0) {
-			$retour = 0;
-		}
-		return $retour;
-	}
-	
-	protected function calculConnaissanceMax($valeur, $nbDe3, $distance) {
-		return $valeur + Bral_Util_De::getLanceDeSpecifique($nbDe3,1,3) + $distance -1;
-	}
-	
 	private function updateCompetenceNbAction() {
 		if ($this->view->okJet1 === true && $this->competence["type_competence"] == "metier") { // uniquement dans le cas de réussite du jet3
 			$hobbitsCompetencesTable = new HobbitsCompetences();

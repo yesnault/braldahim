@@ -103,6 +103,7 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 	}
 	
 	private function calculCDM($idMonstre,$dist_monstre) {
+		Zend_Loader::loadClass("Bral_Util_Connaissance");
 		$monstreTable = new Monstre();
 		$monstreRowset = $monstreTable->findById($idMonstre);
 		$monstre = $monstreRowset;
@@ -168,26 +169,26 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 			$tabCDM["min_niveau_monstre"] = 0;
 		}
 		
-		$tabCDM["min_vue_monstre"] = $this->calculConnaissanceMin ($monstre["vue_monstre"], $n, $dist);
-		$tabCDM["max_vue_monstre"] = $this->calculConnaissanceMax ($monstre["vue_monstre"], $n, $dist);
+		$tabCDM["min_vue_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["vue_monstre"], $n, $dist);
+		$tabCDM["max_vue_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["vue_monstre"], $n, $dist);
 		
-		$tabCDM["min_for_monstre"] = $this->calculConnaissanceMin ($monstre["force_base_monstre"], $n, $dist);
-		$tabCDM["max_for_monstre"] = $this->calculConnaissanceMax ($monstre["force_base_monstre"], $n, $dist);
+		$tabCDM["min_for_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["force_base_monstre"], $n, $dist);
+		$tabCDM["max_for_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["force_base_monstre"], $n, $dist);
 		
-		$tabCDM["min_agi_monstre"] = $this->calculConnaissanceMin ($monstre["agilite_base_monstre"], $n, $dist);
-		$tabCDM["max_agi_monstre"] = $this->calculConnaissanceMax ($monstre["agilite_base_monstre"], $n, $dist);
+		$tabCDM["min_agi_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["agilite_base_monstre"], $n, $dist);
+		$tabCDM["max_agi_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["agilite_base_monstre"], $n, $dist);
 		
-		$tabCDM["min_sag_monstre"] = $this->calculConnaissanceMin ($monstre["sagesse_base_monstre"], $n, $dist);
-		$tabCDM["max_sag_monstre"] = $this->calculConnaissanceMax ($monstre["sagesse_base_monstre"], $n, $dist);
+		$tabCDM["min_sag_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["sagesse_base_monstre"], $n, $dist);
+		$tabCDM["max_sag_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["sagesse_base_monstre"], $n, $dist);
 		
-		$tabCDM["min_vig_monstre"] = $this->calculConnaissanceMin ($monstre["vigueur_base_monstre"], $n, $dist);
-		$tabCDM["max_vig_monstre"] = $this->calculConnaissanceMax ($monstre["vigueur_base_monstre"], $n, $dist);
+		$tabCDM["min_vig_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["vigueur_base_monstre"], $n, $dist);
+		$tabCDM["max_vig_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["vigueur_base_monstre"], $n, $dist);
 		
-		$tabCDM["min_reg_monstre"] = $this->calculConnaissanceMin ($monstre["regeneration_monstre"], $n, $dist);
-		$tabCDM["max_reg_monstre"] = $this->calculConnaissanceMax ($monstre["regeneration_monstre"], $n, $dist);
+		$tabCDM["min_reg_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["regeneration_monstre"], $n, $dist);
+		$tabCDM["max_reg_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["regeneration_monstre"], $n, $dist);
 		
-		$tabCDM["min_arm_monstre"] = $this->calculConnaissanceMin ($monstre["armure_naturelle_monstre"], $n, $dist);
-		$tabCDM["max_arm_monstre"] = $this->calculConnaissanceMax ($monstre["armure_naturelle_monstre"], $n, $dist);
+		$tabCDM["min_arm_monstre"] = Bral_Util_Connaissance::calculConnaissanceMin ($monstre["armure_naturelle_monstre"], $n, $dist);
+		$tabCDM["max_arm_monstre"] = Bral_Util_Connaissance::calculConnaissanceMax ($monstre["armure_naturelle_monstre"], $n, $dist);
 		
 		$tabCDM["min_pvmax_monstre"] = floor($monstre["pv_max_monstre"] - $monstre["pv_max_monstre"] * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100);
 		$tabCDM["max_pvmax_monstre"] = ceil($monstre["pv_max_monstre"] + $monstre["pv_max_monstre"] * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100);
