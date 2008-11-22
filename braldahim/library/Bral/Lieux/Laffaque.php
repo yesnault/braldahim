@@ -121,6 +121,7 @@ class Bral_Lieux_Laffaque extends Bral_Lieux_Lieu {
 
 		$hobbitTable = new Hobbit();
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
+		$this->view->user->pi_hobbit = $this->view->user->pi_hobbit -$this->view->coutPi;
 
 		$this->majHobbit();
 	}
