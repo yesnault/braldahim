@@ -1,0 +1,35 @@
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'/>
+ <div class='comp_contenu'>
+<?php if ($this->nHobbits == 0) : ?>
+ 	Il n'y a aucun hobbit dans votre vue !<br />
+<?php else: ?>
+	Pour <?=$this->nb_pa ?> PA, vous pouvez conna&icirc;tre les caract&eacute;ristiques de base d'un hobbit &agrave; <?=$this->distance ?> cases.<br />
+
+	Reconna&icirc;tre un hobbit<br />
+	<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_cdm').disabled=true } else {$('bouton_cdm').disabled=false }">
+		<option value='-1'>(Choisis un hobbit)</option>
+		<? $dist=-1; ?>
+		<? foreach ($this->tabHobbits as $m) : ?>
+			<? if ($dist != $m['dist_hobbit']) : ?>
+				<?
+				$dist = $m['dist_hobbit'];
+				switch ($dist) {
+					case 0:
+						$case = "Sur votre case : ";
+						break;
+					case 1:
+						$case = "&agrave; 1 case : ";
+						break;
+					default:
+						$case = "&agrave; $dist cases : ";
+				}
+				?>
+				<optgroup label="<?=$case ?>" style="font-weight:bold"></optgroup>
+			<? endif; ?>
+		<option value="<?=$m["id_hobbit"]?>"><?=$m["prenom_hobbit"]?> <?=$m["nom_hobbit"]?> (<?=$m["id_hobbit"]?>) x:<?=$m["x_hobbit"]?> , y:<?=$m["y_hobbit"]?></option>
+		<? endforeach; ?>
+	</select>
+	<br /><br />
+	<input type='button' class='button1' value='Reconna&icirc;tre !' id='bouton_cdm' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_connaissancehobbits");' disabled>
+<?php endif; ?>
+</div>

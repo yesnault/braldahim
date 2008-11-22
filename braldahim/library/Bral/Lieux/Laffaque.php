@@ -114,6 +114,7 @@ class Bral_Lieux_Laffaque extends Bral_Lieux_Lieu {
 			'pourcentage_hcomp'  => 10,
 			'date_debut_tour_hcomp'  => "0000-00-00 00:00:00",
 			'nb_action_tour_hcomp' => 0,
+			'nb_gain_tour_hcomp' => 0,
 		);
 
 		$hobbitCompetenceTable = new HobbitsCompetences();

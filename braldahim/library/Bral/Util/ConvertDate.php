@@ -230,6 +230,10 @@ class Bral_Util_ConvertDate {
 			$min = "00";
 		}
 		
+		if (floor($min/10)==0){
+			$min = "0".$min;
+		}
+		
 		return $heures.":".$min.":00";
 	}
 	

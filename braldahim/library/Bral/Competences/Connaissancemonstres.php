@@ -3,11 +3,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id:$
- * $Author:$
- * $LastChangedDate:$
- * $LastChangedRevision:$
- * $LastChangedBy:$
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence {
 	
@@ -198,10 +198,13 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		if ($tabCDM["max_pvact_monstre"] > $tabCDM["max_pvmax_monstre"]) {
 			$tabCDM["max_pvact_monstre"] = $tabCDM["max_pvmax_monstre"];
 		}
+		if ($tabCDM["min_pvact_monstre"] > $tabCDM["min_pvmax_monstre"]) {
+			$tabCDM["min_pvact_monstre"] = $tabCDM["min_pvmax_monstre"];
+		}
 		
 		$duree_base_tour_minute = Bral_Util_ConvertDate::getMinuteFromHeure($monstre["duree_base_tour_monstre"]);
-		$tabCDM["min_dla_monstre"] = Bral_Util_ConvertDate::getHeureFromMinute($duree_base_tour_minute - $duree_base_tour_minute * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100);
-		$tabCDM["max_dla_monstre"] = Bral_Util_ConvertDate::getHeureFromMinute($duree_base_tour_minute + $duree_base_tour_minute * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100);
+		$tabCDM["min_dla_monstre"] = Bral_Util_ConvertDate::getHeureFromMinute($duree_base_tour_minute - floor($duree_base_tour_minute * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100));
+		$tabCDM["max_dla_monstre"] = Bral_Util_ConvertDate::getHeureFromMinute($duree_base_tour_minute + ceil($duree_base_tour_minute * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100));
 		
 		$this->view->tabCDM = $tabCDM;
 	}
