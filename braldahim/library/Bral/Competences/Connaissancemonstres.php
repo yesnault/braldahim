@@ -60,10 +60,12 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		if ($this->view->assezDePa == false) {
 			return;
 		}
-		foreach ($this->view->tabMonstres as $key => $row) {
-    		$dist[$key] = $row['dist_monstre'];
+		if ($this->view->nMonstres > 0) {
+			foreach ($this->view->tabMonstres as $key => $row) {
+    			$dist[$key] = $row['dist_monstre'];
+			}
+			array_multisort($dist, SORT_ASC, $this->view->tabMonstres);
 		}
-		array_multisort($dist, SORT_ASC, $this->view->tabMonstres);
 	}
 	
 	function prepareResultat() {

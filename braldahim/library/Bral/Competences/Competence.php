@@ -50,7 +50,6 @@ abstract class Bral_Competences_Competence {
 		
 		// si c'est une competence commune avec un jet de dé, on verifie qu'on ne peut gagner de PX plus de 2 fois par DLA
 		$this->view->nbGainCommunParDlaOk = $this->calculNbGainCommunParDlaOk();
-		//$this->view->nbGainCommunParDlaOk = true;
 		
 		$this->prepareCommun();
 		$this->calculNbPa();
@@ -135,7 +134,6 @@ abstract class Bral_Competences_Competence {
 		$this->view->jetUtilise = true;
 		$this->view->okJet1 = false; // jet de compétence
 		$this->view->okJet2 = false; // jet amélioration de la compétence
-		$this->view->okJet3 = false; // jet du % d'amélioration
 		$this->calculJets1();
 		$this->calculJets2et3();
 		$this->majSuiteJets();
@@ -155,7 +153,6 @@ abstract class Bral_Competences_Competence {
 
 	private function calculJets2et3() {
 		$this->view->jet2Possible = false;
-		
 		$this->view->estCompetenceMetier = false;
 		if ($this->competence["type_competence"] == "metier") {
 			$this->view->estCompetenceMetier = true;
@@ -166,9 +163,10 @@ abstract class Bral_Competences_Competence {
 		if ($this->view->estCompetenceMetier === true && $this->view->ameliorationCompetenceMetierCourant === false) { 
 			$this->view->okJet2 = false;
 			
-		}  else if ($this->view->okJet1 === true || $this->hobbit_competence["pourcentage_hcomp"] < 50) {
+		}  else if (($this->view->okJet1 === true || $this->hobbit_competence["pourcentage_hcomp"] < 50) && $this->hobbit_competence["pourcentage_hcomp"] < $this->competence["pourcentage_max"]) {
 			// 2nd Jet : réussite ou non de l'amélioration de la compétence
 			// seulement si la maitrise de la compétence est < 50 ou si le jet1 est réussi
+			// et qu'on n'a pas le max de la compétence
 			$this->view->jet2 = Bral_Util_De::get_1d100();
 			$this->view->jet2Possible = true;
 			if ($this->view->jet2 > $this->hobbit_competence["pourcentage_hcomp"]) {
@@ -178,32 +176,27 @@ abstract class Bral_Competences_Competence {
 
 		// 3ème Jet : % d'amélioration de la compétence
 		if ($this->view->okJet2 === true) {
-			if ($this->hobbit_competence["pourcentage_hcomp"] >= 90) { // pas d'amélioration au delà de 90 %
-				$this->view->okJet3 = false;
-			} else {
-				$this->view->okJet3 = true;
-				if ($this->hobbit_competence["pourcentage_hcomp"] < 50) {
-					if ($this->view->okJet1 === true) {
-						$this->view->jet3 = Bral_Util_De::get_1d6();
-					} else {
-						$this->view->jet3 = Bral_Util_De::get_1d3();
-					}
-				} else if ($this->hobbit_competence["pourcentage_hcomp"] < 75) {
+			if ($this->hobbit_competence["pourcentage_hcomp"] < 50) {
+				if ($this->view->okJet1 === true) {
+					$this->view->jet3 = Bral_Util_De::get_1d6();
+				} else {
 					$this->view->jet3 = Bral_Util_De::get_1d3();
-				} else if ($this->hobbit_competence["pourcentage_hcomp"] < 90) {
-					$this->view->jet3 = Bral_Util_De::get_1d1();
 				}
+			} else if ($this->hobbit_competence["pourcentage_hcomp"] < 75) {
+				$this->view->jet3 = Bral_Util_De::get_1d3();
+			} else if ($this->hobbit_competence["pourcentage_hcomp"] < 90) {
+				$this->view->jet3 = Bral_Util_De::get_1d1();
 			}
 		}
 	}
 
 	// mise à jour de la table hobbit competence
 	private function majSuiteJets() {
-		if ($this->view->okJet3 === true) { // uniquement dans le cas de réussite du jet3
+		if ($this->view->okJet2 === true) { // uniquement dans le cas de réussite du jet2
 			$hobbitsCompetencesTable = new HobbitsCompetences();
 			$pourcentage = $this->hobbit_competence["pourcentage_hcomp"] + $this->view->jet3;
-			if ($pourcentage > 90) { // 90% maximum
-				$pourcentage = 90;
+			if ($pourcentage > $this->competence["pourcentage_max"]) { // % comp maximum
+				$pourcentage = $this->competence["pourcentage_max"];
 			}
 			$data = array('pourcentage_hcomp' => $pourcentage);
 			$where = array("id_fk_competence_hcomp = ".$this->hobbit_competence["id_fk_competence_hcomp"]." AND id_fk_hobbit_hcomp = ".$this->view->user->id_hobbit);

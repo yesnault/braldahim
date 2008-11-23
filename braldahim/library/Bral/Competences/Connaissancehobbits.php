@@ -31,6 +31,7 @@ class Bral_Competences_Connaissancehobbits extends Bral_Competences_Competence {
 		$y_max = $this->view->user->y_hobbit + $this->view->distance;
 		
 		// recuperation des monstres qui sont presents sur la vue
+		$tabHobbits = null;
 		$hobbitTable = new Hobbit();
 		$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->id_hobbit);
 		
@@ -55,10 +56,12 @@ class Bral_Competences_Connaissancehobbits extends Bral_Competences_Competence {
 		if ($this->view->assezDePa == false) {
 			return;
 		}
-		foreach ($this->view->tabHobbits as $key => $row) {
-    		$dist[$key] = $row['dist_hobbit'];
+		if ($this->view->nHobbits > 0) {
+			foreach ($this->view->tabHobbits as $key => $row) {
+    			$dist[$key] = $row['dist_hobbit'];
+			}
+			array_multisort($dist, SORT_ASC, $this->view->tabHobbits);
 		}
-		array_multisort($dist, SORT_ASC, $this->view->tabHobbits);
 	}
 	
 	function prepareResultat() {
@@ -103,6 +106,7 @@ class Bral_Competences_Connaissancehobbits extends Bral_Competences_Competence {
 		$hobbitRowset = $hobbitTable->findById($idHobbit);
 		$hobbit = $hobbitRowset->toArray();
 		$tabCDM["id_hobbit"] = $hobbit["id_hobbit"];
+		$tabCDM["prenom_hobbit"] = $hobbit["prenom_hobbit"];
 		$tabCDM["nom_hobbit"] = $hobbit["nom_hobbit"];
 		$tabCDM["niveau_hobbit"] = $hobbit["niveau_hobbit"];
 			
