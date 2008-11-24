@@ -192,6 +192,12 @@ class Bral_Competences_Connaissancehobbits extends Bral_Competences_Competence {
 		$tabCDM["max_dla_hobbit"] = Bral_Util_ConvertDate::getHeureFromMinute($duree_base_tour_minute + ceil($duree_base_tour_minute * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100));
 		
 		$this->view->tabCDM = $tabCDM;
+		
+		$id_type = $this->view->config->game->evenements->type->competence;
+		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a réussi l'utilisation d'une compétence sur ".$hobbit["prenom_hobbit"]." ".$hobbit["nom_hobbit"]." (".$hobbit["id_hobbit"].")";
+		$this->setDetailsEvenement($details, $id_type);
+		$this->setDetailsEvenementCible($hobbit["id_hobbit"],"hobbit");
+		
 	}
 	
 	function getListBoxRefresh() {

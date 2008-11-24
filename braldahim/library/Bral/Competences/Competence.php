@@ -18,6 +18,8 @@ abstract class Bral_Competences_Competence {
 	private $evenementQueSurOkJet1 = true;
 	private $detailEvenement = null;
 	private $idTypeEvenement = null;
+	private $idCible = null;
+	private $typeCible = null;
 	
 	function __construct($competence, $hobbitCompetence, $request, $view, $action) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
@@ -213,6 +215,14 @@ abstract class Bral_Competences_Competence {
 	}
 	
 	/*
+	 * Mise à jour des événements de la cible.
+	 */
+	protected function setDetailsEvenementCible($idCible, $typeCible){
+		$this->idCible = $idCible;
+		$this->typeCible = $typeCible;
+	}
+	
+	/*
 	 * Mise à jour des événements du hobbit / du monstre.
 	 */
 	protected function setEstEvenementAuto($flag) {
@@ -239,6 +249,9 @@ abstract class Bral_Competences_Competence {
 			}
 			if ($this->view->okJet1 === true || $this->evenementQueSurOkJet1 == false) {
 				Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot);
+				if ($this->idCible != null && $this->typeCible != null){
+					Bral_Util_Evenement::majEvenements($this->idCible, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->typeCible);
+				}
 			}
 		}
 	}

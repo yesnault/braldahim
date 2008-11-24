@@ -113,9 +113,11 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		$tabCDM["nom_monstre"] = $monstre["nom_type_monstre"];
 		if ($monstre["genre_type_monstre"] == "feminin") {
 			$tabCDM["taille_monstre"] = $monstre["nom_taille_f_monstre"];
+			$article = "une";
 		}
 		else {
 			$tabCDM["taille_monstre"] = $monstre["nom_taille_m_monstre"];
+			$article = "un";
 		}
 		
 		/* Calculs suivant la distance :
@@ -209,6 +211,12 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		$tabCDM["max_dla_monstre"] = Bral_Util_ConvertDate::getHeureFromMinute($duree_base_tour_minute + ceil($duree_base_tour_minute * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100));
 		
 		$this->view->tabCDM = $tabCDM;
+		
+		$id_type = $this->view->config->game->evenements->type->competence;
+		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a réussi l'utilisation d'une compétence sur ".$article." ".$monstre["nom_type_monstre"]." ".$tabCDM["taille_monstre"]." (".$monstre["id_monstre"].")";
+		$this->setDetailsEvenement($details, $id_type);
+		$this->setDetailsEvenementCible($monstre["id_monstre"],"monstre");
+		
 	}
 	
 	function getListBoxRefresh() {
