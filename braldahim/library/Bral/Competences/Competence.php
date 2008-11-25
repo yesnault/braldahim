@@ -250,7 +250,7 @@ abstract class Bral_Competences_Competence {
 			if ($this->view->okJet1 === true || $this->evenementQueSurOkJet1 == false) {
 				Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot);
 				if ($this->idCible != null && $this->typeCible != null){
-					Bral_Util_Evenement::majEvenements($this->idCible, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->typeCible);
+					Bral_Util_Evenement::majEvenements($this->idCible, $this->idTypeEvenement, $this->detailEvenement, "?", $this->typeCible);
 				}
 			}
 		}
