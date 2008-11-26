@@ -29,7 +29,13 @@ class StockPartieplante extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('stock_partieplante', '*')
-		->where('date_stock_partieplante  = ?', $mDate)
+		->from('type_partieplante', 'nom_type_partieplante')
+		->from('type_plante', 'nom_type_plante')
+		->from('region', 'nom_region')
+		->where('stock_partieplante.id_fk_type_stock_partieplante = type_partieplante.id_type_partieplante')
+		->where('stock_partieplante.id_fk_type_plante_stock_partieplante = type_plante.id_type_plante')
+		->where('region.id_region = stock_partieplante.id_fk_region_stock_partieplante')
+		->where('date_stock_partieplante  = ?', $mDate)	
 		->order(array('id_fk_region_stock_partieplante', 'id_fk_type_plante_stock_partieplante', 'id_fk_type_stock_partieplante'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

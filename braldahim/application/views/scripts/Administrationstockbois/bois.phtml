@@ -2,14 +2,14 @@
 <div class="box_administration">
 <?=Bral_Helper_Box::haut(); ?>
 <div class="inner">
-    <ul class="titre textalic textsizea">Administration Stock Plantes</ul>
+    <ul class="titre textalic textsizea">Administration Stock Minerais</ul>
     	&nbsp;
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">
 			<? if ($this->creation === true) : ?>
 				<b>Cr&eacute;ation du nouveau stock effectu&eacute;e</b> <br />
 			<? endif; ?>
-			<form action="/Administrationstockplante/plantes" method="post">
+			<form action="/Administrationstockbois/bois" method="post">
 				
 				Ajouter un nouveau stock, qui sera actif le : 
 				<?=$this->dateCreationStock ?>
@@ -28,20 +28,10 @@
 					if ($i % 4 == 0): echo "<tr>"; endif;?>
 						<td style="text-align:right">
 							<span class="titre textalia textsizec"><?=$r["nom_region"]?></span> <br>
-							<? foreach ($r["type_plantes"] as $t) : ?>
-							
-							<span class="titre textalia textsized"><?=$t["nom"]?> - <?=$t["categorie"] ?></span><br>
-							
-							<? foreach ($t["parties"] as $p) : ?>
-							
-								 <?=$p["nom"]?>
-								 <span title='Prix Vente en castars' style="cursor:pointer">PV</span> <input type="textbox" name="<?=$p["id_form"]."_vente"?>" size='3' value="10" />
-								 <span title='Prix Reprise en castars' style="cursor:pointer">PR</span> <input type="textbox" name="<?=$p["id_form"]."_reprise"?>" size='3' value="5"/>
-								 <span title='Prix Reprise en castars' style="cursor:pointer">NB</span> <input type="textbox" name="<?=$p["id_form"]."_nbinitial"?>" size='3' value="1000"/> <br>
-								
-								<? endforeach; ?>
-								<br>
-							<? endforeach; ?>
+							 <span title='Prix Vente en castars' style="cursor:pointer">PV</span> <input type="textbox" name="<?=$r["id_form"]."_vente"?>" size='3' value="10" />
+							 <span title='Prix Reprise en castars' style="cursor:pointer">PR</span> <input type="textbox" name="<?=$r["id_form"]."_reprise"?>" size='3' value="5"/>
+							 <span title='Prix Reprise en castars' style="cursor:pointer">NB</span> <input type="textbox" name="<?=$r["id_form"]."_nbinitial"?>" size='3' value="1000"/> <br>
+							<br>
 							<br><br>
 						
 						</td>
@@ -53,7 +43,7 @@
 			</form>
 			
 			<br><br>
-			<form action="/Administrationstockplante/plantes" method="post">
+			<form action="/Administrationstockbois/bois" method="post">
 				Date Stock (AAAA-MM-JJ 00:00:00) 
 				
 				<select name="dateStock">
@@ -71,8 +61,6 @@
 				<table align='center'>
 				<th class='comp_titre'>N&deg;</th>
 				<th class='comp_titre'>Date</th>
-				<th class='comp_titre'>Type Partie</th>
-				<th class='comp_titre'>Type Plante</th>
 				<th class='comp_titre'>Stock Initial</th>
 				<th class='comp_titre'>Stock Restant</th>
 				<th class='comp_titre'>Prix Vente par Boutique</th>
@@ -81,15 +69,13 @@
 				
 				<? foreach($this->stocks as $r) :?>
 					<tr>
-						<td><?=$r["id_stock_partieplante"]?></td>
-						<td><?=$r["date_stock_partieplante"]?></td>
-						<td><?=$r["nom_type_partieplante"]?></td>
-						<td><?=$r["nom_type_plante"]?></td>
-						<td><?=$r["nb_brut_initial_stock_partieplante"]?></td>
-						<td><?=$r["nb_brut_restant_stock_partieplante"]?></td>
-						<td><?=$r["prix_unitaire_vente_stock_partieplante"]?></td>
-						<td><?=$r["prix_unitaire_reprise_stock_partieplante"]?></td>
-						<td><?=$r["nom_region"]?></td>
+						<td><?=$r["id_stock_bois"]?></td>
+						<td><?=$r["date_stock_bois"]?></td>
+						<td><?=$r["nb_rondin_initial_stock_bois"]?></td>
+						<td><?=$r["nb_rondin_restant_stock_bois"]?></td>
+						<td><?=$r["prix_unitaire_vente_stock_bois"]?></td>
+						<td><?=$r["prix_unitaire_reprise_stock_bois"]?></td>
+						<td><?=$r["id_fk_region_stock_bois"]?></td>
 					</tr>
 				<? endforeach;?>
 				</table>

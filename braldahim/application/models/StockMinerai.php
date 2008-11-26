@@ -23,4 +23,27 @@ class StockMinerai extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+	
+	function findByDate($mDate) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('stock_minerai', '*')
+		->from('type_minerai', 'nom_type_minerai')
+		->from('region', 'nom_region')
+		->where('stock_minerai.id_fk_type_stock_minerai = type_minerai.id_type_minerai')
+		->where('region.id_region = stock_minerai.id_fk_region_stock_minerai')
+		->where('date_stock_minerai  = ?', $mDate)	
+		->order(array('id_fk_region_stock_minerai', 'id_fk_type_stock_minerai'));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
+	function findDistinctDate() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('stock_minerai', 'distinct(date_stock_minerai) as date_stock_minerai')
+		->order(array('date_stock_minerai DESC'));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }

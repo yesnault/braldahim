@@ -124,6 +124,9 @@ class AdministrationstockplanteController extends Zend_Controller_Action {
 				'prix_unitaire_vente_stock_partieplante' =>  $r["prix_unitaire_vente_stock_partieplante"],
 				'prix_unitaire_reprise_stock_partieplante' =>  $r["prix_unitaire_reprise_stock_partieplante"],
 				'id_fk_region_stock_partieplante' =>  $r["id_fk_region_stock_partieplante"],
+				'nom_type_partieplante' => $r["nom_type_partieplante"],
+				'nom_type_plante' => $r["nom_type_plante"],
+				'nom_region' => $r["nom_region"],
 			);
 			
 			$stocks[] = $stock;

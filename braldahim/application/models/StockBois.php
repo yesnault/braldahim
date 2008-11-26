@@ -23,4 +23,25 @@ class StockBois extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+	
+	function findByDate($mDate) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('stock_bois', '*')
+		->from('region', 'nom_region')
+		->where('region.id_region = stock_bois.id_fk_region_stock_bois')
+		->where('date_stock_bois  = ?', $mDate)	
+		->order(array('id_fk_region_stock_bois'));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
+	function findDistinctDate() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('stock_bois', 'distinct(date_stock_bois) as date_stock_bois')
+		->order(array('date_stock_bois DESC'));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }

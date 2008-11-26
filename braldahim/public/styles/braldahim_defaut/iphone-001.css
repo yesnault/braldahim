@@ -1,0 +1,39 @@
+/* ************************************************ */
+	/* ********************** SITE ******************** */
+	/* ************************************************ */
+* {
+	font: 12px arial, verdana, sans-serif;
+	letter-spacing: 0pt;
+}
+
+body {
+	font: 11x arial, verdana, sans-serif;
+	background: #C3E691
+		url(/public/styles/braldahim_defaut/images/layout/fond.png) repeat-x
+		scroll 0pt 0pt;
+	letter-spacing: 0pt;
+	background-position: center top;
+	margin: 0;
+	 overflow: hidden;
+    -webkit-text-size-adjust: none;
+}
+
+input {
+	margin: 2px 2pt;
+	background: #C3E691 none repeat-x scroll center top;
+	color: #791E1E;
+	font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+	margin: 6px 0 0 0;
+    padding: 6px 6px 6px 44px;
+	width: auto !important;
+	border: 1px solid #666666;
+}
+
+.box_authentification {
+	width: 440px;
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 60px;
+	text-align: center;
+}
