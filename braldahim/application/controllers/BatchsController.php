@@ -18,9 +18,15 @@ class BatchsController extends Zend_Controller_Action {
 	}
 
 	function palissadesAction() {
-		Zend_Loader::loadClass('Bral_Batchs_Palissades'); 
-		Bral_Batchs_Palissades::calculPalissade();
-		$this->render();
+		Bral_Batchs_Factory::calculBatch("Palissades");
+		echo $this->view->render("batchs/resultat.phtml");
+		return;
+	}
+	
+	function economieAction() {
+		Bral_Batchs_Factory::calculBatch("Economie");
+		echo $this->view->render("batchs/resultat.phtml");
+		return;
 	}
 	
 }

@@ -27,6 +27,7 @@ Zend_Loader :: loadClass("Zend_Auth");
 Zend_Loader :: loadClass("Bral_Box_Factory");
 Zend_Loader :: loadClass("Bral_Box_Box");
 Zend_Loader :: loadClass("Bral_Boutique_Factory");
+Zend_Loader :: loadClass("Bral_Batchs_Factory");
 Zend_Loader :: loadClass("Bral_Controller_Action");
 Zend_Loader :: loadClass("Bral_Competences_Factory");
 Zend_Loader :: loadClass("Bral_Echoppe_Factory");
