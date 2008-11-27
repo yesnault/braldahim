@@ -77,14 +77,16 @@ function chiffres(event, negatif) {
 
 function maccordion_fermer(el) {
 	var eldown = el.parentNode.id + '-body';
-	new Effect.SlideUp(eldown, { duration :0.1 });
-	el.style.backgroundImage = "url(/public/images/collapsed.gif);";
+	if ($(eldown).style.display != "none") {
+		new Effect.SlideUp(eldown, { duration :0.1 });
+		el.style.backgroundImage='url("/public/images/collapsed.gif")';
+	}
 }
 
 function maccordion_ouvrir(el) {
 	var eldown = el.parentNode.id + '-body';
 	new Effect.SlideDown(eldown, { duration :0.1 });
-	el.style.backgroundImage = "url(/public/images/expanded.gif);";
+	el.style.backgroundImage='url("/public/images/expanded.gif")';
 }
 
 function maccordion(el) {
