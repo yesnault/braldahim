@@ -23,6 +23,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				$this->_redirect('/auth/logoutajax');
 			} 
 		}
+		$this->view->user = Zend_Auth::getInstance()->getIdentity(); // pour rafraichissement session
 		$this->view->config = Zend_Registry::get('config');
 		$this->xml_response = new Bral_Xml_Response();
 

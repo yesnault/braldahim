@@ -307,7 +307,9 @@ abstract class Bral_Competences_Competence {
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		
 		$hobbitTable = new Hobbit();
+		$hobbitTable->getAdapter()->beginTransaction();
 		$hobbitTable->update($data, $where);
+		$hobbitTable->getAdapter()->commit();
 		unset($hobbitTable);
 		unset($data);
 	}
