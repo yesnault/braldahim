@@ -15,7 +15,7 @@ class Bral_Batchs_Factory {
 		Zend_Loader::loadClass("Bral_Batchs_Batch");
 
 		$construct = null;
-		$construct = "Bral_Batchs_".Bral_Util_String::firstToUpper($nomSystemeAction);
+		$construct = "Bral_Batchs_".$nomSystemeAction;
 		try {
 			Zend_Loader::loadClass($construct);
 		} catch(Exception $e) {

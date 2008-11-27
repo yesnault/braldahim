@@ -109,7 +109,7 @@ class Bral_Util_ConvertDate {
 	}
 	
 	/* Ajoute un/des jours a un datetime mysql et
-	 * retourne le resultat en date
+	 * retourne le resultat en date & time "Y-m-d H:i:s"
 	 * @return date
 	 */
 	public static function get_date_add_day_to_date($date, $add_day) {

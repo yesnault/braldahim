@@ -108,7 +108,6 @@ class AdministrationstockboisController extends Zend_Controller_Action {
 		$stocks = null;
 		
 		foreach($stockBoisRowset as $r) {
-			
 			$stock = array(
 				'id_stock_bois' => $r["id_stock_bois"],
 				'date_stock_bois' =>  $r["date_stock_bois"],
@@ -119,7 +118,6 @@ class AdministrationstockboisController extends Zend_Controller_Action {
 				'id_fk_region_stock_bois' =>  $r["id_fk_region_stock_bois"],
 				'nom_region' => $r["nom_region"],
 			);
-			
 			$stocks[] = $stock;
 		}
 		
