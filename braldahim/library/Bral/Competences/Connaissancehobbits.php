@@ -3,11 +3,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id:$
- * $Author:$
- * $LastChangedDate:$
- * $LastChangedRevision:$
- * $LastChangedBy:$
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Competences_Connaissancehobbits extends Bral_Competences_Competence {
 	
@@ -204,4 +204,3 @@ class Bral_Competences_Connaissancehobbits extends Bral_Competences_Competence {
 		return array("box_profil", "box_evenements", "box_competences_communes");
 	}
 }
-?>

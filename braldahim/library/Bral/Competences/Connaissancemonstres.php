@@ -223,4 +223,3 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		return array("box_profil", "box_evenements", "box_competences_communes");
 	}
 }
-?>

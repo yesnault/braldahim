@@ -16,18 +16,22 @@ class BatchsController extends Zend_Controller_Action {
 		$this->initView();
 		Bral_Util_Securite::controlBatchsOrAdmin($this->_request);
 	}
-
-	function palissadesAction() {
-		Bral_Batchs_Factory::calculBatch("Palissades");
-		echo $this->view->render("batchs/resultat.phtml");
-		return;
-	}
+	
+	// 1 action par batch
 	
 	function boutiqueAction() {
-		Bral_Batchs_Factory::calculBatch("Boutique");
+		$this->view->retour = Bral_Batchs_Factory::calculBatch("Boutique");
 		echo $this->view->render("batchs/resultat.phtml");
-		return;
+	}
+
+	function palissadesAction() {
+		$this->view->retour = Bral_Batchs_Factory::calculBatch("Palissades");
+		echo $this->view->render("batchs/resultat.phtml");
 	}
 	
+	function purgeAction() {
+		$this->view->retour = Bral_Batchs_Factory::calculBatch("Purge");
+		echo $this->view->render("batchs/resultat.phtml");
+	}
 }
 
