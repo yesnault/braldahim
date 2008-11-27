@@ -17,6 +17,7 @@ class Bral_Batchs_Factory {
 		$construct = null;
 		$construct = "Bral_Batchs_".$nomSystemeAction;
 		try {
+			Zend_Loader::loadClass("Bral_Batchs_Boutique");
 			Zend_Loader::loadClass($construct);
 		} catch(Exception $e) {
 			throw new Zend_Exception("Bral_Batchs_Factory construct invalide (classe): ".$nomSystemeAction);

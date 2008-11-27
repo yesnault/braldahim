@@ -14,11 +14,17 @@ class StockMinerai extends Zend_Db_Table {
 	protected $_name = 'stock_minerai';
 	protected $_primary = array('id_stock_minerai');
 
-	function findDernierStockByIdRegion($idRegion) {
+	function findDernierStockByIdRegion($idRegion, $idTypeMinerai = null) {
+		
+		$where = "";
+		if ($idTypeMinerai != null) {
+			$where = " id_fk_type_stock_minerai=".$idTypeMinerai. ' AND ';
+		}
+		
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('stock_minerai', array('max(date_stock_minerai) as date_stock_minerai', 'id_fk_type_stock_minerai', 'nb_brut_initial_stock_minerai', 'nb_brut_restant_stock_minerai', 'prix_unitaire_vente_stock_minerai', 'prix_unitaire_reprise_stock_minerai'))
-		->where('id_fk_region_stock_minerai  = ?', $idRegion)
+		->where($where.' id_fk_region_stock_minerai  = ?', $idRegion)
 		->group(array('id_fk_type_stock_minerai', 'nb_brut_initial_stock_minerai', 'nb_brut_restant_stock_minerai', 'prix_unitaire_vente_stock_minerai', 'prix_unitaire_reprise_stock_minerai'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

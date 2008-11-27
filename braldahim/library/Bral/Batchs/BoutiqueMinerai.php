@@ -1,0 +1,102 @@
+<?php
+
+/**
+ * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
+ */
+class Bral_Batchs_BoutiqueMinerai extends Bral_Batchs_Boutique {
+	
+	public function calculBatchImpl() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiqueMinerai - calculBatchImpl - enter -");
+		
+		Zend_Loader::loadClass('StockMinerai');
+		Zend_Loader::loadClass('TypeMinerai');
+		Zend_Loader::loadClass('BoutiqueMinerai');
+		Zend_Loader::loadClass('Region');
+		
+		$stockMineraiTable = new StockMinerai();
+		$mDate = date("Y-m-d");
+		$stockMineraiRowset = $stockMineraiTable->findByDate($mDate);
+		if (count($stockMineraiRowset) > 0) {
+			Bral_Util_Log::batchs()->info("Bral_Batchs_BoutiqueMinerai - calculBatchImpl - Stock Minerai deja present pour le ".$mDate);
+			return "Stock Minerai deja present pour le ".$mDate;
+		}
+		
+		$regionTable = new Region();
+		$typeMineraiTable = new TypeMinerai();
+		
+		$typeMineraiRowset = $typeMineraiTable->fetchall();
+		$typeMineraiRowset = $typeMineraiRowset->toArray();
+		$regionRowset = $regionTable->fetchall();
+		
+		$this->initDate();
+		
+		foreach($regionRowset as $r) {
+			foreach($typeMineraiRowset as $t) {
+				$this->calculAchatVente($r->id_region, $t["id_type_minerai"]);
+				$this->calculMoyennes();
+				$this->calculRatios();
+				$this->calculStock($r->id_region, $t["id_type_minerai"]);
+			}
+		}
+		
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiqueMinerai - calculBatchImpl - exit -");
+		return "Stock Minerai cree pour le ".$mDate;
+	}
+	
+	public function calculAchatVente($idRegion, $idTypeMinerai) {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiqueMinerai - calculAchatVente - enter - region:".$idRegion." idMinerai:".$idTypeMinerai);
+		$boutiqueMineraiTable = new BoutiqueMinerai();
+		$this->nombreAchat = $boutiqueMineraiTable->countAchatByDateAndRegion($this->dateDebut, $this->dateFin, $idRegion, $idTypeMinerai);
+		$this->nombreAchatPrecedent = $boutiqueMineraiTable->countAchatByDateAndRegion($this->dateDebutPrecedent, $this->dateFinPrecedent, $idRegion, $idTypeMinerai);
+		$this->nombreVente = $boutiqueMineraiTable->countVenteByDateAndRegion($this->dateDebut, $this->dateFin, $idRegion, $idTypeMinerai);
+		$this->nombreVentePrecedent = $boutiqueMineraiTable->countVenteByDateAndRegion($this->dateDebutPrecedent, $this->dateFinPrecedent, $idRegion, $idTypeMinerai);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiqueMinerai - calculAchatVente - exit -");
+	}
+	
+	
+	/*
+	 * Si :
+	 * - c(s)=1 et quelque soit c(s-1) -> Prix d'achat reste le même, Prix de vente reste le même
+	 * - c(s)<1 et [c(s-1)=1 ou c(s-1)>1] -> Prix d'achat augmente : arrsup(PrixAchat/c(s)), Prix de vente reste le même
+	 * - c(s)<1 et c(s-1)<1  -> Prix d'achat augmente : arrsup(PrixAchat/c(s)), Prix de vente augmente : arrsup(PrixVente/c(s))
+	 * - c(s)>1 et [c(s-1)=1 ou c(s-1)<1] -> Prix d'achat baisse : arrinf(PrixAchat/c(s))+1, Prix de vente reste le même
+	 * - c(s)>1 et c(s-1)>1  -> Prix d'achat baisse : arrinf(PrixAchat/c(s))+1, Prix de vente baisse : arrinf(PrixVente/c(s))+1
+	 */
+	public function calculStock($idRegion, $idTypeMinerai) {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiqueMinerai - calculStock - ratio:".$this->ratio. " ratioPrecedent:".$this->ratioPrecedent);
+		
+		$stockMineraiTable = new StockMinerai();
+		$stockMineraiRowset = $stockMineraiTable->findDernierStockByIdRegion($idRegion, $idTypeMinerai);
+		
+		foreach($stockMineraiRowset as $s) {
+			$nbInitial = $s["nb_brut_initial_stock_minerai"];
+			$tabPrix["prixAchat"] = $s["prix_unitaire_vente_stock_minerai"];
+			$tabPrix["prixVente"] = $s["prix_unitaire_reprise_stock_minerai"];
+			$tabPrix = $this->calculPrix($tabPrix);
+			$this->updateStockBase($idRegion, $idTypeMinerai, $nbInitial, $tabPrix);
+		}
+	}
+	
+	public function updateStockBase($idRegion, $idTypeMinerai, $nbInitial, $tabPrix) {
+		$mDate = date("Y-m-d");
+		
+		$data = array(
+			"date_stock_minerai" => $mDate,
+			"id_fk_type_stock_minerai" => $idTypeMinerai,
+			"nb_brut_initial_stock_minerai" => $nbInitial,
+			"nb_brut_restant_stock_minerai" => $nbInitial,
+			"prix_unitaire_vente_stock_minerai" => $tabPrix["prixAchat"],
+			"prix_unitaire_reprise_stock_minerai" => $tabPrix["prixVente"],
+			"id_fk_region_stock_minerai" => $idRegion,	
+		);
+		$stockMineraiTable = new StockMinerai();
+		$stockMineraiTable->insert($data);
+	}
+}

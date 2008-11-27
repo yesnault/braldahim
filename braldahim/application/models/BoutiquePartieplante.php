@@ -61,4 +61,27 @@ class BoutiquePartieplante extends Zend_Db_Table {
 			$this->update($dataUpdate, $where);
 		}
 	}
+	
+	function countVenteByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypePartiePlante, $idTypePlante) {
+		return $this->countByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypePartiePlante, $idTypePlante, "vente");
+	}
+	
+	function countAchatByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypePartiePlante, $idTypePlante) {
+		return $this->countByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypePartiePlante, $idTypePlante, "achat");
+	}
+	
+	private function countByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypePartiePlante, $idTypePlante, $type) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('boutique_partieplante', 'count(*) as nombre')
+		->where('id_fk_region_boutique_partieplante = ?', $idRegion)
+		->where('date_achat_boutique_partieplante >= ?', $dateDebut)
+		->where('date_achat_boutique_partieplante <= ?', $dateFin)
+		->where('action_hobbit_boutique_partieplante = ?', $type)
+		->where('id_fk_type_boutique_partieplante = ?', $idTypePartiePlante)
+		->where('id_fk_type_plante_boutique_partieplante = ?', $idTypePlante);
+		$sql = $select->__toString();
+		$resultat =  $db->fetchAll($sql);
+		return $resultat[0]["nombre"];
+	}
 }

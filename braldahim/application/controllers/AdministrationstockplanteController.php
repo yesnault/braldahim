@@ -139,11 +139,9 @@ class AdministrationstockplanteController extends Zend_Controller_Action {
 	
 	private function formulairePrepare() {
 		Zend_Loader::loadClass('Region');
-		Zend_Loader::loadClass('Plante');
 		Zend_Loader::loadClass('TypePlante');
 		Zend_Loader::loadClass('TypePartieplante');
 		
-		$planteTable = new Plante();
 		$typePlanteTable = new TypePlante();
 		$typePartiePlanteTable = new TypePartieplante();
 		$regionTable = new Region();

@@ -59,4 +59,26 @@ class BoutiqueMinerai extends Zend_Db_Table {
 			}
 		}
 	}
+	
+	function countVenteByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypeMinerai) {
+		return $this->countByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypeMinerai, "vente");
+	}
+	
+	function countAchatByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypeMinerai) {
+		return $this->countByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypeMinerai, "achat");
+	}
+	
+	private function countByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypeMinerai, $type) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('boutique_minerai', 'count(*) as nombre')
+		->where('id_fk_region_boutique_minerai = ?', $idRegion)
+		->where('date_achat_boutique_minerai >= ?', $dateDebut)
+		->where('date_achat_boutique_minerai <= ?', $dateFin)
+		->where('action_hobbit_boutique_minerai = ?', $type)
+		->where('id_fk_type_boutique_minerai = ?', $idTypeMinerai);
+		$sql = $select->__toString();
+		$resultat =  $db->fetchAll($sql);
+		return $resultat[0]["nombre"];
+	}
 }
