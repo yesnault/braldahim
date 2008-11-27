@@ -24,7 +24,8 @@ class Bral_Batchs_Factory {
 		 
 		// verification que la classe de l'action existe.
 		if (($construct != null) && (class_exists($construct))) {
-			return new $construct ($nomSystemeAction);
+			$batchClasse = new $construct ($nomSystemeAction);
+			$batchClasse->calculBatch();
 		} else {
 			throw new Zend_Exception("Bral_Boutique_Batch action invalide: ".$nomSystemeAction);
 		}

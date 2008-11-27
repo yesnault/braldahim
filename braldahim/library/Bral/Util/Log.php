@@ -157,7 +157,7 @@ class Bral_Util_Log {
 		
 		if (self::$config->log->general->debug_browser == "oui") {
 			$redacteur = new Zend_Log_Writer_Stream('php://output');
-			self::$attaque->addWriter($redacteur);
+			self::$batchs->addWriter($redacteur);
 		}
 	}
 

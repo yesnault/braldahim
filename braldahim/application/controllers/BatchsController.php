@@ -23,8 +23,8 @@ class BatchsController extends Zend_Controller_Action {
 		return;
 	}
 	
-	function economieAction() {
-		Bral_Batchs_Factory::calculBatch("Economie");
+	function boutiqueAction() {
+		Bral_Batchs_Factory::calculBatch("Boutique");
 		echo $this->view->render("batchs/resultat.phtml");
 		return;
 	}
