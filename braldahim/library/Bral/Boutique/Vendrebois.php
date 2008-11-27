@@ -117,7 +117,7 @@ class Bral_Boutique_Vendrebois extends Bral_Boutique_Boutique {
 				"quantite_rondin_boutique_bois" => $nb_rondins,
 				"prix_unitaire_boutique_bois" => $this->view->prixUnitaire,
 				"id_fk_region_boutique_bois" => $idRegion,
-				"action_hobbit_boutique_bois" => "vente",
+				"action_boutique_bois" => "reprise",
 			);
 			$boutiqueBoisTable = new BoutiqueBois();
 			$boutiqueBoisTable->insertOrUpdate($data);

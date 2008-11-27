@@ -126,7 +126,7 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 			"quantite_rondin_boutique_bois" => $this->view->quantiteAchetee,
 			"prix_unitaire_boutique_bois" => $this->view->prixUnitaire,
 			"id_fk_region_boutique_bois" => $idRegion,
-			"action_hobbit_boutique_bois" => "achat",
+			"action_boutique_bois" => "vente",
 		);
 		$boutiqueBoisTable = new BoutiqueBois();
 		$boutiqueBoisTable->insertOrUpdate($data);

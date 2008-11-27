@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Ven 06 Juin 2008 à 12:51
+-- Généré le : Jeu 27 Novembre 2008 à 19:05
 -- Version du serveur: 5.0.41
 -- Version de PHP: 5.2.3
 
@@ -12,6 +12,91 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- 
 -- Base de données: `braldahim`
 -- 
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `batch`
+-- 
+
+CREATE TABLE `batch` (
+  `id_batch` int(11) NOT NULL auto_increment,
+  `type_batch` varchar(20) NOT NULL,
+  `date_debut_batch` datetime NOT NULL,
+  `date_fin_batch` datetime default NULL,
+  `etat_batch` varchar(10) NOT NULL,
+  `message_batch` mediumtext,
+  PRIMARY KEY  (`id_batch`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `boutique_bois`
+-- 
+
+CREATE TABLE `boutique_bois` (
+  `id_boutique_bois` int(11) NOT NULL auto_increment,
+  `date_achat_boutique_bois` datetime NOT NULL,
+  `id_fk_lieu_boutique_bois` int(11) NOT NULL,
+  `id_fk_hobbit_boutique_bois` int(11) NOT NULL,
+  `quantite_rondin_boutique_bois` int(11) NOT NULL,
+  `prix_unitaire_boutique_bois` int(11) NOT NULL,
+  `id_fk_region_boutique_bois` int(11) NOT NULL,
+  `action_hobbit_boutique_bois` enum('achat','vente') NOT NULL,
+  PRIMARY KEY  (`id_boutique_bois`),
+  KEY `id_fk_hobbit_boutique_bois` (`id_fk_hobbit_boutique_bois`),
+  KEY `id_fk_lieu_boutique_bois` (`id_fk_lieu_boutique_bois`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `boutique_minerai`
+-- 
+
+CREATE TABLE `boutique_minerai` (
+  `id_boutique_minerai` int(11) NOT NULL auto_increment,
+  `date_achat_boutique_minerai` datetime NOT NULL,
+  `id_fk_type_boutique_minerai` int(11) NOT NULL,
+  `id_fk_lieu_boutique_minerai` int(11) NOT NULL,
+  `id_fk_hobbit_boutique_minerai` int(11) NOT NULL,
+  `quantite_brut_boutique_minerai` int(11) NOT NULL default '0',
+  `prix_unitaire_boutique_minerai` int(11) NOT NULL,
+  `id_fk_region_boutique_minerai` int(11) NOT NULL,
+  `action_hobbit_boutique_minerai` enum('achat','vente') NOT NULL,
+  PRIMARY KEY  (`id_boutique_minerai`),
+  KEY `id_fk_lieu_laban_minerai` (`id_fk_lieu_boutique_minerai`),
+  KEY `id_fk_hobbit_boutique_minerai` (`id_fk_hobbit_boutique_minerai`),
+  KEY `id_fk_region_boutique_minerai` (`id_fk_region_boutique_minerai`),
+  KEY `id_fk_type_boutique_minerai` (`id_fk_type_boutique_minerai`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `boutique_partieplante`
+-- 
+
+CREATE TABLE `boutique_partieplante` (
+  `id_boutique_partieplante` int(11) NOT NULL auto_increment,
+  `date_achat_boutique_partieplante` datetime NOT NULL,
+  `id_fk_type_boutique_partieplante` int(11) NOT NULL,
+  `id_fk_type_plante_boutique_partieplante` int(11) NOT NULL,
+  `id_fk_lieu_boutique_partieplante` int(11) NOT NULL,
+  `id_fk_hobbit_boutique_partieplante` int(11) NOT NULL,
+  `quantite_boutique_partieplante` int(11) NOT NULL,
+  `quantite_preparee_boutique_partieplante` int(11) NOT NULL,
+  `prix_unitaire_boutique_partieplante` int(11) NOT NULL,
+  `id_fk_region_boutique_partieplante` int(11) NOT NULL,
+  `action_hobbit_boutique_partieplante` enum('achat','vente') NOT NULL,
+  PRIMARY KEY  (`id_boutique_partieplante`),
+  KEY `id_fk_type_plante_boutique_partieplante` (`id_fk_type_plante_boutique_partieplante`),
+  KEY `id_fk_lieu_boutique_partieplante` (`id_fk_lieu_boutique_partieplante`),
+  KEY `id_fk_hobbit_boutique_partieplante` (`id_fk_hobbit_boutique_partieplante`),
+  KEY `id_fk_region_boutique_partieplante` (`id_fk_region_boutique_partieplante`),
+  KEY `id_fk_type_boutique_partieplante` (`id_fk_type_boutique_partieplante`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -57,7 +142,7 @@ CREATE TABLE `charrette` (
   `y_charrette` int(11) default NULL,
   PRIMARY KEY  (`id_charrette`),
   UNIQUE KEY `id_fk_hobbit_charrette` (`id_fk_hobbit_charrette`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -70,11 +155,11 @@ CREATE TABLE `communaute` (
   `nom_communaute` varchar(40) NOT NULL,
   `date_creation_communaute` datetime NOT NULL,
   `id_fk_hobbit_gestionnaire_communaute` int(11) NOT NULL,
-  `description_communaute` mediumtext,
-  `site_web_communaute` varchar(255) default NULL,
+  `description_communaute` mediumtext character set latin1,
+  `site_web_communaute` varchar(255) character set latin1 default NULL,
   PRIMARY KEY  (`id_communaute`),
   UNIQUE KEY `id_fk_hobbit_createur_communaute` (`id_fk_hobbit_gestionnaire_communaute`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -100,7 +185,7 @@ CREATE TABLE `competence` (
   PRIMARY KEY  (`id_competence`),
   UNIQUE KEY `nom_competence` (`nom_competence`),
   KEY `id_fk_metier_competence` (`id_fk_metier_competence`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=35 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -144,7 +229,7 @@ CREATE TABLE `echoppe` (
   KEY `xy_echoppe` (`x_echoppe`,`y_echoppe`),
   KEY `id_fk_hobbit_echoppe` (`id_fk_hobbit_echoppe`),
   KEY `id_fk_metier_echoppe` (`id_fk_metier_echoppe`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -171,7 +256,7 @@ CREATE TABLE `echoppe_equipement` (
   KEY `id_fk_echoppe_echoppe_equipement` (`id_fk_echoppe_echoppe_equipement`),
   KEY `id_fk_recette_echoppe_equipement` (`id_fk_recette_echoppe_equipement`),
   KEY `id_hobbit_vente_echoppe_equipement` (`id_fk_hobbit_vente_echoppe_equipement`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -263,7 +348,7 @@ CREATE TABLE `echoppe_potion` (
   KEY `id_fk_qualite_echoppe_potion` (`id_fk_type_qualite_echoppe_potion`),
   KEY `id_fk_type_potion_echoppe_potion` (`id_fk_type_potion_echoppe_potion`),
   KEY `id_fk_hobbit_vente_echoppe_potion` (`id_fk_hobbit_vente_echoppe_potion`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -326,7 +411,7 @@ CREATE TABLE `effet_potion_hobbit` (
   KEY `id_fk_hobbit_cible_effet_potion_hobbit` (`id_fk_hobbit_cible_effet_potion_hobbit`),
   KEY `id_fk_hobbit_lanceur_effet_potion_hobbit` (`id_fk_hobbit_lanceur_effet_potion_hobbit`),
   KEY `id_fk_type_qualite_effet_potion_hobbit` (`id_fk_type_qualite_effet_potion_hobbit`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -347,7 +432,7 @@ CREATE TABLE `effet_potion_monstre` (
   KEY `id_fk_monstre_cible_effet_potion_monstre` (`id_fk_monstre_cible_effet_potion_monstre`),
   KEY `id_fk_hobbit_lanceur_effet_potion_monstre` (`id_fk_hobbit_lanceur_effet_potion_monstre`),
   KEY `id_fk_type_qualite_effet_potion_monstre` (`id_fk_type_qualite_effet_potion_monstre`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -450,7 +535,7 @@ CREATE TABLE `element_rune` (
   `id_fk_type_element_rune` int(11) NOT NULL,
   PRIMARY KEY  (`id_element_rune`),
   KEY `id_fk_type_element_rune` (`id_fk_type_element_rune`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -465,7 +550,7 @@ CREATE TABLE `environnement` (
   `nom_systeme_environnement` varchar(20) NOT NULL,
   `image_environnement` varchar(100) NOT NULL,
   PRIMARY KEY  (`id_environnement`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -499,7 +584,7 @@ CREATE TABLE `evenement` (
   PRIMARY KEY  (`id_evenement`),
   KEY `idx_id_hobbit_evenement` (`id_fk_hobbit_evenement`),
   KEY `idx_id_monstre_evenement` (`id_fk_monstre_evenement`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1652 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -517,7 +602,7 @@ CREATE TABLE `filon` (
   PRIMARY KEY  (`id_filon`),
   KEY `idx_x_filon_y_filon` (`x_filon`,`y_filon`),
   KEY `id_fk_type_minerai_filon` (`id_fk_type_minerai_filon`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3130 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -536,7 +621,7 @@ CREATE TABLE `gardiennage` (
   PRIMARY KEY  (`id_gardiennage`),
   KEY `id_gardien_gardiennage` (`id_fk_gardien_gardiennage`),
   KEY `id_fk_hobbit_gardiennage` (`id_fk_hobbit_gardiennage`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -560,7 +645,7 @@ CREATE TABLE `groupe_monstre` (
   PRIMARY KEY  (`id_groupe_monstre`),
   KEY `id_fk_type_groupe_monstre` (`id_fk_type_groupe_monstre`),
   KEY `id_fk_hobbit_cible_groupe_monstre` (`id_fk_hobbit_cible_groupe_monstre`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=104 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -575,7 +660,7 @@ CREATE TABLE `historique_equipement` (
   `details_historique_equipement` varchar(200) NOT NULL,
   PRIMARY KEY  (`id_historique_equipement`),
   KEY `id_fk_historique_equipement` (`id_fk_historique_equipement`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -599,7 +684,6 @@ CREATE TABLE `hobbit` (
   `date_debut_tour_hobbit` datetime NOT NULL,
   `date_fin_tour_hobbit` datetime NOT NULL,
   `duree_prochain_tour_hobbit` time NOT NULL,
-  `duree_base_tour_hobbit` time NOT NULL,
   `duree_courant_tour_hobbit` time NOT NULL,
   `tour_position_hobbit` int(11) NOT NULL,
   `pa_hobbit` int(11) NOT NULL,
@@ -657,7 +741,7 @@ CREATE TABLE `hobbit` (
   KEY `id_fk_communaute_hobbit` (`id_fk_communaute_hobbit`),
   KEY `id_fk_rang_communaute_hobbit` (`id_fk_rang_communaute_hobbit`),
   KEY `id_fk_jos_users_hobbit` (`id_fk_jos_users_hobbit`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tables des Hobbits' AUTO_INCREMENT=51 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tables des Hobbits';
 
 -- --------------------------------------------------------
 
@@ -829,7 +913,7 @@ CREATE TABLE `lieu` (
   UNIQUE KEY `xy_lieu` (`x_lieu`,`y_lieu`),
   KEY `id_fk_type_lieu` (`id_fk_type_lieu`),
   KEY `id_fk_ville_lieu` (`id_fk_ville_lieu`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=110 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -852,7 +936,7 @@ CREATE TABLE `message` (
   KEY `date_envoi_message` (`date_envoi_message`),
   KEY `id_fk_hobbit_message` (`id_fk_hobbit_message`),
   KEY `id_fk_type_message` (`id_fk_type_message`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -869,7 +953,7 @@ CREATE TABLE `metier` (
   `construction_charrette_metier` enum('oui','non') NOT NULL,
   `construction_echoppe_metier` enum('oui','non') NOT NULL default 'non',
   PRIMARY KEY  (`id_metier`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -886,6 +970,7 @@ CREATE TABLE `monstre` (
   `y_monstre` int(11) NOT NULL,
   `id_fk_hobbit_cible_monstre` int(11) default NULL,
   `pv_restant_monstre` int(11) NOT NULL,
+  `pv_max_monstre` int(11) NOT NULL,
   `pa_monstre` int(11) NOT NULL,
   `niveau_monstre` int(11) NOT NULL,
   `vue_monstre` int(11) NOT NULL,
@@ -914,7 +999,7 @@ CREATE TABLE `monstre` (
   KEY `id_fk_type_monstre` (`id_fk_type_monstre`),
   KEY `id_fk_taille_monstre` (`id_fk_taille_monstre`),
   KEY `id_fk_hobbit_cible_monstre` (`id_fk_hobbit_cible_monstre`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=898 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -936,7 +1021,7 @@ CREATE TABLE `mot_runique` (
   `effet_mot_runique` varchar(300) NOT NULL,
   PRIMARY KEY  (`id_mot_runique`),
   UNIQUE KEY `nom_systeme_mot_runique` (`nom_systeme_mot_runique`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -949,7 +1034,7 @@ CREATE TABLE `nom` (
   `nom` varchar(20) NOT NULL,
   PRIMARY KEY  (`id_nom`),
   UNIQUE KEY `nom` (`nom`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=63 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -968,8 +1053,9 @@ CREATE TABLE `palissade` (
   `date_creation_palissade` datetime NOT NULL,
   `date_fin_palissade` datetime NOT NULL,
   PRIMARY KEY  (`id_palissade`),
-  UNIQUE KEY `xy_palissade` (`x_palissade`,`y_palissade`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+  UNIQUE KEY `xy_palissade` (`x_palissade`,`y_palissade`),
+  KEY `date_fin_palissade` (`date_fin_palissade`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -989,7 +1075,7 @@ CREATE TABLE `plante` (
   PRIMARY KEY  (`id_plante`),
   KEY `idx_x_plante_y_plante` (`x_plante`,`y_plante`),
   KEY `id_fk_type_plante` (`id_fk_type_plante`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=29321 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1005,7 +1091,7 @@ CREATE TABLE `rang_communaute` (
   `description_rang_communaute` varchar(200) NOT NULL,
   PRIMARY KEY  (`id_rang_communaute`),
   KEY `id_fk_communaute_rang_communaute` (`id_fk_communaute_rang_communaute`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=183 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1062,7 +1148,7 @@ CREATE TABLE `recette_equipements` (
   PRIMARY KEY  (`id_recette_equipement`),
   UNIQUE KEY `id_fk_type_recette_equipement` (`id_fk_type_recette_equipement`,`niveau_recette_equipement`,`id_fk_type_qualite_recette_equipement`),
   KEY `id_fk_type_emplacement_recette_equipement` (`id_fk_type_emplacement_recette_equipement`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=862 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1100,7 +1186,7 @@ CREATE TABLE `ref_monstre` (
   PRIMARY KEY  (`id_ref_monstre`),
   UNIQUE KEY `id_fk_type_taille_ref_monstre` (`id_fk_type_ref_monstre`,`id_fk_taille_ref_monstre`),
   KEY `id_fk_taille_ref_monstre` (`id_fk_taille_ref_monstre`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1118,7 +1204,69 @@ CREATE TABLE `region` (
   `y_min_region` int(11) NOT NULL,
   `y_max_region` int(11) NOT NULL,
   PRIMARY KEY  (`id_region`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `stock_bois`
+-- 
+
+CREATE TABLE `stock_bois` (
+  `id_stock_bois` int(11) NOT NULL auto_increment,
+  `date_stock_bois` date NOT NULL,
+  `nb_rondin_initial_stock_bois` int(11) NOT NULL,
+  `nb_rondin_restant_stock_bois` int(11) NOT NULL,
+  `prix_unitaire_vente_stock_bois` int(11) NOT NULL,
+  `prix_unitaire_reprise_stock_bois` int(11) NOT NULL,
+  `id_fk_region_stock_bois` int(11) NOT NULL,
+  PRIMARY KEY  (`id_stock_bois`),
+  UNIQUE KEY `unique` (`date_stock_bois`,`id_fk_region_stock_bois`),
+  KEY `id_fk_region_stock_bois` (`id_fk_region_stock_bois`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `stock_minerai`
+-- 
+
+CREATE TABLE `stock_minerai` (
+  `id_stock_minerai` int(11) NOT NULL auto_increment,
+  `date_stock_minerai` date NOT NULL,
+  `id_fk_type_stock_minerai` int(11) NOT NULL,
+  `id_fk_region_stock_minerai` int(11) NOT NULL,
+  `nb_brut_initial_stock_minerai` int(11) NOT NULL default '0',
+  `nb_brut_restant_stock_minerai` int(11) NOT NULL,
+  `prix_unitaire_vente_stock_minerai` int(11) NOT NULL,
+  `prix_unitaire_reprise_stock_minerai` int(11) NOT NULL,
+  PRIMARY KEY  (`id_stock_minerai`),
+  UNIQUE KEY `unique` (`date_stock_minerai`,`id_fk_type_stock_minerai`,`id_fk_region_stock_minerai`),
+  KEY `stock_minerai_ibfk_3` (`id_fk_type_stock_minerai`),
+  KEY `stock_minerai_ibfk_4` (`id_fk_region_stock_minerai`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `stock_partieplante`
+-- 
+
+CREATE TABLE `stock_partieplante` (
+  `id_stock_partieplante` int(11) NOT NULL auto_increment,
+  `date_stock_partieplante` date NOT NULL,
+  `id_fk_type_stock_partieplante` int(11) NOT NULL,
+  `id_fk_type_plante_stock_partieplante` int(11) NOT NULL,
+  `nb_brut_initial_stock_partieplante` int(11) NOT NULL,
+  `nb_brut_restant_stock_partieplante` int(11) NOT NULL,
+  `prix_unitaire_vente_stock_partieplante` int(11) NOT NULL,
+  `prix_unitaire_reprise_stock_partieplante` int(11) NOT NULL,
+  `id_fk_region_stock_partieplante` int(11) NOT NULL,
+  PRIMARY KEY  (`id_stock_partieplante`),
+  UNIQUE KEY `unique` (`id_fk_type_stock_partieplante`,`id_fk_type_plante_stock_partieplante`,`date_stock_partieplante`,`id_fk_region_stock_partieplante`),
+  KEY `id_fk_type_plante_stock_partieplante` (`id_fk_type_plante_stock_partieplante`),
+  KEY `id_fk_region_stock_partieplante` (`id_fk_region_stock_partieplante`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1134,7 +1282,7 @@ CREATE TABLE `taille_monstre` (
   PRIMARY KEY  (`id_taille_monstre`),
   UNIQUE KEY `nom_taille_f_monstre` (`nom_taille_f_monstre`),
   UNIQUE KEY `nom_taille_m_monstre` (`nom_taille_m_monstre`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1147,7 +1295,7 @@ CREATE TABLE `testeur` (
   `email_testeur` varchar(100) NOT NULL,
   PRIMARY KEY  (`id_testeur`),
   UNIQUE KEY `email_testeur` (`email_testeur`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1162,7 +1310,7 @@ CREATE TABLE `type_emplacement` (
   `ordre_emplacement` int(11) NOT NULL,
   PRIMARY KEY  (`id_type_emplacement`),
   KEY `nom_systeme_type_emplacement` (`nom_systeme_type_emplacement`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1180,7 +1328,7 @@ CREATE TABLE `type_equipement` (
   PRIMARY KEY  (`id_type_equipement`),
   KEY `nom_type_equipement` (`nom_type_equipement`),
   KEY `id_fk_type_piece_type_equipement` (`id_fk_type_piece_type_equipement`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=42 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1193,7 +1341,7 @@ CREATE TABLE `type_evenement` (
   `nom_type_evenement` varchar(20) NOT NULL,
   PRIMARY KEY  (`id_type_evenement`),
   UNIQUE KEY `nom_type_evenement` (`nom_type_evenement`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1209,7 +1357,7 @@ CREATE TABLE `type_groupe_monstre` (
   `repeuplement_type_groupe_monstre` enum('oui','non') NOT NULL default 'non',
   PRIMARY KEY  (`id_type_groupe_monstre`),
   UNIQUE KEY `nom_groupe_monstre` (`nom_groupe_monstre`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1227,7 +1375,7 @@ CREATE TABLE `type_lieu` (
   `est_alterable_type_lieu` enum('oui','non') NOT NULL,
   `est_franchissable_type_lieu` enum('oui','non') NOT NULL,
   PRIMARY KEY  (`id_type_lieu`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1241,7 +1389,7 @@ CREATE TABLE `type_message` (
   `nom_type_message` varchar(30) NOT NULL,
   PRIMARY KEY  (`id_type_message`),
   UNIQUE KEY `nom_systeme_type_message` (`nom_systeme_type_message`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1255,7 +1403,7 @@ CREATE TABLE `type_minerai` (
   `nom_systeme_type_minerai` varchar(10) NOT NULL,
   `description_type_minerai` varchar(200) NOT NULL,
   PRIMARY KEY  (`id_type_minerai`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1269,7 +1417,7 @@ CREATE TABLE `type_monstre` (
   `genre_type_monstre` enum('feminin','masculin') NOT NULL COMMENT 'Genre du monstre : masculin ou féminin',
   `id_fk_type_groupe_monstre` int(11) NOT NULL,
   PRIMARY KEY  (`id_type_monstre`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1283,7 +1431,7 @@ CREATE TABLE `type_partieplante` (
   `nom_systeme_type_partieplante` varchar(10) NOT NULL,
   `description_type_partieplante` varchar(200) NOT NULL,
   PRIMARY KEY  (`id_type_partieplante`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1297,7 +1445,7 @@ CREATE TABLE `type_piece` (
   `nom_type_piece` varchar(10) NOT NULL,
   PRIMARY KEY  (`id_type_piece`),
   UNIQUE KEY `nom_systeme_type_piece` (`nom_systeme_type_piece`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1317,7 +1465,7 @@ CREATE TABLE `type_plante` (
   `id_fk_partieplante3_type_plante` int(11) default NULL,
   `id_fk_partieplante4_type_plante` int(11) default NULL,
   PRIMARY KEY  (`id_type_plante`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1332,7 +1480,7 @@ CREATE TABLE `type_potion` (
   `bm_type_potion` enum('bonus','malus') NOT NULL,
   PRIMARY KEY  (`id_type_potion`),
   UNIQUE KEY `nom_type_potion` (`nom_type_potion`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1346,7 +1494,7 @@ CREATE TABLE `type_qualite` (
   `nom_type_qualite` varchar(10) NOT NULL,
   PRIMARY KEY  (`id_type_qualite`),
   KEY `nom_systeme_type_qualite` (`nom_systeme_type_qualite`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1358,7 +1506,7 @@ CREATE TABLE `type_rang_communaute` (
   `id_type_rang_communaute` int(11) NOT NULL auto_increment,
   `nom_type_rang_communaute` varchar(10) NOT NULL,
   PRIMARY KEY  (`id_type_rang_communaute`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1376,7 +1524,7 @@ CREATE TABLE `type_rune` (
   `image_type_rune` varchar(250) default NULL,
   PRIMARY KEY  (`id_type_rune`),
   UNIQUE KEY `nom_type_rune` (`nom_type_rune`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1390,7 +1538,7 @@ CREATE TABLE `type_unite` (
   `nom_type_unite` varchar(50) NOT NULL,
   PRIMARY KEY  (`id_type_unite`),
   UNIQUE KEY `nom_systeme_type_unite` (`nom_systeme_type_unite`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1411,7 +1559,7 @@ CREATE TABLE `ville` (
   `y_max_ville` int(11) NOT NULL,
   PRIMARY KEY  (`id_ville`),
   KEY `id_fk_region_ville` (`id_fk_region_ville`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1431,11 +1579,37 @@ CREATE TABLE `zone` (
   `y_max_zone` int(11) NOT NULL,
   PRIMARY KEY  (`id_zone`),
   KEY `id_fk_environnement_zone` (`id_fk_environnement_zone`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- 
 -- Contraintes pour les tables exportées
 -- 
+
+-- 
+-- Contraintes pour la table `boutique_bois`
+-- 
+ALTER TABLE `boutique_bois`
+  ADD CONSTRAINT `boutique_bois_ibfk_1` FOREIGN KEY (`id_fk_lieu_boutique_bois`) REFERENCES `lieu` (`id_lieu`) ON DELETE CASCADE,
+  ADD CONSTRAINT `boutique_bois_ibfk_2` FOREIGN KEY (`id_fk_hobbit_boutique_bois`) REFERENCES `hobbit` (`id_hobbit`) ON DELETE CASCADE;
+
+-- 
+-- Contraintes pour la table `boutique_minerai`
+-- 
+ALTER TABLE `boutique_minerai`
+  ADD CONSTRAINT `boutique_minerai_ibfk_6` FOREIGN KEY (`id_fk_type_boutique_minerai`) REFERENCES `type_minerai` (`id_type_minerai`) ON DELETE CASCADE,
+  ADD CONSTRAINT `boutique_minerai_ibfk_7` FOREIGN KEY (`id_fk_lieu_boutique_minerai`) REFERENCES `lieu` (`id_lieu`) ON DELETE CASCADE,
+  ADD CONSTRAINT `boutique_minerai_ibfk_8` FOREIGN KEY (`id_fk_hobbit_boutique_minerai`) REFERENCES `hobbit` (`id_hobbit`) ON DELETE CASCADE,
+  ADD CONSTRAINT `boutique_minerai_ibfk_9` FOREIGN KEY (`id_fk_region_boutique_minerai`) REFERENCES `region` (`id_region`) ON DELETE CASCADE;
+
+-- 
+-- Contraintes pour la table `boutique_partieplante`
+-- 
+ALTER TABLE `boutique_partieplante`
+  ADD CONSTRAINT `boutique_partieplante_ibfk_9` FOREIGN KEY (`id_fk_region_boutique_partieplante`) REFERENCES `region` (`id_region`) ON DELETE CASCADE,
+  ADD CONSTRAINT `boutique_partieplante_ibfk_5` FOREIGN KEY (`id_fk_type_boutique_partieplante`) REFERENCES `type_partieplante` (`id_type_partieplante`) ON DELETE CASCADE,
+  ADD CONSTRAINT `boutique_partieplante_ibfk_6` FOREIGN KEY (`id_fk_type_plante_boutique_partieplante`) REFERENCES `type_plante` (`id_type_plante`) ON DELETE CASCADE,
+  ADD CONSTRAINT `boutique_partieplante_ibfk_7` FOREIGN KEY (`id_fk_lieu_boutique_partieplante`) REFERENCES `lieu` (`id_lieu`) ON DELETE CASCADE,
+  ADD CONSTRAINT `boutique_partieplante_ibfk_8` FOREIGN KEY (`id_fk_hobbit_boutique_partieplante`) REFERENCES `hobbit` (`id_hobbit`) ON DELETE CASCADE;
 
 -- 
 -- Contraintes pour la table `communaute`
@@ -1753,6 +1927,26 @@ ALTER TABLE `recette_potions`
 ALTER TABLE `ref_monstre`
   ADD CONSTRAINT `ref_monstre_ibfk_1` FOREIGN KEY (`id_fk_type_ref_monstre`) REFERENCES `type_monstre` (`id_type_monstre`),
   ADD CONSTRAINT `ref_monstre_ibfk_2` FOREIGN KEY (`id_fk_taille_ref_monstre`) REFERENCES `taille_monstre` (`id_taille_monstre`);
+
+-- 
+-- Contraintes pour la table `stock_bois`
+-- 
+ALTER TABLE `stock_bois`
+  ADD CONSTRAINT `stock_bois_ibfk_1` FOREIGN KEY (`id_fk_region_stock_bois`) REFERENCES `region` (`id_region`) ON DELETE CASCADE;
+
+-- 
+-- Contraintes pour la table `stock_minerai`
+-- 
+ALTER TABLE `stock_minerai`
+  ADD CONSTRAINT `stock_minerai_ibfk_3` FOREIGN KEY (`id_fk_type_stock_minerai`) REFERENCES `type_minerai` (`id_type_minerai`) ON DELETE CASCADE,
+  ADD CONSTRAINT `stock_minerai_ibfk_4` FOREIGN KEY (`id_fk_region_stock_minerai`) REFERENCES `region` (`id_region`) ON DELETE CASCADE;
+
+-- 
+-- Contraintes pour la table `stock_partieplante`
+-- 
+ALTER TABLE `stock_partieplante`
+  ADD CONSTRAINT `stock_partieplante_ibfk_8` FOREIGN KEY (`id_fk_type_stock_partieplante`) REFERENCES `type_partieplante` (`id_type_partieplante`),
+  ADD CONSTRAINT `stock_partieplante_ibfk_9` FOREIGN KEY (`id_fk_type_plante_stock_partieplante`) REFERENCES `type_plante` (`id_type_plante`);
 
 -- 
 -- Contraintes pour la table `type_equipement`

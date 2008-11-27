@@ -67,8 +67,8 @@ class Bral_Batchs_BoutiquePlante extends Bral_Batchs_Boutique {
 	public function calculAchatVente($idRegion, $idTypePartiePlante, $idTypePlante) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiquePlante - calculAchatVente - enter - region:".$idRegion. " idTypePartiePlante:".$idTypePartiePlante." idTypePlante:".$idTypePlante);
 		$boutiquePartieplanteTable = new BoutiquePartieplante();
-		$this->nombreAchat = $boutiquePartieplanteTable->countAchatByDateAndRegion($this->dateDebut, $this->dateFin, $idRegion, $idTypePartiePlante, $idTypePlante);
-		$this->nombreAchatPrecedent = $boutiquePartieplanteTable->countAchatByDateAndRegion($this->dateDebutPrecedent, $this->dateFinPrecedent, $idRegion, $idTypePartiePlante, $idTypePlante);
+		$this->nombreReprise = $boutiquePartieplanteTable->countRepriseByDateAndRegion($this->dateDebut, $this->dateFin, $idRegion, $idTypePartiePlante, $idTypePlante);
+		$this->nombreReprisePrecedent = $boutiquePartieplanteTable->countRepriseByDateAndRegion($this->dateDebutPrecedent, $this->dateFinPrecedent, $idRegion, $idTypePartiePlante, $idTypePlante);
 		$this->nombreVente = $boutiquePartieplanteTable->countVenteByDateAndRegion($this->dateDebut, $this->dateFin, $idRegion, $idTypePartiePlante, $idTypePlante);
 		$this->nombreVentePrecedent = $boutiquePartieplanteTable->countVenteByDateAndRegion($this->dateDebutPrecedent, $this->dateFinPrecedent, $idRegion, $idTypePartiePlante, $idTypePlante);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiquePlante - calculAchatVente - exit -");
@@ -90,8 +90,8 @@ class Bral_Batchs_BoutiquePlante extends Bral_Batchs_Boutique {
 		
 		foreach($stockMineraiRowset as $s) {
 			$nbInitial = $s["nb_brut_initial_stock_partieplante"];
-			$tabPrix["prixAchat"] = $s["prix_unitaire_vente_stock_partieplante"];
-			$tabPrix["prixVente"] = $s["prix_unitaire_reprise_stock_partieplante"];
+			$tabPrix["prixReprise"] = $s["prix_unitaire_reprise_stock_partieplante"];
+			$tabPrix["prixVente"] = $s["prix_unitaire_vente_stock_partieplante"];
 			$tabPrix = $this->calculPrix($tabPrix);
 			$this->updateStockBase($idRegion, $idTypePartiePlante, $idTypePlante, $nbInitial, $tabPrix);
 		}
@@ -106,8 +106,8 @@ class Bral_Batchs_BoutiquePlante extends Bral_Batchs_Boutique {
 			"id_fk_type_plante_stock_partieplante" => $idTypePlante,
 			"nb_brut_initial_stock_partieplante" => $nbInitial,
 			"nb_brut_restant_stock_partieplante" => $nbInitial,
-			"prix_unitaire_vente_stock_partieplante" => $tabPrix["prixAchat"],
-			"prix_unitaire_reprise_stock_partieplante" => $tabPrix["prixVente"],
+			"prix_unitaire_vente_stock_partieplante" => $tabPrix["prixVente"],
+			"prix_unitaire_reprise_stock_partieplante" => $tabPrix["prixReprise"],
 			"id_fk_region_stock_partieplante" => $idRegion,	
 		);
 		$stockMineraiTable = new StockPartieplante();

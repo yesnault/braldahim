@@ -46,8 +46,8 @@ class Bral_Batchs_BoutiqueBois extends Bral_Batchs_Boutique {
 	public function calculAchatVente($idRegion) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiqueBois - calculAchatVente - enter - region:".$idRegion);
 		$boutiqueBoisTable = new BoutiqueBois();
-		$this->nombreAchat = $boutiqueBoisTable->countAchatByDateAndRegion($this->dateDebut, $this->dateFin, $idRegion);
-		$this->nombreAchatPrecedent = $boutiqueBoisTable->countAchatByDateAndRegion($this->dateDebutPrecedent, $this->dateFinPrecedent, $idRegion);
+		$this->nombreReprise = $boutiqueBoisTable->countRepriseByDateAndRegion($this->dateDebut, $this->dateFin, $idRegion);
+		$this->nombreReprisePrecedent = $boutiqueBoisTable->countRepriseByDateAndRegion($this->dateDebutPrecedent, $this->dateFinPrecedent, $idRegion);
 		$this->nombreVente = $boutiqueBoisTable->countVenteByDateAndRegion($this->dateDebut, $this->dateFin, $idRegion);
 		$this->nombreVentePrecedent = $boutiqueBoisTable->countVenteByDateAndRegion($this->dateDebutPrecedent, $this->dateFinPrecedent, $idRegion);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiqueBois - calculAchatVente - exit -");
@@ -70,8 +70,8 @@ class Bral_Batchs_BoutiqueBois extends Bral_Batchs_Boutique {
 		
 		foreach($stockBoisRowset as $s) {
 			$nbInitial = $s["nb_rondin_initial_stock_bois"];
-			$tabPrix["prixAchat"] = $s["prix_unitaire_vente_stock_bois"];
-			$tabPrix["prixVente"] = $s["prix_unitaire_reprise_stock_bois"];
+			$tabPrix["prixReprise"] = $s["prix_unitaire_reprise_stock_bois"];
+			$tabPrix["prixVente"] = $s["prix_unitaire_vente_stock_bois"];
 			$tabPrix = $this->calculPrix($tabPrix);
 			$this->updateStockBase($idRegion, $nbInitial, $tabPrix);
 		}
@@ -84,8 +84,8 @@ class Bral_Batchs_BoutiqueBois extends Bral_Batchs_Boutique {
 			"date_stock_bois" => $mDate,
 			"nb_rondin_initial_stock_bois" => $nbInitial,
 			"nb_rondin_restant_stock_bois" => $nbInitial,
-			"prix_unitaire_vente_stock_bois" => $tabPrix["prixAchat"],
-			"prix_unitaire_reprise_stock_bois" => $tabPrix["prixVente"],
+			"prix_unitaire_vente_stock_bois" => $tabPrix["prixVente"],
+			"prix_unitaire_reprise_stock_bois" => $tabPrix["prixReprise"],
 			"id_fk_region_stock_bois" => $idRegion,	
 		);
 		$stockBoisTable = new StockBois();

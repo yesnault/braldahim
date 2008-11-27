@@ -64,8 +64,8 @@ class BoutiqueMinerai extends Zend_Db_Table {
 		return $this->countByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypeMinerai, "vente");
 	}
 	
-	function countAchatByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypeMinerai) {
-		return $this->countByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypeMinerai, "achat");
+	function countRepriseByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypeMinerai) {
+		return $this->countByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypeMinerai, "reprise");
 	}
 	
 	private function countByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypeMinerai, $type) {
@@ -75,7 +75,7 @@ class BoutiqueMinerai extends Zend_Db_Table {
 		->where('id_fk_region_boutique_minerai = ?', $idRegion)
 		->where('date_achat_boutique_minerai >= ?', $dateDebut)
 		->where('date_achat_boutique_minerai <= ?', $dateFin)
-		->where('action_hobbit_boutique_minerai = ?', $type)
+		->where('action_boutique_minerai = ?', $type)
 		->where('id_fk_type_boutique_minerai = ?', $idTypeMinerai);
 		$sql = $select->__toString();
 		$resultat =  $db->fetchAll($sql);

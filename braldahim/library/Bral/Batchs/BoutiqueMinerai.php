@@ -53,8 +53,8 @@ class Bral_Batchs_BoutiqueMinerai extends Bral_Batchs_Boutique {
 	public function calculAchatVente($idRegion, $idTypeMinerai) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiqueMinerai - calculAchatVente - enter - region:".$idRegion." idMinerai:".$idTypeMinerai);
 		$boutiqueMineraiTable = new BoutiqueMinerai();
-		$this->nombreAchat = $boutiqueMineraiTable->countAchatByDateAndRegion($this->dateDebut, $this->dateFin, $idRegion, $idTypeMinerai);
-		$this->nombreAchatPrecedent = $boutiqueMineraiTable->countAchatByDateAndRegion($this->dateDebutPrecedent, $this->dateFinPrecedent, $idRegion, $idTypeMinerai);
+		$this->nombreReprise = $boutiqueMineraiTable->countRepriseByDateAndRegion($this->dateDebut, $this->dateFin, $idRegion, $idTypeMinerai);
+		$this->nombreReprisePrecedent = $boutiqueMineraiTable->countRepriseByDateAndRegion($this->dateDebutPrecedent, $this->dateFinPrecedent, $idRegion, $idTypeMinerai);
 		$this->nombreVente = $boutiqueMineraiTable->countVenteByDateAndRegion($this->dateDebut, $this->dateFin, $idRegion, $idTypeMinerai);
 		$this->nombreVentePrecedent = $boutiqueMineraiTable->countVenteByDateAndRegion($this->dateDebutPrecedent, $this->dateFinPrecedent, $idRegion, $idTypeMinerai);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiqueMinerai - calculAchatVente - exit -");
@@ -77,8 +77,8 @@ class Bral_Batchs_BoutiqueMinerai extends Bral_Batchs_Boutique {
 		
 		foreach($stockMineraiRowset as $s) {
 			$nbInitial = $s["nb_brut_initial_stock_minerai"];
-			$tabPrix["prixAchat"] = $s["prix_unitaire_vente_stock_minerai"];
-			$tabPrix["prixVente"] = $s["prix_unitaire_reprise_stock_minerai"];
+			$tabPrix["prixReprise"] = $s["prix_unitaire_reprise_stock_minerai"];
+			$tabPrix["prixVente"] = $s["prix_unitaire_vente_stock_minerai"];
 			$tabPrix = $this->calculPrix($tabPrix);
 			$this->updateStockBase($idRegion, $idTypeMinerai, $nbInitial, $tabPrix);
 		}
@@ -92,8 +92,8 @@ class Bral_Batchs_BoutiqueMinerai extends Bral_Batchs_Boutique {
 			"id_fk_type_stock_minerai" => $idTypeMinerai,
 			"nb_brut_initial_stock_minerai" => $nbInitial,
 			"nb_brut_restant_stock_minerai" => $nbInitial,
-			"prix_unitaire_vente_stock_minerai" => $tabPrix["prixAchat"],
-			"prix_unitaire_reprise_stock_minerai" => $tabPrix["prixVente"],
+			"prix_unitaire_vente_stock_minerai" => $tabPrix["prixVente"],
+			"prix_unitaire_reprise_stock_minerai" => $tabPrix["prixReprise"],
 			"id_fk_region_stock_minerai" => $idRegion,	
 		);
 		$stockMineraiTable = new StockMinerai();

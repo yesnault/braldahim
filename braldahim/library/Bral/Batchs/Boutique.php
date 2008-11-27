@@ -15,9 +15,9 @@ abstract class Bral_Batchs_Boutique extends Bral_Batchs_Batch {
 	/*
 	 * Init des dates utilisees pour les moyennes
 	 * Ma(s) : moyenne(nombre de vente depuis 7 jours -> J-1 à J-7)
-	 * Mv(s) : moyenne(nombre d'achat depuis 7 jours)
+	 * Mv(s) : moyenne(nombre de reprise depuis 7 jours)
 	 * Ma(s-1) : moyenne(nombre de vente 7 jours précédent -> J-8 à J-14)
-	 * Mv(s-1) : moyenne(nombre d'achat 7 jours précendent)
+	 * Mv(s-1) : moyenne(nombre de reprise 7 jours précendent)
 	 */
 	protected function initDate() {
 		$date = date("Y-m-d 0:0:0");
@@ -36,19 +36,19 @@ abstract class Bral_Batchs_Boutique extends Bral_Batchs_Batch {
 	
 	/*
 	 * Ma(s) : moyenne(nombre de vente depuis 7 jours -> J-1 à J-7)
-	 * Mv(s) : moyenne(nombre d'achat depuis 7 jours)
+	 * Mv(s) : moyenne(nombre d'reprise depuis 7 jours)
 	 * Ma(s-1) : moyenne(nombre de vente 7 jours précédent -> J-8 à J-14)
-	 * Mv(s-1) : moyenne(nombre d'achat 7 jours précendent)
+	 * Mv(s-1) : moyenne(nombre d'reprise 7 jours précendent)
 	 */
 	protected function calculMoyennes() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - calculMoyennes - enter -");
-		$this->moyenneAchat = $this->nombreAchat / $this->moyenneNbJours;
-		$this->moyenneAchatPrecedent = $this->nombreAchatPrecedent / $this->moyenneNbJours;
+		$this->moyenneReprise = $this->nombreReprise / $this->moyenneNbJours;
+		$this->moyenneReprisePrecedent = $this->nombreReprisePrecedent / $this->moyenneNbJours;
 		$this->moyenneVente = $this->nombreVente / $this->moyenneNbJours;
 		$this->moyenneVentePrecedent = $this->nombreVentePrecedent / $this->moyenneNbJours;
 		
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - calculMoyennes - nombreAchat:".$this->nombreAchat." moyenneAchat:".$this->moyenneAchat);
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - calculMoyennes - nombreAchatPrecedent:".$this->nombreAchatPrecedent." moyenneAchatPrecedent:".$this->moyenneAchatPrecedent);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - calculMoyennes - nombreReprise:".$this->nombreReprise." moyenneReprise:".$this->moyenneReprise);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - calculMoyennes - nombreReprisePrecedent:".$this->nombreReprisePrecedent." moyenneReprisePrecedent:".$this->moyenneReprisePrecedent);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - calculMoyennes - nombreVente:".$this->nombreVente." moyenneVente:".$this->moyenneVente);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - calculMoyennes - nombreVentePrecedent:".$this->nombreVentePrecedent." moyenneVentePrecedent:".$this->moyenneVentePrecedent);
 		
@@ -64,13 +64,13 @@ abstract class Bral_Batchs_Boutique extends Bral_Batchs_Batch {
 	 */
 	protected function calculRatios() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - calculRatios - enter -");
-		if ($this->moyenneAchat > 0) {
-			$this->ratio = $this->moyenneVente / $this->moyenneAchat;
+		if ($this->moyenneReprise > 0) {
+			$this->ratio = $this->moyenneVente / $this->moyenneReprise;
 		} else {
 			$this->ratio = 1;
 		}
-		if ($this->moyenneAchatPrecedent > 0) {
-			$this->ratioPrecedent = $this->moyenneVentePrecedent / $this->moyenneAchatPrecedent;
+		if ($this->moyenneReprisePrecedent > 0) {
+			$this->ratioPrecedent = $this->moyenneVentePrecedent / $this->moyenneReprisePrecedent;
 		} else {
 			$this->ratioPrecedent = 1;
 		}
@@ -80,27 +80,32 @@ abstract class Bral_Batchs_Boutique extends Bral_Batchs_Batch {
 	protected function calculPrix($tabPrix) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - calculPrix - enter -");
 		if ($this->ratio == 1) {
-			//Prix d'achat reste le même, Prix de vente reste le même
-			Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - majStockBois - Cas 1 - Prix d'achat reste le même, Prix de vente reste le même");
+			//Prix d'reprise reste le même, Prix de vente reste le même
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - majStockBois - Cas 1 - Prix d'reprise reste le même, Prix de vente reste le même");
 		} else if ($this->ratio < 1 && $this->ratioPrecedent >=1) {
-			//Prix d'achat augmente : arrsup(PrixAchat/c(s)), Prix de vente reste le même
-			Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - majStockBois - Cas 2 - Prix d'achat augmente : arrsup(PrixAchat/c(s)), Prix de vente reste le même");
-			$tabPrix["prixAchat"] = round($tabPrix["prixAchat"]/$this->ratio);
+			//Prix d'reprise augmente : arrsup(PrixReprise/c(s)), Prix de vente reste le même
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - majStockBois - Cas 2 - Prix d'reprise augmente : arrsup(PrixReprise/c(s)), Prix de vente reste le même");
+			$tabPrix["prixReprise"] = round($tabPrix["prixReprise"]/$this->ratio);
 		} else if ($this->ratio < 1 && $this->ratioPrecedent <1) {
-			//Prix d'achat augmente : arrsup(PrixAchat/c(s)), Prix de vente augmente : arrsup(PrixVente/c(s))
-			Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - majStockBois - Cas 3 - Prix d'achat augmente : arrsup(PrixAchat/c(s)), Prix de vente augmente : arrsup(PrixVente/c(s))");
-			$tabPrix["prixAchat"] = round($tabPrix["prixAchat"]/$this->ratio);
+			//Prix d'reprise augmente : arrsup(PrixReprise/c(s)), Prix de vente augmente : arrsup(PrixVente/c(s))
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - majStockBois - Cas 3 - Prix d'reprise augmente : arrsup(PrixReprise/c(s)), Prix de vente augmente : arrsup(PrixVente/c(s))");
+			$tabPrix["prixReprise"] = round($tabPrix["prixReprise"]/$this->ratio);
 			$tabPrix["prixVente"] = round($tabPrix["prixVente"]/$this->ratio);
 		} else if ($this->ratio > 1 && $this->ratioPrecedent <=1) {
-			//Prix d'achat baisse : arrinf(PrixAchat/c(s))+1, Prix de vente reste le même
-			Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - majStockBois - Cas 4 - Prix d'achat baisse : arrinf(PrixAchat/c(s))+1, Prix de vente reste le même");
-			$tabPrix["prixAchat"] = floor($tabPrix["prixAchat"]/$this->ratio) + 1;
+			//Prix d'reprise baisse : arrinf(PrixReprise/c(s))+1, Prix de vente reste le même
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - majStockBois - Cas 4 - Prix d'reprise baisse : arrinf(PrixReprise/c(s))+1, Prix de vente reste le même");
+			$tabPrix["prixReprise"] = floor($tabPrix["prixReprise"]/$this->ratio) + 1;
 		} else if ($this->ratio > 1 && $this->ratioPrecedent >1) {
-			//Prix d'achat baisse : arrinf(PrixAchat/c(s))+1, Prix de vente baisse : arrinf(PrixVente/c(s))+1
-			Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - majStockBois - Cas 5 - Prix d'achat baisse : arrinf(PrixAchat/c(s))+1, Prix de vente baisse : arrinf(PrixVente/c(s))+1");
-			$tabPrix["prixAchat"] = floor($tabPrix["prixAchat"]/$this->ratio) + 1;
+			//Prix d'reprise baisse : arrinf(PrixReprise/c(s))+1, Prix de vente baisse : arrinf(PrixVente/c(s))+1
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - majStockBois - Cas 5 - Prix d'reprise baisse : arrinf(PrixReprise/c(s))+1, Prix de vente baisse : arrinf(PrixVente/c(s))+1");
+			$tabPrix["prixReprise"] = floor($tabPrix["prixReprise"]/$this->ratio) + 1;
 			$tabPrix["prixVente"] = floor($tabPrix["prixVente"]/$this->ratio) + 1;
 		}
+		
+		if ($tabPrix["prixVente"]  <= 2*$tabPrix["prixReprise"]) {
+			$tabPrix["prixVente"] = 2*$tabPrix["prixReprise"];
+		}
+		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - calculPrix - exit -");
 		return $tabPrix;
 	}

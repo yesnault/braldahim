@@ -51,8 +51,8 @@ class BoutiqueBois extends Zend_Db_Table {
 		return $this->countByDateAndRegion($dateDebut, $dateFin, $idRegion, "vente");
 	}
 	
-	function countAchatByDateAndRegion($dateDebut, $dateFin, $idRegion) {
-		return $this->countByDateAndRegion($dateDebut, $dateFin, $idRegion, "achat");
+	function countRepriseByDateAndRegion($dateDebut, $dateFin, $idRegion) {
+		return $this->countByDateAndRegion($dateDebut, $dateFin, $idRegion, "reprise");
 	}
 	
 	private function countByDateAndRegion($dateDebut, $dateFin, $idRegion, $type) {
@@ -62,7 +62,7 @@ class BoutiqueBois extends Zend_Db_Table {
 		->where('id_fk_region_boutique_bois = ?', $idRegion)
 		->where('date_achat_boutique_bois >= ?', $dateDebut)
 		->where('date_achat_boutique_bois <= ?', $dateFin)
-		->where('action_hobbit_boutique_bois = ?', $type);
+		->where('action_boutique_bois = ?', $type);
 		$sql = $select->__toString();
 		$resultat =  $db->fetchAll($sql);
 		return $resultat[0]["nombre"];
