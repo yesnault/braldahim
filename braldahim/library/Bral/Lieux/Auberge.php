@@ -18,7 +18,7 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Lieu");
 		$this->_coutCastars = $this->calculCoutCastars();
-		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) > 0);
+		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) >= 0);
 	}
 
 	function prepareFormulaire() {
