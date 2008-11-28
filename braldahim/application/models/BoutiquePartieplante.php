@@ -32,7 +32,7 @@ class BoutiquePartieplante extends Zend_Db_Table {
 	function insertOrUpdate($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('boutique_partieplante', 'count(*) as nombre, quantite_boutique_partieplante as quantiteBrute')
+		$select->from('boutique_partieplante', 'count(*) as nombre, quantite_brut_boutique_partieplante as quantiteBrute')
 		->where('id_fk_type_boutique_partieplante = ?',$data["id_fk_type_boutique_partieplante"])
 		->where('id_fk_lieu_boutique_partieplante = ?',$data["id_fk_lieu_boutique_partieplante"])
 		->where('id_fk_type_plante_boutique_partieplante = ?',$data["id_fk_type_plante_boutique_partieplante"])
@@ -45,14 +45,14 @@ class BoutiquePartieplante extends Zend_Db_Table {
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
 			$quantiteBrute = $resultat[0]["quantiteBrute"];
-			$dataUpdate['quantite_boutique_partieplante']  = $quantiteBrute;
+			$dataUpdate['quantite_brut_boutique_partieplante']  = $quantiteBrute;
 			
-			if (isset($data["quantite_boutique_partieplante"])) {
-				$quantiteBrute += $data["quantite_boutique_partieplante"];
+			if (isset($data["quantite_brut_boutique_partieplante"])) {
+				$quantiteBrute += $data["quantite_brut_boutique_partieplante"];
 			};
 			
 			$dataUpdate = array(
-					'quantite_boutique_partieplante' => $quantiteBrute,
+					'quantite_brut_boutique_partieplante' => $quantiteBrute,
 			);
 			
 			$where = ' id_fk_type_boutique_partieplante = '.$data["id_fk_type_boutique_partieplante"];
@@ -73,7 +73,7 @@ class BoutiquePartieplante extends Zend_Db_Table {
 	private function countByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypePartiePlante, $idTypePlante, $type) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('boutique_partieplante', 'count(*) as nombre')
+		$select->from('boutique_partieplante', 'SUM(quantite_brut_boutique_partieplante) as nombre')
 		->where('id_fk_region_boutique_partieplante = ?', $idRegion)
 		->where('date_achat_boutique_partieplante >= ?', $dateDebut)
 		->where('date_achat_boutique_partieplante <= ?', $dateFin)

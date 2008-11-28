@@ -21,12 +21,19 @@ class Bral_Boutique_Acheterpartieplantes extends Bral_Boutique_Boutique {
 	}
 	
 	function prepareCommun() {
-		$this->view->acheterPossible = true;
 		Zend_Loader::loadClass('Bral_Util_BoutiquePlantes');
 		Zend_Loader::loadClass('Region');
+		Zend_Loader::loadClass('StockPartieplante');
+		Zend_Loader::loadClass('BoutiquePartieplante');
+		
+		$this->view->acheterPossible = true;
+		if ($this->view->assezDePa == false) {
+			$this->view->acheterPossible = false;
+		}
+		
 		$regionTable = new Region();
 		$idRegion = $regionTable->findIdRegionByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		$this->view->minerais = Bral_Util_BoutiquePlantes::construireTabPrix(true, $idRegion);
+		$this->view->typePlantes = Bral_Util_BoutiquePlantes::construireTabPrix(true, $idRegion);
 	}
 
 	function prepareFormulaire() {
@@ -64,9 +71,11 @@ class Bral_Boutique_Acheterpartieplantes extends Bral_Boutique_Boutique {
 			$idTypePartiePlante = $this->view->typePlantes["valeurs"]["valeur_".$i]["id_type_partieplante"];
 			$nomTypePlante = $this->view->typePlantes["valeurs"]["valeur_".$i]["nom_type_plante"];
 			$nomTypePartiePlante = $this->view->typePlantes["valeurs"]["valeur_".$i]["nom_type_partieplante"];
+			$idStock = $this->view->typePlantes["valeurs"]["valeur_".$i]["idStock"];
+			$prixUnitaire = $this->view->typePlantes["valeurs"]["valeur_".$i]["idStock"];
 			
 			$prixUnitaire = $this->view->typePlantes["valeurs"]["valeur_".$i]["prixUnitaireVente"];
-			$this->transfertElement($quantite, $prixUnitaire, $idTypePlante, $idTypePartiePlante, $nomTypePlante, $nomTypePartiePlante);
+			$this->transfertElement($quantite, $prixUnitaire, $idTypePlante, $idTypePartiePlante, $nomTypePlante, $nomTypePartiePlante, $prixUnitaire, $idStock);
 		}
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		
@@ -77,7 +86,7 @@ class Bral_Boutique_Acheterpartieplantes extends Bral_Boutique_Boutique {
 		}
 	}
 	
-	private function transfertElement($quantite, $prixUnitaire, $idTypePlante, $idTypePartiePlante, $nomTypePlante, $nomTypePartiePlante) {
+	private function transfertElement($quantite, $prixUnitaire, $idTypePlante, $idTypePartiePlante, $nomTypePlante, $nomTypePartiePlante, $prixUnitaire, $idStock) {
 		
 		if ($this->view->poidsRestant < 0) $this->view->poidsRestant = 0;
 		$nbPossible = floor($this->view->poidsRestant / Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);
@@ -98,10 +107,10 @@ class Bral_Boutique_Acheterpartieplantes extends Bral_Boutique_Boutique {
 		if ($quantite >= 1) {
 			$this->view->coutCastars += $prixTotal;
 			$this->view->poidsRestant = floor($this->view->poidsRestant - ($quantite * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE));
-			$this->transfertEnBase($quantite, $idTypePlante, $idTypePartiePlante);
+			$this->transfertEnBase($quantite, $idTypePlante, $idTypePartiePlante, $prixUnitaire, $idStock);
 			
 			if ($quantite > 1) {$s = 's';} else {$s = '';};
-			$this->view->elementsAchetes .= $quantite;
+			$this->view->elementsAchetes .= "<br>". $quantite;
 			$this->view->elementsAchetes .= " ".$nomTypePartiePlante.$s;
 			$this->view->elementsAchetes .= " ".$nomTypePlante;
 			if ($prixTotal > 1) {$s = 's';} else {$s = '';};
@@ -109,7 +118,7 @@ class Bral_Boutique_Acheterpartieplantes extends Bral_Boutique_Boutique {
 		}
 	}
 	
-	private function transfertEnBase($quantite, $idTypePlante, $idTypePartiePlante) {
+	private function transfertEnBase($quantite, $idTypePlante, $idTypePartiePlante, $prixUnitaire, $idStock) {
 		$data = array(
 			"quantite_laban_partieplante" => $quantite,
 			"id_fk_type_laban_partieplante" => $idTypePartiePlante,
@@ -119,9 +128,30 @@ class Bral_Boutique_Acheterpartieplantes extends Bral_Boutique_Boutique {
 		
 		$labanPartiePlanteTable = new LabanPartieplante();
 		$labanPartiePlanteTable->insertOrUpdate($data);
+		
+		$data = array(
+			"date_achat_boutique_partieplante" => date("Y-m-d H:i:s"),
+			"id_fk_type_boutique_partieplante" => $idTypePartiePlante,
+			"id_fk_type_plante_boutique_partieplante" => $idTypePlante,
+			"id_fk_lieu_boutique_partieplante" => $this->view->idBoutique,
+			"id_fk_hobbit_boutique_partieplante" => $this->view->user->id_hobbit,
+			"quantite_brut_boutique_partieplante" => $quantite,
+			"prix_unitaire_boutique_partieplante" => $prixUnitaire,
+			"id_fk_region_boutique_partieplante" => $this->idRegion,
+			"action_boutique_partieplante" => "vente",
+		);
+		$boutiquePartieplanteTable = new BoutiquePartieplante();
+		$boutiquePartieplanteTable->insert($data);
+		
+		$data = array(
+			"id_stock_partieplante" => $idStock,
+			"nb_brut_restant_stock_partieplante" => -$quantite,
+		);
+		$stockPartieplanteTable = new StockPartieplante();
+		$stockPartieplanteTable->updateStock($data);
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_laban", "box_evenements");
+		return array("box_profil", "box_laban", "box_evenements", "box_bpartieplantes");
 	}
 }

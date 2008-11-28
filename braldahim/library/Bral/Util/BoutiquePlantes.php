@@ -70,12 +70,20 @@ class Bral_Util_BoutiquePlantes {
 				
 				$prixUnitaireVente = null;
 				$prixUnitaireReprise = null;
+				$nbStockInitial = null;
+				$nbStockRestant = null;
+				$dateStock = null;
+				$idStock = null;
 				
 				foreach ($stockPartieplanteRowset as $s) {
 					if ($s["id_fk_type_stock_partieplante"] == $p["id_type_partieplante"] &&
 						$s["id_fk_type_plante_stock_partieplante"] == $t["id_type_plante"]) {
 						$prixUnitaireVente = $s["prix_unitaire_vente_stock_partieplante"];
 						$prixUnitaireReprise = $s["prix_unitaire_reprise_stock_partieplante"];
+						$nbStockInitial = $s["nb_brut_initial_stock_partieplante"];
+						$nbStockRestant = $s["nb_brut_restant_stock_partieplante"];
+						$dateStock = $s["date_stock_partieplante"];
+						$idStock = $s["id_stock_partieplante"];
 						break;
 					}
 				}
@@ -87,6 +95,10 @@ class Bral_Util_BoutiquePlantes {
 				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["id_type_plante"] = $t["id_type_plante"];
 				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["prixUnitaireVente"] = $prixUnitaireVente;
 				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["prixUnitaireReprise"] = $prixUnitaireReprise;
+				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["nbStockInitial"] = $nbStockInitial;
+				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["nbStockRestant"] = $nbStockRestant;
+				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["dateStock"] = $dateStock;
+				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["idStock"] = $idStock;
 				
 				if ($estFormulaire) {
 					$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["id_champ"] = $idChamp;
@@ -94,6 +106,10 @@ class Bral_Util_BoutiquePlantes {
 					$tabTypePlantes["valeurs"][$idChamp]["id_type_partieplante"] = $p["id_type_partieplante"];
 					$tabTypePlantes["valeurs"][$idChamp]["prixUnitaireVente"] = $prixUnitaireVente;
 					$tabTypePlantes["valeurs"][$idChamp]["prixUnitaireReprise"] = $prixUnitaireReprise;
+					$tabTypePlantes["valeurs"][$idChamp]["nbStockInitial"] = $nbStockInitial;
+					$tabTypePlantes["valeurs"][$idChamp]["nbStockRestant"] = $nbStockRestant;
+					$tabTypePlantes["valeurs"][$idChamp]["dateStock"] = $dateStock;
+					$tabTypePlantes["valeurs"][$idChamp]["idStock"] = $idStock;
 					$tabTypePlantes["valeurs"][$idChamp]["nom_type_plante"] = $t["nom_type_plante"];
 					$tabTypePlantes["valeurs"][$idChamp]["nom_type_partieplante"] = $p["nom_type_partieplante"];
 				}

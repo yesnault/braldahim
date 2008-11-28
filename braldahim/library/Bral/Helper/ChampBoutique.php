@@ -17,16 +17,21 @@ class Bral_Helper_ChampBoutique {
 		if (array_key_exists("id_champ", $tab)) {
 			
 			$js = " $('bouton_acheterpartieplantes').disabled = true;";
+			$js .= "if (this.value > ".$tab["nbStockRestant"]."){this.value=".$tab["nbStockRestant"]."} ;";
 			$js .= "for (i=1; i<=$('nb_valeurs').value; i++) { if ($('valeur_' + i).value > 0) { $('bouton_acheterpartieplantes').disabled = false;}}";
 			
 			$retour = "<input type='text' maxlength='5' size='2' name='".$tab["id_champ"]."' id='".$tab["id_champ"]."' value='0' ";
 			$retour .= "onkeypress=\"chiffres(event);\"  ";
 			$retour .= "onkeyup=\"".$js."\">";
-			$retour .= "<span style='cursor:pointer' title='Prix ".$tab["prixUnitaireVente"]." castar";
+			$retour .= "<span style='cursor:pointer' title='Prix : ".$tab["prixUnitaireVente"]." castar";
 			if ($tab["prixUnitaireVente"] > 1) $retour.= "s";
-			$retour .= "'> [P] </span>";
+			$retour .= "    Stock restant : ".$tab["nbStockRestant"];
+			$retour .= "'> [?] </span>";
 		} else {
-			$retour .= $tab["prixUnitaireVente"];
+			$retour .= "Prix Achat: ".$tab["prixUnitaireVente"].'c';
+			$retour .= "<br>Prix Reprise: ".$tab["prixUnitaireReprise"].'c';
+			$retour .= "<br><span style='cursor:pointer' title='Stock Initial au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Initial: ".$tab["nbStockInitial"]."</span>";
+			$retour .= "<br><span style='cursor:pointer' title='Stock Restant au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Restant: ".$tab["nbStockRestant"]."</span>";
 		}
 		return $retour;
 	}
@@ -36,17 +41,24 @@ class Bral_Helper_ChampBoutique {
 		if (array_key_exists("id_champ", $tab)) {
 			
 			$js = " $('bouton_acheterminerais').disabled = true;";
+			$js .= "if (this.value > ".$tab["nbStockRestant"]."){this.value=".$tab["nbStockRestant"]."} ;";
 			$js .= "for (i=1; i<=$('nb_valeurs').value; i++) { if ($('valeur_' + i).value > 0) { $('bouton_acheterminerais').disabled = false;}}";
 			
-			$retour = "<input type='text' maxlength='5' size='2' name='".$tab["id_champ"]."' id='".$tab["id_champ"]."' value='0' ";
+			$s = "";
+			if ($tab["prixUnitaireVente"] > 1) $s = "s";
+			
+			$retour = "<span style='cursor:pointer' title='Prix ".$tab["prixUnitaireVente"]." castar".$s."'>";
+			$retour .= "Prix ".$tab["prixUnitaireVente"]."c</span>";
+			$retour .= "<br><span style='cursor:pointer' title='Stock Restant ".$tab["nbStockRestant"]."'>Stock ".$tab["nbStockRestant"]."</span>";
+			$retour .= "<br><input type='text' maxlength='5' size='2' name='".$tab["id_champ"]."' id='".$tab["id_champ"]."' value='0' ";
 			$retour .= "onkeypress=\"chiffres(event);\"  ";
 			$retour .= "onkeyup=\"".$js."\">";
-			$retour .= "<span style='cursor:pointer' title='Prix ".$tab["prixUnitaireVente"]." castar";
-			if ($tab["prixUnitaireVente"] > 1) $retour.= "s";
-			$retour .= "'> ".$tab["prixUnitaireVente"]."c </span>";
+			
 		} else {
 			$retour .= "Prix Achat: ".$tab["prixUnitaireVente"].'c';
 			$retour .= "<br>Prix Reprise: ".$tab["prixUnitaireReprise"].'c';
+			$retour .= "<br><span style='cursor:pointer' title='Stock Initial au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Initial: ".$tab["nbStockInitial"]."</span>";
+			$retour .= "<br><span style='cursor:pointer' title='Stock Restant au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Restant: ".$tab["nbStockRestant"]."</span>";
 		}
 		return $retour;
 	}

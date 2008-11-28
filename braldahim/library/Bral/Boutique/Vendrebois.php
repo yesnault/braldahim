@@ -126,7 +126,7 @@ class Bral_Boutique_Vendrebois extends Bral_Boutique_Boutique {
 				"action_boutique_bois" => "reprise",
 			);
 			$boutiqueBoisTable = new BoutiqueBois();
-			$boutiqueBoisTable->insertOrUpdate($data);
+			$boutiqueBoisTable->insert($data);
 		}
 		
 	}

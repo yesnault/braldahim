@@ -36,6 +36,10 @@ class Bral_Util_BoutiqueMinerais {
 				if ($s["id_fk_type_stock_minerai"] == $t->id_type_minerai) {
 					$prixUnitaireVente = $s["prix_unitaire_vente_stock_minerai"];
 					$prixUnitaireReprise = $s["prix_unitaire_reprise_stock_minerai"];
+					$nbStockInitial = $s["nb_brut_initial_stock_minerai"];
+					$nbStockRestant = $s["nb_brut_restant_stock_minerai"];
+					$dateStock = $s["date_stock_minerai"];
+					$idStock = $s["id_stock_minerai"];
 					break;
 				}
 			}
@@ -47,8 +51,12 @@ class Bral_Util_BoutiqueMinerais {
 				"id_type_minerai" => $t->id_type_minerai, 
 				"nom_systeme" => $t->nom_systeme_type_minerai, 
 				"description" => $t->description_type_minerai,
+				"idStock" => $idStock,
+				"dateStock" => $dateStock,
 				"prixUnitaireVente" => $prixUnitaireVente,
 				"prixUnitaireReprise" => $prixUnitaireReprise,
+				"nbStockInitial" => $nbStockInitial,
+				"nbStockRestant" => $nbStockRestant,
 				"type" => $t->nom_type_minerai,
 			);
 			

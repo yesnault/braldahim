@@ -18,15 +18,22 @@ class Bral_Util_BoutiqueBois {
 		$stockBoisTable = new StockBois();
 		$stockBoisRowset = $stockBoisTable->findDernierStockByIdRegion($idRegion);
 		$tabPrix = null;
-		foreach($stockBoisRowset as $s) {
-			$tabPrix[] = array(
-				'date_stock_bois' => $s["date_stock_bois"],
-				'nb_rondin_initial_stock_bois' => $s["nb_rondin_initial_stock_bois"],
-				'nb_rondin_restant_stock_bois' => $s["nb_rondin_restant_stock_bois"],
-				'prix_unitaire_vente_stock_bois' => $s["prix_unitaire_vente_stock_bois"],
-				'prix_unitaire_reprise_stock_bois' => $s["prix_unitaire_reprise_stock_bois"],
-			);
+		
+		if (count($stockBoisRowset) != 1) {
+			throw new Zend_Exception(get_class($this)."::construireTabStockPrix count(stockBoisRowset) != 1 :".count($stockBoisRowset));
 		}
+		
+		$s = $stockBoisRowset[0];
+		$tabPrix[] = array(
+			'id_stock_bois' => $s["id_stock_bois"],
+			'date_stock_bois' => $s["date_stock_bois"],
+			'nb_rondin_initial_stock_bois' => $s["nb_rondin_initial_stock_bois"],
+			'nb_rondin_restant_stock_bois' => $s["nb_rondin_restant_stock_bois"],
+			'prix_unitaire_vente_stock_bois' => $s["prix_unitaire_vente_stock_bois"],
+			'prix_unitaire_reprise_stock_bois' => $s["prix_unitaire_reprise_stock_bois"],
+			'nb_rondin_initial_stock_bois' => $s["nb_rondin_initial_stock_bois"],
+			'nb_rondin_restant_stock_bois' => $s["nb_rondin_restant_stock_bois"],
+		);
 		
 		return $tabPrix;
 	}

@@ -24,15 +24,9 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("Bral_Util_BoutiqueBois");
 		Zend_Loader::loadClass("StockBois");
+		Zend_Loader::loadClass("BoutiqueBois");
 		
-		$stockBoisTable = new StockBois();
 		
-		$stockBoisRowset = $stockBoisTable->findDernierStockByIdRegion($this->idRegion);
-		if (count($stockBoisRowset) != 1) {
-			throw new Zend_Exception(get_class($this)."::count(stockBoisRowset) != 1 :".count($stockBoisRowset));
-		}
-		$this->view->nbStockRestant = intval($stockBoisRowset[0]["nb_rondin_restant_stock_bois"]);
-		$this->idStock = $stockBoisRowset[0]["id_stock_bois"];
 		
 		$this->preparePrix();
 	}
@@ -80,7 +74,10 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 			Bral_Util_Log::erreur()->err("Bral_Box_Bbois - Erreur de prix dans la table stock_bois, id_region=".$this->idRegion );
 			throw new Zend_Exception(get_class($this)."::Erreur de prix dans la table stock_bois, id_region=".$this->idRegion );
 		}
+		
 		$this->view->tabStockPrix = $tabStockPrix[0];
+		$this->view->nbStockRestant = intval($this->view->tabStockPrix["nb_rondin_restant_stock_bois"]);
+		$this->idStock = $this->view->tabStockPrix["id_stock_bois"];
 		
 		$this->view->prixUnitaire = floor($this->view->tabStockPrix["prix_unitaire_vente_stock_bois"]);
 		$this->view->nombreMaximum = floor($this->view->user->castars_hobbit / $this->view->tabStockPrix["prix_unitaire_vente_stock_bois"]);
@@ -124,9 +121,6 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 	}
 	
 	private function transfert() {
-		Zend_Loader::loadClass("BoutiqueBois");
-		Zend_Loader::loadClass("Charrette");
-		
 		$this->view->coutCastars = floor($this->view->quantiteAchetee * $this->view->prixUnitaire);
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		
@@ -148,7 +142,7 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 			"action_boutique_bois" => "vente",
 		);
 		$boutiqueBoisTable = new BoutiqueBois();
-		$boutiqueBoisTable->insertOrUpdate($data);
+		$boutiqueBoisTable->insert($data);
 		
 		$data = array(
 			"id_stock_bois" => $this->idStock,

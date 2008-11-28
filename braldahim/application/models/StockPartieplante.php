@@ -24,9 +24,21 @@ class StockPartieplante extends Zend_Db_Table {
 		
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('stock_partieplante', array('max(date_stock_partieplante) as date_stock_partieplante', 'id_fk_type_stock_partieplante', 'id_fk_type_plante_stock_partieplante', 'nb_brut_initial_stock_partieplante', 'nb_brut_restant_stock_partieplante', 'prix_unitaire_vente_stock_partieplante', 'prix_unitaire_reprise_stock_partieplante'))
+		$select->from('stock_partieplante', array('max(date_stock_partieplante) as date_stock_partieplante'))
 		->where($where.'id_fk_region_stock_partieplante  = ?', $idRegion)
-		->group(array('id_fk_type_stock_partieplante', 'id_fk_type_plante_stock_partieplante', 'nb_brut_initial_stock_partieplante', 'nb_brut_restant_stock_partieplante', 'prix_unitaire_vente_stock_partieplante', 'prix_unitaire_reprise_stock_partieplante'));
+		->where('date_stock_partieplante < ?', date("Y-m-d 23:59:59"));
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		if (count($resultat) != 1) {
+			throw new Zend_Exception("StockMinerai::findDernierStockByIdRegion count invalide:".count($resultat). " idregion:".$idRegion);
+		}
+		
+		$select = $db->select();
+		$select->from('stock_partieplante', '*')
+		->where('id_fk_region_stock_partieplante  = ?', $idRegion)
+		->where($where.'date_stock_partieplante = ?', $resultat[0]["date_stock_partieplante"]);
+		
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -55,5 +67,26 @@ class StockPartieplante extends Zend_Db_Table {
 		->order(array('date_stock_partieplante DESC'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
+	}
+	
+	public function updateStock($data) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('stock_partieplante', 'nb_brut_restant_stock_partieplante as quantiteBrutRestant')
+		->where('id_stock_partieplante = ?',$data["id_stock_partieplante"]);
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		if (count($resultat) != 1) {
+			throw new Zend_Exception("StockMinerai::updateStock count invalide:".count($resultat). " id_stock_partieplante:".$data["id_stock_partieplante"]);
+		}
+		
+		$quantiteBrutRestant = $resultat[0]["quantiteBrutRestant"];
+		$dataUpdate['nb_brut_restant_stock_partieplante'] = $quantiteBrutRestant + $data["nb_brut_restant_stock_partieplante"];
+		
+		if (isset($dataUpdate)) {
+			$where = 'id_stock_partieplante = '.$data["id_stock_partieplante"];
+			$this->update($dataUpdate, $where);
+		}
 	}
 }

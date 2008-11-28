@@ -5,15 +5,15 @@
  <div class='comp_contenu'>
 	Co&ucirc;t du service : <?=$this->nb_pa ?> PA<br />
 	
-	<? if ($this->acheterPossible === true) : ?>
+	<? if ($this->assezDePa === false) :?>
+		Vous n'avez pas assez de PA.
+	<? elseif ($this->acheterPossible === true) : ?>
 		Vous avez <?=$this->user->castars_hobbit?> castar<? if ($this->user->castars_hobbit > 1): echo 's'; endif; ?>.<br>
 		
 		<br>Indiquez la quantit&eacute; souhait&eacute;e pour chaque type.
 		
 		<?=$this->render("/interface/commun/plantes/plantes.phtml"); ?>
 
-	<? elseif ($this->assezDePa === false) :?>
-		Vous n'avez pas assez de PA.
 	<? else : ?>
 		Vous n'avez pas assez de castars.
 	<? endif;?>

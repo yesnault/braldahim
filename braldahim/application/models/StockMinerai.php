@@ -23,10 +23,23 @@ class StockMinerai extends Zend_Db_Table {
 		
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('stock_minerai', array('max(date_stock_minerai) as date_stock_minerai', 'id_fk_type_stock_minerai', 'nb_brut_initial_stock_minerai', 'nb_brut_restant_stock_minerai', 'prix_unitaire_vente_stock_minerai', 'prix_unitaire_reprise_stock_minerai'))
-		->where($where.' id_fk_region_stock_minerai  = ?', $idRegion)
-		->group(array('id_fk_type_stock_minerai', 'nb_brut_initial_stock_minerai', 'nb_brut_restant_stock_minerai', 'prix_unitaire_vente_stock_minerai', 'prix_unitaire_reprise_stock_minerai'));
+		$select->from('stock_minerai', array('max(date_stock_minerai) as date_stock_minerai'))
+		->where($where.'id_fk_region_stock_minerai  = ?', $idRegion)
+		->where('date_stock_minerai < ?', date("Y-m-d 23:59:59"));
 		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		if (count($resultat) != 1) {
+			throw new Zend_Exception("StockMinerai::findDernierStockByIdRegion count invalide:".count($resultat). " idregion:".$idRegion);
+		}
+		
+		$select = $db->select();
+		$select->from('stock_minerai', '*')
+		->where('id_fk_region_stock_minerai  = ?', $idRegion)
+		->where($where.'date_stock_minerai = ?', $resultat[0]["date_stock_minerai"]);
+		
+		$sql = $select->__toString();
+		
 		return $db->fetchAll($sql);
 	}
 	
@@ -51,5 +64,26 @@ class StockMinerai extends Zend_Db_Table {
 		->order(array('date_stock_minerai DESC'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
+	}
+	
+	public function updateStock($data) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('stock_minerai', 'nb_brut_restant_stock_minerai as quantiteBrutRestant')
+		->where('id_stock_minerai = ?',$data["id_stock_minerai"]);
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		if (count($resultat) != 1) {
+			throw new Zend_Exception("StockMinerai::updateStock count invalide:".count($resultat). " id_stock_minerai:".$data["id_stock_minerai"]);
+		}
+		
+		$quantiteBrutRestant = $resultat[0]["quantiteBrutRestant"];
+		$dataUpdate['nb_brut_restant_stock_minerai'] = $quantiteBrutRestant + $data["nb_brut_restant_stock_minerai"];
+		
+		if (isset($dataUpdate)) {
+			$where = 'id_stock_minerai = '.$data["id_stock_minerai"];
+			$this->update($dataUpdate, $where);
+		}
 	}
 }

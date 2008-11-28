@@ -24,29 +24,6 @@ class BoutiqueBois extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function insertOrUpdate($data) {
-		$db = $this->getAdapter();
-		$select = $db->select();
-		$select->from('boutique_bois', 'quantite_rondin_boutique_bois as quantiteRondin')
-		->where('id_fk_lieu_boutique_bois = ?',$data["id_fk_lieu_boutique_bois"])
-		->where('date_achat_boutique_bois = ?',$data["date_achat_boutique_bois"]);
-		$sql = $select->__toString();
-		$resultat = $db->fetchAll($sql);
-
-		if (count($resultat) == 0) { // insert
-			$this->insert($data);
-		} else { // update
-			$quantiteRodin = $resultat[0]["quantiteRondin"];
-			if (isset($data["quantite_rondin_boutique_bois"])) {
-				$dataUpdate['quantite_rondin_boutique_bois'] = $quantiteRodin + $data["quantite_rondin_boutique_bois"];
-			}
-			if (isset($dataUpdate)) {
-				$where = 'id_fk_lieu_boutique_bois = '.$data["id_fk_lieu_boutique_bois"];
-				$this->update($dataUpdate, $where);
-			}
-		}
-	}
-	
 	function countVenteByDateAndRegion($dateDebut, $dateFin, $idRegion) {
 		return $this->countByDateAndRegion($dateDebut, $dateFin, $idRegion, "vente");
 	}
@@ -58,7 +35,7 @@ class BoutiqueBois extends Zend_Db_Table {
 	private function countByDateAndRegion($dateDebut, $dateFin, $idRegion, $type) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('boutique_bois', 'count(*) as nombre')
+		$select->from('boutique_bois', 'SUM(quantite_rondin_boutique_bois) as nombre')
 		->where('id_fk_region_boutique_bois = ?', $idRegion)
 		->where('date_achat_boutique_bois >= ?', $dateDebut)
 		->where('date_achat_boutique_bois <= ?', $dateFin)

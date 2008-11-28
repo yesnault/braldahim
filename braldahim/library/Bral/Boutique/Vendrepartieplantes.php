@@ -115,6 +115,6 @@ class Bral_Boutique_Deposerressources extends Bral_Boutique_Boutique {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_laban", "box_charrette", "box_profil", "box_evenements");
+		return array("box_laban", "box_charrette", "box_profil", "box_evenements", "box_bpartieplantes");
 	}
 }

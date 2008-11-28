@@ -21,9 +21,12 @@ class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 	}
 	
 	function prepareCommun() {
-		$this->view->acheterPossible = true;
 		Zend_Loader::loadClass('Bral_Util_BoutiqueMinerais');
 		Zend_Loader::loadClass('Region');
+		Zend_Loader::loadClass('StockMinerai');
+		Zend_Loader::loadClass('BoutiqueMinerai');
+		
+		$this->view->acheterPossible = true;
 		$this->view->minerais = Bral_Util_BoutiqueMinerais::construireTabPrix(true, $this->idRegion);
 	}
 
@@ -59,9 +62,15 @@ class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 			
 			$idTypeMinerai = $m["id_type_minerai"];
 			$nomTypeMinerai = $m["type"];
+			$idStock = $m["idStock"];
 			
-			$prixUnitaire = $m["prixUnitaire"];
-			$this->transfertElement($quantite, $prixUnitaire, $idTypeMinerai, $nomTypeMinerai);
+			$prixUnitaire = $m["prixUnitaireVente"];
+			
+			if ($quantite > $m["nbStockRestant"]) {
+				$quantite = $m["nbStockRestant"];
+			}
+			
+			$this->transfertElement($quantite, $prixUnitaire, $idTypeMinerai, $nomTypeMinerai, $idStock);
 		}
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		
@@ -72,7 +81,7 @@ class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 		}
 	}
 	
-	private function transfertElement($quantite, $prixUnitaire, $idTypeMinerai, $nomTypeMinerai) {
+	private function transfertElement($quantite, $prixUnitaire, $idTypeMinerai, $nomTypeMinerai, $idStock) {
 		
 		if ($this->view->poidsRestant < 0) $this->view->poidsRestant = 0;
 		$nbPossible = floor($this->view->poidsRestant / Bral_Util_Poids::POIDS_MINERAI);
@@ -93,17 +102,17 @@ class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 		if ($quantite >= 1) {
 			$this->view->coutCastars += $prixTotal;
 			$this->view->poidsRestant = floor($this->view->poidsRestant - ($quantite * Bral_Util_Poids::POIDS_MINERAI));
-			$this->transfertEnBase($quantite, $idTypeMinerai);
+			$this->transfertEnBase($quantite, $idTypeMinerai, $prixUnitaire, $idStock);
 			
 			if ($quantite > 1) {$s = 's';} else {$s = '';};
-			$this->view->elementsAchetes .= $quantite;
+			$this->view->elementsAchetes .= "<br>".$quantite;
 			$this->view->elementsAchetes .= " minerai".$s." ".$nomTypeMinerai;
 			if ($prixTotal > 1) {$s = 's';} else {$s = '';};
 			$this->view->elementsAchetes .= " pour ".$prixTotal." castar".$s.", ";
 		}
 	}
 	
-	private function transfertEnBase($quantite, $idTypeMinerai) {
+	private function transfertEnBase($quantite, $idTypeMinerai, $prixUnitaire, $idStock) {
 		$data = array(
 			"quantite_brut_laban_minerai" => $quantite,
 			"id_fk_type_laban_minerai" => $idTypeMinerai,
@@ -112,9 +121,29 @@ class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 		
 		$labanMineraiTable = new LabanMinerai();
 		$labanMineraiTable->insertOrUpdate($data);
+		
+		$data = array(
+			"date_achat_boutique_minerai" => date("Y-m-d H:i:s"),
+			"id_fk_type_boutique_minerai" => $idTypeMinerai,
+			"id_fk_lieu_boutique_minerai" => $this->view->idBoutique,
+			"id_fk_hobbit_boutique_minerai" => $this->view->user->id_hobbit,
+			"quantite_brut_boutique_minerai" => $quantite,
+			"prix_unitaire_boutique_minerai" => $prixUnitaire,
+			"id_fk_region_boutique_minerai" => $this->idRegion,
+			"action_boutique_minerai" => "vente",
+		);
+		$boutiqueMineraiTable = new BoutiqueMinerai();
+		$boutiqueMineraiTable->insert($data);
+		
+		$data = array(
+			"id_stock_minerai" => $idStock,
+			"nb_brut_restant_stock_minerai" => -$quantite,
+		);
+		$stockMineraiTable = new StockMinerai();
+		$stockMineraiTable->updateStock($data);
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_laban", "box_evenements");
+		return array("box_profil", "box_laban", "box_evenements", "box_bminerais");
 	}
 }

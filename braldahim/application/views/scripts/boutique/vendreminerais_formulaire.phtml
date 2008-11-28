@@ -2,7 +2,7 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='<?=$this->nb_valeurs ?>'>
  <form name='myForm'>
  <div class='comp_contenu'>
- 	Vous pouvez d&eacute;poser des minerais bruts pr&eacute;sentes dans votre laban.<br />
+ 	Vous pouvez vendre des minerais bruts pr&eacute;sents dans votre laban.<br />
  	
 	<br />
    <? if ($this->nb_minerai_brut == 0 ) : ?>
@@ -21,8 +21,11 @@
     	<td>
     		<?=htmlspecialchars($m["type"])?> - brut<? if ($m["quantite_brut_laban_minerai"] > 0) echo "s" ?> : <?=$m["quantite_brut_laban_minerai"]?>
     		<br />
-    		Quantit&eacute; &agrave; d&eacute;poser -  
-    		Brut : <input type='text' maxlength='4' size='4' name='valeur_<?=$k ?>' id='valeur_<?=$k ?>' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_brut_laban_minerai"] ?>) { alert('Valeur trop grande'); this.value = 0 }; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_vendreminerais').disabled=false;}else{$('bouton_vendreminerais').disabled=true;}" >
+    		<? if ($m["prixUnitaireReprise"] > 1): $s='s'; else: $s=''; endif; ?>
+    		Prix Reprise : <?=$m["prixUnitaireReprise"] ?> castar<?=$s?><br>
+    		Quantit&eacute; &agrave; vendre  <br>
+    		<input type='text' maxlength='4' size='4' name='valeur_<?=$k ?>' id='valeur_<?=$k ?>' value='0' onkeypress="chiffres(event);" 
+    		onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_brut_laban_minerai"] ?>) { this.value = <?=$m["quantite_brut_laban_minerai"] ?> }; v=false;for (i=1;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_vendreminerais').disabled=false;}else{$('bouton_vendreminerais').disabled=true;}" >
     	
     		<input type='hidden' maxlength='4' size='4' name='valeur_<?=$k?>_max' id='valeur_<?=$k?>_max' value='<?=$m["quantite_brut_laban_minerai"]?>' >
     	</td>
