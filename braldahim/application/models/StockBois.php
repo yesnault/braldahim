@@ -14,17 +14,29 @@ class StockBois extends Zend_Db_Table {
 	protected $_name = 'stock_bois';
 	protected $_primary = array('id_stock_bois');
 	
-	function findDernierStockByIdRegion($idRegion) {
+	public function findDernierStockByIdRegion($idRegion) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('stock_bois', array('max(date_stock_bois) as date_stock_bois', 'nb_rondin_initial_stock_bois', 'nb_rondin_restant_stock_bois', 'prix_unitaire_vente_stock_bois', 'prix_unitaire_reprise_stock_bois'))
-		->where('id_fk_region_stock_bois  = ?', $idRegion)
-		->group(array('nb_rondin_initial_stock_bois', 'nb_rondin_restant_stock_bois', 'prix_unitaire_vente_stock_bois', 'prix_unitaire_reprise_stock_bois'));
+		$select->from('stock_bois', array('max(date_stock_bois) as date_stock_bois'))
+		->where('id_fk_region_stock_bois  = ?', $idRegion);
 		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		if (count($resultat) != 1) {
+			throw new Zend_Exception("StockBois::findDernierStockByIdRegion count invalide:".count($resultat). " idregion:".$idRegion);
+		}
+		
+		$select = $db->select();
+		$select->from('stock_bois', '*')
+		->where('id_fk_region_stock_bois  = ?', $idRegion)
+		->where('date_stock_bois = ?', $resultat[0]["date_stock_bois"]);
+		
+		$sql = $select->__toString();
+		
 		return $db->fetchAll($sql);
 	}
 	
-	function findByDate($mDate) {
+	public function findByDate($mDate) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('stock_bois', '*')
@@ -36,7 +48,7 @@ class StockBois extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function findDistinctDate() {
+	public function findDistinctDate() {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('stock_bois', 'distinct(date_stock_bois) as date_stock_bois')
@@ -45,4 +57,24 @@ class StockBois extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
+	public function updateStock($data) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('stock_bois', 'nb_rondin_restant_stock_bois as quantiteRondinRestant')
+		->where('id_stock_bois = ?',$data["id_stock_bois"]);
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		if (count($resultat) != 1) {
+			throw new Zend_Exception("StockBois::updateStock count invalide:".count($resultat). " id_stock_bois:".$data["id_stock_bois"]);
+		}
+		
+		$quantiteRondinRestant = $resultat[0]["quantiteRondinRestant"];
+		$dataUpdate['nb_rondin_restant_stock_bois'] = $quantiteRondinRestant + $data["nb_rondin_restant_stock_bois"];
+		
+		if (isset($dataUpdate)) {
+			$where = 'id_stock_bois = '.$data["id_stock_bois"];
+			$this->update($dataUpdate, $where);
+		}
+	}
 }

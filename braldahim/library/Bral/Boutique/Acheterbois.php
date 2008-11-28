@@ -23,6 +23,16 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("Bral_Util_BoutiqueBois");
+		Zend_Loader::loadClass("StockBois");
+		
+		$stockBoisTable = new StockBois();
+		
+		$stockBoisRowset = $stockBoisTable->findDernierStockByIdRegion($this->idRegion);
+		if (count($stockBoisRowset) != 1) {
+			throw new Zend_Exception(get_class($this)."::count(stockBoisRowset) != 1 :".count($stockBoisRowset));
+		}
+		$this->view->nbStockRestant = intval($stockBoisRowset[0]["nb_rondin_restant_stock_bois"]);
+		$this->idStock = $stockBoisRowset[0]["id_stock_bois"];
 		
 		$this->preparePrix();
 	}
@@ -52,6 +62,10 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 			throw new Zend_Exception("Bral_Boutique_Acheterbois :: Nombre invalide : ".$nombre. " max:".$this->view->nombreMaximum);
 		}
 		
+		if ($this->view->quantiteAchetee > $this->view->nbStockRestant) {
+			throw new Zend_Exception("Bral_Boutique_Acheterbois :: Nombre invalide : ".$nombre. " max (stock):".$this->view->nombreMaximum);
+		}
+		
 		if ($this->view->quantiteAchetee == 0) {
 			throw new Zend_Exception("Bral_Boutique_Acheterbois :: Nombre invalide 0");
 		}
@@ -61,15 +75,10 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 	
 	private function preparePrix() {
 		
-		Zend_Loader::loadClass("Region");
-		
-		$regionTable = new Region();
-		$idRegion = $regionTable->findIdRegionByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		
-		$tabStockPrix = Bral_Util_BoutiqueBois::construireTabStockPrix($idRegion);
+		$tabStockPrix = Bral_Util_BoutiqueBois::construireTabStockPrix($this->idRegion );
 		if ($tabStockPrix == null || count($tabStockPrix) != 1) {
-			Bral_Util_Log::erreur()->err("Bral_Box_Bbois - Erreur de prix dans la table stock_bois, id_region=".$idRegion);
-			throw new Zend_Exception(get_class($this)."::Erreur de prix dans la table stock_bois, id_region=".$idRegion);
+			Bral_Util_Log::erreur()->err("Bral_Box_Bbois - Erreur de prix dans la table stock_bois, id_region=".$this->idRegion );
+			throw new Zend_Exception(get_class($this)."::Erreur de prix dans la table stock_bois, id_region=".$this->idRegion );
 		}
 		$this->view->tabStockPrix = $tabStockPrix[0];
 		
@@ -77,6 +86,16 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 		$this->view->nombreMaximum = floor($this->view->user->castars_hobbit / $this->view->tabStockPrix["prix_unitaire_vente_stock_bois"]);
 		
 		$this->view->placeDisponible = true;
+		$this->view->stockPossible = true;
+		
+		if ($this->view->nbStockRestant < 1) {
+			$this->view->stockPossible = false;
+			$this->view->nombreMaximum = 0;
+		}
+		
+		if ($this->view->nombreMaximum > $this->view->nbStockRestant) {
+			$this->view->nombreMaximum = $this->view->nbStockRestant;
+		}
 		
 		if ($this->view->nombreMaximum < 1 || $this->view->assezDePa == false) {
 			$this->view->acheterPossible = false;
@@ -89,6 +108,9 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 				$this->view->possedeCharrette = true;
 				if ($this->view->nombreMaximum > $this->view->tabPoidsRondinsCharrette["nb_rondins_transportables"] - $this->view->tabPoidsRondinsCharrette["nb_rondins_presents"]) {
 					$this->view->nombreMaximum = $this->view->tabPoidsRondinsCharrette["nb_rondins_transportables"] - $this->view->tabPoidsRondinsCharrette["nb_rondins_presents"];
+					if ($this->view->nombreMaximum > $this->view->nbStockRestant) {
+						$this->view->nombreMaximum = $this->view->nbStockRestant;
+					}
 					if ($this->view->nombreMaximum < 1) {
 						$this->view->placeDisponible = false;
 						$this->view->acheterPossible = false;
@@ -104,7 +126,7 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 	private function transfert() {
 		Zend_Loader::loadClass("BoutiqueBois");
 		Zend_Loader::loadClass("Charrette");
-		Zend_Loader::loadClass("Region");
+		
 		$this->view->coutCastars = floor($this->view->quantiteAchetee * $this->view->prixUnitaire);
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		
@@ -116,23 +138,28 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 		$charretteTable->updateCharrette($data);
 		unset($charretteTable);
 		
-		$regionTable = new Region();
-		$idRegion = $regionTable->findIdRegionByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		
 		$data = array(
 			"date_achat_boutique_bois" => date("Y-m-d H:i:s"),
 			"id_fk_lieu_boutique_bois" => $this->view->idBoutique,
 			"id_fk_hobbit_boutique_bois" => $this->view->user->id_hobbit,
 			"quantite_rondin_boutique_bois" => $this->view->quantiteAchetee,
 			"prix_unitaire_boutique_bois" => $this->view->prixUnitaire,
-			"id_fk_region_boutique_bois" => $idRegion,
+			"id_fk_region_boutique_bois" => $this->idRegion,
 			"action_boutique_bois" => "vente",
 		);
 		$boutiqueBoisTable = new BoutiqueBois();
 		$boutiqueBoisTable->insertOrUpdate($data);
+		
+		$data = array(
+			"id_stock_bois" => $this->idStock,
+			"nb_rondin_restant_stock_bois" => -$this->view->quantiteAchetee,
+		);
+		$stockBoisTable = new StockBois();
+		$stockBoisTable->updateStock($data);
+		
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_laban", "box_charrette", "box_evenements");
+		return array("box_profil", "box_laban", "box_charrette", "box_evenements", "box_bbois");
 	}
 }

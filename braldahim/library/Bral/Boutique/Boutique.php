@@ -29,6 +29,12 @@ abstract class Bral_Boutique_Boutique {
 		$lieuRowset = $lieuxTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		unset($lieuxTable);
 		
+		Zend_Loader::loadClass("Region");
+		
+		$regionTable = new Region();
+		$this->idRegion = $regionTable->findIdRegionByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		unset($regionTable);
+		
 		if (count($lieuRowset) <= 0) {
 			throw new Zend_Exception("Bral_Box_Boutique::nombre de lieux invalide <= 0 !");
 		} elseif (count($lieuRowset) > 1) {

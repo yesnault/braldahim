@@ -10,7 +10,10 @@
 	
 	Co&ucirc;t du service : <?=$this->nb_pa ?> PA<br /><br />
 	
-	Prix unitaire : <?=$this->tabStockPrix["prix_unitaire_vente_stock_bois"] ?> Castars.
+	Prix unitaire : <?=$this->tabStockPrix["prix_unitaire_vente_stock_bois"] ?> castars.
+	<br>
+	<? if ($this->nbStockRestant > 1): $s='s'; else: $s=''; endif;?>
+	Stock restant : <?=$this->nbStockRestant ?> rondin<?=$s?>.<br>
 	
 	<? if ($this->possedeCharrette === true) : ?>
 		<? if ($this->tabPoidsRondinsCharrette["nb_rondins_presents"] > 1) : $s = 's'; else: $s = ''; endif; ?>
@@ -25,6 +28,8 @@
 		Vous pouvez donc acheter <?=$this->nombreMaximum ?> article<? if ($this->nombreMaximum > 1): echo 's'; endif; ?>.
 	<? elseif ($this->assezDePa === false) :?>
 		Vous n'avez pas assez de PA.
+	<? elseif ($this->stockPossible === false) :?>
+		Il n'y a plus rien en stock !
 	<? elseif ($this->possedeCharrette === false) :?>
 		Vous n'avez pas de charrette pour stocker les rondins !
 	<? elseif ($this->placeDisponible === false) :?>
@@ -36,7 +41,7 @@
 	
 	<? if ($this->acheterPossible === true && $this->assezDePa === true && $this->possedeCharrette === true) : ?>
 	 Quantit&eacute; &agrave; acheter :
-	 <input type='text' maxlength='7' size='7' name='valeur_1' id='valeur_1' value='0' onkeypress="chiffres(event);"  onkeyup="if (this.value > 0 && $('valeur_1').value > 0 && $('valeur_1').value <=<?=$this->nombreMaximum  ?>) {$('bouton_acheterbois').disabled=false} else {$('bouton_acheterbois').disabled=true} ">
+	 <input type='text' maxlength='7' size='7' name='valeur_1' id='valeur_1' value='0' onkeypress="chiffres(event);"  onkeyup="if (this.value > 0 && $('valeur_1').value > 0 && $('valeur_1').value <=<?=$this->nombreMaximum  ?> && $('valeur_1').value <=<?=$this->nbStockRestant ?>) {$('bouton_acheterbois').disabled=false} else {$('bouton_acheterbois').disabled=true} ">
  	<? endif; ?>
  </div>
 
