@@ -61,14 +61,6 @@ class Bral_Batchs_BoutiqueMinerai extends Bral_Batchs_Boutique {
 	}
 	
 	
-	/*
-	 * Si :
-	 * - c(s)=1 et quelque soit c(s-1) -> Prix d'achat reste le même, Prix de vente reste le même
-	 * - c(s)<1 et [c(s-1)=1 ou c(s-1)>1] -> Prix d'achat augmente : arrsup(PrixAchat/c(s)), Prix de vente reste le même
-	 * - c(s)<1 et c(s-1)<1  -> Prix d'achat augmente : arrsup(PrixAchat/c(s)), Prix de vente augmente : arrsup(PrixVente/c(s))
-	 * - c(s)>1 et [c(s-1)=1 ou c(s-1)<1] -> Prix d'achat baisse : arrinf(PrixAchat/c(s))+1, Prix de vente reste le même
-	 * - c(s)>1 et c(s-1)>1  -> Prix d'achat baisse : arrinf(PrixAchat/c(s))+1, Prix de vente baisse : arrinf(PrixVente/c(s))+1
-	 */
 	public function calculStock($idRegion, $idTypeMinerai) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiqueMinerai - calculStock - ratio:".$this->ratio. " ratioPrecedent:".$this->ratioPrecedent);
 		

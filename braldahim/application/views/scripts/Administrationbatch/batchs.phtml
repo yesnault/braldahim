@@ -1,0 +1,53 @@
+<?php echo $this->render('header.phtml'); ?>
+<div class="box_administration">
+<?=Bral_Helper_Box::haut(); ?>
+<div class="inner">
+    <ul class="titre textalic textsizea">Administration Batchs</ul>
+    	&nbsp;
+	<div class="contenu">
+	    <ul class="box_contenu1 textalic">
+	    
+	    Nombre OK : <?=$this->nbOk?>
+	    <br>
+	    Nombre KO : <?=$this->nbKo?>
+	    <br>
+	    Nombre En Cours : <?=$this->nbEnCours?>
+	    <br>
+	    Total : <?=$this->nbTotal?>
+	    <br><br>
+	    Nombre OK 3 derniers jours (du <?=$this->dateDebut ?> au <?=$this->dateFin?> ) : <?=$this->nbOk3jours?> 
+	    <br>
+	    Nombre KO 3 derniers jours (du <?=$this->dateDebut ?> au <?=$this->dateFin?> ) : <?=$this->nbKo3jours?> 
+	    <br>
+	      
+		<br /><br />
+			<table  align='center'>
+			<? foreach ($this->batchs as $h) : ?>
+			<? foreach ($h as $key => $value) : ?>
+			<th class='comp_titre'><?=$key?></th>
+			<? endforeach; ?>
+			<? break;endforeach; ?>
+			
+			<? foreach ($this->batchs as $b) : ?>
+			<? if ($b["etat_batch"] == "OK") :
+				$color= "#66CC66";
+			   elseif ($b["etat_batch"] == "EN_COURS") :
+			   	$color = "#FF9900";
+			   else:
+			   	$color = "#FF3333";
+			   endif;
+			?>
+			<tr style="background-color:<?=$color?>">
+			<? foreach ($b as $key => $value) : ?>
+				<td><?=$value ?></td>
+			<? endforeach; ?>
+			</tr>
+			<? endforeach; ?>
+			</table>
+		</ul>
+	</div>
+	&nbsp;
+</div>
+<?=Bral_Helper_Box::bas(); ?>
+</div>
+<?php echo $this->render('footer.phtml'); ?>

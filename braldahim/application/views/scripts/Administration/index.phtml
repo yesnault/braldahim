@@ -11,19 +11,36 @@
 	    <a href='/Administrationfilon/filons'>Administration Filons</a> <br />
 	    <a href='/Administrationplante/plantes'>Administration Plantes</a><br />
 	    
-	    <br /><br />
+	    <br />
 	    
 	    <span class="titre textalia textsizec">Stocks Boutique</span> <br />
 	    <a href='/Administrationstockbois/bois'>Stocks Bois</a> <br />
 	    <a href='/Administrationstockminerai/minerais'>Stocks Minerais</a> <br />
 	    <a href='/Administrationstockplante/plantes'>Stocks Parties Plantes</a> <br />
 	    
-	    <br /><br />
+	    <br />
+	    
+	    <span class="titre textalia textsizec">Administration Batchs</span>
+	    <br />
+	    <a href='/Administrationbatch/batchs'>Voir</a> 
+	    <br /> <br /> 
+	    
+	    <span class="titre textalia textsizec">Administration Monstres</span>
+	    <br />
+	    <a href='/Administrationmonstre/creation'>[ Cr&eacute;ation ]</a> 
+	    <a href='/Administrationmonstre/referentiel'>[ R&eacute;f&eacute;rentiel ]</a>
+	    <a href='/viemonstres/vie'>[ Jouer Vie Monstre ]</a>
+	    <br /> <br /> 
+	    
+	    <span class="titre textalia textsizec">Administration Hobbit</span>
+	    <br />
+        <a href='/Administrationhobbit/hobbits'>[ Liste ]</a>
+	    Hobbit Id <input type='text' name='id_hobbit' id='id_hobbit' value='' size='5'> <input type='button' name='goFiche' value='Ouvrir Fiche'   class='button1'  onClick='document.location.href="/Administrationhobbit/hobbit/mode/simple/idhobbit/"+$("id_hobbit").value;'> 
+	    
+	    <br /> <br /> <br />
 	    
 	    <span class="titre textalia textsizec">Pratique</span>
-	     
-	    <br /> <br /> 
-	     
+	    <br /> 
 	    Transformation md5 - Chaine &agrave; encoder : 
 	     <input type='text' name='md5_source' id='md5_source' value='' size='20'>
 	     <input type='button' value='MD5' class='button1'  onClick='document.location.href="/Administration/?md5_source="+$("md5_source").value;'> 
@@ -33,15 +50,6 @@
 		 <? endif; ?>
 		 
 	     <br /> <br /> 
-	    Administration Hobbit 
-	    <a href='/Administrationhobbit/hobbits'>[ Liste ]</a>
-	    Hobbit Id <input type='text' name='id_hobbit' id='id_hobbit' value='' size='5'> <input type='button' name='goFiche' value='Ouvrir Fiche'   class='button1'  onClick='document.location.href="/Administrationhobbit/hobbit/mode/simple/idhobbit/"+$("id_hobbit").value;'> 
-	    <br /><br />
-	    Administration Monstres 
-	    <a href='/Administrationmonstre/creation'>[ Cr&eacute;ation ]</a> 
-	    <a href='/Administrationmonstre/referentiel'>[ R&eacute;f&eacute;rentiel ]</a>
-	    <a href='/viemonstres/vie'>[ Jouer Vie Monstre ]</a>
-	    <br /> <br /> <br />
 		
 		</ul>
 	</div>
