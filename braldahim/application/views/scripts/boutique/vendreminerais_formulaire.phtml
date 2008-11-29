@@ -46,7 +46,7 @@
 <?php 
 $js = "
 	cacher = true;
-	for (i=2; i<=".$this->nb_valeurs."; i++) {
+	for (i=1; i<=".$this->nb_valeurs."; i++) {
 		$('valeur_' + i).value = $('valeur_' + i + '_max').value;
 		if (cacher == true && $('valeur_' + i + '_max').value > 0) {
 			cacher = false;

@@ -34,6 +34,7 @@ class Bral_Boutique_Vendrepartieplantes extends Bral_Boutique_Boutique {
 			throw new Zend_Exception(get_class($this)." Retirer interdit");
 		}
 		
+		$this->view->limitePoidsCastars = false;
 		$this->view->elementsVendus = "";
 		$this->calculPartiesPlantes();
 		if ($this->view->elementsVendus != "") {
@@ -104,9 +105,22 @@ class Bral_Boutique_Vendrepartieplantes extends Bral_Boutique_Boutique {
 			if ($nbBrutes > $this->view->partieplantes[$indice]["quantite_laban_partieplante"]) {
 				throw new Zend_Exception(get_class($this)." NB Partie Plante Brute interdit(".$indice.")=".$nbBrutes);
 			}
+			
+			// Poids restant - le poids de ce qu'on vend
+			$poidsRestant = $this->view->user->poids_transportable_hobbit - ($this->view->user->poids_transporte_hobbit - ($nbBrutes * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE));
+			if ($poidsRestant < 0) $poidsRestant = 0;
+			$nbCastarsPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_CASTARS);
+			$nbCastarsAGagner = $this->view->partieplantes[$indice]["prixUnitaireReprise"] * $nbBrutes;
+			
+			if ($nbCastarsAGagner > $nbCastarsPossible) {
+				$this->view->limitePoidsCastars = true;
+				$nbBrutes = 0;
+			}
+			
 			if ($nbBrutes > 0) {
 				
 				$this->view->user->castars_hobbit = $this->view->user->castars_hobbit + ($this->view->partieplantes[$indice]["prixUnitaireReprise"] * $nbBrutes);
+				$this->view->user->poids_transporte_hobbit = $this->view->user->poids_transporte_hobbit - ($nbBrutes * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE) + ($nbBrutes * Bral_Util_Poids::POIDS_CASTARS);
 				
 				$data = array(
 					'id_fk_type_laban_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_laban_partieplante"],

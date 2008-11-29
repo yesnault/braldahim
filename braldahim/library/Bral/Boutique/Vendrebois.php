@@ -81,6 +81,7 @@ class Bral_Boutique_Vendrebois extends Bral_Boutique_Boutique {
 			$nb_rondins = (int)$nb_rondins;
 		}
 		
+		$this->view->limitePoidsCastars = false;
 		$this->view->elementsVendus = "";
 		$this->calculVendre($nb_rondins);
 		if ($this->view->elementsVendus != "") {
@@ -94,6 +95,17 @@ class Bral_Boutique_Vendrebois extends Bral_Boutique_Boutique {
 		
 		$prixTotal = $this->view->prixUnitaire * $nb_rondins;
 		
+		// Poids restant - le poids de ce qu'on vend
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		if ($poidsRestant < 0) $poidsRestant = 0;
+		$nbCastarsPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_CASTARS);
+		$nbCastarsAGagner = $this->view->prixRepriseUnitaire * $nb_rondins;
+		
+		if ($nbCastarsAGagner > $nbCastarsPossible) {
+			$this->view->limitePoidsCastars = true;
+			$nb_rondins = 0;
+		}
+			
 		if ($nb_rondins > 0) {
 			
 			$this->view->user->castars_hobbit = $this->view->user->castars_hobbit + ($this->view->prixRepriseUnitaire * $nb_rondins);

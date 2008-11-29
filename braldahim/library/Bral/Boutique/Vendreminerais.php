@@ -36,6 +36,7 @@ class Bral_Boutique_Vendreminerais extends Bral_Boutique_Boutique {
 			throw new Zend_Exception(get_class($this)." Retirer interdit");
 		}
 		
+		$this->view->limitePoidsCastars = false;
 		$this->view->elementsVendus = "";
 		$this->calculMinerais();
 		if ($this->view->elementsVendus != "") {
@@ -101,9 +102,21 @@ class Bral_Boutique_Vendreminerais extends Bral_Boutique_Boutique {
 				throw new Zend_Exception(get_class($this)." NB Minerai brut interdit=".$nbBrut);
 			}
 			
+			// Poids restant - le poids de ce qu'on vend
+			$poidsRestant = $this->view->user->poids_transportable_hobbit - ($this->view->user->poids_transporte_hobbit - ($nbBrut * Bral_Util_Poids::POIDS_MINERAI));
+			if ($poidsRestant < 0) $poidsRestant = 0;
+			$nbCastarsPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_CASTARS);
+			$nbCastarsAGagner = $this->view->minerais[$indice]["prixUnitaireReprise"] * $nbBrut;
+			
+			if ($nbCastarsAGagner > $nbCastarsPossible) {
+				$this->view->limitePoidsCastars = true;
+				$nbBrut = 0;
+			}
+			
 			if ($nbBrut > 0) {
 				
 				$this->view->user->castars_hobbit = $this->view->user->castars_hobbit + ($this->view->minerais[$indice]["prixUnitaireReprise"] * $nbBrut);
+				$this->view->user->poids_transporte_hobbit = $this->view->user->poids_transporte_hobbit - ($nbBrut * Bral_Util_Poids::POIDS_MINERAI) + ($nbBrut * Bral_Util_Poids::POIDS_CASTARS);
 				
 				$data = array(
 					'id_fk_type_laban_minerai' => $this->view->minerais[$indice]["id_fk_type_laban_minerai"],
