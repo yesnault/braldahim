@@ -71,6 +71,7 @@ class Bral_Boutique_Vendreminerais extends Bral_Boutique_Boutique {
 						);
 						$this->view->vendreMineraisOk = true;
 						$this->view->nb_minerai_brut = $this->view->nb_minerai_brut + $m["quantite_brut_laban_minerai"];
+						break;
 					}
 				}
 			}
