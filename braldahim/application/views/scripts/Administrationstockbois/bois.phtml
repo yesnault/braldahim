@@ -28,9 +28,9 @@
 					if ($i % 4 == 0): echo "<tr>"; endif;?>
 						<td style="text-align:right">
 							<span class="titre textalia textsizec"><?=$r["nom_region"]?></span> <br>
-							 <span title='Prix Vente en castars' style="cursor:pointer">PV</span> <input type="textbox" name="<?=$r["id_form"]."_vente"?>" size='3' value="10" />
-							 <span title='Prix Reprise en castars' style="cursor:pointer">PR</span> <input type="textbox" name="<?=$r["id_form"]."_reprise"?>" size='3' value="5"/>
-							 <span title='Prix Reprise en castars' style="cursor:pointer">NB</span> <input type="textbox" name="<?=$r["id_form"]."_nbinitial"?>" size='3' value="1000"/> <br>
+							 <span title='Prix Vente en castars' style="cursor:pointer">PV</span> <input type="textbox" name="<?=$r["id_form"]."_vente"?>" size='3' value="<?=$r["prix_unitaire_vente"] ?>" />
+							 <span title='Prix Reprise en castars' style="cursor:pointer">PR</span> <input type="textbox" name="<?=$r["id_form"]."_reprise"?>" size='3' value="<?=$r["prix_unitaire_reprise"] ?>"/>
+							 <span title='Prix Reprise en castars' style="cursor:pointer">NB</span> <input type="textbox" name="<?=$r["id_form"]."_nbinitial"?>" size='3' value="<?=$r["nb_rondin"] ?>"/> <br>
 							<br>
 							<br><br>
 						

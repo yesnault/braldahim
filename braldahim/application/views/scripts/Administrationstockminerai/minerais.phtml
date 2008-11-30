@@ -33,9 +33,9 @@
 								<span class="titre textalia textsized"><?=$t["nom"]?></span><br>
 							
 								 <?=$t["nom"]?>
-								 <span title='Prix Vente en castars' style="cursor:pointer">PV</span> <input type="textbox" name="<?=$t["id_form"]."_vente"?>" size='3' value="10" />
-								 <span title='Prix Reprise en castars' style="cursor:pointer">PR</span> <input type="textbox" name="<?=$t["id_form"]."_reprise"?>" size='3' value="5"/>
-								 <span title='Prix Reprise en castars' style="cursor:pointer">NB</span> <input type="textbox" name="<?=$t["id_form"]."_nbinitial"?>" size='3' value="1000"/> <br>
+								 <span title='Prix Vente en castars' style="cursor:pointer">PV</span> <input type="textbox" name="<?=$t["id_form"]."_vente"?>" size='3' value="<?=$t["prix_unitaire_vente"]?>" />
+								 <span title='Prix Reprise en castars' style="cursor:pointer">PR</span> <input type="textbox" name="<?=$t["id_form"]."_reprise"?>" size='3' value="<?=$t["prix_unitaire_reprise"]?>"/>
+								 <span title='Prix Reprise en castars' style="cursor:pointer">NB</span> <input type="textbox" name="<?=$t["id_form"]."_nbinitial"?>" size='3' value="<?=$t["nb_brut"]?>"/> <br>
 								<br>
 							<? endforeach; ?>
 							<br><br>

@@ -34,6 +34,8 @@ class AdministrationstockmineraiController extends Zend_Controller_Action {
 		$demain  = date("Y-m-d H:i:s", mktime(0, 0, 0, date("m")  , date("d")+1, date("Y")));
 		$aujourdhui  = date("Y-m-d H:i:s", mktime(0, 0, 0, date("m")  , date("d"), date("Y")));
 		
+		$this->formulairePrepare();
+		
 		if ($this->_request->isPost() && $this->_request->getPost('dateStock')) {
 			$this->stocksPrepare($this->_request->getPost('dateStock'));
 			$this->view->dateStock = $this->_request->getPost('dateStock');
@@ -42,8 +44,6 @@ class AdministrationstockmineraiController extends Zend_Controller_Action {
 			$this->stocksPrepare($aujourdhui);
 		}
 		
-		$this->formulairePrepare();
-
 		if ($this->_request->isPost() && $this->_request->getPost('dateStock') == null) {
 			Zend_Loader::loadClass('Zend_Filter');
 			Zend_Loader::loadClass('Zend_Filter_StripTags');
@@ -60,12 +60,15 @@ class AdministrationstockmineraiController extends Zend_Controller_Action {
 				$prixReprise = (int)$filter->filter($this->_request->getPost($f."_reprise"));
 				$nbInitial = (int)$filter->filter($this->_request->getPost($f."_nbinitial"));
 	
-				if ($prixVente <= 0 || $prixReprise <0 && $nbInitial < 0) {
+				if ($prixVente < 0 || $prixReprise < 0 && $nbInitial < 0) {
 					throw new Zend_Exception("::mineraisAction : prixVente(".$prixVente.") ou prixReprise(".$prixReprise.") ou nbInitial(".$nbInitial.") invalide");
 				}
 				
 				$this->ajouteNouveauStock($f, $demain, $prixVente, $prixReprise, $nbInitial);
 			}
+			$this->formulairePrepare();
+			$this->view->dateStock = $demain;
+			$this->stocksPrepare($demain);
 		}
 		
 		$this->view->dateCreationStock = $demain;
@@ -124,6 +127,9 @@ class AdministrationstockmineraiController extends Zend_Controller_Action {
 				'nom_region' => $r["nom_region"],
 			);
 			
+			$this->view->regions[$r["id_fk_region_stock_minerai"]]["type_minerais"][$r["id_fk_type_stock_minerai"]]["nb_brut"] = $r["nb_brut_initial_stock_minerai"];
+			$this->view->regions[$r["id_fk_region_stock_minerai"]]["type_minerais"][$r["id_fk_type_stock_minerai"]]["prix_unitaire_vente"] = $r["prix_unitaire_vente_stock_minerai"];
+			$this->view->regions[$r["id_fk_region_stock_minerai"]]["type_minerais"][$r["id_fk_type_stock_minerai"]]["prix_unitaire_reprise"] = $r["prix_unitaire_reprise_stock_minerai"];
 			$stocks[] = $stock;
 		}
 		
@@ -151,12 +157,15 @@ class AdministrationstockmineraiController extends Zend_Controller_Action {
 				$idForm = $r->id_region."_".$t["id_type_minerai"];
 				$idsForm[] = $idForm;
 				
-				$typeMinerais[] = array("id_type_minerai" => $t["id_type_minerai"],
+				$typeMinerais[$t["id_type_minerai"]] = array("id_type_minerai" => $t["id_type_minerai"],
 					"nom" => $t["nom_type_minerai"],
 					"id_form" => $idForm,
+					"nb_brut" => 0,
+					"prix_unitaire_vente" => 0,
+					"prix_unitaire_reprise" => 0,
 				);
 			}
-			$regions[] = array(
+			$regions[$r->id_region] = array(
 					"id_region" => $r->id_region,
 					"nom_region" => $r->nom_region,
 					"type_minerais" => $typeMinerais,

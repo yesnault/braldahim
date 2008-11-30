@@ -34,6 +34,8 @@ class AdministrationstockboisController extends Zend_Controller_Action {
 		$demain  = date("Y-m-d H:i:s", mktime(0, 0, 0, date("m")  , date("d")+1, date("Y")));
 		$aujourdhui  = date("Y-m-d H:i:s", mktime(0, 0, 0, date("m")  , date("d"), date("Y")));
 		
+		$this->formulairePrepare();
+		
 		if ($this->_request->isPost() && $this->_request->getPost('dateStock')) {
 			$this->stocksPrepare($this->_request->getPost('dateStock'));
 			$this->view->dateStock = $this->_request->getPost('dateStock');
@@ -42,8 +44,6 @@ class AdministrationstockboisController extends Zend_Controller_Action {
 			$this->stocksPrepare($aujourdhui);
 		}
 		
-		$this->formulairePrepare();
-
 		if ($this->_request->isPost() && $this->_request->getPost('dateStock') == null) {
 			Zend_Loader::loadClass('Zend_Filter');
 			Zend_Loader::loadClass('Zend_Filter_StripTags');
@@ -60,12 +60,15 @@ class AdministrationstockboisController extends Zend_Controller_Action {
 				$prixReprise = (int)$filter->filter($this->_request->getPost($f."_reprise"));
 				$nbInitial = (int)$filter->filter($this->_request->getPost($f."_nbinitial"));
 	
-				if ($prixVente <= 0 || $prixReprise <0 && $nbInitial < 0) {
+				if ($prixVente < 0 || $prixReprise < 0 && $nbInitial < 0) {
 					throw new Zend_Exception("::boisAction : prixVente(".$prixVente.") ou prixReprise(".$prixReprise.") ou nbInitial(".$nbInitial.") invalide");
 				}
 				
 				$this->ajouteNouveauStock($f, $demain, $prixVente, $prixReprise, $nbInitial);
 			}
+			$this->formulairePrepare();
+			$this->view->dateStock = $demain;
+			$this->stocksPrepare($demain);
 		}
 		
 		$this->view->dateCreationStock = $demain;
@@ -118,6 +121,9 @@ class AdministrationstockboisController extends Zend_Controller_Action {
 				'id_fk_region_stock_bois' =>  $r["id_fk_region_stock_bois"],
 				'nom_region' => $r["nom_region"],
 			);
+			$this->view->regions[$r["id_fk_region_stock_bois"]]["nb_rondin"] =  $r["nb_rondin_restant_stock_bois"];
+			$this->view->regions[$r["id_fk_region_stock_bois"]]["prix_unitaire_vente"] =  $r["prix_unitaire_vente_stock_bois"];
+			$this->view->regions[$r["id_fk_region_stock_bois"]]["prix_unitaire_reprise"] =  $r["prix_unitaire_reprise_stock_bois"];
 			$stocks[] = $stock;
 		}
 		
@@ -138,9 +144,12 @@ class AdministrationstockboisController extends Zend_Controller_Action {
 			$idForm = $r->id_region;
 			$idsForm[] = $idForm;
 				
-			$regions[] = array(
+			$regions[$r->id_region] = array(
 					"id_region" => $r->id_region,
 					"nom_region" => $r->nom_region,
+					"nb_rondin" => 0,
+					"prix_unitaire_vente" => 0,
+					"prix_unitaire_reprise" => 0, 
 					"id_form" => $idForm,
 			);
 		}

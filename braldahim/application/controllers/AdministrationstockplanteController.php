@@ -34,6 +34,8 @@ class AdministrationstockplanteController extends Zend_Controller_Action {
 		$demain  = date("Y-m-d H:i:s", mktime(0, 0, 0, date("m")  , date("d")+1, date("Y")));
 		$aujourdhui  = date("Y-m-d H:i:s", mktime(0, 0, 0, date("m")  , date("d"), date("Y")));
 		
+		$this->formulairePrepare();
+		
 		if ($this->_request->isPost() && $this->_request->getPost('dateStock')) {
 			$this->stocksPrepare($this->_request->getPost('dateStock'));
 			$this->view->dateStock = $this->_request->getPost('dateStock');
@@ -42,8 +44,6 @@ class AdministrationstockplanteController extends Zend_Controller_Action {
 			$this->stocksPrepare($aujourdhui);
 		}
 		
-		$this->formulairePrepare();
-
 		if ($this->_request->isPost() && $this->_request->getPost('dateStock') == null) {
 			Zend_Loader::loadClass('Zend_Filter');
 			Zend_Loader::loadClass('Zend_Filter_StripTags');
@@ -66,6 +66,9 @@ class AdministrationstockplanteController extends Zend_Controller_Action {
 				
 				$this->ajouteNouveauStock($f, $demain, $prixVente, $prixReprise, $nbInitial);
 			}
+			$this->formulairePrepare();
+			$this->view->dateStock = $demain;
+			$this->stocksPrepare($demain);
 		}
 		
 		$this->view->dateCreationStock = $demain;
@@ -129,6 +132,9 @@ class AdministrationstockplanteController extends Zend_Controller_Action {
 				'nom_region' => $r["nom_region"],
 			);
 			
+			$this->view->regions[$r["id_fk_region_stock_partieplante"]]["type_plantes"][$r["id_fk_type_plante_stock_partieplante"]]["parties"][$r["id_fk_type_stock_partieplante"]]["nb_brut"] = $r["nb_brut_initial_stock_partieplante"];
+			$this->view->regions[$r["id_fk_region_stock_partieplante"]]["type_plantes"][$r["id_fk_type_plante_stock_partieplante"]]["parties"][$r["id_fk_type_stock_partieplante"]]["prix_unitaire_vente"] = $r["prix_unitaire_vente_stock_partieplante"];
+			$this->view->regions[$r["id_fk_region_stock_partieplante"]]["type_plantes"][$r["id_fk_type_plante_stock_partieplante"]]["parties"][$r["id_fk_type_stock_partieplante"]]["prix_unitaire_reprise"] = $r["prix_unitaire_reprise_stock_partieplante"];
 			$stocks[] = $stock;
 		}
 		
@@ -164,47 +170,59 @@ class AdministrationstockplanteController extends Zend_Controller_Action {
 			foreach($typePlanteRowset as $t) {
 				$parties = null;
 				$idForm = $r->id_region."_".$t["id_type_plante"]."_".$t["id_fk_partieplante1_type_plante"];
-				$parties[] = array (
+				$parties[$t["id_fk_partieplante1_type_plante"]] = array (
 						"nom" => $tabPartiePlante[$t["id_fk_partieplante1_type_plante"]]["nom"],
 						"id_fk_partieplante" => $t["id_fk_partieplante1_type_plante"],
 						"id_form" => $idForm,
+						"nb_brut" => 0,
+						"prix_unitaire_vente" => 0,
+						"prix_unitaire_reprise" => 0,
 				);
 				$idsForm[] = $idForm;
 					
 				if ($t["id_fk_partieplante2_type_plante"] > 0) {
 					$idForm = $r->id_region."_".$t["id_type_plante"]."_".$t["id_fk_partieplante2_type_plante"];
-					$parties[] = array (
+					$parties[$t["id_fk_partieplante2_type_plante"]] = array (
 						"nom" => $tabPartiePlante[$t["id_fk_partieplante2_type_plante"]]["nom"],
 						"id_fk_partieplante" => $t["id_fk_partieplante2_type_plante"],
 						"id_form" => $idForm,
+						"nb_brut" => 0,
+						"prix_unitaire_vente" => 0,
+						"prix_unitaire_reprise" => 0,
 					);
 					$idsForm[] = $idForm;
 				}
 				if ($t["id_fk_partieplante3_type_plante"] > 0) {
 					$idForm = $r->id_region."_".$t["id_type_plante"]."_".$t["id_fk_partieplante3_type_plante"];
-					$parties[] = array (
+					$parties[$t["id_fk_partieplante3_type_plante"]] = array (
 						"nom" => $tabPartiePlante[$t["id_fk_partieplante3_type_plante"]]["nom"],
 						"id_fk_partieplante" => $t["id_fk_partieplante3_type_plante"],
 						"id_form" => $idForm,
+						"nb_brut" => 0,
+						"prix_unitaire_vente" => 0,
+						"prix_unitaire_reprise" => 0,
 					);
 					$idsForm[] = $idForm;
 				}
 				if ($t["id_fk_partieplante4_type_plante"] > 0) {
 					$idForm = $r->id_region."_".$t["id_type_plante"]."_".$t["id_fk_partieplante4_type_plante"];
-					$parties[] = array (
+					$parties[$t["id_fk_partieplante4_type_plante"]] = array (
 						"nom" => $tabPartiePlante[$t["id_fk_partieplante4_type_plante"]]["nom"],
 						"id_fk_partieplante" => $t["id_fk_partieplante4_type_plante"],
 						"id_form" => $idForm,
+						"nb_brut" => 0,
+						"prix_unitaire_vente" => 0,
+						"prix_unitaire_reprise" => 0,
 					);
 					$idsForm[] = $idForm;
 				}
-				$typePlantes[] = array("id_type_plante" => $t["id_type_plante"],
+				$typePlantes[$t["id_type_plante"]] = array("id_type_plante" => $t["id_type_plante"],
 					"nom" => $t["nom_type_plante"],
 					"categorie" => $t["categorie_type_plante"],
 					"parties" => $parties,
 				);
 			}
-			$regions[] = array(
+			$regions[$r->id_region] = array(
 					"id_region" => $r->id_region,
 					"nom_region" => $r->nom_region,
 					"type_plantes" => $typePlantes,
