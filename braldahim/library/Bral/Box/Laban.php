@@ -184,7 +184,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		unset($runes);
 
 		$this->view->tabHobbitMetiers = $tabHobbitMetiers;
-		$this->view->tabMetiers = $tabMetiers;
+		
 		
 		$this->view->mineraisBruts = $tabMineraisBruts;
 		$this->view->lingots = $tabLingots;
@@ -195,6 +195,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		$this->view->laban = $tabLaban;
 		
 		$this->renderPlante($tabMetiers);
+		$this->view->tabMetiers = $tabMetiers;
 		$this->renderEquipement();
 		$this->renderPotion();
 		
@@ -213,7 +214,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		return $this->view->render("interface/laban.phtml");
 	}
 	
-	private function renderPlante($tabMetiers) {
+	private function renderPlante(&$tabMetiers) {
 		$typePlantesTable = new TypePlante();
 		$typePlantesRowset = $typePlantesTable->findAll();
 		unset($typePlantesTable);
