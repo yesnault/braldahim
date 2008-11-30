@@ -66,17 +66,18 @@ class Bral_Helper_Profil {
 		}
 		
 		if ($coef > 0) {
-			$info .= "Vous b&eacute;n&eacute;ficiez d\\'un bonus de ".$force_bbdf_hobbit." sur toutes vos caract&eacute;ristiques.<br>";
+			$info1 = "Vous b&eacute;n&eacute;ficiez d\\'un bonus de ".$force_bbdf_hobbit." sur toutes vos caract&eacute;ristiques.<br><br>";
 		} else if ($coef < 0) {
-			$info .= "Vous un malus de ".$force_bbdf_hobbit." &agrave; toutes vos caract&eacute;ristiques.<br>";
+			$info1 = "Vous un malus de ".$force_bbdf_hobbit." &agrave; toutes vos caract&eacute;ristiques.<br><br>";
 		} else {
-			$info .= "Aucun bonus ou malus de faim n\\'est ajout&eacute; &agrave; vos caract&eacute;ristiques.<br>";
+			$info1 = "Aucun bonus ou malus de faim n\\'est ajout&eacute; &agrave; vos caract&eacute;ristiques.<br><br>";
 		}
+		
 		
 		
 		$titre = "Information sur la balance de faim";
 		$texte = "Votre balance de faim est à ".$balance_faim_hobbit."% <br>";
-		$texte .= $info;
+		$texte .= $info1.$info;
 		
 		$retour = "<div class='barre_faim'  ".Bral_Helper_Tooltip::jsTip($texte, $titre, true).">";
 		$retour .= "<img src='/public/images/barre_faim.gif' height='10px' width='".(2*$balance_faim_hobbit)."px'></div>";
