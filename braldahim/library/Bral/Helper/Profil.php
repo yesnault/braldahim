@@ -46,23 +46,23 @@ class Bral_Helper_Profil {
 		
 		if ($balance_faim_hobbit >= 95) {
 			$coef = 1;
-			$info = "Vous avez une p&ecirc;che extraordinaire ! <br>";
+			$info = "J'ai une p&ecirc;che extraordinaire ! <br>";
 		} elseif ($balance_faim_hobbit >= 80) {
 			$coef = 1;
-			$info = "Vous &ecirc;tes en pleine forme ! <br>";
+			$info = "Je suis en pleine forme ! <br>";
 		} elseif ($balance_faim_hobbit >= 31) {
 			$div = 1;
 			$coef = 0;
 			$info = "Tout va pour le mieux <br>";
 		} elseif ($balance_faim_hobbit >= 11) {
 			$coef = -1;
-			$info = "Votre ventre gargouille ... <br>";
+			$info = "Mon ventre gargouille ... <br>";
 		} elseif ($balance_faim_hobbit >= 1) {
 			$coef = -1;
-			$info = "Votre estomac crie famine <br>";
+			$info = "Mon estomac crie famine <br>";
 		} elseif ($balance_faim_hobbit < 1) {
 			$coef = -1;
-			$info = "Vous mourez de faim !!! <br>";
+			$info = "Je meurs de faim !!! <br>";
 		}
 		
 		if ($coef > 0) {
