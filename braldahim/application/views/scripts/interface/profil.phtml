@@ -69,8 +69,8 @@
 					Balance faim  
 	    		</td>
 	    		<td width="80%">
-		    		<div class="barre_vie"><img src="/public/images/barre_vie.gif" height="10px" width="<?=2*floor($this->user->pv_restant_hobbit*100)/($this->config->game->pv_base + ($this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) + $this->user->pv_max_bm_hobbit)?>px"></div>
-		   			<div class="barre_faim"><img src="/public/images/barre_faim.gif" height="10px" width="<?=2*$this->user->balance_faim_hobbit ?>px"></div>
+				<?=Bral_Helper_Profil::afficheBarreVie($this->user->pv_restant_hobbit, $this->config->game->pv_base, $this->user->vigueur_base_hobbit, $this->config->game->pv_max_coef,  $this->user->pv_max_bm_hobbit, $this->user->duree_prochain_tour_hobbit)?>
+				<?=Bral_Helper_Profil::afficheBarreFaim($this->user->balance_faim_hobbit, $this->user->force_bbdf_hobbit)?>
 				</td>
 				<td width="10%" nowrap>
 					<?=$this->user->pv_restant_hobbit ?> / <?=($this->config->game->pv_base + $this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) ?> + <?= $this->user->pv_max_bm_hobbit ?>
@@ -140,29 +140,13 @@
 			&nbsp;Exp&eacute;rience
 		</ul>
 		
-		<? 
-		$niveauCourantPx = ($this->user->niveau_hobbit) * 5;
-		$niveauSuivantPx = ($this->user->niveau_hobbit + 1) * 5;
-		$largeur = (($this->user->px_perso_hobbit * 100) / $niveauSuivantPx) * 2;
-		$titre = "Exp&eacute;rience atteinte dans ce niveau";
-		$texte = "Vous avez ".$this->user->px_perso_hobbit. " PX Perso.<br>";
-		$texte .= "Pour passer au niveau ".($this->user->niveau_hobbit + 1).", il vous faut ";
-		$texte .= " ".$niveauSuivantPx. " PX Perso.<br>";
-		$texte .= "Il vous manque donc ".($niveauSuivantPx - $this->user->px_perso_hobbit)." PX Perso.<br>";
-		?>
-		
 		<table class="table_liste" style="width:98%; border:0" >
 		<tbody>
 			<tr class="table_liste" align="left" valign="middle">
 				<td width="10%" nowrap>
 					Exp / Niveau
 	    		</td>
-	    		<td width="80%" >
-	    			<div class="barre_niveau" <?=Bral_Helper_Tooltip::jsTip($texte, $titre, true) ?>><img src="/public/images/barre_niveau.gif" height="10px" width="<?=$largeur ?>px"></div>
-				</td>
-				<td width="10%" nowrap>
-					<?=intval($largeur/2) ?> %
-				</td>
+	    		<?=Bral_Helper_Profil::afficheBarreNiveau($this->user->niveau_hobbit, $this->user->px_perso_hobbit);?>
 			</tr>
 		</tbody>
 		</table>

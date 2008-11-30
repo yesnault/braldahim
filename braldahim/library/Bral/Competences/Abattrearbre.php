@@ -70,8 +70,13 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		
 		$charretteTable = new Charrette();
 		$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
+		$this->view->charettePleine = true;
 		if ($nombre == 1) {
 			$this->view->possedeCharrette = true;
+			$tabPoidsRondins = Bral_Util_Poids::calculPoidsCharretteTransportable($this->view->user->id_hobbit, $this->view->user->vigueur_base_hobbit);
+			if ($tabPoidsRondins["nb_rondins_transportables"] - $tabPoidsRondins["nb_rondins_presents"] > 0) {
+				$this->view->charettePleine = false;
+			}
 		} else {
 			$this->view->possedeCharrette = false;
 		}
@@ -95,6 +100,10 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		// Verification abattre arbre
 		if ($this->view->abattreArbreEnvironnementOk == false || $this->view->abattreArbreLieuOk == false || $this->view->abattreArbreVilleOk == false || $this->view->possedeCharrette == false || $this->view->abattreArbreEchoppeOk == false) {
 			throw new Zend_Exception(get_class($this)." Abattre un arbre interdit ");
+		}
+		
+		if ($this->view->charettePleine == true) {
+			throw new Zend_Exception(get_class($this)." Charette pleine !");
 		}
 		
 		// calcul des jets

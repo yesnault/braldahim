@@ -182,17 +182,27 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 		}
 		
 		if ($nb_rondins > 0 && $this->view->charretteOk === true) {
-			// on place dans la charette
-			$charretteTable = new Charrette();
-			$data = array(
-				'quantite_rondin_charrette' => $nb_rondins,
-				'id_fk_hobbit_charrette' => $this->view->user->id_hobbit,
-			);
-			$charretteTable->updateCharrette($data);
 			
-			$this->view->elementsRetires .= $nb_rondins. " rondin";
-			if ($nb_rondins > 1) $this->view->elementsRetires .= "s";
-			$this->view->elementsRetires .= ", ";
+			$tabPoidsRondins = Bral_Util_Poids::calculPoidsCharretteTransportable($this->view->user->id_hobbit, $this->view->user->vigueur_base_hobbit);
+			$nbRondinPossible = $tabPoidsRondins["nb_rondins_transportables"] - $tabPoidsRondins["nb_rondins_presents"];
+			
+			if ($nbRondinPossible < $nb_rondins) {
+				$nb_rondins = $nbRondinPossible;
+			}
+			
+			if ($nb_rondins > 0) {
+				// on place dans la charette
+				$charretteTable = new Charrette();
+				$data = array(
+					'quantite_rondin_charrette' => $nb_rondins,
+					'id_fk_hobbit_charrette' => $this->view->user->id_hobbit,
+				);
+				$charretteTable->updateCharrette($data);
+				
+				$this->view->elementsRetires .= $nb_rondins. " rondin";
+				if ($nb_rondins > 1) $this->view->elementsRetires .= "s";
+				$this->view->elementsRetires .= ", ";
+			}
 		}
 		
 		$data = array(
