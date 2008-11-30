@@ -46,7 +46,7 @@ class Bral_Helper_Profil {
 		
 		if ($balance_faim_hobbit >= 95) {
 			$coef = 1;
-			$info = "J'ai une p&ecirc;che extraordinaire ! <br>";
+			$info = "J\\'ai une p&ecirc;che extraordinaire ! <br>";
 		} elseif ($balance_faim_hobbit >= 80) {
 			$coef = 1;
 			$info = "Je suis en pleine forme ! <br>";
@@ -72,8 +72,6 @@ class Bral_Helper_Profil {
 		} else {
 			$info1 = "Aucun bonus ou malus de faim n\\'est ajout&eacute; &agrave; vos caract&eacute;ristiques.<br><br>";
 		}
-		
-		
 		
 		$titre = "Information sur la balance de faim";
 		$texte = "Votre balance de faim est à ".$balance_faim_hobbit."% <br>";
