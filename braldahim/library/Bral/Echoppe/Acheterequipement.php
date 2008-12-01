@@ -202,25 +202,25 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		$possible = false;
 		$acheterOk = false;
 		
-	   	if ($e["prix_1_vente_echoppe_equipement"] > 0) {
+	   	if ($e["prix_1_vente_echoppe_equipement"] >= 0 && $e["unite_1_vente_echoppe_equipement"] > 0) {
 	    	$prix = $e["prix_1_vente_echoppe_equipement"];
-	    	$nom = Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_equipement"]);
+	    	$nom = Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_equipement"], false, $e["prix_1_vente_echoppe_equipement"]);
 	    	$type = "echoppe";
 	    	$possible = $this->calculPrixUnitaire($prix, Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_equipement"], true));
 	    	$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_1_vente_echoppe_equipement"]);
     	}
     	
-    	if ($e["prix_2_vente_echoppe_equipement"] > 0) {
+    	if ($e["prix_2_vente_echoppe_equipement"] >= 0 && $e["unite_2_vente_echoppe_equipement"] > 0) {
 	    	$prix = $e["prix_2_vente_echoppe_equipement"];
-	    	$nom = Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_equipement"]);
+	    	$nom = Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_equipement"], false, $e["prix_2_vente_echoppe_equipement"]);
 	    	$type = "echoppe";
 	    	$possible = $this->calculPrixUnitaire($prix, Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_equipement"], true));
 	    	$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_2_vente_echoppe_equipement"]);
     	}	
 	    
-    	if ($e["prix_3_vente_echoppe_equipement"] > 0) {
+    	if ($e["prix_3_vente_echoppe_equipement"] >= 0 && $e["unite_3_vente_echoppe_equipement"] > 0) {
 	    	$prix = $e["prix_3_vente_echoppe_equipement"];
-	    	$nom = Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_equipement"]);
+	    	$nom = Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_equipement"], false, $e["prix_3_vente_echoppe_equipement"]);
 	    	$type = "echoppe";
 	    	$possible = $this->calculPrixUnitaire($prix, Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_equipement"], true));
 	    	$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_3_vente_echoppe_equipement"]);

@@ -68,14 +68,18 @@ class Bral_Util_Registre {
 		Zend_Registry::set('nomsTour', $tab);
 	}
 	
-	public static function getNomUnite($unite, $systeme = false) {
+	public static function getNomUnite($unite, $systeme = false, $quantite = 0) {
 		if (Zend_Registry::isRegistered("typesUnites") == false) {
 			self::chargementTypeUnite();		
 		} 
 		$tabUnite = Zend_Registry::get('typesUnites');
 		if ($unite != null && isset($tabUnite[$unite])) {
 			if (!$systeme) {
-				return $tabUnite[$unite]["nom"];
+				if ($quantite > 1) {
+					return $tabUnite[$unite]["nom_pluriel"];
+				} else {
+					return $tabUnite[$unite]["nom"];
+				}
 			} else {
 				return $tabUnite[$unite]["nom_systeme"];
 			}
@@ -91,6 +95,7 @@ class Bral_Util_Registre {
 			$tabUnite[$t["id_type_unite"]] = array(
 				"nom_systeme" => $t["nom_systeme_type_unite"], 
 				"nom" => $t["nom_type_unite"],
+				"nom_pluriel" => $t["nom_pluriel_type_unite"],
 			);
 		}
 		Zend_Registry::set('typesUnites', $tabUnite);

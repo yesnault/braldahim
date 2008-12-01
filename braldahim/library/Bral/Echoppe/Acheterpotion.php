@@ -177,25 +177,25 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		$possible = false;
 		$acheterOk = false;
 		
-	   	if ($e["prix_1_vente_echoppe_potion"] > 0) {
+	   	if ($e["prix_1_vente_echoppe_potion"] >= 0 && $e["unite_1_vente_echoppe_potion"] > 0) {
 	    	$prix = $e["prix_1_vente_echoppe_potion"];
-	    	$nom = Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_potion"]);
+	    	$nom = Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_potion"], false, $e["prix_1_vente_echoppe_potion"]);
 	    	$type = "echoppe";
 	    	$possible = $this->calculPrixUnitaire($laban, $prix, Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_potion"], true));
 	    	$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_1_vente_echoppe_potion"]);
     	}
     	
-    	if ($e["prix_2_vente_echoppe_potion"] > 0) {
+    	if ($e["prix_2_vente_echoppe_potion"] >= 0 && $e["unite_2_vente_echoppe_potion"] > 0) {
 	    	$prix = $e["prix_2_vente_echoppe_potion"];
-	    	$nom = Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_potion"]);
+	    	$nom = Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_potion"], false, $e["prix_2_vente_echoppe_potion"]);
 	    	$type = "echoppe";
 	    	$possible = $this->calculPrixUnitaire($laban, $prix, Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_potion"], true));
 	    	$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_2_vente_echoppe_potion"]);
     	}	
 	    
-    	if ($e["prix_3_vente_echoppe_potion"] > 0) {
+    	if ($e["prix_3_vente_echoppe_potion"] >= 0 && $e["unite_3_vente_echoppe_potion"] > 0) {
 	    	$prix = $e["prix_3_vente_echoppe_potion"];
-	    	$nom = Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_potion"]);
+	    	$nom = Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_potion"], false, $e["prix_3_vente_echoppe_potion"]);
 	    	$type = "echoppe";
 	    	$possible = $this->calculPrixUnitaire($laban, $prix, Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_potion"], true));
 	    	$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_3_vente_echoppe_potion"]);

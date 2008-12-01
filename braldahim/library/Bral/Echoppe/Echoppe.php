@@ -45,6 +45,10 @@ abstract class Bral_Echoppe_Echoppe {
 	abstract function getNomInterne();
 	abstract function getTitreAction();
 	
+	public function getIdEchoppeCourante() {
+		return false;
+	}
+	
 	public function calculNbPa() {
 		if ($this->view->user->pa_hobbit - $this->view->config->game->echoppe->nb_pa_service < 0) {
 			$this->view->assezDePa = false;

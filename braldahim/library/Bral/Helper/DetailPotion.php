@@ -17,27 +17,27 @@ class Bral_Helper_DetailPotion {
     	$firstOu = true;
 		$ou =  "  <br /> ou ";
 		
-    	if ($e["prix_1_vente_echoppe_potion"] > 0) {
+    	if ($e["prix_1_vente_echoppe_potion"] >= 0 && $e["unite_1_vente_echoppe_potion"] > 0) {
 	    	$retour .= $e["prix_1_vente_echoppe_potion"]. " ";
-	    	$retour .= Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_potion"]);
+	    	$retour .= Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_potion"], false, $e["prix_1_vente_echoppe_potion"]);
 	    	$firstOu = false; 
     	}
     	
-    	if ($e["prix_2_vente_echoppe_potion"] > 0) {
+    	if ($e["prix_2_vente_echoppe_potion"] >= 0 && $e["unite_2_vente_echoppe_potion"] > 0) {
     		if (!$firstOu) { 
     			$retour .= $ou;
     		}
 	    	$retour .= $e["prix_2_vente_echoppe_potion"]. " ";
-	    	$retour .= Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_potion"]);
+	    	$retour .= Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_potion"], false, $e["prix_2_vente_echoppe_potion"]);
 	    	$firstOu = false; 
     	}	
 	    
-    	if ($e["prix_3_vente_echoppe_potion"] > 0) {
+    	if ($e["prix_3_vente_echoppe_potion"] >= 0 && $e["unite_3_vente_echoppe_potion"] > 0) {
     		if (!$firstOu) { 
     			$retour .= $ou;
     		}
 	    	$retour .= $e["prix_3_vente_echoppe_potion"]. " ";
-	    	$retour .= Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_potion"]);
+	    	$retour .= Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_potion"], false, $e["prix_3_vente_echoppe_potion"]);
 	    	$firstOu = false; 
     	}
     	
