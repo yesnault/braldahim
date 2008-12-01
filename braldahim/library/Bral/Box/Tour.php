@@ -304,6 +304,9 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		unset($hobbitEquipementTable);
 		
 		if (count($equipementPorteRowset) > 0) {
+			
+			Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement nb equipement porte:".count($equipementPorteRowset));
+			
 			$tabWhere = null;
 			$equipementRuneTable = new EquipementRune();
 			$equipements = null;
@@ -311,7 +314,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$idEquipements = null;
 			
 			foreach ($equipementPorteRowset as $e) {
-				//$idEquipements[] = $e["id_equipement_hequipement"];
+				$idEquipements[] = $e["id_equipement_hequipement"];
 				
 				/*$equipement = array(
 						"id_equipement" => $e["id_equipement_hequipement"],
@@ -412,6 +415,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			}
 			
 			$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
+			
 			unset($equipementRuneTable);
 			
 			if (count($equipementRunes) > 0) {
