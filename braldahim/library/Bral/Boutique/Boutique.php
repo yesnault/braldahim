@@ -86,7 +86,7 @@ abstract class Bral_Boutique_Boutique {
 	 * Mise à jour des événements du hobbit : type : compétence.
 	 */
 	private function majEvenementsBoutique($detailsBot) {
-		$this->idTypeEvenement = $this->view->config->game->evenements->type->service;
+		$this->idTypeEvenement = $this->view->config->game->evenements->type->boutique;
 		$this->detailEvenement = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a utilisé les services d'une boutique";
 		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot);
 	}

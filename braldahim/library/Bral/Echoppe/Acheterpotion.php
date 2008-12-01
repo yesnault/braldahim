@@ -13,7 +13,6 @@
 class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 	
 	private $potion = null;
-	private $idEchoppe = null;
 
 	function getNomInterne() {
 		return "box_action";
@@ -25,7 +24,6 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 	
 	function prepareCommun() {
 		Zend_Loader::loadClass("Charrette");
-		Zend_Loader::loadClass("Echoppe");
 		Zend_Loader::loadClass("EchoppeMinerai");
 		Zend_Loader::loadClass("EchoppePartieplante");
 		Zend_Loader::loadClass("EchoppePotion");
@@ -37,16 +35,6 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		Zend_Loader::loadClass("LabanPotion");
 		
 		$this->idPotion = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));
-		
-		$echoppesTable = new Echoppe();
-		$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		if (count($echoppeRowset) > 1) {
-			throw new Zend_Exception(get_class($this)."::nombre d'echoppe invalide > 1 !");
-		} else if (count($echoppeRowset) == 0) {
-			throw new Zend_Exception(get_class($this)."::nombre d'echoppe invalide = 0 !");
-		}
-		
-		$this->idEchoppe = $echoppeRowset[0]["id_echoppe"];
 		
 		$this->preparePotion($this->idPotion);
 		$this->preparePrix();
@@ -279,6 +267,8 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			throw new Zend_Exception(get_class($this)."::prix invalide");
 		}
 		
+		$this->view->detailPrix = "";
+		
 		if ($this->view->prix[$idPrix]["type"] == "echoppe") {
 			$this->calculAchatEchoppe($this->view->prix[$idPrix]);
 		} elseif ($this->view->prix[$idPrix]["type"] == "minerais") {
@@ -288,6 +278,10 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		}	
 
 		$this->calculTransfert();
+		
+		if ($this->view->detailPrix != "") {
+			$this->view->detailPrix = mb_substr($this->view->detailPrix, 0, -2);
+		}
 	}
 	
 	private function calculAchatEchoppe($prix) {
@@ -307,6 +301,8 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			);
 			$echoppeTable->insertOrUpdate($data);
 			
+			$this->view->detailPrix .= $prix["prix"]. " ". Bral_Util_Registre::getNomUnite($prix["unite"], false, $prix["prix"]).", ";
+			
 		} elseif (Bral_Util_Registre::getNomUnite($prix["unite"], true)  == "peau") {
 			$labanTable = new Laban();
 			$data = array(
@@ -320,6 +316,9 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 				'quantite_peau_caisse_echoppe' => $prix["prix"],
 			);
 			$echoppeTable->insertOrUpdate($data);
+			
+			$this->view->detailPrix .= $prix["prix"]. " ". Bral_Util_Registre::getNomUnite($prix["unite"], false, $prix["prix"]).", ";
+			
 		} elseif (Bral_Util_Registre::getNomUnite($prix["unite"], true)  == "castar") {
 			$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $prix["prix"];
 			
@@ -328,6 +327,9 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 				'quantite_castar_caisse_echoppe' => $prix["prix"],
 			);
 			$echoppeTable->insertOrUpdate($data);
+			
+			$this->view->detailPrix .= $prix["prix"]. " ". Bral_Util_Registre::getNomUnite($prix["unite"], false, $prix["prix"]).", ";
+			
 		}
 	}
 	
@@ -347,6 +349,9 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			'quantite_caisse_echoppe_minerai' => $prix["prix"],
 		);
 		$echoppeMineraiTable->insertOrUpdate($data);
+		
+		$this->view->detailPrix .= $prix["prix"]. " ".$prix["nom"].", ";
+		
 	}
 	
 	private function calculAchatPartiesPlantes($prix) {
@@ -367,6 +372,8 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 					  'id_fk_echoppe_echoppe_partieplante' => $this->idEchoppe,
 					 );
 		$echoppePartiePlanteTable->insertOrUpdate($data);
+		
+		$this->view->detailPrix .= $prix["prix"]. " ".$prix["nom"].", ";
 	}
 	
 	private function calculTransfert() {

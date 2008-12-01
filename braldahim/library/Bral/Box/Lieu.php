@@ -63,7 +63,7 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 				$this->view->estLieuCourant = true;
 				
 				$nom = "Échoppe";
-				if ($echoppe["nom_masculin_metier"] == "A") {
+				if ($echoppe["nom_masculin_metier"]{0} == "A") {
 					$nom .= " d'";
 				} else {
 					$nom .= " de ";

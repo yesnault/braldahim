@@ -13,9 +13,11 @@
 abstract class Bral_Echoppe_Echoppe {
 	
 	protected $reloadInterface = false;
+	protected $idEchoppe = null;
 
 	function __construct($nomSystemeAction, $request, $view, $action) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
+		Zend_Loader::loadClass("Echoppe");
 		
 		$this->view = $view;
 		$this->request = $request;
@@ -23,9 +25,11 @@ abstract class Bral_Echoppe_Echoppe {
 		$this->nom_systeme = $nomSystemeAction;
 		$this->view->nom_systeme = $this->nom_systeme;
 		
+		$this->prepareEchoppe();
+		
 		$this->calculNbPa();
 		$this->prepareCommun();
-
+		
 		switch($this->action) {
 			case "ask" :
 				$this->prepareFormulaire();
@@ -36,6 +40,36 @@ abstract class Bral_Echoppe_Echoppe {
 			default:
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
 		}
+	}
+	
+	private function prepareEchoppe() {
+		$echoppesTable = new Echoppe();
+		$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		if (count($echoppeRowset) > 1) {
+			throw new Zend_Exception(get_class($this)."::nombre d'echoppe invalide > 1 !");
+		} else if (count($echoppeRowset) == 0) {
+			throw new Zend_Exception(get_class($this)."::nombre d'echoppe invalide = 0 !");
+		}
+		$echoppe = $echoppeRowset[0];
+		$nom = "échoppe";
+		if ($echoppe["nom_masculin_metier"]{0} == "A") {
+			$nom .= " d'";
+		} else {
+			$nom .= " de ";
+		}
+		if ($echoppe["sexe_hobbit"] == "masculin") {
+			$nom .= $echoppe["nom_masculin_metier"];
+		} else {
+			$nom .= $echoppe["nom_feminin_metier"];
+		}
+		$detail = $nom. " appartenant à ".$echoppe["prenom_hobbit"];
+		$detail .= " ".$echoppe["nom_hobbit"];
+		$detail .= " n°".$echoppe["id_hobbit"];
+		
+		$this->echoppe = $echoppe;
+		$this->nomEchoppe = $nom;
+		$this->detailEchoppe = $detail;
+		$this->idEchoppe = $echoppeRowset[0]["id_echoppe"];
 	}
 
 	abstract function prepareCommun();
@@ -62,9 +96,12 @@ abstract class Bral_Echoppe_Echoppe {
 	 * Mise à jour des événements du hobbit : type : compétence.
 	 */
 	private function majEvenementsEchoppe($detailsBot) {
-		$this->idTypeEvenement = $this->view->config->game->evenements->type->service;
-		$this->detailEvenement = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a utilisé les services d'une échoppe";
+		$this->idTypeEvenement = $this->view->config->game->evenements->type->echoppe;
+		$this->detailEvenement = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a utilisé les services de l'".$this->detailEchoppe;
 		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot);
+		
+		$detailsBot = "Evènement dans l'échoppe ".$this->nomEchoppe." (".$this->echoppe["x_echoppe"].", ".$this->echoppe["y_echoppe"].", ".$this->echoppe["nom_region"]."). Message adressé au client : ".$detailsBot;
+		Bral_Util_Evenement::majEvenements($this->echoppe["id_hobbit"], $this->idTypeEvenement, $this->detailEvenement, $detailsBot);
 	}
 	
 	function render() {
