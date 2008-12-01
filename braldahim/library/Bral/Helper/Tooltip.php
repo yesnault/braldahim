@@ -55,7 +55,7 @@ class Bral_Helper_Tooltip {
 	public static function jsTip($contenu, $titre="", $justify = false, $click = true, $width = '250') {
 		$retour = " onmouseover=\"return overlib('".self::maketip($contenu, $titre, self::$CLOSE_NO, $justify, $width)."');\" ";
 		if ($click == true) {
-			$retour .= " onclick=\"return overlib('".self::maketip($contenu, $titre, self::$CLOSE_YES, $justify, $width)."', STICKY, CLOSECLICK, EXCLUSIVE);\" ";
+			$retour .= " onclick=\"return overlib('".self::maketip($contenu, $titre, self::$CLOSE_YES, $justify, $width)."', STICKY, DRAGCAP, CAPICON,'/public/images/pixel.gif', CAPTION,  ' ', CLOSECLICK, EXCLUSIVE, POSITIONCAP,'bottom');\" ";
 		}
 		$retour .= " onmouseout=\"return nd();\" style=\"cursor:pointer\"";
       	return $retour;
