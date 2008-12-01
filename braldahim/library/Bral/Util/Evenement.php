@@ -13,7 +13,7 @@
 class Bral_Util_Evenement {
 
 	/*
-	 * Mise � jour des �v�nements du hobbit / du monstre.
+	 * Mise a jour des Evenements du hobbit / du monstre.
 	 */
 	public static function majEvenements($idConcerne, $idTypeEvenement, $details, $detailsBot, $type="hobbit") {
 		Zend_Loader::loadClass('Evenement');

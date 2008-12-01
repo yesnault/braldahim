@@ -156,11 +156,24 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			}
 		}
 		
-		Zend_Loader::loadClass("Bral_Util_EffetsPotion"); 
+		Zend_Loader::loadClass("Bral_Util_EffetsPotion");
+		
+		$this->detailEvenement = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a ";
+		if ($this->retourPotion['cible']["id_cible"] == $this->view->user->id_hobbit && $utiliserPotionHobbit === true) {
+			$this->detailEvenement .= "bu une potion";
+		} else {
+			$this->detailEvenement .= "utilisé une potion sur ".$this->retourPotion['cible'];
+		}
+		
+		$this->setDetailsEvenement($this->detailEvenement, $this->view->config->game->evenements->type->competence);
+		
 		if ($utiliserPotionHobbit === true) {
 			$this->utiliserPotionHobbit($potion, $idHobbit);
+			$detailsBot = $this->getDetailEvenementCible($potion);
+			Bral_Util_Evenement::majEvenements($this->retourPotion['cible']["id_cible"], $this->view->config->game->evenements->type->competence, $this->detailEvenement, $detailsBot);
 		} elseif ($utiliserPotionMonstre === true) {
 			$this->utiliserPotionMonstre($potion, $idMonstre);
+			$this->setDetailsEvenementCible($idCible, "monstre");
 		} else {
 			throw new Zend_Exception(get_class($this)." Erreur inconnue");
 		}
@@ -256,5 +269,34 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$labanPotionTable = new LabanPotion();
 		$where = 'id_laban_potion = '.$potion["id_potion"];
 		$labanPotionTable->delete($where);
+	}
+	
+	private function getDetailEvenementCible($potion) {
+		$retour = "";
+		
+		if ($this->view->user->id_hobbit != $this->retourPotion['cible']["id_cible"]) {
+			$retour .= $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a utilis&eacute;";
+		} else {
+			$retour .= "Vous avez bu";
+		}
+		$retour .= " une potion ".htmlspecialchars($potion["nom"])." de qualit&eacute; ";
+		$retour .= htmlspecialchars($potion["qualite"]);
+		if ($this->view->user->id_hobbit != $this->retourPotion['cible']["id_cible"]) {
+			$retour .= " sur vous.";
+		}
+		$retour .= "
+";
+		$retour .= "L'effet de la potion porte sur ".$this->retourPotion['effet']['nb_tour_restant']." tour";
+		if ($this->retourPotion['effet']['nb_tour_restant'] > 1): $retour .= 's'; endif;
+		$retour .= ". 
+Vous venez de subir ".$this->retourPotion['effet']["nEffet"];
+		$retour .= " point";
+		if ($this->retourPotion['effet']["nEffet"] > 1): $retour .= 's'; endif; 
+		$retour .= " de ".$potion["bm_type"];
+		$retour .= " sur ".$potion["caracteristique"];
+		$retour .= "
+L'effet est imm&eacute;diat.";
+		
+		return $retour;
 	}
 }

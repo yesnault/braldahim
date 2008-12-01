@@ -85,6 +85,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 				break;
 			case "potions" :
 				$this->ramasseTypePotions();
+				break;
 			case "minerais" :
 				$this->ramasseTypeMinerais();
 				break;
@@ -478,6 +479,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		$elementMineraiTable = new ElementMinerai();
 		
 		$this->view->texteRamassage = "";
+		$trainer = "";
 		
 		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 		if ($poidsRestant < 0) $poidsRestant = 0;
