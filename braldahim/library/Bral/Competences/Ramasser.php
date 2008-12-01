@@ -97,6 +97,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 			default :
 				throw new Zend_Exception("Bral_Competences_Ramasser prepareType invalide : type=".$this->view->type);
 		}
+		
 	}
 	
 	function prepareFormulaire() {
@@ -116,7 +117,13 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Ramasser interdit ");
 		}
 		
+		$this->detailEvenement = "";
+		
 		$this->calculRamasser();
+		
+		$this->detailEvenement = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a ramassé ".$this->detailEvenement;
+		$this->setDetailsEvenement($this->detailEvenement, $this->view->config->game->evenements->type->ramasser);
+		
 		$this->setEvenementQueSurOkJet1(false);
 
 		$this->calculBalanceFaim();
@@ -184,6 +191,8 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		
 		$this->view->texteRamassage = $nbCastars. " castar";
 		if ($nbCastars > 1) $this->view->texteRamassage .= "s";
+		
+		$this->detailEvenement = "des castars qui traînaient par là";
 	}
 	
 	private function prepareTypeEquipements() {
@@ -260,6 +269,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		unset($labanEquipementTable);
 		
 		$this->view->texteRamassage = "l'&eacute;quipement n&deg; ". $equipement["id_equipement"];
+		$this->detailEvenement = "un équipement qui traînait par là";
 	}
 	
 	private function prepareTypeRunes() {
@@ -327,6 +337,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		unset($labanRuneTable);
 		
 		$this->view->texteRamassage = "la rune n&deg;".$rune["id_rune"];
+		$this->detailEvenement = "une rune qui traînait par là";
 	}
 	
 	private function prepareTypePotions() {
@@ -398,6 +409,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		unset($labanPotionTable);
 		
 		$this->view->texteRamassage = "la potion n&deg;".$potion["id_potion"];
+		$this->detailEvenement = "une potion qui traînait par là";
 	}
 	
 	private function prepareTypeMinerais() {
@@ -483,8 +495,9 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 			
 			if ($nbMineraiBrut > $nbMineraisPossible) {
 				$nbMineraiBrut = $nbMineraisPossible;
-				$poidsRestant = $poidsRestant - $nbMineraiBrut * Bral_Util_Poids::POIDS_MINERAI;
 			}
+			
+			$poidsRestant = $poidsRestant - $nbMineraiBrut * Bral_Util_Poids::POIDS_MINERAI;
 			
 			if ($nbMineraiBrut > $minerai["quantite"] || $nbMineraiBrut < 0) {
 				throw new Zend_Exception(get_class($this)." Quantite Minerai Brut invalide : ".$nbMineraiBrut);
@@ -510,11 +523,13 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 				$s = "";
 			}
 			$this->view->texteRamassage = $nbMineraiBrut." minerai".$s. " brut".$s;
+			$this->detailEvenement = "des minerais";
+			$trainer = " qui traînaient par là";
 		}
 		
 		$nbLingotsPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_LINGOT);
 		
-		if ($this->request->get("valeur_4") > 0 && $this->request->get("valeur_5") > 0) {
+		if ($this->request->get("valeur_4") > 0 && $this->request->get("valeur_5") > 0 && $nbLingotsPossible > 0) {
 			$idLingot = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_4"));
 			$nbLingot = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_5"));
 			
@@ -550,14 +565,33 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 			
 			if ($nbLingot > 1) {
 				$s = "s";
+				$prefix = "des";
+				$trainer = " qui traînaient par là";
+				$que = "que des";
 			} else {
 				$s = "";
+				$prefix = "un";
+				$trainer = "traînait";
+				$que = "qu'un";
+				if ($this->detailEvenement != "") {
+					$trainer = " qui traînaient par là";
+				} else {
+					$trainer = " qui traînait par là";
+				}
 			}
 			if ($this->view->texteRamassage != "" ) {
 				$this->view->texteRamassage .= " et ";
 			}
 			$this->view->texteRamassage .= $nbLingot." lingot".$s;
+			if ($this->detailEvenement != "") {
+				$this->detailEvenement .= " ainsi ".$que;
+				$prefix = "";
+			}
+			$this->detailEvenement .= $prefix." lingot".$s;
 		}
+		
+		$this->detailEvenement .= $trainer;
+		
 		unset($elementMineraiTable);
 		unset($labanMineraiTable);
 	}
@@ -644,8 +678,9 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 			
 			if ($nbPartiePlanteBrute > $nbPartiesPlantesBrutesPossible) {
 				$nbPartiePlanteBrute = $nbPartiesPlantesBrutesPossible;
-				$poidsRestant = $poidsRestant - $nbPartiePlanteBrute * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE;
 			}
+			
+			$poidsRestant = $poidsRestant - $nbPartiePlanteBrute * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE;
 			
 			if ($nbPartiePlanteBrute > $partiePlanteBrute["quantite"] || $nbPartiePlanteBrute < 0) {
 				throw new Zend_Exception(get_class($this)." Quantite PartiePlante Brute invalide : ".$nbPartiePlanteBrute);
@@ -673,11 +708,12 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 				$s = "";
 			}
 			$this->view->texteRamassage = $nbPartiePlanteBrute." &eacute;l&eacute;ment".$s." de plante".$s." brute".$s;
+			$this->detailEvenement = "des éléments de plantes qui traînaient par là";
 		}
 		
 		$nbPartiesPlantesPrepareesPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE);
 		
-		if ($this->request->get("valeur_4") > 0 && $this->request->get("valeur_5") > 0) {
+		if ($this->request->get("valeur_4") > 0 && $this->request->get("valeur_5") > 0 && $nbPartiesPlantesPrepareesPossible > 0) {
 			$idPartiePlantePreparee = $this->request->get("valeur_4");
 			$nbPartiePlantePreparee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_5"));
 			
@@ -722,9 +758,11 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 				$this->view->texteRamassage .= " et ";
 			}
 			$this->view->texteRamassage .= $nbPartiePlantePreparee." &eacute;l&eacute;ment".$s. " de plante".$s." pr&eacute;par&eacute;e".$s;
+			$this->detailEvenement = "des éléments de plantes qui traînaient par là";
 		}
 		unset($elementPartiePlanteTable);
 		unset($labanPartiePlanteTable);
+		
 	}
 	
 	private function prepareTypeAutres() {
@@ -756,13 +794,13 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		 
 		if (count($elements) == 1) {
 			foreach ($elements as $e) {
-				if ($e["quantite_peau_element"] > 0) $tabAutres[1] = array("nom" => "Peau", "pluriel" => "Peaux", "nom_systeme" => "quantite_peau" , "nb" => $e["quantite_peau_element"], "nbPossible" => $nbPeauPossible);
-				if ($e["quantite_viande_element"] > 0) $tabAutres[2] = array("nom" => "Viande", "pluriel" => "Viandes", "nom_systeme" => "quantite_viande" , "nb" => $e["quantite_viande_element"], "nbPossible" => $nbViandePossible);
-				if ($e["quantite_viande_preparee_element"] > 0) $tabAutres[3] = array("nom" => "Viande pr&eacute;par&eacute;e", "pluriel" => "Viandes Préparées", "nom_systeme" => "quantite_viande_preparee" , "nb" => $e["quantite_viande_preparee_element"], "nbPossible" => $nbViandePrepareePossible);
-				if ($e["quantite_ration_element"] > 0) $tabAutres[4] = array("nom" => "Ration", "nom_systeme" => "quantite_ration", "pluriel" => "Rations", "nb" => $e["quantite_ration_element"], "nbPossible" => $nbRationPossible);
-				if ($e["quantite_cuir_element"] > 0) $tabAutres[5] = array("nom" => "Cuir", "nom_systeme" => "quantite_cuir" , "pluriel" => "Cuirs", "nb" => $e["quantite_cuir_element"], "nbPossible" => $nbCuirPossible);
-				if ($e["quantite_fourrure_element"] > 0) $tabAutres[6] = array("nom" => "Fourrure", "nom_systeme" => "quantite_fourrure" , "pluriel" => "Fourrures", "nb" => $e["quantite_fourrure_element"], "nbPossible" => $nbFourrurePossible);
-				if ($e["quantite_planche_element"] > 0) $tabAutres[7] = array("nom" => "Planche", "nom_systeme" => "quantite_planche" , "pluriel" => "Planches", "nb" => $e["quantite_planche_element"], "nbPossible" => $nbPlanchePossible);
+				if ($e["quantite_peau_element"] > 0) $tabAutres[1] = array("prefix" => "une", "nom" => "Peau", "pluriel" => "Peaux", "nom_systeme" => "quantite_peau" , "nb" => $e["quantite_peau_element"], "nbPossible" => $nbPeauPossible);
+				if ($e["quantite_viande_element"] > 0) $tabAutres[2] = array("prefix" => "une", "nom" => "Viande", "pluriel" => "Viandes", "nom_systeme" => "quantite_viande" , "nb" => $e["quantite_viande_element"], "nbPossible" => $nbViandePossible);
+				if ($e["quantite_viande_preparee_element"] > 0) $tabAutres[3] = array("prefix" => "une", "nom" => "Viande pr&eacute;par&eacute;e", "pluriel" => "Viandes Préparées", "nom_systeme" => "quantite_viande_preparee" , "nb" => $e["quantite_viande_preparee_element"], "nbPossible" => $nbViandePrepareePossible);
+				if ($e["quantite_ration_element"] > 0) $tabAutres[4] = array("prefix" => "une", "nom" => "Ration", "nom_systeme" => "quantite_ration", "pluriel" => "Rations", "nb" => $e["quantite_ration_element"], "nbPossible" => $nbRationPossible);
+				if ($e["quantite_cuir_element"] > 0) $tabAutres[5] = array("prefix" => "un", "nom" => "Cuir", "nom_systeme" => "quantite_cuir" , "pluriel" => "Cuirs", "nb" => $e["quantite_cuir_element"], "nbPossible" => $nbCuirPossible);
+				if ($e["quantite_fourrure_element"] > 0) $tabAutres[6] = array("prefix" => "une", "nom" => "Fourrure", "nom_systeme" => "quantite_fourrure" , "pluriel" => "Fourrures", "nb" => $e["quantite_fourrure_element"], "nbPossible" => $nbFourrurePossible);
+				if ($e["quantite_planche_element"] > 0) $tabAutres[7] = array("prefix" => "une", "nom" => "Planche", "nom_systeme" => "quantite_planche" , "pluriel" => "Planches", "nb" => $e["quantite_planche_element"], "nbPossible" => $nbPlanchePossible);
 				
 				if (count($tabAutres) > 0) {
 					$this->view->ramasserOk = true;
@@ -823,8 +861,10 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		$this->view->texteRamassage = $nb. " ";
 		if ($nb > 1) {
 			$this->view->texteRamassage .= $this->view->autres[$idAutre]["pluriel"];
+			$this->detailEvenement = "des ".$this->view->autres[$idAutre]["pluriel"]." qui traînaient par là";
 		} else {
 			$this->view->texteRamassage .= $this->view->autres[$idAutre]["nom"];
+			$this->detailEvenement = $this->view->autres[$idAutre]["prefix"]. " ".$this->view->autres[$idAutre]["nom"]." qui traînait par là";
 		}
 	}
 }

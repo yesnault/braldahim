@@ -117,6 +117,11 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		}
 		
 		$this->calculDeposer();
+		
+		
+		$this->detailEvenement = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a déposé des éléments à terre";
+		$this->setDetailsEvenement($this->detailEvenement, $this->view->config->game->evenements->type->deposer);
+		
 		$this->setEvenementQueSurOkJet1(false);
 
 		$this->calculBalanceFaim();
