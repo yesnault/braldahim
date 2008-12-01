@@ -26,16 +26,15 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 		
 		$this->view->courirPossible = false;
 		
-		$vue_nb_cases = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
+		$environnement = Bral_Util_Commun::getEnvironnement($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		
 		$this->view->nb_cases = 1;
-		$this->distance = 6;
-		
-		if ($vue_nb_cases < 6) {
-			$this->distance = $vue_nb_cases;
+		if ($environnement == "plaine") {
+			$this->distance = 12;
 		} else {
-			$this->distance = 6;
+			$this->distance = 12;
 		}
+		
 		$this->x_min = $this->view->user->x_hobbit - $this->distance;
 		$this->x_max = $this->view->user->x_hobbit + $this->distance;
 		$this->y_min = $this->view->user->y_hobbit - $this->distance;

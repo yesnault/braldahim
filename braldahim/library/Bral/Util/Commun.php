@@ -59,7 +59,7 @@ class Bral_Util_Commun {
 	}
 	
 	/*
-	 * Regarde si la rune de @param est port�e
+	 * Regarde si la rune de @param est portée
 	 */
 	public static function isRunePortee($idHobbit, $nomTypeRune) {
 		$retour = false;
