@@ -195,8 +195,8 @@ class Bral_Helper_Profil {
      		$pourcent_cumul = substr($pourcent, 0, 5);
      	}
      	
-     	$section_cumul = "Section survolée : Cumul, termin&eacute;e &agrave; ".$pourcent_milieu." %<br><br>";
-     	$section_milieu = "Section survolée : Milieu, termin&eacute;e &agrave; ".$pourcent_cumul." %<br><br>";
+     	$section_cumul = "Section survolée : Cumul, termin&eacute;e &agrave; ".$pourcent_cumul." %<br><br>";
+     	$section_milieu = "Section survolée : Milieu, termin&eacute;e &agrave; ".$pourcent_milieu." %<br><br>";
      	$section_latence = "Section survolée : Latence, termin&eacute;e &agrave; ".$pourcent_latence." %<br><br>";
      	
      	$retour .= "<table border='0' margin='0' cellspacing='0' cellpadding='0'><tr>";
