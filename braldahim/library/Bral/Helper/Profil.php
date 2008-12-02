@@ -167,7 +167,7 @@ class Bral_Helper_Profil {
      		$ecart = $time_fin_latence - $time_date_courante; 
      		
      		$pourcent = 100 - ($ecart * 100 / $ecartTotal);
-     		$width_latence = $pourcent;
+     		$width_latence = ($pourcent * 33 / 100 ) * 2; // latence : 33% du total , x2 pour la taille css
      		$pourcent_latence = substr($pourcent, 0, 5);
      	} else if ($date_courante <= $hobbit->date_debut_cumul_hobbit) {
      		$width_latence = "100";
@@ -178,7 +178,7 @@ class Bral_Helper_Profil {
      		$ecart = $time_debut_cumul - $time_date_courante; 
      		
      		$pourcent = 100 - ($ecart * 100 / $ecartTotal);
-     		$width_milieu = $pourcent / 2;
+     		$width_milieu = ($pourcent * 17 / 100) * 2; // milieu : 17 % du total , x2 pour la taille css
      		$pourcent_milieu = substr($pourcent, 0, 5);
      	} else { // CUMUL
      		$width_latence = "100";
@@ -190,7 +190,7 @@ class Bral_Helper_Profil {
      		$ecart = $time_fin_tour - $time_date_courante; 
      		
      		$pourcent = 100 - ($ecart * 100 / $ecartTotal);
-     		$width_cumul = $pourcent / 2;
+     		$width_cumul = ($pourcent * 50 / 100) * 2; // cumul, 50 % du total, x2 pour la taille css
      		$pourcent_cumul = substr($pourcent, 0, 5);
      	}
      	

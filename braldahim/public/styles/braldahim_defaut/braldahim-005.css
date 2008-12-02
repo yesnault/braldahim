@@ -635,15 +635,15 @@ span.id_hobbit {
 }
 
 .barre_tour_latence {
-	width: 100px;
+	width:66px;
 }
 
 .barre_tour_milieu {
-	width: 50px;
+	width: 34px;
 }
 
 .barre_tour_cumul {
-	width: 50px;
+	width: 100px;
 }
 
 
