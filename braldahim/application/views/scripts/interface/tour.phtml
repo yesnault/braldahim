@@ -33,10 +33,18 @@
 	<?php endif; ?>
 	<br />
 	Points de vie : <?=$this->user->pv_restant_hobbit ?> / <?=($this->config->game->pv_base + $this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) ?>  + <?= $this->user->pv_max_bm_hobbit ?><br />
-	Date limite d'action : <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y &\a\g\r\a\v\e\; H:i:s ',$this->user->date_fin_tour_hobbit);?> <br />
+	<br />
 	Dur&eacute;e du tour : <?=$this->user->duree_courant_tour_hobbit ?> <br />
 	Position dans le tour : <?=$this->user->nom_tour ?> <br />
+	<br />
+	D&eacute;but tour : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_debut_tour_hobbit);?><br />
+	Fin Latence : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->date_fin_latence);?><br />
+	Début Cumul : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->date_debut_cumul);?><br />
+	Date limite d'action : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_hobbit);?> <br />
+	<br />
 	Nombre de Points d'Action : <?=$this->user->pa_hobbit ?><br /><br />
+	
+	Dur&eacute;e du prochain tour : <?=$this->user->duree_prochain_tour_hobbit ?> <br />
 	
 	<? include("tour/effet_mot_text.phtml"); ?>
 	<? include("tour/effet_potion_text.phtml"); ?>
@@ -67,10 +75,21 @@ Activation d'un nouveau tour <?php endif; ?>
 Vous avez r&eacute;g&eacute;n&eacute;r&eacute; <?=$this->jetRegeneration ?> point<? if ($this->jetRegeneration > 1): echo "s"; endif;?> de vie.
 <?php if ($this->is_tour_manque) : ?>Vous avez manqu&eacute; un (ou plusieurs) tour de jeu<?php endif; ?> 
 Points de vie : <?=$this->user->pv_restant_hobbit ?> / <?=($this->config->game->pv_base + $this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) ?>  + <?= $this->user->pv_max_bm_hobbit ?> 
-Date limite d'action : <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y &\a\g\r\a\v\e\; H:i:s ',$this->user->date_fin_tour_hobbit);?> 
+
+
 Dur&eacute;e du tour : <?=$this->user->duree_courant_tour_hobbit ?> 
 Position dans le tour : <?=$this->user->nom_tour  ?> 
+
+D&eacute;but tour : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_debut_tour_hobbit);?> 
+Fin Latence : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->date_fin_latence);?> 
+Début Cumul : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->date_debut_cumul);?> 
+Date limite d'action : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_hobbit);?> 
+
+
 Nombre de Points d'Action : <?=$this->user->pa_hobbit ?> 
+
+Dur&eacute;e du prochain tour : <?=$this->user->duree_prochain_tour_hobbit ?> 
+
 <? 
  	include("tour/effet_mot_copie.phtml");
  	include("tour/effet_potion_copie.phtml");

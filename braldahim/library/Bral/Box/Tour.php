@@ -78,6 +78,9 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$date_fin_latence =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_latence);
 		$date_debut_cumul =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_cumul);
 
+		$this->view->date_fin_latence = $date_fin_latence;
+		$this->view->date_debut_cumul = $date_debut_cumul;
+		
 		Bral_Util_Log::tour()->debug(get_class($this)." time_latence=".$time_latence);
 		Bral_Util_Log::tour()->debug(get_class($this)." time_cumul=".$time_cumul);
 		Bral_Util_Log::tour()->debug(get_class($this)." date_fin_latence=".$date_fin_latence);
