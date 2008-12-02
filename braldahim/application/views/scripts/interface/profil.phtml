@@ -12,7 +12,7 @@
 			</p>
 			
  		<ul class="titre textalia textsized" >
-				&nbsp;Informations tour courant
+				&nbsp;Informations tour
 		</ul>
 
 		<table class="table_liste" style="width:98%; border:0" >
@@ -31,18 +31,12 @@
 				<?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_hobbit);?>
 				</td>
 			</tr>
-			<tr class="table_liste" valign="top">
+			<tr>
 				<td align="left" >
-				  Position tour courant
+					 Avancement de ce tour
 				</td>
-				<td align="left" >
-				<?=$this->user->nom_tour ?>
-				</td>
-				<td>&nbsp;&nbsp;</td>
-				<td  align="right" >
-				<? if ($this->user->info_prochaine_position != "") : ?>
-				    	<?=$this->user->info_prochaine_position ?><br />
-				    <? endif; ?>
+				<td colspan="3">
+				<?=Bral_Helper_Profil::afficheBarreTour($this->user)?>
 				</td>
 			</tr>
 			<tr class="table_liste" align="left" valign="top">

@@ -624,6 +624,29 @@ span.id_hobbit {
 	border-color: #6f5f6f;
 }
 
+.barre_tour_latence,.barre_tour_milieu,.barre_tour_cumul {
+	background-color: #FFFFFF;
+	height: 10px;
+	text-align: left;
+	border-style: solid;
+	border-width: 1px;
+	margin-left: 0px;
+	border-color: #6f5f6f;
+}
+
+.barre_tour_latence {
+	width: 100px;
+}
+
+.barre_tour_milieu {
+	width: 50px;
+}
+
+.barre_tour_cumul {
+	width: 50px;
+}
+
+
 .ligne_espace {
 	padding: 2px 0pt;
 }

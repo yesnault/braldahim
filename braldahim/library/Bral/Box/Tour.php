@@ -60,7 +60,6 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 		// nouveau tour (ou mort : en cas de mort : la date de fin de tour doit être positionnee à la mort) 
 		if ($this->is_nouveau_tour) {
-			
 			Bral_Util_Log::tour()->debug(get_class($this)." Nouveau tour");
 			$this->calculDLA();
 			
@@ -72,19 +71,9 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		 * et la date de fin, la date courante + 6 heures, le joueur se trouve
 		 * directement en position de cumul
 		 */
-		$time_latence = Bral_Util_ConvertDate::get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_latence);
-		$time_cumul = Bral_Util_ConvertDate::get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_cumul);
-
-		$date_fin_latence =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_latence);
-		$date_debut_cumul =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_cumul);
-
-		$this->view->date_fin_latence = $date_fin_latence;
-		$this->view->date_debut_cumul = $date_debut_cumul;
 		
-		Bral_Util_Log::tour()->debug(get_class($this)." time_latence=".$time_latence);
-		Bral_Util_Log::tour()->debug(get_class($this)." time_cumul=".$time_cumul);
-		Bral_Util_Log::tour()->debug(get_class($this)." date_fin_latence=".$date_fin_latence);
-		Bral_Util_Log::tour()->debug(get_class($this)." date_debut_cumul".$date_debut_cumul);
+		Bral_Util_Log::tour()->debug(get_class($this)." date_fin_latence=".$this->hobbit->date_fin_latence_hobbit);
+		Bral_Util_Log::tour()->debug(get_class($this)." date_debut_cumul".$this->hobbit->date_debut_cumul_hobbit);
 		Bral_Util_Log::tour()->debug(get_class($this)." date_courante=".$date_courante);
 		Bral_Util_Log::tour()->debug(get_class($this)." date fin tour=".$this->hobbit->date_fin_tour_hobbit);
 		Bral_Util_Log::tour()->debug(get_class($this)." tour position=".$this->hobbit->tour_position_hobbit);
@@ -98,20 +87,20 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->hobbit->pa_hobbit = $this->view->config->game->pa_max_cumul;
 			$this->is_tour_manque  = true;
 			$this->is_update_tour = true;
-		} elseif(($date_courante < $date_fin_latence) // Latence
+		} elseif(($date_courante < $this->hobbit->date_fin_latence_hobbit) // Latence
 		&& $this->is_nouveau_tour) {
 			Bral_Util_Log::tour()->debug(get_class($this)." Latence Tour");
 			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_latence;
 			$this->hobbit->pa_hobbit = 0;
 			$this->is_update_tour = true;
-		} elseif(($date_courante >= $date_fin_latence && $date_courante < $date_debut_cumul) // Milieu
+		} elseif(($date_courante >= $this->hobbit->date_fin_latence_hobbit && $date_courante < $this->hobbit->date_debut_cumul_hobbit) // Milieu
 		&& ( (!$this->is_nouveau_tour && ($this->hobbit->tour_position_hobbit != $this->view->config->game->tour->position_milieu))
 		|| ($this->is_nouveau_tour))) {
 			Bral_Util_Log::tour()->debug(get_class($this)." Milieu Tour");
 			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_milieu;
 			$this->hobbit->pa_hobbit = $this->view->config->game->pa_max;
 			$this->is_update_tour = true;
-		} elseif(($date_courante >= $date_debut_cumul && $date_courante < $this->hobbit->date_fin_tour_hobbit)  // Cumul
+		} elseif(($date_courante >= $this->hobbit->date_debut_cumul_hobbit && $date_courante < $this->hobbit->date_fin_tour_hobbit)  // Cumul
 		&& ( (!$this->is_nouveau_tour && ($this->hobbit->tour_position_hobbit != $this->view->config->game->tour->position_cumul))
 		|| ($this->is_nouveau_tour))) {
 			Bral_Util_Log::tour()->debug(get_class($this)." Cumul tour");
@@ -487,13 +476,9 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		Bral_Util_Log::tour()->trace(get_class($this)." calculInfoTour - enter -");
 		$info = "";
 		if ($this->view->user->tour_position_hobbit == $this->view->config->game->tour->position_latence) {
-			$time_latence = Bral_Util_ConvertDate::get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_latence);
-			$date_fin_latence =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_latence);
-			$info = "Fin latence &agrave; ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$date_fin_latence);
+			$info = "Fin latence &agrave; ".$this->hobbit->date_fin_latence_hobbit;
 		} else if ($this->view->user->tour_position_hobbit == $this->view->config->game->tour->position_milieu) {
-			$time_cumul = Bral_Util_ConvertDate::get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_cumul);
-			$date_debut_cumul =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_cumul);
-			$info = "Cumul &agrave; ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$date_debut_cumul);
+			$info = "Cumul &agrave; ".$this->hobbit->date_debut_cumul_hobbit;
 		}
 		$this->view->user->info_prochaine_position = $info;
 		Bral_Util_Log::tour()->trace(get_class($this)." calculInfoTour - exit -");
@@ -532,6 +517,13 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		
 		$this->hobbit->date_debut_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;
 		$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_fin_tour_hobbit, $this->hobbit->duree_courant_tour_hobbit);
+		
+		$time_latence = Bral_Util_ConvertDate::get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_latence);
+		$time_cumul = Bral_Util_ConvertDate::get_divise_time_to_time($this->hobbit->duree_courant_tour_hobbit, $this->view->config->game->tour->diviseur_cumul);
+
+		$this->hobbit->date_fin_latence_hobbit =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_latence);
+		$this->hobbit->date_debut_cumul_hobbit =  Bral_Util_ConvertDate::get_date_add_time_to_date($this->hobbit->date_debut_tour_hobbit, $time_cumul);
+		
 		Bral_Util_Log::tour()->debug(get_class($this)." this->hobbit->date_fin_tour_hobbit=".$this->hobbit->date_fin_tour_hobbit);
 		Bral_Util_Log::tour()->trace(get_class($this)." calculDLA - exit -");
 	}
@@ -605,6 +597,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			'y_hobbit'  => $this->hobbit->y_hobbit,
 			'date_debut_tour_hobbit' => $this->hobbit->date_debut_tour_hobbit,
 			'date_fin_tour_hobbit' => $this->hobbit->date_fin_tour_hobbit,
+			'date_fin_latence_hobbit' => $this->hobbit->date_fin_latence_hobbit,
+			'date_debut_cumul_hobbit' => $this->hobbit->date_debut_cumul_hobbit,
 			'duree_courant_tour_hobbit' => $this->hobbit->duree_courant_tour_hobbit,
 			'duree_prochain_tour_hobbit' => $this->hobbit->duree_prochain_tour_hobbit,
 			'tour_position_hobbit' => $this->hobbit->tour_position_hobbit,
