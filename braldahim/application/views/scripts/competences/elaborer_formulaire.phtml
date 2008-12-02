@@ -7,7 +7,7 @@
      <select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_elaborer&type_potion='+this.value);">
 	 	<option value="-1">(Choisis une potion)</option>
 	 	<? foreach($this->typePotion as $t) : ?>
-	 		<option value="<?=$t["id_type_potion"]?>" <?=$t["selected"]?>><?=htmlspecialchars($t["nom_type_potion"])?></option>
+	 		<option value="<?=$t["id_type_potion"]?>" <?=$t["selected"]?>><?=htmlspecialchars($t["nom_type_potion"])." (".$t["bm_type_potion"]." sur ".$t["caract_type_potion"].")"?></option>
 	 	<? endforeach; ?>
 	 </select>
 	<? endif; ?>

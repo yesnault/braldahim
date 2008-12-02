@@ -14,6 +14,8 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Echoppe");
+		Zend_Loader::loadClass("RecetteEquipement");
+		Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
 
 		$id_type_courant = $this->request->get("type_equipement");
 
@@ -97,6 +99,27 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 				$tabNiveaux[$i] = array('niveauText' => 'Niveau '.$i, 'ressourcesOk' => true);
 			}
 
+			$recetteEquipementTable = new RecetteEquipement();
+			$recetteEquipement = $recetteEquipementTable->findByIdTypeEquipement($typeEquipementCourant["id_type_equipement"]);
+			
+			foreach($recetteEquipement as $r) {
+				$tabCaracs[$r["niveau_recette_equipement"]][$r["id_fk_type_qualite_recette_equipement"]][] = array(
+						'nom_qualite' => $r["nom_type_qualite"],
+						'niveau' => $r["niveau_recette_equipement"], 
+						'poids' => $r["niveau_recette_equipement"], 
+						'armure' => $r["armure_recette_equipement"], 
+						'force' => $r["force_recette_equipement"], 
+						'agilite' => $r["agilite_recette_equipement"], 
+						'vigueur' => $r["vigueur_recette_equipement"], 
+						'sagesse' => $r["sagesse_recette_equipement"], 
+						'vue' => $r["vue_recette_equipement"], 
+						'bm_attaque' => $r["bm_attaque_recette_equipement"], 
+						'bm_degat' => $r["bm_degat_recette_equipement"], 
+						'bm_defense' => $r["bm_defense_recette_equipement"], 
+						'nom_emplacement' => $r["nom_type_emplacement"], 
+						);
+			}
+			
 			$recetteCoutTable = new RecetteCout();
 			$recetteCout = $recetteCoutTable->findByIdTypeEquipement($typeEquipementCourant["id_type_equipement"]);
 
@@ -169,6 +192,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 				$this->view->peutRunes = false;
 			}
 
+			$this->view->caracs = $tabCaracs;
 			$this->view->cout = $tabCout;
 			$this->view->niveaux = $tabNiveaux;
 			$this->view->runes = $tabRunes;

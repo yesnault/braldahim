@@ -66,7 +66,9 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			$t = array(
 				'id_type_potion' => $t["id_type_potion"],
 				'nom_type_potion' => $t["nom_type_potion"],
-				'selected' => $selected
+				'selected' => $selected,
+				'bm_type_potion' => $t["bm_type_potion"],
+				'caract_type_potion' => $t["caract_type_potion"],
 			);
 			if ($id_type_courant == $t["id_type_potion"]) {
 				$typePotionCourante = $t;
@@ -116,7 +118,13 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			
 			foreach($tabNiveaux as $k => $v) {
 				foreach($recettePotions as $r) {
-					$tabCout[$k][] = array("nom_type_plante"=>$r["nom_type_plante"], "id_type_plante"=>$r["id_type_plante"], "nom_type_partieplante"=>$r["nom_type_partieplante"], "id_type_partieplante"=>$r["id_type_partieplante"], "cout" => ($r["coef_recette_potion"] + $k));
+					$tabCout[$k][] = array(
+						"nom_type_plante"=>$r["nom_type_plante"], 
+						"id_type_plante"=>$r["id_type_plante"], 
+						"nom_type_partieplante"=>$r["nom_type_partieplante"], 
+						"id_type_partieplante"=>$r["id_type_partieplante"], 
+						"cout" => ($r["coef_recette_potion"] + $k),
+					);
 					if (isset($tabPartiePlantes[$r["id_fk_type_plante_recette_potion"]]) && (isset($tabPartiePlantes[$r["id_fk_type_plante_recette_potion"]][$r["id_fk_type_partieplante_recette_potion"]]["quantite_preparees"])) ) {
 						if ($r["coef_recette_potion"] + $k > $tabPartiePlantes[$r["id_fk_type_plante_recette_potion"]][$r["id_fk_type_partieplante_recette_potion"]]["quantite_preparees"]) {
 							$tabNiveaux[$k]["ressourcesOk"] = false;
