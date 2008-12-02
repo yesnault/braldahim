@@ -159,8 +159,6 @@ class Bral_Helper_Profil {
      	$pourcent_cumul = 0;
      	
      	if ($date_courante <= $hobbit->date_fin_latence_hobbit) {
-     		$width_latence = "50";
-     		
      		$time_debut_tour = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_debut_tour_hobbit);
      		$time_fin_latence = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_fin_latence_hobbit);
      		$ecartTotal = $time_fin_latence - $time_debut_tour;
@@ -170,7 +168,7 @@ class Bral_Helper_Profil {
      		$width_latence = ($pourcent * 33 / 100 ) * 2; // latence : 33% du total , x2 pour la taille css
      		$pourcent_latence = substr($pourcent, 0, 5);
      	} else if ($date_courante <= $hobbit->date_debut_cumul_hobbit) {
-     		$width_latence = "100";
+     		$width_latence = "66";
      		
      		$time_fin_latence = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_fin_latence_hobbit);
      		$time_debut_cumul = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_debut_cumul_hobbit);
@@ -180,9 +178,12 @@ class Bral_Helper_Profil {
      		$pourcent = 100 - ($ecart * 100 / $ecartTotal);
      		$width_milieu = ($pourcent * 17 / 100) * 2; // milieu : 17 % du total , x2 pour la taille css
      		$pourcent_milieu = substr($pourcent, 0, 5);
+     		$pourcent_latence = 100;
      	} else { // CUMUL
-     		$width_latence = "100";
-     		$width_milieu = "50";
+     		$pourcent_latence = 100;
+     		$pourcent_milieu = 100;
+     		$width_latence = "66";
+     		$width_milieu = "34";
      		
      		$time_fin_tour = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_fin_tour_hobbit);
      		$time_debut_cumul = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_debut_cumul_hobbit);
