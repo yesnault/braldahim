@@ -238,23 +238,23 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 			// mettre dans le laban présent à la place de la destination
 			if ($this->equipementPorte != null) {
 				foreach ($this->equipementPorte as $p) {
-					if ($equipement["id_type_emplacement"] == "deuxmains") {
-						if ($p["id_type_emplacement"] == "main" || 
-							$p["id_type_emplacement"] == "maingauche" || 
-							$p["id_type_emplacement"] == "maindroite" || 
-							$p["id_type_emplacement"] == "deuxmains") {
+					if ($equipement["nom_systeme_type_emplacement"] == "deuxmains") {
+						if ($p["nom_systeme_type_emplacement"] == "main" || 
+							$p["nom_systeme_type_emplacement"] == "maingauche" || 
+							$p["nom_systeme_type_emplacement"] == "maindroite" || 
+							$p["nom_systeme_type_emplacement"] == "deuxmains") {
 							$this->calculTransfertVersLaban($p);
 						}
-					} else if ($equipement["id_type_emplacement"] == "main") {
-						if ($p["id_type_emplacement"] == "maingauche") {
+					} else if ($equipement["nom_systeme_type_emplacement"] == "main") {
+						if ($p["nom_systeme_type_emplacement"] == "maingauche") {
 							$mainGauche = false;
 							$nbMain = $nbMain + 1;
 							$eMainGauche = $p;
-						} else if ($p["id_type_emplacement"] == "maindroite") {
+						} else if ($p["nom_systeme_type_emplacement"] == "maindroite") {
 							$mainDroite = false;
 							$nbMain = $nbMain + 1;
 							$eMainDroite = $p;
-						} else if ($p["id_type_emplacement"] == "main") {
+						} else if ($p["nom_systeme_type_emplacement"] == "main") {
 							$main = false;
 							$nbMain = $nbMain + 1;
 							$eMain = $p;
@@ -264,7 +264,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					}				
 				}
 				
-				if ($equipement["id_type_emplacement"] == "main" ) {
+				if ($equipement["nom_systeme_type_emplacement"] == "main" ) {
 					if ($mainGauche == false && $mainDroite == false && $nbMain >= 2) {
 						if ($main == false) {
 							$this->calculTranfertVersLaban($eMain);

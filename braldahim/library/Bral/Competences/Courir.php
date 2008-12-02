@@ -32,7 +32,7 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 		if ($environnement == "plaine") {
 			$this->distance = 12;
 		} else {
-			$this->distance = 12;
+			$this->distance = 6;
 		}
 		
 		$this->x_min = $this->view->user->x_hobbit - $this->distance;

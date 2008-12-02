@@ -61,7 +61,7 @@ if (typeof ol_text=='undefined') var ol_text="Default Text";
 if (typeof ol_cap=='undefined') var ol_cap="";
 if (typeof ol_sticky=='undefined') var ol_sticky=0;
 if (typeof ol_background=='undefined') var ol_background="";
-if (typeof ol_close=='undefined') var ol_close="Fermer";
+if (typeof ol_close=='undefined') var ol_close="";
 if (typeof ol_hpos=='undefined') var ol_hpos=RIGHT;
 if (typeof ol_status=='undefined') var ol_status="";
 if (typeof ol_autostatus=='undefined') var ol_autostatus=0;
