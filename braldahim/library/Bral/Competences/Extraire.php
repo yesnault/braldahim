@@ -65,10 +65,9 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		}
 		
 		// calcul des jets
-		$this->calculJets();
-		
-		// Verification filon
-		if ($this->view->filonOk == false) {
+		if ($this->view->filonOk == true) {
+			$this->calculJets();
+		} else { // ($this->view->filonOk == false) {
 			$this->calculPx();
 			$this->calculBalanceFaim();
 			$this->majHobbit();
