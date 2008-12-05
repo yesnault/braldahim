@@ -1,0 +1,17 @@
+<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'/>
+ <div class='comp_contenu'>
+<?php if ($this->nbEquipementLaban == 0) : ?>
+ 	Vous n'avez pas de pi&eagrave;ce d'&eacute;quipement dans votre laban !<br />
+<?php else: ?>
+	Pour <?=$this->nb_pa ?> PA, vous pouvez recycler une pi&eagrave;ce d'&eacute;quipement :<br /><br />
+	
+	<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_recycler').disabled=true } else {$('bouton_recycler').disabled=false }">
+		<option value='-1'>(Choisis une pièce)</option>
+		<? foreach ($this->tabEquipementLaban as $e) : ?>
+				<option value="<?=$e["id_equipement"]?>">N° <?=$e["id_equipement"]?> : <?=$e["nom"]?> de qualit&eacute; <?=$e["qualite"]?> et de niveau <?=$e["niveau"]?></option>
+		<? endforeach; ?>
+	</select>
+	<br /><br />
+	<input type='button' class='button1' value='Recycler !' id='bouton_recycler' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_recyclage");' disabled>
+<?php endif; ?>
+</div>
