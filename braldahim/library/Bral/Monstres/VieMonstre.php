@@ -15,7 +15,7 @@ class Bral_Monstres_VieMonstre {
 	private $monstre = null;
 	private static $config = null;
 
-	public static function getInstance() {
+	 public static function getInstance() {
 		Bral_Util_Log::tech()->trace("Bral_Monstres_VieMonstre - getInstance - enter");
 		
 		if (self::$instance == null) {

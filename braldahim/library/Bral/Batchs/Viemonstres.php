@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
+ */
+class Bral_Batchs_Viemonstres extends Bral_Batchs_Batch {
+	
+	public function calculBatchImpl() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Viemonstres - calculBatchImpl - enter -");
+		$retour = null;
+
+        Zend_Loader::loadClass('GroupeMonstre');
+        Zend_Loader::loadClass('Monstre');
+        Zend_Loader::loadClass("Bral_Monstres_VieGroupesNuee");
+
+		$vieGroupe = new Bral_Monstres_VieGroupesNuee();
+        $vieGroupe->vieGroupesAction();
+		
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Viemonstres - calculBatchImpl - exit -");
+		return $retour;
+	}
+	
+	private function purgeBatch() {
+        
+	}
+}

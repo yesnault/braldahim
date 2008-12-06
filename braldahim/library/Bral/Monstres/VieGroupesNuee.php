@@ -11,24 +11,25 @@
  * $LastChangedBy$
  */
 class Bral_Monstres_VieGroupesNuee {
-	function __construct($view) {
+	function __construct() {
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
 		Zend_Loader::loadClass("Ville");
-		$this->view = $view;
+		$this->config = Zend_Registry::get('config');
 	}
 
-	function vieGroupesAction() {
+	public function vieGroupesAction() {
 		Bral_Util_Log::tech()->trace(get_class($this)." - vieGroupesAction - enter");
 		try {
 			// recuperation des monstres a jouer
 			$groupeMonstreTable = new GroupeMonstre();
-			$groupes = $groupeMonstreTable->findGroupesAJouer($this->view->config->game->monstre->nombre_groupe_a_jouer, $this->view->config->game->groupe_monstre->type->nuee);
+			$groupes = $groupeMonstreTable->findGroupesAJouer($this->config->game->monstre->nombre_groupe_a_jouer, $this->config->game->groupe_monstre->type->nuee);
 			foreach($groupes as $g) {
 				$this->vieGroupeAction($g);
 				$this->updateGroupe($g);
 			}
 		} catch (Exception $e) {
 			Bral_Util_Log::erreur()->err(get_class($this)." - vieGroupesAction - Erreur:".$e->getTraceAsString());
+            throw new Zend_Exception($e);
 		}
 		Bral_Util_Log::tech()->trace(get_class($this)." - vieGroupesAction - exit");
 	}
@@ -55,28 +56,24 @@ class Bral_Monstres_VieGroupesNuee {
 			if (count($cible) > 0) {
 				$cible = $cible[0];
 			}
-			// si la cible n'est pas dans la vue, on en recherche une autre ou l'on se deplace
-			if ($cible == null) {
-				Bral_Util_Log::tech()->debug(get_class($this)." - cible hors de vue");
-				$groupe["id_fk_hobbit_cible_groupe_monstre"] = null;
-				$cible = $this->rechercheNouvelleCible($monstre_role_a, $groupe, $monstres);
-				if ($cible != null) { // si une cible est trouvee, on attaque
-					$this->attaqueGroupe($monstre_role_a, $groupe, $monstres, $cible);
-				} else {
-					$this->deplacementGroupe($monstre_role_a, $groupe, $monstres);
-				}
-			} else { // si la cible est dans la vue, on attaque
-				$this->attaqueGroupe($monstre_role_a, $groupe, $monstres, $cible);
-			}
-		} else { // pas de cible en cours
-			Bral_Util_Log::tech()->debug(get_class($this)." - pas de cible en cours");
-			$cible = $this->rechercheNouvelleCible($monstre_role_a, $groupe, $monstres);
-			if ($cible != null) { // si une cible est trouvee, on attaque
-				$this->attaqueGroupe($monstre_role_a, $groupe, $monstres, $cible);
-			} else {
-				$this->deplacementGroupe($monstre_role_a, $groupe, $monstres);
-			}
-		}
+        } else { // pas de cible en cours
+            $cible = null;
+        }
+
+        // si la cible n'est pas dans la vue, on en recherche une autre ou l'on se deplace
+        if ($cible == null) {
+            Bral_Util_Log::tech()->debug(get_class($this)." - pas de cible en cours");
+            $groupe["id_fk_hobbit_cible_groupe_monstre"] = null;
+            $cible = $this->rechercheNouvelleCible($monstre_role_a, $groupe, $monstres);
+            if ($cible != null) { // si une cible est trouvee, on attaque
+                $this->attaqueGroupe($monstre_role_a, $groupe, $monstres, $cible);
+            } else {
+                $this->deplacementGroupe($monstre_role_a, $groupe, $monstres);
+            }
+        } else { // si la cible est dans la vue, on attaque
+            $this->attaqueGroupe($monstre_role_a, $groupe, $monstres, $cible);
+        }
+
 		$this->majDlaGroupe($groupe, $monstres);
 		Bral_Util_Log::tech()->trace(get_class($this)." - vieGroupeAction - exit");
 	}
@@ -158,17 +155,17 @@ class Bral_Monstres_VieGroupesNuee {
 				$groupe["y_direction_groupe_monstre"] = $groupe["y_direction_groupe_monstre"] + $dy;
 			}
 				
-			if ($groupe["x_direction_groupe_monstre"] < $this->view->config->game->x_min) {
-				$groupe["x_direction_groupe_monstre"] = $this->view->config->game->x_min;
+			if ($groupe["x_direction_groupe_monstre"] < $this->config->game->x_min) {
+				$groupe["x_direction_groupe_monstre"] = $this->config->game->x_min;
 			}
-			if ($groupe["x_direction_groupe_monstre"] > $this->view->config->game->x_max) {
-				$groupe["x_direction_groupe_monstre"] = $this->view->config->game->x_max;
+			if ($groupe["x_direction_groupe_monstre"] > $this->config->game->x_max) {
+				$groupe["x_direction_groupe_monstre"] = $this->config->game->x_max;
 			}
-			if ($groupe["y_direction_groupe_monstre"] < $this->view->config->game->y_min) {
-				$groupe["y_direction_groupe_monstre"] = $this->view->config->game->y_min;
+			if ($groupe["y_direction_groupe_monstre"] < $this->config->game->y_min) {
+				$groupe["y_direction_groupe_monstre"] = $this->config->game->y_min;
 			}
-			if ($groupe["y_direction_groupe_monstre"] > $this->view->config->game->y_max) {
-				$groupe["y_direction_groupe_monstre"] = $this->view->config->game->y_max;
+			if ($groupe["y_direction_groupe_monstre"] > $this->config->game->y_max) {
+				$groupe["y_direction_groupe_monstre"] = $this->config->game->y_max;
 			}
 
 			Bral_Util_Log::tech()->debug(get_class($this)." - calcul nouvelle valeur direction x=".$groupe["x_direction_groupe_monstre"]." y=".$groupe["y_direction_groupe_monstre"]." ");
@@ -231,7 +228,7 @@ class Bral_Monstres_VieGroupesNuee {
 	}
 
 	/**
-	 * Mise � jour du groupe en base.
+	 * Mise à jour du groupe en base.
 	 */
 	private function updateGroupe(&$groupe) {
 		Bral_Util_Log::tech()->trace(get_class($this)." - updateGroupe - enter");
