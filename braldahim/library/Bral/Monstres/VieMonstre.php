@@ -16,17 +16,17 @@ class Bral_Monstres_VieMonstre {
 	private static $config = null;
 
 	 public static function getInstance() {
-		Bral_Util_Log::tech()->trace("Bral_Monstres_VieMonstre - getInstance - enter");
+		Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getInstance - enter");
 		
 		if (self::$instance == null) {
 			Zend_Loader::loadClass("Palissade");
 			
 			self::$config = Zend_Registry::get('config');
 			self::$instance = new self();
-			Bral_Util_Log::tech()->trace("Bral_Monstres_VieMonstre - getInstance - nouvelle instance - exit");
+			Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getInstance - nouvelle instance - exit");
 			return self::$instance;
 		} else {
-			Bral_Util_Log::tech()->trace("Bral_Monstres_VieMonstre - getInstance - instance existante - exit");
+			Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getInstance - instance existante - exit");
 			return self::$instance;
 		}
 	}
@@ -44,7 +44,7 @@ class Bral_Monstres_VieMonstre {
 	 * @return boolean : le monstre a bougé (true) ou non (false)
 	 */
 	public function deplacementMonstre($x_destination, $y_destination) {
-		Bral_Util_Log::tech()->trace(get_class($this)." - deplacementMonstre - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementMonstre - enter");
 		if ($this->monstre == null) {
 			new Zend_Exception("Bral_Monstres_VieMonstre::deplacementMonstre, monstre inconnu");
 		}
@@ -53,12 +53,12 @@ class Bral_Monstres_VieMonstre {
 
 		// on regarde si le monstre est déjà dans la position
 		if (($x_destination == $this->monstre["x_monstre"]) && ($y_destination == $this->monstre["y_monstre"])) {
-			Bral_Util_Log::tech()->debug(get_class($this)." - monstre en position");
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre en position");
 			return false;
 		}
 		$modif = false;
 		if ($this->monstre["pa_monstre"] == 0) {
-			Bral_Util_Log::tech()->debug(get_class($this)." - Le monstre n'a plus de PA");
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - Le monstre n'a plus de PA");
 		}
 		
 		$palissadeTable = new Palissade();
@@ -82,7 +82,7 @@ class Bral_Monstres_VieMonstre {
 		}
 			
 		$pa_a_jouer = Bral_Util_De::get_de_specifique(0, $this->monstre["pa_monstre"]);
-		Bral_Util_Log::tech()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") - nb pa a jouer=".$pa_a_jouer. " destination x=".$x_destination." y=".$y_destination);
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") - nb pa a jouer=".$pa_a_jouer. " destination x=".$x_destination." y=".$y_destination);
 		$nb_pa_joues = 0;
 		while ((($x_destination != $this->monstre["x_monstre"]) || ($y_destination != $this->monstre["y_monstre"])) && ($nb_pa_joues < $pa_a_jouer)) {
 			
@@ -120,7 +120,7 @@ class Bral_Monstres_VieMonstre {
 				
 			$nb_pa_joues = $nb_pa_joues + 1;
 			$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - 1;
-			Bral_Util_Log::tech()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") nouvelle position x=".$this->monstre["x_monstre"]." y=".$this->monstre["y_monstre"].", pa restant=".$this->monstre["pa_monstre"]);
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") nouvelle position x=".$this->monstre["x_monstre"]." y=".$this->monstre["y_monstre"].", pa restant=".$this->monstre["pa_monstre"]);
 		}
 		if ($modif === true) {
 			$this->updateMonstre();
@@ -128,11 +128,11 @@ class Bral_Monstres_VieMonstre {
 		} else {
 			$retour = false;
 		}
-		Bral_Util_Log::tech()->trace(get_class($this)." - deplacementMonstre - exit (".$retour.")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementMonstre - exit (".$retour.")");
 	}
 
 	public function attaqueCible(&$cible) {
-		Bral_Util_Log::tech()->trace(get_class($this)." - attaqueCible - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - enter");
 		$mortCible = false;
 
 		if ($this->monstre == null) {
@@ -147,12 +147,12 @@ class Bral_Monstres_VieMonstre {
 		|| ($cible["y_hobbit"] > $this->monstre["y_monstre"] + $this->monstre["vue_monstre"])
 		|| ($cible["y_hobbit"] < $this->monstre["y_monstre"] - $this->monstre["vue_monstre"])) {
 			// cible en dehors de la vue du monstre
-			Bral_Util_Log::tech()->debug(get_class($this)." - cible en dehors de la vue hx=".$cible["x_hobbit"] ." hy=".$cible["y_hobbit"]. " mx=".$this->monstre["x_monstre"]. " my=".$this->monstre["y_monstre"]. " vue=". $this->monstre["vue_monstre"]."");
-			Bral_Util_Log::tech()->trace(get_class($this)." - attaqueCible - exit");
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible en dehors de la vue hx=".$cible["x_hobbit"] ." hy=".$cible["y_hobbit"]. " mx=".$this->monstre["x_monstre"]. " my=".$this->monstre["y_monstre"]. " vue=". $this->monstre["vue_monstre"]."");
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - exit");
 			return null;
 		} else if (($cible["x_hobbit"] != $this->monstre["x_monstre"]) || ($cible["y_hobbit"] != $this->monstre["y_monstre"])) {
-			Bral_Util_Log::tech()->debug(get_class($this)." - cible sur une case differente");
-			Bral_Util_Log::tech()->trace(get_class($this)." - attaqueCible - exit");
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible sur une case differente");
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - exit");
 			return null;
 		}
 
@@ -162,7 +162,7 @@ class Bral_Monstres_VieMonstre {
 		$jetCible = $this->calculJetCible($cible);
 
 		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqu�
-		Bral_Util_Log::tech()->debug(get_class($this)." - Jets : attaque=".$jetAttaquant. " esquive=".$jetCible."");
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - Jets : attaque=".$jetAttaquant. " esquive=".$jetCible."");
 		if ($jetAttaquant > $jetCible) {
 			$critique = false;
 			if ($jetAttaquant / 2 > $jetCible) {
@@ -185,7 +185,7 @@ class Bral_Monstres_VieMonstre {
 			$nb_kills = $this->monstre["nb_kill_monstre"];
 			$nb_morts = $cible["nb_mort_hobbit"];
 			if ($cible["pv_restant_hobbit"]  <= 0) {
-				Bral_Util_Log::tech()->notice("Bral_Monstres_VieMonstre - attaqueCible - Mort de la cible La cible (".$cible["id_hobbit"].") par Monstre id:".$this->monstre["nb_kill_monstre"]);
+				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Mort de la cible La cible (".$cible["id_hobbit"].") par Monstre id:".$this->monstre["nb_kill_monstre"]);
 				$mortCible = true;
 				$this->monstre["nb_kill_monstre"] = $this->monstre["nb_kill_monstre"] + 1;
 				$cible["nb_mort_hobbit"] = $cible["nb_mort_hobbit"] + 1;
@@ -197,7 +197,7 @@ class Bral_Monstres_VieMonstre {
 				$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus, $mortCible);
 				$this->majEvenements($cible["id_hobbit"], null, $id_type_evenement_cible, $details, $detailsBot);
 			} else {
-				Bral_Util_Log::tech()->notice("Bral_Monstres_VieMonstre - attaqueCible - Survie de la cible La cible (".$cible["id_hobbit"].") attaquee par Monstre id:".$this->monstre["nb_kill_monstre"]);
+				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Survie de la cible La cible (".$cible["id_hobbit"].") attaquee par Monstre id:".$this->monstre["nb_kill_monstre"]);
 				$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - (floor($cible["niveau_hobbit"] / 10) + 1);
 				$cible["est_mort_hobbit"] = "non";
 				$id_type_evenement = self::$config->game->evenements->type->attaquer;
@@ -207,7 +207,7 @@ class Bral_Monstres_VieMonstre {
 
 				$effetMotS = Bral_Util_Commun::getEffetMotS($hobbitAttaquant->id_hobbit);
 				if ($effetMotS != null) {
-					Bral_Util_Log::tech()->notice("Bral_Monstres_VieMonstre - attaqueCible - La cible (".$hobbitAttaquant->id_hobbit.") possede le mot S -> Riposte");
+					Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - La cible (".$hobbitAttaquant->id_hobbit.") possede le mot S -> Riposte");
 					Zend_Loader::loadClass("Bral_Util_Attaque");
 					$hobbitTable = new Hobbit();
 					$hobbitRowset = $hobbitTable->find($idHobbitCible);
@@ -235,28 +235,28 @@ class Bral_Monstres_VieMonstre {
 			$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot);
 		}
 		
-		Bral_Util_Log::tech()->trace(get_class($this)." - attaqueCible - exit (return=".$mortCible.")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - exit (return=".$mortCible.")");
 		return $mortCible;
 	}
 
 	public function setMonstre($m) {
-		Bral_Util_Log::tech()->trace(get_class($this)." - setMonstre - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - setMonstre - enter");
 		if ($m == null) {
 			new Zend_Exception("Bral_Monstres_VieMonstre::setMonstre, monstre invalide");
 		}
-		Bral_Util_Log::tech()->trace(get_class($this)." - setMonstre - exit (id=".$m["id_monstre"].")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - setMonstre - exit (id=".$m["id_monstre"].")");
 		$this->monstre = $m;
 	}
 
 	private function calculTour() {
-		Bral_Util_Log::tech()->trace(get_class($this)." - calculTour - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - enter");
 		if ($this->monstre == null) {
 			new Zend_Exception("Bral_Monstres_VieMonstre::calculTour, monstre invalide");
 		}
 
 		$date_courante = date("Y-m-d H:i:s");
 		if ($date_courante > $this->monstre["date_fin_tour_monstre"]) {
-			Bral_Util_Log::tech()->trace(get_class($this)." - nouveau tour");
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - nouveau tour");
 			$this->monstre["date_fin_tour_monstre"] = Bral_Util_ConvertDate::get_date_add_time_to_date($this->monstre["date_fin_tour_monstre"], $this->monstre["duree_prochain_tour_monstre"]);
 			$this->monstre["duree_prochain_tour_monstre"] = $this->monstre["duree_base_tour_monstre"];
 			$this->monstre["pa_monstre"] = self::$config->game->monstre->pa_max;
@@ -267,40 +267,40 @@ class Bral_Monstres_VieMonstre {
 			$monstre = $monstreRowset->current();
 			$effetsPotions = Bral_Util_EffetsPotion::calculPotionMonstre($monstre);
 			if (count($effetsPotions) > 0) {
-				Bral_Util_Log::tech()->trace(get_class($this)." - calculTour - des potions sur le monstre ont ete trouvee(s). Cf. log potion.log");
+				Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - des potions sur le monstre ont ete trouvee(s). Cf. log potion.log");
 			} else {
-				Bral_Util_Log::tech()->trace(get_class($this)." - calculTour - aucune potion sur le monstre n'a ete trouvee. Cf. log potion.log");
+				Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - aucune potion sur le monstre n'a ete trouvee. Cf. log potion.log");
 			}
 		
 			$this->updateMonstre();
 		}
-		Bral_Util_Log::tech()->trace(get_class($this)." - calculTour - exit");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - exit");
 	}
 
 	private function calculJetCible($cible) {
-		Bral_Util_Log::tech()->trace(get_class($this)." - calculJetCible - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetCible - enter");
 		$jetCible = 0;
 		for ($i=1; $i<= self::$config->game->base_agilite + $cible["agilite_base_hobbit"]; $i++) {
 			$jetCible = $jetCible + Bral_Util_De::get_1d6();
 		}
 		$jetCible = $jetCible + $cible["agilite_bm_hobbit"] + $cible["bm_defense_hobbit"] + $cible["agilite_bbdf_hobbit"];
-		Bral_Util_Log::tech()->trace(get_class($this)." - calculJetCible - exit (jet=".$jetCible.")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetCible - exit (jet=".$jetCible.")");
 		return $jetCible;
 	}
 
 	private function calculJetAttaque() {
-		Bral_Util_Log::tech()->trace(get_class($this)." - calculJetAttaque - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetAttaque - enter");
 		$jetAttaquant = 0;
 		for ($i=1; $i<=$this->monstre["agilite_base_monstre"]; $i++) {
 			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
 		}
 		$jetAttaquant = $jetAttaquant + $this->monstre["agilite_bm_monstre"];
-		Bral_Util_Log::tech()->trace(get_class($this)." - calculJetAttaque - exit (jet=".$jetAttaquant.")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetAttaque - exit (jet=".$jetAttaquant.")");
 		return $jetAttaquant;
 	}
 
 	private function calculDegat($estCritique) {
-		Bral_Util_Log::tech()->trace(get_class($this)." - calculDegat - enter (critique=".$estCritique.")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDegat - enter (critique=".$estCritique.")");
 		$jetDegat = 0;
 		$coefCritique = 1;
 		if ($estCritique === true) {
@@ -310,12 +310,12 @@ class Bral_Monstres_VieMonstre {
 			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
 		}
 		$jetDegat = $jetDegat + $this->monstre["force_bm_monstre"];
-		Bral_Util_Log::tech()->trace(get_class($this)." - calculDegat - exit (jet=$jetDegat)");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDegat - exit (jet=$jetDegat)");
 		return $jetDegat;
 	}
 
 	private function updateCible(&$cible) {
-		Bral_Util_Log::tech()->trace(get_class($this)." - updateCible - enter (id_hobbit=".$cible["id_hobbit"].")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateCible - enter (id_hobbit=".$cible["id_hobbit"].")");
 		// Mise a jour de la cible
 		$hobbitTable = new Hobbit();
 		$data = array(
@@ -326,11 +326,11 @@ class Bral_Monstres_VieMonstre {
 		);
 		$where = "id_hobbit=".$cible["id_hobbit"];
 		$hobbitTable->update($data, $where);
-		Bral_Util_Log::tech()->trace(get_class($this)." - updateCible - exit");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateCible - exit");
 	}
 
 	private function updateMonstre() {
-		Bral_Util_Log::tech()->trace(get_class($this)." - updateMonstre - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateMonstre - enter");
 		if ($this->monstre == null) {
 			new Zend_Exception(get_class($this)." - miseAJourMonstre, monstre inconnu");
 		}
@@ -346,14 +346,14 @@ class Bral_Monstres_VieMonstre {
 		);
 		$where = "id_monstre=".$this->monstre["id_monstre"];
 		$monstreTable->update($data, $where);
-		Bral_Util_Log::tech()->trace(get_class($this)." - updateMonstre - exit");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateMonstre - exit");
 	}
 
 	/*
 	 * Mise à jour des événements du monstre.
 	 */
 	public function majEvenements($id_hobbit, $id_monstre, $id_type_evenement, $details, $detailsBot = "") {
-		Bral_Util_Log::tech()->trace(get_class($this)." - majEvenements - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - majEvenements - enter");
 		Zend_Loader::loadClass('Evenement');
 		$evenementTable = new Evenement();
 		$data = array(
@@ -365,7 +365,7 @@ class Bral_Monstres_VieMonstre {
 			'details_bot_evenement' => $detailsBot,
 		);
 		$evenementTable->insert($data);
-		Bral_Util_Log::tech()->trace(get_class($this)." - majEvenements - exit");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - majEvenements - exit");
 	}
 	
 	/*
@@ -414,7 +414,7 @@ class Bral_Monstres_VieMonstre {
 		
 		$tirage = Bral_Util_De::get_1d100();
 		
-		Bral_Util_Log::tech()->trace(get_class($this)." - dropRune - tirage=".$tirage. " niveau_monstre=".$niveau. " effetMotD=".$effetMotD);
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - dropRune - tirage=".$tirage. " niveau_monstre=".$niveau. " effetMotD=".$effetMotD);
 		
 		if ($tirage >= 1 && $tirage <= 1 + ($niveau/4) + $effetMotD) {
 			$niveau = 'a';
@@ -426,7 +426,7 @@ class Bral_Monstres_VieMonstre {
 			$niveau = 'd';
 		}
 		
-		Bral_Util_Log::tech()->trace(get_class($this)."  - dropRune - niveau retenu=".$niveau);
+		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - dropRune - niveau retenu=".$niveau);
 		
 		$typeRuneTable = new TypeRune();
 		$typeRuneRowset = $typeRuneTable->findByNiveau($niveau);
@@ -472,7 +472,7 @@ class Bral_Monstres_VieMonstre {
 	}
 	
 	private function getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat = 0, $critique = false, $pvPerdus = 0, $mortCible = false) {
-		Bral_Util_Log::tech()->trace(get_class($this)."  - getDetailsBot - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
 		$retour = "";
 
 		$retour .= "Vous avez été attaqué par ".$this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].")";
@@ -509,7 +509,7 @@ Vous avez equivé parfaitement l'attaque";
 		}
 		
 		
-		Bral_Util_Log::tech()->trace(get_class($this)."  - getDetailsBot - exit");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
 		return $retour;
 	}
 }
