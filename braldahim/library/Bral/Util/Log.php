@@ -27,7 +27,7 @@ class Bral_Util_Log {
     private static $potion = null;
     private static $tech = null;
     private static $tour = null;
-    private static $viemontres = null;
+    private static $viemonstres = null;
 
     public static function authentification() {
         if (self::$authentification == null) {
@@ -284,12 +284,12 @@ class Bral_Util_Log {
             $instance = self::getInstance();
         }
         self::$config = Zend_Registry::get('config');
-        self::$viemontres = new Zend_Log();
+        self::$viemonstres = new Zend_Log();
         $redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->viemonstres);
-        self::$viemontres->addWriter($redacteur);
+        self::$viemonstres->addWriter($redacteur);
         $filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->viemonstres);
-        self::$viemontres->addFilter($filtre);
-        self::$viemontres->addPriority('TRACE', 8);
+        self::$viemonstres->addFilter($filtre);
+        self::$viemonstres->addPriority('TRACE', 8);
 
         if (self::$config->log->general->debug_browser == "oui") {
             $redacteur = new Zend_Log_Writer_Stream('php://output');
