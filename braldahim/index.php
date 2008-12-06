@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -92,7 +92,7 @@ $frontController->setControllerDirectory('./application/controllers');
 
 // run!
 try {
-	$frontController->dispatch();
+    $frontController->dispatch();
 } catch (Exception $e) {
-	Bral_Util_Exception :: traite($e);
+    Bral_Util_Exception :: traite($e);
 }
