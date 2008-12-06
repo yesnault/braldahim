@@ -30,6 +30,12 @@ function my_switch(box, conteneur) {
 	}
 	$("onglet_" + box).className = "onglet actif";
 	
+	try {
+		cClick(); // fermeture popup
+	} catch (e) {
+		// erreur si aucune popup n'a ete ouverte depuis l'arrivee sur l'interface
+	}
+	
 	if ($("loaded_" + box).value != "1") {
 		$("loaded_" + box).value = 1;
 		_get_('/interface/load/?box='+ box);
