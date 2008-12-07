@@ -178,13 +178,14 @@ class Hobbit extends Zend_Db_Table {
 		->where('x_hobbit <= ?', $x + $rayon)
 		->where('y_hobbit >= ?', $y - $rayon)
 		->where('y_hobbit <= ?', $y + $rayon)
-		->where("est_mort_hobbit = 'non' ".$and)
+		->where("est_mort_hobbit = 'non'")
 		->where('est_compte_actif_hobbit = ?', "oui")
-		->joinLeft('effet_mot_f','id_fk_hobbit_effet_mot_f = id_hobbit')
+		->joinLeft('effet_mot_f','id_fk_hobbit_effet_mot_f = id_hobbit'. $and)
 		->limit($nombre)
-		->order('distance ASC');
+		->order(array('distance ASC','niveau_hobbit ASC'));
 		
 		$sql = $select->__toString();
+		echo $sql;
 		return $db->fetchAll($sql);
 	}
 
