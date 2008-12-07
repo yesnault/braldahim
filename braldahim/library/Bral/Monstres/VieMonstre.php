@@ -161,7 +161,7 @@ class Bral_Monstres_VieMonstre {
 		$jetAttaquant = $this->calculJetAttaque();
 		$jetCible = $this->calculJetCible($cible);
 
-		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqu�
+		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
 		Bral_Util_Log::viemonstres()->debug(get_class($this)." - Jets : attaque=".$jetAttaquant. " esquive=".$jetCible."");
 		if ($jetAttaquant > $jetCible) {
 			$critique = false;
@@ -192,7 +192,7 @@ class Bral_Monstres_VieMonstre {
 				$cible["est_mort_hobbit"] = "oui";
 				$id_type_evenement = self::$config->game->evenements->type->kill;
 				$id_type_evenement_cible = self::$config->game->evenements->type->mort;
-				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a tu� le hobbit ".$cible["prenom_hobbit"] ." ". $cible["nom_hobbit"]." (".$cible["id_hobbit"].")";
+				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a tué le hobbit ".$cible["prenom_hobbit"] ." ". $cible["nom_hobbit"]." (".$cible["id_hobbit"].")";
 				$this->majEvenements(null, $this->monstre["id_monstre"], $id_type_evenement, $details);
 				$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus, $mortCible);
 				$this->majEvenements($cible["id_hobbit"], null, $id_type_evenement_cible, $details, $detailsBot);
@@ -201,7 +201,7 @@ class Bral_Monstres_VieMonstre {
 				$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - (floor($cible["niveau_hobbit"] / 10) + 1);
 				$cible["est_mort_hobbit"] = "non";
 				$id_type_evenement = self::$config->game->evenements->type->attaquer;
-				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a attaqu� le hobbit ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ")";
+				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a attaqué le hobbit ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ")";
 				$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat, $critique);
 				$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot);
 
@@ -242,7 +242,7 @@ class Bral_Monstres_VieMonstre {
 	public function setMonstre($m) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - setMonstre - enter");
 		if ($m == null) {
-			new Zend_Exception("Bral_Monstres_VieMonstre::setMonstre, monstre invalide");
+			throw new Zend_Exception("Bral_Monstres_VieMonstre::setMonstre, monstre invalide");
 		}
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - setMonstre - exit (id=".$m["id_monstre"].")");
 		$this->monstre = $m;
@@ -258,6 +258,9 @@ class Bral_Monstres_VieMonstre {
 		if ($date_courante > $this->monstre["date_fin_tour_monstre"]) {
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - nouveau tour");
 			$this->monstre["date_fin_tour_monstre"] = Bral_Util_ConvertDate::get_date_add_time_to_date($this->monstre["date_fin_tour_monstre"], $this->monstre["duree_prochain_tour_monstre"]);
+			if ($this->monstre["date_fin_tour_monstre"]  < $date_courante) {
+				$this->monstre["date_fin_tour_monstre"] = Bral_Util_ConvertDate::get_date_add_time_to_date($date_courante, $this->monstre["duree_prochain_tour_monstre"]);
+			}
 			$this->monstre["duree_prochain_tour_monstre"] = $this->monstre["duree_base_tour_monstre"];
 			$this->monstre["pa_monstre"] = self::$config->game->monstre->pa_max;
 			
@@ -414,7 +417,7 @@ class Bral_Monstres_VieMonstre {
 		
 		$tirage = Bral_Util_De::get_1d100();
 		
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - dropRune - tirage=".$tirage. " niveau_monstre=".$niveau. " effetMotD=".$effetMotD);
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - dropRune - tirage=".$tirage. " niveau_monstre=".$niveau. " effetMotD=".$effetMotD);
 		
 		if ($tirage >= 1 && $tirage <= 1 + ($niveau/4) + $effetMotD) {
 			$niveau = 'a';
@@ -426,7 +429,7 @@ class Bral_Monstres_VieMonstre {
 			$niveau = 'd';
 		}
 		
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - dropRune - niveau retenu=".$niveau);
+		Bral_Util_Log::viemonstres()->debug(get_class($this)."  - dropRune - niveau retenu=".$niveau);
 		
 		$typeRuneTable = new TypeRune();
 		$typeRuneRowset = $typeRuneTable->findByNiveau($niveau);

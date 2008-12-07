@@ -73,7 +73,6 @@ class Bral_Monstres_VieGroupesNuee {
             $this->deplacementGroupe($monstre_role_a, $groupe, $monstres);
         }
 
-
         $this->majDlaGroupe($groupe, $monstres);
         Bral_Util_Log::viemonstres()->trace(get_class($this)." - vieGroupeAction - exit");
     }
