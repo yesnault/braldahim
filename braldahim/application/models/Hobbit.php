@@ -185,7 +185,6 @@ class Hobbit extends Zend_Db_Table {
 		->order(array('distance ASC','niveau_hobbit ASC'));
 		
 		$sql = $select->__toString();
-		echo $sql;
 		return $db->fetchAll($sql);
 	}
 
