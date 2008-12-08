@@ -53,6 +53,11 @@ class Bral_Voir_Factory {
 		Zend_Loader::loadClass("Bral_Voir_Communautes");
 		return new Bral_Voir_Communautes($request, $view);
 	}
+
+	static function getMonstre($request, $view) {
+		Zend_Loader::loadClass("Bral_Voir_Monstre");
+		return new Bral_Voir_Monstre($request, $view);
+	}
 	
 	static function getVue($request, $view) {
 		Zend_Loader::loadClass("Bral_Voir_Vue");

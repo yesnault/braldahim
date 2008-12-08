@@ -90,6 +90,8 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 		if ($this->_request->get('mode') == "" || $this->_request->get('mode') == "simple") {
 			$this->view->mode = "simple";
 			$keySimple [] = "id_hobbit";
+			$keySimple [] = "nom_hobbit";
+			$keySimple [] = "prenom_hobbit";
 			$keySimple [] = "x_hobbit";
 			$keySimple [] = "y_hobbit";
 			$keySimple [] = "pa_hobbit";

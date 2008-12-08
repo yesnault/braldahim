@@ -29,4 +29,20 @@ class Evenement extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+	
+	public function findByIdMonstre($idMonstre, $pageMin, $pageMax, $filtre){
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('evenement', '*')
+		->from('type_evenement', '*')
+		->where('evenement.id_fk_type_evenement = type_evenement.id_type_evenement')
+		->where('evenement.id_fk_monstre_evenement = '.intval($idMonstre))
+		->order('id_evenement DESC')
+		->limitPage($pageMin, $pageMax);
+		if ($filtre <> -1) {
+			$select->where('type_evenement.id_type_evenement = '.$filtre);
+		}
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }

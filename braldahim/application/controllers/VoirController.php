@@ -30,6 +30,11 @@ class VoirController extends Zend_Controller_Action {
 		echo $voir->render();
 	}
 	
+	function communautesAction() {
+		$voir = Bral_Voir_Factory::getCommunautes($this->_request, $this->view);
+		echo $voir->render();
+	}
+	
 	function hobbitAction() {
 		$voir = Bral_Voir_Factory::getHobbit($this->_request, $this->view);
 		echo $voir->render();
@@ -40,17 +45,12 @@ class VoirController extends Zend_Controller_Action {
 		echo $voir->render();
 	}
 	
-	function communautesAction() {
-		$voir = Bral_Voir_Factory::getCommunautes($this->_request, $this->view);
-		echo $voir->render();
-	}
-	
-	function vueAction() {
-		$voir = Bral_Voir_Factory::getVue($this->_request, $this->view);
-		echo $voir->render();
-	}
-	
 	function monstreAction() {
+		$voir = Bral_Voir_Factory::getMonstre($this->_request, $this->view);
+		echo $voir->render();
+	}
+	
+	function monstretestAction() {
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/'); 
 		}
@@ -65,6 +65,11 @@ class VoirController extends Zend_Controller_Action {
 		}
 		$this->view->id_monstre = $this->_request->get('idmonstre');
 		$this->render();
+	}
+	
+	function vueAction() {
+		$voir = Bral_Voir_Factory::getVue($this->_request, $this->view);
+		echo $voir->render();
 	}
 	
 	function doactionAction() {

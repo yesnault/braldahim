@@ -6,7 +6,7 @@
 //\  Copyright Erik Bosrup 1998-2004. All rights reserved.
 //\  Contributors are listed on the homepage.
 //\  See http://www.bosrup.com/web/overlib/ for details.
-//   $Revision: 595 $                      $Date: 2008-11-09 12:21:27 +0100 (Sun, 09 Nov 2008) $
+//   $Revision$                      $Date$
 //\/////
 //\mini
 ////////

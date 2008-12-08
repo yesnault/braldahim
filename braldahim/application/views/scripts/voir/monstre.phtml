@@ -1,40 +1,40 @@
 <? include('voirHeader.phtml'); ?>
 
-<div class="box_administration">
+<div class="box_public">
 <?=Bral_Helper_Box::haut(); ?>
 <div class="inner">
-    <ul class="titre textalic textsizea">Monstre</ul>
-    	&nbsp;
+
+<? if ($this->connu == false) : ?>
+	<ul class="titre textalic textsizea">Monstre Inconnu</ul>
+<? else : ?>
+    <ul class="titre textalic textsizea">Monstre n&deg; <?=$this->monstre["id_monstre"] ?>, 
+    <? if ($this->monstre["genre_type_monstre"] == 'feminin') : ?>
+    	<?=$this->monstre["nom_taille_f_monstre"] ?>
+    <? else: ?>
+    	<?=$this->monstre["nom_taille_m_monstre"] ?>
+    <? endif; ?>
+    <?=$this->monstre["nom_type_monstre"] ?>
+     </ul>
+	&nbsp;
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">
-	    
-		<? if ($this->monstre == null): ?>
-			Monstre inconnu 
-		<? else: 
-			$nbElement = 0; ?>
-	    
-			<table  align='center'>
-			<? foreach ($this->monstre as $key => $value) : 
-				$nbElement++;	
-			?>
-			<tr>
-				<td class='comp_titre'><?=$key?></td>
-				<td>
-				<? if ($key == "id_monstre"): ?>
-					<input type='hidden' name="<?=$key ?>" value="<?=$value?>">
-					<?=$value ?>
-				<? else: ?>
-					<input type='text' name="<?=$key ?>" value="<?=$value?>">
-				<? endif; ?>
-				</td>
-			</tr>
-			<? endforeach; ?>
+			<table class="table_liste" style="width:150px;">
+			<thead class="table_liste">
+			  <tr class="table_liste">
+				<th style="cursor:pointer" onClick='document.location.href="/voir/monstre/?monstre=<?=$this->monstre["id_monstre"] ?>"' title="Voir le profil">Profil</th>
+				<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_monstre&monstre=<?=$this->monstre["id_monstre"] ?>&menu=evenements");' title="Voir les &eacute;v&eacute;nements">&Eacute;v&eacute;nements</th>
+			  </tr>
+			</thead>
 			</table>
-		<? endif; ?>
+			<div id="box_voir_monstre_inner">
+				<? include('monstre/profil.phtml'); ?>
+			</div>
 		</ul>
 	</div>
 	&nbsp;
+<? endif; ?>
 </div>
 <?=Bral_Helper_Box::bas(); ?>
 </div>
+
 <?php echo $this->render('footer.phtml'); ?>

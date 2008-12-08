@@ -3,7 +3,9 @@
       		<?php 
       			$textMonstre = "";
       			foreach($case["monstres"] as $m) {
-      				$textMonstre .= htmlspecialchars($m["nom_monstre"]) ." (n&deg; ".$m["id_monstre"].") - ".htmlspecialchars($m["taille_monstre"])."  <br />";
+      				$textMonstre .= htmlspecialchars($m["nom_monstre"]) ." (n&deg; ".$m["id_monstre"].") - ".htmlspecialchars($m["taille_monstre"])."  ";
+      				$textMonstre .= ' <img src=\\\'/public/images/profil.gif\\\' title=\\\'Voir le profil\\\' alt=\\\'Profil\\\' border=\\\'0\\\' onClick=ouvrirWin(\\\'\/voir\/monstre\/?monstre='.$m["id_monstre"].'\\\'); style=\\\'cursor:pointer\\\'/> ';
+      				$textMonstre .= "<br />";
 				} 
 				$s = "";
 				if ($case["n_monstres"] > 1) {
