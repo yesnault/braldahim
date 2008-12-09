@@ -117,7 +117,8 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		} else {
 			throw new Zend_Exception(get_class($this)." Erreur inconnue");
 		}
-
+		
+		$this->setEvenementQueSurOkJet1(false);
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->majHobbit();

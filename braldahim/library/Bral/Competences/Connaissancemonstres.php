@@ -215,7 +215,7 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		$id_type = $this->view->config->game->evenements->type->competence;
 		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a réussi l'utilisation d'une compétence sur ".$article." ".$monstre["nom_type_monstre"]." ".$tabCDM["taille_monstre"]." (".$monstre["id_monstre"].")";
 		$this->setDetailsEvenement($details, $id_type);
-		$this->setDetailsEvenementCible($monstre["id_monstre"],"monstre");
+		$this->setDetailsEvenementCible($monstre["id_monstre"], "monstre");
 		
 	}
 	
