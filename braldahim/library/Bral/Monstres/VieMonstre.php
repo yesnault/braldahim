@@ -149,11 +149,14 @@ class Bral_Monstres_VieMonstre {
 			// cible en dehors de la vue du monstre
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible en dehors de la vue hx=".$cible["x_hobbit"] ." hy=".$cible["y_hobbit"]. " mx=".$this->monstre["x_monstre"]. " my=".$this->monstre["y_monstre"]. " vue=". $this->monstre["vue_monstre"]."");
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - exit");
-			return null;
+			return null; // pas de cible
 		} else if (($cible["x_hobbit"] != $this->monstre["x_monstre"]) || ($cible["y_hobbit"] != $this->monstre["y_monstre"])) {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible sur une case differente");
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - exit");
-			return null;
+			return null; // pas de cible
+		} else if ($this->monstre["pa_monstre"] < 4) {
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA Monstre (".$this->monstre["id_monstre"].") insuffisant nb=".$this->monstre["pa_monstre"]);
+			return false; // cible non morte
 		}
 
 		$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - 4;
@@ -173,7 +176,6 @@ class Bral_Monstres_VieMonstre {
 				}
 			}
 			$jetDegat = $this->calculDegat($critique);
-			
 			$jetDegat = Bral_Util_Commun::getEffetMotA($cible["id_hobbit"], $jetDegat);
 			
 			$pvPerdus = - $jetDegat;
@@ -206,10 +208,10 @@ class Bral_Monstres_VieMonstre {
 				$effetMotS = Bral_Util_Commun::getEffetMotS($cible["id_hobbit"]);
 				$this->updateCible($cible);
 				if ($effetMotS != null) {
-					Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - La cible (".$hobbitAttaquant->id_hobbit.") possede le mot S -> Riposte");
+					Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - La cible (".$cible["id_hobbit"].") possede le mot S -> Riposte");
 					Zend_Loader::loadClass("Bral_Util_Attaque");
 					$hobbitTable = new Hobbit();
-					$hobbitRowset = $hobbitTable->find($idHobbitCible);
+					$hobbitRowset = $hobbitTable->find($cible["id_hobbit"]);
 					$hobbitAttaquant = $hobbitRowset->current();
 					$jetAttaquant =  Bral_Util_Attaque::calculJetAttaqueNormale($hobbitAttaquant);
 					$jetsDegat = Bral_Util_Attaque::calculDegatAttaqueNormale($hobbitAttaquant);
