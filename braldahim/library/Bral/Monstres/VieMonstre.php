@@ -182,9 +182,9 @@ class Bral_Monstres_VieMonstre {
 			if ($pvPerdus > 0) {
 				$pvPerdus = 0;
 			}
-			$cible["pv_restant_hobbit"] = $cible["pv_restant_hobbit"] - $pvPerdus;
+			$cible["pv_restant_hobbit"] = $cible["pv_restant_hobbit"] + $pvPerdus;
 			if ($cible["pv_restant_hobbit"]  <= 0) {
-				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Mort de la cible La cible (".$cible["id_hobbit"].") par Monstre id:".$this->monstre["id_monstre"]. " deg=".$pvPerdus);
+				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Mort de la cible La cible (".$cible["id_hobbit"].") par Monstre id:".$this->monstre["id_monstre"]. " pvPerdus=".$pvPerdus);
 				$mortCible = true;
 				$this->monstre["nb_kill_monstre"] = $this->monstre["nb_kill_monstre"] + 1;
 				$cible["nb_mort_hobbit"] = $cible["nb_mort_hobbit"] + 1;
@@ -197,7 +197,7 @@ class Bral_Monstres_VieMonstre {
 				$this->majEvenements($cible["id_hobbit"], null, $id_type_evenement_cible, $details, $detailsBot);
 				$this->updateCible($cible);
 			} else {
-				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Survie de la cible La cible (".$cible["id_hobbit"].") attaquee par Monstre id:".$this->monstre["id_monstre"]. " deg=".$pvPerdus. " pv_restant_hobbit=".$cible["pv_restant_hobbit"]);
+				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Survie de la cible La cible (".$cible["id_hobbit"].") attaquee par Monstre id:".$this->monstre["id_monstre"]. " pvPerdus=".$pvPerdus. " pv_restant_hobbit=".$cible["pv_restant_hobbit"]);
 				$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - (floor($cible["niveau_hobbit"] / 10) + 1);
 				$cible["est_mort_hobbit"] = "non";
 				$id_type_evenement = self::$config->game->evenements->type->attaquer;
