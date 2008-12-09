@@ -27,7 +27,20 @@ class RecetteCoutMinerai extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
+	
+	function findByIdTypeEquipementAndNiveau($id_type_equipement, $niveau) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('recette_cout_minerai', '*')
+		->from('type_minerai', '*')
+		->where('id_fk_type_equipement_recette_cout_minerai = '.intval($id_type_equipement))
+		->where('niveau_recette_cout_minerai = '.intval($niveau))
+		->where('recette_cout_minerai.id_fk_type_recette_cout_minerai = type_minerai.id_type_minerai');
+		$sql = $select->__toString();
 
+		return $db->fetchAll($sql);
+	}
+	
 	function insertOrUpdate($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();

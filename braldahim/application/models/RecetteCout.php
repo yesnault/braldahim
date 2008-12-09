@@ -26,4 +26,16 @@ class RecetteCout extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
+	
+	function findByIdTypeEquipementAndNiveau($idTypeEquipement, $niveau) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('recette_cout', '*')
+		->where('id_fk_type_equipement_recette_cout = ?',$idTypeEquipement)
+		->where('niveau_recette_cout = ?',$niveau);
+		
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
 }
