@@ -166,7 +166,7 @@ class Bral_Monstres_VieMonstre {
 		if ($jetAttaquant > $jetCible) {
 			$critique = false;
 			if ($jetAttaquant / 2 > $jetCible) {
-				if (Bral_Util_Commun::getEffetMotX($hobbit->id_hobbit) == true) {
+				if (Bral_Util_Commun::getEffetMotX($cible["id_hobbit"]) == true) {
 					$critique = false;
 				} else {
 					$critique = true;
@@ -203,7 +203,7 @@ class Bral_Monstres_VieMonstre {
 				$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat, $critique);
 				$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot);
 
-				$effetMotS = Bral_Util_Commun::getEffetMotS($hobbitAttaquant->id_hobbit);
+				$effetMotS = Bral_Util_Commun::getEffetMotS($cible["id_hobbit"]);
 				$this->updateCible($cible);
 				if ($effetMotS != null) {
 					Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - La cible (".$hobbitAttaquant->id_hobbit.") possede le mot S -> Riposte");
