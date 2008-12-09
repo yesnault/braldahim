@@ -1,5 +1,5 @@
 <? include("box_header.phtml");
-Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
+Zend_Loader::loadClass("Bral_Helper_ProfilEquipement");
 ?>
 <div class="inner">
 <ul class="titre textalia textsizeb">Mon Equipement</ul>
@@ -10,60 +10,7 @@ Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
  
    &Eacute;quipement pr&eacute;sent sur vous : <br />
 
-	<table align="center" border="0">
-	  <tr>
-	    <td>
-	 	<table align="center" border='1'>
-	 	
-	 	<? foreach($this->typesEmplacement as $k => $e) : ?>
-	 		<? if ($e["position"] == "gauche" && $e["affiche"] == "oui") : ?>
-	 		<tr>
-	 			<td class="equipement">
-	 			<?=$e["nom_type_emplacement"] ?><br />
-	 			<? if (count($e["equipementPorte"]) > 0): ?>
-					<? foreach($e["equipementPorte"] as $p) : ?>
-						<? echo Bral_Helper_DetailEquipement::afficher($p); ?>
- 					<? endforeach; ?>
- 				<? else : ?>
- 					Libre
-	 			<? endif;  ?>
-	 			</td>
-	 		</tr>
-	 		<? endif; ?>
-	 	<?  endforeach; ?>
-	 	</table>
-	  </td>
-	  <td>
-	 	<table align="center" border="1">
-	 		<tr>
-		 	<? 	$i = 0;
-		 		foreach($this->typesEmplacement as $k => $e) : ?>
-		 		<? if ($e["position"] == "droite" && $e["affiche"] == "oui") : 
-		 			$i++;
-		 			if ($k == "deuxmains") {
-		 				$i++;
-		 			}
-		 			?>
-		 			<td class="equipement">
-		 			<?=$e["nom_type_emplacement"] ?><br />
-		 			<? if (count($e["equipementPorte"]) > 0): ?>
-						<? foreach($e["equipementPorte"] as $p) : ?>
-	 						<? echo Bral_Helper_DetailEquipement::afficher($p); ?>
-	 					<? endforeach; ?>
-		 			<? endif;  ?>
-		 			</td>
-		 		<? endif; ?>
-		 	<? endforeach; ?>
-	 		<? if ($i == 1) : ?>
-	 			<td class="equipement">1 main de libre</td>
-	 		<? elseif ($i == 0) : ?>
-	 			<td class="equipement">2 mains de libres</td>
-	 		<? endif;?>
-	 	  </tr>
-	 	</table>
-	  </td>
-	 </tr>
-    </table>
+	<?=Bral_Helper_ProfilEquipement::afficher($this->typesEmplacement); ?>
   	
  <? else: ?>
 	Chargement en cours

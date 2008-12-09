@@ -6,7 +6,7 @@
 <table class="table_liste" style="width:90%;">
 	
   <tr class="table_liste">
-	<th rowspan="7"><?=Bral_Helper_Image::afficherAvatar($this->hobbit["url_avatar_hobbit"]); ?></th>
+	<th rowspan="8"><?=Bral_Helper_Image::afficherAvatar($this->hobbit["url_avatar_hobbit"]); ?></th>
 	<th>Date de cr&eacute;ation</th>
 	<th>Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->hobbit["date_creation_hobbit"]); ?></th>
   </tr>
@@ -56,12 +56,24 @@
 		   		Il pratique &eacute;galement les m&eacute;tiers suivants : <br />
 		   	<? endif; ?>	
 		   	<? if (count($this->tabMetiers) >= 1): ?>
-				<? foreach ($this->tabMetiers as $m) : ?>
-						<?=$m["nom"];?><br>
-				<? endforeach; ?>
+				<?
+				$liste = "";
+				foreach ($this->tabMetiers as $m) :
+				$liste .= $m["nom"].", ";
+				  endforeach; ?>
+				  <? 
+				  if ($liste != "") {
+				  	$liste = mb_substr($liste, 0, -2); 
+				  }
+				  ?>
 		    <? endif; ?>
+		    <?=$liste ?>
 	   <? endif; ?>
 	</td>
+  </tr>
+  <tr class="table_liste">
+	<th>Équipement</th>
+	<td class="table_liste"><?=Bral_Helper_ProfilEquipement::afficher($this->tabTypesEmplacement); ?></td>
   </tr>
 </table>
 

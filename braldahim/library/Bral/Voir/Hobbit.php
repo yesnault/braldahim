@@ -17,6 +17,7 @@ class Bral_Voir_Hobbit {
 		Zend_Loader::loadClass("TypeEvenement");
 		Zend_Loader::loadClass("Communaute");
 		Zend_Loader::loadClass("Bral_Util_Metier");
+		Zend_Loader::loadClass("Bral_Helper_ProfilEquipement");
 
 		$this->_request = $request;
 		$this->view = $view;
@@ -57,6 +58,10 @@ class Bral_Voir_Hobbit {
 		} else {
 			$hobbit = null;
 		}
+		
+		Zend_Loader::loadClass("Bral_Util_Equipement");
+		$tabEmplacementsEquipement = Bral_Util_Equipement::getTabEmplacementsEquipement($this->view->user->id_hobbit);
+		$this->view->tabTypesEmplacement = $tabEmplacementsEquipement["tabTypesEmplacement"];
 		
 		$this->view->tabMetierCourant = $tabMetier["tabMetierCourant"];
 		$this->view->tabMetiers = $tabMetier["tabMetiers"];

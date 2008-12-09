@@ -115,6 +115,8 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					"poids" => $e["poids_recette_equipement"],
 					"runes" => $runes,
 			);
+			
+			
 			$this->equipementPorte[] = $equipement;
 			$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["equipementPorte"][] = $equipement;
 			$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["affiche"] = "oui";
