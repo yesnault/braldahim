@@ -114,6 +114,7 @@ class GardiennageController extends Zend_Controller_Action {
 	            		Zend_Auth::getInstance()->getIdentity()->gardiennage = false;
 	            		Zend_Auth::getInstance()->getIdentity()->gardeEnCours = true;
 	            		Zend_Auth::getInstance()->getIdentity()->administrateur = false;
+	            		Zend_Auth::getInstance()->getIdentity()->usurpationEnCours = false;
 	            		$this->_redirect('/Gardiennage/garde'); 
 	            	}
 	            }

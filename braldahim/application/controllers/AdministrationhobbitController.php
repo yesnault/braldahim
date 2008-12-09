@@ -107,5 +107,38 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 			$this->view->mode = "complexe";
 		}
 	}
+	
+	public function usurpationAction() {
+		Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable'); 
+		$dbAdapter = Zend_Registry::get('dbAdapter'); 
+		$authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter); 
+		$authAdapter->setTableName('hobbit'); 
+		$authAdapter->setIdentityColumn('id_hobbit'); 
+		$authAdapter->setCredentialColumn('id_hobbit'); 
+             
+		// Set the input credential values to authenticate against 
+		$authAdapter->setIdentity($this->_request->get('idhobbit')); 
+		$authAdapter->setCredential($this->_request->get('idhobbit')); 
+             
+		// authentication  
+		$auth = Zend_Auth::getInstance(); 
+		$result = $auth->authenticate($authAdapter); 
+		if ($result->isValid()) {
+			$hobbit = $authAdapter->getResultRowObject(null,'password_hobbit'); 
+			if ($hobbit->est_compte_actif_hobbit == "oui") {
+				$auth->getStorage()->write($hobbit); 
+				// activation du tour
+
+				Zend_Auth::getInstance()->getIdentity()->dateAuth = md5(date("Y-m-d H:i:s"));
+				Zend_Auth::getInstance()->getIdentity()->initialCall = true;
+				Zend_Auth::getInstance()->getIdentity()->activation = false;
+	            Zend_Auth::getInstance()->getIdentity()->gardiennage = false;
+	            Zend_Auth::getInstance()->getIdentity()->gardeEnCours = true;
+	            Zend_Auth::getInstance()->getIdentity()->administrateur = true;
+	            Zend_Auth::getInstance()->getIdentity()->usurpationEnCours = true;
+	            $this->_redirect('/'); 
+			}
+		}
+	}
 }
 
