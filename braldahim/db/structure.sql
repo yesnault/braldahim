@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Jeu 27 Novembre 2008 à 19:05
+-- Généré le : Mar 09 Décembre 2008 à 22:37
 -- Version du serveur: 5.0.41
 -- Version de PHP: 5.2.3
 
@@ -43,7 +43,7 @@ CREATE TABLE `boutique_bois` (
   `quantite_rondin_boutique_bois` int(11) NOT NULL,
   `prix_unitaire_boutique_bois` int(11) NOT NULL,
   `id_fk_region_boutique_bois` int(11) NOT NULL,
-  `action_hobbit_boutique_bois` enum('achat','vente') NOT NULL,
+  `action_boutique_bois` enum('reprise','vente') NOT NULL,
   PRIMARY KEY  (`id_boutique_bois`),
   KEY `id_fk_hobbit_boutique_bois` (`id_fk_hobbit_boutique_bois`),
   KEY `id_fk_lieu_boutique_bois` (`id_fk_lieu_boutique_bois`)
@@ -64,7 +64,7 @@ CREATE TABLE `boutique_minerai` (
   `quantite_brut_boutique_minerai` int(11) NOT NULL default '0',
   `prix_unitaire_boutique_minerai` int(11) NOT NULL,
   `id_fk_region_boutique_minerai` int(11) NOT NULL,
-  `action_hobbit_boutique_minerai` enum('achat','vente') NOT NULL,
+  `action_boutique_minerai` enum('reprise','vente') NOT NULL,
   PRIMARY KEY  (`id_boutique_minerai`),
   KEY `id_fk_lieu_laban_minerai` (`id_fk_lieu_boutique_minerai`),
   KEY `id_fk_hobbit_boutique_minerai` (`id_fk_hobbit_boutique_minerai`),
@@ -88,7 +88,7 @@ CREATE TABLE `boutique_partieplante` (
   `quantite_brut_boutique_partieplante` int(11) NOT NULL,
   `prix_unitaire_boutique_partieplante` int(11) NOT NULL,
   `id_fk_region_boutique_partieplante` int(11) NOT NULL,
-  `action_hobbit_boutique_partieplante` enum('achat','vente') NOT NULL,
+  `action_boutique_partieplante` enum('reprise','vente') NOT NULL,
   PRIMARY KEY  (`id_boutique_partieplante`),
   KEY `id_fk_type_plante_boutique_partieplante` (`id_fk_type_plante_boutique_partieplante`),
   KEY `id_fk_lieu_boutique_partieplante` (`id_fk_lieu_boutique_partieplante`),
@@ -682,6 +682,8 @@ CREATE TABLE `hobbit` (
   `y_hobbit` int(1) NOT NULL,
   `date_debut_tour_hobbit` datetime NOT NULL,
   `date_fin_tour_hobbit` datetime NOT NULL,
+  `date_fin_latence_hobbit` datetime NOT NULL,
+  `date_debut_cumul_hobbit` datetime NOT NULL,
   `duree_prochain_tour_hobbit` time NOT NULL,
   `duree_courant_tour_hobbit` time NOT NULL,
   `tour_position_hobbit` int(11) NOT NULL,
@@ -1534,7 +1536,8 @@ CREATE TABLE `type_rune` (
 CREATE TABLE `type_unite` (
   `id_type_unite` int(11) NOT NULL auto_increment,
   `nom_systeme_type_unite` varchar(10) NOT NULL,
-  `nom_type_unite` varchar(50) NOT NULL,
+  `nom_type_unite` varchar(10) NOT NULL,
+  `nom_pluriel_type_unite` varchar(10) NOT NULL,
   PRIMARY KEY  (`id_type_unite`),
   UNIQUE KEY `nom_systeme_type_unite` (`nom_systeme_type_unite`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -1604,11 +1607,11 @@ ALTER TABLE `boutique_minerai`
 -- Contraintes pour la table `boutique_partieplante`
 -- 
 ALTER TABLE `boutique_partieplante`
-  ADD CONSTRAINT `boutique_partieplante_ibfk_9` FOREIGN KEY (`id_fk_region_boutique_partieplante`) REFERENCES `region` (`id_region`) ON DELETE CASCADE,
   ADD CONSTRAINT `boutique_partieplante_ibfk_5` FOREIGN KEY (`id_fk_type_boutique_partieplante`) REFERENCES `type_partieplante` (`id_type_partieplante`) ON DELETE CASCADE,
   ADD CONSTRAINT `boutique_partieplante_ibfk_6` FOREIGN KEY (`id_fk_type_plante_boutique_partieplante`) REFERENCES `type_plante` (`id_type_plante`) ON DELETE CASCADE,
   ADD CONSTRAINT `boutique_partieplante_ibfk_7` FOREIGN KEY (`id_fk_lieu_boutique_partieplante`) REFERENCES `lieu` (`id_lieu`) ON DELETE CASCADE,
-  ADD CONSTRAINT `boutique_partieplante_ibfk_8` FOREIGN KEY (`id_fk_hobbit_boutique_partieplante`) REFERENCES `hobbit` (`id_hobbit`) ON DELETE CASCADE;
+  ADD CONSTRAINT `boutique_partieplante_ibfk_8` FOREIGN KEY (`id_fk_hobbit_boutique_partieplante`) REFERENCES `hobbit` (`id_hobbit`) ON DELETE CASCADE,
+  ADD CONSTRAINT `boutique_partieplante_ibfk_9` FOREIGN KEY (`id_fk_region_boutique_partieplante`) REFERENCES `region` (`id_region`) ON DELETE CASCADE;
 
 -- 
 -- Contraintes pour la table `communaute`
