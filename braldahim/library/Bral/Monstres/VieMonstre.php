@@ -182,10 +182,8 @@ class Bral_Monstres_VieMonstre {
 				$pvPerdus = 0;
 			}
 			$cible["pv_restant_hobbit"] = $cible["pv_restant_hobbit"] - $pvPerdus;
-			$nb_kills = $this->monstre["nb_kill_monstre"];
-			$nb_morts = $cible["nb_mort_hobbit"];
 			if ($cible["pv_restant_hobbit"]  <= 0) {
-				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Mort de la cible La cible (".$cible["id_hobbit"].") par Monstre id:".$this->monstre["nb_kill_monstre"]);
+				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Mort de la cible La cible (".$cible["id_hobbit"].") par Monstre id:".$this->monstre["id_monstre"]. " deg=".$pvPerdus);
 				$mortCible = true;
 				$this->monstre["nb_kill_monstre"] = $this->monstre["nb_kill_monstre"] + 1;
 				$cible["nb_mort_hobbit"] = $cible["nb_mort_hobbit"] + 1;
@@ -196,8 +194,9 @@ class Bral_Monstres_VieMonstre {
 				$this->majEvenements(null, $this->monstre["id_monstre"], $id_type_evenement, $details);
 				$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus, $mortCible);
 				$this->majEvenements($cible["id_hobbit"], null, $id_type_evenement_cible, $details, $detailsBot);
+				$this->updateCible($cible);
 			} else {
-				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Survie de la cible La cible (".$cible["id_hobbit"].") attaquee par Monstre id:".$this->monstre["nb_kill_monstre"]);
+				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Survie de la cible La cible (".$cible["id_hobbit"].") attaquee par Monstre id:".$this->monstre["id_monstre"]. " deg=".$pvPerdus. " pv_restant_hobbit=".$cible["pv_restant_hobbit"]);
 				$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - (floor($cible["niveau_hobbit"] / 10) + 1);
 				$cible["est_mort_hobbit"] = "non";
 				$id_type_evenement = self::$config->game->evenements->type->attaquer;
@@ -206,6 +205,7 @@ class Bral_Monstres_VieMonstre {
 				$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot);
 
 				$effetMotS = Bral_Util_Commun::getEffetMotS($hobbitAttaquant->id_hobbit);
+				$this->updateCible($cible);
 				if ($effetMotS != null) {
 					Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - La cible (".$hobbitAttaquant->id_hobbit.") possede le mot S -> Riposte");
 					Zend_Loader::loadClass("Bral_Util_Attaque");
@@ -219,8 +219,6 @@ class Bral_Monstres_VieMonstre {
 				}
 			}
 
-			$this->updateCible($cible);
-			$this->updateMonstre();
 		} else if ($jetCible/2 < $jetAttaquant) {
 			$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - (floor($cible["niveau_hobbit"] / 10) + 1);
 			$this->updateCible($cible);
@@ -235,6 +233,7 @@ class Bral_Monstres_VieMonstre {
 			$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot);
 		}
 		
+		$this->updateMonstre();
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - exit (return=".$mortCible.")");
 		return $mortCible;
 	}
