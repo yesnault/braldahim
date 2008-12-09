@@ -172,8 +172,7 @@ class Bral_Monstres_VieMonstre {
 					$critique = true;
 				}
 			}
-			$this->calculDegat($critique);
-			$jetDegat = $this->calculDegat();
+			$jetDegat = $this->calculDegat($critique);
 			
 			$jetDegat = Bral_Util_Commun::getEffetMotA($cible["id_hobbit"], $jetDegat);
 			
