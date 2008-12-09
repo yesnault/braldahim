@@ -16,6 +16,7 @@ date_default_timezone_set('Europe/Paris');
 set_include_path('.' . PATH_SEPARATOR . './library' . PATH_SEPARATOR . './application/models/' . PATH_SEPARATOR . get_include_path());
 include "Zend/Loader.php";
 
+Zend_Loader :: loadClass('Zend_Controller_Action');
 Zend_Loader :: loadClass('Zend_Controller_Front');
 Zend_Loader :: loadClass('Zend_Config_Ini');
 Zend_Loader :: loadClass('Zend_Registry');
