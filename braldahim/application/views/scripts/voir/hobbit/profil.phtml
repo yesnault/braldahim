@@ -56,7 +56,7 @@
 		   	<? elseif (count($this->tabMetiers) > 1): ?>
 		   		Il pratique &eacute;galement les m&eacute;tiers suivants : <br />
 		   	<? endif; ?>	
-		   	<? if (count($this->tabMetiers) >= 1): ?>
+		   	<? if (count($this->tabMetiers) > 1): ?>
 				<?
 				$liste = "";
 				foreach ($this->tabMetiers as $m) :
