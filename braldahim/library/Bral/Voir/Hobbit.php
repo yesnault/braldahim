@@ -60,7 +60,7 @@ class Bral_Voir_Hobbit {
 		}
 		
 		Zend_Loader::loadClass("Bral_Util_Equipement");
-		$tabEmplacementsEquipement = Bral_Util_Equipement::getTabEmplacementsEquipement($this->view->user->id_hobbit);
+		$tabEmplacementsEquipement = Bral_Util_Equipement::getTabEmplacementsEquipement($this->view->hobbit["id_hobbit"]);
 		$this->view->tabTypesEmplacement = $tabEmplacementsEquipement["tabTypesEmplacement"];
 		
 		$this->view->tabMetierCourant = $tabMetier["tabMetierCourant"];
