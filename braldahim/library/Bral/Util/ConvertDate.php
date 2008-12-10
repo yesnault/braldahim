@@ -230,7 +230,7 @@ class Bral_Util_ConvertDate {
 			$min = "00";
 		}
 		
-		if (floor($min/10)==0){
+		if ($min != "00" && $min != 0 && floor($min/10)==0){
 			$min = "0".$min;
 		}
 		
