@@ -47,6 +47,7 @@
 	<? if (!$this->possedeMetier): ?>
 	   	Aucun m&eacute;tier
 	<? else : ?>
+			<? $liste = "";?>
 		   	Actuellement :
 		  	 	<?=$this->tabMetierCourant["nom"] ?>
 			<br /><br />
@@ -67,7 +68,9 @@
 				  }
 				  ?>
 		    <? endif; ?>
-		    <?=$liste ?>
+		    <? if ($liste != "") : ?>
+		    	<?=$liste ?>
+		    <? endif;?>
 	   <? endif; ?>
 	</td>
   </tr>
