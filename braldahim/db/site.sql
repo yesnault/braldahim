@@ -105,3 +105,31 @@ CREATE TABLE `jos_uddeim_userlists` (
   PRIMARY KEY  (`id`),
   KEY `userid` (`userid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+
+-- 
+-- Structure de la table `jos_users`
+-- 
+
+CREATE TABLE `jos_users` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL default '',
+  `username` varchar(150) NOT NULL default '',
+  `email` varchar(100) NOT NULL default '',
+  `password` varchar(100) NOT NULL default '',
+  `usertype` varchar(25) NOT NULL default '',
+  `block` tinyint(4) NOT NULL default '0',
+  `sendEmail` tinyint(4) default '0',
+  `gid` tinyint(3) unsigned NOT NULL default '1',
+  `registerDate` datetime NOT NULL default '0000-00-00 00:00:00',
+  `lastvisitDate` datetime NOT NULL default '0000-00-00 00:00:00',
+  `activation` varchar(100) NOT NULL default '',
+  `params` text NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `usertype` (`usertype`),
+  KEY `idx_name` (`name`),
+  KEY `gid_block` (`gid`,`block`),
+  KEY `username` (`username`),
+  KEY `email` (`email`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
