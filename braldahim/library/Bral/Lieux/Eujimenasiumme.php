@@ -17,6 +17,7 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Lieu");
+		Zend_Loader::loadClass("Bral_Util_Tour");
 		
 		$coutPIForce =  $this->calculCoutAmelioration(1 + $this->view->user->force_base_hobbit);
 		$coutPIAgilite = $this->calculCoutAmelioration(1 + $this->view->user->agilite_base_hobbit);
@@ -99,6 +100,7 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 					$this->view->user->pi_hobbit = $this->view->user->pi_hobbit - $this->view->coutSagesse;
 					$this->view->coutPi = $this->view->coutPISagesse;
 					$this->view->coutCastars = $this->view->coutCastarsSagesse;
+					$this->view->user->duree_prochain_tour_hobbit = Bral_Util_Tour::getDureeProchainTour($this->view->user, $this->view->config); 
 				}
 				break;
 			case "VIG":

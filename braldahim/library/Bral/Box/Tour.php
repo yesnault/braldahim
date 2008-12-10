@@ -509,12 +509,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$this->hobbit->duree_courant_tour_hobbit = Bral_Util_ConvertDate::getHeureFromMinute($minutesCourant + $minutesAAjouter);
 		Bral_Util_Log::tour()->debug(get_class($this)." this->hobbit->duree_courant_tour_hobbit=".$this->hobbit->duree_courant_tour_hobbit);			
 		
-		$minutesProchain = Bral_Util_ConvertDate::getMinuteFromHeure($this->view->config->game->tour->duree_base);
-		Bral_Util_Log::tour()->debug(get_class($this)." minutesProchain base=".$minutesProchain);	
-		$minutesProchain = $minutesProchain - (10 * $this->hobbit->sagesse_base_hobbit);
-		Bral_Util_Log::tour()->debug(get_class($this)." minutesProchain en comptant la sag=".$minutesProchain);	
-		
-		$this->hobbit->duree_prochain_tour_hobbit =  Bral_Util_ConvertDate::getHeureFromMinute($minutesProchain); // TODO Rajouter les BM
+		Zend_Loader::loadClass("Bral_Util_Tour");
+		$this->hobbit->duree_prochain_tour_hobbit = Bral_Util_Tour::getDureeProchainTour($this->hobbit, $this->view->config); 
 		Bral_Util_Log::tour()->debug(get_class($this)." this->hobbit->duree_prochain_tour_hobbit=".$this->hobbit->duree_prochain_tour_hobbit);			
 		
 		$this->hobbit->date_debut_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;
