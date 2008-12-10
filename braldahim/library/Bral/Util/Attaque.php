@@ -405,9 +405,8 @@ class Bral_Util_Attaque {
 		if ($retourAttaque["mort"] === true) {
 			$id_type = $config->game->evenements->type->kill;
 			$details = $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.") N".$hobbitAttaquant->niveau_hobbit." a tué le monstre ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
-			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);
-			$id_type = $config->game->evenements->type->mort;
-			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, "", "monstre");
+//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
+			Bral_Util_Evenement::majEvenements($cible["id_cible"], $config->game->evenements->type->mort, $details, "", "monstre");
 		} else {
 			$id_type = $config->game->evenements->type->attaquer;
 			$details = $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.") N".$hobbitAttaquant->niveau_hobbit." a attaqué le monstre ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];
