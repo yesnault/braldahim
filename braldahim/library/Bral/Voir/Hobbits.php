@@ -51,7 +51,6 @@ class Bral_Voir_Hobbits {
 			$tabNiveaux[$m["niveau_hobbit"]] = $m["niveau_hobbit"];
 		}
 		
-		
 		if ($this->_page == 1) {
 			$this->view->precedentOk = false;
 		} else {

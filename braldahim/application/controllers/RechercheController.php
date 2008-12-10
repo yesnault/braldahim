@@ -35,7 +35,6 @@ class RechercheController extends Zend_Controller_Action {
 			$tabHobbits = null;
 			$hobbitTable = new Hobbit();
 			
-			
 			$hobbitRowset = $hobbitTable->findHobbitsParPrenomIdJoomlaOnly($this->_request->get("valeur").'%');
 			$this->view->champ = $this->_request->get("champ");
 			

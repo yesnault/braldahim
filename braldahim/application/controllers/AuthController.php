@@ -92,6 +92,8 @@ class AuthController extends Zend_Controller_Action {
 			$this->view->message = "Veuillez renseigner les champs";
 		}
 		$this->view->title = "Authentification";
+		
+		$this->prepareInfosJeu();
 		$this->render();
 	}
 
@@ -104,5 +106,23 @@ class AuthController extends Zend_Controller_Action {
 		Zend_Auth::getInstance()->clearIdentity();
 		$this->render();
 	}	
+	
+	private function prepareInfosJeu() {
+		Zend_Loader::loadClass('InfoJeu');
+		$infoJeuTable = new InfoJeu();
+		
+		$infosRowset = $infoJeuTable->findAllAccueil();
+		$infosJeu = null;
+		foreach ($infosRowset as $i) {
+			$infosJeu[] = array(
+				"id_info_jeu" => $i["id_info_jeu"],
+				"date_info_jeu" => $i["date_info_jeu"],
+				"text_info_jeu" => $i["text_info_jeu"],
+				"est_sur_accueil_info_jeu" => $i["est_sur_accueil_info_jeu"],
+				);
+		}
+		
+		$this->view->infosJeu = $infosJeu;
+	}
 	
 }

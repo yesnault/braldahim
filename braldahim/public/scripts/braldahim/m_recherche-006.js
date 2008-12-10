@@ -7,6 +7,14 @@ function activerRechercheHobbit(id) {
 	}
 }
 
+function activerRechercheAdminHobbit(id) {
+	if ($('recherche_' + id + '_actif').value == 0) {
+		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/hobbit/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
+		afterUpdateElement :getAdminHobbitId, parameters : { champ :'value' } });
+		$('recherche_' + id + '_actif').value = 1;
+	}
+}
+
 function activerRechercheVoirHobbit(id) {
 	if ($('recherche_' + id + '_actif').value == 0) {
 		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/hobbit/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
@@ -31,6 +39,12 @@ function getVoirId(text, li) {
 	if (controleSession(li) == true) {
 		document.location.href = "/voir/hobbit/?hobbit=" + li.getAttribute('id_hobbit');
 		$('recherche_' + li.getAttribute('champ')).value = 'Chargement en cours...';
+	}
+}
+
+function getAdminHobbitId(text, li) {
+	if (controleSession(li) == true) {
+		$('id_hobbit').value = li.getAttribute('id_hobbit');
 	}
 }
 

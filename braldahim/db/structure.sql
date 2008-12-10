@@ -1967,3 +1967,11 @@ ALTER TABLE `ville`
 -- 
 ALTER TABLE `zone`
   ADD CONSTRAINT `zone_ibfk_1` FOREIGN KEY (`id_fk_environnement_zone`) REFERENCES `environnement` (`id_environnement`);
+  
+  
+  CREATE TABLE `info_jeu` (
+`id_info_jeu` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`date_info_jeu` DATETIME NOT NULL ,
+`text_info_jeu` TEXT NOT NULL ,
+`est_sur_accueil_info_jeu` ENUM( 'oui', 'non' ) NOT NULL DEFAULT 'oui'
+) ENGINE = innodb;

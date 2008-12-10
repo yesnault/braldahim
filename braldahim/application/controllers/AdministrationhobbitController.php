@@ -28,13 +28,6 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 		$this->render();
 	}
 	
-	function hobbitsAction() {
-		Zend_Loader::loadClass('Hobbit');
-		
-		$this->hobbitsPrepare();
-		$this->render();
-	}
-	
 	function hobbitAction() {
 		Zend_Loader::loadClass('Hobbit');
 		
@@ -61,25 +54,6 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 		
 		$this->hobbitPrepare();
 		$this->render();
-	}
-	
-	private function hobbitsPrepare() {
-		$hobbitTable = new Hobbit();
-		
-		$page = 1;
-		$nbMax = 20;
-		
-		$hobbitsRowset = $hobbitTable->findAll($page, $nbMax);
-		
-		foreach ($hobbitsRowset as $h) {
-			$hobbits [] = array("id_hobbit" => $h ["id_hobbit"], "x_hobbit" => $h ["x_hobbit"], 
-								"y_hobbit" => $h ["y_hobbit"], 
-								"nom_hobbit" => $h ["nom_hobbit"], 
-								"prenom_hobbit" => $h ["prenom_hobbit"], 
-								"pa_hobbit" => $h ["pa_hobbit"], 
-								"castars_hobbit" => $h ["castars_hobbit"]);
-		}
-		$this->view->hobbits = $hobbitsRowset;
 	}
 	
 	private function hobbitPrepare() {

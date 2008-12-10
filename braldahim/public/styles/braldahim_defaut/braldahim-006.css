@@ -368,6 +368,15 @@ span.id_hobbit {
 	text-align: center;
 }
 
+.box_infos_jeu {
+	width: 540px;
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0px;
+	text-align: center;
+}
+
 .contenu {
 	border-width: 0px;
 	border-color: #791E1E;

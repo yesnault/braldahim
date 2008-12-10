@@ -1,0 +1,26 @@
+<div class="box_infos_jeu">
+<?=Bral_Helper_Box::haut(); ?>
+<div class="inner">
+
+<div class="contenu">
+    <ul class="box_contenu1 textalib">
+    	<? if (count($this->infosJeu) > 0) : ?>
+    	<ul class="titre textalic textsizeb">Informations</ul>
+    		<table class="table_liste">
+    		<thead class="table_liste">
+			<? 
+				$i = 0; 
+				foreach ($this->infosJeu as $info) : ?>
+				<tr class="table_liste<?=($i % 2);$i++; ?>">
+					<td class="table_liste">Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?></td>
+					<td class="table_liste"><?=Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?></td>
+				</tr>
+			<? endforeach; ?>
+			</thead>
+			</table>
+		<? endif; ?>
+    </ul>
+</div>
+</div>
+<?=Bral_Helper_Box::bas(); ?>
+</div>
