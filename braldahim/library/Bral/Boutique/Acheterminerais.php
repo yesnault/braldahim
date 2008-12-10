@@ -102,6 +102,8 @@ class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 		if ($quantite >= 1) {
 			$this->view->coutCastars += $prixTotal;
 			$this->view->poidsRestant = floor($this->view->poidsRestant - ($quantite * Bral_Util_Poids::POIDS_MINERAI));
+			$this->view->poidsRestant = $this->view->poidsRestant + ($prixTotal * Bral_Util_Poids::POIDS_CASTARS); // on enleve le poids des castars enleves
+			
 			$this->transfertEnBase($quantite, $idTypeMinerai, $prixUnitaire, $idStock);
 			
 			if ($quantite > 1) {$s = 's';} else {$s = '';};
