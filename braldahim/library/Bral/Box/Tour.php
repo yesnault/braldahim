@@ -201,10 +201,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 				$this->hobbit->pv_max_hobbit = $this->hobbit->pv_max_hobbit - ($effetMotE * 3);
 			}
 			
-			Bral_Util_Log::tour()->trace(get_class($this)." activer - this->hobbit->regeneration_malus_hobbit=".$this->hobbit->regeneration_malus_hobbit);
-			$this->view->jetRegeneration = $this->hobbit->regeneration_malus_hobbit;
-			/* Remise à zéro du malus de regénération. */
-			$this->hobbit->regeneration_malus_hobbit = 0;
+
 			
 			$this->calculPv();
 			
@@ -528,13 +525,20 @@ class Bral_Box_Tour extends Bral_Box_Box {
 	
 	private function calculPv() {
 		Bral_Util_Log::tour()->trace(get_class($this)." calculPv - enter -");
+		Bral_Util_Log::tour()->trace(get_class($this)." calculPv - this->hobbit->regeneration_malus_hobbit=".$this->hobbit->regeneration_malus_hobbit);
+		
+		$this->view->jetRegeneration = 0;
+		
 		if ($this->hobbit->pv_restant_hobbit < $this->hobbit->pv_max_hobbit) {
 			for ($i=1; $i <= $this->hobbit->regeneration_hobbit; $i++) {
 				$this->view->jetRegeneration = $this->view->jetRegeneration + Bral_Util_De::get_1d6();
-			}	
+			}
+
+			$this->view->jetRegeneration = $this->view->jetRegeneration - $this->hobbit->regeneration_malus_hobbit;
 			if ($this->view->jetRegeneration < 0) { // pas de regénération négative (même si le malus est important)
 				$this->view->jetRegeneration = 0;
 			}
+			
 			$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_restant_hobbit + $this->view->jetRegeneration;
 			Bral_Util_Log::tour()->trace(get_class($this)." activer - jet Regeneration=".$this->view->jetRegeneration);
 			if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit) {
@@ -548,6 +552,9 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit) {
 			$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit;
 		}
+		
+		/* Remise à zéro du malus de regénération. */
+		$this->hobbit->regeneration_malus_hobbit = 0;
 		Bral_Util_Log::tour()->trace(get_class($this)." calculPv - exit -");
 	}
 	
