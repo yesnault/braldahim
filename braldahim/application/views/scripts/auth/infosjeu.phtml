@@ -1,10 +1,10 @@
+<? if (count($this->infosJeu) > 0) : ?>
 <div class="box_infos_jeu">
 <?=Bral_Helper_Box::haut(); ?>
 <div class="inner">
 
 <div class="contenu">
     <ul class="box_contenu1 textalib">
-    	<? if (count($this->infosJeu) > 0) : ?>
     	<ul class="titre textalic textsizeb">Informations</ul>
     		<table class="table_liste">
     		<thead class="table_liste">
@@ -18,9 +18,9 @@
 			<? endforeach; ?>
 			</thead>
 			</table>
-		<? endif; ?>
     </ul>
 </div>
 </div>
 <?=Bral_Helper_Box::bas(); ?>
 </div>
+<? endif; ?>
