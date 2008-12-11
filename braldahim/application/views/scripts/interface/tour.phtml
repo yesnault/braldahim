@@ -44,7 +44,7 @@
 	<br />
 	Nombre de Points d'Action : <?=$this->user->pa_hobbit ?><br /><br />
 	
-	Dur&eacute;e du prochain tour : <?=$this->user->duree_prochain_tour_hobbit ?> <br />
+	Dur&eacute;e du prochain tour : <?=$this->user->duree_prochain_tour_hobbit ?> + <? $tab = Bral_Util_Tour::getTabMinutesProchainTour($this->user)?> <?=$tab["minutesBlessures"]?> min : <?=$tab["heureMinuteTotal"]?> <br />
 	
 	<? include("tour/effet_mot_text.phtml"); ?>
 	<? include("tour/effet_potion_text.phtml"); ?>
@@ -88,7 +88,7 @@ Date limite d'action : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:
 
 Nombre de Points d'Action : <?=$this->user->pa_hobbit ?> 
 
-Dur&eacute;e du prochain tour : <?=$this->user->duree_prochain_tour_hobbit ?> 
+Dur&eacute;e du prochain tour : <?=$this->user->duree_prochain_tour_hobbit ?> + <? $tab = Bral_Util_Tour::getTabMinutesProchainTour($this->user)?> <?=$tab["minutesBlessures"]?> min : <?=$tab["heureMinuteTotal"]?> 
 
 <? 
  	include("tour/effet_mot_copie.phtml");

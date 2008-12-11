@@ -52,6 +52,7 @@ Zend_Loader :: loadClass("Bral_Util_Poids");
 Zend_Loader :: loadClass("Bral_Util_Registre");
 Zend_Loader :: loadClass("Bral_Util_Securite");
 Zend_Loader :: loadClass("Bral_Util_String");
+Zend_Loader :: loadClass("Bral_Util_Tour");
 
 Zend_Loader :: loadClass("Bral_Helper_BBBoutons");
 Zend_Loader :: loadClass("Bral_Helper_Box");

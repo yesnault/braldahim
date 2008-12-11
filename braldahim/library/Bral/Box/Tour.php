@@ -489,7 +489,9 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 		Bral_Util_Log::tour()->debug(get_class($this)." this->hobbit->duree_prochain_tour_hobbit=".$this->hobbit->duree_prochain_tour_hobbit);			
 		
-		$minutesCourant = Bral_Util_ConvertDate::getMinuteFromHeure($this->hobbit->duree_prochain_tour_hobbit);// - 10 * $this->hobbit->sagesse_base_hobbit;
+		$tabProchainTour = Bral_Util_Tour::getTabMinutesProchainTour($this->hobbit);
+		$minutesCourant = $tabProchainTour["minutesBase"];
+		
 		Bral_Util_Log::tour()->debug(get_class($this)." minutesCourant=".$minutesCourant);			
 		// Ajouter les blessures : pour chaque PV : Arrondi inférieur [durée DLA (+BM) / (4*max PV du Hobbit)]. 
 		
@@ -498,16 +500,16 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit;
 		}
 		if ($this->hobbit->pv_max_hobbit - $this->hobbit->pv_restant_hobbit > 0) {
-			$minutesAAjouter = floor($minutesCourant / (4 * $this->hobbit->pv_max_hobbit)) * ($this->hobbit->pv_max_hobbit - $this->hobbit->pv_restant_hobbit);
+			$minutesAAjouter = $tabProchainTour["minutesBlessures"];
 		}
 		
 		Bral_Util_Log::tour()->debug(get_class($this)." minutesAAjouter=".$minutesAAjouter);
 		
-		$this->hobbit->duree_courant_tour_hobbit = Bral_Util_ConvertDate::getHeureFromMinute($minutesCourant + $minutesAAjouter);
+		$this->hobbit->duree_courant_tour_hobbit = $tabProchainTour["heureMinuteTotal"];
 		Bral_Util_Log::tour()->debug(get_class($this)." this->hobbit->duree_courant_tour_hobbit=".$this->hobbit->duree_courant_tour_hobbit);			
 		
 		Zend_Loader::loadClass("Bral_Util_Tour");
-		$this->hobbit->duree_prochain_tour_hobbit = Bral_Util_Tour::getDureeProchainTour($this->hobbit, $this->view->config); 
+		$this->hobbit->duree_prochain_tour_hobbit = Bral_Util_Tour::getDureeBaseProchainTour($this->hobbit, $this->view->config); 
 		Bral_Util_Log::tour()->debug(get_class($this)." this->hobbit->duree_prochain_tour_hobbit=".$this->hobbit->duree_prochain_tour_hobbit);			
 		
 		$this->hobbit->date_debut_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;

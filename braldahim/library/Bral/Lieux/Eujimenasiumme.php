@@ -100,7 +100,7 @@ class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
 					$this->view->user->pi_hobbit = $this->view->user->pi_hobbit - $this->view->coutSagesse;
 					$this->view->coutPi = $this->view->coutPISagesse;
 					$this->view->coutCastars = $this->view->coutCastarsSagesse;
-					$this->view->user->duree_prochain_tour_hobbit = Bral_Util_Tour::getDureeProchainTour($this->view->user, $this->view->config); 
+					$this->view->user->duree_prochain_tour_hobbit = Bral_Util_Tour::getDureeBaseProchainTour($this->view->user, $this->view->config); 
 				}
 				break;
 			case "VIG":
