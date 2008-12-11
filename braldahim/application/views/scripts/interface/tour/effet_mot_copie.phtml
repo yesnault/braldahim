@@ -24,7 +24,8 @@
 	}
 	
 	if ($this->effetMotN) {
-		echo "Votre armure de Feu C&eacute;leste inflige en d&eacte;g&acirc;ts une aura de feu de deux fois son niveau &agrave; tout ce qui se trouve sur sa case.";
+		if ($this->effetMotNPointsDegats > 1) : $s = 's'; else: $s = ''; endif;
+		echo "Votre armure de Feu C&eacute;leste inflige ".$this->effetMotNPointsDegats." point".$s." de d&eacute;g&acirc;t".$s." &agrave; tout ce qui se trouve sur sa case.";
 		echo"
 ";
 		include("tour_effet_touches_copie.phtml");
@@ -38,7 +39,8 @@
 	}
 	
 	if ($this->effetMotU) {
-		echo "Votre armure de Nosferatu inflige un souffle vampirique de la moiti&eacute; de son niveau en d&eacute;g&acirc;ts &agrave; tout ce qui se trouve sur sa case.";
+		if ($this->effetMotUPointsDegats > 1) : $s = 's'; else: $s = ''; endif;
+		echo "Votre armure de Nosferatu inflige un souffle vampirique de ".$this->effetMotUPointsDegats." point".$s." de d&eacute;g&acirc;t".$s." &agrave; tout ce qui se trouve sur sa case.";
 		echo"
 ";
 		include("tour_effet_touches_copie.phtml");

@@ -13,7 +13,8 @@
 		Votre arme de R&acute;flexes double son bonus de d&eacute;fense (ou divise par deux son malus s'il est n&eacute;gatif).<br />
 	<? endif; ?>
 	<? if ($this->effetMotN) : ?>
-		Votre armure de Feu C&eacute;leste inflige en d&eacte;g&acirc;ts une aura de feu de deux fois son niveau &agrave; tout ce qui se trouve sur sa case.<br />
+		<? if ($this->effetMotNPointsDegats > 1) : $s = 's'; else: $s = ''; endif;?>
+		Votre armure de Feu C&eacute;leste inflige <?=$this->effetMotNPointsDegats?> point<?=$s?> de d&eacute;g&acirc;t <?=$s?> &agrave; tout ce qui se trouve sur sa case.<br />
 		<? $this->ciblesEffet = $this->ciblesEffetN; ?>
 		<? include("tour_effet_touches_text.phtml") ?>
 	<? endif; ?>
@@ -23,7 +24,8 @@
 		<? include("tour_effet_touches_text.phtml") ?>
 	<? endif; ?>
 	<? if ($this->effetMotU) : ?>
-		Votre armure de Nosferatu inflige un souffle vampirique de la moiti&eacute; de son niveau en d&eacute;g&acirc;ts &agrave; tout ce qui se trouve sur sa case.<br />
+		<? if ($this->effetMotUPointsDegats > 1) : $s = 's'; else: $s = ''; endif;?>
+		Votre armure de Nosferatu inflige un souffle vampirique <?=$this->effetMotUPointsDegats?> point<?=$s?> de d&eacute;g&acirc;t <?=$s?> &agrave; tout ce qui se trouve sur sa case.<br />
 		<? $this->ciblesEffet = $this->ciblesEffetU; ?>
 		<? include("tour_effet_touches_text.phtml") ?>
 	<? endif; ?>
