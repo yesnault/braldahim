@@ -48,8 +48,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		$this->view->chargerVilleOk = true;
 		
 		if (count($villes) > 0) {
-			$this->view->chargerVilleOk = false;
-			return;
+			$this->view->chargerVilleOk = true;
 		}	
 		
 		$this->view->charge_nb_cases = floor($this->view->user->vigueur_base_hobbit / 3) + 1;

@@ -37,7 +37,14 @@ class Bral_Util_Attaque {
 		$retourAttaque["effetMotQ"] = false;
 		$retourAttaque["effetMotS"] = false;
 		
-		$cible = array('nom_cible' => $hobbitCible->prenom_hobbit ." ". $hobbitCible->nom_hobbit, 'id_cible' => $hobbitCible->id_hobbit, 'x_cible' => $hobbitCible->x_hobbit, 'y_cible' => $hobbitCible->y_hobbit,'niveau_cible' => $hobbitCible->niveau_hobbit);
+		$cible = array('nom_cible' => $hobbitCible->prenom_hobbit ." ". $hobbitCible->nom_hobbit, 
+			'id_cible' => $hobbitCible->id_hobbit, 
+			'x_cible' => $hobbitCible->x_hobbit, 
+			'y_cible' => $hobbitCible->y_hobbit,
+			'niveau_cible' => $hobbitCible->niveau_hobbit,
+			'armure_naturelle_hobbit' => $hobbitCible->armure_naturelle_hobbit,
+			'armure_equipement_hobbit' => $hobbitCible->armure_equipement_hobbit,
+		);
 		$retourAttaque["cible"] = $cible;
 
 		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
@@ -114,7 +121,7 @@ class Bral_Util_Attaque {
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - hobbitCible->agilite_bm_hobbit=".$hobbitCible->agilite_bm_hobbit);
 			}
 			
-			$hobbitCible->pv_restant_hobbit = $hobbitCible->pv_restant_hobbit - $retourAttaque["jetDegat"];
+			$hobbitCible->pv_restant_hobbit = $hobbitCible->pv_restant_hobbit + ($hobbitCible->armure_naturelle_hobbit + $hobbitCible->armure_equipement_hobbit) - $retourAttaque["jetDegat"];
 			if ($hobbitCible->pv_restant_hobbit <= 0) {
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Mort du hobbit !");
 				$hobbitCible->pv_restant_hobbit = 0;
@@ -186,7 +193,7 @@ class Bral_Util_Attaque {
 				$id_type = $config->game->evenements->type->mort;
 				Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot);
 				$id_type = $config->game->evenements->type->kill;
-				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);
+//				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);
 			}
 			
 			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Mise a jour du hobbit ".$hobbitCible->id_hobbit." pv_restant_hobbit=".$hobbitCible->pv_restant_hobbit);
@@ -585,7 +592,7 @@ class Bral_Util_Attaque {
 					
 				$id_type = $config->game->evenements->type->effet;
 				$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a soigné le hobbit ".$h["prenom_hobbit"] ." ". $h["nom_hobbit"] ." (".$h["id_hobbit"].") N".$h["niveau_hobbit"];
-				$detailsBot = $soins." PV soign�";
+				$detailsBot = $soins." PV soigné";
 				if ($soins > 1) {
 					$detailsBot = $detailsBot . "s";
 				}
@@ -634,6 +641,26 @@ La cible a été touchée par une attaque critique";
 			} else {
 			$retour .= "
 La cible a été touchée";
+			}
+			
+			if (array_key_exists('armure_naturelle_hobbit', $cible) && array_key_exists('armure_equipement_hobbit', $cible)) {
+				if ($cible["armure_naturelle_hobbit"] > 0) {
+					$retour .= "
+L'armure naturelle l'a protégé en réduisant les dégâts de ";
+					$retour .= $cible["armure_naturelle_hobbit"].".";
+				} else {
+					$retour .= "
+L'armure naturelle ne l'a pas protégé (ARM NAT:".$cible["armure_naturelle_hobbit"].")"; 	
+				}
+			
+				if ($cible["armure_equipement_hobbit"] > 0) {
+					$retour .= "
+L'équipement  l'a protégé en réduisant les dégâts de ";
+					$retour .= $cible["armure_equipement_hobbit"].".";
+				} else {
+					$retour .= "
+Aucun équipement ne l'a protégé (ARM EQU:".$cible["armure_equipement_hobbit"].")"; 	
+				}
 			}
 			
 			if ($mortCible) {

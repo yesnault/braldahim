@@ -178,11 +178,11 @@ class Bral_Monstres_VieMonstre {
 			$jetDegat = $this->calculDegat($critique);
 			$jetDegat = Bral_Util_Commun::getEffetMotA($cible["id_hobbit"], $jetDegat);
 			
-			$pvPerdus = - $jetDegat;
+			$pvPerdus = $jetDegat + $cible["armure_naturelle_hobbit"] + $cible["armure_equipement_hobbit"];
 			if ($pvPerdus > 0) {
-				$pvPerdus = 0;
+				$pvPerdus = 1; // on perd 1 pv quoi qu'il arrive
 			}
-			$cible["pv_restant_hobbit"] = $cible["pv_restant_hobbit"] + $pvPerdus;
+			$cible["pv_restant_hobbit"] = $cible["pv_restant_hobbit"] - $pvPerdus;
 			if ($cible["pv_restant_hobbit"]  <= 0) {
 				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Mort de la cible La cible (".$cible["id_hobbit"].") par Monstre id:".$this->monstre["id_monstre"]. " pvPerdus=".$pvPerdus);
 				$mortCible = true;
@@ -496,8 +496,28 @@ Vous avez été touché par une attaque critique";
 Vous avez été touché";
 			}
 			
+			if ($cible["armure_naturelle_hobbit"] > 0) {
+				$retour .= "
+Votre armure naturelle vous a protégé en réduisant les dégâts de ";
+				$retour .= $cible["armure_naturelle_hobbit"].".";
+			} else {
+				$retour .= "
+Votre armure naturelle ne vous a pas protégé (ARM NAT:".$cible["armure_naturelle_hobbit"].")"; 	
+			}
+			
+			if ($cible["armure_equipement_hobbit"] > 0) {
+				$retour .= "
+Votre équipement vous a protégé en réduisant les dégâts de ";
+				$retour .= $cible["armure_equipement_hobbit"].".";
+			} else {
+				$retour .= "
+Aucun équipement ne vous a protégé (ARM EQU:".$cible["armure_equipement_hobbit"].")"; 	
+			}
+			
 			$retour .= "
-Vous avez perdu ".$pvPerdus. " PV (".$cible["pv_restant_hobbit"]." PV restant(s)) ";
+Vous avez perdu ".$pvPerdus. " PV ";
+			$retour .= "
+Il vous reste ".$cible["pv_restant_hobbit"]." PV ";
 			
 			if ($mortCible) {
 			$retour .= "
