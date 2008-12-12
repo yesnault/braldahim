@@ -89,7 +89,11 @@ class Bral_Helper_Profil {
     	$totalPv = $totalPvSansBm + $pv_max_bm_hobbit;
     	
     	$titre = "Information sur les points de vie";
-		$texte = "Vous avez ".$pv_restant_hobbit." / ".$totalPvSansBm."+".$pv_max_bm_hobbit." PV.<br><br>";
+    	$plus = "";
+    	if ($pv_max_bm_hobbit >= 0) { 
+    		$plus = "+"; 
+    	}
+		$texte = "Vous avez ".$pv_restant_hobbit." / ".$totalPv ." (".$totalPvSansBm." ".$plus." ".$pv_max_bm_hobbit.") PV.<br><br>";
 		
 		$pourcentage = $pv_restant_hobbit * 100 / $totalPv;
 		
