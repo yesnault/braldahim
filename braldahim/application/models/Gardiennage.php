@@ -34,7 +34,9 @@ class Gardiennage extends Zend_Db_Table {
 		$select->from('gardiennage', 'id_fk_gardien_gardiennage')
 		->from('hobbit', array('nom_hobbit', 'prenom_hobbit'))
 		->where('gardiennage.id_fk_gardien_gardiennage = hobbit.id_hobbit AND gardiennage.id_fk_hobbit_gardiennage = '.$id_hobbit_garde)
-		->group('id_fk_gardien_gardiennage', 'nom_hobbit', 'prenom_hobbit');
+		->group('id_fk_gardien_gardiennage', 'nom_hobbit', 'prenom_hobbit')
+		->where("hobbit.est_compte_actif_hobbit = 'oui'")
+		->where("hobbit.est_en_hibernation_hobbit = 'non'");
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
     }
@@ -61,6 +63,8 @@ class Gardiennage extends Zend_Db_Table {
 		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'email_hobbit'))
 		->where('gardiennage.id_fk_hobbit_gardiennage = hobbit.id_hobbit')
 		->where('gardiennage.id_fk_gardien_gardiennage = '.$id_hobbit_gardien)
+		->where("hobbit.est_compte_actif_hobbit = 'oui'")
+		->where("hobbit.est_en_hibernation_hobbit = 'non'")
 		->where('gardiennage.date_fin_gardiennage >= \''.$date_courante.'\'');
 		$sql = $select->__toString();
 

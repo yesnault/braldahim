@@ -104,7 +104,7 @@ class GardiennageController extends Zend_Controller_Action {
 	            $result = $auth->authenticate($authAdapter); 
 	            if ($result->isValid()) {
 	            	$hobbit = $authAdapter->getResultRowObject(null,'password_hobbit'); 
-	            	if ($hobbit->est_compte_actif_hobbit == "oui") {
+	            	if ($hobbit->est_compte_actif_hobbit == "oui" && $hobbit->est_en_hibernation_hobbit == "non") {
 		                $auth->getStorage()->write($hobbit); 
 						// activation du tour
 						

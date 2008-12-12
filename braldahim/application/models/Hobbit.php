@@ -36,7 +36,8 @@ class Hobbit extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('hobbit')
-		->where('est_compte_actif_hobbit = ?', "oui");
+		->where('est_compte_actif_hobbit = ?', "oui")
+		->where('est_en_hibernation_hobbit = ?', "non");
 		
 		if ($and != null) {
 			$select->where($and);
@@ -67,6 +68,7 @@ class Hobbit extends Zend_Db_Table {
 			->where('y_hobbit <= ?',$y_max)
 			->where('est_mort_hobbit = ?', "non")
 			->where('est_compte_actif_hobbit = ?', "oui")
+			->where('est_en_hibernation_hobbit = ?', "non")
 			->where('id_hobbit != ?',$sansHobbitCourant);
 		} else {
 			$select->from('hobbit', '*')
@@ -76,6 +78,7 @@ class Hobbit extends Zend_Db_Table {
 			->where('y_hobbit <= ?',$y_max)
 			->where('est_mort_hobbit = ?', "non")
 			->where('est_compte_actif_hobbit = ?', "oui")
+			->where('est_en_hibernation_hobbit = ?', "non")
 			->joinLeft('communaute','id_fk_communaute_hobbit = id_communaute');;
 		}
 		
@@ -92,12 +95,14 @@ class Hobbit extends Zend_Db_Table {
 			->where('y_hobbit = ?',$y)
 			->where('id_hobbit != ?',$sansHobbitCourant)
 			->where('est_compte_actif_hobbit = ?', "oui")
+			->where('est_en_hibernation_hobbit = ?', "non")
 			->where('est_mort_hobbit = ?', "non");
 		} else {
 			$select->from('hobbit', '*')
 			->where('x_hobbit = ?',$x)
 			->where('y_hobbit = ?',$y)
 			->where('est_compte_actif_hobbit = ?', "oui")
+			->where('est_en_hibernation_hobbit = ?', "non")
 			->where('est_mort_hobbit = ?', "non");
 		}
 		$sql = $select->__toString();
@@ -180,6 +185,7 @@ class Hobbit extends Zend_Db_Table {
 		->where('y_hobbit <= ?', $y + $rayon)
 		->where("est_mort_hobbit = 'non'")
 		->where('est_compte_actif_hobbit = ?', "oui")
+		->where('est_en_hibernation_hobbit = ?', "non")
 		->joinLeft('effet_mot_f','id_fk_hobbit_effet_mot_f = id_hobbit'. $and)
 		->limit($nombre)
 		->order(array('distance ASC','niveau_hobbit ASC'));
@@ -198,6 +204,7 @@ class Hobbit extends Zend_Db_Table {
 		->where('y_hobbit <= ?', $y + $rayon)
 		->where('est_mort_hobbit = ?', "non")
 		->where('est_compte_actif_hobbit = ?', "oui")
+		->where('est_en_hibernation_hobbit = ?', "non")
 		->where('id_hobbit = ?', $idHobbit);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

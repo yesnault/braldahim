@@ -1975,3 +1975,7 @@ ALTER TABLE `zone`
 `text_info_jeu` TEXT NOT NULL ,
 `est_sur_accueil_info_jeu` ENUM( 'oui', 'non' ) NOT NULL DEFAULT 'oui'
 ) ENGINE = innodb;
+
+ALTER TABLE `hobbit` ADD `est_en_hibernation_hobbit` ENUM( 'oui', 'non' ) NOT NULL DEFAULT 'non' AFTER `est_compte_actif_hobbit` ;
+ALTER TABLE `hobbit` ADD `date_fin_hibernation_hobbit` DATE NOT NULL AFTER `est_en_hibernation_hobbit` ;
+

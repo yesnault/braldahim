@@ -57,7 +57,12 @@ class AuthController extends Zend_Controller_Action {
 			if ($result->isValid()) {
 
 				$hobbit = $authAdapter->getResultRowObject(null,'password_hobbit');
-				if ($hobbit->est_compte_actif_hobbit == "oui") {
+				
+				if ($hobbit->est_en_hibernation_hobbit == "oui") {
+					Bral_Util_Log::authentification()->warn("AuthController - loginAction - compte non actif : ".$email);
+					$this->view->message = "Ce compte est en hibernation jusqu'au ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$hobbit->date_fin_hibernation_hobbit);
+					Zend_Auth::getInstance()->clearIdentity();
+				} else if ($hobbit->est_compte_actif_hobbit == "oui") {
 					Bral_Util_Log::authentification()->notice("AuthController - loginAction - authentification OK pour ".$email);
 					// success : store database row to auth's storage system
 					// (not the password though!)
