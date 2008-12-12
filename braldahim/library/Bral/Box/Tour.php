@@ -201,8 +201,6 @@ class Bral_Box_Tour extends Bral_Box_Box {
 				$this->hobbit->pv_max_hobbit = $this->hobbit->pv_max_hobbit - ($effetMotE * 3);
 			}
 			
-
-			
 			$this->calculPv();
 			
 			Bral_Util_Faim::calculBalanceFaim($this->hobbit);

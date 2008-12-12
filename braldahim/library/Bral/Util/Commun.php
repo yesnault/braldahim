@@ -146,7 +146,7 @@ class Bral_Util_Commun {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_d");
 		$retour = 0;
 		if ($equipement != null) {
-			$retour = $equipementCible["niveau_recette_equipement"];
+			$retour = $equipement["niveau_recette_equipement"];
 		}
 		return $retour;
 	}
@@ -155,7 +155,7 @@ class Bral_Util_Commun {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_e");
 		$retour = null;
 		if ($equipement != null) {
-			$retour = $equipementCible["niveau_recette_equipement"];
+			$retour = $equipement["niveau_recette_equipement"];
 		}
 		return $retour;
 	}
