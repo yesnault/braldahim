@@ -55,6 +55,11 @@ class Bral_Monstres_VieGroupesNuee {
             $cible = $hobbitTable->findHobbitAvecRayon($monstre_role_a["x_monstre"], $monstre_role_a["y_monstre"], $monstre_role_a["vue_monstre"], $groupe["id_fk_hobbit_cible_groupe_monstre"]);
             if (count($cible) > 0) {
                 $cible = $cible[0];
+                $groupe["x_direction_groupe_monstre"] = $cible["x_hobbit"];
+                $groupe["y_direction_groupe_monstre"] = $cible["y_hobbit"];
+                Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible trouvee:".$cible["id_hobbit"]. " x=".$groupe["x_direction_groupe_monstre"]. " y=".$groupe["y_direction_groupe_monstre"]);
+            } else {
+            	Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible trouvee:".$cible["id_hobbit"]. " x=".$groupe["x_direction_groupe_monstre"]. " y=".$groupe["y_direction_groupe_monstre"]);
             }
         } else { // pas de cible en cours
             $cible = null;
@@ -116,8 +121,23 @@ class Bral_Monstres_VieGroupesNuee {
         foreach($monstres as $m) {
             if ($cible != null) {
                 $vieMonstre->setMonstre($m);
-                $mortCible = $vieMonstre->attaqueCible($cible);
-                if ($mortCible == null) { // null => cible hors vue
+                $mortCible = false;
+                $cibleDuMonstre = null;
+            	// on regarde si la cible demandée est bien la cible du monstre
+				if ($cible["id_hobbit"] == $m["id_fk_hobbit_cible_monstre"] || $m["id_fk_hobbit_cible_monstre"] == null) {
+					Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du groupe (".$groupe["id_groupe_monstre"].") : ".$cible["id_hobbit"]);
+					$mortCible = $vieMonstre->attaqueCible($cible);
+				} else {
+					Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du monstre (".$m["id_monstre"].") : ".$m["id_fk_hobbit_cible_monstre"]);
+					$hobbitTable = new Hobbit();
+           			$cibleDuMonstre = $hobbitTable->findById($m["id_fk_hobbit_cible_monstre"]);
+           			$cibleDuMonstre = $cibleDuMonstre->toArray();
+					$vieMonstre->attaqueCible($cibleDuMonstre);
+				}
+                
+				if ($cibleDuMonstre != null) {
+					$vieMonstre->deplacementMonstre($cibleDuMonstre["x_hobbit"], $cibleDuMonstre["y_hobbit"]);
+				} else if ($mortCible == null) { // null => cible hors vue
                     $vieMonstre->deplacementMonstre($groupe["x_direction_groupe_monstre"], $groupe["y_direction_groupe_monstre"]);
                 } else if ($mortCible === true) {
                     $groupe["id_fk_hobbit_cible_groupe_monstre"] = null;

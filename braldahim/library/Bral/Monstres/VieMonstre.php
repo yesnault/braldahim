@@ -140,7 +140,7 @@ class Bral_Monstres_VieMonstre {
 		}
 
 		$this->calculTour();
-
+			
 		// on regarde si la cible est dans la vue du monstre
 		if (($cible["x_hobbit"] > $this->monstre["x_monstre"] + $this->monstre["vue_monstre"])
 		|| ($cible["x_hobbit"] < $this->monstre["x_monstre"] - $this->monstre["vue_monstre"])
@@ -151,7 +151,7 @@ class Bral_Monstres_VieMonstre {
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - exit");
 			return null; // pas de cible
 		} else if (($cible["x_hobbit"] != $this->monstre["x_monstre"]) || ($cible["y_hobbit"] != $this->monstre["y_monstre"])) {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible sur une case differente");
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible (".$cible["id_hobbit"].") sur une case differente");
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - exit");
 			return null; // pas de cible
 		} else if ($this->monstre["pa_monstre"] < 4) {
@@ -187,6 +187,7 @@ class Bral_Monstres_VieMonstre {
 				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Mort de la cible La cible (".$cible["id_hobbit"].") par Monstre id:".$this->monstre["id_monstre"]. " pvPerdus=".$pvPerdus);
 				$mortCible = true;
 				$this->monstre["nb_kill_monstre"] = $this->monstre["nb_kill_monstre"] + 1;
+				$this->monstre["id_fk_hobbit_cible_monstre"] = null;
 				$cible["nb_mort_hobbit"] = $cible["nb_mort_hobbit"] + 1;
 				$cible["est_mort_hobbit"] = "oui";
 				$id_type_evenement = self::$config->game->evenements->type->kill;
@@ -345,7 +346,8 @@ class Bral_Monstres_VieMonstre {
 			'y_monstre' => $this->monstre["y_monstre"],
 			'nb_kill_monstre' => $this->monstre["nb_kill_monstre"],
 			'date_fin_tour_monstre' => $this->monstre["date_fin_tour_monstre"],
-			'duree_prochain_tour_monstre' => $this->monstre["duree_prochain_tour_monstre"]
+			'duree_prochain_tour_monstre' => $this->monstre["duree_prochain_tour_monstre"],
+			'id_fk_hobbit_cible_monstre' => $this->monstre["id_fk_hobbit_cible_monstre"],
 		);
 		$where = "id_monstre=".$this->monstre["id_monstre"];
 		$monstreTable->update($data, $where);
