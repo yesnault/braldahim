@@ -252,7 +252,8 @@ class ParametresController extends Zend_Controller_Action {
 			$hobbitTable = new Hobbit();
 			$hobbitTable->update($data, $where);
 			
-			$this->view->modification = true;
+			$this->view->message = "Modifications effectu&eacute;es";
+			echo $this->view->render("Parametres/index.phtml");
 		}
 		
 		$this->render();

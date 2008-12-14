@@ -16,16 +16,11 @@
 		<input type="radio" id="valeur_1" name="valeur_1" value="non" <? if ($this->user->envoi_mail_message_hobbit == "non"):echo "checked"; endif; ?>>Non <br /><br />
 	    <br /><br />
 	    
-	    <label for="title">&Ecirc;tre pr&eacute;venu &agrave; d'un &eacute;v&eacute;nement me concernant</label><br />
+	    <label for="title">&Ecirc;tre pr&eacute;venu d'un &eacute;v&eacute;nement me concernant</label><br />
 		<input type="radio" id="valeur_2" name="valeur_2" value="oui" <? if ($this->user->envoi_mail_evenement_hobbit == "oui"):echo "checked"; endif; ?>>Oui
 		<input type="radio" id="valeur_2" name="valeur_2" value="non" <? if ($this->user->envoi_mail_evenement_hobbit == "non"):echo "checked"; endif; ?>>Non <br /><br />
 		<br />
 
-		<? if ($this->modification === true) : ?>
-	    <ul class="titre textalic textsized">Modifications prises en compte</ul>
-	    <br>
-	    <? endif;?>
-	    
 		<div id="formbutton">
 		<input type="submit" class='button1' name="Modifier" value="Modifier" /> 
 		<input type="button" class='button1' name="Annuler" value="Annuler" onClick="javascript:document.location.href='/Parametres/'"/>
