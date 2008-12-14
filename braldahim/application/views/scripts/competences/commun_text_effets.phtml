@@ -4,7 +4,7 @@
 
 	<? if ($this->retourAttaque["effetMotE"]) : ?>
 		<br />Votre arme des Vampires a eu de l'effet sur cette action :  
-		Vous avez gagn&eacute; en PV la moiti&eacute;  des d&eacute;g&acirc;ts inflig&eacute;s avec au maximum 3x le niveau de l'arme. <br />
+		Votre arme des Vampires vous permet de gagner <?=$this->retourAttaque["effetMotEPoints"]?> point<? if ($this->retourAttaque["effetMotEPoints"] > 1): echo "s"; endif;?> de vie. <br />
 	<? endif; ?>
 	
 	<? if ($this->retourAttaque["effetMotG"]) : ?>
