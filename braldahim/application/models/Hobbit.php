@@ -298,5 +298,37 @@ class Hobbit extends Zend_Db_Table {
 		$nombre = $resultat[0]["nombre"];
 		return $nombre;
 	}
+	
+	function findAllBatchByDateFin($dateFin) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', '*')
+			->where('est_compte_actif_hobbit = ?', "oui")
+			->where('est_en_hibernation_hobbit = ?', "non")
+			->where('date_fin_tour_hobbit <= ?',$dateFin);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
+	function findAllCompteInactif($dateFin) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', '*')
+			->where('est_compte_actif_hobbit = ?', "non")
+			->where('date_creation_hobbit <= ?',$dateFin);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
+	function deleteAllBatchByDateFin($dateFin) {
+		$where = "est_compte_actif_hobbit = 'oui' AND est_en_hibernation_hobbit = 'non' AND date_fin_tour_hobbit <= '".$dateFin."'";
+		return $this->delete($where);
+	}
+	
+	function deleteAllCompteInactif($dateFin) {
+		$db = $this->getAdapter();
+		$where = "est_compte_actif_hobbit = 'non' AND date_creation_hobbit <= '".$dateFin."'";
+		return $this->delete($where);
+	}
 }
 

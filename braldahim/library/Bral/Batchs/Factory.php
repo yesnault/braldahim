@@ -11,7 +11,7 @@
  * $LastChangedBy$
  */
 class Bral_Batchs_Factory {
-	static function calculBatch($nomSystemeAction) {
+	static function calculBatch($nomSystemeAction, $view = null) {
 		Zend_Loader::loadClass("Bral_Batchs_Batch");
 
 		$construct = null;
@@ -25,7 +25,7 @@ class Bral_Batchs_Factory {
 		 
 		// verification que la classe de l'action existe.
 		if (($construct != null) && (class_exists($construct))) {
-			$batchClasse = new $construct ($nomSystemeAction);
+			$batchClasse = new $construct ($nomSystemeAction, $view);
 			return $batchClasse->calculBatch();
 		} else {
 			throw new Zend_Exception("Bral_Boutique_Batch action invalide: ".$nomSystemeAction);

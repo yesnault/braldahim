@@ -16,10 +16,13 @@ abstract class Bral_Batchs_Batch {
 	const ETAT_OK = 'OK';
 	const ETAT_KO = 'KO';
 	
-	public function __construct($nomSysteme) {
+	protected $view = null;
+	
+	public function __construct($nomSysteme, $view = null) {
 		Zend_Loader::loadClass('Batch'); 
 		$this->nomSysteme = $nomSysteme;
 		$this->config = Zend_Registry::get('config');
+		$this->view = $view;
 	}
 	
 	abstract function calculBatchImpl();
