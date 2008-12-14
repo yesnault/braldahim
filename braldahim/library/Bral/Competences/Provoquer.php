@@ -96,10 +96,10 @@ class Bral_Competences_Provoquer extends Bral_Competences_Competence {
 		$this->view->jetHobbit = $jetHobbit + $this->view->user->vigueur_bm_hobbit + $this->view->user->vigueur_bbdf_hobbit;
 		
 		$jetMonstre = 0;
-		for ($i = 1; $i <= $monstre["vigueur_base_monstre"]; $i++) {
+		for ($i = 1; $i <= $monstre["sagesse_base_monstre"]; $i++) {
 			$jetMonstre = $jetMonstre + Bral_Util_De::get_1d6();
 		}
-		$this->view->jetMonstre = $jetMonstre + $monstre["vigueur_bm_monstre"];
+		$this->view->jetMonstre = $jetMonstre + $monstre["sagesse_bm_monstre"];
 		
 		if ($this->view->jetHobbit > $this->view->jetMonstre) {
 			$this->view->provoquerOk = true;
