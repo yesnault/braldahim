@@ -26,8 +26,6 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 		Zend_Loader::loadClass("StockBois");
 		Zend_Loader::loadClass("BoutiqueBois");
 		
-		
-		
 		$this->preparePrix();
 	}
 

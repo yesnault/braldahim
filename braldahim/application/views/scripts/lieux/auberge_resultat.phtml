@@ -1,3 +1,5 @@
 	Vous vous &ecirc;tes restaur&eacute;<br /> <br />
-	Votre balance de faim est maintenant de <?=$this->user->balance_faim_hobbit ?> %<br />
-	 
+	Votre balance de faim est maintenant de <?=$this->user->balance_faim_hobbit ?> %<br /><br>
+	
+	Vous avez achet&eacute; <?=$this->nbAcheter ?>  ration<? if ($this->nbAcheter > 1): echo "s"; endif; ?> pour 
+	un total de <?=$this->coutCastars ?> castars (avec la restauration).<br>
