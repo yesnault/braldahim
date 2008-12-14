@@ -1,7 +1,9 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
  	<? if ($this->nMonstres == 0): ?>
- 		Il n'y a rien &agrave; provoquer ici...<br />
+ 	
+ 	<? elseif ($this->assezDePa !== true): ?>
+ 		Vous n'avez pas assez de PA<br />
  	<? else: ?>
  		Pour <?=$this->nb_pa?> PA, vous pouvez provoquer :<br /><br />
  		

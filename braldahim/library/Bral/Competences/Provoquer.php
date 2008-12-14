@@ -18,6 +18,11 @@ class Bral_Competences_Provoquer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		Zend_Loader::loadClass('Bral_Util_Attaque');
 		
+		$this->calculNbPa();
+		if ($this->view->assezDePa == false) {
+			return;
+		}
+		
 		$tabMonstres = null;
 
 		// recuperation des monstres qui sont presents sur la case
@@ -34,8 +39,8 @@ class Bral_Competences_Provoquer extends Bral_Competences_Competence {
 				"nom_monstre" => $m["nom_type_monstre"], 
 				'taille_monstre' => $m_taille, 
 				'niveau_monstre' => $m["niveau_monstre"], 
-				'vigueur_base_monstre' => $m["vigueur_base_monstre"],
-				'vigueur_bm_monstre' => $m["vigueur_bm_monstre"],
+				'sagesse_base_monstre' => $m["sagesse_base_monstre"],
+				'sagesse_bm_monstre' => $m["sagesse_bm_monstre"],
 			);
 		}
 
