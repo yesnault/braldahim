@@ -509,7 +509,7 @@ class Bral_Util_Attaque {
 		return $jetDegat;
 	}
 	
-	public static function calculDegatCase($config, $hobbit, $degats) {
+	public static function calculDegatCase($config, $hobbit, $degats, $view) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatCase - enter -");
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Bral_Util_Evenement");
