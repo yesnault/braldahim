@@ -15,23 +15,12 @@
  * Attaque : 0.5*(jet d'AGI)+BM AGI + bonus arme att
  * dégats : 0.5*(jet FOR)+BM FOR+ bonus arme dégats
  * dégats critiques : (1.5*(0.5*FOR))+BM FOR+bonus arme dégats
- * Ne peut pas être utilisé en ville.
  */
 class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
-		Zend_Loader::loadClass("Ville"); 
-		
-		$villeTable = new Ville();
-		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		$this->view->frenesieVilleOk = true;
-		
-		if (count($villes) > 0) {
-			$this->view->frenesieVilleOk = false;
-			return;
-		}	
 		
 		$tabHobbits = null;
 		$tabMonstres = null;
@@ -71,10 +60,6 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
-		
-		if ($this->view->frenesieVilleOk == false) {
-			throw new Zend_Exception(get_class($this)." Frenesie interdit ville");
-		}
 		
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
 			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_1"));

@@ -2,19 +2,15 @@
  <input type='hidden' id='valeur_1' name='valeur_1' value='go'>
  <div class='comp_contenu'>
  
-<? if ($this->extraireOK === true) : ?>
- 	<? if ($this->poidsPlaceDisponible !== true) : ?>
-		Vous n'avez pas assez de place dans votre laban ! <br>
-	 <? else : ?>
-	 	Pour <?=$this->nb_pa ?> PA, vous pouvez extraire un minerai.<br /><br />
-	 <? endif; ?>
+ <? if ($this->poidsPlaceDisponible !== true) : ?>
+	Vous n'avez pas assez de place dans votre laban ! <br>
+ <? else : ?>
+ 	Pour <?=$this->nb_pa ?> PA, vous pouvez extraire un minerai.<br /><br />
+ <? endif; ?>
 	 
-<? else: ?>
-	Vous ne pouvez pas extraire en ville...
-<? endif; ?>
  </div>
 
 <br />
-<?php if ($this->assezDePa == true && $this->extraireOK === true && $this->poidsPlaceDisponible === true) : ?>
+<?php if ($this->assezDePa == true && $this->poidsPlaceDisponible === true) : ?>
 <input type='button' class='button1' id='bouton_extraire' value='Extraire un minerai !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_extraire");'>
 <? endif ?>

@@ -14,15 +14,6 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Laban");
-		Zend_Loader::loadClass("Ville");
-		
-		// On regarde si le hobbit n'est pas dans une ville
-		$villeTable = new Ville();
-		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		
-		if (count($villes) == 0) {
-			$this->view->cuisinerLieuOk = true;
-		}
 		
 		$labanTable = new Laban();
 		$laban = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
@@ -56,7 +47,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		}
 
 		// Verification cuisiner
-		if ($this->view->cuisinerNbViandeOk == false || $this->view->cuisinerLieuOk == false) {
+		if ($this->view->cuisinerNbViandeOk == false) {
 			throw new Zend_Exception(get_class($this)." Cuisiner interdite ");
 		}
 		

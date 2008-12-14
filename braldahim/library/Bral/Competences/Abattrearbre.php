@@ -17,11 +17,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Zone");
 		Zend_Loader::loadClass('Lieu'); 	
 		Zend_Loader::loadClass('Echoppe'); 
-		Zend_Loader::loadClass('Ville'); 
 		
-		$villeTable = new Ville();
-		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		unset($villeTable);
 		$lieuxTable = new Lieu();
 		$lieux = $lieuxTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		unset($lieuxTable);
@@ -33,18 +29,12 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		unset($echoppeTable);
 		
 		$this->view->abattreArbreLieuOk = true;
-		$this->view->abattreArbreVilleOk = true;
 		$this->view->abattreArbreEchoppeOk = true;
 		
 		if (count($lieux) > 0) {
 			$this->view->abattreArbreLieuOk = false;
 		}
 		unset($lieux);
-		
-		if (count($villes) > 0) {
-			$this->view->abattreArbreVilleOk = false;
-		}		
-		unset($villes);
 		
 		if (count($echoppes) > 0) {
 			$this->view->abattreArbreEchoppeOk = false;
@@ -98,7 +88,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		}
 		
 		// Verification abattre arbre
-		if ($this->view->abattreArbreEnvironnementOk == false || $this->view->abattreArbreLieuOk == false || $this->view->abattreArbreVilleOk == false || $this->view->possedeCharrette == false || $this->view->abattreArbreEchoppeOk == false) {
+		if ($this->view->abattreArbreEnvironnementOk == false || $this->view->abattreArbreLieuOk == false || $this->view->possedeCharrette == false || $this->view->abattreArbreEchoppeOk == false) {
 			throw new Zend_Exception(get_class($this)." Abattre un arbre interdit ");
 		}
 		

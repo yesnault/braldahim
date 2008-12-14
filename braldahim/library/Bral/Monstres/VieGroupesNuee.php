@@ -161,16 +161,19 @@ class Bral_Monstres_VieGroupesNuee {
 
             $dx = Bral_Util_De::get_1d20();
             $dy = Bral_Util_De::get_1d20();
+            
+            $plusMoinsX = Bral_Util_De::get_1d2();
+            $plusMoinsY = Bral_Util_De::get_1d2();
 
-            $villeTable = new Ville();
-            $villes = $villeTable->findByCase($groupe["x_direction_groupe_monstre"] + $dx, $groupe["y_direction_groupe_monstre"] + $dy);
-
-            // Si l'on se dirige vers une ville, on va dans la direction opposee
-            if (count($villes) > 0) {
+            if ($plusMoinsX == 1) {
                 $groupe["x_direction_groupe_monstre"] = $groupe["x_direction_groupe_monstre"] - $dx;
+            } else {
+            	$groupe["x_direction_groupe_monstre"] = $groupe["x_direction_groupe_monstre"] + $dx;
+            }
+            
+            if ($plusMoinsY == 1) {
                 $groupe["y_direction_groupe_monstre"] = $groupe["y_direction_groupe_monstre"] - $dy;
             } else {
-                $groupe["x_direction_groupe_monstre"] = $groupe["x_direction_groupe_monstre"] + $dx;
                 $groupe["y_direction_groupe_monstre"] = $groupe["y_direction_groupe_monstre"] + $dy;
             }
 

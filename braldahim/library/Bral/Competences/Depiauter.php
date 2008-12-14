@@ -21,28 +21,16 @@ grand : 2D3 unité de peau
 gigantesque : 3D3 unité de peau
 (Directement dans le sac à dos)
 
-Ne peut pas être utilisé en ville.
 */
 class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Cadavre");
 		Zend_Loader::loadClass("Laban");
-		Zend_Loader::loadClass("Ville");
-		
-		$this->view->depiauterOk = false;
 		
 		$this->preCalculPoids();
 		if ($this->view->poidsPlaceDisponible !== true) {
 			return;
-		}
-		
-		// On regarde si le hobbit n'est pas dans une ville
-		$villeTable = new Ville();
-		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		
-		if (count($villes) == 0) {
-			$this->view->depiauterOk = true;
 		}
 		
 		$cadavreTable = new Cadavre();
@@ -92,11 +80,6 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
 		}
 
-		// Verification depiauter
-		if ($this->view->depiauterOk == false) {
-			throw new Zend_Exception(get_class($this)." Depiauter interdit ");
-		}
-		
 		// calcul des jets
 		$this->calculJets();
 

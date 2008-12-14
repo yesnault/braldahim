@@ -15,16 +15,6 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("LabanPotion");
-		Zend_Loader::loadClass("Ville"); 
-		
-		$villeTable = new Ville();
-		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		$this->view->utiliserPotionVilleOk = true;
-		
-		if (count($villes) > 0) {
-			$this->view->utiliserPotionVilleOk = false;
-			return;
-		}
 		
 		$tabPotions = null;
 		$labanPotionTable = new LabanPotion();

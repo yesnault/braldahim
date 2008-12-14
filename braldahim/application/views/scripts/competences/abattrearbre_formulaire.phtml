@@ -2,8 +2,6 @@
  <div class='comp_contenu'>
 	 <? if ($this->abattreArbreEnvironnementOk !== true) : ?>
 	 	Vous pouvez abattre un arbre qu'en for&ecirc;t
-	 <? elseif ($this->abattreArbreVilleOk !== true) : ?>
-		Vous ne pouvez pas abattre un arbre en ville
 	 <? elseif ($this->abattreArbreLieuOk !== true) : ?>
 	 	Vous ne pouvez pas abattre un arbre sur un lieu
 	 <? elseif ($this->abattreArbreEchoppeOk !== true) : ?>
@@ -19,6 +17,6 @@
 </div>
 
 <br />
-<?php if ($this->assezDePa == true && $this->abattreArbreEnvironnementOk === true && $this->abattreArbreLieuOk === true && $this->abattreArbreVilleOk === true && $this->possedeCharrette === true && $this->abattreArbreEchoppeOk === true && $this->charettePleine === false) : ?>
+<?php if ($this->assezDePa == true && $this->abattreArbreEnvironnementOk === true && $this->abattreArbreLieuOk === true && $this->possedeCharrette === true && $this->abattreArbreEchoppeOk === true && $this->charettePleine === false) : ?>
 <input type='button' class='button1' id='bouton_abattrearbre' value='Abattre un arbre !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_abattrearbre");'>
 <? endif ?>

@@ -14,23 +14,11 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Laban");
-		Zend_Loader::loadClass("Ville");
 		Zend_Loader::loadClass("Zone");
-		
-		$this->view->chasserOk = false;
 		
 		$this->preCalculPoids();
 		if ($this->view->poidsPlaceDisponible !== true) {
 			return;
-		}
-		
-		// On regarde si le hobbit n'est pas dans une ville
-		$villeTable = new Ville();
-		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		unset($villeTable);
-		
-		if (count($villes) == 0) {
-			$this->view->chasserOk = true;
 		}
 		
 		$zoneTable = new Zone();
@@ -81,11 +69,6 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
 		}
 
-		// Verification chasse
-		if ($this->view->chasserOk == false) {
-			throw new Zend_Exception(get_class($this)." Chasse interdite ");
-		}
-		
 		// calcul des jets
 		$this->calculJets();
 

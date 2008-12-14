@@ -14,19 +14,8 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass('Filon');
-		Zend_Loader::loadClass("Ville");
 		
-		$this->view->extraireOK = false;
 		$this->view->poidsPlaceDisponible = false;
-		
-		// On regarde si le hobbit n'est pas dans une ville
-		$villeTable = new Ville();
-		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		unset($villeTable);
-		
-		if (count($villes) == 0) {
-			$this->view->extraireOK = true;
-		}
 		
 		$this->preCalculPoids();
 		if ($this->view->poidsPlaceDisponible == false) {
@@ -57,11 +46,6 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
 		} elseif ($this->view->poidsPlaceDisponible == false) {
 			throw new Zend_Exception(get_class($this)." Poids invalide");
-		}
-		
-		// Verification Extraire
-		if ($this->view->extraireOK == false) {
-			throw new Zend_Exception(get_class($this)." Extraire interdit ");
 		}
 		
 		// calcul des jets

@@ -32,7 +32,6 @@
  * 
  * On ne peut pas charger si l'une des cases entre le chargeur et le charger est une palissade.
  * 
- * Ne peut pas être utilisé en ville.
  */
 class Bral_Competences_Charger extends Bral_Competences_Competence {
 
@@ -41,16 +40,6 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass('Palissade');
-		Zend_Loader::loadClass("Ville"); 
-		
-		$villeTable = new Ville();
-		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		$this->view->chargerVilleOk = true;
-		
-		if (count($villes) > 0) {
-			$this->view->chargerVilleOk = false;
-			return;
-		}	
 		
 		$this->view->charge_nb_cases = floor($this->view->user->vigueur_base_hobbit / 3) + 1;
 		if ($this->view->charge_nb_cases > 6) {
@@ -216,10 +205,6 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
-		
-		if ($this->view->chargerVilleOk == false) {
-			throw new Zend_Exception(get_class($this)." Charger interdit ville");
-		}
 		
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
 			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_1"));

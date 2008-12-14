@@ -17,16 +17,6 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		Zend_Loader::loadClass('Bral_Util_Attaque');
-		Zend_Loader::loadClass("Ville"); 
-		
-		$villeTable = new Ville();
-		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		$this->view->attaquerVilleOk = true;
-		
-		if (count($villes) > 0) {
-			$this->view->attaquerVilleOk = false;
-			return;
-		}	
 		
 		$tabHobbits = null;
 		$tabMonstres = null;

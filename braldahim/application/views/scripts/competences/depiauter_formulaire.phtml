@@ -1,24 +1,24 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
  
- 	 <? if ($this->poidsPlaceDisponible !== true) : ?>
-		Vous n'avez pas assez de place dans votre laban ! <br>
-	 <? elseif ($this->depiauterOk === true) : ?>
-		<? if ($this->nCadavres == 0): ?>
- 			Il n'y a pas de monstre &agrave; d&eacute;piauter ici...
- 		<? else: ?>
- 		<br />
- 			Pour <?=$this->nb_pa?> PA, vous pouvez d&eacute;piauter :<br /><br />
-			<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_depiauter').disabled=true } else {$('bouton_depiauter').disabled=false }">
-			<option value='-1'>(Choisis un cadavre)</option>
-			<? foreach ($this->tabCadavres as $m) : ?>
-			<option value="<?=$m["id_cadavre"]?>"><?=htmlspecialchars($m["nom_cadavre"])?> <?=htmlspecialchars($m["taille_cadavre"])?>  (<?=$m["id_cadavre"]?>)</option>
-			<? endforeach; ?>
-			</select><br />
- 		<? endif; ?>
-	 <? else: ?>
-	 	Vous ne pouvez rien d&eacute;piauter ici...
-	 <? endif; ?>
+ <? if ($this->poidsPlaceDisponible !== true) : ?>
+	Vous n'avez pas assez de place dans votre laban ! <br>
+ <? elseif ($this->depiauterOk === true) : ?>
+	<? if ($this->nCadavres == 0): ?>
+ 		Il n'y a pas de monstre &agrave; d&eacute;piauter ici...
+ 	<? else: ?>
+ 	<br />
+ 		Pour <?=$this->nb_pa?> PA, vous pouvez d&eacute;piauter :<br /><br />
+		<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_depiauter').disabled=true } else {$('bouton_depiauter').disabled=false }">
+		<option value='-1'>(Choisis un cadavre)</option>
+		<? foreach ($this->tabCadavres as $m) : ?>
+		<option value="<?=$m["id_cadavre"]?>"><?=htmlspecialchars($m["nom_cadavre"])?> <?=htmlspecialchars($m["taille_cadavre"])?>  (<?=$m["id_cadavre"]?>)</option>
+		<? endforeach; ?>
+		</select><br />
+ 	<? endif; ?>
+ <? else: ?>
+ 	Vous ne pouvez rien d&eacute;piauter ici...
+ <? endif; ?>
 </div>
 
 <br />

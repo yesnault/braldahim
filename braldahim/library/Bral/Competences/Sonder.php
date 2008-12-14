@@ -14,22 +14,9 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass('Bral_Util_Commun');
-		Zend_Loader::loadClass("Ville");
-		
-		$this->view->sonderOK = false;
 		
 		// Position précise avec (Vue+BM) de vue *2
 		$this->view->rayon_precis =  (Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit ) * 2;
-		
-		// On regarde si le hobbit n'est pas dans une ville
-		$villeTable = new Ville();
-		$villes = $villeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		unset($villeTable);
-		
-		if (count($villes) == 0) {
-			$this->view->sonderOK = true;
-		}
-	
 	}
 
 	function prepareFormulaire() {
@@ -40,11 +27,6 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 
 	function prepareResultat() {
 	
-		// Verification Sonder
-		if ($this->view->sonderOK == false) {
-			throw new Zend_Exception(get_class($this)." Sonder interdit ");
-		}
-		
 		$go = $this->request->get("valeur_1");
 
 		// La distance max de repérage d'un filon est : jet VIG+BM

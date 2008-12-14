@@ -1,8 +1,6 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <div class='comp_contenu'>
- 	<? if ($this->utiliserPotionVilleOk == false) :?>
-    	Vous ne pouvez pas utiliser de potion en ville. <br />
-    <? elseif ($this->nPotions == 0) :?>
+    <? if ($this->nPotions == 0) :?>
  		Vous n'avez pas de potion dans votre laban.<br />
  	<? else: ?>
  		Potion &agrave; utiliser : <br />
