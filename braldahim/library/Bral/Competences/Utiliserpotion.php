@@ -160,7 +160,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		if ($utiliserPotionHobbit === true) {
 			$this->utiliserPotionHobbit($potion, $idHobbit);
 			$detailsBot = $this->getDetailEvenementCible($potion);
-			Bral_Util_Evenement::majEvenements($this->retourPotion['cible']["id_cible"], $this->view->config->game->evenements->type->competence, $this->detailEvenement, $detailsBot);
+			Bral_Util_Evenement::majEvenements($this->retourPotion['cible']["id_cible"], $this->view->config->game->evenements->type->competence, $this->detailEvenement, $detailsBot, "hobbit", true, $this->view);
 		} elseif ($utiliserPotionMonstre === true) {
 			$this->utiliserPotionMonstre($potion, $idMonstre);
 			$this->setDetailsEvenementCible($idCible, "monstre");

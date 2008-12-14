@@ -15,7 +15,7 @@ class Bral_Util_Evenement {
 	/*
 	 * Mise a jour des Evenements du hobbit / du monstre.
 	 */
-	public static function majEvenements($idConcerne, $idTypeEvenement, $details, $detailsBot, $type="hobbit") {
+	public static function majEvenements($idConcerne, $idTypeEvenement, $details, $detailsBot, $type="hobbit", $estAEnvoyer = false, $view = null) {
 		Zend_Loader::loadClass('Evenement');
 
 		$evenementTable = new Evenement();
@@ -37,5 +37,16 @@ class Bral_Util_Evenement {
 			);
 		}
 		$evenementTable->insert($data);
+		
+		if ($type == "hobbit" && $estAEnvoyer == true && $view != null) {
+			Zend_Loader::loadClass('Bral_Util_Mail');
+			$hobbitTable = new Hobbit();
+			$hobbitRowset = $hobbitTable->findById($idConcerne);
+			$hobbit = $hobbitRowset->toArray();
+			$c = Zend_Registry::get('config');
+			if ($hobbit["envoi_mail_evenement_hobbit"] == "oui") {
+				Bral_Util_Mail::envoiMailAutomatique($hobbit, $c->mail->evenement->titre, $detailsBot, $view);
+			}
+		}
 	}
 }
