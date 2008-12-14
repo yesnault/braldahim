@@ -23,4 +23,30 @@ class Bral_Util_Mail {
 		
 		return new Zend_Mail("UTF-8");
 	}
+	
+	public static function envoiMailAutomatique($hobbit, $titre, $message, $view) {
+		$c = Zend_Registry::get('config');
+		
+		$view->urlJeu = $c->general->url;
+		$view->adresseSupport = $c->general->adresseSupport;
+		$view->message = $message;
+		$view->hobbit = $hobbit;
+		
+		$contenuText = $view->render("messagerie/mailText.phtml");
+		$contenuHtml = $view->render("messagerie/mailHtml.phtml");
+		
+		$mail = Bral_Util_Mail::getNewZendMail();
+		$mail->setFrom($c->general->mail->from_email, $c->general->mail->from_nom);
+		$mail->addTo($hobbit["email_hobbit"], $hobbit["prenom_hobbit"]." ".$hobbit["nom_hobbit"]);
+		$mail->setSubject($titre);
+		$mail->setBodyText($contenuText);
+		if ($c->general->envoi_mail_html == true) {
+			$mail->setBodyHtml($contenuHtml);
+		}
+		try {
+			$mail->send();
+		} catch (Exception $e) {
+			//
+		}
+	}
 }

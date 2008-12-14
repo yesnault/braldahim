@@ -198,7 +198,7 @@ class ParametresController extends Zend_Controller_Action {
 				Zend_Loader::loadClass('Bral_Util_JoomlaUser');
 				Bral_Util_JoomlaUser::changeUsernameAndMail($hobbit);
 				
-				$this->view->message = "L'adresse ".$this->email_actuel_hobbit." est bien prise en compte";
+				$this->view->message = "L'adresse ".$this->email_nouveau_hobbit." est bien prise en compte";
 				echo $this->view->render("Parametres/index.phtml");
 				return;
 			} else {
@@ -225,6 +225,35 @@ class ParametresController extends Zend_Controller_Action {
 		$this->view->email_actuel_hobbit = $this->email_actuel_hobbit;
 		$this->view->email_nouveau_hobbit = $this->email_nouveau_hobbit;
 		$this->view->email_confirm_hobbit = $this->email_confirm_hobbit;
+		
+		$this->render();
+	}
+	
+	function reglagesmailAction() {
+		$this->view->modification = false;
+	
+		$envoi_mail_message = $this->_request->getPost("valeur_1");
+		$envoi_mail_evenement = $this->_request->getPost("valeur_2");
+
+		$hobbitTable = new Hobbit();
+		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
+		$hobbit = $hobbitRowset->current();
+			
+		if ($this->_request->isPost()) {
+			
+			$this->view->user->envoi_mail_message_hobbit = $envoi_mail_message;
+			$this->view->user->envoi_mail_evenement_hobbit = $envoi_mail_evenement;
+			
+			$data = array(
+				'envoi_mail_message_hobbit' => $this->view->user->envoi_mail_message_hobbit,
+				'envoi_mail_evenement_hobbit' => $this->view->user->envoi_mail_evenement_hobbit,
+			);
+			$where = "id_hobbit=".$this->view->user->id_hobbit;
+			$hobbitTable = new Hobbit();
+			$hobbitTable->update($data, $where);
+			
+			$this->view->modification = true;
+		}
 		
 		$this->render();
 	}

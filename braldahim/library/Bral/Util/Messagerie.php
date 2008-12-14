@@ -26,6 +26,7 @@ class Bral_Util_Messagerie {
 			
 		$destinataires = "";
 		$aff_js_destinataires = "";
+		$tabHobbits = null;
 
 		foreach($hobbits as $h) {
 			if (in_array($h["id_fk_jos_users_hobbit"],$idDestinatairesTab)) {
@@ -38,9 +39,13 @@ class Bral_Util_Messagerie {
 				$aff_js_destinataires .= $h["prenom_hobbit"].' '.$h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" ';
 				$aff_js_destinataires .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'_dest\',\'m_'.$valeur.'_'.$h["id_hobbit"].'\', \''.$valeur.'_dest\', '.$h["id_fk_jos_users_hobbit"].')" />';
 				$aff_js_destinataires .= '</span>';
+				
+				$tabHobbits[$h["id_fk_jos_users_hobbit"]] = $h;
 			}
 		}
-		$tab = array("destinataires" => $destinataires,
+		$tab = array(
+			"hobbits" => $tabHobbits,
+			"destinataires" => $destinataires,
 			"aff_js_destinataires" => $aff_js_destinataires,
 		);
 		return $tab;
@@ -49,7 +54,7 @@ class Bral_Util_Messagerie {
 	public static function constructTabContacts($tabContacts, $idFkJosUsersHobbit, $valeur = "valeur_4_contacts") {
 		Zend_Loader::loadClass('JosUserlists');
 		
-		$tab = array("contacts" => "", "aff_js_contacts" => "", "userids" => "");
+		$tab = array("contacts" => "", "aff_js_contacts" => "", "userids" => "", "hobbits" => null);
 		
 		if ($tabContacts == null || $tabContacts == "") {
 			return $tab;
@@ -67,6 +72,8 @@ class Bral_Util_Messagerie {
 		$contacts = "";
 		$aff_js_contacts = "";
 		$userIds = "";
+		$hobbits = "";
+		$tabHobbits = null;
 		
 		foreach($contactsTab as $c) {
 			if (in_array($c["id"], $idContactsTab)) {
@@ -79,15 +86,22 @@ class Bral_Util_Messagerie {
 				$aff_js_contacts .= $c["name"]. ' <img src="/public/images/supprimer.gif" ';
 				$aff_js_contacts .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'\',\'m_'.$valeur.'_'.$c["id"].'\', \''.$valeur.'\', '.$c["id"].')" />';
 				$aff_js_contacts .= '</span>';
+				
 			}
 			
 			if ($userIds != "") {
 				$userIds .= ",";
 			}
 			$userIds .= $c["userids"];
+			$tabHobbits[] = $c["userids"];;
 		}
 		
-		$tab = array("contacts" => $contacts,
+		if ($tabHobbits != null) {
+			$hobbits = $hobbitTable->findByIdFkJosUsersList($tabHobbits);
+		}
+		
+		$tab = array(
+			"hobbits" => $hobbits,
 			"aff_js_contacts" => $aff_js_contacts,
 			"userids" => $userIds,
 		);
