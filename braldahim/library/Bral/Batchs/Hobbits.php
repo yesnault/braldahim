@@ -123,7 +123,7 @@ class Bral_Batchs_Hobbits extends Bral_Batchs_Batch {
 		$mail = Bral_Util_Mail::getNewZendMail();
 		$mail->setFrom($this->config->general->mail->from_email, $this->config->general->mail->from_nom);
 		$mail->addTo($hobbit["email_hobbit"], $hobbit["prenom_hobbit"]." ".$hobbit["nom_hobbit"]);
-		$mail->setSubject($this->config->mail->prevention->titre);
+		$mail->setSubject($this->config->mail->suppression->titre);
 		$mail->setBodyText($contenuText);
 		if ($this->config->general->envoi_mail_html == true) {
 			$mail->setBodyHtml($contenuHtml);
