@@ -185,6 +185,8 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 
 		if (($validDestinataires || ($validContacts && $avecContacts) ) && ($validContenu)) {
 			$josUddeimTable = new JosUddeim();
+			
+			$debutContenuMail = "Message de ".$this->view->user->prenom_hobbit." ".$this->view->user->nom_hobbit." (".$this->view->user->id_hobbit.") : ";
 
 			$tabIdDestinatairesDejaEnvoye = array();
 			if ($this->view->message["destinataires"] != "") {
@@ -196,7 +198,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 						$josUddeimTable->insert($data);
 						$tabIdDestinatairesDejaEnvoye[] = $id_fk_jos_users_hobbit;
 						if ($tabHobbits[$id_fk_jos_users_hobbit]["envoi_mail_message_hobbit"] == "oui") {
-							Bral_Util_Mail::envoiMailAutomatique($tabHobbits[$id_fk_jos_users_hobbit], $this->view->config->mail->message->titre, $tabMessage["contenu"], $this->view);
+							Bral_Util_Mail::envoiMailAutomatique($tabHobbits[$id_fk_jos_users_hobbit], $this->view->config->mail->message->titre, $debutContenuMail.$tabMessage["contenu"], $this->view);
 						}
 					}
 				}
@@ -211,7 +213,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 						$josUddeimTable->insert($data);
 						$tabIdDestinatairesDejaEnvoye[] = $id_fk_jos_users_hobbit;
 						if ($tabHobbits[$id_fk_jos_users_hobbit]["envoi_mail_message_hobbit"] == "oui") {
-							Bral_Util_Mail::envoiMailAutomatique($tabHobbits[$id_fk_jos_users_hobbit], $this->view->config->mail->message->titre, $tabMessage["contenu"], $this->view);
+							Bral_Util_Mail::envoiMailAutomatique($tabHobbits[$id_fk_jos_users_hobbit], $this->view->config->mail->message->titre, $debutContenuMail.$tabMessage["contenu"], $this->view);
 						}
 					}
 				}
