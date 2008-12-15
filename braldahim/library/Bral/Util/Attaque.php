@@ -310,8 +310,8 @@ class Bral_Util_Attaque {
 				$gainPv = ($retourAttaque["jetDegat"] / 2);
 				if ($gainPv > $effetMotE * 3) {
 					$gainPv = $effetMotE * 3;
-					$retourAttaque["effetMotEPoints"] = $gainPv;
 				}
+				$retourAttaque["effetMotEPoints"] = $gainPv;
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotE True effetMotE=".$effetMotE." gainPv=".$gainPv);
 				
 				$hobbitAttaquant->pv_restant_hobbit = $hobbitAttaquant->pv_restant_hobbit	+ $hobbitAttaquant->pv_max_hobbit;
