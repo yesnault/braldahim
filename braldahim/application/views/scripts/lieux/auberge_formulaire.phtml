@@ -7,15 +7,19 @@
  	et, si vous le soutaitez, acheter des rations (&agrave; <?=$this->coutCastars?> castars l'unit&eacute;) <br /><br />
    	
    	Vous avez <?=$this->user->castars_hobbit ?> castar<? if ($this->user->castars_hobbit > 1): echo "s"; endif; ?> et <?=$this->poidsRestant?> Kg de poids transportable disponible.<br>
-   	Vous pouvez acheter au maximum <?=$this->nbPossible ?> ration<? if ($this->nbPossible > 1): echo "s"; endif; ?>.<br><br>
+   		
 	<? if ($this->utilisationPossible === false): ?>
    		Vous n'avez pas assez de castars <br />
    	<? elseif ($this->utilisationPaPossible === false) :?>
    		Vous n'avez pas assez de PA <br />
-   	<? else: ?>
- 	 Nombre de rations &agrave; acheter (<?=$this->nbPossible ?> maximum) :
- 	 <br>
-	 <input type='text' maxlength='7' size='7' name='valeur_1' id='valeur_1' value='0' onkeypress="chiffres(event);"  onkeyup="if (this.value >= 0 && this.value <=<?=$this->nbPossible  ?>) {$('bouton_auberge').disabled=false} else {$('bouton_auberge').disabled=true} ">   		
+   	<? elseif ($this->nbPossible > 0) :?>
+   		Vous pouvez acheter au maximum <?=$this->nbPossible ?> ration<? if ($this->nbPossible > 1): echo "s"; endif; ?>.<br><br>
+   	
+ 	 	Nombre de rations &agrave; acheter (<?=$this->nbPossible ?> maximum) :
+	 	 <br>
+		 <input type='text' maxlength='7' size='7' name='valeur_1' id='valeur_1' value='0' onkeypress="chiffres(event);"  onkeyup="if (this.value >= 0 && this.value <=<?=$this->nbPossible  ?>) {$('bouton_auberge').disabled=false} else {$('bouton_auberge').disabled=true} ">   		
+    <? else: ?>
+    	Vous ne pouvez pas acheter de ration... <br>
    	<? endif; ?>
  </div> 
 </form>

@@ -33,6 +33,10 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 			$this->view->nbPossible = $nbPossibleAvecCastars;
 		}
 		
+		if ($this->view->nbPossible < 1) {
+			$this->view->nbPossible = 0;
+		}
+		
 	}
 
 	function prepareFormulaire() {
