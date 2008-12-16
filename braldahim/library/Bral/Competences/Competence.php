@@ -23,6 +23,7 @@ abstract class Bral_Competences_Competence {
 	
 	function __construct($competence, $hobbitCompetence, $request, $view, $action) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
+		Zend_Loader::loadClass("Bral_Util_Niveau");
 		
 		$this->view = $view;
 		$this->request = $request;
@@ -72,6 +73,15 @@ abstract class Bral_Competences_Competence {
 	abstract function prepareFormulaire();
 	abstract function prepareResultat();
 	abstract function getListBoxRefresh();
+	
+	protected function constructListBoxRefresh($tab = null) {
+		if ($this->view->user->niveau_hobbit > 0 && ($this->view->user->niveau_hobbit % 10) == 0) {
+			$tab[] = "box_titres";
+		}
+		$tab[] = "box_profil";
+		$tab[] = "box_evenements";
+		return $tab;
+	}
 
 	public function getIdEchoppeCourante() {
 		return false;
@@ -273,8 +283,7 @@ abstract class Bral_Competences_Competence {
 			$this->view->user->pa_hobbit = 0;
 		}
 
-		$this->view->changeNiveau = false;
-		$this->calculNiveau();
+		$this->view->changeNiveau = Bral_Util_Niveau::calculNiveau(&$this->view->user);
 
 		$data = array(
 			'pa_hobbit' => $this->view->user->pa_hobbit,
@@ -303,6 +312,7 @@ abstract class Bral_Competences_Competence {
 			'sagesse_bm_hobbit' => $this->view->user->sagesse_bm_hobbit,
 			'duree_prochain_tour_hobbit' => $this->view->user->duree_prochain_tour_hobbit ,
 			'armure_naturelle_hobbit' => $this->view->user->armure_naturelle_hobbit,
+			'titre_courant_hobbit' => $this->view->user->titre_courant_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		

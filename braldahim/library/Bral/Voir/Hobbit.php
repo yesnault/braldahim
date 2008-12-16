@@ -15,8 +15,10 @@ class Bral_Voir_Hobbit {
 	function __construct($request, $view) {
 		Zend_Loader::loadClass("Evenement");
 		Zend_Loader::loadClass("TypeEvenement");
+		Zend_Loader::loadClass("HobbitsTitres");
 		Zend_Loader::loadClass("Communaute");
 		Zend_Loader::loadClass("Bral_Util_Metier");
+		Zend_Loader::loadClass("Bral_Util_Titre");
 		Zend_Loader::loadClass("Bral_Helper_ProfilEquipement");
 
 		$this->_request = $request;
@@ -55,6 +57,7 @@ class Bral_Voir_Hobbit {
 				}
 			}
 			$tabMetier = Bral_Util_Metier::prepareMetier($this->view->hobbit["id_hobbit"], $this->view->hobbit["sexe_hobbit"]);
+			$tabTitre = Bral_Util_Titre::prepareTitre($this->view->hobbit["id_hobbit"], $this->view->hobbit["sexe_hobbit"]);
 		} else {
 			$hobbit = null;
 		}
@@ -66,6 +69,7 @@ class Bral_Voir_Hobbit {
 		$this->view->tabMetierCourant = $tabMetier["tabMetierCourant"];
 		$this->view->tabMetiers = $tabMetier["tabMetiers"];
 		$this->view->possedeMetier = $tabMetier["possedeMetier"];
+		$this->view->tabTitres = $tabTitre["tabTitres"];
 		
 		if ($this->_request->get("menu") == "evenements" && $this->view->connu != null) {
 			return $this->renderEvenements();

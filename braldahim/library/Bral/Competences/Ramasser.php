@@ -14,7 +14,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		$this->view->ramasserOk = false;
-		$this->listBoxRefresh = array("box_profil", "box_laban", "box_evenements");
+		$this->listBoxRefresh = $this->constructListBoxRefresh(array("box_laban"));
 		
 		if ($this->request->get("valeur_1") != "") {
 			$id_type_courant = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_1"));
@@ -71,7 +71,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 	}
 	
 	private function calculRamasser() {
-		$this->listBoxRefresh = array("box_profil", "box_vue", "box_laban", "box_evenements");
+		$this->listBoxRefresh = $this->constructListBoxRefresh(array("box_vue", "box_laban"));
 		
 		switch($this->view->type) {
 			case "castars" :

@@ -513,6 +513,6 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_competences_metiers", "box_equipement", "box_laban", "box_evenements");
+		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_equipement", "box_laban"));
 	}
 }

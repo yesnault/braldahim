@@ -68,6 +68,9 @@ class Bral_Box_Factory {
 			case "box_metier" :
 				return self::getMetier($request, $view, $interne);
 				break;
+			case "box_titres" :
+				return self::getTitres($request, $view, $interne);
+				break;
 			case "box_vue" :
 				return self::getVue($request, $view, $interne);
 				break;
@@ -180,7 +183,12 @@ class Bral_Box_Factory {
 		Zend_Loader::loadClass("Bral_Box_Messagerie");
 		return new Bral_Box_Messagerie($request, $view, $interne);
 	}
-
+	
+	public static function getTitres($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Titres");
+		return new Bral_Box_Titres($request, $view, $interne);
+	}
+	
 	public static function getVue($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Vue");
 		return new Bral_Box_Vue($request, $view, $interne);

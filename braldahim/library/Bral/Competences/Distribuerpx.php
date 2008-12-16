@@ -123,7 +123,6 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_evenements");
+		return $this->constructListBoxRefresh();
 	}
-
 }

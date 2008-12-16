@@ -7,7 +7,14 @@
 <? if ($this->connu == false) : ?>
 	<ul class="titre textalic textsizea">Hobbit Inconnu</ul>
 <? else : ?>
-    <ul class="titre textalic textsizea">Hobbit : <?=$this->hobbit["prenom_hobbit"] ?> <?=$this->hobbit["nom_hobbit"] ?>, n&deg;<?=$this->hobbit["id_hobbit"] ?> </ul>
+    <ul class="titre textalic textsizea"><?=$this->hobbit["prenom_hobbit"] ?> <?=$this->hobbit["nom_hobbit"] ?><? 
+    if ($this->hobbit["titre_courant_hobbit"] != null) : ?>, 
+    <?=$this->hobbit["titre_courant_hobbit"] ?>
+    <? endif;?>
+     </ul>
+     <ul class="titre textalic textsized">
+      Hobbit n&deg;<?=$this->hobbit["id_hobbit"] ?>
+     </ul>
 	&nbsp;
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">

@@ -14,6 +14,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 	
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Util_Log");
+		Zend_Loader::loadClass("Bral_Util_Titre");
 		$this->_request = $request;
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;
@@ -187,6 +188,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			
 			$this->calculBMEquipement();
 			$this->calculBMPotion();
+			Bral_Util_Titre::calculBMTitres(&$this->hobbit);
 			
 			// Mise à jour de la regeneration // c'est aussi mis à jour dans l'eujimnasiumne
 			$this->hobbit->regeneration_hobbit = floor($this->hobbit->vigueur_base_hobbit / 4) + 1;

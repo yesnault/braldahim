@@ -178,7 +178,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_lieu", "box_evenements", "box_laban");
+		return $this->constructListBoxRefresh(array("box_vue", "box_lieu", "box_laban"));
 	}
 	
 	private function utiliserPotionHobbit($potion, $idHobbit) {

@@ -6,7 +6,7 @@
 <table class="table_liste" style="width:90%;">
 	
   <tr class="table_liste">
-	<th rowspan="9"><?=Bral_Helper_Image::afficherAvatar($this->hobbit["url_avatar_hobbit"]); ?></th>
+	<th rowspan="10"><?=Bral_Helper_Image::afficherAvatar($this->hobbit["url_avatar_hobbit"]); ?></th>
 	<th>Date de cr&eacute;ation</th>
 	<th>Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->hobbit["date_creation_hobbit"]); ?></th>
   </tr>
@@ -37,6 +37,29 @@
   <tr class="table_liste">
 	<th>Nombre de meurtres Monstre</th>
 	<td class="table_liste"><?=$this->hobbit["nb_monstre_kill_hobbit"] ?></td>
+  </tr>
+  <tr class="table_liste">
+	<th>Titre<? if (count($this->tabTitres) > 0) :
+		echo "s";
+	   endif; ?></th>
+	<td class="table_liste">
+		<? $liste = "Aucun Titre";?>
+	  	<? if ($this->tabTitres != null && count($this->tabTitres) >= 1): ?>
+			<?
+			$liste = "";
+			foreach ($this->tabTitres as $t) :
+			$liste .= $t["nom"].", ";
+			endforeach; ?>
+			<? 
+			if ($liste != "") {
+				$liste = mb_substr($liste, 0, -2); 
+			}
+			?>
+	  	<? endif; ?>
+	    <? if ($liste != "") : ?>
+	    	<?=$liste ?>
+	    <? endif;?>
+	</td>
   </tr>
   <tr class="table_liste" valign="top">
 	<th>M&eacute;tier<? if ($this->possedeMetier && $this->tabMetierCourant != null && count($this->tabMetiers) > 0) :

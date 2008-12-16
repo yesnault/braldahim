@@ -26,6 +26,11 @@ class Bral_Util_De {
 		return rand(1, 3);
 	}
 	
+	public static function get_1d4() {
+		srand(self::make_seed());
+		return rand(1, 4);
+	}
+	
 	public static function get_1d5() {
 		srand(self::make_seed());
 		return rand(1, 5);

@@ -4,7 +4,11 @@
   	<a class="titre textalia textsizec"  onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->user->id_hobbit ?>');" title="Cliquez pour voir votre profil">
   		Mon Profil
   	</a>, n&deg;<?=$this->user->id_hobbit;?></ul>
-  <ul class="titre textalib textsizeb"><?=$this->escape($this->user->prenom_hobbit);?> <?=$this->escape($this->user->nom_hobbit);?></ul>
+  <ul class="titre textalib textsizec"><?=$this->escape($this->user->prenom_hobbit);?> 
+  <?=$this->escape($this->user->nom_hobbit);?><? if ($this->user->titre_courant_hobbit != null) :?>,
+  	<?=$this->user->titre_courant_hobbit?>
+  <? endif;?>
+  </ul>
   <div class="contenuA">
 	  <ul class="box_contenu1 textalic">
 	  		<p style="float: right; width: 100px; margin: 0px;font-weight: bolder; text-align:right;">

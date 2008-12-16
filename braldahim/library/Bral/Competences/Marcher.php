@@ -71,7 +71,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_lieu", "box_evenements", "box_echoppes");
+		return $this->constructListBoxRefresh(array("box_vue", "box_lieu", "box_echoppes"));
 	}
 	
 }

@@ -115,7 +115,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_lieu", "box_evenements");
+		return $this->constructListBoxRefresh(array("box_vue", "box_laban"));
 	}
 
 	protected function calculJetAttaque($hobbit) {

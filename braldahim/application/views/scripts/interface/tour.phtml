@@ -1,5 +1,11 @@
 <div id='tour_text' style="display:block"  onClick="javascript:switch2div('tour_text','tour_copie');">
 	
+	<ul class="titre textalic textsizec"><?=$this->escape($this->user->prenom_hobbit);?> 
+	  <?=$this->escape($this->user->nom_hobbit);?><? if ($this->user->titre_courant_hobbit != null) :?>,
+	  	<?=$this->user->titre_courant_hobbit?>
+	  <? endif;?>
+	</ul>
+  
 	<?php if ($this->is_mort): ?>
 			<p style='text-align:justify'>
 			<? echo "Vous venez d'ouvrir les yeux, une lumière blafarde vous éblouit.
@@ -53,7 +59,14 @@
 </div>
 	 
 <div id='tour_copie' style="display:none">
-	<textarea onClick="javascript:this.select();" rows=5 cols=40><?php if ($this->is_mort): 
+	<textarea onClick="javascript:this.select();" rows=5 cols=40><?
+	
+	echo $this->escape($this->user->prenom_hobbit). " ".$this->escape($this->user->nom_hobbit);
+	if ($this->user->titre_courant_hobbit != null) :
+		echo ", ".$this->user->titre_courant_hobbit;
+	endif;
+	  
+	if ($this->is_mort): 
 	  echo "Vous venez d'ouvrir les yeux, une lumière blafarde vous éblouit. ";
 	 echo "Vous essayez de remuer vos bras et vos jambes mais ils sont tout engourdis. ";
 	 echo "Vous tournez doucement la tête et constatez que vous êtes dans un lit qui n'est pas le votre... ";

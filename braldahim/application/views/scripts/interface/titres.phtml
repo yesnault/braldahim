@@ -1,0 +1,43 @@
+<? include("box_header.phtml") ?>
+<div class="inner">
+  <ul class="titre textalia textsizeb">Mes Titre</ul>
+  <div class="contenu">
+	  <ul class="box_contenu1 textalic">
+
+ <? if ($this->affichageInterne == true) : ?>
+	   <? if (!$this->possedeTitre): ?>
+	   	Vous n'avez aucun titre <br /><br />
+	   	
+	   <? else : ?>
+		   	<? if (count($this->tabTitres) >= 1): ?>
+		   		<table class="table_liste">
+					<thead class="table_liste">
+					  <tr class="table_liste" title="Cliquer pour Trier">
+						<th>Titre </th>
+						<th>Aquis au niveau</th>
+						<th>Appris le</th>
+						<th>Bonus</th>
+					  </tr>
+					</thead>
+					<tbody>
+						<? foreach ($this->tabTitres as $t) : ?>
+							<tr class="table_liste">
+								<td class=""><?=$t["nom"];?></td>
+								<td class=""><?=$t["niveau_acquis_htitre"];?></td>
+								<td class=""><?=$t["date_acquis_htitre"];?></td>
+								<td class=""><?=$t["description"];?></td>
+							</tr>
+						<? endforeach; ?>
+					</tbody>
+				</table>
+		    <? endif; ?>
+	   <? endif; ?>
+	   
+<? else: ?>
+	Chargement en cours
+	<br /><img src="/public/images/wait.gif" />
+<? endif; ?>
+	</ul> 
+  </div>
+</div>
+<? include("box_bottom.phtml") ?>

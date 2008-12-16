@@ -88,7 +88,7 @@ class Bral_Competences_Provoquer extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_evenements", "box_competences_communes");
+		return $this->constructListBoxRefresh(array("box_competences_communes"));
 	}
 
 	private function calculProvoquer($monstre) {

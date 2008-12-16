@@ -89,7 +89,7 @@ class Bral_Competences_Decalerdla extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil");
+		return $this->constructListBoxRefresh(array("box_profil", "box_laban"));
 	}
 
 }

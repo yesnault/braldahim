@@ -106,6 +106,6 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_competences_metiers", "box_laban", "box_evenements");
+		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_laban"));
 	}
 }

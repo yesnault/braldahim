@@ -164,7 +164,7 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_lieu", "box_evenements");
+		return $this->constructListBoxRefresh(array("box_vue", "box_lieu"));
 	}
 		
 	private function calculPalissade($offset_x, $offset_y) {

@@ -175,6 +175,6 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_vue", "box_evenements");
+		return $this->constructListBoxRefresh(array("box_vue"));
 	}
 }

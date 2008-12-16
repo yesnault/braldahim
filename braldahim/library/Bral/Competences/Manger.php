@@ -96,6 +96,6 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_laban", "box_evenements");
+		return $this->constructListBoxRefresh(array("box_laban"));
 	}
 }

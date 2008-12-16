@@ -56,7 +56,7 @@ class Bral_Competences_Hiberner extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil");
+		return $this->constructListBoxRefresh();
 	}
 
 }
