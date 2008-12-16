@@ -45,13 +45,13 @@
 		Vous &ecirc;tes maintenant Niveau <?=$this->user->niveau_hobbit ?><br />
 		Vous avez  <?=$this->user->pi_hobbit ?> PI<br /><br />
 		<? if (($this->user->niveau_hobbit % 10) == 0) : ?>
-			<? if ($this->user->niveau > 10) :?>
+			<? if ($this->user->niveau_hobbit > 10) :?>
 				Vous avez un nouveau titre !
 			<? else : ?>
 				Vous avez gagn&eacute; un titre !
 			<? endif;?>
 			<br />
 			Vous &ecirc;tes maintenant 
-			<?=$this->escape($this->user->prenom_hobbit);?>  <?=$this->escape($this->user->nom_hobbit);?>, <?=$this->user->titre_courant_hobbit?>
+			<?=$this->escape($this->user->prenom_hobbit);?>  <?=$this->escape($this->user->nom_hobbit);?>, <?=$this->user->titre_courant_hobbit?><br>
 		<? endif;?>
 	<? endif; ?>

@@ -73,4 +73,18 @@ echo "
 		echo " Vous avez ".$this->user->pi_hobbit." PI";
 		echo "
 ";
+		
+		if (($this->user->niveau_hobbit % 10) == 0) {
+			if ($this->user->niveau_hobbit > 10) {
+				echo "Vous avez un nouveau titre !
+";
+			} else {
+				echo "Vous avez gagn&eacute; un titre ! 
+";
+			}
+			
+			echo "Vous &ecirc;tes maintenant ";
+			echo $this->escape($this->user->prenom_hobbit). " " .$this->escape($this->user->nom_hobbit);." , ".$this->user->titre_courant_hobbit."
+";
+		}
 	}
