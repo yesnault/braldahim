@@ -526,7 +526,11 @@ class Bral_Util_Attaque {
 		$retour["monstreMorts"] = null;
 		$retour["monstreTouches"] = null;
 		$retour["n_cible"] = 0;
-		self::calculDegatCaseHobbit($config, $hobbit, $degats, $retour, $view);
+		
+		$estRegionPvp = Bral_Util_Attaque::estRegionPvp($hobbit->x_hobbit, $hobbit->y_hobbit);
+		if ($estRegionPvp) {
+			self::calculDegatCaseHobbit($config, $hobbit, $degats, $retour, $view);
+		}
 		self::calculDegatCaseMonstre($config, $hobbit, $degats, $retour);
 		$retour["n_cible"] = count($retour["hobbitTouches"]) + count($retour["monstreTouches"]);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatCase - exit -");
