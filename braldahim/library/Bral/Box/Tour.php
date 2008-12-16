@@ -267,7 +267,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 			// points de vie
 			$this->hobbit->pv_restant_hobbit = floor(($this->view->config->game->pv_base + $this->hobbit->vigueur_base_hobbit*$this->view->config->game->pv_max_coef) / 2);
-
+			
 			// recalcul de la position
 			$lieuTable = new Lieu();
 			$chuRowset = $lieuTable->findByType($this->view->config->game->lieu->type->ceachehu);

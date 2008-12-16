@@ -122,7 +122,12 @@ class Bral_Util_Attaque {
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - hobbitCible->agilite_bm_hobbit=".$hobbitCible->agilite_bm_hobbit);
 			}
 			
-			$hobbitCible->pv_restant_hobbit = $hobbitCible->pv_restant_hobbit + ($hobbitCible->armure_naturelle_hobbit + $hobbitCible->armure_equipement_hobbit) - $retourAttaque["jetDegat"];
+			$pvTotal =  $hobbitCible->pv_restant_hobbit + ($hobbitCible->armure_naturelle_hobbit + $hobbitCible->armure_equipement_hobbit);
+			$pvTotalAvecDegat = $pvTotal - $retourAttaque["jetDegat"];
+			
+			if ($pvTotalAvecDegat < $hobbitCible->pv_restant_hobbit) {
+				$hobbitCible->pv_restant_hobbit = $pvTotalAvecDegat;
+			}
 			if ($hobbitCible->pv_restant_hobbit <= 0) {
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Mort du hobbit !");
 				$hobbitCible->pv_restant_hobbit = 0;
