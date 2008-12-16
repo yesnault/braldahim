@@ -41,6 +41,9 @@ class Bral_Util_Commun {
 			case "foret" :
 				$r = 4;
 				break;
+			case "gazon" :
+				$r = 6;
+				break;
 			default :
 				throw new Exception("getVueBase Environnement invalide:".$zone["nom_systeme_environnement"]. " x=".$x." y=".$y);
 		}

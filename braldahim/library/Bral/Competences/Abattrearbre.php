@@ -49,6 +49,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 				$this->view->abattreArbreEnvironnementOk = true;
 				break;
 			case "marais":
+			case "gazon":
 			case "montagne":
 			case "caverne":
 			case "plaine" :

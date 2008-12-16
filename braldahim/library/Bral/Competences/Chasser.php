@@ -50,6 +50,9 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 			case "foret" :
 				$r = 80;
 				break;
+			case "gazon" :
+				$r = 60;
+				break;
 			default :
 				throw new Exception("Chasser Environnement invalide:".$zone["nom_systeme_environnement"]. " x=".$x." y=".$y);
 		}

@@ -214,6 +214,10 @@ class Bral_Util_Marcher {
 				$this->nb_cases = 1;
 				$this->nb_pa = 1;
 				break;
+			case "gazon" :
+				$this->nb_cases = 1;
+				$this->nb_pa = 1;
+				break;
 			default:
 				throw new Zend_Exception(get_class($this)."::environnement invalide :".$this->nom_systeme_environnement);
 		}

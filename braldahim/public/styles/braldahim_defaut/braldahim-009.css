@@ -1069,6 +1069,10 @@ td.vue2d.plaine {
 	background-color: rgb(173, 186, 140);
 }
 
+td.vue2d.gazon {
+	background-color: #99AA4A;
+}
+
 td.vue2d.foret {
 	background-color: #7E9E50;
 }
