@@ -77,4 +77,18 @@ class Lieu extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
+	
+	public function findByTypeAndPosition($type, $x, $y){
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('lieu', '*, SQRT(((x_lieu - '.$x.') * (x_lieu - '.$x.')) + ((y_lieu - '.$y.') * ( y_lieu - '.$y.'))) as distance')
+		->from('type_lieu', '*')
+		->from('ville', '*')
+		->where('lieu.id_fk_type_lieu = ?',$type)
+		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+		->where('lieu.id_fk_ville_lieu = ville.id_ville')
+		->order(array('distance ASC'));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }

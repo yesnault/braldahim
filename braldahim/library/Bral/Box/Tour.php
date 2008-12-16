@@ -270,12 +270,9 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			
 			// recalcul de la position
 			$lieuTable = new Lieu();
-			$chuRowset = $lieuTable->findByType($this->view->config->game->lieu->type->ceachehu);
-			$de = Bral_Util_De::get_de_specifique(0, count($chuRowset)-1);
-			$lieu = $chuRowset[$de];
-
-			$this->hobbit->x_hobbit = $lieu["x_lieu"];
-			$this->hobbit->y_hobbit = $lieu["y_lieu"];
+			$chuRowset = $lieuTable->findByTypeAndPosition($this->view->config->game->lieu->type->ceachehu, $this->hobbit->x_hobbit, $this->hobbit->y_hobbit);
+			$this->hobbit->x_hobbit = $chuRowset[0]["x_lieu"];
+			$this->hobbit->y_hobbit = $chuRowset[0]["y_lieu"];
 		}
 		Bral_Util_Log::tour()->trace(get_class($this)." calcul_mort - exit -");
 	}
