@@ -3,7 +3,13 @@
       		<?php 
       			$textPalissade = "";
       			foreach($case["palissades"] as $p) {
-      				$textPalissade .= "1 palissade (n&deg; ".htmlspecialchars($p["id_palissade"]).")<br />";
+      				$textPalissade .= "1 palissade (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
+      				if ($p["est_destructible_palissade"] == "oui") {
+      					$textPalissade .= " destructible";
+      				} else {
+      					$textPalissade .= " indestructible";
+      				}
+      				$textPalissade .= "<br />";
 				} 
 				$s = "";
 				if ($case["n_palissades"] > 1) {
@@ -12,7 +18,7 @@
 				$titre = "Position X:".$case["x"]." Y:".$case["y"]." - ".$case["n_palissades"]." Palissade".$s;
 			?>
       		<span <?=Bral_Helper_Tooltip::jsTip($textPalissade, $titre) ?>>
-	      		<?=$case["n_palissades"] ?> palissade<?=$s?>
+	      		<?=$case["n_palissades"] ?> palissade<?=$s?> 
 	      	</span>
 	      	</div>
 	    <?php endif; ?>

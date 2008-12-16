@@ -18,7 +18,7 @@ class Bral_Batchs_Palissades extends Bral_Batchs_Batch {
 		
 		$palissadeTable = new Palissade();
 		$dateFin = date("Y-m-d H:i:s");
-		$where = $palissadeTable->getAdapter()->quoteInto('date_fin_palissade <= ?', $dateFin);
+		$where = "date_fin_palissade <= '".$dateFin."' AND est_destructible_palissade = 'oui'";
 		$nb = $palissadeTable->delete($where);
 		unset($palissadeTable);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Palissades - nb:".$nb." - where:".$where);

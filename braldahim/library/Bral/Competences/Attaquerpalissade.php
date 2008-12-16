@@ -26,7 +26,6 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 		
 		$palissadeTable = new Palissade();
 		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
-
 		$defautChecked = false;
 		
 		for ($j = $this->distance; $j >= -$this->distance; $j --) {
@@ -41,11 +40,15 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 			 	
 				$valid = false;
 				$palissade = null;
+				$est_destructible = null;
 			 	
 			 	foreach($palissades as $p) {
 					if ($x == $p["x_palissade"] && $y == $p["y_palissade"]) {
-						$valid = true;
-						$palissade = $p;
+						$est_destructible = $p["est_destructible_palissade"];
+						if ($est_destructible == "oui") {
+							$valid = true;
+							$palissade = $p;
+						}
 						break;
 					}
 				}
@@ -63,7 +66,8 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 				 	"default" => $default,
 				 	"display" => $display,
 				 	"change_level" => $change_level, // nouvelle ligne dans le tableau
-					"valid" => $valid
+					"valid" => $valid,
+			 		"est_destructible" => $est_destructible,
 			 	);	
 				
 			 	if ($this->request->get("valeur_1") != null) { // attaque palissade en cours

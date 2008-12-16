@@ -1,7 +1,7 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
 
-<?php if ($this->attaquerPalissadeOk == false) : ?>
+<?php if ($this->tableau == null || count($this->tableau) == 0) : ?>
  Vous ne pouvez attaquer une palissade qu'aux alentours de vous.
 <?php else : ?>
   <table align='center'>
@@ -27,6 +27,9 @@
 		<?php if ($case["valid"] == true) : ?>
             <input type='radio' name='valeur_1' id='valeur_1' value='<?php echo $case["x_offset"]."h".$case["y_offset"] ?>' <?=$case["default"]?>>
 		<?php else: ?>
+			<? if ($case["est_destructible"] != null) : ?>
+				Palissade <br>indestructible
+			<? endif; ?>
 			&nbsp;
 		<?php endif; ?>
           </td>

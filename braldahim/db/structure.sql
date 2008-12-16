@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Mar 09 Décembre 2008 à 22:37
+-- Généré le : Mar 16 Décembre 2008 à 21:37
 -- Version du serveur: 5.0.41
 -- Version de PHP: 5.2.3
 
@@ -727,6 +727,8 @@ CREATE TABLE `hobbit` (
   `nb_hobbit_kill_hobbit` int(11) NOT NULL default '0',
   `nb_monstre_kill_hobbit` int(11) NOT NULL,
   `est_compte_actif_hobbit` enum('oui','non') character set latin1 NOT NULL default 'non',
+  `est_en_hibernation_hobbit` enum('oui','non') NOT NULL default 'non',
+  `date_fin_hibernation_hobbit` datetime default NULL,
   `date_creation_hobbit` datetime NOT NULL,
   `id_fk_mere_hobbit` int(11) default NULL,
   `id_fk_pere_hobbit` int(11) default NULL,
@@ -736,12 +738,16 @@ CREATE TABLE `hobbit` (
   `date_entree_communaute_hobbit` datetime default NULL,
   `url_blason_hobbit` varchar(200) character set latin1 default 'http://',
   `url_avatar_hobbit` varchar(200) character set latin1 default 'http://',
+  `envoi_mail_message_hobbit` enum('oui','non') NOT NULL default 'oui',
+  `envoi_mail_evenement_hobbit` enum('oui','non') NOT NULL default 'non',
+  `titre_courant_hobbit` varchar(15) default NULL,
   PRIMARY KEY  (`id_hobbit`),
   UNIQUE KEY `email_hobbit` (`email_hobbit`),
   KEY `idx_x_hobbit_y_hobbit` (`x_hobbit`,`y_hobbit`),
   KEY `id_fk_communaute_hobbit` (`id_fk_communaute_hobbit`),
   KEY `id_fk_rang_communaute_hobbit` (`id_fk_rang_communaute_hobbit`),
-  KEY `id_fk_jos_users_hobbit` (`id_fk_jos_users_hobbit`)
+  KEY `id_fk_jos_users_hobbit` (`id_fk_jos_users_hobbit`),
+  KEY `est_en_hibernation_hobbit` (`est_en_hibernation_hobbit`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tables des Hobbits';
 
 -- --------------------------------------------------------
@@ -792,6 +798,35 @@ CREATE TABLE `hobbits_metiers` (
   PRIMARY KEY  (`id_fk_hobbit_hmetier`,`id_fk_metier_hmetier`),
   KEY `id_fk_metier_hmetier` (`id_fk_metier_hmetier`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `hobbits_titres`
+-- 
+
+CREATE TABLE `hobbits_titres` (
+  `id_fk_hobbit_htitre` int(11) NOT NULL,
+  `id_fk_type_htitre` int(11) NOT NULL,
+  `niveau_acquis_htitre` int(11) NOT NULL,
+  `date_acquis_htitre` date NOT NULL,
+  PRIMARY KEY  (`id_fk_hobbit_htitre`,`id_fk_type_htitre`,`niveau_acquis_htitre`),
+  KEY `id_fk_type_htitre` (`id_fk_type_htitre`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `info_jeu`
+-- 
+
+CREATE TABLE `info_jeu` (
+  `id_info_jeu` int(11) NOT NULL auto_increment,
+  `date_info_jeu` datetime NOT NULL,
+  `text_info_jeu` text NOT NULL,
+  `est_sur_accueil_info_jeu` enum('oui','non') NOT NULL default 'oui',
+  PRIMARY KEY  (`id_info_jeu`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1053,6 +1088,7 @@ CREATE TABLE `palissade` (
   `pv_restant_palissade` int(11) NOT NULL,
   `date_creation_palissade` datetime NOT NULL,
   `date_fin_palissade` datetime NOT NULL,
+  `est_destructible_palissade` enum('oui','non') NOT NULL default 'oui',
   PRIMARY KEY  (`id_palissade`),
   UNIQUE KEY `xy_palissade` (`x_palissade`,`y_palissade`),
   KEY `date_fin_palissade` (`date_fin_palissade`)
@@ -1204,6 +1240,7 @@ CREATE TABLE `region` (
   `x_max_region` int(11) NOT NULL,
   `y_min_region` int(11) NOT NULL,
   `y_max_region` int(11) NOT NULL,
+  `est_pvp_region` enum('oui','non') NOT NULL default 'non',
   PRIMARY KEY  (`id_region`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -1530,6 +1567,22 @@ CREATE TABLE `type_rune` (
 -- --------------------------------------------------------
 
 -- 
+-- Structure de la table `type_titre`
+-- 
+
+CREATE TABLE `type_titre` (
+  `id_type_titre` int(11) NOT NULL auto_increment,
+  `nom_masculin_type_titre` varchar(15) NOT NULL,
+  `nom_feminin_type_titre` varchar(15) NOT NULL,
+  `nom_systeme_type_titre` varchar(8) NOT NULL,
+  `description_type_titre` varchar(200) NOT NULL,
+  PRIMARY KEY  (`id_type_titre`),
+  UNIQUE KEY `nom_systeme_type_titre` (`nom_systeme_type_titre`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+-- 
 -- Structure de la table `type_unite`
 -- 
 
@@ -1818,6 +1871,13 @@ ALTER TABLE `hobbits_metiers`
   ADD CONSTRAINT `hobbits_metiers_ibfk_5` FOREIGN KEY (`id_fk_metier_hmetier`) REFERENCES `metier` (`id_metier`);
 
 -- 
+-- Contraintes pour la table `hobbits_titres`
+-- 
+ALTER TABLE `hobbits_titres`
+  ADD CONSTRAINT `hobbits_titres_ibfk_1` FOREIGN KEY (`id_fk_hobbit_htitre`) REFERENCES `hobbit` (`id_hobbit`) ON DELETE CASCADE,
+  ADD CONSTRAINT `hobbits_titres_ibfk_2` FOREIGN KEY (`id_fk_type_htitre`) REFERENCES `type_titre` (`id_type_titre`);
+
+-- 
 -- Contraintes pour la table `laban`
 -- 
 ALTER TABLE `laban`
@@ -1967,15 +2027,3 @@ ALTER TABLE `ville`
 -- 
 ALTER TABLE `zone`
   ADD CONSTRAINT `zone_ibfk_1` FOREIGN KEY (`id_fk_environnement_zone`) REFERENCES `environnement` (`id_environnement`);
-  
-  
-  CREATE TABLE `info_jeu` (
-`id_info_jeu` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-`date_info_jeu` DATETIME NOT NULL ,
-`text_info_jeu` TEXT NOT NULL ,
-`est_sur_accueil_info_jeu` ENUM( 'oui', 'non' ) NOT NULL DEFAULT 'oui'
-) ENGINE = innodb;
-
-ALTER TABLE `hobbit` ADD `est_en_hibernation_hobbit` ENUM( 'oui', 'non' ) NOT NULL DEFAULT 'non' AFTER `est_compte_actif_hobbit` ;
-ALTER TABLE `hobbit` ADD `date_fin_hibernation_hobbit` DATE NOT NULL AFTER `est_en_hibernation_hobbit` ;
-
