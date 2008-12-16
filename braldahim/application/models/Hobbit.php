@@ -114,6 +114,18 @@ class Hobbit extends Zend_Db_Table {
 		return $this->fetchRow($where);
 	}
 
+	function findNomById($id) {
+		$where = $this->getAdapter()->quoteInto('id_hobbit = ?',(int)$id);
+		$hobbit = $this->fetchRow($where);
+
+		if ($hobbit == null) {
+			$retour = "hobbit inconnu";
+		} else {
+			$retour = $hobbit["prenom_hobbit"]. " ".$hobbit["nom_hobbit"]. " (".$hobbit["id_hobbit"].")";
+		}
+		return $retour;
+	}
+	
 	public function findByIdFkJosUsers($id){
 		$where = $this->getAdapter()->quoteInto('id_fk_jos_users_hobbit = ?',(int)$id);
 		return $this->fetchRow($where);

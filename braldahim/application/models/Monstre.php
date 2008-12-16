@@ -108,6 +108,25 @@ class Monstre extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchRow($sql);
 	}
+	
+	function findNomById($id) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('monstre', '*')
+		->from('type_monstre', '*')
+		->from('taille_monstre', '*')
+		->where('monstre.id_fk_type_monstre = type_monstre.id_type_monstre')
+		->where('monstre.id_fk_taille_monstre = taille_monstre.id_taille_monstre')
+		->where('id_monstre = ?',$id);
+		$sql = $select->__toString();
+		$monstre = $db->fetchRow($sql);
+		if ($monstre == null) {
+			$retour = "monstre inconnu";
+		} else {
+			$retour = $monstre["nom_type_monstre"]. " (".$monstre["id_monstre"].")";
+		}
+		return $retour;
+	}
 
 	function findByGroupeId($idGroupe) {
 		$db = $this->getAdapter();

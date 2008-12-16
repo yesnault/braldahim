@@ -1,0 +1,29 @@
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ <div class='comp_contenu'>
+ 	
+ 	Indiquez ici un fait &eacute;minemment notoire... il sera rajout&eacute; dans vos &eacute;v&eacute;nements sur votre profil.<br>
+ 	<br>
+ 	Vous pouvez utiliser les raccourcis suivants : <br>
+ 	Hobbit : [m1] affichera le hobbit n&deg; 1<br>
+ 	Monstre : [m42] affichera le monstre n&deg; 42<br>
+ 	Lieu : [l37] affichera le lieu n&deg; 37<br>
+ 	
+	<br />
+	<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="80" type="text"> Caract&egrave;res restants<br>
+	<input type="text" name="valeur_1" id="valeur_1" class="inputbox" onkeydown="textCount($('valeur_1'),$('characterstyped'),80);" onkeyup="textCount($('valeur_1'),$('characterstyped'),80); if (this.value != '') {$('bouton_relater').disabled=false;$('bouton_relater_verif').disabled=false; } else {$('bouton_relater').disabled=true;$('bouton_relater_verif').disabled=true; }"  maxlength="80" size="40" value="<?=$this->texte_original?>"/>
+	
+	<? if ($this->texte != null) : ?>
+		<br>
+		V&eacute;rification : <br>
+		<? echo $this->user->prenom_hobbit ." ". $this->user->nom_hobbit ." (".$this->user->id_hobbit.") a dit : \"" ?><?=$this->texte?><?="\""?>
+		<br>
+	<? endif;?>
+   
+ </div>
+<br />
+Cliquez sur le bouton V&eacute;rifier pour v&eacute;rifier le rendu final. <br>
+Une fois bien v&eacute;rifi&eacute; cliquez sur Relater.<br>
+Attention, le texte ne pourra pas &ecirc;tre supprim&eacute; ou modifi&eacute; par la suite.
+<br><br>
+<input type='button' class='button1' id='bouton_relater_verif' value='Vérifier !' onClick='this.disabled=true;_get_("/competences/doaction?caction=ask_competence_relater&valeur_1="+$("valeur_1").value);' <? if ($this->texte == null): echo "disabled"; endif;?>>
+<input type='button' class='button1' id='bouton_relater' value='Relater !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_relater");' <? if ($this->texte == null): echo "disabled"; endif;?>>

@@ -52,6 +52,7 @@ class Bral_Util_Registre {
 					"type_competence" => $c->type_competence,
 					"pourcentage_max" => $c->pourcentage_max_competence,
 					"id_fk_metier_competence" => null,
+					"balance_faim" => $c->balance_faim_competence,
 				);
 				$tabBasiquesId[$c->nom_systeme_competence]["id_competence"] = $c->id_competence;
 			}

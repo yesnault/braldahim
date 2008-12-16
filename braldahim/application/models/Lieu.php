@@ -62,6 +62,24 @@ class Lieu extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
+	
+	function findNomById($id) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('lieu', '*')
+		->from('type_lieu', '*')
+		->where('id_lieu <= ?',$id)
+		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu');
+		$sql = $select->__toString();
+
+		$lieu = $db->fetchRow($sql);
+		if ($lieu == null) {
+			$retour = "lieu inconnu";
+		} else {
+			$retour = $lieu["nom_lieu"]. " (".$lieu["id_lieu"].")";
+		}
+		return $retour;
+	}
 
 	function findByCase($x, $y) {
 		$db = $this->getAdapter();
