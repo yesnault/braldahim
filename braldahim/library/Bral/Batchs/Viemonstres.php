@@ -19,8 +19,9 @@ class Bral_Batchs_Viemonstres extends Bral_Batchs_Batch {
         Zend_Loader::loadClass('GroupeMonstre');
         Zend_Loader::loadClass('Monstre');
         Zend_Loader::loadClass("Bral_Monstres_VieGroupesNuee");
+        Zend_Loader::loadClass("Bral_Util_Evenement");
 
-		$vieGroupe = new Bral_Monstres_VieGroupesNuee();
+		$vieGroupe = new Bral_Monstres_VieGroupesNuee($this->view);
         $vieGroupe->vieGroupesAction();
 		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Viemonstres - calculBatchImpl - exit -");

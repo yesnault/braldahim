@@ -11,10 +11,11 @@
  * $LastChangedBy$
  */
 class Bral_Monstres_VieGroupesNuee {
-    function __construct() {
+    function __construct($view) {
         Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
         Zend_Loader::loadClass("Ville");
         $this->config = Zend_Registry::get('config');
+        $this->view = $view;
     }
 
     public function vieGroupesAction() {
@@ -126,13 +127,13 @@ class Bral_Monstres_VieGroupesNuee {
             	// on regarde si la cible demandée est bien la cible du monstre
 				if ($cible["id_hobbit"] == $m["id_fk_hobbit_cible_monstre"] || $m["id_fk_hobbit_cible_monstre"] == null) {
 					Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du groupe (".$groupe["id_groupe_monstre"].") : ".$cible["id_hobbit"]);
-					$mortCible = $vieMonstre->attaqueCible($cible);
+					$mortCible = $vieMonstre->attaqueCible($cible, $this->view);
 				} else {
 					Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du monstre (".$m["id_monstre"].") : ".$m["id_fk_hobbit_cible_monstre"]);
 					$hobbitTable = new Hobbit();
            			$cibleDuMonstre = $hobbitTable->findById($m["id_fk_hobbit_cible_monstre"]);
            			$cibleDuMonstre = $cibleDuMonstre->toArray();
-					$vieMonstre->attaqueCible($cibleDuMonstre);
+					$vieMonstre->attaqueCible($cibleDuMonstre, $this->view);
 				}
                 
 				if ($cibleDuMonstre != null) {
