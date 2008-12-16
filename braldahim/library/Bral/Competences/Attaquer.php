@@ -21,16 +21,20 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		$tabHobbits = null;
 		$tabMonstres = null;
 
-		// recuperation des hobbits qui sont presents sur la case
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit);
-		foreach($hobbits as $h) {
-			$tab = array(
-				'id_hobbit' => $h["id_hobbit"],
-				'nom_hobbit' => $h["nom_hobbit"],
-				'prenom_hobbit' => $h["prenom_hobbit"],
-			);
-			$tabHobbits[] = $tab;
+		$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		
+		if ($estRegionPvp) {
+			// recuperation des hobbits qui sont presents sur la case
+			$hobbitTable = new Hobbit();
+			$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit);
+			foreach($hobbits as $h) {
+				$tab = array(
+					'id_hobbit' => $h["id_hobbit"],
+					'nom_hobbit' => $h["nom_hobbit"],
+					'prenom_hobbit' => $h["prenom_hobbit"],
+				);
+				$tabHobbits[] = $tab;
+			}
 		}
 		
 		// recuperation des monstres qui sont presents sur la case
@@ -49,6 +53,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		$this->view->nHobbits = count($tabHobbits);
 		$this->view->tabMonstres = $tabMonstres;
 		$this->view->nMonstres = count($tabMonstres);
+		$this->view->estRegionPvp = $estRegionPvp;
 	}
 
 	function prepareFormulaire() {

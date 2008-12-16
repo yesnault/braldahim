@@ -27,6 +27,22 @@ class Region extends Zend_Db_Table {
 		return $resultat[0]["id_region"];
 	}
 	
+	function findByCase($x, $y) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('region', '*')
+		->where('x_min_region <= ?',$x)
+		->where('x_max_region >= ?',$x)
+		->where('y_min_region <= ?',$y)
+		->where('y_max_region >= ?',$y);
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		if ($resultat == null || count($resultat) == 0) {
+			throw new Zend_Exception("Region invalide pour x:".$x. " y:$y");
+		}
+		return $resultat[0];
+	}
+	
 	function selectVue($x_min, $y_min, $x_max, $y_max) {
 		$db = $this->getAdapter();
 		$select = $db->select();

@@ -683,5 +683,18 @@ La cible a equivé l'attaque";
 		}
 		return $retour;
 	}
+	
+	public static function estRegionPvp($x, $y) {
+		Zend_Loader::loadClass("Region");
+		$regionTable = new Region();
+		$region = $regionTable->findByCase($x, $y);
+		unset($regionTable);
+		
+		if ($region["est_pvp_region"] == "oui") {
+			return  true;
+		} else {
+			return false;
+		}
+	}
 }
 

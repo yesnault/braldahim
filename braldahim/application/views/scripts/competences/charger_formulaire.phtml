@@ -1,5 +1,9 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
+  	<? if ($this->estRegionPvp == false) :?>
+		Vous ne pouvez pas attaquer de hobbit dans cette r&eacute;gion.<br><br>
+	<? endif;?>
+	
  	<? if ($this->nHobbits == 0 && $this->nMonstres == 0): ?>
  		Il n'y a rien &agrave; charger dans votre distance de charge de <?=$this->charge_nb_cases ?> case<?if ($this->charge_nb_cases > 1): echo 's'; endif; ?><br />
  	<? else: ?>

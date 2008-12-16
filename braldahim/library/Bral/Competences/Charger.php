@@ -40,6 +40,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass('Palissade');
+		Zend_Loader::loadClass('Bral_Util_Attaque');
 		
 		$this->view->charge_nb_cases = floor($this->view->user->vigueur_base_hobbit / 3) + 1;
 		if ($this->view->charge_nb_cases > 6) {
@@ -156,20 +157,24 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		$tabHobbits = null;
 		$tabMonstres = null;
 
-		// recuperation des hobbits qui sont presents sur la vue
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->id_hobbit);
+		$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		
-		foreach($hobbits as $h) {
-			if ($tabValide[$h["x_hobbit"]][$h["y_hobbit"]] === true) {
-				$tab = array(
-					'id_hobbit' => $h["id_hobbit"],
-					'nom_hobbit' => $h["nom_hobbit"],
-					'prenom_hobbit' => $h["prenom_hobbit"],
-					'x_hobbit' => $h["x_hobbit"],
-					'y_hobbit' => $h["y_hobbit"],
-				);
-				$tabHobbits[] = $tab;
+		if ($estRegionPvp) {
+			// recuperation des hobbits qui sont presents sur la vue
+			$hobbitTable = new Hobbit();
+			$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->id_hobbit);
+			
+			foreach($hobbits as $h) {
+				if ($tabValide[$h["x_hobbit"]][$h["y_hobbit"]] === true) {
+					$tab = array(
+						'id_hobbit' => $h["id_hobbit"],
+						'nom_hobbit' => $h["nom_hobbit"],
+						'prenom_hobbit' => $h["prenom_hobbit"],
+						'x_hobbit' => $h["x_hobbit"],
+						'y_hobbit' => $h["y_hobbit"],
+					);
+					$tabHobbits[] = $tab;
+				}
 			}
 		}
 		
@@ -198,6 +203,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		$this->view->nHobbits = count($tabHobbits);
 		$this->view->tabMonstres = $tabMonstres;
 		$this->view->nMonstres = count($tabMonstres);
+		$this->view->estRegionPvp = $estRegionPvp;
 	}
 
 	function prepareFormulaire() {
