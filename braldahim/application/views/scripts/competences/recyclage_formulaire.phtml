@@ -1,14 +1,14 @@
 <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'/>
  <div class='comp_contenu'>
 <?php if ($this->nbEquipementLaban == 0) : ?>
- 	Vous n'avez pas de pi&eagrave;ce d'&eacute;quipement dans votre laban !<br />
+ 	Vous n'avez pas de pi&egrave;ce d'&eacute;quipement dans votre laban !<br /><br />
 <?php else: ?>
 	Pour <?=$this->nb_pa ?> PA, vous pouvez recycler une pi&egrave;ce d'&eacute;quipement :<br /><br />
 	
 	<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_recycler').disabled=true } else {$('bouton_recycler').disabled=false }">
 		<option value='-1'>(Choisis une pi&egrave;ce)</option>
 		<? foreach ($this->tabEquipementLaban as $e) : ?>
-				<option value="<?=$e["id_equipement"]?>">N° <?=$e["id_equipement"]?> : <?=$e["nom"]?> de qualit&eacute; <?=$e["qualite"]?> et de niveau <?=$e["niveau"]?></option>
+				<option value="<?=$e["id_equipement"]?>">N° <?=$e["id_equipement"]?> : <?=$e["nom"]?> <?=$e["suffixe"]?> de qualit&eacute; <?=$e["qualite"]?> et de niveau <?=$e["niveau"]?></option>
 		<? endforeach; ?>
 	</select>
 	<br /><br />

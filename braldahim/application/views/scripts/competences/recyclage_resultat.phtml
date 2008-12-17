@@ -1,11 +1,45 @@
 <? include("commun_text_resultat.phtml") ?>
 <? if ($this->okJet1 === true): ?>
-	Vous avez r&eacute;ussi votre recyclage !<br />
-	Vous avez r&eacute;cup&eacute;r&eacute; : <br />
-	<?=$this->nbPlanche ?> planche <br />
-	<?=$this->nbCuir ?> cuir <br />
-	<?=$this->nbFourrure ?> fourrure <br />
-	
+	Vous avez recycl&eacute; votre &eacute;quipement ce qui a eu pour effet de le d&eacute;truire !<br /><br />
+	<?if ($this->nbPlancheLaban > 0 || $this->nbCuirLaban > 0 || $this->nbFourrureLaban > 0 || count($this->mineraiLaban) > 0 ):?> 
+		Vous avez r&eacute;cup&eacute;r&eacute; dans votre laban : <br />
+		<? if ($this->nbPlancheLaban > 0): ?>
+			<?=$this->nbPlancheLaban ?> planche<? if ($this->nbPlancheLaban > 1): ?>s<? endif; ?><br />
+		<? endif; ?>
+		<? if ($this->nbCuirLaban > 0): ?>	
+			<?=$this->nbCuirLaban ?> cuir<? if ($this->nbCuirLaban > 1): ?>s<? endif; ?> <br />
+		<? endif; ?>
+		<? if ($this->nbFourrureLaban > 0): ?>
+			<?=$this->nbFourrureLaban ?> fourrure<? if ($this->nbFourrureLaban > 1): ?>s<? endif; ?> <br />
+		<? endif; ?>
+		<? if (count($this->mineraiLaban) > 0): ?>
+			<? foreach ($this->mineraiLaban as $m) : ?>
+				<?=$m["quantite"] ?> <?=$m["nom"] ?> <br />
+			<? endforeach; ?>
+		<? endif; ?>
+	<? else: ?>
+		Vous n'avez rien r&eacute;cup&eacute;r&eacute; dans votre laban ! <br />
+	<? endif; ?>
+	<br />
+	<?if ($this->nbPlancheTerre > 0 || $this->nbCuirTerre > 0 || $this->nbFourrureTerre > 0 || count($this->mineraiTerre) > 0 ):?> 
+		Ces &eacute;l&egrave;ments sont tomb&eacute;s &agrave; terre : <br />
+		<? if ($this->nbPlancheTerre > 0): ?>
+			<?=$this->nbPlancheTerre ?> planche<? if ($this->nbPlancheTerre > 1): ?>s<? endif; ?> <br />
+		<? endif; ?>
+		<? if ($this->nbCuirTerre > 0): ?>	
+			<?=$this->nbCuirTerre ?> cuir<? if ($this->nbCuirTerre > 1): ?>s<? endif; ?> <br />
+		<? endif; ?>
+		<? if ($this->nbFourrureTerre > 0): ?>
+			<?=$this->nbFourrureTerre ?> fourrure<? if ($this->nbFourrureTerre > 1): ?>s<? endif; ?> <br />
+		<? endif; ?>
+		<? if (count($this->mineraiTerre) > 0): ?>
+			<? foreach ($this->mineraiTerre as $m) : ?>
+				<?=$m["quantite"] ?> <?=$m["nom"] ?> <br />
+			<? endforeach; ?>
+		<? endif; ?>
+	<? else: ?>
+		Rien n'est tomb&eacute; par terre ! <br />
+	<? endif; ?>
 <? else: ?>
 	Vous avez manqu&eacute; votre recyclage.<br />
 <? endif; ?>

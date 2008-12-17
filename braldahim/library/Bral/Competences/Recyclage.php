@@ -35,6 +35,8 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 				"qualite" => $e["nom_type_qualite"],
 				"niveau" => $e["niveau_recette_equipement"],
 				"id_type" => $e["id_type_equipement"],
+				"poids" => $e["poids_recette_equipement"],
+				"suffixe" => $e["suffixe_mot_runique"],
 			);
 		}
 		$this->view->tabEquipementLaban = $tabEquipementLaban;
@@ -67,6 +69,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 				if ($e["id_equipement"] == $idEquipement) {
 					$idTypeEquipement = $e["id_type"];
 					$nivEquipement = $e["niveau"];
+					$poidsEquipement = $e["poids"];
 					$recyclage = true;
 					break;
 				}
@@ -78,7 +81,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		
 		$this->calculJets();
 		if ($this->view->okJet1 === true) {
-			$this->calculRecyclage ($idEquipement, $idTypeEquipement, $nivEquipement);
+			$this->calculRecyclage ($idEquipement, $idTypeEquipement, $nivEquipement, $poidsEquipement);
 		}
 		$this->calculPx();
 		$this->calculBalanceFaim();
@@ -86,15 +89,24 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		$this->majHobbit();
 	}
 	
-	private function calculRecyclage($idEquipement, $idTypeEquipement, $nivEquipement){
+	private function calculRecyclage($idEquipement, $idTypeEquipement, $nivEquipement, $poidsEquipement){
 		Zend_Loader::loadClass("RecetteCout");
 		Zend_Loader::loadClass("RecetteCoutMinerai");
 		Zend_Loader::loadClass("Laban");
+		Zend_Loader::loadClass("Element");
 		
 		$nbCuir = 0;
 		$nbFourrure = 0;
 		$nbPlanche = 0;
-		$tabMinerai = null;		
+		$tabMineraiLaban = null;
+		$tabMineraiTerre = null;		
+		
+		$this->poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit + $poidsEquipement;
+		
+		$labanEquipementTable = new LabanEquipement();
+		$where = "id_laban_equipement=".$idEquipement;
+		$labanEquipementTable->delete($where);
+		unset($labanEquipementTable);
 		
 		$recetteCoutTable = new RecetteCout();
 		$recetteCout = $recetteCoutTable->findByIdTypeEquipementAndNiveau($idTypeEquipement, $nivEquipement);
@@ -116,13 +128,13 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		if ($jetSag < $nivEquipement*10) {
 			$perte = 0.25;
 		}
-		elseif ($jetSag > $nivEquipement*10 && $jetSag < $nivEquipement*20) {
+		elseif ($jetSag >= $nivEquipement*10 && $jetSag < $nivEquipement*20) {
 			$perte = 0.5;
 		}
-		elseif ($jetSag > $nivEquipement*20 && $jetSag < $nivEquipement*30) {
+		elseif ($jetSag >= $nivEquipement*20 && $jetSag < $nivEquipement*30) {
 			$perte = 0.6;
 		}
-		elseif ($jetSag > $nivEquipement*30) {
+		elseif ($jetSag >= $nivEquipement*30) {
 			$perte = 0.8;
 		}
 		
@@ -132,52 +144,104 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 			$nbPlanche = floor($r["planche_recette_cout"]*$perte);
 		}
 		
-		$recetteCoutMineraiTable = new RecetteCoutMinerai();
-		$recetteCoutMinerai = $recetteCoutMineraiTable->findByIdTypeEquipementAndNiveau($idTypeEquipement, $nivEquipement);
-		if (count ($recetteCoutMinerai) > 0) {
-			Zend_Loader::loadClass("LabanMinerai");
-			$labanMineraiTable = new LabanMinerai();
-			foreach($recetteCoutMinerai as $r){
-				$quantite = floor($r["quantite_recette_cout_minerai"]*$perte);
-				$tabMinerai[] = array (
-					"nom" => $r["nom_type_minerai"],
-					"quantite" => $quantite,
-				);
-				$data = array(
-					'id_fk_type_laban_minerai' => $r["id_type_minerai"],
-					'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
-					'quantite_brut_laban_minerai' => $quantite,
-				);
-				$labanMineraiTable->insertOrUpdate($data);
-			}
-		}
-		/*
-		 * TODO
-		 * Controler le poids
-		 * Supprimer l'equipement
-		 * Afficher le résultat
-		 * Runes
-		 * tests avec minerai
-		 */
+		$nbCuirLaban = $this->calculNbPoidsPossible($nbCuir, Bral_Util_Poids::POIDS_CUIR);
+		$nbCuirTerre = $nbCuir - $nbCuirLaban;
+		
+		$nbFourrureLaban = $this->calculNbPoidsPossible($nbFourrure, Bral_Util_Poids::POIDS_FOURRURE);
+		$nbFourrureTerre = $nbFourrure - $nbFourrureLaban;
+		
+		$nbPlancheLaban = $this->calculNbPoidsPossible($nbPlanche, Bral_Util_Poids::POIDS_PLANCHE);
+		$nbPlancheTerre = $nbPlanche - $nbPlancheLaban;
 		
 		// on ajoute dans le laban
 		$labanTable = new Laban();
 		$data = array(
 			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
-			'quantite_cuir_laban' => $nbCuir,
-			'quantite_fourrure_laban' => $nbFourrure,
-			'quantite_planche_laban' => $nbPlanche,
+			'quantite_cuir_laban' => $nbCuirLaban,
+			'quantite_fourrure_laban' => $nbFourrureLaban,
+			'quantite_planche_laban' => $nbPlancheLaban,
 		);
 		$labanTable->insertOrUpdate($data);
 		
-		$this->view->nbCuir = $nbCuir;
-		$this->view->nbFourrure = $nbFourrure;
-		$this->view->nbPlanche = $nbPlanche;
-		$this->view->minerai = $tabMinerai;
+		// on depose le trop plein à terre
+		$elementTable = new Element();
+		$data = array(
+			"quantite_cuir_element" => $nbCuirTerre,
+			"quantite_fourrure_element" => $nbFourrureTerre,
+			"quantite_planche_element" => $nbPlancheTerre,
+			"x_element" => $this->view->user->x_hobbit,
+			"y_element" => $this->view->user->y_hobbit,
+		);
+		$elementTable->insertOrUpdate($data);
+		
+		$recetteCoutMineraiTable = new RecetteCoutMinerai();
+		$recetteCoutMinerai = $recetteCoutMineraiTable->findByIdTypeEquipementAndNiveau($idTypeEquipement, $nivEquipement);
+		if (count ($recetteCoutMinerai) > 0) {
+			Zend_Loader::loadClass("LabanMinerai");
+			Zend_Loader::loadClass("ElementMinerai");
+			
+			$labanMineraiTable = new LabanMinerai();
+			foreach($recetteCoutMinerai as $r){
+				$nbMinerai = floor($r["quantite_recette_cout_minerai"]*$perte);
+				
+				$nbMineraiLaban = $this->calculNbPoidsPossible($nbMinerai, Bral_Util_Poids::POIDS_LINGOT);
+				$nbMineraiTerre = $nbMinerai - $nbMineraiLaban;
+				
+				if ($nbMineraiLaban > 0) {
+					// on ajoute dans le laban
+					$tabMineraiLaban[] = array (
+						"nom" => $r["nom_type_minerai"],
+						"quantite" => $nbMineraiLaban,
+					);
+					
+					$data = array(
+						'id_fk_type_laban_minerai' => $r["id_type_minerai"],
+						'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
+						'quantite_lingots_laban_minerai' => $nbMineraiLaban,
+					);
+					$labanMineraiTable->insertOrUpdate($data);
+				}
+				
+				if ($nbMineraiTerre > 0) {
+					// on depose le trop plein à terre	
+					$tabMineraiTerre[] = array (
+						"nom" => $r["nom_type_minerai"],
+						"quantite" => $nbMineraiTerre,
+					);
+					
+					$elementMineraiTable = new ElementMinerai();
+					$data = array (
+						"x_element_minerai" => $this->view->user->x_hobbit,
+						"y_element_minerai" => $this->view->user->y_hobbit,
+						"id_fk_type_element_minerai" => $r["id_type_minerai"],
+						"quantite_lingots_element_minerai" => $nbMineraiTerre,
+					);
+					$elementMineraiTable->insertOrUpdate($data);
+				}
+			}
+		}
+		
+		$this->view->nbCuirLaban = $nbCuirLaban;
+		$this->view->nbFourrureLaban = $nbFourrureLaban;
+		$this->view->nbPlancheLaban = $nbPlancheLaban;
+		$this->view->mineraiLaban = $tabMineraiLaban;
+		$this->view->nbCuirTerre = $nbCuirTerre;
+		$this->view->nbFourrureTerre = $nbFourrureTerre;
+		$this->view->nbPlancheTerre = $nbPlancheTerre;
+		$this->view->mineraiTerre = $tabMineraiTerre;
 		
 	}
 	
+	private function calculNbPoidsPossible($quantite, $poidsType) {
+		if ($quantite < 0) $quantite = 0;
+		if ($this->poidsRestant < 0) $this->poidsRestant = 0;
+		$quantitePossible = floor($this->poidsRestant / $poidsType);
+		if ($quantite > $quantitePossible) $quantite = $quantitePossible;
+		$this->poidsRestant = $this->poidsRestant - ($poidsType * $quantite);
+		return $quantite;
+	}
+	
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_communes", "box_laban"));
+		return $this->constructListBoxRefresh(array("box_competences_communes", "box_laban", "box_vue"));
 	}
 }
