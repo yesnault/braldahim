@@ -3,7 +3,7 @@
  
  <? if ($this->poidsPlaceDisponible !== true) : ?>
 	Vous n'avez pas assez de place dans votre laban ! <br>
- <? elseif ($this->depiauterOk === true) : ?>
+ <? else : ?>
 	<? if ($this->nCadavres == 0): ?>
  		Il n'y a pas de monstre &agrave; d&eacute;piauter ici...
  	<? else: ?>
@@ -16,8 +16,6 @@
 		<? endforeach; ?>
 		</select><br />
  	<? endif; ?>
- <? else: ?>
- 	Vous ne pouvez rien d&eacute;piauter ici...
  <? endif; ?>
 </div>
 
