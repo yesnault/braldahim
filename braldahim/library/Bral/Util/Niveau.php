@@ -49,6 +49,7 @@ class Bral_Util_Niveau {
 	private static function calculTitre(&$hobbit) {
 		Zend_Loader::loadClass("TypeTitre");
 		Zend_Loader::loadClass("HobbitsTitres");
+		Zend_Loader::loadClass("Bral_Util_Titre");
 		
 		$idTitre = Bral_Util_De::get_1d4();
 		
@@ -70,5 +71,7 @@ class Bral_Util_Niveau {
 		} else {
 			$hobbit->titre_courant_hobbit = $typeTitreRowset->nom_masculin_type_titre;
 		}
+		
+		Bral_Util_Titre::calculBMTitres(&$hobbit);
 	}
 }

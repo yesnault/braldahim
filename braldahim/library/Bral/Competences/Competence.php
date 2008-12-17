@@ -351,27 +351,6 @@ abstract class Bral_Competences_Competence {
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
 		}
 	}
-
-	/**
-	 * Le niveau suivant est calculé à partir d'un certain nombre de px perso
-	 * qui doit être >= à :
-	 * NiveauSuivantPX = NiveauSuivant x 5
-	 */
-	private function calculNiveau() {
-		$niveauSuivantPx = ($this->view->user->niveau_hobbit + 1) * 5;
-		if ($this->view->user->px_perso_hobbit >= $niveauSuivantPx) {
-			$this->view->user->px_perso_hobbit = $this->view->user->px_perso_hobbit - $niveauSuivantPx;
-			$this->view->user->niveau_hobbit = $this->view->user->niveau_hobbit + 1;
-			$this->view->user->pi_cumul_hobbit = $this->view->user->pi_cumul_hobbit + $niveauSuivantPx;
-			$this->view->user->pi_hobbit = $this->view->user->pi_hobbit + $niveauSuivantPx;
-			$this->view->changeNiveau = true;
-		}
-
-		$niveauSuivantPx = ($this->view->user->niveau_hobbit + 1) * 5;
-		if ($this->view->user->px_perso_hobbit >= $niveauSuivantPx) {
-			$this->calculNiveau();
-		}
-	}
 	
 	protected function attaqueHobbit(&$hobbitAttaquant, $idHobbitCible, $effetMotSPossible = true) {
 		Zend_Loader::loadClass("Bral_Util_Attaque");
