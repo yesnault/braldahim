@@ -10,7 +10,7 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Batchs_BoutiqueTabac extends Bral_Batchs_Boutique {
+class Bral_Batchs_BoutiqueTabac extends Bral_Batchs_Batch {
 	
 	public function calculBatchImpl() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiqueTabac - calculBatchImpl - enter -");
@@ -35,12 +35,8 @@ class Bral_Batchs_BoutiqueTabac extends Bral_Batchs_Boutique {
 		$typeTabacRowset = $typeTabacRowset->toArray();
 		$regionRowset = $regionTable->fetchall();
 		
-		$this->initDate();
-		
 		foreach($regionRowset as $r) {
 			foreach($typeTabacRowset as $t) {
-				$this->calculMoyennes();
-				$this->calculRatios();
 				$this->calculStock($r->id_region, $t["id_type_tabac"]);
 			}
 		}
@@ -49,28 +45,20 @@ class Bral_Batchs_BoutiqueTabac extends Bral_Batchs_Boutique {
 		return "Stock Tabac cree pour le ".$mDate;
 	}
 	
-	public function calculAchatVente($idRegion, $idTypeTabac) {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiqueTabac - calculAchatVente - enter - region:".$idRegion." idTabac:".$idTypeTabac);
-		$boutiqueTabacTable = new BoutiqueTabac();
-		$this->nombreReprise = $boutiqueTabacTable->countRepriseByDateAndRegion($this->dateDebut, $this->dateFin, $idRegion, $idTypeTabac);
-		$this->nombreReprisePrecedent = $boutiqueTabacTable->countRepriseByDateAndRegion($this->dateDebutPrecedent, $this->dateFinPrecedent, $idRegion, $idTypeTabac);
-		$this->nombreVente = $boutiqueTabacTable->countVenteByDateAndRegion($this->dateDebut, $this->dateFin, $idRegion, $idTypeTabac);
-		$this->nombreVentePrecedent = $boutiqueTabacTable->countVenteByDateAndRegion($this->dateDebutPrecedent, $this->dateFinPrecedent, $idRegion, $idTypeTabac);
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiqueTabac - calculAchatVente - exit -");
-	}
-	
-	
 	public function calculStock($idRegion, $idTypeTabac) {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiqueTabac - calculStock - ratio:".$this->ratio. " ratioPrecedent:".$this->ratioPrecedent);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiqueTabac - calculStock");
 		
 		$stockTabacTable = new StockTabac();
 		$stockTabacRowset = $stockTabacTable->findDernierStockByIdRegion($idRegion, $idTypeTabac);
 		
+		//30 castars la feuille -/+ 30%
+		$prix = 30 + Bral_Util_De::get_1d30();
+		
 		foreach($stockTabacRowset as $s) {
 			$nbInitial = $s["nb_feuille_initial_stock_tabac"];
 			$tabPrix["prixReprise"] = $s["prix_unitaire_reprise_stock_tabac"];
-			$tabPrix["prixVente"] = $s["prix_unitaire_vente_stock_tabac"];
-			$tabPrix = $this->calculPrix($tabPrix);
+			//$tabPrix["prixVente"] = $s["prix_unitaire_vente_stock_tabac"];
+			$tabPrix["prixVente"] = $prix;
 			$this->updateStockBase($idRegion, $idTypeTabac, $nbInitial, $tabPrix);
 		}
 	}
