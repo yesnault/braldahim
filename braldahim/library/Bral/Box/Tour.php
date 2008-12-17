@@ -201,6 +201,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 				Bral_Util_Log::tour()->trace(get_class($this)." activer - effetMotE Actif - effetMotE=".$effetMotE);
 				$this->view->effetMotE = true;
 				$this->hobbit->pv_max_bm_hobbit = - ($effetMotE * 3);
+				
+				if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit) {
+					$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit + $this->vhobbit->pv_max_bm_hobbit;
+				}
 			}
 			
 			$this->calculPv();
@@ -340,16 +344,6 @@ class Bral_Box_Tour extends Bral_Box_Box {
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotB actif - avant : this->hobbit->sagesse_bm_hobbit".$this->hobbit->sagesse_bm_hobbit);
 					$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + (2 * $e["niveau_recette_equipement"]);
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotB actif - apres : this->hobbit->sagesse_bm_hobbit".$this->hobbit->sagesse_bm_hobbit. " ajout de :".(2 * $e["niveau_recette_equipement"]));
-				}
-				
-				if ($e["nom_systeme_mot_runique"] == "mot_e") {
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotE actif - avant : this->hobbit->pv_max_bm_hobbit".$this->hobbit->pv_max_bm_hobbit);
-					$this->hobbit->pv_max_bm_hobbit = $this->hobbit->pv_max_bm_hobbit - ($e["niveau_recette_equipement"] * 3);
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotB actif - apres : this->hobbit->pv_max_bm_hobbit".$this->hobbit->pv_max_bm_hobbit. " suppresion  de :".(3 * $e["niveau_recette_equipement"]));
-				
-					if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit) {
-						$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit;
-					}
 				}
 				
 				if ($e["nom_systeme_mot_runique"] == "mot_k") {
@@ -552,16 +546,16 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			
 			$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_restant_hobbit + $this->view->jetRegeneration;
 			Bral_Util_Log::tour()->trace(get_class($this)." activer - jet Regeneration=".$this->view->jetRegeneration);
-			if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit) {
-				$this->view->jetRegeneration = $this->hobbit->pv_max_hobbit - $this->hobbit->pv_restant_hobbit;
-				$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit;
+			if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit) {
+				$this->view->jetRegeneration = ($this->hobbit->pv_max_hobbit  + $this->hobbit->pv_max_bm_hobbit)- $this->hobbit->pv_restant_hobbit;
+				$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit;
 			}
 			Bral_Util_Log::tour()->trace(get_class($this)." activer - jet Regeneration ajuste=".$this->view->jetRegeneration);
 			Bral_Util_Log::tour()->trace(get_class($this)." activer - pv_restant_hobbit=".$this->hobbit->pv_restant_hobbit);
 		}
 		
-		if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit) {
-			$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit;
+		if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_hobbit ) {
+			$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_hobbit;
 		}
 		
 		/* Remise à zéro du malus de regénération. */
