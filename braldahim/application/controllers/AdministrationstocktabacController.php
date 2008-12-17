@@ -161,7 +161,7 @@ class AdministrationstocktabacController extends Zend_Controller_Action {
 					"nom" => $t["nom_type_tabac"],
 					"id_form" => $idForm,
 					"nb_feuille" => 10000,
-					"prix_unitaire_vente" => 10,
+					"prix_unitaire_vente" => 30,
 					"prix_unitaire_reprise" => 10000,
 				);
 			}
