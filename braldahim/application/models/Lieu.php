@@ -68,7 +68,7 @@ class Lieu extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('lieu', '*')
 		->from('type_lieu', '*')
-		->where('id_lieu <= ?',$id)
+		->where('id_lieu = ?',$id)
 		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu');
 		$sql = $select->__toString();
 

@@ -68,6 +68,9 @@ class Bral_Box_Factory {
 			case "box_metier" :
 				return self::getMetier($request, $view, $interne);
 				break;
+			case "box_btabac" :
+				return self::getBtabac($request, $view, $interne);
+				break;
 			case "box_titres" :
 				return self::getTitres($request, $view, $interne);
 				break;
@@ -89,6 +92,12 @@ class Bral_Box_Factory {
 		Zend_Loader::loadClass("Bral_Box_Boutique");
 		Zend_Loader::loadClass("Bral_Box_Bminerais");
 		return new Bral_Box_Bminerais($request, $view, $interne);
+	}
+	
+	static function getBtabac($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Boutique");
+		Zend_Loader::loadClass("Bral_Box_Btabac");
+		return new Bral_Box_Btabac($request, $view, $interne);
 	}
 	
 	static function getBpartieplantes($request, $view, $interne) {

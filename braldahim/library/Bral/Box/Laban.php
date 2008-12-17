@@ -29,12 +29,22 @@ class Bral_Box_Laban extends Bral_Box_Box {
 	}
 
 	function render() {
+		if ($this->view->affichageInterne) {
+			$this->data();
+		}
+		$this->view->nom_interne = $this->getNomInterne();
+		return $this->view->render("interface/laban.phtml");
+	}
+	
+	function data() {
+		
 		Zend_Loader::loadClass("Laban");
 		Zend_Loader::loadClass("LabanEquipement");
 		Zend_Loader::loadClass("LabanMinerai");
 		Zend_Loader::loadClass("LabanPartieplante");
 		Zend_Loader::loadClass("LabanPotion");
 		Zend_Loader::loadClass("LabanRune");
+		Zend_Loader::loadClass("LabanTabac");
 		Zend_Loader::loadClass("HobbitsMetiers");
 		Zend_Loader::loadClass("Metier");
 		Zend_Loader::loadClass("TypePlante");
@@ -198,6 +208,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		$this->view->tabMetiers = $tabMetiers;
 		$this->renderEquipement();
 		$this->renderPotion();
+		$this->renderTabac();
 		
 		$this->view->estEquipementsPotionsEtal = false;
 		$this->view->estEquipementsPotionsEtalAchat = false;
@@ -210,8 +221,24 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		unset($tabLingots);
 		unset($tabRunesIdentifiees);
 		unset($tabRunesNonIdentifiees);
-		
-		return $this->view->render("interface/laban.phtml");
+	}
+	
+	private function renderTabac() {
+		$tabTabac = null;
+		$labanTabacTable = new LabanTabac();
+		$tabacs = $labanTabacTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($labanTabacTable);
+	
+		foreach ($tabacs as $m) {
+			if ($m["quantite_feuille_laban_tabac"] > 0) {
+				$tabTabac[] = array(
+					"type" => $m["nom_type_tabac"],
+					"quantite" => $m["quantite_feuille_laban_tabac"],
+				);
+			}
+		}
+		unset($tabacs);
+		$this->view->tabac = $tabTabac;
 	}
 	
 	private function renderPlante(&$tabMetiers) {

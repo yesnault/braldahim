@@ -86,6 +86,17 @@ Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez o
 				</li>
 			</ul>
 		</li>
+		<li id="pocheTabac">
+			<? $poches[] = "pocheTabac-head" ?>
+      		<h3 id="pocheTabac-head" class="head" onClick="maccordion(this);" />
+				Poche pour les feuilles de tabac
+			</h3>
+			<ul id="pocheTabac-body" style="display:none">
+				<li>
+					<? include("poche_tabac.phtml") ?>
+				</li>
+			</ul>
+		</li>
 	</ul>
    <? 
    $jsFermer = "";

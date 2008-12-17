@@ -35,4 +35,14 @@ class Bral_Helper_Contenu {
 		}
 		return $retour;
 	}
+	
+	public static function afficheTabac($tab) {
+		$retour = "";
+		if (array_key_exists("quantite", $tab)) {
+ 			$retour .= $tab["quantite"];
+		} else {
+			$retour .= Bral_Helper_ChampBoutique::afficheChampTabac($tab);
+		}
+		return $retour;
+	}
 }
