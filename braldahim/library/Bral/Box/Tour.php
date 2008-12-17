@@ -15,6 +15,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Util_Log");
 		Zend_Loader::loadClass("Bral_Util_Titre");
+		Zend_Loader::loadClass("Bral_Util_Vie");
+		
 		$this->_request = $request;
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;
@@ -534,29 +536,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		
 		$this->view->jetRegeneration = 0;
 		
-		if ($this->hobbit->pv_restant_hobbit < $this->hobbit->pv_max_hobbit) {
-			for ($i=1; $i <= $this->hobbit->regeneration_hobbit; $i++) {
-				$this->view->jetRegeneration = $this->view->jetRegeneration + Bral_Util_De::get_1d6();
-			}
-
-			$this->view->jetRegeneration = $this->view->jetRegeneration - $this->hobbit->regeneration_malus_hobbit;
-			if ($this->view->jetRegeneration < 0) { // pas de regénération négative (même si le malus est important)
-				$this->view->jetRegeneration = 0;
-			}
-			
-			$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_restant_hobbit + $this->view->jetRegeneration;
-			Bral_Util_Log::tour()->trace(get_class($this)." activer - jet Regeneration=".$this->view->jetRegeneration);
-			if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit) {
-				$this->view->jetRegeneration = ($this->hobbit->pv_max_hobbit  + $this->hobbit->pv_max_bm_hobbit)- $this->hobbit->pv_restant_hobbit;
-				$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit;
-			}
-			Bral_Util_Log::tour()->trace(get_class($this)." activer - jet Regeneration ajuste=".$this->view->jetRegeneration);
-			Bral_Util_Log::tour()->trace(get_class($this)." activer - pv_restant_hobbit=".$this->hobbit->pv_restant_hobbit);
-		}
-		
-		if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_hobbit ) {
-			$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_hobbit;
-		}
+		Bral_Util_Vie::calculRegenerationHobbit(&$this->hobbit, $this->view->jetRegeneration);
 		
 		/* Remise à zéro du malus de regénération. */
 		$this->hobbit->regeneration_malus_hobbit = 0;

@@ -1,0 +1,27 @@
+<div class='comp_titre'>Ceache Hu</div>
+ <form name='myForm' id='myForm'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
+ <div class='comp_contenu'>
+ 	<br />
+ 	Pour <?=$this->coutCastars?> castars et <?=$this->paUtilisationLieu ?> PA, 
+ 	le docteur peut vous activer votre reg&eacute;n&eacute;ration.<br>
+   	
+   	Vous avez <?=$this->user->castars_hobbit ?> castar<? if ($this->user->castars_hobbit > 1): echo "s"; endif; ?><br>
+   		
+	<? if ($this->utilisationPossible === false): ?>
+   		Vous n'avez pas assez de castars <br />
+   	<? elseif ($this->utilisationPaPossible === false) :?>
+   		Vous n'avez pas assez de PA <br />
+   	<? elseif ($this->recupPossible) :?>
+   		<br><br>
+    <? else: ?>
+    	Vous &eacute;tes d&eacute;j&agrave; en pleine forme <br>
+   	<? endif; ?>
+ </div> 
+</form>
+<br /> 
+
+<? if ($this->utilisationPossible === true && $this->utilisationPaPossible === true && $this->recupPossible): ?>
+<input type='button' class='button1' id="bouton_ceachehu" value='Se faire soigner !' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_ceachehu');">
+<? endif; ?>
+<? echo Bral_Helper_Fermer::affiche(); ?>
