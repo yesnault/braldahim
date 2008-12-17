@@ -342,6 +342,16 @@ class Bral_Box_Tour extends Bral_Box_Box {
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotB actif - apres : this->hobbit->sagesse_bm_hobbit".$this->hobbit->sagesse_bm_hobbit. " ajout de :".(2 * $e["niveau_recette_equipement"]));
 				}
 				
+				if ($e["nom_systeme_mot_runique"] == "mot_e") {
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotE actif - avant : this->hobbit->pv_max_bm_hobbit".$this->hobbit->pv_max_bm_hobbit);
+					$this->hobbit->pv_max_bm_hobbit = $this->hobbit->pv_max_bm_hobbit - ($e["niveau_recette_equipement"] * 3);
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotB actif - apres : this->hobbit->pv_max_bm_hobbit".$this->hobbit->pv_max_bm_hobbit. " suppresion  de :".(3 * $e["niveau_recette_equipement"]));
+				
+					if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit) {
+						$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit;
+					}
+				}
+				
 				if ($e["nom_systeme_mot_runique"] == "mot_k") {
 					$this->view->effetMotK = true;
 					if ($e["bm_attaque_recette_equipement"] > 0) { // positif
