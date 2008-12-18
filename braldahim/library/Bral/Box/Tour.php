@@ -212,6 +212,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->calculPv();
 			
 			Bral_Util_Faim::calculBalanceFaim($this->hobbit);
+			Bral_Util_Tour::updateTourTabac($this->hobbit);
 		}
 
 		if ($this->is_update_tour) {

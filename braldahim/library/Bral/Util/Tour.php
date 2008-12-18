@@ -28,4 +28,24 @@ class Bral_Util_Tour {
 		$retour["heureMinuteTotal"] = Bral_Util_ConvertDate::getHeureFromMinute($retour["minutesBase"] + $retour["minutesBlessures"]);
 		return $retour;
 	}
+	
+	public static function updateTourTabac($hobbit) {
+		Zend_Loader::loadClass("HobbitsCompetences");
+		
+		$hobbitsCompetencesTables = new HobbitsCompetences();
+		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($hobbit->id_hobbit);
+			
+		foreach($hobbitCompetences as $c) {
+			if ($c["nb_tour_restant_tabac_hcomp"] > 0) {
+				
+				$nb = $c["nb_tour_restant_tabac_hcomp"] - 1;
+				if ($nb < 0) {
+					$nb = 0;
+				}
+				$data = array('nb_tour_restant_tabac_hcomp' => $nb);
+				$where = "id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]. " AND id_fk_hobbit_hcomp=".$hobbit->id_hobbit;
+				$hobbitsCompetencesTables->update($data, $where);
+			}
+		}
+	}
 }

@@ -32,6 +32,10 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			$this->view->cuisinerNbViandeOk = true;
 		}
 		
+		if ($this->view->nbViandePreparee > $tabLaban["nb_viande_preparee"]) {
+			$this->view->nbViandePreparee = $tabLaban["nb_viande_preparee"];
+		}
+		
 	}
 
 	function prepareFormulaire() {
