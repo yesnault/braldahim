@@ -59,14 +59,17 @@ class Bral_Util_Evenement {
 		self::envoiMail($idHobbitConcerne, $detailsBot, $view);
 	}
 	
-	private static function envoiMail($idConcerne, $detailsBot, $view) {
+	private static function envoiMail($idHobbitConcerne, $detailsBot, $view) {
 		Zend_Loader::loadClass('Bral_Util_Mail');
 		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->findById($idConcerne);
-		$hobbit = $hobbitRowset->toArray();
-		$c = Zend_Registry::get('config');
-		if ($hobbit["envoi_mail_evenement_hobbit"] == "oui") {
-			Bral_Util_Mail::envoiMailAutomatique($hobbit, $c->mail->evenement->titre, $detailsBot, $view);
+		$hobbitRowset = $hobbitTable->findById($idHobbitConcerne);
+		
+		if ($hobbitRowset != null) {
+			$hobbit = $hobbitRowset->toArray();
+			$c = Zend_Registry::get('config');
+			if ($hobbit["envoi_mail_evenement_hobbit"] == "oui") {
+				Bral_Util_Mail::envoiMailAutomatique($hobbit, $c->mail->evenement->titre, $detailsBot, $view);
+			}
 		}
 	}
 }
