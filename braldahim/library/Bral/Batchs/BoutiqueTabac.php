@@ -51,10 +51,14 @@ class Bral_Batchs_BoutiqueTabac extends Bral_Batchs_Batch {
 		$stockTabacTable = new StockTabac();
 		$stockTabacRowset = $stockTabacTable->findDernierStockByIdRegion($idRegion, $idTypeTabac);
 		
-		//30 castars la feuille -/+ 30%
-		$prix = 30 + Bral_Util_De::get_1d30();
-		
 		foreach($stockTabacRowset as $s) {
+			//30 castars la feuille -/+ 30%
+			if (Bral_Util_De::get_1d2() == 1) {
+				$prix = 30 + Bral_Util_De::get_1d30();
+			} else {
+				$prix = 30 - Bral_Util_De::get_1d30();
+			}
+		
 			$nbInitial = $s["nb_feuille_initial_stock_tabac"];
 			$tabPrix["prixReprise"] = $s["prix_unitaire_reprise_stock_tabac"];
 			//$tabPrix["prixVente"] = $s["prix_unitaire_vente_stock_tabac"];
