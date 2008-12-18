@@ -41,6 +41,7 @@ class Bral_Voir_Hobbit {
 		$tabMetier["tabMetierCourant"] = null;
 		$tabMetier["tabMetiers"] = null;
 		$tabMetier["possedeMetier"] = false;
+		$tabTitre["tabTitres"] = null;
 		
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->findById(Bral_Util_Controle::getValeurIntVerif($this->_request->get("hobbit")));

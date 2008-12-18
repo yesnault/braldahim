@@ -1,0 +1,25 @@
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ <div class='comp_contenu'>
+	 <? if ($this->fumerNbFeuilleOk === true) : ?>
+	 	Pour <?=$this->nb_pa ?> PA, vous pouvez fumer...
+	 	<br><br>
+	 	
+		<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_fumer').disabled=true } else {$('bouton_fumer').disabled=false }">
+			<option value='-1'>(Choisis un type de feuille)</option>
+			<? foreach ($this->tabLabanTabac as $t) :?>
+			<? $s = ''; if ($t["quantite_feuille_laban_tabac"] > 1): $s='s'; endif; ?>
+			<option value="<?=$t["id_fk_type_laban_tabac"]?>"><?=$t["nom_type_tabac"]?> : <?=$t["quantite_feuille_laban_tabac"]?> feuille<?=$s?> restante<?=$s?></option>
+			<? endforeach; ?>
+		</select><br /><br />
+				
+	 <? else: ?>
+		 <? if ($this->fumerNbFeuilleOk != true) :?>
+		 	Vous n'avez pas assez de feuille pour fumer<br />
+		 <? endif; ?>
+	 <? endif; ?>
+</div>
+
+<br />
+<?php if ($this->assezDePa == true && $this->fumerNbFeuilleOk === true) : ?>
+<input type='button' class='button1' id='bouton_fumer' value='Fumer !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_fumer");' disabled>
+<? endif ?>

@@ -1,0 +1,18 @@
+<? include("commun_text_resultat.phtml") ?>
+
+Vous avez fum&eacute; <?=$this->tabac["nom_type_tabac"] ?>.<br /> 
+
+	<? if ($this->nbTours > 1) :?>
+		Pour le tour courant, 
+	<? else: ?>
+		Pour ce tour et le prochain, 
+	<? endif; ?>
+	
+	cela rajoute 15% dans les comp&eacute;tences suivantes : <br>
+	
+	<? foreach($this->competences as $c): ?>
+		<?=$c["nom_competence"]?><br>
+	<? endforeach;?>
+
+<br />
+<br />
