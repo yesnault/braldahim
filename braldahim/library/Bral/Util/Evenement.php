@@ -70,6 +70,8 @@ class Bral_Util_Evenement {
 			if ($hobbit["envoi_mail_evenement_hobbit"] == "oui") {
 				Bral_Util_Mail::envoiMailAutomatique($hobbit, $c->mail->evenement->titre, $detailsBot, $view);
 			}
+		} else {
+			throw new Zend_Exception('Bral_Util_Evenement::envoiMail id Hobbit inconnu:'.$idHobbitConcerne);
 		}
 	}
 }
