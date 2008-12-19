@@ -10,7 +10,7 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Lieux_Behennepee extends Bral_Lieux_Lieu {
+class Bral_Lieux_Banque extends Bral_Lieux_Lieu {
 
 	function prepareCommun() {
 		Zend_Loader :: loadClass('Lieu');

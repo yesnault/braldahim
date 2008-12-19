@@ -14,6 +14,9 @@ class Bral_Box_Factory {
 
 	public static function getBox($nom, $request, $view, $interne) {
 		switch($nom) {
+			case "box_banque" :
+				return self::getBanque($request, $view, $interne);
+				break;
 			case "box_bbois" :
 				return self::getBbois($request, $view, $interne);
 				break;
@@ -82,6 +85,11 @@ class Bral_Box_Factory {
 		}
 	}
 
+	static function getBanque($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Banque");
+		return new Bral_Box_Banque($request, $view, $interne);
+	}
+	
 	static function getBbois($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Boutique");
 		Zend_Loader::loadClass("Bral_Box_Bbois");
