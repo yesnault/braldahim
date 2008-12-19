@@ -25,7 +25,7 @@
 </form>
 <br /> 
 
-<? if ($this->utilisationPossible === true && $this->utilisationPaPossible === true): ?>
+<? if ($this->utilisationPossible === true && $this->utilisationPaPossible === true && $this->nbPossible > 0): ?>
 <input type='button' class='button1' id="bouton_auberge" value='Se restaurer !' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_auberge');"  <? if ($this->utilisationPossible == false) echo "disabled"?>>
 <? endif; ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>
