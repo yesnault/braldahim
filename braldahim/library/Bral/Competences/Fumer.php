@@ -98,6 +98,10 @@ class Bral_Competences_Fumer extends Bral_Competences_Competence {
 				$where = "id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]. " AND id_fk_hobbit_hcomp=".$this->view->user->id_hobbit;
 				$hobbitsCompetencesTables->update($data, $where);
 				$tabCompetences[] = $c;
+			} else {
+				$data = array('nb_tour_restant_tabac_hcomp' => 0);
+				$where = "id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]. " AND id_fk_hobbit_hcomp=".$this->view->user->id_hobbit;
+				$hobbitsCompetencesTables->update($data, $where);
 			}
 		}
 		if ($tabCompetences == null) {
