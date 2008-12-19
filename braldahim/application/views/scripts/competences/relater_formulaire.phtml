@@ -10,7 +10,7 @@
  	
 	<br />
 	<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="80" type="text"> Caract&egrave;res restants<br>
-	<input type="text" name="valeur_1" id="valeur_1" class="inputbox" onkeydown="textCount($('valeur_1'),$('characterstyped'),80);" onkeyup="textCount($('valeur_1'),$('characterstyped'),80); if (this.value != '') {$('bouton_relater').disabled=false;$('bouton_relater_verif').disabled=false; } else {$('bouton_relater').disabled=true;$('bouton_relater_verif').disabled=true; }"  maxlength="80" size="40" value="<?=$this->texte_original?>"/>
+	<input type="text" name="valeur_1" id="valeur_1" class="inputbox" onkeydown="textCount($('valeur_1'),$('characterstyped'),80);" onkeyup="textCount($('valeur_1'),$('characterstyped'),80); if (this.value != '') {$('bouton_relater').disabled=false;$('bouton_relater_verif').disabled=false; } else {$('bouton_relater').disabled=true;$('bouton_relater_verif').disabled=true; }"  maxlength="80" size="40" value="<?=htmlspecialchars($this->texte_original)?>"/>
 	
 	<? if ($this->texte != null) : ?>
 		<br>
