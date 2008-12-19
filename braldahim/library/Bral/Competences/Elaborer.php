@@ -281,7 +281,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$this->view->nb_px_commun = 0;
 		$this->view->calcul_px_generique = true;
 		if ($this->view->okJet1 === true) {
-			$this->view->nb_px_perso = (($this->view->niveau +1)/(floor($this->view->user->niveau_hobbit/10) + 1) + 1 + ($this->view->niveauQualite - 1) )*10;
+			$this->view->nb_px_perso = floor((($this->view->niveau +1)/(floor($this->view->user->niveau_hobbit/10) + 1) + 1 + ($this->view->niveauQualite - 1) )*10);
 		} else {
 			$this->view->nb_px_perso = 0;
 		}
