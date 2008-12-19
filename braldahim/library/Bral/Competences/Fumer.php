@@ -107,6 +107,6 @@ class Bral_Competences_Fumer extends Bral_Competences_Competence {
 	}
 	
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_laban"));
+		return $this->constructListBoxRefresh(array("box_laban", "box_competences_communes", "box_competences_basiques", "box_competences_metiers"));
 	}
 }
