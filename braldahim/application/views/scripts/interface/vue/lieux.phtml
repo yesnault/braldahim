@@ -3,7 +3,7 @@
       <?php 
       $textLieu = "";
       foreach($case["lieux"] as $l) {
-      	$textLieu .= htmlspecialchars($l["nom_lieu"]) ." : ".htmlspecialchars($l["nom_type_lieu"]);
+      	$textLieu .= addslashes(htmlspecialchars($l["nom_lieu"])) ." : ".addslashes(htmlspecialchars($l["nom_type_lieu"]));
 	}
 	 
 	$titre = "Position X:".$case["x"]." Y:".$case["y"]." Lieux.";
