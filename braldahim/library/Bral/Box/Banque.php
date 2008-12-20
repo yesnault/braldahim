@@ -225,6 +225,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		$this->view->runesIdentifiees = $tabRunesIdentifiees;
 		$this->view->runesNonIdentifiees = $tabRunesNonIdentifiees;
 		$this->view->coffre = $tabCoffre;
+		$this->view->laban = $tabCoffre; // pour les poches
 		
 		$this->renderPlante($tabMetiers);
 		$this->view->tabMetiers = $tabMetiers;
