@@ -1,4 +1,4 @@
-<div class='comp_titre'>Eujime Nasiumme</div>
+<div class='comp_titre'>Acad&eacute;mie</div>
  <form name='myForm' id='myForm'>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
@@ -12,14 +12,14 @@
  <? endif; ?>
  
   <? if ($this->utilisationPaPossible === true && $this->achatPossible === true): ?>
-  Choisissez une caract&eacute;ristique ci-dessous :<input style='display:none' type='radio' name='valeur_1' id='valeur_1' value='-1' onChange="$('bouton_eujimenasiumme').disabled=true;" checked>
+  Choisissez une caract&eacute;ristique ci-dessous :<input style='display:none' type='radio' name='valeur_1' id='valeur_1' value='-1' onChange="$('bouton_academie').disabled=true;" checked>
   <? endif ?>
   
    <ul class="ligne_espace">
    Agilit&eacute; (AGI): <?=$this->coutPIAgilite?> PI et <?=$this->coutCastarsAgilite?> castar<? if ($this->coutCastarsAgilite > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleAgilite === true): ?>
      <? if ($this->coutAgilite <= $this->user->pi_hobbit): ?>
-      <input type="radio" name="valeur_1" id="valeur_1" value="AGI" onChange="$('bouton_eujimenasiumme').disabled=false;">
+      <input type="radio" name="valeur_1" id="valeur_1" value="AGI" onChange="$('bouton_academie').disabled=false;">
      <? else :?>
        Trop cher !
      <? endif;?>
@@ -29,7 +29,7 @@
     Force (FOR) : <?=$this->coutPIForce?> PI et <?=$this->coutCastarsForce?> castar<? if ($this->coutCastarsForce > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleForce === true): ?>
      <? if ($this->coutForce <= $this->user->pi_hobbit): ?>
-     <input type="radio" name="valeur_1" id="valeur_1" value="FOR" onChange="$('bouton_eujimenasiumme').disabled=false;">
+     <input type="radio" name="valeur_1" id="valeur_1" value="FOR" onChange="$('bouton_academie').disabled=false;">
      <? else :?>
        Trop cher !
      <? endif;?>
@@ -39,7 +39,7 @@
 	Vigueur (VIG) : <?=$this->coutPIVigueur?> PI et <?=$this->coutCastarsVigueur?> castar<? if ($this->coutCastarsVigueur > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleVigueur === true): ?>
      <? if ($this->coutVigueur <= $this->user->pi_hobbit): ?>
-     <input type="radio" name="valeur_1" id="valeur_1" value="VIG" onChange="$('bouton_eujimenasiumme').disabled=false;">
+     <input type="radio" name="valeur_1" id="valeur_1" value="VIG" onChange="$('bouton_academie').disabled=false;">
      <? else :?>
        Trop cher !
      <? endif;?>
@@ -49,7 +49,7 @@
     Sagesse (SAG) :  <?=$this->coutPISagesse?> PI et <?=$this->coutCastarsSagesse?> castar<? if ($this->coutCastarsSagesse > 1): echo "s"; endif; ?>
    <? if ($this->utilisationPaPossible === true && $this->achatPossibleSagesse === true): ?>
      <? if ($this->coutSagesse <= $this->user->pi_hobbit): ?>
-     <input type="radio" name="valeur_1" id="valeur_1" value="SAG" onChange="$('bouton_eujimenasiumme').disabled=false;">
+     <input type="radio" name="valeur_1" id="valeur_1" value="SAG" onChange="$('bouton_academie').disabled=false;">
      <? else :?>
        Trop cher !
      <? endif;?>
@@ -58,6 +58,6 @@
 </form>
 
 <? if ($this->utilisationPaPossible === true && ($this->achatPossible === true)): ?>
-<input type='button' class='button1' id="bouton_eujimenasiumme" value="S'am&eacute;liorer !" onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_eujimenasiumme');"  disabled>
+<input type='button' class='button1' id="bouton_academie" value="S'am&eacute;liorer !" onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_academie');"  disabled>
 <? endif; ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

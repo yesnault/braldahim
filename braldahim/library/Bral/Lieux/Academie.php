@@ -10,7 +10,7 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Lieux_Eujimenasiumme extends Bral_Lieux_Lieu {
+class Bral_Lieux_Academie extends Bral_Lieux_Lieu {
 
 	private $_utilisationPossible = false;
 	private $_coutCastars = null;

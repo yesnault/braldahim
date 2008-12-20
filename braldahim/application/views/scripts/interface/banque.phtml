@@ -30,7 +30,7 @@ Votre coffre contient plusieurs tiroirs. Cliquez sur celui ou ceux que vous souh
 	<ul id="navigation" style="width:99%;text-align:left">
 		
 		<li id="tiroirCastars">
-			<? $poches[] = "tiroirCastars-head" ?>
+			<? $tiroirs[] = "tiroirCastars-head" ?>
       		<h3 id="tiroirCastars-head" class="head" onClick="maccordion(this);" />
 				Tiroir pour les castars
 			</h3>
@@ -47,7 +47,7 @@ Votre coffre contient plusieurs tiroirs. Cliquez sur celui ou ceux que vous souh
 			<? foreach ($this->tabHobbitMetiers as $m) : ?>
 				<? if ($m["nom_systeme"] == "bucheron" || $m["nom_systeme"] == "guerrier") { continue; }?>
 				<li id="tiroir<?=$m["nom_systeme"]?>">
-					<? $poches[] = "tiroir".$m["nom_systeme"]."-head" ?>
+					<? $tiroirs[] = "tiroir".$m["nom_systeme"]."-head" ?>
 		      		<h3 id="tiroir<?=$m["nom_systeme"]?>-head" class="head" onClick="maccordion(this);" />
 						Tiroir <?=$m["nom"]?>
 					</h3>
@@ -65,7 +65,7 @@ Votre coffre contient plusieurs tiroirs. Cliquez sur celui ou ceux que vous souh
 				<? if ($m["a_afficher"] == true) : ?>
 					<? if ($m["nom_systeme"] == "bucheron" || $m["nom_systeme"] == "guerrier") { continue; }?>
 					<li id="tiroir<?=$m["nom_systeme"]?>">
-						<? $poches[] = "tiroir".$m["nom_systeme"]."-head" ?>
+						<? $tiroirs[] = "tiroir".$m["nom_systeme"]."-head" ?>
 			      		<h3 id="tiroir<?=$m["nom_systeme"]?>-head" class="head" onClick="maccordion(this);" />
 							Tiroir mat&eacute;riaux 
 							<? if ($m["nom_systeme"] == "mineur" || $m["nom_systeme"] == "chasseur" || $m["nom_systeme"] == "herboriste") : ?>
@@ -86,7 +86,7 @@ Votre coffre contient plusieurs tiroirs. Cliquez sur celui ou ceux que vous souh
 		<? endif; ?>
 		
 		<li id="tiroirRune">
-			<? $poches[] = "pocheRune-head" ?>
+			<? $tiroirs[] = "tiroirRune-head" ?>
       		<h3 id="tiroirRune-head" class="head" onClick="maccordion(this);" />
 				Tiroir pour les runes
 			</h3>
@@ -97,7 +97,7 @@ Votre coffre contient plusieurs tiroirs. Cliquez sur celui ou ceux que vous souh
 			</ul>
 		</li>
 		<li id="tiroirEquipement">
-			<? $poches[] = "pocheEquipement-head" ?>
+			<? $tiroirs[] = "tiroirEquipement-head" ?>
       		<h3 id="tiroirEquipement-head" class="head" onClick="maccordion(this);" />
 				Tiroir pour les pi&egrave;ces d'&eacute;quipements
 			</h3>
@@ -108,7 +108,7 @@ Votre coffre contient plusieurs tiroirs. Cliquez sur celui ou ceux que vous souh
 			</ul>
 		</li>
 		<li id="tiroirPotion">
-			<? $poches[] = "pochePotion-head" ?>
+			<? $tiroirs[] = "tiroirPotion-head" ?>
       		<h3 id="tiroirPotion-head" class="head" onClick="maccordion(this);" />
 				Tiroir pour les potions
 			</h3>
@@ -122,7 +122,7 @@ Votre coffre contient plusieurs tiroirs. Cliquez sur celui ou ceux que vous souh
    <? 
    $jsFermer = "";
    $jsOuvrir = "";
-   foreach ($poches as $p) :
+   foreach ($tiroirs as $p) :
    	$jsFermer .= "maccordion_fermer($('$p'));";
     $jsOuvrir .= "maccordion_ouvrir($('$p'));";
    endforeach; ?>

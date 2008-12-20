@@ -1,10 +1,11 @@
-Il y a <?=$this->castars ?> castar<? if ($this->castars > 1): echo "s"; endif; ?> sur la case.
+<? $s=""; if ($this->castars > 1): $s="s"; endif; ?>
+Il y a <?=$this->castars ?> castar<?=$s?> disponible<?=$s?>.
 
 <? if ($this->ramasserOk === true && $this->poidsPlaceDisponible === true) : ?>
 	<br />
 	Il y a de la place pour <?=$this->nbCastarsPossible ?> castar<? if ($this->nbCastarsPossible > 1): echo "s"; endif; ?> dans votre laban. <br/>
 	<br>
-	Nombre de castars &agrave; ramasser : 
+	Nombre de castars : 
 	<input type='textbox' maxlength='7' size='7' name='valeur_2' id='valeur_2' value='' onkeypress="chiffres(event);" onkeyup="if (this.value != '' && this.value > 0 && this.value <= <?=$this->nbCastarsPossible ?> && this.value <= <?=$this->castars ?>) {$('bouton_ramasser').disabled=false} else {$('bouton_ramasser').disabled=true}">
 <? endif; ?>
 

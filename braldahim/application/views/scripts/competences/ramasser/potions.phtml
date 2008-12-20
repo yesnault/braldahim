@@ -1,5 +1,5 @@
 <? if ($this->ramasserOk === true) : ?>
-	Choississez une potion &agrave; ramasser &agrave; terre.<br />
+	Choississez une potion.<br />
 	<select name="valeur_2" id="valeur_2" onChange="if (this.value > 0) {$('bouton_ramasser').disabled=false} else {$('bouton_ramasser').disabled=true} ">
 	 	<option value="-1">(Choisis une potion)</option>
 	 	<? foreach($this->potions as $p) :?>
