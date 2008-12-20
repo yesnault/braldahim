@@ -296,4 +296,16 @@ class Bral_Util_Commun {
 		
 		return $nbCastars;
 	}
+	
+	public static function getPourcentage($competence, $config) {
+		if ($competence["nb_tour_restant_tabac_hcomp"] > 0) {
+			$pourcentage = $competence["pourcentage_hcomp"]."% + ".$config->game->tabac->pourcentage." (tabac)";
+		} else {
+			$pourcentage = $competence["pourcentage_hcomp"];	
+		}
+		if ($pourcentage > 100) {
+			$pourcentage = 100;
+		}
+		return $pourcentage;
+	}
 }

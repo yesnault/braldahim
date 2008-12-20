@@ -10,7 +10,7 @@
  	<? if ($this->construireMetierPossible !== true) :?>
 		Vous ne pouvez pas construire d'&eacute;choppe avec votre m&eacute;tier courant...
  	<? elseif ($this->nEchoppes < 1) : ?>
- 		Vous ne poss&eacute;dez pas encore d'&eacute;choppe. La premi&egrave;re est gratuite (<?=$this->coutCastars?> castar).<br /><br />
+ 		Vous ne poss&eacute;dez pas encore d'&eacute;choppe. La premi&egrave;re est gratuite (<?=$this->coutCastars?> castar, mais <?=$this->paUtilisationLieu?> PA tout de m&ecirc;me).<br /><br />
  	<? else: ?>
  		Pour <?=$this->paUtilisationLieu?> PA et <?=$this->coutCastars?> castars, vous pouvez constuire une nouvelle &eacute;choppe.<br /><br />
  	<? endif; ?>
@@ -33,9 +33,9 @@
 			<?=$this->nom_metier_courant ?>.<br /><br />
 
 			Indiquez la position de l'&eacute;choppe : <br />
-			X = <input type='textbox' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeypress="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
+			X = <input type='textbox' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
 			<br />
-			Y = <input type='textbox' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeypress="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
+			Y = <input type='textbox' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
 			<br />
 		<? else: ?>
 			<? if ($this->aucuneEchoppe == false) : ?>

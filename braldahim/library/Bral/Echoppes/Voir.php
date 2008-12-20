@@ -140,8 +140,8 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 				$tabCompetences[] = array("id_competence" => $c["id_fk_competence_hcomp"],
 					"nom" => $c["nom_competence"],
 					"pa_utilisation" => $c["pa_utilisation_competence"],
-					"pourcentage" => $c["pourcentage_hcomp"],
-					"nom_systeme" => $c["nom_systeme_competence"]
+					"pourcentage" => Bral_Util_Commun::getPourcentage($c, $this->view->config),
+					"nom_systeme" => $c["nom_systeme_competence"],
 				);
 			}
 		}

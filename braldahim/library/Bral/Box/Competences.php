@@ -91,7 +91,7 @@ class Bral_Box_Competences extends Bral_Box_Box {
 				foreach($hobbitCompetences as $c) {
 					if ($c["type_competence"] == $this->type && $m["id_metier"] == $c["id_fk_metier_competence"]) {
 						
-						$pourcentage = $this->getPourcentage($c);
+						$pourcentage = Bral_Util_Commun::getPourcentage($c, $this->view->config);
 					
 						$competence[] = array("id_competence" => $c["id_fk_competence_hcomp"],
 							"nom" => $c["nom_competence"],
@@ -123,7 +123,7 @@ class Bral_Box_Competences extends Bral_Box_Box {
 						$pa =  $c["pa_utilisation_competence"];
 					}
 					
-					$pourcentage = $this->getPourcentage($c);
+					$pourcentage = Bral_Util_Commun::getPourcentage($c, $this->view->config);
 					
 					$tabCompetences[] = array(
 						"id_competence" => $c["id_fk_competence_hcomp"],
@@ -137,17 +137,5 @@ class Bral_Box_Competences extends Bral_Box_Box {
 			}
 		}
 		$this->view->competences = $tabCompetences;
-	}
-	
-	private function getPourcentage($competence) {
-		if ($competence["nb_tour_restant_tabac_hcomp"] > 0) {
-			$pourcentage = $competence["pourcentage_hcomp"]."% + ".$this->view->config->game->tabac->pourcentage." (tabac)";
-		} else {
-			$pourcentage = $competence["pourcentage_hcomp"];	
-		}
-		if ($pourcentage > 100) {
-			$pourcentage = 100;
-		}
-		return $pourcentage;
 	}
 }
