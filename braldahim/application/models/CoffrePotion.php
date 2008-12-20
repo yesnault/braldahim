@@ -11,7 +11,7 @@
  * $LastChangedBy: yvonnickesnault $
  */
 class CoffrePotion extends Zend_Db_Table {
-	protected $_name = 'laban_potion';
+	protected $_name = 'coffre_potion';
 	protected $_primary = array('id_coffre_potion');
 
 	function findByIdHobbit($idHobbit) {

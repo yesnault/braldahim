@@ -149,4 +149,10 @@ abstract class Bral_Lieux_Lieu {
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
 	}
+	
+	protected function constructListBoxRefresh($tab = null) {
+		$tab[] = "box_profil";
+		$tab[] = "box_evenements";
+		return $tab;
+	}
 }

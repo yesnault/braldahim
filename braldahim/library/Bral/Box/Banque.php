@@ -159,6 +159,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 				"nb_cuir" => $p["quantite_cuir_coffre"],
 				"nb_fourrure" => $p["quantite_fourrure_coffre"],
 				"nb_planche" => $p["quantite_planche_coffre"],
+				"nb_castar" => $p["quantite_castar_coffre"],
 			);
 			
 			if ($p["quantite_peau_coffre"] > 0 || $p["quantite_viande_coffre"] > 0) {

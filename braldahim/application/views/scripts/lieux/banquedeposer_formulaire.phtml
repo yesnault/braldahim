@@ -1,0 +1,35 @@
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='5'>
+ <div class='comp_contenu'>
+	<ul class="titre textalic textsizec">D&eacute;poser dans le coffre</ul>
+ 	<br />
+ 	
+	 Pour <?=$this->paUtilisationLieu ?> PA, vous pouvez d&eacute;poser des objets dans votre coffre. <br /><br />
+	 
+	 <?php if ($this->utilisationPaPossible == true) : ?>
+		 <select name="valeur_1" id="valeur_1"  onChange="if ($('bouton_deposer')) {$('bouton_deposer').disabled=true} ;_get_('/lieux/doaction?caction=ask_lieu_banquedeposer&valeur_1='+this.value);">
+		 	<option value="-1">(Choisis un &eacute;l&eacute;ment)</option>
+		 	<? foreach($this->typesCoffre as $t) : ?>
+		 		<option value="<?=$t["id_type_coffre"]?>" <? if ($t["selected"] == $t["id_type_coffre"]): echo "selected"; endif;?>><?=htmlspecialchars($t["nom_coffre"])?></option>
+		 	<? endforeach; ?>
+		 </select>
+		 <br /><br />
+		 
+		 <? if ($this->type != null) : ?>
+			<? if ($this->deposerOk === false) : ?>
+				 <br />
+				 Vous n'avez rien &agrave; d&eacute;poser.
+			<? else: ?>
+				<?=$this->render("/competences/deposer/" . $this->type . ".phtml"); ?>
+			<? endif; ?>
+		 <? endif ?>
+	<? else: ?>
+	Vous n'avez pas assez de PA.
+	<? endif;?>
+	 
+</div>
+
+<br />
+<?php if ($this->utilisationPaPossible == true && $this->deposerOk === true) : ?>
+<input type='button' class='button1' id='bouton_deposer' value='D&eacute;poser !' onClick='this.disabled=true;_get_("/lieux/doaction?caction=do_lieu_banquedeposer");' disabled>
+<? endif ?>
+<? echo Bral_Helper_Fermer::affiche(); ?>

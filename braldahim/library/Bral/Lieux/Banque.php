@@ -102,7 +102,6 @@ class Bral_Lieux_Banque extends Bral_Lieux_Lieu {
 			}
 		}
 		$this->view->coutCastars = $this->calculCoutCastars();
-
 		$this->view->achatPossible = (($this->view->user->castars_hobbit - $this->view->coutCastars) > 0);
 	}
 
