@@ -33,10 +33,20 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 			$this->view->nbPossible = $nbPossibleAvecCastars;
 		}
 		
+		$achatRation = true;
 		if ($this->view->nbPossible < 1) {
 			$this->view->nbPossible = 0;
+			$achatRation = false;
 		}
 		
+		$tabChoix[1]["nom"] = "Se restaurer uniquement";
+		$tabChoix[1]["valid"] = $this->_utilisationPossible;
+		$tabChoix[2]["nom"] = "Acheter des rations uniquement";
+		$tabChoix[2]["valid"] = $achatRation;
+		$tabChoix[3]["nom"] = "Se restaurer et acheter des rations";
+		$tabChoix[3]["valid"] = ($this->_utilisationPossible && $achatRation);
+		
+		$this->view->tabChoix = $tabChoix;
 	}
 
 	function prepareFormulaire() {
@@ -50,29 +60,50 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 		if ($this->_utilisationPossible == false) {
 			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_hobbit." cout:".$this->_coutCastars);
 		}
-		
+
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception("Bral_Lieux_Auberge :: Nombre invalide : ".$this->request->get("valeur_1"));
+			throw new Zend_Exception("Bral_Lieux_Auberge :: Choix invalide : ".$this->request->get("valeur_1"));
 		} else {
-			$this->view->nbAcheter = (int)$this->request->get("valeur_1");
+			$this->view->idChoix = (int)$this->request->get("valeur_1");
+		}
+		
+		if ($this->view->idChoix == 2 || $this->view->idChoix == 3) {
+			if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
+				throw new Zend_Exception("Bral_Lieux_Auberge :: Nombre invalide : ".$this->request->get("valeur_2"));
+			} else {
+				$this->view->nbAcheter = (int)$this->request->get("valeur_2");
+			}
+		}
+
+		if ($this->view->idChoix < 1 || $this->view->idChoix > 3) {
+			throw new Zend_Exception("Bral_Lieux_Auberge :: Choix invalide 2 : ".$this->request->get("valeur_1"));
+		}
+		
+		if ($this->view->tabChoix[$this->view->idChoix]["valid"] == false) {
+			throw new Zend_Exception("Bral_Lieux_Auberge :: Choix invalide 3 : ".$this->view->tabChoix[$this->view->idChoix]["valid"]);
 		}
 		
 		if ($this->view->nbAcheter > $this->view->nbPossible) {
 			throw new Zend_Exception("Bral_Lieux_Auberge :: Nombre Rations invalide : ".$this->view->nbAcheter. " possible=".$this->view->nbPossible);
 		}
 		
-		if ($this->view->nbAcheter > 0) {
-			$this->calculAchat();
-			$this->_coutCastars = $this->_coutCastars + ($this->calculCoutCastars() * $this->view->nbAcheter);
+		if ($this->view->idChoix == 1 || $this->view->idChoix == 3) {
+			$this->view->user->balance_faim_hobbit = $this->view->user->balance_faim_hobbit + 80;
+			if ($this->view->user->balance_faim_hobbit > 100) {
+				$this->view->user->balance_faim_hobbit = 100; 
+			}
+		} else {
+			$this->_coutCastars = 0;
+		}
+		
+		if ($this->view->idChoix == 2 || $this->view->idChoix == 3) {
+			if ($this->view->nbAcheter > 0) {
+				$this->calculAchat();
+				$this->_coutCastars = $this->_coutCastars + ($this->calculCoutCastars() * $this->view->nbAcheter);
+			}
 		}
 		
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
-		
-		$this->view->user->balance_faim_hobbit = $this->view->user->balance_faim_hobbit + 80;
-		
-		if ($this->view->user->balance_faim_hobbit > 100) {
-			$this->view->user->balance_faim_hobbit = 100; 
-		}
 		Bral_Util_Faim::calculBalanceFaim($this->view->user);
 		$this->majHobbit();
 		

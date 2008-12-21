@@ -54,9 +54,9 @@ class Bral_Batchs_BoutiqueTabac extends Bral_Batchs_Batch {
 		foreach($stockTabacRowset as $s) {
 			//30 castars la feuille -/+ 30%
 			if (Bral_Util_De::get_1d2() == 1) {
-				$prix = 30 + Bral_Util_De::get_1d30();
+				$prix = 30 + Bral_Util_De::get_1d10();
 			} else {
-				$prix = 30 - Bral_Util_De::get_1d30();
+				$prix = 30 - Bral_Util_De::get_1d10();
 			}
 		
 			$nbInitial = $s["nb_feuille_initial_stock_tabac"];
