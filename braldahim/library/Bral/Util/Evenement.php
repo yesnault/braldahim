@@ -56,7 +56,9 @@ class Bral_Util_Evenement {
 		);
 		$evenementTable->insert($data);
 		
-		self::envoiMail($idHobbitConcerne, $detailsBot, $view);
+		if ($idHobbitConcerne != null) {
+			self::envoiMail($idHobbitConcerne, $detailsBot, $view);
+		}
 	}
 	
 	private static function envoiMail($idHobbitConcerne, $detailsBot, $view) {
