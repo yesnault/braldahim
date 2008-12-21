@@ -298,8 +298,10 @@ class Bral_Util_Commun {
 	}
 	
 	public static function getPourcentage($competence, $config) {
-		if ($competence["nb_tour_restant_tabac_hcomp"] > 0) {
-			$pourcentage = $competence["pourcentage_hcomp"]."% + ".$config->game->tabac->pourcentage." (tabac)";
+		if ($competence["nb_tour_restant_bonus_tabac_hcomp"] > 0) {
+			$pourcentage = $competence["pourcentage_hcomp"]."% + ".$config->game->tabac->bonus." (tabac)";
+		} else if ($competence["nb_tour_restant_malus_tabac_hcomp"] > 0) {
+			$pourcentage = $competence["pourcentage_hcomp"]."% - ".$config->game->tabac->malus." (tabac)";
 		} else {
 			$pourcentage = $competence["pourcentage_hcomp"];	
 		}

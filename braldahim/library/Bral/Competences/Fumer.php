@@ -90,16 +90,19 @@ class Bral_Competences_Fumer extends Bral_Competences_Competence {
 		$hobbitsCompetencesTables = new HobbitsCompetences();
 		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($this->view->user->id_hobbit);
 
-		$this->view->nbTours = Bral_Util_De::get_1d2();
+		$this->view->nbToursBonus = Bral_Util_De::get_1d2();
+		$this->view->nbToursMalus = Bral_Util_De::get_1d2();
 		$tabCompetences = null;
 		foreach($hobbitCompetences as $c) {
 			if ($c["id_fk_type_tabac_competence"] == $tabac["id_fk_type_laban_tabac"]) {
-				$data = array('nb_tour_restant_tabac_hcomp' => $this->view->nbTours);
+				$data = array('nb_tour_restant_bonus_tabac_hcomp' => $this->view->nbToursBonus,
+							  'nb_tour_restant_malus_tabac_hcomp' => $this->view->nbToursMalus);
 				$where = "id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]. " AND id_fk_hobbit_hcomp=".$this->view->user->id_hobbit;
 				$hobbitsCompetencesTables->update($data, $where);
 				$tabCompetences[] = $c;
 			} else {
-				$data = array('nb_tour_restant_tabac_hcomp' => 0);
+				$data = array('nb_tour_restant_bonus_tabac_hcomp' => 0,
+							  'nb_tour_restant_malus_tabac_hcomp' => 0);
 				$where = "id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]. " AND id_fk_hobbit_hcomp=".$this->view->user->id_hobbit;
 				$hobbitsCompetencesTables->update($data, $where);
 			}

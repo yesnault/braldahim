@@ -157,8 +157,10 @@ abstract class Bral_Competences_Competence {
 		// 1er Jet : réussite ou non de la compétence
 		$this->view->jet1 = Bral_Util_De::get_1d100();
 
-		if ($this->hobbit_competence["nb_tour_restant_tabac_hcomp"] > 0) {
-			$pourcentage = $this->hobbit_competence["pourcentage_hcomp"] + $this->view->config->game->tabac->pourcentage;
+		if ($this->hobbit_competence["nb_tour_restant_bonus_tabac_hcomp"] > 0) {
+			$pourcentage = $this->hobbit_competence["pourcentage_hcomp"] + $this->view->config->game->tabac->bonus;
+		} else if ($this->hobbit_competence["nb_tour_restant_malus_tabac_hcomp"] > 0) {
+			$pourcentage = $this->hobbit_competence["pourcentage_hcomp"] - $this->view->config->game->tabac->malus;
 		} else {
 			$pourcentage = $this->hobbit_competence["pourcentage_hcomp"];	
 		}

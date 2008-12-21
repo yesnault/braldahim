@@ -2,10 +2,10 @@
 
 Vous avez fum&eacute; <?=$this->tabac["nom_type_tabac"] ?>.<br /> 
 
-	<? if ($this->nbTours > 1) :?>
-		Pour le tour courant, 
-	<? else: ?>
+	<? if ($this->nbToursBonus > 1) :?>
 		Pour ce tour et le prochain, 
+	<? else: ?>
+		Pour le tour courant, 
 	<? endif; ?>
 	
 	cela rajoute 15% dans les comp&eacute;tences suivantes : <br>
@@ -14,5 +14,8 @@ Vous avez fum&eacute; <?=$this->tabac["nom_type_tabac"] ?>.<br />
 		<?=$c["nom_competence"]?><br>
 	<? endforeach;?>
 
+<br>
+
+Vous aurez ensuite <?=$this->nbToursMalus?> tour<? if ($this->nbToursMalus > 1): echo "s"; endif; ?> de malus (-10%) sur ces comp&eacute;tences.
 <br />
 <br />

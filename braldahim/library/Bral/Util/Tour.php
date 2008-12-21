@@ -36,13 +36,21 @@ class Bral_Util_Tour {
 		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($hobbit->id_hobbit);
 			
 		foreach($hobbitCompetences as $c) {
-			if ($c["nb_tour_restant_tabac_hcomp"] > 0) {
+			if ($c["nb_tour_restant_bonus_tabac_hcomp"] > 0) {
 				
-				$nb = $c["nb_tour_restant_tabac_hcomp"] - 1;
+				$nb = $c["nb_tour_restant_bonus_tabac_hcomp"] - 1;
 				if ($nb < 0) {
 					$nb = 0;
 				}
-				$data = array('nb_tour_restant_tabac_hcomp' => $nb);
+				$data = array('nb_tour_restant_bonus_tabac_hcomp' => $nb);
+				$where = "id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]. " AND id_fk_hobbit_hcomp=".$hobbit->id_hobbit;
+				$hobbitsCompetencesTables->update($data, $where);
+			} else if ($c["nb_tour_restant_malus_tabac_hcomp"] > 0) {
+				$nb = $c["nb_tour_restant_malus_tabac_hcomp"] - 1;
+				if ($nb < 0) {
+					$nb = 0;
+				}
+				$data = array('nb_tour_restant_malus_tabac_hcomp' => $nb);
 				$where = "id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]. " AND id_fk_hobbit_hcomp=".$hobbit->id_hobbit;
 				$hobbitsCompetencesTables->update($data, $where);
 			}
