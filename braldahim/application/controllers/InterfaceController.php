@@ -211,13 +211,21 @@ class InterfaceController extends Zend_Controller_Action {
 		$boxToRefresh = array("box_profil", "box_metier", "box_titres", "box_equipement", "box_vue", "box_lieu", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_laban", "box_messagerie");
 		for ($i=0; $i<count($boxToRefresh); $i++) {
 			$xml_entry = new Bral_Xml_Entry();
-			$xml_entry->set_type("display");
-			$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, true);
+			
+			if ($boxToRefresh[$i] == "box_vue" || $boxToRefresh[$i] == "box_laban") { 
+				$xml_entry->set_type("load_box");
+				$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, false);
+				$xml_entry->set_data(null);
+			} else {
+				$xml_entry->set_type("display");
+				$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, true);
+				$xml_entry->set_data($c->render());
+			}
 			$xml_entry->set_valeur($c->getNomInterne());
-			$xml_entry->set_data($c->render());
 			$this->xml_response->add_entry($xml_entry);
 			unset($xml_entry);
 			unset($c);
+			unset($boxToRefresh[$i]);
 		}
 	}
 	

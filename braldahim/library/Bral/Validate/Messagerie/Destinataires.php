@@ -33,12 +33,11 @@ class Bral_Validate_Messagerie_Destinataires implements Zend_Validate_Interface 
 			return true;
 		}
 
-		if (mb_strlen($valeur) > 30) {
-			$this->_messages[] = "Trop de Hobbit destinataires";
+		if (mb_strlen($valeur) > 60) {
+			$this->_messages[] = "Trop de Hobbit destinataires (vous pouvez en mettre environ 20 maximum)";
 			$valid = false;
 		}
 		
-		//  TODO A MODIFIER avec split
 		if ($valid) {
 			if (!preg_match_all('`^([[:digit:]]+(,|[[:space:]])*)+$`',$valeur, $matches)) {
 				$this->_messages[] = "Ce champ contient des caractères invalides";
