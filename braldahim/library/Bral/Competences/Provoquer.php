@@ -41,6 +41,7 @@ class Bral_Competences_Provoquer extends Bral_Competences_Competence {
 				'niveau_monstre' => $m["niveau_monstre"], 
 				'sagesse_base_monstre' => $m["sagesse_base_monstre"],
 				'sagesse_bm_monstre' => $m["sagesse_bm_monstre"],
+				'genre_type_monstre' => $m["genre_type_monstre"],
 			);
 		}
 
@@ -69,6 +70,11 @@ class Bral_Competences_Provoquer extends Bral_Competences_Competence {
 			foreach ($this->view->tabMonstres as $m) {
 				if ($m["id_monstre"] == $idMonstre) {
 					$monstre = $m;
+					if ($monstre["genre_type_monstre"] == "feminin") {
+						$article = "une";
+					} else {
+						$article = "un";
+					}
 					break;
 				}
 			}
@@ -82,6 +88,10 @@ class Bral_Competences_Provoquer extends Bral_Competences_Competence {
 			$this->calculProvoquer($monstre);
 		}
 		
+		$id_type = $this->view->config->game->evenements->type->competence;
+		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a réussi l'utilisation d'une compétence sur ".$article." ".$monstre["nom_monstre"]." ".$monstre["taille_monstre"]." (".$monstre["id_monstre"].")";
+		$this->setDetailsEvenement($details, $id_type);
+		$this->setDetailsEvenementCible($idMonstre, "monstre");
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->majHobbit();

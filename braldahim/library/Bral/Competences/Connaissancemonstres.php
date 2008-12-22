@@ -114,8 +114,7 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		if ($monstre["genre_type_monstre"] == "feminin") {
 			$tabCDM["taille_monstre"] = $monstre["nom_taille_f_monstre"];
 			$article = "une";
-		}
-		else {
+		} else {
 			$tabCDM["taille_monstre"] = $monstre["nom_taille_m_monstre"];
 			$article = "un";
 		}
