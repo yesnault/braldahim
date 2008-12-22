@@ -38,7 +38,7 @@ class Bral_Util_Vie {
 				$hobbit->pv_restant_hobbit = $hobbit->pv_max_hobbit + $hobbit->pv_max_bm_hobbit;
 			}
 			
-			if ($hobbit->pv_restant_hobbit > $hobbit->pv_max_hobbit + $hobbit->pv_max_hobbit ) {
+			if ($hobbit->pv_restant_hobbit > $hobbit->pv_max_hobbit + $hobbit->pv_max_hobbit) {
 				$hobbit->pv_restant_hobbit = $hobbit->pv_max_hobbit + $hobbit->pv_max_hobbit;
 			}
 		}

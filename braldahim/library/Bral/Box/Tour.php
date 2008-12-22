@@ -195,7 +195,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->hobbit->regeneration_hobbit = floor($this->hobbit->vigueur_base_hobbit / 4) + 1;
 			
 			// calcul des pvs restants avec la regeneration
-			$this->hobbit->pv_max_hobbit = Bral_Util_Commun::calculPvMaxSansEffetMotE($this->view->config, $this->hobbit->vigueur_base_hobbit, $this->hobbit->pv_max_bm_hobbit);
+			$this->hobbit->pv_max_hobbit = Bral_Util_Commun::calculPvMaxBaseSansEffetMotE($this->view->config, $this->hobbit->vigueur_base_hobbit);
 			
 			$effetMotE = Bral_Util_Commun::getEffetMotE($this->view->user->id_hobbit);
 			if ($effetMotE != null) {
@@ -204,7 +204,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 				$this->hobbit->pv_max_bm_hobbit = - ($effetMotE * 3);
 				
 				if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit) {
-					$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit + $this->vhobbit->pv_max_bm_hobbit;
+					$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit;
 				}
 			}
 			
@@ -501,10 +501,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		// Ajouter les blessures : pour chaque PV : Arrondi inférieur [durée DLA (+BM) / (4*max PV du Hobbit)]. 
 		
 		$minutesAAjouter = 0;
-		if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit) {
-			$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit;
-		}
-		if ($this->hobbit->pv_max_hobbit - $this->hobbit->pv_restant_hobbit > 0) {
+		if (($this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit) - $this->hobbit->pv_restant_hobbit > 0) {
 			$minutesAAjouter = $tabProchainTour["minutesBlessures"];
 		}
 		

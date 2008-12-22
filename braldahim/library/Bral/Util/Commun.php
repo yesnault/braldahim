@@ -100,10 +100,9 @@ class Bral_Util_Commun {
 		return $retour;
 	}
 	
-	public static function calculPvMaxSansEffetMotE($config, $vigueur_base_hobbit, $pv_max_bm_hobbit) {
+	public static function calculPvMaxBaseSansEffetMotE($config, $vigueur_base_hobbit) {
 		// calcul des pvs restants avec la regeneration
-		$pvMax = ($config->game->pv_base + $vigueur_base_hobbit * $config->game->pv_max_coef) + $pv_max_bm_hobbit;
-		return $pvMax;
+		return ($config->game->pv_base + $vigueur_base_hobbit * $config->game->pv_max_coef);
 	}
 	
 	public static function ajouteEffetMotR($idHobbit) {
