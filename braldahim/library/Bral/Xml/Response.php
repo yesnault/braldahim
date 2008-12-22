@@ -24,7 +24,7 @@ class Bral_Xml_Response {
 	private function echo_xml() {
 		echo  '<?xml version="1.0" encoding="utf-8" ?>';
 		echo "<root>\n";
-		$this->xmlCharge("admin_info_1");		
+		$memoire1 = memory_get_usage();
 		echo "<entrie>\n";
 		echo "<type>display</type>\n";
 		echo "<valeur>date_heure</valeur>\n";
@@ -39,17 +39,18 @@ class Bral_Xml_Response {
 			echo "</entrie>\n";
 			ob_flush();
 		}
-		$this->xmlCharge("admin_info_2");
+		$memoire2 = memory_get_usage();
+		$this->xmlAdmin("admin_info_1","mem1:".$memoire1. " mem2:".$memoire2. " allouée:".memory_get_peak_usage(false));
 		echo "</root>\n";
 	}
 	
-	public function xmlCharge($id) {
+	public function xmlAdmin($id, $texte) {
 		if (Zend_Auth::getInstance()->getIdentity()->sysgroupe_hobbit == "admin") {
 			echo "<entrie>\n";
 			echo "<type>display</type>\n";
 			echo "<valeur>".$id."</valeur>\n";
 			echo "<data>";
-			echo " Charge:".memory_get_usage();
+			echo $texte;
 			echo " | </data>\n";
 			echo "</entrie>\n";
 		}
