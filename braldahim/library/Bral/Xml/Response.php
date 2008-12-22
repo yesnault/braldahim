@@ -38,7 +38,9 @@ class Bral_Xml_Response {
 			$e->echo_xml();//, 9);//$e->get_xml();
 			echo "</entrie>\n";
 			ob_flush();
+			unset($this->list[$k]);
 		}
+		unset($this->list);
 		$memoire2 = memory_get_usage();
 		$this->xmlAdmin("admin_info_1","mem1:".$memoire1. " mem2:".$memoire2. " allouée:".memory_get_peak_usage(false));
 		echo "</root>\n";
