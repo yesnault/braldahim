@@ -22,6 +22,6 @@ class Bral_Voir_Vue {
 	}
 
 	function render() {
-		return $this->view->render("voir/vue.phtml");
+		echo $this->view->render("voir/vue.phtml");
 	}
 }

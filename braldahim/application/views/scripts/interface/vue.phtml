@@ -20,9 +20,10 @@
 	     <?php 
 	     $col="";
 	     
-	     foreach($this->tableau as $case) : ?>
+	     foreach($this->tableau as $k => $case) : ?>
 			
-			<?php if ($case["change_level"] == 1 && $col == "ok") :
+			<?php 
+			if ($case["change_level"] == 1 && $col == "ok") :
 			echo "</tr>";
 	        endif; ?>
 	        <?php if ($case["change_level"] == true) : 
@@ -31,7 +32,8 @@
 	        <?php endif; ?>
 	      	<td class='vue2d <?=$case["css"] ?>' nowrap>
 	      	
-			<? include('vue/cases.phtml'); ?>
+			<? include('vue/cases.phtml'); 
+			?>
 	      	&nbsp;
 	      	<? 
 	      	 include('vue/lieux.phtml'); 
@@ -48,6 +50,9 @@
 	 		 include('vue/elements_minerais.phtml'); 
 	 		 include('vue/elements_partieplantes.phtml'); 
 	 		 include('vue/elements.phtml'); 
+	 		 $case = null;
+	 		 unset($this->tableau[$k]);
+	 		 ob_flush();
 	 		?>
 	 		
 	      	</td>

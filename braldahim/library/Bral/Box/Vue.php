@@ -533,8 +533,6 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				}
 			}
 		}
-		$this->view->tableau = $tableau;
-		unset($tableau);
 		
 		unset($cadavres);
 		unset($castars);
@@ -553,5 +551,10 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		unset($regions);
 		unset($villes);
 		unset($zones);
+		
+		$this->view->tableau = $tableau;
+		unset($tableau);
+		
+		
 	}
 }
