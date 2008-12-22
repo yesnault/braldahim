@@ -49,7 +49,7 @@ class Bral_Xml_Response {
 			echo "<type>display</type>\n";
 			echo "<valeur>".$id."</valeur>\n";
 			echo "<data>";
-			echo "| Charge:".memory_get_usage();
+			echo " Charge:".memory_get_usage();
 			echo " | </data>\n";
 			echo "</entrie>\n";
 		}

@@ -14,8 +14,6 @@
 	 <div class="inner_top">
 		 <?=$this->escape($this->user->prenom_hobbit);?> <?=$this->escape($this->user->nom_hobbit);?> | 
 		 <? if ($this->user->administrateur === true) : ?>
-		 	<span id='admin_info_1' class=''>&nbsp;</span>
-		 	<span id='admin_info_2' class=''>&nbsp;</span>
 		  	<a href="/Administration/" class="menu_lien">Administration</a> |
 		 <? endif; ?>
 		 <a href="/interface/" class="menu_lien">Interface</a> |
@@ -27,6 +25,11 @@
 		 <a href="http://wiki.braldahim.com">R&egrave;gles</a> | 
 		 <label class="alabel" style="text-decoration:underline" onClick="javascript:ouvrirWin('/voir/');">Voir</label> | 
 		 <a href="/auth/logout"> D&eacute;connexion </a>
+		 <br>
+		  <? if ($this->user->administrateur === true) : ?>
+			Admin info: <span id='admin_info_1' class=''>&nbsp;</span>
+			 <span id='admin_info_2' class=''>&nbsp;</span>
+		  <? endif; ?>
 	 </div>
 	
 	<?=Bral_Helper_Box::bas(); ?>
