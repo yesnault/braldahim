@@ -36,15 +36,14 @@ class Bral_Xml_Entry {
     return $this->data;
   }
 
-  public function get_xml() {
-    $r = "<type>".$this->type."</type>\n";
-    $r .= "<valeur>".$this->valeur."</valeur>\n";
-    $r .= "<data>";
-    $r .= "<![CDATA[";
-    $r .=  $this->data;
-    $r .= "]]>";
-    $r .= "</data>\n";
-    return $r;
+  public function echo_xml() {
+    echo "<type>".$this->type."</type>\n";
+    echo "<valeur>".$this->valeur."</valeur>\n";
+    echo "<data>";
+    echo "<![CDATA[";
+   	echo  $this->data;
+    echo "]]>";
+    echo "</data>\n";
   }
 
   public function __construct() {

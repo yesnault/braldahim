@@ -21,29 +21,29 @@ class Bral_Xml_Response {
 		return $this->list;
 	}
 
-	public function get_xml() {
-		$r =  '<?xml version="1.0" encoding="utf-8" ?>';
-		$r .= "<root>\n";
-		$r .= "<entrie>\n";
-		$r .= "<type>display</type>\n";
-		$r .= "<valeur>date_heure</valeur>\n";
-		$r .= "<data>";
-		$r .= new Zend_Date();
-		$r .= " | </data>\n";
-		$r .= "</entrie>\n";
-		
-		foreach ($this->list as $e) {
-			$r .= "<entrie>\n";
-			$r .= $e->get_xml();
-			$r .= "</entrie>\n";
+	private function echo_xml() {
+		echo  '<?xml version="1.0" encoding="utf-8" ?>';
+		echo "<root>\n";
+		echo "<entrie>\n";
+		echo "<type>display</type>\n";
+		echo "<valeur>date_heure</valeur>\n";
+		echo "<data>";
+		echo new Zend_Date();
+		echo " | </data>\n";
+		echo "</entrie>\n";
+		ob_flush();
+		foreach ($this->list as $k => $e) {
+			echo "<entrie>\n";
+			$e->echo_xml();//, 9);//$e->get_xml();
+			echo "</entrie>\n";
+			ob_flush();
 		}
-		$r .= "</root>\n";
-		return $r;
+		echo "</root>\n";
 	}
 	
 	public function render() {
 		header("Content-Type: text/xml");
-		echo $this->get_xml();
+		$this->echo_xml();
 	}
 	
 	public function __construct() {

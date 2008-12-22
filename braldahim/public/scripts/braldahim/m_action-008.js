@@ -70,6 +70,7 @@ function _get_(url, encode) {
 			}
 			sep = "&";
 		}
+		$("box_action").innerHTML = "Chargement...";
 	} else if ($('nb_valeurs') && (action == "ask")) {
 		alert("Code A Supprimer ? m_action.js ligne 72");
 		Modalbox.hide();
@@ -81,6 +82,7 @@ function _get_(url, encode) {
 		valeurs = valeurs + sep + "dateAuth=-1" ;
 	}
 	var pars = valeurs;
+	//$("box_action").innerHTML = "";
 	var myAjax = new Ajax.Request(url, { postBody :pars, onComplete :showResponse });
 }
 
@@ -104,6 +106,8 @@ function showResponse(originalRequest) {
 		} else if (textdoc != "clear") {
 			_display_("erreur_catch", textdoc);
 			display_erreur_catch = true;
+		} else if (textdoc == "clear") {
+			$("box_action").innerHTML = "";
 		}
 	} else {
 		estInternetExplorer = false;
