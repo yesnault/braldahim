@@ -190,7 +190,6 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			
 			$this->calculBMEquipement();
 			$this->calculBMPotion();
-			Bral_Util_Titre::calculBMTitres(&$this->hobbit);
 			
 			// Mise à jour de la regeneration // c'est aussi mis à jour dans l'eujimnasiumne
 			$this->hobbit->regeneration_hobbit = floor($this->hobbit->vigueur_base_hobbit / 4) + 1;

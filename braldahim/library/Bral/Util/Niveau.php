@@ -72,6 +72,6 @@ class Bral_Util_Niveau {
 			$hobbit->titre_courant_hobbit = $typeTitreRowset->nom_masculin_type_titre;
 		}
 		
-		Bral_Util_Titre::calculBMTitres(&$hobbit);
+		Bral_Util_Titre::calculNouveauTitre(&$hobbit, $typeTitreRowset);
 	}
 }

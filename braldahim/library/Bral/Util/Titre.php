@@ -48,34 +48,23 @@ class Bral_Util_Titre {
 		return $retour;
 	}
 	
-	public static function calculBMTitres(&$hobbit) {
-		Zend_Loader::loadClass("HobbitsTitres");
-		$hobbitsTitresTable = new HobbitsTitres();
-		$hobbitsTitreRowset = $hobbitsTitresTable->findTitresByHobbitId($hobbit->id_hobbit);
-		unset($hobbitsTitresTable);
-		$tabTitres = null;
-		if ($hobbitsTitreRowset != null && count($hobbitsTitreRowset) > 0) {
-			foreach($hobbitsTitreRowset as $t) {
-				
-				switch($t["nom_systeme_type_titre"]) {
-					case "sagesse" :
-						$hobbit->sagesse_bm_hobbit = $hobbit->sagesse_bm_hobbit + 1;
-						break;
-					case "vigueur":
-						$hobbit->vigueur_bm_hobbit = $hobbit->vigueur_bm_hobbit + 1;
-						break;
-					case "force" :
-						$hobbit->force_bm_hobbit = $hobbit->force_bm_hobbit + 1;
-						break;
-					case "agilite" : 
-						$hobbit->agilite_bm_hobbit = $hobbit->agilite_bm_hobbit + 1;
-						break;
-					default:
-						throw new Zend_Exception("Titre nom systeme inconnu :".$t["nom_systeme_type_titre"]);
-					
-				}
-			}
+	public static function calculNouveauTitre(&$hobbit, $typeTitre) {
+		switch($typeTitre->nom_systeme_type_titre) {
+			case "sagesse" :
+				$hobbit->sagesse_base_hobbit = $hobbit->sagesse_base_hobbit + 1;
+				break;
+			case "vigueur":
+				$hobbit->vigueur_base_hobbit = $hobbit->vigueur_base_hobbit + 1;
+				break;
+			case "force" :
+				$hobbit->force_base_hobbit = $hobbit->force_base_hobbit + 1;
+				break;
+			case "agilite" : 
+				$hobbit->agilite_base_hobbit = $hobbit->agilite_base_hobbit + 1;
+				break;
+			default:
+				throw new Zend_Exception("Titre nom systeme inconnu :".$typeTitre->nom_systeme_type_titre);
 		}
-		unset($hobbitsTitreRowset);
+		return;
 	}
 }
