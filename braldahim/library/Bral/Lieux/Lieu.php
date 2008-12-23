@@ -144,6 +144,7 @@ abstract class Bral_Lieux_Lieu {
 			'sagesse_bbdf_hobbit' => $this->view->user->sagesse_bbdf_hobbit,
 			'x_hobbit' => $this->view->user->x_hobbit,
 			'y_hobbit' => $this->view->user->y_hobbit,
+			'pv_restant_hobbit' => $this->view->user->pv_restant_hobbit,
 		
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
