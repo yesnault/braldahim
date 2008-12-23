@@ -84,10 +84,10 @@ class Bral_Util_Attaque {
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotE True effetMotE=".$effetMotE." gainPv=".$gainPv);
 				
 				$hobbitAttaquant->pv_restant_hobbit = $hobbitAttaquant->pv_restant_hobbit + $gainPv;
-				if ($hobbitAttaquant->pv_restant_hobbit > $hobbitAttaquant->pv_max_hobbit) {
-					$hobbitAttaquant->pv_restant_hobbit = $hobbitAttaquant->pv_max_hobbit;
+				if ($hobbitAttaquant->pv_restant_hobbit > $hobbitAttaquant->pv_max_hobbit + $hobbitAttaquant->pv_max_bm_hobbit) {
+					$hobbitAttaquant->pv_restant_hobbit = $hobbitAttaquant->pv_max_hobbit + $hobbitAttaquant->pv_max_bm_hobbit;
 				}
-				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotE hobbitAttaquant->pv_restant_hobbit=".$hobbitAttaquant->pv_restant_hobbit. " hobbitAttaquant->pv_max_hobbit=".$hobbitAttaquant->pv_max_hobbit);
+				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotE hobbitAttaquant->pv_restant_hobbit=".$hobbitAttaquant->pv_restant_hobbit. " hobbitAttaquant->pv_max_hobbit=".($hobbitAttaquant->pv_max_hobbit + $hobbitAttaquant->pv_max_bm_hobbit));
 			}
 			
 			$effetMotG = Bral_Util_Commun::getEffetMotG($hobbitAttaquant->id_hobbit);

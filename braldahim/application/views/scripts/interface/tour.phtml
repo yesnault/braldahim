@@ -38,7 +38,11 @@
 		<b>Vous avez manqu&eacute; un (ou plusieurs) tours de jeu.</b>  <br />
 	<?php endif; ?>
 	<br />
-	Points de vie : <?=$this->user->pv_restant_hobbit ?> / <?=($this->config->game->pv_base + $this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) ?>  + <?= $this->user->pv_max_bm_hobbit ?><br />
+	Points de vie : 
+	<?=$this->user->pv_restant_hobbit ?> / <?=($this->config->game->pv_base + ($this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) + $this->user->pv_max_bm_hobbit) ?> 
+	(<?=($this->config->game->pv_base + $this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) ?> 
+	<? if ($this->user->pv_max_bm_hobbit >= 0): echo "+"; endif;?><?= $this->user->pv_max_bm_hobbit ?>)
+	
 	<br />
 	Dur&eacute;e du tour : <?=$this->user->duree_courant_tour_hobbit ?> <br />
 	Position dans le tour : <?=$this->user->nom_tour ?> <br />
@@ -87,8 +91,8 @@
 Activation d'un nouveau tour <?php endif; ?> 
 Vous avez r&eacute;g&eacute;n&eacute;r&eacute; <?=$this->jetRegeneration ?> point<? if ($this->jetRegeneration > 1): echo "s"; endif;?> de vie.
 <?php if ($this->is_tour_manque) : ?>Vous avez manqu&eacute; un (ou plusieurs) tour de jeu<?php endif; ?> 
-Points de vie : <?=$this->user->pv_restant_hobbit ?> / <?=($this->config->game->pv_base + $this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) ?>  + <?= $this->user->pv_max_bm_hobbit ?> 
-
+Points de vie : <?=$this->user->pv_restant_hobbit ?> / <?=($this->config->game->pv_base + ($this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) + $this->user->pv_max_bm_hobbit) ?> (<?=($this->config->game->pv_base + $this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) ?> <? if ($this->user->pv_max_bm_hobbit >= 0): echo "+"; endif;?><?= $this->user->pv_max_bm_hobbit ?>)
+	
 
 Dur&eacute;e du tour : <?=$this->user->duree_courant_tour_hobbit ?> 
 Position dans le tour : <?=$this->user->nom_tour  ?> 

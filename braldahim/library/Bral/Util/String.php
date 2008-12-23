@@ -16,7 +16,11 @@ class Bral_Util_String {
 	}
 	
 	public static function firstToUpper($m) {
-		return mb_strtoupper($m{0}) . mb_substr($m, 1);
+		if ($m != null && $m != "") {
+			return mb_strtoupper($m{0}) . mb_substr($m, 1);
+		} else {
+			return $m;
+		}
 	}
 	
 	/*
