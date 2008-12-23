@@ -106,7 +106,8 @@ class InscriptionController extends Zend_Controller_Action {
 		
 		$regions = null;
 		foreach ($regionsRowset as $r) {
-			$regions[$r["id_region"]] = $r["nom_region"];		
+			$regions[$r["id_region"]]["nom"] = $r["nom_region"];
+			$regions[$r["id_region"]]["est_pvp"] = $r["est_pvp_region"];		
 		}
 
 		if ($this->_request->isPost()) {
