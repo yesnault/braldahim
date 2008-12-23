@@ -212,7 +212,7 @@ class InscriptionController extends Zend_Controller_Action {
 		$captcha->setTimeout('300')
 			->setWordLen('6')
 			->setHeight('80')
-			->setFont('/public/fonts/Arial.ttf')
+			->setFont('./public/fonts/Arial.ttf')
 			->setImgDir('./public/images/captcha/');   
 		
 		$id = $captcha->generate();
