@@ -109,7 +109,7 @@ class InscriptionController extends Zend_Controller_Action {
 			$regions[$r["id_region"]]["nom"] = $r["nom_region"];
 			$regions[$r["id_region"]]["est_pvp"] = $r["est_pvp_region"];		
 		}
-
+		
 		if ($this->_request->isPost()) {
 			Zend_Loader::loadClass('Zend_Filter');
 			Zend_Loader::loadClass('Zend_Filter_StripTags');
@@ -132,13 +132,15 @@ class InscriptionController extends Zend_Controller_Action {
 			$this->password_confirm_hobbit = $filter->filter($this->_request->getPost('password_confirm_hobbit'));
 			$this->sexe_hobbit = $filter->filter($this->_request->getPost('sexe_hobbit'));
 			$this->id_region = $filter->filter($this->_request->getPost('id_region'));
-
+			
+			$captcha_vue =  $this->_request->getPost('captcha');
 			$validPrenom = $validateurPrenom->isValid($this->prenom_hobbit);
 			$validEmail = $validateurEmail->isValid($this->email_hobbit);
 			$validPassword = $validateurPassword->isValid($this->password_hobbit);
 	
 			$validEmailConfirm = ($this->email_confirm_hobbit == $this->email_hobbit);
 			$validPasswordConfirm = ($this->password_confirm_hobbit == $this->password_hobbit);
+			$validCaptcha = $this->validateCaptcha($captcha_vue);
 			
 			if ($this->sexe_hobbit == "feminin" || $this->sexe_hobbit == "masculin") {
 				$validSexe = true;
@@ -146,7 +148,7 @@ class InscriptionController extends Zend_Controller_Action {
 				$validSexe = false;
 			}
 			
-			// Verification de la plante
+			// Verification de la region
 			if (!isset($this->id_region)) {
 				$this->id_region = -1;
 			}
@@ -156,7 +158,8 @@ class InscriptionController extends Zend_Controller_Action {
 			&& ($validPassword)
 			&& ($validSexe)
 			&& ($validEmailConfirm)
-			&& ($validPasswordConfirm)) {
+			&& ($validPasswordConfirm)
+			&& ($validCaptcha)) {
 					
 				$data = $this->initialiseDataHobbit();
 
@@ -194,11 +197,26 @@ class InscriptionController extends Zend_Controller_Action {
 				if (!$validPasswordConfirm) {
 					$this->view->messagesPasswordConfirm = "Les deux mots de passe sont diff&eacute;rents";
 				}
+				if (!$validCaptcha) {
+					$this->view->messageCaptchaInvalide = "Saisie invalide";
+				}
 				$this->view->messagesPrenom = $tabPrenom;
 				$this->view->messagesEmail = $tabEmail;
 				$this->view->messagesPassword = $tabPassword;
 			}
 		}
+		
+		Zend_Loader::loadClass("Zend_Captcha_Image");
+		$captcha = new Zend_Captcha_Image();
+
+		$captcha->setTimeout('300')
+			->setWordLen('6')
+			->setHeight('80')
+			->setFont('/public/fonts/Arial.ttf')
+			->setImgDir('./public/images/captcha/');   
+		
+		$id = $captcha->generate();
+		$this->view->captcha = $captcha;
 
 		// hobbit par defaut
 		$this->view->hobbit= new stdClass();
@@ -388,5 +406,18 @@ class InscriptionController extends Zend_Controller_Action {
 		}
 		Bral_Util_Log::inscription()->trace("InscriptionController - creationCouple - exit");
 		return $dataParents;
+	}
+	
+	function validateCaptcha($captcha) {
+			$captchaId = $captcha['id'];
+			$captchaInput = $captcha['input'];
+			$captchaSession = new Zend_Session_Namespace('Zend_Form_Captcha_' . $captchaId);
+			$captchaIterator = $captchaSession->getIterator();
+			$captchaWord = $captchaIterator['word'];
+			if( $captchaInput != $captchaWord ){
+				return false;
+			} else {
+				return true;
+			}
 	}
 }

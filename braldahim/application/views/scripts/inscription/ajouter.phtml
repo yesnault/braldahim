@@ -10,7 +10,20 @@
 	&nbsp;
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">
-	
+			<ul class="titre textalic textsizec">Crontr&ocirc;le</ul>
+			<?php if(!empty($this->messageCaptchaInvalide)) :?> 
+			<div class="message_erreur" id="message_erreur"> 
+				<?=$this->messageCaptchaInvalide?><br />
+			</div>
+			<?php endif; ?>
+			<img src="/public/images/captcha/<?=$this->captcha->getId();?>.png"><br>
+			&Eacute;crivez ici le texte que vous voyez ci-dessus : 
+			<input type="text" name="captcha[input]" value="" size="10" maxlength="10"/> 
+			<input type="hidden" name="captcha[id]" value="<?=$this->captcha->getId();?>" />
+			<br>Si vous ne voyez pas clairement le texte, <a href="/inscription">recharger la page</a>
+			<br>
+			<br>
+			
 		<?php if(!empty($this->messages)) :?> 
 		<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messages as $message) :?>
@@ -20,52 +33,55 @@
 		<?php endif; ?> 
 		
 		<div>
-			<?php if(!empty($this->messagesPrenom)) :?> 
+
+			 <ul class="titre textalic textsizec">Nom de Hobbit</ul>
+			<label>Un nom de famille vous sera automatiquement attribu&eacute; lors de la validation d'inscription.<br /></label>
+		    <br />
+		    
+		    <ul class="titre textalic textsizec">Pr&eacute;nom du Hobbit</ul>
+		    <?php if(!empty($this->messagesPrenom)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesPrenom as $message) :?>
 				<?=$message?><br />
 			<?php endforeach; ?>
 			</div> 
 			<?php endif; ?>
-			<label>Nom de Hobbit : Un nom de famille vous sera automatiquement attribu&eacute;
-		    lors de la validation d'inscription.<br />
-		    </label>
-		    <br />
-		    <label for="hobbit">Pr&eacute;nom du Hobbit
-		    </label><br />
+		    
 		    Entre 5 et 15 caract&egrave;res<br />
 		    La premi&egrave;re lettre de votre pr&eacute;nom sera automatiquement mise en majuscule<br />
 		    <input type="text" name="prenom_hobbit" 
 		        value="<?=$this->hobbit->prenom_hobbit;?>" size="25" maxlength="15"/>
 		</div>
 		<div><br />
-			<?php if(!empty($this->messagesEmail)) :?> 
+		   <ul class="titre textalic textsizec">Email</ul>
+		  	<?php if(!empty($this->messagesEmail)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesEmail as $message) :?>
 				<?=$message;?><br />
 			<?php endforeach; ?>
 			</div>
 			<?php endif; ?>
-		    <label for="title">Email</label><br />
 		    Un email de confirmation vous sera envoy&eacute; &agrave; cette adresse<br />
 		    <input type="text" name="email_hobbit" value="<?=$this->escape($this->hobbit->email_hobbit);?>" size="25" maxlength="100"/> 
 		    <?php if(!empty($this->messagesEmailConfirm)) :?> 
 			<div class="message_erreur" id="message_erreur"> 
-				<?=$this->escape($this->messagesEmailConfirm);?><br />
+				<?=$this->messagesEmailConfirm;?><br />
 			</div>
 			<?php endif; ?>
 			<br /><label for="title">Confirmation Email</label><br />
 		    <input type="text" name="email_confirm_hobbit" value="<?=$this->escape($this->hobbit->email_confirm_hobbit);?>" size="25" maxlength="100"/>      
 		</div>
 		<div><br />
-			<?php if(!empty($this->messagesPassword)) :?>
+
+		    <ul class="titre textalic textsizec">Mot de passe</ul>
+		    <?php if(!empty($this->messagesPassword)) :?>
 			<div class="message_erreur" id="message_erreur"> 
 			<?php foreach($this->messagesPassword as $message) :?>
 				<?=$message?><br />
 			<?php endforeach; ?>
 			</div>
 			<?php endif; ?>
-		    <label for="title">Mot de Passe</label><br />
+			
 		    Entre 5 et 20 caract&egrave;res<br />
 		    <input type="password" name="password_hobbit" value="" size="25" maxlength="20"/>
 			<?php if(!empty($this->messagesPasswordConfirm)) :?> 
@@ -107,6 +123,8 @@
 				</option>
 				<? endforeach; ?>
 			</select><br /><br />
+			<br>
+
 		</div>
 		<div id="formbutton">
 			<input type="submit" class='button1' name="ajouter" value="Inscription !" /> 
