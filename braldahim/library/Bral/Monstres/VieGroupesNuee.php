@@ -178,17 +178,17 @@ class Bral_Monstres_VieGroupesNuee {
                 $groupe["y_direction_groupe_monstre"] = $groupe["y_direction_groupe_monstre"] + $dy;
             }
 
-            if ($groupe["x_direction_groupe_monstre"] < $this->config->game->x_min) {
-                $groupe["x_direction_groupe_monstre"] = $this->config->game->x_min;
+            if ($groupe["x_direction_groupe_monstre"] <= $this->config->game->x_min) {
+                $groupe["x_direction_groupe_monstre"] = -$this->config->game->x_min;
             }
-            if ($groupe["x_direction_groupe_monstre"] > $this->config->game->x_max) {
-                $groupe["x_direction_groupe_monstre"] = $this->config->game->x_max;
+            if ($groupe["x_direction_groupe_monstre"] >= $this->config->game->x_max) {
+                $groupe["x_direction_groupe_monstre"] = -$this->config->game->x_max;
             }
-            if ($groupe["y_direction_groupe_monstre"] < $this->config->game->y_min) {
-                $groupe["y_direction_groupe_monstre"] = $this->config->game->y_min;
+            if ($groupe["y_direction_groupe_monstre"] <= $this->config->game->y_min) {
+                $groupe["y_direction_groupe_monstre"] = -$this->config->game->y_min;
             }
-            if ($groupe["y_direction_groupe_monstre"] > $this->config->game->y_max) {
-                $groupe["y_direction_groupe_monstre"] = $this->config->game->y_max;
+            if ($groupe["y_direction_groupe_monstre"] >= $this->config->game->y_max) {
+                $groupe["y_direction_groupe_monstre"] = -$this->config->game->y_max;
             }
 
             Bral_Util_Log::viemonstres()->debug(get_class($this)." - calcul nouvelle valeur direction x=".$groupe["x_direction_groupe_monstre"]." y=".$groupe["y_direction_groupe_monstre"]." ");
