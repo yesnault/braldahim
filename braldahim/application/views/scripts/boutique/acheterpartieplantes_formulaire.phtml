@@ -10,7 +10,11 @@
 	<? elseif ($this->acheterPossible === true) : ?>
 		Vous avez <?=$this->user->castars_hobbit?> castar<? if ($this->user->castars_hobbit > 1): echo 's'; endif; ?>.<br>
 		
-		<br>Indiquez la quantit&eacute; souhait&eacute;e pour chaque type.
+		<br>Indiquez la quantit&eacute; souhait&eacute;e pour chaque type.<br>
+		<br>
+		Attention, si vous demandez plus que ce que vous ne pouvez acheter (avec vos castars)
+		 et avoir dans votre laban (avec la place disponible restante),<br> 
+		la boutique vous rempli votre sac (suivant la place et castars restants) sans vous demander votre avis ! <br><br>
 		
 		<?=$this->render("/interface/commun/plantes/plantes.phtml"); ?>
 
