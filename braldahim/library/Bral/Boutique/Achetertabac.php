@@ -54,7 +54,6 @@ class Bral_Boutique_Achetertabac extends Bral_Boutique_Boutique {
 		$this->view->poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 		
 		$this->view->elementsAchetes = "";
-		$this->view->manquePlace = false;
 		$this->view->manqueCastars = false;
 		
 		foreach($this->view->tabac as $m) {
@@ -83,13 +82,7 @@ class Bral_Boutique_Achetertabac extends Bral_Boutique_Boutique {
 	
 	private function transfertElement($quantite, $prixUnitaire, $idTypeTabac, $nomTypeTabac, $idStock) {
 		
-		if ($this->view->poidsRestant < 0) $this->view->poidsRestant = 0;
-		$nbPossible = floor($this->view->poidsRestant / Bral_Util_Poids::POIDS_MINERAI);
-		
-		if ($quantite > $nbPossible) {
-			$quantite = $nbPossible;
-			$this->view->manquePlace = true;
-		}
+		$nbPossible = $quantite;//floor($this->view->poidsRestant / Bral_Util_Poids::POIDS_MINERAI);
 		
 		$prixTotal = $prixUnitaire * $quantite;
 		$castarsRestants = $this->view->user->castars_hobbit - $this->view->coutCastars;

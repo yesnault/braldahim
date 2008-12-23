@@ -9,16 +9,9 @@
 	Aucun PA n'a été dépensé.
 <? endif;?>
 
-<? if ($this->manquePlace || $this->manqueCastars) : ?>
+<? if ($this->manqueCastars) : ?>
 <br>
 Certains &eacute;l&eacute;ments n'ont pas pu &ecirc;tes achet&eacute;s 
-	<? if ($this->manquePlace) : ?>
-		par manque de place
-	<? endif;?> 
-	<? if ($this->manqueCastars) : ?>
-		<? if ($this->manquePlace) : ?>
-		et
-		<? endif;?>
-		par manque de castars
-	<? endif;?> 
+<? if ($this->manqueCastars) : ?>
+	par manque de castars
 <? endif;?> 
