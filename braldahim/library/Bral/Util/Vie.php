@@ -28,19 +28,12 @@ class Bral_Util_Vie {
 				$jetRegeneration = 0;
 			}
 			
+			if ($hobbit->pv_restant_hobbit + $jetRegeneration > $hobbit->pv_max_hobbit + $hobbit->pv_max_bm_hobbit) {
+				$jetRegeneration = $hobbit->pv_max_hobbit  + $hobbit->pv_max_bm_hobbit - $hobbit->pv_restant_hobbit;
+			}
+			
 			$hobbit->pv_restant_hobbit = $hobbit->pv_restant_hobbit + $jetRegeneration;
 			
-			if ($hobbit->pv_restant_hobbit > $hobbit->pv_max_hobbit + $hobbit->pv_max_bm_hobbit) {
-				$jetRegeneration = ($hobbit->pv_max_hobbit  + $hobbit->pv_max_bm_hobbit)- $hobbit->pv_restant_hobbit;
-				if ($jetRegeneration < 0) { // pas de regénération négative (même si le malus est important)
-					$jetRegeneration = 0;
-				}
-				$hobbit->pv_restant_hobbit = $hobbit->pv_max_hobbit + $hobbit->pv_max_bm_hobbit;
-			}
-			
-			if ($hobbit->pv_restant_hobbit > $hobbit->pv_max_hobbit + $hobbit->pv_max_hobbit) {
-				$hobbit->pv_restant_hobbit = $hobbit->pv_max_hobbit + $hobbit->pv_max_hobbit;
-			}
 		}
 	}
 	
