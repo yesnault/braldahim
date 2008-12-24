@@ -6,16 +6,16 @@
  	Pour <?=$this->coutCastars?> castars et <?=$this->paUtilisationLieu ?> PA, 
  	le docteur peut vous activer votre reg&eacute;n&eacute;ration.<br>
    	
-   	Vous avez <?=$this->user->castars_hobbit ?> castar<? if ($this->user->castars_hobbit > 1): echo "s"; endif; ?><br>
+   	Vous avez <?=$this->user->castars_hobbit ?> castar<? if ($this->user->castars_hobbit > 1): echo "s"; endif; ?>.<br>
    		
 	<? if ($this->utilisationPossible === false): ?>
-   		Vous n'avez pas assez de castars <br />
+   		Vous n'avez pas assez de castars !<br />
    	<? elseif ($this->utilisationPaPossible === false) :?>
-   		Vous n'avez pas assez de PA <br />
+   		Vous n'avez pas assez de PA !<br />
    	<? elseif ($this->recupPossible) :?>
    		<br><br>
     <? else: ?>
-    	Vous &eacute;tes d&eacute;j&agrave; en pleine forme <br>
+    	Vous &ecirc;tes d&eacute;j&agrave; en pleine forme !<br>
    	<? endif; ?>
  </div> 
 </form>
