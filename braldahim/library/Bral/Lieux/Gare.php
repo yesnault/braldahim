@@ -10,7 +10,7 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Lieux_Essenecehef extends Bral_Lieux_Lieu {
+class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 
 	private $_utilisationPossible = false;
 	private $_coutCastars = null;
@@ -22,25 +22,25 @@ class Bral_Lieux_Essenecehef extends Bral_Lieux_Lieu {
 		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) >= 0);
 
 		$lieuTable = new Lieu();
-		$esseneCehefCourantt = $lieuTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		$esseneCehefCourant = $esseneCehefCourantt[0];
-		$esseneCehefRowset = $lieuTable->findByType($this->view->config->game->lieu->type->essene_cehef);
+		$gareCourant = $lieuTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$gareCourant = $gareCourant[0];
+		$gareRowset = $lieuTable->findByType($this->view->config->game->lieu->type->gare);
 
-		foreach($esseneCehefRowset as $e) {
+		foreach($gareRowset as $e) {
 			if ($e["x_lieu"] == $this->view->user->x_hobbit && $e["y_lieu"] == $this->view->user->y_hobbit) {
 				// on ne propose pas le lieu ou le hobbit est present
 			} else {
 				$est_capitale = ($e["est_capitale_ville"] == "oui");
-				if ($esseneCehefCourant["est_capitale_ville"] == "oui") {
+				if ($gareCourant["est_capitale_ville"] == "oui") {
 					// deplacement vers les ville de la comtée et vers les capitales
 					if ($est_capitale === true) { 
 						$this->_tabDestinations[] = array("id_lieu" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
-					} else if ($esseneCehefCourant["id_fk_region_ville"] == $e["id_fk_region_ville"]) {
+					} else if ($gareCourant["id_fk_region_ville"] == $e["id_fk_region_ville"]) {
 						$this->_tabDestinations[] = array("id_lieu" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
 					}
 				} else {
 					// deplacement uniquement vers la capitale
-					if ($esseneCehefCourant["id_fk_region_ville"] == $e["id_fk_region_ville"] && $e["est_capitale_ville"] == "oui") {
+					if ($gareCourant["id_fk_region_ville"] == $e["id_fk_region_ville"] && $e["est_capitale_ville"] == "oui") {
 						$this->_tabDestinations[] = array("id_lieu" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
 					}
 				}
