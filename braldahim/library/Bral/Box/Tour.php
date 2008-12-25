@@ -276,7 +276,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			
 			// recalcul de la position
 			$lieuTable = new Lieu();
-			$chuRowset = $lieuTable->findByTypeAndPosition($this->view->config->game->lieu->type->ceachehu, $this->hobbit->x_hobbit, $this->hobbit->y_hobbit);
+			$chuRowset = $lieuTable->findByTypeAndPosition($this->view->config->game->lieu->type->hopital, $this->hobbit->x_hobbit, $this->hobbit->y_hobbit);
 			$this->hobbit->x_hobbit = $chuRowset[0]["x_lieu"];
 			$this->hobbit->y_hobbit = $chuRowset[0]["y_lieu"];
 		}
