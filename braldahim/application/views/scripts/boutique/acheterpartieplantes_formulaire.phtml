@@ -3,21 +3,46 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='<?=$this->typePlantes["nb_valeurs"] ?>'>
  <form name='myForm'>
  <div class='comp_contenu'>
-	Co&ucirc;t du service : <?=$this->nb_pa ?> PA<br />
+	Co&ucirc;t du service : <?=$this->nb_pa ?> PA, 
 	
 	<? if ($this->assezDePa === false) :?>
 		Vous n'avez pas assez de PA.
 	<? elseif ($this->acheterPossible === true) : ?>
 		Vous avez <?=$this->user->castars_hobbit?> castar<? if ($this->user->castars_hobbit > 1): echo 's'; endif; ?>.<br>
 		
-		<br>Indiquez la quantit&eacute; souhait&eacute;e pour chaque type.<br>
 		<br>
-		Attention, si vous demandez plus que ce que vous ne pouvez acheter (avec vos castars)
-		 et avoir dans votre laban (avec la place disponible restante),<br> 
-		la boutique vous rempli votre sac (suivant la place et castars restants) sans vous demander votre avis ! <br><br>
+		<ul id="navigation" style="width:99%;text-align:left">
+		<li id="acheter_info">
+			<h3 id="acheter_info-head" class="head" onClick="maccordion(this);" />
+				Attention, informations
+			</h3>
+			<ul id="acheter_info-body" style="display:block">
+			<li>
+				Attention, si vous demandez plus que ce que vous ne pouvez acheter (avec vos castars)
+				 et avoir dans votre laban (avec la place disponible restante),<br> 
+				la boutique vous remplit votre sac (suivant la place et castars restants) sans vous demander votre avis ! <br>
+				Poids actuellement disponible dans votre laban : <?=$this->poidsRestant?> Kg<br>
+				Poids d'un minerai : <?=Bral_Util_Poids:: POIDS_PARTIE_PLANTE_BRUTE?> Kg<br><br>
+			</li>
+			</ul>
+		</li>
+		<li id="acheter_detail">
+			<h3 id="acheter_detail-head" class="head" onClick="maccordion(this);" />
+				Quantit&eacute; &agrave; acheter.
+			</h3>
+			<ul id="acheter_detail-body" style="display:none">
+			<li align='center'>
+			Indiquez la quantit&eacute; souhait&eacute;e pour chaque type.<br>
 		
-		<?=$this->render("/interface/commun/plantes/plantes.phtml"); ?>
+			<?=$this->render("/interface/commun/plantes/plantes.phtml"); ?>
+			</li>
+			</ul>
+		</li>
+		</ul>
+		
 
+		
+		</div>
 	<? else : ?>
 		Vous n'avez pas assez de castars.
 	<? endif;?>

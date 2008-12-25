@@ -28,6 +28,7 @@ class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 		
 		$this->view->acheterPossible = true;
 		$this->view->minerais = Bral_Util_BoutiqueMinerais::construireTabPrix(true, $this->idRegion);
+		$this->view->poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 	}
 
 	function prepareFormulaire() {
@@ -51,7 +52,6 @@ class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 	private function transfert() {
 		Zend_Loader::loadClass("LabanMinerai");
 		$this->view->coutCastars = 0;
-		$this->view->poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 		
 		$this->view->elementsAchetes = "";
 		$this->view->manquePlace = false;

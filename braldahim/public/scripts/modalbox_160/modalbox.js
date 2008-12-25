@@ -20,7 +20,7 @@ Modalbox.Methods = {
 	options: {
 		title: "ModalBox Window", // Title of the ModalBox window
 		overlayClose: false, // Close modal box by clicking on overlay
-		width: 500, // Default width in px
+		width: 600, // Default width in px
 		height: 90, // Default height in px
 		overlayOpacity: .5, // Default overlay opacity
 		overlayDuration: .25, // Default overlay fade in/out duration in seconds
