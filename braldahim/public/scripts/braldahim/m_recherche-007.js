@@ -59,9 +59,20 @@ function makeJsListeAvecSupprimer(champ, valeur, idJos, idHobbit) {
 	if ($(champ).value == '') {
 		$(champ).value = idJos;
 	} else {
-		$(champ).value = $(champ).value + ',' + idJos;
-	}
-	
+		var reg=new RegExp("[,]+", "g");
+		var tableau=$(champ).value.split(reg);
+		var trouve = false;
+		for (var i=0; i<tableau.length; i++) {
+			 if (tableau[i] == idJos) {
+				 trouve = true;
+			 }
+		}
+		if (trouve == false) {
+			$(champ).value = $(champ).value + ',' + idJos;
+		} else {
+			return;
+		}
+	}	
 	var contenu = window.document.createElement('span');
 	contenu.name = 'm_' + champ + '_' + idJos;
 	
