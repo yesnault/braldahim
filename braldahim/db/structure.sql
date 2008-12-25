@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Ven 19 Décembre 2008 à 22:45
+-- Généré le : Jeu 25 Décembre 2008 à 21:50
 -- Version du serveur: 5.0.41
 -- Version de PHP: 5.2.3
 
@@ -181,6 +181,7 @@ CREATE TABLE `coffre` (
   `quantite_cuir_coffre` int(11) NOT NULL default '0',
   `quantite_fourrure_coffre` int(11) NOT NULL default '0',
   `quantite_planche_coffre` int(11) NOT NULL default '0',
+  `quantite_castar_coffre` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id_fk_hobbit_coffre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -231,6 +232,24 @@ CREATE TABLE `coffre_partieplante` (
   PRIMARY KEY  (`id_fk_type_coffre_partieplante`,`id_fk_type_plante_coffre_partieplante`,`id_fk_hobbit_coffre_partieplante`),
   KEY `id_fk_type_plante_coffre_partieplante` (`id_fk_type_plante_coffre_partieplante`),
   KEY `id_fk_hobbit_coffre_partieplante` (`id_fk_hobbit_coffre_partieplante`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `coffre_potion`
+-- 
+
+CREATE TABLE `coffre_potion` (
+  `id_coffre_potion` int(11) NOT NULL,
+  `id_fk_type_coffre_potion` int(11) NOT NULL,
+  `id_fk_hobbit_coffre_potion` int(11) NOT NULL,
+  `id_fk_type_qualite_coffre_potion` int(11) NOT NULL,
+  `niveau_coffre_potion` int(11) NOT NULL,
+  PRIMARY KEY  (`id_coffre_potion`),
+  KEY `id_fk_hobbit_coffre_potion` (`id_fk_hobbit_coffre_potion`),
+  KEY `id_fk_type_coffre_potion` (`id_fk_type_coffre_potion`),
+  KEY `id_fk_type_qualite_coffre_potion` (`id_fk_type_qualite_coffre_potion`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -849,6 +868,8 @@ CREATE TABLE `hobbit` (
   `envoi_mail_message_hobbit` enum('oui','non') NOT NULL default 'oui',
   `envoi_mail_evenement_hobbit` enum('oui','non') NOT NULL default 'non',
   `titre_courant_hobbit` varchar(15) default NULL,
+  `est_engage_hobbit` enum('oui','non') NOT NULL default 'non',
+  `est_engage_next_dla_hobbit` enum('oui','non') NOT NULL default 'non',
   PRIMARY KEY  (`id_hobbit`),
   UNIQUE KEY `email_hobbit` (`email_hobbit`),
   KEY `idx_x_hobbit_y_hobbit` (`x_hobbit`,`y_hobbit`),
@@ -1063,7 +1084,7 @@ CREATE TABLE `laban_tabac` (
 
 CREATE TABLE `lieu` (
   `id_lieu` int(11) NOT NULL auto_increment,
-  `nom_lieu` varchar(30) NOT NULL,
+  `nom_lieu` varchar(40) NOT NULL,
   `description_lieu` mediumtext NOT NULL,
   `x_lieu` int(11) NOT NULL,
   `y_lieu` int(11) NOT NULL,
@@ -1877,6 +1898,14 @@ ALTER TABLE `coffre_partieplante`
   ADD CONSTRAINT `coffre_partieplante_ibfk_3` FOREIGN KEY (`id_fk_hobbit_coffre_partieplante`) REFERENCES `hobbit` (`id_hobbit`) ON DELETE CASCADE;
 
 -- 
+-- Contraintes pour la table `coffre_potion`
+-- 
+ALTER TABLE `coffre_potion`
+  ADD CONSTRAINT `coffre_potion_ibfk_3` FOREIGN KEY (`id_fk_type_coffre_potion`) REFERENCES `type_potion` (`id_type_potion`),
+  ADD CONSTRAINT `coffre_potion_ibfk_4` FOREIGN KEY (`id_fk_hobbit_coffre_potion`) REFERENCES `hobbit` (`id_hobbit`) ON DELETE CASCADE,
+  ADD CONSTRAINT `coffre_potion_ibfk_5` FOREIGN KEY (`id_fk_type_qualite_coffre_potion`) REFERENCES `type_qualite` (`id_type_qualite`);
+
+-- 
 -- Contraintes pour la table `coffre_rune`
 -- 
 ALTER TABLE `coffre_rune`
@@ -1893,8 +1922,8 @@ ALTER TABLE `communaute`
 -- Contraintes pour la table `competence`
 -- 
 ALTER TABLE `competence`
-  ADD CONSTRAINT `competence_ibfk_2` FOREIGN KEY (`id_fk_type_tabac_competence`) REFERENCES `type_tabac` (`id_type_tabac`) ON DELETE SET NULL,
-  ADD CONSTRAINT `competence_ibfk_1` FOREIGN KEY (`id_fk_metier_competence`) REFERENCES `metier` (`id_metier`);
+  ADD CONSTRAINT `competence_ibfk_1` FOREIGN KEY (`id_fk_metier_competence`) REFERENCES `metier` (`id_metier`),
+  ADD CONSTRAINT `competence_ibfk_2` FOREIGN KEY (`id_fk_type_tabac_competence`) REFERENCES `type_tabac` (`id_type_tabac`) ON DELETE SET NULL;
 
 -- 
 -- Contraintes pour la table `couple`
@@ -2064,8 +2093,8 @@ ALTER TABLE `groupe_monstre`
 -- Contraintes pour la table `hobbit`
 -- 
 ALTER TABLE `hobbit`
-  ADD CONSTRAINT `hobbit_ibfk_4` FOREIGN KEY (`id_fk_rang_communaute_hobbit`) REFERENCES `rang_communaute` (`id_rang_communaute`) ON DELETE SET NULL,
-  ADD CONSTRAINT `hobbit_ibfk_3` FOREIGN KEY (`id_fk_communaute_hobbit`) REFERENCES `communaute` (`id_communaute`) ON DELETE SET NULL;
+  ADD CONSTRAINT `hobbit_ibfk_3` FOREIGN KEY (`id_fk_communaute_hobbit`) REFERENCES `communaute` (`id_communaute`) ON DELETE SET NULL,
+  ADD CONSTRAINT `hobbit_ibfk_4` FOREIGN KEY (`id_fk_rang_communaute_hobbit`) REFERENCES `rang_communaute` (`id_rang_communaute`) ON DELETE SET NULL;
 
 -- 
 -- Contraintes pour la table `hobbits_competences`

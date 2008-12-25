@@ -88,6 +88,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($date_courante, $this->view->config->game->tour->duree_tour_manque);
 			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_cumul;
 			$this->hobbit->pa_hobbit = $this->view->config->game->pa_max_cumul;
+			$this->hobbit->est_engage_next_dla_hobbit = "non";
+			$this->hobbit->est_engage_hobbit = "non";
 			$this->is_tour_manque  = true;
 			$this->is_update_tour = true;
 		} elseif(($date_courante < $this->hobbit->date_fin_latence_hobbit) // Latence
@@ -196,6 +198,9 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			
 			// calcul des pvs restants avec la regeneration
 			$this->hobbit->pv_max_hobbit = Bral_Util_Commun::calculPvMaxBaseSansEffetMotE($this->view->config, $this->hobbit->vigueur_base_hobbit);
+			
+			$this->hobbit->est_engage_hobbit = $this->hobbit->est_engage_next_dla_hobbit;
+			$this->hobbit->est_engage_next_dla_hobbit = 'non';
 			
 			$effetMotE = Bral_Util_Commun::getEffetMotE($this->view->user->id_hobbit);
 			if ($effetMotE != null) {
@@ -579,6 +584,9 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		
 		$this->view->user->regeneration_malus_hobbit = $this->hobbit->regeneration_malus_hobbit;
 		
+		$this->view->user->est_engage_hobbit = $this->hobbit->est_engage_hobbit;
+		$this->view->user->est_engage_next_dla_hobbit = $this->hobbit->est_engage_next_dla_hobbit;
+		
 		$data = array(
 			'x_hobbit' => $this->hobbit->x_hobbit,
 			'y_hobbit'  => $this->hobbit->y_hobbit,
@@ -615,6 +623,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			'bm_attaque_hobbit' => $this->hobbit->bm_attaque_hobbit,
 			'bm_degat_hobbit' => $this->hobbit->bm_degat_hobbit,
 			'bm_defense_hobbit' => $this->hobbit->bm_defense_hobbit,
+			'est_engage_hobbit' => $this->hobbit->est_engage_hobbit,
+			'est_engage_next_dla_hobbit' => $this->hobbit->est_engage_next_dla_hobbit,
 		);
 		$where = "id_hobbit=".$this->hobbit->id_hobbit;
 		$hobbitTable->update($data, $where);

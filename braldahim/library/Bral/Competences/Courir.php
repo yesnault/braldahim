@@ -24,6 +24,13 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 			return;
 		}
 		
+		$this->view->estEngage = false;
+		if ($this->view->user->est_engage_hobbit == "oui") {
+			$this->view->courirPossible = false;
+			$this->view->estEngage = true;
+			return;
+		}
+		
 		$this->view->courirPossible = false;
 		
 		$environnement = Bral_Util_Commun::getEnvironnement($this->view->user->x_hobbit, $this->view->user->y_hobbit);

@@ -480,7 +480,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					$this->view->centre_environnement = $nom_environnement;
 				}
 				
-				if ($marcher != null && array_key_exists($display_x, $marcher["tableauValidationXY"]) && array_key_exists($display_y, $marcher["tableauValidationXY"][$display_x])) {
+				if ($marcher != null && $marcher["tableauValidationXY"] != null && array_key_exists($display_x, $marcher["tableauValidationXY"]) && array_key_exists($display_y, $marcher["tableauValidationXY"][$display_x])) {
 					$tabMarcher = $marcher["tableauValidationXY"][$display_x][$display_y];
 				} else {
 					$tabMarcher = null;

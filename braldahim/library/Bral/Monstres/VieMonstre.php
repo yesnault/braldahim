@@ -210,7 +210,6 @@ class Bral_Monstres_VieMonstre {
 				$this->updateCible($cible);
 				if ($effetMotS != null) {
 					Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - La cible (".$cible["id_hobbit"].") possede le mot S -> Riposte");
-					Zend_Loader::loadClass("Bral_Util_Attaque");
 					$hobbitTable = new Hobbit();
 					$hobbitRowset = $hobbitTable->find($cible["id_hobbit"]);
 					$hobbitAttaquant = $hobbitRowset->current();
@@ -323,6 +322,9 @@ class Bral_Monstres_VieMonstre {
 
 	private function updateCible(&$cible) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateCible - enter (id_hobbit=".$cible["id_hobbit"].")");
+		
+		Bral_Util_Attaque::calculStatutEngage(&$cible);
+		
 		// Mise a jour de la cible
 		$hobbitTable = new Hobbit();
 		$data = array(
@@ -330,6 +332,8 @@ class Bral_Monstres_VieMonstre {
 			'est_mort_hobbit' => $cible["est_mort_hobbit"],
 			'nb_mort_hobbit' => $cible["nb_mort_hobbit"],
 			'agilite_bm_hobbit' => $cible["agilite_bm_hobbit"],
+			'est_engage_hobbit' => $cible["est_engage_hobbit"],
+			'est_engage_next_dla_hobbit' => $cible["est_engage_next_dla_hobbit"],
 		);
 		$where = "id_hobbit=".$cible["id_hobbit"];
 		$hobbitTable->update($data, $where);

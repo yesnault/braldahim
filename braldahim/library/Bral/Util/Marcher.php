@@ -27,6 +27,8 @@ class Bral_Util_Marcher {
 		$retour["assezDePa"] = false;
 		$retour["effetMot"] = false;
 		$retour["marcherPossible"] = false;
+		$retour["tableauValidation"] = null;
+		$retour["tableauValidationXY"] = null;
 		
 		$retour["x_min"] = null;
 		$retour["x_max"] = null;
@@ -55,6 +57,13 @@ class Bral_Util_Marcher {
 			return $retour;
 		} else {
 			$retour["assezDePa"] = true;
+		}
+		
+		$retour["estEngage"] = false;
+		if ($hobbit->est_engage_hobbit == "oui") {
+			$retour["marcherPossible"] = false;
+			$retour["estEngage"] = true;
+			return $retour;
 		}
 		
 		$marcherPossible = false;

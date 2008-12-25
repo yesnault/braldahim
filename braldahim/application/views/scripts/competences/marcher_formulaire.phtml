@@ -1,17 +1,23 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
 
+<?php if ($this->estEngage == false) : ?>
  <?=htmlspecialchars($this->environnement) ?>: <?=$this->nb_pa ?> PA, <?=$this->nb_cases ?>
  <?php if ($this->nb_cases == 1) :?>
    case
  <?php else :?>
    cases
+   <br /><br />
  <?php endif; ?>
-<br /><br />
+<?php endif; ?>
+
 
 
 <?php if ($this->assezDePa == false) : ?>
  Vous n'avez pas assez de PA
+
+<?php elseif ($this->estEngage == true) : ?>
+Vous &ecirc;tes actuellement engag&eacute;, vous ne pouvez pas marcher ou courir...
 <?php else : ?>
 	<?php if ($this->marcherPossible == false) : ?>
  		Vous &ecirc;tes entour&eacute;, vous ne pouvez pas marcher !

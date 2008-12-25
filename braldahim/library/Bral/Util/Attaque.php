@@ -247,7 +247,10 @@ class Bral_Util_Attaque {
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - EffetMotS Riposte Fin !");
 			}
 		}
-				
+		
+		self::calculStatutEngage(&$hobbitAttaquant);
+		self::calculStatutEngage(&$cible);
+		
 		$retourAttaque["details"] = $details;
 		$retourAttaque["typeEvemenent"] = $id_type;
 		
@@ -698,6 +701,42 @@ La cible a equivé l'attaque";
 			return  true;
 		} else {
 			return false;
+		}
+	}
+	
+	public static function calculStatutEngage(&$hobbit) {
+		$est_engage_hobbit = 'non';
+		$est_engage_next_dla_hobbit = 'non';
+		
+		$c = "stdClass";
+		
+		if ($hobbit instanceof $c) {
+			$est_mort_hobbit = $hobbit->est_mort_hobbit;
+			$est_engage_hobbit = $hobbit->est_engage_hobbit;
+			$est_engage_next_dla_hobbit = $hobbit->est_engage_next_dla_hobbit;
+			$date_fin_tour_hobbit = $hobbit->date_fin_tour_hobbit;
+		} else {
+			$est_mort_hobbit = $hobbit["est_mort_hobbit"];
+			$est_engage_hobbit = $hobbit["est_engage_hobbit"];
+			$est_engage_next_dla_hobbit = $hobbit["est_engage_next_dla_hobbit"];
+			$date_fin_tour_hobbit = $hobbit["date_fin_tour_hobbit"];
+		}
+		
+		if ($est_mort_hobbit == 'non') {
+			$est_engage_hobbit = 'oui';
+			$date_courante = date("Y-m-d H:i:s");
+			// si le hobbit n'a pas encore activé ce tour
+			if ($date_fin_tour_hobbit < $date_courante) {
+				$est_engage_next_dla_hobbit = 'oui';
+			}
+		}
+		
+		if ($hobbit instanceof $c) {
+			$hobbit->est_engage_hobbit = $est_engage_hobbit;
+			$hobbit->est_engage_next_dla_hobbit = $est_engage_next_dla_hobbit;
+		} else {
+			$hobbit["est_engage_hobbit"] = $est_engage_hobbit;
+			$hobbit["est_engage_next_dla_hobbit"] = $est_engage_next_dla_hobbit;
 		}
 	}
 }

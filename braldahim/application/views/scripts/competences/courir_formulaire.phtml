@@ -1,47 +1,50 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
 
-Pour <?=$this->nb_pa ?> PA, vous pouvez courir jusqu'&agrave; <?=$this->distance ?> cases.<br />
+<? if ($this->estEngage) : ?>
+	Vous &ecirc;tes actuellement engag&eacute;, vous ne pouvez pas marcher ou courir...<br />
+<? else: ?>
+	Pour <?=$this->nb_pa ?> PA, vous pouvez courir jusqu'&agrave; <?=$this->distance ?> cases.<br />
 
 	<?php if ($this->courirPossible == false) : ?>
  		Vous &ecirc;tes entour&eacute;, vous ne pouvez pas marcher !
   	<?php endif; ?>
-  	
-  <table align='center'>
-   <tr>
-     <th>Position [x;y]</th>
-   </tr>
-   <tr>
-     <td>
-     <table class='comp_marcher_position'>
-     	<?php $col=null ?>
-		<?php foreach ($this->tableau as $case) : ?>
-
-		<?php if ($case["change_level"] == 1 && $col == "ok") :
-         echo "</tr>";
-		endif; ?>
-		<?php if ($case["change_level"] == true) : 
-			$col="ok"; ?>
-                  <tr>
-		<?php endif; ?>
-          <td class='comp_marcher_position_td' nowrap>
-           <?=$case["display"] ?><br />
-
-		<?php if ($case["valid"] == true) : ?>
-            <input type='radio' name='valeur_1' id='valeur_1' value='<?php echo $case["x_offset"]."h".$case["y_offset"] ?>' <?=$case["default"]?>>
-		<?php else: ?>
-			&nbsp;
-		<?php endif; ?>
-          </td>
-       <?php endforeach; ?>
-       </tr>
-     </table>
-     </td>
-    </tr>
-  </table>
-</div>
+	  <table align='center'>
+	   <tr>
+	     <th>Position [x;y]</th>
+	   </tr>
+	   <tr>
+	     <td>
+	     <table class='comp_marcher_position'>
+	     	<?php $col=null ?>
+			<?php foreach ($this->tableau as $case) : ?>
+	
+			<?php if ($case["change_level"] == 1 && $col == "ok") :
+	         echo "</tr>";
+			endif; ?>
+			<?php if ($case["change_level"] == true) : 
+				$col="ok"; ?>
+	                  <tr>
+			<?php endif; ?>
+	          <td class='comp_marcher_position_td' nowrap>
+	           <?=$case["display"] ?><br />
+	
+			<?php if ($case["valid"] == true) : ?>
+	            <input type='radio' name='valeur_1' id='valeur_1' value='<?php echo $case["x_offset"]."h".$case["y_offset"] ?>' <?=$case["default"]?>>
+			<?php else: ?>
+				&nbsp;
+			<?php endif; ?>
+	          </td>
+	       <?php endforeach; ?>
+	       </tr>
+	     </table>
+	     </td>
+	    </tr>
+	  </table>
+	</div>
+<? endif; ?>
 
 <br />
-<?php if ($this->assezDePa == true && $this->courirPossible == true) : ?>
+<?php if ($this->assezDePa == true && $this->courirPossible == true && $this->estEngage == false) : ?>
 <input type='button' class='button1' value='Courir !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_courir");'>
 <? endif ?>

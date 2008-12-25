@@ -2,7 +2,7 @@
 	
 	<ul class="titre textalic textsizec"><?=$this->escape($this->user->prenom_hobbit);?> 
 	  <?=$this->escape($this->user->nom_hobbit);?><? if ($this->user->titre_courant_hobbit != null) :?>,
-	  	<?=$this->user->titre_courant_hobbit?>
+	  	<?=$this->user->titre_courant_hobbit?> 
 	  <? endif;?>
 	</ul>
   
@@ -67,7 +67,7 @@
 	
 	echo $this->escape($this->user->prenom_hobbit). " ".$this->escape($this->user->nom_hobbit);
 	if ($this->user->titre_courant_hobbit != null) :
-		echo ", ".$this->user->titre_courant_hobbit;
+		echo ", ".$this->user->titre_courant_hobbit." ";
 	endif;
 	  
 	if ($this->is_mort): 
