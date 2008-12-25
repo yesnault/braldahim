@@ -10,7 +10,7 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Lieux_Ahennepeheux extends Bral_Lieux_Lieu {
+class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 
 	private $_achatPossible;
 	private $_coutCastars;

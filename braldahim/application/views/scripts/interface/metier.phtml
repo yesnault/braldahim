@@ -8,7 +8,7 @@
 	   <? if (!$this->possedeMetier): ?>
 	   	Vous ne pratiquez aucun m&eacute;tier <br /><br />
 	   	
-	   	Vous pouvez aller vous renseigner dans un Ahenne Peheux
+	   	Vous pouvez aller vous renseigner dans un Centre de Formation
 	   <? else : ?>
 		   	Vous &ecirc;tes actuellement :
 		   	<? $contenu = str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlspecialchars(addslashes($this->tabMetierCourant["description"])))); ?>
