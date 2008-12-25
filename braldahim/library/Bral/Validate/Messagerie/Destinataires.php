@@ -34,7 +34,7 @@ class Bral_Validate_Messagerie_Destinataires implements Zend_Validate_Interface 
 		}
 
 		if (mb_strlen($valeur) > 60) {
-			$this->_messages[] = "Trop de Hobbit destinataires (vous pouvez en mettre environ 20 maximum)";
+			$this->_messages[] = "Trop de Hobbits destinataires (vous pouvez en mettre environ 20 maximum)";
 			$valid = false;
 		}
 		
