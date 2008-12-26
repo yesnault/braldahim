@@ -36,6 +36,7 @@ Zend_Loader :: loadClass("Bral_Echoppes_Factory");
 Zend_Loader :: loadClass("Bral_Lieux_Factory");
 
 Zend_Loader :: loadClass("Bral_Helper_Affiche");
+Zend_Loader :: loadClass("Bral_Helper_Calendrier");
 Zend_Loader :: loadClass("Bral_Helper_Fermer");
 Zend_Loader :: loadClass("Bral_Helper_Image");
 

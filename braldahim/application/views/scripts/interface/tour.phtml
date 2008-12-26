@@ -1,5 +1,8 @@
 <div id='tour_text' style="display:block"  onClick="javascript:switch2div('tour_text','tour_copie');">
 	
+	<ul class="titre textalic textsized"><?=Bral_Helper_Calendrier::affiche();?></ul>
+	<br>
+	
 	<ul class="titre textalic textsizec"><?=$this->escape($this->user->prenom_hobbit);?> 
 	  <?=$this->escape($this->user->nom_hobbit);?><? if ($this->user->titre_courant_hobbit != null) :?>,
 	  	<?=$this->user->titre_courant_hobbit?> 
@@ -64,7 +67,8 @@
 	 
 <div id='tour_copie' style="display:none">
 	<textarea onClick="javascript:this.select();" rows=5 cols=40><?
-	
+	echo Bral_Helper_Calendrier::affiche()."
+";
 	echo $this->escape($this->user->prenom_hobbit). " ".$this->escape($this->user->nom_hobbit);
 	if ($this->user->titre_courant_hobbit != null) :
 		echo ", ".$this->user->titre_courant_hobbit." ";
