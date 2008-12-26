@@ -15,7 +15,6 @@ class GroupeMonstre extends Zend_Db_Table {
 	protected $_primary = "id_groupe_monstre";
 
 	function findGroupesAJouer($aJouerFlag, $nombreMax, $idTypeGroupe) {
-		
 		$aJouer = "";
 		if ($aJouerFlag == true) {
 			$aJouer = " AND a_jouer_groupe_monstre = 'oui'";
@@ -43,4 +42,5 @@ class GroupeMonstre extends Zend_Db_Table {
 		$nombre = $resultat[0]["nombre"];
 		return $nombre;
 	}
+	
 }
