@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: VieGroupesNuee.php 816 2008-12-23 09:59:47Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2008-12-23 10:59:47 +0100 (Tue, 23 Dec 2008) $
- * $LastChangedRevision: 816 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 abstract class Bral_Monstres_VieGroupes {
 	

@@ -92,7 +92,7 @@ class Bral_Helper_DetailEquipement {
     	$text .= self::display("BM Attaque", $e["bm_attaque"]);
     	$text .= self::display("BM Defense", $e["bm_defense"]);
      	$text .= self::display("BM D&eacute;g&acirc;ts", $e["bm_degat"]);
-     	$text .= self::display("Poids", $e["poids"]);
+     	$text .= self::display("Poids", $e["poids"], " Kg");
     	
      	$text .= "<br />Nombre d\'emplacement runique : ".$e["nb_runes"]."<br />";
      	if (count($e["runes"]) > 1) $s='s'; else $s="";
@@ -113,13 +113,13 @@ class Bral_Helper_DetailEquipement {
     	return Bral_Helper_Tooltip::jsTip($text);
     }
     
-    private static function display($display, $valeur) {
+    private static function display($display, $valeur, $unite = "") {
     	if ($valeur != null && $valeur != 0) {
     		$plus = "";
     		if ($valeur > 0) {
     			$plus = "+";
     		}
-    		return $display ." : $plus".$valeur . "<br />";
+    		return $display ." : $plus".$valeur . $unite."<br />";
     	} else {
     		return null;
     	}

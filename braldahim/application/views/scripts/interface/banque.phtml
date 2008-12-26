@@ -36,9 +36,8 @@ Votre coffre contient plusieurs tiroirs. Cliquez sur celui ou ceux que vous souh
 			</h3>
 			<ul id="tiroirCastars-body" style="display:none">
 				<li>
-					<ul class="titre textalic textsized">
-					<? if ($this->coffre["nb_castar"] > 1): $s = 's'; else: $s = ''; endif;?>
-  					<?=$this->coffre["nb_castar"] ?> Castar<?=$s?></ul>
+					<? $this->nb_castars = $this->coffre["nb_castar"]; ?>
+					<? include("commun/materiaux/castars.phtml") ?>
 				</li>
 			</ul>
 		</li>

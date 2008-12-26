@@ -1,6 +1,9 @@
 <? if ($this->nb_runes == 0) : ?>
    <center><i>Vide</i></center>
 <? else : ?>
+	<ul class="textalic textsizee">Poids d'une rune : <?=Bral_Util_Poids:: POIDS_RUNE?> Kg, 
+	Poids total de la poche : <?=($this->nb_runes*Bral_Util_Poids::POIDS_RUNE) ?>Kg</ul><br />
+	
 	<? if (count($this->runesNonIdentifiees) > 0) : ?>
 		<ul class="titre textalic textsized">Runes non identifi&eacute;es</ul><br />
 		<table class="table_liste" style="width:auto; padding:5px;" >

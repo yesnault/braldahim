@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Ramasser.php 754 2008-12-16 07:54:24Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2008-12-16 08:54:24 +0100 (Tue, 16 Dec 2008) $
- * $LastChangedRevision: 754 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Lieux_Banqueretirer extends Bral_Lieux_Lieu {
 

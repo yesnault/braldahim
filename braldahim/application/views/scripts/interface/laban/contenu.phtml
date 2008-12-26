@@ -1,7 +1,3 @@
-<? if ($this->user->castars_hobbit > 1): $s = 's'; else: $s = ''; endif;?>
-  <?=$this->user->castars_hobbit ?> Castar<?=$s?>
-
-<br /><br />
 
 Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez ouvrir. <br /><br />
 
@@ -10,6 +6,19 @@ Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez o
    
 <?=$poches = null; ?>
 	<ul id="navigation" style="width:99%;text-align:left">
+		
+		<li id="pocheCastars">
+			<? $poches[] = "pocheCastars-head" ?>
+      		<h3 id="pocheCastars-head" class="head" onClick="maccordion(this);" />
+				Poche pour les castars
+			</h3>
+			<ul id="pocheCastars-body" style="display:none">
+				<li>
+					<? $this->nb_castars = $this->user->castars_hobbit; ?>
+					<?=$this->render("/interface/commun/materiaux/castars.phtml") ?>
+				</li>
+			</ul>
+		</li>
 		
 		<? if (count($this->tabHobbitMetiers) > 0) :?>
 			<? foreach ($this->tabHobbitMetiers as $m) : ?>

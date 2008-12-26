@@ -18,7 +18,13 @@ class Bral_Helper_Contenu {
 	 		$retour .= "-";
 		} else {
 			if (array_key_exists("quantite", $tab)) {
+				if (array_key_exists("poids", $tab)) {
+					$retour .= "<span style='cursor:pointer' title='Poids unitaire : ".($tab["poids"]/$tab["quantite"])." Kg, Poids total : ".$tab["poids"]." Kg'>";
+				}
 	 			$retour .= $tab["quantite"];
+	 			if (array_key_exists("poids", $tab)) {
+	 				$retour .= "</span>";
+	 			}
 			} else {
 				$retour .= Bral_Helper_ChampBoutique::afficheChampPlante($tab);
 			}
@@ -29,7 +35,13 @@ class Bral_Helper_Contenu {
 	public static function afficheMinerai($tab) {
 		$retour = "";
 		if (array_key_exists("quantite", $tab)) {
+			if (array_key_exists("poids", $tab)) {
+				$retour .= "<span style='cursor:pointer' title='Poids unitaire : ".($tab["poids"]/$tab["quantite"])." Kg, Poids total : ".$tab["poids"]." Kg'>";
+			}
  			$retour .= $tab["quantite"];
+ 			if (array_key_exists("poids", $tab)) {
+ 				$retour .= "</span>";
+ 			}
 		} else {
 			$retour .= Bral_Helper_ChampBoutique::afficheChampMinerai($tab);
 		}

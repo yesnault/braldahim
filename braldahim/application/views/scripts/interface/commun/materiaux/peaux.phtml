@@ -1,13 +1,21 @@
 <table class="table_liste" style="width:auto; padding:5px;" >
 	<thead class="table_liste">
 		<tr class="table_liste">
+			<th style="width:auto; padding:5px;">&nbsp;</th>
 			<th style="width:auto; padding:5px;">Peaux</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr class="table_liste">
+			<td style="width:auto; padding:5px;">Quantit&eacute;</td>
 			<td class="table_liste">
 			<?=$this->nb_peaux ?>
+			</td>
+		</tr>
+		<tr class="table_liste">
+			<td style="width:auto; padding:5px;">Poids</td>
+			<td class="table_liste" style="cursor:pointer" title="Poids unitaire : <?=Bral_Util_Poids::POIDS_PEAU?> Kg">
+			<?=($this->nb_peaux*Bral_Util_Poids::POIDS_PEAU) ?> Kg
 			</td>
 		</tr>
 	</tbody>

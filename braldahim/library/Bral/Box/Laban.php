@@ -105,6 +105,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 				$tabMineraisBruts[] = array(
 					"type" => $m["nom_type_minerai"],
 					"quantite" => $m["quantite_brut_laban_minerai"],
+					"poids" => $m["quantite_brut_laban_minerai"] * Bral_Util_Poids::POIDS_MINERAI,
 				);
 			
 				if (isset($tabMetiers["mineur"])) {
@@ -115,6 +116,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 				$tabLingots[] = array(
 					"type" => $m["nom_type_minerai"],
 					"quantite" => $m["quantite_lingots_laban_minerai"],
+					"poids" => $m["quantite_lingots_laban_minerai"] * Bral_Util_Poids::POIDS_LINGOT,
 				);
 			
 				if (isset($tabMetiers["forgeron"])) {
@@ -297,6 +299,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 				$tabTypePlantesBruts[$p["categorie_type_plante"]]["a_afficher"] = true;
 				$tabTypePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
 				$tabTypePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_laban_partieplante"];
+				$tabTypePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["poids"] = $p["quantite_laban_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE;
 				if (isset($tabMetiers["herboriste"])) {
 					$tabMetiers["herboriste"]["a_afficher"] = true;
 				}
@@ -306,6 +309,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["a_afficher"] = true;
 				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
 				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_preparee_laban_partieplante"];
+				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["poids"] = $p["quantite_preparee_laban_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE;
 				if (isset($tabMetiers["apothicaire"])) {
 					$tabMetiers["apothicaire"]["a_afficher"] = true; 
 				}
