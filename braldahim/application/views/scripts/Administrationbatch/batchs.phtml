@@ -28,7 +28,8 @@
 			<? endforeach; ?>
 			<? break;endforeach; ?>
 			
-			<? foreach ($this->batchs as $b) : ?>
+			<? foreach ($this->batchs as $b) : 
+				ob_flush();?>
 			<? if ($b["etat_batch"] == "OK") :
 				$color= "#66CC66";
 			   elseif ($b["etat_batch"] == "EN_COURS") :

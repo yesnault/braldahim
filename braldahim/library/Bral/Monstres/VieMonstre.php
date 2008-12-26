@@ -131,6 +131,23 @@ class Bral_Monstres_VieMonstre {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementMonstre - exit (".$retour.")");
 	}
 
+	public function attaque($view) {
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaque - enter");
+		
+		$this->calculTour();
+		
+		if ($this->monstre["id_fk_hobbit_cible_monstre"] != null) {
+			$hobbitTable = new Hobbit();
+			$cibleDuMonstre = $hobbitTable->findById($m["id_fk_hobbit_cible_monstre"]);
+			$cibleDuMonstre = $cibleDuMonstre->toArray();
+			$vieMonstre->attaqueCible($cibleDuMonstre, $this->view);
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaque - exit (cible)");
+		} else {
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaque - exit (pas de cible)");
+			return null; // pas de cible
+		}
+	}
+	
 	public function attaqueCible(&$cible, $view) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - enter");
 		$mortCible = false;
@@ -140,7 +157,7 @@ class Bral_Monstres_VieMonstre {
 		}
 
 		$this->calculTour();
-			
+		
 		// on regarde si la cible est dans la vue du monstre
 		if (($cible["x_hobbit"] > $this->monstre["x_monstre"] + $this->monstre["vue_monstre"])
 		|| ($cible["x_hobbit"] < $this->monstre["x_monstre"] - $this->monstre["vue_monstre"])

@@ -223,13 +223,8 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 				$hobbitsCompetencesTable->insert($data);
 			}
 				
-			$hobbitTable = new Hobbit();
 			$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
 
-			$data = array('castars_hobbit' => $this->view->user->castars_hobbit);
-			$where = "id_hobbit=".$this->view->user->id_hobbit;
-			$hobbitTable->update($data, $where);
-			
 			$this->view->constructionEchoppe = $constructionEchoppe;
 			$this->view->constructionCharrette = false;
 			
@@ -248,6 +243,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 		$this->view->nomMetier = $nomMetier;
 		$this->view->apprentissageMetier = $apprentissageMetier;
 		$this->view->changementMetier = $changementMetier;
+		$this->majHobbit();
 	}
 
 
