@@ -23,7 +23,7 @@ class Bral_Helper_Calendrier {
 			6 => 'Sæterdaeg',
 		);
     	
-    	$retour = "Jour : ";
+    	$retour = "";
     	
     	$jourSemaine = date('w');
     	$numJour = date('z') + 1; // on rajoute 1, la numerotation des jours de l'annee commence à 0
