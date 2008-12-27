@@ -12,7 +12,7 @@
  */
 class Bral_Util_Poids {
 
-	 const POIDS_CASTARS = 0.008;
+	 const POIDS_CASTARS = 0.001;
 	 const POIDS_PEAU = 0.5;
 	 const POIDS_VIANDE = 0.8;
 	 const POIDS_VIANDE_PREPAREE = 0.6;
