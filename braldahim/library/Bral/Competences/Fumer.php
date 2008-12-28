@@ -107,9 +107,6 @@ class Bral_Competences_Fumer extends Bral_Competences_Competence {
 				$hobbitsCompetencesTables->update($data, $where);
 			}
 		}
-		if ($tabCompetences == null) {
-			throw new Zend_Exception(get_class($this)." Fumer competences invalides");
-		}
 		$this->view->competences = $tabCompetences;
 	}
 	

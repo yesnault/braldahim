@@ -2,17 +2,21 @@
 
 Vous avez fum&eacute; <?=$this->tabac["nom_type_tabac"] ?>.<br /> 
 
-	<? if ($this->nbToursBonus > 1) :?>
-		Pour ce tour et le prochain, 
+	<? if ($this->competences != null) :?>
+		<? if ($this->nbToursBonus > 1) :?>
+			Pour ce tour et le prochain, 
+		<? else: ?>
+			Pour le tour courant, 
+		<? endif; ?>
+	
+		cela rajoute 15% dans les comp&eacute;tences suivantes : <br>
+		
+		<? foreach($this->competences as $c): ?>
+			<?=$c["nom_competence"]?><br>
+		<? endforeach;?>
 	<? else: ?>
-		Pour le tour courant, 
+		Vous vous sentez bien, tr&egrave;s relax&eacute;, mais ce tabac n'a aucune influence sur vous.
 	<? endif; ?>
-	
-	cela rajoute 15% dans les comp&eacute;tences suivantes : <br>
-	
-	<? foreach($this->competences as $c): ?>
-		<?=$c["nom_competence"]?><br>
-	<? endforeach;?>
 
 <br>
 
