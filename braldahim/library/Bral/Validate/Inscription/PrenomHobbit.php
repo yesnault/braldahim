@@ -35,7 +35,7 @@ class Bral_Validate_Inscription_PrenomHobbit implements Zend_Validate_Interface 
 		for ($i = 0; $i< mb_strlen($valeur); $i++) {
 			$trouve = Bral_Util_String::isCaractereValid(mb_substr($valeur, $i, 1));
 			if ($trouve == false) {
-				$this->_messages[] = "Le nom du hobbit contient un ou plusieurs caract&egrave;res invalides".mb_substr($valeur, $i, 1);
+				$this->_messages[] = "Le nom du hobbit contient un ou plusieurs caract&egrave;res invalides : ".mb_substr($valeur, $i, 1);
 				$tab = Bral_Util_String::getTabCaractereValid();
 				foreach ($tab as $t) {
 					$val .= $t. " ";
