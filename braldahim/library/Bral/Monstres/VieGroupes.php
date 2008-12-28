@@ -27,9 +27,9 @@ abstract class Bral_Monstres_VieGroupes {
             // recuperation des monstres a jouer
 			$groupeMonstreTable = new GroupeMonstre();
 			$groupes = $groupeMonstreTable->findGroupesAJouer(true, $this->config->game->monstre->nombre_groupe_a_jouer, $type);
-			$this->traiteGroupes($groupes);
+			$this->traiteGroupes($groupes, true);
 			$groupes = $groupeMonstreTable->findGroupesAJouer(false, $this->config->game->monstre->nombre_groupe_a_jouer, $type);
-			$this->traiteGroupes($groupes);
+			$this->traiteGroupes($groupes, false);
         } catch (Exception $e) {
             Bral_Util_Log::erreur()->err(get_class($this)." - vieGroupesAction - Erreur:".$e->getTraceAsString());
             throw new Zend_Exception($e);
@@ -37,10 +37,12 @@ abstract class Bral_Monstres_VieGroupes {
         Bral_Util_Log::viemonstres()->trace(get_class($this)." - vieGroupesAction - exit");
     }
 	
-    private function traiteGroupes($groupes) {
+    private function traiteGroupes($groupes, $aleatoire1D2) {
     	foreach($groupes as $g) {
+    		if ($aleatoire1D2 == false || ($aleatoire1D2 == true && Bral_Util_De::get_1d2() == 1)) {
                 $this->vieGroupeAction($g);
                 $this->updateGroupe($g);
+    		}
 		}
     }
     
