@@ -14,12 +14,13 @@ Vous avez fum&eacute; <?=$this->tabac["nom_type_tabac"] ?>.<br />
 		<? foreach($this->competences as $c): ?>
 			<?=$c["nom_competence"]?><br>
 		<? endforeach;?>
+		
+		<br>
+		Vous aurez ensuite <?=$this->nbToursMalus?> tour<? if ($this->nbToursMalus > 1): echo "s"; endif; ?> de malus (-10%) sur ces comp&eacute;tences.
+		
 	<? else: ?>
 		Vous vous sentez bien, tr&egrave;s relax&eacute;, mais ce tabac n'a aucune influence sur vous.
 	<? endif; ?>
 
-<br>
-
-Vous aurez ensuite <?=$this->nbToursMalus?> tour<? if ($this->nbToursMalus > 1): echo "s"; endif; ?> de malus (-10%) sur ces comp&eacute;tences.
 <br />
 <br />
