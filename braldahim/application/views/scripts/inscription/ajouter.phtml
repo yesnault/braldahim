@@ -98,8 +98,10 @@
 				<?=$this->escape($this->messagesSexe);?><br />
 			</div>
 			<?php endif; ?>
-			Sexe du Hobbit : <input type="radio" name="sexe_hobbit" value="feminin">F&eacute;minin 
-			<input type="radio" name="sexe_hobbit" value="masculin">Masculin <br /><br />
+			Sexe du Hobbit : <input type="radio" name="sexe_hobbit" value="feminin" 
+			<?php if ($this->hobbit->sexe_hobbit == "feminin"): echo "checked"; endif; ?>>F&eacute;minin 
+			<input type="radio" name="sexe_hobbit" value="masculin"
+			<?php if ($this->hobbit->sexe_hobbit == "masculin"): echo "checked"; endif; ?>>Masculin <br /><br />
 		</div>
 	
 		<div><br />

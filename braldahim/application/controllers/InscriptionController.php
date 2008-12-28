@@ -98,6 +98,7 @@ class InscriptionController extends Zend_Controller_Action {
 		$this->prenom_hobbit = "";
 		$this->email_hobbit = "";
 		$this->email_confirm_hobbit = "";
+		$this->sexe_hobbit = "";
 		$this->id_region = -1;
 		
 		$regionTable =  new Region();
@@ -224,6 +225,7 @@ class InscriptionController extends Zend_Controller_Action {
 		$this->view->hobbit->prenom_hobbit = $this->prenom_hobbit;
 		$this->view->hobbit->email_hobbit = $this->email_hobbit;
 		$this->view->hobbit->email_confirm_hobbit = $this->email_confirm_hobbit;
+		$this->view->hobbit->sexe_hobbit = $this->sexe_hobbit;
 		$this->view->regions = $regions;
 		$this->view->id_region = $this->id_region;
 		Bral_Util_Log::inscription()->trace("InscriptionController - ajouterAction - exit");
