@@ -12,7 +12,7 @@
  */
 class Bral_Helper_Calendrier {
 	
-    public static function affiche() {
+    public static function affiche($avecSautLigneAnnee = false) {
     	$jours = array(
 			0 => 'Sunnandaeg',
 			1 => 'Monnandaeg',
@@ -31,8 +31,14 @@ class Bral_Helper_Calendrier {
     	$annee = date('Y');
     	// l'an 143 correspond à l'an 2008, soit 1865 années de différence
     	$annee = $annee - 1865;
-    	$annee = "Année ".$annee." du Premier Âge";
+    	$anneeTexte = "";
     	
+    	if ($avecSautLigneAnnee) {
+    		 $anneeTexte .= "<br>";
+    	}
+    	
+    	$anneeTexte .= "Année ".$annee." du Premier Âge";
+    	 
     	if ($numJour == 1 ||  $numJour == 365 || $numJour == 366) {
     		$retour .= "Yule";
     	} elseif ($numJour == 182 || $numJour == 184) {
@@ -41,7 +47,7 @@ class Bral_Helper_Calendrier {
     		$retour .= "Jour du milieu";
     	} else {
     		$mois = self::getMois($numJour);
-    		$retour .= self::getJour($numJour, $mois["numero"]). " ".$jours[$jourSemaine]." ".$mois["texte"]. " ". $annee;
+    		$retour .= self::getJour($numJour, $mois["numero"]). " ".$jours[$jourSemaine]." ".$mois["texte"]. " ". $anneeTexte;
     	}
     	
     	return $retour;
