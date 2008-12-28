@@ -31,6 +31,7 @@ class Bral_Helper_Calendrier {
     	$annee = date('Y');
     	// l'an 143 correspond à l'an 2008, soit 1865 années de différence
     	$annee = $annee - 1865;
+    	$annee = "Année ".$annee." du Premier Âge";
     	
     	if ($numJour == 1 ||  $numJour == 365 || $numJour == 366) {
     		$retour .= "Yule";
