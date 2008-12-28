@@ -281,6 +281,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			// points de vie
 			$this->hobbit->pv_restant_hobbit = floor(($this->view->config->game->pv_base + $this->hobbit->vigueur_base_hobbit*$this->view->config->game->pv_max_coef) / 2);
 			
+			// statut engage
+			$this->hobbit->est_engage_hobbit = "non";
+			$this->hobbit->est_engage_next_dla_hobbit = "non";
+			
 			// recalcul de la position
 			$lieuTable = new Lieu();
 			$chuRowset = $lieuTable->findByTypeAndPosition($this->view->config->game->lieu->type->hopital, $this->hobbit->x_hobbit, $this->hobbit->y_hobbit);
