@@ -181,7 +181,7 @@ abstract class Bral_Monstres_VieGroupes {
             "x_direction_groupe_monstre" => $groupe["x_direction_groupe_monstre"],
             "y_direction_groupe_monstre" => $groupe["y_direction_groupe_monstre"],
             "date_fin_tour_groupe_monstre" => $groupe["date_fin_tour_groupe_monstre"],
-        	"a_jouer_groupe_monstre" => "non",
+        	"date_a_jouer_groupe_monstre" => null,
         );
         $where = "id_groupe_monstre=".$groupe["id_groupe_monstre"];
         $groupeMonstreTable->update($data, $where);

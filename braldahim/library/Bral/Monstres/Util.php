@@ -23,7 +23,7 @@ class Bral_Monstres_Util {
         $config = Zend_Registry::get('config');
         
         $monstreTable = new Monstre();
-        $data = array('a_jouer_monstre' => 'oui');
+        $data = array('date_a_jouer_monstre' => date("Y-m-d H:i:s"));
         
         $xMin = $x - $config->game->monstre->ajouer->nbcases;
         $xMax = $x + $config->game->monstre->ajouer->nbcases;
@@ -35,6 +35,7 @@ class Bral_Monstres_Util {
         $where .= ' AND y_monstre >= '.$yMin;
         $where .= ' AND y_monstre <= '.$yMax;
         $where .= ' AND id_fk_groupe_monstre is NULL';
+        $where .= ' AND date_a_jouer_monstre is NULL';
         
         $monstreTable->update($data, $where);
     }
@@ -45,7 +46,7 @@ class Bral_Monstres_Util {
         $config = Zend_Registry::get('config');
         
         $groupeMonstreTable = new GroupeMonstre();
-        $data = array('a_jouer_groupe_monstre' => 'oui');
+        $data = array('date_a_jouer_groupe_monstre' => date("Y-m-d H:i:s"));
         
         $xMin = $x - $config->game->monstre->ajouer->nbcases;
         $xMax = $x + $config->game->monstre->ajouer->nbcases;
@@ -56,8 +57,8 @@ class Bral_Monstres_Util {
         $where .= ' AND x_direction_groupe_monstre <= '.$xMax;
         $where .= ' AND y_direction_groupe_monstre >= '.$yMin;
         $where .= ' AND y_direction_groupe_monstre <= '.$yMax;
+        $where .= ' AND date_a_jouer_groupe_monstre is NULL';
         
         $groupeMonstreTable->update($data, $where);
     }
-
 }

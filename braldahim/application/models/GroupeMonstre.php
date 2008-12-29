@@ -17,7 +17,7 @@ class GroupeMonstre extends Zend_Db_Table {
 	function findGroupesAJouer($aJouerFlag, $nombreMax, $idTypeGroupe) {
 		$aJouer = "";
 		if ($aJouerFlag == true) {
-			$aJouer = " AND a_jouer_groupe_monstre = 'oui'";
+			$aJouer = " AND date_a_jouer_groupe_monstre <= '".date("Y-m-d H:i:s")."'";
 		}
 		
 		$db = $this->getAdapter();
