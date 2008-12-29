@@ -41,8 +41,8 @@ abstract class Bral_Monstres_VieGroupes {
     	foreach($groupes as $g) {
     		if ($aleatoire1D2 == false || ($aleatoire1D2 == true && Bral_Util_De::get_1d2() == 1)) {
                 $this->vieGroupeAction($g);
-                $this->updateGroupe($g);
     		}
+			$this->updateGroupe($g);
 		}
     }
     
