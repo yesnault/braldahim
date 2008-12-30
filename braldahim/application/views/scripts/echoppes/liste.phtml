@@ -20,7 +20,7 @@
    	<table class="table_liste">
 		<thead class="table_liste">
 		  <tr class="table_liste">
-			<th>&nbsp;</th>
+			<th>Position de vos &eacute;choppes [x ; y]</th>
 			<? foreach($this->tabMetiers as $m) : ?>
 			<th><?=htmlspecialchars($m["nom_metier"]) ?></th>
 			<? endforeach; ?>
@@ -43,7 +43,7 @@
 			   				$echoppe = true;
 			   			?>
 			   				<td class="table_liste" style="cursor:pointer" onClick="_get_('/echoppes/doaction?caction=ask_echoppes_voir&valeur_1=<?=$p["echoppe"]["id_echoppe"]?>')">
-			   					<span title="Cliquez pour regarder le contenu de l'&eacute;choppe"  class="alabel"><?=$p["echoppe"]["x_echoppe"] ?> ; <?=$p["echoppe"]["y_echoppe"] ?>
+			   					<span title="Cliquez pour regarder le contenu de l'&eacute;choppe"  class="alabel">[<?=$p["echoppe"]["x_echoppe"] ?> ; <?=$p["echoppe"]["y_echoppe"] ?>]
 			   				</td>
 			   			<? else: ?>
 			   				
