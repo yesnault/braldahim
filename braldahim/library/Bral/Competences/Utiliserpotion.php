@@ -265,11 +265,11 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$retour = "";
 		
 		if ($this->view->user->id_hobbit != $this->retourPotion['cible']["id_cible"]) {
-			$retour .= $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a utilis&eacute;";
+			$retour .= $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a utilisé";
 		} else {
 			$retour .= "Vous avez bu";
 		}
-		$retour .= " une potion ".htmlspecialchars($potion["nom"])." de qualit&eacute; ";
+		$retour .= " une potion ".htmlspecialchars($potion["nom"])." de qualité ";
 		$retour .= htmlspecialchars($potion["qualite"]);
 		if ($this->view->user->id_hobbit != $this->retourPotion['cible']["id_cible"]) {
 			$retour .= " sur vous.";
@@ -285,7 +285,7 @@ Vous venez de subir ".$this->retourPotion['effet']["nEffet"];
 		$retour .= " de ".$potion["bm_type"];
 		$retour .= " sur ".$potion["caracteristique"];
 		$retour .= "
-L'effet est imm&eacute;diat.";
+L'effet est immédiat.";
 		
 		return $retour;
 	}
