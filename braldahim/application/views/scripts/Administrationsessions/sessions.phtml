@@ -1,0 +1,41 @@
+<?php echo $this->render('header.phtml'); ?>
+<div class="box_administration">
+<?=Bral_Helper_Box::haut(); ?>
+<div class="inner">
+    <ul class="titre textalic textsizea">Administration Sessions</ul>
+    	&nbsp;
+	<div class="contenu">
+	    <ul class="box_contenu1 textalic">
+	    	
+	    	<? if (count($this->sessions > 0)) : ?>
+	    		<table class="table_liste" style="width:80%">
+					<thead class="table_liste">
+					  <tr class="table_liste" title="Cliquer pour Trier">
+						<th>ID Hobbit</th>
+						<th>Id PHP session</th>
+						<th>IP</th>
+						<th>Dernière activité</th>
+					  </tr>
+					</thead>
+					<tbody>
+						<? foreach($this->sessions as $s) :?>
+							<tr class="table_liste">
+							<td style="cursor:pointer" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$s["id_fk_hobbit_session"]?>');"><?=$s["nom"]?><?=$s["id_fk_hobbit_session"]?> </td>
+							<td><?=$s["id_php_session"]?></td>
+							<td><?=$s["ip_session"]?></td>
+							<td><?=$s["date_derniere_action_session"]?></td>
+							</tr>
+						<? endforeach; ?>
+					</tbody>
+				</table>
+	    	<? else: ?>
+	    		Aucune session
+	    	<? endif; ?>
+	  
+		</ul>
+	</div>
+	&nbsp;
+</div>
+<?=Bral_Helper_Box::bas(); ?>
+</div>
+<?php echo $this->render('footer.phtml'); ?>

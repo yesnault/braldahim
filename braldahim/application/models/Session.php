@@ -14,6 +14,16 @@ class Session extends Zend_Db_Table {
 	protected $_name = 'session';
 	protected $_primary = array('id_fk_hobbit_session');
 
+	function findAll() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('session', '*')
+		->from('hobbit', '*')
+		->where('id_fk_hobbit_session = id_hobbit');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
 	function count() {
 		$db = $this->getAdapter();
 		$select = $db->select();
