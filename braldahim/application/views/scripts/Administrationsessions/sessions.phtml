@@ -20,7 +20,7 @@
 					<tbody>
 						<? foreach($this->sessions as $s) :?>
 							<tr class="table_liste">
-							<td style="cursor:pointer" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$s["id_fk_hobbit_session"]?>');"><?=$s["nom"]?><?=$s["id_fk_hobbit_session"]?> </td>
+							<td style="cursor:pointer" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$s["id_fk_hobbit_session"]?>');"><?=$s["nom"]?> (<?=$s["id_fk_hobbit_session"]?>)</td>
 							<td><?=$s["id_php_session"]?></td>
 							<td><?=$s["ip_session"]?></td>
 							<td><?=$s["date_derniere_action_session"]?></td>

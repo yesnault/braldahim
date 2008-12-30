@@ -17,7 +17,7 @@ class Bral_Util_EffetsPotion {
 		
 		Zend_Loader::loadClass("EffetPotionHobbit");
 		$effetPotionHobbitTable = new EffetPotionHobbit();
-		$effetPotionHobbitRowset = $effetPotionHobbitTable->findByIdHobbitCible($hobbitCible->id_hobbit);
+		$effetPotionHobbitRowset = $effetPotionHobbitTable->findByIdHobbitCible($hobbitCible->id_hobbit, $appliqueEffet);
 		unset($effetPotionHobbitTable);
 		
 		$potions = null;

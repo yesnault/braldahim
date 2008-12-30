@@ -14,14 +14,18 @@ class EffetPotionHobbit extends Zend_Db_Table {
 	protected $_name = 'effet_potion_hobbit';
 	protected $_primary = array('id_effet_potion_hobbit');
 
-	function findByIdHobbitCible($id_hobbit) {
+	function findByIdHobbitCible($id_hobbit, $appliqueEffet) {
+		$and = "";
+		if ($appliqueEffet) {
+			$and = " AND nb_tour_restant_effet_potion_hobbit > 0 ";
+		}
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('effet_potion_hobbit', '*')
 		->from('type_potion')
 		->from('type_qualite')
 		->where('id_fk_type_potion_effet_potion_hobbit = id_type_potion')
-		->where('id_fk_type_qualite_effet_potion_hobbit = id_type_qualite')
+		->where('id_fk_type_qualite_effet_potion_hobbit = id_type_qualite'.$and)
 		->where('id_fk_hobbit_cible_effet_potion_hobbit = ?', intval($id_hobbit));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -42,7 +46,7 @@ class EffetPotionHobbit extends Zend_Db_Table {
 			Bral_Util_Log::potion()->debug('EffetPotionHobbit - enleveUnTour - potion '.$potion["id_potion"].' tour(s) restant(s)='.$resultat["nb_tour_restant_effet_potion_hobbit"]);
 			
 			$where = 'id_effet_potion_hobbit = '.intval($potion["id_potion"]);
-			if ($resultat["nb_tour_restant_effet_potion_hobbit"] < 1) {
+			if ($resultat["nb_tour_restant_effet_potion_hobbit"] < 0) {
 				Bral_Util_Log::potion()->debug('EffetPotionHobbit - enleveUnTour - suppression de la potion '.$potion["id_potion"].' de la table EffetPotionHobbit');
 				$this->delete($where);
 			} else {

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Jeu 25 Décembre 2008 à 21:50
+-- Généré le : Mar 30 Décembre 2008 à 18:19
 -- Version du serveur: 5.0.41
 -- Version de PHP: 5.2.3
 
@@ -768,6 +768,7 @@ CREATE TABLE `groupe_monstre` (
   `date_fin_tour_groupe_monstre` datetime default NULL COMMENT 'DLA du dernier monstre à jouer dans ce groupe',
   `x_direction_groupe_monstre` int(11) NOT NULL,
   `y_direction_groupe_monstre` int(11) NOT NULL,
+  `date_a_jouer_groupe_monstre` datetime default NULL,
   PRIMARY KEY  (`id_groupe_monstre`),
   KEY `id_fk_type_groupe_monstre` (`id_fk_type_groupe_monstre`),
   KEY `id_fk_hobbit_cible_groupe_monstre` (`id_fk_hobbit_cible_groupe_monstre`)
@@ -1176,6 +1177,7 @@ CREATE TABLE `monstre` (
   `nb_kill_monstre` int(11) NOT NULL,
   `date_creation_monstre` datetime NOT NULL,
   `est_mort_monstre` enum('oui','non') NOT NULL default 'non',
+  `date_a_jouer_monstre` datetime default NULL,
   PRIMARY KEY  (`id_monstre`),
   KEY `id_fk_groupe_monstre` (`id_fk_groupe_monstre`),
   KEY `idx_x_monstre_y_monstre` (`x_monstre`,`y_monstre`),
@@ -1389,6 +1391,22 @@ CREATE TABLE `region` (
   `y_max_region` int(11) NOT NULL,
   `est_pvp_region` enum('oui','non') NOT NULL default 'non',
   PRIMARY KEY  (`id_region`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `session`
+-- 
+
+CREATE TABLE `session` (
+  `id_fk_hobbit_session` int(11) NOT NULL,
+  `id_php_session` varchar(40) NOT NULL,
+  `ip_session` varchar(50) NOT NULL,
+  `date_derniere_action_session` datetime NOT NULL,
+  PRIMARY KEY  (`id_fk_hobbit_session`),
+  UNIQUE KEY `id_php_session` (`id_php_session`),
+  KEY `date_derniere_action_session` (`date_derniere_action_session`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -2243,6 +2261,12 @@ ALTER TABLE `recette_potions`
 ALTER TABLE `ref_monstre`
   ADD CONSTRAINT `ref_monstre_ibfk_1` FOREIGN KEY (`id_fk_type_ref_monstre`) REFERENCES `type_monstre` (`id_type_monstre`),
   ADD CONSTRAINT `ref_monstre_ibfk_2` FOREIGN KEY (`id_fk_taille_ref_monstre`) REFERENCES `taille_monstre` (`id_taille_monstre`);
+
+-- 
+-- Contraintes pour la table `session`
+-- 
+ALTER TABLE `session`
+  ADD CONSTRAINT `session_ibfk_1` FOREIGN KEY (`id_fk_hobbit_session`) REFERENCES `hobbit` (`id_hobbit`) ON DELETE CASCADE;
 
 -- 
 -- Contraintes pour la table `stock_bois`
