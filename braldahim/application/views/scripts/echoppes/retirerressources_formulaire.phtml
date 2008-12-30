@@ -18,7 +18,7 @@
 					Rondins : <?=$this->echoppe["quantite_rondin_arriere_echoppe"] ?>.
 					<? if ($this->charretteOk === true): ?>
 						Quantit&eacute; &agrave; retirer : 
-						<input type='text' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0; if (this.value > <?=$this->echoppe["quantite_rondin_arriere_echoppe"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}" >
+						<input type='text' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0; if (this.value > <?=$this->echoppe["quantite_rondin_arriere_echoppe"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}" >
 					<? else : ?>
 						<input type='hidden' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='0' >
 						Vous n'avez pas de charette pour les retirer.
@@ -31,7 +31,7 @@
 				<? if ($this->echoppe["quantite_peau_arriere_echoppe"] > 0): ?>
 					Peau : <?=$this->echoppe["quantite_peau_arriere_echoppe"] ?>.
 					Quantit&eacute; &agrave; retirer : 
-					<input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$this->echoppe["quantite_peau_arriere_echoppe"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}">
+					<input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->echoppe["quantite_peau_arriere_echoppe"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}">
 				<? else : ?>
 					Aucune peau.
 					<input type='hidden' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='0' >
@@ -97,8 +97,8 @@
 				    		
 				    		<?=htmlspecialchars($p["nom_plante"])?> : <?=$p["quantite_arriere_echoppe_partieplante"]?> <?=htmlspecialchars($p["nom_type"])?><?=$s ?> brute<?=$s ?> et <?=$p["quantite_preparees_echoppe_partieplante"]?> <?=htmlspecialchars($p["nom_type"])?><?=$s2 ?> pr&eacute;par&eacute;<?=$s2 ?>.
 				    		Quantit&eacute; &agrave; retirer :
-				    		<br>Brute <input type='text' maxlength='4' size='4' name='valeur_<?=$k?>' id='valeur_<?=$k?>' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$p["quantite_arriere_echoppe_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}">
-				    		<br>Pr&eacute;par&eacute;e <input type='text' maxlength='4' size='4' name='valeur_<?=($k+1)?>' id='valeur_<?=($k+1)?>' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$p["quantite_preparees_echoppe_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}">
+				    		<br>Brute <input type='text' maxlength='4' size='4' name='valeur_<?=$k?>' id='valeur_<?=$k?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$p["quantite_arriere_echoppe_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}">
+				    		<br>Pr&eacute;par&eacute;e <input type='text' maxlength='4' size='4' name='valeur_<?=($k+1)?>' id='valeur_<?=($k+1)?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$p["quantite_preparees_echoppe_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}">
 				    	</td>
 				    	<? if ($i % 3 == 2) echo "</tr>"; 
 				    	$i++; 
@@ -140,8 +140,8 @@
 		    	<td>
 		    		<?=htmlspecialchars($m["type"])?> - brut<? if ($m["quantite_arriere_echoppe_minerai"] > 0) echo "s" ?> : <?=$m["quantite_arriere_echoppe_minerai"]?>, lingot<? if ($m["quantite_lingots_echoppe_minerai"] > 0) echo "s" ?> : <?=$m["quantite_lingots_echoppe_minerai"]?>
 		    		<br>Quantit&eacute; &agrave; retirer -
-		    		<br>Brut : <input type='text' maxlength='4' size='4' name='valeur_<?=$k ?>' id='valeur_<?=$k ?>' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_arriere_echoppe_minerai"] ?>) { alert('Valeur trop grande'); this.value = 0 }; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}" >
-		    		Lingot : <input type='text' maxlength='4' size='4' name='valeur_<?=($k+1) ?>' id='valeur_<?=($k+1) ?>' value='0' onkeypress="chiffres(event, false);" onBlur="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_lingots_echoppe_minerai"] ?>) { alert('Valeur trop grande'); this.value = 0 }; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}" >
+		    		<br>Brut : <input type='text' maxlength='4' size='4' name='valeur_<?=$k ?>' id='valeur_<?=$k ?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_arriere_echoppe_minerai"] ?>) { alert('Valeur trop grande'); this.value = 0 }; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}" >
+		    		Lingot : <input type='text' maxlength='4' size='4' name='valeur_<?=($k+1) ?>' id='valeur_<?=($k+1) ?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_lingots_echoppe_minerai"] ?>) { alert('Valeur trop grande'); this.value = 0 }; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}" >
 		    	</td>
 		    	<? if ($i % 3 == 2) echo "</tr>"; 
 		    	$i++; 
