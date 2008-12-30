@@ -50,7 +50,7 @@ class Bral_Helper_Calendrier {
     		$retour .= self::getJour($numJour, $mois["numero"]). " ".$jours[$jourSemaine]." ".$mois["texte"];
     	}
     	
-    	return $retour. " ". $anneeTexte;
+    	return $retour. ", ". $anneeTexte;
     }
     
     private static function getJour($jour, $numMois) {
