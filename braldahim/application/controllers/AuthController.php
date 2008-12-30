@@ -78,6 +78,10 @@ class AuthController extends Zend_Controller_Action {
 					Zend_Auth::getInstance()->getIdentity()->administrateur = (Zend_Auth::getInstance()->getIdentity()->sysgroupe_hobbit == 'admin');
 					Zend_Auth::getInstance()->getIdentity()->usurpationEnCours = false;
 					
+					$sessionTable = new Session();
+					$data = array("id_fk_hobbit_session" => $hobbit->id_hobbit, "id_php_session" => session_id(), "ip_session" => $_SERVER['REMOTE_ADDR'], "date_derniere_action_session" => date("Y-m-d H:i:s")); 
+					$sessionTable->insertOrUpdate($data);
+					
 					if (Zend_Auth::getInstance()->getIdentity()->gardiennage === true) {
 						Bral_Util_Log::authentification()->trace("AuthController - loginAction - appel gardiennage");
 						$this->_redirect('/Gardiennage/');

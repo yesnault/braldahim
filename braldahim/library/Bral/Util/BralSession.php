@@ -36,7 +36,10 @@ class Bral_Util_BralSession {
 		$result = $auth->authenticate($authAdapter);
 		$hobbit = $authAdapter->getResultRowObject(null,'password_hobbit');
 		
-		if ($hobbit != null) {
+		$sessionTable = new Session();
+		$nombre = $sessionTable->countByIdHobbitAndIdSession($user->id_hobbit, session_id());
+		
+		if ($hobbit != null && $nombre == 1) {
 			$auth->getStorage()->write($hobbit);
 			Zend_Auth::getInstance()->getIdentity()->initialCall = false;
 			Zend_Auth::getInstance()->getIdentity()->dateAuth = $dateAuth;
@@ -44,6 +47,10 @@ class Bral_Util_BralSession {
 			Zend_Auth::getInstance()->getIdentity()->gardiennage = $gardiennage;
 			Zend_Auth::getInstance()->getIdentity()->gardeEnCours = $gardeEnCours;
 			Zend_Auth::getInstance()->getIdentity()->administrateur = $administrateur;
+			
+			$data = array("id_fk_hobbit_session" => $hobbit->id_hobbit, "id_php_session" => session_id(), "ip_session" => $_SERVER['REMOTE_ADDR'], "date_derniere_action_session" => date("Y-m-d H:i:s")); 
+			$sessionTable->insertOrUpdate($data);
+			
 			return true;
 		} else {
 			return false;

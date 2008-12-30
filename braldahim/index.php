@@ -66,6 +66,7 @@ Zend_Loader :: loadClass("Bral_Xml_Entry");
 Zend_Loader :: loadClass("Competence");
 Zend_Loader :: loadClass("Hobbit");
 Zend_Loader :: loadClass("JosUddeim");
+Zend_Loader :: loadClass("Session");
 
 // load configuration
 $config = new Zend_Config_Ini('./application/config.ini', 'general');

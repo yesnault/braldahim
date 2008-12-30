@@ -17,6 +17,18 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		if (!Zend_Auth::getInstance()->hasIdentity() || $this->_request->get("dateAuth") != $this->view->user->dateAuth ) {
 			$this->_redirect('/auth/logoutajax');
+		} else if (!Zend_Auth::getInstance()->hasIdentity() 
+			|| ($this->_request->action != 'index' && 
+				$this->view->user->initialCall == false && 
+				$this->_request->get("dateAuth") != $this->view->user->dateAuth)
+			|| !isset($this->view->user) || !isset($this->view->user->email_hobbit)) {
+				if (!Zend_Auth::getInstance()->hasIdentity() ) {
+					Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax 1A - Session perdue");
+				} else {
+					Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax 1B action=".$this->_request->action. " initialCall=".$this->view->user->initialCall. " dateAuth=".$this->_request->get("dateAuth"). " dateAuth2=".$this->view->user->dateAuth);
+				}
+				
+				$this->_redirect('/auth/logoutajax');
 		} else {
 			Zend_Loader::loadClass('Bral_Util_BralSession');
 			if (Bral_Util_BralSession::refreshSession() == false) {
