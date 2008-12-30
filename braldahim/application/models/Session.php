@@ -14,6 +14,15 @@ class Session extends Zend_Db_Table {
 	protected $_name = 'session';
 	protected $_primary = array('id_fk_hobbit_session');
 
+	function count() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('session', 'count(*) as nombre');
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		return $resultat[0]["nombre"];
+	}
+	
 	function countByIdHobbitAndIdSession($idSession, $idSessionPhp) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -39,5 +48,10 @@ class Session extends Zend_Db_Table {
 			$where = 'id_fk_hobbit_session = '.$data["id_fk_hobbit_session"];
 			$this->update($data, $where);
 		}
+	}
+	
+	function purge() {
+		$where = "date_derniere_action_session < '".Bral_Util_ConvertDate::get_date_add_time_to_date(date("Y-m-d H:i:s"), "00:-15:00")."'";
+		$this->delete($where);
 	}
 }

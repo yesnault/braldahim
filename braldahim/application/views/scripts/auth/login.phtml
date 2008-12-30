@@ -8,7 +8,6 @@
  
  <? include("infosjeu.phtml") ?>
  
-<form action="/auth/login" method="post"> 
 <div class="box_authentification">
 <?=Bral_Helper_Box::haut(); ?>
 <div class="inner">
@@ -23,6 +22,9 @@
 	
 	<div class="contenu">
 	    <ul class="box_contenu1 textalib">
+	    
+	    <form action="/auth/login" method="post"> 
+	    
 	    <br />
 	    Adresse email du Joueur : <input type="text" name="email" id='email' size='23' maxlength='100'/> <br />
 	
@@ -41,12 +43,16 @@
 	    <input type="submit" class='button1' value="Connexion" />
 	    <p><a href="/Perdu">Perdu ?</a> ou <a href="/inscription">Pas encore inscrit ?</a></p>
 	    <p><a href="http://www.braldahim.com/index.php?option=com_awiki&view=mediawiki&article=Braldahim_sous_Internet_Explorer&Itemid=41">Vous utilisez Internet Explorer ?</a></p>
-	    </ul>    
+	    
+	    </form> 
+	    
+	    </ul>
+	    <? $s = ""; if ($this->nbConnecte > 1): $s = "s"; endif; ?>
+	    Il y a actuellement <?=$this->nbConnecte?> hobbit<?=$s ?> connect&eacute;<?=$s?>
 	</div>
 </div>
 <?=Bral_Helper_Box::bas(); ?>
 </div>
-</form> 
 
 <script language="javascript">
 $('email').focus();

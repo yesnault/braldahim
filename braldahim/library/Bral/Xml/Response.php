@@ -32,6 +32,8 @@ class Bral_Xml_Response {
 		echo new Zend_Date();
 		echo " | </data>\n";
 		echo "</entrie>\n";
+		$this->XmlNbConnecte();
+		
 		ob_flush();
 		foreach ($this->list as $k => $e) {
 			echo "<entrie>\n";
@@ -64,5 +66,22 @@ class Bral_Xml_Response {
 	}
 	
 	public function __construct() {
+	}
+	
+	private function XmlNbConnecte() {
+		$session = new Session();
+		$nb = $session->count();
+		$s = "";
+		if ($nb > 1) {
+			$s = "s";
+		}
+		unset($session);
+		echo "<entrie>\n";
+		echo "<type>display</type>\n";
+		echo "<valeur>nb_connectes</valeur>\n";
+		echo "<data>";
+		echo "Il y a actuellement ".$nb." hobbit".$s." connecté".$s;
+		echo "</data>\n";
+		echo "</entrie>\n";
 	}
 }

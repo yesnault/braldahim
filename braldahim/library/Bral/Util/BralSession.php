@@ -37,6 +37,7 @@ class Bral_Util_BralSession {
 		$hobbit = $authAdapter->getResultRowObject(null,'password_hobbit');
 		
 		$sessionTable = new Session();
+		$sessionTable->purge();
 		$nombre = $sessionTable->countByIdHobbitAndIdSession($user->id_hobbit, session_id());
 		
 		if ($hobbit != null && $nombre == 1) {
@@ -53,6 +54,11 @@ class Bral_Util_BralSession {
 			
 			return true;
 		} else {
+			if ($nombre != 1) {
+				$where = "id_fk_hobbit_session = ".$user->id_hobbit; 
+				$sessionTable->delete($where);
+				Bral_Util_Log::tech()->warn("Bral_Util_BralSession - session sur 2 navigateurs - ID Hobbit:".$user->id_hobbit." IP:".$_SERVER['REMOTE_ADDR']);
+			}
 			return false;
 		}
 	}

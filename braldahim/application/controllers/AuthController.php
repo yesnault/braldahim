@@ -30,6 +30,9 @@ class AuthController extends Zend_Controller_Action {
 
 		$this->view->message = '';
 		
+		$session = new Session();
+		$this->view->nbConnecte = $session->count(); 
+		
 		Zend_Loader::loadClass('Zend_Filter_StripTags');
 		$f = new Zend_Filter_StripTags();
 		$email = $f->filter($this->_request->getPost('email'));
@@ -107,14 +110,28 @@ class AuthController extends Zend_Controller_Action {
 	}
 
 	function logoutAction() {
+		$this->deleteSessionInTable();
 		Zend_Auth::getInstance()->clearIdentity();
 		$this->_redirect('/');
 	}
 	
 	function logoutajaxAction() {
+		$this->deleteSessionInTable();
 		Zend_Auth::getInstance()->clearIdentity();
 		$this->render();
-	}	
+	}
+	
+	private function deleteSessionInTable() {
+		$c = "stdClass";
+		if (Zend_Auth::getInstance()->hasIdentity() && Zend_Auth::getInstance()->getIdentity() instanceof $c) {
+			$idHobbit = Zend_Auth::getInstance()->getIdentity()->id_hobbit;
+			if ($idHobbit > 0) {
+				$sessionTable = new Session();
+				$where = "id_fk_hobbit_session = ".$idHobbit; 
+				$sessionTable->delete($where);
+			}
+		}
+	}
 	
 	private function prepareInfosJeu() {
 		Zend_Loader::loadClass('InfoJeu');
