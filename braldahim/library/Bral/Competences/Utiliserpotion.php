@@ -210,7 +210,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		}
 		
 		$potion["nb_tour_restant"] = $nbTour;
-		$this->retourPotion["effet"] = Bral_Util_EffetsPotion::appliquePotionSurHobbit($potion, $this->view->user->id_hobbit, $hobbit, false);
+		$this->retourPotion["effet"] = Bral_Util_EffetsPotion::appliquePotionSurHobbit(true, $potion, $this->view->user->id_hobbit, $hobbit, false);
 	}
 	
 	private function utiliserPotionMonstre($potion, $idMonstre) {

@@ -1,0 +1,48 @@
+<? include("box_header.phtml") ?>
+<div class="inner">
+<ul class="titre textalia textsizeb">Effets de Potion</ul>
+ <div class="contenuC">
+  <ul class="box_contenu1 textalic">
+  
+ <? if ($this->affichageInterne == true) : ?>
+		<?$nb = count($this->potions);
+		if ($nb > 1) { $s = 's'; $verb = 'ont'; } else { $s =''; $verb = 'a'; }
+		?>
+		
+		
+		<? if ($nb > 0) :?>
+		<br /><?=$nb ?> potion<?=$s ?> <?=$verb?> actuellement de l'effet sur vous.<br />
+		
+			<table class="table_liste" style="width:80%">
+				<thead class="table_liste">
+				  <tr class="table_liste" title="Cliquer pour Trier">
+					<th>Potion</th>
+					<th>Effet</th>
+				  </tr>
+				</thead>
+				<tbody>
+					<? foreach($this->potions as $e) : ?>
+					<tr class="table_liste">
+						<td><?=htmlspecialchars($e["potion"]["nom"]) ?> de qualit&eacute; <?=htmlspecialchars($e["potion"]["qualite"]) ?>, 
+						niveau <?=$e["potion"]["niveau"] ?>
+						</td>
+						<td>
+						<?=$e["retourPotion"]["nEffet"] ?> point<? if ($e["retourPotion"]["nEffet"]): echo 's'; endif; ?> de <?=$e["potion"]["bm_type"] ?> sur <?=$e["potion"]["caracteristique"]?>
+						et <?=$e["retourPotion"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["retourPotion"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>
+						</td>
+					</tr>
+					<? endforeach; ?>
+				</tbody>
+			</table>
+		<? else: ?>
+		Aucun effet de potion n'est appliqu&eacute; sur vous actuellement.
+		<? endif;?>
+   <br> <br>
+ <? else: ?>
+	Chargement en cours
+	<br /><img src="/public/images/wait.gif" />
+<? endif; ?>
+   </ul>
+</div>
+</div>
+<? include("box_bottom.phtml") ?>

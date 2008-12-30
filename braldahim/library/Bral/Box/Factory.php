@@ -47,6 +47,9 @@ class Bral_Box_Factory {
 			case "box_echoppes" :
 				return self::getEchoppes($request, $view, $interne);
 				break;
+			case "box_effets" :
+				return self::getEffets($request, $view, $interne);
+				break;
 			case "box_equipement" :
 				return self::getEquipement($request, $view, $interne);
 				break;
@@ -147,6 +150,11 @@ class Bral_Box_Factory {
 	public static function getEchoppes($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Echoppes");
 		return new Bral_Box_Echoppes($request, $view, $interne);
+	}
+	
+	public static function getEffets($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Effets");
+		return new Bral_Box_Effets($request, $view, $interne);
 	}
 	
 	public static function getEquipement($request, $view, $interne) {

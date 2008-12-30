@@ -476,7 +476,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 	private function calculBMPotion() {
 		Bral_Util_Log::tour()->trace(get_class($this)." calculBMPotion - enter -");
 		Zend_Loader::loadClass("Bral_Util_EffetsPotion");
-		$effetsPotions = Bral_Util_EffetsPotion::calculPotionHobbit($this->hobbit);
+		$effetsPotions = Bral_Util_EffetsPotion::calculPotionHobbit($this->hobbit, true);
 		
 		if (count($effetsPotions) > 0) {
 			$this->view->effetPotion = true;
