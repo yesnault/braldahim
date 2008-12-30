@@ -160,6 +160,22 @@ class Monstre extends Zend_Db_Table {
 			$where .= " AND y_monstre <= ". $v["y_max_ville"];
 			$this->delete($where);
 		}
+	}
+	
+	function findMonstresAJouerSansGroupe($aJouerFlag, $nombreMax) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('monstre', '*')
+		->from('type_monstre', '*')
+		->where('monstre.id_fk_type_monstre = type_monstre.id_type_monstre');
 		
+		if ($aJouerFlag != "") {
+			$select->where('date_a_jouer_monstre <= ?', date("Y-m-d H:i:s"));
+		}
+		$select->where('id_fk_groupe_monstre is NULL');
+		$select->order('date_fin_tour_monstre ASC');
+		$select->limitPage(0, $nombreMax);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
 	}
 }

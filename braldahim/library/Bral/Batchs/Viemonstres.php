@@ -20,11 +20,15 @@ class Bral_Batchs_Viemonstres extends Bral_Batchs_Batch {
         Zend_Loader::loadClass('Monstre');
         Zend_Loader::loadClass("Bral_Monstres_VieGroupes");
         Zend_Loader::loadClass("Bral_Monstres_VieGroupesNuee");
+        Zend_Loader::loadClass("Bral_Monstres_VieSolitaire");
         Zend_Loader::loadClass("Bral_Util_Evenement");
         Zend_Loader::loadClass("Bral_Util_Attaque");
 
 		$vieGroupe = new Bral_Monstres_VieGroupesNuee($this->view);
-        $vieGroupe->action();
+       // $vieGroupe->action();
+        
+        $vieSolitaire = new Bral_Monstres_VieSolitaire($this->view);
+        $vieSolitaire->action();
 		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Viemonstres - calculBatchImpl - exit -");
 		return $retour;

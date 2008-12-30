@@ -368,10 +368,13 @@ class Bral_Monstres_VieMonstre {
 			'pa_monstre' => $this->monstre["pa_monstre"],
 			'x_monstre' => $this->monstre["x_monstre"],
 			'y_monstre' => $this->monstre["y_monstre"],
+			'x_direction_monstre' => $this->monstre["x_direction_monstre"],
+			'y_direction_monstre' => $this->monstre["y_direction_monstre"],
 			'nb_kill_monstre' => $this->monstre["nb_kill_monstre"],
 			'date_fin_tour_monstre' => $this->monstre["date_fin_tour_monstre"],
 			'duree_prochain_tour_monstre' => $this->monstre["duree_prochain_tour_monstre"],
 			'id_fk_hobbit_cible_monstre' => $this->monstre["id_fk_hobbit_cible_monstre"],
+			'date_a_jouer_monstre' => null,
 		);
 		$where = "id_monstre=".$this->monstre["id_monstre"];
 		$monstreTable->update($data, $where);

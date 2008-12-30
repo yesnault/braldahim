@@ -60,7 +60,7 @@ abstract class Bral_Monstres_VieGroupes {
 	
         $monstre_role_a = $this->majRoleA($groupe, $monstres);
         
-		$cible = self::reperageCible($groupe);
+		$cible = self::reperageCible($monstre_role_a, $groupe, $monstres);
 		
         if ($cible != null) { // si une cible est trouvee, on attaque
             $this->attaqueGroupe($monstre_role_a, $groupe, $monstres, $cible);
@@ -72,7 +72,7 @@ abstract class Bral_Monstres_VieGroupes {
         Bral_Util_Log::viemonstres()->trace(get_class($this)." - vieGroupeAction - exit");
     }
 
-    private function reperageCible(&$groupe) {
+    private function reperageCible(&$monstre_role_a, &$groupe, &$monstres) {
     	Bral_Util_Log::viemonstres()->trace(get_class($this)." - reperageCible - enter");
     	$cible = null;
     	
