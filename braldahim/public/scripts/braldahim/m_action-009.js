@@ -193,7 +193,7 @@ function showResponse(originalRequest) {
 
 	// Box informations
 	if (display_informations) {
-		Modalbox.show($("informations"), { title :'Informations', width :450, overlayClose :false });
+		Modalbox.show($("informations"), { title :'Informations', width :600, overlayClose :false });
 	}
 
 	// Box erreur
