@@ -47,10 +47,10 @@ class Bral_Helper_Calendrier {
     		$retour .= "Jour du milieu";
     	} else {
     		$mois = self::getMois($numJour);
-    		$retour .= self::getJour($numJour, $mois["numero"]). " ".$jours[$jourSemaine]." ".$mois["texte"]. " ". $anneeTexte;
+    		$retour .= self::getJour($numJour, $mois["numero"]). " ".$jours[$jourSemaine]." ".$mois["texte"];
     	}
     	
-    	return $retour;
+    	return $retour. " ". $anneeTexte;
     }
     
     private static function getJour($jour, $numMois) {
