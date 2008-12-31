@@ -159,8 +159,10 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		
 		if ($utiliserPotionHobbit === true) {
 			$this->utiliserPotionHobbit($potion, $idHobbit);
-			$detailsBot = $this->getDetailEvenementCible($potion);
-			Bral_Util_Evenement::majEvenements($this->retourPotion['cible']["id_cible"], $this->view->config->game->evenements->type->competence, $this->detailEvenement, $detailsBot, "hobbit", true, $this->view);
+			if ($this->view->user->id_hobbit != $this->retourPotion['cible']["id_cible"]) {
+				$detailsBot = $this->getDetailEvenementCible($potion);
+				Bral_Util_Evenement::majEvenements($this->retourPotion['cible']["id_cible"], $this->view->config->game->evenements->type->competence, $this->detailEvenement, $detailsBot, "hobbit", true, $this->view);
+			}
 		} elseif ($utiliserPotionMonstre === true) {
 			$this->utiliserPotionMonstre($potion, $idMonstre);
 			$this->setDetailsEvenementCible($idMonstre, "monstre");
@@ -178,7 +180,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_vue", "box_lieu", "box_laban"));
+		return $this->constructListBoxRefresh(array("box_vue", "box_lieu", "box_laban", "box_effets"));
 	}
 	
 	private function utiliserPotionHobbit($potion, $idHobbit) {
@@ -265,15 +267,22 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$retour = "";
 		
 		if ($this->view->user->id_hobbit != $this->retourPotion['cible']["id_cible"]) {
-			$retour .= $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a utilisé";
+			$retour .= $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") ";
+		}
+		
+		if ($potion["bm_type"] == "bonus") {
+			$retour .= "vous a lancé une potion ";
+			$retour .= htmlspecialchars($potion["nom"])." de qualité ";
+			$retour .= htmlspecialchars($potion["qualite"]);
+			$retour .= " que vous avez immédiatement bu !";
 		} else {
-			$retour .= "Vous avez bu";
+			$retour .= "vous a jetté à la figure une fiole qui éclate. ";
+			$retour .= "La potion ";
+			$retour .= htmlspecialchars($potion["nom"])." de qualité ";
+			$retour .= htmlspecialchars($potion["qualite"]);
+			$retour .= " commence à faire effet...";
 		}
-		$retour .= " une potion ".htmlspecialchars($potion["nom"])." de qualité ";
-		$retour .= htmlspecialchars($potion["qualite"]);
-		if ($this->view->user->id_hobbit != $this->retourPotion['cible']["id_cible"]) {
-			$retour .= " sur vous.";
-		}
+		
 		$retour .= "
 ";
 		$retour .= "L'effet de la potion porte sur ".$this->retourPotion['effet']['nb_tour_restant']." tour";

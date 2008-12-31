@@ -40,7 +40,7 @@ class Bral_Util_BralSession {
 		$sessionTable->purge();
 		$nombre = $sessionTable->countByIdHobbitAndIdSession($user->id_hobbit, session_id());
 		
-		if ($hobbit != null && $nombre == 1) {
+		if ($hobbit != null && ($nombre == 1 || $administrateur)) {
 			$auth->getStorage()->write($hobbit);
 			Zend_Auth::getInstance()->getIdentity()->initialCall = false;
 			Zend_Auth::getInstance()->getIdentity()->dateAuth = $dateAuth;

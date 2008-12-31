@@ -110,6 +110,11 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 	            Zend_Auth::getInstance()->getIdentity()->gardeEnCours = true;
 	            Zend_Auth::getInstance()->getIdentity()->administrateur = true;
 	            Zend_Auth::getInstance()->getIdentity()->usurpationEnCours = true;
+				
+	            $sessionTable = new Session();
+	            $where = "id_php_session = '".session_id()."'"; 
+				$sessionTable->delete($where);
+	            
 	            $this->_redirect('/'); 
 			}
 		}
