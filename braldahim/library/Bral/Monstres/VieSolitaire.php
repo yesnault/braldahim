@@ -44,12 +44,15 @@ class Bral_Monstres_VieSolitaire {
     
     private function vieSolitaireAction(&$monstre) {
         Bral_Util_Log::viemonstres()->trace(get_class($this)." - vieSolitaireAction - enter (id=".$monstre["id_monstre"].")");
-	
-		$cible = self::reperageCible($monstre);
-        if ($cible != null) { // si une cible est trouvee, on attaque
-            $this->attaqueSolitaire($monstre, $cible);
-        } else {
-            $this->deplacementSolitaire($monstre);
+		
+        $estFuite = $this->calculFuiteSolitaire(&$monstre);
+        if (!$estFuite) {
+			$cible = self::reperageCible($monstre);
+			if ($cible != null) { // si une cible est trouvee, on attaque
+				$this->attaqueSolitaire($monstre, $cible);
+			} else {
+				$this->deplacementSolitaire($monstre);
+			}
         }
         Bral_Util_Log::viemonstres()->trace(get_class($this)." - vieSolitaireAction - exit");
     }
@@ -135,14 +138,21 @@ class Bral_Monstres_VieSolitaire {
     /**
      * Deplacement du solitaire.
      */
-    protected function deplacementSolitaire(&$monstre) {
+    protected function deplacementSolitaire(&$monstre, $fuite = false) {
         Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementSolitaire - enter");
         // si le role_a est sur la direction, on deplacement le groupe
-        if (($monstre["x_monstre"] == $monstre["x_direction_monstre"]) && //
-            ($monstre["y_monstre"] == $monstre["y_direction_monstre"])) {
-
-            $dx = Bral_Util_De::get_1d20();
-            $dy = Bral_Util_De::get_1d20();
+        if ($fuite ||
+        	(($monstre["x_monstre"] == $monstre["x_direction_monstre"]) && //
+            ($monstre["y_monstre"] == $monstre["y_direction_monstre"]))) {
+			
+            if ($fuite) {
+            	$ajoutFuite = 10;
+            } else {
+            	$ajoutFuite = 0;
+            }
+            
+            $dx = Bral_Util_De::get_1d20() + $ajoutFuite;
+            $dy = Bral_Util_De::get_1d20() + $ajoutFuite;
             
             $plusMoinsX = Bral_Util_De::get_1d2();
             $plusMoinsY = Bral_Util_De::get_1d2();
@@ -179,5 +189,22 @@ class Bral_Monstres_VieSolitaire {
 		$vieMonstre->setMonstre($monstre);
 		$vieMonstre->deplacementMonstre($monstre["x_direction_monstre"], $monstre["y_direction_monstre"]);
         Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementSolitaire - exit");
+    }
+    
+    /*
+     * Fuite si moins de 20% restants en pv.
+     */
+    private function calculFuiteSolitaire(&$monstre) {
+    	$retour = false;
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculFuiteSolitaire - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculFuiteSolitaire - pvRestants:".$monstre["pv_restant_monstre"]." pvMax:".$monstre["pv_max_monstre"]);
+    	if (($monstre["pv_restant_monstre"] * 100 / $monstre["pv_max_monstre"]) <= 20) {
+    		Bral_Util_Log::viemonstres()->debug(get_class($this)." - Fuite du monstre - enter");
+	    	$monstre["id_fk_hobbit_cible_monstre"] = null;
+	    	$this->deplacementSolitaire(&$monstre, $fuite = false);
+	    	$retour = true;
+    	}
+    	Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculFuiteSolitaire - exit (".$retour.")");
+    	return $retour;
     }
 }
