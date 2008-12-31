@@ -41,10 +41,13 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 		
 		$tabChoix[1]["nom"] = "Se restaurer uniquement";
 		$tabChoix[1]["valid"] = $this->_utilisationPossible;
+		$tabChoix[1]["bouton"] = "Se Restaurer";
 		$tabChoix[2]["nom"] = "Acheter des rations uniquement";
 		$tabChoix[2]["valid"] = $achatRation;
+		$tabChoix[2]["bouton"] = "Acheter";
 		$tabChoix[3]["nom"] = "Se restaurer et acheter des rations";
 		$tabChoix[3]["valid"] = ($this->_utilisationPossible && $achatRation);
+		$tabChoix[3]["bouton"] = "Se Restaurer et Acheter";
 		
 		$this->view->tabChoix = $tabChoix;
 	}
