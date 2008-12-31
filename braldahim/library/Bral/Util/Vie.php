@@ -37,4 +37,27 @@ class Bral_Util_Vie {
 		}
 	}
 	
+	public static function calculRegenerationMonstre(&$monstre) {
+		$jetRegeneration = 0;
+		
+		if ($monstre["pv_restant_monstre"] < $monstre["pv_max_monstre"]) {
+			for ($i=1; $i <= $monstre["regeneration_monstre"]; $i++) {
+				$jetRegeneration = $jetRegeneration + Bral_Util_De::get_1d6();
+			}
+	
+			$jetRegeneration = $jetRegeneration - $monstre["regeneration_malus_monstre"];
+			if ($jetRegeneration < 0) { // pas de regénération négative (même si le malus est important)
+				$jetRegeneration = 0;
+			}
+			
+			if ($monstre["pv_restant_monstre"] + $jetRegeneration > $monstre["pv_max_monstre"]) {
+				$jetRegeneration = $monstre["pv_max_monstre"] - $monstre["pv_restant_monstre"];
+			}
+			
+			$monstre["pv_restant_monstre"] = $monstre["pv_restant_monstre"] + $jetRegeneration;
+		}
+		
+		return $jetRegeneration;
+	}
+	
 }

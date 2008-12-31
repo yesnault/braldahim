@@ -250,7 +250,6 @@ class Bral_Monstres_VieMonstre {
 			$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible);
 			$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $view);
 		}
-		
 		$this->updateMonstre();
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - exit (return=".$mortCible.")");
 		return $mortCible;
@@ -291,10 +290,23 @@ class Bral_Monstres_VieMonstre {
 			} else {
 				Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - aucune potion sur le monstre n'a ete trouvee. Cf. log potion.log");
 			}
-		
+			$this->calulRegeneration();
+			$this->monstre["regeneration_malus_monstre"] = 0;
 			$this->updateMonstre();
 		}
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - exit");
+	}
+	
+	private function calulRegeneration() {
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calulRegeneration - enter");
+		
+		if ($this->monstre["pv_restant_monstre"] < $this->monstre["pv_max_monstre"]) {
+			$this->monstre["regeneration_monstre"] = floor($this->monstre["vigueur_base_monstre"] / 4) + 1;
+			$jet = Bral_Util_Vie::calculRegenerationMonstre($this->monstre);
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - jet de regeneration:".$jet);
+		}
+		
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calulRegeneration - exit");
 	}
 
 	private function calculJetCible($cible) {
@@ -375,6 +387,9 @@ class Bral_Monstres_VieMonstre {
 			'duree_prochain_tour_monstre' => $this->monstre["duree_prochain_tour_monstre"],
 			'id_fk_hobbit_cible_monstre' => $this->monstre["id_fk_hobbit_cible_monstre"],
 			'date_a_jouer_monstre' => null,
+			'regeneration_monstre' => $this->monstre["regeneration_monstre"],
+			'regeneration_malus_monstre' => $this->monstre["regeneration_malus_monstre"],
+			'pv_restant_monstre' => $this->monstre["pv_restant_monstre"],
 		);
 		$where = "id_monstre=".$this->monstre["id_monstre"];
 		$monstreTable->update($data, $where);
