@@ -108,6 +108,15 @@ class Bral_Competences_Tanner extends Bral_Competences_Competence {
 		$quantiteCuir = round(($nb - $nb * $perte) / 2);
 		$quantiteFourrure = round(($nb - $nb * $perte) / 2);
 		
+		if ($quantiteCuir == 0 && $quantiteFourrure == 0) {
+			$tirage = Bral_Util_De::get_1d2();
+			if ($tirage == 1) {
+				$quantiteCuir = 1;
+			} else {
+				$quantiteFourrure = 1;
+			}
+		}
+		
 		$echoppeTable = new Echoppe();
 		$data = array(
 				'id_echoppe' => $this->idEchoppe,
