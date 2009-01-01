@@ -86,7 +86,7 @@ class Bral_Box_Evenements extends Bral_Box_Box {
 			$precedentOk = true;
 		}
 
-		if (count($tabEvenements) == 0) {
+		if (count($tabEvenements) == 0 || count($tabEvenements) < $this->_nbMax) {
 			$suivantOk = false;
 		} else {
 			$suivantOk = true;

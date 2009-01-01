@@ -87,7 +87,7 @@ class Bral_Voir_Monstre {
 			$precedentOk = true;
 		}
 
-		if (count($tabEvenements) == 0) {
+		if (count($tabEvenements) == 0 || count($tabEvenements) < $this->_nbMax) {
 			$suivantOk = false;
 		} else {
 			$suivantOk = true;
