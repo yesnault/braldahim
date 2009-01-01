@@ -57,7 +57,7 @@
 	
 <br><br>
 
-	<?=Bral_Helper_BBBoutons::affiche('valeur_message')?>
+	<?=Bral_Helper_BBBoutons::affiche('valeur_message', 2500)?>
 	
 	<span>Message</span><br>
 	<textarea name="valeur_message" id="valeur_message" class="inputbox" rows="10" cols="60" onkeydown="textCount($('valeur_message'),$('characterstyped'),2500);" onkeyup="textCount($('valeur_message'),$('characterstyped'),2500);"><?=$this->message["contenu"];?></textarea>

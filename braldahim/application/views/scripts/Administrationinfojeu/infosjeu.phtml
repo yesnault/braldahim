@@ -15,7 +15,7 @@
 				<br>
 			<? endif; ?>
 			
-			<?=Bral_Helper_BBBoutons::affiche('texte_info')?>
+			<?=Bral_Helper_BBBoutons::affiche('texte_info', 2500)?>
 	
 			<span>Message</span><br>
 			<textarea name="texte_info" id="texte_info" class="inputbox" rows="10" cols="60" onkeydown="textCount($('texte_info'),$('characterstyped'),2500);" onkeyup="textCount($('texte_info'),$('characterstyped'),2500);"><?=$this->infoJeu["text_info_jeu"]?></textarea>

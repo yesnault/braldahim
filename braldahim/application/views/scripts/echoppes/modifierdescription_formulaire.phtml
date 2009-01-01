@@ -5,10 +5,10 @@
  <div class='comp_contenu'>
  	
 	<br />
-		<?=Bral_Helper_BBBoutons::affiche('valeur_descriptionechoppe')?>
+		<?=Bral_Helper_BBBoutons::affiche('valeur_descriptionechoppe', 300)?>
 		<input type='hidden' id='valeur_2' name='valeur_2' value='' />
 		<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="300" type="text"> Caract&egrave;res restants<br>
-		<textarea name="valeur_descriptionechoppe" id="valeur_descriptionechoppe" class="inputbox" rows="10" cols="60" onkeydown="textCount($('valeur_descriptionechoppe'),$('characterstyped'),300);" onkeyup="textCount($('valeur_descriptionechoppe'),$('characterstyped'),300);"><?=$this->commentaire?></textarea>
+		<textarea name="valeur_descriptionechoppe" id="valeur_descriptionechoppe" class="inputbox" rows="10" cols="60" onkeydown="textCount($('valeur_descriptionechoppe'),$('characterstyped'),300);" onkeyup="textCount($('valeur_descriptionechoppe'),$('characterstyped'),300);"><?=$this->echoppe["commentaire_echoppe"]?></textarea>
 		
  </div>
 

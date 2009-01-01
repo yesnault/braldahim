@@ -297,7 +297,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 								} else {
 									$nom_metier = $e["nom_masculin_metier"];
 								}
-								$tabEchoppes[] = array("id_echoppe" => $e["id_echoppe"], "nom_metier" => $nom_metier, "nom_hobbit" => $e["nom_hobbit"], "prenom_hobbit" => $e["prenom_hobbit"], "id_hobbit" => $e["id_hobbit"], "id_fk_jos_users_hobbit" => $e["id_fk_jos_users_hobbit"]);
+								$tabEchoppes[] = array("id_echoppe" => $e["id_echoppe"], "nom_echoppe" => $e["nom_echoppe"], "nom_metier" => $nom_metier, "nom_hobbit" => $e["nom_hobbit"], "prenom_hobbit" => $e["prenom_hobbit"], "id_hobbit" => $e["id_hobbit"], "id_fk_jos_users_hobbit" => $e["id_fk_jos_users_hobbit"]);
 							}
 						}
 					}
