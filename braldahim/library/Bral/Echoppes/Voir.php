@@ -78,6 +78,8 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					'id_metier' => $e["id_metier"],
 					'nom_metier' => $nom_metier,
 					'nom_region' => $e["nom_region"],
+					'nom_echoppe' => $e["nom_echoppe"],
+					'commentaire_echoppe' => $e["commentaire_echoppe"],
 					'quantite_castar_caisse_echoppe' => $e["quantite_castar_caisse_echoppe"],
 					'quantite_rondin_caisse_echoppe' => $e["quantite_rondin_caisse_echoppe"],
 					'quantite_peau_caisse_echoppe' => $e["quantite_peau_caisse_echoppe"],

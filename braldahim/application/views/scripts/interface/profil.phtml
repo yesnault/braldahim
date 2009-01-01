@@ -51,7 +51,7 @@
 				<?php echo $this->escape($this->user->duree_prochain_tour_hobbit) ?>  
 				<label style="cursor:pointer" title="Minutes rajoutées pour prendre en compte les blessures">
 					<? $tab = Bral_Util_Tour::getTabMinutesProchainTour($this->user)?> 
-					<? if ($tab["minutesBlessures"] > 0) : echo "+"; endif;?>
+					<? if ($tab["minutesBlessures"] >= 0) : echo "+"; endif;?>
 					<?=$tab["minutesBlessures"]?> min
 				</label> : <?=$tab["heureMinuteTotal"]?> 
 				</td>

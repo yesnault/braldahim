@@ -80,7 +80,9 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 				$this->view->nomLieu = $nom;
 				$this->view->nomTypeLieu = "échoppe";
 				$this->view->nomSystemeLieu = "echoppe";
-				$this->view->descriptionLieu = $echoppe["commentaire_echoppe"];
+				$this->view->nomEchoppe = $echoppe["nom_echoppe"];
+				$this->view->descriptionLieu = "";
+				$this->view->commentaireEchoppe = $echoppe["commentaire_echoppe"];
 				$this->view->estFranchissableLieu = true;
 				$this->view->estAlterableLieu = false;
 				$this->view->paUtilisationLieu = 0;

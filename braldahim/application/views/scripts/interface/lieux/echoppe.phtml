@@ -1,2 +1,5 @@
-<br /><br /><br />
+<ul class="titre textalic textsized"><?=htmlspecialchars($this->nomEchoppe) ?></ul>
+
+<br /><br />
+<?=Bral_Util_BBParser::bbcodeReplace($this->commentaireEchoppe); ?><br /><br />
 <input type="button" class='button1' value="Rentrer dans l'&eacute;choppe" onClick='_get_("/interface/load/?box=box_echoppe");'>
