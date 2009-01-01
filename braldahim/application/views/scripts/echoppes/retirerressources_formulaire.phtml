@@ -7,8 +7,10 @@
  	pour les mettre dans votre laban (ou dans votre charrette pour les rondins).<br />
  	
 	<br />
+	<?=$poches = null; ?>
 	<ul id="navigation" style="width:99%;text-align:left">
 		<li id="retirer_divers">
+			<? $poches[] = "retirer_divers-head" ?>
 			<h3 id="retirer_divers-head" class="head" onClick="maccordion(this);" />
 				Divers
 			</h3>
@@ -70,6 +72,7 @@
 	
 	<ul id="navigation" style="width:99%;text-align:left">
 	<li id="retirer_plantes">
+		<? $poches[] = "retirer_plantes-head" ?>
 		<h3 id="retirer_plantes-head" class="head" onClick="maccordion(this);" />
 			Plantes brutes / pr&eacute;par&eacute;es
 		</h3>
@@ -116,6 +119,7 @@
    
    	<ul id="navigation" style="width:99%;text-align:left">
 	<li id="retirer_minerais">
+		<? $poches[] = "retirer_minerais-head" ?>
 		<h3 id="retirer_minerais-head" class="head" onClick="maccordion(this);" />
 			Minerais bruts / Lingots
 		</h3>
@@ -160,7 +164,20 @@
 
 </form>
 <br />
+
+<? 
+$jsFermer = "";
+$jsOuvrir = "";
+foreach ($poches as $p) :
+	$jsFermer .= "maccordion_fermer($('$p'));";
+	$jsOuvrir .= "maccordion_ouvrir($('$p'));";
+endforeach; 
+?>
+
 <?php if ($this->retirerRessourcesOk === true) : ?>
+	<input type='button' class='button1' id="fermer_poche" name="fermer_poche" value='Fermer Tout' onClick="<?=$jsFermer ?>">
+    <input type='button' class='button1' id="ouvrir_poche" name="ouvrir_poche"  value='Ouvrir Tout' onClick="<?=$jsOuvrir ?>">
+    <br>
 <input type='button' class='button1' id='bouton_retirermatierespremieres' value='Retirer des &eacute;l&eacute;ments !' onClick='this.disabled=true;_get_("/echoppes/doaction?caction=do_echoppes_retirerressources");' disabled>
 <? endif ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

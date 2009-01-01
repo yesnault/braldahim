@@ -8,9 +8,10 @@
  	l'arri&egrave;re-boutique de cette &eacute;choppe.<br />
  	
 	<br />
-	
+	<?=$poches = null; ?>
 	<ul id="navigation" style="width:99%;text-align:left">
 		<li id="deposer_divers">
+			<? $poches[] = "deposer_divers-head" ?>
 			<h3 id="deposer_divers-head" class="head" onClick="maccordion(this);" />
 				Divers
 			</h3>
@@ -76,6 +77,7 @@
 	
 	<ul id="navigation" style="width:99%;text-align:left">
 	<li id="deposer_plantes">
+		<? $poches[] = "deposer_plantes-head" ?>
 		<h3 id="deposer_plantes-head" class="head" onClick="maccordion(this);" />
 			Plantes brutes / pr&eacute;par&eacute;es
 		</h3>
@@ -127,6 +129,7 @@
    
    	<ul id="navigation" style="width:99%;text-align:left">
 	<li id="deposer_minerais">
+		<? $poches[] = "deposer_minerais-head" ?>
 		<h3 id="deposer_minerais-head" class="head" onClick="maccordion(this);" />
 			Minerais bruts / Lingots
 		</h3>
@@ -189,8 +192,21 @@ $js = "
 
 ";
 ?>
+
+<? 
+$jsFermer = "";
+$jsOuvrir = "";
+foreach ($poches as $p) :
+	$jsFermer .= "maccordion_fermer($('$p'));";
+	$jsOuvrir .= "maccordion_ouvrir($('$p'));";
+endforeach; 
+?>
+   
 <?php if ($this->deposerRessourcesOk === true) : ?>
-	<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onClick="<?=$js?>"> <br>
+	<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onClick="<?=$js?>"> 
+	<input type='button' class='button1' id="fermer_poche" name="fermer_poche" value='Fermer Tout' onClick="<?=$jsFermer ?>">
+    <input type='button' class='button1' id="ouvrir_poche" name="ouvrir_poche"  value='Ouvrir Tout' onClick="<?=$jsOuvrir ?>">
+	<br>
 	<input type='button' class='button1' id='bouton_deposermatierespremieres' value='D&eacute;poser des &eacute;l&eacute;ments !' onClick='this.disabled=true;_get_("/echoppes/doaction?caction=do_echoppes_deposerressources");' disabled>
 <? endif ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>
