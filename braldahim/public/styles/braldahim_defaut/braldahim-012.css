@@ -180,6 +180,11 @@ span.id_hobbit {
 	width: auto;
 }
 
+.boite_a,.boite_b {
+	margin-top: 10px;
+	width: 365px;
+}
+
 .onglet {
 	border-style: solid;
 	border-color: #791E1E;
