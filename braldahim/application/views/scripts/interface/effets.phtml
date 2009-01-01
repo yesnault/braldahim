@@ -27,8 +27,8 @@
 						niveau <?=$e["potion"]["niveau"] ?>
 						</td>
 						<td>
-						<?=$e["retourPotion"]["nEffet"] ?> point<? if ($e["retourPotion"]["nEffet"]): echo 's'; endif; ?> de <?=$e["potion"]["bm_type"] ?> sur <?=$e["potion"]["caracteristique"]?>
-						et <?=$e["retourPotion"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["retourPotion"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>
+						<?=$e["potion"]["bm_effet_potion"] ?> point<? if ($e["potion"]["bm_effet_potion"]): echo 's'; endif; ?> de <?=$e["potion"]["bm_type"] ?> sur <?=$e["potion"]["caracteristique"]?>
+						et <?=$e["potion"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["potion"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>
 						</td>
 					</tr>
 					<? endforeach; ?>
