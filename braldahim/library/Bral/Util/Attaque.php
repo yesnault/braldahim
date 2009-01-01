@@ -445,6 +445,8 @@ class Bral_Util_Attaque {
 			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, "", "monstre");
 		}
 		
+		self::calculStatutEngage(&$hobbitAttaquant);
+		
 		$retourAttaque["details"] = $details;
 		$retourAttaque["typeEvemenent"] = $id_type;
 		
