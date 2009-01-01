@@ -111,6 +111,8 @@ class Bral_Lieux_Academie extends Bral_Lieux_Lieu {
 					$this->view->user->pi_hobbit = $this->view->user->pi_hobbit - $this->view->coutVigueur;
 					$this->view->coutPi = $this->view->coutPIVigueur;
 					$this->view->coutCastars = $this->view->coutCastarsVigueur;
+					// Mise à jour de la regeneration // c'est aussi mis à jour dans l'eujimnasiumne
+					$this->view->user->regeneration_hobbit = floor($this->view->user->vigueur_base_hobbit / 4) + 1;
 				}
 				break;
 			case "AGI":
@@ -126,6 +128,9 @@ class Bral_Lieux_Academie extends Bral_Lieux_Lieu {
 			default:
 				throw new Zend_Exception(get_class($this)." Valeur invalide : val=".$this->request->get("valeur_1"));
 		}
+		
+		// Recalcul de l'armure naturelle
+		$this->view->user->armure_naturelle_hobbit = intval(($this->view->user->force_base_hobbit + $this->view->user->vigueur_base_hobbit) / 5) + 1;
 		
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		$this->view->user->pi_hobbit = $this->view->user->pi_hobbit - $this->view->coutPi;

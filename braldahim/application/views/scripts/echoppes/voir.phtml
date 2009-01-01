@@ -2,7 +2,10 @@
 <input type="button" class='button1' onClick='_get_("/echoppes/doaction?caction=ask_echoppes_liste");' value="Retour &agrave; la liste">
 </ul>
 
-<ul class="titre textalic textsizec"><?=htmlspecialchars($this->echoppe["nom_echoppe"])?>,
+<ul class="titre textalic textsizec">
+<?if ($this->echoppe["nom_echoppe"] != null && $this->echoppe["nom_echoppe"] != "") : ?>
+	<?=htmlspecialchars($this->echoppe["nom_echoppe"])?>,
+<? endif; ?>
 &Eacute;choppe <? if ($this->nom_metier_courant{0} == 'A') : echo 'd'; else: echo "de"; endif; ?> 
 <?=htmlspecialchars($this->echoppe["nom_metier"])?><br></ul>
 <ul class="titre textalic textsizec"><?=htmlspecialchars($this->echoppe["nom_region"])?>, x:<?=$this->echoppe["x_echoppe"]?>, y:<?=$this->echoppe["y_echoppe"]?></ul>
