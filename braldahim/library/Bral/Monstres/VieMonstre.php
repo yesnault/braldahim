@@ -292,6 +292,12 @@ class Bral_Monstres_VieMonstre {
 			}
 			$this->calulRegeneration();
 			$this->monstre["regeneration_malus_monstre"] = 0;
+			$this->monstre["vue_malus_monstre"] = 0;
+			$this->monstre["force_bm_monstre"] = 0;
+			$this->monstre["agilite_bm_monstre"] = 0;
+			$this->monstre["agilite_malus_monstre"] = 0;
+			$this->monstre["sagesse_bm_monstre"] = 0;
+			$this->monstre["vigueur_bm_monstre"] = 0;
 			$this->updateMonstre();
 		}
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - exit");
@@ -330,6 +336,9 @@ class Bral_Monstres_VieMonstre {
 			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
 		}
 		$jetAttaquant = $jetAttaquant + $this->monstre["agilite_bm_monstre"];
+		if ($jetAttaquant < 0) {
+			$jetAttaquant = 0;
+		}
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetAttaque - exit (jet=".$jetAttaquant.")");
 		return $jetAttaquant;
 	}
@@ -345,6 +354,9 @@ class Bral_Monstres_VieMonstre {
 			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
 		}
 		$jetDegat = $jetDegat + $this->monstre["force_bm_monstre"];
+		if ($jetDegat < 0) {
+			$jetDegat = 0;
+		}
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDegat - exit (jet=$jetDegat)");
 		return $jetDegat;
 	}
@@ -562,9 +574,8 @@ Vous avez été tué";
 Vous avez esquivé l'attaque";
 		} else { // esquive parfaite
 			$retour .= "
-Vous avez equivé parfaitement l'attaque";
+Vous avez esquivé parfaitement l'attaque";
 		}
-		
 		
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
 		return $retour;
