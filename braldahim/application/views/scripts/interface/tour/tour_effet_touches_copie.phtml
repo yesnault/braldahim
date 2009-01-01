@@ -8,7 +8,7 @@ if (isset($this->ciblesEffet["hobbitTouches"]) || isset($this->ciblesEffet["mons
 if (isset($this->ciblesEffet["hobbitTouches"]) && $this->ciblesEffet["hobbitTouches"] != null) {
 	foreach($this->ciblesEffet["hobbitTouches"] as $val) {
 		$h = $val["hobbit"];
-		echo htmlspecialchars($h["prenom_hobbit"]). " ". htmlspecialchars($h["nom_hobbit"]). " (".$h["id_hobbit"].") N".$h["niveau_hobbit"];
+		echo htmlspecialchars($h["prenom_hobbit"]). " ". htmlspecialchars($h["nom_hobbit"]). " (".$h["id_hobbit"].")";
 	
 		if (isset($val["retourAttaque"])) {
 			echo " : ".$val["retourAttaque"]["jetDegat"]." point";
@@ -26,7 +26,7 @@ if (isset($this->ciblesEffet["hobbitTouches"]) && $this->ciblesEffet["hobbitTouc
 if (isset($this->ciblesEffet["monstreTouches"]) && $this->ciblesEffet["monstreTouches"] != null) {
 	foreach($this->ciblesEffet["monstreTouches"] as $val) {
 		$m = $val["monstre"];
-		echo htmlspecialchars($m["nom_type_monstre"]). " (".$m["id_monstre"].") N".$m["niveau_monstre"];
+		echo htmlspecialchars($m["nom_type_monstre"]). " (".$m["id_monstre"].")";
 		echo "
 ";
 		$this->retourAttaque = $val["retourAttaque"];
@@ -42,7 +42,7 @@ if ((isset($this->ciblesEffet["hobbitMorts"])|| isset($this->ciblesEffet["monstr
 if (isset($this->ciblesEffet["hobbitMorts"]) && $this->ciblesEffet["hobbitMorts"] != null) {
 	foreach($this->ciblesEffet["hobbitMorts"] as $val) {
 		$h = $val["hobbit"];
-		echo htmlspecialchars($h["prenom_hobbit"]). " ". htmlspecialchars($h["nom_hobbit"]). " (".$h["id_hobbit"].") N".$h["niveau_hobbit"];
+		echo htmlspecialchars($h["prenom_hobbit"]). " ". htmlspecialchars($h["nom_hobbit"]). " (".$h["id_hobbit"].")";
 		echo "
 ";
 	}
@@ -50,9 +50,8 @@ if (isset($this->ciblesEffet["hobbitMorts"]) && $this->ciblesEffet["hobbitMorts"
 if (isset($this->ciblesEffet["monstreMorts"]) && $this->ciblesEffet["monstreMorts"] != null) {
 	foreach($this->ciblesEffet["monstreMorts"] as $val) {
 		$m = $val["monstre"];
-		echo htmlspecialchars($m["nom_type_monstre"]). " (".$m["id_monstre"].") N".$m["niveau_monstre"];
+		echo htmlspecialchars($m["nom_type_monstre"]). " (".$m["id_monstre"].")";
 		echo "
 ";
 	}
 }
-?>

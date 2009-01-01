@@ -233,7 +233,7 @@ class Bral_Monstres_VieMonstre {
 					$jetAttaquant =  Bral_Util_Attaque::calculJetAttaqueNormale($hobbitAttaquant);
 					$jetsDegat = Bral_Util_Attaque::calculDegatAttaqueNormale($hobbitAttaquant);
 					$jetCible = Bral_Util_Attaque::calculJetCibleMonstre($this->monstre);
-					Bral_Util_Attaque::attaqueMonstre($hobbitAttaquant, $this->monstre["id_monstre"], $jetAttaquant, $jetCible, $jetsDegat);
+					Bral_Util_Attaque::attaqueMonstre($hobbitAttaquant, $this->monstre["id_monstre"], $jetAttaquant, $jetCible, $jetsDegat, true);
 				}
 			}
 

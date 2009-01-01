@@ -12,10 +12,11 @@
  */
 class Bral_Util_Attaque {
 
-	public static function attaqueHobbit(&$hobbitAttaquant, &$hobbitCible, $jetAttaquant, $jetCible, $jetsDegat, $view, $effetMotSPossible = true) {
+	public static function attaqueHobbit(&$hobbitAttaquant, &$hobbitCible, $jetAttaquant, $jetCible, $jetsDegat, $view, $effetMotEPossible, $effetMotSPossible = true) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - enter -");
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - jetAttaquant=".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - jetCible=".$jetCible);
+		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - effetMotEPossible=".$effetMotEPossible);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - effetMotSPossible=".$effetMotSPossible);
 		
 		$config = Zend_Registry::get('config');
@@ -73,21 +74,23 @@ class Bral_Util_Attaque {
 			$retourAttaque["jetDegat"] = Bral_Util_Commun::getEffetMotA($hobbitCible->id_hobbit, $retourAttaque["jetDegat"]);
 			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - jetDegat apres effetMotA=".$retourAttaque["jetDegat"]);
 			
-			$effetMotE = Bral_Util_Commun::getEffetMotE($hobbitAttaquant->id_hobbit);
-			if ($effetMotE != null && $effetMotSPossible == true) {
-				$retourAttaque["effetMotE"] = true;
-				$gainPv = ($retourAttaque["jetDegat"] / 2);
-				if ($gainPv > $effetMotE * 3) {
-					$gainPv = $effetMotE * 3;
+			if ($effetMotEPossible) {
+				$effetMotE = Bral_Util_Commun::getEffetMotE($hobbitAttaquant->id_hobbit);
+				if ($effetMotE != null && $effetMotSPossible == true) {
+					$retourAttaque["effetMotE"] = true;
+					$gainPv = ($retourAttaque["jetDegat"] / 2);
+					if ($gainPv > $effetMotE * 3) {
+						$gainPv = $effetMotE * 3;
+					}
+					$retourAttaque["effetMotEPoints"] = $gainPv;
+					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotE True effetMotE=".$effetMotE." gainPv=".$gainPv);
+					
+					$hobbitAttaquant->pv_restant_hobbit = $hobbitAttaquant->pv_restant_hobbit + $gainPv;
+					if ($hobbitAttaquant->pv_restant_hobbit > $hobbitAttaquant->pv_max_hobbit + $hobbitAttaquant->pv_max_bm_hobbit) {
+						$hobbitAttaquant->pv_restant_hobbit = $hobbitAttaquant->pv_max_hobbit + $hobbitAttaquant->pv_max_bm_hobbit;
+					}
+					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotE hobbitAttaquant->pv_restant_hobbit=".$hobbitAttaquant->pv_restant_hobbit. " hobbitAttaquant->pv_max_hobbit=".($hobbitAttaquant->pv_max_hobbit + $hobbitAttaquant->pv_max_bm_hobbit));
 				}
-				$retourAttaque["effetMotEPoints"] = $gainPv;
-				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotE True effetMotE=".$effetMotE." gainPv=".$gainPv);
-				
-				$hobbitAttaquant->pv_restant_hobbit = $hobbitAttaquant->pv_restant_hobbit + $gainPv;
-				if ($hobbitAttaquant->pv_restant_hobbit > $hobbitAttaquant->pv_max_hobbit + $hobbitAttaquant->pv_max_bm_hobbit) {
-					$hobbitAttaquant->pv_restant_hobbit = $hobbitAttaquant->pv_max_hobbit + $hobbitAttaquant->pv_max_bm_hobbit;
-				}
-				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotE hobbitAttaquant->pv_restant_hobbit=".$hobbitAttaquant->pv_restant_hobbit. " hobbitAttaquant->pv_max_hobbit=".($hobbitAttaquant->pv_max_hobbit + $hobbitAttaquant->pv_max_bm_hobbit));
 			}
 			
 			$effetMotG = Bral_Util_Commun::getEffetMotG($hobbitAttaquant->id_hobbit);
@@ -243,7 +246,7 @@ class Bral_Util_Attaque {
 				$jetAttaquantRiposte = Bral_Util_Attaque::calculJetAttaqueNormale($hobbitCible);
 				$jetCibleRiposte = Bral_Util_Attaque::calculJetCibleHobbit($hobbitAttaquant);
 				$jetsDegatRiposte = Bral_Util_Attaque::calculDegatAttaqueNormale($hobbitCible);
-				$retourAttaque["retourAttaqueEffetMotS"] = self::attaqueHobbit($hobbitCible, $hobbitAttaquant, $jetAttaquantRiposte, $jetCibleRiposte, $jetsDegatRiposte, $view, false);
+				$retourAttaque["retourAttaqueEffetMotS"] = self::attaqueHobbit($hobbitCible, $hobbitAttaquant, $jetAttaquantRiposte, $jetCibleRiposte, $jetsDegatRiposte, $view, $effetMotEPossible, false);
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - EffetMotS Riposte Fin !");
 			}
 		}
@@ -258,7 +261,7 @@ class Bral_Util_Attaque {
 		return $retourAttaque;
 	}
 	
-	public static function attaqueMonstre(&$hobbitAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat) {
+	public static function attaqueMonstre(&$hobbitAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, $effetMotEPossible) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - enter -");
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetAttaquant=".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetCible=".$jetCible);
@@ -313,19 +316,21 @@ class Bral_Util_Attaque {
 			
 			Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetDegat=".$retourAttaque["jetDegat"]);
 			
-			$effetMotE = Bral_Util_Commun::getEffetMotE($hobbitAttaquant->id_hobbit);
-			if ($effetMotE != null) {
-				$retourAttaque["effetMotE"] = true;
-				$gainPv = ($retourAttaque["jetDegat"] / 2);
-				if ($gainPv > $effetMotE * 3) {
-					$gainPv = $effetMotE * 3;
-				}
-				$retourAttaque["effetMotEPoints"] = $gainPv;
-				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotE True effetMotE=".$effetMotE." gainPv=".$gainPv);
-				
-				$hobbitAttaquant->pv_restant_hobbit = $hobbitAttaquant->pv_restant_hobbit	+ $hobbitAttaquant->pv_max_hobbit;
-				if ($hobbitAttaquant->pv_restant_hobbit > $hobbitAttaquant->pv_max_hobbit) {
-					$hobbitAttaquant->pv_restant_hobbit = $hobbitAttaquant->pv_max_hobbit;
+			if ($effetMotEPossible) {
+				$effetMotE = Bral_Util_Commun::getEffetMotE($hobbitAttaquant->id_hobbit);
+				if ($effetMotE != null) {
+					$retourAttaque["effetMotE"] = true;
+					$gainPv = ($retourAttaque["jetDegat"] / 2);
+					if ($gainPv > $effetMotE * 3) {
+						$gainPv = $effetMotE * 3;
+					}
+					$retourAttaque["effetMotEPoints"] = $gainPv;
+					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotE True effetMotE=".$effetMotE." gainPv=".$gainPv);
+					
+					$hobbitAttaquant->pv_restant_hobbit = $hobbitAttaquant->pv_restant_hobbit	+ $hobbitAttaquant->pv_max_hobbit;
+					if ($hobbitAttaquant->pv_restant_hobbit > $hobbitAttaquant->pv_max_hobbit) {
+						$hobbitAttaquant->pv_restant_hobbit = $hobbitAttaquant->pv_max_hobbit;
+					}
 				}
 			}
 			
@@ -556,7 +561,7 @@ class Bral_Util_Attaque {
 			$hobbitRowset = $hobbitTable->find($h["id_hobbit"]);
 			$hobbitCible = $hobbitRowset->current();
 			$retour["hobbitTouches"][$i]["hobbit"] = $h;
-			$retour["hobbitTouches"][$i]["retourAttaque"] = Bral_Util_Attaque::attaqueHobbit($hobbit, $hobbitCible, $jetAttaquant, $jetCible, $jetsDegat, $view);
+			$retour["hobbitTouches"][$i]["retourAttaque"] = Bral_Util_Attaque::attaqueHobbit($hobbit, $hobbitCible, $jetAttaquant, $jetCible, $jetsDegat, $view, false);
 			$i++;
 		}
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatCaseHobbit - exit -");
@@ -577,7 +582,7 @@ class Bral_Util_Attaque {
 		$i = 0;
 		foreach($monstres as $m) {
 			$retour["monstreTouches"][$i]["monstre"] = $m;
-			$retour["monstreTouches"][$i]["retourAttaque"] = Bral_Util_Attaque::attaqueMonstre($hobbit, $m, $jetAttaquant, $jetCible, $jetsDegat);
+			$retour["monstreTouches"][$i]["retourAttaque"] = Bral_Util_Attaque::attaqueMonstre($hobbit, $m, $jetAttaquant, $jetCible, $jetsDegat, false);
 			$i++;
 		}
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatCaseMonstre - exit -");
@@ -605,7 +610,7 @@ class Bral_Util_Attaque {
 				$hobbitTable->update($data, $where);
 					
 				$id_type = $config->game->evenements->type->effet;
-				$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a soigné le hobbit ".$h["prenom_hobbit"] ." ". $h["nom_hobbit"] ." (".$h["id_hobbit"].") N".$h["niveau_hobbit"];
+				$details = $hobbit->prenom_hobbit ." ". $hobbit->nom_hobbit ." (".$hobbit->id_hobbit.") N".$hobbit->niveau_hobbit." a soigné le hobbit ".$h["prenom_hobbit"] ." ". $h["nom_hobbit"] ." (".$h["id_hobbit"].")";
 				$detailsBot = $soins." PV soigné";
 				if ($soins > 1) {
 					$detailsBot = $detailsBot . "s";

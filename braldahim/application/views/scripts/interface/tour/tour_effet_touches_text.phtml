@@ -5,7 +5,7 @@
 		<? if (isset($this->ciblesEffet["hobbitTouches"]) && $this->ciblesEffet["hobbitTouches"] != null) : ?>
 			<? foreach($this->ciblesEffet["hobbitTouches"] as $val) :
 				$h = $val["hobbit"];?>
-				<?=htmlspecialchars($h["prenom_hobbit"])?>  <?=htmlspecialchars($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>) N<?=$h["niveau_hobbit"] ?>
+				<?=htmlspecialchars($h["prenom_hobbit"])?>  <?=htmlspecialchars($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>)
 				<? if (isset($val["retourAttaque"])) :?>
 					: <?=$val["retourAttaque"]["jetDegat"] ?> point<? if ($val["retourAttaque"]["jetDegat"] > 1) { echo "s"; }?> de d&eacute;g&acirc;ts
 				<? endif; ?>
@@ -19,7 +19,7 @@
 		<? if (isset($this->ciblesEffet["monstreTouches"]) && $this->ciblesEffet["monstreTouches"] != null) : ?>
 			<? foreach($this->ciblesEffet["monstreTouches"] as $val) : 
 				$m = $val["monstre"]; ?>
-				<?=htmlspecialchars($m["nom_type_monstre"])?> (<?=$m["id_monstre"]?>) N<?=$m["niveau_monstre"] ?><br />
+				<?=htmlspecialchars($m["nom_type_monstre"])?> (<?=$m["id_monstre"]?>)<br />
 				<? 
 				$this->retourAttaque = $val["retourAttaque"];
 				echo $this->render("competences/commun_text_effets.phtml");
@@ -33,14 +33,13 @@
 		<? if (isset($this->ciblesEffet["hobbitMorts"]) && $this->ciblesEffet["hobbitMorts"] != null) : ?>
 			<? foreach($this->ciblesEffet["hobbitMorts"] as $val) : 
 				$h = $val["hobbit"];?>
-				<?=htmlspecialchars($h["prenom_hobbit"])?>  <?=htmlspecialchars($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>) N<?=$h["niveau_hobbit"] ?><br />
+				<?=htmlspecialchars($h["prenom_hobbit"])?>  <?=htmlspecialchars($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>)<br />
 			<? endforeach; ?>
 		<? endif; ?>
 		<? if (isset($this->ciblesEffet["monstreMorts"]) && $this->ciblesEffet["monstreMorts"] != null) : ?>
 			<? foreach($this->ciblesEffet["monstreMorts"] as $val) : 
 				$m = $val["monstre"];?>
-				<?=htmlspecialchars($m["nom_type_monstre"])?> (<?=$m["id_monstre"]?>) N<?=$m["niveau_monstre"] ?><br />
+				<?=htmlspecialchars($m["nom_type_monstre"])?> (<?=$m["id_monstre"]?>)<br />
 			<? endforeach; ?>
 		<? endif; ?>
-		
 		
