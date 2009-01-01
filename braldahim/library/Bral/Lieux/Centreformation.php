@@ -248,7 +248,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 
 
 	function getListBoxRefresh() {
-		return array("box_metier", "box_laban", "box_echoppes", "box_charrette", "box_competences_metiers");
+		return array("box_metier", "box_laban", "box_echoppes", "box_charrette", "box_competences_metiers", "box_profil", "box_evenements");
 	}
 
 	private function calculCoutCastars($nbMetiersAcquis) {

@@ -129,7 +129,7 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_competences_communes", "box_competences_basiques", "box_competences_metiers");
+		return array("box_profil", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_evenements");
 	}
 
 	private function calculCoutCastars() {
