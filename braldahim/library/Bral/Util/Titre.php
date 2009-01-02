@@ -58,6 +58,7 @@ class Bral_Util_Titre {
 				break;
 			case "force" :
 				$hobbit->force_base_hobbit = $hobbit->force_base_hobbit + 1;
+				$hobbit->poids_transportable_hobbit = Bral_Util_Poids::calculPoidsTransportable($hobbit->force_base_hobbit);
 				break;
 			case "agilite" : 
 				$hobbit->agilite_base_hobbit = $hobbit->agilite_base_hobbit + 1;
@@ -65,6 +66,8 @@ class Bral_Util_Titre {
 			default:
 				throw new Zend_Exception("Titre nom systeme inconnu :".$typeTitre->nom_systeme_type_titre);
 		}
+		
+		$hobbit->armure_naturelle_hobbit = Bral_Util_Commun::calculArmureNaturelle($hobbit->force_base_hobbit, $hobbit->vigueur_base_hobbit);
 		return;
 	}
 }

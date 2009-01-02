@@ -130,7 +130,7 @@ class Bral_Lieux_Academie extends Bral_Lieux_Lieu {
 		}
 		
 		// Recalcul de l'armure naturelle
-		$this->view->user->armure_naturelle_hobbit = intval(($this->view->user->force_base_hobbit + $this->view->user->vigueur_base_hobbit) / 5) + 1;
+		$this->view->user->armure_naturelle_hobbit = Bral_Util_Commun::calculArmureNaturelle($this->view->user->force_base_hobbit, $this->view->user->vigueur_base_hobbit);
 		
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		$this->view->user->pi_hobbit = $this->view->user->pi_hobbit - $this->view->coutPi;

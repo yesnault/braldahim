@@ -105,6 +105,10 @@ class Bral_Util_Commun {
 		return ($config->game->pv_base + $vigueur_base_hobbit * $config->game->pv_max_coef);
 	}
 	
+	public static function calculArmureNaturelle($forceBase, $vigueurBase) {
+		return intval(($forceBase + $vigueurBase) / 5) + 1;
+	}
+	
 	public static function ajouteEffetMotR($idHobbit) {
 		Zend_Loader::loadClass("HobbitsCompetences");
 		$hobbitsCompetencesTables = new HobbitsCompetences();
