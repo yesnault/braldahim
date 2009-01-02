@@ -16,9 +16,12 @@
 <?php if ($this->assezDePa == false) : ?>
  Vous n'avez pas assez de PA
 
-<?php elseif ($this->estEngage == true) : ?>
-Vous &ecirc;tes actuellement engag&eacute;, vous ne pouvez pas marcher ou courir...
 <?php else : ?>
+
+	<?php if ($this->estEngage == true) : ?>
+	Vous &ecirc;tes actuellement engag&eacute;, vous pouvez marcher de <?=$this->nb_cases?> case pour <?=$this->nb_pa ?> PA.
+	<?php endif; ?>
+
 	<?php if ($this->marcherPossible == false) : ?>
  		Vous &ecirc;tes entour&eacute;, vous ne pouvez pas marcher !
   	<?php endif; ?>

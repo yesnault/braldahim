@@ -61,9 +61,7 @@ class Bral_Util_Marcher {
 		
 		$retour["estEngage"] = false;
 		if ($hobbit->est_engage_hobbit == "oui") {
-			$retour["marcherPossible"] = false;
 			$retour["estEngage"] = true;
-			return $retour;
 		}
 		
 		$marcherPossible = false;
@@ -229,6 +227,11 @@ class Bral_Util_Marcher {
 				break;
 			default:
 				throw new Zend_Exception(get_class($this)."::environnement invalide :".$this->nom_systeme_environnement);
+		}
+		
+		if ($hobbit->est_engage_hobbit == "oui") {
+			$this->nb_cases = 1;
+			$this->nb_pa = 2;
 		}
 		
 		if ($hobbit->pa_hobbit - $this->nb_pa < 0) {

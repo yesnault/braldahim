@@ -2,12 +2,12 @@
  <div class='comp_contenu'>
 
 <? if ($this->estEngage) : ?>
-	Vous &ecirc;tes actuellement engag&eacute;, vous ne pouvez pas marcher ou courir...<br />
+	Vous &ecirc;tes actuellement engag&eacute;, vous ne pouvez pas courir...<br />
 <? else: ?>
 	Pour <?=$this->nb_pa ?> PA, vous pouvez courir jusqu'&agrave; <?=$this->distance ?> cases.<br />
 
 	<?php if ($this->courirPossible == false) : ?>
- 		Vous &ecirc;tes entour&eacute;, vous ne pouvez pas marcher !
+ 		Vous &ecirc;tes entour&eacute;, vous ne pouvez pas courir !
   	<?php endif; ?>
 	  <table align='center'>
 	   <tr>
