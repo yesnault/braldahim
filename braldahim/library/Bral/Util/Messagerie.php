@@ -47,7 +47,7 @@ class Bral_Util_Messagerie {
 				}
 				$aff_js_destinataires .= '<span id="m_'.$valeur.'_'.$h["id_hobbit"].'">';
 				$aff_js_destinataires .= $h["prenom_hobbit"].' '.$h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" ';
-				$aff_js_destinataires .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'_dest\',\'m_'.$valeur.'_'.$h["id_hobbit"].'\', \''.$valeur.'_dest\')" />';
+				$aff_js_destinataires .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'_dest\',\'m_'.$valeur.'_'.$h["id_hobbit"].'\', \''.$valeur.'_dest\', \''.$h["id_hobbit"].'\')" />';
 				$aff_js_destinataires .= '</span>';
 				
 				$tabHobbits[$h["id_hobbit"]] = $h;
