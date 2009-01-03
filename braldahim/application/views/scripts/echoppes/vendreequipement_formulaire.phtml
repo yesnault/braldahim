@@ -10,13 +10,14 @@
 	 		<option value="-1">(Choisis un &eacute;quipement)</option>
 			<? foreach($this->equipementsArriereBoutique as $e) :?>
 				<option value="<?=$e["id_echoppe_equipement"] ?>">n&deg; <?=$e["id_echoppe_equipement"] ?> : <?=htmlspecialchars($e["nom"]) ?> de qualit&eacute; <?=htmlspecialchars($e["qualite"]) ?>,
-				 niveau: <?=$e["niveau"] ?>, nb. emplacements: <?=$e["nb_runes"] ?></option>
+				 niveau: <?=$e["niveau"] ?></option>
 			<? endforeach; ?>
 		</select>
 		<br /><br />
 		
+		<input type='hidden' id='commentaire_-1' name='commentaire_-1' value=''>
 		<? foreach($this->equipementsArriereBoutique as $e) :?>
-			<input type='hidden' id='commentaire_<?=$e["id_echoppe_equipement"] ?>' name='commentaire_<?=$e["id_echoppe_equipement"] ?>' value='<?=htmlentities($e["commentaire"], ENT_QUOTES);?>'>
+			<input type='hidden' id='commentaire_<?=$e["id_echoppe_equipement"] ?>' name='commentaire_<?=$e["id_echoppe_equipement"] ?>' value='<?=htmlspecialchars($e["commentaire"], ENT_QUOTES);?>'>
 		<? endforeach;?>
 		
 		Vous pouvez vendre l'&eacute;quipement &agrave; l'aide de trois unit&eacute;s diff&eacute;rentes : <br>
