@@ -47,7 +47,7 @@ Zend_Loader :: loadClass("Bral_Util_Controle");
 Zend_Loader :: loadClass("Bral_Util_ConvertDate");
 Zend_Loader :: loadClass("Bral_Util_Commun");
 Zend_Loader :: loadClass("Bral_Util_Faim");
-Zend_Loader :: loadClass("Bral_Util_JoomlaUser");
+Zend_Loader :: loadClass("Bral_Util_Messagerie");
 Zend_Loader :: loadClass("Bral_Util_Log");
 Zend_Loader :: loadClass("Bral_Util_Poids");
 Zend_Loader :: loadClass("Bral_Util_Registre");
@@ -79,12 +79,6 @@ $dbAdapterGame->query('SET NAMES UTF8');
 
 Zend_Db_Table :: setDefaultAdapter($dbAdapterGame);
 Zend_Registry :: set('dbAdapter', $dbAdapterGame);
-
-// setup database Site
-$dbAdapterSite = Zend_Db :: factory($config->db->site->adapter, $config->db->site->config->toArray());
-$dbAdapterSite->query('SET NAMES UTF8');
-
-Zend_Registry :: set('dbSiteAdapter', $dbAdapterSite);
 
 Bral_Util_Registre :: chargement();
 

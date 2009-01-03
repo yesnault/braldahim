@@ -6,11 +6,7 @@
 		if ($c["nom_metier"]{0} == 'A') : $d="d\'"; else: $d="de "; endif;
 			$textEchoppe .= addslashes(htmlspecialchars($c["nom_echoppe"])). ", &Eacute;choppe ".$d.htmlspecialchars($c["nom_metier"])." appartenant &agrave; <br>";
 			$textEchoppe .= addslashes(htmlspecialchars($c["prenom_hobbit"]))." ".addslashes(htmlspecialchars($c["nom_hobbit"])).", n&deg; ".$c["id_hobbit"];
-			if ($c["id_fk_jos_users_hobbit"] != null) {
-      			$textEchoppe .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$c["id_fk_jos_users_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
-      		} else {
-      			$textEchoppe .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' alt=\\\'Ecrire impossible\\\' title=\\\'Ce hobbit ne peut pas recevoir de message, il doit se connecter au site avant\\\' border=\\\'0\\\' /> ';
-      		}
+      		$textEchoppe .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$c["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
       		$textEchoppe .= "<br />";
 		}
 		$s = "";

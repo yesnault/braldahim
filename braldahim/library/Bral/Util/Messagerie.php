@@ -14,11 +14,21 @@ class Bral_Util_Messagerie {
 
 	private function __construct() {}
 
+	public static function setXmlResponseMessagerie(&$xml_response, $id_hobbit) {
+		$josUddeimTable = new JosUddeim();
+		$nbNotRead = $josUddeimTable->countByToIdNotRead($id_hobbit);
+		$xml_entry = new Bral_Xml_Entry();
+		$xml_entry->set_type("action");
+		$xml_entry->set_valeur("messagerie");
+		$xml_entry->set_data($nbNotRead);
+		$xml_response->add_entry($xml_entry);
+	}
+	
 	public static function constructTabHobbit($tab_destinataires, $valeur = "valeur_2") {
 		$hobbitTable = new Hobbit();
 		$idDestinatairesTab = split(',', $tab_destinataires);
 		
-		$hobbits = $hobbitTable->findByIdFkJosUsersList($idDestinatairesTab);
+		$hobbits = $hobbitTable->findByIdList($idDestinatairesTab);
 		
 		if ($hobbits == null) {
 			return null;
@@ -29,18 +39,18 @@ class Bral_Util_Messagerie {
 		$tabHobbits = null;
 
 		foreach($hobbits as $h) {
-			if (in_array($h["id_fk_jos_users_hobbit"],$idDestinatairesTab)) {
+			if (in_array($h["id_hobbit"],$idDestinatairesTab)) {
 				if ($destinataires == "") {
-					$destinataires = $h["id_fk_jos_users_hobbit"];
+					$destinataires = $h["id_hobbit"];
 				} else {
-					$destinataires = $destinataires.",".$h["id_fk_jos_users_hobbit"];
+					$destinataires = $destinataires.",".$h["id_hobbit"];
 				}
 				$aff_js_destinataires .= '<span id="m_'.$valeur.'_'.$h["id_hobbit"].'">';
 				$aff_js_destinataires .= $h["prenom_hobbit"].' '.$h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" ';
-				$aff_js_destinataires .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'_dest\',\'m_'.$valeur.'_'.$h["id_hobbit"].'\', \''.$valeur.'_dest\', '.$h["id_fk_jos_users_hobbit"].')" />';
+				$aff_js_destinataires .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'_dest\',\'m_'.$valeur.'_'.$h["id_hobbit"].'\', \''.$valeur.'_dest\')" />';
 				$aff_js_destinataires .= '</span>';
 				
-				$tabHobbits[$h["id_fk_jos_users_hobbit"]] = $h;
+				$tabHobbits[$h["id_hobbit"]] = $h;
 			}
 		}
 		$tab = array(
@@ -97,7 +107,7 @@ class Bral_Util_Messagerie {
 		}
 		
 		if ($tabHobbits != null) {
-			$hobbits = $hobbitTable->findByIdFkJosUsersList($tabHobbits);
+			$hobbits = $hobbitTable->findByIdList($tabHobbits);
 		}
 		
 		$tab = array(
@@ -108,10 +118,10 @@ class Bral_Util_Messagerie {
 		return $tab;
 	}
 	
-	public static function prepareListe($id_fk_jos_users_hobbit) {
+	public static function prepareListe($id_hobbit) {
 		Zend_Loader::loadClass("JosUserlists");
 		$josUserlistsTable = new JosUserlists();
-		$listesContacts = $josUserlistsTable->findByUserId($id_fk_jos_users_hobbit);
+		$listesContacts = $josUserlistsTable->findByUserId($id_hobbit);
 		
 		$tabListes = null;
 		if ($listesContacts != null && count($listesContacts) > 0) {

@@ -42,7 +42,7 @@ class CommunauteController extends Zend_Controller_Action {
 			if ($communaute->anotherXmlEntry() != null) {
 				$xml_response->add_entry($communaute->anotherXmlEntry());
 			}
-			Bral_Util_JoomlaUser::setXmlResponseMessagerie($xml_response, $this->view->user->id_fk_jos_users_hobbit);
+			Bral_Util_Messagerie::setXmlResponseMessagerie($xml_response, $this->view->user->id_hobbit);
 		} catch (Zend_Exception $e) {
 			$b = Bral_Box_Factory::getErreur($this->_request, $this->view, false, $e->getMessage());
 			$xml_entry->set_valeur($b->getNomInterne());

@@ -14,7 +14,7 @@ class JosUserlists extends Zend_Db_Table {
 	protected $_name = 'jos_uddeim_userlists';
 	protected $_primary = 'id';
 	
-	protected function _setupDatabaseAdapter() {
+/*	protected function _setupDatabaseAdapter() {
 		if (! $this->_db) {
 			$this->_db = Zend_Registry::get('dbSiteAdapter');
 			if (!$this->_db instanceof Zend_Db_Adapter_Abstract) {
@@ -22,6 +22,7 @@ class JosUserlists extends Zend_Db_Table {
 			}
 		}
 	}
+*/
 	
 	public function findByUserId($userId) {
 		$db = $this->getAdapter();

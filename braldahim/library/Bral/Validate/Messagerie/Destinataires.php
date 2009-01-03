@@ -48,7 +48,7 @@ class Bral_Validate_Messagerie_Destinataires implements Zend_Validate_Interface 
 		if ($valid) {
 			$hobbitTable = new Hobbit();
 			foreach ($matches[0] as $id) {
-				$r = $hobbitTable->findByIdFkJosUsers(trim($id));
+				$r = $hobbitTable->findById(trim($id));
 				if ($r == null || count($r) == 0) {
 					$this->_messages[] = "Le hobbit est inconnu";
 					$valid = false;

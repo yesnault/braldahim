@@ -50,7 +50,7 @@ function getAdminHobbitId(text, li) {
 
 function getSelectionId(text, li) {
 	if (controleSession(li) == true) {
-		makeJsListeAvecSupprimer(li.getAttribute('champ'), li.getAttribute('valeur'), li.getAttribute('id_fk_jos_users_hobbit'), li.getAttribute('id_hobbit'));
+		makeJsListeAvecSupprimer(li.getAttribute('champ'), li.getAttribute('valeur'), li.getAttribute('id_hobbit'));
 		$('recherche_' + li.getAttribute('champ')).value = '';
 	}
 }

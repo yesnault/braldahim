@@ -20,13 +20,10 @@ class Bral_Helper_Messagerie {
 		
 		$js = "";
 		foreach($hobbits as $h) {
-			if ($h["id_fk_jos_users_hobbit"] != null) {
-				$nom = $h['prenom_hobbit']. " ". $h['nom_hobbit'];
-				$js .= "makeJsListeAvecSupprimer('valeur_2_dest', ";
-				$js .= "'".addslashes($nom)."', ";
-				$js .= "'".$h["id_fk_jos_users_hobbit"]."',";
-				$js .= "'".$h["id_hobbit"]."');";
-			}
+			$nom = $h['prenom_hobbit']. " ". $h['nom_hobbit'];
+			$js .= "makeJsListeAvecSupprimer('valeur_2_dest', ";
+			$js .= "'".addslashes($nom)."', ";
+			$js .= "'".$h["id_hobbit"]."');";
 		}
 		
 		$retour = "";

@@ -29,16 +29,10 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 	}
 
 	function render() {
-		$this->view->inscriptionSiteOk = true;
-		if (Bral_Util_JoomlaUser::isJoomlaUser(&$this->view->user) === false) {
-			$this->view->inscriptionSiteOk = false;
-		}
-		
 		if ($this->view->affichageInterne) {
 			Zend_Loader::loadClass('JosUddeim');
 			
 			Zend_Loader::loadClass('Bral_Util_ConvertDate');
-			Zend_Loader::loadClass('Bral_Util_JoomlaUser');
 		
 			$this->preparePage();
 			$this->prepareMessages();
@@ -51,11 +45,11 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 		$josUddeimTable = new JosUddeim();
 		
 		if ($this->_filtre == $this->view->config->messagerie->message->type->envoye) {
-			$messages = $josUddeimTable->findByFromId($this->view->user->id_fk_jos_users_hobbit, $this->_page, $this->_nbMax);
+			$messages = $josUddeimTable->findByFromId($this->view->user->id_hobbit, $this->_page, $this->_nbMax);
 		} else if ($this->_filtre == $this->view->config->messagerie->message->type->supprime) {
-			$messages = $josUddeimTable->findByToOrFromIdSupprime($this->view->user->id_fk_jos_users_hobbit, $this->_page, $this->_nbMax);
+			$messages = $josUddeimTable->findByToOrFromIdSupprime($this->view->user->id_hobbit, $this->_page, $this->_nbMax);
 		} else { // reception
-			$messages = $josUddeimTable->findByToId($this->view->user->id_fk_jos_users_hobbit, $this->_page, $this->_nbMax);
+			$messages = $josUddeimTable->findByToId($this->view->user->id_hobbit, $this->_page, $this->_nbMax);
 		}
 		
 		$idsHobbit = "";
@@ -75,7 +69,7 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 			
 			if ($idsHobbit != null) {
 				$hobbitTable = new Hobbit();
-				$hobbits = $hobbitTable->findByIdFkJosUsersList($idsHobbit);
+				$hobbits = $hobbitTable->findByIdList($idsHobbit);
 				if ($hobbits != null) {
 					foreach($hobbits as $h) {
 						$tabHobbits[$h["id_fk_jos_users_hobbit"]] = $h;

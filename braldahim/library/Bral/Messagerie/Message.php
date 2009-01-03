@@ -107,7 +107,7 @@ class Bral_Messagerie_Message {
 			'aff_js_contacts' => "",
 		);
 		$this->view->message = $tabMessage;
-		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_fk_jos_users_hobbit);
+		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_hobbit);
 	}
 
 	private function prepareRepondre($transferer = false) {
@@ -135,7 +135,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 			"aff_js_contacts" => "",
 		);
 		$this->view->message = $tabMessage;
-		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_fk_jos_users_hobbit);
+		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_hobbit);
 	}
 	
 	private function envoiMessage() {
@@ -144,11 +144,11 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 		Zend_Loader::loadClass("Bral_Validate_Messagerie_Contacts");
 		Zend_Loader::loadClass("Zend_Filter_StripTags");
 
-		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_fk_jos_users_hobbit);
+		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_hobbit);
 		
 		$filter = new Zend_Filter_StripTags();
 		$tabHobbit = Bral_Util_Messagerie::constructTabHobbit($filter->filter(trim($this->request->get('valeur_2'))));
-		$tabContacts = Bral_Util_Messagerie::constructTabContacts($filter->filter(trim($this->request->get('valeur_4'))), $this->view->user->id_fk_jos_users_hobbit);
+		$tabContacts = Bral_Util_Messagerie::constructTabContacts($filter->filter(trim($this->request->get('valeur_4'))), $this->view->user->id_hobbit);
 
 		$tabMessage = array(
 			'contenu' => stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_3'))),
@@ -162,7 +162,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 		
 		if ($this->view->listesContacts != null) {
 			$validateurDestinataires = new Bral_Validate_Messagerie_Destinataires(false);
-			$validateurContacts = new Bral_Validate_Messagerie_Contacts(false, $this->view->user->id_fk_jos_users_hobbit);
+			$validateurContacts = new Bral_Validate_Messagerie_Contacts(false, $this->view->user->id_hobbit);
 			$validContacts = $validateurContacts->isValid($this->view->message["contacts"]);
 			$avecContacts = true;
 		} else {
@@ -192,13 +192,13 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 			if ($this->view->message["destinataires"] != "") {
 				$idDestinatairesTab = split(',', $this->view->message["destinataires"]);
 				$tabHobbits = $tabHobbit["hobbits"];
-				foreach ($idDestinatairesTab as $id_fk_jos_users_hobbit) {
-					$data = $this->prepareMessageAEnvoyer($this->view->user->id_fk_jos_users_hobbit, $id_fk_jos_users_hobbit, $tabMessage["contenu"]);
-					if (!in_array($id_fk_jos_users_hobbit, $tabIdDestinatairesDejaEnvoye)) {
+				foreach ($idDestinatairesTab as $id_hobbit) {
+					$data = $this->prepareMessageAEnvoyer($this->view->user->id_hobbit, $id_hobbit, $tabMessage["contenu"]);
+					if (!in_array($id_hobbit, $tabIdDestinatairesDejaEnvoye)) {
 						$josUddeimTable->insert($data);
-						$tabIdDestinatairesDejaEnvoye[] = $id_fk_jos_users_hobbit;
-						if ($tabHobbits[$id_fk_jos_users_hobbit]["envoi_mail_message_hobbit"] == "oui") {
-							Bral_Util_Mail::envoiMailAutomatique($tabHobbits[$id_fk_jos_users_hobbit], $this->view->config->mail->message->titre, $debutContenuMail.$tabMessage["contenu"], $this->view);
+						$tabIdDestinatairesDejaEnvoye[] = $id_hobbit;
+						if ($tabHobbits[$id_hobbit]["envoi_mail_message_hobbit"] == "oui") {
+							Bral_Util_Mail::envoiMailAutomatique($tabHobbits[$id_hobbit], $this->view->config->mail->message->titre, $debutContenuMail.$tabMessage["contenu"], $this->view);
 						}
 					}
 				}
@@ -207,13 +207,13 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 			if ($this->view->message["userids"] != "") {
 				$idContactsTab = split(',', $this->view->message["userids"]);
 				$tabHobbits = $tabContacts["hobbits"];
-				foreach ($idContactsTab as $id_fk_jos_users_hobbit) {
-					$data = $this->prepareMessageAEnvoyer($this->view->user->id_fk_jos_users_hobbit, $id_fk_jos_users_hobbit, $tabMessage["contenu"]);
-					if (!in_array($id_fk_jos_users_hobbit, $tabIdDestinatairesDejaEnvoye)) {
+				foreach ($idContactsTab as $id_hobbit) {
+					$data = $this->prepareMessageAEnvoyer($this->view->user->id_hobbit, $id_hobbit, $tabMessage["contenu"]);
+					if (!in_array($id_hobbit, $tabIdDestinatairesDejaEnvoye)) {
 						$josUddeimTable->insert($data);
-						$tabIdDestinatairesDejaEnvoye[] = $id_fk_jos_users_hobbit;
-						if ($tabHobbits[$id_fk_jos_users_hobbit]["envoi_mail_message_hobbit"] == "oui") {
-							Bral_Util_Mail::envoiMailAutomatique($tabHobbits[$id_fk_jos_users_hobbit], $this->view->config->mail->message->titre, $debutContenuMail.$tabMessage["contenu"], $this->view);
+						$tabIdDestinatairesDejaEnvoye[] = $id_hobbit;
+						if ($tabHobbits[$id_hobbit]["envoi_mail_message_hobbit"] == "oui") {
+							Bral_Util_Mail::envoiMailAutomatique($tabHobbits[$id_hobbit], $this->view->config->mail->message->titre, $debutContenuMail.$tabMessage["contenu"], $this->view);
 						}
 					}
 				}
@@ -253,7 +253,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 	
 	private function prepareMessage() {
 		$josUddeimTable = new JosUddeim();
-		$message = $josUddeimTable->findById($this->view->user->id_fk_jos_users_hobbit, (int)$this->request->get("valeur_2"));
+		$message = $josUddeimTable->findById($this->view->user->id_hobbit, (int)$this->request->get("valeur_2"));
 
 		$tabMessage = null;
 		if ($message != null && count($message) == 1) {
@@ -264,10 +264,10 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 			
 			if ($idsHobbit != null) {
 				$hobbitTable = new Hobbit();
-				$hobbits = $hobbitTable->findByIdFkJosUsersList($idsHobbit);
+				$hobbits = $hobbitTable->findByIdList($idsHobbit);
 				if ($hobbits != null) {
 					foreach($hobbits as $h) {
-						$tabHobbits[$h["id_fk_jos_users_hobbit"]] = $h;
+						$tabHobbits[$h["id_hobbit"]] = $h;
 					}
 				}
 			}
@@ -280,7 +280,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 					$expediteur = " Erreur ".$message["fromid"];
 				}
 				
-				if (array_key_exists($message["fromid"], $tabHobbits)) {
+				if (array_key_exists($message["toid"], $tabHobbits)) {
 					$destinataire = $tabHobbits[$message["toid"]]["prenom_hobbit"] . " ". $tabHobbits[$message["toid"]]["nom_hobbit"]. " (".$tabHobbits[$message["toid"]]["id_hobbit"].")";
 				} else {
 					$destinataire = " Erreur ".$message["toid"];
@@ -307,7 +307,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 			);
 			
 			// Flag de lecture
-			if ($message["toid"] == $this->view->user->id_fk_jos_users_hobbit && $message["toread"] == 0) {
+			if ($message["toid"] == $this->view->user->id_hobbit && $message["toread"] == 0) {
 				$data = array(
 					"toread" => 1,
 				);
@@ -324,10 +324,10 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 	
 	private function prepareSupprimer() {
 		$josUddeimTable = new JosUddeim();
-		$message = $josUddeimTable->findById($this->view->user->id_fk_jos_users_hobbit, (int)$this->request->get("valeur_2"));
+		$message = $josUddeimTable->findById($this->view->user->id_hobbit, (int)$this->request->get("valeur_2"));
 		if ($message != null && count($message) == 1) {
 			$message = $message[0];
-			if ($message["fromid"] == $this->view->user->id_fk_jos_users_hobbit) {
+			if ($message["fromid"] == $this->view->user->id_hobbit) {
 				$data = array(
 					"totrashoutbox" => 1,
 					"totrashdateoutbox" => time(),

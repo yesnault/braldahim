@@ -126,17 +126,8 @@ class Hobbit extends Zend_Db_Table {
 		return $retour;
 	}
 	
-	public function findByIdFkJosUsers($id){
-		$where = $this->getAdapter()->quoteInto('id_fk_jos_users_hobbit = ?',(int)$id);
-		return $this->fetchRow($where);
-	}
-	
 	public function findByIdList($listId){
 		return $this->findByList("id_hobbit", $listId);
-	}
-	
-	public function findByIdFkJosUsersList($listId){
-		return $this->findByList("id_fk_jos_users_hobbit", $listId);
 	}
 	
 	private function findByList($nomChamp, $listId) {
@@ -232,12 +223,11 @@ class Hobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function findHobbitsParPrenomIdJoomlaOnly($prenom) {
+	function findHobbitsParPrenom($prenom) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('hobbit', '*')
-		->where('lcase(prenom_hobbit) like ?', (string)mb_strtolower(trim($prenom)))
-		->where('id_fk_jos_users_hobbit is not null');
+		->where('lcase(prenom_hobbit) like ?', (string)mb_strtolower(trim($prenom)));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

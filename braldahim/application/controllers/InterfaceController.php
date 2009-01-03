@@ -87,7 +87,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$xml_entry->set_box($box);
 		$xml_entry->set_valeur($box->getNomInterne());
 		$this->xml_response->add_entry($xml_entry);
-		Bral_Util_JoomlaUser::setXmlResponseMessagerie($this->xml_response, $this->view->user->id_fk_jos_users_hobbit);
+		Bral_Util_Messagerie::setXmlResponseMessagerie($this->xml_response, $this->view->user->id_hobbit);
 		unset($xml_entry);
 		$this->xml_response->render();
 	}

@@ -195,9 +195,6 @@ class ParametresController extends Zend_Controller_Action {
 				$where = "id_hobbit=".$hobbit->id_hobbit;
 				$hobbitTable->update($data, $where);
 				
-				Zend_Loader::loadClass('Bral_Util_JoomlaUser');
-				Bral_Util_JoomlaUser::changeUsernameAndMail($hobbit);
-				
 				$this->view->message = "L'adresse ".$this->email_nouveau_hobbit." est bien prise en compte";
 				echo $this->view->render("Parametres/index.phtml");
 				return;
