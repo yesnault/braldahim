@@ -523,7 +523,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		foreach($zonesRowset as $z) {
 			$nombreMonstres = $monstresTable->countVue($z["x_min_zone"] ,$z["y_min_zone"] ,$z["x_max_zone"] ,$z["y_max_zone"]);
 			$nombreCases = ($z["x_max_zone"]  - $z["x_min_zone"] ) * ($z["y_max_zone"]  - $z["y_min_zone"] );
-			if ($nombreMonstres > 0) {
+			if ($nombreMonstres > 0 && $nombreCases > 0) {
 				$couverture = ($nombreMonstres * 100) / $nombreCases;
 			} else {
 				$couverture = 0;
