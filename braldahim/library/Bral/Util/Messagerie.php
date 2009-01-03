@@ -107,6 +107,7 @@ class Bral_Util_Messagerie {
 		}
 		
 		if ($tabHobbits != null) {
+			$hobbitTable = new Hobbit();
 			$hobbits = $hobbitTable->findByIdList($tabHobbits);
 		}
 		
