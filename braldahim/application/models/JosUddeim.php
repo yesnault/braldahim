@@ -13,16 +13,7 @@
 class JosUddeim extends Zend_Db_Table {
 	protected $_name = 'jos_uddeim';
 	protected $_primary = 'id';
-	
-/*	protected function _setupDatabaseAdapter() {
-		if (! $this->_db) {
-			$this->_db = Zend_Registry::get('dbSiteAdapter');
-			if (!$this->_db instanceof Zend_Db_Adapter_Abstract) {
-				throw new Zend_Db_Table_Exception('Aucun adapter pour ' . get_class($this));
-			}
-		}
-	}
-*/
+
 	public function findById($idUser, $id) {
 		$db = $this->getAdapter();
 		$select = $db->select();

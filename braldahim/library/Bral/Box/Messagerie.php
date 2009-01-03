@@ -72,7 +72,7 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 				$hobbits = $hobbitTable->findByIdList($idsHobbit);
 				if ($hobbits != null) {
 					foreach($hobbits as $h) {
-						$tabHobbits[$h["id_fk_jos_users_hobbit"]] = $h;
+						$tabHobbits[$h["id_hobbit"]] = $h;
 					}
 				}
 			}

@@ -68,7 +68,7 @@ class Bral_Messagerie_Contacts {
 	}
 
 	private function prepareListe() {
-		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_fk_jos_users_hobbit);
+		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_hobbit);
 	}
 	
 	private function prepareNouveau() {
@@ -123,7 +123,7 @@ class Bral_Messagerie_Contacts {
 		
 		if ($validDestinataires && $validNom && $validDescription) { 
 			$data = array(
-				"userid" => $this->view->user->id_fk_jos_users_hobbit,
+				"userid" => $this->view->user->id_hobbit,
 				"name" => $nom,
 				"description" => $description,
 				"userids" => $destinataires["destinataires"],
@@ -133,7 +133,7 @@ class Bral_Messagerie_Contacts {
 				$id = $josUserlistsTable->insert($data);
 				$this->view->information = "La liste ". $nom ." est créée";
 			} else { // update
-				$where = " userid = ". $this->view->user->id_fk_jos_users_hobbit; // secu
+				$where = " userid = ". $this->view->user->id_hobbit; // secu
 				$where .= " AND id=".intval($id);
 				$josUserlistsTable->update($data, $where);
 				$this->view->information = "La liste ". $nom ." est modifiée";
@@ -182,9 +182,9 @@ class Bral_Messagerie_Contacts {
 	
 	private function prepareContactsListe($id) {
 		$josUserlistsTable = new JosUserlists();
-		$rowset = $josUserlistsTable->findByIdList($id, $this->view->user->id_fk_jos_users_hobbit);
+		$rowset = $josUserlistsTable->findByIdList($id, $this->view->user->id_hobbit);
 		if ($rowset == null) {
-			throw new Zend_Exception("Bral_Messagerie_Contacts::prepareEditer Valeur invalide : id=".$id. " id2=".$this->view->user->id_fk_jos_users_hobbit);
+			throw new Zend_Exception("Bral_Messagerie_Contacts::prepareEditer Valeur invalide : id=".$id. " id2=".$this->view->user->id_hobbit);
 		}
 
 		$rowset = $rowset->toArray();
@@ -210,7 +210,7 @@ class Bral_Messagerie_Contacts {
 		Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_2'));
 		$id = $filter->filter(trim($this->request->get('valeur_2')));
 		
-		$where = " userid = ". $this->view->user->id_fk_jos_users_hobbit; // secu
+		$where = " userid = ". $this->view->user->id_hobbit; // secu
 		$where .= " AND id=".intval($id);
 		$josUserlistsTable->delete($where);
 		$this->view->information = "La liste est supprimée";
