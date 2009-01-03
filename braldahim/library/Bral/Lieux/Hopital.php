@@ -41,7 +41,7 @@ class Bral_Lieux_Hopital extends Bral_Lieux_Lieu {
 		}
 		
 		if ($this->view->recupPossible == false) {
-			throw new Zend_Exception("Bral_Lieux_Ceachehu :: Nombre PV full");
+			throw new Zend_Exception("Bral_Lieux_Hopital :: Nombre PV full");
 		}
 		
 		$this->view->jetRegeneration = 0;
