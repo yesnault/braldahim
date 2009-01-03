@@ -415,7 +415,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 		} else {
 			$this->view->nb_px_perso = 0;
 		}
-		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
+		$this->view->nb_px = floor($this->view->nb_px_perso + $this->view->nb_px_commun);
 	}	
 	
 	public function getIdEchoppeCourante() {
