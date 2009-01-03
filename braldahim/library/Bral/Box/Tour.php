@@ -154,7 +154,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$this->modificationTour();
 
 		// Mise a jour en cas de mort
-		$this->calcul_mort();
+		$this->calculMort();
 
 		// Si c'est un nouveau tour, on met les BM de force, agi, sag, vue, vig à 0 
 		// Ensuite, on les recalcule suivant l'équipement porté et les potions en cours
@@ -259,7 +259,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		}
 	}
 
-	private function calcul_mort() {
+	private function calculMort() {
 		Bral_Util_Log::tour()->trace(get_class($this)." calcul_mort - enter -");
 		$this->est_mort = ($this->hobbit->est_mort_hobbit == "oui");
 

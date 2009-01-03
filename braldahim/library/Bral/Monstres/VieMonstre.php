@@ -207,6 +207,7 @@ class Bral_Monstres_VieMonstre {
 				$this->monstre["id_fk_hobbit_cible_monstre"] = null;
 				$cible["nb_mort_hobbit"] = $cible["nb_mort_hobbit"] + 1;
 				$cible["est_mort_hobbit"] = "oui";
+				$cible["date_fin_tour_hobbit"] = date("Y-m-d H:i:s");
 				$id_type_evenement = self::$config->game->evenements->type->kill;
 				$id_type_evenement_cible = self::$config->game->evenements->type->mort;
 				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a tué le hobbit ".$cible["prenom_hobbit"] ." ". $cible["nom_hobbit"]." (".$cible["id_hobbit"].")";
@@ -375,6 +376,7 @@ class Bral_Monstres_VieMonstre {
 			'agilite_bm_hobbit' => $cible["agilite_bm_hobbit"],
 			'est_engage_hobbit' => $cible["est_engage_hobbit"],
 			'est_engage_next_dla_hobbit' => $cible["est_engage_next_dla_hobbit"],
+			'date_fin_tour_hobbit' => $cible["date_fin_tour_hobbit"],
 		);
 		$where = "id_hobbit=".$cible["id_hobbit"];
 		$hobbitTable->update($data, $where);
