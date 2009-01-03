@@ -54,6 +54,7 @@ class Bral_Util_Marcher {
 		 */
 		$assezDePa = $this->calculNbPa($hobbit, $case["nom_systeme_environnement"]);
 		if ($assezDePa = false) {
+			$retour["assezDePa"] = false;
 			return $retour;
 		} else {
 			$retour["assezDePa"] = true;
