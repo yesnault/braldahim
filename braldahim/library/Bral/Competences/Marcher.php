@@ -34,7 +34,10 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		$this->view->x_max = $calcul["x_max"];
 		$this->view->y_min = $calcul["y_min"];
 		$this->view->y_max = $calcul["y_max"];
-		
+	}
+	
+	function calculNbPa() {
+		// fait dans UtilMarcher	
 	}
 	
 	function prepareFormulaire() {
