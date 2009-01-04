@@ -256,35 +256,6 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 		return $retour;
 	}
 	
-	function calculNbPa() {
-		switch($this->environnement) {
-			case "plaine" :
-				$this->nb_pa = 2;
-				break;
-			case "marais" :
-				$this->nb_pa = 2;
-				break;
-			case "montagne" :
-				$this->nb_pa = 2;
-				break;
-			case "foret" :
-				$this->nb_pa = 3;
-				break;
-			case "caverne" :
-			case "gazon" :
-				$this->nb_pa = false;
-				break;
-			default:
-				throw new Zend_Exception(get_class($this)."::environnement invalide :".$this->environnement);
-		}
-		
-		if ($this->view->user->pa_hobbit - $this->nb_pa < 0) {
-			$this->view->assezDePa = false;
-		} else {
-			$this->view->assezDePa = true;
-		}
-	}
-	
 	function getListBoxRefresh() {
 		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_vue", "box_laban"));
 	}

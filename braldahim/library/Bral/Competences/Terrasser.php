@@ -49,6 +49,8 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 		if (count($routes) > 0) {
 			$this->view->route = $routes[0];
 		}
+		
+		$this->calculNbPa();
 	}
 
 	function prepareFormulaire() {
@@ -217,26 +219,26 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 	function calculNbPa() {
 		switch($this->environnement) {
 			case "plaine" :
-				$this->nb_pa = 2;
+				$this->view->nb_pa = 2;
 				break;
 			case "marais" :
-				$this->nb_pa = 2;
+				$this->view->nb_pa = 2;
 				break;
 			case "montagne" :
-				$this->nb_pa = 2;
+				$this->view->nb_pa = 2;
 				break;
 			case "foret" :
-				$this->nb_pa = 3;
+				$this->view->nb_pa = 3;
 				break;
 			case "caverne" :
 			case "gazon" :
-				$this->nb_pa = false;
+				$this->view->nb_pa = false;
 				break;
 			default:
 				throw new Zend_Exception(get_class($this)."::environnement invalide :".$this->environnement);
 		}
 		
-		if ($this->view->user->pa_hobbit - $this->nb_pa < 0) {
+		if ($this->view->user->pa_hobbit - $this->view->nb_pa < 0) {
 			$this->view->assezDePa = false;
 		} else {
 			$this->view->assezDePa = true;
