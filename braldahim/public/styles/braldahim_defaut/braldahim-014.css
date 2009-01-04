@@ -1053,10 +1053,10 @@ li.resultat div.nom {
 /* ************************************************ */
 	/* ************************* Vue ****************** */
 	/* ************************************************ */
-able.vue2d {
+table.vue2d {
 	border: solid #777;
-	text-align: right;
-	background-color: black;
+	text-align: center;
+	#background-color: #eeeeee;
 	border-spacing: 1;
 	border-width: 1pt;
 }
@@ -1069,46 +1069,55 @@ td.vue2d {
 	font-size: 7pt;
 	vertical-align: top;
 	horizontal-align: center;
-	width: 50px;
+	width: 64px;
+	height: 64px;
 }
 
 td.vue2d.plaine {
 	#background-color: rgb(173, 186, 140);
-	background: url('/public/styles/braldahim_defaut/images/layout/environnement/plaine.png') repeat;
+	background: url('/public/styles/braldahim_defaut/images/layout/vue/plaine.png') repeat;
 }
 
 td.vue2d.gazon {
 	#background-color: #99AA4A;
-	background: url('/public/styles/braldahim_defaut/images/layout/environnement/gazon.png') repeat;
+	background: url('/public/styles/braldahim_defaut/images/layout/vue/gazon.png') repeat;
 }
 
 td.vue2d.foret {
 	#background-color: #7E9E50;
-	background: url('/public/styles/braldahim_defaut/images/layout/environnement/foret.png') repeat;
+	background: url('/public/styles/braldahim_defaut/images/layout/vue/foret.png') repeat;
 }
 
 td.vue2d.marais {
 	#background-color: #6699cc;
-	background: url('/public/styles/braldahim_defaut/images/layout/environnement/marais.png') repeat;
+	background: url('/public/styles/braldahim_defaut/images/layout/vue/marais.png') repeat;
 }
 
 td.vue2d.montagne {
 	#background-color: #f5f5f5;
-	background: url('/public/styles/braldahim_defaut/images/layout/environnement/montagne.png') repeat;
+	background: url('/public/styles/braldahim_defaut/images/layout/vue/montagne.png') repeat;
 }
 
 td.vue2d.caverne {
 	#background-color: #666600;
-	background: url('/public/styles/braldahim_defaut/images/layout/environnement/inconnu.png') repeat;
+	background: url('/public/styles/braldahim_defaut/images/layout/vue/inconnu.png') repeat;
+}
+
+td.vue2d.route {
+	background: url('/public/styles/braldahim_defaut/images/layout/vue/route.png') repeat;
+}
+
+td.vue2d.terrasse {
+	background: url('/public/styles/braldahim_defaut/images/layout/vue/terrasse.png') repeat;
+}
+
+td.vue2d.palissade {
+	background: url('/public/styles/braldahim_defaut/images/layout/vue/palissade.png') repeat;
 }
 
 td.vue2d.inconnu {
 	#background-color: grey;
-	background: url('/public/styles/braldahim_defaut/images/layout/environnement/inconnu.png') repeat;
-}
-
-td.vue2d.actuelle {
-	background-color: #ff6666;
+	background: url('/public/styles/braldahim_defaut/images/layout/vue/inconnu.png') repeat;
 }
 
 .vue2d_case_num {
@@ -1118,7 +1127,9 @@ td.vue2d.actuelle {
 	background-color: #6f5f6f;
 }
 
-
+.vue2d_case_num.actuelle {
+	background-color: #ff6666;
+}
 
 #modalPage
 {

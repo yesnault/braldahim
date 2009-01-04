@@ -1,4 +1,4 @@
-      	<div class="vue2d_case_num">
+      	<div class="vue2d_case_num <?=$case["css_actuelle"]?>">
       		<? if ($case["marcher"] != null && $case["marcher"]["valid"] === true): ?>
       		<img src='/public/images/puce_marcher.gif' alt='Cliquez pour Marcher' title='Cliquez pour Marcher'
       		onClick="Javascript:_get_('/competences/doaction?caction=ask_competence_marcher&valeur_1=<?=$case["marcher"]["offset"]?>')" style="cursor:pointer;" />

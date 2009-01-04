@@ -54,6 +54,11 @@ class BatchsController extends Zend_Controller_Action {
 		echo $this->view->render("batchs/resultat.phtml");
 	}
 	
+	function routesAction() {
+		$this->view->retour = Bral_Batchs_Factory::calculBatch("Routes");
+		echo $this->view->render("batchs/resultat.phtml");
+	}
+	
 	function purgeAction() {
 		$this->view->retour = Bral_Batchs_Factory::calculBatch("Purge");
 		echo $this->view->render("batchs/resultat.phtml");

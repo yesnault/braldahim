@@ -42,6 +42,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("Palissade");
 			Zend_Loader::loadClass("Region");
 			Zend_Loader::loadClass("TypeLieu");
+			Zend_Loader::loadClass("Route");
 			Zend_Loader::loadClass("Ville");
 			Zend_Loader::loadClass("Zone");
 			Zend_Loader::loadClass('Bral_Util_Marcher');
@@ -191,6 +192,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$regionTable = new Region();
 		$regions = $regionTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($regionTable);
+		$routeTable = new Route();
+		$routes = $routeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($routeTable);
 		$villeTable = new Ville();
 		$villes = $villeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($villeTable);
@@ -237,6 +241,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabLieux = null;
 				$tabMonstres = null;
 				$tabPalissades = null;
+				$tabRoutes = null;
 				$nom_systeme_environnement = null;
 				$nom_environnement = null;
 				$nom_zone = null;
@@ -461,18 +466,34 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
+					
+					if ($routes != null) {
+						foreach($routes as $r) {
+							if ($display_x == $r["x_route"] && $display_y == $r["y_route"]) {
+								$tabRoutes[] = array("id_route" => $r["id_route"], "est_route" => $r["est_route"]);
+							}
+						}
+					}
 				}
 
 				if ($this->view->user->x_hobbit == $display_x && $this->view->user->y_hobbit == $display_y) { // Position du joueur
-					$actuelle = true;
-					$css = "actuelle";
+					$cssActuelle = "actuelle";
 					$this->view->environnement = $nom_environnement;
 					$this->view->centre_nom_region = $region["nom"];
 					$this->view->centre_description_region = $region["description"];
 					$this->view->centre_nom_ville = $ville["nom_ville"];
 					$this->view->centre_est_capitale = ($ville["est_capitale"] == "oui");
 				} else {
-					$actuelle = false;
+					$cssActuelle = "";
+				}
+					
+				if (count($tabRoutes) == 1 && $tabRoutes[0]["est_route"] == "oui") {
+					$css = "route";	
+				} else if (count($tabRoutes) == 1 && $tabRoutes[0]["est_route"] == "non") {
+					$css = "terrasse";	
+				} else if (count($tabPalissades) > 0) {
+					$css = "palissade";
+				} else {
 					$css = $nom_systeme_environnement;
 				}
 
@@ -488,7 +509,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				
 				$tab = array ("x" => $display_x, "y" => $display_y, //
 					"change_level" => $change_level, // nouvelle ligne dans le tableau ;
-					"position_actuelle" => $actuelle,
+					"css_actuelle" => $cssActuelle,
 					"nom_zone" => $nom_zone,
 					"description_zone" => $nom_zone,
 					"css" => $css,
@@ -524,6 +545,8 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"monstres" => $tabMonstres,
 					"n_palissades" => count($tabPalissades),
 					"palissades" => $tabPalissades,
+					"n_routes" => count($tabRoutes),
+					"routes" => $tabRoutes,
 					"ville" => $ville,
 					"marcher" => $tabMarcher,
 				);
@@ -549,12 +572,12 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		unset($monstres);
 		unset($palissades);
 		unset($regions);
+		unset($routes);
 		unset($villes);
 		unset($zones);
 		
 		$this->view->tableau = $tableau;
 		unset($tableau);
-		
 		
 	}
 }

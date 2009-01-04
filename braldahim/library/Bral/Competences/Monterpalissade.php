@@ -17,7 +17,8 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Echoppe'); 	
 		Zend_Loader::loadClass('Lieu'); 	
 		Zend_Loader::loadClass('Monstre');
-		Zend_Loader::loadClass('Palissade');  	
+		Zend_Loader::loadClass('Palissade'); 
+		Zend_Loader::loadClass('Route');  	
 		Zend_Loader::loadClass('Ville'); 	
 	
 		$this->view->monterPalissadeOk = false;
@@ -62,6 +63,9 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		$hobbitTable = new Hobbit();
 		$hobbits = $hobbitTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 
+		$routeTable = new Route();
+		$routes = $routeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		
 		$defautChecked = false;
 		
 		for ($j = $this->distance; $j >= -$this->distance; $j --) {
@@ -115,6 +119,13 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 				
 			 	foreach($palissades as $p) {
 					if ($x == $p["x_palissade"] && $y == $p["y_palissade"]) {
+						$valid = false;
+						break;
+					}
+				}
+				
+			 	foreach($routes as $r) {
+					if ($x == $r["x_route"] && $y == $r["y_route"]) {
 						$valid = false;
 						break;
 					}
