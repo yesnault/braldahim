@@ -13,11 +13,11 @@
 class Bral_Util_EffetsPotion {
 	
 	public static function calculPotionHobbit($hobbitCible, $appliqueEffet) {
-		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - calculPotionHobbit - enter");
+		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - calculPotionHobbit - enter - appliqueEffet:".$appliqueEffet. " idH:".$hobbitCible->id_hobbit);
 		
 		Zend_Loader::loadClass("EffetPotionHobbit");
 		$effetPotionHobbitTable = new EffetPotionHobbit();
-		$effetPotionHobbitRowset = $effetPotionHobbitTable->findByIdHobbitCible($hobbitCible->id_hobbit, $appliqueEffet);
+		$effetPotionHobbitRowset = $effetPotionHobbitTable->findByIdHobbitCible($hobbitCible->id_hobbit);
 		unset($effetPotionHobbitTable);
 		
 		$potions = null;
@@ -39,9 +39,14 @@ class Bral_Util_EffetsPotion {
 			
 			$retourPotion = null;
 			if ($appliqueEffet) {
+				Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - calculPotionHobbit - application de l'effet potion ".$p["id_effet_potion_hobbit"]);
 				$retourPotion = self::appliquePotionSurHobbit($potion, $p["id_fk_hobbit_lanceur_effet_potion_hobbit"], $hobbitCible, true, false);
+				if ($retourPotion != null) {
+					$potions[] = array('potion' => $potion, 'retourPotion' => $retourPotion);
+				}
+			} else { 
+				$potions[] = array('potion' => $potion, 'retourPotion' => $retourPotion);
 			}
-			$potions[] = array('potion' => $potion, 'retourPotion' => $retourPotion);
 		}
 		
 		unset($effetPotionHobbitRowset);
@@ -88,6 +93,16 @@ class Bral_Util_EffetsPotion {
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurHobbit - majTableEffetPotion = ".$majTableEffetPotion);
 		
 		Zend_Loader::loadClass("EffetPotionHobbit");
+		if ($majTableEffetPotion === true) {
+			Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - appliquePotionSurHobbit - maj table effet debut");
+			$effetPotionHobbitTable = new EffetPotionHobbit();
+			$estSupprime = $effetPotionHobbitTable->enleveUnTour($potion);
+			unset($effetPotionHobbitTable);
+			Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - appliquePotionSurHobbit - maj table effet fin");
+			if ($estSupprime) {
+				return null;
+			}
+		}
 		
 		if ($potion["bm_type"] == 'malus') {
 			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurHobbit - malus");
@@ -142,14 +157,6 @@ class Bral_Util_EffetsPotion {
 			$hobbitTable = new Hobbit();
 			$hobbitTable->update($data, $where);
 			unset($hobbitTable);
-		}
-		
-		if ($majTableEffetPotion === true) {
-			Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - appliquePotionSurHobbit - maj table effet debut");
-			$effetPotionHobbitTable = new EffetPotionHobbit();
-			$effetPotionHobbitTable->enleveUnTour($potion);
-			unset($effetPotionHobbitTable);
-			Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - appliquePotionSurHobbit - maj table effet fin");
 		}
 		
 		$retourPotion["nb_tour_restant"] = $potion["nb_tour_restant"] - 1;

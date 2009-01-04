@@ -14,18 +14,14 @@ class EffetPotionHobbit extends Zend_Db_Table {
 	protected $_name = 'effet_potion_hobbit';
 	protected $_primary = array('id_effet_potion_hobbit');
 
-	function findByIdHobbitCible($id_hobbit, $appliqueEffet) {
-		$and = "";
-		if ($appliqueEffet) {
-			$and = " AND nb_tour_restant_effet_potion_hobbit > 0 ";
-		}
+	function findByIdHobbitCible($id_hobbit) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('effet_potion_hobbit', '*')
 		->from('type_potion')
 		->from('type_qualite')
 		->where('id_fk_type_potion_effet_potion_hobbit = id_type_potion')
-		->where('id_fk_type_qualite_effet_potion_hobbit = id_type_qualite'.$and)
+		->where('id_fk_type_qualite_effet_potion_hobbit = id_type_qualite')
 		->where('id_fk_hobbit_cible_effet_potion_hobbit = ?', intval($id_hobbit));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -41,6 +37,8 @@ class EffetPotionHobbit extends Zend_Db_Table {
 		$sql = $select->__toString();
 		$resultat = $db->fetchRow($sql);
 		
+		$retour = false;
+		
 		if ($resultat != null) {
 			$resultat["nb_tour_restant_effet_potion_hobbit"] = $resultat["nb_tour_restant_effet_potion_hobbit"] - 1;
 			Bral_Util_Log::potion()->debug('EffetPotionHobbit - enleveUnTour - potion '.$potion["id_potion"].' tour(s) restant(s)='.$resultat["nb_tour_restant_effet_potion_hobbit"]);
@@ -49,12 +47,15 @@ class EffetPotionHobbit extends Zend_Db_Table {
 			if ($resultat["nb_tour_restant_effet_potion_hobbit"] < 0) {
 				Bral_Util_Log::potion()->debug('EffetPotionHobbit - enleveUnTour - suppression de la potion '.$potion["id_potion"].' de la table EffetPotionHobbit');
 				$this->delete($where);
+				$retour = true;
 			} else {
 				Bral_Util_Log::potion()->debug('EffetPotionHobbit - enleveUnTour - mise a jour de la potion '.$potion["id_potion"].' de la table EffetPotionHobbit');
 				$dataUpdate["nb_tour_restant_effet_potion_hobbit"] = $resultat["nb_tour_restant_effet_potion_hobbit"];
 				$this->update($dataUpdate, $where);
+				$retour = false;
 			}
 		}
-		Bral_Util_Log::potion()->debug('EffetPotionHobbit - enleveUnTour - exit');
+		Bral_Util_Log::potion()->debug('EffetPotionHobbit - enleveUnTour - exit - ('.$retour.')');
+		return $retour;
 	}
 }
