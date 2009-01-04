@@ -5,16 +5,16 @@
 	C'est &eacute;galement votre m&eacute;tier courant<br />
 	Il vous reste <?=$this->user->castars_hobbit; ?>
 	<? if ($this->user->castars_hobbit == 0): ?>
-	castar
+	castar.
 	<? else: ?>
-	castars
+	castars.
 	<? endif; ?>
-	<br />
+	<br /><br />
 	<? if ($this->constructionCharrette === true): ?>
 		De plus, vous avez r&eacute;cup&eacute;r&eacute; une charrette !
 	<? endif; ?>
 	<? if ($this->constructionEchoppe === true): ?>
-		De plus, vous pouvez construire une &eacute;choppe (rendez-vous &agrave; l'Office Notarial)!
+		De plus, vous pouvez construire une &eacute;choppe, rendez-vous &agrave; l'Office Notarial !
 	<? endif; ?>
 <? endif; ?>
 <? if ($this->changementMetier === true) : ?>

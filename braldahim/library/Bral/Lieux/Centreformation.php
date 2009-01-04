@@ -134,6 +134,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 					if ($idNouveauMetierCourant == $t["id_metier"]) {
 						$nomMetier = $t["nom"];
 						$changementOk = true;
+						break;
 					}
 				}
 			}
@@ -142,7 +143,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 			}
 		} 
 		
-		if ($apprentissageMetier){ // apprentissage
+		if ($apprentissageMetier) { // apprentissage
 			// verification que le hobbit peut acheter le metier
 			if ($this->_achatPossible === false) {
 				throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_hobbit." cout:".$this->_coutCastars);
@@ -154,6 +155,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 					if ($idNouveauMetier == $t["id_metier"]) {
 						$nouveau = true;
 						$nomMetier = $t["nom"];
+						$idNouveauMetier = $t["id_metier"];
 						$constructionCharrette = ($t["construction_charrette"] == 'oui');
 						$constructionEchoppe = ($t["construction_echoppe"] == 'oui');
 						break;
@@ -193,25 +195,27 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 			$hobbitsMetiersTable->update($data, $where);
 
 		}
-		if ($apprentissageMetier){ // apprentissage
+		if ($apprentissageMetier) { // apprentissage
 			$hobbitsMetiersTable = new HobbitsMetiers();
 			$data = array('est_actif_hmetier' => 'non');
 			$where = "id_fk_hobbit_hmetier =".intval($this->view->user->id_hobbit);
 			$hobbitsMetiersTable->update($data, $where);
 
+			$competenceTable = new Competence();
+			$competencesMetier = $competenceTable->findByIdMetier($idNouveauMetier);
+			if (count($competencesMetier) <= 0) {
+				throw new Zend_Exception(get_class($this)." Competences pour le nouveau metier invalide:".$idNouveauMetier. " idH=".$this->view->user->id_hobbit);
+			}
+			
 			$dataNouveauMetier = array(
 				'id_fk_hobbit_hmetier' => $this->view->user->id_hobbit,
-				'id_fk_metier_hmetier'  => $idNouveauMetier, // marcher
+				'id_fk_metier_hmetier'  => $idNouveauMetier,
 				'date_apprentissage_hmetier'  => date("Y-m-d"),
 				'est_actif_hmetier'  => "oui",
 			);
-
 			$hobbitsMetiersTable->insert($dataNouveauMetier);
 
 			$hobbitsCompetencesTable = new HobbitsCompetences();
-
-			$competenceTable = new Competence();
-			$competencesMetier = $competenceTable->findByIdMetier($idNouveauMetier);
 			foreach($competencesMetier as $e) {
 				$data = array(
 					'id_fk_hobbit_hcomp' => $this->view->user->id_hobbit,

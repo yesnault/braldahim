@@ -276,7 +276,6 @@ class InscriptionController extends Zend_Controller_Action {
 			'x_hobbit' => $lieu["x_lieu"],
 			'y_hobbit' => $lieu["y_lieu"],
 			'vue_bm_hobbit' => $this->view->config->game->inscription->vue_bm,
-			'date_debut_tour_hobbit' => "0000-00-00 00:00:00",
 			'date_fin_tour_hobbit' => Bral_Util_ConvertDate::get_date_add_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_cumul),
 			'date_debut_tour_hobbit' => Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_cumul),
 			'date_fin_latence_hobbit' => Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_milieu),
