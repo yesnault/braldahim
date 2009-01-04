@@ -189,7 +189,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$nbTour = $this->calculNbTour($potion);
 		$potion["bm_effet_potion"] = $this->calculBm($potion["niveau"]);
 		
-		if ($nbTour > 1) {
+		if ($nbTour >= 1) {
 			$effetPotionHobbitTable = new EffetPotionHobbit();
 			$data = array(
 				  'id_effet_potion_hobbit' => $potion["id_potion"],
