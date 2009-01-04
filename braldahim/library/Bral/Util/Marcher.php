@@ -29,6 +29,7 @@ class Bral_Util_Marcher {
 		$retour["marcherPossible"] = false;
 		$retour["tableauValidation"] = null;
 		$retour["tableauValidationXY"] = null;
+		$retour["estEngage"] = false;
 		
 		$retour["x_min"] = null;
 		$retour["x_max"] = null;
@@ -60,7 +61,6 @@ class Bral_Util_Marcher {
 			$retour["assezDePa"] = true;
 		}
 		
-		$retour["estEngage"] = false;
 		if ($hobbit->est_engage_hobbit == "oui") {
 			$retour["estEngage"] = true;
 		}
