@@ -16,7 +16,7 @@
 		<br /><br />
 		
 		<? foreach($this->potionsArriereBoutique as $e) :?>
-			<input type='hidden' id='commentaire_<?=$e["id_echoppe_potion"] ?>' name='commentaire_<?=$e["id_echoppe_potion"] ?>' value='<?=htmlentities($e["commentaire"], ENT_QUOTES);?>'>
+			<input type='hidden' id='commentaire_<?=$e["id_echoppe_potion"] ?>' name='commentaire_<?=$e["id_echoppe_potion"] ?>' value='<?=htmlspecialchars($e["commentaire"], ENT_QUOTES);?>'>
 		<? endforeach;?>
 		
 		Vous pouvez vendre la potion &agrave; l'aide de trois unit&eacute;s diff&eacute;rentes : <br>
