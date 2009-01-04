@@ -136,7 +136,11 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 	
 		// Et arrondi ((n+1)-(n+1)*p) plantes préparées en sortie
 		$this->view->nbPartiesPlantesPreparees = round($nb - $nb * $perte);
-			
+		
+		if ($this->view->nbPartiesPlantesPreparees <= 0) {
+			$this->view->nbPartiesPlantesPreparees  = 1;
+		}
+		
 		$echoppePlanteTable = new EchoppePartieplante();
 		$data = array(
 			'id_fk_type_echoppe_partieplante' => $idTypePartiePlante,
