@@ -3,6 +3,15 @@
 
 Environnement : <?=$this->environnement?>.<br><br>
 
+<? if ($this->route != null) : ?>
+	<? if ($this->route["est_route"] == "non") : ?>
+	Le terrain est d&eacute;j&agrave; terrass&eacute; ici...
+	<? else: ?>
+	Une route existe d&eacute;j&agrave; ici...
+	<? endif; ?>
+	<br><br>
+<? endif; ?>
+
 <?php if ($this->terrasserOk == false) : ?>
 	Vous ne pouvez pas terrasser &agrave; cet endroit
 <?php else : ?>

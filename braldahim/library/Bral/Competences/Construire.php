@@ -4,13 +4,13 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Terrasser.php 754 2008-12-16 07:54:24Z yvonnickesnault $
+ * $Id: Construire.php 754 2008-12-16 07:54:24Z yvonnickesnault $
  * $Author: yvonnickesnault $
  * $LastChangedDate: 2008-12-16 08:54:24 +0100 (Tue, 16 Dec 2008) $
  * $LastChangedRevision: 754 $
  * $LastChangedBy: yvonnickesnault $
  */
-class Bral_Competences_Terrasser extends Bral_Competences_Competence {
+class Bral_Competences_Construire extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass('Monstre');
@@ -18,7 +18,7 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Route');
 		Zend_Loader::loadClass('Zone');
 	
-		$this->view->terrasserOk = false;
+		$this->view->construireOk = false;
 		
 		$monstreTable = new Monstre();
 		$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
@@ -42,13 +42,16 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 		}
 		unset($zone);
 		
-		if (count($monstres) <= 0 && count($hobbits) == 1 && count($palissades) <= 0 && count($routes) <= 0 && $this->estEnvironnementValid($this->environnement)) {
-			$this->view->terrasserOk = true;
-		}
+		$this->view->route = null;
 		
 		if (count($routes) > 0) {
 			$this->view->route = $routes[0];
 		}
+		
+		if (count($monstres) <= 0 && count($hobbits) == 1 && count($palissades) <= 0 && $this->view->route != null && $this->view->route["est_route"] == "non" && $this->estEnvironnementValid($this->environnement)) {
+			$this->view->construireOk = true;
+		}
+		
 	}
 
 	function prepareFormulaire() {
@@ -63,15 +66,15 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
 		}
 		
-		if ($this->view->terrasserOk == false) {
-			throw new Zend_Exception(get_class($this)." Terrasser interdit");
+		if ($this->view->construireOk == false) {
+			throw new Zend_Exception(get_class($this)." Construire interdit");
 		}
 
 		// calcul des jets
 		$this->calculJets();
 
 		if ($this->view->okJet1 === true) {
-			$this->calculTerrasser();
+			$this->calculConstruire();
 		}
 		
 		$this->calculPx();
@@ -80,33 +83,72 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 		$this->majHobbit();
 	}
 	
-	private function calculTerrasser() {
+	private function calculConstruire() {
+		
+		$maitrise = $this->hobbit_competence["pourcentage_hcomp"];
+		
+		$chance_a = 11.1-11 * $maitrise;
+		$chance_b = 100-(11.1-11 * $maitrise)-(10 * $maitrise);
+		$chance_c = 10 * $maitrise;
+
+		$tirage = Bral_Util_De::get_1d100();
+		
+		$qualite = -1;
+		if ($tirage > 0 && $tirage <= $chance_a) {
+			$qualite = 1;
+			$this->view->qualite = "m&eacute;diocre";
+			$nbJours = $this->calculJetForce();
+		} elseif ($tirage > $chance_a && $tirage <= $chance_b) {
+			$qualite = 2;
+			$this->view->qualite = "standard";
+			$nbJours = $this->calculJetForce() + $this->calculJetVigueur();
+		} elseif ($tirage > $chance_b && $tirage <= 100) {
+			$qualite = 3;
+			$this->view->qualite = "bonne";
+			$nbJours = $this->calculJetForce() + $this->calculJetVigueur() + $this->calculJetSagesse();
+		}
 		
 		$date_creation = date("Y-m-d H:i:s");
-		$nb_heures = $this->calculJetSagesse();
-		if ($nb_heures > 0) {
-			$nb_heures = $nb_heures.":00:00";
-		} else {
-			$nb_heures = "00:01:00";
-		}
-		$date_fin = Bral_Util_ConvertDate::get_date_add_time_to_date($date_creation, $nb_heures);
+		$date_fin = Bral_Util_ConvertDate::get_date_add_day_to_date($date_creation, $nbJours);
 		
 		$data = array(
-			"x_route"  => $this->view->user->x_hobbit,
-			"y_route" => $this->view->user->y_hobbit,
 			"id_fk_hobbit_route" => $this->view->user->id_hobbit,
-			"est_route" => "non",
+			"est_route" => "oui",
 			"date_creation_route" => $date_creation,
 			"date_fin_route" => $date_fin,
-			"id_fk_type_qualite_route" => null,
+			"id_fk_type_qualite_route" => $qualite,
 		);
-		
+		$where = "x_route = ".$this->view->user->x_hobbit. " and y_route=".$this->view->user->y_hobbit;
 		$routeTable = new Route();
-		$routeTable->insert($data);
+		$routeTable->update($data, $where);
 		unset($routeTable);
 		
 		$this->view->route = $data;
 		$this->calculEvenement();
+	}
+	
+	private function calculJetForce() {
+		$jet = 0;
+		for ($i=1; $i <= ($this->view->config->game->base_force + $this->view->user->force_base_hobbit) ; $i++) {
+			$jet = $jet + Bral_Util_De::get_1d6();
+		}
+		$jet = $jet + $this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit;
+		if ($jet < 0) {
+			$jet = 0;
+		}
+		return $jet;
+	}
+	
+	private function calculJetVigueur() {
+		$jet = 0;
+		for ($i=1; $i <= ($this->view->config->game->base_vigueur + $this->view->user->vigueur_base_hobbit) ; $i++) {
+			$jet = $jet + Bral_Util_De::get_1d6();
+		}
+		$jet = $jet + $this->view->user->vigueur_bm_hobbit + $this->view->user->vigueur_bbdf_hobbit;
+		if ($jet < 0) {
+			$jet = 0;
+		}
+		return $jet;
 	}
 	
 	private function calculJetSagesse() {
