@@ -44,6 +44,28 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 		
 		if (count($monstres) <= 0 && count($hobbits) == 1 && count($palissades) <= 0 && count($routes) <= 0 && $this->estEnvironnementValid($this->environnement)) {
 			$this->view->terrasserOk = true;
+		} else {
+			$this->view->monstreOk = true;
+			$this->view->hobbitOk = true;
+			$this->view->palissadeOk = true;
+			$this->view->routeOk = true;
+			$this->view->environnementOk = true;
+			
+			if (count($monstres) >= 0) {
+				$this->view->monstreOk = false;
+			}
+			if (count($hobbits) > 1) {
+				$this->view->hobbitOk = false;
+			}
+			if (count($palissades) > 0) {
+				$this->view->palissadeOk = false;
+			}
+			if (count($routes) > 0) {
+				$this->view->routeOk = false;
+			}
+			if (!$this->estEnvironnementValid($this->environnement)) {
+				$this->view->environnementOk = false;
+			}
 		}
 		
 		if (count($routes) > 0) {

@@ -3,17 +3,31 @@
 
 Environnement : <?=$this->environnement?>.<br><br>
 
-<? if ($this->route != null) : ?>
-	<? if ($this->route["est_route"] == "non") : ?>
-	Le terrain est d&eacute;j&agrave; terrass&eacute; ici...
-	<? else: ?>
-	Une route existe d&eacute;j&agrave; ici...
-	<? endif; ?>
-	<br><br>
-<? endif; ?>
-
 <?php if ($this->terrasserOk == false) : ?>
-	Vous ne pouvez pas terrasser &agrave; cet endroit
+	Vous ne pouvez pas terrasser &agrave; cet endroit,<br>
+	<? if ($this->monstreOk == false) : ?>
+		il y a des monstres sur la case<br>
+	<? endif;?>
+
+	<? if ($this->hobbitOk == false) : ?>
+		il y a des hobbits sur la case<br>
+	<? endif;?>
+	<? if ($this->palissadeOk == false) : ?>
+		il y a une palissade sur cette case<br>
+	<? endif;?>
+	<? if ($this->environnementOk == false) : ?>
+		le type de terrain n'est pas terrassable<br>
+	<? endif;?>
+	
+	<? if ($this->route != null) : ?>
+		<? if ($this->route["est_route"] == "non") : ?>
+		Le terrain est d&eacute;j&agrave; terrass&eacute; ici...
+		<? else: ?>
+		Une route existe d&eacute;j&agrave; ici...
+		<? endif; ?>
+		<br><br>
+	<? endif; ?>
+
 <?php else : ?>
 	Pour <?=$this->nb_pa ?> PA, vous terrasser &agrave; l'endroit où vous &ecirc;tes.
 <? endif ?>
