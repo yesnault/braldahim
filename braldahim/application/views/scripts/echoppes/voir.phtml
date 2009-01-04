@@ -11,10 +11,18 @@
 <ul class="titre textalic textsizec"><?=htmlspecialchars($this->echoppe["nom_region"])?>, x:<?=$this->echoppe["x_echoppe"]?>, y:<?=$this->echoppe["y_echoppe"]?></ul>
 <br />
 
+    <? if ($this->estSurEchoppe === true): 
+  		$disabled = "";
+  	   else:
+  		$disabled = "disabled" ;
+  	?>
+  		Vous n'&ecirc;tes pas dans votre &eacute;choppe, vous n'avez pas acc&egrave;s aux actions...<br />
+  	<? endif; ?>
+
  <input type="button" class='button1' value="0 PA - Modifier le nom" 
- onClick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_modifiernom&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')"/>
+ onClick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_modifiernom&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" <?=$disabled?> />
  <input type="button" class='button1' value="0 PA - Modifier la description"
-  onClick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_modifierdescription&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')"/>
+  onClick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_modifierdescription&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" <?=$disabled?>/>
  
 <hr> <br />
 
