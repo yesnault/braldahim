@@ -455,17 +455,17 @@ class Bral_Monstres_VieMonstre {
 		$where = "id_monstre=".$id_monstre;
 		$monstreTable->delete($where);
 		
-		$this->dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"]);
+		self::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"]);
 		$this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"]);
 	}
 	
-	private function dropRune($x, $y, $niveau, $effetMotD = 0) {
+	public static function dropRune($x, $y, $niveau, $effetMotD = 0) {
 		Zend_Loader::loadClass("ElementRune");
 		Zend_Loader::loadClass("TypeRune");
 		
 		$tirage = Bral_Util_De::get_1d100();
 		
-		Bral_Util_Log::viemonstres()->debug(get_class($this)." - dropRune - tirage=".$tirage. " niveau_monstre=".$niveau. " effetMotD=".$effetMotD);
+		Bral_Util_Log::viemonstres()->debug(" - dropRune - tirage=".$tirage. " niveau_monstre=".$niveau. " effetMotD=".$effetMotD);
 		
 		if ($tirage >= 1 && $tirage <= 1 + ($niveau/4) + $effetMotD) {
 			$niveau = 'a';
@@ -477,7 +477,7 @@ class Bral_Monstres_VieMonstre {
 			$niveau = 'd';
 		}
 		
-		Bral_Util_Log::viemonstres()->debug(get_class($this)."  - dropRune - niveau retenu=".$niveau);
+		Bral_Util_Log::viemonstres()->debug(" - dropRune - niveau retenu=".$niveau);
 		
 		$typeRuneTable = new TypeRune();
 		$typeRuneRowset = $typeRuneTable->findByNiveau($niveau);
