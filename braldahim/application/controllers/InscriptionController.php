@@ -262,6 +262,7 @@ class InscriptionController extends Zend_Controller_Action {
 		$id_fk_nom_initial_hobbit = $dataNom["id_nom"];
 		
 		$mdate = date("Y-m-d H:i:s");
+		$pv = Bral_Util_Commun::calculPvMaxBaseSansEffetMotE($this->view->config, $this->view->config->game->inscription->vigueur_base);
 		
 		$data = array(
 			'nom_hobbit' => $nom_hobbit,
@@ -277,6 +278,9 @@ class InscriptionController extends Zend_Controller_Action {
 			'vue_bm_hobbit' => $this->view->config->game->inscription->vue_bm,
 			'date_debut_tour_hobbit' => "0000-00-00 00:00:00",
 			'date_fin_tour_hobbit' => Bral_Util_ConvertDate::get_date_add_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_cumul),
+			'date_debut_tour_hobbit' => Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_cumul),
+			'date_fin_latence_hobbit' => Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_milieu),
+			'date_debut_cumul_hobbit' => $mdate,
 			'duree_prochain_tour_hobbit' => $this->view->config->game->tour->duree_base,
 			'duree_courant_tour_hobbit' => $this->view->config->game->tour->duree_base,
 			'date_creation_hobbit' => $mdate,
@@ -292,6 +296,8 @@ class InscriptionController extends Zend_Controller_Action {
 			'armure_naturelle_hobbit' => $armure_nat,
 			'regeneration_hobbit' => $reg,
 			'poids_transporte_hobbit' => Bral_Util_Poids::calculPoidsTransporte(-1, $this->view->config->game->inscription->castars),
+			'pv_max_hobbit' => $pv,
+			'pv_restant_hobbit' => $pv,
 		);
 
 		return $data;

@@ -57,6 +57,21 @@ class Bral_Util_ConvertDate {
 
 		return $epoch;
 	}
+	
+	/* Soustrait une heure (H:m:s) a un datetime mysql et
+	 * retourne le resultat en timestamp
+	 * @return timestamp
+	 */
+	public static function get_epoch_remove_time_to_date($date, $rem_time) {
+		$break = explode(" ", $date);
+		$datebreak = explode("-", $break[0]);
+		$time = explode(":", $break[1]);
+		$rem_time = explode(":", $rem_time);
+		$epoch = date("U", mktime($time[0]-$rem_time[0],$time[1]-$rem_time[1],$time[2]-$rem_time[2],
+		$datebreak[1],$datebreak[2],$datebreak[0]));
+
+		return $epoch;
+	}
 
 	/* Ajoute une date (Y-m-d H:m:s) a un datetime mysql et
 	 * retourne le resultat en timestamp
@@ -100,6 +115,14 @@ class Bral_Util_ConvertDate {
 		return date("Y-m-d H:i:s", self::get_epoch_add_time_to_date($date, $add_time));
 	}
 
+	/* Soustrait une heure (H:m:s) a un datetime mysql et
+	 * retourne le resultat en date
+	 * @return date
+	 */
+	public static function get_date_remove_time_to_date($date, $rem_time) {
+		return date("Y-m-d H:i:s", self::get_epoch_remove_time_to_date($date, $rem_time));
+	}
+	
 	/* Ajoute une date (Y-m-d H:m:s) a un datetime mysql et
 	 * retourne le resultat en date
 	 * @return date

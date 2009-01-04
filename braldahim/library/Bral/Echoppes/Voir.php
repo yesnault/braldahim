@@ -137,6 +137,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($this->view->user->id_hobbit);
 
 		$competence = null;
+		$tabCompetences = null;
 		foreach($hobbitCompetences as $c) {
 			if ($id_metier == $c["id_fk_metier_competence"]) {
 				$tabCompetences[] = array("id_competence" => $c["id_fk_competence_hcomp"],
