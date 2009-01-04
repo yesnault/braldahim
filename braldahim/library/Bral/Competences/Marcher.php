@@ -29,6 +29,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		$this->view->environnement = $calcul["environnement"];
 		$this->view->marcherPossible = $calcul["marcherPossible"];
 		$this->view->estEngage = $calcul["estEngage"];
+		$this->view->estSurRoute = $calcul["estSurRoute"];
 		
 		$this->view->x_min = $calcul["x_min"];
 		$this->view->x_max = $calcul["x_max"];

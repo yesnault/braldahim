@@ -18,6 +18,7 @@ class Bral_Util_Marcher {
 	function calcul($hobbit, $selection = null) {
 		Zend_Loader::loadClass('Zone'); 
 		Zend_Loader::loadClass('Palissade');
+		Zend_Loader::loadClass('Route');
 		
 		$retour["environnement"] = null;
 		$retour["nb_cases"] = null;
@@ -30,6 +31,7 @@ class Bral_Util_Marcher {
 		$retour["tableauValidation"] = null;
 		$retour["tableauValidationXY"] = null;
 		$retour["estEngage"] = false;
+		$retour["estSurRoute"] = false;
 		
 		$retour["x_min"] = null;
 		$retour["x_max"] = null;
@@ -50,10 +52,17 @@ class Bral_Util_Marcher {
 		
 		$environnement = $case["nom_environnement"];
 		
+		$routeTable = new Route();
+		$routes = $routeTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+		
+		if (count($routes) == 1 && $routes[0]["est_route"] == "oui") {
+			$retour["estSurRoute"] = true;
+		}
+		
 		/*
 		 * Si le hobbit n'a pas de PA, on ne fait aucun traitement
 		 */
-		$assezDePa = $this->calculNbPa($hobbit, $case["nom_systeme_environnement"]);
+		$assezDePa = $this->calculNbPa($hobbit, $case["nom_systeme_environnement"], $retour["estSurRoute"]);
 		if ($assezDePa == false) {
 			$retour["assezDePa"] = false;
 			return $retour;
@@ -158,7 +167,6 @@ class Bral_Util_Marcher {
 			}
 		}
 		
-		
 		$retour["environnement"] = $environnement;
 		$retour["nb_cases"] = $this->nb_cases;
 		$retour["effetMot"] = $this->effetMot;
@@ -186,7 +194,7 @@ class Bral_Util_Marcher {
 	* Montagneux : 2 PA pour 1 case
 	* Caverneux : 1 PA pour 1 case
 	*/
-	public function calculNbPa($hobbit, $nom_systeme_environnement) {
+	public function calculNbPa($hobbit, $nom_systeme_environnement, $estSurRoute) {
 		$this->effetMot = false;
 		
 		switch($nom_systeme_environnement) {
@@ -228,6 +236,11 @@ class Bral_Util_Marcher {
 				break;
 			default:
 				throw new Zend_Exception(get_class($this)."::environnement invalide :".$this->nom_systeme_environnement);
+		}
+		
+		if ($estSurRoute) {
+			$this->nb_cases = 3;
+			$this->nb_pa = 1;
 		}
 		
 		if ($hobbit->est_engage_hobbit == "oui") {

@@ -1,7 +1,7 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
 
-<?php if ($this->estEngage == false) : ?>
+<?php if ($this->estEngage == false && $this->estSurRoute == false) : ?>
  <?=htmlspecialchars($this->environnement) ?>: <?=$this->nb_pa ?> PA, <?=$this->nb_cases ?>
  <?php if ($this->nb_cases == 1) :?>
    case
@@ -20,6 +20,11 @@
 
 	<?php if ($this->estEngage == true) : ?>
 	Vous &ecirc;tes actuellement engag&eacute;, vous pouvez marcher de <?=$this->nb_cases?> case pour <?=$this->nb_pa ?> PA.
+	<?php endif; ?>
+	
+	<?php if ($this->estSurRoute == true) : ?>
+	Vous &ecirc;tes actuellement sur une route, <br>
+	vous pouvez donc marcher de <?=$this->nb_cases?> case<? if ($this->nb_cases > 1) : echo "s"; endif;?> pour <?=$this->nb_pa ?> PA !
 	<?php endif; ?>
 
 	<?php if ($this->marcherPossible == false) : ?>
