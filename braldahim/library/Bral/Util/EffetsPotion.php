@@ -75,7 +75,9 @@ class Bral_Util_EffetsPotion {
 					"qualite" => $p["nom_type_qualite"],
 					"niveau" => $p["niveau_effet_potion_monstre"],
 					"caracteristique" => $p["caract_type_potion"],
-					"bm_type" => $p["bm_type_potion"]);
+					"bm_type" => $p["bm_type_potion"],
+					"bm_effet_potion" => $p["bm_effet_potion_monstre"],
+			);
 			
 			$retourPotion = self::appliquePotionSurMonstre($potion, $p["id_fk_hobbit_lanceur_effet_potion_monstre"], $monstreCible, true, false);
 			$potions[] = array('potion' => $potion, 'retourPotion' => $retourPotion);
@@ -183,7 +185,7 @@ class Bral_Util_EffetsPotion {
 			$coef = 1;
 		}
 		
-		$retourPotion["nEffet"] = $potion["bm_effet"];
+		$retourPotion["nEffet"] = $potion["bm_effet_potion"];
 		
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - nEffet = ".$retourPotion["nEffet"]);
 		

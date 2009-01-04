@@ -12,6 +12,11 @@
  */
 class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 	
+	const PHASE_NOMINAL = 1;
+	const PHASE_ATTAQUE_1 = 2;
+	const PHASE_ATTAQUE_2 = 3;
+	const PHASE_ATTAQUE_3 = 4;
+	
 	public function action() {
 		 $this->vieGroupesAction($this->config->game->groupe_monstre->type->nuee);
 	}
@@ -22,7 +27,26 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
     protected function attaqueGroupe(&$monstre_role_a, &$groupe, &$monstres, &$cible) {
         Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - enter");
         $mort_cible = false;
-
+		
+        if ($groupe["date_phase_tactique_groupe_monstre"] < $this->dateCourante) {
+        	Bral_Util_Log::viemonstres()->debug(get_class($this)." - changement phase tactique (".$groupe["date_phase_tactique_groupe_monstre"].") (".$groupe["phase_tactique_groupe_monstre"].")");
+			if ($groupe["phase_tactique_groupe_monstre"] <= self::PHASE_NOMINAL) {
+				$groupe["phase_tactique_groupe_monstre"] = self::PHASE_ATTAQUE_1;
+			} else if ($groupe["phase_tactique_groupe_monstre"] == self::PHASE_ATTAQUE_1) {
+				$groupe["phase_tactique_groupe_monstre"] = self::PHASE_ATTAQUE_2;
+			} else if ($groupe["phase_tactique_groupe_monstre"] == self::PHASE_ATTAQUE_2) {
+				$groupe["phase_tactique_groupe_monstre"] = self::PHASE_ATTAQUE_3;
+			} else if ($groupe["phase_tactique_groupe_monstre"] == self::PHASE_ATTAQUE_3) {
+				$groupe["phase_tactique_groupe_monstre"] = self::PHASE_ATTAQUE_1;
+			}
+        }
+        
+        if ($groupe["phase_tactique_groupe_monstre"] == self::PHASE_ATTAQUE_3) {
+        	$this->phaseTactique3(&$monstre_role_a, &$groupe, &$monstres, &$cible);
+        	$this->majDateTactique(&$groupe, &$monstres);
+        	return;
+        }
+            
         $vieMonstre = Bral_Monstres_VieMonstre::getInstance();
 
         foreach($monstres as $m) {
@@ -54,15 +78,62 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
                 $vieMonstre->deplacementMonstre($groupe["x_direction_groupe_monstre"], $groupe["y_direction_groupe_monstre"]);
             }
         }
+        
+        $this->majDateTactique(&$groupe, &$monstres);
         Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - exit");
     }
-
+    
+	private function phaseTactique3(&$monstre_role_a, &$groupe, &$monstres, &$cible) {
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - phaseTactique3 - enter");
+		$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
+		
+		foreach($monstres as $m) {
+            if ($cible != null) {
+            	// si le monstre est sur la même case que la cible, deplacement a une case
+            	if ($m["x_monstre"] == $cible["x_hobbit"] && $m["y_monstre"] == $cible["y_hobbit"]) {
+            		Bral_Util_Log::viemonstres()->trace(get_class($this)." - phaseTactique3 - deplacement du monstre a une case");
+            		// deplacement
+					$dx = -1;
+					$dy = -1;
+            
+					if (Bral_Util_De::get_1d2() == 1) {
+						$dx = 1;
+					}
+					if (Bral_Util_De::get_1d2() == 1) {
+						$dy = 1;
+					}
+            
+            		$vieMonstre->setMonstre($m);
+            		$vieMonstre->deplacementMonstre($cible["x_hobbit"] + $dx, $cible["y_hobbit"] + $dy);
+            	} else {
+            		// rien a faire ici
+            	}
+            }
+		}
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - phaseTactique3 - exit");
+	}
+	
+	private function majDateTactique(&$groupe, &$monstres) {
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - majDateTactique - enter");
+		
+		foreach($monstres as $m) {
+			if ($groupe["id_role_a_groupe_monstre"] == $m["id_monstre"]) {
+				$groupe["date_phase_tactique_groupe_monstre"] = $m["date_fin_tour_monstre"];
+				break;
+			}
+		}
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - majDateTactique - exit");
+	}
+	
     /**
      * Deplacement du groupe.
      */
     protected function deplacementGroupe(&$monstre_role_a, &$groupe, &$monstres) {
         Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementGroupe - enter");
         // si le role_a est sur la direction, on deplacement le groupe
+        
+        $groupe["phase_tactique_groupe_monstre"] = self::PHASE_NOMINAL;
+        
         if (($monstre_role_a["x_monstre"] == $groupe["x_direction_groupe_monstre"]) && //
             ($monstre_role_a["y_monstre"] == $groupe["y_direction_groupe_monstre"])) {
 

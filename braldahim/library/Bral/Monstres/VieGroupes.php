@@ -17,6 +17,7 @@ abstract class Bral_Monstres_VieGroupes {
         Zend_Loader::loadClass("Ville");
         $this->config = Zend_Registry::get('config');
         $this->view = $view;
+        $this->dateCourante = date("Y-m-d H:i:s");
     }
 
     abstract function action();
@@ -59,7 +60,6 @@ abstract class Bral_Monstres_VieGroupes {
         Bral_Util_Log::viemonstres()->debug(get_class($this)." - nb monstres dans le groupe (".$groupe["id_groupe_monstre"].") = ".count($monstres));
 	
         $monstre_role_a = $this->majRoleA($groupe, $monstres);
-        
 		$cible = self::reperageCible($monstre_role_a, $groupe, $monstres);
 		
         if ($cible != null) { // si une cible est trouvee, on attaque
@@ -138,7 +138,7 @@ abstract class Bral_Monstres_VieGroupes {
      * @param groupeMonstre $groupe
      * @return hobbit : nouvelle cible ou null si non trouvee
      */
-    private function rechercheNouvelleCible(&$monstre_role_a, &$groupe, &$monstres) {
+    protected function rechercheNouvelleCible(&$monstre_role_a, &$groupe, &$monstres) {
         Bral_Util_Log::viemonstres()->trace(get_class($this)." - rechercheNouvelleCible - exit");
         $hobbitTable = new Hobbit();
 
@@ -192,6 +192,8 @@ abstract class Bral_Monstres_VieGroupes {
             "y_direction_groupe_monstre" => $groupe["y_direction_groupe_monstre"],
             "date_fin_tour_groupe_monstre" => $groupe["date_fin_tour_groupe_monstre"],
         	"date_a_jouer_groupe_monstre" => null,
+        	"phase_tactique_groupe_monstre" => $groupe["phase_tactique_groupe_monstre"],
+        	"date_phase_tactique_groupe_monstre" => $groupe["date_phase_tactique_groupe_monstre"],
         );
         $where = "id_groupe_monstre=".$groupe["id_groupe_monstre"];
         $groupeMonstreTable->update($data, $where);
