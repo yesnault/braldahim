@@ -25,7 +25,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 	}
 
 	function render() {
-		if ($this->view->affichageInterne) {
+		if ($this->view->affichageInterne === true) {
 			Zend_Loader::loadClass("Cadavre");
 			Zend_Loader::loadClass("Castar");
 			Zend_Loader::loadClass("Charrette");

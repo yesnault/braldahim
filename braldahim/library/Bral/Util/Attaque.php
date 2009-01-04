@@ -12,11 +12,11 @@
  */
 class Bral_Util_Attaque {
 
-	public static function attaqueHobbit(&$hobbitAttaquant, &$hobbitCible, $jetAttaquant, $jetCible, $jetsDegat, $view, $effetMotEPossible, $effetMotSPossible = true) {
+	public static function attaqueHobbit(&$hobbitAttaquant, &$hobbitCible, $jetAttaquant, $jetCible, $jetsDegat, $view, $degatCase, $effetMotSPossible = true) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - enter -");
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - jetAttaquant=".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - jetCible=".$jetCible);
-		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - effetMotEPossible=".$effetMotEPossible);
+		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - degatCase=".$degatCase);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - effetMotSPossible=".$effetMotSPossible);
 		
 		$config = Zend_Registry::get('config');
@@ -45,6 +45,10 @@ class Bral_Util_Attaque {
 			'niveau_cible' => $hobbitCible->niveau_hobbit,
 			'armure_naturelle_hobbit' => $hobbitCible->armure_naturelle_hobbit,
 			'armure_equipement_hobbit' => $hobbitCible->armure_equipement_hobbit,
+			'est_mort_hobbit' => $hobbitCible->est_mort_hobbit,
+			'est_engage_hobbit' => $hobbitCible->est_engage_hobbit,
+			'est_engage_next_dla_hobbit' => $hobbitCible->est_engage_next_dla_hobbit,
+			'date_fin_tour_hobbit' => $hobbitCible->date_fin_tour_hobbit,
 		);
 		$retourAttaque["cible"] = $cible;
 
@@ -74,7 +78,7 @@ class Bral_Util_Attaque {
 			$retourAttaque["jetDegat"] = Bral_Util_Commun::getEffetMotA($hobbitCible->id_hobbit, $retourAttaque["jetDegat"]);
 			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - jetDegat apres effetMotA=".$retourAttaque["jetDegat"]);
 			
-			if ($effetMotEPossible) {
+			if (!$degatCase) {
 				$effetMotE = Bral_Util_Commun::getEffetMotE($hobbitAttaquant->id_hobbit);
 				if ($effetMotE != null && $effetMotSPossible == true) {
 					$retourAttaque["effetMotE"] = true;
@@ -238,6 +242,11 @@ class Bral_Util_Attaque {
 //			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
 		}
 		
+		if ($degatCase) {
+			$details .= " (compétence spéciale utilisée) ";
+			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);
+		}
+		
 		if ($effetMotSPossible == true && $retourAttaque["mort"] == false) {
 			$effetMotS = Bral_Util_Commun::getEffetMotS($hobbitCible->id_hobbit);
 			if ($effetMotS != null) {
@@ -246,13 +255,13 @@ class Bral_Util_Attaque {
 				$jetAttaquantRiposte = Bral_Util_Attaque::calculJetAttaqueNormale($hobbitCible);
 				$jetCibleRiposte = Bral_Util_Attaque::calculJetCibleHobbit($hobbitAttaquant);
 				$jetsDegatRiposte = Bral_Util_Attaque::calculDegatAttaqueNormale($hobbitCible);
-				$retourAttaque["retourAttaqueEffetMotS"] = self::attaqueHobbit($hobbitCible, $hobbitAttaquant, $jetAttaquantRiposte, $jetCibleRiposte, $jetsDegatRiposte, $view, $effetMotEPossible, false);
+				$retourAttaque["retourAttaqueEffetMotS"] = self::attaqueHobbit($hobbitCible, $hobbitAttaquant, $jetAttaquantRiposte, $jetCibleRiposte, $jetsDegatRiposte, $view, $degatCase, false);
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - EffetMotS Riposte Fin !");
 			}
 		}
 		
-		self::calculStatutEngage(&$hobbitAttaquant);
-		self::calculStatutEngage(&$cible);
+		self::calculStatutEngage(&$hobbitAttaquant, true);
+		self::calculStatutEngage(&$hobbitCible, true);
 		
 		$retourAttaque["details"] = $details;
 		$retourAttaque["typeEvemenent"] = $id_type;
@@ -261,10 +270,11 @@ class Bral_Util_Attaque {
 		return $retourAttaque;
 	}
 	
-	public static function attaqueMonstre(&$hobbitAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, $effetMotEPossible) {
+	public static function attaqueMonstre(&$hobbitAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, $degatCase) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - enter -");
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetAttaquant=".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetCible=".$jetCible);
+		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - degatSurCase=".$degatCase);
 		
 		$config = Zend_Registry::get('config');
 
@@ -316,7 +326,7 @@ class Bral_Util_Attaque {
 			
 			Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetDegat=".$retourAttaque["jetDegat"]);
 			
-			if ($effetMotEPossible) {
+			if (!$degatCase) {
 				$effetMotE = Bral_Util_Commun::getEffetMotE($hobbitAttaquant->id_hobbit);
 				if ($effetMotE != null) {
 					$retourAttaque["effetMotE"] = true;
@@ -445,7 +455,12 @@ class Bral_Util_Attaque {
 			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, "", "monstre");
 		}
 		
-		self::calculStatutEngage(&$hobbitAttaquant);
+		if ($degatCase) {
+			$details .= " (compétence spéciale utilisée) ";
+			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);
+		}
+		
+		self::calculStatutEngage(&$hobbitAttaquant, true);
 		
 		$retourAttaque["details"] = $details;
 		$retourAttaque["typeEvemenent"] = $id_type;
@@ -563,7 +578,7 @@ class Bral_Util_Attaque {
 			$hobbitRowset = $hobbitTable->find($h["id_hobbit"]);
 			$hobbitCible = $hobbitRowset->current();
 			$retour["hobbitTouches"][$i]["hobbit"] = $h;
-			$retour["hobbitTouches"][$i]["retourAttaque"] = Bral_Util_Attaque::attaqueHobbit($hobbit, $hobbitCible, $jetAttaquant, $jetCible, $jetsDegat, $view, false);
+			$retour["hobbitTouches"][$i]["retourAttaque"] = Bral_Util_Attaque::attaqueHobbit($hobbit, $hobbitCible, $jetAttaquant, $jetCible, $jetsDegat, $view, true);
 			$i++;
 		}
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatCaseHobbit - exit -");
@@ -584,7 +599,7 @@ class Bral_Util_Attaque {
 		$i = 0;
 		foreach($monstres as $m) {
 			$retour["monstreTouches"][$i]["monstre"] = $m;
-			$retour["monstreTouches"][$i]["retourAttaque"] = Bral_Util_Attaque::attaqueMonstre($hobbit, $m, $jetAttaquant, $jetCible, $jetsDegat, false);
+			$retour["monstreTouches"][$i]["retourAttaque"] = Bral_Util_Attaque::attaqueMonstre($hobbit, $m, $jetAttaquant, $jetCible, $jetsDegat, true);
 			$i++;
 		}
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatCaseMonstre - exit -");
@@ -711,7 +726,7 @@ La cible a equivé l'attaque";
 		}
 	}
 	
-	public static function calculStatutEngage(&$hobbit) {
+	public static function calculStatutEngage(&$hobbit, $updateDbAFaire = false) {
 		$est_engage_hobbit = 'non';
 		$est_engage_next_dla_hobbit = 'non';
 		
@@ -741,10 +756,26 @@ La cible a equivé l'attaque";
 		if ($hobbit instanceof $c) {
 			$hobbit->est_engage_hobbit = $est_engage_hobbit;
 			$hobbit->est_engage_next_dla_hobbit = $est_engage_next_dla_hobbit;
+			$idHobbit = $hobbit->id_hobbit;
 		} else {
 			$hobbit["est_engage_hobbit"] = $est_engage_hobbit;
 			$hobbit["est_engage_next_dla_hobbit"] = $est_engage_next_dla_hobbit;
+			$idHobbit = $hobbit["id_hobbit"];
 		}
+		
+		if ($updateDbAFaire) {
+			self::updateDbStatutEngage($idHobbit, $est_engage_hobbit, $est_engage_next_dla_hobbit);
+		}
+	}
+	
+	private static function updateDbStatutEngage($idHobbit, $est_engage_hobbit, $est_engage_next_dla_hobbit) {
+		$data = array(
+			'est_engage_hobbit' => $est_engage_hobbit,
+			'est_engage_next_dla_hobbit' => $est_engage_next_dla_hobbit,
+		);
+		$where = "id_hobbit=".$idHobbit;
+		$hobbitTable = new Hobbit();
+		$hobbitTable->update($data, $where);
 	}
 }
 
