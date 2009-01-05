@@ -1,0 +1,65 @@
+<?php echo $this->render('header.phtml'); ?>
+<div class="box_administration">
+<?=Bral_Helper_Box::haut(); ?>
+<div class="inner">
+    <ul class="titre textalic textsizea">Administration Cr&eacute;ation</ul>
+    	&nbsp;
+	<div class="contenu">
+	    <ul class="box_contenu1 textalic">
+			<? if ($this->creation === true) : ?>
+				<b>Cr&eacute;ation du nouveau stock effectu&eacute;e</b> <br />
+			<? endif; ?>
+			<form action="/Administrationcreation/bois" method="post">
+				
+				Ajouter les nouveaux param&egrave;tres, qui seront actifs le : 
+				<?=$this->dateCreation ?><br><br>
+				
+				Nombre Groupes Monstres / Monstres : <input type="texte" id="nb_monstres" name="nb_monstres" value="" onkeypress="chiffres(event);" /> <br>
+				Nombre Filons : <input type="texte" id="nb_filons" name="nb_filons" value="" onkeypress="chiffres(event);" /><br>
+				Nombre Plantes : <input type="texte" id="nb_plantes" name="nb_plantes" value="" onkeypress="chiffres(event);" /><br>
+				
+				
+			<input type="submit" class="button1" name="add" value="Ajouter" />
+			</form>
+			
+			<br><br>
+			<form action="/Administrationcreation/bois" method="post">
+				Date Stock (AAAA-MM-JJ 00:00:00) 
+				
+				<select name="dateStock">
+					<? foreach($this->listeDates as $k=>$v) : ?>
+						<option value="<?=$v?>" <? if ($this->dateStock == $v) : echo "selected"; endif;?>><?=substr($v, 0, 10)?></option>
+					<? endforeach;?>
+				</select>
+				
+				<input type="submit" class="button1" name="add" value="Voir stock" />
+			</form>
+			
+		<br /><br />
+			
+			<? if (count($this->stocks) > 0 ) : ?>
+				<table align='center'>
+				<th class='comp_titre'>N&deg;</th>
+				<th class='comp_titre'>Date</th>
+				<th class='comp_titre'>Type</th>
+				<th class='comp_titre'>Nombre</th>
+				
+				<? foreach($this->stocks as $r) :?>
+					<tr>
+						<td><?=$r["id_creation"]?></td>
+						<td><?=$r["date_creation"]?></td>
+						<td><?=$r["type_creation"]?></td>
+						<td><?=$r["nb_creation"]?></td>
+					</tr>
+				<? endforeach;?>
+				</table>
+			<? else: ?>
+			Ancun parametre, date <?=$this->dateStock?>
+			<? endif;?>
+		</ul>
+	</div>
+	&nbsp;
+</div>
+<?=Bral_Helper_Box::bas(); ?>
+</div>
+<?php echo $this->render('footer.phtml'); ?>
