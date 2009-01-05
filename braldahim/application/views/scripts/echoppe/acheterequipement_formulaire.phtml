@@ -28,7 +28,7 @@
 			: Pas assez de PA
 			<? elseif ($p["possible"] === true && $this->equipement["place_dispo"] === true) : ?>
 				<input type='button' class='button1' id='bouton_achetereequipement' value='Acheter !' onClick='this.disabled=true;$("valeur_2").value=<?=$k ?>; _get_("/echoppe/doaction?caction=do_echoppe_acheterequipement");'>
-			<? elseif ($this->equipement["place_dispo"] === true): ?>
+			<? elseif ($this->equipement["place_dispo"] !== true): ?>
 			: Pas assez de place disponible
 			<? else: ?>
 			: Pas assez de ressources
