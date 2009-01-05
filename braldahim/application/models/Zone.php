@@ -55,4 +55,45 @@ class Zone extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
+	
+	public function findByIdEnvironnementList($listId) {
+		$liste = "";
+		$nomChamp = "id_fk_environnement_zone";
+		if (count($listId) < 1) {
+			$liste = "";
+		} else {
+			foreach($listId as $id) {
+				if ((int) $id."" == $id."") {
+					if ($liste == "") {
+						$liste = $id;
+					} else {
+						$liste = $liste." OR ".$nomChamp."=".$id;
+					}
+				}
+			}
+		}
+		
+		if ($liste != "") {
+			$db = $this->getAdapter();
+			$select = $db->select();
+			$select->from('zone', '*')
+			->where($nomChamp .'='. $liste);
+			$sql = $select->__toString();
+			return $db->fetchAll($sql);
+		} else {
+			return null;
+		}
+	}
+	
+	public function countByIdEnvironnement($idEnvironnement) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('zone', 'count(*) as nombre')
+		->where('id_fk_environnement_zone = ?', intval($idEnvironnement));
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
+	}
 }
