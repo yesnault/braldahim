@@ -197,6 +197,9 @@ class Bral_Helper_Profil {
      		$pourcent = 100 - ($ecart * 100 / $ecartTotal);
      		$width_cumul = ($pourcent * 50 / 100) * 2; // cumul, 50 % du total, x2 pour la taille css
      		$pourcent_cumul = substr($pourcent, 0, 5);
+     		if ($width_cumul > 100) {
+     			$width_cumul = 100;
+     		}
      	}
      	
      	$section_cumul = "Section survolée : Cumul, termin&eacute;e &agrave; ".$pourcent_cumul." %<br><br>";
