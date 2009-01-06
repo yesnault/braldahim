@@ -56,7 +56,7 @@ class Zone extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	public function findByIdEnvironnementList($listId) {
+	public function findByIdEnvironnementList($listId, $avecSoule) {
 		$liste = "";
 		$nomChamp = "id_fk_environnement_zone";
 		if (count($listId) < 1) {
@@ -78,6 +78,9 @@ class Zone extends Zend_Db_Table {
 			$select = $db->select();
 			$select->from('zone', '*')
 			->where($nomChamp .'='. $liste);
+			if (!$avecSoule) {
+				$select->where("est_soule_zone = ?", "non");
+			}
 			$sql = $select->__toString();
 			return $db->fetchAll($sql);
 		} else {

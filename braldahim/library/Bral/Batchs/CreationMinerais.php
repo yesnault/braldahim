@@ -35,7 +35,7 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 		$zoneTable = new Zone();
 		
 		$creationMineraisTable = new CreationMinerais();
-		$creationMinerais = $creationMineraisTable->fetchAll();
+		$creationMinerais = $creationMineraisTable->fetchAll(null, "id_fk_type_minerai_creation_minerais");
 		$nbCreationMinerais = count($creationMinerais);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - nbCreationMinerais=" .$nbCreationMinerais);
 
@@ -47,32 +47,53 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 		// selection des environnements / zones concernes
 		$environnementIds = $this->getEnvironnementsConcernes($creationMinerais);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - nb environnement concernes=" .count($environnementIds));
-		$zones = $zoneTable->findByIdEnvironnementList($environnementIds);
+		$zones = $zoneTable->findByIdEnvironnementList($environnementIds, false);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - nb zones concernees=" .count($zones));
 		
-		$envNbZones = null;
+		$envNbZones = array();
 		// pour chaque type d'environnement
 		// on compte le nombre de zone concernees
 		foreach($zones as $z) {
-			$envNbZones[$z["id_fk_environnement_zone"]] = $envNbZones[$z["id_fk_environnement_zone"]] + 1;
+			if (array_key_exists($z["id_fk_environnement_zone"], $envNbZones)) {
+				$envNbZones[$z["id_fk_environnement_zone"]] = $envNbZones[$z["id_fk_environnement_zone"]] + 1;
+			} else {
+				$envNbZones[$z["id_fk_environnement_zone"]] = 1;
+			}
 		}
 		
 		// Pour chaque zone et chaque type de minerai, on insert
 		
 		$filonTable = new Filon();
+		$tmp = "";
 		
-		foreach($typeMinerais as $t) {
-			Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - traitement du minerai ".$t["id_type_minerai"]. " nbMaxMonde(".$t["nb_creation_type_minerai"].")");
-			foreach($zones as $z) {
-				$nbCreation = ceil($t["nb_creation_type_minerai"] / $envNbZones[$z["id_fk_environnement_zone"]]);
-				$nbActuel = $filonTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"]);
-				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - zone(".$z["id_zone"].") nbActuel:".$nbActuel. " max:".$nbCreation);
-				$aCreer = $nbCreation - $nbActuel;
-				if ($aCreer > 0) { 
-					$retour .= $this->insert($t["id_type_minerai"], $z, $aCreer, $filonTable);
-				} else {
-					Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - zone(".$z["id_zone"].") deja pleine");
-					$retour .= "zone(".$z["id_zone"].") pleine de minerai(".$t["id_type_minerai"].") nbActuel(".$nbActuel.") max(".$nbCreation."). ";
+		foreach($creationMinerais as $c) {
+			$t = null;
+			foreach($typeMinerais as $type) {
+				if ($c["id_fk_type_minerai_creation_minerais"] == $type["id_type_minerai"]) {
+					$t = $type;
+					break;
+				}
+			}
+			
+			if ($t != null) {
+				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - traitement du minerai ".$t["id_type_minerai"]. " nbMaxMonde(".$t["nb_creation_type_minerai"].")");
+				foreach($zones as $z) {
+					if ($z["id_fk_environnement_zone"] == $c["id_fk_environnement_creation_minerais"]) {
+						$tmp = "";
+						$nbCreation = ceil($t["nb_creation_type_minerai"] / $envNbZones[$z["id_fk_environnement_zone"]]);
+						$nbActuel = $filonTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"]);
+						
+						$aCreer = $nbCreation - $nbActuel;
+						if ($aCreer <= 0) { 
+							$tmp = " deja pleine";
+						}
+						Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - zone(".$z["id_zone"].") nbActuel:".$nbActuel. " max:".$nbCreation.$tmp);
+						if ($aCreer > 0) { 
+							$retour .= $this->insert($t["id_type_minerai"], $z, $aCreer, $filonTable);
+						} else {
+							$retour .= "zone(".$z["id_zone"].") pleine de minerai(".$t["id_type_minerai"].") nbActuel(".$nbActuel.") max(".$nbCreation."). ";
+						}
+					}
 				}
 			}
 		}
