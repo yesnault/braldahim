@@ -62,10 +62,18 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 		$filonTable = new Filon();
 		
 		foreach($typeMinerais as $t) {
-			Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - traitement du minerai ".$t["id_type_minerai"]);
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - traitement du minerai ".$t["id_type_minerai"]. " nbMaxMonde(".$t["nb_creation_type_minerai"].")");
 			foreach($zones as $z) {
 				$nbCreation = ceil($t["nb_creation_type_minerai"] / $envNbZones[$z["id_fk_environnement_zone"]]);
-				$this->insert($t["id_type_minerai"], $z, $nbCreation, $filonTable);
+				$nbActuel = $filonTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"]);
+				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - zone(".$z["id_zone"].") nbActuel:".$nbActuel. " max:".$nbCreation);
+				$aCreer = $nbCreation - $nbActuel;
+				if ($aCreer > 0) { 
+					$retour .= $this->insert($t["id_type_minerai"], $z, $aCreer, $filonTable);
+				} else {
+					Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - zone(".$z["id_zone"].") deja pleine");
+					$retour .= "zone(".$z["id_zone"].") pleine de minerai(".$t["id_type_minerai"].") nbActuel(".$nbActuel.") max(".$nbCreation."). ";
+				}
 			}
 		}
 		
@@ -84,10 +92,11 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 		return $environnementIds;
 	}
 	
-	private function insert($idTypeMinerai, $zone, $nbCreation, $filonTable) {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - insert - enter - idtype(".$idTypeMinerai.") idzone(".$zone['id_zone'].") nb(".$nbCreation.")");
+	private function insert($idTypeMinerai, $zone, $aCreer, $filonTable) {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - insert - enter - idtype(".$idTypeMinerai.") idzone(".$zone['id_zone'].") nbACreer(".$aCreer.")");
+		$retour = "minerai(".$idTypeMinerai.") idzone(".$zone['id_zone'].") aCreer(".$aCreer."). ";
 		
-		for($i = 1; $i <= $nbCreation; $i++) {
+		for($i = 1; $i <= $aCreer; $i++) {
 			$x = Bral_Util_De::get_de_specifique($zone["x_min_zone"], $zone["x_max_zone"]);
 			$y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
 			
@@ -103,5 +112,6 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 			$filonTable->insert($data);
 		}
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - insert - exit -");
+		return $retour;
 	}
 }
