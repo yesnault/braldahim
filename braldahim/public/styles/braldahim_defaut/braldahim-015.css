@@ -1121,7 +1121,7 @@ td.vue2d.inconnu {
 }
 
 .vue2d_case_num {
-	text-align: right;
+	text-align: left;
 	font-size: 7pt;
 	color: #e0ffe0;
 	#background-color: #6f5f6f;
