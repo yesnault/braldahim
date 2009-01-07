@@ -1,41 +1,28 @@
-     <?php if ($case["n_elements_minerais_bruts"] > 0) : ?>
-      	<div>
-      	<?php 
-      		$textElementsMineraisBruts = "";
-      		$nbMinerais = 0;
-     		foreach($case["elements_minerais_bruts"] as $m) {
-      			$textElementsMineraisBruts .= $m["quantite"] . " ".htmlspecialchars($m["type"])."<br />";
-      			$nbMinerais = $nbMinerais + $m["quantite"] ;
-			} 
-			$s = "";
-			if ($nbMinerais > 1) {
-				$s = "s";
-			}
-			$titre = "Position X:".$case["x"]." Y:".$case["y"]." - Minerai";
-		?>
-      	<span <?=Bral_Helper_Tooltip::jsTip($textElementsMineraisBruts, $titre) ?>>
-      		<?=$nbMinerais ?> minerai<?=$s?> brut<?=$s ?>
-      	</span>
-      	</div>
-    <?php endif; ?>
-    
-     <?php if ($case["n_elements_lingots"] > 0) : ?>
-      	<div>
-      	<?php
-      		$nbLingots = 0;
-      		$textElementsLingots = "";
-     		foreach($case["elements_lingots"] as $m) {
-      			$textElementsLingots .= $m["quantite"] . " ".htmlspecialchars($m["type"])."<br />";
-      			$nbLingots = $nbLingots + $m["quantite"] ;
-			} 
-			$s = "";
-			if ($nbLingots > 1) {
-				$s = "s";
-			}
-			$titre = "Position X:".$case["x"]." Y:".$case["y"]." - Lingot";
-		?>
-      	<span <?=Bral_Helper_Tooltip::jsTip($textElementsLingots, $titre) ?>>
-      		<?=$nbLingots ?> lingot<?=$s?>
-      	</span>
-      	</div>
-    <?php endif; ?>
+<?php if ($case["n_elements_minerais_bruts"] > 0) : ?>
+      <?php 
+      	$textElementsMineraisBruts = "";
+      	$nbMinerais = 0;
+     	foreach($case["elements_minerais_bruts"] as $m) {
+      		$textElementsMineraisBruts .= $m["quantite"] . " ".htmlspecialchars($m["type"])."<br />";
+      		$nbMinerais = $nbMinerais + $m["quantite"] ;
+		} 
+		$s = "";
+		if ($nbMinerais > 1) {
+			$s = "s";
+		}
+	?>
+<?php endif; ?>
+<?php if ($case["n_elements_lingots"] > 0) : ?>
+      <?php
+      	$nbLingots = 0;
+      	$textElementsLingots = "";
+     	foreach($case["elements_lingots"] as $m) {
+      		$textElementsLingots .= $m["quantite"] . " ".htmlspecialchars($m["type"])."<br />";
+      		$nbLingots = $nbLingots + $m["quantite"] ;
+		} 
+		$s = "";
+		if ($nbLingots > 1) {
+			$s = "s";
+		}
+	?>
+<?php endif; ?>

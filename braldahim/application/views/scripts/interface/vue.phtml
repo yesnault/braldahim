@@ -33,23 +33,18 @@
 	      	<td class='vue2d <?=$case["css"] ?>'>
 	      	
 			<? include('vue/cases.phtml');?>
-			&nbsp;
-			<? 
-			include('vue/lieux.phtml'); 
-			include('vue/cadavres.phtml'); 
-			include('vue/castars.phtml'); 
-			include('vue/charrettes.phtml');
-			include('vue/echoppes.phtml'); 
-			include('vue/hobbits.phtml'); 
-			include('vue/monstres.phtml'); 
-			include('vue/palissades.phtml'); 
-			include('vue/routes.phtml'); 
-			include('vue/elements_runes.phtml'); 
-			include('vue/elements_potions.phtml');
-			include('vue/elements_equipements.phtml'); 
-			include('vue/elements_minerais.phtml'); 
-			include('vue/elements_partieplantes.phtml'); 
-			include('vue/elements.phtml'); 
+			<table>
+			<tr>
+				<td><? include('vue/hobbits_monstres.phtml');ob_flush();?></td>
+				<td><? include('vue/lieux_palissades_routes_echoppes.phtml');ob_flush();?></td>
+			</tr>
+			<tr>
+				<td><? include('vue/cadavres_castars_runes.phtml'); ob_flush(); ?></td>
+				<td><? include('vue/elements_charrettes.phtml'); ob_flush();?></td>
+			</tr>
+			</table>
+			
+			<?
 			$case = null;
 			unset($this->tableau[$k]);
 			ob_flush();

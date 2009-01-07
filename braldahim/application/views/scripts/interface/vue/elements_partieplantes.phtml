@@ -1,43 +1,30 @@
-     <?php if ($case["n_elements_partieplante_brutes"] > 0) : ?>
-      	<div>
-      	<?php 
-      		$textElementsPartiesPlantesBrutes = "";
-      		$nbPartiesPlantesBrutes = 0;
-     		foreach($case["elements_partieplantes_brutes"] as $m) {
-     			if ($m["quantite"] > 0) $s = "s"; else $s = "s";
-      			$textElementsPartiesPlantesBrutes .= $m["quantite"] . " ".htmlspecialchars($m["type"])."$s de ".htmlspecialchars($m["type_plante"])."<br />";
-      			$nbPartiesPlantesBrutes = $nbPartiesPlantesBrutes + $m["quantite"] ;
-			} 
-			$s = "";
-			if ($nbPartiesPlantesBrutes > 1) {
-				$s = "s";
-			}
-			$titre = "Position X:".$case["x"]." Y:".$case["y"]." - &eacute;l&eacute;ment de plante brute";
-		?>
-      	<span <?=Bral_Helper_Tooltip::jsTip($textElementsPartiesPlantesBrutes, $titre) ?>>
-      		<?=$nbPartiesPlantesBrutes ?> &eacute;l&eacute;ment<?=$s?> de plante<?=$s ?> brute<?=$s ?>
-      	</span>
-      	</div>
-    <?php endif; ?>
-    
-     <?php if ($case["n_elements_partieplante_preparees"] > 0) : ?>
-      	<div>
-      	<?php
-      		$nbPartiesPlantesPreparees = 0;
-      		$textElementsPartiesPlantesPreparees = "";
-     		foreach($case["elements_partieplantes_preparees"] as $m) {
-     			if ($m["quantite"] > 0) $s = "s"; else $s = "s";
-      			$textElementsPartiesPlantesPreparees .= $m["quantite"] . " ".htmlspecialchars($m["type"])."$s de ".htmlspecialchars($m["type_plante"])."<br />";
-      			$nbPartiesPlantesPreparees = $nbPartiesPlantesPreparees + $m["quantite"] ;
-			} 
-			$s = "";
-			if ($nbPartiesPlantesPreparees > 1) {
-				$s = "s";
-			}
-			$titre = "Position X:".$case["x"]." Y:".$case["y"]." -  &eacute;l&eacute;ment de plante pr&eacute;par&eacute;e";
-		?>
-      	<span <?=Bral_Helper_Tooltip::jsTip($textElementsPartiesPlantesPreparees, $titre) ?>>
-      		<?=$nbPartiesPlantesPreparees ?> &eacute;l&eacute;ment<?=$s?> de plante<?=$s ?> pr&eacute;par&eacute;e<?=$s ?>
-      	</span>
-      	</div>
-    <?php endif; ?>
+<?php if ($case["n_elements_partieplante_brutes"] > 0) : ?>
+      <?php 
+      	$textElementsPartiesPlantesBrutes = "";
+      	$nbPartiesPlantesBrutes = 0;
+     	foreach($case["elements_partieplantes_brutes"] as $m) {
+     		if ($m["quantite"] > 0) $s = "s"; else $s = "s";
+      		$textElementsPartiesPlantesBrutes .= $m["quantite"] . " ".htmlspecialchars($m["type"])."$s de ".htmlspecialchars($m["type_plante"])."<br />";
+      		$nbPartiesPlantesBrutes = $nbPartiesPlantesBrutes + $m["quantite"] ;
+		} 
+		$s = "";
+		if ($nbPartiesPlantesBrutes > 1) {
+			$s = "s";
+		}
+	?>
+<?php endif; ?>
+<?php if ($case["n_elements_partieplante_preparees"] > 0) : ?>
+      <?php
+      	$nbPartiesPlantesPreparees = 0;
+      	$textElementsPartiesPlantesPreparees = "";
+     	foreach($case["elements_partieplantes_preparees"] as $m) {
+     		if ($m["quantite"] > 0) $s = "s"; else $s = "s";
+      		$textElementsPartiesPlantesPreparees .= $m["quantite"] . " ".htmlspecialchars($m["type"])."$s de ".htmlspecialchars($m["type_plante"])."<br />";
+      		$nbPartiesPlantesPreparees = $nbPartiesPlantesPreparees + $m["quantite"] ;
+		} 
+		$s = "";
+		if ($nbPartiesPlantesPreparees > 1) {
+			$s = "s";
+		}
+	?>
+<?php endif; ?>

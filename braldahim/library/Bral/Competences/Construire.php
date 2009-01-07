@@ -85,7 +85,7 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 	
 	private function calculConstruire() {
 		
-		$maitrise = $this->hobbit_competence["pourcentage_hcomp"];
+		$maitrise = $this->hobbit_competence["pourcentage_hcomp"] / 100;
 		
 		$chance_a = 11.1-11 * $maitrise;
 		$chance_b = 100-(11.1-11 * $maitrise)-(10 * $maitrise);

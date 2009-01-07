@@ -1,25 +1,20 @@
-     <?php if ($case["n_elements"] > 0) : ?>
-      	<div>
-      	<?php 
-      		$textElements = "";
-      		$nb = 0;
-      		foreach($case["elements"] as $e) {
-      			if ($e["nb"] > 1) {
-      				$s = $e["s"];
-      			} else {
-      				$s = "";
-      			}
-      			$textElements .= $e["nb"]." ".$e["nom"]."$s<br />";
-      			$nb = $nb + $e["nb"];
-			} 
-			$s = "";
-			if ($nb > 1) {
-				$s = "s";
-			}
-			$titre = "Position X:".$case["x"]." Y:".$case["y"]." - ".$nb."  &eacute;l&eacute;ment".$s;
-		?>
-      	<span <?=Bral_Helper_Tooltip::jsTip($textElements, $titre) ?>>
-      		<?=$nb ?> &eacute;l&eacute;ment<?=$s?>
-      	</span>
-      	</div>
-    <?php endif; ?>
+<?php if ($case["n_elements"] > 0) : ?>
+      <?php 
+      	$textElements = "";
+      	$nb = 0;
+      	foreach($case["elements"] as $e) {
+      		if ($e["nb"] > 1) {
+      			$s = $e["s"];
+      		} else {
+      			$s = "";
+      		}
+      		$textElements .= $e["nb"]." ".$e["nom"]."$s<br />";
+      		$nb = $nb + $e["nb"];
+		} 
+		$s = "";
+		if ($nb > 1) {
+			$s = "s";
+		}
+		$titre = "Position X:".$case["x"]." Y:".$case["y"]." - ".$nb."  &eacute;l&eacute;ment".$s;
+	?>
+<?php endif; ?>
