@@ -275,7 +275,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 	private function calculForger($idTypeEquipement, $niveau, $nbRunes) {
 		$this->view->effetRune = false;
 		
-		$maitrise = $this->hobbit_competence["pourcentage_hcomp"];
+		$maitrise = $this->hobbit_competence["pourcentage_hcomp"] / 100;
 		
 		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "GE")) { // s'il possede une rune AP
 			$this->view->effetRune = true;
