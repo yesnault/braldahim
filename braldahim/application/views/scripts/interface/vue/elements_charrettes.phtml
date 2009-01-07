@@ -4,6 +4,7 @@ $textElementsEquipements = "";
 $textElementsMineraisBruts = "";
 $textElementsLingots = "";
 $textElementsPartiesPlantesBrutes = "";
+$textElementsPartiesPlantesPreparees = "";
 $textElements = "";
 $titre = "Position X:".$case["x"]." Y:".$case["y"];
 
@@ -16,8 +17,8 @@ include('elements_partieplantes.phtml'); ob_flush();
 include('elements.phtml'); ob_flush();
 ?>
 <?php if ($textCharrette != "" || $textElementsEquipements != "" || $textElementsMineraisBruts != "" 
-	&& $textElementsLingots != "" && $textElementsPartiesPlantesBrutes != "" && $textElementsPartiesPlantesPreparees != "" 
-	&& $textElements != "") : ?>
+	|| $textElementsLingots != "" || $textElementsPartiesPlantesBrutes != "" || $textElementsPartiesPlantesPreparees != "" 
+	|| $textElements != "") : ?>
 	<span <?=Bral_Helper_Tooltip::jsTip($textCharrette.$textElementsEquipements.$textElementsMineraisBruts.$textElementsLingots.$textElementsPartiesPlantesBrutes.$textElementsPartiesPlantesPreparees.$textElements, $titre) ?>>
 		<img src='/public/styles/braldahim_defaut/images/layout/vue/elements.png' />
 	</span>
