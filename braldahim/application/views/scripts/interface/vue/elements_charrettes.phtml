@@ -7,13 +7,13 @@ $textElementsPartiesPlantesBrutes = "";
 $textElements = "";
 $titre = "Position X:".$case["x"]." Y:".$case["y"];
 
-include('vue/charrettes.phtml');
+include('charrettes.phtml');
 ob_flush();	
-include('vue/elements_potions.phtml');ob_flush();
-include('vue/elements_equipements.phtml'); ob_flush();
-include('vue/elements_minerais.phtml'); ob_flush();
-include('vue/elements_partieplantes.phtml'); ob_flush();
-include('vue/elements.phtml'); ob_flush();
+include('elements_potions.phtml');ob_flush();
+include('elements_equipements.phtml'); ob_flush();
+include('elements_minerais.phtml'); ob_flush();
+include('elements_partieplantes.phtml'); ob_flush();
+include('elements.phtml'); ob_flush();
 ?>
 <?php if ($textCharrette != "" || $textElementsEquipements != "" || $textElementsMineraisBruts != "" 
 	&& $textElementsLingots != "" && $textElementsPartiesPlantesBrutes != "" && $textElementsPartiesPlantesPreparees != "" 
