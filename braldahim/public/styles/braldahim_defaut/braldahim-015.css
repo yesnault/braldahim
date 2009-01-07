@@ -1070,7 +1070,7 @@ td.vue2d {
 	vertical-align: top;
 	horizontal-align: center;
 	width: 64px;
-	height: 76px;
+	height: 64px;
 }
 
 td.vue2d.plaine {
@@ -1124,11 +1124,16 @@ td.vue2d.inconnu {
 	text-align: right;
 	font-size: 7pt;
 	color: #e0ffe0;
-	background-color: #6f5f6f;
+	#background-color: #6f5f6f;
+	height:10px;
+	position:absolute;
+	width:64px;
 }
 
-.vue2d_case_num.actuelle {
-	background-color: #ff6666;
+td.vue2d.actuelle {
+	border-width: 1.5px; 
+	border-style: solid;
+	border-color:#ff6666;
 }
 
 #modalPage

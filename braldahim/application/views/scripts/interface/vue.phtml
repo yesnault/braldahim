@@ -20,6 +20,20 @@
 	     <?php 
 	     $col="";
 	     
+	     echo "<tr><td>&nbsp;</td>";
+	     foreach($this->tableau as $k => $case) :
+	     	
+	    	if ($case["change_level"] == 1 && $col == "ok") :
+	    		break;
+	    	endif;
+	    	echo "<td>".$case["x"]."</td>";
+	    	if ($case["change_level"] == true) : 
+	          $col="ok";
+	        endif;
+		 endforeach;
+		 echo "</tr>";
+		 
+		  $col="";
 	     foreach($this->tableau as $k => $case) : ?>
 			
 			<?php 
@@ -28,19 +42,19 @@
 	        endif; ?>
 	        <?php if ($case["change_level"] == true) : 
 	          $col="ok"; ?>
-	        <tr nowrap>                
+	        <tr nowrap><td><?=$case["y"]?></td>
 	        <?php endif; ?>
-	      	<td class='vue2d <?=$case["css"] ?>' nowrap>
+	      	<td class='vue2d <?=$case["css"] ?> <?=$case["css_actuelle"]?>' nowrap title="<?=$case["x"]. "," . $case["y"]?>">
 	      	
 			<? include('vue/cases.phtml');?>
 			<table>
 			<tr>
-				<td width="32px" height="32px"><? include('vue/hobbits_monstres.phtml');ob_flush();?></td>
-				<td width="32px" height="32px"><? include('vue/lieux_palissades_routes_echoppes.phtml');ob_flush();?></td>
+				<td width="32px" ><? include('vue/hobbits_monstres.phtml');ob_flush();?></td>
+				<td width="32px" ><? include('vue/lieux_palissades_routes_echoppes.phtml');ob_flush();?></td>
 			</tr>
 			<tr>
-				<td width="32px" height="32px"><? include('vue/cadavres_castars_runes.phtml'); ob_flush(); ?></td>
-				<td width="32px" height="32px"><? include('vue/elements_charrettes.phtml'); ob_flush();?></td>
+				<td width="32px" ><? include('vue/cadavres_castars_runes.phtml'); ob_flush(); ?></td>
+				<td width="32px" ><? include('vue/elements_charrettes.phtml'); ob_flush();?></td>
 			</tr>
 			</table>
 			

@@ -1,4 +1,4 @@
-      	<div class="vue2d_case_num <?=$case["css_actuelle"]?>">
+      	<div class="vue2d_case_num">
       		<? if ($case["marcher"] != null && $case["marcher"]["valid"] === true): ?>
       		<img src='/public/images/puce_marcher.gif' alt='Cliquez pour Marcher' title='Cliquez pour Marcher'
       		onClick="Javascript:_get_('/competences/doaction?caction=ask_competence_marcher&valeur_1=<?=$case["marcher"]["offset"]?>')" style="cursor:pointer;" />
@@ -15,5 +15,5 @@
       		<img src='/public/images/villes/puce_<?=$case["ville"]["nom_systeme"]?>.gif' title='<?=$textVille?>' 
       			<?//=Bral_Helper_Tooltip::jsTip($textVille, $titre) ?> style="cursor:pointer;" />
       		<? endif; ?>
-      		<?=$case["x"]. "," . $case["y"] ;?>
+      		<?//$case["x"]. "," . $case["y"] ;?>
       	</div>
