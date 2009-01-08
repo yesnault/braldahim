@@ -74,7 +74,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		}
 
 		if ($idMonstre == -1 && $idHobbit == -1) {
-			throw new Zend_Exception(get_class($this)." Montre ou Hobbit invalide (==-1)");
+			throw new Zend_Exception(get_class($this)." Monstre ou Hobbit invalide (==-1)");
 		}
 
 		$attaqueMonstre = false;

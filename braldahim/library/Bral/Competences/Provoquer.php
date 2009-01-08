@@ -62,7 +62,7 @@ class Bral_Competences_Provoquer extends Bral_Competences_Competence {
 		}
 
 		if ($idMonstre == -1) {
-			throw new Zend_Exception(get_class($this)." Montre invalide (==-1)");
+			throw new Zend_Exception(get_class($this)." Monstre invalide (==-1)");
 		}
 
 		$monstre = null;

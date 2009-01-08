@@ -19,7 +19,7 @@ class TypeMonstre extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('type_monstre', '*')
 		->from('type_groupe_monstre', '*')
-		->where('type_monstre.id_fk_groupe_monstre = type_groupe_monstre.id_type_groupe_monstre');
+		->where('type_monstre.id_fk_type_groupe_monstre = type_groupe_monstre.id_type_groupe_monstre');
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
