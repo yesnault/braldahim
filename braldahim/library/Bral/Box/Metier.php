@@ -13,7 +13,7 @@
 class Bral_Box_Metier extends Bral_Box_Box {
 
 	function getTitreOnglet() {
-		return "M&eacute;tier";
+		return "M&eacute;tiers";
 	}
 
 	function getNomInterne() {
