@@ -68,7 +68,7 @@ class Bral_Helper_Profil {
 		if ($coef > 0) {
 			$info1 = "Vous b&eacute;n&eacute;ficiez d\\'un bonus de ".$force_bbdf_hobbit." sur toutes vos caract&eacute;ristiques.<br><br>";
 		} else if ($coef < 0) {
-			$info1 = "Vous un malus de ".$force_bbdf_hobbit." &agrave; toutes vos caract&eacute;ristiques.<br><br>";
+			$info1 = "Vous avez un malus de ".$force_bbdf_hobbit." &agrave; toutes vos caract&eacute;ristiques.<br><br>";
 		} else {
 			$info1 = "Aucun bonus ou malus de faim n\\'est ajout&eacute; &agrave; vos caract&eacute;ristiques.<br><br>";
 		}
