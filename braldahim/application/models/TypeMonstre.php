@@ -13,4 +13,15 @@
 class TypeMonstre extends Zend_Db_Table {
 	protected $_name = 'type_monstre';
 	protected $_primary = "id_type_monstre";
+	
+	public function fetchAllAvecTypeGroupe() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('type_monstre', '*')
+		->from('type_groupe_monstre', '*')
+		->where('type_monstre.id_fk_groupe_monstre = type_groupe_monstre.id_type_groupe_monstre');
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
 }

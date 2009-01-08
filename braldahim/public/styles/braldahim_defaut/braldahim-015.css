@@ -1121,13 +1121,13 @@ td.vue2d.inconnu {
 }
 
 .vue2d_case_num {
-	text-align: center;
+	text-align: right;
 	font-size: 7pt;
 	color: #e0ffe0;
 	#background-color: #6f5f6f;
-	height:10px;
-	position:absolute;
-	width:64px;
+	height:0.5px;
+	position:relative;
+	top : -7px;
 }
 
 td.vue2d.actuelle {

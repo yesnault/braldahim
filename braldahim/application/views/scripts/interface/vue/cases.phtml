@@ -1,19 +1,6 @@
-      	<div class="vue2d_case_num">
-      		<? if ($case["marcher"] != null && $case["marcher"]["valid"] === true): ?>
-      		<img src='/public/styles/braldahim_defaut/images/layout/vue/chaussures.png' alt='Cliquez pour Marcher' title='Cliquez pour Marcher'
-      		onClick="Javascript:_get_('/competences/doaction?caction=ask_competence_marcher&valeur_1=<?=$case["marcher"]["offset"]?>')" style="cursor:pointer;" />
-      		<? endif; ?>
-      		
-      		<? if (!empty($case["ville"])) :
-      			$textVille = "Ville : ".htmlspecialchars($case["ville"]["nom_ville"]);
-      			if ($case["ville"]["est_capitale"] === true) {
-      				$textVille .= " - Capitale";
-      			}
-      			$textVille .= ", R&eacute;gion : ".htmlspecialchars($case["ville"]["nom_region"]);
-      			$titre = "Position : X=".$case["x"]." Y:".$case["y"]." Ville";
-      		?>
-      		<?php //<img src='/public/images/villes/puce_<?=$case["ville"]["nom_systeme"]? >.gif' title='<?=$textVille? >' 
-      			// ?//=Bral_Helper_Tooltip::jsTip($textVille, $titre) ? > style="cursor:pointer;" />
-      		 endif; ?>
-      		<?//$case["x"]. "," . $case["y"] ;?>
-      	</div>
+<div class="vue2d_case_num">
+<? if ($case["marcher"] != null && $case["marcher"]["valid"] === true): ?>
+	<img src='/public/styles/braldahim_defaut/images/layout/vue/chaussures.png' alt='Cliquez pour Marcher' title='Cliquez pour Marcher'
+		onClick="Javascript:_get_('/competences/doaction?caction=ask_competence_marcher&valeur_1=<?=$case["marcher"]["offset"]?>')" style="cursor:pointer;" />
+<? endif; ?>
+</div>

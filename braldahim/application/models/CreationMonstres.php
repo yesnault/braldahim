@@ -10,7 +10,7 @@
  * $LastChangedRevision: $
  * $LastChangedBy: $
  */
-class CreationMinerais extends Zend_Db_Table {
-	protected $_name = 'creation_minerais';
-	protected $_primary = array('id_fk_type_minerai_creation_minerais', 'id_fk_environnement_creation_minerais');
+class CreationMonstres extends Zend_Db_Table {
+	protected $_name = 'creation_monstres';
+	protected $_primary = array('id_fk_type_monstre_creation_monstres', 'id_fk_environnement_creation_monstres');
 }

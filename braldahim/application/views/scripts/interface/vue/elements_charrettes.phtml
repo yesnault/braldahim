@@ -22,4 +22,6 @@ include('elements.phtml'); ob_flush();
 	<span <?=Bral_Helper_Tooltip::jsTip($textCharrette.$textElementsEquipements.$textElementsMineraisBruts.$textElementsLingots.$textElementsPartiesPlantesBrutes.$textElementsPartiesPlantesPreparees.$textElements, $titre) ?>>
 		<img src='/public/styles/braldahim_defaut/images/layout/vue/elements.png' />
 	</span>
+<? else: ?>
+	&nbsp;
 <? endif; ?>
