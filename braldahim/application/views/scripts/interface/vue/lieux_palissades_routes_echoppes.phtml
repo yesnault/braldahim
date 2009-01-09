@@ -84,20 +84,22 @@ $textEchoppe = "";
 		
 	<?php endif; ?>
     
-    <? if ($textLieu != "" || $textEchoppe != "") :?>
-		<span <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
+    <? if ($textLieu != "" ) :?>
+		<span <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textPalissade.$textRoute, $titre) ?>>
 			<img src='/public/styles/braldahim_defaut/images/layout/vue/batiment.png' />
 		</span>
-	<? else :?>
-		<? if ($textPalissade != "") : ?>
-			<span <?=Bral_Helper_Tooltip::jsTip($textPalissade, $titre) ?>>
-				<img src='/public/styles/braldahim_defaut/images/layout/vue/palissade_b.png' />
-			</span>
-		<? elseif ($textRoute != "") : ?>
-			<span <?=Bral_Helper_Tooltip::jsTip($textRoute, $titre) ?>>
-				<img src='/public/styles/braldahim_defaut/images/layout/vue/route_b.png' />
-			</span>
-		<? else: ?>
-		<br>
-	    <? endif; ?>
+	<? elseif ($textEchoppe != "") : ?>
+		<span <?=Bral_Helper_Tooltip::jsTip($textRoute, $titre) ?>>
+			<img src='/public/styles/braldahim_defaut/images/layout/vue/echoppe.png' />
+		</span>
+	<? elseif ($textPalissade != "") : ?>
+		<span <?=Bral_Helper_Tooltip::jsTip($textPalissade, $titre) ?>>
+			<img src='/public/styles/braldahim_defaut/images/layout/vue/palissade_b.png' />
+		</span>
+	<? elseif ($textRoute != "") : ?>
+		<span <?=Bral_Helper_Tooltip::jsTip($textRoute, $titre) ?>>
+			<img src='/public/styles/braldahim_defaut/images/layout/vue/route_b.png' />
+		</span>
+	<? else: ?>
+	<br>
 	<? endif;?>  
