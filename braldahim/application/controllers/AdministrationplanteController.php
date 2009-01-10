@@ -110,7 +110,6 @@ class AdministrationplanteController extends Zend_Controller_Action {
 
 				$planteTable->insert($data);
 			}
-			$planteTable->deleteInVille();
 		}
 
 		$this->view->creation = $creation;

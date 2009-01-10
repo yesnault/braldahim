@@ -120,9 +120,6 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				$this->_tabCreation["groupesMonstres"] = null;
 			}
 			$this->view->tabCreation = $this->_tabCreation;
-			
-			$monstreTable = new Monstre();
-			$monstreTable->deleteInVille();
 		}
 		
 		$this->view->creation = $creation;
