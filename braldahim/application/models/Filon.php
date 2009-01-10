@@ -28,7 +28,7 @@ class Filon extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function countVue($x_min, $y_min, $x_max, $y_max) {
+	function countVue($x_min, $y_min, $x_max, $y_max, $id_type = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('filon', 'count(*) as nombre')
@@ -36,6 +36,11 @@ class Filon extends Zend_Db_Table {
 		->where('x_filon >= ?',$x_min)
 		->where('y_filon >= ?',$y_min)
 		->where('y_filon <= ?',$y_max);
+		
+		if ($id_type != null) {
+			$select->where('id_fk_type_minerai_filon = ?',$id_type);
+		}
+		
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 

@@ -85,7 +85,7 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 					if ($z["id_fk_environnement_zone"] == $c["id_fk_environnement_creation_minerais"]) {
 						$tmp = "";
 						$nbCreation = ceil($t["nb_creation_type_minerai"] * ($superficieZones[$z["id_zone"]] / $superficieTotale[$c["id_fk_type_minerai_creation_minerais"]]));
-						$nbActuel = $filonTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"]);
+						$nbActuel = $filonTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"], $t["id_type_minerai"]);
 						
 						$aCreer = $nbCreation - $nbActuel;
 						if ($aCreer <= 0) { 

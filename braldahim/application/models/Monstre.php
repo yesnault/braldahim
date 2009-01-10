@@ -50,7 +50,7 @@ class Monstre extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function countVue($x_min, $y_min, $x_max, $y_max) {
+	function countVue($x_min, $y_min, $x_max, $y_max, $id_type = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('monstre', 'count(id_monstre) as nombre')
@@ -59,6 +59,11 @@ class Monstre extends Zend_Db_Table {
 		->where('y_monstre >= ?',$y_min)
 		->where('y_monstre <= ?',$y_max)
 		->where('est_mort_monstre = ?', 'non');
+		
+		if ($id_type != null) {
+			$select->where('id_fk_type_monstre = ?',$id_type);
+		}
+		
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 		$nombre = $resultat[0]["nombre"];

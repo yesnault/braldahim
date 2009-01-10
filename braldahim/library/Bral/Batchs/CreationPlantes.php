@@ -97,7 +97,7 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 					if ($z["id_fk_environnement_zone"] == $c["id_fk_environnement_creation_plantes"]) {
 						$tmp = "";
 						$nbCreation = ceil($t["nb_creation_type_plante"] / $envNbZones[$z["id_fk_environnement_zone"]]);
-						$nbActuel = $planteTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"]);
+						$nbActuel = $planteTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"], $t["id_type_plante"]);
 						
 						$aCreer = $nbCreation - $nbActuel;
 						if ($aCreer <= 0) { 
