@@ -49,19 +49,6 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 		$zones = $zoneTable->findByIdEnvironnementList($environnementIds, false);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - nb zones concernees=" .count($zones));
 		
-		$envNbZones = array();
-		// pour chaque type d'environnement
-		// on compte le nombre de zone concernees
-		foreach($zones as $z) {
-			if (array_key_exists($z["id_fk_environnement_zone"], $envNbZones)) {
-				$envNbZones[$z["id_fk_environnement_zone"]] = $envNbZones[$z["id_fk_environnement_zone"]] + 1;
-			} else {
-				$envNbZones[$z["id_fk_environnement_zone"]] = 1;
-			}
-		}
-		
-		// Pour chaque zone et chaque type de plante, on insert
-		
 		$planteTable = new Plante();
 		$tmp = "";
 		
@@ -96,7 +83,7 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 				foreach($zones as $z) {
 					if ($z["id_fk_environnement_zone"] == $c["id_fk_environnement_creation_plantes"]) {
 						$tmp = "";
-						$nbCreation = ceil($t["nb_creation_type_plante"] / $envNbZones[$z["id_fk_environnement_zone"]]);
+						$nbCreation = ceil($t["nb_creation_type_plante"] * ($superficieZones[$z["id_zone"]] / $superficieTotale[$c["id_fk_type_plante_creation_plantes"]]));
 						$nbActuel = $planteTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"], $t["id_type_plante"]);
 						
 						$aCreer = $nbCreation - $nbActuel;

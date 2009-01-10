@@ -13,7 +13,7 @@
 class Bral_Box_Equipement extends Bral_Box_Box {
 	
 	function getTitreOnglet() {
-		return "Equipement";
+		return "&Eacute;quipement";
 	}
 	
 	function getNomInterne() {
