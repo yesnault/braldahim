@@ -115,6 +115,7 @@ class Bral_Util_Messagerie {
 			"hobbits" => $hobbits,
 			"aff_js_contacts" => $aff_js_contacts,
 			"userids" => $userIds,
+			"contacts" => $contacts,
 		);
 		return $tab;
 	}
