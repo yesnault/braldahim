@@ -65,6 +65,23 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 		$planteTable = new Plante();
 		$tmp = "";
 		
+		$superficieZones = array();
+		$superficieTotale = array();
+		
+		foreach($creationPlantes as $c) {
+			// on recupere la supercifie totale de toutes les zones concernees par ce type
+			foreach($zones as $z) {
+				if ($z["id_fk_environnement_zone"] == $c["id_fk_environnement_creation_plantes"]) {
+					$superficieZones[$z["id_zone"]] = ($z["x_max_zone"] - $z["x_min_zone"]) * ($z["y_max_zone"] - $z["y_min_zone"]);
+					if (array_key_exists($c["id_fk_type_plante_creation_plantes"], $superficieTotale)) {
+						$superficieTotale[$c["id_fk_type_plante_creation_plantes"]] = $superficieTotale[$c["id_fk_type_plante_creation_plantes"]] + ( $superficieZones[$z["id_zone"]] );
+					} else {
+						$superficieTotale[$c["id_fk_type_plante_creation_plantes"]] = $superficieZones[$z["id_zone"]];
+					}
+				}
+			}
+		}
+		
 		foreach($creationPlantes as $c) {
 			$t = null;
 			foreach($typePlantes as $type) {
@@ -75,7 +92,7 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 			}
 			
 			if ($t != null) {
-				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - traitement du type plante ".$t["id_type_plante"]. " nbMaxMonde(".$t["nb_creation_type_plante"].")");
+				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - traitement du type plante ".$t["id_type_plante"]. " nbMaxMonde(".$t["nb_creation_type_plante"].") environnement(".$c["id_fk_environnement_creation_plantes"].") suptotal(". $superficieTotale[$c["id_fk_type_plante_creation_plantes"]].")");
 				foreach($zones as $z) {
 					if ($z["id_fk_environnement_zone"] == $c["id_fk_environnement_creation_plantes"]) {
 						$tmp = "";
@@ -86,7 +103,7 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 						if ($aCreer <= 0) { 
 							$tmp = " deja pleine";
 						}
-						Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - zone(".$z["id_zone"].") nbActuel:".$nbActuel. " max:".$nbCreation.$tmp);
+						Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - zone(".$z["id_zone"].") nbActuel:".$nbActuel. " max:".$nbCreation.$tmp. " supzone(".$superficieZones[$z["id_zone"]].") suptotal(". $superficieTotale[$c["id_fk_type_plante_creation_plantes"]].")");
 						if ($aCreer > 0) { 
 							$retour .= $this->insert($t, $z, $aCreer, $planteTable);
 						} else {

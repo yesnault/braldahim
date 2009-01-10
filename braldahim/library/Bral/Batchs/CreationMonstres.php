@@ -59,21 +59,25 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$zones = $zoneTable->findByIdEnvironnementList($environnementIds, false);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - nb zones concernees=" .count($zones));
 		
-		$envNbZones = array();
-		// pour chaque type d'environnement
-		// on compte le nombre de zone concernees
-		foreach($zones as $z) {
-			if (array_key_exists($z["id_fk_environnement_zone"], $envNbZones)) {
-				$envNbZones[$z["id_fk_environnement_zone"]] = $envNbZones[$z["id_fk_environnement_zone"]] + 1;
-			} else {
-				$envNbZones[$z["id_fk_environnement_zone"]] = 1;
-			}
-		}
-		
-		// Pour chaque zone et chaque type de monstre, on insert
-		
 		$monstreTable = new Monstre();
 		$tmp = "";
+		
+		$superficieZones = array();
+		$superficieTotale = array();
+		
+		foreach($creationMonstres as $c) {
+			// on recupere la supercifie totale de toutes les zones concernees par ce type
+			foreach($zones as $z) {
+				if ($z["id_fk_environnement_zone"] == $c["id_fk_environnement_creation_monstres"]) {
+					$superficieZones[$z["id_zone"]] = ($z["x_max_zone"] - $z["x_min_zone"]) * ($z["y_max_zone"] - $z["y_min_zone"]);
+					if (array_key_exists($c["id_fk_type_monstre_creation_monstres"], $superficieTotale)) {
+						$superficieTotale[$c["id_fk_type_monstre_creation_monstres"]] = $superficieTotale[$c["id_fk_type_monstre_creation_monstres"]] + ( $superficieZones[$z["id_zone"]] );
+					} else {
+						$superficieTotale[$c["id_fk_type_monstre_creation_monstres"]] = $superficieZones[$z["id_zone"]];
+					}
+				}
+			}
+		}
 		
 		foreach($creationMonstres as $c) {
 			$t = null;
@@ -85,18 +89,18 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 			}
 			
 			if ($t != null) {
-				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - traitement du monstre ".$t["id_type_monstre"]. " nbMaxMonde(".$t["nb_creation_type_monstre"].")");
+				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - traitement du monstre ".$t["id_type_monstre"]. " nbMaxMonde(".$t["nb_creation_type_monstre"].") environnement(".$c["id_fk_environnement_creation_monstres"].") suptotal(". $superficieTotale[$c["id_fk_type_monstre_creation_monstres"]].")");
 				foreach($zones as $z) {
 					if ($z["id_fk_environnement_zone"] == $c["id_fk_environnement_creation_monstres"]) {
 						$tmp = "";
-						$nbCreation = ceil($t["nb_creation_type_monstre"] / $envNbZones[$z["id_fk_environnement_zone"]]);
+						$nbCreation = ceil($t["nb_creation_type_monstre"] * ($superficieZones[$z["id_zone"]] / $superficieTotale[$c["id_fk_type_monstre_creation_monstres"]]));
 						$nbActuel = $monstreTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"]);
 						
 						$aCreer = $nbCreation - $nbActuel;
 						if ($aCreer <= 0) { 
 							$tmp = " deja pleine";
 						}
-						Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - zone(".$z["id_zone"].") nbActuel:".$nbActuel. " max:".$nbCreation.$tmp);
+						Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - zone(".$z["id_zone"].") nbActuel:".$nbActuel. " max:".$nbCreation.$tmp. " supzone(".$superficieZones[$z["id_zone"]].") suptotal(". $superficieTotale[$c["id_fk_type_monstre_creation_monstres"]].")");
 						if ($aCreer > 0) { 
 							$retour .= $this->insert($t, $z, $aCreer, $refRowset, $taillesRowset);
 						} else {
@@ -127,6 +131,8 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		
 		$referenceCourante = $this->recupereReferenceMonstre($refRowset, $typeMonstre["id_type_monstre"]);
 		$creation = true;
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - insert - idtypeGroupe(".$referenceCourante["id_fk_type_groupe_monstre"].")");
+		
 		if ($referenceCourante["id_fk_type_groupe_monstre"] > 1) { //1 => type Solitaire
 
 			for ($i = 1; $i < $aCreer; $i++) {
@@ -175,7 +181,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 	private function recupereReferenceMonstre($refMonstre, $id_fk_type_ref_monstre, $taille = 1) {
 		$referenceCourante = null;
 		foreach($refMonstre as $r) {
-			if (($id_fk_type_ref_monstre == $r["id_fk_type_groupe_monstre"]) && ((int)$taille == (int)$r["id_fk_taille_ref_monstre"])) {
+			if (($id_fk_type_ref_monstre == $r["id_fk_type_ref_monstre"]) && ((int)$taille == (int)$r["id_fk_taille_ref_monstre"])) {
 				$referenceCourante = $r;
 				break;
 			}
