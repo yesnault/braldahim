@@ -1,49 +1,43 @@
-<?php if ($case["n_hobbits"] > 0) : ?>
-      <div>
-      <?php 
-      	$textHobbit = "Hobbit";
-      	if ($case["n_hobbits"] > 1) {
-      		$textHobbit .= "s";
+<?php if ($case["n_hobbits"] > 0) :
+      $textHobbit = "Hobbit";
+      if ($case["n_hobbits"] > 1) {
+      	$textHobbit .= "s";
+      }
+      $textHobbit .= ":<br>";
+      foreach($case["hobbits"] as $h) {
+      	$textHobbit .= addslashes(htmlspecialchars($h["prenom_hobbit"]))." ".addslashes(htmlspecialchars($h["nom_hobbit"]));
+      	$textHobbit .= " (n&deg; ".$h["id_hobbit"]."), niv.".$h["niveau_hobbit"];
+      	$textHobbit .= ' <img src=\\\'/public/images/profil.gif\\\' title=\\\'Voir le profil\\\' alt=\\\'Profil\\\' border=\\\'0\\\' onClick=ouvrirWin(\\\'\/voir\/hobbit\/?hobbit='.$h["id_hobbit"].'\\\'); style=\\\'cursor:pointer\\\'/> ';
+      	
+      	$textHobbit .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$h["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
+      	if ($h["id_communaute"] != null) {
+      		$textHobbit .= ' - <label class=alabel onClick=ouvrirWin(\\\'\/voir\/communaute\/?communaute='.$h["id_communaute"].'\\\');>'.htmlspecialchars($h["nom_communaute"]).'</label>';
       	}
-      	$textHobbit .= ":<br>";
-      	foreach($case["hobbits"] as $h) {
-      		$textHobbit .= addslashes(htmlspecialchars($h["prenom_hobbit"]))." ".addslashes(htmlspecialchars($h["nom_hobbit"]));
-      		$textHobbit .= " (n&deg; ".$h["id_hobbit"]."), niv.".$h["niveau_hobbit"];
-      		$textHobbit .= ' <img src=\\\'/public/images/profil.gif\\\' title=\\\'Voir le profil\\\' alt=\\\'Profil\\\' border=\\\'0\\\' onClick=ouvrirWin(\\\'\/voir\/hobbit\/?hobbit='.$h["id_hobbit"].'\\\'); style=\\\'cursor:pointer\\\'/> ';
-      		
-      		$textHobbit .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$h["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
-      		if ($h["id_communaute"] != null) {
-      			$textHobbit .= ' - <label class=alabel onClick=ouvrirWin(\\\'\/voir\/communaute\/?communaute='.$h["id_communaute"].'\\\');>'.htmlspecialchars($h["nom_communaute"]).'</label>';
-      		}
-      		$textHobbit .= "<br />";
-		} 
-		$s = "";
-		if ($case["n_hobbits"] > 1) {
-			$s = "s";
-		}
-		$titre = "Position X:".$case["x"]." Y:".$case["y"];
-	?>
-<?php endif; ?>
-<?php if ($case["n_monstres"] > 0) : ?>
-      <div>
-      <?php 
-      	$textMonstre = "Monstre";
-      	if ($case["n_monstres"] > 1) {
-      		$textMonstre .= "s";
-      	}
-      	$textMonstre .= ":<br>";
-      	foreach($case["monstres"] as $m) {
-      		$textMonstre .= htmlspecialchars($m["nom_monstre"]) ." (n&deg; ".$m["id_monstre"].") - ".htmlspecialchars($m["taille_monstre"])."  ";
-      		$textMonstre .= ' <img src=\\\'/public/images/profil.gif\\\' title=\\\'Voir le profil\\\' alt=\\\'Profil\\\' border=\\\'0\\\' onClick=ouvrirWin(\\\'\/voir\/monstre\/?monstre='.$m["id_monstre"].'\\\'); style=\\\'cursor:pointer\\\'/> ';
-      		$textMonstre .= "<br />";
-		} 
-		$s = "";
-		if ($case["n_monstres"] > 1) {
-			$s = "s";
-		}
-		$titre = "Position X:".$case["x"]." Y:".$case["y"];
-	?>
-<?php endif; ?>
+      	$textHobbit .= "<br />";
+	} 
+	$s = "";
+	if ($case["n_hobbits"] > 1) {
+		$s = "s";
+	}
+	$titre = "Position X:".$case["x"]." Y:".$case["y"];
+endif; ?>
+<?php if ($case["n_monstres"] > 0) :
+	$textMonstre = "Monstre";
+	if ($case["n_monstres"] > 1) {
+		$textMonstre .= "s";
+	}
+	$textMonstre .= ":<br>";
+	foreach($case["monstres"] as $m) {
+		$textMonstre .= htmlspecialchars($m["nom_monstre"]) ." (n&deg; ".$m["id_monstre"].") - ".htmlspecialchars($m["taille_monstre"])."  ";
+		$textMonstre .= ' <img src=\\\'/public/images/profil.gif\\\' title=\\\'Voir le profil\\\' alt=\\\'Profil\\\' border=\\\'0\\\' onClick=ouvrirWin(\\\'\/voir\/monstre\/?monstre='.$m["id_monstre"].'\\\'); style=\\\'cursor:pointer\\\'/> ';
+		$textMonstre .= "<br />";
+	} 
+	$s = "";
+	if ($case["n_monstres"] > 1) {
+		$s = "s";
+	}
+	$titre = "Position X:".$case["x"]." Y:".$case["y"];
+endif; ?>
 	    
 <? if ($case["n_monstres"] > 0 && $case["n_hobbits"] > 0) : ?>
     <img src='/public/styles/braldahim_defaut/images/layout/vue/hobbit_monstre.png' <?=Bral_Helper_Tooltip::jsTip($textMonstre."<br>".$textHobbit, $titre) ?>/>

@@ -1,11 +1,11 @@
 <?
+$titre = "Position X:".$case["x"]." Y:".$case["y"];
 $textLieu = "";
 $textPalissade = "";
 $textRoute = "";
 $textEchoppe = "";
 ?>
-<?php if ($case["n_lieux"] > 0) : ?>
-	<?php 
+<?php if ($case["n_lieux"] > 0) :
 	$textLieu = "Lieu : <br>";
     foreach($case["lieux"] as $l) {
       	$textLieu .= addslashes(htmlspecialchars($l["nom_lieu"])) ." : ".addslashes(htmlspecialchars($l["nom_type_lieu"]));
@@ -17,89 +17,80 @@ $textEchoppe = "";
 		$doubleClick = "title=\"Double Cliquer pour acc&eacute;der directement au lieu\"";
 		$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return cClick(); \"";
 	}
-	?>
-<?php endif; ?>
+endif; ?>
 
-	<?php if ($case["n_palissades"] > 0) : ?>
-      	<?php 
-      		$textPalissade = "Palissade : <br>";
-      		foreach($case["palissades"] as $p) {
-      			$textPalissade .= "1 palissade (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
-      			if ($p["est_destructible_palissade"] == "oui") {
-      				$textPalissade .= " destructible";
-      			} else {
-      				$textPalissade .= " indestructible";
-      			}
-      			$textPalissade .= "<br />";
-			} 
-			$s = "";
-			if ($case["n_palissades"] > 1) {
-				$s = "s";
-			}
-			$titre = "Position X:".$case["x"]." Y:".$case["y"];
-		?>
-
-    <?php endif; ?>
+<?php if ($case["n_palissades"] > 0) :
+      	$textPalissade = "<br>Palissade : <br>";
+      	foreach($case["palissades"] as $p) {
+      		$textPalissade .= "1 palissade (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
+      		if ($p["est_destructible_palissade"] == "oui") {
+      			$textPalissade .= " destructible";
+      		} else {
+      			$textPalissade .= " indestructible";
+      		}
+      		$textPalissade .= "<br />";
+		} 
+		$s = "";
+		if ($case["n_palissades"] > 1) {
+			$s = "s";
+		}
+endif; ?>
 	    
-	 <?php if ($case["n_routes"] > 0) : ?>
-      	<?php
-      		$textRoute = "Route : <br>";
-      		foreach($case["routes"] as $p) {
-      			if ($p["est_route"] == "oui") {
-      				$textRoute .= " 1 Route";
-      			} else {
-      				$textRoute .= " 1 Terrain terrass&eacute;";
-      			}
-			}
-			$s = "";
-			if ($case["n_routes"] > 1) {
-				$s = "s";
-			}
-			$titre = "Position X:".$case["x"]." Y:".$case["y"];
-		?>
-    <?php endif; ?>
+ <?php if ($case["n_routes"] > 0) : 
+      	$textRoute = "<br>Route : <br>";
+      	foreach($case["routes"] as $p) {
+      		if ($p["est_route"] == "oui") {
+      			$textRoute .= " 1 Route";
+      		} else {
+      			$textRoute .= " 1 Terrain terrass&eacute;";
+      		}
+		}
+		$s = "";
+		if ($case["n_routes"] > 1) {
+			$s = "s";
+		}
+endif; ?>
     
-    <?php if ($case["n_echoppes"] > 0) : ?>
-		<?php 
-		$textEchoppe = "Echoppe : <br>";
-		foreach($case["echoppes"] as $c) {
-			if ($c["nom_metier"]{0} == 'A') : $d="d\'"; else: $d="de "; endif;
-				$textEchoppe .= addslashes(htmlspecialchars($c["nom_echoppe"])). ", &Eacute;choppe ".$d.htmlspecialchars($c["nom_metier"])." appartenant &agrave; <br>";
-				$textEchoppe .= addslashes(htmlspecialchars($c["prenom_hobbit"]))." ".addslashes(htmlspecialchars($c["nom_hobbit"])).", n&deg; ".$c["id_hobbit"];
-	      		$textEchoppe .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$c["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
-	      		$textEchoppe .= "<br />";
-			}
-			$s = "";
-			if ($case["n_echoppes"] > 1) {
-				$s = "s";
-			}
-			$titre = "Position X:".$case["x"]." Y:".$case["y"]." - Echoppe".$s;
-			
-			$doubleClick = "";
-			if ($this->user->x_hobbit == $case["x"] && $this->user->y_hobbit == $case["y"]) {
-				$doubleClick = "title=\"Double Cliquer pour acc&eacute;der directement &agrave; l'&eacute;choppe\"";
-				$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return cClick(); \"";
-			}
-			?>
+<?php if ($case["n_echoppes"] > 0) :
+	$textEchoppe = "<br>&Eacute;choppe : <br>";
+	foreach($case["echoppes"] as $c) {
+		if ($c["nom_metier"]{0} == 'A') : $d="d\'"; else: $d="de "; endif;
+			if ($c["nom_echoppe"] != null && $c["nom_echoppe"] != "") :
+				$textEchoppe .= addslashes(htmlspecialchars($c["nom_echoppe"])). ", ";
+			endif; 
+			$textEchoppe .= "&Eacute;choppe ".$d.htmlspecialchars($c["nom_metier"])." appartenant &agrave; <br>";
+			$textEchoppe .= addslashes(htmlspecialchars($c["prenom_hobbit"]))." ".addslashes(htmlspecialchars($c["nom_hobbit"])).", n&deg; ".$c["id_hobbit"];
+      		$textEchoppe .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$c["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
+      		$textEchoppe .= "<br />";
+		}
+		$s = "";
+		if ($case["n_echoppes"] > 1) {
+			$s = "s";
+		}
 		
-	<?php endif; ?>
+		$doubleClick = "";
+		if ($this->user->x_hobbit == $case["x"] && $this->user->y_hobbit == $case["y"]) {
+			$doubleClick = "title=\"Double Cliquer pour acc&eacute;der directement &agrave; l'&eacute;choppe\"";
+			$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return cClick(); \"";
+		}
+endif; ?>
     
-    <? if ($textLieu != "" ) :?>
-		<span <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textPalissade.$textRoute, $titre) ?>>
-			<img src='/public/styles/braldahim_defaut/images/layout/vue/batiment.png' />
-		</span>
-	<? elseif ($textEchoppe != "") : ?>
-		<span <?=Bral_Helper_Tooltip::jsTip($textRoute, $titre) ?>>
-			<img src='/public/styles/braldahim_defaut/images/layout/vue/echoppe.png' />
-		</span>
-	<? elseif ($textPalissade != "") : ?>
-		<span <?=Bral_Helper_Tooltip::jsTip($textPalissade, $titre) ?>>
-			<img src='/public/styles/braldahim_defaut/images/layout/vue/palissade_b.png' />
-		</span>
-	<? elseif ($textRoute != "") : ?>
-		<span <?=Bral_Helper_Tooltip::jsTip($textRoute, $titre) ?>>
-			<img src='/public/styles/braldahim_defaut/images/layout/vue/route_b.png' />
-		</span>
-	<? else: ?>
+<? if ($textLieu != "" ) :?>
+	<span <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
+		<img src='/public/styles/braldahim_defaut/images/layout/vue/batiment.png' />
+	</span>
+<? elseif ($textEchoppe != "") : ?>
+	<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
+		<img src='/public/styles/braldahim_defaut/images/layout/vue/echoppe.png' />
+	</span>
+<? elseif ($textPalissade != "") : ?>
+	<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
+		<img src='/public/styles/braldahim_defaut/images/layout/vue/palissade_b.png' />
+	</span>
+<? elseif ($textRoute != "") : ?>
+	<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
+		<img src='/public/styles/braldahim_defaut/images/layout/vue/route_b.png' />
+	</span>
+<? else: ?>
 	<br>
-	<? endif;?>  
+<? endif;?>  
