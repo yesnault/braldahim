@@ -22,28 +22,33 @@
 	      
 		<br /><br />
 			<table  align='center'>
-			<? foreach ($this->batchs as $h) : ?>
-			<? foreach ($h as $key => $value) : ?>
-			<th class='comp_titre'><?=$key?></th>
-			<? endforeach; ?>
-			<? break;endforeach; ?>
+				<? foreach ($this->batchs as $h) : ?>
+					<? foreach ($h as $key => $value) : ?>
+					<th class='comp_titre'><?=$key?></th>
+					<? endforeach; ?>
+				<? break;endforeach; ?>
 			
-			<? foreach ($this->batchs as $b) : 
-				ob_flush();?>
-			<? if ($b["etat_batch"] == "OK") :
-				$color= "#66CC66";
-			   elseif ($b["etat_batch"] == "EN_COURS") :
-			   	$color = "#FF9900";
-			   else:
-			   	$color = "#FF3333";
-			   endif;
-			?>
-			<tr style="background-color:<?=$color?>">
-			<? foreach ($b as $key => $value) : ?>
-				<td><?=$value ?></td>
-			<? endforeach; ?>
-			</tr>
-			<? endforeach; ?>
+				<? foreach ($this->batchs as $b) : ?>
+				<? if ($b["etat_batch"] == "OK") :
+					$color= "#66CC66";
+				   elseif ($b["etat_batch"] == "EN_COURS") :
+				   	$color = "#FF9900";
+				   else:
+				   	$color = "#FF3333";
+				   endif;
+				?>
+				<tr style="background-color:<?=$color?>">
+					<? foreach ($b as $key => $value) : ?>
+						<td>
+						<? if ($key == "message_batch") : ?>
+							<textarea class="inputbox" rows="10" cols="100"><?=$value ?></textarea>
+						<? else: ?>
+							<?=$value ?>
+						<? endif;?>
+						</td>
+					<? endforeach; ?>
+				</tr>
+				<? endforeach; ?>
 			</table>
 		</ul>
 	</div>
