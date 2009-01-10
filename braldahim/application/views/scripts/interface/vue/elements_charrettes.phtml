@@ -9,12 +9,11 @@ $textElements = "";
 $titre = "Position X:".$case["x"]." Y:".$case["y"];
 
 include('charrettes.phtml');
-ob_flush();	
-include('elements_potions.phtml');ob_flush();
-include('elements_equipements.phtml'); ob_flush();
-include('elements_minerais.phtml'); ob_flush();
-include('elements_partieplantes.phtml'); ob_flush();
-include('elements.phtml'); ob_flush();
+include('elements_potions.phtml');
+include('elements_equipements.phtml');
+include('elements_minerais.phtml');
+include('elements_partieplantes.phtml');
+include('elements.phtml'); 
 ?>
 <?php if ($textCharrette != "" || $textElementsEquipements != "" || $textElementsMineraisBruts != "" 
 	|| $textElementsLingots != "" || $textElementsPartiesPlantesBrutes != "" || $textElementsPartiesPlantesPreparees != "" 
