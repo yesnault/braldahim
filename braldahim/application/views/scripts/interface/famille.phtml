@@ -7,9 +7,13 @@
  <? if ($this->affichageInterne == true) : ?>
   	<? if ($this->pereMereOk === true) :?>
   	Suite &agrave; l'heureuse rencontre entre votre m&egrave;re 
-  		<?=$this->mere->prenom_hobbit ?> <?=$this->mere->nom_hobbit ?> (n&deg;<?=$this->mere->id_hobbit ?>)
-  	et votre p&egrave;re 
-  		<?=$this->pere->prenom_hobbit ?> <?=$this->pere->nom_hobbit ?> (n&deg;<?=$this->pere->id_hobbit ?>)
+  		<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->mere->id_hobbit ?>');">
+    		<?=$this->mere->prenom_hobbit ?> <?=$this->mere->nom_hobbit ?> (n&deg;<?=$this->mere->id_hobbit ?>)
+    	</a>
+  	et votre p&egrave;re
+  		<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->pere->id_hobbit ?>');">
+    		<?=$this->pere->prenom_hobbit ?> <?=$this->pere->nom_hobbit ?> (n&deg;<?=$this->pere->id_hobbit ?>)
+    	</a>
   	vous &ecirc;tes n&eacute;<? if ($this->user->sexe_hobbit == 'feminin') echo "e"?> le <?=$this->dateNaissance ?>.
   	
   	<? else: ?>

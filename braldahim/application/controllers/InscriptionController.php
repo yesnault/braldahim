@@ -22,6 +22,7 @@ class InscriptionController extends Zend_Controller_Action {
 		Zend_Loader::loadClass("Zend_Validate");
 		Zend_Loader::loadClass("Bral_Util_Mail");
 		Zend_Loader::loadClass("Bral_Util_String");
+		Zend_Loader::loadClass("Bral_Util_Evenement");
 		Zend_Loader::loadClass("Lieu");
 		Zend_Loader::loadClass("HobbitsCompetences");
 		Zend_Loader::loadClass("Couple");
@@ -371,6 +372,14 @@ class InscriptionController extends Zend_Controller_Action {
 			$data = array('nb_enfants_couple' => $couple["nb_enfants_couple"] + 1);
 			
 			$coupleTable->update($data, $where);
+			
+			$detailEvenement = "Un heureux événement est arrivé... ";
+			$detailsBot = " Vous venez d'avoir un nouvel enfant à ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',date("Y-m-d H:i:s")).".";
+			$detailsBot .= " Consultez votre onglet Famille pour plus de détails.";
+			
+			Bral_Util_Evenement::majEvenements($couple["id_fk_m_hobbit_couple"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, "hobbit", true, $this->view);
+			Bral_Util_Evenement::majEvenements($couple["id_fk_f_hobbit_couple"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, "hobbit", true, $this->view);
+				
 			Bral_Util_Log::inscription()->notice("InscriptionController - calculParent - utilisation d'un couple existant");
 		} else { // pas de couple dispo, on tente d'en creer un nouveau
 			$dataParents = $this->creationCouple($idHobbit);
@@ -387,7 +396,7 @@ class InscriptionController extends Zend_Controller_Action {
 		$hobbitsMasculinRowset = $hobbitTable->findHobbitsMasculinSansConjoint($idHobbit);
 		if (count($hobbitsMasculinRowset) > 0) {
 			$hobbitsFemininRowset = $hobbitTable->findHobbitsFemininSansConjoint($idHobbit);
-			if (count($hobbitsFemininRowset) > 0) { // cr�ation d'un nouveau couple
+			if (count($hobbitsFemininRowset) > 0) { // creation d'un nouveau couple
 				$de = Bral_Util_De::get_de_specifique(0, count($hobbitsMasculinRowset)-1);
 				$pere = $hobbitsMasculinRowset[$de];
 					
@@ -397,13 +406,21 @@ class InscriptionController extends Zend_Controller_Action {
 				$data = array('id_fk_m_hobbit_couple' => $pere["id_hobbit"],
 							  'id_fk_f_hobbit_couple' => $mere["id_hobbit"],
 							  'date_creation_couple' => date("Y-m-d H:i:s"),
-							  'nb_enfants_couple' => 1
+							  'nb_enfants_couple' => 1,
 							 );
 				$coupleTable = new Couple();
 				$coupleTable->insert($data);
 					
 				$dataParents["id_fk_pere_hobbit"] = $pere["id_hobbit"];
 				$dataParents["id_fk_mere_hobbit"] = $mere["id_hobbit"];
+				
+				$detailEvenement =  $mere["prenom_hobbit"]." ". $mere["nom_hobbit"] ." (".$mere["id_hobbit"].") s'est marié avec ".$pere["prenom_hobbit"]." ". $pere["nom_hobbit"]. "(".$pere["id_hobbit"].")" ;
+				$detailsBot = "Mariage effectué à ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',date("Y-m-d H:i:s")).".";
+				$detailsBot .= " Consultez votre onglet Famille pour plus de détails.";
+				
+				Bral_Util_Evenement::majEvenements($pere["id_hobbit"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, "hobbit", true, $this->view);
+				Bral_Util_Evenement::majEvenements($mere["id_hobbit"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, "hobbit", true, $this->view);
+				
 				Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - creation d'un nouveau couple");
 			} else {
 				Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - plus de hobbit f disponible");
