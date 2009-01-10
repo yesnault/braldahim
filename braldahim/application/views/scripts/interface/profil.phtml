@@ -181,16 +181,20 @@
 		</table>
 		<hr style="margin:0px">
 		<ul class="titre textalia textsized">
-			&nbsp;Poids du laban
+			&nbsp;Poids
 		</ul>
 		<table class="table_liste" style="width:98%; border:0">
 		<tbody>
 			<tr class="table_liste"  valign="middle">
-				<td>
-					Transportable : <?=$this->user->poids_transportable_hobbit ?> Kg
+				<td width="8%" nowrap>
+					Port&eacute; / Total
 	    		</td>
-	    		<td>
-	    			Transport&eacute; : <?=$this->user->poids_transporte_hobbit ?> Kg
+				<td width='70%' >
+					<?=Bral_Helper_Profil::afficheBarrePoids($this->user->poids_transportable_hobbit, $this->user->poids_transporte_hobbit);?>
+				</td>
+				<td  width='12%' nowrap>
+					<span title="Poids Transport&eacute;" style="cursor:pointer"><?=$this->user->poids_transporte_hobbit ?></span> / 
+					<span title="Poids Transportable" style="cursor:pointer"><?=$this->user->poids_transportable_hobbit ?></span> 
 	    		</td>
 			</tr>
 		</tbody>

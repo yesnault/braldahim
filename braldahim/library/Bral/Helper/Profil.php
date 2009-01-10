@@ -224,4 +224,16 @@ class Bral_Helper_Profil {
      	
      	return $retour;
      }
+     
+	public static function afficheBarrePoids($transportable, $transporte) {
+		$largeur = (($transporte * 100) / $transportable) * 2;
+		$titre = "Poids transportable";
+		$texte = "Vous portez actuellement ".$transporte." Kg.<br>";
+		$texte .= "Vous pouvez porter jusqu\'&agrave; ".$transportable." Kg.<br>";
+		
+    	$retour = "<div class='barre_poids' ".Bral_Helper_Tooltip::jsTip($texte, $titre, true).">";
+    	$retour .= "<img src='/public/images/barre_poids.gif' height='10px' width=".$largeur."></div>";
+		
+		return $retour;
+    }
 }

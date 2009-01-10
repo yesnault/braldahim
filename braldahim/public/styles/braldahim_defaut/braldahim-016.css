@@ -629,7 +629,7 @@ span.id_hobbit {
 	background-color: #eeeeee;
 }
 
-.barre_faim,.barre_vie, .barre_niveau {
+.barre_faim,.barre_vie, .barre_niveau, .barre_poids {
 	background-color: #FFFFFF;
 	width: 200px;
 	height: 10px;
