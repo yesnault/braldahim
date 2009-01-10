@@ -1,5 +1,4 @@
 <?
-$titre = "Position X:".$case["x"]." Y:".$case["y"];
 $textLieu = "";
 $textPalissade = "";
 $textRoute = "";
@@ -36,7 +35,7 @@ endif; ?>
 		}
 endif; ?>
 	    
- <?php if ($case["n_routes"] > 0) : 
+<?php if ($case["n_routes"] > 0) : 
       	$textRoute = "<br>Route : <br>";
       	foreach($case["routes"] as $p) {
       		if ($p["est_route"] == "oui") {
@@ -55,24 +54,24 @@ endif; ?>
 	$textEchoppe = "<br>&Eacute;choppe : <br>";
 	foreach($case["echoppes"] as $c) {
 		if ($c["nom_metier"]{0} == 'A') : $d="d\'"; else: $d="de "; endif;
-			if ($c["nom_echoppe"] != null && $c["nom_echoppe"] != "") :
-				$textEchoppe .= addslashes(htmlspecialchars($c["nom_echoppe"])). ", ";
-			endif; 
-			$textEchoppe .= "&Eacute;choppe ".$d.htmlspecialchars($c["nom_metier"])." appartenant &agrave; <br>";
-			$textEchoppe .= addslashes(htmlspecialchars($c["prenom_hobbit"]))." ".addslashes(htmlspecialchars($c["nom_hobbit"])).", n&deg; ".$c["id_hobbit"];
-      		$textEchoppe .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$c["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
-      		$textEchoppe .= "<br />";
-		}
-		$s = "";
-		if ($case["n_echoppes"] > 1) {
-			$s = "s";
-		}
-		
-		$doubleClick = "";
-		if ($this->user->x_hobbit == $case["x"] && $this->user->y_hobbit == $case["y"]) {
-			$doubleClick = "title=\"Double Cliquer pour acc&eacute;der directement &agrave; l'&eacute;choppe\"";
-			$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return cClick(); \"";
-		}
+		if ($c["nom_echoppe"] != null && $c["nom_echoppe"] != "") :
+			$textEchoppe .= addslashes(htmlspecialchars($c["nom_echoppe"])). ", ";
+		endif; 
+		$textEchoppe .= "&Eacute;choppe ".$d.htmlspecialchars($c["nom_metier"])." appartenant &agrave; <br>";
+		$textEchoppe .= addslashes(htmlspecialchars($c["prenom_hobbit"]))." ".addslashes(htmlspecialchars($c["nom_hobbit"])).", n&deg; ".$c["id_hobbit"];
+      	$textEchoppe .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$c["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
+      	$textEchoppe .= "<br />";
+	}
+	$s = "";
+	if ($case["n_echoppes"] > 1) {
+		$s = "s";
+	}
+	
+	$doubleClick = "";
+	if ($this->user->x_hobbit == $case["x"] && $this->user->y_hobbit == $case["y"]) {
+		$doubleClick = "title=\"Double Cliquer pour acc&eacute;der directement &agrave; l'&eacute;choppe\"";
+		$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return cClick(); \"";
+	}
 endif; ?>
     
 <? if ($textLieu != "" ) :?>

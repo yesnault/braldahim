@@ -2,7 +2,6 @@
 $textCadavre = "";
 $textCastar = "";
 $textRune = "";
-$titre = "Position X:".$case["x"]." Y:".$case["y"];
 ?>
 <? if ($case["n_cadavres"] > 0) : 
       	$textCadavre = "Cadavre";
@@ -17,7 +16,7 @@ $titre = "Position X:".$case["x"]." Y:".$case["y"];
 		if ($case["n_cadavres"] > 1) {
 			$s = "s";
 		}
- ?>	
+endif; ?>	
 <? if ($case["n_castars"] > 0) : 
 	$textCastar = "<br>";
 	foreach($case["castars"] as $c) {

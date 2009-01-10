@@ -1,19 +1,17 @@
-<?php if ($case["n_elements"] > 0) : ?>
-      <?php 
-      	$textElements = "";
-      	$nb = 0;
-      	foreach($case["elements"] as $e) {
-      		if ($e["nb"] > 1) {
-      			$s = $e["s"];
-      		} else {
-      			$s = "";
-      		}
-      		$textElements .= $e["nb"]." ".$e["nom"]."$s<br />";
-      		$nb = $nb + $e["nb"];
-		} 
-		$s = "";
-		if ($nb > 1) {
-			$s = "s";
+<?php if ($case["n_elements"] > 0) : 
+	$textElements = "";
+	$nb = 0;
+	foreach($case["elements"] as $e) {
+		if ($e["nb"] > 1) {
+			$s = $e["s"];
+		} else {
+			$s = "";
 		}
-	?>
-<?php endif; ?>
+		$textElements .= $e["nb"]." ".$e["nom"]."$s<br />";
+		$nb = $nb + $e["nb"];
+	} 
+	$s = "";
+	if ($nb > 1) {
+		$s = "s";
+	}
+endif; ?>

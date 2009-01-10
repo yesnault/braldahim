@@ -1,12 +1,10 @@
-<?php if ($case["n_elements_equipements"] > 0) : ?>
-      <?php 
-      	$textElementsEquipements = "";
-      	foreach($case["elements_equipements"] as $e) {
-      		$textElementsEquipements .= "n&deg;".$e["id_equipement"] ." ".htmlspecialchars($e["nom"])." ".htmlspecialchars(addslashes($e["suffixe"]))." de qualit&eacute; ".htmlspecialchars($e["qualite"]) ." niv.".$e["niveau"] ." <br />";
-		} 
-		$s = "";
-		if ($case["n_elements_equipements"] > 1) {
-			$s = "s";
-		}
-	?>
-<?php endif; ?>
+<?php if ($case["n_elements_equipements"] > 0) : 
+	$textElementsEquipements = "";
+ 	foreach($case["elements_equipements"] as $e) {
+		$textElementsEquipements .= "n&deg;".$e["id_equipement"] ." ".htmlspecialchars($e["nom"])." ".htmlspecialchars(addslashes($e["suffixe"]))." de qualit&eacute; ".htmlspecialchars($e["qualite"]) ." niv.".$e["niveau"] ." <br />";
+	} 
+	$s = "";
+	if ($case["n_elements_equipements"] > 1) {
+		$s = "s";
+	}
+endif; ?>

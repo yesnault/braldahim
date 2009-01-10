@@ -1,12 +1,10 @@
-<?php if ($case["n_elements_potions"] > 0) : ?>
-      <?php 
-      	$textRune = "";
-      	foreach($case["elements_potions"] as $p) {
-      		$textRune .= "1 potion ".htmlspecialchars($p["nom"]) ." de qualit&eacute; ".htmlspecialchars($p["qualite"]) ." (n&deg; ".$p["id_element_potion"].") <br />";
-		} 
-		$s = "";
-		if ($case["n_elements_potions"] > 1) {
-			$s = "s";
-		}
-	?>
-<?php endif; ?>
+<?php if ($case["n_elements_potions"] > 0) : 
+	$textRune = "";
+	foreach($case["elements_potions"] as $p) {
+		$textRune .= "1 potion ".htmlspecialchars($p["nom"]) ." de qualit&eacute; ".htmlspecialchars($p["qualite"]) ." (n&deg; ".$p["id_element_potion"].") <br />";
+	} 
+	$s = "";
+	if ($case["n_elements_potions"] > 1) {
+		$s = "s";
+	}
+endif; ?>
