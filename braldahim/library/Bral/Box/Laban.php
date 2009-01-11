@@ -386,7 +386,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 			$tabMunitions[] = array(
 				"type" => $m["nom_type_munition"],
 				"quantite" => $m["quantite_laban_munition"],
-				"poids" => $m["poids_unitaire_type_munition"],
+				"poids" =>  $m["quantite_laban_munition"] * Bral_Util_Poids::POIDS_MUNITION,
 			);
 		}
 		unset($munitions);

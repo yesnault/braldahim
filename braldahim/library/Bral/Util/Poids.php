@@ -26,6 +26,7 @@ class Bral_Util_Poids {
 	 const POIDS_LINGOT = 0.5;
 	 const POIDS_PARTIE_PLANTE_BRUTE = 0.002;
 	 const POIDS_PARTIE_PLANTE_PREPAREE = 0.003;
+	 const POIDS_MUNITION = 0.04;
 	
 	function __construct() {
 	}
@@ -74,6 +75,7 @@ class Bral_Util_Poids {
 			$retour = $retour + self::calculPoidsTransporteLabanPotion($idHobbit);
 			$retour = $retour + self::calculPoidsTransporteLabanRune($idHobbit);
 			$retour = $retour + self::calculPoidsTransporteEquipement($idHobbit);
+			$retour = $retour + self::calculPoidsTransporteLabanMunitions($idHobbit);
 		}
 		return $retour;
 	}
@@ -121,6 +123,22 @@ class Bral_Util_Poids {
 		unset($labanMineraiTable);
 		unset($minerais);
 		
+		return $poids;
+	}
+	
+	private static function calculPoidsTransporteLabanMunitions($idHobbit) {
+		$poids = 0;
+		Zend_Loader::loadClass("LabanMunition");
+		$labanMunitionTable = new LabanMunition();
+		$munitions = $labanMunitionTable->findByIdHobbit($idHobbit);
+		
+		foreach ($munitions as $m) {
+			$poids = self::ajoute($poids, $m["quantite_laban_munition"], self::POIDS_MUNITION);
+		}
+
+		unset($labanMunitionTable);
+		unset($munitions);
+
 		return $poids;
 	}
 	

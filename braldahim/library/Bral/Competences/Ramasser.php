@@ -18,7 +18,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		
 		if ($this->request->get("valeur_1") != "") {
 			$id_type_courant = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_1"));
-			if ($id_type_courant < 1 && $id_type_courant > 7) {
+			if ($id_type_courant < 1 && $id_type_courant > 8) {
 				throw new Zend_Exception("Bral_Competences_Ramasser Valeur invalide : id_type_courant=".$id_type_courant);
 			}
 		} else {
@@ -27,11 +27,12 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		
 		$typesElements[1] = array("id_type_element" => 1, "selected" => $id_type_courant, "nom_systeme" => "castars", "nom_element" => "Castars");
 		$typesElements[2] = array("id_type_element" => 2, "selected" => $id_type_courant, "nom_systeme" => "equipements", "nom_element" => "Equipements");
-		$typesElements[3] = array("id_type_element" => 3, "selected" => $id_type_courant, "nom_systeme" => "minerais", "nom_element" => "Minerais");
-		$typesElements[4] = array("id_type_element" => 4, "selected" => $id_type_courant, "nom_systeme" => "partiesplantes", "nom_element" => "Parties de Plantes");
-		$typesElements[5] = array("id_type_element" => 5, "selected" => $id_type_courant, "nom_systeme" => "potions", "nom_element" => "Potions");
-		$typesElements[6] = array("id_type_element" => 6, "selected" => $id_type_courant, "nom_systeme" => "runes", "nom_element" => "Runes");
-		$typesElements[7] = array("id_type_element" => 7, "selected" => $id_type_courant, "nom_systeme" => "autres", "nom_element" => "Autres Elements");
+		$typesElements[3] = array("id_type_element" => 3, "selected" => $id_type_courant, "nom_systeme" => "munitions", "nom_element" => "Munitions");
+		$typesElements[4] = array("id_type_element" => 4, "selected" => $id_type_courant, "nom_systeme" => "minerais", "nom_element" => "Minerais");
+		$typesElements[5] = array("id_type_element" => 5, "selected" => $id_type_courant, "nom_systeme" => "partiesplantes", "nom_element" => "Parties de Plantes");
+		$typesElements[6] = array("id_type_element" => 6, "selected" => $id_type_courant, "nom_systeme" => "potions", "nom_element" => "Potions");
+		$typesElements[7] = array("id_type_element" => 7, "selected" => $id_type_courant, "nom_systeme" => "runes", "nom_element" => "Runes");
+		$typesElements[8] = array("id_type_element" => 8, "selected" => $id_type_courant, "nom_systeme" => "autres", "nom_element" => "Autres Elements");
 		
 		$this->view->typeElements = $typesElements;
 		$this->view->type = null;
@@ -49,6 +50,9 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 				break;
 			case "equipements" :
 				$this->prepareTypeEquipements();
+				break;
+			case "munitions" :
+				$this->prepareTypeMunitions();
 				break;
 			case "runes" :
 				$this->prepareTypeRunes();
@@ -79,6 +83,9 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 				break;
 			case "equipements" :
 				$this->ramasseTypeEquipements();
+				break;
+			case "munitions" :
+				$this->ramasseTypeMunitions();
 				break;
 			case "runes" :
 				$this->ramasseTypeRunes();
@@ -413,6 +420,43 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		$this->detailEvenement = "une potion qui traînait par là";
 	}
 	
+	private function prepareTypeMunitions() {
+		Zend_Loader::loadClass("ElementMunition");
+		$tabMunitions = null;
+		
+		$elementMunitionTable = new ElementMunition();
+		$munitions = $elementMunitionTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		unset($elementMunitionTable);
+		
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		if ($poidsRestant < 0) $poidsRestant = 0;
+		$this->view->nbMunitionsPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_MUNITION);
+		$this->view->poidsRestant = $poidsRestant;
+		
+		if ($this->view->nbMunitionsPossible < 1) {
+			$this->view->poidsPlaceDisponible = false;
+		} else {
+			$this->view->poidsPlaceDisponible = true;
+		}
+		
+		if (count($munitions) > 0) {
+			$this->view->ramasserOk = true;
+
+			foreach ($munitions as $m) {
+				if ($m["quantite_element_munition"] > 0) {
+					$tabMunitions[$m["id_fk_type_element_munition"]] = array(
+						"id_type_munition" => $m["id_fk_type_element_munition"],
+						"type" => $m["nom_type_munition"],
+						"quantite" => $m["quantite_element_munition"],
+					);
+				}
+			}
+		} else {
+			$this->view->ramasserOk = false;
+		}
+		$this->view->munitions = $tabMunitions;
+	}
+	
 	private function prepareTypeMinerais() {
 		Zend_Loader::loadClass("ElementMinerai");
 		$tabMineraisBruts = null;
@@ -459,6 +503,77 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		}
 		$this->view->mineraisBruts = $tabMineraisBruts;
 		$this->view->lingots = $tabLingots;
+	}
+	
+	private function ramasseTypeMunitions() {
+		Zend_Loader::loadClass("LabanMunition");
+		$this->prepareTypeMunitions();
+		
+		if ($this->view->poidsPlaceDisponible == false) {
+			throw new Zend_Exception(get_class($this)." Munitions place non disponible");
+		}
+		
+		$idMunition = null;
+		$nbMunition = null;
+		
+		$labanMunitionTable = new LabanMunition();
+		$elementMunitionTable = new ElementMunition();
+		
+		$this->view->texteRamassage = "";
+		$trainer = "";
+		
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		if ($poidsRestant < 0) $poidsRestant = 0;
+		$nbMunitionsPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_MUNITION);
+		
+		if ($this->request->get("valeur_2") > 0 && $this->request->get("valeur_3") > 0) {
+			$idMunition = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
+			$nbMunition = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
+			
+			if (!array_key_exists($idMunition, $this->view->munitions)) {
+				throw new Zend_Exception(get_class($this)." ID Munition invalide : ".$idMunition);
+			} 
+			
+			$munition = $this->view->munitions[$idMunition];
+			
+			if ($nbMunition > $nbMunitionsPossible) {
+				$nbMunition = $nbMunitionsPossible;
+			}
+			
+			$poidsRestant = $poidsRestant - $nbMunition * Bral_Util_Poids::POIDS_MUNITION;
+			
+			if ($nbMunition > $munition["quantite"] || $nbMunition < 0) {
+				throw new Zend_Exception(get_class($this)." Quantite Munition invalide : ".$nbMunition);
+			}
+			
+			$data = array(
+				"quantite_laban_munition" => $nbMunition,
+				"id_fk_type_laban_munition" => $munition["id_type_munition"],
+				"id_fk_hobbit_laban_munition" => $this->view->user->id_hobbit,
+			);
+			$labanMunitionTable->insertOrUpdate($data);
+			
+			$data = array (
+				"x_element_munition" => $this->view->user->x_hobbit,
+				"y_element_munition" => $this->view->user->y_hobbit,
+				"id_fk_type_element_munition" => $munition["id_type_munition"],
+				"quantite_element_munition" => -$nbMunition,
+			);
+			$elementMunitionTable->insertOrUpdate($data);
+			if ($nbMunition > 1) {
+				$s = "s";
+			} else {
+				$s = "";
+			}
+			$this->view->texteRamassage = $nbMunition." munition".$s;
+			$this->detailEvenement = "des munitions";
+			$trainer = " qui traînaient par là";
+		}
+		
+		$this->detailEvenement .= $trainer;
+		
+		unset($elementMunitionTable);
+		unset($labanMineraiTable);
 	}
 	
 	private function ramasseTypeMinerais() {
