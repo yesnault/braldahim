@@ -118,7 +118,9 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 						'nom_emplacement' => $r["nom_type_emplacement"], 
 						'nom_systeme_type_emplacement' => $r["nom_systeme_type_emplacement"], 
 				);
-				$tabNiveaux[$r["niveau_recette_equipement"]]["a_afficher"] = true;
+				if (array_key_exists($r["niveau_recette_equipement"], $tabNiveaux)) {
+					$tabNiveaux[$r["niveau_recette_equipement"]]["a_afficher"] = true;
+				}
 			}
 			
 			$recetteCoutTable = new RecetteCout();

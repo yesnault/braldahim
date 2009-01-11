@@ -117,7 +117,9 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 						'bm_defense' => $r["bm_defense_recette_equipement"], 
 						'nom_emplacement' => $r["nom_type_emplacement"], 
 				);
-				$tabNiveaux[$r["niveau_recette_equipement"]]["a_afficher"] = true;
+				if (array_key_exists($r["niveau_recette_equipement"], $tabNiveaux)) {
+					$tabNiveaux[$r["niveau_recette_equipement"]]["a_afficher"] = true;
+				}
 			}
 
 			$recetteCoutTable = new RecetteCout();
