@@ -38,11 +38,11 @@ endif; ?>
 endif; ?>
 	    
 <? if ($case["n_monstres"] > 0 && $case["n_hobbits"] > 0) : ?>
-    <img src='/public/styles/braldahim_defaut/images/layout/vue/hobbit_monstre.png' <?=Bral_Helper_Tooltip::jsTip($textMonstre."<br>".$textHobbit, $titre) ?>/>
+    <img src='/public/styles/braldahim_defaut/images/vue/hobbit_monstre.png' <?=Bral_Helper_Tooltip::jsTip($textMonstre."<br>".$textHobbit, $titre) ?>/>
 <? elseif ($case["n_monstres"] > 0) : ?>
-    <img src='/public/styles/braldahim_defaut/images/layout/vue/monstre.png' <?=Bral_Helper_Tooltip::jsTip($textMonstre, $titre) ?>/>
+    <img src='/public/styles/braldahim_defaut/images/vue/monstre.png' <?=Bral_Helper_Tooltip::jsTip($textMonstre, $titre) ?>/>
 <? elseif ($case["n_hobbits"] > 0) : ?>
-    <img src='/public/styles/braldahim_defaut/images/layout/vue/hobbit.png' <?=Bral_Helper_Tooltip::jsTip($textHobbit, $titre) ?>/>
+    <img src='/public/styles/braldahim_defaut/images/vue/hobbit.png' <?=Bral_Helper_Tooltip::jsTip($textHobbit, $titre) ?>/>
 <? else: ?>
     &nbsp;
 <? endif;?>
