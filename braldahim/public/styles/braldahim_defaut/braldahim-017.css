@@ -366,13 +366,17 @@ span.id_hobbit {
 	margin: 0pt 1px;
 }
 
-.box_authentification {
+.box_authentification, .box_pub_login {
 	width: 340px;
 	height: auto;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 20px;
 	text-align: center;
+}
+
+.box_pub_login {
+	width: 300px;
 }
 
 .box_infos_jeu {
