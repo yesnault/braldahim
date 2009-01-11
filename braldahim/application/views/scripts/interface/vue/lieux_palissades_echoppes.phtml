@@ -34,21 +34,6 @@ endif; ?>
 		}
 endif; ?>
 	    
-<?php if ($case["n_routes"] > 0) : 
-      	$textRoute = "<br>Route : <br>";
-      	foreach($case["routes"] as $p) {
-      		if ($p["est_route"] == "oui") {
-      			$textRoute .= " 1 Route";
-      		} else {
-      			$textRoute .= " 1 Terrain terrass&eacute;";
-      		}
-		}
-		$s = "";
-		if ($case["n_routes"] > 1) {
-			$s = "s";
-		}
-endif; ?>
-    
 <?php if ($case["n_echoppes"] > 0) :
 	$textEchoppe = "<br>&Eacute;choppe : <br>";
 	foreach($case["echoppes"] as $c) {
