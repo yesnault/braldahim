@@ -1,0 +1,45 @@
+<div class="box_authentification">
+<?=Bral_Helper_Box::haut(); ?>
+<div class="inner">
+	<ul class="titre textalic textsizee" style="font-style: italic ;"><?=Bral_Helper_Calendrier::affiche(true);?></ul>
+    <ul class="titre textalia textsizea">Braldahim</ul>
+    <ul class="titre textalib textsizeb">Connexion</ul>
+	<?php if(!empty($this->message)) :?> 
+	<div class="message_erreur" id="message_erreur"> 
+	<?php echo $this->escape($this->message);?> 
+	</div> 
+	<?php endif; ?> 
+	
+	<div class="contenu">
+	    <ul class="box_contenu1 textalib">
+	    
+	    <form action="/auth/login" method="post"> 
+	    
+	    <br />
+	    Adresse email du Joueur : <input type="text" name="email" id='email' size='23' maxlength='100'/> <br />
+	
+	    Mot de passe : <input type="password" name="password"  size='23'  maxlength='50' /> <br />
+	
+	    Activation :
+	    oui <input type="radio" id="auth_activation" name="auth_activation" value="oui" checked>
+	    non <input type="radio" id="auth_activation" name="auth_activation" value="non"> <br />
+	
+	    Gardiennage :
+	    oui <input type="radio" id="auth_gardiennage" name="auth_gardiennage" value="oui">
+	    non <input type="radio" id="auth_gardiennage" name="auth_gardiennage" value="non" checked> <br />
+	
+	    </ul>
+	    <ul class="box_contenu1	 center"><br />
+	    <input type="submit" class='button1' value="Connexion" />
+	    <p><a href="/Perdu">Perdu ?</a> ou <a href="/inscription">Pas encore inscrit ?</a></p>
+	    <p><a href="http://www.braldahim.com/index.php?option=com_awiki&view=mediawiki&article=Braldahim_sous_Internet_Explorer&Itemid=41">Vous utilisez Internet Explorer ?</a></p>
+	    
+	    </form> 
+	    
+	    </ul>
+	    <? $s = ""; if ($this->nbConnecte > 1): $s = "s"; endif; ?>
+	    Il y a actuellement <?=$this->nbConnecte?> hobbit<?=$s ?> connect&eacute;<?=$s?>
+	</div>
+</div>
+<?=Bral_Helper_Box::bas(); ?>
+</div>

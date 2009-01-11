@@ -44,26 +44,28 @@ class Bral_Helper_Profil {
 		[95;100] +N/2 -> Vous avez une pêche extraordinaire !
 		*/
 		
+		$info = "&quot;";
 		if ($balance_faim_hobbit >= 95) {
 			$coef = 1;
-			$info = "J\\'ai une p&ecirc;che extraordinaire ! <br>";
+			$info .= "J\\'ai une p&ecirc;che extraordinaire !";
 		} elseif ($balance_faim_hobbit >= 80) {
 			$coef = 1;
-			$info = "Je suis en pleine forme ! <br>";
+			$info .= "Je suis en pleine forme !";
 		} elseif ($balance_faim_hobbit >= 31) {
 			$div = 1;
 			$coef = 0;
-			$info = "Tout va pour le mieux <br>";
+			$info .= "Tout va pour le mieux";
 		} elseif ($balance_faim_hobbit >= 11) {
 			$coef = -1;
-			$info = "Mon ventre gargouille ... <br>";
+			$info .= "Mon ventre gargouille ...";
 		} elseif ($balance_faim_hobbit >= 1) {
 			$coef = -1;
-			$info = "Mon estomac crie famine <br>";
+			$info .= "Mon estomac crie famine";
 		} elseif ($balance_faim_hobbit < 1) {
 			$coef = -1;
-			$info = "Je meurs de faim !!! <br>";
+			$info .= "Je meurs de faim !!!";
 		}
+		$info .= "&quot;<br>";
 		
 		if ($coef > 0) {
 			$info1 = "Vous b&eacute;n&eacute;ficiez d\\'un bonus de ".$force_bbdf_hobbit." sur toutes vos caract&eacute;ristiques.<br><br>";
@@ -74,7 +76,7 @@ class Bral_Helper_Profil {
 		}
 		
 		$titre = "Information sur la balance de faim";
-		$texte = "Votre balance de faim est à ".$balance_faim_hobbit."% <br>";
+		$texte = "Votre balance de faim est à ".$balance_faim_hobbit."%.<br>";
 		$texte .= $info1.$info;
 		
 		$retour = "<div class='barre_faim'  ".Bral_Helper_Tooltip::jsTip($texte, $titre, true).">";

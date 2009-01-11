@@ -2,12 +2,19 @@
 	<?=Bral_Helper_Box::haut(); ?>
 
 	<? if ($this->controleur == "interface") : ?>
-		<span id="message_nb_img" style="float:right; " style="display:none">
+		<span id="message_nb_img" style="float:right; display:none" >
 		 	<img id="img_message_ancien" src="/public/images/uddeim/env.gif" alt="" border="0" style="display:none"/>
 			<img id="img_message_nouveau" src="/public/images/uddeim/env_ani.gif" alt="" border="0" style="display:none"/>
 		</span>
-		<span id="message_nb" style="float:right; " style="display:none;">
+		<span id="message_nb" style="float:right; display:none;">
 			<label id="message_nb_label" class="alabel" style="text-decoration:underline" onClick='Javascript:_get_("/interface/load/?box=box_messagerie");my_switch("box_messagerie","boite_c");	'></label>
+		
+		
+		<div style="float:absolute; margin-top:1px">
+			<a href="http://www.jeuxweb.org" target="_blank" title="Braldahim est hébergé par l'Association JeuxWeb.org ASBL" alt="JeuxWeb.org">
+		 		<img src="http://www.mountyhall.com/images/Banner/banner_jw.gif" alt="Jeux Web" border="0" height="20" width="156">
+			</a>
+		</div>
 		</span>
 	<? endif; ?>
 	 
@@ -20,12 +27,14 @@
 		 <? if ($this->user->gardeEnCours === false) : ?>
 		  	<a href="/Parametres/" class="menu_lien">Param&egrave;tres</a> |
 		 <? endif; ?>
+		
 		 <a href="http://www.braldahim.com">Site</a> | 
 		 <a href="http://forums.braldahim.com">Forums</a> | 
 		 <a href="http://wiki.braldahim.com">R&egrave;gles</a> | 
 		 <a href="http://bugs.braldahim.com">Bugtrack</a> | 
 		 <label class="alabel" style="text-decoration:underline" onClick="javascript:ouvrirWin('/voir/');">Voir</label> | 
 		 <a href="/auth/logout"> D&eacute;connexion </a>
+		 
 		 <br>
 		  <? if ($this->user->administrateur === true) : ?>
 			Admin info: <span id='admin_info_1' class=''>&nbsp;</span>

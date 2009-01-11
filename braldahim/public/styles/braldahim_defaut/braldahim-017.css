@@ -577,7 +577,7 @@ span.id_hobbit {
 	background: #transparent none repeat scroll 0% 0%;
 }
 
-.inner { /* ext�rieur de boite */
+.inner { /* exterieur de boite */
 	padding: 1pt 10px;
 	border-color: #791E1E;
 	border-style: solid;
@@ -586,17 +586,18 @@ span.id_hobbit {
 	background: #e7c57b repeat-x scroll 0pt 0%;
 }
 
-.inner_top { /* Int�rieur de la boite pour le bandeau haut*/
-	height: 30px;
+.inner_top { /* Interieur de la boite pour le bandeau haut*/
+	height: 35px;
 	padding: 1pt 10px;
 	border-color: #791E1E;
 	border-style: solid;
 	border-width: 0pt 1px;
 	display: block;
 	background: #e7c57b repeat-x scroll 0pt 0%;
+	text-align: top;
 }
 
-.inner_bot { /* Int�rieur de la boite pour le bandeau bas */
+.inner_bot { /* Interieur de la boite pour le bandeau bas */
 	height: 30px;
 	padding: 1pt 10px;
 	border-color: #791E1E;
@@ -607,7 +608,7 @@ span.id_hobbit {
 	text-align: center;
 }
 
-.box_contenu1 { /* int�rieur de la boite */
+.box_contenu1 { /* interieur de la boite */
 	background: #FADC9B repeat-x scroll 0pt 0%;
 	padding: 0px;
 	margin: 0px;
