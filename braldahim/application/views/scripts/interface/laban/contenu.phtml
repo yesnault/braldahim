@@ -84,6 +84,17 @@ Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez o
 				</li>
 			</ul>
 		</li>
+		<li id="pocheMunition">
+			<? $poches[] = "pocheMunition-head" ?>
+      		<h3 id="pocheMunition-head" class="head" onClick="maccordion(this);" />
+				Poche pour les munitions
+			</h3>
+			<ul id="pocheMunition-body" style="display:none">
+				<li>
+					<? include("poche_munition.phtml") ?>
+				</li>
+			</ul>
+		</li>
 		<li id="pochePotion">
 			<? $poches[] = "pochePotion-head" ?>
       		<h3 id="pochePotion-head" class="head" onClick="maccordion(this);" />

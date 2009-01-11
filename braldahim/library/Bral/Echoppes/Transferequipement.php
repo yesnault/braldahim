@@ -54,8 +54,6 @@ class Bral_Echoppes_Transferequipement extends Bral_Echoppes_Echoppe {
 
 		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 		
-		
-			
 		if (count($equipements) > 0) {
 			foreach($equipements as $e) {
 				if ($e["type_vente_echoppe_equipement"] == "aucune") {
@@ -74,6 +72,9 @@ class Bral_Echoppes_Transferequipement extends Bral_Echoppes_Echoppe {
 						"nb_runes" => $e["nb_runes_echoppe_equipement"],
 						"poids" => $e["poids_recette_equipement"],
 						"place_dispo" => $placeDispo,
+						"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
+						"id_fk_type_munition_type_equipement" => $e["id_fk_type_munition_type_equipement"],
+						"nb_munition_type_equipement" => $e["nb_munition_type_equipement"],
 					);
 				}
 			}
@@ -152,15 +153,28 @@ class Bral_Echoppes_Transferequipement extends Bral_Echoppes_Echoppe {
 	}
 	
 	private function calculTranfertVersLaban($equipement) {
-		Zend_Loader::loadClass("LabanEquipement");
-		$labanEquipementTable = new LabanEquipement();
-		$data = array(
-			'id_laban_equipement' => $equipement["id_echoppe_equipement"],
-			'id_fk_recette_laban_equipement' => $equipement["id_fk_recette_echoppe_equipement"],
-			'id_fk_hobbit_laban_equipement' => $this->view->user->id_hobbit,
-			'nb_runes_laban_equipement' => $equipement["nb_runes"],
-		);
-		$labanEquipementTable->insert($data);
+		
+		if ($equipement["nom_systeme_type_emplacement"] == 'laban') {
+			Zend_Loader::loadClass("LabanMunition");
+
+			$labanMunitionTable = new LabanMunition();
+			$data = array(
+				'id_fk_type_laban_munition' => $equipement["id_fk_type_munition_type_equipement"],
+				'id_fk_hobbit_laban_munition' => $this->view->user->id_hobbit,
+				'quantite_laban_munition' => $equipement["nb_munition_type_equipement"],
+			);
+			$labanMunitionTable->insert($data);	
+		} else {
+			Zend_Loader::loadClass("LabanEquipement");
+			$labanEquipementTable = new LabanEquipement();
+			$data = array(
+				'id_laban_equipement' => $equipement["id_echoppe_equipement"],
+				'id_fk_recette_laban_equipement' => $equipement["id_fk_recette_echoppe_equipement"],
+				'id_fk_hobbit_laban_equipement' => $this->view->user->id_hobbit,
+				'nb_runes_laban_equipement' => $equipement["nb_runes"],
+			);
+			$labanEquipementTable->insert($data);
+		}
 		
 		$echoppeEquipementTable = new EchoppeEquipement();
 		$where = "id_echoppe_equipement=".$equipement["id_echoppe_equipement"];

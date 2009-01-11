@@ -41,15 +41,17 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 				$position = "droite";
 			}
 			
-			$tabTypesEmplacement[$t["nom_systeme_type_emplacement"]] = array(
-					"nom_type_emplacement" => $t["nom_type_emplacement"],
-					"id_type_emplacement" => $t["id_type_emplacement"],
-					"ordre_emplacement" => $t["ordre_emplacement"],
-					"equipementPorte" => null,
-					"equipementLaban" => null,
-					"affiche" => $affiche,
-					"position" => $position,
-			);
+			if ($t["est_equipable_type_emplacement"] == "oui") {
+				$tabTypesEmplacement[$t["nom_systeme_type_emplacement"]] = array(
+						"nom_type_emplacement" => $t["nom_type_emplacement"],
+						"id_type_emplacement" => $t["id_type_emplacement"],
+						"ordre_emplacement" => $t["ordre_emplacement"],
+						"equipementPorte" => null,
+						"equipementLaban" => null,
+						"affiche" => $affiche,
+						"position" => $position,
+				);
+			}
 		}
 		
 		// on va chercher l'équipement porté

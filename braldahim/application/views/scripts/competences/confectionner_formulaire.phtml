@@ -20,7 +20,9 @@
 	 <select name="valeur_2" id="valeur_2" onChange="javascript:<?=$js?>; if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_confectionner').disabled=true } else {$('bouton_confectionner').disabled=false }">
 	 	<option value="-1">(Choisis un niveau)</option>
 	 	<? foreach($this->niveaux as $k => $v) : ?>
+	 		<? if ($v["a_afficher"] == true) : ?>
 	 		<option value="<?=$k?>" <? if ($v["ressourcesOk"] === false) echo "disabled"; ?>><?=$v["niveauText"]?></option>
+	 		<? endif; ?>
 	 	<? endforeach; ?>
 	 </select>
 	 <? endif; ?>

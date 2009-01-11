@@ -48,6 +48,20 @@ class Bral_Helper_Contenu {
 		return $retour;
 	}
 	
+	public static function afficheMunition($tab) {
+		$retour = "";
+		if (array_key_exists("quantite", $tab)) {
+			if (array_key_exists("poids", $tab)) {
+				$retour .= "<span style='cursor:pointer' title='Poids unitaire : ".($tab["poids"]/$tab["quantite"])." Kg, Poids total : ".$tab["poids"]." Kg'>";
+			}
+ 			$retour .= $tab["quantite"];
+ 			if (array_key_exists("poids", $tab)) {
+ 				$retour .= "</span>";
+ 			}
+		}
+		return $retour;
+	}
+	
 	public static function afficheTabac($tab) {
 		$retour = "";
 		if (array_key_exists("quantite", $tab)) {

@@ -96,7 +96,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 			$this->view->etape1 = true;
 
 			for ($i = 0; $i <= $this->view->user->niveau_hobbit / 10 ; $i++) {
-				$tabNiveaux[$i] = array('niveauText' => 'Niveau '.$i, 'ressourcesOk' => true);
+				$tabNiveaux[$i] = array('niveauText' => 'Niveau '.$i, 'ressourcesOk' => true, 'a_afficher' => false);
 			}
 
 			$recetteEquipementTable = new RecetteEquipement();
@@ -117,7 +117,8 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 						'bm_degat' => $r["bm_degat_recette_equipement"], 
 						'bm_defense' => $r["bm_defense_recette_equipement"], 
 						'nom_emplacement' => $r["nom_type_emplacement"], 
-						);
+				);
+				$tabNiveaux[$r["niveau_recette_equipement"]]["a_afficher"] = true;
 			}
 			
 			$recetteCoutTable = new RecetteCout();

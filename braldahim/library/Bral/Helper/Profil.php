@@ -22,6 +22,10 @@ class Bral_Helper_Profil {
 		$texte .= " ".$niveauSuivantPx. " PX Perso.<br>";
 		$texte .= "Il vous manque donc ".($niveauSuivantPx - $px_perso_hobbit)." PX Perso.<br>";
 		
+    	if ($largeur > 200) {
+			$largeur = 200;
+		}
+		
 		$retour = "<td width='80%' >";
     	$retour .= "	<div class='barre_niveau' ".Bral_Helper_Tooltip::jsTip($texte, $titre, true).">";
     	$retour .= "<img src='/public/images/barre_niveau.gif' height='10px' width=".$largeur."></div>";
@@ -233,6 +237,9 @@ class Bral_Helper_Profil {
 		$texte = "Vous portez actuellement ".$transporte." Kg.<br>";
 		$texte .= "Vous pouvez porter jusqu\'&agrave; ".$transportable." Kg.<br>";
 		
+		if ($largeur > 200) {
+			$largeur = 200;
+		}
     	$retour = "<div class='barre_poids' ".Bral_Helper_Tooltip::jsTip($texte, $titre, true).">";
     	$retour .= "<img src='/public/images/barre_poids.gif' height='10px' width=".$largeur."></div>";
 		

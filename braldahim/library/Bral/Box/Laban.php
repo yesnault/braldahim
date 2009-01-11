@@ -41,6 +41,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		Zend_Loader::loadClass("Laban");
 		Zend_Loader::loadClass("LabanEquipement");
 		Zend_Loader::loadClass("LabanMinerai");
+		Zend_Loader::loadClass("LabanMunition");
 		Zend_Loader::loadClass("LabanPartieplante");
 		Zend_Loader::loadClass("LabanPotion");
 		Zend_Loader::loadClass("LabanRune");
@@ -209,6 +210,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		$this->renderPlante($tabMetiers);
 		$this->view->tabMetiers = $tabMetiers;
 		$this->renderEquipement();
+		$this->renderMunition();
 		$this->renderPotion();
 		$this->renderTabac();
 		
@@ -372,6 +374,25 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		
 		$this->view->nb_equipements = count($tabEquipements);
 		$this->view->equipements = $tabEquipements;
+	}
+	
+	private function renderMunition() {
+		$tabMunitions = null;
+		$labanMunitionTable = new LabanMunition();
+		$munitions = $labanMunitionTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($labanMunitionTable);
+		
+		foreach ($munitions as $m) {
+			$tabMunitions[] = array(
+				"type" => $m["nom_type_munition"],
+				"quantite" => $m["quantite_laban_munition"],
+				"poids" => $m["poids_unitaire_type_munition"],
+			);
+		}
+		unset($munitions);
+		
+		$this->view->nb_munitions = count($tabMunitions);
+		$this->view->munitions = $tabMunitions;
 	}
 	
 	private function renderPotion() {

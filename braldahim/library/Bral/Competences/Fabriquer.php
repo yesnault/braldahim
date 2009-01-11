@@ -95,7 +95,7 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 			$this->view->etape1 = true;
 
 			for ($i = 0; $i <= floor($this->view->user->niveau_hobbit / 10) ; $i++) {
-				$tabNiveaux[$i] = array('niveauText' => 'Niveau '.$i, 'ressourcesOk' => true);
+				$tabNiveaux[$i] = array('niveauText' => 'Niveau '.$i, 'ressourcesOk' => true, 'a_afficher' => false);
 			}
 			
 			$recetteEquipementTable = new RecetteEquipement();
@@ -116,7 +116,9 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 						'bm_degat' => $r["bm_degat_recette_equipement"], 
 						'bm_defense' => $r["bm_defense_recette_equipement"], 
 						'nom_emplacement' => $r["nom_type_emplacement"], 
-						);
+						'nom_systeme_type_emplacement' => $r["nom_systeme_type_emplacement"], 
+				);
+				$tabNiveaux[$r["niveau_recette_equipement"]]["a_afficher"] = true;
 			}
 			
 			$recetteCoutTable = new RecetteCout();
@@ -308,6 +310,14 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 			$qualite = 3;
 			$this->view->qualite = "bonne";
 		}
+		
+		// on regarde si c'est pas des munition. Niveau:0, Qualité Standard:2
+		if ($this->view->caracs[0][2][0]["nom_systeme_type_emplacement"] == "laban") {
+			$niveau = 0;
+			$nbRunes = 0;
+			$qualite = 2; // standard
+		}
+		
 		$this->view->niveau = $niveau;
 		$this->view->nbRunes = $nbRunes;
 		$this->view->niveauQualite = $qualite;
@@ -317,19 +327,20 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 		$recetteEquipement = $recetteEquipementTable->findByIdTypeAndNiveauAndQualite($idTypeEquipement, $niveau, $qualite);
 
 		if (count($recetteEquipement) > 0) {
-
 			$this->majCout($niveau, true);
-
+			
+			$recetteEquipementACreer = null;
+			
 			foreach($recetteEquipement as $r) {
-				$id_fk_recette_equipement = $r["id_recette_equipement"];
+				$recetteEquipementACreer = $r;
 				break;
 			}
-
+		
 			Zend_Loader::loadClass("EchoppeEquipement");
 			$echoppeEquipementTable = new EchoppeEquipement();
 			$data = array(
 				'id_fk_echoppe_echoppe_equipement' => $this->idEchoppe,
-				'id_fk_recette_echoppe_equipement' => $id_fk_recette_equipement,
+				'id_fk_recette_echoppe_equipement' => $recetteEquipementACreer["id_recette_equipement"],
 				'nb_runes_echoppe_equipement' => $nbRunes,
 				'type_vente_echoppe_equipement' => 'aucune',
 			);

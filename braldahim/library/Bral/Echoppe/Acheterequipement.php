@@ -415,15 +415,28 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 	}
 	
 	private function calculTransfert() {
-		$labanEquipementTable = new LabanEquipement();
-		$data = array(
-			'id_laban_equipement' => $this->equipement["id_echoppe_equipement"],
-			'id_fk_recette_laban_equipement' => $this->equipement["id_fk_recette_echoppe_equipement"],
-			'nb_runes_laban_equipement' => $this->equipement["nb_runes_echoppe_equipement"],
-			'id_fk_hobbit_laban_equipement' => $this->view->user->id_hobbit,
-			'id_fk_mot_runique_laban_equipement' => $this->equipement["id_fk_mot_runique_echoppe_equipement"],
-		);
-		$labanEquipementTable->insert($data);
+		
+		if ($this->equipement["nom_systeme_type_emplacement"] == 'laban') {
+			Zend_Loader::loadClass("LabanMunition");
+
+			$labanMunitionTable = new LabanMunition();
+			$data = array(
+				'id_fk_type_laban_munition' =>  $this->equipement["id_fk_type_munition_type_equipement"],
+				'id_fk_hobbit_laban_munition' => $this->view->user->id_hobbit,
+				'quantite_laban_munition' =>  $this->equipement["nb_munition_type_equipement"],
+			);
+			$labanMunitionTable->insert($data);	
+		} else {
+			$labanEquipementTable = new LabanEquipement();
+			$data = array(
+				'id_laban_equipement' => $this->equipement["id_echoppe_equipement"],
+				'id_fk_recette_laban_equipement' => $this->equipement["id_fk_recette_echoppe_equipement"],
+				'nb_runes_laban_equipement' => $this->equipement["nb_runes_echoppe_equipement"],
+				'id_fk_hobbit_laban_equipement' => $this->view->user->id_hobbit,
+				'id_fk_mot_runique_laban_equipement' => $this->equipement["id_fk_mot_runique_echoppe_equipement"],
+			);
+			$labanEquipementTable->insert($data);
+		}
 		
 		$echoppeEquipementTable = new EchoppeEquipement();
 		$where = "id_echoppe_equipement=".$this->equipement["id_echoppe_equipement"];

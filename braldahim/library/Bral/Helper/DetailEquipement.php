@@ -134,23 +134,24 @@ class Bral_Helper_DetailEquipement {
 		if (isset($caracs)) {
 			foreach($niveaux as $k => $v) {
 				$retour .= "<div id='caracs_niveau_".$k."' style='display:none'>";
-					$retour .= "<table>";
-					$retour .= "<th>Qual.</th>";
-					$retour .= "<th>Empl.</th>";
-					$retour .= "<th>Niv.</th>";
-					$retour .= "<th>Poids</th>";
-					$retour .= "<th>ARM</th>";
-					$retour .= "<th>FOR</th>";
-					$retour .= "<th>AGI</th>";
-					$retour .= "<th>VIG</th>";
-					$retour .= "<th>SAG</th>";
-					$retour .= "<th>VUE</th>";
-					$retour .= "<th>BM ATT</th>";
-					$retour .= "<th>BM DEG</th>";
-					$retour .= "<th>BM DEF</th>";
+				$retour .= "<table>";
+				$retour .= "<th>Qual.</th>";
+				$retour .= "<th>Empl.</th>";
+				$retour .= "<th>Niv.</th>";
+				$retour .= "<th>Poids</th>";
+				$retour .= "<th>ARM</th>";
+				$retour .= "<th>FOR</th>";
+				$retour .= "<th>AGI</th>";
+				$retour .= "<th>VIG</th>";
+				$retour .= "<th>SAG</th>";
+				$retour .= "<th>VUE</th>";
+				$retour .= "<th>BM ATT</th>";
+				$retour .= "<th>BM DEG</th>";
+				$retour .= "<th>BM DEF</th>";
+				if (array_key_exists($k, $caracs)) {
 					foreach($caracs[$k] as $key => $val) {
 						foreach($val as $c) {
-						$retour .= "<tr>";
+							$retour .= "<tr>";
 							$retour .= "<td>".$c["nom_qualite"]." </td>";
 							$retour .= "<td>".$c["nom_emplacement"]." </td>";
 							$retour .= "<td>".$c["niveau"]." </td>";
@@ -164,9 +165,10 @@ class Bral_Helper_DetailEquipement {
 							$retour .= "<td>".$c["bm_attaque"]."</td>"; 
 							$retour .= "<td>".$c["bm_degat"]." </td>";
 							$retour .= "<td>".$c["bm_defense"]." </td>";
-							 $retour .= "</tr>";
+							$retour .= "</tr>";
 						}
 					}
+				}
 				$retour .= "</table>";
 				$retour .= "</div>";
 			}
