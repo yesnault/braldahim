@@ -6,9 +6,9 @@
 	<thead class="table_liste">
 	  <tr class="table_liste">
 	  	<th>N&deg;</th>
+	  	<th>&nbsp;</th>
 		<th>Nom</th>
 		<th>Niveau</th>
-		<th>Nombre d'emplacements <br />runiques</th>
 		<th>Caract&eacute;ristiques</th>
 		<? if ($this->estEquipementsPotionsEtal === true) : ?>
 			<th>Prix</th>
@@ -25,9 +25,9 @@
 			   foreach($this->equipements as $e) :?>
 					<tr class="table_liste<?=($i % 2);$i++; ?>">
 				  		<td class="table_liste"><?=$e["id_equipement"] ?></td>
+				  		<td class="table_liste"><img src='/public/styles/braldahim_defaut/images/type_equipement/type_equipement_<?=$e["id_type_equipement"]?>.png' alt="<?=htmlspecialchars($e["nom"]) ?>"/></td>
 				  		<td class="table_liste"><?=$e["nom"]." ".addslashes($e["suffixe"])." de qualit&eacute; ".$e["qualite"] ?></td>
 				  		<td class="table_liste"><?=$e["niveau"] ?></td>
-				  		<td class="table_liste"><?=$e["nb_runes"] ?></td>
 				  		<td class="table_liste">
 				  			<img src="/public/images/info_icon.gif" <?=Bral_Helper_DetailEquipement::afficherJs($e);?> />
 				  		</td>

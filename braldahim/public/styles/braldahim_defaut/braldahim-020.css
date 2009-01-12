@@ -1136,7 +1136,7 @@ td.vue2d.inconnu {
 }
 
 td.vue2d.actuelle {
-	border-width: 1.5px; 
+	border-width: 2px; 
 	border-style: solid;
 	border-color:#ff6666;
 }

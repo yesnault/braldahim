@@ -75,7 +75,11 @@ class Bral_Helper_DetailEquipement {
     }
     
     public static function afficher($e) {
-    	return "<span ".self::afficherJs($e).">".htmlspecialchars($e["nom"]).", n&deg;".$e["id_equipement"]."</span>";
+    	//return "<span ".self::afficherJs($e).">".htmlspecialchars($e["nom"]).", n&deg;".$e["id_equipement"]."</span>";
+    	$retour = "<span ".self::afficherJs($e).">";
+    	$retour .= "<img src='/public/styles/braldahim_defaut/images/type_equipement/type_equipement_".$e["id_type_equipement"].".png' alt=\"".htmlspecialchars($e["nom"])."\"/>";
+		$retour .= "</span>";
+    	return $retour;
     }
     
     public static function afficherJs($e) {

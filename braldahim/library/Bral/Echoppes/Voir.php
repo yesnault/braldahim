@@ -385,6 +385,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 				$equipement = array(
 					"id_equipement" => $e["id_echoppe_equipement"],
 					"nom" => $e["nom_type_equipement"],
+					"id_type_equipement" => $e["id_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
 					"id_type_emplacement" => $e["id_type_emplacement"],
