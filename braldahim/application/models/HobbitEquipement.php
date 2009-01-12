@@ -68,4 +68,22 @@ class HobbitEquipement extends Zend_Db_Table {
 		
 		return $db->fetchAll($sql);
     }
+    
+	function findByTypePiece($idHobbit, $nomTypePiece) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbits_equipement', '*')
+		->from('type_equipement')
+		->from('type_piece')
+		->from('recette_equipements')
+		->where('id_fk_recette_hequipement = id_recette_equipement')
+		->where('id_fk_type_recette_equipement = id_type_equipement')
+		->where('id_fk_type_piece_type_equipement = id_type_piece')
+		->where('id_fk_hobbit_hequipement = ?', intval($idHobbit))
+		->where('nom_systeme_type_piece = ?', $nomTypePiece);
+		
+		$sql = $select->__toString();
+		
+		return $db->fetchAll($sql);
+    }
 }
