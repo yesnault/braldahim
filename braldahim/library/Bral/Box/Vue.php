@@ -32,6 +32,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("Echoppe");
 			Zend_Loader::loadClass("Element");
 			Zend_Loader::loadClass("ElementEquipement");
+			Zend_Loader::loadClass("ElementMunition");
 			Zend_Loader::loadClass("ElementPartieplante");
 			Zend_Loader::loadClass("ElementMinerai");
 			Zend_Loader::loadClass("ElementPotion");
@@ -165,6 +166,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$elementEquipementTable = new ElementEquipement();
 		$elementsEquipements = $elementEquipementTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($elementEquipementTable);
+		$elementMunitionsTable = new ElementMunition();
+		$elementsMunitions = $elementMunitionsTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($elementMunitionsTable);
 		$elementPartiePlanteTable = new ElementPartieplante();
 		$elementsPartieplantes = $elementPartiePlanteTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($elementPartiePlanteTable);
@@ -231,6 +235,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabEchoppes = null;
 				$tabElements = null;
 				$tabElementsEquipements = null;
+				$tabElementsMunitions = null;
 				$tabElementsMineraisBruts = null;
 				$tabElementsLingots = null;
 				$tabElementsPartieplantesBrutes = null;
@@ -329,6 +334,20 @@ class Bral_Box_Vue extends Bral_Box_Box {
 									"qualite" => $e["nom_type_qualite"],
 									"niveau" => $e["niveau_recette_equipement"],
 									"suffixe" => $e["suffixe_mot_runique"]);
+							}
+						}
+					}
+					
+					if ($elementsMunitions != null) {
+						foreach($elementsMunitions as $m) {
+							if ($m["quantite_element_munition"] > 0) {
+								if ($display_x == $m["x_element_munition"] && $display_y == $m["y_element_munition"]) {
+									$tabElementsMunitions[] = array( 
+										"type" => $m["nom_type_munition"],
+										"pluriel" => $m["nom_pluriel_type_munition"],
+										"quantite" => $m["quantite_element_munition"],
+									);
+								}
 							}
 						}
 					}
@@ -525,6 +544,8 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"elements" => $tabElements,
 					"n_elements_equipements" => count($tabElementsEquipements),
 					"elements_equipements" => $tabElementsEquipements,
+					"n_elements_munitions" => count($tabElementsMunitions),
+					"elements_munitions" => $tabElementsMunitions,
 					"n_elements_partieplante_brutes" => count($tabElementsPartieplantesBrutes),
 					"elements_partieplantes_brutes" => $tabElementsPartieplantesBrutes,
 					"n_elements_partieplante_preparees" => count($tabElementsPartieplantesPreparees),

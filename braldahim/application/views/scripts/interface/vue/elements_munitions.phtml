@@ -1,0 +1,12 @@
+<?php if ($case["n_elements_munitions"] > 0) : 
+	$textElementsMunitions = "";
+	$nbMunitions = 0;
+	foreach($case["elements_munitions"] as $m) {
+		$nbMunitions = $nbMunitions + $m["quantite"] ;
+		$type = htmlspecialchars($m["type"]);
+		if ($nbMunitions > 1) {
+			$type = htmlspecialchars($m["pluriel"]);
+		}
+		$textElementsMunitions .= $m["quantite"] . " ".$type."<br />";
+	} 
+endif; ?>
