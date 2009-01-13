@@ -132,6 +132,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 	private function data() {
 		$this->view->environnement = null;
 		$this->view->centre_nom_region = null;
+		$this->view->est_pvp_region = null;
 		$this->view->centre_description_region = null;
 		$this->view->centre_nom_ville = null;
 		$this->view->centre_est_capitale = null;
@@ -472,7 +473,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							$display_x <= $r["x_max_region"] &&
 							$display_y >= $r["y_min_region"] &&
 							$display_y <= $r["y_max_region"]) {
-								$region = array("nom" => $r["nom_region"], "description" => $r["description_region"]);
+								$region = array("nom" => $r["nom_region"], "description" => $r["description_region"], "est_pvp_region" => $r["est_pvp_region"]);
 								break;
 							}
 						}
@@ -499,6 +500,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					$cssActuelle = "actuelle";
 					$this->view->environnement = $nom_environnement;
 					$this->view->centre_nom_region = $region["nom"];
+					$this->view->est_pvp_region = ($region["est_pvp_region"] == 'oui');
 					$this->view->centre_description_region = $region["description"];
 					$this->view->centre_nom_ville = $ville["nom_ville"];
 					$this->view->centre_est_capitale = ($ville["est_capitale"] == "oui");

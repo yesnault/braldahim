@@ -6,6 +6,11 @@
   	<? endif; ?>
   	<ul class="titre textalia textsized" <?=$js ?>>
     <?=$this->centre_nom_region ?>&nbsp;
+    <? if ($this->est_pvp_region == true) :?>
+    	<img src='/public/styles/braldahim_defaut/images/type_region/region_pvp.png' alt='region_pvp' title="R&eacute;gion PVP"/>
+    <? else: ?>
+    	<img src='/public/styles/braldahim_defaut/images/type_region/region_pve.png' alt='region_pve' title="R&eacute;gion PVE"/>
+    <? endif; ?>
     </ul>
     <ul class="titre textalia textsized" >
     <? if (!empty($this->centre_nom_ville)):?>
