@@ -21,7 +21,7 @@ class Bral_Util_Registre {
 	
 	private static function chargementCompetence() {
 		$competenceTable = new Competence();
-		$competences = $competenceTable->fetchall();
+		$competences = $competenceTable->fetchall(null, "nom_competence");
 		$tab = null;
 		$tab2 = null;
 		$tabBasiques = null;

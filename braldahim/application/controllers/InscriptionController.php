@@ -170,8 +170,6 @@ class InscriptionController extends Zend_Controller_Action {
 				$this->view->prenom_hobbit = $this->prenom_hobbit;
 				$this->view->email_hobbit = $this->email_hobbit;
 
-				$this->initialiseDataHobbitsCompetences();
-
 				$this->envoiEmail();
 				Bral_Util_Log::tech()->notice("InscriptionController - ajouterAction - envoie email vers :".$this->email_hobbit);
 				echo $this->view->render("inscription/fin.phtml");
@@ -301,24 +299,6 @@ class InscriptionController extends Zend_Controller_Action {
 		);
 
 		return $data;
-	}
-
-	private function initialiseDataHobbitsCompetences() {
-		$competenceTable = new Competence();
-		$tab = $competenceTable->findCommunesInscription(0);
-
-		foreach($tab as $c) {
-			$data = array(
-				'id_fk_hobbit_hcomp' => $this->view->id_hobbit,
-				'id_fk_competence_hcomp'  => $c["id_competence"],
-				'pourcentage_hcomp'  => $c["pourcentage_init_competence"],
-				'date_debut_tour_hcomp'  => "0000-00-00 00:00:00",
-				'nb_action_tour_hcomp' => 0,
-			);
-
-			$hobbitCompetenceTable = new HobbitsCompetences();
-			$hobbitCompetenceTable->insert($data);
-		}
 	}
 
 	private function envoiEmail() {
