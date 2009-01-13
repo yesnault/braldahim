@@ -23,11 +23,15 @@ class IndexController extends Zend_Controller_Action {
 	}
 
 	function preDispatch() {
-		$auth = Zend_Auth::getInstance();
-		if (!$auth->hasIdentity() || !isset($this->view->user) || !isset($this->view->user->email_hobbit)) {
-			$this->_redirect('auth/login');
+		if ($this->view->config->general->actif == 1) {
+			$auth = Zend_Auth::getInstance();
+			if (!$auth->hasIdentity() || !isset($this->view->user) || !isset($this->view->user->email_hobbit)) {
+				$this->_redirect('auth/login');
+			} else {
+				$this->_redirect('interface/');
+			}
 		} else {
-			$this->_redirect('interface/');
+			$this->_redirect('debraye');
 		}
 	}
 }

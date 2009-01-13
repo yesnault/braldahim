@@ -15,7 +15,11 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 	public function init() {
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
-		if (!Zend_Auth::getInstance()->hasIdentity() || $this->_request->get("dateAuth") != $this->view->user->dateAuth ) {
+		$this->view->config = Zend_Registry::get('config');
+		
+		if ($this->view->config->general->actif != 1) {
+			$this->_redirect('debraye/');
+		} else if (!Zend_Auth::getInstance()->hasIdentity() || $this->_request->get("dateAuth") != $this->view->user->dateAuth ) {
 			$this->_redirect('/auth/logoutajax');
 		} else if (!Zend_Auth::getInstance()->hasIdentity() 
 			|| ($this->_request->action != 'index' && 
@@ -36,7 +40,6 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 			} 
 		}
 		$this->view->user = Zend_Auth::getInstance()->getIdentity(); // pour rafraichissement session
-		$this->view->config = Zend_Registry::get('config');
 		$this->xml_response = new Bral_Xml_Response();
 
 		$this->modification_tour = false;

@@ -16,8 +16,11 @@ class InterfaceController extends Zend_Controller_Action {
 	function init() {
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
+		$this->view->config = Zend_Registry::get('config');
 		
-		if (!Zend_Auth::getInstance()->hasIdentity() && ($this->_request->action == 'index')) {
+		if ($this->view->config->general->actif != 1) {
+			$this->_redirect('debraye/');
+		} else if (!Zend_Auth::getInstance()->hasIdentity() && ($this->_request->action == 'index')) {
 			$this->_redirect('/auth/logout');
 		} else if (!Zend_Auth::getInstance()->hasIdentity() 
 			|| ($this->_request->action != 'index' && 
@@ -40,7 +43,7 @@ class InterfaceController extends Zend_Controller_Action {
 			} 
 		}
 		$this->view->user = Zend_Auth::getInstance()->getIdentity(); // pour rafraichissement session
-		$this->view->config = Zend_Registry::get('config');
+		
 		$this->view->controleur = $this->_request->controller;
 
 		$this->infoTour = false;
