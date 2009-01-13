@@ -47,7 +47,7 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 				'taille_monstre' => $m_taille, 
 				'x_monstre' => $m["x_monstre"],
 				'y_monstre' => $m["y_monstre"],
-				'dist_monstre' => max(abs(abs($m["x_monstre"]) - abs($this->view->user->x_hobbit)), abs(abs($m["y_monstre"])-abs($this->view->user->y_hobbit)))
+				'dist_monstre' => max(abs($m["x_monstre"] - $this->view->user->x_hobbit), abs($m["y_monstre"]-$this->view->user->y_hobbit))
 			);
 		}
 		

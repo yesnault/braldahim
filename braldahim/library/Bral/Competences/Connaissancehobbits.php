@@ -42,7 +42,7 @@ class Bral_Competences_Connaissancehobbits extends Bral_Competences_Competence {
 				'prenom_hobbit' => $h["prenom_hobbit"],
 				'x_hobbit' => $h["x_hobbit"],
 				'y_hobbit' => $h["y_hobbit"],
-				'dist_hobbit' => max(abs(abs($h["x_hobbit"]) - abs($this->view->user->x_hobbit)), abs(abs($h["y_hobbit"])-abs($this->view->user->y_hobbit)))
+				'dist_hobbit' => max(abs($h["x_hobbit"] - $this->view->user->x_hobbit), abs($h["y_hobbit"] - $this->view->user->y_hobbit))
 			);
 			$tabHobbits[] = $tab;
 		}
