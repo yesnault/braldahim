@@ -28,6 +28,7 @@ class Bral_Helper_ChampBoutique {
 			$retour .= "    Stock restant : ".$tab["nbStockRestant"];
 			$retour .= "'> [?] </span>";
 		} else {
+			$retour .= "<img src='/public/styles/braldahim_defaut/images/type_partieplante/type_partieplante_".$tab["id_type_partieplante"].".png' alt=\"image\"/><br>";
 			$retour .= "Prix Achat: ".$tab["prixUnitaireVente"].'c';
 			$retour .= "<br>Prix Reprise: ".$tab["prixUnitaireReprise"].'c';
 			$retour .= "<br><span style='cursor:pointer' title='Stock Initial au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Initial: ".$tab["nbStockInitial"]."</span>";

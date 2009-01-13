@@ -284,6 +284,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 					$tab = array(
 						'nom_type_plante' => $t["nom_type_plante"],
 						'nom_systeme_type_plante' => $t["nom_systeme_type_plante"],
+						'id_type_plante' => $t["id_type_plante"],
 					);
 					$tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]] = $tab;
 				}
@@ -305,6 +306,8 @@ class Bral_Box_Laban extends Bral_Box_Box {
 				$tabTypePlantesBruts[$p["categorie_type_plante"]]["a_afficher"] = true;
 				$tabTypePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
 				$tabTypePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_laban_partieplante"];
+				$tabTypePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["id_type_partieplante"] = $p["id_type_partieplante"];
+				$tabTypePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["estPreparee"] = false;
 				$tabTypePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["poids"] = $p["quantite_laban_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE;
 				if (isset($tabMetiers["herboriste"])) {
 					$tabMetiers["herboriste"]["a_afficher"] = true;
@@ -315,6 +318,8 @@ class Bral_Box_Laban extends Bral_Box_Box {
 				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["a_afficher"] = true;
 				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
 				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_preparee_laban_partieplante"];
+				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["id_type_partieplante"] = $p["id_type_partieplante"];
+				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["estPreparee"] = true;
 				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["poids"] = $p["quantite_preparee_laban_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE;
 				if (isset($tabMetiers["apothicaire"])) {
 					$tabMetiers["apothicaire"]["a_afficher"] = true; 

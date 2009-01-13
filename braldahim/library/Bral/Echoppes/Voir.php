@@ -234,6 +234,8 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					$tabPartiePlantesCaisse[$p["categorie_type_plante"]]["a_afficher"] = true;
 					$tabPartiePlantesCaisse[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
 					$tabPartiePlantesCaisse[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_caisse_echoppe_partieplante"];
+					$tabPartiePlantesCaisse[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["id_type_partieplante"] = $p["id_type_partieplante"];
+					$tabPartiePlantesCaisse[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["estPreparee"] = false;
 					$tabPartiePlantesCaisse[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["poids"] = $p["quantite_caisse_echoppe_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE;
 				}
 				
@@ -242,6 +244,8 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					$tabPartiePlantesBruts[$p["categorie_type_plante"]]["a_afficher"] = true;
 					$tabPartiePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
 					$tabPartiePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_arriere_echoppe_partieplante"];
+					$tabPartiePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["id_type_partieplante"] = $p["id_type_partieplante"];					
+					$tabPartiePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["estPreparee"] = false;
 					$tabPartiePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["poids"] = $p["quantite_arriere_echoppe_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE;
 				}
 				
@@ -250,6 +254,8 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["a_afficher"] = true;
 					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
 					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_preparees_echoppe_partieplante"];
+					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["id_type_partieplante"] = $p["id_type_partieplante"];
+					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["estPreparee"] = true;
 					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["poids"] = $p["quantite_preparees_echoppe_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE;
 				}
 				
