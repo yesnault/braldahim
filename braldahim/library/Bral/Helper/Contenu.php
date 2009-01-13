@@ -79,7 +79,8 @@ class Bral_Helper_Contenu {
 	public static function afficheTabac($tab) {
 		$retour = "";
 		if (array_key_exists("quantite", $tab)) {
- 			$retour .= $tab["quantite"];
+ 			$retour .= $tab["quantite"]." ";
+ 			$retour .= "<img src='/public/styles/braldahim_defaut/images/type_tabac/type_tabac_".$tab["id_type_tabac"].".png' alt=\"".htmlspecialchars($tab["type"])."\"/>";
 		} else {
 			$retour .= Bral_Helper_ChampBoutique::afficheChampTabac($tab);
 		}

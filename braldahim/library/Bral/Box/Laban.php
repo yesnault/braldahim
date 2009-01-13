@@ -241,6 +241,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 			if ($m["quantite_feuille_laban_tabac"] > 0) {
 				$tabTabac[] = array(
 					"type" => $m["nom_type_tabac"],
+					"id_type_tabac" => $m["id_type_tabac"],
 					"quantite" => $m["quantite_feuille_laban_tabac"],
 				);
 			}
