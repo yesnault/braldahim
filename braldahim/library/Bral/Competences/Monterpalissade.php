@@ -19,7 +19,6 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Monstre');
 		Zend_Loader::loadClass('Palissade'); 
 		Zend_Loader::loadClass('Route');  	
-		Zend_Loader::loadClass('Ville'); 	
 	
 		$this->view->monterPalissadeOk = false;
 		$this->view->monterPalissadeCharretteOk = false;
@@ -50,8 +49,6 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		$this->view->y_min = $this->view->user->y_hobbit - $this->distance;
 		$this->view->y_max = $this->view->user->y_hobbit + $this->distance;
 		
-		$villeTable = new Ville();
-		$villes = $villeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$lieuxTable = new Lieu();
 		$lieux = $lieuxTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		$echoppeTable = new Echoppe();
@@ -131,16 +128,6 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 					}
 				}
 
-				foreach($villes as $v) {
-					if ($x >= $v["x_min_ville"] &&
-						$x <= $v["x_max_ville"] &&
-						$y >= $v["y_min_ville"] &&
-						$y <= $v["y_max_ville"]) {
-						$valid = false;
-						break;
-					}
-				}
-				
 			 	if ($valid === true && $defautChecked == false) {
 					$default = "checked";
 					$defautChecked = true;
