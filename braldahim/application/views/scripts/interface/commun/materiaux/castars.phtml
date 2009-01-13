@@ -7,14 +7,15 @@
 	</thead>
 	<tbody>
 		<tr class="table_liste">
-			<td style="width:auto; padding:5px;">Quantit&eacute;</td>
-			<td class="table_liste">
-			<?=$this->nb_castars ?>
+			<td style="width:auto; padding:5px;" valign="bottom">Quantit&eacute;</td>
+			<td class="table_liste" valign="bottom">
+			<?=$this->nb_castars ?> 
+			<img src='/public/styles/braldahim_defaut/images/elements/castars.png' alt='castars'/>
 			</td>
 		</tr>
 		<tr class="table_liste">
-			<td style="width:auto; padding:5px;">Poids</td>
-			<td class="table_liste" style="cursor:pointer" title="Poids unitaire : <?=Bral_Util_Poids::POIDS_CASTARS?> Kg">
+			<td style="width:auto; padding:5px;" valign="bottom">Poids</td>
+			<td class="table_liste"  valign="bottom" style="cursor:pointer" title="Poids unitaire : <?=Bral_Util_Poids::POIDS_CASTARS?> Kg">
 			<?=($this->nb_castars*Bral_Util_Poids::POIDS_CASTARS) ?> Kg
 			</td>
 		</tr>

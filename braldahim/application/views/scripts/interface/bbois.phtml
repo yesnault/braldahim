@@ -20,6 +20,7 @@
 			 <table class="table_liste" style="width:80%; padding:5px;" >
 				<thead class="table_liste">
 				  <tr class="table_liste">
+				  <th style="width:auto; padding:5px;" >&nbsp;</th>
 				  <th style="width:auto; padding:5px;" >Article</th>
 				  <th style="width:auto; padding:5px;" >Prix Unitaire de vente par la boutique</th>
 				  <th style="width:auto; padding:5px;" >Prix Unitaire d'achat par la boutique</th>
@@ -31,6 +32,9 @@
 					<? $i = 0;
 					foreach ($this->tabStockPrix as $a) :  ?>
 						<tr class="table_liste<?=($i % 2);$i++; ?>">
+							<td style="width:auto; padding:5px;" >
+								<img src='/public/styles/braldahim_defaut/images/elements/planche.png' alt='planche'/>
+							</td>
 							<td style="width:auto; padding:5px;" >Rondin</td>
 							<td style="width:auto; padding:5px;" ><?=htmlspecialchars($a["prix_unitaire_vente_stock_bois"])?></td>
 							<td style="width:auto; padding:5px;" ><?=htmlspecialchars($a["prix_unitaire_reprise_stock_bois"])?></td>

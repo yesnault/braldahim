@@ -8,20 +8,22 @@
 	</thead>
 	<tbody>
 		<tr class="table_liste">
-			<td style="width:auto; padding:5px;">Quantit&eacute;</td>
-			<td class="table_liste">
+			<td style="width:auto; padding:5px;" valign="bottom">Quantit&eacute;</td>
+			<td class="table_liste" valign="bottom">
 			<?=$this->laban["nb_peau"] ?>
+			<img src='/public/styles/braldahim_defaut/images/elements/peau.png' alt='peau'/>
 			</td>
-			<td class="table_liste">
+			<td class="table_liste" valign="bottom">
 			<?=$this->laban["nb_viande"] ?>
+			<img src='/public/styles/braldahim_defaut/images/elements/viande_fraiche.png' alt='viande_fraiche'/>
 			</td>
 		</tr>
 		<tr class="table_liste">
-			<td style="width:auto; padding:5px;">Poids</td>
-			<td class="table_liste" style="cursor:pointer" title="Poids unitaire : <?=Bral_Util_Poids::POIDS_PEAU?> Kg">
+			<td style="width:auto; padding:5px;" valign="bottom">Poids</td>
+			<td class="table_liste"  valign="bottom" style="cursor:pointer" title="Poids unitaire : <?=Bral_Util_Poids::POIDS_PEAU?> Kg">
 			<?=($this->laban["nb_peau"]*Bral_Util_Poids::POIDS_PEAU) ?> Kg
 			</td>
-			<td class="table_liste" style="cursor:pointer" title="Poids unitaire : <?=Bral_Util_Poids::POIDS_VIANDE?> Kg">
+			<td class="table_liste"  valign="bottom" style="cursor:pointer" title="Poids unitaire : <?=Bral_Util_Poids::POIDS_VIANDE?> Kg">
 			<?=($this->laban["nb_viande"]*Bral_Util_Poids::POIDS_VIANDE) ?> Kg
 			</td>
 		</tr>
