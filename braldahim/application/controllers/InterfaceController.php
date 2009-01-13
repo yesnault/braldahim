@@ -19,7 +19,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->view->config = Zend_Registry::get('config');
 		
 		if ($this->view->config->general->actif != 1) {
-			$this->_redirect('debraye/');
+			$this->_redirect('/auth/logoutajax');
 		} else if (!Zend_Auth::getInstance()->hasIdentity() && ($this->_request->action == 'index')) {
 			$this->_redirect('/auth/logout');
 		} else if (!Zend_Auth::getInstance()->hasIdentity() 

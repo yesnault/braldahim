@@ -29,6 +29,9 @@ class InscriptionController extends Zend_Controller_Action {
 		Zend_Loader::loadClass("Nom");
 		Zend_Loader::loadClass("Region");
 		$this->view->config = Zend_Registry::get('config');
+		if ($this->view->config->general->actif != 1) {
+			$this->_redirect('/');
+		}
 	}
 
 	function indexAction() {

@@ -17,6 +17,11 @@ class ParametresController extends Zend_Controller_Action {
 			$this->_redirect('/'); 
 		}
 		
+		$this->view->config = Zend_Registry::get('config');
+		if ($this->view->config->general->actif != 1) {
+			$this->_redirect('/');
+		}
+		
 		// Fonction non accessible pour les gardiens
 		if (Zend_Auth::getInstance()->getIdentity()->gardeEnCours === true) {
 			$this->_redirect('/erreur/gardiennage'); 
@@ -25,12 +30,10 @@ class ParametresController extends Zend_Controller_Action {
 		$this->initView();
 		Zend_Loader::loadClass('Bral_Util_BralSession');
 		if (Bral_Util_BralSession::refreshSession() == false) {
-				$this->_redirect('/');
+			$this->_redirect('/');
 		} 
 		
-		$this->view->config = Zend_Registry::get('config');
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
-		
 		$this->view->controleur = $this->_request->controller;
 	}
 

@@ -20,6 +20,10 @@ class MessagerieController extends Zend_Controller_Action {
 		}
 
 		$this->view->config = Zend_Registry::get('config');
+		if ($this->view->config->general->actif != 1) {
+			$this->_redirect('/auth/logoutajax');
+		}
+		
 		$this->view->controleur = $this->_request->controller;
 
 		Zend_Loader::loadClass('Bral_Messagerie_Factory');

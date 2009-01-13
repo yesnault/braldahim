@@ -19,6 +19,9 @@ class PerduController extends Zend_Controller_Action {
 		Zend_Loader::loadClass("Zend_Validate_EmailAddress");
 		Zend_Loader::loadClass("Zend_Validate");
 		$this->view->config = Zend_Registry::get('config');
+		if ($this->view->config->general->actif != 1) {
+			$this->_redirect('/');
+		}
 	}
 
 	function indexAction() {

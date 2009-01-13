@@ -19,6 +19,10 @@ class GardiennageController extends Zend_Controller_Action {
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
+		if ($this->view->config->general->actif != 1) {
+			$this->_redirect('/');
+		}
+		
 		$this->view->controleur = $this->_request->controller;
 		Zend_Loader::loadClass("Gardiennage");
 	}

@@ -20,6 +20,9 @@ class RechercheController extends Zend_Controller_Action {
 			$this->_redirect('/Recherche/logoutajax');
 		}
 		$this->view->config = Zend_Registry::get('config');
+		if ($this->view->config->general->actif != 1) {
+			$this->_redirect('/');
+		}
 	}
 
 	function indexAction() {
