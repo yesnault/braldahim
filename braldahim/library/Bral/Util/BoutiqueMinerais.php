@@ -49,6 +49,7 @@ class Bral_Util_BoutiqueMinerais {
 					
 			$tabBrut = array(
 				"id_type_minerai" => $t->id_type_minerai, 
+				"estLingot" => false,
 				"nom_systeme" => $t->nom_systeme_type_minerai, 
 				"description" => $t->description_type_minerai,
 				"idStock" => $idStock,

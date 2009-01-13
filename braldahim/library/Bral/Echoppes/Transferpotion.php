@@ -178,6 +178,6 @@ class Bral_Echoppes_Transferpotion extends Bral_Echoppes_Echoppe {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_equipement", "box_echoppe", "box_echoppes", "box_laban", "box_evenements");
+		return array("box_profil", "box_echoppe", "box_echoppes", "box_laban", "box_evenements");
 	}
 }

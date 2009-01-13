@@ -276,16 +276,22 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 			foreach ($minerais as $m) {
 				$tabMineraisArriere[] = array(
 					"type" => $m["nom_type_minerai"],
+					"id_type_minerai" => $m["id_type_minerai"],
+					"estLingot" => false,
 					"quantite" => $m["quantite_arriere_echoppe_minerai"],
 					"poids" => $m["quantite_arriere_echoppe_minerai"] * Bral_Util_Poids::POIDS_MINERAI,
 				);
 				$tabLingots[] = array(
 					"type" => $m["nom_type_minerai"],
+					"id_type_minerai" => $m["id_type_minerai"],
+					"estLingot" => true,
 					"quantite" => $m["quantite_lingots_echoppe_minerai"],
 					"poids" => $m["quantite_lingots_echoppe_minerai"] * Bral_Util_Poids::POIDS_LINGOT,
 				);
 				$tabMineraisCaisse[] = array(
 					"type" => $m["nom_type_minerai"],
+					"id_type_minerai" => $m["id_type_minerai"],
+					"estLingot" => false,
 					"quantite" => $m["quantite_caisse_echoppe_minerai"],
 					"poids" => $m["quantite_caisse_echoppe_minerai"] * Bral_Util_Poids::POIDS_MINERAI,
 				);
@@ -483,6 +489,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 				$tab = array(
 					"id_potion" => $p["id_echoppe_potion"],
 					"nom" => $p["nom_type_potion"],
+					"id_type_potion" => $p["id_type_potion"],
 					"qualite" => $p["nom_type_qualite"],
 					"niveau" => $p["niveau_echoppe_potion"],
 					"caracteristique" => $p["caract_type_potion"],

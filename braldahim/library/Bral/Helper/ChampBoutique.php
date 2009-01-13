@@ -55,6 +55,11 @@ class Bral_Helper_ChampBoutique {
 			$retour .= "onkeyup=\"".$js."\">";
 			
 		} else {
+			$p = "";
+			if ($tab["estLingot"] == true) {
+				$p = "_p"; 
+			}
+			$retour .= "<img src='/public/styles/braldahim_defaut/images/type_minerai/type_minerai_".$tab["id_type_minerai"]."$p.png' alt=\"".htmlspecialchars($tab["type"])."\"/><br>";
 			$retour .= "Prix Achat: ".$tab["prixUnitaireVente"].'c';
 			$retour .= "<br>Prix Reprise: ".$tab["prixUnitaireReprise"].'c';
 			$retour .= "<br><span style='cursor:pointer' title='Stock Initial au ".Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$tab["dateStock"])."'>Stock Initial: ".$tab["nbStockInitial"]."</span>";

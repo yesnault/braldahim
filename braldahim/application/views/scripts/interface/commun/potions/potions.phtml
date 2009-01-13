@@ -6,6 +6,7 @@
 	<thead class="table_liste">
 	  <tr class="table_liste">
 	  	<th>N&deg;</th>
+	  	<th>&nbsp;</th>
 		<th>Nom</th>
 		<th>Qualit&eacute;</th>
 		<th>Niveau</th>
@@ -27,6 +28,7 @@
 			   foreach($this->potions as $p) :?>
 				  <tr class="table_liste<?=($i % 2);$i++; ?>">
 			  		<td class="table_liste"><?=$p["id_potion"] ?></td>
+			  		<td class="table_liste"><img src='/public/styles/braldahim_defaut/images/type_potion/type_potion_<?=$p["id_type_potion"]?>.png' alt="<?=htmlspecialchars($p["nom"])?>"/></td>
 			  		<td class="table_liste"><?=htmlspecialchars($p["nom"]) ?></td>
 			  		<td class="table_liste"><?=htmlspecialchars($p["qualite"]) ?></td>
 			  		<td class="table_liste"><?=$p["niveau"] ?></td>

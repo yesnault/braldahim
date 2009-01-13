@@ -105,6 +105,8 @@ class Bral_Box_Laban extends Bral_Box_Box {
 			if ($m["quantite_brut_laban_minerai"] > 0) {
 				$tabMineraisBruts[] = array(
 					"type" => $m["nom_type_minerai"],
+					"id_type_minerai" => $m["id_type_minerai"],
+					"estLingot" => false,
 					"quantite" => $m["quantite_brut_laban_minerai"],
 					"poids" => $m["quantite_brut_laban_minerai"] * Bral_Util_Poids::POIDS_MINERAI,
 				);
@@ -116,6 +118,8 @@ class Bral_Box_Laban extends Bral_Box_Box {
 			if ($m["quantite_lingots_laban_minerai"] > 0) {
 				$tabLingots[] = array(
 					"type" => $m["nom_type_minerai"],
+					"id_type_minerai" => $m["id_type_minerai"],
+					"estLingot" => true,
 					"quantite" => $m["quantite_lingots_laban_minerai"],
 					"poids" => $m["quantite_lingots_laban_minerai"] * Bral_Util_Poids::POIDS_LINGOT,
 				);
@@ -334,6 +338,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 			$tabEquipements[$e["id_laban_equipement"]] = array(
 					"id_equipement" => $e["id_laban_equipement"],
 					"nom" => $e["nom_type_equipement"],
+					"id_type_equipement" => $e["id_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
 					"nb_runes" => $e["nb_runes_laban_equipement"],
@@ -404,6 +409,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		foreach ($potions as $p) {
 			$tabPotions[$p["id_laban_potion"]] = array(
 					"id_potion" => $p["id_laban_potion"],
+					"id_type_potion" => $p["id_type_potion"],
 					"nom" => $p["nom_type_potion"],
 					"qualite" => $p["nom_type_qualite"],
 					"niveau" => $p["niveau_laban_potion"],
