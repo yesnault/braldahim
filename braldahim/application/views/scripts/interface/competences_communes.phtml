@@ -4,6 +4,7 @@
  <div class="contenuB">
   <ul class="box_contenu1 textalic">
   
+<? if ($this->affichageInterne == true) : ?>
 	 <?php 
 	 if (count($this->competences) > 0) {
 	 	foreach($this->competences as $c) : ?>
@@ -16,6 +17,10 @@
 	 	echo "Aucune comp&eacute;tence commune";
 	  }
 	 ?>
+<? else: ?>
+	Chargement en cours
+	<br /><img src="/public/images/wait.gif" />
+<? endif; ?>
  
  </ul>
  </div>

@@ -21,13 +21,13 @@ class Bral_Box_Competences extends Bral_Box_Box {
 		// chargement des competences
 		switch($this->type) {
 			case "basic":
-				$this->chargementInBoxes = false;
+				$this->chargementInBoxes = true;
 				$this->titreOnglet = "Basiques";
 				$this->nomInterne = "box_competences_basiques";
 				$this->render = "interface/competences_basiques.phtml";
 				break;
 			case "commun":
-				$this->chargementInBoxes = true;
+				$this->chargementInBoxes = false;
 				$this->titreOnglet = "Communes";
 				$this->nomInterne = "box_competences_communes";
 				$this->render = "interface/competences_communes.phtml";
