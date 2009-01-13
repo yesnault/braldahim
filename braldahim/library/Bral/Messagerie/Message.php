@@ -237,9 +237,9 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 		}
 	}
 	
-	private function prepareMessageAEnvoyer($idFkJosUsersHobbitSource, $idFkJosUsersHobbitDestinataire, $contenu) {
-		return array ('fromid' => $idFkJosUsersHobbitSource,
-					  'toid' => $idFkJosUsersHobbitDestinataire,
+	private function prepareMessageAEnvoyer($idHobbitSource, $idHobbitDestinataire, $contenu) {
+		return array ('fromid' => $idHobbitSource,
+					  'toid' => $idHobbitDestinataire,
 						'message' => $contenu,
 						'datum' => time(),
 						'toread' => 0,

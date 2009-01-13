@@ -1,19 +1,19 @@
 Bonjour,
 
-Votre hobbit <?=$this->hobbit["prenom_hobbit"] ?> <?=$this->hobbit["nom_hobbit"] ?> (<?=$this->hobbit["id_hobbit"] ?>)
+Votre hobbit <?=$this->mailHobbit["prenom_hobbit"] ?> <?=$this->mailHobbit["nom_hobbit"] ?> (<?=$this->mailHobbit["id_hobbit"] ?>)
 a reçu le message suivant:
 
 - Debut Message -
 
-<?=$this->message?> 
+<?=$this->mailMessage?> 
  
 - Fin Message -
 
 Vous pouvez regler l'envoi des mails dans vos paramètres.
  
-Pour vous connecter, rendez-vous ici :  <?=$this->urlJeu ?>
+Pour vous connecter, rendez-vous ici :  <?=$this->mailUrlJeu ?>
  
-Si vous rencontrer un souci, merci d'indiquer ce qu'il se passe via l'adresse suivante : <?=$this->adresseSupport ?> 
+Si vous rencontrer un souci, merci d'indiquer ce qu'il se passe via l'adresse suivante : <?=$this->mailAdresseSupport ?> 
  
 Bon jeu !
 

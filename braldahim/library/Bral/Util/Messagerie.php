@@ -61,7 +61,7 @@ class Bral_Util_Messagerie {
 		return $tab;
 	}
 	
-	public static function constructTabContacts($tabContacts, $idFkJosUsersHobbit, $valeur = "valeur_4_contacts") {
+	public static function constructTabContacts($tabContacts, $idHobbit, $valeur = "valeur_4_contacts") {
 		Zend_Loader::loadClass('JosUserlists');
 		
 		$tab = array("contacts" => "", "aff_js_contacts" => "", "userids" => "", "hobbits" => null);
@@ -73,7 +73,7 @@ class Bral_Util_Messagerie {
 		$josUserListsTable = new JosUserlists();
 		$idContactsTab = split(',', $tabContacts);
 		
-		$contactsTab = $josUserListsTable->findByIdsList($idContactsTab, $idFkJosUsersHobbit);
+		$contactsTab = $josUserListsTable->findByIdsList($idContactsTab, $idHobbit);
 		
 		if ($contactsTab == null) {
 			return $tab;

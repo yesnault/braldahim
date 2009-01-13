@@ -28,9 +28,9 @@ class Bral_Util_Mail {
 		$c = Zend_Registry::get('config');
 		
 		if ($c->mail->envoi->automatique->actif == true) {
-			$view->urlJeu = $c->general->url;
-			$view->adresseSupport = $c->general->adresseSupport;
-			$view->message = $message;
+			$view->mailUrlJeu = $c->general->url;
+			$view->mailAdresseSupport = $c->general->adresseSupport;
+			$view->mailMessage = $message;
 			$view->hobbit = $hobbit;
 			
 			$contenuText = $view->render("messagerie/mailText.phtml");
