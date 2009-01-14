@@ -31,7 +31,7 @@ class Bral_Util_Mail {
 			$view->mailUrlJeu = $c->general->url;
 			$view->mailAdresseSupport = $c->general->adresseSupport;
 			$view->mailMessage = $message;
-			$view->hobbit = $hobbit;
+			$view->mailHobbit = $hobbit;
 			
 			$contenuText = $view->render("messagerie/mailText.phtml");
 			$contenuHtml = $view->render("messagerie/mailHtml.phtml");
