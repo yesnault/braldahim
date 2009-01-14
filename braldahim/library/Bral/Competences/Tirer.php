@@ -17,7 +17,6 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
 		Zend_Loader::loadClass("Bral_Util_Commun");
 		Zend_Loader::loadClass("Monstre");
-		Zend_Loader::loadClass("Palissade");
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		Zend_Loader::loadClass("HobbitEquipement");
 		Zend_Loader::loadClass("LabanMunition");
@@ -59,17 +58,6 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			$y_min = $this->view->user->y_hobbit - $this->view->tir_nb_cases;
 			$y_max = $this->view->user->y_hobbit + $this->view->tir_nb_cases;
 			
-			$tabValide = null;
-			for ($i = $x_min ; $i <= $x_max ; $i++) {
-				$tabValide[$i][$this->view->user->y_hobbit] = true;
-				for ($j = $y_min ; $j <= $y_max ; $j++) {
-					if (!isset($tabValide[$i][$j])) {
-						$tabValide[$i][$j] = false;
-					}
-					$tabValide[$this->view->user->x_hobbit][$j] = true;
-				}
-			}
-			
 			for ($i = 0 ; $i <= $this->view->tir_nb_cases ; $i++) {
 				$xdiagonale_bas_haut = $x_min + $i;
 				$xdiagonale_haut_bas = $x_max - $i;
@@ -79,65 +67,6 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 				$tabValide[$xdiagonale_haut_bas][$ydiagonale_haut_bas] = true;
 				$tabValide[$xdiagonale_bas_haut][$ydiagonale_haut_bas] = true;
 				$tabValide[$xdiagonale_haut_bas][$ydiagonale_bas_haut] = true;
-			}
-			
-			//on charge les palissades présentes dans la vue.
-			$palissadeTable = new Palissade();
-			$palissades = $palissadeTable->selectVue($x_min, $y_min, $x_max, $y_max);
-			
-			foreach($palissades as $p) {
-				$tabValide[$p["x_palissade"]][$p["y_palissade"]] = false;
-				if ($p["x_palissade"] == $this->view->user->x_hobbit) {
-					if ($p["x_palissade"] < $this->view->user->x_hobbit) {
-						for ($i = $y_min; $i<= $p["y_palissade"]; $i++) {
-							$tabValide[$p["x_palissade"]][$i] = false;
-						}
-					} else {
-						for ($i = $y_max; $i>= $p["y_palissade"]; $i--) {
-							$tabValide[$p["x_palissade"]][$i] = false;
-						}
-					}
-				}
-				if ($p["y_palissade"] == $this->view->user->y_hobbit) {
-					if ($p["y_palissade"] < $this->view->user->x_hobbit) {
-						for ($i = $x_min; $i<= $p["x_palissade"]; $i++) {
-							$tabValide[$i][$p["x_palissade"]] = false;
-						}
-					} else {
-						for ($i = $x_max; $i>= $p["x_palissade"]; $i--) {
-							$tabValide[$i][$p["y_palissade"]] = false;
-						}
-					}
-				}
-				if ($p["x_palissade"] <= $this->view->user->x_hobbit && 
-					$p["y_palissade"] >= $this->view->user->y_hobbit) {
-					for ($i = $x_min; $i<= $p["x_palissade"]; $i++) {
-						for ($j = $y_max; $j>= $p["y_palissade"]; $j--) {
-								$tabValide[$i][$j] = false;
-						}
-					}
-				} elseif ($p["x_palissade"] >= $this->view->user->x_hobbit && 
-						  $p["y_palissade"] >= $this->view->user->y_hobbit) {
-	  				for ($i = $x_max; $i>= $p["x_palissade"]; $i--) {
-						for ($j = $y_max; $j>= $p["y_palissade"]; $j--) {
-								$tabValide[$i][$j] = false;
-						}
-					}
-				} elseif ($p["x_palissade"] <= $this->view->user->x_hobbit && 
-						  $p["y_palissade"] <= $this->view->user->y_hobbit) {
-	  				for ($i = $x_min; $i<= $p["x_palissade"]; $i++) {
-						for ($j = $y_min; $j<= $p["y_palissade"]; $j++) {
-								$tabValide[$i][$j] = false;
-						}
-					}
-				} elseif ($p["x_palissade"] >= $this->view->user->x_hobbit && 
-						  $p["y_palissade"] <= $this->view->user->y_hobbit) {
-	  				for ($i = $x_max; $i>= $p["x_palissade"]; $i--) {
-						for ($j = $y_min; $j<= $p["y_palissade"]; $j++) {
-								$tabValide[$i][$j] = false;
-						}
-					}
-				}
 			}
 			
 			$tabHobbits = null;
@@ -151,16 +80,15 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 				$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->id_hobbit);
 				
 				foreach($hobbits as $h) {
-					if ($tabValide[$h["x_hobbit"]][$h["y_hobbit"]] === true) {
-						$tab = array(
-							'id_hobbit' => $h["id_hobbit"],
-							'nom_hobbit' => $h["nom_hobbit"],
-							'prenom_hobbit' => $h["prenom_hobbit"],
-							'x_hobbit' => $h["x_hobbit"],
-							'y_hobbit' => $h["y_hobbit"],
-						);
-						$tabHobbits[] = $tab;
-					}
+					$tab = array(
+						'id_hobbit' => $h["id_hobbit"],
+						'nom_hobbit' => $h["nom_hobbit"],
+						'prenom_hobbit' => $h["prenom_hobbit"],
+						'x_hobbit' => $h["x_hobbit"],
+						'y_hobbit' => $h["y_hobbit"],
+						'dist_hobbit' => max(abs($h["x_hobbit"] - $this->view->user->x_hobbit), abs($h["y_hobbit"] - $this->view->user->y_hobbit))
+					);
+					$tabHobbits[] = $tab;
 				}
 			}
 			
@@ -173,16 +101,15 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 				} else {
 					$m_taille = $m["nom_taille_m_monstre"];
 				}
-				if ($tabValide[$m["x_monstre"]][$m["y_monstre"]] === true) {
-					$tabMonstres[] = array(
-						'id_monstre' => $m["id_monstre"], 
-						'nom_monstre' => $m["nom_type_monstre"], 
-						'taille_monstre' => $m_taille, 
-						'niveau_monstre' => $m["niveau_monstre"],
-						'x_monstre' => $m["x_monstre"],
-						'y_monstre' => $m["y_monstre"],
-					);
-				}
+				$tabMonstres[] = array(
+					'id_monstre' => $m["id_monstre"], 
+					'nom_monstre' => $m["nom_type_monstre"], 
+					'taille_monstre' => $m_taille, 
+					'niveau_monstre' => $m["niveau_monstre"],
+					'x_monstre' => $m["x_monstre"],
+					'y_monstre' => $m["y_monstre"],
+					'dist_monstre' => max(abs($m["x_monstre"] - $this->view->user->x_hobbit), abs($m["y_monstre"]-$this->view->user->y_hobbit))
+				);
 			}
 			$this->view->tabHobbits = $tabHobbits;
 			$this->view->nHobbits = count($tabHobbits);
@@ -195,11 +122,128 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 	}
 	
 	function prepareFormulaire() {
-		// rien à faire ici
+		//on trie suivant la distance
+		if ($this->view->nMonstres > 0) {
+			foreach ($this->view->tabMonstres as $key => $row) {
+    			$dist[$key] = $row['dist_monstre'];
+			}
+			array_multisort($dist, SORT_ASC, $this->view->tabMonstres);
+		}
+		
+		if ($this->view->nHobbits > 0) {
+			foreach ($this->view->tabHobbits as $key => $row) {
+    			$dist[$key] = $row['dist_hobbit'];
+			}
+			array_multisort($dist, SORT_ASC, $this->view->tabHobbits);
+		}
 	}
 
 	function prepareResultat() {
+		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
+			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_1"));
+		} else {
+			$idMonstre = (int)$this->request->get("valeur_1");
+		}
+		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
+			throw new Zend_Exception(get_class($this)." Hobbit invalide : ".$this->request->get("valeur_2"));
+		} else {
+			$idHobbit = (int)$this->request->get("valeur_2");
+		}
+
+		if ($idMonstre != -1 && $idHobbit != -1) {
+			throw new Zend_Exception(get_class($this)." Monstre ou Hobbit invalide (!=-1)");
+		}
 		
+		//$attaqueMonstre = false;
+		//$attaqueHobbit = false;
+		if ($idHobbit != -1) {
+			if (isset($this->view->tabHobbits) && count($this->view->tabHobbits) > 0) {
+				foreach ($this->view->tabHobbits as $h) {
+					if ($h["id_hobbit"] == $idHobbit) {
+						//$attaqueHobbit = true;
+						$this->view->retourAttaque = $this->attaqueHobbit($this->view->user, $idHobbit);
+						//Gérer uniquement pour l'ARM NAT
+						//Décompter une munition
+						break;
+					}
+				}
+			}
+			if ($attaqueHobbit === false) {
+				throw new Zend_Exception(get_class($this)." Hobbit invalide (".$idHobbit.")");
+			}
+		} else {
+			if (isset($this->view->tabMonstres) && count($this->view->tabMonstres) > 0) {
+				foreach ($this->view->tabMonstres as $m) {
+					if ($m["id_monstre"] == $idMonstre) {
+						//$attaqueMonstre = true;
+						$this->view->retourAttaque = $this->attaqueMonstre($this->view->user, $idMonstre);
+						//Gérer uniquement pour l'ARM NAT
+						//Décompter une munition
+						break;
+					}
+				}
+			}
+			if ($attaqueMonstre === false) {
+				throw new Zend_Exception(get_class($this)." Monstre invalide (".$idMonstre.")");
+			}
+		}
+		
+		$this->calculPx();
+		$this->calculBalanceFaim();
+		$this->majHobbit();
+	}
+	
+	/*
+	 * Le jet d'attaque d'un tir est différent : JA = (Jet d'AGI + BM) * coeff 
+	 */
+	protected function calculJetAttaque($hobbit) {
+		$jetAttaquant = 0;
+		for ($i=1; $i<=$this->view->config->game->base_agilite + $hobbit->agilite_base_hobbit; $i++) {
+			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
+		}
+		$coef=1;
+		
+		//calcul du coef suivant palissade (attention aux diagonales ?)
+		
+		
+		$jetAttaquant = $coef * ($jetAttaquant + $hobbit->agilite_bm_hobbit + $hobbit->agilite_bbdf_hobbit + $hobbit->bm_attaque_hobbit);
+		return $jetAttaquant;
+	}
+
+	/*
+	 * Le jet de dégats diffère aussi : 
+	 * moyenne(jet AGI+BM;jet SAG +BM)
+	 * cas du critique :
+	 * 1,5*moyenne(jet AGI+BM;jet SAG +BM)
+	 */
+	protected function calculDegat($hobbit) {
+		$jetDegat["critique"] = 0;
+		$jetDegat["noncritique"] = 0;
+		$coefCritique = 1.5;
+		
+		for ($i=1; $i<= ($this->view->config->game->base_force + $hobbit->force_base_hobbit) * $coefCritique; $i++) {
+			$jetDegat["critique"] = $jetDegat["critique"] + Bral_Util_De::get_1d6();
+		}
+		$jetDegat["critique"] = $jetDegat["critique"] + $this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit;
+		
+		for ($i=1; $i<= ($this->view->config->game->base_force + $hobbit->force_base_hobbit); $i++) {
+			$jetDegat["noncritique"] = $jetDegat["noncritique"] + Bral_Util_De::get_1d6();
+		}
+		$jetDegat["noncritique"] = $jetDegat["noncritique"] + $this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit;
+		
+		for ($i=1; $i<= $this->view->config->game->base_vigueur + $hobbit->vigueur_base_hobbit; $i++) {
+			$jetDegat["critique"] = $jetDegat["critique"] + Bral_Util_De::get_1d6();
+			$jetDegat["noncritique"] = $jetDegat["noncritique"] + Bral_Util_De::get_1d6();
+		}
+		
+		$jetDegat["critique"] = $jetDegat["critique"] + $hobbit->vigueur_bm_hobbit + $hobbit->vigueur_bbdf_hobbit + $hobbit->bm_degat_hobbit;
+		$jetDegat["noncritique"] = $jetDegat["noncritique"] + $hobbit->vigueur_bm_hobbit + $hobbit->vigueur_bbdf_hobbit + $hobbit->bm_degat_hobbit;
+
+		return $jetDegat;
+	}
+	
+	function calculTirer(){
+		Zend_Loader::loadClass("Palissade");
 	}
 	
 	function getListBoxRefresh() {
