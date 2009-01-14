@@ -96,6 +96,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 			$equipement = array(
 					"id_equipement" => $e["id_equipement_hequipement"],
 					"nom" => $e["nom_type_equipement"],
+					"id_type_equipement" => $e["id_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
 					"id_type_emplacement" => $e["id_type_emplacement"],
@@ -127,46 +128,49 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		foreach ($equipementLabanRowset as $e) {
 			$this->view->sequiperOk = true;
 			$runes = null;
-			if (count($equipementRunes) > 0) {
-				foreach($equipementRunes as $r) {
-					if ($r["id_equipement_rune"] == $e["id_laban_equipement"]) {
-						$runes[] = array(
-							"id_rune_equipement_rune" => $r["id_rune_equipement_rune"],
-							"id_fk_type_rune_equipement_rune" => $r["id_fk_type_rune_equipement_rune"],
-							"nom_type_rune" => $r["nom_type_rune"],
-							"image_type_rune" => $r["image_type_rune"],
-							"effet_type_rune" => $r["effet_type_rune"],
-						);
+			
+			if ($e["est_equipable_type_emplacement"] == "oui") {
+				if (count($equipementRunes) > 0) {
+					foreach($equipementRunes as $r) {
+						if ($r["id_equipement_rune"] == $e["id_laban_equipement"]) {
+							$runes[] = array(
+								"id_rune_equipement_rune" => $r["id_rune_equipement_rune"],
+								"id_fk_type_rune_equipement_rune" => $r["id_fk_type_rune_equipement_rune"],
+								"nom_type_rune" => $r["nom_type_rune"],
+								"image_type_rune" => $r["image_type_rune"],
+								"effet_type_rune" => $r["effet_type_rune"],
+							);
+						}
 					}
 				}
+	
+				$equipement = array(
+						"id_equipement" => $e["id_laban_equipement"],
+						"nom" => $e["nom_type_equipement"],
+						"qualite" => $e["nom_type_qualite"],
+						"niveau" => $e["niveau_recette_equipement"],
+						"id_type_emplacement" => $e["id_type_emplacement"],
+						"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
+						"nb_runes" => $e["nb_runes_laban_equipement"],
+						"id_fk_recette_equipement" => $e["id_fk_recette_laban_equipement"],
+						"armure" => $e["armure_recette_equipement"],
+						"force" => $e["force_recette_equipement"],
+						"agilite" => $e["agilite_recette_equipement"],
+						"vigueur" => $e["vigueur_recette_equipement"],
+						"sagesse" => $e["sagesse_recette_equipement"],
+						"vue" => $e["vue_recette_equipement"],
+						"bm_attaque" => $e["bm_attaque_recette_equipement"],
+						"bm_degat" => $e["bm_degat_recette_equipement"],
+						"bm_defense" => $e["bm_defense_recette_equipement"],
+						"suffixe" => $e["suffixe_mot_runique"],
+						"id_fk_mot_runique" => $e["id_fk_mot_runique_laban_equipement"],
+						"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
+						"poids" => $e["poids_recette_equipement"],
+						"runes" => $runes,
+				);
+				$this->equipementLaban[] = $equipement;
+				$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["equipementLaban"][] = $equipement;
 			}
-
-			$equipement = array(
-					"id_equipement" => $e["id_laban_equipement"],
-					"nom" => $e["nom_type_equipement"],
-					"qualite" => $e["nom_type_qualite"],
-					"niveau" => $e["niveau_recette_equipement"],
-					"id_type_emplacement" => $e["id_type_emplacement"],
-					"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
-					"nb_runes" => $e["nb_runes_laban_equipement"],
-					"id_fk_recette_equipement" => $e["id_fk_recette_laban_equipement"],
-					"armure" => $e["armure_recette_equipement"],
-					"force" => $e["force_recette_equipement"],
-					"agilite" => $e["agilite_recette_equipement"],
-					"vigueur" => $e["vigueur_recette_equipement"],
-					"sagesse" => $e["sagesse_recette_equipement"],
-					"vue" => $e["vue_recette_equipement"],
-					"bm_attaque" => $e["bm_attaque_recette_equipement"],
-					"bm_degat" => $e["bm_degat_recette_equipement"],
-					"bm_defense" => $e["bm_defense_recette_equipement"],
-					"suffixe" => $e["suffixe_mot_runique"],
-					"id_fk_mot_runique" => $e["id_fk_mot_runique_laban_equipement"],
-					"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
-					"poids" => $e["poids_recette_equipement"],
-					"runes" => $runes,
-			);
-			$this->equipementLaban[] = $equipement;
-			$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["equipementLaban"][] = $equipement;
 		}
 		
 		$this->view->typesEmplacement = $tabTypesEmplacement;
