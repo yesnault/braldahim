@@ -99,7 +99,7 @@ class Bral_Util_Marcher {
 		}
 		unset($palissades);
 		
-		if ($this->nb_cases == 2) {
+		if ($this->nb_cases >= 2) {
 			$this->calculPalissade($hobbit);
 		}
 		

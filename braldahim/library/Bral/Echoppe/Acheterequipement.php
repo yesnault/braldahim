@@ -58,7 +58,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		}
 		
 		if ($trouve == false) {
-			throw new Zend_Exception(get_class($this)."::equipement invalide");
+			throw new Zend_Exception(get_class($this)."::equipement invalide:".$idEquipement);
 		}
 		
 		$equipementRuneTable = new EquipementRune();
