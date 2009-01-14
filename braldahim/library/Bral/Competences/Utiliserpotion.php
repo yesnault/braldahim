@@ -233,7 +233,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 				  'id_fk_type_qualite_effet_potion_monstre' => $potion["id_fk_type_qualite_potion"],
 				  'nb_tour_restant_effet_potion_monstre' => $nbTour,
 				  'niveau_effet_potion_monstre' => $potion["niveau"],
-				  'bm_effet_potion_hobbit' => $potion["bm_effet_potion"],
+				  'bm_effet_potion_monstre' => $potion["bm_effet_potion"],
 			);
 			$effetPotionMonstreTable->insert($data);
 		}
