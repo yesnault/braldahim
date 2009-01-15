@@ -19,8 +19,14 @@ class Bral_Helper_Profil {
 		$titre = "Exp&eacute;rience atteinte dans ce niveau";
 		$texte = "Vous avez ".$px_perso_hobbit. " PX Perso.<br>";
 		$texte .= "Pour passer au niveau ".($niveau_hobbit + 1).", il vous faut ";
-		$texte .= " ".$niveauSuivantPx. " PX Perso.<br>";
-		$texte .= "Il vous manque donc ".($niveauSuivantPx - $px_perso_hobbit)." PX Perso.<br>";
+		
+		if ($niveauSuivantPx > 0) {
+			$texte .= " ".$niveauSuivantPx. " PX Perso.<br>";
+			$texte .= "Il vous manque donc ".($niveauSuivantPx - $px_perso_hobbit)." PX Perso.<br>";
+		} else {
+			$texte .= " 0 PX Perso.<br>";
+			$texte .= "Vous allez changer de niveau &agrave; la prochaine action.<br>";
+		}
 		
     	if ($largeur > 200) {
 			$largeur = 200;
