@@ -1,0 +1,31 @@
+<?php echo $this->render('header.phtml'); ?>
+<form action="/charte/accepter" method="post">
+
+<div class="box_gardiennage">
+<?=Bral_Helper_Box::haut(); ?>
+<div class="inner">
+	<ul class="titre textalic textsizea">Acception de la nouvelle charte</ul>
+	&nbsp;
+	<div class="contenu">
+	    <ul class="box_contenu1 textalic">
+	    <br />
+      	Vous devez accepter la nouvelle charte pour continuer &agrave; jouer.<br>
+      	Elle est disponible &agrave; cette adresse : 
+      	<a href="<?=$this->config->general->charte->url?>" target="_blank"><?=$this->config->general->charte->url?></a>.
+		<br>
+      	Raison du changement : <?=$this->config->general->charte->raison?>
+      	<br /><br>
+		<div id="formbutton">
+			<input type="submit" name="accepter" class='button1' value="Accepter la nouvelle charte et continuer &agrave; jouer !" />
+			<input type="button" name="deconnexion" class='button1' value="Refuser la nouvelle charte et se d&eacute;connecter" onClick="javascript:document.location.href='/auth/logout'"/>
+		</div>
+		</ul>
+	</div>
+	&nbsp;
+</div>
+<?=Bral_Helper_Box::bas(); ?>
+</div>
+</form>
+
+<?php echo $this->render('footer.phtml'); ?>
+

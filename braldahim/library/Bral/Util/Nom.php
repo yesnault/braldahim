@@ -27,13 +27,16 @@ class Bral_Util_Nom {
 	}
 	
 	function estValidPrenom($prenom) {
+		$retour = false;
 		$idNom = $this->calculIdNom($prenom);
 		
 		if ($idNom == -1) {
-			return false;
+			$retour = false;
 		} else {
-			return true;
+			$retour = true;
 		}
+		
+		return $retour;
 	}
 	
 	private function calculIdNom($prenom) {
@@ -75,5 +78,19 @@ class Bral_Util_Nom {
 			}
 		}
 		return $idNom;
+	}
+	
+	public function estPrenomAutorise($prenom) {
+		Zend_Loader::loadClass("PrenomInterdit");
+		$retour = true;
+		
+		$prenomInterditTable = new PrenomInterdit();
+		$nombre = $prenomInterditTable->countByPrenom("%".$prenom."%");
+		
+		if ($nombre >=1) {
+			$retour	= false;
+		}
+		
+		return $retour;
 	}
 }

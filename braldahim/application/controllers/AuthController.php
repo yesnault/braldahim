@@ -69,7 +69,7 @@ class AuthController extends Zend_Controller_Action {
 					Bral_Util_Log::authentification()->warn("AuthController - loginAction - compte non actif : ".$email);
 					$this->view->message = "Ce compte est en hibernation jusqu'au ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$hobbit->date_fin_hibernation_hobbit). " inclus.";
 					Zend_Auth::getInstance()->clearIdentity();
-				} else if ($hobbit->est_compte_actif_hobbit == "oui") {
+				} else if ($hobbit->est_compte_actif_hobbit == "oui" && $hobbit->est_compte_desactive_hobbit == "non") {
 					Bral_Util_Log::authentification()->notice("AuthController - loginAction - authentification OK pour ".$email);
 					// success : store database row to auth's storage system
 					// (not the password though!)
@@ -92,12 +92,18 @@ class AuthController extends Zend_Controller_Action {
 					if (Zend_Auth::getInstance()->getIdentity()->gardiennage === true) {
 						Bral_Util_Log::authentification()->trace("AuthController - loginAction - appel gardiennage");
 						$this->_redirect('/Gardiennage/');
+					} else if (Zend_Auth::getInstance()->getIdentity()->est_charte_validee_hobbit == "non") {
+						$this->_redirect('/charte/');
 					} else {
 						$this->_redirect('/interface/');
 					}
-				} else {
+				} else if ($hobbit->est_compte_actif_hobbit == "non") {
 					Bral_Util_Log::authentification()->warn("AuthController - loginAction - compte non actif : ".$email);
 					$this->view->message = "Ce compte n'est pas actif";
+					Zend_Auth::getInstance()->clearIdentity();
+				} else { //if ($hobbit->est_compte_desactive_hobbit == "oui") {
+					Bral_Util_Log::authentification()->warn("AuthController - loginAction - compte desactive : ".$email);
+					$this->view->message = "Ce compte est actuellement désactivé";
 					Zend_Auth::getInstance()->clearIdentity();
 				}
 			} else {

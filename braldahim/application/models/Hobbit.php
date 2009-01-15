@@ -163,7 +163,7 @@ class Hobbit extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('hobbit', '*')
 		->where('id_fk_nom_initial_hobbit = ?', $idNom)
-		->where('lcase(prenom_hobbit) = ?', (string)mb_strtolower(trim($prenom)));
+		->where('lcase(prenom_hobbit) like ?', (string)mb_strtolower(trim($prenom)));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

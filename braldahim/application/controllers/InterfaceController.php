@@ -34,15 +34,17 @@ class InterfaceController extends Zend_Controller_Action {
 				}
 				
 				$this->_redirect('/auth/logoutajax');
-				
 		} else {
 			Zend_Loader::loadClass('Bral_Util_BralSession');
 			if (Bral_Util_BralSession::refreshSession() == false) {
 				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 2 ");
 				$this->_redirect('/auth/logoutajax');
-			} 
+			}
 		}
 		$this->view->user = Zend_Auth::getInstance()->getIdentity(); // pour rafraichissement session
+		if ($this->view->user->est_charte_validee_hobbit == "non") {
+			$this->_redirect('/charte');
+		}
 		
 		$this->view->controleur = $this->_request->controller;
 

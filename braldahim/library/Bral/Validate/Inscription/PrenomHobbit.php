@@ -55,6 +55,11 @@ class Bral_Validate_Inscription_PrenomHobbit implements Zend_Validate_Interface 
 			$valid = false;
     	}
     	
+		if ($nom->estPrenomAutorise($valeur) == false) {
+			$this->_messages[] = "Ce pr&eacute;nom est interdit.";
+			$valid = false;
+    	}
+    	
 		return $valid;
     }
 

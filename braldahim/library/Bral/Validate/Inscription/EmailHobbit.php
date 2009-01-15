@@ -14,8 +14,8 @@ require_once 'Zend/Validate/Interface.php';
 
 class Bral_Validate_Inscription_EmailHobbit implements Zend_Validate_Interface {
     protected $_messages = array();
-
-    public function isValid($valeur) {
+    
+    public function isValid($valeur, $estEnProduction = false) {
         $this->_messages = array();
 		$valid = true;
 
@@ -47,7 +47,7 @@ class Bral_Validate_Inscription_EmailHobbit implements Zend_Validate_Interface {
 			}
 		}
 		
-    	if ($valid) {
+    	if ($valid && !$estEnProduction) {
     		Zend_Loader::loadClass("Testeur");
     		$testeurTable = new Testeur();
 			$r = $testeurTable->findByEmail($valeur);

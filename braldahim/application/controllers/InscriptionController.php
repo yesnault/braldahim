@@ -140,7 +140,7 @@ class InscriptionController extends Zend_Controller_Action {
 			
 			$captcha_vue =  $this->_request->getPost('captcha');
 			$validPrenom = $validateurPrenom->isValid($this->prenom_hobbit);
-			$validEmail = $validateurEmail->isValid($this->email_hobbit);
+			$validEmail = $validateurEmail->isValid($this->email_hobbit, ($this->view->config->general->production == 1));
 			$validPassword = $validateurPassword->isValid($this->password_hobbit);
 	
 			$validEmailConfirm = ($this->email_confirm_hobbit == $this->email_hobbit);
@@ -299,6 +299,7 @@ class InscriptionController extends Zend_Controller_Action {
 			'poids_transporte_hobbit' => Bral_Util_Poids::calculPoidsTransporte(-1, $this->view->config->game->inscription->castars),
 			'pv_max_hobbit' => $pv,
 			'pv_restant_hobbit' => $pv,
+			'est_charte_validee_hobbit' => "oui",
 		);
 
 		return $data;
@@ -416,15 +417,14 @@ class InscriptionController extends Zend_Controller_Action {
 	}
 	
 	function validateCaptcha($captcha) {
-			$captchaId = $captcha['id'];
-			$captchaInput = $captcha['input'];
-			$captchaSession = new Zend_Session_Namespace('Zend_Form_Captcha_' . $captchaId);
-			$captchaIterator = $captchaSession->getIterator();
-			$captchaWord = $captchaIterator['word'];
-			if( $captchaInput != $captchaWord ){
-				return false;
-			} else {
-				return true;
-			}
+		$captchaId = $captcha['id'];
+		$captchaInput = $captcha['input'];
+		$captchaSession = new Zend_Session_Namespace('Zend_Form_Captcha_' . $captchaId);
+		$captchaIterator = $captchaSession->getIterator();
+		if($captchaIterator != null && array_key_exists("word", $captchaIterator) && $captchaInput != $captchaIterator['word']){
+			return false;
+		} else {
+			return true;
+		}
 	}
 }
