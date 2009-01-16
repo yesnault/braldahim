@@ -41,8 +41,12 @@
 	if ($this->effetMotU) {
 		if ($this->effetMotUPointsDegats > 1) : $s = 's'; else: $s = ''; endif;
 		echo "Votre armure de Nosferatu inflige un souffle vampirique de ".$this->effetMotUPointsDegats." point".$s." de d&eacute;g&acirc;t".$s." &agrave; tout ce qui se trouve sur sa case.";
+		echo "
+";
+		echo "Vous avez r&eacute;cup&eacute;r&eacute; ".$this->effetMotUNbCibles. " PV";
 		echo"
 ";
+		$this->ciblesEffet = $this->ciblesEffetU;
 		include("tour_effet_touches_copie.phtml");
 	}
 	
@@ -51,4 +55,3 @@
 		echo"
 ";
 	}
-?>

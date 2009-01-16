@@ -401,10 +401,15 @@ class Bral_Box_Tour extends Bral_Box_Box {
 				if ($e["nom_systeme_mot_runique"] == "mot_u") {
 					$this->view->effetMotU = true;
 					$this->view->effetMotUPointsDegats = $e["niveau_recette_equipement"] / 2;
+					$this->view->effetMotUNbCibles = 0;
 					$ciblesEffetU = Bral_Util_Attaque::calculDegatCase($this->view->config, $this->hobbit, $this->view->effetMotUPointsDegats, $this->view);
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotU actif - avant recuperation pv this->hobbit->pv_restant_hobbit=".$this->hobbit->pv_restant_hobbit);
 					if ($ciblesEffetU != null && $ciblesEffetU["n_cible"] != null) {
+						$this->view->effetMotUNbCibles = $ciblesEffetU["n_cible"];
 						$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_restant_hobbit + $ciblesEffetU["n_cible"];
+						if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit) {
+							$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit;
+						}
 					}
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotU actif - apres recuperation pv this->hobbit->pv_restant_hobbit=".$this->hobbit->pv_restant_hobbit);
 					$this->view->ciblesEffetU = $ciblesEffetU;
