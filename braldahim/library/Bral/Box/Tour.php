@@ -84,7 +84,17 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 		$this->is_tour_manque = false;
 		// Mise a jour du nombre de PA + position tour
-		if ($date_courante > $this->hobbit->date_fin_tour_hobbit) { // Perte d'un tour
+		if ($this->hobbit->est_mort_hobbit == "oui") {
+			Bral_Util_Log::tour()->debug(get_class($this)." Mort du hobbit");
+			$mdate = date("Y-m-d H:i:s");
+			$this->hobbit->date_debut_cumul_hobbit = $mdate;
+			$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_cumul);
+			$this->hobbit->date_debut_tour_hobbit = Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_cumul);
+			$this->hobbit->date_fin_latence_hobbit = Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_milieu);
+			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_cumul;
+			$this->is_update_tour = true;
+			$this->hobbit->pa_hobbit = $this->view->config->game->pa_max_cumul;
+		} else if ($date_courante > $this->hobbit->date_fin_tour_hobbit) { // Perte d'un tour
 			Bral_Util_Log::tour()->debug(get_class($this)." Perte d'un tour");
 			$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($date_courante, $this->view->config->game->tour->duree_tour_manque);
 			$this->hobbit->tour_position_hobbit = $this->view->config->game->tour->position_cumul;
@@ -566,8 +576,11 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 		$this->view->user->x_hobbit = $this->hobbit->x_hobbit;
 		$this->view->user->y_hobbit  = $this->hobbit->y_hobbit;
+		
 		$this->view->user->date_debut_tour_hobbit = $this->hobbit->date_debut_tour_hobbit;
 		$this->view->user->date_fin_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;
+		$this->view->user->date_debut_cumul_hobbit = $this->hobbit->date_debut_cumul_hobbit;
+		$this->view->user->date_fin_latence_hobbit = $this->hobbit->date_fin_latence_hobbit;
 		$this->view->user->duree_courant_tour_hobbit = $this->hobbit->duree_courant_tour_hobbit;
 		$this->view->user->duree_prochain_tour_hobbit = $this->hobbit->duree_prochain_tour_hobbit;
 		$this->view->user->tour_position_hobbit = $this->hobbit->tour_position_hobbit;
