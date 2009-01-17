@@ -1,19 +1,19 @@
 <? if (count($this->infosJeu) > 0) : ?>
-	    	<ul class="titre textalic textsizeb">Chronique...</ul>
-	    		<table class="table_liste" style="width:300px">
-	    		<thead class="table_liste">
-				<? 
-					$i = 0; 
-					foreach ($this->infosJeu as $info) : ?>
-					<tr class="table_liste<?=($i % 2);$i++; ?>">
-						Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?>
-						<br>
-						<?=Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
-						<br><br>
-						</td>
-					</tr>
-				<? endforeach; ?>
-				</thead>
-				</table>
-				&nbsp;
+    <ul class="titre textalic textsizeb">Chronique...</ul><br>
+    	<table class="table_liste" style="width:300px">
+    	<thead class="table_liste">
+		<? 
+			$i = 0; 
+			foreach ($this->infosJeu as $info) : ?>
+			<tr class="table_liste<?=($i % 2);$i++; ?>">
+				Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?>
+				<br>
+				<?=Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
+				<br><br>
+				</td>
+			</tr>
+		<? endforeach; ?>
+		</thead>
+		</table>
+		&nbsp;
 <? endif; ?>

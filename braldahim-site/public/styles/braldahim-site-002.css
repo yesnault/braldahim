@@ -555,6 +555,7 @@ span.id_hobbit {
 	background: #FADC9B repeat-x scroll 0pt 0%;
 	padding: 0px;
 	margin: 0px;
+	border: 1px solid #791E1E;
 }
 
 
@@ -584,4 +585,40 @@ span.id_hobbit {
 	height:100%;
 	text-decoration:none;
 	width:100%;
+}
+
+table.table_liste {
+	border: 1px solid #791E1E;
+	border-collapse: collapse;
+	width: 70%;
+	margin: auto;
+	align: center;
+}
+
+thead.table_liste,tfoot.table_liste {
+	background-color: #CCCC99;
+	border: 1px solid #791E1E;
+	text-align: center;
+}
+th.table_liste {
+	padding: 5px;
+	background-color: #791E1E;
+	width: 25%;
+	text-align: center;
+}
+tr.table_liste0 {
+	background: #e7c57b;
+}
+
+tr.table_liste1 {
+	background: #;
+}
+
+td.table_liste_border {
+	border: 1px solid #791E1E;
+}
+
+td.table_liste {
+	padding: 5px;
+	text-align: center;
 }
