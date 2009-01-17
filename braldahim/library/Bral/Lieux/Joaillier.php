@@ -89,12 +89,14 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			$labanRunes = $labanRuneTable->findByIdHobbit($this->view->user->id_hobbit);
 			
 			foreach($labanRunes as $l) {
-				$tabLabanRune[$l["id_rune_laban_rune"]] = array(
-					"id_fk_type_rune_laban_rune" => $l["id_fk_type_laban_rune"],
-					"nom_type_rune" => $l["nom_type_rune"],
-					"image_type_rune" => $l["image_type_rune"],
-					"effet_type_rune" => $l["effet_type_rune"],
-				);
+				if ($l["est_identifiee_rune"] == "oui") {
+					$tabLabanRune[$l["id_rune_laban_rune"]] = array(
+						"id_fk_type_rune_laban_rune" => $l["id_fk_type_laban_rune"],
+						"nom_type_rune" => $l["nom_type_rune"],
+						"image_type_rune" => $l["image_type_rune"],
+						"effet_type_rune" => $l["effet_type_rune"],
+					);
+				}
 			}
 			$this->view->nbLabanRune = count($tabLabanRune);
 			$this->view->labanRunes = $tabLabanRune;
