@@ -34,6 +34,7 @@ class CharteController extends Zend_Controller_Action {
 		if ($this->_request->isPost()) {
 			$hobbitTable = new Hobbit();
 			$data = array("est_charte_validee_hobbit" => "oui");
+			$where = "id_hobbit=".$this->view->user->id_hobbit;
 			$hobbitTable->update($data, $where);
 			$this->_redirect('/interface');
 		} else {
