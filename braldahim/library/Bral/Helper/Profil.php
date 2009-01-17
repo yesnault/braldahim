@@ -20,7 +20,7 @@ class Bral_Helper_Profil {
 		$texte = "Vous avez ".$px_perso_hobbit. " PX Perso.<br>";
 		$texte .= "Pour passer au niveau ".($niveau_hobbit + 1).", il vous faut ";
 		
-		if ($niveauSuivantPx > 0) {
+		if (($niveauSuivantPx - $px_perso_hobbit) > 0) {
 			$texte .= " ".$niveauSuivantPx. " PX Perso.<br>";
 			$texte .= "Il vous manque donc ".($niveauSuivantPx - $px_perso_hobbit)." PX Perso.<br>";
 		} else {
