@@ -1,0 +1,24 @@
+	<ul class="titre textalic textsizeb">
+		Palmarès
+	</ul><br>
+
+
+<table style="width:100%">
+	<tr>
+		<td style="width:30px" valign="top">
+		
+			<ul class="box_contenu1 textalic">
+				<ul class="titre textalic textsizec">
+				Sélection
+				</ul><br>
+				<? foreach($this->selection as $s) : ?>
+					<a href="/palmares/<?=$s["url"]?>"><?=$s["nom"]?></a><br>
+				<? endforeach;?>
+				<br>
+			</ul>
+		</td>
+		<td style="width:400px; border: 0px solid #791E1E;" valign="top">
+			<? include("box_onglets.phtml"); ?>
+		</td>
+	</tr>
+	</table>

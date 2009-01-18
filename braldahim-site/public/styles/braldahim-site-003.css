@@ -69,7 +69,7 @@ input:hover {
 input.button1 {
 	background-color: #FAFAFA;
 	background-image:
-		url(/public/styles/braldahim_defaut/images/layout/bg_button.gif);
+		url(/public/images/bg_button.gif);
 	color: #000000;
 	border-color: #666666;
 	font-size: 1em;
@@ -104,6 +104,20 @@ a:hover,.alabel:hover {
 
 span.id_hobbit {
 	color: red;
+}
+
+.box_chargement {
+	position: absolute;
+	width: 200px;
+	height: 60px;
+	valign: center;
+	margin-left: -110px;
+	margin-top: -100px;
+	text-align: center;
+	border-width: 0px;
+	color: black;
+	font-weight: bold;
+	z-index: 1000;
 }
 
 #navigation {
@@ -170,6 +184,16 @@ span.id_hobbit {
 /* ************************************************ */
 /* ********************** Onglets ***************** */
 /* ************************************************ */
+.boite_a, {
+	margin-top: 10px;
+	width: auto;
+}
+
+.boite_a, {
+	margin-top: 10px;
+	width: 365px;
+}
+
 .onglet {
 	border-style: solid;
 	border-color: #791E1E;
@@ -190,6 +214,14 @@ span.id_hobbit {
 .onglet:hover {
 	background-color: #ffd363;
 	cursor: pointer;
+}
+
+.box_naissancederniers, .box_naissancesexe {
+	color: black;
+	height: auto;
+	text-align: center;
+	z-index: 10;
+	background: #transparent none repeat scroll 0% 0%;
 }
 
 /* ************************************************ */
@@ -376,7 +408,7 @@ span.id_hobbit {
 	margin:0 auto;
 	padding:1 50px;
 	text-align:center;
-	width:540px;
+	width:640px;
 }
 #menu li {
 	background-repeat:no-repeat;
@@ -389,53 +421,67 @@ span.id_hobbit {
 }
 #menu li.accueil a {
 	background-image:url(/public/images/menu.gif);
-	background-position:0 0;
+	background-position: 0 0;
 	height:31px;
-	width:80px;
+	width:110px;
 }
 #menu li.accueil a:hover {
 	background-image:url(/public/images/menu.gif);
-	background-position:0 -31px;
+	background-position: 0 -31px;
+	height:31px;
+	width:110px;
 }
 #menu li.jouer a {
 	background-image:url(/public/images/menu.gif);
-	background-position:-80px 0;
+	background-position:-110px 0;
 	height:31px;
-	width:106px;
+	width:85px;
 }
 #menu li.jouer a:hover {
 	background-image:url(/public/images/menu.gif);
-	background-position:-80px -31px;
+	background-position:-110px -31px;
 }
-#menu li.forums a {
+#menu li.bourg a {
 	background-image:url(/public/images/menu.gif);
 	background-position:-190px 0;
 	height:31px;
-	width:106px;
+	width:110px;
 }
-#menu li.forums a:hover {
+#menu li.bourg a:hover {
 	background-image:url(/public/images/menu.gif);
 	background-position:-190px -31px;
+	height:31px;
 }
-#menu li.regles a {
+#menu li.forums a {
 	background-image:url(/public/images/menu.gif);
 	background-position:-300px 0;
 	height:31px;
-	width:106px;
+	width:95px;
 }
-#menu li.regles a:hover {
+#menu li.forums a:hover {
 	background-image:url(/public/images/menu.gif);
 	background-position:-300px -31px;
 }
+#menu li.regles a {
+	background-image:url(/public/images/menu.gif);
+	background-position:-390px 0;
+	height:31px;
+	width:95px;
+}
+#menu li.regles a:hover {
+	background-image:url(/public/images/menu.gif);
+	background-position:-390px -31px;
+	height:31px;
+}
 #menu li.projet a {
 	background-image:url(/public/images/menu.gif);
-	background-position:-400px 0;
+	background-position:-490px 0;
 	height:31px;
 	width:106px;
 }
 #menu li.projet a:hover {
 	background-image:url(/public/images/menu.gif);
-	background-position:-400px -31px;
+	background-position:-490px -31px;
 }
 
 .contenu {
@@ -621,4 +667,56 @@ td.table_liste_border {
 td.table_liste {
 	padding: 5px;
 	text-align: center;
+}
+
+#modalPage
+{
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 1500px;
+    top: 0px; left: 0px;
+}
+.modalBackground
+{
+    filter: Alpha(Opacity=40); -moz-opacity:0.0; opacity: 0.0;
+    width: 100%; height: 100%; background-color: #999999;
+    position: absolute;
+    z-index: 500;
+    top: 0px; left: 0px;
+}
+.modalContainer
+{
+    position: absolute;
+    width: 300px;
+    left: 50%;
+    top: 20%;
+    z-index: 750;
+}
+.modal
+{
+    background-color: white;
+    border: solid 4px black; position: relative;
+    top: -150px;
+    left: -150px;
+    z-index: 1000;
+    width: 300px;
+    height: 300px;
+    padding: 0px;
+}
+.modalTop
+{
+    width: 292px;
+    background-color: #000099;
+    padding: 4px;
+    color: #ffffff;
+    text-align: right;
+}
+.modalTop a, .modalTop a:visited
+{
+    color: #ffffff;
+}
+.modalBody
+{
+    padding: 10px;
 }

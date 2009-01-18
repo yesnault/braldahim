@@ -1,0 +1,6 @@
+Filtre : <select id="filtre" name="filtre" onChange="_get_('/palmares/load?caction=do_palmares_<?=$this->nom_systeme?>_'+this.value, false)">
+<? foreach($this->listFiltre as $f): ?>
+	<option value="<?=$f["valeur"]?>"<?if ($this->filtre == $f["valeur"]): echo "selected" ; endif;?>><?=$f["nom"]?></option>
+<? endforeach;?>
+</select>
+<br>

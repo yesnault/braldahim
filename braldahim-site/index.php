@@ -19,11 +19,13 @@ include "Zend/Loader.php";
 Zend_Loader :: loadClass('Zend_Controller_Action');
 Zend_Loader :: loadClass('Zend_Controller_Front');
 Zend_Loader :: loadClass('Zend_Config_Ini');
+Zend_Loader :: loadClass('Zend_Date');
 Zend_Loader :: loadClass('Zend_Db');
 Zend_Loader :: loadClass('Zend_Db_Table');
 Zend_Loader :: loadClass("Zend_Layout");
 Zend_Loader :: loadClass("Zend_Registry");
 
+Zend_Loader :: loadClass("Bral_Palmares_Factory");
 Zend_Loader :: loadClass("Bral_Helper_Box");
 Zend_Loader :: loadClass("Bral_Util_BBParser");
 Zend_Loader :: loadClass("Bral_Util_ConvertDate");
