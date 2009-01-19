@@ -37,10 +37,10 @@ abstract class Bral_Palmares_Box {
 	protected function getTabDateFiltre() {
 		$tab = null;
 		
-		$moisPrecedent = mktime(0, 0, 0, date("m")-1, date("d"),   date("Y"));
-		$anneePrecedente  = mktime(0, 0, 0, date("m"),   date("d"),   date("Y")-1);
+		$moisPrecedent = mktime(0, 0, 0, date("m")-1, 1,   date("Y"));
+		$anneePrecedente  = mktime(0, 0, 0, 1,   1,   date("Y")-1);
 		
-		$moisEnCours  = mktime(0, 0, 0, 1, date("d"), date("Y"));
+		$moisEnCours  = mktime(0, 0, 0, date("m"), 1, date("Y"));
 		$anneeEnCours  = mktime(0, 0, 0, 1, 1, date("Y"));
 
 		switch($this->view->filtre) {

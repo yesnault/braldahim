@@ -14,15 +14,45 @@ class Hobbit extends Zend_Db_Table {
 	protected $_name = 'hobbit';
 	protected $_primary = 'id_hobbit';
 
-	function findAllByDate($dateDebut, $dateFin, $page, $nbMax) {
+	function findAllByDateCreationAndRegion($dateDebut, $dateFin) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('hobbit', array("nom_hobbit", "prenom_hobbit", "id_hobbit", "date_creation_hobbit"));
+		$select->from('hobbit', 'count(id_hobbit) as nombre');
+		$select->from('region', 'nom_region');
 		$select->where('date_creation_hobbit >= ?', $dateDebut);
 		$select->where('date_creation_hobbit <= ?', $dateFin);
 		$select->where('est_compte_actif_hobbit = ?', 'oui');
-		$select->order("date_creation_hobbit DESC");
-		$select->limitPage($page, $nbMax);
+		$select->where('id_region = id_fk_region_creation_hobbit');
+		$select->order("nom_region ASC");
+		$select->group("nom_region");
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
+	function findAllByDateCreationAndFamille($dateDebut, $dateFin) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', 'count(id_hobbit) as nombre');
+		$select->from('nom', 'nom');
+		$select->where('date_creation_hobbit >= ?', $dateDebut);
+		$select->where('date_creation_hobbit <= ?', $dateFin);
+		$select->where('est_compte_actif_hobbit = ?', 'oui');
+		$select->where('id_nom = id_fk_nom_initial_hobbit');
+		$select->order("nom ASC");
+		$select->group("nom");
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
+	function findAllByDateCreationAndSexe($dateDebut, $dateFin) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', array('count(id_hobbit) as nombre', 'sexe_hobbit'));
+		$select->where('date_creation_hobbit >= ?', $dateDebut);
+		$select->where('date_creation_hobbit <= ?', $dateFin);
+		$select->where('est_compte_actif_hobbit = ?', 'oui');
+		$select->order("sexe_hobbit ASC");
+		$select->group("sexe_hobbit");
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

@@ -4,36 +4,35 @@
 	<?include("filtre.phtml")?>
 	
 	<br>
-		<table class="table_liste" style="width:90%">
-		<thead class="table_liste">
-		  <tr class="table_liste">
-			<th>Hobbit</th>
-			<th>Date d'inscription</th>
-		  </tr>
-		</thead>
-	  	<? if (count($this->hobbits) > 0): ?>
-			<tbody>
-		  	<? $i = 0; 
-		  	foreach($this->hobbits as $e): ?>
-		  		<tr class="table_liste<?=($i % 2);$i++; ?>">
-			  		<td class="table_liste">
-			  			<?=$e["prenom_hobbit"]?> <?=$e["nom_hobbit"]?> (<?=$e["id_hobbit"]?>)
-			  		</td>
-			  		<td class="table_liste">
-			  			Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$e["date_creation_hobbit"]); ?>
-			  		</td>
-		  		</tr>
-		  	<? endforeach; ?>
-		  	</tbody>
-		  	
-	   <? else: ?>
-	   	<tr class="table_liste">
-	   	 <td colspan='5'>
-	   		Aucun résultat
-	   	 </td>
-	   	 </tr>
-	   <? endif; ?>
-	   </table>
+	<table class="table_liste" style="width:90%">
+	<thead class="table_liste">
+	  <tr class="table_liste">
+		<th>Hobbit</th>
+		<th>Nombre de Kills de monstres</th>
+	  </tr>
+	</thead>
+  	<? if (count($this->evenements) > 0): ?>
+		<tbody>
+	  	<? $i = 0; 
+	  	foreach($this->evenements as $e): ?>
+	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+		  		<td class="table_liste">
+		  			<?=$e["prenom_hobbit"]?> <?=$e["nom_hobbit"]?> (<?=$e["id_hobbit"]?>)
+		  		</td>
+		  		<td class="table_liste">
+		  			<?=$e["nombre"]?>
+		  		</td>
+	  		</tr>
+	  	<? endforeach; ?>
+	  	</tbody>
+	<? else: ?>
+	<tr class="table_liste">
+   	 <td colspan='5'>
+   		Aucun résultat
+   	 </td>
+	</tr>
+	<? endif; ?>
+	</table>
 	<br>
 </ul>
 </div>

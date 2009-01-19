@@ -4,6 +4,9 @@
 	<?include("filtre.phtml")?>
 	
 	<br>
+	
+	Total: <?=$this->total?>
+	<br>
 	<table class="table_liste" style="width:90%">
 	<thead class="table_liste">
 	  <tr class="table_liste">
@@ -17,7 +20,7 @@
 	  	foreach($this->regions as $r): ?>
 	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
 		  		<td class="table_liste">
-		  			<?=$r["nom_region"]?>)
+		  			<?=$r["nom_region"]?>
 		  		</td>
 		  		<td class="table_liste">
 		  			<?=$r["nombre"]?>

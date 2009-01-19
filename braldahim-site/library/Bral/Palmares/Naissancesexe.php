@@ -31,6 +31,27 @@ class Bral_Palmares_Naissancesexe extends Bral_Palmares_Box {
 	function render() {
 		$this->view->nom_interne = $this->getNomInterne();
 		$this->view->nom_systeme = $this->getNomClasse();
+		$this->prepare();
 		return $this->view->render("palmares/naissance_sexe.phtml");
+	}
+	
+	private function prepare() {
+		Zend_Loader::loadClass("Hobbit");
+		$mdate = $this->getTabDateFiltre();
+		$hobbitTable = new Hobbit();
+		$rowset = $hobbitTable->findAllByDateCreationAndSexe($mdate["dateDebut"], $mdate["dateFin"]);
+		$sexes = null;
+		$total = 0;
+		foreach($rowset as $r) {
+			if ($r["sexe_hobbit"] == "masculin") {
+				$nom = "Masculin";
+			} else {
+				$nom = "Féminin";
+			}
+			$sexes[] = array("nom" => $nom, "nombre" => $r["nombre"]);
+			$total = $total + $r["nombre"];
+		}
+		$this->view->total = $total;
+		$this->view->sexes = $sexes;
 	}
 }

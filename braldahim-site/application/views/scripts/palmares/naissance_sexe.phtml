@@ -4,6 +4,8 @@
 	<?include("filtre.phtml")?>
 	
 	<br>
+	Total: <?=$this->total?>
+	<br>
 		<table class="table_liste" style="width:90%">
 		<thead class="table_liste">
 		  <tr class="table_liste">
@@ -17,7 +19,7 @@
 		  	foreach($this->sexes as $s): ?>
 		  		<tr class="table_liste<?=($i % 2);$i++; ?>">
 			  		<td class="table_liste">
-			  			<?=$s["nom_sexe"]?>)
+			  			<?=$s["nom"]?>
 			  		</td>
 			  		<td class="table_liste">
 			  			<?=$s["nombre"]?>

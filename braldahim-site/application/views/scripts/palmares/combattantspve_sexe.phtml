@@ -10,17 +10,21 @@
 		<table class="table_liste" style="width:90%">
 		<thead class="table_liste">
 		  <tr class="table_liste">
-			<th>Famille</th>
-			<th>Nombre</th>
+			<th>Niveau</th>
+			<th>Nombre de Kills de monstres</th>
 		  </tr>
 		</thead>
-	  	<? if (count($this->familles) > 0): ?>
+	  	<? if (count($this->sexes) > 0): ?>
 			<tbody>
 		  	<? $i = 0; 
-		  	foreach($this->familles as $f): ?>
+		  	foreach($this->sexes as $f): ?>
 		  		<tr class="table_liste<?=($i % 2);$i++; ?>">
 			  		<td class="table_liste">
-			  			<?=$f["nom"]?>
+			  			<? if ($f["sexe_hobbit"] == "masculin") :?>
+			  				Masculin
+			  			<? else: ?>
+			  				Féminin
+			  			<? endif;?>
 			  		</td>
 			  		<td class="table_liste">
 			  			<?=$f["nombre"]?>

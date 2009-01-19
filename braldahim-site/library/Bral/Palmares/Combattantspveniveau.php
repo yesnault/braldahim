@@ -10,18 +10,18 @@
  * $LastChangedRevision: $
  * $LastChangedBy: $
  */
-class Bral_Palmares_Naissancecomte extends Bral_Palmares_Box {
+class Bral_Palmares_Combattantspveniveau extends Bral_Palmares_Box {
 
 	function getTitreOnglet() {
-		return "Comtés";
+		return "Niveaux";
 	}
 	
 	function getNomInterne() {
-		return "box_onglet_naissancecomte";		
+		return "box_onglet_combattantspveniveau";		
 	}
 	
 	function getNomClasse() {
-		return "naissancecomte";		
+		return "combattantspveniveau";		
 	}
 	
 	function setDisplay($display) {
@@ -32,21 +32,15 @@ class Bral_Palmares_Naissancecomte extends Bral_Palmares_Box {
 		$this->view->nom_interne = $this->getNomInterne();
 		$this->view->nom_systeme = $this->getNomClasse();
 		$this->prepare();
-		return $this->view->render("palmares/naissance_comte.phtml");
+		return $this->view->render("palmares/combattantspve_niveau.phtml");
 	}
 	
 	private function prepare() {
-		Zend_Loader::loadClass("Hobbit");
+		Zend_Loader::loadClass("Evenement");
 		$mdate = $this->getTabDateFiltre();
-		$hobbitTable = new Hobbit();
-		$rowset = $hobbitTable->findAllByDateCreationAndRegion($mdate["dateDebut"], $mdate["dateFin"]);
-		$regions = null;
-		$total = 0;
-		foreach($rowset as $r) {
-			$regions[] = array("nom_region" => $r["nom_region"], "nombre" => $r["nombre"]);
-			$total = $total + $r["nombre"];
-		}
-		$this->view->total = $total;
-		$this->view->regions = $regions;
+		$evenementTable = new Evenement();
+		$type = $this->view->config->game->evenements->type->killmonstre;
+		$rowset = $evenementTable->findByNiveau($mdate["dateDebut"], $mdate["dateFin"], $type);
+		$this->view->niveaux = $rowset;
 	}
 }

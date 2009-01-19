@@ -14,9 +14,6 @@ class Bral_Palmares_Factory {
 	
 	static function getBox($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Palmares_Box");
-		Zend_Loader::loadClass("Bral_Palmares_Naissancecomte");
-		Zend_Loader::loadClass("Bral_Palmares_Naissancesexe");
-		Zend_Loader::loadClass("Bral_Palmares_Naissancefamille");
 		
 		$matches = null;
 		preg_match('/(.*)_palmares_(.*)_(.*)/', $request->get("caction"), $matches);
@@ -25,11 +22,17 @@ class Bral_Palmares_Factory {
 		$filtre = (int)$matches[3]; // filtre
 
 		$construct = "Bral_Palmares_".Bral_Util_String::firstToUpper($section);
+		try {
+			Zend_Loader::loadClass($construct);
+		} catch (Zend_Exception $e) {
+			throw new Zend_Exception("Bral_Palmares_Factory classe invalide 1: ".$construct);
+		}
+		
 		// verification que la classe existe.
 		if (($construct != null) && (class_exists($construct))) {
 			return new $construct ($request, $view, $interne, $filtre);
 		} else {
-			throw new Zend_Exception("Bral_Palmares_Factory classe invalide: ".$construct);
+			throw new Zend_Exception("Bral_Palmares_Factory classe invalide 2: ".$construct);
 		}
 	}
 	
@@ -43,6 +46,21 @@ class Bral_Palmares_Factory {
 		$retour[] = new Bral_Palmares_Naissancefamille($request, $view, false);
 		$retour[] = new Bral_Palmares_Naissancecomte($request, $view, true);
 		$retour[] = new Bral_Palmares_Naissancesexe($request, $view, false);
+		return $retour;
+	}
+	
+	public static function getBoxesCombattantspve($request, $view) {
+		Zend_Loader::loadClass("Bral_Palmares_Box");
+		Zend_Loader::loadClass("Bral_Palmares_Combattantspvetop10");
+		Zend_Loader::loadClass("Bral_Palmares_Combattantspvefamille");
+		Zend_Loader::loadClass("Bral_Palmares_Combattantspveniveau");
+		Zend_Loader::loadClass("Bral_Palmares_Combattantspvesexe");
+		
+		$retour = null;
+		$retour[] = new Bral_Palmares_Combattantspvetop10($request, $view, false);
+		$retour[] = new Bral_Palmares_Combattantspvefamille($request, $view, true);
+		$retour[] = new Bral_Palmares_Combattantspveniveau($request, $view, false);
+		$retour[] = new Bral_Palmares_Combattantspvesexe($request, $view, false);
 		return $retour;
 	}
 }

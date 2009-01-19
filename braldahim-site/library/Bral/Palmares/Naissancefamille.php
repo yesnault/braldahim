@@ -36,12 +36,17 @@ class Bral_Palmares_Naissancefamille extends Bral_Palmares_Box {
 	}
 	
 	private function prepare() {
-		$hobbitTable = new Hobbit();
-		$max = 100;
-		$page = 1;
-		
+		Zend_Loader::loadClass("Hobbit");
 		$mdate = $this->getTabDateFiltre();
-		$hobbits = $hobbitTable->findAllByDate($mdate["dateDebut"], $mdate["dateFin"], $page, $max);
-		$this->view->hobbits = $hobbits;
+		$hobbitTable = new Hobbit();
+		$rowset = $hobbitTable->findAllByDateCreationAndFamille($mdate["dateDebut"], $mdate["dateFin"]);
+		$familles = null;
+		$total = 0;
+		foreach($rowset as $r) {
+			$familles[] = array("nom" => $r["nom"], "nombre" => $r["nombre"]);
+			$total = $total + $r["nombre"];
+		}
+		$this->view->total = $total;
+		$this->view->familles = $familles;
 	}
 }

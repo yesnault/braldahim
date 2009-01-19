@@ -36,14 +36,14 @@ class PalmaresController extends Zend_Controller_Action {
 	
 	function combattantspveAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesNaissance($this->_request, $this->view, false), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesCombattantspve($this->_request, $this->view, false), "boite_a");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function combattantspvpAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesNaissance($this->_request, $this->view, false), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesCombattantspvp($this->_request, $this->view, false), "boite_a");
 		$this->prepareCommun();
 		$this->render("index");
 	}

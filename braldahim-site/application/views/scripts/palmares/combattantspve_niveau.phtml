@@ -10,17 +10,17 @@
 		<table class="table_liste" style="width:90%">
 		<thead class="table_liste">
 		  <tr class="table_liste">
-			<th>Famille</th>
-			<th>Nombre</th>
+			<th>Niveau</th>
+			<th>Nombre de Kills de monstres</th>
 		  </tr>
 		</thead>
-	  	<? if (count($this->familles) > 0): ?>
+	  	<? if (count($this->niveaux) > 0): ?>
 			<tbody>
 		  	<? $i = 0; 
-		  	foreach($this->familles as $f): ?>
+		  	foreach($this->niveaux as $f): ?>
 		  		<tr class="table_liste<?=($i % 2);$i++; ?>">
 			  		<td class="table_liste">
-			  			<?=$f["nom"]?>
+			  			<?=$f["niveau_hobbit"]?>
 			  		</td>
 			  		<td class="table_liste">
 			  			<?=$f["nombre"]?>
