@@ -15,7 +15,7 @@ class Bral_Util_Evenement {
 	/*
 	 * Mise a jour des Evenements du hobbit / du monstre.
 	 */
-	public static function majEvenements($idConcerne, $idTypeEvenement, $details, $detailsBot, $type="hobbit", $estAEnvoyer = false, $view = null) {
+	public static function majEvenements($idConcerne, $idTypeEvenement, $details, $detailsBot, $niveau, $type="hobbit", $estAEnvoyer = false, $view = null) {
 		Zend_Loader::loadClass('Evenement');
 		$evenementTable = new Evenement();
 		
@@ -26,6 +26,7 @@ class Bral_Util_Evenement {
 				'id_fk_type_evenement' => $idTypeEvenement,
 				'details_evenement' => $details,
 				'details_bot_evenement' => $detailsBot,
+				'niveau_evenement' => $niveau,
 			);
 		} else {
 			$data = array(
@@ -33,6 +34,7 @@ class Bral_Util_Evenement {
 				'date_evenement' => date("Y-m-d H:i:s"),
 				'id_fk_type_evenement' => $idTypeEvenement,
 				'details_evenement' => $details,
+				'niveau_evenement' => $niveau,
 			);
 		}
 		$evenementTable->insert($data);
@@ -42,7 +44,7 @@ class Bral_Util_Evenement {
 		}
 	}
 	
-	public static function majEvenementsFromVieMonstre($idHobbitConcerne, $idMonstreConcerne, $idTypeEvenement, $details, $detailsBot, $view) {
+	public static function majEvenementsFromVieMonstre($idHobbitConcerne, $idMonstreConcerne, $idTypeEvenement, $details, $detailsBot, $niveau, $view) {
 		Zend_Loader::loadClass('Evenement');
 		$evenementTable = new Evenement();
 		
@@ -53,6 +55,7 @@ class Bral_Util_Evenement {
 			'id_fk_type_evenement' => $idTypeEvenement,
 			'details_evenement' => $details,
 			'details_bot_evenement' => $detailsBot,
+			'niveau_evenement' => $niveau,
 		);
 		$evenementTable->insert($data);
 		

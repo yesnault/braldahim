@@ -196,7 +196,7 @@ class Bral_Competences_Connaissancehobbits extends Bral_Competences_Competence {
 		$id_type = $this->view->config->game->evenements->type->competence;
 		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a réussi l'utilisation d'une compétence sur ".$hobbit["prenom_hobbit"]." ".$hobbit["nom_hobbit"]." (".$hobbit["id_hobbit"].")";
 		$this->setDetailsEvenement($details, $id_type);
-		$this->setDetailsEvenementCible($hobbit["id_hobbit"],"hobbit");
+		$this->setDetailsEvenementCible($hobbit["id_hobbit"], "hobbit", $hobbit["niveau_hobbit"]);
 		
 	}
 	

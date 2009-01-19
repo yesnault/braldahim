@@ -98,10 +98,10 @@ abstract class Bral_Echoppe_Echoppe {
 	private function majEvenementsEchoppe($detailsBot) {
 		$this->idTypeEvenement = $this->view->config->game->evenements->type->echoppe;
 		$this->detailEvenement = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a utilisé les services de l'".$this->detailEchoppe;
-		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot);
+		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_hobbit);
 		
 		$detailsBot = "Evènement dans l'échoppe ".$this->nomEchoppe." (".$this->echoppe["x_echoppe"].", ".$this->echoppe["y_echoppe"].", ".$this->echoppe["nom_region"]."). Message adressé au client : ".$detailsBot;
-		Bral_Util_Evenement::majEvenements($this->echoppe["id_hobbit"], $this->idTypeEvenement, $this->detailEvenement, $detailsBot);
+		Bral_Util_Evenement::majEvenements($this->echoppe["id_hobbit"], $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_hobbit);
 	}
 	
 	function render() {

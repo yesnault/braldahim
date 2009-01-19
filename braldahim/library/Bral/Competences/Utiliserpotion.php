@@ -161,11 +161,11 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			$this->utiliserPotionHobbit($potion, $idHobbit);
 			if ($this->view->user->id_hobbit != $this->retourPotion['cible']["id_cible"]) {
 				$detailsBot = $this->getDetailEvenementCible($potion);
-				Bral_Util_Evenement::majEvenements($this->retourPotion['cible']["id_cible"], $this->view->config->game->evenements->type->competence, $this->detailEvenement, $detailsBot, "hobbit", true, $this->view);
+				Bral_Util_Evenement::majEvenements($this->retourPotion['cible']["id_cible"], $this->view->config->game->evenements->type->competence, $this->detailEvenement, $detailsBot, $this->retourPotion['cible']["niveau_cible"], "hobbit", true, $this->view);
 			}
 		} elseif ($utiliserPotionMonstre === true) {
 			$this->utiliserPotionMonstre($potion, $idMonstre);
-			$this->setDetailsEvenementCible($idMonstre, "monstre");
+			$this->setDetailsEvenementCible($idMonstre, "monstre", $this->retourPotion['cible']["niveau_cible"]);
 		} else {
 			throw new Zend_Exception(get_class($this)." Erreur inconnue");
 		}

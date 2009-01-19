@@ -27,7 +27,10 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 			if ($h["id_hobbit"] == $this->view->user->id_hobbit) {
 				$nom = " Vous-Même : ".$h["prenom_hobbit"]. " ". $h["nom_hobbit"];
 			}
-			$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"], "nom_hobbit" => $h["nom_hobbit"], "prenom_hobbit" => $h["prenom_hobbit"]);
+			$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"],
+				 "nom_hobbit" => $h["nom_hobbit"], 
+				 "prenom_hobbit" => $h["prenom_hobbit"],
+				 "niveau_hobbit" => $h["niveau_hobbit"]);
 		}
 
 		if (count($tabHobbits) >= $this->view->config->game->competence->distribuerpx->nb_max_hobbit) {
@@ -57,6 +60,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 			$trouve = false;
 			foreach($this->view->tabHobbits  as $h) {
 				if ($tab["id_hobbit"] == $h["id_hobbit"]) {
+					$tab["niveau_hobbit"] = $h["niveau_hobbit"];
 					$trouve = true;
 				}
 			}
@@ -91,6 +95,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 				$this->view->user->px_perso_hobbit = $hobbit->px_perso_hobbit;
 			}
 			$tab["id_hobbit"] = $t["id_hobbit"];
+			$tab["niveau_hobbit"] = $t["niveau_hobbit"];
 			if ($t["id_hobbit"] == $this->view->user->id_hobbit) {
 				$tab["nom_hobbit"] = "Vous-Même : ".$hobbit->prenom_hobbit. " " .$hobbit->nom_hobbit;
 			} else {
@@ -108,9 +113,9 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 			
 			$detailDonneur = "Vous avez donné ".$tab["px_recu"]." PX à ".$tab["nom_hobbit"]." (".$tab["id_hobbit"].")";
 			$detailReceveur = "Vous avez reçu ".$tab["px_recu"]." PX de la part de ".$this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.")";
-			Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $id_type, $detailsD, $detailDonneur);
+			Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $id_type, $detailsD, $detailDonneur, $this->view->user->niveau_hobbit);
 			if ($tab["id_hobbit"] != $this->view->user->id_hobbit) {
-				Bral_Util_Evenement::majEvenements($tab["id_hobbit"], $id_type, $detailsR, $detailReceveur);
+				xwBral_Util_Evenement::majEvenements($tab["id_hobbit"], $id_type, $detailsR, $detailReceveur, $tab["niveau_hobbit"]);
 			}
 		}
 

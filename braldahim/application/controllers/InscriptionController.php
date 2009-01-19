@@ -300,6 +300,7 @@ class InscriptionController extends Zend_Controller_Action {
 			'pv_max_hobbit' => $pv,
 			'pv_restant_hobbit' => $pv,
 			'est_charte_validee_hobbit' => "oui",
+			'id_fk_region_creation_hobbit' => $this->id_region,
 		);
 
 		return $data;
@@ -361,8 +362,8 @@ class InscriptionController extends Zend_Controller_Action {
 			$detailsBot = " Vous venez d'avoir un nouvel enfant à ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',date("Y-m-d H:i:s")).".";
 			$detailsBot .= " Consultez votre onglet Famille pour plus de détails.";
 			
-			Bral_Util_Evenement::majEvenements($couple["id_fk_m_hobbit_couple"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, "hobbit", true, $this->view);
-			Bral_Util_Evenement::majEvenements($couple["id_fk_f_hobbit_couple"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, "hobbit", true, $this->view);
+			Bral_Util_Evenement::majEvenements($couple["id_fk_m_hobbit_couple"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, 0, "hobbit", true, $this->view);
+			Bral_Util_Evenement::majEvenements($couple["id_fk_f_hobbit_couple"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, 0, "hobbit", true, $this->view);
 				
 			Bral_Util_Log::inscription()->notice("InscriptionController - calculParent - utilisation d'un couple existant");
 		} else { // pas de couple dispo, on tente d'en creer un nouveau
@@ -402,8 +403,8 @@ class InscriptionController extends Zend_Controller_Action {
 				$detailsBot = "Mariage effectué à ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',date("Y-m-d H:i:s")).".";
 				$detailsBot .= " Consultez votre onglet Famille pour plus de détails.";
 				
-				Bral_Util_Evenement::majEvenements($pere["id_hobbit"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, "hobbit", true, $this->view);
-				Bral_Util_Evenement::majEvenements($mere["id_hobbit"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, "hobbit", true, $this->view);
+				Bral_Util_Evenement::majEvenements($pere["id_hobbit"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, $pere["niveau_hobbit"], "hobbit", true, $this->view);
+				Bral_Util_Evenement::majEvenements($mere["id_hobbit"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, $mere["niveau_hobbit"], "hobbit", true, $this->view);
 				
 				Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - creation d'un nouveau couple");
 			} else {

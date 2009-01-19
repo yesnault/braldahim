@@ -208,12 +208,12 @@ class Bral_Monstres_VieMonstre {
 				$cible["nb_mort_hobbit"] = $cible["nb_mort_hobbit"] + 1;
 				$cible["est_mort_hobbit"] = "oui";
 				$cible["date_fin_tour_hobbit"] = date("Y-m-d H:i:s");
-				$id_type_evenement = self::$config->game->evenements->type->kill;
+				$id_type_evenement = self::$config->game->evenements->type->killhobbit;
 				$id_type_evenement_cible = self::$config->game->evenements->type->mort;
 				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a tué le hobbit ".$cible["prenom_hobbit"] ." ". $cible["nom_hobbit"]." (".$cible["id_hobbit"].")";
-				$this->majEvenements(null, $this->monstre["id_monstre"], $id_type_evenement, $details, "", $view);
+				$this->majEvenements(null, $this->monstre["id_monstre"], $id_type_evenement, $details, $this->monstre["niveau_monstre"], "", $view);
 				$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus, $mortCible);
-				$this->majEvenements($cible["id_hobbit"], null, $id_type_evenement_cible, $details, $detailsBot, $view);
+				$this->majEvenements($cible["id_hobbit"], null, $id_type_evenement_cible, $details, $detailsBot, $cible["niveau_hobbit"], $view);
 				$this->updateCible($cible);
 			} else {
 				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Survie de la cible La cible (".$cible["id_hobbit"].") attaquee par Monstre id:".$this->monstre["id_monstre"]. " pvPerdus=".$pvPerdus. " pv_restant_hobbit=".$cible["pv_restant_hobbit"]);
@@ -222,7 +222,7 @@ class Bral_Monstres_VieMonstre {
 				$id_type_evenement = self::$config->game->evenements->type->attaquer;
 				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a attaqué le hobbit ".$cible["prenom_hobbit"]." ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ")";
 				$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus);
-				$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $view);
+				$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
 
 				$effetMotS = Bral_Util_Commun::getEffetMotS($cible["id_hobbit"]);
 				$this->updateCible($cible);
@@ -244,12 +244,12 @@ class Bral_Monstres_VieMonstre {
 			$id_type_evenement = self::$config->game->evenements->type->attaquer;
 			$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a attaqué le hobbit ".$cible["prenom_hobbit"]." ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ") qui a esquivé l'attaque";
 			$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible);
-			$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $view);
+			$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
 		} else {
 			$id_type_evenement = self::$config->game->evenements->type->attaquer;
 			$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a attaqué le hobbit ".$cible["prenom_hobbit"]." ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ") qui a esquivé l'attaque parfaitement";
 			$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible);
-			$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $view);
+			$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
 		}
 		$this->updateMonstre();
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - exit (return=".$mortCible.")");
@@ -413,9 +413,9 @@ class Bral_Monstres_VieMonstre {
 	/*
 	 * Mise à jour des événements du monstre.
 	 */
-	public function majEvenements($id_hobbit, $id_monstre, $id_type_evenement, $details, $detailsBot, $view) {
+	public function majEvenements($id_hobbit, $id_monstre, $id_type_evenement, $details, $detailsBot, $niveau, $view) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - majEvenements - enter");
-		Bral_Util_Evenement::majEvenementsFromVieMonstre($id_hobbit, $id_monstre, $id_type_evenement, $details, $detailsBot, $view);
+		Bral_Util_Evenement::majEvenementsFromVieMonstre($id_hobbit, $id_monstre, $id_type_evenement, $details, $detailsBot, $niveau, $view);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - majEvenements - exit");
 	}
 	
