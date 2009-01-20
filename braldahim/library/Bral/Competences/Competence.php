@@ -382,7 +382,7 @@ abstract class Bral_Competences_Competence {
 		}
 	}
 	
-	protected function attaqueHobbit(&$hobbitAttaquant, $idHobbitCible, $effetMotSPossible = true) {
+	protected function attaqueHobbit(&$hobbitAttaquant, $idHobbitCible, $effetMotSPossible = true, $tir = false) {
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		$jetAttaquant = $this->calculJetAttaque($hobbitAttaquant);
 		$jetsDegat = $this->calculDegat($hobbitAttaquant);
@@ -390,13 +390,13 @@ abstract class Bral_Competences_Competence {
 		$hobbitRowset = $hobbitTable->find($idHobbitCible);
 		$hobbitCible = $hobbitRowset->current();
 		$jetCible = Bral_Util_Attaque::calculJetCibleHobbit($hobbitCible);
-		$retourAttaque = Bral_Util_Attaque::attaqueHobbit(&$hobbitAttaquant, $hobbitCible, $jetAttaquant, $jetCible, $jetsDegat, $this->view, false, $effetMotSPossible);
+		$retourAttaque = Bral_Util_Attaque::attaqueHobbit(&$hobbitAttaquant, $hobbitCible, $jetAttaquant, $jetCible, $jetsDegat, $this->view, false, $effetMotSPossible, $tir);
 		$this->detailEvenement = $retourAttaque["details"];
 		$this->idTypeEvenement =$retourAttaque["typeEvemenent"];
 		return $retourAttaque;
 	}
 	
-	protected function attaqueMonstre(&$hobbitAttaquant, $idMonstre) {
+	protected function attaqueMonstre(&$hobbitAttaquant, $idMonstre, $tir=false) {
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		$jetAttaquant = $this->calculJetAttaque($hobbitAttaquant);
 		$jetsDegat = $this->calculDegat($hobbitAttaquant);
@@ -404,7 +404,7 @@ abstract class Bral_Competences_Competence {
 		$monstreRowset = $monstreTable->findById($idMonstre);
 		$monstre = $monstreRowset;
 		$jetCible = Bral_Util_Attaque::calculJetCibleMonstre($monstre);
-		$retourAttaque = Bral_Util_Attaque::attaqueMonstre(&$hobbitAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, false);
+		$retourAttaque = Bral_Util_Attaque::attaqueMonstre(&$hobbitAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, false, $tir);
 		$this->detailEvenement = $retourAttaque["details"];
 		$this->idTypeEvenement =$retourAttaque["typeEvemenent"];
 		return $retourAttaque;

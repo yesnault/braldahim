@@ -12,7 +12,7 @@
  */
 class Bral_Util_Attaque {
 
-	public static function attaqueHobbit(&$hobbitAttaquant, &$hobbitCible, $jetAttaquant, $jetCible, $jetsDegat, $view, $degatCase, $effetMotSPossible = true) {
+	public static function attaqueHobbit(&$hobbitAttaquant, &$hobbitCible, $jetAttaquant, $jetCible, $jetsDegat, $view, $degatCase, $effetMotSPossible = true, $tir=false) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - enter -");
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - jetAttaquant=".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - jetCible=".$jetCible);
@@ -129,8 +129,23 @@ class Bral_Util_Attaque {
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - hobbitCible->agilite_bm_hobbit=".$hobbitCible->agilite_bm_hobbit);
 			}
 			
-			$pvTotal =  $hobbitCible->pv_restant_hobbit + ($hobbitCible->armure_naturelle_hobbit + $hobbitCible->armure_equipement_hobbit);
-			$pvTotalAvecDegat = $pvTotal - $retourAttaque["jetDegat"];
+			//on enlève l'armure du hobbit
+			if ($tir == true){
+				$cible["armure_equipement_hobbit"] = 0;
+				$hobbitCible->armure_equipement_hobbit = 0;
+			}
+			
+			$retourAttaque["jetDegatReel"] = $retourAttaque["jetDegat"] - $hobbitCible->armure_naturelle_hobbit - $hobbitCible->armure_equipement_hobbit;
+			
+			$retourAttaque["arm_nat_cible"] = $hobbitCible->armure_naturelle_hobbit;
+			$retourAttaque["arm_eqpt_cible"] = $hobbitCible->armure_equipement_hobbit;
+			
+			//le jet de degat est au moins égal à 1
+			if ($retourAttaque["jetDegatReel"] <= 0 ) {
+				$retourAttaque["jetDegatReel"] = 1;
+			}
+			
+			$pvTotalAvecDegat = $hobbitCible->pv_restant_hobbit - $retourAttaque["jetDegatReel"];
 			
 			if ($pvTotalAvecDegat < $hobbitCible->pv_restant_hobbit) {
 				$hobbitCible->pv_restant_hobbit = $pvTotalAvecDegat;
@@ -173,7 +188,7 @@ class Bral_Util_Attaque {
 				'pv_restant_hobbit' => $hobbitCible->pv_restant_hobbit,
 				'est_mort_hobbit' => $hobbitCible->est_mort_hobbit,
 				'nb_mort_hobbit' => $hobbitCible->nb_mort_hobbit,
-				'date_fin_tour_hobbit' => $hobbitAttaquant->date_fin_tour_hobbit,
+				'date_fin_tour_hobbit' => $hobbitCible->date_fin_tour_hobbit,
 				'regeneration_malus_hobbit' => $hobbitCible->regeneration_malus_hobbit,
 				'vue_bm_hobbit' => $hobbitCible->vue_bm_hobbit,
 				'vue_malus_hobbit' => $hobbitCible->vue_malus_hobbit,
@@ -260,7 +275,10 @@ class Bral_Util_Attaque {
 			}
 		}
 		
-		self::calculStatutEngage(&$hobbitAttaquant, true);
+		if ($tir==false){
+			//pour un tir l'attaquant n'est pas engagé
+			self::calculStatutEngage(&$hobbitAttaquant, true);
+		}
 		self::calculStatutEngage(&$hobbitCible, true);
 		
 		$retourAttaque["details"] = $details;
@@ -270,7 +288,7 @@ class Bral_Util_Attaque {
 		return $retourAttaque;
 	}
 	
-	public static function attaqueMonstre(&$hobbitAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, $degatCase) {
+	public static function attaqueMonstre(&$hobbitAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, $degatCase, $tir=false) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - enter -");
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetAttaquant=".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetCible=".$jetCible);
@@ -281,6 +299,7 @@ class Bral_Util_Attaque {
 		$retourAttaque["jetAttaquant"] = $jetAttaquant;
 		$retourAttaque["jetCible"] = $jetCible;
 		$retourAttaque["jetDegat"] = 0;
+		$retourAttaque["jetDegatReel"] = 0;
 		$retourAttaque["attaqueReussie"] = false;
 		
 		$retourAttaque["mort"] = false;
@@ -372,8 +391,18 @@ class Bral_Util_Attaque {
 				$monstre["agilite_bm_monstre"] = $monstre["agilite_bm_monstre"] + $monstre["agilite_malus_monstre"];
 			}
 			
+			//on enlève l'armure naturelle du monstre
+			$retourAttaque["jetDegatReel"] = $retourAttaque["jetDegat"] - $monstre["armure_naturelle_monstre"];
+			//le jet de degat est au moins égal à 1
+			if ($retourAttaque["jetDegatReel"] <= 0 ) {
+				$retourAttaque["jetDegatReel"] = 1;
+			}
+			
+			$retourAttaque["arm_nat_cible"] = $monstre["armure_naturelle_monstre"];
+			$retourAttaque["arm_eqpt_cible"] = 0;
+			
 			Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - pv_restant_monstre avant degat=".$monstre["pv_restant_monstre"]);
-			$monstre["pv_restant_monstre"] = $monstre["pv_restant_monstre"] - $retourAttaque["jetDegat"];
+			$monstre["pv_restant_monstre"] = $monstre["pv_restant_monstre"] - $retourAttaque["jetDegatReel"];
 			Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - pv_restant_monstre apres degat=".$monstre["pv_restant_monstre"]);
 			
 			if ($monstre["pv_restant_monstre"] <= 0) {
@@ -460,7 +489,10 @@ class Bral_Util_Attaque {
 			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit);
 		}
 		
-		self::calculStatutEngage(&$hobbitAttaquant, true);
+		if ($tir==false){
+			//pour un tir l'attaquant n'est pas engagé
+			self::calculStatutEngage(&$hobbitAttaquant, true);
+		}
 		
 		$retourAttaque["details"] = $details;
 		$retourAttaque["typeEvemenent"] = $id_type;
@@ -480,6 +512,9 @@ class Bral_Util_Attaque {
 		}
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleHobbit - hobbitCible->agilite_bm_hobbit=".$hobbitCible->agilite_bm_hobbit);
 		$jetCible = $jetCible + $hobbitCible->agilite_bm_hobbit + $hobbitCible->agilite_bbdf_hobbit + $hobbitCible->bm_defense_hobbit;
+		if ($jetCible < 0) {
+			$jetCible = 0;
+		}
 		Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - calculJetCibleHobbit - jetCible=".$jetCible);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleHobbit - exit -");
 		return $jetCible;
@@ -493,6 +528,9 @@ class Bral_Util_Attaque {
 			$jetCible = $jetCible + Bral_Util_De::get_1d6();
 		}
 		$jetCible = $jetCible + $monstre["agilite_bm_monstre"];
+		if ($jetCible < 0) {
+			$jetCible = 0;
+		}
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleMonstre - exit -");
 		return $jetCible;
 	}
@@ -506,6 +544,9 @@ class Bral_Util_Attaque {
 		}
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetAttaqueNormale - jetAttaquant=".$jetAttaquant);
 		$jetAttaquant = $jetAttaquant + $hobbit->agilite_bm_hobbit + $hobbit->agilite_bbdf_hobbit + $hobbit->bm_attaque_hobbit;
+		if ($jetAttaquant < 0) {
+			$jetAttaquant = 0;
+		}
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetAttaqueNormale - jetAttaquant + agilite_bm_hobbit + bm_attaque_hobbit + =".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetAttaqueNormale - enter -");
 		return $jetAttaquant;
@@ -535,6 +576,7 @@ class Bral_Util_Attaque {
 		
 		$jetDegat["critique"] = $jetDegat["critique"] + $hobbit->force_bm_hobbit + $hobbit->force_bbdf_hobbit + $hobbit->bm_degat_hobbit;
 		$jetDegat["noncritique"] = $jetDegat["noncritique"] + $hobbit->force_bm_hobbit + $hobbit->force_bbdf_hobbit + $hobbit->bm_degat_hobbit;
+
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatAttaqueNormale - critique=".$jetDegat["critique"]);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatAttaqueNormale - noncritique=".$jetDegat["noncritique"]);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatAttaqueNormale - exit -");
@@ -691,7 +733,7 @@ L'armure naturelle ne l'a pas protégé (ARM NAT:".$cible["armure_naturelle_hobb
 			
 				if ($cible["armure_equipement_hobbit"] > 0) {
 					$retour .= "
-L'équipement  l'a protégé en réduisant les dégâts de ";
+L'équipement l'a protégé en réduisant les dégâts de ";
 					$retour .= $cible["armure_equipement_hobbit"].".";
 				} else {
 					$retour .= "
@@ -708,7 +750,7 @@ La cible a été tuée";
 La cible a esquivé parfaitement l'attaque";
 		} else { // esquive parfaite
 			$retour .= "
-La cible a equivé l'attaque";
+La cible a esquivé l'attaque";
 		}
 		return $retour;
 	}

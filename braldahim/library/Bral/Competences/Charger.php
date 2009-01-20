@@ -287,6 +287,9 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
 		}
 		$jetAttaquant = 0.5 * $jetAttaquant + $hobbit->agilite_bm_hobbit + $hobbit->agilite_bbdf_hobbit + $hobbit->bm_attaque_hobbit;
+		if ($jetAttaquant < 0){
+			$jetAttaquant = 0;
+		}
 		return $jetAttaquant;
 	}
 	
