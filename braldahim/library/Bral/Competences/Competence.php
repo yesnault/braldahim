@@ -239,7 +239,7 @@ abstract class Bral_Competences_Competence {
 	/*
 	 * Mise à jour des événements de la cible.
 	 */
-	protected function setDetailsEvenementCible($idCible, $typeCible, $niveau) {
+	protected function setDetailsEvenementCible($idCible, $typeCible, $niveauCible) {
 		$this->idCible = $idCible;
 		$this->niveauCible = $niveauCible;
 		$this->typeCible = $typeCible;
