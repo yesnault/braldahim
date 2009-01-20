@@ -63,4 +63,34 @@ class Bral_Palmares_Factory {
 		$retour[] = new Bral_Palmares_Combattantspvesexe($request, $view, false);
 		return $retour;
 	}
+	
+	public static function getBoxesCombattantspvp($request, $view) {
+		Zend_Loader::loadClass("Bral_Palmares_Box");
+		Zend_Loader::loadClass("Bral_Palmares_Combattantspvptop10");
+		Zend_Loader::loadClass("Bral_Palmares_Combattantspvpfamille");
+		Zend_Loader::loadClass("Bral_Palmares_Combattantspvpniveau");
+		Zend_Loader::loadClass("Bral_Palmares_Combattantspvpsexe");
+		
+		$retour = null;
+		$retour[] = new Bral_Palmares_Combattantspvptop10($request, $view, false);
+		$retour[] = new Bral_Palmares_Combattantspvpfamille($request, $view, true);
+		$retour[] = new Bral_Palmares_Combattantspvpniveau($request, $view, false);
+		$retour[] = new Bral_Palmares_Combattantspvpsexe($request, $view, false);
+		return $retour;
+	}
+	
+	public static function getBoxesMorts($request, $view) {
+		Zend_Loader::loadClass("Bral_Palmares_Box");
+		Zend_Loader::loadClass("Bral_Palmares_Mortstop10");
+		Zend_Loader::loadClass("Bral_Palmares_Mortsfamille");
+		Zend_Loader::loadClass("Bral_Palmares_Mortsniveau");
+		Zend_Loader::loadClass("Bral_Palmares_Mortssexe");
+		
+		$retour = null;
+		$retour[] = new Bral_Palmares_Mortstop10($request, $view, false);
+		$retour[] = new Bral_Palmares_Mortsfamille($request, $view, true);
+		$retour[] = new Bral_Palmares_Mortsniveau($request, $view, false);
+		$retour[] = new Bral_Palmares_Mortssexe($request, $view, false);
+		return $retour;
+	}
 }
