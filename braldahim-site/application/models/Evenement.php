@@ -25,7 +25,7 @@ class Evenement extends Zend_Db_Table {
 		$select->where('date_evenement <= ?', $dateFin);
 		$select->order("nombre DESC");
 		$select->group(array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'));
-		$select->limit(10, 1);
+		$select->limit(10, 0);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
