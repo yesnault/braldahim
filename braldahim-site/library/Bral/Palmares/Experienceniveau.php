@@ -10,18 +10,18 @@
  * $LastChangedRevision: $
  * $LastChangedBy: $
  */
-class Bral_Palmares_Combattantspvetop10 extends Bral_Palmares_Box {
+class Bral_Palmares_Experienceniveau extends Bral_Palmares_Box {
 
 	function getTitreOnglet() {
-		return "Top 10";
+		return "Niveaux";
 	}
 	
 	function getNomInterne() {
-		return "box_onglet_combattantspvetop10";		
+		return "box_onglet_experienceniveau";		
 	}
 	
 	function getNomClasse() {
-		return "combattantspvetop10";		
+		return "experienceniveau";		
 	}
 	
 	function setDisplay($display) {
@@ -32,15 +32,14 @@ class Bral_Palmares_Combattantspvetop10 extends Bral_Palmares_Box {
 		$this->view->nom_interne = $this->getNomInterne();
 		$this->view->nom_systeme = $this->getNomClasse();
 		$this->prepare();
-		return $this->view->render("palmares/combattantspve_top10.phtml");
+		return $this->view->render("palmares/experience_niveau.phtml");
 	}
 	
 	private function prepare() {
-		Zend_Loader::loadClass("Evenement");
+		Zend_Loader::loadClass("StatsExperience");
 		$mdate = $this->getTabDateFiltre();
-		$evenementTable = new Evenement();
-		$type = $this->view->config->game->evenements->type->killmonstre;
-		$rowset = $evenementTable->findTop10($mdate["dateDebut"], $mdate["dateFin"], $type);
-		$this->view->top10 = $rowset;
+		$statsExperienceTable = new StatsExperience();
+		$rowset = $statsExperienceTable->findByNiveau($mdate["dateDebut"], $mdate["dateFin"]);
+		$this->view->niveaux = $rowset;
 	}
 }

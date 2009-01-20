@@ -55,6 +55,13 @@ class PalmaresController extends Zend_Controller_Action {
 		$this->render("index");
 	}
 	
+	function experienceAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesExperience($this->_request, $this->view, false), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+	
 	private function prepareCommun() {
 		$this->getBoxesData();
 		$this->prepareSelection();
@@ -65,7 +72,22 @@ class PalmaresController extends Zend_Controller_Action {
 		$selection[] = array("nom" => "Grands Combattants PvE", "url" => "combattantspve");
 		$selection[] = array("nom" => "Grands Combattants PvP", "url" => "combattantspvp");
 		$selection[] = array("nom" => "Morts", "url" => "morts");
+		$selection[] = array("nom" => "Expérience", "url" => "experience");
+//		$selection[] = array("nom" => "Super Hobbit", "url" => "superhobbits");
 		$this->view->selection = $selection;
+		
+		$selectionRecolteurs = null;
+//		$selectionRecolteurs[] = array("nom" => "Mineurs", "url" => "mineurs");
+//		$selectionRecolteurs[] = array("nom" => "Herboristes", "url" => "herboristes");
+//		$selectionRecolteurs[] = array("nom" => "Bûcherons", "url" => "bucherons");
+//		$selectionRecolteurs[] = array("nom" => "Chasseurs", "url" => "chasseurs");
+		$this->view->selectionRecolteurs = $selectionRecolteurs;
+		
+		$selectionFabricants = null;
+//		$selectionFabricants[] = array("nom" => "Menuisier", "url" => "menuisiers");
+//		$selectionFabricants[] = array("nom" => "Forgeron", "url" => "forgerons");
+//		$selectionFabricants[] = array("nom" => "Tanneur", "url" => "tanneurs");
+		$this->view->selectionFabricants = $selectionFabricants;
 	}
 	
 	private function prepareFiltre() {

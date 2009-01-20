@@ -42,11 +42,13 @@ abstract class Bral_Palmares_Box {
 		
 		$moisEnCours  = mktime(0, 0, 0, date("m"), 1, date("Y"));
 		$anneeEnCours  = mktime(0, 0, 0, 1, 1, date("Y"));
+		
+		$demain  = mktime(0, 0, 0, date("m"), date("d")+1, date("Y"));
 
 		switch($this->view->filtre) {
 			case 1: // mois en cours
 				$tab["dateDebut"] = date("Y-m-d H:i:s", $moisEnCours);
-				$tab["dateFin"] = date("Y-m-d H:i:s");
+				$tab["dateFin"] = date("Y-m-d H:i:s", $demain);
 				break;
 			case 2: // dernier mois
 				$tab["dateDebut"] = date("Y-m-d H:i:s", $moisPrecedent);
@@ -62,7 +64,7 @@ abstract class Bral_Palmares_Box {
 				break;
 			case 5: // depuis toujours;
 				$tab["dateDebut"] = date("2000-1-1 0:0:0");
-				$tab["dateFin"] = date("Y-m-d H:i:s");
+				$tab["dateFin"] = date("Y-m-d H:i:s", $demain);
 				break;
 			default:
 				throw new Zend_Exception("Filtre invalide: ".$this->view->filtre);

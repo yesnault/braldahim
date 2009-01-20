@@ -93,4 +93,19 @@ class Bral_Palmares_Factory {
 		$retour[] = new Bral_Palmares_Mortssexe($request, $view, false);
 		return $retour;
 	}
+	
+	public static function getBoxesExperience($request, $view) {
+		Zend_Loader::loadClass("Bral_Palmares_Box");
+		Zend_Loader::loadClass("Bral_Palmares_Experiencetop10");
+		Zend_Loader::loadClass("Bral_Palmares_Experiencefamille");
+		Zend_Loader::loadClass("Bral_Palmares_Experienceniveau");
+		Zend_Loader::loadClass("Bral_Palmares_Experiencesexe");
+		
+		$retour = null;
+		$retour[] = new Bral_Palmares_Experiencetop10($request, $view, false);
+		$retour[] = new Bral_Palmares_Experiencefamille($request, $view, true);
+		$retour[] = new Bral_Palmares_Experienceniveau($request, $view, false);
+		$retour[] = new Bral_Palmares_Experiencesexe($request, $view, false);
+		return $retour;
+	}
 }

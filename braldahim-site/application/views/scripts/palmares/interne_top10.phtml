@@ -11,10 +11,10 @@
 		<th><?=$this->titreColonne2?></th>
 	  </tr>
 	</thead>
-  	<? if (count($this->evenements) > 0): ?>
+  	<? if (count($this->top10) > 0): ?>
 		<tbody>
 	  	<? $i = 0; 
-	  	foreach($this->evenements as $e): ?>
+	  	foreach($this->top10 as $e): ?>
 	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
 		  		<td class="table_liste" >
 		  			<a href="#" onClick="javascript:ouvrirWin('<?=$this->config->url->game?>/voir/hobbit/?hobbit=<?=$e["id_hobbit"]?>');" title="Cliquez pour voir votre profil">

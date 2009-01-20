@@ -41,6 +41,6 @@ class Bral_Palmares_Combattantspvptop10 extends Bral_Palmares_Box {
 		$evenementTable = new Evenement();
 		$type = $this->view->config->game->evenements->type->killhobbit;
 		$rowset = $evenementTable->findTop10($mdate["dateDebut"], $mdate["dateFin"], $type);
-		$this->view->evenements = $rowset;
+		$this->view->top10 = $rowset;
 	}
 }

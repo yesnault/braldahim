@@ -22,7 +22,7 @@ class Evenement extends Zend_Db_Table {
 		$select->where('id_fk_hobbit_evenement = id_hobbit');
 		$select->where('id_fk_type_evenement = ?', $type);
 		$select->where('date_evenement >= ?', $dateDebut);
-		$select->where('date_evenement <= ?', $dateFin);
+		$select->where('date_evenement < ?', $dateFin);
 		$select->order("nombre DESC");
 		$select->group(array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'));
 		$select->limit(10, 0);
@@ -40,7 +40,7 @@ class Evenement extends Zend_Db_Table {
 		$select->where('id_nom = id_fk_nom_initial_hobbit');
 		$select->where('id_fk_type_evenement = ?', $type);
 		$select->where('date_evenement >= ?', $dateDebut);
-		$select->where('date_evenement <= ?', $dateFin);
+		$select->where('date_evenement < ?', $dateFin);
 		$select->order("nombre DESC");
 		$select->group(array('nom'));
 		$sql = $select->__toString();
@@ -50,10 +50,10 @@ class Evenement extends Zend_Db_Table {
 	function findByNiveau($dateDebut, $dateFin, $type) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('evenement', array('count(id_evenement) as nombre', 'niveau_evenement'));
+		$select->from('evenement', array('count(id_evenement) as nombre', 'niveau_evenement as niveau'));
 		$select->where('id_fk_type_evenement = ?', $type);
 		$select->where('date_evenement >= ?', $dateDebut);
-		$select->where('date_evenement <= ?', $dateFin);
+		$select->where('date_evenement < ?', $dateFin);
 		$select->order("nombre DESC");
 		$select->group(array('niveau_evenement'));
 		$sql = $select->__toString();
@@ -68,7 +68,7 @@ class Evenement extends Zend_Db_Table {
 		$select->where('id_fk_hobbit_evenement = id_hobbit');
 		$select->where('id_fk_type_evenement = ?', $type);
 		$select->where('date_evenement >= ?', $dateDebut);
-		$select->where('date_evenement <= ?', $dateFin);
+		$select->where('date_evenement < ?', $dateFin);
 		$select->order("nombre DESC");
 		$select->group(array('sexe_hobbit'));
 		$sql = $select->__toString();

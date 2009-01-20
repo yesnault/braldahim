@@ -5,15 +5,34 @@
 
 <table style="width:100%">
 	<tr>
-		<td style="width:30px" valign="top">
+		<td style="width:30px" valign="top" nowrap>
 		
 			<ul class="box_contenu1 textalic">
 				<ul class="titre textalic textsizec">
-				Sélection
-				</ul><br>
+				Général
+				</ul>
 				<? foreach($this->selection as $s) : ?>
 					<a href="/palmares/<?=$s["url"]?>"><?=$s["nom"]?></a><br>
 				<? endforeach;?>
+				<br>
+				
+				<ul class="titre textalic textsizec">
+				Récolteurs
+				</ul>
+				<? if (count($this->selectionRecolteurs) > 0): ?>
+					<? foreach($this->selectionRecolteurs as $s) : ?>
+						<a href="/palmares/<?=$s["url"]?>"><?=$s["nom"]?></a><br>
+					<? endforeach;?>
+				<? endif; ?>
+				<br>
+				<ul class="titre textalic textsizec">
+				Fabricants
+				</ul>
+				<? if (count($this->selectionFabricants) > 0): ?>
+					<? foreach($this->selectionFabricants as $s) : ?>
+						<a href="/palmares/<?=$s["url"]?>"><?=$s["nom"]?></a><br>
+					<? endforeach;?>
+				<? endif; ?>
 				<br>
 			</ul>
 		</td>
