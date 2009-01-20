@@ -24,6 +24,7 @@ abstract class Bral_Competences_Competence {
 	function __construct($competence, $hobbitCompetence, $request, $view, $action) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
 		Zend_Loader::loadClass("Bral_Util_Niveau");
+		Zend_Loader::loadClass("StatsExperience");
 		
 		$this->view = $view;
 		$this->request = $request;
@@ -287,6 +288,16 @@ abstract class Bral_Competences_Competence {
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
 		$this->view->user->px_perso_hobbit = $this->view->user->px_perso_hobbit + $this->view->nb_px_perso;
 		$this->view->user->px_commun_hobbit = $this->view->user->px_commun_hobbit + $this->view->nb_px_commun;
+		
+		$data["nb_px_perso_gagnes_stats_experience"] = $this->view->nb_px_perso;
+		$data["nb_px_commun_gagnes_stats_experience"] = $this->view->nb_px_commun;
+		$data["id_fk_hobbit_stats_experience"] = $this->view->user->id_hobbit;
+		$data["niveau_hobbit_stats_experience"] = $this->view->user->niveau_hobbit;
+		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+		$data["mois_stats_experience"] = date("Y-m-d", $moisEnCours);
+		
+		$statsExperience = new StatsExperience();
+		$statsExperience->insertOrUpdate($data);
 		
 		if ($this->view->user->balance_faim_hobbit < 0) {
 			$this->view->user->balance_faim_hobbit = 0;

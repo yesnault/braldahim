@@ -77,7 +77,11 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 		if ($total_distribution > $this->view->user->px_commun_hobbit) {
 			throw new Zend_Exception(get_class($this)." Total trop eleve:".$total_distribution. " c=".$this->view->user->px_commun_hobbit);
 		}
-
+		
+		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+		$dataStats["mois_stats_experience"] = date("Y-m-d", $moisEnCours);
+		$statsExperience = new StatsExperience();
+			
 		// distribution
 		$tabAffiche = null;
 		$hobbitTable = new Hobbit();
@@ -91,8 +95,14 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 			);
 			$where = "id_hobbit=".$t["id_hobbit"];
 			$hobbitTable->update($data, $where);
+			
+			$dataStats["nb_px_perso_gagnes_stats_experience"] = $t["px_recu"];
+			$dataStats["id_fk_hobbit_stats_experience"] = $t["id_hobbit"];
+			$dataStats["niveau_hobbit_stats_experience"] = $t["niveau_hobbit"];
+			$statsExperience->insertOrUpdate($dataStats);
+		
 			if ($t["id_hobbit"] == $this->view->user->id_hobbit) {
-				$this->view->user->px_perso_hobbit = $hobbit->px_perso_hobbit;
+				$this->view->user->px_perso_hobbit = $this->view->user->px_perso_hobbit + $hobbit->px_perso_hobbit;
 			}
 			$tab["id_hobbit"] = $t["id_hobbit"];
 			$tab["niveau_hobbit"] = $t["niveau_hobbit"];
