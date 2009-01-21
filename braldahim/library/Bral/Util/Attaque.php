@@ -688,9 +688,8 @@ class Bral_Util_Attaque {
 		$retour .= $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.") N".$hobbitAttaquant->niveau_hobbit;
 		if ($mortCible) {
 			$retour .= " a tué";
-		} else if ($jetCible >= $jetAttaquant) {
-			$retour .= " a esquivé";
-		} else {
+		}
+		else {
 			$retour .= " a attaqué";
 		}
 		$retour .= " ".$cible["nom_cible"]." (".$cible["id_cible"] . ") N".$cible["niveau_cible"];

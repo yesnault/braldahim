@@ -197,8 +197,8 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 					if ($m["id_monstre"] == $idMonstre) {
 						$attaqueMonstre = true;
 						$this->view->distCible = $m['dist_monstre'];
-						$this->view->xCible = $h['x_monstre'];	
-						$this->view->yCible = $h['y_monstre'];
+						$this->view->xCible = $m['x_monstre'];	
+						$this->view->yCible = $m['y_monstre'];
 						break;
 					}
 				}
@@ -224,12 +224,15 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 	}
 	
 	/*
-	 * Le jet d'attaque d'un tir est différent : JA = (Jet d'AGI + BM) * coeff 
+	 * Le jet d'attaque d'un tir est différent : JA = (Jet d'AGI + BM) * coeff
+	 * coeff varie suivant distance et palissade
 	 */
 	protected function calculJetAttaque($hobbit) {
 		Zend_Loader::loadClass("Palissade");
 		$jetAttaquant = 0;
 		$coef = 0;
+		$palissade = false;
+		$monte=false;
 		for ($i=1; $i<=$this->view->config->game->base_agilite + $hobbit->agilite_base_hobbit; $i++) {
 			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
 		}
@@ -252,20 +255,73 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		}
 		$palissadeTable = new Palissade();
 		
-		
-		switch ($this->view->distCible){
-			case 0 : $coef=0.9;
-			case 1 : $coef=1;
-			case 2 : $coef=0.8;
-			case 3 : $coef=0.7;
-			default : $coef=0.6;
+		//horizontal
+		if ($this->view->xCible == $hobbit->x_hobbit) {
+			for ($y = $y_min; $y < $y_max ; $y++) {
+				if ($palissadeTable->findByCase($x_min,$y)){
+					$palissade = true;
+					break;
+				}
+			}
 		}
-		//calcul du coef suivant palissade (attention aux diagonales ?)
+		//vertical
+		elseif ($this->view->yCible == $hobbit->y_hobbit) {
+			for ($x = $x_min; $x < $x_max; $x++) {
+				if ($palissadeTable->findByCase($x,$y_min)){
+					$palissade = true;
+					break;
+				}
+			}
+		}
+		//diagonale
+		else{
+			if ($x_min == $this->view->xCible) {
+				$y = $this->view->yCible;
+			}
+			else{
+				$y = $hobbit->y_hobbit;
+			}
+			if ($y == $y_min){
+				$monte=true;
+			}
+			for ($x = $x_min; $x < $x_max; $x++) {
+				if ($palissadeTable->findByCase($x,$y)){
+					$palissade = true;
+					break;
+				}
+				if ($monte==true){
+					$y++;
+				}
+				else{
+					$y--;
+				}
+			}
+		}
 		
+		if ($palissade == false){
+			switch ($this->view->distCible){
+				case 0 : $coef=0.9;
+				case 1 : $coef=1;
+				case 2 : $coef=0.8;
+				case 3 : $coef=0.7;
+				default : $coef=0.6;
+			}
+		}
+		else{
+			switch ($this->view->distCible){
+				case 2 : $coef=0.533;
+				case 3 : $coef=0.466;
+				default : $coef=0.4;
+			}
+		}
+
 		$jetAttaquant = floor($coef * ($jetAttaquant + $hobbit->agilite_bm_hobbit + $hobbit->agilite_bbdf_hobbit + $hobbit->bm_attaque_hobbit));
 		if ($jetAttaquant < 0){
 			$jetAttaquant = 0;
 		}
+		
+		$this->view->palissade = $palissade;
+		
 		return $jetAttaquant;
 	}
 
@@ -314,9 +370,6 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		);
 		$labanMunition->insertOrUpdate($data);
 		
-		//palissade
-		//voir événement hobbit cible + arm nat
-		//gérer arm nat et arm equip dans c/r
 	}
 	
 	function getListBoxRefresh() {

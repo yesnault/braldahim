@@ -1,6 +1,9 @@
 <? include("commun_text_resultat.phtml") ?>
 	Vous avez tir&eacute; sur <?=$this->retourAttaque["cible"]["nom_cible"]?> (<?=$this->retourAttaque["cible"]["id_cible"]?>)
-	&agrave; une distance de <?=$this->dist ?> case(s)<br> 
+	&agrave; une distance de <?=$this->distCible ?> case<? if ($this->distCible > 1) : ?>s<?endif;?><br />
+	<? if ($this->palissade === true) : ?>
+		Au moins une palissade se trouvait sur la trajectoire du tir !<br />
+	<? endif; ?>
 	Jet d'attaque : <?=$this->retourAttaque["jetAttaquant"]?><br />
 	Jet de d&eacute;fense de la cible : <?=$this->retourAttaque["jetCible"]?><br />
 		 
