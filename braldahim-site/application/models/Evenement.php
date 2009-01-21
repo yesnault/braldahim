@@ -86,7 +86,7 @@ class Evenement extends Zend_Db_Table {
 	function findByNiveau($dateDebut, $dateFin, $type) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('evenement', array('count(id_evenement) as nombre', 'mod(niveau_evenement, 10) as niveau'));
+		$select->from('evenement', array('count(id_evenement) as nombre', 'floor(niveau_evenement/10) as niveau'));
 		$select->where('id_fk_type_evenement = ?', $type);
 		$select->where('date_evenement >= ?', $dateDebut);
 		$select->where('date_evenement < ?', $dateFin);
