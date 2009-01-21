@@ -14,13 +14,14 @@ abstract class Bral_Palmares_Box {
 	
 	protected $loadWithBoxes = true;
 	
-	function __construct($request, $view, $interne, $filtre = 1) {
+	function __construct($request, $view, $interne, $filtre = 1, $type = null) {
 		Zend_Loader::loadClass("Hobbit");
 		
 		$this->_request = $request;
 		$this->view = $view;
 		$this->view->affichageInterne = $interne;
 		$this->view->filtre = $filtre;
+		$this->view->type = $type;
 	}
 	
 	abstract function getTitreOnglet();

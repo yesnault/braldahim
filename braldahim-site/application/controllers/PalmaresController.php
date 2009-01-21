@@ -69,6 +69,13 @@ class PalmaresController extends Zend_Controller_Action {
 		$this->render("index");
 	}
 	
+	function mineursAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesMineurs($this->_request, $this->view, false), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+	
 	private function prepareCommun() {
 		$this->getBoxesData();
 		$this->prepareSelection();
@@ -85,7 +92,7 @@ class PalmaresController extends Zend_Controller_Action {
 		$this->view->selection = $selection;
 		
 		$selectionRecolteurs = null;
-//		$selectionRecolteurs[] = array("nom" => "Mineurs", "url" => "mineurs");
+		$selectionRecolteurs[] = array("nom" => "Mineurs", "url" => "mineurs");
 //		$selectionRecolteurs[] = array("nom" => "Herboristes", "url" => "herboristes");
 //		$selectionRecolteurs[] = array("nom" => "Bûcherons", "url" => "bucherons");
 //		$selectionRecolteurs[] = array("nom" => "Chasseurs", "url" => "chasseurs");

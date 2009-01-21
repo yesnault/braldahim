@@ -16,10 +16,11 @@ class Bral_Palmares_Factory {
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		
 		$matches = null;
-		preg_match('/(.*)_palmares_(.*)_(.*)/', $request->get("caction"), $matches);
+		preg_match('/(.*)_palmares_(.*)_(.*)_(.*)/', $request->get("caction"), $matches);
 		$action = $matches[1]; // "do" ou "ask"
 		$section = $matches[2]; // classe
 		$filtre = (int)$matches[3]; // filtre
+		$type = (int)$matches[4]; // filtre
 
 		$construct = "Bral_Palmares_".Bral_Util_String::firstToUpper($section);
 		try {
@@ -30,7 +31,7 @@ class Bral_Palmares_Factory {
 		
 		// verification que la classe existe.
 		if (($construct != null) && (class_exists($construct))) {
-			return new $construct ($request, $view, $interne, $filtre);
+			return new $construct ($request, $view, $interne, $filtre, $type);
 		} else {
 			throw new Zend_Exception("Bral_Palmares_Factory classe invalide 2: ".$construct);
 		}
@@ -117,6 +118,21 @@ class Bral_Palmares_Factory {
 		$retour = null;
 		$retour[] = new Bral_Palmares_Monstrestop10($request, $view, false);
 		$retour[] = new Bral_Palmares_Monstrestype($request, $view, false);
+		return $retour;
+	}
+	
+	public static function getBoxesMineurs($request, $view) {
+		Zend_Loader::loadClass("Bral_Palmares_Box");
+		Zend_Loader::loadClass("Bral_Palmares_Recolteurstop10");
+		Zend_Loader::loadClass("Bral_Palmares_Recolteursfamille");
+		Zend_Loader::loadClass("Bral_Palmares_Recolteursniveau");
+		Zend_Loader::loadClass("Bral_Palmares_Recolteurssexe");
+		
+		$retour = null;
+		$retour[] = new Bral_Palmares_Recolteurstop10($request, $view, false, 1, "mineurs");
+		$retour[] = new Bral_Palmares_Recolteursfamille($request, $view, true, 1, "mineurs");
+		$retour[] = new Bral_Palmares_Recolteursniveau($request, $view, false, 1, "mineurs");
+		$retour[] = new Bral_Palmares_Recolteurssexe($request, $view, false, 1, "mineurs");
 		return $retour;
 	}
 }
