@@ -15,78 +15,89 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass('Bral_Util_Attaque'); 	
 		Zend_Loader::loadClass('Palissade');
+		Zend_Loader::loadClass("HobbitEquipement");
 
 		$this->view->attaquerPalissadeOk = false;
-	
-		$this->distance = 1;
-		$this->view->x_min = $this->view->user->x_hobbit - $this->distance;
-		$this->view->x_max = $this->view->user->x_hobbit + $this->distance;
-		$this->view->y_min = $this->view->user->y_hobbit - $this->distance;
-		$this->view->y_max = $this->view->user->y_hobbit + $this->distance;
 		
-		$palissadeTable = new Palissade();
-		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
-		$defautChecked = false;
+		$armeTirPortee = false;
+		$hobbitEquipement = new HobbitEquipement();
+		$equipementPorteRowset = $hobbitEquipement->findByTypePiece($this->view->user->id_hobbit,"arme_tir");
 		
-		for ($j = $this->distance; $j >= -$this->distance; $j --) {
-			 $change_level = true;
-			 for ($i = -$this->distance; $i <= $this->distance; $i ++) {
-			 	$x = $this->view->user->x_hobbit + $i;
-			 	$y = $this->view->user->y_hobbit + $j;
-			 	
-			 	$display = $x;
-			 	$display .= " ; ";
-			 	$display .= $y;
-			 	
-				$valid = false;
-				$palissade = null;
-				$est_destructible = null;
-			 	
-			 	foreach($palissades as $p) {
-					if ($x == $p["x_palissade"] && $y == $p["y_palissade"]) {
-						$est_destructible = $p["est_destructible_palissade"];
-						if ($est_destructible == "oui") {
-							$valid = true;
-							$palissade = $p;
-						}
-						break;
-					}
-				}
-
-			 	if ($valid === true && $defautChecked == false) {
-					$default = "checked";
-					$defautChecked = true;
-			 		$this->view->attaquerPalissadeOk = true;
-			 	} else {
-			 		$default = "";
-			 	}
-
-			 	$tab[] = array ("x_offset" => $i,
-				 	"y_offset" => $j,
-				 	"default" => $default,
-				 	"display" => $display,
-				 	"change_level" => $change_level, // nouvelle ligne dans le tableau
-					"valid" => $valid,
-			 		"est_destructible" => $est_destructible,
-			 	);	
-				
-			 	if ($this->request->get("valeur_1") != null) { // attaque palissade en cours
-				 	$x_y = $this->request->get("valeur_1");
-					list ($offset_x, $offset_y) = split("h", $x_y);
-					if ($offset_x == $i && $offset_y == $j && $valid == true) {
-						$this->view->palissade = $palissade;
-					}
-			 	}
-		
-			 	$tabValidation[$i][$j] = $valid;
-			 	
-				if ($change_level) {
-					$change_level = false;
-				}
-			 }
+		if (count($equipementPorteRowset) > 0){
+			$armeTirPortee = true;
 		}
-		$this->view->tableau = $tab;
-		$this->tableauValidation = $tabValidation;
+		else{
+			$this->distance = 1;
+			$this->view->x_min = $this->view->user->x_hobbit - $this->distance;
+			$this->view->x_max = $this->view->user->x_hobbit + $this->distance;
+			$this->view->y_min = $this->view->user->y_hobbit - $this->distance;
+			$this->view->y_max = $this->view->user->y_hobbit + $this->distance;
+			
+			$palissadeTable = new Palissade();
+			$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+			$defautChecked = false;
+			
+			for ($j = $this->distance; $j >= -$this->distance; $j --) {
+				 $change_level = true;
+				 for ($i = -$this->distance; $i <= $this->distance; $i ++) {
+				 	$x = $this->view->user->x_hobbit + $i;
+				 	$y = $this->view->user->y_hobbit + $j;
+				 	
+				 	$display = $x;
+				 	$display .= " ; ";
+				 	$display .= $y;
+				 	
+					$valid = false;
+					$palissade = null;
+					$est_destructible = null;
+				 	
+				 	foreach($palissades as $p) {
+						if ($x == $p["x_palissade"] && $y == $p["y_palissade"]) {
+							$est_destructible = $p["est_destructible_palissade"];
+							if ($est_destructible == "oui") {
+								$valid = true;
+								$palissade = $p;
+							}
+							break;
+						}
+					}
+	
+				 	if ($valid === true && $defautChecked == false) {
+						$default = "checked";
+						$defautChecked = true;
+				 		$this->view->attaquerPalissadeOk = true;
+				 	} else {
+				 		$default = "";
+				 	}
+	
+				 	$tab[] = array ("x_offset" => $i,
+					 	"y_offset" => $j,
+					 	"default" => $default,
+					 	"display" => $display,
+					 	"change_level" => $change_level, // nouvelle ligne dans le tableau
+						"valid" => $valid,
+				 		"est_destructible" => $est_destructible,
+				 	);	
+					
+				 	if ($this->request->get("valeur_1") != null) { // attaque palissade en cours
+					 	$x_y = $this->request->get("valeur_1");
+						list ($offset_x, $offset_y) = split("h", $x_y);
+						if ($offset_x == $i && $offset_y == $j && $valid == true) {
+							$this->view->palissade = $palissade;
+						}
+				 	}
+			
+				 	$tabValidation[$i][$j] = $valid;
+				 	
+					if ($change_level) {
+						$change_level = false;
+					}
+				 }
+			}
+			$this->view->tableau = $tab;
+			$this->tableauValidation = $tabValidation;
+		}
+		$this->view->armeTirPortee = $armeTirPortee;
 	}
 
 	function prepareFormulaire() {

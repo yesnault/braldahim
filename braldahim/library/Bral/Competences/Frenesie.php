@@ -22,43 +22,54 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
 		Zend_Loader::loadClass('Bral_Util_Attaque');
+		Zend_Loader::loadClass("HobbitEquipement");
 		
 		$tabHobbits = null;
 		$tabMonstres = null;
-
-		$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		
-		if ($estRegionPvp) {
-			// recuperation des hobbits qui sont presents sur la vue
-			$hobbitTable = new Hobbit();
-			$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit);
-			foreach($hobbits as $h) {
-				$tab = array(
-					'id_hobbit' => $h["id_hobbit"],
-					'nom_hobbit' => $h["nom_hobbit"],
-					'prenom_hobbit' => $h["prenom_hobbit"],
-				);
-				$tabHobbits[] = $tab;
-			}
-		}
+		$armeTirPortee = false;
+		$hobbitEquipement = new HobbitEquipement();
+		$equipementPorteRowset = $hobbitEquipement->findByTypePiece($this->view->user->id_hobbit,"arme_tir");
 		
-		// recuperation des monstres qui sont presents sur la vue
-		$monstreTable = new Monstre();
-		$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		foreach($monstres as $m) {
-			if ($m["genre_type_monstre"] == 'feminin') {
-				$m_taille = $m["nom_taille_f_monstre"];
-			} else {
-				$m_taille = $m["nom_taille_m_monstre"];
-			}
-			$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"]);
+		if (count($equipementPorteRowset) > 0){
+			$armeTirPortee = true;
 		}
-
-		$this->view->tabHobbits = $tabHobbits;
-		$this->view->nHobbits = count($tabHobbits);
-		$this->view->tabMonstres = $tabMonstres;
-		$this->view->nMonstres = count($tabMonstres);
-		$this->view->estRegionPvp = $estRegionPvp;
+		else{
+			$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+			
+			if ($estRegionPvp) {
+				// recuperation des hobbits qui sont presents sur la vue
+				$hobbitTable = new Hobbit();
+				$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit);
+				foreach($hobbits as $h) {
+					$tab = array(
+						'id_hobbit' => $h["id_hobbit"],
+						'nom_hobbit' => $h["nom_hobbit"],
+						'prenom_hobbit' => $h["prenom_hobbit"],
+					);
+					$tabHobbits[] = $tab;
+				}
+			}
+			
+			// recuperation des monstres qui sont presents sur la vue
+			$monstreTable = new Monstre();
+			$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+			foreach($monstres as $m) {
+				if ($m["genre_type_monstre"] == 'feminin') {
+					$m_taille = $m["nom_taille_f_monstre"];
+				} else {
+					$m_taille = $m["nom_taille_m_monstre"];
+				}
+				$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"]);
+			}
+	
+			$this->view->tabHobbits = $tabHobbits;
+			$this->view->nHobbits = count($tabHobbits);
+			$this->view->tabMonstres = $tabMonstres;
+			$this->view->nMonstres = count($tabMonstres);
+			$this->view->estRegionPvp = $estRegionPvp;
+		}
+		$this->view->armeTirPortee = $armeTirPortee;
 	}
 
 	function prepareFormulaire() {

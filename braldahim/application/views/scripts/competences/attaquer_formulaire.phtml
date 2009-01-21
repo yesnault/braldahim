@@ -1,39 +1,43 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
- 	<? if ($this->estRegionPvp == false) :?>
-		Vous ne pouvez pas attaquer de hobbit dans cette r&eacute;gion.<br><br>
-	<? endif;?>
-		
- 	<? if ($this->nHobbits == 0 && $this->nMonstres == 0): ?>
- 		Il n'y a rien &agrave; attaquer ici...<br />
- 	<? else: ?>
- 		Pour <?=$this->nb_pa?> PA, vous pouvez attaquer :<br /><br />
- 		
-		<? if ($this->nMonstres > 0): ?>
-		Un monstre<br />
-			<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_attaquer').disabled=true } else {$('valeur_2').value=-1; $('bouton_attaquer').disabled=false }">
-			<option value='-1'>(Choisis un monstre)</option>
-			<? foreach ($this->tabMonstres as $m) : ?>
-			<option value="<?=$m["id_monstre"]?>"><?=$m["nom_monstre"]?> <?=$m["taille_monstre"]?>  (<?=$m["id_monstre"]?>)</option>
-			<? endforeach; ?>
-			</select><br /><br />
-		<? else: ?>
-		<input type="hidden" name='valeur_1' value="-1" id="valeur_1" >
-		<? endif; ?>
-		
-		
- 		<? if ($this->nHobbits > 0): ?>
- 		 Un hobbit<br />
- 			<select name='valeur_2' id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_attaquer').disabled=true } else {$('valeur_1').value=-1; $('bouton_attaquer').disabled=false }">
-			<option value='-1'>(Choisis un hobbit)</option>
-			<? foreach ($this->tabHobbits as $h) : ?>
-			<option value="<?=$h["id_hobbit"]?>"><?=$h["prenom_hobbit"]?> <?=$h["nom_hobbit"]?> (<?=$h["id_hobbit"]?>)</option>
-			<? endforeach; ?>
-			</select><br /><br />
-		<? else: ?>
-		<input type="hidden" name='valeur_2' value="-1" id="valeur_2">
+ 	 <? if ($this->armeTirPortee == true) :?>
+		Vous ne pouvez pas utiliser cette comp&eacute;tence avec une arme de tir !<br><br>
+	<? else: ?>
+	 	<? if ($this->estRegionPvp == false) :?>
+			Vous ne pouvez pas attaquer de hobbit dans cette r&eacute;gion.<br><br>
 		<? endif;?>
-	<? endif; ?>
+			
+	 	<? if ($this->nHobbits == 0 && $this->nMonstres == 0): ?>
+	 		Il n'y a rien &agrave; attaquer ici...<br />
+	 	<? else: ?>
+	 		Pour <?=$this->nb_pa?> PA, vous pouvez attaquer :<br /><br />
+	 		
+			<? if ($this->nMonstres > 0): ?>
+			Un monstre<br />
+				<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_attaquer').disabled=true } else {$('valeur_2').value=-1; $('bouton_attaquer').disabled=false }">
+				<option value='-1'>(Choisis un monstre)</option>
+				<? foreach ($this->tabMonstres as $m) : ?>
+				<option value="<?=$m["id_monstre"]?>"><?=$m["nom_monstre"]?> <?=$m["taille_monstre"]?>  (<?=$m["id_monstre"]?>)</option>
+				<? endforeach; ?>
+				</select><br /><br />
+			<? else: ?>
+			<input type="hidden" name='valeur_1' value="-1" id="valeur_1" >
+			<? endif; ?>
+			
+			
+	 		<? if ($this->nHobbits > 0): ?>
+	 		 Un hobbit<br />
+	 			<select name='valeur_2' id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_attaquer').disabled=true } else {$('valeur_1').value=-1; $('bouton_attaquer').disabled=false }">
+				<option value='-1'>(Choisis un hobbit)</option>
+				<? foreach ($this->tabHobbits as $h) : ?>
+				<option value="<?=$h["id_hobbit"]?>"><?=$h["prenom_hobbit"]?> <?=$h["nom_hobbit"]?> (<?=$h["id_hobbit"]?>)</option>
+				<? endforeach; ?>
+				</select><br /><br />
+			<? else: ?>
+			<input type="hidden" name='valeur_2' value="-1" id="valeur_2">
+			<? endif;?>
+		<? endif; ?>
+	<? endif;?>
  </div>
 
 <br />
