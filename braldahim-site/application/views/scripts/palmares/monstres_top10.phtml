@@ -7,8 +7,8 @@
 	<table class="table_liste" style="width:90%">
 	<thead class="table_liste">
 	  <tr class="table_liste">
-		<th>Hobbit</th>
-		<th><?=$this->titreColonne2?></th>
+		<th>Monstre</th>
+		<th>Nombre de kills de hobbits</th>
 	  </tr>
 	</thead>
   	<? if (count($this->top10) > 0): ?>
@@ -17,8 +17,8 @@
 	  	foreach($this->top10 as $e): ?>
 	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
 		  		<td class="table_liste" >
-		  			<a href="#" onClick="javascript:ouvrirWin('<?=$this->config->url->game?>/voir/hobbit/?hobbit=<?=$e["id_hobbit"]?>');" title="Cliquez pour voir le profil">
-		  				<?=$e["prenom_hobbit"]?> <?=$e["nom_hobbit"]?> (<?=$e["id_hobbit"]?>)
+		  			<a href="#" onClick="javascript:ouvrirWin('<?=$this->config->url->game?>/voir/monstre/?monstre=<?=$e["id_monstre"]?>');" title="Cliquez pour voir le profil">
+		  				<?=$e["nom_type_monstre"]?>, n&deg;<?=$e["id_monstre"]?>,  niveau (<?=$e["niveau_monstre"]?>)
 		  			</a>
 		  		</td>
 		  		<td class="table_liste">

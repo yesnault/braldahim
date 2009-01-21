@@ -30,6 +30,42 @@ class Evenement extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
+	function findTop10Monstres($dateDebut, $dateFin, $type) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('monstre', array('niveau_monstre', 'id_monstre'));
+		$select->from('type_monstre', 'nom_type_monstre');
+		$select->from('evenement', 'count(id_evenement) as nombre');
+		$select->where('id_fk_monstre_evenement = id_monstre');
+		$select->where('id_fk_type_evenement = ?', $type);
+		$select->where('id_fk_type_monstre = id_type_monstre');
+		$select->where('date_evenement >= ?', $dateDebut);
+		$select->where('date_evenement < ?', $dateFin);
+		$select->order("nombre DESC");
+		$select->group(array('niveau_monstre', 'id_monstre', 'nom_type_monstre'));
+		$select->limit(10, 0);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
+	function findByTypeMonstres($dateDebut, $dateFin, $type) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('monstre', null);
+		$select->from('type_monstre', 'nom_type_monstre');
+		$select->from('evenement', 'count(id_evenement) as nombre');
+		$select->where('id_fk_monstre_evenement = id_monstre');
+		$select->where('id_fk_type_evenement = ?', $type);
+		$select->where('id_fk_type_monstre = id_type_monstre');
+		$select->where('date_evenement >= ?', $dateDebut);
+		$select->where('date_evenement < ?', $dateFin);
+		$select->order("nombre DESC");
+		$select->group(array('nom_type_monstre'));
+		$select->limit(10, 0);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
 	function findByFamille($dateDebut, $dateFin, $type) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -50,12 +86,12 @@ class Evenement extends Zend_Db_Table {
 	function findByNiveau($dateDebut, $dateFin, $type) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('evenement', array('count(id_evenement) as nombre', 'niveau_evenement as niveau'));
+		$select->from('evenement', array('count(id_evenement) as nombre', 'mod(niveau_evenement, 10) as niveau'));
 		$select->where('id_fk_type_evenement = ?', $type);
 		$select->where('date_evenement >= ?', $dateDebut);
 		$select->where('date_evenement < ?', $dateFin);
 		$select->order("nombre DESC");
-		$select->group(array('niveau_evenement'));
+		$select->group(array('niveau'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

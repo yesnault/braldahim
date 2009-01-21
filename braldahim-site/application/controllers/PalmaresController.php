@@ -62,6 +62,13 @@ class PalmaresController extends Zend_Controller_Action {
 		$this->render("index");
 	}
 	
+	function monstresAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesMonstres($this->_request, $this->view, false), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+	
 	private function prepareCommun() {
 		$this->getBoxesData();
 		$this->prepareSelection();
@@ -73,6 +80,7 @@ class PalmaresController extends Zend_Controller_Action {
 		$selection[] = array("nom" => "Grands Combattants PvP", "url" => "combattantspvp");
 		$selection[] = array("nom" => "Morts", "url" => "morts");
 		$selection[] = array("nom" => "Expérience", "url" => "experience");
+		$selection[] = array("nom" => "Monstres", "url" => "monstres");
 //		$selection[] = array("nom" => "Super Hobbit", "url" => "superhobbits");
 		$this->view->selection = $selection;
 		

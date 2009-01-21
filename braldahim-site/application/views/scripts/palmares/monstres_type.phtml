@@ -7,19 +7,17 @@
 	<table class="table_liste" style="width:90%">
 	<thead class="table_liste">
 	  <tr class="table_liste">
-		<th>Hobbit</th>
-		<th><?=$this->titreColonne2?></th>
+		<th>Type de monstre</th>
+		<th>Nombre de kills de hobbits</th>
 	  </tr>
 	</thead>
-  	<? if (count($this->top10) > 0): ?>
+  	<? if (count($this->type) > 0): ?>
 		<tbody>
 	  	<? $i = 0; 
-	  	foreach($this->top10 as $e): ?>
+	  	foreach($this->type as $e): ?>
 	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
 		  		<td class="table_liste" >
-		  			<a href="#" onClick="javascript:ouvrirWin('<?=$this->config->url->game?>/voir/hobbit/?hobbit=<?=$e["id_hobbit"]?>');" title="Cliquez pour voir le profil">
-		  				<?=$e["prenom_hobbit"]?> <?=$e["nom_hobbit"]?> (<?=$e["id_hobbit"]?>)
-		  			</a>
+	  				<?=$e["nom_type_monstre"]?>
 		  		</td>
 		  		<td class="table_liste">
 		  			<?=$e["nombre"]?>

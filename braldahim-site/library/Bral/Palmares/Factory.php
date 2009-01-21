@@ -108,4 +108,15 @@ class Bral_Palmares_Factory {
 		$retour[] = new Bral_Palmares_Experiencesexe($request, $view, false);
 		return $retour;
 	}
+	
+	public static function getBoxesMonstres($request, $view) {
+		Zend_Loader::loadClass("Bral_Palmares_Box");
+		Zend_Loader::loadClass("Bral_Palmares_Monstrestop10");
+		Zend_Loader::loadClass("Bral_Palmares_Monstrestype");
+		
+		$retour = null;
+		$retour[] = new Bral_Palmares_Monstrestop10($request, $view, false);
+		$retour[] = new Bral_Palmares_Monstrestype($request, $view, false);
+		return $retour;
+	}
 }
