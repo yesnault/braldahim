@@ -1,10 +1,12 @@
 <? include("commun_text_resultat.phtml") ?>
-	Vous avez tir&eacute; sur <?=$this->retourAttaque["cible"]["nom_cible"]?> (<?=$this->retourAttaque["cible"]["id_cible"]?>)
-	&agrave; une distance de <?=$this->distCible ?> case<? if ($this->distCible > 1) : ?>s<?endif;?><br />
+	Vous avez tir&eacute; sur <?=$this->retourAttaque["cible"]["nom_cible"]?> (<?=$this->retourAttaque["cible"]["id_cible"]?>)<br /><br />
+	Jet d'attaque : <?=$this->jetAttaquantNonReduit?><br />
+	Vous étiez &agrave; une distance de <?=$this->distCible ?> case<? if ($this->distCible > 1) : ?>s<?endif;?><br />
 	<? if ($this->palissade === true) : ?>
-		Au moins une palissade se trouvait sur la trajectoire du tir !<br />
+		et au moins une palissade se trouvait sur la trajectoire du tir !<br />
 	<? endif; ?>
-	Jet d'attaque : <?=$this->retourAttaque["jetAttaquant"]?><br />
+	Vous avez donc subi un malus de <?=100-100*$this->coef?>%<br />
+	Jet d'attaque corrig&eacute; : <?=$this->retourAttaque["jetAttaquant"]?><br />
 	Jet de d&eacute;fense de la cible : <?=$this->retourAttaque["jetCible"]?><br />
 		 
 	 <? if ($this->retourAttaque["attaqueReussie"] === true) : ?>
@@ -37,5 +39,5 @@
 	 		parfaitement.
 	 	<? endif; ?>
  	<? endif; ?>
-
+	<br />
 <? include("commun_text_effets.phtml") ?>

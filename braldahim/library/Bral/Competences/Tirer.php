@@ -300,27 +300,42 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		
 		if ($palissade == false){
 			switch ($this->view->distCible){
-				case 0 : $coef=0.9;
-				case 1 : $coef=1;
-				case 2 : $coef=0.8;
-				case 3 : $coef=0.7;
-				default : $coef=0.6;
+				case 0 : 
+					$coef=0.9;
+					break;
+				case 1 : 
+					$coef=1;
+					break;
+				case 2 : 
+					$coef=0.8;
+					break;
+				case 3 : 
+					$coef=0.7;
+					break;
+				default : 
+					$coef=0.6;
 			}
 		}
 		else{
 			switch ($this->view->distCible){
-				case 2 : $coef=0.533;
-				case 3 : $coef=0.466;
+				case 2 : 
+					$coef=0.533;
+					break;
+				case 3 : 
+					$coef=0.466;
+					break;
 				default : $coef=0.4;
 			}
 		}
-
-		$jetAttaquant = floor($coef * ($jetAttaquant + $hobbit->agilite_bm_hobbit + $hobbit->agilite_bbdf_hobbit + $hobbit->bm_attaque_hobbit));
+		$jetAttaquantNonReduit = $jetAttaquant + $hobbit->agilite_bm_hobbit + $hobbit->agilite_bbdf_hobbit + $hobbit->bm_attaque_hobbit;
+		$jetAttaquant = floor($coef * ($jetAttaquantNonReduit));
 		if ($jetAttaquant < 0){
 			$jetAttaquant = 0;
 		}
 		
 		$this->view->palissade = $palissade;
+		$this->view->coef = $coef;
+		$this->view->jetAttaquantNonReduit = $jetAttaquantNonReduit;
 		
 		return $jetAttaquant;
 	}
