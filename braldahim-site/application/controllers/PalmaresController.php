@@ -71,7 +71,28 @@ class PalmaresController extends Zend_Controller_Action {
 	
 	function mineursAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesMineurs($this->_request, $this->view, false), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesRecolteurs($this->_request, $this->view, "mineurs"), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+	
+	function herboristesAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesRecolteurs($this->_request, $this->view, "herboristes"), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+	
+	function bucheronsAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesRecolteurs($this->_request, $this->view, "bucherons"), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+	
+	function chasseursAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesRecolteurs($this->_request, $this->view, "chasseurs"), "boite_a");
 		$this->prepareCommun();
 		$this->render("index");
 	}
@@ -93,9 +114,9 @@ class PalmaresController extends Zend_Controller_Action {
 		
 		$selectionRecolteurs = null;
 		$selectionRecolteurs[] = array("nom" => "Mineurs", "url" => "mineurs");
-//		$selectionRecolteurs[] = array("nom" => "Herboristes", "url" => "herboristes");
-//		$selectionRecolteurs[] = array("nom" => "Bûcherons", "url" => "bucherons");
-//		$selectionRecolteurs[] = array("nom" => "Chasseurs", "url" => "chasseurs");
+		$selectionRecolteurs[] = array("nom" => "Herboristes", "url" => "herboristes");
+		$selectionRecolteurs[] = array("nom" => "Bûcherons", "url" => "bucherons");
+		$selectionRecolteurs[] = array("nom" => "Chasseurs", "url" => "chasseurs");
 		$this->view->selectionRecolteurs = $selectionRecolteurs;
 		
 		$selectionFabricants = null;

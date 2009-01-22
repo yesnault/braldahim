@@ -37,6 +37,7 @@ class Bral_Palmares_Recolteursfamille extends Bral_Palmares_Box {
 	
 	private function prepare() {
 		Zend_Loader::loadClass("StatsRecolteurs");
+		$this->view->titreColonne2 = $this->getSelectTypeRecolteur($this->view->type);
 		$mdate = $this->getTabDateFiltre();
 		$statsRecolteursTable = new StatsRecolteurs();
 		$rowset = $statsRecolteursTable->findByFamille($mdate["dateDebut"], $mdate["dateFin"], $this->view->type);

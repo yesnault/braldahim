@@ -72,4 +72,24 @@ abstract class Bral_Palmares_Box {
 		}
 		return $tab;
 	}
+	
+	protected function getSelectTypeRecolteur($type) {
+		$retour = "";
+		switch($type) {
+			case "mineurs":
+				$retour = "Nombre de minerais récoltés";
+				break;
+			case "herboristes":
+				$retour = "Nombre de parties de plantes récoltées";
+				break;
+			case "chasseurs":
+				$retour = "Nombre de viandes et de peaux récoltés";
+				break;
+				break;
+			case "bucherons":
+				$retour = "Nombre de rondins récoltés";
+				break;
+		}
+		return $retour;
+	}
 }

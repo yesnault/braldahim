@@ -121,7 +121,7 @@ class Bral_Palmares_Factory {
 		return $retour;
 	}
 	
-	public static function getBoxesMineurs($request, $view) {
+	public static function getBoxesRecolteurs($request, $view, $type) {
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		Zend_Loader::loadClass("Bral_Palmares_Recolteurstop10");
 		Zend_Loader::loadClass("Bral_Palmares_Recolteursfamille");
@@ -129,10 +129,10 @@ class Bral_Palmares_Factory {
 		Zend_Loader::loadClass("Bral_Palmares_Recolteurssexe");
 		
 		$retour = null;
-		$retour[] = new Bral_Palmares_Recolteurstop10($request, $view, false, 1, "mineurs");
-		$retour[] = new Bral_Palmares_Recolteursfamille($request, $view, true, 1, "mineurs");
-		$retour[] = new Bral_Palmares_Recolteursniveau($request, $view, false, 1, "mineurs");
-		$retour[] = new Bral_Palmares_Recolteurssexe($request, $view, false, 1, "mineurs");
+		$retour[] = new Bral_Palmares_Recolteurstop10($request, $view, false, 1, $type);
+		$retour[] = new Bral_Palmares_Recolteursfamille($request, $view, true, 1, $type);
+		$retour[] = new Bral_Palmares_Recolteursniveau($request, $view, false, 1, $type);
+		$retour[] = new Bral_Palmares_Recolteurssexe($request, $view, false, 1, $type);
 		return $retour;
 	}
 }
