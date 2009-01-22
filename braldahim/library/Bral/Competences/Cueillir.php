@@ -75,6 +75,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 
 	function prepareResultat() {
 		Zend_Loader::loadClass('LabanPartieplante');
+		Zend_Loader::loadClass('StatsRecolteurs');
 
 		$idPlante = intval($this->request->get("valeur_1"));
 
@@ -185,6 +186,14 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 					$labanPartiePlanteTable->insertOrUpdate($data);
 				}
 			}
+			
+			$statsRecolteurs = new StatsRecolteurs();
+			$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+			$dataRecolteurs["niveau_hobbit_stats_recolteurs"] = $this->view->user->niveau_hobbit;
+			$dataRecolteurs["id_fk_hobbit_stats_recolteurs"] = $this->view->user->id_hobbit;
+			$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
+			$dataRecolteurs["nb_partieplante_stats_recolteurs"] = $nbCueillette;
+			$statsRecolteurs->insertOrUpdate($dataRecolteurs);
 		}
 		
 		// s'il n'y a plus rien sur la plante, il faut la supprimer

@@ -122,6 +122,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 	private function calculAbattreArbre() {
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass('Bral_Util_Commun');
+		Zend_Loader::loadClass('StatsRecolteurs');
 		
 		$this->view->effetRune = false;
 		
@@ -153,6 +154,14 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		);
 		$charretteTable->updateCharrette($data);
 		unset($charretteTable);
+		
+		$statsRecolteurs = new StatsRecolteurs();
+		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+		$dataRecolteurs["niveau_hobbit_stats_recolteurs"] = $this->view->user->niveau_hobbit;
+		$dataRecolteurs["id_fk_hobbit_stats_recolteurs"] = $this->view->user->id_hobbit;
+		$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
+		$dataRecolteurs["nb_bois_stats_recolteurs"] = $this->view->nbRondins;
+		$statsRecolteurs->insertOrUpdate($dataRecolteurs);
 	}
 	
 	function getListBoxRefresh() {

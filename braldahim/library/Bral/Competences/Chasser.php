@@ -97,6 +97,8 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 	 * de 15 à 19 : 4D3 + BM AGI/2 unité de viande + 4D3 + BM AGI/2 unité de peau
 	 */
 	private function calculChasse() {
+		Zend_Loader::loadClass('StatsRecolteurs');
+		
 		$this->view->nbViande = 0;
 		$this->view->nbPeau = 0;
 		
@@ -136,6 +138,15 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 
 		$labanTable->insertOrUpdate($data);
 		unset($labanTable);
+		
+		$statsRecolteurs = new StatsRecolteurs();
+		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+		$dataRecolteurs["niveau_hobbit_stats_recolteurs"] = $this->view->user->niveau_hobbit;
+		$dataRecolteurs["id_fk_hobbit_stats_recolteurs"] = $this->view->user->id_hobbit;
+		$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
+		$dataRecolteurs["nb_peau_stats_recolteurs"] = $this->view->nbPeau;
+		$dataRecolteurs["nb_viande_stats_recolteurs"] = $this->view->nbViande;
+		$statsRecolteurs->insertOrUpdate($dataRecolteurs);
 	}
 	
 	function getListBoxRefresh() {

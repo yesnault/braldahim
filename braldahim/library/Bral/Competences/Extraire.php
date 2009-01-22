@@ -40,6 +40,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 	function prepareResultat() {
 		Zend_Loader::loadClass('LabanMinerai');
 		Zend_Loader::loadClass('Hobbit');
+		Zend_Loader::loadClass('StatsRecolteurs');
 
 		// Verification des Pa
 		if ($this->view->assezDePa == false) {
@@ -83,6 +84,14 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			);
 	
 			$labanMineraiTable->insertOrUpdate($data);
+			
+			$statsRecolteurs = new StatsRecolteurs();
+			$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+			$dataRecolteurs["niveau_hobbit_stats_recolteurs"] = $this->view->user->niveau_hobbit;
+			$dataRecolteurs["id_fk_hobbit_stats_recolteurs"] = $this->view->user->id_hobbit;
+			$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
+			$dataRecolteurs["nb_minerai_stats_recolteurs"] = $quantiteExtraite;
+			$statsRecolteurs->insertOrUpdate($dataRecolteurs);
 		}	
 
 		// Destruction du filon s'il ne reste plus rien
