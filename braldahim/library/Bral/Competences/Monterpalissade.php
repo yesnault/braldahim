@@ -282,6 +282,15 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		$palissadeTable->insert($data);
 		unset($palissadeTable);
 		
+		Zend_Loader::loadClass("StatsFabricants");
+		$statsFabricants = new StatsFabricants();
+		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+		$dataFabricants["niveau_hobbit_stats_fabricants"] = $this->view->user->niveau_hobbit;
+		$dataFabricants["id_fk_hobbit_stats_fabricants"] = $this->view->user->id_hobbit;
+		$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
+		$dataFabricants["nb_batiment_stats_fabricants"] = 1;
+		$statsFabricants->insertOrUpdate($dataFabricants);
+		
 		$this->view->palissade = $data;
 	}
 	

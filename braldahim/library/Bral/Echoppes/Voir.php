@@ -102,7 +102,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					$this->arBoutiqueTransformes["planches"]["a_afficher"] = true;
 				}
 				
-				if ($e["quantite_fourrure_arriere_echoppe"] > 0 || $e["quantite_planche_arriere_echoppe"] > 0) {
+				if ($e["quantite_fourrure_arriere_echoppe"] > 0 || $e["quantite_cuir_arriere_echoppe"] > 0) {
 					$this->arBoutiqueTransformes["cuir_fourrure"]["a_afficher"] = true;
 				}
 

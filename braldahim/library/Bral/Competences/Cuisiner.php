@@ -107,6 +107,15 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			'quantite_viande_preparee_laban' => -$nb,
 		);
 		$labanTable->insertOrUpdate($data);
+		
+		Zend_Loader::loadClass("StatsFabricants");
+		$statsFabricants = new StatsFabricants();
+		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+		$dataFabricants["niveau_hobbit_stats_fabricants"] = $this->view->user->niveau_hobbit;
+		$dataFabricants["id_fk_hobbit_stats_fabricants"] = $this->view->user->id_hobbit;
+		$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
+		$dataFabricants["nb_ration_stats_fabricants"] = $this->view->nbRation;
+		$statsFabricants->insertOrUpdate($dataFabricants);
 	}
 	
 	function getListBoxRefresh() {

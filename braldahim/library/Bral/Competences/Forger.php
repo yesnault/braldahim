@@ -331,8 +331,9 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 
 			$this->majCout($niveau, true);
 
+			$recetteEquipementACreer = null;
 			foreach($recetteEquipement as $r) {
-				$id_fk_recette_equipement = $r["id_recette_equipement"];
+				$recetteEquipementACreer = $r;
 				break;
 			}
 
@@ -340,11 +341,21 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 			$echoppeEquipementTable = new EchoppeEquipement();
 			$data = array(
 				'id_fk_echoppe_echoppe_equipement' => $this->idEchoppe,
-				'id_fk_recette_echoppe_equipement' => $id_fk_recette_equipement,
+				'id_fk_recette_echoppe_equipement' => $recetteEquipementACreer["id_recette_equipement"],
 				'nb_runes_echoppe_equipement' => $nbRunes,
 				'type_vente_echoppe_equipement' => 'aucune',
 			);
 			$echoppeEquipementTable->insert($data);
+			
+			Zend_Loader::loadClass("StatsFabricants");
+			$statsFabricants = new StatsFabricants();
+			$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+			$dataFabricants["niveau_hobbit_stats_fabricants"] = $this->view->user->niveau_hobbit;
+			$dataFabricants["id_fk_hobbit_stats_fabricants"] = $this->view->user->id_hobbit;
+			$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
+			$dataFabricants["nb_piece_stats_fabricants"] = 1;
+			$dataFabricants["somme_niveau_piece_stats_fabricants"] = $recetteEquipementACreer["niveau_recette_equipement"];
+			$statsFabricants->insertOrUpdate($dataFabricants);
 		} else {
 			throw new Zend_Exception(get_class($this)." Recette inconnue: id=".$idTypeEquipement." n=".$niveau. " q=".$qualite);
 		}
