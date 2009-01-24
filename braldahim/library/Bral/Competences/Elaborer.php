@@ -274,6 +274,17 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			'niveau_echoppe_potion' => $niveau,
 		);
 		$echoppePotionTable->insert($data);
+		
+		Zend_Loader::loadClass("StatsFabricants");
+		$statsFabricants = new StatsFabricants();
+		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+		$dataFabricants["niveau_hobbit_stats_fabricants"] = $this->view->user->niveau_hobbit;
+		$dataFabricants["id_fk_hobbit_stats_fabricants"] = $this->view->user->id_hobbit;
+		$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
+		$dataFabricants["nb_piece_stats_fabricants"] = 1;
+		$dataFabricants["somme_niveau_piece_stats_fabricants"] = $niveau;
+		$dataFabricants["id_fk_metier_stats_fabricants"] = $this->view->config->game->metier->apothicaire->id;
+		$statsFabricants->insertOrUpdate($dataFabricants);
 	}
 	
 	// Gain : [(nivP+1)/(nivH+1)+1+NivQ]*10 PX
