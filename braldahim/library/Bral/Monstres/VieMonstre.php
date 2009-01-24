@@ -496,10 +496,19 @@ class Bral_Monstres_VieMonstre {
 			"x_element_rune"  => $x,
 			"y_element_rune" => $y,
 			"id_fk_type_element_rune" => $typeRune["id_type_rune"],
+			"date_depot_element_rune" => date("Y-m-d H:i:s"),
 		);
 		
 		$elementRuneTable = new ElementRune();
 		$elementRuneTable->insert($data);
+		
+		Zend_Loader::loadClass("StatsRunes");
+		$statsRunes = new StatsRunes();
+		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+		$dataRunes["id_fk_type_rune_stats_runes"] = $typeRune["id_type_rune"];
+		$dataRunes["mois_stats_runes"] = date("Y-m-d", $moisEnCours);
+		$dataRunes["nb_rune_stats_runes"] = 1;
+		$statsRunes->insertOrUpdate($dataRunes);
 	}
 	
 	private function dropCastars($x, $y, $niveau, $effetMotH = null) {

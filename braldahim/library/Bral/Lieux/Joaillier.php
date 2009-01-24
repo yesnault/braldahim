@@ -214,6 +214,16 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			);
 			$where = "id_laban_equipement=".$this->view->equipementCourant["id_laban_equipement"];
 			$labanEquipementTable->update($data, $where);
+			
+			Zend_Loader::loadClass("StatsMotsRuniques");
+			$statsMotsRuniques = new StatsMotsRuniques();
+			$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+			$dataMotsRuniques["niveau_piece_stats_mots_runiques"] = $this->view->equipementCourant["niveau"];
+			$dataMotsRuniques["id_fk_mot_runique_stats_mots_runiques"] = $id_fk_mot_runique_laban_equipement;
+			$dataMotsRuniques["mois_stats_mots_runiques"] = date("Y-m-d", $moisEnCours);
+			$dataMotsRuniques["nb_piece_stats_mots_runiques"] = 1;
+			$dataMotsRuniques["id_fk_type_piece_stats_mots_runiques"] = $this->view->equipementCourant["id_fk_type_piece"];
+			$statsMotsRuniques->insertOrUpdate($dataMotsRuniques);
 		}
 		
 		if ($nom_mot_runique != null && $nom_mot_runique == "mot_f") {

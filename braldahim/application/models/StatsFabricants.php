@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: $
- * $Author: $
- * $LastChangedDate: $
- * $LastChangedRevision: $
- * $LastChangedBy: $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class StatsFabricants extends Zend_Db_Table {
 	protected $_name = 'stats_fabricants';
@@ -64,7 +64,7 @@ class StatsFabricants extends Zend_Db_Table {
 			$where = 'niveau_hobbit_stats_fabricants = '.$data["niveau_hobbit_stats_fabricants"]
 				.' AND id_fk_hobbit_stats_fabricants = '.$data["id_fk_hobbit_stats_fabricants"]
 				.' AND id_fk_metier_stats_fabricants = '.$data["id_fk_metier_stats_fabricants"]
-				. ' AND mois_stats_fabricants = \''.$data["mois_stats_fabricants"].'\'';
+				.' AND mois_stats_fabricants = \''.$data["mois_stats_fabricants"].'\'';
 			$this->update($dataUpdate, $where);
 		}
 	}
