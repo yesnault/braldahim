@@ -27,6 +27,7 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		
 		Zend_Loader::loadClass('Batch'); 
 		
+		$retour = "";
 		$batchTable = new Batch();
 		
 		$date = date("Y-m-d H:i:s");
@@ -36,6 +37,7 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$where = $batchTable->getAdapter()->quoteInto('date_debut_batch <= ?',  $dateFin);
 		$nb = $batchTable->delete($where. " and etat_batch like 'OK'");
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - Ok - nb:".$nb." - where:".$where);
+		$retour = " Ok:nb delete:".$nb. " date:".$dateFin;
 		
 		$add_day = - $this->config->batchs->purge->table->batch->nbjours->tous;
 		
@@ -43,9 +45,9 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$where = $batchTable->getAdapter()->quoteInto('date_debut_batch <= ?',  $dateFin);
 		$nb = $batchTable->delete($where);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - tous - nb:".$nb." - where:".$where);
+		$retour .= " Tous:nb delete:".$nb. " date:".$dateFin;
 		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeBatch - exit -");
-		return "nb delete:".$nb. " date:".$dateFin;
+		return $retour;
 	}
-	
 }
