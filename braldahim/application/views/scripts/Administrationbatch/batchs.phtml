@@ -6,6 +6,8 @@
     	&nbsp;
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">
+	    Purge des batchs OK tous les <?=$this->config->batchs->purge->table->batch->nbjours->ok?> jours glissants.<br>
+	    Purge des batchs tous statuts tous les <?=$this->config->batchs->purge->table->batch->nbjours->tous?> jours glissants.<br>
 	    
 	    Nombre OK : <?=$this->nbOk?>
 	    <br>
@@ -41,7 +43,7 @@
 					<? foreach ($b as $key => $value) : ?>
 						<td>
 						<? if ($key == "message_batch") : ?>
-							<textarea class="inputbox" rows="10" cols="100"><?=$value ?></textarea>
+							<textarea class="inputbox" rows="2" cols="100"><?=$value ?></textarea>
 						<? else: ?>
 							<?=$value ?>
 						<? endif;?>

@@ -30,12 +30,19 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$batchTable = new Batch();
 		
 		$date = date("Y-m-d H:i:s");
-		$add_day = - $this->config->batchs->purge->table->batch->nbjours;
+		$add_day = - $this->config->batchs->purge->table->batch->nbjours->ok;
+		
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($date, $add_day);
+		$where = $batchTable->getAdapter()->quoteInto('date_debut_batch <= ?',  $dateFin);
+		$nb = $batchTable->delete($where. " and etat_batch like 'OK'");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - Ok - nb:".$nb." - where:".$where);
+		
+		$add_day = - $this->config->batchs->purge->table->batch->nbjours->tous;
 		
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($date, $add_day);
 		$where = $batchTable->getAdapter()->quoteInto('date_debut_batch <= ?',  $dateFin);
 		$nb = $batchTable->delete($where);
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - nb:".$nb." - where:".$where);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - tous - nb:".$nb." - where:".$where);
 		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeBatch - exit -");
 		return "nb delete:".$nb. " date:".$dateFin;
