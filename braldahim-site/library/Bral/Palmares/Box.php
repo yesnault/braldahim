@@ -111,6 +111,10 @@ abstract class Bral_Palmares_Box {
 			case "cuisiniers":
 				$retour = "Nombre de rations préparées";
 				break;
+			case "apothicaires":
+				$retour = "Nombre de potions créées";
+				$this->view->afficheMoyenne = true;
+				break;
 		}
 		return $retour;
 	}

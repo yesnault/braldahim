@@ -78,6 +78,9 @@ class StatsFabricants extends Zend_Db_Table {
 	private function getWhereType($type, $config) {
 		$retour = "";
 		switch($type) {
+			case "apothicaires":
+				$retour = "id_fk_metier_stats_fabricants = ".$config->game->metier->apothicaire->id;
+				break;
 			case "menuisiers":
 				$retour = "id_fk_metier_stats_fabricants = ".$config->game->metier->menuisier->id;
 				break;

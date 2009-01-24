@@ -97,6 +97,13 @@ class PalmaresController extends Zend_Controller_Action {
 		$this->render("index");
 	}
 	
+	function apothicairesAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "apothicaires"), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+	
 	function menuisiersAction() {
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "menuisiers"), "boite_a");
@@ -162,6 +169,7 @@ class PalmaresController extends Zend_Controller_Action {
 		$this->view->selectionRecolteurs = $selectionRecolteurs;
 		
 		$selectionFabricants = null;
+		$selectionFabricants[] = array("nom" => "Apothicaire", "url" => "apothicaires");
 		$selectionFabricants[] = array("nom" => "Menuisiers", "url" => "menuisiers");
 		$selectionFabricants[] = array("nom" => "Forgerons", "url" => "forgerons");
 		$selectionFabricants[] = array("nom" => "Tanneurs", "url" => "tanneurs");
