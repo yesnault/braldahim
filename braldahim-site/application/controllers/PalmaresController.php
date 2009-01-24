@@ -22,49 +22,56 @@ class PalmaresController extends Zend_Controller_Action {
 
 	function indexAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesNaissance($this->_request, $this->view, false), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesNaissance($this->_request, $this->view), "boite_a");
 		$this->prepareCommun();
 		$this->render();
 	}
 	
 	function naissanceAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesNaissance($this->_request, $this->view, false), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesNaissance($this->_request, $this->view), "boite_a");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function combattantspveAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesCombattantspve($this->_request, $this->view, false), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesCombattantspve($this->_request, $this->view), "boite_a");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function combattantspvpAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesCombattantspvp($this->_request, $this->view, false), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesCombattantspvp($this->_request, $this->view), "boite_a");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function mortsAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesMorts($this->_request, $this->view, false), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesMorts($this->_request, $this->view), "boite_a");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function experienceAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesExperience($this->_request, $this->view, false), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesExperience($this->_request, $this->view), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+
+	function supershobbitsAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesSupershobbits($this->_request, $this->view), "boite_a");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function monstresAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesMonstres($this->_request, $this->view, false), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesMonstres($this->_request, $this->view), "boite_a");
 		$this->prepareCommun();
 		$this->render("index");
 	}
@@ -172,7 +179,7 @@ class PalmaresController extends Zend_Controller_Action {
 		$selection[] = array("nom" => "Morts", "url" => "morts");
 		$selection[] = array("nom" => "Expérience", "url" => "experience");
 		$selection[] = array("nom" => "Monstres", "url" => "monstres");
-//		$selection[] = array("nom" => "Super Hobbit", "url" => "superhobbits");
+		$selection[] = array("nom" => "Supers Hobbits", "url" => "supershobbits");
 		$this->view->selection = $selection;
 		
 		$selectionRecolteurs = null;

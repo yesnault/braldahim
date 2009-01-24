@@ -1,0 +1,43 @@
+<? include("box_header.phtml") ?>
+<div class="inner">
+<ul class="box_contenu1 textalic">
+	
+	Filtre par Niveau : <select id="filtre" name="filtre" onChange="_get_('/palmares/load?caction=do_palmares_<?=$this->nom_systeme?>_'+this.value+'_supershobbits', false)">
+	<? foreach($this->niveaux as $f): ?>
+			<option value="<?=$f["niveau"]?>"<?if ($this->filtre == $f["niveau"]): echo "selected" ; endif;?>>Niveau <?=$f["niveau"]?></option>
+	<? endforeach;?>
+	</select>
+	<br><br>
+	Pour un niveau choisi, la valeur maximum de chaque caractéristique (possédée par un hobbit) est indiquée.<br>
+	Les Bonus et les Malus ne sont pas pris en compte.
+	<br><br>
+	<table class="table_liste" style="width:90%">
+	<thead class="table_liste">
+	  <tr class="table_liste">
+		<th>Caractéristique</th>
+		<th>Valeur Maximum</th>
+	  </tr>
+	</thead>
+		<tbody>
+	  	<? $i = 0; 
+	  	foreach($this->hobbits as $k => $v): ?>
+	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+	  			<td class="table_liste" >
+	  			<?=$k?>
+	  			</td>
+		  		<td class="table_liste">
+		  			<? if ($v["base"] != ""): ?>
+		  				<?=($v["nombre"] + $v["base"]) ?>
+		  			<? else: ?>
+		  				<?=$v["nombre"] ?>
+		  			<? endif;?>
+		  			<?=$v["libelle"]?>
+		  		</td>
+	  		</tr>
+	  	<? endforeach; ?>
+	  	</tbody>
+	</table>
+	<br>
+</ul>
+</div>
+<? include("box_bottom.phtml") ?>

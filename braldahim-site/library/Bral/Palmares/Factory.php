@@ -45,8 +45,9 @@ class Bral_Palmares_Factory {
 		
 		$retour = null;
 		$retour[] = new Bral_Palmares_Naissancefamille($request, $view, false);
-		$retour[] = new Bral_Palmares_Naissancecomte($request, $view, true);
+		$retour[] = new Bral_Palmares_Naissancecomte($request, $view, false);
 		$retour[] = new Bral_Palmares_Naissancesexe($request, $view, false);
+		$view->titre = "Naissance";
 		return $retour;
 	}
 	
@@ -59,9 +60,10 @@ class Bral_Palmares_Factory {
 		
 		$retour = null;
 		$retour[] = new Bral_Palmares_Combattantspvetop10($request, $view, false);
-		$retour[] = new Bral_Palmares_Combattantspvefamille($request, $view, true);
+		$retour[] = new Bral_Palmares_Combattantspvefamille($request, $view, false);
 		$retour[] = new Bral_Palmares_Combattantspveniveau($request, $view, false);
 		$retour[] = new Bral_Palmares_Combattantspvesexe($request, $view, false);
+		$view->titre = "Combattants PVE";
 		return $retour;
 	}
 	
@@ -74,9 +76,10 @@ class Bral_Palmares_Factory {
 		
 		$retour = null;
 		$retour[] = new Bral_Palmares_Combattantspvptop10($request, $view, false);
-		$retour[] = new Bral_Palmares_Combattantspvpfamille($request, $view, true);
+		$retour[] = new Bral_Palmares_Combattantspvpfamille($request, $view, false);
 		$retour[] = new Bral_Palmares_Combattantspvpniveau($request, $view, false);
 		$retour[] = new Bral_Palmares_Combattantspvpsexe($request, $view, false);
+		$view->titre = "Combattants PVP";
 		return $retour;
 	}
 	
@@ -89,9 +92,10 @@ class Bral_Palmares_Factory {
 		
 		$retour = null;
 		$retour[] = new Bral_Palmares_Mortstop10($request, $view, false);
-		$retour[] = new Bral_Palmares_Mortsfamille($request, $view, true);
+		$retour[] = new Bral_Palmares_Mortsfamille($request, $view, false);
 		$retour[] = new Bral_Palmares_Mortsniveau($request, $view, false);
 		$retour[] = new Bral_Palmares_Mortssexe($request, $view, false);
+		$view->titre = "Morts";
 		return $retour;
 	}
 	
@@ -104,9 +108,10 @@ class Bral_Palmares_Factory {
 		
 		$retour = null;
 		$retour[] = new Bral_Palmares_Experiencetop10($request, $view, false);
-		$retour[] = new Bral_Palmares_Experiencefamille($request, $view, true);
+		$retour[] = new Bral_Palmares_Experiencefamille($request, $view, false);
 		$retour[] = new Bral_Palmares_Experienceniveau($request, $view, false);
 		$retour[] = new Bral_Palmares_Experiencesexe($request, $view, false);
+		$view->titre = "Expérience";
 		return $retour;
 	}
 	
@@ -118,6 +123,17 @@ class Bral_Palmares_Factory {
 		$retour = null;
 		$retour[] = new Bral_Palmares_Monstrestop10($request, $view, false);
 		$retour[] = new Bral_Palmares_Monstrestype($request, $view, false);
+		$view->titre = "Montres";
+		return $retour;
+	}
+	
+	public static function getBoxesSupershobbits($request, $view) {
+		Zend_Loader::loadClass("Bral_Palmares_Box");
+		Zend_Loader::loadClass("Bral_Palmares_Supershobbits");
+		
+		$retour = null;
+		$retour[] = new Bral_Palmares_Supershobbits($request, $view, false);
+		$view->titre = "Supers Hobbits";
 		return $retour;
 	}
 	
@@ -133,6 +149,7 @@ class Bral_Palmares_Factory {
 		$retour[] = new Bral_Palmares_Recolteursfamille($request, $view, true, 1, $type);
 		$retour[] = new Bral_Palmares_Recolteursniveau($request, $view, false, 1, $type);
 		$retour[] = new Bral_Palmares_Recolteurssexe($request, $view, false, 1, $type);
+		$view->titre = "Récolteurs";
 		return $retour;
 	}
 	
@@ -148,15 +165,19 @@ class Bral_Palmares_Factory {
 		$retour[] = new Bral_Palmares_Fabricantsfamille($request, $view, true, 1, $type);
 		$retour[] = new Bral_Palmares_Fabricantsniveau($request, $view, false, 1, $type);
 		$retour[] = new Bral_Palmares_Fabricantssexe($request, $view, false, 1, $type);
+		$view->titre = "Fabricants";
 		return $retour;
 	}
 	
 	public static function getBoxesRunes($request, $view) {
 		Zend_Loader::loadClass("Bral_Palmares_Box");
 		Zend_Loader::loadClass("Bral_Palmares_Runestype");
+		Zend_Loader::loadClass("Bral_Palmares_Runescategorie");
 		
 		$retour = null;
 		$retour[] = new Bral_Palmares_Runestype($request, $view, false, 2);
+		$retour[] = new Bral_Palmares_Runescategorie($request, $view, false, 2);
+		$view->titre = "Runes";
 		return $retour;
 	}
 	
@@ -170,6 +191,7 @@ class Bral_Palmares_Factory {
 		$retour[] = new Bral_Palmares_Motsruniquesmot($request, $view, false, 1);
 		$retour[] = new Bral_Palmares_Motsruniquestypepiece($request, $view, false, 1);
 		$retour[] = new Bral_Palmares_Motsruniquesniveaupiece($request, $view, false, 1);
+		$view->titre = "Mots Runiques";
 		return $retour;
 	}
 }

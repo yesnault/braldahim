@@ -56,4 +56,56 @@ class Hobbit extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+	
+	function findDistinctNiveaux() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', 'distinct(niveau_hobbit) as niveau');
+		$select->where('est_compte_actif_hobbit = ?', "oui");
+		$select->order("niveau ASC");
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
+	function findByNiveauAndCaracteristique($niveau, $caracteristique) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit', $this->getSelectCaracteristique($caracteristique)));
+		$select->where('niveau_hobbit = ?', $niveau);
+		$select->where('est_compte_actif_hobbit = ?', "oui");
+		$select->group(array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'));
+		$select->order("nombre DESC");
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
+	private function getSelectCaracteristique($caracteristique) {
+		$retour = "";
+		switch($caracteristique) {
+			case "force" :
+				$retour = "max(force_base_hobbit) as nombre";
+				break;
+			case "agilite" :
+				$retour = "max(agilite_base_hobbit) as nombre";
+				break;
+			case "vigueur" :
+				$retour = "max(vigueur_base_hobbit) as nombre";
+				break;
+			case "sagesse" :
+				$retour = "max(sagesse_base_hobbit) as nombre";
+				break;
+			case "armure_naturelle":
+				$retour = "max(armure_naturelle_hobbit) as nombre";
+				break;
+			case "regeneration":
+				$retour = "max(regeneration_hobbit) as nombre";
+				break;
+			case "poids_transportable":
+				$retour = "max(poids_transportable_hobbit) as nombre";
+				break;
+			case "duree_prochain_tour":
+				$retour = "min(duree_prochain_tour_hobbit) as nombre";
+		}
+		return $retour;
+	}
 }
