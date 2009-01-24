@@ -156,11 +156,20 @@ class Bral_Palmares_Factory {
 		Zend_Loader::loadClass("Bral_Palmares_Runestype");
 		
 		$retour = null;
-		$retour[] = new Bral_Palmares_Runestype($request, $view, false, 1);
+		$retour[] = new Bral_Palmares_Runestype($request, $view, false, 2);
 		return $retour;
 	}
 	
 	public static function getBoxesMotsRuniques($request, $view) {
+		Zend_Loader::loadClass("Bral_Palmares_Box");
+		Zend_Loader::loadClass("Bral_Palmares_Motsruniquesmot");
+		Zend_Loader::loadClass("Bral_Palmares_Motsruniquestypepiece");
+		Zend_Loader::loadClass("Bral_Palmares_Motsruniquesniveaupiece");
 		
+		$retour = null;
+		$retour[] = new Bral_Palmares_Motsruniquesmot($request, $view, false, 1);
+		$retour[] = new Bral_Palmares_Motsruniquestypepiece($request, $view, false, 1);
+		$retour[] = new Bral_Palmares_Motsruniquesniveaupiece($request, $view, false, 1);
+		return $retour;
 	}
 }

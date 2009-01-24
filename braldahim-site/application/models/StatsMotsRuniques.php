@@ -33,7 +33,7 @@ class StatsMotsRuniques extends Zend_Db_Table {
 	function findByNiveauPiece($dateDebut, $dateFin) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('mot_runique', null);
+		$select->from('mot_runique', 'suffixe_mot_runique as suffixe');
 		$select->from('type_piece', null);
 		$select->from('stats_mots_runiques', array('sum(nb_piece_stats_mots_runiques) as nombre', 'niveau_piece_stats_mots_runiques as niveau'));
 		$select->where('id_fk_mot_runique_stats_mots_runiques = id_mot_runique');
@@ -41,7 +41,7 @@ class StatsMotsRuniques extends Zend_Db_Table {
 		$select->where('mois_stats_mots_runiques >= ?', $dateDebut);
 		$select->where('mois_stats_mots_runiques < ?', $dateFin);
 		$select->order("niveau ASC");
-		$select->group(array('niveau'));
+		$select->group(array('niveau', 'suffixe'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -49,7 +49,7 @@ class StatsMotsRuniques extends Zend_Db_Table {
 	function findByTypePiece($dateDebut, $dateFin) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('mot_runique', null);
+		$select->from('mot_runique', 'suffixe_mot_runique as suffixe');
 		$select->from('type_piece', 'nom_type_piece as nomPiece');
 		$select->from('stats_mots_runiques', array('sum(nb_piece_stats_mots_runiques) as nombre'));
 		$select->where('id_fk_mot_runique_stats_mots_runiques = id_mot_runique');
@@ -57,7 +57,7 @@ class StatsMotsRuniques extends Zend_Db_Table {
 		$select->where('mois_stats_mots_runiques >= ?', $dateDebut);
 		$select->where('mois_stats_mots_runiques < ?', $dateFin);
 		$select->order("nombre DESC");
-		$select->group(array('nomPiece'));
+		$select->group(array('nomPiece', 'suffixe'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

@@ -1,0 +1,43 @@
+<? include("box_header.phtml") ?>
+<div class="inner">
+<ul class="box_contenu1 textalic">
+	<? include("filtre.phtml") ?>
+	
+	<br>
+	<table class="table_liste" style="width:90%">
+	<thead class="table_liste">
+	  <tr class="table_liste">
+		<th>Mot</th>
+		<th>Type de pièce</th>
+		<th>Nombre</th>
+	  </tr>
+	</thead>
+  	<? if (count($this->mots) > 0): ?>
+		<tbody>
+	  	<? $i = 0; 
+	  	foreach($this->mots as $f): ?>
+	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+		  		<td class="table_liste">
+		  			<?=$f["suffixe"]?>
+		  		</td>
+		  		<td class="table_liste">
+		  			<?=$f["nomPiece"]?>
+		  		</td>
+		  		<td class="table_liste">
+		  			<?=$f["nombre"]?>
+		  		</td>
+	  		</tr>
+	  	<? endforeach; ?>
+	  	</tbody>
+   <? else: ?>
+   	<tr class="table_liste">
+   	 <td colspan='5'>
+   		Aucun résultat
+   	 </td>
+   	</tr>
+   <? endif; ?>
+   </table>
+	<br>
+</ul>
+</div>
+<? include("box_bottom.phtml") ?>

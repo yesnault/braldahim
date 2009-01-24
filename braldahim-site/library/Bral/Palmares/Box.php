@@ -23,6 +23,7 @@ abstract class Bral_Palmares_Box {
 		$this->view->filtre = $filtre;
 		$this->view->type = $type;
 		$this->view->afficheMoyenne = false;
+		$this->view->afficheMoisEnCours = true;
 	}
 	
 	abstract function getTitreOnglet();
@@ -36,7 +37,7 @@ abstract class Bral_Palmares_Box {
 	abstract function setDisplay($display) ;
 	abstract function render() ;
 	
-	protected function getTabDateFiltre() {
+	protected function getTabDateFiltre($nbMoisASortir = 0) {
 		$tab = null;
 		
 		$moisPrecedent = mktime(0, 0, 0, date("m")-1, 1,   date("Y"));
@@ -45,7 +46,7 @@ abstract class Bral_Palmares_Box {
 		$moisEnCours  = mktime(0, 0, 0, date("m"), 1, date("Y"));
 		$anneeEnCours  = mktime(0, 0, 0, 1, 1, date("Y"));
 		
-		$demain  = mktime(0, 0, 0, date("m"), date("d")+1, date("Y"));
+		$demain  = mktime(0, 0, 0, date("m")-$nbMoisASortir, date("d")+1, date("Y"));
 
 		switch($this->view->filtre) {
 			case 1: // mois en cours
@@ -58,7 +59,7 @@ abstract class Bral_Palmares_Box {
 				break;
 			case 3: // année en cours
 				$tab["dateDebut"] = date("Y-m-d H:i:s", $anneeEnCours);
-				$tab["dateFin"] = date("Y-m-d H:i:s");
+				$tab["dateFin"] = date("Y-m-d H:i:s", $demain);
 				break;
 			case 4: // année précédente
 				$tab["dateDebut"] = date("Y-m-d H:i:s", $anneePrecedente);

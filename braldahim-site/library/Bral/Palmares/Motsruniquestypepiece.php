@@ -10,18 +10,18 @@
  * $LastChangedRevision: $
  * $LastChangedBy: $
  */
-class Bral_Palmares_Runestype extends Bral_Palmares_Box {
+class Bral_Palmares_Motsruniquestypepiece extends Bral_Palmares_Box {
 
 	function getTitreOnglet() {
-		return "Type";
+		return "Types Pièces";
 	}
 	
 	function getNomInterne() {
-		return "box_onglet_runestype";		
+		return "box_onglet_motsruniquestypepiece";		
 	}
 	
 	function getNomClasse() {
-		return "runestype";		
+		return "motsruniquestypepiece";		
 	}
 	
 	function setDisplay($display) {
@@ -31,19 +31,15 @@ class Bral_Palmares_Runestype extends Bral_Palmares_Box {
 	function render() {
 		$this->view->nom_interne = $this->getNomInterne();
 		$this->view->nom_systeme = $this->getNomClasse();
-		$this->view->afficheMoisEnCours = false;
 		$this->prepare();
-		return $this->view->render("palmares/runes_type.phtml");
+		return $this->view->render("palmares/motsruniques_typepiece.phtml");
 	}
 	
 	private function prepare() {
-		Zend_Loader::loadClass("StatsRunes");
-		if ($this->view->filtre == 1) {
-			throw new Zend_Exception('filtre par mois courant interdit, type rune');
-		}
-		$mdate = $this->getTabDateFiltre(1);
-		$statsRunesTable = new StatsRunes();
-		$rowset = $statsRunesTable->findByType($mdate["dateDebut"], $mdate["dateFin"]);
-		$this->view->types = $rowset;
+		Zend_Loader::loadClass("StatsMotsRuniques");
+		$mdate = $this->getTabDateFiltre();
+		$statsMotsRuniquesTable = new StatsMotsRuniques();
+		$rowset = $statsMotsRuniquesTable->findByTypePiece($mdate["dateDebut"], $mdate["dateFin"]);
+		$this->view->mots = $rowset;
 	}
 }

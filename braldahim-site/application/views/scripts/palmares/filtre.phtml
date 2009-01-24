@@ -1,6 +1,8 @@
 Filtre : <select id="filtre" name="filtre" onChange="_get_('/palmares/load?caction=do_palmares_<?=$this->nom_systeme?>_'+this.value+'_<?=$this->type?>', false)">
 <? foreach($this->listFiltre as $f): ?>
-	<option value="<?=$f["valeur"]?>"<?if ($this->filtre == $f["valeur"]): echo "selected" ; endif;?>><?=$f["nom"]?></option>
+	<? if (($this->afficheMoisEnCours === true && $f["valeur"] == 1) || ($f["valeur"] > 1)) : ?>
+		<option value="<?=$f["valeur"]?>"<?if ($this->filtre == $f["valeur"]): echo "selected" ; endif;?>><?=$f["nom"]?></option>
+	<? endif;?>
 <? endforeach;?>
 </select>
 <br>
