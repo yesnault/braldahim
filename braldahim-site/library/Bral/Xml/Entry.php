@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Entry.php 805 2008-12-22 20:17:56Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2008-12-22 21:17:56 +0100 (Mon, 22 Dec 2008) $
- * $LastChangedRevision: 805 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Xml_Entry {
 	

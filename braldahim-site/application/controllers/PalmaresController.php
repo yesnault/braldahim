@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: $
- * $Author: $
- * $LastChangedDate: $
- * $LastChangedRevision: $
- * $LastChangedBy: $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class PalmaresController extends Zend_Controller_Action {
 
@@ -146,6 +146,20 @@ class PalmaresController extends Zend_Controller_Action {
 		$this->render("index");
 	}
 	
+	function runesAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesRunes($this->_request, $this->view), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+	
+	function motsruniquesAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesMotsRuniques($this->_request, $this->view), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+	
 	private function prepareCommun() {
 		$this->getBoxesData();
 		$this->prepareSelection();
@@ -177,6 +191,11 @@ class PalmaresController extends Zend_Controller_Action {
 		$selectionFabricants[] = array("nom" => "Terrassiers", "url" => "terrassiers");
 		$selectionFabricants[] = array("nom" => "Cuisiniers", "url" => "cuisiniers");
 		$this->view->selectionFabricants = $selectionFabricants;
+		
+		$selectionRunes = null;
+		$selectionRunes[] = array("nom" => "Drops Runes", "url" => "runes");
+		$selectionRunes[] = array("nom" => "Mots Runiques", "url" => "motsruniques");
+		$this->view->selectionRunes = $selectionRunes;
 	}
 	
 	private function prepareFiltre() {

@@ -4,24 +4,24 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id$
- * $Author$
- * $LastChangedDate$
- * $LastChangedRevision$
- * $LastChangedBy$
+ * $Id: $
+ * $Author: $
+ * $LastChangedDate: $
+ * $LastChangedRevision: $
+ * $LastChangedBy: $
  */
-class Bral_Palmares_Monstrestype extends Bral_Palmares_Box {
+class Bral_Palmares_Runestype extends Bral_Palmares_Box {
 
 	function getTitreOnglet() {
 		return "Type";
 	}
 	
 	function getNomInterne() {
-		return "box_onglet_monstrestype";		
+		return "box_onglet_runestype";		
 	}
 	
 	function getNomClasse() {
-		return "monstrestype";		
+		return "runestype";		
 	}
 	
 	function setDisplay($display) {
@@ -32,15 +32,15 @@ class Bral_Palmares_Monstrestype extends Bral_Palmares_Box {
 		$this->view->nom_interne = $this->getNomInterne();
 		$this->view->nom_systeme = $this->getNomClasse();
 		$this->prepare();
-		return $this->view->render("palmares/monstres_type.phtml");
+		return $this->view->render("palmares/fabricants_top10.phtml");
 	}
 	
 	private function prepare() {
-		Zend_Loader::loadClass("Evenement");
+		Zend_Loader::loadClass("StatsRunes");
+		$this->view->titreColonne2 = $this->getSelectTypeRune($this->view->type);
 		$mdate = $this->getTabDateFiltre();
-		$evenementTable = new Evenement();
-		$type = $this->view->config->game->evenements->type->killhobbit;
-		$rowset = $evenementTable->findByTypeMonstres($mdate["dateDebut"], $mdate["dateFin"], $type);
-		$this->view->type = $rowset;
+		$statsRunesTable = new StatsRunes();
+		$rowset = $statsRunesTable->findByType($mdate["dateDebut"], $mdate["dateFin"]);
+		$this->view->types = $rowset;
 	}
 }

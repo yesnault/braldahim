@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Response.php 866 2008-12-30 16:02:44Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2008-12-30 17:02:44 +0100 (Tue, 30 Dec 2008) $
- * $LastChangedRevision: 866 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Xml_Response {
 

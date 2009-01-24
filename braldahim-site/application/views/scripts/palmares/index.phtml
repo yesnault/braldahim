@@ -34,6 +34,15 @@
 					<? endforeach;?>
 				<? endif; ?>
 				<br>
+				<ul class="titre textalic textsizec">
+				Runes
+				</ul>
+				<? if (count($this->selectionRunes) > 0): ?>
+					<? foreach($this->selectionRunes as $s) : ?>
+						<a href="/palmares/<?=$s["url"]?>"><?=$s["nom"]?></a><br>
+					<? endforeach;?>
+				<? endif; ?>
+				<br>
 			</ul>
 		</td>
 		<td style="width:400px; border: 0px solid #791E1E;" valign="top">

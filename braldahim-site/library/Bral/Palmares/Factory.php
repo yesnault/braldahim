@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: $
- * $Author: $
- * $LastChangedDate: $
- * $LastChangedRevision: $
- * $LastChangedBy: $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Palmares_Factory {
 	
@@ -149,5 +149,18 @@ class Bral_Palmares_Factory {
 		$retour[] = new Bral_Palmares_Fabricantsniveau($request, $view, false, 1, $type);
 		$retour[] = new Bral_Palmares_Fabricantssexe($request, $view, false, 1, $type);
 		return $retour;
+	}
+	
+	public static function getBoxesRunes($request, $view) {
+		Zend_Loader::loadClass("Bral_Palmares_Box");
+		Zend_Loader::loadClass("Bral_Palmares_Runestype");
+		
+		$retour = null;
+		$retour[] = new Bral_Palmares_Runestype($request, $view, false, 1);
+		return $retour;
+	}
+	
+	public static function getBoxesMotsRuniques($request, $view) {
+		
 	}
 }

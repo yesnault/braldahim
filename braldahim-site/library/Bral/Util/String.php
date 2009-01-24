@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: String.php 815 2008-12-23 09:51:59Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2008-12-23 10:51:59 +0100 (Tue, 23 Dec 2008) $
- * $LastChangedRevision: 815 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Util_String {
 
