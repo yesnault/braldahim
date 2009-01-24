@@ -384,11 +384,10 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			"id_fk_hobbit_laban_munition" => $this->view->user->id_hobbit,
 		);
 		$labanMunition->insertOrUpdate($data);
-		
 	}
 	
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_vue", "box_laban", "box_lieu", "box_profil"));
+		return $this->constructListBoxRefresh(array("box_vue", "box_laban", "box_profil"));
 	}
 	
 	public function calculPx() {
