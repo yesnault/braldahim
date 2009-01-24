@@ -9,6 +9,9 @@
 	  <tr class="table_liste">
 		<th>Famille</th>
 		<th><?=$this->titreColonne2?></th>
+		<? if ($this->afficheMoyenne === true) : ?>
+			<th>Niveau moyen des pièces créées</th>
+		<? endif;?>
 	  </tr>
 	</thead>
   	<? if (count($this->familles) > 0): ?>
@@ -22,6 +25,9 @@
 		  		<td class="table_liste">
 		  			<?=$f["nombre"]?>
 		  		</td>
+		  		<? if ($this->afficheMoyenne === true) : ?>
+	  				<td><?=floor($f["moyenne"])?></td>
+	  			<? endif;?>
 	  		</tr>
 	  	<? endforeach; ?>
 	  	</tbody>

@@ -48,10 +48,10 @@ class StatsRecolteurs extends Zend_Db_Table {
 	function findByNiveau($dateDebut, $dateFin, $type) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('stats_recolteurs', array($this->getSelectType($type), 'niveau_hobbit_stats_recolteurs as niveau'));
+		$select->from('stats_recolteurs', array($this->getSelectType($type), 'floor(niveau_hobbit_stats_recolteurs/10) as niveau'));
 		$select->where('mois_stats_recolteurs >= ?', $dateDebut);
 		$select->where('mois_stats_recolteurs < ?', $dateFin);
-		$select->order("nombre DESC");
+		$select->order("niveau ASC");
 		$select->group(array('niveau_hobbit_stats_recolteurs'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -82,7 +82,6 @@ class StatsRecolteurs extends Zend_Db_Table {
 				break;
 			case "chasseurs":
 				$retour = "SUM(nb_peau_stats_recolteurs + nb_viande_stats_recolteurs) as nombre";
-				break;
 				break;
 			case "bucherons":
 				$retour = "SUM(nb_bois_stats_recolteurs) as nombre";

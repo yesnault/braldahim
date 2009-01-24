@@ -90,7 +90,7 @@ class Evenement extends Zend_Db_Table {
 		$select->where('id_fk_type_evenement = ?', $type);
 		$select->where('date_evenement >= ?', $dateDebut);
 		$select->where('date_evenement < ?', $dateFin);
-		$select->order("nombre DESC");
+		$select->order("niveau ASC");
 		$select->group(array('niveau'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

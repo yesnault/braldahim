@@ -83,7 +83,7 @@ class PalmaresController extends Zend_Controller_Action {
 		$this->render("index");
 	}
 	
-	function bucheronsAction() {
+	function bucheronsrecolteursAction() {
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesRecolteurs($this->_request, $this->view, "bucherons"), "boite_a");
 		$this->prepareCommun();
@@ -93,6 +93,48 @@ class PalmaresController extends Zend_Controller_Action {
 	function chasseursAction() {
 		$this->prepareFiltre();
 		$this->addBoxes(Bral_Palmares_Factory::getBoxesRecolteurs($this->_request, $this->view, "chasseurs"), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+	
+	function menuisiersAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "menuisiers"), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+	
+	function forgeronsAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "forgerons"), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+	
+	function tanneursAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "tanneurs"), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+	
+	function bucheronsfabriquantsAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "bucherons"), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+	
+	function terrassiersAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "terrassiers"), "boite_a");
+		$this->prepareCommun();
+		$this->render("index");
+	}
+	
+	function cuisiniersAction() {
+		$this->prepareFiltre();
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "cuisiniers"), "boite_a");
 		$this->prepareCommun();
 		$this->render("index");
 	}
@@ -115,14 +157,17 @@ class PalmaresController extends Zend_Controller_Action {
 		$selectionRecolteurs = null;
 		$selectionRecolteurs[] = array("nom" => "Mineurs", "url" => "mineurs");
 		$selectionRecolteurs[] = array("nom" => "Herboristes", "url" => "herboristes");
-		$selectionRecolteurs[] = array("nom" => "Bûcherons", "url" => "bucherons");
+		$selectionRecolteurs[] = array("nom" => "Bûcherons", "url" => "bucheronsrecolteurs");
 		$selectionRecolteurs[] = array("nom" => "Chasseurs", "url" => "chasseurs");
 		$this->view->selectionRecolteurs = $selectionRecolteurs;
 		
 		$selectionFabricants = null;
-//		$selectionFabricants[] = array("nom" => "Menuisier", "url" => "menuisiers");
-//		$selectionFabricants[] = array("nom" => "Forgeron", "url" => "forgerons");
-//		$selectionFabricants[] = array("nom" => "Tanneur", "url" => "tanneurs");
+		$selectionFabricants[] = array("nom" => "Menuisiers", "url" => "menuisiers");
+		$selectionFabricants[] = array("nom" => "Forgerons", "url" => "forgerons");
+		$selectionFabricants[] = array("nom" => "Tanneurs", "url" => "tanneurs");
+		$selectionFabricants[] = array("nom" => "Bûcherons", "url" => "bucheronsfabriquants");
+		$selectionFabricants[] = array("nom" => "Terrassiers", "url" => "terrassiers");
+		$selectionFabricants[] = array("nom" => "Cuisiniers", "url" => "cuisiniers");
 		$this->view->selectionFabricants = $selectionFabricants;
 	}
 	

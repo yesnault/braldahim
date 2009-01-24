@@ -48,10 +48,10 @@ class StatsExperience extends Zend_Db_Table {
 	function findByNiveau($dateDebut, $dateFin) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('stats_experience', array('SUM(nb_px_perso_gagnes_stats_experience) as nombre', 'niveau_hobbit_stats_experience as niveau'));
+		$select->from('stats_experience', array('SUM(nb_px_perso_gagnes_stats_experience) as nombre', 'floor(niveau_hobbit_stats_experience/10) as niveau'));
 		$select->where('mois_stats_experience >= ?', $dateDebut);
 		$select->where('mois_stats_experience < ?', $dateFin);
-		$select->order("nombre DESC");
+		$select->order("niveau ASC");
 		$select->group(array('niveau_hobbit_stats_experience'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

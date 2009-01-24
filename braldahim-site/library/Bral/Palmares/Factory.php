@@ -20,7 +20,7 @@ class Bral_Palmares_Factory {
 		$action = $matches[1]; // "do" ou "ask"
 		$section = $matches[2]; // classe
 		$filtre = (int)$matches[3]; // filtre
-		$type = (int)$matches[4]; // filtre
+		$type = $matches[4]; // type
 
 		$construct = "Bral_Palmares_".Bral_Util_String::firstToUpper($section);
 		try {
@@ -133,6 +133,21 @@ class Bral_Palmares_Factory {
 		$retour[] = new Bral_Palmares_Recolteursfamille($request, $view, true, 1, $type);
 		$retour[] = new Bral_Palmares_Recolteursniveau($request, $view, false, 1, $type);
 		$retour[] = new Bral_Palmares_Recolteurssexe($request, $view, false, 1, $type);
+		return $retour;
+	}
+	
+	public static function getBoxesFabricants($request, $view, $type) {
+		Zend_Loader::loadClass("Bral_Palmares_Box");
+		Zend_Loader::loadClass("Bral_Palmares_Fabricantstop10");
+		Zend_Loader::loadClass("Bral_Palmares_Fabricantsfamille");
+		Zend_Loader::loadClass("Bral_Palmares_Fabricantsniveau");
+		Zend_Loader::loadClass("Bral_Palmares_Fabricantssexe");
+		
+		$retour = null;
+		$retour[] = new Bral_Palmares_Fabricantstop10($request, $view, false, 1, $type);
+		$retour[] = new Bral_Palmares_Fabricantsfamille($request, $view, true, 1, $type);
+		$retour[] = new Bral_Palmares_Fabricantsniveau($request, $view, false, 1, $type);
+		$retour[] = new Bral_Palmares_Fabricantssexe($request, $view, false, 1, $type);
 		return $retour;
 	}
 }

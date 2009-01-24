@@ -9,6 +9,9 @@
 	  <tr class="table_liste">
 		<th>Hobbit</th>
 		<th><?=$this->titreColonne2?></th>
+		<? if ($this->afficheMoyenne === true) : ?>
+			<th>Niveau moyen des pièces créées</th>
+		<? endif;?>
 	  </tr>
 	</thead>
   	<? if (count($this->top10) > 0): ?>
@@ -24,6 +27,9 @@
 		  		<td class="table_liste">
 		  			<?=$e["nombre"]?>
 		  		</td>
+		  		<? if ($this->afficheMoyenne === true) : ?>
+	  				<td><?=floor($e["moyenne"])?></td>
+	  			<? endif;?>
 	  		</tr>
 	  	<? endforeach; ?>
 	  	</tbody>

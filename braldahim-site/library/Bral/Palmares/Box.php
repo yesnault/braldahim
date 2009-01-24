@@ -22,6 +22,7 @@ abstract class Bral_Palmares_Box {
 		$this->view->affichageInterne = $interne;
 		$this->view->filtre = $filtre;
 		$this->view->type = $type;
+		$this->view->afficheMoyenne = false;
 	}
 	
 	abstract function getTitreOnglet();
@@ -85,9 +86,30 @@ abstract class Bral_Palmares_Box {
 			case "chasseurs":
 				$retour = "Nombre de viandes et de peaux récoltés";
 				break;
-				break;
 			case "bucherons":
 				$retour = "Nombre de rondins récoltés";
+				break;
+		}
+		return $retour;
+	}
+	
+	protected function getSelectTypeFabricant($type) {
+		$retour = "";
+		switch($type) {
+			case "menuisiers":
+			case "forgerons":
+			case "tanneurs":
+				$retour = "Nombre de pièces d'équipements fabriquées";
+				$this->view->afficheMoyenne = true;
+				break;
+			case "bucherons":
+				$retour = "Nombre de palissades fabriquées";
+				break;
+			case "terrassiers":
+				$retour = "Nombre de route fabriquées";
+				break;
+			case "cuisiniers":
+				$retour = "Nombre de rations préparées";
 				break;
 		}
 		return $retour;
