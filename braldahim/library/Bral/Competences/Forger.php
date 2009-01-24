@@ -355,6 +355,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 			$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
 			$dataFabricants["nb_piece_stats_fabricants"] = 1;
 			$dataFabricants["somme_niveau_piece_stats_fabricants"] = $recetteEquipementACreer["niveau_recette_equipement"];
+			$dataFabricants["id_fk_metier_stats_fabricants"] = $this->view->config->game->metier->forgeron->id;
 			$statsFabricants->insertOrUpdate($dataFabricants);
 		} else {
 			throw new Zend_Exception(get_class($this)." Recette inconnue: id=".$idTypeEquipement." n=".$niveau. " q=".$qualite);

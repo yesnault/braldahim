@@ -132,7 +132,8 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 		$dataFabricants["niveau_hobbit_stats_fabricants"] = $this->view->user->niveau_hobbit;
 		$dataFabricants["id_fk_hobbit_stats_fabricants"] = $this->view->user->id_hobbit;
 		$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
-		$dataFabricants["nb_batiment_stats_fabricants"] = 1;
+		$dataFabricants["nb_piece_stats_fabricants"] = 1;
+		$dataFabricants["id_fk_metier_stats_fabricants"] = $this->view->config->game->metier->terrassier->id;
 		$statsFabricants->insertOrUpdate($dataFabricants);
 	}
 	
