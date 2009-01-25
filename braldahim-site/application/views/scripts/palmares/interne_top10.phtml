@@ -17,7 +17,9 @@
   	<? if (count($this->top10) > 0): ?>
 		<tbody>
 	  	<? $i = 0; 
-	  	foreach($this->top10 as $e): ?>
+	  	foreach($this->top10 as $e): 
+	  		if ($e["nombre"] > 0) :
+	  		?>
 	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
 		  		<td class="table_liste" >
 		  			<a href="#" onClick="javascript:ouvrirWin('<?=$this->config->url->game?>/voir/hobbit/?hobbit=<?=$e["id_hobbit"]?>');" title="Cliquez pour voir le profil">
@@ -31,6 +33,7 @@
 	  				<td><?=floor($e["moyenne"])?></td>
 	  			<? endif;?>
 	  		</tr>
+			<? endif;?>
 	  	<? endforeach; ?>
 	  	</tbody>
 	<? else: ?>
