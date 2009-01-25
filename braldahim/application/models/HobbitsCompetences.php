@@ -31,7 +31,8 @@ class HobbitsCompetences extends Zend_Db_Table {
 		$select->from('hobbits_competences', '*')
 		->from('competence', '*')
 		->where('hobbits_competences.id_fk_hobbit_hcomp = '.intval($idHobbit))
-		->where('hobbits_competences.id_fk_competence_hcomp = competence.id_competence');
+		->where('hobbits_competences.id_fk_competence_hcomp = competence.id_competence')
+		->order('ordre_competence ASC');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
     }
