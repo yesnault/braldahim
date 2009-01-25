@@ -39,7 +39,7 @@ class StatsRecolteurs extends Zend_Db_Table {
 		$select->where('id_fk_hobbit_stats_recolteurs = id_hobbit');
 		$select->where('id_nom = id_fk_nom_initial_hobbit');
 		$select->where('mois_stats_recolteurs >= ?', $dateDebut);
-		$select->where('nombre > 0');
+		$select->where($this->getSelectType($type) 'nombre > 0');
 		$select->order("nombre DESC");
 		$select->group(array('nom'));
 		$sql = $select->__toString();
@@ -72,21 +72,24 @@ class StatsRecolteurs extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	private function getSelectType($type) {
+	private function getSelectType($type, $where=false) {
 		$retour = "";
 		switch($type) {
 			case "mineurs":
-				$retour = "SUM(nb_minerai_stats_recolteurs) as nombre";
+				$retour = "SUM(nb_minerai_stats_recolteurs)";
 				break;
 			case "herboristes":
-				$retour = "SUM(nb_partieplante_stats_recolteurs) as nombre";
+				$retour = "SUM(nb_partieplante_stats_recolteurs)";
 				break;
 			case "chasseurs":
-				$retour = "SUM(nb_peau_stats_recolteurs + nb_viande_stats_recolteurs) as nombre";
+				$retour = "SUM(nb_peau_stats_recolteurs + nb_viande_stats_recolteurs)";
 				break;
 			case "bucherons":
-				$retour = "SUM(nb_bois_stats_recolteurs) as nombre";
+				$retour = "SUM(nb_bois_stats_recolteurs)";
 				break;
+		}
+		if (!$where) {
+			$retour .= " as nombre";
 		}
 		return $retour;
 	}
