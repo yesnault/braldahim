@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Serveur: localhost
--- Généré le : Ven 23 Janvier 2009 à 23:08
+-- Généré le : Dim 25 Janvier 2009 à 21:34
 -- Version du serveur: 5.0.41
 -- Version de PHP: 5.2.3
 
@@ -19,7 +19,6 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- Structure de la table `batch`
 -- 
 
-DROP TABLE IF EXISTS `batch`;
 CREATE TABLE `batch` (
   `id_batch` int(11) NOT NULL auto_increment,
   `type_batch` varchar(20) NOT NULL,
@@ -36,7 +35,6 @@ CREATE TABLE `batch` (
 -- Structure de la table `boutique_bois`
 -- 
 
-DROP TABLE IF EXISTS `boutique_bois`;
 CREATE TABLE `boutique_bois` (
   `id_boutique_bois` int(11) NOT NULL auto_increment,
   `date_achat_boutique_bois` datetime NOT NULL,
@@ -57,7 +55,6 @@ CREATE TABLE `boutique_bois` (
 -- Structure de la table `boutique_minerai`
 -- 
 
-DROP TABLE IF EXISTS `boutique_minerai`;
 CREATE TABLE `boutique_minerai` (
   `id_boutique_minerai` int(11) NOT NULL auto_increment,
   `date_achat_boutique_minerai` datetime NOT NULL,
@@ -81,7 +78,6 @@ CREATE TABLE `boutique_minerai` (
 -- Structure de la table `boutique_partieplante`
 -- 
 
-DROP TABLE IF EXISTS `boutique_partieplante`;
 CREATE TABLE `boutique_partieplante` (
   `id_boutique_partieplante` int(11) NOT NULL auto_increment,
   `date_achat_boutique_partieplante` datetime NOT NULL,
@@ -107,7 +103,6 @@ CREATE TABLE `boutique_partieplante` (
 -- Structure de la table `boutique_tabac`
 -- 
 
-DROP TABLE IF EXISTS `boutique_tabac`;
 CREATE TABLE `boutique_tabac` (
   `id_boutique_tabac` int(11) NOT NULL auto_increment,
   `date_achat_boutique_tabac` datetime NOT NULL,
@@ -131,7 +126,6 @@ CREATE TABLE `boutique_tabac` (
 -- Structure de la table `cadavre`
 -- 
 
-DROP TABLE IF EXISTS `cadavre`;
 CREATE TABLE `cadavre` (
   `id_cadavre` int(11) NOT NULL,
   `id_fk_type_monstre_cadavre` int(11) NOT NULL,
@@ -149,7 +143,6 @@ CREATE TABLE `cadavre` (
 -- Structure de la table `castar`
 -- 
 
-DROP TABLE IF EXISTS `castar`;
 CREATE TABLE `castar` (
   `x_castar` int(11) NOT NULL,
   `y_castar` int(11) NOT NULL,
@@ -163,7 +156,6 @@ CREATE TABLE `castar` (
 -- Structure de la table `charrette`
 -- 
 
-DROP TABLE IF EXISTS `charrette`;
 CREATE TABLE `charrette` (
   `id_charrette` int(11) NOT NULL auto_increment,
   `id_fk_hobbit_charrette` int(11) default NULL,
@@ -180,7 +172,6 @@ CREATE TABLE `charrette` (
 -- Structure de la table `coffre`
 -- 
 
-DROP TABLE IF EXISTS `coffre`;
 CREATE TABLE `coffre` (
   `id_fk_hobbit_coffre` int(11) NOT NULL,
   `quantite_viande_coffre` int(11) NOT NULL default '0',
@@ -200,7 +191,6 @@ CREATE TABLE `coffre` (
 -- Structure de la table `coffre_equipement`
 -- 
 
-DROP TABLE IF EXISTS `coffre_equipement`;
 CREATE TABLE `coffre_equipement` (
   `id_coffre_equipement` int(11) NOT NULL,
   `id_fk_recette_coffre_equipement` int(11) NOT NULL,
@@ -218,7 +208,6 @@ CREATE TABLE `coffre_equipement` (
 -- Structure de la table `coffre_minerai`
 -- 
 
-DROP TABLE IF EXISTS `coffre_minerai`;
 CREATE TABLE `coffre_minerai` (
   `id_fk_type_coffre_minerai` int(11) NOT NULL,
   `id_fk_hobbit_coffre_minerai` int(11) NOT NULL,
@@ -234,7 +223,6 @@ CREATE TABLE `coffre_minerai` (
 -- Structure de la table `coffre_partieplante`
 -- 
 
-DROP TABLE IF EXISTS `coffre_partieplante`;
 CREATE TABLE `coffre_partieplante` (
   `id_fk_type_coffre_partieplante` int(11) NOT NULL,
   `id_fk_type_plante_coffre_partieplante` int(11) NOT NULL,
@@ -252,7 +240,6 @@ CREATE TABLE `coffre_partieplante` (
 -- Structure de la table `coffre_potion`
 -- 
 
-DROP TABLE IF EXISTS `coffre_potion`;
 CREATE TABLE `coffre_potion` (
   `id_coffre_potion` int(11) NOT NULL,
   `id_fk_type_coffre_potion` int(11) NOT NULL,
@@ -271,7 +258,6 @@ CREATE TABLE `coffre_potion` (
 -- Structure de la table `coffre_rune`
 -- 
 
-DROP TABLE IF EXISTS `coffre_rune`;
 CREATE TABLE `coffre_rune` (
   `id_fk_hobbit_coffre_rune` int(11) NOT NULL,
   `id_rune_coffre_rune` int(11) NOT NULL,
@@ -288,7 +274,6 @@ CREATE TABLE `coffre_rune` (
 -- Structure de la table `communaute`
 -- 
 
-DROP TABLE IF EXISTS `communaute`;
 CREATE TABLE `communaute` (
   `id_communaute` int(11) NOT NULL auto_increment,
   `nom_communaute` varchar(40) NOT NULL,
@@ -306,7 +291,6 @@ CREATE TABLE `communaute` (
 -- Structure de la table `competence`
 -- 
 
-DROP TABLE IF EXISTS `competence`;
 CREATE TABLE `competence` (
   `id_competence` int(11) NOT NULL auto_increment,
   `nom_systeme_competence` varchar(255) NOT NULL default '',
@@ -323,6 +307,7 @@ CREATE TABLE `competence` (
   `type_competence` enum('basic','commun','metier') NOT NULL default 'basic',
   `id_fk_metier_competence` int(11) default NULL,
   `id_fk_type_tabac_competence` int(11) default NULL,
+  `ordre_competence` int(11) NOT NULL,
   PRIMARY KEY  (`id_competence`),
   UNIQUE KEY `nom_competence` (`nom_competence`),
   KEY `id_fk_metier_competence` (`id_fk_metier_competence`),
@@ -335,7 +320,6 @@ CREATE TABLE `competence` (
 -- Structure de la table `couple`
 -- 
 
-DROP TABLE IF EXISTS `couple`;
 CREATE TABLE `couple` (
   `id_fk_m_hobbit_couple` int(11) NOT NULL,
   `id_fk_f_hobbit_couple` int(11) NOT NULL,
@@ -352,7 +336,6 @@ CREATE TABLE `couple` (
 -- Structure de la table `creation_minerais`
 -- 
 
-DROP TABLE IF EXISTS `creation_minerais`;
 CREATE TABLE `creation_minerais` (
   `id_fk_type_minerai_creation_minerais` int(11) NOT NULL,
   `id_fk_environnement_creation_minerais` int(11) NOT NULL,
@@ -366,7 +349,6 @@ CREATE TABLE `creation_minerais` (
 -- Structure de la table `creation_monstres`
 -- 
 
-DROP TABLE IF EXISTS `creation_monstres`;
 CREATE TABLE `creation_monstres` (
   `id_fk_type_monstre_creation_monstres` int(11) NOT NULL,
   `id_fk_environnement_creation_monstres` int(11) NOT NULL,
@@ -380,7 +362,6 @@ CREATE TABLE `creation_monstres` (
 -- Structure de la table `creation_plantes`
 -- 
 
-DROP TABLE IF EXISTS `creation_plantes`;
 CREATE TABLE `creation_plantes` (
   `id_fk_type_plante_creation_plantes` int(11) NOT NULL,
   `id_fk_environnement_creation_plantes` int(11) NOT NULL,
@@ -394,7 +375,6 @@ CREATE TABLE `creation_plantes` (
 -- Structure de la table `echoppe`
 -- 
 
-DROP TABLE IF EXISTS `echoppe`;
 CREATE TABLE `echoppe` (
   `id_echoppe` int(11) NOT NULL auto_increment,
   `id_fk_hobbit_echoppe` int(11) NOT NULL,
@@ -424,7 +404,6 @@ CREATE TABLE `echoppe` (
 -- Structure de la table `echoppe_equipement`
 -- 
 
-DROP TABLE IF EXISTS `echoppe_equipement`;
 CREATE TABLE `echoppe_equipement` (
   `id_echoppe_equipement` int(11) NOT NULL auto_increment,
   `id_fk_echoppe_echoppe_equipement` int(11) NOT NULL,
@@ -452,7 +431,6 @@ CREATE TABLE `echoppe_equipement` (
 -- Structure de la table `echoppe_equipement_minerai`
 -- 
 
-DROP TABLE IF EXISTS `echoppe_equipement_minerai`;
 CREATE TABLE `echoppe_equipement_minerai` (
   `id_fk_type_echoppe_equipement_minerai` int(11) NOT NULL,
   `id_fk_echoppe_equipement_minerai` int(11) NOT NULL,
@@ -467,7 +445,6 @@ CREATE TABLE `echoppe_equipement_minerai` (
 -- Structure de la table `echoppe_equipement_partieplante`
 -- 
 
-DROP TABLE IF EXISTS `echoppe_equipement_partieplante`;
 CREATE TABLE `echoppe_equipement_partieplante` (
   `id_fk_type_echoppe_equipement_partieplante` int(11) NOT NULL,
   `id_fk_type_plante_echoppe_equipement_partieplante` int(11) NOT NULL,
@@ -484,7 +461,6 @@ CREATE TABLE `echoppe_equipement_partieplante` (
 -- Structure de la table `echoppe_minerai`
 -- 
 
-DROP TABLE IF EXISTS `echoppe_minerai`;
 CREATE TABLE `echoppe_minerai` (
   `id_fk_type_echoppe_minerai` int(11) NOT NULL,
   `id_fk_echoppe_echoppe_minerai` int(11) NOT NULL,
@@ -501,7 +477,6 @@ CREATE TABLE `echoppe_minerai` (
 -- Structure de la table `echoppe_partieplante`
 -- 
 
-DROP TABLE IF EXISTS `echoppe_partieplante`;
 CREATE TABLE `echoppe_partieplante` (
   `id_fk_type_echoppe_partieplante` int(11) NOT NULL,
   `id_fk_type_plante_echoppe_partieplante` int(11) NOT NULL,
@@ -520,7 +495,6 @@ CREATE TABLE `echoppe_partieplante` (
 -- Structure de la table `echoppe_potion`
 -- 
 
-DROP TABLE IF EXISTS `echoppe_potion`;
 CREATE TABLE `echoppe_potion` (
   `id_echoppe_potion` int(11) NOT NULL auto_increment,
   `id_fk_echoppe_echoppe_potion` int(11) NOT NULL,
@@ -549,7 +523,6 @@ CREATE TABLE `echoppe_potion` (
 -- Structure de la table `echoppe_potion_minerai`
 -- 
 
-DROP TABLE IF EXISTS `echoppe_potion_minerai`;
 CREATE TABLE `echoppe_potion_minerai` (
   `id_fk_type_echoppe_potion_minerai` int(11) NOT NULL,
   `id_fk_echoppe_potion_minerai` int(11) NOT NULL,
@@ -564,7 +537,6 @@ CREATE TABLE `echoppe_potion_minerai` (
 -- Structure de la table `echoppe_potion_partieplante`
 -- 
 
-DROP TABLE IF EXISTS `echoppe_potion_partieplante`;
 CREATE TABLE `echoppe_potion_partieplante` (
   `id_fk_type_echoppe_potion_partieplante` int(11) NOT NULL,
   `id_fk_type_plante_echoppe_potion_partieplante` int(11) NOT NULL,
@@ -581,7 +553,6 @@ CREATE TABLE `echoppe_potion_partieplante` (
 -- Structure de la table `effet_mot_f`
 -- 
 
-DROP TABLE IF EXISTS `effet_mot_f`;
 CREATE TABLE `effet_mot_f` (
   `id_fk_hobbit_effet_mot_f` int(11) NOT NULL,
   `id_fk_type_monstre_effet_mot_f` int(11) NOT NULL,
@@ -594,7 +565,6 @@ CREATE TABLE `effet_mot_f` (
 -- Structure de la table `effet_potion_hobbit`
 -- 
 
-DROP TABLE IF EXISTS `effet_potion_hobbit`;
 CREATE TABLE `effet_potion_hobbit` (
   `id_effet_potion_hobbit` int(11) NOT NULL auto_increment,
   `id_fk_type_potion_effet_potion_hobbit` int(11) NOT NULL,
@@ -617,7 +587,6 @@ CREATE TABLE `effet_potion_hobbit` (
 -- Structure de la table `effet_potion_monstre`
 -- 
 
-DROP TABLE IF EXISTS `effet_potion_monstre`;
 CREATE TABLE `effet_potion_monstre` (
   `id_effet_potion_monstre` int(11) NOT NULL auto_increment,
   `id_fk_type_potion_effet_potion_monstre` int(11) NOT NULL,
@@ -640,7 +609,6 @@ CREATE TABLE `effet_potion_monstre` (
 -- Structure de la table `element`
 -- 
 
-DROP TABLE IF EXISTS `element`;
 CREATE TABLE `element` (
   `x_element` int(11) NOT NULL,
   `y_element` int(11) NOT NULL,
@@ -660,7 +628,6 @@ CREATE TABLE `element` (
 -- Structure de la table `element_equipement`
 -- 
 
-DROP TABLE IF EXISTS `element_equipement`;
 CREATE TABLE `element_equipement` (
   `id_element_equipement` int(11) NOT NULL,
   `x_element_equipement` int(11) NOT NULL,
@@ -679,7 +646,6 @@ CREATE TABLE `element_equipement` (
 -- Structure de la table `element_minerai`
 -- 
 
-DROP TABLE IF EXISTS `element_minerai`;
 CREATE TABLE `element_minerai` (
   `x_element_minerai` int(11) NOT NULL,
   `y_element_minerai` int(11) NOT NULL,
@@ -695,7 +661,6 @@ CREATE TABLE `element_minerai` (
 -- Structure de la table `element_munition`
 -- 
 
-DROP TABLE IF EXISTS `element_munition`;
 CREATE TABLE `element_munition` (
   `x_element_munition` int(11) NOT NULL,
   `y_element_munition` int(11) NOT NULL,
@@ -711,7 +676,6 @@ CREATE TABLE `element_munition` (
 -- Structure de la table `element_partieplante`
 -- 
 
-DROP TABLE IF EXISTS `element_partieplante`;
 CREATE TABLE `element_partieplante` (
   `id_fk_type_element_partieplante` int(11) NOT NULL,
   `id_fk_type_plante_element_partieplante` int(11) NOT NULL,
@@ -729,7 +693,6 @@ CREATE TABLE `element_partieplante` (
 -- Structure de la table `element_potion`
 -- 
 
-DROP TABLE IF EXISTS `element_potion`;
 CREATE TABLE `element_potion` (
   `id_element_potion` int(11) NOT NULL,
   `x_element_potion` int(11) NOT NULL,
@@ -749,12 +712,12 @@ CREATE TABLE `element_potion` (
 -- Structure de la table `element_rune`
 -- 
 
-DROP TABLE IF EXISTS `element_rune`;
 CREATE TABLE `element_rune` (
   `x_element_rune` int(11) NOT NULL,
   `y_element_rune` int(11) NOT NULL,
   `id_element_rune` int(11) NOT NULL auto_increment,
   `id_fk_type_element_rune` int(11) NOT NULL,
+  `date_depot_element_rune` datetime NOT NULL,
   PRIMARY KEY  (`id_element_rune`),
   KEY `id_fk_type_element_rune` (`id_fk_type_element_rune`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -765,7 +728,6 @@ CREATE TABLE `element_rune` (
 -- Structure de la table `environnement`
 -- 
 
-DROP TABLE IF EXISTS `environnement`;
 CREATE TABLE `environnement` (
   `id_environnement` int(11) NOT NULL auto_increment,
   `nom_environnement` varchar(20) NOT NULL,
@@ -781,7 +743,6 @@ CREATE TABLE `environnement` (
 -- Structure de la table `equipement_rune`
 -- 
 
-DROP TABLE IF EXISTS `equipement_rune`;
 CREATE TABLE `equipement_rune` (
   `id_equipement_rune` int(11) NOT NULL,
   `id_rune_equipement_rune` int(11) NOT NULL,
@@ -797,7 +758,6 @@ CREATE TABLE `equipement_rune` (
 -- Structure de la table `evenement`
 -- 
 
-DROP TABLE IF EXISTS `evenement`;
 CREATE TABLE `evenement` (
   `id_evenement` int(11) NOT NULL auto_increment,
   `id_fk_hobbit_evenement` int(11) default NULL,
@@ -818,7 +778,6 @@ CREATE TABLE `evenement` (
 -- Structure de la table `filon`
 -- 
 
-DROP TABLE IF EXISTS `filon`;
 CREATE TABLE `filon` (
   `id_filon` int(11) NOT NULL auto_increment,
   `id_fk_type_minerai_filon` int(11) NOT NULL,
@@ -837,7 +796,6 @@ CREATE TABLE `filon` (
 -- Structure de la table `gardiennage`
 -- 
 
-DROP TABLE IF EXISTS `gardiennage`;
 CREATE TABLE `gardiennage` (
   `id_gardiennage` int(11) NOT NULL auto_increment,
   `id_fk_hobbit_gardiennage` int(11) NOT NULL,
@@ -857,7 +815,6 @@ CREATE TABLE `gardiennage` (
 -- Structure de la table `groupe_monstre`
 -- 
 
-DROP TABLE IF EXISTS `groupe_monstre`;
 CREATE TABLE `groupe_monstre` (
   `id_groupe_monstre` int(11) NOT NULL auto_increment,
   `id_fk_type_groupe_monstre` int(11) NOT NULL,
@@ -884,7 +841,6 @@ CREATE TABLE `groupe_monstre` (
 -- Structure de la table `historique_equipement`
 -- 
 
-DROP TABLE IF EXISTS `historique_equipement`;
 CREATE TABLE `historique_equipement` (
   `id_historique_equipement` int(11) NOT NULL auto_increment,
   `id_fk_historique_equipement` int(11) NOT NULL,
@@ -900,7 +856,6 @@ CREATE TABLE `historique_equipement` (
 -- Structure de la table `hobbit`
 -- 
 
-DROP TABLE IF EXISTS `hobbit`;
 CREATE TABLE `hobbit` (
   `id_hobbit` int(11) NOT NULL auto_increment,
   `id_fk_jos_users_hobbit` int(11) default NULL COMMENT 'identifiant vers User Joomla : jos_users.id',
@@ -998,7 +953,6 @@ CREATE TABLE `hobbit` (
 -- Structure de la table `hobbits_competences`
 -- 
 
-DROP TABLE IF EXISTS `hobbits_competences`;
 CREATE TABLE `hobbits_competences` (
   `id_fk_hobbit_hcomp` int(11) NOT NULL default '0',
   `id_fk_competence_hcomp` int(11) NOT NULL default '0',
@@ -1018,7 +972,6 @@ CREATE TABLE `hobbits_competences` (
 -- Structure de la table `hobbits_equipement`
 -- 
 
-DROP TABLE IF EXISTS `hobbits_equipement`;
 CREATE TABLE `hobbits_equipement` (
   `id_equipement_hequipement` int(11) NOT NULL,
   `id_fk_hobbit_hequipement` int(11) NOT NULL,
@@ -1036,7 +989,6 @@ CREATE TABLE `hobbits_equipement` (
 -- Structure de la table `hobbits_metiers`
 -- 
 
-DROP TABLE IF EXISTS `hobbits_metiers`;
 CREATE TABLE `hobbits_metiers` (
   `id_fk_hobbit_hmetier` int(11) NOT NULL,
   `id_fk_metier_hmetier` int(11) NOT NULL,
@@ -1052,7 +1004,6 @@ CREATE TABLE `hobbits_metiers` (
 -- Structure de la table `hobbits_titres`
 -- 
 
-DROP TABLE IF EXISTS `hobbits_titres`;
 CREATE TABLE `hobbits_titres` (
   `id_fk_hobbit_htitre` int(11) NOT NULL,
   `id_fk_type_htitre` int(11) NOT NULL,
@@ -1068,7 +1019,6 @@ CREATE TABLE `hobbits_titres` (
 -- Structure de la table `info_jeu`
 -- 
 
-DROP TABLE IF EXISTS `info_jeu`;
 CREATE TABLE `info_jeu` (
   `id_info_jeu` int(11) NOT NULL auto_increment,
   `date_info_jeu` datetime NOT NULL,
@@ -1083,7 +1033,6 @@ CREATE TABLE `info_jeu` (
 -- Structure de la table `jos_uddeim`
 -- 
 
-DROP TABLE IF EXISTS `jos_uddeim`;
 CREATE TABLE `jos_uddeim` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `fromid` int(11) NOT NULL default '0',
@@ -1119,7 +1068,6 @@ CREATE TABLE `jos_uddeim` (
 -- Structure de la table `jos_uddeim_userlists`
 -- 
 
-DROP TABLE IF EXISTS `jos_uddeim_userlists`;
 CREATE TABLE `jos_uddeim_userlists` (
   `id` int(11) NOT NULL auto_increment,
   `userid` int(11) NOT NULL default '0',
@@ -1136,7 +1084,6 @@ CREATE TABLE `jos_uddeim_userlists` (
 -- Structure de la table `laban`
 -- 
 
-DROP TABLE IF EXISTS `laban`;
 CREATE TABLE `laban` (
   `id_fk_hobbit_laban` int(11) NOT NULL,
   `quantite_viande_laban` int(11) NOT NULL default '0',
@@ -1155,7 +1102,6 @@ CREATE TABLE `laban` (
 -- Structure de la table `laban_equipement`
 -- 
 
-DROP TABLE IF EXISTS `laban_equipement`;
 CREATE TABLE `laban_equipement` (
   `id_laban_equipement` int(11) NOT NULL,
   `id_fk_recette_laban_equipement` int(11) NOT NULL,
@@ -1173,7 +1119,6 @@ CREATE TABLE `laban_equipement` (
 -- Structure de la table `laban_minerai`
 -- 
 
-DROP TABLE IF EXISTS `laban_minerai`;
 CREATE TABLE `laban_minerai` (
   `id_fk_type_laban_minerai` int(11) NOT NULL,
   `id_fk_hobbit_laban_minerai` int(11) NOT NULL,
@@ -1189,7 +1134,6 @@ CREATE TABLE `laban_minerai` (
 -- Structure de la table `laban_munition`
 -- 
 
-DROP TABLE IF EXISTS `laban_munition`;
 CREATE TABLE `laban_munition` (
   `id_fk_type_laban_munition` int(11) NOT NULL,
   `id_fk_hobbit_laban_munition` int(11) NOT NULL,
@@ -1204,7 +1148,6 @@ CREATE TABLE `laban_munition` (
 -- Structure de la table `laban_partieplante`
 -- 
 
-DROP TABLE IF EXISTS `laban_partieplante`;
 CREATE TABLE `laban_partieplante` (
   `id_fk_type_laban_partieplante` int(11) NOT NULL,
   `id_fk_type_plante_laban_partieplante` int(11) NOT NULL,
@@ -1222,7 +1165,6 @@ CREATE TABLE `laban_partieplante` (
 -- Structure de la table `laban_potion`
 -- 
 
-DROP TABLE IF EXISTS `laban_potion`;
 CREATE TABLE `laban_potion` (
   `id_laban_potion` int(11) NOT NULL,
   `id_fk_type_laban_potion` int(11) NOT NULL,
@@ -1241,7 +1183,6 @@ CREATE TABLE `laban_potion` (
 -- Structure de la table `laban_rune`
 -- 
 
-DROP TABLE IF EXISTS `laban_rune`;
 CREATE TABLE `laban_rune` (
   `id_fk_hobbit_laban_rune` int(11) NOT NULL,
   `id_rune_laban_rune` int(11) NOT NULL,
@@ -1258,7 +1199,6 @@ CREATE TABLE `laban_rune` (
 -- Structure de la table `laban_tabac`
 -- 
 
-DROP TABLE IF EXISTS `laban_tabac`;
 CREATE TABLE `laban_tabac` (
   `id_fk_type_laban_tabac` int(11) NOT NULL,
   `id_fk_hobbit_laban_tabac` int(11) NOT NULL,
@@ -1273,7 +1213,6 @@ CREATE TABLE `laban_tabac` (
 -- Structure de la table `lieu`
 -- 
 
-DROP TABLE IF EXISTS `lieu`;
 CREATE TABLE `lieu` (
   `id_lieu` int(11) NOT NULL auto_increment,
   `nom_lieu` varchar(40) NOT NULL,
@@ -1296,7 +1235,6 @@ CREATE TABLE `lieu` (
 -- Structure de la table `message`
 -- 
 
-DROP TABLE IF EXISTS `message`;
 CREATE TABLE `message` (
   `id_message` int(11) NOT NULL auto_increment,
   `id_fk_hobbit_message` int(11) NOT NULL,
@@ -1320,7 +1258,6 @@ CREATE TABLE `message` (
 -- Structure de la table `metier`
 -- 
 
-DROP TABLE IF EXISTS `metier`;
 CREATE TABLE `metier` (
   `id_metier` int(11) NOT NULL auto_increment,
   `nom_masculin_metier` varchar(20) NOT NULL,
@@ -1338,7 +1275,6 @@ CREATE TABLE `metier` (
 -- Structure de la table `monstre`
 -- 
 
-DROP TABLE IF EXISTS `monstre`;
 CREATE TABLE `monstre` (
   `id_monstre` int(11) NOT NULL auto_increment,
   `id_fk_type_monstre` int(11) NOT NULL,
@@ -1388,7 +1324,6 @@ CREATE TABLE `monstre` (
 -- Structure de la table `mot_runique`
 -- 
 
-DROP TABLE IF EXISTS `mot_runique`;
 CREATE TABLE `mot_runique` (
   `id_mot_runique` int(11) NOT NULL auto_increment,
   `nom_systeme_mot_runique` varchar(6) NOT NULL,
@@ -1411,7 +1346,6 @@ CREATE TABLE `mot_runique` (
 -- Structure de la table `nom`
 -- 
 
-DROP TABLE IF EXISTS `nom`;
 CREATE TABLE `nom` (
   `id_nom` int(11) NOT NULL auto_increment,
   `nom` varchar(20) NOT NULL,
@@ -1425,7 +1359,6 @@ CREATE TABLE `nom` (
 -- Structure de la table `palissade`
 -- 
 
-DROP TABLE IF EXISTS `palissade`;
 CREATE TABLE `palissade` (
   `id_palissade` int(11) NOT NULL auto_increment,
   `x_palissade` int(11) NOT NULL,
@@ -1448,7 +1381,6 @@ CREATE TABLE `palissade` (
 -- Structure de la table `plante`
 -- 
 
-DROP TABLE IF EXISTS `plante`;
 CREATE TABLE `plante` (
   `id_plante` int(11) NOT NULL auto_increment,
   `id_fk_type_plante` int(11) NOT NULL,
@@ -1469,7 +1401,6 @@ CREATE TABLE `plante` (
 -- Structure de la table `prenom_interdit`
 -- 
 
-DROP TABLE IF EXISTS `prenom_interdit`;
 CREATE TABLE `prenom_interdit` (
   `id_prenom_interdit` int(11) NOT NULL auto_increment,
   `texte_prenom_interdit` varchar(30) NOT NULL,
@@ -1483,7 +1414,6 @@ CREATE TABLE `prenom_interdit` (
 -- Structure de la table `rang_communaute`
 -- 
 
-DROP TABLE IF EXISTS `rang_communaute`;
 CREATE TABLE `rang_communaute` (
   `id_rang_communaute` int(11) NOT NULL auto_increment,
   `id_fk_communaute_rang_communaute` int(11) NOT NULL,
@@ -1500,7 +1430,6 @@ CREATE TABLE `rang_communaute` (
 -- Structure de la table `recette_cout`
 -- 
 
-DROP TABLE IF EXISTS `recette_cout`;
 CREATE TABLE `recette_cout` (
   `id_fk_type_equipement_recette_cout` int(11) NOT NULL,
   `niveau_recette_cout` int(11) NOT NULL,
@@ -1516,7 +1445,6 @@ CREATE TABLE `recette_cout` (
 -- Structure de la table `recette_cout_minerai`
 -- 
 
-DROP TABLE IF EXISTS `recette_cout_minerai`;
 CREATE TABLE `recette_cout_minerai` (
   `id_fk_type_equipement_recette_cout_minerai` int(11) NOT NULL COMMENT 'Identifiant sur la table recette_equipement',
   `id_fk_type_recette_cout_minerai` int(11) NOT NULL COMMENT 'Identifiant sur la table type_minerai',
@@ -1532,7 +1460,6 @@ CREATE TABLE `recette_cout_minerai` (
 -- Structure de la table `recette_equipements`
 -- 
 
-DROP TABLE IF EXISTS `recette_equipements`;
 CREATE TABLE `recette_equipements` (
   `id_recette_equipement` int(11) NOT NULL auto_increment,
   `id_fk_type_recette_equipement` int(11) NOT NULL,
@@ -1560,7 +1487,6 @@ CREATE TABLE `recette_equipements` (
 -- Structure de la table `recette_potions`
 -- 
 
-DROP TABLE IF EXISTS `recette_potions`;
 CREATE TABLE `recette_potions` (
   `id_fk_type_potion_recette_potion` int(11) NOT NULL,
   `id_fk_type_plante_recette_potion` int(11) NOT NULL,
@@ -1577,7 +1503,6 @@ CREATE TABLE `recette_potions` (
 -- Structure de la table `ref_monstre`
 -- 
 
-DROP TABLE IF EXISTS `ref_monstre`;
 CREATE TABLE `ref_monstre` (
   `id_ref_monstre` int(11) NOT NULL auto_increment,
   `id_fk_type_ref_monstre` int(11) NOT NULL,
@@ -1600,7 +1525,6 @@ CREATE TABLE `ref_monstre` (
 -- Structure de la table `region`
 -- 
 
-DROP TABLE IF EXISTS `region`;
 CREATE TABLE `region` (
   `id_region` int(11) NOT NULL auto_increment,
   `nom_region` varchar(20) NOT NULL,
@@ -1620,7 +1544,6 @@ CREATE TABLE `region` (
 -- Structure de la table `route`
 -- 
 
-DROP TABLE IF EXISTS `route`;
 CREATE TABLE `route` (
   `id_route` int(11) NOT NULL auto_increment,
   `x_route` int(11) NOT NULL,
@@ -1644,7 +1567,6 @@ CREATE TABLE `route` (
 -- Structure de la table `session`
 -- 
 
-DROP TABLE IF EXISTS `session`;
 CREATE TABLE `session` (
   `id_fk_hobbit_session` int(11) NOT NULL,
   `id_php_session` varchar(40) NOT NULL,
@@ -1661,7 +1583,6 @@ CREATE TABLE `session` (
 -- Structure de la table `stats_experience`
 -- 
 
-DROP TABLE IF EXISTS `stats_experience`;
 CREATE TABLE `stats_experience` (
   `id_stats_experience` int(11) NOT NULL auto_increment,
   `id_fk_hobbit_stats_experience` int(11) NOT NULL,
@@ -1679,7 +1600,6 @@ CREATE TABLE `stats_experience` (
 -- Structure de la table `stats_fabricants`
 -- 
 
-DROP TABLE IF EXISTS `stats_fabricants`;
 CREATE TABLE `stats_fabricants` (
   `id_stats_fabricants` int(11) NOT NULL auto_increment,
   `id_fk_hobbit_stats_fabricants` int(11) NOT NULL,
@@ -1687,10 +1607,28 @@ CREATE TABLE `stats_fabricants` (
   `somme_niveau_piece_stats_fabricants` int(11) NOT NULL,
   `mois_stats_fabricants` date NOT NULL,
   `nb_piece_stats_fabricants` int(11) NOT NULL,
-  `nb_batiment_stats_fabricants` int(11) NOT NULL COMMENT 'palissade et route',
-  `nb_ration_stats_fabricants` int(11) NOT NULL,
+  `id_fk_metier_stats_fabricants` int(11) NOT NULL,
   PRIMARY KEY  (`id_stats_fabricants`),
-  UNIQUE KEY `id_fk_hobbit_stats_fabricants` (`id_fk_hobbit_stats_fabricants`,`niveau_hobbit_stats_fabricants`,`mois_stats_fabricants`)
+  UNIQUE KEY `id_fk_hobbit_stats_fabricants` (`id_fk_hobbit_stats_fabricants`,`niveau_hobbit_stats_fabricants`,`mois_stats_fabricants`,`id_fk_metier_stats_fabricants`),
+  KEY `id_fk_metier_stats_fabricants` (`id_fk_metier_stats_fabricants`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `stats_mots_runiques`
+-- 
+
+CREATE TABLE `stats_mots_runiques` (
+  `id_stats_mots_runiques` int(11) NOT NULL auto_increment,
+  `id_fk_mot_runique_stats_mots_runiques` int(11) NOT NULL,
+  `mois_stats_mots_runiques` date NOT NULL,
+  `id_fk_type_piece_stats_mots_runiques` int(11) NOT NULL,
+  `niveau_piece_stats_mots_runiques` int(11) NOT NULL,
+  `nb_piece_stats_mots_runiques` int(11) NOT NULL,
+  PRIMARY KEY  (`id_stats_mots_runiques`),
+  UNIQUE KEY `id_fk_mot_runique_stats_mots_runiques` (`id_fk_mot_runique_stats_mots_runiques`,`mois_stats_mots_runiques`,`id_fk_type_piece_stats_mots_runiques`,`niveau_piece_stats_mots_runiques`),
+  KEY `id_fk_type_piece_stats_mots_runiques` (`id_fk_type_piece_stats_mots_runiques`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -1699,7 +1637,6 @@ CREATE TABLE `stats_fabricants` (
 -- Structure de la table `stats_recolteurs`
 -- 
 
-DROP TABLE IF EXISTS `stats_recolteurs`;
 CREATE TABLE `stats_recolteurs` (
   `id_stats_recolteurs` int(11) NOT NULL auto_increment,
   `id_fk_hobbit_stats_recolteurs` int(11) NOT NULL,
@@ -1717,10 +1654,25 @@ CREATE TABLE `stats_recolteurs` (
 -- --------------------------------------------------------
 
 -- 
+-- Structure de la table `stats_runes`
+-- 
+
+CREATE TABLE `stats_runes` (
+  `id_stats_runes` int(11) NOT NULL auto_increment,
+  `mois_stats_runes` date NOT NULL,
+  `id_fk_type_rune_stats_runes` int(11) NOT NULL,
+  `nb_rune_stats_runes` int(11) NOT NULL,
+  PRIMARY KEY  (`id_stats_runes`),
+  UNIQUE KEY `mois_stats_runes` (`mois_stats_runes`,`id_fk_type_rune_stats_runes`),
+  KEY `id_fk_type_rune_stats_runes` (`id_fk_type_rune_stats_runes`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
 -- Structure de la table `stock_bois`
 -- 
 
-DROP TABLE IF EXISTS `stock_bois`;
 CREATE TABLE `stock_bois` (
   `id_stock_bois` int(11) NOT NULL auto_increment,
   `date_stock_bois` date NOT NULL,
@@ -1740,7 +1692,6 @@ CREATE TABLE `stock_bois` (
 -- Structure de la table `stock_minerai`
 -- 
 
-DROP TABLE IF EXISTS `stock_minerai`;
 CREATE TABLE `stock_minerai` (
   `id_stock_minerai` int(11) NOT NULL auto_increment,
   `date_stock_minerai` date NOT NULL,
@@ -1762,7 +1713,6 @@ CREATE TABLE `stock_minerai` (
 -- Structure de la table `stock_partieplante`
 -- 
 
-DROP TABLE IF EXISTS `stock_partieplante`;
 CREATE TABLE `stock_partieplante` (
   `id_stock_partieplante` int(11) NOT NULL auto_increment,
   `date_stock_partieplante` date NOT NULL,
@@ -1785,7 +1735,6 @@ CREATE TABLE `stock_partieplante` (
 -- Structure de la table `stock_tabac`
 -- 
 
-DROP TABLE IF EXISTS `stock_tabac`;
 CREATE TABLE `stock_tabac` (
   `id_stock_tabac` int(11) NOT NULL auto_increment,
   `date_stock_tabac` date NOT NULL,
@@ -1807,7 +1756,6 @@ CREATE TABLE `stock_tabac` (
 -- Structure de la table `taille_monstre`
 -- 
 
-DROP TABLE IF EXISTS `taille_monstre`;
 CREATE TABLE `taille_monstre` (
   `id_taille_monstre` int(11) NOT NULL auto_increment,
   `nom_taille_m_monstre` varchar(20) NOT NULL COMMENT 'Nom de la taille au masculin',
@@ -1824,7 +1772,6 @@ CREATE TABLE `taille_monstre` (
 -- Structure de la table `testeur`
 -- 
 
-DROP TABLE IF EXISTS `testeur`;
 CREATE TABLE `testeur` (
   `id_testeur` int(11) NOT NULL auto_increment,
   `email_testeur` varchar(100) NOT NULL,
@@ -1838,7 +1785,6 @@ CREATE TABLE `testeur` (
 -- Structure de la table `type_emplacement`
 -- 
 
-DROP TABLE IF EXISTS `type_emplacement`;
 CREATE TABLE `type_emplacement` (
   `id_type_emplacement` int(11) NOT NULL auto_increment,
   `nom_systeme_type_emplacement` varchar(20) NOT NULL,
@@ -1855,7 +1801,6 @@ CREATE TABLE `type_emplacement` (
 -- Structure de la table `type_equipement`
 -- 
 
-DROP TABLE IF EXISTS `type_equipement`;
 CREATE TABLE `type_equipement` (
   `id_type_equipement` int(11) NOT NULL auto_increment,
   `nom_type_equipement` varchar(50) NOT NULL,
@@ -1877,7 +1822,6 @@ CREATE TABLE `type_equipement` (
 -- Structure de la table `type_evenement`
 -- 
 
-DROP TABLE IF EXISTS `type_evenement`;
 CREATE TABLE `type_evenement` (
   `id_type_evenement` int(11) NOT NULL auto_increment,
   `nom_type_evenement` varchar(20) NOT NULL,
@@ -1891,7 +1835,6 @@ CREATE TABLE `type_evenement` (
 -- Structure de la table `type_groupe_monstre`
 -- 
 
-DROP TABLE IF EXISTS `type_groupe_monstre`;
 CREATE TABLE `type_groupe_monstre` (
   `id_type_groupe_monstre` int(11) NOT NULL auto_increment,
   `nom_groupe_monstre` varchar(20) NOT NULL,
@@ -1908,7 +1851,6 @@ CREATE TABLE `type_groupe_monstre` (
 -- Structure de la table `type_lieu`
 -- 
 
-DROP TABLE IF EXISTS `type_lieu`;
 CREATE TABLE `type_lieu` (
   `id_type_lieu` int(11) NOT NULL auto_increment,
   `nom_type_lieu` varchar(20) NOT NULL,
@@ -1927,7 +1869,6 @@ CREATE TABLE `type_lieu` (
 -- Structure de la table `type_message`
 -- 
 
-DROP TABLE IF EXISTS `type_message`;
 CREATE TABLE `type_message` (
   `id_type_message` int(11) NOT NULL auto_increment,
   `nom_systeme_type_message` varchar(20) NOT NULL,
@@ -1942,7 +1883,6 @@ CREATE TABLE `type_message` (
 -- Structure de la table `type_minerai`
 -- 
 
-DROP TABLE IF EXISTS `type_minerai`;
 CREATE TABLE `type_minerai` (
   `id_type_minerai` int(11) NOT NULL auto_increment,
   `nom_type_minerai` varchar(20) NOT NULL,
@@ -1958,7 +1898,6 @@ CREATE TABLE `type_minerai` (
 -- Structure de la table `type_monstre`
 -- 
 
-DROP TABLE IF EXISTS `type_monstre`;
 CREATE TABLE `type_monstre` (
   `id_type_monstre` int(11) NOT NULL auto_increment,
   `nom_type_monstre` varchar(30) NOT NULL,
@@ -1974,7 +1913,6 @@ CREATE TABLE `type_monstre` (
 -- Structure de la table `type_munition`
 -- 
 
-DROP TABLE IF EXISTS `type_munition`;
 CREATE TABLE `type_munition` (
   `id_type_munition` int(11) NOT NULL auto_increment,
   `nom_systeme_type_munition` varchar(15) NOT NULL,
@@ -1989,7 +1927,6 @@ CREATE TABLE `type_munition` (
 -- Structure de la table `type_partieplante`
 -- 
 
-DROP TABLE IF EXISTS `type_partieplante`;
 CREATE TABLE `type_partieplante` (
   `id_type_partieplante` int(11) NOT NULL auto_increment,
   `nom_type_partieplante` varchar(20) NOT NULL,
@@ -2004,7 +1941,6 @@ CREATE TABLE `type_partieplante` (
 -- Structure de la table `type_piece`
 -- 
 
-DROP TABLE IF EXISTS `type_piece`;
 CREATE TABLE `type_piece` (
   `id_type_piece` int(11) NOT NULL auto_increment,
   `nom_systeme_type_piece` varchar(10) NOT NULL,
@@ -2019,7 +1955,6 @@ CREATE TABLE `type_piece` (
 -- Structure de la table `type_plante`
 -- 
 
-DROP TABLE IF EXISTS `type_plante`;
 CREATE TABLE `type_plante` (
   `id_type_plante` int(11) NOT NULL auto_increment,
   `nom_type_plante` varchar(20) NOT NULL,
@@ -2041,7 +1976,6 @@ CREATE TABLE `type_plante` (
 -- Structure de la table `type_potion`
 -- 
 
-DROP TABLE IF EXISTS `type_potion`;
 CREATE TABLE `type_potion` (
   `id_type_potion` int(11) NOT NULL auto_increment,
   `nom_type_potion` varchar(20) NOT NULL,
@@ -2057,7 +1991,6 @@ CREATE TABLE `type_potion` (
 -- Structure de la table `type_qualite`
 -- 
 
-DROP TABLE IF EXISTS `type_qualite`;
 CREATE TABLE `type_qualite` (
   `id_type_qualite` int(11) NOT NULL auto_increment,
   `nom_systeme_type_qualite` varchar(10) NOT NULL,
@@ -2072,7 +2005,6 @@ CREATE TABLE `type_qualite` (
 -- Structure de la table `type_rang_communaute`
 -- 
 
-DROP TABLE IF EXISTS `type_rang_communaute`;
 CREATE TABLE `type_rang_communaute` (
   `id_type_rang_communaute` int(11) NOT NULL auto_increment,
   `nom_type_rang_communaute` varchar(10) NOT NULL,
@@ -2085,7 +2017,6 @@ CREATE TABLE `type_rang_communaute` (
 -- Structure de la table `type_rune`
 -- 
 
-DROP TABLE IF EXISTS `type_rune`;
 CREATE TABLE `type_rune` (
   `id_type_rune` int(11) NOT NULL auto_increment,
   `nom_type_rune` varchar(2) NOT NULL,
@@ -2104,7 +2035,6 @@ CREATE TABLE `type_rune` (
 -- Structure de la table `type_tabac`
 -- 
 
-DROP TABLE IF EXISTS `type_tabac`;
 CREATE TABLE `type_tabac` (
   `id_type_tabac` int(11) NOT NULL auto_increment,
   `nom_type_tabac` varchar(20) NOT NULL,
@@ -2119,7 +2049,6 @@ CREATE TABLE `type_tabac` (
 -- Structure de la table `type_titre`
 -- 
 
-DROP TABLE IF EXISTS `type_titre`;
 CREATE TABLE `type_titre` (
   `id_type_titre` int(11) NOT NULL auto_increment,
   `nom_masculin_type_titre` varchar(15) NOT NULL,
@@ -2136,7 +2065,6 @@ CREATE TABLE `type_titre` (
 -- Structure de la table `type_unite`
 -- 
 
-DROP TABLE IF EXISTS `type_unite`;
 CREATE TABLE `type_unite` (
   `id_type_unite` int(11) NOT NULL auto_increment,
   `nom_systeme_type_unite` varchar(10) NOT NULL,
@@ -2152,7 +2080,6 @@ CREATE TABLE `type_unite` (
 -- Structure de la table `ville`
 -- 
 
-DROP TABLE IF EXISTS `ville`;
 CREATE TABLE `ville` (
   `id_ville` int(11) NOT NULL auto_increment,
   `nom_ville` varchar(20) NOT NULL,
@@ -2174,7 +2101,6 @@ CREATE TABLE `ville` (
 -- Structure de la table `zone`
 -- 
 
-DROP TABLE IF EXISTS `zone`;
 CREATE TABLE `zone` (
   `id_zone` int(11) NOT NULL auto_increment,
   `id_fk_environnement_zone` int(11) NOT NULL,
@@ -2686,13 +2612,27 @@ ALTER TABLE `stats_experience`
 -- Contraintes pour la table `stats_fabricants`
 -- 
 ALTER TABLE `stats_fabricants`
-  ADD CONSTRAINT `stats_fabricants_ibfk_1` FOREIGN KEY (`id_fk_hobbit_stats_fabricants`) REFERENCES `hobbit` (`id_hobbit`) ON DELETE CASCADE;
+  ADD CONSTRAINT `stats_fabricants_ibfk_1` FOREIGN KEY (`id_fk_hobbit_stats_fabricants`) REFERENCES `hobbit` (`id_hobbit`) ON DELETE CASCADE,
+  ADD CONSTRAINT `stats_fabricants_ibfk_2` FOREIGN KEY (`id_fk_metier_stats_fabricants`) REFERENCES `metier` (`id_metier`);
+
+-- 
+-- Contraintes pour la table `stats_mots_runiques`
+-- 
+ALTER TABLE `stats_mots_runiques`
+  ADD CONSTRAINT `stats_mots_runiques_ibfk_1` FOREIGN KEY (`id_fk_mot_runique_stats_mots_runiques`) REFERENCES `mot_runique` (`id_mot_runique`) ON DELETE CASCADE,
+  ADD CONSTRAINT `stats_mots_runiques_ibfk_2` FOREIGN KEY (`id_fk_type_piece_stats_mots_runiques`) REFERENCES `type_piece` (`id_type_piece`) ON DELETE CASCADE;
 
 -- 
 -- Contraintes pour la table `stats_recolteurs`
 -- 
 ALTER TABLE `stats_recolteurs`
   ADD CONSTRAINT `stats_recolteurs_ibfk_1` FOREIGN KEY (`id_fk_hobbit_stats_recolteurs`) REFERENCES `hobbit` (`id_hobbit`) ON DELETE CASCADE;
+
+-- 
+-- Contraintes pour la table `stats_runes`
+-- 
+ALTER TABLE `stats_runes`
+  ADD CONSTRAINT `stats_runes_ibfk_1` FOREIGN KEY (`id_fk_type_rune_stats_runes`) REFERENCES `type_rune` (`id_type_rune`) ON DELETE CASCADE;
 
 -- 
 -- Contraintes pour la table `stock_bois`
