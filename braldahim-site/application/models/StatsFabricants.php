@@ -23,6 +23,7 @@ class StatsFabricants extends Zend_Db_Table {
 		$select->where('mois_stats_fabricants >= ?', $dateDebut);
 		$select->where('mois_stats_fabricants < ?', $dateFin);
 		$select->where($this->getWhereType($type, $config));
+		$select->where('nombre > 0');
 		$select->order(array("nombre DESC", "moyenne DESC"));
 		$select->group(array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'));
 		$select->limit(10, 0);
