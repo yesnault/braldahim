@@ -244,6 +244,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 					$tabPotionsEtal[] = array(
 						"id_potion" => $p["id_echoppe_potion"],
 						"nom" => $p["nom_type_potion"],
+						"id_type_potion" => $p["id_type_potion"],
 						"qualite" => $p["nom_type_qualite"],
 						"niveau" => $p["niveau_echoppe_potion"],
 						"caracteristique" => $p["caract_type_potion"],
