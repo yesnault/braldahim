@@ -174,6 +174,13 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Monstre ou Hobbit invalide (!=-1)");
 		}
 		
+		if ($this->view->armeTirPortee === false){
+			throw new Zend_Exception(get_class($this)." pas d'arme de tir");
+		}
+		if ($this->view->munitionPortee === false){
+			throw new Zend_Exception(get_class($this)." pas de munition");
+		}
+		
 		$attaqueMonstre = false;
 		$attaqueHobbit = false;
 		if ($idHobbit != -1) {
