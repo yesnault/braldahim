@@ -15,6 +15,8 @@
 			<? endforeach; ?>
 		</select>
 		<br /><br />
+	<? else: ?>
+	Vous n'avez aucun équipement à sertir.
 	<? endif; ?>
 	
 	<? if (isset($this->equipementCourant) ) : ?>
@@ -96,7 +98,7 @@
 						</div>
 					</div>
 				<? else: ?>
-					Vous n'avez aucun rune dans votre laban
+					Vous n'avez aucune rune dans votre laban
 				<? endif; ?>
 			<? endif; ?>
 		<? endif; ?>
