@@ -17,10 +17,10 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
-		
+
 		if ($this->view->config->general->actif != 1) {
 			$this->_redirect('/auth/logoutajax');
-		} else if (!Zend_Auth::getInstance()->hasIdentity() && ($this->_request->action == 'index')) {
+		} else if ((!Zend_Auth::getInstance()->hasIdentity() || !isset($this->view->user) || !isset($this->view->user->email_hobbit)) && ($this->_request->action == 'index')) {
 			$this->_redirect('/auth/logout');
 		} else if (!Zend_Auth::getInstance()->hasIdentity() 
 			|| ($this->_request->action != 'index' && 
@@ -38,7 +38,11 @@ class InterfaceController extends Zend_Controller_Action {
 			Zend_Loader::loadClass('Bral_Util_BralSession');
 			if (Bral_Util_BralSession::refreshSession() == false) {
 				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 2 ");
-				$this->_redirect('/auth/logoutajax');
+				if ($this->_request->action == 'index') {
+					$this->_redirect('/auth/logout');
+				} else {
+					$this->_redirect('/auth/logoutajax');
+				}
 			}
 		}
 		$this->view->user = Zend_Auth::getInstance()->getIdentity(); // pour rafraichissement session
