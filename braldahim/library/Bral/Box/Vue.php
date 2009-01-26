@@ -422,7 +422,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if ($hobbits != null) {
 						foreach($hobbits as $h) {
 							if ($display_x == $h["x_hobbit"] && $display_y == $h["y_hobbit"]) {
-								$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"], "nom_hobbit" => $h["nom_hobbit"], "prenom_hobbit" => $h["prenom_hobbit"], "niveau_hobbit" => $h["niveau_hobbit"], "id_communaute" => $h["id_fk_communaute_hobbit"], "nom_communaute" => $h["nom_communaute"]);
+								$tabHobbits[] = array("id_hobbit" => $h["id_hobbit"], "nom_hobbit" => $h["nom_hobbit"], "prenom_hobbit" => $h["prenom_hobbit"], "niveau_hobbit" => $h["niveau_hobbit"], "id_communaute" => $h["id_fk_communaute_hobbit"], "nom_communaute" => $h["nom_communaute"], "sexe_hobbit" => $h["sexe_hobbit"]);
 							}
 						}
 					}

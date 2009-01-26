@@ -1,4 +1,5 @@
 <?php if ($case["n_hobbits"] > 0) :
+	  $sexe_hobbit = "feminin";
       $textHobbit = "<br>Hobbit";
       if ($case["n_hobbits"] > 1) {
       	$textHobbit .= "s";
@@ -14,6 +15,9 @@
       		$textHobbit .= ' - <label class=alabel onClick=ouvrirWin(\\\'\/voir\/communaute\/?communaute='.$h["id_communaute"].'\\\');>'.htmlspecialchars($h["nom_communaute"]).'</label>';
       	}
       	$textHobbit .= "<br />";
+      	if ($h["sexe_hobbit"] == "masculin") {
+      		$sexe_hobbit = "masculin";
+      	}
 	} 
 	$s = "";
 	if ($case["n_hobbits"] > 1) {
@@ -42,7 +46,7 @@ endif; ?>
 <? elseif ($case["n_monstres"] > 0) : ?>
     <img src='/public/styles/braldahim_defaut/images/vue/monstre.png' <?=Bral_Helper_Tooltip::jsTip($textMonstre, $titre) ?>/>
 <? elseif ($case["n_hobbits"] > 0) : ?>
-    <img src='/public/styles/braldahim_defaut/images/vue/hobbit.png' <?=Bral_Helper_Tooltip::jsTip($textHobbit, $titre) ?>/>
+    <img src='/public/styles/braldahim_defaut/images/vue/hobbit_<?=$sexe_hobbit?>.png' <?=Bral_Helper_Tooltip::jsTip($textHobbit, $titre) ?>/>
 <? else: ?>
     &nbsp;
 <? endif;?>
