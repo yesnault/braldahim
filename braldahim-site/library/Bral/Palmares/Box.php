@@ -96,6 +96,7 @@ abstract class Bral_Palmares_Box {
 	
 	protected function getSelectTypeFabricant($type) {
 		$retour = "";
+		$this->view->titreColonne3 = "Niveau moyen des pièces créées";
 		switch($type) {
 			case "menuisiers":
 			case "forgerons":
@@ -107,13 +108,14 @@ abstract class Bral_Palmares_Box {
 				$retour = "Nombre de palissades fabriquées";
 				break;
 			case "terrassiers":
-				$retour = "Nombre de route fabriquées";
+				$retour = "Nombre de routes fabriquées";
 				break;
 			case "cuisiniers":
 				$retour = "Nombre de rations préparées";
 				break;
 			case "apothicaires":
 				$retour = "Nombre de potions créées";
+				$this->view->titreColonne3 = "Niveau moyen des potions créées";
 				$this->view->afficheMoyenne = true;
 				break;
 		}

@@ -150,6 +150,22 @@ class Bral_Palmares_Factory {
 		$retour[] = new Bral_Palmares_Recolteursniveau($request, $view, false, 1, $type);
 		$retour[] = new Bral_Palmares_Recolteurssexe($request, $view, false, 1, $type);
 		$view->titre = "Récolteurs";
+		
+		switch($type) {
+			case "mineurs":
+				$view->titre .= " - Mineurs";
+				break;
+			case "herboristes":
+				$view->titre .= " - Herboristes";
+				break;
+			case "bucherons":
+				$view->titre .= " - Bûcherons";
+				break;
+			case "chasseurs":
+				$view->titre .= " - Chasseurs";
+				break;
+		}
+		
 		return $retour;
 	}
 	
@@ -166,6 +182,32 @@ class Bral_Palmares_Factory {
 		$retour[] = new Bral_Palmares_Fabricantsniveau($request, $view, false, 1, $type);
 		$retour[] = new Bral_Palmares_Fabricantssexe($request, $view, false, 1, $type);
 		$view->titre = "Fabricants";
+		
+		switch($type) {
+			case "apothicaires":
+				$view->titre .= " - Apothicaires";
+				break;
+			case "menuisiers":
+				$view->titre .= " - Menuisiers";
+				break;
+			case "forgerons":
+				$view->titre .= " - Forgerons";
+				break;
+			case "tanneurs":
+				$view->titre .= " - Tanneurs";
+				break;
+			case "bucherons":
+				$view->titre .= " - Bûcherons";
+				break;
+			case "terrassiers":
+				$view->titre .= " - Terrassier";
+				break;
+			case "cuisiniers":
+				$view->titre .= " - Cuisinier";
+				break;
+		}
+		
+		
 		return $retour;
 	}
 	
