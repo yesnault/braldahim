@@ -3,11 +3,13 @@ $textLieu = "";
 $textPalissade = "";
 $textRoute = "";
 $textEchoppe = "";
+$type_lieu = "";
 ?>
 <?php if ($case["n_lieux"] > 0) :
 	$textLieu = "Lieu : <br>";
     foreach($case["lieux"] as $l) {
       	$textLieu .= addslashes(htmlspecialchars($l["nom_lieu"])) ." : ".addslashes(htmlspecialchars($l["nom_type_lieu"]));
+      	$type_lieu = $l["nom_systeme_type_lieu"];
 	}
 	 
 	$doubleClick = "";
@@ -60,7 +62,13 @@ endif; ?>
     
 <? if ($textLieu != "" ) :?>
 	<span <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
-		<img src='/public/styles/braldahim_defaut/images/vue/batiment.png' />
+		<? if ($type_lieu == "mairie") : ?>
+			<img src='/public/styles/braldahim_defaut/images/vue/batiment_mairie.png' />
+		<? elseif ($type_lieu == "hopital") : ?>
+			<img src='/public/styles/braldahim_defaut/images/vue/batiment_hopital.png' />
+		<? else: ?>
+			<img src='/public/styles/braldahim_defaut/images/vue/batiment.png' />
+		<? endif; ?>
 	</span>
 <? elseif ($textEchoppe != "") : ?>
 	<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>

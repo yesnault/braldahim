@@ -430,7 +430,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if ($lieux != null) {
 						foreach($lieux as $l) {
 							if ($display_x == $l["x_lieu"] && $display_y == $l["y_lieu"]) {
-								$tabLieux[] = array("id_lieu" => $l["id_lieu"], "nom_lieu" => $l["nom_lieu"], "nom_type_lieu" => $l["nom_type_lieu"]);
+								$tabLieux[] = array("id_lieu" => $l["id_lieu"], "nom_lieu" => $l["nom_lieu"], "nom_type_lieu" => $l["nom_type_lieu"], "nom_systeme_type_lieu" => $l["nom_systeme_type_lieu"]);
 								$lieuCourant = $l;
 								$estLimiteVille = false;
 							}
