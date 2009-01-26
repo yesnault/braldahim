@@ -163,7 +163,7 @@ class Bral_Echoppes_Transferequipement extends Bral_Echoppes_Echoppe {
 				'id_fk_hobbit_laban_munition' => $this->view->user->id_hobbit,
 				'quantite_laban_munition' => $equipement["nb_munition_type_equipement"],
 			);
-			$labanMunitionTable->insert($data);	
+			$labanMunitionTable->insertOrUpdate($data);	
 		} else {
 			Zend_Loader::loadClass("LabanEquipement");
 			$labanEquipementTable = new LabanEquipement();
