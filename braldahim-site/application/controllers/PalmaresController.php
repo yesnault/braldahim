@@ -190,7 +190,7 @@ class PalmaresController extends Zend_Controller_Action {
 		$this->view->selectionRecolteurs = $selectionRecolteurs;
 		
 		$selectionFabricants = null;
-		$selectionFabricants[] = array("nom" => "Apothicaire", "url" => "apothicaires");
+		$selectionFabricants[] = array("nom" => "Apothicaires", "url" => "apothicaires");
 		$selectionFabricants[] = array("nom" => "Menuisiers", "url" => "menuisiers");
 		$selectionFabricants[] = array("nom" => "Forgerons", "url" => "forgerons");
 		$selectionFabricants[] = array("nom" => "Tanneurs", "url" => "tanneurs");
