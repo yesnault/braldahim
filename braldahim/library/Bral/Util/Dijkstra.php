@@ -9,6 +9,8 @@
  * $LastChangedDate: $
  * $LastChangedRevision: $
  * $LastChangedBy: $
+ *
+ * Algo disponible sur http://en.giswiki.net/wiki/Dijkstra%27s_algorithm#Usage_Example
  */
 class Bral_Util_Dijkstra {
 
