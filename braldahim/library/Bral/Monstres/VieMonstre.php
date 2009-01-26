@@ -222,7 +222,7 @@ class Bral_Monstres_VieMonstre {
 				$id_type_evenement = self::$config->game->evenements->type->attaquer;
 				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a attaqué le hobbit ".$cible["prenom_hobbit"]." ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ")";
 				$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus);
-				$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
+				
 
 				$effetMotS = Bral_Util_Commun::getEffetMotS($cible["id_hobbit"]);
 				$this->updateCible($cible);
@@ -235,7 +235,12 @@ class Bral_Monstres_VieMonstre {
 					$jetsDegat = Bral_Util_Attaque::calculDegatAttaqueNormale($hobbitAttaquant);
 					$jetCible = Bral_Util_Attaque::calculJetCibleMonstre($this->monstre);
 					Bral_Util_Attaque::attaqueMonstre($hobbitAttaquant, $this->monstre, $jetAttaquant, $jetCible, $jetsDegat, true);
+				
+					$detailsBot .= " 
+Le hobbit ".$cible["prenom_hobbit"]." ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ") a riposté.
+Consultez vos événements pour plus de détails.";
 				}
+				$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
 			}
 
 		} else if ($jetCible/2 < $jetAttaquant) {

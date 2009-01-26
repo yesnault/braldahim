@@ -251,15 +251,12 @@ class Bral_Util_Attaque {
 			$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
 			$details .= " qui a esquivé parfaitement l'attaque";
 			if ($effetMotSPossible == false) {
+				$detailsBot .= " Riposte de ".$hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.")
+";
 				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit); // uniquement en cas de riposte
 			}
 			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot, $cible["niveau_cible"], "hobbit", true, $view);
 //			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
-		}
-		
-		if ($degatCase) {
-			$details .= " (compétence spéciale utilisée) ";
-			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_cible);
 		}
 		
 		if ($effetMotSPossible == true && $retourAttaque["mort"] == false) {
@@ -272,6 +269,15 @@ class Bral_Util_Attaque {
 				$jetsDegatRiposte = Bral_Util_Attaque::calculDegatAttaqueNormale($hobbitCible);
 				$retourAttaque["retourAttaqueEffetMotS"] = self::attaqueHobbit($hobbitCible, $hobbitAttaquant, $jetAttaquantRiposte, $jetCibleRiposte, $jetsDegatRiposte, $view, $degatCase, false);
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - EffetMotS Riposte Fin !");
+			
+				$detailsBot .= " 
+Le hobbit ".$cible["prenom_hobbit"]." ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ") a riposté.
+Consultez vos événements pour plus de détails.";
+			}
+			
+			if ($degatCase) {
+				$details .= " (compétence spéciale utilisée) ";
+				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_cible);
 			}
 		}
 		
@@ -288,7 +294,7 @@ class Bral_Util_Attaque {
 		return $retourAttaque;
 	}
 	
-	public static function attaqueMonstre(&$hobbitAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, $degatCase, $tir=false) {
+	public static function attaqueMonstre(&$hobbitAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, $degatCase, $tir=false, $riposte = false) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - enter -");
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetAttaquant=".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetCible=".$jetCible);
@@ -484,8 +490,12 @@ class Bral_Util_Attaque {
 			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, "", $cible["niveau_cible"], "monstre");
 		}
 		
-		if ($degatCase) {
+		if ($degatCase || $riposte) {
 			$details .= " (compétence spéciale utilisée) ";
+			if ($riposte) {
+				$detailsBot .= " Riposte de ".$hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.")
+";
+			}
 			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit);
 		}
 		
