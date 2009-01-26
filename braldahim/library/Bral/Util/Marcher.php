@@ -82,29 +82,13 @@ class Bral_Util_Marcher {
 		$y_min = $hobbit->y_hobbit - $this->distance;
 		$y_max = $hobbit->y_hobbit + $this->distance;
 		
-		$palissadeTable = new Palissade();
-		$palissades = $palissadeTable->selectVue($x_min, $y_min, $x_max, $y_max);
-		unset($palissadeTable);
-		
-		$this->tabValidationPalissade = null;
-		for ($j = $this->nb_cases; $j >= -$this->nb_cases; $j--) {
-			 for ($i = -$this->nb_cases; $i <= $this->nb_cases; $i++) {
-				$x = $hobbit->x_hobbit + $i;
-			 	$y = $hobbit->y_hobbit + $j;
-			 	$this->tabValidationPalissade[$x][$y] = true;
-			 }
-		}
-		foreach($palissades as $p) {
-			$this->tabValidationPalissade[$p["x_palissade"]][$p["y_palissade"]] = false;
-		}
-		unset($palissades);
-		
-		if ($this->nb_cases >= 2) {
-			$this->calculPalissade($hobbit);
-		}
+		Zend_Loader::loadClass("Bral_Util_Dijkstra");
+		$dijkstra = new Bral_Util_Dijkstra();
+		$dijkstra->calcul($this->nb_cases, $hobbit->x_hobbit, $hobbit->y_hobbit); 
 		
 		$defautChecked = false;
 		$config = Zend_Registry::get('config');
+		$numero = -1;
 		for ($j = $this->nb_cases; $j >= -$this->nb_cases; $j --) {
 			 $change_level = true;
 			 for ($i = -$this->nb_cases; $i <= $this->nb_cases; $i ++) {
@@ -114,6 +98,8 @@ class Bral_Util_Marcher {
 			 	$display = $x;
 			 	$display .= " ; ";
 			 	$display .= $y;
+			 	
+			 	$numero++;
 			 	
 			 	if (($j == 0 && $i == 0) == false) { // on n'affiche pas de boutons dans la case du milieu
 					$valid = true;
@@ -126,8 +112,8 @@ class Bral_Util_Marcher {
 					$valid = false;
 			 	}
 				
-			 	// on regarde s'il n'y a pas de palissade
-		 		if ($this->tabValidationPalissade[$x][$y] === false) {
+			 	// on regarde la distance
+			 	if ($dijkstra->getDistance($numero) > $this->nb_cases) {
 		 			$valid = false;
 		 		}
 
@@ -252,102 +238,6 @@ class Bral_Util_Marcher {
 			return false;
 		} else {
 			return true;
-		}
-	}
-	
-	private function calculPalissade($hobbit) {
-		$nbCase = 1;
-		
-		for ($j = $nbCase; $j >= -$nbCase; $j--) {
-			 for ($i = -$nbCase; $i <= $nbCase; $i++) {
-			 	if ($j == 0 && $i == 0) {
-			 		continue;
-			 	}
-			 	$x = $hobbit->x_hobbit + $i;
-			 	$y = $hobbit->y_hobbit + $j;
-			 	
-			 	// d'abord les coins
-			 	if ($j == 1 && $i == -1) {
-			 		if ($this->tabValidationPalissade[$x][$y] == false) {
-			 			$this->tabValidationPalissade[$x-1][$y+1] = false;
-			 		}
-			 	}
-			 	if ($j == -1 && $i == -1) {
-			 		if ($this->tabValidationPalissade[$x][$y] == false) {
-			 			$this->tabValidationPalissade[$x-1][$y-1] = false;
-			 		}
-			 	}
-			 	if ($j == -1 && $i == 1) {
-			 		if ($this->tabValidationPalissade[$x][$y] == false) {
-			 			$this->tabValidationPalissade[$x+1][$y-1] = false;
-			 		}
-			 	}
-			 	if ($j == 1 && $i == 1) {
-			 		if ($this->tabValidationPalissade[$x][$y] == false) {
-			 			$this->tabValidationPalissade[$x+1][$y+1] = false;
-			 		}
-			 	}
-			 	
-			 	
-			 	if ($j == 0 && $i == -1) {
-			 		if ($this->tabValidationPalissade[$x][$y] == false) {
-			 			if ($this->tabValidationPalissade[$x][$y+1] == false &&
-			 				$this->tabValidationPalissade[$x][$y-1] == false) {
-			 				$this->tabValidationPalissade[$x-1][$y] = false;
-			 			}
-				 		if ($this->tabValidationPalissade[$x][$y+1] == false) {
-				 			$this->tabValidationPalissade[$x-1][$y+1] = false;
-				 		}
-			 			if ($this->tabValidationPalissade[$x][$y-1] == false) {
-				 			$this->tabValidationPalissade[$x-1][$y-1] = false;
-				 		}
-			 		}
-			 	}
-			 	if ($j == 0 && $i == 1) {
-			 		if ($this->tabValidationPalissade[$x][$y] == false) {
-			 			if ($this->tabValidationPalissade[$x][$y+1] == false &&
-			 				$this->tabValidationPalissade[$x][$y-1] == false) {
-			 				$this->tabValidationPalissade[$x+1][$y] = false;
-			 			}
-				 		if ($this->tabValidationPalissade[$x][$y+1] == false) {
-				 			$this->tabValidationPalissade[$x+1][$y+1] = false;
-				 		}
-			 			if ($this->tabValidationPalissade[$x][$y-1] == false) {
-				 			$this->tabValidationPalissade[$x+1][$y-1] = false;
-				 		}
-			 		}
-			 	}
-			 	
-			 	if ($j == 1 && $i == 0) {
-			 		if ($this->tabValidationPalissade[$x][$y] == false) {
-			 			if ($this->tabValidationPalissade[$x-1][$y] == false &&
-			 				$this->tabValidationPalissade[$x+1][$y] == false) {
-			 				$this->tabValidationPalissade[$x][$y+1] = false;
-			 			}
-				 		if ($this->tabValidationPalissade[$x-1][$y] == false) {
-				 			$this->tabValidationPalissade[$x-1][$y+1] = false;
-				 		}
-			 			if ($this->tabValidationPalissade[$x+1][$y] == false) {
-				 			$this->tabValidationPalissade[$x+1][$y+1] = false;
-				 		}
-			 		}
-			 	}
-			 	
-			 	if ($j == -1 && $i == 0) {
-			 		if ($this->tabValidationPalissade[$x][$y] == false) {
-			 			if ($this->tabValidationPalissade[$x-1][$y] == false &&
-			 				$this->tabValidationPalissade[$x+1][$y] == false) {
-			 				$this->tabValidationPalissade[$x][$y-1] = false;
-			 			}
-				 		if ($this->tabValidationPalissade[$x-1][$y] == false) {
-				 			$this->tabValidationPalissade[$x-1][$y-1] = false;
-				 		}
-			 			if ($this->tabValidationPalissade[$x+1][$y] == false) {
-				 			$this->tabValidationPalissade[$x+1][$y-1] = false;
-				 		}
-			 		}
-			 	}
-			 }
 		}
 	}
 }
