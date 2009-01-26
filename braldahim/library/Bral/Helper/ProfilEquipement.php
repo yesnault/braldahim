@@ -24,24 +24,24 @@ class Bral_Helper_ProfilEquipement {
 		$retour .= "<tr>";
 		$retour .= "<td>";
 		$retour .= "<table align='center' border='1'>";
-	 	
-	 	foreach($typesEmplacement as $k => $e) {
-	 		if ($e["position"] == "gauche" && $e["affiche"] == "oui") {
-	 		    $retour .= "<tr>";
-	 			$retour .= "<td class='equipement'>";
-	 			$retour .= $e["nom_type_emplacement"]."<br />";
-	 			if (count($e["equipementPorte"]) > 0) {
+		
+		foreach($typesEmplacement as $k => $e) {
+			if ($e["position"] == "gauche" && $e["affiche"] == "oui") {
+				$retour .= "<tr>";
+				$retour .= "<td class='equipement'>";
+				$retour .= $e["nom_type_emplacement"]."<br>";
+				if (count($e["equipementPorte"]) > 0) {
 					foreach($e["equipementPorte"] as $p) {
 						$retour .= Bral_Helper_DetailEquipement::afficher($p);
 					}
 				} else {
- 					$retour .= "Libre";
-	 			}
-	    	$retour .= "</td>";
-	    	$retour .= "</tr>";
-	 		}
-	 	}
-    	$retour .= "</table>";
+					$retour .= "Libre";
+				}
+				$retour .= "</td>";
+				$retour .= "</tr>";
+			}
+		}
+		$retour .= "</table>";
     	$retour .= "</td>";
     	$retour .= "<td>";
     	$retour .= "<table align='center' border='1'>";

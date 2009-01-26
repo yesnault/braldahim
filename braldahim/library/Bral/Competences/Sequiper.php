@@ -100,6 +100,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
 					"id_type_emplacement" => $e["id_type_emplacement"],
+					"nom_systeme_type_piece" => $e["nom_systeme_type_piece"],
 					"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
 					"nb_runes" => $e["nb_runes_hequipement"],
 					"id_fk_recette_equipement" => $e["id_fk_recette_hequipement"],
@@ -150,6 +151,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 						"qualite" => $e["nom_type_qualite"],
 						"niveau" => $e["niveau_recette_equipement"],
 						"id_type_emplacement" => $e["id_type_emplacement"],
+						"nom_systeme_type_piece" => $e["nom_systeme_type_piece"],
 						"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
 						"nb_runes" => $e["nb_runes_laban_equipement"],
 						"id_fk_recette_equipement" => $e["id_fk_recette_laban_equipement"],
@@ -245,6 +247,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 	}
 	
 	private function calculSequiper($equipement, $destination) {
+		$deuxMains = true;
 		$mainGauche = true;
 		$mainDroite = true;
 		$main = true;
@@ -259,31 +262,47 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 							$p["nom_systeme_type_emplacement"] == "maingauche" || 
 							$p["nom_systeme_type_emplacement"] == "maindroite" || 
 							$p["nom_systeme_type_emplacement"] == "deuxmains") {
-							$this->calculTransfertVersLaban($p);
+							if ($p["nom_systeme_type_piece"] != "armure") { // si ce n'est pas une armure, on transfere
+								$this->calculTransfertVersLaban($p);  // il n'y a pas d'armure sur 2 mains
+							}
 						}
-					} else if ($equipement["nom_systeme_type_emplacement"] == "main") {
+					} else if (substr($equipement["nom_systeme_type_emplacement"], 0, 4) == "main") {
 						if ($p["nom_systeme_type_emplacement"] == "maingauche") {
-							$mainGauche = false;
-							$nbMain = $nbMain + 1;
-							$eMainGauche = $p;
+							if (($p["nom_systeme_type_piece"] == "armure" && $equipement["nom_systeme_type_piece"] == "armure")  // si l'on remplace une armure par une armure
+							|| $equipement["nom_systeme_type_piece"] != "armure" && $p["nom_systeme_type_piece"] != "armure") { // ou que ce n'est pas une armure 
+								$mainGauche = false;
+								$nbMain = $nbMain + 1;
+								$eMainGauche = $p;
+							}
 						} else if ($p["nom_systeme_type_emplacement"] == "maindroite") {
-							$mainDroite = false;
-							$nbMain = $nbMain + 1;
-							$eMainDroite = $p;
+							if (($p["nom_systeme_type_piece"] == "armure" && $equipement["nom_systeme_type_piece"] == "armure")  // si l'on remplace une armure par une armure
+							|| $equipement["nom_systeme_type_piece"] != "armure" && $p["nom_systeme_type_piece"] != "armure") { // ou que ce n'est pas une armure 
+								$mainDroite = false;
+								$nbMain = $nbMain + 1;
+								$eMainDroite = $p;
+							}
 						} else if ($p["nom_systeme_type_emplacement"] == "main") {
-							$main = false;
-							$nbMain = $nbMain + 1;
-							$eMain = $p;
+							if (($p["nom_systeme_type_piece"] == "armure" && $equipement["nom_systeme_type_piece"] == "armure")  // si l'on remplace une armure par une armure
+							|| $equipement["nom_systeme_type_piece"] != "armure" && $p["nom_systeme_type_piece"] != "armure") { // ou que ce n'est pas une armure 
+								$main = false;
+								$nbMain = $nbMain + 1;
+								$eMain = $p;
+							}
+						} else if ($p["nom_systeme_type_emplacement"] == "deuxmains") {
+							$deuxMains = false;
+							$eDeuxMains = $p;
 						}
 					} else if ($equipement["id_type_emplacement"] == $p["id_type_emplacement"]) {
 						$this->calculTransfertVersLaban($p);
 					}				
 				}
 				
-				if ($equipement["nom_systeme_type_emplacement"] == "main" ) {
-					if ($mainGauche == false && $mainDroite == false && $nbMain >= 2) {
+				if (substr($equipement["nom_systeme_type_emplacement"], 0, 4) == "main" ) {
+					if ($deuxMains == false) {
+						$this->calculTransfertVersLaban($eDeuxMains);
+					} else if ($mainGauche == false && $mainDroite == false && $nbMain >= 2) {
 						if ($main == false) {
-							$this->calculTranfertVersLaban($eMain);
+							$this->calculTransfertVersLaban($eMain);
 						} else if ($mainGauche == false) {
 							$this->calculTransfertVersLaban($eMainGauche);
 						}
