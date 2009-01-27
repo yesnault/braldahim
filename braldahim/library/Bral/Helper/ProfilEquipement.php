@@ -49,7 +49,9 @@ class Bral_Helper_ProfilEquipement {
 		$i = 0;
  		foreach($typesEmplacement as $k => $e) {
  			if ($e["position"] == "droite" && $e["affiche"] == "oui") {
-	 			$i++;
+ 				if ($k != "mains") { 
+	 				$i++;
+ 				}
 	 			if ($k == "deuxmains") {
 	 				$i++;
 	 			}

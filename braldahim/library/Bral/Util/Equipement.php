@@ -29,7 +29,7 @@ class Bral_Util_Equipement {
 			$affiche = "oui";
 			$position = "gauche";
 			if ($t["nom_systeme_type_emplacement"] == "deuxmains" ||
-				$t["nom_systeme_type_emplacement"] == "main" ||
+				$t["nom_systeme_type_emplacement"] == "mains" ||
 				$t["nom_systeme_type_emplacement"] == "maingauche" ||
 				$t["nom_systeme_type_emplacement"] == "maindroite") {
 				$affiche = "non";
