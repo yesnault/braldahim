@@ -284,34 +284,4 @@ class Bral_Util_Dijkstra {
 		}
 		return $foo;
 	}
-} // end class
-
-
-
-// initialize the algorithm class
-//$dijkstra = new Dijkstra($ourMap, I,$matrixWidth);
-
-//$dijkstra->findShortestPath($_GET['case']);
-
-/*echo "<table cellpadding=0 cellspacing=0 border=1>";
-for($i=0;$i<$this->nbCasesLargeur;$i++) {
-	echo "<tr>";
-	for($j=0;$j<$this->nbCasesLargeur;$j++) {
-		$position=$i*$this->nbCasesLargeur+$j;
-		if ($this->tabPalissades[$position) == I) {
-			echo "<td background=palissade.png width=64 height=64 align=center>";
-			echo "&nbsp;";
-		} else {
-			echo "<td background=plaine.png width=64 height=64 align=center>";
-			if ($position == $_GET['case']) {
-				echo "<img src=hobbit.png border=0>";
-			} else {
-				echo "(".$position.")<br/><b>".$dijkstra->getDistance($position)."</b>";
-			}
-		}
-		echo "</td>";
-	}
-	echo "</tr>";
 }
-echo "</table>";
-*/
