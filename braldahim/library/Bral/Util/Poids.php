@@ -45,9 +45,9 @@ class Bral_Util_Poids {
 		$tabRondins = null;
 		
 		foreach ($charrette as $c) {
-			$nbRondinsTransportables = (floor($niveauVigueur / 10) * 10) + 10;
-			if ($nbRondinsTransportables == 0) {
-				$nbRondinsTransportables = 10;
+			$nbRondinsTransportables = (floor($niveauVigueur / 10) * 20) + 20;
+			if ($nbRondinsTransportables < 20) {
+				$nbRondinsTransportables = 20;
 			}
 			$tabRondins = array(
 				"nb_rondins_presents" => $c["quantite_rondin_charrette"],

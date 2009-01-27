@@ -237,14 +237,18 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		}
 		
 		if ($tirage > 0 && $tirage <= $chance_a) {
-			$this->view->nRondinsNecessaires = 2 + Bral_Util_De::get_1d3();
-			$this->view->nRondinsNecessairesFormule = "2 + 1D3";
+			$this->view->nRondinsNecessairesFormule = "Niveau Vigueur (".$this->view->user->vigueur_base_hobbit.") / 2";
+			$this->view->nRondinsNecessaires = $this->view->user->vigueur_base_hobbit / 2;
 		} elseif ($tirage > $chance_a && $tirage <= $chance_b) {
-			$this->view->nRondinsNecessaires = 1 + Bral_Util_De::get_1d3();
-			$this->view->nRondinsNecessairesFormule = "1 + 1D3";
+			$this->view->nRondinsNecessairesFormule = "Niveau Vigueur (".$this->view->user->vigueur_base_hobbit.") / 3";
+			$this->view->nRondinsNecessaires = $this->view->user->vigueur_base_hobbit / 3;
 		} elseif ($tirage > $chance_b && $tirage <= 100) {
-			$this->view->nRondinsNecessaires = Bral_Util_De::get_1d3();
-			$this->view->nRondinsNecessairesFormule = "1D3";
+			$this->view->nRondinsNecessairesFormule = "Niveau Vigueur (".$this->view->user->vigueur_base_hobbit.") / 4";
+			$this->view->nRondinsNecessaires = $this->view->user->vigueur_base_hobbit / 4;
+		}
+		
+		if ($this->view->nRondinsNecessaires < 1 ) {
+			$this->view->nRondinsNecessaires = 1;
 		}
 		
 		$this->view->nRondinsSuffisants = false;
