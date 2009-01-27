@@ -165,7 +165,7 @@ class Bral_Util_Attaque {
 				}
 				
 				if (Bral_Util_Commun::getEffetMotL($hobbitAttaquant->id_hobbit) == true && $effetMotSPossible == true) {
-					$hobbitAttaquant->pa_hobbit = $hobbitAttaquant->pa_hobbit + 4;
+					$hobbitAttaquant->pa_hobbit = $hobbitAttaquant->pa_hobbit + 3;
 					$retourAttaque["effetMotL"] = true;
 					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotL True hobbitAttaquant->pa_hobbit=".$hobbitAttaquant->pa_hobbit);
 				}
@@ -431,7 +431,7 @@ Consultez vos événements pour plus de détails.";
 				}
 				
 				if (Bral_Util_Commun::getEffetMotL($hobbitAttaquant->id_hobbit) == true) {
-					$hobbitAttaquant->pa_hobbit = $hobbitAttaquant->pa_hobbit + 4;
+					$hobbitAttaquant->pa_hobbit = $hobbitAttaquant->pa_hobbit + 3;
 					$retourAttaque["effetMotL"] = true;
 					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotL True hobbitAttaquant->pa_hobbit=".$hobbitAttaquant->pa_hobbit);
 				}
