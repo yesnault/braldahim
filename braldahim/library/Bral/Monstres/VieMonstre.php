@@ -446,12 +446,17 @@ Consultez vos événements pour plus de détails.";
 			throw new Zend_Exception(get_class($this)."::mortMonstreDb monstre inconnu");
 		}
 		
+		$dateCreation = date("Y-m-d H:i:s");
+		$nbJours = Bral_Util_De::get_1d20();
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+		
 		$data = array(
 			"id_cadavre" => $monstre["id_monstre"],
 			"id_fk_type_monstre_cadavre"  => $monstre["id_fk_type_monstre"],
 			"id_fk_taille_cadavre" => $monstre["id_fk_taille_monstre"],
 			"x_cadavre" => $monstre["x_monstre"],
 			"y_cadavre" => $monstre["y_monstre"],
+			"date_fin_cadavre" => $dateFin,
 		);
 		
 		$cadavreTable = new Cadavre();
@@ -496,12 +501,17 @@ Consultez vos événements pour plus de détails.";
 		
 		$typeRune = $typeRuneRowset[$numeroRune];
 		
+		$dateCreation = date("Y-m-d H:i:s");
+		$nbJours = Bral_Util_De::get_2d10();
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+		
 		$elementRuneTable = new ElementRune();
 		$data = array(
 			"x_element_rune"  => $x,
 			"y_element_rune" => $y,
 			"id_fk_type_element_rune" => $typeRune["id_type_rune"],
-			"date_depot_element_rune" => date("Y-m-d H:i:s"),
+			"date_depot_element_rune" => $dateCreation,
+			"date_fin_element_rune" => $dateFin,
 		);
 		
 		$elementRuneTable = new ElementRune();

@@ -17,6 +17,14 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$retour = null;
 		
 		$retour .= $this->purgeBatch();
+		$retour .= $this->purgeCadavres();
+		$retour .= $this->purgeCastar();
+		$retour .= $this->purgeElementMinerai();
+		$retour .= $this->purgeElementPartiePlante();
+		$retour .= $this->purgeElementMunition();
+		$retour .= $this->purgeElementPotion();
+		$retour .= $this->purgeElementRune();
+		$retour .= $this->purgeElementEquipement();
 		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - calculBatchImpl - exit -");
 		return $retour;
@@ -48,6 +56,150 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$retour .= " Tous:nb delete:".$nb. " date:".$dateFin;
 		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeBatch - exit -");
+		return $retour;
+	}
+	
+	private function purgeCadavres() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeCadavres - enter -");
+		
+		Zend_Loader::loadClass('Cadavre'); 
+		
+		$retour = "";
+		$cadavreTable = new Cadavre();
+		
+		$date = date("Y-m-d H:i:s");
+		$where = $cadavreTable->getAdapter()->quoteInto('date_fin_cadavre <= ?',  $date);
+		$nb = $cadavreTable->delete($where);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - Ok - nb:".$nb." - where:".$where);
+		$retour = " Cadavres:nb delete:".$nb. " date:".$date;
+		
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeCadavres - exit -");
+		return $retour;
+	}
+	
+	private function purgeElementMinerai() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeElementMinerai - enter -");
+		
+		Zend_Loader::loadClass('ElementMinerai'); 
+		
+		$retour = "";
+		$elementMinerai = new ElementMinerai();
+		
+		$date = date("Y-m-d H:i:s");
+		$where = $elementMinerai->getAdapter()->quoteInto('date_fin_element_minerai <= ?',  $date);
+		$nb = $elementMinerai->delete($where);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - Ok - nb:".$nb." - where:".$where);
+		$retour = " EltMinerai:nb delete:".$nb. " date:".$date;
+		
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeElementMinerai - exit -");
+		return $retour;
+	}
+	
+	private function purgeElementPartiePlante() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeElementPartiePlante - enter -");
+		
+		Zend_Loader::loadClass('ElementPartieplante'); 
+		
+		$retour = "";
+		$elementPartieplante = new ElementPartieplante();
+		
+		$date = date("Y-m-d H:i:s");
+		$where = $elementPartieplante->getAdapter()->quoteInto('date_fin_element_partieplante <= ?',  $date);
+		$nb = $elementPartieplante->delete($where);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - Ok - nb:".$nb." - where:".$where);
+		$retour = " EltPartiePlante:nb delete:".$nb. " date:".$date;
+		
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeElementPartiePlante - exit -");
+		return $retour;
+	}
+	
+	private function purgeElementMunition() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeElementMunition - enter -");
+		
+		Zend_Loader::loadClass('ElementMunition'); 
+		
+		$retour = "";
+		$elementMunition = new ElementMunition();
+		
+		$date = date("Y-m-d H:i:s");
+		$where = $elementMunition->getAdapter()->quoteInto('date_fin_element_munition <= ?',  $date);
+		$nb = $elementMunition->delete($where);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - Ok - nb:".$nb." - where:".$where);
+		$retour = " EltMunition:nb delete:".$nb. " date:".$date;
+		
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeElementMunition - exit -");
+		return $retour;
+	}
+	
+	private function purgeElementPotion() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeElementPotion - enter -");
+		
+		Zend_Loader::loadClass('ElementPotion'); 
+		
+		$retour = "";
+		$elementPotion = new ElementPotion();
+		
+		$date = date("Y-m-d H:i:s");
+		$where = $elementPotion->getAdapter()->quoteInto('date_fin_element_potion <= ?',  $date);
+		$nb = $elementPotion->delete($where);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - Ok - nb:".$nb." - where:".$where);
+		$retour = " EltPotion:nb delete:".$nb. " date:".$date;
+		
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeElementPotion - exit -");
+		return $retour;
+	}
+	
+	private function purgeElementRune() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeElementRune - enter -");
+		
+		Zend_Loader::loadClass('ElementRune'); 
+		
+		$retour = "";
+		$elementRune = new ElementRune();
+		
+		$date = date("Y-m-d H:i:s");
+		$where = $elementRune->getAdapter()->quoteInto('date_fin_element_rune <= ?',  $date);
+		$nb = $elementRune->delete($where);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - Ok - nb:".$nb." - where:".$where);
+		$retour = " EltRune:nb delete:".$nb. " date:".$date;
+		
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeElementRune - exit -");
+		return $retour;
+	}
+	
+	private function purgeCastar() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeCastar - enter -");
+		
+		Zend_Loader::loadClass('Castar'); 
+		
+		$retour = "";
+		$castar = new Castar();
+		
+		$date = date("Y-m-d H:i:s");
+		$where = $castar->getAdapter()->quoteInto('date_fin_castar <= ?',  $date);
+		$nb = $castar->delete($where);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - Ok - nb:".$nb." - where:".$where);
+		$retour = " EltRune:nb delete:".$nb. " date:".$date;
+		
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeCastar - exit -");
+		return $retour;
+	}
+	
+	private function purgeElementEquipement() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeElementEquipement - enter -");
+		
+		Zend_Loader::loadClass('ElementEquipement'); 
+		
+		$retour = "";
+		$elementEquipement = new ElementEquipement();
+		
+		$date = date("Y-m-d H:i:s");
+		$where = $elementEquipement->getAdapter()->quoteInto('date_fin_element_equipement <= ?',  $date);
+		$nb = $elementEquipement->delete($where);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - Ok - nb:".$nb." - where:".$where);
+		$retour = " EltEquipement:nb delete:".$nb. " date:".$date;
+		
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeElementEquipement - exit -");
 		return $retour;
 	}
 }

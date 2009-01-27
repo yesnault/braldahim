@@ -47,6 +47,12 @@ class ElementPartieplante extends Zend_Db_Table {
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
+		$dateCreation = date("Y-m-d H:i:s");
+		$nbJours = Bral_Util_De::get_2d10();
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+		$data["date_fin_element_partieplante"] = $dateFin;
+		$dataUpdate["date_fin_element_partieplante"] = $dateFin;
+		
 		if (count($resultat) == 0) { // insert
 			$this->insert($data);
 		} else { // update

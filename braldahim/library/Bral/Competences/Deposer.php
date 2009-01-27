@@ -219,6 +219,10 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		$labanEquipementTable->delete($where);
 		unset($labanEquipementTable);
 		
+		$dateCreation = date("Y-m-d H:i:s");
+		$nbJours = Bral_Util_De::get_2d10();
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+		
 		$elementEquipementTable = new ElementEquipement();
 		$data = array (
 			"id_element_equipement" => $equipement["id_equipement"],
@@ -227,6 +231,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 			"id_fk_recette_element_equipement" => $equipement["id_fk_recette"],
 			"nb_runes_element_equipement" => $equipement["nb_runes"],
 			"id_fk_mot_runique_element_equipement" => $equipement["id_fk_mot_runique"],
+			"date_fin_element_equipement" => $dateFin,
 		);
 		$elementEquipementTable->insert($data);
 		unset($elementEquipementTable);
@@ -327,6 +332,10 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		$labanPotionTable->delete($where);
 		unset($labanPotionTable);
 		
+		$dateCreation = date("Y-m-d H:i:s");
+		$nbJours = Bral_Util_De::get_2d10();
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+		
 		$elementPotionTable = new ElementPotion();
 		$data = array (
 			"id_element_potion" => $potion["id_potion"],
@@ -335,6 +344,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 			"niveau_element_potion" => $potion["niveau"],
 			"id_fk_type_qualite_element_potion" => $potion["id_fk_type_qualite"],
 			"id_fk_type_element_potion" => $potion["id_fk_type"],
+			"date_fin_element_potion" => $dateFin,
 		);
 		$elementPotionTable->insert($data);
 		unset($elementPotionTable);

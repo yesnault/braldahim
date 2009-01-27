@@ -79,6 +79,10 @@ class Bral_Util_De {
 		return $n;
 	}
 	
+	public static function get_2d10() {
+		return self::getLanceDeSpecifique(2, 1, 10);
+	}
+	
 	public static function getLanceDeSpecifique($n, $a, $b) {
 		$retour = 0;
 		for ($i = 1; $i <= $n; $i++) {
