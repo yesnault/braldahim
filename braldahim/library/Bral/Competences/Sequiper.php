@@ -247,12 +247,6 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 	}
 	
 	private function calculSequiper($equipement, $destination) {
-		$deuxMains = true;
-		$mainGauche = true;
-		$mainDroite = true;
-		$main = true;
-		$nbMain = 0;
-
 		if ($destination == "porte") {
 			// mettre dans le laban présent à la place de la destination
 			if ($this->equipementPorte != null) {
