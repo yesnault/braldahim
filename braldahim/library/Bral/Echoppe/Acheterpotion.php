@@ -131,6 +131,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			"id_potion" => $this->potion["id_echoppe_potion"],
 			"nom" => $this->potion["nom_type_potion"],
 			"qualite" => $this->potion["nom_type_qualite"],
+			"id_type_potion" => $this->potion["id_type_potion"],
 			"niveau" => $this->potion["niveau_echoppe_potion"],
 			"caracteristique" => $this->potion["caract_type_potion"],
 			"bm_type" => $this->potion["bm_type_potion"],
@@ -393,6 +394,6 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_equipement", "box_echoppe", "box_echoppes", "box_laban", "box_charrette", "box_evenements");
+		return array("box_profil", "box_echoppe", "box_echoppes", "box_laban", "box_charrette", "box_evenements");
 	}
 }

@@ -78,16 +78,19 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				$boxToRefresh = $action->getListBoxRefresh();
 				for ($i=0; $i<count($boxToRefresh); $i++) {
 					$xml_entry = new Bral_Xml_Entry();
-					if ($boxToRefresh[$i] == "box_vue" || $boxToRefresh[$i] == "box_laban") { 
+					if ($boxToRefresh[$i] == "box_vue" || $boxToRefresh[$i] == "box_laban" || $boxToRefresh[$i] == "box_echoppes") { 
 						$xml_entry->set_type("load_box");
-						$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, false);
+						//$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, false);
+						//$nomInterne = $c->getNomInterne();
+						$nomInterne = $boxToRefresh[$i];
 						$xml_entry->set_data(null);
 					} else {
 						$xml_entry->set_type("display");
 						$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, true);
 						$xml_entry->set_data($c->render());
+						$nomInterne = $c->getNomInterne();
 					}
-					$xml_entry->set_valeur($c->getNomInterne());
+					$xml_entry->set_valeur($nomInterne);
 					$this->xml_response->add_entry($xml_entry);
 				}
 				if ($action->getIdEchoppeCourante() !== false) {
