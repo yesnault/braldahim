@@ -68,6 +68,9 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			foreach($echoppePotionMinerai as $r) {
 				if ($r["id_fk_echoppe_potion_minerai"] == $this->potion["id_echoppe_potion"]) {
 					$possible = false;
+					if ($r["prix_echoppe_potion_minerai"] == 0) {
+						$possible = true;
+					}
 					foreach ($minerais as $m) {
 						if ($m["nom_systeme_type_minerai"] == $r["nom_systeme_type_minerai"] 
 						    && $r["prix_echoppe_potion_minerai"] <= $m["quantite_brut_laban_minerai"]) {
@@ -97,6 +100,9 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			foreach($echoppePotionPartiePlante as $a) {
 				if ($a["id_fk_echoppe_potion_partieplante"] == $this->potion["id_echoppe_potion"]) {
 					$possible = false;
+					if ($a["prix_echoppe_potion_partieplante"] == 0) {
+						$possible = true;
+					}
 					foreach ($partiePlantes as $p) {
 						if ($p["nom_systeme_type_partieplante"] == $a["nom_systeme_type_partieplante"] 
 							&& $p["nom_systeme_type_plante"] == $a["nom_systeme_type_plante"] 

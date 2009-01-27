@@ -87,6 +87,9 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			foreach($echoppeEquipementMinerai as $r) {
 				if ($r["id_fk_echoppe_equipement_minerai"] == $this->equipement["id_echoppe_equipement"]) {
 					$possible = false;
+					if ($r["prix_echoppe_equipement_minerai"] == 0) {
+						$possible = true;
+					}
 					foreach ($minerais as $m) {
 						if ($m["nom_systeme_type_minerai"] == $r["nom_systeme_type_minerai"] 
 						    && $r["prix_echoppe_equipement_minerai"] <= $m["quantite_brut_laban_minerai"]) {
@@ -116,6 +119,9 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			foreach($echoppeEquipementPartiePlante as $a) {
 				if ($a["id_fk_echoppe_equipement_partieplante"] == $this->equipement["id_echoppe_equipement"]) {
 					$possible = false;
+					if ($a["prix_echoppe_equipement_partieplante"] == 0) {
+						$possible = true;
+					}
 					foreach ($partiePlantes as $p) {
 						if ($p["nom_systeme_type_partieplante"] == $a["nom_systeme_type_partieplante"] 
 							&& $p["nom_systeme_type_plante"] == $a["nom_systeme_type_plante"] 
