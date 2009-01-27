@@ -23,6 +23,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass('ReferentielMonstre');
 		Zend_Loader::loadClass('CreationMonstres'); 
 		Zend_Loader::loadClass('Ville'); 
+		Zend_Loader::loadClass("Palissade");
 		
 		$retour = null;
 		
@@ -244,6 +245,24 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$x_monstre = $x_monstre + $enVille;
 		$y_monstre = $y_monstre + $enVille;
 
+		$palissadeTable = new Palissade();
+		$surPalissade = true;
+		while($surPalissade) {
+			$nb = $palissadeTable->countCase($x_monstre, $y_monstre);
+			if ($nb < 1) {
+				$surPalissade = false;
+			} else {
+				$de = Bral_Util_De::get_1d2();
+				if ($de == 1) {
+					$x_monstre = $x_monstre+$de;
+					$y_monstre = $y_monstre+$de;
+				} else {
+					$x_monstre = $x_monstre-$de;
+					$y_monstre = $y_monstre-$de;
+				}
+			}
+		}
+		
 		// NiveauSuivantPX = NiveauSuivant x 3 + debutNiveauPrecedentPx
 		$pi_min = 0;
 		for ($n = 0; $n <=$niveau_monstre; $n++) {

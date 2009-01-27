@@ -38,6 +38,18 @@ class Palissade extends Zend_Db_Table {
 		$nombre = $resultat[0]["nombre"];
 		return $nombre;
 	}
+	
+	function countCase($x, $y) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('palissade', 'count(id_palissade) as nombre')
+		->where('x_palissade = ?',$x)
+		->where('y_palissade = ?',$y);
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
+	}
 
 	function selectVue($x_min, $y_min, $x_max, $y_max) {
 		$db = $this->getAdapter();
