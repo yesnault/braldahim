@@ -429,7 +429,7 @@ Consultez vos événements pour plus de détails.";
 	 * et ajout dans la table cadavre
 	 * Drop Rune
 	 */
-	public function mortMonstreDb($id_monstre, $effetMotD = null, $effetMotH = null) {
+	public function mortMonstreDb($id_monstre, $effetMotD, $effetMotH, $niveauHobbit) {
 	
 		if ($id_monstre == null || (int)$id_monstre<=0 ) {
 			throw new Zend_Exception(get_class($this)."::mortMonstreDb id_monstre inconnu:".$id_monstre);
@@ -461,7 +461,7 @@ Consultez vos événements pour plus de détails.";
 		$monstreTable->delete($where);
 		
 		self::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"]);
-		$this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"]);
+		$this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $effetMotH, $niveauHobbit);
 	}
 	
 	public static function dropRune($x, $y, $niveau, $effetMotD = 0) {
@@ -516,15 +516,18 @@ Consultez vos événements pour plus de détails.";
 		$statsRunes->insertOrUpdate($dataRunes);
 	}
 	
-	private function dropCastars($x, $y, $niveau, $effetMotH = null) {
+	private function dropCastars($x, $y, $niveauMonstre, $effetMotH, $niveauHobbit) {
 		Zend_Loader::loadClass("Castar");
 		
-		$nbCastars = 10*$niveau + Bral_Util_De::get_1d5();
-		
+		$nbCastars = 10 * $niveauMonstre + Bral_Util_De::get_1d5();
 		if ($effetMotH == true) { 
 			$nbCastars = $nbCastars * 2;
 		}
-			
+		
+		if ((10 + 2 * ($niveauMonstre - $niveauHobbit) + $niveauMonstre) <= 0) {
+			$nbCastars = $nbCastars / 2;
+		}
+		
 		$castarTable = new Castar();
 		$data = array(
 			"x_castar"  => $x,

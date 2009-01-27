@@ -438,7 +438,7 @@ Consultez vos événements pour plus de détails.";
 
 				$retourAttaque["mort"] = true;
 				$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
-				$vieMonstre->mortMonstreDb($cible["id_cible"], $effetD, $effetH);
+				$vieMonstre->mortMonstreDb($cible["id_cible"], $effetD, $effetH, $hobbitAttaquant->niveau_hobbit);
 			} else {
 				$monstre["agilite_bm_monstre"] = $monstre["agilite_bm_monstre"] - $monstre["niveau_monstre"];
 				$retourAttaque["fragilisee"] = true;
