@@ -75,94 +75,30 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			if ($vue < $this->view->charge_nb_cases) {
 				$this->view->charge_nb_cases = $vue;
 			}
-			
+		
+			Zend_Loader::loadClass("Bral_Util_Dijkstra");
+			$dijkstra = new Bral_Util_Dijkstra();
+			$dijkstra->calcul($this->view->charge_nb_cases, $this->view->user->x_hobbit, $this->view->user->y_hobbit); 
+		
 			$x_min = $this->view->user->x_hobbit - $this->view->charge_nb_cases;
 			$x_max = $this->view->user->x_hobbit + $this->view->charge_nb_cases;
 			$y_min = $this->view->user->y_hobbit - $this->view->charge_nb_cases;
 			$y_max = $this->view->user->y_hobbit + $this->view->charge_nb_cases;
 			
 			$tabValide = null;
+			$numero = -1;
 			for ($i = $x_min ; $i <= $x_max ; $i++) {
-				$tabValide[$i][$this->view->user->y_hobbit] = true;
 				for ($j = $y_min ; $j <= $y_max ; $j++) {
-					if (!isset($tabValide[$i][$j])) {
+					$numero++;
+					$tabValide[$i][$j] = true;
+					if ($dijkstra->getDistance($numero) > $this->view->charge_nb_cases) {
 						$tabValide[$i][$j] = false;
 					}
-					$tabValide[$this->view->user->x_hobbit][$j] = true;
 				}
-			}
-			
-			for ($i = 0 ; $i <= $this->view->charge_nb_cases ; $i++) {
-				$xdiagonale_bas_haut = $x_min + $i;
-				$xdiagonale_haut_bas = $x_max - $i;
-				$ydiagonale_bas_haut = $y_min + $i;
-				$ydiagonale_haut_bas = $y_max - $i;
-				$tabValide[$xdiagonale_bas_haut][$ydiagonale_bas_haut] = true;
-				$tabValide[$xdiagonale_haut_bas][$ydiagonale_haut_bas] = true;
-				$tabValide[$xdiagonale_bas_haut][$ydiagonale_haut_bas] = true;
-				$tabValide[$xdiagonale_haut_bas][$ydiagonale_bas_haut] = true;
 			}
 			
 			// On ne peut pas charger sur une cible qui est sur sa propre case.
 			$tabValide[$this->view->user->x_hobbit][$this->view->user->y_hobbit] = false;
-			
-			$palissadeTable = new Palissade();
-			$palissades = $palissadeTable->selectVue($x_min, $y_min, $x_max, $y_max);
-			
-			foreach($palissades as $p) {
-				$tabValide[$p["x_palissade"]][$p["y_palissade"]] = false;
-				if ($p["x_palissade"] == $this->view->user->x_hobbit) {
-					if ($p["x_palissade"] < $this->view->user->x_hobbit) {
-						for ($i = $y_min; $i<= $p["y_palissade"]; $i++) {
-							$tabValide[$p["x_palissade"]][$i] = false;
-						}
-					} else {
-						for ($i = $y_max; $i>= $p["y_palissade"]; $i--) {
-							$tabValide[$p["x_palissade"]][$i] = false;
-						}
-					}
-				}
-				if ($p["y_palissade"] == $this->view->user->y_hobbit) {
-					if ($p["y_palissade"] < $this->view->user->x_hobbit) {
-						for ($i = $x_min; $i<= $p["x_palissade"]; $i++) {
-							$tabValide[$i][$p["x_palissade"]] = false;
-						}
-					} else {
-						for ($i = $x_max; $i>= $p["x_palissade"]; $i--) {
-							$tabValide[$i][$p["y_palissade"]] = false;
-						}
-					}
-				}
-				if ($p["x_palissade"] <= $this->view->user->x_hobbit && 
-					$p["y_palissade"] >= $this->view->user->y_hobbit) {
-					for ($i = $x_min; $i<= $p["x_palissade"]; $i++) {
-						for ($j = $y_max; $j>= $p["y_palissade"]; $j--) {
-								$tabValide[$i][$j] = false;
-						}
-					}
-				} elseif ($p["x_palissade"] >= $this->view->user->x_hobbit && 
-						  $p["y_palissade"] >= $this->view->user->y_hobbit) {
-	  				for ($i = $x_max; $i>= $p["x_palissade"]; $i--) {
-						for ($j = $y_max; $j>= $p["y_palissade"]; $j--) {
-								$tabValide[$i][$j] = false;
-						}
-					}
-				} elseif ($p["x_palissade"] <= $this->view->user->x_hobbit && 
-						  $p["y_palissade"] <= $this->view->user->y_hobbit) {
-	  				for ($i = $x_min; $i<= $p["x_palissade"]; $i++) {
-						for ($j = $y_min; $j<= $p["y_palissade"]; $j++) {
-								$tabValide[$i][$j] = false;
-						}
-					}
-				} elseif ($p["x_palissade"] >= $this->view->user->x_hobbit && 
-						  $p["y_palissade"] <= $this->view->user->y_hobbit) {
-	  				for ($i = $x_max; $i>= $p["x_palissade"]; $i--) {
-						for ($j = $y_min; $j<= $p["y_palissade"]; $j++) {
-								$tabValide[$i][$j] = false;
-						}
-					}
-				}
-			}
 			
 			$tabHobbits = null;
 			$tabMonstres = null;
