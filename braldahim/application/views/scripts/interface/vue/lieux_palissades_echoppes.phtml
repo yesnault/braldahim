@@ -62,10 +62,8 @@ endif; ?>
     
 <? if ($textLieu != "" ) :?>
 	<span <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
-		<? if ($type_lieu == "mairie") : ?>
-			<img src='/public/styles/braldahim_defaut/images/vue/batiment_mairie.png' />
-		<? elseif ($type_lieu == "hopital") : ?>
-			<img src='/public/styles/braldahim_defaut/images/vue/batiment_hopital.png' />
+		<? if ($type_lieu != "") : ?>
+			<img src='/public/styles/braldahim_defaut/images/vue/batiments/<?=$type_lieu?>.png' />
 		<? else: ?>
 			<img src='/public/styles/braldahim_defaut/images/vue/batiment.png' />
 		<? endif; ?>
