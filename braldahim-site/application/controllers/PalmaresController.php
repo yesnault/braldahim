@@ -62,9 +62,9 @@ class PalmaresController extends Zend_Controller_Action {
 		$this->render("index");
 	}
 
-	function supershobbitsAction() {
+	function superhobbitsAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesSupershobbits($this->_request, $this->view), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesSuperhobbits($this->_request, $this->view), "boite_a");
 		$this->prepareCommun();
 		$this->render("index");
 	}
@@ -179,7 +179,7 @@ class PalmaresController extends Zend_Controller_Action {
 		$selection[] = array("nom" => "Morts", "url" => "morts");
 		$selection[] = array("nom" => "Expérience", "url" => "experience");
 		$selection[] = array("nom" => "Monstres", "url" => "monstres");
-		$selection[] = array("nom" => "Supers Hobbits", "url" => "supershobbits");
+		$selection[] = array("nom" => "Super Hobbits", "url" => "superhobbits");
 		$this->view->selection = $selection;
 		
 		$selectionRecolteurs = null;

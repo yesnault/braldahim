@@ -10,18 +10,18 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Palmares_Supershobbits extends Bral_Palmares_Box {
+class Bral_Palmares_Superhobbits extends Bral_Palmares_Box {
 
 	function getTitreOnglet() {
-		return "Supers Hobbits";
+		return "Super Hobbits";
 	}
 	
 	function getNomInterne() {
-		return "box_onglet_supershobbits";		
+		return "box_onglet_superhobbits";		
 	}
 	
 	function getNomClasse() {
-		return "supershobbits";		
+		return "superhobbits";		
 	}
 	
 	function setDisplay($display) {
@@ -32,7 +32,7 @@ class Bral_Palmares_Supershobbits extends Bral_Palmares_Box {
 		$this->view->nom_interne = $this->getNomInterne();
 		$this->view->nom_systeme = $this->getNomClasse();
 		$this->prepare();
-		return $this->view->render("palmares/supershobbits.phtml");
+		return $this->view->render("palmares/superhobbits.phtml");
 	}
 	
 	private function prepare() {
@@ -40,6 +40,10 @@ class Bral_Palmares_Supershobbits extends Bral_Palmares_Box {
 		$tabHobbits = null;
 		$hobbitTable = new Hobbit();
 		$this->view->niveaux = $hobbitTable->findDistinctNiveaux();
+		
+		if ($this->view->filtre == -1) {
+			$this->view->filtre = $this->view->niveaux[0]["niveau"];
+		}
 		
 		$hobbit = $hobbitTable->findByNiveauAndCaracteristique($this->view->filtre, "force");
 		$tabHobbits["Force"]["nombre"] = $hobbit[0]["nombre"];
