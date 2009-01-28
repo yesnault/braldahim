@@ -38,6 +38,7 @@ endif; ?>
 	    
 <?php if ($case["n_echoppes"] > 0) :
 	$textEchoppe = "<br>&Eacute;choppe : <br>";
+	$nomSystemeEchoppe = "";
 	foreach($case["echoppes"] as $c) {
 		if ($c["nom_metier"]{0} == 'A') : $d="d\'"; else: $d="de "; endif;
 		if ($c["nom_echoppe"] != null && $c["nom_echoppe"] != "") :
@@ -47,6 +48,7 @@ endif; ?>
 		$textEchoppe .= addslashes(htmlspecialchars($c["prenom_hobbit"]))." ".addslashes(htmlspecialchars($c["nom_hobbit"])).", n&deg; ".$c["id_hobbit"];
       	$textEchoppe .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$c["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
       	$textEchoppe .= "<br />";
+      	$nomSystemeEchoppe = $c["nom_systeme_metier"];
 	}
 	$s = "";
 	if ($case["n_echoppes"] > 1) {
@@ -70,7 +72,7 @@ endif; ?>
 	</span>
 <? elseif ($textEchoppe != "") : ?>
 	<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
-		<img src='/public/styles/braldahim_defaut/images/vue/echoppe.png' />
+		<img src='/public/styles/braldahim_defaut/images/vue/echoppes/<?=$nomSystemeEchoppe?>.png' />
 	</span>
 <? elseif ($textPalissade != "") : ?>
 	<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
