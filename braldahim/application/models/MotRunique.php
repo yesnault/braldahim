@@ -17,11 +17,9 @@ class MotRunique extends Zend_Db_Table {
 	function findByIdTypePieceAndRunes($id_fk_type_piece, $tab_runes) {
 		
 		$where = "";
-		$indice = 0;
 		if ($tab_runes != null && count($tab_runes) > 0) {
 			foreach($tab_runes as $k => $v) {
-				$indice++; 
-				$where .= " AND id_fk_type_rune_".$indice."_mot_runique = ".$v["id_fk_type_rune_laban_rune"];
+				$where .= " AND id_fk_type_rune_".$k."_mot_runique = ".$v["id_fk_type_rune_laban_rune"];
 			}
 		}
 			

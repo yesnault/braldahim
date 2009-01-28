@@ -95,6 +95,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 						"nom_type_rune" => $l["nom_type_rune"],
 						"image_type_rune" => $l["image_type_rune"],
 						"effet_type_rune" => $l["effet_type_rune"],
+						"id_rune_laban_rune" => $l["id_rune_laban_rune"],
 					);
 				}
 			}
@@ -143,9 +144,9 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			$trouve = false;
 			foreach($tmp as $k => $r) {
 				if ((int)$u == $k) {
-					$tabRunes[$k] = $r;
-					$trouve = true;
 					$nb++;
+					$tabRunes[$nb] = $r;
+					$trouve = true;
 					break;
 				}
 			}
@@ -196,14 +197,14 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			$ordre++;
 			$data = array(
 				'id_equipement_rune' => $this->view->equipementCourant["id_laban_equipement"],
-				'id_rune_equipement_rune' => $k,
+				'id_rune_equipement_rune' => $v["id_rune_laban_rune"],
 				'id_fk_type_rune_equipement_rune' => $v["id_fk_type_rune_laban_rune"],
 				'ordre_equipement_rune' => $ordre
 			);
 			$equipementRuneTable->insert($data);
 			
 			// Suppression des runes du laban
-			$where = "id_rune_laban_rune = ".$k;
+			$where = "id_rune_laban_rune = ".$v["id_rune_laban_rune"];
 			$labanRunes = $labanRuneTable->delete($where);
 		}
 		
