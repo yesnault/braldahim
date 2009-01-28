@@ -44,7 +44,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 
 		$this->modification_tour = false;
 		$t = Bral_Box_Factory::getTour($this->_request, $this->view, false);
-		if ($t->activer()) {
+		if ($t->modificationTour()) {
 			$xml_entry = new Bral_Xml_Entry();
 			$xml_entry->set_type("action");
 			$xml_entry->set_valeur("goto");
