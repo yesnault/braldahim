@@ -5,6 +5,7 @@
  Pour <?=$this->paUtilisationLieu ?> PA et <?=$this->coutCastars?> castars, le joaillier <br />
   vous propose de sertir une pi&egrave;ce d'&eacute;quipement, pr&eacute;sente dans votre laban.<br /><br />
  
+ <? if ($this->achatPossibleCastars == true) :?>
  	<? if ($this->nbEquipementsLaban > 0): ?>
  		&Eacute;quipement:<br />
 		<select name="valeur_1" id="valeur_1" onChange="_get_('/lieux/doaction?caction=ask_lieu_joaillier&id_equipement='+this.value);">
@@ -106,10 +107,11 @@
 	
  </div> 
 </form>
+<? endif;?>
 <br />
 
 <? if ($this->achatPossibleCastars !== true) :?>
-Vous n'avez pas assez de castars.<br>
+Vous n'avez pas assez de castars.<br><br>
 <? endif; ?>
 
 <? if ($this->utilisationPaPossible !== true) :?>

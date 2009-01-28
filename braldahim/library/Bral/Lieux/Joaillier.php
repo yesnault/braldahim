@@ -45,6 +45,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 					"niveau" => $e["niveau_recette_equipement"],
 					"nb_runes" => $e["nb_runes_laban_equipement"],
 					"id_fk_type_piece" => $e["id_fk_type_piece_type_equipement"],
+					"nom_systeme_type_piece" => $e["nom_systeme_type_piece"],
 					"selected" => $selected
 				);
 				
@@ -182,7 +183,13 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 		$id_fk_mot_runique_laban_equipement = null;
 		$nom_mot_runique = null;
 		
-		$motsRowset = $motRuniqueTable->findByIdTypePieceAndRunes($this->view->equipementCourant["id_fk_type_piece"], $tabRunes);
+		if ($this->view->equipementCourant["nom_systeme_type_piece"] == "arme_tir") { // si c'est une "arme de tir", on prend les mots runiques de "arme"
+			$nomSystemeTypePiece = "arme";
+		} else {
+			$nomSystemeTypePiece = $this->view->equipementCourant["nom_systeme_type_piece"];	
+		}
+		
+		$motsRowset = $motRuniqueTable->findByIdTypePieceAndRunes($nomSystemeTypePiece, $tabRunes);
 		if (count($motsRowset) > 0) {
 			foreach ($motsRowset as $m) {
 				$id_fk_mot_runique_laban_equipement = $m["id_mot_runique"];

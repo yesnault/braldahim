@@ -14,11 +14,11 @@ class MotRunique extends Zend_Db_Table {
 	protected $_name = 'mot_runique';
 	protected $_primary = array('id_mot_runique');
 
-	function findByIdTypePieceAndRunes($id_fk_type_piece, $tab_runes) {
+	function findByIdTypePieceAndRunes($nomSystemeTypePiece, $tabRunes) {
 		
 		$where = "";
-		if ($tab_runes != null && count($tab_runes) > 0) {
-			foreach($tab_runes as $k => $v) {
+		if ($tabRunes != null && count($tabRunes) > 0) {
+			foreach($tabRunes as $k => $v) {
 				$where .= " AND id_fk_type_rune_".$k."_mot_runique = ".$v["id_fk_type_rune_laban_rune"];
 			}
 		}
@@ -26,7 +26,9 @@ class MotRunique extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('mot_runique', '*')
-		->where('id_fk_type_piece_mot_runique = '.intval($id_fk_type_piece). $where);
+		->from('type_piece', null)
+		->where('id_fk_type_piece_mot_runique = id_type_piece')
+		->where("nom_systeme_type_piece like '".$nomSystemeTypePiece."'".$where);
 		
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
