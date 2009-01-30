@@ -74,11 +74,19 @@
 		   	Actuellement :
 		  	 	<?=$this->tabMetierCourant["nom"] ?>
 			<br /><br />
-		   	<? if (count($this->tabMetiers) == 1): ?>
-		   		Il pratique &eacute;galement le m&eacute;tier suivant : <br />
-		   	<? elseif (count($this->tabMetiers) > 1): ?>
-		   		Il pratique &eacute;galement les m&eacute;tiers suivants : <br />
-		   	<? endif; ?>	
+		   	<? if (count($this->tabMetiers) >= 1): ?>
+		   		<? if ($this->hobbit["sexe_hobbit"] == "feminin") : ?>
+		   		Elle
+		   		<? else: ?>
+		   		Il
+		   		<? endif; ?>
+		   		 pratique &eacute;galement 
+			   	<? if (count($this->tabMetiers) > 1): ?>
+			   		les m&eacute;tiers suivants : <br />
+			   	<? else: ?>
+			   		 le m&eacute;tier suivant : <br />
+			   	<? endif; ?>	
+		   	<? endif;?>
 		   	<? if (count($this->tabMetiers) >= 1): ?>
 				<?
 				$liste = "";
