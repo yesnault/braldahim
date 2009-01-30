@@ -133,7 +133,7 @@ class Bral_Palmares_Factory {
 		
 		$retour = null;
 		$retour[] = new Bral_Palmares_Superhobbits($request, $view, false, -1);
-		$view->titre = "Supers Hobbits";
+		$view->titre = "Super Hobbits";
 		return $retour;
 	}
 	
