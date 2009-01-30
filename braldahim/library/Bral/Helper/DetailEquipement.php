@@ -105,7 +105,7 @@ class Bral_Helper_DetailEquipement {
      	$text .= count($e["runes"]) ." rune$s sertie$s "."<br />";
      	if (count($e["runes"]) > 0) {
 	    	 foreach($e["runes"] as $r) {
-	     	 	$text .= "<img src=\'/public/images/runes/".$r["image_type_rune"]."\'  class=\'rune\' title=\'".$r["nom_type_rune"]." :".htmlspecialchars(addslashes($r["effet_type_rune"]))."\' n&deg;".$r["id_rune_equipement_rune"]." alt=\'".$r["nom_type_rune"]."\' n&deg;".$r["id_rune_equipement_rune"]."  />";
+	     	 	$text .= "<img src=\'/public/images/runes/".$r["image_type_rune"]."\'  class=\'rune\' title=\'".$r["nom_type_rune"]." :".str_replace("'", "&#180;", htmlspecialchars(addslashes($r["effet_type_rune"])))."\' n&deg;".$r["id_rune_equipement_rune"]." alt=\'".$r["nom_type_rune"]."\' n&deg;".$r["id_rune_equipement_rune"]."  />";
 	     	 }
 	     	 if ($e["suffixe"] != null && $e["suffixe"] != "") {
 	     	 	$text .= "<br />Mot runique associ&eacute; &agrave; ces runes : ".htmlspecialchars(addslashes($e["suffixe"]));
