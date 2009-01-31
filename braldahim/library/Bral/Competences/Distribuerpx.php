@@ -102,7 +102,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 			$statsExperience->insertOrUpdate($dataStats);
 		
 			if ($t["id_hobbit"] == $this->view->user->id_hobbit) {
-				$this->view->user->px_perso_hobbit = $this->view->user->px_perso_hobbit + $hobbit->px_perso_hobbit;
+				$this->view->user->px_perso_hobbit = $hobbit->px_perso_hobbit;
 			}
 			$tab["id_hobbit"] = $t["id_hobbit"];
 			$tab["niveau_hobbit"] = $t["niveau_hobbit"];
