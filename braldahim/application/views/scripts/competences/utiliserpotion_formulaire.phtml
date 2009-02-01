@@ -11,8 +11,12 @@
 				 niveau: <?=$p["niveau"] ?></option>
 			<? endforeach; ?>
 		</select><br /><br />
-			
- 		Pour <?=$this->nb_pa?> PA, vous pouvez utiliser la potion choisie sur : <br /><br />
+		
+		<? if ($this->nMonstres > 0 || $this->nHobbits > 0): ?>
+ 			Pour <?=$this->nb_pa?> PA, vous pouvez utiliser la potion choisie sur : <br /><br />
+ 		<? else: ?>
+ 			Aucune cible possible sur votre case.
+ 		<? endif;?>
  		
 		<? if ($this->nMonstres > 0): ?>
 		Un monstre<br />
