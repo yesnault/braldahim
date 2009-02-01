@@ -40,7 +40,7 @@ class Bral_Palmares_Combattantspvpniveau extends Bral_Palmares_Box {
 		$mdate = $this->getTabDateFiltre();
 		$evenementTable = new Evenement();
 		$type = $this->view->config->game->evenements->type->killhobbit;
-		$rowset = $evenementTable->findByNiveau($mdate["dateDebut"], $mdate["dateFin"], $type);
+		$rowset = $evenementTable->findByNiveau($mdate["dateDebut"], $mdate["dateFin"], $type, true);
 		$this->view->niveaux = $rowset;
 	}
 }

@@ -40,7 +40,7 @@ class Bral_Palmares_Mortstop10 extends Bral_Palmares_Box {
 		$mdate = $this->getTabDateFiltre();
 		$evenementTable = new Evenement();
 		$type = $this->view->config->game->evenements->type->mort;
-		$rowset = $evenementTable->findTop10($mdate["dateDebut"], $mdate["dateFin"], $type);
+		$rowset = $evenementTable->findTop10($mdate["dateDebut"], $mdate["dateFin"], $type, true);
 		$this->view->top10 = $rowset;
 	}
 }

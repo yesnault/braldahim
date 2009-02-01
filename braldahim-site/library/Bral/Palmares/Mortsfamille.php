@@ -40,7 +40,7 @@ class Bral_Palmares_Mortsfamille extends Bral_Palmares_Box {
 		$mdate = $this->getTabDateFiltre();
 		$evenementTable = new Evenement();
 		$type = $this->view->config->game->evenements->type->mort;
-		$rowset = $evenementTable->findByFamille($mdate["dateDebut"], $mdate["dateFin"], $type);
+		$rowset = $evenementTable->findByFamille($mdate["dateDebut"], $mdate["dateFin"], $type, true);
 		$this->view->familles = $rowset;
 	}
 }
