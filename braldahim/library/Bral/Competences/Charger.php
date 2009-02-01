@@ -42,15 +42,21 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Palissade');
 		Zend_Loader::loadClass('Bral_Util_Attaque');
 		Zend_Loader::loadClass("HobbitEquipement");
+		Zend_Loader::loadClass("Charrette");
+		
+		$charretteTable = new Charrette();
+		$nombreCharrette = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
 		
 		$armeTirPortee = false;
 		$hobbitEquipement = new HobbitEquipement();
 		$equipementPorteRowset = $hobbitEquipement->findByTypePiece($this->view->user->id_hobbit,"arme_tir");
 		
-		if (count($equipementPorteRowset) > 0){
+		$this->view->possedeCharrette = false;
+		if ($nombreCharrette > 0) {
+			$this->view->possedeCharrette = true;
+		} else if (count($equipementPorteRowset) > 0){
 			$armeTirPortee = true;
-		}
-		else{
+		} else {
 			
 			$this->view->charge_nb_cases = floor($this->view->user->vigueur_base_hobbit / 3) + 1;
 			if ($this->view->charge_nb_cases > 6) {

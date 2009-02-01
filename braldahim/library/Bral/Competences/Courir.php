@@ -15,6 +15,10 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass('Palissade');
 		Zend_Loader::loadClass('Bral_Util_Commun');
+		Zend_Loader::loadClass("Charrette");
+		
+		$charretteTable = new Charrette();
+		$nombreCharrette = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
 		
 		/*
 		 * Si le hobbit n'a pas de PA, on ne fait aucun traitement
@@ -24,6 +28,13 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 			return;
 		}
 		
+		$this->view->possedeCharrette = false;
+		if ($nombreCharrette > 0) {
+			$this->view->possedeCharrette = true;
+			$this->view->courirPossible = false;
+			return;
+		}
+			
 		$this->view->estEngage = false;
 		if ($this->view->user->est_engage_hobbit == "oui") {
 			$this->view->courirPossible = false;

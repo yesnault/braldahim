@@ -1,7 +1,9 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
 
-<? if ($this->estEngage) : ?>
+<? if ($this->possedeCharrette == true) :?>
+ 	Vous ne pouvez pas courir avec une charrette !<br><br>
+<? elseif ($this->estEngage) : ?>
 	Vous &ecirc;tes actuellement engag&eacute;, vous ne pouvez pas courir...<br />
 <? else: ?>
 	Pour <?=$this->nb_pa ?> PA, vous pouvez courir jusqu'&agrave; <?=$this->distance ?> cases.<br />
