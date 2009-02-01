@@ -669,7 +669,7 @@ div.gridbox_braldahim table.hdr{
 }
 
 div.gridbox_braldahim table.hdr td {
-	border: 1px solid;
+	border: 0px solid;
 	border-color : #FDFDFD #93AFBA #93AFBA #FDFDFD;
 	background-color:transparent;
 	font-family:Tahoma;
@@ -688,17 +688,18 @@ div.gridbox_braldahim table.hdr .filter{
 	-moz-user-select:text;
 }
 div.gridbox_braldahim table.obj td {
-	border-width: 0px 1px 0px 1px;
-	border-left: 1px solid white;
-	border-right: 1px solid #D6D6D6;
+	border-width: 0px 1px 0px 0px;
+	border-left: 0px solid white;
+	border-right: 0px solid #791E1E;
 	font-family:Tahoma;
 	font-size:11px;
 	padding-right:4px;
 	padding-left:4px;
 }
 div.gridbox_braldahim table.obj{
-	border-bottom: 1px solid #D6D6D6;
+	border-bottom: 1px solid #791E1E;
 	background-color:#FADC9B;
+	border-top: 1px solid #791E1E;
 }
 div.gridbox_braldahim table.row20px tr td {
 	padding-right:4px;
