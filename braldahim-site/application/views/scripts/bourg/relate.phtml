@@ -1,33 +1,25 @@
-	<script  src="/public/scripts/dhtmlxGrid-2.0.0/codebase/dhtmlxcommon.js"></script>
-	<script  src="/public/scripts/dhtmlxGrid-2.0.0/codebase/dhtmlxgrid.js"></script>		
-	<script  src="/public/scripts/dhtmlxGrid-2.0.0/codebase/dhtmlxgridcell.js"></script>
-	<script  src="/public/scripts/dhtmlxGrid-2.0.0/codebase/ext/dhtmlxgrid_srnd.js"></script>
-	<script  src="/public/scripts/dhtmlxGrid-2.0.0/codebase/excells/dhtmlxgrid_excell_link.js"></script>
-	
-	<div id="mygrid_container" style="width:765px;height:250px;background-color:#E7C57B; align:center"></div> 
+<div id="mygrid_container" style="width:765px;height:250px;background-color:#E7C57B; align:center"></div> 
 <script>
-
-		gridQString = '/bourg/relatexml?anneeselect=<?=$this->anneeSelect?>&uid='+(new Date()).valueOf();
-		function sortGridOnServer(ind,gridObj,direct){
-		    mygrid.clearAll();
-		    murl = gridQString+(gridQString.indexOf("?")>=0?"&":"?")+"orderby="+ind+"&direct="+direct;
-		    mygrid.loadXML(murl);
-		    mygrid.setSortImgState(true,ind,direct);
-		    return false;
-		}
-		
-        mygrid = new dhtmlXGridObject('mygrid_container');
-        mygrid.setImagePath("/public/scripts/dhtmlxGrid-2.0.0/codebase/imgs/"); 
-        mygrid.setHeader("Date,Hobbit,Histoire...");
-        mygrid.setInitWidths("115,135,*");
-        mygrid.setColAlign("left,left,left");
-        mygrid.setColTypes("ro,link,txt");
-        mygrid.setSkin("braldahim");
-        mygrid.setColSorting("server,server");
-        mygrid.attachEvent("onBeforeSorting",sortGridOnServer);
-        mygrid.enableSmartRendering(true,100);
-        mygrid.init();
-        mygrid.loadXML(gridQString);
-        mygrid.setSortImgState(true,0,"des");
+	gridQString = '/bourg/relatexml?anneeselect=<?=$this->anneeSelect?>&uid='+(new Date()).valueOf();
+	function sortGridOnServer(ind,gridObj,direct){
+	    mygrid.clearAll();
+	    murl = gridQString+(gridQString.indexOf("?")>=0?"&":"?")+"orderby="+ind+"&direct="+direct;
+	    mygrid.loadXML(murl);
+	    mygrid.setSortImgState(true,ind,direct);
+	    return false;
+	}
+	
+	mygrid = new dhtmlXGridObject('mygrid_container');
+	mygrid.setImagePath("/public/scripts/dhtmlxGrid-2.0.0/codebase/imgs/"); 
+	mygrid.setHeader("Date,Hobbit,Histoire...");
+	mygrid.setInitWidths("115,135,*");
+	mygrid.setColAlign("left,left,left");
+	mygrid.setColTypes("ro,link,txt");
+	mygrid.setSkin("braldahim");
+	mygrid.setColSorting("server,server");
+	mygrid.attachEvent("onBeforeSorting",sortGridOnServer);
+	mygrid.enableSmartRendering(true,100);
+	mygrid.init();
+	mygrid.loadXML(gridQString);
+	mygrid.setSortImgState(true,0,"des");
 </script>
-

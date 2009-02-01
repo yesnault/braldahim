@@ -29,6 +29,7 @@ Zend_Loader :: loadClass("Bral_Palmares_Factory");
 Zend_Loader :: loadClass("Bral_Helper_Box");
 Zend_Loader :: loadClass("Bral_Util_BBParser");
 Zend_Loader :: loadClass("Bral_Util_ConvertDate");
+Zend_Loader :: loadClass("Bral_Util_Registre");
 
 // load configuration
 $config = new Zend_Config_Ini('./application/config.ini', 'general');

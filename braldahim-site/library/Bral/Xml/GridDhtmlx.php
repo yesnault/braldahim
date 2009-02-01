@@ -38,7 +38,7 @@ class Bral_Xml_GridDhtmlx {
 			echo "</rows>\n";
 			ob_flush();
 		} else {
-			echo "<rows><row id='-1'><cell></cell><cell> Aucun résultat</cell></row></rows>";
+			echo "<rows><row id='-1'><cell> Aucun résultat</cell></row></rows>";
 		}
 	}
 }

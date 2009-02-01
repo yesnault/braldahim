@@ -1,0 +1,42 @@
+<ul class="box_contenu1 textalic">
+
+Filtre par comtés: <select id="region" name="region" onChange="document.location.href = '/marcheequipement/?regionselect='+this.value+'&emplacementselect=<?=$this->emplacementSelect?>&uid='+(new Date()).valueOf()">
+	<? foreach($this->regions as $k => $e): ?>
+		<option value="<?=$k?>" <?if ($this->regionSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
+	<? endforeach;?>
+	</select>
+	<br><br>
+Filtre par emplacements: <select id="emplacement" name="emplacement" onChange="document.location.href = '/marcheequipement/?regionselect<?=$this->regionSelect?>&emplacementselect='+this.value+'&uid='+(new Date()).valueOf()">
+	<? foreach($this->emplacements as $k => $e): ?>
+		<option value="<?=$k?>" <?if ($this->emplacementSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
+	<? endforeach;?>
+	</select>
+<br><br>
+
+<div id="mygrid_container" style="width:765px;height:450px;background-color:#E7C57B; align:center"></div> 
+<script>
+	gridQString = '/marcheequipement/renderxml?regionselect=<?=$this->regionSelect?>&emplacementselect=<?=$this->emplacementSelect?>&uid='+(new Date()).valueOf();
+	function sortGridOnServer(ind,gridObj,direct){
+	    mygrid.clearAll();
+	    murl = gridQString+(gridQString.indexOf("?")>=0?"&":"?")+"orderby="+ind+"&direct="+direct;
+	    mygrid.loadXML(murl);
+	    mygrid.setSortImgState(true,ind,direct);
+	    return false;
+	}
+	
+	mygrid = new dhtmlXGridObject('mygrid_container');
+	mygrid.setImagePath("/public/scripts/dhtmlxGrid-2.0.0/codebase/imgs/"); 
+	mygrid.setHeader("Comtée,Date,Hobbit,Echoppe,Emplacement,Objet,Prix,Commentaire");
+	mygrid.setInitWidths("90,55,135,70,85,100,100,*");
+	mygrid.setColAlign("left,left,left,left,left,left");
+	mygrid.setColTypes("ro,ro,link,ro,ro,txt,ro");
+	mygrid.setSkin("braldahim");
+	mygrid.setColSorting("server,server,server,server,server");
+	mygrid.attachEvent("onBeforeSorting",sortGridOnServer);
+	mygrid.enableSmartRendering(true,100);
+	mygrid.init();
+	mygrid.loadXML(gridQString);
+	mygrid.setSortImgState(true,1,"des");
+</script>
+
+</ul>
