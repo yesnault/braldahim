@@ -44,7 +44,7 @@ class BourgController extends Zend_Controller_Action {
 		Zend_Layout::resetMvcInstance();
 		
 		Zend_Loader::loadClass('Evenement');
-		Zend_Loader::loadClass('Bral_Xml_DhtmlxGrid');
+		Zend_Loader::loadClass('Bral_Xml_GridDhtmlx');
 		
 		$f = new Zend_Filter_StripTags();
 		$posStart = intval($f->filter($this->_request->get("posStart")));
@@ -83,7 +83,7 @@ class BourgController extends Zend_Controller_Action {
 		$type = $this->view->config->game->evenements->type->evenement;
 		$rowset = $evenementTable->findByType($dateDebut, $dateFin, $type, $ordre, $posStart, $count);
 		
-		$dhtmlxGrid = new Bral_Xml_DhtmlxGrid();
+		$dhtmlxGrid = new Bral_Xml_GridDhtmlx();
 		
 		foreach($rowset as $r) {
 			$tab = null;

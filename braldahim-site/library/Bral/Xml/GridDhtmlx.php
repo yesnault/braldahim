@@ -10,7 +10,7 @@
  * $LastChangedRevision: $
  * $LastChangedBy: $
  */
-class Bral_Xml_DhtmlxGrid {
+class Bral_Xml_GridDhtmlx {
 	
 	var $rows = null;
 	

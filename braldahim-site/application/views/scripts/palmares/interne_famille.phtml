@@ -18,7 +18,7 @@
 		<tbody>
 	  	<? $i = 0; 
 	  	foreach($this->familles as $f): ?>
-	  		<? if (floor($f["moyenne"]) > 0) : ?>
+	  		<? if ($f["nombre"] > 0) : ?>
 		  		<tr class="table_liste<?=($i % 2);$i++; ?>">
 			  		<td class="table_liste">
 			  			<?=$f["nom"]?>
