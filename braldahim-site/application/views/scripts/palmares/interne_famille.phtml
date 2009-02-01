@@ -18,17 +18,19 @@
 		<tbody>
 	  	<? $i = 0; 
 	  	foreach($this->familles as $f): ?>
-	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
-		  		<td class="table_liste">
-		  			<?=$f["nom"]?>
-		  		</td>
-		  		<td class="table_liste">
-		  			<?=$f["nombre"]?>
-		  		</td>
-		  		<? if ($this->afficheMoyenne === true) : ?>
-	  				<td><?=floor($f["moyenne"])?></td>
-	  			<? endif;?>
-	  		</tr>
+	  		<? if (floor($f["moyenne"]) > 0) : ?>
+		  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+			  		<td class="table_liste">
+			  			<?=$f["nom"]?>
+			  		</td>
+			  		<td class="table_liste">
+			  			<?=$f["nombre"]?>
+			  		</td>
+			  		<? if ($this->afficheMoyenne === true) : ?>
+		  				<td><?=floor($f["moyenne"])?></td>
+		  			<? endif;?>
+		  		</tr>
+		  	<? endif; ?>
 	  	<? endforeach; ?>
 	  	</tbody>
    <? else: ?>
