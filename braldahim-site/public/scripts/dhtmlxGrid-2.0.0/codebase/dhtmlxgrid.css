@@ -669,7 +669,7 @@ div.gridbox_braldahim table.hdr{
 }
 
 div.gridbox_braldahim table.hdr td {
-	border: 0px solid;
+	border: 1px solid;
 	border-color : #FDFDFD #93AFBA #93AFBA #FDFDFD;
 	background-color:transparent;
 	font-family:Tahoma;
@@ -695,6 +695,7 @@ div.gridbox_braldahim table.obj td {
 	font-size:11px;
 	padding-right:4px;
 	padding-left:4px;
+	white-space : normal;
 }
 div.gridbox_braldahim table.obj{
 	border-bottom: 1px solid #791E1E;
@@ -704,6 +705,7 @@ div.gridbox_braldahim table.obj{
 div.gridbox_braldahim table.row20px tr td {
 	padding-right:4px;
 	padding-left:4px;
+	white-space : normal;
 }
 div.gridbox_braldahim .dhx_combo_edit{
   font-family:Tahoma;
@@ -718,6 +720,7 @@ div.gridbox_braldahim table.obj tr.rowselected td.cellselected, div.gridbox tabl
 }
 div.gridbox_braldahim .odd_braldahim{
 	background-color:#e7c57b;
+	white-space : normal;
 }
 div.gridbox_braldahim div.ftr td {
 	empty-cells:show;

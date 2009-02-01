@@ -21,14 +21,13 @@
         mygrid.setHeader("Date,Hobbit,Histoire...");
         mygrid.setInitWidths("115,135,*");
         mygrid.setColAlign("left,left,left");
-        mygrid.setColTypes("ro,link");
+        mygrid.setColTypes("ro,link,txt");
         mygrid.setSkin("braldahim");
         mygrid.setColSorting("server,server");
         mygrid.attachEvent("onBeforeSorting",sortGridOnServer);
-
         mygrid.enableSmartRendering(true,100);
-        
         mygrid.init();
         mygrid.loadXML(gridQString);
+        mygrid.setSortImgState(true,0,"des");
 </script>
 
