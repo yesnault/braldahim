@@ -22,7 +22,6 @@ class StatsRecolteurs extends Zend_Db_Table {
 		$select->where('id_fk_hobbit_stats_recolteurs = id_hobbit');
 		$select->where('mois_stats_recolteurs >= ?', $dateDebut);
 		$select->where('mois_stats_recolteurs < ?', $dateFin);
-		$select->where('mois_stats_recolteurs < ?', $dateFin);
 		$select->order("nombre DESC");
 		$select->group(array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'));
 		$select->limit(10, 0);
@@ -39,6 +38,7 @@ class StatsRecolteurs extends Zend_Db_Table {
 		$select->where('id_fk_hobbit_stats_recolteurs = id_hobbit');
 		$select->where('id_nom = id_fk_nom_initial_hobbit');
 		$select->where('mois_stats_recolteurs >= ?', $dateDebut);
+		$select->where('mois_stats_recolteurs < ?', $dateFin);
 		$select->order("nombre DESC");
 		$select->group(array('nom'));
 		$sql = $select->__toString();
