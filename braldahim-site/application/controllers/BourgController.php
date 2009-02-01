@@ -88,7 +88,7 @@ class BourgController extends Zend_Controller_Action {
 		foreach($rowset as $r) {
 			$tab = null;
 			$tab[] = Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y à H:i:s ',$r["date_evenement"]);
-			$hobbit = $r["prenom_hobbit"]." ".$r["prenom_hobbit"]." (".$r["id_hobbit"].")";
+			$hobbit = $r["prenom_hobbit"]." ".$r["nom_hobbit"]." (".$r["id_hobbit"].")";
 			$hobbit .= "^javascript:ouvrirWin(\"".$this->view->config->url->game."/voir/hobbit/?hobbit=".$r["id_hobbit"]."\");^_self";
 			$tab[] = $hobbit;
 			$tab[] = $r["details_evenement"];
