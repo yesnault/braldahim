@@ -22,5 +22,25 @@
 		</td>
 	</tr>
 	</table>
-	
+</ul>
+<br>
+<ul class="box_contenu1 textalic">
+	<table style="width:100%">
+	<tr>
+		<td style="width:600px" valign="top">
+			<ul class="titre textalic textsizec">
+			Ils relatent...
+			</ul><br>
+			<i>Pour relater un fait, choisissez la compétence "<a href="http://wiki.braldahim.com/wiki/Relater_un_fait">Relater un fait</a>" dans le jeu.</i><br>
+			<br>
+			Filtre par années: <select id="annee" name="annee" onChange="document.location.href = '/bourg/?anneeselect='+this.value+'&uid='+(new Date()).valueOf()">
+			<? foreach($this->annees as $a): ?>
+				<option value="<?=$a?>" <?if ($this->anneeSelect == $a): echo "selected" ; endif;?>><?=$a?></option>
+			<? endforeach;?>
+			</select>
+			<br><br>
+			<? include('relate.phtml')?>
+		</td>
+	</tr>
+	</table>
 </ul>

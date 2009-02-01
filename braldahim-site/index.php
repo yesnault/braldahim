@@ -44,9 +44,14 @@ Zend_Registry :: set('dbAdapter', $dbAdapterGame);
 
 Zend_Layout::startMvc($config->layout);
 
-// setup controller
-$frontController = Zend_Controller_Front :: getInstance();
-$frontController->throwExceptions(true);
-$frontController->setControllerDirectory('./application/controllers');
-
-$frontController->dispatch();
+try {
+	// setup controller
+	$frontController = Zend_Controller_Front :: getInstance();
+	$frontController->throwExceptions(true);
+	$frontController->setControllerDirectory('./application/controllers');
+	
+	$frontController->dispatch();
+} catch (Exception $e) {
+	print_r($e);
+	//header('Location: /');
+}

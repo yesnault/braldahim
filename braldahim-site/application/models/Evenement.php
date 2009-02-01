@@ -110,4 +110,37 @@ class Evenement extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+	
+	function findByType($dateDebut, $dateFin, $type, $ordre, $posStart, $count) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'));
+		$select->from('evenement', array('id_evenement', 'date_evenement', 'details_evenement'));
+		$select->where('id_fk_hobbit_evenement = id_hobbit');
+		$select->where('id_fk_type_evenement = ?', $type);
+		$select->where('date_evenement >= ?', $dateDebut);
+		$select->where('date_evenement < ?', $dateFin);
+		
+		if ($ordre != null) {
+			$select->order($ordre);
+		} else {
+			$select->order("date_evenement DESC");
+		}
+		$select->limit($count, $posStart);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
+	function countByType($dateDebut, $dateFin, $type) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('evenement', 'count(id_evenement) as nombre');
+		$select->where('id_fk_type_evenement = ?', $type);
+		$select->where('date_evenement >= ?', $dateDebut);
+		$select->where('date_evenement < ?', $dateFin);
+		$select->order("nombre DESC");
+		$sql = $select->__toString();
+		$rowset = $db->fetchAll($sql);
+		return $rowset[0]["nombre"];
+	}
 }
