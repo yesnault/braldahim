@@ -1,0 +1,66 @@
+<ul class="box_contenu1 textalic">
+	<ul class="titre textalic textsizeb">
+	Marché aux potions
+	</ul><br>
+	
+<table width='100%'>
+<tr>
+<td>
+	Filtre par comté: 
+	<br>
+	<select id="region" name="region" onChange="document.location.href = '/marchepotion/?regionselect='+this.value+'&typebmselect=<?=$this->typebmSelect?>&potionselect=<?=$this->potionSelect?>&uid='+(new Date()).valueOf()">
+	<? foreach($this->regions as $k => $e): ?>
+		<option value="<?=$k?>" <?if ($this->regionSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
+	<? endforeach;?>
+	</select>
+</td>
+<td>
+	Filtre par type: 
+	<br>
+	<select id="type" name="type" onChange="document.location.href = '/marchepotion/?regionselect<?=$this->regionSelect?>&typebmselect='+this.value+'&potionselect=<?=$this->potionSelect?>&uid='+(new Date()).valueOf()">
+	<? foreach($this->types as $k => $e): ?>
+		<option value="<?=$k?>" <?if ($this->typebmSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
+	<? endforeach;?>
+	</select>
+</td>
+<td>
+	Filtre par potion:
+	<br>
+	<select id="potion" name="potion" onChange="document.location.href = '/marchepotion/?regionselect<?=$this->regionSelect?>&typebmselect=<?=$this->typebmSelect?>&potionselect='+this.value+'&uid='+(new Date()).valueOf()">
+	<? foreach($this->potions as $k => $e): ?>
+		<option value="<?=$k?>" <?if ($this->potionSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
+	<? endforeach;?>
+	</select>
+</td>
+</tr>
+</table>
+
+<br><br>
+
+<div id="mygrid_container" style="width:770px;height:650px;background-color:#E7C57B; align:center"></div> 
+<script>
+	gridQString = '/marchepotion/renderxml?regionselect=<?=$this->regionSelect?>&typebmselect=<?=$this->typebmSelect?>&potionselect=<?=$this->potionSelect?>&uid='+(new Date()).valueOf();
+	function sortGridOnServer(ind,gridObj,direct){
+	    mygrid.clearAll();
+	    murl = gridQString+(gridQString.indexOf("?")>=0?"&":"?")+"orderby="+ind+"&direct="+direct;
+	    mygrid.loadXML(murl);
+	    mygrid.setSortImgState(true,ind,direct);
+	    return false;
+	}
+	
+	mygrid = new dhtmlXGridObject('mygrid_container');
+	mygrid.setImagePath("/public/scripts/dhtmlxGrid-2.0.0/codebase/imgs/"); 
+	mygrid.setHeader("Comtée,Date,Hobbit,Echoppe,Type,,Objet,Prix,Commentaire");
+	mygrid.setInitWidths("60,55,135,70,50,32,100,90,*");
+	mygrid.setColAlign("left,left,left,left,left,left,left,left,left");
+	mygrid.setColTypes("ro,ro,link,ro,ro,ro,ro,ro");
+	mygrid.setSkin("braldahim");
+	mygrid.setColSorting("server,server,server,server,server,server,server");
+	mygrid.attachEvent("onBeforeSorting",sortGridOnServer);
+	mygrid.enableSmartRendering(true,100);
+	mygrid.init();
+	mygrid.loadXML(gridQString);
+	mygrid.setSortImgState(true,1,"des");
+</script>
+
+</ul>

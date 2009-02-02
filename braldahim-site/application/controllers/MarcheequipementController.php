@@ -21,7 +21,6 @@ class MarcheequipementController extends Zend_Controller_Action {
 		Zend_Loader::loadClass('EchoppeEquipementMinerai');
 		Zend_Loader::loadClass('EchoppeEquipementPartiePlante');
 		Zend_Loader::loadClass('EquipementRune');
-		Zend_Loader::loadClass('EchoppePotion');
 		Zend_Loader::loadClass('Bral_Xml_GridDhtmlx');
 		Zend_Loader::loadClass('Bral_Helper_DetailEquipement');
 		Zend_Loader::loadClass('Bral_Util_BBParser');
