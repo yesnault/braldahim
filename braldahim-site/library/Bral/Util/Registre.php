@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Registre.php 1055 2009-01-25 19:13:59Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-01-25 20:13:59 +0100 (Sun, 25 Jan 2009) $
- * $LastChangedRevision: 1055 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Util_Registre {
 

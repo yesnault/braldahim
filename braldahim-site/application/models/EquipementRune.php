@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: EquipementRune.php 1104 2009-01-30 21:46:33Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-01-30 22:46:33 +0100 (Fri, 30 Jan 2009) $
- * $LastChangedRevision: 1104 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class EquipementRune extends Zend_Db_Table {
 	protected $_name = 'equipement_rune';

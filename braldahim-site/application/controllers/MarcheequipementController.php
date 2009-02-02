@@ -25,6 +25,7 @@ class MarcheequipementController extends Zend_Controller_Action {
 		Zend_Loader::loadClass('Bral_Xml_GridDhtmlx');
 		Zend_Loader::loadClass('Bral_Helper_DetailEquipement');
 		Zend_Loader::loadClass('Bral_Util_BBParser');
+		Zend_Loader::loadClass('Bral_Helper_Tooltip');
 		
 		$f = new Zend_Filter_StripTags();
 		$anneeCourante = date("Y");
@@ -34,37 +35,47 @@ class MarcheequipementController extends Zend_Controller_Action {
 		}
 		$this->view->emplacementSelect = $emplacementSelect;
 		
-		$anneeCourante = date("Y");
 		$regionSelect = intval($f->filter($this->_request->get("regionselect")));
 		if ($regionSelect <= 0) {
 			$regionSelect = -1;
 		}
 		$this->view->regionSelect = $regionSelect;
+		
+		$equipementSelect = intval($f->filter($this->_request->get("equipementselect")));
+		if ($equipementSelect <= 0) {
+			$equipementSelect = -1;
+		}
+		$this->view->equipementSelect = $equipementSelect;
 	}
 
 	function indexAction() {
 		Zend_Loader::loadClass('TypeEmplacement');
 		$typeEmplacement = new TypeEmplacement();
 		$rowset = $typeEmplacement->fetchAll(null, "nom_type_emplacement");
-		
 		$emplacements[-1] = "Tous";
 		foreach ($rowset as $r) {
 			$emplacements[$r["id_type_emplacement"]] = $r["nom_type_emplacement"];
 		}
-		
 		$this->view->emplacements = $emplacements;
-		
 		
 		Zend_Loader::loadClass('Region');
 		$regionTable = new Region();
 		$rowset = $regionTable->fetchAll(null, "nom_region");
-		
 		$regions[-1] = "Toutes";
 		foreach ($rowset as $r) {
 			$regions[$r["id_region"]] = $r["nom_region"];
 		}
-		
 		$this->view->regions = $regions;
+		
+		Zend_Loader::loadClass('TypeEquipement');
+		$typeEquipement = new TypeEquipement();
+		$rowset = $typeEquipement->fetchAll(null, "nom_type_equipement");
+		
+		$equipements[-1] = "Tous";
+		foreach ($rowset as $r) {
+			$equipements[$r["id_type_equipement"]] = $r["nom_type_equipement"];
+		}
+		$this->view->equipements = $equipements;
 		
 		$this->render();
 	}
@@ -117,7 +128,7 @@ class MarcheequipementController extends Zend_Controller_Action {
 		}
 		
 		$echoppeEquipementTable = new EchoppeEquipement();
-		$equipements = $echoppeEquipementTable->findByCriteres($ordre, $posStart, $count, $this->view->regionSelect, $this->view->emplacementSelect);
+		$equipements = $echoppeEquipementTable->findByCriteres($ordre, $posStart, $count, $this->view->regionSelect, $this->view->emplacementSelect, $this->view->equipementSelect);
 		
 		$idEquipements = null;
 		foreach ($equipements as $e) {
@@ -224,20 +235,19 @@ class MarcheequipementController extends Zend_Controller_Action {
 				$hobbit .= "^javascript:ouvrirWin(\"".$this->view->config->url->game."/voir/hobbit/?hobbit=".$e["id_hobbit"]."\");^_self";
 				$tab[] = $hobbit;
 				if ($e["sexe_hobbit"] == "masculin") {
-					$tab[] = $e["nom_masculin_metier"];
+					$tab[] = $e["nom_masculin_metier"]. "<br>(".$e["x_echoppe"].", ".$e["y_echoppe"].")";
 				} else {
-					$tab[] = $e["nom_feminin_metier"];
+					$tab[] = $e["nom_feminin_metier"]. "<br>(".$e["x_echoppe"].", ".$e["y_echoppe"].")";
 				}
 				$tab[] = $e["nom_type_emplacement"];
-				$tab[] = $e["nom_type_equipement"]." ".addslashes($e["suffixe_mot_runique"])." de qualité ".$e["nom_type_qualite"];
+				$tab[] = $e["nom_type_equipement"]." ".addslashes($e["suffixe_mot_runique"])." de qualité ".$e["nom_type_qualite"]. " <img src='/public/images/info_icon.gif' ".Bral_Helper_DetailEquipement::afficherJs($equipement)." />";;
 				$tab[] = Bral_Helper_DetailEquipement::afficherPrix($equipement);
 				$tab[] = Bral_Util_BBParser::bbcodeReplace($equipement["commentaire_vente_echoppe_equipement"]);
-				
 				$dhtmlxGrid->addRow($e["id_echoppe_equipement"], $tab);
 			}
 		}
 		
-		$total = $echoppeEquipementTable->countByCriteres($this->view->regionSelect, $this->view->emplacementSelect);
+		$total = $echoppeEquipementTable->countByCriteres($this->view->regionSelect, $this->view->emplacementSelect, $this->view->equipementSelect);
 		$this->view->grid = $dhtmlxGrid->render($total, $posStart);
 	}
 }

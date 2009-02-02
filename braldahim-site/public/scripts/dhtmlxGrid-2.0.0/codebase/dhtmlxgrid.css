@@ -654,9 +654,11 @@ div.gridbox_braldahim .objbox {
 }
 
 div.gridbox_braldahim {
-  border: 1px solid #791E1E;
+	#border-top: 1px solid #791E1E;
+	margin-left:1px;
 }
 div.gridbox_braldahim .xhdr{
+	border: 1px solid #791E1E;
 	background-color: #CCCC99;
 	text-align: center;
 }
@@ -698,9 +700,8 @@ div.gridbox_braldahim table.obj td {
 	white-space : normal;
 }
 div.gridbox_braldahim table.obj{
-	border-bottom: 1px solid #791E1E;
+	border: 1px solid #791E1E;
 	background-color:#FADC9B;
-	border-top: 1px solid #791E1E;
 }
 div.gridbox_braldahim table.row20px tr td {
 	padding-right:4px;
@@ -708,7 +709,7 @@ div.gridbox_braldahim table.row20px tr td {
 	white-space : normal;
 }
 div.gridbox_braldahim .dhx_combo_edit{
-  font-family:Tahoma;
+	font-family:Tahoma;
 	font-size:11px;
 }
 div.gridbox_braldahim table.obj tr.rowselected td{

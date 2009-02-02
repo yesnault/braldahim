@@ -4,17 +4,17 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: $
- * $Author: $
- * $LastChangedDate: $
- * $LastChangedRevision: $
- * $LastChangedBy: $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class EchoppeEquipement extends Zend_Db_Table {
 	protected $_name = 'echoppe_equipement';
 	protected $_primary = "id_echoppe_equipement";
 
-	public function findByCriteres($ordre, $posStart, $count, $idRegion = -1, $idEmplacement = -1) {
+	public function findByCriteres($ordre, $posStart, $count, $idRegion = -1, $idEmplacement = -1, $idTypeEquipement = -1) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe_equipement', '*');
@@ -44,6 +44,9 @@ class EchoppeEquipement extends Zend_Db_Table {
 		if ($idRegion != -1) {
 			$select->where('id_region = ?', $idRegion);
 		}
+		if ($idTypeEquipement != -1) {
+			$select->where('id_type_equipement = ?', $idTypeEquipement);
+		}
 		$select->joinLeft('mot_runique','id_fk_mot_runique_echoppe_equipement = id_mot_runique');
 		
 		if ($ordre != null) {
@@ -56,7 +59,7 @@ class EchoppeEquipement extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	public function countByCriteres($idRegion = -1, $idEmplacement = -1) {
+	public function countByCriteres($idRegion = -1, $idEmplacement = -1, $idTypeEquipement = -1) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe_equipement', 'count(id_echoppe_equipement) as nombre');
@@ -83,6 +86,9 @@ class EchoppeEquipement extends Zend_Db_Table {
 		}
 		if ($idRegion != -1) {
 			$select->where('id_region = ?', $idRegion);
+		}
+		if ($idTypeEquipement != -1) {
+			$select->where('id_type_equipement = ?', $idTypeEquipement);
 		}
 		
 		$sql = $select->__toString();

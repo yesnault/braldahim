@@ -1,21 +1,45 @@
 <ul class="box_contenu1 textalic">
-
-Filtre par comtés: <select id="region" name="region" onChange="document.location.href = '/marcheequipement/?regionselect='+this.value+'&emplacementselect=<?=$this->emplacementSelect?>&uid='+(new Date()).valueOf()">
+	<ul class="titre textalic textsizeb">
+	Marché à l'équipement
+	</ul><br>
+	
+<table width='100%'>
+<tr>
+<td>
+	Filtre par comtés: 
+	<br>
+	<select id="region" name="region" onChange="document.location.href = '/marcheequipement/?regionselect='+this.value+'&emplacementselect=<?=$this->emplacementSelect?>&equipementselect=<?=$this->equipementSelect?>&uid='+(new Date()).valueOf()">
 	<? foreach($this->regions as $k => $e): ?>
 		<option value="<?=$k?>" <?if ($this->regionSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
 	<? endforeach;?>
 	</select>
-	<br><br>
-Filtre par emplacements: <select id="emplacement" name="emplacement" onChange="document.location.href = '/marcheequipement/?regionselect<?=$this->regionSelect?>&emplacementselect='+this.value+'&uid='+(new Date()).valueOf()">
+</td>
+<td>
+	Filtre par emplacements: 
+	<br>
+	<select id="emplacement" name="emplacement" onChange="document.location.href = '/marcheequipement/?regionselect<?=$this->regionSelect?>&emplacementselect='+this.value+'&equipementselect=<?=$this->equipementSelect?>&uid='+(new Date()).valueOf()">
 	<? foreach($this->emplacements as $k => $e): ?>
 		<option value="<?=$k?>" <?if ($this->emplacementSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
 	<? endforeach;?>
 	</select>
+</td>
+<td>
+	Filtre par équipement:
+	<br>
+	<select id="equipement" name="equipement" onChange="document.location.href = '/marcheequipement/?regionselect<?=$this->regionSelect?>&emplacementselect=<?=$this->emplacementSelect?>&equipementselect='+this.value+'&uid='+(new Date()).valueOf()">
+	<? foreach($this->equipements as $k => $e): ?>
+		<option value="<?=$k?>" <?if ($this->equipementSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
+	<? endforeach;?>
+	</select>
+</td>
+</tr>
+</table>
+
 <br><br>
 
-<div id="mygrid_container" style="width:765px;height:450px;background-color:#E7C57B; align:center"></div> 
+<div id="mygrid_container" style="width:770px;height:650px;background-color:#E7C57B; align:center"></div> 
 <script>
-	gridQString = '/marcheequipement/renderxml?regionselect=<?=$this->regionSelect?>&emplacementselect=<?=$this->emplacementSelect?>&uid='+(new Date()).valueOf();
+	gridQString = '/marcheequipement/renderxml?regionselect=<?=$this->regionSelect?>&emplacementselect=<?=$this->emplacementSelect?>&equipementselect=<?=$this->equipementSelect?>&uid='+(new Date()).valueOf();
 	function sortGridOnServer(ind,gridObj,direct){
 	    mygrid.clearAll();
 	    murl = gridQString+(gridQString.indexOf("?")>=0?"&":"?")+"orderby="+ind+"&direct="+direct;
@@ -27,9 +51,9 @@ Filtre par emplacements: <select id="emplacement" name="emplacement" onChange="d
 	mygrid = new dhtmlXGridObject('mygrid_container');
 	mygrid.setImagePath("/public/scripts/dhtmlxGrid-2.0.0/codebase/imgs/"); 
 	mygrid.setHeader("Comtée,Date,Hobbit,Echoppe,Emplacement,Objet,Prix,Commentaire");
-	mygrid.setInitWidths("90,55,135,70,85,100,100,*");
-	mygrid.setColAlign("left,left,left,left,left,left");
-	mygrid.setColTypes("ro,ro,link,ro,ro,txt,ro");
+	mygrid.setInitWidths("90,55,135,70,85,100,90,159");
+	mygrid.setColAlign("left,left,left,left,left,left,left,left");
+	mygrid.setColTypes("ro,ro,link,ro,ro,txt,ro,ro");
 	mygrid.setSkin("braldahim");
 	mygrid.setColSorting("server,server,server,server,server");
 	mygrid.attachEvent("onBeforeSorting",sortGridOnServer);

@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: DetailEquipement.php 1104 2009-01-30 21:46:33Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-01-30 22:46:33 +0100 (Fri, 30 Jan 2009) $
- * $LastChangedRevision: 1104 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Helper_DetailEquipement {
 	
@@ -82,19 +82,19 @@ class Bral_Helper_DetailEquipement {
     }
     
     public static function afficherJs($e) {
-    	$text = htmlspecialchars($e["nom"])." ".htmlspecialchars(addslashes($e["suffixe"]))." de qualit&eacute; ".htmlspecialchars($e["qualite"])." <br /><br />";
-     	$text .= "Num&eacute;ro de la pi&egrave;ce :".$e["id_equipement"]."<br />";
+    	$text = htmlspecialchars($e["nom"])." ".htmlspecialchars(addslashes($e["suffixe"]))." de qualité ".htmlspecialchars($e["qualite"])." <br /><br />";
+     	$text .= "Numéro de la pièce :".$e["id_equipement"]."<br />";
     	$text .= "Niveau : ".$e["niveau"]."<br />";
-     	$text .= "Caract&eacute;ristiques :<br />";
+     	$text .= "Caractéristiques :<br />";
     	$text .= self::display("Armure", $e["armure"]);
     	$text .= self::display("Force", $e["force"] );
-    	$text .= self::display("Agilit&eacute;", $e["agilite"]);
+    	$text .= self::display("Agilité", $e["agilite"]);
     	$text .= self::display("Vigueur", $e["vigueur"]);
     	$text .= self::display("Sagesse", $e["sagesse"]);
     	$text .= self::display("Vue", $e["vue"]);
     	$text .= self::display("BM Attaque", $e["bm_attaque"]);
     	$text .= self::display("BM Defense", $e["bm_defense"]);
-     	$text .= self::display("BM D&eacute;g&acirc;ts", $e["bm_degat"]);
+     	$text .= self::display("BM Dég&acirc;ts", $e["bm_degat"]);
      	$text .= self::display("Poids", $e["poids"], " Kg");
     	
      	$text .= "<br />Nombre d\'emplacement runique : ".$e["nb_runes"]."<br />";
@@ -107,9 +107,9 @@ class Bral_Helper_DetailEquipement {
 	     	 	$text .= "<img src=\'/public/images/runes/".$r["image_type_rune"]."\'  class=\'rune\' title=\'".$r["nom_type_rune"]." :".str_replace("'", "&#180;", htmlspecialchars(addslashes($r["effet_type_rune"])))."\' n&deg;".$r["id_rune_equipement_rune"]." alt=\'".$r["nom_type_rune"]."\' n&deg;".$r["id_rune_equipement_rune"]."  />";
 	     	 }
 	     	 if ($e["suffixe"] != null && $e["suffixe"] != "") {
-	     	 	$text .= "<br />Mot runique associ&eacute; &agrave; ces runes : ".htmlspecialchars(addslashes($e["suffixe"]));
+	     	 	$text .= "<br />Mot runique associé à ces runes : ".htmlspecialchars(addslashes($e["suffixe"]));
 	     	 } else {
-	     	 	$text .= "<br />Aucun mot runique n\'est associ&eacute; &agrave; ces runes";
+	     	 	$text .= "<br />Aucun mot runique n\'est associé à ces runes";
 	     	 }
     	}
     	$text .= "<br />";
