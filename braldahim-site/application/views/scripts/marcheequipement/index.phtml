@@ -6,7 +6,7 @@
 <table width='100%'>
 <tr>
 <td>
-	Filtre par comtés: 
+	Filtre par comté: 
 	<br>
 	<select id="region" name="region" onChange="document.location.href = '/marcheequipement/?regionselect='+this.value+'&emplacementselect=<?=$this->emplacementSelect?>&equipementselect=<?=$this->equipementSelect?>&uid='+(new Date()).valueOf()">
 	<? foreach($this->regions as $k => $e): ?>
@@ -15,7 +15,7 @@
 	</select>
 </td>
 <td>
-	Filtre par emplacements: 
+	Filtre par emplacement: 
 	<br>
 	<select id="emplacement" name="emplacement" onChange="document.location.href = '/marcheequipement/?regionselect<?=$this->regionSelect?>&emplacementselect='+this.value+'&equipementselect=<?=$this->equipementSelect?>&uid='+(new Date()).valueOf()">
 	<? foreach($this->emplacements as $k => $e): ?>
