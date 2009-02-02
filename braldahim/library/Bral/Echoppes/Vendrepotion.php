@@ -235,7 +235,9 @@ class Bral_Echoppes_Vendrepotion extends Bral_Echoppes_Echoppe {
 					  "unite_2_vente_echoppe_potion" => $unite_2_echoppe,
 					  "unite_3_vente_echoppe_potion" => $unite_3_echoppe,
 					  "type_vente_echoppe_potion" => "publique",
-					  "commentaire_vente_echoppe_potion" => $commentaire);
+					  "commentaire_vente_echoppe_potion" => $commentaire,
+					  "date_echoppe_potion" => date("Y-m-d H:i:s"),
+					);
 		
 		$where = "id_echoppe_potion=".$id_potion; 
 		$echoppePotionTable = new EchoppePotion();

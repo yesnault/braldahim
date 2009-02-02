@@ -237,6 +237,7 @@ class Bral_Echoppes_Vendreequipement extends Bral_Echoppes_Echoppe {
 					  "unite_3_vente_echoppe_equipement" => $unite_3_echoppe,
 					  "type_vente_echoppe_equipement" => "publique",
 					  "commentaire_vente_echoppe_equipement" => $commentaire,
+					  "date_echoppe_equipement" => date("Y-m-d H:i:s"),
 		);
 		
 		$where = "id_echoppe_equipement=".$id_equipement; 
