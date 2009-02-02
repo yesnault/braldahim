@@ -32,7 +32,7 @@ class EchoppeEquipement extends Zend_Db_Table {
 		$select->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement');
 		$select->where("type_vente_echoppe_equipement like ?", "publique");
 		$select->where('id_fk_hobbit_echoppe = id_hobbit');
-		$select->where('id_echoppe_equipement = id_echoppe');
+		$select->where('id_fk_echoppe_echoppe_equipement = id_echoppe');
 		$select->where('id_fk_metier_echoppe = id_metier');
 		$select->where('region.x_min_region <= echoppe.x_echoppe');
 		$select->where('region.x_max_region >= echoppe.x_echoppe');
@@ -55,6 +55,7 @@ class EchoppeEquipement extends Zend_Db_Table {
 			$select->order("date_echoppe_equipement DESC");
 		}
 		$select->limit($count, $posStart);
+		
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -76,7 +77,7 @@ class EchoppeEquipement extends Zend_Db_Table {
 		$select->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement');
 		$select->where("type_vente_echoppe_equipement like ?", "publique");
 		$select->where('id_fk_hobbit_echoppe = id_hobbit');
-		$select->where('id_echoppe_equipement = id_echoppe');
+		$select->where('id_fk_echoppe_echoppe_equipement = id_echoppe');
 		$select->where('region.x_min_region <= echoppe.x_echoppe');
 		$select->where('region.x_max_region >= echoppe.x_echoppe');
 		$select->where('region.y_min_region <= echoppe.y_echoppe');

@@ -125,6 +125,9 @@ class MarcheequipementController extends Zend_Controller_Action {
 			case 5:
 				$ordre = "nom_type_equipement ".$direct;
 				break;
+			case 6:
+				$ordre = "id_type_equipement ".$direct;
+				break;
 		}
 		
 		$echoppeEquipementTable = new EchoppeEquipement();
@@ -240,7 +243,8 @@ class MarcheequipementController extends Zend_Controller_Action {
 					$tab[] = $e["nom_feminin_metier"]. "<br>(".$e["x_echoppe"].", ".$e["y_echoppe"].")";
 				}
 				$tab[] = $e["nom_type_emplacement"];
-				$tab[] = $e["nom_type_equipement"]." ".addslashes($e["suffixe_mot_runique"])." de qualité ".$e["nom_type_qualite"]. " <img src='/public/images/info_icon.gif' ".Bral_Helper_DetailEquipement::afficherJs($equipement)." />";;
+				$tab[] = "<img src='/public/styles/braldahim_defaut/images/type_equipement/type_equipement_".$equipement["id_type_equipement"].".png' alt=\"".htmlspecialchars($equipement["nom"]) ."\" ".Bral_Helper_DetailEquipement::afficherJs($equipement)."/>";
+				$tab[] = $e["nom_type_equipement"]." ".addslashes($e["suffixe_mot_runique"])." de qualité ".$e["nom_type_qualite"];
 				$tab[] = Bral_Helper_DetailEquipement::afficherPrix($equipement);
 				$tab[] = Bral_Util_BBParser::bbcodeReplace($equipement["commentaire_vente_echoppe_equipement"]);
 				$dhtmlxGrid->addRow($e["id_echoppe_equipement"], $tab);
