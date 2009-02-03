@@ -26,10 +26,14 @@ class Bral_Xml_GridDhtmlx {
 		$this->rows[] = $row;
 	}
 	
-	public function render($total, $posStart) {
+	public function render($total = null, $posStart = null) {
 		header("Content-type:text/xml");
 		if ($this->rows != null) {
-			echo "<rows total_count='".$total."' pos='".$posStart."'>\n";
+			if ($total != null && $posStart != null) {
+				echo "<rows total_count='".$total."' pos='".$posStart."'>\n";
+			} else {
+				echo "<rows>";
+			}
 			if ($this->rows != null) {
 				foreach($this->rows as $r) {
 					echo $r;
