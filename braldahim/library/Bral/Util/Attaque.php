@@ -281,7 +281,7 @@ Consultez vos événements pour plus de détails.";
 			}
 		}
 		
-		if ($tir==false){
+		if ($tir==false) {
 			//pour un tir l'attaquant n'est pas engagé
 			self::calculStatutEngage(&$hobbitAttaquant, true);
 		}
@@ -499,7 +499,7 @@ Consultez vos événements pour plus de détails.";
 			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit);
 		}
 		
-		if ($tir==false){
+		if ($tir==false) {
 			//pour un tir l'attaquant n'est pas engagé
 			self::calculStatutEngage(&$hobbitAttaquant, true);
 		}
