@@ -238,13 +238,13 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		
 		if ($tirage > 0 && $tirage <= $chance_a) {
 			$this->view->nRondinsNecessairesFormule = "Niveau Vigueur (".$this->view->user->vigueur_base_hobbit.") / 2";
-			$this->view->nRondinsNecessaires = $this->view->user->vigueur_base_hobbit / 2;
+			$this->view->nRondinsNecessaires = floor($this->view->user->vigueur_base_hobbit / 2);
 		} elseif ($tirage > $chance_a && $tirage <= $chance_b) {
 			$this->view->nRondinsNecessairesFormule = "Niveau Vigueur (".$this->view->user->vigueur_base_hobbit.") / 3";
-			$this->view->nRondinsNecessaires = $this->view->user->vigueur_base_hobbit / 3;
+			$this->view->nRondinsNecessaires = floor($this->view->user->vigueur_base_hobbit / 3);
 		} elseif ($tirage > $chance_b && $tirage <= 100) {
 			$this->view->nRondinsNecessairesFormule = "Niveau Vigueur (".$this->view->user->vigueur_base_hobbit.") / 4";
-			$this->view->nRondinsNecessaires = $this->view->user->vigueur_base_hobbit / 4;
+			$this->view->nRondinsNecessaires = floor($this->view->user->vigueur_base_hobbit / 4);
 		}
 		
 		if ($this->view->nRondinsNecessaires < 1 ) {
