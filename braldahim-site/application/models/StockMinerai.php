@@ -32,7 +32,7 @@ class StockMinerai extends Zend_Db_Table {
 		->from('region')
 		->from('type_minerai')
 		->where('id_type_minerai = id_fk_type_stock_minerai')
-		->where('id_fk_region_stock_minerai  = id_fk_region_stock_minerai')
+		->where('id_fk_region_stock_minerai  = id_region')
 		->where('date_stock_minerai = ?', $resultat[0]["date_stock_minerai"])
 		->order('nom_type_minerai ASC');
 		
