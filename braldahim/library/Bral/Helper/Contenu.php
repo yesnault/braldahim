@@ -19,6 +19,7 @@ class Bral_Helper_Contenu {
 		} else {
 			if (array_key_exists("quantite", $tab)) {
 				if (array_key_exists("poids", $tab)) {
+					$poids = 0;
 					if ($tab["quantite"] > 0) {
 						$poids = $tab["poids"]/$tab["quantite"];
 					}
@@ -46,6 +47,7 @@ class Bral_Helper_Contenu {
 		$retour = "";
 		if (array_key_exists("quantite", $tab)) {
 			if (array_key_exists("poids", $tab)) {
+				$poids = 0;
 				if ($tab["quantite"] > 0) {
 					$poids = $tab["poids"]/$tab["quantite"];
 				}
