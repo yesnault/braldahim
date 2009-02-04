@@ -200,6 +200,7 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 		$labanPartiePlanteTable = new LabanPartieplante();
 		
 		for($i=5; $i<=$this->view->valeur_fin_partieplantes; $i++) {
+			$indice = "valeur_".$i;
 			$nb = $this->request->get($indice);
 			if ((int) $nb."" != $this->request->get("valeur_".$i)."") {
 				throw new Zend_Exception(get_class($this)." NB Partie Plante invalide=".$nb);
