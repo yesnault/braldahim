@@ -302,11 +302,13 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			);
 			$charretteTable->updateCharrette($data);
 			
-			$data = array(
-				'id_echoppe' => $this->idEchoppe,
-				'quantite_rondin_caisse_echoppe' => $prix["prix"],
-			);
-			$echoppeTable->insertOrUpdate($data);
+			if ($prix["prix"] > 0) {
+				$data = array(
+					'id_echoppe' => $this->idEchoppe,
+					'quantite_rondin_caisse_echoppe' => $prix["prix"],
+				);
+				$echoppeTable->insertOrUpdate($data);
+			}
 			
 			$this->view->detailPrix .= $prix["prix"]. " ". Bral_Util_Registre::getNomUnite($prix["unite"], false, $prix["prix"]).", ";
 			
@@ -318,22 +320,26 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			);
 			$labanTable->insertOrUpdate($data);
 			
-			$data = array(
-				'id_echoppe' => $this->idEchoppe,
-				'quantite_peau_caisse_echoppe' => $prix["prix"],
-			);
-			$echoppeTable->insertOrUpdate($data);
+			if ($prix["prix"] > 0) {
+				$data = array(
+					'id_echoppe' => $this->idEchoppe,
+					'quantite_peau_caisse_echoppe' => $prix["prix"],
+				);
+				$echoppeTable->insertOrUpdate($data);
+			}
 			
 			$this->view->detailPrix .= $prix["prix"]. " ". Bral_Util_Registre::getNomUnite($prix["unite"], false, $prix["prix"]).", ";
 			
 		} elseif (Bral_Util_Registre::getNomUnite($prix["unite"], true)  == "castar") {
 			$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $prix["prix"];
 			
-			$data = array(
-				'id_echoppe' => $this->idEchoppe,
-				'quantite_castar_caisse_echoppe' => $prix["prix"],
-			);
-			$echoppeTable->insertOrUpdate($data);
+			if ($prix["prix"] > 0) {
+				$data = array(
+					'id_echoppe' => $this->idEchoppe,
+					'quantite_castar_caisse_echoppe' => $prix["prix"],
+				);
+				$echoppeTable->insertOrUpdate($data);
+			}
 			
 			$this->view->detailPrix .= $prix["prix"]. " ". Bral_Util_Registre::getNomUnite($prix["unite"], false, $prix["prix"]).", ";
 			
@@ -350,12 +356,14 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		$labanMineraiTable->insertOrUpdate($data);
 		
 		$echoppeMineraiTable = new EchoppeMinerai();
-		$data = array(
-			'id_fk_type_echoppe_minerai' => $prix["minerais"]["id_fk_type_minerai"],
-			'id_fk_echoppe_echoppe_minerai' => $this->idEchoppe,
-			'quantite_caisse_echoppe_minerai' => $prix["prix"],
-		);
-		$echoppeMineraiTable->insertOrUpdate($data);
+		if ($prix["prix"] > 0) {
+			$data = array(
+				'id_fk_type_echoppe_minerai' => $prix["minerais"]["id_fk_type_minerai"],
+				'id_fk_echoppe_echoppe_minerai' => $this->idEchoppe,
+				'quantite_caisse_echoppe_minerai' => $prix["prix"],
+			);
+			$echoppeMineraiTable->insertOrUpdate($data);
+		}
 		
 		$this->view->detailPrix .= $prix["prix"]. " ".$prix["nom"].", ";
 		
@@ -373,12 +381,14 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 		
-		$data = array('quantite_caisse_echoppe_partieplante' => $prix["prix"],
-					  'id_fk_type_echoppe_partieplante' => $prix["parties_plantes"]["id_fk_type_partieplante"],
-					  'id_fk_type_plante_echoppe_partieplante' => $prix["parties_plantes"]["id_fk_type_plante"],
-					  'id_fk_echoppe_echoppe_partieplante' => $this->idEchoppe,
-					 );
-		$echoppePartiePlanteTable->insertOrUpdate($data);
+		if ($prix["prix"] > 0) {
+			$data = array('quantite_caisse_echoppe_partieplante' => $prix["prix"],
+						  'id_fk_type_echoppe_partieplante' => $prix["parties_plantes"]["id_fk_type_partieplante"],
+						  'id_fk_type_plante_echoppe_partieplante' => $prix["parties_plantes"]["id_fk_type_plante"],
+						  'id_fk_echoppe_echoppe_partieplante' => $this->idEchoppe,
+						 );
+			$echoppePartiePlanteTable->insertOrUpdate($data);
+		}
 		
 		$this->view->detailPrix .= $prix["prix"]. " ".$prix["nom"].", ";
 	}
