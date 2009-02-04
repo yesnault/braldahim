@@ -324,7 +324,7 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 					$tabMinerais["valeur_".$this->view->nb_valeurs] = array(
 						"type" => $m["nom_type_minerai"],
 						"id_fk_echoppe_echoppe_minerai" => $m["id_fk_echoppe_echoppe_minerai"],
-						"id_fk_type_echoppe_minerai" => $m["id_fk_echoppe_echoppe_minerai"],
+						"id_fk_type_echoppe_minerai" => $m["id_fk_type_echoppe_minerai"],
 						"quantite_caisse" => $m["quantite_caisse_echoppe_minerai"],
 						"indice_valeur" => $this->view->nb_valeurs,
 					);
