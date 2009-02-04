@@ -19,7 +19,10 @@ class Bral_Helper_Contenu {
 		} else {
 			if (array_key_exists("quantite", $tab)) {
 				if (array_key_exists("poids", $tab)) {
-					$retour .= "<span style='cursor:pointer' title='Poids unitaire : ".($tab["poids"]/$tab["quantite"])." Kg, Poids total : ".$tab["poids"]." Kg'>";
+					if ($tab["quantite"] > 0) {
+						$poids = $tab["poids"]/$tab["quantite"];
+					}
+					$retour .= "<span style='cursor:pointer' title='Poids unitaire : ".$poids." Kg, Poids total : ".$tab["poids"]." Kg'>";
 				}
 	 			$retour .= $tab["quantite"]. " ";
 	 			$p = "";
@@ -43,7 +46,10 @@ class Bral_Helper_Contenu {
 		$retour = "";
 		if (array_key_exists("quantite", $tab)) {
 			if (array_key_exists("poids", $tab)) {
-				$retour .= "<span style='cursor:pointer' title='Poids unitaire : ".($tab["poids"]/$tab["quantite"])." Kg, Poids total : ".$tab["poids"]." Kg'>";
+				if ($tab["quantite"] > 0) {
+					$poids = $tab["poids"]/$tab["quantite"];
+				}
+				$retour .= "<span style='cursor:pointer' title='Poids unitaire : ".$poids." Kg, Poids total : ".$tab["poids"]." Kg'>";
 			}
  			$retour .= $tab["quantite"];
 			$p = "";
