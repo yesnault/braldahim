@@ -1,18 +1,18 @@
 
 Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez ouvrir. <br /><br />
 
-   <input type='button' class='button1' value='Fermer Tout' onClick="$('fermer_poche').click();">
-   <input type='button' class='button1' value='Ouvrir Tout' onClick="$('ouvrir_poche').click();">
+   <input type='button' class='button1' value='Fermer Tout' onClick="$('fermer_pocheLaban').click();">
+   <input type='button' class='button1' value='Ouvrir Tout' onClick="$('ouvrir_pocheLaban').click();">
    
-<?=$poches = null; ?>
+<?=$pocheLabans = null; ?>
 	<ul id="navigation" style="width:99%;text-align:left">
 		
-		<li id="pocheCastars">
-			<? $poches[] = "pocheCastars-head" ?>
-      		<h3 id="pocheCastars-head" class="head" onClick="maccordion(this);" />
+		<li id="pocheLabanCastars">
+			<? $pocheLabans[] = "pocheLabanCastars-head" ?>
+      		<h3 id="pocheLabanCastars-head" class="head" onClick="maccordion(this);" />
 				Poche pour les castars
 			</h3>
-			<ul id="pocheCastars-body" style="display:none">
+			<ul id="pocheLabanCastars-body" style="display:none">
 				<li>
 					<? $this->nb_castars = $this->user->castars_hobbit; ?>
 					<?=$this->render("/interface/commun/materiaux/castars.phtml") ?>
@@ -23,12 +23,12 @@ Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez o
 		<? if (count($this->tabHobbitMetiers) > 0) :?>
 			<? foreach ($this->tabHobbitMetiers as $m) : ?>
 				<? if ($m["nom_systeme"] == "bucheron" || $m["nom_systeme"] == "guerrier") { continue; }?>
-				<li id="poche<?=$m["nom_systeme"]?>">
-					<? $poches[] = "poche".$m["nom_systeme"]."-head" ?>
-		      		<h3 id="poche<?=$m["nom_systeme"]?>-head" class="head" onClick="maccordion(this);" />
+				<li id="pocheLaban<?=$m["nom_systeme"]?>">
+					<? $pocheLabans[] = "pocheLaban".$m["nom_systeme"]."-head" ?>
+		      		<h3 id="pocheLaban<?=$m["nom_systeme"]?>-head" class="head" onClick="maccordion(this);" />
 						Poche <?=$m["nom"]?>
 					</h3>
-					<ul id="poche<?=$m["nom_systeme"]?>-body" style="display:none">
+					<ul id="pocheLaban<?=$m["nom_systeme"]?>-body" style="display:none">
 						<li>
 							<? include("poche_".$m["nom_systeme"].".phtml") ?>
 						</li>
@@ -41,9 +41,9 @@ Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez o
 			<? foreach ($this->tabMetiers as $m) : ?>
 				<? if ($m["a_afficher"] == true) : ?>
 					<? if ($m["nom_systeme"] == "bucheron" || $m["nom_systeme"] == "guerrier") { continue; }?>
-					<li id="poche<?=$m["nom_systeme"]?>">
-						<? $poches[] = "poche".$m["nom_systeme"]."-head" ?>
-			      		<h3 id="poche<?=$m["nom_systeme"]?>-head" class="head" onClick="maccordion(this);" />
+					<li id="pocheLaban<?=$m["nom_systeme"]?>">
+						<? $pocheLabans[] = "pocheLaban".$m["nom_systeme"]."-head" ?>
+			      		<h3 id="pocheLaban<?=$m["nom_systeme"]?>-head" class="head" onClick="maccordion(this);" />
 							Poche mat&eacute;riaux 
 							<? if ($m["nom_systeme"] == "mineur" || $m["nom_systeme"] == "chasseur" || $m["nom_systeme"] == "herboriste") : ?>
 							r&eacute;colt&eacute;s
@@ -52,7 +52,7 @@ Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez o
 							<? endif; ?>
 							par un <?=$m["nom"]?>
 						</h3>
-						<ul id="poche<?=$m["nom_systeme"]?>-body" style="display:none">
+						<ul id="pocheLaban<?=$m["nom_systeme"]?>-body" style="display:none">
 							<li>
 								<? include("poche_".$m["nom_systeme"].".phtml") ?>
 							</li>
@@ -62,56 +62,56 @@ Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez o
 			<? endforeach; ?>
 		<? endif; ?>
 		
-		<li id="pocheRune">
-			<? $poches[] = "pocheRune-head" ?>
-      		<h3 id="pocheRune-head" class="head" onClick="maccordion(this);" />
+		<li id="pocheLabanRune">
+			<? $pocheLabans[] = "pocheLabanRune-head" ?>
+      		<h3 id="pocheLabanRune-head" class="head" onClick="maccordion(this);" />
 				Poche pour les runes
 			</h3>
-			<ul id="pocheRune-body" style="display:none">
+			<ul id="pocheLabanRune-body" style="display:none">
 				<li>
 					<? include("poche_rune.phtml") ?>
 				</li>
 			</ul>
 		</li>
-		<li id="pocheEquipement">
-			<? $poches[] = "pocheEquipement-head" ?>
-      		<h3 id="pocheEquipement-head" class="head" onClick="maccordion(this);" />
+		<li id="pocheLabanEquipement">
+			<? $pocheLabans[] = "pocheLabanEquipement-head" ?>
+      		<h3 id="pocheLabanEquipement-head" class="head" onClick="maccordion(this);" />
 				Poche pour les pi&egrave;ces d'&eacute;quipements
 			</h3>
-			<ul id="pocheEquipement-body" style="display:none">
+			<ul id="pocheLabanEquipement-body" style="display:none">
 				<li>
 					<? include("poche_equipement.phtml") ?>
 				</li>
 			</ul>
 		</li>
-		<li id="pocheMunition">
-			<? $poches[] = "pocheMunition-head" ?>
-      		<h3 id="pocheMunition-head" class="head" onClick="maccordion(this);" />
+		<li id="pocheLabanMunition">
+			<? $pocheLabans[] = "pocheLabanMunition-head" ?>
+      		<h3 id="pocheLabanMunition-head" class="head" onClick="maccordion(this);" />
 				Poche pour les munitions
 			</h3>
-			<ul id="pocheMunition-body" style="display:none">
+			<ul id="pocheLabanMunition-body" style="display:none">
 				<li>
 					<? include("poche_munition.phtml") ?>
 				</li>
 			</ul>
 		</li>
-		<li id="pochePotion">
-			<? $poches[] = "pochePotion-head" ?>
-      		<h3 id="pochePotion-head" class="head" onClick="maccordion(this);" />
+		<li id="pocheLabanPotion">
+			<? $pocheLabans[] = "pocheLabanPotion-head" ?>
+      		<h3 id="pocheLabanPotion-head" class="head" onClick="maccordion(this);" />
 				Poche pour les potions
 			</h3>
-			<ul id="pochePotion-body" style="display:none">
+			<ul id="pocheLabanPotion-body" style="display:none">
 				<li>
 					<? include("poche_potion.phtml") ?>
 				</li>
 			</ul>
 		</li>
-		<li id="pocheTabac">
-			<? $poches[] = "pocheTabac-head" ?>
-      		<h3 id="pocheTabac-head" class="head" onClick="maccordion(this);" />
+		<li id="pocheLabanTabac">
+			<? $pocheLabans[] = "pocheLabanTabac-head" ?>
+      		<h3 id="pocheLabanTabac-head" class="head" onClick="maccordion(this);" />
 				Poche pour les feuilles de tabac
 			</h3>
-			<ul id="pocheTabac-body" style="display:none">
+			<ul id="pocheLabanTabac-body" style="display:none">
 				<li>
 					<? include("poche_tabac.phtml") ?>
 				</li>
@@ -121,11 +121,11 @@ Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez o
    <? 
    $jsFermer = "";
    $jsOuvrir = "";
-   foreach ($poches as $p) :
+   foreach ($pocheLabans as $p) :
    	$jsFermer .= "maccordion_fermer($('$p'));";
     $jsOuvrir .= "maccordion_ouvrir($('$p'));";
    endforeach; ?>
    
-   <input type='button' class='button1' id="fermer_poche" name="fermer_poche" value='Fermer Tout' onClick="<?=$jsFermer ?>">
-   <input type='button' class='button1' id="ouvrir_poche" name="ouvrir_poche"  value='Ouvrir Tout' onClick="<?=$jsOuvrir ?>">
+   <input type='button' class='button1' id="fermer_pocheLaban" name="fermer_pocheLaban" value='Fermer Tout' onClick="<?=$jsFermer ?>">
+   <input type='button' class='button1' id="ouvrir_pocheLaban" name="ouvrir_pocheLaban"  value='Ouvrir Tout' onClick="<?=$jsOuvrir ?>">
   
