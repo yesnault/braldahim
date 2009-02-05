@@ -48,7 +48,7 @@ class Session extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('session', 'count(*) as nombre')
-		->where('id_fk_hobbit_session = ?',$data["id_fk_hobbit_session"]);
+		->where("id_fk_hobbit_session = '".$data["id_fk_hobbit_session"]."' OR id_php_session='".$data["id_php_session"]."'");
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 		
