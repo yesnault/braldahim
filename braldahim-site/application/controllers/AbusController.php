@@ -65,7 +65,7 @@ class AbusController extends Zend_Controller_Action {
 				
 				$this->_redirect('/abus/fin');
 			} else {
-				$this->view->message = "Echec d'authentification";
+				$this->view->message = "Email ou mot de passe incorrect";
 			}
 		} else {
 			$this->view->message = "Tous les champs sont obligatoires";
