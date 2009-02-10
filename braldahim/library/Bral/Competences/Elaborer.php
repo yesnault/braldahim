@@ -212,16 +212,9 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		
 		$maitrise = $this->hobbit_competence["pourcentage_hcomp"] / 100;
 		
-		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "AP")) { // s'il possede une rune AP
-			$this->view->effetRune = true;
-			$chance_a = 0;
-			$chance_b = 100-(10 * $maitrise);
-			$chance_c = 10 * $maitrise;
-		} else {
-			$chance_a = 11.1-11 * $maitrise;
-			$chance_b = 100-(11.1-11 * $maitrise)-(10 * $maitrise);
-			$chance_c = 10 * $maitrise;
-		}
+		$chance_a = -0.375 * $maitrise + 53.75 ;
+		$chance_b = 0.25 * $maitrise + 42.5 ;
+		$chance_c = 0.125 * $maitrise + 3.75 ;
 		
 		/*
 		 * Seul le meilleur des n jets est gardé. n=(BM SAG/2)+1.
@@ -239,14 +232,22 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			}
 		}
 		
+		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "AP")) { // s'il possede une rune AP
+			$this->view->effetRune = true;
+			$tirage = $tirage + 10;
+			if ($tirage > 100) {
+				$tirage = 100;
+			}
+		}
+		
 		$qualite = -1;
 		if ($tirage > 0 && $tirage <= $chance_a) {
 			$qualite = 1;
 			$this->view->qualite = "m&eacute;diocre";
-		} elseif ($tirage > $chance_a && $tirage <= $chance_b) {
+		} elseif ($tirage > $chance_a && $tirage <= $chance_a + $chance_b) {
 			$qualite = 2;
 			$this->view->qualite = "standard";
-		} elseif ($tirage > $chance_b && $tirage <= 100) {
+		} else {
 			$qualite = 3;
 			$this->view->qualite = "bonne";
 		}

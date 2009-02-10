@@ -208,16 +208,11 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 	}
 	
 	private function calculMonterPalissade($x, $y) {
-		/*
-		 * [11.1-11*0.68] % -> 2+1D3
-		 * [100-(11.1-11*0.68)-(10*0.68)] % -> 1+1D3
-		 * [10*0.68] % -> 1D3
-		 */
-		$maitrise = $this->hobbit_competence["pourcentage_hcomp"];
-		$chance_a = 11.1-11 * $maitrise;
-		$chance_b = 100-(11.1-11 * $maitrise)-(10 * $maitrise);
-		$chance_c = 10 * $maitrise;
 		
+		$maitrise = $this->hobbit_competence["pourcentage_hcomp"];
+		$chance_a = -0.375 * $maitrise + 53.75 ;
+		$chance_b = 0.25 * $maitrise + 42.5 ;
+		$chance_c = 0.125 * $maitrise + 3.75 ;
 		
 		/*
 		 * Afin de déterminer la qualité de la palissage n jet de dés sont effectués. 
@@ -239,10 +234,10 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		if ($tirage > 0 && $tirage <= $chance_a) {
 			$this->view->nRondinsNecessairesFormule = "Niveau Vigueur (".$this->view->user->vigueur_base_hobbit.") / 2";
 			$this->view->nRondinsNecessaires = floor($this->view->user->vigueur_base_hobbit / 2);
-		} elseif ($tirage > $chance_a && $tirage <= $chance_b) {
+			} elseif ($tirage > $chance_a && $tirage <= $chance_a + $chance_b) {
 			$this->view->nRondinsNecessairesFormule = "Niveau Vigueur (".$this->view->user->vigueur_base_hobbit.") / 3";
 			$this->view->nRondinsNecessaires = floor($this->view->user->vigueur_base_hobbit / 3);
-		} elseif ($tirage > $chance_b && $tirage <= 100) {
+		} else {
 			$this->view->nRondinsNecessairesFormule = "Niveau Vigueur (".$this->view->user->vigueur_base_hobbit.") / 4";
 			$this->view->nRondinsNecessaires = floor($this->view->user->vigueur_base_hobbit / 4);
 		}

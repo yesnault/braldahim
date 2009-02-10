@@ -87,9 +87,9 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 		
 		$maitrise = $this->hobbit_competence["pourcentage_hcomp"] / 100;
 		
-		$chance_a = 11.1-11 * $maitrise;
-		$chance_b = 100-(11.1-11 * $maitrise)-(10 * $maitrise);
-		$chance_c = 10 * $maitrise;
+		$chance_a = -0.375 * $maitrise + 53.75 ;
+		$chance_b = 0.25 * $maitrise + 42.5 ;
+		$chance_c = 0.125 * $maitrise + 3.75 ;
 
 		$tirage = Bral_Util_De::get_1d100();
 		
@@ -98,11 +98,11 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 			$qualite = 1;
 			$this->view->qualite = "m&eacute;diocre";
 			$nbJours = $this->calculJetForce();
-		} elseif ($tirage > $chance_a && $tirage <= $chance_b) {
+		} elseif ($tirage > $chance_a && $tirage <= $chance_a + $chance_b) {
 			$qualite = 2;
 			$this->view->qualite = "standard";
 			$nbJours = $this->calculJetForce() + $this->calculJetVigueur();
-		} elseif ($tirage > $chance_b && $tirage <= 100) {
+		} else {
 			$qualite = 3;
 			$this->view->qualite = "bonne";
 			$nbJours = $this->calculJetForce() + $this->calculJetVigueur() + $this->calculJetSagesse();
