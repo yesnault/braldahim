@@ -93,8 +93,8 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			
 			$tabValide = null;
 			$numero = -1;
-			for ($i = $x_min ; $i <= $x_max ; $i++) {
-				for ($j = $y_min ; $j <= $y_max ; $j++) {
+			for ($j = $y_max ; $j >= $y_min ; $j--) {
+				for ($i = $x_min ; $i <= $x_max ; $i++) {
 					$numero++;
 					$tabValide[$i][$j] = true;
 					if ($dijkstra->getDistance($numero) > $this->view->charge_nb_cases) {
@@ -240,7 +240,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		for ($i=1; $i<=$this->view->config->game->base_agilite + $hobbit->agilite_base_hobbit; $i++) {
 			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
 		}
-		$jetAttaquant = 0.5 * $jetAttaquant + $hobbit->agilite_bm_hobbit + $hobbit->agilite_bbdf_hobbit + $hobbit->bm_attaque_hobbit;
+		$jetAttaquant = floor(0.5 * $jetAttaquant + $hobbit->agilite_bm_hobbit + $hobbit->agilite_bbdf_hobbit + $hobbit->bm_attaque_hobbit);
 		if ($jetAttaquant < 0){
 			$jetAttaquant = 0;
 		}
