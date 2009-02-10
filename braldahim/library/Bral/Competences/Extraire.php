@@ -25,10 +25,23 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		$this->view->filonOk = false;
 
 		$filonTable = new Filon();
-		$this->view->filon = $filonTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		if (count($this->view->filon) > 0) {
+		$filons = $filonTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		
+		$tabFilons = null;
+		if (count($filons) > 0) {
 			$this->view->filonOk = true;
+			
+			foreach($filons as $f) {
+				$tabFilons[] = array(
+					'id_filon' => $f["id_filon"], 
+					'nom_type_minerai' => $f['nom_type_minerai'],
+					'id_fk_type_minerai_filon' => $f["id_fk_type_minerai_filon"],
+					'quantite_restante_filon' => $f["quantite_restante_filon"],
+					);
+			}
 		}
+		
+		$this->view->filons = $tabFilons;
 	}
 
 	function prepareFormulaire() {
@@ -49,6 +62,8 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Poids invalide");
 		}
 		
+		$idFilonRecu = intval($this->request->get("valeur_1"));
+		
 		// calcul des jets
 		if ($this->view->filonOk == true) {
 			$this->calculJets();
@@ -60,13 +75,15 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		}
 
 		$valid = false;
-		foreach($this->view->filon as $f) {
-			$idFilon = $f["id_filon"];
-			$id_fk_type_minerai_filon = $f["id_fk_type_minerai_filon"];
-			$quantite_restante_filon = $f["quantite_restante_filon"];
-			$nom_type_minerai = $f["nom_type_minerai"];
-			$valid = true;
-			break;
+		foreach($this->view->filons as $f) {
+			if ($idFilonRecu == $f["id_filon"]) {
+				$idFilon = $f["id_filon"];
+				$id_fk_type_minerai_filon = $f["id_fk_type_minerai_filon"];
+				$quantite_restante_filon = $f["quantite_restante_filon"];
+				$nom_type_minerai = $f["nom_type_minerai"];
+				$valid = true;
+				break;
+			}
 		}
 		
 		if ($valid===false) {
