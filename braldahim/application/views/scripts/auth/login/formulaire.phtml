@@ -16,7 +16,12 @@
 	    <form action="/auth/login" method="post"> 
 	    
 	    <ul class="titre textalic textsized">
-		Le jeu est actuellement en phase de beta-test Publique. 
+	    <? if ($this->config->general->production == 1) :?>
+			Le jeu est actuellement en phase de beta-test Publique.
+		<? else: ?>
+			<br>
+			Vous &ecirc;tes sur la version B&ecirc;ta Priv&eacute;e du jeu.
+		<? endif;?>
 	</ul>
 	
 		    <br />
@@ -38,8 +43,10 @@
 		    <p><a href="/Perdu">Perdu ?</a> ou <a href="/inscription">Pas encore inscrit ?</a></p>
 		    <p><a href="http://wiki.braldahim.com/wiki/Braldahim_sous_Internet_Explorer">Vous utilisez Internet Explorer ?</a></p>
 		    
-	La fin de la phase de Bêta-Test Publique n'est pas encore connue.<br>
-	Tous les comptes créés seront supprimés à la fin de cette phase.<br>
+		    <? if ($this->config->general->production == 1) :?>
+			La fin de la phase de B&ecirc;ta-Test Publique n'est pas encore connue.<br>
+			Tous les comptes cr&eacute;&eacute;s seront supprimés &agrave; la fin de cette phase.<br>
+			<? endif;?>
 		   <br> 
 	    </form> 
 	    
