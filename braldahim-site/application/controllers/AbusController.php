@@ -21,6 +21,7 @@ class AbusController extends Zend_Controller_Action {
 		
 		Zend_Loader::loadClass('Zend_Filter_StripTags');
 		Zend_Loader::loadClass('Zend_Filter_StringTrim');
+		Zend_Loader::loadClass('Bral_Util_Mail');
 				
 		$filter = new Zend_Filter();
 		$filter->addFilter(new Zend_Filter_StringTrim())->addFilter(new Zend_Filter_StripTags());
@@ -61,7 +62,15 @@ class AbusController extends Zend_Controller_Action {
 				 	'id_fk_hobbit_abus' => $hobbit->id_hobbit,
 					'texte_abus' => $texte,
 				);
-				$abusTable->insert($data);
+				$idAbus = $abusTable->insert($data);
+				
+				$mail = Bral_Util_Mail::getNewZendMail();
+				
+				$mail->setFrom($c->general->mail->abus->from, $c->general->mail->abus->nom);
+				$mail->addTo($c->general->mail->abus->from, $c->general->mail->abus->nom);
+				$mail->setSubject("[Braldahim-Abus] Abus n°".$idAbus ." signalé par Hobbit n°".$hobbit->id_hobbit);
+				$mail->setBodyText($texte);
+				$mail->send();
 				
 				$this->_redirect('/abus/fin');
 			} else {
