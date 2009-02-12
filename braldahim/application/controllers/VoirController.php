@@ -51,7 +51,7 @@ class VoirController extends Zend_Controller_Action {
 	}
 	
 	function monstretestAction() {
-		if (!Zend_Auth::getInstance()->hasIdentity()) {
+		if (!Zend_Auth::getInstance()->hasIdentity() || $this->config->general->production == 1) {
 			$this->_redirect('/'); 
 		}
 		
