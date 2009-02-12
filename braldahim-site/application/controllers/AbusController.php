@@ -68,7 +68,7 @@ class AbusController extends Zend_Controller_Action {
 				
 				$mail->setFrom($c->general->mail->abus->from, $c->general->mail->abus->nom);
 				$mail->addTo($c->general->mail->abus->from, $c->general->mail->abus->nom);
-				$mail->setSubject("[Braldahim-Abus] Abus n°".$idAbus ." signalé par Hobbit n°".$hobbit->id_hobbit);
+				$mail->setSubject("[Braldahim-Abus] Abus n°".$idAbus ." signalé par Hobbit n°".$hobbit->id_hobbit." (".$email.")");
 				$mail->setBodyText($texte);
 				$mail->send();
 				
