@@ -371,7 +371,7 @@ span.id_hobbit {
 	height: auto;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 20px;
+	margin-top: 0px;
 	text-align: center;
 }
 
@@ -1141,32 +1141,28 @@ td.vue2d.actuelle {
 	border-color:#ff6666;
 }
 
-#modalPage
-{
+#modalPage {
     display: none;
     position: absolute;
     width: 100%;
     height: 1500px;
     top: 0px; left: 0px;
 }
-.modalBackground
-{
+.modalBackground {
     filter: Alpha(Opacity=40); -moz-opacity:0.0; opacity: 0.0;
     width: 100%; height: 100%; background-color: #999999;
     position: absolute;
     z-index: 500;
     top: 0px; left: 0px;
 }
-.modalContainer
-{
+.modalContainer {
     position: absolute;
     width: 300px;
     left: 50%;
     top: 20%;
     z-index: 750;
 }
-.modal
-{
+.modal {
     background-color: white;
     border: solid 4px black; position: relative;
     top: -150px;
@@ -1176,19 +1172,145 @@ td.vue2d.actuelle {
     height: 300px;
     padding: 0px;
 }
-.modalTop
-{
+.modalTop {
     width: 292px;
     background-color: #000099;
     padding: 4px;
     color: #ffffff;
     text-align: right;
 }
-.modalTop a, .modalTop a:visited
-{
+.modalTop a, .modalTop a:visited {
     color: #ffffff;
 }
-.modalBody
-{
+.modalBody {
     padding: 10px;
+}
+
+/* ************************************************ */
+/* ********************** Menu *********************** */
+/* ************************************************ */
+
+
+#menu {
+	-moz-background-clip:border;
+	-moz-background-inline-policy:continuous;
+	-moz-background-origin:padding;
+	/*background:transparent url(/public/images/menu-fond.gif) repeat-x scroll 0 0;*/
+	border-color: #791E1E;
+	border-style: solid;
+	border-width: 0pt 1px;
+	display: block;
+	background: #e7c57b repeat-x scroll 0pt 0%;
+}
+#menu ul {
+	-moz-background-clip:border;
+	-moz-background-inline-policy:continuous;
+	-moz-background-origin:padding;
+	/*background:transparent url(public/images/menuul.gif) no-repeat scroll 0 0; */
+	height:31px;
+	list-style-type:none;
+	margin:0 auto;
+	padding:1 50px;
+	text-align:center;
+	width:640px;
+}
+#menu li {
+	background-repeat:no-repeat;
+	float:left;
+}
+#menu li a {
+	float:left;
+	font-size:0;
+	text-indent:-9999em;
+}
+#menu li.accueil a {
+	background-image:url(/public/images/menu.gif);
+	background-position: 0 0;
+	height:31px;
+	width:110px;
+}
+#menu li.accueil a:hover {
+	background-image:url(/public/images/menu.gif);
+	background-position: 0 -31px;
+	height:31px;
+	width:110px;
+}
+#menu li.jouer a {
+	background-image:url(/public/images/menu.gif);
+	background-position:-110px 0;
+	height:31px;
+	width:85px;
+}
+#menu li.jouer a:hover {
+	background-image:url(/public/images/menu.gif);
+	background-position:-110px -31px;
+}
+#menu li.bourg a {
+	background-image:url(/public/images/menu.gif);
+	background-position:-190px 0;
+	height:31px;
+	width:110px;
+}
+#menu li.bourg a:hover {
+	background-image:url(/public/images/menu.gif);
+	background-position:-190px -31px;
+	height:31px;
+}
+#menu li.forums a {
+	background-image:url(/public/images/menu.gif);
+	background-position:-300px 0;
+	height:31px;
+	width:95px;
+}
+#menu li.forums a:hover {
+	background-image:url(/public/images/menu.gif);
+	background-position:-300px -31px;
+}
+#menu li.regles a {
+	background-image:url(/public/images/menu.gif);
+	background-position:-390px 0;
+	height:31px;
+	width:95px;
+}
+#menu li.regles a:hover {
+	background-image:url(/public/images/menu.gif);
+	background-position:-390px -31px;
+	height:31px;
+}
+#menu li.projet a {
+	background-image:url(/public/images/menu.gif);
+	background-position:-490px 0;
+	height:31px;
+	width:106px;
+}
+#menu li.projet a:hover {
+	background-image:url(/public/images/menu.gif);
+	background-position:-490px -31px;
+}
+
+#header-logo {
+	-moz-background-clip:border;
+	-moz-background-inline-policy:continuous;
+	-moz-background-origin:padding;
+	height:50px;
+	position:relative;
+}
+#header-logo h1 {
+	-moz-background-clip:border;
+	-moz-background-inline-policy:continuous;
+	-moz-background-origin:padding;
+	background:transparent url(/public/images/logo.png) no-repeat scroll 0 0;
+	font-size:1px;
+	font-weight:normal;
+	height:50px;
+	margin:0;
+	padding:0;
+	text-indent:-999em;
+	width:550px;
+}
+#header-logo h1 a {
+	display:block;
+	height:100%;
+	text-decoration:none;
+	width:100%;
 }
