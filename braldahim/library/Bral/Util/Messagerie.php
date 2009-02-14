@@ -103,12 +103,15 @@ class Bral_Util_Messagerie {
 				$userIds .= ",";
 			}
 			$userIds .= $c["userids"];
-			$tabHobbits[] = $c["userids"];;
+			$tabHobbits[] = $c["userids"];
 		}
 		
 		if ($tabHobbits != null) {
 			$hobbitTable = new Hobbit();
-			$hobbits = $hobbitTable->findByIdList($tabHobbits);
+			$hobbitsRowset = $hobbitTable->findByIdList($tabHobbits);
+			foreach($hobbitsRowset as $h) {
+				$hobbits[$h["id_hobbit"]] = $h;
+			}
 		}
 		
 		$tab = array(
