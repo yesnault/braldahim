@@ -74,7 +74,6 @@ class Bral_Util_Messagerie {
 		$idContactsTab = split(',', $tabContacts);
 		
 		$contactsTab = $josUserListsTable->findByIdsList($idContactsTab, $idHobbit);
-		
 		if ($contactsTab == null) {
 			return $tab;
 		}
@@ -103,7 +102,10 @@ class Bral_Util_Messagerie {
 				$userIds .= ",";
 			}
 			$userIds .= $c["userids"];
-			$tabHobbits[] = $c["userids"];
+			$tab = split(',', $c["userids"]);
+			foreach($tab as $t) {
+				$tabHobbits[] = $t;
+			}
 		}
 		
 		if ($tabHobbits != null) {

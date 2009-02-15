@@ -352,8 +352,7 @@ class InscriptionController extends Zend_Controller_Action {
 			$dataParents["id_fk_pere_hobbit"] = $couple["id_fk_m_hobbit_couple"];
 			$dataParents["id_fk_mere_hobbit"] = $couple["id_fk_f_hobbit_couple"];
 			
-			$where = array('id_fk_m_hobbit_couple' => $couple["id_fk_m_hobbit_couple"],
-						   'id_fk_f_hobbit_couple' => $couple["id_fk_f_hobbit_couple"]);
+			$where = "id_fk_m_hobbit_couple=".$couple["id_fk_m_hobbit_couple"]." AND id_fk_f_hobbit_couple=".$couple["id_fk_f_hobbit_couple"];
 			$data = array('nb_enfants_couple' => $couple["nb_enfants_couple"] + 1);
 			
 			$coupleTable->update($data, $where);
