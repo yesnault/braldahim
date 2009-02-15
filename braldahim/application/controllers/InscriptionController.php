@@ -174,7 +174,7 @@ class InscriptionController extends Zend_Controller_Action {
 				$this->view->email_hobbit = $this->email_hobbit;
 
 				$this->envoiEmail();
-				Bral_Util_Log::tech()->notice("InscriptionController - ajouterAction - envoie email vers :".$this->email_hobbit);
+				Bral_Util_Log::tech()->notice("InscriptionController - ajouterAction - envoi email vers ".$this->email_hobbit);
 				echo $this->view->render("inscription/fin.phtml");
 				return;
 			} else {
@@ -353,7 +353,8 @@ class InscriptionController extends Zend_Controller_Action {
 			$dataParents["id_fk_mere_hobbit"] = $couple["id_fk_f_hobbit_couple"];
 			
 			$where = "id_fk_m_hobbit_couple=".$couple["id_fk_m_hobbit_couple"]." AND id_fk_f_hobbit_couple=".$couple["id_fk_f_hobbit_couple"];
-			$data = array('nb_enfants_couple' => $couple["nb_enfants_couple"] + 1);
+			$nombreEnfants = $couple["nb_enfants_couple"] + 1;
+			$data = array('nb_enfants_couple' => $nombreEnfants);
 			
 			$coupleTable->update($data, $where);
 			
@@ -364,7 +365,7 @@ class InscriptionController extends Zend_Controller_Action {
 			Bral_Util_Evenement::majEvenements($couple["id_fk_m_hobbit_couple"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, 0, "hobbit", true, $this->view);
 			Bral_Util_Evenement::majEvenements($couple["id_fk_f_hobbit_couple"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, 0, "hobbit", true, $this->view);
 				
-			Bral_Util_Log::inscription()->notice("InscriptionController - calculParent - utilisation d'un couple existant");
+			Bral_Util_Log::inscription()->notice("InscriptionController - calculParent - utilisation d'un couple existant (m:".$couple["id_fk_m_hobbit_couple"]." f:".$couple["id_fk_f_hobbit_couple"]." enfants:".$nombreEnfants.")");
 		} else { // pas de couple dispo, on tente d'en creer un nouveau
 			$dataParents = $this->creationCouple($idHobbit);
 		}
