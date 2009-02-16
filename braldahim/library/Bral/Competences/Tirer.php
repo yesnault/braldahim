@@ -61,7 +61,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			$y_max = $this->view->user->y_hobbit + $this->view->tir_nb_cases;
 			
 			//tir vertical ou horizontal
-			$tabValide = null;
+			/*$tabValide = null;
 			for ($i = $x_min ; $i <= $x_max ; $i++) {
 				$tabValide[$i][$this->view->user->y_hobbit] = true;
 				for ($j = $y_min ; $j <= $y_max ; $j++) {
@@ -82,7 +82,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 				$tabValide[$xdiagonale_haut_bas][$ydiagonale_haut_bas] = true;
 				$tabValide[$xdiagonale_bas_haut][$ydiagonale_haut_bas] = true;
 				$tabValide[$xdiagonale_haut_bas][$ydiagonale_bas_haut] = true;
-			}
+			}*/
 			
 			$tabHobbits = null;
 			$tabMonstres = null;
@@ -95,7 +95,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 				$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->id_hobbit);
 				
 				foreach($hobbits as $h) {
-					if ($tabValide[$h["x_hobbit"]][$h["y_hobbit"]] === true) {
+					//if ($tabValide[$h["x_hobbit"]][$h["y_hobbit"]] === true) {
 						$tabHobbits[] = array(
 							'id_hobbit' => $h["id_hobbit"],
 							'nom_hobbit' => $h["nom_hobbit"],
@@ -104,7 +104,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 							'y_hobbit' => $h["y_hobbit"],
 							'dist_hobbit' => max(abs($h["x_hobbit"] - $this->view->user->x_hobbit), abs($h["y_hobbit"] - $this->view->user->y_hobbit))
 						);
-					}
+					//}
 				}
 			}
 			
@@ -117,7 +117,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 				} else {
 					$m_taille = $m["nom_taille_m_monstre"];
 				}
-				if ($tabValide[$m["x_monstre"]][$m["y_monstre"]] === true) {
+				//if ($tabValide[$m["x_monstre"]][$m["y_monstre"]] === true) {
 					$tabMonstres[] = array(
 						'id_monstre' => $m["id_monstre"], 
 						'nom_monstre' => $m["nom_type_monstre"], 
@@ -127,7 +127,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 						'y_monstre' => $m["y_monstre"],
 						'dist_monstre' => max(abs($m["x_monstre"] - $this->view->user->x_hobbit), abs($m["y_monstre"]-$this->view->user->y_hobbit))
 					);
-				}
+				//}
 			}
 			$this->view->tabHobbits = $tabHobbits;
 			$this->view->nHobbits = count($tabHobbits);
@@ -235,7 +235,6 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 	 * coeff varie suivant distance et palissade
 	 */
 	protected function calculJetAttaque($hobbit) {
-		Zend_Loader::loadClass("Palissade");
 		$jetAttaquant = 0;
 		$coef = 0;
 		$palissade = false;
@@ -260,47 +259,44 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			$y_min = $hobbit->y_hobbit;
 			$y_max = $this->view->yCible;
 		}
-		$palissadeTable = new Palissade();
 		
-		//horizontal
-		if ($this->view->xCible == $hobbit->x_hobbit) {
-			for ($y = $y_min; $y < $y_max ; $y++) {
-				if ($palissadeTable->findByCase($x_min,$y)){
-					$palissade = true;
-					break;
-				}
-			}
-		}
-		//vertical
-		elseif ($this->view->yCible == $hobbit->y_hobbit) {
-			for ($x = $x_min; $x < $x_max; $x++) {
-				if ($palissadeTable->findByCase($x,$y_min)){
-					$palissade = true;
-					break;
-				}
-			}
-		}
-		//diagonale
-		else{
-			if ($x_min == $this->view->xCible) {
-				$y = $this->view->yCible;
-			}
-			else{
-				$y = $hobbit->y_hobbit;
-			}
-			if ($y == $y_min){
-				$monte=true;
-			}
-			for ($x = $x_min; $x < $x_max; $x++) {
-				if ($palissadeTable->findByCase($x,$y)){
-					$palissade = true;
-					break;
-				}
-				if ($monte==true){
-					$y++;
+		if ($this->view->distCible > 1){
+			Zend_Loader::loadClass("Palissade");
+			
+			// equation droite y = mx + p  => ax + by + c = 0
+			// distance d'un point à une droite = abs ( (ax + by + c)/sqrt(a² + b²))
+			
+			// calcul de m et p :
+			if ($this->view->user->x_hobbit != $this->view->xCible){
+				$m = ($this->view->user->y_hobbit-$this->view->yCible)/($this->view->user->x_hobbit-$this->view->xCible);
+				$p = $this->view->yCible - $m * $this->view->xCible;
+				$a = 1;
+				if ($m != 0 ){
+					$b = -1/$m;
 				}
 				else{
-					$y--;
+					$a=0;
+					$b=1;
+				}
+				$c = -1*$p*$b;
+			}
+			else {
+				$a = 1;
+				$b = 0;
+				$c = -1*$this->view->user->x_hobbit;
+			}
+			
+			$palissadeTable = new Palissade();
+			
+			for ($x = $x_min; $x <= $x_max; $x++) {
+				for ($y = $y_min; $y <= $y_max; $y++) {
+					$dist = abs (($a * $x + $b * $y + $c)/sqrt(pow($a,2)+pow($b,2)));
+					if ( $dist < 0.5 ){
+						if ($palissadeTable->findByCase($x,$y)){
+							$palissade = true;
+							break;
+						}
+					}
 				}
 			}
 		}

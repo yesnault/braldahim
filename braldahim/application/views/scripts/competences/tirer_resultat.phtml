@@ -5,6 +5,7 @@
 	<? if ($this->palissade === true) : ?>
 		et au moins une palissade se trouvait sur la trajectoire du tir !<br />
 	<? endif; ?>
+	<br>
 	Vous avez donc subi un malus de <?=100-100*$this->coef?>%<br />
 	Jet d'attaque corrig&eacute; : <?=$this->retourAttaque["jetAttaquant"]?><br />
 	Jet de d&eacute;fense de la cible : <?=$this->retourAttaque["jetCible"]?><br />
