@@ -391,7 +391,7 @@ class InscriptionController extends Zend_Controller_Action {
 				$data = array('id_fk_m_hobbit_couple' => $pere["id_hobbit"],
 							  'id_fk_f_hobbit_couple' => $mere["id_hobbit"],
 							  'date_creation_couple' => date("Y-m-d H:i:s"),
-							  'nb_enfants_couple' => 1,
+							  'nb_enfants_couple' => 0,
 							 );
 				$coupleTable = new Couple();
 				$coupleTable->insert($data);
