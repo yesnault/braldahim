@@ -74,13 +74,13 @@ class Bral_Messagerie_Message {
 				$this->prepareNouveau();
 				break;
 			case "repondre" :	
-				$this->prepareRepondre(false);
+				$this->prepareRepondre(false, false);
 				break;
 			case "repondretous" :	
 				$this->prepareRepondre(false, true);
 				break;
 			case "transferer" :
-				$this->prepareRepondre(true);
+				$this->prepareRepondre(true, false);
 				break;
 			case "supprimer" :
 				$this->prepareSupprimer();
@@ -362,6 +362,11 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 					"totrashoutbox" => 1,
 					"totrashdateoutbox" => time(),
 				);
+				if ($message["toid"] == $this->view->user->id_hobbit) {
+					$data["totrash"] = 1;
+					$data["totrashdate"] = time();
+					
+				}
 			} else {
 				$data = array(
 					"totrash" => 1,
