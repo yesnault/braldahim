@@ -60,30 +60,6 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			$y_min = $this->view->user->y_hobbit - $this->view->tir_nb_cases;
 			$y_max = $this->view->user->y_hobbit + $this->view->tir_nb_cases;
 			
-			//tir vertical ou horizontal
-			/*$tabValide = null;
-			for ($i = $x_min ; $i <= $x_max ; $i++) {
-				$tabValide[$i][$this->view->user->y_hobbit] = true;
-				for ($j = $y_min ; $j <= $y_max ; $j++) {
-					if (!isset($tabValide[$i][$j])) {
-						$tabValide[$i][$j] = false;
-					}
-					$tabValide[$this->view->user->x_hobbit][$j] = true;
-				}
-			}
-			
-			//tir diagonal
-			for ($i = 0 ; $i <= $this->view->tir_nb_cases ; $i++) {
-				$xdiagonale_bas_haut = $x_min + $i;
-				$xdiagonale_haut_bas = $x_max - $i;
-				$ydiagonale_bas_haut = $y_min + $i;
-				$ydiagonale_haut_bas = $y_max - $i;
-				$tabValide[$xdiagonale_bas_haut][$ydiagonale_bas_haut] = true;
-				$tabValide[$xdiagonale_haut_bas][$ydiagonale_haut_bas] = true;
-				$tabValide[$xdiagonale_bas_haut][$ydiagonale_haut_bas] = true;
-				$tabValide[$xdiagonale_haut_bas][$ydiagonale_bas_haut] = true;
-			}*/
-			
 			$tabHobbits = null;
 			$tabMonstres = null;
 	
@@ -95,16 +71,14 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 				$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->id_hobbit);
 				
 				foreach($hobbits as $h) {
-					//if ($tabValide[$h["x_hobbit"]][$h["y_hobbit"]] === true) {
-						$tabHobbits[] = array(
-							'id_hobbit' => $h["id_hobbit"],
-							'nom_hobbit' => $h["nom_hobbit"],
-							'prenom_hobbit' => $h["prenom_hobbit"],
-							'x_hobbit' => $h["x_hobbit"],
-							'y_hobbit' => $h["y_hobbit"],
-							'dist_hobbit' => max(abs($h["x_hobbit"] - $this->view->user->x_hobbit), abs($h["y_hobbit"] - $this->view->user->y_hobbit))
-						);
-					//}
+					$tabHobbits[] = array(
+						'id_hobbit' => $h["id_hobbit"],
+						'nom_hobbit' => $h["nom_hobbit"],
+						'prenom_hobbit' => $h["prenom_hobbit"],
+						'x_hobbit' => $h["x_hobbit"],
+						'y_hobbit' => $h["y_hobbit"],
+						'dist_hobbit' => max(abs($h["x_hobbit"] - $this->view->user->x_hobbit), abs($h["y_hobbit"] - $this->view->user->y_hobbit))
+					);
 				}
 			}
 			
@@ -117,17 +91,15 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 				} else {
 					$m_taille = $m["nom_taille_m_monstre"];
 				}
-				//if ($tabValide[$m["x_monstre"]][$m["y_monstre"]] === true) {
-					$tabMonstres[] = array(
-						'id_monstre' => $m["id_monstre"], 
-						'nom_monstre' => $m["nom_type_monstre"], 
-						'taille_monstre' => $m_taille, 
-						'niveau_monstre' => $m["niveau_monstre"],
-						'x_monstre' => $m["x_monstre"],
-						'y_monstre' => $m["y_monstre"],
-						'dist_monstre' => max(abs($m["x_monstre"] - $this->view->user->x_hobbit), abs($m["y_monstre"]-$this->view->user->y_hobbit))
-					);
-				//}
+				$tabMonstres[] = array(
+					'id_monstre' => $m["id_monstre"], 
+					'nom_monstre' => $m["nom_type_monstre"], 
+					'taille_monstre' => $m_taille, 
+					'niveau_monstre' => $m["niveau_monstre"],
+					'x_monstre' => $m["x_monstre"],
+					'y_monstre' => $m["y_monstre"],
+					'dist_monstre' => max(abs($m["x_monstre"] - $this->view->user->x_hobbit), abs($m["y_monstre"]-$this->view->user->y_hobbit))
+				);
 			}
 			$this->view->tabHobbits = $tabHobbits;
 			$this->view->nHobbits = count($tabHobbits);
@@ -265,8 +237,9 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			
 			// equation droite y = mx + p  => ax + by + c = 0
 			// distance d'un point à une droite = abs ( (ax + by + c)/sqrt(a² + b²))
+			// la distance entre le point et la droite doit être inférieure à sqrt(2)/2
 			
-			// calcul de m et p :
+			// calcul de m, p, a, b et c :
 			if ($this->view->user->x_hobbit != $this->view->xCible){
 				$m = ($this->view->user->y_hobbit-$this->view->yCible)/($this->view->user->x_hobbit-$this->view->xCible);
 				$p = $this->view->yCible - $m * $this->view->xCible;
@@ -291,7 +264,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			for ($x = $x_min; $x <= $x_max; $x++) {
 				for ($y = $y_min; $y <= $y_max; $y++) {
 					$dist = abs (($a * $x + $b * $y + $c)/sqrt(pow($a,2)+pow($b,2)));
-					if ( $dist < 0.5 ){
+					if ( round($dist,5) < sqrt(2)/2 ){
 						if ($palissadeTable->findByCase($x,$y)){
 							$palissade = true;
 							break;
