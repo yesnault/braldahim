@@ -52,7 +52,7 @@ class StatsExperience extends Zend_Db_Table {
 		$select->where('mois_stats_experience >= ?', $dateDebut);
 		$select->where('mois_stats_experience < ?', $dateFin);
 		$select->order("niveau ASC");
-		$select->group(array('niveau_hobbit_stats_experience'));
+		$select->group(array('niveau'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
