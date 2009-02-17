@@ -57,7 +57,7 @@ class Bral_Util_BralSession {
 			if ($nombre != 1) {
 				$where = "id_fk_hobbit_session = ".$user->id_hobbit; 
 				$sessionTable->delete($where);
-				Bral_Util_Log::tech()->warn("Bral_Util_BralSession - session sur 2 navigateurs - ID Hobbit:".$user->id_hobbit." IP:".$_SERVER['REMOTE_ADDR']);
+				Bral_Util_Log::tech()->warn("Bral_Util_BralSession - session sur 2 navigateurs nb.session:(".$nombre.") - ID Hobbit:".$user->id_hobbit." IP:".$_SERVER['REMOTE_ADDR']);
 			}
 			return false;
 		}

@@ -93,6 +93,15 @@ class GardiennageController extends Zend_Controller_Action {
 				$this->view->message = "Erreur. Garde inconnue $id_garde idHobbit=$id_hobbit emailHobbit=$email_hobbit";
 			} else {
 				Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable'); 
+				Zend_Loader::loadClass('Session');
+				
+				// suppression de la session courante dans la table
+	            $sessionTable = new Session();
+				$where = "id_fk_hobbit_session = ".$this->view->user->id_hobbit; 
+				$sessionTable->delete($where);
+				
+				Zend_Auth::getInstance()->clearIdentity();
+				
 	            $dbAdapter = Zend_Registry::get('dbAdapter'); 
 	            $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter); 
 	            $authAdapter->setTableName('hobbit'); 
@@ -102,7 +111,7 @@ class GardiennageController extends Zend_Controller_Action {
 	            // Set the input credential values to authenticate against 
 	            $authAdapter->setIdentity($email_hobbit); 
 	            $authAdapter->setCredential($id_hobbit); 
-	             
+	            
 	            // authentication  
 	            $auth = Zend_Auth::getInstance(); 
 	            $result = $auth->authenticate($authAdapter); 
@@ -111,7 +120,11 @@ class GardiennageController extends Zend_Controller_Action {
 	            	if ($hobbit->est_compte_actif_hobbit == "oui" && $hobbit->est_en_hibernation_hobbit == "non") {
 		                $auth->getStorage()->write($hobbit); 
 						// activation du tour
-						
+
+						$sessionTable = new Session();
+						$data = array("id_fk_hobbit_session" => $hobbit->id_hobbit, "id_php_session" => session_id(), "ip_session" => $_SERVER['REMOTE_ADDR'], "date_derniere_action_session" => date("Y-m-d H:i:s")); 
+						$sessionTable->insertOrUpdate($data);
+					
 		                Zend_Auth::getInstance()->getIdentity()->dateAuth = md5(date("Y-m-d H:i:s"));
 						Zend_Auth::getInstance()->getIdentity()->initialCall = true;
 		                Zend_Auth::getInstance()->getIdentity()->activation = ($f->filter($this->_request->getPost('activation_tour_gardiennage')) == 'oui');
