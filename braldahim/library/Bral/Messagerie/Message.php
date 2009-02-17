@@ -40,6 +40,7 @@ class Bral_Messagerie_Message {
 				}
 			case "nouveau" :
 			case "repondre" :
+			case "repondretous" :
 			case "transferer" :
 				return $this->view->render("messagerie/nouveau.phtml");
 				break;
@@ -73,7 +74,10 @@ class Bral_Messagerie_Message {
 				$this->prepareNouveau();
 				break;
 			case "repondre" :	
-				$this->prepareRepondre();
+				$this->prepareRepondre(false);
+				break;
+			case "repondretous" :	
+				$this->prepareRepondre(false, true);
 				break;
 			case "transferer" :
 				$this->prepareRepondre(true);
@@ -110,10 +114,14 @@ class Bral_Messagerie_Message {
 		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_hobbit);
 	}
 
-	private function prepareRepondre($transferer = false) {
+	private function prepareRepondre($transferer, $repondretous) {
 		$this->prepareMessage();
-		if ($transferer == false) {	
-			$tabHobbit = Bral_Util_Messagerie::constructTabHobbit($this->view->message["fromid"].",", true);
+		if ($transferer == false) {
+			$listeId = $this->view->message["fromid"].",";
+			if ($repondretous) {
+				$listeId = $listeId.$this->view->message["toids"].",";
+			}
+			$tabHobbit = Bral_Util_Messagerie::constructTabHobbit($listeId, true);
 		} else {
 			$tabHobbit = array("destinataires" => "",
 				"aff_js_destinataires" => "",
@@ -189,26 +197,28 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 			$debutContenuMail = "Message de ".$this->view->user->prenom_hobbit." ".$this->view->user->nom_hobbit." (".$this->view->user->id_hobbit.") : ";
 
 			$tabIdDestinatairesDejaEnvoye = array();
+			$tabHobbits = array();
+			$idDestinatairesTab = array();
+			$idDestinatairesListe = null;
+			
 			if ($this->view->message["destinataires"] != "") {
 				$idDestinatairesTab = split(',', $this->view->message["destinataires"]);
+				$idDestinatairesListe = $this->view->message["destinataires"];
 				$tabHobbits = $tabHobbit["hobbits"];
-				foreach ($idDestinatairesTab as $id_hobbit) {
-					$data = $this->prepareMessageAEnvoyer($this->view->user->id_hobbit, $id_hobbit, $tabMessage["contenu"]);
-					if (!in_array($id_hobbit, $tabIdDestinatairesDejaEnvoye)) {
-						$josUddeimTable->insert($data);
-						$tabIdDestinatairesDejaEnvoye[] = $id_hobbit;
-						if ($tabHobbits[$id_hobbit]["envoi_mail_message_hobbit"] == "oui") {
-							Bral_Util_Mail::envoiMailAutomatique($tabHobbits[$id_hobbit], $this->view->config->mail->message->titre, $debutContenuMail.$tabMessage["contenu"], $this->view);
-						}
-					}
-				}
 			}
-
+			
 			if ($this->view->message["userids"] != "") {
-				$idContactsTab = split(',', $this->view->message["userids"]);
-				$tabHobbits = $tabContacts["hobbits"];
-				foreach ($idContactsTab as $id_hobbit) {
-					$data = $this->prepareMessageAEnvoyer($this->view->user->id_hobbit, $id_hobbit, $tabMessage["contenu"]);
+				$idDestinatairesTab = $idDestinatairesTab + split(',', $this->view->message["userids"]);
+				if ($idDestinatairesListe != null) {
+					$idDestinatairesListe .= ",";
+				}
+				$idDestinatairesListe = $idDestinatairesListe . $this->view->message["userids"];
+				$tabHobbits = $tabHobbits + $tabContacts["hobbits"];
+			}
+			
+			if ($tabHobbits != null && count($idDestinatairesTab) > 0) {
+				foreach ($idDestinatairesTab as $id_hobbit) {
+					$data = $this->prepareMessageAEnvoyer($this->view->user->id_hobbit, $id_hobbit, $tabMessage["contenu"], $idDestinatairesListe);
 					if (!in_array($id_hobbit, $tabIdDestinatairesDejaEnvoye)) {
 						$josUddeimTable->insert($data);
 						$tabIdDestinatairesDejaEnvoye[] = $id_hobbit;
@@ -237,9 +247,10 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 		}
 	}
 	
-	private function prepareMessageAEnvoyer($idHobbitSource, $idHobbitDestinataire, $contenu) {
+	private function prepareMessageAEnvoyer($idHobbitSource, $idHobbitDestinataire, $contenu, $idDestinatairesListe) {
 		return array ('fromid' => $idHobbitSource,
 					  'toid' => $idHobbitDestinataire,
+						'toids' => $idDestinatairesListe,
 						'message' => $contenu,
 						'datum' => time(),
 						'toread' => 0,
@@ -261,7 +272,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 			
 			$idsHobbit[] = $message["toid"];
 			$idsHobbit[] = $message["fromid"];
-			
+			$idsHobbit = array_merge($idsHobbit, split(',', $message["toids"]));
 			if ($idsHobbit != null) {
 				$hobbitTable = new Hobbit();
 				$hobbits = $hobbitTable->findByIdList($idsHobbit);
@@ -273,6 +284,8 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 			}
 			
 			$expediteur = "";
+			$destinataire = "";
+			$destinataires = "";
 			if ($tabHobbits != null) {
 				if (array_key_exists($message["fromid"], $tabHobbits)) {
 					$expediteur = $tabHobbits[$message["fromid"]]["prenom_hobbit"] . " ". $tabHobbits[$message["fromid"]]["nom_hobbit"]. " (".$tabHobbits[$message["fromid"]]["id_hobbit"].")";
@@ -283,7 +296,16 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 				if (array_key_exists($message["toid"], $tabHobbits)) {
 					$destinataire = $tabHobbits[$message["toid"]]["prenom_hobbit"] . " ". $tabHobbits[$message["toid"]]["nom_hobbit"]. " (".$tabHobbits[$message["toid"]]["id_hobbit"].")";
 				} else {
-					$destinataire = " Erreur ".$message["toid"];
+					$destinataire = " Erreur Hobbit n°".$message["toid"];
+				}
+				
+				$tabDestinataires = split(',', $message["toids"]);
+				foreach ($tabDestinataires as $k=>$d) {
+					if (array_key_exists($d, $tabHobbits)) {
+						$destinataires .= $tabHobbits[$d]["prenom_hobbit"] . " ". $tabHobbits[$d]["nom_hobbit"]. " (".$tabHobbits[$d]["id_hobbit"]."), ";
+					} else {
+						$destinataires .= " Erreur Hobbit n°:".$d." ";
+					}
 				}
 			}
 			
@@ -295,14 +317,22 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 				$destinataire = " Erreur inconnue";
 			}
 			
+			if ($destinataires == "") {
+				$destinataires = " Erreur inconnue";
+			} else {
+				$destinataires = substr($destinataires, 0, strlen($destinataires) - 2);
+			}
+			
 			$tabMessage = array(
 				"id_message" => $message["id"],
 				"titre" => $message["message"],
 				"date" => $message["datum"],
 				'expediteur' => $expediteur,
 				'destinataire' => $destinataire,
+				'destinataires' => $destinataires,
 				"fromid" => $message["fromid"],
 				"toid" => $message["fromid"],
+				"toids" => $message["toids"],
 				"toread" => $message["toread"],
 			);
 			

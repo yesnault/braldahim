@@ -24,9 +24,9 @@ class Bral_Util_Messagerie {
 		$xml_response->add_entry($xml_entry);
 	}
 	
-	public static function constructTabHobbit($tab_destinataires, $valeur = "valeur_2") {
+	public static function constructTabHobbit($tabDestinataires, $valeur = "valeur_2") {
 		$hobbitTable = new Hobbit();
-		$idDestinatairesTab = split(',', $tab_destinataires);
+		$idDestinatairesTab = split(',', $tabDestinataires);
 		
 		$hobbits = $hobbitTable->findByIdList($idDestinatairesTab);
 		
