@@ -6,7 +6,7 @@
 <table class="table_liste" style="width:90%;">
 	
   <tr class="table_liste">
-	<th rowspan="10"><?=Bral_Helper_Image::afficherAvatar($this->hobbit["url_avatar_hobbit"]); ?></th>
+	<th rowspan="11"><?=Bral_Helper_Image::afficherAvatar($this->hobbit["url_avatar_hobbit"]); ?></th>
 	<th>Date de cr&eacute;ation</th>
 	<th>Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->hobbit["date_creation_hobbit"]); ?></th>
   </tr>
@@ -112,6 +112,10 @@
   <tr class="table_liste">
 	<th>En Hibernation</th>
 	<td class="table_liste"><?=$this->hobbit["est_en_hibernation_hobbit"] ?></td>
+  </tr>
+  <tr class="table_liste">
+	<th>Est Intangible</th>
+	<td class="table_liste"><?=$this->hobbit["est_intangible_hobbit"] ?></td>
   </tr>
 </table>
 
