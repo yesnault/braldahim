@@ -37,7 +37,7 @@ class Bral_Monstres_VieMonstre {
 	private function __construct() {}
 
 	/**
-	 * Déplacement du monstre une une position.
+	 * Déplacement du monstre vers une position.
 	 *
 	 * @param int $x_destination
 	 * @param int $y_destination
@@ -613,5 +613,43 @@ Vous avez esquivé parfaitement l'attaque";
 		
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
 		return $retour;
+	}
+	
+	public static function getTabXYRayon($niveau, $villes, $directionX, $directionY, $offsetX = null, $offsetY = null) {
+		$tab["x_direction"] = $directionX;
+		$tab["y_direction"] = $directionY;
+		
+		$rayonMin = $niveau * 4;
+		
+		if ($offsetX == null || $offsetY == null) {
+			$offsetX = $rayonMin;
+			$offsetY = $rayonMin;
+		}
+		
+		foreach($villes as $v) {
+			// vérification rayon
+			if ($v["x_min_ville"] - $rayonMin <= $directionX && $v["x_max_ville"] + $rayonMin >= $directionX) {
+				if ($directionX < $v["x_min_ville"]) {
+					$directionX = $directionX - $offsetX;
+				}
+				
+				if ($directionX > $v["x_min_ville"]) {
+					$directionX = $directionX + $offsetX;
+				}
+			}
+			
+			if ($v["y_min_ville"] - $rayonMin <= $directionY && $v["y_max_ville"] + $rayonMin >= $directionY) {
+				if ($directionY < $v["y_min_ville"]) {
+					$directionY = $directionY - $offsetY;
+				}
+				
+				if ($directionY > $v["y_min_ville"]) {
+					$directionY = $directionY + $offsetY;
+				}
+			}
+		}
+        $tab["x_direction"] = $directionX;
+		$tab["y_direction"] = $directionY;
+		return $tab;
 	}
 }

@@ -12,12 +12,12 @@
  */
 abstract class Bral_Monstres_VieGroupes {
 	
-    public function __construct($view) {
-        Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
+    public function __construct($view, $villes) {
         Zend_Loader::loadClass("Ville");
         $this->config = Zend_Registry::get('config');
         $this->view = $view;
         $this->dateCourante = date("Y-m-d H:i:s");
+        $this->villes = $villes;
     }
 
     abstract function action();

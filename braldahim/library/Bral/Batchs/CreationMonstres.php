@@ -24,6 +24,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass('CreationMonstres'); 
 		Zend_Loader::loadClass('Ville'); 
 		Zend_Loader::loadClass("Palissade");
+		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
 		
 		$retour = null;
 		
@@ -230,30 +231,12 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$y_monstre = Bral_Util_De::get_de_specifique($y_min, $y_max);
 		
 		$enVille = 0;
-		$rayonMin = $niveau_monstre * 4;
+		
+		$tab = Bral_Monstres_VieMonstre::getTabXYRayon($niveau_monstre, $villes, $x_monstre, $y_monstre);
+		$x_monstre = $tab["x_direction"];
+		$y_monstre = $tab["y_direction"];
 		
 		foreach($villes as $v) {
-			// vérification rayon
-			if ($v["x_min_ville"] - $rayonMin <= $x_monstre && $v["x_max_ville"] + $rayonMin >= $x_monstre) {
-				if ($x_monstre < $v["x_min_ville"]) {
-					$x_monstre = $x_monstre - $rayonMin;
-				}
-				
-				if ($x_monstre > $v["x_min_ville"]) {
-					$x_monstre = $x_monstre + $rayonMin;
-				}
-			}
-			
-			if ($v["y_min_ville"] - $rayonMin <= $y_monstre && $v["y_max_ville"] + $rayonMin >= $y_monstre) {
-				if ($y_monstre < $v["y_min_ville"]) {
-					$y_monstre = $y_monstre - $rayonMin;
-				}
-				
-				if ($y_monstre > $v["y_min_ville"]) {
-					$y_monstre = $y_monstre + $rayonMin;
-				}
-			}
-			
 			// on ne créé pas de monstre en ville
 			if ($v["x_min_ville"] <= $x_monstre && $v["x_max_ville"] >= $x_monstre &&
 				$v["y_min_ville"] <= $y_monstre && $v["y_max_ville"] >= $y_monstre) {
@@ -263,6 +246,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 				} else {
 					$enVille = -20;
 				}
+				break;
 			}
 		}
 		

@@ -12,10 +12,10 @@
  */
 class Bral_Monstres_VieSolitaire {
 	
-    public function __construct($view) {
-        Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
+    public function __construct($view, $villes) {
         $this->config = Zend_Registry::get('config');
         $this->view = $view;
+        $this->villes = $villes;
     }
     
     public function action() {
@@ -141,6 +141,7 @@ class Bral_Monstres_VieSolitaire {
     protected function deplacementSolitaire(&$monstre, $fuite = false) {
         Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementSolitaire - enter");
         // si le role_a est sur la direction, on deplacement le groupe
+        
         if ($fuite ||
         	(($monstre["x_monstre"] == $monstre["x_direction_monstre"]) && //
             ($monstre["y_monstre"] == $monstre["y_direction_monstre"]))) {
@@ -168,6 +169,11 @@ class Bral_Monstres_VieSolitaire {
             } else {
                 $monstre["y_direction_monstre"] = $monstre["y_direction_monstre"] + $dy;
             }
+            
+            $tab = Bral_Monstres_VieMonstre::getTabXYRayon($monstre["niveau_monstre"], $this->villes, $monstre["x_direction_monstre"], $monstre["y_direction_monstre"], $dx, $dy);
+            $monstre["x_direction_monstre"] = $tab["x_direction"];
+            $monstre["y_direction_monstre"] = $tab["y_direction"];
+            
 
             if ($monstre["x_direction_monstre"] <= $this->config->game->x_min) {
                 $monstre["x_direction_monstre"] = -$this->config->game->x_min;
