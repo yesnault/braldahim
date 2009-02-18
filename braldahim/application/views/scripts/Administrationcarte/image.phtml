@@ -1,0 +1,7 @@
+<?php 
+header ("Content-type: image/png");
+// Génération de l'image
+ImagePng($this->image);
+// $this->distanceDesctruction de l'image
+ImageDestroy($this->image);
+?>
