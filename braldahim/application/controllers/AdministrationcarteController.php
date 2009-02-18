@@ -25,7 +25,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		
 		$this->tailleMapBottom = 40;
 		$this->distanceD = 20;
-		$this->coefTaille = 2;
+		$this->coefTaille = 1;
 		$this->tailleX = (-$this->view->config->game->x_min + $this->view->config->game->x_max) / $this->coefTaille;
 		$this->tailleY = (-$this->view->config->game->y_min + $this->view->config->game->y_max) / $this->coefTaille;
 	}
@@ -166,8 +166,8 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		foreach ($zones as $z) {
 			$x_deb_map =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $z["x_min_zone"]) / $this->coefTaille;
 			$x_fin_map =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $z["x_max_zone"]) / $this->coefTaille;
-			$y_deb_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 + $z["y_min_zone"]) / $this->coefTaille;
-			$y_fin_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 + $z["y_max_zone"]) / $this->coefTaille;
+			$y_deb_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $z["y_max_zone"]) / $this->coefTaille;
+			$y_fin_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $z["y_min_zone"]) / $this->coefTaille;
 			
 			ImageRectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->gris2);
 			ImageString($image, 1, $x_deb_map , $y_deb_map, "zone ".$z["id_zone"], $this->gris2);
@@ -187,10 +187,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$y_fin_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 + $v["y_max_ville"]) / $this->coefTaille;
 			
 			ImageRectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->vert);
-			ImageString($image, 1, $x_deb_map , $y_deb_map, $v["nom_ville"], $this->vert);
+			ImageString($image, 1, $x_deb_map , $y_deb_map, $v["nom_ville"]. " ".($v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2)."/".($v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"]) / 2), $this->noir);
 			$nbVilles++;
 		}
-		ImageString($image, 1, $this->distanceD + 100, $this->distanceD + $this->tailleY + 2, $nbVilles." Villes", $this->vert);
+		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 2, $nbVilles." Villes", $this->noir);
 	}
 	
 	private function dessineFilons(&$image) {
@@ -205,7 +205,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			ImageFilledEllipse($image, $x, $y, 2, 2, $this->gris2);
 			$nbFilons++;
 		}
-		ImageString($image, 1, $this->distanceD + 100, $this->distanceD + $this->tailleY + 20, $nbFilons." Filons", $this->gris2);
+		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 20, $nbFilons." Filons", $this->gris2);
 	}
 	
 	private function dessineHobbits(&$image) {
@@ -220,7 +220,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			ImageFilledEllipse($image, $x, $y, 2, 2, $this->vert2);
 			$nbHobbits++;
 		}
-		ImageString($image, 1, $this->distanceD + 100, $this->distanceD + $this->tailleY + 10, $nbHobbits." Hobbits", $this->vert2);
+		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 10, $nbHobbits." Hobbits", $this->vert2);
 	}
 	
 	private function dessineMonstres(&$image) {
