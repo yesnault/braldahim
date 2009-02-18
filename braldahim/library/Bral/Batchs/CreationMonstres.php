@@ -230,7 +230,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$y_monstre = Bral_Util_De::get_de_specifique($y_min, $y_max);
 		
 		$enVille = 0;
-		$rayonMin = $niveau_monstre * 5;
+		$rayonMin = $niveau_monstre * 4;
 		
 		foreach($villes as $v) {
 			// vérification rayon
