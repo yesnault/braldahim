@@ -68,7 +68,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			if ($estRegionPvp) {
 				// recuperation des hobbits qui sont presents sur la vue
 				$hobbitTable = new Hobbit();
-				$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->id_hobbit);
+				$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->id_hobbit, false);
 				
 				foreach($hobbits as $h) {
 					$tabHobbits[] = array(
@@ -218,16 +218,15 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		if ($this->view->xCible < $hobbit->x_hobbit){
 			$x_min = $this->view->xCible;
 			$x_max = $hobbit->x_hobbit;
-		}
-		else{
+		} else{
 			$x_min = $hobbit->x_hobbit;
 			$x_max = $this->view->xCible;
 		}
+		
 		if ($this->view->yCible < $hobbit->y_hobbit){
 			$y_min = $this->view->yCible;
 			$y_max = $hobbit->y_hobbit;
-		}
-		else{
+		} else{
 			$y_min = $hobbit->y_hobbit;
 			$y_max = $this->view->yCible;
 		}
@@ -246,14 +245,12 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 				$a = 1;
 				if ($m != 0 ){
 					$b = -1/$m;
-				}
-				else{
+				} else{
 					$a=0;
 					$b=1;
 				}
 				$c = -1*$p*$b;
-			}
-			else {
+			} else {
 				$a = 1;
 				$b = 0;
 				$c = -1*$this->view->user->x_hobbit;
@@ -291,8 +288,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 				default : 
 					$coef=0.6;
 			}
-		}
-		else{
+		} else{
 			switch ($this->view->distCible){
 				case 2 : 
 					$coef=0.533;
@@ -345,11 +341,10 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		return $jetDegat;
 	}
 	
-	function calculTirer($id,$type){
+	private function calculTirer($id,$type){
 		if ($type == "hobbit"){
 			$this->view->retourAttaque = $this->attaqueHobbit($this->view->user, $id, true, true);
-		}
-		else{
+		} else{
 			$this->view->retourAttaque = $this->attaqueMonstre($this->view->user, $id, true);
 		}
 		

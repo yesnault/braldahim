@@ -114,7 +114,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			if ($estRegionPvp) {
 				// recuperation des hobbits qui sont presents sur la vue
 				$hobbitTable = new Hobbit();
-				$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->id_hobbit);
+				$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->id_hobbit, false);
 				
 				foreach($hobbits as $h) {
 					if ($tabValide[$h["x_hobbit"]][$h["y_hobbit"]] === true) {
