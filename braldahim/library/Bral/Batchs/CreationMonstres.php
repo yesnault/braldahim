@@ -230,7 +230,31 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$y_monstre = Bral_Util_De::get_de_specifique($y_min, $y_max);
 		
 		$enVille = 0;
+		$rayonMin = $niveau_monstre * 5;
+		
 		foreach($villes as $v) {
+			// vérification rayon
+			if ($v["x_min_ville"] - $rayonMin <= $x_monstre && $v["x_max_ville"] + $rayonMin >= $x_monstre) {
+				if ($x_monstre < $v["x_min_ville"]) {
+					$x_monstre = $x_monstre - $rayonMin;
+				}
+				
+				if ($x_monstre > $v["x_min_ville"]) {
+					$x_monstre = $x_monstre + $rayonMin;
+				}
+			}
+			
+			if ($v["y_min_ville"] - $rayonMin <= $y_monstre && $v["y_max_ville"] + $rayonMin >= $y_monstre) {
+				if ($y_monstre < $v["y_min_ville"]) {
+					$y_monstre = $y_monstre - $rayonMin;
+				}
+				
+				if ($y_monstre > $v["y_min_ville"]) {
+					$y_monstre = $y_monstre + $rayonMin;
+				}
+			}
+			
+			// on ne créé pas de monstre en ville
 			if ($v["x_min_ville"] <= $x_monstre && $v["x_max_ville"] >= $x_monstre &&
 				$v["y_min_ville"] <= $y_monstre && $v["y_max_ville"] >= $y_monstre) {
 				$de = Bral_Util_De::get_1d2();
@@ -265,7 +289,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		
 		// NiveauSuivantPX = NiveauSuivant x 3 + debutNiveauPrecedentPx
 		$pi_min = 0;
-		for ($n = 0; $n <=$niveau_monstre; $n++) {
+		for ($n = 0; $n <= $niveau_monstre; $n++) {
 			$pi_min = $pi_min + 3 * $n;
 		}
 		$pi_max = 0;
