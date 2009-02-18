@@ -271,6 +271,19 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 			}
 		}
 		
+		if ($x_monstre <= $this->config->game->x_min) {
+			$x_monstre = $this->config->game->x_min + 1;
+		}
+		if ($x_monstre >= $this->config->game->x_max) {
+			$x_monstre = $this->config->game->x_max - 1;
+		}
+		if ($y_monstre <= $this->config->game->y_min) {
+			$y_monstre = $this->config->game->y_min + 1;
+		}
+		if ($y_monstre >= $this->config->game->y_max) {
+			$y_monstre = $this->config->game->y_max - 1;
+		}
+		
 		// NiveauSuivantPX = NiveauSuivant x 3 + debutNiveauPrecedentPx
 		$pi_min = 0;
 		for ($n = 0; $n <= $niveau_monstre; $n++) {
