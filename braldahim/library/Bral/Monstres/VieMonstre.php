@@ -631,9 +631,7 @@ Vous avez esquivé parfaitement l'attaque";
 			if ($v["x_min_ville"] - $rayonMin <= $directionX && $v["x_max_ville"] + $rayonMin >= $directionX) {
 				if ($directionX < $v["x_min_ville"]) {
 					$directionX = $directionX - $offsetX;
-				}
-				
-				if ($directionX > $v["x_min_ville"]) {
+				} else if ($directionX > $v["x_max_ville"]) {
 					$directionX = $directionX + $offsetX;
 				}
 			}
@@ -641,9 +639,7 @@ Vous avez esquivé parfaitement l'attaque";
 			if ($v["y_min_ville"] - $rayonMin <= $directionY && $v["y_max_ville"] + $rayonMin >= $directionY) {
 				if ($directionY < $v["y_min_ville"]) {
 					$directionY = $directionY - $offsetY;
-				}
-				
-				if ($directionY > $v["y_min_ville"]) {
+				} else if ($directionY > $v["y_max_ville"]) {
 					$directionY = $directionY + $offsetY;
 				}
 			}
