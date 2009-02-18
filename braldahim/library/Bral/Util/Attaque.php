@@ -618,7 +618,7 @@ Consultez vos événements pour plus de détails.";
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatCaseHobbit - enter -");
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->id_hobbit);
+		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->id_hobbit, false);
 		
 		$jetsDegat["critique"] = $degats;
 		$jetsDegat["noncritique"] = $degats;
@@ -661,7 +661,7 @@ Consultez vos événements pour plus de détails.";
 	public static function calculSoinCase($config, $hobbit, $soins) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculSoinCase - enter -");
 		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->id_hobbit);
+		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->id_hobbit, false);
 		$retour["hobbitTouches"] = null;
 		$i = 0;
 		foreach($hobbits as $h) {

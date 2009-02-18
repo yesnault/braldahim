@@ -226,6 +226,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			
 			$this->calculPv();
 			
+			if ($this->est_mort == false) {
+				$this->hobbit->est_intangible_hobbit = "non";
+			}
+			
 			Bral_Util_Faim::calculBalanceFaim($this->hobbit);
 			Bral_Util_Tour::updateTourTabac($this->hobbit);
 			Bral_Monstres_Util::marqueAJouer($this->hobbit->x_hobbit, $this->hobbit->y_hobbit);
@@ -280,6 +284,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 			// remise en vu
 			$this->hobbit->est_mort_hobbit = "non";
+			
+			$this->hobbit->est_intangible_hobbit = "oui";
 
 			// perte des PX
 			$this->hobbit->px_commun_hobbit = 0;
@@ -611,6 +617,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$this->view->user->est_engage_hobbit = $this->hobbit->est_engage_hobbit;
 		$this->view->user->est_engage_next_dla_hobbit = $this->hobbit->est_engage_next_dla_hobbit;
 		
+		$this->view->user->est_intangible_hobbit = $this->hobbit->est_intangible_hobbit;
+		
 		$data = array(
 			'x_hobbit' => $this->hobbit->x_hobbit,
 			'y_hobbit'  => $this->hobbit->y_hobbit,
@@ -649,6 +657,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			'bm_defense_hobbit' => $this->hobbit->bm_defense_hobbit,
 			'est_engage_hobbit' => $this->hobbit->est_engage_hobbit,
 			'est_engage_next_dla_hobbit' => $this->hobbit->est_engage_next_dla_hobbit,
+			'est_intangible_hobbit' => $this->hobbit->est_intangible_hobbit,
 		);
 		$where = "id_hobbit=".$this->hobbit->id_hobbit;
 		$hobbitTable->update($data, $where);

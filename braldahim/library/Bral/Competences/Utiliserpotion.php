@@ -37,7 +37,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$tabMonstres = null;
 		// recuperation des hobbits qui sont presents sur la case
 		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, -1, false);
 		foreach($hobbits as $h) {
 			$tab = array(
 				'id_hobbit' => $h["id_hobbit"],

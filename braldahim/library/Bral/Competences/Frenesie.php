@@ -40,7 +40,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			if ($estRegionPvp) {
 				// recuperation des hobbits qui sont presents sur la vue
 				$hobbitTable = new Hobbit();
-				$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit);
+				$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit, false);
 				foreach($hobbits as $h) {
 					$tab = array(
 						'id_hobbit' => $h["id_hobbit"],

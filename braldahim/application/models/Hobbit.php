@@ -57,54 +57,51 @@ class Hobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function selectVue($x_min, $y_min, $x_max, $y_max, $sansHobbitCourant = -1) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $sansHobbitCourant = -1, $avecIntangibles = true) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		if ($sansHobbitCourant != -1) {
-			$select->from('hobbit', '*')
-			->where('x_hobbit <= ?',$x_max)
-			->where('x_hobbit >= ?',$x_min)
-			->where('y_hobbit >= ?',$y_min)
-			->where('y_hobbit <= ?',$y_max)
-			->where('est_mort_hobbit = ?', "non")
-			->where('est_compte_actif_hobbit = ?', "oui")
-			->where('est_en_hibernation_hobbit = ?', "non")
-			->where('id_hobbit != ?',$sansHobbitCourant);
-		} else {
-			$select->from('hobbit', '*')
-			->where('x_hobbit <= ?',$x_max)
-			->where('x_hobbit >= ?',$x_min)
-			->where('y_hobbit >= ?',$y_min)
-			->where('y_hobbit <= ?',$y_max)
-			->where('est_mort_hobbit = ?', "non")
-			->where('est_compte_actif_hobbit = ?', "oui")
-			->where('est_en_hibernation_hobbit = ?', "non")
-			->joinLeft('communaute','id_fk_communaute_hobbit = id_communaute');;
+		
+		$select->from('hobbit', '*');
+		$select->where('x_hobbit <= ?',$x_max);
+		$select->where('x_hobbit >= ?',$x_min);
+		$select->where('y_hobbit >= ?',$y_min);
+		$select->where('y_hobbit <= ?',$y_max);
+		$select->where('est_mort_hobbit = ?', "non");
+		$select->where('est_compte_actif_hobbit = ?', "oui");
+		$select->where('est_en_hibernation_hobbit = ?', "non");
+		
+		if ($avecIntangibles == false) {
+			$select->where("est_intangible_hobbit like ?", "non");
 		}
+			
+		if ($sansHobbitCourant != -1) {
+			$select->where('id_hobbit != ?',$sansHobbitCourant);
+		}
+		$select->joinLeft('communaute','id_fk_communaute_hobbit = id_communaute');
 		
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function findByCase($x, $y, $sansHobbitCourant = -1) {
+	function findByCase($x, $y, $sansHobbitCourant = -1, $avecIntangibles = true) {
 		$db = $this->getAdapter();
 		$select = $db->select();
+		
+		$select->from('hobbit', '*');
+		$select->where('x_hobbit = ?',$x);
+		$select->where('y_hobbit = ?',$y);
+		$select->where('est_compte_actif_hobbit = ?', "oui");
+		$select->where('est_en_hibernation_hobbit = ?', "non");
+		$select->where('est_mort_hobbit = ?', "non");
+		
 		if ($sansHobbitCourant != -1) {
-			$select->from('hobbit', '*')
-			->where('x_hobbit = ?',$x)
-			->where('y_hobbit = ?',$y)
-			->where('id_hobbit != ?',$sansHobbitCourant)
-			->where('est_compte_actif_hobbit = ?', "oui")
-			->where('est_en_hibernation_hobbit = ?', "non")
-			->where('est_mort_hobbit = ?', "non");
-		} else {
-			$select->from('hobbit', '*')
-			->where('x_hobbit = ?',$x)
-			->where('y_hobbit = ?',$y)
-			->where('est_compte_actif_hobbit = ?', "oui")
-			->where('est_en_hibernation_hobbit = ?', "non")
-			->where('est_mort_hobbit = ?', "non");
+			$select->where('id_hobbit != ?',$sansHobbitCourant);
 		}
+		
+		if ($avecIntangibles == false) {
+			$select->where("est_intangible_hobbit like ?", "non");
+		}
+		
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -173,10 +170,14 @@ class Hobbit extends Zend_Db_Table {
 		return $this->fetchRow($where);
 	}
 
-	function findLesPlusProches($x, $y, $rayon, $nombre, $idTypeMonstre = null) {
+	function findLesPlusProches($x, $y, $rayon, $nombre, $idTypeMonstre = null, $avecIntangibles = true) {
 		$and = "";
 		if ($idTypeMonstre != null) {
 			$and = " AND id_fk_type_monstre_effet_mot_f != ".(int)$idTypeMonstre;
+		}
+		
+		if ($avecIntangibles == false) {
+			$and .= " AND est_intangible_hobbit like 'non'";
 		}
 
 		$db = $this->getAdapter();

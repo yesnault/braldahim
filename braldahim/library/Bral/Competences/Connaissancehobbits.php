@@ -33,7 +33,7 @@ class Bral_Competences_Connaissancehobbits extends Bral_Competences_Competence {
 		// recuperation des monstres qui sont presents sur la vue
 		$tabHobbits = null;
 		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->id_hobbit);
+		$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->id_hobbit, false);
 		
 		foreach($hobbits as $h) {
 			$tab = array(
