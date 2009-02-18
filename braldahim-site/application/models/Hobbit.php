@@ -74,7 +74,7 @@ class Hobbit extends Zend_Db_Table {
 		$select->where('niveau_hobbit = ?', $niveau);
 		$select->where('est_compte_actif_hobbit = ?', "oui");
 		$select->group(array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'));
-		$select->order("nombre DESC");
+		//$select->order("nombre DESC");
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
