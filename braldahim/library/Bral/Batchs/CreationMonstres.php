@@ -232,10 +232,6 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		
 		$enVille = 0;
 		
-		$tab = Bral_Monstres_VieMonstre::getTabXYRayon($niveau_monstre, $villes, $x_monstre, $y_monstre);
-		$x_monstre = $tab["x_direction"];
-		$y_monstre = $tab["y_direction"];
-		
 		foreach($villes as $v) {
 			// on ne créé pas de monstre en ville
 			if ($v["x_min_ville"] <= $x_monstre && $v["x_max_ville"] >= $x_monstre &&
@@ -252,7 +248,11 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		
 		$x_monstre = $x_monstre + $enVille;
 		$y_monstre = $y_monstre + $enVille;
-
+		
+		$tab = Bral_Monstres_VieMonstre::getTabXYRayon($niveau_monstre, $villes, $x_monstre, $y_monstre);
+		$x_monstre = $tab["x_direction"];
+		$y_monstre = $tab["y_direction"];
+		
 		$palissadeTable = new Palissade();
 		$surPalissade = true;
 		while($surPalissade) {

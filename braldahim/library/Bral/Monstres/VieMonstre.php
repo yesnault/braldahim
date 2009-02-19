@@ -628,15 +628,15 @@ Vous avez esquivé parfaitement l'attaque";
 		
 		foreach($villes as $v) {
 			// vérification rayon
-			if ($v["x_min_ville"] - $rayonMin <= $directionX && $v["x_max_ville"] + $rayonMin >= $directionX) {
-				if ($directionX < $v["x_min_ville"]) {
+			if ($v["x_min_ville"] - $rayonMin <= $directionX || $v["x_max_ville"] + $rayonMin >= $directionX) {
+				if ($directionX <= $v["x_min_ville"]) {
 					$directionX = $directionX - $offsetX;
-				} else if ($directionX > $v["x_max_ville"]) {
+				} else if ($directionX >= $v["x_max_ville"]) {
 					$directionX = $directionX + $offsetX;
 				}
 			}
 			
-			if ($v["y_min_ville"] - $rayonMin <= $directionY && $v["y_max_ville"] + $rayonMin >= $directionY) {
+			if ($v["y_min_ville"] - $rayonMin <= $directionY || $v["y_max_ville"] + $rayonMin >= $directionY) {
 				if ($directionY < $v["y_min_ville"]) {
 					$directionY = $directionY - $offsetY;
 				} else if ($directionY > $v["y_max_ville"]) {
