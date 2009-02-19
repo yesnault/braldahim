@@ -136,6 +136,9 @@ class Bral_Util_EffetsPotion {
 			if ($hobbitCible->pv_restant_hobbit > $hobbitCible->pv_max_hobbit) {
 				$hobbitCible->pv_restant_hobbit = $hobbitCible->pv_max_hobbit;
 			}
+			if ($hobbitCible->pv_restant_hobbit <= 0) {
+				$hobbitCible->pv_restant_hobbit = 1;
+			}
 			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurHobbit - effet sur PV apres = ".$hobbitCible->pv_restant_hobbit);
 		} else if ($potion["caracteristique"] == 'VIG') {
 			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurHobbit - effet sur VIG avant = ".$hobbitCible->vigueur_bm_hobbit);
@@ -202,6 +205,9 @@ class Bral_Util_EffetsPotion {
 			$monstre->pv_restant_monstre = $monstre->pv_restant_monstre + $coef * $retourPotion["nEffet"];
 			if ($monstre->pv_restant_monstre > $monstre->pv_max_monstre) {
 				$monstre->pv_restant_monstre = $monstre->pv_max_monstre;
+			}
+			if ($monstre->pv_restant_monstre <= 0) {
+				$monstre->pv_restant_monstre = 1;
 			}
 			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur PV apres = ".$monstre->pv_restant_monstre);
 		} else if ($potion["caracteristique"] == 'VIG') {
