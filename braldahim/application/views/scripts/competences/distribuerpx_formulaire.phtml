@@ -20,7 +20,7 @@
  			<?=htmlspecialchars($h["prenom_hobbit"])?> <?=htmlspecialchars($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>)
  			</td>
  			<td>
- 				<input type='text' id='valeur_<?=$i?>' name='valeur_<?=$i?>' value='0' size='3' maxlength='3' onkeypress="chiffres(event);" onChange="if (this.value==''){this.value=0;} var n=0;for (i = 2; i<=$('nb_valeurs').value ; i=i+2) {n=parseInt(n)+parseInt($('valeur_'+i).value); } if ($('cagnotte_origine').value < n){n=parseInt(n)-parseInt(this.value); this.value=0 ;} $('cagnotte').value=parseInt($('cagnotte_origine').value) - parseInt(n); ">
+ 				<input type='text' id='valeur_<?=$i?>' name='valeur_<?=$i?>' value='0' size='3' maxlength='3' onkeypress="chiffres(event);" onkeyup="if (this.value==''){this.value=0;} var n=0;for (i = 2; i<=$('nb_valeurs').value ; i=i+2) {n=parseInt(n)+parseInt($('valeur_'+i).value); } if ($('cagnotte_origine').value < n){n=parseInt(n)-parseInt(this.value); this.value=0 ;} $('cagnotte').value=parseInt($('cagnotte_origine').value) - parseInt(n); ">
  			</td>
  		</tr>
  	<? endforeach; ?>

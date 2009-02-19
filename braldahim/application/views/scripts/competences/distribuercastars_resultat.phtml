@@ -1,0 +1,14 @@
+<? include("commun_text_resultat.phtml") ?>
+Vous avez distribu&eacute; <?=$this->totalDistribution?> castar<? if ($this->totalDistribution > 1) : echo "s" ; endif;?>.<br /><br />
+<table>
+ <? foreach ($this->tabAffiche as $t):?>
+ 	<tr>
+ 		<td>
+ 		<?=htmlspecialchars($t["nom_hobbit"])?> (<?=$t["id_hobbit"]?>)
+ 		</td>
+ 		<td>
+ 		<?=$t["castars_recus"]?> Castar<? if ($t["castars_recus"] > 1): echo "s"; endif;?>
+ 		</td>
+ 	</tr>
+ <? endforeach; ?>
+ </table>
