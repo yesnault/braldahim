@@ -34,6 +34,7 @@ class Bral_Boutique_Acheterpartieplantes extends Bral_Boutique_Boutique {
 		$regionTable = new Region();
 		$idRegion = $regionTable->findIdRegionByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		$this->view->typePlantes = Bral_Util_BoutiquePlantes::construireTabPrix(true, $idRegion);
+		$this->view->poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 	}
 
 	function prepareFormulaire() {
@@ -59,7 +60,6 @@ class Bral_Boutique_Acheterpartieplantes extends Bral_Boutique_Boutique {
 	private function transfert() {
 		Zend_Loader::loadClass("LabanPartieplante");
 		$this->view->coutCastars = 0;
-		$this->view->poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 		
 		$this->view->elementsAchetes = "";
 		$this->view->manquePlace = false;
