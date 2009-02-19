@@ -149,7 +149,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		sscanf($couleurBleue[4], "%2x%2x%2x", $red, $green, $blue);
 		$this->bleu_4 = ImageColorAllocate($image, $red, $green, $blue);*/
 	
-		$this->tab_rouge = array($this->rouge_0, $this->rouge_1, $this->rouge_2, $this->rouge_3 ,$this->rouge_4);
+		$this->tab_rouge = array($this->rouge_0, $this->rouge_1, $this->rouge_2, $this->rouge_3 ,$this->rouge_4, $this->noir);
 		
 		/*$this->tab_bleu=array($this->bleu_0,$this->bleu_1,$this->bleu_2,$this->bleu_3,$this->bleu_4);
 		$this->tab_jaune=array($this->jaune_0,$this->jaune_1,$this->jaune_2,$this->jaune_3,$this->jaune_4);
@@ -170,7 +170,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$y_fin_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $z["y_min_zone"]) / $this->coefTaille;
 			
 			ImageRectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->gris2);
-			ImageString($image, 1, $x_deb_map , $y_deb_map, "zone ".$z["id_zone"], $this->gris2);
+			ImageString($image, 1, $x_deb_map , $y_deb_map, "zone ".$z["id_zone"]. " ".$z["x_min_zone"]."/".$z["y_max_zone"], $this->gris2);
 		}
 	}
 	
@@ -191,16 +191,23 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			ImageRectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->vert);
 			$palier = 5;
 			ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[0]);
+			ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[0]);
 			$palier = 10;
 			ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[1]);
+			ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[1]);
 			$palier = 15;
 			ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[2]);
+			ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[2]);
 			$palier = 20;
 			ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[3]);
+			ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[3]);	
 			$palier = 25;
 			ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[4]);
+			ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[4]);
 			$palier = 30;
 			ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[5]);
+			ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[5]);
+			
 			ImageString($image, 1, $x_deb_map , $y_deb_map, $v["nom_ville"]. " ".($v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2)."/".($v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"]) / 2), $this->noir);
 			$nbVilles++;
 		}

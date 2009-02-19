@@ -629,19 +629,17 @@ Vous avez esquivé parfaitement l'attaque";
 		foreach($villes as $v) {
 			// vérification rayon
 			$estPasse = false;
-			if ($v["x_min_ville"] - $rayonMin <= $directionX && $v["x_max_ville"] + $rayonMin >= $directionX) {
-				if ($directionX <= $v["x_min_ville"]) {
+			if ($v["x_min_ville"] - $rayonMin <= $directionX && $v["x_max_ville"] + $rayonMin >= $directionX
+			&& $v["y_min_ville"] - $rayonMin <= $directionY && $v["y_max_ville"] + $rayonMin >= $directionY) {
+				if ($directionX <= $v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2) { // centre x de la ville
 					$directionX = $directionX - $offsetX;
-				} else if ($directionX >= $v["x_max_ville"]) {
+				} else if ($directionX >= $v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2) {
 					$directionX = $directionX + $offsetX;
 				}
-				$estPasse = true;
-			}
 			
-			if ($v["y_min_ville"] - $rayonMin <= $directionY && $v["y_max_ville"] + $rayonMin >= $directionY) {
-				if ($directionY < $v["y_min_ville"]) {
+				if ($directionY <= $v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"]) / 2) { // centre y de la ville
 					$directionY = $directionY - $offsetY;
-				} else if ($directionY > $v["y_max_ville"]) {
+				} else if ($directionY >= $v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"]) / 2) {
 					$directionY = $directionY + $offsetY;
 				}
 				$estPasse = true;
@@ -652,6 +650,7 @@ Vous avez esquivé parfaitement l'attaque";
 		}
         $tab["x_direction"] = $directionX;
 		$tab["y_direction"] = $directionY;
+		$tab["est_traite"] = $estPasse;
 		return $tab;
 	}
 }
