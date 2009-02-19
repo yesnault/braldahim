@@ -25,7 +25,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		
 		$this->tailleMapBottom = 40;
 		$this->distanceD = 20;
-		$this->coefTaille = 1;
+		$this->coefTaille = 2;
 		$this->tailleX = (-$this->view->config->game->x_min + $this->view->config->game->x_max) / $this->coefTaille;
 		$this->tailleY = (-$this->view->config->game->y_min + $this->view->config->game->y_max) / $this->coefTaille;
 	}
@@ -183,8 +183,8 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		foreach ($villes as $v) {
 			$x_deb_map =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $v["x_min_ville"]) / $this->coefTaille;
 			$x_fin_map =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $v["x_max_ville"]) / $this->coefTaille;
-			$y_deb_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $v["y_min_ville"]) / $this->coefTaille;
-			$y_fin_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $v["y_max_ville"]) / $this->coefTaille;
+			$y_deb_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $v["y_max_ville"]) / $this->coefTaille;
+			$y_fin_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $v["y_min_ville"]) / $this->coefTaille;
 			
 			$coefRayon = 4;
 			
