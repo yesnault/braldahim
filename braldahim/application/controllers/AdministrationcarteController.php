@@ -25,7 +25,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		
 		$this->tailleMapBottom = 40;
 		$this->distanceD = 20;
-		$this->coefTaille = 2;
+		$this->coefTaille = 1;
 		$this->tailleX = (-$this->view->config->game->x_min + $this->view->config->game->x_max) / $this->coefTaille;
 		$this->tailleY = (-$this->view->config->game->y_min + $this->view->config->game->y_max) / $this->coefTaille;
 	}
