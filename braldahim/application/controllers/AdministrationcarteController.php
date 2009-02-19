@@ -215,7 +215,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		$nbFilons = 0;
 		foreach ($filons as $f) {
 			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $f["x_filon"]) / $this->coefTaille;
-			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 + $f["y_filon"]) / $this->coefTaille;
+			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $f["y_filon"]) / $this->coefTaille;
 			ImageFilledEllipse($image, $x, $y, 2, 2, $this->gris2);
 			$nbFilons++;
 		}
@@ -230,7 +230,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		$nbHobbits = 0;
 		foreach ($hobbits as $h) {
 			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $h["x_hobbit"]) / $this->coefTaille;
-			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 + $h["y_hobbit"]) / $this->coefTaille;
+			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $h["y_hobbit"]) / $this->coefTaille;
 			ImageFilledEllipse($image, $x, $y, 2, 2, $this->vert2);
 			$nbHobbits++;
 		}
@@ -250,7 +250,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		$tab[5] = 0;
 		foreach ($monstres as $m) {
 			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $m["x_monstre"]) / $this->coefTaille;
-			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 + $m["y_monstre"]) / $this->coefTaille;
+			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $m["y_monstre"]) / $this->coefTaille;
 			
 			$niveau = floor($m["niveau_monstre"] / 5);
 			$couleur = $this->tab_rouge[$niveau];
