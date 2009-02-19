@@ -36,4 +36,13 @@ class HobbitsCompetences extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
     }
+    
+    function annuleEffetsTabacByIdHobbit($idHobbit) {
+		$where  = 'hobbits_competences.id_fk_hobbit_hcomp = '.intval($idHobbit);
+		$data = array(
+			'nb_tour_restant_bonus_tabac_hcomp' => 0,
+			'nb_tour_restant_malus_tabac_hcomp' => 0
+			);
+		$this->update($data, $where);
+    }
 }

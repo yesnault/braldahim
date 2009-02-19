@@ -311,6 +311,14 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$chuRowset = $lieuTable->findByTypeAndPosition($this->view->config->game->lieu->type->hopital, $this->hobbit->x_hobbit, $this->hobbit->y_hobbit);
 			$this->hobbit->x_hobbit = $chuRowset[0]["x_lieu"];
 			$this->hobbit->y_hobbit = $chuRowset[0]["y_lieu"];
+			
+			Zend_Loader::loadClass("EffetPotionHobbit");
+			$effetPotionHobbitTable = new EffetPotionHobbit();
+			$effetPotionHobbitTable->delete($this->hobbit->id_hobbit);
+			
+			Zend_Loader::loadClass("HobbitsCompetences");
+			$hobbitsCompetencesTable = new HobbitsCompetences();
+			$hobbitsCompetencesTable->annuleEffetsTabacByIdHobbit($this->hobbit->id_hobbit);
 		}
 		Bral_Util_Log::tour()->trace(get_class($this)." calcul_mort - exit -");
 	}

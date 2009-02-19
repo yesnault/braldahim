@@ -27,6 +27,11 @@ class EffetPotionHobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
+	function deleteByIdHobbit($idHobbit) {
+		$where = "id_fk_hobbit_cible_effet_potion_hobbit = ".intval($idHobbit);
+		$this->delete($where);
+	}
+	
 	function enleveUnTour($potion) {
 		Bral_Util_Log::potion()->debug('EffetPotionHobbit - enleveUnTour - enter');
 		$db = $this->getAdapter();
