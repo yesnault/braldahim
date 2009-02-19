@@ -20,6 +20,10 @@ class Bral_Lieux_Factory {
 		$nomSystemeLieu = $matches[2];
 		$construct = null;
 		
+		if ($view->user->activation == false) {
+			throw new Zend_Exception("Tour non activé");
+		}
+		
 		$construct = "Bral_Lieux_".Bral_Util_String::firstToUpper($nomSystemeLieu);
 		try {
 			Zend_Loader::loadClass($construct);

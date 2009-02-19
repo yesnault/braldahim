@@ -4,7 +4,12 @@
  <div class="contenuB">
   <ul class="box_contenu1 textalic">
   
-<? if ($this->affichageInterne == true) : ?>
+<? 
+
+
+ if ($this->user->activation == false) :
+ 	echo "Tour non activé à la connexion";
+ elseif ($this->affichageInterne == true) : ?>
 	 <?php 
 	 if (count($this->competences) > 0) {
 	 	foreach($this->competences as $c) : ?>

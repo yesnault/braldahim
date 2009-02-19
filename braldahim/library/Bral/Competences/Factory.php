@@ -32,6 +32,10 @@ class Bral_Competences_Factory {
 			}
 		}
 		
+		if ($view->user->activation == false) {
+			throw new Zend_Exception("Tour non activé");
+		}
+		
 		// verification que le joueur a accès à la compétence
 		if ($construct == null) {
 			Zend_Loader::loadClass("HobbitsCompetences");

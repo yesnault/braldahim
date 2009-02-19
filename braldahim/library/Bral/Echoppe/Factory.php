@@ -20,6 +20,10 @@ class Bral_Echoppe_Factory {
 		$nomSystemeAction = $matches[2];
 		$construct = null;
 
+		if ($view->user->activation == false) {
+			throw new Zend_Exception("Tour non activé");
+		}
+		
 		$construct = "Bral_Echoppe_".Bral_Util_String::firstToUpper($nomSystemeAction);
 		try {
 			Zend_Loader::loadClass($construct);

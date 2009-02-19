@@ -63,7 +63,7 @@ class Bral_Util_Marcher {
 		 * Si le hobbit n'a pas de PA, on ne fait aucun traitement
 		 */
 		$assezDePa = $this->calculNbPa($hobbit, $case["nom_systeme_environnement"], $retour["estSurRoute"]);
-		if ($assezDePa == false) {
+		if ($assezDePa == false || $hobbit->activation == false) {
 			$retour["assezDePa"] = false;
 			return $retour;
 		} else {

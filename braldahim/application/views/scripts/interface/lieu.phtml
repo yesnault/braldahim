@@ -25,7 +25,11 @@
  		</td></tr>
  		</table>
  		
- 		<?=$this->htmlLieu?>
+ 		<? if ($this->user->activation == true) :?>
+ 			<?=$this->htmlLieu?>
+ 		<? else: ?>
+ 			Détails non affichés, Tour non activé à la connexion
+ 		<? endif;?>
  	<? else: ?>
  	Le lieu o&ugrave; vous vous trouvez n'a rien de particulier
  	<? endif; ?>

@@ -19,6 +19,10 @@ class Bral_Boutique_Factory {
 		$action = $matches[1]; // "do" ou "ask"
 		$nomSystemeAction = $matches[2];
 		$construct = null;
+		
+		if ($view->user->activation == false) {
+			throw new Zend_Exception("Tour non activé ");
+		}
 
 		$construct = "Bral_Boutique_".Bral_Util_String::firstToUpper($nomSystemeAction);
 		try {

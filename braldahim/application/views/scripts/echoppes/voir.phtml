@@ -10,7 +10,7 @@
 <ul class="titre textalic textsizec"><?=htmlspecialchars($this->echoppe["nom_region"])?>, x:<?=$this->echoppe["x_echoppe"]?>, y:<?=$this->echoppe["y_echoppe"]?></ul>
 <br />
 
-    <? if ($this->estSurEchoppe === true): 
+    <? if ($this->estSurEchoppe === true && $this->user->activation == true): 
   		$disabled = "";
   	   else:
   		$disabled = "disabled" ;

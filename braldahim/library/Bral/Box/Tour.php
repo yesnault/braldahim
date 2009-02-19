@@ -144,6 +144,11 @@ class Bral_Box_Tour extends Bral_Box_Box {
 	public function activer() {
 		Bral_Util_Log::tour()->trace(get_class($this)." activer - enter -");
 		
+		if ($this->view->user->activation === false) {
+			Bral_Util_Log::tour()->trace(get_class($this)." le joueur n'a pas activé la DLA");
+			return false;
+		}
+		
 		$this->view->effetPotion = false;
 		
 		$this->view->effetMotB = false;
