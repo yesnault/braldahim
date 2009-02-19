@@ -24,7 +24,7 @@ class Bral_Util_Messagerie {
 		$xml_response->add_entry($xml_entry);
 	}
 	
-	public static function constructTabHobbit($tabDestinataires, $valeur = "valeur_2") {
+	public static function constructTabHobbit($tabDestinataires, $valeur = "valeur_2", $sansIdHobbit = -1) {
 		$hobbitTable = new Hobbit();
 		$idDestinatairesTab = split(',', $tabDestinataires);
 		
@@ -39,7 +39,8 @@ class Bral_Util_Messagerie {
 		$tabHobbits = null;
 
 		foreach($hobbits as $h) {
-			if (in_array($h["id_hobbit"],$idDestinatairesTab)) {
+			
+			if (in_array($h["id_hobbit"],$idDestinatairesTab) && ($sansIdHobbit == -1 || $sansIdHobbit != $h["id_hobbit"])) {
 				if ($destinataires == "") {
 					$destinataires = $h["id_hobbit"];
 				} else {

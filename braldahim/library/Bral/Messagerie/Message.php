@@ -120,8 +120,10 @@ class Bral_Messagerie_Message {
 			$listeId = $this->view->message["fromid"].",";
 			if ($repondretous) {
 				$listeId = $listeId.$this->view->message["toids"].",";
+				$tabHobbit = Bral_Util_Messagerie::constructTabHobbit($listeId, "valeur_2", $this->view->user->id_hobbit);
+			} else {
+				$tabHobbit = Bral_Util_Messagerie::constructTabHobbit($listeId);
 			}
-			$tabHobbit = Bral_Util_Messagerie::constructTabHobbit($listeId, true);
 		} else {
 			$tabHobbit = array("destinataires" => "",
 				"aff_js_destinataires" => "",
