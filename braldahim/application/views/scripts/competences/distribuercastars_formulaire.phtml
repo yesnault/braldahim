@@ -6,8 +6,8 @@
 
 	<? if ($this->tabHobbits != null) : ?> 	
 	 	<? if ($this->estMaxHobbits === true): ?>
-	 		Il y a plus de <?=$this->config->game->competence->distribuerpx->nb_max_hobbit?> hobbits dans votre vue<br /><br />
-	 		Seuls les <?=$this->config->game->competence->distribuerpx->nb_max_hobbit?> hobbits les plus proches<br /> sont disponibles pour recevoir des castars<br /><br />
+	 		Il y a plus de <?=$this->config->game->competence->distribuerpx->nb_max_hobbit?> hobbits sur votre case<br /><br />
+	 		Seuls <?=$this->config->game->competence->distribuerpx->nb_max_hobbit?> hobbits sont disponibles pour recevoir des castars<br /><br />
 	 	<? endif; ?>
 	
 		<table align="center">
