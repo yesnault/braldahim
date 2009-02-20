@@ -7,7 +7,9 @@ Vous avez distribu&eacute; <?=$this->totalDistribution?> castar<? if ($this->tot
  		<?=htmlspecialchars($t["nom_hobbit"])?> (<?=$t["id_hobbit"]?>)
  		</td>
  		<td>
- 		<?=$t["castars_recus"]?> Castar<? if ($t["castars_recus"] > 1): echo "s"; endif;?>
+ 		<?=$t["castars_recus"]?> 
+ 		Castar<? if ($t["castars_recus"] > 1): echo "s"; endif;?><? if ($t["castars_recus_terre"] > 0): ?>, dont <?=$t["castars_recus_terre"]?> tomb&eacute;<? if ($t["castars_recus_terre"] > 1): echo "s"; endif;?> &agrave; terre.
+ 		<? endif;?>
  		</td>
  	</tr>
  <? endforeach; ?>

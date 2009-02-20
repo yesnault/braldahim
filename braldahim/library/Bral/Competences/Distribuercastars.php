@@ -13,16 +13,14 @@
 class Bral_Competences_Distribuercastars extends Bral_Competences_Competence {
 
 	function prepareCommun() {
-		Zend_Loader::loadClass('Bral_Util_Commun');
-
 		// récupération des hobbits qui sont présents dans la vue
 		$hobbitTable = new Hobbit();
 		// s'il y a trop de hobbits, on prend que les plus proches
 		$this->view->estMaxHobbits = false;
 
-		$vue = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
-		$hobbits = $hobbitTable->findLesPlusProches($this->view->user->x_hobbit, $this->view->user->y_hobbit, $vue, $this->view->config->game->competence->distribuerpx->nb_max_hobbit);
+		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit);
 
+		$tabHobbits = null;
 		foreach($hobbits as $h) {
 			if ($h["id_hobbit"] != $this->view->user->id_hobbit) {
 				$tabHobbits[] = array(
@@ -34,12 +32,13 @@ class Bral_Competences_Distribuercastars extends Bral_Competences_Competence {
 			}
 		}
 
-		if (count($tabHobbits) >= $this->view->config->game->competence->distribuerpx->nb_max_hobbit) {
+		if ($tabHobbits != null && $this->view->config->game->competence->distribuerpx->nb_max_hobbit) {
 			$this->view->estMaxHobbits = true;
 		}
 
 		$this->view->tabHobbits = $tabHobbits;
 		$this->view->n_hobbits = count($tabHobbits);
+		$this->refreshVue = false;
 	}
 
 	function prepareFormulaire() {
@@ -86,12 +85,40 @@ class Bral_Competences_Distribuercastars extends Bral_Competences_Competence {
 		foreach ($tabDistribution as $t) {
 			$hobbitRowset = $hobbitTable->find($t["id_hobbit"]);
 			$hobbit = $hobbitRowset->current();
-			$hobbit->castars_hobbit = $hobbit->castars_hobbit + $t["castars_recus"];
-			$data = array(
-				'castars_hobbit' => $hobbit->castars_hobbit,
-			);
-			$where = "id_hobbit=".$t["id_hobbit"];
-			$hobbitTable->update($data, $where);
+			
+			// Contrôle du poids à faire.
+			$poidsRestant = $hobbit->poids_transportable_hobbit - $hobbit->poids_transporte_hobbit;
+			if ($poidsRestant < 0) $poidsRestant = 0;
+			
+			$nbCastarsPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_CASTARS);
+		
+			if ($nbCastarsPossible >= 1) { // On met dans le laban ce qu'on peut
+				$hobbit->castars_hobbit = $hobbit->castars_hobbit + $t["castars_recus"];
+				$hobbit->poids_transporte_hobbit = $hobbit->poids_transporte_hobbit + $nbCastarsPossible * Bral_Util_Poids::POIDS_CASTARS;
+				$data = array(
+					'castars_hobbit' => $hobbit->castars_hobbit,
+					'poids_transporte_hobbit' => $hobbit->poids_transporte_hobbit,
+				);
+				$where = "id_hobbit=".$t["id_hobbit"];
+				$hobbitTable->update($data, $where);
+			}
+			
+			$tab["castars_recus_terre"] = 0;
+			if ($nbCastarsPossible < $t["castars_recus"]) {
+				Zend_Loader::loadClass("Castar");
+				
+				$tab["castars_recus_terre"] = $t["castars_recus"] - $nbCastarsPossible;
+				$castarsTable = new Castar();
+				$data = array(
+					"nb_castar" => $tab["castars_recus_terre"],
+					"x_castar" => $this->view->user->x_hobbit,
+					"y_castar" => $this->view->user->y_hobbit,
+				);
+				$castarsTable->insertOrUpdate($data);
+				$this->refreshVue = true;
+			}
+			
+			// SI poids dépassé, on dépose à terre
 			
 			$tab["id_hobbit"] = $t["id_hobbit"];
 			$tab["niveau_hobbit"] = $t["niveau_hobbit"];
@@ -105,8 +132,16 @@ class Bral_Competences_Distribuercastars extends Bral_Competences_Competence {
 			$detailsD = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a donné des castars à ".$tab["nom_hobbit_details"]." (".$tab["id_hobbit"].")";
 			$detailsR = $tab["nom_hobbit_details"]." (".$tab["id_hobbit"].") a reçu des castars la part de ".$this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.")";
 			
-			$detailDonneur = "Vous avez donné ".$tab["castars_recus"]." castars à ".$tab["nom_hobbit"]." (".$tab["id_hobbit"].")";
-			$detailReceveur = "Vous avez reçu ".$tab["castars_recus"]." castars de la part de ".$this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.")";
+			$s = "";
+			if ($tab["castars_recus"] > 1) $s = "s";
+			$detailDonneur = "Vous avez donné ".$tab["castars_recus"]." castar$s à ".$tab["nom_hobbit"]." (".$tab["id_hobbit"].")";
+			$detailReceveur = "Vous avez reçu ".$tab["castars_recus"]." castar$s de la part de ".$this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.")";
+			if ($tab["castars_recus_terre"] > 0) {
+				$s = "";
+				if ($tab["castars_recus_terre"] > 1) $s = "s";
+				$detailDonneur .= ", dont ".$tab["castars_recus_terre"]." tombé$s à terre";
+				$detailReceveur .= ", dont ".$tab["castars_recus_terre"]." tombé$s à terre";
+			}
 			Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $id_type, $detailsD, $detailDonneur, $this->view->user->niveau_hobbit);
 			if ($tab["id_hobbit"] != $this->view->user->id_hobbit) {
 				Bral_Util_Evenement::majEvenements($tab["id_hobbit"], $id_type, $detailsR, $detailReceveur, $tab["niveau_hobbit"]);
@@ -122,6 +157,10 @@ class Bral_Competences_Distribuercastars extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh();
+		$tab = $this->constructListBoxRefresh();
+		if ($this->refreshVue === true) {
+			$tab[] = "box_vue";
+		}
+		return $tab;
 	}
 }
