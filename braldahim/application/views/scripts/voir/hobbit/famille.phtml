@@ -1,0 +1,44 @@
+  	<? if ($this->pereMereOk === true) :?>
+  	Suite &agrave; l'heureuse rencontre entre sa m&egrave;re 
+  		<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->mere->id_hobbit ?>');">
+    		<?=$this->mere->prenom_hobbit ?> <?=$this->mere->nom_hobbit ?> (n&deg;<?=$this->mere->id_hobbit ?>)</a>
+  	et son p&egrave;re
+  		<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->pere->id_hobbit ?>');">
+    		<?=$this->pere->prenom_hobbit ?> <?=$this->pere->nom_hobbit ?> (n&deg;<?=$this->pere->id_hobbit ?>)</a>
+  	il est n&eacute;<? if ($this->hobbit["sexe_hobbit"] == 'feminin') echo "e"?> le <?=$this->dateNaissance ?>.
+  	
+  	<? else: ?>
+  	Il est n&eacute;<? if ($this->hobbit["sexe_hobbit"] == 'feminin') echo "e"?> orphelin<? if ($this->hobbit["sexe_hobbit"] == 'feminin') echo "e"?> le <?=$this->dateNaissance ?>.
+  	<? endif; ?>
+    <br /><br />
+    
+    <? if ($this->nbEnfants == 0 && $this->conjoint == null) :?>
+    	Il n'a ni enfant, ni conjoint<? if ($this->hobbit["sexe_hobbit"] != 'feminin') echo "e"?>.
+    <? else : ?>
+    	Avec <? if ($this->hobbit["sexe_hobbit"] != 'feminin'): echo "sa"; else: echo "son"; endif;?> 
+    	conjoint<? if ($this->hobbit["sexe_hobbit"] != 'feminin') echo "e"?>
+    	<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->conjoint["id_hobbit"] ?>');">
+    		<?=$this->conjoint["prenom"] ?> <?=$this->conjoint["nom"] ?> (n&deg;<?=$this->conjoint["id_hobbit"] ?>)
+    	</a>
+    	 il a eu <?=$this->nbEnfants ?> enfant<? if ($this->nbEnfants > 1) echo 's' ?>.<br />
+    	
+    	<? if ($this->nbEnfants > 0) : ?>
+	    	<table class="table_liste" style="width:80%">
+				<thead class="table_liste">
+				  <tr class="table_liste" title="Cliquer pour Trier">
+					<th>Hobbit</th>
+					<th>Naissance</th>
+				  </tr>
+				</thead>
+				<tbody>
+					<? foreach($this->enfants as $e) :?>
+					<tr class="table_liste">
+						<td><a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$e["id_hobbit"] ?>');"><?=$e["prenom"] ?> <?=$e["nom"] ?> (n&deg;<?=$e["id_hobbit"]?>)</a></td>
+						<td nowrap>n&eacute;<? if ($e["sexe_hobbit"] == 'feminin') echo "e"?> le <?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$e["date_naissance"] );?></td>
+					</tr>
+					<? endforeach; ?>
+				</tbody>
+			</table>
+		<? endif; ?>
+    <? endif; ?>
+   <br /><br />

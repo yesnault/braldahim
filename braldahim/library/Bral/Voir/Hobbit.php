@@ -74,6 +74,8 @@ class Bral_Voir_Hobbit {
 		
 		if ($this->_request->get("menu") == "evenements" && $this->view->connu != null) {
 			return $this->renderEvenements();
+		} else if ($this->_request->get("menu") == "famille" && $this->view->connu != null) {
+			return $this->renderFamille();
 		} else { 
 			return $this->view->render("voir/hobbit.phtml");
 		}
@@ -119,6 +121,66 @@ class Bral_Voir_Hobbit {
 		$this->view->tabMetiers = $tabMetiers;
 		$this->view->possedeMetier = $possedeMetier;
 		$this->view->nom_interne = $this->getNomInterne();
+	}
+
+	
+	function renderFamille() {
+		
+		Zend_Loader::loadClass('Couple');
+		$hobbitTable = new Hobbit();
+		
+		$this->view->pereMereOk = false;
+		if ($this->view->hobbit["id_fk_mere_hobbit"] != null && $this->view->hobbit["id_fk_pere_hobbit"] != null &&
+			$this->view->hobbit["id_fk_mere_hobbit"] != 0 && $this->view->hobbit["id_fk_pere_hobbit"] != 0 ) {
+			$this->view->pereMereOk = true;
+			
+			$pere = $hobbitTable->findById($this->view->hobbit["id_fk_pere_hobbit"]);
+			$mere = $hobbitTable->findById($this->view->hobbit["id_fk_mere_hobbit"]);
+			
+			$this->view->pere = $pere;
+			$this->view->mere = $mere;
+		}
+		
+		// on regarde s'il y a des enfants
+		$enfants = null;
+		$enfantsRowset = $hobbitTable->findEnfants($this->view->hobbit["sexe_hobbit"], $this->view->hobbit["id_hobbit"]);
+		unset($hobbitTable);
+		$this->view->nbEnfants = count($enfantsRowset);
+		
+		if (count($this->view->nbEnfants) > 0) {
+			foreach($enfantsRowset as $e) {
+				$enfants[] = array("prenom" => $e["prenom_hobbit"],
+									"nom" => $e["nom_hobbit"],
+									"id_hobbit" => $e["id_hobbit"],
+									"sexe_hobbit" => $e["sexe_hobbit"],
+									"date_naissance" => $e["date_creation_hobbit"]);
+			}
+			unset($enfantsRowset);
+		}
+		$this->view->enfants = $enfants;
+		
+		// on va chercher les informations du conjoint
+		$coupleTable = new Couple();
+		$conjointRowset = $coupleTable->findConjoint($this->view->hobbit["sexe_hobbit"], $this->view->hobbit["id_hobbit"]);
+		unset($coupleTable);
+		
+		$conjoint = null;
+		if (count($conjointRowset) > 0) {
+			foreach($conjointRowset as $c) {
+				$conjoint = array(
+					"prenom" => $c["prenom_hobbit"],
+					"nom" => $c["nom_hobbit"],
+					"id_hobbit" => $c["id_hobbit"]
+				);
+			}
+		}
+		unset($conjointRowset);
+		
+		$this->view->conjoint = $conjoint;
+		unset($conjoint);
+		
+		$this->view->dateNaissance = Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e; H:i:s',$this->view->hobbit["date_creation_hobbit"]);
+		return $this->view->render("voir/hobbit/famille.phtml");
 	}
 	
 	function renderEvenements() {
