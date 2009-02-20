@@ -5,22 +5,26 @@
   	et son p&egrave;re
   		<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->pere->id_hobbit ?>');">
     		<?=$this->pere->prenom_hobbit ?> <?=$this->pere->nom_hobbit ?> (n&deg;<?=$this->pere->id_hobbit ?>)</a>
-  	il est n&eacute;<? if ($this->hobbit["sexe_hobbit"] == 'feminin') echo "e"?> le <?=$this->dateNaissance ?>.
+  	<? if ($this->hobbit["sexe_hobbit"] == 'feminin') : echo "elle"; else : echo "il"; endif;?>
+  	 est n&eacute;<? if ($this->hobbit["sexe_hobbit"] == 'feminin') echo "e"?> le <?=$this->dateNaissance ?>.
   	
   	<? else: ?>
-  	Il est n&eacute;<? if ($this->hobbit["sexe_hobbit"] == 'feminin') echo "e"?> orphelin<? if ($this->hobbit["sexe_hobbit"] == 'feminin') echo "e"?> le <?=$this->dateNaissance ?>.
+  	<? if ($this->hobbit["sexe_hobbit"] == 'feminin') : echo "Elle"; else : echo "Il"; endif;?>
+  	 est n&eacute;<? if ($this->hobbit["sexe_hobbit"] == 'feminin') echo "e"?> orphelin<? if ($this->hobbit["sexe_hobbit"] == 'feminin') echo "e"?> le <?=$this->dateNaissance ?>.
   	<? endif; ?>
     <br /><br />
     
     <? if ($this->nbEnfants == 0 && $this->conjoint == null) :?>
-    	Il n'a ni enfant, ni conjoint<? if ($this->hobbit["sexe_hobbit"] != 'feminin') echo "e"?>.
+    	<? if ($this->hobbit["sexe_hobbit"] == 'feminin') : echo "Elle"; else : echo "Il"; endif;?>
+    	 n'a ni enfant, ni conjoint<? if ($this->hobbit["sexe_hobbit"] != 'feminin') echo "e"?>.
     <? else : ?>
     	Avec <? if ($this->hobbit["sexe_hobbit"] != 'feminin'): echo "sa"; else: echo "son"; endif;?> 
     	conjoint<? if ($this->hobbit["sexe_hobbit"] != 'feminin') echo "e"?>
     	<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->conjoint["id_hobbit"] ?>');">
     		<?=$this->conjoint["prenom"] ?> <?=$this->conjoint["nom"] ?> (n&deg;<?=$this->conjoint["id_hobbit"] ?>)
     	</a>
-    	 il a eu <?=$this->nbEnfants ?> enfant<? if ($this->nbEnfants > 1) echo 's' ?>.<br />
+    	 <? if ($this->hobbit["sexe_hobbit"] == 'feminin') : echo "elle"; else : echo "il"; endif;?>
+    	  a eu <?=$this->nbEnfants ?> enfant<? if ($this->nbEnfants > 1) echo 's' ?>.<br />
     	
     	<? if ($this->nbEnfants > 0) : ?>
 	    	<table class="table_liste" style="width:80%">
