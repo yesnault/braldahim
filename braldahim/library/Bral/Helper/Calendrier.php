@@ -12,7 +12,7 @@
  */
 class Bral_Helper_Calendrier {
 	
-    public static function affiche($avecSautLigneAnnee = false) {
+    public static function affiche($avecSautLigneAnnee = false, $dateAAficher = null) {
     	$jours = array(
 			0 => 'Sunnandaeg',
 			1 => 'Monnandaeg',
@@ -25,10 +25,21 @@ class Bral_Helper_Calendrier {
     	
     	$retour = "";
     	
-    	$jourSemaine = date('w');
-    	$numJour = date('z') + 1; // on rajoute 1, la numerotation des jours de l'annee commence à 0
+    	if ($dateAAficher == null) {
+	    	$jourSemaine = date('w');
+	    	$numJour = date('z') + 1; // on rajoute 1, la numerotation des jours de l'annee commence à 0
+	    	$annee = date('Y');
+    	} else {
+    		$break = explode(" ", $dateAAficher);
+			$datebreak = explode("-", $break[0]);
+			$time = explode(":", $break[1]);
+			$mtime = mktime($time[0],$time[1],$time[2],$datebreak[1],$datebreak[2],$datebreak[0]);
+			$jourSemaine = date('w', $mtime);
+    		$numJour = 1 + date('z', $mtime);
+    		$annee = date('Y', $mtime);
+    	}
     	
-    	$annee = date('Y');
+    	
     	// l'an 143 correspond à l'an 2008, soit 1865 années de différence
     	$annee = $annee - 1865;
     	$anneeTexte = "";
