@@ -30,13 +30,9 @@ class Bral_Competences_Distribuercastars extends Bral_Competences_Competence {
 				 "niveau_hobbit" => $h["niveau_hobbit"]
 				);
 			}
-			if (count($tabHobbits) >= $this->view->estMaxHobbits) {
-				break;
+			if (count($tabHobbits) >= $this->view->config->game->competence->distribuerpx->nb_max_hobbit) {
+				$this->view->estMaxHobbits = true;
 			}
-		}
-
-		if ($tabHobbits != null && $this->view->config->game->competence->distribuerpx->nb_max_hobbit) {
-			$this->view->estMaxHobbits = true;
 		}
 
 		$this->view->tabHobbits = $tabHobbits;
