@@ -45,6 +45,7 @@ class Bral_Messagerie_Message {
 				return $this->view->render("messagerie/nouveau.phtml");
 				break;
 			case "supprimer" :
+			case "supprimerselection" :
 			case "message" :
 				return $this->view->render("messagerie/message.phtml");
 				break;
@@ -84,6 +85,9 @@ class Bral_Messagerie_Message {
 				break;
 			case "supprimer" :
 				$this->prepareSupprimer();
+				break;
+			case "supprimerselection" :
+				$this->prepareSupprimerSelection();
 				break;
 			case "message" :
 				$this->prepareMessage();
@@ -381,6 +385,46 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 			$this->refreshMessages = true;
 		} else {
 			throw new Zend_Exception(get_class($this)."::supprimer Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
+		}
+		unset($josUddeimTable);
+		unset($message);
+	}
+	
+	private function prepareSupprimerSelection() {
+		$josUddeimTable = new JosUddeim();
+		$listMessages = split(',', $this->request->get("valeur_2"));
+		$messages = $josUddeimTable->findByIdList($this->view->user->id_hobbit, $listMessages);
+		
+		if ($messages != null && count($messages) >= 1) {
+			foreach ($messages as $message) {
+				if ($message["fromid"] == $this->view->user->id_hobbit) {
+					$data = array(
+						"totrashoutbox" => 1,
+						"totrashdateoutbox" => time(),
+					);
+					if ($message["toid"] == $this->view->user->id_hobbit) {
+						$data["totrash"] = 1;
+						$data["totrashdate"] = time();
+						
+					}
+				} else {
+					$data = array(
+						"totrash" => 1,
+						"totrashdate" => time(),
+					);
+				}
+				$where = "id=".$message["id"];
+				$josUddeimTable->update($data, $where);
+				
+				$this->refreshMessages = true;
+			}
+			if (count($messages) > 1) {
+				$this->view->information = "Les messages sélectionnés sont supprim&eacute;s";
+			} else {
+				$this->view->information = "Le message sélectionné est supprim&eacute;";
+			}
+		} else {
+			throw new Zend_Exception(get_class($this)."::supprimerselection Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
 		}
 		unset($josUddeimTable);
 		unset($message);

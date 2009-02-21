@@ -168,3 +168,29 @@ function encodePlus(chaine) {
 	var reg=new RegExp("(\\+)", "g");
 	return chaine.replace(reg,"[plus]");
 }
+
+function chaineCheckbox(liste) {
+	val = liste.split(',');
+	retour = "";
+	for (i = 0; i < val.length; i++) {
+		if ($($(val[i]).checked)) {
+			retour = retour + $(val[i]).value + ",";
+		}
+	}
+	if (retour != "") {
+		retour = retour.substring(0,retour.lastIndexOf(','));
+	}
+	return retour;
+}
+
+function checkboxCocher(liste, valeur, acacher, aafficher) {
+	val = liste.split(',');
+	retour = "";
+	
+	acacher.style.display="none";
+	aafficher.style.display="block";
+	
+	for (i = 0; i < val.length; i++) {
+		$($(val[i]).checked = valeur);
+	}
+}
