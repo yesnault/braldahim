@@ -159,6 +159,7 @@ class Bral_Competences_Distribuercastars extends Bral_Competences_Competence {
 		$tab = $this->constructListBoxRefresh();
 		if ($this->refreshVue === true) {
 			$tab[] = "box_vue";
+			$tab[] = "box_laban";
 		}
 		return $tab;
 	}
