@@ -216,7 +216,7 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 	
 	private function calculEvenementRune() {
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
-		Bral_Monstres_VieMonstre::dropRune($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->niveau_hobbit);
+		Bral_Monstres_VieMonstre::dropRune($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->niveau_hobbit, $this->view->user->niveau_hobbit);
 	}
 	
 	private function estEnvironnementValid($environnement) {

@@ -470,32 +470,38 @@ Consultez vos événements pour plus de détails.";
 		$where = "id_monstre=".$id_monstre;
 		$monstreTable->delete($where);
 		
-		self::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"]);
+		self::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $niveauHobbit);
 		$this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $effetMotH, $niveauHobbit);
 	}
 	
-	public static function dropRune($x, $y, $niveau, $effetMotD = 0) {
+	public static function dropRune($x, $y, $niveauTue, $niveauHobbit, $effetMotD = 0) {
 		Zend_Loader::loadClass("ElementRune");
 		Zend_Loader::loadClass("TypeRune");
 		
-		$tirage = Bral_Util_De::get_1d100();
-		
-		Bral_Util_Log::viemonstres()->debug(" - dropRune - tirage=".$tirage. " niveau_monstre=".$niveau. " effetMotD=".$effetMotD);
-		
-		if ($tirage >= 1 && $tirage <= 1 + ($niveau/4) + $effetMotD) {
-			$niveau = 'a';
-		} else if ($tirage >= 2 && $tirage <= 20 + ($niveau/4) + $effetMotD) {
-			$niveau = 'b';
-		} else if ($tirage >= 21 && $tirage <= 30 - ($niveau/4) + $effetMotD) {
-			$niveau = 'c';
-		} else { //if ($tirage >= 31 && $tirage <= 100 - ($niveau/4) + $effetMotD) {
-			$niveau = 'd';
+		//Si 10+2*(Niv tué - Niveau attaquant)+Niveau tué <= 0 alors pas de drop de rune
+		if ((10 + 2 * ($niveauTue - $niveauHobbit) + $niveauTue) <= 0) {
+			Bral_Util_Log::viemonstres()->debug(" - dropRune - pas de drop de rune : niveauTue=".$niveauTue." niveauHobbit=".$niveauHobbit);
+			return;
 		}
 		
-		Bral_Util_Log::viemonstres()->debug(" - dropRune - niveau retenu=".$niveau);
+		$tirage = Bral_Util_De::get_1d100();
+		
+		Bral_Util_Log::viemonstres()->debug(" - dropRune - tirage=".$tirage. " niveauTue=".$niveauTue. " effetMotD=".$effetMotD);
+		
+		if ($tirage >= 1 && $tirage <= 1 + ($niveauTue/4) + $effetMotD) {
+			$niveauRune = 'a';
+		} else if ($tirage >= 2 && $tirage <= 20 + ($niveauTue/4) + $effetMotD) {
+			$niveauRune = 'b';
+		} else if ($tirage >= 21 && $tirage <= 30 - ($niveauTue/4) + $effetMotD) {
+			$niveauRune = 'c';
+		} else { //if ($tirage >= 31 && $tirage <= 100 - ($niveau/4) + $effetMotD) {
+			$niveauRune = 'd';
+		}
+		
+		Bral_Util_Log::viemonstres()->debug(" - dropRune - niveau retenu=".$niveauRune);
 		
 		$typeRuneTable = new TypeRune();
-		$typeRuneRowset = $typeRuneTable->findByNiveau($niveau);
+		$typeRuneRowset = $typeRuneTable->findByNiveau($niveauRune);
 		
 		if (!isset($typeRuneRowset) || count($typeRuneRowset) == 0) {
 			return; // rien à faire, doit jamais arriver

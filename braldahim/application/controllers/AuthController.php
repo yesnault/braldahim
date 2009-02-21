@@ -39,8 +39,8 @@ class AuthController extends Zend_Controller_Action {
 		
 		Zend_Loader::loadClass('Zend_Filter_StripTags');
 		$f = new Zend_Filter_StripTags();
-		$email = $f->filter($this->_request->getPost('email'));
-		$password = $f->filter($this->_request->getPost('password'));
+		$email = $f->filter($this->_request->getPost('post_email_hobbit'));
+		$password = $f->filter($this->_request->getPost('post_password_hobbit'));
 			
 		if (strtolower($_SERVER['REQUEST_METHOD']) == 'post' && $email != "" && $password != "") {
 			// setup Zend_Auth adapter for a database table
