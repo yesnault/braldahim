@@ -55,7 +55,7 @@ class StatsFabricants extends Zend_Db_Table {
 		$select->where('mois_stats_fabricants < ?', $dateFin);
 		$select->where($this->getWhereType($type, $config));
 		$select->order("niveau ASC");
-		$select->group(array('niveau_hobbit_stats_fabricants'));
+		$select->group(array('niveau'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

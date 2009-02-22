@@ -52,7 +52,7 @@ class StatsRecolteurs extends Zend_Db_Table {
 		$select->where('mois_stats_recolteurs >= ?', $dateDebut);
 		$select->where('mois_stats_recolteurs < ?', $dateFin);
 		$select->order("niveau ASC");
-		$select->group(array('niveau_hobbit_stats_recolteurs'));
+		$select->group(array('niveau'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
