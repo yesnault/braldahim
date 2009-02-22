@@ -294,7 +294,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 			// perte des PX
 			$this->hobbit->px_commun_hobbit = 0;
-			$this->hobbit->px_perso_hobbit = floor($this->hobbit->px_perso_hobbit / 3);
+			$this->hobbit->px_perso_hobbit = $this->hobbit->px_perso_hobbit - floor($this->hobbit->px_perso_hobbit / 3);
 
 			// balance de faim
 			$this->hobbit->balance_faim_hobbit = 50;
