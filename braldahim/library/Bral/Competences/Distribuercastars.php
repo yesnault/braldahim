@@ -93,7 +93,7 @@ class Bral_Competences_Distribuercastars extends Bral_Competences_Competence {
 		
 			if ($nbCastarsPossible >= 1) { // On met dans le laban ce qu'on peut
 				$hobbit->castars_hobbit = $hobbit->castars_hobbit + $t["castars_recus"];
-				$hobbit->poids_transporte_hobbit = $hobbit->poids_transporte_hobbit + $nbCastarsPossible * Bral_Util_Poids::POIDS_CASTARS;
+				$hobbit->poids_transporte_hobbit = $hobbit->poids_transporte_hobbit + $t["castars_recus"] * Bral_Util_Poids::POIDS_CASTARS;
 				$data = array(
 					'castars_hobbit' => $hobbit->castars_hobbit,
 					'poids_transporte_hobbit' => $hobbit->poids_transporte_hobbit,
