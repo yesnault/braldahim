@@ -80,7 +80,7 @@ abstract class Bral_Monstres_VieGroupes {
 		if ($groupe["id_fk_hobbit_cible_groupe_monstre"] != null) {
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - cible en cours");
 			$hobbitTable = new Hobbit();
-			$cible = $hobbitTable->findHobbitAvecRayon($monstre_role_a["x_monstre"], $monstre_role_a["y_monstre"], $monstre_role_a["vue_monstre"], $groupe["id_fk_hobbit_cible_groupe_monstre"]);
+			$cible = $hobbitTable->findHobbitAvecRayon($monstre_role_a["x_monstre"], $monstre_role_a["y_monstre"], $monstre_role_a["vue_monstre"], $groupe["id_fk_hobbit_cible_groupe_monstre"], false);
 			if (count($cible) > 0) {
 				$cible = $cible[0];
 				$groupe["x_direction_groupe_monstre"] = $cible["x_hobbit"];

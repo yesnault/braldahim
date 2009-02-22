@@ -65,7 +65,7 @@ class Bral_Monstres_VieSolitaire {
 		if ($monstre["id_fk_hobbit_cible_monstre"] != null) {
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - cible en cours");
 			$hobbitTable = new Hobbit();
-			$cible = $hobbitTable->findHobbitAvecRayon($monstre["x_monstre"], $monstre["y_monstre"], $monstre["vue_monstre"], $monstre["id_fk_hobbit_cible_monstre"]);
+			$cible = $hobbitTable->findHobbitAvecRayon($monstre["x_monstre"], $monstre["y_monstre"], $monstre["vue_monstre"], $monstre["id_fk_hobbit_cible_monstre"], false);
 			if (count($cible) > 0) {
 				$cible = $cible[0];
 				$monstre["x_direction_monstre"] = $cible["x_hobbit"];

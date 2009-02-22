@@ -176,10 +176,6 @@ class Hobbit extends Zend_Db_Table {
 			$and = " AND id_fk_type_monstre_effet_mot_f != ".(int)$idTypeMonstre;
 		}
 		
-		if ($avecIntangibles == false) {
-			$and .= " AND est_intangible_hobbit like 'non'";
-		}
-
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('hobbit', '*, SQRT(((x_hobbit - '.$x.') * (x_hobbit - '.$x.')) + ((y_hobbit - '.$y.') * ( y_hobbit - '.$y.'))) as distance')
@@ -189,8 +185,13 @@ class Hobbit extends Zend_Db_Table {
 		->where('y_hobbit <= ?', $y + $rayon)
 		->where("est_mort_hobbit = 'non'")
 		->where('est_compte_actif_hobbit = ?', "oui")
-		->where('est_en_hibernation_hobbit = ?', "non")
-		->joinLeft('effet_mot_f','id_fk_hobbit_effet_mot_f = id_hobbit'. $and)
+		->where('est_en_hibernation_hobbit = ?', "non");
+		
+		if ($avecIntangibles == false) {
+			$select->where("est_intangible_hobbit like ?", "non");
+		}
+		
+		$select->joinLeft('effet_mot_f','id_fk_hobbit_effet_mot_f = id_hobbit')
 		->limit($nombre)
 		->order(array('distance ASC','niveau_hobbit ASC'));
 		
@@ -198,7 +199,8 @@ class Hobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findHobbitAvecRayon($x, $y, $rayon, $idHobbit) {
+	function findHobbitAvecRayon($x, $y, $rayon, $idHobbit, $avecIntangibles) {
+		
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('hobbit', '*')
@@ -208,8 +210,13 @@ class Hobbit extends Zend_Db_Table {
 		->where('y_hobbit <= ?', $y + $rayon)
 		->where('est_mort_hobbit = ?', "non")
 		->where('est_compte_actif_hobbit = ?', "oui")
-		->where('est_en_hibernation_hobbit = ?', "non")
+		->where('est_en_hibernation_hobbit = ?' ,"non")
 		->where('id_hobbit = ?', $idHobbit);
+		
+		if ($avecIntangibles == false) {
+			$select->where("est_intangible_hobbit like ?", "non");
+		}
+		
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
