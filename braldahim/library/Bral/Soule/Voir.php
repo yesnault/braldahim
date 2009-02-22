@@ -20,6 +20,9 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 		return $this->view->render("soule/voir.phtml");
 	}
 	
+	function getTitreAction() {}
+	public function calculNbPa() {}
+	
 	function prepareCommun() {
 		Zend_Loader::loadClass('SouleEquipe');
 		Zend_Loader::loadClass('SouleMatch');
@@ -29,7 +32,7 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 			$this->idTerrainEnCours =  Bral_Util_Controle::getValeurIntVerif($this->request->get("id_terrain"));
 		}
 		if ($this->idTerrainEnCours == null || $this->idTerrainEnCours <= 0) {
-			throw new Zend_Exception(get_class($this)." Total trop eleve:".$total_distribution. " c=".$this->view->user->castars_hobbit);
+			throw new Zend_Exception(get_class($this)." idTerrainEnCours null".$this->request->get("id_terrain"));
 		}
 		
 		$this->niveauTerrainHobbit = floor($this->view->user->niveau_hobbit/10);

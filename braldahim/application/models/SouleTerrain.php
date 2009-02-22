@@ -18,4 +18,9 @@ class SouleTerrain extends Zend_Db_Table {
 		$where = $this->getAdapter()->quoteInto('id_soule_terrain = ?',(int)$idTerrain);
 		return $this->fetchRow($where);
 	}
+	
+	public function findByNiveau($niveauTerrain) {
+		$where = $this->getAdapter()->quoteInto('niveau_soule_terrain = ?',(int)$niveauTerrain);
+		return $this->fetchRow($where);
+	}
 }

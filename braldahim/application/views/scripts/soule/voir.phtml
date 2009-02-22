@@ -12,6 +12,11 @@ Développement en cours.<br><br>
 
 <? if ($this->inscriptionPossible === true): ?>
 	Vous pouvez vous inscrire.
+	
+	<input type="button" class='button1' value="4 PA - Inscription"
+  onClick="Javascript:_get_('/soule/doaction?caction=ask_soule_inscription');"/>
+ 
+ 
 <? else:?>
 	<?=$this->inscriptionNonPossibleInfo?>
 <? endif; ?>

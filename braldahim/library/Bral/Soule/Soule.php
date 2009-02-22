@@ -37,19 +37,32 @@ abstract class Bral_Soule_Soule {
 	abstract function prepareResultat();
 	abstract function getListBoxRefresh();
 	abstract function getNomInterne();
+	abstract function getTitreAction();
+	abstract function calculNbPa();
 	
 	public function getIdEchoppeCourante() {
 		return false;
 	}
 	
 	function render() {
+		$this->view->nomAction = $this->getTitreAction();
+		$this->view->nomSysteme = $this->nom_systeme;
 		switch($this->action) {
 			case "ask":
-				return $this->view->render("soule/".$this->nom_systeme."_formulaire.phtml");
+				$texte = $this->view->render("soule/".$this->nom_systeme."_formulaire.phtml");
+				// suppression des espaces : on met un espace à la place de n espaces à suivre
+				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
+				
+				return $this->view->render("soule/commun_formulaire.phtml");
 				break;
 			case "do":
-				$this->majHobbit();
-				return $this->view->render("soule/".$this->nom_systeme."_resultat.phtml");
+				$this->view->reloadInterface = $this->reloadInterface;
+				$texte = $this->view->render("soule/".$this->nom_systeme."_resultat.phtml");
+				// suppression des espaces : on met un espace à la place de n espaces à suivre
+				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
+				
+				$this->majEvenementsStandard(Bral_Helper_Affiche::copie($this->view->texte));
+				return $this->view->render("soule/commun_resultat.phtml");
 				break;
 			default:
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
