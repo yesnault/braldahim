@@ -28,7 +28,7 @@ Modalbox.Methods = {
 		slideUpDuration: .35, // Default Modalbox hiding slide up effect in seconds
 		resizeDuration: .25, // Default resize duration seconds
 		inactiveFade: true, // Fades MB window on inactive state
-		transitions: true, // Toggles transition effects. Transitions are enabled by default
+		transitions: false, // Toggles transition effects. Transitions are enabled by default
 		loadingString: "Veuillez patienter. Chargement en cours...", // Default loading string message
 		closeString: "Fermer", // Default title attribute for close window link
 		closeValue: "&times;", // Default string for close link in the header

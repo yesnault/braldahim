@@ -1,0 +1,20 @@
+
+<br>
+<ul class="titre textalic textsizec">
+
+	<?=$this->terrainCourant["nom_soule_terrain"]?>
+
+</ul>
+
+<br>
+Développement en cours.<br><br>
+
+
+<? if ($this->inscriptionPossible === true): ?>
+	Vous pouvez vous inscrire.
+<? else:?>
+	<?=$this->inscriptionNonPossibleInfo?>
+<? endif; ?>
+
+
+

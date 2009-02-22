@@ -139,6 +139,10 @@ class InterfaceController extends Zend_Controller_Action {
 			
 			$this->addBox(Bral_Box_Factory::getEvenements($this->_request, $this->view, false), "boite_c");
 			$this->addBox(Bral_Box_Factory::getMessagerie($this->_request, $this->view, false), "boite_c");
+			// TODO à supprimer à la fin des dev soule
+			if ($this->view->config->general->production != 1) {
+				$this->addBox(Bral_Box_Factory::getSoule($this->_request, $this->view, false), "boite_c");
+			}
 			$this->addBox(Bral_Box_Factory::getCommunaute($this->_request, $this->view, false), "boite_c");
 	
 			$xml_entry = new Bral_Xml_Entry();
