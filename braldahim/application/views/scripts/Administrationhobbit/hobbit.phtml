@@ -18,7 +18,8 @@
 			Hobbit inconnu 
 		<? else: 
 			$nbElement = 0; ?>
-			<input type="button"  class='button1' name="mode" value="Usurpation (se deconnecter ensuite!)" onClick="document.location.href='/Administrationhobbit/usurpation/idhobbit/<?=$this->id_hobbit?>'" <? if ($this->hobbit["est_compte_actif_hobbit"] != "oui") :echo "disabled='disabled'"; endif;?>/><br>
+			<input type="button"  class='button1' name="mode" value="Usurpation sans activation DLA (se deconnecter ensuite!)" onClick="document.location.href='/Administrationhobbit/usurpation/idhobbit/<?=$this->id_hobbit?>/activation/non'" <? if ($this->hobbit["est_compte_actif_hobbit"] != "oui") :echo "disabled='disabled'"; endif;?>/> 
+			<input type="button"  class='button1' name="mode" value="Usurpation avec activation DLA (se deconnecter ensuite!)" onClick="document.location.href='/Administrationhobbit/usurpation/idhobbit/<?=$this->id_hobbit?>/activation/oui'" <? if ($this->hobbit["est_compte_actif_hobbit"] != "oui") :echo "disabled='disabled'"; endif;?>/><br>
 			<? if ($this->mode == "simple") :?>
 	 	   		<input type="button"  class='button1' name="mode" value="Passer en vue complexe" onClick="document.location.href='/Administrationhobbit/hobbit/mode/complexe/idhobbit/<?=$this->id_hobbit?>'"/>
 	   	 	<? else: ?>

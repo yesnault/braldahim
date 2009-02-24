@@ -93,6 +93,12 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 		// Set the input credential values to authenticate against 
 		$authAdapter->setIdentity($this->_request->get('idhobbit')); 
 		$authAdapter->setCredential($this->_request->get('idhobbit')); 
+		
+		if ($this->_request->get('activation') == "oui") {
+			$activation = true;
+		} else {
+			$activation = false;
+		}
              
 		// authentication  
 		$auth = Zend_Auth::getInstance(); 
@@ -105,7 +111,7 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 
 				Zend_Auth::getInstance()->getIdentity()->dateAuth = md5(date("Y-m-d H:i:s"));
 				Zend_Auth::getInstance()->getIdentity()->initialCall = true;
-				Zend_Auth::getInstance()->getIdentity()->activation = false;
+				Zend_Auth::getInstance()->getIdentity()->activation = $activation;
 	            Zend_Auth::getInstance()->getIdentity()->gardiennage = false;
 	            Zend_Auth::getInstance()->getIdentity()->gardeEnCours = true;
 	            Zend_Auth::getInstance()->getIdentity()->administrateur = true;
