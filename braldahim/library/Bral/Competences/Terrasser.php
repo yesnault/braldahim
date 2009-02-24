@@ -51,7 +51,7 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 			$this->view->routeOk = true;
 			$this->view->environnementOk = true;
 			
-			if (count($monstres) >= 0) {
+			if (count($monstres) >= 1) {
 				$this->view->monstreOk = false;
 			}
 			if (count($hobbits) > 1) {
