@@ -147,6 +147,7 @@ function revealModal(divID) {
     window.onscroll = function () { $(divID).style.top = document.body.scrollTop; };
     $(divID).style.display = "block";
     $(divID).style.top = document.body.scrollTop;
+    document.documentElement.scrollTop = 0;
 }
 
 function hideModal(divID) {
