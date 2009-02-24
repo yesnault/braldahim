@@ -40,6 +40,19 @@ abstract class Bral_Soule_Soule {
 	abstract function getTitreAction();
 	abstract function calculNbPa();
 	
+	protected function setDetailsEvenement($details, $idType) {
+		$this->detailEvenement = $details;
+		$this->idTypeEvenement = $idType;
+	}
+	
+	/*
+	 * Mise à jour des événements du hobbit : type : compétence.
+	 */
+	private function majEvenementsSoule($detailsBot) {
+		Zend_Loader::loadClass("Bral_Util_Evenement");
+		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_hobbit);
+	}
+	
 	public function getIdEchoppeCourante() {
 		return false;
 	}
@@ -56,12 +69,11 @@ abstract class Bral_Soule_Soule {
 				return $this->view->render("soule/commun_formulaire.phtml");
 				break;
 			case "do":
-				$this->view->reloadInterface = $this->reloadInterface;
 				$texte = $this->view->render("soule/".$this->nom_systeme."_resultat.phtml");
 				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 				
-				$this->majEvenementsStandard(Bral_Helper_Affiche::copie($this->view->texte));
+				$this->majEvenementsSoule(Bral_Helper_Affiche::copie($this->view->texte));
 				return $this->view->render("soule/commun_resultat.phtml");
 				break;
 			default:

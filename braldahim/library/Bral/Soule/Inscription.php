@@ -25,9 +25,18 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 		Zend_Loader::loadClass('SouleMatch');
 		Zend_Loader::loadClass('SouleTerrain');
 		
-		$this->calculNbPa();
-		
 		$this->view->inscriptionPossible = false;
+		
+		$this->calculNbPa();
+		$this->calculNbCastars();
+		
+		if ($this->view->assezDePa && $this->view->assezDePa) {
+			$this->prepareTerrain();
+			$this->prepareEquipes();
+		}
+	}
+	
+	private function prepareTerrain() {
 		
 		$this->niveauTerrainHobbit = floor($this->view->user->niveau_hobbit/10);
 		
@@ -59,6 +68,56 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 			}
 		}
 	}
+	
+	private function prepareEquipes() {
+		
+		$souleEquipeTable = new SouleEquipe();
+		$equipesRowset = $souleEquipeTable->countInscritsNonDebuteByNiveauTerrain($this->niveauTerrainHobbit);
+		
+		$nbInscritsEquipeA = 0;
+		$nbInscritsEquipeB = 0;
+		
+		if ($equipesRowset != null) {
+			foreach($equipesRowset as $e) {
+				if ($e["camp_soule_equipe"] == "a") {
+					$nbInscritsEquipeA = $e["nombre"];
+				} else {
+					$nbInscritsEquipeB = $e["nombre"];
+				}
+			}
+		}
+		
+		$equipes = null;
+		
+		$inscriptionPossibleEquipeA = false;
+		$inscriptionPossibleEquipeB = false;
+		
+		if ($nbInscritsEquipeA < $this->view->config->game->soule->max->joueurs / 2) {
+			$inscriptionPossibleEquipeA = true;
+		}
+		
+		if ($nbInscritsEquipeB < $this->view->config->game->soule->max->joueurs / 2) {
+			$inscriptionPossibleEquipeB = true;
+		}
+		
+		if ($inscriptionPossibleEquipeA == false && $inscriptionPossibleEquipeB == false) {
+			$this->view->inscriptionPossible = false;	
+		}
+		
+		$equipes[1] = array(
+			'nom_equipe' => "&Eacute;quipe A",
+			'nb_inscrits' => $nbInscritsEquipeA,
+			'inscription_possible' => $inscriptionPossibleEquipeA,
+			);
+			
+		$equipes[2] = array(
+			'nom_equipe' => "&Eacute;quipe B",
+			'nb_inscrits' => $nbInscritsEquipeB,
+			'inscription_possible' => $inscriptionPossibleEquipeB,
+			);
+		
+		$this->view->tabEquipes = $equipes;
+	}
 
 	function prepareFormulaire() {
 	}
@@ -69,21 +128,75 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 			throw new Zend_Exception(get_class($this)." Erreur inscriptionPossible == false");
 		}
 		
-		$this->calculInscription();
+		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
+			throw new Zend_Exception("Bral_Soule_Inscription :: Nombre invalide : ".$this->request->get("valeur_1"));
+		} else {
+			$idEquipeChoisie = (int)$this->request->get("valeur_1");
+		}
+			
+		$this->calculInscription($idEquipeChoisie);
 		
 	}
 	
 	public function calculNbPa() {
-		if ($this->view->user->pa_hobbit - 4 < 0) {
+		if ($this->view->user->pa_hobbit - 1 < 0) {
 			$this->view->assezDePa = false;
 		} else {
 			$this->view->assezDePa = true;
 		}
 	}
 	
-	private function calculInscription() {
-		
+	public function calculNbCastars() {
+		if ($this->view->user->castars_hobbit - 20 < 0) {
+			$this->view->assezDeCastars = false;
+		} else {
+			$this->view->assezDeCastars = true;
+		}
 	}
+	
+	private function calculInscription($idEquipeChoisie) {
+		$souleMatchTable = new SouleMatch();
+		
+		$match = $souleMatchTable->findNonDebuteByIdTerrain($this->view->terrainCourant["id_soule_terrain"]);
+		if (count($match) > 1) {
+			throw new Zend_Exception("Bral_Soule_Inscription :: Nb Match invalides : ".count($match));
+		}
+		
+		if ($match == null) { // si le match n'est pas initialisé, on le créé
+			$data = array(
+				"id_fk_terrain_soule_match" => $this->view->terrainCourant["id_soule_terrain"],
+				"date_debut_soule_match" => null,
+				"date_fin_soule_match" => null,
+				"score_equipea_soule_match" => 0,
+				"score_equipeb_soule_match" => 0,
+			);
+			$idMatch = $souleMatchTable->insert($data);
+		} else {
+			$idMatch = $match[0]["id_soule_match"];
+		}
+		
+		
+		$souleEquipeTable = new SouleEquipe();
+		
+		if ($idEquipeChoisie == 1) {
+			$camp = 'a';
+		} else {
+			$camp = 'b';
+		}
+		
+		$data = array(
+			"id_fk_match_soule_equipe" => $idMatch,
+			"date_entree_soule_equipe" => date("Y-m-d H:i:s"),
+			"id_fk_hobbit_soule_equipe" => $this->view->user->id_hobbit,
+			"camp_soule_equipe" => $camp,
+		);
+		$souleEquipeTable->insert($data);
+		
+		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a pris un ticket pour aller jouer un match sur le ".$this->view->terrainCourant["nom_soule_terrain"];
+		$idType = $this->view->config->game->evenements->type->soule;
+		$this->setDetailsEvenement($details, $idType);
+	}
+	
 	
 	function getListBoxRefresh() {
 	}

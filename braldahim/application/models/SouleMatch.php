@@ -24,4 +24,15 @@ class SouleMatch extends Zend_Db_Table {
 		$result = $db->fetchAll($sql);
 		return $result;
 	}
+	
+	public function findNonDebuteByIdTerrain($idTerrain) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('soule_match', '*');
+		$select->where('id_fk_terrain_soule_match = ?', (int)$idTerrain);
+		$select->where('date_debut_soule_match is null and date_fin_soule_match is null');
+		$sql = $select->__toString();
+		$result = $db->fetchAll($sql);
+		return $result;
+	}
 }

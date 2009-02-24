@@ -36,6 +36,10 @@ function _get_(url, encode) {
 			if ((url.substring(7, 9) == "do") && (url.substring(24, 26) == "do")) {
 				action = "do";
 			}
+		} else if (url.substring(0, 6) == "/soule") { // /soule/doaction?caction=ask/do
+			if ((url.substring(7, 9) == "do") && (url.substring(24, 26) == "do")) {
+				action = "do";
+			}
 		} else if (url.substring(0, 11) == "/messagerie") { // /messagerie/doaction?caction=ask/do
 			if ((url.substring(12, 14) == "do") && (url.substring(29, 31) == "do")) {
 				action = "do";
