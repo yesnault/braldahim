@@ -44,6 +44,7 @@ class Evenement extends Zend_Db_Table {
 		$select->where('id_fk_type_monstre = id_type_monstre');
 		$select->where('date_evenement >= ?', $dateDebut);
 		$select->where('date_evenement < ?', $dateFin);
+		$select->where('est_mort_monstre = ?', 'non');
 		$select->order("nombre DESC");
 		$select->group(array('niveau_monstre', 'id_monstre', 'nom_type_monstre'));
 		$select->limit(10, 0);
@@ -62,6 +63,7 @@ class Evenement extends Zend_Db_Table {
 		$select->where('id_fk_type_monstre = id_type_monstre');
 		$select->where('date_evenement >= ?', $dateDebut);
 		$select->where('date_evenement < ?', $dateFin);
+		$select->where('est_mort_monstre = ?', 'non');
 		$select->order("nombre DESC");
 		$select->group(array('nom_type_monstre'));
 		$select->limit(10, 0);
