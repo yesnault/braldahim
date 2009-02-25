@@ -93,6 +93,7 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 	}
 
 	private function calculCoutCastars() {
-		return 50;
+		//return 50;
+		return 0; // train gratuit
 	}
 }
