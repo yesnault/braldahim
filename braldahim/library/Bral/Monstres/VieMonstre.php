@@ -88,6 +88,8 @@ class Bral_Monstres_VieMonstre {
 			
 			$x_monstre = $this->monstre["x_monstre"];
 			$y_monstre = $this->monstre["y_monstre"];
+			$x_offset = 0;
+			$y_offset = 0;
 			
 			if ($this->monstre["x_monstre"] < $x_destination) {
 				$x_monstre = $this->monstre["x_monstre"] + 1;
@@ -638,21 +640,21 @@ Vous avez esquivé parfaitement l'attaque";
 			if ($v["x_min_ville"] - $rayonMin <= $directionX && $v["x_max_ville"] + $rayonMin >= $directionX
 			&& $v["y_min_ville"] - $rayonMin <= $directionY && $v["y_max_ville"] + $rayonMin >= $directionY) {
 				
-				Bral_Util_Log::viemonstres()->trace(get_class($this)." - getTabXYRayon - monstre en ville, niveau $niveau xmin:".$v["x_min_ville"] ." xmax:".$v["x_max_ville"] ." ymin:".$v["y_min_ville"] ." ymax:".$v["y_max_ville"]);
+				Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - monstre en ville, niveau $niveau xmin:".$v["x_min_ville"] ." xmax:".$v["x_max_ville"] ." ymin:".$v["y_min_ville"] ." ymax:".$v["y_max_ville"]);
 				
 				if ($directionX <= $v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2) { // centre x de la ville
-					Bral_Util_Log::viemonstres()->trace(get_class($this)." - getTabXYRayon choix A");
+					Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon choix A offsetX=$offsetX");
 					$directionX = $directionX - $offsetX;
 				} else if ($directionX >= $v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2) {
-					Bral_Util_Log::viemonstres()->trace(get_class($this)." - getTabXYRayon choix B");
+					Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon choix B offsetX=$offsetX");
 					$directionX = $directionX + $offsetX;
 				}
 			
 				if ($directionY <= $v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"]) / 2) { // centre y de la ville
-					Bral_Util_Log::viemonstres()->trace(get_class($this)." - getTabXYRayon choix C");
+					Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon choix C offsetY=$offsetY");
 					$directionY = $directionY - $offsetY;
 				} else if ($directionY >= $v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"]) / 2) {
-					Bral_Util_Log::viemonstres()->trace(get_class($this)." - getTabXYRayon choix D");
+					Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon choix D offsetY=$offsetY");
 					$directionY = $directionY + $offsetY;
 				}
 				$estPasse = true;
