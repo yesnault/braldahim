@@ -278,7 +278,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 								} else {
 									$c_taille = $c["nom_taille_m_monstre"];
 								}
-								$tabCadavres[] = array("id_cadavre" => $c["id_monstre"], "nom_cadavre" => $c["nom_type_monstre"], 'taille_monstre' => $c_taille);
+								$tabCadavres[] = array("id_monstre" => $c["id_monstre"], "nom_monstre" => $c["nom_type_monstre"], 'taille_monstre' => $c_taille);
 							}
 						}
 					}
