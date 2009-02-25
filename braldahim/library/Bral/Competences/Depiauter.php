@@ -100,7 +100,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 	 */
 	private function calculDepiauter($id_monstre) {
 
-		$monstreTable = new Cadavre();
+		$monstreTable = new Monstre();
 		$monstreRowset = $monstreTable->findById($id_monstre);
 		$monstre = $monstreRowset;
 		
