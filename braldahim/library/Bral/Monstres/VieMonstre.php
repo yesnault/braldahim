@@ -640,15 +640,23 @@ Vous avez esquivé parfaitement l'attaque";
 			if ($v["x_min_ville"] - $rayonMin <= $directionX && $v["x_max_ville"] + $rayonMin >= $directionX
 			&& $v["y_min_ville"] - $rayonMin <= $directionY && $v["y_max_ville"] + $rayonMin >= $directionY) {
 				
-				Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - monstre en ville, niveau $niveau xmin:".$v["x_min_ville"] ." xmax:".$v["x_max_ville"] ." ymin:".$v["y_min_ville"] ." ymax:".$v["y_max_ville"]);
+				Bral_Util_Log::viemonstres()->debug("Bral_Monstres_VieMonstre - getTabXYRayon - monstre en ville, niveau $niveau xmin:".$v["x_min_ville"] ." xmax:".$v["x_max_ville"] ." ymin:".$v["y_min_ville"] ." ymax:".$v["y_max_ville"]. " directionX:".$directionX. " directionY:".$directionY. " offsetX:".$offsetX. " offsetY:".$offsetY);
 				
 				if ($v["x_min_ville"] - $rayonMin <= $directionX && $v["x_max_ville"] + $rayonMin >= $directionX) {
 					if ($directionX <= $v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2) { // centre x de la ville
-						Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon choix A offsetX=$offsetX");
+						Bral_Util_Log::viemonstres()->debug("Bral_Monstres_VieMonstre - getTabXYRayon choix A offsetX=$offsetX");
 						$directionX = $directionX - $offsetX;
+						if ($v["x_min_ville"] - $rayonMin <= $directionX && $v["x_max_ville"] + $rayonMin >= $directionX) {
+							Bral_Util_Log::viemonstres()->debug("Bral_Monstres_VieMonstre - getTabXYRayon choix A2");
+							$directionX = $v["x_min_ville"] - $rayonMin;
+						}
 					} else if ($directionX >= $v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2) {
-						Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon choix B offsetX=$offsetX");
+						Bral_Util_Log::viemonstres()->debug("Bral_Monstres_VieMonstre - getTabXYRayon choix B offsetX=$offsetX");
 						$directionX = $directionX + $offsetX;
+						if ($v["x_min_ville"] - $rayonMin <= $directionX && $v["x_max_ville"] + $rayonMin >= $directionX) {
+							Bral_Util_Log::viemonstres()->debug("Bral_Monstres_VieMonstre - getTabXYRayon choix B2");
+							$directionX = $v["x_min_ville"] + $rayonMin;
+						}
 					}
 				}
 			
@@ -656,9 +664,17 @@ Vous avez esquivé parfaitement l'attaque";
 					if ($directionY <= $v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"]) / 2) { // centre y de la ville
 						Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon choix C offsetY=$offsetY");
 						$directionY = $directionY - $offsetY;
+						if ($v["y_min_ville"] - $rayonMin <= $directionY && $v["y_max_ville"] + $rayonMin >= $directionY) {
+							Bral_Util_Log::viemonstres()->debug("Bral_Monstres_VieMonstre - getTabXYRayon choix C2");
+							$directionY = $v["y_min_ville"] - $rayonMin;
+						}
 					} else if ($directionY >= $v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"]) / 2) {
 						Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon choix D offsetY=$offsetY");
 						$directionY = $directionY + $offsetY;
+						if ($v["y_min_ville"] - $rayonMin <= $directionY && $v["y_max_ville"] + $rayonMin >= $directionY) {
+							Bral_Util_Log::viemonstres()->debug("Bral_Monstres_VieMonstre - getTabXYRayon choix D2");
+							$directionY = $v["y_min_ville"] + $rayonMin;
+						}
 					}
 				}
 				$estPasse = true;

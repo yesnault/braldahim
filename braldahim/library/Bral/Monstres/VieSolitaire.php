@@ -174,7 +174,6 @@ class Bral_Monstres_VieSolitaire {
             $monstre["x_direction_monstre"] = $tab["x_direction"];
             $monstre["y_direction_monstre"] = $tab["y_direction"];
             
-
             if ($monstre["x_direction_monstre"] <= $this->config->game->x_min) {
                 $monstre["x_direction_monstre"] = -$this->config->game->x_min;
             }
@@ -188,7 +187,7 @@ class Bral_Monstres_VieSolitaire {
                 $monstre["y_direction_monstre"] = -$this->config->game->y_max;
             }
 
-            Bral_Util_Log::viemonstres()->debug(get_class($this)." - calcul nouvelle valeur direction x=".$monstre["x_direction_monstre"]." y=".$monstre["y_direction_monstre"]." ");
+            Bral_Util_Log::viemonstres()->debug(get_class($this)." monstre (".$monstre["id_monstre"].")- calcul nouvelle valeur direction x=".$monstre["x_direction_monstre"]." y=".$monstre["y_direction_monstre"]." ");
         }
 
 		$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
