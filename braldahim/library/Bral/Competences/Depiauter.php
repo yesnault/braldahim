@@ -11,7 +11,7 @@
  * $LastChangedBy$
  */
 /**
-Enlève la peau d'un cadavre de monstre qui est au sol. 
+Enlève la peau d'un monstre de monstre qui est au sol. 
 (Pour les monstres qui ont une peau). 
 
 La quantité de peau est fonction de la taille du monstre :
@@ -25,7 +25,7 @@ gigantesque : 3D3 unité de peau
 class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 
 	function prepareCommun() {
-		Zend_Loader::loadClass("Cadavre");
+		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Laban");
 		
 		$this->preCalculPoids();
@@ -33,22 +33,21 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 			return;
 		}
 		
-		$cadavreTable = new Cadavre();
-		$cadavres = $cadavreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$monstreTable = new Monstre();
+		$monstres = $monstreTable->findByCaseCadavre($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		
 		$tabCadavres = null;
-		foreach($cadavres as $c) {
+		foreach($monstres as $c) {
 			if ($c["genre_type_monstre"] == 'feminin') {
 				$c_taille = $c["nom_taille_f_monstre"];
 			} else {
 				$c_taille = $c["nom_taille_m_monstre"];
 			}
-			$tabCadavres[] = array("id_cadavre" => $c["id_cadavre"], "nom_cadavre" => $c["nom_type_monstre"], 'taille_cadavre' => $c_taille, 'id_fk_taille_cadavre' => $c["id_fk_taille_cadavre"]);
+			$tabCadavres[] = array("id_monstre" => $c["id_monstre"], "nom_monstre" => $c["nom_type_monstre"], 'taille_monstre' => $c_taille, 'id_fk_taille_monstre' => $c["id_fk_taille_monstre"]);
 		}
 		
 		$this->view->tabCadavres = $tabCadavres;
 		$this->view->nCadavres = count($tabCadavres);
-	
 	}
 
 	function prepareFormulaire() {
@@ -66,7 +65,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		
 		$attaqueCadavre = false;
 		foreach ($this->view->tabCadavres as $c) {
-			if ($c["id_cadavre"] == $idCadavre) {
+			if ($c["id_monstre"] == $idCadavre) {
 				$attaqueCadavre = true;
 				break;
 			}
@@ -99,20 +98,20 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 	 * grand : 2D3 unité de peau
 	 * gigantesque : 3D3 unité de peau
 	 */
-	private function calculDepiauter($id_cadavre) {
+	private function calculDepiauter($id_monstre) {
 
-		$cadavreTable = new Cadavre();
-		$cadavreRowset = $cadavreTable->findById($id_cadavre);
-		$cadavre = $cadavreRowset;
+		$monstreTable = new Cadavre();
+		$monstreRowset = $monstreTable->findById($id_monstre);
+		$monstre = $monstreRowset;
 		
-		if ($cadavre == null || $cadavre["id_cadavre"] == null || $cadavre["id_cadavre"] == "") {
-			throw new Zend_Exception(get_class($this)."::calculDepiauter cadavre inconnu");
+		if ($monstre == null || $monstre["id_monstre"] == null || $monstre["id_monstre"] == "") {
+			throw new Zend_Exception(get_class($this)."::calculDepiauter monstre inconnu");
 		} elseif ($this->view->poidsPlaceDisponible == false) {
 			throw new Zend_Exception(get_class($this)." Poids invalide");
 		}
 		
 		$this->view->nbPeau = 0;
-		switch ($cadavre["id_fk_taille_cadavre"]) {
+		switch ($monstre["id_fk_taille_monstre"]) {
 			case 1 : // petit
 				$this->view->nbPeau = Bral_Util_De::get_1d2();
 				break;
@@ -151,10 +150,10 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		);
 		$labanTable->insertOrUpdate($data);
 		
-		$where = "id_cadavre=".$id_cadavre;
-		$cadavreTable->delete($where);
+		$where = "id_monstre=".$id_monstre;
+		$data = array('est_depiaute_cadavre' => 'oui');
+		$monstreTable->update($data, $where);
 	}
-	
 	
 	function getListBoxRefresh() {
 		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_vue", "box_laban"));

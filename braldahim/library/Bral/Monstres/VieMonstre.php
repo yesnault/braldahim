@@ -432,8 +432,7 @@ Consultez vos événements pour plus de détails.";
 	}
 	
 	/*
-	 * Mort d'un monstre : suppression de la table des monstre
-	 * et ajout dans la table cadavre
+	 * Mort d'un monstre : mise à jour table monstre
 	 * Drop Rune
 	 */
 	public function mortMonstreDb($id_monstre, $effetMotD, $effetMotH, $niveauHobbit) {
@@ -442,7 +441,6 @@ Consultez vos événements pour plus de détails.";
 			throw new Zend_Exception(get_class($this)."::mortMonstreDb id_monstre inconnu:".$id_monstre);
 		}
 		
-		Zend_Loader::loadClass("Cadavre");
 		Zend_Loader::loadClass("Monstre");
 		
 		$monstreTable = new Monstre();
@@ -458,19 +456,11 @@ Consultez vos événements pour plus de détails.";
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
 		
 		$data = array(
-			"id_cadavre" => $monstre["id_monstre"],
-			"id_fk_type_monstre_cadavre"  => $monstre["id_fk_type_monstre"],
-			"id_fk_taille_cadavre" => $monstre["id_fk_taille_monstre"],
-			"x_cadavre" => $monstre["x_monstre"],
-			"y_cadavre" => $monstre["y_monstre"],
-			"date_fin_cadavre" => $dateFin,
+			"date_fin_cadavre_monstre" => $dateFin,
 		);
 		
-		$cadavreTable = new Cadavre();
-		$cadavreTable->insert($data);
-		
 		$where = "id_monstre=".$id_monstre;
-		$monstreTable->delete($where);
+		$monstreTable->update($data, $where);
 		
 		self::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $niveauHobbit);
 		$this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $effetMotH, $niveauHobbit);

@@ -30,7 +30,8 @@ class Monstre extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('monstre', 'count(id_monstre) as nombre')
-		->where('id_fk_type_monstre = ?', intval($id_type));
+		->where('id_fk_type_monstre = ?', intval($id_type))
+		->where('est_mort_monstre = ?', 'non');
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -42,7 +43,8 @@ class Monstre extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('monstre', 'count(id_monstre) as nombre')
-		->where('id_fk_taille_monstre = ?', intval($id_taille));
+		->where('id_fk_taille_monstre = ?', intval($id_taille))
+		->where('est_mort_monstre = ?', 'non');
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -87,6 +89,40 @@ class Monstre extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
+	function selectVueCadavre($x_min, $y_min, $x_max, $y_max) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('monstre', '*')
+		->from('type_monstre', '*')
+		->from('taille_monstre', '*')
+		->where('monstre.id_fk_type_monstre = type_monstre.id_type_monstre')
+		->where('monstre.id_fk_taille_monstre = taille_monstre.id_taille_monstre')
+		->where('x_monstre <= ?',$x_max)
+		->where('x_monstre >= ?',$x_min)
+		->where('y_monstre >= ?',$y_min)
+		->where('y_monstre <= ?',$y_max)
+		->where('est_mort_monstre = ?','oui')
+		->where('est_depiaute_cadavre = ?', 'non');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
+	function findByCaseCadavre($x, $y) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('monstre', '*')
+		->from('type_monstre', '*')
+		->from('taille_monstre', '*')
+		->where('monstre.id_fk_type_monstre = type_monstre.id_type_monstre')
+		->where('monstre.id_fk_taille_monstre = taille_monstre.id_taille_monstre')
+		->where('x_monstre = ?',$x)
+		->where('y_monstre = ?',$y)
+		->where('est_mort_monstre = ?','oui')
+		->where('est_depiaute_cadavre = ?', 'non');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
 	function findByCase($x, $y) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -96,7 +132,8 @@ class Monstre extends Zend_Db_Table {
 		->where('monstre.id_fk_type_monstre = type_monstre.id_type_monstre')
 		->where('monstre.id_fk_taille_monstre = taille_monstre.id_taille_monstre')
 		->where('x_monstre = ?',$x)
-		->where('y_monstre = ?',$y);
+		->where('y_monstre = ?',$y)
+		->where('est_mort_monstre = ?', 'non');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -172,7 +209,8 @@ class Monstre extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('monstre', '*')
 		->from('type_monstre', '*')
-		->where('monstre.id_fk_type_monstre = type_monstre.id_type_monstre');
+		->where('monstre.id_fk_type_monstre = type_monstre.id_type_monstre')
+		->where('est_mort_monstre = ?', 'non');
 		
 		if ($aJouerFlag != "") {
 			$select->where('date_a_jouer_monstre <= ?', date("Y-m-d H:i:s"));

@@ -62,14 +62,14 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 	private function purgeCadavres() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeCadavres - enter -");
 		
-		Zend_Loader::loadClass('Cadavre'); 
+		Zend_Loader::loadClass('Monstre'); 
 		
 		$retour = "";
-		$cadavreTable = new Cadavre();
+		$monstreTable = new Monstre();
 		
 		$date = date("Y-m-d H:i:s");
-		$where = $cadavreTable->getAdapter()->quoteInto('date_fin_cadavre <= ?',  $date);
-		$nb = $cadavreTable->delete($where);
+		$where = $monstreTable->getAdapter()->quoteInto('date_fin_cadavre_monstre <= ?',  $date);
+		$nb = $monstreTable->delete($where);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - Ok - nb:".$nb." - where:".$where);
 		$retour = " Cadavres:nb delete:".$nb. " date:".$date;
 		

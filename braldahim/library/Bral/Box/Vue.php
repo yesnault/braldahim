@@ -26,7 +26,6 @@ class Bral_Box_Vue extends Bral_Box_Box {
 
 	function render() {
 		if ($this->view->affichageInterne === true) {
-			Zend_Loader::loadClass("Cadavre");
 			Zend_Loader::loadClass("Castar");
 			Zend_Loader::loadClass("Charrette");
 			Zend_Loader::loadClass("Echoppe");
@@ -149,9 +148,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			unset($hobbitsMetierRowset);
 		}
 		
-		$cadavreTable = new Cadavre();
-		$cadavres = $cadavreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
-		unset($cadavreTable);
+		$monstreTable = new Monstre();
+		$cadavres = $monstreTable->selectVueCadavre($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($monstreTable);
 		$castarTable = new Castar();
 		$castars = $castarTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($castarTable);
@@ -273,13 +272,13 @@ class Bral_Box_Vue extends Bral_Box_Box {
 
 					if ($cadavres != null) {
 						foreach($cadavres as $c) {
-							if ($display_x == $c["x_cadavre"] && $display_y == $c["y_cadavre"]) {
+							if ($display_x == $c["x_monstre"] && $display_y == $c["y_monstre"]) {
 								if ($c["genre_type_monstre"] == 'feminin') {
 									$c_taille = $c["nom_taille_f_monstre"];
 								} else {
 									$c_taille = $c["nom_taille_m_monstre"];
 								}
-								$tabCadavres[] = array("id_cadavre" => $c["id_cadavre"], "nom_cadavre" => $c["nom_type_monstre"], 'taille_cadavre' => $c_taille);
+								$tabCadavres[] = array("id_cadavre" => $c["id_monstre"], "nom_cadavre" => $c["nom_type_monstre"], 'taille_monstre' => $c_taille);
 							}
 						}
 					}
