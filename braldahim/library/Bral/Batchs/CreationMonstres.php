@@ -358,6 +358,8 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 			"id_fk_groupe_monstre" => $id_groupe_monstre,
 			"x_monstre" => $x_monstre,
 			"y_monstre" => $y_monstre,
+			"x_direction_monstre" => $x_monstre,
+			"y_direction_monstre" => $y_monstre,
 			"id_fk_hobbit_cible_monstre" => null,
 			"pv_restant_monstre" => $pv_restant_monstre,
 			"pv_max_monstre" => $pv_restant_monstre,
