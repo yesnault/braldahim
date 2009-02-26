@@ -27,6 +27,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Laban");
+		Zend_Loader::loadClass("StatsRecolteurs");
 		
 		$this->preCalculPoids();
 		if ($this->view->poidsPlaceDisponible !== true) {
@@ -149,6 +150,14 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 			'quantite_peau_laban' => $this->view->nbPeau,
 		);
 		$labanTable->insertOrUpdate($data);
+		
+		$statsRecolteurs = new StatsRecolteurs();
+		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
+		$dataRecolteurs["niveau_hobbit_stats_recolteurs"] = $this->view->user->niveau_hobbit;
+		$dataRecolteurs["id_fk_hobbit_stats_recolteurs"] = $this->view->user->id_hobbit;
+		$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
+		$dataRecolteurs["nb_peau_stats_recolteurs"] = $this->view->nbPeau;
+		$statsRecolteurs->insertOrUpdate($dataRecolteurs);
 		
 		$where = "id_monstre=".$id_monstre;
 		$data = array('est_depiaute_cadavre' => 'oui');
