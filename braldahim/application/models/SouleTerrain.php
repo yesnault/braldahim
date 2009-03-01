@@ -20,7 +20,14 @@ class SouleTerrain extends Zend_Db_Table {
 	}
 	
 	public function findByNiveau($niveauTerrain) {
-		$where = $this->getAdapter()->quoteInto('niveau_soule_terrain = ?',(int)$niveauTerrain);
-		return $this->fetchRow($where);
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('soule_terrain', '*');
+		$select->from('zone', '*');
+		$select->where('niveau_soule_terrain = ?', (int)$niveauTerrain);
+		$select->where('id_fk_zone_soule_terrain = id_zone');
+		$sql = $select->__toString();
+		$result = $db->fetchAll($sql);
+		return $result[0];
 	}
 }

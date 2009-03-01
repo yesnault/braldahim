@@ -65,7 +65,9 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 
 		$souleEquipeTable = new SouleEquipe();
 		if ($this->matchEnCours != null) {
-			$joueurs = $souleEquipeTable->findByIdMatch($this->matchEnCours["id_soule_match"]); 
+			$joueurs = $souleEquipeTable->findByIdMatch($this->matchEnCours["id_soule_match"]);
+			$equipes["equipea"]["nom_equipe"] = $this->matchEnCours["nom_equipea_soule_match"];
+			$equipes["equipeb"]["nom_equipe"] = $this->matchEnCours["nom_equipeb_soule_match"];
 		} else {
 			$joueurs = $souleEquipeTable->findNonDebuteByNiveauTerrain($this->view->terrainCourant["niveau_soule_terrain"]);
 		}

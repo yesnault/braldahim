@@ -19,5 +19,17 @@ class Bral_Util_Exception {
 		echo " Si le probleme persiste, merci de prendre contact via le forum Anomalies ";
 		echo " en indiquant cette heure ".date("Y-m-d H:m:s");
 		Bral_Util_Log::exception()->alert($e);
+		
+		$config = Zend_Registry::get('config');
+		if ($config->general->mail->exception->use == '1') {
+			Zend_Loader::loadClass("Bral_Util_Mail");
+			$mail = Bral_Util_Mail::getNewZendMail();
+			
+			$mail->setFrom($config->general->mail->exception->from, $config->general->mail->exception->nom);
+			$mail->addTo($config->general->mail->exception->from, $config->general->mail->exception->nom);
+			$mail->setSubject("[Braldahim-Exception] Exception rencontrée");
+			$mail->setBodyText("--------> ".date("Y-m-d H:m:s"). ' '. $_SERVER['REMOTE_ADDR'].' '.$e.' ' . PHP_EOL);
+			$mail->send();
+		}
 	}
 }

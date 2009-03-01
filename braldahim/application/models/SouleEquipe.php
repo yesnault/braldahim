@@ -32,6 +32,21 @@ class SouleEquipe extends Zend_Db_Table {
 		return $result;
 	}
 	
+	public function countInscritsNonDebuteByIdMatch($idMatch) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		
+		$select->from('soule_equipe', array('camp_soule_equipe', 'count(camp_soule_equipe) as nombre'))
+		->from('soule_match', null)
+		->where('id_fk_match_soule_equipe = ?', (int)$idMatch)
+		->where('date_debut_soule_match is null')
+		->group('camp_soule_equipe');
+		
+		$sql = $select->__toString();
+		$result = $db->fetchAll($sql);
+		return $result;
+	}
+	
 	public function countNonDebuteByIdHobbit($idHobbit) {
 		$db = $this->getAdapter();
 		$select = $db->select();

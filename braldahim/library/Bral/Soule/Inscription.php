@@ -42,7 +42,7 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 		
 		$souleTerrainTable = new SouleTerrain();
 		$terrainRowset = $souleTerrainTable->findByNiveau($this->niveauTerrainHobbit);
-		$this->view->terrainCourant = $terrainRowset->toArray();
+		$this->view->terrainCourant = $terrainRowset;
 		
 		if ($this->view->terrainCourant == null) {
 			throw new Zend_Exception(get_class($this)." terrain invalide niveau=".$this->niveauTerrainHobbit);
@@ -163,18 +163,22 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 		}
 		
 		if ($match == null) { // si le match n'est pas initialisé, on le créé
+			$xBallon = floor($this->view->terrainCourant["x_min_zone"] + ($this->view->terrainCourant["x_max_zone"] - $this->view->terrainCourant["x_min_zone"]) / 2);
+			$yBallon = floor($this->view->terrainCourant["y_min_zone"] + ($this->view->terrainCourant["y_max_zone"] - $this->view->terrainCourant["y_min_zone"]) / 2);
+			
 			$data = array(
 				"id_fk_terrain_soule_match" => $this->view->terrainCourant["id_soule_terrain"],
 				"date_debut_soule_match" => null,
 				"date_fin_soule_match" => null,
 				"score_equipea_soule_match" => 0,
 				"score_equipeb_soule_match" => 0,
+				"x_ballon_soule_match" => $xBallon,
+				"y_ballon_soule_match" => $yBallon,
 			);
 			$idMatch = $souleMatchTable->insert($data);
 		} else {
 			$idMatch = $match[0]["id_soule_match"];
 		}
-		
 		
 		$souleEquipeTable = new SouleEquipe();
 		
@@ -197,8 +201,8 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 		$this->setDetailsEvenement($details, $idType);
 	}
 	
-	
 	function getListBoxRefresh() {
+		$tab = array("box_soule");
+		return $this->constructListBoxRefresh($tab);
 	}
-	
 }

@@ -41,6 +41,15 @@ abstract class Bral_Soule_Soule {
 	abstract function getTitreAction();
 	abstract function calculNbPa();
 	
+	protected function constructListBoxRefresh($tab = null) {
+		if ($this->view->user->niveau_hobbit > 0 && ($this->view->user->niveau_hobbit % 10) == 0) {
+			$tab[] = "box_titres";
+		}
+		$tab[] = "box_profil";
+		$tab[] = "box_evenements";
+		return $tab;
+	}
+	
 	protected function setDetailsEvenement($details, $idType) {
 		$this->detailEvenement = $details;
 		$this->idTypeEvenement = $idType;
