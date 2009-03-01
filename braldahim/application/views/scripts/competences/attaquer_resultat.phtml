@@ -19,7 +19,7 @@
 	 La cible a donc perdu <?=$this->retourAttaque["jetDegatReel"] ?> point<? if ($this->retourAttaque["jetDegatReel"] > 1) : ?>s<?endif;?> de vie<br />
 	 <br />
  	<? if ($this->retourAttaque["mort"] === true): ?>
- 		Vous avez tu&eacute; <?=$this->retourAttaque["cible"]["nom_cible"]?> (<?=$this->retourAttaque["cible"]["id_cible"]?>) N<?=$this->retourAttaque["cible"]["niveau_cible"] ?><br /><br />
+ 		Vous avez tu&eacute; <?=$this->retourAttaque["cible"]["nom_cible"]?> (<?=$this->retourAttaque["cible"]["id_cible"]?>)<br /><br />
  	<? endif; ?>
  	Vous avez gagn&eacute; <?=$this->nb_px?> PX<br /><br />
  	<? if ($this->effetRune) :?>
