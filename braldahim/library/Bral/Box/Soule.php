@@ -50,6 +50,8 @@ class Bral_Box_Soule extends Bral_Box_Box {
 		
 		$terrains = null;
 		$terrainHobbit = null;
+		$niveauTerrainHobbit = floor($this->view->user->niveau_hobbit/10);
+		$idTerrainDefaut = null;
 		
 		if ($terrainsRowset != null && count($terrainsRowset) > 0) {
 			foreach($terrainsRowset as $t) {
@@ -58,16 +60,22 @@ class Bral_Box_Soule extends Bral_Box_Box {
 					"nom_soule_terrain" => $t["nom_soule_terrain"],
 					"info_soule_terrain" => $t["info_soule_terrain"],
 					"niveau_soule_terrain" => $t["niveau_soule_terrain"],
+					"selected" => false,
 				);
-				$terrains[] = $terrain;
-				if (floor($this->view->user->niveau_hobbit/10) == $t["niveau_soule_terrain"]) {
+				
+				if ($niveauTerrainHobbit == $t["niveau_soule_terrain"]) {
 					$terrainHobbit = $terrain;
+					$terrain["selected"] = true;
+					$idTerrainDefaut = $t["id_soule_terrain"];
 				}
+				$terrains[] = $terrain;
 			}
 		}
 		
 		$this->view->terrains = $terrains;
 		$this->view->terrainHobbit = $terrainHobbit;
+		
+		$voir = Bral_Soule_Factory::getVoir($this->_request, $this->view, $idTerrainDefaut);
+		$this->view->htmlTerrain = $voir->render();
 	}
-	
 }

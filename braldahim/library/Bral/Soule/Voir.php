@@ -30,6 +30,8 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 		
 		if ($this->request->get("id_terrain") != "") {
 			$this->idTerrainEnCours =  Bral_Util_Controle::getValeurIntVerif($this->request->get("id_terrain"));
+		} else if ($this->idTerrainDefaut != null) {
+			$this->idTerrainEnCours =  $this->idTerrainDefaut;
 		}
 		if ($this->idTerrainEnCours == null || $this->idTerrainEnCours <= 0) {
 			throw new Zend_Exception(get_class($this)." idTerrainEnCours null".$this->request->get("id_terrain"));
@@ -45,6 +47,7 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 		$this->matchEnCours = $souleMatchTable->findEnCoursByIdTerrain($this->idTerrainEnCours);
 		
 		$this->calculInscription();
+		$this->prepareEquipes();
 	}
 
 	function prepareFormulaire() {
@@ -54,6 +57,30 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 	}
 
 	function getListBoxRefresh() {
+	}
+	
+	private function prepareEquipes() {
+		$equipes["equipea"] = array('nom_equipe' => 'équipe A', "joueurs" => null);
+		$equipes["equipeb"] = array('nom_equipe' => 'équipe B', "joueurs" => null);
+
+		$souleEquipeTable = new SouleEquipe();
+		if ($this->matchEnCours != null) {
+			$joueurs = $souleEquipeTable->findByIdMatch($this->matchEnCours["id_soule_match"]); 
+		} else {
+			$joueurs = $souleEquipeTable->findNonDebuteByNiveauTerrain($this->view->terrainCourant["niveau_soule_terrain"]);
+		}
+		
+		if ($joueurs != null && count($joueurs) > 0) {
+			foreach($joueurs as $j) {
+				if ($j["camp_soule_equipe"] == 'a') {
+					$equipes["equipea"]["joueurs"][] = $j;
+				} else {
+					$equipes["equipeb"]["joueurs"][] = $j;
+				}
+			}
+		}
+		
+		$this->view->equipes = $equipes;
 	}
 	
 	private function calculInscription() {

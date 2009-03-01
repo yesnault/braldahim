@@ -61,4 +61,38 @@ class SouleEquipe extends Zend_Db_Table {
 		$result = $db->fetchAll($sql);
 		return $result[0]["nombre"];
 	}
+	
+	public function findNonDebuteByNiveauTerrain($niveauTerrain) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		
+		$select->from('soule_equipe', '*')
+		->from('soule_match', null)
+		->from('soule_terrain', null)
+		->from('hobbit', '*')
+		->where('id_soule_terrain = id_fk_terrain_soule_match')
+		->where('id_fk_match_soule_equipe = id_soule_match')
+		->where('date_debut_soule_match is null')
+		->where('id_hobbit = id_fk_hobbit_soule_equipe')
+		->where('id_fk_hobbit_soule_equipe = id_hobbit')
+		->where('niveau_soule_terrain = ?', $niveauTerrain);
+		
+		$sql = $select->__toString();
+		$result = $db->fetchAll($sql);
+		return $result;
+	}
+	
+	public function findByIdMatch($idMatch) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		
+		$select->from('soule_equipe', '*')
+		->from('hobbit', '*')
+		->where('id_fk_match_soule_equipe = ?', (int)$idMatch)
+		->where('id_fk_hobbit_soule_equipe = id_hobbit');
+		
+		$sql = $select->__toString();
+		$result = $db->fetchAll($sql);
+		return $result;
+	}
 }

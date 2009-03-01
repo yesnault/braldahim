@@ -12,11 +12,12 @@
  */
 abstract class Bral_Soule_Soule {
 	
-	function __construct($nomSystemeAction, $request, $view, $action) {
+	function __construct($nomSystemeAction, $request, $view, $action, $idTerrainDefaut = null) {
 		$this->view = $view;
 		$this->request = $request;
 		$this->action = $action;
 		$this->nom_systeme = $nomSystemeAction;
+		$this->idTerrainDefaut = $idTerrainDefaut;
 		
 		$this->prepareCommun();
 

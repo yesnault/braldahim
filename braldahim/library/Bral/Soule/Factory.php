@@ -38,4 +38,10 @@ class Bral_Soule_Factory {
 		}
 	}
 
+	static function getVoir($request, $view, $idTerrain) {
+		Zend_Loader::loadClass("Bral_Soule_Soule");
+		Zend_Loader::loadClass("Bral_Soule_Voir");
+		return new Bral_Soule_Voir("voir", $request, $view, "ask", $idTerrain);
+	}
+	
 }

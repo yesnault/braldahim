@@ -80,7 +80,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				$boxToRefresh = $action->getListBoxRefresh();
 				for ($i=0; $i<count($boxToRefresh); $i++) {
 					$xml_entry = new Bral_Xml_Entry();
-					if ($boxToRefresh[$i] == "box_vue" || $boxToRefresh[$i] == "box_laban" || $boxToRefresh[$i] == "box_echoppes") { 
+					if ($boxToRefresh[$i] == "box_vue" || $boxToRefresh[$i] == "box_laban" || $boxToRefresh[$i] == "box_echoppes" || $boxToRefresh[$i] == "box_soule") { 
 						$xml_entry->set_type("load_box");
 						//$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, false);
 						//$nomInterne = $c->getNomInterne();
@@ -96,12 +96,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 					$this->xml_response->add_entry($xml_entry);
 				}
 				if ($action->getIdEchoppeCourante() !== false) {
-					$xml_entry = new Bral_Xml_Entry();
-					$xml_entry->set_type("display");
-					$c = Bral_Echoppes_Factory::getVoir($this->_request, $this->view, $action->getIdEchoppeCourante());
-					$xml_entry->set_valeur($c->getNomInterne());
-					$xml_entry->set_data($c->render());
-					$this->xml_response->add_entry($xml_entry);
+					$this->xml_response->add_entry($this->getXmlEntryVoirEchoppe($action));
 				}
 				Bral_Util_Messagerie::setXmlResponseMessagerie($this->xml_response, $this->view->user->id_hobbit);
 			} catch (Zend_Exception $e) {
@@ -113,4 +108,13 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 		}
 		$this->xml_response->render();
 	}
-}
+	
+	private function getXmlEntryVoirEchoppe($action) {
+		$xml_entry = new Bral_Xml_Entry();
+		$xml_entry->set_type("display");
+		$c = Bral_Echoppes_Factory::getVoir($this->_request, $this->view, $action->getIdEchoppeCourante());
+		$xml_entry->set_valeur($c->getNomInterne());
+		$xml_entry->set_data($c->render());
+		return $xml_entry;
+	}
+ }
