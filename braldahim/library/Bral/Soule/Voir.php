@@ -44,8 +44,12 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 		$this->view->terrainCourant = $terrainRowset->toArray();
 		
 		$souleMatchTable = new SouleMatch();
-		$this->matchEnCours = $souleMatchTable->findEnCoursByIdTerrain($this->idTerrainEnCours);
-		
+		$matchs = $souleMatchTable->findEnCoursByIdTerrain($this->idTerrainEnCours);
+		if ($matchs != null) {
+			$this->matchEnCours = $matchs[0];
+		} else if (count($matchs) > 1) {
+			throw new Zend_Exception(" Bral_Soule_Voir - Erreur calcul match en cours. idTerrain:".$this->idTerrainEnCours);
+		}
 		$this->calculInscription();
 		$this->prepareEquipes();
 	}

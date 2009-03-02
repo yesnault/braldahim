@@ -11,11 +11,15 @@ Développement en cours.<br><br>
 
 
 <? if ($this->inscriptionPossible === true): ?>
-	Vous pouvez vous inscrire.
 	
-	<input type="button" class='button1' value="1 PA - Inscription"
-  onClick="Javascript:_get_('/soule/doaction?caction=ask_soule_inscription');"/>
- 
+	
+	<? if ($this->user->activation == true) :?>
+	Vous pouvez vous inscrire.
+		<input type="button" class='button1' value="1 PA - Inscription"
+	  onClick="Javascript:_get_('/soule/doaction?caction=ask_soule_inscription');"/>
+	<? else: ?>
+	Tour non activ&eacute; &agrave; la connexion, activez-le pour vous inscrire.
+	<? endif;?>
  
 <? else:?>
 	<?=$this->inscriptionNonPossibleInfo?>

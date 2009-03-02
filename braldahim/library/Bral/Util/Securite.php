@@ -19,7 +19,7 @@ class Bral_Util_Securite {
 			throw new Zend_Exception("Securite : session invalide");
 		}
 		
-		if (Zend_Auth::getInstance()->getIdentity()->sysgroupe_hobbit != "admin") {
+		if (Zend_Auth::getInstance()->getIdentity()->administrateur != true) {
 			throw new Zend_Exception("Securite : role invalide");
 		}
 	}
