@@ -133,8 +133,14 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 		} else {
 			$idEquipeChoisie = (int)$this->request->get("valeur_1");
 		}
+		
+		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
+			throw new Zend_Exception("Bral_Soule_Inscription :: Nombre invalideb : ".$this->request->get("valeur_2"));
+		} else {
+			$idChoix = (int)$this->request->get("valeur_2");
+		}
 			
-		$this->calculInscription($idEquipeChoisie);
+		$this->calculInscription($idEquipeChoisie, $idChoix);
 		
 	}
 	
@@ -154,7 +160,7 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 		}
 	}
 	
-	private function calculInscription($idEquipeChoisie) {
+	private function calculInscription($idEquipeChoisie, $idChoix) {
 		$souleMatchTable = new SouleMatch();
 		
 		$match = $souleMatchTable->findNonDebuteByIdTerrain($this->view->terrainCourant["id_soule_terrain"]);
@@ -188,11 +194,18 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 			$camp = 'b';
 		}
 		
+		if ($idChoix == 1) {
+			$retourXY = "oui";
+		} else {
+			$retourXY = "non";
+		}
+		
 		$data = array(
 			"id_fk_match_soule_equipe" => $idMatch,
 			"date_entree_soule_equipe" => date("Y-m-d H:i:s"),
 			"id_fk_hobbit_soule_equipe" => $this->view->user->id_hobbit,
 			"camp_soule_equipe" => $camp,
+			"retour_xy_soule_equipe" => $retourXY,
 		);
 		$souleEquipeTable->insert($data);
 		
