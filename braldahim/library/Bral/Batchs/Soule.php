@@ -37,15 +37,19 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 
 		$souleEquipe = new SouleEquipe();
 		
-//		$nbJoueursEquipeMin = floor($this->view->config->game->soule->max->joueurs / 2);
-		$nbJoueursEquipeMin = 1;
+		$nbJoueursEquipeMin = floor($this->view->config->game->soule->max->joueurs / 2);
+		$nbJoueursEquipeMinQuota = floor($this->view->config->game->soule->min->joueurs / 2);
+
 		if ($matchs != null) {
 			foreach($matchs as $m) { // pour tous les matchs non débutés
 				$equipes = $souleEquipe->countInscritsNonDebuteByIdMatch($m["id_soule_match"]);
 				if ($equipes != null && count($equipes) == 2
-				&& $equipes[0]["nombre"] >= $nbJoueursEquipeMin
-				&& $equipes[1]["nombre"] >= $nbJoueursEquipeMin) {
+				&& (($equipes[0]["nombre"] >= $nbJoueursEquipeMin && $equipes[1]["nombre"] >= $nbJoueursEquipeMin) 
+					|| ($m["nb_jours_quota_soule_match"] >= 2)))  {
 					$retour .= $this->calculCreationMath($m);
+				} elseif ($equipes != null && count($equipes) == 2
+				&& $equipes[0]["nombre"] >= $nbJoueursEquipeMinQuota && $equipes[1]["nombre"] >= $nbJoueursEquipeMinQuota) {
+					$retour .= $this->updateJoursQuotaMinMath($m);
 				} else {
 					if (count($equipes) == 2) {
 						$retour .= " match(".$m["id_soule_match"].") e1:".$equipes[0]["nombre"]." e2:".$equipes[1]["nombre"];
@@ -66,7 +70,22 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationMatchs - exit -");
 		return $retour;
 	}
-
+	
+	private function updateJoursQuotaMinMath($match) {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateQuotaMinMath - enter -");
+		$retour = " updateQuota match(".$match["id_soule_match"].")";
+		
+		$souleMatchTable = new SouleMatch();
+		$data = array(
+			"nb_jours_quota_soule_match" => $match["nb_jours_quota_soule_match"] + 1,
+		);
+		$where = "id_soule_match = ".(int)$match["id_soule_match"];
+		$souleMatchTable->update($data, $where);
+		
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateQuotaMinMath - enter -");
+		return $retour;
+	}
+	
 	private function calculCreationMath($match) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationMath - enter -");
 		$retour = " creation match(".$match["id_soule_match"].")";
@@ -87,7 +106,6 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		}
 
 		$this->updateMatchDb($match);
-		
 		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationMath - enter -");
 		return $retour;
