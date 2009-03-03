@@ -30,7 +30,7 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 		$this->calculNbPa();
 		$this->calculNbCastars();
 		
-		if ($this->view->assezDePa && $this->view->assezDePa) {
+		if ($this->view->assezDePa && $this->view->user->est_engage_hobbit == "non") {
 			$this->prepareTerrain();
 			$this->prepareEquipes();
 		}

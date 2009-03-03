@@ -141,25 +141,32 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		}
 
 		if ($joueur["camp_soule_equipe"] == "a") {
-			$x = $match["x_min_zone"];
+			$x = $match["x_min_zone"] + 1;
 			$y = $match["y_min_zone"] + Bral_Util_De::get_de_specifique(1, $ecartY-2);	// -2 pour les palissades
 		} else { // b
-			$x = $match["x_max_zone"];
+			$x = $match["x_max_zone"] - 1;
 			$y = $match["y_min_zone"] + Bral_Util_De::get_de_specifique(1, $ecartY-2);	// -2 pour les palissades
 		}
 
 		$data = array(
 			"x_hobbit" => $x,
 			"y_hobbit" => $y,
+			"est_soule_hobbit" => "oui",
 		);
-
 		$where = "id_hobbit = ".(int)$joueur["id_hobbit"];
 		$hobbitTable->update($data, $where);
 		
+		$souleEquipe = new SouleEquipe();
+		$data = array(
+			"x_avant_hobbit_soule_equipe" => $joueur["x_hobbit"],
+			"y_avant_hobbit_soule_equipe" => $joueur["y_hobbit"],
+		);
+		$where = "id_fk_hobbit_soule_equipe = ".(int)$joueur["id_hobbit"];
+		$souleEquipe->update($data, $where);
 		
 		$idType = $this->config->game->evenements->type->soule;
 		$details = "La roulotte a pris ".$joueur["prenom_hobbit"] ." ". $joueur["nom_hobbit"] ." (".$joueur["id_hobbit"].") pour aller jouer un match sur le ".$match["nom_soule_terrain"];
-		$detailsBot = "Vous êtes arrivés sur le ".$match["nom_soule_terrain"] ." en ".$x.",".$y. EOL." Le nom de votre équipe est : ";
+		$detailsBot = "Vous êtes arrivés sur le ".$match["nom_soule_terrain"] ." en ".$x.",".$y. PHP_EOL."Le nom de votre équipe est : ";
 		if ($joueur["camp_soule_equipe"] == "a") {
 			$detailsBot .= $match["nom_equipea_soule_match"];
 		} else {

@@ -9,10 +9,7 @@
 <br>
 Développement en cours.<br><br>
 
-
 <? if ($this->inscriptionPossible === true): ?>
-	
-	
 	<? if ($this->user->activation == true) :?>
 	Vous pouvez vous inscrire.
 		<input type="button" class='button1' value="1 PA - Inscription"
@@ -20,7 +17,6 @@ Développement en cours.<br><br>
 	<? else: ?>
 	Tour non activ&eacute; &agrave; la connexion, activez-le pour vous inscrire.
 	<? endif;?>
- 
 <? else:?>
 	<?=$this->inscriptionNonPossibleInfo?>
 <? endif; ?>

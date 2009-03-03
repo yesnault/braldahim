@@ -44,7 +44,10 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 		$this->view->terrainCourant = $terrainRowset->toArray();
 		
 		$souleMatchTable = new SouleMatch();
+		
 		$matchs = $souleMatchTable->findEnCoursByIdTerrain($this->idTerrainEnCours);
+		$this->matchEnCours = null;
+		
 		if ($matchs != null) {
 			$this->matchEnCours = $matchs[0];
 		} else if (count($matchs) > 1) {
@@ -95,6 +98,8 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 		
 		if ($this->niveauTerrainHobbit != $this->view->terrainCourant["niveau_soule_terrain"]) {
 			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire sur ce terrain";
+		} else if ($this->view->user->est_engage_hobbit == "oui") {
+			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire, vous êtes engagé";
 		} else if ($this->matchEnCours == null) { // s'il n'y a pas de match en cours
 			// on regarde si le joueur n'est pas déjà inscrit
 			$souleEquipeTable = new SouleEquipe();
