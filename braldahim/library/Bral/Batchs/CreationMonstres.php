@@ -340,7 +340,8 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$regeneration_monstre = floor(($niveau_sagesse / 4) + 1);
 
 		//ARMNAT
-		$armure_naturelle_monstre = floor(($force_base_monstre + $vigueur_base_monstre) / 5);
+		$aleaArmNat = Bral_Util_De::get_de_specifique($referenceCourante["min_alea_pourcentage_armure_naturelle_ref_monstre"], $referenceCourante["min_alea_pourcentage_armure_naturelle_ref_monstre"]); 
+		$armure_naturelle_monstre = floor(($force_base_monstre + $vigueur_base_monstre) / 5) + $aleaArmNat;
 
 		//DLA
 		$dla_monstre = Bral_Util_ConvertDate::get_time_from_minutes(720 - 10 * $niveau_sagesse);
