@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id: $
@@ -24,7 +24,7 @@ class SouleMatch extends Zend_Db_Table {
 		$result = $db->fetchAll($sql);
 		return $result;
 	}
-	
+
 	public function findNonDebuteByIdTerrain($idTerrain) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -35,7 +35,7 @@ class SouleMatch extends Zend_Db_Table {
 		$result = $db->fetchAll($sql);
 		return $result;
 	}
-	
+
 	public function findNonDebutes() {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -48,5 +48,40 @@ class SouleMatch extends Zend_Db_Table {
 		$sql = $select->__toString();
 		$result = $db->fetchAll($sql);
 		return $result;
+	}
+
+	public function findByXYBallon($x, $y) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+
+		$select->from('soule_match', '*');
+		$select->where('x_ballon_soule_match = ?', (int)$x);
+		$select->where('y_ballon_soule_match = ?', (int)$y);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
+	public function selectBallonVue($x_min, $y_min, $x_max, $y_max) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+
+		$select->from('soule_match', '*');
+		$select->where('x_ballon_soule_match <= ?',$x_max);
+		$select->where('x_ballon_soule_match >= ?',$x_min);
+		$select->where('y_ballon_soule_match >= ?',$y_min);
+		$select->where('y_ballon_soule_match <= ?',$y_max);
+
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
+	public function findByIdHobbitBallon($idHobbit) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+
+		$select->from('soule_match', '*');
+		$select->where('id_fk_joueur_ballon_soule_match = ?', (int)$idHobbit);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
 	}
 }

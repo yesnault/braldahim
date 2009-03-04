@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -43,10 +43,11 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("Region");
 			Zend_Loader::loadClass("TypeLieu");
 			Zend_Loader::loadClass("Route");
+			Zend_Loader::loadClass("SouleMatch");
 			Zend_Loader::loadClass("Ville");
 			Zend_Loader::loadClass("Zone");
 			Zend_Loader::loadClass('Bral_Util_Marcher');
-		
+
 			$this->prepare();
 			$this->deplacement();
 			$this->data();
@@ -61,9 +62,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$this->view->x_max = $this->view->user->x_hobbit + $this->view->vue_nb_cases;
 		$this->view->y_min = $this->view->user->y_hobbit - $this->view->vue_nb_cases;
 		$this->view->y_max = $this->view->user->y_hobbit + $this->view->vue_nb_cases;
-		
+
 		$this->view->estVueEtendue = false;
-		
+
 		if (($this->_request->get("caction") == "box_vue") && ($this->_request->get("valeur_1") != "")) { // si le joueur a clique sur une icone
 			$this->deplacement = $this->_request->get("valeur_1");
 			$this->view->centre_x = $this->get_deplacement_verif($this->view->x_min, $this->view->x_max, $this->_request->get("valeur_2"), 0);
@@ -135,7 +136,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$this->view->centre_description_region = null;
 		$this->view->centre_nom_ville = null;
 		$this->view->centre_est_capitale = null;
-					
+			
 		$hobbitsMetiersTable = new HobbitsMetiers();
 		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
 		unset($hobbitsMetiersTable);
@@ -147,7 +148,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			}
 			unset($hobbitsMetierRowset);
 		}
-		
+
 		$monstreTable = new Monstre();
 		$cadavres = $monstreTable->selectVueCadavre($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($monstreTable);
@@ -199,13 +200,16 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$routeTable = new Route();
 		$routes = $routeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($routeTable);
+		$souleMatchTable = new SouleMatch();
+		$souleMatch = $souleMatchTable->selectBallonVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($souleMatchTable);
 		$villeTable = new Ville();
 		$villes = $villeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($villeTable);
 		$zoneTable = new Zone();
 		$zones = $zoneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($zoneTable);
-		
+
 		if ($this->view->estVueEtendue == false) {
 			$centre_x_min = $this->view->centre_x - $this->view->config->game->box_vue_taille;
 			$centre_x_max = $this->view->centre_x + $this->view->config->game->box_vue_taille;
@@ -217,13 +221,13 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			$centre_y_min = $this->view->y_min;
 			$centre_y_max = $this->view->y_max;
 		}
-		
+
 		$marcher = null;
 		if ($this->view->estVueEtendue === false) {
 			$utilMarcher = new Bral_Util_Marcher();
 			$marcher = $utilMarcher->calcul($this->view->user);
 		}
-		
+
 		for ($j = $centre_y_max; $j >= $centre_y_min; $j --) {
 			$change_level = true;
 			for ($i = $centre_x_min; $i <= $centre_x_max; $i ++) {
@@ -247,6 +251,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabMonstres = null;
 				$tabPalissades = null;
 				$tabRoutes = null;
+				$tabBallons = null;
 				$nom_systeme_environnement = null;
 				$nom_environnement = null;
 				$nom_zone = null;
@@ -290,7 +295,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
-					
+
 					if ($charrettes != null) {
 						foreach($charrettes as $c) {
 							if ($display_x == $c["x_charrette"] && $display_y == $c["y_charrette"]) {
@@ -325,11 +330,11 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
-					
+
 					if ($elementsEquipements != null) {
 						foreach($elementsEquipements as $e) {
 							if ($display_x == $e["x_element_equipement"] && $display_y == $e["y_element_equipement"]) {
-								$tabElementsEquipements[] = array("id_equipement" => $e["id_element_equipement"], 
+								$tabElementsEquipements[] = array("id_equipement" => $e["id_element_equipement"],
 									"nom" => $e["nom_type_equipement"],
 									"qualite" => $e["nom_type_qualite"],
 									"niveau" => $e["niveau_recette_equipement"],
@@ -337,12 +342,12 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
-					
+
 					if ($elementsMunitions != null) {
 						foreach($elementsMunitions as $m) {
 							if ($m["quantite_element_munition"] > 0) {
 								if ($display_x == $m["x_element_munition"] && $display_y == $m["y_element_munition"]) {
-									$tabElementsMunitions[] = array( 
+									$tabElementsMunitions[] = array(
 										"type" => $m["nom_type_munition"],
 										"pluriel" => $m["nom_pluriel_type_munition"],
 										"quantite" => $m["quantite_element_munition"],
@@ -351,7 +356,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
-					
+
 					if ($elementsPotions != null) {
 						foreach($elementsPotions as $p) {
 							if ($display_x == $p["x_element_potion"] && $display_y == $p["y_element_potion"]) {
@@ -368,13 +373,13 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						foreach($elementsMinerais as $m) {
 							if ($m["quantite_brut_element_minerai"] > 0) {
 								if ($display_x == $m["x_element_minerai"] && $display_y == $m["y_element_minerai"]) {
-									$tabElementsMineraisBruts[] = array( 
+									$tabElementsMineraisBruts[] = array(
 										"type" => $m["nom_type_minerai"],
 										"quantite" => $m["quantite_brut_element_minerai"],
 									);
 								}
 							}
-							
+
 							if ($m["quantite_lingots_element_minerai"] > 0) {
 								if ($display_x == $m["x_element_minerai"] && $display_y == $m["y_element_minerai"]) {
 									$tabElementsLingots[] = array(
@@ -385,19 +390,19 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
-					
+
 					if ($elementsPartieplantes != null) {
 						foreach($elementsPartieplantes as $m) {
 							if ($m["quantite_element_partieplante"] > 0) {
 								if ($display_x == $m["x_element_partieplante"] && $display_y == $m["y_element_partieplante"]) {
-									$tabElementsPartieplantesBrutes[] = array( 
+									$tabElementsPartieplantesBrutes[] = array(
 										"type" => $m["nom_type_partieplante"],
 										"type_plante" => $m["nom_type_plante"],
 										"quantite" => $m["quantite_element_partieplante"],
 									);
 								}
 							}
-							
+
 							if ($m["quantite_preparee_element_partieplante"] > 0) {
 								if ($display_x == $m["x_element_partieplante"] && $display_y == $m["y_element_partieplante"]) {
 									$tabElementsPartieplantesPreparees[] = array(
@@ -409,7 +414,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
-					
+
 					if ($elementsRunes != null) {
 						foreach($elementsRunes as $r) {
 							if ($display_x == $r["x_element_rune"] && $display_y == $r["y_element_rune"]) {
@@ -417,7 +422,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
-					
+
 					if ($hobbits != null) {
 						foreach($hobbits as $h) {
 							if ($display_x == $h["x_hobbit"] && $display_y == $h["y_hobbit"]) {
@@ -448,7 +453,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
-					
+
 					if ($villes != null) {
 						foreach($villes as $v) {
 							if ($display_x >= $v["x_min_ville"] &&
@@ -456,7 +461,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							$display_y >= $v["y_min_ville"] &&
 							$display_y <= $v["y_max_ville"]) {
 								$estLimiteVille = false;
-	
+
 								if ($v["x_min_ville"] == $display_x || $v["x_max_ville"] == $display_y || $v["y_min_ville"] == $display_x || $v["y_max_ville"] == $display_y ) {
 									$estLimiteVille = true;
 								}
@@ -465,7 +470,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
-					
+
 					if ($regions != null) {
 						foreach($regions as $r) {
 							if ($display_x >= $r["x_min_region"] &&
@@ -477,7 +482,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
-					
+
 					if ($palissades != null) {
 						foreach($palissades as $p) {
 							if ($display_x == $p["x_palissade"] && $display_y == $p["y_palissade"]) {
@@ -485,11 +490,19 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
-					
+
 					if ($routes != null) {
 						foreach($routes as $r) {
 							if ($display_x == $r["x_route"] && $display_y == $r["y_route"]) {
 								$tabRoutes[] = array("id_route" => $r["id_route"], "est_route" => $r["est_route"]);
+							}
+						}
+					}
+
+					if ($souleMatch != null) {
+						foreach($souleMatch as $s) {
+							if ($display_x == $s["x_ballon_soule_match"] && $display_y == $s["y_ballon_soule_match"]) {
+								$tabBallons[] = array("est_ballon_present" => true);
 							}
 						}
 					}
@@ -508,9 +521,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				}
 					
 				if (count($tabRoutes) == 1 && $tabRoutes[0]["est_route"] == "oui") {
-					$css = "route";	
+					$css = "route";
 				} else if (count($tabRoutes) == 1 && $tabRoutes[0]["est_route"] == "non") {
-					$css = "terrasse";	
+					$css = "terrasse";
 				} else if (count($tabPalissades) > 0) {
 					$css = "palissade";
 				} else {
@@ -520,13 +533,13 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				if ($this->view->centre_x == $display_x && $this->view->centre_y == $display_y) {
 					$this->view->centre_environnement = $nom_environnement;
 				}
-				
+
 				if ($marcher != null && $marcher["tableauValidationXY"] != null && array_key_exists($display_x, $marcher["tableauValidationXY"]) && array_key_exists($display_y, $marcher["tableauValidationXY"][$display_x])) {
 					$tabMarcher = $marcher["tableauValidationXY"][$display_x][$display_y];
 				} else {
 					$tabMarcher = null;
 				}
-				
+
 				$tab = array ("x" => $display_x, "y" => $display_y, //
 					"change_level" => $change_level, // nouvelle ligne dans le tableau ;
 					"css_actuelle" => $cssActuelle,
@@ -569,6 +582,8 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"palissades" => $tabPalissades,
 					"n_routes" => count($tabRoutes),
 					"routes" => $tabRoutes,
+					"n_ballons" => count($tabBallons),
+					"ballons" => $tabBallons,
 					"ville" => $ville,
 					"marcher" => $tabMarcher,
 				);
@@ -578,7 +593,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				}
 			}
 		}
-		
+
 		unset($cadavres);
 		unset($castars);
 		unset($charrettes);
@@ -597,9 +612,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		unset($routes);
 		unset($villes);
 		unset($zones);
-		
+
 		$this->view->tableau = $tableau;
 		unset($tableau);
-		
+
 	}
 }

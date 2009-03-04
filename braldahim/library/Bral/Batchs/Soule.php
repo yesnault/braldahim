@@ -36,7 +36,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		$matchs = $souleMatch->findNonDebutes();
 
 		$souleEquipe = new SouleEquipe();
-		
+
 		$nbJoueursEquipeMin = floor($this->view->config->game->soule->max->joueurs / 2);
 		$nbJoueursEquipeMinQuota = floor($this->view->config->game->soule->min->joueurs / 2);
 
@@ -44,8 +44,8 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 			foreach($matchs as $m) { // pour tous les matchs non débutés
 				$equipes = $souleEquipe->countInscritsNonDebuteByIdMatch($m["id_soule_match"]);
 				if ($equipes != null && count($equipes) == 2
-				&& (($equipes[0]["nombre"] >= $nbJoueursEquipeMin && $equipes[1]["nombre"] >= $nbJoueursEquipeMin) 
-					|| ($m["nb_jours_quota_soule_match"] >= 2)))  {
+				&& (($equipes[0]["nombre"] >= $nbJoueursEquipeMin && $equipes[1]["nombre"] >= $nbJoueursEquipeMin)
+				|| ($m["nb_jours_quota_soule_match"] >= 2)))  {
 					$retour .= $this->calculCreationMath($m);
 				} elseif ($equipes != null && count($equipes) == 2
 				&& $equipes[0]["nombre"] >= $nbJoueursEquipeMinQuota && $equipes[1]["nombre"] >= $nbJoueursEquipeMinQuota) {
@@ -70,22 +70,22 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationMatchs - exit -");
 		return $retour;
 	}
-	
+
 	private function updateJoursQuotaMinMath($match) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateQuotaMinMath - enter -");
 		$retour = " updateQuota match(".$match["id_soule_match"].")";
-		
+
 		$souleMatchTable = new SouleMatch();
 		$data = array(
 			"nb_jours_quota_soule_match" => $match["nb_jours_quota_soule_match"] + 1,
 		);
 		$where = "id_soule_match = ".(int)$match["id_soule_match"];
 		$souleMatchTable->update($data, $where);
-		
+
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateQuotaMinMath - enter -");
 		return $retour;
 	}
-	
+
 	private function calculCreationMath($match) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationMath - enter -");
 		$retour = " creation match(".$match["id_soule_match"].")";
@@ -93,7 +93,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		$souleEquipe = new SouleEquipe();
 
 		$this->calculNomEquipe($match);
-		
+
 		// on récupère tous les joueurs
 		$joueurs = $souleEquipe->findByIdMatch($match["id_soule_match"]);
 
@@ -106,11 +106,11 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		}
 
 		$this->updateMatchDb($match);
-		
+
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationMath - enter -");
 		return $retour;
 	}
-	
+
 	private function updateMatchDb($match) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateMatchDb - enter -");
 		$souleMatchTable = new SouleMatch();
@@ -123,27 +123,27 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		$souleMatchTable->update($data, $where);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateMatchDb - exit -");
 	}
-	
+
 	private function calculNomEquipe(&$match) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculNomEquipe - enter -");
 		$souleNomEquipe = new SouleNomEquipe();
 		$nomRowset = $souleNomEquipe->fetchAll();
-		
+
 		foreach ($nomRowset as $n) {
 			$noms[] = $n["nom_soule_nom_equipe"];
 		}
 		srand((float)microtime()*1000000);
-		shuffle($noms);	
-		
+		shuffle($noms);
+
 		$nomA = array_pop($noms);
 		$nomB = array_pop($noms);
-		
+
 		$match["nom_equipea_soule_match"] = $nomA;
 		$match["nom_equipeb_soule_match"] = $nomB;
-		
+
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculNomEquipe - nomA:".$match["nom_equipea_soule_match"]);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculNomEquipe - nomB:".$match["nom_equipeb_soule_match"]);
-		
+
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculNomEquipe - exit -");
 	}
 
@@ -173,7 +173,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		);
 		$where = "id_hobbit = ".(int)$joueur["id_hobbit"];
 		$hobbitTable->update($data, $where);
-		
+
 		$souleEquipe = new SouleEquipe();
 		$data = array(
 			"x_avant_hobbit_soule_equipe" => $joueur["x_hobbit"],
@@ -181,7 +181,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		);
 		$where = "id_fk_hobbit_soule_equipe = ".(int)$joueur["id_hobbit"];
 		$souleEquipe->update($data, $where);
-		
+
 		$idType = $this->config->game->evenements->type->soule;
 		$details = "La roulotte a pris ".$joueur["prenom_hobbit"] ." ". $joueur["nom_hobbit"] ." (".$joueur["id_hobbit"].") pour aller jouer un match sur le ".$match["nom_soule_terrain"];
 		$detailsBot = "Vous êtes arrivés sur le ".$match["nom_soule_terrain"] ." en ".$x.",".$y. PHP_EOL."Le nom de votre équipe est : ";

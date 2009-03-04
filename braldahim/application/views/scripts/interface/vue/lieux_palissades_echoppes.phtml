@@ -4,6 +4,7 @@ $textPalissade = "";
 $textRoute = "";
 $textEchoppe = "";
 $type_lieu = "";
+$textBallon = "";
 ?>
 <?php if ($case["n_lieux"] > 0) :
 	$textLieu = "Lieu : <br>";
@@ -17,6 +18,10 @@ $type_lieu = "";
 		$doubleClick = "title=\"Double Cliquer pour acc&eacute;der directement au lieu\"";
 		$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return cClick(); \"";
 	}
+endif; ?>
+
+<?php if ($case["n_ballons"] > 0) :
+	$textBallon = "Ballon &agrave terre !<br>";
 endif; ?>
 
 <?php if ($case["n_palissades"] > 0) :
@@ -69,6 +74,10 @@ endif; ?>
 		<? else: ?>
 			<img src='/public/styles/braldahim_defaut/images/vue/batiment.png' />
 		<? endif; ?>
+	</span>
+<? elseif ($textBallon != "") : ?>
+	<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textBallon.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
+		<img src='/public/styles/braldahim_defaut/images/vue/ballon.png'/>
 	</span>
 <? elseif ($textEchoppe != "") : ?>
 	<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>

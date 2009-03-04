@@ -277,7 +277,7 @@ Consultez vos événements pour plus de détails.";
 			
 			if ($degatCase) {
 				$details .= " (compétence spéciale utilisée) ";
-				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_cible);
+				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit);
 			}
 		}
 		
