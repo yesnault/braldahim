@@ -38,6 +38,12 @@ class Bral_Box_Competences extends Bral_Box_Box {
 				$this->nomInterne = "box_competences_metiers";
 				$this->render = "interface/competences_metiers.phtml";
 				break;
+			case "soule":
+				$this->chargementInBoxes = false;
+				$this->titreOnglet = "Soule";
+				$this->nomInterne = "box_competences_soule";
+				$this->render = "interface/competences_soule.phtml";
+				break;
 			default:
 				throw new Zend_Exception(get_class($this)." type inconnu=" + $this->type);
 		}
@@ -73,6 +79,8 @@ class Bral_Box_Competences extends Bral_Box_Box {
 
 		if ($this->type == 'basic') {
 			$tabCompetences = Zend_Registry::get('competencesBasiques');
+		} else if ($this->type == 'soule') {
+			$tabCompetences = Zend_Registry::get('competencesSoule');
 		} else if ($this->type == 'metier') {
 			Zend_Loader::loadClass("HobbitsCompetences");
 			Zend_Loader::loadClass("HobbitsMetiers");

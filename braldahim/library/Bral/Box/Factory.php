@@ -41,6 +41,9 @@ class Bral_Box_Factory {
 			case "box_competences_metiers":
 				return self::getCompetencesMetier($request, $view, $interne);
 				break;
+			case "box_competences_soule":
+				return self::getCompetencesSoule($request, $view, $interne);
+				break;
 			case "box_echoppe" :
 				return self::getEchoppe($request, $view, $interne);
 				break;
@@ -138,6 +141,11 @@ class Bral_Box_Factory {
 	static function getCompetencesMetier($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Competences");
 		return self::getCompetences($request, $view, $interne, "metier");
+	}
+	
+	static function getCompetencesSoule($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Competences");
+		return self::getCompetences($request, $view, $interne, "soule");
 	}
 
 	private static function getCompetences($request, $view, $interne, $type) {

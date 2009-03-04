@@ -25,7 +25,7 @@ class Bral_Util_Registre {
 		$tab = null;
 		$tab2 = null;
 		$tabBasiques = null;
-		$tabBasiquesId = null;
+		$tabSoule = null;
 		foreach ($competences as $c) {
 			$tab[$c->id_competence]["nom"] = $c->nom_competence;
 			$tab[$c->id_competence]["nom_systeme"] = $c->nom_systeme_competence;
@@ -42,8 +42,8 @@ class Bral_Util_Registre {
 			
 			//$tab2[$c->nom_systeme_competence]["id_competence"] = $c->id_competence;
 			
-			if ($c->type_competence == 'basic') {
-				$tabBasiques[] = array 
+			if ($c->type_competence == 'basic' || $c->type_competence == 'soule') {
+				$tabCompetence = array 
 				( "id_competence" => $c->id_competence,
 					"nom" => $c->nom_competence,
 					"nom_systeme" => $c->nom_systeme_competence,
@@ -54,12 +54,17 @@ class Bral_Util_Registre {
 					"id_fk_metier_competence" => null,
 					"balance_faim" => $c->balance_faim_competence,
 				);
-				$tabBasiquesId[$c->nom_systeme_competence]["id_competence"] = $c->id_competence;
+				if ($c->type_competence == 'basic') {
+					$tabBasiques[] = $tabCompetence;
+				} elseif ($c->type_competence == 'soule') {
+					$tabSoule[] = $tabCompetence;
+				}
+				
 			}
 		}
 		Zend_Registry::set('competences', $tab);
-		//Zend_Registry::set('competencesId', $tab2);
 		Zend_Registry::set('competencesBasiques', $tabBasiques);
+		Zend_Registry::set('competencesSoule', $tabSoule);
 	}
 	
 	private static function chargementNomTour() {
