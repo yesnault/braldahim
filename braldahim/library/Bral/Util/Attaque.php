@@ -207,7 +207,7 @@ class Bral_Util_Attaque {
 				$details .=" a attaqué ";
 			}
 			
-			$details .= " le hobbit [h".$cible["id_hobbit"]."]";
+			$details .= " le hobbit [h".$cible["id_cible"]."]";
 			
 			$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"] , $retourAttaque["jetDegat"], $retourAttaque["critique"], $retourAttaque["mort"]);
 			if ($effetMotSPossible == false) {
@@ -236,7 +236,7 @@ class Bral_Util_Attaque {
 			$retourAttaque["fragilisee"] = true;
 			
 			$id_type = $config->game->evenements->type->attaquer;
-			$details = "[h".$hobbitAttaquant->id_hobbit."] a attaqué le hobbit [h".$cible["id_hobbit"]."]";
+			$details = "[h".$hobbitAttaquant->id_hobbit."] a attaqué le hobbit [h".$cible["id_cible"]."]";
 			$details .= " qui a esquivé l'attaque";
 			$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
 			if ($effetMotSPossible == false) {
@@ -247,7 +247,7 @@ class Bral_Util_Attaque {
 			
 		} else { // esquive parfaite
 			$id_type = $config->game->evenements->type->attaquer;
-			$details = "[h".$hobbitAttaquant->id_hobbit."] a attaqué le hobbit [h".$cible["id_hobbit"]."]";
+			$details = "[h".$hobbitAttaquant->id_hobbit."] a attaqué le hobbit [h".$cible["id_cible"]."]";
 			$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
 			$details .= " qui a esquivé parfaitement l'attaque";
 			if ($effetMotSPossible == false) {
