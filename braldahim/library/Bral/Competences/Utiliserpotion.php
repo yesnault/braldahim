@@ -153,9 +153,9 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			$this->detailEvenement .= "bu une potion";
 		} else {
 			if ($idHobbit != -1) {
-				$this->detailEvenement .= "utilisé une potion sur [h".$this->retourPotion['cible']["id_cible"]."]";
+				$this->detailEvenement .= "utilisé une potion sur le hobbit [h".$this->retourPotion['cible']["id_cible"]."]";
 			} else {
-				$this->detailEvenement .= "utilisé une potion sur [m".$this->retourPotion['cible']["id_cible"]."]";
+				$this->detailEvenement .= "utilisé une potion sur le monstre [m".$this->retourPotion['cible']["id_cible"]."]";
 			}
 		}
 		$this->setEvenementQueSurOkJet1(false);
