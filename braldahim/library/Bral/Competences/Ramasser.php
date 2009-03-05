@@ -129,7 +129,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		
 		$this->calculRamasser();
 		
-		$this->detailEvenement = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a ramassé ".$this->detailEvenement;
+		$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a ramassé ".$this->detailEvenement;
 		$this->setDetailsEvenement($this->detailEvenement, $this->view->config->game->evenements->type->ramasser);
 		
 		$this->setEvenementQueSurOkJet1(false);

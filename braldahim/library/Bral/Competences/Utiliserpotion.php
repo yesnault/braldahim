@@ -148,11 +148,15 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		
 		Zend_Loader::loadClass("Bral_Util_EffetsPotion");
 		
-		$this->detailEvenement = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a ";
+		$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a ";
 		if ($this->retourPotion['cible']["id_cible"] == $this->view->user->id_hobbit && $utiliserPotionHobbit === true) {
 			$this->detailEvenement .= "bu une potion";
 		} else {
-			$this->detailEvenement .= "utilisé une potion sur ".$this->retourPotion['cible']["nom_cible"]. " (".$this->retourPotion['cible']["id_cible"].")";
+			if ($idHobbit != -1) {
+				$this->detailEvenement .= "utilisé une potion sur [h".$this->retourPotion['cible']["id_cible"]."]";
+			} else {
+				$this->detailEvenement .= "utilisé une potion sur [m".$this->retourPotion['cible']["id_cible"]."]";
+			}
 		}
 		$this->setEvenementQueSurOkJet1(false);
 		$this->setDetailsEvenement($this->detailEvenement, $this->view->config->game->evenements->type->competence);

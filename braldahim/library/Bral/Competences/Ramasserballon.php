@@ -47,7 +47,7 @@ class Bral_Competences_Ramasserballon extends Bral_Competences_Competence {
 
 		$this->calculRamasserballon();
 
-		$this->detailEvenement = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a ramassé le ballon";
+		$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a ramassé le ballon";
 		$this->setDetailsEvenement($this->detailEvenement, $this->view->config->game->evenements->type->soule);
 
 		$this->setEvenementQueSurOkJet1(false);

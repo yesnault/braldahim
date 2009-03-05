@@ -209,7 +209,7 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 		);
 		$souleEquipeTable->insert($data);
 		
-		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a pris un ticket pour aller jouer un match sur le ".$this->view->terrainCourant["nom_soule_terrain"];
+		$details = "[h".$this->view->user->id_hobbit."] a pris un ticket pour aller jouer un match sur le ".$this->view->terrainCourant["nom_soule_terrain"];
 		$idType = $this->view->config->game->evenements->type->soule;
 		$this->setDetailsEvenement($details, $idType);
 	}

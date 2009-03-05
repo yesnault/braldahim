@@ -93,8 +93,8 @@ class Bral_Competences_Donnerballon extends Bral_Competences_Competence {
 		$hobbitTable = new Hobbit();
 		$hobbitDestinataire = $hobbitTable->findById($idHobbit);
 		
-		$this->detailEvenement = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a donné le ballon";
-		$this->detailEvenement .= " à ".$hobbitDestinataire->prenom_hobbit." ".$hobbitDestinataire->nom_hobbit." (".$hobbitDestinataire->id_hobbit.")";
+		$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a donné le ballon";
+		$this->detailEvenement .= " à [h".$hobbitDestinataire->id_hobbit."]";
 		$this->view->destinataire = $hobbitDestinataire->prenom_hobbit." ".$hobbitDestinataire->nom_hobbit." (".$hobbitDestinataire->id_hobbit.")";
 		$this->setDetailsEvenement($this->detailEvenement, $this->view->config->game->evenements->type->soule);
 

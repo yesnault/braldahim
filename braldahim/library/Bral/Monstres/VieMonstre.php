@@ -212,7 +212,7 @@ class Bral_Monstres_VieMonstre {
 				$cible["date_fin_tour_hobbit"] = date("Y-m-d H:i:s");
 				$id_type_evenement = self::$config->game->evenements->type->killhobbit;
 				$id_type_evenement_cible = self::$config->game->evenements->type->mort;
-				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a tué le hobbit ".$cible["prenom_hobbit"] ." ". $cible["nom_hobbit"]." (".$cible["id_hobbit"].")";
+				$details = "[m".$this->monstre["id_monstre"]."] a tué le hobbit [h".$cible["id_hobbit"]."]";
 				$this->majEvenements(null, $this->monstre["id_monstre"], $id_type_evenement, $details, $this->monstre["niveau_monstre"], "", $view);
 				$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus, $mortCible);
 				$this->majEvenements($cible["id_hobbit"], null, $id_type_evenement_cible, $details, $detailsBot, $cible["niveau_hobbit"], $view);
@@ -222,7 +222,7 @@ class Bral_Monstres_VieMonstre {
 				$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - (floor($cible["niveau_hobbit"] / 10) + 1);
 				$cible["est_mort_hobbit"] = "non";
 				$id_type_evenement = self::$config->game->evenements->type->attaquer;
-				$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a attaqué le hobbit ".$cible["prenom_hobbit"]." ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ")";
+				$details = "[m".$this->monstre["id_monstre"]."] a attaqué le hobbit [h".$cible["id_hobbit"]."]";
 				$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus);
 
 				$effetMotS = Bral_Util_Commun::getEffetMotS($cible["id_hobbit"]);
@@ -254,12 +254,12 @@ Consultez vos événements pour plus de détails.";
 			$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - (floor($cible["niveau_hobbit"] / 10) + 1);
 			$this->updateCible($cible);
 			$id_type_evenement = self::$config->game->evenements->type->attaquer;
-			$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a attaqué le hobbit ".$cible["prenom_hobbit"]." ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ") qui a esquivé l'attaque";
+			$details = "[m".$this->monstre["id_monstre"]."] a attaqué le hobbit [h".$cible["id_hobbit"]."] qui a esquivé l'attaque";
 			$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible);
 			$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
 		} else {
 			$id_type_evenement = self::$config->game->evenements->type->attaquer;
-			$details = $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a attaqué le hobbit ".$cible["prenom_hobbit"]." ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ") qui a esquivé l'attaque parfaitement";
+			$details = "[m".$this->monstre["id_monstre"]."] a attaqué le hobbit [h".$cible["id_hobbit"]."] qui a esquivé l'attaque parfaitement";
 			$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible);
 			$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
 		}

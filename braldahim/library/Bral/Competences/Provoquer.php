@@ -89,7 +89,7 @@ class Bral_Competences_Provoquer extends Bral_Competences_Competence {
 		}
 		
 		$id_type = $this->view->config->game->evenements->type->competence;
-		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a réussi l'utilisation d'une compétence sur ".$article." ".$monstre["nom_monstre"]." ".$monstre["taille_monstre"]." (".$monstre["id_monstre"].")";
+		$details = "[h".$this->view->user->id_hobbit."] a réussi l'utilisation d'une compétence sur ".$article." [m".$monstre["id_monstre"]."]";
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setDetailsEvenementCible($idMonstre, "monstre", $monstre["niveau_monstre"]);
 		$this->calculPx();
