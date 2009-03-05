@@ -31,8 +31,9 @@ class Bral_Competences_Relater extends Bral_Competences_Competence {
 			$this->texte_original = stripslashes($filter->filter($this->request->get('valeur_1')));
 		}
 		$this->view->texte_original = $this->texte_original;
+		$this->view->texte_transforme = "[h".$this->view->user->id_hobbit."] a dit : \"".$this->texte_original."\"";
 		
-		$this->view->texte = $this->transforme($this->texte_original);
+		$this->view->texte = Bral_Util_Evenement::remplaceBaliseParNomEtJs($this->view->texte_transforme, false);
 	}
 
 	function prepareFormulaire() {
@@ -41,51 +42,12 @@ class Bral_Competences_Relater extends Bral_Competences_Competence {
 	function prepareResultat() {
 		
 		$id_type = $this->view->config->game->evenements->type->evenement;
-		$details = $this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.") a dit : \"".$this->view->texte."\"";
+		$details = $this->texte_original;
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setEvenementQueSurOkJet1(false);
 		
 		$this->calculBalanceFaim();
 		$this->majHobbit();
-	}
-	
-	private function transforme($texteOriginal) {
-		
-		// Monstre
-		$texte = preg_replace_callback("/\[m(.*?)]/si", 
-		create_function(
-			'$matches', '
-			$m = new Monstre();
-			$nom = $m->findNomById($matches[1]);
-			return $nom;'
-		)
-		, $texteOriginal);
-		
-		// Hobbit
-		$texte = preg_replace_callback("/\[h(.*?)]/si", 
-		create_function(
-			'$matches', '
-			$h = new Hobbit();
-			$nom = $h->findNomById($matches[1]);
-			return $nom;'
-		)
-		, $texte);
-		
-		// Lieu
-		$texte = preg_replace_callback("/\[l(.*?)]/si", 
-		create_function(
-			'$matches', '
-			$l = new Lieu();
-			$nom = $l->findNomById($matches[1]);
-			return $nom;'
-		)
-		, $texte);
-		
-		return $texte;
-	}
-	
-	static function transformeMonstre($matches) {
-		
 	}
 	
 	function getListBoxRefresh() {

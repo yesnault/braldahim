@@ -2,12 +2,12 @@
   <ul class="box_contenu1 textalic">
   <br />
   	<? if ($this->evenement != null) : ?>
+  		<?=$this->evenement["date"]?> : <?=$this->evenement["type"]?> - <?=$this->evenement["details"]?>
   		<input type='hidden' id='nb_valeurs' name='nb_valeurs' value=''>
   		<input type='hidden' name='valeur_1' id='valeur_1' value='envoi' />
 		<input type='hidden' name='valeur_2' id='valeur_2' value='' />
 		<input type='hidden' name='valeur_3' id='valeur_3' value='' />
-	  <textarea id="detail_evenement_prive" rows="10" cols="100" readonly><?=$this->evenement["date"]?> : <?=$this->evenement["type"]?> - <?=$this->evenement["details"]?> 
-------- 
+	  <textarea style="background-color:#CCCC99;" id="detail_evenement_prive" rows="10" cols="85" readonly >
 <?=$this->evenement["details_bot"] ?></textarea>
    <? else: ?>
    		Aucun &eacute;v&eacute;nement s&eacute;lectionn&eacute;.
