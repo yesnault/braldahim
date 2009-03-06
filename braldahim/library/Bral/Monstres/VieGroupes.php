@@ -53,7 +53,7 @@ abstract class Bral_Monstres_VieGroupes {
         $monstres = $monstreTable->findByGroupeId($groupe["id_groupe_monstre"]);
 
         if (count($monstres) == 0) {
-            $this->updateToMortGroupe($groupe);
+            $this->suppressionGroupe($groupe);
             return;
         }
 
@@ -203,15 +203,11 @@ abstract class Bral_Monstres_VieGroupes {
     /**
      * Suppression du groupe de la base.
      */
-    private function updateToMortGroupe(&$groupe) {
-        Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateToMortGroupe - enter (id_groupe=".$groupe["id_groupe_monstre"].")");
+    private function suppressionGroupe(&$groupe) {
+        Bral_Util_Log::viemonstres()->trace(get_class($this)." - suppressionGroupe - enter (id_groupe=".$groupe["id_groupe_monstre"].")");
         $groupeMonstreTable = new GroupeMonstre();
-		$data = array(
-            "est_mort_groupe_monstre" => "oui",
-		);
-		$where = "id_groupe_monstre=".$groupe["id_groupe_monstre"];
-		$groupeMonstreTable->update($data, $where);
-				
-        Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateToMortGroupe - exit");
+        $where = "id_groupe_monstre=".$groupe["id_groupe_monstre"];
+        $groupeMonstreTable->delete($where);
+        Bral_Util_Log::viemonstres()->trace(get_class($this)." - suppressionGroupe - exit");
     }
 }

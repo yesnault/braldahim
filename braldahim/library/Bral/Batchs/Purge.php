@@ -63,7 +63,6 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeCadavres - enter -");
 		
 		Zend_Loader::loadClass('Monstre'); 
-		Zend_Loader::loadClass('GroupeMonstre');
 		
 		$retour = "";
 		$monstreTable = new Monstre();
@@ -73,12 +72,6 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$nb = $monstreTable->delete($where);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - Ok - nb:".$nb." - where:".$where);
 		$retour = " Cadavres:nb delete:".$nb. " date:".$date;
-		
-		$groupeMonstreTable = new GroupeMonstre();
-        $where = $monstreTable->getAdapter()->quoteInto('est_mort_groupe_monstre = ?',  "oui");
-       	$nb = $groupeMonstreTable->delete($where);
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - Ok - nb:".$nb." - where:".$where);
-		$retour = " CadavresGroupes:nb delete:".$nb. " date:".$date;
 		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeCadavres - exit -");
 		return $retour;

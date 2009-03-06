@@ -458,6 +458,7 @@ Consultez vos événements pour plus de détails.";
 		$data = array(
 			"date_fin_cadavre_monstre" => $dateFin,
 			"est_mort_monstre" => "oui",
+			"id_fk_groupe_monstre" => null,
 		);
 		
 		$where = "id_monstre=".$id_monstre;
