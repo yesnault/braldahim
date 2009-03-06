@@ -26,7 +26,6 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
      */
     protected function attaqueGroupe(&$monstre_role_a, &$groupe, &$monstres, &$cible) {
         Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - enter");
-        $mort_cible = false;
 		
         if ($groupe["date_phase_tactique_groupe_monstre"] < $this->dateCourante) {
         	Bral_Util_Log::viemonstres()->debug(get_class($this)." - changement phase tactique (".$groupe["date_phase_tactique_groupe_monstre"].") (".$groupe["phase_tactique_groupe_monstre"].")");
@@ -52,12 +51,12 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
         foreach($monstres as $m) {
             if ($cible != null) {
                 $vieMonstre->setMonstre($m);
-                $mortCible = false;
+                $koCible = false;
                 $cibleDuMonstre = null;
             	// on regarde si la cible demandée est bien la cible du monstre
 				if ($cible["id_hobbit"] == $m["id_fk_hobbit_cible_monstre"] || $m["id_fk_hobbit_cible_monstre"] == null) {
 					Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du groupe (".$groupe["id_groupe_monstre"].") : ".$cible["id_hobbit"]);
-					$mortCible = $vieMonstre->attaqueCible($cible, $this->view);
+					$koCible = $vieMonstre->attaqueCible($cible, $this->view);
 				} else {
 					Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du monstre (".$m["id_monstre"].") : ".$m["id_fk_hobbit_cible_monstre"]);
 					$hobbitTable = new Hobbit();
@@ -68,9 +67,9 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
                 
 				if ($cibleDuMonstre != null) {
 					$vieMonstre->deplacementMonstre($cibleDuMonstre["x_hobbit"], $cibleDuMonstre["y_hobbit"]);
-				} else if ($mortCible == null) { // null => cible hors vue
+				} else if ($koCible == null) { // null => cible hors vue
                     $vieMonstre->deplacementMonstre($groupe["x_direction_groupe_monstre"], $groupe["y_direction_groupe_monstre"]);
-                } else if ($mortCible === true) {
+                } else if ($koCible === true) {
                     $groupe["id_fk_hobbit_cible_groupe_monstre"] = null;
                     $cible = $this->rechercheNouvelleCible($monstre_role_a, $groupe, $monstres);
                 }

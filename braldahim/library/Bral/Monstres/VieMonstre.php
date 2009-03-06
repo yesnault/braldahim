@@ -152,7 +152,7 @@ class Bral_Monstres_VieMonstre {
 	
 	public function attaqueCible(&$cible, $view) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - enter");
-		$mortCible = false;
+		$koCible = false;
 
 		if ($this->monstre == null) {
 			new Zend_Exception("Bral_Monstres_VieMonstre::attaqueCible, monstre inconnu");
@@ -203,24 +203,24 @@ class Bral_Monstres_VieMonstre {
 			}
 			$cible["pv_restant_hobbit"] = $cible["pv_restant_hobbit"] - $pvPerdus;
 			if ($cible["pv_restant_hobbit"]  <= 0) {
-				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Mort de la cible La cible (".$cible["id_hobbit"].") par Monstre id:".$this->monstre["id_monstre"]. " pvPerdus=".$pvPerdus);
-				$mortCible = true;
+				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Ko de la cible La cible (".$cible["id_hobbit"].") par Monstre id:".$this->monstre["id_monstre"]. " pvPerdus=".$pvPerdus);
+				$koCible = true;
 				$this->monstre["nb_kill_monstre"] = $this->monstre["nb_kill_monstre"] + 1;
 				$this->monstre["id_fk_hobbit_cible_monstre"] = null;
-				$cible["nb_mort_hobbit"] = $cible["nb_mort_hobbit"] + 1;
-				$cible["est_mort_hobbit"] = "oui";
+				$cible["nb_ko_hobbit"] = $cible["nb_ko_hobbit"] + 1;
+				$cible["est_ko_hobbit"] = "oui";
 				$cible["date_fin_tour_hobbit"] = date("Y-m-d H:i:s");
-				$id_type_evenement = self::$config->game->evenements->type->killhobbit;
-				$id_type_evenement_cible = self::$config->game->evenements->type->mort;
-				$details = "[m".$this->monstre["id_monstre"]."] a tué le hobbit [h".$cible["id_hobbit"]."]";
+				$id_type_evenement = self::$config->game->evenements->type->kohobbit;
+				$id_type_evenement_cible = self::$config->game->evenements->type->ko;
+				$details = "[m".$this->monstre["id_monstre"]."] a mis KO le hobbit [h".$cible["id_hobbit"]."]";
 				$this->majEvenements(null, $this->monstre["id_monstre"], $id_type_evenement, $details, $this->monstre["niveau_monstre"], "", $view);
-				$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus, $mortCible);
+				$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus, $koCible);
 				$this->majEvenements($cible["id_hobbit"], null, $id_type_evenement_cible, $details, $detailsBot, $cible["niveau_hobbit"], $view);
 				$this->updateCible($cible);
 			} else {
 				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Survie de la cible La cible (".$cible["id_hobbit"].") attaquee par Monstre id:".$this->monstre["id_monstre"]. " pvPerdus=".$pvPerdus. " pv_restant_hobbit=".$cible["pv_restant_hobbit"]);
 				$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - (floor($cible["niveau_hobbit"] / 10) + 1);
-				$cible["est_mort_hobbit"] = "non";
+				$cible["est_ko_hobbit"] = "non";
 				$id_type_evenement = self::$config->game->evenements->type->attaquer;
 				$details = "[m".$this->monstre["id_monstre"]."] a attaqué le hobbit [h".$cible["id_hobbit"]."]";
 				$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus);
@@ -264,8 +264,8 @@ Consultez vos événements pour plus de détails.";
 			$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
 		}
 		$this->updateMonstre();
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - exit (return=".$mortCible.")");
-		return $mortCible;
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - exit (return=".$koCible.")");
+		return $koCible;
 	}
 
 	public function setMonstre($m) {
@@ -383,8 +383,8 @@ Consultez vos événements pour plus de détails.";
 		$hobbitTable = new Hobbit();
 		$data = array(
 			'pv_restant_hobbit' => $cible["pv_restant_hobbit"],
-			'est_mort_hobbit' => $cible["est_mort_hobbit"],
-			'nb_mort_hobbit' => $cible["nb_mort_hobbit"],
+			'est_ko_hobbit' => $cible["est_ko_hobbit"],
+			'nb_ko_hobbit' => $cible["nb_ko_hobbit"],
 			'agilite_bm_hobbit' => $cible["agilite_bm_hobbit"],
 			'est_engage_hobbit' => $cible["est_engage_hobbit"],
 			'est_engage_next_dla_hobbit' => $cible["est_engage_next_dla_hobbit"],
@@ -554,7 +554,7 @@ Consultez vos événements pour plus de détails.";
 		$castarTable->insertOrUpdate($data);
 	}
 	
-	private function getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat = 0, $critique = false, $pvPerdus = 0, $mortCible = false) {
+	private function getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat = 0, $critique = false, $pvPerdus = 0, $koCible = false) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
 		$retour = "";
 
@@ -599,9 +599,9 @@ Vous avez perdu ".$pvPerdus. " PV ";
 			$retour .= "
 Il vous reste ".$cible["pv_restant_hobbit"]." PV ";
 			
-			if ($mortCible) {
+			if ($koCible) {
 			$retour .= "
-Vous avez été tué";
+Vous avez été mis KO";
 			}
 		} else if ($jetCible/2 < $jetAttaquant) { // esquive
 			$retour .= "

@@ -62,7 +62,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$date_courante = date("Y-m-d H:i:s");
 		$this->is_nouveau_tour = $this->calcul_debut_nouveau($date_courante);
 
-		// nouveau tour (ou mort : en cas de mort : la date de fin de tour doit être positionnee à la mort) 
+		// nouveau tour (ou ko : en cas de ko : la date de fin de tour doit être positionnee au ko) 
 		if ($this->is_nouveau_tour) {
 			Bral_Util_Log::tour()->debug(get_class($this)." Nouveau tour");
 			$this->calculDLA();
@@ -84,8 +84,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 		$this->is_tour_manque = false;
 		// Mise a jour du nombre de PA + position tour
-		if ($this->hobbit->est_mort_hobbit == "oui") {
-			Bral_Util_Log::tour()->debug(get_class($this)." Mort du hobbit");
+		if ($this->hobbit->est_ko_hobbit == "oui") {
+			Bral_Util_Log::tour()->debug(get_class($this)." KO du hobbit");
 			$mdate = date("Y-m-d H:i:s");
 			$this->hobbit->date_debut_cumul_hobbit = $mdate;
 			$this->hobbit->date_fin_tour_hobbit = Bral_Util_ConvertDate::get_date_add_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_cumul);
@@ -132,7 +132,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->is_update_tour = true;
 		}
 		
-		if (($this->is_update_tour) || ($this->is_nouveau_tour) || ($this->hobbit->est_mort_hobbit == "oui")) {
+		if (($this->is_update_tour) || ($this->is_nouveau_tour) || ($this->hobbit->est_ko_hobbit == "oui")) {
 			Bral_Util_Log::tour()->debug(get_class($this)." modificationTour - exit - true");
 			return true;
 		} else {
@@ -168,8 +168,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		
 		$this->modificationTour();
 
-		// Mise a jour en cas de mort
-		$this->calculMort();
+		// Mise a jour en cas de KO
+		$this->calculKo();
 
 		// Si c'est un nouveau tour, on met les BM de force, agi, sag, vue, vig à 0 
 		// Ensuite, on les recalcule suivant l'équipement porté et les potions en cours
@@ -231,7 +231,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			
 			$this->calculPv();
 			
-			if ($this->est_mort == false) {
+			if ($this->est_ko == false) {
 				$this->hobbit->est_intangible_hobbit = "non";
 			}
 			
@@ -248,7 +248,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$this->view->is_update_tour = $this->is_update_tour;
 		$this->view->is_nouveau_tour = $this->is_nouveau_tour;
 		$this->view->is_tour_manque = $this->is_tour_manque;
-		$this->view->is_mort = $this->est_mort;
+		$this->view->is_ko = $this->est_ko;
 
 		if (($this->is_update_tour) || ($this->is_nouveau_tour)) {
 			$this->calculInfoTour();
@@ -268,8 +268,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		Bral_Util_Log::tour()->trace(get_class($this)." calcul_debut_nouveau - enter -");
 		Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - this->hobbit->date_fin_tour_hobbit=".$this->hobbit->date_fin_tour_hobbit);
 		Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - date_courante=".$date_courante);
-		Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - this->hobbit->est_mort_hobbit=".$this->hobbit->est_mort_hobbit);
-		if ($this->hobbit->date_fin_tour_hobbit < $date_courante || $this->hobbit->est_mort_hobbit == 'oui') {
+		Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - this->hobbit->est_ko_hobbit=".$this->hobbit->est_ko_hobbit);
+		if ($this->hobbit->date_fin_tour_hobbit < $date_courante || $this->hobbit->est_ko_hobbit == 'oui') {
 			Bral_Util_Log::tour()->debug(get_class($this)." calcul_debut_nouveau - exit - true");
 			return true;
 		} else {
@@ -278,17 +278,17 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		}
 	}
 
-	private function calculMort() {
-		Bral_Util_Log::tour()->trace(get_class($this)." calcul_mort - enter -");
-		$this->est_mort = ($this->hobbit->est_mort_hobbit == "oui");
+	private function calculKo() {
+		Bral_Util_Log::tour()->trace(get_class($this)." calculKo - enter -");
+		$this->est_ko = ($this->hobbit->est_ko_hobbit == "oui");
 
-		if ($this->est_mort) {
+		if ($this->est_ko) {
 			Zend_Loader::loadClass('Lieu');
 			Zend_Loader::loadClass('Bral_Util_De');
 			$this->is_update_tour = true;
 
 			// remise en vu
-			$this->hobbit->est_mort_hobbit = "non";
+			$this->hobbit->est_ko_hobbit = "non";
 			
 			$this->hobbit->est_intangible_hobbit = "oui";
 
@@ -320,7 +320,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$hobbitsCompetencesTable = new HobbitsCompetences();
 			$hobbitsCompetencesTable->annuleEffetsTabacByIdHobbit($this->hobbit->id_hobbit);
 		}
-		Bral_Util_Log::tour()->trace(get_class($this)." calcul_mort - exit -");
+		Bral_Util_Log::tour()->trace(get_class($this)." calculKo - exit -");
 	}
 
 	private function calculBMEquipement() {
@@ -605,7 +605,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$this->view->user->tour_position_hobbit = $this->hobbit->tour_position_hobbit;
 		$this->view->user->pa_hobbit = $this->hobbit->pa_hobbit;
 		$this->view->user->armure_naturelle_hobbit = $this->hobbit->armure_naturelle_hobbit;
-		$this->view->user->est_mort_hobbit = $this->hobbit->est_mort_hobbit;
+		$this->view->user->est_ko_hobbit = $this->hobbit->est_ko_hobbit;
 		$this->view->user->px_commun_hobbit = $this->hobbit->px_commun_hobbit;
 		$this->view->user->px_perso_hobbit = $this->hobbit->px_perso_hobbit;
 		$this->view->user->pv_max_hobbit = $this->hobbit->pv_max_hobbit;
@@ -645,7 +645,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			'pa_hobbit' => $this->hobbit->pa_hobbit,
 			'armure_naturelle_hobbit' => $this->hobbit->armure_naturelle_hobbit,
 			'armure_equipement_hobbit' => $this->hobbit->armure_equipement_hobbit,
-			'est_mort_hobbit' => $this->hobbit->est_mort_hobbit,
+			'est_ko_hobbit' => $this->hobbit->est_ko_hobbit,
 			'px_commun_hobbit' => $this->hobbit->px_commun_hobbit,
 			'px_perso_hobbit' => $this->hobbit->px_perso_hobbit,
 			'pv_max_hobbit' => $this->hobbit->pv_max_hobbit,

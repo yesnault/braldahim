@@ -112,20 +112,19 @@ class Bral_Monstres_VieSolitaire {
      */
     protected function attaqueSolitaire(&$monstre, &$cible) {
         Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueSolitaire - enter");
-        $mort_cible = false;
 
         $vieMonstre = Bral_Monstres_VieMonstre::getInstance();
 
 		if ($cible != null) {
 			$vieMonstre->setMonstre($monstre);
-			$mortCible = false;
+			$koCible = false;
 			// on regarde si la cible demandée est bien la cible du monstre
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueSolitaire - cible du monstre (".$monstre["id_monstre"].") : ".$cible["id_hobbit"]);
-			$mortCible = $vieMonstre->attaqueCible($cible, $this->view);
+			$koCible = $vieMonstre->attaqueCible($cible, $this->view);
      
-			if ($mortCible == null) { // null => cible hors vue
+			if ($koCible == null) { // null => cible hors vue
 				$vieMonstre->deplacementMonstre($monstre["x_direction_monstre"], $monstre["y_direction_monstre"]);
-			} else if ($mortCible === true) {
+			} else if ($koCible === true) {
 				$monstre["id_fk_hobbit_cible_monstre"] = null;
 				$cible = $this->rechercheNouvelleCible($monstre);
 			}

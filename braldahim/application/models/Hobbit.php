@@ -66,7 +66,7 @@ class Hobbit extends Zend_Db_Table {
 		$select->where('x_hobbit >= ?',$x_min);
 		$select->where('y_hobbit >= ?',$y_min);
 		$select->where('y_hobbit <= ?',$y_max);
-		$select->where('est_mort_hobbit = ?', "non");
+		$select->where('est_ko_hobbit = ?', "non");
 		$select->where('est_compte_actif_hobbit = ?', "oui");
 		$select->where('est_en_hibernation_hobbit = ?', "non");
 		
@@ -92,7 +92,7 @@ class Hobbit extends Zend_Db_Table {
 		$select->where('y_hobbit = ?',$y);
 		$select->where('est_compte_actif_hobbit = ?', "oui");
 		$select->where('est_en_hibernation_hobbit = ?', "non");
-		$select->where('est_mort_hobbit = ?', "non");
+		$select->where('est_ko_hobbit = ?', "non");
 		
 		if ($sansHobbitCourant != -1) {
 			$select->where('id_hobbit != ?',$sansHobbitCourant);
@@ -183,7 +183,7 @@ class Hobbit extends Zend_Db_Table {
 		->where('x_hobbit <= ?', $x + $rayon)
 		->where('y_hobbit >= ?', $y - $rayon)
 		->where('y_hobbit <= ?', $y + $rayon)
-		->where("est_mort_hobbit = 'non'")
+		->where("est_ko_hobbit = 'non'")
 		->where('est_compte_actif_hobbit = ?', "oui")
 		->where('est_en_hibernation_hobbit = ?', "non");
 		
@@ -208,7 +208,7 @@ class Hobbit extends Zend_Db_Table {
 		->where('x_hobbit <= ?', $x + $rayon)
 		->where('y_hobbit >= ?', $y - $rayon)
 		->where('y_hobbit <= ?', $y + $rayon)
-		->where('est_mort_hobbit = ?', "non")
+		->where('est_ko_hobbit = ?', "non")
 		->where('est_compte_actif_hobbit = ?', "oui")
 		->where('est_en_hibernation_hobbit = ?' ,"non")
 		->where('id_hobbit = ?', $idHobbit);

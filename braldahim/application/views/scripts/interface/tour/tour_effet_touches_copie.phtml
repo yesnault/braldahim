@@ -33,13 +33,10 @@ if (isset($this->ciblesEffet["monstreTouches"]) && $this->ciblesEffet["monstreTo
 		echo $this->render("competences/commun_copie_effets.phtml");
 	}
 }
-if ((isset($this->ciblesEffet["hobbitMorts"])|| isset($this->ciblesEffet["monstreMorts"])) && 
-    ($this->ciblesEffet["hobbitMorts"] != null || $this->ciblesEffet["monstreMorts"] != null)) {
-	echo "Vous avez tu&eacute; : ";
+if (isset($this->ciblesEffet["hobbitMorts"]) && $this->ciblesEffet["hobbitMorts"] != null) {
+	echo "Vous avez mis KO : ";
 	echo "
 ";
-}
-if (isset($this->ciblesEffet["hobbitMorts"]) && $this->ciblesEffet["hobbitMorts"] != null) {
 	foreach($this->ciblesEffet["hobbitMorts"] as $val) {
 		$h = $val["hobbit"];
 		echo htmlspecialchars($h["prenom_hobbit"]). " ". htmlspecialchars($h["nom_hobbit"]). " (".$h["id_hobbit"].")";
@@ -48,6 +45,10 @@ if (isset($this->ciblesEffet["hobbitMorts"]) && $this->ciblesEffet["hobbitMorts"
 	}
 }
 if (isset($this->ciblesEffet["monstreMorts"]) && $this->ciblesEffet["monstreMorts"] != null) {
+	echo "
+Vous avez tu&eacute; : ";
+	echo "
+";
 	foreach($this->ciblesEffet["monstreMorts"] as $val) {
 		$m = $val["monstre"];
 		echo htmlspecialchars($m["nom_type_monstre"]). " (".$m["id_monstre"].")";

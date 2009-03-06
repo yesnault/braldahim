@@ -26,17 +26,15 @@
 				?>
 			<? endforeach; ?>
 		<? endif; ?>
-		<? if ((isset($this->ciblesEffet["hobbitMorts"]) || isset($this->ciblesEffet["monstreMorts"])) && 
-			   ($this->ciblesEffet["hobbitMorts"] != null || $this->ciblesEffet["monstreMorts"] != null)) : ?>
-			Vous avez tu&eacute; : <br />
-		<? endif; ?>
 		<? if (isset($this->ciblesEffet["hobbitMorts"]) && $this->ciblesEffet["hobbitMorts"] != null) : ?>
+			Vous avez mis KO : <br />
 			<? foreach($this->ciblesEffet["hobbitMorts"] as $val) : 
 				$h = $val["hobbit"];?>
 				<?=htmlspecialchars($h["prenom_hobbit"])?>  <?=htmlspecialchars($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>)<br />
 			<? endforeach; ?>
 		<? endif; ?>
 		<? if (isset($this->ciblesEffet["monstreMorts"]) && $this->ciblesEffet["monstreMorts"] != null) : ?>
+			<br />Vous avez tu&eacute; : <br />
 			<? foreach($this->ciblesEffet["monstreMorts"] as $val) : 
 				$m = $val["monstre"];?>
 				<?=htmlspecialchars($m["nom_type_monstre"])?> (<?=$m["id_monstre"]?>)<br />

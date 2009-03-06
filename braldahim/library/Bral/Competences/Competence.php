@@ -317,7 +317,7 @@ abstract class Bral_Competences_Competence {
 			'niveau_hobbit' => $this->view->user->niveau_hobbit,
 			'pi_cumul_hobbit' => $this->view->user->pi_cumul_hobbit,
 			'balance_faim_hobbit' => $this->view->user->balance_faim_hobbit,
-			'nb_hobbit_kill_hobbit' => $this->view->user->nb_hobbit_kill_hobbit,
+			'nb_hobbit_ko_hobbit' => $this->view->user->nb_hobbit_ko_hobbit,
 			'nb_monstre_kill_hobbit' => $this->view->user->nb_monstre_kill_hobbit,
 			'x_hobbit' => $this->view->user->x_hobbit,
 			'y_hobbit'  => $this->view->user->y_hobbit,

@@ -9,7 +9,7 @@
 	  <? endif;?>
 	</ul>
   
-	<?php if ($this->is_mort): ?>
+	<?php if ($this->is_ko): ?>
 			<p style='text-align:justify'>
 			<? echo "Vous venez d'ouvrir les yeux, une lumière blafarde vous éblouit.
 			Vous essayez de remuer vos bras et vos jambes mais ils sont tout engourdis.
@@ -74,7 +74,7 @@
 		echo ", ".$this->user->titre_courant_hobbit." ";
 	endif;
 	  
-	if ($this->is_mort): 
+	if ($this->is_ko): 
 	  echo "Vous venez d'ouvrir les yeux, une lumière blafarde vous éblouit. ";
 	 echo "Vous essayez de remuer vos bras et vos jambes mais ils sont tout engourdis. ";
 	 echo "Vous tournez doucement la tête et constatez que vous êtes dans un lit qui n'est pas le vôtre... ";
