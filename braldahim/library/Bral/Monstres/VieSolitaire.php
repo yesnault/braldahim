@@ -72,7 +72,7 @@ class Bral_Monstres_VieSolitaire {
 				$monstre["y_direction_monstre"] = $cible["y_hobbit"];
 				Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible trouvee:".$cible["id_hobbit"]. " x=".$monstre["x_direction_monstre"]. " y=".$monstre["y_direction_monstre"]);
 			} else {
-				Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible trouvee:".$cible["id_hobbit"]. " x=".$monstre["x_direction_monstre"]. " y=".$monstre["y_direction_monstre"]);
+				Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible non trouvee x=".$monstre["x_direction_monstre"]. " y=".$monstre["y_direction_monstre"]);
 			}
 		} else { // pas de cible en cours
             $cible = null;
