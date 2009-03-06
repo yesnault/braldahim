@@ -10,7 +10,7 @@ $textRune = "";
       	}
       	$textCadavre .= ": 	<br>";
       	foreach($case["cadavres"] as $c) {
-      		$textCadavre .= '<label class=\\\'alabel\\\' onClick=ouvrirWin(\\\'\/voir\/monstre\/?monstre='.$m["id_monstre"].'\\\'); title=\\\'Voir le profil\\\' >';
+      		$textCadavre .= '<label class=\\\'alabel\\\' onClick=ouvrirWin(\\\'\/voir\/monstre\/?monstre='.$c["id_monstre"].'\\\'); title=\\\'Voir le profil\\\' >';
       		$textCadavre .= htmlspecialchars($c["nom_monstre"]) ." ".htmlspecialchars($c["taille_monstre"])." (n&deg;".$c["id_monstre"].")</label> ";
 		} 
 		$s = "";
