@@ -10,18 +10,18 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Palmares_Mortsniveau extends Bral_Palmares_Box {
+class Bral_Palmares_Kofamille extends Bral_Palmares_Box {
 
 	function getTitreOnglet() {
-		return "Niveaux";
+		return "Familles";
 	}
 	
 	function getNomInterne() {
-		return "box_onglet_mortsniveau";		
+		return "box_onglet_kofamille";		
 	}
 	
 	function getNomClasse() {
-		return "mortsniveau";		
+		return "kofamille";		
 	}
 	
 	function setDisplay($display) {
@@ -32,15 +32,15 @@ class Bral_Palmares_Mortsniveau extends Bral_Palmares_Box {
 		$this->view->nom_interne = $this->getNomInterne();
 		$this->view->nom_systeme = $this->getNomClasse();
 		$this->prepare();
-		return $this->view->render("palmares/morts_niveau.phtml");
+		return $this->view->render("palmares/ko_famille.phtml");
 	}
 	
 	private function prepare() {
 		Zend_Loader::loadClass("Evenement");
 		$mdate = $this->getTabDateFiltre();
 		$evenementTable = new Evenement();
-		$type = $this->view->config->game->evenements->type->mort;
-		$rowset = $evenementTable->findByNiveau($mdate["dateDebut"], $mdate["dateFin"], $type, true);
-		$this->view->niveaux = $rowset;
+		$type = $this->view->config->game->evenements->type->ko;
+		$rowset = $evenementTable->findByFamille($mdate["dateDebut"], $mdate["dateFin"], $type, true);
+		$this->view->familles = $rowset;
 	}
 }

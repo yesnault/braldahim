@@ -83,19 +83,19 @@ class Bral_Palmares_Factory {
 		return $retour;
 	}
 	
-	public static function getBoxesMorts($request, $view) {
+	public static function getBoxesKo($request, $view) {
 		Zend_Loader::loadClass("Bral_Palmares_Box");
-		Zend_Loader::loadClass("Bral_Palmares_Mortstop10");
-		Zend_Loader::loadClass("Bral_Palmares_Mortsfamille");
-		Zend_Loader::loadClass("Bral_Palmares_Mortsniveau");
-		Zend_Loader::loadClass("Bral_Palmares_Mortssexe");
+		Zend_Loader::loadClass("Bral_Palmares_Kotop10");
+		Zend_Loader::loadClass("Bral_Palmares_Kofamille");
+		Zend_Loader::loadClass("Bral_Palmares_Koniveau");
+		Zend_Loader::loadClass("Bral_Palmares_Kosexe");
 		
 		$retour = null;
-		$retour[] = new Bral_Palmares_Mortstop10($request, $view, false);
-		$retour[] = new Bral_Palmares_Mortsfamille($request, $view, false);
-		$retour[] = new Bral_Palmares_Mortsniveau($request, $view, false);
-		$retour[] = new Bral_Palmares_Mortssexe($request, $view, false);
-		$view->titre = "Morts";
+		$retour[] = new Bral_Palmares_Kotop10($request, $view, false);
+		$retour[] = new Bral_Palmares_Kofamille($request, $view, false);
+		$retour[] = new Bral_Palmares_Koniveau($request, $view, false);
+		$retour[] = new Bral_Palmares_Kosexe($request, $view, false);
+		$view->titre = "KO";
 		return $retour;
 	}
 	

@@ -39,7 +39,7 @@ class Bral_Palmares_Combattantspvpsexe extends Bral_Palmares_Box {
 		Zend_Loader::loadClass("Evenement");
 		$mdate = $this->getTabDateFiltre();
 		$evenementTable = new Evenement();
-		$type = $this->view->config->game->evenements->type->killhobbit;
+		$type = $this->view->config->game->evenements->type->kohobbit;
 		$rowset = $evenementTable->findBySexe($mdate["dateDebut"], $mdate["dateFin"], $type, true);
 		$this->view->sexes = $rowset;
 	}

@@ -48,9 +48,9 @@ class PalmaresController extends Zend_Controller_Action {
 		$this->render("index");
 	}
 	
-	function mortsAction() {
+	function koAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesMorts($this->_request, $this->view), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesKo($this->_request, $this->view), "boite_a");
 		$this->prepareCommun();
 		$this->render("index");
 	}
@@ -176,7 +176,7 @@ class PalmaresController extends Zend_Controller_Action {
 		$selection[] = array("nom" => "Naissance", "url" => "naissance");
 		$selection[] = array("nom" => "Grands Combattants PvE", "url" => "combattantspve");
 		$selection[] = array("nom" => "Grands Combattants PvP", "url" => "combattantspvp");
-		$selection[] = array("nom" => "Morts", "url" => "morts");
+		$selection[] = array("nom" => "KO", "url" => "ko");
 		$selection[] = array("nom" => "Expérience", "url" => "experience");
 		$selection[] = array("nom" => "Monstres", "url" => "monstres");
 		$selection[] = array("nom" => "Super Hobbits", "url" => "superhobbits");

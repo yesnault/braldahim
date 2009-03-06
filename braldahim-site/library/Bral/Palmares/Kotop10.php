@@ -10,18 +10,18 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Palmares_Mortssexe extends Bral_Palmares_Box {
+class Bral_Palmares_Kotop10 extends Bral_Palmares_Box {
 
 	function getTitreOnglet() {
-		return "Sexes";
+		return "Top 10";
 	}
 	
 	function getNomInterne() {
-		return "box_onglet_mortssexe";		
+		return "box_onglet_kotop10";		
 	}
 	
 	function getNomClasse() {
-		return "mortsfamille";		
+		return "kotop10";		
 	}
 	
 	function setDisplay($display) {
@@ -32,15 +32,15 @@ class Bral_Palmares_Mortssexe extends Bral_Palmares_Box {
 		$this->view->nom_interne = $this->getNomInterne();
 		$this->view->nom_systeme = $this->getNomClasse();
 		$this->prepare();
-		return $this->view->render("palmares/morts_sexe.phtml");
+		return $this->view->render("palmares/ko_top10.phtml");
 	}
 	
 	private function prepare() {
 		Zend_Loader::loadClass("Evenement");
 		$mdate = $this->getTabDateFiltre();
 		$evenementTable = new Evenement();
-		$type = $this->view->config->game->evenements->type->mort;
-		$rowset = $evenementTable->findBySexe($mdate["dateDebut"], $mdate["dateFin"], $type, true);
-		$this->view->sexes = $rowset;
+		$type = $this->view->config->game->evenements->type->ko;
+		$rowset = $evenementTable->findTop10($mdate["dateDebut"], $mdate["dateFin"], $type, true);
+		$this->view->top10 = $rowset;
 	}
 }
