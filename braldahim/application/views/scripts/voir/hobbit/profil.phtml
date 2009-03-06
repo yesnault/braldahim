@@ -11,6 +11,10 @@
 	<th>Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->hobbit["date_creation_hobbit"]); ?></th>
   </tr>
   <tr class="table_liste">
+	<th>Sexe</th>
+	<td class="table_liste"><? if ($this->hobbit["sexe_hobbit"] == "masculin"): echo "Masculin"; else: echo "F&eacute;minin"; endif;?></td>
+  </tr>
+  <tr class="table_liste">
 	<th>Communaut&eacute;</th>
 	<td class="table_liste" nowrap>
 	<? if ($this->communaute == null) : ?>
