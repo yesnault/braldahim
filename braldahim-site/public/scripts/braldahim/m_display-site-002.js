@@ -60,5 +60,8 @@ function switch2div(div1, div2) {
 }
 
 function ouvrirWin(url, titre) {
+	if (url.substring(0, 6) == '/voir/') {
+		url = "http://jeu.braldahim.com" + url;
+	}
 	window.open(url, titre, "directories=no,location=yes,menubar=yes,resizable=yes,scrollbars=yes,status=yes,toolbar=yes,width=800,height=600");
 }
