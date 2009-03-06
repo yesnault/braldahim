@@ -42,7 +42,7 @@ class Bral_Competences_Relater extends Bral_Competences_Competence {
 	function prepareResultat() {
 		
 		$id_type = $this->view->config->game->evenements->type->evenement;
-		$details = $this->texte_original;
+		$details = $this->texte_transforme;
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setEvenementQueSurOkJet1(false);
 		
