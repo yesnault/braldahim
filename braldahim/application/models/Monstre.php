@@ -181,8 +181,7 @@ class Monstre extends Zend_Db_Table {
 		->where('monstre.id_fk_taille_monstre = taille_monstre.id_taille_monstre')
 		->where('monstre.id_fk_groupe_monstre = id_groupe_monstre')
 		->where('monstre.id_fk_groupe_monstre = ?', intval($idGroupe))
-		->where('est_mort_monstre = ?', "non")
-		->where('est_mort_groupe_monstre = ?', "non");
+		->where('est_mort_monstre = ?', "non");
 		
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
