@@ -42,6 +42,8 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 	}
 	
 	private function prepareMessages() {
+		Zend_Loader::loadClass("Bral_Util_Lien");
+		
 		$josUddeimTable = new JosUddeim();
 		
 		if ($this->_filtre == $this->view->config->messagerie->message->type->envoye) {
@@ -82,13 +84,13 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 				$destinataire = "";
 				if ($tabHobbits != null) {
 					if (array_key_exists($m["toid"], $tabHobbits)) {
-						$destinataire = $tabHobbits[$m["toid"]]["prenom_hobbit"] . " ". $tabHobbits[$m["toid"]]["nom_hobbit"]. " (".$tabHobbits[$m["toid"]]["id_hobbit"].")";
+						$destinataire = Bral_Util_Lien::getJsHobbit($tabHobbits[$m["toid"]]["id_hobbit"], $tabHobbits[$m["toid"]]["prenom_hobbit"] . " ". $tabHobbits[$m["toid"]]["nom_hobbit"]. " (".$tabHobbits[$m["toid"]]["id_hobbit"].")");
 					} else {
 						$destinataire = " Erreur ".$m["toid"];
 					}
 					
 					if (array_key_exists($m["fromid"], $tabHobbits)) {
-						$expediteur = $tabHobbits[$m["fromid"]]["prenom_hobbit"] . " ". $tabHobbits[$m["fromid"]]["nom_hobbit"]. " (".$tabHobbits[$m["fromid"]]["id_hobbit"].")";
+						$expediteur = Bral_Util_Lien::getJsHobbit($tabHobbits[$m["fromid"]]["id_hobbit"], $tabHobbits[$m["fromid"]]["prenom_hobbit"] . " ". $tabHobbits[$m["fromid"]]["nom_hobbit"]. " (".$tabHobbits[$m["fromid"]]["id_hobbit"].")");
 					} else {
 						$expediteur = " Erreur ".$m["fromid"];
 					}

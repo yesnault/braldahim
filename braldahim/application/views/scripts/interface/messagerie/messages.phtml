@@ -19,13 +19,13 @@
 					</td>
 	  				<td class="table_liste" <?=$js ?>">
 	  					<? if ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
-		  					De <? if (mb_strlen($message["expediteur"]) > 25) echo mb_substr(htmlspecialchars($message["expediteur"]), 0, 25)."..."; else echo htmlspecialchars($message["expediteur"]);?>&nbsp;
+		  					De <?=$message["expediteur"];?>&nbsp;
 		  					&agrave;<br/>
-		  					<? if (mb_strlen($message["destinataire"]) > 25) echo mb_substr(htmlspecialchars($message["destinataire"]), 0, 25)."..."; else echo htmlspecialchars($message["destinataire"]);?>&nbsp;
+		  					<?=$message["destinataire"];?>&nbsp;
 	  					<? elseif ($this->filtre == $this->config->messagerie->message->type->envoye): ?>
-	  						<? if (mb_strlen($message["destinataire"]) > 25) echo mb_substr(htmlspecialchars($message["destinataire"]), 0, 25)."..."; else echo htmlspecialchars($message["destinataire"]);?>&nbsp;
+	  						<?=$message["destinataire"];?>&nbsp;
 	  					<? else: ?>
-	  						<? if (mb_strlen($message["expediteur"]) > 25) echo mb_substr(htmlspecialchars($message["expediteur"]), 0, 25)."..."; else echo htmlspecialchars($message["expediteur"]);?>&nbsp;
+	  						<?=$message["expediteur"];?>&nbsp;
 	  					<? endif; ?>
 	  				</td>
 	  				<td class="table_liste" <?=$js ?>"> <?if (mb_strlen($message["titre"]) > 25) echo Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else echo Bral_Util_BBParser::bbcodeStrip($message["titre"]);?></td>

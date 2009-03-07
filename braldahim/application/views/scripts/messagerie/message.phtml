@@ -10,11 +10,11 @@
 		<thead class="table_liste">
 			<tr class="table_liste">
 				<th>
-				Message de <?=htmlspecialchars($this->message["expediteur"]);?>&nbsp;
-				&agrave; <?=htmlspecialchars($this->message["destinataire"]);?>,&nbsp;
+				Message de <?=$this->message["expediteur"];?>&nbsp;
+				&agrave; <?=$this->message["destinataire"];?>,&nbsp;
 				le <?=date('d/m/y, H:i', $this->message["date"]);?>.
 				<br>
-				Tous les destinataires : <?=htmlspecialchars($this->message["destinataires"]);?>
+				Tous les destinataires : <?=$this->message["destinataires"];?>
 			</th>
 		</tr>
 	</thead>

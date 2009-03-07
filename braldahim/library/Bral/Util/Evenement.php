@@ -17,9 +17,11 @@ class Bral_Util_Evenement {
 	 */
 	public static function majEvenements($idConcerne, $idTypeEvenement, $details, $detailsBot, $niveau, $type="hobbit", $estAEnvoyer = false, $view = null) {
 		Zend_Loader::loadClass('Evenement');
+		Zend_Loader::loadClass("Bral_Util_Lien");
+		
 		$evenementTable = new Evenement();
 		
-		$detailsTransforme = Bral_Util_Evenement::remplaceBaliseParNomEtJs($details);
+		$detailsTransforme = Bral_Util_Lien::remplaceBaliseParNomEtJs($details);
 		
 		if ($type == "hobbit") {
 			$data = array(
@@ -48,9 +50,10 @@ class Bral_Util_Evenement {
 	
 	public static function majEvenementsFromVieMonstre($idHobbitConcerne, $idMonstreConcerne, $idTypeEvenement, $details, $detailsBot, $niveau, $view) {
 		Zend_Loader::loadClass('Evenement');
+		Zend_loader::loadClass("Bral_Util_Lien");
 		$evenementTable = new Evenement();
 		
-		$detailsTransforme = Bral_Util_Evenement::remplaceBaliseParNomEtJs($details);
+		$detailsTransforme = Bral_Util_Lien::remplaceBaliseParNomEtJs($details);
 		
 		$data = array(
 			'id_fk_hobbit_evenement' => $idHobbitConcerne,
@@ -82,46 +85,5 @@ class Bral_Util_Evenement {
 		} else {
 			throw new Zend_Exception('Bral_Util_Evenement::envoiMail id Hobbit inconnu:'.$idHobbitConcerne);
 		}
-	}
-	
-	public static function remplaceBaliseParNomEtJs($texteOriginal, $avecJs = true) {
-		Zend_Loader::loadClass("Monstre");
-		Zend_Loader::loadClass("Lieu");
-		
-		// Monstre
-		$texte = preg_replace_callback("/\[m(.*?)]/si", 
-		create_function(
-			'$matches', '
-			$m = new Monstre();
-			$nom = "<label class=\'alabel\' onclick=\"javascript:ouvrirWin(\'/voir/monstre/?monstre=".$matches[1]."\');\">";
-			$nom .= $m->findNomById($matches[1]);
-			$nom .= "</label>";
-			return $nom;'
-		)
-		, $texteOriginal);
-		
-		// Hobbit
-		$texte = preg_replace_callback("/\[h(.*?)]/si", 
-		create_function(
-			'$matches', '
-			$h = new Hobbit();
-			$nom = "<label class=\'alabel\' onclick=\"javascript:ouvrirWin(\'/voir/hobbit/?hobbit=".$matches[1]."\');\">";
-			$nom .= $h->findNomById($matches[1]);
-			$nom .= "</label>";
-			return $nom;'
-		)
-		, $texte);
-		
-		// Lieu
-		$texte = preg_replace_callback("/\[l(.*?)]/si", 
-		create_function(
-			'$matches', '
-			$l = new Lieu();
-			$nom = $l->findNomById($matches[1]);
-			return $nom;'
-		)
-		, $texte);
-		
-		return $texte;
 	}
 }

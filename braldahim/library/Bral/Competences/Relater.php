@@ -16,6 +16,7 @@ class Bral_Competences_Relater extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Lieu");
+		Zend_Loader::loadClass("Bral_Util_Lien");
 		
 		$this->texte = null;
 		$this->texte_original = null;
@@ -33,7 +34,7 @@ class Bral_Competences_Relater extends Bral_Competences_Competence {
 		$this->view->texte_original = $this->texte_original;
 		$this->view->texte_transforme = "[h".$this->view->user->id_hobbit."] a dit : \"".$this->texte_original."\"";
 		
-		$this->view->texte = Bral_Util_Evenement::remplaceBaliseParNomEtJs($this->view->texte_transforme, false);
+		$this->view->texte = Bral_Util_Lien::remplaceBaliseParNomEtJs($this->view->texte_transforme, false);
 	}
 
 	function prepareFormulaire() {

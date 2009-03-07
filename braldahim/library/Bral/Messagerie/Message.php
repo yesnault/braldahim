@@ -15,6 +15,7 @@ class Bral_Messagerie_Message {
 	function __construct($request, $view, $action) {
 		Zend_Loader::loadClass('Bral_Util_Messagerie');
 		Zend_Loader::loadClass('Bral_Util_Mail');
+		Zend_Loader::loadClass('Bral_Util_Lien');
 		
 		$this->view = $view;
 		$this->request = $request;
@@ -294,13 +295,13 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 			$destinataires = "";
 			if ($tabHobbits != null) {
 				if (array_key_exists($message["fromid"], $tabHobbits)) {
-					$expediteur = $tabHobbits[$message["fromid"]]["prenom_hobbit"] . " ". $tabHobbits[$message["fromid"]]["nom_hobbit"]. " (".$tabHobbits[$message["fromid"]]["id_hobbit"].")";
+					$expediteur = Bral_Util_Lien::getJsHobbit($tabHobbits[$message["fromid"]]["id_hobbit"], $tabHobbits[$message["fromid"]]["prenom_hobbit"] . " ". $tabHobbits[$message["fromid"]]["nom_hobbit"]. " (".$tabHobbits[$message["fromid"]]["id_hobbit"].")");
 				} else {
 					$expediteur = " Erreur ".$message["fromid"];
 				}
 				
 				if (array_key_exists($message["toid"], $tabHobbits)) {
-					$destinataire = $tabHobbits[$message["toid"]]["prenom_hobbit"] . " ". $tabHobbits[$message["toid"]]["nom_hobbit"]. " (".$tabHobbits[$message["toid"]]["id_hobbit"].")";
+					$destinataire = Bral_Util_Lien::getJsHobbit($tabHobbits[$message["toid"]]["id_hobbit"], $tabHobbits[$message["toid"]]["prenom_hobbit"] . " ". $tabHobbits[$message["toid"]]["nom_hobbit"]. " (".$tabHobbits[$message["toid"]]["id_hobbit"].")");
 				} else {
 					$destinataire = " Erreur Hobbit n°".$message["toid"];
 				}
@@ -308,7 +309,8 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 				$tabDestinataires = split(',', $message["toids"]);
 				foreach ($tabDestinataires as $k=>$d) {
 					if (array_key_exists($d, $tabHobbits)) {
-						$destinataires .= $tabHobbits[$d]["prenom_hobbit"] . " ". $tabHobbits[$d]["nom_hobbit"]. " (".$tabHobbits[$d]["id_hobbit"]."), ";
+						$destinataires .= Bral_Util_Lien::getJsHobbit($tabHobbits[$d]["id_hobbit"], $tabHobbits[$d]["prenom_hobbit"] . " ". $tabHobbits[$d]["nom_hobbit"]. " (".$tabHobbits[$d]["id_hobbit"].")");
+						$destinataires .= ", ";
 					} else {
 						$destinataires .= " Erreur Hobbit n°:".$d." ";
 					}

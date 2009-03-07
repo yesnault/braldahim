@@ -25,6 +25,7 @@ class Bral_Util_Messagerie {
 	}
 	
 	public static function constructTabHobbit($tabDestinataires, $valeur = "valeur_2", $sansIdHobbit = -1) {
+		Zend_Loader::loadClass("Bral_Util_Lien");
 		$hobbitTable = new Hobbit();
 		$idDestinatairesTab = split(',', $tabDestinataires);
 		
@@ -47,7 +48,8 @@ class Bral_Util_Messagerie {
 					$destinataires = $destinataires.",".$h["id_hobbit"];
 				}
 				$aff_js_destinataires .= '<span id="m_'.$valeur.'_'.$h["id_hobbit"].'">';
-				$aff_js_destinataires .= $h["prenom_hobbit"].' '.$h["nom_hobbit"].' ('.$h["id_hobbit"].')  <img src="/public/images/supprimer.gif" ';
+				$aff_js_destinataires .= Bral_Util_Lien::getJsHobbit($h["id_hobbit"], $h["prenom_hobbit"].' '.$h["nom_hobbit"].' ('.$h["id_hobbit"].')');
+				$aff_js_destinataires .= ' <img src="/public/images/supprimer.gif" ';
 				$aff_js_destinataires .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'_dest\',\'m_'.$valeur.'_'.$h["id_hobbit"].'\', \''.$valeur.'_dest\', \''.$h["id_hobbit"].'\')" />';
 				$aff_js_destinataires .= '</span>';
 				
@@ -96,7 +98,6 @@ class Bral_Util_Messagerie {
 				$aff_js_contacts .= $c["name"]. ' <img src="/public/images/supprimer.gif" ';
 				$aff_js_contacts .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'\',\'m_'.$valeur.'_'.$c["id"].'\', \''.$valeur.'\', '.$c["id"].')" />';
 				$aff_js_contacts .= '</span>';
-				
 			}
 			
 			if ($userIds != "") {

@@ -23,6 +23,7 @@ class Bral_Helper_Messagerie {
 			$nom = $h['prenom_hobbit']. " ". $h['nom_hobbit'];
 			$js .= "makeJsListeAvecSupprimer('valeur_2_dest', ";
 			$js .= "'".addslashes($nom)."', ";
+			$js .= "'".$h["id_hobbit"]."', ";
 			$js .= "'".$h["id_hobbit"]."');";
 		}
 		

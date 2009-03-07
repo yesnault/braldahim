@@ -50,7 +50,7 @@ function getAdminHobbitId(text, li) {
 
 function getSelectionId(text, li) {
 	if (controleSession(li) == true) {
-		makeJsListeAvecSupprimer(li.getAttribute('champ'), li.getAttribute('valeur'), li.getAttribute('id_hobbit'));
+		makeJsListeAvecSupprimer(li.getAttribute('champ'), li.getAttribute('valeur'), li.getAttribute('id_hobbit'), li.getAttribute('id_hobbit'));
 		$('recherche_' + li.getAttribute('champ')).value = '';
 	}
 }
@@ -78,7 +78,7 @@ function makeJsListeAvecSupprimer(champ, valeur, idJos, idHobbit) {
 	
 	var texte = valeur;
 	if (idHobbit != null) {
-		texte = texte + ' (' + idHobbit + ') ';
+		texte = '<label class="alabel" onclick="javascript:ouvrirWin(\'/voir/hobbit/?hobbit='+idHobbit+'\');">' + texte + (' + idHobbit + ')</label> ';
 	}
 	texte = texte + ' <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'' + 'aff_' + champ + '\'';
 	texte = texte + ',\'' + contenu.name + '\', \'' + champ + '\', ' + idJos + ')" />';
