@@ -68,9 +68,8 @@ class Bral_Util_Registre {
 	}
 	
 	private static function chargementNomTour() {
-		$tab[1] = "Latence";
-		$tab[2] = "Milieu";
-		$tab[3] = "Cumul";
+		$tab[1] = "Sommeil";
+		$tab[2] = "Activité";
 		Zend_Registry::set('nomsTour', $tab);
 	}
 	

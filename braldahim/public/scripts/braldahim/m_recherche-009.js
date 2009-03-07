@@ -78,7 +78,7 @@ function makeJsListeAvecSupprimer(champ, valeur, idJos, idHobbit) {
 	
 	var texte = valeur;
 	if (idHobbit != null) {
-		texte = '<label class="alabel" onclick="javascript:ouvrirWin(\'/voir/hobbit/?hobbit='+idHobbit+'\');">' + texte + (' + idHobbit + ')</label> ';
+		texte = '<label class="alabel" onclick="javascript:ouvrirWin(\'/voir/hobbit/?hobbit='+idHobbit+'\');">' + texte + '(' + idHobbit + ')</label> ';
 	}
 	texte = texte + ' <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'' + 'aff_' + champ + '\'';
 	texte = texte + ',\'' + contenu.name + '\', \'' + champ + '\', ' + idJos + ')" />';

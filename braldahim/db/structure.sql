@@ -927,7 +927,6 @@ CREATE TABLE `hobbit` (
   `date_debut_tour_hobbit` datetime NOT NULL,
   `date_fin_tour_hobbit` datetime NOT NULL,
   `date_fin_latence_hobbit` datetime NOT NULL,
-  `date_debut_cumul_hobbit` datetime NOT NULL,
   `duree_prochain_tour_hobbit` time NOT NULL,
   `duree_courant_tour_hobbit` time NOT NULL,
   `tour_position_hobbit` int(11) NOT NULL,

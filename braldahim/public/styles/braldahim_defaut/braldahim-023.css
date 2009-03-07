@@ -645,7 +645,7 @@ span.id_hobbit {
 	border-color: #6f5f6f;
 }
 
-.barre_tour_latence,.barre_tour_milieu,.barre_tour_cumul {
+.barre_tour_latence,.barre_tour_activite {
 	background-color: #FFFFFF;
 	height: 10px;
 	text-align: left;
@@ -659,14 +659,9 @@ span.id_hobbit {
 	width:66px;
 }
 
-.barre_tour_milieu {
-	width: 34px;
+.barre_tour_activite {
+	width: 134px;
 }
-
-.barre_tour_cumul {
-	width: 100px;
-}
-
 
 .ligne_espace {
 	padding: 2px 0pt;
