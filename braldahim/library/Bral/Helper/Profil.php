@@ -189,6 +189,10 @@ class Bral_Helper_Profil {
      		$width_activite = ($pourcent * 66 / 100) * 2; // activité : 66 % du total , x2 pour la taille css
      		$pourcent_activite = substr($pourcent, 0, 5);
      		$pourcent_latence = 100;
+     		
+	     	if ($width_activite > 134) {
+				$width_activite = 134;
+			}
      	}
      	
      	$section_latence = "Section survolée : période de <u>sommeil</u>, termin&eacute;e &agrave; <u>".$pourcent_latence."</u> %<br><br>";
