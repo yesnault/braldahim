@@ -38,6 +38,19 @@ abstract class Bral_Batchs_Batch {
 	 	} catch (Zend_Exception $e) {
 	 		$this->postCalcul($batchTable, $idBatch, self::ETAT_KO, $e->getMessage());
 	 		Bral_Util_Log::batchs()->err("Bral_Batchs_Batch - calculBatch - Erreur -");
+	 		
+		 	$config = Zend_Registry::get('config');
+			if ($config->general->mail->exception->use == '1') {
+				Zend_Loader::loadClass("Bral_Util_Mail");
+				$mail = Bral_Util_Mail::getNewZendMail();
+				
+				$mail->setFrom($config->general->mail->exception->from, $config->general->mail->exception->nom);
+				$mail->addTo($config->general->mail->exception->from, $config->general->mail->exception->nom);
+				$mail->setSubject("[Braldahim-Batch] Exception rencontrée");
+				$mail->setBodyText("--------> ".date("Y-m-d H:m:s"). ' IdBatch:'.$idBatch.PHP_EOL.$e->getMessage(). PHP_EOL);
+				$mail->send();
+			}
+			
 	 		return false;
 	 	}
 	 	
