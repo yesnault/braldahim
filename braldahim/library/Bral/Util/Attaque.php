@@ -480,7 +480,7 @@ Consultez vos événements pour plus de détails.";
 			$id_type = $config->game->evenements->type->killmonstre;
 			$details = "[h".$hobbitAttaquant->id_hobbit."] a tué le monstre [m".$cible["id_cible"]."]";
 			//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
-			Bral_Util_Evenement::majEvenements($cible["id_cible"], $config->game->evenements->type->ko, $details, "", $cible["niveau_cible"], "monstre");
+			Bral_Util_Evenement::majEvenements($cible["id_cible"], $config->game->evenements->type->killmonstre, $details, "", $cible["niveau_cible"], "monstre");
 		} else {
 			$id_type = $config->game->evenements->type->attaquer;
 			$details = " [h".$hobbitAttaquant->id_hobbit."] a attaqué le monstre [m".$cible["id_cible"]."]";
