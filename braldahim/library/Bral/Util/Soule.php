@@ -13,7 +13,7 @@
 class Bral_Util_Soule {
 
 	public static function calculFinMatch(&$hobbit) {
-		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatch - enter -");
+		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatch - enter idHobbit(".$hobbit->id_hobbit.")");
 		$retourFinMatch = false;
 
 		Zend_Loader::loadClass("SouleMatch");
@@ -33,7 +33,7 @@ class Bral_Util_Soule {
 			Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatch - Le joueur (".$hobbit->id_hobbit.") n'a pas le ballon");
 		}
 			
-		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatch - exit (".$retour.") -");
+		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatch - exit (".$retourFinMatch.") -");
 		return $retourFinMatch;
 	}
 
