@@ -96,6 +96,7 @@ abstract class Bral_Soule_Soule {
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 		$hobbit = $hobbitRowset->current();
 		
+		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
 		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
 		
 		if ($this->view->user->balance_faim_hobbit < 0) {
@@ -103,6 +104,7 @@ abstract class Bral_Soule_Soule {
 		}
 		
 		$data = array(
+			'pa_hobbit' => $this->view->user->pa_hobbit,
 			'castars_hobbit' => $this->view->user->castars_hobbit,
 			'poids_transporte_hobbit' => $this->view->user->poids_transporte_hobbit,
 		);

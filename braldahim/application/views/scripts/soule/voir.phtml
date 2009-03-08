@@ -6,8 +6,28 @@
 
 </ul>
 
+X Min:<?=$this->terrainCourant["x_min_zone"]?> X Max:<?=$this->terrainCourant["x_max_zone"]?><br>
+Y Min:<?=$this->terrainCourant["y_min_zone"]?> Y Max:<?=$this->terrainCourant["y_max_zone"]?>
+
 <br>
 Développement en cours.<br><br>
+
+<? if ($this->matchEnCours != null) : ?>
+	Il y a actuellement un match en cours sur ce terrain. <br>
+	<? if ($this->matchEnCours["x_ballon_soule_match"] != null && $this->matchEnCours["y_ballon_soule_match"]) :?>
+		Le ballon est actuellement libre et se trouve en x:<?=$this->matchEnCours["x_ballon_soule_match"]?>,
+		y:<?=$this->matchEnCours["y_ballon_soule_match"]?>
+	<? elseif ($this->matchEnCours["id_fk_joueur_ballon_soule_match"] != null && $this->porteur != null): ?>
+		Le ballon est actuellement port&eacute; par <?=Bral_Util_Lien::getJsHobbit($this->matchEnCours["id_fk_joueur_ballon_soule_match"], $this->porteur["prenom_hobbit"]." ".$this->porteur["nom_hobbit"]." (".$this->porteur["id_hobbit"].")")?>
+		qui est en x:<?=$this->porteur["x_hobbit"]?> y:<?=$this->porteur["y_hobbit"]?>
+	<? else: ?>
+	Erreur. Merci de le signaler sur le forum.
+	<? endif;?>
+<? else: ?>
+	Il n'y a actuellement aucun match en cours sur ce terrrain.
+<? endif;?>
+
+<br><br>
 
 <? if ($this->inscriptionPossible === true): ?>
 	<? if ($this->user->activation == true) :?>

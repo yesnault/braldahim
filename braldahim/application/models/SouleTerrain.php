@@ -15,8 +15,15 @@ class SouleTerrain extends Zend_Db_Table {
 	protected $_primary = 'id_soule_terrain';
 	
 	public function findByIdTerrain($idTerrain) {
-		$where = $this->getAdapter()->quoteInto('id_soule_terrain = ?',(int)$idTerrain);
-		return $this->fetchRow($where);
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('soule_terrain', '*');
+		$select->from('zone', '*');
+		$select->where('id_soule_terrain = ?', (int)$idTerrain);
+		$select->where('id_fk_zone_soule_terrain = id_zone');
+		$sql = $select->__toString();
+		$result = $db->fetchAll($sql);
+		return $result[0];
 	}
 	
 	public function findByNiveau($niveauTerrain) {

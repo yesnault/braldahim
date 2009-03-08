@@ -6,7 +6,7 @@
 <table class="table_liste" style="width:90%;">
 	
   <tr class="table_liste">
-	<th rowspan="11"><?=Bral_Helper_Image::afficherAvatar($this->hobbit["url_avatar_hobbit"]); ?></th>
+	<th rowspan="14"><?=Bral_Helper_Image::afficherAvatar($this->hobbit["url_avatar_hobbit"]); ?></th>
 	<th>Date de cr&eacute;ation</th>
 	<th>Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->hobbit["date_creation_hobbit"]); ?></th>
   </tr>
@@ -35,12 +35,20 @@
 	<td class="table_liste"><?=$this->hobbit["nb_ko_hobbit"] ?></td>
   </tr>
   <tr class="table_liste">
-	<th>Nombre de KO de Hobbit</th>
+	<th>Nombre de mise à KO de Hobbit</th>
 	<td class="table_liste"><?=$this->hobbit["nb_hobbit_ko_hobbit"] ?></td>
   </tr>
   <tr class="table_liste">
 	<th>Nombre de meurtres Monstre</th>
 	<td class="table_liste"><?=$this->hobbit["nb_monstre_kill_hobbit"] ?></td>
+  </tr>
+    <tr class="table_liste">
+	<th>Plaquages Soule : Cible</th>
+	<td class="table_liste"><?=$this->hobbit["nb_plaque_hobbit"] ?></td>
+  </tr>
+  <tr class="table_liste">
+	<th>Plaquages Soule : Effectués</th>
+	<td class="table_liste"><?=$this->hobbit["nb_hobbit_plaquage_hobbit"] ?></td>
   </tr>
   <tr class="table_liste">
 	<th>Titre<? if (count($this->tabTitres) > 0) :
