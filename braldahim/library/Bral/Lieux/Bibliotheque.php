@@ -129,7 +129,8 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_competences_communes", "box_evenements");
+		$tab = array("box_competences_communes", "box_laban");
+		return $this->constructListBoxRefresh($tab);
 	}
 
 	private function calculCoutCastars() {
