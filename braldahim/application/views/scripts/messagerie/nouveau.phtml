@@ -60,7 +60,7 @@
 	<?=Bral_Helper_BBBoutons::affiche('valeur_message', 2500)?>
 	
 	<span>Message</span><br>
-	<textarea name="valeur_message" id="valeur_message" class="inputbox" rows="10" cols="60" onkeydown="textCount($('valeur_message'),$('characterstyped'),2500);" onkeyup="textCount($('valeur_message'),$('characterstyped'),2500);"><?=$this->message["contenu"];?></textarea>
+	<textarea name="valeur_message" id="valeur_message" class="inputbox" rows="10" cols="60" onkeydown="textCount($('valeur_message'),$('characterstyped'),2500);" onkeyup="textCount($('valeur_message'),$('characterstyped'),2500);"><?=strip_tags($this->message["contenu"]);?></textarea>
 	
 	<br>
 	<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="2500" type="text"> Caract&egrave;res restants<br>
