@@ -345,6 +345,10 @@ abstract class Bral_Competences_Competence {
 			'titre_courant_hobbit' => $this->view->user->titre_courant_hobbit,
 			'est_engage_hobbit' => $this->view->user->est_engage_hobbit,
 			'est_engage_next_dla_hobbit' => $this->view->user->est_engage_next_dla_hobbit,
+			'nb_hobbit_plaquage_hobbit' => $this->view->user->nb_hobbit_plaquage_hobbit,
+			'nb_plaque_hobbit' => $this->view->user->nb_plaque_hobbit,
+			'est_soule_hobbit' => $this->view->user->est_soule_hobbit,
+			'soule_camp_hobbit' => $this->view->user->soule_camp_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		
@@ -489,18 +493,11 @@ abstract class Bral_Competences_Competence {
 	}
 	
 	protected function calculFinMatchSoule() {
+		
 		if ($this->view->user->est_soule_hobbit == "oui") {
-			Zend_Loader::loadClass("SouleMatch");
-			$souleMatchTable = new SouleMatch();
-			$matchsRowset = $souleMatchTable->findByIdHobbitBallon($this->view->user->id_hobbit);
-			if ($matchsRowset != null && count($matchsRowset) == 1) {
-				$match = $matchsRowset[0];
-				if (($this->view->user->soule_camp_hobbit == "a" && $this->view->user->y_hobbit == $match["y_min_soule_terrain"]) 
-				|| ($this->view->user->soule_camp_hobbit == "b" && $this->view->user->y_hobbit == $match["y_max_soule_terrain"])) {
-					
-					$this->view->finMatchSoule = true;
-				}
-			}
+			Zend_Loader::loadClass("Bral_Util_Soule");
+			$this->view->finMatchSoule = Bral_Util_Soule::calculFinMatch($this->view->user);
+			
 		}
 	}
 }

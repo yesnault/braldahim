@@ -98,8 +98,10 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 		$this->view->inscriptionPossible = false;
 		$this->view->inscriptionNonPossibleInfo = "";
 
-		if ($this->niveauTerrainHobbit != $this->view->terrainCourant["niveau_soule_terrain"]) {
-			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire sur ce terrain";
+		if ($this->matchEnCours != null) { // s'il un match en cours
+			$this->view->inscriptionNonPossibleInfo = "Il y a un match en cours sur ce terrain";
+		} else if ($this->niveauTerrainHobbit != $this->view->terrainCourant["niveau_soule_terrain"]) {
+			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire sur ce terrain qui n'est pas de votre niveau";
 		} else if ($this->view->user->est_engage_hobbit == "oui") {
 			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire, vous êtes engagé";
 		} else if ($this->matchEnCours == null) { // s'il n'y a pas de match en cours
@@ -107,10 +109,8 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 			$souleEquipeTable = new SouleEquipe();
 			$nombre = $souleEquipeTable->countNonDebuteByIdHobbit($this->view->user->id_hobbit);
 			if ($nombre == 0) { // si le joueur n'est pas déjà inscrit
-
 				// on regarde s'il n'y a pas plus de 80 joueurs
 				$nombreJoueurs = $souleEquipeTable->countNonDebuteByNiveauTerrain($this->niveauTerrainHobbit);
-
 				if ($nombreJoueurs < $this->view->config->game->soule->max->joueurs) {
 					$this->view->inscriptionPossible = true;
 				}
@@ -119,7 +119,7 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 			}
 		}
 	}
-	
+
 	private function prepareMatch() {
 		$porteur = null;
 		if ($this->matchEnCours != null && $this->matchEnCours["id_fk_joueur_ballon_soule_match"] != null) {
@@ -130,7 +130,7 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 				$porteur = $hobbit->toArray();
 			}
 		}
-		
+
 		$this->view->porteur = $porteur;
 		$this->view->matchEnCours = $this->matchEnCours;
 	}

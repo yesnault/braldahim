@@ -25,6 +25,7 @@ class Bral_Util_Log {
     private static $exception = null;
     private static $inscription = null;
     private static $potion = null;
+    private static $soule = null;
     private static $tech = null;
     private static $tour = null;
     private static $viemonstres = null;
@@ -78,6 +79,13 @@ class Bral_Util_Log {
         return self::$potion;
     }
 
+    public static function soule() {
+        if (self::$soule == null) {
+            self::initLogSoule();
+        }
+        return self::$tech;
+    }
+    
     public static function tech() {
         if (self::$tech == null) {
             self::initLogTech();
@@ -242,6 +250,24 @@ class Bral_Util_Log {
         }
     }
 
+    private static function initLogSoule() {
+        if (self::$instance == null) {
+            $instance = self::getInstance();
+        }
+        self::$config = Zend_Registry::get('config');
+        self::$tech = new Zend_Log();
+        $redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->soule);
+        self::$tech->addWriter($redacteur);
+        $filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->soule);
+        self::$tech->addFilter($filtre);
+        self::$tech->addPriority('TRACE', 8);
+
+        if (self::$config->log->general->debug_browser == "oui") {
+            $redacteur = new Zend_Log_Writer_Stream('php://output');
+            self::$tech->addWriter($redacteur);
+        }
+    }
+    
     private static function initLogTech() {
         if (self::$instance == null) {
             $instance = self::getInstance();
@@ -259,7 +285,6 @@ class Bral_Util_Log {
             self::$tech->addWriter($redacteur);
         }
     }
-
 
     private static function initLogTour() {
         if (self::$instance == null) {

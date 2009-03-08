@@ -152,14 +152,15 @@ class Bral_Util_Attaque {
 				$hobbitCible->pv_restant_hobbit = $pvTotalAvecDegat;
 			}
 			if ($hobbitCible->pv_restant_hobbit <= 0) {
-				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - KO du hobbit !");
 				$hobbitCible->pv_restant_hobbit = 0;
 				
 				if ($hobbitAttaquant->est_soule_hobbit == "non") {
+					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - KO du hobbit !");
 					$hobbitCible->est_ko_hobbit = "oui";
 					$hobbitCible->nb_ko_hobbit = $hobbitCible->nb_ko_hobbit + 1;
 					$hobbitAttaquant->nb_hobbit_ko_hobbit = $hobbitAttaquant->nb_hobbit_ko_hobbit + 1;
 				} else {
+					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Plaquage du hobbit !");
 					$hobbitCible->est_ko_hobbit = "oui";
 					$hobbitCible->nb_plaque_hobbit = $hobbitCible->nb_plaque_hobbit + 1;
 					$hobbitAttaquant->nb_hobbit_plaquage_hobbit = $hobbitAttaquant->nb_hobbit_plaquage_hobbit + 1;
@@ -215,17 +216,19 @@ class Bral_Util_Attaque {
 				'vue_malus_hobbit' => $hobbitCible->vue_malus_hobbit,
 				'agilite_bm_hobbit' => $hobbitCible->agilite_bm_hobbit,
 				'agilite_malus_hobbit' => $hobbitCible->agilite_malus_hobbit,
+				'nb_plaque_hobbit' => $hobbitCible->nb_plaque_hobbit,
 			);
 			$where = "id_hobbit=".$hobbitCible->id_hobbit;
 			$hobbitTable = new Hobbit();
 			$hobbitTable->update($data, $where);
 				
 			if ($hobbitAttaquant->est_soule_hobbit == "non") {
-				$id_type = $config->game->evenements->type->attaquer;
 				$details = "[h".$hobbitAttaquant->id_hobbit."]";
 				if ($retourAttaque["mort"] == true) {
+					$id_type = $config->game->evenements->type->ko;
 					$details .=" a mis KO ";
 				} else {
+					$id_type = $config->game->evenements->type->attaquer;
 					$details .=" a attaqué ";
 				}
 			} else { // soule
@@ -249,7 +252,6 @@ class Bral_Util_Attaque {
 				Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot, $cible["niveau_cible"], "hobbit", true, $view);
 				//				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);  // fait dans competence.php avec le détail du résulat
 			} else {
-				$id_type = $config->game->evenements->type->ko;
 				Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot, $cible["niveau_cible"], "hobbit", true, $view);
 				$id_type = $config->game->evenements->type->kohobbit;
 				//				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);

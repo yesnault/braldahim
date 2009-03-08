@@ -69,7 +69,7 @@ class Bral_Competences_Ramasserballon extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_soule"));
+		return $this->constructListBoxRefresh(array("box_soule", "box_vue"));
 	}
 
 }
