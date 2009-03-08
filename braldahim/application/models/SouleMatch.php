@@ -41,9 +41,7 @@ class SouleMatch extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('soule_match', '*');
 		$select->from('soule_terrain', '*');
-		$select->from('zone', '*');
 		$select->where('id_fk_terrain_soule_match = id_soule_terrain');
-		$select->where('id_fk_zone_soule_terrain = id_zone');
 		$select->where('date_debut_soule_match is null and date_fin_soule_match is null');
 		$sql = $select->__toString();
 		$result = $db->fetchAll($sql);
@@ -80,6 +78,8 @@ class SouleMatch extends Zend_Db_Table {
 		$select = $db->select();
 
 		$select->from('soule_match', '*');
+		$select->from('soule_terrain', '*');
+		$select->where('id_fk_terrain_soule_match = id_soule_terrain');
 		$select->where('id_fk_joueur_ballon_soule_match = ?', (int)$idHobbit);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

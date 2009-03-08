@@ -178,6 +178,7 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 		
 		$this->calculPx();
 		$this->calculBalanceFaim();
+		$this->calculFinMatchSoule();
 		$this->majHobbit();
 	}
 	

@@ -145,7 +145,8 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 	}
 
 	public function calculNbPa() {
-		if ($this->view->user->pa_hobbit - 1 < 0) {
+		$this->view->nb_pa = 1;
+		if ($this->view->user->pa_hobbit - $this->view->nb_pa < 0) {
 			$this->view->assezDePa = false;
 		} else {
 			$this->view->assezDePa = true;
@@ -153,7 +154,8 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 	}
 
 	public function calculNbCastars() {
-		if ($this->view->user->castars_hobbit - 20 < 0) {
+		$this->view->nb_castars = 20;
+		if ($this->view->user->castars_hobbit - $this->view->nb_castars < 0) {
 			$this->view->assezDeCastars = false;
 		} else {
 			$this->view->assezDeCastars = true;
@@ -169,8 +171,8 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 		}
 
 		if ($match == null) { // si le match n'est pas initialisé, on le créé
-			$xBallon = floor($this->view->terrainCourant["x_min_zone"] + ($this->view->terrainCourant["x_max_zone"] - $this->view->terrainCourant["x_min_zone"]) / 2);
-			$yBallon = floor($this->view->terrainCourant["y_min_zone"] + ($this->view->terrainCourant["y_max_zone"] - $this->view->terrainCourant["y_min_zone"]) / 2);
+			$xBallon = floor($this->view->terrainCourant["x_min_soule_terrain"] + ($this->view->terrainCourant["x_max_soule_terrain"] - $this->view->terrainCourant["x_min_soule_terrain"]) / 2);
+			$yBallon = floor($this->view->terrainCourant["y_min_soule_terrain"] + ($this->view->terrainCourant["y_max_soule_terrain"] - $this->view->terrainCourant["y_min_soule_terrain"]) / 2);
 
 			$data = array(
 				"id_fk_terrain_soule_match" => $this->view->terrainCourant["id_soule_terrain"],
@@ -208,6 +210,11 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 			"retour_xy_soule_equipe" => $retourXY,
 		);
 		$souleEquipeTable->insert($data);
+		
+		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->nb_castars;
+		if ($this->view->user->castars_hobbit < 0) {
+			$this->view->user->castars_hobbit = 0;
+		}
 
 		$details = "[h".$this->view->user->id_hobbit."] a pris un ticket pour aller jouer un match sur le ".$this->view->terrainCourant["nom_soule_terrain"];
 		$idType = $this->view->config->game->evenements->type->soule;

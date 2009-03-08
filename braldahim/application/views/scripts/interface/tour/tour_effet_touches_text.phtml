@@ -27,7 +27,13 @@
 			<? endforeach; ?>
 		<? endif; ?>
 		<? if (isset($this->ciblesEffet["hobbitMorts"]) && $this->ciblesEffet["hobbitMorts"] != null) : ?>
-			Vous avez mis KO : <br />
+			Vous avez 
+			<? if ($this->user->est_soule_hobbit == "oui") :?>
+				plaqu&eacute; : 
+			<? else: ?>
+				mis KO :
+			<? endif;?>
+			<br />
 			<? foreach($this->ciblesEffet["hobbitMorts"] as $val) : 
 				$h = $val["hobbit"];?>
 				<?=htmlspecialchars($h["prenom_hobbit"])?>  <?=htmlspecialchars($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>)<br />

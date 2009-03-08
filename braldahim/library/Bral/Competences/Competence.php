@@ -46,6 +46,8 @@ abstract class Bral_Competences_Competence {
 		$this->view->effetMotL = false;
 		$this->view->effetMotQ = false;
 		
+		$this->view->finMatchSoule = false;
+		
 		// recuperation de hobbit competence
 		$this->hobbit_competence = $hobbitCompetence;
 		
@@ -486,4 +488,19 @@ abstract class Bral_Competences_Competence {
 		return $retour;
 	}
 	
+	protected function calculFinMatchSoule() {
+		if ($this->view->user->est_soule_hobbit == "oui") {
+			Zend_Loader::loadClass("SouleMatch");
+			$souleMatchTable = new SouleMatch();
+			$matchsRowset = $souleMatchTable->findByIdHobbitBallon($this->view->user->id_hobbit);
+			if ($matchsRowset != null && count($matchsRowset) == 1) {
+				$match = $matchsRowset[0];
+				if (($this->view->user->soule_camp_hobbit == "a" && $this->view->user->y_hobbit == $match["y_min_soule_terrain"]) 
+				|| ($this->view->user->soule_camp_hobbit == "b" && $this->view->user->y_hobbit == $match["y_max_soule_terrain"])) {
+					
+					$this->view->finMatchSoule = true;
+				}
+			}
+		}
+	}
 }

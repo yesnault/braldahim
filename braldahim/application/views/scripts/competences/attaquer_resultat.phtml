@@ -20,7 +20,9 @@
 	 <br />
  	<? if ($this->retourAttaque["mort"] === true): ?>
  		Vous avez 
- 		<? if ($this->retourAttaque["cible"]["type_cible"] == "hobbit") :?>
+ 		<? if ($this->retourAttaque["cible"]["type_cible"] == "hobbit" && $this->user->est_soule_hobbit == "oui") :?>
+ 			plaqu&eacute;
+ 		<? elseif ($this->retourAttaque["cible"]["type_cible"] == "hobbit" && $this->user->est_soule_hobbit == "non") :?>
  			mis KO
  		<? else: ?>	
  			tu&eacute; 

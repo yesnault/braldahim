@@ -55,3 +55,8 @@
 			<?=$this->escape($this->user->prenom_hobbit);?>  <?=$this->escape($this->user->nom_hobbit);?>, <?=$this->user->titre_courant_hobbit?><br><br>
 		<? endif;?>
 	<? endif; ?>
+	
+	<? if ($this->finMatchSoule === true): ?>
+		F&eacute;licitations, vous avez apporté le ballon dans le camp adverse !<br>
+		Consultez l'onglet Soule pour les informations sur les gains.
+	<? endif;?>

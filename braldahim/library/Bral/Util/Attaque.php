@@ -154,9 +154,29 @@ class Bral_Util_Attaque {
 			if ($hobbitCible->pv_restant_hobbit <= 0) {
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - KO du hobbit !");
 				$hobbitCible->pv_restant_hobbit = 0;
-				$hobbitCible->est_ko_hobbit = "oui";
-				$hobbitCible->nb_ko_hobbit = $hobbitCible->nb_ko_hobbit + 1;
-				$hobbitAttaquant->nb_hobbit_ko_hobbit = $hobbitAttaquant->nb_hobbit_ko_hobbit + 1;
+				
+				if ($hobbitAttaquant->est_soule_hobbit == "non") {
+					$hobbitCible->est_ko_hobbit = "oui";
+					$hobbitCible->nb_ko_hobbit = $hobbitCible->nb_ko_hobbit + 1;
+					$hobbitAttaquant->nb_hobbit_ko_hobbit = $hobbitAttaquant->nb_hobbit_ko_hobbit + 1;
+				} else {
+					$hobbitCible->est_ko_hobbit = "oui";
+					$hobbitCible->nb_plaque_hobbit = $hobbitCible->nb_plaque_hobbit + 1;
+					$hobbitAttaquant->nb_hobbit_plaquage_hobbit = $hobbitAttaquant->nb_hobbit_plaquage_hobbit + 1;
+					Zend_Loader::loadClass("SouleMatch");
+					$souleMatchTable = new SouleMatch();
+					$match = $souleMatchTable->findByIdHobbitBallon($hobbitCible->id_hobbit);
+					if ($match != null) {
+						$data = array(
+							"x_ballon_soule_match" => $hobbitCible->x_hobbit,
+							"y_ballon_soule_match" => $hobbitCible->y_hobbit,
+							"id_fk_joueur_ballon_soule_match" => null,
+						);
+						$where = "id_soule_match = ".$match[0]["id_soule_match"];
+						$souleMatchTable->update($data, $where);
+					}
+				}
+				
 				$hobbitCible->date_fin_tour_hobbit = date("Y-m-d H:i:s");
 
 				$effetH = Bral_Util_Commun::getEffetMotH($hobbitAttaquant->id_hobbit);
@@ -200,12 +220,22 @@ class Bral_Util_Attaque {
 			$hobbitTable = new Hobbit();
 			$hobbitTable->update($data, $where);
 				
-			$id_type = $config->game->evenements->type->attaquer;
-			$details = "[h".$hobbitAttaquant->id_hobbit."]";
-			if ($retourAttaque["mort"] == true) {
-				$details .=" a mis KO ";
-			} else {
-				$details .=" a attaqué ";
+			if ($hobbitAttaquant->est_soule_hobbit == "non") {
+				$id_type = $config->game->evenements->type->attaquer;
+				$details = "[h".$hobbitAttaquant->id_hobbit."]";
+				if ($retourAttaque["mort"] == true) {
+					$details .=" a mis KO ";
+				} else {
+					$details .=" a attaqué ";
+				}
+			} else { // soule
+				$id_type = $config->game->evenements->type->soule;
+				$details = "[h".$hobbitAttaquant->id_hobbit."]";
+				if ($retourAttaque["mort"] == true) {
+					$details .=" a plaqué ";
+				} else {
+					$details .=" a attaqué ";
+				}
 			}
 				
 			$details .= " le hobbit [h".$cible["id_cible"]."]";
@@ -235,10 +265,30 @@ class Bral_Util_Attaque {
 			$hobbitTable->update($data, $where);
 			$retourAttaque["mort"] = false;
 			$retourAttaque["fragilisee"] = true;
+			
+			$ballonLache = "";
+			if ($hobbitAttaquant->est_soule_hobbit == "non") {
+				$id_type = $config->game->evenements->type->attaquer;
+			} else { // soule
+				$id_type = $config->game->evenements->type->soule;
 				
-			$id_type = $config->game->evenements->type->attaquer;
+				Zend_Loader::loadClass("SouleMatch");
+				$souleMatchTable = new SouleMatch();
+				$match = $souleMatchTable->findByIdHobbitBallon($hobbitCible->id_hobbit);
+				if ($match != null && Bral_Util_De::get_1d6() == 1) {
+					$data = array(
+						"x_ballon_soule_match" => $hobbitCible->x_hobbit,
+						"y_ballon_soule_match" => $hobbitCible->y_hobbit,
+						"id_fk_joueur_ballon_soule_match" => null,
+					);
+					$where = "id_soule_match = ".$match[0]["id_soule_match"];
+					$souleMatchTable->update($data, $where);
+					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Match(".$match[0]["id_soule_match"].") Le ballon est lache en x:".$hobbitCible->x_hobbit." y:".$hobbitCible->y_hobbit."!"); 
+					$ballonLache = " en lâchant le ballon !";
+				}
+			}
 			$details = "[h".$hobbitAttaquant->id_hobbit."] a attaqué le hobbit [h".$cible["id_cible"]."]";
-			$details .= " qui a esquivé l'attaque";
+			$details .= " qui a esquivé l'attaque".$ballonLache;
 			$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, "hobbit", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
 			if ($effetMotSPossible == false) {
 				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit); // uniquement en cas de riposte
@@ -247,7 +297,11 @@ class Bral_Util_Attaque {
 			//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
 				
 		} else { // esquive parfaite
-			$id_type = $config->game->evenements->type->attaquer;
+			if ($hobbitAttaquant->est_soule_hobbit == "non") {
+				$id_type = $config->game->evenements->type->attaquer;
+			} else {
+				$id_type = $config->game->evenements->type->soule;
+			}
 			$details = "[h".$hobbitAttaquant->id_hobbit."] a attaqué le hobbit [h".$cible["id_cible"]."]";
 			$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, "hobbit", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
 			$details .= " qui a esquivé parfaitement l'attaque";

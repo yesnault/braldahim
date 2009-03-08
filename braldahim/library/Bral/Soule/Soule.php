@@ -91,7 +91,7 @@ abstract class Bral_Soule_Soule {
 		}
 	}
 	
-	private function majHobbit() {
+	protected function majHobbit() {
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 		$hobbit = $hobbitRowset->current();

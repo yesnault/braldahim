@@ -37,8 +37,8 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 
 		$souleEquipe = new SouleEquipe();
 
-		$nbJoueursEquipeMin = floor($this->view->config->game->soule->max->joueurs / 2);
-		$nbJoueursEquipeMinQuota = floor($this->view->config->game->soule->min->joueurs / 2);
+		$nbJoueursEquipeMin = floor($this->config->game->soule->max->joueurs / 2);
+		$nbJoueursEquipeMinQuota = floor($this->config->game->soule->min->joueurs / 2);
 
 		if ($matchs != null) {
 			foreach($matchs as $m) { // pour tous les matchs non débutés
@@ -49,7 +49,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 					$retour .= $this->calculCreationMath($m);
 				} elseif ($equipes != null && count($equipes) == 2
 				&& $equipes[0]["nombre"] >= $nbJoueursEquipeMinQuota && $equipes[1]["nombre"] >= $nbJoueursEquipeMinQuota) {
-					$retour .= $this->updateJoursQuotaMinMath($m);
+					$retour .= $this->updateJoursQuotaMinMatch($m);
 				} else {
 					if (count($equipes) == 2) {
 						$retour .= " match(".$m["id_soule_match"].") e1:".$equipes[0]["nombre"]." e2:".$equipes[1]["nombre"];
@@ -71,8 +71,8 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		return $retour;
 	}
 
-	private function updateJoursQuotaMinMath($match) {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateQuotaMinMath - enter -");
+	private function updateJoursQuotaMinMatch($match) {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateJoursQuotaMinMatch - enter -");
 		$retour = " updateQuota match(".$match["id_soule_match"].")";
 
 		$souleMatchTable = new SouleMatch();
@@ -82,7 +82,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		$where = "id_soule_match = ".(int)$match["id_soule_match"];
 		$souleMatchTable->update($data, $where);
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateQuotaMinMath - enter -");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateJoursQuotaMinMatch - enter -");
 		return $retour;
 	}
 
@@ -153,17 +153,17 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 
 		$hobbitTable = new Hobbit();
 
-		$ecartY = $match["y_max_zone"] - $match["y_min_zone"];
-		if ($ecartY <= 2) {
-			throw new Zend_Exception("Bral_Batchs_Soule - calculCreationMath ecartY invalide(".$ecartY.") match(".$match["id_soule_match"].") ymax".$match["y_max_zone"]. " ymin:".$match["y_min_zone"]);
+		$ecartX = $match["x_max_soule_terrain"] - $match["x_min_soule_terrain"];
+		if ($ecartX <= 2) {
+			throw new Zend_Exception("Bral_Batchs_Soule - calculCreationMath ecartX invalide(".$ecartX.") match(".$match["id_soule_match"].") xmax".$match["x_max_soule_terrain"]. " xmin:".$match["x_min_soule_terrain"]);
 		}
 
 		if ($joueur["camp_soule_equipe"] == "a") {
-			$x = $match["x_min_zone"] + 1;
-			$y = $match["y_min_zone"] + Bral_Util_De::get_de_specifique(1, $ecartY-2);	// -2 pour les palissades
-		} else { // b
-			$x = $match["x_max_zone"] - 1;
-			$y = $match["y_min_zone"] + Bral_Util_De::get_de_specifique(1, $ecartY-2);	// -2 pour les palissades
+			$x = $match["x_min_soule_terrain"] + Bral_Util_De::get_de_specifique(0, $ecartX);
+			$y = $match["y_max_soule_terrain"]; // en haut du terrain
+		} else { // b, en bas
+			$x = $match["x_min_soule_terrain"] + Bral_Util_De::get_de_specifique(0, $ecartX);
+			$y = $match["y_min_soule_terrain"]; // en bas du terrain
 		}
 
 		$data = array(

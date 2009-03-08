@@ -72,6 +72,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		$this->setEvenementQueSurOkJet1(false);
 		
 		$this->calculBalanceFaim();
+		$this->calculFinMatchSoule();
 		$this->majHobbit();
 	}
 	

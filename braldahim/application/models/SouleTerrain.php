@@ -18,9 +18,7 @@ class SouleTerrain extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('soule_terrain', '*');
-		$select->from('zone', '*');
 		$select->where('id_soule_terrain = ?', (int)$idTerrain);
-		$select->where('id_fk_zone_soule_terrain = id_zone');
 		$sql = $select->__toString();
 		$result = $db->fetchAll($sql);
 		return $result[0];
@@ -30,9 +28,7 @@ class SouleTerrain extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('soule_terrain', '*');
-		$select->from('zone', '*');
 		$select->where('niveau_soule_terrain = ?', (int)$niveauTerrain);
-		$select->where('id_fk_zone_soule_terrain = id_zone');
 		$sql = $select->__toString();
 		$result = $db->fetchAll($sql);
 		return $result[0];

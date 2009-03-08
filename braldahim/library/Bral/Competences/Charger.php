@@ -225,6 +225,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		
 		$this->calculPx();
 		$this->calculBalanceFaim();
+		$this->calculFinMatchSoule();
 		$this->majHobbit();
 	}
 

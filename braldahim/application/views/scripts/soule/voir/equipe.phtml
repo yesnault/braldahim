@@ -15,6 +15,9 @@
 			  		<a onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$j["id_hobbit"]?>');" title="Cliquez pour voir le profil">
 			  		<?=$j["prenom_hobbit"]?> <?=$j["nom_hobbit"]?> (<?=$j["id_hobbit"]?>)
 			  		</a>
+			  		<? if ($this->matchEnCours != null) : ?>
+			  		en <span title="Position X, Y" style="cursor:pointer"><?=$j["x_hobbit"]?>, <?=$j["y_hobbit"]?></span>
+			  		<? endif;?>
 		  		</tr>
 		  	<? endforeach; ?>
 		<? else: ?>

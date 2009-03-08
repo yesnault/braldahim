@@ -34,7 +34,11 @@ if (isset($this->ciblesEffet["monstreTouches"]) && $this->ciblesEffet["monstreTo
 	}
 }
 if (isset($this->ciblesEffet["hobbitMorts"]) && $this->ciblesEffet["hobbitMorts"] != null) {
-	echo "Vous avez mis KO : ";
+	if ($this->user->est_soule_hobbit == "oui") {
+		echo "Vous avez plaqu&eacute; : ";
+	} else {
+		echo "Vous avez mis KO : ";
+	}
 	echo "
 ";
 	foreach($this->ciblesEffet["hobbitMorts"] as $val) {
