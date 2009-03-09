@@ -257,7 +257,6 @@ class Bral_Util_Attaque {
 				//				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);  // fait dans competence.php avec le détail du résulat
 			} else {
 				Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot, $cible["niveau_cible"], "hobbit", true, $view);
-				$id_type = $config->game->evenements->type->kohobbit;
 				//				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);
 			}
 				
@@ -296,8 +295,7 @@ class Bral_Util_Attaque {
 			$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, "hobbit", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
 			$details .= " qui a esquivé parfaitement l'attaque";
 			if ($effetMotSPossible == false) {
-				$detailsBot .= " Riposte de ".$hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.")
-";
+				$detailsBot .= " Riposte de ".$hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.")".PHP_EOL;
 				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit); // uniquement en cas de riposte
 			}
 			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot, $cible["niveau_cible"], "hobbit", true, $view);
@@ -824,8 +822,7 @@ La cible a esquivé l'attaque";
 		}
 		
 		if ($ballonLache) {
-			$retour .= "
-Le ballon de soule est tombé à terre !";
+			$retour .= PHP_EOL."Le ballon de soule est tombé à terre !".PHP_EOL;
 		}
 		return $retour;
 	}
