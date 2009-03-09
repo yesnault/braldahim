@@ -27,6 +27,7 @@ class Bral_Util_Attaque {
 		$retourAttaque["mort"] = false;
 		$retourAttaque["fragilisee"] = false;
 		$retourAttaque["critique"]  = false;
+		$retourAttaque["ballonLache"]  = false;
 
 		$retourAttaque["effetMotD"] = false;
 		$retourAttaque["effetMotE"] = false;
@@ -66,6 +67,8 @@ class Bral_Util_Attaque {
 				} else {
 					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - EffetMotX false, critique");
 					$retourAttaque["critique"]  = true;
+					Zend_Loader::loadClass("Bral_Util_Soule");
+					$retourAttaque["ballonLache"] = Bral_Util_Soule::calcuLacheBallon($hobbitCible);
 				}
 			}
 				
@@ -175,6 +178,7 @@ class Bral_Util_Attaque {
 						);
 						$where = "id_soule_match = ".$match[0]["id_soule_match"];
 						$souleMatchTable->update($data, $where);
+						$retourAttaque["ballonLache"] = true;
 					}
 				}
 				
@@ -243,7 +247,7 @@ class Bral_Util_Attaque {
 				
 			$details .= " le hobbit [h".$cible["id_cible"]."]";
 				
-			$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, "hobbit", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"] , $retourAttaque["jetDegat"], $retourAttaque["critique"], $retourAttaque["mort"]);
+			$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, "hobbit", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"] , $retourAttaque["jetDegat"], $retourAttaque["ballonLache"], $retourAttaque["critique"], $retourAttaque["mort"]);
 			if ($effetMotSPossible == false) {
 				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit); // uniquement en cas de riposte
 			}
@@ -268,29 +272,13 @@ class Bral_Util_Attaque {
 			$retourAttaque["mort"] = false;
 			$retourAttaque["fragilisee"] = true;
 			
-			$ballonLache = "";
 			if ($hobbitAttaquant->est_soule_hobbit == "non") {
 				$id_type = $config->game->evenements->type->attaquer;
 			} else { // soule
 				$id_type = $config->game->evenements->type->soule;
-				
-				Zend_Loader::loadClass("SouleMatch");
-				$souleMatchTable = new SouleMatch();
-				$match = $souleMatchTable->findByIdHobbitBallon($hobbitCible->id_hobbit);
-				if ($match != null && Bral_Util_De::get_1d6() == 1) {
-					$data = array(
-						"x_ballon_soule_match" => $hobbitCible->x_hobbit,
-						"y_ballon_soule_match" => $hobbitCible->y_hobbit,
-						"id_fk_joueur_ballon_soule_match" => null,
-					);
-					$where = "id_soule_match = ".$match[0]["id_soule_match"];
-					$souleMatchTable->update($data, $where);
-					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Match(".$match[0]["id_soule_match"].") Le ballon est lache en x:".$hobbitCible->x_hobbit." y:".$hobbitCible->y_hobbit."!"); 
-					$ballonLache = " en lâchant le ballon !";
-				}
 			}
 			$details = "[h".$hobbitAttaquant->id_hobbit."] a attaqué le hobbit [h".$cible["id_cible"]."]";
-			$details .= " qui a esquivé l'attaque".$ballonLache;
+			$details .= " qui a esquivé l'attaque";
 			$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, "hobbit", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
 			if ($effetMotSPossible == false) {
 				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit); // uniquement en cas de riposte
@@ -378,7 +366,8 @@ Consultez vos événements pour plus de détails.";
 		$retourAttaque["effetMotL"] = false;
 		$retourAttaque["effetMotQ"] = false;
 		$retourAttaque["effetMotS"] = false;
-
+		$retourAttaque["ballonLache"] = false;
+		
 		$retourAttaque["attaqueReussie"] = false;
 
 		if ($monstre["genre_type_monstre"] == 'feminin') {
@@ -530,7 +519,7 @@ Consultez vos événements pour plus de détails.";
 			$retourAttaque["fragilisee"] = true;
 		}
 
-		$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, "monstre", $retourAttaque["jetAttaquant"], $retourAttaque["jetCible"], $retourAttaque["jetDegat"], $retourAttaque["critique"], $retourAttaque["mort"]) ;
+		$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, "monstre", $retourAttaque["jetAttaquant"], $retourAttaque["jetCible"], $retourAttaque["jetDegat"], $retourAttaque["ballonLache"], $retourAttaque["critique"], $retourAttaque["mort"]) ;
 
 		if ($retourAttaque["mort"] === true) {
 			$id_type = $config->game->evenements->type->killmonstre;
@@ -755,7 +744,7 @@ Consultez vos événements pour plus de détails.";
 		return $retour;
 	}
 
-	private static function getDetailsBot($hobbitAttaquant, $cible, $typeCible, $jetAttaquant, $jetCible, $jetDegat = 0, $critique = false, $mortCible = false) {
+	private static function getDetailsBot($hobbitAttaquant, $cible, $typeCible, $jetAttaquant, $jetCible, $jetDegat = 0, $ballonLache = false, $critique = false, $mortCible = false) {
 		$retour = "";
 
 		$retour .= $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.")";
@@ -832,6 +821,11 @@ La cible a esquivé parfaitement l'attaque";
 		} else { // esquive parfaite
 			$retour .= "
 La cible a esquivé l'attaque";
+		}
+		
+		if ($ballonLache) {
+			$retour .= "
+Le ballon de soule est tombé à terre !";
 		}
 		return $retour;
 	}
