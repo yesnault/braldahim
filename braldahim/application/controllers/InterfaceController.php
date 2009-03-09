@@ -18,6 +18,8 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
 
+		$controleOk = false;
+		
 		if ($this->view->config->general->actif != 1) {
 			$this->_redirect('/auth/logoutajax');
 		} else if ((!Zend_Auth::getInstance()->hasIdentity() || !isset($this->view->user) || !isset($this->view->user->email_hobbit)) && ($this->_request->action == 'index')) {
@@ -43,34 +45,40 @@ class InterfaceController extends Zend_Controller_Action {
 				} else {
 					$this->_redirect('/auth/logoutajax');
 				}
+			} else {
+				$controleOk = true;
 			}
 		}
-		$this->view->user = Zend_Auth::getInstance()->getIdentity(); // pour rafraichissement session
-		if ($this->view->user->est_charte_validee_hobbit == "non") {
-			$this->_redirect('/charte');
-		}
 		
-		$this->view->controleur = $this->_request->controller;
-
-		$this->infoTour = false;
+		if ($controleOk === true) {
 		
-		if ($this->_request->action != 'index') {
-			$this->xml_response = new Bral_Xml_Response();
-			$t = Bral_Box_Factory::getTour($this->_request, $this->view, false);
-			if ($t->activer()) {
-				$xml_entry = new Bral_Xml_Entry();
-				$xml_entry->set_type("display");
-				$xml_entry->set_valeur("informations");
-				$xml_entry->set_data($t->render());
-				$this->xml_response->add_entry($xml_entry);
-				unset($xml_entry);
-				$this->infoTour = true;
-				
-				if ($this->_request->action != 'boxes') {
-					$this->refreshAll();
+			$this->view->user = Zend_Auth::getInstance()->getIdentity(); // pour rafraichissement session
+			if ($this->view->user->est_charte_validee_hobbit == "non") {
+				$this->_redirect('/charte');
+			}
+			
+			$this->view->controleur = $this->_request->controller;
+	
+			$this->infoTour = false;
+			
+			if ($this->_request->action != 'index') {
+				$this->xml_response = new Bral_Xml_Response();
+				$t = Bral_Box_Factory::getTour($this->_request, $this->view, false);
+				if ($t->activer()) {
+					$xml_entry = new Bral_Xml_Entry();
+					$xml_entry->set_type("display");
+					$xml_entry->set_valeur("informations");
+					$xml_entry->set_data($t->render());
+					$this->xml_response->add_entry($xml_entry);
+					unset($xml_entry);
+					$this->infoTour = true;
+					
+					if ($this->_request->action != 'boxes') {
+						$this->refreshAll();
+					}
 				}
+				unset($t);
 			}
-			unset($t);
 		}
 	}
 
