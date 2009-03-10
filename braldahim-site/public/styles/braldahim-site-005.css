@@ -798,3 +798,9 @@ div.yoo-tooltip div.yoodefault .tooltip-arrow {
 		url(/public/styles/braldahim_defaut/images/layout/popup/bubble_arrow.png)
 		50% 0 no-repeat;
 }
+
+.feed {
+  margin-left: 3px;
+  padding: 0 0 0 15px;
+  background: url("/public/images/rss.png") no-repeat 0 50%;
+} 
