@@ -158,10 +158,9 @@ class Bral_Helper_Profil {
      	$texte .= " Position dans le tour : ".$hobbit->nom_tour."<br><br>";
 
      	$texte .= " D&eacute;but tour : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$hobbit->date_debut_tour_hobbit)."<br>";
-     	$texte .= " Fin Latence : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$hobbit->date_fin_latence_hobbit)."<br>";
-     	$texte .= " D&eacute;but Cumul : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$hobbit->date_debut_cumul_hobbit)."<br>";
+     	$texte .= " Fin Sommeil : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$hobbit->date_fin_latence_hobbit)."<br>";
+     	$texte .= " D&eacute;but Activit&eacute; : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$hobbit->date_debut_cumul_hobbit)."<br>";
      	$texte .= " Date limite d\\'action : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$hobbit->date_fin_tour_hobbit)."<br><br>";
-     	
      	
      	$date_courante = date("Y-m-d H:i:s");
      	$time_date_courante = Bral_Util_ConvertDate::get_epoch_mysql_datetime(date("Y-m-d H:i:s"));
