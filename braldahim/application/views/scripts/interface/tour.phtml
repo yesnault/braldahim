@@ -51,7 +51,8 @@
 	Position dans le tour : <?=$this->user->nom_tour ?> <br />
 	<br />
 	D&eacute;but tour : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_debut_tour_hobbit);?><br />
-	Fin Sommeil : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_latence_hobbit);?><br />
+	Fin Sommeil - Début Éveil  : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_latence_hobbit);?><br />
+	Fin Éveil - Début Activité  : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_debut_cumul_hobbit);?><br />
 	Date limite d'action : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_hobbit);?> <br />
 	<br />
 	Nombre de Points d'Action : <?=$this->user->pa_hobbit ?><br /><br />
@@ -101,7 +102,8 @@ Dur&eacute;e du tour : <?=$this->user->duree_courant_tour_hobbit ?>
 Position dans le tour : <?=$this->user->nom_tour  ?> 
 
 D&eacute;but tour : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_debut_tour_hobbit);?> 
-Fin Sommeil : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_latence_hobbit);?> 
+Fin Sommeil - Début Éveil : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_latence_hobbit);?> 
+Fin Éveil - Début Activité : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_debut_cumul_hobbit);?> 
 Date limite d'action : <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$this->user->date_fin_tour_hobbit);?> 
 
 

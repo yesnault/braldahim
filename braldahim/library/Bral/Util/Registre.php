@@ -69,7 +69,8 @@ class Bral_Util_Registre {
 	
 	private static function chargementNomTour() {
 		$tab[1] = "Sommeil";
-		$tab[2] = "Activité";
+		$tab[2] = "Éveil";
+		$tab[3] = "Activité";
 		Zend_Registry::set('nomsTour', $tab);
 	}
 	

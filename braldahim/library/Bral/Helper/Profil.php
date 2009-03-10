@@ -50,8 +50,8 @@ class Bral_Helper_Profil {
 		[1;10] -N/3 -> Votre estomac crie famine ...
 		[11;30] -N/4 -> Votre ventre gargouille ...
 		[31;79] 0 -> Tout va pour le mieux.
-		[80;94] +N/4 -> Vous êtes en pleine forme !
-		[95;100] +N/2 -> Vous avez une pêche extraordinaire !
+		[80;94] +N/4 -> Vous Ãªtes en pleine forme !
+		[95;100] +N/2 -> Vous avez une pÃªche extraordinaire !
 		*/
 		
 		$info = "&quot;";
@@ -86,7 +86,7 @@ class Bral_Helper_Profil {
 		}
 		
 		$titre = "Information sur la balance de faim";
-		$texte = "Votre balance de faim est à ".$balance_faim_hobbit."%.<br>";
+		$texte = "Votre balance de faim est &agrave;  ".$balance_faim_hobbit."%.<br>";
 		$texte .= $info1.$info;
 		
 		$retour = "<div class='barre_faim'  ".Bral_Helper_Tooltip::jsTip($texte, $titre, true).">";
@@ -112,7 +112,7 @@ class Bral_Helper_Profil {
 		/*
 		81-100% -> "J'ai une de ces patates moi !"
 		61-80% -> "J'ai les jambes lourdes moi aujourd'hui ..."
-		41-60% -> "Mon bras droit ne répond plus ! Aaaarg il est par terre !!!"
+		41-60% -> "Mon bras droit ne rÃ©pond plus ! Aaaarg il est par terre !!!"
 		21-40% -> "Je crois qu'il est temps que nous parlementions, qu'en pensez vous ?"
 		0 -20% -> "Mais pourquoi vous prenez ma taille ? et c'est quoi toutes ces planches ?"
     	*/
@@ -134,7 +134,7 @@ class Bral_Helper_Profil {
 			$minutesAAjouter = floor($minutesCourant / (4 * $totalPvSansBm)) * ($totalPvSansBm - $pv_restant_hobbit);
 			$s = '';
 			if ($minutesAAjouter > 1) $s = 's';
-			$info .= "<br><br>Votre prochaine DLA sera allongée de ".$minutesAAjouter." minute".$s.".";
+			$info .= "<br><br>Votre prochaine DLA sera allong&eacute;e de ".$minutesAAjouter." minute".$s.".";
 		}
 		
 		$texte .= $info;
@@ -150,23 +150,29 @@ class Bral_Helper_Profil {
      	$retour = "";
      	
      	$texte = "";
-     	$titre = "Avancement et informations sur le tour";
+     	$titre = "Avancement et informations";
      	
-     	$texte .= " Durée du tour : ".$hobbit->duree_courant_tour_hobbit."<br>";
+     	$texte .= " Position tour courant : ".$hobbit->nom_tour."<br><br>";
+     	
+     	$texte .= " Dur&eacute; du tour : ".$hobbit->duree_courant_tour_hobbit."<br>";
      	$texte .= " Position dans le tour : ".$hobbit->nom_tour."<br><br>";
 
-     	$texte .= " Début tour : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$hobbit->date_debut_tour_hobbit)."<br>";
-     	$texte .= " Fin Sommeil : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$hobbit->date_fin_latence_hobbit)."<br>";
+     	$texte .= " D&eacute;but tour : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$hobbit->date_debut_tour_hobbit)."<br>";
+     	$texte .= " Fin Latence : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$hobbit->date_fin_latence_hobbit)."<br>";
+     	$texte .= " D&eacute;but Cumul : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$hobbit->date_debut_cumul_hobbit)."<br>";
      	$texte .= " Date limite d\\'action : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$hobbit->date_fin_tour_hobbit)."<br><br>";
+     	
      	
      	$date_courante = date("Y-m-d H:i:s");
      	$time_date_courante = Bral_Util_ConvertDate::get_epoch_mysql_datetime(date("Y-m-d H:i:s"));
      	
      	$width_latence = "0";
-     	$width_activite = "0";
+     	$width_milieu = "0";
+     	$width_cumul = "0";
      	
      	$pourcent_latence = 0;
-     	$pourcent_activite = 0;
+     	$pourcent_milieu = 0;
+     	$pourcent_cumul = 0;
      	
      	if ($date_courante <= $hobbit->date_fin_latence_hobbit) {
      		$time_debut_tour = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_debut_tour_hobbit);
@@ -177,35 +183,53 @@ class Bral_Helper_Profil {
      		$pourcent = 100 - ($ecart * 100 / $ecartTotal);
      		$width_latence = ($pourcent * 33 / 100 ) * 2; // latence : 33% du total , x2 pour la taille css
      		$pourcent_latence = substr($pourcent, 0, 5);
-     	} else {
+     	} else if ($date_courante <= $hobbit->date_debut_cumul_hobbit) {
      		$width_latence = "66";
      		
-     		$time_fin_tour = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_fin_tour_hobbit);
-			$time_fin_latence = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_fin_latence_hobbit);
-			$ecartTotal = $time_fin_tour - $time_fin_latence;
-			$ecart = $time_fin_tour - $time_date_courante;
-			$pourcent = 100 - ($ecart * 100 / $ecartTotal);
+     		$time_fin_latence = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_fin_latence_hobbit);
+     		$time_debut_cumul = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_debut_cumul_hobbit);
+     		$ecartTotal = $time_debut_cumul - $time_fin_latence;
+     		$ecart = $time_debut_cumul - $time_date_courante; 
      		
-     		$width_activite = ($pourcent * 66 / 100) * 2; // activité : 66 % du total , x2 pour la taille css
-     		$pourcent_activite = substr($pourcent, 0, 5);
+     		$pourcent = 100 - ($ecart * 100 / $ecartTotal);
+     		$width_milieu = ($pourcent * 17 / 100) * 2; // milieu : 17 % du total , x2 pour la taille css
+     		$pourcent_milieu = substr($pourcent, 0, 5);
      		$pourcent_latence = 100;
+     	} else { // CUMUL
+     		$pourcent_latence = 100;
+     		$pourcent_milieu = 100;
+     		$width_latence = "66";
+     		$width_milieu = "34";
      		
-	     	if ($width_activite > 134) {
-				$width_activite = 134;
-			}
+     		$time_fin_tour = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_fin_tour_hobbit);
+     		$time_debut_cumul = Bral_Util_ConvertDate::get_epoch_mysql_datetime($hobbit->date_debut_cumul_hobbit);
+     		$ecartTotal = $time_fin_tour - $time_debut_cumul;
+     		$ecart = $time_fin_tour - $time_date_courante; 
+     		
+     		$pourcent = 100 - ($ecart * 100 / $ecartTotal);
+     		$width_cumul = ($pourcent * 50 / 100) * 2; // cumul, 50 % du total, x2 pour la taille css
+     		$pourcent_cumul = substr($pourcent, 0, 5);
+     		if ($width_cumul > 100) {
+     			$width_cumul = 100;
+     		}
      	}
      	
-     	$section_latence = "Section survolée : période de <u>sommeil</u>, termin&eacute;e &agrave; <u>".$pourcent_latence."</u> %<br><br>";
-     	$section_activite = "Section survolée : période d\'<u>activité</u>, termin&eacute;e &agrave; <u>".$pourcent_activite."</u> %<br><br>";
+     	$section_cumul = "Section survol&eacute; : Activit&eacute;, termin&eacute;e &agrave; ".$pourcent_cumul." %<br><br>";
+     	$section_milieu = "Section survol&eacute; : &Eacute;veil, termin&eacute;e &agrave; ".$pourcent_milieu." %<br><br>";
+     	$section_latence = "Section survol&eacute; : Sommeil, termin&eacute;e &agrave; ".$pourcent_latence." %<br><br>";
      	
      	$retour .= "<table border='0' margin='0' cellspacing='0' cellpadding='0'><tr>";
      	$retour .= "<td>";
-     	$retour .= "<div class='barre_tour_latence'  ".Bral_Helper_Tooltip::jsTip($section_latence.$texte, $titre, false, true, 320).">";
-		$retour .= "<img src='/public/images/barre_tour_latence.gif' height='10px' width='".$width_latence."px'></div>";
+     	$retour .= "<div class='barre_tour_sommeil'  ".Bral_Helper_Tooltip::jsTip($section_latence.$texte, $titre, true).">";
+		$retour .= "<img src='/public/images/barre_tour_sommeil.gif' height='10px' width='".$width_latence."px'></div>";
 		$retour .= "</td>";
 		$retour .= "<td>";
-     	$retour .= "<div class='barre_tour_activite'  ".Bral_Helper_Tooltip::jsTip($section_activite.$texte, $titre, false, true, 320).">";
-		$retour .= "<img src='/public/images/barre_tour_activite.gif' height='10px' width='".$width_activite."px'></div>";
+     	$retour .= "<div class='barre_tour_eveil'  ".Bral_Helper_Tooltip::jsTip($section_milieu.$texte, $titre, true).">";
+		$retour .= "<img src='/public/images/barre_tour_eveil.gif' height='10px' width='".$width_milieu."px'></div>";
+		$retour .= "</td>";
+		$retour .= "<td>";
+     	$retour .= "<div class='barre_tour_activite'  ".Bral_Helper_Tooltip::jsTip($section_cumul.$texte, $titre, true).">";
+		$retour .= "<img src='/public/images/barre_tour_activite.gif' height='10px' width='".$width_cumul."px'></div>";
 		$retour .= "</td>";
 		$retour .= "</tr></table>";
      	

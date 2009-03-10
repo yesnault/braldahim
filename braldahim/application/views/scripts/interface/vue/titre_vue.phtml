@@ -14,7 +14,7 @@
     </ul>
     <ul class="titre textalia textsized" >
     <? if (!empty($this->centre_nom_ville)):?>
-     <?=$this->centre_nom_ville ?>
+     <a class="titre textalia textsized"  style="text-decoration: none" href="http://wiki.braldahim.com/wiki/<?=$this->centre_nom_ville ?>"><?=$this->centre_nom_ville ?></a>
     <? endif; ?>
     <? if ($this->centre_est_capitale) : ?>
     	- Capitale

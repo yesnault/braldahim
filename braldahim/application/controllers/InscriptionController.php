@@ -278,20 +278,21 @@ class InscriptionController extends Zend_Controller_Action {
 			'x_hobbit' => $lieu["x_lieu"],
 			'y_hobbit' => $lieu["y_lieu"],
 			'vue_bm_hobbit' => $this->view->config->game->inscription->vue_bm,
-			'date_fin_tour_hobbit' => Bral_Util_ConvertDate::get_date_add_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_activite),
-			'date_debut_tour_hobbit' => Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_latence),
-			'date_fin_latence_hobbit' => $mdate,
+			'date_fin_tour_hobbit' => Bral_Util_ConvertDate::get_date_add_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_cumul),
+			'date_debut_tour_hobbit' => Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_cumul),
+			'date_fin_latence_hobbit' => Bral_Util_ConvertDate::get_date_remove_time_to_date($mdate, $this->view->config->game->tour->inscription->duree_base_milieu),
+			'date_debut_cumul_hobbit' => $mdate,
 			'duree_prochain_tour_hobbit' => $this->view->config->game->tour->duree_base,
 			'duree_courant_tour_hobbit' => $this->view->config->game->tour->duree_base,
 			'date_creation_hobbit' => $mdate,
-			'tour_position_hobbit' => $this->view->config->game->tour->position_latence, // sera recalcule lors de la connexion avec activite
+			'tour_position_hobbit' => $this->view->config->game->tour->position_latence, // sera recalcule lors de la connexion avec cumul
 			'balance_faim_hobbit' => $this->view->config->game->inscription->balance_faim,
 			'pv_restant_hobbit' => $pv,
 			'force_base_hobbit' => $this->view->config->game->inscription->force_base,
 			'agilite_base_hobbit' => $this->view->config->game->inscription->agilite_base,
 			'vigueur_base_hobbit' => $this->view->config->game->inscription->vigueur_base,
 			'sagesse_base_hobbit' => $this->view->config->game->inscription->sagesse_base,
-			//'pa_hobbit' => $this->view->config->game->inscription->pa, // seront recalcules lors de la connexion en activite
+			//'pa_hobbit' => $this->view->config->game->inscription->pa, // seront recalcules lors de la connexion en cumul
 			'poids_transportable_hobbit' => $poids,
 			'armure_naturelle_hobbit' => $armure_nat,
 			'regeneration_hobbit' => $reg,
@@ -357,9 +358,9 @@ class InscriptionController extends Zend_Controller_Action {
 			
 			$coupleTable->update($data, $where);
 			
-			$detailEvenement = "Un heureux événement est arrivé... ";
-			$detailsBot = " Vous venez d'avoir un nouvel enfant à ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',date("Y-m-d H:i:s")).".";
-			$detailsBot .= " Consultez votre onglet Famille pour plus de détails.";
+			$detailEvenement = "Un heureux Ã©vÃ©nement est arrivÃ©... ";
+			$detailsBot = " Vous venez d'avoir un nouvel enfant Ã  ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',date("Y-m-d H:i:s")).".";
+			$detailsBot .= " Consultez votre onglet Famille pour plus de dÃ©tails.";
 			
 			Bral_Util_Evenement::majEvenements($couple["id_fk_m_hobbit_couple"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, 0, "hobbit", true, $this->view);
 			Bral_Util_Evenement::majEvenements($couple["id_fk_f_hobbit_couple"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, 0, "hobbit", true, $this->view);
@@ -398,9 +399,9 @@ class InscriptionController extends Zend_Controller_Action {
 				$dataParents["id_fk_pere_hobbit"] = $pere["id_hobbit"];
 				$dataParents["id_fk_mere_hobbit"] = $mere["id_hobbit"];
 				
-				$detailEvenement =  "[h".$mere["id_hobbit"]."] s'est mariée avec [h".$pere["id_hobbit"]."]" ;
-				$detailsBot = "Mariage effectué à ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',date("Y-m-d H:i:s")).".";
-				$detailsBot .= " Consultez votre onglet Famille pour plus de détails.";
+				$detailEvenement =  "[h".$mere["id_hobbit"]."] s'est mariÃ©e avec [h".$pere["id_hobbit"]."]" ;
+				$detailsBot = "Mariage effectuÃ© Ã  ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',date("Y-m-d H:i:s")).".";
+				$detailsBot .= " Consultez votre onglet Famille pour plus de dÃ©tails.";
 				
 				Bral_Util_Evenement::majEvenements($pere["id_hobbit"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, $pere["niveau_hobbit"], "hobbit", true, $this->view);
 				Bral_Util_Evenement::majEvenements($mere["id_hobbit"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, $mere["niveau_hobbit"], "hobbit", true, $this->view);
