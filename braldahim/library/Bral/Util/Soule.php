@@ -125,11 +125,11 @@ class Bral_Util_Soule {
 		$plantes = self::getTabPlantes();
 
 		if ($campGagnant == 'a') {
-			self::repartitionGain($idHobbitFin, $view, $niveauTotal, $equipeA, true, $minerais, $plantes);
-			self::repartitionGain($idHobbitFin, $view, $niveauTotal, $equipeB, false, $minerais, $plantes);
+			self::repartitionGain($match, $idHobbitFin, $view, $niveauTotal, $equipeA, true, $minerais, $plantes);
+			self::repartitionGain($match, $idHobbitFin, $view, $niveauTotal, $equipeB, false, $minerais, $plantes);
 		} else {
-			self::repartitionGain($idHobbitFin, $view, $niveauTotal, $equipeA, false, $minerais, $plantes);
-			self::repartitionGain($idHobbitFin, $view, $niveauTotal, $equipeB, true, $minerais, $plantes);
+			self::repartitionGain($match, $idHobbitFin, $view, $niveauTotal, $equipeA, false, $minerais, $plantes);
+			self::repartitionGain($match, $idHobbitFin, $view, $niveauTotal, $equipeB, true, $minerais, $plantes);
 		}
 
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatchGains - exit -");
@@ -186,7 +186,7 @@ class Bral_Util_Soule {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - getTabPlantes - exit (".count($tabTypePlantesRetour).")");
 	}
 
-	private static function repartitionGain($idHobbitFin, $view, $niveauTotal, $equipe, $estGagnant, $minerais, $plantes) {
+	private static function repartitionGain($match, $idHobbitFin, $view, $niveauTotal, $equipe, $estGagnant, $minerais, $plantes) {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - repartitionGain - enter -");
 		asort($equipe); // tri par valeur nbPlaquage
 
@@ -221,13 +221,13 @@ class Bral_Util_Soule {
 				$nbGain = 3;
 			}
 				
-			self::calculGainHobbit($idHobbitFin, $idHobbit, $tab["niveau_hobbit"], $view, $nbGain, $minerais, $plantes, $rang, $estGagnant);
+			self::calculGainHobbit($match, $idHobbitFin, $idHobbit, $tab["niveau_hobbit"], $view, $nbGain, $minerais, $plantes, $rang, $estGagnant);
 		}
 
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - repartitionGain - exit -");
 	}
 
-	private static function calculGainHobbit($idHobbitFin, $idHobbit, $niveauHobbit, $view, $nbGain, $minerais, $plantes, $rang, $estGagnant) {
+	private static function calculGainHobbit($match, $idHobbitFin, $idHobbit, $niveauHobbit, $view, $nbGain, $minerais, $plantes, $rang, $estGagnant) {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculGainHobbit - enter - idHobbit(".$idHobbit.") gain(".$nbGain.")");
 
 		$nbMinerai = count($minerais);
@@ -272,7 +272,7 @@ class Bral_Util_Soule {
 		$detailsBot .= $texte;
 		$detailsBot .= " placés directement dans votre coffre à la banque";
 
-		Bral_Util_Evenement::majEvenements($idHobbit, $idType, $details, $detailsBot, $niveauHobbit, "hobbit", true, $view);
+		Bral_Util_Evenement::majEvenements($idHobbit, $idType, $details, $detailsBot, $niveauHobbit, "hobbit", true, $view, $match["id_soule_match"]);
 
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculGainHobbit - exit -");
 	}
@@ -400,6 +400,7 @@ class Bral_Util_Soule {
 				"est_engage_next_dla_hobbit" => "non",
 				"x_hobbit" => $x_hobbit,
 				"y_hobbit" => $y_hobbit,
+				"id_fk_soule_match_hobbit" => null,
 			);
 
 			$where = "id_hobbit = ".$j["id_hobbit"];
@@ -413,6 +414,7 @@ class Bral_Util_Soule {
 				$hobbit->est_engage_next_dla_hobbit = "non";
 				$hobbit->x_hobbit = $x_hobbit;
 				$hobbit->y_hobbit = $y_hobbit;
+				$hobbit->id_fk_soule_match_hobbit = null;
 			}
 		}
 
