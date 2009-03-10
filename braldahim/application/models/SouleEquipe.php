@@ -111,4 +111,5 @@ class SouleEquipe extends Zend_Db_Table {
 		$result = $db->fetchAll($sql);
 		return $result;
 	}
+	
 }

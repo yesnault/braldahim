@@ -171,6 +171,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 			"y_hobbit" => $y,
 			"est_soule_hobbit" => "oui",
 			"soule_camp_hobbit" => $joueur["camp_soule_equipe"], // dénormalisation
+			"id_fk_soule_match_hobbit" => $match["id_soule_match"], // dénormalisation
 		);
 		$where = "id_hobbit = ".(int)$joueur["id_hobbit"];
 		$hobbitTable->update($data, $where);

@@ -178,8 +178,6 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 				"id_fk_terrain_soule_match" => $this->view->terrainCourant["id_soule_terrain"],
 				"date_debut_soule_match" => null,
 				"date_fin_soule_match" => null,
-				"score_equipea_soule_match" => 0,
-				"score_equipeb_soule_match" => 0,
 				"x_ballon_soule_match" => $xBallon,
 				"y_ballon_soule_match" => $yBallon,
 			);

@@ -67,8 +67,6 @@ class Bral_Util_Attaque {
 				} else {
 					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - EffetMotX false, critique");
 					$retourAttaque["critique"]  = true;
-					Zend_Loader::loadClass("Bral_Util_Soule");
-					$retourAttaque["ballonLache"] = Bral_Util_Soule::calcuLacheBallon($hobbitCible);
 				}
 			}
 				
@@ -154,7 +152,7 @@ class Bral_Util_Attaque {
 			if ($pvTotalAvecDegat < $hobbitCible->pv_restant_hobbit) {
 				$hobbitCible->pv_restant_hobbit = $pvTotalAvecDegat;
 			}
-			if ($hobbitCible->pv_restant_hobbit <= 0) {
+			if ($hobbitCible->pv_restant_hobbit <= 0) { // mort du hobbit
 				$hobbitCible->pv_restant_hobbit = 0;
 				
 				if ($hobbitAttaquant->est_soule_hobbit == "non") {
@@ -167,19 +165,10 @@ class Bral_Util_Attaque {
 					$hobbitCible->est_ko_hobbit = "oui";
 					$hobbitCible->nb_plaque_hobbit = $hobbitCible->nb_plaque_hobbit + 1;
 					$hobbitAttaquant->nb_hobbit_plaquage_hobbit = $hobbitAttaquant->nb_hobbit_plaquage_hobbit + 1;
-					Zend_Loader::loadClass("SouleMatch");
-					$souleMatchTable = new SouleMatch();
-					$match = $souleMatchTable->findByIdHobbitBallon($hobbitCible->id_hobbit);
-					if ($match != null) {
-						$data = array(
-							"x_ballon_soule_match" => $hobbitCible->x_hobbit,
-							"y_ballon_soule_match" => $hobbitCible->y_hobbit,
-							"id_fk_joueur_ballon_soule_match" => null,
-						);
-						$where = "id_soule_match = ".$match[0]["id_soule_match"];
-						$souleMatchTable->update($data, $where);
-						$retourAttaque["ballonLache"] = true;
-					}
+					
+					Zend_Loader::loadClass("Bral_Util_Soule");
+					$retourAttaque["ballonLache"] = Bral_Util_Soule::calcuLacheBallon($hobbitCible, true);
+					Bral_Util_Soule::majPlaquage($hobbitAttaquant, $hobbitCible);
 				}
 				
 				$hobbitCible->date_fin_tour_hobbit = date("Y-m-d H:i:s");
@@ -208,6 +197,11 @@ class Bral_Util_Attaque {
 				$hobbitCible->est_ko_hobbit = "non";
 				$retourAttaque["mort"] = false;
 				$retourAttaque["fragilisee"] = true;
+				
+				if ($retourAttaque["critique"] == true) {
+					Zend_Loader::loadClass("Bral_Util_Soule");
+					$retourAttaque["ballonLache"] = Bral_Util_Soule::calcuLacheBallon($hobbitCible, false);
+				}
 			}
 			$data = array(
 				'castars_hobbit' => $hobbitCible->castars_hobbit,
