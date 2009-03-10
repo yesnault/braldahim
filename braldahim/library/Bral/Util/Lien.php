@@ -18,27 +18,11 @@ class Bral_Util_Lien {
 		
 		// Monstre
 		$texte = preg_replace_callback("/\[m(.*?)]/si", 
-		create_function(
-			'$matches', '
-			$m = new Monstre();
-			$nom = "<label class=\'alabel\' onclick=\"javascript:ouvrirWin(\'/voir/monstre/?monstre=".$matches[1]."\');\">";
-			$nom .= $m->findNomById($matches[1]);
-			$nom .= "</label>";
-			return $nom;'
-		)
-		, $texteOriginal);
+		create_function('$matches', self::getFunctionMonstre($avecJs)) , $texteOriginal);
 		
 		// Hobbit
 		$texte = preg_replace_callback("/\[h(.*?)]/si", 
-		create_function(
-			'$matches', '
-			$h = new Hobbit();
-			$nom = "<label class=\'alabel\' onclick=\"javascript:ouvrirWin(\'/voir/hobbit/?hobbit=".$matches[1]."\');\">";
-			$nom .= $h->findNomById($matches[1]);
-			$nom .= "</label>";
-			return $nom;'
-		)
-		, $texte);
+		create_function('$matches', self::getFunctionHobbit($avecJs)), $texte);
 		
 		// Lieu
 		$texte = preg_replace_callback("/\[l(.*?)]/si", 
@@ -51,6 +35,26 @@ class Bral_Util_Lien {
 		, $texte);
 		
 		return $texte;
+	}
+	
+	private static function getFunctionMonstre($avecJs = true) {
+		$retour = '$m = new Monstre();';
+		$retour .= '$nom = "";';
+		if ($avecJs) $retour .= '$nom = "<label class=\'alabel\' onclick=\"javascript:ouvrirWin(\'/voir/monstre/?monstre=".$matches[1]."\');\">";';
+		$retour .= '$nom .= $m->findNomById($matches[1]);';
+		if ($avecJs) $retour .= '$nom .= "</label>";';
+		$retour .= 'return $nom;';
+		return $retour;
+	}
+	
+	private static function getFunctionHobbit($avecJs = true) {
+		$retour = '$h = new Hobbit();';
+		$retour .= '$nom = "";';
+		if ($avecJs) $retour .= '$nom = "<label class=\'alabel\' onclick=\"javascript:ouvrirWin(\'/voir/hobbit/?hobbit=".$matches[1]."\');\">";';
+		$retour .= '$nom .= $h->findNomById($matches[1]);';
+		if ($avecJs) $retour .= '$nom .= "</label>";';
+		$retour .= 'return $nom;';
+		return $retour;
 	}
 	
 	public static function getJsHobbit($id, $texte) {

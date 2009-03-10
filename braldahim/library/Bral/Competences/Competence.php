@@ -83,6 +83,9 @@ abstract class Bral_Competences_Competence {
 		}
 		$tab[] = "box_profil";
 		$tab[] = "box_evenements";
+		if ($this->view->finMatchSoule) {
+			$tab[] = "box_soule";
+		}
 		return $tab;
 	}
 
@@ -381,6 +384,9 @@ abstract class Bral_Competences_Competence {
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 				
 				$this->majEvenementsStandard(Bral_Helper_Affiche::copie($this->view->texte));
+				if ($this->view->finMatchSoule === true) {
+					Bral_Util_Soule::calculFinMatch($this->view->user, $this->view, true);
+				}
 				return $this->view->render("competences/commun_resultat.phtml");
 				break;
 			default:
@@ -493,11 +499,9 @@ abstract class Bral_Competences_Competence {
 	}
 	
 	protected function calculFinMatchSoule() {
-		
 		if ($this->view->user->est_soule_hobbit == "oui") {
 			Zend_Loader::loadClass("Bral_Util_Soule");
-			$this->view->finMatchSoule = Bral_Util_Soule::calculFinMatch($this->view->user);
-			
+			$this->view->finMatchSoule = Bral_Util_Soule::calculFinMatch($this->view->user, $this->view, false);
 		}
 	}
 }

@@ -52,7 +52,7 @@ class Bral_Util_Soule {
 		return $retour;
 	}
 
-	public static function calculFinMatch(&$hobbit) {
+	public static function calculFinMatch(&$hobbit, $view, $faireCalculFin) {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatch - enter idHobbit(".$hobbit->id_hobbit.")");
 		$retourFinMatch = false;
 
@@ -61,26 +61,35 @@ class Bral_Util_Soule {
 		Zend_Loader::loadClass("TypeMinerai");
 		Zend_Loader::loadClass("TypePlante");
 		Zend_Loader::loadClass("TypePartieplante");
-
+		Zend_Loader::loadClass("CoffreMinerai");
+		Zend_Loader::loadClass("CoffrePartieplante");
+		Zend_Loader::loadClass("Bral_Util_Lien");
+		
 		$souleMatchTable = new SouleMatch();
 		$matchsRowset = $souleMatchTable->findByIdHobbitBallon($hobbit->id_hobbit);
 		if ($matchsRowset != null && count($matchsRowset) == 1) {
 			$match = $matchsRowset[0];
 			if (($hobbit->soule_camp_hobbit == "a" && $hobbit->y_hobbit == $match["y_min_soule_terrain"])
 			|| ($hobbit->soule_camp_hobbit == "b" && $hobbit->y_hobbit == $match["y_max_soule_terrain"])) {
-
+				
+				Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatch - true");
+				
 				$souleEquipeTable = new SouleEquipe();
 				$joueurs = $souleEquipeTable->findByIdMatch($match["id_soule_match"]);
 
 				if ($joueurs == null) {
-					Bral_Util_Log::soule()->error("Bral_Util_Soule - calculFinMatch - Erreur Nb Joueurs (".$match["id_soule_match"].") ");
+					Bral_Util_Log::soule()->err("Bral_Util_Soule - calculFinMatch - Erreur Nb Joueurs (".$match["id_soule_match"].") ");
 				} else {
-					self::calculFinMatchGains($joueurs, $match, $hobbit->soule_camp_hobbit);
-					self::calculFinMatchDb($match, $hobbit->soule_camp_hobbit);
-					self::calculFinMatchJoueursDb($joueurs, $match);
-					$retourFinMatch = false;
-					$hobbit->est_soule_hobbit = "non";
-					$hobbit->soule_camp_hobbit = null;
+					if ($faireCalculFin === true) {
+						self::calculFinMatchGains($hobbit->id_hobbit, $view, $joueurs, $match, $hobbit->soule_camp_hobbit);
+						self::calculFinMatchDb($match, $hobbit->soule_camp_hobbit);
+						self::calculFinMatchJoueursDb($hobbit, $joueurs, $match);
+						$hobbit->est_soule_hobbit = "non";
+						$hobbit->soule_camp_hobbit = null;
+					} else {
+						Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatch - pas de calcul");
+					}
+					$retourFinMatch = true;
 				}
 			}
 		} else {
@@ -91,7 +100,7 @@ class Bral_Util_Soule {
 		return $retourFinMatch;
 	}
 
-	private static function calculFinMatchGains($joueurs, $match, $campGagnant) {
+	private static function calculFinMatchGains($idHobbitFin, $view, $joueurs, $match, $campGagnant) {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatchGains - enter -");
 
 		$equipeA = array();
@@ -100,9 +109,11 @@ class Bral_Util_Soule {
 		$niveauTotal = 0;
 		foreach($joueurs as $j) {
 			if ($j["camp_soule_equipe"] == "a") {
-				$equipeA[$j["id_hobbit"]] = $j["nb_hobbit_plaquage_soule_equipe"];
+				$equipeA[$j["id_hobbit"]]["nb_plaquage"] = $j["nb_hobbit_plaquage_soule_equipe"];
+				$equipeA[$j["id_hobbit"]]["niveau_hobbit"] = $j["niveau_hobbit"];
 			} else {
-				$equipeB[$j["id_hobbit"]] = $j["nb_hobbit_plaquage_soule_equipe"];
+				$equipeB[$j["id_hobbit"]]["nb_plaquage"] = $j["nb_hobbit_plaquage_soule_equipe"];
+				$equipeB[$j["id_hobbit"]]["niveau_hobbit"] = $j["niveau_hobbit"];
 			}
 			$niveauTotal = $niveauTotal + $j["niveau_hobbit"];
 		}
@@ -110,15 +121,15 @@ class Bral_Util_Soule {
 		$typeMineraiTable = new TypeMinerai();
 		$minerais = $typeMineraiTable->fetchAll();
 		$minerais = $minerais->toArray();
-		
+
 		$plantes = self::getTabPlantes();
-		
+
 		if ($campGagnant == 'a') {
-			self::repartitionGain($niveauTotal, $equipeA, true, $minerais, $plantes);
-			self::repartitionGain($niveauTotal, $equipeB, false, $minerais, $plantes);
+			self::repartitionGain($idHobbitFin, $view, $niveauTotal, $equipeA, true, $minerais, $plantes);
+			self::repartitionGain($idHobbitFin, $view, $niveauTotal, $equipeB, false, $minerais, $plantes);
 		} else {
-			self::repartitionGain($niveauTotal, $equipeA, false, $minerais, $plantes);
-			self::repartitionGain($niveauTotal, $equipeB, true, $minerais, $plantes);
+			self::repartitionGain($idHobbitFin, $view, $niveauTotal, $equipeA, false, $minerais, $plantes);
+			self::repartitionGain($idHobbitFin, $view, $niveauTotal, $equipeB, true, $minerais, $plantes);
 		}
 
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatchGains - exit -");
@@ -126,24 +137,24 @@ class Bral_Util_Soule {
 
 	private static function getTabPlantes() {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - getTabPlantes - enter -");
-	
+
 		$typePlantesTable = new TypePlante();
 		$typePlantesRowset = $typePlantesTable->findAll();
 		unset($typePlantesTable);
-		
+
 		$typePartiePlantesTable = new TypePartieplante();
 		$typePartiePlantesRowset = $typePartiePlantesTable->fetchall();
 		unset($typePartiePlantesTable);
 		$typePartiePlantesRowset = $typePartiePlantesRowset->toArray();
-	
+
 		$tabTypePlantes = null;
 		$tabTypePlantesRetour = null;
-		
+
 		foreach($typePartiePlantesRowset as $p) {
 			foreach($typePlantesRowset as $t) {
 				$val = false;
 				$idChamp = "";
-				
+
 				if ($t["id_fk_partieplante1_type_plante"] == $p["id_type_partieplante"]) {
 					$val = true;
 				}
@@ -156,10 +167,11 @@ class Bral_Util_Soule {
 				if ($t["id_fk_partieplante4_type_plante"] == $p["id_type_partieplante"]) {
 					$val = true;
 				}
-				
+
 				if (!isset($tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]])) {
 					$tab = array(
 						'nom_type_plante' => $t["nom_type_plante"],
+						'nom_type_partieplante' => $p["nom_type_partieplante"],
 						'nom_systeme_type_plante' => $t["nom_systeme_type_plante"],
 						'id_type_partieplante' => $p["id_type_partieplante"],
 						'id_type_plante' => $t["id_type_plante"],
@@ -169,65 +181,139 @@ class Bral_Util_Soule {
 				}
 			}
 		}
-		
-		
+
 		return $tabTypePlantesRetour;
-		Bral_Util_Log::soule()->trace("Bral_Util_Soule - getTabPlantes - exit (".count($tabTypePlantesRetour).")-");
+		Bral_Util_Log::soule()->trace("Bral_Util_Soule - getTabPlantes - exit (".count($tabTypePlantesRetour).")");
 	}
-	
-	private static function repartitionGain($niveauTotal, $equipe, $estGagnant, $minerais, $plantes) {
+
+	private static function repartitionGain($idHobbitFin, $view, $niveauTotal, $equipe, $estGagnant, $minerais, $plantes) {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - repartitionGain - enter -");
 		asort($equipe); // tri par valeur nbPlaquage
-		
+
 		if ($estGagnant) {
 			$pourcentage = 0.7;
 		} else {
 			$pourcentage = 0.3;
 		}
-		
+
 		$rang = -1;
 		$nbPlaquageCourant = -1;
 		$nbHobbit = 0;
-		foreach($equipe as $idHobbit => $nbPlaquages) {
+		foreach($equipe as $idHobbit => $tab) {
 			$nbHobbit++;
 			if ($nbPlaquageCourant == -1) {
-				$nbPlaquageCourant = $nbPlaquages;
+				$nbPlaquageCourant = $tab["nb_plaquage"];
 				$rang = 1;
 			}
-			if ($nbPlaquageCourant != $nbPlaquages) {
+			if ($nbPlaquageCourant != $tab["nb_plaquage"]) {
 				$rang++;
 			}
-				
+
 			$nbGain = ceil($niveauTotal * $pourcentage * self::getCoefRang($rang));
 			if ($rang > 10) {
 				$nbHobbitRestant = count($equipe) - $nbHobbit;
 				$nbGain = ceil($nbGain / $nbHobbitRestant);
 			}
-			
+
 			if ($estGagnant && $nbGain < 6) {
 				$nbGain = 6;
 			} else if ($estGagnant == false && $nbGain < 3) {
 				$nbGain = 3;
 			}
-			
-			self::calculGainHobbit($idHobbit, $nbGain, $minerais, $plantes);
+				
+			self::calculGainHobbit($idHobbitFin, $idHobbit, $tab["niveau_hobbit"], $view, $nbGain, $minerais, $plantes, $rang, $estGagnant);
 		}
 
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - repartitionGain - exit -");
 	}
 
-	private static function calculGainHobbit($idHobbit, $nbGain, $minerais, $plantes) {
-		Bral_Util_Log::soule()->trace("Bral_Util_Soule - repartitionGain - enter - idHobbit(".$idHobbit.") gain(".$nbGain.")");
-		
+	private static function calculGainHobbit($idHobbitFin, $idHobbit, $niveauHobbit, $view, $nbGain, $minerais, $plantes, $rang, $estGagnant) {
+		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculGainHobbit - enter - idHobbit(".$idHobbit.") gain(".$nbGain.")");
+
 		$nbMinerai = count($minerais);
+		$nbPlante = count($plantes);
+
+		$nbUnitaireGain = ceil($nbGain / 3);
+
+		$tirage1 = Bral_Util_De::get_de_specifique(0, $nbMinerai + $nbPlante - 1);
+		$tirage2 = Bral_Util_De::get_de_specifique_hors_liste(0, $nbMinerai + $nbPlante - 1, array($tirage1));
+		$tirage3 = Bral_Util_De::get_de_specifique_hors_liste(0, $nbMinerai + $nbPlante - 1, array($tirage1, $tirage2));
+
+		$texte = self::updateDbData($idHobbit, $nbUnitaireGain, $tirage1, $nbMinerai, $nbPlante, $minerais, $plantes);
+		$texte .= self::updateDbData($idHobbit, $nbUnitaireGain, $tirage2, $nbMinerai, $nbPlante, $minerais, $plantes);
+		$texte .= self::updateDbData($idHobbit, $nbUnitaireGain, $tirage3, $nbMinerai, $nbPlante, $minerais, $plantes);
+
+		$config = Zend_Registry::get('config');
+		$idType = $config->game->evenements->type->soule;
+
 		
-		print_r($minerais);
-		print_r($plantes);
+		$details = "[h".$idHobbitFin."] a marqué, ";
+		if ($idHobbitFin == $idHobbit) {
+			$details .=  "il ";
+		} else {
+			$details .= "[h".$idHobbit."] ";
+		}
+		$details .= " a terminé au rang n°".$rang;
+		 
+		if ($estGagnant) {
+			$details .= " des gagnants";
+		} else {
+			$details .= " des perdants";
+		}
 		
-		
-		Bral_Util_Log::soule()->trace("Bral_Util_Soule - repartitionGain - exit -");
+		if ($idHobbitFin != $idHobbit) {
+			$detailsBot = Bral_Util_Lien::remplaceBaliseParNomEtJs("[h".$idHobbitFin."]", false);
+			$detailsBot .= " a";
+		} else {
+			$detailsBot = " Vous avez";
+		}
+		$detailsBot .= " apporté le ballon au bon endroit, le match de soule est terminé.".PHP_EOL.PHP_EOL;
+		$detailsBot .= " Vous avez gagné : ".PHP_EOL;
+		$detailsBot .= $texte;
+		$detailsBot .= " placés directement dans votre coffre à la banque";
+
+		Bral_Util_Evenement::majEvenements($idHobbit, $idType, $details, $detailsBot, $niveauHobbit, "hobbit", true, $view);
+
+		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculGainHobbit - exit -");
 	}
-	
+
+	private static function updateDbData($idHobbit, $nbUnitaireGain, $tirage, $nbMinerai, $nbPlante, $minerais, $plantes) {
+		Bral_Util_Log::soule()->trace("Bral_Util_Soule - updateDbData - enter $idHobbit, $nbUnitaireGain, $tirage, $nbMinerai, $nbPlante -");
+
+		if ($nbUnitaireGain > 1) {
+			$s = "s";
+		} else {
+			$s = "";
+		}
+			
+		if ($tirage < $nbMinerai) {
+			$coffreMineraiTable = new CoffreMinerai();
+			$data = array (
+				"id_fk_hobbit_coffre_minerai" => $idHobbit,
+				"id_fk_type_coffre_minerai" => $minerais[$tirage]["id_type_minerai"],
+				"quantite_brut_coffre_minerai" => $nbUnitaireGain,
+			);
+			$texte = "  ".$nbUnitaireGain ." minerai$s brut$s de ".$minerais[$tirage]["nom_type_minerai"];
+			Bral_Util_Log::soule()->trace("Bral_Util_Soule - updateDbData minerai type(".$minerais[$tirage]["id_type_minerai"].") nb(".$nbUnitaireGain.")");
+			$coffreMineraiTable->insertOrUpdate($data);
+		} else {
+			$coffrePartieplanteTable = new CoffrePartieplante();
+			$data = array (
+				"id_fk_hobbit_coffre_partieplante" => $idHobbit,
+				"id_fk_type_coffre_partieplante" => $plantes[$tirage - $nbMinerai]["id_type_partieplante"],
+				"id_fk_type_plante_coffre_partieplante" => $plantes[$tirage - $nbMinerai]["id_type_plante"],
+				"quantite_coffre_partieplante" => $nbUnitaireGain,
+			);
+				
+			$texte = "  ".$nbUnitaireGain ." ".$plantes[$tirage - $nbMinerai]["nom_type_partieplante"]."$s de ".$plantes[$tirage - $nbMinerai]["nom_type_plante"];
+			Bral_Util_Log::soule()->trace("Bral_Util_Soule - updateDbData minerai type(".$plantes[$tirage - $nbMinerai]["id_type_partieplante"].", ".$plantes[$tirage - $nbMinerai]["id_type_plante"].") nb(".$nbUnitaireGain.")");
+			$coffrePartieplanteTable->insertOrUpdate($data);
+		}
+
+		Bral_Util_Log::soule()->trace("Bral_Util_Soule - updateDbData - exit");
+		return $texte.PHP_EOL;
+	}
+
 	private static function getCoefRang($rang) {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - getCoefRang - enter -");
 		$coef = 0;
@@ -278,7 +364,7 @@ class Bral_Util_Soule {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatchDb - exit -");
 	}
 
-	private static function calculFinMatchJoueursDb($joueurs, $match) {
+	private static function calculFinMatchJoueursDb($hobbit, $joueurs, $match) {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatchJoueursDb - enter - matchId(".$match["id_soule_match"].")");
 
 		$hobbitTable = new Hobbit();
@@ -318,6 +404,16 @@ class Bral_Util_Soule {
 
 			$where = "id_hobbit = ".$j["id_hobbit"];
 			$hobbitTable->update($data, $where);
+			
+			if ($hobbit->id_hobbit == $j["id_hobbit"]) {
+				$hobbit->est_soule_hobbit = "non";
+				$hobbit->soule_camp_hobbit = null;
+				$hobbit->est_intangible_hobbit = "oui";
+				$hobbit->est_engage_hobbit = "non";
+				$hobbit->est_engage_next_dla_hobbit = "non";
+				$hobbit->x_hobbit = $x_hobbit;
+				$hobbit->y_hobbit = $y_hobbit;
+			}
 		}
 
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatchJoueursDb - exit -");

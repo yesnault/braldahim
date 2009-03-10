@@ -192,7 +192,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		} else {
 			$detailsBot .= $match["nom_equipeb_soule_match"];
 		}
-		Bral_Util_Evenement::majEvenements($joueur["id_hobbit"], $idType, $details, $detailsBot, $joueur["niveau_hobbit"], "hobbit", $joueur["niveau_hobbit"], true, $this->view);
+		Bral_Util_Evenement::majEvenements($joueur["id_hobbit"], $idType, $details, $detailsBot, $joueur["niveau_hobbit"], "hobbit", true, $this->view);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationJoueur - joueur(".$joueur["id_hobbit"].") x:".$x." y:".$y);
 
