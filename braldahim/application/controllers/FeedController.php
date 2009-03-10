@@ -18,7 +18,7 @@ class FeedController extends Zend_Controller_Action {
 		Zend_Loader::loadClass("InfoJeu");
 		 
 		$infoJeuTable = new InfoJeu();
-		$infos = $infoJeuTable -> fetchAll();
+		$infos = $infoJeuTable -> fetchAll(null, "date_info_jeu desc");
 
 		$feedArray = array(
             'title' => "Braldahim - Chronique", 
@@ -40,6 +40,8 @@ class FeedController extends Zend_Controller_Action {
                 'link' => '',
                 'description' => $texte,
                 'content' => $texte,
+				'pubDate' => $info->date_info_jeu,
+				'guid' => $info->id_info_jeu,
 			);
 		}
 		$feed = Zend_Feed::importArray($feedArray,'rss');
