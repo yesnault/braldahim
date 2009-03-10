@@ -1313,3 +1313,9 @@ td.vue2d.actuelle {
 	text-decoration:none;
 	width:100%;
 }
+
+.feed {
+  margin-left: 3px;
+  padding: 0 0 0 19px;
+  background: url("/public/images/rss.png") no-repeat 0 50%;
+} 
