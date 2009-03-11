@@ -35,8 +35,6 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 			$this->view->nbDeduction = 1;
 		}
 		
-		$this->view->nbPossibleAcCastars = $castarsRestants;
-		
 		$achatRation = true;
 		if ($this->view->nbPossible < 1) {
 			$this->view->nbPossible = 0;
