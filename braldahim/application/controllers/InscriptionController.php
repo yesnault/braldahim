@@ -399,9 +399,9 @@ class InscriptionController extends Zend_Controller_Action {
 				$dataParents["id_fk_pere_hobbit"] = $pere["id_hobbit"];
 				$dataParents["id_fk_mere_hobbit"] = $mere["id_hobbit"];
 				
-				$detailEvenement =  "[h".$mere["id_hobbit"]."] s'est mariÃ©e avec [h".$pere["id_hobbit"]."]" ;
-				$detailsBot = "Mariage effectuÃ© Ã  ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',date("Y-m-d H:i:s")).".";
-				$detailsBot .= " Consultez votre onglet Famille pour plus de dÃ©tails.";
+				$detailEvenement =  "[h".$mere["id_hobbit"]."] s'est mariée avec [h".$pere["id_hobbit"]."]" ;
+				$detailsBot = "Mariage effectué à  ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',date("Y-m-d H:i:s")).".";
+				$detailsBot .= " Consultez votre onglet Famille pour plus de détails.";
 				
 				Bral_Util_Evenement::majEvenements($pere["id_hobbit"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, $pere["niveau_hobbit"], "hobbit", true, $this->view);
 				Bral_Util_Evenement::majEvenements($mere["id_hobbit"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, $mere["niveau_hobbit"], "hobbit", true, $this->view);
