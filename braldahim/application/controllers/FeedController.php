@@ -43,7 +43,7 @@ class FeedController extends Zend_Controller_Action {
 			}
 			$feedArray['entries'][] = array(
                 'title' => substr(strip_tags($texte), 0, 40)."...", 
-                'link' => $info->lien_info_jeu,
+                'link' => $lien,
                 'description' => $texte,
                 'content' => $texte,
 				'pubDate' => $info->date_info_jeu,
