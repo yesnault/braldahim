@@ -36,7 +36,7 @@ class FeedController extends Zend_Controller_Action {
 		foreach ($infos as $info) {
 			$texte = Bral_Util_BBParser::bbcodeReplace($info->text_info_jeu);
 			if ($info->lien_info_jeu != null) {
-				$text .= "<br><a href='".$info["lien_info_jeu"]."'>Discussions</a>";
+				$texte .= "<br><a href='".$info["lien_info_jeu"]."'>Discussions</a>";
 				$lien = $info->lien_info_jeu;
 			} else {
 				$lien = "";
