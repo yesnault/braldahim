@@ -47,7 +47,6 @@ class FeedController extends Zend_Controller_Action {
                 'description' => $texte,
                 'content' => $texte,
 				'pubDate' => $info->date_info_jeu,
-				'guid' => $info->id_info_jeu,
 			);
 		}
 		$feed = Zend_Feed::importArray($feedArray,'rss');

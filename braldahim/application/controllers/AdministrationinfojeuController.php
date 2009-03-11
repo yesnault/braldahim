@@ -79,7 +79,7 @@ class AdministrationinfojeuController extends Zend_Controller_Action {
 			$infoJeuTable = new InfoJeu();
 			
 			if ($this->_request->get('idinfoEdit') != -1) {
-				$data = array('text_info_jeu' => $texte);
+				$data = array('text_info_jeu' => $texte, 'lien_info_jeu' => $lien);
 				$where = 'id_info_jeu = '.$this->_request->get('idinfoEdit');
 				$infoJeuTable->update($data, $where);
 				$idInfo = $this->_request->get('idinfoEdit');
