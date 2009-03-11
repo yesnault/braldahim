@@ -23,7 +23,7 @@ class FeedController extends Zend_Controller_Action {
 		$feedArray = array(
             'title' => "Braldahim - Chronique", 
             'link' => 'http://www.braldahim.com',
-            'charset' => 'utf8', 
+            'charset' => 'utf-8', 
             'description' => "La Chronique de Braldahim",
             'author' => 'Thains - Braldahim', 
             'email' => 'webmaster@braldahim.com',
