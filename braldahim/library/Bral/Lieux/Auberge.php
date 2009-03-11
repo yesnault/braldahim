@@ -27,16 +27,25 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 		$this->view->nbPossible = floor($this->view->poidsRestant / Bral_Util_Poids::POIDS_RATION);
 
 		$castarsRestants = $this->view->user->castars_hobbit -  $this->_coutCastars;
-		$nbPossibleAvecCastars = floor($castarsRestants / $this->_coutCastars);
+		$nbPossibleAvecCastars = floor($this->view->user->castars_hobbit / $this->_coutCastars);
 		
-		if ($this->view->nbPossible > $nbPossibleAvecCastars) {
+		$this->view->nbDeduction = 0;
+		if ($this->view->nbPossible >= $nbPossibleAvecCastars) {
 			$this->view->nbPossible = $nbPossibleAvecCastars;
+			$this->view->nbDeduction = 1;
 		}
+		
+		$this->view->nbPossibleAcCastars = $castarsRestants;
 		
 		$achatRation = true;
 		if ($this->view->nbPossible < 1) {
 			$this->view->nbPossible = 0;
 			$achatRation = false;
+		}
+		
+		$achatRationEtResto = true;
+		if ( floor($castarsRestants / $this->_coutCastars) < 1 || $achatRation == false){
+			$achatRationEtResto = false;
 		}
 		
 		$tabChoix[1]["nom"] = "Se restaurer uniquement";
@@ -46,7 +55,7 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 		$tabChoix[2]["valid"] = $achatRation;
 		$tabChoix[2]["bouton"] = "Acheter";
 		$tabChoix[3]["nom"] = "Se restaurer et acheter des rations";
-		$tabChoix[3]["valid"] = ($this->_utilisationPossible && $achatRation);
+		$tabChoix[3]["valid"] = $achatRationEtResto;
 		$tabChoix[3]["bouton"] = "Se Restaurer et Acheter";
 		
 		$this->view->tabChoix = $tabChoix;
