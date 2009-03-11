@@ -37,9 +37,10 @@ class FeedController extends Zend_Controller_Action {
 			$texte = Bral_Util_BBParser::bbcodeReplace($info->text_info_jeu);
 			if ($info->lien_info_jeu != null) {
 				$texte .= "<br><a href='".$info["lien_info_jeu"]."'>Discussions</a>";
-				$lien = $info->lien_info_jeu;
+				$lien = urlencode($info->lien_info_jeu);
 			} else {
 				$lien = "";
+				$guid = $info["id_info_jeu"];
 			}
 			$feedArray['entries'][] = array(
                 'title' => substr(strip_tags($texte), 0, 40)."...", 
@@ -47,6 +48,7 @@ class FeedController extends Zend_Controller_Action {
                 'description' => $texte,
                 'content' => $texte,
 				'pubDate' => $info->date_info_jeu,
+				'guid' => $lien,
 			);
 		}
 		$feed = Zend_Feed::importArray($feedArray,'rss');

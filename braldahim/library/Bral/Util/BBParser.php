@@ -118,30 +118,34 @@ class Bral_Util_BBParser {
 	}
 	
 	public static function smileReplace($string) {	
-
+		
+		$config = Zend_Registry::get('config');
+		
+		$url = $config->general->url;
+		
 		$message_emoticons=array(
-	      ":))"        => '<img src="/public/images/uddeim/emoticon_laughing.gif"  alt="" border="0" align="middle" />',		
-		  ":D"         => '<img src="/public/images/uddeim/emoticon_laughing.gif"  alt="" border="0" align="middle" />',		
-	      ":*"         => '<img src="/public/images/uddeim/emoticon_heart.gif"     alt="" border="0" align="middle" />',
-	      ":?"         => '<img src="/public/images/uddeim/emoticon_wondering.gif" alt="" border="0" align="middle" />',
-	      ":x"         => '<img src="/public/images/uddeim/emoticon_crossed.gif"   alt="" border="0" align="middle" />',
-	      "B)"         => '<img src="/public/images/uddeim/emoticon_cool.gif"      alt="" border="0" align="middle" />',
-	      ":("         => '<img src="/public/images/uddeim/emoticon_sad.gif"       alt="" border="0" align="middle" />',
-	      ":)"         => '<img src="/public/images/uddeim/emoticon_smile.gif"     alt="" border="0" align="middle" />',
-	      ":-("        => '<img src="/public/images/uddeim/emoticon_sad.gif"       alt="" border="0" align="middle" />',
-	      ":-)"        => '<img src="/public/images/uddeim/emoticon_smile.gif"     alt="" border="0" align="middle" />',
-	      ":laugh:"    => '<img src="/public/images/uddeim/emoticon_laughing.gif"  alt="" border="0" align="middle" />',
-	      ":grin:"     => '<img src="/public/images/uddeim/emoticon_laughing.gif"  alt="" border="0" align="middle" />',
-	      ";)"         => '<img src="/public/images/uddeim/emoticon_wink.gif"      alt="" border="0" align="middle" />',
-	      ";-)"        => '<img src="/public/images/uddeim/emoticon_wink.gif"      alt="" border="0" align="middle" />',
-	      ":P"         => '<img src="/public/images/uddeim/emoticon_tongue.gif"    alt="" border="0" align="middle" />',
-	      ":mad:"      => '<img src="/public/images/uddeim/emoticon_angry.gif"     alt="" border="0" align="middle" />',
-	      ":angry:"    => '<img src="/public/images/uddeim/emoticon_angry.gif"     alt="" border="0" align="middle" />',
-	      ":ohmy:"     => '<img src="/public/images/uddeim/emoticon_shocked.gif"   alt="" border="0" align="middle" />',
-		  ":o"         => '<img src="/public/images/uddeim/emoticon_shocked.gif"   alt="" border="0" align="middle" />',
-	      ":shock:"    => '<img src="/public/images/uddeim/emoticon_shocked.gif"   alt="" border="0" align="middle" />',
-	      ":blush:"    => '<img src="/public/images/uddeim/emoticon_blush.gif"     alt="" border="0" align="middle" />',
-	      ":kiss:"     => '<img src="/public/images/uddeim/emoticon_kiss.gif"      alt="" border="0" align="middle" />',
+	      ":))"        => '<img src="'.$url.'/public/images/uddeim/emoticon_laughing.gif"  alt="" border="0" align="middle" />',		
+		  ":D"         => '<img src="'.$url.'/public/images/uddeim/emoticon_laughing.gif"  alt="" border="0" align="middle" />',		
+	      ":*"         => '<img src="'.$url.'/public/images/uddeim/emoticon_heart.gif"     alt="" border="0" align="middle" />',
+	      ":?"         => '<img src="'.$url.'/public/images/uddeim/emoticon_wondering.gif" alt="" border="0" align="middle" />',
+	      ":x"         => '<img src="'.$url.'/public/images/uddeim/emoticon_crossed.gif"   alt="" border="0" align="middle" />',
+	      "B)"         => '<img src="'.$url.'/public/images/uddeim/emoticon_cool.gif"      alt="" border="0" align="middle" />',
+	      ":("         => '<img src="'.$url.'/public/images/uddeim/emoticon_sad.gif"       alt="" border="0" align="middle" />',
+	      ":)"         => '<img src="'.$url.'/public/images/uddeim/emoticon_smile.gif"     alt="" border="0" align="middle" />',
+	      ":-("        => '<img src="'.$url.'/public/images/uddeim/emoticon_sad.gif"       alt="" border="0" align="middle" />',
+	      ":-)"        => '<img src="'.$url.'/public/images/uddeim/emoticon_smile.gif"     alt="" border="0" align="middle" />',
+	      ":laugh:"    => '<img src="'.$url.'/public/images/uddeim/emoticon_laughing.gif"  alt="" border="0" align="middle" />',
+	      ":grin:"     => '<img src="'.$url.'/public/images/uddeim/emoticon_laughing.gif"  alt="" border="0" align="middle" />',
+	      ";)"         => '<img src="'.$url.'/public/images/uddeim/emoticon_wink.gif"      alt="" border="0" align="middle" />',
+	      ";-)"        => '<img src="'.$url.'/public/images/uddeim/emoticon_wink.gif"      alt="" border="0" align="middle" />',
+	      ":P"         => '<img src="'.$url.'/public/images/uddeim/emoticon_tongue.gif"    alt="" border="0" align="middle" />',
+	      ":mad:"      => '<img src="'.$url.'/public/images/uddeim/emoticon_angry.gif"     alt="" border="0" align="middle" />',
+	      ":angry:"    => '<img src="'.$url.'/public/images/uddeim/emoticon_angry.gif"     alt="" border="0" align="middle" />',
+	      ":ohmy:"     => '<img src="'.$url.'/public/images/uddeim/emoticon_shocked.gif"   alt="" border="0" align="middle" />',
+		  ":o"         => '<img src="'.$url.'/public/images/uddeim/emoticon_shocked.gif"   alt="" border="0" align="middle" />',
+	      ":shock:"    => '<img src="'.$url.'/public/images/uddeim/emoticon_shocked.gif"   alt="" border="0" align="middle" />',
+	      ":blush:"    => '<img src="'.$url.'/public/images/uddeim/emoticon_blush.gif"     alt="" border="0" align="middle" />',
+	      ":kiss:"     => '<img src="'.$url.'/public/images/uddeim/emoticon_kiss.gif"      alt="" border="0" align="middle" />',
 	    );
 	
 	/*	if ($config->animatedex) { 
