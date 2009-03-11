@@ -38,6 +38,7 @@ class Bral_Util_Attaque {
 		$retourAttaque["effetMotL"] = false;
 		$retourAttaque["effetMotQ"] = false;
 		$retourAttaque["effetMotS"] = false;
+		$retourAttaque["idMatchSoule"] = null;
 
 		$cible = array('nom_cible' => $hobbitCible->prenom_hobbit ." ". $hobbitCible->nom_hobbit,
 			'id_cible' => $hobbitCible->id_hobbit, 
@@ -332,6 +333,7 @@ Consultez vos événements pour plus de détails.";
 
 		$retourAttaque["details"] = $details;
 		$retourAttaque["typeEvemenent"] = $id_type;
+		$retourAttaque["idMatchSoule"] = $idMatchSoule;
 
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - exit -");
 		return $retourAttaque;
@@ -543,8 +545,7 @@ Consultez vos événements pour plus de détails.";
 		if ($degatCase || $riposte) {
 			$details .= " (compétence spéciale utilisée) ";
 			if ($riposte) {
-				$detailsBot .= " Riposte de ".$hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.")
-";
+				$detailsBot .= " Riposte de ".$hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.")".PHP_EOL;
 			}
 			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit);
 		}

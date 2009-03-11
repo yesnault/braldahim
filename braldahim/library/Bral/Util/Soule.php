@@ -17,13 +17,13 @@ class Bral_Util_Soule {
 		$souleEquipeTable = new SouleEquipe();
 
 		$dataCible = array("nb_plaque_soule_equipe" => "nb_plaque_soule_equipe + 1");
-		$whereCible = " id_fk_match_soule_equipe = ".$hobbitCible["id_fk_soule_match_hobbit"];
-		$whereCible .= " AND id_fk_hobbit_soule_equipe=".$hobbitCible["id_hobbit"];
+		$whereCible = " id_fk_match_soule_equipe = ".$hobbitCible->id_fk_soule_match_hobbit;
+		$whereCible .= " AND id_fk_hobbit_soule_equipe=".$hobbitCible->id_hobbit;
 		$souleEquipeTable->update($dataCible, $whereCible);
 
 		$dataAttaquant = array("nb_hobbit_plaquage_soule_equipe" => "nb_hobbit_plaquage_soule_equipe + 1");
-		$whereAttaquant = " id_fk_match_soule_equipe = ".$hobbitAttaquant["id_fk_soule_match_hobbit"];
-		$whereAttaquant .= " AND id_fk_hobbit_soule_equipe=".$hobbitAttaquant["id_hobbit"];
+		$whereAttaquant = " id_fk_match_soule_equipe = ".$hobbitAttaquant->id_fk_soule_match_hobbit;
+		$whereAttaquant .= " AND id_fk_hobbit_soule_equipe=".$hobbitAttaquant->id_hobbit;
 		$souleEquipeTable->update($dataAttaquant, $whereAttaquant);
 	}
 
