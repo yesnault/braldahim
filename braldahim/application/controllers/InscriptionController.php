@@ -358,9 +358,9 @@ class InscriptionController extends Zend_Controller_Action {
 			
 			$coupleTable->update($data, $where);
 			
-			$detailEvenement = "Un heureux Ã©vÃ©nement est arrivÃ©... ";
-			$detailsBot = " Vous venez d'avoir un nouvel enfant Ã  ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',date("Y-m-d H:i:s")).".";
-			$detailsBot .= " Consultez votre onglet Famille pour plus de dÃ©tails.";
+			$detailEvenement = "Un heureux événement est arrivé... ";
+			$detailsBot = " Vous venez d'avoir un nouvel enfant à  ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',date("Y-m-d H:i:s")).".";
+			$detailsBot .= " Consultez votre onglet Famille pour plus de détails.";
 			
 			Bral_Util_Evenement::majEvenements($couple["id_fk_m_hobbit_couple"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, 0, "hobbit", true, $this->view);
 			Bral_Util_Evenement::majEvenements($couple["id_fk_f_hobbit_couple"], $this->view->config->game->evenements->type->evenement, $detailEvenement, $detailsBot, 0, "hobbit", true, $this->view);
