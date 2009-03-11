@@ -27,8 +27,7 @@ class AdministrationinfojeuController extends Zend_Controller_Action {
 		
 		$infoJeu["id_info_jeu"] = -1;
 		$infoJeu["date_info_jeu"] = -1;
-		$infoJeu["text_info_jeu"] = "NouveauTexte.
-[url=lienhttp]Exemple lien[/url]";
+		$infoJeu["text_info_jeu"] = "NouveauTexte. [url=lienhttp]Exemple lien[/url]";
 		$infoJeu["lien_info_jeu"] = "Url du post sur le forum";
 		$this->view->infoJeu = $infoJeu;
 	}
