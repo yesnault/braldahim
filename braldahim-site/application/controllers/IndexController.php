@@ -34,6 +34,7 @@ class IndexController extends Zend_Controller_Action {
 				"date_info_jeu" => $i["date_info_jeu"],
 				"text_info_jeu" => $i["text_info_jeu"],
 				"est_sur_accueil_info_jeu" => $i["est_sur_accueil_info_jeu"],
+				"lien_info_jeu" => $i["lien_info_jeu"],
 				);
 		}
 		

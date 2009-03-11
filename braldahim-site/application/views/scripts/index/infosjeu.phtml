@@ -10,6 +10,9 @@
 			Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?>
 			<br>
 			<?=Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
+			<? if ($info["lien_info_jeu"] != null) :?>
+				<br><a href="<?=$info["lien_info_jeu"]?>">Discussions</a>
+			<? endif;?>
 			<br><br>
 			</td>
 		</tr>
