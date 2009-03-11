@@ -35,9 +35,12 @@ class FeedController extends Zend_Controller_Action {
 
 		foreach ($infos as $info) {
 			$texte = Bral_Util_BBParser::bbcodeReplace($info->text_info_jeu);
+			if ($info->lien_info_jeu != null) {
+				$text .= "<br><a href='".$info["lien_info_jeu"]."'>Discussions</a>";
+			}
 			$feedArray['entries'][] = array(
                 'title' => substr(strip_tags($texte), 0, 40)."...", 
-                'link' => '',
+                'link' => $info->lien_info_jeu,
                 'description' => $texte,
                 'content' => $texte,
 				'pubDate' => $info->date_info_jeu,

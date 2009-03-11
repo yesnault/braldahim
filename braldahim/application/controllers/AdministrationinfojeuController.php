@@ -28,7 +28,8 @@ class AdministrationinfojeuController extends Zend_Controller_Action {
 		$infoJeu["id_info_jeu"] = -1;
 		$infoJeu["date_info_jeu"] = -1;
 		$infoJeu["text_info_jeu"] = "NouveauTexte.
-[url=lienhttp]Discussions[/url]";
+[url=lienhttp]Exemple lien[/url]";
+		$infoJeu["lien_info_jeu"] = "Url du post sur le forum";
 		$this->view->infoJeu = $infoJeu;
 	}
 	
@@ -74,6 +75,7 @@ class AdministrationinfojeuController extends Zend_Controller_Action {
 			$filter = new Zend_Filter();
 			$filter->addFilter(new Zend_Filter_StringTrim())->addFilter(new Zend_Filter_StripTags());
 			$texte = $filter->filter($this->_request->getPost('texte_info'));
+			$lien = $filter->filter($this->_request->getPost('lien_info'));
 			
 			$infoJeuTable = new InfoJeu();
 			
@@ -85,7 +87,8 @@ class AdministrationinfojeuController extends Zend_Controller_Action {
 			} else {
 				$data = array(
 					'date_info_jeu' => date("Y-m-d H:i:s"),
-				 	'text_info_jeu' => $texte
+				 	'text_info_jeu' => $texte,
+					'lien_info_jeu' => $lien
 				);
 				$idInfo = $infoJeuTable->insert($data);
 			}
@@ -109,6 +112,7 @@ class AdministrationinfojeuController extends Zend_Controller_Action {
 				"date_info_jeu" => $i["date_info_jeu"],
 				"text_info_jeu" => $i["text_info_jeu"],
 				"est_sur_accueil_info_jeu" => $i["est_sur_accueil_info_jeu"],
+				"lien_info_jeu" => $i["lien_info_jeu"],
 				);
 		}
 		
