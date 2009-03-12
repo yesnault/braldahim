@@ -30,6 +30,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 
 	function render() {
 		if ($this->view->affichageInterne) {
+			$this->view->nom_interne = $this->getNomInterne();
 			$this->preData();
 			$this->data();
 		}
@@ -37,7 +38,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		return $this->view->render("interface/banque.phtml");
 	}
 	
-	private function preData() {
+	protected function preData() {
 		Zend_Loader::loadClass("Lieu");
 		
 		$lieuxTable = new Lieu();
@@ -55,10 +56,9 @@ class Bral_Box_Banque extends Bral_Box_Box {
 			$this->view->paUtilisationBanque = $lieu["pa_utilisation_type_lieu"];
 		}
 		
-		$this->view->nom_interne = $this->getNomInterne();
 	}
 	
-	private function data() {
+	protected function data() {
 		
 		Zend_Loader::loadClass("Coffre");
 		Zend_Loader::loadClass("CoffreEquipement");
@@ -124,6 +124,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		foreach ($minerais as $m) {
 			if ($m["quantite_brut_coffre_minerai"] > 0) {
 				$tabMineraisBruts[] = array(
+					"id_type_minerai" => $m["id_type_minerai"],
 					"type" => $m["nom_type_minerai"],
 					"quantite" => $m["quantite_brut_coffre_minerai"],
 					"poids" => $m["quantite_brut_coffre_minerai"] * Bral_Util_Poids::POIDS_MINERAI,
@@ -135,6 +136,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 			}
 			if ($m["quantite_lingots_coffre_minerai"] > 0) {
 				$tabLingots[] = array(
+					"id_type_minerai" => $m["id_type_minerai"],
 					"type" => $m["nom_type_minerai"],
 					"quantite" => $m["quantite_lingots_coffre_minerai"],
 					"poids" => $m["quantite_lingots_coffre_minerai"] * Bral_Util_Poids::POIDS_LINGOT,

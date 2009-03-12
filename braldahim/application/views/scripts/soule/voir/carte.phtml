@@ -3,6 +3,13 @@
 <? $coef = 7;
 $largeur = $this->terrainCourant["x_max_soule_terrain"] - $this->terrainCourant["x_min_soule_terrain"];
 $hauteur = $this->terrainCourant["y_max_soule_terrain"] - $this->terrainCourant["y_min_soule_terrain"];
+if ($this->matchEnCours["x_ballon_soule_match"] != null && $this->matchEnCours["y_ballon_soule_match"]) :
+	$xBallon = $this->matchEnCours["x_ballon_soule_match"];
+	$yBallon = $this->matchEnCours["y_ballon_soule_match"];
+else : 
+	$xBallon = $this->porteur["x_hobbit"];
+	$yBallon = $this->porteur["y_hobbit"];
+endif;
 ?>
 
 #terrain {
@@ -25,8 +32,8 @@ $hauteur = $this->terrainCourant["y_max_soule_terrain"] - $this->terrainCourant[
     bottom:0px;
     margin:0px;
     cursor:pointer;
-    left:<?= -4 + ($this->matchEnCours["x_ballon_soule_match"] - $this->terrainCourant["x_min_soule_terrain"]) * $coef ?>px; 
-    top:<?= -3 + ($this->matchEnCours["y_ballon_soule_match"] - $this->terrainCourant["y_min_soule_terrain"]) * $coef ?>px; 
+    left:<?= -4 + ($xBallon - $this->terrainCourant["x_min_soule_terrain"]) * $coef ?>px; 
+    top:<?= -3 + ($this->terrainCourant["y_max_soule_terrain"] - $yBallon) * $coef ?>px; 
 }
 
 .bande {
@@ -82,7 +89,7 @@ $hauteur = $this->terrainCourant["y_max_soule_terrain"] - $this->terrainCourant[
 </p>
 <p class="camp equipeA" style="color:red">Camp équipe A :<br> <?=$this->equipes["equipea"]["nom_equipe"]?></p>
 <p class="camp equipeB" style="color:blue">Camp équipe B :<br> <?=$this->equipes["equipeb"]["nom_equipe"]?></p>
-<p class="ballon" title="Ballon en X:<?=$this->matchEnCours["x_ballon_soule_match"]?>, Y:<?=$this->matchEnCours["y_ballon_soule_match"]?>"></p>
+<p class="ballon" title="Ballon en X:<?=$xBallon?>, Y:<?=$yBallon?>"></p>
 <?php $equipe = $this->equipes["equipea"]; $backgroundColor="red"; $nomEquipe="Équipe A";include("carteequipe.phtml")?>
 <?php $equipe = $this->equipes["equipeb"]; $backgroundColor="blue"; $nomEquipe="Équipe B"; include("carteequipe.phtml")?>
 </div>

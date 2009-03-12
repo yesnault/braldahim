@@ -86,6 +86,7 @@ abstract class Bral_Competences_Competence {
 		$tab[] = "box_evenements";
 		if ($this->view->finMatchSoule) {
 			$tab[] = "box_soule";
+			$tab[] = "box_coffre";
 		}
 		return $tab;
 	}
