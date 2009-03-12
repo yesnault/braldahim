@@ -57,6 +57,10 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 		$this->calculInscription();
 		$this->prepareEquipes();
 		$this->prepareMatch();
+		
+		if ($this->matchEnCours != null) { 
+			$this->prepareEvenements();
+		}
 	}
 
 	function prepareFormulaire() {
@@ -134,5 +138,20 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 		$this->view->porteur = $porteur;
 		$this->view->matchEnCours = $this->matchEnCours;
 	}
+	
+	private function prepareEvenements() {
+		Zend_Loader::loadClass("Evenement");
+		$evenementTable = new Evenement();
+		$rowset = $evenementTable->findByIdMatch($this->matchEnCours["id_soule_match"]);
 
+		$tab = null;
+		foreach($rowset as $r) {
+			$hobbit = $r["prenom_hobbit"]." ".$r["nom_hobbit"]." (".$r["id_hobbit"].")";
+			$tab[] = array ("date_evenement" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y à H:i:s ',$r["date_evenement"]),
+							"hobbit_evenement" => $hobbit,
+							"details_evenement" => $r["details_evenement"]);
+		}
+
+		$this->view->evenements = $tab;
+	}
 }

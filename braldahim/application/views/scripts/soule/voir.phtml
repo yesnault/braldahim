@@ -1,16 +1,9 @@
 
 <br>
 <ul class="titre textalic textsizec">
-
 	<?=$this->terrainCourant["nom_soule_terrain"]?>
-
 </ul>
-
-X Min:<?=$this->terrainCourant["x_min_soule_terrain"]?> X Max:<?=$this->terrainCourant["x_max_soule_terrain"]?><br>
-Y Min:<?=$this->terrainCourant["y_min_soule_terrain"]?> Y Max:<?=$this->terrainCourant["y_max_soule_terrain"]?>
-
 <br>
-Développement en cours.<br><br>
 
 <? if ($this->matchEnCours != null) : ?>
 	Il y a actuellement un match en cours sur ce terrain. <br>
@@ -27,6 +20,12 @@ Développement en cours.<br><br>
 	Il n'y a actuellement aucun match en cours sur ce terrrain.
 <? endif;?>
 
+<table width="100%">
+	<tr>
+		<td valign="top"><? if ($this->matchEnCours != null) : include("voir/carte.phtml"); endif;?></td>
+		<td valign="top"><? if ($this->matchEnCours != null) : include("voir/evenements.phtml"); endif;?></td>
+	</tr>
+</table>
 <br><br>
 
 <? if ($this->inscriptionPossible === true): ?>

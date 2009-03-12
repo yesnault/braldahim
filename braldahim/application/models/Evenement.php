@@ -45,4 +45,16 @@ class Evenement extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+	
+	public function findByIdMatch($idMatch) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'));
+		$select->from('evenement', array('id_evenement', 'date_evenement', 'details_evenement'));
+		$select->where('id_fk_hobbit_evenement = id_hobbit');
+		$select->where('id_fk_soule_match_evenement = ?', (int)$idMatch);
+		$select->order("date_evenement DESC");
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }
