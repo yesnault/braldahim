@@ -230,7 +230,11 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_vue", "box_competences_metiers", "box_laban", "box_lieu"));
+		$tab = array("box_vue", "box_competences_metiers", "box_laban", "box_lieu");
+		if ($this->view->user->est_soule_hobbit == "oui") {
+			$tab[] = "box_soule";
+		}
+		return $this->constructListBoxRefresh($tab);
 	}
 
 	/*

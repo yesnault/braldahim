@@ -75,10 +75,6 @@ endif; ?>
 			<img src='/public/styles/braldahim_defaut/images/vue/batiment.png' />
 		<? endif; ?>
 	</span>
-<? elseif ($textBallon != "") : ?>
-	<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textBallon.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
-		<img src='/public/styles/braldahim_defaut/images/vue/ballon.png'/>
-	</span>
 <? elseif ($textEchoppe != "") : ?>
 	<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
 		<img src='/public/styles/braldahim_defaut/images/vue/echoppes/<?=$nomSystemeEchoppe?>.png' />
@@ -94,3 +90,9 @@ endif; ?>
 <? else: ?>
 	<br>
 <? endif;?>  
+
+<? if ($textBallon != "") : ?>
+<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textBallon.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
+	<img src='/public/styles/braldahim_defaut/images/vue/ballon.png'/>
+</span>
+<? endif;?>
