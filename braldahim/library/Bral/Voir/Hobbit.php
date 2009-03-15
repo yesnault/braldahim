@@ -132,10 +132,14 @@ class Bral_Voir_Hobbit {
 		$this->view->pereMereOk = false;
 		if ($this->view->hobbit["id_fk_mere_hobbit"] != null && $this->view->hobbit["id_fk_pere_hobbit"] != null &&
 			$this->view->hobbit["id_fk_mere_hobbit"] != 0 && $this->view->hobbit["id_fk_pere_hobbit"] != 0 ) {
-			$this->view->pereMereOk = true;
+			
 			
 			$pere = $hobbitTable->findById($this->view->hobbit["id_fk_pere_hobbit"]);
 			$mere = $hobbitTable->findById($this->view->hobbit["id_fk_mere_hobbit"]);
+			
+			if ($pere != null && $mere != null) {
+				$this->view->pereMereOk = true;
+			}
 			
 			$this->view->pere = $pere;
 			$this->view->mere = $mere;
