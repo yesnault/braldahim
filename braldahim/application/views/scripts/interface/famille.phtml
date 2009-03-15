@@ -6,14 +6,21 @@
   
  <? if ($this->affichageInterne == true) : ?>
   	<? if ($this->pereMereOk === true) :?>
-  	Suite &agrave; l'heureuse rencontre entre votre m&egrave;re 
-  		<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->mere->id_hobbit ?>');">
-    		<?=$this->mere->prenom_hobbit ?> <?=$this->mere->nom_hobbit ?> (n&deg;<?=$this->mere->id_hobbit ?>)
-    	</a>
-  	et votre p&egrave;re
-  		<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->pere->id_hobbit ?>');">
-    		<?=$this->pere->prenom_hobbit ?> <?=$this->pere->nom_hobbit ?> (n&deg;<?=$this->pere->id_hobbit ?>)
-    	</a>
+  		Suite &agrave; l'heureuse rencontre entre votre m&egrave;re 
+  		<a title="Voir le profil" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->hobbit["id_fk_mere_hobbit"] ?>');">
+  		<? if ($this->mere == null): ?>
+  			Hobbit inconnue (n&deg;<?=$this->hobbit["id_fk_mere_hobbit"] ?>)</a>
+  		<? else : ?>
+  			<?=$this->mere->prenom_hobbit ?> <?=$this->mere->nom_hobbit ?> (n&deg;<?=$this->hobbit["id_fk_mere_hobbit"] ?>)</a>
+  		<? endif;?>
+	  	et votre p&egrave;re
+  		<a title="Voir le profil" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->hobbit["id_fk_pere_hobbit"] ?>');">
+  		<? if ($this->pere == null): ?>
+  			Hobbit inconnu (n&deg;<?=$this->hobbit["id_fk_pere_hobbit"] ?>)</a>
+  		<? else : ?>
+  			<?=$this->pere->prenom_hobbit ?> <?=$this->pere->nom_hobbit ?> (n&deg;<?=$this->hobbit["id_fk_pere_hobbit"] ?>)</a>
+  		<? endif;?>
+	    		
   	vous &ecirc;tes n&eacute;<? if ($this->user->sexe_hobbit == 'feminin') echo "e"?> le <?=$this->dateNaissance ?>.
   	
   	<? else: ?>
@@ -25,9 +32,12 @@
     	Vous n'avez ni enfant, ni conjoint<? if ($this->user->sexe_hobbit != 'feminin') echo "e"?>.
     <? else : ?>
     	Avec votre conjoint<? if ($this->user->sexe_hobbit != 'feminin') echo "e"?>
-    	<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->conjoint["id_hobbit"] ?>');">
-    		<?=$this->conjoint["prenom"] ?> <?=$this->conjoint["nom"] ?> (n&deg;<?=$this->conjoint["id_hobbit"] ?>)
-    	</a>
+    	<? if ($this->conjoint != null) : ?>
+	    	<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->conjoint["id_hobbit"] ?>');">
+	    		<?=$this->conjoint["prenom"] ?> <?=$this->conjoint["nom"] ?> (n&deg;<?=$this->conjoint["id_hobbit"] ?>)</a>,
+	    <? else: ?>
+	    	disparu<? if ($this->hobbit["sexe_hobbit"] != 'feminin') echo "e"?>
+	    <? endif; ?>
     	 vous avez eu <?=$this->nbEnfants ?> enfant<? if ($this->nbEnfants > 1) echo 's' ?>.<br />
     	
     	<? if ($this->nbEnfants > 0) : ?>

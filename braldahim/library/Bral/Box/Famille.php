@@ -38,20 +38,33 @@ class Bral_Box_Famille extends Bral_Box_Box {
 	
 	private function data() {
 		Zend_Loader::loadClass('Couple');
+		Zend_Loader::loadClass('AncienHobbit');
 		$hobbitTable = new Hobbit();
+		$ancienHobbitTable = new AncienHobbit();
 	
 		$this->view->pereMereOk = false;
-		if ($this->view->user->id_fk_mere_hobbit != null && $this->view->user->id_fk_pere_hobbit != null &&
-			$this->view->user->id_fk_mere_hobbit != 0 && $this->view->user->id_fk_pere_hobbit != 0 ) {
+		$pere = null;
+		$mere = null;
+
+		if ($this->view->hobbit["id_fk_mere_hobbit"] != null && $this->view->hobbit["id_fk_pere_hobbit"] != null &&
+		$this->view->hobbit["id_fk_mere_hobbit"] != 0 && $this->view->hobbit["id_fk_pere_hobbit"] != 0 ) {
+				
+			$pere = $hobbitTable->findById($this->view->hobbit["id_fk_pere_hobbit"]);
+			$mere = $hobbitTable->findById($this->view->hobbit["id_fk_mere_hobbit"]);
+				
+			if ($pere == null) {
+				$pere = $ancienHobbitTable->findById($this->view->hobbit["id_fk_pere_hobbit"]);
+			}
+				
+			if ($mere == null) {
+				$mere = $ancienHobbitTable->findById($this->view->hobbit["id_fk_mere_hobbit"]);
+			}
+				
 			$this->view->pereMereOk = true;
-			
-			$hobbitTable = new Hobbit();
-			$pere = $hobbitTable->findById($this->view->user->id_fk_pere_hobbit);
-			$mere = $hobbitTable->findById($this->view->user->id_fk_mere_hobbit);
-			
-			$this->view->pere = $pere;
-			$this->view->mere = $mere;
 		}
+
+		$this->view->pere = $pere;
+		$this->view->mere = $mere;
 		
 		// on regarde s'il y a des enfants
 		$enfants = null;

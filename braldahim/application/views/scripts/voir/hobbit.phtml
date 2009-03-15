@@ -8,13 +8,19 @@
 	<ul class="titre textalic textsizea">Hobbit Inconnu</ul>
 <? else : ?>
     <ul class="titre textalic textsizea"><?=$this->hobbit["prenom_hobbit"] ?> <?=$this->hobbit["nom_hobbit"] ?><? 
-    if ($this->hobbit["titre_courant_hobbit"] != null) : ?>, 
+    if ($this->ancien === false && $this->hobbit["titre_courant_hobbit"] != null) : ?>, 
     <?=$this->hobbit["titre_courant_hobbit"] ?>
     <? endif;?>
      </ul>
      <ul class="titre textalic textsized">
       Hobbit n&deg;<?=$this->hobbit["id_hobbit"] ?>
      </ul>
+     
+    <? if ($this->ancien) : ?>
+	    <ul class="titre textalic textsized">
+	    Ce hobbit a disparu, il n'est plus joué.
+	    </ul>
+    <? endif;?>
 	&nbsp;
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">
@@ -22,7 +28,9 @@
 			<thead class="table_liste">
 			  <tr class="table_liste">
 				<th style="cursor:pointer" onClick='document.location.href="/voir/hobbit/?hobbit=<?=$this->hobbit["id_hobbit"] ?>"' title="Voir le profil">Profil</th>
-				<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_hobbit&hobbit=<?=$this->hobbit["id_hobbit"] ?>&menu=evenements");' title="Voir les &eacute;v&eacute;nements">&Eacute;v&eacute;nements</th>
+				 <? if ($this->ancien === false) : ?>
+					<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_hobbit&hobbit=<?=$this->hobbit["id_hobbit"] ?>&menu=evenements");' title="Voir les &eacute;v&eacute;nements">&Eacute;v&eacute;nements</th>
+				 <? endif; ?>
 				<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_hobbit&hobbit=<?=$this->hobbit["id_hobbit"] ?>&menu=famille");' title="Voir la famille">Famille</th>
 			  </tr>
 			</thead>

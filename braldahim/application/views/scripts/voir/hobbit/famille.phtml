@@ -1,22 +1,31 @@
   	<? if ($this->pereMereOk === true) :?>
-  	Suite &agrave; l'heureuse rencontre entre sa m&egrave;re 
-  		<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->mere->id_hobbit ?>');">
-    		<?=$this->mere->prenom_hobbit ?> <?=$this->mere->nom_hobbit ?> (n&deg;<?=$this->mere->id_hobbit ?>)</a>
-  	et son p&egrave;re
-  		<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->pere->id_hobbit ?>');">
-    		<?=$this->pere->prenom_hobbit ?> <?=$this->pere->nom_hobbit ?> (n&deg;<?=$this->pere->id_hobbit ?>)</a>
-  	<? if ($this->hobbit["sexe_hobbit"] == 'feminin') : echo "elle"; else : echo "il"; endif;?>
-  	 est n&eacute;<? if ($this->hobbit["sexe_hobbit"] == 'feminin') echo "e"?>
-  	 <span style="cursor:pointer" title="<?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->hobbit["date_creation_hobbit"] );?>">
-	<?=Bral_Helper_Calendrier::affiche(false, $this->hobbit["date_creation_hobbit"] );?>.
-	</span>
+	  	Suite &agrave; l'heureuse rencontre entre sa m&egrave;re 
+  		<a title="Voir le profil" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->hobbit["id_fk_mere_hobbit"] ?>');">
+  		<? if ($this->mere == null): ?>
+  			Hobbit inconnue (n&deg;<?=$this->hobbit["id_fk_mere_hobbit"] ?>)</a>
+  		<? else : ?>
+  			<?=$this->mere->prenom_hobbit ?> <?=$this->mere->nom_hobbit ?> (n&deg;<?=$this->hobbit["id_fk_mere_hobbit"] ?>)</a>
+  		<? endif;?>
+	  	et son p&egrave;re
+  		<a title="Voir le profil" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->hobbit["id_fk_pere_hobbit"] ?>');">
+  		<? if ($this->pere == null): ?>
+  			Hobbit inconnu (n&deg;<?=$this->hobbit["id_fk_pere_hobbit"] ?>)</a>
+  		<? else : ?>
+  			<?=$this->pere->prenom_hobbit ?> <?=$this->pere->nom_hobbit ?> (n&deg;<?=$this->hobbit["id_fk_pere_hobbit"] ?>)</a>
+  		<? endif;?>
+	    <br>
+	    <?=$this->hobbit["prenom_hobbit"] ?> <?=$this->hobbit["nom_hobbit"] ?>  (n&deg;<?=$this->hobbit["id_hobbit"] ?>)
+	  	 est n&eacute;<? if ($this->hobbit["sexe_hobbit"] == 'feminin') echo "e"?>
+	  	 <span style="cursor:pointer" title="<?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->hobbit["date_creation_hobbit"] );?>">
+		<?=Bral_Helper_Calendrier::affiche(false, $this->hobbit["date_creation_hobbit"] );?>.
+		</span>
   	
   	<? else: ?>
-  	<? if ($this->hobbit["sexe_hobbit"] == 'feminin') : echo "Elle"; else : echo "Il"; endif;?>
-  	 est n&eacute;<? if ($this->hobbit["sexe_hobbit"] == 'feminin') echo "e"?> orphelin<? if ($this->hobbit["sexe_hobbit"] == 'feminin') echo "e"?> 
-  	 le  <span style="cursor:pointer" title="<?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->hobbit["date_creation_hobbit"] );?>">
-	<?=Bral_Helper_Calendrier::affiche(false, $this->hobbit["date_creation_hobbit"] );?>.
-	</span>
+	  	<? if ($this->hobbit["sexe_hobbit"] == 'feminin') : echo "Elle"; else : echo "Il"; endif;?>
+	  	 est n&eacute;<? if ($this->hobbit["sexe_hobbit"] == 'feminin') echo "e"?> orphelin<? if ($this->hobbit["sexe_hobbit"] == 'feminin') echo "e"?> 
+	  	 le  <span style="cursor:pointer" title="<?php echo Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->hobbit["date_creation_hobbit"] );?>">
+		<?=Bral_Helper_Calendrier::affiche(false, $this->hobbit["date_creation_hobbit"] );?>.
+		</span>
   	<? endif; ?>
     <br /><br />
     
@@ -26,9 +35,13 @@
     <? else : ?>
     	Avec <? if ($this->hobbit["sexe_hobbit"] != 'feminin'): echo "sa"; else: echo "son"; endif;?> 
     	conjoint<? if ($this->hobbit["sexe_hobbit"] != 'feminin') echo "e"?>
-    	<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->conjoint["id_hobbit"] ?>');">
-    		<?=$this->conjoint["prenom"] ?> <?=$this->conjoint["nom"] ?> (n&deg;<?=$this->conjoint["id_hobbit"] ?>)
-    	</a>
+    	
+    	<? if ($this->conjoint != null) : ?>
+	    	<a title="Voir le profil" href="#" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->conjoint["id_hobbit"] ?>');">
+	    		<?=$this->conjoint["prenom"] ?> <?=$this->conjoint["nom"] ?> (n&deg;<?=$this->conjoint["id_hobbit"] ?>)</a>,
+	    <? else: ?>
+	    	disparu<? if ($this->hobbit["sexe_hobbit"] != 'feminin') echo "e"?>
+	    <? endif; ?>
     	 <? if ($this->hobbit["sexe_hobbit"] == 'feminin') : echo "elle"; else : echo "il"; endif;?>
     	  a eu <?=$this->nbEnfants ?> enfant<? if ($this->nbEnfants > 1) echo 's' ?>.<br />
     	
