@@ -16,18 +16,20 @@
 	<th>Sexe</th>
 	<td class="table_liste"><? if ($this->hobbit["sexe_hobbit"] == "masculin"): echo "Masculin"; else: echo "F&eacute;minin"; endif;?></td>
   </tr>
-  <tr class="table_liste">
-	<th>Communaut&eacute;</th>
-	<td class="table_liste" nowrap>
-	<? if ($this->communaute == null) : ?>
-		<i>Aucune</i>
-	<? else: ?>
-		<a href="/voir/communaute/?communaute=<?=$this->communaute["id_communaute"] ?>">
-		<?=$this->communaute["nom_communaute"] ?>, n&deg;<?=$this->communaute["id_communaute"] ?>
-		</a>
-	<? endif; ?>
-	</td>
-  </tr>
+  <? if ($this->ancien === false) : ?>
+	  <tr class="table_liste">
+		<th>Communaut&eacute;</th>
+		<td class="table_liste" nowrap>
+		<? if ($this->communaute == null) : ?>
+			<i>Aucune</i>
+		<? else: ?>
+			<a href="/voir/communaute/?communaute=<?=$this->communaute["id_communaute"] ?>">
+			<?=$this->communaute["nom_communaute"] ?>, n&deg;<?=$this->communaute["id_communaute"] ?>
+			</a>
+		<? endif; ?>
+		</td>
+	  </tr>
+  <? endif; ?>
   <tr class="table_liste">
 	<th>Niveau</th>
 	<td class="table_liste"><?=$this->hobbit["niveau_hobbit"] ?></td>
@@ -37,7 +39,7 @@
 	<td class="table_liste"><?=$this->hobbit["nb_ko_hobbit"] ?></td>
   </tr>
   <tr class="table_liste">
-	<th>Nombre de mise à KO de Hobbit</th>
+	<th>Nombre de KO (de hobbit) effectués</th>
 	<td class="table_liste"><?=$this->hobbit["nb_hobbit_ko_hobbit"] ?></td>
   </tr>
   <tr class="table_liste">
