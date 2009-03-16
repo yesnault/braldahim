@@ -1,0 +1,19 @@
+<? if ($this->ameliorationCompetence) : ?>
+	Vous avez r&eacute;ussi &agrave; am&eacute;liorer une de vos comp&eacute;tences de fabrication :
+	<br>
+	<? foreach($this->tabCompetencesAmeliorees as $c) : ?>
+		<?=$c["nom_competence"]?> : + <?=$this->deCompetence?> % <br>
+	<? endforeach;?>
+<? else: ?>
+	Vous n'avez pas r&eacute;ussi &agrave; am&eacute;liorer une de vos comp&eacute;tence de fabrication.
+<? endif;?>
+<br><br>
+
+Vous avez boutiqu&eacute; <?=$this->petitEquipement["nom_petit_equipement"]?>.<br><br>
+
+Un fonctionnaire de la vile regarde votre objet : <br>
+"<?=$this->message?>"<br><br>
+
+Il vous &eacute;change votre objet contre <?=$this->nbCastarsGagnes?> 
+castar<?if ($this->nbCastarsGagnes > 1): echo "s"; endif;?>
+<br><br> 

@@ -37,6 +37,22 @@ class HobbitsCompetences extends Zend_Db_Table {
 		return $db->fetchAll($sql);
     }
     
+    function findByIdHobbitAndNbPaAndNomSystemeMetier($idHobbit, $nbPa, $nomSystemeMetier) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbits_competences', '*')
+		->from('competence', '*')
+		->from('metier', '*')
+		->where('hobbits_competences.id_fk_hobbit_hcomp = ?', intval($idHobbit))
+		->where('hobbits_competences.id_fk_competence_hcomp = competence.id_competence')
+		->where('competence.pa_utilisation_competence = ?', intval($nbPa))
+		->where('competence.id_fk_metier_competence = id_metier')
+		->where('metier.nom_systeme_metier = ?', $nomSystemeMetier)
+		->order('ordre_competence ASC');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+    }
+    
     function annuleEffetsTabacByIdHobbit($idHobbit) {
 		$where  = 'hobbits_competences.id_fk_hobbit_hcomp = '.intval($idHobbit);
 		$data = array(

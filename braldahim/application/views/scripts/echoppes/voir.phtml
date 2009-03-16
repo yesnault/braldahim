@@ -6,7 +6,7 @@
 <?if ($this->echoppe["nom_echoppe"] != null && $this->echoppe["nom_echoppe"] != "") : ?>
 	<?=htmlspecialchars($this->echoppe["nom_echoppe"])?>,
 <? endif; ?>
-&Eacute;choppe <? if ($this->echoppe["nom_metier"]{0} == 'A') : echo 'd\''; else: echo "de"; endif; ?><?=htmlspecialchars($this->echoppe["nom_metier"])?><br></ul>
+&Eacute;choppe <? if ($this->echoppe["nom_metier"]{0} == 'A') : echo 'd\''; else: echo "de"; endif; ?> <?=htmlspecialchars($this->echoppe["nom_metier"])?><br></ul>
 <ul class="titre textalic textsizec"><?=htmlspecialchars($this->echoppe["nom_region"])?>, x:<?=$this->echoppe["x_echoppe"]?>, y:<?=$this->echoppe["y_echoppe"]?></ul>
 <br />
 

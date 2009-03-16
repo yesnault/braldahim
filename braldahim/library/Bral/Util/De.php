@@ -83,6 +83,10 @@ class Bral_Util_De {
 		return self::getLanceDeSpecifique(2, 1, 10);
 	}
 	
+	public static function get_3d10() {
+		return self::getLanceDeSpecifique(3, 1, 10);
+	}
+	
 	public static function getLanceDeSpecifique($n, $a, $b) {
 		$retour = 0;
 		for ($i = 1; $i <= $n; $i++) {
