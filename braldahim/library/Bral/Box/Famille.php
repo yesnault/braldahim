@@ -46,6 +46,9 @@ class Bral_Box_Famille extends Bral_Box_Box {
 		$pere = null;
 		$mere = null;
 
+		$this->view->mereAncienne = false;
+		$this->view->pereAncien = false;
+		
 		if ($this->view->user->id_fk_mere_hobbit != null && $this->view->user->id_fk_pere_hobbit != null &&
 		$this->view->user->id_fk_mere_hobbit != 0 && $this->view->user->id_fk_pere_hobbit != 0 ) {
 				
@@ -53,10 +56,12 @@ class Bral_Box_Famille extends Bral_Box_Box {
 			$mere = $hobbitTable->findById($this->view->user->id_fk_mere_hobbit);
 				
 			if ($pere == null) {
+				$this->view->pereAncien = true;
 				$pere = $ancienHobbitTable->findById($this->view->user->id_fk_pere_hobbit);
 			}
 				
 			if ($mere == null) {
+				$this->view->mereAncienne = true;
 				$mere = $ancienHobbitTable->findById($this->view->user->id_fk_mere_hobbit);
 			}
 				

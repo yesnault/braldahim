@@ -4,14 +4,24 @@
   		<? if ($this->mere == null): ?>
   			Hobbit inconnue (n&deg;<?=$this->hobbit["id_fk_mere_hobbit"] ?>)</a>
   		<? else : ?>
-  			<?=$this->mere->prenom_hobbit ?> <?=$this->mere->nom_hobbit ?> (n&deg;<?=$this->hobbit["id_fk_mere_hobbit"] ?>)</a>
+  			<? if ($this->mereAncienne) : ?>
+  				<?=$this->mere->prenom_ancien_hobbit ?> <?=$this->mere->nom_ancien_hobbit ?>
+  			<? else: ?>
+  				<?=$this->mere->prenom_hobbit ?> <?=$this->mere->nom_hobbit ?>
+  			<? endif;?>
+  			(n&deg;<?=$this->hobbit["id_fk_mere_hobbit"] ?>)</a>
   		<? endif;?>
 	  	et son p&egrave;re
   		<a title="Voir le profil" onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$this->hobbit["id_fk_pere_hobbit"] ?>');">
   		<? if ($this->pere == null): ?>
   			Hobbit inconnu (n&deg;<?=$this->hobbit["id_fk_pere_hobbit"] ?>)</a>
   		<? else : ?>
-  			<?=$this->pere->prenom_hobbit ?> <?=$this->pere->nom_hobbit ?> (n&deg;<?=$this->hobbit["id_fk_pere_hobbit"] ?>)</a>
+  			<? if ($this->pereAncien) : ?>
+  				<?=$this->pere->prenom_ancien_hobbit ?> <?=$this->pere->nom_ancien_hobbit ?>
+  			<? else: ?>
+  				<?=$this->pere->prenom_hobbit ?> <?=$this->pere->nom_hobbit ?>
+  			<? endif;?>
+  			(n&deg;<?=$this->hobbit["id_fk_pere_hobbit"] ?>)</a>
   		<? endif;?>
 	    <br>
 	    <?=$this->hobbit["prenom_hobbit"] ?> <?=$this->hobbit["nom_hobbit"] ?>  (n&deg;<?=$this->hobbit["id_hobbit"] ?>)
