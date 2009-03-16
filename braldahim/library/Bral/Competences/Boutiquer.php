@@ -140,7 +140,13 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 		}
 		$this->view->nbCastarsGagnes = $nbCastars;
 		$this->view->message = $message;
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit + $nbCastars;
+		
+		$echoppeTable = new Echoppe();
+		$data = array(
+			'id_echoppe' => $this->idEchoppe,
+			'quantite_castar_caisse_echoppe' => $nbCastars,
+		);
+		$echoppeTable->insertOrUpdate($data);
 	}
 	
 	private function updateCompetenceDb($nbPa, $deCompetence) {
@@ -176,6 +182,6 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 	}
 	
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_echoppes", "box_laban"));
+		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_echoppes"));
 	}
 }
