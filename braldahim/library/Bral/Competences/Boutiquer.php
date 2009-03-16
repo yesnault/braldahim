@@ -103,7 +103,7 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Equipements invalides : idMetier:".$this->competence["id_fk_metier_competence"]);
 		}
 		$de6 = Bral_Util_De::get_1d6();
-		$petitEquipement = $equipements[$de6];
+		$petitEquipement = $equipements[$de6-1];
 		
 		$this->view->petitEquipement = $petitEquipement;
 		
