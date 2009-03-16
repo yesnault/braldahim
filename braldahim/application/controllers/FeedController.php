@@ -33,6 +33,7 @@ class FeedController extends Zend_Controller_Action {
             'entries' => array() 
 		);
 
+		$pubDate = "";
 		foreach ($infos as $info) {
 			$texte = Bral_Util_BBParser::bbcodeReplace($info->text_info_jeu);
 			if ($info->lien_info_jeu != null) {
@@ -50,7 +51,18 @@ class FeedController extends Zend_Controller_Action {
 				'pubDate' => $info->date_info_jeu,
 				'guid' => $lien,
 			);
+			
+			if ($pubDate == "" ) {
+				$pubDate = $info->date_info_jeu;
+			} else {
+				if ($pubDate < $info->date_info_jeu) {
+					$pubDate = $info->date_info_jeu;
+				}
+			}
 		}
+		
+		$feedArray["lastUpdate"] = Bral_Util_ConvertDate::get_epoch_mysql_datetime($pubDate);
+		
 		$feed = Zend_Feed::importArray($feedArray,'rss');
 		$feed -> send();
 	}
