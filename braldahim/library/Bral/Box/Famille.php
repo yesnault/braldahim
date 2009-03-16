@@ -46,18 +46,18 @@ class Bral_Box_Famille extends Bral_Box_Box {
 		$pere = null;
 		$mere = null;
 
-		if ($this->view->hobbit["id_fk_mere_hobbit"] != null && $this->view->hobbit["id_fk_pere_hobbit"] != null &&
-		$this->view->hobbit["id_fk_mere_hobbit"] != 0 && $this->view->hobbit["id_fk_pere_hobbit"] != 0 ) {
+		if ($this->view->user->id_fk_mere_hobbit != null && $this->view->user->id_fk_pere_hobbit != null &&
+		$this->view->user->id_fk_mere_hobbit != 0 && $this->view->user->id_fk_pere_hobbit != 0 ) {
 				
-			$pere = $hobbitTable->findById($this->view->hobbit["id_fk_pere_hobbit"]);
-			$mere = $hobbitTable->findById($this->view->hobbit["id_fk_mere_hobbit"]);
+			$pere = $hobbitTable->findById($this->view->user->id_fk_pere_hobbit);
+			$mere = $hobbitTable->findById($this->view->user->id_fk_mere_hobbit);
 				
 			if ($pere == null) {
-				$pere = $ancienHobbitTable->findById($this->view->hobbit["id_fk_pere_hobbit"]);
+				$pere = $ancienHobbitTable->findById($this->view->user->id_fk_pere_hobbit);
 			}
 				
 			if ($mere == null) {
-				$mere = $ancienHobbitTable->findById($this->view->hobbit["id_fk_mere_hobbit"]);
+				$mere = $ancienHobbitTable->findById($this->view->user->id_fk_mere_hobbit);
 			}
 				
 			$this->view->pereMereOk = true;
