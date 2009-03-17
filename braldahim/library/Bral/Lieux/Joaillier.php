@@ -30,6 +30,8 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 		$labanEquipementTable = new LabanEquipement();
 		$equipements = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
 
+		Zend_Loader::loadClass("Bral_Util_Equipement");
+		
 		if (count($equipements) > 0) {
 			foreach($equipements as $e) {
 				$selected = "";
@@ -40,7 +42,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 				$t = array(
 					"id_laban_equipement" => $e["id_laban_equipement"],
 					"id_fk_recette_laban_equipement" => $e["id_fk_recette_laban_equipement"],
-					"nom" => $e["nom_type_equipement"],
+					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_laban_equipement"]),
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
 					"nb_runes" => $e["nb_runes_laban_equipement"],

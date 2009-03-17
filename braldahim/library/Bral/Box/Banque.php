@@ -333,11 +333,13 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		$equipements = $coffreEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($coffreEquipementTable);
 		
+		Zend_Loader::loadClass("Bral_Util_Equipement");
+		
 		$tabWhere = null;
 		foreach ($equipements as $e) {
 			$tabEquipements[$e["id_coffre_equipement"]] = array(
 					"id_equipement" => $e["id_coffre_equipement"],
-					"nom" => $e["nom_type_equipement"],
+					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_coffre_equipement"]),
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
 					"nb_runes" => $e["nb_runes_coffre_equipement"],
@@ -359,21 +361,9 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		unset($equipements);
 		
 		if ($tabWhere != null) {
-			Zend_Loader::loadClass("EquipementRune");
-			$equipementRuneTable = new EquipementRune();
-			$equipementRunes = $equipementRuneTable->findByIdsEquipement($tabWhere);
-			unset($equipementRuneTable);
-			
-			foreach($equipementRunes as $e) {
-				$tabEquipements[$e["id_equipement_rune"]]["runes"][] = array(
-					"id_rune_equipement_rune" => $e["id_rune_equipement_rune"],
-					"id_fk_type_rune_equipement_rune" => $e["id_fk_type_rune_equipement_rune"],
-					"nom_type_rune" => $e["nom_type_rune"],
-					"image_type_rune" => $e["image_type_rune"],
-					"effet_type_rune" => $e["effet_type_rune"],
-				);
-			}
-			unset($equipementRunes);
+			Zend_Loader::loadClass("Bral_Util_Equipement");
+			Bral_Util_Equipement::populateRune($tabEquipements, $tabWhere);
+			Bral_Util_Equipement::populateBonus($tabEquipements, $tabWhere);
 		}
 		
 		$this->view->nb_equipements = count($tabEquipements);

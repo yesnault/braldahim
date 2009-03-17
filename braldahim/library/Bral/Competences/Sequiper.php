@@ -17,6 +17,8 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("HobbitEquipement");
 		Zend_Loader::loadClass("LabanEquipement");
 		Zend_Loader::loadClass("EquipementRune");
+		Zend_Loader::loadClass("EquipementBonus");
+		Zend_Loader::loadClass("Bral_Util_Equipement");
 		
 		$this->view->sequiperOk = false;
 		$this->equipementPorte = null;
@@ -76,6 +78,9 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$equipementRuneTable = new EquipementRune();
 		$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
 		
+		$equipementBonusTable = new EquipementBonus();
+		$equipementBonus = $equipementBonusTable->findByIdsEquipement($idEquipements);
+			
 		foreach ($equipementPorteRowset as $e) {
 			$this->view->sequiperOk = true;
 			$runes = null;
@@ -92,10 +97,20 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					}
 				}
 			}
+			
+			$bonus = null;
+			if (count($equipementBonus) > 0) {
+				foreach($equipementBonus as $b) {
+					if ($b["id_equipement_bonus"] == $e["id_equipement_hequipement"]) {
+						$bonus = $b;
+						break;
+					}
+				}
+			}
 				
 			$equipement = array(
 					"id_equipement" => $e["id_equipement_hequipement"],
-					"nom" => $e["nom_type_equipement"],
+					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_hequipement"]),
 					"id_type_equipement" => $e["id_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
@@ -119,6 +134,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
 					"poids" => $e["poids_recette_equipement"],
 					"runes" => $runes,
+					"bonus" => $bonus,
 			);
 			
 			
@@ -148,7 +164,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 	
 				$equipement = array(
 						"id_equipement" => $e["id_laban_equipement"],
-						"nom" => $e["nom_type_equipement"],
+						"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_laban_equipement"]),
 						"qualite" => $e["nom_type_qualite"],
 						"niveau" => $e["niveau_recette_equipement"],
 						"id_type_emplacement" => $e["id_type_emplacement"],

@@ -28,10 +28,12 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		$labanEquipementTable = new LabanEquipement();
 		$equipementLabanRowset = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
 		
+		Zend_Loader::loadClass("Bral_Util_Equipement");
+		
 		foreach ($equipementLabanRowset as $e) {
 			$tabEquipementLaban[] = array(
 				"id_equipement" => $e["id_laban_equipement"],
-				"nom" => $e["nom_type_equipement"],
+				"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_laban_equipement"]),
 				"qualite" => $e["nom_type_qualite"],
 				"niveau" => $e["niveau_recette_equipement"],
 				"id_type" => $e["id_type_equipement"],

@@ -343,6 +343,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		Bral_Util_Log::tour()->trace(get_class($this)." calculBMEquipement - enter -");
 		Zend_Loader::loadClass("HobbitEquipement");
 		Zend_Loader::loadClass("EquipementRune");
+		Zend_Loader::loadClass("EquipementBonus");
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		
 		// on va chercher l'equipement porte et les runes
@@ -366,7 +367,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 				
 				/*$equipement = array(
 						"id_equipement" => $e["id_equipement_hequipement"],
-						"nom" => $e["nom_type_equipement"],
+						"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_hequipement"]),
 						"qualite" => $e["nom_type_qualite"],
 						"niveau" => $e["niveau_recette_equipement"],
 						"id_type_emplacement" => $e["id_type_emplacement"],

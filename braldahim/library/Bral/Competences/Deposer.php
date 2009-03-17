@@ -182,12 +182,14 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		$equipements = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($labanEquipementTable);
 		
+		Zend_Loader::loadClass("Bral_Util_Equipement");
+		
 		if (count($equipements) > 0) {
 			$this->view->deposerOk = true;
 			foreach ($equipements as $e) {
 				$tabEquipements[$e["id_laban_equipement"]] = array(
 						"id_equipement" => $e["id_laban_equipement"],
-						"nom" => $e["nom_type_equipement"],
+						"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_laban_equipement"]),
 						"qualite" => $e["nom_type_qualite"],
 						"niveau" => $e["niveau_recette_equipement"],
 						"nb_runes" => $e["nb_runes_laban_equipement"],

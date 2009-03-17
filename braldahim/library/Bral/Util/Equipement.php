@@ -75,12 +75,43 @@ class Bral_Util_Equipement {
 		$equipementBonusTable->insert($data);
 		return $retour;
 	}
+	
+	public static function populateRune(&$tabEquipements, $tabWhere) {
+		Zend_Loader::loadClass("EquipementRune");
+		$equipementRuneTable = new EquipementRune();
+		$equipementRunes = $equipementRuneTable->findByIdsEquipement($tabWhere);
+		unset($equipementRuneTable);
+		
+		foreach($equipementRunes as $e) {
+			$tabEquipements[$e["id_equipement_rune"]]["runes"][] = array(
+				"id_rune_equipement_rune" => $e["id_rune_equipement_rune"],
+				"id_fk_type_rune_equipement_rune" => $e["id_fk_type_rune_equipement_rune"],
+				"nom_type_rune" => $e["nom_type_rune"],
+				"image_type_rune" => $e["image_type_rune"],
+				"effet_type_rune" => $e["effet_type_rune"],
+			);
+		}
+		unset($equipementRunes);
+	}
+	
+	public static function populateBonus(&$tabEquipements, $tabWhere) {
+		Zend_Loader::loadClass("EquipementBonus");
+		$equipementBonusTable = new EquipementBonus();
+		$equipementBonus = $equipementBonusTable->findByIdsEquipement($tabWhere);
+		unset($equipementBonusTable);
+		
+		foreach($equipementBonus as $b) {
+			$tabEquipements[$b["id_equipement_bonus"]]["bonus"] = $b;
+		}
+		unset($equipementBonus);
+	}
 
 	public static function getTabEmplacementsEquipement($idHobbit) {
 
 		Zend_Loader::loadClass("TypeEmplacement");
 		Zend_Loader::loadClass("HobbitEquipement");
 		Zend_Loader::loadClass("EquipementRune");
+		Zend_Loader::loadClass("EquipementBonus");
 
 		// on va chercher les emplacements
 		$tabTypesEmplacement = null;
@@ -122,6 +153,7 @@ class Bral_Util_Equipement {
 		if (count($equipementPorteRowset) > 0) {
 			$tabWhere = null;
 			$equipementRuneTable = new EquipementRune();
+			$equipementBonusTable = new EquipementBonus();
 			$equipements = null;
 				
 			$idEquipements = null;
@@ -132,6 +164,8 @@ class Bral_Util_Equipement {
 				
 			$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
 			unset($equipementRuneTable);
+			$equipementBonus = $equipementBonusTable->findByIdsEquipement($idEquipements);
+			unset($equipementBonusTable);
 				
 			foreach ($equipementPorteRowset as $e) {
 				$runes = null;
@@ -148,10 +182,20 @@ class Bral_Util_Equipement {
 						}
 					}
 				}
+				
+				$bonus = null;
+				if (count($equipementBonus) > 0) {
+					foreach($equipementBonus as $b) {
+						if ($b["id_equipement_bonus"] == $e["id_equipement_hequipement"]) {
+							$bonus = $b;
+							break;
+						}
+					}
+				}
 					
 				$equipement = array(
 						"id_equipement" => $e["id_equipement_hequipement"],
-						"nom" => $e["nom_type_equipement"],
+						"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_hequipement"]),
 						"qualite" => $e["nom_type_qualite"],
 						"niveau" => $e["niveau_recette_equipement"],
 						"id_type_equipement" => $e["id_type_equipement"],
@@ -171,6 +215,7 @@ class Bral_Util_Equipement {
 						"suffixe" => $e["suffixe_mot_runique"],
 						"poids" => $e["poids_recette_equipement"],
 						"runes" => $runes,
+						"bonus" => $bonus,
 				);
 				$equipementPorte[] = $equipement;
 				$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["affiche"] = "oui";

@@ -98,6 +98,15 @@ class Bral_Helper_DetailEquipement {
      	$text .= self::display("BM D&eacute;g&acirc;ts", $e["bm_degat"]);
      	$text .= self::display("Poids", $e["poids"], " Kg");
     	
+     	if (count($e["bonus"]) > 0) {
+     		$text .= " Bonus R&eacute;gional: <br />";
+     		$text .= self::display("Armure", $e["bonus"]["armure_equipement_bonus"], "");
+     		$text .= self::display("Force", $e["bonus"]["force_equipement_bonus"], "");
+     		$text .= self::display("Agilit&eacute;", $e["bonus"]["agilite_equipement_bonus"], "");
+     		$text .= self::display("Vigueur", $e["bonus"]["vigueur_equipement_bonus"], "");
+     		$text .= self::display("Sagesse", $e["bonus"]["sagesse_equipement_bonus"], "");
+     	}
+     	
      	$text .= "<br />Nombre d\'emplacement runique : ".$e["nb_runes"]."<br />";
      	if (count($e["runes"]) > 1) $s='s'; else $s="";
      	 
@@ -113,6 +122,7 @@ class Bral_Helper_DetailEquipement {
 	     	 	$text .= "<br />Aucun mot runique n\'est associ&eacute; &agrave; ces runes";
 	     	 }
     	}
+    	
     	$text .= "<br />";
     	return Bral_Helper_Tooltip::jsTip($text);
     }

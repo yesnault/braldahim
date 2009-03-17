@@ -63,7 +63,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 		
 		Zend_Loader::loadClass("TypeEquipement");
 		$typeEquipementTable = new TypeEquipement();
-		$typeEquipementsRowset = $typeEquipementTable->findByIdMetier($this->getIdMetier());
+		$typeEquipementsRowset = $typeEquipementTable->findByIdMetier($this->getIdMetier(), "region_".$this->region["id_region"]."_nom_type_equipement");
 		$tabTypeEquipement = null;
 		foreach($typeEquipementsRowset as $t) {
 			$selected = "";

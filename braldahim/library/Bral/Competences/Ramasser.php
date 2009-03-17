@@ -216,6 +216,8 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		$this->view->poidsRestant = $poidsRestant;
 		$this->view->poidsPlaceDisponible = false;
 		
+		Zend_Loader::loadClass("Bral_Util_Equipement");
+		
 		if (count($equipements) > 0) {
 			$this->view->ramasserOk = true;
 			foreach ($equipements as $e) {
@@ -227,7 +229,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 				}
 				$tabEquipements[$e["id_element_equipement"]] = array(
 						"id_equipement" => $e["id_element_equipement"],
-						"nom" => $e["nom_type_equipement"],
+						"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_element_equipement"]),
 						"qualite" => $e["nom_type_qualite"],
 						"niveau" => $e["niveau_recette_equipement"],
 						"nb_runes" => $e["nb_runes_element_equipement"],

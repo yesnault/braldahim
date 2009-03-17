@@ -76,6 +76,8 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		Zend_Loader::loadClass("EchoppeEquipementMinerai");
 		Zend_Loader::loadClass("EchoppeEquipementPartiePlante");
 		Zend_Loader::loadClass("EquipementRune");
+		Zend_Loader::loadClass("EquipementBonus");
+		Zend_Loader::loadClass("Bral_Util_Equipement");
 	
 		$tabEquipementsEtal = null;
 		$idEquipements = null;
@@ -93,6 +95,9 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		if ($idEquipements != null && count($idEquipements) > 0) {
 			$equipementRuneTable = new EquipementRune();
 			$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
+			
+			$equipementBonusTable = new EquipementBonus();
+			$equipementBonus = $equipementBonusTable->findByIdsEquipement($idEquipements);
 			
 			$echoppeEquipementMineraiTable = new EchoppeEquipementMinerai();
 			$echoppeEquipementMinerai = $echoppeEquipementMineraiTable->findByIdsEquipement($idEquipements);
@@ -115,6 +120,16 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 								"image_type_rune" => $r["image_type_rune"],
 								"effet_type_rune" => $r["effet_type_rune"],
 							);
+						}
+					}
+				}
+				
+				$bonus = null;
+				if (count($equipementBonus) > 0) {
+					foreach($equipementBonus as $b) {
+						if ($b["id_equipement_bonus"] == $e["id_echoppe_equipement"]) {
+							$bonus = $b;
+							break;
 						}
 					}
 				}
@@ -147,7 +162,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 				
 				$equipement = array(
 					"id_equipement" => $e["id_echoppe_equipement"],
-					"nom" => $e["nom_type_equipement"],
+					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_echoppe_equipement"]),
 					"id_type_equipement" => $e["id_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
@@ -177,6 +192,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 					"unite_3_vente_echoppe_equipement" => $e["unite_3_vente_echoppe_equipement"],
 					"commentaire_vente_echoppe_equipement" => $e["commentaire_vente_echoppe_equipement"],
 					"runes" => $runes,
+					"bonus" => $bonus,
 					"prix_minerais" => $minerai,
 					"prix_parties_plantes" => $partiesPlantes,
 				);

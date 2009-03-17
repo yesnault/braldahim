@@ -14,12 +14,12 @@ class TypeEquipement extends Zend_Db_Table {
 	protected $_name = 'type_equipement';
 	protected $_primary = "id_type_equipement";
 	
-	function findByIdMetier($idMetier) {
+	function findByIdMetier($idMetier, $ordre) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('type_equipement', '*')
 		->where('id_fk_metier_type_equipement = ?',$idMetier)
-		->order('nom_type_equipement');
+		->order($ordre);
 		
 		$sql = $select->__toString();
 

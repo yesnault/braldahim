@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -11,27 +11,27 @@
  * $LastChangedBy$
  */
 class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
-	
+
 	private $arBoutiqueBruts;
 	private $arBoutiqueTransformes;
-	
+
 	function __construct($nomSystemeAction, $request, $view, $action, $id_echoppe = false) {
 		Zend_Loader::loadClass("Echoppe");
-		
+
 		if ($id_echoppe !== false) {
 			$this->idEchoppe = $id_echoppe;
 		}
 		parent::__construct($nomSystemeAction, $request, $view, $action);
 	}
-	
+
 	function getNomInterne() {
 		return "box_echoppe";
 	}
-	
+
 	function render() {
 		return $this->view->render("echoppes/voir.phtml");
 	}
-	
+
 	function prepareCommun() {
 		if (!isset($this->idEchoppe)) {
 			$id_echoppe = (int)$this->request->get("valeur_1");
@@ -43,18 +43,18 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->arBoutiqueBruts["minerais"] = array("nom_systeme" => "minerais", "nom" => "Minerais Bruts", "a_afficher" => false);
 		$this->arBoutiqueBruts["plantes_bruts"] = array("nom_systeme" => "plantes_bruts", "nom" => "Plantes Brutes", "a_afficher" => false);
 		$this->arBoutiqueBruts["peaux"] = array("nom_systeme" => "peaux", "nom" => "Peaux", "a_afficher" => false);
-		
+
 		$this->arBoutiqueTransformes["planches"] = array("nom_systeme" => "planches", "nom" => "Planches", "a_afficher" => false);
 		$this->arBoutiqueTransformes["lingots"] = array("nom_systeme" => "lingots", "nom" => "Lingots", "a_afficher" => false);
 		$this->arBoutiqueTransformes["plantes_preparees"] = array("nom_systeme" => "plantes_preparees", "nom" => "Plantes Préparées", "a_afficher" => false);
 		$this->arBoutiqueTransformes["cuir_fourrure"] = array("nom_systeme" => "cuir_fourrure", "nom" => "Cuir / Fourrure", "a_afficher" => false);
-		
+
 		$this->arBoutiqueCaisse["castars"]  = array("nom_systeme" => "castars", "nom" => "Castars", "a_afficher" => true);
 		$this->arBoutiqueCaisse["minerais"] = array("nom_systeme" => "minerais", "nom" => "Minerais Bruts", "a_afficher" => false);
 		$this->arBoutiqueCaisse["rondins"]  = array("nom_systeme" => "rondins", "nom" => "Rondins", "a_afficher" => false);
 		$this->arBoutiqueCaisse["plantes_bruts"] = array("nom_systeme" => "plantes_bruts", "nom" => "Plantes Brutes", "a_afficher" => false);
 		$this->arBoutiqueCaisse["peaux"]  = array("nom_systeme" => "peaux", "nom" => "Peaux", "a_afficher" => false);
-		
+
 		$echoppeTable = new Echoppe();
 		$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
 
@@ -89,19 +89,19 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					'quantite_fourrure_arriere_echoppe' => $e["quantite_fourrure_arriere_echoppe"],
 					'quantite_planche_arriere_echoppe' => $e["quantite_planche_arriere_echoppe"],
 				);
-				
+
 				if ($e["quantite_rondin_arriere_echoppe"] > 0) {
 					$this->arBoutiqueBruts["rondins"]["a_afficher"] = true;
 				}
-				
+
 				if ($e["quantite_peau_arriere_echoppe"] > 0) {
 					$this->arBoutiqueBruts["peaux"]["a_afficher"] = true;
 				}
-				
+
 				if ($e["quantite_planche_arriere_echoppe"] > 0) {
 					$this->arBoutiqueTransformes["planches"]["a_afficher"] = true;
 				}
-				
+
 				if ($e["quantite_fourrure_arriere_echoppe"] > 0 || $e["quantite_cuir_arriere_echoppe"] > 0) {
 					$this->arBoutiqueTransformes["cuir_fourrure"]["a_afficher"] = true;
 				}
@@ -109,15 +109,15 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 				if ($e["quantite_castar_caisse_echoppe"] > 0) {
 					$this->arBoutiqueCaisse["castars"]["a_afficher"] = true;
 				}
-				
+
 				if ($e["quantite_rondin_caisse_echoppe"] > 0) {
 					$this->arBoutiqueCaisse["rondins"]["a_afficher"] = true;
 				}
-				
+
 				if ($e["quantite_peau_caisse_echoppe"] > 0) {
 					$this->arBoutiqueCaisse["peaux"]["a_afficher"] = true;
 				}
-				
+
 				if ($this->view->user->x_hobbit == $e["x_echoppe"] &&
 				$this->view->user->y_hobbit == $e["y_echoppe"]) {
 					$this->view->estSurEchoppe = true;
@@ -152,11 +152,11 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->prepareCommunRessources($tabEchoppe["id_echoppe"]);
 		$this->prepareCommunEquipements($tabEchoppe["id_echoppe"]);
 		$this->prepareCommunPotions($tabEchoppe["id_echoppe"]);
-		
+
 		$this->view->arBoutiqueBruts = $this->arBoutiqueBruts;
 		$this->view->arBoutiqueTransformes = $this->arBoutiqueTransformes;
 		$this->view->arBoutiqueCaisse = $this->arBoutiqueCaisse;
-		
+
 		$this->view->competences = $tabCompetences;
 		$this->view->echoppe = $tabEchoppe;
 		$this->view->estEquipementsPotionsEtal = true;
@@ -177,18 +177,18 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		Zend_Loader::loadClass("EchoppeMinerai");
 		Zend_Loader::loadClass("TypePlante");
 		Zend_Loader::loadClass("TypePartieplante");
-		
+
 		$typePlantesTable = new TypePlante();
 		$typePlantesRowset = $typePlantesTable->findAll();
-		
+
 		$typePartiePlantesTable = new TypePartieplante();
 		$typePartiePlantesRowset = $typePartiePlantesTable->fetchall();
 		$typePartiePlantesRowset = $typePartiePlantesRowset->toArray();
-	
+
 		$tabPartiePlantesCaisse = null;
 		$tabPartiePlantesPreparees = null;
 		$tabPartiePlantesBruts = null;
-		
+
 		foreach($typePartiePlantesRowset as $p) {
 			foreach($typePlantesRowset as $t) {
 				$val = false;
@@ -204,7 +204,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 				if ($t["id_fk_partieplante4_type_plante"] == $p["id_type_partieplante"]) {
 					$val = true;
 				}
-				
+
 				if (!isset($tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]])) {
 					$tab = array(
 						'nom_type_plante' => $t["nom_type_plante"],
@@ -212,18 +212,18 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					);
 					$tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]] = $tab;
 				}
-				
+
 				$tabTypePlantes[$t["categorie_type_plante"]]["a_afficher"] = false;
 				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["a_afficher"] = false;
 				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["possible"] = $val;
 				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = 0;
 			}
 		}
-		
+
 		$tabPartiePlantesCaisse = $tabTypePlantes;
 		$tabPartiePlantesPreparees = $tabTypePlantes;
 		$tabPartiePlantesBruts = $tabTypePlantes;
-		
+
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 		$partiePlantes = $echoppePartiePlanteTable->findByIdEchoppe($idEchoppe);
 
@@ -238,17 +238,17 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					$tabPartiePlantesCaisse[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["estPreparee"] = false;
 					$tabPartiePlantesCaisse[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["poids"] = $p["quantite_caisse_echoppe_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE;
 				}
-				
+
 				if ($p["quantite_arriere_echoppe_partieplante"] > 0) {
 					$this->arBoutiqueBruts["plantes_bruts"]["a_afficher"] = true;
 					$tabPartiePlantesBruts[$p["categorie_type_plante"]]["a_afficher"] = true;
 					$tabPartiePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
 					$tabPartiePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_arriere_echoppe_partieplante"];
-					$tabPartiePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["id_type_partieplante"] = $p["id_type_partieplante"];					
+					$tabPartiePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["id_type_partieplante"] = $p["id_type_partieplante"];
 					$tabPartiePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["estPreparee"] = false;
 					$tabPartiePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["poids"] = $p["quantite_arriere_echoppe_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE;
 				}
-				
+
 				if ($p["quantite_preparees_echoppe_partieplante"] > 0) {
 					$this->arBoutiqueTransformes["plantes_preparees"]["a_afficher"] = true;
 					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["a_afficher"] = true;
@@ -258,13 +258,13 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["estPreparee"] = true;
 					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["poids"] = $p["quantite_preparees_echoppe_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE;
 				}
-				
+
 				$this->view->nb_caissePartiePlantes = $this->view->nb_caissePartiePlantes + $p["quantite_caisse_echoppe_partieplante"];
 				$this->view->nb_arrierePartiePlantes = $this->view->nb_arrierePartiePlantes + $p["quantite_arriere_echoppe_partieplante"];
 				$this->view->nb_prepareePartiePlantes = $this->view->nb_prepareePartiePlantes  + $p["quantite_preparees_echoppe_partieplante"];
 			}
 		}
-		
+
 		$this->view->typePlantesCaisse = $tabPartiePlantesCaisse;
 		$this->view->typePlantesBruts = $tabPartiePlantesBruts;
 		$this->view->typePlantesPrepares = $tabPartiePlantesPreparees;
@@ -272,7 +272,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$tabMineraisArriere = null;
 		$tabMineraisCaisse = null;
 		$tabLingots = null;
-		
+
 		$echoppeMineraiTable = new EchoppeMinerai();
 		$minerais = $echoppeMineraiTable->findByIdEchoppe($idEchoppe);
 
@@ -301,19 +301,19 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					"quantite" => $m["quantite_caisse_echoppe_minerai"],
 					"poids" => $m["quantite_caisse_echoppe_minerai"] * Bral_Util_Poids::POIDS_MINERAI,
 				);
-				
+
 				if ($m["quantite_arriere_echoppe_minerai"] > 0) {
 					$this->arBoutiqueBruts["minerais"]["a_afficher"] = true;
 				}
-				
+
 				if ($m["quantite_lingots_echoppe_minerai"] > 0) {
 					$this->arBoutiqueTransformes["lingots"]["a_afficher"] = true;
 				}
-				
+
 				if ($m["quantite_caisse_echoppe_minerai"] > 0) {
 					$this->arBoutiqueCaisse["minerais"]["a_afficher"] = true;
 				}
-				
+
 				$this->view->nb_caisseMinerai = $this->view->nb_caisseMinerai + $m["quantite_caisse_echoppe_minerai"];
 			}
 		}
@@ -324,35 +324,40 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 	}
 
 	private function prepareCommunEquipements($idEchoppe) {
+		Zend_Loader::loadClass("Bral_Util_Equipement");
 		Zend_Loader::loadClass("EchoppeEquipement");
 		Zend_Loader::loadClass("EchoppeEquipementMinerai");
 		Zend_Loader::loadClass("EchoppeEquipementPartiePlante");
 		Zend_Loader::loadClass("EquipementRune");
-	
+		Zend_Loader::loadClass("EquipementBonus");
+
 		$tabEquipementsArriereBoutique = null;
 		$tabEquipementsEtal = null;
 		$echoppeEquipementTable = new EchoppeEquipement();
 		$equipements = $echoppeEquipementTable->findByIdEchoppe($idEchoppe);
 		$idEquipements = null;
-		
+
 		foreach ($equipements as $e) {
 			$idEquipements[] = $e["id_echoppe_equipement"];
 		}
-		
+
 		if (count($idEquipements) > 0) {
 			$equipementRuneTable = new EquipementRune();
 			$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
+				
+			$equipementBonusTable = new EquipementBonus();
+			$equipementBonus = $equipementBonusTable->findByIdsEquipement($idEquipements);
 			
 			$echoppeEquipementMineraiTable = new EchoppeEquipementMinerai();
 			$echoppeEquipementMinerai = $echoppeEquipementMineraiTable->findByIdsEquipement($idEquipements);
-			
+				
 			$echoppeEquipementPartiePlanteTable = new EchoppeEquipementPartiePlante();
 			$echoppeEquipementPartiePlante = $echoppeEquipementPartiePlanteTable->findByIdsEquipement($idEquipements);
 		}
-		
+
 		if (count($equipements) > 0) {
 			foreach($equipements as $e) {
-			
+					
 				$runes = null;
 				if (count($equipementRunes) > 0) {
 					foreach($equipementRunes as $r) {
@@ -367,7 +372,17 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 						}
 					}
 				}
-				
+
+				$bonus = null;
+				if (count($equipementBonus) > 0) {
+					foreach($equipementBonus as $b) {
+						if ($b["id_equipement_bonus"] == $e["id_echoppe_equipement"]) {
+							$bonus = $b;
+							break;
+						}
+					}
+				}
+
 				$minerai = null;
 				if (count($echoppeEquipementMinerai) > 0) {
 					foreach($echoppeEquipementMinerai as $r) {
@@ -379,7 +394,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 						}
 					}
 				}
-				
+
 				$partiesPlantes = null;
 				if (count($echoppeEquipementPartiePlante) > 0) {
 					foreach($echoppeEquipementPartiePlante as $p) {
@@ -393,10 +408,10 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 						}
 					}
 				}
-				
+
 				$equipement = array(
 					"id_equipement" => $e["id_echoppe_equipement"],
-					"nom" => $e["nom_type_equipement"],
+					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_echoppe_equipement"]),
 					"id_type_equipement" => $e["id_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
@@ -425,11 +440,12 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					"unite_3_vente_echoppe_equipement" => $e["unite_3_vente_echoppe_equipement"],
 					"commentaire_vente_echoppe_equipement" => $e["commentaire_vente_echoppe_equipement"],
 					"runes" => $runes,
+					"bonus" => $bonus,
 					"prix_minerais" => $minerai,
 					"prix_parties_plantes" => $partiesPlantes,
 					"poids" => $e["poids_recette_equipement"],
 				);
-				
+
 				if ($e["type_vente_echoppe_equipement"] == "aucune") {
 					$tabEquipementsArriereBoutique[] = $equipement;
 				} else {
@@ -440,7 +456,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->view->equipementsArriereBoutique = $tabEquipementsArriereBoutique;
 		$this->view->equipementsEtal = $tabEquipementsEtal;
 	}
-	
+
 	private function prepareCommunPotions($idEchoppe) {
 		Zend_Loader::loadClass("EchoppePotion");
 		Zend_Loader::loadClass("EchoppePotionMinerai");
@@ -450,21 +466,21 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$tabPotionsEtal = null;
 		$echoppePotionTable = new EchoppePotion();
 		$potions = $echoppePotionTable->findByIdEchoppe($idEchoppe);
-		
+
 		$idPotions = null;
-		
+
 		foreach ($potions as $p) {
 			$idPotions[] = $p["id_echoppe_potion"];
 		}
-		
+
 		if (count($idPotions) > 0) {
 			$echoppPotionMineraiTable = new EchoppePotionMinerai();
 			$echoppePotionMinerai = $echoppPotionMineraiTable->findByIdsPotion($idPotions);
-				
+
 			$echoppePotionPartiePlanteTable = new EchoppePotionPartiePlante();
 			$echoppePotionPartiePlante = $echoppePotionPartiePlanteTable->findByIdsPotion($idPotions);
 		}
-		
+
 		if (count($potions) > 0) {
 			foreach($potions as $p) {
 				$minerai = null;
@@ -478,7 +494,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 						}
 					}
 				}
-				
+
 				$partiesPlantes = null;
 				if (count($echoppePotionPartiePlante) > 0) {
 					foreach($echoppePotionPartiePlante as $a) {
@@ -492,7 +508,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 						}
 					}
 				}
-				
+
 				$tab = array(
 					"id_potion" => $p["id_echoppe_potion"],
 					"nom" => $p["nom_type_potion"],
@@ -522,7 +538,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->view->potionsArriereBoutique = $tabPotionsArriereBoutique;
 		$this->view->potionsEtal = $tabPotionsEtal;
 	}
-	
+
 	public function getIdEchoppeCourante() {
 		return false;
 	}

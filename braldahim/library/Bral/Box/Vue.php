@@ -47,6 +47,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("Ville");
 			Zend_Loader::loadClass("Zone");
 			Zend_Loader::loadClass('Bral_Util_Marcher');
+			Zend_Loader::loadClass("Bral_Util_Equipement");
 
 			$this->prepare();
 			$this->deplacement();
@@ -335,7 +336,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						foreach($elementsEquipements as $e) {
 							if ($display_x == $e["x_element_equipement"] && $display_y == $e["y_element_equipement"]) {
 								$tabElementsEquipements[] = array("id_equipement" => $e["id_element_equipement"],
-									"nom" => $e["nom_type_equipement"],
+									"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_element_equipement"]),
 									"qualite" => $e["nom_type_qualite"],
 									"niveau" => $e["niveau_recette_equipement"],
 									"suffixe" => $e["suffixe_mot_runique"]);
