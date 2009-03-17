@@ -71,7 +71,7 @@ class Bral_Lieux_Banqueretirer extends Bral_Lieux_Lieu {
 	}
 	
 	private function calculRamasser() {
-		$this->listBoxRefresh = $this->constructListBoxRefresh(array("box_banque", "box_laban"));
+		$this->listBoxRefresh = $this->constructListBoxRefresh(array("box_banque", "box_laban", "box_coffre"));
 		
 		switch($this->view->type) {
 			case "castars" :
@@ -225,6 +225,7 @@ class Bral_Lieux_Banqueretirer extends Bral_Lieux_Lieu {
 						"id_fk_recette" => $e["id_fk_recette_coffre_equipement"],
 						"poids" => $e["poids_recette_equipement"],
 						"poids_ok" => $poids_ok,
+						"id_fk_region" => $e["id_fk_region_coffre_equipement"],
 				);
 			}
 		} else {
@@ -260,6 +261,7 @@ class Bral_Lieux_Banqueretirer extends Bral_Lieux_Lieu {
 			"id_fk_recette_laban_equipement" => $equipement["id_fk_recette"],
 			"nb_runes_laban_equipement" => $equipement["nb_runes"],
 			"id_fk_mot_runique_laban_equipement" => $equipement["id_fk_mot_runique"],
+			"id_fk_region_laban_equipement" => $equipement["id_fk_region"],
 		);
 		$labanEquipementTable->insert($data);
 		unset($labanEquipementTable);

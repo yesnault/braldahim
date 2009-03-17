@@ -71,7 +71,7 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 	}
 	
 	private function calculDeposer() {
-		$this->listBoxRefresh = $this->constructListBoxRefresh(array("box_laban", "box_banque"));
+		$this->listBoxRefresh = $this->constructListBoxRefresh(array("box_laban", "box_banque", "box_coffre"));
 		
 		switch($this->view->type) {
 			case "castars" :
@@ -177,6 +177,7 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 						"nb_runes" => $e["nb_runes_laban_equipement"],
 						"id_fk_mot_runique" => $e["id_fk_mot_runique_laban_equipement"], 
 						"id_fk_recette" => $e["id_fk_recette_laban_equipement"] ,
+						"id_fk_region" => $e["id_fk_region_laban_equipement"],
 				);
 			}
 		} else {
@@ -208,6 +209,7 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 			"id_fk_hobbit_coffre_equipement" => $this->view->user->id_hobbit,
 			"nb_runes_coffre_equipement" => $equipement["nb_runes"],
 			"id_fk_mot_runique_coffre_equipement" => $equipement["id_fk_mot_runique"],
+			"id_fk_region_coffre_equipement" => $equipement["id_fk_region"],
 		);
 		$coffreEquipementTable->insert($data);
 		unset($coffreEquipementTable);
