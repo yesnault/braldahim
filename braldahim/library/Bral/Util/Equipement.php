@@ -43,27 +43,27 @@ class Bral_Util_Equipement {
 			case 1:
 				$data["sagesse_equipement_bonus"] = floor(Bral_Util_De::getLanceDeSpecifique($niveauEquipement+1, 1, 2));
 				if ($data["sagesse_equipement_bonus"] < 1) $data["sagesse_equipement_bonus"] = 1;
-				$retour = " SAG + ".$data["sagesse_equipement_bonus"];
+				$retour = " Sagesse + ".$data["sagesse_equipement_bonus"];
 				break;
 			case 2:
 				$data["agilite_equipement_bonus"] = floor(Bral_Util_De::getLanceDeSpecifique($niveauEquipement+1, 1, 2));
 				if ($data["agilite_equipement_bonus"] < 1) $data["agilite_equipement_bonus"] = 1;
-				$retour = " AGI + ".$data["agilite_equipement_bonus"];
+				$retour = " Agilité + ".$data["agilite_equipement_bonus"];
 				break;
 			case 3:
 				$data["force_equipement_bonus"] = floor(Bral_Util_De::getLanceDeSpecifique($niveauEquipement+1, 1, 2));
 				if ($data["force_equipement_bonus"] < 1) $data["force_equipement_bonus"] = 1;
-				$retour = " FOR + ".$data["force_equipement_bonus"];
+				$retour = " Force + ".$data["force_equipement_bonus"];
 				break;
 			case 4:
 				$data["armure_equipement_bonus"] = floor(Bral_Util_De::getLanceDeSpecifique($niveauEquipement+1, 1, 2) / 2);
 				if ($data["armure_equipement_bonus"] < 1) $data["armure_equipement_bonus"] = 1;
-				$retour = " ARM + ".$data["armure_equipement_bonus"];
+				$retour = " Armure + ".$data["armure_equipement_bonus"];
 				break;
 			case 5:
 				$data["vigueur_equipement_bonus"] = floor(Bral_Util_De::getLanceDeSpecifique($niveauEquipement+1, 1, 2));
 				if ($data["vigueur_equipement_bonus"] < 1) $data["vigueur_equipement_bonus"] = 1;
-				$retour = " VIG + ".$data["vigueur_equipement_bonus"];
+				$retour = " Vigueur + ".$data["vigueur_equipement_bonus"];
 				break;
 			default:
 				throw new Zend_Exception("Bral_Util_Equipement::getNomByIdRegion Region invalide id:".$idRegion);

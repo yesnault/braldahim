@@ -99,7 +99,7 @@ class Bral_Helper_DetailEquipement {
      	$text .= self::display("Poids", $e["poids"], " Kg");
     	
      	if (count($e["bonus"]) > 0) {
-     		$text .= " Bonus R&eacute;gional: <br />";
+     		$text .= " Bonus r&eacute;gional: ";
      		$text .= self::display("Armure", $e["bonus"]["armure_equipement_bonus"], "");
      		$text .= self::display("Force", $e["bonus"]["force_equipement_bonus"], "");
      		$text .= self::display("Agilit&eacute;", $e["bonus"]["agilite_equipement_bonus"], "");
