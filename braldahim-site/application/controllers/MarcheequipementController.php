@@ -17,9 +17,11 @@ class MarcheequipementController extends Zend_Controller_Action {
 		$this->view->config = Zend_Registry::get('config');
 		Zend_Loader::loadClass('Zend_Filter_StripTags');
 		Zend_Loader::loadClass('Bral_Util_ConvertDate');
+		Zend_Loader::loadClass('Bral_Util_Equipement');
 		Zend_Loader::loadClass('EchoppeEquipement');
 		Zend_Loader::loadClass('EchoppeEquipementMinerai');
 		Zend_Loader::loadClass('EchoppeEquipementPartiePlante');
+		Zend_Loader::loadClass('EquipementBonus');
 		Zend_Loader::loadClass('EquipementRune');
 		Zend_Loader::loadClass('Bral_Xml_GridDhtmlx');
 		Zend_Loader::loadClass('Bral_Helper_DetailEquipement');
@@ -144,6 +146,9 @@ class MarcheequipementController extends Zend_Controller_Action {
 			$equipementRuneTable = new EquipementRune();
 			$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
 			
+			$equipementBonusTable = new EquipementBonus();
+			$equipementBonus = $equipementBonusTable->findByIdsEquipement($idEquipements);
+			
 			$echoppeEquipementMineraiTable = new EchoppeEquipementMinerai();
 			$echoppeEquipementMinerai = $echoppeEquipementMineraiTable->findByIdsEquipement($idEquipements);
 				
@@ -167,6 +172,16 @@ class MarcheequipementController extends Zend_Controller_Action {
 								"image_type_rune" => $r["image_type_rune"],
 								"effet_type_rune" => $r["effet_type_rune"],
 							);
+						}
+					}
+				}
+				
+				$bonus = null;
+				if (count($equipementBonus) > 0) {
+					foreach($equipementBonus as $b) {
+						if ($b["id_equipement_bonus"] == $e["id_echoppe_equipement"]) {
+							$bonus = $b;
+							break;
 						}
 					}
 				}
@@ -199,7 +214,7 @@ class MarcheequipementController extends Zend_Controller_Action {
 				
 				$equipement = array(
 					"id_equipement" => $e["id_echoppe_equipement"],
-					"nom" => $e["nom_type_equipement"],
+					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_echoppe_equipement"]),
 					"id_type_equipement" => $e["id_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
@@ -228,6 +243,7 @@ class MarcheequipementController extends Zend_Controller_Action {
 					"unite_3_vente_echoppe_equipement" => $e["unite_3_vente_echoppe_equipement"],
 					"commentaire_vente_echoppe_equipement" => $e["commentaire_vente_echoppe_equipement"],
 					"runes" => $runes,
+					"bonus" => $bonus,
 					"prix_minerais" => $minerai,
 					"prix_parties_plantes" => $partiesPlantes,
 					"nom_region" => $e["nom_region"],
