@@ -16,6 +16,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Echoppe");
 		Zend_Loader::loadClass("RecetteEquipement");
 		Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
+		Zend_Loader::loadClass("Bral_Util_Equipement");
 
 		$id_type_courant = $this->request->get("type_equipement");
 
@@ -57,6 +58,9 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 			return;
 		}
 
+		Zend_Loader::loadClass("Bral_Util_Region");
+		$this->region = Bral_Util_Region::getRegionByXY($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		
 		Zend_Loader::loadClass("TypeEquipement");
 		$typeEquipementTable = new TypeEquipement();
 		$typeEquipementsRowset = $typeEquipementTable->findByIdMetier($this->getIdMetier());
@@ -68,7 +72,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 			}
 			$t = array(
 				'id_type_equipement' => $t["id_type_equipement"],
-				'nom_type_equipement' => $t["nom_type_equipement"],
+				'nom_type_equipement' => Bral_Util_Equipement::getNomByIdRegion($t, $this->region["id_region"]),
 				'nb_runes_max_type_equipement' => $t["nb_runes_max_type_equipement"],
 				'selected' => $selected
 			);
@@ -202,7 +206,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 
 			$this->view->typeEquipementCourant = $typeEquipementCourant;
 		}
-
+		
 		$this->view->typeEquipement = $tabTypeEquipement;
 		$this->idEchoppe = $idEchoppe;
 		$this->echoppeCourante = $echoppeCourante;
@@ -326,7 +330,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("RecetteEquipement");
 		$recetteEquipementTable = new RecetteEquipement();
 		$recetteEquipement = $recetteEquipementTable->findByIdTypeAndNiveauAndQualite($idTypeEquipement, $niveau, $qualite);
-
+		
 		if (count($recetteEquipement) > 0) {
 			$echoppeMineraiTable = new EchoppeMinerai();
 
@@ -337,7 +341,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 				$recetteEquipementACreer = $r;
 				break;
 			}
-
+			
 			Zend_Loader::loadClass("EchoppeEquipement");
 			$echoppeEquipementTable = new EchoppeEquipement();
 			$data = array(
@@ -345,8 +349,11 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 				'id_fk_recette_echoppe_equipement' => $recetteEquipementACreer["id_recette_equipement"],
 				'nb_runes_echoppe_equipement' => $nbRunes,
 				'type_vente_echoppe_equipement' => 'aucune',
+				'id_fk_region_echoppe_equipement' => $this->region["id_region"],
 			);
-			$echoppeEquipementTable->insert($data);
+			$idEquipement = $echoppeEquipementTable->insert($data);
+			
+			$this->view->bonus = Bral_Util_Equipement::insertEquipementBonus($idEquipement, $niveau, $this->region["id_region"]);
 			
 			Zend_Loader::loadClass("StatsFabricants");
 			$statsFabricants = new StatsFabricants();

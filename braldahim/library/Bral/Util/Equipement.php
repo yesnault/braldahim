@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -12,30 +12,94 @@
  */
 class Bral_Util_Equipement {
 
-	public static function getTabEmplacementsEquipement($idHobbit) {
+	public static function getNomByIdRegion($typeEquipement, $idRegion) {
+		switch($idRegion) {
+			case 1:
+				return $typeEquipement["region_1_nom_type_equipement"];
+				break;
+			case 2:
+				return $typeEquipement["region_2_nom_type_equipement"];
+				break;
+			case 3:
+				return $typeEquipement["region_3_nom_type_equipement"];
+				break;
+			case 4:
+				return $typeEquipement["region_4_nom_type_equipement"];
+				break;
+			case 5:
+				return $typeEquipement["region_5_nom_type_equipement"];
+				break;
+			default:
+				throw new Zend_Exception("Bral_Util_Equipement::getNomByIdRegion Region invalide id:".$idRegion);
+				break;
+		}
+	}
+
+	public static function insertEquipementBonus($idEquipement, $niveauEquipement, $idRegion) {
 		
+		$data["id_equipement_bonus"] = $idEquipement;
+		
+		switch($idRegion) {
+			case 1:
+				$data["sagesse_equipement_bonus"] = floor(Bral_Util_De::getLanceDeSpecifique($niveauEquipement+1, 1, 2));
+				if ($data["sagesse_equipement_bonus"] < 1) $data["sagesse_equipement_bonus"] = 1;
+				$retour = " SAG + ".$data["sagesse_equipement_bonus"];
+				break;
+			case 2:
+				$data["agilite_equipement_bonus"] = floor(Bral_Util_De::getLanceDeSpecifique($niveauEquipement+1, 1, 2));
+				if ($data["agilite_equipement_bonus"] < 1) $data["agilite_equipement_bonus"] = 1;
+				$retour = " AGI + ".$data["agilite_equipement_bonus"];
+				break;
+			case 3:
+				$data["force_equipement_bonus"] = floor(Bral_Util_De::getLanceDeSpecifique($niveauEquipement+1, 1, 2));
+				if ($data["force_equipement_bonus"] < 1) $data["force_equipement_bonus"] = 1;
+				$retour = " FOR + ".$data["force_equipement_bonus"];
+				break;
+			case 4:
+				$data["armure_equipement_bonus"] = floor(Bral_Util_De::getLanceDeSpecifique($niveauEquipement+1, 1, 2) / 2);
+				if ($data["armure_equipement_bonus"] < 1) $data["armure_equipement_bonus"] = 1;
+				$retour = " ARM + ".$data["armure_equipement_bonus"];
+				break;
+			case 5:
+				$data["vigueur_equipement_bonus"] = floor(Bral_Util_De::getLanceDeSpecifique($niveauEquipement+1, 1, 2));
+				if ($data["vigueur_equipement_bonus"] < 1) $data["vigueur_equipement_bonus"] = 1;
+				$retour = " VIG + ".$data["vigueur_equipement_bonus"];
+				break;
+			default:
+				throw new Zend_Exception("Bral_Util_Equipement::getNomByIdRegion Region invalide id:".$idRegion);
+				break;
+		}
+		
+		Zend_Loader::loadClass("EquipementBonus");
+		$equipementBonusTable = new EquipementBonus();
+		$equipementBonusTable->insert($data);
+		return $retour;
+	}
+
+	public static function getTabEmplacementsEquipement($idHobbit) {
+
 		Zend_Loader::loadClass("TypeEmplacement");
 		Zend_Loader::loadClass("HobbitEquipement");
 		Zend_Loader::loadClass("EquipementRune");
-	
+
 		// on va chercher les emplacements
 		$tabTypesEmplacement = null;
 		$typeEmplacementTable = new TypeEmplacement();
 		$typesEmplacement = $typeEmplacementTable->fetchAll(null, "ordre_emplacement");
 		unset($typeEmplacementTable);
 		$typesEmplacement = $typesEmplacement->toArray();
-		
+
 		foreach ($typesEmplacement as $t) {
 			$affiche = "oui";
 			$position = "gauche";
 			if ($t["nom_systeme_type_emplacement"] == "deuxmains" ||
-				$t["nom_systeme_type_emplacement"] == "mains" ||
-				$t["nom_systeme_type_emplacement"] == "maingauche" ||
-				$t["nom_systeme_type_emplacement"] == "maindroite") {
+			$t["nom_systeme_type_emplacement"] == "mains" ||
+			$t["nom_systeme_type_emplacement"] == "maingauche" ||
+			$t["nom_systeme_type_emplacement"] == "maindroite") {
 				$affiche = "non";
 				$position = "droite";
 			}
-			
+				
 			$tabTypesEmplacement[$t["nom_systeme_type_emplacement"]] = array(
 					"id_type_emplacement" => $t["id_type_emplacement"],
 					"nom_type_emplacement" => $t["nom_type_emplacement"],
@@ -46,29 +110,29 @@ class Bral_Util_Equipement {
 			);
 		}
 		unset($typesEmplacement);
-		
+
 		// on va chercher l'équipement porté
 		$tabEquipementPorte = null;
 		$hobbitEquipementTable = new HobbitEquipement();
 		$equipementPorteRowset = $hobbitEquipementTable->findByIdHobbit($idHobbit);
 		unset($hobbitEquipementTable);
-		
+
 		$equipementPorte = null;
-		
+
 		if (count($equipementPorteRowset) > 0) {
 			$tabWhere = null;
 			$equipementRuneTable = new EquipementRune();
 			$equipements = null;
-			
+				
 			$idEquipements = null;
-			
+				
 			foreach ($equipementPorteRowset as $e) {
 				$idEquipements[] = $e["id_equipement_hequipement"];
 			}
-			
+				
 			$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
 			unset($equipementRuneTable);
-			
+				
 			foreach ($equipementPorteRowset as $e) {
 				$runes = null;
 				if (count($equipementRunes) > 0) {
@@ -84,7 +148,7 @@ class Bral_Util_Equipement {
 						}
 					}
 				}
-			
+					
 				$equipement = array(
 						"id_equipement" => $e["id_equipement_hequipement"],
 						"nom" => $e["nom_type_equipement"],

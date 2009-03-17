@@ -171,6 +171,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			"bm_defense" => $this->equipement["bm_defense_recette_equipement"],
 			"suffixe" => $this->equipement["suffixe_mot_runique"],
 			"id_fk_mot_runique" => $this->equipement["id_fk_mot_runique_echoppe_equipement"],
+			"id_fk_region" => $this->equipement["id_fk_region_echoppe_equipement"],
 			"nom_systeme_mot_runique" => $this->equipement["nom_systeme_mot_runique"],
 			"prix_1_vente_echoppe_equipement" => $this->equipement["prix_1_vente_echoppe_equipement"],
 			"prix_2_vente_echoppe_equipement" => $this->equipement["prix_2_vente_echoppe_equipement"],
@@ -450,6 +451,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 				'nb_runes_laban_equipement' => $this->equipement["nb_runes_echoppe_equipement"],
 				'id_fk_hobbit_laban_equipement' => $this->view->user->id_hobbit,
 				'id_fk_mot_runique_laban_equipement' => $this->equipement["id_fk_mot_runique_echoppe_equipement"],
+				'id_fk_region_laban_equipement' => $this->equipement["id_fk_region_echoppe_equipement"],
 			);
 			$labanEquipementTable->insert($data);
 		}

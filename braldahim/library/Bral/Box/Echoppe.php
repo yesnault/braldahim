@@ -167,6 +167,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 					"poids" => $e["poids_recette_equipement"],
 					"suffixe" => $e["suffixe_mot_runique"],
 					"id_fk_mot_runique" => $e["id_fk_mot_runique_echoppe_equipement"],
+					"id_fk_region" => $e["id_fk_region_echoppe_equipement"],
 					"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
 					"prix_1_vente_echoppe_equipement" => $e["prix_1_vente_echoppe_equipement"],
 					"prix_2_vente_echoppe_equipement" => $e["prix_2_vente_echoppe_equipement"],

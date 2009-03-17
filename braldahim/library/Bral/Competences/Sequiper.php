@@ -115,6 +115,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					"bm_defense" => $e["bm_defense_recette_equipement"],
 					"suffixe" => $e["suffixe_mot_runique"],
 					"id_fk_mot_runique" => $e["id_fk_mot_runique_hequipement"],
+					"id_fk_region" => $e["id_fk_region_hequipement"],
 					"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
 					"poids" => $e["poids_recette_equipement"],
 					"runes" => $runes,
@@ -166,6 +167,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 						"bm_defense" => $e["bm_defense_recette_equipement"],
 						"suffixe" => $e["suffixe_mot_runique"],
 						"id_fk_mot_runique" => $e["id_fk_mot_runique_laban_equipement"],
+						"id_fk_region" => $e["id_fk_region_laban_equipement"],
 						"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
 						"poids" => $e["poids_recette_equipement"],
 						"runes" => $runes,
@@ -284,6 +286,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 			'id_fk_hobbit_hequipement' => $this->view->user->id_hobbit,
 			'nb_runes_hequipement' => $equipement["nb_runes"],
 			'id_fk_mot_runique_hequipement' => $equipement["id_fk_mot_runique"],
+			'id_fk_region_hequipement' => $equipement["id_fk_region"],
 		);
 		$hobbitEquipementTable->insert($data);
 		
@@ -302,6 +305,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 			'id_fk_hobbit_laban_equipement' => $this->view->user->id_hobbit,
 			'nb_runes_laban_equipement' => $equipement["nb_runes"],
 			'id_fk_mot_runique_laban_equipement' => $equipement["id_fk_mot_runique"],
+			'id_fk_region_laban_equipement' => $equipement["id_fk_region"],
 		);
 		$labanEquipementTable->insert($data);
 		

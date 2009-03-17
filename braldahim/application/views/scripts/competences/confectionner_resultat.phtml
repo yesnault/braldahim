@@ -8,6 +8,8 @@
 	<br />
 	Il y a <?=$this->nbRunes ?> emplacement<? if ($this->nbRunes > 1) echo 's'; ?> runique<? if ($this->nbRunes > 1) echo 's'; ?>.
 	<br /><br />
+	Le bonus apport&eacute; sur l'&eacute;quipement est : <?=$this->bonus?>.
+	<br><br>
 	<? if ($this->effetRune) :?>
 		Une rune que vous portez a eu de l'effet sur la qualit&eacute; de cette pi&egrave;ce d'&eacute;quipement.
 	<? endif; ?>

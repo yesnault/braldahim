@@ -237,6 +237,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 						"id_fk_recette" => $e["id_fk_recette_element_equipement"],
 						"poids" => $e["poids_recette_equipement"],
 						"poids_ok" => $poids_ok,
+						"id_fk_region" => $e["id_fk_region_element_equipement"],
 				);
 			}
 		} else {
@@ -272,6 +273,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 			"id_fk_recette_laban_equipement" => $equipement["id_fk_recette"],
 			"nb_runes_laban_equipement" => $equipement["nb_runes"],
 			"id_fk_mot_runique_laban_equipement" => $equipement["id_fk_mot_runique"],
+			"id_fk_region_laban_equipement" => $equipement["id_fk_region"],
 		);
 		$labanEquipementTable->insert($data);
 		unset($labanEquipementTable);
