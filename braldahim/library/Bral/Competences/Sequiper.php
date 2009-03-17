@@ -42,7 +42,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 				$affiche = "non";
 				$position = "droite";
 			}
-				
+
 			if ($t["est_equipable_type_emplacement"] == "oui") {
 				$tabTypesEmplacement[$t["nom_systeme_type_emplacement"]] = array(
 						"nom_type_emplacement" => $t["nom_type_emplacement"],
@@ -97,7 +97,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					}
 				}
 			}
-				
+
 			$bonus = null;
 			if (count($equipementBonus) > 0) {
 				foreach($equipementBonus as $b) {
@@ -136,8 +136,8 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					"runes" => $runes,
 					"bonus" => $bonus,
 			);
-				
-				
+
+
 			$this->equipementPorte[] = $equipement;
 			$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["equipementPorte"][] = $equipement;
 			$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["affiche"] = "oui";
@@ -146,7 +146,8 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		foreach ($equipementLabanRowset as $e) {
 			$this->view->sequiperOk = true;
 			$runes = null;
-				
+			$bonus = null;
+
 			if ($e["est_equipable_type_emplacement"] == "oui") {
 				if (count($equipementRunes) > 0) {
 					foreach($equipementRunes as $r) {
@@ -159,6 +160,13 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 								"effet_type_rune" => $r["effet_type_rune"],
 							);
 						}
+					}
+				}
+
+				if (count($equipementBonus) > 0) {
+					foreach($equipementBonus as $b) {
+						$bonus = $b;
+						break;
 					}
 				}
 
@@ -187,6 +195,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 						"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
 						"poids" => $e["poids_recette_equipement"],
 						"runes" => $runes,
+						"bonus" => $bonus,
 				);
 				$this->equipementLaban[] = $equipement;
 				$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["equipementLaban"][] = $equipement;
@@ -285,7 +294,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 			}
 			$this->calculTransfertVersEquipement($equipement);
 			$this->calculAjoutEffet($equipement);
-				
+
 		} else { // destination laban
 			$this->calculTransfertVersLaban($equipement);
 			$this->calculRetireEffet($equipement);
@@ -343,22 +352,21 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$this->view->user->bm_defense_hobbit = $this->view->user->bm_defense_hobbit + $equipement["bm_defense"];
 
 		if ($equipement["bonus"] != null && count($equipement["bonus"]) > 0) {
-			foreach($equipement["bonus"] as $b) {
-				if ($b["armure_equipement_bonus"] != null && $b["armure_equipement_bonus"] != "" && $b["armure_equipement_bonus"] > 0) {
-					$this->view->user->armure_equipement_hobbit = $this->view->user->armure_equipement_hobbit + $b["armure_equipement_bonus"];
-				}
-				if ($b["agilite_equipement_bonus"] != null && $b["agilite_equipement_bonus"] != "" && $b["agilite_equipement_bonus"] > 0) {
-					$this->view->user->agilite_bm_hobbit = $this->view->user->agilite_bm_hobbit + $b["agilite_equipement_bonus"];
-				}
-				if ($b["force_equipement_bonus"] != null && $b["force_equipement_bonus"] != "" && $b["force_equipement_bonus"] > 0) {
-					$this->view->user->force_bm_hobbit = $this->view->user->force_bm_hobbit + $b["force_equipement_bonus"];
-				}
-				if ($b["sagesse_equipement_bonus"] != null && $b["sagesse_equipement_bonus"] != "" && $b["sagesse_equipement_bonus"] > 0) {
-					$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit + $b["sagesse_equipement_bonus"];
-				}
-				if ($b["vigueur_equipement_bonus"] != null && $b["vigueur_equipement_bonus"] != "" && $b["vigueur_equipement_bonus"] > 0) {
-					$this->view->user->vigueur_bm_hobbit = $this->view->user->vigueur_bm_hobbit + $b["vigueur_equipement_bonus"];
-				}
+			$b = $equipement["bonus"];
+			if ($b["armure_equipement_bonus"] != null && $b["armure_equipement_bonus"] != "" && $b["armure_equipement_bonus"] > 0) {
+				$this->view->user->armure_equipement_hobbit = $this->view->user->armure_equipement_hobbit + $b["armure_equipement_bonus"];
+			}
+			if ($b["agilite_equipement_bonus"] != null && $b["agilite_equipement_bonus"] != "" && $b["agilite_equipement_bonus"] > 0) {
+				$this->view->user->agilite_bm_hobbit = $this->view->user->agilite_bm_hobbit + $b["agilite_equipement_bonus"];
+			}
+			if ($b["force_equipement_bonus"] != null && $b["force_equipement_bonus"] != "" && $b["force_equipement_bonus"] > 0) {
+				$this->view->user->force_bm_hobbit = $this->view->user->force_bm_hobbit + $b["force_equipement_bonus"];
+			}
+			if ($b["sagesse_equipement_bonus"] != null && $b["sagesse_equipement_bonus"] != "" && $b["sagesse_equipement_bonus"] > 0) {
+				$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit + $b["sagesse_equipement_bonus"];
+			}
+			if ($b["vigueur_equipement_bonus"] != null && $b["vigueur_equipement_bonus"] != "" && $b["vigueur_equipement_bonus"] > 0) {
+				$this->view->user->vigueur_bm_hobbit = $this->view->user->vigueur_bm_hobbit + $b["vigueur_equipement_bonus"];
 			}
 		}
 			
@@ -446,25 +454,24 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$this->view->user->bm_defense_hobbit = $this->view->user->bm_defense_hobbit - $equipement["bm_defense"];
 
 		if ($equipement["bonus"] != null && count($equipement["bonus"]) > 0) {
-			foreach($equipement["bonus"] as $b) {
-				if ($b["armure_equipement_bonus"] != null && $b["armure_equipement_bonus"] != "" && $b["armure_equipement_bonus"] > 0) {
-					$this->view->user->armure_equipement_hobbit = $this->view->user->armure_equipement_hobbit - $b["armure_equipement_bonus"];
-				}
-				if ($b["agilite_equipement_bonus"] != null && $b["agilite_equipement_bonus"] != "" && $b["agilite_equipement_bonus"] > 0) {
-					$this->view->user->agilite_bm_hobbit = $this->view->user->agilite_bm_hobbit - $b["agilite_equipement_bonus"];
-				}
-				if ($b["force_equipement_bonus"] != null && $b["force_equipement_bonus"] != "" && $b["force_equipement_bonus"] > 0) {
-					$this->view->user->force_bm_hobbit = $this->view->user->force_bm_hobbit - $b["force_equipement_bonus"];
-				}
-				if ($b["sagesse_equipement_bonus"] != null && $b["sagesse_equipement_bonus"] != "" && $b["sagesse_equipement_bonus"] > 0) {
-					$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit - $b["sagesse_equipement_bonus"];
-				}
-				if ($b["vigueur_equipement_bonus"] != null && $b["vigueur_equipement_bonus"] != "" && $b["vigueur_equipement_bonus"] > 0) {
-					$this->view->user->vigueur_bm_hobbit = $this->view->user->vigueur_bm_hobbit - $b["vigueur_equipement_bonus"];
-				}
+			$b = $equipement["bonus"];
+			if ($b["armure_equipement_bonus"] != null && $b["armure_equipement_bonus"] != "" && $b["armure_equipement_bonus"] > 0) {
+				$this->view->user->armure_equipement_hobbit = $this->view->user->armure_equipement_hobbit - $b["armure_equipement_bonus"];
+			}
+			if ($b["agilite_equipement_bonus"] != null && $b["agilite_equipement_bonus"] != "" && $b["agilite_equipement_bonus"] > 0) {
+				$this->view->user->agilite_bm_hobbit = $this->view->user->agilite_bm_hobbit - $b["agilite_equipement_bonus"];
+			}
+			if ($b["force_equipement_bonus"] != null && $b["force_equipement_bonus"] != "" && $b["force_equipement_bonus"] > 0) {
+				$this->view->user->force_bm_hobbit = $this->view->user->force_bm_hobbit - $b["force_equipement_bonus"];
+			}
+			if ($b["sagesse_equipement_bonus"] != null && $b["sagesse_equipement_bonus"] != "" && $b["sagesse_equipement_bonus"] > 0) {
+				$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit - $b["sagesse_equipement_bonus"];
+			}
+			if ($b["vigueur_equipement_bonus"] != null && $b["vigueur_equipement_bonus"] != "" && $b["vigueur_equipement_bonus"] > 0) {
+				$this->view->user->vigueur_bm_hobbit = $this->view->user->vigueur_bm_hobbit - $b["vigueur_equipement_bonus"];
 			}
 		}
-		
+
 		if ($equipement["runes"] != null && count($equipement["runes"]) > 0) {
 			foreach($equipement["runes"] as $r) {
 				if ($r["nom_type_rune"] == "KR") {
