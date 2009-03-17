@@ -5,20 +5,20 @@
   <ul class="box_contenu1 textalic">
 	Vous ne pouvez déposer ou retirer des éléments de votre coffre qu'en étant dans une banque.	
 	<br /><br />
-	Votre coffre contient plusieurs tiroirs. Cliquez sur celui ou ceux que vous souhaitez ouvrir. 
+	Votre coffre contient plusieurs tiroir. Cliquez sur celui ou ceux que vous souhaitez ouvrir. 
 	<br /><br />
-   <input type='button' class='button1' value='Fermer Tout' onClick="$('fermer_tiroir').click();">
-   <input type='button' class='button1' value='Ouvrir Tout' onClick="$('ouvrir_tiroir').click();">
+   <input type='button' class='button1' value='Fermer Tout' onClick="$('fermer_tiroirCoffre').click();">
+   <input type='button' class='button1' value='Ouvrir Tout' onClick="$('ouvrir_tiroirCoffre').click();">
    
 <?=$poches = null; ?>
 	<ul id="navigation" style="width:99%;text-align:left">
 		
-		<li id="tiroirCastars">
-			<? $tiroirs[] = "tiroirCastars-head" ?>
-      		<h3 id="tiroirCastars-head" class="head" onClick="maccordion(this);" />
+		<li id="tiroirCoffreCastars">
+			<? $tiroirCoffres[] = "tiroirCoffreCastars-head" ?>
+      		<h3 id="tiroirCoffreCastars-head" class="head" onClick="maccordion(this);" />
 				Tiroir pour les castars
 			</h3>
-			<ul id="tiroirCastars-body" style="display:none">
+			<ul id="tiroirCoffreCastars-body" style="display:none">
 				<li>
 					<? $this->nb_castars = $this->coffre["nb_castar"]; ?>
 					<? include("commun/materiaux/castars.phtml") ?>
@@ -29,12 +29,12 @@
 		<? if (count($this->tabHobbitMetiers) > 0) :?>
 			<? foreach ($this->tabHobbitMetiers as $m) : ?>
 				<? if ($m["nom_systeme"] == "bucheron" || $m["nom_systeme"] == "guerrier") { continue; }?>
-				<li id="tiroir<?=$m["nom_systeme"]?>">
-					<? $tiroirs[] = "tiroir".$m["nom_systeme"]."-head" ?>
-		      		<h3 id="tiroir<?=$m["nom_systeme"]?>-head" class="head" onClick="maccordion(this);" />
+				<li id="tiroirCoffre<?=$m["nom_systeme"]?>">
+					<? $tiroirCoffres[] = "tiroirCoffre".$m["nom_systeme"]."-head" ?>
+		      		<h3 id="tiroirCoffre<?=$m["nom_systeme"]?>-head" class="head" onClick="maccordion(this);" />
 						Tiroir <?=$m["nom"]?>
 					</h3>
-					<ul id="tiroir<?=$m["nom_systeme"]?>-body" style="display:none">
+					<ul id="tiroirCoffre<?=$m["nom_systeme"]?>-body" style="display:none">
 						<li>
 							<? include("laban/poche_".$m["nom_systeme"].".phtml") ?>
 						</li>
@@ -47,9 +47,9 @@
 			<? foreach ($this->tabMetiers as $m) : ?>
 				<? if ($m["a_afficher"] == true) : ?>
 					<? if ($m["nom_systeme"] == "bucheron" || $m["nom_systeme"] == "guerrier") { continue; }?>
-					<li id="tiroir<?=$m["nom_systeme"]?>">
-						<? $tiroirs[] = "tiroir".$m["nom_systeme"]."-head" ?>
-			      		<h3 id="tiroir<?=$m["nom_systeme"]?>-head" class="head" onClick="maccordion(this);" />
+					<li id="tiroirCoffre<?=$m["nom_systeme"]?>">
+						<? $tiroirCoffres[] = "tiroirCoffre".$m["nom_systeme"]."-head" ?>
+			      		<h3 id="tiroirCoffre<?=$m["nom_systeme"]?>-head" class="head" onClick="maccordion(this);" />
 							Tiroir mat&eacute;riaux 
 							<? if ($m["nom_systeme"] == "mineur" || $m["nom_systeme"] == "chasseur" || $m["nom_systeme"] == "herboriste") : ?>
 							r&eacute;colt&eacute;s
@@ -58,7 +58,7 @@
 							<? endif; ?>
 							par un <?=$m["nom"]?>
 						</h3>
-						<ul id="tiroir<?=$m["nom_systeme"]?>-body" style="display:none">
+						<ul id="tiroirCoffre<?=$m["nom_systeme"]?>-body" style="display:none">
 							<li>
 								<? include("laban/poche_".$m["nom_systeme"].".phtml") ?>
 							</li>
@@ -68,34 +68,34 @@
 			<? endforeach; ?>
 		<? endif; ?>
 		
-		<li id="tiroirRune">
-			<? $tiroirs[] = "tiroirRune-head" ?>
-      		<h3 id="tiroirRune-head" class="head" onClick="maccordion(this);" />
+		<li id="tiroirCoffreRune">
+			<? $tiroirCoffres[] = "tiroirCoffreRune-head" ?>
+      		<h3 id="tiroirCoffreRune-head" class="head" onClick="maccordion(this);" />
 				Tiroir pour les runes
 			</h3>
-			<ul id="tiroirRune-body" style="display:none">
+			<ul id="tiroirCoffreRune-body" style="display:none">
 				<li>
 					<? include("laban/poche_rune.phtml") ?>
 				</li>
 			</ul>
 		</li>
-		<li id="tiroirEquipement">
-			<? $tiroirs[] = "tiroirEquipement-head" ?>
-      		<h3 id="tiroirEquipement-head" class="head" onClick="maccordion(this);" />
+		<li id="tiroirCoffreEquipement">
+			<? $tiroirCoffres[] = "tiroirCoffreEquipement-head" ?>
+      		<h3 id="tiroirCoffreEquipement-head" class="head" onClick="maccordion(this);" />
 				Tiroir pour les pi&egrave;ces d'&eacute;quipements
 			</h3>
-			<ul id="tiroirEquipement-body" style="display:none">
+			<ul id="tiroirCoffreEquipement-body" style="display:none">
 				<li>
 					<? include("laban/poche_equipement.phtml") ?>
 				</li>
 			</ul>
 		</li>
-		<li id="tiroirPotion">
-			<? $tiroirs[] = "tiroirPotion-head" ?>
-      		<h3 id="tiroirPotion-head" class="head" onClick="maccordion(this);" />
+		<li id="tiroirCoffrePotion">
+			<? $tiroirCoffres[] = "tiroirCoffrePotion-head" ?>
+      		<h3 id="tiroirCoffrePotion-head" class="head" onClick="maccordion(this);" />
 				Tiroir pour les potions
 			</h3>
-			<ul id="tiroirPotion-body" style="display:none">
+			<ul id="tiroirCoffrePotion-body" style="display:none">
 				<li>
 					<? include("laban/poche_potion.phtml") ?>
 				</li>
@@ -105,13 +105,13 @@
    <? 
    $jsFermer = "";
    $jsOuvrir = "";
-   foreach ($tiroirs as $p) :
+   foreach ($tiroirCoffres as $p) :
    	$jsFermer .= "maccordion_fermer($('$p'));";
     $jsOuvrir .= "maccordion_ouvrir($('$p'));";
    endforeach; ?>
    
-   <input type='button' class='button1' id="fermer_tiroir" name="fermer_tiroir" value='Fermer Tout' onClick="<?=$jsFermer ?>">
-   <input type='button' class='button1' id="ouvrir_tiroir" name="ouvrir_tiroir"  value='Ouvrir Tout' onClick="<?=$jsOuvrir ?>">
+   <input type='button' class='button1' id="fermer_tiroirCoffre" name="fermer_tiroirCoffre" value='Fermer Tout' onClick="<?=$jsFermer ?>">
+   <input type='button' class='button1' id="ouvrir_tiroirCoffre" name="ouvrir_tiroirCoffre"  value='Ouvrir Tout' onClick="<?=$jsOuvrir ?>">
    	
    		</ul>
  	</div>
