@@ -49,6 +49,7 @@ class FeedController extends Zend_Controller_Action {
                 'description' => $texte,
                 'content' => $texte,
 				'pubDate' => $info->date_info_jeu,
+				'lastUpdate' => $info->date_info_jeu,
 				'guid' => $lien,
 			);
 			
