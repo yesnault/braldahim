@@ -48,8 +48,7 @@ class FeedController extends Zend_Controller_Action {
                 'link' => $lien,
                 'description' => $texte,
                 'content' => $texte,
-				'pubDate' => $info->date_info_jeu,
-				'lastUpdate' => $info->date_info_jeu,
+				'lastUpdate' =>  Bral_Util_ConvertDate::get_epoch_mysql_datetime($info->date_info_jeu),
 				'guid' => $lien,
 			);
 			
