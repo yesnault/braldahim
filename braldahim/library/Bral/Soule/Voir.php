@@ -81,6 +81,12 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 			$joueurs = $souleEquipeTable->findByIdMatch($this->matchEnCours["id_soule_match"]);
 			$equipes["equipea"]["nom_equipe"] = $this->matchEnCours["nom_equipea_soule_match"];
 			$equipes["equipeb"]["nom_equipe"] = $this->matchEnCours["nom_equipeb_soule_match"];
+			
+			$equipes["equipea"]["plaquages"] = 0;
+			$equipes["equipea"]["plaques"] = 0;
+			$equipes["equipeb"]["plaquages"] = 0;
+			$equipes["equipeb"]["plaques"] = 0;
+			
 		} else {
 			$joueurs = $souleEquipeTable->findNonDebuteByNiveauTerrain($this->view->terrainCourant["niveau_soule_terrain"]);
 		}
@@ -89,8 +95,12 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 			foreach($joueurs as $j) {
 				if ($j["camp_soule_equipe"] == 'a') {
 					$equipes["equipea"]["joueurs"][] = $j;
+					$equipes["equipea"]["plaquages"] = $equipes["equipea"]["plaquages"] + $j["nb_hobbit_plaquage_soule_equipe"];
+					$equipes["equipea"]["plaques"] = $equipes["equipea"]["plaques"] + $j["nb_plaque_soule_equipe"];
 				} else {
 					$equipes["equipeb"]["joueurs"][] = $j;
+					$equipes["equipeb"]["plaquages"] = $equipes["equipeb"]["plaquages"] + $j["nb_hobbit_plaquage_soule_equipe"];
+					$equipes["equipeb"]["plaques"] = $equipes["equipeb"]["plaques"] + $j["nb_plaque_soule_equipe"];
 				}
 			}
 		}
@@ -151,7 +161,6 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 							"hobbit_evenement" => $hobbit,
 							"details_evenement" => $r["details_evenement"]);
 		}
-
 		$this->view->evenements = $tab;
-	}
+	} 
 }
