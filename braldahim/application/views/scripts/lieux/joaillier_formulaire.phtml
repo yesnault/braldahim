@@ -71,13 +71,24 @@
 						$('dispo').innerHTML=calculNbRune(".$this->equipementCourant["nb_runes"].");
 						
 					}
-					Sortable.create('group1',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune'});
+					Position.includeScrollOffsets = true;
+					
+					Sortable.create('group1',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune', scroll:'group1'});
 					Sortable.create('group2',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune', onUpdate:upd});" ?>
 				
 				<? if (count($this->labanRunes) > 0) : ?>
 					<input type="button" class='button1' value="Choisir les runes" onClick="<?=$js ?>; $('choix_runes').style.display='block';this.style.display='none';">
 				
 					<div id="choix_runes" style="display:none">
+					
+					<br />
+						<? if ($this->equipementCourant["nb_runes"] > 1): $s="s"; else:$s=""; endif; ?>Sur <?=$this->equipementCourant["nb_runes"]?> emplacement<?=$s?> au total, il en reste <label id="dispo"><?=$this->equipementCourant["nb_runes"]?></label>.
+						<br />
+						<label id='rune_text'></label>
+						<div id="group2" class="joaillier_runes" style="height:40px">
+						</div>
+						
+						
 						<h3 class="handle">Vos runes disponibles</h3>
 						
 						<div id="group1" class="joaillier_runes" style="height:130px ;overflow:auto">
@@ -91,12 +102,7 @@
 						<br />
 						<input type="hidden" id="valeur_2" name="valeur_2">
 						<input type="hidden" id="valeur_3" name="valeur_3">
-						<br />
-						<? if ($this->equipementCourant["nb_runes"] > 1): $s="s"; else:$s=""; endif; ?>Sur <?=$this->equipementCourant["nb_runes"]?> emplacement<?=$s?> au total, il en reste <label id="dispo"><?=$this->equipementCourant["nb_runes"]?></label>.
-						<br />
-						<label id='rune_text'></label>
-						<div id="group2" class="joaillier_runes" style="height:40px">
-						</div>
+						
 					</div>
 				<? else: ?>
 					Vous n'avez aucune rune dans votre laban
