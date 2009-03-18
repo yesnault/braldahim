@@ -475,21 +475,22 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			unset($equipementBonusTable);
 
 			if (count($equipementBonus) > 0) {
-				$b = $equipement["bonus"];
-				if ($b["armure_equipement_bonus"] != null && $b["armure_equipement_bonus"] != "" && $b["armure_equipement_bonus"] > 0) {
-					$this->hobbit->armure_equipement_hobbit = $this->hobbit->armure_equipement_hobbit + $b["armure_equipement_bonus"];
-				}
-				if ($b["agilite_equipement_bonus"] != null && $b["agilite_equipement_bonus"] != "" && $b["agilite_equipement_bonus"] > 0) {
-					$this->hobbit->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit + $b["agilite_equipement_bonus"];
-				}
-				if ($b["force_equipement_bonus"] != null && $b["force_equipement_bonus"] != "" && $b["force_equipement_bonus"] > 0) {
-					$this->hobbit->force_bm_hobbit = $this->hobbit->force_bm_hobbit + $b["force_equipement_bonus"];
-				}
-				if ($b["sagesse_equipement_bonus"] != null && $b["sagesse_equipement_bonus"] != "" && $b["sagesse_equipement_bonus"] > 0) {
-					$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + $b["sagesse_equipement_bonus"];
-				}
-				if ($b["vigueur_equipement_bonus"] != null && $b["vigueur_equipement_bonus"] != "" && $b["vigueur_equipement_bonus"] > 0) {
-					$this->hobbit->vigueur_bm_hobbit = $this->hobbit->vigueur_bm_hobbit + $b["vigueur_equipement_bonus"];
+				foreach($equipementBonus as $b) {
+					if ($b["armure_equipement_bonus"] != null && $b["armure_equipement_bonus"] != "" && $b["armure_equipement_bonus"] > 0) {
+						$this->hobbit->armure_equipement_hobbit = $this->hobbit->armure_equipement_hobbit + $b["armure_equipement_bonus"];
+					}
+					if ($b["agilite_equipement_bonus"] != null && $b["agilite_equipement_bonus"] != "" && $b["agilite_equipement_bonus"] > 0) {
+						$this->hobbit->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit + $b["agilite_equipement_bonus"];
+					}
+					if ($b["force_equipement_bonus"] != null && $b["force_equipement_bonus"] != "" && $b["force_equipement_bonus"] > 0) {
+						$this->hobbit->force_bm_hobbit = $this->hobbit->force_bm_hobbit + $b["force_equipement_bonus"];
+					}
+					if ($b["sagesse_equipement_bonus"] != null && $b["sagesse_equipement_bonus"] != "" && $b["sagesse_equipement_bonus"] > 0) {
+						$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + $b["sagesse_equipement_bonus"];
+					}
+					if ($b["vigueur_equipement_bonus"] != null && $b["vigueur_equipement_bonus"] != "" && $b["vigueur_equipement_bonus"] > 0) {
+						$this->hobbit->vigueur_bm_hobbit = $this->hobbit->vigueur_bm_hobbit + $b["vigueur_equipement_bonus"];
+					}
 				}
 			}
 
