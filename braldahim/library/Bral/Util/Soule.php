@@ -168,7 +168,7 @@ class Bral_Util_Soule {
 					$val = true;
 				}
 
-				if (!isset($tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]])) {
+				if (!isset($tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]]) && $val == true) {
 					$tab = array(
 						'nom_type_plante' => $t["nom_type_plante"],
 						'nom_type_partieplante' => $p["nom_type_partieplante"],
