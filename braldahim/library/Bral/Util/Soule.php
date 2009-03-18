@@ -247,11 +247,11 @@ class Bral_Util_Soule {
 		$idType = $config->game->evenements->type->soule;
 
 		
-		$details = "[h".$idHobbitFin."] a marqué, ";
+		$details = "[h".$idHobbitFin."] a marqué";
 		if ($idHobbitFin == $idHobbit) {
-			$details .=  "il ";
+			$details .=  " et ";
 		} else {
-			$details .= "[h".$idHobbit."] ";
+			$details .= ", [h".$idHobbit."] ";
 		}
 		$details .= " a terminé au rang n°".$rang;
 		 
