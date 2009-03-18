@@ -342,6 +342,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 				'id_fk_recette_echoppe_equipement' => $recetteEquipementACreer["id_recette_equipement"],
 				'nb_runes_echoppe_equipement' => $nbRunes,
 				'type_vente_echoppe_equipement' => 'aucune',
+				'id_fk_region_echoppe_equipement' => $this->region["id_region"],
 			);
 			$idEquipement = $echoppeEquipementTable->insert($data);
 			
