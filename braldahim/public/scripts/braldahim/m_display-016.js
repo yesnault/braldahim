@@ -195,3 +195,8 @@ function checkboxCocher(liste, valeur, acacher, aafficher) {
 		$($(val[i]).checked = valeur);
 	}
 }
+
+function copierTooltip() {
+	javascript:switch2div('contenuTooltip','contenuTooltipCopie');
+	$('contenuTooltipCopieText').value = $('contenuTooltipCopieText').value.replace(/<br>/g, '\n');
+}

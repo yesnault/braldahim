@@ -31,13 +31,16 @@ class Bral_Helper_Tooltip {
 				    	if ($justify === true) {
 							$retour .= "<div ><p style=\'text-align:justify\'>";
 						}
-						$retour .= $contenu;
+						$retour .= "<div id=\'contenuTooltip\'>".$contenu."</div>";
+						$retour .= "<div id=\'contenuTooltipCopie\' style=\'display:none\'><textarea onClick=\'javascript:this.select();\' rows=\'4\' cols=\'33\' id=\'contenuTooltipCopieText\'>".preg_replace('/\<br(\s*)?\/?\>/i', "<br>", (strip_tags($titre."<br>".$contenu, "<br>")))."</textarea></div>";
 						if ($justify === true) {
 							$retour .= "</p></div>";
 						}
+						$retour .= "<center><a href=\'javascript:void(0);\' onClick=\'return copierTooltip();\'>Copier</a> ";
 						if ($close) {
-							$retour .= "<center><a href=\'javascript:void(0);\' onClick=\'return cClick();\'> Fermer</a></center>";
+							$retour .= " <a href=\'javascript:void(0);\' onClick=\'return cClick();\'>Fermer</a>";
 						}
+						$retour .= "</center>";
 						$retour .= "</div>";
 					$retour .= "</div>";
 				$retour .= "</div>";
