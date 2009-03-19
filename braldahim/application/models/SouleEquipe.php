@@ -112,4 +112,20 @@ class SouleEquipe extends Zend_Db_Table {
 		return $result;
 	}
 	
+	public function findByIdHobbitAndIdMatch($idHobbit, $idMatch) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+
+		$select->from('soule_equipe', '*')
+		->where('id_fk_match_soule_equipe = ?', (int)$idMatch)
+		->where('id_fk_hobbit_soule_equipe = ?', (int)$idHobbit);
+
+		$sql = $select->__toString();
+		$result = $db->fetchAll($sql);
+		if (count($result) != 1) {
+			throw new Zend_Exception("SouleEquipe::findByIdHobbitAndIdMatch invalide:".$idMatch."-".$idHobbit);
+		}
+		return $result[0];
+	}
+	
 }
