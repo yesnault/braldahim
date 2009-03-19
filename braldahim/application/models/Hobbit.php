@@ -57,6 +57,15 @@ class Hobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
+	function findDistinctNiveau() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', 'distinct(niveau_hobbit) as niveau_hobbit');
+		$select->order('niveau_hobbit');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
 	function selectVue($x_min, $y_min, $x_max, $y_max, $sansHobbitCourant = -1, $avecIntangibles = true) {
 		$db = $this->getAdapter();
 		$select = $db->select();

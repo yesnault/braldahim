@@ -12,7 +12,11 @@
 						foreach ($this->infosJeu as $info) : ?>
 						<tr class="table_liste<?=($i % 2);$i++; ?>">
 							<td class="table_liste">Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?></td>
-							<td class="table_liste"><?=Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?></td>
+							<td class="table_liste"><?=Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
+							<? if ($info["lien_info_jeu"] != null) :?>
+								<br><a href="<?=$info["lien_info_jeu"]?>">Discussions</a>
+							<? endif;?>
+							</td>
 						</tr>
 					<? endforeach; ?>
 				</thead>

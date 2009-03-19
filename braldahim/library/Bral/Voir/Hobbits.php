@@ -35,10 +35,9 @@ class Bral_Voir_Hobbits {
 		$this->view->suivantOk = false;
 		
 		$hobbitTable = new Hobbit();
-		
 		$hobbitRowset = $hobbitTable->findByCriteres($this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql);
 		$tabHobbits = null;
-		$tabNiveaux = null;
+		$tabNiveaux = $hobbitTable->findDistinctNiveau();
 		
 		foreach($hobbitRowset as $m) {
 			$tabHobbits[] = array(
@@ -48,7 +47,6 @@ class Bral_Voir_Hobbits {
 				"niveau_hobbit" => $m["niveau_hobbit"],
 				"date_creation" => $m["date_creation_hobbit"],
 			);
-			$tabNiveaux[$m["niveau_hobbit"]] = $m["niveau_hobbit"];
 		}
 		
 		if ($this->_page == 1) {
