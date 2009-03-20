@@ -36,11 +36,13 @@ class Bral_Helper_Tooltip {
 						if ($justify === true) {
 							$retour .= "</p></div>";
 						}
-						$retour .= "<center><a href=\'javascript:void(0);\' onClick=\'return copierTooltip();\'>Copier</a> ";
+						
 						if ($close) {
+							$retour .= "<center><a href=\'javascript:void(0);\' onClick=\'return copierTooltip();\'>Copier</a> ";
 							$retour .= " <a href=\'javascript:void(0);\' onClick=\'return cClick();\'>Fermer</a>";
+							$retour .= "</center>";
 						}
-						$retour .= "</center>";
+						
 						$retour .= "</div>";
 					$retour .= "</div>";
 				$retour .= "</div>";
