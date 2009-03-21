@@ -17,14 +17,22 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 	private $_tabCompetences = null;
 
 	function prepareCommun() {
+		
+		$this->_coutCastars = $this->calculCoutCastars();
+		$this->view->coutCastars = $this->_coutCastars;
+		$this->view->achatPossibleCastars = ($this->view->user->castars_hobbit - $this->_coutCastars >= 0);
+		// $this->view->utilisationPaPossible initialisé dans Bral_Lieux_Lieu
+		
+		if ($this->view->utilisationPaPossible == false) {
+			return;
+		}
+		
 		Zend_Loader::loadClass("LabanEquipement");
 		Zend_Loader::loadClass("MotRunique");
 		
 		$this->view->effetMotF = false;
 
 		$id_equipement_courant = $this->request->get("id_equipement");
-
-		$this->_coutCastars = $this->calculCoutCastars();
 
 		$tabEquipementsLaban = null;
 		$labanEquipementTable = new LabanEquipement();
@@ -61,10 +69,6 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 		$this->view->nbEquipementsLaban = count($tabEquipementsLaban);
 		$this->view->equipementsLaban = $tabEquipementsLaban;
 
-		$this->view->coutCastars = $this->_coutCastars;
-		$this->view->achatPossibleCastars = ($this->view->user->castars_hobbit - $this->_coutCastars >= 0);
-		// $this->view->utilisationPaPossible initialisé dans Bral_Lieux_Lieu
-		
 		$this->view->equipementEnCours = null;
 		
 		if (isset($equipementCourant)) {
