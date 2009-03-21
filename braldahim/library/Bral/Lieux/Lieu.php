@@ -29,18 +29,26 @@ abstract class Bral_Lieux_Lieu {
 		if (count($lieuRowset) > 1) {
 			throw new Zend_Exception(get_class($this)."::nombre de lieux invalide > 1 !");
 		} elseif (count($lieuRowset) == 1) {
+			
 			$lieu = $lieuRowset[0];
-			$this->view->estLieuCourant = true;
-			$this->view->idLieu = $lieu["id_lieu"];
-			$this->view->nomLieu = $lieu["nom_lieu"];
-			$this->view->nomTypeLieu = $lieu["nom_type_lieu"];
-			$this->view->nomSystemeLieu = $lieu["nom_systeme_type_lieu"];
-			$this->view->descriptionLieu = $lieu["description_lieu"];
-			$this->view->descriptionTypeLieu = $lieu["description_type_lieu"];
-			$this->view->estFranchissableLieu = ($lieu["est_franchissable_type_lieu"] == "oui");
-			$this->view->estAlterableLieu = ($lieu["est_alterable_type_lieu"] == "oui");
-			$this->view->paUtilisationLieu = $lieu["pa_utilisation_type_lieu"];
-			$this->view->niveauMinLieu = $lieu["niveau_min_type_lieu"];
+			if ($nomSystemeLieu == $lieu["nom_systeme_type_lieu"]) {
+				$this->view->estLieuCourant = true;
+				$this->view->idLieu = $lieu["id_lieu"];
+				$this->view->nomLieu = $lieu["nom_lieu"];
+				$this->view->nomTypeLieu = $lieu["nom_type_lieu"];
+				$this->view->nomSystemeLieu = $lieu["nom_systeme_type_lieu"];
+				$this->view->descriptionLieu = $lieu["description_lieu"];
+				$this->view->descriptionTypeLieu = $lieu["description_type_lieu"];
+				$this->view->estFranchissableLieu = ($lieu["est_franchissable_type_lieu"] == "oui");
+				$this->view->estAlterableLieu = ($lieu["est_alterable_type_lieu"] == "oui");
+				$this->view->paUtilisationLieu = $lieu["pa_utilisation_type_lieu"];
+				$this->view->niveauMinLieu = $lieu["niveau_min_type_lieu"];
+				if (array_key_exists("nom_ville", $lieu)) {
+					$this->view->nomVille = $lieu["nom_ville"];
+				}
+			} else {
+				throw new Zend_Exception(get_class($this)."::type de lieu invalide ! s:".$nomSystemeLieu. " id:".$view->user->id_hobbit. " x:".$view->user->x_hobbit. " y:".$view->user->y_hobbit);
+			}
 		} else {
 			Zend_Loader::loadClass("Echoppe");
 			$echoppesTable = new Echoppe();

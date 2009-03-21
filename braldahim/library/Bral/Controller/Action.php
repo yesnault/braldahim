@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -11,33 +11,33 @@
  * $LastChangedBy$
  */
 class Bral_Controller_Action extends Zend_Controller_Action {
-	
+
 	public function init() {
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
-		
+
 		if ($this->view->config->general->actif != 1) {
 			$this->_redirect('/auth/logoutajax');
 		} else if (!Zend_Auth::getInstance()->hasIdentity() || $this->_request->get("dateAuth") != $this->view->user->dateAuth ) {
 			$this->_redirect('/auth/logoutajax');
-		} else if (!Zend_Auth::getInstance()->hasIdentity() 
-			|| ($this->_request->action != 'index' && 
-				$this->view->user->initialCall == false && 
-				$this->_request->get("dateAuth") != $this->view->user->dateAuth)
-			|| !isset($this->view->user) || !isset($this->view->user->email_hobbit)) {
-				if (!Zend_Auth::getInstance()->hasIdentity() ) {
-					Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax 1A - Session perdue");
-				} else {
-					Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax 1B action=".$this->_request->action. " initialCall=".$this->view->user->initialCall. " dateAuth=".$this->_request->get("dateAuth"). " dateAuth2=".$this->view->user->dateAuth);
-				}
-				
-				$this->_redirect('/auth/logoutajax');
+		} else if (!Zend_Auth::getInstance()->hasIdentity()
+		|| ($this->_request->action != 'index' &&
+		$this->view->user->initialCall == false &&
+		$this->_request->get("dateAuth") != $this->view->user->dateAuth)
+		|| !isset($this->view->user) || !isset($this->view->user->email_hobbit)) {
+			if (!Zend_Auth::getInstance()->hasIdentity() ) {
+				Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax 1A - Session perdue");
+			} else {
+				Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax 1B action=".$this->_request->action. " initialCall=".$this->view->user->initialCall. " dateAuth=".$this->_request->get("dateAuth"). " dateAuth2=".$this->view->user->dateAuth);
+			}
+
+			$this->_redirect('/auth/logoutajax');
 		} else {
 			Zend_Loader::loadClass('Bral_Util_BralSession');
 			if (Bral_Util_BralSession::refreshSession() == false) {
 				$this->_redirect('/auth/logoutajax');
-			} 
+			}
 		}
 		$this->view->user = Zend_Auth::getInstance()->getIdentity(); // pour rafraichissement session
 		$this->xml_response = new Bral_Xml_Response();
@@ -53,7 +53,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 			$this->modification_tour = true;
 		}
 	}
-	
+
 	protected function doBralAction($factory) {
 
 		if (!$this->modification_tour) { // S'il n'y a pas eu de modification du tour, on passe à la competence
@@ -68,11 +68,13 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				} elseif ($factory == "Bral_Echoppe_Factory") {
 					$action = Bral_Echoppe_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Boutique_Factory") {
-					$action = Bral_Boutique_Factory::getAction($this->_request, $this->view);	
+					$action = Bral_Boutique_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Lieux_Factory") {
 					$action = Bral_Lieux_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Soule_Factory") {
 					$action = Bral_Soule_Factory::getAction($this->_request, $this->view);
+				} elseif ($factory == "Bral_Quete_Factory") {
+					$action = Bral_Quete_Factory::getAction($this->_request, $this->view);
 				}
 				$xml_entry->set_valeur($action->getNomInterne());
 				$xml_entry->set_data($action->render());
@@ -80,7 +82,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				$boxToRefresh = $action->getListBoxRefresh();
 				for ($i=0; $i<count($boxToRefresh); $i++) {
 					$xml_entry = new Bral_Xml_Entry();
-					if ($boxToRefresh[$i] == "box_vue" || $boxToRefresh[$i] == "box_laban" || $boxToRefresh[$i] == "box_echoppes" || $boxToRefresh[$i] == "box_soule") { 
+					if ($boxToRefresh[$i] == "box_vue" || $boxToRefresh[$i] == "box_laban" || $boxToRefresh[$i] == "box_echoppes" || $boxToRefresh[$i] == "box_soule" || $boxToRefresh[$i] == "box_quete") {
 						$xml_entry->set_type("load_box");
 						//$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, false);
 						//$nomInterne = $c->getNomInterne();
@@ -108,7 +110,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 		}
 		$this->xml_response->render();
 	}
-	
+
 	private function getXmlEntryVoirEchoppe($action) {
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("display");
@@ -117,4 +119,4 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 		$xml_entry->set_data($c->render());
 		return $xml_entry;
 	}
- }
+}

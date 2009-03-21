@@ -1,0 +1,54 @@
+<? include("box_header.phtml") ?>
+<div class="inner">
+<ul class="titre textalia textsizec">Mes Quêtes - En Développement</ul>
+ <div class="contenuC">
+  <ul class="box_contenu1 textalic">
+  
+  <? if ($this->affichageInterne == true) : ?>
+ 	<table width="100%">
+ 		<tr>
+ 			<td width="50%">
+ 				<table class="table_liste">
+					<thead class="table_liste">
+					  <tr class="table_liste">
+						<th> Qu&ecirc;tes r&eacute;lis&eacute;es ou en cours<br></th>
+						<th>&nbsp;</th>
+					  </tr>
+					</thead>
+					
+					<tbody>
+					<th>
+					  <? if (count($this->quetes) > 0): ?>
+						  <? foreach($this->quetes as $q) :?>
+						  	Qu&ecirc;te de la <?=$q["nom_lieu"]?>,
+						  	<? if ($q["date_fin_quete"] != null): ?> 
+						  		terminée
+						  	<? else: ?>
+						  		en cours
+						  	<? endif;?>
+						  	<br>
+						  <? endforeach;?>
+					  <? else: ?>
+					  	Aucune qu&ecirc;te
+					  <? endif;?>
+					  </th>
+					</tbody>
+				</table>
+ 			</td>
+ 			<td width="50%">
+ 				<div id="box_soule_interne">
+				<?=$this->htmlQuete?>
+				</div>
+ 			</td>
+ 		</tr>
+ 	</table>
+ 
+  <? else: ?>
+	Chargement en cours
+	<br /><img src="/public/images/wait.gif" />
+  <? endif; ?>
+  
+  </ul>
+ </div>
+</div>
+<? include("box_bottom.phtml") ?>

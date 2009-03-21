@@ -12,8 +12,13 @@
  */
 class Bral_Helper_Calendrier {
 	
-    public static function affiche($avecSautLigneAnnee = false, $dateAAficher = null) {
-    	$jours = array(
+	public static function getJourSemaine($jour) {
+
+		if ($jour < 0 || $jour > 6) {
+			throw new Zend_Exception("getJourSemaine jour invalide:".$jour);
+		}
+		
+		$jours = array(
 			0 => 'Sunnandaeg',
 			1 => 'Monnandaeg',
 			2 => 'Tiwesdaeg',
@@ -22,6 +27,10 @@ class Bral_Helper_Calendrier {
 			5 => 'Frigedaeg',
 			6 => 'Sæterdaeg',
 		);
+		return $jours[$jour];
+	}
+	
+    public static function affiche($avecSautLigneAnnee = false, $dateAAficher = null) {
     	
     	$retour = "";
     	
@@ -58,7 +67,7 @@ class Bral_Helper_Calendrier {
     		$retour .= "Jour du milieu";
     	} else {
     		$mois = self::getMois($numJour);
-    		$retour .= self::getJour($numJour, $mois["numero"]). " ".$jours[$jourSemaine]." ".$mois["texte"];
+    		$retour .= self::getJour($numJour, $mois["numero"]). " ".self::getJourSemaine($jourSemaine)." ".$mois["texte"];
     	}
     	
     	return $retour. ", ". $anneeTexte;

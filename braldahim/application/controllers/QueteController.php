@@ -10,9 +10,9 @@
  * $LastChangedRevision: $
  * $LastChangedBy: $
  */
-class SouleController extends Bral_Controller_Action {
+class QueteController extends Bral_Controller_Action {
 
 	public function doactionAction() {
-		$this->doBralAction("Bral_Soule_Factory");
+		$this->doBralAction("Bral_Quete_Factory");
 	}
 }

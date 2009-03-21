@@ -9,7 +9,7 @@ $textBallon = "";
 <?php if ($case["n_lieux"] > 0) :
 	$textLieu = "Lieu : <br>";
     foreach($case["lieux"] as $l) {
-      	$textLieu .= addslashes(htmlspecialchars($l["nom_lieu"])) ." : ".addslashes(htmlspecialchars($l["nom_type_lieu"]));
+      	$textLieu .= addslashes(htmlspecialchars($l["nom_lieu"]));
       	$type_lieu = $l["nom_systeme_type_lieu"];
 	}
 	 

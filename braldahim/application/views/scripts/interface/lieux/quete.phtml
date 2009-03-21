@@ -1,0 +1,8 @@
+<br /><br /><br />
+<?=htmlspecialchars($this->descriptionTypeLieu) ?><br /><br />
+
+Ouverture prochainement...
+
+<? if ($this->config->general->production != 1) : ?>
+<input type="button" class='button1' value="Rentrer dans la maison" onClick='_get_("/lieux/doaction?caction=ask_lieu_quete");'>
+<? endif;?>

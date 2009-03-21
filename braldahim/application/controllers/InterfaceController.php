@@ -154,7 +154,12 @@ class InterfaceController extends Zend_Controller_Action {
 			}
 			$this->addBox(Bral_Box_Factory::getCommunaute($this->_request, $this->view, false), "boite_c");
 			$this->addBox(Bral_Box_Factory::getCoffre($this->_request, $this->view, false), "boite_c");
-	
+			
+			// TODO à supprimer à la fin des dev quetes
+			if ($this->view->config->general->production != 1) {
+				$this->addBox(Bral_Box_Factory::getQuetes($this->_request, $this->view, false), "boite_c");
+			}
+			
 			$xml_entry = new Bral_Xml_Entry();
 			$xml_entry->set_type("display");
 			$xml_entry->set_valeur("racine");
@@ -232,7 +237,7 @@ class InterfaceController extends Zend_Controller_Action {
 	}
 
 	private function refreshAll() {
-		$boxToRefresh = array("box_profil", "box_metier", "box_titres", "box_equipement", "box_vue", "box_lieu", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_laban", "box_soule", "box_messagerie");
+		$boxToRefresh = array("box_profil", "box_metier", "box_titres", "box_equipement", "box_vue", "box_lieu", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_laban", "box_soule", "box_quete", "box_messagerie");
 		for ($i=0; $i<count($boxToRefresh); $i++) {
 			$xml_entry = new Bral_Xml_Entry();
 			

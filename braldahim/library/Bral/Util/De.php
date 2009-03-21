@@ -78,6 +78,11 @@ class Bral_Util_De {
 		$n = $n + self::get_1d3();
 		return $n;
 	}
+
+	public static function get_1d7() {
+		srand(self::make_seed());
+		return rand(1, 7);
+	}
 	
 	public static function get_2d10() {
 		return self::getLanceDeSpecifique(2, 1, 10);
