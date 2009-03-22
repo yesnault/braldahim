@@ -30,8 +30,13 @@ abstract class Bral_Lieux_Lieu {
 			throw new Zend_Exception(get_class($this)."::nombre de lieux invalide > 1 !");
 		} elseif (count($lieuRowset) == 1) {
 			
+			$estBanque = false;
+			if (strlen($nomSystemeLieu) == 13 && substr($nomSystemeLieu, 0, 6) == "banque") { // banque pour banquedeposer / banqueretirer
+				$estBanque = true;
+			}
+
 			$lieu = $lieuRowset[0];
-			//if ($nomSystemeLieu == $lieu["nom_systeme_type_lieu"]) {
+			if ($nomSystemeLieu == $lieu["nom_systeme_type_lieu"] || ($estBanque && $lieu["nom_systeme_type_lieu"] == "banque")) {
 				$this->view->estLieuCourant = true;
 				$this->view->idLieu = $lieu["id_lieu"];
 				$this->view->nomLieu = $lieu["nom_lieu"];
@@ -46,9 +51,9 @@ abstract class Bral_Lieux_Lieu {
 				if (array_key_exists("nom_ville", $lieu)) {
 					$this->view->nomVille = $lieu["nom_ville"];
 				}
-			//} else {
-			//	throw new Zend_Exception(get_class($this)."::type de lieu invalide ! s:".$nomSystemeLieu. " id:".$view->user->id_hobbit. " x:".$view->user->x_hobbit. " y:".$view->user->y_hobbit);
-			//}
+			} else {
+				throw new Zend_Exception(get_class($this)."::type de lieu invalide ! s:".$nomSystemeLieu. " id:".$view->user->id_hobbit. " x:".$view->user->x_hobbit. " y:".$view->user->y_hobbit);
+			}
 		} else {
 			Zend_Loader::loadClass("Echoppe");
 			$echoppesTable = new Echoppe();
