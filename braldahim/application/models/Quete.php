@@ -26,6 +26,26 @@ class Quete extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
+	function findEnCoursByIdHobbit($idHobbit) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('quete', '*')
+		->from('lieu', '*')
+		->where('id_fk_lieu_quete = id_lieu')
+		->where('id_fk_hobbit_quete = ?', intval($idHobbit))
+		->where('date_fin_quete is null');
+		$sql = $select->__toString();
+
+		$result = $db->fetchAll($sql);
+		if (count($result) > 1) {
+			throw new Zend_Exception("Quete::findEnCoursByIdHobbit nbInvalide:".count($result). " h:".$idHobbit);
+		} elseif (count($result) == 1) {
+			return $result[0];
+		} else {
+			return null;
+		}
+	}
+	
 	function findByIdHobbitAndIdQuete($idHobbit, $idQuete) {
 		$db = $this->getAdapter();
 		$select = $db->select();

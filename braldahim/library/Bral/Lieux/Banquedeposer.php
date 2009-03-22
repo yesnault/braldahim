@@ -85,6 +85,7 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 				break;
 			case "potions" :
 				$this->deposeTypePotions();
+				break;
 			case "minerais" :
 				$this->deposeTypeMinerais();
 				break;

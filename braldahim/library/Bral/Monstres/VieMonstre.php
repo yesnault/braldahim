@@ -389,6 +389,7 @@ Consultez vos événements pour plus de détails.";
 			'est_engage_hobbit' => $cible["est_engage_hobbit"],
 			'est_engage_next_dla_hobbit' => $cible["est_engage_next_dla_hobbit"],
 			'date_fin_tour_hobbit' => $cible["date_fin_tour_hobbit"],
+			'est_quete_hobbit' => $cible["est_quete_hobbit"],
 		);
 		$where = "id_hobbit=".$cible["id_hobbit"];
 		$hobbitTable->update($data, $where);

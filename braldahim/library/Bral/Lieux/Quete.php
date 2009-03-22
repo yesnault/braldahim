@@ -50,6 +50,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 
 		$this->calculQuete();
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
+		$this->view->user->est_quete_hobbit = "oui";
 		$this->majHobbit();
 
 		$this->view->coutCastars = $this->_coutCastars;

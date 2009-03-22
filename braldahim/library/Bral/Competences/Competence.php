@@ -355,6 +355,7 @@ abstract class Bral_Competences_Competence {
 			'est_soule_hobbit' => $this->view->user->est_soule_hobbit,
 			'soule_camp_hobbit' => $this->view->user->soule_camp_hobbit,
 			'id_fk_soule_match_hobbit' => $this->view->user->id_fk_soule_match_hobbit,
+			'est_quete_hobbit' => $this->view->user->est_quete_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		

@@ -25,6 +25,7 @@ class Bral_Util_Log {
     private static $exception = null;
     private static $inscription = null;
     private static $potion = null;
+    private static $quete = null;
     private static $soule = null;
     private static $tech = null;
     private static $tour = null;
@@ -83,7 +84,14 @@ class Bral_Util_Log {
         if (self::$soule == null) {
             self::initLogSoule();
         }
-        return self::$tech;
+        return self::$soule;
+    }
+    
+    public static function quete() {
+        if (self::$quete == null) {
+            self::initLogQuete();
+        }
+        return self::$quete;
     }
     
     public static function tech() {
@@ -250,21 +258,39 @@ class Bral_Util_Log {
         }
     }
 
+    private static function initLogQuete() {
+        if (self::$instance == null) {
+            $instance = self::getInstance();
+        }
+        self::$config = Zend_Registry::get('config');
+        self::$quete = new Zend_Log();
+        $redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->quete);
+        self::$quete->addWriter($redacteur);
+        $filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->quete);
+        self::$quete->addFilter($filtre);
+        self::$quete->addPriority('TRACE', 8);
+
+        if (self::$config->log->general->debug_browser == "oui") {
+            $redacteur = new Zend_Log_Writer_Stream('php://output');
+            self::$quete->addWriter($redacteur);
+        }
+    }
+    
     private static function initLogSoule() {
         if (self::$instance == null) {
             $instance = self::getInstance();
         }
         self::$config = Zend_Registry::get('config');
-        self::$tech = new Zend_Log();
+        self::$soule = new Zend_Log();
         $redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->soule);
-        self::$tech->addWriter($redacteur);
+        self::$soule->addWriter($redacteur);
         $filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->soule);
-        self::$tech->addFilter($filtre);
-        self::$tech->addPriority('TRACE', 8);
+        self::$soule->addFilter($filtre);
+        self::$soule->addPriority('TRACE', 8);
 
         if (self::$config->log->general->debug_browser == "oui") {
             $redacteur = new Zend_Log_Writer_Stream('php://output');
-            self::$tech->addWriter($redacteur);
+            self::$soule->addWriter($redacteur);
         }
     }
     

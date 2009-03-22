@@ -5,7 +5,7 @@
 			<th colspan="3">
 			Qu&ecirc;te de la <?=$this->quete["nom_lieu"]?>,
 		  	<? if ($this->quete["date_fin_quete"] != null): ?> 
-		  		terminée
+		  		terminée le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->quete["date_fin_quete"]) ?>
 		  	<? else: ?>
 		  		en cours
 		  	<? endif;?>
@@ -32,7 +32,7 @@
 		  		</td>
 		  		<td class="table_liste">
 		  		<? if ($e["est_terminee_etape"] == "oui") : ?>
-			  		Termin&eacute;, le <?=$e["date_fin_etape"]?>
+			  		Termin&eacute;, le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$e["date_fin_etape"]) ?>
 		  		<? elseif ($e["date_debut_etape"] != null) : ?>
 		  			En Cours
 		  		<? else: ?>
@@ -41,6 +41,17 @@
 		  		</td>
 		  	</tr>
 		  <? endforeach; ?>
+		  
+		  <? if ($this->quete["date_fin_quete"] != null): ?>
+		  <tr class="table_liste<?=($i % 2);$i++; ?>">
+			  <td class="table_liste">
+			  Gains : 
+			  </th>
+			  <td class="table_liste" colspan="2">
+			  <?=nl2br($this->quete["gain_quete"])?>
+			  </td>
+		  </tr>
+		  <? endif;?>
 		<? else: ?>
 		   <tr class="table_liste">
 		   	<td colspan="5">
