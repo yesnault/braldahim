@@ -13,8 +13,9 @@
 class Bral_Util_Plantes {
 
 	public static function getTabPlantes() {
-		Bral_Util_Log::soule()->trace("Bral_Util_Soule - getTabPlantes - enter -");
-
+		Zend_Loader::loadClass("TypePlante");
+		Zend_Loader::loadClass("TypePartieplante");
+		
 		$typePlantesTable = new TypePlante();
 		$typePlantesRowset = $typePlantesTable->findAll();
 		unset($typePlantesTable);
@@ -60,7 +61,6 @@ class Bral_Util_Plantes {
 		}
 
 		return $tabTypePlantesRetour;
-		Bral_Util_Log::soule()->trace("Bral_Util_Soule - getTabPlantes - exit (".count($tabTypePlantesRetour).")");
 	}
 
 }

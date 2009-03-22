@@ -3,12 +3,18 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
  <div class='comp_contenu'>
  	<br />
- 	<? if ($this->queteObtenue === false):?>
- 	Vous êtes en recherche de quête à <?=$this->nomVille?> ? 
+ 	
+ 	Bonjour à toi <?=$this->user->prenom_hobbit ?> <?=$this->user->nom_hobbit ?>.<br>
+ 	<br>
+ 	<? if ($this->queteEnCours === true):?>
+ 	Tu as d&eacute;j&agrave; une quête en cours... Termine-là et viens me revoir ensuite.
+ 	<? elseif ($this->queteObtenue === false):?>
+ 	
+ 	Tu es en recherche de quête à <?=$this->nomVille?> ? 
  	<br><br>
- 	Bien, vous êtes au bon endroit, mais vous devez payer <?=$this->coutCastars?> castars 
- 	(et <?=$this->paUtilisationLieu ?> PA) pour rencontrer la personne occupant ce lieu et
- 	recevoir quelque chose de sa part...<br>
+ 	Bien, j'ai une mission pour toi qui me semble adapter.<br> Tu dois payer <?=$this->coutCastars?> castars 
+ 	(et <?=$this->paUtilisationLieu ?> PA).<br><br>
+ 	Es-tu prêt &agrave; accepter ?
  	<? else: ?>
  	Vous êtes déjà rentré dans ce lieu, vous n'avez plus rien à faire ici...
  	<? endif;?>
@@ -16,7 +22,7 @@
 </form>
 <br /> 
 
-<? if ($this->queteObtenue === false && $this->utilisationPossible === true && $this->utilisationPaPossible === true): ?>
-<input type='button' class='button1' id="bouton_quete" value='Payer et Rentrer' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_quete');">
+<? if ($this->queteEnCours === false && $this->queteObtenue === false && $this->utilisationPossible === true && $this->utilisationPaPossible === true): ?>
+<input type='button' class='button1' id="bouton_quete" value="Oui, J'accepte !" onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_quete');">
 <? endif; ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

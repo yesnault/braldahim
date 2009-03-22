@@ -260,7 +260,10 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$ville = null;
 					
 				if (($j > $this->view->y_max) || ($j < $this->view->y_min) ||
-				($i < $this->view->x_min) || ($i > $this->view->x_max)) {
+				($i < $this->view->x_min) || ($i > $this->view->x_max) ||
+				($j > $this->view->config->game->y_max) || ($j < $this->view->config->game->y_min) ||
+				($i < $this->view->config->game->x_min) || ($i > $this->view->config->game->x_max)
+				) {
 					$nom_systeme_environnement = "inconnu";
 				} else {
 					foreach($zones as $z) {

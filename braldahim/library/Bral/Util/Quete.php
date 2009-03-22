@@ -34,6 +34,7 @@ class Bral_Util_Quete {
 			$data = array("date_debut_etape" => date("Y-m-d H:i:s"));
 			$where = "id_etape=".$etape["id_etape"];
 			$etapeTable->update($data, $where);
+			return true;
 		} else {
 			Bral_Util_Log::quete()->trace("Bral_Util_Quete - activeProchaineEtape - Pas de prochaine etape");
 			return false; // fin quete
@@ -100,9 +101,9 @@ class Bral_Util_Quete {
 		Zend_Loader::loadClass("TypeRune");
 
 		if (Bral_Util_De::get_1d2() == 1) {
-			$niveau = 'a';
+			$niveauRune = 'a';
 		} else {
-			$niveau = 'b';
+			$niveauRune = 'b';
 		}
 
 		$typeRuneTable = new TypeRune();
@@ -290,28 +291,30 @@ class Bral_Util_Quete {
 				Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeTuerParam1 - C");
 				$retour = true;
 			} else {
-				ral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeTuerParam1 - D");
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeTuerParam1 - D");
 			}
 		} else {
-			throw new Zend_Exception("::calculEtapeTuerParam1 param1 invalide:".$etape["param_1_etape"]);
+			$retour = false;
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeTuerParam1 - E");
 		}
 		return $retour;
 	}
 
 	private static function calculEtapeTuerParam3($etape, &$hobbit, $config, $tailleMonstre, $typeMonstre, $niveauMonstre) {
 		$retour = false;
-		Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeTuerParam3 - param3:".$etape["param_3_etape"]. " param4:".$etape["param_4_etape"]);
+		Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeTuerParam3 - param3:".$etape["param_3_etape"]. " param4:".$etape["param_4_etape"] . " taille:".$tailleMonstre. " type:".$typeMonstre. " niv:".$niveauMonstre);
 		if ($etape["param_3_etape"] == $config->game->quete->etape->tuer->param3->taille && $etape["param_4_etape"] == $tailleMonstre) {
-			Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeTuerParam3 - A");
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeTuerParam3 - A");
 			return true;
 		} else if ($etape["param_3_etape"] == $config->game->quete->etape->tuer->param3->type && $etape["param_4_etape"] == $typeMonstre) {
-			Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeTuerParam3 - B");
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeTuerParam3 - B");
 			return true;
 		} else if ($etape["param_3_etape"] == $config->game->quete->etape->tuer->param3->niveau && $etape["param_4_etape"] == $niveauMonstre) {
-			Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeTuerParam3 - C");
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeTuerParam3 - C");
 			return true;
 		} else {
-			throw new Zend_Exception("::calculEtapeTuerParam3 param3 invalide:".$etape["param_3_etape"]);
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeTuerParam3 - D");
+			return false;
 		}
 		return $retour;
 	}

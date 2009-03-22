@@ -25,7 +25,12 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		} else {
 			$this->view->queteObtenue = false;
 		}
-
+		
+		if ($this->view->user->est_quete_hobbit == "non") {
+			$this->view->queteEnCours = false;
+		} else {
+			$this->view->queteEnCours = true;
+		}
 
 		$this->_coutCastars = $this->calculCoutCastars();
 		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) >= 0);
@@ -48,6 +53,10 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_hobbit." cout:".$this->_coutCastars);
 		}
 
+		if ($this->view->queteEnCours == true) {
+			throw new Zend_Exception(get_class($this)." Quete en cours id:".$this->view->user->id_hobbit);
+		}
+		
 		$this->calculQuete();
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
 		$this->view->user->est_quete_hobbit = "oui";
@@ -201,7 +210,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 			$dataTypeEtape["param2"] = Bral_Util_De::get_2d10();
 			$dataTypeEtape["libelle_etape"] = "Vous devez tuer ".$dataTypeEtape["param2"]. " monstres";
 		} else if ($this->view->config->game->quete->etape->tuer->param1->jour == $dataTypeEtape["param1"]) {
-			$dataTypeEtape["param2"] = Bral_Util_De::get_1D7() - 1;
+			$dataTypeEtape["param2"] = Bral_Util_De::get_1D7();
 			$dataTypeEtape["libelle_etape"] = "Vous devez tuer 1 monstre";
 			$dataTypeEtape["libelle_etape_fin"] = ", un ".Bral_Helper_Calendrier::getJourSemaine($dataTypeEtape["param2"]);
 		} else if ($this->view->config->game->quete->etape->tuer->param1->etat == $dataTypeEtape["param1"]) {
