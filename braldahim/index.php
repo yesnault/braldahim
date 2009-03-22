@@ -33,6 +33,7 @@ Zend_Loader :: loadClass("Bral_Controller_Action");
 Zend_Loader :: loadClass("Bral_Competences_Factory");
 Zend_Loader :: loadClass("Bral_Echoppe_Factory");
 Zend_Loader :: loadClass("Bral_Echoppes_Factory");
+Zend_Loader :: loadClass("Bral_Quete_Factory");
 Zend_Loader :: loadClass("Bral_Lieux_Factory");
 Zend_Loader :: loadClass("Bral_Soule_Factory");
 
@@ -91,7 +92,7 @@ $frontController->setControllerDirectory('./application/controllers');
 
 // run!
 try {
-    $frontController->dispatch();
+	$frontController->dispatch();
 } catch (Exception $e) {
-    Bral_Util_Exception :: traite($e);
+	Bral_Util_Exception :: traite($e);
 }

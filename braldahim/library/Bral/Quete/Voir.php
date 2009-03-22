@@ -42,8 +42,9 @@ class Bral_Quete_Voir extends Bral_Quete_Quete {
 		if ($quete == null || count($quete) != 1) {
 			throw new Zend_Exception(get_class($this)." quete invalide h:".$this->view->user->id_hobbit. " q:".$this->idQueteEnCours);
 		}
+		$this->view->quete = $quete[0];
+		$this->prepareEtapes($this->idQueteEnCours);
 		
-		$this->view->quete = $quete;
 	}
 
 	function prepareFormulaire() {}
@@ -55,7 +56,6 @@ class Bral_Quete_Voir extends Bral_Quete_Quete {
 		$etapeTable = new Etape();
 		$etapes = $etapeTable->findByIdQuete($idQuete);
 		
-		
-		
+		$this->view->etapes = $etapes;
 	}
 }

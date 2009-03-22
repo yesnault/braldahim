@@ -43,5 +43,4 @@ class Bral_Quete_Factory {
 		Zend_Loader::loadClass("Bral_Quete_Voir");
 		return new Bral_Quete_Voir("voir", $request, $view, "ask", $idQuete);
 	}
-	
 }

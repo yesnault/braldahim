@@ -8,22 +8,22 @@
 		  	</th>
 		  </tr>
 		</thead>
-		<? if ($this->evenements != null): ?>
 		<tbody>
-	  <? $i = 0; 
-	  foreach($this->evenements as $e): ?>
-	  	<tr class="table_liste<?=($i % 2);$i++; ?>">
-	  		<td class="table_liste"><?=$e["date_evenement"]?></td>
-	  		<td class="table_liste"><?=$e["details_evenement"]?></td>
-	  	</tr>
-	  <? endforeach; ?>
-	  </tbody>
-	   <? else: ?>
-	   <tr class="table_liste">
-	   	<td colspan="5">
-	   		Aucun &eacute;v&eacute;nement
-	   	</td>
-	   </tr>
-	   <? endif; ?>
+		<? if ($this->evenements != null): ?>
+		  <? $i = 0; 
+		  foreach($this->evenements as $e): ?>
+		  	<tr class="table_liste<?=($i % 2);$i++; ?>">
+		  		<td class="table_liste"><?=$e["date_evenement"]?></td>
+		  		<td class="table_liste"><?=$e["details_evenement"]?></td>
+		  	</tr>
+		  <? endforeach; ?>
+		<? else: ?>
+		   <tr class="table_liste">
+		   	<td colspan="5">
+		   		Aucun &eacute;v&eacute;nement
+		   	</td>
+		   </tr>
+		<? endif; ?>
+	   </tbody>
 	</table>
 </div>

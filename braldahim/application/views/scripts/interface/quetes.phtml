@@ -11,35 +11,41 @@
   <? if ($this->affichageInterne == true) : ?>
  	<table width="100%">
  		<tr>
- 			<td width="50%">
- 				<table class="table_liste">
+ 			<td width="40%" valign="top">
+ 				<table class="table_liste" style="width:90%">
 					<thead class="table_liste">
 					  <tr class="table_liste">
-						<th> Qu&ecirc;tes r&eacute;lis&eacute;es ou en cours<br></th>
+						<th> Qu&ecirc;tes r&eacute;alis&eacute;es ou en cours<br></th>
 						<th>&nbsp;</th>
 					  </tr>
 					</thead>
 					
 					<tbody>
-					<th>
-					  <? if (count($this->quetes) > 0): ?>
-						  <? foreach($this->quetes as $q) :?>
-						  	Qu&ecirc;te de la <?=$q["nom_lieu"]?>,
+					<? if (count($this->quetes) > 0): ?>
+					 <? $i = 0; 
+					 	foreach($this->quetes as $q) :?>
+				  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+				  		<td class="table_liste">
+						  	<label class="alabel" onClick="Javascript:_get_('/quete/doaction?caction=ask_quete_voir&id_quete=<?=$q["id_quete"]?>');">
+						  	Qu&ecirc;te de la <?=$q["nom_lieu"]?>
+						  	</label>
+						</td>
+						<td class="table_liste" nowrap>
 						  	<? if ($q["date_fin_quete"] != null): ?> 
-						  		terminée
+						  		Terminée
 						  	<? else: ?>
-						  		en cours
+						  		En Cours
 						  	<? endif;?>
-						  	<br>
-						  <? endforeach;?>
+						 </td>
+					  	 </tr>
+					  	<? endforeach;?>
 					  <? else: ?>
-					  	Aucune qu&ecirc;te
+					  	<tr class="table_liste"><td colspan="2">Aucune qu&ecirc;te</td></tr>
 					  <? endif;?>
-					  </th>
 					</tbody>
 				</table>
  			</td>
- 			<td width="50%">
+ 			<td width="60%" valign="top">
  				<div id="box_soule_interne">
 				<?=$this->htmlQuete?>
 				</div>
