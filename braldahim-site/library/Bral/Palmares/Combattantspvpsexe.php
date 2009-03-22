@@ -21,7 +21,7 @@ class Bral_Palmares_Combattantspvpsexe extends Bral_Palmares_Box {
 	}
 	
 	function getNomClasse() {
-		return "combattantspvpfamille";		
+		return "combattantspvpsexe";		
 	}
 	
 	function setDisplay($display) {

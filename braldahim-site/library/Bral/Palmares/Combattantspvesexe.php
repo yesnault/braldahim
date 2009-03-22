@@ -21,7 +21,7 @@ class Bral_Palmares_Combattantspvesexe extends Bral_Palmares_Box {
 	}
 	
 	function getNomClasse() {
-		return "combattantspvefamille";		
+		return "combattantspvesexe";		
 	}
 	
 	function setDisplay($display) {
