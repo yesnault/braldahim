@@ -49,6 +49,8 @@ abstract class Bral_Competences_Competence {
 		$this->view->finMatchSoule = false;
 		$this->idMatchSoule = null;
 		
+		$this->view->estQueteEvenement = false;
+		
 		// recuperation de hobbit competence
 		$this->hobbit_competence = $hobbitCompetence;
 		
@@ -424,6 +426,7 @@ abstract class Bral_Competences_Competence {
 		$retourAttaque = Bral_Util_Attaque::attaqueMonstre(&$hobbitAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, false, $tir);
 		$this->detailEvenement = $retourAttaque["details"];
 		$this->idTypeEvenement = $retourAttaque["typeEvemenent"];
+		$this->view->estQueteEvenement = $retourAttaque["etape"];
 		return $retourAttaque;
 	}
 	
