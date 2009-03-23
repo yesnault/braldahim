@@ -90,6 +90,9 @@ abstract class Bral_Competences_Competence {
 			$tab[] = "box_soule";
 			$tab[] = "box_coffre";
 		}
+		if ($this->view->estQueteEvenement) {
+			$tab[] = "box_quetes";
+		}
 		return $tab;
 	}
 

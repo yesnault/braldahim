@@ -20,7 +20,8 @@ class Quete extends Zend_Db_Table {
 		$select->from('quete', '*')
 		->from('lieu', '*')
 		->where('id_fk_lieu_quete = id_lieu')
-		->where('id_fk_hobbit_quete = ?', intval($idHobbit));
+		->where('id_fk_hobbit_quete = ?', intval($idHobbit))
+		->joinLeft('ville','id_fk_ville_lieu = id_ville');
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

@@ -97,7 +97,7 @@ class Bral_Util_Quete {
 
 	private static function calculGainRune(&$hobbit) {
 		Zend_Loader::loadClass("ElementRune");
-		Zend_Loader::loadClass("LabanRune");
+		Zend_Loader::loadClass("CoffreRune");
 		Zend_Loader::loadClass("TypeRune");
 
 		if (Bral_Util_De::get_1d2() == 1) {
@@ -132,18 +132,18 @@ class Bral_Util_Quete {
 
 		$idRune = $elementRuneTable->insert($data);
 
-		$where = "id_element_rune=".$rune["id_rune"];
+		$where = "id_element_rune=".$idRune;
 		$elementRuneTable->delete($where);
 
-		$labanRuneTable = new LabanRune();
+		$coffreRuneTable = new CoffreRune();
 		$data = array (
-			"id_rune_laban_rune" => $idRune,
-			"id_fk_type_laban_rune" => $typeRune["id_type_rune"],
+			"id_rune_coffre_rune" => $idRune,
+			"id_fk_type_coffre_rune" => $typeRune["id_type_rune"],
+			"id_fk_hobbit_coffre_rune" => $hobbit->id_hobbit,
 			"est_identifiee_rune" => "oui",
-			"id_fk_hobbit_laban_rune" => $hobbit->id_hobbit,
 		);
-		$labanRuneTable->insert($data);
-
+		$coffreRuneTable->insert($data);
+		
 		$retour = " une rune de type ".$typeRune["nom_type_rune"].PHP_EOL;
 		return $retour;
 	}

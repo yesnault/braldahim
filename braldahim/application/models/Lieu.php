@@ -27,7 +27,7 @@ class Lieu extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	public function findByTypeAndRegion($type, $region){
+	public function findByTypeAndRegion($type, $region) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
