@@ -113,6 +113,9 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 			}
 		}
 		
+		Zend_Loader::loadClass("Bral_Util_Quete");
+		$this->view->estQueteEvenement = Bral_Util_Quete::etapeManger($this->view->user, $this->view->config);
+		
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
 		Bral_Util_Faim::calculBalanceFaim($this->view->user);
 		$this->majHobbit();
@@ -130,7 +133,7 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_laban");
+		return $this->constructListBoxRefresh(array("box_laban"));
 	}
 
 	private function calculCoutCastars() {

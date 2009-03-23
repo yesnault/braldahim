@@ -143,7 +143,7 @@ class Bral_Util_Quete {
 			"est_identifiee_rune" => "oui",
 		);
 		$coffreRuneTable->insert($data);
-		
+
 		$retour = " une rune de type ".$typeRune["nom_type_rune"].PHP_EOL;
 		return $retour;
 	}
@@ -337,6 +337,62 @@ class Bral_Util_Quete {
 		} else {
 			throw new Zend_Exception("::calculEtapeTuerParam1 param1 invalide:".$etape["param_1_etape"]);
 		}
+		$where = "id_etape = ".$etape["id_etape"];
+		$etapeTable->update($data, $where);
+		if ($estFinEtape) {
+			if (self::activeProchaineEtape($hobbit) == false) { // fin quete
+				self::termineQuete($hobbit);
+			}
+		}
+	}
+
+	public static function etapeManger(&$hobbit, $config) {
+		if (self::estQueteEnCours($hobbit)) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeManger - quete en cours -");
+			$etape = self::getEtapeCourante($hobbit, $config->game->quete->etape->manger->id);
+			if ($etape == null) {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeManger - pas d'etape manger en cours");
+				return null;
+			} else {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeManger - etape manger en cours");
+				return self::calculEtapeManger($etape, $hobbit, $config);
+			}
+		} else {
+			return null;
+		}
+	}
+
+	private static function calculEtapeManger($etape, &$hobbit, $config) {
+		if (self::calculEtapeMangerParam3($etape, $hobbit, $config)
+		&& self::calculEtapeMangerParam4($etape, $hobbit, $config)) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeManger - conditions remplies, calcul fin etape");
+			self::calculEtapeMangerFin($etape, $hobbit, $config);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private static function calculEtapeMangerParam3($etape, &$hobbit, $config) {
+		//TODO
+	}
+
+	private static function calculEtapeMangerParam4($etape, &$hobbit, $config) {
+		//TODO
+	}
+
+	private static function calculEtapeMangerFin($etape, &$hobbit, $config) {
+		$etapeTable = new Etape();
+
+		$estFinEtape = false;
+
+		$data = array( "objectif_etape" => $etape["objectif_etape"] + 1);
+		if ($etape["objectif_etape"] + 1 >= $etape["param_1_etape"]) {
+			$data = array("objectif_etape" => $etape["objectif_etape"] + 1, "est_terminee_etape" => "oui", "date_fin_etape" => date("Y-m-d H:i:s"));
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeMangerFin - Fin Ok");
+			$estFinEtape = true;
+		}
+
 		$where = "id_etape = ".$etape["id_etape"];
 		$etapeTable->update($data, $where);
 		if ($estFinEtape) {

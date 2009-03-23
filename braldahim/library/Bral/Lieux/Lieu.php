@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -11,12 +11,12 @@
  * $LastChangedBy$
  */
 abstract class Bral_Lieux_Lieu {
-	
+
 	protected $reloadInterface = false;
 
 	function __construct($nomSystemeLieu, $request, $view, $action) {
 		Zend_Loader::loadClass("Lieu");
-		
+
 		$this->view = $view;
 		$this->request = $request;
 		$this->action = $action;
@@ -29,7 +29,7 @@ abstract class Bral_Lieux_Lieu {
 		if (count($lieuRowset) > 1) {
 			throw new Zend_Exception(get_class($this)."::nombre de lieux invalide > 1 !");
 		} elseif (count($lieuRowset) == 1) {
-			
+				
 			$estBanque = false;
 			if (strlen($nomSystemeLieu) == 13 && substr($nomSystemeLieu, 0, 6) == "banque") { // banque pour banquedeposer / banqueretirer
 				$estBanque = true;
@@ -67,9 +67,11 @@ abstract class Bral_Lieux_Lieu {
 				throw new Zend_Exception(get_class($this)."::nombre de lieux invalide = 0 !");
 			}
 		}
-		
+
+		$this->view->estQueteEvenement = false;
+
 		$this->view->utilisationPaPossible = (($view->user->pa_hobbit - $this->view->paUtilisationLieu) >= 0);
-		
+
 		$this->prepareCommun();
 
 		switch($this->action) {
@@ -92,14 +94,14 @@ abstract class Bral_Lieux_Lieu {
 	abstract function prepareFormulaire();
 	abstract function prepareResultat();
 	abstract function getListBoxRefresh();
-	
+
 	private function majEvenements($detailsBot) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
 		$id_type = $this->view->config->game->evenements->type->service;
 		$details = "[h".$this->view->user->id_hobbit."] a utilisé un service";
 		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $id_type, $details, $detailsBot, $this->view->user->niveau_hobbit);
 	}
-	
+
 	function getNomInterne() {
 		return "box_action";
 	}
@@ -107,7 +109,7 @@ abstract class Bral_Lieux_Lieu {
 	function getIdEchoppeCourante() {
 		return false;
 	}
-	
+
 	function render() {
 		switch($this->action) {
 			case "ask":
@@ -116,7 +118,7 @@ abstract class Bral_Lieux_Lieu {
 			case "do":
 				$this->view->reloadInterface = $this->reloadInterface;
 				$texte = $this->view->render("lieux/".$this->nom_systeme."_resultat.phtml");
-				
+
 				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 				$this->majEvenements(Bral_Helper_Affiche::copie($this->view->texte));
@@ -126,7 +128,7 @@ abstract class Bral_Lieux_Lieu {
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
 		}
 	}
-	
+
 	public function majHobbit() {
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
@@ -134,11 +136,11 @@ abstract class Bral_Lieux_Lieu {
 
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->paUtilisationLieu;
 		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
-		
+
 		if ($this->view->user->balance_faim_hobbit < 0) {
-			$this->view->user->balance_faim_hobbit = 0; 
+			$this->view->user->balance_faim_hobbit = 0;
 		}
-		
+
 		$data = array(
 			'pa_hobbit' => $this->view->user->pa_hobbit,
 			'duree_prochain_tour_hobbit' =>  $this->view->user->duree_prochain_tour_hobbit,
@@ -165,10 +167,13 @@ abstract class Bral_Lieux_Lieu {
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
 	}
-	
+
 	protected function constructListBoxRefresh($tab = null) {
 		$tab[] = "box_profil";
 		$tab[] = "box_evenements";
+		if ($this->view->estQueteEvenement) {
+			$tab[] = "box_quetes";
+		}
 		return $tab;
 	}
 }
