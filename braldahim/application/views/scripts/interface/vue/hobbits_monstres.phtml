@@ -12,7 +12,7 @@
       	
       	$textHobbit .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$h["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
       	if ($h["id_communaute"] != null) {
-      		$textHobbit .= ' - <label class=alabel onClick=ouvrirWin(\\\'\/voir\/communaute\/?communaute='.$h["id_communaute"].'\\\');>'.htmlspecialchars($h["nom_communaute"]).'</label>';
+      		$textHobbit .= ' - <label class=alabel onClick=ouvrirWin(\\\'\/voir\/communaute\/?communaute='.$h["id_communaute"].'\\\');>'.addslashes(htmlspecialchars($h["nom_communaute"])).'</label>';
       	}
       	$textHobbit .= "<br />";
       	if ($h["sexe_hobbit"] == "masculin") {
