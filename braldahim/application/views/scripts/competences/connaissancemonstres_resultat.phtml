@@ -14,6 +14,13 @@
 	Armure : entre <?=$this->tabCDM['min_arm_monstre'] ?> et <?=$this->tabCDM['max_arm_monstre'] ?><br />
 	Dur&eacute;e du tour : entre <?=$this->tabCDM['min_dla_monstre'] ?> et <?=$this->tabCDM['max_dla_monstre'] ?><br />
 	
+	<br />
+	<? if ($this->pister === true): ?>
+		Vous pouvez pister ce type de monstre !<br />
+	<? else: ?>
+		Vous ne pouvez pas encore pister ce type de monstre !<br />
+	<? endif; ?>
+	
 <? else: ?>
 	Vous avez manqu&eacute; votre reconnaissance.<br />
 <? endif; ?>
