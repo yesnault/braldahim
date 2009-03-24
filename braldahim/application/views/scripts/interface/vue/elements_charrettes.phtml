@@ -7,6 +7,7 @@ $textElementsLingots = "";
 $textElementsPartiesPlantesBrutes = "";
 $textElementsPartiesPlantesPreparees = "";
 $textElements = "";
+$textElementsPotions = "";
 
 include('charrettes.phtml');
 include('elements_potions.phtml');
@@ -19,8 +20,8 @@ include('elements.phtml');
 ?>
 <?php if ($textCharrette != "" || $textElementsEquipements != "" || $textElementsMunitions != "" || $textElementsMineraisBruts != "" 
 	|| $textElementsLingots != "" || $textElementsPartiesPlantesBrutes != "" || $textElementsPartiesPlantesPreparees != "" 
-	|| $textElements != "") : ?>
-	<span <?=Bral_Helper_Tooltip::jsTip($textCharrette.$textElementsEquipements.$textElementsMunitions.$textElementsMineraisBruts.$textElementsLingots.$textElementsPartiesPlantesBrutes.$textElementsPartiesPlantesPreparees.$textElements, $titre) ?>>
+	|| $textElements != "" || $textElementsPotions != "") : ?>
+	<span <?=Bral_Helper_Tooltip::jsTip($textCharrette.$textElementsEquipements.$textElementsMunitions.$textElementsMineraisBruts.$textElementsLingots.$textElementsPartiesPlantesBrutes.$textElementsPartiesPlantesPreparees.$textElementsPotions.$textElements, $titre) ?>>
 		<img src='/public/styles/braldahim_defaut/images/vue/elements.png' />
 	</span>
 <? else: ?>
