@@ -154,7 +154,7 @@ class Bral_Helper_Profil {
      	
      	$texte .= " Position tour courant : ".$hobbit->nom_tour."<br><br>";
      	
-     	$texte .= " Dur&eacute; du tour : ".$hobbit->duree_courant_tour_hobbit."<br>";
+     	$texte .= " Dur&eacute;e du tour : ".$hobbit->duree_courant_tour_hobbit."<br>";
      	$texte .= " Position dans le tour : ".$hobbit->nom_tour."<br><br>";
 
      	$texte .= " D&eacute;but tour : ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',$hobbit->date_debut_tour_hobbit)."<br>";
@@ -213,9 +213,9 @@ class Bral_Helper_Profil {
      		}
      	}
      	
-     	$section_cumul = "Section survol&eacute; : Activit&eacute;, termin&eacute;e &agrave; ".$pourcent_cumul." %<br><br>";
-     	$section_milieu = "Section survol&eacute; : &Eacute;veil, termin&eacute;e &agrave; ".$pourcent_milieu." %<br><br>";
-     	$section_latence = "Section survol&eacute; : Sommeil, termin&eacute;e &agrave; ".$pourcent_latence." %<br><br>";
+     	$section_cumul = "Section survol&eacute;e : Activit&eacute;, termin&eacute;e &agrave; ".$pourcent_cumul." %<br><br>";
+     	$section_milieu = "Section survol&eacute;e : &Eacute;veil, termin&eacute;e &agrave; ".$pourcent_milieu." %<br><br>";
+     	$section_latence = "Section survol&eacute;e : Sommeil, termin&eacute;e &agrave; ".$pourcent_latence." %<br><br>";
      	
      	$retour .= "<table border='0' margin='0' cellspacing='0' cellpadding='0'><tr>";
      	$retour .= "<td>";
