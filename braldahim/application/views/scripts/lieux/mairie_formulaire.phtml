@@ -47,7 +47,7 @@
 	<input type='button' class='button1' id="bouton_mairie_sortir" value='Sortir de la communaut&eacute;' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');" />
 	<? else : ?>
 	<input type='button' class='button1' id="bouton_mairie_creer" value='Cr&eacute;er une communaut&eacute;' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie', true);"  disabled>
-	<input type='button' class='button1' id="bouton_mairie_rentrer" value='Renter dans  une communaut&eacute;' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');"  disabled>
+	<input type='button' class='button1' id="bouton_mairie_rentrer" value='Rentrer dans  une communaut&eacute;' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_mairie');"  disabled>
 	<? endif; ?>
 <? endif; ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>
