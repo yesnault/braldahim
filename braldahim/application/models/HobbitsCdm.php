@@ -44,15 +44,29 @@ class HobbitsCdm extends Zend_Db_Table {
     function insertOrUpdate($data) {
     	$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('hobbits_cdm', '*')
-		->where('id_fk_monstre_hcdm = ?',$data["id_fk_monstre_hcdm"])
-		->where('id_fk_type_monstre_hcdm = ?',$data["id_fk_type_monstre_hcdm"])
-		->where('id_fk_taille_monstre_hcdm = ?',$data["id_fk_taille_monstre_hcdm"]);
+		$select->from('hobbits_cdm', 'count(*) as nb_cdm')
+		->from('taille_monstre', '*')
+		->where('hobbits_cdm.id_fk_hobbit_hcdm = '.$data["id_fk_hobbit_hcdm"])
+		->where('id_fk_type_monstre_hcdm = '.$data["id_fk_type_monstre_hcdm"])
+		->where('id_fk_taille_monstre_hcdm = id_taille_monstre')
+		->where('id_fk_taille_monstre_hcdm = '.$data["id_fk_taille_monstre_hcdm"])
+		->group('id_taille_monstre');
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
-		
-    	if (count($resultat) == 0) { // insert
-			$this->insert($data);
-		}
+		//Si le nombre de cdm pour cette taille est inférieur au nombre de cdm minimun on peut insérer
+		if (count($resultat)==0 || $resultat[0]['nb_cdm'] < $resultat[0]['nb_cdm_taille_monstre']){
+			$select = $db->select();
+			$select->from('hobbits_cdm', '*')
+			->where('id_fk_hobbit_hcdm = ?', $data["id_fk_hobbit_hcdm"])
+	        ->where('id_fk_monstre_hcdm = ?', $data["id_fk_monstre_hcdm"])
+	        ->where('id_fk_type_monstre_hcdm = ?', $data["id_fk_type_monstre_hcdm"])
+	        ->where('id_fk_taille_monstre_hcdm = ?', $data["id_fk_taille_monstre_hcdm"]);
+	        $sql = $select->__toString();
+	        $resultat = $db->fetchAll($sql);
+	        //Si une cdm pour ce monstre et pour cette taille n'existe pas pour ce hobbit on insère.
+	    	if ( count($resultat) == 0) { // insert
+				$this->insert($data);
+			}
+    	}
     }
 }
