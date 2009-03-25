@@ -2,7 +2,7 @@
 	<table class="table_liste" style="width:100%">
 		<thead class="table_liste">
 		  <tr class="table_liste">
-			<th colspan="3">
+			<th colspan="4">
 			Qu&ecirc;te de la <?=$this->quete["nom_lieu"]?>,
 		  	<? if ($this->quete["date_fin_quete"] != null): ?> 
 		  		terminée le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->quete["date_fin_quete"]) ?>
@@ -15,6 +15,7 @@
 			<th>N&deg;</th>
 			<th>D&eacute;tails</th>
 			<th>&Eacute;tat</th>
+			<th>Objectifs remplis</th>
 		  </tr>
 		</thead>
 		<tbody>
@@ -39,15 +40,18 @@
 		  			Non d&eacute;but&eacute;
 		  		<? endif;?>
 		  		</td>
+		  		<td class="table_liste">
+		  		<?=$e["objectif_etape"]?>
+		  		</td>
 		  	</tr>
 		  <? endforeach; ?>
 		  
 		  <? if ($this->quete["date_fin_quete"] != null): ?>
 		  <tr class="table_liste<?=($i % 2);$i++; ?>">
 			  <td class="table_liste">
-			  Gains : 
+			  Gains
 			  </th>
-			  <td class="table_liste" colspan="2">
+			  <td class="table_liste" colspan="3">
 			  <?=nl2br($this->quete["gain_quete"])?>
 			  </td>
 		  </tr>

@@ -250,7 +250,7 @@ class Bral_Util_Quete {
 		$tirage2 = Bral_Util_De::get_de_specifique_hors_liste(0, $nbPlantes - 1, array($tirage1));
 		$tirage3 = Bral_Util_De::get_de_specifique_hors_liste(0, $nbPlantes - 1, array($tirage1, $tirage2));
 
-		$nbUnitaireGain = ceil($nbGain / 3);
+		$nbUnitaireGain = ceil($nbRecompenses / 3);
 		$retour .= self::calculGainPlantesDb($hobbit, $plantes, $tirage1, $nbUnitaireGain) ;
 		$retour .= self::calculGainPlantesDb($hobbit, $plantes, $tirage2, $nbUnitaireGain) ;
 		$retour .= self::calculGainPlantesDb($hobbit, $plantes, $tirage3, $nbUnitaireGain) ;
@@ -269,6 +269,10 @@ class Bral_Util_Quete {
 		);
 		$coffrePartieplanteTable->insertOrUpdate($data);
 
+		$s = "";
+		if ($nbUnitaireGain > 1) {
+			$s = "s";
+		}
 		$texte = "  ".$nbUnitaireGain ." ".$plantes[$tirage]["nom_type_partieplante"]."$s de ".$plantes[$tirage]["nom_type_plante"].PHP_EOL;
 
 		return $texte;
@@ -373,7 +377,7 @@ class Bral_Util_Quete {
 		}
 	}
 
-	public static function etapeManger(&$hobbit) {
+	public static function etapeManger(&$hobbit, $estDansLieu) {
 		if (self::estQueteEnCours($hobbit)) {
 			Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeManger - quete en cours -");
 			$etape = self::getEtapeCourante($hobbit, self::QUETE_ETAPE_MANGER_ID);
@@ -382,15 +386,15 @@ class Bral_Util_Quete {
 				return null;
 			} else {
 				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeManger - etape manger en cours");
-				return self::calculEtapeManger($etape, $hobbit);
+				return self::calculEtapeManger($etape, $hobbit, $estDansLieu);
 			}
 		} else {
 			return null;
 		}
 	}
 
-	private static function calculEtapeManger($etape, &$hobbit) {
-		if (self::calculEtapeMangerParam3($etape, $hobbit)
+	private static function calculEtapeManger($etape, &$hobbit, $estDansLieu) {
+		if (self::calculEtapeMangerParam3($etape, $hobbit, $estDansLieu)
 		&& self::calculEtapeMangerParam4($etape, $hobbit)) {
 			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeManger - conditions remplies, calcul fin etape");
 			self::calculEtapeMangerFin($etape, $hobbit);
@@ -400,18 +404,30 @@ class Bral_Util_Quete {
 		}
 	}
 
-	private static function calculEtapeMangerParam3($etape, &$hobbit) {
+	private static function calculEtapeMangerParam3($etape, &$hobbit, $estDansLieu) {
 		$retour = false;
 		Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeMangerParam3 - param2:".$etape["param_2_etape"]. " param3:".$etape["param_3_etape"]);
-		if ($etape["param_2_etape"] == self::ETAPE_MANGER_PARAM2_AUBERGE) {
-			Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeMangerParam3 - A");
-			//TODO
-			$retour = true;
-		} else if ($etape["param_2_etape"] == self::ETAPE_MANGER_PARAM2_TERRAIN && $etape["param_2_etape"] == date('N')) {
-			Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeMangerParam3 - B");
-			//TODO
-			$retour = true;
-		} else if ($etape["param_2_etape"] == self::ETAPE_MANGER_PARAM2_ETAT) {
+		if ($etape["param_2_etape"] == self::ETAPE_MANGER_PARAM2_AUBERGE && $estDansLieu) {
+			Zend_Loader::loadClass("Lieu");
+			$lieuxTable = new Lieu();
+			$lieuRowset = $lieuxTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+			if ($lieuRowset != null && count($lieuRowset) == 1 && $lieuRowset[0]["id_lieu"] == $etape["param_3_etape"]) {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeMangerParam3 - A - sur le lieu");
+				$retour = true;
+			} else {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeMangerParam3 - A - non sur l'environnement");
+			}
+		} else if ($etape["param_2_etape"] == self::ETAPE_MANGER_PARAM2_TERRAIN && $estDansLieu == false) {
+			Zend_Loader::loadClass("Zone");
+			$zoneTable = new Zone();
+			$zones = $zoneTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+			if ($zones != null && count($zones) == 1 && $zones[0]["id_environnement"] == $etape["param_3_etape"]) {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeMangerParam3 - B - sur l'environnement");
+				$retour = true;
+			} else {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeMangerParam3 - B - non sur l'environnement");
+			}
+		} else if ($etape["param_2_etape"] == self::ETAPE_MANGER_PARAM2_ETAT && $estDansLieu == false) {
 			if ($etape["param_3_etape"] == self::ETAPE_MANGER_PARAM3_ETAT_AFFAME && $hobbit->balance_faim_hobbit < 1) {
 				Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeMangerParam3 - C");
 				$retour = true;
@@ -448,6 +464,8 @@ class Bral_Util_Quete {
 			$data = array("objectif_etape" => $etape["objectif_etape"] + 1, "est_terminee_etape" => "oui", "date_fin_etape" => date("Y-m-d H:i:s"));
 			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeMangerFin - Fin Ok");
 			$estFinEtape = true;
+		} else {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeMangerFin - Fin pas encore Ok:".$etape["param_1_etape"]. " / ".($etape["objectif_etape"] + 1));
 		}
 
 		$where = "id_etape = ".$etape["id_etape"];

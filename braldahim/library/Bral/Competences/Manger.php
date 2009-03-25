@@ -57,6 +57,9 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		$this->calculManger();
 		$this->setEvenementQueSurOkJet1(false);
 		
+		Zend_Loader::loadClass("Bral_Util_Quete");
+		$this->view->estQueteEvenement = Bral_Util_Quete::etapeManger($this->view->user, false);
+		
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->calculPoids();

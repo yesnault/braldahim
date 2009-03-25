@@ -254,12 +254,12 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		$dataTypeEtape = $this->initDataTypeEtape();
 
 		$dataTypeEtape["param1"] = Bral_Util_De::get_de_specifique(5, 10);
-		$dataTypeEtape["libelle_etape"] .= "Vous devez manger ".$dataTypeEtape["param1"]." repas";
+		$dataTypeEtape["libelle_etape"] = "Vous devez manger ".$dataTypeEtape["param1"]." repas";
 
 		$this->pepareParamTypeEtapeMangerParam2et3($dataTypeEtape);
 
 		$dataTypeEtape["param4"] = Bral_Util_De::get_1D7();
-		$dataTypeEtape["libelle_etape"] .= ", un ".Bral_Helper_Calendrier::getJourSemaine($dataTypeEtape["param2"]);
+		$dataTypeEtape["libelle_etape"] .= ", un ".Bral_Helper_Calendrier::getJourSemaine($dataTypeEtape["param4"]);
 
 		$dataTypeEtape["libelle_etape"] .= ".";
 		return $dataTypeEtape;
