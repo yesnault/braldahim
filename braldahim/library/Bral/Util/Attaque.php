@@ -491,7 +491,7 @@ Consultez vos événements pour plus de détails.";
 				}
 
 				Zend_Loader::loadClass("Bral_Util_Quete");
-				$retourAttaque["etape"] = Bral_Util_Quete::etapeTuer($hobbitAttaquant, $config, $monstre["id_fk_taille_monstre"], $monstre["id_fk_type_monstre"], $monstre["niveau_monstre"]);
+				$retourAttaque["etape"] = Bral_Util_Quete::etapeTuer($hobbitAttaquant, $monstre["id_fk_taille_monstre"], $monstre["id_fk_type_monstre"], $monstre["niveau_monstre"]);
 
 				$retourAttaque["mort"] = true;
 				$vieMonstre = Bral_Monstres_VieMonstre::getInstance();

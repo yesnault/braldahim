@@ -206,16 +206,16 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 	private function pepareParamTypeEtapeTuerParam1et2(&$dataTypeEtape) {
 		$dataTypeEtape["param1"] = Bral_Util_De::get_1d3();
 
-		if ($this->view->config->game->quete->etape->tuer->param1->nombre == $dataTypeEtape["param1"]) {
+		if (Bral_Util_Quete::ETAPE_TUER_PARAM1_NOMBRE == $dataTypeEtape["param1"]) {
 			$dataTypeEtape["param2"] = Bral_Util_De::get_1d10() + 2;
 			$dataTypeEtape["libelle_etape"] = "Vous devez tuer ".$dataTypeEtape["param2"]. " monstres";
-		} else if ($this->view->config->game->quete->etape->tuer->param1->jour == $dataTypeEtape["param1"]) {
+		} else if (Bral_Util_Quete::ETAPE_TUER_PARAM1_JOUR == $dataTypeEtape["param1"]) {
 			$dataTypeEtape["param2"] = Bral_Util_De::get_1D7();
 			$dataTypeEtape["libelle_etape"] = "Vous devez tuer 1 monstre";
 			$dataTypeEtape["libelle_etape_fin"] = ", un ".Bral_Helper_Calendrier::getJourSemaine($dataTypeEtape["param2"]);
-		} else if ($this->view->config->game->quete->etape->tuer->param1->etat == $dataTypeEtape["param1"]) {
+		} else if (Bral_Util_Quete::ETAPE_TUER_PARAM1_ETAT == $dataTypeEtape["param1"]) {
 			$dataTypeEtape["param2"] = Bral_Util_De::get_1D2();
-			if ($this->view->config->game->quete->etape->tuer->param2->etat->affame == $dataTypeEtape["param2"]) {
+			if (Bral_Util_Quete::ETAPE_TUER_PARAM2_ETAT_AFFAME == $dataTypeEtape["param2"]) {
 				$dataTypeEtape["libelle_etape"] = "En étant affamé, vous devez tuer 1 monstre";
 			} else {
 				$dataTypeEtape["libelle_etape"] = "En étant repu, vous devez tuer 1 monstre";
@@ -228,21 +228,21 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 	private function pepareParamTypeEtapeTuerParam3et4(&$dataTypeEtape) {
 		$dataTypeEtape["param3"] = Bral_Util_De::get_1d3();
 
-		if ($this->view->config->game->quete->etape->tuer->param3->taille == $dataTypeEtape["param3"]) {
+		if (Bral_Util_Quete::ETAPE_TUER_PARAM3_TAILLE == $dataTypeEtape["param3"]) {
 			Zend_Loader::loadClass("TailleMonstre");
 			$tailleMonstreTable = new TailleMonstre();
 			$tailles = $tailleMonstreTable->fetchAll();
 			$deTaille = Bral_Util_De::get_de_specifique(0, count($tailles) - 1);
 			$dataTypeEtape["param4"] = $tailles[$deTaille]["id_taille_monstre"];
 			$dataTypeEtape["libelle_etape"] .= " de taille ".$tailles[$deTaille]["nom_taille_f_monstre"];
-		} else if ($this->view->config->game->quete->etape->tuer->param3->type == $dataTypeEtape["param3"]) {
+		} else if (Bral_Util_Quete::ETAPE_TUER_PARAM3_TYPE == $dataTypeEtape["param3"]) {
 			Zend_Loader::loadClass("TypeMonstre");
 			$typeMonstreTable = new TypeMonstre();
 			$types = $typeMonstreTable->fetchAll();
 			$deType = Bral_Util_De::get_de_specifique(0, count($types) - 1);
 			$dataTypeEtape["param4"] = $types[$deType]["id_type_monstre"];
 			$dataTypeEtape["libelle_etape"] .= " de type ".$types[$deType]["nom_type_monstre"];
-		} else if ($this->view->config->game->quete->etape->tuer->param3->niveau == $dataTypeEtape["param3"]) {
+		} else if (Bral_Util_Quete::ETAPE_TUER_PARAM3_NIVEAU == $dataTypeEtape["param3"]) {
 			$dataTypeEtape["param4"] = $this->view->user->niveau_hobbit + Bral_Util_De::get_1d6();
 			$dataTypeEtape["libelle_etape"] .= " de niveau ".$dataTypeEtape["param4"];
 		} else {
@@ -269,14 +269,14 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 
 		$dataTypeEtape["param2"] = Bral_Util_De::get_1d3();
 
-		if ($this->view->config->game->quete->etape->manger->param2->auberge == $dataTypeEtape["param2"]) {
+		if (Bral_Util_Quete::ETAPE_MANGER_PARAM2_AUBERGE == $dataTypeEtape["param2"]) {
 			$lieuTable = new Lieu();
 			$auberges = $lieuTable->findByType($this->view->config->game->lieu->type->auberge);
 			$deAuberge = Bral_Util_De::get_de_specifique(0, count($auberges) -1);
 			$auberge = $auberges[$deAuberge];
 			$dataTypeEtape["param3"] = $auberge["id_lieu"];
 			$dataTypeEtape["libelle_etape"] .= " dans l'auberge de ".$auberge["nom_ville"]." en x:".$auberge["x_lieu"]." et y:".$auberge["y_lieu"];
-		} else if ($this->view->config->game->quete->etape->manger->param2->terrain == $dataTypeEtape["param2"]) {
+		} else if (Bral_Util_Quete::ETAPE_MANGER_PARAM2_TERRAIN == $dataTypeEtape["param2"]) {
 			Zend_Loader::loadClass("Environnement");
 			$environnementTable = new Environnement();
 			$environnements = $environnementTable->fetchAll();
@@ -284,9 +284,9 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 			$environnement = $environnements[$deEnvironnement];
 			$dataTypeEtape["param3"] = $environnement["id_environnement"];
 			$dataTypeEtape["libelle_etape"] .= " sur un terrain de type ".$environnement["nom_environnement"];
-		} else if ($this->view->config->game->quete->etape->manger->param2->etat == $dataTypeEtape["param2"]) {
+		} else if (Bral_Util_Quete::ETAPE_MANGER_PARAM2_ETAT == $dataTypeEtape["param2"]) {
 			$dataTypeEtape["param3"] = Bral_Util_De::get_1D2();
-			if ($this->view->config->game->quete->etape->tuer->param2->etat->affame == $dataTypeEtape["param3"]) {
+			if (Bral_Util_Quete::ETAPE_MANGER_PARAM3_ETAT_AFFAME == $dataTypeEtape["param3"]) {
 				$dataTypeEtape["libelle_etape"] .= " en étant affamé";
 			} else {
 				$dataTypeEtape["libelle_etape"] .= " en étant repu";

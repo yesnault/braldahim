@@ -12,6 +12,33 @@
  */
 class Bral_Util_Quete {
 
+	const QUETE_ETAPE_TUER_ID = 1;
+	const QUETE_ETAPE_MANGER_ID = 2;
+	const QUETE_ETAPE_FUMER_ID = 3;
+	const QUETE_ETAPE_POSSEDER_ID = 4;
+	const QUETE_ETAPE_EQUIPER_ID = 5;
+	const QUETE_ETAPE_CONSTRUIRE_ID = 6;
+	const QUETE_ETAPE_FABRIQUER_ID = 7;
+	const QUETE_ETAPE_COLLECTER_ID = 8;
+
+	const ETAPE_TUER_PARAM1_NOMBRE = 1;
+	const ETAPE_TUER_PARAM1_JOUR = 2;
+	const ETAPE_TUER_PARAM1_ETAT = 3;
+
+	const ETAPE_TUER_PARAM2_ETAT_AFFAME = 1;
+	const ETAPE_TUER_PARAM2_ETAT_REPU = 2;
+
+	const ETAPE_TUER_PARAM3_TAILLE = 1;
+	const ETAPE_TUER_PARAM3_TYPE = 2;
+	const ETAPE_TUER_PARAM3_NIVEAU = 3;
+
+	const ETAPE_MANGER_PARAM2_AUBERGE = 1;
+	const ETAPE_MANGER_PARAM2_TERRAIN = 2;
+	const ETAPE_MANGER_PARAM2_ETAT = 3;
+
+	const ETAPE_MANGER_PARAM3_ETAT_AFFAME = 1;
+	const ETAPE_MANGER_PARAM3_ETAT_REPU = 2;
+
 	private static function estQueteEnCours($hobbit) {
 		if ($hobbit->est_quete_hobbit == "oui") {
 			return true;
@@ -247,47 +274,47 @@ class Bral_Util_Quete {
 		return $texte;
 	}
 
-	public static function etapeTuer(&$hobbit, $config, $tailleMonstre, $typeMonstre, $niveauMonstre) {
+	public static function etapeTuer(&$hobbit, $tailleMonstre, $typeMonstre, $niveauMonstre) {
 		if (self::estQueteEnCours($hobbit)) {
 			Bral_Util_Log::quete()->trace("Bral_Util_Quete - etapeTuer - quete en cours -");
-			$etape = self::getEtapeCourante($hobbit, $config->game->quete->etape->tuer->id);
+			$etape = self::getEtapeCourante($hobbit, self::QUETE_ETAPE_TUER_ID);
 			if ($etape == null) {
 				Bral_Util_Log::quete()->trace("Bral_Util_Quete - etapeTuer - pas d'etape tuer en cours");
 				return null;
 			} else {
 				Bral_Util_Log::quete()->trace("Bral_Util_Quete - etapeTuer - etape tuer en cours");
-				return self::calculEtapeTuer($etape, $hobbit, $config, $tailleMonstre, $typeMonstre, $niveauMonstre);
+				return self::calculEtapeTuer($etape, $hobbit, $tailleMonstre, $typeMonstre, $niveauMonstre);
 			}
 		} else {
 			return null;
 		}
 	}
 
-	private static function calculEtapeTuer($etape, &$hobbit, $config, $tailleMonstre, $typeMonstre, $niveauMonstre) {
-		if (self::calculEtapeTuerParam1($etape, $hobbit, $config, $tailleMonstre, $typeMonstre, $niveauMonstre)
-		&& self::calculEtapeTuerParam3($etape, $hobbit, $config, $tailleMonstre, $typeMonstre, $niveauMonstre)) {
+	private static function calculEtapeTuer($etape, &$hobbit, $tailleMonstre, $typeMonstre, $niveauMonstre) {
+		if (self::calculEtapeTuerParam1($etape, $hobbit, $tailleMonstre, $typeMonstre, $niveauMonstre)
+		&& self::calculEtapeTuerParam3($etape, $hobbit, $tailleMonstre, $typeMonstre, $niveauMonstre)) {
 			Bral_Util_Log::quete()->trace("Bral_Util_Quete - etapeTuer - conditions remplies, calcul fin etape");
-			self::calculEtapeTuerFin($etape, $hobbit, $config);
+			self::calculEtapeTuerFin($etape, $hobbit);
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	private static function calculEtapeTuerParam1($etape, &$hobbit, $config, $tailleMonstre, $typeMonstre, $niveauMonstre) {
+	private static function calculEtapeTuerParam1($etape, &$hobbit, $tailleMonstre, $typeMonstre, $niveauMonstre) {
 		$retour = false;
 		Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeTuerParam1 - param1:".$etape["param_1_etape"]. " param2:".$etape["param_2_etape"]);
-		if ($etape["param_1_etape"] == $config->game->quete->etape->tuer->param1->nombre) {
+		if ($etape["param_1_etape"] == self::ETAPE_TUER_PARAM1_NOMBRE) {
 			Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeTuerParam1 - A");
 			$retour = true;
-		} else if ($etape["param_1_etape"] == $config->game->quete->etape->tuer->param1->jour && $etape["param_2_etape"] == date('N')) {
+		} else if ($etape["param_1_etape"] == self::ETAPE_TUER_PARAM1_JOUR && $etape["param_2_etape"] == date('N')) {
 			Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeTuerParam1 - B");
 			$retour = true;
-		} else if ($etape["param_1_etape"] == $config->game->quete->etape->tuer->param1->etat) {
-			if ($etape["param_2_etape"] == $config->game->quete->etape->tuer->param2->etat->affame && $hobbit->balance_faim_hobbit < 1) {
+		} else if ($etape["param_1_etape"] == self::ETAPE_TUER_PARAM1_ETAT) {
+			if ($etape["param_2_etape"] == self::ETAPE_TUER_PARAM2_ETAT_AFFAME && $hobbit->balance_faim_hobbit < 1) {
 				Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeTuerParam1 - C");
 				$retour = true;
-			} elseif ($etape["param_2_etape"] == $config->game->quete->etape->tuer->param2->etat->repu && $hobbit->balance_faim_hobbit >= 95) {
+			} elseif ($etape["param_2_etape"] == self::ETAPE_TUER_PARAM2_ETAT_REPU && $hobbit->balance_faim_hobbit >= 95) {
 				Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeTuerParam1 - C");
 				$retour = true;
 			} else {
@@ -300,16 +327,16 @@ class Bral_Util_Quete {
 		return $retour;
 	}
 
-	private static function calculEtapeTuerParam3($etape, &$hobbit, $config, $tailleMonstre, $typeMonstre, $niveauMonstre) {
+	private static function calculEtapeTuerParam3($etape, &$hobbit, $tailleMonstre, $typeMonstre, $niveauMonstre) {
 		$retour = false;
 		Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeTuerParam3 - param3:".$etape["param_3_etape"]. " param4:".$etape["param_4_etape"] . " taille:".$tailleMonstre. " type:".$typeMonstre. " niv:".$niveauMonstre);
-		if ($etape["param_3_etape"] == $config->game->quete->etape->tuer->param3->taille && $etape["param_4_etape"] == $tailleMonstre) {
+		if ($etape["param_3_etape"] == self::ETAPE_TUER_PARAM3_TAILLE && $etape["param_4_etape"] == $tailleMonstre) {
 			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeTuerParam3 - A");
 			return true;
-		} else if ($etape["param_3_etape"] == $config->game->quete->etape->tuer->param3->type && $etape["param_4_etape"] == $typeMonstre) {
+		} else if ($etape["param_3_etape"] == self::ETAPE_TUER_PARAM3_TYPE && $etape["param_4_etape"] == $typeMonstre) {
 			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeTuerParam3 - B");
 			return true;
-		} else if ($etape["param_3_etape"] == $config->game->quete->etape->tuer->param3->niveau && $etape["param_4_etape"] == $niveauMonstre) {
+		} else if ($etape["param_3_etape"] == self::ETAPE_TUER_PARAM3_NIVEAU && $etape["param_4_etape"] == $niveauMonstre) {
 			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeTuerParam3 - C");
 			return true;
 		} else {
@@ -319,18 +346,18 @@ class Bral_Util_Quete {
 		return $retour;
 	}
 
-	private static function calculEtapeTuerFin($etape, &$hobbit, $config) {
+	private static function calculEtapeTuerFin($etape, &$hobbit) {
 		$etapeTable = new Etape();
 		$estFinEtape = false;
-		if ($etape["param_1_etape"] == $config->game->quete->etape->tuer->param1->nombre) {
+		if ($etape["param_1_etape"] == self::ETAPE_TUER_PARAM1_NOMBRE) {
 			$data = array( "objectif_etape" => $etape["objectif_etape"] + 1);
 			if ($etape["objectif_etape"] + 1 >= $etape["param_2_etape"]) {
 				$data = array( "objectif_etape" => $etape["objectif_etape"] + 1, "est_terminee_etape" => "oui", "date_fin_etape" => date("Y-m-d H:i:s"));
 				Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeTuerFin - Fin Ok 1");
 				$estFinEtape = true;
 			}
-		} else if ($etape["param_1_etape"] == $config->game->quete->etape->tuer->param1->jour ||
-		$etape["param_1_etape"] == $config->game->quete->etape->tuer->param1->etat) {
+		} else if ($etape["param_1_etape"] == self::ETAPE_TUER_PARAM1_JOUR ||
+		$etape["param_1_etape"] == self::ETAPE_TUER_PARAM1_ETAT) {
 			$data = array( "objectif_etape" => 1, "est_terminee_etape" => "oui", "date_fin_etape" => date("Y-m-d H:i:s"));
 			Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeTuerFin - Fin Ok 2");
 			$estFinEtape = true;
@@ -346,42 +373,72 @@ class Bral_Util_Quete {
 		}
 	}
 
-	public static function etapeManger(&$hobbit, $config) {
+	public static function etapeManger(&$hobbit) {
 		if (self::estQueteEnCours($hobbit)) {
 			Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeManger - quete en cours -");
-			$etape = self::getEtapeCourante($hobbit, $config->game->quete->etape->manger->id);
+			$etape = self::getEtapeCourante($hobbit, self::QUETE_ETAPE_MANGER_ID);
 			if ($etape == null) {
 				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeManger - pas d'etape manger en cours");
 				return null;
 			} else {
 				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeManger - etape manger en cours");
-				return self::calculEtapeManger($etape, $hobbit, $config);
+				return self::calculEtapeManger($etape, $hobbit);
 			}
 		} else {
 			return null;
 		}
 	}
 
-	private static function calculEtapeManger($etape, &$hobbit, $config) {
-		if (self::calculEtapeMangerParam3($etape, $hobbit, $config)
-		&& self::calculEtapeMangerParam4($etape, $hobbit, $config)) {
+	private static function calculEtapeManger($etape, &$hobbit) {
+		if (self::calculEtapeMangerParam3($etape, $hobbit)
+		&& self::calculEtapeMangerParam4($etape, $hobbit)) {
 			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeManger - conditions remplies, calcul fin etape");
-			self::calculEtapeMangerFin($etape, $hobbit, $config);
+			self::calculEtapeMangerFin($etape, $hobbit);
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	private static function calculEtapeMangerParam3($etape, &$hobbit, $config) {
-		//TODO
+	private static function calculEtapeMangerParam3($etape, &$hobbit) {
+		$retour = false;
+		Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeMangerParam3 - param2:".$etape["param_2_etape"]. " param3:".$etape["param_3_etape"]);
+		if ($etape["param_2_etape"] == self::ETAPE_MANGER_PARAM2_AUBERGE) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeMangerParam3 - A");
+			//TODO
+			$retour = true;
+		} else if ($etape["param_2_etape"] == self::ETAPE_MANGER_PARAM2_TERRAIN && $etape["param_2_etape"] == date('N')) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeMangerParam3 - B");
+			//TODO
+			$retour = true;
+		} else if ($etape["param_2_etape"] == self::ETAPE_MANGER_PARAM2_ETAT) {
+			if ($etape["param_3_etape"] == self::ETAPE_MANGER_PARAM3_ETAT_AFFAME && $hobbit->balance_faim_hobbit < 1) {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeMangerParam3 - C");
+				$retour = true;
+			} elseif ($etape["param_3_etape"] == self::ETAPE_MANGER_PARAM3_ETAT_REPU && $hobbit->balance_faim_hobbit >= 95) {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeMangerParam3 - C");
+				$retour = true;
+			} else {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeMangerParam3 - D");
+			}
+		} else {
+			$retour = false;
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeMangerParam3 - E");
+		}
+		return $retour;
 	}
 
-	private static function calculEtapeMangerParam4($etape, &$hobbit, $config) {
-		//TODO
+	private static function calculEtapeMangerParam4($etape, &$hobbit) {
+		if ($etape["param_4_etape"] == date('N')) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeMangerParam4 - A");
+			return true;
+		} else {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete - calculEtapeMangerParam4 - B");
+			return false;
+		}
 	}
 
-	private static function calculEtapeMangerFin($etape, &$hobbit, $config) {
+	private static function calculEtapeMangerFin($etape, &$hobbit) {
 		$etapeTable = new Etape();
 
 		$estFinEtape = false;
