@@ -29,16 +29,28 @@ class HobbitsCdm extends Zend_Db_Table {
     }
 
     function findByIdHobbitAndIdTypeMonstre($idHobbit,$idTypeMonstre) {
-		$db = $this->getAdapter();
+		//Retourne vrai si le nombre de cdm effectué suffit pour pister ce type de monstre
+    	$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('hobbits_cdm', 'count(*) as nbCdm')
-		->from('taille_monstre', 'nom_taille_m_monstre')
-		->where('hobbits_cdm.id_fk_hobbit_hcdm = '.intval($idHobbit))
-		->where('hobbits_cdm.id_fk_type_monstre_hcdm = '.intval($idTypeMonstre))
-		->where('hobbits_cdm.id_fk_taille_monstre_hcdm = taille_monstre.id_taille_monstre')
-		->group('nom_taille_m_monstre');
+		$select->from('taille_monstre', '*');
 		$sql = $select->__toString();
-		return $db->fetchAll($sql);
+		$resultat = $db->fetchAll($sql);
+		$cdmok = true;
+		foreach ($resultat as $taille){
+			$select = $db->select();
+			$select->from('hobbits_cdm', 'count(*) as nb_cdm')
+			->where('hobbits_cdm.id_fk_hobbit_hcdm = '.intval($idHobbit))
+			->where('hobbits_cdm.id_fk_type_monstre_hcdm = '.intval($idTypeMonstre))
+			->where('hobbits_cdm.id_fk_taille_monstre_hcdm = '.intval($taille["id_taille_monstre"]))
+			->group('id_fk_taille_monstre_hcdm');
+			$sql = $select->__toString();
+			$resultatb = $db->fetchAll($sql);
+			if (count($resultatb) == 0 || $resultatb[0]['nb_cdm'] < $taille["nb_cdm_taille_monstre"]){
+				$cdmok=false;
+				break;
+			}
+		}
+		return $cdmok;	
     }
     
     function insertOrUpdate($data) {

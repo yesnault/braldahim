@@ -227,32 +227,7 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		$hobbitCdmTable = new HobbitsCdm();
 		$hobbitCdmTable->insertOrUpdate($data);
 		
-		$hobbitCdmRowset = $hobbitCdmTable->findByIdHobbitAndIdTypeMonstre($this->view->user->id_hobbit,$monstre["id_type_monstre"]);
-		$petit = false;
-		$normal = false;
-		$grand = false;
-		$gigantesque = false;
-		$pister = false;
-		
-		
-		foreach ($hobbitCdmRowset as $cdms){
-			if ($cdms["nom_taille_m_monstre"] == "Petit" && $cdms["nbCdm"] >= 1) {
-				$petit = true;
-			}
-			if ($cdms["nom_taille_m_monstre"] == "Normal" && $cdms["nbCdm"] >= 2) {
-				$normal = true;
-			}
-			if ($cdms["nom_taille_m_monstre"] == "Grand" && $cdms["nbCdm"] >= 1) {
-				$grand = true;
-			}
-			if ($cdms["nom_taille_m_monstre"] == "Gigantesque" && $cdms["nbCdm"] >= 1) {
-				$gigantesque = true;
-			}
-		}
-		
-		if ( $petit == true && $normal == true && $grand == true && $gigantesque ==true ){
-			$pister = true;
-		}
+		$pister = $hobbitCdmTable->findByIdHobbitAndIdTypeMonstre($this->view->user->id_hobbit,$monstre["id_type_monstre"]);
 		
 		$this->view->pister = $pister;
 	}
