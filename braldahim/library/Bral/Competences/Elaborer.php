@@ -102,10 +102,10 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			$tabPartiePlantes = null;
 			$echoppePlanteTable = new EchoppePartieplante();
 			$partiesPlantes = $echoppePlanteTable->findByIdEchoppe($idEchoppe);
-			
+
 			if ($partiesPlantes != null) {
 				foreach ($partiesPlantes as $m) {
-					if ($m["quantite_preparees_echoppe_partieplante"] > 1) {
+					if ($m["quantite_preparees_echoppe_partieplante"] >= 1) {
 						$tabPartiePlantes[$m["id_fk_type_plante_echoppe_partieplante"]][$m["id_fk_type_echoppe_partieplante"]] = array(
 							"nom_type_partieplante" => $m["nom_type_partieplante"],
 							"nom_type" => $m["nom_type_plante"],
@@ -115,7 +115,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 					}
 				}
 			}
-			
+
 			foreach($tabNiveaux as $k => $v) {
 				foreach($recettePotions as $r) {
 					$tabCout[$k][] = array(
@@ -125,8 +125,9 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 						"id_type_partieplante"=>$r["id_type_partieplante"], 
 						"cout" => ($r["coef_recette_potion"] + $k),
 					);
+					
 					if (isset($tabPartiePlantes[$r["id_fk_type_plante_recette_potion"]]) && (isset($tabPartiePlantes[$r["id_fk_type_plante_recette_potion"]][$r["id_fk_type_partieplante_recette_potion"]]["quantite_preparees"])) ) {
-						if ($r["coef_recette_potion"] + $k > $tabPartiePlantes[$r["id_fk_type_plante_recette_potion"]][$r["id_fk_type_partieplante_recette_potion"]]["quantite_preparees"]) {
+						if (($r["coef_recette_potion"] + $k) > $tabPartiePlantes[$r["id_fk_type_plante_recette_potion"]][$r["id_fk_type_partieplante_recette_potion"]]["quantite_preparees"]) {
 							$tabNiveaux[$k]["ressourcesOk"] = false;
 						}
 					} else {
