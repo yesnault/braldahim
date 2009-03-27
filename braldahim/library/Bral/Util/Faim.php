@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -11,16 +11,16 @@
  * $LastChangedBy$
  */
 class Bral_Util_Faim {
-	
+
 	private function __construct() {
 	}
-	
+
 	public static function calculBalanceFaim(&$hobbit) {
 		/*
 		 * [0] : -N/2
 		 * [1;10] : -N/3
 		 * [11;30] : -N/4
-	 	 * [31;79] : 0
+		 * [31;79] : 0
 		 * [80;94] : +N/4
 		 * [95;100] : +N/2
 		 */
@@ -43,10 +43,10 @@ class Bral_Util_Faim {
 			$div = 2;
 			$coef = -1;
 		}
-		
-		$hobbit->force_bbdf_hobbit = floor($coef * ($hobbit->niveau_hobbit / $div));
-		$hobbit->agilite_bbdf_hobbit = floor($coef * ($hobbit->niveau_hobbit / $div));
-		$hobbit->vigueur_bbdf_hobbit = floor($coef * ($hobbit->niveau_hobbit / $div));
-		$hobbit->sagesse_bbdf_hobbit = floor($coef * ($hobbit->niveau_hobbit / $div));
+
+		$hobbit->force_bbdf_hobbit = $coef * floor($hobbit->niveau_hobbit / $div);
+		$hobbit->agilite_bbdf_hobbit = $coef * floor($hobbit->niveau_hobbit / $div);
+		$hobbit->vigueur_bbdf_hobbit = $coef * floor($hobbit->niveau_hobbit / $div);
+		$hobbit->sagesse_bbdf_hobbit = $coef * floor($hobbit->niveau_hobbit / $div);
 	}
 }
