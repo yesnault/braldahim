@@ -31,6 +31,7 @@ class Bral_Competences_Donnerballon extends Bral_Competences_Competence {
 		// recuperation des hobbits qui sont presents sur la vue
 		$hobbitTable = new Hobbit();
 		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit, false);
+		$tabHobbits = null;
 		foreach($hobbits as $h) {
 			$tab = array(
 				'id_hobbit' => $h["id_hobbit"],
