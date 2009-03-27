@@ -1,8 +1,10 @@
 <? 
 foreach($equipe["joueurs"] as $j):
-  echo '<span class="joueur" title="Position '.$j["x_hobbit"].', '.$j["y_hobbit"].' : '.$j["prenom_hobbit"].' '.addslashes($j["nom_hobbit"]).' ('.$j["id_hobbit"].') - '.$nomEquipe.'" style=\'';
-  echo "left:".(-3 + ($j["x_hobbit"] - $this->terrainCourant["x_min_soule_terrain"]) * $coef)."px;"; 
-  echo "top:".(-3 + ($this->terrainCourant["y_max_soule_terrain"] - $j["y_hobbit"]) * $coef)."px;";
-  echo "background-color:".$backgroundColor.";";
-  echo "' onClick=\"javascript:ouvrirWin('/voir/hobbit/?hobbit=".$j["id_hobbit"]."');\"></span>";
+  if ($j["est_ko_hobbit"] == "non") :
+	  echo '<span class="joueur" title="Position '.$j["x_hobbit"].', '.$j["y_hobbit"].' : '.$j["prenom_hobbit"].' '.addslashes($j["nom_hobbit"]).' ('.$j["id_hobbit"].') - '.$nomEquipe.'" style=\'';
+	  echo "left:".(-3 + ($j["x_hobbit"] - $this->terrainCourant["x_min_soule_terrain"]) * $coef)."px;"; 
+	  echo "top:".(-3 + ($this->terrainCourant["y_max_soule_terrain"] - $j["y_hobbit"]) * $coef)."px;";
+	  echo "background-color:".$backgroundColor.";";
+	  echo "' onClick=\"javascript:ouvrirWin('/voir/hobbit/?hobbit=".$j["id_hobbit"]."');\"></span>";
+  endif;
 endforeach; ?>
