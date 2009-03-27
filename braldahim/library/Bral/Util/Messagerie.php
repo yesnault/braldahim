@@ -110,18 +110,24 @@ class Bral_Util_Messagerie {
 			}
 		}
 		
+		$userIdsControlles = "";
+		
 		if ($tabHobbits != null) {
 			$hobbitTable = new Hobbit();
 			$hobbitsRowset = $hobbitTable->findByIdList($tabHobbits);
 			foreach($hobbitsRowset as $h) {
 				$hobbits[$h["id_hobbit"]] = $h;
+				if ($userIdsControlles != "") {
+					$userIdsControlles .= ",";
+				}
+				$userIdsControlles .= $h["id_hobbit"];
 			}
 		}
 		
 		$tab = array(
 			"hobbits" => $hobbits,
 			"aff_js_contacts" => $aff_js_contacts,
-			"userids" => $userIds,
+			"userids" => $userIdsControlles,
 			"contacts" => $contacts,
 		);
 		return $tab;
