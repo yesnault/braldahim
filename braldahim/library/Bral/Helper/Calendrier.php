@@ -14,7 +14,7 @@ class Bral_Helper_Calendrier {
 	
 	public static function getJourSemaine($jour) {
 
-		if ($jour < 0 || $jour > 6) {
+		if ($jour < 0 || $jour > 7) {
 			throw new Zend_Exception("getJourSemaine jour invalide:".$jour);
 		}
 		
@@ -26,6 +26,7 @@ class Bral_Helper_Calendrier {
 			4 => 'Thunresdaeg',
 			5 => 'Frigedaeg',
 			6 => 'Sæterdaeg',
+			7 => 'Sunnandaeg',
 		);
 		return $jours[$jour];
 	}

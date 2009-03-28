@@ -17,6 +17,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Quete");
+		Zend_Loader::loadClass("Bral_Util_Quete");
 		$queteTable = new Quete();
 
 		$quete = $queteTable->findByIdHobbitAndIdLieu($this->view->user->id_hobbit, $this->view->idLieu);

@@ -178,7 +178,6 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 		$statsFabricants->insertOrUpdate($dataFabricants);
 		
 		if ($this->view->construireRouteContinueOk == true) {
-			
 			$x_y = $this->request->get("valeur_1");
 			list ($offset_x, $offset_y) = split("h", $x_y);
 			

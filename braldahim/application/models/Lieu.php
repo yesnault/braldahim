@@ -14,7 +14,7 @@ class Lieu extends Zend_Db_Table {
 	protected $_name = 'lieu';
 	protected $_primary = 'id_lieu';
 
-	public function findByType($type){
+	public function findByType($type, $estSoule = null){
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
@@ -22,6 +22,9 @@ class Lieu extends Zend_Db_Table {
 		->where('lieu.id_fk_type_lieu = ?',$type)
 		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
 		->joinLeft('ville','id_fk_ville_lieu = id_ville');
+		if ($estSoule != null) {
+			$select->where('lieu.est_soule_lieu = ?',$estSoule);
+		}
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
