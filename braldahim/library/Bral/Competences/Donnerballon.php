@@ -33,17 +33,18 @@ class Bral_Competences_Donnerballon extends Bral_Competences_Competence {
 		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit, false);
 		$tabHobbits = null;
 		foreach($hobbits as $h) {
-			$tab = array(
+			if ($h["soule_camp_hobbit"] == $this->view->user->soule_camp_hobbit) {
+				$tab = array(
 				'id_hobbit' => $h["id_hobbit"],
 				'nom_hobbit' => $h["nom_hobbit"],
 				'prenom_hobbit' => $h["prenom_hobbit"],
-			);
-			$tabHobbits[] = $tab;
-			$this->view->donnerballonOk = true;
+				);
+				$tabHobbits[] = $tab;
+				$this->view->donnerballonOk = true;
+			}
 		}
 		$this->view->tabHobbits = $tabHobbits;
 		$this->view->nHobbits = count($tabHobbits);
-
 	}
 
 	function prepareFormulaire() {
@@ -104,7 +105,7 @@ class Bral_Competences_Donnerballon extends Bral_Competences_Competence {
 		$detailsBotDestinataire = "Vous avez reçu le ballon de soule !";
 		$detailEvenementDestinataire = "[h".$hobbitDestinataire->id_hobbit."] a reçu le ballon de la part de [h".$this->view->user->id_hobbit."]";
 		Bral_Util_Evenement::majEvenements($hobbitDestinataire->id_hobbit, $this->view->config->game->evenements->type->soule, $detailEvenementDestinataire, $detailsBotDestinataire, $hobbitDestinataire->niveau_hobbit, "hobbit", true, $this->view);
-		
+
 		$this->setEvenementQueSurOkJet1(false);
 
 		$this->calculBalanceFaim();
