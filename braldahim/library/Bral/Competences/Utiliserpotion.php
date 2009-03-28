@@ -15,6 +15,9 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("LabanPotion");
+		Zend_Loader::loadClass("Bral_Util_Attaque");
+		
+		$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		
 		$tabPotions = null;
 		$labanPotionTable = new LabanPotion();
@@ -60,6 +63,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"]);
 		}
 
+		$this->view->estRegionPvp = $estRegionPvp;
 		$this->view->nPotions = count($tabPotions);
 		$this->view->tabPotions = $tabPotions;
 		$this->view->tabHobbits = $tabHobbits;

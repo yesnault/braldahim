@@ -3,14 +3,42 @@
     <? if ($this->nPotions == 0) :?>
  		Vous n'avez pas de potion dans votre laban.<br />
  	<? else: ?>
+ 		<? if ($this->estRegionPvp == true) : ?>
+ 			Vous êtes dans une r&eacute;gion PvP, vous pouvez utiliser une potion de malus sur un hobbit.
+ 		<? else: ?>
+ 			Vous êtes dans une r&eacute;gion non PvP, vous ne pouvez pas utiliser une potion de malus sur un hobbit.
+ 		<? endif;?>
+ 		<br><br>
  		Potion &agrave; utiliser : <br />
- 		<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1 && $('valeur_3').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false }">
+ 		<select name='valeur_1' id="valeur_1" onChange="javascript:try{$('valeur_2').selectedIndex=0 ; $('valeur_3').selectedIndex=0 } catch(e){}; if ($('valeur_1').value==-1 || $('valeur_2').value==-1 && $('valeur_3').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false }">
 			<option value='-1'>(Choisis une potion)</option>
-			<? foreach ($this->tabPotions as $p) : ?>
+			<? $tabPotions = " new Array(";
+				foreach ($this->tabPotions as $p) : 
+					if ($p["bm_type"] == "malus") :
+						$tabPotions .= "'".$p["id_potion"]."',";
+					endif;
+			?>
 				<option value="<?=$p["id_potion"] ?>"><?=htmlspecialchars($p["nom"]) ?> : qualit&eacute; <?=htmlspecialchars($p["qualite"]) ?>,
-				 niveau: <?=$p["niveau"] ?></option>
-			<? endforeach; ?>
+				 niveau: <?=$p["niveau"] ?> (<?=$p["bm_type"]?>)</option>
+			<? $tabPotions = substr($tabPotions, 0, strlen($tabPotions)-1).");" ;
+			endforeach; ?>
 		</select><br /><br />
+		
+		<? $js=" 
+		    function controleTypePotion() {
+			    marray = $tabPotions;
+			    retour = false;
+				for (x in marray) {
+					if ($('valeur_1').value == marray[x]) {
+						alert('Vous ne pouvez pas utiliser de potion de malus en zone PvE sur un hobbit');
+						retour = true;
+						break;
+					}
+				} 
+				return retour;
+			}
+		";
+		?>
 		
 		<? if ($this->nMonstres > 0 || $this->nHobbits > 0): ?>
  			Pour <?=$this->nb_pa?> PA, vous pouvez utiliser la potion choisie sur : <br /><br />
@@ -32,7 +60,7 @@
 		
  		<? if ($this->nHobbits > 0): ?>
  		 Un hobbit<br />
- 			<select name='valeur_3' id="valeur_3" onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1 && $('valeur_3').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false } $('valeur_2').value=-1; ">
+ 			<select name='valeur_3' id="valeur_3" onChange="javascript:<?=$js?>;if (controleTypePotion() || $('valeur_1').value==-1 || $('valeur_2').value==-1 && $('valeur_3').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false } $('valeur_2').value=-1; ">
 			<option value='-1'>(Choisis un hobbit)</option>
 			<? foreach ($this->tabHobbits as $h) : ?>
 			<option value="<?=$h["id_hobbit"]?>"><?=htmlspecialchars($h["prenom_hobbit"])?> <?=htmlspecialchars($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>)</option>
