@@ -50,8 +50,10 @@ endif; ?>
 			$textEchoppe .= addslashes(htmlspecialchars($c["nom_echoppe"])). ", ";
 		endif; 
 		$textEchoppe .= "&Eacute;choppe ".$d.htmlspecialchars($c["nom_metier"])." appartenant &agrave; <br>";
+		$textEchoppe .= '<label class=\\\'alabel\\\' onClick=ouvrirWin(\\\'\/voir\/hobbit\/?hobbit='.$c["id_hobbit"].'\\\'); title=\\\'Voir le profil\\\' >';
 		$textEchoppe .= addslashes(htmlspecialchars($c["prenom_hobbit"]))." ".addslashes(htmlspecialchars($c["nom_hobbit"])).", n&deg; ".$c["id_hobbit"];
-      	$textEchoppe .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$c["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
+		$textEchoppe .= "</label>";
+		$textEchoppe .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$c["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
       	$textEchoppe .= "<br />";
       	$nomSystemeEchoppe = $c["nom_systeme_metier"];
 	}
