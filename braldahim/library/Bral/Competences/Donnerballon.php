@@ -100,6 +100,11 @@ class Bral_Competences_Donnerballon extends Bral_Competences_Competence {
 		$this->setDetailsEvenement($this->detailEvenement, $this->view->config->game->evenements->type->soule);
 		$this->idMatchSoule = $this->match["id_soule_match"];
 
+		// evenements du destinataire
+		$detailsBotDestinataire = "Vous avez reçu le ballon de soule !";
+		$detailEvenementDestinataire = "[h".$hobbitDestinataire->id_hobbit."] a reçu le ballon de la part de [h".$this->view->user->id_hobbit."]";
+		Bral_Util_Evenement::majEvenements($hobbitDestinataire->id_hobbit, $this->view->config->game->evenements->type->soule, $detailEvenementDestinataire, $detailsBotDestinataire, $hobbitDestinataire->niveau_hobbit, "hobbit", true, $this->view);
+		
 		$this->setEvenementQueSurOkJet1(false);
 
 		$this->calculBalanceFaim();
