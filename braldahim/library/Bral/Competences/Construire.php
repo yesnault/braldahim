@@ -17,8 +17,24 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Palissade');  
 		Zend_Loader::loadClass('Route');
 		Zend_Loader::loadClass('Zone');
+		Zend_Loader::loadClass('Bral_Util_Marcher'); 
+		
+		$utilMarcher = new Bral_Util_Marcher();
+		
+		$calcul = $utilMarcher->calcul($this->view->user, null, true);
+		
+		$this->view->assezDePa  = $calcul["assezDePa"];
+		$this->view->nb_cases = $calcul["nb_cases"];
+		$this->view->tableau = $calcul["tableau"];
+		$this->tableauValidation = $calcul["tableauValidation"];
+		
+		$this->view->x_min = $calcul["x_min"];
+		$this->view->x_max = $calcul["x_max"];
+		$this->view->y_min = $calcul["y_min"];
+		$this->view->y_max = $calcul["y_max"];
 	
 		$this->view->construireOk = false;
+		$this->view->construireRouteContinueOk = false;
 		
 		$monstreTable = new Monstre();
 		$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
@@ -50,6 +66,11 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 		
 		if (count($monstres) <= 0 && count($hobbits) == 1 && count($palissades) <= 0 && $this->view->route != null && $this->view->route["est_route"] == "non" && $this->estEnvironnementValid($this->environnement)) {
 			$this->view->construireOk = true;
+			
+			$routesAutour = $routeTable->selectVue($this->view->user->x_hobbit - 1, $this->view->user->y_hobbit - 1, $this->view->user->x_hobbit + 1, $this->view->user->y_hobbit + 1);
+			if ($routesAutour != null && count($routesAutour) > 1) {
+				$this->view->construireRouteContinueOk = true;
+			}
 		}
 		
 	}
@@ -69,7 +90,27 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 		if ($this->view->construireOk == false) {
 			throw new Zend_Exception(get_class($this)." Construire interdit");
 		}
-
+		
+		$bmJet1 = 0;
+		
+		if ($this->view->construireRouteContinueOk == true) {
+			$x_y = $this->request->get("valeur_1");
+			list ($offset_x, $offset_y) = split("h", $x_y);
+			
+			if ($offset_x < -$this->view->nb_cases || $offset_x > $this->view->nb_cases) {
+				throw new Zend_Exception(get_class($this)." Deplacement X impossible : ".$offset_x);
+			}
+			
+			if ($offset_y < -$this->view->nb_cases || $offset_y > $this->view->nb_cases) {
+				throw new Zend_Exception(get_class($this)." Deplacement Y impossible : ".$offset_y);
+			}
+			
+			if ($this->tableauValidation[$offset_x][$offset_y] !== true) {
+				throw new Zend_Exception(get_class($this)." Deplacement XY impossible : ".$offset_x.$offset_y);
+			}
+			$bmJet1 = 10;
+		}
+		
 		// calcul des jets
 		$this->calculJets();
 
@@ -135,6 +176,15 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 		$dataFabricants["nb_piece_stats_fabricants"] = 1;
 		$dataFabricants["id_fk_metier_stats_fabricants"] = $this->view->config->game->metier->terrassier->id;
 		$statsFabricants->insertOrUpdate($dataFabricants);
+		
+		if ($this->view->construireRouteContinueOk == true) {
+			
+			$x_y = $this->request->get("valeur_1");
+			list ($offset_x, $offset_y) = split("h", $x_y);
+			
+			$this->view->user->x_hobbit = $this->view->user->x_hobbit + $offset_x;
+			$this->view->user->y_hobbit = $this->view->user->y_hobbit + $offset_y;
+		}
 	}
 	
 	private function calculJetForce() {

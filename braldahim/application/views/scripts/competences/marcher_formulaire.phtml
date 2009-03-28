@@ -35,37 +35,7 @@
   	Votre &eacute;quipement a de l'effet sur le co&ucirc;t en PA ou sur le nombre de cases possible.<br /><br />
   <? endif; ?>
   
-  <table align='center'>
-   <tr>
-     <th>Position [x;y]</th>
-   </tr>
-   <tr>
-     <td>
-     <table class='comp_marcher_position'>
-     	<?php $col=null ?>
-		<?php foreach ($this->tableau as $case) : ?>
-			<?php if ($case["change_level"] == 1 && $col == "ok") :
-	          echo "</tr>";
-			endif; ?>
-			<?php if ($case["change_level"] == true) : 
-				$col="ok"; ?>
-	                  <tr>
-			<?php endif; ?>
-	          <td class='comp_marcher_position_td' nowrap>
-	           <?=$case["display"] ?><br />
-	
-			<?php if ($case["valid"] == true) : ?>
-	            <input type='radio' name='valeur_1' id='valeur_1' value='<?php echo $case["x_offset"]."h".$case["y_offset"] ?>' <?=$case["default"]?>>
-			<?php else: ?>
-				&nbsp;
-			<?php endif; ?>
-	          </td>
-       <?php endforeach; ?>
-       </tr>
-     </table>
-     </td>
-    </tr>
-  </table>
+  <? include('marcher_tableau.phtml'); ?>
 <? endif ?>
 </div>
 
