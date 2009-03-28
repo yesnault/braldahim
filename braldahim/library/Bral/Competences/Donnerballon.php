@@ -19,7 +19,7 @@ class Bral_Competences_Donnerballon extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("SouleMatch");
 		$souleMatch = new SouleMatch();
 		$matchsRowset = $souleMatch->findByIdHobbitBallon($this->view->user->id_hobbit);
-		
+
 		if ($matchsRowset != null && count($matchsRowset) == 1) {
 			$this->match = $matchsRowset[0];
 			$this->view->possedeBallon = true;
@@ -27,7 +27,7 @@ class Bral_Competences_Donnerballon extends Bral_Competences_Competence {
 			$this->view->possedeBallon = false;
 			return;
 		}
-		
+
 		// recuperation des hobbits qui sont presents sur la vue
 		$hobbitTable = new Hobbit();
 		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit, false);
@@ -62,18 +62,18 @@ class Bral_Competences_Donnerballon extends Bral_Competences_Competence {
 		if ($this->view->donnerballonOk == false) {
 			throw new Zend_Exception(get_class($this)." Donner ballon interdit ");
 		}
-		
+
 		// Verification donner
 		if ($this->view->possedeBallon == false) {
 			throw new Zend_Exception(get_class($this)." Donner ballon interdit 2 ");
 		}
-		
+
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
 			throw new Zend_Exception(get_class($this)." Hobbit invalide : ".$this->request->get("valeur_1"));
 		} else {
 			$idHobbit = (int)$this->request->get("valeur_1");
 		}
-		
+
 		$donnerBallonHobbit = false;
 		if (isset($this->view->tabHobbits) && count($this->view->tabHobbits) > 0) {
 			foreach ($this->view->tabHobbits as $h) {
@@ -93,11 +93,12 @@ class Bral_Competences_Donnerballon extends Bral_Competences_Competence {
 
 		$hobbitTable = new Hobbit();
 		$hobbitDestinataire = $hobbitTable->findById($idHobbit);
-		
+
 		$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a donné le ballon";
 		$this->detailEvenement .= " à [h".$hobbitDestinataire->id_hobbit."]";
 		$this->view->destinataire = $hobbitDestinataire->prenom_hobbit." ".$hobbitDestinataire->nom_hobbit." (".$hobbitDestinataire->id_hobbit.")";
 		$this->setDetailsEvenement($this->detailEvenement, $this->view->config->game->evenements->type->soule);
+		$this->idMatchSoule = $this->match["id_soule_match"];
 
 		$this->setEvenementQueSurOkJet1(false);
 
@@ -105,7 +106,7 @@ class Bral_Competences_Donnerballon extends Bral_Competences_Competence {
 		$this->calculPoids();
 		$this->majHobbit();
 	}
-	
+
 	private function calculDonnerballon($idHobbit) {
 		$souleMatch = new SouleMatch();
 		$data = array(
