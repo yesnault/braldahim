@@ -6,6 +6,9 @@
 	<? endforeach;?>
 <? else: ?>
 	Vous n'avez pas r&eacute;ussi &agrave; am&eacute;liorer une de vos comp&eacute;tence de fabrication.
+	<? if ($this->boutiquerMetierCourant == false) :?>
+		<br>Vous ne boutiquez pas dans l'échoppe de votre métier courant...
+	<? endif;?>
 <? endif;?>
 <br><br>
 

@@ -145,6 +145,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					"pa_utilisation" => $c["pa_utilisation_competence"],
 					"pourcentage" => Bral_Util_Commun::getPourcentage($c, $this->view->config),
 					"nom_systeme" => $c["nom_systeme_competence"],
+					"pourcentage_init" => $c["pourcentage_init_competence"],
 				);
 			}
 		}

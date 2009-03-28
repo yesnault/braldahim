@@ -81,10 +81,24 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 		$this->view->ameliorationCompetence = false;
 		$this->view->tabCompetencesAmeliorees = null;
 		
-		$de10 = Bral_Util_De::get_1d10();
-		$deCompetence = null;
+		$this->view->boutiquerMetierCourant = false;
 		
-		if ($de10 >= 9) {
+		Zend_Loader::loadClass("HobbitsMetiers");
+		$hobbitsMetiersTable = new HobbitsMetiers();
+		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
+		foreach($hobbitsMetierRowset as $m) {
+			if ($this->competence["id_fk_metier_competence"] == $m["id_metier"]) {
+				if ($m["est_actif_hmetier"] == "oui") {
+					$this->view->boutiquerMetierCourant  = true;
+					break;
+				}
+			}
+		}
+		
+		$de10 = Bral_Util_De::get_1d10();
+		$deCompetence = 0;
+		
+		if ($de10 >= 9 && $this->view->boutiquerMetierCourant) {
 			$this->view->ameliorationCompetence = true;
 			$deCompetence = Bral_Util_De::get_1d2();
 			if ($de10 == 9) {
