@@ -24,9 +24,13 @@
    <tr>
      <td><?=$c["nom"]?></td>
      <td> co&ucirc;t : <?=$c["pi_cout"]?> PI </td>
-     <td>
+     <td align='left'>
      <? if ($this->utilisationPaPossible === true && $this->achatPiPossible === true && $c["trop_cher"] === false && $this->achatPossibleCastars === true): ?>
-       <input type="radio" name="valeur_1" id="valeur_1" value="<?=$c["id_competence"]?>" onChange="$('bouton_bibliotheque').disabled=false;">
+     	<? if ($c["nom_systeme"] != "pister" || $this->pisterPossible == true) : ?>
+       		<input type="radio" name="valeur_1" id="valeur_1" value="<?=$c["id_competence"]?>" onChange="$('bouton_bibliotheque').disabled=false;">
+       	<? else :?>
+       		(N&eacute;cessite Connaissances des monstres !)
+       	<?endif; ?>
      <? endif;?>
      </td>
    </tr>

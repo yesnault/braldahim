@@ -14,20 +14,6 @@
 class HobbitsCdm extends Zend_Db_Table {
 	protected $_name = 'hobbits_cdm';
 	
-    function findByIdHobbit($idHobbit) {
-		$db = $this->getAdapter();
-		$select = $db->select();
-		$select->from('hobbits_cdm', 'count(*) as nbCdm')
-		->from('type_monstre', '*')
-		->from('taille_monstre', 'nom_taille_m_monstre')
-		->where('hobbits_cdm.id_fk_hobbit_hcdm = '.intval($idHobbit))
-		->where('hobbits_cdm.id_fk_type_monstre_hcdm = type_monstre.id_type_monstre')
-		->where('hobbits_cdm.id_fk_taille_monstre_hcdm = taille_monstre.id_taille_monstre')
-		->group(array('id_type_monstre','nom_taille_m_monstre'));
-		$sql = $select->__toString();
-		return $db->fetchAll($sql);
-    }
-
     function findByIdHobbitAndIdTypeMonstre($idHobbit,$idTypeMonstre) {
 		//Retourne vrai si le nombre de cdm effectué suffit pour pister ce type de monstre
     	$db = $this->getAdapter();

@@ -26,17 +26,25 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 		$hobbitsCompetencesTables = new HobbitsCompetences();
 		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($this->view->user->id_hobbit);
 		$achatPiPossible = false;
-
+		$possedeCdm = false;
+		$pisterPossible = false;
 		foreach ($comptenceRowset as $c) {
 
 			$possible = true;
 			foreach ($hobbitCompetences as $h) {
+				if ($h["nom_systeme_competence"] == "connaissancemonstres"){
+					$possedeCdm = true;
+				}
 				if ($h["id_competence"] == $c["id_competence"]) {
 					$possible = false;
 					break;
 				}
 			}
-
+			
+			if ($c["nom_systeme_competence"] == "pister" && $possedeCdm==true){
+				$pisterPossible = true;
+			}
+			
 			if ($possible === true) {
 				$tropCher = true;
 				if ($c["pi_cout_competence"] <= $this->view->user->pi_hobbit) {
@@ -61,6 +69,7 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 		$this->view->nCompetences = count($this->_tabCompetences);
 		$this->view->coutCastars = $this->_coutCastars;
 		$this->view->achatPossibleCastars = ($this->view->user->castars_hobbit - $this->_coutCastars >= 0);
+		$this->view->pisterPossible = $pisterPossible;
 	}
 
 	function prepareFormulaire() {

@@ -1,0 +1,17 @@
+<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'/>
+ <div class='comp_contenu'>
+<?php if (count($this->tabTypeMonstre) == 0) : ?>
+ 	Vous n'avez pas fait assez de connaissances des monstres pour pouvoir pister !<br /><br />
+<?php else: ?>
+	Pour <?=$this->nb_pa ?> PA, vous pouvez pister un type de monstre :<br /><br />
+	
+	<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_pister').disabled=true } else {$('bouton_pister').disabled=false }">
+		<option value='-1'>(Choisissez un type de monstre)</option>
+		<? foreach ($this->tabTypeMonstre as $m) : ?>
+				<option value="<?=$m["id_type_monstre"]?>"><?=$m["nom_type_monstre"]?></option>
+		<? endforeach; ?>
+	</select>
+	<br /><br />
+	<input type='button' class='button1' value='Pister !' id='bouton_pister' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_pister");' disabled>
+<?php endif; ?>
+</div>
