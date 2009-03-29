@@ -12,7 +12,7 @@
  	Le verbe : <br>
  	
  	<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value!=-1 && $('valeur_2').value!=''){$('bouton_relater').disabled=false;$('bouton_relater_verif').disabled=false; } else {$('bouton_relater').disabled=true;$('bouton_relater_verif').disabled=true;}">
-		<option value='-1'>(Choisis un verbe)</option>
+		<option value='-1'>(Choisissez un verbe)</option>
 	 	<? foreach($this->verbes as $k => $v): ?>
 	 		<option value='<?=$k?>' <? if ($this->idVerbe == $k) :echo "selected"; endif;?>><?=$v?></option>
 	 	<? endforeach;?>

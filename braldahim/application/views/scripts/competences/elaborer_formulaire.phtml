@@ -5,7 +5,7 @@
      
      Type de potion :<br />
      <select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_elaborer&type_potion='+this.value);">
-	 	<option value="-1">(Choisis une potion)</option>
+	 	<option value="-1">(Choisissez une potion)</option>
 	 	<? foreach($this->typePotion as $t) : ?>
 	 		<option value="<?=$t["id_type_potion"]?>" <?=$t["selected"]?>><?=htmlspecialchars($t["nom_type_potion"])." (".$t["bm_type_potion"]." sur ".$t["caract_type_potion"].")"?></option>
 	 	<? endforeach; ?>
@@ -16,7 +16,7 @@
 	 <br /><br />
 	 Niveau de la potion<br />
 	 <select name="valeur_2" id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1){$('bouton_elaborer').disabled=true } else {$('bouton_elaborer').disabled=false }">
-	 	<option value="-1">(Choisis un niveau)</option>
+	 	<option value="-1">(Choisissez un niveau)</option>
 	 	<? foreach($this->niveaux as $k => $v) : ?>
 	 		<option value="<?=$k?>" <? if ($v["ressourcesOk"] === false) echo "disabled"; ?>><?=htmlspecialchars($v["niveauText"])?></option>
 	 	<? endforeach; ?>

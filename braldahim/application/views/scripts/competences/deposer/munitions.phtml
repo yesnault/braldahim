@@ -2,7 +2,7 @@
 	Munitions:<br/>
 	
 	<select name="valeur_2" id="valeur_2" onChange="if (($('valeur_2').value > 0 && $('valeur_3').value > 0)) {$('bouton_deposer').disabled=false} else {$('bouton_deposer').disabled=true} ">
-	 	<option value="-1">(Choisis un type de munition brut)</option>
+	 	<option value="-1">(Choisissez un type de munition brut)</option>
 	 	<? foreach($this->munitions as $m) :?>
 	 		<option value="<?=$m["id_type_munition"]?>"><?=$m["type"]?> : <?=$m["quantite"]?></option>
 	 	<? endforeach; ?>

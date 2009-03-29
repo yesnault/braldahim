@@ -22,7 +22,7 @@
    	<tr>
    		<td>
 	   		<select id='valeur_1' name='valeur_1' onChange="javascript:<?=$js?> if ($('valeur_1').value==-1 || ($('valeur_1').value<5 )){$('bouton_hiberner').disabled=true } else {$('bouton_hiberner').disabled=false }">
-			<option value='-1'>(Choisis)</option>
+			<option value='-1'>(Choisissez)</option>
 			<? foreach ($this->tabJours as $j): ?>
 			<option value='<?=$j?>'><?=$j?></option>
 			<? endforeach; ?>

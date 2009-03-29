@@ -3,7 +3,7 @@
 	 <? if ($this->concocterEchoppeOk === true && $this->concocterPlanteOk === true) : ?>
 	 Pour <?=$this->nb_pa ?> PA, vous pouvez concocter <?=$this->nbPlantes ?> <? if ($this->nbPlantes > 1) : $s='s'; else: $s=''; endif; ?> partie<?=$s ?> de plante en partie(s) de plante pr&eacute;par&eacute;e(s) ...<br />
 	 <select name="valeur_1" id="valeur_1"  onChange="javascript:if ($('valeur_1').value==-1){$('bouton_concocter').disabled=true } else {$('bouton_concocter').disabled=false }">
-	 	<option value="-1">(Choisis une plante)</option>
+	 	<option value="-1">(Choisissez une plante)</option>
 	 	<? foreach($this->partiesPlantes as $m) :
 			if ($m["quantite_arriere"]<=1):$s=''; else:$s='s';endif;
 	 	?>

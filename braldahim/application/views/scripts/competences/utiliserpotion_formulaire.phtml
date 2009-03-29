@@ -11,7 +11,7 @@
  		<br><br>
  		Potion &agrave; utiliser : <br />
  		<select name='valeur_1' id="valeur_1" onChange="javascript:try{$('valeur_2').selectedIndex=0 ; $('valeur_3').selectedIndex=0 } catch(e){}; if ($('valeur_1').value==-1 || $('valeur_2').value==-1 && $('valeur_3').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false }">
-			<option value='-1'>(Choisis une potion)</option>
+			<option value='-1'>(Choisissez une potion)</option>
 			<? $tabPotions = " new Array(";
 				foreach ($this->tabPotions as $p) : 
 					if ($p["bm_type"] == "malus") :
@@ -49,7 +49,7 @@
 		<? if ($this->nMonstres > 0): ?>
 		Un monstre<br />
 			<select name='valeur_2' id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_3').value==-1 && $('valeur_2').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false }  $('valeur_3').value=-1; ">
-			<option value='-1'>(Choisis un monstre)</option>
+			<option value='-1'>(Choisissez un monstre)</option>
 			<? foreach ($this->tabMonstres as $m) : ?>
 			<option value="<?=$m["id_monstre"]?>"><?=htmlspecialchars($m["nom_monstre"])?> <?=htmlspecialchars($m["taille_monstre"])?>  (<?=$m["id_monstre"]?>)</option>
 			<? endforeach; ?>
@@ -61,7 +61,7 @@
  		<? if ($this->nHobbits > 0): ?>
  		 Un hobbit<br />
  			<select name='valeur_3' id="valeur_3" onChange="javascript:<?=$js?>;if (controleTypePotion() || $('valeur_1').value==-1 || $('valeur_2').value==-1 && $('valeur_3').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false } $('valeur_2').value=-1; ">
-			<option value='-1'>(Choisis un hobbit)</option>
+			<option value='-1'>(Choisissez un hobbit)</option>
 			<? foreach ($this->tabHobbits as $h) : ?>
 			<option value="<?=$h["id_hobbit"]?>"><?=htmlspecialchars($h["prenom_hobbit"])?> <?=htmlspecialchars($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>)</option>
 			<? endforeach; ?>

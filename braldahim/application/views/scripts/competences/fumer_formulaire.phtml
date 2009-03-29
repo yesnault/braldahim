@@ -5,7 +5,7 @@
 	 	<br><br>
 	 	
 		<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_fumer').disabled=true } else {$('bouton_fumer').disabled=false }">
-			<option value='-1'>(Choisis un type de feuille)</option>
+			<option value='-1'>(Choisissez un type de feuille)</option>
 			<? foreach ($this->tabLabanTabac as $t) :?>
 			<? $s = ''; if ($t["quantite_feuille_laban_tabac"] > 1): $s='s'; endif; ?>
 			<option value="<?=$t["id_fk_type_laban_tabac"]?>"><?=$t["nom_type_tabac"]?> : <?=$t["quantite_feuille_laban_tabac"]?> feuille<?=$s?> restante<?=$s?></option>

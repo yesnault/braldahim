@@ -84,7 +84,7 @@
 	 			<?=htmlspecialchars($e["nom_type_emplacement"]) ?><br />
 	 			<? if (count($e["equipementLaban"]) > 0): ?>
 	 				<select name="laban_<?=$e["id_type_emplacement"]?>" id="laban_<?=$e["id_type_emplacement"]?>"  onChange="for (i=1; i<=<?=$this->nbTypesEmplacement ?>; i++) {if ($('bouton_mettre_'+i)) {$('bouton_mettre_'+i).style.display='none' ; if (<?=$e["id_type_emplacement"]?> != i){$('laban_'+i).selectedIndex = 0}}} ; if (this.value==-1) {$('bouton_mettre_<?=$e["id_type_emplacement"]?>').style.display='none'} else {$('bouton_mettre_<?=$e["id_type_emplacement"]?>').style.display='block'}">
-	 					<option value="-1">(Choisis un &eacute;quipement)</option>
+	 					<option value="-1">(Choisissez un &eacute;quipement)</option>
 	 					<? foreach($e["equipementLaban"] as $p) : ?>
 	 					<option value="<?=$p["id_equipement"] ?>">
 	 						<?=htmlspecialchars($p["nom"]) ?>, n&deg;<?=$p["id_equipement"] ?>

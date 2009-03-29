@@ -7,7 +7,7 @@
 
 	Reconna&icirc;tre un monstre<br />
 	<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_cdm').disabled=true } else {$('bouton_cdm').disabled=false }">
-		<option value='-1'>(Choisis un monstre)</option>
+		<option value='-1'>(Choisissez un monstre)</option>
 		<? $dist=-1; ?>
 		<? foreach ($this->tabMonstres as $m) : ?>
 			<? if ($dist != $m['dist_monstre']) : ?>

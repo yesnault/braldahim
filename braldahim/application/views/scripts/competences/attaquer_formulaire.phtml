@@ -19,7 +19,7 @@
 			<? if ($this->nMonstres > 0): ?>
 			Un monstre<br />
 				<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_attaquer').disabled=true } else {$('valeur_2').value=-1; $('bouton_attaquer').disabled=false }">
-				<option value='-1'>(Choisis un monstre)</option>
+				<option value='-1'>(Choisissez un monstre)</option>
 				<? foreach ($this->tabMonstres as $m) : ?>
 				<option value="<?=$m["id_monstre"]?>"><?=$m["nom_monstre"]?> <?=$m["taille_monstre"]?>  (<?=$m["id_monstre"]?>)</option>
 				<? endforeach; ?>
@@ -32,7 +32,7 @@
 	 		<? if ($this->nHobbits > 0): ?>
 	 		 Un hobbit<br />
 	 			<select name='valeur_2' id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_attaquer').disabled=true } else {$('valeur_1').value=-1; $('bouton_attaquer').disabled=false }">
-				<option value='-1'>(Choisis un hobbit)</option>
+				<option value='-1'>(Choisissez un hobbit)</option>
 				<? foreach ($this->tabHobbits as $h) : ?>
 				<option value="<?=$h["id_hobbit"]?>"><?=$h["prenom_hobbit"]?> <?=$h["nom_hobbit"]?> (<?=$h["id_hobbit"]?>)</option>
 				<? endforeach; ?>

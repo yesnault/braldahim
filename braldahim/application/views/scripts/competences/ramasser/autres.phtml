@@ -7,7 +7,7 @@
 	?>
  	Choississez un &eacute;l&eacute;ment.<br />
 	<select name="valeur_2" id="valeur_2" onChange="<?=$tab?>$('valeur_3').value = 0;  $('nbPossibleText').innerHTML = tabPossible[this.value]; $('nbPossible').value = tabPossible[this.value]; if (this.value > 0 && $('valeur_3').value > 0) {$('bouton_ramasser').disabled=false} else {$('bouton_ramasser').disabled=true} ">
-	 	<option value="-1">(Choisis un &eacute;l&eacute;ment)</option>
+	 	<option value="-1">(Choisissez un &eacute;l&eacute;ment)</option>
 	 	<? foreach($this->autres as $k => $v) :?>
  			<option value="<?=$k?>" nbPossible="<?=$v["nbPossible"] ?>"><?=$v["nom"] ?> : <?=$v["nb"] ?></option>
 	 	<? endforeach; ?>

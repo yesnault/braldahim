@@ -11,7 +11,7 @@
 	 		<? if ($this->nHobbits > 0): ?>
 	 		 Hobbit destinataire : <br />
 	 			<select name='valeur_1' id="valeur_1" onChange="javascript:if (this.value==-1){$('bouton_donnerballon').disabled=true } else {$('bouton_donnerballon').disabled=false }">
-					<option value='-1'>(Choisis un hobbit)</option>
+					<option value='-1'>(Choisissez un hobbit)</option>
 	 				<? foreach ($this->tabHobbits as $h) : ?>
 					<option value="<?=$h["id_hobbit"]?>"><?=$h["prenom_hobbit"]?> <?=$h["nom_hobbit"]?> (<?=$h["id_hobbit"]?>)</option>
 					<? endforeach; ?>

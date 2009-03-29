@@ -15,7 +15,7 @@ Si lors de l'action, il ne vous reste plus de place dans votre laban, les &eacut
 	Minerais Bruts:<br/>
 	<? if ($this->nbMineraisPossible < 1) : $disabled="disabled"; else: $disabled=""; endif;?>
 	<select name="valeur_2" id="valeur_2" <?=$disabled ?> onChange="if (($('valeur_2').value > 0 && $('valeur_3').value > 0) || ( $('valeur_4').value > 0 && $('valeur_5').value > 0)) {$('bouton_ramasser').disabled=false} else {$('bouton_ramasser').disabled=true} ">
-	 	<option value="-1">(Choisis un type de minerai brut)</option>
+	 	<option value="-1">(Choisissez un type de minerai brut)</option>
 	 	<? foreach($this->mineraisBruts as $m) :?>
 	 		<option value="<?=$m["id_type_minerai"]?>"><?=$m["quantite"]?> <?=$m["type"]?></option>
 	 	<? endforeach; ?>
@@ -36,7 +36,7 @@ Si lors de l'action, il ne vous reste plus de place dans votre laban, les &eacut
 	
 	<? if ($this->nbLingotsPossible < 1) : $disabled="disabled"; else: $disabled=""; endif;?>
 	<select name="valeur_4" id="valeur_4" <?=$disabled ?> onChange="if (($('valeur_2').value > 0 && $('valeur_3').value > 0) || ( $('valeur_4').value > 0 && $('valeur_5').value > 0)) {$('bouton_ramasser').disabled=false} else {$('bouton_ramasser').disabled=true} ">
-	 	<option value="-1">(Choisis un type de lingot)</option>
+	 	<option value="-1">(Choisissez un type de lingot)</option>
 	 	<? foreach($this->lingots as $m) :?>
 	 		<option value="<?=$m["id_type_minerai"]?>"><?=$m["quantite"]?> <?=$m["type"]?></option>
 	 	<? endforeach; ?>

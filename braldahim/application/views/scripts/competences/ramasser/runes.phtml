@@ -1,7 +1,7 @@
 <? if ($this->ramasserOk === true) : ?>
 	Choississez une rune.<br />
 	<select name="valeur_2" id="valeur_2" onChange="if (this.value > 0) {$('bouton_ramasser').disabled=false} else {$('bouton_ramasser').disabled=true} ">
-	 	<option value="-1">(Choisis une rune)</option>
+	 	<option value="-1">(Choisissez une rune)</option>
 	 	<? foreach($this->runes as $r) :?>
 	 		<option value="<?=$r["id_rune"]?>">Rune n&deg;<?=$r["id_rune"] ?></option>
 	 	<? endforeach; ?>

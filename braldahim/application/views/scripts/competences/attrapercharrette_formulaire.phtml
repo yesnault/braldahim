@@ -7,7 +7,7 @@
 	 <? else: ?>
 		 Pour <?=$this->nb_pa ?> PA, vous pouvez attraper une charrette. <br /><br />
 		 <select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_attrapercharrette').disabled=true } else {$('bouton_attrapercharrette').disabled=false }">
-			<option value='-1'>(Choisis une charrette)</option>
+			<option value='-1'>(Choisissez une charrette)</option>
 			<? foreach ($this->charrettes as $c) : ?>
 			<option value="<?=$c["id_charrette"]?>">Charrette n&deg; <?=$c["id_charrette"]?></option>
 			<? endforeach; ?>

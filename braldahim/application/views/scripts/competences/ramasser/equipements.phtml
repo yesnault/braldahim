@@ -3,7 +3,7 @@
 Il vous reste <?=$this->poidsRestant  ?> Kg de disponible dans votre laban.<br><br>
 Choississez un &eacute;quipement.<br />
 	<select name="valeur_2" id="valeur_2" onChange="if (this.value > 0) {$('bouton_ramasser').disabled=false} else {$('bouton_ramasser').disabled=true} ">
-	 	<option value="-1">(Choisis un &eacute;l&eacute;ment)</option>
+	 	<option value="-1">(Choisissez un &eacute;l&eacute;ment)</option>
 	 	<? foreach($this->equipements as $e) :?>
 	 		<option value="<?=$e["id_equipement"]?>" <? if ($e["poids_ok"] == false): echo "disabled='disabled'"; endif;?>>n&deg;<?=$e["id_equipement"] ?> <?=$e["nom"]." ".addslashes($e["suffixe"])." de qualit&eacute; ".$e["qualite"] ?>, niveau <?=$e["niveau"] ?>, poids <?=$e["poids"] ?> <? if ($e["poids_ok"] == false): echo " : Trop lourd !"; endif;?></option>
 	 	<? endforeach; ?>

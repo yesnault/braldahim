@@ -3,7 +3,7 @@
 	 <? if ($this->identifierRuneOk === true) : ?>
 	 Pour <?=$this->nb_pa ?> PA, vous pouvez identifier une rune ...<br />
 	 <select name="valeur_1" id="valeur_1"  onChange="javascript:if ($('valeur_1').value==-1){$('bouton_identifierrune').disabled=true } else {$('bouton_identifierrune').disabled=false }">
-	 	<option value="-1">(Choisis une rune)</option>
+	 	<option value="-1">(Choisissez une rune)</option>
 	 	<? foreach($this->runes as $r) : ?>
 	 		<option value="<?=$r["id_rune"]?>">Rune non identifi&eacute;e n&deg; <?=$r["id_rune"]?></option>
 	 	<? endforeach; ?>

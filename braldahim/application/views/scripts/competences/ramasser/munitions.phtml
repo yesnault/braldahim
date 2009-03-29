@@ -13,7 +13,7 @@ Si lors de l'action, il ne vous reste plus de place dans votre laban, les &eacut
 	Munitions :<br/>
 	<? if ($this->nbMunitionsPossible < 1) : $disabled="disabled"; else: $disabled=""; endif;?>
 	<select name="valeur_2" id="valeur_2" <?=$disabled ?> onChange="if (($('valeur_2').value > 0 && $('valeur_3').value > 0)) {$('bouton_ramasser').disabled=false} else {$('bouton_ramasser').disabled=true} ">
-	 	<option value="-1">(Choisis un type de munition)</option>
+	 	<option value="-1">(Choisissez un type de munition)</option>
 	 	<? foreach($this->munitions as $m) :?>
 	 		<option value="<?=$m["id_type_munition"]?>"><?=$m["type"]?> : <?=$m["quantite"]?></option>
 	 	<? endforeach; ?>

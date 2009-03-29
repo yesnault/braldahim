@@ -3,7 +3,7 @@
 	 <? if ($this->fondreEchoppeOk === true && $this->fondreMineraiOk === true) : ?>
 	 Pour <?=$this->nb_pa ?> PA, vous pouvez fondre <?=$this->nbMinerai ?> <? if ($this->nbMinerai > 1) : $s='s'; else: $s=''; endif; ?> minerai<?=$s ?> en lingot(s) ...<br />
 	 <select name="valeur_1" id="valeur_1"  onChange="javascript:if ($('valeur_1').value==-1){$('bouton_fondre').disabled=true } else {$('bouton_fondre').disabled=false }">
-	 	<option value="-1">(Choisis un minerai)</option>
+	 	<option value="-1">(Choisissez un minerai)</option>
 	 	<? foreach($this->minerais as $m) :
 			if ($m["quantite_arriere"]<=1):$s=''; else:$s='s';endif;
 	 	?>

@@ -20,7 +20,7 @@
 			<? if ($this->nMonstres > 0): ?>
 				Tirer sur un monstre<br />
 				<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_tirer').disabled=true } else {$('valeur_2').value=-1; $('bouton_tirer').disabled=false }">
-				<option value='-1'>(Choisis un monstre)</option>
+				<option value='-1'>(Choisissez un monstre)</option>
 				<? $dist=-1; ?>
 				<? foreach ($this->tabMonstres as $m) : ?>
 					<? if ($dist != $m['dist_monstre']) : ?>
@@ -49,7 +49,7 @@
 	 		<? if ($this->nHobbits > 0): ?>
 	 		 	Tirer sur un hobbit<br />
 	 			<select name='valeur_2' id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_tirer').disabled=true } else {$('valeur_1').value=-1; $('bouton_tirer').disabled=false }">
-				<option value='-1'>(Choisis un hobbit)</option>
+				<option value='-1'>(Choisissez un hobbit)</option>
 				<? $dist=-1; ?>
 	 			<? foreach ($this->tabHobbits as $h) : ?>
 		 			<? if ($dist != $h['dist_hobbit']) : ?>

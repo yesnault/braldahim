@@ -4,7 +4,7 @@
 	 Pour <?=$this->nb_pa ?> PA, vous pouvez ramasser des objets sur la case. <br /><br />
 	 	
 	 <select name="valeur_1" id="valeur_1"  onChange="if ($('bouton_ramasser')) {$('bouton_ramasser').disabled=true} ;_get_('/competences/doaction?caction=ask_competence_ramasser&valeur_1='+this.value);">
-	 	<option value="-1">(Choisis un &eacute;l&eacute;ment)</option>
+	 	<option value="-1">(Choisissez un &eacute;l&eacute;ment)</option>
 	 	<? foreach($this->typeElements as $t) : ?>
 	 		<option value="<?=$t["id_type_element"]?>" <? if ($t["selected"] == $t["id_type_element"]): echo "selected"; endif;?>><?=htmlspecialchars($t["nom_element"])?></option>
 	 	<? endforeach; ?>
