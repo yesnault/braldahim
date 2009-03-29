@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -21,17 +21,17 @@
  * 15+  -> 6 cases
  * En forêt un malus de -1, ne marais et montagne un malus de -2 sur la distance est apliqué (minimum 1).
  * La distance de charge est borné par la vue.
- * 
+ *
  * Le jet d'attaque d'une charge est différent : (0.5 jet AGI) + BM + bonus arme
- * 
+ *
  * Le jet de dégats diffère aussi : jet FOR + BM FOR + bonus arme + jet VIG + BM VIG
  * cas du critique :
  * 1.5(jet FOR) + BM FOR + bonus arme + jet VIG + BM VIG
- * 
+ *
  * On ne peut pas charger sur une cible qui est sur sa propre case.
- * 
+ *
  * On ne peut pas charger si l'une des cases entre le chargeur et le charger est une palissade.
- * 
+ *
  */
 class Bral_Competences_Charger extends Bral_Competences_Competence {
 
@@ -43,26 +43,26 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Attaque');
 		Zend_Loader::loadClass("HobbitEquipement");
 		Zend_Loader::loadClass("Charrette");
-		
+
 		$charretteTable = new Charrette();
 		$nombreCharrette = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
-		
+
 		$armeTirPortee = false;
 		$hobbitEquipement = new HobbitEquipement();
 		$equipementPorteRowset = $hobbitEquipement->findByTypePiece($this->view->user->id_hobbit,"arme_tir");
-		
+
 		$this->view->possedeCharrette = false;
 		if ($nombreCharrette > 0) {
 			$this->view->possedeCharrette = true;
 		} else if (count($equipementPorteRowset) > 0){
 			$armeTirPortee = true;
 		} else {
-			
+				
 			$this->view->charge_nb_cases = floor($this->view->user->vigueur_base_hobbit / 3) + 1;
 			if ($this->view->charge_nb_cases > 6) {
 				$this->view->charge_nb_cases = 6;
 			}
-			
+				
 			//En forêt un malus de -1 en distance, en marais et montagne un malus de -2 sur la distance est appliqué
 			$environnement = Bral_Util_Commun::getEnvironnement($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 			if ($environnement == "montage" || $environnement == "marais") {
@@ -70,27 +70,27 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			} elseif ($environnement == "foret") {
 				$this->view->charge_nb_cases = $this->view->charge_nb_cases  - 1;
 			}
-			
+				
 			//minimum de distance de charge à 1 case dans tous les cas
 			if ($this->view->charge_nb_cases < 1) {
 				$this->view->charge_nb_cases = 1;
 			}
-			
+				
 			//La distance de charge est bornée par la VUE
 			$vue = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
 			if ($vue < $this->view->charge_nb_cases) {
 				$this->view->charge_nb_cases = $vue;
 			}
-		
+
 			Zend_Loader::loadClass("Bral_Util_Dijkstra");
 			$dijkstra = new Bral_Util_Dijkstra();
-			$dijkstra->calcul($this->view->charge_nb_cases, $this->view->user->x_hobbit, $this->view->user->y_hobbit); 
-		
+			$dijkstra->calcul($this->view->charge_nb_cases, $this->view->user->x_hobbit, $this->view->user->y_hobbit);
+
 			$x_min = $this->view->user->x_hobbit - $this->view->charge_nb_cases;
 			$x_max = $this->view->user->x_hobbit + $this->view->charge_nb_cases;
 			$y_min = $this->view->user->y_hobbit - $this->view->charge_nb_cases;
 			$y_max = $this->view->user->y_hobbit + $this->view->charge_nb_cases;
-			
+				
 			$tabValide = null;
 			$numero = -1;
 			for ($j = $y_max ; $j >= $y_min ; $j--) {
@@ -102,20 +102,20 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 					}
 				}
 			}
-			
+				
 			// On ne peut pas charger sur une cible qui est sur sa propre case.
 			$tabValide[$this->view->user->x_hobbit][$this->view->user->y_hobbit] = false;
-			
+				
 			$tabHobbits = null;
 			$tabMonstres = null;
-	
+
 			$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-			
+				
 			if ($estRegionPvp) {
 				// recuperation des hobbits qui sont presents sur la vue
 				$hobbitTable = new Hobbit();
 				$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->id_hobbit, false);
-				
+
 				foreach($hobbits as $h) {
 					if ($tabValide[$h["x_hobbit"]][$h["y_hobbit"]] === true) {
 						$tab = array(
@@ -125,11 +125,14 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 							'x_hobbit' => $h["x_hobbit"],
 							'y_hobbit' => $h["y_hobbit"],
 						);
-						$tabHobbits[] = $tab;
+						if ($this->view->user->est_soule_hobbit == 'non' ||
+						($this->view->user->est_soule_hobbit == 'oui' && $h["soule_camp_hobbit"] != $this->view->user->soule_camp_hobbit)) {
+							$tabHobbits[] = $tab;
+						}
 					}
 				}
 			}
-			
+				
 			// recuperation des monstres qui sont presents sur la vue
 			$monstreTable = new Monstre();
 			$monstres = $monstreTable->selectVue($x_min, $y_min, $x_max, $y_max);
@@ -150,7 +153,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 					);
 				}
 			}
-	
+
 			$this->view->tabHobbits = $tabHobbits;
 			$this->view->nHobbits = count($tabHobbits);
 			$this->view->tabMonstres = $tabMonstres;
@@ -165,7 +168,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
-		
+
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
 			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_1"));
 		} else {
@@ -180,7 +183,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		if ($idMonstre != -1 && $idHobbit != -1) {
 			throw new Zend_Exception(get_class($this)." Monstre ou Hobbit invalide (!=-1)");
 		}
-		
+
 		$attaqueMonstre = false;
 		$attaqueHobbit = false;
 		if ($idHobbit != -1) {
@@ -208,7 +211,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 				throw new Zend_Exception(get_class($this)." Monstre invalide (".$idMonstre.")");
 			}
 		}
-		
+
 		$this->calculJets();
 		if ($this->view->okJet1 === true) {
 			if ($attaqueHobbit === true) {
@@ -222,7 +225,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			$this->view->user->x_hobbit = $this->view->retourAttaque["cible"]["x_cible"];
 			$this->view->user->y_hobbit = $this->view->retourAttaque["cible"]["y_cible"];
 		}
-		
+
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->calculFinMatchSoule();
@@ -251,9 +254,9 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		}
 		return $jetAttaquant;
 	}
-	
+
 	/*
-	 * Le jet de dégats diffère aussi : 
+	 * Le jet de dégats diffère aussi :
 	 * jet FOR + BM FOR + bonus arme + jet VIG + BM VIG
 	 * cas du critique :
 	 * 1.5(jet FOR) + BM FOR + bonus arme + jet VIG + BM VIG
@@ -262,22 +265,22 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 		$jetDegat["critique"] = 0;
 		$jetDegat["noncritique"] = 0;
 		$coefCritique = 1.5;
-		
+
 		for ($i=1; $i<= ($this->view->config->game->base_force + $hobbit->force_base_hobbit) * $coefCritique; $i++) {
 			$jetDegat["critique"] = $jetDegat["critique"] + Bral_Util_De::get_1d6();
 		}
 		$jetDegat["critique"] = $jetDegat["critique"] + $this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit;
-		
+
 		for ($i=1; $i<= ($this->view->config->game->base_force + $hobbit->force_base_hobbit); $i++) {
 			$jetDegat["noncritique"] = $jetDegat["noncritique"] + Bral_Util_De::get_1d6();
 		}
 		$jetDegat["noncritique"] = $jetDegat["noncritique"] + $this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit;
-		
+
 		for ($i=1; $i<= $this->view->config->game->base_vigueur + $hobbit->vigueur_base_hobbit; $i++) {
 			$jetDegat["critique"] = $jetDegat["critique"] + Bral_Util_De::get_1d6();
 			$jetDegat["noncritique"] = $jetDegat["noncritique"] + Bral_Util_De::get_1d6();
 		}
-		
+
 		$jetDegat["critique"] = $jetDegat["critique"] + $hobbit->vigueur_bm_hobbit + $hobbit->vigueur_bbdf_hobbit + $hobbit->bm_degat_hobbit;
 		$jetDegat["noncritique"] = $jetDegat["noncritique"] + $hobbit->vigueur_bm_hobbit + $hobbit->vigueur_bbdf_hobbit + $hobbit->bm_degat_hobbit;
 

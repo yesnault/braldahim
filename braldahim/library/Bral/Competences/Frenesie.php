@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -23,20 +23,20 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
 		Zend_Loader::loadClass('Bral_Util_Attaque');
 		Zend_Loader::loadClass("HobbitEquipement");
-		
+
 		$tabHobbits = null;
 		$tabMonstres = null;
-		
+
 		$armeTirPortee = false;
 		$hobbitEquipement = new HobbitEquipement();
 		$equipementPorteRowset = $hobbitEquipement->findByTypePiece($this->view->user->id_hobbit,"arme_tir");
-		
+
 		if (count($equipementPorteRowset) > 0){
 			$armeTirPortee = true;
 		}
 		else{
 			$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-			
+				
 			if ($estRegionPvp) {
 				// recuperation des hobbits qui sont presents sur la vue
 				$hobbitTable = new Hobbit();
@@ -47,10 +47,13 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 						'nom_hobbit' => $h["nom_hobbit"],
 						'prenom_hobbit' => $h["prenom_hobbit"],
 					);
-					$tabHobbits[] = $tab;
+					if ($this->view->user->est_soule_hobbit == 'non' ||
+					($this->view->user->est_soule_hobbit == 'oui' && $h["soule_camp_hobbit"] != $this->view->user->soule_camp_hobbit)) {
+						$tabHobbits[] = $tab;
+					}
 				}
 			}
-			
+				
 			// recuperation des monstres qui sont presents sur la vue
 			$monstreTable = new Monstre();
 			$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
@@ -62,7 +65,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 				}
 				$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"]);
 			}
-	
+
 			$this->view->tabHobbits = $tabHobbits;
 			$this->view->nHobbits = count($tabHobbits);
 			$this->view->tabMonstres = $tabMonstres;
@@ -77,7 +80,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
-		
+
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
 			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_1"));
 		} else {
@@ -95,7 +98,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		if ($idMonstre == -1 && $idHobbit == -1) {
 			throw new Zend_Exception(get_class($this)." Monstre ou Hobbit invalide (==-1)");
 		}
-		
+
 		$attaqueMonstre = false;
 		$attaqueHobbit = false;
 		if ($idHobbit != -1) {
@@ -123,10 +126,10 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 				throw new Zend_Exception(get_class($this)." Monstre invalide (".$idMonstre.")");
 			}
 		}
-	
+
 		// calcul des jets
 		$this->calculJets();
-		
+
 		if ($this->view->okJet1 === true) {
 			if ($attaqueHobbit === true) {
 				$this->view->retourAttaque = $this->attaqueHobbit($this->view->user, $idHobbit);
@@ -161,7 +164,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 
 	protected function calculDegat($hobbit) {
 		$this->view->effetRune = false;
-		
+
 		$jetsDegat["critique"] = 0;
 		$jetsDegat["noncritique"] = 0;
 		$jetDegatForce = 0;
@@ -170,8 +173,8 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		for ($i=1; $i<= ($this->view->config->game->base_force + $hobbit->force_base_hobbit); $i++) {
 			$jetDegatForce = $jetDegatForce + Bral_Util_De::get_1d6();
 		}
-		
-		if (Bral_Util_Commun::isRunePortee($hobbit->id_hobbit, "EM")) { 
+
+		if (Bral_Util_Commun::isRunePortee($hobbit->id_hobbit, "EM")) {
 			$this->view->effetRune = true;
 			// dégats : Jet FOR + BM + Bonus de dégat de l'arme
 			// dégats critiques : Jet FOR *1,5 + BM + Bonus de l'arme
@@ -179,14 +182,14 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			$jetsDegat["noncritique"] = $jetDegatForce;
 		} else {
 			// * dégats : 0.5*(jet FOR)+BM FOR+ bonus arme dégats
- 			// * dégats critiques : (1.5*(0.5*FOR))+BM FOR+bonus arme dégats
+			// * dégats critiques : (1.5*(0.5*FOR))+BM FOR+bonus arme dégats
 			$jetsDegat["critique"] = $coefCritique * (0.5 * $jetDegatForce);
 			$jetsDegat["noncritique"] = 0.5 * $jetDegatForce;
 		}
-		
+
 		$jetsDegat["critique"] = $jetsDegat["critique"] + $hobbit->force_bm_hobbit + $hobbit->force_bbdf_hobbit + $hobbit->bm_degat_hobbit;
 		$jetsDegat["noncritique"] = $jetsDegat["noncritique"] + $hobbit->force_bm_hobbit + $hobbit->force_bbdf_hobbit + $hobbit->bm_degat_hobbit;
-		
+
 		return $jetsDegat;
 	}
 

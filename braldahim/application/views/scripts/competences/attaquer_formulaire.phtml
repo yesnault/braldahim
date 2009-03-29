@@ -6,6 +6,10 @@
 	 	<? if ($this->estRegionPvp == false) :?>
 			Vous ne pouvez pas attaquer de hobbit dans cette r&eacute;gion.<br><br>
 		<? endif;?>
+		
+		<? if ($this->user->est_soule_hobbit == 'oui') :?>
+			Vous ne pouvez attaquer que des adversaires pendant un match de soule.<br><br>
+		<? endif;?>
 			
 	 	<? if ($this->nHobbits == 0 && $this->nMonstres == 0): ?>
 	 		Il n'y a rien &agrave; attaquer ici...<br />

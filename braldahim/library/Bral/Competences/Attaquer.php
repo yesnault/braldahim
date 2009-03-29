@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -18,20 +18,20 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		Zend_Loader::loadClass('Bral_Util_Attaque');
 		Zend_Loader::loadClass("HobbitEquipement");
-		
+
 		$tabHobbits = null;
 		$tabMonstres = null;
-		
+
 		$armeTirPortee = false;
 		$hobbitEquipement = new HobbitEquipement();
 		$equipementPorteRowset = $hobbitEquipement->findByTypePiece($this->view->user->id_hobbit,"arme_tir");
-		
+
 		if (count($equipementPorteRowset) > 0){
 			$armeTirPortee = true;
 		}
 		else{
 			$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-			
+				
 			if ($estRegionPvp) {
 				// recuperation des hobbits qui sont presents sur la case
 				$hobbitTable = new Hobbit();
@@ -42,10 +42,13 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 						'nom_hobbit' => $h["nom_hobbit"],
 						'prenom_hobbit' => $h["prenom_hobbit"],
 					);
-					$tabHobbits[] = $tab;
+					if ($this->view->user->est_soule_hobbit == 'non' ||
+					($this->view->user->est_soule_hobbit == 'oui' && $h["soule_camp_hobbit"] != $this->view->user->soule_camp_hobbit)) {
+						$tabHobbits[] = $tab;
+					}
 				}
 			}
-			
+				
 			// recuperation des monstres qui sont presents sur la case
 			$monstreTable = new Monstre();
 			$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
@@ -71,7 +74,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 	}
 
 	function prepareResultat() {
-		
+
 		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
 			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_1"));
 		} else {
@@ -122,7 +125,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 		} else {
 			throw new Zend_Exception(get_class($this)." Erreur inconnue");
 		}
-		
+
 		$this->setEvenementQueSurOkJet1(false);
 		$this->calculPx();
 		$this->calculBalanceFaim();
@@ -140,7 +143,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 	protected function calculDegat($hobbit) {
 		return Bral_Util_Attaque::calculDegatAttaqueNormale($hobbit);
 	}
-	
+
 	public function calculPx() {
 		parent::calculPx();
 		$this->view->calcul_px_generique = false;
