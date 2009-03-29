@@ -15,6 +15,7 @@ class Bral_Competences_Fumer extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass("LabanTabac");
 		Zend_Loader::loadClass("Ville");
+		Zend_Loader::loadClass("Bral_Util_Quete");
 		
 		$labanTabacTable = new LabanTabac();
 		$labanTabac = $labanTabacTable->findByIdHobbit($this->view->user->id_hobbit);
@@ -49,23 +50,25 @@ class Bral_Competences_Fumer extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Fumer interdit ");
 		}
 		
-		$idTabac = intval($this->request->get("valeur_1"));
+		$idTypeTabac = intval($this->request->get("valeur_1"));
 		
 		$tabacValide = false;
 		$tabac = null;
 		foreach($this->view->tabLabanTabac as $t) {
-			if ($t["id_fk_type_laban_tabac"] == $idTabac) {
+			if ($t["id_fk_type_laban_tabac"] == $idTypeTabac) {
 				$tabac = $t;
 				$tabacValide = true;
 				break;
 			}
 		}
 		if ($tabacValide == false || $tabac == null) {
-			throw new Zend_Exception(get_class($this)." Fumer : tabac invalide:".$idTabac);
+			throw new Zend_Exception(get_class($this)." Fumer : tabac invalide:".$idTypeTabac);
 		}
 		
 		$this->calculFumer($tabac);
 		$this->setEvenementQueSurOkJet1(false);
+		
+		$this->view->estQueteEvenement = Bral_Util_Quete::etapeFumer($this->view->user, $idTypeTabac);
 		
 		$this->calculPx();
 		$this->calculBalanceFaim();

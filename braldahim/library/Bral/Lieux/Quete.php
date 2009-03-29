@@ -93,7 +93,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 			$n = Bral_Util_De::get_de_specifique(0, count($typeEtapes) - 1);
 			//			$dataEtape = $this->prepareEtape($i, $idQuete, $typeEtapes[$n]);
 
-			$dataEtape = $this->prepareEtape($i, $idQuete, $typeEtapes[1]);
+			$dataEtape = $this->prepareEtape($i, $idQuete, $typeEtapes[2]);
 			$etapes[] = $dataEtape;
 			$etapeTable->insert($dataEtape);
 		}
@@ -295,11 +295,71 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		} else {
 			throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeMangerParam2et3 param2 invalide:".$dataTypeEtape["param2"]);
 		}
-
 	}
 
 	private function pepareParamTypeEtapeFumer() {
-		//TODO
+		$dataTypeEtape = $this->initDataTypeEtape();
+
+		$dataTypeEtape["libelle_etape"] = "Vous devez fumer";
+		$this->pepareParamTypeEtapeFumerParam1($dataTypeEtape);
+		$this->pepareParamTypeEtapeFumerParam2et3($dataTypeEtape);
+		$this->pepareParamTypeEtapeFumerParam4et5($dataTypeEtape);
+
+		$dataTypeEtape["libelle_etape"] = $dataTypeEtape["libelle_etape"].".";
+		return $dataTypeEtape;
+	}
+
+	private function pepareParamTypeEtapeFumerParam1(&$dataTypeEtape) {
+		Zend_Loader::loadClass("TypeTabac");
+		$typeTabacTable = new TypeTabac();
+		$typeTabacs = $typeTabacTable->fetchAll();
+		$deTypeTabac = Bral_Util_De::get_de_specifique(0, count($typeTabacs) -1);
+		$typeTabac = $typeTabacs[$deTypeTabac];
+		$dataTypeEtape["param1"] = $typeTabac["id_type_tabac"];
+		$dataTypeEtape["libelle_etape"] .= " du tabac de type ".$typeTabac["nom_type_tabac"].", ";
+	}
+
+	private function pepareParamTypeEtapeFumerParam2et3(&$dataTypeEtape) {
+		$dataTypeEtape["param2"] = Bral_Util_De::get_1d2();
+
+		if (Bral_Util_Quete::ETAPE_FUMER_PARAM2_JOUR == $dataTypeEtape["param2"]) {
+			$dataTypeEtape["param3"] = Bral_Util_De::get_1D7();
+			$dataTypeEtape["libelle_etape"] .= "un ".Bral_Helper_Calendrier::getJourSemaine($dataTypeEtape["param3"]);
+		} else if (Bral_Util_Quete::ETAPE_FUMER_PARAM2_ETAT == $dataTypeEtape["param2"]) {
+			$dataTypeEtape["param3"] = Bral_Util_De::get_1D2();
+			if (Bral_Util_Quete::ETAPE_FUMER_PARAM3_ETAT_AFFAME == $dataTypeEtape["param3"]) {
+				$dataTypeEtape["libelle_etape"] .= "en étant affamé";
+			} else {
+				$dataTypeEtape["libelle_etape"] .= "en étant repu";
+			}
+		} else {
+			throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeFumerParam2et3 param2 invalide:".$dataTypeEtape["param2"]);
+		}
+	}
+
+	private function pepareParamTypeEtapeFumerParam4et5(&$dataTypeEtape) {
+
+		$dataTypeEtape["param4"] = Bral_Util_De::get_1d2();
+
+		if (Bral_Util_Quete::ETAPE_FUMER_PARAM4_TERRAIN == $dataTypeEtape["param4"]) {
+			Zend_Loader::loadClass("Environnement");
+			$environnementTable = new Environnement();
+			$environnements = $environnementTable->fetchAll();
+			$deEnvironnement = Bral_Util_De::get_de_specifique(0, count($environnements) -1);
+			$environnement = $environnements[$deEnvironnement];
+			$dataTypeEtape["param5"] = $environnement["id_environnement"];
+			$dataTypeEtape["libelle_etape"] .= ", sur un terrain de type ".$environnement["nom_environnement"];
+		} else if (Bral_Util_Quete::ETAPE_FUMER_PARAM4_VILLE == $dataTypeEtape["param4"]) {
+			Zend_Loader::loadClass("Ville");
+			$villeTable = new Ville();
+			$villes = $villeTable->fetchAll();
+			$deVille = Bral_Util_De::get_de_specifique(0, count($villes) -1);
+			$ville = $villes[$deVille];
+			$dataTypeEtape["param5"] = $ville["id_ville"];
+			$dataTypeEtape["libelle_etape"] .= ", dans la ville de ".$ville["nom_ville"];
+		} else {
+			throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeMangerParam2et3 param2 invalide:".$dataTypeEtape["param2"]);
+		}
 	}
 
 	private function pepareParamTypeEtapePosseder() {

@@ -15,6 +15,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Laban");
 		Zend_Loader::loadClass("Ville");
+		Zend_Loader::loadClass("Bral_Util_Quete");
 		
 		$labanTable = new Laban();
 		$laban = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
@@ -54,11 +55,13 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Manger interdit ");
 		}
 		
+		// cacul de la quete avant, pour avoir le controle sur l'état repu ou affame.
+		$this->view->estQueteEvenement = Bral_Util_Quete::etapeManger($this->view->user, false);
+		
 		$this->calculManger();
 		$this->setEvenementQueSurOkJet1(false);
 		
 		Zend_Loader::loadClass("Bral_Util_Quete");
-		$this->view->estQueteEvenement = Bral_Util_Quete::etapeManger($this->view->user, false);
 		
 		$this->calculPx();
 		$this->calculBalanceFaim();
