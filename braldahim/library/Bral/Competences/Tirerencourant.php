@@ -3,11 +3,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Tirer.php 1047 2009-01-24 14:20:00Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-01-24 15:20:00 +0100 (sam., 24 janv. 2009) $
- * $LastChangedRevision: 1047 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 
 class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {

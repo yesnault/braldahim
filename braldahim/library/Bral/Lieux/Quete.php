@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: $
- * $Author: $
- * $LastChangedDate: $
- * $LastChangedRevision: $
- * $LastChangedBy: $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 
@@ -160,6 +160,9 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 				break;
 			case "fumer":
 				return $this->pepareParamTypeEtapeFumer();
+				break;
+			case "marcher":
+				return $this->pepareParamTypeEtapeMarcher();
 				break;
 			case "posseder":
 				return $this->pepareParamTypeEtapePosseder();
@@ -362,6 +365,10 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		}
 	}
 
+	private function pepareParamTypeEtapeMarcher() {
+		//TODO
+	}
+	
 	private function pepareParamTypeEtapePosseder() {
 		//TODO
 	}
