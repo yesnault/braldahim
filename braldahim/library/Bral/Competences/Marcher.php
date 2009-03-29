@@ -14,6 +14,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 	
 	function prepareCommun() {
 		Zend_Loader::loadClass('Bral_Util_Marcher'); 
+		Zend_Loader::loadClass('Bral_Util_Quete'); 
 		
 		$utilMarcher = new Bral_Util_Marcher();
 		
@@ -70,6 +71,8 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		$details = "[h".$this->view->user->id_hobbit."] a marché";
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setEvenementQueSurOkJet1(false);
+		
+		$this->view->estQueteEvenement = Bral_Util_Quete::etapeMarcher($this->view->user);
 		
 		$this->calculBalanceFaim();
 		$this->calculFinMatchSoule();

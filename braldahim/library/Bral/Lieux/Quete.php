@@ -88,7 +88,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 
 		$etapeTable = new Etape();
 		$nbEtapesAFaire = Bral_Util_De::get_2d3();
-
+		
 		for ($i = 1; $i<= $nbEtapesAFaire; $i++) {
 			$n = Bral_Util_De::get_de_specifique(0, count($typeEtapes) - 1);
 			//			$dataEtape = $this->prepareEtape($i, $idQuete, $typeEtapes[$n]);
@@ -341,7 +341,6 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 	}
 
 	private function pepareParamTypeEtapeFumerParam4et5(&$dataTypeEtape) {
-
 		$dataTypeEtape["param4"] = Bral_Util_De::get_1d2();
 
 		if (Bral_Util_Quete::ETAPE_FUMER_PARAM4_TERRAIN == $dataTypeEtape["param4"]) {
@@ -366,9 +365,75 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 	}
 
 	private function pepareParamTypeEtapeMarcher() {
-		//TODO
+		$dataTypeEtape = $this->initDataTypeEtape();
+		
+		$this->pepareParamTypeEtapeMarcherParam1et2($dataTypeEtape);
+		$this->pepareParamTypeEtapeMarcherParam3et4et5($dataTypeEtape);
+
+		$dataTypeEtape["libelle_etape"] = $dataTypeEtape["libelle_etape"].".";
+		return $dataTypeEtape;
 	}
-	
+
+	private function pepareParamTypeEtapeMarcherParam1et2(&$dataTypeEtape) {
+		$dataTypeEtape["param1"] = Bral_Util_De::get_1d2();
+
+		if (Bral_Util_Quete::ETAPE_MARCHER_PARAM1_JOUR == $dataTypeEtape["param1"]) {
+			$dataTypeEtape["param2"] = Bral_Util_De::get_1D7();
+			$dataTypeEtape["libelle_etape"] = "Un ".Bral_Helper_Calendrier::getJourSemaine($dataTypeEtape["param2"]).", ";
+		} else if (Bral_Util_Quete::ETAPE_MARCHER_PARAM1_ETAT == $dataTypeEtape["param1"]) {
+			$dataTypeEtape["param2"] = Bral_Util_De::get_1D2();
+			if (Bral_Util_Quete::ETAPE_MARCHER_PARAM2_ETAT_AFFAME == $dataTypeEtape["param2"]) {
+				$dataTypeEtape["libelle_etape"] = "En étant affamé, ";
+			} else {
+				$dataTypeEtape["libelle_etape"] = "En étant repu, ";
+			}
+		} else {
+			throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeTuerParam1et2 invalide:".$dataTypeEtape["param1"]);
+		}
+		$dataTypeEtape["libelle_etape"] .= " vous devez marcher ";
+	}
+
+	private function pepareParamTypeEtapeMarcherParam3et4et5(&$dataTypeEtape) {
+		$dataTypeEtape["param3"] = Bral_Util_De::get_1d3();
+
+		if (Bral_Util_Quete::ETAPE_MARCHER_PARAM3_TERRAIN == $dataTypeEtape["param3"]) {
+			Zend_Loader::loadClass("Environnement");
+			$environnementTable = new Environnement();
+			$environnements = $environnementTable->fetchAll();
+			$deEnvironnement = Bral_Util_De::get_de_specifique(0, count($environnements) -1);
+			$environnement = $environnements[$deEnvironnement];
+			$dataTypeEtape["param4"] = $environnement["id_environnement"];
+			$dataTypeEtape["libelle_etape"] .= "sur un terrain de type ".$environnement["nom_environnement"];
+		} else if (Bral_Util_Quete::ETAPE_MARCHER_PARAM3_LIEU == $dataTypeEtape["param3"]) {
+			Zend_Loader::loadClass("Lieu");
+			$lieuTable = new Lieu();
+			$lieux = $lieuTable->fetchAll("est_soule_lieu = 'non'");
+			$deLieu = Bral_Util_De::get_de_specifique(0, count($lieux) -1);
+			$lieu = $lieux[$deLieu];
+			$dataTypeEtape["param4"] = $lieu["id_lieu"];
+			$dataTypeEtape["libelle_etape"] .= "sur le lieu suivant : ".$lieu["nom_lieu"]. ", en x:".$lieu["x_lieu"]." et y:".$lieu["y_lieu"];
+		} else if (Bral_Util_Quete::ETAPE_MARCHER_PARAM3_POSITION == $dataTypeEtape["param3"]) {
+			$x = Bral_Util_De::get_de_specifique(0, $this->view->config->game->x_max * 2) - $this->view->config->game->x_max;
+			$y = Bral_Util_De::get_de_specifique(0, $this->view->config->game->y_max * 2) - $this->view->config->game->y_max;
+			
+			Zend_Loader::loadClass("Palissade");
+			$palissadeTable = new Palissade();
+			$palissades = $palissadeTable->findByCase($x, $y);
+			if ($palissades != null && count($palissades) == 1 && $palissades[0]["est_destructible_palissade"] == "non") {
+				$x = 0;
+				$y = 0;
+			} else if (count($palissades) > 1) {
+				throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeMarcherParam3et4et5 nb Palissade invalides ! x:".$x. " y:".$y);
+			}
+			
+			$dataTypeEtape["param4"] = $x;
+			$dataTypeEtape["param5"] = $y;
+			$dataTypeEtape["libelle_etape"] .= " en x:".$x." et y:".$y;
+		} else {
+			throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeMarcherParam3et4et5 param3 invalide:".$dataTypeEtape["param3"]);
+		}
+	}
+
 	private function pepareParamTypeEtapePosseder() {
 		//TODO
 	}
