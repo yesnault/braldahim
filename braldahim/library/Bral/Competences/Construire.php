@@ -108,7 +108,7 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 			if ($this->tableauValidation[$offset_x][$offset_y] !== true) {
 				throw new Zend_Exception(get_class($this)." Deplacement XY impossible : ".$offset_x.$offset_y);
 			}
-			$bmJet1 = 10;
+			$bmJet1 = -10;
 		}
 		
 		// calcul des jets
