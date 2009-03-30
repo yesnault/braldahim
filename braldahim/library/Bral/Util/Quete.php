@@ -59,6 +59,14 @@ class Bral_Util_Quete {
 	const ETAPE_MARCHER_PARAM3_LIEU = 2;
 	const ETAPE_MARCHER_PARAM3_POSITION = 3;
 
+	const ETAPE_POSSEDER_PARAM1_COFFRE = 1;
+	const ETAPE_POSSEDER_PARAM1_LABAN = 2;
+	
+	const ETAPE_POSSEDER_PARAM3_MINERAI = 1;
+	const ETAPE_POSSEDER_PARAM3_PLANTE = 2;
+	const ETAPE_POSSEDER_PARAM3_PEAU = 3;
+	const ETAPE_POSSEDER_PARAM3_FOURRURE = 4;
+
 	private static function estQueteEnCours($hobbit) {
 		if ($hobbit->est_quete_hobbit == "oui") {
 			return true;
