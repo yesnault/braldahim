@@ -107,6 +107,8 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 	private function calculCDM($idMonstre,$dist_monstre) {
 		Zend_Loader::loadClass("Bral_Util_Connaissance");
 		Zend_Loader::loadClass("HobbitsCdm");
+		Zend_Loader::loadClass("HobbitsCompetences");
+		
 		$monstreTable = new Monstre();
 		$monstreRowset = $monstreTable->findById($idMonstre);
 		$monstre = $monstreRowset;
@@ -229,7 +231,11 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		
 		$pister = $hobbitCdmTable->findByIdHobbitAndIdTypeMonstre($this->view->user->id_hobbit,$monstre["id_type_monstre"]);
 		
+		$hobbitCompetence = new HobbitsCompetences();
+		$hobbitPister = $hobbitCompetence->findByIdHobbitAndNomSysteme($this->view->user->id_hobbit,'pister');
+		
 		$this->view->pister = $pister;
+		$this->view->possedePister = (count($hobbitPister) == 1);
 	}
 	
 	function getListBoxRefresh() {

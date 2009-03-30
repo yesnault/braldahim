@@ -187,6 +187,22 @@ class Monstre extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
+	function findLePlusProcheParType($idtype, $x, $y, $rayon) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('monstre', 'id_monstre, y_monstre, x_monstre, id_fk_type_monstre, SQRT(((x_monstre - '.$x.') * (x_monstre - '.$x.')) + ((y_monstre - '.$y.') * ( y_monstre - '.$y.'))) as distance')
+		->from('type_monstre', '*')
+		->where('x_monstre >= ?', $x - $rayon)
+		->where('x_monstre <= ?', $x + $rayon)
+		->where('y_monstre >= ?', $y - $rayon)
+		->where('y_monstre <= ?', $y + $rayon)
+		->where('monstre.id_fk_type_monstre = type_monstre.id_type_monstre')
+		->where('type_monstre.id_type_monstre = ?', intval($idtype))
+		->order('distance ASC');
+		$sql = $select->__toString();
+		return $db->fetchRow($sql);
+	}
+	
 	/**
 	 * Supprime les monstres qui sont en ville.
 	 */

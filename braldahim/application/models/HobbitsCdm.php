@@ -21,7 +21,7 @@ class HobbitsCdm extends Zend_Db_Table {
 		$select->from('taille_monstre', '*');
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
-		$cdmok = true;
+		$tailleManquante = null;
 		foreach ($resultat as $taille){
 			$select = $db->select();
 			$select->from('hobbits_cdm', 'count(*) as nb_cdm')
@@ -32,11 +32,12 @@ class HobbitsCdm extends Zend_Db_Table {
 			$sql = $select->__toString();
 			$resultatb = $db->fetchAll($sql);
 			if (count($resultatb) == 0 || $resultatb[0]['nb_cdm'] < $taille["nb_cdm_taille_monstre"]){
-				$cdmok=false;
-				break;
+				$tailleManquante[] = Array (
+					'taille' => $taille['nom_taille_m_monstre'],
+				);
 			}
 		}
-		return $cdmok;	
+		return $tailleManquante;	
     }
     
     function insertOrUpdate($data) {

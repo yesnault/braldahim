@@ -15,13 +15,16 @@ class Bral_Competences_Pister extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("HobbitsCdm");
 		Zend_Loader::loadClass("TypeMonstre");
 		
+		// Position précise avec (Vue+BM) de vue *2
+		$this->view->rayon_precis =  (Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit ) * 2;
+		
 		$typeMonstreTable = new TypeMonstre();
 		$typeMonstreRowset = $typeMonstreTable->fetchall(null, "nom_type_monstre");
 		$typeMonstreRowset = $typeMonstreRowset->toArray();
 		$tabTypeMonstre = null;
 		$hobbitsCdmTable = new HobbitsCdm();
 		foreach($typeMonstreRowset as $t) {
-			if ($hobbitsCdmTable->findByIdHobbitAndIdTypeMonstre($this->view->user->id_hobbit,$t["id_type_monstre"]) == true){
+			if (count ($hobbitsCdmTable->findByIdHobbitAndIdTypeMonstre($this->view->user->id_hobbit,$t["id_type_monstre"])) == 0){
 				$tabTypeMonstre[] = array(
 					'id_type_monstre' => $t["id_type_monstre"],
 					'nom_type_monstre' => $t["nom_type_monstre"],
@@ -53,6 +56,7 @@ class Bral_Competences_Pister extends Bral_Competences_Competence {
 			foreach ($this->view->tabTypeMonstre as $m) {
 				if ($m["id_type_monstre"] == $idTypeMonstre) {
 					$pister = true;
+					$this->view->nomTypeMonstre = $m["nom_type_monstre"];
 					break;
 				}
 			}
@@ -72,6 +76,32 @@ class Bral_Competences_Pister extends Bral_Competences_Competence {
 	}
 	
 	private function calculPister($idTypeMonstre){
+		Zend_Loader::loadClass("Monstre");
+		// La distance max de repérage d'un monstre est : jet SAG+BM
+		$tirageRayonMax = 0;
+		for ($i=1; $i <= ($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit) ; $i++) {
+			$tirageRayonMax = $tirageRayonMax + Bral_Util_De::get_1d6();
+		}
+		$this->view->rayon_max = $tirageRayonMax + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
+		
+		$monstreTable = new Monstre();
+		$monstreRow = $monstreTable->findLePlusProcheParType($idTypeMonstre,$this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->rayon_max);
+
+		if (!empty($monstreRow)) {
+			$monstre = array(
+				'nom_type_monstre' => $monstreRow["nom_type_monstre"],
+				'x_monstre' => $monstreRow["x_monstre"],
+				'y_monstre' => $monstreRow["y_monstre"]);
+			$this->view->trouve = true;
+			$this->view->monstre = $monstre;
+			if ($monstreRow["distance"] <= $this->view->rayon_precis) {
+				$this->view->proche = true;
+			} else {
+				$this->view->proche = false;
+			}
+		} else {
+			$this->view->trouve= false;
+		}
 		
 	}
 	

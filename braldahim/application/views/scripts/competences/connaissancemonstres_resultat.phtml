@@ -15,10 +15,16 @@
 	Dur&eacute;e du tour : entre <?=$this->tabCDM['min_dla_monstre'] ?> et <?=$this->tabCDM['max_dla_monstre'] ?><br />
 	
 	<br />
-	<? if ($this->pister === true): ?>
+	<? if (count ($this->pister) == 0): ?>
 		Vous pouvez pister ce type de monstre !<br />
 	<? else: ?>
 		Vous ne pouvez pas encore pister ce type de monstre !<br />
+		<? if ($this->possedePister === true) : ?>
+			Il vous faut reconna&icirc;tre encore au moins : <br />
+			<? foreach ($this->pister as $p) : ?>
+				1 <?=$p['taille'] ?><br />
+			<? endforeach; ?>
+		<? endif; ?>
 	<? endif; ?>
 	
 <? else: ?>

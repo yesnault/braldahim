@@ -53,6 +53,18 @@ class HobbitsCompetences extends Zend_Db_Table {
 		return $db->fetchAll($sql);
     }
     
+    function findByIdHobbitAndNomSysteme($idHobbit, $nomSysteme) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbits_competences', '*')
+		->from('competence', '*')
+		->where('hobbits_competences.id_fk_hobbit_hcomp = ?', intval($idHobbit))
+		->where('hobbits_competences.id_fk_competence_hcomp = competence.id_competence')
+		->where('competence.nom_systeme_competence = ?', $nomSysteme);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+    }
+    
     function annuleEffetsTabacByIdHobbit($idHobbit) {
 		$where  = 'hobbits_competences.id_fk_hobbit_hcomp = '.intval($idHobbit);
 		$data = array(
