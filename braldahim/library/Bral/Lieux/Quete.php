@@ -440,26 +440,28 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		$this->pepareParamTypeEtapePossederParam1et2($dataTypeEtape);
 		$this->pepareParamTypeEtapePossederParam3et4et5($dataTypeEtape);
 
-		$dataTypeEtape["libelle_etape"] = $dataTypeEtape["libelle_etape"].".";
+		$dataTypeEtape["libelle_etape"] = $dataTypeEtape["libelle_etape"].$dataTypeEtape["libelle_etape_fin"].".";
 		return $dataTypeEtape;
 	}
 
 	private function pepareParamTypeEtapePossederParam1et2(&$dataTypeEtape) {
-		$dataTypeEtape["param1"] = Bral_Util_De::get_de_specifique(5, 10);
+		$dataTypeEtape["param1"] = Bral_Util_De::get_de_specifique($this->view->user->niveau_hobbit * 10, $this->view->user->niveau_hobbit * 20);
 		$dataTypeEtape["param2"] = Bral_Util_De::get_1d2();
 
 		$dataTypeEtape["libelle_etape"] = "Vous devez posséder ";
-		if (Bral_Util_Quete::ETAPE_POSSEDER_PARAM1_COFFRE == $dataTypeEtape["param2"]) {
+		if (Bral_Util_Quete::ETAPE_POSSEDER_PARAM2_COFFRE == $dataTypeEtape["param2"]) {
 			$dataTypeEtape["libelle_etape"] .= "dans votre coffre ".$dataTypeEtape["param1"];
-		} else if (Bral_Util_Quete::ETAPE_POSSEDER_PARAM1_LABAN == $dataTypeEtape["param2"]) {
+			$dataTypeEtape["libelle_etape_fin"] = ". Le calcul est fait sur l'action de dépot de votre part dans le coffre.";
+		} else if (Bral_Util_Quete::ETAPE_POSSEDER_PARAM2_LABAN == $dataTypeEtape["param2"]) {
 			$dataTypeEtape["libelle_etape"] .= "dans votre laban ".$dataTypeEtape["param1"];
+			$dataTypeEtape["libelle_etape_fin"] = ". Le calcul est fait sur la compétence Ramasser.";
 		} else {
 			throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapePossederParam1et2 param3 invalide:".$dataTypeEtape["param2"]);
 		}
 	}
 
 	private function pepareParamTypeEtapePossederParam3et4et5(&$dataTypeEtape) {
-		$dataTypeEtape["param3"] = Bral_Util_De::get_1d4();
+		$dataTypeEtape["param3"] = Bral_Util_De::get_1d5();
 
 		if (Bral_Util_Quete::ETAPE_POSSEDER_PARAM3_MINERAI == $dataTypeEtape["param3"]) {
 			Zend_Loader::loadClass("TypeMinerai");
@@ -480,7 +482,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 			} else {
 				$d = "de ";
 			}
-			$dataTypeEtape["libelle_etape"] .= " ".$plante["nom_type_partieplante"]."s ".$d." ".$plante["nom_type_plante"];
+			$dataTypeEtape["libelle_etape"] .= " ".$plante["nom_type_partieplante"]."s ".$d."".$plante["nom_type_plante"];
 
 			$dataTypeEtape["param4"] = $plante["id_type_plante"];
 			$dataTypeEtape["param5"] = $plante["id_type_partieplante"];
@@ -488,6 +490,8 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 			$dataTypeEtape["libelle_etape"] .= " peaux";
 		} else if (Bral_Util_Quete::ETAPE_POSSEDER_PARAM3_FOURRURE == $dataTypeEtape["param3"]) {
 			$dataTypeEtape["libelle_etape"] .= " fourrures";
+		} else if (Bral_Util_Quete::ETAPE_POSSEDER_PARAM3_CASTAR == $dataTypeEtape["param3"]) {
+			$dataTypeEtape["libelle_etape"] .= " castars";
 		} else {
 			throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapePossederParam1et2 param3 invalide:".$dataTypeEtape["param3"]);
 		}

@@ -71,8 +71,6 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 	}
 	
 	private function calculDeposer() {
-		$this->listBoxRefresh = $this->constructListBoxRefresh(array("box_laban", "box_banque", "box_coffre"));
-		
 		switch($this->view->type) {
 			case "castars" :
 				$this->deposeTypeCastars();
@@ -118,6 +116,12 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		}
 		
 		$this->calculDeposer();
+		
+		Zend_Loader::loadClass("Bral_Util_Quete");
+		$this->view->estQueteEvenement = Bral_Util_Quete::etapePosseder($this->view->user);
+		
+		$this->listBoxRefresh = $this->constructListBoxRefresh(array("box_laban", "box_banque", "box_coffre"));
+		
 		$this->majHobbit();
 	}
 	

@@ -62,7 +62,4 @@
 		<span style="font-weight: bold ;">Consultez vos &eacute;v&eacute;nements pour le d&eacute;tails des gains.</span><br><br>
 	<? endif;?>
 	
-	<? if ($this->estQueteEvenement === true): ?>
-		<span style="font-weight: bold ;">Il y a du nouveau &agrave; propos de votre qu&ecirc;te</span><br>
-		<span style="font-weight: bold ;">Consultez votre onglet qu&ecirc;te pour plus de d&eacute;tails.</span><br><br>
-	<? endif;?>
+	<?=$this->render("/commun/commun_quete_resultat.phtml") ?>

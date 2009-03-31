@@ -59,13 +59,14 @@ class Bral_Util_Quete {
 	const ETAPE_MARCHER_PARAM3_LIEU = 2;
 	const ETAPE_MARCHER_PARAM3_POSITION = 3;
 
-	const ETAPE_POSSEDER_PARAM1_COFFRE = 1;
-	const ETAPE_POSSEDER_PARAM1_LABAN = 2;
-	
+	const ETAPE_POSSEDER_PARAM2_COFFRE = 1;
+	const ETAPE_POSSEDER_PARAM2_LABAN = 2;
+
 	const ETAPE_POSSEDER_PARAM3_MINERAI = 1;
 	const ETAPE_POSSEDER_PARAM3_PLANTE = 2;
 	const ETAPE_POSSEDER_PARAM3_PEAU = 3;
 	const ETAPE_POSSEDER_PARAM3_FOURRURE = 4;
+	const ETAPE_POSSEDER_PARAM3_CASTAR = 5;
 
 	private static function estQueteEnCours($hobbit) {
 		if ($hobbit->est_quete_hobbit == "oui") {
@@ -696,11 +697,245 @@ class Bral_Util_Quete {
 	private static function calculEtapeFinStandard($etape, &$hobbit) {
 		$etapeTable = new Etape();
 		$data = array("objectif_etape" => $etape["objectif_etape"] + 1, "est_terminee_etape" => "oui", "date_fin_etape" => date("Y-m-d H:i:s"));
-		Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeMarcherFin - Fin Ok");
+		Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeFinStandard - Fin Ok");
 		$where = "id_etape = ".$etape["id_etape"];
 		$etapeTable->update($data, $where);
 		if (self::activeProchaineEtape($hobbit) == false) { // fin quete
 			self::termineQuete($hobbit);
 		}
 	}
+
+	public static function etapePosseder(&$hobbit) {
+		if (self::estQueteEnCours($hobbit)) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapePosseder - quete en cours -");
+			$etape = self::getEtapeCourante($hobbit, self::QUETE_ETAPE_POSSEDER_ID);
+			if ($etape == null) {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapePosseder - pas d'etape posseder en cours");
+				return null;
+			} else {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapePosseder - etape posseder en cours");
+				return self::calculEtapePosseder($etape, $hobbit);
+			}
+		} else {
+			return null;
+		}
+	}
+
+	private static function calculEtapePosseder($etape, &$hobbit) {
+		if (self::calculEtapePossederParams($etape, $hobbit)) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapePosseder::conditions remplies, calcul fin etape");
+			self::calculEtapePossederFin($etape, $hobbit);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private static function calculEtapePossederParams($etape, &$hobbit) {
+		$retour = false;
+		Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapePossederParams - param1:".$etape["param_1_etape"]);
+		if ($etape["param_2_etape"] == self::ETAPE_POSSEDER_PARAM2_COFFRE) {
+			$retour = self::calculEtapePossederParamsCoffre($etape, $hobbit);
+		} else if ($etape["param_2_etape"] == self::ETAPE_POSSEDER_PARAM2_LABAN) {
+			$retour = self::calculEtapePossederParamsLaban($etape, $hobbit);
+		} else {
+			$retour = false;
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapePossederParams - C");
+		}
+		return $retour;
+	}
+
+	private static function calculEtapePossederParamsCoffre($etape, &$hobbit) {
+		$retour = false;
+		Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapePossederParamsCoffre - param3:".$etape["param_3_etape"]);
+
+		if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_MINERAI) {
+			Zend_Loader::loadClass("CoffreMinerai");
+			$coffreMineraiTable = new LabanMinerai();
+			$coffreMinerai = $coffreMineraiTable->findByIdHobbit($hobbit->id_hobbit);
+			if ($coffreMinerai != null && count($coffreMinerai) >= 1) {
+				foreach($coffreMinerai as $l) {
+					if ($l["id_fk_type_coffre_minerai"] == $etape["param_4_etape"]) {
+						if ($l["quantite_brut_coffre_minerai"] >= $etape["param_1_etape"]) {
+							$retour = true;
+						}
+						break;
+					}
+				}
+			}
+		} else if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_PLANTE) {
+			Zend_Loader::loadClass("CoffrePartieplante");
+			$coffrePartieplanteTable = new CoffrePartieplante();
+			$coffrePartieplante = $coffrePartieplanteTable->findByIdHobbit($hobbit->id_hobbit);
+			if ($coffrePartieplante != null && count($coffrePartieplante) >= 1) {
+				foreach($coffrePartieplante as $p) {
+					if ($p["id_fk_type_plante_coffre_partieplante"] == $etape["param_4_etape"] && $p["id_fk_type_coffre_partieplante"] == $etape["param_5_etape"]) {
+						if ($p["quantite_coffre_partieplante"] >= $etape["param_1_etape"]) {
+							Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapePossederParamsCoffre - B");
+							$retour = true;
+						}
+						break;
+					}
+				}
+			}
+		} else if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_PEAU || $etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_FOURRURE || $etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_CASTAR) {
+			Zend_Loader::loadClass("Coffre");
+			$coffreTable = new Coffre();
+			$coffreRowset = $coffreTable->findByIdHobbit($hobbit->id_hobbit);
+			if ($coffreRowset != null && count($coffreRowset) == 1) {
+				$coffre = $coffreRowset[0];
+				if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_PEAU && $coffre["quantite_peau_coffre"] >= $etape["param_1_etape"]) {
+					$retour = true;
+				} else if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_FOURRURE && $coffre["quantite_fourrure_coffre"] >= $etape["param_1_etape"]) {
+					$retour = true;
+				} else if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_CASTAR && $coffre["quantite_castar_coffre"] >= $etape["param_1_etape"]) {
+					$retour = true;
+				}
+			}
+		} else {
+			$retour = false;
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapePossederParamsCoffre - exit");
+		}
+		return $retour;
+	}
+
+	private static function calculEtapePossederParamsLaban($etape, &$hobbit) {
+		$retour = false;
+		Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapePossederParamsCoffre - param3:".$etape["param_3_etape"]);
+
+		if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_MINERAI) {
+			Zend_Loader::loadClass("LabanMinerai");
+			$labanMineraiTable = new LabanMinerai();
+			$labanMinerai = $labanMineraiTable->findByIdHobbit($hobbit->id_hobbit);
+			if ($labanMinerai != null && count($labanMinerai) >= 1) {
+				foreach($labanMinerai as $l) {
+					if ($l["id_fk_type_laban_minerai"] == $etape["param_4_etape"]) {
+						if ($l["quantite_brut_laban_minerai"] >= $etape["param_1_etape"]) {
+							$retour = true;
+						}
+						break;
+					}
+				}
+			}
+		} else if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_PLANTE) {
+			Zend_Loader::loadClass("LabanPartieplante");
+			$labanPartieplanteTable = new LabanPartieplante();
+			$labanPartieplante = $labanPartieplanteTable->findByIdHobbit($hobbit->id_hobbit);
+			if ($labanPartieplante != null && count($labanPartieplante) >= 1) {
+				foreach($labanPartieplante as $p) {
+					if ($p["id_fk_type_plante_laban_partieplante"] == $etape["param_4_etape"] && $p["id_fk_type_laban_partieplante"] == $etape["param_5_etape"]) {
+						if ($p["quantite_laban_partieplante"] >= $etape["param_1_etape"]) {
+							$retour = true;
+						}
+						break;
+					}
+				}
+			}
+		} else if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_PEAU || $etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_FOURRURE) {
+			Zend_Loader::loadClass("Laban");
+			$labanTable = new Laban();
+			$labanRowset = $labanTable->findByIdHobbit($hobbit->id_hobbit);
+			if ($labanRowset != null && count($labanRowset) == 1) {
+				$laban = $labanRowset[0];
+				if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_PEAU && $laban["quantite_peau_laban"] >= $etape["param_1_etape"]) {
+					$retour = true;
+				} else if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_FOURRURE && $laban["quantite_fourrure_laban"] >= $etape["param_1_etape"]) {
+					$retour = true;
+				}
+			}
+		} else if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_CASTAR) {
+			if ($hobbit->castars_hobbit >= $etape["param_1_etape"]) {
+				$retour = true;
+			}
+		} else {
+			$retour = false;
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapePossederParamsLaban - exit");
+		}
+		return $retour;
+	}
+
+	private static function calculEtapePossederFin($etape, &$hobbit) {
+		self::calculEtapeFinStandard($etape, $hobbit);
+	}
+
+	public static function etapeEquiper(&$hobbit) {
+		if (self::estQueteEnCours($hobbit)) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapePosseder - quete en cours -");
+			$etape = self::getEtapeCourante($hobbit, self::QUETE_ETAPE_EQUIPER_ID);
+			if ($etape == null) {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapePosseder - pas d'etape posseder en cours");
+				return null;
+			} else {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapePosseder - etape posseder en cours");
+				return self::calculEtapeEquiper($etape);
+			}
+		} else {
+			return null;
+		}
+	}
+
+	private static function calculEtapeEquiper($etape) {
+		//TODO
+	}
+
+	public static function etapeConstuire(&$hobbit) {
+		if (self::estQueteEnCours($hobbit)) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeConstuire - quete en cours -");
+			$etape = self::getEtapeCourante($hobbit, self::QUETE_ETAPE_CONSTRUIRE_ID);
+			if ($etape == null) {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeConstuire - pas d'etape construire en cours");
+				return null;
+			} else {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeConstuire - etape construire en cours");
+				return self::calculEtapeConstruire($etape);
+			}
+		} else {
+			return null;
+		}
+	}
+
+	private static function calculEtapeConstruire($etape) {
+		//TODO
+	}
+
+	public static function etapeFabriquer(&$hobbit) {
+		if (self::estQueteEnCours($hobbit)) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeFabriquer - quete en cours -");
+			$etape = self::getEtapeCourante($hobbit, self::QUETE_ETAPE_FABRIQUER_ID);
+			if ($etape == null) {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeFabriquer - pas d'etape fabriquer en cours");
+				return null;
+			} else {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeFabriquer - etape fabriquer en cours");
+				return self::calculEtapeFabriquer($etape);
+			}
+		} else {
+			return null;
+		}
+	}
+
+	private static function calculEtapeFabriquer($etape) {
+		//TODO
+	}
+
+	public static function etapeCollecter(&$hobbit) {
+		if (self::estQueteEnCours($hobbit)) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeCollecter - quete en cours -");
+			$etape = self::getEtapeCourante($hobbit, self::QUETE_ETAPE_COLLECTER_ID);
+			if ($etape == null) {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeCollecter - pas d'etape collecter en cours");
+				return null;
+			} else {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeCollecter - etape collecter en cours");
+				return self::calculEtapeCollecter($etape);
+			}
+		} else {
+			return null;
+		}
+	}
+
+	private static function calculEtapeCollecter($etape) {
+		//TODO
+	}
+
 }

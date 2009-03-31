@@ -75,8 +75,6 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 	}
 	
 	private function calculRamasser() {
-		$this->listBoxRefresh = $this->constructListBoxRefresh(array("box_vue", "box_laban"));
-		
 		switch($this->view->type) {
 			case "castars" :
 				$this->ramasseTypeCastars();
@@ -134,6 +132,11 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		
 		$this->setEvenementQueSurOkJet1(false);
 
+		Zend_Loader::loadClass("Bral_Util_Quete");
+		$this->view->estQueteEvenement = Bral_Util_Quete::etapePosseder($this->view->user);
+		
+		$this->listBoxRefresh = $this->constructListBoxRefresh(array("box_vue", "box_laban"));
+		
 		$this->calculBalanceFaim();
 		$this->calculPoids();
 		$this->majHobbit();
