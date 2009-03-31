@@ -61,7 +61,7 @@ class Bral_Echoppes_Modifiernom extends Bral_Echoppes_Echoppe {
 			->addFilter(new Zend_Filter_StripTags());
 
 		
-		$nom = stripslashes($filter->filter(mb_substr($this->request->getPost("valeur_2"), 0, 20)));
+		$nom = stripslashes($filter->filter(mb_substr($this->request->getPost("valeur_2"), 0, 30)));
 		$data = array("nom_echoppe" => $nom);
 		$echoppeTable = new Echoppe();
 		$where = "id_echoppe = ".$this->view->idEchoppe;
