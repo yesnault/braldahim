@@ -220,7 +220,7 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 	}
 
 	function getListBoxRefresh() {
-		$tab = array("box_soule");
+		$tab = array("box_soule", "box_laban");
 		return $this->constructListBoxRefresh($tab);
 	}
 }
