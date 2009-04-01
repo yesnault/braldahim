@@ -582,14 +582,7 @@ class Bral_Lieux_Banqueretirer extends Bral_Lieux_Lieu {
 				$this->view->texteRamassage .= " et ";
 			}
 			$this->view->texteRamassage .= $nbLingot." lingot".$s;
-//			if ($this->detailEvenement != "") {
-//				$this->detailEvenement .= " ainsi ".$que;
-//				$prefix = "";
-//			}
-//			$this->detailEvenement .= $prefix." lingot".$s;
 		}
-		
-//		$this->detailEvenement .= $trainer;
 		
 		unset($coffreMineraiTable);
 		unset($labanMineraiTable);

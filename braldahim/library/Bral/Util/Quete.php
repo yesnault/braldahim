@@ -757,6 +757,12 @@ class Bral_Util_Quete {
 				foreach($coffreMinerai as $l) {
 					if ($l["id_fk_type_coffre_minerai"] == $etape["param_4_etape"]) {
 						if ($l["quantite_brut_coffre_minerai"] >= $etape["param_1_etape"]) {
+							$data = array (
+								"id_fk_hobbit_coffre_minerai" => $hobbit->id_hobbit,
+								"id_fk_type_coffre_minerai" => $l["id_fk_type_coffre_minerai"],
+								"quantite_brut_coffre_minerai" => -$etape["param_1_etape"],
+							);
+							$coffreMineraiTable->insertOrUpdate($data);
 							$retour = true;
 						}
 						break;
@@ -772,6 +778,13 @@ class Bral_Util_Quete {
 					if ($p["id_fk_type_plante_coffre_partieplante"] == $etape["param_4_etape"] && $p["id_fk_type_coffre_partieplante"] == $etape["param_5_etape"]) {
 						if ($p["quantite_coffre_partieplante"] >= $etape["param_1_etape"]) {
 							Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapePossederParamsCoffre - B");
+							$data = array (
+								"id_fk_hobbit_coffre_partieplante" => $hobbit->id_hobbit,
+								"id_fk_type_coffre_partieplante" => $p["id_fk_type_coffre_partieplante"],
+								"id_fk_type_plante_coffre_partieplante" => $p["id_fk_type_plante_coffre_partieplante"],
+								"quantite_coffre_partieplante" => -$etape["param_1_etape"],
+							);
+							$coffrePartieplanteTable->insertOrUpdate($data);
 							$retour = true;
 						}
 						break;
@@ -785,10 +798,25 @@ class Bral_Util_Quete {
 			if ($coffreRowset != null && count($coffreRowset) == 1) {
 				$coffre = $coffreRowset[0];
 				if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_PEAU && $coffre["quantite_peau_coffre"] >= $etape["param_1_etape"]) {
+					$data = array(
+						"quantite_peau_coffre" => -$etape["param_1_etape"],
+						"id_fk_hobbit_coffre" => $hobbit->id_hobbit,
+					);
+					$coffreTable->insertOrUpdate($data);
 					$retour = true;
 				} else if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_FOURRURE && $coffre["quantite_fourrure_coffre"] >= $etape["param_1_etape"]) {
+					$data = array(
+						"quantite_fourrure_coffre" => -$etape["param_1_etape"],
+						"id_fk_hobbit_coffre" => $hobbit->id_hobbit,
+					);
+					$coffreTable->insertOrUpdate($data);
 					$retour = true;
 				} else if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_CASTAR && $coffre["quantite_castar_coffre"] >= $etape["param_1_etape"]) {
+					$data = array(
+						"quantite_castar_coffre" => -$etape["param_1_etape"],
+						"id_fk_hobbit_coffre" => $hobbit->id_hobbit,
+					);
+					$coffreTable->insertOrUpdate($data);
 					$retour = true;
 				}
 			}
@@ -811,6 +839,12 @@ class Bral_Util_Quete {
 				foreach($labanMinerai as $l) {
 					if ($l["id_fk_type_laban_minerai"] == $etape["param_4_etape"]) {
 						if ($l["quantite_brut_laban_minerai"] >= $etape["param_1_etape"]) {
+							$data = array(
+								"quantite_brut_laban_minerai" => -$etape["param_1_etape"],
+								"id_fk_type_laban_minerai" => $l["id_fk_type_laban_minerai"],
+								"id_fk_hobbit_laban_minerai" => $hobbit->id_hobbit,
+							);
+							$labanMineraiTable->insertOrUpdate($data);
 							$retour = true;
 						}
 						break;
@@ -825,6 +859,13 @@ class Bral_Util_Quete {
 				foreach($labanPartieplante as $p) {
 					if ($p["id_fk_type_plante_laban_partieplante"] == $etape["param_4_etape"] && $p["id_fk_type_laban_partieplante"] == $etape["param_5_etape"]) {
 						if ($p["quantite_laban_partieplante"] >= $etape["param_1_etape"]) {
+							$data = array(
+								"quantite_laban_partieplante" => -$etape["param_1_etape"],
+								"id_fk_type_laban_partieplante" => $p["id_fk_type_laban_partieplante"],
+								"id_fk_type_plante_laban_partieplante" => $p["id_fk_type_plante_laban_partieplante"],
+								"id_fk_hobbit_laban_partieplante" => $hobbit->id_hobbit,
+							);
+							$labanPartieplanteTable->insertOrUpdate($data);
 							$retour = true;
 						}
 						break;
@@ -838,13 +879,24 @@ class Bral_Util_Quete {
 			if ($labanRowset != null && count($labanRowset) == 1) {
 				$laban = $labanRowset[0];
 				if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_PEAU && $laban["quantite_peau_laban"] >= $etape["param_1_etape"]) {
+					$data = array(
+						"quantite_peau_laban" => -$etape["param_1_etape"],
+						"id_fk_hobbit_laban" => $hobbit->id_hobbit,
+					);
+					$labanTable->insertOrUpdate($data);
 					$retour = true;
 				} else if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_FOURRURE && $laban["quantite_fourrure_laban"] >= $etape["param_1_etape"]) {
+					$data = array(
+						"quantite_fourrure_laban" => -$etape["param_1_etape"],
+						"id_fk_hobbit_laban" => $hobbit->id_hobbit,
+					);
+					$labanTable->insertOrUpdate($data);
 					$retour = true;
 				}
 			}
 		} else if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_CASTAR) {
 			if ($hobbit->castars_hobbit >= $etape["param_1_etape"]) {
+				$hobbit->castars_hobbit = $hobbit->castars_hobbit - $etape["param_1_etape"];
 				$retour = true;
 			}
 		} else {
