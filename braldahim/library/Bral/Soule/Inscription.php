@@ -154,7 +154,7 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 	}
 
 	public function calculNbCastars() {
-		$this->view->nb_castars = 20;
+		$this->view->nb_castars = 5;
 		if ($this->view->user->castars_hobbit - $this->view->nb_castars < 0) {
 			$this->view->assezDeCastars = false;
 		} else {
