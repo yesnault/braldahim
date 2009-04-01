@@ -188,11 +188,13 @@ class Bral_Util_Attaque {
 				}
 
 				$retourAttaque["mort"] = true;
-				$nbCastars = Bral_Util_Commun::dropHobbitCastars($hobbitCible, $effetH);
-				$hobbitCible->castars_hobbit = $hobbitCible->castars_hobbit - $nbCastars;
-				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - nbCastars=".$nbCastars);
-				if ($hobbitCible->castars_hobbit < 0) {
-					$hobbitCible->castars_hobbit = 0;
+				if ($hobbitAttaquant->est_soule_hobbit == "non") {
+					$nbCastars = Bral_Util_Commun::dropHobbitCastars($hobbitCible, $effetH);
+					$hobbitCible->castars_hobbit = $hobbitCible->castars_hobbit - $nbCastars;
+					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - nbCastars=".$nbCastars);
+					if ($hobbitCible->castars_hobbit < 0) {
+						$hobbitCible->castars_hobbit = 0;
+					}
 				}
 			} else {
 				$hobbitCible->agilite_bm_hobbit = $hobbitCible->agilite_bm_hobbit - $hobbitCible->niveau_hobbit;
