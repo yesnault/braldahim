@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -12,30 +12,30 @@
  */
 class InterfaceController extends Zend_Controller_Action {
 	private $xml_response = null;
-	
+
 	function init() {
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
 
 		$controleOk = false;
-		
+
 		if ($this->view->config->general->actif != 1) {
 			$this->_redirect('/auth/logoutajax');
 		} else if ((!Zend_Auth::getInstance()->hasIdentity() || !isset($this->view->user) || !isset($this->view->user->email_hobbit)) && ($this->_request->action == 'index')) {
 			$this->_redirect('/auth/logout');
-		} else if (!Zend_Auth::getInstance()->hasIdentity() 
-			|| ($this->_request->action != 'index' && 
-				$this->view->user->initialCall == false && 
-				$this->_request->get("dateAuth") != $this->view->user->dateAuth)
-			|| !isset($this->view->user) || !isset($this->view->user->email_hobbit)) {
-				if (!Zend_Auth::getInstance()->hasIdentity() ) {
-					Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1A - Session perdue");
-				} else {
-					Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1B action=".$this->_request->action. " initialCall=".$this->view->user->initialCall. " dateAuth=".$this->_request->get("dateAuth"). " dateAuth2=".$this->view->user->dateAuth);
-				}
-				
-				$this->_redirect('/auth/logoutajax');
+		} else if (!Zend_Auth::getInstance()->hasIdentity()
+		|| ($this->_request->action != 'index' &&
+		$this->view->user->initialCall == false &&
+		$this->_request->get("dateAuth") != $this->view->user->dateAuth)
+		|| !isset($this->view->user) || !isset($this->view->user->email_hobbit)) {
+			if (!Zend_Auth::getInstance()->hasIdentity() ) {
+				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1A - Session perdue");
+			} else {
+				Bral_Util_Log::tech()->warn("InterfaceController - logoutajax 1B action=".$this->_request->action. " initialCall=".$this->view->user->initialCall. " dateAuth=".$this->_request->get("dateAuth"). " dateAuth2=".$this->view->user->dateAuth);
+			}
+
+			$this->_redirect('/auth/logoutajax');
 		} else {
 			Zend_Loader::loadClass('Bral_Util_BralSession');
 			if (Bral_Util_BralSession::refreshSession() == false) {
@@ -49,18 +49,18 @@ class InterfaceController extends Zend_Controller_Action {
 				$controleOk = true;
 			}
 		}
-		
+
 		if ($controleOk === true) {
-		
+
 			$this->view->user = Zend_Auth::getInstance()->getIdentity(); // pour rafraichissement session
 			if ($this->view->user->est_charte_validee_hobbit == "non") {
 				$this->_redirect('/charte');
 			}
-			
+				
 			$this->view->controleur = $this->_request->controller;
-	
+
 			$this->infoTour = false;
-			
+				
 			if ($this->_request->action != 'index') {
 				$this->xml_response = new Bral_Xml_Response();
 				$t = Bral_Box_Factory::getTour($this->_request, $this->view, false);
@@ -72,7 +72,7 @@ class InterfaceController extends Zend_Controller_Action {
 					$this->xml_response->add_entry($xml_entry);
 					unset($xml_entry);
 					$this->infoTour = true;
-					
+						
 					if ($this->_request->action != 'boxes') {
 						$this->refreshAll();
 					}
@@ -100,7 +100,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$xml_entry->set_type("display");
 		$nomBox = $this->_request->get("box");
 		$box = Bral_Box_Factory::getBox($nomBox, $this->_request, $this->view, true);
-	//	$xml_entry->set_data($box->render());
+		//	$xml_entry->set_data($box->render());
 		$xml_entry->set_box($box);
 		$xml_entry->set_valeur($box->getNomInterne());
 		$this->xml_response->add_entry($xml_entry);
@@ -108,11 +108,11 @@ class InterfaceController extends Zend_Controller_Action {
 		unset($xml_entry);
 		$this->xml_response->render();
 	}
-	
+
 	function boxesAction() {
 		Zend_Loader::loadClass('Charrette');
 		Zend_Loader::loadClass('HobbitsMetiers');
-		
+
 		try {
 			$this->addBox(Bral_Box_Factory::getProfil($this->_request, $this->view, false), "boite_a");
 			$this->addBox(Bral_Box_Factory::getMetier($this->_request, $this->view, false), "boite_a");
@@ -120,15 +120,15 @@ class InterfaceController extends Zend_Controller_Action {
 			$this->addBox(Bral_Box_Factory::getTitres($this->_request, $this->view, false), "boite_a");
 			$this->addBox(Bral_Box_Factory::getFamille($this->_request, $this->view, false), "boite_a");
 			$this->addBox(Bral_Box_Factory::getEffets($this->_request, $this->view, false), "boite_a");
-	
+
 			$this->addBox(Bral_Box_Factory::getCompetencesBasic($this->_request, $this->view, false), "boite_b");
 			$this->addBox(Bral_Box_Factory::getCompetencesCommun($this->_request, $this->view, false), "boite_b");
 			$this->addBox(Bral_Box_Factory::getCompetencesMetier($this->_request, $this->view, false), "boite_b");
 			$this->addBox(Bral_Box_Factory::getCompetencesSoule($this->_request, $this->view, false), "boite_b");
-	
+
 			$this->addBox(Bral_Box_Factory::getVue($this->_request, $this->view, false), "boite_c");
 			$this->addBox(Bral_Box_Factory::getLieu($this->_request, $this->view, false), "boite_c");
-			
+				
 			// uniquement s'il possède un metier dans les metiers possedant des echoppes
 			$hobbitsMetiers = new HobbitsMetiers();
 			$possibleEchoppe = $hobbitsMetiers->peutPossederEchoppeIdHobbit($this->view->user->id_hobbit);
@@ -136,35 +136,32 @@ class InterfaceController extends Zend_Controller_Action {
 				$this->addBox(Bral_Box_Factory::getEchoppes($this->_request, $this->view, false), "boite_c");
 			}
 			unset($hobbitsMetiers);
-			
+				
 			$this->addBox(Bral_Box_Factory::getLaban($this->_request, $this->view, false), "boite_c");
-			
+				
 			$charretteTable = new Charrette();
 			$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
 			if ($nombre > 0) {
 				$this->addBox(Bral_Box_Factory::getCharrette($this->_request, $this->view, false), "boite_c");
 			}
 			unset($charretteTable);
-			
+				
 			$this->addBox(Bral_Box_Factory::getEvenements($this->_request, $this->view, false), "boite_c");
 			$this->addBox(Bral_Box_Factory::getMessagerie($this->_request, $this->view, false), "boite_c");
-			// TODO à supprimer à la fin des dev soule
-			if ($this->view->config->general->production != 1) {
-				$this->addBox(Bral_Box_Factory::getSoule($this->_request, $this->view, false), "boite_c");
-			}
+			$this->addBox(Bral_Box_Factory::getSoule($this->_request, $this->view, false), "boite_c");
 			$this->addBox(Bral_Box_Factory::getCommunaute($this->_request, $this->view, false), "boite_c");
 			$this->addBox(Bral_Box_Factory::getCoffre($this->_request, $this->view, false), "boite_c");
-			
+				
 			// TODO à supprimer à la fin des dev quetes
 			if ($this->view->config->general->production != 1) {
 				$this->addBox(Bral_Box_Factory::getQuetes($this->_request, $this->view, false), "boite_c");
 			}
-			
+				
 			$xml_entry = new Bral_Xml_Entry();
 			$xml_entry->set_type("display");
 			$xml_entry->set_valeur("racine");
 			$xml_entry->set_data($this->getBoxesData());
-		
+
 		} catch (Zend_Exception $e) {
 			$b = Bral_Box_Factory::getErreur($this->_request, $this->view, false, $e->getMessage());
 			$xml_entry = new Bral_Xml_Entry();
@@ -172,7 +169,7 @@ class InterfaceController extends Zend_Controller_Action {
 			$xml_entry->set_valeur($b->getNomInterne());
 			$xml_entry->set_data($b->render());
 		}
-		
+
 		$this->xml_response->add_entry($xml_entry);
 		unset($xml_entry);
 		$this->xml_response->render();
@@ -240,8 +237,8 @@ class InterfaceController extends Zend_Controller_Action {
 		$boxToRefresh = array("box_profil", "box_metier", "box_titres", "box_equipement", "box_vue", "box_lieu", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_laban", "box_soule", "box_quete", "box_messagerie");
 		for ($i=0; $i<count($boxToRefresh); $i++) {
 			$xml_entry = new Bral_Xml_Entry();
-			
-			if ($boxToRefresh[$i] == "box_vue" || $boxToRefresh[$i] == "box_laban") { 
+				
+			if ($boxToRefresh[$i] == "box_vue" || $boxToRefresh[$i] == "box_laban") {
 				$xml_entry->set_type("load_box");
 				$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, false);
 				$xml_entry->set_data(null);
@@ -257,7 +254,7 @@ class InterfaceController extends Zend_Controller_Action {
 			unset($boxToRefresh[$i]);
 		}
 	}
-	
+
 	public function reloadAction() {
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("action");
