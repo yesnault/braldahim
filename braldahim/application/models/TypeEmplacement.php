@@ -13,4 +13,15 @@
 class TypeEmplacement extends Zend_Db_Table {
 	protected $_name = 'type_emplacement';
 	protected $_primary = "id_type_emplacement";
+	
+	function findAllEquipable() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('type_emplacement', '*')
+		->where('est_equipable_type_emplacement = ?',"oui");
+		
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
 }

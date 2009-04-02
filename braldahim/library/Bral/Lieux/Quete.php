@@ -93,7 +93,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 			$n = Bral_Util_De::get_de_specifique(0, count($typeEtapes) - 1);
 			//			$dataEtape = $this->prepareEtape($i, $idQuete, $typeEtapes[$n]);
 
-			$dataEtape = $this->prepareEtape($i, $idQuete, $typeEtapes[3]);
+			$dataEtape = $this->prepareEtape($i, $idQuete, $typeEtapes[4]);
 			$etapes[] = $dataEtape;
 			$etapeTable->insert($dataEtape);
 		}
@@ -104,12 +104,13 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 
 	private function getTypesEtapesPossibles() {
 		$hobbitsMetiersTable = new HobbitsMetiers();
-		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
+		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetierCourantByHobbitId($this->view->user->id_hobbit);
 
-		$idMetiers = array();
-		foreach($hobbitsMetierRowset as $m) {
-			$idMetiers[] = $m["id_metier"];
+		if (count($hobbitsMetiersTable) > 1) {
+			throw new Zend_Exception(get_class($this)."::getTypesEtapesPossibles metier courant invalide:".$this->view->user->id_hobbit);
 		}
+
+		$idMetiers[] = $hobbitsMetierRowset[0]["id_metier"];
 
 		$typeEtapeTable = new TypeEtape();
 		$typeEtapes = $typeEtapeTable->fetchAllSansMetier();
@@ -445,13 +446,13 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 	}
 
 	private function pepareParamTypeEtapePossederParam1et2(&$dataTypeEtape) {
-		
+
 		if (Bral_Util_Quete::ETAPE_POSSEDER_PARAM3_CASTAR == $dataTypeEtape["param3"]) {
 			$dataTypeEtape["param1"] = Bral_Util_De::get_de_specifique($this->view->user->niveau_hobbit * 10, $this->view->user->niveau_hobbit * 20);
 		} else { // Pour les materiaux : 1D20 + 5
 			$dataTypeEtape["param1"] = Bral_Util_De::get_1d20() + 5;
 		}
-		
+
 		$dataTypeEtape["libelle_etape"] = "Vous devez posséder ";
 		$dataTypeEtape["param2"] = Bral_Util_De::get_1d2();
 		if (Bral_Util_Quete::ETAPE_POSSEDER_PARAM2_COFFRE == $dataTypeEtape["param2"]) {
@@ -481,7 +482,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 			$plantes = Bral_Util_Plantes::getTabPlantes();
 			$dePlante = Bral_Util_De::get_de_specifique(0, count($plantes)-1);
 			$plante = $plantes[$dePlante];
-				
+
 			if ($plante["nom_type_plante"]{0} == "A" || $plante["nom_type_plante"]{0} == "Y" || $plante["nom_type_plante"]{0} == "E") {
 				$d = "d'";
 			} else {
@@ -503,8 +504,48 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 	}
 
 	private function pepareParamTypeEtapeEquiper() {
-		//TODO
+		$dataTypeEtape = $this->initDataTypeEtape();
+
+		$this->pepareParamTypeEtapeEquiperParam1et2($dataTypeEtape);
+		$this->pepareParamTypeEtapeEquiperParam3($dataTypeEtape);
+
+		$dataTypeEtape["libelle_etape"] = $dataTypeEtape["libelle_etape_debut"].$dataTypeEtape["libelle_etape"].".";
+		return $dataTypeEtape;
 	}
+
+	private function pepareParamTypeEtapeEquiperParam1et2(&$dataTypeEtape) {
+
+		$dataTypeEtape["libelle_etape"] = ", vous devez équiper une pièce d'équipement d'emplacement : ";
+		
+		Zend_Loader::loadClass("TypeEmplacement");
+		$typeEmplacementTable = new TypeEmplacement();
+		$typeEmplacements = $typeEmplacementTable->findAllEquipable();
+
+		$deTypeEmplacement = Bral_Util_De::get_de_specifique(0, count($typeEmplacements) -1);
+		$typeEmplacement = $typeEmplacements[$deTypeEmplacement];
+		$dataTypeEtape["param1"] = $typeEmplacement["id_type_emplacement"];
+		$dataTypeEtape["libelle_etape"] .= $typeEmplacement["nom_type_emplacement"];
+	}
+
+	private function pepareParamTypeEtapeEquiperParam3(&$dataTypeEtape) {
+		$dataTypeEtape["param2"] = Bral_Util_De::get_1d2();
+
+		if (Bral_Util_Quete::ETAPE_EQUIPER_PARAM2_JOUR == $dataTypeEtape["param2"]) {
+			$dataTypeEtape["param3"] = Bral_Util_De::get_1D7();
+			$dataTypeEtape["libelle_etape_debut"] = "Un ".Bral_Helper_Calendrier::getJourSemaine($dataTypeEtape["param3"]);
+		} else if (Bral_Util_Quete::ETAPE_EQUIPER_PARAM2_VILLE == $dataTypeEtape["param2"]) {
+			Zend_Loader::loadClass("Ville");
+			$villeTable = new Ville();
+			$villes = $villeTable->fetchAll();
+			$deVille = Bral_Util_De::get_de_specifique(0, count($villes) -1);
+			$ville = $villes[$deVille];
+			$dataTypeEtape["param3"] = $ville["id_ville"];
+			$dataTypeEtape["libelle_etape_debut"] = "Dans la ville de ".$ville["nom_ville"];
+		} else {
+			throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeEquiperParam3 invalide:".$dataTypeEtape["param2"]);
+		}
+	}
+
 
 	private function pepareParamTypeEtapeConstruire() {
 		//TODO
@@ -512,6 +553,23 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 
 	private function pepareParamTypeEtapeFabriquer() {
 		//TODO
+		
+		/*$hobbitsMetiersTable = new HobbitsMetiers();
+		$hobbitsMetiers = $hobbitsMetiersTable->findMetierCourantByHobbitId($this->view->user->id_hobbit);
+		if ($hobbitsMetiers == null || count($hobbitsMetiers) != 1) {
+			throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeEquiperParam1et2 metier invalide h:".$this->view->user->id_hobbit);
+		}
+		
+		Zend_Loader::loadClass("TypeEquipement");
+		$typeEquipementTable = new TypeEquipement();
+		$typeEquipements = $typeEquipementTable->findByIdMetier($hobbitsMetiers[0]["id_metier"], "nom_type_equipement");
+
+		$deTypeEquipement = Bral_Util_De::get_de_specifique(0, count($typeEquipements) -1);
+		$typeEquipement = $typeEquipements[$deTypeEquipement];
+		$dataTypeEtape["param1"] = $typeEquipement["id_type_equipement"];
+		$dataTypeEtape["libelle_etape"] .= $typeEquipement["nom_type_equipement"];
+		*/
+		
 	}
 
 	private function pepareParamTypeEtapeCollecter() {

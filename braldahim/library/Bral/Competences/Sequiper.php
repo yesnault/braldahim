@@ -318,6 +318,9 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$labanEquipementTable = new LabanEquipement();
 		$where = "id_laban_equipement=".$equipement["id_equipement"];
 		$labanEquipementTable->delete($where);
+		
+		Zend_Loader::loadClass("Bral_Util_Quete");
+		$this->view->estQueteEvenement = Bral_Util_Quete::etapeEquiper($this->view->user, $equipement["id_type_emplacement"]);
 	}
 
 	private function calculTransfertVersLaban($equipement) {

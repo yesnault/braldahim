@@ -68,6 +68,9 @@ class Bral_Util_Quete {
 	const ETAPE_POSSEDER_PARAM3_FOURRURE = 4;
 	const ETAPE_POSSEDER_PARAM3_CASTAR = 5;
 
+	const ETAPE_EQUIPER_PARAM2_JOUR = 1;
+	const ETAPE_EQUIPER_PARAM2_VILLE = 2;
+
 	private static function estQueteEnCours($hobbit) {
 		if ($hobbit->est_quete_hobbit == "oui") {
 			return true;
@@ -910,24 +913,71 @@ class Bral_Util_Quete {
 		self::calculEtapeFinStandard($etape, $hobbit);
 	}
 
-	public static function etapeEquiper(&$hobbit) {
+	public static function etapeEquiper(&$hobbit, $idTypeEmplacement) {
 		if (self::estQueteEnCours($hobbit)) {
-			Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapePosseder - quete en cours -");
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeEquiper - quete en cours -");
 			$etape = self::getEtapeCourante($hobbit, self::QUETE_ETAPE_EQUIPER_ID);
 			if ($etape == null) {
-				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapePosseder - pas d'etape posseder en cours");
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeEquiper - pas d'etape equiper en cours");
 				return null;
 			} else {
-				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapePosseder - etape posseder en cours");
-				return self::calculEtapeEquiper($etape);
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeEquiper - etape equiper en cours");
+				return self::calculEtapeEquiper($etape, $hobbit, $idTypeEmplacement);
 			}
 		} else {
 			return null;
 		}
 	}
 
-	private static function calculEtapeEquiper($etape) {
-		//TODO
+	private static function calculEtapeEquiper($etape, &$hobbit, $idTypeEmplacement) {
+		if (self::calculEtapeEquiperParam1($etape, $hobbit, $idTypeEmplacement)
+		&& self::calculEtapeEquiperParam2et3($etape, $hobbit)) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeEquiper::conditions remplies, calcul fin etape");
+			self::calculEtapeEquiperFin($etape, $hobbit);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private static function calculEtapeEquiperParam1($etape, &$hobbit, $idTypeEmplacement) {
+		$retour = false;
+		Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeEquiperParam1 - param1:".$etape["param_1_etape"]. " idTypeEmplacement:".$idTypeEmplacement);
+		if ($etape["param_1_etape"] == $idTypeEmplacement) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeEquiperParam1 - Ok");
+			$retour = true;
+		} else {
+			$retour = false;
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeEquiperParam1 - non Ok");
+		}
+		return $retour;
+	}
+
+	private static function calculEtapeEquiperParam2et3($etape, &$hobbit) {
+		$retour = false;
+		Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeEquiperParam2et3 - param2:".$etape["param_2_etape"]. " param3:".$etape["param_3_etape"]);
+		if ($etape["param_2_etape"] == self::ETAPE_EQUIPER_PARAM2_JOUR  && $etape["param_3_etape"] == date('N')) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeEquiperParam2et3 - B - jour ok");
+			$retour = true;
+		} else if ($etape["param_2_etape"] == self::ETAPE_EQUIPER_PARAM2_VILLE) {
+			Zend_Loader::loadClass("Ville");
+			$villeTable = new Ville();
+			$villes = $villeTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+			if ($villes != null && count($villes) == 1 && $villes[0]["id_ville"] == $etape["param_3_etape"]) {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeEquiperParam2et3 - B - sur la ville");
+				$retour = true;
+			} else {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeEquiperParam2et3 - B - non sur la ville");
+			}
+		} else {
+			$retour = false;
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeEquiperParam2et3 - C");
+		}
+		return $retour;
+	}
+
+	private static function calculEtapeEquiperFin($etape, &$hobbit) {
+		self::calculEtapeFinStandard($etape, $hobbit);
 	}
 
 	public static function etapeConstuire(&$hobbit) {

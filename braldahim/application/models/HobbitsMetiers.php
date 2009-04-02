@@ -39,6 +39,20 @@ class HobbitsMetiers extends Zend_Db_Table
 		return $db->fetchAll($sql);
 	}
 	
+	public function findMetierCourantByHobbitId($idHobbit) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbits_metiers', '*')
+		->from('metier', '*')
+		->where('hobbits_metiers.id_fk_metier_hmetier = metier.id_metier')
+		->where('hobbits_metiers.id_fk_hobbit_hmetier = '.intval($idHobbit))
+		->where('est_actif_hmetier = ?', 'oui')
+		->order('metier.nom_masculin_metier');
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
+	
 	public function findMetiersEchoppeByHobbitId($idHobbit) {
 		$db = $this->getAdapter();
 		$select = $db->select();
