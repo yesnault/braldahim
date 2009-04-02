@@ -445,10 +445,15 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 	}
 
 	private function pepareParamTypeEtapePossederParam1et2(&$dataTypeEtape) {
-		$dataTypeEtape["param1"] = Bral_Util_De::get_de_specifique($this->view->user->niveau_hobbit * 10, $this->view->user->niveau_hobbit * 20);
-		$dataTypeEtape["param2"] = Bral_Util_De::get_1d2();
-
+		
+		if (Bral_Util_Quete::ETAPE_POSSEDER_PARAM3_CASTAR == $dataTypeEtape["param3"]) {
+			$dataTypeEtape["param1"] = Bral_Util_De::get_de_specifique($this->view->user->niveau_hobbit * 10, $this->view->user->niveau_hobbit * 20);
+		} else { // Pour les materiaux : 1D20 + 5
+			$dataTypeEtape["param1"] = Bral_Util_De::get_1d20() + 5;
+		}
+		
 		$dataTypeEtape["libelle_etape"] = "Vous devez posséder ";
+		$dataTypeEtape["param2"] = Bral_Util_De::get_1d2();
 		if (Bral_Util_Quete::ETAPE_POSSEDER_PARAM2_COFFRE == $dataTypeEtape["param2"]) {
 			$dataTypeEtape["libelle_etape"] .= "dans votre coffre ".$dataTypeEtape["param1"];
 			$dataTypeEtape["libelle_etape_fin"] = ". Le calcul est fait sur l'action de dépot de votre part dans le coffre, les éléments seront détruits à la fin de l'étape.";
