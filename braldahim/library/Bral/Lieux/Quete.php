@@ -92,9 +92,8 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 
 		for ($i = 1; $i<= $nbEtapesAFaire; $i++) {
 			$n = Bral_Util_De::get_de_specifique(0, count($typeEtapes) - 1);
-			//			$dataEtape = $this->prepareEtape($i, $idQuete, $typeEtapes[$n]);
+			$dataEtape = $this->prepareEtape($i, $idQuete, $typeEtapes[$n]);
 
-			$dataEtape = $this->prepareEtape($i, $idQuete, $typeEtapes[5]);
 			$etapes[] = $dataEtape;
 			$etapeTable->insert($dataEtape);
 		}
@@ -118,7 +117,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 			$idMetiers[] = $hobbitsMetierRowset[0]["id_metier"];
 			$this->_idMetierCourant = $hobbitsMetierRowset[0]["id_metier"];
 			$typeEtapesMetier = $typeEtapeTable->fetchAllAvecIdsMetier($idMetiers);
-				
+
 			if ($typeEtapesMetier != null) {
 				foreach($typeEtapesMetier as $e) {
 					array_push($typeEtapes, $e);
