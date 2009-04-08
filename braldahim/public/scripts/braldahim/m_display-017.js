@@ -116,7 +116,7 @@ function limiteTailleTextarea(textarea, max, iddesc) {
 }
 
 function ouvrirWin(url, titre) {
-	window.open(url, titre, "directories=no,location=yes,menubar=yes,resizable=yes,scrollbars=yes,status=yes,toolbar=yes,width=800,height=600");
+	window.open(url, titre, "directories=no,location=yes,menubar=yes,resizable=yes,scrollbars=yes,status=yes,toolbar=yes,width=815,height=600");
 }
 
 function messagerie(nbMessageNonLu) {

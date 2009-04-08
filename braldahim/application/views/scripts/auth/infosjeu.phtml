@@ -11,7 +11,17 @@
 						$i = 0; 
 						foreach ($this->infosJeu as $info) : ?>
 						<tr class="table_liste<?=($i % 2);$i++; ?>">
-							<td class="table_liste">Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?></td>
+							<td class="table_liste">
+							<? if (Bral_Util_ConvertDate::get_date_add_time_to_date($info["date_info_jeu"], "48:00:00") > date("Y-m-d H:i:s")): ?>
+								<img src="/public/images/new.gif" title="information de moins de 48 heures"/>
+							<? else:?>
+								&nbsp;
+							<? endif;?>
+							</td>
+							<td class="table_liste">
+							Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?>
+							
+							</td>
 							<td class="table_liste"><?=Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
 							<? if ($info["lien_info_jeu"] != null) :?>
 								<br><a href="<?=$info["lien_info_jeu"]?>">Discussions</a>
