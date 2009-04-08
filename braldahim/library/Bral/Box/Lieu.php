@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -15,24 +15,24 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 	function getTitreOnglet() {
 		return "Lieu";
 	}
-	
+
 	function getNomInterne() {
-		return "box_lieu";		
+		return "box_lieu";
 	}
-	
+
 	function setDisplay($display) {
 		$this->view->display = $display;
 	}
-	
+
 	function render() {
 		Zend_Loader::loadClass("Echoppe");
 		Zend_Loader::loadClass("Lieu");
-		
+
 		$lieuxTable = new Lieu();
 		$lieuRowset = $lieuxTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		unset($lieuxTable);
 		$this->view->estLieuCourant = false;
-		
+
 		if (count($lieuRowset) > 1) {
 			throw new Zend_Exception(get_class($this)."::nombre de lieux invalide > 1 !");
 		} elseif (count($lieuRowset) == 1) {
@@ -43,13 +43,14 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 			$this->view->nomLieu = $lieu["nom_lieu"];
 			$this->view->nomTypeLieu = $lieu["nom_type_lieu"];
 			$this->view->nomSystemeLieu = $lieu["nom_systeme_type_lieu"];
+			$this->view->nomImageLieu = "batiments/".$lieu["nom_systeme_type_lieu"];
 			$this->view->descriptionLieu = $lieu["description_lieu"];
 			$this->view->descriptionTypeLieu = $lieu["description_type_lieu"];
 			$this->view->estFranchissableLieu = ($lieu["est_franchissable_type_lieu"] == "oui");
 			$this->view->estAlterableLieu = ($lieu["est_alterable_type_lieu"] == "oui");
 			$this->view->paUtilisationLieu = $lieu["pa_utilisation_type_lieu"];
 			$this->view->niveauMinLieu = $lieu["niveau_min_type_lieu"];
-			
+
 			$this->view->htmlLieu = $this->view->render("interface/lieux/".$lieu["nom_systeme_type_lieu"].".phtml");
 		} else {
 			$echoppesTable = new Echoppe();
@@ -61,7 +62,7 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 				$echoppe = $echoppeRowset[0];
 				unset($echoppeRowset);
 				$this->view->estLieuCourant = true;
-				
+
 				$nom = "Échoppe";
 				if ($echoppe["nom_masculin_metier"]{0} == "A") {
 					$nom .= " d'";
@@ -76,10 +77,11 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 				$nom .= " appartenant à ".$echoppe["prenom_hobbit"];
 				$nom .= " ".$echoppe["nom_hobbit"];
 				$nom .= " n°".$echoppe["id_hobbit"];
-				
+
 				$this->view->nomLieu = $nom;
 				$this->view->nomTypeLieu = "échoppe";
 				$this->view->nomSystemeLieu = "echoppe";
+				$this->view->nomImageLieu = "echoppes/".$echoppe["nom_systeme_metier"];
 				$this->view->nomEchoppe = $echoppe["nom_echoppe"];
 				$this->view->descriptionLieu = "";
 				$this->view->commentaireEchoppe = $echoppe["commentaire_echoppe"];
@@ -87,13 +89,13 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 				$this->view->estAlterableLieu = false;
 				$this->view->paUtilisationLieu = 0;
 				$this->view->niveauMinLieu = 0;
-				
+
 				$this->view->htmlLieu = $this->view->render("interface/lieux/echoppe.phtml");
 			}
 		}
-		
+
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/lieu.phtml");
 	}
-	
+
 }

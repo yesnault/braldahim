@@ -638,7 +638,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 			$deTypeEquipement = Bral_Util_De::get_de_specifique(0, count($typeEquipements) -1);
 			$typeEquipement = $typeEquipements[$deTypeEquipement];
 			$dataTypeEtape["param2"] = $typeEquipement["id_type_equipement"];
-			$dataTypeEtape["libelle_etape"] .= "de type ".$typeEquipement["nom_type_equipement"];
+			$dataTypeEtape["libelle_etape"] .= "de type ".$typeEquipement["nom_type_equipement"]. " (ou équivalent)";
 
 		} else if ($dataTypeEtape["param1"] == Bral_Util_Quete::ETAPE_FABRIQUER_PARAM1_QUALITE) {
 			Zend_Loader::loadClass("TypeQualite");
