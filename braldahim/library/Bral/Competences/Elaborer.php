@@ -275,7 +275,11 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			'id_fk_type_qualite_echoppe_potion' => $qualite,
 			'niveau_echoppe_potion' => $niveau,
 		);
-		$echoppePotionTable->insert($data);
+		$this->view->nbPotions = Bral_Util_De::get_2d3();
+		
+		for ($i = 1; $i <= $this->view->nbPotions; $i++) {
+			$echoppePotionTable->insert($data);
+		}
 		
 		Zend_Loader::loadClass("StatsFabricants");
 		$statsFabricants = new StatsFabricants();
@@ -283,7 +287,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$dataFabricants["niveau_hobbit_stats_fabricants"] = $this->view->user->niveau_hobbit;
 		$dataFabricants["id_fk_hobbit_stats_fabricants"] = $this->view->user->id_hobbit;
 		$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
-		$dataFabricants["nb_piece_stats_fabricants"] = 1;
+		$dataFabricants["nb_piece_stats_fabricants"] = $this->view->nbPotions;
 		$dataFabricants["somme_niveau_piece_stats_fabricants"] = $niveau;
 		$dataFabricants["id_fk_metier_stats_fabricants"] = $this->view->config->game->metier->apothicaire->id;
 		$statsFabricants->insertOrUpdate($dataFabricants);

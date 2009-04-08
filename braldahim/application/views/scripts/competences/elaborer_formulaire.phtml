@@ -1,7 +1,7 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
 	 <? if ($this->elaborerEchoppeOk === true) : ?>
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez &eacute;laborer une potion<br /><br />
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez &eacute;laborer une ou plusieurs potions<br /><br />
      
      Type de potion :<br />
      <select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_elaborer&type_potion='+this.value);">
