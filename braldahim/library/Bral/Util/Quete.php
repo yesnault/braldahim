@@ -71,6 +71,20 @@ class Bral_Util_Quete {
 	const ETAPE_EQUIPER_PARAM2_JOUR = 1;
 	const ETAPE_EQUIPER_PARAM2_VILLE = 2;
 
+	const ETAPE_CONSTRUIRE_PARAM1_CUISINIER = 8;
+	const ETAPE_CONSTRUIRE_PARAM1_BUCHERON = 3;
+	const ETAPE_CONSTRUIRE_PARAM1_TERRASSIER = 11;
+
+	const ETAPE_CONSTRUIRE_PARAM3_VILLE = 1;
+	const ETAPE_CONSTRUIRE_PARAM3_TERRAIN = 2;
+	
+	const ETAPE_CONSTUIRE_COMPETENCE_MONTERPALISSADE = "monterpalissade";
+	const ETAPE_CONSTUIRE_COMPETENCE_CUISINER = "cuisiner";
+	const ETAPE_CONSTUIRE_COMPETENCE_CONSTUIRE = "construire";
+	
+	const ETAPE_FABRIQUER_PARAM1_TYPE_PIECE = 1;
+	const ETAPE_FABRIQUER_PARAM1_QUALITE = 2;
+
 	private static function estQueteEnCours($hobbit) {
 		if ($hobbit->est_quete_hobbit == "oui") {
 			return true;
@@ -487,26 +501,7 @@ class Bral_Util_Quete {
 	}
 
 	private static function calculEtapeMangerFin($etape, &$hobbit) {
-		$etapeTable = new Etape();
-
-		$estFinEtape = false;
-
-		$data = array( "objectif_etape" => $etape["objectif_etape"] + 1);
-		if ($etape["objectif_etape"] + 1 >= $etape["param_1_etape"]) {
-			$data = array("objectif_etape" => $etape["objectif_etape"] + 1, "est_terminee_etape" => "oui", "date_fin_etape" => date("Y-m-d H:i:s"));
-			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeMangerFin - Fin Ok");
-			$estFinEtape = true;
-		} else {
-			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeMangerFin - Fin pas encore Ok:".$etape["param_1_etape"]. " / ".($etape["objectif_etape"] + 1));
-		}
-
-		$where = "id_etape = ".$etape["id_etape"];
-		$etapeTable->update($data, $where);
-		if ($estFinEtape) {
-			if (self::activeProchaineEtape($hobbit) == false) { // fin quete
-				self::termineQuete($hobbit);
-			}
-		}
+		self::calculEtapeFinStandardNbObjectif($etape, $hobbit, "param_1_etape");
 	}
 
 	public static function etapeFumer(&$hobbit, $idTypeTabac) {
@@ -980,7 +975,7 @@ class Bral_Util_Quete {
 		self::calculEtapeFinStandard($etape, $hobbit);
 	}
 
-	public static function etapeConstuire(&$hobbit) {
+	public static function etapeConstuire(&$hobbit, $nomSystemeCompetence) {
 		if (self::estQueteEnCours($hobbit)) {
 			Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeConstuire - quete en cours -");
 			$etape = self::getEtapeCourante($hobbit, self::QUETE_ETAPE_CONSTRUIRE_ID);
@@ -989,15 +984,119 @@ class Bral_Util_Quete {
 				return null;
 			} else {
 				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeConstuire - etape construire en cours");
-				return self::calculEtapeConstruire($etape);
+				return self::calculEtapeConstruire($etape, $hobbit, $nomSystemeCompetence);
 			}
 		} else {
 			return null;
 		}
 	}
 
-	private static function calculEtapeConstruire($etape) {
-		//TODO
+	private static function calculEtapeConstruire($etape, &$hobbit, $nomSystemeCompetence) {
+		if (self::calculEtapeConstruireParam1($etape, $hobbit, $nomSystemeCompetence)
+		&& self::calculEtapeConstruireParam3et4($etape, $hobbit)) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeConstruire::conditions remplies, calcul fin etape");
+			self::calculEtapeConstuireFin($etape, $hobbit);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private static function calculEtapeConstruireParam1($etape, &$hobbit, $nomSystemeCompetence) {
+		$retour = false;
+		Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeConstruireParam1et2 - param1:".$etape["param_1_etape"]. " param2:".$etape["param_2_etape"]);
+
+		$idMetierCourant = self::getIdMetierCourant($hobbit);
+
+		if ($etape["param_1_etape"] == self::ETAPE_CONSTRUIRE_PARAM1_TERRASSIER && $idMetierCourant == self::ETAPE_CONSTRUIRE_PARAM1_TERRASSIER && $nomSystemeCompetence == self::ETAPE_CONSTUIRE_COMPETENCE_CONSTUIRE) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeConstruireParam1 - A");
+			$retour = true;
+		} else if ($etape["param_1_etape"] == self::ETAPE_CONSTRUIRE_PARAM1_CUISINIER && $idMetierCourant == self::ETAPE_CONSTRUIRE_PARAM1_CUISINIER && $nomSystemeCompetence == self::ETAPE_CONSTUIRE_COMPETENCE_CUISINER) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeConstruireParam1 - B");
+			$retour = true;
+		} else if ($etape["param_1_etape"] == self::ETAPE_CONSTRUIRE_PARAM1_BUCHERON && $idMetierCourant == self::ETAPE_CONSTRUIRE_PARAM1_BUCHERON && $nomSystemeCompetence == self::ETAPE_CONSTUIRE_COMPETENCE_MONTERPALISSADE) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeConstruireParam1 - C");
+			$retour = true;
+		} else {
+			$retour = false;
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeConstruireParam1 - C");
+		}
+		return $retour;
+	}
+
+	private static function calculEtapeConstruireParam3et4($etape, &$hobbit) {
+		$retour = false;
+		Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeConstruireParam3et4 - param3:".$etape["param_3_etape"]. " param4:".$etape["param_4_etape"]);
+		if ($etape["param_3_etape"] == self::ETAPE_CONSTRUIRE_PARAM3_TERRAIN) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeConstruireParam3et4 - B - jour ok");
+			Zend_Loader::loadClass("Zone");
+			$zoneTable = new Zone();
+			$zones = $zoneTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+			if ($zones != null && count($zones) == 1 && $zones[0]["id_environnement"] == $etape["param_4_etape"]) {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeConstruireParam3et4 - B - sur l'environnement");
+				$retour = true;
+			} else {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeConstruireParam3et4 - B - non sur l'environnement");
+			}
+		} else if ($etape["param_3_etape"] == self::ETAPE_CONSTRUIRE_PARAM3_VILLE) {
+			Zend_Loader::loadClass("Ville");
+			$villeTable = new Ville();
+			$villes = $villeTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+			if ($villes != null && count($villes) == 1 && $villes[0]["id_ville"] == $etape["param_4_etape"]) {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeConstruireParam3et4 - B - sur la ville");
+				$retour = true;
+			} else {
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeConstruireParam3et4 - B - non sur la ville");
+			}
+		} else {
+			$retour = false;
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeConstruireParam3et4 - C");
+		}
+		return $retour;
+	}
+
+	private static function calculEtapeConstuireFin($etape, &$hobbit) {
+		self::calculEtapeFinStandardNbObjectif($etape, $hobbit, "param_2_etape");
+	}
+
+	private static function calculEtapeFinStandardNbObjectif($etape, &$hobbit, $champNombreAFaire) {
+		$etapeTable = new Etape();
+
+		$estFinEtape = false;
+
+		$data = array( "objectif_etape" => $etape["objectif_etape"] + 1);
+		if ($etape["objectif_etape"] + 1 >= $etape[$champNombreAFaire]) {
+			$data = array("objectif_etape" => $etape["objectif_etape"] + 1, "est_terminee_etape" => "oui", "date_fin_etape" => date("Y-m-d H:i:s"));
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeFinStandardNbObjectif - Fin Ok");
+			$estFinEtape = true;
+		} else {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeFinStandardNbObjectif - Fin pas encore Ok:".$etape[$champNombreAFaire]. " / ".($etape["objectif_etape"] + 1));
+		}
+
+		$where = "id_etape = ".$etape["id_etape"];
+		$etapeTable->update($data, $where);
+		if ($estFinEtape) {
+			if (self::activeProchaineEtape($hobbit) == false) { // fin quete
+				self::termineQuete($hobbit);
+			}
+		}
+	}
+	
+	private static function getIdMetierCourant($hobbit) {
+		Zend_Loader::loadClass("HobbitsMetiers");
+		$hobbitsMetiersTable = new HobbitsMetiers();
+		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetierCourantByHobbitId($hobbit->id_hobbit);
+
+		if (count($hobbitsMetiersTable) > 1) {
+			throw new Zend_Exception("Bral_Util_Quete::getIdMetierCourant metier courant invalide:".$hobbit->id_hobbit);
+		}
+
+		if (count($hobbitsMetiersTable) == 1) {
+			$idMetiers = $hobbitsMetierRowset[0]["id_metier"];
+		} else {
+			$idMetiers = null;
+		}
+		return $idMetiers;
 	}
 
 	public static function etapeFabriquer(&$hobbit) {
@@ -1009,14 +1108,14 @@ class Bral_Util_Quete {
 				return null;
 			} else {
 				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeFabriquer - etape fabriquer en cours");
-				return self::calculEtapeFabriquer($etape);
+				return self::calculEtapeFabriquer($etape, $hobbit);
 			}
 		} else {
 			return null;
 		}
 	}
 
-	private static function calculEtapeFabriquer($etape) {
+	private static function calculEtapeFabriquer($etape, &$hobbit) {
 		//TODO
 	}
 
@@ -1029,14 +1128,14 @@ class Bral_Util_Quete {
 				return null;
 			} else {
 				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeCollecter - etape collecter en cours");
-				return self::calculEtapeCollecter($etape);
+				return self::calculEtapeCollecter($etape, $hobbit);
 			}
 		} else {
 			return null;
 		}
 	}
 
-	private static function calculEtapeCollecter($etape) {
+	private static function calculEtapeCollecter($etape, &$hobbit) {
 		//TODO
 	}
 

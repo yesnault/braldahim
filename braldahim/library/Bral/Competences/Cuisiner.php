@@ -14,6 +14,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Laban");
+		Zend_Loader::loadClass('Bral_Util_Quete');
 		
 		$labanTable = new Laban();
 		$laban = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
@@ -60,6 +61,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 
 		if ($this->view->okJet1 === true) {
 			$this->calculCuisiner();
+			$this->view->estQueteEvenement = Bral_Util_Quete::etapeConstuire($this->view->user, $this->nom_systeme);
 		}
 		
 		$this->calculPx();

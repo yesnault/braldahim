@@ -17,7 +17,8 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Palissade');  
 		Zend_Loader::loadClass('Route');
 		Zend_Loader::loadClass('Zone');
-		Zend_Loader::loadClass('Bral_Util_Marcher'); 
+		Zend_Loader::loadClass('Bral_Util_Marcher');
+		Zend_Loader::loadClass('Bral_Util_Quete');
 		
 		$utilMarcher = new Bral_Util_Marcher();
 		
@@ -116,6 +117,7 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 
 		if ($this->view->okJet1 === true) {
 			$this->calculConstruire();
+			$this->view->estQueteEvenement = Bral_Util_Quete::etapeConstuire($this->view->user, $this->nom_systeme);
 		}
 		
 		$this->calculPx();
