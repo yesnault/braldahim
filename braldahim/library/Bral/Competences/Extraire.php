@@ -14,6 +14,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass('Filon');
+		Zend_Loader::loadClass("Bral_Util_Quete");
 		
 		$this->view->poidsPlaceDisponible = false;
 		
@@ -109,6 +110,8 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 			$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
 			$dataRecolteurs["nb_minerai_stats_recolteurs"] = $quantiteExtraite;
 			$statsRecolteurs->insertOrUpdate($dataRecolteurs);
+			
+			$this->view->estQueteEvenement = Bral_Util_Quete::etapeCollecter($this->view->user, $this->competence["id_fk_metier_competence"]);
 		}	
 
 		// Destruction du filon s'il ne reste plus rien

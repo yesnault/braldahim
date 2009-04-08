@@ -1006,7 +1006,8 @@ class Bral_Util_Quete {
 		$retour = false;
 		Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeConstruireParam1et2 - param1:".$etape["param_1_etape"]. " param2:".$etape["param_2_etape"]);
 
-		$idMetierCourant = self::getIdMetierCourant($hobbit);
+		Zend_Loader::loadClass("Bral_Util_Metier");
+		$idMetierCourant = Bral_Util_Metier::getIdMetierCourant($hobbit);
 
 		if ($etape["param_1_etape"] == self::ETAPE_CONSTRUIRE_PARAM1_TERRASSIER && $idMetierCourant == self::ETAPE_CONSTRUIRE_PARAM1_TERRASSIER && $nomSystemeCompetence == self::ETAPE_CONSTUIRE_COMPETENCE_CONSTUIRE) {
 			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeConstruireParam1 - A");
@@ -1082,23 +1083,6 @@ class Bral_Util_Quete {
 		}
 	}
 
-	private static function getIdMetierCourant($hobbit) {
-		Zend_Loader::loadClass("HobbitsMetiers");
-		$hobbitsMetiersTable = new HobbitsMetiers();
-		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetierCourantByHobbitId($hobbit->id_hobbit);
-
-		if (count($hobbitsMetiersTable) > 1) {
-			throw new Zend_Exception("Bral_Util_Quete::getIdMetierCourant metier courant invalide:".$hobbit->id_hobbit);
-		}
-
-		if (count($hobbitsMetiersTable) == 1) {
-			$idMetiers = $hobbitsMetierRowset[0]["id_metier"];
-		} else {
-			$idMetiers = null;
-		}
-		return $idMetiers;
-	}
-
 	public static function etapeFabriquer(&$hobbit, $idTypeEquipement, $idTypeQualite) {
 		if (self::estQueteEnCours($hobbit)) {
 			Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeFabriquer - quete en cours -");
@@ -1144,7 +1128,7 @@ class Bral_Util_Quete {
 		self::calculEtapeFinStandard($etape, $hobbit);
 	}
 
-	public static function etapeCollecter(&$hobbit) {
+	public static function etapeCollecter(&$hobbit, $idMetier) {
 		if (self::estQueteEnCours($hobbit)) {
 			Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeCollecter - quete en cours -");
 			$etape = self::getEtapeCourante($hobbit, self::QUETE_ETAPE_COLLECTER_ID);
@@ -1153,15 +1137,70 @@ class Bral_Util_Quete {
 				return null;
 			} else {
 				Bral_Util_Log::quete()->trace("Bral_Util_Quete::etapeCollecter - etape collecter en cours");
-				return self::calculEtapeCollecter($etape, $hobbit);
+				return self::calculEtapeCollecter($etape, $hobbit, $idMetier);
 			}
 		} else {
 			return null;
 		}
 	}
 
-	private static function calculEtapeCollecter($etape, &$hobbit) {
-		//TODO
+	private static function calculEtapeCollecter($etape, &$hobbit, $idMetier) {
+		if (self::calculEtapeCollecterParam1($etape, $hobbit, $idMetier)) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeConstruire::conditions remplies, calcul fin etape");
+			self::calculEtapeCollecterFin($etape, $hobbit, $idMetier);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
+	private static function calculEtapeCollecterParam1($etape, &$hobbit, $idMetier) {
+		$retour = false;
+		Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeCollecterParam1 - param1:".$etape["param_1_etape"]);
+		if ($etape["param_1_etape"] == $idMetier) {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeCollecterParam1 - A");
+			$retour = true;
+		} else {
+			Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeCollecterParam1 - D");
+		}
+		return $retour;
+	}
+
+	private static function calculEtapeCollecterFin($etape, &$hobbit, $idMetier) {
+		$retour = false;
+		Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeCollecterParam2 - param2:".$etape["param_2_etape"]);
+
+		$moisPrecedent = mktime(0, 0, 0, date("m")-1, 1, date("Y"));
+		$moisSuivant  = mktime(0, 0, 0, date("m")+1, 1, date("Y")); // fin du mois en cours dans la requete sql
+
+		$dateDebut = date("Y-m-d H:i:s", $moisPrecedent);
+		$dateFin = date("Y-m-d H:i:s", $moisSuivant);
+
+		Zend_Loader::loadClass("StatsRecolteurs");
+		$statsRecolteursTable = new StatsRecolteurs();
+		$stats = $statsRecolteursTable->findByHobbitAndDateAndIdTypeMetier($hobbit->id_hobbit, $dateDebut, $dateFin, $etape["param_1_etape"]);
+		if ($stats != null && count($stats) > 0) { // mise à jour des objectifs avec ce qu'il y a dans la table stats
+			$nb = $stats[0]["nombre"];
+			$retour = true;
+
+			$etapeTable = new Etape();
+			$data = array("objectif_etape" => $nb);
+			if ($nb >= $etape["param_2_etape"]) { // fin etape
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeCollecterParam2 nb Ok, nb:".$nb);
+				$data = array("est_terminee_etape" => "oui", "date_fin_etape" => date("Y-m-d H:i:s"));
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeFinStandard - Fin Ok");
+				$where = "id_etape = ".$etape["id_etape"];
+				$etapeTable->update($data, $where);
+				if (self::activeProchaineEtape($hobbit) == false) { // fin quete
+					self::termineQuete($hobbit);
+				}
+			} else {
+				$where = "id_etape = ".$etape["id_etape"];
+				$etapeTable->update($data, $where);
+				Bral_Util_Log::quete()->trace("Bral_Util_Quete::calculEtapeCollecterParam2 nb non Ok, nb:".$nb);
+			}
+		}
+
+		return $retour;
+	}
 }

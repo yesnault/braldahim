@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -13,16 +13,17 @@
 class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 
 	private $_tabPlantes = null;
-	
+
 	function prepareCommun() {
 		Zend_Loader::loadClass('Plante');
 		Zend_Loader::loadClass('TypePartieplante');
-		
+		Zend_Loader::loadClass("Bral_Util_Quete");
+
 		$this->preCalculPoids();
 		if ($this->view->poidsPlaceDisponible !== true) {
 			return;
 		}
-		
+
 		$tabPlantes = null;
 		$this->view->planteOk = false;
 
@@ -152,7 +153,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 				if ($tab[$idx]["quantite"] < 1) {
 					$tab[$idx]["estVide"] = true;
 					if ($tab[1]["estVide"] === true && $tab[2]["estVide"] === true  &&
-						$tab[3]["estVide"] === true && $tab[4]["estVide"] === true ) {
+					$tab[3]["estVide"] === true && $tab[4]["estVide"] === true ) {
 						$planteADetruire = true;
 						break; // si la plante est vide, on sort
 					}
@@ -168,12 +169,12 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 				}
 			}
 		}
-		
+
 		$nbCueillette = 0;
 		// reussite, on met dans le laban
 		if ($this->view->okJet1 === true) {
 			$labanPartiePlanteTable = new LabanPartieplante();
-	
+
 			for ($i=1; $i<=4; $i++) {
 				if ($cueillette[$i]["quantite"] > 0) {
 					$nbCueillette = $nbCueillette + $cueillette[$i]["quantite"];
@@ -186,7 +187,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 					$labanPartiePlanteTable->insertOrUpdate($data);
 				}
 			}
-			
+				
 			$statsRecolteurs = new StatsRecolteurs();
 			$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
 			$dataRecolteurs["niveau_hobbit_stats_recolteurs"] = $this->view->user->niveau_hobbit;
@@ -194,8 +195,10 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 			$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
 			$dataRecolteurs["nb_partieplante_stats_recolteurs"] = $nbCueillette;
 			$statsRecolteurs->insertOrUpdate($dataRecolteurs);
+			
+			$this->view->estQueteEvenement = Bral_Util_Quete::etapeCollecter($this->view->user, $this->competence["id_fk_metier_competence"]);
 		}
-		
+
 		// s'il n'y a plus rien sur la plante, il faut la supprimer
 		if ($planteADetruire === true) {
 			$planteTable = new Plante();
@@ -219,7 +222,7 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 		$this->view->plante = $plante;
 			
 		$this->setEvenementQueSurOkJet1(false);
-		
+
 		$this->calculPx();
 		$this->calculPoids();
 		$this->calculBalanceFaim();
@@ -244,33 +247,33 @@ class Bral_Competences_Cueillir extends Bral_Competences_Competence {
 	private function calculQuantiteAExtraire() {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		$this->view->effetRune = false;
-		
+
 		$n = Bral_Util_De::get_1d3();
 		$n = $n + floor($this->view->user->agilite_base_hobbit / 5);
-		
+
 		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "RI")) { // s'il possède une rune RI
 			$this->view->effetRune = true;
 			$n = ceil($n * 1.5);
 		}
-		
+
 		$n  = $n  + ($this->view->user->agilite_bm_hobbit + $this->view->user->agilite_bbdf_hobbit) / 2 ;
 		$n  = intval($n);
 		if ($n <= 0) {
 			$n  = 1;
 		}
-		
+
 		if ($n > $this->view->nbElementPossible) {
 			$n = $this->view->nbElementPossible;
 		}
 		return $n;
 	}
-	
+
 	private function preCalculPoids() {
 		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 		if ($poidsRestant < 0) $poidsRestant = 0;
-		
+
 		$this->view->nbElementPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);
-		
+
 		if ($this->view->nbElementPossible < 1) {
 			$this->view->poidsPlaceDisponible = false;
 		} else {

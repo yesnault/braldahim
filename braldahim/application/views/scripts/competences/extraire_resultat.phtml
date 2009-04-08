@@ -8,7 +8,7 @@
 		&agrave; cause de vos malus importants en Force.<br> <br />
 	<? else: ?>
 		Vous avez extrait avec succ&egrave;s 
-		<?=$this->minerai["quantite_extraite"]?> morceau<?if($this->minerai["quantite_extraite"] > 0): echo "x"; endif; ?>
+		<?=$this->minerai["quantite_extraite"]?> morceau<?if($this->minerai["quantite_extraite"] > 1): echo "x"; endif; ?>
 		de <?=$this->minerai["nom_type"]?><br />
 		<? if ($this->filonDetruit === true): ?>
 			Pfiou, il n'y a plus rien dans le filon...

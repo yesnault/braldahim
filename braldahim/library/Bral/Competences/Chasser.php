@@ -15,6 +15,7 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Laban");
 		Zend_Loader::loadClass("Zone");
+		Zend_Loader::loadClass("Bral_Util_Quete");
 		
 		$this->preCalculPoids();
 		if ($this->view->poidsPlaceDisponible !== true) {
@@ -147,6 +148,8 @@ class Bral_Competences_Chasser extends Bral_Competences_Competence {
 		$dataRecolteurs["nb_peau_stats_recolteurs"] = $this->view->nbPeau;
 		$dataRecolteurs["nb_viande_stats_recolteurs"] = $this->view->nbViande;
 		$statsRecolteurs->insertOrUpdate($dataRecolteurs);
+		
+		$this->view->estQueteEvenement = Bral_Util_Quete::etapeCollecter($this->view->user, $this->competence["id_fk_metier_competence"]);
 	}
 	
 	function getListBoxRefresh() {

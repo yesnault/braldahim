@@ -111,20 +111,18 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 			throw new Zend_Exception(get_class($this)."::getTypesEtapesPossibles metier courant invalide:".$this->view->user->id_hobbit);
 		}
 
+		$typeEtapeTable = new TypeEtape();
+		$typeEtapes = $typeEtapeTable->fetchAllSansMetier();
+
 		if (count($hobbitsMetiersTable) == 1) {
 			$idMetiers[] = $hobbitsMetierRowset[0]["id_metier"];
 			$this->_idMetierCourant = $hobbitsMetierRowset[0]["id_metier"];
-		} else {
-			$idMetiers = array();
-		}
-
-		$typeEtapeTable = new TypeEtape();
-		$typeEtapes = $typeEtapeTable->fetchAllSansMetier();
-		$typeEtapesMetier = $typeEtapeTable->fetchAllAvecIdsMetier($idMetiers);
-
-		if ($typeEtapesMetier != null) {
-			foreach($typeEtapesMetier as $e) {
-				array_push($typeEtapes, $e);
+			$typeEtapesMetier = $typeEtapeTable->fetchAllAvecIdsMetier($idMetiers);
+				
+			if ($typeEtapesMetier != null) {
+				foreach($typeEtapesMetier as $e) {
+					array_push($typeEtapes, $e);
+				}
 			}
 		}
 		return $typeEtapes;
@@ -664,7 +662,28 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 	}
 
 	private function pepareParamTypeEtapeCollecter() {
-		//TODO
+		$dataTypeEtape = $this->initDataTypeEtape();
+
+		Zend_Loader::loadClass("Bral_Util_Metier");
+		$dataTypeEtape["param1"] = Bral_Util_Metier::getIdMetierCourant($this->view->user);
+
+		$dataTypeEtape["libelle_etape"] = "Vous devez ";
+
+		if ($dataTypeEtape["param1"] == Bral_Util_Metier::METIER_CHASSEUR_ID) { // chasseur
+			$dataTypeEtape["param2"] = Bral_Util_De::get_de_specifique(20, 30);
+			$dataTypeEtape["libelle_etape"] .= "chasser et obtenir ".$dataTypeEtape["param2"]. " peaux";
+		} else if ($dataTypeEtape["param1"] == Bral_Util_Metier::METIER_HERBORISTE_ID) { // herbo
+			$dataTypeEtape["param2"] = Bral_Util_De::get_de_specifique(10, 20);
+			$dataTypeEtape["libelle_etape"] .= "cueillir ".$dataTypeEtape["param2"]. " parties de plantes";
+		} else if ($dataTypeEtape["param1"] == Bral_Util_Metier::METIER_MINEUR_ID) { // mineur
+			$dataTypeEtape["param2"] = Bral_Util_De::get_de_specifique(10, 20);
+			$dataTypeEtape["libelle_etape"] .= "extraire ".$dataTypeEtape["param2"]. " minerais";
+		} else if ($dataTypeEtape["param1"] == Bral_Util_Metier::METIER_BUCHERON_ID) { // Bucheron
+			$dataTypeEtape["param2"] = Bral_Util_De::get_de_specifique(15, 30);
+			$dataTypeEtape["libelle_etape"] .= "abattre des arbres et récupérer ".$dataTypeEtape["param2"]. " rondins";
+		}
+		$dataTypeEtape["libelle_etape"] .= " en deux mois (du 1er du mois précédent au 31 du mois en cours).";
+		return $dataTypeEtape;
 	}
 
 	function getListBoxRefresh() {
