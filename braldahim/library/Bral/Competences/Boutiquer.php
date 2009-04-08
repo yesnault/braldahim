@@ -125,7 +125,7 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 		$nbCastars = 0;
 		switch($de6) {
 			case 1:
-				$message = "Je vous le prend, mais c'est vraiment pour vous débarrasser.";
+				$message = "Je vous le prends, mais c'est vraiment pour vous débarrasser.";
 				$nbCastars = Bral_Util_De::get_1d10();
 				break;
 			case 2:
