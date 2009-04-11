@@ -24,6 +24,7 @@
 			  		<? if ($j["est_ko_hobbit"] == "oui") :?>
 			  		Actuellement plaqué
 			  		<? endif;?>
+			  		<img src='/public/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onClick="ecrireMessage('<?=$j["id_hobbit"]?>');" style='cursor:pointer'/>
 		  		</tr>
 		  	<? endforeach; ?>
 		<? else: ?>

@@ -16,7 +16,7 @@ $textBallon = "";
 	$doubleClick = "";
 	if ($this->user->x_hobbit == $case["x"] && $this->user->y_hobbit == $case["y"]) {
 		$doubleClick = "title=\"Double Cliquer pour acc&eacute;der directement au lieu\"";
-		$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return cClick(); \"";
+		$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return fermeturePopup(); \"";
 	}
 endif; ?>
 
@@ -65,7 +65,7 @@ endif; ?>
 	$doubleClick = "";
 	if ($this->user->x_hobbit == $case["x"] && $this->user->y_hobbit == $case["y"]) {
 		$doubleClick = "title=\"Double Cliquer pour acc&eacute;der directement &agrave; l'&eacute;choppe\"";
-		$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return cClick(); \"";
+		$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return fermeturePopup(); \"";
 	}
 endif; ?>
     
@@ -78,7 +78,7 @@ endif; ?>
 		<? endif; ?>
 	</span>
 <? elseif ($textEchoppe != "") : ?>
-	<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
+	<span <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
 		<img src='/public/styles/braldahim_defaut/images/vue/echoppes/<?=$nomSystemeEchoppe?>.png' />
 	</span>
 <? elseif ($textPalissade != "") : ?>

@@ -30,11 +30,7 @@ function my_switch(box, conteneur) {
 	}
 	$("onglet_" + box).className = "onglet actif";
 	
-	try {
-		cClick(); // fermeture popup
-	} catch (e) {
-		// erreur si aucune popup n'a ete ouverte depuis l'arrivee sur l'interface
-	}
+	fermeturePopup();
 	
 	if ($("loaded_" + box).value != "1") {
 		$("loaded_" + box).value = 1;
@@ -155,7 +151,7 @@ function hideModal(divID) {
 }
 
 function ecrireMessage(idHobbit) {
-	cClick(); // Fermeture de la popup overdiv
+	fermeturePopup();
 	if ($("loaded_box_messagerie").value != "1") {
 		// pour eviter de recharger box_messagerie lors du my_switch en dessous
 		// si l'onglet n'a jamais été vu.
@@ -163,6 +159,14 @@ function ecrireMessage(idHobbit) {
 	}
 	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_2=" + idHobbit);
 	my_switch("box_messagerie","boite_c");
+}
+
+function fermeturePopup() {
+	try {
+		return cClick(); // fermeture popup
+	} catch (e) {
+		// erreur si aucune popup n'a ete ouverte depuis l'arrivee sur l'interface
+	}
 }
 
 function encodePlus(chaine) {
