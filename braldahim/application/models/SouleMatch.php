@@ -36,6 +36,21 @@ class SouleMatch extends Zend_Db_Table {
 		return $result;
 	}
 
+	public function findNonDebuteByIdHobbit($idHobbit) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('soule_equipe', null)
+		->from('soule_match', '*')
+		->from('soule_terrain', '*')
+		->where('id_fk_hobbit_soule_equipe = ?', (int)$idHobbit)
+		->where('id_fk_match_soule_equipe = id_soule_match')
+		->where('date_debut_soule_match is null')
+		->where('id_fk_terrain_soule_match = id_soule_terrain');
+		$sql = $select->__toString();
+		$result = $db->fetchAll($sql);
+		return $result;
+	}
+	
 	public function findNonDebutes() {
 		$db = $this->getAdapter();
 		$select = $db->select();

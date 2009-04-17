@@ -284,7 +284,7 @@ class Bral_Util_Attaque {
 			if ($effetMotSPossible == false) {
 				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit); // uniquement en cas de riposte
 			}
-			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot, $cible["niveau_cible"], "hobbit", true, $view, $idMatchSoule);
+			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot, $cible["niveau_cible"], "hobbit", true, $view);
 			//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
 
 		} else { // esquive parfaite
@@ -302,7 +302,7 @@ class Bral_Util_Attaque {
 				$detailsBot .= " Riposte de ".$hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.")".PHP_EOL;
 				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit); // uniquement en cas de riposte
 			}
-			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot, $cible["niveau_cible"], "hobbit", true, $view, $idMatchSoule);
+			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot, $cible["niveau_cible"], "hobbit", true, $view);
 			//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
 		}
 

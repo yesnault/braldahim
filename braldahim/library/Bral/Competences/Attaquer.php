@@ -28,8 +28,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 
 		if (count($equipementPorteRowset) > 0){
 			$armeTirPortee = true;
-		}
-		else{
+		} else if ($this->view->user->est_intangible_hobbit == "non") {
 			$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 				
 			if ($estRegionPvp) {

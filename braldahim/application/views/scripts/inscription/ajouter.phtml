@@ -50,9 +50,20 @@
 		    Entre 5 et 15 caract&egrave;res<br />
 		    La premi&egrave;re lettre de votre pr&eacute;nom sera automatiquement mise en majuscule<br />
 		    Les chiffres et les caract&egrave;res sp&eacute;ciaux ne sont pas autoris&eacute;s dans le pr&eacute;nom.<br>
-		    Certains pr&eacute;noms sont interdits, d'autres sont d&eacute;j&agrave; utilis&eacute;s.<br>
+		    Certains pr&eacute;noms sont interdits, d'autres sont d&eacute;j&agrave; utilis&eacute;s.<br><br>
+		    
 		     Si le pr&eacute;nom que vous choisissez est d&eacute;j&agrave; utilis&eacute; avec le nom tir&eacute; au sort, il sera 
-		    suffix&eacute; de <u>Junior</u>.<br>
+		    suffix&eacute; de <u>Junior</u>. 
+		    <br>
+		    Ceci arrive tr&egrave;s rarement, mais vous pouvez v&eacute;rifier l'utilisation ou non de 
+		    votre pr&eacute;nom en consultant 
+		    
+		    <a onClick="javascript:ouvrirWin('/voir/hobbits');" title="Cliquez pour voir la liste des hobbits inscrits">
+  				la liste des hobbits inscrits.
+  			</a>
+  	 		<br>
+		    
+		    <br>
 		    <u>Choisissez bien votre pr&eacute;nom</u>, il ne sera pas possible de le changer par la suite.<br>
 		    
 			<input type="text" name="prenom_hobbit" value="<?=$this->hobbit->prenom_hobbit;?>" size="25" maxlength="15"/>
@@ -130,6 +141,8 @@
 				</option>
 				<? endforeach; ?>
 			</select><br /><br />
+			Vous pourrez bien s&ucirc;r changer de comté au cours du jeu.<br>
+			
 			<br>
 
 			<ul class="titre textalic textsizec">Charte</ul>

@@ -1,14 +1,23 @@
-		<? include("commun_text_resultat.phtml") ?>
-		
-		Votre Jet d'identification : <?=$this->jetHobbit ?> <br />
-		<? if ($this->identificationReussieOk === true): ?>
-			Vous avez r&eacute;ussi &agrave; identifier la rune n&deg; <?=$this->rune["id_rune"] ?><br />
-			<? if ($this->rune["image"] != ""): ?>
-    			<img src="/public/images/runes/<?=$this->rune["image"]?>" title="<?=$this->rune["type"]?> (<?=$this->rune["id_rune"]?>)" />
-	   		<? endif; ?>
-		<? else: ?>
-			Vous avez manqu&eacute; votre identification<br />
-			<?if ($this->jetHobbitLoin === true) :?>
-				Vous &ecirc;tes loin d'identifier cette rune...
-			<? endif; ?>
+<? include("commun_text_resultat.phtml") ?>
+
+<? if ($this->okJet1 === true):?>
+	Votre Jet d'identification : <?=$this->jetHobbit ?> <br />
+	<? if ($this->identificationReussieOk === true): ?>
+		Vous avez r&eacute;ussi &agrave; identifier la rune n&deg; <?=$this->rune["id_rune"] ?><br />
+		<? if ($this->rune["image"] != ""): ?>
+	    	<img src="/public/images/runes/<?=$this->rune["image"]?>" title="<?=$this->rune["type"]?> (<?=$this->rune["id_rune"]?>)" />
+	   	<? endif; ?>
+	<? else: ?>
+		Vous avez manqu&eacute; votre identification
+		<?if ($this->jetHobbitLoin === true) :?>
+			<br>et vous &ecirc;tes loin d'identifier cette rune...
 		<? endif; ?>
+		<br /><br />
+	<? endif; ?>
+<? endif; ?>
+
+<? if ($this->nb_px == 0) : ?>
+	Vous n'avez gagn&eacute; aucun PX<br /><br /> 
+<? else: ?>
+	Vous avez gagn&eacute; <?=$this->nb_px?> PX<br /><br />
+<? endif; ?>

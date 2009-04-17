@@ -26,7 +26,7 @@ class Hobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function findByCriteres($niveau = -1 , $page = null, $nbMax = null, $ordre = null, $sens = null) {
+	function findByCriteres($niveau = -1 , $page = null, $nbMax = null, $ordre = null, $sens = null, $where = null) {
 		if ($niveau != -1) {
 			$and = " niveau_hobbit = ".intval($niveau); 
 		} else {
@@ -51,6 +51,10 @@ class Hobbit extends Zend_Db_Table {
 		
 		if ($page != null && $nbMax != null) {
 			$select->limitPage($page, $nbMax);
+		}
+		
+		if ($where != null) {
+			$select->where($where);
 		}
 		
 		$sql = $select->__toString();

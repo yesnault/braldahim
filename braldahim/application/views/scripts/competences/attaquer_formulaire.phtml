@@ -10,6 +10,10 @@
 		<? if ($this->user->est_soule_hobbit == 'oui') :?>
 			Vous ne pouvez attaquer que des adversaires pendant un match de soule.<br><br>
 		<? endif;?>
+		
+		<? if ($this->user->est_intangible_hobbit == 'oui') :?>
+			Vous êtes actuellement intangible, vous ne pouvez pas attaquer.<br><br>
+		<? endif;?>
 			
 	 	<? if ($this->nHobbits == 0 && $this->nMonstres == 0): ?>
 	 		Il n'y a rien &agrave; attaquer ici...<br />

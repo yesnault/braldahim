@@ -30,7 +30,6 @@
 			 		<? endif;?>
 		 			<?=htmlspecialchars($this->retourAttaque["cible"]["nom_cible"])?> (<?=$this->retourAttaque["cible"]["id_cible"]?>)<br /><br />
 		 		<? endif; ?>
-		 		Vous avez gagn&eacute; <?=$this->nb_px?> PX<br /><br />
 		 		
 		 		<? if ($this->effetRune) :?>
 					Une rune que vous portez a eu de l'effet sur les d&eacute;g&acirc;ts inflig&eacute;s.<br />
@@ -40,7 +39,6 @@
 					<img src='/public/styles/braldahim_defaut/images/vue/ballon.png'/><br>
 					Le ballon de soule est tomb&eacute; &agrave; terre !<br>
 				<? endif;?>
-	
 		 	<? else: ?>
 		 		Votre attaque a &eacute;t&eacute; esquiv&eacute;e 
 		 		<? if ($this->retourAttaque["fragilisee"] === true) : ?>
@@ -49,6 +47,8 @@
 		 		parfaitement.
 		 		<? endif; ?>
 		 	<? endif; ?>
+		 	<br /><br />
+		 	Vous avez gagn&eacute; <?=$this->nb_px?> PX<br /><br />
 	 	<? else: ?>
 			Vous avez manqu&eacute; votre fr&eacute;n&eacute;sie.<br />
 		<? endif; ?>

@@ -30,14 +30,21 @@
 
 <? if ($this->inscriptionPossible === true): ?>
 	<? if ($this->user->activation == true) :?>
-	Vous pouvez vous inscrire.
-		<input type="button" class='button1' value="1 PA - Inscription"
-	  onClick="Javascript:_get_('/soule/doaction?caction=ask_soule_inscription');"/>
+		Vous pouvez vous inscrire.
+		<input type="button" class='button1' value="1 PA - Inscription" onClick="Javascript:_get_('/soule/doaction?caction=ask_soule_inscription');"/>
 	<? else: ?>
 	Tour non activ&eacute; &agrave; la connexion, activez-le pour vous inscrire.
 	<? endif;?>
 <? else:?>
 	<?=$this->inscriptionNonPossibleInfo?>
+	<br>
+	<? if ($this->desinscriptionPossible === true): ?>
+		Vous pouvez vous désinscrire.
+		<input type="button" class='button1' value="2 PA - Désinscription" onClick="Javascript:_get_('/soule/doaction?caction=ask_soule_desinscription');"/>
+	<? endif; ?>
+	<? if ($this->deinscriptionNonPossibleInfo != "") : ?>
+		<br><?=$this->deinscriptionNonPossibleInfo ?><br>
+	<? endif;?>
 <? endif; ?>
 
 <?php include("voir/equipes.phtml")?>

@@ -30,14 +30,16 @@ class Bral_Voir_Hobbits {
 		$communaute = null;
 		$this->view->tri = "";
 		$this->view->filtre = "";
+		$this->view->filtrePrenom = "";
 		$this->view->page = "";
 		$this->view->precedentOk = false;
 		$this->view->suivantOk = false;
 		
 		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->findByCriteres($this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql);
+		$hobbitRowset = $hobbitTable->findByCriteres($this->_filtre, $this->_page, $this->_nbMax, $this->_ordreSql, $this->_sensOrdreSql, $this->_whereSql);
 		$tabHobbits = null;
 		$tabNiveaux = $hobbitTable->findDistinctNiveau();
+		
 		
 		foreach($hobbitRowset as $m) {
 			$tabHobbits[] = array(
@@ -63,6 +65,7 @@ class Bral_Voir_Hobbits {
 		
 		$this->view->page = $this->_page;
 		$this->view->filtre = $this->_filtre;
+		$this->view->filtrePrenom = $this->_filtrePrenom;
 		$this->view->ordre = $this->_ordre;
 		$this->view->sensOrdre = $this->_sensOrdre;
 		$this->view->tabNiveaux = $tabNiveaux;
@@ -80,35 +83,43 @@ class Bral_Voir_Hobbits {
 	}
 	
 	private function preparePage() {
+		$this->view->tabLettres = Bral_Util_String::getTabLettres();
+		
 		$this->_page = 1;
 		
 		if ($this->_request->get("valeur_1") == "f") {
 			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
+			$this->_filtrePrenom = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_7"));
 			$ordre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
 			$sensOrdre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_6"));
 		} else if ($this->_request->get("valeur_1") == "p") {
 			$this->_page = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) - 1;
 			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
+			$this->_filtrePrenom = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_7"));
 			$ordre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
 			$sensOrdre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_6"));
 		} else if ($this->_request->get("valeur_1") == "s") {
 			$this->_page = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) + 1;
 			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
+			$this->_filtrePrenom = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_7"));
 			$ordre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
 			$sensOrdre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_6"));
 		} else if ($this->_request->get("valeur_1") == "o") {
 			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
+			$this->_filtrePrenom = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_7"));
 			$ordre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_5"));
 			$sensOrdre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_6")) + 1;
 		} else {
 			$this->_page = 1;
 			$this->_filtre = -1;
+			$this->_filtrePrenom = -1;
 			$ordre = -1;
 			$sensOrdre = 1;
 		}
 		
 		$this->_ordre = $ordre;
 		$this->_sensOrdre = $sensOrdre;
+		$this->_whereSql = $this->getWhereSql($this->_filtrePrenom);
 		
 		$this->_ordreSql = $this->getChampOrdre($ordre);
 		$this->_sensOrdreSql = $this->getSensOrdre($sensOrdre);
@@ -145,5 +156,14 @@ class Bral_Voir_Hobbits {
 			return " ASC ";
 		}
 		return $sens;
+	}
+	
+	private function getWhereSql($numLettre) {
+		$where = null;
+		
+		if ($numLettre >= 0 && $numLettre <= 25) {
+			$where = " lcase(prenom_hobbit) like '".mb_strtolower($this->view->tabLettres[$numLettre])."%'";
+		}
+		return $where;
 	}
 }

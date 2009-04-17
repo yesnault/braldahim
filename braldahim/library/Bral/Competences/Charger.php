@@ -56,13 +56,12 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			$this->view->possedeCharrette = true;
 		} else if (count($equipementPorteRowset) > 0){
 			$armeTirPortee = true;
-		} else {
-				
+		} else if ($this->view->user->est_intangible_hobbit == "non") {
 			$this->view->charge_nb_cases = floor($this->view->user->vigueur_base_hobbit / 3) + 1;
 			if ($this->view->charge_nb_cases > 6) {
 				$this->view->charge_nb_cases = 6;
 			}
-				
+
 			//En forêt un malus de -1 en distance, en marais et montagne un malus de -2 sur la distance est appliqué
 			$environnement = Bral_Util_Commun::getEnvironnement($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 			if ($environnement == "montage" || $environnement == "marais") {
@@ -70,12 +69,12 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			} elseif ($environnement == "foret") {
 				$this->view->charge_nb_cases = $this->view->charge_nb_cases  - 1;
 			}
-				
+
 			//minimum de distance de charge à 1 case dans tous les cas
 			if ($this->view->charge_nb_cases < 1) {
 				$this->view->charge_nb_cases = 1;
 			}
-				
+
 			//La distance de charge est bornée par la VUE
 			$vue = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
 			if ($vue < $this->view->charge_nb_cases) {
@@ -90,7 +89,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			$x_max = $this->view->user->x_hobbit + $this->view->charge_nb_cases;
 			$y_min = $this->view->user->y_hobbit - $this->view->charge_nb_cases;
 			$y_max = $this->view->user->y_hobbit + $this->view->charge_nb_cases;
-				
+
 			$tabValide = null;
 			$numero = -1;
 			for ($j = $y_max ; $j >= $y_min ; $j--) {
@@ -102,15 +101,15 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 					}
 				}
 			}
-				
+
 			// On ne peut pas charger sur une cible qui est sur sa propre case.
 			$tabValide[$this->view->user->x_hobbit][$this->view->user->y_hobbit] = false;
-				
+
 			$tabHobbits = null;
 			$tabMonstres = null;
 
 			$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-				
+
 			if ($estRegionPvp) {
 				// recuperation des hobbits qui sont presents sur la vue
 				$hobbitTable = new Hobbit();
@@ -132,7 +131,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 					}
 				}
 			}
-				
+
 			// recuperation des monstres qui sont presents sur la vue
 			$monstreTable = new Monstre();
 			$monstres = $monstreTable->selectVue($x_min, $y_min, $x_max, $y_max);

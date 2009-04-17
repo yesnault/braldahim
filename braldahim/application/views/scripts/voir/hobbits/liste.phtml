@@ -6,21 +6,21 @@
 <table class="table_liste">
 <thead class="table_liste">
   <tr class="table_liste" title="Cliquer pour Trier">
-	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_hobbits&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=1&valeur_6=<?=$this->sensOrdre ?>");'>Pr&eacute;nom <?=Bral_Helper_Tri::sens(1, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_hobbits&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=2&valeur_6=<?=$this->sensOrdre ?>");'>Nom <?=Bral_Helper_Tri::sens(2, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_hobbits&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=3&valeur_6=<?=$this->sensOrdre ?>");'>N&deg; <?=Bral_Helper_Tri::sens(3, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_hobbits&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=4&valeur_6=<?=$this->sensOrdre ?>");'>Niveau <?=Bral_Helper_Tri::sens(4, $this->ordre, $this->sensOrdre); ?></th>
-	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_hobbits&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=5&valeur_6=<?=$this->sensOrdre ?>");'>Date d'inscription <?=Bral_Helper_Tri::sens(5, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_hobbits&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=1&valeur_6=<?=$this->sensOrdre ?>&valeur_7=<?=$this->filtrePrenom ?>");'>Pr&eacute;nom <?=Bral_Helper_Tri::sens(1, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_hobbits&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=2&valeur_6=<?=$this->sensOrdre ?>&valeur_7=<?=$this->filtrePrenom ?>");'>Nom <?=Bral_Helper_Tri::sens(2, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_hobbits&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=3&valeur_6=<?=$this->sensOrdre ?>&valeur_7=<?=$this->filtrePrenom ?>");'>N&deg; <?=Bral_Helper_Tri::sens(3, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_hobbits&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=4&valeur_6=<?=$this->sensOrdre ?>&valeur_7=<?=$this->filtrePrenom ?>");'>Niveau <?=Bral_Helper_Tri::sens(4, $this->ordre, $this->sensOrdre); ?></th>
+	<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_hobbits&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=5&valeur_6=<?=$this->sensOrdre ?>&valeur_7=<?=$this->filtrePrenom ?>");'>Date d'inscription <?=Bral_Helper_Tri::sens(5, $this->ordre, $this->sensOrdre); ?></th>
   </tr>
 </thead>
 <tfoot class="table_liste">
   <tr class="table_liste">
     <th colspan='7'>
        <? if ($this->precedentOk === true) : ?>
-	   <input type="button" class='button1' onClick="Javascript:_get_('/voir/doaction?caction=ask_voir_hobbits&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')" value="Page pr&eacute;c&eacute;dente">
+	   <input type="button" class='button1' onClick="Javascript:_get_('/voir/doaction?caction=ask_voir_hobbits&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>&valeur_7=<?=$this->filtrePrenom ?>')" value="Page pr&eacute;c&eacute;dente">
 	   <? endif; ?>
 	   <? if ($this->suivantOk === true) : ?>
-	   <input type="button" class='button1' onClick="Javascript:_get_('/voir/doaction?caction=ask_voir_hobbits&valeur_1=s&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')" value="Page suivante">
+	   <input type="button" class='button1' onClick="Javascript:_get_('/voir/doaction?caction=ask_voir_hobbits&valeur_1=s&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>&valeur_7=<?=$this->filtrePrenom ?>')" value="Page suivante">
 	   <? endif; ?>
     </th>
   </tr>

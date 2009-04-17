@@ -70,8 +70,12 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Identifier Rune : rune invalide:".$idRune);
 		}
 		
-		$this->calculIdentifierRune($rune);
-		$this->setEvenementQueSurOkJet1(false);
+		// calcul des jets
+		$this->calculJets();
+
+		if ($this->view->okJet1 === true) {
+			$this->calculIdentifierRune($rune);
+		}
 		
 		$this->calculPx();
 		$this->calculBalanceFaim();
@@ -109,7 +113,16 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 		$labanRuneTable->update($data, $where);
 	}
 	
+	public function calculPx() {
+		parent::calculPx();
+		$this->view->calcul_px_generique = false;
+		if ($this->view->identificationReussieOk === true) {
+			$this->view->nb_px_perso = $this->view->nb_px_perso + 1;
+		}
+		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
+	}
+	
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_laban"));
+		return $this->constructListBoxRefresh(array("box_competences_communes", "box_laban"));
 	}
 }

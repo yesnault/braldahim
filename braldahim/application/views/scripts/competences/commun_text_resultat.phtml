@@ -14,13 +14,11 @@
 			<? else: ?>
 					Vous avez rat&eacute; votre jet d'am&eacute;lioration : <?=$this->jet2?> %<br /><br />
 			<? endif; ?>
-			<? if ($this->calcul_px_generique === true) : ?>
-				<? if ($this->nb_px == 0) : ?>
-					Vous n'avez gagn&eacute; aucun PX<br /><br /> 
-				<? else: ?>
-					Vous avez gagn&eacute; <?=$this->nb_px?> PX<br /><br />
-				<? endif; ?>
-			<? endif; ?>
+			
+			<? if ($this->nbGainCommunParDlaOk === false) :?>
+				Vous avez d&eacute;j&agrave; utilis&eacute; avec <span title="succès : Jet d'action réussi" style="cursor:pointer">succ&egrave;s</span>
+				 cette comp&eacute;tence 2 fois au cours de votre tour.<br><br>
+			<? endif;?>
 		<? else: ?>
 			<span class="action_ko">Vous avez rat&eacute; votre jet d'action <?=$this->jet1 ?> %</span><br />
 			<? if ($this->okJet2 === true):?>
@@ -31,6 +29,13 @@
 				votre m&eacute;tier courant<br /><br />
 			<? elseif ($this->jet2Possible === true): ?>
 				Vous avez rat&eacute; votre jet d'am&eacute;lioration : <?=$this->jet2?> %<br /><br />
+			<? endif; ?>
+		<? endif; ?>
+		<? if ($this->calcul_px_generique === true) : ?>
+			<? if ($this->nb_px == 0) : ?>
+				Vous n'avez gagn&eacute; aucun PX<br /><br /> 
+			<? else: ?>
+				Vous avez gagn&eacute; <?=$this->nb_px?> PX<br /><br />
 			<? endif; ?>
 		<? endif; ?>
 	<? endif; ?>

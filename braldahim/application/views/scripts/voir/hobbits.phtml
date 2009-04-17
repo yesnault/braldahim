@@ -17,18 +17,27 @@
 				<input type="hidden" name='valeur_4' id="valeur_4" value="<?=$this->filtre?>" >
 				<input type="hidden" name='valeur_5' id="valeur_5" value="<?=$this->ordre ?>" >
 				<input type="hidden" name='valeur_6' id="valeur_6" value="<?=$this->sensOrdre ?>" >
-				<input type="hidden" name='valeur_7' id="valeur_7" value="-1" >
+				<input type="hidden" name='valeur_7' id="valeur_7" value="<?=$this->filtrePrenom ?>" >
 				<input type="hidden" name='valeur_8' id="valeur_8" value="-1" >
-				<input type="hidden" name='valeur_8' id="valeur_9" value="-1" >
+				<input type="hidden" name='valeur_9' id="valeur_9" value="-1" >
 				
 				Filtrer par niveau : 
-				<select name='valeur_2'  onChange="Javascript:_get_('/voir/doaction?caction=ask_voir_hobbits&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0&valeur_4=-1&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')">
+				<select name='select_valeur_2' id='select_valeur_2' onChange="Javascript:_get_('/voir/doaction?caction=ask_voir_hobbits&valeur_1=f&valeur_2='+ this.value + '&valeur_3=0&valeur_4=-1&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>&valeur_7='+ $('select_valeur_7').value)">
 				    <option value="-1">Tous les niveaux</option>
 					<? foreach ($this->tabNiveaux as $n) : ?>
 				  	<option value='<?=$n["niveau_hobbit"]?>' <?if ($this->filtre == $n["niveau_hobbit"]){echo "selected";}?>>Niveau <?=$n["niveau_hobbit"]?></option>
 				  	<? endforeach; ?>
 			  	</select>
 			  	<br />
+			  	
+			  	Filtrer par la première lettre du prénom : 
+				<select name='select_valeur_7' id='select_valeur_7'  onChange="Javascript:_get_('/voir/doaction?caction=ask_voir_hobbits&valeur_1=f&valeur_2='+ $('select_valeur_2').value + '&valeur_3=0&valeur_4=-1&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>&valeur_7='+this.value)">
+				    <option value="-1">Tous les prénoms</option>
+					<? foreach ($this->tabLettres as $k => $v) : ?>
+				  	<option value='<?=$k?>' <?if ($this->filtrePrenom == $k){echo "selected";}?>><?=$v?></option>
+				  	<? endforeach; ?>
+			  	</select>
+			  	<br>
 			  	
   			<div id="box_voir_hobbits_inner">
 				<? include('hobbits/liste.phtml'); ?>

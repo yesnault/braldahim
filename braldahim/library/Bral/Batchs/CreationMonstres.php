@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -11,44 +11,44 @@
  * $LastChangedBy$
  */
 class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
-	
+
 	public function calculBatchImpl() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculBatchImpl - enter -");
-		
+
 		Zend_Loader::loadClass('Monstre');
 		Zend_Loader::loadClass('GroupeMonstre');
 		Zend_Loader::loadClass('TypeMonstre');
 		Zend_Loader::loadClass('Zone');
 		Zend_Loader::loadClass('TailleMonstre');
 		Zend_Loader::loadClass('ReferentielMonstre');
-		Zend_Loader::loadClass('CreationMonstres'); 
-		Zend_Loader::loadClass('Ville'); 
+		Zend_Loader::loadClass('CreationMonstres');
+		Zend_Loader::loadClass('Ville');
 		Zend_Loader::loadClass("Palissade");
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
-		
+
 		$retour = null;
-		
+
 		$retour .= $this->calculCreation();
-		
+
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculBatchImpl - exit -");
 		return $retour;
 	}
-	
+
 	private function calculCreation() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculCreation - enter -");
 		$retour = "";
-		
+
 		$villeTable = new Ville();
 		$villes = $villeTable->fetchAll();
-		
+
 		$refTable = new ReferentielMonstre();
 		$taillesTable = new TailleMonstre();
-		
+
 		$refRowset = $refTable->findAll();
 		$taillesRowset = $taillesTable->fetchall();
-		
+
 		$zoneTable = new Zone();
-		
+
 		$creationMonstresTable = new CreationMonstres();
 		$creationMonstres = $creationMonstresTable->fetchAll(null, "id_fk_type_monstre_creation_monstres");
 		$nbCreationMonstres = count($creationMonstres);
@@ -64,13 +64,13 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - nb environnement concernes=" .count($environnementIds));
 		$zones = $zoneTable->findByIdEnvironnementList($environnementIds, false);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - nb zones concernees=" .count($zones));
-		
+
 		$monstreTable = new Monstre();
 		$tmp = "";
-		
+
 		$superficieZones = array();
 		$superficieTotale = array();
-		
+
 		foreach($creationMonstres as $c) {
 			// on recupere la supercifie totale de toutes les zones concernees par ce type
 			foreach($zones as $z) {
@@ -84,7 +84,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 				}
 			}
 		}
-		
+
 		foreach($creationMonstres as $c) {
 			$t = null;
 			foreach($typeMonstres as $type) {
@@ -93,7 +93,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 					break;
 				}
 			}
-			
+				
 			if ($t != null) {
 				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - traitement du monstre ".$t["id_type_monstre"]. " nbMaxMonde(".$t["nb_creation_type_monstre"].") environnement(".$c["id_fk_environnement_creation_monstres"].") suptotal(". $superficieTotale[$c["id_fk_type_monstre_creation_monstres"]].")");
 				foreach($zones as $z) {
@@ -101,13 +101,13 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 						$tmp = "";
 						$nbCreation = ceil($t["nb_creation_type_monstre"] * ($superficieZones[$z["id_zone"]] / $superficieTotale[$c["id_fk_type_monstre_creation_monstres"]]));
 						$nbActuel = $monstreTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"], $t["id_type_monstre"]);
-						
+
 						$aCreer = $nbCreation - $nbActuel;
-						if ($aCreer <= 0) { 
+						if ($aCreer <= 0) {
 							$tmp = " deja pleine";
 						}
 						Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - zone(".$z["id_zone"].") nbActuel:".$nbActuel. " max:".$nbCreation.$tmp. " supzone(".$superficieZones[$z["id_zone"]].") suptotal(". $superficieTotale[$c["id_fk_type_monstre_creation_monstres"]].")");
-						if ($aCreer > 0) { 
+						if ($aCreer > 0) {
 							$retour .= $this->insert($t, $z, $aCreer, $refRowset, $taillesRowset, $villes);
 						} else {
 							$retour .= "zone(".$z["id_zone"].") pleine de monstre(".$t["id_type_monstre"].") nbActuel(".$nbActuel.") max(".$nbCreation."). ";
@@ -116,11 +116,11 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 				}
 			}
 		}
-		
+
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculCreation - exit -");
 		return $retour;
 	}
-	
+
 	private function getEnvironnementsConcernes($creationMonstres) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - getEnvironnementsConcernes - enter -");
 		$environnementIds = null;
@@ -130,24 +130,24 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - getEnvironnementsConcernes - exit -");
 		return $environnementIds;
 	}
-	
+
 	private function insert($typeMonstre, $zone, $aCreer, $refRowset, $taillesMonstre, $villes) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - insert - enter - idtype(".$typeMonstre["id_type_monstre"].") idzone(".$zone['id_zone'].") nbACreer(".$aCreer.")");
 		$retour = "monstre(".$typeMonstre["id_type_monstre"].") idzone(".$zone['id_zone'].") aCreer(".$aCreer."). ";
-		
+
 		$referenceCourante = $this->recupereReferenceMonstre($refRowset, $typeMonstre["id_type_monstre"]);
 		$creation = true;
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - insert - idtypeGroupe(".$referenceCourante["id_fk_type_groupe_monstre"].")");
-		
+
 		if ($referenceCourante["id_fk_type_groupe_monstre"] > 1) { //1 => type Solitaire
 
 			for ($i = 1; $i < $aCreer; $i++) {
 				$nb_membres = Bral_Util_De::get_de_specifique($referenceCourante["nb_membres_min_type_groupe_monstre"], $referenceCourante["nb_membres_max_type_groupe_monstre"]);
 				$i = $i + $nb_membres;
-				
+
 				$x_min_groupe = Bral_Util_De::get_de_specifique($zone["x_min_zone"], $zone["x_max_zone"]);
 				$y_min_groupe = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
-			
+					
 				if ($referenceCourante["id_fk_type_groupe_monstre"] > 2) { //2 => nuée : tous sur la même case
 					$x_max_groupe = $x_min_groupe + 4;
 					$y_max_groupe = $y_min_groupe + 4;
@@ -180,11 +180,11 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 				$this->creationCalcul($villes, $refRowset, $referenceCourante, $taillesMonstre, $zone["x_min_zone"], $zone["x_max_zone"], $zone["y_min_zone"], $zone["y_max_zone"]);
 			}
 		}
-		
+
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - insert - exit -");
 		return $retour;
 	}
-	
+
 	private function recupereReferenceMonstre($refMonstre, $id_fk_type_ref_monstre, $taille = 1) {
 		$referenceCourante = null;
 		foreach($refMonstre as $r) {
@@ -199,7 +199,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		}
 		return $referenceCourante;
 	}
-	
+
 	private function creationGroupe($id_type, $nb_membres) {
 		$data = array(
 			"id_fk_type_groupe_monstre" => $id_type,
@@ -229,13 +229,13 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$niveau_monstre = Bral_Util_De::get_de_specifique($referenceCourante["niveau_min_ref_monstre"], $referenceCourante["niveau_max_ref_monstre"]);
 		$x_monstre = Bral_Util_De::get_de_specifique($x_min, $x_max);
 		$y_monstre = Bral_Util_De::get_de_specifique($y_min, $y_max);
-		
+
 		$enVille = 0;
-		
+
 		foreach($villes as $v) {
 			// on ne créé pas de monstre en ville
 			if ($v["x_min_ville"] <= $x_monstre && $v["x_max_ville"] >= $x_monstre &&
-				$v["y_min_ville"] <= $y_monstre && $v["y_max_ville"] >= $y_monstre) {
+			$v["y_min_ville"] <= $y_monstre && $v["y_max_ville"] >= $y_monstre) {
 				$de = Bral_Util_De::get_1d2();
 				if ($de == 1) {
 					$enVille = 20;
@@ -245,14 +245,14 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 				break;
 			}
 		}
-		
+
 		$x_monstre = $x_monstre + $enVille;
 		$y_monstre = $y_monstre + $enVille;
-		
+
 		$tab = Bral_Monstres_VieMonstre::getTabXYRayon($niveau_monstre, $villes, $x_monstre, $y_monstre);
 		$x_monstre = $tab["x_direction"];
 		$y_monstre = $tab["y_direction"];
-		
+
 		if ($tab["est_traite"] == true) {
 			$tab = Bral_Monstres_VieMonstre::getTabXYRayon($niveau_monstre, $villes, $x_monstre, $y_monstre);
 			$x_monstre = $tab["x_direction"];
@@ -262,7 +262,12 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 				return;
 			}
 		}
-		
+
+		if ($x_monstre < $x_min || $x_monstre > $x_max || $y_monstre < $y_min || $y_monstre > $y_max) {
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - creationCalcul - en dehors de la zone x:$x_monstre y:$y_monstre x:$x_min y:$y_min x:$x_max y:$y_max");
+			return;
+		}
+
 		$palissadeTable = new Palissade();
 		$surPalissade = true;
 		while($surPalissade) {
@@ -280,7 +285,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 				}
 			}
 		}
-		
+
 		if ($x_monstre <= $this->config->game->x_min) {
 			$x_monstre = $this->config->game->x_min + 1;
 		}
@@ -293,7 +298,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		if ($y_monstre >= $this->config->game->y_max) {
 			$y_monstre = $this->config->game->y_max - 1;
 		}
-		
+
 		// NiveauSuivantPX = NiveauSuivant x 3 + debutNiveauPrecedentPx
 		$pi_min = 0;
 		for ($n = 0; $n <= $niveau_monstre; $n++) {
@@ -340,7 +345,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$regeneration_monstre = floor(($niveau_sagesse / 4) + 1);
 
 		//ARMNAT
-		$aleaArmNat = Bral_Util_De::get_de_specifique($referenceCourante["min_alea_pourcentage_armure_naturelle_ref_monstre"], $referenceCourante["min_alea_pourcentage_armure_naturelle_ref_monstre"]); 
+		$aleaArmNat = Bral_Util_De::get_de_specifique($referenceCourante["min_alea_pourcentage_armure_naturelle_ref_monstre"], $referenceCourante["min_alea_pourcentage_armure_naturelle_ref_monstre"]);
 		$armure_naturelle_monstre = floor(($force_base_monstre + $vigueur_base_monstre) / 5) + $aleaArmNat;
 
 		//DLA
@@ -420,7 +425,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		}
 		return $id_taille;
 	}
-	
+
 	private function calculNiveau($pi_caract) {
 		$niveau = 0;
 		$pi = 0;

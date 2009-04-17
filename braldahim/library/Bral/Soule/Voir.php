@@ -45,7 +45,6 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 		$this->view->terrainCourant = $terrainRowset;
 
 		$souleMatchTable = new SouleMatch();
-
 		$matchs = $souleMatchTable->findEnCoursByIdTerrain($this->idTerrainEnCours);
 		$this->matchEnCours = null;
 
@@ -57,8 +56,8 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 		$this->calculInscription();
 		$this->prepareEquipes();
 		$this->prepareMatch();
-		
-		if ($this->matchEnCours != null) { 
+
+		if ($this->matchEnCours != null) {
 			$this->prepareEvenements();
 		}
 	}
@@ -81,12 +80,12 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 			$joueurs = $souleEquipeTable->findByIdMatch($this->matchEnCours["id_soule_match"]);
 			$equipes["equipea"]["nom_equipe"] = $this->matchEnCours["nom_equipea_soule_match"];
 			$equipes["equipeb"]["nom_equipe"] = $this->matchEnCours["nom_equipeb_soule_match"];
-			
+
 			$equipes["equipea"]["plaquages"] = 0;
 			$equipes["equipea"]["plaques"] = 0;
 			$equipes["equipeb"]["plaquages"] = 0;
 			$equipes["equipeb"]["plaques"] = 0;
-			
+
 		} else {
 			$joueurs = $souleEquipeTable->findNonDebuteByNiveauTerrain($this->view->terrainCourant["niveau_soule_terrain"]);
 		}
@@ -112,16 +111,21 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 		$this->view->inscriptionPossible = false;
 		$this->view->inscriptionNonPossibleInfo = "";
 
+		$this->view->desinscriptionPossible = false;
+		$this->view->deinscriptionNonPossibleInfo = "";
+
+		// on regarde si le joueur n'est pas déjà inscrit
+		$souleEquipeTable = new SouleEquipe();
+		$nombre = $souleEquipeTable->countNonDebuteByIdHobbit($this->view->user->id_hobbit);
+			
 		if ($this->matchEnCours != null) { // s'il un match en cours
 			$this->view->inscriptionNonPossibleInfo = "Il y a un match en cours sur ce terrain";
-		} else if ($this->niveauTerrainHobbit != $this->view->terrainCourant["niveau_soule_terrain"]) {
+		} else if ($this->niveauTerrainHobbit != $this->view->terrainCourant["niveau_soule_terrain"] && $nombre == 0) {
 			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire sur ce terrain qui n'est pas de votre niveau";
 		} else if ($this->view->user->est_engage_hobbit == "oui") {
 			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire, vous êtes engagé";
 		} else if ($this->matchEnCours == null) { // s'il n'y a pas de match en cours
-			// on regarde si le joueur n'est pas déjà inscrit
-			$souleEquipeTable = new SouleEquipe();
-			$nombre = $souleEquipeTable->countNonDebuteByIdHobbit($this->view->user->id_hobbit);
+
 			if ($nombre == 0) { // si le joueur n'est pas déjà inscrit
 				// on regarde s'il n'y a pas plus de 80 joueurs
 				$nombreJoueurs = $souleEquipeTable->countNonDebuteByNiveauTerrain($this->niveauTerrainHobbit);
@@ -129,7 +133,22 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 					$this->view->inscriptionPossible = true;
 				}
 			} else {
-				$this->view->inscriptionNonPossibleInfo = "Vous êtes déjà inscrit sur ce terrain";
+				$this->view->inscriptionNonPossibleInfo = "Vous êtes déjà inscrit à un match";
+
+				$souleMatchTable = new SouleMatch();
+				$matchs = $souleMatchTable->findNonDebuteByIdTerrain($this->idTerrainEnCours);
+
+				if (count($matchs) == 1) {
+					$this->view->inscriptionNonPossibleInfo .= " sur ce terrain";
+						
+					if ($matchs[0]["nb_jours_quota_soule_match"] == 0) {
+						$this->view->desinscriptionPossible = true;
+					} else {
+						$this->view->deinscriptionNonPossibleInfo = "Le match va bientôt débuter, vous ne pouvez plus vous désinscrire";
+					}
+				} else {
+					$this->view->inscriptionNonPossibleInfo .= " sur un autre terrain";
+				}
 			}
 		}
 	}
@@ -148,7 +167,7 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 		$this->view->porteur = $porteur;
 		$this->view->matchEnCours = $this->matchEnCours;
 	}
-	
+
 	private function prepareEvenements() {
 		Zend_Loader::loadClass("Evenement");
 		$evenementTable = new Evenement();
@@ -162,5 +181,5 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 							"details_evenement" => $r["details_evenement"]);
 		}
 		$this->view->evenements = $tab;
-	} 
+	}
 }

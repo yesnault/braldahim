@@ -33,10 +33,9 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 
 		if (count($equipementPorteRowset) > 0){
 			$armeTirPortee = true;
-		}
-		else{
+		} else if ($this->view->user->est_intangible_hobbit == "non") {
 			$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-				
+
 			if ($estRegionPvp) {
 				// recuperation des hobbits qui sont presents sur la vue
 				$hobbitTable = new Hobbit();
@@ -53,7 +52,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 					}
 				}
 			}
-				
+
 			// recuperation des monstres qui sont presents sur la vue
 			$monstreTable = new Monstre();
 			$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
@@ -195,7 +194,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 
 	public function calculPx() {
 		parent::calculPx();
-			
+
 		$this->view->nb_px_commun = 0;
 		$this->view->calcul_px_generique = false;
 
