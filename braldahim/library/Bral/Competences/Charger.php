@@ -280,8 +280,8 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			$jetDegat["noncritique"] = $jetDegat["noncritique"] + Bral_Util_De::get_1d6();
 		}
 
-		$jetDegat["critique"] = $jetDegat["critique"] + $hobbit->vigueur_bm_hobbit + $hobbit->vigueur_bbdf_hobbit + $hobbit->bm_degat_hobbit;
-		$jetDegat["noncritique"] = $jetDegat["noncritique"] + $hobbit->vigueur_bm_hobbit + $hobbit->vigueur_bbdf_hobbit + $hobbit->bm_degat_hobbit;
+		$jetDegat["critique"] = floor($jetDegat["critique"] + $hobbit->vigueur_bm_hobbit + $hobbit->vigueur_bbdf_hobbit + $hobbit->bm_degat_hobbit);
+		$jetDegat["noncritique"] = floor($jetDegat["noncritique"] + $hobbit->vigueur_bm_hobbit + $hobbit->vigueur_bbdf_hobbit + $hobbit->bm_degat_hobbit);
 
 		return $jetDegat;
 	}

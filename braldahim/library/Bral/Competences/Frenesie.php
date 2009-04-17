@@ -186,8 +186,8 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			$jetsDegat["noncritique"] = 0.5 * $jetDegatForce;
 		}
 
-		$jetsDegat["critique"] = $jetsDegat["critique"] + $hobbit->force_bm_hobbit + $hobbit->force_bbdf_hobbit + $hobbit->bm_degat_hobbit;
-		$jetsDegat["noncritique"] = $jetsDegat["noncritique"] + $hobbit->force_bm_hobbit + $hobbit->force_bbdf_hobbit + $hobbit->bm_degat_hobbit;
+		$jetsDegat["critique"] = floor($jetsDegat["critique"] + $hobbit->force_bm_hobbit + $hobbit->force_bbdf_hobbit + $hobbit->bm_degat_hobbit);
+		$jetsDegat["noncritique"] = floor($jetsDegat["noncritique"] + $hobbit->force_bm_hobbit + $hobbit->force_bbdf_hobbit + $hobbit->bm_degat_hobbit);
 
 		return $jetsDegat;
 	}
