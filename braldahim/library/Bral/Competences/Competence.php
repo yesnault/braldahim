@@ -284,7 +284,11 @@ abstract class Bral_Competences_Competence {
 				$this->idTypeEvenement = $this->view->config->game->evenements->type->competence;
 			}
 			if ($this->detailEvenement == null) {
-				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a réussi l'utilisation d'une compétence";
+				if ($this->view->okJet1 === true || $this->evenementQueSurOkJet1 == false) {
+					$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a réussi l'utilisation d'une compétence";
+				} elseif ($this->view->okJet1 === false) {
+					$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a raté l'utilisation d'une compétence";
+				}
 			}
 			if ($this->view->okJet1 === true || $this->evenementQueSurOkJet1 == false) {
 				Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_hobbit, "hobbit", false, null, $this->idMatchSoule);
