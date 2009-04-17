@@ -37,7 +37,6 @@ class Bral_Box_Famille extends Bral_Box_Box {
 	}
 	
 	private function data() {
-		Zend_Loader::loadClass('Couple');
 		Zend_Loader::loadClass('AncienHobbit');
 		$hobbitTable = new Hobbit();
 		$ancienHobbitTable = new AncienHobbit();
@@ -90,24 +89,9 @@ class Bral_Box_Famille extends Bral_Box_Box {
 		$this->view->enfants = $enfants;
 		
 		// on va chercher les informations du conjoint
-		$coupleTable = new Couple();
-		$conjointRowset = $coupleTable->findConjoint($this->view->user->sexe_hobbit, $this->view->user->id_hobbit);
-		unset($coupleTable);
+		Zend_Loader::loadClass("Bral_Util_Conjoints");
+		$this->view->conjoint = Bral_Util_Conjoints::getConjoint($this->view->user->sexe_hobbit, $this->view->user->id_hobbit);
 		
-		$conjoint = null;
-		if (count($conjointRowset) > 0) {
-			foreach($conjointRowset as $c) {
-				$conjoint = array(
-					"prenom" => $c["prenom_hobbit"],
-					"nom" => $c["nom_hobbit"],
-					"id_hobbit" => $c["id_hobbit"]
-				);
-			}
-		}
-		unset($conjointRowset);
-		
-		$this->view->conjoint = $conjoint;
-		unset($conjoint);
 		$this->view->dateNaissance = Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e; H:i:s',$this->view->user->date_creation_hobbit);
 		$this->view->nom_interne = $this->getNomInterne();
 	}

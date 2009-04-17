@@ -23,18 +23,24 @@ class Couple extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function findConjoint($sexe, $idHobbit) {
+	function findConjoint($sexe, $idHobbit, $estAncien = false) {
+		
+		$ancien = "";
+		if ($estAncien === true) {
+			$ancien = "ancien_";
+		}
+		
 		$db = $this->getAdapter();
 		$select = $db->select();
 		if ($sexe == 'masculin') {
 			$select->from('couple', '*')
-			->from('hobbit', '*')
-			->where('id_fk_f_hobbit_couple = id_hobbit')
+			->from($ancien.'hobbit', '*')
+			->where('id_fk_f_hobbit_couple = id_'.$ancien.'hobbit')
 			->where('id_fk_m_hobbit_couple = ?', (int)$idHobbit);
 		} else {
 			$select->from('couple', '*')
-			->from('hobbit', '*')
-			->where('id_fk_m_hobbit_couple = id_hobbit')
+			->from($ancien.'hobbit', '*')
+			->where('id_fk_m_hobbit_couple = id_'.$ancien.'hobbit')
 			->where('id_fk_f_hobbit_couple = ?', (int)$idHobbit);
 		}
 		$sql = $select->__toString();
