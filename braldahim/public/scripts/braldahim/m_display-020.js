@@ -129,7 +129,7 @@ function ouvrirMonstre(idMonstre) {
 function ouvrirProfilH(idMonstre) {
 	ouvrirWin('/voir/monstre/?monstre=' + idMonstre + '&direct=profil', 'Profil Monstre n°' + idMonstre);
 }
-function ouvrirEvenementsH(idMonstre) {
+function ouvrirEvenementsM(idMonstre) {
 	ouvrirWin('/voir/monstre/?monstre=' + idMonstre + '&direct=evenements', 'Evenements Monstre n°' + idMonstre);
 }
 function ouvrirWin(url, titre) {
