@@ -212,7 +212,7 @@ class Bral_Voir_Hobbit {
 
 		// on va chercher les informations du conjoint
 		Zend_Loader::loadClass("Bral_Util_Conjoints");
-		$this->view->conjoint = Bral_Util_Conjoints::getConjoint($this->view->user->sexe_hobbit, $this->view->user->id_hobbit);
+		$this->view->conjoint = Bral_Util_Conjoints::getConjoint($this->view->hobbit["sexe_hobbit"], $this->view->hobbit["id_hobbit"]);
 
 		$this->view->dateNaissance = Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e; H:i:s',$this->view->hobbit["date_creation_hobbit"]);
 		return $this->view->render("voir/hobbit/famille.phtml");
