@@ -111,6 +111,27 @@ function limiteTailleTextarea(textarea, max, iddesc) {
 	$(iddesc).innerHTML = affichage_reste;
 }
 
+function ouvrirProfilH(idHobbit) {
+	ouvrirWin('/voir/hobbit/?hobbit=' + idHobbit + '&direct=profil', 'Profil Hobbit n°' + idHobbit);
+}
+function ouvrirEvenementsH(idHobbit) {
+	ouvrirWin('/voir/hobbit/?hobbit=' + idHobbit + '&direct=evenements', 'Evenements Hobbit n°' + idHobbit);
+}
+function ouvrirFamille(idHobbit) {
+	ouvrirWin('/voir/hobbit/?hobbit=' + idHobbit + '&direct=famille', 'Famille Hobbit n°' + idHobbit);
+}
+function ouvrirCommunaute(idCommunaute) {
+	ouvrirWin('/voir/communaute/?communaute=' + idCommunaute, 'Communauté n°' + idCommunaute);
+}
+function ouvrirMonstre(idMonstre) {
+	ouvrirWin('/voir/monstre/?monstre=' + idMonstre, 'Monstre n°' + idMonstre);
+}
+function ouvrirProfilH(idMonstre) {
+	ouvrirWin('/voir/monstre/?monstre=' + idMonstre + '&direct=profil', 'Profil Monstre n°' + idMonstre);
+}
+function ouvrirEvenementsH(idMonstre) {
+	ouvrirWin('/voir/monstre/?monstre=' + idMonstre + '&direct=evenements', 'Evenements Monstre n°' + idMonstre);
+}
 function ouvrirWin(url, titre) {
 	window.open(url, titre, "directories=no,location=yes,menubar=yes,resizable=yes,scrollbars=yes,status=yes,toolbar=yes,width=815,height=600");
 }

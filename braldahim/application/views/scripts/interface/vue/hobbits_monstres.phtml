@@ -1,23 +1,25 @@
 <?php if ($case["n_hobbits"] > 0) :
-	  $sexe_hobbit = "feminin";
-      $textHobbit = "<br>Hobbit";
-      if ($case["n_hobbits"] > 1) {
-      	$textHobbit .= "s";
-      }
-      $textHobbit .= ":<br>";
-      foreach($case["hobbits"] as $h) {
-      	$textHobbit .= '<label class=\\\'alabel\\\' onClick=ouvrirWin(\\\'\/voir\/hobbit\/?hobbit='.$h["id_hobbit"].'\\\'); title=\\\'Voir le profil\\\' >';
-      	$textHobbit .= addslashes(htmlspecialchars($h["prenom_hobbit"]))." ".addslashes(htmlspecialchars($h["nom_hobbit"]));
-      	$textHobbit .= " (n&deg;".$h["id_hobbit"].")</label>, niv.".$h["niveau_hobbit"];
-      	
-      	$textHobbit .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$h["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
-      	if ($h["id_communaute"] != null) {
-      		$textHobbit .= ' - <label class=alabel onClick=ouvrirWin(\\\'\/voir\/communaute\/?communaute='.$h["id_communaute"].'\\\');>'.addslashes(htmlspecialchars($h["nom_communaute"])).'</label>';
-      	}
-      	$textHobbit .= "<br />";
-      	if ($h["sexe_hobbit"] == "masculin") {
-      		$sexe_hobbit = "masculin";
-      	}
+	$sexe_hobbit = "feminin";
+	$textHobbit = "<br>Hobbit";
+	if ($case["n_hobbits"] > 1) {
+		$textHobbit .= "s";
+	}
+	$textHobbit .= ":<br>";
+	foreach($case["hobbits"] as $h) {
+		$textHobbit .= '<label class=\\\'alabel profil\\\' onClick=ouvrirProfilH('.$h["id_hobbit"].'); title=\\\'Voir le profil\\\' >';
+		$textHobbit .= addslashes(htmlspecialchars($h["prenom_hobbit"]))." ".addslashes(htmlspecialchars($h["nom_hobbit"]));
+		$textHobbit .= " (n&deg;".$h["id_hobbit"].")</label>, niv.".$h["niveau_hobbit"];
+		
+		$textHobbit .= ' <img src=\\\'/public/images/puce_event.gif\\\' title=\\\'Voir les événements\\\' border=\\\'0\\\' onClick=ouvrirEvenementsH('.$h["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
+		$textHobbit .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$h["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
+		
+		if ($h["id_communaute"] != null) {
+			$textHobbit .= ' - <label class=alabel onClick=ouvrirCommunaute('.$h["id_communaute"].');>'.addslashes(htmlspecialchars($h["nom_communaute"])).'</label>';
+		}
+		$textHobbit .= "<br>";
+		if ($h["sexe_hobbit"] == "masculin") {
+			$sexe_hobbit = "masculin";
+		}
 	} 
 	$s = "";
 	if ($case["n_hobbits"] > 1) {
@@ -31,8 +33,9 @@ endif; ?>
 	}
 	$textMonstre .= ":<br>";
 	foreach($case["monstres"] as $m) {
-		$textMonstre .= '<label class=\\\'alabel\\\' onClick=ouvrirWin(\\\'\/voir\/monstre\/?monstre='.$m["id_monstre"].'\\\'); title=\\\'Voir le profil\\\' >';
+		$textMonstre .= '<label class=\\\'alabel\\\' onClick=ouvrirMonstre('.$m["id_monstre"].'); title=\\\'Voir le profil\\\' >';
 		$textMonstre .= htmlspecialchars($m["nom_monstre"]) ." ".htmlspecialchars($m["taille_monstre"])." (n&deg;".$m["id_monstre"].")</label> ";
+		$textMonstre .= ' <img src=\\\'/public/images/puce_event.gif\\\' title=\\\'Voir les événements\\\' border=\\\'0\\\' onClick=ouvrirEvenementsH('.$m["id_monstre"].'); style=\\\'cursor:pointer\\\'/> ';
 		$textMonstre .= "<br />";
 	} 
 	$s = "";
@@ -40,7 +43,7 @@ endif; ?>
 		$s = "s";
 	}
 endif; ?>
-	    
+	  
 <? if ($case["n_monstres"] > 0 && $case["n_hobbits"] > 0) : ?>
     <img src='/public/styles/braldahim_defaut/images/vue/hobbit_monstre.png' <?=Bral_Helper_Tooltip::jsTip($textMonstre."<br>".$textHobbit, $titre) ?>/>
 <? elseif ($case["n_monstres"] > 0) : ?>

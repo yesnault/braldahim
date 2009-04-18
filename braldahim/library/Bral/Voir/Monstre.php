@@ -45,6 +45,12 @@ class Bral_Voir_Monstre {
 		if ($this->_request->get("menu") == "evenements" && $this->view->connu != null) {
 			return $this->renderEvenements();
 		} else { 
+			if ($this->_request->get("direct") == "evenements") {
+				$flux = $this->renderEvenements();
+			} else {
+				$flux = $this->view->render("voir/monstre/profil.phtml");
+			}
+			$this->view->flux = $flux;
 			return $this->view->render("voir/monstre.phtml");
 		}
 	}

@@ -1,65 +1,61 @@
   	
-    <table class='vue2d' align='center'>
+<table class='vue2d' align='center'>
      <?php 
      $col="";
      
      echo "<tr><td>&nbsp;</td>";
      foreach($this->tableau as $k => $case) :
-     	
-    	if ($case["change_level"] == 1 && $col == "ok") :
-    		break;
-    	endif;
-    	echo "<td>".$case["x"]."</td>";
-    	if ($case["change_level"] == true) : 
+     
+    if ($case["change_level"] == 1 && $col == "ok") :
+    	break;
+    endif;
+    echo "<td>".$case["x"]."</td>";
+    if ($case["change_level"] == true) : 
           $col="ok";
         endif;
-	 endforeach;
-	 echo "</tr>";
-		 
-	$col="";
-	foreach($this->tableau as $k => $case) :
-		$textVille = "";
-		if (!empty($case["ville"])) :
-			$textVille = " - Ville : ".htmlspecialchars($case["ville"]["nom_ville"]);
-			if ($case["ville"]["est_capitale"] === true) {
-				$textVille .= " - Capitale";
-			}
-			$textVille .= ", R&eacute;gion : ".htmlspecialchars($case["ville"]["nom_region"]);
-		endif;
-		$titre = "Position : ".$case["x"].", ".$case["y"];
-      		
-		if ($case["change_level"] == 1 && $col == "ok") :
-			echo "</tr>";
-		endif; ?>
-		<?php if ($case["change_level"] == true) : 
-			$col="ok"; ?>
-			<tr nowrap><td><?=$case["y"]?></td>
-	    <?php endif; ?>
-		<td class='vue2d <?=$case["css"] ?> <?=$case["css_actuelle"]?>' nowrap title="<?=$case["x"]. "," . $case["y"]." ".$textVille?>">
-		
-		<div style="width:64px;">
-		
-			<table style="padding: 0px;border-spacing: 0px; width:64px">
-				<tr>
-					<td width="32px" height="32px"><? include('hobbits_monstres.phtml');ob_flush();?></td>
-					<td width="32px" height="32px"><? include('lieux_palissades_echoppes.phtml');ob_flush();?></td>
-				</tr>
-				<tr>
-					<td width="32px"  height="32px"><? include('cadavres_castars_runes.phtml'); ob_flush(); ?>
-					</td>
-					<td width="32px"  height="32px"><? include('elements_charrettes.phtml'); ob_flush();?>
-					<? include('cases.phtml');?>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<?
-		$case = null;
-		unset($this->tableau[$k]);
-		ob_flush();
-		?>
-		</td>
-     <?php endforeach; ?>
-     </tr>
-    </table>
-    &nbsp;
+ endforeach;
+ echo "</tr>";
+	 
+$col="";
+foreach($this->tableau as $k => $case) :
+	$textVille = "";
+	if (!empty($case["ville"])) :
+		$textVille = " - Ville : ".htmlspecialchars($case["ville"]["nom_ville"]);
+		if ($case["ville"]["est_capitale"] === true) {
+			$textVille .= " - Capitale";
+		}
+		$textVille .= ", R&eacute;gion : ".htmlspecialchars($case["ville"]["nom_region"]);
+	endif;
+	$titre = "Position : ".$case["x"].", ".$case["y"];
+      	
+	if ($case["change_level"] == 1 && $col == "ok") :
+		echo "</tr>";
+	endif; ?>
+	<?php if ($case["change_level"] == true) : 
+		$col="ok"; ?>
+		<tr nowrap><td><?=$case["y"]?></td>
+    <?php endif; ?>
+	<td class='vue2d <?=$case["css"] ?> <?=$case["css_actuelle"]?>' nowrap title="<?=$case["x"]. "," . $case["y"]." ".$textVille?>">
+	
+	<div class="cases">
+		<table class="cases">
+		<tr>
+		<td class="ccases"><? include('hobbits_monstres.phtml');ob_flush();?></td>
+		<td class="cases"><? include('lieux_palissades_echoppes.phtml');ob_flush();?></td>
+		</tr>
+		<tr>
+		<td class="cases"><? include('cadavres_castars_runes.phtml'); ob_flush(); ?></td>
+		<td class="cases"><? include('elements_charrettes.phtml'); ob_flush();?><? include('cases.phtml');?></td>
+		</tr>
+	</table>
+	</div>
+	<?
+	$case = null;
+	unset($this->tableau[$k]);
+	ob_flush();
+	?>
+	</td>
+<?php endforeach; ?>
+</tr>
+</table>
+&nbsp;

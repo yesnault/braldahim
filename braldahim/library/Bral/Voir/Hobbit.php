@@ -52,7 +52,7 @@ class Bral_Voir_Hobbit {
 			$hobbitRowset = $hobbitRowset->toArray();
 			$this->view->hobbit = $hobbitRowset;
 			$this->view->connu = true;
-				
+
 			if ($this->view->hobbit["id_fk_communaute_hobbit"] != null) {
 				$communauteTable = new Communaute();
 				$communaute = $communauteTable->findById($this->view->hobbit["id_fk_communaute_hobbit"]);
@@ -65,12 +65,12 @@ class Bral_Voir_Hobbit {
 		} else {
 			$this->rechercheAncien($idHobbit);
 		}
-		
+
 		if ($this->view->ancien == false) {
 			Zend_Loader::loadClass("Bral_Util_Equipement");
 			$tabEmplacementsEquipement = Bral_Util_Equipement::getTabEmplacementsEquipement($this->view->hobbit["id_hobbit"]);
 			$this->view->tabTypesEmplacement = $tabEmplacementsEquipement["tabTypesEmplacement"];
-	
+
 			$this->view->tabMetierCourant = $tabMetier["tabMetierCourant"];
 			$this->view->tabMetiers = $tabMetier["tabMetiers"];
 			$this->view->possedeMetier = $tabMetier["possedeMetier"];
@@ -82,10 +82,18 @@ class Bral_Voir_Hobbit {
 		} else if ($this->_request->get("menu") == "famille" && $this->view->connu != null) {
 			return $this->renderFamille();
 		} else {
+			if ($this->_request->get("direct") == "evenements") {
+				$flux = $this->renderEvenements();
+			} else if ($this->_request->get("direct") == "famille") {
+				$flux = $this->renderFamille();
+			} else {
+				$flux = $this->view->render("voir/hobbit/profil.phtml");
+			}
+			$this->view->flux = $flux;
 			return $this->view->render("voir/hobbit.phtml");
 		}
 	}
-	
+
 	private function rechercheAncien($idHobbit) {
 		$ancienHobbitTable = new AncienHobbit();
 		$hobbit = $ancienHobbitTable->findById($idHobbit);
@@ -93,27 +101,26 @@ class Bral_Voir_Hobbit {
 			$this->view->connu = true;
 			$this->view->ancien = true;
 			$this->view->hobbit["id_hobbit"] = $hobbit["id_hobbit_ancien_hobbit"];
-			
-			$this->view->hobbit["nom_hobbit"] =   $hobbit["nom_ancien_hobbit"];
-			$this->view->hobbit["prenom_hobbit"] =   $hobbit["prenom_ancien_hobbit"];
-			$this->view->hobbit["id_fk_nom_initial_hobbit"] =   $hobbit["id_fk_nom_initial_ancien_hobbit"];
-			$this->view->hobbit["email_hobbit"] =   $hobbit["email_ancien_hobbit"];
-			$this->view->hobbit["sexe_hobbit"] =   $hobbit["sexe_ancien_hobbit"];
-			$this->view->hobbit["niveau_hobbit"] =   $hobbit["niveau_ancien_hobbit"];
-			$this->view->hobbit["nb_ko_hobbit"] =   $hobbit["nb_ko_ancien_hobbit"];
-			$this->view->hobbit["nb_hobbit_ko_hobbit"] =   $hobbit["nb_hobbit_ko_ancien_hobbit"];
-			$this->view->hobbit["nb_plaque_hobbit"] =   $hobbit["nb_plaque_ancien_hobbit"];
-			$this->view->hobbit["nb_hobbit_plaquage_hobbit"] =   $hobbit["nb_hobbit_plaquage_ancien_hobbit"];
-			$this->view->hobbit["nb_monstre_kill_hobbit"] =   $hobbit["nb_monstre_kill_ancien_hobbit"];
-			$this->view->hobbit["id_fk_mere_hobbit"] =   $hobbit["id_fk_mere_ancien_hobbit"];
-			$this->view->hobbit["id_fk_pere_hobbit"] =   $hobbit["id_fk_pere_ancien_hobbit"];
-			$this->view->hobbit["metiers_ancien_hobbit"] =  $hobbit["metiers_ancien_hobbit"];
-			$this->view->hobbit["titres_ancien_hobbit"] =  $hobbit["titres_ancien_hobbit"];
-			$this->view->hobbit["date_creation_hobbit"] =  $hobbit["date_creation_ancien_hobbit"];
-			
+				
+			$this->view->hobbit["nom_hobbit"] = $hobbit["nom_ancien_hobbit"];
+			$this->view->hobbit["prenom_hobbit"] = $hobbit["prenom_ancien_hobbit"];
+			$this->view->hobbit["id_fk_nom_initial_hobbit"] = $hobbit["id_fk_nom_initial_ancien_hobbit"];
+			$this->view->hobbit["email_hobbit"] = $hobbit["email_ancien_hobbit"];
+			$this->view->hobbit["sexe_hobbit"] = $hobbit["sexe_ancien_hobbit"];
+			$this->view->hobbit["niveau_hobbit"] = $hobbit["niveau_ancien_hobbit"];
+			$this->view->hobbit["nb_ko_hobbit"] = $hobbit["nb_ko_ancien_hobbit"];
+			$this->view->hobbit["nb_hobbit_ko_hobbit"] = $hobbit["nb_hobbit_ko_ancien_hobbit"];
+			$this->view->hobbit["nb_plaque_hobbit"] = $hobbit["nb_plaque_ancien_hobbit"];
+			$this->view->hobbit["nb_hobbit_plaquage_hobbit"] = $hobbit["nb_hobbit_plaquage_ancien_hobbit"];
+			$this->view->hobbit["nb_monstre_kill_hobbit"] = $hobbit["nb_monstre_kill_ancien_hobbit"];
+			$this->view->hobbit["id_fk_mere_hobbit"] = $hobbit["id_fk_mere_ancien_hobbit"];
+			$this->view->hobbit["id_fk_pere_hobbit"] = $hobbit["id_fk_pere_ancien_hobbit"];
+			$this->view->hobbit["metiers_ancien_hobbit"] = $hobbit["metiers_ancien_hobbit"];
+			$this->view->hobbit["titres_ancien_hobbit"] = $hobbit["titres_ancien_hobbit"];
+			$this->view->hobbit["date_creation_hobbit"] = $hobbit["date_creation_ancien_hobbit"];
 		}
 	}
-	
+
 	private function prepareMetier() {
 		Zend_Loader::loadClass("HobbitsMetiers");
 		$hobbitsMetiersTable = new HobbitsMetiers();
@@ -125,13 +132,13 @@ class Bral_Voir_Hobbit {
 
 		foreach($hobbitsMetierRowset as $m) {
 			$possedeMetier = true;
-				
+
 			if ($this->view->user->sexe_hobbit == 'feminin') {
 				$nom_metier = $m["nom_feminin_metier"];
 			} else {
 				$nom_metier = $m["nom_masculin_metier"];
 			}
-				
+
 			$t = array("id_metier" => $m["id_metier"],
 				"nom" => $nom_metier,
 				"nom_systeme" => $m["nom_systeme_metier"],
@@ -139,7 +146,7 @@ class Bral_Voir_Hobbit {
 				"date_apprentissage" => Bral_Util_ConvertDate::get_date_mysql_datetime("d/m/Y", $m["date_apprentissage_hmetier"]),
 				"description" => $m["description_metier"],
 			);
-				
+
 			if ($m["est_actif_hmetier"] == "non") {
 				$tabMetiers[] = $t;
 			}
@@ -169,23 +176,23 @@ class Bral_Voir_Hobbit {
 
 		$this->view->mereAncienne = false;
 		$this->view->pereAncien = false;
-		
+
 		if ($this->view->hobbit["id_fk_mere_hobbit"] != null && $this->view->hobbit["id_fk_pere_hobbit"] != null &&
 		$this->view->hobbit["id_fk_mere_hobbit"] != 0 && $this->view->hobbit["id_fk_pere_hobbit"] != 0 ) {
-				
+
 			$pere = $hobbitTable->findById($this->view->hobbit["id_fk_pere_hobbit"]);
 			$mere = $hobbitTable->findById($this->view->hobbit["id_fk_mere_hobbit"]);
-				
+
 			if ($pere == null) {
 				$this->view->pereAncien = true;
 				$pere = $ancienHobbitTable->findById($this->view->hobbit["id_fk_pere_hobbit"]);
 			}
-				
+
 			if ($mere == null) {
 				$this->view->mereAncienne = true;
 				$mere = $ancienHobbitTable->findById($this->view->hobbit["id_fk_mere_hobbit"]);
 			}
-				
+
 			$this->view->pereMereOk = true;
 		}
 
@@ -277,13 +284,13 @@ class Bral_Voir_Hobbit {
 	private function preparePage() {
 		$this->_page = 1;
 		if (($this->_request->get("caction") == "ask_voir_hobbit") && ($this->_request->get("valeur_1") == "f")) {
-			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
+			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_2"));
 		} else if (($this->_request->get("caction") == "ask_voir_hobbit") && ($this->_request->get("valeur_1") == "p")) { // si le joueur a clique sur une icone
-			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) - 1;
-			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
+			$this->_page = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) - 1;
+			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
 		} else if (($this->_request->get("caction") == "ask_voir_hobbit") && ($this->_request->get("valeur_1") == "s")) {
-			$this->_page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) + 1;
-			$this->_filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
+			$this->_page = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3")) + 1;
+			$this->_filtre = Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
 		} else {
 			$this->_page = 1;
 			$this->_filtre = -1;

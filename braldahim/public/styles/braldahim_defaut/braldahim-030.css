@@ -1140,6 +1140,21 @@ td.vue2d.actuelle {
 	border-color:#ff6666;
 }
 
+div.cases {
+	width:64px;
+}
+
+table.cases {
+	padding: 0px;
+	border-spacing: 0px;
+	width:64px;
+}
+
+td.cases {
+	width: 32px;
+	height: 32px;
+}
+
 #modalPage {
     display: none;
     position: absolute;
