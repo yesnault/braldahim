@@ -126,7 +126,7 @@ function ouvrirCommunaute(idCommunaute) {
 function ouvrirMonstre(idMonstre) {
 	ouvrirWin('/voir/monstre/?monstre=' + idMonstre, 'Monstre n°' + idMonstre);
 }
-function ouvrirProfilH(idMonstre) {
+function ouvrirProfilM(idMonstre) {
 	ouvrirWin('/voir/monstre/?monstre=' + idMonstre + '&direct=profil', 'Profil Monstre n°' + idMonstre);
 }
 function ouvrirEvenementsM(idMonstre) {
