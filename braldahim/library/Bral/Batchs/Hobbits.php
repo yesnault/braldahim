@@ -73,6 +73,7 @@ class Bral_Batchs_Hobbits extends Bral_Batchs_Batch {
 			}
 
 			$mail->send();
+			Bral_Util_Log::mail()->trace("Bral_Batchs_Hobbits - envoiMailPrevention -".$hobbit["email_hobbit"]." ".$hobbit["prenom_hobbit"]." ".$hobbit["nom_hobbit"]);
 		}
 
 		$retour = "Prevention.H:".$hobbit["email_hobbit"]."(".$hobbit["id_hobbit"].") ";
@@ -200,6 +201,7 @@ class Bral_Batchs_Hobbits extends Bral_Batchs_Batch {
 			}
 
 			$mail->send();
+			Bral_Util_Log::mail()->trace("Bral_Batchs_Hobbits - envoiMailSuppression -".$hobbit["email_hobbit"]." ".$hobbit["prenom_hobbit"]." ".$hobbit["nom_hobbit"]);
 		}
 		$retour = "Suppression.H:".$hobbit["email_hobbit"]."(".$hobbit["id_hobbit"].") ";
 		return $retour;

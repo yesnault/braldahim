@@ -343,6 +343,7 @@ class InscriptionController extends Zend_Controller_Action {
 		}
 		$mail->send();
 		Bral_Util_Log::inscription()->trace("InscriptionController - envoiEmail - enter");
+		Bral_Util_Log::mail()->trace("InscriptionController - envoiEmail - ".$this->email_hobbit. " ". $this->prenom_hobbit);
 	}
 
 	private function calculParent($idHobbit) {

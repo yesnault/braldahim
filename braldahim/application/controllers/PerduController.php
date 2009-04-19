@@ -138,6 +138,7 @@ class PerduController extends Zend_Controller_Action {
 			$mail->setBodyHtml($contenuHtml);
 		}
 		$mail->send();
+		Bral_Util_Log::mail()->trace("PerduController::envoiEmailGeneration - ".$this->email_hobbit. " ". $this->prenom_hobbit);
 	}
 	
 	private function envoiEmailNouveauPassword() {
@@ -167,7 +168,6 @@ class PerduController extends Zend_Controller_Action {
 			$mail->setBodyHtml($contenuHtml);
 		}
 		$mail->send();
+		Bral_Util_Log::mail()->trace("PerduController::envoiEmailNouveauPassword - ".$this->email_hobbit. " ". $this->prenom_hobbit);
 	}
-	
 }
-
