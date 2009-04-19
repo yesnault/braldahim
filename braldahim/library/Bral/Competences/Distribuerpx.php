@@ -119,7 +119,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 
 			$id_type = $this->view->config->game->evenements->type->don;
 			$detailsD = "[h".$this->view->user->id_hobbit."] a donné des PX à [h".$tab["id_hobbit"]."]";
-			$detailsR = "[h".$tab["id_hobbit"]."] a reçu des PX la part de [h".$this->view->user->id_hobbit."]";
+			$detailsR = "[h".$tab["id_hobbit"]."] a reçu des PX de la part de [h".$this->view->user->id_hobbit."]";
 			
 			$detailDonneur = "Vous avez donné ".$tab["px_recu"]." PX à ".$tab["nom_hobbit"]." (".$tab["id_hobbit"].")";
 			$detailReceveur = "Vous avez reçu ".$tab["px_recu"]." PX de la part de ".$this->view->user->prenom_hobbit ." ". $this->view->user->nom_hobbit ." (".$this->view->user->id_hobbit.")";
