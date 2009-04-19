@@ -14,6 +14,19 @@
 		<? if ($this->construireRouteContinueOk == true) : ?>
 		Vous êtes arrivé en x=<?=$this->user->x_hobbit?>, y=<?=$this->user->y_hobbit?>.
 		<? endif;?>
-		
+		<br><br>
+		<? if ($this->nbCastarsGagnes > 0): ?>
+			Vous avez gagn&eacute; <?=$this->nbCastarsGagnes?> castar<?if ($this->nbCastarsGagnes > 0): echo "s"; endif; ?>
+			
+			<? if ($this->nbCastarsGagnes == $this->nbCastarsLaban): ?>
+				directement plac&eacute;<?if ($this->nbCastarsGagnes > 0): echo "s"; endif; ?> dans votre laban.
+			<? else: ?>
+				dont <?=$this->nbCastarsATerre?> tomb&eacute;<?if ($this->nbCastarsATerre > 0): echo "s"; endif; ?> &agrave; terre <br>
+				et <?=$this->nbCastarsLaban?> dans votre laban.
+			<? endif;?>
+			
+		<? else: ?>
+			Vous n'avez gagn&eacute; aucun castar.
+		<? endif;?>
 		<br>
 <? endif; ?>
