@@ -5,8 +5,8 @@ $textRoute = "";
 $textEchoppe = "";
 $type_lieu = "";
 $textBallon = "";
-?>
-<?php if ($case["n_lieux"] > 0) :
+
+if ($case["n_lieux"] > 0) :
 	$textLieu = "Lieu : <br>";
     foreach($case["lieux"] as $l) {
       	$textLieu .= addslashes(htmlspecialchars($l["nom_lieu"]));
@@ -18,13 +18,13 @@ $textBallon = "";
 		$doubleClick = "title=\"Double Cliquer pour acc&eacute;der directement au lieu\"";
 		$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return fermeturePopup(); \"";
 	}
-endif; ?>
+endif;
 
-<?php if ($case["n_ballons"] > 0) :
+if ($case["n_ballons"] > 0) :
 	$textBallon = "Ballon &agrave terre !<br>";
-endif; ?>
+endif; 
 
-<?php if ($case["n_palissades"] > 0) :
+if ($case["n_palissades"] > 0) :
       	$textPalissade = "<br>Palissade : <br>";
       	foreach($case["palissades"] as $p) {
       		$textPalissade .= "1 palissade (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
@@ -39,9 +39,9 @@ endif; ?>
 		if ($case["n_palissades"] > 1) {
 			$s = "s";
 		}
-endif; ?>
-	    
-<?php if ($case["n_echoppes"] > 0) :
+endif;
+
+if ($case["n_echoppes"] > 0) :
 	$textEchoppe = "<br>&Eacute;choppe : <br>";
 	$nomSystemeEchoppe = "";
 	foreach($case["echoppes"] as $c) {

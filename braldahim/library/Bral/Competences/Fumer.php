@@ -89,7 +89,6 @@ class Bral_Competences_Fumer extends Bral_Competences_Competence {
 		$labanTabacTable->insertOrUpdate($data);
 		
 		Zend_Loader::loadClass("HobbitsCompetences");
-		
 		$hobbitsCompetencesTables = new HobbitsCompetences();
 		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($this->view->user->id_hobbit);
 

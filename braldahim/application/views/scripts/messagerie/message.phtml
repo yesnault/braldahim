@@ -1,5 +1,7 @@
 	<? if ($this->information != null) :?>
-		<?=$this->information ?><br/><br/>
+		<?=$this->information ?><br>
+		<?=$this->render("/commun/commun_quete_resultat.phtml") ?>
+		<br/>
 	<? endif; ?>
 
 	<? if ($this->message != null) : ?>

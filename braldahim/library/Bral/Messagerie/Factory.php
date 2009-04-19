@@ -12,6 +12,7 @@
  */
 class Bral_Messagerie_Factory {
 	static function getAction($request, $view) {
+		Zend_Loader::loadClass("Bral_Messagerie_Messagerie");
 		Zend_Loader::loadClass("Bral_Messagerie_Message");
 		Zend_Loader::loadClass("Bral_Messagerie_Contacts");
 		

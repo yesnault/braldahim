@@ -2,8 +2,8 @@
 $textCadavre = "";
 $textCastar = "";
 $textRune = "";
-?>
-<? if ($case["n_cadavres"] > 0) : 
+
+if ($case["n_cadavres"] > 0) : 
       	$textCadavre = "<br>Cadavre";
       	if ($case["n_cadavres"] > 0) {
       		$textCadavre .= "s";
@@ -17,8 +17,9 @@ $textRune = "";
 		if ($case["n_cadavres"] > 1) {
 			$s = "s";
 		}
-endif; ?>	
-<? if ($case["n_castars"] > 0) : 
+endif; 
+
+if ($case["n_castars"] > 0) : 
 	$textCastar = "<br>";
 	foreach($case["castars"] as $c) {
 		$s = "";
@@ -27,8 +28,9 @@ endif; ?>
 		}
 		$textCastar .= $c["nb_castar"]. " castar".$s;
 	} 
-endif; ?>	
-<? if ($case["n_elements_runes"] > 0) :
+endif; 
+
+if ($case["n_elements_runes"] > 0) :
 	$textRune = "<br>";
 	foreach($case["elements_runes"] as $r) {
 		$textRune .= "1 rune (n&deg; ".$r["id_element_rune"].")<br />";
@@ -37,9 +39,9 @@ endif; ?>
 	if ($case["n_elements_runes"] > 1) {
 		$s = "s";
 	}
-endif; ?>
- 
-<?php if ($case["n_cadavres"] > 0 || $case["n_castars"] > 0 || $case["n_elements_runes"] > 0) : ?>
+endif;
+
+if ($case["n_cadavres"] > 0 || $case["n_castars"] > 0 || $case["n_elements_runes"] > 0) : ?>
 	<span <?=Bral_Helper_Tooltip::jsTip($textCadavre.$textCastar.$textRune, $titre) ?>>
 		<img src='/public/styles/braldahim_defaut/images/vue/coffre.png' />
 	</span>

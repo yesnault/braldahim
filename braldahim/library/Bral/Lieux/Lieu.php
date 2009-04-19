@@ -143,6 +143,7 @@ abstract class Bral_Lieux_Lieu {
 
 		$data = array(
 			'pa_hobbit' => $this->view->user->pa_hobbit,
+			'px_perso_hobbit' => $this->view->user->px_perso_hobbit,
 			'duree_prochain_tour_hobbit' =>  $this->view->user->duree_prochain_tour_hobbit,
 			'castars_hobbit' => $this->view->user->castars_hobbit,
 			'pi_hobbit' => $this->view->user->pi_hobbit,

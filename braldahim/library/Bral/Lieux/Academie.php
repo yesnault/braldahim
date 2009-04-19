@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -18,7 +18,7 @@ class Bral_Lieux_Academie extends Bral_Lieux_Lieu {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Lieu");
 		Zend_Loader::loadClass("Bral_Util_Tour");
-		
+
 		$coutPIForce =  $this->calculCoutAmelioration(1 + $this->view->user->force_base_hobbit);
 		$coutPIAgilite = $this->calculCoutAmelioration(1 + $this->view->user->agilite_base_hobbit);
 		$coutPIVigueur = $this->calculCoutAmelioration(1 + $this->view->user->vigueur_base_hobbit);
@@ -28,18 +28,18 @@ class Bral_Lieux_Academie extends Bral_Lieux_Lieu {
 		$this->view->coutPIAgilite = $coutPIAgilite;
 		$this->view->coutPIVigueur = $coutPIVigueur;
 		$this->view->coutPISagesse = $coutPISagesse;
-		
+
 		$this->view->coutCastarsForce = $this->calculCoutCastars($coutPIForce);
 		$this->view->coutCastarsAgilite = $this->calculCoutCastars($coutPIAgilite);
 		$this->view->coutCastarsVigueur = $this->calculCoutCastars($coutPIVigueur);
 		$this->view->coutCastarsSagesse = $this->calculCoutCastars($coutPISagesse);
-		
+
 		$this->view->achatPossibleForce = false;
 		$this->view->achatPossibleAgilite = false;
 		$this->view->achatPossibleVigueur = false;
 		$this->view->achatPossibleSagesse = false;
 		$this->view->achatPossible  = false;
-		
+
 		if ($coutPIForce <= $this->view->user->pi_hobbit && $this->view->coutCastarsForce <= $this->view->user->castars_hobbit) {
 			$this->view->achatPossibleForce = true;
 		}
@@ -52,12 +52,12 @@ class Bral_Lieux_Academie extends Bral_Lieux_Lieu {
 		if ($coutPISagesse <= $this->view->user->pi_hobbit && $this->view->coutCastarsSagesse <= $this->view->user->castars_hobbit) {
 			$this->view->achatPossibleSagesse = true;
 		}
-		
-		if ($this->view->achatPossibleForce || $this->view->achatPossibleAgilite || 
-			$this->view->achatPossibleVigueur || $this->view->achatPossibleSagesse) {
+
+		if ($this->view->achatPossibleForce || $this->view->achatPossibleAgilite ||
+		$this->view->achatPossibleVigueur || $this->view->achatPossibleSagesse) {
 			$this->view->achatPossible  = true;
 		}
-		
+
 		// $this->view->utilisationPaPossible initialisé dans Bral_Lieux_Lieu
 	}
 
@@ -100,7 +100,7 @@ class Bral_Lieux_Academie extends Bral_Lieux_Lieu {
 					$this->view->user->pi_hobbit = $this->view->user->pi_hobbit - $this->view->coutSagesse;
 					$this->view->coutPi = $this->view->coutPISagesse;
 					$this->view->coutCastars = $this->view->coutCastarsSagesse;
-					$this->view->user->duree_prochain_tour_hobbit = Bral_Util_Tour::getDureeBaseProchainTour($this->view->user, $this->view->config); 
+					$this->view->user->duree_prochain_tour_hobbit = Bral_Util_Tour::getDureeBaseProchainTour($this->view->user, $this->view->config);
 				}
 				break;
 			case "VIG":
@@ -128,21 +128,24 @@ class Bral_Lieux_Academie extends Bral_Lieux_Lieu {
 			default:
 				throw new Zend_Exception(get_class($this)." Valeur invalide : val=".$this->request->get("valeur_1"));
 		}
-		
+
 		// Recalcul de l'armure naturelle
 		$this->view->user->armure_naturelle_hobbit = Bral_Util_Commun::calculArmureNaturelle($this->view->user->force_base_hobbit, $this->view->user->vigueur_base_hobbit);
-		
+
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		$this->view->user->pi_hobbit = $this->view->user->pi_hobbit - $this->view->coutPi;
 		if ($this->view->user->pi_hobbit < 0) {
 			$this->view->user->pi_hobbit = 0;
 		}
-		
+
+		Zend_Loader::loadClass("Bral_Util_Quete");
+		$this->view->estQueteEvenement = Bral_Util_Quete::etapeAmeliorerCaracteristique($this->view->user);
+
 		$this->majHobbit();
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_laban", "box_vue");
+		return $this->constructListBoxRefresh(array("box_laban", "box_vue"));
 	}
 
 	private function calculCoutCastars($pi) {

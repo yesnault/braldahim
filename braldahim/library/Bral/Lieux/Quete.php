@@ -59,7 +59,11 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 			throw new Zend_Exception(get_class($this)." Quete en cours id:".$this->view->user->id_hobbit);
 		}
 
-		$this->calculQuete();
+		if ($this->view->idLieu == Bral_Util_Quete::QUETE_ID_LIEU_INITIATIQUE) {
+			$this->view->etapes = Bral_Util_Quete::creationQueteInitiatique($this->view->user, $this->view->config);
+		} else {
+			$this->calculQuete();	
+		}
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
 		$this->view->user->est_quete_hobbit = "oui";
 		$this->majHobbit();
@@ -68,15 +72,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 	}
 
 	private function calculQuete() {
-		$queteTable = new Quete();
-
-		$data = array(
-			"id_fk_lieu_quete" => $this->view->idLieu,
-			"id_fk_hobbit_quete" => $this->view->user->id_hobbit,
-			"date_creation_quete" => date("Y-m-d H:i:s"),		
-		);
-		$idQuete = $queteTable->insert($data);
-
+		$idQuete = Bral_Util_Quete::creationQueteDb($this->view->user->id_hobbit, $this->view->idLieu);
 		$this->calculEtapes($idQuete);
 	}
 

@@ -75,6 +75,8 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 					$action = Bral_Soule_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Quete_Factory") {
 					$action = Bral_Quete_Factory::getAction($this->_request, $this->view);
+				} elseif ($factory == "Bral_Messagerie_Factory") {
+					$action = Bral_Messagerie_Factory::getAction($this->_request, $this->view);
 				}
 				$xml_entry->set_valeur($action->getNomInterne());
 				$xml_entry->set_data($action->render());

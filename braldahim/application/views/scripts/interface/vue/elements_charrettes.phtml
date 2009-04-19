@@ -17,8 +17,8 @@ include('elements_minerais.phtml');
 include('elements_partieplantes.phtml');
 include('elements.phtml'); 
 
-?>
-<?php if ($textCharrette != "" || $textElementsEquipements != "" || $textElementsMunitions != "" || $textElementsMineraisBruts != "" 
+
+if ($textCharrette != "" || $textElementsEquipements != "" || $textElementsMunitions != "" || $textElementsMineraisBruts != "" 
 	|| $textElementsLingots != "" || $textElementsPartiesPlantesBrutes != "" || $textElementsPartiesPlantesPreparees != "" 
 	|| $textElements != "" || $textElementsPotions != "") : ?>
 	<span <?=Bral_Helper_Tooltip::jsTip($textCharrette.$textElementsEquipements.$textElementsMunitions.$textElementsMineraisBruts.$textElementsLingots.$textElementsPartiesPlantesBrutes.$textElementsPartiesPlantesPreparees.$textElementsPotions.$textElements, $titre) ?>>

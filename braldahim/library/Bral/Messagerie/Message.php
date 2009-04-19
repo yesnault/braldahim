@@ -10,26 +10,21 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Messagerie_Message {
+class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 
 	function __construct($request, $view, $action) {
 		Zend_Loader::loadClass('Bral_Util_Messagerie');
 		Zend_Loader::loadClass('Bral_Util_Mail');
 		Zend_Loader::loadClass('Bral_Util_Lien');
 		
-		$this->view = $view;
-		$this->request = $request;
-		$this->action = $action;
+		parent::__construct($request, $view, $action);
 
 		$this->view->message = null;
 		$this->view->information = null;
+		$this->view->estQueteEvenement = false;
 		$this->refreshMessages = false;
 		$this->view->envoiMessage = false;
 		$this->prepareAction();
-	}
-
-	public function getNomInterne() {
-		return "messagerie_contenu";
 	}
 
 	function render() {
@@ -224,16 +219,19 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 			}
 			
 			if ($tabHobbits != null && count($idDestinatairesTab) > 0) {
-				foreach ($idDestinatairesTab as $id_hobbit) {
-					$data = $this->prepareMessageAEnvoyer($this->view->user->id_hobbit, $id_hobbit, $tabMessage["contenu"], $idDestinatairesListe);
-					if (!in_array($id_hobbit, $tabIdDestinatairesDejaEnvoye)) {
+				foreach ($idDestinatairesTab as $idHobbit) {
+					$data = $this->prepareMessageAEnvoyer($this->view->user->id_hobbit, $idHobbit, $tabMessage["contenu"], $idDestinatairesListe);
+					if (!in_array($idHobbit, $tabIdDestinatairesDejaEnvoye)) {
 						$josUddeimTable->insert($data);
-						$tabIdDestinatairesDejaEnvoye[] = $id_hobbit;
-						if ($tabHobbits[$id_hobbit]["envoi_mail_message_hobbit"] == "oui") {
-							Bral_Util_Mail::envoiMailAutomatique($tabHobbits[$id_hobbit], $this->view->config->mail->message->titre, $debutContenuMail.$tabMessage["contenu"], $this->view);
+						$tabIdDestinatairesDejaEnvoye[] = $idHobbit;
+						if ($tabHobbits[$idHobbit]["envoi_mail_message_hobbit"] == "oui") {
+							Bral_Util_Mail::envoiMailAutomatique($tabHobbits[$idHobbit], $this->view->config->mail->message->titre, $debutContenuMail.$tabMessage["contenu"], $this->view);
 						}
 					}
 				}
+				
+				Zend_Loader::loadClass("Bral_Util_Quete");
+				$this->view->estQueteEvenement = Bral_Util_Quete::etapeContacterParents($this->view->user, $idDestinatairesTab);
 			}
 
 			$this->view->envoiMessage = true;

@@ -108,6 +108,7 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 			if ($idCompetence == $c["id_competence"]) {
 				$this->view->nomCompetence = $c["nom"];
 				$this->view->coutPi = $c["pi_cout"];
+				$nomSysteme = $c["nom_systeme"];
 				$comptenceOk = true;
 				break;
 			}
@@ -133,6 +134,9 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
 		$this->view->user->pi_hobbit = $this->view->user->pi_hobbit -$this->view->coutPi;
 
+		Zend_Loader::loadClass("Bral_Util_Quete");
+		$this->view->estQueteEvenement = Bral_Util_Quete::etapeApprendreIdentificationRune($this->view->user, $nomSysteme);
+		
 		$this->majHobbit();
 	}
 

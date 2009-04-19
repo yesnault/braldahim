@@ -1,15 +1,11 @@
+<?=$this->render("/commun/commun_quete_resultat.phtml") ?>
 
-	<? if ($this->estQueteEvenement === true): ?>
-		<span style="font-weight: bold ;">Il y a du nouveau &agrave; propos de votre qu&ecirc;te</span><br>
-		<span style="font-weight: bold ;">Consultez votre onglet qu&ecirc;te pour plus de d&eacute;tails.</span><br><br>
-	<? endif;?>
+<? if ($this->idChoix == 1 || $this->idChoix == 3) :?>
+	Vous vous &ecirc;tes restaur&eacute;<br /> <br />
+	Votre balance de faim est maintenant de <?=$this->user->balance_faim_hobbit ?> %<br /><br>
+<? endif;?>
 
-	<? if ($this->idChoix == 1 || $this->idChoix == 3) :?>
-		Vous vous &ecirc;tes restaur&eacute;<br /> <br />
-		Votre balance de faim est maintenant de <?=$this->user->balance_faim_hobbit ?> %<br /><br>
-	<? endif;?>
-	
-	<? if ($this->idChoix == 2 || $this->idChoix == 3) : ?>
-		Vous avez achet&eacute; <?=$this->nbAcheter ?>  ration<? if ($this->nbAcheter > 1): echo "s"; endif; ?> <br><br>
-	<? endif;?>
-	Vous avez d&eacute;pens&eacute; <?=$this->coutCastars ?> castars.
+<? if ($this->idChoix == 2 || $this->idChoix == 3) : ?>
+	Vous avez achet&eacute; <?=$this->nbAcheter ?>  ration<? if ($this->nbAcheter > 1): echo "s"; endif; ?> <br><br>
+<? endif;?>
+Vous avez d&eacute;pens&eacute; <?=$this->coutCastars ?> castars.

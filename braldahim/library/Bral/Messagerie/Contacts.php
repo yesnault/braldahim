@@ -10,21 +10,16 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Messagerie_Contacts {
+class Bral_Messagerie_Contacts extends Bral_Messagerie_Messagerie {
 
 	function __construct($request, $view, $action) {
 		Zend_Loader::loadClass('Bral_Util_Messagerie');
 		Zend_Loader::loadClass('JosUserlists');
-		$this->view = $view;
-		$this->request = $request;
-		$this->action = $action;
+		
+		parent::__construct($request, $view, $action);
 
 		$this->view->information = null;
 		$this->prepareAction();
-	}
-
-	public function getNomInterne() {
-		return "messagerie_contenu";
 	}
 
 	function render() {

@@ -242,6 +242,9 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 				$this->view->constructionCharrette = true;
 				$this->reloadInterface = true;
 			}
+			
+			Zend_Loader::loadClass("Bral_Util_Quete");
+			$this->view->estQueteEvenement = Bral_Util_Quete::etapeApprendreMetier($this->view->user);
 		}
 
 		$this->view->nomMetier = $nomMetier;

@@ -46,16 +46,20 @@
 		  	</tr>
 		  <? endforeach; ?>
 		  
-		  <? if ($this->quete["date_fin_quete"] != null): ?>
+		 
 		  <tr class="table_liste<?=($i % 2);$i++; ?>">
 			  <td class="table_liste">
 			  Gains
 			  </th>
 			  <td class="table_liste" colspan="3">
-			  <?=nl2br($this->quete["gain_quete"])?>
+			   <? if ($this->quete["date_fin_quete"] != null): ?>
+			 	 <?=nl2br($this->quete["gain_quete"])?>
+			   <? else: ?>
+			  		Les gains seront indiqu&eacute;s ici &agrave; la fin de la qu&ecirc;te.
+			   <? endif;?>
 			  </td>
 		  </tr>
-		  <? endif;?>
+		 
 		<? else: ?>
 		   <tr class="table_liste">
 		   	<td colspan="5">
