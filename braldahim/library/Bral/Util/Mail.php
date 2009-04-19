@@ -45,6 +45,7 @@ class Bral_Util_Mail {
 				$mail->setBodyHtml($contenuHtml);
 			}
 			$mail->send();
+			Bral_Util_Log::mail()->trace("Bral_Util_Mail - envoiMailAutomatique -".$hobbit["email_hobbit"]." ".$hobbit["prenom_hobbit"]." ".$hobbit["nom_hobbit"]." - ".$titre);
 		}
 	}
 }
