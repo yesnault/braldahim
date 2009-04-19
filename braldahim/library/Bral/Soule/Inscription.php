@@ -29,8 +29,16 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 
 		$this->calculNbPa();
 		$this->calculNbCastars();
-
-		if ($this->view->assezDePa && $this->view->user->est_engage_hobbit == "non") {
+		
+		$this->view->hibernationPrevue = true;
+		
+		$aujourdhui = date("Y-m-d 0:0:0");
+		
+		if ($this->view->user->date_fin_hibernation_hobbit == null || $this->view->user->date_fin_hibernation_hobbit < $aujourdhui) {
+			$this->view->hibernationPrevue = false;
+		}
+		
+		if ($this->view->hibernationPrevue == false && $this->view->assezDePa && $this->view->user->est_engage_hobbit == "non") {
 			$this->prepareTerrain();
 			$this->prepareEquipes();
 		}

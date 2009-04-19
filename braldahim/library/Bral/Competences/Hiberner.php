@@ -13,16 +13,32 @@
 class Bral_Competences_Hiberner extends Bral_Competences_Competence {
 
 	function prepareCommun() {
+		
 		for ($i = 5; $i<= 100; $i ++) {
 			$tabJours[] = $i;
 		}
 		$this->view->tabJours = $tabJours;
+		
+		$this->view->hibernerPossible = false;
+		
+		Zend_Loader::loadClass("SouleEquipe");
+		$souleEquipeTable = new SouleEquipe();
+		$nombre = $souleEquipeTable->countNonDebuteByIdHobbit($this->view->user->id_hobbit);
+		
+		if ($this->view->user->est_soule_hobbit == "non" && $nombre == 0) {
+			$this->view->hibernerPossible = true;
+		}
 	}
 
 	function prepareFormulaire() {
 	}
 
 	function prepareResultat() {
+		
+		if ($this->view->hibernerPossible == false) {
+			throw new Zend_Exception(get_class($this)." Hiberner impossible : ".$this->view->user->id_hobbit);
+		}
+		
 		$nbJours = intval($this->request->get("valeur_1"));
 
 		// Verification des jours

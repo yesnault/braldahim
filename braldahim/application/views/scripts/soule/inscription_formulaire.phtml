@@ -2,38 +2,42 @@
  <form name='myForm'>
  <div class='comp_contenu'>
  	
-	Pour <?=$this->nb_pa?> PA et <?=$this->nb_castars?> castars, vous pouvez vous inscrire pour le prochain match de soule
-	sur le <?=$this->terrainCourant["nom_soule_terrain"]?>.
- </div>
- <br>
-
-	<? if ($this->assezDePa === false) :?>
-		Vous n'avez pas assez de PA.
-	<? elseif ($this->assezDeCastars === false) : ?>
-		Vous n'avez pas assez de castars.
-	<? elseif ($this->user->est_engage_hobbit == "oui") : ?>
-		Vous &ecirc;tes engag&eacute;.
-	<? else: ?>
- 	&Eacute;quipe :<br>
- 
-	<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1){$('bouton_inscription').disabled=true } else {$('bouton_inscription').disabled=false }">
-		<option value='-1'>(Choisis une &eacute;quipe)</option>
-		<? foreach ($this->tabEquipes as $k => $e) : ?>
-		<option value="<?=$k?>" <? if ($e["inscription_possible"] !=  true): echo "disabled"; endif;?>>
-			<?=$e["nom_equipe"]?> (<?=$e["nb_inscrits"]?> inscrit<? if ($e["nb_inscrits"] > 1): echo "s"; endif;?>)
-			<? if ($e["inscription_possible"] !=  true): echo " : nombre max de joueurs atteint"; endif;?>
-		</option>
-		<? endforeach; ?>
-	</select><br /><br />
-	<br>
-	Où voulez-vous que la roulotte vous dépose après le match ?<br>
-	<select name='valeur_2' id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1){$('bouton_inscription').disabled=true } else {$('bouton_inscription').disabled=false }">
-		<option value='-1'>(Choisis le retour)</option>
-		<option value="1">&Agrave; la position X,Y d'avant match</option>
-		<option value="2">&Agrave; la ville la plus proche du terrain</option>
-	</select><br /><br />
+ 	<? if ($this->hibernationPrevue === true) : ?>
+ 	Vous ne pouvez pas vous inscrire &agrave; un match de soule avec une hibernation de pr&eacute;vue.<br>
+ 	<? else: ?>
+		Pour <?=$this->nb_pa?> PA et <?=$this->nb_castars?> castars, vous pouvez vous inscrire pour le prochain match de soule
+		sur le <?=$this->terrainCourant["nom_soule_terrain"]?>.
+	 </div>
+	 <br>
 	
-	<? endif; ?>
+		<? if ($this->assezDePa === false) :?>
+			Vous n'avez pas assez de PA.
+		<? elseif ($this->assezDeCastars === false) : ?>
+			Vous n'avez pas assez de castars.
+		<? elseif ($this->user->est_engage_hobbit == "oui") : ?>
+			Vous &ecirc;tes engag&eacute;.
+		<? else: ?>
+	 	&Eacute;quipe :<br>
+	 
+		<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1){$('bouton_inscription').disabled=true } else {$('bouton_inscription').disabled=false }">
+			<option value='-1'>(Choisis une &eacute;quipe)</option>
+			<? foreach ($this->tabEquipes as $k => $e) : ?>
+			<option value="<?=$k?>" <? if ($e["inscription_possible"] !=  true): echo "disabled"; endif;?>>
+				<?=$e["nom_equipe"]?> (<?=$e["nb_inscrits"]?> inscrit<? if ($e["nb_inscrits"] > 1): echo "s"; endif;?>)
+				<? if ($e["inscription_possible"] !=  true): echo " : nombre max de joueurs atteint"; endif;?>
+			</option>
+			<? endforeach; ?>
+		</select><br /><br />
+		<br>
+		Où voulez-vous que la roulotte vous dépose après le match ?<br>
+		<select name='valeur_2' id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1){$('bouton_inscription').disabled=true } else {$('bouton_inscription').disabled=false }">
+			<option value='-1'>(Choisis le retour)</option>
+			<option value="1">&Agrave; la position X,Y d'avant match</option>
+			<option value="2">&Agrave; la ville la plus proche du terrain</option>
+		</select><br /><br />
+		
+		<? endif; ?>
+	<? endif;?>
  
 </form>
 <br />

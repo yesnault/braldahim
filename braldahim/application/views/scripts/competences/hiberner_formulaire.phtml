@@ -1,38 +1,47 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
  	
- 	<?php $js="
- 	if ($('valeur_1').value != -1 && $('valeur_1').value != -1) {
- 		var maDate = new Date();
-		var jour = maDate.getDate() + parseInt($('valeur_1').value);
-	 	var d = new Date(maDate.getFullYear(), maDate.getMonth() , jour);
-	 	var demain = new Date(maDate.getFullYear(), maDate.getMonth() , maDate.getDate() + 1);
-	 	var texte = 'Date de d&eacute;but Hibernation le ' + demain.getDate() + '/' + (demain.getMonth() + 1) + '/' + demain.getFullYear() + ' (demain)\<br\>';
- 		$('dateFin').innerHTML=texte + 'Date Fin Hibernation le ' + d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
- 	} else {
- 		$('dateFin').innerHTML='Choisissez le nombre de jours';
- 	}
- 	"
- 	?>
- 	Une hibernation dure de 5 jours minimum, à 100 jours maximum<br /><br />
- 	
- 	Choisissez le nombre de jours d'hibernation.<br /><br />
-   <table width='300px' align='center'>
-    <th class='comp_titre'>Nombre de jours</th>
-   	<tr>
-   		<td>
-	   		<select id='valeur_1' name='valeur_1' onChange="javascript:<?=$js?> if ($('valeur_1').value==-1 || ($('valeur_1').value<5 )){$('bouton_hiberner').disabled=true } else {$('bouton_hiberner').disabled=false }">
-			<option value='-1'>(Choisissez)</option>
-			<? foreach ($this->tabJours as $j): ?>
-			<option value='<?=$j?>'><?=$j?></option>
-			<? endforeach; ?>
-			</select>
-   		</td>
-   	</tr>
-   </table>
+ 	<? if ($this->hibernerPossible === true) : ?>
+	 	<?php $js="
+	 	if ($('valeur_1').value != -1 && $('valeur_1').value != -1) {
+	 		var maDate = new Date();
+			var jour = maDate.getDate() + parseInt($('valeur_1').value);
+		 	var d = new Date(maDate.getFullYear(), maDate.getMonth() , jour);
+		 	var demain = new Date(maDate.getFullYear(), maDate.getMonth() , maDate.getDate() + 1);
+		 	var texte = 'Date de d&eacute;but Hibernation le ' + demain.getDate() + '/' + (demain.getMonth() + 1) + '/' + demain.getFullYear() + ' (demain)\<br\>';
+	 		$('dateFin').innerHTML=texte + 'Date Fin Hibernation le ' + d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+	 	} else {
+	 		$('dateFin').innerHTML='Choisissez le nombre de jours';
+	 	}
+	 	"
+	 	?>
+	 	Une hibernation dure de 5 jours minimum, à 100 jours maximum<br /><br />
+	 	
+	   Choisissez le nombre de jours d'hibernation.<br /><br />
+	   <table width='300px' align='center'>
+	    <th class='comp_titre'>Nombre de jours</th>
+	   	<tr>
+	   		<td>
+		   		<select id='valeur_1' name='valeur_1' onChange="javascript:<?=$js?> if ($('valeur_1').value==-1 || ($('valeur_1').value<5 )){$('bouton_hiberner').disabled=true } else {$('bouton_hiberner').disabled=false }">
+				<option value='-1'>(Choisissez)</option>
+				<? foreach ($this->tabJours as $j): ?>
+				<option value='<?=$j?>'><?=$j?></option>
+				<? endforeach; ?>
+				</select>
+	   		</td>
+	   	</tr>
+	   </table>
+	   
+	   <span id='dateFin' name='dateFin'>Choisissez le nombre de jours<br></span> <br>
+	   
+   <? else: ?>
+   Vous ne pouvez pas vous mettre en hibernation avec une inscription &agrave; un match de soule
+   et pendant un match.
+   <? endif;?>
    <br>
    
-   <span id='dateFin' name='dateFin'>Choisissez le nombre de jours<br></span> <br>
  </div>
 <br />
+<? if ($this->hibernerPossible === true) : ?>
 <input type='button' class='button1' id='bouton_hiberner' value='Hiberner !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_hiberner");' disabled>
+<? endif; ?>
