@@ -105,6 +105,7 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 		}
 
 		$this->view->equipes = $equipes;
+		$this->view->joueurs = $joueurs;
 	}
 
 	private function calculInscription() {

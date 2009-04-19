@@ -90,6 +90,5 @@ endif;
 <p class="camp equipeA" style="color:red">Camp équipe A :<br> <?=$this->equipes["equipea"]["nom_equipe"]?></p>
 <p class="camp equipeB" style="color:blue">Camp équipe B :<br> <?=$this->equipes["equipeb"]["nom_equipe"]?></p>
 <p class="ballon" title="Ballon en X:<?=$xBallon?>, Y:<?=$yBallon?>"></p>
-<?php $equipe = $this->equipes["equipea"]; $backgroundColor="red"; $nomEquipe="Équipe A";include("carteequipe.phtml")?>
-<?php $equipe = $this->equipes["equipeb"]; $backgroundColor="blue"; $nomEquipe="Équipe B"; include("carteequipe.phtml")?>
+<?php $joueurs = $this->joueurs; include("carteequipe.phtml");?>
 </div>
