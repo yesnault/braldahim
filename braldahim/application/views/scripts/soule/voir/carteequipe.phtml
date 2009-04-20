@@ -28,7 +28,6 @@ foreach($joueurs as $j):
   	  	if ($nomEquipe != $eqini) {
   	  		$textHobbit .= "<br><center>".$nomEquipe."</center>";
   	  	}
-  	  	$textHobbit .= "<br>";
   	  }
   	  else {
   	  	$textHobbit = "<br><center>".$nomEquipe."</center>";
@@ -37,7 +36,7 @@ foreach($joueurs as $j):
   	  $eqini = $nomEquipe;
   	  $textHobbit .= '<label class=\\\'alabel profil\\\' onClick=ouvrirProfilH('.$j["id_hobbit"].'); title=\\\'Voir le profil\\\' >'.addslashes($j["prenom_hobbit"]).' '.addslashes($j["nom_hobbit"]).' ('.$j["id_hobbit"].')</label>, niv.'.$j["niveau_hobbit"];
   	  $textHobbit .= ' <img src=\\\'/public/images/puce_event.gif\\\' title=\\\'Voir les événements\\\' border=\\\'0\\\' onClick=ouvrirEvenementsH('.$j["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
-	  $textHobbit .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$j["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
+	  $textHobbit .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$j["id_hobbit"].'); style=\\\'cursor:pointer\\\'/><br> ';
 	  $title = "Position : x=".$j['x_hobbit'].", y=".$j['y_hobbit'];
   	  $xini = $j["x_hobbit"];
   	  $yini = $j["y_hobbit"];
