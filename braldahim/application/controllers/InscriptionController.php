@@ -71,7 +71,7 @@ class InscriptionController extends Zend_Controller_Action {
 
 					$where = "id_hobbit=".$hobbit->id_hobbit;
 					$hobbitTable->update($data, $where);
-					
+
 					$hobbit->id_fk_pere_hobbit =  $dataParents["id_fk_pere_hobbit"];
 					$hobbit->id_fk_mere_hobbit =  $dataParents["id_fk_mere_hobbit"];
 
@@ -91,13 +91,13 @@ class InscriptionController extends Zend_Controller_Action {
 						'details_evenement' => $details,
 					);
 					$evenementTable->insert($data);
-						
+
 					// TODO à supprimer à la fin des dev quetes
 					if ($this->view->config->general->production != 1) {
 						Zend_Loader::loadClass("Bral_Util_Quete");
 						Bral_Util_Quete::creationQueteInitiatique($hobbit, $this->view->config);
 					}
-						
+
 					Bral_Util_Log::inscription()->notice("InscriptionController - validationAction - validation OK pour :".$email_hobbit);
 				}
 			} else {
@@ -317,9 +317,12 @@ class InscriptionController extends Zend_Controller_Action {
 			'pv_restant_hobbit' => $pv,
 			'est_charte_validee_hobbit' => "oui",
 			'id_fk_region_creation_hobbit' => $this->id_region,
-			'est_quete_hobbit' => "oui",
 		);
 
+		// TODO à supprimer à la fin des dev quetes
+		if ($this->view->config->general->production != 1) {
+			$data['est_quete_hobbit'] = "oui";
+		}
 		return $data;
 	}
 
@@ -362,7 +365,7 @@ class InscriptionController extends Zend_Controller_Action {
 
 		$dataParents["id_fk_pere_hobbit"] = null;
 		$dataParents["id_fk_mere_hobbit"] = null;
-			
+
 		if (count($couplesRowset) >= 1) {
 			$de = Bral_Util_De::get_de_specifique(0, count($couplesRowset)-1);
 			$couple = $couplesRowset[$de];
@@ -402,10 +405,10 @@ class InscriptionController extends Zend_Controller_Action {
 			if (count($hobbitsFemininRowset) > 0) { // creation d'un nouveau couple
 				$de = Bral_Util_De::get_de_specifique(0, count($hobbitsMasculinRowset)-1);
 				$pere = $hobbitsMasculinRowset[$de];
-					
+
 				$de = Bral_Util_De::get_de_specifique(0, count($hobbitsFemininRowset)-1);
 				$mere = $hobbitsFemininRowset[$de];
-					
+
 				$data = array('id_fk_m_hobbit_couple' => $pere["id_hobbit"],
 							  'id_fk_f_hobbit_couple' => $mere["id_hobbit"],
 							  'date_creation_couple' => date("Y-m-d H:i:s"),
@@ -413,7 +416,7 @@ class InscriptionController extends Zend_Controller_Action {
 				);
 				$coupleTable = new Couple();
 				$coupleTable->insert($data);
-					
+
 				$dataParents["id_fk_pere_hobbit"] = $pere["id_hobbit"];
 				$dataParents["id_fk_mere_hobbit"] = $mere["id_hobbit"];
 
