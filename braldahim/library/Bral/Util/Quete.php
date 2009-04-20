@@ -1607,7 +1607,7 @@ class Bral_Util_Quete {
 	}
 
 	private static function calculEtapeApprendreMetier($etape, &$hobbit) {
-		$hobbit->px_perso_hobbit = $hobbit->px_perso_hobbit + 3;
+		$hobbit->px_perso_hobbit = $hobbit->px_perso_hobbit + 5;
 		self::calculEtapeFinStandard($etape, $hobbit);
 	}
 
@@ -1675,5 +1675,4 @@ class Bral_Util_Quete {
 			return false;
 		}
 	}
-
 }

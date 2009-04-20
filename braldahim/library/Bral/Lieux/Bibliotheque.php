@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -19,17 +19,23 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 	function prepareCommun() {
 		Zend_Loader::loadClass("HobbitsCompetences");
 
-		$this->_coutCastars = $this->calculCoutCastars();
-
 		$competenceTable = new Competence();
-		$comptenceRowset = $competenceTable->findCommunesByNiveau($this->view->user->niveau_hobbit);
+		$competenceRowset = $competenceTable->findCommunesByNiveau($this->view->user->niveau_hobbit);
 		$hobbitsCompetencesTables = new HobbitsCompetences();
 		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($this->view->user->id_hobbit);
 		$achatPiPossible = false;
 		$possedeCdm = false;
 		$pisterPossible = false;
-		foreach ($comptenceRowset as $c) {
+		$possedeCompetenceCommune = false;
 
+		foreach ($hobbitCompetences as $h) {
+			if ($h["type_competence"] == "commun") {
+				$possedeCompetenceCommune = true;
+				break;
+			}
+		}
+		
+		foreach ($competenceRowset as $c) {
 			$possible = true;
 			foreach ($hobbitCompetences as $h) {
 				if ($h["nom_systeme_competence"] == "connaissancemonstres"){
@@ -40,14 +46,21 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 					break;
 				}
 			}
-			
+				
 			if ($c["nom_systeme_competence"] == "pister" && $possedeCdm==true){
 				$pisterPossible = true;
 			}
-			
+				
 			if ($possible === true) {
 				$tropCher = true;
-				if ($c["pi_cout_competence"] <= $this->view->user->pi_hobbit) {
+				$piCout = $c["pi_cout_competence"];
+
+				// la premiere competence commune est gratuite
+				if ($possedeCompetenceCommune == false) {
+					$piCout = 0;
+				}
+
+				if ($piCout <= $this->view->user->pi_hobbit) {
 					$tropCher = false;
 					$achatPiPossible = true;
 				}
@@ -58,18 +71,22 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 					"nom_systeme" => $c["nom_systeme_competence"],
 					"description" => $c["description_competence"],
 					"niveau_requis" => $c["niveau_requis_competence"],
-					"pi_cout" => $c["pi_cout_competence"],
+					"pi_cout" => $piCout,
 					"trop_cher" => $tropCher,
 				);
 				$this->_tabCompetences[] = $tab;
 			}
 		}
+
+		$this->_coutCastars = $this->calculCoutCastars($possedeCompetenceCommune);
+
 		$this->view->achatPiPossible = $achatPiPossible;
 		$this->view->tabCompetences = $this->_tabCompetences;
 		$this->view->nCompetences = count($this->_tabCompetences);
 		$this->view->coutCastars = $this->_coutCastars;
 		$this->view->achatPossibleCastars = ($this->view->user->castars_hobbit - $this->_coutCastars >= 0);
 		$this->view->pisterPossible = $pisterPossible;
+		$this->view->possedeCompetenceCommune = $possedeCompetenceCommune;
 	}
 
 	function prepareFormulaire() {
@@ -83,11 +100,11 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 		} else {
 			$idCompetence = (int)$this->request->get("valeur_1");
 		}
-		
+
 		if ($idCompetence == -1) {
 			throw new Zend_Exception(get_class($this)." Valeur competence invalide:-1");
 		}
-		
+
 		// verification qu'il a assez de PA
 		if ($this->view->utilisationPaPossible == false) {
 			throw new Zend_Exception(get_class($this)." Utilisation impossible : PA:".$this->view->user->pa_hobbit);
@@ -136,7 +153,7 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 
 		Zend_Loader::loadClass("Bral_Util_Quete");
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeApprendreIdentificationRune($this->view->user, $nomSysteme);
-		
+
 		$this->majHobbit();
 	}
 
@@ -146,7 +163,12 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 		return $this->constructListBoxRefresh($tab);
 	}
 
-	private function calculCoutCastars() {
-		return 50;
+	private function calculCoutCastars($possedeCompetenceCommune) {
+		// la premiere competence commune est gratuite
+		if ($possedeCompetenceCommune == false) {
+			return 0;
+		} else {
+			return 50;
+		}
 	}
 }

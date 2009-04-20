@@ -3,7 +3,11 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
  Pour <?=$this->paUtilisationLieu ?> PA et <?=$this->coutCastars?> castars, la Biblioth&egrave;que <br />
-  vous propose d'apprendre une nouvelle comp&eacute;tence<br /><br />
+  vous propose d'apprendre une nouvelle comp&eacute;tence.<br /><br />
+  
+  <? if ($this->possedeCompetenceCommune === false): ?>
+	  C'est votre première visite, la première compétence est gratuite en PI et en castars!<br><br>
+  <? endif; ?>
  
  <? if ($this->nCompetences == 0): ?>
 	Il n'y a aucune comp&eacute;tence pour vous...
