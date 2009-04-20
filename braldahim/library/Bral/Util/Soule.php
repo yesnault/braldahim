@@ -248,7 +248,7 @@ class Bral_Util_Soule {
 		$where = "id_hobbit = ".$hobbit["id_hobbit"];
 		$hobbitTable->update($data, $where);
 			
-		$texte = " ".$nb. " PX (Perso)";
+		$texte = " ".$nbPxPerso. " PX (Perso)";
 
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - updateDbDataPxPerso - exit");
 		return $texte;
