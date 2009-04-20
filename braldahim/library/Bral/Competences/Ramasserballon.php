@@ -15,6 +15,12 @@ class Bral_Competences_Ramasserballon extends Bral_Competences_Competence {
 	function prepareCommun() {
 		$this->view->ramasserballonOk = false;
 
+		$this->view->estIntangible = false;
+		if ($this->view->user->est_intangible_hobbit == "oui") {
+			$this->view->estIntangible = true;
+			return;
+		}
+		
 		Zend_Loader::loadClass("SouleMatch");
 		$souleMatch = new SouleMatch();
 		$matchsRowset = $souleMatch->findByXYBallon($this->view->user->x_hobbit, $this->view->user->y_hobbit);
@@ -23,7 +29,6 @@ class Bral_Competences_Ramasserballon extends Bral_Competences_Competence {
 			$this->match = $matchsRowset[0];
 			$this->view->ramasserballonOk = true;
 		}
-
 	}
 
 	function prepareFormulaire() {

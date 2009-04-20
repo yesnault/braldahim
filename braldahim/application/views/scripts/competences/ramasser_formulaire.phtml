@@ -1,6 +1,10 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='5'>
  <div class='comp_contenu'>
 	 
+<? if ($this->estIntangible) : ?>
+	Vous &ecirc;tes actuellement intangible, vous ne pouvez pas ramasser le ballon...<br />
+<? else: ?>
+
 	 Pour <?=$this->nb_pa ?> PA, vous pouvez ramasser des objets sur la case. <br /><br />
 	 	
 	 <select name="valeur_1" id="valeur_1"  onChange="if ($('bouton_ramasser')) {$('bouton_ramasser').disabled=true} ;_get_('/competences/doaction?caction=ask_competence_ramasser&valeur_1='+this.value);">
@@ -21,7 +25,7 @@
 		Vous n'avez pas assez de place dans votre laban
 		<? endif; ?>
 	 <? endif ?>
-	 
+<? endif; ?>
 </div>
 
 <br />
