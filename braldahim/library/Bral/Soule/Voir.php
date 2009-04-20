@@ -72,14 +72,17 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 	}
 
 	private function prepareEquipes() {
-		$equipes["equipea"] = array('nom_equipe' => 'équipe A', "joueurs" => null, "plaquages" => 0, "plaques" => 0);
-		$equipes["equipeb"] = array('nom_equipe' => 'équipe B', "joueurs" => null, "plaquages" => 0, "plaques" => 0);
+		$equipes["equipea"] = array('nom_equipe' => 'équipe A', "joueurs" => null, "plaquages" => 0, "plaques" => 0, "px" => 0);
+		$equipes["equipeb"] = array('nom_equipe' => 'équipe B', "joueurs" => null, "plaquages" => 0, "plaques" => 0, "px" => 0);
 
 		$souleEquipeTable = new SouleEquipe();
 		if ($this->matchEnCours != null) {
 			$joueurs = $souleEquipeTable->findByIdMatch($this->matchEnCours["id_soule_match"]);
 			$equipes["equipea"]["nom_equipe"] = $this->matchEnCours["nom_equipea_soule_match"];
 			$equipes["equipeb"]["nom_equipe"] = $this->matchEnCours["nom_equipeb_soule_match"];
+			
+			$equipes["equipea"]["px"] = $this->matchEnCours["px_equipea_soule_match"];
+			$equipes["equipeb"]["px"] = $this->matchEnCours["px_equipeb_soule_match"];
 
 			$equipes["equipea"]["plaquages"] = 0;
 			$equipes["equipea"]["plaques"] = 0;

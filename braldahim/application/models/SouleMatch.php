@@ -24,7 +24,7 @@ class SouleMatch extends Zend_Db_Table {
 		$result = $db->fetchAll($sql);
 		return $result;
 	}
-
+	
 	public function findNonDebuteByIdTerrain($idTerrain) {
 		$db = $this->getAdapter();
 		$select = $db->select();

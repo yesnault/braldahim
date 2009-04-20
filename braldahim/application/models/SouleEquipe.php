@@ -61,8 +61,6 @@ class SouleEquipe extends Zend_Db_Table {
 		return $result[0]["nombre"];
 	}
 
-
-
 	public function countNonDebuteByNiveauTerrain($niveauTerrain) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -129,5 +127,4 @@ class SouleEquipe extends Zend_Db_Table {
 		}
 		return $result[0];
 	}
-
 }

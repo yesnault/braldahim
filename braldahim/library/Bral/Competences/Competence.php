@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -11,7 +11,7 @@
  * $LastChangedBy$
  */
 abstract class Bral_Competences_Competence {
-	
+
 	protected $view;
 	protected $reloadInterface = false;
 	private $estEvenementAuto = true;
@@ -20,23 +20,23 @@ abstract class Bral_Competences_Competence {
 	private $idTypeEvenement = null;
 	private $idCible = null;
 	private $typeCible = null;
-	
+
 	function __construct($competence, $hobbitCompetence, $request, $view, $action) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
 		Zend_Loader::loadClass("Bral_Util_Niveau");
 		Zend_Loader::loadClass("StatsExperience");
-		
+
 		$this->view = $view;
 		$this->request = $request;
 		$this->action = $action;
 		$this->nom_systeme = $competence["nom_systeme"];
 		$this->competence = $competence;
-		
+
 		$this->view->jetUtilise = false;
 		$this->view->balanceFaimUtilisee = false;
-		
+
 		$this->view->nb_px_commun = 0;
-		
+
 		$this->view->effetMotD = false;
 		$this->view->effetMotE = false;
 		$this->view->effetMotG = false;
@@ -45,21 +45,21 @@ abstract class Bral_Competences_Competence {
 		$this->view->effetMotJ = false;
 		$this->view->effetMotL = false;
 		$this->view->effetMotQ = false;
-		
+
 		$this->view->finMatchSoule = false;
 		$this->idMatchSoule = null;
-		
+
 		$this->view->estQueteEvenement = false;
-		
+
 		// recuperation de hobbit competence
 		$this->hobbit_competence = $hobbitCompetence;
-		
+
 		// si c'est une competence metier, on verifie que ce n'est pas utilise plus de 2 fois par DLA
 		$this->view->nbActionMetierParDlaOk = $this->calculNbActionMetierParDlaOk();
-		
+
 		// si c'est une competence commune avec un jet de dé, on verifie qu'on ne peut gagner de PX plus de 2 fois par DLA
 		$this->view->nbGainCommunParDlaOk = $this->calculNbGainCommunParDlaOk();
-		
+
 		$this->prepareCommun();
 		$this->calculNbPa();
 
@@ -79,7 +79,7 @@ abstract class Bral_Competences_Competence {
 	abstract function prepareFormulaire();
 	abstract function prepareResultat();
 	abstract function getListBoxRefresh();
-	
+
 	protected function constructListBoxRefresh($tab = null) {
 		if ($this->view->user->niveau_hobbit > 0 && ($this->view->user->niveau_hobbit % 10) == 0) {
 			$tab[] = "box_titres";
@@ -101,7 +101,7 @@ abstract class Bral_Competences_Competence {
 	public function getIdEchoppeCourante() {
 		return false;
 	}
-	
+
 	protected function calculNbPa() {
 		if ($this->view->user->pa_hobbit - $this->competence["pa_utilisation"] < 0) {
 			$this->view->assezDePa = false;
@@ -110,10 +110,10 @@ abstract class Bral_Competences_Competence {
 		}
 		$this->view->nb_pa = $this->competence["pa_utilisation"];
 	}
-	
+
 	protected function ameliorationCompetenceMetier() {
 		Zend_Loader::loadClass("HobbitsMetiers");
-		
+
 		$hobbitsMetiersTable = new HobbitsMetiers();
 		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
 		$ameliorationCompetence = false;
@@ -127,7 +127,7 @@ abstract class Bral_Competences_Competence {
 		}
 		return $ameliorationCompetence;
 	}
-	
+
 	protected function getIdMetier() {
 		if ($this->competence["type_competence"] == "metier") {
 			return $this->competence["id_fk_metier_competence"];
@@ -135,7 +135,7 @@ abstract class Bral_Competences_Competence {
 			return null;
 		}
 	}
-	
+
 	protected function calculPx() {
 		$this->view->calcul_px_generique = true;
 		if ($this->view->okJet1 === true && $this->view->nbGainCommunParDlaOk === true) {
@@ -152,11 +152,11 @@ abstract class Bral_Competences_Competence {
 		$this->view->user->balance_faim_hobbit = $this->view->user->balance_faim_hobbit + $this->view->balance_faim;
 		Bral_Util_Faim::calculBalanceFaim($this->view->user);
 	}
-	
+
 	protected function calculPoids() {
 		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
 	}
-	
+
 	protected function calculJets($bmJet1 = 0) {
 		$this->view->jetUtilise = true;
 		$this->view->okJet1 = false; // jet de compétence
@@ -167,7 +167,7 @@ abstract class Bral_Competences_Competence {
 		$this->updateCompetenceNbAction();
 		$this->updateCompetenceNbGain();
 	}
-	
+
 	private function calculJets1($bmJet1) {
 		// 1er Jet : réussite ou non de la compétence
 		$this->view->jet1 = Bral_Util_De::get_1d100() + $bmJet1;
@@ -177,9 +177,9 @@ abstract class Bral_Competences_Competence {
 		} else if ($this->hobbit_competence["nb_tour_restant_malus_tabac_hcomp"] > 0) {
 			$pourcentage = $this->hobbit_competence["pourcentage_hcomp"] - $this->view->config->game->tabac->malus;
 		} else {
-			$pourcentage = $this->hobbit_competence["pourcentage_hcomp"];	
+			$pourcentage = $this->hobbit_competence["pourcentage_hcomp"];
 		}
-		
+
 		if ($pourcentage > 100) {
 			$pourcentage = 100;
 		}
@@ -198,11 +198,11 @@ abstract class Bral_Competences_Competence {
 			$this->view->estCompetenceMetier = true;
 			$this->view->ameliorationCompetenceMetierCourant = $this->ameliorationCompetenceMetier();
 		}
-		
+
 		// a t-on le droit d'améliorer la compétence métier
-		if ($this->view->estCompetenceMetier === true && $this->view->ameliorationCompetenceMetierCourant === false) { 
+		if ($this->view->estCompetenceMetier === true && $this->view->ameliorationCompetenceMetierCourant === false) {
 			$this->view->okJet2 = false;
-			
+				
 		}  else if (($this->view->okJet1 === true || $this->hobbit_competence["pourcentage_hcomp"] < 50) && $this->hobbit_competence["pourcentage_hcomp"] < $this->competence["pourcentage_max"]) {
 			// 2nd Jet : réussite ou non de l'amélioration de la compétence
 			// seulement si la maitrise de la compétence est < 50 ou si le jet1 est réussi
@@ -251,7 +251,7 @@ abstract class Bral_Competences_Competence {
 		$this->detailEvenement = $details;
 		$this->idTypeEvenement = $idType;
 	}
-	
+
 	/*
 	 * Mise à jour des événements de la cible.
 	 */
@@ -260,21 +260,21 @@ abstract class Bral_Competences_Competence {
 		$this->niveauCible = $niveauCible;
 		$this->typeCible = $typeCible;
 	}
-	
+
 	/*
 	 * Mise à jour des événements du hobbit / du monstre.
 	 */
 	protected function setEstEvenementAuto($flag) {
 		$this->estEvenementAuto = $flag;
 	}
-	
+
 	/*
 	 * Mise à jour des événements du hobbit / du monstre.
 	 */
 	protected function setEvenementQueSurOkJet1($flag) {
 		$this->evenementQueSurOkJet1 = $flag;
 	}
-	
+
 	/*
 	 * Mise à jour des événements du hobbit : type : compétence.
 	 */
@@ -298,7 +298,7 @@ abstract class Bral_Competences_Competence {
 			}
 		}
 	}
-	
+
 	/*
 	 * Mise à jour des PA, des PX et de la balance de faim.
 	 */
@@ -306,22 +306,28 @@ abstract class Bral_Competences_Competence {
 		Bral_Util_Faim::calculBalanceFaim($this->view->user);
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
 		$this->view->user->px_perso_hobbit = $this->view->user->px_perso_hobbit + $this->view->nb_px_perso;
-		$this->view->user->px_commun_hobbit = $this->view->user->px_commun_hobbit + $this->view->nb_px_commun;
-		
+
+		if ($this->view->user->est_soule_hobbit == "oui") {
+			Zend_Loader::loadClass("Bral_Util_Soule");
+			Bral_Util_Soule::updateCagnotteDb($this->view->user, $this->view->nb_px_commun);
+		} else {
+			$this->view->user->px_commun_hobbit = $this->view->user->px_commun_hobbit + $this->view->nb_px_commun;
+		}
+
 		$data["nb_px_perso_gagnes_stats_experience"] = $this->view->nb_px_perso;
 		$data["nb_px_commun_gagnes_stats_experience"] = $this->view->nb_px_commun;
 		$data["id_fk_hobbit_stats_experience"] = $this->view->user->id_hobbit;
 		$data["niveau_hobbit_stats_experience"] = $this->view->user->niveau_hobbit;
 		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
 		$data["mois_stats_experience"] = date("Y-m-d", $moisEnCours);
-		
+
 		$statsExperience = new StatsExperience();
 		$statsExperience->insertOrUpdate($data);
-		
+
 		if ($this->view->user->balance_faim_hobbit < 0) {
 			$this->view->user->balance_faim_hobbit = 0;
 		}
-		
+
 		if ($this->view->user->pa_hobbit  < 0) { // verif au cas où...
 			$this->view->user->pa_hobbit = 0;
 		}
@@ -370,7 +376,7 @@ abstract class Bral_Competences_Competence {
 			'est_quete_hobbit' => $this->view->user->est_quete_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
-		
+
 		$hobbitTable = new Hobbit();
 		$hobbitTable->getAdapter()->beginTransaction();
 		$hobbitTable->update($data, $where);
@@ -390,7 +396,7 @@ abstract class Bral_Competences_Competence {
 				$texte = $this->view->render("competences/".$this->nom_systeme."_formulaire.phtml");
 				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
-				
+
 				return $this->view->render("competences/commun_formulaire.phtml");
 				break;
 			case "do":
@@ -398,7 +404,7 @@ abstract class Bral_Competences_Competence {
 				$texte = $this->view->render("competences/".$this->nom_systeme."_resultat.phtml");
 				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
-				
+
 				$this->majEvenementsStandard(Bral_Helper_Affiche::copie($this->view->texte));
 				if ($this->view->finMatchSoule === true) {
 					Bral_Util_Soule::calculFinMatch($this->view->user, $this->view, true);
@@ -409,7 +415,7 @@ abstract class Bral_Competences_Competence {
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
 		}
 	}
-	
+
 	protected function attaqueHobbit(&$hobbitAttaquant, $idHobbitCible, $effetMotSPossible = true, $tir = false) {
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		$jetAttaquant = $this->calculJetAttaque($hobbitAttaquant);
@@ -424,7 +430,7 @@ abstract class Bral_Competences_Competence {
 		$this->idMatchSoule = $retourAttaque["idMatchSoule"];
 		return $retourAttaque;
 	}
-	
+
 	protected function attaqueMonstre(&$hobbitAttaquant, $idMonstre, $tir=false) {
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		$jetAttaquant = $this->calculJetAttaque($hobbitAttaquant);
@@ -439,7 +445,7 @@ abstract class Bral_Competences_Competence {
 		$this->view->estQueteEvenement = $retourAttaque["etape"];
 		return $retourAttaque;
 	}
-	
+
 	private function updateCompetenceNbAction() {
 		if ($this->view->okJet1 === true && $this->competence["type_competence"] == "metier") { // uniquement dans le cas de réussite du jet3
 			$hobbitsCompetencesTable = new HobbitsCompetences();
@@ -451,7 +457,7 @@ abstract class Bral_Competences_Competence {
 			$hobbitsCompetencesTable->update($data, $where);
 		}
 	}
-	
+
 	private function updateCompetenceNbGain() {
 		if ($this->view->okJet1 === true && $this->competence["type_competence"] == "commun") { // uniquement dans le cas de réussite du jet3 et une compétence commune
 			$hobbitsCompetencesTable = new HobbitsCompetences();
@@ -463,11 +469,11 @@ abstract class Bral_Competences_Competence {
 			$hobbitsCompetencesTable->update($data, $where);
 		}
 	}
-	
+
 	private function calculNbActionMetierParDlaOk() {
 		$retour = false;
 		if ($this->competence["id_fk_metier_competence"] != null && $this->competence["id_fk_metier_competence"] > 0) {
-			if ($this->view->user->date_debut_tour_hobbit == $this->hobbit_competence["date_debut_tour_hcomp"]) { 
+			if ($this->view->user->date_debut_tour_hobbit == $this->hobbit_competence["date_debut_tour_hcomp"]) {
 				if ($this->hobbit_competence["nb_action_tour_hcomp"] >= 2) {
 					$retour = false;
 				} else { // < 2
@@ -475,7 +481,7 @@ abstract class Bral_Competences_Competence {
 				}
 			} else { // premiere utilisation de la competence dans ce tour
 				$retour = true;
-				
+
 				$hobbitsCompetencesTable = new HobbitsCompetences();
 				$data = array(
 					'date_debut_tour_hcomp' => $this->view->user->date_debut_tour_hobbit,
@@ -489,11 +495,11 @@ abstract class Bral_Competences_Competence {
 		}
 		return $retour;
 	}
-	
+
 	private function calculNbGainCommunParDlaOk() {
 		$retour = false;
 		if ($this->competence["type_competence"] == "commun" && $this->competence["pourcentage_max"] < 100) {
-			if ($this->view->user->date_debut_tour_hobbit == $this->hobbit_competence["date_debut_tour_hcomp"]) { 
+			if ($this->view->user->date_debut_tour_hobbit == $this->hobbit_competence["date_debut_tour_hcomp"]) {
 				if ($this->hobbit_competence["nb_gain_tour_hcomp"] >= 2) {
 					$retour = false;
 				} else { // < 2
@@ -501,7 +507,7 @@ abstract class Bral_Competences_Competence {
 				}
 			} else { // premiere utilisation de la competence dans ce tour
 				$retour = true;
-				
+
 				$hobbitsCompetencesTable = new HobbitsCompetences();
 				$data = array(
 					'date_debut_tour_hcomp' => $this->view->user->date_debut_tour_hobbit,
@@ -515,7 +521,7 @@ abstract class Bral_Competences_Competence {
 		}
 		return $retour;
 	}
-	
+
 	protected function calculFinMatchSoule() {
 		if ($this->view->user->est_soule_hobbit == "oui") {
 			Zend_Loader::loadClass("Bral_Util_Soule");
