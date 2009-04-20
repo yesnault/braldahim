@@ -102,14 +102,14 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		$hobbitsMetiersTable = new HobbitsMetiers();
 		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetierCourantByHobbitId($this->view->user->id_hobbit);
 
-		if (count($hobbitsMetiersTable) > 1) {
+		if (count($hobbitsMetierRowset) > 1) {
 			throw new Zend_Exception(get_class($this)."::getTypesEtapesPossibles metier courant invalide:".$this->view->user->id_hobbit);
 		}
 
 		$typeEtapeTable = new TypeEtape();
 		$typeEtapes = $typeEtapeTable->fetchAllSansMetier();
 
-		if (count($hobbitsMetiersTable) == 1) {
+		if (count($hobbitsMetierRowset) == 1) {
 			$idMetiers[] = $hobbitsMetierRowset[0]["id_metier"];
 			$this->_idMetierCourant = $hobbitsMetierRowset[0]["id_metier"];
 			$typeEtapesMetier = $typeEtapeTable->fetchAllAvecIdsMetier($idMetiers);
