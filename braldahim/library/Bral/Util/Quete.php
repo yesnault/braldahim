@@ -955,7 +955,7 @@ class Bral_Util_Quete {
 
 	private static function calculEtapeMarcherParam1et2($etape, &$hobbit) {
 		$retour = false;
-		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeMarcherParam1et2 - param1:".$etape["param_1_etape"]. " param2:".$etape["param_2_etape"]);
+		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeMarcherParam1et2 - param1:".$etape["param_1_etape"]. " param2:".$etape["param_2_etape"]);
 		if ($etape["param_1_etape"] == self::ETAPE_MARCHER_PARAM1_JOUR && $etape["param_2_etape"] == date('N')) {
 			Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeMarcherParam1et2 - A");
 			$retour = true;
