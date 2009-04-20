@@ -422,8 +422,8 @@ class Bral_Util_Quete {
 		$hobbitsCompetencesTables = new HobbitsCompetences();
 		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbitAndMetierCourant($hobbit->id_hobbit);
 
+		$idTypeTabac = 1;
 		if ($hobbitCompetences == null || count($hobbitCompetences) == 0) {
-			$idTypeTabac = 1;
 			Bral_Util_Log::quete()->err("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculGainQueteInitiatiqueTabac - impossible de trouver le metier par defaut avec les competences associees. Erreur, idTypeTabacParDefaut:1, idH:".$hobbit->id_hobbit);
 		} else {
 			$idTypeTabac = $hobbitCompetences[0]["id_fk_type_tabac_competence"];
