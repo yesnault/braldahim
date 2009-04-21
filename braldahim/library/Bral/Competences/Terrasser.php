@@ -253,7 +253,7 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 				$this->view->nb_pa = 3;
 				break;
 			case "gazon" :
-				$this->view->nb_pa = 4;
+				$this->view->nb_pa = 2;
 				break;
 			case "caverne" :
 				$this->view->nb_pa = false;
