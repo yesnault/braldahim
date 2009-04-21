@@ -14,7 +14,14 @@
 		<? if ($this->construireRouteContinueOk == true) : ?>
 		Vous êtes arrivé en x=<?=$this->user->x_hobbit?>, y=<?=$this->user->y_hobbit?>.
 		<? endif;?>
-		<br><br>
+		
+		
+		<? if ($this->estEvenement): ?>
+			<br>
+			Regardez &agrave; vos pieds, vous avez d&eacute;couvert quelque chose...
+		<? endif; ?>
+		
+		<br>
 		<? if ($this->nbCastarsGagnes > 0): ?>
 			Vous avez gagn&eacute; <?=$this->nbCastarsGagnes?> castar<?if ($this->nbCastarsGagnes > 0): echo "s"; endif; ?>
 			
