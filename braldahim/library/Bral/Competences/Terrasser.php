@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -14,12 +14,12 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass('Monstre');
-		Zend_Loader::loadClass('Palissade');  
+		Zend_Loader::loadClass('Palissade');
 		Zend_Loader::loadClass('Route');
 		Zend_Loader::loadClass('Zone');
-	
+
 		$this->view->terrasserOk = false;
-		
+
 		$monstreTable = new Monstre();
 		$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		$palissadeTable = new Palissade();
@@ -28,11 +28,11 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		$routeTable = new Route();
 		$routes = $routeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		
+
 		$zoneTable = new Zone();
 		$zone = $zoneTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		unset($zoneTable);
-		
+
 		if (count($zone) == 1) {
 			$case = $zone[0];
 			$this->environnement = $case["nom_systeme_environnement"];
@@ -41,7 +41,7 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)."::calculNbPa : Nombre de case invalide");
 		}
 		unset($zone);
-		
+
 		if (count($monstres) <= 0 && count($hobbits) == 1 && count($palissades) <= 0 && count($routes) <= 0 && $this->estEnvironnementValid($this->environnement)) {
 			$this->view->terrasserOk = true;
 		} else {
@@ -50,7 +50,7 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 			$this->view->palissadeOk = true;
 			$this->view->routeOk = true;
 			$this->view->environnementOk = true;
-			
+				
 			if (count($monstres) >= 1) {
 				$this->view->monstreOk = false;
 			}
@@ -67,11 +67,11 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 				$this->view->environnementOk = false;
 			}
 		}
-		
+
 		if (count($routes) > 0) {
 			$this->view->route = $routes[0];
 		}
-		
+
 		$this->calculNbPa();
 	}
 
@@ -86,7 +86,7 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 		if ($this->view->assezDePa == false) {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
 		}
-		
+
 		if ($this->view->terrasserOk == false) {
 			throw new Zend_Exception(get_class($this)." Terrasser interdit");
 		}
@@ -97,15 +97,15 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 		if ($this->view->okJet1 === true) {
 			$this->calculTerrasser();
 		}
-		
+
 		$this->calculPx();
 		$this->calculPoids();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}
-	
+
 	private function calculTerrasser() {
-		
+
 		$date_creation = date("Y-m-d H:i:s");
 		$nb_heures = $this->calculJetSagesse();
 		if ($nb_heures > 0) {
@@ -114,7 +114,7 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 			$nb_heures = "00:01:00";
 		}
 		$date_fin = Bral_Util_ConvertDate::get_date_add_time_to_date($date_creation, $nb_heures);
-		
+
 		$data = array(
 			"x_route"  => $this->view->user->x_hobbit,
 			"y_route" => $this->view->user->y_hobbit,
@@ -124,15 +124,15 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 			"date_fin_route" => $date_fin,
 			"id_fk_type_qualite_route" => null,
 		);
-		
+
 		$routeTable = new Route();
 		$routeTable->insert($data);
 		unset($routeTable);
-		
+
 		$this->view->route = $data;
 		$this->calculEvenement();
 	}
-	
+
 	private function calculJetSagesse() {
 		$jet = 0;
 		for ($i=1; $i <= ($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit) ; $i++) {
@@ -144,11 +144,11 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 		}
 		return $jet;
 	}
-	
+
 	private function calculEvenement() {
 		$estEvenement = false;
 		$evenementMinerai = null;
-		
+
 		$de = Bral_Util_De::get_1d2();
 		$de10 = Bral_Util_De::get_1d10();
 		if ($de == 1) {
@@ -162,21 +162,21 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 				$this->calculEvenementRune();
 			}
 		}
-		
+
 		$this->view->estEvenement = $estEvenement;
 		$this->view->evenementMinerai = $evenementMinerai;
 	}
-	
+
 	private function calculEvenementMinerai() {
 		Zend_Loader::loadClass("ElementMinerai");
 		Zend_Loader::loadClass("LabanMinerai");
 		Zend_Loader::loadClass("TypeMinerai");
-		
+
 		$retour["dansLaban"] = false;
-		
+
 		$typeMinerai = new TypeMinerai();
 		$types = $typeMinerai->fetchAll();
-		
+
 		$nb = count($types);
 		$deType = Bral_Util_De::get_de_specifique(1, $nb);
 		foreach ($types as $t) {
@@ -185,11 +185,11 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 				break;
 			}
 		}
-		
+
 		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 		if ($poidsRestant < 0) $poidsRestant = 0;
 		$nbMineraisPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_MINERAI);
-		
+
 		if ($nbMineraisPossible >= 1) { // depot dans le laban
 			$labanMineraiTable = new LabanMinerai();
 			$data = array(
@@ -210,15 +210,15 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 			$elementMineraiTable->insertOrUpdate($data);
 			$retour["dansLaban"] = false;
 		}
-		
+
 		return $retour;
 	}
-	
+
 	private function calculEvenementRune() {
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
 		Bral_Monstres_VieMonstre::dropRune($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->niveau_hobbit, $this->view->user->niveau_hobbit);
 	}
-	
+
 	private function estEnvironnementValid($environnement) {
 		$retour = false;
 		switch($environnement) {
@@ -226,10 +226,10 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 			case "marais" :
 			case "montagne" :
 			case "foret" :
+			case "gazon" :
 				$retour = true;
 				break;
 			case "caverne" :
-			case "gazon" :
 				$retour = false;
 				break;
 			default:
@@ -237,7 +237,7 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 		}
 		return $retour;
 	}
-	
+
 	function calculNbPa() {
 		switch($this->environnement) {
 			case "plaine" :
@@ -252,21 +252,23 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 			case "foret" :
 				$this->view->nb_pa = 3;
 				break;
-			case "caverne" :
 			case "gazon" :
+				$this->view->nb_pa = 4;
+				break;
+			case "caverne" :
 				$this->view->nb_pa = false;
 				break;
 			default:
 				throw new Zend_Exception(get_class($this)."::environnement invalide :".$this->environnement);
 		}
-		
+
 		if ($this->view->user->pa_hobbit - $this->view->nb_pa < 0) {
 			$this->view->assezDePa = false;
 		} else {
 			$this->view->assezDePa = true;
 		}
 	}
-	
+
 	function getListBoxRefresh() {
 		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_vue", "box_laban"));
 	}

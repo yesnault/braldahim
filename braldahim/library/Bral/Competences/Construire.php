@@ -391,10 +391,10 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 			case "marais" :
 			case "montagne" :
 			case "foret" :
+			case "gazon" :
 				$retour = true;
 				break;
 			case "caverne" :
-			case "gazon" :
 				$retour = false;
 				break;
 			default:
