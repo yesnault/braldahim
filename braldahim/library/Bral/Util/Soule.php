@@ -193,10 +193,11 @@ class Bral_Util_Soule {
 		$tirage2 = Bral_Util_De::get_de_specifique_hors_liste(0, $nbMinerai + $nbPlante - 1, array($tirage1));
 		$tirage3 = Bral_Util_De::get_de_specifique_hors_liste(0, $nbMinerai + $nbPlante - 1, array($tirage1, $tirage2));
 
-		$texte = self::updateDbData($hobbit["id_hobbit"], $nbUnitaireGain, $tirage1, $nbMinerai, $nbPlante, $minerais, $plantes);
+		$texte = self::updateDbDataPxPerso($match, $hobbit, $equipe);
+		$texte .= self::updateDbData($hobbit["id_hobbit"], $nbUnitaireGain, $tirage1, $nbMinerai, $nbPlante, $minerais, $plantes);
 		$texte .= self::updateDbData($hobbit["id_hobbit"], $nbUnitaireGain, $tirage2, $nbMinerai, $nbPlante, $minerais, $plantes);
 		$texte .= self::updateDbData($hobbit["id_hobbit"], $nbUnitaireGain, $tirage3, $nbMinerai, $nbPlante, $minerais, $plantes);
-		$texte .= self::updateDbDataPxPerso($match, $hobbit, $equipe);
+		
 
 		$config = Zend_Registry::get('config');
 		$idType = $config->game->evenements->type->soule;
@@ -248,7 +249,7 @@ class Bral_Util_Soule {
 		$where = "id_hobbit = ".$hobbit["id_hobbit"];
 		$hobbitTable->update($data, $where);
 			
-		$texte = " ".$nbPxPerso. " PX (Perso)";
+		$texte = " ".$nbPxPerso. " PX (Perso) ainsi que ".PHP_EOL;
 
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - updateDbDataPxPerso - exit");
 		return $texte;
