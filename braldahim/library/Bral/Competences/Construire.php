@@ -167,7 +167,6 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 		unset($routeTable);
 
 		$this->view->route = $data;
-		$this->calculEvenement();
 
 		Zend_Loader::loadClass("StatsFabricants");
 		$statsFabricants = new StatsFabricants();
@@ -308,80 +307,6 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 		}
 
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit + $this->view->nbCastarsLaban;
-	}
-
-	private function calculEvenement() {
-		$estEvenement = false;
-		$evenementMinerai = null;
-
-		$de = Bral_Util_De::get_1d2();
-		$de10 = Bral_Util_De::get_1d10();
-		if ($de == 1) {
-			if ($de10 == 1) {
-				$estEvenement = true;
-				$evenementMinerai = $this->calculEvenementMinerai();
-			}
-		} else {
-			if ($de10 == 1) {
-				$estEvenement = true;
-				$this->calculEvenementRune();
-			}
-		}
-
-		$this->view->estEvenement = $estEvenement;
-		$this->view->evenementMinerai = $evenementMinerai;
-	}
-
-	private function calculEvenementMinerai() {
-		Zend_Loader::loadClass("ElementMinerai");
-		Zend_Loader::loadClass("LabanMinerai");
-		Zend_Loader::loadClass("TypeMinerai");
-
-		$retour["dansLaban"] = false;
-
-		$typeMinerai = new TypeMinerai();
-		$types = $typeMinerai->fetchAll();
-
-		$nb = count($types);
-		$deType = Bral_Util_De::get_de_specifique(1, $nb);
-		foreach ($types as $t) {
-			if ($t["id_type_minerai"] == $deType) {
-				$retour["typeMinerai"] = $t["nom_type_minerai"];
-				break;
-			}
-		}
-
-		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
-		if ($poidsRestant < 0) $poidsRestant = 0;
-		$nbMineraisPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_MINERAI);
-
-		if ($nbMineraisPossible >= 1) { // depot dans le laban
-			$labanMineraiTable = new LabanMinerai();
-			$data = array(
-				"quantite_brut_laban_minerai" => 1,
-				"id_fk_type_laban_minerai" => $deType,
-				"id_fk_hobbit_laban_minerai" => $this->view->user->id_hobbit,
-			);
-			$labanMineraiTable->insertOrUpdate($data);
-			$retour["dansLaban"] = true;
-		} else { // depot a terre
-			$elementMineraiTable = new ElementMinerai();
-			$data = array (
-				"x_element_minerai" => $this->view->user->x_hobbit,
-				"y_element_minerai" => $this->view->user->y_hobbit,
-				"id_fk_type_element_minerai" => $deType,
-				"quantite_brut_element_minerai" => 1,
-			);
-			$elementMineraiTable->insertOrUpdate($data);
-			$retour["dansLaban"] = false;
-		}
-
-		return $retour;
-	}
-
-	private function calculEvenementRune() {
-		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
-		Bral_Monstres_VieMonstre::dropRune($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->niveau_hobbit, $this->view->user->niveau_hobbit);
 	}
 
 	private function estEnvironnementValid($environnement) {
