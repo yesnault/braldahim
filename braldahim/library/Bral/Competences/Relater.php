@@ -71,6 +71,10 @@ class Bral_Competences_Relater extends Bral_Competences_Competence {
 		$details = $this->view->texte_transforme;
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setEvenementQueSurOkJet1(false);
+		
+		if ($this->view->user->est_soule_hobbit == "oui") {
+			$this->idMatchSoule = $this->view->user->id_fk_soule_match_hobbit;
+		}
 
 		$this->calculBalanceFaim();
 		$this->majHobbit();

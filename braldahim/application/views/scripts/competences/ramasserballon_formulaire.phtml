@@ -1,7 +1,9 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
  <div class='comp_contenu'>
  
-	<? if ($this->user->est_soule_hobbit == "non") : ?>
+    <? if ($this->estIntangible) : ?>
+	Vous &ecirc;tes actuellement intangible, vous ne pouvez pas ramasser le ballon...<br />
+	<? elseif ($this->user->est_soule_hobbit == "non") : ?>
 		Aucun match de soule en cours. <br>
 	<? elseif ($this->ramasserballonOk !== true) : ?>
 		Il n'y a pas de ballon sur la case ! <br>

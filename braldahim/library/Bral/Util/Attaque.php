@@ -248,7 +248,7 @@ class Bral_Util_Attaque {
 			$details .= " le hobbit [h".$cible["id_cible"]."]";
 			
 			if ($retourAttaque["ballonLache"] == true) {
-				$details .= ". Le ballon est à terre !";
+				$details .= ". Le ballon est tombé à terre !";
 			}
 
 			$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, "hobbit", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"] , $retourAttaque["jetDegat"], $retourAttaque["ballonLache"], $retourAttaque["critique"], $retourAttaque["mort"], $idMatchSoule);

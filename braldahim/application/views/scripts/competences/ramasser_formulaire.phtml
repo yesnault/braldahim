@@ -1,31 +1,25 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='5'>
  <div class='comp_contenu'>
-	 
-<? if ($this->estIntangible) : ?>
-	Vous &ecirc;tes actuellement intangible, vous ne pouvez pas ramasser le ballon...<br />
-<? else: ?>
 
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez ramasser des objets sur la case. <br /><br />
-	 	
-	 <select name="valeur_1" id="valeur_1"  onChange="if ($('bouton_ramasser')) {$('bouton_ramasser').disabled=true} ;_get_('/competences/doaction?caction=ask_competence_ramasser&valeur_1='+this.value);">
-	 	<option value="-1">(Choisissez un &eacute;l&eacute;ment)</option>
-	 	<? foreach($this->typeElements as $t) : ?>
-	 		<option value="<?=$t["id_type_element"]?>" <? if ($t["selected"] == $t["id_type_element"]): echo "selected"; endif;?>><?=htmlspecialchars($t["nom_element"])?></option>
-	 	<? endforeach; ?>
-	 </select>
-	 <br /><br />
-	 
-	 <? if ($this->type != null) : ?>
-	 	<? include("ramasser/" . $this->type . ".phtml"); ?>
-	 	 <br /> <br />
-		<? if ($this->ramasserOk === false) : ?>
-		
+ Pour <?=$this->nb_pa ?> PA, vous pouvez ramasser des objets sur la case. <br /><br />
+ 	
+ <select name="valeur_1" id="valeur_1"  onChange="if ($('bouton_ramasser')) {$('bouton_ramasser').disabled=true} ;_get_('/competences/doaction?caction=ask_competence_ramasser&valeur_1='+this.value);">
+ 	<option value="-1">(Choisissez un &eacute;l&eacute;ment)</option>
+ 	<? foreach($this->typeElements as $t) : ?>
+ 		<option value="<?=$t["id_type_element"]?>" <? if ($t["selected"] == $t["id_type_element"]): echo "selected"; endif;?>><?=htmlspecialchars($t["nom_element"])?></option>
+ 	<? endforeach; ?>
+ </select>
+ <br /><br />
+ 
+ <? if ($this->type != null) : ?>
+ 	<? include("ramasser/" . $this->type . ".phtml"); ?>
+ 	 <br /> <br />
+	<? if ($this->ramasserOk === false) : ?>
 		Il n'y a rien &agrave; ramasser
-		<? elseif ($this->poidsPlaceDisponible === false) : ?>
+	<? elseif ($this->poidsPlaceDisponible === false) : ?>
 		Vous n'avez pas assez de place dans votre laban
-		<? endif; ?>
-	 <? endif ?>
-<? endif; ?>
+	<? endif; ?>
+ <? endif ?>
 </div>
 
 <br />
