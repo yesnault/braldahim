@@ -1,21 +1,32 @@
 <? include("commun_text_resultat.phtml") ?>
 
 <? if ($this->okJet1 === true): ?>
-	Vous avez r&eacute;ussi &agrave; tanner <?=$this->nbPeau ?> pi&egrave;ce<? if ($this->nbPeau > 1): echo "s"; endif; ?> de peau en 
+
+	<? if ($this->quantiteFourrure > 0 || $this->quantiteCuir > 0) : ?>
 	
-	<? if ($this->quantiteFourrure > 0): ?>
-		<? if ($this->quantiteFourrure > 1): $s='s'; else: $s=""; endif; ?>
-		<?=$this->quantiteFourrure  ?> pi&egrave;ce<?=$s ?> de fourrure
-	<? endif; ?>
-	
-	<? if ($this->quantiteCuir > 0): ?>
+		Vous avez r&eacute;ussi &agrave; tanner <?=$this->quantitePeauUtilisee ?> pi&egrave;ce<? if ($this->quantitePeauUtilisee > 1): echo "s"; endif; ?> de peau en 
+		
 		<? if ($this->quantiteFourrure > 0): ?>
-		et 
+			<? if ($this->quantiteFourrure > 1): $s='s'; else: $s=""; endif; ?>
+			<?=$this->quantiteFourrure  ?> pi&egrave;ce<?=$s ?> de fourrure
 		<? endif; ?>
-		<? if ($this->quantiteCuir > 1): $s='s'; else: $s=""; endif; ?>
-		<?=$this->quantiteCuir  ?> pi&egrave;ce<?=$s ?> de cuir.
+		
+		<? if ($this->quantiteCuir > 0): ?>
+			<? if ($this->quantiteFourrure > 0): ?>
+			et 
+			<? endif; ?>
+			<? if ($this->quantiteCuir > 1): $s='s'; else: $s=""; endif; ?>
+			<?=$this->quantiteCuir  ?> pi&egrave;ce<?=$s ?> de cuir.
+		<? endif; ?>
+	
+	<? else: ?>
+		Vous avez rat&eacute; votre tannage.
+		<br>
+		Aucune fourrure et aucun cuir n'est apparu, <?=$this->quantitePeauUtilisee ?> pi&egrave;ce<?if($this->quantitePeauUtilisee > 1):echo 's  de peau sont perdus'; else: echo ' de peau est perdue'; endif;?>.<br />
 	<? endif; ?>
+	
+	
 	<br />
 <? else: ?>
-	Vous avez manqu&eacute; votre tannage<br />
+	Vous avez manqu&eacute; votre tannage, mais aucune pi&egrave;ce de peau n'est perdue.<br />
 <? endif; ?>

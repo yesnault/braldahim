@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -14,47 +14,50 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Echoppe");
-		
+
 		// On regarde si le hobbit est dans une de ses echopppes
 		$echoppeTable = new Echoppe();
 		$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		
+
 		$this->view->concocterEchoppeOk = false;
 		if ($echoppes == null || count($echoppes) == 0) {
 			$this->view->concocterEchoppeOk = false;
 			return;
 		}
 		$idEchoppe = -1;
-		// Le joueur tente de transformer n+1 plantes ou n est son niveau de AGI
-		$this->view->nbPlantes = $this->view->user->agilite_base_hobbit + 1;
-		
+
+		$this->view->nbPlantesMax = $this->view->user->agilite_base_hobbit;
+		if ($this->view->nbPlantesMax < 1) {
+			$this->view->nbPlantesMax = 1;
+		}
+
 		foreach($echoppes as $e) {
-			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit && 
-				$e["nom_systeme_metier"] == "apothicaire" && 
-				$e["x_echoppe"] == $this->view->user->x_hobbit && 
-				$e["y_echoppe"] == $this->view->user->y_hobbit) {
+			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit &&
+			$e["nom_systeme_metier"] == "apothicaire" &&
+			$e["x_echoppe"] == $this->view->user->x_hobbit &&
+			$e["y_echoppe"] == $this->view->user->y_hobbit) {
 				$this->view->concocterEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
 				break;
 			}
 		}
-		
+
 		if ($this->view->concocterEchoppeOk == false) {
 			return;
 		}
-		
+
 		Zend_Loader::loadClass("EchoppePartieplante");
 		$tabPartiePlantes = null;
 		$echoppePlanteTable = new EchoppePartieplante();
 		$partiesPlantes = $echoppePlanteTable->findByIdEchoppe($idEchoppe);
-		
-		$this->view->nb_arrierePlante = 0;
+
+		$this->view->nbArrierePlante = 0;
 		$this->view->concocterPlanteOk = false;
-		
+
 		$i = 0;
 		if ($partiesPlantes != null) {
 			foreach ($partiesPlantes as $m) {
-				if ($m["quantite_arriere_echoppe_partieplante"] >= $this->view->nbPlantes) {
+				if ($m["quantite_arriere_echoppe_partieplante"] >= 1) {
 					$i++;
 					$tabPartiePlantes[] = array(
 						"indicateur" => $i,
@@ -66,10 +69,20 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 						"quantite_preparees" => $m["quantite_preparees_echoppe_partieplante"],
 					);
 					$this->view->concocterPlanteOk = true;
+					$this->view->nbArrierePlante = $this->view->nbArrierePlante + $m["quantite_arriere_echoppe_partieplante"];
 				}
 			}
 		}
+		if ($this->view->nbPlantesMax > $this->view->nbPlantesMax) {
+			$this->view->nbPlantesMax = $this->view->nbArrierePlante;
+		}
+
+		if ($this->view->nbPlantesMax < 1) {
+			$this->view->concocterPlanteOk = false;
+		}
+
 		$this->view->partiesPlantes = $tabPartiePlantes;
+
 		$this->idEchoppe = $idEchoppe;
 	}
 
@@ -89,11 +102,22 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 		if ($this->view->concocterEchoppeOk == false || $this->view->concocterPlanteOk == false) {
 			throw new Zend_Exception(get_class($this)." Concocter interdit ");
 		}
-		
+
 		$indicateur = $this->request->get("valeur_1");
 		if ($indicateur == null ) {
 			throw new Zend_Exception(get_class($this)." Plante inconnue ");
 		}
+
+		if ((int)$this->request->get("valeur_2")."" != $this->request->get("valeur_2")."") {
+			throw new Zend_Exception(get_class($this)." Nombre invalide");
+		} else {
+			$nombre = (int)$this->request->get("valeur_2");
+		}
+
+		if ($nombre < 0 || $nombre > $this->view->nbPlantesMax) {
+			throw new Zend_Exception(get_class($this)." Nombre invalide b");
+		}
+
 		$planteOk = false;;
 		foreach($this->view->partiesPlantes as $t) {
 			if ($t["indicateur"] == $indicateur) {
@@ -108,39 +132,41 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 		if ($planteOk == false) {
 			throw new Zend_Exception(get_class($this)." Plante invalide");
 		}
-		
+
 		// calcul des jets
 		$this->calculJets();
 
 		if ($this->view->okJet1 === true) {
-			$this->calculConcocter($idTypePartiePlante, $idTypePlante);
+			$this->calculConcocter($idTypePartiePlante, $idTypePlante, $nombre);
 		}
-		
+
 		$this->calculPx();
 		$this->calculPoids();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}
-	
-	private function calculConcocter($idTypePartiePlante, $idTypePlante) {
-	
-		// Le joueur tente de transformer n+1 plantes ou n est son niveau de AGI
-		$nb = $this->view->nbPlantes;
+
+	private function calculConcocter($idTypePartiePlante, $idTypePlante, $nb) {
+
+		$this->view->nbPartiesPlantesPreparees = 0;
 		
-		// A partir de la quantité choisie on a un % de perte de plante : p=0,5-0,002*(jet AGI + BM)
-		$tirage = 0;
-		for ($i=1; $i <= ($this->view->config->game->base_agilite + $this->view->user->agilite_base_hobbit) ; $i++) {
-			$tirage = $tirage + Bral_Util_De::get_1d6();
+		for($j = 1; $j <= $nb; $j++) {
+			$tirage = 0;
+			for ($i=1; $i <= ($this->view->config->game->base_agilite + $this->view->user->agilite_base_hobbit) ; $i++) {
+				$tirage = $tirage + Bral_Util_De::get_1d6();
+			}
+			$tirage = $tirage + $this->view->user->agilite_bm_hobbit + $this->view->user->agilite_bbdf_hobbit;
+
+			$tirage2 = 0;
+			for ($i=1; $i <= ($this->view->config->game->base_agilite + $this->view->user->agilite_base_hobbit) ; $i++) {
+				$tirage2 = $tirage2 + Bral_Util_De::get_1d6();
+			}
+
+			if ($tirage > $tirage2) {
+				$this->view->nbPartiesPlantesPreparees = $this->view->nbPartiesPlantesPreparees + 1;
+			}
 		}
-		$perte = 0.5-0.002 * ($tirage + $this->view->user->agilite_bm_hobbit + $this->view->user->agilite_bbdf_hobbit);
-	
-		// Et arrondi ((n+1)-(n+1)*p) plantes préparées en sortie
-		$this->view->nbPartiesPlantesPreparees = round($nb - $nb * $perte);
-		
-		if ($this->view->nbPartiesPlantesPreparees <= 0) {
-			$this->view->nbPartiesPlantesPreparees  = 1;
-		}
-		
+
 		$echoppePlanteTable = new EchoppePartieplante();
 		$data = array(
 			'id_fk_type_echoppe_partieplante' => $idTypePartiePlante,
@@ -150,8 +176,10 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 			'quantite_arriere_echoppe_partieplante' => -$nb,
 		);
 		$echoppePlanteTable->insertOrUpdate($data);
+		
+		$this->view->nbPlantesUtilisees = $nb;
 	}
-	
+
 	public function getIdEchoppeCourante() {
 		if (isset($this->idEchoppe)) {
 			return $this->idEchoppe;
@@ -159,7 +187,7 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 			return false;
 		}
 	}
-	
+
 	function getListBoxRefresh() {
 		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_laban", "box_echoppes"));
 	}

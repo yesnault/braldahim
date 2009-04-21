@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -14,28 +14,32 @@ class Bral_Competences_Decouper extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Echoppe");
-		
+
 		// On regarde si le hobbit est dans une de ses echopppes
 		$echoppeTable = new Echoppe();
 		$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		
+
 		$this->view->decouperEchoppeOk = false;
 		$this->view->decouperPlancheOk = false;
-		
+
 		if ($echoppes == null || count($echoppes) == 0) {
 			$this->view->decouperEchoppeOk = false;
 			return;
 		}
 		$idEchoppe = -1;
-		
-		// Le joueur tente de transformer n+1 rondins ou n est son niveau de SAG
-		$this->view->nbRondins = intval($this->view->user->sagesse_base_hobbit + 1);
-		
+
+		$this->view->nbRondinsMax = $this->view->user->sagesse_base_hobbit;
+		if ($this->view->nbRondinsMax < 1) {
+			$this->view->nbRondinsMax = 1;
+		}
+
+		$this->view->nbArriereRondin = 0;
+
 		foreach($echoppes as $e) {
 			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit &&
-				$e["nom_systeme_metier"] == "menuisier" &&
-				$e["x_echoppe"] == $this->view->user->x_hobbit &&
-				$e["y_echoppe"] == $this->view->user->y_hobbit) {
+			$e["nom_systeme_metier"] == "menuisier" &&
+			$e["x_echoppe"] == $this->view->user->x_hobbit &&
+			$e["y_echoppe"] == $this->view->user->y_hobbit) {
 				$this->view->decouperEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
 
@@ -46,17 +50,26 @@ class Bral_Competences_Decouper extends Bral_Competences_Competence {
 					'id_metier' => $e["id_metier"],
 					'quantite_rondin_arriere_echoppe' => $e["quantite_rondin_arriere_echoppe"],
 				);
-				if ($e["quantite_rondin_arriere_echoppe"] >= $this->view->user->sagesse_base_hobbit + 1) {
+				if ($e["quantite_rondin_arriere_echoppe"] >= 1) {
 					$this->view->decouperPlancheOk = true;
+					$this->view->nbArriereRondin = $this->view->nbArriereRondin + $e["quantite_rondin_arriere_echoppe"];
 				}
 				break;
 			}
 		}
-		
+
 		if ($this->view->decouperEchoppeOk == false) {
 			return;
 		}
-		
+
+		if ($this->view->nbRondinsMax > $this->view->nbArriereRondin) {
+			$this->view->nbRondinsMax = $this->view->nbArriereRondin;
+		}
+
+		if ($this->view->nbRondinsMax < 1) {
+			$this->view->decouperPlancheOk = false;
+		}
+
 		$this->idEchoppe = $idEchoppe;
 	}
 
@@ -72,52 +85,67 @@ class Bral_Competences_Decouper extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
 		}
 
-		// Verification chasse
 		if ($this->view->decouperEchoppeOk == false || $this->view->decouperPlancheOk == false) {
 			throw new Zend_Exception(get_class($this)." decouper interdit ");
 		}
-		
+
+		if ((int)$this->request->get("valeur_1")."" != $this->request->get("valeur_1")."") {
+			throw new Zend_Exception(get_class($this)." Nombre invalide");
+		} else {
+			$nombre = (int)$this->request->get("valeur_1");
+		}
+
+		if ($nombre < 0 || $nombre > $this->view->nbRondinsMax) {
+			throw new Zend_Exception(get_class($this)." Nombre invalide b");
+		}
+
 		// calcul des jets
 		$this->calculJets();
 
 		if ($this->view->okJet1 === true) {
-			$this->calculDecouper();
+			$this->calculDecouper($nombre);
 		}
-		
+
 		$this->calculPx();
 		$this->calculPoids();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}
-	
+
 	/*Découpe un rondin présent dans l'échoppe en planches.
 	 */
-	private function calculDecouper() {
-	
-		// Le joueur tente de transformer n+1 rondins ou n est son niveau de SAG
-		$nb = $this->view->nbRondins;
-		
-		// A partir de la quantité choisie on a un % de perte de rondins : p=0,5-0,002*(jet SAG + BM)
-		$tirage = 0;
-		for ($i=1; $i <= ($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit) ; $i++) {
-			$tirage = $tirage + Bral_Util_De::get_1d6();
+	private function calculDecouper($nb) {
+
+		$this->view->quantitePlanches = 0;
+
+		for($j = 1; $j <= $nb; $j++) {
+			$tirage = 0;
+			for ($i=1; $i <= ($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit) ; $i++) {
+				$tirage = $tirage + Bral_Util_De::get_1d6();
+			}
+			$tirage = $tirage + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
+
+			$tirage2 = 0;
+			for ($i=1; $i <= ($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit) ; $i++) {
+				$tirage2 = $tirage2 + Bral_Util_De::get_1d6();
+			}
+
+			if ($tirage > $tirage2) {
+				$this->view->quantitePlanches = $this->view->quantitePlanches + 1;
+			}
 		}
-		$perte = 0.5-0.002 * ($tirage + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit);
-	
-		// Et arrondi ((n+1)-(n+1)*p) plantes préparées en sortie
-		$quantitePlanches = round($nb - $nb * $perte);
-		
+
 		$echoppeTable = new Echoppe();
 		$data = array(
 				'id_echoppe' => $this->idEchoppe,
 				'quantite_rondin_arriere_echoppe' => -$nb,
-				'quantite_planche_arriere_echoppe' => $quantitePlanches,
+				'quantite_planche_arriere_echoppe' => $this->view->quantitePlanches,
 		);
 		$echoppeTable->insertOrUpdate($data);
-		
-		$this->view->quantitePlanches = $quantitePlanches;
+
+		$this->view->quantiteRondinsUtilisee = $nb;
 	}
-	
+
 	public function getIdEchoppeCourante() {
 		if (isset($this->idEchoppe)) {
 			return $this->idEchoppe;
@@ -125,7 +153,7 @@ class Bral_Competences_Decouper extends Bral_Competences_Competence {
 			return false;
 		}
 	}
-	
+
 	function getListBoxRefresh() {
 		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_echoppes"));
 	}

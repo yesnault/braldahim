@@ -1,9 +1,18 @@
 <? include("commun_text_resultat.phtml") ?>
 
 <? if ($this->okJet1 === true): ?>
-	Vous avez r&eacute;ussi &agrave; concocter des parties de plante de <?=$this->planteNomType ?>.
-	Vous avez concoct&eacute; <?=$this->nbPartiesPlantesPreparees ?> <?=$this->planteNomTypePartiePlante?><?if($this->nbPartiesPlantesPreparees > 1):echo 's';endif;?>.
+	<? if ($this->nbPartiesPlantesPreparees > 0) : ?>
+		Vous avez r&eacute;ussi &agrave; concocter des parties de plante de <?=$this->planteNomType ?>.<br>
+		Vous avez obtenu <?=$this->nbPartiesPlantesPreparees ?> <?=$this->planteNomTypePartiePlante?><?if($this->nbPartiesPlantesPreparees > 1):echo 's';endif;?> 
+		pr&eacute;par&eacute;e<?if($this->nbPartiesPlantesPreparees > 1):echo 's';endif;?> en 
+		utilisant <?=$this->nbPlantesUtilisees ?> plante<?if($this->nbPlantesUtilisees > 1):echo 's';endif;?>.	
+	<? else: ?>
+		Vous avez rat&eacute; votre pr&eacute;paration.
+		<br>
+		Aucune plante pr&eacute;par&eacute;e n'est apparue et <?=$this->nbPlantesUtilisees ?> plante<?if($this->nbPlantesUtilisees > 1):echo 's sont perdues'; else: echo ' est perdue'; endif;?>.<br />
+	<? endif; ?>
+	
 	<br />
 <? else: ?>
-	Vous avez manqu&eacute; votre pr&eacute;paration<br />
+	Vous avez manqu&eacute; votre pr&eacute;paration, mais aucune plante n'est perdue.<br />
 <? endif; ?>

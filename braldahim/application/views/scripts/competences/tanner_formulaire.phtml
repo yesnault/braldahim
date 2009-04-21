@@ -1,8 +1,20 @@
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
 	 <? if ($this->tannerEchoppeOk === true && $this->tannerPeauOk === true) : ?>
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez tanner du <?=$this->nbPeau ?> pi&egrave;ce<? if ($this->nbPeau > 1): echo "s"; endif; ?> de peau en pi&egrave;ce(s) de fourrure ou de cuir ...<br />
-	<? elseif ($this->tannerEchoppeOk == false) : ?>
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez tanner jusqu'&agrave <?=$this->nbPeauMax ?> pi&egrave;ce<? if ($this->nbPeauMax > 1): echo "s"; endif; ?> de peau en pi&egrave;ce(s) de fourrure ou de cuir ...<br />
+	
+	<br>
+	Quantité de pièces à utiliser : <br>
+	 <select name="valeur_1" id="valeur_1"  onChange="javascript:if ($('valeur_1').value==-1){$('bouton_tanner').disabled=true } else {$('bouton_tanner').disabled=false }">
+	 	<option value="-1">(Choisissez la quantité à tanner)</option>
+	 	<? for($i=1; $i <= $this->nbPeauMax; $i++) :
+	 		if ($i<=1): $s=''; else: $s='s'; endif;
+	 	?>
+	 		<option value="<?=$i ?>"><?=$i?> pi&egrave;ce<?=$s?></option>
+	 	<? endfor; ?>
+	 </select>
+	 
+	 <? elseif ($this->tannerEchoppeOk == false) : ?>
 		Vous ne pouvez tanner que dans une de vos &eacute;choppes de Tanneur.
 	<? else: ?>
 		Vous n'avez pas assez de peau pour tanner... (<?=$this->nbPeau ?> peau<? if ($this->nbPeau > 1): echo "x"; endif; ?> minimum)
