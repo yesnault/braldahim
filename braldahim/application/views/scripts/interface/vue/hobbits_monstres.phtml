@@ -35,7 +35,7 @@ endif; ?>
 	foreach($case["monstres"] as $m) {
 		$textMonstre .= '<label class=\\\'alabel\\\' onClick=ouvrirMonstre('.$m["id_monstre"].'); title=\\\'Voir le profil\\\' >';
 		$textMonstre .= htmlspecialchars($m["nom_monstre"]) ." ".htmlspecialchars($m["taille_monstre"])." (n&deg;".$m["id_monstre"].")</label> ";
-		$textMonstre .= ' <img src=\\\'/public/images/puce_event.gif\\\' title=\\\'Voir les événements\\\' border=\\\'0\\\' onClick=ouvrirEvenementsH('.$m["id_monstre"].'); style=\\\'cursor:pointer\\\'/> ';
+		$textMonstre .= ' <img src=\\\'/public/images/puce_event.gif\\\' title=\\\'Voir les événements\\\' border=\\\'0\\\' onClick=ouvrirEvenementsM('.$m["id_monstre"].'); style=\\\'cursor:pointer\\\'/> ';
 		$textMonstre .= "<br />";
 	} 
 	$s = "";
