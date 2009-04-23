@@ -18,7 +18,8 @@ class Couple extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('couple', '*')
-		->where('nb_enfants_couple < ?', 5);
+		->where('nb_enfants_couple < ?', 5)
+		->where('est_valide_couple like ?', 'oui');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

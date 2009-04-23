@@ -111,7 +111,6 @@ class Bral_Batchs_Hobbits extends Bral_Batchs_Batch {
 		$retour = "";
 		if (count($hobbits) > 0) {
 			foreach ($hobbits as $h) {
-
 				$retour .= $this->envoiMailSuppression($h);
 				$this->copieVersAncien($h);
 			}
@@ -177,6 +176,18 @@ class Bral_Batchs_Hobbits extends Bral_Batchs_Batch {
 		);
 
 		$ancienHobbitTable->insert($data);
+		
+		Zend_Loader::loadClass("Couple");
+		$coupleTable = new Couple();
+		$data = array('est_valide_couple' => 'oui');
+		
+		if ($hobbit["sexe_hobbit"] == "masculin") {
+			$where = 'id_fk_m_hobbit_couple = '.$hobbit["id_hobbit"];
+		} else {
+			$where = 'id_fk_f_hobbit_couple = '.$hobbit["id_hobbit"];
+		}
+		$coupleTable->update($data, $where);
+		
 	}
 
 	private function envoiMailSuppression($hobbit) {
