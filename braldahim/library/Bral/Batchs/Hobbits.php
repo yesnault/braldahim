@@ -179,7 +179,7 @@ class Bral_Batchs_Hobbits extends Bral_Batchs_Batch {
 		
 		Zend_Loader::loadClass("Couple");
 		$coupleTable = new Couple();
-		$data = array('est_valide_couple' => 'oui');
+		$data = array('est_valide_couple' => 'non');
 		
 		if ($hobbit["sexe_hobbit"] == "masculin") {
 			$where = 'id_fk_m_hobbit_couple = '.$hobbit["id_hobbit"];
