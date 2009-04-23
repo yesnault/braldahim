@@ -98,7 +98,7 @@ class SouleEquipe extends Zend_Db_Table {
 		return $result;
 	}
 
-	public function findByIdMatch($idMatch) {
+	public function findByIdMatch($idMatch, $ordre = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 
@@ -107,6 +107,10 @@ class SouleEquipe extends Zend_Db_Table {
 		->where('id_fk_match_soule_equipe = ?', (int)$idMatch)
 		->where('id_fk_hobbit_soule_equipe = id_hobbit');
 
+		if ($ordre != null) {
+			$select->order($ordre);
+		}
+		
 		$sql = $select->__toString();
 		$result = $db->fetchAll($sql);
 		return $result;

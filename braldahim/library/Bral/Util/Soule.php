@@ -79,7 +79,7 @@ class Bral_Util_Soule {
 				Bral_Util_Log::soule()->trace("Bral_Util_Soule - calculFinMatch - true");
 
 				$souleEquipeTable = new SouleEquipe();
-				$joueurs = $souleEquipeTable->findByIdMatch($match["id_soule_match"]);
+				$joueurs = $souleEquipeTable->findByIdMatch($match["id_soule_match"], "nb_hobbit_plaquage_soule_equipe desc");
 
 				if ($joueurs == null) {
 					Bral_Util_Log::soule()->err("Bral_Util_Soule - calculFinMatch - Erreur Nb Joueurs (".$match["id_soule_match"].") ");
@@ -142,7 +142,6 @@ class Bral_Util_Soule {
 
 	private static function repartitionGain($match, $idHobbitFin, $view, $niveauTotal, $equipe, $estGagnant, $minerais, $plantes) {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - repartitionGain - enter -");
-		asort($equipe); // tri par valeur nbPlaquage
 
 		if ($estGagnant) {
 			$pourcentage = 0.7;
@@ -153,7 +152,7 @@ class Bral_Util_Soule {
 		$rang = -1;
 		$nbPlaquageCourant = -1;
 		$nbHobbit = 0;
-		foreach($equipe as $idHobbit => $tab) {
+		foreach($equipe as $idHobbit => $tab) { // equipe est deja trie par ordre de nb_hobbit_plaquage_soule_equipe asc
 			$nbHobbit++;
 			if ($nbPlaquageCourant == -1) {
 				$nbPlaquageCourant = $tab["nb_plaquage"];
