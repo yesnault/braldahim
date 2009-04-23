@@ -14,17 +14,18 @@ class TypeEtape extends Zend_Db_Table {
 	protected $_name = 'type_etape';
 	protected $_primary = 'id_type_etape';
 
-	public function fetchAllSansMetier() {
+	public function fetchAllNonIntiatiqueSansMetier() {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('type_etape', '*')
-		->where('est_metier_type_etape like ?',"non");
+		->where('est_metier_type_etape like ?',"non")
+		->where('est_initiatique_type_etape like ?',"non");
 
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	public function fetchAllAvecIdsMetier($listId) {
+	public function fetchAllNonIntiatiqueAvecIdsMetier($listId) {
 		$liste = "";
 		if (count($listId) < 1) {
 			$liste = "";
@@ -46,6 +47,7 @@ class TypeEtape extends Zend_Db_Table {
 			$select->from('type_etape', '*')
 			->from('metier', '*')
 			->from('type_etape_metier')
+			->where('est_initiatique_type_etape like ?',"non")
 			->where('id_fk_metier_type_etape_metier = id_metier')
 			->where('id_fk_etape_type_etape_metier = id_type_etape')
 			->where('id_fk_metier_type_etape_metier='. $liste);

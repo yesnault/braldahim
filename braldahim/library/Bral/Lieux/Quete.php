@@ -107,12 +107,12 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		}
 
 		$typeEtapeTable = new TypeEtape();
-		$typeEtapes = $typeEtapeTable->fetchAllSansMetier();
+		$typeEtapes = $typeEtapeTable->fetchAllNonIntiatiqueSansMetier();
 
 		if (count($hobbitsMetierRowset) == 1) {
 			$idMetiers[] = $hobbitsMetierRowset[0]["id_metier"];
 			$this->_idMetierCourant = $hobbitsMetierRowset[0]["id_metier"];
-			$typeEtapesMetier = $typeEtapeTable->fetchAllAvecIdsMetier($idMetiers);
+			$typeEtapesMetier = $typeEtapeTable->fetchAllNonIntiatiqueAvecIdsMetier($idMetiers);
 
 			if ($typeEtapesMetier != null) {
 				foreach($typeEtapesMetier as $e) {
