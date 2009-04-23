@@ -202,7 +202,7 @@ class Bral_Util_Soule {
 		$config = Zend_Registry::get('config');
 		$idType = $config->game->evenements->type->soule;
 
-		$details = "[h".$hobbit["id_hobbit"]."] a marqué";
+		$details = "[h".$idHobbitFin."] a marqué";
 		if ($idHobbitFin == $hobbit["id_hobbit"]) {
 			$details .=  " et ";
 		} else {
@@ -236,9 +236,11 @@ class Bral_Util_Soule {
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - updateDbDataPxPerso - enter");
 
 		if ($hobbit["soule_camp_hobbit"] == "a") {
-			$nbPxPerso = $hobbit["px_perso_hobbit"] + floor($match["px_equipea_soule_match"] / count($equipe));
+			$gainPxPerso = floor($match["px_equipea_soule_match"] / count($equipe));
+			$nbPxPerso = $hobbit["px_perso_hobbit"] + $gainPxPerso;
 		} else {
-			$nbPxPerso = $hobbit["px_perso_hobbit"] + floor($match["px_equipeb_soule_match"] / count($equipe));
+			$gainPxPerso = floor($match["px_equipeb_soule_match"] / count($equipe));
+			$nbPxPerso = $hobbit["px_perso_hobbit"] + $gainPxPerso;
 		}
 		
 		$hobbitTable = new Hobbit();
@@ -249,7 +251,7 @@ class Bral_Util_Soule {
 		$where = "id_hobbit = ".$hobbit["id_hobbit"];
 		$hobbitTable->update($data, $where);
 			
-		$texte = " ".$nbPxPerso. " PX (Perso) ainsi que ".PHP_EOL;
+		$texte = " ".$gainPxPerso. " PX (Perso) ainsi que ".PHP_EOL;
 
 		Bral_Util_Log::soule()->trace("Bral_Util_Soule - updateDbDataPxPerso - exit");
 		return $texte;
