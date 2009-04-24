@@ -284,9 +284,9 @@ abstract class Bral_Competences_Competence {
 				$this->idTypeEvenement = $this->view->config->game->evenements->type->competence;
 			}
 			if ($this->detailEvenement == null) {
-				if ($this->view->okJet1 === true || $this->evenementQueSurOkJet1 == false) {
+				if ($this->view->okJet1 == true) {
 					$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a réussi l'utilisation d'une compétence";
-				} elseif ($this->view->okJet1 === false) {
+				} elseif ($this->view->okJet1 == false) {
 					$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a raté l'utilisation d'une compétence";
 				}
 			}

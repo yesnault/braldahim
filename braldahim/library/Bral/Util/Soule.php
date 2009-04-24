@@ -159,6 +159,7 @@ class Bral_Util_Soule {
 				$rang = 1;
 			}
 			if ($nbPlaquageCourant != $tab["nb_plaquage"]) {
+				$nbPlaquageCourant = $tab["nb_plaquage"];
 				$rang++;
 			}
 
