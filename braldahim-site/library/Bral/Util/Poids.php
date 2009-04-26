@@ -16,7 +16,6 @@ class Bral_Util_Poids {
 	 const POIDS_PEAU = 0.4;
 	 const POIDS_VIANDE = 0.4;
 	 const POIDS_VIANDE_PREPAREE = 0.3;
-	 const POIDS_RATION = 0.4;
 	 const POIDS_CUIR = 0.4;
 	 const POIDS_FOURRURE = 0.4;
 	 const POIDS_PLANCHE = 1.5;
@@ -98,7 +97,6 @@ class Bral_Util_Poids {
 			$poids = self::ajoute($poids, $p["quantite_peau_laban"], self::POIDS_PEAU);
 			$poids = self::ajoute($poids, $p["quantite_viande_laban"], self::POIDS_VIANDE);
 			$poids = self::ajoute($poids, $p["quantite_viande_preparee_laban"], self::POIDS_VIANDE_PREPAREE);
-			$poids = self::ajoute($poids, $p["quantite_ration_laban"], self::POIDS_RATION);
 			$poids = self::ajoute($poids, $p["quantite_cuir_laban"], self::POIDS_CUIR);
 			$poids = self::ajoute($poids, $p["quantite_fourrure_laban"], self::POIDS_FOURRURE);
 			$poids = self::ajoute($poids, $p["quantite_planche_laban"], self::POIDS_PLANCHE);
