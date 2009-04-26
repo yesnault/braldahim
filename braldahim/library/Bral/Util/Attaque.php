@@ -423,7 +423,7 @@ Consultez vos événements pour plus de détails.";
 						}
 						$retourAttaque["effetMotEPoints"] = $gainPv;
 						Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotE True effetMotE=".$effetMotE." gainPv=".$gainPv);
-	
+
 						$hobbitAttaquant->pv_restant_hobbit = $hobbitAttaquant->pv_restant_hobbit + $gainPv;
 						if ($hobbitAttaquant->pv_restant_hobbit > $hobbitAttaquant->pv_max_hobbit + $hobbitAttaquant->pv_max_bm_hobbit) {
 							$hobbitAttaquant->pv_restant_hobbit = $hobbitAttaquant->pv_max_hobbit + $hobbitAttaquant->pv_max_bm_hobbit;
@@ -431,7 +431,7 @@ Consultez vos événements pour plus de détails.";
 					}
 				}
 
-			
+					
 				$effetMotG = Bral_Util_Commun::getEffetMotG($hobbitAttaquant->id_hobbit);
 				if ($effetMotG != null) {
 					$retourAttaque["effetMotG"] = true;
@@ -477,13 +477,12 @@ Consultez vos événements pour plus de détails.";
 
 			if ($monstre["pv_restant_monstre"] <= 0) {
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Mort du monstre !");
-
+				$effetD = null;
+				$effetH = null;
+				
 				// si c'est un gibier, on n'incrémente pas de compteur, pas d'effet de mot non plus
 				if ($monstre["id_fk_type_groupe_monstre"] != $config->game->groupe_monstre->type->gibier) {
 
-					$effetD = null;
-					$effetH = null;
-						
 					$hobbitAttaquant->nb_monstre_kill_hobbit = $hobbitAttaquant->nb_monstre_kill_hobbit + 1;
 
 					$effetD = Bral_Util_Commun::getEffetMotD($hobbitAttaquant->id_hobbit);
