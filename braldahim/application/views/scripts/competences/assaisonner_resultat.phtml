@@ -1,12 +1,16 @@
 <? include("commun_text_resultat.phtml") ?>
-		
+
 <? if ($this->okJet1 === true):
 	$s = "";
 	if ($this->nbViandePreparee > 1) : $s = "s"; endif;
 	?>
 	Vous avez r&eacute;ussi votre assaisonnement.<br /> 
 	Vous avez transform&eacute; <?=$this->nbViande ?> unit&eacute;<? if ($this->nbViande > 1) : echo "s"; endif; ?>
-	 de Viande en : <?=$this->nbViandePreparee ?> 
-	unit&eacute;<?=$s ?> de viande pr&eacute;par&eacute;e<br />
+	 de Viande en <?=$this->nbViandePreparee ?> 
+	unit&eacute;<?=$s ?> de viande pr&eacute;par&eacute;e.<br /><br />
+	
+	<? if ($this->nbViandeATerre > 0): ?>
+	Il n'y a pas assez de place dans votre laban pour y mettre toute la viande pr&eacute;par&eacute;e, le reste est tomb&eacute; &agrave; vos pieds.
+	<? endif;?>
 <? endif; ?>
 <br />

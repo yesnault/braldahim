@@ -3,7 +3,6 @@
 		<tr class="table_liste">
 			<th style="width:auto; padding:5px;">&nbsp;</th>
 			<th style="width:auto; padding:5px;">Viande pr&eacute;par&eacute;e</th>
-			<th style="width:auto; padding:5px;">Rations</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -13,18 +12,11 @@
 				<?=$this->laban["nb_viande_preparee"] ?>
 				<img src='/public/styles/braldahim_defaut/images/elements/viande_fraiche.png' alt='viande_fraiche'/>
 			</td>
-			<td class="table_liste" valign="bottom">
-				<?=$this->laban["nb_ration"] ?>
-				<img src='/public/styles/braldahim_defaut/images/elements/ration.png' alt='ration'/>
-			</td>
 		</tr>
 		<tr class="table_liste">
 			<td style="width:auto; padding:5px;" valign="bottom">Poids</td>
 			<td class="table_liste"  valign="bottom" style="cursor:pointer" title="Poids unitaire : <?=Bral_Util_Poids::POIDS_VIANDE_PREPAREE?> Kg">
 				<?=($this->laban["nb_viande_preparee"]*Bral_Util_Poids::POIDS_VIANDE_PREPAREE) ?> Kg
-			</td>
-			<td class="table_liste"  valign="bottom" style="cursor:pointer" title="Poids unitaire : <?=Bral_Util_Poids::POIDS_RATION?> Kg">
-				<?=($this->laban["nb_ration"]*Bral_Util_Poids::POIDS_RATION) ?> Kg
 			</td>
 		</tr>
 	</tbody>

@@ -560,7 +560,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 
 		if (Bral_Util_Quete::ETAPE_CONSTRUIRE_PARAM1_CUISINIER == $dataTypeEtape["param1"]) {
 			$dataTypeEtape["param2"] = Bral_Util_De::get_1d10() + 1;
-			$dataTypeEtape["libelle_etape"] = "Vous devez concocter ".$dataTypeEtape["param2"]. " rations";
+			$dataTypeEtape["libelle_etape"] = "Vous devez cuisiner ".$dataTypeEtape["param2"]. " aliments";
 		} else if (Bral_Util_Quete::ETAPE_CONSTRUIRE_PARAM1_BUCHERON == $dataTypeEtape["param1"]) {
 			$dataTypeEtape["param2"] = Bral_Util_De::get_1d10() + 1;
 			$dataTypeEtape["libelle_etape"] = "Vous devez construire ".$dataTypeEtape["param2"]. " palissades";

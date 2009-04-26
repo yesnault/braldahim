@@ -389,27 +389,53 @@ class Bral_Util_Quete {
 
 	private static function calculGainQueteInitiatique(&$hobbit) {
 		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculGainQueteInitiatique - enter");
-		$retour = self::calculGainQueteInitiatiqueRations($hobbit);
+		$retour = self::calculGainQueteInitiatiqueAliment($hobbit);
 		$retour .= self::calculGainQueteInitiatiqueTabac($hobbit);
 
 		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculGainQueteInitiatique - enter");
 		return $retour;
 	}
 
-	private static function calculGainQueteInitiatiqueRations(&$hobbit) {
-		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculGainQueteInitiatiqueRations - enter");
-		$nbRations = 5;
+	private static function calculGainQueteInitiatiqueAliment(&$hobbit) {
+		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculGainQueteInitiatiqueAliment - enter");
+		$nbRagouts = 5;
 
-		Zend_Loader::loadClass("Coffre");
-		$coffreTable = new Coffre();
-		$data = array(
-			"quantite_ration_coffre" => $nbRations,
-			"id_fk_hobbit_coffre" => $hobbit->id_hobbit,
-		);
-		$coffreTable->insertOrUpdate($data);
+		Zend_Loader::loadClass("TypeAliment");
+		$typeAlimentTable = new TypeAliment();
+		$aliment = $typeAlimentTable->findById(TypeAliment::ID_TYPE_RAGOUT);
 
-		$retour = " ".$nbRations." rations (dans votre coffre) ".PHP_EOL;
-		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculGainQueteInitiatiqueRations - exit");
+		$qualiteAliment = 2; // qualite correcte
+		$bbdfAliment = $aliment->bbdf_base_type_aliment;
+
+		$elementAlimentTable = new ElementAliment();
+		$coffreAlimentTable = new CoffreAliment();
+
+		for ($i = 1; $i <= $nbRagouts; $i++) {
+			$data = array(
+				"id_fk_type_element_aliment" => TypeAliment::ID_TYPE_RAGOUT,
+				"x_element_aliment" => $hobbit->x_hobbit,
+				"y_element_aliment" => $hobbit->y_hobbit,
+				"id_fk_hobbit_element_aliment" => $hobbit->id_hobbit,
+				"id_fk_type_qualite_element_aliment" => $qualiteAliment,
+				"bbdf_element_aliment" => $bbdfAliment,
+			);
+			$idLastInsert = $elementAlimentTable->insert($data);
+
+			$where = "id_element_aliment = ".(int)$idLastInsert;
+			$elementAlimentTable->delete($where);
+
+			$data = array(
+				'id_coffre_aliment' => $idLastInsert,
+				'id_fk_hobbit_coffre_aliment' => $hobbit->id_hobbit,
+				'id_fk_type_coffre_aliment' => TypeAliment::ID_TYPE_RAGOUT,
+				'id_fk_type_qualite_coffre_aliment' => $qualiteAliment,
+				'bbdf_coffre_aliment' => $qualiteAliment,
+			);
+			$coffreAlimentTable->insert($data);
+		}
+		
+		$retour = " ".$nbRagouts." ragoûts (dans votre coffre) ".PHP_EOL;
+		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculGainQueteInitiatiqueAliment - exit");
 		return $retour;
 	}
 

@@ -30,6 +30,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("Charrette");
 			Zend_Loader::loadClass("Echoppe");
 			Zend_Loader::loadClass("Element");
+			Zend_Loader::loadClass("ElementAliment");
 			Zend_Loader::loadClass("ElementEquipement");
 			Zend_Loader::loadClass("ElementMunition");
 			Zend_Loader::loadClass("ElementPartieplante");
@@ -180,6 +181,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$elementPotionTable = new ElementPotion();
 		$elementsPotions = $elementPotionTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($elementPotionTable);
+		$elementAlimentTable = new ElementAliment();
+		$elementsAliments = $elementAlimentTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($elementAlimentTable);
 		$elementRuneTable = new ElementRune();
 		$elementsRunes = $elementRuneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($elementRuneTable);
@@ -246,6 +250,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabElementsPartieplantesBrutes = null;
 				$tabElementsPartieplantesPreparees = null;
 				$tabElementsPotions = null;
+				$tabElementsAliments = null;
 				$tabElementsRunes = null;
 				$tabHobbits = null;
 				$tabLieux = null;
@@ -327,7 +332,6 @@ class Bral_Box_Vue extends Bral_Box_Box {
 								if ($e["quantite_peau_element"] > 0) $tabElements[] = array("nom" => "Peau", "s" => "x", "nb" => $e["quantite_peau_element"]);
 								if ($e["quantite_viande_element"] > 0) $tabElements[] = array("nom" => "Viande", "s" => "s", "nb" => $e["quantite_viande_element"]);
 								if ($e["quantite_viande_preparee_element"] > 0) $tabElements[] = array("nom" =>  "Viande(s) pr&eacute;par&eacute;e", "s" => "s", "nb" => $e["quantite_viande_preparee_element"]);
-								if ($e["quantite_ration_element"] > 0) $tabElements[] = array("nom" => "Ration", "s" => "s", "nb" => $e["quantite_ration_element"]);
 								if ($e["quantite_cuir_element"] > 0) $tabElements[] = array("nom" => "Cuir", "s" => "s", "nb" => $e["quantite_cuir_element"]);
 								if ($e["quantite_fourrure_element"] > 0) $tabElements[] = array("nom" => "Fourrure", "s" => "s", "nb" => $e["quantite_fourrure_element"]);
 								if ($e["quantite_planche_element"] > 0) $tabElements[] = array("nom" => "Planche", "s" => "s", "nb" => $e["quantite_planche_element"]);
@@ -368,6 +372,17 @@ class Bral_Box_Vue extends Bral_Box_Box {
 									"nom" => $p["nom_type_potion"],
 									"qualite" => $p["nom_type_qualite"],
 									"niveau" => $p["niveau_element_potion"],
+								);
+							}
+						}
+					}
+
+					if ($elementsAliments != null) {
+						foreach($elementsAliments as $p) {
+							if ($display_x == $p["x_element_aliment"] && $display_y == $p["y_element_aliment"]) {
+								$tabElementsAliments[] = array("id_element_aliment" => $p["id_element_aliment"],
+									"nom" => $p["nom_type_aliment"],
+									"qualite" => $p["nom_type_qualite"],
 								);
 							}
 						}
@@ -570,6 +585,8 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"elements_partieplantes_preparees" => $tabElementsPartieplantesPreparees,
 					"n_elements_potions" => count($tabElementsPotions),
 					"elements_potions" => $tabElementsPotions,
+					"n_elements_aliments" => count($tabElementsAliments),
+					"elements_aliments" => $tabElementsAliments,
 					"n_elements_minerais_bruts" => count($tabElementsMineraisBruts),
 					"elements_minerais_bruts" => $tabElementsMineraisBruts,
 					"n_elements_lingots" => count($tabElementsLingots),

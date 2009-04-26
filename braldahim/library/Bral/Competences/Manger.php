@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -13,29 +13,35 @@
 class Bral_Competences_Manger extends Bral_Competences_Competence {
 
 	function prepareCommun() {
-		Zend_Loader::loadClass("Laban");
+		Zend_Loader::loadClass("LabanAliment");
 		Zend_Loader::loadClass("Ville");
 		Zend_Loader::loadClass("Bral_Util_Quete");
-		
-		$labanTable = new Laban();
-		$laban = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
-		
-		$tabLaban = null;
-		foreach ($laban as $p) {
-			$tabLaban = array(
-				"nb_ration" => $p["quantite_ration_laban"],
+
+		$labanAlimentTable = new LabanAliment();
+		$aliments = $labanAlimentTable->findByIdHobbit($this->view->user->id_hobbit);
+
+		$tabAliments = null;
+		foreach ($aliments as $p) {
+			$tabAliments[$p["id_laban_aliment"]] = array(
+					"id_aliment" => $p["id_laban_aliment"],
+					"id_fk_type_aliment" => $p["id_fk_type_laban_aliment"],
+					"id_fk_type_qualite_aliment" => $p["id_fk_type_qualite_laban_aliment"],
+					"nom" => $p["nom_type_aliment"],
+					"qualite" => $p["nom_type_qualite"],
+					"bbdf" => $p["bbdf_laban_aliment"],
 			);
 		}
-		
+
 		$this->view->mangerBalanceOk = true;
 		if ($this->view->user->balance_faim_hobbit >= 100) {
 			$this->view->mangerBalanceOk = false;
 		}
-		
-		if (isset($tabLaban) && $tabLaban["nb_ration"] > 0) {
-			$this->view->mangerNbRationOk = true;
+
+		if (isset($tabAliments) && count($tabAliments) > 0) {
+			$this->view->mangerNbAlimentOk = true;
 		}
-		
+
+		$this->view->tabAliments = $tabAliments;
 	}
 
 	function prepareFormulaire() {
@@ -51,56 +57,68 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		}
 
 		// Verification cuisiner
-		if ($this->view->mangerNbRationOk == false) {
+		if ($this->view->mangerNbAlimentOk == false) {
 			throw new Zend_Exception(get_class($this)." Manger interdit ");
 		}
+
+		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
+			throw new Zend_Exception(get_class($this)." Aliment invalide : ".$this->request->get("valeur_1"));
+		} else {
+			$idAliment = (int)$this->request->get("valeur_1");
+		}
 		
+		$aliment = null;
+		foreach ($this->view->tabAliments as $a) {
+			if ($a["id_aliment"] == $idAliment) {
+				$aliment = $a;
+				break;
+			}
+		}
+
+		if ($aliment == null) {
+			throw new Zend_Exception(get_class($this)." Aliment invalide (".$idAliment.")");
+		}
+
 		// cacul de la quete avant, pour avoir le controle sur l'état repu ou affame.
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeManger($this->view->user, false);
-		
-		$this->calculManger();
+
+		$this->calculManger($aliment);
 		$this->setEvenementQueSurOkJet1(false);
-		
+
 		Zend_Loader::loadClass("Bral_Util_Quete");
-		
+
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->calculPoids();
 		$this->majHobbit();
 	}
-	
-	/*
-	 * PA : 1
-	 * Balance : +80%
-	 * Un repas préparé c'est +80% dans la balance
-	 */
-	private function calculManger() {
-		Zend_Loader::loadClass("Laban");
-		
-		$labanTable = new Laban();
-		$data = array(
-			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
-			'quantite_ration_laban' => -1,
-		);
-		$labanTable->insertOrUpdate($data);
-		
+
+	private function calculManger($aliment) {
+		Zend_Loader::loadClass("LabanAliment");
+
+		$labanAlimentTable = new LabanAliment();
+		$where = 'id_laban_aliment = '.(int)$aliment["id_aliment"];
+		$labanAlimentTable->delete($where);
+
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 		$hobbit = $hobbitRowset->current();
 
-		$this->view->user->balance_faim_hobbit = $this->view->user->balance_faim_hobbit + 80;
-		
+		$this->view->user->balance_faim_hobbit = $this->view->user->balance_faim_hobbit + $aliment["bbdf"];
+
 		if ($this->view->user->balance_faim_hobbit > 100) {
-			$this->view->user->balance_faim_hobbit = 100; 
+			$this->view->user->balance_faim_hobbit = 100;
 		}
-		
+
 		$data = array(
 			'balance_faim_hobbit' => $this->view->user->balance_faim_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
+		
+		$this->view->aliment = $aliment;
 	}
-	
+
 	function getListBoxRefresh() {
 		return $this->constructListBoxRefresh(array("box_laban"));
 	}

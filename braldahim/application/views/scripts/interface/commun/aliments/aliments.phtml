@@ -1,0 +1,30 @@
+<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
+ 
+<table class="table_liste" style="width:90%">
+	<thead class="table_liste">
+	  <tr class="table_liste">
+	  	<th>N&deg;</th>
+	  	<th>&nbsp;</th>
+		<th>Nom</th>
+		<th>Qualit&eacute;</th>
+		<th>Bonus</th>
+	  </tr>
+	</thead>
+	<tbody>
+		<? if (count($this->aliments) > 0) :?>
+			<? $i = 0;
+			   foreach($this->aliments as $a) :?>
+				  <tr class="table_liste<?=($i % 2);$i++; ?>">
+			  		<td class="table_liste"><?=$a["id_aliment"] ?></td>
+			  		<td class="table_liste"><img src='/public/styles/braldahim_defaut/images/type_aliment/type_aliment_<?=$a["id_type_aliment"]?>.png' alt="<?=htmlspecialchars($a["nom"])?>"/></td>
+			  		<td class="table_liste"><?=htmlspecialchars($a["nom"]) ?></td>
+			  		<td class="table_liste"><?=htmlspecialchars($a["qualite"]) ?></td>
+			  		<td class="table_liste"><?=$a["bbdf"] ?></td>
+				  </tr>
+			<? endforeach; ?>
+		<? else: ?>
+			<tr class="table_liste"><td class="table_liste" colspan="20"><i>aucun aliment</i></td></tr>
+		<? endif; ?>
+	</tbody>
+</table>

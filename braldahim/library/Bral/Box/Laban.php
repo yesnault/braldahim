@@ -43,6 +43,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		Zend_Loader::loadClass("LabanMinerai");
 		Zend_Loader::loadClass("LabanMunition");
 		Zend_Loader::loadClass("LabanPartieplante");
+		Zend_Loader::loadClass("LabanAliment");
 		Zend_Loader::loadClass("LabanPotion");
 		Zend_Loader::loadClass("LabanRune");
 		Zend_Loader::loadClass("LabanTabac");
@@ -141,7 +142,6 @@ class Bral_Box_Laban extends Bral_Box_Box {
 				"nb_peau" => $p["quantite_peau_laban"],
 				"nb_viande" => $p["quantite_viande_laban"],
 				"nb_viande_preparee" => $p["quantite_viande_preparee_laban"],
-				"nb_ration" => $p["quantite_ration_laban"],
 				"nb_cuir" => $p["quantite_cuir_laban"],
 				"nb_fourrure" => $p["quantite_fourrure_laban"],
 				"nb_planche" => $p["quantite_planche_laban"],
@@ -153,7 +153,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 				}
 			}
 			
-			if ($p["quantite_viande_preparee_laban"] > 0 || $p["quantite_ration_laban"] > 0) {
+			if ($p["quantite_viande_preparee_laban"] > 0) {
 				if (isset($tabMetiers["cuisinier"])) {
 					$tabMetiers["cuisinier"]["a_afficher"] = true; 
 				}
@@ -216,6 +216,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		$this->renderEquipement();
 		$this->renderMunition();
 		$this->renderPotion();
+		$this->renderAliment();
 		$this->renderTabac();
 		
 		$this->view->estEquipementsPotionsEtal = false;
@@ -418,5 +419,26 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		
 		$this->view->nb_potions = count($tabPotions);
 		$this->view->potions = $tabPotions;
+	}
+	
+	private function renderAliment() {
+		$tabAliments = null;
+		$labanAlimentTable = new LabanAliment();
+		$aliments = $labanAlimentTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($labanAlimentTable);
+		
+		foreach ($aliments as $p) {
+			$tabAliments[$p["id_laban_aliment"]] = array(
+					"id_aliment" => $p["id_laban_aliment"],
+					"id_type_aliment" => $p["id_type_aliment"],
+					"nom" => $p["nom_type_aliment"],
+					"qualite" => $p["nom_aliment_type_qualite"],
+					"bbdf" => $p["bbdf_laban_aliment"],
+			);
+		}
+		unset($aliments);
+		
+		$this->view->nb_aliments = count($tabAliments);
+		$this->view->aliments = $tabAliments;
 	}
 }

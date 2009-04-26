@@ -106,6 +106,17 @@ Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez o
 				</li>
 			</ul>
 		</li>
+		<li id="pocheLabanAliment">
+			<? $pocheLabans[] = "pocheLabanAliment-head" ?>
+      		<h3 id="pocheLabanAliment-head" class="head" onClick="maccordion(this);" />
+				Poche pour les aliments
+			</h3>
+			<ul id="pocheLabanAliment-body" style="display:none">
+				<li>
+					<? include("poche_aliment.phtml") ?>
+				</li>
+			</ul>
+		</li>
 		<li id="pocheLabanTabac">
 			<? $pocheLabans[] = "pocheLabanTabac-head" ?>
       		<h3 id="pocheLabanTabac-head" class="head" onClick="maccordion(this);" />

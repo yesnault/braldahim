@@ -37,14 +37,13 @@ class Element extends Zend_Db_Table {
 		$select->from('element', 'count(*) as nombre, 
 		quantite_viande_element as quantiteViande, 
 		quantite_peau_element as quantitePeau, 
-		quantite_ration_element as quantiteRation, 
 		quantite_viande_preparee_element as quantiteViandePreparee,
 		quantite_cuir_element as quantiteCuir,
 		quantite_fourrure_element as quantiteFourrure,
 		quantite_planche_element as quantitePlanche')
 		->where('x_element = ?',$data["x_element"])
 		->where('y_element = ?',$data["y_element"])
-		->group(array('quantitePeau', 'quantiteViande', 'quantiteRation', 'quantiteViandePreparee'));
+		->group(array('quantitePeau', 'quantiteViande', 'quantiteViandePreparee'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -55,7 +54,6 @@ class Element extends Zend_Db_Table {
 			$quantitePeau = $resultat[0]["quantitePeau"];
 			$quantiteViande = $resultat[0]["quantiteViande"];
 			$quantiteViandePreparee = $resultat[0]["quantiteViandePreparee"];
-			$quantiteRation = $resultat[0]["quantiteRation"];
 			$quantiteCuir = $resultat[0]["quantiteCuir"];
 			$quantiteFourrure = $resultat[0]["quantiteFourrure"];
 			$quantitePlanche = $resultat[0]["quantitePlanche"];
@@ -63,7 +61,6 @@ class Element extends Zend_Db_Table {
 			$dataUpdate['quantite_viande_element'] = $quantiteViande;
 			$dataUpdate['quantite_peau_element'] = $quantitePeau;
 			$dataUpdate['quantite_viande_preparee_element'] = $quantiteViandePreparee;
-			$dataUpdate['quantite_ration_element'] = $quantiteRation;
 			$dataUpdate['quantite_cuir_element'] = $quantiteCuir;
 			$dataUpdate['quantite_fourrure_element'] = $quantiteFourrure;
 			$dataUpdate['quantite_planche_element'] = $quantitePlanche;
@@ -76,9 +73,6 @@ class Element extends Zend_Db_Table {
 			}
 			if (isset($data['quantite_viande_preparee_element'])) {
 				$dataUpdate['quantite_viande_preparee_element'] = $quantiteViandePreparee + $data["quantite_viande_preparee_element"];
-			}
-			if (isset($data['quantite_ration_element'])) {
-				$dataUpdate['quantite_ration_element'] = $quantiteRation + $data["quantite_ration_element"];
 			}
 			if (isset($data['quantite_cuir_element'])) {
 				$dataUpdate['quantite_cuir_element'] = $quantiteCuir + $data["quantite_cuir_element"];
@@ -96,7 +90,6 @@ class Element extends Zend_Db_Table {
 			if ($dataUpdate['quantite_viande_element'] <= 0 && 
 				$dataUpdate['quantite_peau_element'] <= 0 && 
 				$dataUpdate['quantite_viande_preparee_element'] <= 0 && 
-				$dataUpdate['quantite_ration_element'] <= 0 && 
 				$dataUpdate['quantite_cuir_element'] <= 0 && 
 				$dataUpdate['quantite_fourrure_element'] <= 0 && 
 				$dataUpdate['quantite_planche_element'] <= 0) { // delete

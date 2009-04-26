@@ -17,14 +17,15 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Lieu");
-		Zend_Loader::loadClass("Laban");
+		Zend_Loader::loadClass("LabanAliment");
+		Zend_Loader::loadClass("ElementAliment");
 
 		$this->_coutCastars = $this->calculCoutCastars();
 		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) >= 0);
 
 		$this->view->poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 		if ($this->view->poidsRestant < 0) $this->view->poidsRestant = 0;
-		$this->view->nbPossible = floor($this->view->poidsRestant / Bral_Util_Poids::POIDS_RATION);
+		$this->view->nbPossible = floor($this->view->poidsRestant / Bral_Util_Poids::POIDS_ALIMENT);
 
 		$castarsRestants = $this->view->user->castars_hobbit -  $this->_coutCastars;
 		$nbPossibleAvecCastars = floor($this->view->user->castars_hobbit / $this->_coutCastars);
@@ -35,25 +36,25 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 			$this->view->nbDeduction = 1;
 		}
 
-		$achatRation = true;
+		$achatAliment = true;
 		if ($this->view->nbPossible < 1) {
 			$this->view->nbPossible = 0;
-			$achatRation = false;
+			$achatAliment = false;
 		}
 
-		$achatRationEtResto = true;
-		if ( floor($castarsRestants / $this->_coutCastars) < 1 || $achatRation == false){
-			$achatRationEtResto = false;
+		$achatAlimentEtResto = true;
+		if ( floor($castarsRestants / $this->_coutCastars) < 1 || $achatAliment == false){
+			$achatAlimentEtResto = false;
 		}
 
 		$tabChoix[1]["nom"] = "Se restaurer uniquement";
 		$tabChoix[1]["valid"] = $this->_utilisationPossible;
 		$tabChoix[1]["bouton"] = "Se Restaurer";
-		$tabChoix[2]["nom"] = "Acheter des rations uniquement";
-		$tabChoix[2]["valid"] = $achatRation;
+		$tabChoix[2]["nom"] = "Acheter des ragoûts uniquement";
+		$tabChoix[2]["valid"] = $achatAliment;
 		$tabChoix[2]["bouton"] = "Acheter";
-		$tabChoix[3]["nom"] = "Se restaurer et acheter des rations";
-		$tabChoix[3]["valid"] = $achatRationEtResto;
+		$tabChoix[3]["nom"] = "Se restaurer et acheter des ragoûts";
+		$tabChoix[3]["valid"] = $achatAlimentEtResto;
 		$tabChoix[3]["bouton"] = "Se Restaurer et Acheter";
 
 		$this->view->tabChoix = $tabChoix;
@@ -123,14 +124,42 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 	}
 
 	private function calculAchat() {
-		$labanTable = new Laban();
-		$data = array(
-			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
-			'quantite_ration_laban' => $this->view->nbAcheter,
-		);
-		$labanTable->insertOrUpdate($data);
-	}
+		Zend_Loader::loadClass("TypeAliment");
+		$typeAlimentTable = new TypeAliment();
+		$aliment = $typeAlimentTable->findById(TypeAliment::ID_TYPE_RAGOUT);
 
+		$this->view->qualiteAliment = 2; // qualite correcte
+		$this->view->bbdfAliment = $aliment->bbdf_base_type_aliment;
+		$this->view->aliment= $aliment;
+
+		$elementAlimentTable = new ElementAliment();
+		$labanAlimentTable = new LabanAliment();
+
+		for ($i = 1; $i <= $this->view->nbAcheter; $i++) {
+			$data = array(
+				"id_fk_type_element_aliment" => TypeAliment::ID_TYPE_RAGOUT,
+				"x_element_aliment" => $this->view->user->x_hobbit,
+				"y_element_aliment" => $this->view->user->y_hobbit,
+				"id_fk_hobbit_element_aliment" => $this->view->user->id_hobbit,
+				"id_fk_type_qualite_element_aliment" => $this->view->qualiteAliment,
+				"bbdf_element_aliment" => $this->view->bbdfAliment,
+			);
+			$idLastInsert = $elementAlimentTable->insert($data);
+
+			$where = "id_element_aliment = ".(int)$idLastInsert;
+			$elementAlimentTable->delete($where);
+
+			$data = array(
+				'id_laban_aliment' => $idLastInsert,
+				'id_fk_hobbit_laban_aliment' => $this->view->user->id_hobbit,
+				'id_fk_type_laban_aliment' => TypeAliment::ID_TYPE_RAGOUT,
+				'id_fk_type_qualite_laban_aliment' => $this->view->qualiteAliment,
+				'bbdf_laban_aliment' => $this->view->bbdfAliment,
+			);
+			$labanAlimentTable->insert($data);
+		}
+	}
+	
 	function getListBoxRefresh() {
 		return $this->constructListBoxRefresh(array("box_laban"));
 	}

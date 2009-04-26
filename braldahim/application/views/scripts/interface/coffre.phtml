@@ -101,6 +101,17 @@
 				</li>
 			</ul>
 		</li>
+		<li id="tiroirCoffreAliment">
+			<? $tiroirCoffres[] = "tiroirCoffreAliment-head" ?>
+      		<h3 id="tiroirCoffreAliment-head" class="head" onClick="maccordion(this);" />
+				Tiroir pour les aliments
+			</h3>
+			<ul id="tiroirCoffreAliment-body" style="display:none">
+				<li>
+					<? include("laban/poche_aliment.phtml") ?>
+				</li>
+			</ul>
+		</li>
 	</ul>
    <? 
    $jsFermer = "";

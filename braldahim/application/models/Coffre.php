@@ -30,14 +30,13 @@ class Coffre extends Zend_Db_Table {
 		$select->from('coffre', 'count(*) as nombre, 
 		quantite_viande_coffre as quantiteViande, 
 		quantite_peau_coffre as quantitePeau, 
-		quantite_ration_coffre as quantiteRation, 
 		quantite_viande_preparee_coffre as quantiteViandePreparee,
 		quantite_cuir_coffre as quantiteCuir,
 		quantite_fourrure_coffre as quantiteFourrure,
 		quantite_planche_coffre as quantitePlanche,
 		quantite_castar_coffre as quantiteCastar')
 		->where('id_fk_hobbit_coffre = ?',$data["id_fk_hobbit_coffre"])
-		->group(array('quantitePeau', 'quantiteViande', 'quantiteRation', 'quantiteViandePreparee', 'quantiteCuir', 'quantiteFourrure', 'quantitePlanche', 'quantiteCastar'));
+		->group(array('quantitePeau', 'quantiteViande', 'quantiteViandePreparee', 'quantiteCuir', 'quantiteFourrure', 'quantitePlanche', 'quantiteCastar'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -48,7 +47,6 @@ class Coffre extends Zend_Db_Table {
 			$quantitePeau = $resultat[0]["quantitePeau"];
 			$quantiteViande = $resultat[0]["quantiteViande"];
 			$quantiteViandePreparee = $resultat[0]["quantiteViandePreparee"];
-			$quantiteRation = $resultat[0]["quantiteRation"];
 			$quantiteCuir = $resultat[0]["quantiteCuir"];
 			$quantiteFourrure = $resultat[0]["quantiteFourrure"];
 			$quantitePlanche = $resultat[0]["quantitePlanche"];
@@ -62,9 +60,6 @@ class Coffre extends Zend_Db_Table {
 			}
 			if (isset($data['quantite_viande_preparee_coffre'])) {
 				$dataUpdate['quantite_viande_preparee_coffre'] = $quantiteViandePreparee + $data["quantite_viande_preparee_coffre"];
-			}
-			if (isset($data['quantite_ration_coffre'])) {
-				$dataUpdate['quantite_ration_coffre'] = $quantiteRation + $data["quantite_ration_coffre"];
 			}
 			if (isset($data['quantite_cuir_coffre'])) {
 				$dataUpdate['quantite_cuir_coffre'] = $quantiteCuir + $data["quantite_cuir_coffre"];
