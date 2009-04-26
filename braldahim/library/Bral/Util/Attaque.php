@@ -167,7 +167,7 @@ class Bral_Util_Attaque {
 					$hobbitCible->est_ko_hobbit = "oui";
 					$hobbitCible->nb_plaque_hobbit = $hobbitCible->nb_plaque_hobbit + 1;
 					$hobbitAttaquant->nb_hobbit_plaquage_hobbit = $hobbitAttaquant->nb_hobbit_plaquage_hobbit + 1;
-						
+
 					Zend_Loader::loadClass("Bral_Util_Soule");
 					$retourAttaque["ballonLache"] = Bral_Util_Soule::calcuLacheBallon($hobbitCible, true);
 					Bral_Util_Soule::majPlaquage($hobbitAttaquant, $hobbitCible);
@@ -246,7 +246,7 @@ class Bral_Util_Attaque {
 			}
 
 			$details .= " le hobbit [h".$cible["id_cible"]."]";
-			
+
 			if ($retourAttaque["ballonLache"] == true) {
 				$details .= ". Le ballon est tombé à terre !";
 			}
@@ -274,7 +274,7 @@ class Bral_Util_Attaque {
 			$hobbitTable->update($data, $where);
 			$retourAttaque["mort"] = false;
 			$retourAttaque["fragilisee"] = true;
-				
+
 			if ($hobbitAttaquant->est_soule_hobbit == "non") {
 				$id_type = $config->game->evenements->type->attaquer;
 				$idMatchSoule = null;
@@ -411,50 +411,54 @@ Consultez vos événements pour plus de détails.";
 
 			Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetDegat=".$retourAttaque["jetDegat"]);
 
-			if (!$degatCase) {
-				$effetMotE = Bral_Util_Commun::getEffetMotE($hobbitAttaquant->id_hobbit);
-				if ($effetMotE != null) {
-					$retourAttaque["effetMotE"] = true;
-					$gainPv = ($retourAttaque["jetDegat"] / 2);
-					if ($gainPv > $effetMotE * 3) {
-						$gainPv = $effetMotE * 3;
-					}
-					$retourAttaque["effetMotEPoints"] = $gainPv;
-					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotE True effetMotE=".$effetMotE." gainPv=".$gainPv);
-
-					$hobbitAttaquant->pv_restant_hobbit = $hobbitAttaquant->pv_restant_hobbit + $gainPv;
-					if ($hobbitAttaquant->pv_restant_hobbit > $hobbitAttaquant->pv_max_hobbit + $hobbitAttaquant->pv_max_bm_hobbit) {
-						$hobbitAttaquant->pv_restant_hobbit = $hobbitAttaquant->pv_max_hobbit + $hobbitAttaquant->pv_max_bm_hobbit;
+			// si c'est un gibier = pas d'effet de mot
+			if ($monstre["id_fk_type_groupe_monstre"] != $config->game->groupe_monstre->type->gibier) {
+				if (!$degatCase) {
+					$effetMotE = Bral_Util_Commun::getEffetMotE($hobbitAttaquant->id_hobbit);
+					if ($effetMotE != null) {
+						$retourAttaque["effetMotE"] = true;
+						$gainPv = ($retourAttaque["jetDegat"] / 2);
+						if ($gainPv > $effetMotE * 3) {
+							$gainPv = $effetMotE * 3;
+						}
+						$retourAttaque["effetMotEPoints"] = $gainPv;
+						Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotE True effetMotE=".$effetMotE." gainPv=".$gainPv);
+	
+						$hobbitAttaquant->pv_restant_hobbit = $hobbitAttaquant->pv_restant_hobbit + $gainPv;
+						if ($hobbitAttaquant->pv_restant_hobbit > $hobbitAttaquant->pv_max_hobbit + $hobbitAttaquant->pv_max_bm_hobbit) {
+							$hobbitAttaquant->pv_restant_hobbit = $hobbitAttaquant->pv_max_hobbit + $hobbitAttaquant->pv_max_bm_hobbit;
+						}
 					}
 				}
-			}
 
-			$effetMotG = Bral_Util_Commun::getEffetMotG($hobbitAttaquant->id_hobbit);
-			if ($effetMotG != null) {
-				$retourAttaque["effetMotG"] = true;
-				$retourAttaque["jetDegat"] = $retourAttaque["jetDegat"] + $effetMotG;
-				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotG True (degats ajoutes=".$effetMotG."), jetDegat apres MotG =".$retourAttaque["jetDegat"]);
-			}
+			
+				$effetMotG = Bral_Util_Commun::getEffetMotG($hobbitAttaquant->id_hobbit);
+				if ($effetMotG != null) {
+					$retourAttaque["effetMotG"] = true;
+					$retourAttaque["jetDegat"] = $retourAttaque["jetDegat"] + $effetMotG;
+					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotG True (degats ajoutes=".$effetMotG."), jetDegat apres MotG =".$retourAttaque["jetDegat"]);
+				}
 
-			$effetMotI = Bral_Util_Commun::getEffetMotI($hobbitAttaquant->id_hobbit);
-			if ($effetMotI != null) {
-				$retourAttaque["effetMotI"] = true;
-				$monstre["regeneration_malus_monstre"] = $monstre["regeneration_malus_monstre"] + $effetMotI;
-				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotI True (regeneration ajoutee=".$effetMotI."), monstre->regeneration_malus_monstre=".$monstre["regeneration_malus_monstre"]);
-			}
+				$effetMotI = Bral_Util_Commun::getEffetMotI($hobbitAttaquant->id_hobbit);
+				if ($effetMotI != null) {
+					$retourAttaque["effetMotI"] = true;
+					$monstre["regeneration_malus_monstre"] = $monstre["regeneration_malus_monstre"] + $effetMotI;
+					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotI True (regeneration ajoutee=".$effetMotI."), monstre->regeneration_malus_monstre=".$monstre["regeneration_malus_monstre"]);
+				}
 
-			$effetMotJ = Bral_Util_Commun::getEffetMotJ($hobbitAttaquant->id_hobbit);
-			if ($effetMotJ != null) {
-				$retourAttaque["effetMotJ"] = true;
-				$monstre["vue_malus_monstre"] = $monstre["vue_malus_monstre"] + $effetMotJ;
-			}
+				$effetMotJ = Bral_Util_Commun::getEffetMotJ($hobbitAttaquant->id_hobbit);
+				if ($effetMotJ != null) {
+					$retourAttaque["effetMotJ"] = true;
+					$monstre["vue_malus_monstre"] = $monstre["vue_malus_monstre"] + $effetMotJ;
+				}
 
-			$effetMotQ = Bral_Util_Commun::getEffetMotQ($hobbitAttaquant->id_hobbit);
-			if ($effetMotQ != null) {
-				$retourAttaque["effetMotQ"] = true;
-				$monstre["agilite_malus_monstre"] = $monstre["agilite_malus_monstre"] + $effetMotQ;
-				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotQ True (agilite malus=".$effetMotQ."), monstre->agilite_malus_monstre=".$monstre["agilite_malus_monstre"]);
-				$monstre["agilite_bm_monstre"] = $monstre["agilite_bm_monstre"] + $monstre["agilite_malus_monstre"];
+				$effetMotQ = Bral_Util_Commun::getEffetMotQ($hobbitAttaquant->id_hobbit);
+				if ($effetMotQ != null) {
+					$retourAttaque["effetMotQ"] = true;
+					$monstre["agilite_malus_monstre"] = $monstre["agilite_malus_monstre"] + $effetMotQ;
+					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotQ True (agilite malus=".$effetMotQ."), monstre->agilite_malus_monstre=".$monstre["agilite_malus_monstre"]);
+					$monstre["agilite_bm_monstre"] = $monstre["agilite_bm_monstre"] + $monstre["agilite_malus_monstre"];
+				}
 			}
 
 			//on enlève l'armure naturelle du monstre
@@ -473,27 +477,32 @@ Consultez vos événements pour plus de détails.";
 
 			if ($monstre["pv_restant_monstre"] <= 0) {
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Mort du monstre !");
-				$effetD = null;
-				$effetH = null;
 
-				$hobbitAttaquant->nb_monstre_kill_hobbit = $hobbitAttaquant->nb_monstre_kill_hobbit + 1;
+				// si c'est un gibier, on n'incrémente pas de compteur, pas d'effet de mot non plus
+				if ($monstre["id_fk_type_groupe_monstre"] != $config->game->groupe_monstre->type->gibier) {
 
-				$effetD = Bral_Util_Commun::getEffetMotD($hobbitAttaquant->id_hobbit);
-				if ($effetD != 0) {
-					$retourAttaque["effetMotD"]= true;
-					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetD=".$effetD);
-				}
+					$effetD = null;
+					$effetH = null;
+						
+					$hobbitAttaquant->nb_monstre_kill_hobbit = $hobbitAttaquant->nb_monstre_kill_hobbit + 1;
 
-				$effetH = Bral_Util_Commun::getEffetMotH($hobbitAttaquant->id_hobbit);
-				if ($effetH == true) {
-					$retourAttaque["effetMotH"] = true;
-					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetH=".$effetH);
-				}
+					$effetD = Bral_Util_Commun::getEffetMotD($hobbitAttaquant->id_hobbit);
+					if ($effetD != 0) {
+						$retourAttaque["effetMotD"]= true;
+						Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetD=".$effetD);
+					}
 
-				if (Bral_Util_Commun::getEffetMotL($hobbitAttaquant->id_hobbit) == true) {
-					$hobbitAttaquant->pa_hobbit = $hobbitAttaquant->pa_hobbit + 3;
-					$retourAttaque["effetMotL"] = true;
-					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotL True hobbitAttaquant->pa_hobbit=".$hobbitAttaquant->pa_hobbit);
+					$effetH = Bral_Util_Commun::getEffetMotH($hobbitAttaquant->id_hobbit);
+					if ($effetH == true) {
+						$retourAttaque["effetMotH"] = true;
+						Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetH=".$effetH);
+					}
+
+					if (Bral_Util_Commun::getEffetMotL($hobbitAttaquant->id_hobbit) == true) {
+						$hobbitAttaquant->pa_hobbit = $hobbitAttaquant->pa_hobbit + 3;
+						$retourAttaque["effetMotL"] = true;
+						Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotL True hobbitAttaquant->pa_hobbit=".$hobbitAttaquant->pa_hobbit);
+					}
 				}
 
 				Zend_Loader::loadClass("Bral_Util_Quete");

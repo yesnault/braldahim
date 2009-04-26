@@ -465,8 +465,8 @@ Consultez vos événements pour plus de détails.";
 		$where = "id_monstre=".$id_monstre;
 		$monstreTable->update($data, $where);
 
-		self::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $niveauHobbit, $monstre["id_fk_groupe_monstre"], $effetMotD);
-		$this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $effetMotH, $niveauHobbit, $monstre["id_fk_groupe_monstre"]);
+		self::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $niveauHobbit, $monstre["id_fk_type_groupe_monstre"], $effetMotD);
+		$this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $effetMotH, $niveauHobbit, $monstre["id_fk_type_groupe_monstre"]);
 	}
 
 	public static function dropRune($x, $y, $niveauTue, $niveauHobbit, $idTypeGroupeMonstre, $effetMotD = 0) {
