@@ -11,7 +11,12 @@ if ($case["n_cadavres"] > 0) :
       	$textCadavre .= ": 	<br>";
       	foreach($case["cadavres"] as $c) {
       		$textCadavre .= '<label class=\\\'alabel\\\' onClick=ouvrirWin(\\\'\/voir\/monstre\/?monstre='.$c["id_monstre"].'\\\'); title=\\\'Voir le profil\\\' >';
-      		$textCadavre .= htmlspecialchars($c["nom_monstre"]) ." ".htmlspecialchars($c["taille_monstre"])." (n&deg;".$c["id_monstre"].")</label><br>";
+	      	if ($c["est_gibier"]) {
+				$textCadavre .= "Gibier : ";
+			}
+      		$textCadavre .= htmlspecialchars($c["nom_monstre"]) ." ".htmlspecialchars($c["taille_monstre"])." (n&deg;".$c["id_monstre"].")</label>";
+      		$textCadavre .= ' <img src=\\\'/public/images/puce_event.gif\\\' title=\\\'Voir les événements\\\' border=\\\'0\\\' onClick=ouvrirEvenementsM('.$c["id_monstre"].'); style=\\\'cursor:pointer\\\'/> ';
+			$textCadavre .= "<br />";
 		} 
 		$s = "";
 		if ($case["n_cadavres"] > 1) {

@@ -23,9 +23,9 @@ class Bral_Monstres_VieSolitaire {
         try {
             // recuperation des monstres a jouer
 			$monstreTable = new Monstre();
-			$monstres = $monstreTable->findMonstresAJouerSansGroupe(true, $this->config->game->monstre->nombre_groupe_a_jouer);
+			$monstres = $monstreTable->findMonstresAJouerSansGroupe(true, $this->config->game->monstre->nombre_groupe_a_jouer, false);
 			$this->traiteSolitaires($monstres, true);
-			$monstres = $monstreTable->findMonstresAJouerSansGroupe(false, $this->config->game->monstre->nombre_groupe_a_jouer);
+			$monstres = $monstreTable->findMonstresAJouerSansGroupe(false, $this->config->game->monstre->nombre_groupe_a_jouer, false);
 			$this->traiteSolitaires($monstres, false);
         } catch (Exception $e) {
             Bral_Util_Log::erreur()->err(get_class($this)." - vieSolitairesAction - Erreur:".$e->getTraceAsString());
@@ -139,7 +139,6 @@ class Bral_Monstres_VieSolitaire {
      */
     protected function deplacementSolitaire(&$monstre, $fuite = false) {
         Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementSolitaire - enter");
-        // si le role_a est sur la direction, on deplacement le groupe
         
         if ($fuite ||
         	(($monstre["x_monstre"] == $monstre["x_direction_monstre"]) && //

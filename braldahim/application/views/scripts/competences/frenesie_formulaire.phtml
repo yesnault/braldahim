@@ -25,7 +25,7 @@
 				<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_frenesie').disabled=true } else {$('valeur_2').value=-1; $('bouton_frenesie').disabled=false }">
 				<option value='-1'>(Choisissez un monstre)</option>
 				<? foreach ($this->tabMonstres as $m) : ?>
-				<option value="<?=$m["id_monstre"]?>"><?=htmlspecialchars($m["nom_monstre"])?> <?=htmlspecialchars($m["taille_monstre"])?>  (<?=$m["id_monstre"]?>)</option>
+				<option value="<?=$m["id_monstre"]?>"><? if ($m["est_gibier"]): ?>Gibier : <? endif;?><?=htmlspecialchars($m["nom_monstre"])?> <?=htmlspecialchars($m["taille_monstre"])?>  (<?=$m["id_monstre"]?>)</option>
 				<? endforeach; ?>
 				</select><br /><br />
 			<? else: ?>

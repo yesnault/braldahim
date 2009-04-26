@@ -292,7 +292,12 @@ class Bral_Box_Vue extends Bral_Box_Box {
 								} else {
 									$c_taille = $c["nom_taille_m_monstre"];
 								}
-								$tabCadavres[] = array("id_monstre" => $c["id_monstre"], "nom_monstre" => $c["nom_type_monstre"], 'taille_monstre' => $c_taille);
+								if ($c["id_fk_type_groupe_monstre"] == $this->view->config->game->groupe_monstre->type->gibier) {
+									$estGibier = true;
+								} else {
+									$estGibier = false;
+								}
+								$tabCadavres[] = array("id_monstre" => $c["id_monstre"], "nom_monstre" => $c["nom_type_monstre"], 'taille_monstre' => $c_taille, 'est_gibier' => $estGibier);
 							}
 						}
 					}
@@ -468,7 +473,12 @@ class Bral_Box_Vue extends Bral_Box_Box {
 								} else {
 									$m_taille = $m["nom_taille_m_monstre"];
 								}
-								$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"]);
+								if ($m["id_fk_type_groupe_monstre"] == $this->view->config->game->groupe_monstre->type->gibier) {
+									$estGibier = true;
+								} else {
+									$estGibier = false;
+								}
+								$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"], "est_gibier" => $estGibier);
 							}
 						}
 					}

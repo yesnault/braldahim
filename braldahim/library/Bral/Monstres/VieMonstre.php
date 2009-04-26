@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -15,12 +15,12 @@ class Bral_Monstres_VieMonstre {
 	private $monstre = null;
 	private static $config = null;
 
-	 public static function getInstance() {
+	public static function getInstance() {
 		Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getInstance - enter");
-		
+
 		if (self::$instance == null) {
 			Zend_Loader::loadClass("Palissade");
-			
+				
 			self::$config = Zend_Registry::get('config');
 			self::$instance = new self();
 			Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getInstance - nouvelle instance - exit");
@@ -60,21 +60,21 @@ class Bral_Monstres_VieMonstre {
 		if ($this->monstre["pa_monstre"] == 0) {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - Le monstre n'a plus de PA");
 		}
-		
+
 		$palissadeTable = new Palissade();
 		$x_min = $this->monstre["x_monstre"] - $this->monstre["vue_monstre"];
 		$x_max = $this->monstre["x_monstre"] + $this->monstre["vue_monstre"];
 		$y_min = $this->monstre["y_monstre"] - $this->monstre["vue_monstre"];
 		$y_max = $this->monstre["y_monstre"] + $this->monstre["vue_monstre"];
-		
+
 		$palissades = $palissadeTable->selectVue($x_min, $y_min, $x_max, $y_max);
-		
+
 		$this->tabValidationPalissade = null;
 		for ($j = 12; $j >= -12; $j--) {
 			for ($i = -12; $i <= 12; $i++) {
 				$x = $this->monstre["x_monstre"] + $i;
-			 	$y = $this->monstre["y_monstre"] + $j;
-			 	$this->tabValidationPalissade[$x][$y] = true;
+				$y = $this->monstre["y_monstre"] + $j;
+				$this->tabValidationPalissade[$x][$y] = true;
 			}
 		}
 		foreach($palissades as $p) {
@@ -85,12 +85,12 @@ class Bral_Monstres_VieMonstre {
 		Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") - nb pa a jouer=".$pa_a_jouer. " destination x=".$x_destination." y=".$y_destination);
 		$nb_pa_joues = 0;
 		while ((($x_destination != $this->monstre["x_monstre"]) || ($y_destination != $this->monstre["y_monstre"])) && ($nb_pa_joues < $pa_a_jouer)) {
-			
+				
 			$x_monstre = $this->monstre["x_monstre"];
 			$y_monstre = $this->monstre["y_monstre"];
 			$x_offset = 0;
 			$y_offset = 0;
-			
+				
 			if ($this->monstre["x_monstre"] < $x_destination) {
 				$x_monstre = $this->monstre["x_monstre"] + 1;
 				$x_offset = +1;
@@ -105,7 +105,7 @@ class Bral_Monstres_VieMonstre {
 				$y_monstre = $this->monstre["y_monstre"] - 1;
 				$y_offset = -1;
 			}
-			
+				
 			if ($this->tabValidationPalissade[$x_monstre][$y_monstre] == true) {
 				$this->monstre["x_monstre"] = $x_monstre;
 				$this->monstre["y_monstre"] = $y_monstre;
@@ -119,7 +119,7 @@ class Bral_Monstres_VieMonstre {
 				$this->monstre["y_monstre"] = $this->monstre["y_monstre"] + $y_offset;
 				$modif = true;
 			}
-				
+
 			$nb_pa_joues = $nb_pa_joues + 1;
 			$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - 1;
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") nouvelle position x=".$this->monstre["x_monstre"]." y=".$this->monstre["y_monstre"].", pa restant=".$this->monstre["pa_monstre"]);
@@ -135,9 +135,9 @@ class Bral_Monstres_VieMonstre {
 
 	public function attaque($view) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaque - enter");
-		
+
 		$this->calculTour();
-		
+
 		if ($this->monstre["id_fk_hobbit_cible_monstre"] != null) {
 			$hobbitTable = new Hobbit();
 			$cibleDuMonstre = $hobbitTable->findById($m["id_fk_hobbit_cible_monstre"]);
@@ -149,7 +149,7 @@ class Bral_Monstres_VieMonstre {
 			return null; // pas de cible
 		}
 	}
-	
+
 	public function attaqueCible(&$cible, $view) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - enter");
 		$koCible = false;
@@ -159,7 +159,7 @@ class Bral_Monstres_VieMonstre {
 		}
 
 		$this->calculTour();
-		
+
 		// on regarde si la cible est dans la vue du monstre
 		if (($cible["x_hobbit"] > $this->monstre["x_monstre"] + $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])
 		|| ($cible["x_hobbit"] < $this->monstre["x_monstre"] - $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])
@@ -196,7 +196,7 @@ class Bral_Monstres_VieMonstre {
 			}
 			$jetDegat = $this->calculDegat($critique);
 			$jetDegat = Bral_Util_Commun::getEffetMotA($cible["id_hobbit"], $jetDegat);
-			
+				
 			$pvPerdus = $jetDegat - $cible["armure_naturelle_hobbit"] - $cible["armure_equipement_hobbit"];
 			if ($pvPerdus < 0) {
 				$pvPerdus = 1; // on perd 1 pv quoi qu'il arrive
@@ -228,13 +228,13 @@ class Bral_Monstres_VieMonstre {
 				$effetMotS = Bral_Util_Commun::getEffetMotS($cible["id_hobbit"]);
 				$this->updateCible($cible);
 				if ($effetMotS != null) {
-					$detailsBot .= " 
+					$detailsBot .= "
 Le hobbit ".$cible["prenom_hobbit"]." ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ") a riposté.
 Consultez vos événements pour plus de détails.";
-						
+
 					// mise a jour de l'événement avant la riposte
 					$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
-					
+						
 					Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - La cible (".$cible["id_hobbit"].") possede le mot S -> Riposte");
 					$hobbitTable = new Hobbit();
 					$hobbitRowset = $hobbitTable->find($cible["id_hobbit"]);
@@ -243,11 +243,11 @@ Consultez vos événements pour plus de détails.";
 					$jetsDegat = Bral_Util_Attaque::calculDegatAttaqueNormale($hobbitAttaquant);
 					$jetCible = Bral_Util_Attaque::calculJetCibleMonstre($this->monstre);
 					Bral_Util_Attaque::attaqueMonstre($hobbitAttaquant, $this->monstre, $jetAttaquant, $jetCible, $jetsDegat, false, false, true);
-				
+
 				} else { // si pas de riposte, mise a jour de l'événement
 					$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
 				}
-				
+
 			}
 
 		} else if ($jetCible/2 < $jetAttaquant) {
@@ -292,7 +292,7 @@ Consultez vos événements pour plus de détails.";
 			}
 			$this->monstre["duree_prochain_tour_monstre"] = $this->monstre["duree_base_tour_monstre"];
 			$this->monstre["pa_monstre"] = self::$config->game->monstre->pa_max;
-			
+				
 			Zend_Loader::loadClass("Bral_Util_EffetsPotion");
 			$monstreTable = new Monstre();
 			$monstreRowset = $monstreTable->find($this->monstre["id_monstre"]);
@@ -315,16 +315,16 @@ Consultez vos événements pour plus de détails.";
 		}
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - exit");
 	}
-	
+
 	private function calulRegeneration() {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calulRegeneration - enter");
-		
+
 		if ($this->monstre["pv_restant_monstre"] < $this->monstre["pv_max_monstre"]) {
 			$this->monstre["regeneration_monstre"] = floor($this->monstre["vigueur_base_monstre"] / 4) + 1;
 			$jet = Bral_Util_Vie::calculRegenerationMonstre($this->monstre);
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - jet de regeneration:".$jet);
 		}
-		
+
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calulRegeneration - exit");
 	}
 
@@ -376,9 +376,9 @@ Consultez vos événements pour plus de détails.";
 
 	private function updateCible(&$cible) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateCible - enter (id_hobbit=".$cible["id_hobbit"].")");
-		
+
 		Bral_Util_Attaque::calculStatutEngage(&$cible);
-		
+
 		// Mise a jour de la cible
 		$hobbitTable = new Hobbit();
 		$data = array(
@@ -431,58 +431,64 @@ Consultez vos événements pour plus de détails.";
 		Bral_Util_Evenement::majEvenementsFromVieMonstre($id_hobbit, $id_monstre, $id_type_evenement, $details, $detailsBot, $niveau, $view);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - majEvenements - exit");
 	}
-	
+
 	/*
 	 * Mort d'un monstre : mise à jour table monstre
 	 * Drop Rune
 	 */
 	public function mortMonstreDb($id_monstre, $effetMotD, $effetMotH, $niveauHobbit) {
-	
+
 		if ($id_monstre == null || (int)$id_monstre<=0 ) {
 			throw new Zend_Exception(get_class($this)."::mortMonstreDb id_monstre inconnu:".$id_monstre);
 		}
-		
+
 		Zend_Loader::loadClass("Monstre");
-		
+
 		$monstreTable = new Monstre();
 		$monstreRowset = $monstreTable->findById($id_monstre);
 		$monstre = $monstreRowset;
-		
+
 		if ($monstre == null || $monstre["id_monstre"] == null || $monstre["id_monstre"] == "") {
 			throw new Zend_Exception(get_class($this)."::mortMonstreDb monstre inconnu");
 		}
-		
+
 		$dateCreation = date("Y-m-d H:i:s");
 		$nbJours = Bral_Util_De::get_1d20();
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-		
+
 		$data = array(
 			"date_fin_cadavre_monstre" => $dateFin,
 			"est_mort_monstre" => "oui",
 			"id_fk_groupe_monstre" => null,
 		);
-		
+
 		$where = "id_monstre=".$id_monstre;
 		$monstreTable->update($data, $where);
-		
-		self::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $niveauHobbit);
-		$this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $effetMotH, $niveauHobbit);
+
+		self::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $niveauHobbit, $monstre["id_fk_groupe_monstre"], $effetMotD);
+		$this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $effetMotH, $niveauHobbit, $monstre["id_fk_groupe_monstre"]);
 	}
-	
-	public static function dropRune($x, $y, $niveauTue, $niveauHobbit, $effetMotD = 0) {
+
+	public static function dropRune($x, $y, $niveauTue, $niveauHobbit, $idTypeGroupeMonstre, $effetMotD = 0) {
+
+		if ($idTypeGroupeMonstre == self::$config->game->groupe_monstre->type->gibier) {
+			// pas de drop de castar pour les gibiers
+			return;
+		}
+
 		Zend_Loader::loadClass("ElementRune");
 		Zend_Loader::loadClass("TypeRune");
-		
+
 		//Si 10+2*(Niv tué - Niveau attaquant)+Niveau tué <= 0 alors pas de drop de rune
 		if ((10 + 2 * ($niveauTue - $niveauHobbit) + $niveauTue) <= 0) {
 			Bral_Util_Log::viemonstres()->debug(" - dropRune - pas de drop de rune : niveauTue=".$niveauTue." niveauHobbit=".$niveauHobbit);
 			return;
 		}
-		
+
 		$tirage = Bral_Util_De::get_1d100();
-		
+
 		Bral_Util_Log::viemonstres()->debug(" - dropRune - tirage=".$tirage. " niveauTue=".$niveauTue. " effetMotD=".$effetMotD);
-		
+
 		if ($tirage >= 1 && $tirage <= 1 + ($niveauTue/4) + $effetMotD) {
 			$niveauRune = 'a';
 		} else if ($tirage >= 2 && $tirage <= 20 + ($niveauTue/4) + $effetMotD) {
@@ -492,25 +498,25 @@ Consultez vos événements pour plus de détails.";
 		} else { //if ($tirage >= 31 && $tirage <= 100 - ($niveau/4) + $effetMotD) {
 			$niveauRune = 'd';
 		}
-		
+
 		Bral_Util_Log::viemonstres()->debug(" - dropRune - niveau retenu=".$niveauRune);
-		
+
 		$typeRuneTable = new TypeRune();
 		$typeRuneRowset = $typeRuneTable->findByNiveau($niveauRune);
-		
+
 		if (!isset($typeRuneRowset) || count($typeRuneRowset) == 0) {
 			return; // rien à faire, doit jamais arriver
 		}
-		
+
 		$nbType = count($typeRuneRowset);
 		$numeroRune = Bral_Util_De::get_de_specifique(0, $nbType-1);
-		
+
 		$typeRune = $typeRuneRowset[$numeroRune];
-		
+
 		$dateCreation = date("Y-m-d H:i:s");
 		$nbJours = Bral_Util_De::get_2d10();
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-		
+
 		$elementRuneTable = new ElementRune();
 		$data = array(
 			"x_element_rune"  => $x,
@@ -519,10 +525,10 @@ Consultez vos événements pour plus de détails.";
 			"date_depot_element_rune" => $dateCreation,
 			"date_fin_element_rune" => $dateFin,
 		);
-		
+
 		$elementRuneTable = new ElementRune();
 		$elementRuneTable->insert($data);
-		
+
 		Zend_Loader::loadClass("StatsRunes");
 		$statsRunes = new StatsRunes();
 		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
@@ -531,43 +537,49 @@ Consultez vos événements pour plus de détails.";
 		$dataRunes["nb_rune_stats_runes"] = 1;
 		$statsRunes->insertOrUpdate($dataRunes);
 	}
-	
-	private function dropCastars($x, $y, $niveauMonstre, $effetMotH, $niveauHobbit) {
+
+	private function dropCastars($x, $y, $niveauMonstre, $effetMotH, $niveauHobbit, $idTypeGroupeMonstre) {
+
+		if ($idTypeGroupeMonstre == self::$config->game->groupe_monstre->type->gibier) {
+			// pas de drop de castar pour les gibiers
+			return;
+		}
+
 		Zend_Loader::loadClass("Castar");
-		
+
 		$nbCastars = 10 * $niveauMonstre + Bral_Util_De::get_1d5();
-		if ($effetMotH == true) { 
+		if ($effetMotH == true) {
 			$nbCastars = $nbCastars * 2;
 		}
-		
+
 		if ((10 + 2 * ($niveauMonstre - $niveauHobbit) + $niveauMonstre) <= 0) {
 			$nbCastars = $nbCastars / 2;
 		}
-		
+
 		$castarTable = new Castar();
 		$data = array(
 			"x_castar"  => $x,
 			"y_castar" => $y,
 			"nb_castar" => $nbCastars,
 		);
-		
+
 		$castarTable = new Castar();
 		$castarTable->insertOrUpdate($data);
 	}
-	
+
 	private function getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat = 0, $critique = false, $pvPerdus = 0, $koCible = false) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
 		$retour = "";
 
 		$retour .= "Vous avez été attaqué par ".$this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].")";
-		
+
 		$retour .= "
 Jet d'attaque : ".$jetAttaquant;
 		$retour .= "
 Jet de défense : ".$jetCible;
 		$retour .= "
 Jet de dégâts : ".$jetDegat;
-		
+
 		if ($jetAttaquant > $jetCible) {
 			if ($critique) {
 				$retour .= "
@@ -576,7 +588,7 @@ Vous avez été touché par une attaque critique";
 				$retour .= "
 Vous avez été touché";
 			}
-			
+				
 			if ($cible["armure_naturelle_hobbit"] > 0) {
 				$retour .= "
 Votre armure naturelle vous a protégé en réduisant les dégâts de ";
@@ -585,7 +597,7 @@ Votre armure naturelle vous a protégé en réduisant les dégâts de ";
 				$retour .= "
 Votre armure naturelle ne vous a pas protégé (ARM NAT:".$cible["armure_naturelle_hobbit"].")"; 	
 			}
-			
+				
 			if ($cible["armure_equipement_hobbit"] > 0) {
 				$retour .= "
 Votre équipement vous a protégé en réduisant les dégâts de ";
@@ -594,14 +606,14 @@ Votre équipement vous a protégé en réduisant les dégâts de ";
 				$retour .= "
 Aucun équipement ne vous a protégé (ARM EQU:".$cible["armure_equipement_hobbit"].")"; 	
 			}
-			
+				
 			$retour .= "
 Vous avez perdu ".$pvPerdus. " PV ";
 			$retour .= "
 Il vous reste ".$cible["pv_restant_hobbit"]." PV ";
-			
+				
 			if ($koCible) {
-			$retour .= "
+				$retour .= "
 Vous avez été mis KO";
 			}
 		} else if ($jetCible/2 < $jetAttaquant) { // esquive
@@ -611,30 +623,30 @@ Vous avez esquivé l'attaque";
 			$retour .= "
 Vous avez esquivé parfaitement l'attaque";
 		}
-		
+
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
 		return $retour;
 	}
-	
+
 	public static function getTabXYRayon($niveau, $villes, $directionX, $directionY, $offsetX = null, $offsetY = null) {
 		$tab["x_direction"] = $directionX;
 		$tab["y_direction"] = $directionY;
-		
+
 		$rayonMin = $niveau * 4;
-		
+
 		if ($offsetX == null || $offsetY == null) {
 			$offsetX = $rayonMin;
 			$offsetY = $rayonMin;
 		}
-		
+
 		foreach($villes as $v) {
 			// vérification rayon
 			$estPasse = false;
 			if ($v["x_min_ville"] - $rayonMin <= $directionX && $v["x_max_ville"] + $rayonMin >= $directionX
 			&& $v["y_min_ville"] - $rayonMin <= $directionY && $v["y_max_ville"] + $rayonMin >= $directionY) {
-				
+
 				Bral_Util_Log::viemonstres()->debug("Bral_Monstres_VieMonstre - getTabXYRayon - monstre en ville, niveau $niveau xmin:".$v["x_min_ville"] ." xmax:".$v["x_max_ville"] ." ymin:".$v["y_min_ville"] ." ymax:".$v["y_max_ville"]. " directionX:".$directionX. " directionY:".$directionY. " offsetX:".$offsetX. " offsetY:".$offsetY);
-				
+
 				if ($v["x_min_ville"] - $rayonMin <= $directionX && $v["x_max_ville"] + $rayonMin >= $directionX) {
 					if ($directionX <= $v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2) { // centre x de la ville
 						Bral_Util_Log::viemonstres()->debug("Bral_Monstres_VieMonstre - getTabXYRayon choix A offsetX=$offsetX");
@@ -652,7 +664,7 @@ Vous avez esquivé parfaitement l'attaque";
 						}
 					}
 				}
-			
+					
 				if ($v["y_min_ville"] - $rayonMin <= $directionY && $v["y_max_ville"] + $rayonMin >= $directionY) {
 					if ($directionY <= $v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"]) / 2) { // centre y de la ville
 						Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon choix C offsetY=$offsetY");
@@ -676,7 +688,7 @@ Vous avez esquivé parfaitement l'attaque";
 				break;
 			}
 		}
-        $tab["x_direction"] = $directionX;
+		$tab["x_direction"] = $directionX;
 		$tab["y_direction"] = $directionY;
 		$tab["est_traite"] = $estPasse;
 		return $tab;

@@ -62,7 +62,12 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 				} else {
 					$m_taille = $m["nom_taille_m_monstre"];
 				}
-				$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"]);
+				if ($m["id_fk_type_groupe_monstre"] == $this->view->config->game->groupe_monstre->type->gibier) {
+					$estGibier = true;
+				} else {
+					$estGibier = false;
+				}
+				$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"], 'est_gibier' => $estGibier);
 			}
 
 			$this->view->tabHobbits = $tabHobbits;

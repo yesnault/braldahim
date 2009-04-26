@@ -30,7 +30,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 			$armeTirPortee = true;
 		} else if ($this->view->user->est_intangible_hobbit == "non") {
 			$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-				
+
 			if ($estRegionPvp) {
 				// recuperation des hobbits qui sont presents sur la case
 				$hobbitTable = new Hobbit();
@@ -47,7 +47,7 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 					}
 				}
 			}
-				
+
 			// recuperation des monstres qui sont presents sur la case
 			$monstreTable = new Monstre();
 			$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
@@ -57,7 +57,12 @@ class Bral_Competences_Attaquer extends Bral_Competences_Competence {
 				} else {
 					$m_taille = $m["nom_taille_m_monstre"];
 				}
-				$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"]);
+				if ($m["id_fk_type_groupe_monstre"] == $this->view->config->game->groupe_monstre->type->gibier) {
+					$estGibier = true;
+				} else {
+					$estGibier = false;
+				}
+				$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"], 'est_gibier' => $estGibier);
 			}
 			$this->view->tabHobbits = $tabHobbits;
 			$this->view->nHobbits = count($tabHobbits);

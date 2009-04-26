@@ -22,6 +22,7 @@ class Bral_Batchs_Viemonstres extends Bral_Batchs_Batch {
         Zend_Loader::loadClass("Bral_Monstres_VieGroupesNuee");
         Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
         Zend_Loader::loadClass("Bral_Monstres_VieSolitaire");
+        Zend_Loader::loadClass("Bral_Monstres_VieGibier");
         Zend_Loader::loadClass("Bral_Util_Evenement");
         Zend_Loader::loadClass("Bral_Util_Attaque");
         Zend_Loader::loadClass("Bral_Util_Vie");
@@ -30,17 +31,19 @@ class Bral_Batchs_Viemonstres extends Bral_Batchs_Batch {
         $villeTable = new Ville();
 		$villes = $villeTable->fetchAll();
 		
-		$vieGroupe = new Bral_Monstres_VieGroupesNuee($this->view, $villes);
+/*		$vieGroupe = new Bral_Monstres_VieGroupesNuee($this->view, $villes);
        	$vieGroupe->action();
         
         $vieSolitaire = new Bral_Monstres_VieSolitaire($this->view, $villes);
         $vieSolitaire->action();
+  */      
+        $vieGibier = new Bral_Monstres_VieGibier($this->view, $villes);
+        $vieGibier->action();
 		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Viemonstres - calculBatchImpl - exit -");
 		return $retour;
 	}
 	
 	private function purgeBatch() {
-        
 	}
 }

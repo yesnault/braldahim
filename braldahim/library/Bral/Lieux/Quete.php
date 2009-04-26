@@ -666,7 +666,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 
 		if ($dataTypeEtape["param1"] == Bral_Util_Metier::METIER_CHASSEUR_ID) { // chasseur
 			$dataTypeEtape["param2"] = Bral_Util_De::get_de_specifique(20, 30);
-			$dataTypeEtape["libelle_etape"] .= "chasser et obtenir ".$dataTypeEtape["param2"]. " peaux";
+			$dataTypeEtape["libelle_etape"] .= "dépiauter ".$dataTypeEtape["param2"]. " peaux";
 		} else if ($dataTypeEtape["param1"] == Bral_Util_Metier::METIER_HERBORISTE_ID) { // herbo
 			$dataTypeEtape["param2"] = Bral_Util_De::get_de_specifique(10, 20);
 			$dataTypeEtape["libelle_etape"] .= "cueillir ".$dataTypeEtape["param2"]. " parties de plantes";

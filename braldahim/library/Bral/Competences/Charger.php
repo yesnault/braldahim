@@ -141,6 +141,11 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 				} else {
 					$m_taille = $m["nom_taille_m_monstre"];
 				}
+				if ($m["id_fk_type_groupe_monstre"] == $this->view->config->game->groupe_monstre->type->gibier) {
+					$estGibier = true;
+				} else {
+					$estGibier = false;
+				}
 				if ($tabValide[$m["x_monstre"]][$m["y_monstre"]] === true) {
 					$tabMonstres[] = array(
 						'id_monstre' => $m["id_monstre"], 
@@ -149,6 +154,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 						'niveau_monstre' => $m["niveau_monstre"],
 						'x_monstre' => $m["x_monstre"],
 						'y_monstre' => $m["y_monstre"],
+						'est_gibier' => $estGibier,
 					);
 				}
 			}

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -61,11 +61,11 @@ class Monstre extends Zend_Db_Table {
 		->where('y_monstre >= ?',$y_min)
 		->where('y_monstre <= ?',$y_max)
 		->where('est_mort_monstre = ?', 'non');
-		
+
 		if ($id_type != null) {
 			$select->where('id_fk_type_monstre = ?',$id_type);
 		}
-		
+
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 		$nombre = $resultat[0]["nombre"];
@@ -88,7 +88,7 @@ class Monstre extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	function selectVueCadavre($x_min, $y_min, $x_max, $y_max) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -122,7 +122,7 @@ class Monstre extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	function findByCase($x, $y) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -137,7 +137,7 @@ class Monstre extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	function findById($id) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -150,7 +150,7 @@ class Monstre extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchRow($sql);
 	}
-	
+
 	function findNomById($id) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -182,11 +182,11 @@ class Monstre extends Zend_Db_Table {
 		->where('monstre.id_fk_groupe_monstre = id_groupe_monstre')
 		->where('monstre.id_fk_groupe_monstre = ?', intval($idGroupe))
 		->where('est_mort_monstre = ?', "non");
-		
+
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	function findLePlusProcheParType($idtype, $x, $y, $rayon) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -202,7 +202,7 @@ class Monstre extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchRow($sql);
 	}
-	
+
 	/**
 	 * Supprime les monstres qui sont en ville.
 	 */
@@ -210,10 +210,10 @@ class Monstre extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('ville', '*');
-		
+
 		$sql = $select->__toString();
 		$villes = $db->fetchAll($sql);
-		
+
 		foreach($villes as $v) {
 			$where = " x_monstre >= ". $v["x_min_ville"];
 			$where .= " AND x_monstre <= ". $v["x_max_ville"];
@@ -222,15 +222,24 @@ class Monstre extends Zend_Db_Table {
 			$this->delete($where);
 		}
 	}
-	
-	function findMonstresAJouerSansGroupe($aJouerFlag, $nombreMax) {
+
+	function findMonstresAJouerSansGroupe($aJouerFlag, $nombreMax, $estGibier) {
+
+		$config = Zend_Registry::get('config');
+
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('monstre', '*')
 		->from('type_monstre', '*')
 		->where('monstre.id_fk_type_monstre = type_monstre.id_type_monstre')
 		->where('est_mort_monstre = ?', 'non');
-		
+
+		if ($estGibier) {
+			$select->where('type_monstre.id_fk_type_groupe_monstre = ?', (int)$config->game->groupe_monstre->type->gibier);
+		} else {
+			$select->where('type_monstre.id_fk_type_groupe_monstre != ?', (int)$config->game->groupe_monstre->type->gibier);
+		}
+
 		if ($aJouerFlag != "") {
 			$select->where('date_a_jouer_monstre <= ?', date("Y-m-d H:i:s"));
 		}

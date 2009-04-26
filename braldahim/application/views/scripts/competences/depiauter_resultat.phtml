@@ -6,6 +6,11 @@
 ?>
 	Vous avez d&eacute;piaut&eacute; <?=$this->nbPeau ?> unit&eacute;<?=$s ?> de peau.
 	
+	<? if ($this->nbViande > 1) :?>
+	<br />
+	Le cadavre &eacute;tait un gibier, vous avez &eacute;galement r&eacute;cup&eacute;r&eacute;  <?=$this->nbViande ?> unit&eacute;<? if ($this->nbViande > 1) : echo "s"; endif; ?> de viande.
+	<? endif;?>
+	
 	<br /><br />
 	<? if ($this->effetRune) :?>
 		Une rune que vous portez a eu de l'effet sur la quantit&eacute; de peau d&eacute;piaut&eacutee;.

@@ -13,8 +13,11 @@
 class Bral_Util_Poids {
 
 	 const POIDS_CASTARS = 0.001;
+
+	 // la peau et la viande ont le meme poids. Si cela change, çà impactera depiauter, methode preCalculPoids()
 	 const POIDS_PEAU = 0.4;
 	 const POIDS_VIANDE = 0.4;
+	 
 	 const POIDS_VIANDE_PREPAREE = 0.3;
 	 const POIDS_RATION = 0.4;
 	 const POIDS_ALIMENT = 0.4;
