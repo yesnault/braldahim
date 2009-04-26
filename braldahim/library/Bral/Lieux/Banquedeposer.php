@@ -32,6 +32,7 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		$typesCoffre[5] = array("id_type_coffre" => 5, "selected" => $id_type_courant, "nom_systeme" => "potions", "nom_coffre" => "Potions");
 		$typesCoffre[6] = array("id_type_coffre" => 6, "selected" => $id_type_courant, "nom_systeme" => "runes", "nom_coffre" => "Runes");
 		$typesCoffre[7] = array("id_type_coffre" => 7, "selected" => $id_type_courant, "nom_systeme" => "autres", "nom_coffre" => "Autres Elements");
+		$typesCoffre[8] = array("id_type_coffre" => 8, "selected" => $id_type_courant, "nom_systeme" => "aliments", "nom_coffre" => "Aliments");
 		
 		$this->view->typesCoffre = $typesCoffre;
 		$this->view->type = null;
@@ -55,6 +56,9 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 				break;
 			case "potions" :
 				$this->prepareTypePotions();
+				break;
+			case "aliments" :
+				$this->prepareTypeAliments();
 				break;
 			case "minerais" :
 				$this->prepareTypeMinerais();
@@ -83,6 +87,9 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 				break;
 			case "potions" :
 				$this->deposeTypePotions();
+				break;
+			case "aliments" :
+				$this->deposeTypeAliments();
 				break;
 			case "minerais" :
 				$this->deposeTypeMinerais();
@@ -300,6 +307,31 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		$this->view->potions = $tabPotions;
 	}
 	
+	private function prepareTypeAliments() {
+		Zend_Loader::loadClass("LabanAliment");
+		$tabAliments = null;
+		$labanAlimentTable = new LabanAliment();
+		$aliments = $labanAlimentTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($labanAlimentTable);
+		
+		if (count($aliments) > 0) {
+			$this->view->deposerOk = true;
+			foreach ($aliments as $p) {
+				$tabAliments[$p["id_laban_aliment"]] = array(
+					"id_aliment" => $p["id_laban_aliment"],
+					"nom" => $p["nom_type_aliment"],
+					"qualite" => $p["nom_type_qualite"],
+					"bbdf" => $p["bbdf_laban_aliment"],
+					"id_fk_type_qualite" => $p["id_fk_type_qualite_laban_aliment"],
+					"id_fk_type" => $p["id_fk_type_laban_aliment"]
+				);
+			}
+		} else {
+			$this->view->deposerOk = false;
+		}
+		$this->view->aliments = $tabAliments;
+	}
+	
 	private function deposeTypePotions() {
 		Zend_Loader::loadClass("CoffrePotion");
 		$idPotion = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
@@ -326,6 +358,34 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		);
 		$coffrePotionTable->insert($data);
 		unset($coffrePotionTable);
+	}
+	
+	private function deposeTypeAliments() {
+		Zend_Loader::loadClass("CoffreAliment");
+		$idAliment = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
+		$this->prepareTypeAliments();
+		
+		if (!array_key_exists($idAliment, $this->view->aliments)) {
+			throw new Zend_Exception(get_class($this)." ID Aliment invalide : ".$idAliment);
+		} 
+		
+		$aliment = $this->view->aliments[$idAliment];
+		
+		$labanAlimentTable = new LabanAliment();
+		$where = "id_laban_aliment=".$idAliment;
+		$labanAlimentTable->delete($where);
+		unset($labanAlimentTable);
+		
+		$coffreAlimentTable = new CoffreAliment();
+		$data = array (
+			"id_coffre_aliment" => $aliment["id_aliment"],
+			"id_fk_hobbit_coffre_aliment" => $this->view->user->id_hobbit,
+			"bbdf_coffre_aliment" => $aliment["bbdf"],
+			"id_fk_type_qualite_coffre_aliment" => $aliment["id_fk_type_qualite"],
+			"id_fk_type_coffre_aliment" => $aliment["id_fk_type"],
+		);
+		$coffreAlimentTable->insert($data);
+		unset($coffreAlimentTable);
 	}
 	
 	private function prepareTypeMinerais() {

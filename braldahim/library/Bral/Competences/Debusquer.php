@@ -109,7 +109,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 		$dla_monstre = Bral_Util_ConvertDate::get_time_from_minutes(720 - 10 * $niveau_sagesse);
 		$date_fin_tour_monstre = date("Y-m-d H:i:s");
 		
-		//Le gibier reste visible 1+1D3 jour
+		//Le gibier reste visible 1+1D3 jours
 		$dateSuppressionGibier = Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d H:i:s"), 1 + Bral_Util_De::get_1d3());
 
 		//PV

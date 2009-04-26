@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -14,8 +14,8 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		$this->view->deposerOk = false;
-		$this->listBoxRefresh = $this->constructListBoxRefresh(array("box_laban")); 
-		
+		$this->listBoxRefresh = $this->constructListBoxRefresh(array("box_laban"));
+
 		if ($this->request->get("valeur_1") != "") {
 			$id_type_courant = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_1"));
 			if ($id_type_courant < 1 && $id_type_courant > 8) {
@@ -24,7 +24,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		} else {
 			$id_type_courant = -1;
 		}
-		
+
 		$typesElements[1] = array("id_type_element" => 1, "selected" => $id_type_courant, "nom_systeme" => "castars", "nom_element" => "Castars");
 		$typesElements[2] = array("id_type_element" => 2, "selected" => $id_type_courant, "nom_systeme" => "equipements", "nom_element" => "Equipements");
 		$typesElements[3] = array("id_type_element" => 3, "selected" => $id_type_courant, "nom_systeme" => "munitions", "nom_element" => "Munitions");
@@ -33,10 +33,11 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		$typesElements[6] = array("id_type_element" => 6, "selected" => $id_type_courant, "nom_systeme" => "potions", "nom_element" => "Potions");
 		$typesElements[7] = array("id_type_element" => 7, "selected" => $id_type_courant, "nom_systeme" => "runes", "nom_element" => "Runes");
 		$typesElements[8] = array("id_type_element" => 8, "selected" => $id_type_courant, "nom_systeme" => "autres", "nom_element" => "Autres Elements");
-		
+		$typesElements[9] = array("id_type_element" => 9, "selected" => $id_type_courant, "nom_systeme" => "aliments", "nom_element" => "Aliments");
+
 		$this->view->typeElements = $typesElements;
 		$this->view->type = null;
-		
+
 		if ($id_type_courant != -1) {
 			$this->view->type = $typesElements[$id_type_courant]["nom_systeme"];
 			$this->prepareDeposer();
@@ -60,6 +61,9 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 			case "potions" :
 				$this->prepareTypePotions();
 				break;
+			case "aliments" :
+				$this->prepareTypeAliments();
+				break;
 			case "minerais" :
 				$this->prepareTypeMinerais();
 				break;
@@ -73,10 +77,10 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 				throw new Zend_Exception("Bral_Competences_Deposer prepareType invalide : type=".$this->view->type);
 		}
 	}
-	
+
 	private function calculDeposer() {
 		$this->listBoxRefresh = $this->constructListBoxRefresh(array("box_vue", "box_laban"));
-		
+
 		switch($this->view->type) {
 			case "castars" :
 				$this->deposeTypeCastars();
@@ -93,6 +97,9 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 			case "potions" :
 				$this->deposeTypePotions();
 				break;
+			case "aliments" :
+				$this->deposeTypeAliments();
+				break;
 			case "minerais" :
 				$this->deposeTypeMinerais();
 				break;
@@ -106,7 +113,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 				throw new Zend_Exception("Bral_Competences_Deposer prepareType invalide : type=".$this->view->type);
 		}
 	}
-	
+
 	function prepareFormulaire() {
 		if ($this->view->assezDePa == false) {
 			return;
@@ -123,48 +130,48 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		if ($this->view->deposerOk == false) {
 			throw new Zend_Exception(get_class($this)." Deposer interdit ");
 		}
-		
+
 		$this->calculDeposer();
-		
-		
+
+
 		$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a déposé des éléments à terre";
 		$this->setDetailsEvenement($this->detailEvenement, $this->view->config->game->evenements->type->deposer);
-		
+
 		$this->setEvenementQueSurOkJet1(false);
 
 		$this->calculBalanceFaim();
 		$this->calculPoids();
 		$this->majHobbit();
 	}
-	
+
 	function getListBoxRefresh() {
 		return $this->listBoxRefresh;
 	}
-	
+
 	private function prepareTypeCastars() {
 		$this->view->castars = $this->view->user->castars_hobbit;
-		
+
 		if ($this->view->castars > 0) {
 			$this->view->deposerOk = true;
 		} else {
 			$this->view->deposerOk = false;
 		}
 	}
-	
+
 	private function deposeTypeCastars() {
 		Zend_Loader::loadClass("Castar");
 		$nbCastars = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
-		
+
 		if ($nbCastars > $this->view->user->castars_hobbit) {
 			$nbCastars = $this->view->user->castars_hobbit;
 		}
-		
+
 		if ($nbCastars < 0) {
 			throw new Zend_Exception(get_class($this)." NB Castars invalide : ".$nbCastars);
-		} 
-		
+		}
+
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $nbCastars;
-		
+
 		$castarsTable = new Castar();
 		$data = array(
 			"nb_castar" => $nbCastars,
@@ -174,16 +181,16 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		$castarsTable->insertOrUpdate($data);
 		unset($castarsTable);
 	}
-	
+
 	private function prepareTypeEquipements() {
 		Zend_Loader::loadClass("LabanEquipement");
 		$tabEquipements = null;
 		$labanEquipementTable = new LabanEquipement();
 		$equipements = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($labanEquipementTable);
-		
+
 		Zend_Loader::loadClass("Bral_Util_Equipement");
-		
+
 		if (count($equipements) > 0) {
 			$this->view->deposerOk = true;
 			foreach ($equipements as $e) {
@@ -205,27 +212,27 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		}
 		$this->view->equipements = $tabEquipements;
 	}
-	
+
 	private function deposeTypeEquipements() {
 		Zend_Loader::loadClass("ElementEquipement");
 		$idEquipement = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 		$this->prepareTypeEquipements();
-		
+
 		if (!array_key_exists($idEquipement, $this->view->equipements)) {
 			throw new Zend_Exception(get_class($this)." ID Equipement invalide : ".$idEquipement);
-		} 
-		
+		}
+
 		$equipement = $this->view->equipements[$idEquipement];
-		
+
 		$labanEquipementTable = new LabanEquipement();
 		$where = "id_laban_equipement=".$idEquipement;
 		$labanEquipementTable->delete($where);
 		unset($labanEquipementTable);
-		
+
 		$dateCreation = date("Y-m-d H:i:s");
 		$nbJours = Bral_Util_De::get_2d10();
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-		
+
 		$elementEquipementTable = new ElementEquipement();
 		$data = array (
 			"id_element_equipement" => $equipement["id_equipement"],
@@ -240,14 +247,14 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		$elementEquipementTable->insert($data);
 		unset($elementEquipementTable);
 	}
-	
+
 	private function prepareTypeRunes() {
 		Zend_Loader::loadClass("LabanRune");
 		$tabRunes = null;
 		$labanRuneTable = new LabanRune();
 		$runes = $labanRuneTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($labanRuneTable);
-		
+
 		if (count($runes) > 0) {
 			$this->view->deposerOk = true;
 			foreach ($runes as $r) {
@@ -265,23 +272,23 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		}
 		$this->view->runes = $tabRunes;
 	}
-	
+
 	private function deposeTypeRunes() {
 		Zend_Loader::loadClass("ElementRune");
 		$idRune = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 		$this->prepareTypeRunes();
-		
+
 		if (!array_key_exists($idRune, $this->view->runes)) {
 			throw new Zend_Exception(get_class($this)." ID Rune invalide : ".$idRune);
-		} 
-		
+		}
+
 		$rune = $this->view->runes[$idRune];
-		
+
 		$labanRuneTable = new LabanRune();
 		$where = "id_rune_laban_rune=".$idRune;
 		$labanRuneTable->delete($where);
 		unset($labanRuneTable);
-		
+
 		$elementRuneTable = new ElementRune();
 		$data = array (
 			"id_element_rune" => $rune["id_rune"],
@@ -292,14 +299,14 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		$elementRuneTable->insert($data);
 		unset($elementRuneTable);
 	}
-	
+
 	private function prepareTypePotions() {
 		Zend_Loader::loadClass("LabanPotion");
 		$tabPotions = null;
 		$labanPotionTable = new LabanPotion();
 		$potions = $labanPotionTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($labanPotionTable);
-		
+
 		if (count($potions) > 0) {
 			$this->view->deposerOk = true;
 			foreach ($potions as $p) {
@@ -319,27 +326,52 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		}
 		$this->view->potions = $tabPotions;
 	}
-	
+
+	private function prepareTypeAliments() {
+		Zend_Loader::loadClass("LabanAliment");
+		$tabAliments = null;
+		$labanAlimentTable = new LabanAliment();
+		$aliments = $labanAlimentTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($labanAlimentTable);
+
+		if (count($aliments) > 0) {
+			$this->view->deposerOk = true;
+			foreach ($aliments as $p) {
+				$tabAliments[$p["id_laban_aliment"]] = array(
+					"id_aliment" => $p["id_laban_aliment"],
+					"nom" => $p["nom_type_aliment"],
+					"qualite" => $p["nom_type_qualite"],
+					"bbdf" => $p["bbdf_laban_aliment"],
+					"id_fk_type_qualite" => $p["id_fk_type_qualite_laban_aliment"],
+					"id_fk_type" => $p["id_fk_type_laban_aliment"]
+				);
+			}
+		} else {
+			$this->view->deposerOk = false;
+		}
+		$this->view->aliments = $tabAliments;
+	}
+
 	private function deposeTypePotions() {
 		Zend_Loader::loadClass("ElementPotion");
 		$idPotion = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 		$this->prepareTypePotions();
-		
+
 		if (!array_key_exists($idPotion, $this->view->potions)) {
 			throw new Zend_Exception(get_class($this)." ID Potion invalide : ".$idPotion);
-		} 
-		
+		}
+
 		$potion = $this->view->potions[$idPotion];
-		
+
 		$labanPotionTable = new LabanPotion();
 		$where = "id_laban_potion=".$idPotion;
 		$labanPotionTable->delete($where);
 		unset($labanPotionTable);
-		
+
 		$dateCreation = date("Y-m-d H:i:s");
 		$nbJours = Bral_Util_De::get_2d10();
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-		
+
 		$elementPotionTable = new ElementPotion();
 		$data = array (
 			"id_element_potion" => $potion["id_potion"],
@@ -353,15 +385,49 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		$elementPotionTable->insert($data);
 		unset($elementPotionTable);
 	}
+	
+	private function deposeTypeAliments() {
+		Zend_Loader::loadClass("ElementAliment");
+		$idAliment = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
+		$this->prepareTypeAliments();
+
+		if (!array_key_exists($idAliment, $this->view->aliments)) {
+			throw new Zend_Exception(get_class($this)." ID Aliment invalide : ".$idAliment);
+		}
+
+		$aliment = $this->view->aliments[$idAliment];
+
+		$labanAlimentTable = new LabanAliment();
+		$where = "id_laban_aliment=".$idAliment;
+		$labanAlimentTable->delete($where);
+		unset($labanAlimentTable);
+
+		$dateCreation = date("Y-m-d H:i:s");
+		$nbJours = Bral_Util_De::get_2d10();
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+
+		$elementAlimentTable = new ElementAliment();
+		$data = array (
+			"id_element_aliment" => $aliment["id_aliment"],
+			"x_element_aliment" => $this->view->user->x_hobbit,
+			"y_element_aliment" => $this->view->user->y_hobbit,
+			"bbdf_element_aliment" => $aliment["bbdf"],
+			"id_fk_type_qualite_element_aliment" => $aliment["id_fk_type_qualite"],
+			"id_fk_type_element_aliment" => $aliment["id_fk_type"],
+			"date_fin_element_aliment" => $dateFin,
+		);
+		$elementAlimentTable->insert($data);
+		unset($elementAlimentTable);
+	}
 
 	private function prepareTypeMunitions() {
 		Zend_Loader::loadClass("LabanMunition");
 		$tabMunitionsBruts = null;
-		
+
 		$labanMunitionTable = new LabanMunition();
 		$munitions = $labanMunitionTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($labanMunitionTable);
-		
+
 		if (count($munitions) > 0) {
 			$this->view->deposerOk = true;
 
@@ -379,16 +445,16 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		}
 		$this->view->munitions = $tabMunitions;
 	}
-	
+
 	private function prepareTypeMinerais() {
 		Zend_Loader::loadClass("LabanMinerai");
 		$tabMineraisBruts = null;
 		$tabLingots = null;
-		
+
 		$labanMineraiTable = new LabanMinerai();
 		$minerais = $labanMineraiTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($labanMineraiTable);
-		
+
 		if (count($minerais) > 0) {
 			$this->view->deposerOk = true;
 
@@ -400,7 +466,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 						"quantite" => $m["quantite_brut_laban_minerai"],
 					);
 				}
-				
+
 				if ($m["quantite_lingots_laban_minerai"] > 0) {
 					$tabLingots[$m["id_fk_type_laban_minerai"]] = array(
 						"id_type_minerai" => $m["id_fk_type_laban_minerai"],
@@ -419,34 +485,34 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 	private function deposeTypeMunitions() {
 		Zend_Loader::loadClass("ElementMunition");
 		$this->prepareTypeMunitions();
-		
+
 		$idMunition = null;
 		$nbMunition = null;
-		
+
 		$labanMunitionTable = new LabanMunition();
 		$elementMunitionTable = new ElementMunition();
-		
+
 		if ($this->request->get("valeur_2") > 0 && $this->request->get("valeur_3") > 0) {
 			$idMunition = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 			$nbMunition = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
-			
+				
 			if (!array_key_exists($idMunition, $this->view->munitions)) {
 				throw new Zend_Exception(get_class($this)." ID Munition invalide : ".$idMunition);
-			} 
-			
+			}
+				
 			$munition = $this->view->munitions[$idMunition];
 
 			if ($nbMunition > $munition["quantite"] || $nbMunition < 0) {
 				throw new Zend_Exception(get_class($this)." Quantite Munition invalide : ".$nbMunition);
 			}
-			
+				
 			$data = array(
 				"quantite_laban_munition" => -$nbMunition,
 				"id_fk_type_laban_munition" => $munition["id_type_munition"],
 				"id_fk_hobbit_laban_munition" => $this->view->user->id_hobbit,
 			);
 			$labanMunitionTable->insertOrUpdate($data);
-			
+				
 			$data = array (
 				"x_element_munition" => $this->view->user->x_hobbit,
 				"y_element_munition" => $this->view->user->y_hobbit,
@@ -455,45 +521,45 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 			);
 			$elementMunitionTable->insertOrUpdate($data);
 		}
-		
+
 		unset($elementMunitionTable);
 		unset($labanMunitionTable);
 	}
-	
+
 	private function deposeTypeMinerais() {
 		Zend_Loader::loadClass("ElementMinerai");
 		$this->prepareTypeMinerais();
-		
+
 		$idMineraiBrut = null;
 		$nbMineraiBrut = null;
-		
+
 		$idLingot = null;
 		$nbLingot = null;
-		
+
 		$labanMineraiTable = new LabanMinerai();
 		$elementMineraiTable = new ElementMinerai();
-		
+
 		if ($this->request->get("valeur_2") > 0 && $this->request->get("valeur_3") > 0) {
 			$idMineraiBrut = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 			$nbMineraiBrut = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
-			
+				
 			if (!array_key_exists($idMineraiBrut, $this->view->mineraisBruts)) {
 				throw new Zend_Exception(get_class($this)." ID Minerai Brut invalide : ".$idMineraiBrut);
-			} 
-			
+			}
+				
 			$minerai = $this->view->mineraisBruts[$idMineraiBrut];
 
 			if ($nbMineraiBrut > $minerai["quantite"] || $nbMineraiBrut < 0) {
 				throw new Zend_Exception(get_class($this)." Quantite Minerai Brut invalide : ".$nbMineraiBrut);
 			}
-			
+				
 			$data = array(
 				"quantite_brut_laban_minerai" => -$nbMineraiBrut,
 				"id_fk_type_laban_minerai" => $minerai["id_type_minerai"],
 				"id_fk_hobbit_laban_minerai" => $this->view->user->id_hobbit,
 			);
 			$labanMineraiTable->insertOrUpdate($data);
-			
+				
 			$data = array (
 				"x_element_minerai" => $this->view->user->x_hobbit,
 				"y_element_minerai" => $this->view->user->y_hobbit,
@@ -502,28 +568,28 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 			);
 			$elementMineraiTable->insertOrUpdate($data);
 		}
-		
+
 		if ($this->request->get("valeur_4") > 0 && $this->request->get("valeur_5") > 0) {
 			$idLingot = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_4"));
 			$nbLingot = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_5"));
-			
+				
 			if (!array_key_exists($idLingot, $this->view->lingots)) {
 				throw new Zend_Exception(get_class($this)." ID Lingot invalide : ".$idLingot);
-			} 
-			
+			}
+				
 			$lingot = $this->view->lingots[$idLingot];
-			
+				
 			if ($nbLingot > $lingot["quantite"] || $nbLingot < 0) {
 				throw new Zend_Exception(get_class($this)." Quantite lingot invalide : ".$nbLingot);
 			}
-			
+				
 			$data = array(
 				"quantite_lingots_laban_minerai" => -$nbLingot,
 				"id_fk_type_laban_minerai" => $lingot["id_type_minerai"],
 				"id_fk_hobbit_laban_minerai" => $this->view->user->id_hobbit,
 			);
 			$labanMineraiTable->insertOrUpdate($data);
-			
+				
 			$data = array (
 				"x_element_minerai" => $this->view->user->x_hobbit,
 				"y_element_minerai" => $this->view->user->y_hobbit,
@@ -535,17 +601,17 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		unset($elementMineraiTable);
 		unset($labanMineraiTable);
 	}
-	
+
 	private function prepareTypePartiesPlantes() {
 		Zend_Loader::loadClass("LabanPartieplante");
 		$tabPartiePlantesBrutes = null;
 		$tabPartiePlantesPreparees = null;
 		$tabLingots = null;
-		
+
 		$labanPartiePlanteTable = new LabanPartieplante();
 		$partiesPlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($labanPartiePlanteTable);
-		
+
 		if (count($partiesPlantes) > 0) {
 			$this->view->deposerOk = true;
 
@@ -559,7 +625,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 						"quantite" => $m["quantite_laban_partieplante"],
 					);
 				}
-				
+
 				if ($m["quantite_preparee_laban_partieplante"] > 0) {
 					$tabPartiePlantesPreparees[$m["id_fk_type_laban_partieplante"]."-".$m["id_fk_type_plante_laban_partieplante"]] = array(
 						"id_type_partieplante" => $m["id_fk_type_laban_partieplante"],
@@ -576,34 +642,34 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		$this->view->partiePlantesBrutes = $tabPartiePlantesBrutes;
 		$this->view->partiePlantesPreparees = $tabPartiePlantesPreparees;
 	}
-	
+
 	private function deposeTypePartiesPlantes() {
 		Zend_Loader::loadClass("ElementPartieplante");
 		$this->prepareTypePartiesPlantes();
-		
+
 		$idPartiePlanteBrute = null;
 		$nbPartiePlanteBrute = null;
-		
+
 		$idPartiePlantePreparee = null;
 		$nbPartiePlantePreparee = null;
-		
+
 		$labanPartiePlanteTable = new LabanPartieplante();
 		$elementPartiePlanteTable = new ElementPartieplante();
-		
+
 		if ($this->request->get("valeur_2") > 0 && $this->request->get("valeur_3") > 0) {
 			$idPartiePlanteBrute = $this->request->get("valeur_2");
 			$nbPartiePlanteBrute = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
-			
+				
 			if (!array_key_exists($idPartiePlanteBrute, $this->view->partiePlantesBrutes)) {
 				throw new Zend_Exception(get_class($this)." ID PartiePlante Brute invalide : ".$idPartiePlanteBrute);
-			} 
-			
+			}
+				
 			$partiePlanteBrute = $this->view->partiePlantesBrutes[$idPartiePlanteBrute];
 
 			if ($nbPartiePlanteBrute > $partiePlanteBrute["quantite"] || $nbPartiePlanteBrute < 0) {
 				throw new Zend_Exception(get_class($this)." Quantite PartiePlante Brute invalide : ".$nbPartiePlanteBrute);
 			}
-			
+				
 			$data = array(
 				"quantite_laban_partieplante" => -$nbPartiePlanteBrute,
 				"id_fk_type_laban_partieplante" => $partiePlanteBrute["id_type_partieplante"],
@@ -611,7 +677,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 				"id_fk_hobbit_laban_partieplante" => $this->view->user->id_hobbit,
 			);
 			$labanPartiePlanteTable->insertOrUpdate($data);
-			
+				
 			$data = array (
 				"x_element_partieplante" => $this->view->user->x_hobbit,
 				"y_element_partieplante" => $this->view->user->y_hobbit,
@@ -621,28 +687,28 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 			);
 			$elementPartiePlanteTable->insertOrUpdate($data);
 		}
-		
+
 		if ($this->request->get("valeur_4") > 0 && $this->request->get("valeur_5") > 0) {
 			$idPartiePlantePreparee = $this->request->get("valeur_4");
 			$nbPartiePlantePreparee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_5"));
-			
+				
 			if (!array_key_exists($idPartiePlantePreparee, $this->view->partiePlantesPreparees)) {
 				throw new Zend_Exception(get_class($this)." ID PartiePlantePreparee invalide : ".$idPartiePlantePreparee);
-			} 
-			
+			}
+				
 			$partiePlantePreparee = $this->view->partiePlantesPreparees[$idPartiePlantePreparee];
-			
+				
 			if ($nbPartiePlantePreparee > $partiePlantePreparee["quantite"] || $nbPartiePlantePreparee < 0) {
 				throw new Zend_Exception(get_class($this)." Quantite Plante Preparee invalide : ".$nbPartiePlantePreparee);
 			}
-			
+				
 			$data = array(
 				"quantite_preparee_laban_partieplante" => -$nbPartiePlantePreparee,
 				"id_fk_type_laban_partieplante" => $partiePlantePreparee["id_type_partieplante"],
 				"id_fk_type_plante_laban_partieplante" => $partiePlantePreparee["id_type_plante"],
 				"id_fk_hobbit_laban_partieplante" => $this->view->user->id_hobbit,
 			);
-			
+				
 			$data = array (
 				"x_element_partieplante" => $this->view->user->x_hobbit,
 				"y_element_partieplante" => $this->view->user->y_hobbit,
@@ -655,14 +721,14 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		unset($elementPartiePlanteTable);
 		unset($labanPartiePlanteTable);
 	}
-	
+
 	private function prepareTypeAutres() {
 		Zend_Loader::loadClass("Laban");
 		$tabAutres = null;
 		$labanTable = new Laban();
 		$laban = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($labanTable);
-		
+
 		if (count($laban) == 1) {
 			foreach ($laban as $p) {
 				if ($p["quantite_peau_laban"] > 0) $tabAutres[1] = array("nom" => "Peau", "nom_systeme" => "quantite_peau" , "nb" => $p["quantite_peau_laban"]);
@@ -672,7 +738,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 				if ($p["quantite_cuir_laban"] > 0) $tabAutres[5] = array("nom" => "Cuir", "nom_systeme" => "quantite_cuir" , "nb" => $p["quantite_cuir_laban"]);
 				if ($p["quantite_fourrure_laban"] > 0) $tabAutres[6] = array("nom" => "Fourrure", "nom_systeme" => "quantite_fourrure" , "nb" => $p["quantite_fourrure_laban"]);
 				if ($p["quantite_planche_laban"] > 0) $tabAutres[7] = array("nom" => "Planche", "nom_systeme" => "quantite_planche" , "nb" => $p["quantite_planche_laban"]);
-				
+
 				if (count($tabAutres) > 0) {
 					$this->view->deposerOk = true;
 				}
@@ -682,39 +748,39 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 		}
 		$this->view->autres = $tabAutres;
 	}
-	
+
 	private function deposeTypeAutres() {
 		Zend_Loader::loadClass("Element");
 		$this->prepareTypeAutres();
-		
+
 		$idAutre = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 		$nb = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
-		
+
 		if (!array_key_exists($idAutre, $this->view->autres)) {
 			throw new Zend_Exception(get_class($this)." ID Autres invalide : ".$idAutre);
-		} 
-		
+		}
+
 		$autre = $this->view->autres[$idAutre];
 
 		if ($nb > $autre["nb"]) {
 			$nb = $autre["nb"];
 		}
-		
+
 		if ($nb < 0) {
 			throw new Zend_Exception(get_class($this)." Quantite invalide : ".$nb);
 		}
-		
+
 		$labanTable = new Laban();
 		$data = array(
-			$autre["nom_systeme"]."_laban" => -$nb,
+		$autre["nom_systeme"]."_laban" => -$nb,
 			"id_fk_hobbit_laban" => $this->view->user->id_hobbit,
 		);
 		$labanTable->insertOrUpdate($data);
 		unset($labanTable);
-		
+
 		$elementTable = new Element();
 		$data = array(
-			$autre["nom_systeme"]."_element" => $nb,
+		$autre["nom_systeme"]."_element" => $nb,
 			"x_element" => $this->view->user->x_hobbit,
 			"y_element" => $this->view->user->y_hobbit,
 		);

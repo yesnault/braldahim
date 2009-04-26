@@ -235,7 +235,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		$this->view->tabMetiers = $tabMetiers;
 		$this->renderEquipement();
 		$this->renderPotion();
-		$this->renderAliment;
+		$this->renderAliment();
 		
 		$this->view->estEquipementsPotionsEtal = false;
 		$this->view->estEquipementsPotionsEtalAchat = false;

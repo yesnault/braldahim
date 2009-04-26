@@ -32,6 +32,7 @@ class Bral_Lieux_Banqueretirer extends Bral_Lieux_Lieu {
 		$typesElements[5] = array("id_type_element" => 5, "selected" => $id_type_courant, "nom_systeme" => "potions", "nom_element" => "Potions");
 		$typesElements[6] = array("id_type_element" => 6, "selected" => $id_type_courant, "nom_systeme" => "runes", "nom_element" => "Runes");
 		$typesElements[7] = array("id_type_element" => 7, "selected" => $id_type_courant, "nom_systeme" => "autres", "nom_element" => "Autres Elements");
+		$typesElements[8] = array("id_type_element" => 8, "selected" => $id_type_courant, "nom_systeme" => "aliments", "nom_element" => "Aliments");
 		
 		$this->view->typeElements = $typesElements;
 		$this->view->type = null;
@@ -55,6 +56,9 @@ class Bral_Lieux_Banqueretirer extends Bral_Lieux_Lieu {
 				break;
 			case "potions" :
 				$this->prepareTypePotions();
+				break;
+			case "aliments" :
+				$this->prepareTypeAliments();
 				break;
 			case "minerais" :
 				$this->prepareTypeMinerais();
@@ -85,6 +89,9 @@ class Bral_Lieux_Banqueretirer extends Bral_Lieux_Lieu {
 				break;
 			case "potions" :
 				$this->ramasseTypePotions();
+				break;
+			case "aliments" :
+				$this->ramasseTypeAliments();
 				break;
 			case "minerais" :
 				$this->ramasseTypeMinerais();
@@ -377,6 +384,41 @@ class Bral_Lieux_Banqueretirer extends Bral_Lieux_Lieu {
 		$this->view->potions = $tabPotions;
 	}
 	
+	private function prepareTypeAliments() {
+		Zend_Loader::loadClass("CoffreAliment");
+		$tabAliments = null;
+		$coffreAlimentTable = new CoffreAliment();
+		$aliments = $coffreAlimentTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($coffreAlimentTable);
+		
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		if ($poidsRestant < 0) $poidsRestant = 0;
+		$this->view->nbAlimentPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_ALIMENT);
+		
+		if ($this->view->nbAlimentPossible < 1) {
+			$this->view->poidsPlaceDisponible = false;
+		} else {
+			$this->view->poidsPlaceDisponible = true;
+		}
+		
+		if (count($aliments) > 0) {
+			$this->view->ramasserOk = true;
+			foreach ($aliments as $p) {
+				$tabAliments[$p["id_coffre_aliment"]] = array(
+					"id_aliment" => $p["id_coffre_aliment"],
+					"nom" => $p["nom_type_aliment"],
+					"qualite" => $p["nom_type_qualite"],
+					"bbdf" => $p["bbdf_coffre_aliment"],
+					"id_fk_type_qualite" => $p["id_fk_type_qualite_coffre_aliment"],
+					"id_fk_type" => $p["id_fk_type_coffre_aliment"]
+				);
+			}
+		} else {
+			$this->view->ramasserOk = false;
+		}
+		$this->view->aliments = $tabAliments;
+	}
+	
 	private function ramasseTypePotions() {
 		Zend_Loader::loadClass("LabanPotion");
 		$idPotion = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
@@ -410,6 +452,40 @@ class Bral_Lieux_Banqueretirer extends Bral_Lieux_Lieu {
 		
 		$this->view->texteRamassage = "la potion n&deg;".$potion["id_potion"];
 //		$this->detailEvenement = "une potion qui traînait par là";
+	}
+	
+	private function ramasseTypeAliments() {
+		Zend_Loader::loadClass("LabanAliment");
+		$idAliment = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
+		$this->prepareTypeAliments();
+		
+		if (!array_key_exists($idAliment, $this->view->aliments)) {
+			throw new Zend_Exception(get_class($this)." ID Aliment invalide : ".$idAliment);
+		} 
+		
+		if ($this->view->poidsPlaceDisponible == false) {
+			throw new Zend_Exception(get_class($this)." Aliment place non disponible");
+		} 
+		
+		$aliment = $this->view->aliments[$idAliment];
+		
+		$coffreAlimentTable = new CoffreAliment();
+		$where = "id_coffre_aliment=".$idAliment;
+		$coffreAlimentTable->delete($where);
+		unset($coffreAlimentTable);
+		
+		$labanAlimentTable = new LabanAliment();
+		$data = array (
+			"id_laban_aliment" => $aliment["id_aliment"],
+			"id_fk_hobbit_laban_aliment" => $this->view->user->id_hobbit,
+			"bbdf_laban_aliment" => $aliment["bbdf"],
+			"id_fk_type_qualite_laban_aliment" => $aliment["id_fk_type_qualite"],
+			"id_fk_type_laban_aliment" => $aliment["id_fk_type"],
+		);
+		$labanAlimentTable->insert($data);
+		unset($labanAlimentTable);
+		
+		$this->view->texteRamassage = "le ".$aliment["nom"]." n&deg;".$aliment["id_aliment"];
 	}
 	
 	private function prepareTypeMinerais() {

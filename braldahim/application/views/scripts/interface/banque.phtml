@@ -115,6 +115,17 @@ Votre coffre contient plusieurs tiroirs. Cliquez sur celui ou ceux que vous souh
 				</li>
 			</ul>
 		</li>
+		<li id="tiroirAliment">
+			<? $tiroirs[] = "tiroirAliment-head" ?>
+      		<h3 id="tiroirAliment-head" class="head" onClick="maccordion(this);" />
+				Tiroir pour les aliments
+			</h3>
+			<ul id="tiroirAliment-body" style="display:none">
+				<li>
+					<? include("laban/poche_aliment.phtml") ?>
+				</li>
+			</ul>
+		</li>
 	</ul>
    <? 
    $jsFermer = "";
