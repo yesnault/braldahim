@@ -33,6 +33,10 @@ class Bral_Competences_Assaisonner extends Bral_Competences_Competence {
 		}
 		if (isset($tabLaban) && $tabLaban["nb_viande"] >= 1) {
 			$this->view->assaisonnerNbViandeOk = true;
+			
+			if ($this->view->nbViande > $tabLaban["nb_viande"]) {
+				$this->view->nbViande = $tabLaban["nb_viande"];
+			}
 		}
 	}
 
