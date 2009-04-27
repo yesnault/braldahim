@@ -407,6 +407,9 @@ class Bral_Util_Quete {
 		$qualiteAliment = 2; // qualite correcte
 		$bbdfAliment = $aliment->bbdf_base_type_aliment;
 
+		Zend_Loader::loadClass("ElementAliment");
+		Zend_Loader::loadClass("CoffreAliment");
+		
 		$elementAlimentTable = new ElementAliment();
 		$coffreAlimentTable = new CoffreAliment();
 
@@ -415,7 +418,6 @@ class Bral_Util_Quete {
 				"id_fk_type_element_aliment" => TypeAliment::ID_TYPE_RAGOUT,
 				"x_element_aliment" => $hobbit->x_hobbit,
 				"y_element_aliment" => $hobbit->y_hobbit,
-				"id_fk_hobbit_element_aliment" => $hobbit->id_hobbit,
 				"id_fk_type_qualite_element_aliment" => $qualiteAliment,
 				"bbdf_element_aliment" => $bbdfAliment,
 			);
