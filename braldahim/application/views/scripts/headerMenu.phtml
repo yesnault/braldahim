@@ -36,12 +36,14 @@
 		 <label class="alabel" style="text-decoration:underline" onClick="javascript:ouvrirWin('/voir/');">Voir</label> | 
 		 <a href="/auth/logout"> D&eacute;connexion </a>
 		 
-		 <br>
+		 <div style='line-height : 20px;'>
 		  <? if ($this->user->administrateur === true) : ?>
 			Admin info: <span id='admin_info_1' class=''>&nbsp;</span>
 			 <span id='admin_info_2' class=''>&nbsp;</span>
 		  <? endif; ?>
 		  <?=Bral_Helper_Calendrier::affiche();?>
+		  <?=Bral_Helper_Lune::affiche(); ?>
+		 </div>
 	 </div>
 	
 	<?=Bral_Helper_Box::bas(); ?>

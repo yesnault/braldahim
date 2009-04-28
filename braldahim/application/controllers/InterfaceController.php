@@ -91,6 +91,7 @@ class InterfaceController extends Zend_Controller_Action {
 	}
 
 	function indexAction() {
+		Zend_Loader::loadClass("Bral_Helper_Lune");
 		$this->render();
 	}
 
