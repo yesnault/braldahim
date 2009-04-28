@@ -1341,6 +1341,7 @@ td.cases {
 	padding : 4px;
 }
 
+.lune.lune0 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon0.png) no-repeat scroll 0 0; }
 .lune.lune1 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon1.png) no-repeat scroll 0 0; }
 .lune.lune2 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon2.png) no-repeat scroll 0 0; }
 .lune.lune3 { background:transparent url(/public/styles/braldahim_defaut/images/lune/moon3.png) no-repeat scroll 0 0; }
