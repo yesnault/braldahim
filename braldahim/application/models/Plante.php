@@ -61,7 +61,7 @@ class Plante extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findLaPlusProche($x, $y, $rayon) {
+	function findLaPlusProche($x, $y, $rayon, $idTypePlante = null, $idTypePartiePlante = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('plante', 'id_plante, y_plante, x_plante, id_fk_type_plante, SQRT(((x_plante - '.$x.') * (x_plante - '.$x.')) + ((y_plante - '.$y.') * ( y_plante - '.$y.'))) as distance')
@@ -72,6 +72,16 @@ class Plante extends Zend_Db_Table {
 		->where('y_plante <= ?', $y + $rayon)
 		->where('plante.id_fk_type_plante = type_plante.id_type_plante')
 		->order('distance ASC');
+		
+		if ($idTypePlante != null) {
+			$select->where('plante.id_fk_type_plante = ?', $idTypePlante);
+		}
+		
+		if ($idTypePartiePlante != null) {
+			$select->where("type_plante.id_fk_partieplante1_type_plante = ".(int)$idTypePartiePlante. " OR type_plante.id_fk_partieplante2_type_plante = ".(int)$idTypePartiePlante.
+			" OR type_plante.id_fk_partieplante3_type_plante = ".(int)$idTypePartiePlante." OR type_plante.id_fk_partieplante4_type_plante = ".(int)$idTypePartiePlante);
+		}
+		
 		$sql = $select->__toString();
 		return $db->fetchRow($sql);
 	}

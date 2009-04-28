@@ -51,6 +51,7 @@ class Bral_Util_Plantes {
 						'nom_type_plante' => $t["nom_type_plante"],
 						'nom_type_partieplante' => $p["nom_type_partieplante"],
 						'nom_systeme_type_plante' => $t["nom_systeme_type_plante"],
+						'categorie_type_plante' => $t["categorie_type_plante"],
 						'id_type_partieplante' => $p["id_type_partieplante"],
 						'id_type_plante' => $t["id_type_plante"],
 					);

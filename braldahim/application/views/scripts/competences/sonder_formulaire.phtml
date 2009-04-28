@@ -1,15 +1,31 @@
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
-  <input type='hidden' id='valeur_1' name='valeur_1' value='go'>
- <div class='comp_contenu'>
+<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+<div class='comp_contenu'>
  
- <? if ($this->assezDePa == true) : ?>
-	 <? if ($this->rayon_precis == 1): $s=''; else: $s='s'; endif ?>
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez sonder un filon <br />
-	 dans un rayon de <i>jet VIG + BM VIG</i> case(s) aux alentours<br />
-	 et de mani&egrave;re pr&eacute;cise dans un rayon de <?=$this->rayon_precis ?> case<?=$s?>.<br /><br />
-<? else: ?>
-	Vous n'avez pas assez de PA.<br />
-<? endif; ?>
+<? if ($this->rayon_precis == 1): $s=''; else: $s='s'; endif ?>
+Pour <?=$this->nb_pa ?> PA, vous pouvez sonder un filon <br />
+dans un rayon de <i>jet VIG + BM VIG</i> case(s) aux alentours<br />
+et de mani&egrave;re pr&eacute;cise dans un rayon de <?=$this->rayon_precis ?> case<?=$s?>.<br /><br />
+	
+<? 
+$disabled = "";
+if ($this->avecChoix) : 
+$disabled = "disabled"
+?>
+Vous ma&icirc;trisez assez cette comp&eacute;tence pour choisir ce que vous souhaitez rechercher.<br>
+	<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_rechercherplante').disabled=true } else {$('bouton_rechercherplante').disabled=false }">
+	<option value='-1'>(Choississez le type de recherche)</option>
+	<optgroup label="Recherche classique" style="font-weight:bold"></optgroup>
+	<option value="-2">Minerai le plus proche</option>
+	<optgroup label="Recherche par type" style="font-weight:bold"></optgroup>
+	<? foreach ($this->tabChoix as $k => $v) : ?>
+	<option value="<?=$k?>"><?=$v["nom_type_minerai"]?></option>
+	<? endforeach; ?>
+	</select><br /><br />
+
+<? else:?>
+<input type='hidden' id='valeur_1' name='valeur_1' value='-3'>
+<? endif;?> 
+	
 </div>
 
 <br />

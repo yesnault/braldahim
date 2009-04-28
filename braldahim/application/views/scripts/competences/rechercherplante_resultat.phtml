@@ -1,5 +1,6 @@
 <? include("commun_text_resultat.phtml") ?>
 <? if ($this->okJet1 === true):?>
+	Vous avez recherch&eacute; <?=$this->libelleRecherche?>.<br>
 	<? if ($this->trouve === true): ?>
 		<? if ($this->proche === true): ?>
 			La plante la plus proche, de cat&eacute;gorie : <?=$this->plante["categorie"] ?><br /> 
@@ -10,27 +11,26 @@
 			se situe   
 		<? endif; ?>
 		<? if ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit == $this->plante["x_plante"]): ?>
-		en direction du Nord
+		en direction du Nord.
 		<? elseif ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit < $this->plante["x_plante"]): ?>
-		en direction du Nord Est
+		en direction du Nord Est.
 		<? elseif ($this->user->y_hobbit < $this->plante["y_plante"] && $this->user->x_hobbit > $this->plante["x_plante"]): ?>
-		en direction du Nord Ouest
+		en direction du Nord Ouest.
 		<? elseif ($this->user->y_hobbit > $this->plante["y_plante"] && $this->user->x_hobbit == $this->plante["x_plante"]): ?>
-		en direction du Sud 
+		en direction du Sud.
 		<? elseif ($this->user->y_hobbit > $this->plante["y_plante"] && $this->user->x_hobbit < $this->plante["x_plante"]): ?>
-		en direction du Sud Est		
+		en direction du Sud Est.
 		<? elseif ($this->user->y_hobbit > $this->plante["y_plante"] && $this->user->x_hobbit > $this->plante["x_plante"]): ?>
-		en direction du Sud Ouest
+		en direction du Sud Ouest.
 		<? elseif ($this->user->y_hobbit == $this->plante["y_plante"] && $this->user->x_hobbit < $this->plante["x_plante"]): ?>
-		en direction de l'Est
+		en direction de l'Est.
 		<? elseif ($this->user->y_hobbit == $this->plante["y_plante"] && $this->user->x_hobbit > $this->plante["x_plante"]): ?>
-		en direction de l'Ouest
+		en direction de l'Ouest.
 		<? else: ?>
 		sur place !
 		<? endif; ?>
 	<? else: ?>
 		Aucune plante n'a &eacute;t&eacute; trouv&eacute;e dans <br />
-		un rayon de <?=$this->rayon_max;?> cases
+		un rayon de <?=$this->rayon_max;?> cases.
 	<? endif; ?>
-	
 <? endif; ?>
