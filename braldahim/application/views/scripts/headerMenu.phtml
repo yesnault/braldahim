@@ -42,6 +42,7 @@
 			 <span id='admin_info_2' class=''>&nbsp;</span>
 		  <? endif; ?>
 		  <?=Bral_Helper_Calendrier::affiche();?>
+		  <? Zend_Loader::loadClass("Bral_Helper_Lune")?>
 		  <?=Bral_Helper_Lune::affiche(); ?>
 		 </div>
 	 </div>
