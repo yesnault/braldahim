@@ -92,11 +92,8 @@ class InscriptionController extends Zend_Controller_Action {
 					);
 					$evenementTable->insert($data);
 
-					// TODO à supprimer à la fin des dev quetes
-					if ($this->view->config->general->production != 1) {
-						Zend_Loader::loadClass("Bral_Util_Quete");
-						Bral_Util_Quete::creationQueteInitiatique($hobbit, $this->view->config);
-					}
+					Zend_Loader::loadClass("Bral_Util_Quete");
+					Bral_Util_Quete::creationQueteInitiatique($hobbit, $this->view->config);
 
 					Bral_Util_Log::inscription()->notice("InscriptionController - validationAction - validation OK pour :".$email_hobbit);
 				}
