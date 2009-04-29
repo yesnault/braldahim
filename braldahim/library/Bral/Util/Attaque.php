@@ -479,7 +479,7 @@ Consultez vos événements pour plus de détails.";
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Mort du monstre !");
 				$effetD = null;
 				$effetH = null;
-				
+
 				// si c'est un gibier, on n'incrémente pas de compteur, pas d'effet de mot non plus
 				if ($monstre["id_fk_type_groupe_monstre"] != $config->game->groupe_monstre->type->gibier) {
 
@@ -539,15 +539,20 @@ Consultez vos événements pour plus de détails.";
 		}
 
 		$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, "monstre", $retourAttaque["jetAttaquant"], $retourAttaque["jetCible"], $retourAttaque["jetDegat"], $retourAttaque["ballonLache"], $retourAttaque["critique"], $retourAttaque["mort"]) ;
-
+		
+		$libelleMonstreGibier = "monstre";
+		if ($monstre["id_fk_type_groupe_monstre"] == $config->game->groupe_monstre->type->gibier) {
+			$libelleMonstreGibier = "gibier";
+		}
+			
 		if ($retourAttaque["mort"] === true) {
 			$id_type = $config->game->evenements->type->killmonstre;
-			$details = "[h".$hobbitAttaquant->id_hobbit."] a tué le monstre [m".$cible["id_cible"]."]";
+			$details = "[h".$hobbitAttaquant->id_hobbit."] a tué le ".$libelleMonstreGibier." [m".$cible["id_cible"]."]";
 			//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
 			Bral_Util_Evenement::majEvenements($cible["id_cible"], $config->game->evenements->type->killmonstre, $details, "", $cible["niveau_cible"], "monstre");
 		} else {
 			$id_type = $config->game->evenements->type->attaquer;
-			$details = " [h".$hobbitAttaquant->id_hobbit."] a attaqué le monstre [m".$cible["id_cible"]."]";
+			$details = " [h".$hobbitAttaquant->id_hobbit."] a attaqué le ".$libelleMonstreGibier." [m".$cible["id_cible"]."]";
 
 			if ($retourAttaque["jetAttaquant"] * 2 < $retourAttaque["jetCible"]) { // esquive parfaite
 				$details .= " qui a esquivé parfaitement";
