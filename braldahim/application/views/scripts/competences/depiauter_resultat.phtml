@@ -9,6 +9,9 @@
 	<? if ($this->nbViande > 1) :?>
 	<br />
 	Le cadavre &eacute;tait un gibier, vous avez &eacute;galement r&eacute;cup&eacute;r&eacute;  <?=$this->nbViande ?> unit&eacute;<? if ($this->nbViande > 1) : echo "s"; endif; ?> de viande.
+	<? else: ?>
+	<br>
+	Vous n'avez pas r&eacute;cup&eacute;r&eacute; de viande.
 	<? endif;?>
 	
 	<br /><br />
