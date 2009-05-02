@@ -52,7 +52,6 @@ class Bral_Helper_Lune {
 
 	private static function afficheImg($annee, $mois, $jour, $heure, $mine, $seconde) {
 		Zend_Loader :: loadClass("Bral_Util_Lune");
-
 		list($moonPhase, $moonAge, $moonDist, $moonAng, $sunDist, $sunAng, $mpfrac) = Bral_Util_Lune::calculPhase($annee, $mois, $jour, $heure, $mine, $seconde);
 
 		$titre = "La Lune au ";
