@@ -314,12 +314,9 @@ class InscriptionController extends Zend_Controller_Action {
 			'pv_restant_hobbit' => $pv,
 			'est_charte_validee_hobbit' => "oui",
 			'id_fk_region_creation_hobbit' => $this->id_region,
+			'est_quete_hobbit' => "oui",
 		);
 
-		// TODO à supprimer à la fin des dev quetes
-		if ($this->view->config->general->production != 1) {
-			$data['est_quete_hobbit'] = "oui";
-		}
 		return $data;
 	}
 
