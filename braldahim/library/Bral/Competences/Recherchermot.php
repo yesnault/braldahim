@@ -125,7 +125,7 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 		}
 
 		if (!array_key_exists($idMot, $this->view->motsRuniques)) {
-			throw new Zend_Exception(get_class($this)." $idMot interdit A=".$idMot);
+			throw new Zend_Exception(get_class($this)." idMot interdit A=".$idMot);
 		}
 
 		if ($this->view->motCourant["id_mot_runique"] != $idMot) {
