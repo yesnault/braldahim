@@ -150,7 +150,7 @@ class Bral_Util_Quete {
 
 		$dataEtape = null;
 
-		if ($tabPossedeParents["est_orphelin"] == false) {
+		if ($tabPossedeParents["est_orphelin"] == false && $tabPossedeParents["est_pere_actif"] == true && $tabPossedeParents["est_mere_actif"] == true) {
 			$libelleEtape = "Vous devez contacter vos parents à l'aide de la messagerie du jeu, en les mettant tous les deux destinataires du même message.";
 			$dataEtape = self::getDataEtape($idQuete, $hobbit->id_hobbit, self::QUETE_ETAPE_CONTACTER_PARENTS_ID, date("Y-m-d H:i:s"), $libelleEtape, $numero);
 
