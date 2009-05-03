@@ -85,13 +85,13 @@
 						<? if ($this->equipementCourant["nb_runes"] > 1): $s="s"; else:$s=""; endif; ?>Sur <?=$this->equipementCourant["nb_runes"]?> emplacement<?=$s?> au total, il en reste <label id="dispo"><?=$this->equipementCourant["nb_runes"]?></label>.
 						<br />
 						<label id='rune_text'></label>
-						<div id="group2" class="joaillier_runes" style="height:40px">
+						<div id="group2" class="liste_runes" style="height:40px">
 						</div>
 						
 						
 						<h3 class="handle">Vos runes disponibles</h3>
 						
-						<div id="group1" class="joaillier_runes" style="height:130px ;overflow:auto">
+						<div id="group1" class="liste_runes" style="height:130px ;overflow:auto">
 							<? 
 							$i = 0;
 								foreach($this->labanRunes as $k => $v) : ?>

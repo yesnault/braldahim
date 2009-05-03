@@ -1,0 +1,99 @@
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
+ <div class='comp_contenu'>
+  <? if (count($this->motsRuniques) > 0) : ?>
+	 <? if ($this->rechercherMotOk === true) : ?>
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez rechercher un mot runique ...<br /><br />
+	 Ne sont affich&eacute;s que les mots disponibles suivant votre niveau de sagesse.<br><br>
+	 
+	 <select name="valeur_1" id="valeur_1" onChange="_get_('/competences/doaction?caction=ask_competence_recherchermot&id_mot='+this.value);">
+	 	<option value="-1">(Choisissez un mot)</option>
+	 	<? foreach($this->motsRuniques as $k => $v) : ?>
+	 		<option value="<?=$k?>" <?=$v["selected"]?>><?=$v["suffixe_mot_runique"]?></option>
+	 	<? endforeach; ?>
+	 </select>
+	 <? if (isset($this->motCourant) ) : ?>
+	 <br><br>
+		Glissez une rune sur l'emplacement ci-dessous. L'ordre des runes a une importance,
+		vous pouvez les r&eacute;organiser avant de valider la recherche.<br /><br />
+		Tous les emplacements runiques doivent &ecirc;tre utilis&eacute;s.<br />
+			<br />
+			<? $js="sections = ['group1','group2'];
+				function calculNbRuneRecherche(total){ 
+					liste=Sortable.serialize('group2'); 
+					if (liste.length > 0) {
+						tliste=liste.split('&'); 
+						nbPlacees=tliste.length;
+					} else { 
+						nbPlacees=0; 
+					} 
+					$('valeur_2').value=nbPlacees; 
+					nb = total - nbPlacees;
+					$('valeur_3').value=Sortable.sequence($('group2')); 
+					if (nb != 0) { 
+						$('bouton_recherchermot').disabled=true; 
+					} else { 
+						$('bouton_recherchermot').disabled=false; 
+					}
+					text = '';
+					s = '';
+					for (i=0; i<nbPlacees; i++) {
+						text = text + ' ' + $('item_'+tliste[i].substr(9,tliste[i].length-8)).alt;
+						if (i > 0) {
+							s = 's';
+						}
+					}
+					text = 'Rune' + s + ' : ' + text;
+					$('rune_text').innerHTML = text;
+					return nb;
+				};
+				function upd() {
+					$('dispo').innerHTML=calculNbRuneRecherche(".$this->motCourant["nb_runes"].");
+				}
+				Position.includeScrollOffsets = true;
+				
+				Sortable.create('group1',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune', scroll:'group1'});
+				Sortable.create('group2',{tag:'img',dropOnEmpty: true, overlap:'horizontal', containment: sections, only:'rune', onUpdate:upd});" ?>
+			
+			<? if (count($this->labanRunes) > 0) : ?>
+				<input type="button" class='button1' value="Choisir les runes" onClick="<?=$js ?>; $('choix_runes_recherche').style.display='block';this.style.display='none';">
+			
+				<div id="choix_runes_recherche" style="display:none">
+				
+				<br />
+					<? if ($this->motCourant["nb_runes"] > 1): $s="s"; else:$s=""; endif; ?>Sur <?=$this->motCourant["nb_runes"]?> emplacement<?=$s?> au total, il en reste <label id="dispo"><?=$this->motCourant["nb_runes"]?></label>.
+					<br />
+					<label id='rune_text'></label>
+					<div id="group2" class="liste_runes" style="height:40px">
+					</div>
+					
+					<h3 class="handle">Vos runes disponibles</h3>
+					
+					<div id="group1" class="liste_runes" style="height:130px ;overflow:auto">
+						<? 
+						$i = 0;
+							foreach($this->labanRunes as $k => $v) : ?>
+								<img id="item_<?=$k ?>" class="rune" src="/public/images/runes/<?=$v["image_type_rune"]?>" title="<?=$v["nom_type_rune"]?> : <?=$v["effet_type_rune"]?>" alt="<?=$v["nom_type_rune"] ?>" style="cursor:pointer;"/>
+							<? endforeach; ?>
+					</div>
+						
+					<br />
+					<input type="hidden" id="valeur_2" name="valeur_2">
+					<input type="hidden" id="valeur_3" name="valeur_3">
+					
+				</div>
+			<? else: ?>
+				Vous n'avez aucune rune dans votre laban
+			<? endif; ?>
+		<? endif;?>
+	 <? else: ?>
+		Vous n'avez aucune rune pour rechercher...
+	 <? endif; ?>
+ <? else: ?>
+	Vous n'avez pas assez de sagesse pour rechercher un mot.
+ <? endif; ?>
+</div>
+
+<br />
+<?php if ($this->assezDePa == true && $this->rechercherMotOk === true) : ?>
+<input type='button' class='button1' id='bouton_recherchermot' value='Rechercher !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_recherchermot&id_mot="+$("valeur_1").value);' disabled>
+<? endif ?>

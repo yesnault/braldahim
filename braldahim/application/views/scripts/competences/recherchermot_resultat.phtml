@@ -1,0 +1,45 @@
+<? include("commun_text_resultat.phtml") ?>
+
+<? if ($this->okJet1 === true):?>
+
+	Pour <?=$this->coutCastars?> castars et <?=$this->coutPi?> PI, vous avez &eacute;tudi&eacute; 
+	le mot <?=$this->motCourant["suffixe_mot_runique"]?> avec <?=$this->nbRunes ?> 
+	rune<? if ($this->nbRunes > 1) echo "s"; ?> <br><br>
+	 
+	Ordre des runes :
+	<br />
+	<? foreach($this->tabRunes as $k => $v) : ?>
+		<?=$v["nom_type_rune"]?>
+	<? endforeach ?>
+	<br />
+	<? foreach($this->tabRunes as $k => $v) : ?>
+		<img id="item_<?=$k ?>" class="rune" src="/public/images/runes/<?=$v["image_type_rune"]?>" title="<?=$v["nom_type_rune"]?>" alt="<?=$v["nom_type_rune"] ?>"/>
+	<? endforeach ?>
+	<br /><br />
+	
+	<? if ($this->nbPositionOk == 0 && $this->nbOkMalPlace == 0): ?>
+		Vous alignez les runes sur le sol. Vous regardez attentivement .... <br>C'est votre estomac, une heure plus tard, 
+		qui vous rappelle à l'ordre : il ne se passera jamais rien avec n'importe quelle rune posée.
+	<? elseif ($this->nbPositionOk == $this->motCourant["nb_runes"] && $this->nbOkMalPlace == 0) : ?>
+		Vous alignez les runes sur le sol devant vous. <br>&Agrave; peine avez-vous pos&eacute; la dernière rune que vous êtes sur de vous : vous 
+		venez de découvrir le mot runique <?=$this->motCourant["suffixe_mot_runique"]?>.<br> 
+		" Combien de temps cette combinaison fonctionnera t-elle ? "<br>
+	<? else : ?>
+		Vous alignez le runes sur le sol devant vous. <br>Elles réagissent ! Il se passe quelque chose : <br>
+		<? if ($this->nbPositionOk == 1): ?>
+			Vous avez la certitude qu'une des runes est bien positionnée.<br>
+		<? elseif ($this->nbPositionOk > 1): ?>
+			Tout s'éclaire, <?=$this->nbPositionOk?> runes sont bien positionnées.<br>
+		<? endif; ?>
+		<br>
+		<? if ($this->nbOkMalPlace == 1) : ?>
+			L'ordre d'une rune n'est pas satisfaisante. Votre intuition vous indique qu'une rune est utile mais pas à sa place.<br>
+		<? elseif ($this->nbOkMalPlace > 1) :?>
+			L'ordre de plusieurs runes n'est pas correct. <br>
+			Votre intuition vous dit que <?=$this->nbOkMalPlace ?> runes sont utilisées
+			dans le mot mais qu'elles ne sont pas à leur place.<br>
+		<? endif;?>
+	<? endif;?>
+	<br>
+	Notez bien toutes les informations citées ici, elles vous seront utiles pour les prochaines recherches ou chez un joallier.
+<? endif; ?>
