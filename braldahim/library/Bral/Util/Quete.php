@@ -409,7 +409,7 @@ class Bral_Util_Quete {
 
 		Zend_Loader::loadClass("ElementAliment");
 		Zend_Loader::loadClass("CoffreAliment");
-		
+
 		$elementAlimentTable = new ElementAliment();
 		$coffreAlimentTable = new CoffreAliment();
 
@@ -435,7 +435,7 @@ class Bral_Util_Quete {
 			);
 			$coffreAlimentTable->insert($data);
 		}
-		
+
 		$retour = " ".$nbRagouts." ragoûts (dans votre coffre) ".PHP_EOL;
 		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculGainQueteInitiatiqueAliment - exit");
 		return $retour;
@@ -853,7 +853,16 @@ class Bral_Util_Quete {
 	}
 
 	private static function calculEtapeMangerFin($etape, &$hobbit) {
-		self::calculEtapeFinStandardNbObjectif($etape, $hobbit, "param_1_etape");
+		$finEtape = self::calculEtapeFinStandardNbObjectif($etape, $hobbit, "param_1_etape");
+		if ($finEtape) {
+			// on regarde s'il n'a pas deja acheté un metier
+			Zend_Loader::loadClass("HobbitsMetiers");
+			$hobbitsMetiersTable = new HobbitsMetiers();
+			$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($hobbit->id_hobbit);
+			if ($hobbitsMetierRowset != null && count($hobbitsMetierRowset) > 0) {
+				self::etapeApprendreMetier($hobbit);
+			}
+		}
 	}
 
 	public static function etapeFumer(&$hobbit, $idTypeTabac) {
@@ -1435,6 +1444,8 @@ class Bral_Util_Quete {
 				self::termineQuete($hobbit);
 			}
 		}
+		
+		return $estFinEtape;
 	}
 
 	public static function etapeFabriquer(&$hobbit, $idTypeEquipement, $idTypeQualite) {
@@ -1584,10 +1595,10 @@ class Bral_Util_Quete {
 
 		if ($tabPossedeParents["est_orphelin"] == false) {
 			Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeContacterParents - non orphelin - verification destinataires");
-				
+
 			$pereOk = false;
 			$mereOk = false;
-				
+
 			foreach ($idDestinatairesTab as $idHobbit) {
 				if ($tabPossedeParents["est_pere_actif"] == true && $hobbit->id_fk_pere_hobbit == $idHobbit) {
 					$pereOk = true;
@@ -1601,7 +1612,7 @@ class Bral_Util_Quete {
 					$mereOk = true;
 				}
 			}
-				
+
 			if ($pereOk === true && $mereOk === true) {
 				self::calculEtapeFinStandard($etape, $hobbit);
 				return true;
