@@ -24,6 +24,10 @@ function _get_(url, encode) {
 			if ((url.substring(13, 15) == "do") && (url.substring(30, 32) == "do")) {
 				action = "do";
 			}
+		} else if (url.substring(0, 10) == "/charrette") { // /charrette/doaction?caction=ask/do
+			if ((url.substring(11, 13) == "do") && (url.substring(28, 30) == "do")) {
+				action = "do";
+			}
 		} else if (url.substring(0, 9) == "/echoppes") { // /echoppes/doaction?caction=ask/do
 			if ((url.substring(10, 12) == "do") && (url.substring(27, 29) == "do")) {
 				action = "do";

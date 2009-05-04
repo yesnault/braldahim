@@ -31,6 +31,7 @@ Zend_Loader :: loadClass("Bral_Boutique_Factory");
 Zend_Loader :: loadClass("Bral_Batchs_Factory");
 Zend_Loader :: loadClass("Bral_Controller_Action");
 Zend_Loader :: loadClass("Bral_Competences_Factory");
+Zend_Loader :: loadClass("Bral_Charrette_Factory");
 Zend_Loader :: loadClass("Bral_Echoppe_Factory");
 Zend_Loader :: loadClass("Bral_Echoppes_Factory");
 Zend_Loader :: loadClass("Bral_Quete_Factory");

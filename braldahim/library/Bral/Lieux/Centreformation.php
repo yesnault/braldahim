@@ -240,7 +240,6 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 				);
 				$charretteTable->insert($data);
 				$this->view->constructionCharrette = true;
-				$this->reloadInterface = true;
 			}
 			
 			Zend_Loader::loadClass("Bral_Util_Quete");
@@ -255,7 +254,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 
 
 	function getListBoxRefresh() {
-		$tab = array("box_metier", "box_laban", "box_echoppes", "box_charrette", "box_competences_metiers");
+		$tab = array("box_metier", "box_laban", "box_echoppes", "box_charrette", "box_competences_metiers", "box_charrette");
 		return $this->constructListBoxRefresh($tab);
 	}
 
