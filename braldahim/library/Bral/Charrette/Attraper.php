@@ -64,6 +64,11 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 		}
 		
 		$this->calculAttrapperCharrette($this->view->idCharrette);
+		$this->calculBalanceFaim();
+		
+		$id_type = $this->view->config->game->evenements->type->ramasser;
+		$details = "[h".$this->view->user->id_hobbit."] a attrapé une charrette";
+		$this->setDetailsEvenement($details, $id_type);
 	}
 	
 	private function calculAttrapperCharrette($idCharrette) {

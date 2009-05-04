@@ -57,6 +57,11 @@ class Bral_Charrette_Lacher extends Bral_Charrette_Charrette {
 		}
 
 		$this->calculLacherCharrette();
+		$this->calculBalanceFaim();
+		
+		$id_type = $this->view->config->game->evenements->type->deposer;
+		$details = "[h".$this->view->user->id_hobbit."] a lâché sa charrette";
+		$this->setDetailsEvenement($details, $id_type);
 	}
 
 	private function calculLacherCharrette() {

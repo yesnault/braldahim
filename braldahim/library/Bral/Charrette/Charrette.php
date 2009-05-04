@@ -41,7 +41,7 @@ abstract class Bral_Charrette_Charrette {
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
 		}
 	}
-	
+
 	private function prepareCharrette() {
 		$charretteTable = new Charrette();
 		$charretteRowset = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
@@ -74,12 +74,15 @@ abstract class Bral_Charrette_Charrette {
 		$this->view->nb_pa = $this->view->config->game->echoppe->nb_pa_service;
 	}
 
+	protected function setDetailsEvenement($details, $idType) {
+		$this->detailEvenement = $details;
+		$this->idTypeEvenement = $idType;
+	}
+	
 	/*
 	 * Mise à jour des événements du hobbit : type : compétence.
 	 */
 	private function majEvenementsCharrette($detailsBot) {
-		$this->idTypeEvenement = "TODO";
-		$this->detailEvenement = "A renseigner";
 		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_hobbit);
 	}
 
@@ -110,7 +113,14 @@ abstract class Bral_Charrette_Charrette {
 		$tab[] = "box_charrette";
 		return $tab;
 	}
-	
+
+	protected function calculBalanceFaim() {
+		$this->view->balanceFaimUtilisee = true;
+		$this->view->balance_faim = -1;
+		$this->view->user->balance_faim_hobbit = $this->view->user->balance_faim_hobbit + $this->view->balance_faim;
+		Bral_Util_Faim::calculBalanceFaim($this->view->user);
+	}
+
 	private function majHobbit() {
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
