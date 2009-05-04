@@ -208,7 +208,7 @@ class Bral_Util_Quete {
 
 		$lieu = $lieux[0];
 		$dataEtape["libelle_etape"] .= " au centre de formation de ".$lieu["nom_ville"]." en x:".$lieu["x_lieu"]." et y:".$lieu["y_lieu"].".";
-		$dataEtape["libelle_etape"] .= " Vous gagnerez 3 PX à l'accomplissement de cette étape.";
+		$dataEtape["libelle_etape"] .= " Vous gagnerez 5 PX à l'accomplissement de cette étape.";
 
 		$etapeTable = new Etape();
 		$etapeTable->insert($dataEtape);
