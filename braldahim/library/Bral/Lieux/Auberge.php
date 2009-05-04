@@ -99,7 +99,12 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 		}
 
 		if ($this->view->idChoix == 1 || $this->view->idChoix == 3) {
-			$this->view->user->balance_faim_hobbit = $this->view->user->balance_faim_hobbit + 80;
+				
+			Zend_Loader::loadClass("TypeAliment");
+			$typeAlimentTable = new TypeAliment();
+			$aliment = $typeAlimentTable->findById(TypeAliment::ID_TYPE_RAGOUT);
+				
+			$this->view->user->balance_faim_hobbit = $this->view->user->balance_faim_hobbit + $aliment->bbdf_base_type_aliment;
 			if ($this->view->user->balance_faim_hobbit > 100) {
 				$this->view->user->balance_faim_hobbit = 100;
 			}
@@ -158,7 +163,7 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 			$labanAlimentTable->insert($data);
 		}
 	}
-	
+
 	function getListBoxRefresh() {
 		return $this->constructListBoxRefresh(array("box_laban"));
 	}
