@@ -109,6 +109,8 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		$mois = $break[1];
 		$annee = $break[0];
 		$dernierJour = date("Y-m-d", mktime(0, 0, 0, $mois  , $jour+$nbJour, $annee));
+		$dernierJourTexte = date("d/m/Y", mktime(0, 0, 0, $mois, $jour+$nbJour, $annee));
+		$premierJourTexte = date("d/m/Y", mktime(0, 0, 0, $mois, $jour, $annee));
 		
 		$gardiennageTable = new Gardiennage();
 		$data = array (
@@ -121,6 +123,19 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		);
 		$gardiennageTable->insert($data);
 		$this->view->nouveauGardiennage = true;
+		
+		$message = "[Ceci est un message automatique de gardiennage]".PHP_EOL;
+		$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit;
+		$message .= " (".$this->view->user->id_hobbit.") vous confie son hobbit.".PHP_EOL;
+		$message .= " Premier jour de garde : ".$premierJourTexte.PHP_EOL;
+		$message .= " Dernier jour de garde : ".$dernierJourTexte.PHP_EOL;
+		$message .= " Nombre de jours : ".$nbJour.PHP_EOL;
+		$message .= " Commentaire : ".$commentaire.PHP_EOL;
+		
+		Zend_Loader::loadClass("JosUddeim");
+		$data = Bral_Util_Messagerie::prepareMessageAEnvoyer($this->view->user->id_hobbit, $idGardien, $message, $idGardien);
+		$josUddeimTable = new JosUddeim();
+		$josUddeimTable->insert($data);
 	}
 	
 	private function voirGardiennage() {

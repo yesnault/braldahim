@@ -152,4 +152,19 @@ class Bral_Util_Messagerie {
 		
 		return $tabListes;
 	}
+	
+	public static function prepareMessageAEnvoyer($idHobbitSource, $idHobbitDestinataire, $contenu, $idDestinatairesListe) {
+		return array ('fromid' => $idHobbitSource,
+					  'toid' => $idHobbitDestinataire,
+						'toids' => $idDestinatairesListe,
+						'message' => $contenu,
+						'datum' => time(),
+						'toread' => 0,
+						'totrash' => 0,
+						'totrashoutbox' => 0,
+						'disablereply' => 0,
+						'archived' => 0,
+						'cryptmode' => 0,
+					);
+	}
 }

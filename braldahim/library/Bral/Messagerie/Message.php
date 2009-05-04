@@ -220,7 +220,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 			
 			if ($tabHobbits != null && count($idDestinatairesTab) > 0) {
 				foreach ($idDestinatairesTab as $idHobbit) {
-					$data = $this->prepareMessageAEnvoyer($this->view->user->id_hobbit, $idHobbit, $tabMessage["contenu"], $idDestinatairesListe);
+					$data = Bral_Util_Messagerie::prepareMessageAEnvoyer($this->view->user->id_hobbit, $idHobbit, $tabMessage["contenu"], $idDestinatairesListe);
 					if (!in_array($idHobbit, $tabIdDestinatairesDejaEnvoye)) {
 						$josUddeimTable->insert($data);
 						$tabIdDestinatairesDejaEnvoye[] = $idHobbit;
@@ -250,21 +250,6 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 				$this->view->contactsErreur = $contactsErreur;
 			}
 		}
-	}
-	
-	private function prepareMessageAEnvoyer($idHobbitSource, $idHobbitDestinataire, $contenu, $idDestinatairesListe) {
-		return array ('fromid' => $idHobbitSource,
-					  'toid' => $idHobbitDestinataire,
-						'toids' => $idDestinatairesListe,
-						'message' => $contenu,
-						'datum' => time(),
-						'toread' => 0,
-						'totrash' => 0,
-						'totrashoutbox' => 0,
-						'disablereply' => 0,
-						'archived' => 0,
-						'cryptmode' => 0,
-					);
 	}
 	
 	private function prepareMessage() {
