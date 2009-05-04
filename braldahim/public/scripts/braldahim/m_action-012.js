@@ -69,7 +69,15 @@ function _get_(url, encode) {
 				} else {
 					valeurs = valeurs + sep + "valeur_" + i + "=" + elem.value;
 				}
-			} else {
+			} 
+			else if (elem.type == "select-multiple") {
+				for (j = 0; j<=elem.options.length-1; j++){
+					if (elem.options[j].selected){
+						valeurs = valeurs + sep + "valeur_" + i + "[]=" + elem.options[j].value;
+					}
+				}
+			}
+			else {
 				if (encode) {
 					valeurs = valeurs + sep + "valeur_" + i + "=" + encodeURIComponent(elem.value);
 				} else {

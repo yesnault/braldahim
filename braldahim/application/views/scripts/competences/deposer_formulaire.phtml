@@ -1,27 +1,276 @@
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='5'>
- <div class='comp_contenu'>
-	 
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez d&eacute;poser des objets sur la case. <br /><br />
-	 	
-	 <select name="valeur_1" id="valeur_1"  onChange="if ($('bouton_deposer')) {$('bouton_deposer').disabled=true} ;_get_('/competences/doaction?caction=ask_competence_deposer&valeur_1='+this.value);">
-	 	<option value="-1">(Choisis un &eacute;l&eacute;ment)</option>
-	 	<? foreach($this->typeElements as $t) : ?>
-	 		<option value="<?=$t["id_type_element"]?>" <? if ($t["selected"] == $t["id_type_element"]): echo "selected"; endif;?>><?=htmlspecialchars($t["nom_element"])?></option>
-	 	<? endforeach; ?>
-	 </select>
-	 <br /><br />
-	 
-	 <? if ($this->type != null) : ?>
-	 	<? include("deposer/" . $this->type . ".phtml"); ?>
-		<? if ($this->deposerOk === false) : ?>
-		 <br />
-		 Vous n'avez rien &agrave; d&eacute;poser.
+ <?if($this->deposerOk === true) : ?>
+	 <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='<?=$this->nb_valeurs ?>'>
+	 <form name='myForm'>
+	 <div class='comp_contenu'>
+	 	Vous pouvez d&eacute;poser &agrave; terre des &eacute;l&egrave;ments pr&eacute;sents 
+	 	dans votre laban.<br />
+		<br />
+		<?
+		$poches = null;
+		$jsBtn = "
+				v=false;
+				for (i=1;i<=$('nb_valeurs').value;i++){
+					if ($('valeur_'+i).value>0) {
+						v=true;
+					}
+				};
+				if (v==true){
+					$('bouton_deposer').disabled=false;
+				}else{
+					$('bouton_deposer').disabled=true;
+				}
+		";
+		?>
+		<?if ($this->laban["nb_peau"] > 0  || $this->laban["nb_cuir"] > 0 || $this->laban["nb_castar"] ||
+			$this->laban["nb_fourrure"] > 0 || $this->laban["nb_planche"] > 0 || $this->laban["nb_viande"] ||
+			$this->laban["nb_viande_preparee"]) :?>
+			<ul id="navigation" style="width:99%;text-align:left">
+				<li id="deposer_divers">
+					<? $poches[] = "deposer_divers-head" ?>
+					<h3 id="deposer_divers-head" class="head" onClick="maccordion(this);" />
+						Divers
+					</h3>
+					<ul id="deposer_divers-body" style="display:none">
+						<li>
+						<? if ($this->laban["nb_castar"] > 0): ?>
+						Castar : <?=$this->laban["nb_castar"] ?>.
+						Quantit&eacute; &agrave; d&eacute;poser : 
+						<input type='text' maxlength='4' size='4' name='valeur_1' id='valeur_1' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_castar"]?>) { alert('Valeur trop grande'); this.value=0};<?=$jsBtn?>">
+						<input type='hidden' maxlength='4' size='4' name='valeur_1_max' id='valeur_1_max' value='<?=$this->laban["nb_castar"] ?>' >
+						<br />
+						<? else : ?>
+							<input type='hidden' maxlength='4' size='4' name='valeur_1_max' id='valeur_1_max' value='0' >
+							<input type='hidden' maxlength='4' size='4' name='valeur_1' id='valeur_1' value='0' >
+						<? endif; ?>
+						<? if ($this->laban["nb_peau"] > 0): ?>
+							Peau : <?=$this->laban["nb_peau"] ?>.
+							Quantit&eacute; &agrave; d&eacute;poser : 
+							<input type='text' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_peau"]?>) { alert('Valeur trop grande'); this.value=0};<?=$jsBtn?>">
+							<input type='hidden' maxlength='4' size='4' name='valeur_2_max' id='valeur_2_max' value='<?=$this->laban["nb_peau"] ?>' >
+							<br />
+						<? else : ?>
+							<input type='hidden' maxlength='4' size='4' name='valeur_2_max' id='valeur_2_max' value='0' >
+							<input type='hidden' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='0' >
+						<? endif; ?>
+						<? if ($this->laban["nb_cuir"] > 0): ?>
+							Cuir : <?=$this->laban["nb_cuir"] ?>.
+							Quantit&eacute; &agrave; d&eacute;poser : 
+							<input type='text' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_cuir"]?>) { alert('Valeur trop grande'); this.value=0};<?=$jsBtn?>">
+							<input type='hidden' maxlength='4' size='4' name='valeur_3_max' id='valeur_3_max' value='<?=$this->laban["nb_cuir"] ?>' >
+							<br />
+						<? else : ?>
+							<input type='hidden' maxlength='4' size='4' name='valeur_3_max' id='valeur_3_max' value='0' >
+							<input type='hidden' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='0' >
+						<? endif; ?>
+						<? if ($this->laban["nb_fourrure"] > 0): ?>
+							Fourrure : <?=$this->laban["nb_fourrure"] ?>.
+							Quantit&eacute; &agrave; d&eacute;poser : 
+							<input type='text' maxlength='4' size='4' name='valeur_4' id='valeur_4' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_fourrure"]?>) { alert('Valeur trop grande'); this.value=0}; <?=$jsBtn?>">
+							<input type='hidden' maxlength='4' size='4' name='valeur_4_max' id='valeur_4_max' value='<?=$this->laban["nb_fourrure"] ?>' >
+							<br />
+						<? else : ?>
+							<input type='hidden' maxlength='4' size='4' name='valeur_4_max' id='valeur_4_max' value='0' >
+							<input type='hidden' maxlength='4' size='4' name='valeur_4' id='valeur_4' value='0' >
+						<? endif; ?>
+						<? if ($this->laban["nb_viande"] > 0): ?>
+							Viande : <?=$this->laban["nb_viande"] ?>.
+							Quantit&eacute; &agrave; d&eacute;poser : 
+							<input type='text' maxlength='4' size='4' name='valeur_5' id='valeur_5' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_viande"]?>) { alert('Valeur trop grande'); this.value=0}; <?=$jsBtn?>">
+							<input type='hidden' maxlength='4' size='4' name='valeur_5_max' id='valeur_5_max' value='<?=$this->laban["nb_viande"] ?>' >
+							<br />
+						<? else : ?>
+							<input type='hidden' maxlength='4' size='4' name='valeur_5_max' id='valeur_5_max' value='0' >
+							<input type='hidden' maxlength='4' size='4' name='valeur_5' id='valeur_5' value='0' >
+						<? endif; ?>
+						<? if ($this->laban["nb_viande_preparee"] > 0): ?>
+							Viande pr&eacute;par&eacute;e : <?=$this->laban["nb_viande_preparee"] ?>.
+							Quantit&eacute; &agrave; d&eacute;poser : 
+							<input type='text' maxlength='4' size='4' name='valeur_6' id='valeur_6' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_viande_preparee"]?>) { alert('Valeur trop grande'); this.value=0}; <?=$jsBtn?>">
+							<input type='hidden' maxlength='4' size='4' name='valeur_6_max' id='valeur_6_max' value='<?=$this->laban["nb_viande_preparee"] ?>' >
+							<br />
+						<? else : ?>
+							<input type='hidden' maxlength='4' size='4' name='valeur_6_max' id='valeur_6_max' value='0' >
+							<input type='hidden' maxlength='4' size='4' name='valeur_6' id='valeur_6' value='0' >
+						<? endif; ?>
+						<? if ($this->laban["nb_planche"] > 0): ?>
+							Planche : <?=$this->laban["nb_planche"] ?>.
+							Quantit&eacute; &agrave; d&eacute;poser : 
+							<input type='text' maxlength='4' size='4' name='valeur_7' id='valeur_7' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->laban["nb_planche"]?>) { alert('Valeur trop grande'); this.value=0}; <?=$jsBtn?>">
+							<input type='hidden' maxlength='4' size='4' name='valeur_7_max' id='valeur_7_max' value='<?=$this->laban["nb_planche"] ?>' >
+							<br />
+						<? else : ?>
+							<input type='hidden' maxlength='4' size='4' name='valeur_7_max' id='valeur_7_max' value='0' >
+							<input type='hidden' maxlength='4' size='4' name='valeur_7' id='valeur_7' value='0' >
+						<? endif; ?>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		<? else : ?>
+			<? for ($i=1 ; $i<=7; $i++) : ?>
+				<input type='hidden' maxlength='4' size='4' name='valeur_<?=$i?>_max' id='valeur_<?=$i?>_max' value='0' >
+				<input type='hidden' maxlength='4' size='4' name='valeur_<?=$i?>' id='valeur_<?=$i?>' value='0' >
+			<? endfor; ?>
 		<? endif; ?>
-	 <? endif ?>
-	 
-</div>
-
-<br />
-<?php if ($this->assezDePa == true && $this->deposerOk === true) : ?>
-<input type='button' class='button1' id='bouton_deposer' value='D&eacute;poser !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_deposer");' disabled>
-<? endif ?>
+		<? if (count($this->runes) > 0) : ?>
+		<ul id="navigation" style="width:99%;text-align:left">
+			<li id="deposer_runes">
+				<? $poches[] = "deposer_runes-head" ?>
+				<h3 id="deposer_runes-head" class="head" onClick="maccordion(this);" />
+					Runes
+				</h3>
+				<ul id="deposer_runes-body" style="display:none">
+					<li>
+						<?php include("deposer/runes.phtml")?>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		<? else : ?>
+			<input type='hidden' maxlength='4' size='4' name='valeur_8' id='valeur_8' value='0' >
+			<input type='hidden' maxlength='4' size='4' name='valeur_8_max' id='valeur_8_max' value='0' >
+		<?endif; ?>
+		<? if (count($this->potions) > 0) : ?>
+		<ul id="navigation" style="width:99%;text-align:left">
+			<li id="deposer_potions">
+				<? $poches[] = "deposer_potions-head" ?>
+				<h3 id="deposer_potions-head" class="head" onClick="maccordion(this);" />
+					Potions
+				</h3>
+				<ul id="deposer_potions-body" style="display:none">
+					<li>
+						<?php include("deposer/potions.phtml")?>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		<? else : ?>
+			<input type='hidden' maxlength='4' size='4' name='valeur_9' id='valeur_9' value='0' >
+			<input type='hidden' maxlength='4' size='4' name='valeur_9_max' id='valeur_9_max' value='0' >
+		<?endif; ?>
+		<? if (count($this->equipements) > 0) : ?>
+	   	<ul id="navigation" style="width:99%;text-align:left">
+			<li id="deposer_equipements">
+				<? $poches[] = "deposer_equipements-head" ?>
+				<h3 id="deposer_equipements-head" class="head" onClick="maccordion(this);" />
+					Equipements
+				</h3>
+				<ul id="deposer_equipements-body" style="display:none">
+					<li>
+						<?php include("deposer/equipements.phtml")?>
+			  		</li>
+				</ul>
+			</li>
+		</ul>
+		<? else : ?>
+			<input type='hidden' maxlength='4' size='4' name='valeur_10' id='valeur_10' value='0' >
+			<input type='hidden' maxlength='4' size='4' name='valeur_10_max' id='valeur_10_max' value='0' >
+		<?endif; ?>
+		<? if (count($this->aliments) > 0) : ?>
+	   	<ul id="navigation" style="width:99%;text-align:left">
+			<li id="deposer_aliments">
+				<? $poches[] = "deposer_aliments-head" ?>
+				<h3 id="deposer_aliments-head" class="head" onClick="maccordion(this);" />
+					Aliments
+				</h3>
+				<ul id="deposer_aliments-body" style="display:none">
+					<li>
+						<?php include("deposer/aliments.phtml")?>
+			  		</li>
+				</ul>
+			</li>
+		</ul>
+		<? else : ?>
+			<input type='hidden' maxlength='4' size='4' name='valeur_11' id='valeur_11' value='0' >
+			<input type='hidden' maxlength='4' size='4' name='valeur_11_max' id='valeur_11_max' value='0' >
+		<?endif; ?>
+		<? if (count($this->munitions) > 0) : ?>
+	   	<ul id="navigation" style="width:99%;text-align:left">
+			<li id="deposer_munitions">
+				<? $poches[] = "deposer_munitions-head" ?>
+				<h3 id="deposer_munitions-head" class="head" onClick="maccordion(this);" />
+					Munitions
+				</h3>
+				<ul id="deposer_munitions-body" style="display:none">
+					<li>
+						<?php include("deposer/munitions.phtml")?>
+			  		</li>
+				</ul>
+			</li>
+		</ul>
+		<?endif; ?>
+		<? if ($this->nb_partiePlantes > 0 || $this->nb_prepareesPartiePlantes > 0) : ?>
+		<ul id="navigation" style="width:99%;text-align:left">
+			<li id="deposer_plantes">
+				<? $poches[] = "deposer_plantes-head" ?>
+				<h3 id="deposer_plantes-head" class="head" onClick="maccordion(this);" />
+					Plantes brutes / pr&eacute;par&eacute;es
+				</h3>
+				<ul id="deposer_plantes-body" style="display:none">
+					<li>
+						<?php include("deposer/partiesplantes.phtml")?>
+			  		</li>
+			 	</ul>
+			</li>
+		</ul>
+	   	<?endif; ?>
+	   	<? if ($this->nb_minerai_brut > 0 || $this->nb_minerai_lingot > 0) : ?>
+	   	<ul id="navigation" style="width:99%;text-align:left">
+			<li id="deposer_minerais">
+				<? $poches[] = "deposer_minerais-head" ?>
+				<h3 id="deposer_minerais-head" class="head" onClick="maccordion(this);" />
+					Minerais bruts / Lingots
+				</h3>
+				<ul id="deposer_minerais-body" style="display:none">
+					<li>
+						<?php include("deposer/minerais.phtml")?>
+			  		</li>
+				</ul>
+			</li>
+		</ul>
+		<?endif; ?>
+	 </div>
+	
+	</form>
+	<br />
+	
+	<?php 
+	$js = "
+		cacher = true;
+		for (i=1; i<=".$this->nb_valeurs."; i++) {
+			if ( $('valeur_' + i).type == 'select-multiple' ){
+				for (j=0; j<$('valeur_' + i).options.length; j++){
+					if ($('valeur_' + i).options[j].value != -1) {
+						$('valeur_' + i).options[j].selected = true;
+						cacher = false;
+					}
+				}
+			}
+			else {
+				$('valeur_' + i).value = $('valeur_' + i + '_max').value;
+				if (cacher == true && $('valeur_' + i + '_max').value > 0) {
+					cacher = false;
+				}
+			}
+		}
+		$('bouton_deposer').disabled=cacher;
+	";
+	?>
+	
+	<? 
+	$jsFermer = "";
+	$jsOuvrir = "";
+	foreach ($poches as $p) :
+		$jsFermer .= "maccordion_fermer($('$p'));";
+		$jsOuvrir .= "maccordion_ouvrir($('$p'));";
+	endforeach; 
+	?>
+	   
+	<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onClick="<?=$js?>"> 
+	<input type='button' class='button1' id="fermer_poche" name="fermer_poche" value='Fermer Tout' onClick="<?=$jsFermer ?>">
+	<input type='button' class='button1' id="ouvrir_poche" name="ouvrir_poche"  value='Ouvrir Tout' onClick="<?=$jsOuvrir ?>">
+	<br>
+	<input type='button' class='button1' id='bouton_deposer' value='D&eacute;poser des &eacute;l&eacute;ments !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_deposer");' disabled>
+<?else : ?>
+	Vous n'avez rien à d&eacute;poser ! <br/>
+<?endif; ?>

@@ -1,13 +1,6 @@
-<? if ($this->deposerOk === true) : ?>
-	Choississez un aliment &agrave; d&eacute;poser.<br />
-	<select name="valeur_2" id="valeur_2" onChange="if (this.value > 0) {$('bouton_deposer').disabled=false} else {$('bouton_deposer').disabled=true} ">
-	 	<option value="-1">(Choisissez un aliment)</option>
-	 	<? foreach($this->aliments as $a) :?>
-	 		<option value="<?=$a["id_aliment"]?>"><?=$a["nom"] ?> de qualit&eacute; <?=$a["qualite"] ?> (n&deg;<?=$a["id_aliment"] ?>), +<?=$a["bbdf"]?> %</option>
-	 	<? endforeach; ?>
-	</select>
-<? endif; ?>
-
-	<input type='hidden' name='valeur_3' id='valeur_3' value='0' />
-	<input type='hidden' name='valeur_4' id='valeur_4' value='0' />
-	<input type='hidden' name='valeur_5' id='valeur_5' value='0' />
+Choississez un aliment (ou plusieurs en cliquant sur ctrl) &agrave; d&eacute;poser.<br />
+<select multiple size="5" name="valeur_11" id="valeur_11" onChange="<?=$jsBtn?>">
+	 <? foreach($this->aliments as $a) :?>
+	 	<option value="<?=$a["id_aliment"]?>"><?=$a["nom"] ?> de qualit&eacute; <?=$a["qualite"] ?> (n&deg;<?=$a["id_aliment"] ?>), +<?=$a["bbdf"]?> %</option>
+	 <? endforeach; ?>
+</select>
