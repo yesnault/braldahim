@@ -3,6 +3,8 @@
  et 
 <? if ($this->nb_minerai_lingot == 1):$s=''; else:$s='s';endif; ?>
 <?=$this->nb_minerai_lingot?> lingot<?=$s?>. <br /> 
+
+<? if (count($this->minerais) > 0): ?>
 <table width='100%'>
 	<? $i = 0;
 	$enter = false;
@@ -28,3 +30,4 @@
 	endif;
 		 ?>
 </table> 
+<? endif;?>

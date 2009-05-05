@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -14,8 +14,8 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 
 	function prepareCommun() {
 		$this->view->deposerOk = false;
-		$this->listBoxRefresh = $this->constructListBoxRefresh(array("box_laban")); 
-		
+		$this->listBoxRefresh = $this->constructListBoxRefresh(array("box_laban"));
+
 		if ($this->request->get("valeur_1") != "") {
 			$id_type_courant = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_1"));
 			if ($id_type_courant < 1 && $id_type_courant > 7) {
@@ -24,7 +24,7 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		} else {
 			$id_type_courant = -1;
 		}
-		
+
 		$typesCoffre[1] = array("id_type_coffre" => 1, "selected" => $id_type_courant, "nom_systeme" => "castars", "nom_coffre" => "Castars");
 		$typesCoffre[2] = array("id_type_coffre" => 2, "selected" => $id_type_courant, "nom_systeme" => "equipements", "nom_coffre" => "Equipements");
 		$typesCoffre[3] = array("id_type_coffre" => 3, "selected" => $id_type_courant, "nom_systeme" => "minerais", "nom_coffre" => "Minerais");
@@ -33,10 +33,10 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		$typesCoffre[6] = array("id_type_coffre" => 6, "selected" => $id_type_courant, "nom_systeme" => "runes", "nom_coffre" => "Runes");
 		$typesCoffre[7] = array("id_type_coffre" => 7, "selected" => $id_type_courant, "nom_systeme" => "autres", "nom_coffre" => "Autres Elements");
 		$typesCoffre[8] = array("id_type_coffre" => 8, "selected" => $id_type_courant, "nom_systeme" => "aliments", "nom_coffre" => "Aliments");
-		
+
 		$this->view->typesCoffre = $typesCoffre;
 		$this->view->type = null;
-		
+
 		if ($id_type_courant != -1) {
 			$this->view->type = $typesCoffre[$id_type_courant]["nom_systeme"];
 			$this->prepareDeposer();
@@ -73,7 +73,7 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 				throw new Zend_Exception("Bral_Competences_Deposer prepareType invalide : type=".$this->view->type);
 		}
 	}
-	
+
 	private function calculDeposer() {
 		switch($this->view->type) {
 			case "castars" :
@@ -104,7 +104,7 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 				throw new Zend_Exception("Bral_Competences_Deposer prepareType invalide : type=".$this->view->type);
 		}
 	}
-	
+
 	function prepareFormulaire() {
 		if ($this->view->utilisationPaPossible == false) {
 			return;
@@ -121,45 +121,45 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		if ($this->view->deposerOk == false) {
 			throw new Zend_Exception(get_class($this)." Deposer interdit ");
 		}
-		
+
 		$this->calculDeposer();
-		
+
 		Zend_Loader::loadClass("Bral_Util_Quete");
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapePosseder($this->view->user);
-		
+
 		$this->listBoxRefresh = $this->constructListBoxRefresh(array("box_laban", "box_banque", "box_coffre"));
-		
+
 		$this->majHobbit();
 	}
-	
+
 	function getListBoxRefresh() {
 		return $this->listBoxRefresh;
 	}
-	
+
 	private function prepareTypeCastars() {
 		$this->view->castars = $this->view->user->castars_hobbit;
-		
+
 		if ($this->view->castars > 0) {
 			$this->view->deposerOk = true;
 		} else {
 			$this->view->deposerOk = false;
 		}
 	}
-	
+
 	private function deposeTypeCastars() {
 		Zend_Loader::loadClass("Coffre");
 		$nbCastars = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
-		
+
 		if ($nbCastars > $this->view->user->castars_hobbit) {
 			$nbCastars = $this->view->user->castars_hobbit;
 		}
-		
+
 		if ($nbCastars < 0) {
 			throw new Zend_Exception(get_class($this)." NB Castars invalide : ".$nbCastars);
-		} 
-		
+		}
+
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $nbCastars;
-		
+
 		$coffreTable = new Coffre();
 		$data = array(
 			"quantite_castar_coffre" => $nbCastars,
@@ -168,14 +168,14 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		$coffreTable->insertOrUpdate($data);
 		unset($coffreTable);
 	}
-	
+
 	private function prepareTypeEquipements() {
 		Zend_Loader::loadClass("LabanEquipement");
 		$tabEquipements = null;
 		$labanEquipementTable = new LabanEquipement();
 		$equipements = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($labanEquipementTable);
-		
+
 		Zend_Loader::loadClass("Bral_Util_Equipement");
 		if (count($equipements) > 0) {
 			$this->view->deposerOk = true;
@@ -198,23 +198,23 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		}
 		$this->view->equipements = $tabEquipements;
 	}
-	
+
 	private function deposeTypeEquipements() {
 		Zend_Loader::loadClass("CoffreEquipement");
 		$idEquipement = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 		$this->prepareTypeEquipements();
-		
+
 		if (!array_key_exists($idEquipement, $this->view->equipements)) {
 			throw new Zend_Exception(get_class($this)." ID Equipement invalide : ".$idEquipement);
-		} 
-		
+		}
+
 		$equipement = $this->view->equipements[$idEquipement];
-		
+
 		$labanEquipementTable = new LabanEquipement();
 		$where = "id_laban_equipement=".$idEquipement;
 		$labanEquipementTable->delete($where);
 		unset($labanEquipementTable);
-		
+
 		$coffreEquipementTable = new CoffreEquipement();
 		$data = array (
 			"id_coffre_equipement" => $equipement["id_equipement"],
@@ -227,14 +227,14 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		$coffreEquipementTable->insert($data);
 		unset($coffreEquipementTable);
 	}
-	
+
 	private function prepareTypeRunes() {
 		Zend_Loader::loadClass("LabanRune");
 		$tabRunes = null;
 		$labanRuneTable = new LabanRune();
 		$runes = $labanRuneTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($labanRuneTable);
-		
+
 		if (count($runes) > 0) {
 			$this->view->deposerOk = true;
 			foreach ($runes as $r) {
@@ -252,23 +252,23 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		}
 		$this->view->runes = $tabRunes;
 	}
-	
+
 	private function deposeTypeRunes() {
 		Zend_Loader::loadClass("CoffreRune");
 		$idRune = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 		$this->prepareTypeRunes();
-		
+
 		if (!array_key_exists($idRune, $this->view->runes)) {
 			throw new Zend_Exception(get_class($this)." ID Rune invalide : ".$idRune);
-		} 
-		
+		}
+
 		$rune = $this->view->runes[$idRune];
-		
+
 		$labanRuneTable = new LabanRune();
 		$where = "id_rune_laban_rune=".$idRune;
 		$labanRuneTable->delete($where);
 		unset($labanRuneTable);
-		
+
 		$coffreRuneTable = new CoffreRune();
 		$data = array (
 			"id_rune_coffre_rune" => $rune["id_rune"],
@@ -279,14 +279,14 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		$coffreRuneTable->insert($data);
 		unset($coffreRuneTable);
 	}
-	
+
 	private function prepareTypePotions() {
 		Zend_Loader::loadClass("LabanPotion");
 		$tabPotions = null;
 		$labanPotionTable = new LabanPotion();
 		$potions = $labanPotionTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($labanPotionTable);
-		
+
 		if (count($potions) > 0) {
 			$this->view->deposerOk = true;
 			foreach ($potions as $p) {
@@ -306,14 +306,14 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		}
 		$this->view->potions = $tabPotions;
 	}
-	
+
 	private function prepareTypeAliments() {
 		Zend_Loader::loadClass("LabanAliment");
 		$tabAliments = null;
 		$labanAlimentTable = new LabanAliment();
 		$aliments = $labanAlimentTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($labanAlimentTable);
-		
+
 		if (count($aliments) > 0) {
 			$this->view->deposerOk = true;
 			foreach ($aliments as $p) {
@@ -331,23 +331,23 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		}
 		$this->view->aliments = $tabAliments;
 	}
-	
+
 	private function deposeTypePotions() {
 		Zend_Loader::loadClass("CoffrePotion");
 		$idPotion = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 		$this->prepareTypePotions();
-		
+
 		if (!array_key_exists($idPotion, $this->view->potions)) {
 			throw new Zend_Exception(get_class($this)." ID Potion invalide : ".$idPotion);
-		} 
-		
+		}
+
 		$potion = $this->view->potions[$idPotion];
-		
+
 		$labanPotionTable = new LabanPotion();
 		$where = "id_laban_potion=".$idPotion;
 		$labanPotionTable->delete($where);
 		unset($labanPotionTable);
-		
+
 		$coffrePotionTable = new CoffrePotion();
 		$data = array (
 			"id_coffre_potion" => $potion["id_potion"],
@@ -359,23 +359,23 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		$coffrePotionTable->insert($data);
 		unset($coffrePotionTable);
 	}
-	
+
 	private function deposeTypeAliments() {
 		Zend_Loader::loadClass("CoffreAliment");
 		$idAliment = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 		$this->prepareTypeAliments();
-		
+
 		if (!array_key_exists($idAliment, $this->view->aliments)) {
 			throw new Zend_Exception(get_class($this)." ID Aliment invalide : ".$idAliment);
-		} 
-		
+		}
+
 		$aliment = $this->view->aliments[$idAliment];
-		
+
 		$labanAlimentTable = new LabanAliment();
 		$where = "id_laban_aliment=".$idAliment;
 		$labanAlimentTable->delete($where);
 		unset($labanAlimentTable);
-		
+
 		$coffreAlimentTable = new CoffreAliment();
 		$data = array (
 			"id_coffre_aliment" => $aliment["id_aliment"],
@@ -387,16 +387,19 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		$coffreAlimentTable->insert($data);
 		unset($coffreAlimentTable);
 	}
-	
+
 	private function prepareTypeMinerais() {
 		Zend_Loader::loadClass("LabanMinerai");
 		$tabMineraisBruts = null;
 		$tabLingots = null;
-		
+
 		$labanMineraiTable = new LabanMinerai();
 		$minerais = $labanMineraiTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($labanMineraiTable);
-		
+
+		$this->view->nb_minerai_brut = 0;
+		$this->view->nb_minerai_lingot = 0;
+
 		if (count($minerais) > 0) {
 			$this->view->deposerOk = true;
 
@@ -408,7 +411,7 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 						"quantite" => $m["quantite_brut_laban_minerai"],
 					);
 				}
-				
+
 				if ($m["quantite_lingots_laban_minerai"] > 0) {
 					$tabLingots[$m["id_fk_type_laban_minerai"]] = array(
 						"id_type_minerai" => $m["id_fk_type_laban_minerai"],
@@ -416,6 +419,9 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 						"quantite" => $m["quantite_lingots_laban_minerai"],
 					);
 				}
+
+				$this->view->nb_minerai_brut = $this->view->nb_minerai_brut + $m["quantite_brut_laban_minerai"];
+				$this->view->nb_minerai_lingot = $this->view->nb_minerai_lingot + $m["quantite_lingots_laban_minerai"];
 			}
 		} else {
 			$this->view->deposerOk = false;
@@ -423,41 +429,41 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		$this->view->mineraisBruts = $tabMineraisBruts;
 		$this->view->lingots = $tabLingots;
 	}
-	
+
 	private function deposeTypeMinerais() {
 		Zend_Loader::loadClass("CoffreMinerai");
 		$this->prepareTypeMinerais();
-		
+
 		$idMineraiBrut = null;
 		$nbMineraiBrut = null;
-		
+
 		$idLingot = null;
 		$nbLingot = null;
-		
+
 		$labanMineraiTable = new LabanMinerai();
 		$coffreMineraiTable = new CoffreMinerai();
-		
+
 		if ($this->request->get("valeur_2") > 0 && $this->request->get("valeur_3") > 0) {
 			$idMineraiBrut = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 			$nbMineraiBrut = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
-			
+				
 			if (!array_key_exists($idMineraiBrut, $this->view->mineraisBruts)) {
 				throw new Zend_Exception(get_class($this)." ID Minerai Brut invalide : ".$idMineraiBrut);
-			} 
-			
+			}
+				
 			$minerai = $this->view->mineraisBruts[$idMineraiBrut];
 
 			if ($nbMineraiBrut > $minerai["quantite"] || $nbMineraiBrut < 0) {
 				throw new Zend_Exception(get_class($this)." Quantite Minerai Brut invalide : ".$nbMineraiBrut);
 			}
-			
+				
 			$data = array(
 				"quantite_brut_laban_minerai" => -$nbMineraiBrut,
 				"id_fk_type_laban_minerai" => $minerai["id_type_minerai"],
 				"id_fk_hobbit_laban_minerai" => $this->view->user->id_hobbit,
 			);
 			$labanMineraiTable->insertOrUpdate($data);
-			
+				
 			$data = array (
 				"id_fk_hobbit_coffre_minerai" => $this->view->user->id_hobbit,
 				"id_fk_type_coffre_minerai" => $minerai["id_type_minerai"],
@@ -465,28 +471,28 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 			);
 			$coffreMineraiTable->insertOrUpdate($data);
 		}
-		
+
 		if ($this->request->get("valeur_4") > 0 && $this->request->get("valeur_5") > 0) {
 			$idLingot = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_4"));
 			$nbLingot = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_5"));
-			
+				
 			if (!array_key_exists($idLingot, $this->view->lingots)) {
 				throw new Zend_Exception(get_class($this)." ID Lingot invalide : ".$idLingot);
-			} 
-			
+			}
+				
 			$lingot = $this->view->lingots[$idLingot];
-			
+				
 			if ($nbLingot > $lingot["quantite"] || $nbLingot < 0) {
 				throw new Zend_Exception(get_class($this)." Quantite lingot invalide : ".$nbLingot);
 			}
-			
+				
 			$data = array(
 				"quantite_lingots_laban_minerai" => -$nbLingot,
 				"id_fk_type_laban_minerai" => $lingot["id_type_minerai"],
 				"id_fk_hobbit_laban_minerai" => $this->view->user->id_hobbit,
 			);
 			$labanMineraiTable->insertOrUpdate($data);
-			
+				
 			$data = array (
 				"id_fk_hobbit_coffre_minerai" => $this->view->user->id_hobbit,
 				"id_fk_type_coffre_minerai" => $lingot["id_type_minerai"],
@@ -497,17 +503,17 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		unset($coffreMineraiTable);
 		unset($labanMineraiTable);
 	}
-	
+
 	private function prepareTypePartiesPlantes() {
 		Zend_Loader::loadClass("LabanPartieplante");
 		$tabPartiePlantesBrutes = null;
 		$tabPartiePlantesPreparees = null;
 		$tabLingots = null;
-		
+
 		$labanPartiePlanteTable = new LabanPartieplante();
 		$partiesPlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($labanPartiePlanteTable);
-		
+
 		if (count($partiesPlantes) > 0) {
 			$this->view->deposerOk = true;
 
@@ -521,7 +527,7 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 						"quantite" => $m["quantite_laban_partieplante"],
 					);
 				}
-				
+
 				if ($m["quantite_preparee_laban_partieplante"] > 0) {
 					$tabPartiePlantesPreparees[$m["id_fk_type_laban_partieplante"]."-".$m["id_fk_type_plante_laban_partieplante"]] = array(
 						"id_type_partieplante" => $m["id_fk_type_laban_partieplante"],
@@ -538,34 +544,34 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		$this->view->partiePlantesBrutes = $tabPartiePlantesBrutes;
 		$this->view->partiePlantesPreparees = $tabPartiePlantesPreparees;
 	}
-	
+
 	private function deposeTypePartiesPlantes() {
 		Zend_Loader::loadClass("CoffrePartieplante");
 		$this->prepareTypePartiesPlantes();
-		
+
 		$idPartiePlanteBrute = null;
 		$nbPartiePlanteBrute = null;
-		
+
 		$idPartiePlantePreparee = null;
 		$nbPartiePlantePreparee = null;
-		
+
 		$labanPartiePlanteTable = new LabanPartieplante();
 		$coffrePartiePlanteTable = new CoffrePartieplante();
-		
+
 		if ($this->request->get("valeur_2") > 0 && $this->request->get("valeur_3") > 0) {
 			$idPartiePlanteBrute = $this->request->get("valeur_2");
 			$nbPartiePlanteBrute = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
-			
+				
 			if (!array_key_exists($idPartiePlanteBrute, $this->view->partiePlantesBrutes)) {
 				throw new Zend_Exception(get_class($this)." ID PartiePlante Brute invalide : ".$idPartiePlanteBrute);
-			} 
-			
+			}
+				
 			$partiePlanteBrute = $this->view->partiePlantesBrutes[$idPartiePlanteBrute];
 
 			if ($nbPartiePlanteBrute > $partiePlanteBrute["quantite"] || $nbPartiePlanteBrute < 0) {
 				throw new Zend_Exception(get_class($this)." Quantite PartiePlante Brute invalide : ".$nbPartiePlanteBrute);
 			}
-			
+				
 			$data = array(
 				"quantite_laban_partieplante" => -$nbPartiePlanteBrute,
 				"id_fk_type_laban_partieplante" => $partiePlanteBrute["id_type_partieplante"],
@@ -573,7 +579,7 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 				"id_fk_hobbit_laban_partieplante" => $this->view->user->id_hobbit,
 			);
 			$labanPartiePlanteTable->insertOrUpdate($data);
-			
+				
 			$data = array (
 				"id_fk_hobbit_coffre_partieplante" => $this->view->user->id_hobbit,
 				"id_fk_type_coffre_partieplante" => $partiePlanteBrute["id_type_partieplante"],
@@ -582,28 +588,28 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 			);
 			$coffrePartiePlanteTable->insertOrUpdate($data);
 		}
-		
+
 		if ($this->request->get("valeur_4") > 0 && $this->request->get("valeur_5") > 0) {
 			$idPartiePlantePreparee = $this->request->get("valeur_4");
 			$nbPartiePlantePreparee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_5"));
-			
+				
 			if (!array_key_exists($idPartiePlantePreparee, $this->view->partiePlantesPreparees)) {
 				throw new Zend_Exception(get_class($this)." ID PartiePlantePreparee invalide : ".$idPartiePlantePreparee);
-			} 
-			
+			}
+				
 			$partiePlantePreparee = $this->view->partiePlantesPreparees[$idPartiePlantePreparee];
-			
+				
 			if ($nbPartiePlantePreparee > $partiePlantePreparee["quantite"] || $nbPartiePlantePreparee < 0) {
 				throw new Zend_Exception(get_class($this)." Quantite Plante Preparee invalide : ".$nbPartiePlantePreparee);
 			}
-			
+				
 			$data = array(
 				"quantite_preparee_laban_partieplante" => -$nbPartiePlantePreparee,
 				"id_fk_type_laban_partieplante" => $partiePlantePreparee["id_type_partieplante"],
 				"id_fk_type_plante_laban_partieplante" => $partiePlantePreparee["id_type_plante"],
 				"id_fk_hobbit_laban_partieplante" => $this->view->user->id_hobbit,
 			);
-			
+				
 			$data = array (
 				"id_fk_hobbit_coffre_partieplante" => $this->view->user->id_hobbit,
 				"id_fk_type_coffre_partieplante" => $partiePlantePreparee["id_type_partieplante"],
@@ -615,14 +621,14 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		unset($coffrePartiePlanteTable);
 		unset($labanPartiePlanteTable);
 	}
-	
+
 	private function prepareTypeAutres() {
 		Zend_Loader::loadClass("Laban");
 		$tabAutres = null;
 		$labanTable = new Laban();
 		$laban = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($labanTable);
-		
+
 		if (count($laban) == 1) {
 			foreach ($laban as $p) {
 				if ($p["quantite_peau_laban"] > 0) $tabAutres[1] = array("nom" => "Peau", "nom_systeme" => "quantite_peau" , "nb" => $p["quantite_peau_laban"]);
@@ -632,7 +638,7 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 				if ($p["quantite_cuir_laban"] > 0) $tabAutres[5] = array("nom" => "Cuir", "nom_systeme" => "quantite_cuir" , "nb" => $p["quantite_cuir_laban"]);
 				if ($p["quantite_fourrure_laban"] > 0) $tabAutres[6] = array("nom" => "Fourrure", "nom_systeme" => "quantite_fourrure" , "nb" => $p["quantite_fourrure_laban"]);
 				if ($p["quantite_planche_laban"] > 0) $tabAutres[7] = array("nom" => "Planche", "nom_systeme" => "quantite_planche" , "nb" => $p["quantite_planche_laban"]);
-				
+
 				if (count($tabAutres) > 0) {
 					$this->view->deposerOk = true;
 				}
@@ -642,39 +648,39 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		}
 		$this->view->autres = $tabAutres;
 	}
-	
+
 	private function deposeTypeAutres() {
 		Zend_Loader::loadClass("Coffre");
 		$this->prepareTypeAutres();
-		
+
 		$idAutre = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 		$nb = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
-		
+
 		if (!array_key_exists($idAutre, $this->view->autres)) {
 			throw new Zend_Exception(get_class($this)." ID Autres invalide : ".$idAutre);
-		} 
-		
+		}
+
 		$autre = $this->view->autres[$idAutre];
 
 		if ($nb > $autre["nb"]) {
 			$nb = $autre["nb"];
 		}
-		
+
 		if ($nb < 0) {
 			throw new Zend_Exception(get_class($this)." Quantite invalide : ".$nb);
 		}
-		
+
 		$labanTable = new Laban();
 		$data = array(
-			$autre["nom_systeme"]."_laban" => -$nb,
+		$autre["nom_systeme"]."_laban" => -$nb,
 			"id_fk_hobbit_laban" => $this->view->user->id_hobbit,
 		);
 		$labanTable->insertOrUpdate($data);
 		unset($labanTable);
-		
+
 		$coffreTable = new Coffre();
 		$data = array(
-			$autre["nom_systeme"]."_coffre" => $nb,
+		$autre["nom_systeme"]."_coffre" => $nb,
 			"id_fk_hobbit_coffre" => $this->view->user->id_hobbit,
 		);
 		$coffreTable->insertOrUpdate($data);
