@@ -228,14 +228,17 @@ class Bral_Util_Attaque {
 				$details = "[h".$hobbitAttaquant->id_hobbit."]";
 				$idMatchSoule = null;
 				if ($retourAttaque["mort"] == true) {
-					$id_type = $config->game->evenements->type->ko;
+					$idTypeEvenement = $config->game->evenements->type->kohobbit;
+					$idTypeEvenementCible = $config->game->evenements->type->ko;
 					$details .=" a mis KO ";
 				} else {
-					$id_type = $config->game->evenements->type->attaquer;
+					$idTypeEvenement = $config->game->evenements->type->attaquer;
+					$idTypeEvenementCible = $idTypeEvenement;
 					$details .=" a attaqué ";
 				}
 			} else { // soule
-				$id_type = $config->game->evenements->type->soule;
+				$idTypeEvenement = $config->game->evenements->type->soule;
+				$idTypeEvenementCible = $idTypeEvenement;
 				$details = "[h".$hobbitAttaquant->id_hobbit."]";
 				$idMatchSoule = $hobbitAttaquant->id_fk_soule_match_hobbit;
 				if ($retourAttaque["mort"] == true) {
@@ -253,15 +256,15 @@ class Bral_Util_Attaque {
 
 			$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, "hobbit", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"] , $retourAttaque["jetDegat"], $retourAttaque["ballonLache"], $retourAttaque["critique"], $retourAttaque["mort"], $idMatchSoule);
 			if ($effetMotSPossible == false) {
-				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit); // uniquement en cas de riposte
+				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit); // uniquement en cas de riposte
 			}
 
 			if ($retourAttaque["mort"] == false) {
-				Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot, $cible["niveau_cible"], "hobbit", true, $view);
-				//				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);  // fait dans competence.php avec le détail du résulat
+				Bral_Util_Evenement::majEvenements($cible["id_cible"], $idTypeEvenementCible, $details, $detailsBot, $cible["niveau_cible"], "hobbit", true, $view);
+				//				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot);  // fait dans competence.php avec le détail du résulat
 			} else {
-				Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot, $cible["niveau_cible"], "hobbit", true, $view);
-				//				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);
+				Bral_Util_Evenement::majEvenements($cible["id_cible"], $idTypeEvenementCible, $details, $detailsBot, $cible["niveau_cible"], "hobbit", true, $view);
+				//				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot);
 			}
 
 			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Mise a jour du hobbit ".$hobbitCible->id_hobbit." pv_restant_hobbit=".$hobbitCible->pv_restant_hobbit);
@@ -276,27 +279,27 @@ class Bral_Util_Attaque {
 			$retourAttaque["fragilisee"] = true;
 
 			if ($hobbitAttaquant->est_soule_hobbit == "non") {
-				$id_type = $config->game->evenements->type->attaquer;
+				$idTypeEvenement = $config->game->evenements->type->attaquer;
 				$idMatchSoule = null;
 			} else { // soule
-				$id_type = $config->game->evenements->type->soule;
+				$idTypeEvenement = $config->game->evenements->type->soule;
 				$idMatchSoule = $hobbitAttaquant->id_fk_soule_match_hobbit;
 			}
 			$details = "[h".$hobbitAttaquant->id_hobbit."] a attaqué le hobbit [h".$cible["id_cible"]."]";
 			$details .= " qui a esquivé l'attaque";
 			$detailsBot = self::getDetailsBot($hobbitAttaquant, $cible, "hobbit", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
 			if ($effetMotSPossible == false) {
-				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit); // uniquement en cas de riposte
+				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit); // uniquement en cas de riposte
 			}
-			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot, $cible["niveau_cible"], "hobbit", true, $view);
-			//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
+			Bral_Util_Evenement::majEvenements($cible["id_cible"], $idTypeEvenement, $details, $detailsBot, $cible["niveau_cible"], "hobbit", true, $view);
+			//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
 
 		} else { // esquive parfaite
 			if ($hobbitAttaquant->est_soule_hobbit == "non") {
-				$id_type = $config->game->evenements->type->attaquer;
+				$idTypeEvenement = $config->game->evenements->type->attaquer;
 				$idMatchSoule = null;
 			} else {
-				$id_type = $config->game->evenements->type->soule;
+				$idTypeEvenement = $config->game->evenements->type->soule;
 				$idMatchSoule = $hobbitAttaquant->id_fk_soule_match_hobbit;
 			}
 			$details = "[h".$hobbitAttaquant->id_hobbit."] a attaqué le hobbit [h".$cible["id_cible"]."]";
@@ -304,10 +307,10 @@ class Bral_Util_Attaque {
 			$details .= " qui a esquivé parfaitement l'attaque";
 			if ($effetMotSPossible == false) {
 				$detailsBot .= " Riposte de ".$hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.")".PHP_EOL;
-				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit); // uniquement en cas de riposte
+				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit); // uniquement en cas de riposte
 			}
-			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, $detailsBot, $cible["niveau_cible"], "hobbit", true, $view);
-			//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
+			Bral_Util_Evenement::majEvenements($cible["id_cible"], $idTypeEvenement, $details, $detailsBot, $cible["niveau_cible"], "hobbit", true, $view);
+			//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
 		}
 
 		if ($effetMotSPossible == true && $retourAttaque["mort"] == false) {
@@ -328,7 +331,7 @@ Consultez vos événements pour plus de détails.";
 
 			if ($degatCase) {
 				$details .= " (compétence spéciale utilisée) ";
-				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit, "hobbit", true, $view, $idMatchSoule);
+				Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit, "hobbit", true, $view, $idMatchSoule);
 			}
 		}
 
@@ -339,7 +342,7 @@ Consultez vos événements pour plus de détails.";
 		self::calculStatutEngage(&$hobbitCible, true);
 
 		$retourAttaque["details"] = $details;
-		$retourAttaque["typeEvemenent"] = $id_type;
+		$retourAttaque["typeEvemenent"] = $idTypeEvenement;
 		$retourAttaque["idMatchSoule"] = $idMatchSoule;
 
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueHobbit - exit -");
@@ -546,12 +549,12 @@ Consultez vos événements pour plus de détails.";
 		}
 			
 		if ($retourAttaque["mort"] === true) {
-			$id_type = $config->game->evenements->type->killmonstre;
+			$idTypeEvenement = $config->game->evenements->type->killmonstre;
 			$details = "[h".$hobbitAttaquant->id_hobbit."] a tué le ".$libelleMonstreGibier." [m".$cible["id_cible"]."]";
-			//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
+			//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
 			Bral_Util_Evenement::majEvenements($cible["id_cible"], $config->game->evenements->type->killmonstre, $details, "", $cible["niveau_cible"], "monstre");
 		} else {
-			$id_type = $config->game->evenements->type->attaquer;
+			$idTypeEvenement = $config->game->evenements->type->attaquer;
 			$details = " [h".$hobbitAttaquant->id_hobbit."] a attaqué le ".$libelleMonstreGibier." [m".$cible["id_cible"]."]";
 
 			if ($retourAttaque["jetAttaquant"] * 2 < $retourAttaque["jetCible"]) { // esquive parfaite
@@ -562,8 +565,8 @@ Consultez vos événements pour plus de détails.";
 				$details .= "";
 			}
 
-			//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot);
-			Bral_Util_Evenement::majEvenements($cible["id_cible"], $id_type, $details, "", $cible["niveau_cible"], "monstre");
+			//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot);
+			Bral_Util_Evenement::majEvenements($cible["id_cible"], $idTypeEvenement, $details, "", $cible["niveau_cible"], "monstre");
 		}
 
 		if ($degatCase || $riposte) {
@@ -571,7 +574,7 @@ Consultez vos événements pour plus de détails.";
 			if ($riposte) {
 				$detailsBot .= " Riposte de ".$hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.")".PHP_EOL;
 			}
-			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $id_type, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit);
+			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit);
 		}
 
 		if ($tir==false) {
@@ -580,7 +583,7 @@ Consultez vos événements pour plus de détails.";
 		}
 
 		$retourAttaque["details"] = $details;
-		$retourAttaque["typeEvemenent"] = $id_type;
+		$retourAttaque["typeEvemenent"] = $idTypeEvenement;
 
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - exit -");
 		return $retourAttaque;
@@ -753,14 +756,14 @@ Consultez vos événements pour plus de détails.";
 				$where = "id_hobbit = ".$h["id_hobbit"];
 				$hobbitTable->update($data, $where);
 					
-				$id_type = $config->game->evenements->type->effet;
+				$idTypeEvenement = $config->game->evenements->type->effet;
 				$details = " [h".$hobbit->id_hobbit."] a soigné le hobbit [h".$h["id_hobbit"]."]";
 				$detailsBot = $soins." PV soigné";
 				if ($soins > 1) {
 					$detailsBot = $detailsBot . "s";
 				}
-				Bral_Util_Evenement::majEvenements($hobbit->id_hobbit, $id_type, $details, $detailsBot, $hobbit->niveau_hobbit);
-				Bral_Util_Evenement::majEvenements($h["id_hobbit"], $id_type, $details, $detailsBot, $h["niveau_hobbit"]);
+				Bral_Util_Evenement::majEvenements($hobbit->id_hobbit, $idTypeEvenement, $details, $detailsBot, $hobbit->niveau_hobbit);
+				Bral_Util_Evenement::majEvenements($h["id_hobbit"], $idTypeEvenement, $details, $detailsBot, $h["niveau_hobbit"]);
 			}
 		}
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculSoinCase - exit -");
