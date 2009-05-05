@@ -32,6 +32,9 @@ class Bral_Box_Coffre extends Bral_Box_Banque {
 		if ($this->view->affichageInterne) {
 			$this->view->nom_interne = $this->getNomInterne();
 			$this->data();
+			$this->view->pocheNom = "Tiroir";
+			$this->view->pocheNomSysteme = "Coffre";
+			$this->view->afficheTabac = false;
 		}
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/coffre.phtml");

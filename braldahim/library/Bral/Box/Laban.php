@@ -31,6 +31,9 @@ class Bral_Box_Laban extends Bral_Box_Box {
 	function render() {
 		if ($this->view->affichageInterne) {
 			$this->data();
+			$this->view->pocheNom = "Poche";
+			$this->view->pocheNomSysteme = "Laban";
+			$this->view->afficheTabac = true;
 		}
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/laban.phtml");

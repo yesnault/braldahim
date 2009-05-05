@@ -10,138 +10,19 @@
  	<div class="contenuC">
  		<ul class="box_contenu1 textalic">
 		
-<br /><br />
+	<br /><br />
 
-Votre coffre contient plusieurs tiroirs. Cliquez sur celui ou ceux que vous souhaitez ouvrir. <br /><br />
+	<input type="button" class='button1' onClick='_get_("/lieux/doaction?caction=ask_lieu_banqueretirer");' value="<?=$this->paUtilisationBanque ?> PA - Retirer des &eacute;l&eacute;ments">
+	<br>
+	Les dépots sont actuellement suspendus, ils seront de nouveau possible d'ici quelques jours.<br>
+	<br>
+	<input type="button" class='button1' onClick='_get_("/lieux/doaction?caction=ask_lieu_banquedeposer");' value="<?=$this->paUtilisationBanque ?> PA - D&eacute;poser des &eacute;l&eacute;ments" disabled>
+	<br /><br />
+	Votre coffre contient plusieurs tiroirs. Cliquez sur celui ou ceux que vous souhaitez ouvrir. <br /><br />
 
 	<br />
-	
-	<input type="button" class='button1' onClick='_get_("/lieux/doaction?caction=ask_lieu_banqueretirer");' value="<?=$this->paUtilisationBanque ?> PA - Retirer des &eacute;l&eacute;ments">
-<br>
-Les dépots sont actuellement suspendus, ils seront de nouveau possible d'ici quelques jours.<br>
-<br>
-	<input type="button" class='button1' onClick='_get_("/lieux/doaction?caction=ask_lieu_banquedeposer");' value="<?=$this->paUtilisationBanque ?> PA - D&eacute;poser des &eacute;l&eacute;ments" disabled>
-	
-	<br /><br />
-			
-   <input type='button' class='button1' value='Fermer Tout' onClick="$('fermer_tiroir').click();">
-   <input type='button' class='button1' value='Ouvrir Tout' onClick="$('ouvrir_tiroir').click();">
-   
-<?=$poches = null; ?>
-	<ul id="navigation" style="width:99%;text-align:left">
-		
-		<li id="tiroirCastars">
-			<? $tiroirs[] = "tiroirCastars-head" ?>
-      		<h3 id="tiroirCastars-head" class="head" onClick="maccordion(this);" />
-				Tiroir pour les castars
-			</h3>
-			<ul id="tiroirCastars-body" style="display:none">
-				<li>
-					<? $this->nb_castars = $this->coffre["nb_castar"]; ?>
-					<? include("commun/materiaux/castars.phtml") ?>
-				</li>
-			</ul>
-		</li>
-		
-		<? if (count($this->tabHobbitMetiers) > 0) :?>
-			<? foreach ($this->tabHobbitMetiers as $m) : ?>
-				<? if ($m["nom_systeme"] == "bucheron" || $m["nom_systeme"] == "guerrier") { continue; }?>
-				<li id="tiroir<?=$m["nom_systeme"]?>">
-					<? $tiroirs[] = "tiroir".$m["nom_systeme"]."-head" ?>
-		      		<h3 id="tiroir<?=$m["nom_systeme"]?>-head" class="head" onClick="maccordion(this);" />
-						Tiroir <?=$m["nom"]?>
-					</h3>
-					<ul id="tiroir<?=$m["nom_systeme"]?>-body" style="display:none">
-						<li>
-							<? include("laban/poche_".$m["nom_systeme"].".phtml") ?>
-						</li>
-					</ul>
-				</li>
-			<? endforeach; ?>
-		<? endif; ?>
-		
-		<? if (count($this->tabMetiers) > 0) :?>
-			<? foreach ($this->tabMetiers as $m) : ?>
-				<? if ($m["a_afficher"] == true) : ?>
-					<? if ($m["nom_systeme"] == "bucheron" || $m["nom_systeme"] == "guerrier") { continue; }?>
-					<li id="tiroir<?=$m["nom_systeme"]?>">
-						<? $tiroirs[] = "tiroir".$m["nom_systeme"]."-head" ?>
-			      		<h3 id="tiroir<?=$m["nom_systeme"]?>-head" class="head" onClick="maccordion(this);" />
-							Tiroir mat&eacute;riaux 
-							<? if ($m["nom_systeme"] == "mineur" || $m["nom_systeme"] == "chasseur" || $m["nom_systeme"] == "herboriste") : ?>
-							r&eacute;colt&eacute;s
-							<? else: ?>
-							transform&eacute;s 
-							<? endif; ?>
-							par un <?=$m["nom"]?>
-						</h3>
-						<ul id="tiroir<?=$m["nom_systeme"]?>-body" style="display:none">
-							<li>
-								<? include("laban/poche_".$m["nom_systeme"].".phtml") ?>
-							</li>
-						</ul>
-					</li>
-				<? endif; ?>
-			<? endforeach; ?>
-		<? endif; ?>
-		
-		<li id="tiroirRune">
-			<? $tiroirs[] = "tiroirRune-head" ?>
-      		<h3 id="tiroirRune-head" class="head" onClick="maccordion(this);" />
-				Tiroir pour les runes
-			</h3>
-			<ul id="tiroirRune-body" style="display:none">
-				<li>
-					<? include("laban/poche_rune.phtml") ?>
-				</li>
-			</ul>
-		</li>
-		<li id="tiroirEquipement">
-			<? $tiroirs[] = "tiroirEquipement-head" ?>
-      		<h3 id="tiroirEquipement-head" class="head" onClick="maccordion(this);" />
-				Tiroir pour les pi&egrave;ces d'&eacute;quipements
-			</h3>
-			<ul id="tiroirEquipement-body" style="display:none">
-				<li>
-					<? include("laban/poche_equipement.phtml") ?>
-				</li>
-			</ul>
-		</li>
-		<li id="tiroirPotion">
-			<? $tiroirs[] = "tiroirPotion-head" ?>
-      		<h3 id="tiroirPotion-head" class="head" onClick="maccordion(this);" />
-				Tiroir pour les potions
-			</h3>
-			<ul id="tiroirPotion-body" style="display:none">
-				<li>
-					<? include("laban/poche_potion.phtml") ?>
-				</li>
-			</ul>
-		</li>
-		<li id="tiroirAliment">
-			<? $tiroirs[] = "tiroirAliment-head" ?>
-      		<h3 id="tiroirAliment-head" class="head" onClick="maccordion(this);" />
-				Tiroir pour les aliments
-			</h3>
-			<ul id="tiroirAliment-body" style="display:none">
-				<li>
-					<? include("laban/poche_aliment.phtml") ?>
-				</li>
-			</ul>
-		</li>
+	<? include("commun/poches.phtml") ?>
 	</ul>
-   <? 
-   $jsFermer = "";
-   $jsOuvrir = "";
-   foreach ($tiroirs as $p) :
-   	$jsFermer .= "maccordion_fermer($('$p'));";
-    $jsOuvrir .= "maccordion_ouvrir($('$p'));";
-   endforeach; ?>
-   
-   <input type='button' class='button1' id="fermer_tiroir" name="fermer_tiroir" value='Fermer Tout' onClick="<?=$jsFermer ?>">
-   <input type='button' class='button1' id="ouvrir_tiroir" name="ouvrir_tiroir"  value='Ouvrir Tout' onClick="<?=$jsOuvrir ?>">
-   	
-   		</ul>
  	</div>
 </div>
 <? include("box_bottom.phtml") ?>

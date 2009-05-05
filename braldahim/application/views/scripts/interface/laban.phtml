@@ -5,7 +5,8 @@
   <ul class="box_contenu1 textalic">
   
 <? if ($this->affichageInterne == true) : ?>
-    <? include("laban/contenu.phtml"); ?>
+	Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez ouvrir. <br /><br />
+    <? include("commun/poches.phtml"); ?>
 <? else: ?>
 	Chargement en cours
 	<br /><img src="/public/images/wait.gif" />

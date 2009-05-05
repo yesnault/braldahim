@@ -11,7 +11,7 @@
    
     <br /> <br /> <br />
     
-   <? if ($this->possedeCharrette) : ?>
+     <? if ($this->possedeCharrette) : ?>
 	   <div class="charrette">
 	   La charrette peut contenir <?=$this->nbRondinsTransportables ?> rondins. <br>
 	   
@@ -20,6 +20,9 @@
 	   	<img src='/public/styles/braldahim_defaut/images/elements/rondin.png' alt='rondin'/>
 	   </div>
 	   <br />
+	   
+   	<? include("commun/poches.phtml") ?>
+
    <? else: ?>
    Vous n'avez pas de charrette.
    <? endif;?>

@@ -33,6 +33,9 @@ class Bral_Box_Banque extends Bral_Box_Box {
 			$this->view->nom_interne = $this->getNomInterne();
 			$this->preData();
 			$this->data();
+			$this->view->pocheNom = "Tiroir";
+			$this->view->pocheNomSysteme = "Banque";
+			$this->view->afficheTabac = false;
 		}
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/banque.phtml");
