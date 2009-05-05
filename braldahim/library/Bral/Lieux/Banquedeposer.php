@@ -426,6 +426,9 @@ class Bral_Lieux_Banquedeposer extends Bral_Lieux_Lieu {
 		} else {
 			$this->view->deposerOk = false;
 		}
+		if ($this->view->nb_minerai_brut == 0 && $this->view->nb_minerai_lingot == 0) {
+			$this->view->deposerOk = false;
+		}
 		$this->view->mineraisBruts = $tabMineraisBruts;
 		$this->view->lingots = $tabLingots;
 	}
