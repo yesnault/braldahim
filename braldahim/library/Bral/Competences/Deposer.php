@@ -260,7 +260,6 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 					"x_element_rune" => $this->view->user->x_hobbit,
 					"y_element_rune" => $this->view->user->y_hobbit,
 					"id_fk_type_element_rune" => $rune["id_fk_type_rune"],
-					"est_identifiee" => $rune["est_identifiee"],
 				);
 				$elementRuneTable->insert($data);
 				unset($elementRuneTable);
