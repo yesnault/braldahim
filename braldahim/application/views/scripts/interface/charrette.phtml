@@ -20,8 +20,10 @@
 	   	<img src='/public/styles/braldahim_defaut/images/elements/rondin.png' alt='rondin'/>
 	   </div>
 	   <br />
-	   
-   	<? include("commun/poches.phtml") ?>
+
+	<? if ($this->config->general->production != 1) : ?>	   
+   		<? include("commun/poches.phtml") ?>
+   	<? endif;?>
 
    <? else: ?>
    Vous n'avez pas de charrette.
