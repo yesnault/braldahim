@@ -1,5 +1,9 @@
-<ul class="titre textalic textsized"><?=htmlspecialchars($this->nomEchoppe) ?></ul>
+<ul class="titre textalic textsizeb"><?=htmlspecialchars($this->nomEchoppe) ?></ul>
 
+<br>
+
+[Toutes les informations présentées en dessous sont renseignées par le joueur et ne sont donc pas officielles]
 <br /><br />
 <?=Bral_Util_BBParser::bbcodeReplace($this->commentaireEchoppe); ?><br /><br />
+
 <input type="button" class='button1' value="Rentrer dans l'&eacute;choppe" onClick='_get_("/interface/load/?box=box_echoppe");'>

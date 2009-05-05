@@ -2,13 +2,8 @@
 /* ********************** SITE ******************** */
 /* ************************************************ */
 
-* {
-	font: 11px arial, verdana, sans-serif;
-	letter-spacing: 0pt;
-}
-
 body {
-	font: 11x arial, verdana, sans-serif;
+	font: 11px arial, verdana, sans-serif;
 	background: #C3E691
 		url(/public/styles/braldahim_defaut/images/layout/fond.png) repeat-x
 		scroll 0pt 0pt;
@@ -72,7 +67,7 @@ input.button1 {
 		url(/public/styles/braldahim_defaut/images/layout/bg_button.gif);
 	color: #000000;
 	border-color: #666666;
-	font-size: 1em;
+	font-size: 11px;
 	border: 1px solid #666666;
 }
 
@@ -128,7 +123,8 @@ span.id_hobbit {
 	color: #791E1E;
 	cursor: pointer;
 	display: block;
-	font-weight: bold;
+	/*font-weight: normal;*/
+	font-size:11px;
 	margin: 2px;
 	padding: 2px;
 	text-decoration: none;
@@ -477,7 +473,6 @@ span.id_hobbit {
 .box_info {
 	background-color: #CCCC99;
 	color: red;
-	font-weight: bold;
 }
 
 .menu_classic {
@@ -507,7 +502,6 @@ span.id_hobbit {
 	border-color: #eeeeee;
 	background-color: #d9ffd6;
 	color: black;
-	font-weight: bold;
 	padding: 5pt 5px;
 }
 
@@ -559,7 +553,6 @@ span.id_hobbit {
 		url(/public/styles/braldahim_defaut/images/layout/gris.png) repeat-x
 		scroll 0pt 100%;
 	color: black;
-	font-weight: bold;
 	padding: 5pt 5px;
 }
 
@@ -715,6 +708,10 @@ table.table_liste {
 	align: center;
 }
 
+tr.table_liste *{
+	font-weight: normal;
+}
+
 thead.table_liste,tfoot.table_liste {
 	background-color: #CCCC99;
 	border: 1px solid #791E1E;
@@ -730,6 +727,7 @@ th.table_liste {
 	background-color: #791E1E;
 	width: 25%;
 	text-align: center;
+	font-weight: normal;
 }
 
 tr.table_liste0 {
@@ -750,8 +748,8 @@ td.table_liste {
 }
 
 /* ************************************************ */
-	/* ******************* Competence ***************** */
-	/* ************************************************ */
+/* ******************* Competence ***************** */
+/* ************************************************ */
 .comp_titre {
 	margin: 3px;
 	text-align: center;
@@ -872,6 +870,10 @@ td.table_liste {
 
 #MB_content {
 	border-top: 1px solid #F9F9F9;
+}
+
+#MB_content .inputbox {
+	font: 11px arial, verdana, sans-serif;
 }
 
 #MB_header {
