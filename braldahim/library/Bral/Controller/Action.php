@@ -110,9 +110,17 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				$xml_entry->set_valeur($b->getNomInterne());
 				$xml_entry->set_data($b->render());
 				$this->xml_response->add_entry($xml_entry);
+				Bral_Util_Exception::traite($b->render(), false);
 			}
 		}
 		$this->xml_response->render();
+	}
+
+	public function errorAction() {
+		 $errors = $this->_getParam('error_handler');
+		 $exception = $errors->exception;
+		 
+		 Bral_Util_Exception::traite("type:".$errors->type." msg:".$exception->getMessage()." ex:".$exception->getTraceAsString(), false);
 	}
 
 	private function getXmlEntryVoirEchoppe($action) {

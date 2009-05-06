@@ -11,6 +11,9 @@
  * $LastChangedBy$
  */
 error_reporting(E_ALL | E_STRICT);
+ini_set('display_startup_errors', 1);  
+ini_set('display_errors', 1);
+
 date_default_timezone_set('Europe/Paris');
 
 set_include_path('.' . PATH_SEPARATOR . './library' . PATH_SEPARATOR . './application/models/' . PATH_SEPARATOR . get_include_path());
@@ -18,6 +21,7 @@ include "Zend/Loader.php";
 
 Zend_Loader :: loadClass('Zend_Controller_Action');
 Zend_Loader :: loadClass('Zend_Controller_Front');
+Zend_Loader :: loadClass('Zend_Controller_Plugin_ErrorHandler');
 Zend_Loader :: loadClass('Zend_Config_Ini');
 Zend_Loader :: loadClass('Zend_Registry');
 Zend_Loader :: loadClass('Zend_Date');
@@ -89,9 +93,10 @@ Bral_Util_Registre :: chargement();
 // setup controller
 $frontController = Zend_Controller_Front :: getInstance();
 $frontController->setParam('noViewRenderer', true);
-$frontController->throwExceptions(true);
+//$frontController->throwExceptions(true);
 $frontController->setControllerDirectory('./application/controllers');
-
+//$frontController->registerPlugin(new Zend_Controller_Plugin_ErrorHandler());
+				
 // run!
 try {
 	$frontController->dispatch();
