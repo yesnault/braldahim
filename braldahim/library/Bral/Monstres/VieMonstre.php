@@ -470,8 +470,9 @@ Consultez vos événements pour plus de détails.";
 	}
 
 	public static function dropRune($x, $y, $niveauTue, $niveauHobbit, $idTypeGroupeMonstre, $effetMotD = 0) {
-
-		if ($idTypeGroupeMonstre == self::$config->game->groupe_monstre->type->gibier) {
+		
+		$conf = Zend_Registry::get('config');
+		if ($idTypeGroupeMonstre == $conf->game->groupe_monstre->type->gibier) {
 			// pas de drop de castar pour les gibiers
 			return;
 		}
