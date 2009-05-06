@@ -36,6 +36,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 			$this->view->pocheNom = "Case";
 			$this->view->pocheNomSysteme = "Charrette";
 			$this->view->afficheTabac = false;
+			$this->view->nb_castars = $this->view->charrette["nb_castar"];
 		} else {
 			$this->view->possedeCharrette = false;
 		}
@@ -144,10 +145,11 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 
 		$tabCharrette = null;
 		$charretteTable = new Charrette();
-		$charrette = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($charretteTable);
 		
-		foreach ($charrette as $p) {
+		if ($charrettes != null && count($charrettes) == 1) {
+			$p = $charrettes[0];
 			$tabCharrette = array(
 				"nb_peau" => $p["quantite_peau_charrette"],
 				"nb_viande" => $p["quantite_viande_charrette"],
@@ -221,7 +223,6 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->view->runesIdentifiees = $tabRunesIdentifiees;
 		$this->view->runesNonIdentifiees = $tabRunesNonIdentifiees;
 		$this->view->charrette = $tabCharrette;
-		$this->view->laban = $tabCharrette; // pour les poches
 		
 		$this->renderPlante($tabMetiers);
 		$this->view->tabMetiers = $tabMetiers;

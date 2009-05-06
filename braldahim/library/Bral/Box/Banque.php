@@ -36,6 +36,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 			$this->view->pocheNom = "Tiroir";
 			$this->view->pocheNomSysteme = "Banque";
 			$this->view->afficheTabac = false;
+			$this->view->nb_castars = $this->view->coffre["nb_castar"];
 		}
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/banque.phtml");
