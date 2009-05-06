@@ -139,8 +139,6 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$elementAlimentTable = new ElementAliment();
 		$labanAlimentTable = new LabanAliment();
 
-		$nbAMettreDansLaban = $this->view->nbAlimentLaban;
-
 		for ($i = 1; $i <= $this->view->nbAliment; $i++) {
 			$data = array(
 				"id_fk_type_element_aliment" => TypeAliment::ID_TYPE_RAGOUT,
@@ -151,7 +149,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			);
 			$idLastInsert = $elementAlimentTable->insert($data);
 
-			if ($nbAMettreDansLaban > 0) {
+			if ($i <= $this->view->nbAlimentLaban) {
 				$where = "id_element_aliment = ".(int)$idLastInsert;
 				$elementAlimentTable->delete($where);
 
@@ -163,7 +161,6 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 					'bbdf_laban_aliment' => $this->view->bbdfAliment,
 				);
 				$labanAlimentTable->insert($data);
-				$nbAMettreDansLaban = $nbAMettreDansLaban - 1;
 			}
 		}
 

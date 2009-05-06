@@ -4,12 +4,18 @@
 	$s = "";
 	if ($this->nbAliment > 1) : $s = "s"; endif;
 ?>
-		Vous avez r&eacute;ussi votre cuisine.<br /> 
-		Vous avez transform&eacute;
-		<?=$this->nbViandePreparee ?> unit&eacute;<? if ($this->nbViandePreparee) : echo "s"; endif;?> de viande pr&eacute;par&eacute;e en <?=$this->nbAliment ?> 
-		<?=$this->typeAliment->nom_type_aliment?><?=$s ?> de qualit&eacute; <?=$this->qualite?> avec pour effet sur la balance de +<?=$this->bbdfAliment?> %.
-		<br /><br />
-		<? if ($this->effetRune) :?>
-			Une rune que vous portez a eu de l'effet sur le nombre d'aliment pr&eacute;par&eacute;.
-		<? endif; ?>
+	Vous avez r&eacute;ussi votre cuisine.<br /> <br />
+	Vous avez transform&eacute;
+	<?=$this->nbViandePreparee ?> unit&eacute;<? if ($this->nbViandePreparee) : echo "s"; endif;?> de viande pr&eacute;par&eacute;e en <?=$this->nbAliment ?> 
+	<?=$this->typeAliment->nom_type_aliment?><?=$s ?> de qualit&eacute; <?=$this->qualite?> avec pour effet sur la balance de +<?=$this->bbdfAliment?> %.
+	<br />
+	<? if ($this->nbAlimentATerre > 0): ?>
+		Faute de place dans le laban, <?=$this->nbAlimentATerre ?> element<? if ($this->nbAlimentATerre > 0): echo "s sont tombés terre"; else: " est tombé à terre"; endif?>
+	<? endif;?>
+	<br /><br />
+	
+	
+	<? if ($this->effetRune) :?>
+		Une rune que vous portez a eu de l'effet sur le nombre d'aliment pr&eacute;par&eacute;.
+	<? endif; ?>
 <? endif; ?>
