@@ -4,30 +4,35 @@
  <div class="contenuC">
   <ul class="box_contenu1 textalic">
   
-   <br />
-   
-	<input type="button" class='button1' value="1 PA - Attraper une charrette" onClick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_attraper')" />
-	<input type="button" class='button1' value="1 PA - Lâcher une charrette" onClick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_lacher')" />
-   
-    <br /> <br /> <br />
-    
-     <? if ($this->possedeCharrette) : ?>
-	   <div class="charrette">
-	   La charrette peut contenir <?=$this->nbRondinsTransportables ?> rondins. <br>
+    <? if ($this->affichageInterne == true) : ?>
+		<input type="button" class='button1' value="1 PA - Attraper une charrette" onClick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_attraper')" />
+		<input type="button" class='button1' value="1 PA - Lâcher une charrette" onClick="Javascript:_get_('/charrette/doaction?caction=ask_charrette_lacher')" />
 	   
-	    <? $s=""; if ($this->nbRondins > 1):$s='s'; endif; ?>
-	   	Il y a actuellement <?=$this->nbRondins ?> rondin<?=$s ?> 
-	   	<img src='/public/styles/braldahim_defaut/images/elements/rondin.png' alt='rondin'/>
-	   </div>
-	   <br />
-
-	<? if ($this->config->general->production != 1) : ?>	   
-   		<? include("commun/poches.phtml") ?>
-   	<? endif;?>
-
-   <? else: ?>
-   Vous n'avez pas de charrette.
-   <? endif;?>
+	    <br /> <br /> <br />
+	    
+	     <? if ($this->possedeCharrette) : ?>
+		   <div class="charrette">
+		   La charrette peut contenir <?=$this->nbRondinsTransportables ?> rondins. <br>
+		   
+		    <? $s=""; if ($this->nbRondins > 1):$s='s'; endif; ?>
+		   	Il y a actuellement <?=$this->nbRondins ?> rondin<?=$s ?> 
+		   	<img src='/public/styles/braldahim_defaut/images/elements/rondin.png' alt='rondin'/>
+		   </div>
+		   <br />
+	
+		<? if ($this->config->general->production != 1) : ?>	   
+	   		<? include("commun/poches.phtml") ?>
+	   	<? endif;?>
+	
+	   <? else: ?>
+	   Vous n'avez pas de charrette.
+	   <? endif;?>
+  <? else: ?>
+	Chargement en cours
+	<br /><img src="/public/images/wait.gif" />
+  <? endif; ?>
+  
+   <br />
    
    </ul>
 </div>

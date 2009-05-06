@@ -20,25 +20,32 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		return "box_charrette";
 	}
 
+	function getChargementInBoxes() {
+		return false;
+	}
+	
 	function setDisplay($display) {
 		$this->view->display = $display;
 	}
 
 	function render() {
-		Zend_Loader::loadClass('Charrette');
-		$charretteTable = new Charrette();
-		$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
-		if ($nombre > 0) {
-			$this->view->possedeCharrette = true;
-			$this->prepareCharrette();
-			$this->data();
-			
-			$this->view->pocheNom = "Case";
-			$this->view->pocheNomSysteme = "Charrette";
-			$this->view->afficheTabac = false;
-			$this->view->nb_castars = $this->view->charrette["nb_castar"];
-		} else {
-			$this->view->possedeCharrette = false;
+		
+		if ($this->view->affichageInterne) {
+			Zend_Loader::loadClass('Charrette');
+			$charretteTable = new Charrette();
+			$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
+			if ($nombre > 0) {
+				$this->view->possedeCharrette = true;
+				$this->prepareCharrette();
+				$this->data();
+				
+				$this->view->pocheNom = "Case";
+				$this->view->pocheNomSysteme = "Charrette";
+				$this->view->afficheTabac = false;
+				$this->view->nb_castars = $this->view->charrette["nb_castar"];
+			} else {
+				$this->view->possedeCharrette = false;
+			}
 		}
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/charrette.phtml");

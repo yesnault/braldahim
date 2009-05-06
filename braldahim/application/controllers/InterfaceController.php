@@ -222,11 +222,11 @@ class InterfaceController extends Zend_Controller_Action {
 	}
 
 	private function refreshAll() {
-		$boxToRefresh = array("box_profil", "box_metier", "box_titres", "box_equipement", "box_vue", "box_lieu", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_laban", "box_soule", "box_quete", "box_messagerie");
+		$boxToRefresh = array("box_profil", "box_metier", "box_titres", "box_equipement", "box_vue", "box_lieu", "box_competences_communes", "box_competences_basiques", "box_competences_metiers", "box_laban", "box_coffre", "box_charrette", "box_soule", "box_quete", "box_messagerie");
 		for ($i=0; $i<count($boxToRefresh); $i++) {
 			$xml_entry = new Bral_Xml_Entry();
 				
-			if ($boxToRefresh[$i] == "box_vue" || $boxToRefresh[$i] == "box_laban") {
+			if ($boxToRefresh[$i] == "box_vue" || $boxToRefresh[$i] == "box_laban" || $boxToRefresh[$i] == "box_coffre" || $boxToRefresh[$i] == "box_charrette") {
 				$xml_entry->set_type("load_box");
 				$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, false);
 				$xml_entry->set_data(null);

@@ -3,10 +3,17 @@
 <ul class="titre textalia textsizec">Mon coffre</ul>
  <div class="contenuC">
   <ul class="box_contenu1 textalic">
+  <? if ($this->affichageInterne == true) : ?>
 	Vous ne pouvez déposer ou retirer des éléments de votre coffre qu'en étant dans une banque.	
 	<br /><br />
 	Votre coffre contient plusieurs tiroirs. Cliquez sur celui ou ceux que vous souhaitez ouvrir. 
 	<br /><br />
    <? include("commun/poches.phtml") ?>
+  <? else: ?>
+	Chargement en cours
+	<br /><img src="/public/images/wait.gif" />
+  <? endif; ?>
+</ul>
+</div>
 </div>
 <? include("box_bottom.phtml") ?>
