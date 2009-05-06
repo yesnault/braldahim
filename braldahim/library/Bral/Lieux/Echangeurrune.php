@@ -138,7 +138,7 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 
 		$idRune = $elementRuneTable->insert($data);
 
-		$where = "id_element_rune=".$idRune;
+		$where = "id_rune_element_rune=".$idRune;
 		$elementRuneTable->delete($where);
 
 		$labanRuneTable = new LabanRune();

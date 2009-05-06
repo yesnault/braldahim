@@ -761,11 +761,11 @@ DROP TABLE IF EXISTS `element_rune`;
 CREATE TABLE `element_rune` (
   `x_element_rune` int(11) NOT NULL,
   `y_element_rune` int(11) NOT NULL,
-  `id_element_rune` int(11) NOT NULL auto_increment,
+  `id_rune_element_rune` int(11) NOT NULL auto_increment,
   `id_fk_type_element_rune` int(11) NOT NULL,
   `date_depot_element_rune` datetime NOT NULL,
   `date_fin_element_rune` datetime NOT NULL,
-  PRIMARY KEY  (`id_element_rune`),
+  PRIMARY KEY  (`id_rune_element_rune`),
   KEY `id_fk_type_element_rune` (`id_fk_type_element_rune`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

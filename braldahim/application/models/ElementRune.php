@@ -12,7 +12,7 @@
  */
 class ElementRune extends Zend_Db_Table {
 	protected $_name = 'element_rune';
-	protected $_primary = 'id_element_rune';
+	protected $_primary = 'id_rune_element_rune';
 
 	function selectVue($x_min, $y_min, $x_max, $y_max) {
 		$db = $this->getAdapter();

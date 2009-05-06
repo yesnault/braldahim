@@ -314,8 +314,8 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		if (count($runes) > 0) {
 			$this->view->ramasserOk = true;
 			foreach ($runes as $r) {
-				$tabRunes[$r["id_element_rune"]] = array(
-					"id_rune" => $r["id_element_rune"],
+				$tabRunes[$r["id_rune_element_rune"]] = array(
+					"id_rune" => $r["id_rune_element_rune"],
 					"type" => $r["nom_type_rune"],
 					"image" => $r["image_type_rune"],
 					"id_fk_type_rune" => $r["id_fk_type_element_rune"],
@@ -344,7 +344,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		
 		
 		$elementRuneTable = new ElementRune();
-		$where = "id_element_rune=".$rune["id_rune"];
+		$where = "id_rune_element_rune=".$rune["id_rune"];
 		$elementRuneTable->delete($where);
 		unset($elementRuneTable);
 		

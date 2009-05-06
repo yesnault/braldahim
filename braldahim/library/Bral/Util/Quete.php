@@ -544,7 +544,7 @@ class Bral_Util_Quete {
 
 		$idRune = $elementRuneTable->insert($data);
 
-		$where = "id_element_rune=".$idRune;
+		$where = "id_rune_element_rune=".$idRune;
 		$elementRuneTable->delete($where);
 
 		$coffreRuneTable = new CoffreRune();
