@@ -294,14 +294,14 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 			$this->view->nbCastarsLaban = $this->view->nbCastarsPossible;
 			$this->view->nbCastarsATerre =  $this->view->nbCastarsGagnes - $this->view->nbCastarsLaban;
 
-			Zend_Loader::loadClass("Castar");
-			$castarTable = new Castar();
+			Zend_Loader::loadClass("Element");
+			$elementTable = new Element();
 			$data = array(
-				"nb_castar" => $this->view->nbCastarsATerre,
-				"x_castar" => $this->view->user->x_hobbit,
-				"y_castar" => $this->view->user->y_hobbit,
+				"quantite_castar_element" => $nb,
+				"x_element" => $this->view->user->x_hobbit,
+				"y_element" => $this->view->user->y_hobbit,
 			);
-			$castarTable->insertOrUpdate($data);
+			$elementTable->insertOrUpdate($data);
 		} else {
 			$this->view->nbCastarsLaban = $this->view->nbCastarsGagnes;
 		}

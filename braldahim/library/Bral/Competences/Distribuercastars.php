@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -76,7 +76,7 @@ class Bral_Competences_Distribuercastars extends Bral_Competences_Competence {
 		if ($total_distribution > $this->view->user->castars_hobbit) {
 			throw new Zend_Exception(get_class($this)." Total trop eleve:".$total_distribution. " c=".$this->view->user->castars_hobbit);
 		}
-		
+
 		// distribution
 		$tabAffiche = null;
 		$hobbitTable = new Hobbit();
@@ -84,13 +84,13 @@ class Bral_Competences_Distribuercastars extends Bral_Competences_Competence {
 		foreach ($tabDistribution as $t) {
 			$hobbitRowset = $hobbitTable->find($t["id_hobbit"]);
 			$hobbit = $hobbitRowset->current();
-			
+				
 			// Contrôle du poids à faire.
 			$poidsRestant = $hobbit->poids_transportable_hobbit - $hobbit->poids_transporte_hobbit;
 			if ($poidsRestant < 0) $poidsRestant = 0;
-			
+				
 			$nbCastarsPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_CASTARS);
-		
+
 			if ($nbCastarsPossible >= 1) { // On met dans le laban ce qu'on peut
 				$hobbit->castars_hobbit = $hobbit->castars_hobbit + $t["castars_recus"];
 				$hobbit->poids_transporte_hobbit = $hobbit->poids_transporte_hobbit + $t["castars_recus"] * Bral_Util_Poids::POIDS_CASTARS;
@@ -101,36 +101,38 @@ class Bral_Competences_Distribuercastars extends Bral_Competences_Competence {
 				$where = "id_hobbit=".$t["id_hobbit"];
 				$hobbitTable->update($data, $where);
 			}
-			
+				
 			$tab["castars_recus_terre"] = 0;
 			if ($nbCastarsPossible < $t["castars_recus"]) {
-				Zend_Loader::loadClass("Castar");
-				
+
 				$tab["castars_recus_terre"] = $t["castars_recus"] - $nbCastarsPossible;
-				$castarsTable = new Castar();
+
+				Zend_Loader::loadClass("Element");
+				$elementTable = new Element();
 				$data = array(
-					"nb_castar" => $tab["castars_recus_terre"],
-					"x_castar" => $this->view->user->x_hobbit,
-					"y_castar" => $this->view->user->y_hobbit,
+				"quantite_castar_element" => $tab["castars_recus_terre"],
+				"x_element" => $this->view->user->x_hobbit,
+				"y_element" => $this->view->user->y_hobbit,
 				);
-				$castarsTable->insertOrUpdate($data);
+				$elementTable->insertOrUpdate($data);
+
 				$this->refreshVue = true;
 			}
-			
+				
 			// SI poids dépassé, on dépose à terre
-			
+				
 			$tab["id_hobbit"] = $t["id_hobbit"];
 			$tab["niveau_hobbit"] = $t["niveau_hobbit"];
 			$tab["nom_hobbit"] = $hobbit->prenom_hobbit. " " .$hobbit->nom_hobbit;
 			$tab["nom_hobbit_details"] = $hobbit->prenom_hobbit. " " .$hobbit->nom_hobbit;
-			
+				
 			$tab["castars_recus"] = $t["castars_recus"];
 			$tabAffiche[] = $tab;
 
 			$id_type = $this->view->config->game->evenements->type->don;
 			$detailsD = "[h".$this->view->user->id_hobbit."] a donné des castars à [h".$tab["id_hobbit"]."]";
 			$detailsR = "[h".$tab["id_hobbit"]."] a reçu des castars de la part de [h".$this->view->user->id_hobbit."]";
-			
+				
 			$s = "";
 			if ($tab["castars_recus"] > 1) $s = "s";
 			$detailDonneur = "Vous avez donné ".$tab["castars_recus"]." castar$s à ".$tab["nom_hobbit"]." (".$tab["id_hobbit"].")";
@@ -151,7 +153,7 @@ class Bral_Competences_Distribuercastars extends Bral_Competences_Competence {
 
 		$this->view->tabAffiche = $tabAffiche;
 		$this->view->totalDistribution = $total_distribution;
-		
+
 		$this->majHobbit();
 	}
 

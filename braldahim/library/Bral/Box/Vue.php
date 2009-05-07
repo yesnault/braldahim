@@ -26,7 +26,6 @@ class Bral_Box_Vue extends Bral_Box_Box {
 
 	function render() {
 		if ($this->view->affichageInterne === true) {
-			Zend_Loader::loadClass("Castar");
 			Zend_Loader::loadClass("Charrette");
 			Zend_Loader::loadClass("Echoppe");
 			Zend_Loader::loadClass("Element");
@@ -154,9 +153,6 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$monstreTable = new Monstre();
 		$cadavres = $monstreTable->selectVueCadavre($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($monstreTable);
-		$castarTable = new Castar();
-		$castars = $castarTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
-		unset($castarTable);
 		$charretteTable = new Charrette();
 		$charrettes = $charretteTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($charretteTable);
@@ -302,14 +298,6 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						}
 					}
 
-					if ($castars != null) {
-						foreach($castars as $c) {
-							if ($display_x == $c["x_castar"] && $display_y == $c["y_castar"]) {
-								$tabCastars[] = array("nb_castar" => $c["nb_castar"]);
-							}
-						}
-					}
-
 					if ($charrettes != null) {
 						foreach($charrettes as $c) {
 							if ($display_x == $c["x_charrette"] && $display_y == $c["y_charrette"]) {
@@ -340,6 +328,8 @@ class Bral_Box_Vue extends Bral_Box_Box {
 								if ($e["quantite_cuir_element"] > 0) $tabElements[] = array("nom" => "Cuir", "s" => "s", "nb" => $e["quantite_cuir_element"]);
 								if ($e["quantite_fourrure_element"] > 0) $tabElements[] = array("nom" => "Fourrure", "s" => "s", "nb" => $e["quantite_fourrure_element"]);
 								if ($e["quantite_planche_element"] > 0) $tabElements[] = array("nom" => "Planche", "s" => "s", "nb" => $e["quantite_planche_element"]);
+								//if ($e["quantite_castar_element"] > 0) $tabElements[] = array("nom" => "Castar", "s" => "s", "nb" => $e["quantite_castar_element"]);
+								$tabCastars[] = array("nb_castar" =>  $e["quantite_castar_element"]);
 							}
 						}
 					}

@@ -18,7 +18,6 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		
 		$retour .= $this->purgeBatch();
 		$retour .= $this->purgeCadavres();
-		$retour .= $this->purgeCastar();
 		$retour .= $this->purgeElementMinerai();
 		$retour .= $this->purgeElementPartiePlante();
 		$retour .= $this->purgeElementMunition();
@@ -164,24 +163,6 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$retour = " EltRune:nb delete:".$nb. " date:".$date;
 		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeElementRune - exit -");
-		return $retour;
-	}
-	
-	private function purgeCastar() {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeCastar - enter -");
-		
-		Zend_Loader::loadClass('Castar'); 
-		
-		$retour = "";
-		$castar = new Castar();
-		
-		$date = date("Y-m-d H:i:s");
-		$where = $castar->getAdapter()->quoteInto('date_fin_castar <= ?',  $date);
-		$nb = $castar->delete($where);
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - Ok - nb:".$nb." - where:".$where);
-		$retour = " EltRune:nb delete:".$nb. " date:".$date;
-		
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeCastar - exit -");
 		return $retour;
 	}
 	

@@ -283,17 +283,15 @@ class Bral_Util_Commun {
 			}
 			
 			if ($nbCastars > 0 && $cible->castars_hobbit >= $nbCastars) {
-				Zend_Loader::loadClass("Castar");
-				$castarTable = new Castar();
+				Zend_Loader::loadClass("Element");
+				$elementTable = new Element();
 				$data = array(
-					"x_castar"  => $cible->x_hobbit,
-					"y_castar" => $cible->y_hobbit,
-					"nb_castar" => $nbCastars,
+				"quantite_castar_element" => $nbCastars,
+				"x_element" => $cible->x_hobbit,
+				"y_element" => $cible->y_hobbit,
 				);
-				$castarTable = new Castar();
-				$castarTable->insertOrUpdate($data);
-				unset($castarTable);
-				unset($data);
+				$elementTable->insertOrUpdate($data);
+				
 			}
 		}
 		

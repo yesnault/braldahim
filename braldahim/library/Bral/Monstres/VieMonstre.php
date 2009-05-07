@@ -20,7 +20,7 @@ class Bral_Monstres_VieMonstre {
 
 		if (self::$instance == null) {
 			Zend_Loader::loadClass("Palissade");
-				
+
 			self::$config = Zend_Registry::get('config');
 			self::$instance = new self();
 			Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getInstance - nouvelle instance - exit");
@@ -85,12 +85,12 @@ class Bral_Monstres_VieMonstre {
 		Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") - nb pa a jouer=".$pa_a_jouer. " destination x=".$x_destination." y=".$y_destination);
 		$nb_pa_joues = 0;
 		while ((($x_destination != $this->monstre["x_monstre"]) || ($y_destination != $this->monstre["y_monstre"])) && ($nb_pa_joues < $pa_a_jouer)) {
-				
+
 			$x_monstre = $this->monstre["x_monstre"];
 			$y_monstre = $this->monstre["y_monstre"];
 			$x_offset = 0;
 			$y_offset = 0;
-				
+
 			if ($this->monstre["x_monstre"] < $x_destination) {
 				$x_monstre = $this->monstre["x_monstre"] + 1;
 				$x_offset = +1;
@@ -105,7 +105,7 @@ class Bral_Monstres_VieMonstre {
 				$y_monstre = $this->monstre["y_monstre"] - 1;
 				$y_offset = -1;
 			}
-				
+
 			if ($this->tabValidationPalissade[$x_monstre][$y_monstre] == true) {
 				$this->monstre["x_monstre"] = $x_monstre;
 				$this->monstre["y_monstre"] = $y_monstre;
@@ -196,7 +196,7 @@ class Bral_Monstres_VieMonstre {
 			}
 			$jetDegat = $this->calculDegat($critique);
 			$jetDegat = Bral_Util_Commun::getEffetMotA($cible["id_hobbit"], $jetDegat);
-				
+
 			$pvPerdus = $jetDegat - $cible["armure_naturelle_hobbit"] - $cible["armure_equipement_hobbit"];
 			if ($pvPerdus < 0) {
 				$pvPerdus = 1; // on perd 1 pv quoi qu'il arrive
@@ -234,7 +234,7 @@ Consultez vos événements pour plus de détails.";
 
 					// mise a jour de l'événement avant la riposte
 					$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
-						
+
 					Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - La cible (".$cible["id_hobbit"].") possede le mot S -> Riposte");
 					$hobbitTable = new Hobbit();
 					$hobbitRowset = $hobbitTable->find($cible["id_hobbit"]);
@@ -292,7 +292,7 @@ Consultez vos événements pour plus de détails.";
 			}
 			$this->monstre["duree_prochain_tour_monstre"] = $this->monstre["duree_base_tour_monstre"];
 			$this->monstre["pa_monstre"] = self::$config->game->monstre->pa_max;
-				
+
 			Zend_Loader::loadClass("Bral_Util_EffetsPotion");
 			$monstreTable = new Monstre();
 			$monstreRowset = $monstreTable->find($this->monstre["id_monstre"]);
@@ -470,8 +470,8 @@ Consultez vos événements pour plus de détails.";
 	}
 
 	public static function dropRune($x, $y, $niveauTue, $niveauHobbit, $idTypeGroupeMonstre, $effetMotD = 0) {
-		
-		// on ne prend pas le config initialise ici, 
+
+		// on ne prend pas le config initialise ici,
 		// methode pouvant etre appelée en static de l'exterieur de la classe
 		$conf = Zend_Registry::get('config');
 		if ($idTypeGroupeMonstre == $conf->game->groupe_monstre->type->gibier) {
@@ -549,8 +549,6 @@ Consultez vos événements pour plus de détails.";
 			return;
 		}
 
-		Zend_Loader::loadClass("Castar");
-
 		$nbCastars = 10 * $niveauMonstre + Bral_Util_De::get_1d5();
 		if ($effetMotH == true) {
 			$nbCastars = $nbCastars * 2;
@@ -560,15 +558,14 @@ Consultez vos événements pour plus de détails.";
 			$nbCastars = $nbCastars / 2;
 		}
 
-		$castarTable = new Castar();
+		Zend_Loader::loadClass("Element");
+		$elementTable = new Element();
 		$data = array(
-			"x_castar"  => $x,
-			"y_castar" => $y,
-			"nb_castar" => $nbCastars,
+				"quantite_castar_element" => $nbCastars,
+				"x_element" => $x,
+				"y_element" => $y,
 		);
-
-		$castarTable = new Castar();
-		$castarTable->insertOrUpdate($data);
+		$elementTable->insertOrUpdate($data);
 	}
 
 	private function getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat = 0, $critique = false, $pvPerdus = 0, $koCible = false) {
@@ -592,7 +589,7 @@ Vous avez été touché par une attaque critique";
 				$retour .= "
 Vous avez été touché";
 			}
-				
+
 			if ($cible["armure_naturelle_hobbit"] > 0) {
 				$retour .= "
 Votre armure naturelle vous a protégé en réduisant les dégâts de ";
@@ -601,7 +598,7 @@ Votre armure naturelle vous a protégé en réduisant les dégâts de ";
 				$retour .= "
 Votre armure naturelle ne vous a pas protégé (ARM NAT:".$cible["armure_naturelle_hobbit"].")"; 	
 			}
-				
+
 			if ($cible["armure_equipement_hobbit"] > 0) {
 				$retour .= "
 Votre équipement vous a protégé en réduisant les dégâts de ";
@@ -610,12 +607,12 @@ Votre équipement vous a protégé en réduisant les dégâts de ";
 				$retour .= "
 Aucun équipement ne vous a protégé (ARM EQU:".$cible["armure_equipement_hobbit"].")"; 	
 			}
-				
+
 			$retour .= "
 Vous avez perdu ".$pvPerdus. " PV ";
 			$retour .= "
 Il vous reste ".$cible["pv_restant_hobbit"]." PV ";
-				
+
 			if ($koCible) {
 				$retour .= "
 Vous avez été mis KO";
