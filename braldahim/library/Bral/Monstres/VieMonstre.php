@@ -527,6 +527,7 @@ Consultez vos événements pour plus de détails.";
 			"id_fk_type_element_rune" => $typeRune["id_type_rune"],
 			"date_depot_element_rune" => $dateCreation,
 			"date_fin_element_rune" => $dateFin,
+			"est_identifiee_element_rune" => "non",
 		);
 
 		$elementRuneTable = new ElementRune();
