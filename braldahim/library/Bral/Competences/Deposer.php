@@ -228,7 +228,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 					"id_rune" => $r["id_rune_laban_rune"],
 					"type" => $r["nom_type_rune"],
 					"image" => $r["image_type_rune"],
-					"est_identifiee" => $r["est_identifiee_rune"],
+					"est_identifiee" => $r["est_identifiee_laban_rune"],
 					"effet_type_rune" => $r["effet_type_rune"],
 					"id_fk_type_rune" => $r["id_fk_type_laban_rune"],
 				);
@@ -260,7 +260,7 @@ class Bral_Competences_Deposer extends Bral_Competences_Competence {
 					"x_element_rune" => $this->view->user->x_hobbit,
 					"y_element_rune" => $this->view->user->y_hobbit,
 					"id_fk_type_element_rune" => $rune["id_fk_type_rune"],
-					"est_identifiee_rune" => $rune["est_identifiee"],
+					"est_identifiee_element_rune" => $rune["est_identifiee"],
 				);
 				$elementRuneTable->insert($data);
 				unset($elementRuneTable);

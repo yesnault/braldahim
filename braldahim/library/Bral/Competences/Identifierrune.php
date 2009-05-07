@@ -108,7 +108,7 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 		$this->view->rune = $rune;
 		
 		$labanRuneTable = new LabanRune();
-		$data["est_identifiee_rune"] = 'oui';
+		$data["est_identifiee_laban_rune"] = 'oui';
 		$where = 'id_rune_laban_rune = '.$rune["id_rune"];
 		$labanRuneTable->update($data, $where);
 	}

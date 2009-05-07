@@ -304,6 +304,7 @@ class Bral_Lieux_Banqueretirer extends Bral_Lieux_Lieu {
 					"type" => $r["nom_type_rune"],
 					"image" => $r["image_type_rune"],
 					"id_fk_type_rune" => $r["id_fk_type_coffre_rune"],
+					"est_identifiee" => $r["est_identifiee_coffre_rune"],
 				);
 			}
 		} else {
@@ -337,7 +338,7 @@ class Bral_Lieux_Banqueretirer extends Bral_Lieux_Lieu {
 		$data = array (
 			"id_rune_laban_rune" => $rune["id_rune"],
 			"id_fk_type_laban_rune" => $rune["id_fk_type_rune"],
-			"est_identifiee_rune" => "non",
+			"est_identifiee_laban_rune" => $rune["est_identifiee"],
 			"id_fk_hobbit_laban_rune" => $this->view->user->id_hobbit,
 		);
 		$labanRuneTable->insert($data);

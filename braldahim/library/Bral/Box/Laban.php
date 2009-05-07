@@ -184,12 +184,12 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		unset($labanRuneTable);
 
 		foreach ($runes as $r) {
-			if ($r["est_identifiee_rune"] == "oui") {
+			if ($r["est_identifiee_laban_rune"] == "oui") {
 				$tabRunesIdentifiees[] = array(
 					"id_rune" => $r["id_rune_laban_rune"],
 					"type" => $r["nom_type_rune"],
 					"image" => $r["image_type_rune"],
-					"est_identifiee" => $r["est_identifiee_rune"],
+					"est_identifiee" => $r["est_identifiee_laban_rune"],
 					"effet_type_rune" => $r["effet_type_rune"],
 				);
 			} else {
@@ -197,7 +197,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 					"id_rune" => $r["id_rune_laban_rune"],
 					"type" => $r["nom_type_rune"],
 					"image" => $r["image_type_rune"],
-					"est_identifiee" => $r["est_identifiee_rune"],
+					"est_identifiee" => $r["est_identifiee_laban_rune"],
 					"effet_type_rune" => $r["effet_type_rune"],
 				);
 			}

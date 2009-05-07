@@ -146,7 +146,7 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 			"id_rune_laban_rune" => $idRune,
 			"id_fk_type_laban_rune" => $typeRune["id_type_rune"],
 			"id_fk_hobbit_laban_rune" => $this->view->user->id_hobbit,
-			"est_identifiee_rune" => "non",
+			"est_identifiee_laban_rune" => "non",
 		);
 		$labanRuneTable->insert($data);
 

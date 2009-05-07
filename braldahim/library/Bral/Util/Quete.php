@@ -552,7 +552,7 @@ class Bral_Util_Quete {
 			"id_rune_coffre_rune" => $idRune,
 			"id_fk_type_coffre_rune" => $typeRune["id_type_rune"],
 			"id_fk_hobbit_coffre_rune" => $hobbit->id_hobbit,
-			"est_identifiee_rune" => "oui",
+			"est_identifiee_coffre_rune" => "oui",
 		);
 		$coffreRuneTable->insert($data);
 

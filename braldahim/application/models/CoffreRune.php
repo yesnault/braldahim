@@ -17,7 +17,7 @@ class CoffreRune extends Zend_Db_Table {
     function findByIdHobbit($idHobbit, $identifiee = null) {
     	$whereIdentifiee = "";
     	if ($identifiee != null) {
-    		$whereIdentifiee = " AND coffre_rune.est_identifiee_rune = '".$identifiee."'";
+    		$whereIdentifiee = " AND coffre_rune.est_identifiee_coffre_rune = '".$identifiee."'";
     	}
 		$db = $this->getAdapter();
 		$select = $db->select();

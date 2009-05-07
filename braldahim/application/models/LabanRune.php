@@ -17,7 +17,7 @@ class LabanRune extends Zend_Db_Table {
     function findByIdHobbit($idHobbit, $identifiee = null) {
     	$whereIdentifiee = "";
     	if ($identifiee != null) {
-    		$whereIdentifiee = " AND laban_rune.est_identifiee_rune = '".$identifiee."'";
+    		$whereIdentifiee = " AND laban_rune.est_identifiee_laban_rune = '".$identifiee."'";
     	}
 		$db = $this->getAdapter();
 		$select = $db->select();
