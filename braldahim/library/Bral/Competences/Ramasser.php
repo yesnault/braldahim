@@ -319,6 +319,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 					"type" => $r["nom_type_rune"],
 					"image" => $r["image_type_rune"],
 					"id_fk_type_rune" => $r["id_fk_type_element_rune"],
+					"est_identifiee" => $r["est_identifiee_rune"],
 				);
 			}
 		} else {
@@ -352,7 +353,7 @@ class Bral_Competences_Ramasser extends Bral_Competences_Competence {
 		$data = array (
 			"id_rune_laban_rune" => $rune["id_rune"],
 			"id_fk_type_laban_rune" => $rune["id_fk_type_rune"],
-			"est_identifiee_rune" => "non",
+			"est_identifiee_rune" => $rune["est_identifiee"],
 			"id_fk_hobbit_laban_rune" => $this->view->user->id_hobbit,
 		);
 		$labanRuneTable->insert($data);
