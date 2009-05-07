@@ -325,7 +325,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 				$hopitalRowset = $lieuTable->findByTypeAndPosition($this->view->config->game->lieu->type->hopital, $x, $y);
 			} else {
-				$hopitalRowset = $lieuTable->findByTypeAndPosition($this->view->config->game->lieu->type->hopital, $this->hobbit->x_hobbit, $this->hobbit->y_hobbit);
+				$hopitalRowset = $lieuTable->findByTypeAndPosition($this->view->config->game->lieu->type->hopital, $this->hobbit->x_hobbit, $this->hobbit->y_hobbit, "non");
 			}
 			$this->hobbit->x_hobbit = $hopitalRowset[0]["x_lieu"];
 			$this->hobbit->y_hobbit = $hopitalRowset[0]["y_lieu"];

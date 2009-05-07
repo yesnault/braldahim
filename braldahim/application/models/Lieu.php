@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -14,7 +14,7 @@ class Lieu extends Zend_Db_Table {
 	protected $_name = 'lieu';
 	protected $_primary = 'id_lieu';
 
-	public function findByType($type, $estSoule = null){
+	public function findByType($type, $estSoule = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
@@ -48,7 +48,7 @@ class Lieu extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
-	
+
 	function selectVue($x_min, $y_min, $x_max, $y_max) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -63,7 +63,7 @@ class Lieu extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
-	
+
 	function findNomById($id) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -95,8 +95,8 @@ class Lieu extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
-	
-	public function findByTypeAndPosition($type, $x, $y) {
+
+	public function findByTypeAndPosition($type, $x, $y, $estSoule = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*, SQRT(((x_lieu - '.$x.') * (x_lieu - '.$x.')) + ((y_lieu - '.$y.') * ( y_lieu - '.$y.'))) as distance')
@@ -105,10 +105,15 @@ class Lieu extends Zend_Db_Table {
 		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
 		->joinLeft('ville','id_fk_ville_lieu = id_ville')
 		->order(array('distance ASC'));
+
+		if ($estSoule != null) {
+			$select->where('lieu.est_soule_lieu = ?',$estSoule);
+		}
+
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	public function findByPositionMax($x, $y, $max) {
 		$db = $this->getAdapter();
 		$select = $db->select();
