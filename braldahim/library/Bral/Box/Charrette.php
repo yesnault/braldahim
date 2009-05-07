@@ -23,13 +23,13 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 	function getChargementInBoxes() {
 		return false;
 	}
-	
+
 	function setDisplay($display) {
 		$this->view->display = $display;
 	}
 
 	function render() {
-		
+
 		if ($this->view->affichageInterne) {
 			Zend_Loader::loadClass('Charrette');
 			$charretteTable = new Charrette();
@@ -38,7 +38,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 				$this->view->possedeCharrette = true;
 				$this->prepareCharrette();
 				$this->data();
-				
+
 				$this->view->pocheNom = "Case";
 				$this->view->pocheNomSysteme = "Charrette";
 				$this->view->afficheTabac = false;
@@ -50,46 +50,47 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/charrette.phtml");
 	}
-	
+
 	private function prepareCharrette() {
 		$tabPoidsRondins = Bral_Util_Poids::calculPoidsCharretteTransportable($this->view->user->id_hobbit, $this->view->user->vigueur_base_hobbit);
 		$this->view->nbRondins = $tabPoidsRondins["nb_rondins_presents"];
 		$this->view->nbRondinsTransportables = $tabPoidsRondins["nb_rondins_transportables"];
 	}
-	
-	
+
+
 	protected function data() {
-		
+
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("CharretteEquipement");
 		Zend_Loader::loadClass("CharretteMinerai");
 		Zend_Loader::loadClass("CharrettePartieplante");
 		Zend_Loader::loadClass("CharretteAliment");
+		Zend_Loader::loadClass("CharretteMunition");
 		Zend_Loader::loadClass("CharrettePotion");
 		Zend_Loader::loadClass("CharretteRune");
 		Zend_Loader::loadClass("HobbitsMetiers");
 		Zend_Loader::loadClass("Metier");
 		Zend_Loader::loadClass("TypePlante");
 		Zend_Loader::loadClass("TypePartieplante");
-		
+
 		$hobbitsMetiersTable = new HobbitsMetiers();
 		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);
 		unset($hobbitsMetiersTable);
-		
+
 		$metiersTable = new Metier();
 		$metiersRowset = $metiersTable->fetchall(null, "nom_masculin_metier");
 		unset($metiersTable);
 		$metiersRowset = $metiersRowset->toArray();
 		$tabHobbitMetiers = null;
 		$tabMetiers = null;
-		
+
 		foreach($metiersRowset as $m) {
 			if ($this->view->user->sexe_hobbit == 'feminin') {
 				$nom_metier = $m["nom_feminin_metier"];
 			} else {
 				$nom_metier = $m["nom_masculin_metier"];
 			}
-			
+				
 			$possedeMetier = false;
 			foreach($hobbitsMetierRowset as $h) {
 				if ($h["id_metier"] == $m["id_metier"]) {
@@ -97,14 +98,14 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 					break;
 				}
 			}
-			
+				
 			if ($possedeMetier == true) {
 				$tabHobbitMetiers[$m["nom_systeme_metier"]] = array(
 						"id_metier" => $m["id_metier"],
 						"nom" => $nom_metier,
 						"nom_systeme" => $m["nom_systeme_metier"],
 						"a_afficher" => true,
-					);
+				);
 			} else {
 				$tabMetiers[$m["nom_systeme_metier"]] = array(
 					"id_metier" => $m["id_metier"],
@@ -115,13 +116,13 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 			}
 		}
 		unset($metiersRowset);
-		
+
 		$tabMineraisBruts = null;
 		$tabLingots = null;
 		$charretteMineraiTable = new CharretteMinerai();
 		$minerais = $charretteMineraiTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($charretteMineraiTable);
-	
+
 		foreach ($minerais as $m) {
 			if ($m["quantite_brut_charrette_minerai"] > 0) {
 				$tabMineraisBruts[] = array(
@@ -130,9 +131,9 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 					"quantite" => $m["quantite_brut_charrette_minerai"],
 					"poids" => $m["quantite_brut_charrette_minerai"] * Bral_Util_Poids::POIDS_MINERAI,
 				);
-			
+					
 				if (isset($tabMetiers["mineur"])) {
-					$tabMetiers["mineur"]["a_afficher"] = true; 
+					$tabMetiers["mineur"]["a_afficher"] = true;
 				}
 			}
 			if ($m["quantite_lingots_charrette_minerai"] > 0) {
@@ -142,9 +143,9 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 					"quantite" => $m["quantite_lingots_charrette_minerai"],
 					"poids" => $m["quantite_lingots_charrette_minerai"] * Bral_Util_Poids::POIDS_LINGOT,
 				);
-			
+					
 				if (isset($tabMetiers["forgeron"])) {
-					$tabMetiers["forgeron"]["a_afficher"] = true; 
+					$tabMetiers["forgeron"]["a_afficher"] = true;
 				}
 			}
 		}
@@ -154,7 +155,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$charretteTable = new Charrette();
 		$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($charretteTable);
-		
+
 		if ($charrettes != null && count($charrettes) == 1) {
 			$p = $charrettes[0];
 			$tabCharrette = array(
@@ -166,33 +167,33 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 				"nb_planche" => $p["quantite_planche_charrette"],
 				"nb_castar" => $p["quantite_castar_charrette"],
 			);
-			
+				
 			if ($p["quantite_peau_charrette"] > 0 || $p["quantite_viande_charrette"] > 0) {
 				if (isset($tabMetiers["chasseur"])) {
-					$tabMetiers["chasseur"]["a_afficher"] = true; 
+					$tabMetiers["chasseur"]["a_afficher"] = true;
 				}
 			}
-			
+				
 			if ($p["quantite_viande_preparee_charrette"] > 0) {
 				if (isset($tabMetiers["cuisinier"])) {
-					$tabMetiers["cuisinier"]["a_afficher"] = true; 
+					$tabMetiers["cuisinier"]["a_afficher"] = true;
 				}
 			}
-			
+				
 			if ($p["quantite_cuir_charrette"] > 0 || $p["quantite_fourrure_charrette"] > 0) {
 				if (isset($tabMetiers["tanneur"])) {
-					$tabMetiers["tanneur"]["a_afficher"] = true; 
+					$tabMetiers["tanneur"]["a_afficher"] = true;
 				}
 			}
 
 			if ($p["quantite_planche_charrette"] > 0) {
 				if (isset($tabMetiers["menuisier"])) {
-					$tabMetiers["menuisier"]["a_afficher"] = true; 
+					$tabMetiers["menuisier"]["a_afficher"] = true;
 				}
 			}
 		}
 		unset($charrette);
-		
+
 		$tabRunesIdentifiees = null;
 		$tabRunesNonIdentifiees = null;
 		$charretteRuneTable = new CharretteRune();
@@ -221,27 +222,28 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		unset($runes);
 
 		$this->view->tabHobbitMetiers = $tabHobbitMetiers;
-		
-		
+
+
 		$this->view->mineraisBruts = $tabMineraisBruts;
 		$this->view->lingots = $tabLingots;
-		
+
 		$this->view->nb_runes = count($tabRunesIdentifiees) + count($tabRunesNonIdentifiees);
 		$this->view->runesIdentifiees = $tabRunesIdentifiees;
 		$this->view->runesNonIdentifiees = $tabRunesNonIdentifiees;
 		$this->view->charrette = $tabCharrette;
-		
+
 		$this->renderPlante($tabMetiers);
 		$this->view->tabMetiers = $tabMetiers;
 		$this->renderEquipement();
+		$this->renderMunition();
 		$this->renderPotion();
 		$this->renderAliment();
-		
+
 		$this->view->estEquipementsPotionsEtal = false;
 		$this->view->estEquipementsPotionsEtalAchat = false;
-		
+
 		$this->view->nom_interne = $this->getNomInterne();
-		
+
 		unset($tabHobbitMetiers);
 		unset($tabMetiers);
 		unset($tabMineraisBruts);
@@ -249,22 +251,22 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		unset($tabRunesIdentifiees);
 		unset($tabRunesNonIdentifiees);
 	}
-	
+
 	private function renderPlante(&$tabMetiers) {
 		$typePlantesTable = new TypePlante();
 		$typePlantesRowset = $typePlantesTable->findAll();
 		unset($typePlantesTable);
-		
+
 		$typePartiePlantesTable = new TypePartieplante();
 		$typePartiePlantesRowset = $typePartiePlantesTable->fetchall();
 		unset($typePartiePlantesTable);
 		$typePartiePlantesRowset = $typePartiePlantesRowset->toArray();
-	
+
 		$tabTypePlantes = null;
 		$charrettePartiePlanteTable = new CharrettePartieplante();
 		$partiePlantes = $charrettePartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($charrettePartiePlanteTable);
-		
+
 		foreach($typePartiePlantesRowset as $p) {
 			foreach($typePlantesRowset as $t) {
 				$val = false;
@@ -280,7 +282,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 				if ($t["id_fk_partieplante4_type_plante"] == $p["id_type_partieplante"]) {
 					$val = true;
 				}
-				
+
 				if (!isset($tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]])) {
 					$tab = array(
 						'nom_type_plante' => $t["nom_type_plante"],
@@ -288,7 +290,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 					);
 					$tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]] = $tab;
 				}
-				
+
 				$tabTypePlantes[$t["categorie_type_plante"]]["a_afficher"] = false;
 				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["a_afficher"] = false;
 				$tabTypePlantes[$t["categorie_type_plante"]]["type_plante"][$t["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["possible"] = $val;
@@ -297,10 +299,10 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		}
 		unset($typePartiePlantesRowset);
 		unset($typePlantesRowset);
-		
+
 		$tabTypePlantesBruts = $tabTypePlantes;
 		$tabTypePlantesPrepares = $tabTypePlantes;
-		
+
 		foreach ($partiePlantes as $p) {
 			if ($p["quantite_charrette_partieplante"] > 0) {
 				$tabTypePlantesBruts[$p["categorie_type_plante"]]["a_afficher"] = true;
@@ -311,14 +313,14 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 					$tabMetiers["herboriste"]["a_afficher"] = true;
 				}
 			}
-			
+				
 			if ($p["quantite_preparee_charrette_partieplante"] > 0) {
 				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["a_afficher"] = true;
 				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
 				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_preparee_charrette_partieplante"];
 				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["poids"] = $p["quantite_preparee_charrette_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE;
 				if (isset($tabMetiers["apothicaire"])) {
-					$tabMetiers["apothicaire"]["a_afficher"] = true; 
+					$tabMetiers["apothicaire"]["a_afficher"] = true;
 				}
 			}
 		}
@@ -327,15 +329,15 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->view->typePlantesBruts = $tabTypePlantesBruts;
 		$this->view->typePlantesPrepares = $tabTypePlantesPrepares;
 	}
-	
+
 	private function renderEquipement() {
 		$tabEquipements = null;
 		$charretteEquipementTable = new CharretteEquipement();
 		$equipements = $charretteEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($charretteEquipementTable);
-		
+
 		Zend_Loader::loadClass("Bral_Util_Equipement");
-		
+
 		$tabWhere = null;
 		foreach ($equipements as $e) {
 			$tabEquipements[$e["id_charrette_equipement"]] = array(
@@ -361,23 +363,42 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 			$tabWhere[] = $e["id_charrette_equipement"];
 		}
 		unset($equipements);
-		
+
 		if ($tabWhere != null) {
 			Zend_Loader::loadClass("Bral_Util_Equipement");
 			Bral_Util_Equipement::populateRune($tabEquipements, $tabWhere);
 			Bral_Util_Equipement::populateBonus($tabEquipements, $tabWhere);
 		}
-		
+
 		$this->view->nb_equipements = count($tabEquipements);
 		$this->view->equipements = $tabEquipements;
 	}
-	
+
+	private function renderMunition() {
+		$tabMunitions = null;
+		$charretteMunitionTable = new CharretteMunition();
+		$munitions = $charretteMunitionTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($charretteMunitionTable);
+
+		foreach ($munitions as $m) {
+			$tabMunitions[] = array(
+				"type" => $m["nom_type_munition"],
+				"quantite" => $m["quantite_charrette_munition"],
+				"poids" =>  $m["quantite_charrette_munition"] * Bral_Util_Poids::POIDS_MUNITION,
+			);
+		}
+		unset($munitions);
+
+		$this->view->nb_munitions = count($tabMunitions);
+		$this->view->munitions = $tabMunitions;
+	}
+
 	private function renderPotion() {
 		$tabPotions = null;
 		$charrettePotionTable = new CharrettePotion();
 		$potions = $charrettePotionTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($charrettePotionTable);
-		
+
 		foreach ($potions as $p) {
 			$tabPotions[$p["id_charrette_potion"]] = array(
 					"id_potion" => $p["id_charrette_potion"],
@@ -389,17 +410,17 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 			);
 		}
 		unset($potions);
-		
+
 		$this->view->nb_potions = count($tabPotions);
 		$this->view->potions = $tabPotions;
 	}
-	
+
 	private function renderAliment() {
 		$tabAliments = null;
 		$charretteAlimentTable = new CharretteAliment();
 		$aliments = $charretteAlimentTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($charretteAlimentTable);
-		
+
 		foreach ($aliments as $p) {
 			$tabAliments[$p["id_charrette_aliment"]] = array(
 					"id_aliment" => $p["id_charrette_aliment"],
@@ -410,7 +431,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 			);
 		}
 		unset($aliments);
-		
+
 		$this->view->nb_aliments = count($tabAliments);
 		$this->view->aliments = $tabAliments;
 	}

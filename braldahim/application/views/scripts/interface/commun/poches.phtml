@@ -82,6 +82,17 @@
 			</li>
 		</ul>
 	</li>
+	<li id="poche<?=$this->pocheNomSysteme ?>Munition">
+		<? $poches[] = "poche".$this->pocheNomSysteme."Munition-head" ?>
+      	<h3 id="poche<?=$this->pocheNomSysteme ?>Munition-head" class="head" onClick="maccordion(this);" />
+			<?=$this->pocheNom ?> pour les munitions
+		</h3>
+		<ul id="poche<?=$this->pocheNomSysteme ?>Munition-body" style="display:none">
+			<li>
+				<? include("poches/poche_munition.phtml") ?>
+			</li>
+		</ul>
+	</li>
 	<li id="poche<?=$this->pocheNomSysteme ?>Potion">
 		<? $poches[] = "poche".$this->pocheNomSysteme."Potion-head" ?>
       	<h3 id="poche<?=$this->pocheNomSysteme ?>Potion-head" class="head" onClick="maccordion(this);" />
