@@ -114,7 +114,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$labanTable->insertOrUpdate($data);
 
 		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
-		$poidsRestant = $poidsRestant - (Bral_Util_Poids::POIDS_VIANDE_PREPAREE * $nombre);
+		$poidsRestant = $poidsRestant + (Bral_Util_Poids::POIDS_VIANDE_PREPAREE * $nombre);
 		if ($poidsRestant < 0) $poidsRestant = 0;
 		$nbAlimentPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_ALIMENT);
 
