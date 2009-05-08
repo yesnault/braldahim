@@ -88,7 +88,7 @@ class Bral_Competences_Extraire extends Bral_Competences_Competence {
 		}
 		
 		if ($valid===false) {
-			throw new Zend_Exception(get_class($this)." Erreur inconnue. Valid=".$valid);
+			throw new Zend_Exception(get_class($this)." Erreur inconnue. Valid id=".$idFilonRecu);
 		}
 		
 		$quantiteExtraite = $this->calculQuantiteAExtraire();
