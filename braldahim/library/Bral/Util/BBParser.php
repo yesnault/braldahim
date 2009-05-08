@@ -42,7 +42,7 @@ class Bral_Util_BBParser {
 		$string = preg_replace("/(\[i\])(.*?)(\[\/i\])/si","<span style=\"font-style: italic\">\\2</span>",$string);
 		
 		// size Max size is 7
-		$string = preg_replace("/\[size=([1-7])\](.+?)\[\/size\]/si","<font size=\\1\">\\2</font>",$string);
+		$string = preg_replace("/\[size=([1-5])\](.+?)\[\/size\]/si","<font size=\\1\">\\2</font>",$string);
 		
 		// color
 		$string = preg_replace("%\[color=(.*?)\](.*?)\[/color\]%si","<span style=\"color: \\1\">\\2</span>",$string);
