@@ -10,7 +10,7 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class PalmaresController extends Zend_Controller_Action {
+class PalmaresController extends Bral_Controller_Box {
 
 	function init() {
 		Zend_Loader::loadClass("Bral_Xml_Response");
@@ -227,62 +227,5 @@ class PalmaresController extends Zend_Controller_Action {
 		$this->xml_response->add_entry($xml_entry);
 		unset($xml_entry);
 		$this->xml_response->render();
-	}
-	
-	private function addBoxes($tab, $position) {
-		foreach($tab as $t) {
-			$this->m_list[$position][] = $t;
-		}
-	}
-	
-	private function addBox($p, $position) {
-		$this->m_list[$position][] = $p;
-	}
-
-	private function getBoxesData() {
-		return $this->getDataList("boite_a");
-	}
-
-	private function getDataList($nom) {
-		$l = $this->m_list[$nom];
-		$liste = "";
-		$data = "";
-		$onglets = null;
-
-		if ($nom != "aucune") {
-			for ($i = 0; $i < count($l); $i ++) {
-				if ($i == 0) {
-					$css = "actif";
-				} else {
-					$css = "inactif";
-				}
-				$tab = array ("titre" => $l[$i]->getTitreOnglet(), "nom" => $l[$i]->getNomInterne(), "css" => $css, "chargementInBoxes" => $l[$i]->getChargementInBoxes());
-				$onglets[] = $tab;
-				$liste .= $l[$i]->getNomInterne();
-				if ($i < count($l)-1 ) {
-					$liste .= ",";
-				}
-			}
-
-			for ($i = 0; $i < count($l); $i ++) {
-				if ($i == 0) {
-					$display = "block";
-				} else {
-					$display = "none";
-				}
-
-				$l[$i]->setDisplay($display);
-				$data .= $l[$i]->render();
-			}
-
-			$this->view->onglets = $onglets;
-			$this->view->liste = $liste;
-			$this->view->data = $data;
-			$this->view->conteneur = $nom;
-			unset($onglets);
-			unset($liste);
-			unset($data);
-			unset($nom);
-		}
 	}
 }

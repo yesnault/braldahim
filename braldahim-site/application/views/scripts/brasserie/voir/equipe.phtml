@@ -1,0 +1,36 @@
+
+<table class="table_liste" style="width:100%">
+	<thead class="table_liste">
+	  <tr class="table_liste">
+		<th><?=$nomEquipe?> : <?=$equipe["nom_equipe"]?><br>
+		Plaquages Effectués : <?=$equipe["plaquages"]?><br>
+		Plaquages Subis : <?=$equipe["plaques"]?><br>
+		Cagnotte : <?=$equipe["px"]?> PX</th>
+	  </tr>
+	</thead>
+	<tbody>
+		<? if ($equipe["joueurs"] != null && count($equipe["joueurs"]) > 0): ?>
+		  	<? 
+		  	$i = 0; 
+		  	foreach($equipe["joueurs"] as $j): ?>
+		  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+			  		<td class="table_liste" nowrap>
+			  		<a onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$j["id_hobbit"]?>');" title="Cliquez pour voir le profil">
+			  		<?=$j["prenom_hobbit"]?> <?=$j["nom_hobbit"]?> (<?=$j["id_hobbit"]?>)
+			  		</a>
+			  		<? if ($this->matchEnCours != null) : ?>
+			  		en <span title="Position X, Y" style="cursor:pointer"><?=$j["x_hobbit"]?>, <?=$j["y_hobbit"]?></span>.
+			  		Plaqué : <?=$j["nb_plaque_soule_equipe"]?> fois, Plaqueur : <?=$j["nb_hobbit_plaquage_soule_equipe"]?> fois.
+			  		<? endif;?>
+			  		<? if ($j["est_ko_hobbit"] == "oui") :?>
+			  		Actuellement plaqué
+			  		<? endif;?>
+			  		<img src='/public/images/puce_event.gif' title='Voir les événements' border='0' onClick="ouvrirEvenementsH('<?=$j["id_hobbit"]?>');" style='cursor:pointer'/>
+			  		<img src='/public/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onClick="ecrireMessage('<?=$j["id_hobbit"]?>');" style='cursor:pointer'/>
+		  		</tr>
+		  	<? endforeach; ?>
+		<? else: ?>
+		Aucun joueur
+		<? endif; ?>
+  	</tbody>
+</table>

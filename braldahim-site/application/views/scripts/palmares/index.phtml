@@ -1,55 +1,51 @@
-	<ul class="titre textalic textsizeb">
-		L'Office des Palmarès
-	</ul><br>
-
+<ul class="titre textalic textsizeb">L'Office des Palmarès</ul><br>
 
 <table style="width:100%">
-	<tr>
-		<td style="width:30px" valign="top" nowrap>
-		
-			<ul class="box_contenu1 textalic">
-				<ul class="titre textalic textsizec">
-				Général
-				</ul>
-				<? foreach($this->selection as $s) : ?>
+<tr>
+	<td style="width:30px" valign="top" nowrap>
+		<ul class="box_contenu1 textalic">
+			<ul class="titre textalic textsizec">
+			Général
+			</ul>
+			<? foreach($this->selection as $s) : ?>
+				<a href="/palmares/<?=$s["url"]?>"><?=$s["nom"]?></a><br>
+			<? endforeach;?>
+			<br>
+			
+			<ul class="titre textalic textsizec">
+			Récolteurs
+			</ul>
+			<? if (count($this->selectionRecolteurs) > 0): ?>
+				<? foreach($this->selectionRecolteurs as $s) : ?>
 					<a href="/palmares/<?=$s["url"]?>"><?=$s["nom"]?></a><br>
 				<? endforeach;?>
-				<br>
-				
-				<ul class="titre textalic textsizec">
-				Récolteurs
-				</ul>
-				<? if (count($this->selectionRecolteurs) > 0): ?>
-					<? foreach($this->selectionRecolteurs as $s) : ?>
-						<a href="/palmares/<?=$s["url"]?>"><?=$s["nom"]?></a><br>
-					<? endforeach;?>
-				<? endif; ?>
-				<br>
-				<ul class="titre textalic textsizec">
-				Fabricants
-				</ul>
-				<? if (count($this->selectionFabricants) > 0): ?>
-					<? foreach($this->selectionFabricants as $s) : ?>
-						<a href="/palmares/<?=$s["url"]?>"><?=$s["nom"]?></a><br>
-					<? endforeach;?>
-				<? endif; ?>
-				<br>
-				<ul class="titre textalic textsizec">
-				Runes
-				</ul>
-				<? if (count($this->selectionRunes) > 0): ?>
-					<? foreach($this->selectionRunes as $s) : ?>
-						<a href="/palmares/<?=$s["url"]?>"><?=$s["nom"]?></a><br>
-					<? endforeach;?>
-				<? endif; ?>
-				<br>
-			</ul>
-		</td>
-		<td style="width:400px; border: 0px solid #791E1E;" valign="top">
+			<? endif; ?>
+			<br>
 			<ul class="titre textalic textsizec">
-				<?=$this->titre?><br><br>
+			Fabricants
 			</ul>
-			<? include("box_onglets.phtml"); ?>
-		</td>
-	</tr>
-	</table>
+			<? if (count($this->selectionFabricants) > 0): ?>
+				<? foreach($this->selectionFabricants as $s) : ?>
+					<a href="/palmares/<?=$s["url"]?>"><?=$s["nom"]?></a><br>
+				<? endforeach;?>
+			<? endif; ?>
+			<br>
+			<ul class="titre textalic textsizec">
+			Runes
+			</ul>
+			<? if (count($this->selectionRunes) > 0): ?>
+				<? foreach($this->selectionRunes as $s) : ?>
+					<a href="/palmares/<?=$s["url"]?>"><?=$s["nom"]?></a><br>
+				<? endforeach;?>
+			<? endif; ?>
+			<br>
+		</ul>
+	</td>
+	<td style="width:400px; border: 0px solid #791E1E;" valign="top">
+		<ul class="titre textalic textsizec">
+			<?=$this->titre?><br><br>
+		</ul>
+		<?=$this->render("commun/box_onglets.phtml"); ?>
+	</td>
+</tr>
+</table>

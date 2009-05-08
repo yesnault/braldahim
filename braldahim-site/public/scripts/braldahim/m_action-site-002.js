@@ -20,6 +20,10 @@ function _get_(url, encode) {
 			if ((url.substring(10, 12) == "do") && (url.substring(27, 29) == "do")) {
 				action = "do";
 			}
+		} else if (url.substring(0, 10) == "/brasserie") { // /brasserie/doaction?caction=ask/do
+			if ((url.substring(11, 13) == "do") && (url.substring(28, 30) == "do")) {
+				action = "do";
+			}
 		}
 	}
 

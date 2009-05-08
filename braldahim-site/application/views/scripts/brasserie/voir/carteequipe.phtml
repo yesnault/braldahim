@@ -1,0 +1,51 @@
+<?
+// On trie suivant X puis Y puis equipe
+foreach ($joueurs as $key => $row) {
+	$x[$key] = $row['x_hobbit'];
+	$y[$key] = $row['y_hobbit'];
+	$eq[$key] = $row['camp_soule_equipe'];
+}
+array_multisort($x, SORT_ASC, $y, SORT_ASC, $eq, SORT_ASC, $joueurs);
+
+$xini = null;
+$yini = null;
+$colini = null;
+$eqini = null;
+foreach($joueurs as $j):
+  if ($j["est_ko_hobbit"] == "non") :
+  	  if ($j["camp_soule_equipe"] == "a") { 
+  	  	$backgroundColor = "red";
+  	  	$nomEquipe = "&Eacute;quipe A";
+  	  }
+  	  else {
+  	  	$backgroundColor = "blue";
+  	  	$nomEquipe = "&Eacute;quipe B";
+  	  }
+  	  if ($j["x_hobbit"] == $xini && $j["y_hobbit"] == $yini){
+  	  	if ($colini != $backgroundColor){
+  	  		$backgroundColor = "purple";
+  	  	}
+  	  	if ($nomEquipe != $eqini) {
+  	  		$textHobbit .= "<br><center>".$nomEquipe."</center>";
+  	  	}
+  	  }
+  	  else {
+  	  	$textHobbit = "<br><center>".$nomEquipe."</center>";
+  	  }
+	  
+  	  $eqini = $nomEquipe;
+  	  $textHobbit .= '<label class=\\\'alabel profil\\\' onClick=ouvrirProfilH('.$j["id_hobbit"].'); title=\\\'Voir le profil\\\' >'.addslashes($j["prenom_hobbit"]).' '.addslashes($j["nom_hobbit"]).' ('.$j["id_hobbit"].')</label>, niv.'.$j["niveau_hobbit"];
+  	  $textHobbit .= ' <img src=\\\'/public/images/puce_event.gif\\\' title=\\\'Voir les événements\\\' border=\\\'0\\\' onClick=ouvrirEvenementsH('.$j["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
+	  $title = "Position : x=".$j['x_hobbit'].", y=".$j['y_hobbit'];
+  	  $xini = $j["x_hobbit"];
+  	  $yini = $j["y_hobbit"];
+  	  $colini = $backgroundColor;
+  	  
+  	  echo '<span class="joueur" style=\'';
+	  echo "left:".(-3 + ($j["x_hobbit"] - $this->matchEnCours["x_min_soule_terrain"]) * $coef)."px;"; 
+	  echo "top:".(-3 + ($this->matchEnCours["y_max_soule_terrain"] - $j["y_hobbit"]) * $coef)."px;";
+	  echo "background-color:".$backgroundColor.";";
+	  echo " onmouseover='".Bral_Helper_Tooltip::jsTip($textHobbit, $title).";'";
+	  echo ";\"></span>";
+  endif;
+endforeach; ?>

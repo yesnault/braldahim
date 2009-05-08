@@ -59,6 +59,28 @@ function switch2div(div1, div2) {
 	}
 }
 
+function ouvrirProfilH(idHobbit) {
+	ouvrirWin('/voir/hobbit/?hobbit=' + idHobbit + '&direct=profil', 'Profil Hobbit n°' + idHobbit);
+}
+function ouvrirEvenementsH(idHobbit) {
+	ouvrirWin('/voir/hobbit/?hobbit=' + idHobbit + '&direct=evenements', 'Evenements Hobbit n°' + idHobbit);
+}
+function ouvrirFamille(idHobbit) {
+	ouvrirWin('/voir/hobbit/?hobbit=' + idHobbit + '&direct=famille', 'Famille Hobbit n°' + idHobbit);
+}
+function ouvrirCommunaute(idCommunaute) {
+	ouvrirWin('/voir/communaute/?communaute=' + idCommunaute, 'Communauté n°' + idCommunaute);
+}
+function ouvrirMonstre(idMonstre) {
+	ouvrirWin('/voir/monstre/?monstre=' + idMonstre, 'Monstre n°' + idMonstre);
+}
+function ouvrirProfilM(idMonstre) {
+	ouvrirWin('/voir/monstre/?monstre=' + idMonstre + '&direct=profil', 'Profil Monstre n°' + idMonstre);
+}
+function ouvrirEvenementsM(idMonstre) {
+	ouvrirWin('/voir/monstre/?monstre=' + idMonstre + '&direct=evenements', 'Evenements Monstre n°' + idMonstre);
+}
+
 function ouvrirWin(url, titre) {
 	if (url.substring(0, 6) == '/voir/') {
 		url = "http://jeu.braldahim.com" + url;
