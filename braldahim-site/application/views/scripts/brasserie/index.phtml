@@ -1,8 +1,9 @@
 <ul class="titre textalic textsizeb">La Brasserie des Sports
-
+<br>
+<img src='/public/images/ballon.png'/>
 <? if (count($this->matchs) > 0):?>
 	<ul style="padding-left:20px">
-		<br>Liste des matchs : <br><select id="filtre" name="filtre" onChange="Javascript:if (this.value != -1) {_get_('/brasserie/load?caction=do_brasserie_match&id_match='+this.value, false)}" style="text-decoration: underline;"">
+		Liste des matchs : <br><select id="filtre" name="filtre" onChange="Javascript:if (this.value != -1) {_get_('/brasserie/load?caction=do_brasserie_match&id_match='+this.value, false)}" style="text-decoration: underline;"">
 		<option value="-1">Choisissez un match</option>
 		<? foreach($this->matchs as $m) : ?>
 			<option value="<?=$m["id_soule_match"]?>">
