@@ -95,7 +95,22 @@ class Lieu extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
+	
+	function findByTypeAndCase($type,$x, $y) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('lieu', '*')
+		->from('type_lieu', '*')
+		->where('x_lieu = ?',$x)
+		->where('y_lieu = ?',$y)
+		->where('lieu.id_fk_type_lieu = ?',$type)
+		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+		->joinLeft('ville','id_fk_ville_lieu = id_ville');
+		$sql = $select->__toString();
 
+		return $db->fetchAll($sql);
+	}
+	
 	public function findByTypeAndPosition($type, $x, $y, $estSoule = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();

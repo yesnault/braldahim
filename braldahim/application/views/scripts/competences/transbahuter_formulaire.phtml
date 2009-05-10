@@ -1,0 +1,98 @@
+<? if (count($this->typeDepart) > 0) : ?>
+	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='<?=$this->nb_valeurs ?>'>
+	<form name='myForm'>
+	<div class='comp_contenu'>
+		<?
+		$poches = null;
+		$jsBtn = "
+				 v=false;
+				 for (i=3;i<=$('nb_valeurs').value;i++){
+				 	if ($('valeur_'+i).value>0) {
+						v=true;
+					}
+				 };
+				 if (v==true && $('valeur_1').value != -1 && $('valeur_2').value != -1){
+					$('bouton_deposer').disabled=false;
+				 }else{
+					$('bouton_deposer').disabled=true;
+				 }
+				 ";
+		?>
+		Transbahuter à partir de :<br />
+		<select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1='+this.value);">
+			<option value="-1">(Choisissez un endroit de d&eacute;part)</option>
+			<? foreach($this->typeDepart as $t) : ?>
+			 	<option value="<?=$t["id_type_depart"]?>" <? if ($t["selected"] == $t["id_type_depart"]): echo "selected"; endif;?>><?=$t["nom_type_depart"]?></option>
+			<? endforeach; ?>
+		 </select>
+		 <br/><br/>
+		
+		<? if ($this->choixDepart == true) : ?>
+			<? if (count($this->typeArrivee) > 0) : ?>
+				<?php include("transbahuter/autres.phtml")?>
+				<?php include("transbahuter/runes.phtml")?>
+				<?php include("transbahuter/equipements.phtml")?>
+				<?php include("transbahuter/potions.phtml")?>
+				<?php include("transbahuter/aliments.phtml")?>
+				<?php include("transbahuter/munitions.phtml")?>
+				<?php include("transbahuter/partiesplantes.phtml")?>
+				<?php include("transbahuter/minerais.phtml")?>
+			
+				<?php 
+				$js = "
+					cacher = true;
+					for (i=3; i<=".$this->nb_valeurs."; i++) {
+						if ( $('valeur_' + i).type == 'select-multiple' ){
+							for (j=0; j<$('valeur_' + i).options.length; j++){
+								if ($('valeur_' + i).options[j].value != -1) {
+									$('valeur_' + i).options[j].selected = true;
+									cacher = false;
+								}
+							}
+						}
+						else {
+							$('valeur_' + i).value = $('valeur_' + i + '_max').value;
+							if (cacher == true && $('valeur_' + i + '_max').value > 0) {
+								cacher = false;
+							}
+						}
+					}
+					if ( $('valeur_1').value == -1 || $('valeur_2').value == -1){
+						cacher = true;
+					}
+					$('bouton_deposer').disabled=cacher;
+				";
+				?>
+				
+				<? 
+				$jsFermer = "";
+				$jsOuvrir = "";
+				foreach ($poches as $p) :
+					$jsFermer .= "maccordion_fermer($('$p'));";
+					$jsOuvrir .= "maccordion_ouvrir($('$p'));";
+				endforeach; 
+				?>
+				<br/>
+				<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onClick="<?=$js?>"> 
+				<input type='button' class='button1' id="fermer_poche" name="fermer_poche" value='Fermer Tout' onClick="<?=$jsFermer ?>">
+				<input type='button' class='button1' id="ouvrir_poche" name="ouvrir_poche"  value='Ouvrir Tout' onClick="<?=$jsOuvrir ?>">
+				<br/><br/>
+				Transbahuter vers :<br />
+				<select name="valeur_2" id="valeur_2" onChange="<?=$jsBtn?>">
+					<option value="-1">(Choisissez un endroit d'arriv&eacute;e)</option>
+					<? foreach($this->typeArrivee as $t) : ?>
+					 	<option value="<?=$t["id_type_arrivee"]?>" <? if ($t["selected"] == $t["id_type_arrivee"]): echo "selected"; endif;?>><?=$t["nom_type_arrivee"]?></option>
+					<? endforeach; ?>
+				</select>
+				<br/>
+				<br>
+				<input type='button' class='button1' id='bouton_deposer' value='Transbahuter !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_transbahuter");' disabled>
+		<?else : ?>
+			Pas de destination possible autre que votre laban et il est plein ! <br/><br/>
+		<?endif; ?>
+	<?endif; ?>
+	</div> 	
+	</form>
+<?else : ?>
+	Vous ne pouvez rien transbahuter !<br/><br/>
+<?endif; ?>
