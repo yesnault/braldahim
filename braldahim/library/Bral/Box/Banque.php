@@ -72,6 +72,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		Zend_Loader::loadClass("CoffreMunition");
 		Zend_Loader::loadClass("CoffrePotion");
 		Zend_Loader::loadClass("CoffreRune");
+		Zend_Loader::loadClass("CoffreTabac");
 		Zend_Loader::loadClass("HobbitsMetiers");
 		Zend_Loader::loadClass("Metier");
 		Zend_Loader::loadClass("TypePlante");
@@ -94,7 +95,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 			} else {
 				$nom_metier = $m["nom_masculin_metier"];
 			}
-				
+
 			$possedeMetier = false;
 			foreach($hobbitsMetierRowset as $h) {
 				if ($h["id_metier"] == $m["id_metier"]) {
@@ -102,7 +103,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 					break;
 				}
 			}
-				
+
 			if ($possedeMetier == true) {
 				$tabHobbitMetiers[$m["nom_systeme_metier"]] = array(
 						"id_metier" => $m["id_metier"],
@@ -170,19 +171,19 @@ class Bral_Box_Banque extends Bral_Box_Box {
 				"nb_planche" => $p["quantite_planche_coffre"],
 				"nb_castar" => $p["quantite_castar_coffre"],
 			);
-				
+
 			if ($p["quantite_peau_coffre"] > 0 || $p["quantite_viande_coffre"] > 0) {
 				if (isset($tabMetiers["chasseur"])) {
 					$tabMetiers["chasseur"]["a_afficher"] = true;
 				}
 			}
-				
+
 			if ($p["quantite_viande_preparee_coffre"] > 0) {
 				if (isset($tabMetiers["cuisinier"])) {
 					$tabMetiers["cuisinier"]["a_afficher"] = true;
 				}
 			}
-				
+
 			if ($p["quantite_cuir_coffre"] > 0 || $p["quantite_fourrure_coffre"] > 0) {
 				if (isset($tabMetiers["tanneur"])) {
 					$tabMetiers["tanneur"]["a_afficher"] = true;
@@ -242,6 +243,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		$this->renderMunition();
 		$this->renderPotion();
 		$this->renderAliment();
+		$this->renderTabac();
 
 		$this->view->estEquipementsPotionsEtal = false;
 		$this->view->estEquipementsPotionsEtalAchat = false;
@@ -254,6 +256,25 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		unset($tabLingots);
 		unset($tabRunesIdentifiees);
 		unset($tabRunesNonIdentifiees);
+	}
+
+	private function renderTabac() {
+		$tabTabac = null;
+		$coffreTabacTable = new CharretteTabac();
+		$tabacs = $coffreTabacTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($coffreTabacTable);
+
+		foreach ($tabacs as $m) {
+			if ($m["quantite_feuille_coffre_tabac"] > 0) {
+				$tabTabac[] = array(
+					"type" => $m["nom_type_tabac"],
+					"id_type_tabac" => $m["id_type_tabac"],
+					"quantite" => $m["quantite_feuille_coffre_tabac"],
+				);
+			}
+		}
+		unset($tabacs);
+		$this->view->tabac = $tabTabac;
 	}
 
 	private function renderPlante(&$tabMetiers) {
@@ -317,7 +338,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 					$tabMetiers["herboriste"]["a_afficher"] = true;
 				}
 			}
-				
+
 			if ($p["quantite_preparee_coffre_partieplante"] > 0) {
 				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["a_afficher"] = true;
 				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;

@@ -1,0 +1,16 @@
+<?php if ($case["n_elements_tabac"] > 0) : 
+	$textElementsTabac = "";
+	$nbFeuilles = 0;
+	foreach($case["elements_tabc"] as $m) {
+		$s = "";
+		if ($m["quantite"] > 1) {
+			$s = "s";
+		}
+		$textElementsTabac .= $m["quantite"] . " feuille".$s." ".htmlspecialchars($m["type"])."<br />";
+		$nbFeuilles = $nbFeuilles + $m["quantite"] ;
+	} 
+	$s = "";
+	if ($nbFeuilles > 1) {
+		$s = "s";
+	}
+endif; ?>

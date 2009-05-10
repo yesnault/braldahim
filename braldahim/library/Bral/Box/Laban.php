@@ -33,7 +33,6 @@ class Bral_Box_Laban extends Bral_Box_Box {
 			$this->data();
 			$this->view->pocheNom = "Poche";
 			$this->view->pocheNomSysteme = "Laban";
-			$this->view->afficheTabac = true;
 			$this->view->nb_castars = $this->view->user->castars_hobbit;
 		}
 		$this->view->nom_interne = $this->getNomInterne();

@@ -41,7 +41,6 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 
 				$this->view->pocheNom = "Case";
 				$this->view->pocheNomSysteme = "Charrette";
-				$this->view->afficheTabac = false;
 				$this->view->nb_castars = $this->view->charrette["nb_castar"];
 			} else {
 				$this->view->possedeCharrette = false;
@@ -68,6 +67,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		Zend_Loader::loadClass("CharretteMunition");
 		Zend_Loader::loadClass("CharrettePotion");
 		Zend_Loader::loadClass("CharretteRune");
+		Zend_Loader::loadClass("CharretteTabac");
 		Zend_Loader::loadClass("HobbitsMetiers");
 		Zend_Loader::loadClass("Metier");
 		Zend_Loader::loadClass("TypePlante");
@@ -238,6 +238,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->renderMunition();
 		$this->renderPotion();
 		$this->renderAliment();
+		$this->renderTabac();
 
 		$this->view->estEquipementsPotionsEtal = false;
 		$this->view->estEquipementsPotionsEtalAchat = false;
@@ -252,6 +253,25 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		unset($tabRunesNonIdentifiees);
 	}
 
+	private function renderTabac() {
+		$tabTabac = null;
+		$charretteTabacTable = new CharretteTabac();
+		$tabacs = $charretteTabacTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($charretteTabacTable);
+	
+		foreach ($tabacs as $m) {
+			if ($m["quantite_feuille_charrette_tabac"] > 0) {
+				$tabTabac[] = array(
+					"type" => $m["nom_type_tabac"],
+					"id_type_tabac" => $m["id_type_tabac"],
+					"quantite" => $m["quantite_feuille_charrette_tabac"],
+				);
+			}
+		}
+		unset($tabacs);
+		$this->view->tabac = $tabTabac;
+	}
+	
 	private function renderPlante(&$tabMetiers) {
 		$typePlantesTable = new TypePlante();
 		$typePlantesRowset = $typePlantesTable->findAll();

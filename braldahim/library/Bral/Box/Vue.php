@@ -36,6 +36,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("ElementMinerai");
 			Zend_Loader::loadClass("ElementPotion");
 			Zend_Loader::loadClass("ElementRune");
+			Zend_Loader::loadClass("ElementTabac");
 			Zend_Loader::loadClass("Lieu");
 			Zend_Loader::loadClass("HobbitsMetiers");
 			Zend_Loader::loadClass("Monstre");
@@ -183,6 +184,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$elementRuneTable = new ElementRune();
 		$elementsRunes = $elementRuneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($elementRuneTable);
+		$elementTabacTable = new ElementTabac();
+		$elementsTabac = $elementTabacTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($elementTabacTable);
 		$hobbitTable = new Hobbit();
 		$hobbits = $hobbitTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($hobbitTable);
@@ -248,6 +252,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabElementsPotions = null;
 				$tabElementsAliments = null;
 				$tabElementsRunes = null;
+				$tabElementsTabac = null;
 				$tabHobbits = null;
 				$tabLieux = null;
 				$tabMonstres = null;
@@ -437,6 +442,19 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						}
 					}
 
+					if ($elementsTabac != null) {
+						foreach($elementsTabac as $m) {
+							if ($m["quantite_feuille_element_tabac"] > 0) {
+								if ($display_x == $m["x_element_tabac"] && $display_y == $m["y_element_tabac"]) {
+									$tabElementsTabac[] = array(
+										"type" => $m["nom_court_type_tabac"],
+										"quantite" => $m["quantite_feuille_element_tabac"],
+									);
+								}
+							}
+						}
+					}
+
 					if ($hobbits != null) {
 						foreach($hobbits as $h) {
 							if ($display_x == $h["x_hobbit"] && $display_y == $h["y_hobbit"]) {
@@ -593,6 +611,8 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"elements_lingots" => $tabElementsLingots,
 					"n_elements_runes" => count($tabElementsRunes),
 					"elements_runes" => $tabElementsRunes,
+					"n_elements_tabac" => count($tabElementsTabac),
+					"elements_tabc" => $tabElementsTabac,
 					"n_hobbits" => count($tabHobbits),
 					"hobbits" => $tabHobbits,
 					"n_lieux" => count($tabLieux),
