@@ -278,7 +278,7 @@ Consultez vos événements pour plus de détails.";
 	}
 
 	private function calculTour() {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour (idm:".$this->monstre["id_monstre"].") - enter");
 		if ($this->monstre == null) {
 			new Zend_Exception("Bral_Monstres_VieMonstre::calculTour, monstre invalide");
 		}
@@ -307,17 +307,17 @@ Consultez vos événements pour plus de détails.";
 			$this->monstre["regeneration_malus_monstre"] = 0;
 			$this->monstre["vue_malus_monstre"] = 0;
 			$this->monstre["force_bm_monstre"] = 0;
-			$this->monstre["agilite_bm_monstre"] = 0;
+			$this->monstre["agilite_bm_monstre"] = - $this->monstre["agilite_malus_monstre"];
 			$this->monstre["agilite_malus_monstre"] = 0;
 			$this->monstre["sagesse_bm_monstre"] = 0;
 			$this->monstre["vigueur_bm_monstre"] = 0;
 			$this->updateMonstre();
 		}
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - exit");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour (idm:".$this->monstre["id_monstre"].") - exit");
 	}
 
 	private function calulRegeneration() {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calulRegeneration - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calulRegeneration (idm:".$this->monstre["id_monstre"].") - enter");
 
 		if ($this->monstre["pv_restant_monstre"] < $this->monstre["pv_max_monstre"]) {
 			$this->monstre["regeneration_monstre"] = floor($this->monstre["vigueur_base_monstre"] / 4) + 1;
@@ -325,7 +325,7 @@ Consultez vos événements pour plus de détails.";
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - jet de regeneration:".$jet);
 		}
 
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calulRegeneration - exit");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calulRegeneration (idm:".$this->monstre["id_monstre"].") - exit");
 	}
 
 	private function calculJetCible($cible) {
@@ -417,7 +417,15 @@ Consultez vos événements pour plus de détails.";
 			'regeneration_monstre' => $this->monstre["regeneration_monstre"],
 			'regeneration_malus_monstre' => $this->monstre["regeneration_malus_monstre"],
 			'pv_restant_monstre' => $this->monstre["pv_restant_monstre"],
+			'regeneration_malus_monstre' => $this->monstre["regeneration_malus_monstre"],
+			'vue_malus_monstre' => $this->monstre["vue_malus_monstre"],
+			'force_bm_monstre' => $this->monstre["force_bm_monstre"],
+			'agilite_bm_monstre' => $this->monstre["agilite_bm_monstre"],
+			'agilite_malus_monstre' => $this->monstre["agilite_malus_monstre"],
+			'sagesse_bm_monstre' => $this->monstre["sagesse_bm_monstre"],
+			'vigueur_bm_monstre' => $this->monstre["vigueur_bm_monstre"],
 		);
+		
 		$where = "id_monstre=".$this->monstre["id_monstre"];
 		$monstreTable->update($data, $where);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateMonstre - exit");

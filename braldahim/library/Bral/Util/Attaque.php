@@ -269,8 +269,8 @@ class Bral_Util_Attaque {
 
 			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Mise a jour du hobbit ".$hobbitCible->id_hobbit." pv_restant_hobbit=".$hobbitCible->pv_restant_hobbit);
 		} else if ($retourAttaque["jetCible"] / 2 <= $retourAttaque["jetAttaquant"]) {
-			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Attaque esquivee malus sur ajoute a agilite_bm_hobbit=".(floor($cible["niveau_cible"] / 10) + 1 ));
-			$hobbitCible->agilite_bm_hobbit = $hobbitCible->agilite_bm_hobbit - ( floor($cible["niveau_cible"] / 10) + 1 );
+			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Attaque esquivee malus sur ajoute a agilite_bm_hobbit=".$hobbitCible->niveau_hobbit);
+			$hobbitCible->agilite_bm_hobbit = $hobbitCible->agilite_bm_hobbit - $hobbitCible->niveau_hobbit;
 			$data = array('agilite_bm_hobbit' => $hobbitCible->agilite_bm_hobbit);
 			$where = "id_hobbit=".$hobbitCible->id_hobbit;
 			$hobbitTable = new Hobbit();
@@ -531,8 +531,8 @@ Consultez vos événements pour plus de détails.";
 				$monstreTable->update($data, $where);
 			}
 		} else if ($retourAttaque["jetCible"] / 2 <= $retourAttaque["jetAttaquant"]) {
-			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Attaque esquivee malus sur ajoute a agilite_bm_monstre=".( floor($monstre["niveau_monstre"] / 10) + 1 ));
-			$monstre["agilite_bm_monstre"] = $monstre["agilite_bm_monstre"] - ( floor($monstre["niveau_monstre"] / 10) + 1 );
+			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Attaque esquivee malus sur ajoute a agilite_bm_monstre=".$monstre["niveau_monstre"]);
+			$monstre["agilite_bm_monstre"] = $monstre["agilite_bm_monstre"] - $monstre["niveau_monstre"];
 			$retourAttaque["mort"] = false;
 			$data = array('agilite_bm_monstre' => $monstre["agilite_bm_monstre"]);
 			$where = "id_monstre=".$cible["id_cible"];
@@ -635,7 +635,7 @@ Consultez vos événements pour plus de détails.";
 		if ($jetAttaquant < 0) {
 			$jetAttaquant = 0;
 		}
-		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetAttaqueNormale - jetAttaquant + agilite_bm_hobbit + bm_attaque_hobbit + =".$jetAttaquant);
+		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetAttaqueNormale - jetAttaquant + agilite_bm_hobbit + bm_attaque_hobbit =".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetAttaqueNormale - enter -");
 		return $jetAttaquant;
 	}

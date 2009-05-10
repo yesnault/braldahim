@@ -197,7 +197,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->hobbit->vue_malus_hobbit = 0;
 
 			/* Application du malus d'agilite. */
-			$this->hobbit->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit;
+			$this->hobbit->agilite_bm_hobbit = $this->hobbit->agilite_malus_hobbit;
 			/* Remise a  zero du malus d'agilite. */
 			$this->hobbit->agilite_malus_hobbit = 0;
 
