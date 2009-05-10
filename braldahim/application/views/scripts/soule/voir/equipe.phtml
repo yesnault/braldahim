@@ -22,8 +22,10 @@
 			  		en <span title="Position X, Y" style="cursor:pointer"><?=$j["x_hobbit"]?>, <?=$j["y_hobbit"]?></span>.
 			  		Plaqué : <?=$j["nb_plaque_soule_equipe"]?> fois, Plaqueur : <?=$j["nb_hobbit_plaquage_soule_equipe"]?> fois.
 			  		<? endif;?>
-			  		<? if ($j["est_ko_hobbit"] == "oui") :?>
-			  		Actuellement plaqué
+			  		<? if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] == null) :?>
+				  		<? if ($j["est_ko_hobbit"] == "oui") :?>
+				  		Actuellement plaqué
+				  		<? endif;?>
 			  		<? endif;?>
 			  		<img src='/public/images/puce_event.gif' title='Voir les événements' border='0' onClick="ouvrirEvenementsH('<?=$j["id_hobbit"]?>');" style='cursor:pointer'/>
 			  		<img src='/public/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onClick="ecrireMessage('<?=$j["id_hobbit"]?>');" style='cursor:pointer'/>
