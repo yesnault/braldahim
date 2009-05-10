@@ -260,7 +260,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 
 	private function renderTabac() {
 		$tabTabac = null;
-		$coffreTabacTable = new CharretteTabac();
+		$coffreTabacTable = new CoffreTabac();
 		$tabacs = $coffreTabacTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($coffreTabacTable);
 
