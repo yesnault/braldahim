@@ -28,8 +28,8 @@ class Bral_Util_Plantes {
 		$tabTypePlantes = null;
 		$tabTypePlantesRetour = null;
 
-		foreach($typePartiePlantesRowset as $p) {
-			foreach($typePlantesRowset as $t) {
+		foreach($typePlantesRowset as $t) {
+			foreach($typePartiePlantesRowset as $p) {
 				$val = false;
 				$idChamp = "";
 
@@ -46,7 +46,7 @@ class Bral_Util_Plantes {
 					$val = true;
 				}
 
-				if (!isset($tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]]) && $val == true) {
+				if (!isset($tabTypePlantes[$t["categorie_type_plante"]][$t["nom_type_plante"]."-".$p["nom_type_partieplante"]]) && $val == true) {
 					$tab = array(
 						'nom_type_plante' => $t["nom_type_plante"],
 						'nom_type_partieplante' => $p["nom_type_partieplante"],
