@@ -25,8 +25,8 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 			$this->view->boutiquerEchoppeOk = false;
 			return;
 		}
-		$idEchoppe = -1;
 		
+		$idEchoppe = -1;
 		$metier = substr($this->nom_systeme, 9, strlen($this->nom_systeme) - 9);
 		foreach($echoppes as $e) {
 			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit && 
