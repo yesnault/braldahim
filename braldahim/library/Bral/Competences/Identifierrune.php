@@ -114,12 +114,14 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 	}
 	
 	public function calculPx() {
-		parent::calculPx();
-		$this->view->calcul_px_generique = false;
-		if ($this->view->identificationReussieOk === true) {
-			$this->view->nb_px_perso = $this->view->nb_px_perso + 1;
+		if ($this->view->nbGainCommunParDlaOk === true) {
+			parent::calculPx();
+			$this->view->calcul_px_generique = false;
+			if ($this->view->identificationReussieOk === true) {
+				$this->view->nb_px_perso = $this->view->nb_px_perso + 1;
+			}
+			$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
 		}
-		$this->view->nb_px = $this->view->nb_px_perso + $this->view->nb_px_commun;
 	}
 	
 	function getListBoxRefresh() {
