@@ -91,7 +91,9 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 		if (isset($typeMaterielCourant)) {
 			Zend_Loader::loadClass("RecetteMaterielCout");
 			Zend_Loader::loadClass("RecetteMaterielCoutMinerai");
+			Zend_Loader::loadClass("RecetteMaterielCoutPlante");
 			Zend_Loader::loadClass("EchoppeMinerai");
+			Zend_Loader::loadClass("EchoppePartieplante");
 
 			$this->view->etape1 = true;
 			$ressourcesOk = true;
@@ -160,12 +162,59 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 					$tabCout[] = array(
 						"nom" => $r["nom_type_minerai"], 
 						"nom_systeme"=> "minerai",
-						"id_type_minerai"=>$r["id_type_minerai"], 
+						"id_type_minerai" => $r["id_type_minerai"], 
 						"cout" => $r["quantite_lingot_recette_materiel_cout_minerai"], 
 						"unite" => "lingot",
 						"ressourcesOk" => $ok,
 					);
 				}
+			}
+
+			$recetteCoutPlanteTable = new RecetteMaterielCoutPlante();
+			$recetteCoutPlante = $recetteCoutPlanteTable->findByIdTypeMateriel($typeMaterielCourant["id_type_materiel"]);
+
+			$echoppePartieplanteTable = new EchoppePartieplante();
+			$partiesPlantes = $echoppePartieplanteTable->findByIdEchoppe($idEchoppe);
+
+			$tabPartiePlantes = null;
+
+			if ($partiesPlantes != null) {
+				foreach ($partiesPlantes as $m) {
+					if ($m["quantite_preparees_echoppe_partieplante"] >= 1) {
+						$tabPartiePlantes[$m["id_fk_type_plante_echoppe_partieplante"]][$m["id_fk_type_echoppe_partieplante"]] = array(
+							"nom_type_partieplante" => $m["nom_type_partieplante"],
+							"nom_type" => $m["nom_type_plante"],
+							"quantite_preparees" => $m["quantite_preparees_echoppe_partieplante"],
+						);
+					}
+				}
+			}
+
+			foreach($recetteCoutPlante as $r) {
+				$ok = "non";
+				$ressourcePlante = false;
+				if (isset($tabPartiePlantes[$r["id_fk_type_plante_recette_materiel_cout_plante"]]) && (isset($tabPartiePlantes[$r["id_fk_type_plante_recette_materiel_cout_plante"]][$r["id_fk_type_partieplante_recette_materiel_cout_plante"]]["quantite_preparees"])) ) {
+					if ($r["quantite_recette_materiel_cout_plante"] <= $tabPartiePlantes[$r["id_fk_type_plante_recette_materiel_cout_plante"]][$r["id_fk_type_partieplante_recette_materiel_cout_plante"]]["quantite_preparees"]) {
+						$ressourcePlante = true;
+						$ok = "oui";
+					}
+				} else {
+					$ressourcePlante = false;
+				}
+					
+				if ($ressourcePlante == false) {
+					$ressourcesOk = false;
+					$ok = "non";
+				}
+				$tabCout[] = array(
+					"nom" => $r["nom_type_plante"], 
+					"nom_systeme"=> "plante", 
+					"id_type_plante" => $r["id_type_plante"], 
+					"id_type_partieplante" => $r["id_type_partieplante"], 
+					"unite" => $r["nom_type_partieplante"], 
+					"cout" => ($r["coef_recette_materiel"] + $k),
+					"ressourcesOk" => $ok,
+				);
 			}
 
 			$this->view->cout = $tabCout;
@@ -295,7 +344,13 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 						}
 					}
 					break;
-				case "plantes" :
+				case "plante" :
+					$echoppePartiePlanteTable = new EchoppePartieplante();
+					$data = array('quantite_preparees_echoppe_partieplante' => -$c["cout"],
+						  'id_fk_type_echoppe_partieplante' => $c["id_type_partieplante"],
+						  'id_fk_type_plante_echoppe_partieplante' => $c["id_type_plante"],
+						  'id_fk_echoppe_echoppe_partieplante' => $this->echoppeCourante["id_echoppe"]);
+					$echoppePartiePlanteTable->insertOrUpdate($data);
 					break;
 				default :
 					throw new Zend_Exception(get_class($this)." Type inconnu ".$c["nom_systeme"]);
