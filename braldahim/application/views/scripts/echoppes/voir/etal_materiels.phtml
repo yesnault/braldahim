@@ -1,0 +1,10 @@
+<? if (count($this->materielsEtal) > 0) : ?>
+
+	<? $this->materiels = $this->materielsEtal; ?>
+	<?=$this->render("/interface/commun/materiels/materiels.phtml"); ?>
+	
+		<input type="button" class='button1' value="0 PA - Retirer de la vente"
+       		  onClick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_retirermateriel&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" />
+<? else: ?>
+	Vous n'avez aucun mat&eacute;riel en vente
+<? endif; ?>

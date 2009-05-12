@@ -1,0 +1,19 @@
+<div class='comp_titre'>Mettre en vente un mat&eacute;riel</div>
+ <div class='comp_contenu'>
+	 <div id='vendre_text' style="display:block"  onClick="javascript:switch2div('vendre_text','vendre_copie');">
+		Vous avez mis en vente le mat&eacute;riel suivant : <br />
+		<?=htmlspecialchars($this->materiel["nom"]) ?>
+		<br />
+	 </div>
+	 
+	 <div id='vendre_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+		echo "Vous avez mis en vente le mat&eacute;riel suivant : ";
+		echo htmlspecialchars($this->materiel["nom"]);
+	?>
+	</textarea>
+	</div>
+ </div>
+
+<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('vendre_text','vendre_copie');">
+<? echo Bral_Helper_Fermer::affiche(); ?>

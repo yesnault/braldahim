@@ -61,6 +61,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("CharretteEquipement");
+		Zend_Loader::loadClass("CharretteMateriel");
 		Zend_Loader::loadClass("CharretteMinerai");
 		Zend_Loader::loadClass("CharrettePartieplante");
 		Zend_Loader::loadClass("CharretteAliment");
@@ -90,7 +91,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 			} else {
 				$nom_metier = $m["nom_masculin_metier"];
 			}
-				
+
 			$possedeMetier = false;
 			foreach($hobbitsMetierRowset as $h) {
 				if ($h["id_metier"] == $m["id_metier"]) {
@@ -98,7 +99,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 					break;
 				}
 			}
-				
+
 			if ($possedeMetier == true) {
 				$tabHobbitMetiers[$m["nom_systeme_metier"]] = array(
 						"id_metier" => $m["id_metier"],
@@ -167,19 +168,19 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 				"nb_planche" => $p["quantite_planche_charrette"],
 				"nb_castar" => $p["quantite_castar_charrette"],
 			);
-				
+
 			if ($p["quantite_peau_charrette"] > 0 || $p["quantite_viande_charrette"] > 0) {
 				if (isset($tabMetiers["chasseur"])) {
 					$tabMetiers["chasseur"]["a_afficher"] = true;
 				}
 			}
-				
+
 			if ($p["quantite_viande_preparee_charrette"] > 0) {
 				if (isset($tabMetiers["cuisinier"])) {
 					$tabMetiers["cuisinier"]["a_afficher"] = true;
 				}
 			}
-				
+
 			if ($p["quantite_cuir_charrette"] > 0 || $p["quantite_fourrure_charrette"] > 0) {
 				if (isset($tabMetiers["tanneur"])) {
 					$tabMetiers["tanneur"]["a_afficher"] = true;
@@ -235,13 +236,14 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->renderPlante($tabMetiers);
 		$this->view->tabMetiers = $tabMetiers;
 		$this->renderEquipement();
+		$this->renderMateriel();
 		$this->renderMunition();
 		$this->renderPotion();
 		$this->renderAliment();
 		$this->renderTabac();
 
-		$this->view->estEquipementsPotionsEtal = false;
-		$this->view->estEquipementsPotionsEtalAchat = false;
+		$this->view->estElementsEtal = false;
+		$this->view->estElementsEtalAchat = false;
 
 		$this->view->nom_interne = $this->getNomInterne();
 
@@ -258,7 +260,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$charretteTabacTable = new CharretteTabac();
 		$tabacs = $charretteTabacTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($charretteTabacTable);
-	
+
 		foreach ($tabacs as $m) {
 			if ($m["quantite_feuille_charrette_tabac"] > 0) {
 				$tabTabac[] = array(
@@ -271,7 +273,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		unset($tabacs);
 		$this->view->tabac = $tabTabac;
 	}
-	
+
 	private function renderPlante(&$tabMetiers) {
 		$typePlantesTable = new TypePlante();
 		$typePlantesRowset = $typePlantesTable->findAll();
@@ -333,7 +335,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 					$tabMetiers["herboriste"]["a_afficher"] = true;
 				}
 			}
-				
+
 			if ($p["quantite_preparee_charrette_partieplante"] > 0) {
 				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["a_afficher"] = true;
 				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
@@ -348,6 +350,31 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 
 		$this->view->typePlantesBruts = $tabTypePlantesBruts;
 		$this->view->typePlantesPrepares = $tabTypePlantesPrepares;
+	}
+
+	private function renderMateriel() {
+		$tabMateriels = null;
+		$charretteMaterielTable = new CharretteMateriel();
+		$materiels = $charretteMaterielTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($charretteMaterielTable);
+
+		$tabWhere = null;
+		foreach ($materiels as $e) {
+			$tabMateriels[$e["id_charrette_materiel"]] = array(
+					"id_materiel" => $e["id_charrette_materiel"],
+					'id_type_materiel' => $e["id_type_materiel"],
+					'nom' =>$e["nom_type_materiel"],
+					'capacite' => $e["capacite_type_materiel"], 
+					'durabilite' => $e["durabilite_type_materiel"], 
+					'usure' => $e["usure_type_materiel"], 
+					'poids' => $e["poids_type_materiel"], 
+			);
+			$tabWhere[] = $e["id_charrette_materiel"];
+		}
+		unset($materiels);
+
+		$this->view->nb_materiels = count($tabMateriels);
+		$this->view->materiels = $tabMateriels;
 	}
 
 	private function renderEquipement() {

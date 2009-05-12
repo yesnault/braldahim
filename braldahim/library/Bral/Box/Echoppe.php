@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -11,22 +11,22 @@
  * $LastChangedBy$
  */
 class Bral_Box_Echoppe extends Bral_Box_Box {
-	
+
 	function getTitreOnglet() {
 		return "&Eacute;choppe";
 	}
-	
+
 	function getNomInterne() {
-		return "box_lieu";		
+		return "box_lieu";
 	}
-	
+
 	function setDisplay($display) {
 		$this->view->display = $display;
 	}
-	
+
 	function render() {
 		Zend_Loader::loadClass("Echoppe");
-		
+
 		$echoppesTable = new Echoppe();
 		$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		if (count($echoppeRowset) > 1) {
@@ -34,10 +34,10 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		} else if (count($echoppeRowset) == 0) {
 			throw new Zend_Exception(get_class($this)."::nombre d'echoppe invalide = 0 !");
 		}
-		
+
 		$echoppe = $echoppeRowset[0];
 		$this->view->estLieuCourant = true;
-				
+
 		$nom = "Échoppe";
 		if ($echoppe["nom_masculin_metier"]{0} == "A") {
 			$nom .= " d'";
@@ -53,7 +53,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		$nom .= " appartenant &agrave ".htmlspecialchars($echoppe["prenom_hobbit"]);
 		$nom .= " ".htmlspecialchars($echoppe["nom_hobbit"]);
 		$nom .= " n°".$echoppe["id_hobbit"];
-		
+
 		if ($echoppe["nom_systeme_metier"] == "apothicaire") {
 			$this->view->afficheType = "potions";
 			$this->prepareCommunPotions($echoppe["id_echoppe"]);
@@ -61,15 +61,17 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 			$this->view->afficheType = "equipements";
 			$this->prepareCommunEquipements($echoppe["id_echoppe"]);
 		}
-		
+
+		$this->prepareCommunMateriels($echoppe["id_echoppe"]);
+
 		$this->view->nomEchoppe = $nom;
-		
-		$this->view->estEquipementsPotionsEtal = true;
-		$this->view->estEquipementsPotionsEtalAchat = true;
+
+		$this->view->estElementsEtal = true;
+		$this->view->estElementsEtalAchat = true;
 		return $this->view->render("interface/echoppe.phtml");
 	}
-	
-	
+
+
 	private function prepareCommunEquipements($idEchoppe) {
 		Zend_Loader::loadClass("EchoppeEquipement");
 		Zend_Loader::loadClass("EchoppeEquipementMinerai");
@@ -77,37 +79,37 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		Zend_Loader::loadClass("EquipementRune");
 		Zend_Loader::loadClass("EquipementBonus");
 		Zend_Loader::loadClass("Bral_Util_Equipement");
-	
+
 		$tabEquipementsEtal = null;
 		$idEquipements = null;
 		$equipementRunes = null;
 		$echoppeEquipementMinerai = null;
 		$echoppeEquipementPartiePlante = null;
-		
+
 		$echoppeEquipementTable = new EchoppeEquipement();
 		$equipements = $echoppeEquipementTable->findByIdEchoppe($idEchoppe);
-		
+
 		foreach ($equipements as $e) {
 			$idEquipements[] = $e["id_echoppe_equipement"];
 		}
-		
+
 		if ($idEquipements != null && count($idEquipements) > 0) {
 			$equipementRuneTable = new EquipementRune();
 			$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
-			
+				
 			$equipementBonusTable = new EquipementBonus();
 			$equipementBonus = $equipementBonusTable->findByIdsEquipement($idEquipements);
-			
+				
 			$echoppeEquipementMineraiTable = new EchoppeEquipementMinerai();
 			$echoppeEquipementMinerai = $echoppeEquipementMineraiTable->findByIdsEquipement($idEquipements);
-				
+
 			$echoppeEquipementPartiePlanteTable = new EchoppeEquipementPartiePlante();
 			$echoppeEquipementPartiePlante = $echoppeEquipementPartiePlanteTable->findByIdsEquipement($idEquipements);
 		}
-		
+
 		if ($idEquipements != null && count($equipements) > 0) {
 			foreach($equipements as $e) {
-			
+					
 				$runes = null;
 				if (count($equipementRunes) > 0) {
 					foreach($equipementRunes as $r) {
@@ -122,7 +124,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 						}
 					}
 				}
-				
+
 				$bonus = null;
 				if (count($equipementBonus) > 0) {
 					foreach($equipementBonus as $b) {
@@ -144,7 +146,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 						}
 					}
 				}
-				
+
 				$partiesPlantes = null;
 				if (count($echoppeEquipementPartiePlante) > 0) {
 					foreach($echoppeEquipementPartiePlante as $p) {
@@ -158,7 +160,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 						}
 					}
 				}
-				
+
 				$equipement = array(
 					"id_equipement" => $e["id_echoppe_equipement"],
 					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_echoppe_equipement"]),
@@ -195,7 +197,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 					"prix_minerais" => $minerai,
 					"prix_parties_plantes" => $partiesPlantes,
 				);
-				
+
 				if ($e["type_vente_echoppe_equipement"] == "publique") {
 					$tabEquipementsEtal[] = $equipement;
 				}
@@ -203,31 +205,113 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		}
 		$this->view->equipementsEtal = $tabEquipementsEtal;
 	}
-	
+
+	private function prepareCommunMateriels($idEchoppe) {
+		Zend_Loader::loadClass("EchoppeMateriel");
+		Zend_Loader::loadClass("EchoppeMaterielMinerai");
+		Zend_Loader::loadClass("EchoppeMaterielPartiePlante");
+
+		$tabMaterielsEtal = null;
+		$idMateriels = null;
+		$echoppeMaterielMinerai = null;
+		$echoppeMaterielPartiePlante = null;
+
+		$echoppeMaterielTable = new EchoppeMateriel();
+		$materiels = $echoppeMaterielTable->findByIdEchoppe($idEchoppe);
+
+		foreach ($materiels as $e) {
+			$idMateriels[] = $e["id_echoppe_materiel"];
+		}
+
+		if ($idMateriels != null && count($idMateriels) > 0) {
+			$echoppeMaterielMineraiTable = new EchoppeMaterielMinerai();
+			$echoppeMaterielMinerai = $echoppeMaterielMineraiTable->findByIdsMateriel($idMateriels);
+
+			$echoppeMaterielPartiePlanteTable = new EchoppeMaterielPartiePlante();
+			$echoppeMaterielPartiePlante = $echoppeMaterielPartiePlanteTable->findByIdsMateriel($idMateriels);
+		}
+
+		if ($idMateriels != null && count($materiels) > 0) {
+			foreach($materiels as $e) {
+					
+				$minerai = null;
+				if (count($echoppeMaterielMinerai) > 0) {
+					foreach($echoppeMaterielMinerai as $r) {
+						if ($r["id_fk_echoppe_materiel_minerai"] == $e["id_echoppe_materiel"]) {
+							$minerai[] = array(
+								"prix_echoppe_materiel_minerai" => $r["prix_echoppe_materiel_minerai"],
+								"nom_type_minerai" => $r["nom_type_minerai"],
+							);
+						}
+					}
+				}
+
+				$partiesPlantes = null;
+				if (count($echoppeMaterielPartiePlante) > 0) {
+					foreach($echoppeMaterielPartiePlante as $p) {
+						if ($p["id_fk_echoppe_materiel_partieplante"] == $e["id_echoppe_materiel"]) {
+							$partiesPlantes[] = array(
+								"prix_echoppe_materiel_partieplante" => $p["prix_echoppe_materiel_partieplante"],
+								"nom_type_plante" => $p["nom_type_plante"],
+								"nom_type_partieplante" => $p["nom_type_partieplante"],
+								"prefix_type_plante" => $p["prefix_type_plante"],
+							);
+						}
+					}
+				}
+
+				$materiel = array(
+					"id_materiel" => $e["id_echoppe_materiel"],
+					"id_type_materiel" => $e["id_type_materiel"],
+					'id_type_materiel' => $e["id_type_materiel"],
+					'nom' =>$e["nom_type_materiel"],
+					'capacite' => $e["capacite_type_materiel"], 
+					'durabilite' => $e["durabilite_type_materiel"], 
+					'usure' => $e["usure_type_materiel"], 
+					'poids' => $e["poids_type_materiel"], 
+					"prix_1_vente_echoppe_materiel" => $e["prix_1_vente_echoppe_materiel"],
+					"prix_2_vente_echoppe_materiel" => $e["prix_2_vente_echoppe_materiel"],
+					"prix_3_vente_echoppe_materiel" => $e["prix_3_vente_echoppe_materiel"],
+					"unite_1_vente_echoppe_materiel" => $e["unite_1_vente_echoppe_materiel"],
+					"unite_2_vente_echoppe_materiel" => $e["unite_2_vente_echoppe_materiel"],
+					"unite_3_vente_echoppe_materiel" => $e["unite_3_vente_echoppe_materiel"],
+					"commentaire_vente_echoppe_materiel" => $e["commentaire_vente_echoppe_materiel"],
+					"prix_minerais" => $minerai,
+					"prix_parties_plantes" => $partiesPlantes,
+				);
+
+				if ($e["type_vente_echoppe_materiel"] == "publique") {
+					$tabMaterielsEtal[] = $materiel;
+				}
+			}
+		}
+		$this->view->materielsEtal = $tabMaterielsEtal;
+	}
+
 	private function prepareCommunPotions($idEchoppe) {
 		Zend_Loader::loadClass("EchoppePotion");
 		Zend_Loader::loadClass("EchoppePotionMinerai");
 		Zend_Loader::loadClass("EchoppePotionPartiePlante");
-		
+
 		$tabPotionsArriereBoutique = null;
 		$tabPotionsEtal = null;
 		$echoppePotionTable = new EchoppePotion();
 		$potions = $echoppePotionTable->findByIdEchoppe($idEchoppe);
-		
+
 		$idPotions = null;
-		
+
 		foreach ($potions as $p) {
 			$idPotions[] = $p["id_echoppe_potion"];
 		}
-		
+
 		if (count($idPotions) > 0) {
 			$echoppPotionMineraiTable = new EchoppePotionMinerai();
 			$echoppePotionMinerai = $echoppPotionMineraiTable->findByIdsPotion($idPotions);
-				
+
 			$echoppePotionPartiePlanteTable = new EchoppePotionPartiePlante();
 			$echoppePotionPartiePlante = $echoppePotionPartiePlanteTable->findByIdsPotion($idPotions);
 		}
-		
+
 		if (count($potions) > 0) {
 			foreach($potions as $p) {
 				$minerai = null;
@@ -241,7 +325,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 						}
 					}
 				}
-				
+
 				$partiesPlantes = null;
 				if (count($echoppePotionPartiePlante) > 0) {
 					foreach($echoppePotionPartiePlante as $a) {
@@ -255,7 +339,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 						}
 					}
 				}
-				
+
 				if ($p["type_vente_echoppe_potion"] == "publique") {
 					$tabPotionsEtal[] = array(
 						"id_potion" => $p["id_echoppe_potion"],

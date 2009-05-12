@@ -70,11 +70,11 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 			$t = array(
 				'id_type_materiel' => $t["id_type_materiel"],
 				'nom_type_materiel' =>$t["nom_type_materiel"],
-				'capacite' => $t["capacite_base_type_materiel"], 
-				'durabilite' => $t["durabilite_base_type_materiel"], 
-				'usure' => $t["usure_base_type_materiel"], 
-				'poids' => 'TODO',
-				'selected' => $selected
+				'capacite' => $t["capacite_type_materiel"], 
+				'durabilite' => $t["durabilite_type_materiel"], 
+				'usure' => $t["usure_type_materiel"], 
+				'poids' => $t["poids_type_materiel"], 
+				'selected' => $selected,
 			);
 			if ($id_type_courant == $t["id_type_materiel"]) {
 				$typeMaterielCourant = $t;
@@ -212,7 +212,7 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 					"id_type_plante" => $r["id_type_plante"], 
 					"id_type_partieplante" => $r["id_type_partieplante"], 
 					"unite" => $r["nom_type_partieplante"], 
-					"cout" => ($r["coef_recette_materiel"] + $k),
+					"cout" => $r["quantite_recette_materiel_cout_plante"],
 					"ressourcesOk" => $ok,
 				);
 			}
@@ -279,8 +279,8 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 		$data = array(
 			'id_fk_type_element_materiel' => $this->view->typeMaterielCourant["id_type_materiel"],
 			'date_fin_element_materiel' => 'aucune',
-			'x_element' => $this->view->user->x_hobbit,
-			'y_element' => $this->view->user->y_hobbit,
+			'x_element_materiel' => $this->view->user->x_hobbit,
+			'y_element_materiel' => $this->view->user->y_hobbit,
 			'date_fin_element_materiel' => $dateFin,
 		);
 		$idMateriel = $elementMaterielTable->insert($data);

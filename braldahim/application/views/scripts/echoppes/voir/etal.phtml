@@ -2,8 +2,11 @@
 L'&eacute;tal permet &agrave; l'artisan d'exposer ses ouvrages pour les mettre en vente.<br /><br />
  <div class="contenuc">
   <ul class="box_contenu1 textalic">
+  	<ul class="titre textalic textsized">Mat&eacute;riels en vente</ul>
+  		<? include("etal_materiels.phtml") ?>
+  		<br /><br />
   	<? if ($this->afficheType == "equipements") :?>
-  		<ul class="titre textalic textsized">Equipements en vente</ul>
+  		<ul class="titre textalic textsized">&Eacute;quipements en vente</ul>
   		<? include("etal_equipements.phtml") ?>
   	<? else: ?>
   		<ul class="titre textalic textsized">Potions en vente</ul>

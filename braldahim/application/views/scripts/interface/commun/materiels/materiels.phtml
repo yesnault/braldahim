@@ -1,0 +1,47 @@
+<? Zend_Loader::loadClass("Bral_Helper_DetailMateriel"); ?>
+<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
+
+<table class="table_liste" style="width:90%">
+	<thead class="table_liste">
+	  <tr class="table_liste">
+	  	<th>N&deg;</th>
+	  	<th>&nbsp;</th>
+		<th>Nom</th>
+		<th>Caract&eacute;ristiques</th>
+		<? if ($this->estElementsEtal === true) : ?>
+			<th>Prix</th>
+			<th>Commentaire du vendeur</th>
+		<? endif; ?>
+		<? if ($this->estElementsEtalAchat === true) : ?>
+			<th>Marchander / Acheter</th>
+		<? endif; ?>
+	  </tr>
+	</thead>
+	<tbody>
+		<? if (count($this->materiels) > 0) :?>
+			<? $i = 0;
+			   foreach($this->materiels as $e) :?>
+					<tr class="table_liste<?=($i % 2);$i++; ?>">
+				  		<td class="table_liste"><?=$e["id_materiel"] ?></td>
+				  		<td class="table_liste"><img src='/public/styles/braldahim_defaut/images/type_materiel/type_materiel_<?=$e["id_type_materiel"]?>.png' alt="<?=htmlspecialchars($e["nom"]) ?>"/></td>
+				  		<td class="table_liste"><?=$e["nom"] ?></td>
+				  		<td class="table_liste">
+				  			<img src="/public/images/info_icon.gif" <?=Bral_Helper_DetailMateriel::afficherJs($e);?> />
+				  		</td>
+				  		<? if ($this->estElementsEtal === true) : ?>
+							<td class="table_liste" nowrap><?=Bral_Helper_DetailMateriel::afficherPrix($e);?></td>
+							<td class="table_liste"><?=Bral_Util_BBParser::bbcodeReplace($e["commentaire_vente_echoppe_materiel"])?></td>
+						<? endif; ?>
+						<? if ($this->estElementsEtalAchat === true) : ?>
+							<td class="table_liste">
+							<input type="button" class='button1' onClick='$("nb_valeurs").value=1;$("valeur_1").value=<?=$e["id_materiel"] ?>;_get_("/echoppe/doaction?caction=ask_echoppe_achetermateriel");' value="<?=$this->config->game->echoppe->nb_pa_service ?> PA - Acheter">
+							</td>
+						<? endif; ?>
+				  	</tr>
+			<? endforeach; ?>
+		<? else: ?>
+			<tr class="table_liste"><td class="table_liste" colspan="20"><i>aucun mat&eacute;riel</i></td></tr>
+		<? endif; ?>
+	</tbody>
+</table>

@@ -66,6 +66,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 
 		Zend_Loader::loadClass("Coffre");
 		Zend_Loader::loadClass("CoffreEquipement");
+		Zend_Loader::loadClass("CoffreMateriel");
 		Zend_Loader::loadClass("CoffreMinerai");
 		Zend_Loader::loadClass("CoffrePartieplante");
 		Zend_Loader::loadClass("CoffreAliment");
@@ -244,9 +245,10 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		$this->renderPotion();
 		$this->renderAliment();
 		$this->renderTabac();
+		$this->renderMateriel();
 
-		$this->view->estEquipementsPotionsEtal = false;
-		$this->view->estEquipementsPotionsEtalAchat = false;
+		$this->view->estElementsEtal = false;
+		$this->view->estElementsEtalAchat = false;
 
 		$this->view->nom_interne = $this->getNomInterne();
 
@@ -353,6 +355,31 @@ class Bral_Box_Banque extends Bral_Box_Box {
 
 		$this->view->typePlantesBruts = $tabTypePlantesBruts;
 		$this->view->typePlantesPrepares = $tabTypePlantesPrepares;
+	}
+
+	private function renderMateriel() {
+		$tabMateriels = null;
+		$coffreMaterielTable = new CoffreMateriel();
+		$materiels = $coffreMaterielTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($coffreMaterielTable);
+
+		$tabWhere = null;
+		foreach ($materiels as $e) {
+			$tabMateriels[$e["id_coffre_materiel"]] = array(
+					"id_materiel" => $e["id_coffre_materiel"],
+					'id_type_materiel' => $e["id_type_materiel"],
+					'nom' =>$e["nom_type_materiel"],
+					'capacite' => $e["capacite_type_materiel"], 
+					'durabilite' => $e["durabilite_type_materiel"], 
+					'usure' => $e["usure_type_materiel"], 
+					'poids' => $e["poids_type_materiel"], 
+			);
+			$tabWhere[] = $e["id_coffre_materiel"];
+		}
+		unset($materiels);
+
+		$this->view->nb_materiels = count($tabMateriels);
+		$this->view->materiels = $tabMateriels;
 	}
 
 	private function renderEquipement() {

@@ -38,5 +38,4 @@ class Bral_Echoppe_Factory {
 			throw new Zend_Exception("Bral_Echoppe_Factory action invalide: ".$nomSystemeAction);
 		}
 	}
-
 }

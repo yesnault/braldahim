@@ -1,14 +1,14 @@
-<div class='comp_titre'>Transf&eacute;rer un &eacute;quipement</div>
+<div class='comp_titre'>Transf&eacute;rer un mat&eacute;riel</div>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <input type='hidden' id='valeur_1' name='valeur_1' value='<?=$this->idEchoppe ?>'>
  <form name='myForm'>
  <div class='comp_contenu'>
  <br />
 	<? if (count($this->materielsArriereBoutique) > 0): ?>
-		Vous pouvez transf&eacute;rer un &eacute;quipement pr&eacute;sent soit dans la r&eacute;serve, 
+		Vous pouvez transf&eacute;rer un mat&eacute;riel pr&eacute;sent soit dans la r&eacute;serve, 
 		soit dans votre laban, soit une autre de vos &eacute;choppes.<br />
 		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_transfermateriel').disabled=true } else {$('bouton_transfermateriel').disabled=false }">
-	 		<option value="-1">(Choisis un &eacute;quipement)</option>
+	 		<option value="-1">(Choisis un mat&eacute;riel)</option>
 			<? foreach($this->materielsArriereBoutique as $e) :?>
 				<option value="<?=$e["id_echoppe_materiel"] ?>" <? if ($e["place_dispo"] == false):echo "disabled"; endif;?>>N&deg; <?=$e["id_echoppe_materiel"] ?> <?=htmlspecialchars($e["nom"]) ?> <? if ($e["place_dispo"] == false):echo "Trop Lourd !"; endif;?></option>
 			<? endforeach; ?>

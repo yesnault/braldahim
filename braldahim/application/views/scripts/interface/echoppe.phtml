@@ -10,6 +10,9 @@
  	<div class="contenuC">
  		<ul class="box_contenu1 textalic">
 			<br /><br /><br />
+			<? $this->materiels = $this->materielsEtal; ?>
+				<?=$this->render("/interface/commun/materiels/materiels.phtml"); ?>
+				<br /><br />
 			<? if ($this->afficheType == "equipements") :?>
 				<? $this->equipements = $this->equipementsEtal; ?>
 				<?=$this->render("/interface/commun/equipements/equipements.phtml"); ?>

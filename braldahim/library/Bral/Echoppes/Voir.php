@@ -153,6 +153,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->prepareCommunRessources($tabEchoppe["id_echoppe"]);
 		$this->prepareCommunEquipements($tabEchoppe["id_echoppe"]);
 		$this->prepareCommunPotions($tabEchoppe["id_echoppe"]);
+		$this->prepareCommunMateriels($tabEchoppe["id_echoppe"]);
 
 		$this->view->arBoutiqueBruts = $this->arBoutiqueBruts;
 		$this->view->arBoutiqueTransformes = $this->arBoutiqueTransformes;
@@ -160,8 +161,8 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 
 		$this->view->competences = $tabCompetences;
 		$this->view->echoppe = $tabEchoppe;
-		$this->view->estEquipementsPotionsEtal = true;
-		$this->view->estEquipementsPotionsEtalAchat = false;
+		$this->view->estElementsEtal = true;
+		$this->view->estElementsEtalAchat = false;
 	}
 
 	function prepareFormulaire() {
@@ -456,6 +457,88 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		}
 		$this->view->equipementsArriereBoutique = $tabEquipementsArriereBoutique;
 		$this->view->equipementsEtal = $tabEquipementsEtal;
+	}
+	
+	private function prepareCommunMateriels($idEchoppe) {
+		Zend_Loader::loadClass("EchoppeMateriel");
+		Zend_Loader::loadClass("EchoppeMaterielMinerai");
+		Zend_Loader::loadClass("EchoppeMaterielPartiePlante");
+
+		$tabMaterielsArriereBoutique = null;
+		$tabMaterielsEtal = null;
+		$echoppeMaterielTable = new EchoppeMateriel();
+		$materiels = $echoppeMaterielTable->findByIdEchoppe($idEchoppe);
+		$idMateriels = null;
+
+		foreach ($materiels as $e) {
+			$idMateriels[] = $e["id_echoppe_materiel"];
+		}
+
+		if (count($idMateriels) > 0) {
+			$echoppeMaterielMineraiTable = new EchoppeMaterielMinerai();
+			$echoppeMaterielMinerai = $echoppeMaterielMineraiTable->findByIdsMateriel($idMateriels);
+				
+			$echoppeMaterielPartiePlanteTable = new EchoppeMaterielPartiePlante();
+			$echoppeMaterielPartiePlante = $echoppeMaterielPartiePlanteTable->findByIdsMateriel($idMateriels);
+		}
+
+		if (count($materiels) > 0) {
+			foreach($materiels as $e) {
+					
+				$minerai = null;
+				if (count($echoppeMaterielMinerai) > 0) {
+					foreach($echoppeMaterielMinerai as $r) {
+						if ($r["id_fk_echoppe_materiel_minerai"] == $e["id_echoppe_materiel"]) {
+							$minerai[] = array(
+								"prix_echoppe_materiel_minerai" => $r["prix_echoppe_materiel_minerai"],
+								"nom_type_minerai" => $r["nom_type_minerai"],
+							);
+						}
+					}
+				}
+
+				$partiesPlantes = null;
+				if (count($echoppeMaterielPartiePlante) > 0) {
+					foreach($echoppeMaterielPartiePlante as $p) {
+						if ($p["id_fk_echoppe_materiel_partieplante"] == $e["id_echoppe_materiel"]) {
+							$partiesPlantes[] = array(
+								"prix_echoppe_materiel_partieplante" => $p["prix_echoppe_materiel_partieplante"],
+								"nom_type_plante" => $p["nom_type_plante"],
+								"nom_type_partieplante" => $p["nom_type_partieplante"],
+								"prefix_type_plante" => $p["prefix_type_plante"],
+							);
+						}
+					}
+				}
+
+				$materiel = array(
+					"id_materiel" => $e["id_echoppe_materiel"],
+					'id_type_materiel' => $e["id_type_materiel"],
+					'nom' =>$e["nom_type_materiel"],
+					'capacite' => $e["capacite_type_materiel"], 
+					'durabilite' => $e["durabilite_type_materiel"], 
+					'usure' => $e["usure_type_materiel"], 
+					'poids' => $e["poids_type_materiel"], 
+					"prix_1_vente_echoppe_materiel" => $e["prix_1_vente_echoppe_materiel"],
+					"prix_2_vente_echoppe_materiel" => $e["prix_2_vente_echoppe_materiel"],
+					"prix_3_vente_echoppe_materiel" => $e["prix_3_vente_echoppe_materiel"],
+					"unite_1_vente_echoppe_materiel" => $e["unite_1_vente_echoppe_materiel"],
+					"unite_2_vente_echoppe_materiel" => $e["unite_2_vente_echoppe_materiel"],
+					"unite_3_vente_echoppe_materiel" => $e["unite_3_vente_echoppe_materiel"],
+					"commentaire_vente_echoppe_materiel" => $e["commentaire_vente_echoppe_materiel"],
+					"prix_minerais" => $minerai,
+					"prix_parties_plantes" => $partiesPlantes,
+				);
+
+				if ($e["type_vente_echoppe_materiel"] == "aucune") {
+					$tabMaterielsArriereBoutique[] = $materiel;
+				} else {
+					$tabMaterielsEtal[] = $materiel;
+				}
+			}
+		}
+		$this->view->materielsArriereBoutique = $tabMaterielsArriereBoutique;
+		$this->view->materielsEtal = $tabMaterielsEtal;
 	}
 
 	private function prepareCommunPotions($idEchoppe) {

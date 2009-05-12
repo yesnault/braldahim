@@ -1,30 +1,33 @@
- 	<ul class="titre textalic textsizec">L'atelier</ul>
-  	L'atelier est le coeur de l'&eacute;choppe. C'est ici que l'artisan exerce sont art.<br /><br />
-  	
-  	<? if ($this->estSurEchoppe === true && $this->user->activation == true): 
-  		$disabled = "";
-  	?>
-  		Vous &ecirc;tes dans votre &eacute;choppe, vous pouvez travailler...<br />
-  	<? else: 
-  		$disabled = "disabled" ;
-  	?>
-	  	<? if ($this->user->activation == true) : ?>
-	  		Vous n'&ecirc;tes pas dans votre &eacute;choppe, vous ne pouvez pas y travailler...<br />
-	  	<? else :?>
-	  		Tour non activé à la connexion, vous ne pouvez pas y travailler...<br />
-	  	<? endif; ?>
-  	<? endif; ?>
-	<? foreach($this->competences as $c) : ?>
-			<input type="button" class='button1' value="<?=$c["pa_utilisation"]?> PA - <?=htmlspecialchars($c["nom"])?><? if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?>"
-       	  onClick="Javascript:_get_('/competences/doaction?caction=ask_competence_<?=$c["nom_systeme"] ?>')" <?=$disabled ?>>
-	<? endforeach; ?>
-	
-	<br /><br />
-		
-  	<? if ($this->afficheType == "equipements") :?>
-  		<ul class="titre textalic textsized">&Eacute;quipements cr&eacute;&eacute;s</ul>
-  		<? include("atelier_equipements.phtml") ?>
-  	<? else : ?>
-  		<ul class="titre textalic textsizec">Potions cr&eacute;&eacute;es</ul>
-  		<? include("atelier_potions.phtml") ?>
-  	<? endif; ?>
+ <ul class="titre textalic textsizec">L'atelier</ul>
+L'atelier est le coeur de l'&eacute;choppe. C'est ici que l'artisan exerce sont art.<br /><br />
+
+<? if ($this->estSurEchoppe === true && $this->user->activation == true): 
+$disabled = "";
+?>
+Vous &ecirc;tes dans votre &eacute;choppe, vous pouvez travailler...<br />
+<? else: 
+$disabled = "disabled" ;
+?>
+<? if ($this->user->activation == true) : ?>
+	Vous n'&ecirc;tes pas dans votre &eacute;choppe, vous ne pouvez pas y travailler...<br />
+<? else :?>
+	Tour non activé à la connexion, vous ne pouvez pas y travailler...<br />
+<? endif; ?>
+<? endif; ?>
+<? foreach($this->competences as $c) : ?>
+	<input type="button" class='button1' value="<?=$c["pa_utilisation"]?> PA - <?=htmlspecialchars($c["nom"])?><? if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?>"
+	onClick="Javascript:_get_('/competences/doaction?caction=ask_competence_<?=$c["nom_systeme"] ?>')" <?=$disabled ?>>
+<? endforeach; ?>
+
+<br /><br />
+
+<ul class="titre textalic textsized">Mat&eacute;riels cr&eacute;&eacute;s</ul>
+<? include("atelier_materiels.phtml") ?>
+<br /><br />
+<? if ($this->afficheType == "equipements") :?>
+<ul class="titre textalic textsized">&Eacute;quipements cr&eacute;&eacute;s</ul>
+<? include("atelier_equipements.phtml") ?>
+<? else : ?>
+<ul class="titre textalic textsizec">Potions cr&eacute;&eacute;es</ul>
+<? include("atelier_potions.phtml") ?>
+<? endif; ?>

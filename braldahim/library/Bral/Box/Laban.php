@@ -48,6 +48,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		Zend_Loader::loadClass("LabanPartieplante");
 		Zend_Loader::loadClass("LabanAliment");
 		Zend_Loader::loadClass("LabanPotion");
+		Zend_Loader::loadClass("LabanMateriel");
 		Zend_Loader::loadClass("LabanRune");
 		Zend_Loader::loadClass("LabanTabac");
 		Zend_Loader::loadClass("HobbitsMetiers");
@@ -216,14 +217,15 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		
 		$this->renderPlante($tabMetiers);
 		$this->view->tabMetiers = $tabMetiers;
+		$this->renderMateriel();
 		$this->renderEquipement();
 		$this->renderMunition();
 		$this->renderPotion();
 		$this->renderAliment();
 		$this->renderTabac();
 		
-		$this->view->estEquipementsPotionsEtal = false;
-		$this->view->estEquipementsPotionsEtalAchat = false;
+		$this->view->estElementsEtal = false;
+		$this->view->estElementsEtalAchat = false;
 		
 		$this->view->nom_interne = $this->getNomInterne();
 		
@@ -380,6 +382,31 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		
 		$this->view->nb_equipements = count($tabEquipements);
 		$this->view->equipements = $tabEquipements;
+	}
+	
+	private function renderMateriel() {
+		$tabMateriels = null;
+		$labanMaterielTable = new LabanMateriel();
+		$materiels = $labanMaterielTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($labanMaterielTable);
+		
+		$tabWhere = null;
+		foreach ($materiels as $e) {
+			$tabMateriels[$e["id_laban_materiel"]] = array(
+					"id_materiel" => $e["id_laban_materiel"],
+					'id_type_materiel' => $e["id_type_materiel"],
+					'nom' =>$e["nom_type_materiel"],
+					'capacite' => $e["capacite_type_materiel"], 
+					'durabilite' => $e["durabilite_type_materiel"], 
+					'usure' => $e["usure_type_materiel"], 
+					'poids' => $e["poids_type_materiel"], 
+			);
+			$tabWhere[] = $e["id_laban_materiel"];
+		}
+		unset($materiels);
+		
+		$this->view->nb_materiels = count($tabMateriels);
+		$this->view->materiels = $tabMateriels;
 	}
 	
 	private function renderMunition() {
