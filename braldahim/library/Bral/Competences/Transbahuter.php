@@ -23,14 +23,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		//@TODO Si on a une charette
 		
 		// On récupère la valeur du départ
-		if ($this->request->get("valeur_1") != "") {
+		if ($this->request->get("valeur_1") != "" && $this->request->get("valeur_1") != -1) {
 			$id_type_courant_depart = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_1"));
 			$choixDepart = true;
 			if ($id_type_courant_depart < 1 && $id_type_courant_depart > count($tabEndroit)) {
 				throw new Zend_Exception("Bral_Competences_Transbahuter Valeur invalide : id_type_courant_depart=".$id_type_courant_depart);
 			}
 		} else {
-			$id_type_courant_depart = -1;
+			$id_type_courant_depart = -1;//@TODO vérifier
 		}
 		
 		//Construction du tableau des départs
@@ -83,13 +83,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		
 		//gerer poids : fonction controlePoids(qté possible, qté, poids elt).
 		//gerer déposer tabac
-		//gerer plantes et minerais au sol !
 		//evenements
 		//afficher ce qui est transbahuté et de koi vers koi.
 		//$i++ pour la table des endroits.
 		//gerer si on a un seul élément dans la liste depart ou arrivée
-		
-		
+		//gerer btn javascript quand poids trop lourd
 	}
 
 	function prepareFormulaire() {
@@ -173,6 +171,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						"niveau" => $e["niveau_recette_equipement"],
 						"nb_runes" => $e["nb_runes_".strtolower($depart)."_equipement"],
 						"suffixe" => $e["suffixe_mot_runique"],
+						"poids" => $e["poids_recette_equipement"],
 						"id_fk_mot_runique" => $e["id_fk_mot_runique_".strtolower($depart)."_equipement"], 
 						"id_fk_recette" => $e["id_fk_recette_".strtolower($depart)."_equipement"] ,
 						"id_fk_region" => $e["id_fk_region_".strtolower($depart)."_equipement"],
@@ -756,7 +755,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$tabMinerais[$this->view->nb_valeurs] = array(
 						"type" => $m["nom_type_minerai"],
 						"id_fk_type_minerai" => $m["id_fk_type_".strtolower($depart)."_minerai"],
-						"id_fk_hobbit_minerai" => $m["id_fk_hobbit_".strtolower($depart)."_minerai"],
 						"quantite_brut_minerai" => $m["quantite_brut_".strtolower($depart)."_minerai"],
 						"quantite_lingots_minerai" => $m["quantite_lingots_".strtolower($depart)."_minerai"],
 						"indice_valeur" => $this->view->nb_valeurs,
@@ -906,7 +904,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						"nom_plante" => $p["nom_type_plante"],
 						"id_fk_type_partieplante" => $p["id_fk_type_".strtolower($depart)."_partieplante"],
 						"id_fk_type_plante_partieplante" => $p["id_fk_type_plante_".strtolower($depart)."_partieplante"],
-						"id_fk_hobbit_partieplante" => $p["id_fk_hobbit_".strtolower($depart)."_partieplante"],
 						"quantite_partieplante" => $p["quantite_".strtolower($depart)."_partieplante"],
 						"quantite_preparee_partieplante" => $p["quantite_preparee_".strtolower($depart)."_partieplante"],
 						"indice_valeur" => $this->view->nb_valeurs,

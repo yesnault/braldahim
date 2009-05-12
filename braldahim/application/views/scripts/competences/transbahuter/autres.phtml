@@ -19,6 +19,7 @@
 					<input type='hidden' maxlength='4' size='4' name='valeur_3_max' id='valeur_3_max' value='0' >
 					<input type='hidden' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='0' >
 				<? endif; ?>
+				<input type='hidden' maxlength='4' size='4' name='valeur_3_poids' id='valeur_3_poids' value='<?=Bral_Util_Poids::POIDS_CASTARS ?>' >
 				<? if ($this->autres["nb_peau"] > 0): ?>
 					Peau : <?=$this->autres["nb_peau"] ?>.
 					Quantit&eacute; &agrave; d&eacute;poser : 
@@ -29,6 +30,7 @@
 					<input type='hidden' maxlength='4' size='4' name='valeur_4_max' id='valeur_4_max' value='0' >
 					<input type='hidden' maxlength='4' size='4' name='valeur_4' id='valeur_4' value='0' >
 				<? endif; ?>
+				<input type='hidden' maxlength='4' size='4' name='valeur_4_poids' id='valeur_4_poids' value='<?=Bral_Util_Poids::POIDS_PEAU ?>' >
 				<? if ($this->autres["nb_cuir"] > 0): ?>
 					Cuir : <?=$this->autres["nb_cuir"] ?>.
 					Quantit&eacute; &agrave; d&eacute;poser : 
@@ -39,6 +41,7 @@
 					<input type='hidden' maxlength='4' size='4' name='valeur_5_max' id='valeur_5_max' value='0' >
 					<input type='hidden' maxlength='4' size='4' name='valeur_5' id='valeur_5' value='0' >
 				<? endif; ?>
+				<input type='hidden' maxlength='4' size='4' name='valeur_5_poids' id='valeur_5_poids' value='<?=Bral_Util_Poids::POIDS_CUIR ?>' >
 				<? if ($this->autres["nb_fourrure"] > 0): ?>
 					Fourrure : <?=$this->autres["nb_fourrure"] ?>.
 					Quantit&eacute; &agrave; d&eacute;poser : 
@@ -49,6 +52,7 @@
 					<input type='hidden' maxlength='4' size='4' name='valeur_6_max' id='valeur_6_max' value='0' >
 					<input type='hidden' maxlength='4' size='4' name='valeur_6' id='valeur_6' value='0' >
 				<? endif; ?>
+				<input type='hidden' maxlength='4' size='4' name='valeur_6_poids' id='valeur_6_poids' value='<?=Bral_Util_Poids::POIDS_FOURRURE ?>' >
 				<? if ($this->autres["nb_viande"] > 0): ?>
 					Viande : <?=$this->autres["nb_viande"] ?>.
 					Quantit&eacute; &agrave; d&eacute;poser : 
@@ -59,6 +63,7 @@
 					<input type='hidden' maxlength='4' size='4' name='valeur_7_max' id='valeur_7_max' value='0' >
 					<input type='hidden' maxlength='4' size='4' name='valeur_7' id='valeur_7' value='0' >
 				<? endif; ?>
+				<input type='hidden' maxlength='4' size='4' name='valeur_7_poids' id='valeur_7_poids' value='<?=Bral_Util_Poids::POIDS_VIANDE ?>' >
 				<? if ($this->autres["nb_viande_preparee"] > 0): ?>
 					Viande pr&eacute;par&eacute;e : <?=$this->autres["nb_viande_preparee"] ?>.
 					Quantit&eacute; &agrave; d&eacute;poser : 
@@ -69,6 +74,7 @@
 					<input type='hidden' maxlength='4' size='4' name='valeur_8_max' id='valeur_8_max' value='0' >
 					<input type='hidden' maxlength='4' size='4' name='valeur_8' id='valeur_8' value='0' >
 				<? endif; ?>
+				<input type='hidden' maxlength='4' size='4' name='valeur_8_poids' id='valeur_8_poids' value='<?=Bral_Util_Poids::POIDS_VIANDE_PREPAREE ?>' >
 				<? if ($this->autres["nb_planche"] > 0): ?>
 					Planche : <?=$this->autres["nb_planche"] ?>.
 					Quantit&eacute; &agrave; d&eacute;poser : 
@@ -79,6 +85,7 @@
 					<input type='hidden' maxlength='4' size='4' name='valeur_9_max' id='valeur_9_max' value='0' >
 					<input type='hidden' maxlength='4' size='4' name='valeur_9' id='valeur_9' value='0' >
 				<? endif; ?>
+				<input type='hidden' maxlength='4' size='4' name='valeur_9_poids' id='valeur_9_poids' value='<?=Bral_Util_Poids::POIDS_PLANCHE ?>' >
 				</li>
 			</ul>
 		</li>
@@ -86,6 +93,7 @@
 <? else : ?>
 	<? for ($i=3 ; $i<=9; $i++) : ?>
 		<input type='hidden' maxlength='4' size='4' name='valeur_<?=$i?>_max' id='valeur_<?=$i?>_max' value='0' >
+		<input type='hidden' maxlength='4' size='4' name='valeur_<?=$i?>_poids' id='valeur_<?=$i?>_poids' value='0' >
 		<input type='hidden' maxlength='4' size='4' name='valeur_<?=$i?>' id='valeur_<?=$i?>' value='0' >
 	<? endfor; ?>
 <? endif; ?>

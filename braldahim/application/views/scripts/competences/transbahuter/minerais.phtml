@@ -29,7 +29,9 @@
 						<br>
 						Lingot : <input type='text' maxlength='4' size='4' name='valeur_<?=($k+1) ?>' id='valeur_<?=($k+1) ?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_lingots_minerai"] ?>) { alert('Valeur trop grande'); this.value = 0 }; <?=$jsBtn?>" >
 						<input type='hidden' maxlength='4' size='4' name='valeur_<?=$k?>_max' id='valeur_<?=$k?>_max' value='<?=$m["quantite_brut_minerai"]?>' >
+						<input type='hidden' maxlength='4' size='4' name='valeur_<?=$k?>_poids' id='valeur_<?=$k?>_poids' value='<?=Bral_Util_Poids::POIDS_MINERAI ?>' >
 						<input type='hidden' maxlength='4' size='4' name='valeur_<?=($k+1)?>_max' id='valeur_<?=($k+1)?>_max' value='<?=$m["quantite_lingots_minerai"]?>' >
+						<input type='hidden' maxlength='4' size='4' name='valeur_<?=($k+1)?>_poids' id='valeur_<?=($k+1)?>_poids' value='<?=Bral_Util_Poids::POIDS_LINGOT ?>' >
 						</td>
 						<? if ($i % 3 == 2) echo "</tr>"; 
 						    $i++; 

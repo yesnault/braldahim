@@ -1,10 +1,40 @@
 <? if (count($this->typeDepart) > 0) : ?>
 	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='<?=$this->nb_valeurs ?>'>
 	<form name='myForm'>
+		<?$jsPoids ="
+		function controlePoids(){
+			var poids=0;
+			if ($('valeur_2').value == 2){
+			 	for (i=3; i<=".$this->nb_valeurs."; i++) {
+					if ( $('valeur_' + i).type == 'select-multiple' ){
+						for (j=0; j<$('valeur_' + i).options.length; j++){
+							if ($('valeur_' + i).options[j].selected == true) {
+								if ( i==12 ){
+									poids = parseFloat(poids) + parseFloat($('valeur_' + i + '_poids_' + $('valeur_' + i).options[j].value).value);
+								}
+								else{
+									poids = parseFloat(poids) + parseFloat($('valeur_' + i + '_poids').value);
+								}
+							}
+						}
+					}
+					else {
+						poids = parseFloat(poids) + $('valeur_' + i).value * $('valeur_' + i + '_poids').value;
+					}
+				}
+				if (poids > ".$this->poidsRestant."){
+					poidsDep = Math.round((poids - ".$this->poidsRestant.")*1000)/1000;
+					alert ('Pas assez de place dans la source d\'arriv&eacute;e \n Vous d&eacute;passez de ' + poidsDep + ' kg');
+					$('bouton_deposer').disabled=true;
+				}
+			}	
+		}";
+		?>
+
 	<div class='comp_contenu'>
 		<?
 		$poches = null;
-		$jsBtn = "
+		$jsBtn = $jsPoids."
 				 v=false;
 				 for (i=3;i<=$('nb_valeurs').value;i++){
 				 	if ($('valeur_'+i).value>0) {
@@ -16,6 +46,7 @@
 				 }else{
 					$('bouton_deposer').disabled=true;
 				 }
+				 controlePoids();
 				 ";
 		?>
 		Transbahuter à partir de :<br />
@@ -39,7 +70,7 @@
 				<?php include("transbahuter/minerais.phtml")?>
 			
 				<?php 
-				$js = "
+				$js = $jsPoids." 
 					cacher = true;
 					for (i=3; i<=".$this->nb_valeurs."; i++) {
 						if ( $('valeur_' + i).type == 'select-multiple' ){
@@ -61,10 +92,10 @@
 						cacher = true;
 					}
 					$('bouton_deposer').disabled=cacher;
+					
+					controlePoids();
 				";
-				?>
-				
-				<? 
+
 				$jsFermer = "";
 				$jsOuvrir = "";
 				foreach ($poches as $p) :
