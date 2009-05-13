@@ -167,6 +167,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 				"nb_fourrure" => $p["quantite_fourrure_charrette"],
 				"nb_planche" => $p["quantite_planche_charrette"],
 				"nb_castar" => $p["quantite_castar_charrette"],
+				"nb_rondin" => $p["quantite_rondin_charrette"],
 			);
 
 			if ($p["quantite_peau_charrette"] > 0 || $p["quantite_viande_charrette"] > 0) {
@@ -190,6 +191,12 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 			if ($p["quantite_planche_charrette"] > 0) {
 				if (isset($tabMetiers["menuisier"])) {
 					$tabMetiers["menuisier"]["a_afficher"] = true;
+				}
+			}
+				
+			if ($p["quantite_rondin_charrette"] > 0) {
+				if (isset($tabMetiers["bucheron"])) {
+					$tabMetiers["bucheron"]["a_afficher"] = true;
 				}
 			}
 		}
@@ -232,6 +239,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->view->runesIdentifiees = $tabRunesIdentifiees;
 		$this->view->runesNonIdentifiees = $tabRunesNonIdentifiees;
 		$this->view->charrette = $tabCharrette;
+		$this->view->laban = $tabCharrette; // pour les poches
 
 		$this->renderPlante($tabMetiers);
 		$this->view->tabMetiers = $tabMetiers;

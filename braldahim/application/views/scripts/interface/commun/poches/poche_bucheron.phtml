@@ -1,0 +1,23 @@
+<table class="table_liste" style="width:auto; padding:5px;" >
+	<thead class="table_liste">
+		<tr class="table_liste">
+			<th style="width:auto; padding:5px;">&nbsp;</th>
+			<th style="width:auto; padding:5px;">Rondins</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="table_liste">
+			<td style="width:auto; padding:5px;" valign="bottom">Quantit&eacute;</td>
+			<td class="table_liste" valign="bottom">
+			<?=$this->laban["nb_rondin"] ?>
+			<img src='/public/styles/braldahim_defaut/images/elements/rondin.png' alt='rondin'/>
+			</td>
+		</tr>
+		<tr class="table_liste">
+			<td style="width:auto; padding:5px;" valign="bottom">Poids</td>
+			<td class="table_liste" valign="bottom" style="cursor:pointer" title="Poids unitaire : <?=Bral_Util_Poids::POIDS_RONDIN?> Kg">
+			<?=($this->laban["nb_rondin"]*Bral_Util_Poids::POIDS_RONDIN) ?> Kg
+			</td>
+		</tr>
+	</tbody>
+</table>

@@ -107,6 +107,7 @@ class Bral_Util_Poids {
 			$poids = self::ajoute($poids, $p["quantite_cuir_laban"], self::POIDS_CUIR);
 			$poids = self::ajoute($poids, $p["quantite_fourrure_laban"], self::POIDS_FOURRURE);
 			$poids = self::ajoute($poids, $p["quantite_planche_laban"], self::POIDS_PLANCHE);
+			$poids = self::ajoute($poids, $p["quantite_rondin_laban"], self::POIDS_RONDIN);
 		}
 		unset($labanTable);
 		unset($laban);

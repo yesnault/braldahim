@@ -171,6 +171,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 				"nb_fourrure" => $p["quantite_fourrure_coffre"],
 				"nb_planche" => $p["quantite_planche_coffre"],
 				"nb_castar" => $p["quantite_castar_coffre"],
+				"nb_rondin" => $p["quantite_rondin_coffre"],
 			);
 
 			if ($p["quantite_peau_coffre"] > 0 || $p["quantite_viande_coffre"] > 0) {
@@ -194,6 +195,12 @@ class Bral_Box_Banque extends Bral_Box_Box {
 			if ($p["quantite_planche_coffre"] > 0) {
 				if (isset($tabMetiers["menuisier"])) {
 					$tabMetiers["menuisier"]["a_afficher"] = true;
+				}
+			}
+				
+			if ($p["quantite_rondin_coffre"] > 0) {
+				if (isset($tabMetiers["bucheron"])) {
+					$tabMetiers["bucheron"]["a_afficher"] = true;
 				}
 			}
 		}

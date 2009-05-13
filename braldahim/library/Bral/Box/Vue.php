@@ -333,6 +333,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 								if ($e["quantite_cuir_element"] > 0) $tabElements[] = array("nom" => "Cuir", "s" => "s", "nb" => $e["quantite_cuir_element"]);
 								if ($e["quantite_fourrure_element"] > 0) $tabElements[] = array("nom" => "Fourrure", "s" => "s", "nb" => $e["quantite_fourrure_element"]);
 								if ($e["quantite_planche_element"] > 0) $tabElements[] = array("nom" => "Planche", "s" => "s", "nb" => $e["quantite_planche_element"]);
+								if ($e["quantite_rondin_element"] > 0) $tabElements[] = array("nom" => "Rondin", "s" => "s", "nb" => $e["quantite_rondin_element"]);
 								//if ($e["quantite_castar_element"] > 0) $tabElements[] = array("nom" => "Castar", "s" => "s", "nb" => $e["quantite_castar_element"]);
 								if ($e["quantite_castar_element"] > 0) $tabCastars[] = array("nb_castar" =>  $e["quantite_castar_element"]);
 							}

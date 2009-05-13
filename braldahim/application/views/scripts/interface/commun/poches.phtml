@@ -20,7 +20,7 @@
 	
 	<? if (count($this->tabHobbitMetiers) > 0) :?>
 		<? foreach ($this->tabHobbitMetiers as $m) : ?>
-			<? if ($m["nom_systeme"] == "bucheron" || $m["nom_systeme"] == "guerrier") { continue; }?>
+			<? if ($m["nom_systeme"] == "guerrier") { continue; }?>
 			<li id="poche<?=$this->pocheNomSysteme ?><?=$m["nom_systeme"]?>">
 				<? $poches[] = "poche".$this->pocheNomSysteme.$m["nom_systeme"]."-head" ?>
 	      		<h3 id="poche<?=$this->pocheNomSysteme ?><?=$m["nom_systeme"]?>-head" class="head" onClick="maccordion(this);" />
@@ -38,12 +38,12 @@
 	<? if (count($this->tabMetiers) > 0) :?>
 		<? foreach ($this->tabMetiers as $m) : ?>
 			<? if ($m["a_afficher"] == true) : ?>
-				<? if ($m["nom_systeme"] == "bucheron" || $m["nom_systeme"] == "guerrier") { continue; }?>
+				<? if ($m["nom_systeme"] == "guerrier") { continue; }?>
 				<li id="poche<?=$this->pocheNomSysteme ?><?=$m["nom_systeme"]?>">
 					<? $poches[] = "poche".$this->pocheNomSysteme.$m["nom_systeme"]."-head" ?>
 		      		<h3 id="poche<?=$this->pocheNomSysteme ?><?=$m["nom_systeme"]?>-head" class="head" onClick="maccordion(this);" />
 						<?=$this->pocheNom ?>  mat&eacute;riaux 
-						<? if ($m["nom_systeme"] == "mineur" || $m["nom_systeme"] == "chasseur" || $m["nom_systeme"] == "herboriste") : ?>
+						<? if ($m["nom_systeme"] == "mineur" || $m["nom_systeme"] == "chasseur" || $m["nom_systeme"] == "herboriste" || $m["nom_systeme"] == "bucheron") : ?>
 						r&eacute;colt&eacute;s
 						<? else: ?>
 						transform&eacute;s 
