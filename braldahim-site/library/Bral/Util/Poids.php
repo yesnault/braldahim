@@ -18,7 +18,8 @@ class Bral_Util_Poids {
 	 const POIDS_VIANDE_PREPAREE = 0.3;
 	 const POIDS_CUIR = 0.4;
 	 const POIDS_FOURRURE = 0.4;
-	 const POIDS_PLANCHE = 1.5;
+	 const POIDS_PLANCHE = 3;
+	 const POIDS_RONDIN = 5;
 	 const POIDS_RUNE = 0.05;
 	 const POIDS_POTION = 0.3;
 	 const POIDS_MINERAI = 0.4;
