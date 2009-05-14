@@ -21,6 +21,7 @@ class Bral_Voir_Hobbit {
 		Zend_Loader::loadClass("Bral_Util_Titre");
 		Zend_Loader::loadClass("Bral_Helper_ProfilEquipement");
 		Zend_Loader::loadClass('AncienHobbit');
+		Zend_Loader::loadClass("Charrette");
 
 		$this->_request = $request;
 		$this->view = $view;
@@ -44,7 +45,7 @@ class Bral_Voir_Hobbit {
 		$tabMetier["tabMetiers"] = null;
 		$tabMetier["possedeMetier"] = false;
 		$tabTitre["tabTitres"] = null;
-
+		
 		$hobbitTable = new Hobbit();
 		$idHobbit = Bral_Util_Controle::getValeurIntVerif($this->_request->get("hobbit"));
 		$hobbitRowset = $hobbitTable->findById($idHobbit);
@@ -75,6 +76,14 @@ class Bral_Voir_Hobbit {
 			$this->view->tabMetiers = $tabMetier["tabMetiers"];
 			$this->view->possedeMetier = $tabMetier["possedeMetier"];
 			$this->view->tabTitres = $tabTitre["tabTitres"];
+			
+			$charretteTable = new Charrette();
+			$nbCharrette = $charretteTable->countByIdHobbit($this->view->hobbit["id_hobbit"]);
+			if ($nbCharrette > 0) {
+				$this->view->possedeCharrette = "oui";
+			} else {
+				$this->view->possedeCharrette = "non";
+			}
 		}
 
 		if ($this->_request->get("menu") == "evenements" && $this->view->connu != null && $this->view->ancien == false) {

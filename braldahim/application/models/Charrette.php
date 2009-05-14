@@ -34,6 +34,8 @@ class Charrette extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', '*')
+		->from('type_materiel', '*')
+		->where('id_fk_type_materiel_charrette = id_type_materiel')
 		->where('x_charrette = '.intval($x))
 		->where('y_charrette = '.intval($y).$and);
 		$sql = $select->__toString();
@@ -49,10 +51,12 @@ class Charrette extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', '*')
+		->from('type_materiel', '*')
 		->where('x_charrette <= ?', $x_max)
 		->where('x_charrette >= ?', $x_min)
 		->where('y_charrette >= ?', $y_min)
 		->where('y_charrette <= ?', $y_max)
+		->where('id_fk_type_materiel_charrette = id_type_materiel')
 		->where('id_fk_hobbit_charrette is NULL');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

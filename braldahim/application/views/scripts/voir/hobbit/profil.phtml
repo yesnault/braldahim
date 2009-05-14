@@ -7,7 +7,7 @@
 	
   <tr class="table_liste">
   	<? if ($this->ancien === false) : ?>
-	<th rowspan="14"><?=Bral_Helper_Image::afficherAvatar($this->hobbit["url_avatar_hobbit"]); ?></th>
+	<th rowspan="15"><?=Bral_Helper_Image::afficherAvatar($this->hobbit["url_avatar_hobbit"]); ?></th>
 	<? endif;?>
 	<th>Date de cr&eacute;ation</th>
 	<th>Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->hobbit["date_creation_hobbit"]); ?></th>
@@ -140,6 +140,10 @@
 	  <tr class="table_liste">
 		<th>Équipement</th>
 		<td class="table_liste"><?=Bral_Helper_ProfilEquipement::afficher($this->tabTypesEmplacement); ?></td>
+	  </tr>
+	  <tr class="table_liste">
+		<th>Poss&egrave;de une charrette actuellement</th>
+		<td class="table_liste"><?=$this->possedeCharrette ?></td>
 	  </tr>
 	  <tr class="table_liste">
 		<th>En Hibernation</th>

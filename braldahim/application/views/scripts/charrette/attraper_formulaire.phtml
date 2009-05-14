@@ -12,7 +12,11 @@
 		 <select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_attrapercharrette').disabled=true } else {$('bouton_attrapercharrette').disabled=false }">
 			<option value='-1'>(Choisissez une charrette)</option>
 			<? foreach ($this->charrettes as $c) : ?>
-			<option value="<?=$c["id_charrette"]?>">Charrette n&deg; <?=$c["id_charrette"]?></option>
+			<option value="<?=$c["id_charrette"]?>" <? if ($c["possible"] == false):?> disabled<? endif;?>><?=$c["nom"]?> n&deg; <?=$c["id_charrette"]?>
+			<? if ($c["possible"] == false):?>
+			Impossible: <?=$c["detail"] ?>
+			<? endif;?>
+			</option>
 			<? endforeach; ?>
 			</select><br /><br />
 	 <? endif; ?>

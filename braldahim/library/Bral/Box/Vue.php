@@ -306,7 +306,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if ($charrettes != null) {
 						foreach($charrettes as $c) {
 							if ($display_x == $c["x_charrette"] && $display_y == $c["y_charrette"]) {
-								$tabCharrettes[] = array("id_charrette" => $c["id_charrette"]);
+								$tabCharrettes[] = array("id_charrette" => $c["id_charrette"], "nom" => $c["nom_type_materiel"]);
 							}
 						}
 					}
