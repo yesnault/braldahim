@@ -36,7 +36,9 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 			$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
 			if ($nombre > 0) {
 				$this->view->possedeCharrette = true;
-				$this->prepareCharrette();
+				
+				$this->view->tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit);
+				
 				$this->data();
 
 				$this->view->pocheNom = "Case";
@@ -49,13 +51,6 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/charrette.phtml");
 	}
-
-	private function prepareCharrette() {
-		$tabPoidsRondins = Bral_Util_Poids::calculPoidsCharretteTransportable($this->view->user->id_hobbit, $this->view->user->vigueur_base_hobbit);
-		$this->view->nbRondins = $tabPoidsRondins["nb_rondins_presents"];
-		$this->view->nbRondinsTransportables = $tabPoidsRondins["nb_rondins_transportables"];
-	}
-
 
 	protected function data() {
 

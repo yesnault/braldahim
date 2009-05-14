@@ -65,8 +65,11 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		$this->view->charettePleine = true;
 		if ($nombre == 1) {
 			$this->view->possedeCharrette = true;
-			$tabPoidsRondins = Bral_Util_Poids::calculPoidsCharretteTransportable($this->view->user->id_hobbit, $this->view->user->vigueur_base_hobbit);
-			if ($tabPoidsRondins["nb_rondins_transportables"] - $tabPoidsRondins["nb_rondins_presents"] > 0) {
+				
+			$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit);
+			$nbPossibleDansCharretteMaximum = floor($tabPoidsCharrette["place_restante"] / Bral_Util_Poids::POIDS_RONDIN);
+				
+			if ($nbPossibleDansCharretteMaximum <= 0) {
 				$this->view->charettePleine = false;
 			}
 		} else {
@@ -138,14 +141,15 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		$this->view->nbRondins  = $this->view->nbRondins  + ($this->view->user->vigueur_bm_hobbit + $this->view->user->vigueur_bbdf_hobbit) / 2 ;
 		$this->view->nbRondins  = intval($this->view->nbRondins);
 
-		$tabPoidsRondins = Bral_Util_Poids::calculPoidsCharretteTransportable($this->view->user->id_hobbit, $this->view->user->vigueur_base_hobbit);
+		$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit);
+		$nbPossibleDansCharretteMaximum = floor($tabPoidsCharrette["place_restante"] / Bral_Util_Poids::POIDS_RONDIN);
 
 		if ($this->view->nbRondins <= 0) {
 			$this->view->nbRondins  = 1;
 		}
 
-		if ($this->view->nbRondins > $tabPoidsRondins["nb_rondins_transportables"] - $tabPoidsRondins["nb_rondins_presents"]) {
-			$this->view->nbRondins = $tabPoidsRondins["nb_rondins_transportables"] - $tabPoidsRondins["nb_rondins_presents"];
+		if ($this->view->nbRondins > $nbPossibleDansCharretteMaximum) {
+			$this->view->nbRondins = $nbPossibleDansCharretteMaximum;
 		}
 
 		$charretteTable = new Charrette();
@@ -163,7 +167,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		$dataRecolteurs["mois_stats_recolteurs"] = date("Y-m-d", $moisEnCours);
 		$dataRecolteurs["nb_bois_stats_recolteurs"] = $this->view->nbRondins;
 		$statsRecolteurs->insertOrUpdate($dataRecolteurs);
-		
+
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeCollecter($this->view->user, $this->competence["id_fk_metier_competence"]);
 	}
 

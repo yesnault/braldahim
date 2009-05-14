@@ -18,6 +18,8 @@ class Charrette extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', '*')
+		->from('type_materiel', '*')
+		->where('id_fk_type_materiel_charrette = id_type_materiel')
 		->where('id_fk_hobbit_charrette = '.intval($id_hobbit));
 		$sql = $select->__toString();
 
