@@ -23,11 +23,17 @@
 					}
 				}
 				if (poids > ".$this->poidsRestant."){
-					poidsDep = Math.round((poids - ".$this->poidsRestant.")*1000)/1000;
+					poidsDep = Math.round((poids - ".$this->poidsRestant.")*100)/100;
 					alert ('Pas assez de place dans la source d\'arriv&eacute;e \n Vous d&eacute;passez de ' + poidsDep + ' kg');
-					$('bouton_deposer').disabled=true;
+					return false;
 				}
-			}	
+				else{
+					return true;
+				}
+			}
+			else{
+				return true;
+			}
 		}";
 		?>
 
@@ -41,12 +47,11 @@
 						v=true;
 					}
 				 };
-				 if (v==true && $('valeur_1').value != -1 && $('valeur_2').value != -1){
+				 if (v==true && $('valeur_1').value != -1 && $('valeur_2').value != -1 && controlePoids()==true){
 					$('bouton_deposer').disabled=false;
 				 }else{
 					$('bouton_deposer').disabled=true;
 				 }
-				 controlePoids();
 				 ";
 		?>
 		Transbahuter à partir de :<br />
@@ -88,12 +93,10 @@
 							}
 						}
 					}
-					if ( $('valeur_1').value == -1 || $('valeur_2').value == -1){
+					if ( $('valeur_1').value == -1 || $('valeur_2').value == -1 || controlePoids()==false){
 						cacher = true;
 					}
 					$('bouton_deposer').disabled=cacher;
-					
-					controlePoids();
 				";
 
 				$jsFermer = "";

@@ -81,13 +81,13 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->choixDepart = $choixDepart;
 		$this->view->tabEndroit = $tabEndroit;
 		
-		//gerer poids : fonction controlePoids(qté possible, qté, poids elt).
 		//gerer déposer tabac
-		//evenements
+		//gérer matériel
+		//gerer rondins
 		//afficher ce qui est transbahuté et de koi vers koi.
-		//$i++ pour la table des endroits.
 		//gerer si on a un seul élément dans la liste depart ou arrivée
-		//gerer btn javascript quand poids trop lourd
+		//changer valeurs pour coffre autres hobbits
+		//coffre autres hobbits
 	}
 
 	function prepareFormulaire() {
@@ -100,9 +100,33 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		
 		$idDepart = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_1"));
 		$idArrivee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
+		$endroitDepart = false;
+		$endroitArrivee = false;
+		foreach ($this->view->tabEndroit as $e){
+			if ($e["id_type_endroit"] == $idDepart){
+				$endroitDepart = true;
+			}
+			if ($e["id_type_endroit"] == $idArrivee){
+				$endroitArrivee = true;
+			}
+		}
+		if ($endroitDepart === false) {
+			throw new Zend_Exception(get_class($this)." Endroit depart invalide = ".$idDepart.")");
+		}
+		if ($endroitArrivee === false) {
+			throw new Zend_Exception(get_class($this)." Endroit arrivee invalide = ".$idArrivee.")");
+		}
 		
 		$this->view->id_hobbit_coffre = $this->view->user->id_hobbit;
+		$this->view->poidsOk = true;
+		
 		$this->deposeType($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
+		
+		$this->detailEvenement = "";
+		$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté ".$this->detailEvenement;
+		$this->setDetailsEvenement($this->detailEvenement, $this->view->config->game->evenements->type->transbahuter);
+
+		$this->setEvenementQueSurOkJet1(false);
 		
 		Zend_Loader::loadClass("Bral_Util_Quete");
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapePosseder($this->view->user);
@@ -182,6 +206,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->equipements = $tabEquipements;
 	}
 	
+	private function controlePoids($poidsAutorise, $quantite, $poidsElt){
+		if ($poidsAutorise < $quantite * $poidsElt){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+	
 	private function deposeTypeEquipements($depart,$arrivee) {
 		Zend_Loader::loadClass($depart."Equipement");
 		Zend_Loader::loadClass($arrivee."Equipement");
@@ -196,6 +229,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				} 
 				
 				$equipement = $this->view->equipements[$idEquipement];
+				
+				if ($arrivee == "Laban") {
+					$poidsOk = $this->controlePoids($this->view->poidsRestant,1,$equipement["poids"]);
+					if ($poidsOk == false){
+						$this->view->poidsOk = false;
+						break;
+					}
+				}
+				
 				$where = "id_".strtolower($depart)."_equipement=".$idEquipement;		
 				switch ($depart){
 					case "Laban" :
@@ -226,6 +268,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							"id_fk_mot_runique_laban_equipement" => $equipement["id_fk_mot_runique"],
 							"id_fk_region_laban_equipement" => $equipement["id_fk_region"],
 						);
+						$this->view->poidsRestant = $this->view->poidsRestant - $equipement["poids"];
 						break;
 					case "Element" :
 						$dateCreation = date("Y-m-d H:i:s");
@@ -312,6 +355,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					throw new Zend_Exception(get_class($this)." ID Rune invalide : ".$idRune);
 				} 
 				$rune = $this->view->runes[$idRune];
+				
+				if ($arrivee == "Laban") {
+					$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_RUNE);
+					if ($poidsOk == false){
+						$this->view->poidsOk = false;
+						break;
+					}
+				}
+				
 				$where = "id_rune_".strtolower($depart)."_rune=".$idRune;
 				
 				switch ($depart){
@@ -341,6 +393,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							"est_identifiee_laban_rune" => $rune["est_identifiee"],
 							"id_fk_hobbit_laban_rune" => $this->view->user->id_hobbit,
 						);
+						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RUNE;
 						break;
 					case "Element" :
 						$arriveeRuneTable = new ElementRune();
@@ -420,6 +473,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				} 
 				
 				$potion = $this->view->potions[$idPotion];
+				
+				if ($arrivee == "Laban") {
+					$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_POTION);
+					if ($poidsOk == false){
+						$this->view->poidsOk = false;
+						break;
+					}
+				}
+				
 				$where = "id_".strtolower($depart)."_potion=".$idPotion;
 				switch ($depart){
 					case "Laban" :
@@ -449,6 +511,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							"id_fk_type_qualite_laban_potion" => $potion["id_fk_type_qualite"],
 							"id_fk_type_laban_potion" => $potion["id_fk_type"],
 						);
+						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POTION;
 						break;
 					case "Element" :
 						$dateCreation = date("Y-m-d H:i:s");
@@ -534,6 +597,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				}
 				
 				$aliment = $this->view->aliments[$idAliment];
+				
+				if ($arrivee == "Laban") {
+					$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_RATION);
+					if ($poidsOk == false){
+						$this->view->poidsOk = false;
+						break;
+					}
+				}
+				
 				$where = "id_".strtolower($depart)."_aliment=".$idAliment;
 				switch ($depart){
 					case "Laban" :
@@ -562,6 +634,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							"id_fk_type_qualite_laban_aliment" => $aliment["id_fk_type_qualite"],
 							"id_fk_type_laban_aliment" => $aliment["id_fk_type"],
 						);
+						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RATION;
 						break;
 					case "Element" :
 						$dateCreation = date("Y-m-d H:i:s");
@@ -656,6 +729,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						throw new Zend_Exception(get_class($this)." Quantite Munition invalide : ".$nbMunition);
 					}
 					
+					if ($arrivee == "Laban") {
+						$poidsOk = $this->controlePoids($this->view->poidsRestant, $nbMunition, Bral_Util_Poids::POIDS_MUNITION);
+						if ($poidsOk == false){
+							$this->view->poidsOk = false;
+							break;
+						}
+					}
+					
 					switch ($depart){
 						case "Laban" :
 							$departMunitionTable = new LabanMunition();
@@ -696,6 +777,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									"id_fk_type_laban_munition" => $munition["id_type_munition"],
 									"id_fk_hobbit_laban_munition" => $this->view->user->id_hobbit,
 									);
+							$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_MUNITION * $nbMunition;
 							break;
 						case "Element" :
 							$arriveeMunitionTable = new ElementMunition();
@@ -801,6 +883,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			
 			if ($nbBrut > 0 || $nbLingot > 0) {
 				
+					if ($arrivee == "Laban") {
+						$poidsOk1 = $this->controlePoids($this->view->poidsRestant, $nbBrut, Bral_Util_Poids::POIDS_MINERAI);
+						$poidsOk2 = $this->controlePoids($this->view->poidsRestant, $nbLingot, Bral_Util_Poids::POIDS_LINGOT);
+						if ($poidsOk1 == false || $poidsOk2 == false){
+							$this->view->poidsOk = false;
+							break;
+						}
+					}
+								
 				switch ($depart){
 					case "Laban" :
 						$departMineraiTable = new LabanMinerai();
@@ -843,6 +934,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							"id_fk_type_laban_minerai" => $this->view->minerais[$indice]["id_fk_type_minerai"],
 							"id_fk_hobbit_laban_minerai" => $this->view->user->id_hobbit,
 						);
+						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_MINERAI * $nbBrut - Bral_Util_Poids::POIDS_LINGOT * $nbLingot;
 						break;
 					case "Element" :
 						$arriveeMineraiTable = new ElementMinerai();
@@ -949,6 +1041,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			}
 			if ($nbBrutes > 0 || $nbPreparees > 0) {
 				
+				if ($arrivee == "Laban") {
+					$poidsOk1 = $this->controlePoids($this->view->poidsRestant, $nbBrutes, Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);
+					$poidsOk2 = $this->controlePoids($this->view->poidsRestant, $nbPreparees, Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE);
+					if ($poidsOk1 == false || $poidsOk2 == false){
+						$this->view->poidsOk = false;
+						break;
+					}
+				}
+				
 				switch ($depart){
 					case "Laban" :
 						$departPartiePlanteTable = new LabanPartieplante();
@@ -998,7 +1099,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							"quantite_laban_partieplante" => $nbBrutes,
 							"quantite_preparee_laban_partieplante" => $nbPreparees,
 							);
-						break;
+						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE * $nbBrutes - Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE * $nbPreparees;
 						break;
 					case "Element" :
 						$arriveePartiePlanteTable = new ElementPartieplante();
@@ -1094,17 +1195,18 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$nbViandePreparee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_8"));
 		$nbPlanche = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_9"));
 		
-		$tabElement[1] = array("nom_systeme" => "castar", "nb" => $nbCastar);
-		$tabElement[2] = array("nom_systeme" => "peau", "nb" => $nbPeau);
-		$tabElement[3] = array("nom_systeme" => "cuir", "nb" => $nbCuir);
-		$tabElement[4] = array("nom_systeme" => "fourrure", "nb" => $nbFourrure);
-		$tabElement[5] = array("nom_systeme" => "viande", "nb" => $nbViande);
-		$tabElement[6] = array("nom_systeme" => "viande_preparee", "nb" => $nbViandePreparee);
-		$tabElement[7] = array("nom_systeme" => "planche", "nb" => $nbPlanche);
+		$tabElement[1] = array("nom_systeme" => "castar", "nb" => $nbCastar, "poids" => Bral_Util_Poids::POIDS_CASTARS);
+		$tabElement[2] = array("nom_systeme" => "peau", "nb" => $nbPeau, "poids" => Bral_Util_Poids::POIDS_PEAU);
+		$tabElement[3] = array("nom_systeme" => "cuir", "nb" => $nbCuir, "poids" => Bral_Util_Poids::POIDS_CUIR);
+		$tabElement[4] = array("nom_systeme" => "fourrure", "nb" => $nbFourrure, "poids" => Bral_Util_Poids::POIDS_FOURRURE);
+		$tabElement[5] = array("nom_systeme" => "viande", "nb" => $nbViande, "poids" => Bral_Util_Poids::POIDS_VIANDE);
+		$tabElement[6] = array("nom_systeme" => "viande_preparee", "nb" => $nbViandePreparee, "poids" => Bral_Util_Poids::POIDS_VIANDE_PREPAREE);
+		$tabElement[7] = array("nom_systeme" => "planche", "nb" => $nbPlanche, "poids" => Bral_Util_Poids::POIDS_PLANCHE);
 		
 		foreach ($tabElement as $t){
 			$nb=$t["nb"];
 			$nom_systeme = $t["nom_systeme"];
+			$poids = $t["poids"];
 			if ($nb < 0) {
 				throw new Zend_Exception(get_class($this)." Nb ".$nom_systeme." : ".$nb);
 			}
@@ -1112,6 +1214,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			if ($nb > 0){
 				if ($nb > $this->view->autres["nb_".$nom_systeme]) {
 					$nb = $this->view->autres["nb_".$nom_systeme];
+				}
+				
+				if ($arrivee == "Laban") {
+					$poidsOk = $this->controlePoids($this->view->poidsRestant, $nb, $poids );
+					if ($poidsOk == false){
+						$this->view->poidsOk = false;
+						break;
+					}
 				}
 				
 				$data = array(
@@ -1159,6 +1269,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								);
 							$arriveeTable = new Laban();
 						}
+						$this->view->poidsRestant = $this->view->poidsRestant - $poids * $nb;
 						break;
 					case "Element" :
 						$data = array(
