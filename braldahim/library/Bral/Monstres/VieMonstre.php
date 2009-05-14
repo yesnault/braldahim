@@ -502,9 +502,9 @@ Consultez vos événements pour plus de détails.";
 
 		if ($tirage >= 1 && $tirage <= 1 + ($niveauTue/4) + $effetMotD) {
 			$niveauRune = 'a';
-		} else if ($tirage >= 2 && $tirage <= 20 + ($niveauTue/4) + $effetMotD) {
+		} else if ($tirage >= 2 && $tirage <= 10 + ($niveauTue/4) + $effetMotD) {
 			$niveauRune = 'b';
-		} else if ($tirage >= 21 && $tirage <= 30 - ($niveauTue/4) + $effetMotD) {
+		} else if ($tirage >= 11 && $tirage <= 30 - ($niveauTue/4) + $effetMotD) {
 			$niveauRune = 'c';
 		} else { //if ($tirage >= 31 && $tirage <= 100 - ($niveau/4) + $effetMotD) {
 			$niveauRune = 'd';
