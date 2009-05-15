@@ -121,11 +121,25 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->poidsOk = true;
 		
 		$this->deposeType($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
-		
 		$this->detailEvenement = "";
-		$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté ".$this->detailEvenement;
-		$this->setDetailsEvenement($this->detailEvenement, $this->view->config->game->evenements->type->transbahuter);
-
+		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Element"){
+			$idEvenement = $this->view->config->game->evenements->type->ramasser;
+			$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a ramassé des élèments à terre ";
+		}
+		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Element"){
+			$idEvenement = $this->view->config->game->evenements->type->deposer;
+			$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a déposé des élèments à terre ";
+		}
+		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Coffre" || $this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Coffre" ){
+			$idEvenement = $this->view->config->game->evenements->type->service;
+			$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a utilisé les services de la banque ";
+		}
+		if ($this->detailEvenement == ""){
+			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
+			$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des élèments ";
+		}
+		$this->setDetailsEvenement($this->detailEvenement, $idEvenement);
+		
 		$this->setEvenementQueSurOkJet1(false);
 		
 		Zend_Loader::loadClass("Bral_Util_Quete");
@@ -137,7 +151,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_vue", "box_laban", "box_profil", "box_coffre");
+		return array("box_vue", "box_laban", "box_profil", "box_coffre", "box_evenements");
 	}
 	
 	private function prepareType($depart){
