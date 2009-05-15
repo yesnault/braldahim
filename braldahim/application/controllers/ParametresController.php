@@ -192,7 +192,7 @@ class ParametresController extends Zend_Controller_Action {
 			
 			$validPassword = (md5($this->password_hobbit) == $hobbit->password_hobbit);
 			$validEmailActuel = ($this->email_actuel_hobbit == $hobbit->email_hobbit);
-			$validEmailNouveau = $validateurEmailNouveau->isValid($this->email_nouveau_hobbit);
+			$validEmailNouveau = $validateurEmailNouveau->isValid($this->email_nouveau_hobbit, ($this->view->config->general->production == 1));
 			$validEmailConfirm = ($this->email_confirm_hobbit == $this->email_nouveau_hobbit);
 
 			if (($validPassword) && ($validEmailActuel) && ($validEmailNouveau) && ($validEmailConfirm)) {
