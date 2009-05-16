@@ -230,13 +230,15 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 			$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
 
 			$this->view->constructionEchoppe = $constructionEchoppe;
+			
 			$this->view->constructionCharrette = false;
 			
-			if ($constructionCharrette === true) {
+			if ($constructionCharrette === true && $this->_possedeMetier == false) {
 				$charretteTable = new Charrette();
 				$data = array(
 					"id_fk_hobbit_charrette" => $this->view->user->id_hobbit,
 					"quantite_rondin_charrette" => 0,
+					"id_fk_type_materiel_charrette" => 1, // charrette legere offerte
 				);
 				$charretteTable->insert($data);
 				$this->view->constructionCharrette = true;
@@ -254,7 +256,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 
 
 	function getListBoxRefresh() {
-		$tab = array("box_metier", "box_laban", "box_echoppes", "box_charrette", "box_competences_metiers", "box_charrette");
+		$tab = array("box_metier", "box_laban", "box_echoppes", "box_charrette", "box_competences_metiers");
 		return $this->constructListBoxRefresh($tab);
 	}
 

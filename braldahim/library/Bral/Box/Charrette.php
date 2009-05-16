@@ -36,9 +36,9 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 			$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
 			if ($nombre > 0) {
 				$this->view->possedeCharrette = true;
-				
+
 				$this->view->tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit);
-				
+
 				$this->data();
 
 				$this->view->pocheNom = "Case";
@@ -155,6 +155,8 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		if ($charrettes != null && count($charrettes) == 1) {
 			$p = $charrettes[0];
 			$tabCharrette = array(
+				"id_charrette" => $p["id_charrette"],
+				"nom_charrette" => $p["nom_type_materiel"],
 				"nb_peau" => $p["quantite_peau_charrette"],
 				"nb_viande" => $p["quantite_viande_charrette"],
 				"nb_viande_preparee" => $p["quantite_viande_preparee_charrette"],
@@ -163,6 +165,8 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 				"nb_planche" => $p["quantite_planche_charrette"],
 				"nb_castar" => $p["quantite_castar_charrette"],
 				"nb_rondin" => $p["quantite_rondin_charrette"],
+				"durabilite_max" => $p["durabilite_max_charrette"],
+				"durabilite_actuelle" => $p["durabilite_actuelle_charrette"],
 			);
 
 			if ($p["quantite_peau_charrette"] > 0 || $p["quantite_viande_charrette"] > 0) {
@@ -188,7 +192,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 					$tabMetiers["menuisier"]["a_afficher"] = true;
 				}
 			}
-				
+
 			if ($p["quantite_rondin_charrette"] > 0) {
 				if (isset($tabMetiers["bucheron"])) {
 					$tabMetiers["bucheron"]["a_afficher"] = true;
@@ -244,6 +248,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->renderPotion();
 		$this->renderAliment();
 		$this->renderTabac();
+		$this->renderAmeliorations($this->view->charrette["id_charrette"]);
 
 		$this->view->estElementsEtal = false;
 		$this->view->estElementsEtalAchat = false;
@@ -484,5 +489,28 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 
 		$this->view->nb_aliments = count($tabAliments);
 		$this->view->aliments = $tabAliments;
+	}
+
+	private function renderAmeliorations($idCharrette) {
+		Zend_Loader::loadClass("CharretteMaterielAssemble");
+
+		$charretteMaterielAssembleTable = new CharretteMaterielAssemble();
+
+		$materiels = $charretteMaterielAssembleTable->findByIdCharrette($idCharrette);
+		unset($charretteMaterielAssembleTable);
+		
+		$tabMateriel = null;
+		foreach ($materiels as $m) {
+			$tabMateriel[] = array(
+					"id_materiel" => $m["id_type_materiel"],
+					"nom" => $m["nom_type_materiel"],
+					"id_type_materiel" => $m["id_type_materiel"],
+					'capacite' => $m["capacite_type_materiel"], 
+					'durabilite' => $m["durabilite_type_materiel"], 
+					'usure' => $m["usure_type_materiel"], 
+					'poids' => $m["poids_type_materiel"], 
+			);
+		}
+		$this->view->materielsAssembles = $tabMateriel;
 	}
 }

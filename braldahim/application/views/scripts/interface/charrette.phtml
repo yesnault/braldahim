@@ -12,16 +12,59 @@
 	    
 	     <? if ($this->possedeCharrette) : ?>
 	     
-		   La charrette peut contenir <?=$this->tabPoidsCharrette["transportable"] ?> Kg. <br>
+		   <table align="center" width="80%">
+		   	<tr>
+		   		<td align="center" valign="top">
+		   			<ul class="titre textalic textsized">Caract&eacute;ristiques</ul>
+		   			
+		   			<?=$this->charrette["nom_charrette"]?> n&deg;<?=$this->charrette["id_charrette"]?><br><br>
+				   <? Zend_Loader::loadClass("Bral_Helper_Charrette")?>
+				   <?=Bral_Helper_Charrette::afficheBarrePoids($this->tabPoidsCharrette["transportable"], $this->tabPoidsCharrette["transporte"])?>
+				   <?=$this->tabPoidsCharrette["transporte"]?> Kg / <?=$this->tabPoidsCharrette["transportable"]?> Kg transportable.
+				   <br><br>
+				   <?=Bral_Helper_Charrette::afficheBarreDurabilite($this->charrette)?>
+				   Durabilit&eacute; : <?=$this->charrette["durabilite_max"]?> / <?=$this->charrette["durabilite_actuelle"]?>.
+		   		</td>
+		   		<td align="left" valign="top">
+		   			<ul class="titre textalic textsized">Am&eacute;liorations</ul>
+		   			
+		   			<table class="table_liste" style="width:90%">
+					<thead class="table_liste">
+					  <tr class="table_liste">
+					  	<th>N&deg;</th>
+					  	<th>&nbsp;</th>
+						<th>Nom</th>
+						<th>Caract&eacute;ristiques</th>
+					  </tr>
+					</thead>
+					<tbody>
+		   			<? if ($this->materielsAssembles != null && count($this->materielsAssembles) > 0): ?>
+		   			<? $i = 0;
+		   				Zend_Loader::loadClass("Bral_Helper_DetailMateriel");
+				   		foreach($this->materielsAssembles as $e) :?>
+						<tr class="table_liste<?=($i % 2);$i++; ?>">
+					  		<td class="table_liste"><?=$e["id_materiel"] ?></td>
+					  		<td class="table_liste"><img src='/public/styles/braldahim_defaut/images/type_materiel/type_materiel_<?=$e["id_type_materiel"]?>.png' alt="<?=htmlspecialchars($e["nom"]) ?>"/></td>
+					  		<td class="table_liste"><?=$e["nom"] ?></td>
+					  		<td class="table_liste">
+					  			<img src="/public/images/info_icon.gif" <?=Bral_Helper_DetailMateriel::afficherJs($e);?> />
+					  		</td>
+					  	</tr>
+						<? endforeach; ?>
+					<? else: ?>
+						<tr class="table_liste0">
+							<td colspan="4">Aucun mat&eacute;riel assembl&eacute;</td>
+						</tr>
+		   			<? endif;?>
+		   			</tbody>
+					</table>
+		   		</td>
+		   	</tr>
+		   </table>
 		   
-		   <div align='center'>
-		   <? Zend_Loader::loadClass("Bral_Helper_Charrette")?>
-		   <?=Bral_Helper_Charrette::afficheBarrePoids($this->tabPoidsCharrette["transportable"], $this->tabPoidsCharrette["transporte"])?>
-		   
-		   <?=$this->tabPoidsCharrette["transporte"]?> / <?=$this->tabPoidsCharrette["transportable"]?>
-		   </div>
 		   <br />
-			<? if ($this->config->general->production != 1) : ?>	   
+			<? if ($this->config->general->production != 1) : ?>
+				<ul class="titre textalic textsized">Contenu de la charrette</ul>	   
 		   		<? include("commun/poches.phtml") ?>
 		   	<? endif;?>
 	
