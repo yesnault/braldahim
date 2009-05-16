@@ -15,16 +15,18 @@ class Bral_Charrette_Lacher extends Bral_Charrette_Charrette {
 	function getNomInterne() {
 		return "box_action";
 	}
-	
+
 	function getTitreAction() {
 		return "Lâcher la charrette";
 	}
-	
+
 	function prepareCommun() {
 		Zend_Loader::loadClass("Charrette");
-
+		Zend_Loader::loadClass("Bral_Util_Charrette");
+		
 		$tabCharrettes = null;
 		$this->view->possedeCharrette = false;
+		$this->view->possedeCaleFrein = false;
 
 		$charretteTable = new Charrette();
 
@@ -33,6 +35,7 @@ class Bral_Charrette_Lacher extends Bral_Charrette_Charrette {
 			foreach ($charrette as $c) {
 				$this->view->idCharrette = $c["id_charrette"];
 				$this->view->possedeCharrette = true;
+				$this->view->possedeCaleFrein = Bral_Util_Charrette::possedeCaleFrein($c["id_charrette"]);
 				break;
 			}
 		}
@@ -56,9 +59,13 @@ class Bral_Charrette_Lacher extends Bral_Charrette_Charrette {
 			throw new Zend_Exception(get_class($this)." Possede aucune charrette ");
 		}
 
+		if ($this->view->possedeCaleFrein == false) {
+			throw new Zend_Exception(get_class($this)." Possede cale-frein false charrette ");
+		}
+
 		$this->calculLacherCharrette();
 		$this->calculBalanceFaim();
-		
+
 		$id_type = $this->view->config->game->evenements->type->deposer;
 		$details = "[h".$this->view->user->id_hobbit."] a lâché sa charrette";
 		$this->setDetailsEvenement($details, $id_type);

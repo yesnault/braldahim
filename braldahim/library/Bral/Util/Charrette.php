@@ -63,4 +63,30 @@ class Bral_Util_Charrette {
 
 		return $retour;
 	}
+	
+	public static function possedeCaleFrein($idCharrette) {
+		return self::possedeElement($idCharrette, "cale_frein");
+	}
+
+	public static function possedePanneauAmovible($idCharrette) {
+		return self::possedeElement($idCharrette, "panneau_amovible");
+	}
+	
+	private static function possedeElement($idCharrette, $nomSystemeElement) {
+		$retour = false;
+		Zend_Loader::loadClass("CharretteMaterielAssemble");
+		$charretteMaterielAssembleTable = new CharretteMaterielAssemble();
+		
+		$materielsAssembles = $charretteMaterielAssembleTable->findByIdCharrette($idCharrette);
+		
+		if ($materielsAssembles != null && count($materielsAssembles) > 0) {
+			foreach($materielsAssembles as $m) {
+				if ($m["nom_systeme_type_materiel"] == $nomSystemeElement) {
+					$retour = true;
+					break;
+				}
+			}	
+		}
+		return $retour;
+	}
 }
