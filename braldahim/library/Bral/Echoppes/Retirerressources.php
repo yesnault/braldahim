@@ -129,7 +129,8 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 		}
 
 		$this->view->elementsRetires = "";
-
+		
+		if ($nb_rondins < 0) $nb_rondins = 0;
 		if ($nb_peau < 0) $nb_peau = 0;
 		if ($nb_cuir < 0) $nb_cuir = 0;
 		if ($nb_fourrure < 0) $nb_fourrure = 0;
@@ -182,14 +183,14 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 		}
 
 		if ($nb_rondins > 0 && $this->view->charretteOk === true) {
-				
+
 			$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit);
 			$nbPossibleDansCharretteMaximum = floor($tabPoidsCharrette["place_restante"] / Bral_Util_Poids::POIDS_RONDIN);
-				
+
 			if ($nb_rondins > $nbPossibleDansCharretteMaximum) {
 				$nb_rondins = $nbPossibleDansCharretteMaximum;
 			}
-				
+
 			if ($nb_rondins > 0) {
 				// on place dans la charette
 				$charretteTable = new Charrette();
@@ -211,6 +212,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 				'quantite_fourrure_arriere_echoppe' => $this->view->echoppe["quantite_fourrure_arriere_echoppe"] - $nb_fourrure,
 				'quantite_planche_arriere_echoppe' => $this->view->echoppe["quantite_planche_arriere_echoppe"] - $nb_planche,
 				'quantite_peau_arriere_echoppe' => $this->view->echoppe["quantite_peau_arriere_echoppe"] - $nb_peau,
+				'quantite_rondin_arriere_echoppe' => $this->view->echoppe["quantite_rondin_arriere_echoppe"] - $nb_rondins,
 		);
 		$where = "id_echoppe=".$this->view->echoppe["id_echoppe"];
 		$echoppeTable->update($data, $where);
@@ -249,7 +251,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 			$indicePreparees = $i + 1;
 			$nbBrutes = $this->request->get("valeur_".$indiceBrutes);
 			$nbPreparees = $this->request->get("valeur_".$indicePreparees);
-				
+
 			if ((int) $nbBrutes."" != $this->request->get("valeur_".$indiceBrutes)."") {
 				throw new Zend_Exception(get_class($this)." NB Partie Plante Brute invalide=".$nbBrutes);
 			} else {
@@ -266,10 +268,10 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 			if ($nbPreparees > $this->view->partieplantes[$indice]["quantite_preparees_echoppe_partieplante"]) {
 				throw new Zend_Exception(get_class($this)." NB Partie Plante Preparee interdit=".$nbPreparees);
 			}
-				
+
 			$nbBrutes = $this->calculNbPoidsPossible($nbBrutes, Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);
 			$nbPreparees = $this->calculNbPoidsPossible($nbPreparees, Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE);
-				
+
 			if ($nbBrutes > 0 || $nbPreparees > 0) {
 				$data = array('quantite_arriere_echoppe_partieplante' => -$nbBrutes,
 							  'quantite_preparees_echoppe_partieplante' => -$nbPreparees,
@@ -312,7 +314,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 			$indiceLingot = $i+1;
 			$nbBrut = $this->request->get("valeur_".$indiceBrut);
 			$nbLingot = $this->request->get("valeur_".$indiceLingot);
-				
+
 			if ((int) $nbBrut."" != $this->request->get("valeur_".$indiceBrut)."") {
 				throw new Zend_Exception(get_class($this)." NB Minerai brut invalide=".$nbBrut. " indice=".$indiceBrut);
 			} else {
@@ -321,7 +323,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 			if ($nbBrut > $this->view->minerais[$indice]["quantite_arriere_echoppe_minerai"]) {
 				throw new Zend_Exception(get_class($this)." NB Minerai brut interdit=".$nbBrut);
 			}
-				
+
 			if ((int) $nbLingot."" != $this->request->get("valeur_".$indiceLingot)."") {
 				throw new Zend_Exception(get_class($this)." NB Minerai lingot invalide=".$nbLingot. " indice=".$indiceLingot);
 			} else {
@@ -330,10 +332,10 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 			if ($nbLingot > $this->view->minerais[$indice]["quantite_lingots_echoppe_minerai"]) {
 				throw new Zend_Exception(get_class($this)." NB Minerai lingot interdit=".$nbLingot);
 			}
-				
+
 			$nbBrut = $this->calculNbPoidsPossible($nbBrut, Bral_Util_Poids::POIDS_MINERAI);
 			$nbLingot = $this->calculNbPoidsPossible($nbLingot, Bral_Util_Poids::POIDS_LINGOT);
-				
+
 			if ($nbBrut > 0 || $nbLingot > 0) {
 				$data = array('quantite_arriere_echoppe_minerai' => -$nbBrut,
 							  'quantite_lingots_echoppe_minerai' => -$nbLingot,
