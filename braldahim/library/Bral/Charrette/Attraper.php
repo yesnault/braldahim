@@ -33,19 +33,29 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 		if ($nombre > 0) {
 			$this->view->possedeCharrette = true;
 		}
+		
+		Zend_Loader::loadClass("Bral_Util_Metier");
+		$tab = Bral_Util_Metier::prepareMetier($this->view->user->id_hobbit, $this->view->user->sexe_hobbit);
+		$this->tabMetierCourant = $tab["tabMetierCourant"];
+		$estMenuisierOuBucheron = false;
+		if ($this->tabMetierCourant["nom_systeme"] == "bucheron" || $this->tabMetierCourant["nom_systeme"] == "menuisier") {
+			$estMenuisierOuBucheron = true;
+		}
+		
 
 		$charrettes = $charretteTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		foreach ($charrettes as $c) {
 			$this->view->attraperCharrettePossible = true;
 			$possible = false;
-			if ($this->view->user->force_base_hobbit >= $c["force_base_min_type_materiel"] &&
-			$this->view->user->agilite_base_hobbit >= $c["agilite_base_min_type_materiel"] &&
-			$this->view->user->vigueur_base_hobbit >= $c["vigueur_base_min_type_materiel"] &&
-			$this->view->user->sagesse_base_hobbit >= $c["sagesse_base_min_type_materiel"]
-			) {
+			$detail = "";
+			if (($this->view->user->force_base_hobbit >= $c["force_base_min_type_materiel"] &&
+				$this->view->user->agilite_base_hobbit >= $c["agilite_base_min_type_materiel"] &&
+				$this->view->user->vigueur_base_hobbit >= $c["vigueur_base_min_type_materiel"] &&
+				$this->view->user->sagesse_base_hobbit >= $c["sagesse_base_min_type_materiel"]) ||
+				($c["nom_systeme_type_materiel"] == "charrette_legere" && $estMenuisierOuBucheron)		
+				) {
 				$possible = true;
 			} else {
-				$detail = "";
 				if ($this->view->user->force_base_hobbit < $c["force_base_min_type_materiel"]) {
 					$detail .= " Niv. requis FOR:".$c["force_base_min_type_materiel"];
 				}

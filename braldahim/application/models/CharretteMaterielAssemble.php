@@ -10,17 +10,17 @@
  * $LastChangedRevision: $
  * $LastChangedBy: $
  */
-class CharretteAmelioration extends Zend_Db_Table {
-	protected $_name = 'charrette_amelioration';
-	protected $_primary = array('id_charrette_amelioration', 'id_materiel_charrette_amelioration');
+class CharretteMaterielAssemble extends Zend_Db_Table {
+	protected $_name = 'charrette_materiel_assemble';
+	protected $_primary = array('id_charrette_materiel_assemble', 'id_materiel_materiel_assemble');
 
 	function findByIdCharrette($idCharrette) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('charrette_amelioration', '*')
+		$select->from('charrette_materiel_assemble', '*')
 		->from('type_materiel', '*')
-		->where('id_fk_type_charrette_amelioration = id_type_materiel')
-		->where('id_charrette_amelioration = ?', intval($idCharrette));
+		->where('id_fk_type_charrette_materiel_assemble = id_type_materiel')
+		->where('id_charrette_materiel_assemble = ?', intval($idCharrette));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

@@ -1,8 +1,9 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
 
-<? if ($this->possedeCharrette == true) :?>
- 	Vous ne pouvez pas courir avec une charrette !<br><br>
+<? if ($this->possedeCharrette == true && $this->courirPossible == false) :?>
+ 	Vous ne pouvez pas courir avec votre charrette, elle ne poss&egrave;de pas les
+ 	caract&eacute;ristiques n&eacute;cessaires !<br><br>
 <? elseif ($this->estEngage) : ?>
 	Vous &ecirc;tes actuellement engag&eacute;, vous ne pouvez pas courir...<br />
 <? else: ?>

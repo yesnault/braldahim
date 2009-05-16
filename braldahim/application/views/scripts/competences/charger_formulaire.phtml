@@ -1,7 +1,8 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
- 	<? if ($this->possedeCharrette == true) :?>
- 		Vous ne pouvez pas charger avec une charrette !<br><br>
+ 	<? if ($this->possedeCharrette == true && $this->view->chargerPossible == false) :?>
+ 		Vous ne pouvez pas charger avec votre charrette, elle ne poss&egrave;de pas les
+ 		caract&eacute;ristiques n&eacute;cessaires !<br><br>
  	<? elseif ($this->armeTirPortee == true) :?>
 		Vous ne pouvez pas utiliser cette comp&eacute;tence avec une arme de tir !<br><br>
 	<? else: ?>
@@ -50,6 +51,6 @@
  </div>
 
 <br />
-<?php if ($this->assezDePa == true) : ?>
+<?php if ($this->assezDePa == true && $this->chargerPossible === true) : ?>
 <input type='button' class='button1' value='Charger !' id='bouton_charger' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_charger");' disabled>
 <? endif ?>
