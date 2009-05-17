@@ -51,7 +51,7 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 			// On regarde si le hobbit est dans une de ses echopppes
 			$echoppeTable = new Echoppe();
 			$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
-				
+
 			$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 
 			if (count($echoppes) == 1) {
@@ -163,34 +163,28 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 
 		$charretteTable = new Charrette();
 
-		if ($charrette["provenance"] == "sol") {
-			$dataUpdate = array(
+		$dataUpdate = array(
 			"id_fk_type_materiel_charrette" => $charrette["id_type_materiel"],
 			"id_fk_hobbit_charrette" => $this->view->user->id_hobbit,
 			"x_charrette" => null,
 			"y_charrette" => null,
-			);
+		);
+			
+		if ($charrette["provenance"] == "sol") {
 			$where = "id_charrette = ".$charrette["id_charrette"];
 			$charretteTable->update($dataUpdate, $where);
 		} else if ($this->view->provenance == "echoppe") {
-				
-			$dataUpdate = array(
-			"id_fk_hobbit_charrette" => $this->view->user->id_hobbit,
-			"x_charrette" => null,
-			"y_charrette" => null,
-			"id_charrette" => $charrette["id_charrette"],
-			"id_fk_type_materiel_charrette" => $charrette["id_type_materiel"],
-			);
+			$dataUpdate["id_charrette"] = $charrette["id_charrette"];
 			$where = "id_charrette = ".$charrette["id_charrette"];
 			$charretteTable->insert($dataUpdate, $where);
-				
+
 			$echoppeMaterielTable = new EchoppeMateriel();
 			$where = "id_echoppe_materiel=".$charrette["id_charrette"];
 			$echoppeMaterielTable->delete($where);
-				
-			Zend_Loader::loadClass("Bral_Util_Charrette");
-			Bral_Util_Charrette::calculAmeliorationsCharrette($this->view->user->id_hobbit);
 		}
+
+		Zend_Loader::loadClass("Bral_Util_Charrette");
+		Bral_Util_Charrette::calculAmeliorationsCharrette($this->view->user->id_hobbit);
 	}
 
 	function getListBoxRefresh() {

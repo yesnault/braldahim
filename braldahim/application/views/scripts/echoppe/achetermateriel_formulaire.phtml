@@ -7,8 +7,14 @@
 	<br />
 	
 	Co&ucirc;t du service : <?=$this->nb_pa ?> PA<br />
-	
 	<br />
+	<? if ($this->materiel["est_charrette"] == true) : ?>
+	<b>Si vous achetez une charrette, celle-ci sera d&eacute;pos&eacute;e au sol.</b><br>
+	Vous devrez utiliser ensuite l'action "Attraper Charrette" de l'onglet Charrette pour attraper la charrette.<br>
+	Attention aux caract&eacute;ristiques n&eacute;cessaires pour l'attraper et pensez &agrave; garder un PA pour le faire juste après l'achat.<br>
+	<? endif;?>
+	
+	<br><br>
 	<? $this->materiels = array($this->materiel); ?>
 	<?=$this->render("/interface/commun/materiels/materiels.phtml"); ?>
 	<br />

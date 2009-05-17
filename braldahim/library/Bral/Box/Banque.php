@@ -256,6 +256,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 
 		$this->view->estElementsEtal = false;
 		$this->view->estElementsEtalAchat = false;
+		$this->view->estElementsAchat = false;
 
 		$this->view->nom_interne = $this->getNomInterne();
 

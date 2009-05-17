@@ -163,6 +163,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->view->echoppe = $tabEchoppe;
 		$this->view->estElementsEtal = true;
 		$this->view->estElementsEtalAchat = false;
+		$this->view->estElementsAchat = false;
 	}
 
 	function prepareFormulaire() {

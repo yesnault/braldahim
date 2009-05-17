@@ -68,6 +68,8 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 
 		$this->view->estElementsEtal = true;
 		$this->view->estElementsEtalAchat = true;
+		$this->view->estElementsAchat = false;
+		
 		return $this->view->render("interface/echoppe.phtml");
 	}
 
@@ -263,7 +265,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 				$materiel = array(
 					"id_materiel" => $e["id_echoppe_materiel"],
 					"id_type_materiel" => $e["id_type_materiel"],
-					'id_type_materiel' => $e["id_type_materiel"],
+					'nom_systeme_type_materiel' => $e["nom_systeme_type_materiel"],
 					'nom' =>$e["nom_type_materiel"],
 					'capacite' => $e["capacite_type_materiel"], 
 					'durabilite' => $e["durabilite_type_materiel"], 

@@ -19,7 +19,7 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 	}
 
 	function getTitreAction() {
-		return "Acheter une materiel";
+		return "Acheter un materiel";
 	}
 
 	function prepareCommun() {
@@ -38,6 +38,10 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 
 		$this->prepareMateriel($this->idMateriel);
 		$this->preparePrix();
+
+		$this->view->estElementsEtal = false;
+		$this->view->estElementsEtalAchat = false;
+		$this->view->estElementsAchat = true;
 	}
 
 	private function prepareMateriel($idMateriel) {
@@ -127,11 +131,18 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 
 		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 
-		if ($poidsRestant < $this->materiel["poids_type_materiel"]) {
+		$estCharrette = false;
+
+		if (substr($this->materiel["nom_systeme_type_materiel"], 0, 9) == "charrette") {
+			$estCharrette = true;
+		}
+
+		if ($poidsRestant < $this->materiel["poids_type_materiel"] && $estCharrette == false) {
 			$placeDispo = false;
 		} else {
 			$placeDispo = true;
 		}
+
 		$tabMateriel = array(
 			"id_materiel" => $this->materiel["id_echoppe_materiel"],
 			"nom" => $this->materiel["nom_type_materiel"],
@@ -152,6 +163,7 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 			"place_dispo" => $placeDispo,
 			"prix_minerais" => $minerai,
 			"prix_parties_plantes" => $partiesPlantes,
+			"est_charrette" => $estCharrette,
 		);
 
 		$this->view->materiel = $tabMateriel;
@@ -400,16 +412,29 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 
 	private function calculTransfert() {
 
-		$labanMaterielTable = new LabanMateriel();
-		$data = array(
-			'id_laban_materiel' => $this->materiel["id_echoppe_materiel"],
-			'id_fk_type_laban_materiel' => $this->materiel["id_fk_type_echoppe_materiel"],
-			'id_fk_hobbit_laban_materiel' => $this->view->user->id_hobbit,
-		);
-		$labanMaterielTable->insert($data);
+		if ($this->view->materiel["est_charrette"] == true) {
+			$dataUpdate = array(
+			"id_fk_hobbit_charrette" => null,
+			"x_charrette" => $this->view->user->x_hobbit,
+			"y_charrette" => $this->view->user->y_hobbit,
+			"id_charrette" => $this->view->materiel["id_materiel"],
+			"id_fk_type_materiel_charrette" => $this->view->materiel["id_type_materiel"],
+			);
+			$where = "id_charrette = ".$this->view->materiel["id_materiel"];
+			$charretteTable = new Charrette();
+			$charretteTable->insert($dataUpdate, $where);
+		} else {
+			$labanMaterielTable = new LabanMateriel();
+			$data = array(
+				'id_laban_materiel' => $this->view->materiel["id_materiel"],
+				'id_fk_type_laban_materiel' => $this->view->materiel["id_type_materiel"],
+				'id_fk_hobbit_laban_materiel' => $this->view->user->id_hobbit,
+			);
+			$labanMaterielTable->insert($data);
+		}
 
 		$echoppeMaterielTable = new EchoppeMateriel();
-		$where = "id_echoppe_materiel=".$this->materiel["id_echoppe_materiel"];
+		$where = "id_echoppe_materiel=".$this->view->materiel["id_materiel"];
 		$echoppeMaterielTable->delete($where);
 	}
 
