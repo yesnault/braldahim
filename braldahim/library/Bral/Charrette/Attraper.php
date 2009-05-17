@@ -32,8 +32,9 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 		$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
 		if ($nombre > 0) {
 			$this->view->possedeCharrette = true;
+			return;
 		}
-		
+
 		Zend_Loader::loadClass("Bral_Util_Metier");
 		$tab = Bral_Util_Metier::prepareMetier($this->view->user->id_hobbit, $this->view->user->sexe_hobbit);
 		$this->tabMetierCourant = $tab["tabMetierCourant"];
@@ -41,37 +42,80 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 		if ($this->tabMetierCourant["nom_systeme"] == "bucheron" || $this->tabMetierCourant["nom_systeme"] == "menuisier") {
 			$estMenuisierOuBucheron = true;
 		}
-		
 
-		$charrettes = $charretteTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		foreach ($charrettes as $c) {
-			$this->view->attraperCharrettePossible = true;
-			$possible = false;
-			$detail = "";
-			if (($this->view->user->force_base_hobbit >= $c["force_base_min_type_materiel"] &&
+		$provenance = $this->request->get("provenance");
+
+		$charrettes = null;
+		if ($provenance == "echoppe") {
+			Zend_Loader::loadClass("Echoppe");
+			// On regarde si le hobbit est dans une de ses echopppes
+			$echoppeTable = new Echoppe();
+			$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
+				
+			$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+
+			if (count($echoppes) == 1) {
+				$echoppe = $echoppes[0];
+				if ($echoppe["x_echoppe"] != $this->view->user->x_hobbit || $echoppe["y_echoppe"] != $this->view->user->y_hobbit) {
+					throw new Zend_Exception(get_class($this)." Echoppe invalide. idh:".$this->view->user->id_hobbit);
+				}
+
+				Zend_Loader::loadClass("EchoppeMateriel");
+
+				$echoppeMaterielTable = new EchoppeMateriel();
+				$materiels = $echoppeMaterielTable->findByIdEchoppe($echoppe["id_echoppe"]);
+				foreach ($materiels as $m) {
+					if (substr($m["nom_systeme_type_materiel"], 0, 9) == "charrette") {
+						$charrettes[] = $m;
+					}
+				}
+				$typeProvenance = "echoppe";
+				$nomIdCharrette = "id_echoppe_materiel";
+			}
+		} else {
+			$charrettes = $charretteTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+			$typeProvenance = "sol";
+			$nomIdCharrette = "id_charrette";
+		}
+
+		if (count($charrettes) > 0) {
+			foreach ($charrettes as $c) {
+				$this->view->attraperCharrettePossible = true;
+				$possible = false;
+				$detail = "";
+				if (($this->view->user->force_base_hobbit >= $c["force_base_min_type_materiel"] &&
 				$this->view->user->agilite_base_hobbit >= $c["agilite_base_min_type_materiel"] &&
 				$this->view->user->vigueur_base_hobbit >= $c["vigueur_base_min_type_materiel"] &&
 				$this->view->user->sagesse_base_hobbit >= $c["sagesse_base_min_type_materiel"]) ||
-				($c["nom_systeme_type_materiel"] == "charrette_legere" && $estMenuisierOuBucheron)		
+				($c["nom_systeme_type_materiel"] == "charrette_legere" && $estMenuisierOuBucheron)
 				) {
-				$possible = true;
-			} else {
-				if ($this->view->user->force_base_hobbit < $c["force_base_min_type_materiel"]) {
-					$detail .= " Niv. requis FOR:".$c["force_base_min_type_materiel"];
+					$possible = true;
+				} else {
+					if ($this->view->user->force_base_hobbit < $c["force_base_min_type_materiel"]) {
+						$detail .= " Niv. requis FOR:".$c["force_base_min_type_materiel"];
+					}
+					if ($this->view->user->agilite_base_hobbit < $c["agilite_base_min_type_materiel"]) {
+						$detail .= " Niv. requis AGI:".$c["agilite_base_min_type_materiel"];
+					}
+					if ($this->view->user->sagesse_base_hobbit < $c["sagesse_base_min_type_materiel"]) {
+						$detail .= " Niv. requis SAG:".$c["sagesse_base_min_type_materiel"];
+					}
+					if ($this->view->user->vigueur_base_hobbit < $c["vigueur_base_min_type_materiel"]) {
+						$detail .= " Niv. requis VIG:".$c["vigueur_base_min_type_materiel"];
+					}
 				}
-				if ($this->view->user->agilite_base_hobbit < $c["agilite_base_min_type_materiel"]) {
-					$detail .= " Niv. requis AGI:".$c["agilite_base_min_type_materiel"];
-				}
-				if ($this->view->user->sagesse_base_hobbit < $c["sagesse_base_min_type_materiel"]) {
-					$detail .= " Niv. requis SAG:".$c["sagesse_base_min_type_materiel"];
-				}
-				if ($this->view->user->vigueur_base_hobbit < $c["vigueur_base_min_type_materiel"]) {
-					$detail .= " Niv. requis VIG:".$c["vigueur_base_min_type_materiel"];
-				}
+				$tabCharrettes[] = array (
+				"id_charrette" => $c[$nomIdCharrette],
+				"nom" => $c["nom_type_materiel"], 
+				"possible" => $possible, 
+				"detail" => $detail, 
+				"provenance" => $typeProvenance,
+				"id_type_materiel" => $c["id_type_materiel"],
+				);
 			}
-			$tabCharrettes[] = array ("id_charrette" => $c["id_charrette"],"nom" => $c["nom_type_materiel"], "possible" => $possible, "detail" => $detail);
 		}
 		$this->view->charrettes = $tabCharrettes;
+		$this->view->provenance = $provenance;
 	}
 
 	function prepareFormulaire() {
@@ -95,18 +139,19 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 			$this->view->idCharrette = (int)$this->request->get("valeur_1");
 		}
 
-		$controle = false;
+		$charrette = null;
+
 		foreach ($this->view->charrettes as $c) {
 			if ($this->view->idCharrette == $c["id_charrette"] && $c["possible"] == true) {
-				$controle = true;
+				$charrette = $c;
 				break;
 			}
 		}
-		if ($controle == false) {
+		if ($charrette == null) {
 			throw new Zend_Exception(get_class($this)." Charrette invalide idh:".$this->view->user->pa_hobbit. " ihc:".$this->view->idCharrette);
 		}
 
-		$this->calculAttrapperCharrette($this->view->idCharrette);
+		$this->calculAttrapperCharrette($charrette);
 		$this->calculBalanceFaim();
 
 		$id_type = $this->view->config->game->evenements->type->ramasser;
@@ -114,18 +159,46 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 		$this->setDetailsEvenement($details, $id_type);
 	}
 
-	private function calculAttrapperCharrette($idCharrette) {
+	private function calculAttrapperCharrette($charrette) {
+
 		$charretteTable = new Charrette();
-		$dataUpdate = array(
+
+		if ($charrette["provenance"] == "sol") {
+			$dataUpdate = array(
+			"id_fk_type_materiel_charrette" => $charrette["id_type_materiel"],
 			"id_fk_hobbit_charrette" => $this->view->user->id_hobbit,
 			"x_charrette" => null,
 			"y_charrette" => null,
-		);
-		$where = "id_charrette = ".$idCharrette;
-		$charretteTable->update($dataUpdate, $where);
+			);
+			$where = "id_charrette = ".$charrette["id_charrette"];
+			$charretteTable->update($dataUpdate, $where);
+		} else if ($this->view->provenance == "echoppe") {
+				
+			$dataUpdate = array(
+			"id_fk_hobbit_charrette" => $this->view->user->id_hobbit,
+			"x_charrette" => null,
+			"y_charrette" => null,
+			"id_charrette" => $charrette["id_charrette"],
+			"id_fk_type_materiel_charrette" => $charrette["id_type_materiel"],
+			);
+			$where = "id_charrette = ".$charrette["id_charrette"];
+			$charretteTable->insert($dataUpdate, $where);
+				
+			$echoppeMaterielTable = new EchoppeMateriel();
+			$where = "id_echoppe_materiel=".$charrette["id_charrette"];
+			$echoppeMaterielTable->delete($where);
+				
+			Zend_Loader::loadClass("Bral_Util_Charrette");
+			Bral_Util_Charrette::calculAmeliorationsCharrette($this->view->user->id_hobbit);
+		}
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_vue"));
+		if ($this->view->provenance == "echoppe") {
+			$tab = array("box_echoppes");
+		} else {
+			$tab = array("box_vue");
+		}
+		return $this->constructListBoxRefresh($tab);
 	}
 }

@@ -136,6 +136,7 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 			"id_materiel" => $this->materiel["id_echoppe_materiel"],
 			"nom" => $this->materiel["nom_type_materiel"],
 			"id_type_materiel" => $this->materiel["id_fk_type_echoppe_materiel"],
+			'nom_systeme_type_materiel' => $this->materiel["nom_systeme_type_materiel"],
 			'capacite' => $this->materiel["capacite_type_materiel"], 
 			'durabilite' => $this->materiel["durabilite_type_materiel"], 
 			'usure' => $this->materiel["usure_type_materiel"], 

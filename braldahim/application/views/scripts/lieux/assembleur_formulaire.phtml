@@ -51,6 +51,6 @@
 <br />
 
 <? if ($this->utilisationPaPossible === true && $this->achatPossibleCastars === true && $this->materielCourant != null && count($this->materielsAAssembler) > 0): ?>
-<input type='button' class='button1' id="bouton_assembleur" value='Demander l'assemblage !' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_assembleur&id_materiel_courant=<?=$this->materielCourant["id_materiel"]?>');"  disabled>
+<input type='button' class='button1' id="bouton_assembleur" value="Demander l'assemblage !" onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_assembleur&id_materiel_courant=<?=$this->materielCourant["id_materiel"]?>');"  disabled>
 <? endif; ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

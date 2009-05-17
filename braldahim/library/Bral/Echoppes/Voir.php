@@ -514,6 +514,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 				$materiel = array(
 					"id_materiel" => $e["id_echoppe_materiel"],
 					'id_type_materiel' => $e["id_type_materiel"],
+					'nom_systeme_type_materiel' => $e["nom_systeme_type_materiel"],
 					'nom' =>$e["nom_type_materiel"],
 					'capacite' => $e["capacite_type_materiel"], 
 					'durabilite' => $e["durabilite_type_materiel"], 

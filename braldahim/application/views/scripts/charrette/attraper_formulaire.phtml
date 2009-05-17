@@ -1,12 +1,12 @@
 <div class='comp_titre'><?=htmlspecialchars($this->titreAction) ?></div>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
-	<? if ($this->attraperCharrettePossible === false) : ?>
+ 	<? if ($this->possedeCharrette === true) : ?>
+	 	Vous avez d&eacute;j&agrave; une charrette, vous ne pouvez pas en attraper une autre...
+	<? elseif ($this->attraperCharrettePossible === false) : ?>
 		Il n'y a pas de charrette &agrave; attraper ici ..	
 	<? elseif ($this->assezDePa === false) :?>
 		Vous n'avez pas assez de PA.
-	 <? elseif ($this->possedeCharrette === true) : ?>
-	 	Vous avez d&eacute;j&agrave; une charrette, vous ne pouvez pas en attraper une autre...
 	 <? else: ?>
 		 Pour <?=$this->nb_pa ?> PA, vous pouvez attraper une charrette. <br /><br />
 		 <select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_attrapercharrette').disabled=true } else {$('bouton_attrapercharrette').disabled=false }">
@@ -19,12 +19,13 @@
 			</option>
 			<? endforeach; ?>
 			</select><br /><br />
+			<input type="hidden" name="valeur_2" id="valeur_2" value="<?=$this->provenance?>">
 	 <? endif; ?>
 	 <br />
 </div>
 
 <br />
 <?php if ($this->assezDePa == true && $this->possedeCharrette === false && $this->attraperCharrettePossible == true) : ?>
-<input type='button' class='button1' id='bouton_attrapercharrette' value='Attraper une charrette !' onClick='this.disabled=true;_get_("/charrette/doaction?caction=do_charrette_attraper");' disabled>
+<input type='button' class='button1' id='bouton_attrapercharrette' value='Attraper une charrette !' onClick='this.disabled=true;_get_("/charrette/doaction?caction=do_charrette_attraper&provenance=<?=$this->provenance?>");' disabled>
 <? endif ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

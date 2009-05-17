@@ -5,9 +5,11 @@
  <div class='comp_contenu'>
  <br />
 	
-		Vous pouvez transf&eacute;rer un mat&eacute;riel pr&eacute;sent soit dans la r&eacute;serve, 
-		soit dans votre laban, soit votre charrette.<br />
+		Vous pouvez transf&eacute;rer un mat&eacute;riel pr&eacute;sent
+		soit dans votre laban, soit votre charrette.<br /><br />
 		
+		Pour attraper une charrette présente dans votre échoppe, utiliser l'action Attraper une charrette.
+		<br /><br />
 		<select name="valeur_3" id="valeur_3" onChange="_get_('/echoppes/doaction?caction=ask_echoppes_transfermateriel&valeur_1=<?=$this->idEchoppe ?>&id_destination_courante='+this.value);">
 	 		<option value="-1">(Choisissez une destination)</option>
 			<? foreach($this->destinationTransfert as $d) :?>
