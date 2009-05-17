@@ -14,7 +14,7 @@ class CharretteAliment extends Zend_Db_Table {
 	protected $_name = 'charrette_aliment';
 	protected $_primary = array('id_charrette_aliment');
 
-	function findByIdHobbit($idHobbit) {
+	function findByIdCharrette($idCharrette) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette_aliment', '*')
@@ -22,16 +22,16 @@ class CharretteAliment extends Zend_Db_Table {
 		->from('type_qualite')
 		->where('id_fk_type_charrette_aliment = id_type_aliment')
 		->where('id_fk_type_qualite_charrette_aliment = id_type_qualite')
-		->where('id_fk_hobbit_charrette_aliment = ?', intval($idHobbit));
+		->where('id_fk_charrette_aliment = ?', intval($idCharrette));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 	
-    function countByIdHobbit($idHobbit) {
+    function countByIdCharrette($idCharrette) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette_aliment', 'count(*) as nombre')
-		->where('id_fk_hobbit_charrette_aliment = '.intval($idHobbit));
+		->where('id_fk_charrette_aliment = '.intval($idCharrette));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 

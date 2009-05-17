@@ -14,7 +14,7 @@ class CharrettePotion extends Zend_Db_Table {
 	protected $_name = 'charrette_potion';
 	protected $_primary = array('id_charrette_potion');
 
-	function findByIdHobbit($idHobbit) {
+	function findByIdCharrette($idCharrette) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette_potion', '*')
@@ -22,16 +22,16 @@ class CharrettePotion extends Zend_Db_Table {
 		->from('type_qualite')
 		->where('id_fk_type_charrette_potion = id_type_potion')
 		->where('id_fk_type_qualite_charrette_potion = id_type_qualite')
-		->where('id_fk_hobbit_charrette_potion = ?', intval($idHobbit));
+		->where('id_fk_charrette_potion = ?', intval($idCharrette));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 	
-    function countByIdHobbit($idHobbit) {
+    function countByIdCharrette($idCharrette) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette_potion', 'count(*) as nombre')
-		->where('id_fk_hobbit_charrette_potion = '.intval($idHobbit));
+		->where('id_fk_charrette_potion = '.intval($idCharrette));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 

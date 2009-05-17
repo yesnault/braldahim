@@ -14,9 +14,6 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 	function __construct($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Util_Log");
-		Zend_Loader::loadClass("Bral_Util_Titre");
-		Zend_Loader::loadClass("Bral_Util_Vie");
-		Zend_Loader::loadClass("Bral_Monstres_Util");
 
 		$this->_request = $request;
 		$this->view = $view;
@@ -237,7 +234,12 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 			Bral_Util_Faim::calculBalanceFaim($this->hobbit);
 			Bral_Util_Tour::updateTourTabac($this->hobbit);
+			
+			Zend_Loader::loadClass("Bral_Monstres_Util");
 			Bral_Monstres_Util::marqueAJouer($this->hobbit->x_hobbit, $this->hobbit->y_hobbit);
+			
+			Zend_Loader::loadClass("Bral_Util_Charrette");
+			Bral_Util_Charrette::calculNouvelleDlaCharrette($this->hobbit->id_hobbit, $this->hobbit->x_hobbit, $this->hobbit->y_hobbit);
 		}
 
 		if ($this->is_update_tour) {
@@ -621,6 +623,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 		$this->view->jetRegeneration = 0;
 
+		Zend_Loader::loadClass("Bral_Util_Vie");
 		Bral_Util_Vie::calculRegenerationHobbit(&$this->hobbit, $this->view->jetRegeneration);
 
 		/* Remise a  zero du malus de regeneration. */

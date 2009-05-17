@@ -112,49 +112,15 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 			}
 		}
 		unset($metiersRowset);
-
-		$tabMineraisBruts = null;
-		$tabLingots = null;
-		$charretteMineraiTable = new CharretteMinerai();
-		$minerais = $charretteMineraiTable->findByIdHobbit($this->view->user->id_hobbit);
-		unset($charretteMineraiTable);
-
-		foreach ($minerais as $m) {
-			if ($m["quantite_brut_charrette_minerai"] > 0) {
-				$tabMineraisBruts[] = array(
-					"id_type_minerai" => $m["id_type_minerai"],
-					"type" => $m["nom_type_minerai"],
-					"quantite" => $m["quantite_brut_charrette_minerai"],
-					"poids" => $m["quantite_brut_charrette_minerai"] * Bral_Util_Poids::POIDS_MINERAI,
-				);
-					
-				if (isset($tabMetiers["mineur"])) {
-					$tabMetiers["mineur"]["a_afficher"] = true;
-				}
-			}
-			if ($m["quantite_lingots_charrette_minerai"] > 0) {
-				$tabLingots[] = array(
-					"id_type_minerai" => $m["id_type_minerai"],
-					"type" => $m["nom_type_minerai"],
-					"quantite" => $m["quantite_lingots_charrette_minerai"],
-					"poids" => $m["quantite_lingots_charrette_minerai"] * Bral_Util_Poids::POIDS_LINGOT,
-				);
-					
-				if (isset($tabMetiers["forgeron"])) {
-					$tabMetiers["forgeron"]["a_afficher"] = true;
-				}
-			}
-		}
-		unset($minerais);
-
-		$tabCharrette = null;
+		
+		$charrette = null;
 		$charretteTable = new Charrette();
 		$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($charretteTable);
 
 		if ($charrettes != null && count($charrettes) == 1) {
 			$p = $charrettes[0];
-			$tabCharrette = array(
+			$charrette = array(
 				"id_charrette" => $p["id_charrette"],
 				"nom_charrette" => $p["nom_type_materiel"],
 				"nb_peau" => $p["quantite_peau_charrette"],
@@ -199,12 +165,45 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 				}
 			}
 		}
-		unset($charrette);
+
+		$tabMineraisBruts = null;
+		$tabLingots = null;
+		$charretteMineraiTable = new CharretteMinerai();
+		$minerais = $charretteMineraiTable->findByIdCharrette($charrette["id_charrette"]);
+		unset($charretteMineraiTable);
+
+		foreach ($minerais as $m) {
+			if ($m["quantite_brut_charrette_minerai"] > 0) {
+				$tabMineraisBruts[] = array(
+					"id_type_minerai" => $m["id_type_minerai"],
+					"type" => $m["nom_type_minerai"],
+					"quantite" => $m["quantite_brut_charrette_minerai"],
+					"poids" => $m["quantite_brut_charrette_minerai"] * Bral_Util_Poids::POIDS_MINERAI,
+				);
+					
+				if (isset($tabMetiers["mineur"])) {
+					$tabMetiers["mineur"]["a_afficher"] = true;
+				}
+			}
+			if ($m["quantite_lingots_charrette_minerai"] > 0) {
+				$tabLingots[] = array(
+					"id_type_minerai" => $m["id_type_minerai"],
+					"type" => $m["nom_type_minerai"],
+					"quantite" => $m["quantite_lingots_charrette_minerai"],
+					"poids" => $m["quantite_lingots_charrette_minerai"] * Bral_Util_Poids::POIDS_LINGOT,
+				);
+					
+				if (isset($tabMetiers["forgeron"])) {
+					$tabMetiers["forgeron"]["a_afficher"] = true;
+				}
+			}
+		}
+		unset($minerais);
 
 		$tabRunesIdentifiees = null;
 		$tabRunesNonIdentifiees = null;
 		$charretteRuneTable = new CharretteRune();
-		$runes = $charretteRuneTable->findByIdHobbit($this->view->user->id_hobbit);
+		$runes = $charretteRuneTable->findByIdCharrette($charrette["id_charrette"]);
 		unset($charretteRuneTable);
 
 		foreach ($runes as $r) {
@@ -237,18 +236,18 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->view->nb_runes = count($tabRunesIdentifiees) + count($tabRunesNonIdentifiees);
 		$this->view->runesIdentifiees = $tabRunesIdentifiees;
 		$this->view->runesNonIdentifiees = $tabRunesNonIdentifiees;
-		$this->view->charrette = $tabCharrette;
-		$this->view->laban = $tabCharrette; // pour les poches
+		$this->view->charrette = $charrette;
+		$this->view->laban = $charrette; // pour les poches
 
-		$this->renderPlante($tabMetiers);
+		$this->renderPlante($tabMetiers, $charrette);
 		$this->view->tabMetiers = $tabMetiers;
-		$this->renderEquipement();
-		$this->renderMateriel();
-		$this->renderMunition();
-		$this->renderPotion();
-		$this->renderAliment();
-		$this->renderTabac();
-		$this->renderAmeliorations($this->view->charrette["id_charrette"]);
+		$this->renderEquipement($charrette);
+		$this->renderMateriel($charrette);
+		$this->renderMunition($charrette);
+		$this->renderPotion($charrette);
+		$this->renderAliment($charrette);
+		$this->renderTabac($charrette);
+		$this->renderAmeliorations($charrette);
 
 		$this->view->estElementsEtal = false;
 		$this->view->estElementsEtalAchat = false;
@@ -263,10 +262,10 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		unset($tabRunesNonIdentifiees);
 	}
 
-	private function renderTabac() {
+	private function renderTabac($charrette) {
 		$tabTabac = null;
 		$charretteTabacTable = new CharretteTabac();
-		$tabacs = $charretteTabacTable->findByIdHobbit($this->view->user->id_hobbit);
+		$tabacs = $charretteTabacTable->findByIdCharrette($charrette["id_charrette"]);
 		unset($charretteTabacTable);
 
 		foreach ($tabacs as $m) {
@@ -282,7 +281,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->view->tabac = $tabTabac;
 	}
 
-	private function renderPlante(&$tabMetiers) {
+	private function renderPlante(&$tabMetiers, $charrette) {
 		$typePlantesTable = new TypePlante();
 		$typePlantesRowset = $typePlantesTable->findAll();
 		unset($typePlantesTable);
@@ -294,7 +293,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 
 		$tabTypePlantes = null;
 		$charrettePartiePlanteTable = new CharrettePartieplante();
-		$partiePlantes = $charrettePartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
+		$partiePlantes = $charrettePartiePlanteTable->findByIdCharrette($charrette["id_charrette"]);
 		unset($charrettePartiePlanteTable);
 
 		foreach($typePartiePlantesRowset as $p) {
@@ -360,10 +359,10 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->view->typePlantesPrepares = $tabTypePlantesPrepares;
 	}
 
-	private function renderMateriel() {
+	private function renderMateriel($charrette) {
 		$tabMateriels = null;
 		$charretteMaterielTable = new CharretteMateriel();
-		$materiels = $charretteMaterielTable->findByIdHobbit($this->view->user->id_hobbit);
+		$materiels = $charretteMaterielTable->findByIdCharrette($charrette["id_charrette"]);
 		unset($charretteMaterielTable);
 
 		$tabWhere = null;
@@ -385,10 +384,10 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->view->materiels = $tabMateriels;
 	}
 
-	private function renderEquipement() {
+	private function renderEquipement($charrette) {
 		$tabEquipements = null;
 		$charretteEquipementTable = new CharretteEquipement();
-		$equipements = $charretteEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
+		$equipements = $charretteEquipementTable->findByIdCharrette($charrette["id_charrette"]);
 		unset($charretteEquipementTable);
 
 		Zend_Loader::loadClass("Bral_Util_Equipement");
@@ -429,10 +428,10 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->view->equipements = $tabEquipements;
 	}
 
-	private function renderMunition() {
+	private function renderMunition($charrette) {
 		$tabMunitions = null;
 		$charretteMunitionTable = new CharretteMunition();
-		$munitions = $charretteMunitionTable->findByIdHobbit($this->view->user->id_hobbit);
+		$munitions = $charretteMunitionTable->findByIdCharrette($charrette["id_charrette"]);
 		unset($charretteMunitionTable);
 
 		foreach ($munitions as $m) {
@@ -448,10 +447,10 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->view->munitions = $tabMunitions;
 	}
 
-	private function renderPotion() {
+	private function renderPotion($charrette) {
 		$tabPotions = null;
 		$charrettePotionTable = new CharrettePotion();
-		$potions = $charrettePotionTable->findByIdHobbit($this->view->user->id_hobbit);
+		$potions = $charrettePotionTable->findByIdCharrette($charrette["id_charrette"]);
 		unset($charrettePotionTable);
 
 		foreach ($potions as $p) {
@@ -470,10 +469,10 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->view->potions = $tabPotions;
 	}
 
-	private function renderAliment() {
+	private function renderAliment($charrette) {
 		$tabAliments = null;
 		$charretteAlimentTable = new CharretteAliment();
-		$aliments = $charretteAlimentTable->findByIdHobbit($this->view->user->id_hobbit);
+		$aliments = $charretteAlimentTable->findByIdCharrette($charrette["id_charrette"]);
 		unset($charretteAlimentTable);
 
 		foreach ($aliments as $p) {
@@ -491,12 +490,12 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->view->aliments = $tabAliments;
 	}
 
-	private function renderAmeliorations($idCharrette) {
+	private function renderAmeliorations($charrette) {
 		Zend_Loader::loadClass("CharretteMaterielAssemble");
 
 		$charretteMaterielAssembleTable = new CharretteMaterielAssemble();
 
-		$materiels = $charretteMaterielAssembleTable->findByIdCharrette($idCharrette);
+		$materiels = $charretteMaterielAssembleTable->findByIdCharrette($charrette["id_charrette"]);
 		unset($charretteMaterielAssembleTable);
 		
 		$tabMateriel = null;

@@ -14,13 +14,13 @@ class Charrette extends Zend_Db_Table {
 	protected $_name = 'charrette';
 	protected $_primary = array('id_charrette');
 
-	function findByIdHobbit($id_hobbit) {
+	function findByIdHobbit($idHobbit) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', '*')
 		->from('type_materiel', '*')
 		->where('id_fk_type_materiel_charrette = id_type_materiel')
-		->where('id_fk_hobbit_charrette = '.intval($id_hobbit));
+		->where('id_fk_hobbit_charrette = '.intval($idHobbit));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

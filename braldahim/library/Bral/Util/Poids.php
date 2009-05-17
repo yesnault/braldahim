@@ -93,7 +93,7 @@ class Bral_Util_Poids {
 			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementMunitions($idHobbit, $charrette);
 		}
 		
-		$tab["transportable"] = $charrette["poids_type_materiel"];
+		$tab["transportable"] = $charrette["poids_transportable_charrette"];
 		$tab["place_restante"] = $tab["transportable"] - $tab["transporte"];
 		if ($tab["place_restante"] < 0) {
 			$tab["place_restante"] = 0;
@@ -166,13 +166,13 @@ class Bral_Util_Poids {
 			$suffixe = "charrette";
 			Zend_Loader::loadClass("CharretteMinerai");
 			$table = new CharretteMinerai();
+			$minerais = $table->findByIdCharrette($charrette["id_charrette"]);
 		} else {
 			$suffixe = "laban";
 			Zend_Loader::loadClass("LabanMinerai");
 			$table = new LabanMinerai();
+			$minerais = $table->findByIdHobbit($idHobbit);
 		}
-
-		$minerais = $table->findByIdHobbit($idHobbit);
 
 		foreach ($minerais as $m) {
 			$poids = self::ajoute($poids, $m["quantite_brut_".$suffixe."_minerai"], self::POIDS_MINERAI);
@@ -192,13 +192,13 @@ class Bral_Util_Poids {
 			$suffixe = "charrette";
 			Zend_Loader::loadClass("CharretteMunition");
 			$table = new CharretteMunition();
+			$munitions = $table->findByIdCharrette($charrette["id_charrette"]);
 		} else {
 			$suffixe = "laban";
 			Zend_Loader::loadClass("LabanMunition");
 			$table = new LabanMunition();
+			$munitions = $table->findByIdHobbit($idHobbit);
 		}
-
-		$munitions = $table->findByIdHobbit($idHobbit);
 
 		foreach ($munitions as $m) {
 			$poids = self::ajoute($poids, $m["quantite_".$suffixe."_munition"], self::POIDS_MUNITION);
@@ -217,13 +217,13 @@ class Bral_Util_Poids {
 			$suffixe = "charrette";
 			Zend_Loader::loadClass("CharrettePartieplante");
 			$table = new CharrettePartieplante();
+			$partiePlantes = $table->findByIdCharrette($charrette["id_charrette"]);
 		} else {
 			$suffixe = "laban";
 			Zend_Loader::loadClass("LabanPartieplante");
 			$table = new LabanPartieplante();
+			$partiePlantes = $table->findByIdHobbit($idHobbit);
 		}
-
-		$partiePlantes = $table->findByIdHobbit($idHobbit);
 
 		foreach ($partiePlantes as $p) {
 			$poids = self::ajoute($poids, $p["quantite_".$suffixe."_partieplante"], self::POIDS_PARTIE_PLANTE_BRUTE);
@@ -243,13 +243,13 @@ class Bral_Util_Poids {
 			$suffixe = "charrette";
 			Zend_Loader::loadClass("CharretteEquipement");
 			$table = new CharretteEquipement();
+			$equipements = $table->findByIdCharrette($charrette["id_charrette"]);
 		} else {
 			$suffixe = "laban";
 			Zend_Loader::loadClass("LabanEquipement");
 			$table = new LabanEquipement();
+			$equipements = $table->findByIdHobbit($idHobbit);
 		}
-
-		$equipements = $table->findByIdHobbit($idHobbit);
 
 		$tabWhere = null;
 		foreach ($equipements as $e) {
@@ -281,12 +281,13 @@ class Bral_Util_Poids {
 		if ($charrette != null) {
 			Zend_Loader::loadClass("CharrettePotion");
 			$table = new CharrettePotion();
+			$nbPotions = $table->countByIdCharrette($charrette["id_charrette"]);
 		} else {
 			Zend_Loader::loadClass("LabanPotion");
 			$table = new LabanPotion();
+			$nbPotions = $table->countByIdHobbit($idHobbit);
 		}
 
-		$nbPotions = $table->countByIdHobbit($idHobbit);
 		unset($table);
 		return self::ajoute(0, $nbPotions, self::POIDS_POTION);
 	}
@@ -295,11 +296,13 @@ class Bral_Util_Poids {
 		if ($charrette != null) {
 			Zend_Loader::loadClass("CharretteAliment");
 			$table = new CharretteAliment();
+			$nbAliments = $table->countByIdCharrette($charrette["id_charrette"]);
 		} else {
 			Zend_Loader::loadClass("LabanAliment");
 			$table = new LabanAliment();
+			$nbAliments = $table->countByIdHobbit($idHobbit);
 		}
-		$nbAliments = $table->countByIdHobbit($idHobbit);
+		
 		unset($table);
 		return self::ajoute(0, $nbAliments, self::POIDS_ALIMENT);
 	}
@@ -308,11 +311,13 @@ class Bral_Util_Poids {
 		if ($charrette != null) {
 			Zend_Loader::loadClass("CharretteRune");
 			$table = new CharretteRune();
+			$nbRunes = $table->countByIdCharrette($charrette["id_charrette"]);
 		} else {
 			Zend_Loader::loadClass("LabanRune");
 			$table = new LabanRune();
+			$nbRunes = $table->countByIdHobbit($idHobbit);
 		}
-		$nbRunes = $table->countByIdHobbit($idHobbit);
+		
 		unset($table);
 		return self::ajoute(0, $nbRunes, self::POIDS_RUNE);
 	}

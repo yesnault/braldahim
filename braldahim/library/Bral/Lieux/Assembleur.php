@@ -271,6 +271,9 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 		);
 		$charretteMaterielAssembleTable->insert($data);
 		$this->supprimeMaterielAAsembler($materielAAssembler);
+		
+		Zend_Loader::loadClass("Bral_Util_Charrette");
+		Bral_Util_Charrette::calculAmeliorationsCharrette($this->view->user->id_hobbit);
 	}
 
 	private function supprimeMaterielAAsembler($materielAAssembler) {

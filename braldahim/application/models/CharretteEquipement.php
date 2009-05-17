@@ -14,7 +14,7 @@ class CharretteEquipement extends Zend_Db_Table {
 	protected $_name = 'charrette_equipement';
 	protected $_primary = array('id_charrette_equipement');
 
-	function findByIdHobbit($id_hobbit) {
+	function findByIdCharrette($idCharrette) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette_equipement', '*')
@@ -28,7 +28,7 @@ class CharretteEquipement extends Zend_Db_Table {
 		->where('id_fk_type_qualite_recette_equipement = id_type_qualite')
 		->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement')
 		->where('id_fk_type_piece_type_equipement = id_type_piece')
-		->where('id_fk_hobbit_charrette_equipement = ?', intval($id_hobbit))
+		->where('id_fk_charrette_equipement = ?', intval($idCharrette))
 		->joinLeft('mot_runique','id_fk_mot_runique_charrette_equipement = id_mot_runique');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
