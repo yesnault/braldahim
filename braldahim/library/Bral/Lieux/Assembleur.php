@@ -16,6 +16,9 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 
 	function prepareCommun() {
 
+		Zend_Loader::loadClass("Bral_Util_Charrette");
+		Bral_Util_Charrette::calculAmeliorationsCharrette($this->view->user->id_hobbit);
+		
 		$this->view->coutCastars = $this->calculCoutCastars();
 		$this->view->achatPossibleCastars = ($this->view->user->castars_hobbit - $this->view->coutCastars >= 0);
 		if ($this->view->achatPossibleCastars == false) {
@@ -63,11 +66,13 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 		$this->prepareMaterielBase("laban", $materielCourant, $tabMaterielsBase);
 		$this->prepareMaterielBase("charrette", $materielCourant, $tabMaterielsBase);
 
-
 		$tabMaterielsAAssembler = null;
-		$this->prepareMaterielsAAssembler("laban", $materielCourant, $tabMaterielsAAssembler);
-		$this->prepareMaterielsAAssembler("charrette", $materielCourant, $tabMaterielsAAssembler);
 
+		if ($materielCourant != null) {
+			$this->prepareMaterielsAAssembler("laban", $materielCourant, $tabMaterielsAAssembler);
+			$this->prepareMaterielsAAssembler("charrette", $materielCourant, $tabMaterielsAAssembler);
+		}
+		
 		$this->view->materielCourant = $materielCourant;
 		$this->view->materielsBase = $tabMaterielsBase;
 		$this->view->materielsAAssembler = $tabMaterielsAAssembler;
@@ -78,13 +83,13 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 			$table = new LabanMateriel();
 			$suffixe = "laban";
 			$origine = "le laban";
+			$materielsBase = $table->findByIdHobbit($this->view->user->id_hobbit);
 		} elseif ($type == "charrette") {
 			$table = new CharretteMateriel();
 			$suffixe = "charrette";
 			$origine = "la charrette";
+			$materielsBase = $table->findByIdCharrette($materielCourant["id_materiel"]);
 		}
-
-		$materielsBase = $table->findByIdHobbit($this->view->user->id_hobbit);
 
 		if (count($materielsBase) > 0) {
 			$typeMaterielAssembleTable = new TypeMaterielAssemble();
@@ -129,10 +134,12 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 			$table = new LabanMateriel();
 			$suffixe = "laban";
 			$origine = "le laban";
+			$materiels = $table->findByIdHobbit($this->view->user->id_hobbit);
 		} elseif ($type == "charrette") {
 			$table = new CharretteMateriel();
 			$suffixe = "charrette";
 			$origine = "la charrette";
+			$materiels = $table->findByIdCharrette($materielCourant["id_materiel"]);
 		}
 
 		$materielsAssembles = null;
@@ -141,28 +148,25 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 			$materielsDejaAssembles = $charretteMaterielAssembleTable->findByIdCharrette($materielCourant["id_materiel"]);
 		}
 
-		if ($materielCourant != null) {
-			$labanMateriels = $table->findByIdHobbit($this->view->user->id_hobbit);
 
-			$typeMaterielAssembleTable = new TypeMaterielAssemble();
-			$typesBase = $typeMaterielAssembleTable->findByIdTypeBase($materielCourant["id_type_materiel"]);
+		$typeMaterielAssembleTable = new TypeMaterielAssemble();
+		$typesBase = $typeMaterielAssembleTable->findByIdTypeBase($materielCourant["id_type_materiel"]);
 
-			foreach($labanMateriels as $m) {
-				foreach($typesBase as $t) {
-					// on verifie que le materiel peut être assemblé avec le matériel de base choisi
-					if ($t["id_supplement_type_materiel_assemble"] == $m["id_fk_type_".$suffixe."_materiel"] &&
-					$this->estDejaAssembleSurCharrette($materielsDejaAssembles, $m["id_fk_type_".$suffixe."_materiel"]) == false) {
+		foreach($materiels as $m) {
+			foreach($typesBase as $t) {
+				// on verifie que le materiel peut être assemblé avec le matériel de base choisi
+				if ($t["id_supplement_type_materiel_assemble"] == $m["id_fk_type_".$suffixe."_materiel"] &&
+				$this->estDejaAssembleSurCharrette($materielsDejaAssembles, $m["id_fk_type_".$suffixe."_materiel"]) == false) {
 
-						$tabMaterielsAAssembler[] = array(
+					$tabMaterielsAAssembler[] = array(
 							"type" => $suffixe,
 							"id_materiel" => $m["id_".$suffixe."_materiel"], 
 							"nom_type_materiel" => $m["nom_type_materiel"],
 							"id_type_materiel" => $m["id_type_materiel"],
 							"selected" => "",
 							"origine" => $origine,
-						);
-						break;
-					}
+					);
+					break;
 				}
 			}
 		}
@@ -271,7 +275,7 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 		);
 		$charretteMaterielAssembleTable->insert($data);
 		$this->supprimeMaterielAAsembler($materielAAssembler);
-		
+
 		Zend_Loader::loadClass("Bral_Util_Charrette");
 		Bral_Util_Charrette::calculAmeliorationsCharrette($this->view->user->id_hobbit);
 	}
@@ -280,7 +284,7 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 		if ($materielAAssembler["type"] == "laban") {
 			$table = new LabanMateriel();
 			$suffixe = "laban";
-		} elseif ($type == "charrette") {
+		} elseif ($materielAAssembler["type"] == "charrette") {
 			$table = new CharretteMateriel();
 			$suffixe = "charrette";
 		}

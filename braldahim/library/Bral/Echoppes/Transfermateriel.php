@@ -17,6 +17,7 @@ class Bral_Echoppes_Transfermateriel extends Bral_Echoppes_Echoppe {
 	}
 
 	function prepareCommun() {
+		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("EchoppeMateriel");
 		Zend_Loader::loadClass("Echoppe");
 		Zend_Loader::loadClass("TypeUnite");
@@ -48,45 +49,68 @@ class Bral_Echoppes_Transfermateriel extends Bral_Echoppes_Echoppe {
 			throw new Zend_Exception(get_class($this)." Echoppe interdite=".$id_echoppe);
 		}
 
+		$idDestinationCourante = $this->request->get("id_destination_courante");
+
+		$selectedLaban = "";
+		$selectedCharrette = "";
+		if ($idDestinationCourante == "laban") {
+			$selectedLaban = "selected";
+		} else if ($idDestinationCourante == "charrette") {
+			$selectedCharrette = "selected";
+		}
+		$tabDestinationTransfert[] = array("id_destination" => "laban", "texte" => "votre laban", "selected" => $selectedLaban);
+
+		$charretteTable = new Charrette();
+		$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+
+		$charrette = null;
+		if (count($charrettes) == 1) {
+			$charrette = $charrettes[0];
+			$tabDestinationTransfert[] = array("id_destination" => "charrette", "texte" => "votre charrette", "selected" => $selectedCharrette);
+		}
+
 		$tabMaterielsArriereBoutique = null;
 		$echoppeMaterielTable = new EchoppeMateriel();
 		$materiels = $echoppeMaterielTable->findByIdEchoppe($id_echoppe);
 
-		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		if ($idDestinationCourante != null) {
+			if ($idDestinationCourante == "charrette" && $charrette != null) {
+				$poidsRestant = $charrette["poids_transportable_charrette"] - $charrette["poids_transporte_charrette"];
+			} else {
+				$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+			}
 
-		if (count($materiels) > 0) {
-			foreach($materiels as $e) {
-				if ($e["type_vente_echoppe_materiel"] == "aucune") {
-					if ($poidsRestant < $e["poids_type_materiel"]) {
-						$placeDispo = false;
-					} else {
-						$placeDispo = true;
-					}
+			if (count($materiels) > 0) {
+				foreach($materiels as $e) {
+					if ($e["type_vente_echoppe_materiel"] == "aucune") {
+						if ($poidsRestant < $e["poids_type_materiel"]) {
+							$placeDispo = false;
+						} else {
+							$placeDispo = true;
+						}
 
-					$tabMaterielsArriereBoutique[] = array(
+						$tabMaterielsArriereBoutique[] = array(
 						"id_echoppe_materiel" => $e["id_echoppe_materiel"],
 						"id_fk_type_echoppe_materiel" => $e["id_fk_type_echoppe_materiel"],
 						"nom" => $e["nom_type_materiel"],
 						"poids" => $e["poids_type_materiel"],
 						"place_dispo" => $placeDispo,
-					);
+						);
+					}
 				}
 			}
 		}
 
-		$tabDestinationTransfert = null;
-
-		$tabDestinationTransfert[] = array("id_destination" => "laban", "texte" => "votre laban");
-
+		$this->view->destinationTransfertCourante = $idDestinationCourante;
 		$this->view->destinationTransfert = $tabDestinationTransfert;
 		$this->view->materielsArriereBoutique = $tabMaterielsArriereBoutique;
 		$this->view->nbMaterielsArriereBoutique = count($tabMaterielsArriereBoutique);
-			
+		$this->view->charrette = $charrette;
+
 		if ($this->view->nbMaterielsArriereBoutique > 0) {
 			$this->view->transfererOk = true;
 		} else {
 			$this->view->transfererOk = false;
-			return;
 		}
 		$this->view->idEchoppe = $id_echoppe;
 	}
@@ -108,6 +132,14 @@ class Bral_Echoppes_Transfermateriel extends Bral_Echoppes_Echoppe {
 			$id_materiel = (int)$id_materiel;
 		}
 
+		if ($this->request->get("id_destination_courante") != $id_destination) {
+			throw new Zend_Exception(get_class($this)." Transferer interdit 2");
+		}
+
+		if ($this->view->charrette == null && $this->request->get("id_destination_courante") == "charrette") {
+			throw new Zend_Exception(get_class($this)." Transferer interdit 3");
+		}
+		
 		// on regarde si l'materiel est dans la liste
 		$flag = false;
 		$materiel = null;
@@ -138,26 +170,43 @@ class Bral_Echoppes_Transfermateriel extends Bral_Echoppes_Echoppe {
 			throw new Zend_Exception(get_class($this)." destination inconnue=".$destination);
 		}
 
-		if ($id_destination == "laban") {
-			$this->calculTranfertVersLaban($materiel);
-		}
+		$this->calculTranfert($id_destination, $materiel);
+
 		$this->view->materiel = $materiel;
 		$this->view->destination = $destination;
 	}
 
-	private function calculTranfertVersLaban($materiel) {
-		Zend_Loader::loadClass("LabanMateriel");
-		$labanMaterielTable = new LabanMateriel();
+	private function calculTranfert($idDestination, $materiel) {
+
+		if ($idDestination == "charrette") {
+			Zend_Loader::loadClass("CharretteMateriel");
+			$table = new CharretteMateriel();
+			$suffixe = "charrette";
+		} else {
+			Zend_Loader::loadClass("LabanMateriel");
+			$table = new LabanMateriel();
+			$suffixe = "laban";
+		}
+
 		$data = array(
-				'id_laban_materiel' => $materiel["id_echoppe_materiel"],
-				'id_fk_type_laban_materiel' => $materiel["id_fk_type_echoppe_materiel"],
-				'id_fk_hobbit_laban_materiel' => $this->view->user->id_hobbit,
+				"id_".$suffixe."_materiel" => $materiel["id_echoppe_materiel"],
+				"id_fk_type_".$suffixe."_materiel" => $materiel["id_fk_type_echoppe_materiel"],
 		);
-		$labanMaterielTable->insert($data);
+
+		if ($idDestination == "charrette") {
+			$data["id_fk_charrette_materiel"] = $this->view->charrette["id_charrette"];
+		} else {
+			$data["id_fk_hobbit_laban_materiel"] = $this->view->user->id_hobbit;
+		}
+		$table->insert($data);
 
 		$echoppeMaterielTable = new EchoppeMateriel();
 		$where = "id_echoppe_materiel=".$materiel["id_echoppe_materiel"];
 		$echoppeMaterielTable->delete($where);
+
+		if ($idDestination == "charrette") {
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+		}
 	}
 
 	public function getIdEchoppeCourante() {
@@ -169,6 +218,11 @@ class Bral_Echoppes_Transfermateriel extends Bral_Echoppes_Echoppe {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_echoppe", "box_echoppes", "box_laban", "box_evenements");
+		if ($this->view->destination["id_destination"] == "charrette") {
+			$boxToRefresh = "box_laban";
+		} else {
+			$boxToRefresh = "box_laban";
+		}
+		return array("box_profil", "box_echoppe", "box_echoppes", $boxToRefresh, "box_evenements");
 	}
 }

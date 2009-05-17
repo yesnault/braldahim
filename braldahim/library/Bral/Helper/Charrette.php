@@ -12,11 +12,11 @@
  */
 class Bral_Helper_Charrette {
 
-	public static function afficheBarrePoids($transportable, $transporte) {
-		$largeur = (($transporte * 100) / $transportable) * 2;
+	public static function afficheBarrePoids($charrette) {
+		$largeur = (($charrette["poids_transporte"] * 100) / $charrette["poids_transportable"]) * 2;
 		$titre = "Poids transportable";
-		$texte = "La charrette porte actuellement ".$transporte." Kg.<br>";
-		$texte .= "Elle peut porter jusqu\'&agrave; ".$transportable." Kg.<br>";
+		$texte = "La charrette porte actuellement ".$charrette["poids_transporte"]." Kg.<br>";
+		$texte .= "Elle peut porter jusqu\'&agrave; ".$charrette["poids_transportable"]." Kg.<br>";
 
 		if ($largeur > 200) {
 			$largeur = 200;

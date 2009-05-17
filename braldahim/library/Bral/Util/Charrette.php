@@ -104,21 +104,25 @@ class Bral_Util_Charrette {
 			$materielsAssembles = $charretteMaterielAssembleTable->findByIdCharrette($charrette["id_charrette"]);
 
 			if ($materielsAssembles != null && count($materielsAssembles) > 0) {
-
 				$durabiliteMaxCharrette = $charrette["durabilite_type_materiel"];
 				$poidsTransportable = $charrette["capacite_type_materiel"];
-
+				
 				foreach($materielsAssembles as $m) {
 					$durabiliteMaxCharrette = $durabiliteMaxCharrette + $m["durabilite_type_materiel"];
-					$poidsTransportable = $poidsTransportable + $m["capacite_type_materiel"] - $m["poids_type_materiel"];
+//					$poidsTransportable = $poidsTransportable + $m["capacite_type_materiel"] - $m["poids_type_materiel"];
 				}
 
 				$data = array(
 					"durabilite_max_charrette" => $durabiliteMaxCharrette,
 					"poids_transportable_charrette" => $poidsTransportable,
 				);
+				
 				$where = "id_charrette = ".$charrette["id_charrette"];
 				$charretteTable->update($data, $where);
+
+				// mise à jour du poids en base
+				Zend_Loader::loadClass("Bral_Util_Poids");
+				Bral_Util_Poids::calculPoidsCharrette($idHobbit, true);
 			}
 		} else if ($nb > 1) {
 			throw new Zend_Exception("Bral_Util_Charrette::calculAmeliorationsCharrette idh:".$idHobbit);
@@ -128,6 +132,7 @@ class Bral_Util_Charrette {
 	public static function calculNouvelleDlaCharrette($idHobbit, $x, $y) {
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("CharretteMaterielAssemble");
+		Zend_Loader::loadClass("Bral_Util_Poids");
 
 		self::calculAmeliorationsCharrette($idHobbit);
 
@@ -205,17 +210,17 @@ class Bral_Util_Charrette {
 	private static function destructionCharretteAliment($charrette, $x, $y) {
 		Zend_Loader::loadClass("CharretteAliment");
 		Zend_Loader::loadClass("ElementAliment");
-		
+
 		$sourceTable = new CharretteAliment();
 		$destinationTable = new ElementAliment();
-		
+
 		$sourceTable->findByIdHobbit($charrette["id_charrette"]);
-		
-	/*	$data = array(
+
+		/*	$data = array(
 			"id_element_aliment" => ,
 			""
 			);
-				
+
 			$destinationTable->insert($data);*/
 	}
 

@@ -11,7 +11,7 @@
 <? elseif ($this->materielsBase != null): ?>
  
  	S&eacute;lectionner un mat&eacute;riel de base : <br>
-  	<select name="valeur_1" id="valeur_1"  onChange="_get_('/lieux/doaction?caction=ask_lieu_assembleur&id_materiel_courant='+this.value);">
+  	<select name="valeur_1" id="valeur_1" onChange="_get_('/lieux/doaction?caction=ask_lieu_assembleur&id_materiel_courant='+this.value);">
 	 	<option value="-1">(Choisissez un mat&eacute;riel)</option>
 	 	<? foreach ($this->materielsBase as $m):?>
 	 		<option value="<?=$m["id_materiel"]?>" <?=$m["selected"]?>><?=$m["nom_type_materiel"]?>, n&deg;<?=$m["id_materiel"]?> 
@@ -41,6 +41,10 @@
 	</select>
  <? else: ?>
  	<input type="hidden" name="valeur_2" id="valeur_2" value="-1">
+ 	<? if ($this->materielCourant != null): ?>
+ 	<br><br>
+ 	Vous n'avez aucun mat&eacute;riel &agrave; assembler sur le mat&eacute;riel de base choisi.
+ 	<? endif; ?>
  <? endif;?>
  </div> 
 </form>

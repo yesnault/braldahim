@@ -19,7 +19,7 @@
 		   			
 		   			<?=$this->charrette["nom_charrette"]?> n&deg;<?=$this->charrette["id_charrette"]?><br><br>
 				   <? Zend_Loader::loadClass("Bral_Helper_Charrette")?>
-				   <?=Bral_Helper_Charrette::afficheBarrePoids($this->tabPoidsCharrette["transportable"], $this->tabPoidsCharrette["transporte"])?>
+				   <?=Bral_Helper_Charrette::afficheBarrePoids($this->charrette)?>
 				   <?=$this->tabPoidsCharrette["transporte"]?> Kg / <?=$this->tabPoidsCharrette["transportable"]?> Kg transportable.
 				   <br><br>
 				   <?=Bral_Helper_Charrette::afficheBarreDurabilite($this->charrette)?>

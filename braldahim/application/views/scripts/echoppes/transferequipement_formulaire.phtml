@@ -8,7 +8,7 @@
 		Vous pouvez transf&eacute;rer un &eacute;quipement pr&eacute;sent soit dans la r&eacute;serve, 
 		soit dans votre laban, soit une autre de vos &eacute;choppes.<br />
 		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_transfermateriel').disabled=true } else {$('bouton_transfermateriel').disabled=false }">
-	 		<option value="-1">(Choisis un &eacute;quipement)</option>
+	 		<option value="-1">(Choisissez un &eacute;quipement)</option>
 			<? foreach($this->materielsArriereBoutique as $e) :?>
 				<option value="<?=$e["id_echoppe_materiel"] ?>" <? if ($e["place_dispo"] == false):echo "disabled"; endif;?>>N&deg; <?=$e["id_echoppe_materiel"] ?> <?=htmlspecialchars($e["nom"]) ?> <? if ($e["place_dispo"] == false):echo "Trop Lourd !"; endif;?></option>
 			<? endforeach; ?>
@@ -17,7 +17,7 @@
 		
 		Vers : <br />
 		<select name="valeur_3" id="valeur_3"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_transfermateriel').disabled=true } else {$('bouton_transfermateriel').disabled=false }">
-	 		<option value="-1">(Choisis une destination)</option>
+	 		<option value="-1">(Choisissez une destination)</option>
 			<? foreach($this->destinationTransfert as $d) :?>
 				<option value="<?=$d["id_destination"] ?>"><?=$d["texte"] ?></option>
 			<? endforeach; ?>

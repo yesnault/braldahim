@@ -67,10 +67,10 @@ class Bral_Util_Poids {
 		return (2 * $niveauForce) + 3;
 	}
 
-	public static function calculPoidsCharrette($idHobbit) {
+	public static function calculPoidsCharrette($idHobbit, $updateBase = false) {
 		$tab["transporte"] = 0;
 		$tab["transportable"] = 0;
-		
+
 		$charretteTable = new Charrette();
 		$charretteRowset = $charretteTable->findByIdHobbit($idHobbit);
 
@@ -82,7 +82,7 @@ class Bral_Util_Poids {
 			$charrette = $charretteRowset[0];
 		}
 
-		if ($idHobbit > 0) {
+		if ($updateBase == true) {
 			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElement($idHobbit, $charrette);
 			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementMinerais($idHobbit, $charrette);
 			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementPartiesPlantes($idHobbit, $charrette);
@@ -91,13 +91,24 @@ class Bral_Util_Poids {
 			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementAliment($idHobbit, $charrette);
 			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementRune($idHobbit, $charrette);
 			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementMunitions($idHobbit, $charrette);
+
+			$tab["transportable"] = $charrette["poids_transportable_charrette"];
+
+			$data = array(
+				"poids_transporte_charrette" => $tab["transporte"],
+			);
+			$where = "id_charrette = ".$charrette["id_charrette"];
+			$charretteTable->update($data, $where);
+		} else {
+			$tab["transporte"] = $charrette["poids_transporte_charrette"];
+			$tab["transportable"] = $charrette["poids_transportable_charrette"];
 		}
-		
-		$tab["transportable"] = $charrette["poids_transportable_charrette"];
+
 		$tab["place_restante"] = $tab["transportable"] - $tab["transporte"];
 		if ($tab["place_restante"] < 0) {
 			$tab["place_restante"] = 0;
 		}
+
 		return $tab;
 	}
 
@@ -302,7 +313,7 @@ class Bral_Util_Poids {
 			$table = new LabanAliment();
 			$nbAliments = $table->countByIdHobbit($idHobbit);
 		}
-		
+
 		unset($table);
 		return self::ajoute(0, $nbAliments, self::POIDS_ALIMENT);
 	}
@@ -317,7 +328,7 @@ class Bral_Util_Poids {
 			$table = new LabanRune();
 			$nbRunes = $table->countByIdHobbit($idHobbit);
 		}
-		
+
 		unset($table);
 		return self::ajoute(0, $nbRunes, self::POIDS_RUNE);
 	}

@@ -133,6 +133,8 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 				"nb_rondin" => $p["quantite_rondin_charrette"],
 				"durabilite_max" => $p["durabilite_max_charrette"],
 				"durabilite_actuelle" => $p["durabilite_actuelle_charrette"],
+				"poids_transportable" => $p["poids_transportable_charrette"],
+				"poids_transporte" => $p["poids_transporte_charrette"],
 			);
 
 			if ($p["quantite_peau_charrette"] > 0 || $p["quantite_viande_charrette"] > 0) {
