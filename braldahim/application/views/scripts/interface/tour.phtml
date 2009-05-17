@@ -59,6 +59,12 @@
 	
 	Dur&eacute;e du prochain tour : <?=$this->user->duree_prochain_tour_hobbit ?> + <? $tab = Bral_Util_Tour::getTabMinutesProchainTour($this->user)?> <?=$tab["minutesBlessures"]?> min : <?=$tab["heureMinuteTotal"]?> <br />
 	
+	<? if ($this->charretteDetruite) : ?>
+		<br>
+		<b>Votre charrette a &eacute;t&eacute; d&eacute;truite, vous ne l'avez pas r&eacute;par&eacute;e &agrave; temps. Tout ce qu'elle portait est tomb&eacute; &agrave; terre.</b>
+		<br>
+	<? endif; ?>
+	
 	<? include("tour/effet_mot_text.phtml"); ?>
 	<? include("tour/effet_potion_text.phtml"); ?>
 	
@@ -111,6 +117,12 @@ Nombre de Points d'Action : <?=$this->user->pa_hobbit ?>
 
 Dur&eacute;e du prochain tour : <?=$this->user->duree_prochain_tour_hobbit ?> + <? $tab = Bral_Util_Tour::getTabMinutesProchainTour($this->user)?> <?=$tab["minutesBlessures"]?> min : <?=$tab["heureMinuteTotal"]?> 
 
+<? if ($this->charretteDetruite) : ?>
+ 
+Votre charrette a &eacute;t&eacute; d&eacute;truite, vous ne l'avez pas r&eacute;par&eacute;e &agrave; temps. Tout ce qu'elle portait est tomb&eacute; &agrave; terre.
+ 
+<? endif; ?>
+	
 <? 
  	include("tour/effet_mot_copie.phtml");
  	include("tour/effet_potion_copie.phtml");

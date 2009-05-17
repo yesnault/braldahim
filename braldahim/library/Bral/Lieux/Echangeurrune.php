@@ -132,7 +132,6 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 			"x_element_rune"  => $this->view->user->x_hobbit,
 			"y_element_rune" => $this->view->user->y_hobbit,
 			"id_fk_type_element_rune" => $typeRune["id_type_rune"],
-			"date_depot_element_rune" => $dateCreation,
 			"date_fin_element_rune" => $dateFin,
 		);
 

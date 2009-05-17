@@ -538,7 +538,6 @@ class Bral_Util_Quete {
 			"x_element_rune"  => $hobbit->x_hobbit,
 			"y_element_rune" => $hobbit->y_hobbit,
 			"id_fk_type_element_rune" => $typeRune["id_type_rune"],
-			"date_depot_element_rune" => $dateCreation,
 			"date_fin_element_rune" => $dateFin,
 		);
 
