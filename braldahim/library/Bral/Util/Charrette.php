@@ -15,6 +15,36 @@ class Bral_Util_Charrette {
 	function __construct() {
 	}
 
+	public static function calculAttraperPossible($charrette, $hobbit, $estMenuisierOuBucheron) {
+
+		$tabRetour["possible"] = false;
+		$tabRetour["detail"] = "";
+
+		if (($hobbit->force_base_hobbit >= $charrette["force_base_min_type_materiel"] &&
+		$hobbit->agilite_base_hobbit >= $charrette["agilite_base_min_type_materiel"] &&
+		$hobbit->vigueur_base_hobbit >= $charrette["vigueur_base_min_type_materiel"] &&
+		$hobbit->sagesse_base_hobbit >= $charrette["sagesse_base_min_type_materiel"]) ||
+		($charrette["nom_systeme_type_materiel"] == "charrette_legere" && $estMenuisierOuBucheron)
+		) {
+			$tabRetour["possible"] = true;
+		} else {
+			if ($hobbit->force_base_hobbit < $charrette["force_base_min_type_materiel"]) {
+				$tabRetour["detail"] .= " Niv. requis FOR:".$charrette["force_base_min_type_materiel"];
+			}
+			if ($hobbit->agilite_base_hobbit < $charrette["agilite_base_min_type_materiel"]) {
+				$tabRetour["detail"] .= " Niv. requis AGI:".$charrette["agilite_base_min_type_materiel"];
+			}
+			if ($hobbit->sagesse_base_hobbit < $charrette["sagesse_base_min_type_materiel"]) {
+				$tabRetour["detail"] .= " Niv. requis SAG:".$charrette["sagesse_base_min_type_materiel"];
+			}
+			if ($hobbit->vigueur_base_hobbit < $charrette["vigueur_base_min_type_materiel"]) {
+				$tabRetour["detail"] .= " Niv. requis VIG:".$charrette["vigueur_base_min_type_materiel"];
+			}
+		}
+
+		return $tabRetour;
+	}
+
 	public static function calculCourrirChargerPossible($idHobbit) {
 		$retour = false;
 
@@ -140,7 +170,7 @@ class Bral_Util_Charrette {
 		$nb = count($charrettes);
 
 		$estDetruite = false;
-		
+
 		if ($nb == 1) {
 			$charrette = $charrettes[0];
 			$charretteMaterielAssembleTable = new CharretteMaterielAssemble();
@@ -172,7 +202,7 @@ class Bral_Util_Charrette {
 		} else if ($nb > 1) {
 			throw new Zend_Exception("Bral_Util_Charrette::calculNouvelleDlaCharrette idh:".$idHobbit);
 		}
-		
+
 		return $estDetruite;
 	}
 
@@ -262,7 +292,7 @@ class Bral_Util_Charrette {
 			$elementEquipementTable->insert($data);
 		}
 	}
-	
+
 	private static function destructionCharretteMateriel($charrette, $x, $y, $dateFin) {
 		Zend_Loader::loadClass("CharretteMateriel");
 		Zend_Loader::loadClass("ElementMateriel");
@@ -372,7 +402,7 @@ class Bral_Util_Charrette {
 			$elementPotionTable->insert($data);
 		}
 	}
-	
+
 	private static function destructionCharretteRune($charrette, $x, $y, $dateFin) {
 		Zend_Loader::loadClass("CharretteRune");
 		Zend_Loader::loadClass("ElementRune");
@@ -394,7 +424,7 @@ class Bral_Util_Charrette {
 			$elementRuneTable->insert($data);
 		}
 	}
-	
+
 	private static function destructionCharretteTabac($charrette, $x, $y, $dateFin) {
 		Zend_Loader::loadClass("CharretteTabac");
 		Zend_Loader::loadClass("ElementTabac");

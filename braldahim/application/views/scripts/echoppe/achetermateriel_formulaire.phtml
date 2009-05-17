@@ -8,11 +8,6 @@
 	
 	Co&ucirc;t du service : <?=$this->nb_pa ?> PA<br />
 	<br />
-	<? if ($this->materiel["est_charrette"] == true) : ?>
-	<b>Si vous achetez une charrette, celle-ci sera d&eacute;pos&eacute;e au sol.</b><br>
-	Vous devrez utiliser ensuite l'action "Attraper Charrette" de l'onglet Charrette pour attraper la charrette.<br>
-	Attention aux caract&eacute;ristiques n&eacute;cessaires pour l'attraper et pensez &agrave; garder un PA pour le faire juste après l'achat.<br>
-	<? endif;?>
 	
 	<br><br>
 	<? $this->materiels = array($this->materiel); ?>
@@ -30,6 +25,9 @@
 			<?=$p["prix"] ?> <?=$p["nom"] ?>
 			<? if ($this->assezDePa !== true): ?>
 			: Pas assez de PA
+			<? elseif ($this->materiel["charrette_possible"] === false) : ?>
+				<br>
+				Vous n'avez pas les caract&eacute;ristiques suffisantes pour tirer la charrette : <?=$this->materiel["charrette_detail"]?>
 			<? elseif ($p["possible"] === true && $this->materiel["place_dispo"] === true) : ?>
 				<input type='button' class='button1' id='bouton_acheteremateriel' value='Acheter !' onClick='this.disabled=true;$("valeur_2").value=<?=$k ?>; _get_("/echoppe/doaction?caction=do_echoppe_achetermateriel");'>
 			<? elseif ($this->materiel["place_dispo"] !== true): ?>

@@ -133,14 +133,39 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 
 		$estCharrette = false;
 
+		$tabCharrette["possible"] = true;
+		$tabCharrette["detail"] = "";
+
 		if (substr($this->materiel["nom_systeme_type_materiel"], 0, 9) == "charrette") {
 			$estCharrette = true;
+				
+			Zend_Loader::loadClass("Bral_Util_Metier");
+			$tab = Bral_Util_Metier::prepareMetier($this->view->user->id_hobbit, $this->view->user->sexe_hobbit);
+			$estMenuisierOuBucheron = false;
+			if ($tab["tabMetierCourant"]["nom_systeme"] == "bucheron" || $tab["tabMetierCourant"]["nom_systeme"] == "menuisier") {
+				$estMenuisierOuBucheron = true;
+			}
+			Zend_Loader::loadClass("Bral_Util_Charrette");
+			$tab = Bral_Util_Charrette::calculAttraperPossible($this->materiel, $this->view->user, $estMenuisierOuBucheron);
+				
+			$charretteTable = new Charrette();
+			$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
+				
+			if ($nombre > 0) {
+				$tabCharrette["possible"] = false;
+				$tabCharrette["detail"] = "Vous possédez déjà une charrette";
+			}
+
 		}
 
 		if ($poidsRestant < $this->materiel["poids_type_materiel"] && $estCharrette == false) {
 			$placeDispo = false;
 		} else {
 			$placeDispo = true;
+				
+			if ($tabCharrette["possible"] == false) {
+				$placeDispo = false;
+			}
 		}
 
 		$tabMateriel = array(
@@ -164,6 +189,8 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 			"prix_minerais" => $minerai,
 			"prix_parties_plantes" => $partiesPlantes,
 			"est_charrette" => $estCharrette,
+			"charrette_possible" => $tabCharrette["possible"],
+			"charrette_detail" => $tabCharrette["detail"],
 		);
 
 		$this->view->materiel = $tabMateriel;
@@ -414,11 +441,11 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 
 		if ($this->view->materiel["est_charrette"] == true) {
 			$dataUpdate = array(
-			"id_fk_hobbit_charrette" => null,
-			"x_charrette" => $this->view->user->x_hobbit,
-			"y_charrette" => $this->view->user->y_hobbit,
-			"id_charrette" => $this->view->materiel["id_materiel"],
-			"id_fk_type_materiel_charrette" => $this->view->materiel["id_type_materiel"],
+				"id_fk_hobbit_charrette" => $this->view->user->id_hobbit,
+				"x_charrette" => null,
+				"y_charrette" => null,
+				"id_charrette" => $this->view->materiel["id_materiel"],
+				"id_fk_type_materiel_charrette" => $this->view->materiel["id_type_materiel"],
 			);
 			$where = "id_charrette = ".$this->view->materiel["id_materiel"];
 			$charretteTable = new Charrette();
