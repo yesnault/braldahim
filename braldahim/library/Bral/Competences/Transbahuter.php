@@ -1157,6 +1157,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			case "Laban" :
 				$labanTable = new Laban();
 				$autres = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
+				if ($autres == null) { // si l'on a pas de laban
+					$autres = array(
+						"quantite_castar_".strtolower($depart) => 0,
+						"quantite_peau_".strtolower($depart) => 0,
+						"quantite_viande_".strtolower($depart) => 0,
+						"quantite_viande_preparee_".strtolower($depart) => 0,
+						"quantite_cuir_".strtolower($depart) => 0,
+						"quantite_fourrure_".strtolower($depart) => 0,
+						"quantite_planche_".strtolower($depart) => 0,
+					);
+				}
 				if ($this->view->user->castars_hobbit > 0){
 					$autres[0]["quantite_castar_laban"] = $this->view->user->castars_hobbit;
 				}
