@@ -26,7 +26,7 @@ class Bral_Util_BoutiqueMinerais {
 			return null;
 		}
 		
-		$numChamp = 0;
+		$numChamp = 1;
 		
 		foreach ($typeMineraiRowset as $t) {
 			$prixUnitaireVente = "Prix inconnu";

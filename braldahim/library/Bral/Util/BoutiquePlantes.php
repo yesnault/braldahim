@@ -35,7 +35,7 @@ class Bral_Util_BoutiquePlantes {
 	
 		$tabTypePlantes = null;
 		
-		$numChamp = 0;
+		$numChamp = 1;
 		
 		foreach($typePartiePlantesRowset as $p) {
 			foreach($typePlantesRowset as $t) {
@@ -118,7 +118,7 @@ class Bral_Util_BoutiquePlantes {
 			}
 		}
 		
-		$tabTypePlantes["nb_valeurs"] = $numChamp;
+		$tabTypePlantes["nb_valeurs"] = $numChamp - 1;
 		unset($typePartiePlantesRowset);
 		unset($typePlantesRowset);
 		

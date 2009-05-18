@@ -18,7 +18,7 @@ class Bral_Helper_ChampBoutique {
 			
 			$js = " $('bouton_acheterpartieplantes').disabled = true;";
 			$js .= "if (this.value > ".$tab["nbStockRestant"]."){this.value=".$tab["nbStockRestant"]."} ;";
-			$js .= "for (i=1; i<=$('nb_valeurs').value; i++) { if ($('valeur_' + i).value > 0) { $('bouton_acheterpartieplantes').disabled = false;}}";
+			$js .= "for (i=2; i<=$('nb_valeurs').value; i++) { if ($('valeur_' + i).value > 0) { $('bouton_acheterpartieplantes').disabled = false;}}";
 			
 			$retour = "<input type='text' maxlength='5' size='2' name='".$tab["id_champ"]."' id='".$tab["id_champ"]."' value='0' ";
 			$retour .= "onkeypress=\"chiffres(event);\"  ";
@@ -43,7 +43,7 @@ class Bral_Helper_ChampBoutique {
 			
 			$js = " $('bouton_acheterminerais').disabled = true;";
 			$js .= "if (this.value > ".$tab["nbStockRestant"]."){this.value=".$tab["nbStockRestant"]."} ;";
-			$js .= "for (i=1; i<=$('nb_valeurs').value; i++) { if ($('valeur_' + i).value > 0) { $('bouton_acheterminerais').disabled = false;}}";
+			$js .= "for (i=2; i<=$('nb_valeurs').value; i++) { if ($('valeur_' + i).value > 0) { $('bouton_acheterminerais').disabled = false;}}";
 			
 			$s = "";
 			if ($tab["prixUnitaireVente"] > 1) $s = "s";
