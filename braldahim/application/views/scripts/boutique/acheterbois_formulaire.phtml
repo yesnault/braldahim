@@ -1,5 +1,5 @@
 <div class='comp_titre'><?=htmlspecialchars($this->titreAction) ?></div>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <form name='myForm'>
  <div class='comp_contenu'>
 	<br />
@@ -14,32 +14,49 @@
 	<br>
 	<? if ($this->nbStockRestant > 1): $s='s'; else: $s=''; endif;?>
 	Stock restant : <?=$this->nbStockRestant ?> rondin<?=$s?>.<br>
+	Poids unitaire : <?=Bral_Util_Poids::POIDS_RONDIN ?> Kg.<br>
+	<br>
 	
-	<? if ($this->possedeCharrette === true) : ?>
-		<? if ($this->tabPoidsRondinsCharrette["nb_rondins_presents"] > 1) : $s = 's'; else: $s = ''; endif; ?>
+	Vous pouvez d&eacute;poser les rondins achet&eacute;s <br>
+	soit dans votre laban, soit votre charrette (si vous en avez une).<br /><br />
+		
+	<select name="valeur_2" id="valeur_2" onChange="_get_('/boutique/doaction?caction=ask_boutique_acheterbois&id_destination_courante='+this.value);">
+ 		<option value="-1">(Choisissez une destination)</option>
+		<? foreach($this->destinationTransfert as $d) :?>
+			<option value="<?=$d["id_destination"] ?>" <?=$d["selected"]?>><?=$d["texte"] ?></option>
+		<? endforeach; ?>
+	</select>
+	
+	
+	<? if ($this->destinationTransfertCourante === "charrette" && $this->acheterPossible === true) : ?>
+		<? if ($this->nbRondinsActuels > 1) : $s = 's'; else: $s = ''; endif; ?>
 		<br><br>
-		Votre charrette contient actuellement <?=$this->tabPoidsRondinsCharrette["nb_rondins_presents"]?> rondin<?=$s?>. <br>
-		Elle peut en contenir au maximum <?=$this->tabPoidsRondinsCharrette["nb_rondins_transportables"]?>.
+		Votre charrette contient actuellement <?=$this->nbRondinsActuels?> rondin<?=$s?>. <br>
+		Elle peut en contenir au maximum <?=$this->nbMaximumContenant?>.
+	<? elseif ($this->destinationTransfertCourante === "laban" && $this->acheterPossible === true) : ?>
+		<? if ($this->nbRondinsActuels > 1) : $s = 's'; else: $s = ''; endif; ?>
+		<br><br>
+		Votre laban contient actuellement <?=$this->nbRondinsActuels?> rondin<?=$s?>. <br>
+		Il peut en contenir au maximum <?=$this->nbMaximumContenant?>.
 	<? endif;?>
 	<br /><br />
 	
 	<? if ($this->acheterPossible === true) : ?>
 		Vous avez <?=$this->user->castars_hobbit?> castar<? if ($this->user->castars_hobbit > 1): echo 's'; endif; ?>.<br>
 		Vous pouvez donc acheter <?=$this->nombreMaximum ?> article<? if ($this->nombreMaximum > 1): echo 's'; endif; ?>.
+		
 	<? elseif ($this->assezDePa === false) :?>
 		Vous n'avez pas assez de PA.
 	<? elseif ($this->stockPossible === false) :?>
 		Il n'y a plus rien en stock !
-	<? elseif ($this->possedeCharrette === false) :?>
-		Vous n'avez pas de charrette pour stocker les rondins !
 	<? elseif ($this->placeDisponible === false) :?>
-		Vous n'avez pas assez de place dans votre charrette.
-	<? else : ?>
+		Vous n'avez pas assez de place dans <?=$this->destinationTransfertCourante ?>.
+	<? elseif ($this->destinationTransfertCourante != null) : ?>
 		Vous n'avez pas assez de castars.
 	<? endif;?>
 	<br /><br />
 	
-	<? if ($this->acheterPossible === true && $this->assezDePa === true && $this->possedeCharrette === true) : ?>
+	<? if ($this->acheterPossible === true && $this->assezDePa === true && $this->destinationTransfertCourante != null) : ?>
 	 Quantit&eacute; &agrave; acheter :
 	 <input type='text' maxlength='7' size='7' name='valeur_1' id='valeur_1' value='0' onkeypress="chiffres(event);"  onkeyup="if (this.value > 0 && $('valeur_1').value > 0 && $('valeur_1').value <=<?=$this->nombreMaximum  ?> && $('valeur_1').value <=<?=$this->nbStockRestant ?>) {$('bouton_acheterbois').disabled=false} else {$('bouton_acheterbois').disabled=true} ">
  	<? endif; ?>
@@ -47,7 +64,7 @@
 
 </form>
 <br />
-<? if ($this->acheterPossible === true && $this->assezDePa === true && $this->possedeCharrette === true) : ?>
-	<input type='button' class='button1' id='bouton_acheterbois' value='Acheter !' onClick='this.disabled=true; _get_("/boutique/doaction?caction=do_boutique_acheterbois");' disabled="true">
+<? if ($this->acheterPossible === true && $this->assezDePa === true && $this->destinationTransfertCourante != null) : ?>
+	<input type='button' class='button1' id='bouton_acheterbois' value='Acheter !' onClick='this.disabled=true; _get_("/boutique/doaction?caction=do_boutique_acheterbois&id_destination_courante=<?=$this->destinationTransfertCourante?>");' disabled="true">
 <? endif;?>
 <? echo Bral_Helper_Fermer::affiche(); ?>

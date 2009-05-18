@@ -5,15 +5,15 @@
  <div class='comp_contenu'>
  <br />
 	
-		Vous pouvez transf&eacute;rer un &eacute;quipement pr&eacute;sent
-		soit dans votre laban, soit votre charrette.<br /><br />
+	Vous pouvez transf&eacute;rer un &eacute;quipement pr&eacute;sent
+	soit dans votre laban, soit votre charrette.<br /><br />
 		
-		<select name="valeur_3" id="valeur_3" onChange="_get_('/echoppes/doaction?caction=ask_echoppes_transferequipement&valeur_1=<?=$this->idEchoppe ?>&id_destination_courante='+this.value);">
-	 		<option value="-1">(Choisissez une destination)</option>
-			<? foreach($this->destinationTransfert as $d) :?>
-				<option value="<?=$d["id_destination"] ?>" <?=$d["selected"]?>><?=$d["texte"] ?></option>
-			<? endforeach; ?>
-		</select>
+	<select name="valeur_3" id="valeur_3" onChange="_get_('/echoppes/doaction?caction=ask_echoppes_transferequipement&valeur_1=<?=$this->idEchoppe ?>&id_destination_courante='+this.value);">
+ 		<option value="-1">(Choisissez une destination)</option>
+		<? foreach($this->destinationTransfert as $d) :?>
+			<option value="<?=$d["id_destination"] ?>" <?=$d["selected"]?>><?=$d["texte"] ?></option>
+		<? endforeach; ?>
+	</select>
 		
 		
 	<? if (count($this->equipementsArriereBoutique) > 0): ?>

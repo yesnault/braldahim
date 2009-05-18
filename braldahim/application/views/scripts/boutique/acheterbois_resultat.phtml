@@ -1,4 +1,5 @@
 Vous avez achet&eacute; <?=$this->quantiteAchetee ?>
 
 <? if ($this->quantiteAchetee > 1): $s='s'; else: $s=''; endif;?>
-rondin<?=$s?> pour <?=$this->coutCastars ?> castar<? if ($this->coutCastars > 1): echo 's'; endif;?>
+rondin<?=$s?> pour <?=$this->coutCastars ?> castar<? if ($this->coutCastars > 1): echo 's'; endif;?>,
+directement plac&eacute;<?=$s?> dans <?=$this->destination["texte"]?>.
