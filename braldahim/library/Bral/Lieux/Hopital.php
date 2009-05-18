@@ -45,6 +45,7 @@ class Bral_Lieux_Hopital extends Bral_Lieux_Lieu {
 		}
 		
 		$this->view->jetRegeneration = 0;
+		Zend_Loader::loadClass("Bral_Util_Vie");
 		Bral_Util_Vie::calculRegenerationHobbit(&$this->view->user, &$this->view->jetRegeneration);
 		
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
