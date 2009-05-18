@@ -24,7 +24,7 @@
 		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_transfermateriel').disabled=true } else {$('bouton_transfermateriel').disabled=false }">
 	 		<option value="-1">(Choisissez un mat&eacute;riel)</option>
 			<? foreach($this->materielsArriereBoutique as $e) :?>
-				<option value="<?=$e["id_echoppe_materiel"] ?>" <? if ($e["place_dispo"] == false):echo "disabled"; endif;?>>N&deg; <?=$e["id_echoppe_materiel"] ?> <?=htmlspecialchars($e["nom"]) ?> <? if ($e["place_dispo"] == false):echo "Trop Lourd !"; endif;?></option>
+				<option value="<?=$e["id_echoppe_materiel"] ?>" <? if ($e["place_dispo"] == false):echo "disabled"; endif;?>>N&deg; <?=$e["id_echoppe_materiel"] ?>, <?=htmlspecialchars($e["nom"]) ?> <? if ($e["place_dispo"] == false):echo "Trop Lourd !"; endif;?></option>
 			<? endforeach; ?>
 		</select>
 		<br /><br />

@@ -219,7 +219,7 @@ class Bral_Echoppes_Transfermateriel extends Bral_Echoppes_Echoppe {
 
 	function getListBoxRefresh() {
 		if ($this->view->destination["id_destination"] == "charrette") {
-			$boxToRefresh = "box_laban";
+			$boxToRefresh = "box_charrette";
 		} else {
 			$boxToRefresh = "box_laban";
 		}
