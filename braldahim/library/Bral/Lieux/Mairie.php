@@ -22,7 +22,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		Zend_Loader::loadClass("TypeRangCommunaute"); 
 		
 		$this->_coutCastars = $this->calculCoutCastars();
-		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) > 0);
+		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) >= 0);
 		
 		$this->view->hobbitAvecCommunaute = false;
 		$this->view->gestionnaireCommunaute = false;
