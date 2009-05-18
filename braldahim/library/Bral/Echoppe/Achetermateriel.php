@@ -33,8 +33,26 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 		Zend_Loader::loadClass("LabanMinerai");
 		Zend_Loader::loadClass("LabanPartieplante");
 		Zend_Loader::loadClass("LabanMateriel");
+		Zend_Loader::loadClass("CharretteMinerai");
+		Zend_Loader::loadClass("CharrettePartieplante");
 
 		$this->idMateriel = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));
+
+		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		$tabDestinationTransfert[] = array("id_destination" => "laban", "texte" => "votre laban", "poids_restant" => $poidsRestant, "possible" => false);
+
+		$charretteTable = new Charrette();
+		$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+
+		$charrette = null;
+		if (count($charrettes) == 1) {
+			$charrette = $charrettes[0];
+			$poidsRestant = $charrette["poids_transportable_charrette"] - $charrette["poids_transporte_charrette"];
+			$tabDestinationTransfert[] = array("id_destination" => "charrette", "texte" => "votre charrette", "poids_restant" => $poidsRestant, "possible" => false);
+		}
+		$this->view->destinationTransfert = $tabDestinationTransfert;
+
+		$this->view->charrette = $charrette;
 
 		$this->prepareMateriel($this->idMateriel);
 		$this->preparePrix();
@@ -47,9 +65,6 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 	private function prepareMateriel($idMateriel) {
 		$echoppeMaterielTable = new EchoppeMateriel();
 		$materiels = $echoppeMaterielTable->findByIdEchoppe($this->idEchoppe);
-
-		$labanMineraiTable = new LabanMinerai();
-		$minerais = $labanMineraiTable->findByIdHobbit($this->view->user->id_hobbit);
 
 		$trouve = false;
 		foreach ($materiels as $p) {
@@ -68,68 +83,17 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 		$echoppeMaterielMinerai = $echoppMaterielMineraiTable->findByIdsMateriel($idMateriels);
 
 		$minerai = null;
-		if (count($echoppeMaterielMinerai) > 0) {
-			foreach($echoppeMaterielMinerai as $r) {
-				if ($r["id_fk_echoppe_materiel_minerai"] == $this->materiel["id_echoppe_materiel"]) {
-					$possible = false;
-					if ($r["prix_echoppe_materiel_minerai"] == 0) {
-						$possible = true;
-					}
-					foreach ($minerais as $m) {
-						if ($m["nom_systeme_type_minerai"] == $r["nom_systeme_type_minerai"]
-						&& $r["prix_echoppe_materiel_minerai"] <= $m["quantite_brut_laban_minerai"]) {
-							$possible = true;
-							break;
-						}
-					}
-
-					$minerai[] = array(
-						"prix_echoppe_materiel_minerai" => $r["prix_echoppe_materiel_minerai"],
-						"nom_type_minerai" => $r["nom_type_minerai"],
-						"id_fk_type_minerai" => $r["id_fk_type_echoppe_materiel_minerai"],
-						"possible" => $possible,
-					);
-				}
-			}
+		foreach($this->view->destinationTransfert as $d) {
+			$this->prepareMaterielMinerai($d, $echoppeMaterielMinerai, $minerai);
 		}
 
 		$echoppeMaterielPartiePlanteTable = new EchoppeMaterielPartiePlante();
 		$echoppeMaterielPartiePlante = $echoppeMaterielPartiePlanteTable->findByIdsMateriel($idMateriels);
 
-		$labanPartiePlanteTable = new LabanPartieplante();
-		$partiePlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
-
 		$partiesPlantes = null;
-		if (count($echoppeMaterielPartiePlante) > 0) {
-			foreach($echoppeMaterielPartiePlante as $a) {
-				if ($a["id_fk_echoppe_materiel_partieplante"] == $this->materiel["id_echoppe_materiel"]) {
-					$possible = false;
-					if ($a["prix_echoppe_materiel_partieplante"] == 0) {
-						$possible = true;
-					}
-					foreach ($partiePlantes as $p) {
-						if ($p["nom_systeme_type_partieplante"] == $a["nom_systeme_type_partieplante"]
-						&& $p["nom_systeme_type_plante"] == $a["nom_systeme_type_plante"]
-						&& $a["prix_echoppe_materiel_partieplante"] <= $p["quantite_laban_partieplante"] ) {
-							$possible = true;
-							break;
-						}
-					}
-
-					$partiesPlantes[] = array(
-						"prix_echoppe_materiel_partieplante" => $a["prix_echoppe_materiel_partieplante"],
-						"nom_type_plante" => $a["nom_type_plante"],
-						"nom_type_partieplante" => $a["nom_type_partieplante"],
-						"prefix_type_plante" => $a["prefix_type_plante"],
-						"id_fk_type_plante" => $a["id_fk_type_plante_echoppe_materiel_partieplante"],
-						"id_fk_type_partieplante" => $a["id_fk_type_echoppe_materiel_partieplante"],
-						"possible" => $possible,
-					);
-				}
-			}
+		foreach($this->view->destinationTransfert as $d) {
+			$this->prepareMaterielPartiePlante($d, $echoppeMaterielPartiePlante, $partiesPlantes);
 		}
-
-		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 
 		$estCharrette = false;
 
@@ -138,7 +102,7 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 
 		if (substr($this->materiel["nom_systeme_type_materiel"], 0, 9) == "charrette") {
 			$estCharrette = true;
-				
+
 			Zend_Loader::loadClass("Bral_Util_Metier");
 			$tab = Bral_Util_Metier::prepareMetier($this->view->user->id_hobbit, $this->view->user->sexe_hobbit);
 			$estMenuisierOuBucheron = false;
@@ -147,10 +111,10 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 			}
 			Zend_Loader::loadClass("Bral_Util_Charrette");
 			$tab = Bral_Util_Charrette::calculAttraperPossible($this->materiel, $this->view->user, $estMenuisierOuBucheron);
-				
+
 			$charretteTable = new Charrette();
 			$nombre = $charretteTable->countByIdHobbit($this->view->user->id_hobbit);
-				
+
 			if ($nombre > 0) {
 				$tabCharrette["possible"] = false;
 				$tabCharrette["detail"] = "Vous possédez déjà une charrette";
@@ -158,14 +122,15 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 
 		}
 
-		if ($poidsRestant < $this->materiel["poids_type_materiel"] && $estCharrette == false) {
-			$placeDispo = false;
-		} else {
-			$placeDispo = true;
-				
-			if ($tabCharrette["possible"] == false) {
-				$placeDispo = false;
+		$placeDispo = false;
+		$i = 0;
+		foreach($this->view->destinationTransfert as $d) {
+			if ($d["poids_restant"] >= $this->materiel["poids_type_materiel"] || $estCharrette) {
+				$placeDispo = true;
+				$this->view->destinationTransfert[$i]["possible"] = true;
+				break;
 			}
+			$i ++;
 		}
 
 		$tabMateriel = array(
@@ -196,6 +161,84 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 		$this->view->materiel = $tabMateriel;
 	}
 
+	private function prepareMaterielMinerai($destination, $echoppeMaterielMinerai, &$minerai) {
+
+		if ($destination["id_destination"] == "laban") {
+			$table = new LabanMinerai();
+			$minerais = $table->findByIdHobbit($this->view->user->id_hobbit);
+		} else {
+			$table = new CharretteMinerai();
+			$minerais = $table->findByIdCharrette($this->view->charrette["id_charrette"]);
+		}
+
+		if (count($echoppeMaterielMinerai) > 0) {
+			foreach($echoppeMaterielMinerai as $r) {
+				if ($r["id_fk_echoppe_materiel_minerai"] == $this->materiel["id_echoppe_materiel"]) {
+					$possible = false;
+					if ($r["prix_echoppe_materiel_minerai"] == 0) {
+						$possible = true;
+					}
+					foreach ($minerais as $m) {
+						if ($m["nom_systeme_type_minerai"] == $r["nom_systeme_type_minerai"]
+						&& $r["prix_echoppe_materiel_minerai"] <= $m["quantite_brut_".$destination["id_destination"]."_minerai"]) {
+							$possible = true;
+							break;
+						}
+					}
+
+					$minerai[] = array(
+						"prix_echoppe_materiel_minerai" => $r["prix_echoppe_materiel_minerai"],
+						"nom_type_minerai" => $r["nom_type_minerai"],
+						"id_fk_type_minerai" => $r["id_fk_type_echoppe_materiel_minerai"],
+						"possible" => $possible,
+						"id_destination" => $destination["id_destination"],
+					);
+				}
+			}
+		}
+	}
+
+	private function prepareMaterielPartiePlante($destination, $echoppeMaterielPartiePlante, &$partiesPlantes) {
+
+		if ($destination["id_destination"] == "laban") {
+			$labanPartiePlanteTable = new LabanPartieplante();
+			$partiePlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
+		} else {
+			$table = new CharrettePartieplante();
+			$partiePlantes = $table->findByIdCharrette($this->view->charrette["id_charrette"]);
+		}
+
+		if (count($echoppeMaterielPartiePlante) > 0) {
+			foreach($echoppeMaterielPartiePlante as $a) {
+				if ($a["id_fk_echoppe_materiel_partieplante"] == $this->materiel["id_echoppe_materiel"]) {
+					$possible = false;
+					if ($a["prix_echoppe_materiel_partieplante"] == 0) {
+						$possible = true;
+					}
+					foreach ($partiePlantes as $p) {
+						if ($p["nom_systeme_type_partieplante"] == $a["nom_systeme_type_partieplante"]
+						&& $p["nom_systeme_type_plante"] == $a["nom_systeme_type_plante"]
+						&& $a["prix_echoppe_materiel_partieplante"] <= $p["quantite_".$destination["id_destination"]."_partieplante"] ) {
+							$possible = true;
+							break;
+						}
+					}
+
+					$partiesPlantes[] = array(
+						"prix_echoppe_materiel_partieplante" => $a["prix_echoppe_materiel_partieplante"],
+						"nom_type_plante" => $a["nom_type_plante"],
+						"nom_type_partieplante" => $a["nom_type_partieplante"],
+						"prefix_type_plante" => $a["prefix_type_plante"],
+						"id_fk_type_plante" => $a["id_fk_type_plante_echoppe_materiel_partieplante"],
+						"id_fk_type_partieplante" => $a["id_fk_type_echoppe_materiel_partieplante"],
+						"possible" => $possible,
+						"id_destination" => $destination["id_destination"],
+					);
+				}
+			}
+		}
+	}
+
 	private function preparePrix() {
 		$e = $this->view->materiel;
 		$tabPrix = null;
@@ -207,24 +250,30 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 			$prix = $e["prix_1_vente_echoppe_materiel"];
 			$nom = Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_materiel"], false, $e["prix_1_vente_echoppe_materiel"]);
 			$type = "echoppe";
-			$possible = $this->calculPrixUnitaire($prix, Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_materiel"], true));
-			$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_1_vente_echoppe_materiel"]);
+			foreach($this->view->destinationTransfert as $d) {
+				$possible = $this->calculPrixUnitaire($d, $prix, Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_materiel"], true));
+				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_1_vente_echoppe_materiel"], "id_destination" => $d["id_destination"]);
+			}
 		}
 			
 		if ($e["prix_2_vente_echoppe_materiel"] >= 0 && $e["unite_2_vente_echoppe_materiel"] > 0) {
 			$prix = $e["prix_2_vente_echoppe_materiel"];
 			$nom = Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_materiel"], false, $e["prix_2_vente_echoppe_materiel"]);
 			$type = "echoppe";
-			$possible = $this->calculPrixUnitaire($prix, Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_materiel"], true));
-			$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_2_vente_echoppe_materiel"]);
+			foreach($this->view->destinationTransfert as $d) {
+				$possible = $this->calculPrixUnitaire($d, $prix, Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_materiel"], true));
+				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_2_vente_echoppe_materiel"], "id_destination" => $d["id_destination"]);
+			}
 		}
 			
 		if ($e["prix_3_vente_echoppe_materiel"] >= 0 && $e["unite_3_vente_echoppe_materiel"] > 0) {
 			$prix = $e["prix_3_vente_echoppe_materiel"];
 			$nom = Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_materiel"], false, $e["prix_3_vente_echoppe_materiel"]);
 			$type = "echoppe";
-			$possible = $this->calculPrixUnitaire($prix, Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_materiel"], true));
-			$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_3_vente_echoppe_materiel"]);
+			foreach($this->view->destinationTransfert as $d) {
+				$possible = $this->calculPrixUnitaire($d, $prix, Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_materiel"], true));
+				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_3_vente_echoppe_materiel"], "id_destination" => $d["id_destination"]);
+			}
 		}
 			
 		if (count($e["prix_minerais"]) > 0) {
@@ -235,7 +284,7 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 				$prix = $m["prix_echoppe_materiel_minerai"];
 				$nom = htmlspecialchars($m["nom_type_minerai"]);
 				$type = "minerais";
-				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "minerais" => $m, "possible" => $m["possible"]);
+				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "minerais" => $m, "possible" => $m["possible"], "id_destination" => $m["id_destination"]);
 			}
 		}
 			
@@ -253,7 +302,7 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 				$nom .= htmlspecialchars($p["prefix_type_plante"]);
 				$nom .= htmlspecialchars($p["nom_type_plante"]);
 				$type = "parties_plantes";
-				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "parties_plantes" => $p, "possible" => $p["possible"]);
+				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "parties_plantes" => $p, "possible" => $p["possible"], "id_destination" => $p["id_destination"]);
 			}
 		}
 			
@@ -261,35 +310,39 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 		$this->view->prix = $tabPrix;
 	}
 
-	private function calculPrixUnitaire($prix, $nomSysteme) {
+	private function calculPrixUnitaire($destination, $prix, $nomSysteme) {
 		$retour = false;
 
-		$labanTable = new Laban();
-		$laban = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
-
-		if (count($laban) != 1) {
-			$possedeLaban = false;
+		if ($destination["id_destination"] == "laban") {
+			$table = new Laban();
+			$conteneur = $table->findByIdHobbit($this->view->user->id_hobbit);
+			$suffixe = "laban";
 		} else {
-			$possedeLaban = true;
-			$laban = $laban[0];
+			$conteneur = $this->view->charrette;
+			$suffixe = "charrette";
+		}
+
+		if (count($conteneur) != 1) {
+			$possedeConteneur = false;
+		} else {
+			$possedeConteneur = true;
+			$conteneur = $conteneur[0];
 		}
 
 		if ($nomSysteme == "rondin") {
-			$charretteTable = new Charrette();
-			$charrette = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
-			if (count($charrette) == 1) {
-				$charrette = $charrette[0];
-				if ($charrette["quantite_rondin_charrette"] >= $prix) {
-					$retour = true;
-				}
-			}
-		} elseif ($nomSysteme == "peau" && $possedeLaban == true) {
-			if ($laban["quantite_peau_laban"] >= $prix) {
+		} elseif (($nomSysteme == "peau" || $nomSysteme == "rondin") && $possedeConteneur == true) {
+			if ($conteneur["quantite_".$nomSysteme."_".$suffixe] >= $prix) {
 				$retour = true;
 			}
 		} elseif ($nomSysteme == "castar") {
-			if ($this->view->user->castars_hobbit >= $prix) {
-				$retour = true;
+			if ($destination["id_destination"] == "laban") {
+				if ($this->view->user->castars_hobbit >= $prix) {
+					$retour = true;
+				}
+			} else {
+				if ($conteneur["quantite_castar_charrette"] >= $prix) {
+					$retour = true;
+				}
 			}
 		}
 		return $retour;
@@ -320,51 +373,68 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 			throw new Zend_Exception(get_class($this)."::place invalide");
 		}
 
+		$idDestination = $this->request->get("valeur_3");
+
+		if ($this->view->charrette == null && $this->request->get("id_destination_courante") == "charrette") {
+			throw new Zend_Exception(get_class($this)." destination invalide 2");
+		}
+
+		// on regarde si l'on connait la destination
+		$flag = false;
+		$destination = null;
+		foreach($this->view->destinationTransfert as $d) {
+			if ($d["id_destination"] == $idDestination) {
+				$destination = $d;
+				$flag = true;
+				break;
+			}
+		}
+
+		if ($flag == false) {
+			throw new Zend_Exception(get_class($this)." destination inconnue=".$idDestination);
+		}
+
+		if ($destination["possible"] == false) {
+			throw new Zend_Exception(get_class($this)." destination invalide 3");
+		}
+		
 		$this->view->detailPrix = "";
 
 		if ($this->view->prix[$idPrix]["type"] == "echoppe") {
-			$this->calculAchatEchoppe($this->view->prix[$idPrix]);
+			$this->calculAchatEchoppe($idDestination, $this->view->prix[$idPrix]);
 		} elseif ($this->view->prix[$idPrix]["type"] == "minerais") {
-			$this->calculAchatMinerais($this->view->prix[$idPrix]);
+			$this->calculAchatMinerais($idDestination, $this->view->prix[$idPrix]);
 		} elseif ($this->view->prix[$idPrix]["type"] == "parties_plantes") {
-			$this->calculAchatPartiesPlantes($this->view->prix[$idPrix]);
+			$this->calculAchatPartiesPlantes($idDestination, $this->view->prix[$idPrix]);
 		}
 
-		$this->calculTransfert();
+		$this->calculTransfert($idDestination);
+		$this->view->destination = $destination;
 
 		if ($this->view->detailPrix != "") {
 			$this->view->detailPrix = mb_substr($this->view->detailPrix, 0, -2);
 		}
 	}
 
-	private function calculAchatEchoppe($prix) {
+	private function calculAchatEchoppe($idDestination, $prix) {
+
+		if ($idDestination == "charrette") {
+			$table = new Charrette();
+			$suffixe = "charrette";
+		} else {
+			$table = new Laban();
+			$suffixe = "laban";
+		}
+
 		$echoppeTable = new Echoppe();
 
-		if (Bral_Util_Registre::getNomUnite($prix["unite"], true) == "rondin") {
-			$charretteTable = new Charrette();
+		$nomSysteme = Bral_Util_Registre::getNomUnite($prix["unite"], true);
+		if ($nomSysteme  == "peau" ||$nomSysteme == "rondin") {
 			$data = array(
-				'quantite_rondin_charrette' => -$prix["prix"],
-				'id_fk_hobbit_charrette' => $this->view->user->id_hobbit,
+				"id_fk_hobbit_".$suffixe => $this->view->user->id_hobbit,
+				"quantite_".$nomSysteme."_".$suffixe => -$prix["prix"],
 			);
-			$charretteTable->updateCharrette($data);
-
-			if ($prix["prix"] > 0) {
-				$data = array(
-					'id_echoppe' => $this->idEchoppe,
-					'quantite_rondin_caisse_echoppe' => $prix["prix"],
-				);
-				$echoppeTable->insertOrUpdate($data);
-			}
-
-			$this->view->detailPrix .= $prix["prix"]. " ". Bral_Util_Registre::getNomUnite($prix["unite"], false, $prix["prix"]).", ";
-
-		} elseif (Bral_Util_Registre::getNomUnite($prix["unite"], true)  == "peau") {
-			$labanTable = new Laban();
-			$data = array(
-				'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
-				'quantite_peau_laban' => -$prix["prix"],
-			);
-			$labanTable->insertOrUpdate($data);
+			$table->insertOrUpdate($data);
 
 			if ($prix["prix"] > 0) {
 				$data = array(
@@ -376,8 +446,16 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 
 			$this->view->detailPrix .= $prix["prix"]. " ". Bral_Util_Registre::getNomUnite($prix["unite"], false, $prix["prix"]).", ";
 
-		} elseif (Bral_Util_Registre::getNomUnite($prix["unite"], true)  == "castar") {
-			$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $prix["prix"];
+		} elseif ($nomSysteme  == "castar") {
+			if ($idDestination == "charrette") {
+				$data = array(
+					"id_fk_hobbit_".$suffixe => $this->view->user->id_hobbit,
+					"quantite_".$nomSysteme."_".$suffixe => -$prix["prix"],
+				);
+				$table->insertOrUpdate($data);
+			} else {
+				$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $prix["prix"];
+			}
 
 			if ($prix["prix"] > 0) {
 				$data = array(
@@ -391,14 +469,28 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 		}
 	}
 
-	private function calculAchatMinerais($prix) {
-		$labanMineraiTable = new LabanMinerai();
+	private function calculAchatMinerais($idDestination, $prix) {
+
+		if ($idDestination == "charrette") {
+			$table = new CharretteMinerai();
+			$suffixe = "charrette";
+		} else {
+			$table = new LabanMinerai();
+			$suffixe = "laban";
+		}
+
 		$data = array(
-			'id_fk_type_laban_minerai' => $prix["minerais"]["id_fk_type_minerai"],
-			'id_fk_hobbit_laban_minerai' => $this->view->user->id_hobbit,
-			'quantite_brut_laban_minerai' => - $prix["prix"],
+			"id_fk_type_".$suffixe."_minerai" => $prix["minerais"]["id_fk_type_minerai"],
+			"quantite_brut_".$suffixe."_minerai" => - $prix["prix"],
 		);
-		$labanMineraiTable->insertOrUpdate($data);
+
+		if ($idDestination == "charrette") {
+			$data["id_fk_charrette_minerai"] = $this->view->charrette["id_charrette"];
+		} else {
+			$data["id_fk_hobbit_laban_minerai"] = $this->view->user->id_hobbit;
+		}
+
+		$table->insertOrUpdate($data);
 
 		$echoppeMineraiTable = new EchoppeMinerai();
 		if ($prix["prix"] > 0) {
@@ -413,15 +505,28 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 		$this->view->detailPrix .= $prix["prix"]. " ".$prix["nom"].", ";
 	}
 
-	private function calculAchatPartiesPlantes($prix) {
-		$labanPartiePlanteTable = new LabanPartieplante();
+	private function calculAchatPartiesPlantes($idDestination, $prix) {
+		if ($idDestination == "charrette") {
+			$table = new CharrettePartieplante();
+			$suffixe = "charrette";
+		} else {
+			$table = new LabanPartieplante();
+			$suffixe = "laban";
+		}
+
 		$data = array(
-			'id_fk_type_laban_partieplante' => $prix["parties_plantes"]["id_fk_type_partieplante"],
-			'id_fk_type_plante_laban_partieplante' => $prix["parties_plantes"]["id_fk_type_plante"],
-			'id_fk_hobbit_laban_partieplante' => $this->view->user->id_hobbit,
-			'quantite_laban_partieplante' => - $prix["prix"],
+			"id_fk_type_".$suffixe."_partieplante" => $prix["parties_plantes"]["id_fk_type_partieplante"],
+			"id_fk_type_plante_".$suffixe."_partieplante" => $prix["parties_plantes"]["id_fk_type_plante"],
+			"quantite_".$suffixe."_partieplante" => - $prix["prix"],
 		);
-		$labanPartiePlanteTable->insertOrUpdate($data);
+
+		if ($idDestination == "charrette") {
+			$data["id_fk_charrette_partieplante"] = $this->view->charrette["id_charrette"];
+		} else {
+			$data["id_fk_hobbit_laban_partieplante"] = $this->view->user->id_hobbit;
+		}
+
+		$table->insertOrUpdate($data);
 
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 
@@ -437,7 +542,7 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 		$this->view->detailPrix .= $prix["prix"]. " ".$prix["nom"].", ";
 	}
 
-	private function calculTransfert() {
+	private function calculTransfert($idDestination) {
 
 		if ($this->view->materiel["est_charrette"] == true) {
 			$dataUpdate = array(
@@ -451,13 +556,28 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 			$charretteTable = new Charrette();
 			$charretteTable->insert($dataUpdate, $where);
 		} else {
-			$labanMaterielTable = new LabanMateriel();
+			if ($idDestination == "charrette") {
+				Zend_Loader::loadClass("CharretteMateriel");
+				$table = new CharretteMateriel();
+				$suffixe = "charrette";
+			} else {
+				Zend_Loader::loadClass("LabanMateriel");
+				$table = new LabanMateriel();
+				$suffixe = "laban";
+			}
+				
 			$data = array(
-				'id_laban_materiel' => $this->view->materiel["id_materiel"],
-				'id_fk_type_laban_materiel' => $this->view->materiel["id_type_materiel"],
-				'id_fk_hobbit_laban_materiel' => $this->view->user->id_hobbit,
+				"id_".$suffixe."_materiel" => $this->view->materiel["id_materiel"],
+				"id_fk_type_".$suffixe."_materiel" => $this->view->materiel["id_type_materiel"],
 			);
-			$labanMaterielTable->insert($data);
+			
+			if ($idDestination == "charrette") {
+				$data["id_fk_charrette_materiel"] = $this->view->charrette["id_charrette"];
+			} else {
+				$data["id_fk_hobbit_laban_materiel"] = $this->view->user->id_hobbit;
+			}
+			
+			$table->insert($data);
 		}
 
 		$echoppeMaterielTable = new EchoppeMateriel();

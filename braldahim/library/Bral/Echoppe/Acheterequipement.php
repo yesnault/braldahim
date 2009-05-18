@@ -42,7 +42,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		$this->idEquipement = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));
 
 		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
-		$tabDestinationTransfert[] = array("id_destination" => "laban", "texte" => "votre laban", "poids_restant" => $poidsRestant);
+		$tabDestinationTransfert[] = array("id_destination" => "laban", "texte" => "votre laban", "poids_restant" => $poidsRestant, "possible" => false);
 
 		$charretteTable = new Charrette();
 		$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
@@ -51,7 +51,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		if (count($charrettes) == 1) {
 			$charrette = $charrettes[0];
 			$poidsRestant = $charrette["poids_transportable_charrette"] - $charrette["poids_transporte_charrette"];
-			$tabDestinationTransfert[] = array("id_destination" => "charrette", "texte" => "votre charrette", "poids_restant" => $poidsRestant);
+			$tabDestinationTransfert[] = array("id_destination" => "charrette", "texte" => "votre charrette", "poids_restant" => $poidsRestant, "possible" => false);
 		}
 		$this->view->destinationTransfert = $tabDestinationTransfert;
 
@@ -98,11 +98,14 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		}
 
 		$placeDispo = false;
+		$i = 0;
 		foreach($this->view->destinationTransfert as $d) {
-			if ($d["poids_restant"] >= $this->equipement["poids_recette_equipement"]) {
+			if ($d["poids_restant"] >= $this->materiel["poids_type_materiel"]) {
 				$placeDispo = true;
+				$this->view->destinationTransfert[$i]["possible"] = true;
 				break;
 			}
+			$i ++;
 		}
 
 		$tabEquipement = array(
@@ -212,7 +215,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 							"nom_type_minerai" => $r["nom_type_minerai"],
 							"id_fk_type_minerai" => $r["id_fk_type_echoppe_equipement_minerai"],
 							"possible" => $possible,
-							"id_destination" => $d["id_destination"],
+							"id_destination" => $destination["id_destination"],
 					);
 				}
 			}
@@ -252,7 +255,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 						"id_fk_type_plante" => $a["id_fk_type_plante_echoppe_equipement_partieplante"],
 						"id_fk_type_partieplante" => $a["id_fk_type_echoppe_equipement_partieplante"],
 						"possible" => $possible,
-						"id_destination" => $d["id_destination"],
+						"id_destination" => $destination["id_destination"],
 					);
 				}
 			}
@@ -304,7 +307,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 				$prix = $m["prix_echoppe_equipement_minerai"];
 				$nom = htmlspecialchars($m["nom_type_minerai"]);
 				$type = "minerais";
-				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "minerais" => $m, "possible" => $m["possible"]);
+				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "minerais" => $m, "possible" => $m["possible"], "id_destination" => $m["id_destination"]);
 			}
 		}
 
@@ -322,7 +325,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 				$nom .= htmlspecialchars($p["prefix_type_plante"]);
 				$nom .= htmlspecialchars($p["nom_type_plante"]);
 				$type = "parties_plantes";
-				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "parties_plantes" => $p, "possible" => $p["possible"]);
+				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "parties_plantes" => $p, "possible" => $p["possible"], "id_destination" => $p["id_destination"]);
 			}
 		}
 
@@ -412,6 +415,10 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 
 		if ($flag == false) {
 			throw new Zend_Exception(get_class($this)." destination inconnue=".$idDestination);
+		}
+
+		if ($destination["possible"] == false) {
+			throw new Zend_Exception(get_class($this)." destination invalide 3");
 		}
 
 		$this->view->detailPrix = "";
@@ -537,7 +544,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		);
 
 		if ($idDestination == "charrette") {
-			$data["id_fk_charrette_minerai"] = $this->view->charrette["id_charrette"];
+			$data["id_fk_charrette_partieplante"] = $this->view->charrette["id_charrette"];
 		} else {
 			$data["id_fk_hobbit_laban_partieplante"] = $this->view->user->id_hobbit;
 		}

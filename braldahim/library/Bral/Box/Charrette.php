@@ -373,6 +373,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 			$tabMateriels[$e["id_charrette_materiel"]] = array(
 					"id_materiel" => $e["id_charrette_materiel"],
 					'id_type_materiel' => $e["id_type_materiel"],
+					'nom_systeme_type_materiel' => $e["nom_systeme_type_materiel"],
 					'nom' =>$e["nom_type_materiel"],
 					'capacite' => $e["capacite_type_materiel"], 
 					'durabilite' => $e["durabilite_type_materiel"], 

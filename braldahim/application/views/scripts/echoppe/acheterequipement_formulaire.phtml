@@ -16,7 +16,7 @@
 	<br />
 	
 	<? if ($this->equipement["place_dispo"] === false) : ?>
-		Il n'y a pas assez de place dans votre laban <br>
+		Il n'y a pas assez de place dans votre laban et dans votre charrette (si vous en avez une). <br>
 	<? endif; ?>
 	
 	<? if (count($this->prix) > 0) : ?>
@@ -40,7 +40,7 @@
 		<select name="valeur_3" id="valeur_3" onChange="<?=$js?>">
 	 		<option value="-1">(Choisissez une destination)</option>
 			<? foreach($this->destinationTransfert as $d) :?>
-				<option value="<?=$d["id_destination"] ?>"><?=$d["texte"] ?></option>
+				<option value="<?=$d["id_destination"] ?>" <? if ($d["possible"] == false): echo "disabled"; endif;?>><?=$d["texte"] ?> <? if ($d["possible"] == false): echo " : pas assez de place"; endif;?></option>
 			<? endforeach; ?>
 		</select>
 		
