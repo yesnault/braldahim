@@ -181,13 +181,13 @@ class Bral_Echoppes_Transferequipement extends Bral_Echoppes_Echoppe {
 			throw new Zend_Exception(get_class($this)." destination inconnue=".$destination);
 		}
 
-		$this->calculTranfert($id_destination, $equipement);
+		$this->calculTransfert($id_destination, $equipement);
 
 		$this->view->equipement = $equipement;
 		$this->view->destination = $destination;
 	}
 
-	private function calculTranfert($idDestination, $equipement) {
+	private function calculTransfert($idDestination, $equipement) {
 
 		if ($equipement["nom_systeme_type_emplacement"] == 'laban') {
 			if ($idDestination == "charrette") {
