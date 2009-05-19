@@ -139,6 +139,7 @@ class Bral_Util_Charrette {
 
 				foreach($materielsAssembles as $m) {
 					$durabiliteMaxCharrette = $durabiliteMaxCharrette + $m["durabilite_type_materiel"];
+					$poidsTransportable = $poidsTransportable + $m["capacite_type_materiel"];
 				}
 
 				$data = array(

@@ -200,6 +200,8 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 				);
 				$charretteTable->updateCharrette($data);
 
+				Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+				
 				$this->view->elementsRetires .= $nb_rondins. " rondin";
 				if ($nb_rondins > 1) $this->view->elementsRetires .= "s";
 				$this->view->elementsRetires .= ", ";
@@ -437,6 +439,10 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_laban", "box_charrette", "box_profil");
+		if ($this->view->charretteOk === true) {
+			return array("box_laban", "box_charrette", "box_profil");
+		} else {
+			return array("box_laban", "box_profil");
+		}
 	}
 }

@@ -87,12 +87,14 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 				$detail = $tab["detail"];
 
 				$tabCharrettes[] = array (
-				"id_charrette" => $c[$nomIdCharrette],
-				"nom" => $c["nom_type_materiel"], 
-				"possible" => $possible, 
-				"detail" => $detail, 
-				"provenance" => $typeProvenance,
-				"id_type_materiel" => $c["id_type_materiel"],
+					"id_charrette" => $c[$nomIdCharrette],
+					"nom" => $c["nom_type_materiel"], 
+					"possible" => $possible, 
+					"detail" => $detail, 
+					"provenance" => $typeProvenance,
+					"id_type_materiel" => $c["id_type_materiel"],
+					"durabilite_type_materiel" => $c["durabilite_type_materiel"],
+					"capacite_type_materiel" => $c["capacite_type_materiel"],
 				);
 			}
 		}
@@ -157,6 +159,12 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 			$charretteTable->update($dataUpdate, $where);
 		} else if ($this->view->provenance == "echoppe") {
 			$dataUpdate["id_charrette"] = $charrette["id_charrette"];
+			
+			$dataUpdate["durabilite_max_charrette"] = $charrette["durabilite_type_materiel"];
+			$dataUpdate["durabilite_actuelle_charrette"] = $charrette["durabilite_type_materiel"];
+			$dataUpdate["poids_transportable_charrette"] = $charrette["capacite_type_materiel"];
+			$dataUpdate["poids_transporte_charrette"] = 0;
+			
 			$where = "id_charrette = ".$charrette["id_charrette"];
 			$charretteTable->insert($dataUpdate, $where);
 

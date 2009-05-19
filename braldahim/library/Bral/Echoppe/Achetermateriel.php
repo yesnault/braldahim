@@ -551,6 +551,10 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 				"y_charrette" => null,
 				"id_charrette" => $this->view->materiel["id_materiel"],
 				"id_fk_type_materiel_charrette" => $this->view->materiel["id_type_materiel"],
+				"durabilite_max_charrette" => $this->view->materiel["durabilite"],
+				"durabilite_actuelle_charrette" => $this->view->materiel["durabilite"],
+				"poids_transportable_charrette" => $this->view->materiel["capacite"],
+				"poids_transporte_charrette" => 0,
 			);
 			$where = "id_charrette = ".$this->view->materiel["id_materiel"];
 			$charretteTable = new Charrette();
