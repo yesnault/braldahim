@@ -2,7 +2,9 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <form name='myForm'>
  <div class='comp_contenu'>
- 	Vous pouvez vendre des rondins pr&eacute;sents dans votre charrette.<br />
+ 	Vous pouvez vendre des rondins pr&eacute;sents dans votre charrette. <br>
+ 	Les rondins présents éventuellement dans votre laban doivent être transbahutés dans la charrette pour 
+ 	pouvoir être vendus.<br />
 	<br />
 	<? if ($this->charretteOk === true && $this->charrette["nb_rondin"] > 0): ?>
 		<? if ($this->charrette["nb_rondin"] > 1): $s = 's'; else: $s=''; endif;?>
