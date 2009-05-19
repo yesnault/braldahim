@@ -101,7 +101,7 @@ class Bral_Competences_Assaisonner extends Bral_Competences_Competence {
 		$this->view->nbViandePreparee = $tirage;
 
 		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
-		$poidsRestant = $poidsRestant - (Bral_Util_Poids::POIDS_VIANDE * $nombre);
+		$poidsRestant = $poidsRestant + (Bral_Util_Poids::POIDS_VIANDE * $nombre);
 		if ($poidsRestant < 0) $poidsRestant = 0;
 		$nbViandePrepareePossible = floor($poidsRestant / Bral_Util_Poids::POIDS_VIANDE_PREPAREE);
 
