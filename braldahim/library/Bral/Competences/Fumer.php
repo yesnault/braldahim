@@ -66,6 +66,10 @@ class Bral_Competences_Fumer extends Bral_Competences_Competence {
 		}
 		
 		$this->calculFumer($tabac);
+		
+		$idType = $this->view->config->game->evenements->type->competence;
+		$details = "[h".$this->view->user->id_hobbit."] a fumé";
+		$this->setDetailsEvenement($details, $idType);
 		$this->setEvenementQueSurOkJet1(false);
 		
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeFumer($this->view->user, $idTypeTabac);

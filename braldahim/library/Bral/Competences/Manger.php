@@ -83,6 +83,10 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeManger($this->view->user, false);
 
 		$this->calculManger($aliment);
+		
+		$idType = $this->view->config->game->evenements->type->competence;
+		$details = "[h".$this->view->user->id_hobbit."] a mangé";
+		$this->setDetailsEvenement($details, $idType);
 		$this->setEvenementQueSurOkJet1(false);
 
 		Zend_Loader::loadClass("Bral_Util_Quete");
