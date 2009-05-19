@@ -68,8 +68,8 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 				
 			$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit);
 			$nbPossibleDansCharretteMaximum = floor($tabPoidsCharrette["place_restante"] / Bral_Util_Poids::POIDS_RONDIN);
-				
-			if ($nbPossibleDansCharretteMaximum <= 0) {
+			
+			if ($nbPossibleDansCharretteMaximum >= 0) {
 				$this->view->charettePleine = false;
 			}
 		} else {
