@@ -7,8 +7,8 @@
 			</h3>
 			<ul id="deposer_potions-body" style="display:none">
 				<li>
-					Choississez une potion (ou plusieurs en appuyant sur ctrl) &agrave; d&eacute;poser.<br />
-					<select multiple size="5" name="valeur_11" id="valeur_11" onChange="<?=$jsBtn?>">
+					Choississez une potion (ou plusieurs en appuyant sur ctrl) &agrave; transbahuter.<br />
+					<select multiple size="5" name="valeur_15" id="valeur_15" onChange="<?=$jsBtn?>">
 						 <? foreach($this->potions as $p) :?>
 						 	<option value="<?=$p["id_potion"]?>">Potion <?=$p["nom"] ?> de qualit&eacute; <?=$p["qualite"] ?> (n&deg;<?=$p["id_potion"] ?>) </option>
 						 <? endforeach; ?>
@@ -18,7 +18,7 @@
 		</li>
 	</ul>
 <? else : ?>
-	<input type='hidden' maxlength='4' size='4' name='valeur_11' id='valeur_11' value='0' >
-	<input type='hidden' maxlength='4' size='4' name='valeur_11_max' id='valeur_11_max' value='0' >
+	<input type='hidden' maxlength='4' size='4' name='valeur_15' id='valeur_15' value='0' >
+	<input type='hidden' maxlength='4' size='4' name='valeur_15_max' id='valeur_15_max' value='0' >
 <?endif; ?>
-<input type='hidden' maxlength='4' size='4' name='valeur_11_poids' id='valeur_11_poids' value='<?=Bral_Util_Poids::POIDS_POTION ?>' >
+<input type='hidden' maxlength='4' size='4' name='valeur_15_poids' id='valeur_15_poids' value='<?=Bral_Util_Poids::POIDS_POTION ?>' >

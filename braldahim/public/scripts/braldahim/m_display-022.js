@@ -245,6 +245,110 @@ function wiglwogl(uddeElement) {
 } 
 
 /********************************************************************/
+/************************* Transbahuter ********************/
+/********************************************************************/
+
+function controlePoids(poidsRestant){
+	var poids=0;
+	if ($('valeur_2').value == 2){
+	 	for (i=4; i<=$('nb_valeurs').value; i++) {
+			if ( $('valeur_' + i).type == 'select-multiple' ){
+				for (j=0; j<$('valeur_' + i).options.length; j++){
+					if ($('valeur_' + i).options[j].selected == true) {
+						if ( i==12 ){
+							poids = parseFloat(poids) + parseFloat($('valeur_' + i + '_poids_' + $('valeur_' + i).options[j].value).value);
+						}
+						else{
+							poids = parseFloat(poids) + parseFloat($('valeur_' + i + '_poids').value);
+						}
+					}
+				}
+			}
+			else {
+				poids = parseFloat(poids) + $('valeur_' + i).value * $('valeur_' + i + '_poids').value;
+			}
+		}
+		if (poids > poidsRestant){
+			poidsDep = Math.round((poids - poidsRestant)*100)/100;
+			alert ('Pas assez de place dans la source d\'arrivée !\nVous dépassez de ' + poidsDep + ' kg');
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+	else{
+		return true;
+	}
+}
+
+function controleQte(poidsRestant){
+	 v=false;
+	 for (i=4;i<=$('nb_valeurs').value;i++){
+	 	if ($('valeur_'+i).value>0) {
+			v=true;
+		}
+	 };
+	 cacher = true;
+	 poidsOk = true;
+	 if (poidsRestant!=""){
+	 	poidsOk = controlePoids(poidsRestant);
+	 }
+	 if (v==true && $('valeur_1').value != -1 && $('valeur_2').value != -1 && poidsOk == true){
+		cacher = false;
+	 }
+	 if ( $('valeur_2').value == 4 && $('valeur_3').value == -1){
+		cacher = true;
+	 }
+	 $('bouton_deposer').disabled=cacher;
+}
+
+function selectAll(poidsRestant){
+	cacher = true;
+	for (i=4; i<=$('nb_valeurs').value; i++) {
+		if ( $('valeur_' + i).type == 'select-multiple' ){
+			for (j=0; j<$('valeur_' + i).options.length; j++){
+				if ($('valeur_' + i).options[j].value != -1) {
+					$('valeur_' + i).options[j].selected = true;
+					cacher = false;
+				}
+			}
+		}
+		else {
+			$('valeur_' + i).value = $('valeur_' + i + '_max').value;
+			if (cacher == true && $('valeur_' + i + '_max').value > 0) {
+				cacher = false;
+			}
+		}
+	}
+	poidsOk = true;
+	if (poidsRestant!=""){
+		poidsOk = controlePoids(poidsRestant);
+	}
+	if ( $('valeur_1').value == -1 || $('valeur_2').value == -1 || poidsOk==false){
+		cacher = true;
+	}
+	if ( $('valeur_2').value == 4 && $('valeur_3').value == -1){
+		cacher = true;
+	}
+	$('bouton_deposer').disabled=cacher;
+}
+
+function activerRechercheCoffreHobbit(id) {
+	if ($('recherche_' + id + '_actif').value == 0) {
+		new Ajax.Autocompleter('recherche_' + id, 'recherche_' + id + '_update', '/Recherche/hobbit/champ/' + id, { paramName :"valeur", indicator :'indicateur_recherche_' + id, minChars :2,
+		afterUpdateElement :getCoffreHobbitId, parameters : { champ :'value' } });
+		$('recherche_' + id + '_actif').value = 1;
+	}
+}
+
+function getCoffreHobbitId(text, li) {
+	if (controleSession(li) == true) {
+		$('valeur_3').value = li.getAttribute('id_hobbit');
+		controleQte("");
+	}
+}
+/********************************************************************/
 /************************* RECHERCHE ********************/
 /********************************************************************/
 

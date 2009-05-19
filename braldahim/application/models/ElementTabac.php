@@ -39,8 +39,8 @@ class ElementTabac extends Zend_Db_Table {
 		$select->from('element_tabac', 'count(*) as nombre,
 		quantite_feuille_element_tabac as quantiteFeuille')
 		->where('id_fk_type_element_tabac = ?',$data["id_fk_type_element_tabac"])
-		->where('x_element_munition = ?',$data["x_element_munition"])
-		->where('y_element_munition = ?',$data["y_element_munition"])
+		->where('x_element_tabac = ?',$data["x_element_tabac"])
+		->where('y_element_tabac = ?',$data["y_element_tabac"])
 		->group(array('quantiteFeuille'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);

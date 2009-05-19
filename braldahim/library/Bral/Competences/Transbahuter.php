@@ -8,19 +8,20 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$choixDepart = false;
 		//liste des endroits
 		//On peut essayer de transbahuter pour le sol et le laban
-		$tabEndroit[1] = array("id_type_endroit" => 1,"nom_systeme" => "Element", "nom_type_endroit" => "Sol");
-		$tabEndroit[2] = array("id_type_endroit" => 2,"nom_systeme" => "Laban", "nom_type_endroit" => "Laban");
+		$tabEndroit[1] = array("id_type_endroit" => 1,"nom_systeme" => "Element", "nom_type_endroit" => "Le sol");
+		$tabEndroit[2] = array("id_type_endroit" => 2,"nom_systeme" => "Laban", "nom_type_endroit" => "Votre laban");
 		
 		//Si on est sur une banque :
 		$lieu = new Lieu();
 		$banque = $lieu->findByTypeAndCase($config->game->lieu->type->banque,$this->view->user->x_hobbit,$this->view->user->y_hobbit);
 		if (count($banque) > 0){
-			$tabEndroit[3] = array("id_type_endroit" => 3,"nom_systeme" => "Coffre", "nom_type_endroit" => "Coffre");	
+			$tabEndroit[3] = array("id_type_endroit" => 3,"nom_systeme" => "Coffre", "nom_type_endroit" => "Votre coffre");
+			$tabEndroit[4] = array("id_type_endroit" => 4,"nom_systeme" => "Coffre", "nom_type_endroit" => "Le coffre d'un autre Hobbit");	
 		}
 		
 		//@TODO Si on est sur une echoppe
 		
-		//@TODO Si on a une charette
+		//@TODO S'il y a des charettes sur la case
 		
 		// On récupère la valeur du départ
 		if ($this->request->get("valeur_1") != "" && $this->request->get("valeur_1") != -1) {
@@ -37,11 +38,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$tabTypeDepart = null;
 		$i=1;
 		foreach ($tabEndroit as $e){
-			$this->view->deposerOk = false;
-			$this->prepareType($e["nom_systeme"]);
-			if ($this->view->deposerOk == true){
-				$tabTypeDepart[$i] = array("id_type_depart" => $e["id_type_endroit"], "selected" => $id_type_courant_depart, "nom_systeme" => $e["nom_systeme"], "nom_type_depart" => $e["nom_type_endroit"]);
-				$i++;
+			//On ne prend pas les autres coffres dans les départs
+			if ($e["id_type_endroit"] != 4){
+				$this->view->deposerOk = false;
+				$this->prepareType($e["nom_systeme"]);
+				if ($this->view->deposerOk == true){
+					$tabTypeDepart[$i] = array("id_type_depart" => $e["id_type_endroit"], "selected" => $id_type_courant_depart, "nom_systeme" => $e["nom_systeme"], "nom_type_depart" => $e["nom_type_endroit"]);
+					$i++;
+				}
 			}
 		}
 		$this->view->typeDepart = $tabTypeDepart;
@@ -75,19 +79,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			}
 			$this->view->typeArrivee = $tabTypeArrivee;
 			$this->view->poidsRestant = $poidsRestant;
-			$this->view->nb_valeurs = 13;
+			$this->view->nb_valeurs = 15;
 			$this->prepareType($tabEndroit[$id_type_courant_depart]["nom_systeme"]);
 		}
 		$this->view->choixDepart = $choixDepart;
 		$this->view->tabEndroit = $tabEndroit;
 		
-		//gerer déposer tabac
 		//gérer matériel
-		//gerer rondins
 		//afficher ce qui est transbahuté et de koi vers koi.
 		//gerer si on a un seul élément dans la liste depart ou arrivée
-		//changer valeurs pour coffre autres hobbits
-		//coffre autres hobbits
+
 	}
 
 	function prepareFormulaire() {
@@ -117,9 +118,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Endroit arrivee invalide = ".$idArrivee.")");
 		}
 		
-		$this->view->id_hobbit_coffre = $this->view->user->id_hobbit;
-		$this->view->poidsOk = true;
+		$idCoffre = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
+		if ($idCoffre == -1){
+			$this->view->id_hobbit_coffre = $this->view->user->id_hobbit;	
+		}
+		else{
+			$this->view->id_hobbit_coffre = $idCoffre;
+		}
 		
+		$this->view->poidsOk = true;
 		$this->deposeType($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
 		$this->detailEvenement = "";
 		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Element"){
@@ -151,7 +158,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_vue", "box_laban", "box_profil", "box_coffre", "box_evenements");
+		$tab = array("box_vue", "box_laban", "box_coffre");
+		return $this->constructListBoxRefresh($tab);
 	}
 	
 	private function prepareType($depart){
@@ -163,6 +171,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->prepareTypeMunitions($depart);
 		$this->prepareTypePartiesPlantes($depart);
 		$this->prepareTypeMinerais($depart);
+		$this->prepareTypeTabac($depart);
 	}
 	
 	private function deposeType($depart,$arrivee){
@@ -174,6 +183,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->deposeTypeMunitions($depart,$arrivee);
 		$this->deposeTypePartiesPlantes($depart,$arrivee);
 		$this->deposeTypeMinerais($depart,$arrivee);
+		$this->deposeTypeTabac($depart,$arrivee);
 	}
 	
 	private function prepareTypeEquipements($depart) {
@@ -362,7 +372,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		Zend_Loader::loadClass($arrivee."Rune");
 
 		$runes = array();
-		$runes = $this->request->get("valeur_10");
+		$runes = $this->request->get("valeur_14");
 		if (count($runes) > 0 && $runes !=0 ) {
 			foreach ($runes as $idRune) {
 				if (!array_key_exists($idRune, $this->view->runes)) {
@@ -479,7 +489,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		Zend_Loader::loadClass($depart."Potion");
 		Zend_Loader::loadClass($arrivee."Potion");
 		$potions = array();
-		$potions = $this->request->get("valeur_11");
+		$potions = $this->request->get("valeur_15");
 		if (count($potions) > 0 && $potions != 0) {
 			foreach ($potions as $idPotion) {
 				if (!array_key_exists($idPotion, $this->view->potions)) {
@@ -732,7 +742,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$idMunition = null;
 			$nbMunition = null;
 		
-			for ($i=14; $i<=$this->view->valeur_fin_munitions; $i++) {
+			for ($i=16; $i<=$this->view->valeur_fin_munitions; $i++) {
 			
 				if ( $this->request->get("valeur_".$i) > 0) {
 					$nbMunition = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_".$i));
@@ -805,9 +815,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						case "Coffre" :
 							$arriveeMunitionTable = new CoffreMunition();
 							$data = array(
-									"quantite_laban_munition" => $nbMunition,
-									"id_fk_type_laban_munition" => $munition["id_type_munition"],
-									"id_fk_hobbit_laban_munition" => $this->view->user->id_hobbit,
+									"quantite_coffre_munition" => $nbMunition,
+									"id_fk_type_coffre_munition" => $munition["id_type_munition"],
+									"id_fk_hobbit_coffre_munition" => $this->view->user->id_hobbit,
 									);
 							break;
 					}
@@ -862,7 +872,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				}
 			}
 		}
-		
+		$this->view->valeur_fin_minerais = $this->view->nb_valeurs;
 		$this->view->minerais = $tabMinerais;
 	}
 
@@ -870,7 +880,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		Zend_Loader::loadClass($depart."Minerai");
 		Zend_Loader::loadClass($arrivee."Minerai");
 		
-		for ($i=$this->view->valeur_fin_partieplantes + 1; $i<=$this->view->nb_valeurs; $i = $i + 2) {
+		for ($i=$this->view->valeur_fin_partieplantes + 1; $i<=$this->view->valeur_fin_minerais; $i = $i + 2) {
 			$indice = $i;
 			$indiceBrut = $i;
 			$indiceLingot = $i+1;
@@ -1142,6 +1152,141 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 	
+	private function prepareTypeTabac($depart) {
+		Zend_Loader::loadClass($depart."Tabac");
+		
+		$tabTabacs = null;
+		
+		switch ($depart) {
+			case "Laban" :
+				$labanTabacTable = new LabanTabac();
+				$tabacs = $labanTabacTable->findByIdHobbit($this->view->user->id_hobbit);
+				unset($labanTabacTable);
+				break;
+			case "Element" :
+				$elementTabacTable = new ElementTabac();
+				$tabacs = $elementTabacTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+				unset($elementTabacTable);
+				break;
+			case "Coffre" :
+				$coffreTabacTable = new CoffreTabac();
+				$tabacs = $coffreTabacTable->findByIdHobbit($this->view->user->id_hobbit);
+				unset($coffreTabacTable);
+				break;
+		}
+				
+		if (count($tabacs) > 0) {
+			foreach ($tabacs as $m) {
+				if ($m["quantite_feuille_".strtolower($depart)."_tabac"] > 0) {
+					$this->view->nb_valeurs = $this->view->nb_valeurs + 1;
+					$tabTabacs[$this->view->nb_valeurs] = array(
+						"id_type_tabac" => $m["id_fk_type_".strtolower($depart)."_tabac"],
+						"type" => $m["nom_type_tabac"],
+						"quantite" => $m["quantite_feuille_".strtolower($depart)."_tabac"],
+						"indice_valeur" => $this->view->nb_valeurs,
+					);
+				}
+			}
+			$this->view->deposerOk = true;
+		}
+		$this->view->valeur_fin_tabacs = $this->view->nb_valeurs;
+		$this->view->tabacs = $tabTabacs;
+	}
+	
+	private function deposeTypeTabac($depart,$arrivee) {
+		Zend_Loader::loadClass($depart."Tabac");
+		Zend_Loader::loadClass($arrivee."Tabac");
+
+		if (count($this->view->tabacs) > 0) {
+			$idTabac = null;
+			$nbTabac = null;
+		
+			for ($i=$this->view->valeur_fin_minerais; $i<=$this->view->valeur_fin_tabacs; $i++) {
+			
+				if ( $this->request->get("valeur_".$i) > 0) {
+					$nbTabac = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_".$i));
+					
+					$tabac = $this->view->tabacs[$i];
+		
+					if ($nbTabac > $tabac["quantite"] || $nbTabac < 0) {
+						throw new Zend_Exception(get_class($this)." Quantite Tabac invalide : ".$nbTabac);
+					}
+					
+					if ($arrivee == "Laban") {
+						$poidsOk = $this->controlePoids($this->view->poidsRestant, $nbTabac, Bral_Util_Poids::POIDS_TABAC);
+						if ($poidsOk == false){
+							$this->view->poidsOk = false;
+							break;
+						}
+					}
+					
+					switch ($depart){
+						case "Laban" :
+							$departTabacTable = new LabanTabac();
+							$data = array(
+									"quantite_feuille_laban_tabac" => -$nbTabac,
+									"id_fk_type_laban_tabac" => $tabac["id_type_tabac"],
+									"id_fk_hobbit_laban_tabac" => $this->view->user->id_hobbit,
+									);
+							break;
+						case "Element" :
+							$departTabacTable = new ElementTabac();
+							$data = array (
+									"x_element_tabac" => $this->view->user->x_hobbit,
+									"y_element_tabac" => $this->view->user->y_hobbit,
+									"id_fk_type_element_tabac" => $tabac["id_type_tabac"],
+									"quantite_feuille_element_tabac" => -$nbTabac,
+									);
+							break;
+							
+						case "Coffre" :
+							$departTabacTable = new CoffreTabac();
+							$data = array(
+									"quantite_feuille_coffre_tabac" => -$nbTabac,
+									"id_fk_type_coffre_tabac" => $tabac["id_type_tabac"],
+									"id_fk_hobbit_coffre_tabac" => $this->view->user->id_hobbit,
+									);
+							break;
+					}
+					
+					$departTabacTable->insertOrUpdate($data);
+					unset ($departTabacTable);
+					
+					switch ($arrivee){
+						case "Laban" :
+							$arriveeTabacTable = new LabanTabac();
+							$data = array(
+									"quantite_feuille_laban_tabac" => $nbTabac,
+									"id_fk_type_laban_tabac" => $tabac["id_type_tabac"],
+									"id_fk_hobbit_laban_tabac" => $this->view->user->id_hobbit,
+									);
+							$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_MUNITION * $nbTabac;
+							break;
+						case "Element" :
+							$arriveeTabacTable = new ElementTabac();
+							$data = array (
+								"x_element_tabac" => $this->view->user->x_hobbit,
+								"y_element_tabac" => $this->view->user->y_hobbit,
+								"id_fk_type_element_tabac" => $tabac["id_type_tabac"],
+								"quantite_feuille_element_tabac" => $nbTabac,
+								);
+							break;
+						case "Coffre" :
+							$arriveeTabacTable = new CoffreTabac();
+							$data = array(
+									"quantite_feuille_coffre_tabac" => $nbTabac,
+									"id_fk_type_coffre_tabac" => $tabac["id_type_tabac"],
+									"id_fk_hobbit_coffre_tabac" => $this->view->user->id_hobbit,
+									);
+							break;
+					}
+					$arriveeTabacTable->insertOrUpdate($data);
+					unset($arriveeTabacTable);
+				}
+			}
+		}
+	}
+	
 	private function prepareTypeAutres($depart){
 		Zend_Loader::loadClass($depart);
 		
@@ -1152,6 +1297,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$tabAutres["nb_cuir"] = 0;
 		$tabAutres["nb_fourrure"] = 0;
 		$tabAutres["nb_planche"] = 0;
+		$tabAutres["nb_rondin"] = 0;
 		
 		switch ($depart) {
 			case "Laban" :
@@ -1166,6 +1312,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						"quantite_cuir_".strtolower($depart) => 0,
 						"quantite_fourrure_".strtolower($depart) => 0,
 						"quantite_planche_".strtolower($depart) => 0,
+						"quantite_rondin_".strtolower($depart) => 0,
 					);
 				}
 				if ($this->view->user->castars_hobbit > 0){
@@ -1195,11 +1342,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				"nb_cuir" => $p["quantite_cuir_".strtolower($depart)],
 				"nb_fourrure" => $p["quantite_fourrure_".strtolower($depart)],
 				"nb_planche" => $p["quantite_planche_".strtolower($depart)],
+				"nb_rondin" => $p["quantite_rondin_".strtolower($depart)],
 			);
 			if ( $tabAutres["nb_castar"] != 0 || $tabAutres["nb_peau"] != 0 ||
 				 $tabAutres["nb_viande"] != 0 || $tabAutres["nb_viande_preparee"] != 0 ||
 				 $tabAutres["nb_cuir"] != 0 || $tabAutres["nb_fourrure"] != 0 ||
-				 $tabAutres["nb_planche"] != 0 ){
+				 $tabAutres["nb_planche"] != 0 || $tabAutres["nb_rondin"] != 0){
 				$this->view->deposerOk = true;
 			}
 		}
@@ -1212,13 +1360,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		Zend_Loader::loadClass($depart);
 		Zend_Loader::loadClass($arrivee);
 		
-		$nbCastar = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
-		$nbPeau = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_4"));
-		$nbCuir = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_5"));
-		$nbFourrure = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_6"));
-		$nbViande = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_7"));
-		$nbViandePreparee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_8"));
-		$nbPlanche = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_9"));
+		$nbCastar = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_4"));
+		$nbPeau = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_5"));
+		$nbCuir = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_6"));
+		$nbFourrure = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_7"));
+		$nbViande = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_8"));
+		$nbViandePreparee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_9"));
+		$nbPlanche = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_10"));
+		$nbRondin = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_11"));
 		
 		$tabElement[1] = array("nom_systeme" => "castar", "nb" => $nbCastar, "poids" => Bral_Util_Poids::POIDS_CASTARS);
 		$tabElement[2] = array("nom_systeme" => "peau", "nb" => $nbPeau, "poids" => Bral_Util_Poids::POIDS_PEAU);
@@ -1227,6 +1376,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$tabElement[5] = array("nom_systeme" => "viande", "nb" => $nbViande, "poids" => Bral_Util_Poids::POIDS_VIANDE);
 		$tabElement[6] = array("nom_systeme" => "viande_preparee", "nb" => $nbViandePreparee, "poids" => Bral_Util_Poids::POIDS_VIANDE_PREPAREE);
 		$tabElement[7] = array("nom_systeme" => "planche", "nb" => $nbPlanche, "poids" => Bral_Util_Poids::POIDS_PLANCHE);
+		$tabElement[8] = array("nom_systeme" => "rondin", "nb" => $nbRondin, "poids" => Bral_Util_Poids::POIDS_RONDIN);
 		
 		foreach ($tabElement as $t){
 			$nb=$t["nb"];

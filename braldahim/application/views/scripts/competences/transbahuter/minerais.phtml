@@ -24,7 +24,7 @@
 						<td>
 						<?=htmlspecialchars($m["type"])?> - brut<? if ($m["quantite_brut_minerai"] > 0) echo "s" ?> : <?=$m["quantite_brut_minerai"]?>, lingot<? if ($m["quantite_lingots_minerai"] > 0) echo "s" ?> : <?=$m["quantite_lingots_minerai"]?>
 						<br />
-						Quantit&eacute; &agrave; d&eacute;poser : <br>
+						Quantit&eacute; &agrave; transbahuter : <br>
 						Brut : <input type='text' maxlength='4' size='4' name='valeur_<?=$k ?>' id='valeur_<?=$k ?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_brut_minerai"] ?>) { alert('Valeur trop grande'); this.value = 0 }; <?=$jsBtn?>" >
 						<br>
 						Lingot : <input type='text' maxlength='4' size='4' name='valeur_<?=($k+1) ?>' id='valeur_<?=($k+1) ?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_lingots_minerai"] ?>) { alert('Valeur trop grande'); this.value = 0 }; <?=$jsBtn?>" >

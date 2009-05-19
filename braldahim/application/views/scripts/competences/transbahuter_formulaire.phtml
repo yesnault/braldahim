@@ -1,58 +1,10 @@
 <? if (count($this->typeDepart) > 0) : ?>
 	<input type='hidden' id='nb_valeurs' name='nb_valeurs' value='<?=$this->nb_valeurs ?>'>
 	<form name='myForm'>
-		<?$jsPoids ="
-		function controlePoids(){
-			var poids=0;
-			if ($('valeur_2').value == 2){
-			 	for (i=3; i<=".$this->nb_valeurs."; i++) {
-					if ( $('valeur_' + i).type == 'select-multiple' ){
-						for (j=0; j<$('valeur_' + i).options.length; j++){
-							if ($('valeur_' + i).options[j].selected == true) {
-								if ( i==12 ){
-									poids = parseFloat(poids) + parseFloat($('valeur_' + i + '_poids_' + $('valeur_' + i).options[j].value).value);
-								}
-								else{
-									poids = parseFloat(poids) + parseFloat($('valeur_' + i + '_poids').value);
-								}
-							}
-						}
-					}
-					else {
-						poids = parseFloat(poids) + $('valeur_' + i).value * $('valeur_' + i + '_poids').value;
-					}
-				}
-				if (poids > ".$this->poidsRestant."){
-					poidsDep = Math.round((poids - ".$this->poidsRestant.")*100)/100;
-					alert ('Pas assez de place dans la source d\'arriv&eacute;e \n Vous d&eacute;passez de ' + poidsDep + ' kg');
-					return false;
-				}
-				else{
-					return true;
-				}
-			}
-			else{
-				return true;
-			}
-		}";
-		?>
-
 	<div class='comp_contenu'>
 		<?
 		$poches = null;
-		$jsBtn = $jsPoids."
-				 v=false;
-				 for (i=3;i<=$('nb_valeurs').value;i++){
-				 	if ($('valeur_'+i).value>0) {
-						v=true;
-					}
-				 };
-				 if (v==true && $('valeur_1').value != -1 && $('valeur_2').value != -1 && controlePoids()==true){
-					$('bouton_deposer').disabled=false;
-				 }else{
-					$('bouton_deposer').disabled=true;
-				 }
-				 ";
+		$jsBtn = "controleQte(".$this->poidsRestant.");";
 		?>
 		Transbahuter à partir de :<br />
 		<select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1='+this.value);">
@@ -73,32 +25,24 @@
 				<?php include("transbahuter/munitions.phtml")?>
 				<?php include("transbahuter/partiesplantes.phtml")?>
 				<?php include("transbahuter/minerais.phtml")?>
+				<?php include("transbahuter/tabacs.phtml")?>
 			
 				<?php 
-				$js = $jsPoids." 
-					cacher = true;
-					for (i=3; i<=".$this->nb_valeurs."; i++) {
-						if ( $('valeur_' + i).type == 'select-multiple' ){
-							for (j=0; j<$('valeur_' + i).options.length; j++){
-								if ($('valeur_' + i).options[j].value != -1) {
-									$('valeur_' + i).options[j].selected = true;
-									cacher = false;
-								}
-							}
-						}
-						else {
-							$('valeur_' + i).value = $('valeur_' + i + '_max').value;
-							if (cacher == true && $('valeur_' + i + '_max').value > 0) {
-								cacher = false;
-							}
-						}
+				$js = "selectAll(".$this->poidsRestant.");";
+				
+				$jsCoffre = "
+					if($('valeur_2').value==4){
+						document.getElementById('div_hobbit').style.visibility='visible';
+						document.getElementById('div_hobbit').style.display='block';
 					}
-					if ( $('valeur_1').value == -1 || $('valeur_2').value == -1 || controlePoids()==false){
-						cacher = true;
+					else{
+						document.getElementById('div_hobbit').style.visibility='hidden';
+						document.getElementById('div_hobbit').style.display='none';
+						$('valeur_3').value=-1;
 					}
-					$('bouton_deposer').disabled=cacher;
+				
 				";
-
+				
 				$jsFermer = "";
 				$jsOuvrir = "";
 				foreach ($poches as $p) :
@@ -112,15 +56,22 @@
 				<input type='button' class='button1' id="ouvrir_poche" name="ouvrir_poche"  value='Ouvrir Tout' onClick="<?=$jsOuvrir ?>">
 				<br/><br/>
 				Transbahuter vers :<br />
-				<select name="valeur_2" id="valeur_2" onChange="<?=$jsBtn?>">
+				<select name="valeur_2" id="valeur_2" onChange="<?=$jsBtn.$jsCoffre?>">
 					<option value="-1">(Choisissez un endroit d'arriv&eacute;e)</option>
 					<? foreach($this->typeArrivee as $t) : ?>
 					 	<option value="<?=$t["id_type_arrivee"]?>" <? if ($t["selected"] == $t["id_type_arrivee"]): echo "selected"; endif;?>><?=$t["nom_type_arrivee"]?></option>
 					<? endforeach; ?>
 				</select>
+				<br/><br/>
+				<input type="hidden" name="valeur_3" id="valeur_3" value="-1"/>
+				<div id="div_hobbit" style="visibility: hidden;display :none">
+					<input type="text" name="recherche_valeur_3_dest" size='30' id="recherche_valeur_3_dest" value="Entrez un nom" onFocus="if(this.value=='Entrez un nom'){this.value='';};activerRechercheCoffreHobbit('valeur_3_dest');" />
+					<input type="hidden" name="recherche_valeur_3_dest_actif" id="recherche_valeur_3_dest_actif" value="0" />
+					<div class="recherche" id="recherche_valeur_3_dest_update" ></div> <img src="/public/images/loupe.gif" />
+   					<span id="indicateur_recherche_valeur_3_dest" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
+   				</div>
 				<br/>
-				<br>
-				<input type='button' class='button1' id='bouton_deposer' value='Transbahuter !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_transbahuter");' disabled>
+				<input type='button' class='button1' id='bouton_deposer' value='Transbahuter !' onClick="this.disabled=true;_get_('/competences/doaction?caction=do_competence_transbahuter');" disabled>
 		<?else : ?>
 			Pas de destination possible autre que votre laban et il est plein ! <br/><br/>
 		<?endif; ?>
