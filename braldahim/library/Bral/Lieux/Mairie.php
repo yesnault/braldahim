@@ -147,7 +147,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 	}
 
 	private function calculCoutCastars() {
-		return 50;
+		return 0;
 	}
 	
 	private function creerCommunaute($nomCommunaute) {
