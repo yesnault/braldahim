@@ -817,7 +817,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$data = array(
 									"quantite_coffre_munition" => $nbMunition,
 									"id_fk_type_coffre_munition" => $munition["id_type_munition"],
-									"id_fk_hobbit_coffre_munition" => $this->view->user->id_hobbit,
+									"id_fk_hobbit_coffre_munition" => $this->view->id_hobbit_coffre,
 									);
 							break;
 					}
@@ -1276,7 +1276,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$data = array(
 									"quantite_feuille_coffre_tabac" => $nbTabac,
 									"id_fk_type_coffre_tabac" => $tabac["id_type_tabac"],
-									"id_fk_hobbit_coffre_tabac" => $this->view->user->id_hobbit,
+									"id_fk_hobbit_coffre_tabac" => $this->view->id_hobbit_coffre,
 									);
 							break;
 					}
