@@ -177,28 +177,27 @@ class Bral_Util_Charrette {
 			$charretteMaterielAssembleTable = new CharretteMaterielAssemble();
 			$materielsAssembles = $charretteMaterielAssembleTable->findByIdCharrette($charrette["id_charrette"]);
 
+			$durabiliteActuelle = $charrette["durabilite_actuelle_charrette"] - $charrette["usure_type_materiel"];
+
 			if ($materielsAssembles != null && count($materielsAssembles) > 0) {
-
-				$durabiliteActuelle = $charrette["durabilite_actuelle_charrette"] - $charrette["usure_type_materiel"];
-
 				foreach($materielsAssembles as $m) {
 					$durabiliteActuelle = $durabiliteActuelle - $m["usure_type_materiel"];
 				}
+			}
 
-				if ($durabiliteActuelle > $charrette["durabilite_max_charrette"]) {
-					$durabiliteActuelle = $charrette["durabilite_max_charrette"];
-				}
+			if ($durabiliteActuelle > $charrette["durabilite_max_charrette"]) {
+				$durabiliteActuelle = $charrette["durabilite_max_charrette"];
+			}
 
-				$data = array(
-					"durabilite_actuelle_charrette" => $durabiliteActuelle,
-				);
-				$where = "id_charrette = ".$charrette["id_charrette"];
-				$charretteTable->update($data, $where);
+			$data = array(
+				"durabilite_actuelle_charrette" => $durabiliteActuelle,
+			);
+			$where = "id_charrette = ".$charrette["id_charrette"];
+			$charretteTable->update($data, $where);
 
-				if ($durabiliteActuelle <= 0) {
-					self::destructionCharrette($charrette, $x, $y);
-					$estDetruite = true;
-				}
+			if ($durabiliteActuelle <= 0) {
+				self::destructionCharrette($charrette, $x, $y);
+				$estDetruite = true;
 			}
 		} else if ($nb > 1) {
 			throw new Zend_Exception("Bral_Util_Charrette::calculNouvelleDlaCharrette idh:".$idHobbit);

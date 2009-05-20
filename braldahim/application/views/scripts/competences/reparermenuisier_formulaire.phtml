@@ -1,0 +1,28 @@
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ <div class='comp_contenu'>
+	 <? if ($this->reparermenuisierEchoppeOk === true) : ?>
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez r&eacute;parer une charrette<br />
+	 appartenant &agrave; un hobbit pr&eacute;sent sur votre case.<br>
+	 <br />
+     
+     Charrette &agrave; r&eacute;parer :<br />
+     <select name="valeur_1" id="valeur_1"  onchange="if (this.value == -1) {$('bouton_reparermenuisier').disabled = true} else {$('bouton_reparermenuisier').disabled = false}">
+	 	<option value="-1">(Choisissez une charrette)</option>
+	 	<? foreach($this->charrettes as $c) : ?>
+	 		<option value="<?=$c["id_charrette"]?>" <? if ($c["possible"] == false) : echo "disabled"; endif; ?>><?=$c["nom_type_materiel"]?>, <?=$c["prenom_hobbit"]?> <?=$c["nom_hobbit"]?> (<?=$c["id_hobbit"]?>) - Coût : <?=$c["cout_reparation_planche"]?> planche<? if ($c["cout_reparation_planche"] > 1): echo "s"; endif; ?></option>
+	 	<? endforeach; ?>
+	 </select>
+	 
+	 <br /><br />
+	 	
+	 <? elseif ($this->reparermenuisierEchoppeOk == false) : ?>
+		Vous ne pouvez r&eacute;parer que dans une de vos &eacute;choppes de Menuisier.
+	<? else: ?>
+		Vous n'avez aucune planche pour reparer...
+	<? endif; ?>
+</div>
+
+<br />
+<?php if ($this->assezDePa == true && $this->reparermenuisierEchoppeOk === true) : ?>
+<input type='button' class='button1' id='bouton_reparermenuisier' value='R&eacute;parer !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_reparermenuisier");' disabled>
+<? endif ?>

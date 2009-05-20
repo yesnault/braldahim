@@ -25,6 +25,21 @@ class Charrette extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
+	
+	function findByPositionAvecHobbit($x, $y) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('charrette', '*')
+		->from('type_materiel', '*')
+		->from('hobbit', '*')
+		->where('id_hobbit = id_fk_hobbit_charrette')
+		->where('id_fk_type_materiel_charrette = id_type_materiel')
+		->where('x_hobbit = '.intval($x))
+		->where('y_hobbit = '.intval($y));
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
 
 	function findByCase($x, $y, $avecProprietaire = true) {
 		$and = "";
