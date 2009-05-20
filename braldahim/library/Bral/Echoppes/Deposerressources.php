@@ -216,6 +216,8 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 				if ($nb_rondins > 1) $this->view->elementsRetires .= "s";
 				$this->view->elementsRetires .= ", ";
 				
+				Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+				
 				$nb_rondins = $this->view->echoppe["quantite_rondin_arriere_echoppe"] + $nb_rondins;
 			} else {
 				$nb_rondins = $this->view->echoppe["quantite_rondin_arriere_echoppe"];
