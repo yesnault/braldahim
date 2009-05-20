@@ -1,8 +1,8 @@
 <? if ($this->ameliorationCompetence) : ?>
-	Vous avez r&eacute;ussi &agrave; am&eacute;liorer une de vos comp&eacute;tences de fabrication :
+	<b>Vous avez r&eacute;ussi &agrave; am&eacute;liorer une de vos comp&eacute;tences de fabrication :</b>
 	<br>
 	<? foreach($this->tabCompetencesAmeliorees as $c) : ?>
-		<?=$c["nom_competence"]?> : + <?=$this->deCompetence?> % <br>
+		<b><?=$c["nom_competence"]?> : + <?=$this->deCompetence?> % </b><br>
 	<? endforeach;?>
 <? else: ?>
 	Vous n'avez pas r&eacute;ussi &agrave; am&eacute;liorer une de vos comp&eacute;tence de fabrication.

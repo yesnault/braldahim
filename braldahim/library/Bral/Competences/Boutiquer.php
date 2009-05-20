@@ -98,13 +98,15 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 		$de10 = Bral_Util_De::get_1d10();
 		$deCompetence = 0;
 		
-		if ($de10 >= 9 && $this->view->boutiquerMetierCourant) {
+		if ($de10 >= 8 && $this->view->boutiquerMetierCourant) {
 			$this->view->ameliorationCompetence = true;
-			$deCompetence = Bral_Util_De::get_1d2();
-			if ($de10 == 9) {
-				$this->updateCompetenceDb(2, $deCompetence);
+			$deCompetence = Bral_Util_De::get_1d3();
+			if ($de10 == 8) {
+				$this->updateCompetenceDb($deCompetence, "produire".$this->boutiquerMetier);
+			} elseif($de10 == 9) {
+				$this->updateCompetenceDb($deCompetence, $this->boutiquerMetier, 2);
 			} else {
-				$this->updateCompetenceDb(4, $deCompetence);
+				$this->updateCompetenceDb($deCompetence, $this->boutiquerMetier, 4);
 			}
 		}
 		
@@ -163,13 +165,17 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 		$echoppeTable->insertOrUpdate($data);
 	}
 	
-	private function updateCompetenceDb($nbPa, $deCompetence) {
+	private function updateCompetenceDb($deCompetence, $nomSystemeCompetence, $nbPa = -1) {
 		$hobbitsCompetencesTable = new HobbitsCompetences();
 		
-		$competences = $hobbitsCompetencesTable->findByIdHobbitAndNbPaAndNomSystemeMetier($this->view->user->id_hobbit, $nbPa, $this->boutiquerMetier);
+		if ($nbPa == -1) {
+			$competences = $hobbitsCompetencesTable->findByIdHobbitAndNomSysteme($this->view->user->id_hobbit, $nomSystemeCompetence);
+		} else {
+			$competences = $hobbitsCompetencesTable->findByIdHobbitAndNbPaAndNomSystemeMetier($this->view->user->id_hobbit, $nbPa, $this->boutiquerMetier);
+		}
 		
 		if ($competences == null || count($competences) == 0) {
-			throw new Zend_Exception(get_class($this)." Competences invalides :".$this->view->user->id_hobbit.",". $nbPa.",".$this->boutiquerMetier);
+			throw new Zend_Exception(get_class($this)." Competences invalides :".$this->view->user->id_hobbit.",".$nbPa.",".$nomSystemeCompetence);
 		}
 		
 		$tabCompetencesAmeliorees = null;
