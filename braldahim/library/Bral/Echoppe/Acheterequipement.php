@@ -100,7 +100,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		$placeDispo = false;
 		$i = 0;
 		foreach($this->view->destinationTransfert as $d) {
-			if ($d["poids_restant"] >= $this->materiel["poids_type_materiel"]) {
+			if ($d["poids_restant"] >= $this->equipement["poids_recette_equipement"]) {
 				$placeDispo = true;
 				$this->view->destinationTransfert[$i]["possible"] = true;
 				break;
