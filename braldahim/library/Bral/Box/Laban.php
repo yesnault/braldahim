@@ -73,7 +73,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 			} else {
 				$nom_metier = $m["nom_masculin_metier"];
 			}
-				
+
 			$possedeMetier = false;
 			foreach($hobbitsMetierRowset as $h) {
 				if ($h["id_metier"] == $m["id_metier"]) {
@@ -81,7 +81,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 					break;
 				}
 			}
-				
+
 			if ($possedeMetier == true) {
 				$tabHobbitMetiers[$m["nom_systeme_metier"]] = array(
 						"id_metier" => $m["id_metier"],
@@ -151,19 +151,19 @@ class Bral_Box_Laban extends Bral_Box_Box {
 				"nb_planche" => $p["quantite_planche_laban"],
 				"nb_rondin" => $p["quantite_rondin_laban"],
 			);
-				
+
 			if ($p["quantite_peau_laban"] > 0 || $p["quantite_viande_laban"] > 0) {
 				if (isset($tabMetiers["chasseur"])) {
 					$tabMetiers["chasseur"]["a_afficher"] = true;
 				}
 			}
-				
+
 			if ($p["quantite_viande_preparee_laban"] > 0) {
 				if (isset($tabMetiers["cuisinier"])) {
 					$tabMetiers["cuisinier"]["a_afficher"] = true;
 				}
 			}
-				
+
 			if ($p["quantite_cuir_laban"] > 0 || $p["quantite_fourrure_laban"] > 0) {
 				if (isset($tabMetiers["tanneur"])) {
 					$tabMetiers["tanneur"]["a_afficher"] = true;
@@ -175,7 +175,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 					$tabMetiers["menuisier"]["a_afficher"] = true;
 				}
 			}
-				
+
 			if ($p["quantite_rondin_laban"] > 0) {
 				if (isset($tabMetiers["bucheron"])) {
 					$tabMetiers["bucheron"]["a_afficher"] = true;
@@ -187,12 +187,12 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		$tabRunesIdentifiees = null;
 		$tabRunesNonIdentifiees = null;
 		$labanRuneTable = new LabanRune();
-		$runes = $labanRuneTable->findByIdHobbit($this->view->user->id_hobbit);
+		$runes = $labanRuneTable->findByIdHobbit($this->view->user->id_hobbit, null, array("niveau_type_rune", "nom_type_rune"));
 		unset($labanRuneTable);
 
 		foreach ($runes as $r) {
 			if ($r["est_identifiee_laban_rune"] == "oui") {
-				$tabRunesIdentifiees[] = array(
+				$tabRunesIdentifiees[$r["id_rune_laban_rune"]] = array(
 					"id_rune" => $r["id_rune_laban_rune"],
 					"type" => $r["nom_type_rune"],
 					"image" => $r["image_type_rune"],
@@ -200,7 +200,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 					"effet_type_rune" => $r["effet_type_rune"],
 				);
 			} else {
-				$tabRunesNonIdentifiees[] = array(
+				$tabRunesNonIdentifiees[$r["id_rune_laban_rune"]] = array(
 					"id_rune" => $r["id_rune_laban_rune"],
 					"type" => $r["nom_type_rune"],
 					"image" => $r["image_type_rune"],
@@ -210,6 +210,11 @@ class Bral_Box_Laban extends Bral_Box_Box {
 			}
 		}
 		unset($runes);
+
+		if ($tabRunesNonIdentifiees != null) {
+			//triage des runes non identifiées par id
+			ksort($tabRunesNonIdentifiees);
+		}
 
 		$this->view->tabHobbitMetiers = $tabHobbitMetiers;
 
@@ -328,7 +333,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 					$tabMetiers["herboriste"]["a_afficher"] = true;
 				}
 			}
-				
+
 			if ($p["quantite_preparee_laban_partieplante"] > 0) {
 				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["a_afficher"] = true;
 				$tabTypePlantesPrepares[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;

@@ -9,18 +9,28 @@
 		<table class="table_liste" style="width:auto; padding:5px;" >
 			<tbody>
 			  <? $i = 0;
-		      foreach ($this->runesNonIdentifiees as $r) : 
-		     	 if ($i % 3 == 0) echo "<tr class='table_liste'>"; 
+		      foreach ($this->runesIdentifiees as $r) : 
+		     	 if ($i == 0) echo "<tr class='table_liste'>"; 
 		    	?>
 		    	<td class="table_liste table_liste_border" align="center" <?=Bral_Helper_Tooltip::jsTip("Rune non identifi&eacute;e n&deg;".$r["id_rune"]) ?>>
 		    		<ul style="position:absolute; text-align:center;"><br /> n&deg;<?=$r["id_rune"]?></ul>
 		    		<img src="/public/images/runes/rune_transparente.png"  class="rune"  alt="Rune non identifi&eacute;e n&deg;<?=$r["id_rune"]?>" />
 		    		
 		    	</td>
-		    	<? if ($i % 3 == 2) echo "</tr>";
-		    	$i++; 
+		    	<? 
+		    	if ($i == 5) :
+		    		echo "</tr>";
+		    		$i = 0;
+		    	else : 
+		    		$i++;
+		    	endif; 
 		     endforeach;
-		     if  ($i % 3 != 0) echo "</tr>"; 
+		     if ($i > 0) {
+			     for ($j = $i; $j <= 5; $j++) {
+			     	echo "<td class='table_liste table_liste_border'>&nbsp;</td>";
+			     }
+			     echo "</tr>"; 
+		     }
 		     ?>
 			</tbody>
 		</table>
@@ -33,19 +43,29 @@
 			<tbody>
 			  <? $i = 0;
 		      foreach ($this->runesIdentifiees as $r) : 
-		     	 if ($i % 3 == 0) echo "<tr class='table_liste'>"; 
+		     	 if ($i == 0) echo "<tr class='table_liste'>"; 
 		    	?>
 		    	<td class="table_liste table_liste_border">
 		    		<? if ($r["image"] != ""): ?>
-		    			<img src="/public/images/runes/<?=$r["image"]?>"  class="rune" <?=Bral_Helper_Tooltip::jsTip(htmlspecialchars(addslashes($r["effet_type_rune"])), $r["type"]. " n&deg;".$r["id_rune"]) ?> alt="<?=$r["type"]?> n&deg;<?=$r["id_rune"]?>"  />
+		    		<img src="/public/images/runes/<?=$r["image"]?>"  class="rune" <?=Bral_Helper_Tooltip::jsTip(htmlspecialchars(addslashes($r["effet_type_rune"])), $r["type"]. " n&deg;".$r["id_rune"]) ?> alt="<?=$r["type"]?> n&deg;<?=$r["id_rune"]?>"  />
 	    			<? else: ?>
 		    			<?=$r["type"]?> (<?=$r["id_rune"]?>)
 		    		<? endif; ?>
 		    	</td>
-		    	<? if ($i % 3 == 2) echo "</tr>";
-		    	$i++; 
+		    	<? 
+		    	if ($i == 5) :
+		    		echo "</tr>";
+		    		$i = 0;
+		    	else : 
+		    		$i++;
+		    	endif; 
 		     endforeach;
-		     if  ($i % 3 != 0) echo "</tr>"; 
+		     if ($i > 0) {
+			     for ($j = $i; $j <= 5; $j++) {
+			     	echo "<td class='table_liste table_liste_border'>&nbsp;</td>";
+			     }
+			     echo "</tr>"; 
+		     }
 		     ?>
 			</tbody>
 		</table>

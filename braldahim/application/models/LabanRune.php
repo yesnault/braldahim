@@ -14,7 +14,7 @@ class LabanRune extends Zend_Db_Table {
 	protected $_name = 'laban_rune';
 	protected $_primary = array('id_laban_rune', 'id_fk_hobbit_laban_rune');
 	
-    function findByIdHobbit($idHobbit, $identifiee = null) {
+    function findByIdHobbit($idHobbit, $identifiee = null, $ordre = null) {
     	$whereIdentifiee = "";
     	if ($identifiee != null) {
     		$whereIdentifiee = " AND laban_rune.est_identifiee_laban_rune = '".$identifiee."'";
@@ -25,8 +25,10 @@ class LabanRune extends Zend_Db_Table {
 		->from('type_rune', '*')
 		->where('id_fk_hobbit_laban_rune = '.intval($idHobbit))
 		->where('laban_rune.id_fk_type_laban_rune = type_rune.id_type_rune'.$whereIdentifiee);
+		if ($ordre != null) {
+			$select->order($ordre);
+		}
 		$sql = $select->__toString();
-
 		return $db->fetchAll($sql);
     }
     
