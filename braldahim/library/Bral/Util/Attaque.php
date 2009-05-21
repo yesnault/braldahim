@@ -193,6 +193,7 @@ class Bral_Util_Attaque {
 					$nbCastars = Bral_Util_Commun::dropHobbitCastars($hobbitCible, $effetH);
 					$hobbitCible->castars_hobbit = $hobbitCible->castars_hobbit - $nbCastars;
 					Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - nbCastars=".$nbCastars);
+					$retourAttaque["gains"]["gainCastars"] = $nbCastars;
 					if ($hobbitCible->castars_hobbit < 0) {
 						$hobbitCible->castars_hobbit = 0;
 					}
