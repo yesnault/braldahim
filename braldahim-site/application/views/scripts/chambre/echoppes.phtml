@@ -1,0 +1,38 @@
+
+<ul class="titre textalic textsizec">
+ R&eacute;parition des &eacute;choppes par comt&eacute;
+</ul>
+<br>
+
+<table class="table_liste">
+	
+	<? if ($this->echoppes != null): ?>
+	   <? foreach($this->echoppes as $k => $v) :?>
+		   <thead class="table_liste">
+		   	<tr class="table_liste">
+				<th colspan="3"><?=$k?></th>
+		  	</tr>
+		  	<tr>
+		  	<th>Type d'&eacute;choppe</th>
+		  	<th>Nombre d'&eacute;choppes construites</th>
+		  </tr>
+		</thead>
+	  	<tbody>
+	  	<? $i = 0; ?>
+	  	<? foreach($v as $e) :?>
+	  		
+		  	<tr class="table_liste<?=($i % 2);$i++; ?>">
+		  		<td class="table_liste" width="33%"><?=$e["nom_metier"]?></td>
+		  		<td class="table_liste" width="33%"><?=$e["nombre"]?></td>
+		  	</tr>
+	  	 <? endforeach; ?>
+	  	  </tbody>
+	  <? endforeach; ?>
+	<? else: ?>
+	   <tr class="table_liste">
+	   	<td colspan="5">
+	   		Aucun m&eacute;tier.
+	   	</td>
+	   </tr>
+	<? endif; ?>
+</table>

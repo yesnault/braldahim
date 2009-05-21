@@ -1,0 +1,23 @@
+<ul class="titre textalic textsizeb">
+ La Chambre des M&eacute;tiers
+</ul>
+
+<table style="width:100%">
+<tr>
+	<td style="width:500px; border: 0px solid #791E1E;" valign="top">
+		<?=$this->render("commun/box_header.phtml"); ?>
+			<div class="inner">
+				<ul class="box_contenu1 textalic"><br>
+					<? include("metiers.phtml"); ?>
+					<br><br>
+					<? include("echoppes.phtml"); ?>
+					
+					<br>
+				</ul>
+			</div>
+		<?=$this->render("commun/box_bottom.phtml"); ?>
+	</td>
+</tr>
+</table>
+		
+
