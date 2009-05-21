@@ -133,27 +133,27 @@ class Bral_Util_Charrette {
 			$charretteMaterielAssembleTable = new CharretteMaterielAssemble();
 			$materielsAssembles = $charretteMaterielAssembleTable->findByIdCharrette($charrette["id_charrette"]);
 
-			if ($materielsAssembles != null && count($materielsAssembles) > 0) {
-				$durabiliteMaxCharrette = $charrette["durabilite_type_materiel"];
-				$poidsTransportable = $charrette["capacite_type_materiel"];
+			$durabiliteMaxCharrette = $charrette["durabilite_type_materiel"];
+			$poidsTransportable = $charrette["capacite_type_materiel"];
 
+			if ($materielsAssembles != null && count($materielsAssembles) > 0) {
 				foreach($materielsAssembles as $m) {
 					$durabiliteMaxCharrette = $durabiliteMaxCharrette + $m["durabilite_type_materiel"];
 					$poidsTransportable = $poidsTransportable + $m["capacite_type_materiel"];
 				}
-
-				$data = array(
+			}
+			
+			$data = array(
 					"durabilite_max_charrette" => $durabiliteMaxCharrette,
 					"poids_transportable_charrette" => $poidsTransportable,
-				);
+			);
 
-				$where = "id_charrette = ".$charrette["id_charrette"];
-				$charretteTable->update($data, $where);
+			$where = "id_charrette = ".$charrette["id_charrette"];
+			$charretteTable->update($data, $where);
 
-				// mise à jour du poids en base
-				Zend_Loader::loadClass("Bral_Util_Poids");
-				Bral_Util_Poids::calculPoidsCharrette($idHobbit, true);
-			}
+			// mise à jour du poids en base
+			Zend_Loader::loadClass("Bral_Util_Poids");
+			Bral_Util_Poids::calculPoidsCharrette($idHobbit, true);
 		} else if ($nb > 1) {
 			throw new Zend_Exception("Bral_Util_Charrette::calculAmeliorationsCharrette idh:".$idHobbit);
 		}

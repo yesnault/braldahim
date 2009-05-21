@@ -227,7 +227,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 		if ($nb_peau < 0) $nb_peau = 0;
 		
 		$data = array(
-				'quantite_rondin_arriere_echoppe' => $nb_rondins,
+				'quantite_rondin_arriere_echoppe' => $this->view->echoppe["quantite_rondin_arriere_echoppe"] + $nb_rondins,
 				'quantite_peau_arriere_echoppe' => $this->view->echoppe["quantite_peau_arriere_echoppe"] + $nb_peau,
 				'quantite_cuir_arriere_echoppe' => $this->view->echoppe["quantite_cuir_arriere_echoppe"] + $nb_cuir,
 				'quantite_fourrure_arriere_echoppe' => $this->view->echoppe["quantite_fourrure_arriere_echoppe"] + $nb_fourrure,
