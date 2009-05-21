@@ -9,7 +9,7 @@
 		<table class="table_liste" style="width:auto; padding:5px;" >
 			<tbody>
 			  <? $i = 0;
-		      foreach ($this->runesIdentifiees as $r) : 
+		      foreach ($this->runesNonIdentifiees as $r) : 
 		     	 if ($i == 0) echo "<tr class='table_liste'>"; 
 		    	?>
 		    	<td class="table_liste table_liste_border" align="center" <?=Bral_Helper_Tooltip::jsTip("Rune non identifi&eacute;e n&deg;".$r["id_rune"]) ?>>
