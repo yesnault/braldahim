@@ -569,6 +569,8 @@ Consultez vos événements pour plus de détails.";
 			$nbCastars = $nbCastars / 2;
 		}
 
+		$nbCastars = round($nbCastars);
+		
 		Zend_Loader::loadClass("Element");
 		$elementTable = new Element();
 		$data = array(
