@@ -14,7 +14,7 @@ if ($case["n_lieux"] > 0) :
 	}
 	 
 	$doubleClick = "";
-	if ($this->user->x_hobbit == $case["x"] && $this->user->y_hobbit == $case["y"]) {
+	if ($this->user->x_hobbit == $case["x"] && $this->user->y_hobbit == $case["y"] && $this->estVueEtendue == false) {
 		$doubleClick = "title=\"Double Cliquer pour acc&eacute;der directement au lieu\"";
 		$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return fermeturePopup(); \"";
 	}
@@ -53,7 +53,9 @@ if ($case["n_echoppes"] > 0) :
 		$textEchoppe .= '<label class=\\\'alabel\\\' onClick=ouvrirWin(\\\'\/voir\/hobbit\/?hobbit='.$c["id_hobbit"].'\\\'); title=\\\'Voir le profil\\\' >';
 		$textEchoppe .= addslashes(htmlspecialchars($c["prenom_hobbit"]))." ".addslashes(htmlspecialchars($c["nom_hobbit"])).", n&deg; ".$c["id_hobbit"];
 		$textEchoppe .= "</label>";
-		$textEchoppe .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$c["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
+		if ($this->estVueEtendue == false) {
+			$textEchoppe .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$c["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
+		}
       	$textEchoppe .= "<br />";
       	$nomSystemeEchoppe = $c["nom_systeme_metier"];
 	}
@@ -63,7 +65,7 @@ if ($case["n_echoppes"] > 0) :
 	}
 	
 	$doubleClick = "";
-	if ($this->user->x_hobbit == $case["x"] && $this->user->y_hobbit == $case["y"]) {
+	if ($this->user->x_hobbit == $case["x"] && $this->user->y_hobbit == $case["y"] && $this->estVueEtendue == false) {
 		$doubleClick = "title=\"Double Cliquer pour acc&eacute;der directement &agrave; l'&eacute;choppe\"";
 		$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return fermeturePopup(); \"";
 	}

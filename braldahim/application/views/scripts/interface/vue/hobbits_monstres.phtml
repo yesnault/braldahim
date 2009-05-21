@@ -11,8 +11,9 @@
 		$textHobbit .= " (n&deg;".$h["id_hobbit"].")</label>, niv.".$h["niveau_hobbit"];
 		
 		$textHobbit .= ' <img src=\\\'/public/images/puce_event.gif\\\' title=\\\'Voir les événements\\\' border=\\\'0\\\' onClick=ouvrirEvenementsH('.$h["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
-		$textHobbit .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$h["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
-		
+		if ($this->estVueEtendue == false) {
+			$textHobbit .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$h["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
+		}
 		if ($h["id_communaute"] != null) {
 			$textHobbit .= ' - <label class=alabel onClick=ouvrirCommunaute('.$h["id_communaute"].');>'.addslashes(htmlspecialchars($h["nom_communaute"])).'</label>';
 		}
@@ -25,8 +26,9 @@
 	if ($case["n_hobbits"] > 1) {
 		$s = "s";
 	}
-endif; ?>
-<?php if ($case["n_monstres"] > 0) :
+endif; 
+
+if ($case["n_monstres"] > 0) :
 	$textMonstre = "<br>Monstre";
 	if ($case["n_monstres"] > 1) {
 		$textMonstre .= "s";
