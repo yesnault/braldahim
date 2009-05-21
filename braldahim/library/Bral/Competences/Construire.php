@@ -329,7 +329,7 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_vue", "box_laban"));
+		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_vue", "box_laban", "box_lieu"));
 	}
 
 	private function getNbRouteDansComte() {
