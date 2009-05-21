@@ -473,8 +473,10 @@ Consultez vos événements pour plus de détails.";
 		$where = "id_monstre=".$id_monstre;
 		$monstreTable->update($data, $where);
 
-		self::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $niveauHobbit, $monstre["id_fk_type_groupe_monstre"], $effetMotD);
-		$this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $effetMotH, $niveauHobbit, $monstre["id_fk_type_groupe_monstre"]);
+		$tabGains["gainRune"] = self::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $niveauHobbit, $monstre["id_fk_type_groupe_monstre"], $effetMotD);
+		$tabGains["gainCastars"] = $this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $effetMotH, $niveauHobbit, $monstre["id_fk_type_groupe_monstre"]);
+		
+		return $tabGains;
 	}
 
 	public static function dropRune($x, $y, $niveauTue, $niveauHobbit, $idTypeGroupeMonstre, $effetMotD = 0) {
@@ -484,7 +486,7 @@ Consultez vos événements pour plus de détails.";
 		$conf = Zend_Registry::get('config');
 		if ($idTypeGroupeMonstre == $conf->game->groupe_monstre->type->gibier) {
 			// pas de drop de castar pour les gibiers
-			return;
+			return false;
 		}
 
 		Zend_Loader::loadClass("ElementRune");
@@ -493,7 +495,7 @@ Consultez vos événements pour plus de détails.";
 		//Si 10+2*(Niv tué - Niveau attaquant)+Niveau tué <= 0 alors pas de drop de rune
 		if ((10 + 2 * ($niveauTue - $niveauHobbit) + $niveauTue) <= 0) {
 			Bral_Util_Log::viemonstres()->debug(" - dropRune - pas de drop de rune : niveauTue=".$niveauTue." niveauHobbit=".$niveauHobbit);
-			return;
+			return false;
 		}
 
 		$tirage = Bral_Util_De::get_1d100();
@@ -516,7 +518,7 @@ Consultez vos événements pour plus de détails.";
 		$typeRuneRowset = $typeRuneTable->findByNiveau($niveauRune);
 
 		if (!isset($typeRuneRowset) || count($typeRuneRowset) == 0) {
-			return; // rien à faire, doit jamais arriver
+			return false; // rien à faire, doit jamais arriver
 		}
 
 		$nbType = count($typeRuneRowset);
@@ -547,6 +549,8 @@ Consultez vos événements pour plus de détails.";
 		$dataRunes["mois_stats_runes"] = date("Y-m-d", $moisEnCours);
 		$dataRunes["nb_rune_stats_runes"] = 1;
 		$statsRunes->insertOrUpdate($dataRunes);
+		
+		return true;
 	}
 
 	private function dropCastars($x, $y, $niveauMonstre, $effetMotH, $niveauHobbit, $idTypeGroupeMonstre) {
@@ -573,6 +577,8 @@ Consultez vos événements pour plus de détails.";
 				"y_element" => $y,
 		);
 		$elementTable->insertOrUpdate($data);
+		
+		return $nbCastars;
 	}
 
 	private function getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat = 0, $critique = false, $pvPerdus = 0, $koCible = false) {

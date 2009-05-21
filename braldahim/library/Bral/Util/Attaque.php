@@ -40,6 +40,7 @@ class Bral_Util_Attaque {
 		$retourAttaque["effetMotS"] = false;
 		$retourAttaque["idMatchSoule"] = null;
 		$retourAttaque["etape"] = false;
+		$retourAttaque["gains"] = null;
 
 		$cible = array('nom_cible' => $hobbitCible->prenom_hobbit ." ". $hobbitCible->nom_hobbit,
 			'id_cible' => $hobbitCible->id_hobbit, 
@@ -378,6 +379,7 @@ Consultez vos événements pour plus de détails.";
 		$retourAttaque["effetMotS"] = false;
 		$retourAttaque["ballonLache"] = false;
 		$retourAttaque["etape"] = false;
+		$retourAttaque["gains"] = null;
 
 		$retourAttaque["attaqueReussie"] = false;
 
@@ -512,7 +514,7 @@ Consultez vos événements pour plus de détails.";
 
 				$retourAttaque["mort"] = true;
 				$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
-				$vieMonstre->mortMonstreDb($cible["id_cible"], $effetD, $effetH, $hobbitAttaquant->niveau_hobbit);
+				$retourAttaque["gains"] = $vieMonstre->mortMonstreDb($cible["id_cible"], $effetD, $effetH, $hobbitAttaquant->niveau_hobbit);
 			} else {
 				$monstre["agilite_bm_monstre"] = $monstre["agilite_bm_monstre"] - $monstre["niveau_monstre"];
 				$retourAttaque["fragilisee"] = true;
