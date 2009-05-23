@@ -24,11 +24,11 @@ class Bral_Util_Poids {
 	const POIDS_CUIR = 0.4;
 	const POIDS_FOURRURE = 0.4;
 	const POIDS_PLANCHE = 3;
-	const POIDS_RONDIN = 5;
+	const POIDS_RONDIN = 4;
 	const POIDS_RUNE = 0.05;
 	const POIDS_POTION = 0.3;
-	const POIDS_MINERAI = 0.4;
-	const POIDS_LINGOT = 0.5;
+	const POIDS_MINERAI = 0.6;
+	const POIDS_LINGOT = 1;
 	const POIDS_PARTIE_PLANTE_BRUTE = 0.002;
 	const POIDS_PARTIE_PLANTE_PREPAREE = 0.003;
 	const POIDS_MUNITION = 0.04;
