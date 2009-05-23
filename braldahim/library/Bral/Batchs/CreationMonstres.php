@@ -313,7 +313,8 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		}
 
 		$nb_pi = Bral_Util_De::get_de_specifique($pi_min, $pi_max);
-
+		$nb_pi = floor($nb_pi * $referenceCourante["coef_pi_ref_monstre"]);
+		
 		// Application de +/- 5% sur chaque carac
 		$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
 		$p_force = $referenceCourante["pourcentage_force_ref_monstre"] + $alea;
