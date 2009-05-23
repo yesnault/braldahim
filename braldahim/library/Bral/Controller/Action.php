@@ -79,6 +79,8 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 					$action = Bral_Quete_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Messagerie_Factory") {
 					$action = Bral_Messagerie_Factory::getAction($this->_request, $this->view);
+				} elseif ($factory == "Bral_Administrationajax_Factory") {
+					$action = Bral_Administrationajax_Factory::getAction($this->_request, $this->view);
 				}
 				$xml_entry->set_valeur($action->getNomInterne());
 				$xml_entry->set_data($action->render());
@@ -117,10 +119,10 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 	}
 
 	public function errorAction() {
-		 $errors = $this->_getParam('error_handler');
-		 $exception = $errors->exception;
-		 
-		 Bral_Util_Exception::traite("type:".$errors->type." msg:".$exception->getMessage()." ex:".$exception->getTraceAsString(), false);
+		$errors = $this->_getParam('error_handler');
+		$exception = $errors->exception;
+			
+		Bral_Util_Exception::traite("type:".$errors->type." msg:".$exception->getMessage()." ex:".$exception->getTraceAsString(), false);
 	}
 
 	private function getXmlEntryVoirEchoppe($action) {

@@ -14,6 +14,11 @@ class Lieu extends Zend_Db_Table {
 	protected $_name = 'lieu';
 	protected $_primary = 'id_lieu';
 
+	public function findById($id){
+		$where = $this->getAdapter()->quoteInto('id_lieu = ?',(int)$id);
+		return $this->fetchRow($where);
+	}
+
 	public function findByType($type, $estSoule = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -95,7 +100,7 @@ class Lieu extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
-	
+
 	function findByTypeAndCase($type,$x, $y) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -110,7 +115,7 @@ class Lieu extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
-	
+
 	public function findByTypeAndPosition($type, $x, $y, $estSoule = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();

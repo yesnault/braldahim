@@ -52,6 +52,10 @@ function _get_(url, encode) {
 			if ((url.substring(12, 14) == "do") && (url.substring(29, 31) == "do")) {
 				action = "do";
 			}
+		} else if (url.substring(0, 19) == "/administrationajax") { // /administrationajax/doaction?caction=ask/do
+			if ((url.substring(20, 22) == "do") && (url.substring(37, 39) == "do")) {
+				action = "do";
+			}
 		}
 	}
 
