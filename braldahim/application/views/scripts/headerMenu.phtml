@@ -37,6 +37,10 @@
 		 <label class="alabel" style="text-decoration:underline" onClick="javascript:ouvrirWin('/voir/');">Voir</label> | 
 		 <a href="/auth/logout"> D&eacute;connexion </a>
 		 
+		 <? if ($this->user->gardeEnCours === true) : ?>
+		 	| <a href="/Gardiennage/" style="background-color:#FF6347;"> Gardiennage de <?=htmlspecialchars($this->user->prenom_hobbit) ?> <?=htmlspecialchars($this->user->nom_hobbit) ?> (<?=$this->user->id_hobbit?>) en cours</a>
+		 <? endif; ?>
+		 
 		 <div style='line-height : 20px;'>
 		  <? if ($this->user->administrateur === true) : ?>
 		  	<span class='alabel' onClick='_get_("/administrationajax/doaction?caction=do_administrationajax_activeradminvue");'>[Admin Vue]</span>
@@ -48,6 +52,6 @@
 		  <?=Bral_Helper_Lune::affiche(); ?>
 		 </div>
 	 </div>
-	
+	 
 	<?=Bral_Helper_Box::bas(); ?>
 <? endif; ?>
