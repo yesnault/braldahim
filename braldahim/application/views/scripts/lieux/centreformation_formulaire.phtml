@@ -3,7 +3,16 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <input type='hidden' id='valeur_1' name='valeur_1' value=''>
  <div class='comp_contenu'>
+ 
  	<br />
+ 	<b>Information pratique</b> : <br>
+ 	Vous trouverez dans le 
+ 	<span class='alabel' onClick="javascript:ouvrirWin('http://www.braldahim.com/bourg');" title="Cliquez pour voir le bourg">Bourg</span>, 
+ 	la <span class='alabel' onClick="javascript:ouvrirWin('http://www.braldahim.com/chambre');" title="Cliquez pour voir la chambre des m&ecute;tiers">Chambre de Métiers</span>
+ 	 qui vous permettra de voir
+ 	la r&eacute;partition des m&eacute;tiers pratiqu&eacute;s dans Braldahim.
+ 
+ 	<br /><br />
     <? if (!$this->possedeMetier): ?>
    		Vous ne pratiquez aucun m&eacute;tier <br /><br />
    		<input type='hidden' id='valeur_defaut' name='valeur_defaut' value=''>
