@@ -2,14 +2,14 @@
 <div class="box_administration">
 <?=Bral_Helper_Box::haut(); ?>
 <div class="inner">
-    <ul class="titre textalic textsizea">Administration Stock Bois</ul>
+    <ul class="titre textalic textsizea">Administration Stock Peaux</ul>
     	&nbsp;
 	<div class="contenu">
 	    <ul class="box_contenu1 textalic">
 			<? if ($this->creation === true) : ?>
 				<b>Cr&eacute;ation du nouveau stock effectu&eacute;e</b> <br />
 			<? endif; ?>
-			<form action="/Administrationstockbois/bois" method="post">
+			<form action="/Administrationstockpeau/peaux" method="post">
 				
 				Ajouter un nouveau stock, qui sera actif le : 
 				<?=$this->dateCreationStock ?>
@@ -30,7 +30,7 @@
 							<span class="titre textalia textsizec"><?=$r["nom_region"]?></span> <br>
 							 <span title='Prix Vente en castars' style="cursor:pointer">PV</span> <input type="textbox" name="<?=$r["id_form"]."_vente"?>" size='3' value="<?=$r["prix_unitaire_vente"] ?>" />
 							 <span title='Prix Reprise en castars' style="cursor:pointer">PR</span> <input type="textbox" name="<?=$r["id_form"]."_reprise"?>" size='3' value="<?=$r["prix_unitaire_reprise"] ?>"/>
-							 <span title='Prix Reprise en castars' style="cursor:pointer">NB</span> <input type="textbox" name="<?=$r["id_form"]."_nbinitial"?>" size='3' value="<?=$r["nb_rondin"] ?>"/> <br>
+							 <span title='Prix Reprise en castars' style="cursor:pointer">NB</span> <input type="textbox" name="<?=$r["id_form"]."_nbinitial"?>" size='3' value="<?=$r["nb_peau"] ?>"/> <br>
 							<br>
 							<br><br>
 						
@@ -43,7 +43,7 @@
 			</form>
 			
 			<br><br>
-			<form action="/Administrationstockbois/bois" method="post">
+			<form action="/Administrationstockpeau/peaux" method="post">
 				Date Stock (AAAA-MM-JJ 00:00:00) 
 				
 				<select name="dateStock">
@@ -69,13 +69,13 @@
 				
 				<? foreach($this->stocks as $r) :?>
 					<tr>
-						<td><?=$r["id_stock_bois"]?></td>
-						<td><?=$r["date_stock_bois"]?></td>
-						<td><?=$r["nb_rondin_initial_stock_bois"]?></td>
-						<td><?=$r["nb_rondin_restant_stock_bois"]?></td>
-						<td><?=$r["prix_unitaire_vente_stock_bois"]?></td>
-						<td><?=$r["prix_unitaire_reprise_stock_bois"]?></td>
-						<td><?=$r["id_fk_region_stock_bois"]?></td>
+						<td><?=$r["id_stock_peau"]?></td>
+						<td><?=$r["date_stock_peau"]?></td>
+						<td><?=$r["nb_peau_initial_stock_peau"]?></td>
+						<td><?=$r["nb_peau_restant_stock_peau"]?></td>
+						<td><?=$r["prix_unitaire_vente_stock_peau"]?></td>
+						<td><?=$r["prix_unitaire_reprise_stock_peau"]?></td>
+						<td><?=$r["id_fk_region_stock_peau"]?></td>
 					</tr>
 				<? endforeach;?>
 				</table>

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -25,6 +25,9 @@ class Bral_Box_Factory {
 				break;
 			case "box_bpartieplantes" :
 				return self::getBpartieplantes($request, $view, $interne);
+				break;
+			case "box_bpeaux" :
+				return self::getBpeaux($request, $view, $interne);
 				break;
 			case "box_charrette" :
 				return self::getCharrette($request, $view, $interne);
@@ -104,37 +107,43 @@ class Bral_Box_Factory {
 		Zend_Loader::loadClass("Bral_Box_Banque");
 		return new Bral_Box_Banque($request, $view, $interne);
 	}
-	
+
 	static function getCoffre($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Banque");
 		Zend_Loader::loadClass("Bral_Box_Coffre");
 		return new Bral_Box_Coffre($request, $view, $interne);
 	}
-	
+
 	static function getBbois($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Boutique");
 		Zend_Loader::loadClass("Bral_Box_Bbois");
 		return new Bral_Box_Bbois($request, $view, $interne);
 	}
-	
+
 	static function getBminerais($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Boutique");
 		Zend_Loader::loadClass("Bral_Box_Bminerais");
 		return new Bral_Box_Bminerais($request, $view, $interne);
 	}
-	
+
 	static function getBtabac($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Boutique");
 		Zend_Loader::loadClass("Bral_Box_Btabac");
 		return new Bral_Box_Btabac($request, $view, $interne);
 	}
-	
+
 	static function getBpartieplantes($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Boutique");
 		Zend_Loader::loadClass("Bral_Box_Bpartieplantes");
 		return new Bral_Box_Bpartieplantes($request, $view, $interne);
 	}
-	
+
+	static function getBpeaux($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Boutique");
+		Zend_Loader::loadClass("Bral_Box_Bpeaux");
+		return new Bral_Box_Bpeaux($request, $view, $interne);
+	}
+
 	static function getCommunaute($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Communaute");
 		return new Bral_Box_Communaute($request, $view, $interne);
@@ -154,7 +163,7 @@ class Bral_Box_Factory {
 		Zend_Loader::loadClass("Bral_Box_Competences");
 		return self::getCompetences($request, $view, $interne, "metier");
 	}
-	
+
 	static function getCompetencesSoule($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Competences");
 		return self::getCompetences($request, $view, $interne, "soule");
@@ -169,17 +178,17 @@ class Bral_Box_Factory {
 		Zend_Loader::loadClass("Bral_Box_Echoppe");
 		return new Bral_Box_Echoppe($request, $view, $interne);
 	}
-	
+
 	public static function getEchoppes($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Echoppes");
 		return new Bral_Box_Echoppes($request, $view, $interne);
 	}
-	
+
 	public static function getEffets($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Effets");
 		return new Bral_Box_Effets($request, $view, $interne);
 	}
-	
+
 	public static function getEquipement($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Equipement");
 		return new Bral_Box_Equipement($request, $view, $interne);
@@ -201,12 +210,12 @@ class Bral_Box_Factory {
 		Zend_Loader::loadClass("Bral_Box_Laban");
 		return new Bral_Box_Laban($request, $view, $interne);
 	}
-	
+
 	public static function getFamille($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Famille");
 		return new Bral_Box_Famille($request, $view, $interne);
 	}
-	
+
 	public static function getCharrette($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Charrette");
 		return new Bral_Box_Charrette($request, $view, $interne);
@@ -216,7 +225,7 @@ class Bral_Box_Factory {
 		Zend_Loader::loadClass("Bral_Box_Quetes");
 		return new Bral_Box_Quetes($request, $view, $interne);
 	}
-	
+
 	public static function getLieu($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Lieu");
 		return new Bral_Box_Lieu($request, $view, $interne);
@@ -236,17 +245,17 @@ class Bral_Box_Factory {
 		Zend_Loader::loadClass("Bral_Box_Messagerie");
 		return new Bral_Box_Messagerie($request, $view, $interne);
 	}
-	
+
 	public static function getSoule($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Soule");
 		return new Bral_Box_Soule($request, $view, $interne);
 	}
-	
+
 	public static function getTitres($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Titres");
 		return new Bral_Box_Titres($request, $view, $interne);
 	}
-	
+
 	public static function getVue($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Vue");
 		return new Bral_Box_Vue($request, $view, $interne);

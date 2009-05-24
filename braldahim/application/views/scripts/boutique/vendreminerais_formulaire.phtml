@@ -18,7 +18,9 @@
 	<? if ($this->sourceTransfertCourante != null) : ?>
 	
 	<br />
-	   <? if ($this->nb_minerai_brut == 0 ) : ?>
+	   <? if ($this->assezDePa === false) :?>
+			Vous n'avez pas assez de PA
+		<? elseif ($this->nb_minerai_brut == 0 ) : ?>
 	   	Aucun minerai brut &agrave; vendre<br />
 	   <? else: ?>
 	    <? if ($this->nb_minerai_brut == 1):$s=''; else:$s='s';endif; ?>
@@ -70,7 +72,7 @@ $js = "
 
 ";
 ?>
-<?php if ($this->vendreMineraisOk === true && $this->sourceTransfertCourante != null) : ?>
+<?php if ($this->vendreMineraisOk === true && $this->sourceTransfertCourante != null && $this->assezDePa === true) : ?>
 	<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onClick="<?=$js?>"> <br>
 	<input type='button' class='button1' id='bouton_vendreminerais' value='Vendre !' onClick='this.disabled=true;_get_("/boutique/doaction?caction=do_boutique_vendreminerais&id_source_courante=<?=$this->sourceTransfertCourante?>");' disabled>
 <? endif ?>

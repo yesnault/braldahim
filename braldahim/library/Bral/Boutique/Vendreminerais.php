@@ -119,10 +119,7 @@ class Bral_Boutique_Vendreminerais extends Bral_Boutique_Boutique {
 	}
 
 	private function calculMinerais() {
-		Zend_Loader::loadClass("EchoppeMinerai");
 		Zend_Loader::loadClass('LabanMinerai');
-
-		$echoppeMineraiTable = new EchoppeMinerai();
 
 		if ($this->view->sourceTransfertCourante == "charrette") {
 			Zend_Loader::loadClass("CharretteMinerai");

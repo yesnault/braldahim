@@ -37,8 +37,4 @@ class Bral_Util_BoutiqueBois {
 		
 		return $tabPrix;
 	}
-	
-	public static function calculAndUpdatePrixUnitaires() {
-		
-	}
 }

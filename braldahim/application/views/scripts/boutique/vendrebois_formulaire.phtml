@@ -6,7 +6,10 @@
  	Les rondins présents éventuellement dans votre laban doivent être transbahutés dans la charrette pour 
  	pouvoir être vendus.<br />
 	<br />
-	<? if ($this->charretteOk === true && $this->charrette["nb_rondin"] > 0): ?>
+	
+	<? if ($this->assezDePa === false) :?>
+			Vous n'avez pas assez de PA
+	<? elseif ($this->charretteOk === true && $this->charrette["nb_rondin"] > 0): ?>
 		<? if ($this->charrette["nb_rondin"] > 1): $s = 's'; else: $s=''; endif;?>
 		Votre charrette contient <?=$this->charrette["nb_rondin"] ?> rondin<?=$s?>.<br>
 		<? if ($this->nbCastarsPossible > 1) : $s='s'; else : $s = ''; endif; ?>
@@ -49,7 +52,7 @@ $js = "
 
 ";
 ?>
-<?php if ($this->vendreBoisOk === true) : ?>
+<?php if ($this->vendreBoisOk === true && $this->assezDePa === true) : ?>
 	<input type='button' class='button1' id='bouton_selectionnertout' value='S&eacute;lectionner Tout !' onClick="<?=$js?>"> <br>
 	<input type='button' class='button1' id='bouton_vendrebois' value='Vendre !' onClick='this.disabled=true;_get_("/boutique/doaction?caction=do_boutique_vendrebois");' disabled>
 <? endif ?>

@@ -34,11 +34,6 @@ class MarcheboisController extends Zend_Controller_Action {
 		$stockBoisTable = new StockBois();
 		$stockBoisRowset = $stockBoisTable->findDernierStock();
 		
-		/*$listeDatesRowset = $stockBoisTable->findDistinctDate();
-		foreach($listeDatesRowset as $r) {
-			$listeDates[] = $r["date_stock_bois"];
-		}*/
-		
 		$stocks = null;
 		$dhtmlxGrid = new Bral_Xml_GridDhtmlx();
 		
