@@ -31,6 +31,7 @@ class Bral_Administrationajax_Positionnervue extends Bral_Administrationajax_Adm
 		
 		$idVille = $this->request->get("id_ville");
 		$idLieu = $this->request->get("id_lieu");
+		$xyPosition = $this->request->get("xy_position");
 		
 		$x = $this->view->user->x_hobbit;
 		$y = $this->view->user->y_hobbit;
@@ -50,6 +51,10 @@ class Bral_Administrationajax_Positionnervue extends Bral_Administrationajax_Adm
 			$lieu = $lieuTable->findById($idLieu);
 			$x = $lieu->x_lieu;
 			$y = $lieu->y_lieu;
+		} elseif ($xyPosition != null) {
+			list ($x, $y) = split("h", $xyPosition);
+			Bral_Util_Controle::getValeurIntVerif($x);
+			Bral_Util_Controle::getValeurIntVerif($y);
 		}
 		
 		Zend_Auth::getInstance()->getIdentity()->administrationvueDonnees["x_position"] = $x;

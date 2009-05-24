@@ -56,5 +56,10 @@
 		<option value="<?=$l["id_lieu"]?>"><?=$l["id_lieu"]?> : <?=$l["nom_lieu"]?></option>
 	<? endforeach; ?>
 	</select>
+	<br>
+	
+	X:<input type="text" id="administrationvue_x" name="administrationvue_x" size="3">
+	Y:<input type="text" id="administrationvue_y" name="administrationvue_y" size="3">
+	<input type="button" class='button1' value="Se Positionner" onClick="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&xy_position=' + $('administrationvue_x').value + 'h' + $('administrationvue_y').value);"
 
   <? endif;?>
