@@ -33,7 +33,7 @@ function _get_(url, encode) {
 				action = "do";
 			}
 		} else if (url.substring(0, 8) == "/echoppe") { // /echoppe/doaction?caction=ask/do
-			if ((url.substring(9, 11) == "do") && (url.substring(26, 28) == "do") || (url.substring(9, 11) == "do") && (url.substring(26, 29) == "ask")) {
+			if ((url.substring(9, 11) == "do") && (url.substring(26, 28) == "do")) {
 				action = "do";
 			}
 		} else if (url.substring(0, 6) == "/lieux") { // /lieux/doaction?caction=ask/do
@@ -60,6 +60,7 @@ function _get_(url, encode) {
 	}
 
 	var sep = '';
+	
 	if ($('nb_valeurs') && (action == "do")) {
 		// Recuperation du nombre de valeur que l'action a besoin
 		nb_valeurs = $('nb_valeurs').value;

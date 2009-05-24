@@ -76,7 +76,6 @@ class Bral_Echoppes_Transferequipement extends Bral_Echoppes_Echoppe {
 
 		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 
-
 		if ($idDestinationCourante != null) {
 			if ($idDestinationCourante == "charrette" && $charrette != null) {
 				$poidsRestant = $charrette["poids_transportable_charrette"] - $charrette["poids_transporte_charrette"];

@@ -34,7 +34,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		Zend_Loader::loadClass("LabanPartieplante");
 		Zend_Loader::loadClass("LabanPotion");
 		
-		$this->idPotion = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));
+		$this->idPotion = Bral_Util_Controle::getValeurIntVerif($this->request->get("idPotion"));
 		
 		$this->preparePotion($this->idPotion);
 		$this->preparePrix();
@@ -272,6 +272,12 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		// on verifie que le hobbit a assez de ressources.
 		if ($this->view->prix[$idPrix]["possible"] !== true) {
 			throw new Zend_Exception(get_class($this)."::prix invalide");
+		}
+		
+		Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));
+		
+		if (intval($this->idPotion) != intval($this->request->getPost("valeur_1"))) {
+			throw new Zend_Exception("Potion invalide : ".$this->idPotion. " - ".$this->request->getPost("valeur_1"));
 		}
 		
 		$this->view->detailPrix = "";

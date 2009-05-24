@@ -39,7 +39,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		Zend_Loader::loadClass("CharretteMinerai");
 		Zend_Loader::loadClass("CharrettePartieplante");
 
-		$this->idEquipement = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));
+		$this->idEquipement = Bral_Util_Controle::getValeurIntVerif($this->request->get("idEquipement"));
 
 		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 		$tabDestinationTransfert[] = array("id_destination" => "laban", "texte" => "votre laban", "poids_restant" => $poidsRestant, "possible" => false);
@@ -103,7 +103,6 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			if ($d["poids_restant"] >= $this->equipement["poids_recette_equipement"]) {
 				$placeDispo = true;
 				$this->view->destinationTransfert[$i]["possible"] = true;
-				break;
 			}
 			$i ++;
 		}
@@ -400,6 +399,12 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 
 		if ($this->view->charrette == null && $this->request->get("id_destination_courante") == "charrette") {
 			throw new Zend_Exception(get_class($this)." destination invalide 2");
+		}
+
+		Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));
+
+		if (intval($this->idEquipement) != intval($this->request->getPost("valeur_1"))) {
+			throw new Zend_Exception("Equipement invalide : ".$this->idEquipement. " - ".$this->request->getPost("valeur_1"));
 		}
 
 		// on regarde si l'on connait la destination

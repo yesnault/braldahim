@@ -36,7 +36,7 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 		Zend_Loader::loadClass("CharretteMinerai");
 		Zend_Loader::loadClass("CharrettePartieplante");
 
-		$this->idMateriel = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));
+		$this->idMateriel = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_1"));
 
 		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 		$tabDestinationTransfert[] = array("id_destination" => "laban", "texte" => "votre laban", "poids_restant" => $poidsRestant, "possible" => false);
@@ -128,7 +128,6 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 			if ($d["poids_restant"] >= $this->materiel["poids_type_materiel"] || $estCharrette) {
 				$placeDispo = true;
 				$this->view->destinationTransfert[$i]["possible"] = true;
-				break;
 			}
 			$i ++;
 		}
@@ -379,6 +378,12 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 			throw new Zend_Exception(get_class($this)." destination invalide 2");
 		}
 
+		Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));
+
+		if (intval($this->idMateriel) != intval($this->request->getPost("valeur_1"))) {
+			throw new Zend_Exception("Materiel invalide : ".$this->idMateriel. " - ".$this->request->getPost("valeur_1"));
+		}
+
 		// on regarde si l'on connait la destination
 		$flag = false;
 		$destination = null;
@@ -397,7 +402,7 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 		if ($destination["possible"] == false) {
 			throw new Zend_Exception(get_class($this)." destination invalide 3");
 		}
-		
+
 		$this->view->detailPrix = "";
 
 		if ($this->view->prix[$idPrix]["type"] == "echoppe") {
@@ -569,18 +574,18 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 				$table = new LabanMateriel();
 				$suffixe = "laban";
 			}
-				
+
 			$data = array(
 				"id_".$suffixe."_materiel" => $this->view->materiel["id_materiel"],
 				"id_fk_type_".$suffixe."_materiel" => $this->view->materiel["id_type_materiel"],
 			);
-			
+				
 			if ($idDestination == "charrette") {
 				$data["id_fk_charrette_materiel"] = $this->view->charrette["id_charrette"];
 			} else {
 				$data["id_fk_hobbit_laban_materiel"] = $this->view->user->id_hobbit;
 			}
-			
+				
 			$table->insert($data);
 		}
 
