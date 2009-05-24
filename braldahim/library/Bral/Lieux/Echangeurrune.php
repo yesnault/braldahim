@@ -87,6 +87,7 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 		}
 
 		$this->echange($idTypeRune);
+		$this->majHobbit();
 	}
 
 	private function echange($idTypeRune) {
@@ -98,7 +99,7 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 		$labanRuneTable = new LabanRune();
 		for ($i = 0; $i < 3; $i++) {
 			$where = "id_rune_laban_rune = ".(int)$this->view->labanRunes[$idTypeRune]["runes"][$i]["id_rune_laban_rune"];
-	//		$labanRuneTable->delete($where);
+			//		$labanRuneTable->delete($where);
 			$texte .= " n°".$this->view->labanRunes[$idTypeRune]["runes"][$i]["id_rune_laban_rune"];
 			if ($i < 2) {
 				$texte .= ",";

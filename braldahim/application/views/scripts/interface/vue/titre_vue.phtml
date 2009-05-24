@@ -53,7 +53,7 @@
  	<select name='administrationvue_lieu' id="administrationvue_lieu" onChange="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&id_lieu=' + this.value);">
  	<option value="-1" selected>Choisissez un lieu</option>
  	<? foreach ($this->administrationLieux as $l) : ?>
-		<option value="<?=$l["id_lieu"]?>"><?=$l["id_lieu"]?> : <?=$l["nom_lieu"]?></option>
+		<option value="<?=$l["id_lieu"]?>"><?=$l["id_lieu"]?> : <?=$l["nom_lieu"]?> (<?=$l["x_lieu"]?>,<?=$l["y_lieu"]?>)</option>
 	<? endforeach; ?>
 	</select>
 	<br>
