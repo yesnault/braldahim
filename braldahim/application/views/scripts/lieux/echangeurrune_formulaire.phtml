@@ -3,7 +3,7 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
  Pour <?=$this->paUtilisationLieu ?> PA et quelques castars, Glourte Pieds Visqueux vous propose d'échanger
- trois runes identiques contre une rune d'un niveau supérieur.<br><br>
+ trois runes identiques contre une rune d'un niveau supérieur. Attention, seules des runes de certaines raret&eacute;s sont &eacute;changeables.<br><br>
  
  <? if ($this->utilisationPaPossible === true) : ?>
 	 Vous avez actuellement <?=$this->user->castars_hobbit?> castar<? if ($this->user->castars_hobbit > 1): echo "s"; endif;?>.<br><br>
@@ -16,7 +16,7 @@
 				     <td valign="top">
 				     <img class="rune" src="/public/images/runes/<?=$r["image_type_rune"]?>" title="<?=$r["nom_type_rune"]?>" alt="<?=$r["nom_type_rune"] ?>"/>
 				     <br>
-				     3 runes <?=$r["nom_type_rune"]?> de niveau <?=$r["niveau_type_rune"]?>
+				     3 runes <?=$r["nom_type_rune"]?>
 				     <br>
 				     co&ucirc;t : <?=$r["cout_castars"]?> castars.
 				     <? if ($r["achat_possible"] !== true): ?>
