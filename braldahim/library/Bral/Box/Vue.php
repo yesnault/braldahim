@@ -59,11 +59,27 @@ class Bral_Box_Vue extends Bral_Box_Box {
 	}
 
 	private function prepare() {
-		$this->view->vue_nb_cases = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
-		$this->view->x_min = $this->view->user->x_hobbit - $this->view->vue_nb_cases;
-		$this->view->x_max = $this->view->user->x_hobbit + $this->view->vue_nb_cases;
-		$this->view->y_min = $this->view->user->y_hobbit - $this->view->vue_nb_cases;
-		$this->view->y_max = $this->view->user->y_hobbit + $this->view->vue_nb_cases;
+		if ($this->view->user->administrationvue === true) {
+			$this->prepareAdministrationVue();
+		}
+
+		if ($this->view->user->administrationvue === true && $this->view->user->administrationvueDonnees != null) {
+			$x = $this->view->user->administrationvueDonnees["x_position"];
+			$y = $this->view->user->administrationvueDonnees["y_position"];
+			$bm = 10;
+				
+		} else {
+			$x = $this->view->user->x_hobbit;
+			$y = $this->view->user->y_hobbit;
+			$bm = $this->view->user->vue_bm_hobbit;
+		}
+
+
+		$this->view->vue_nb_cases = Bral_Util_Commun::getVueBase($x, $y) + $bm;
+		$this->view->x_min = $x - $this->view->vue_nb_cases;
+		$this->view->x_max = $x + $this->view->vue_nb_cases;
+		$this->view->y_min = $y - $this->view->vue_nb_cases;
+		$this->view->y_max = $y + $this->view->vue_nb_cases;
 
 		$this->view->estVueEtendue = false;
 
@@ -74,9 +90,21 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		} else if ($this->_request->get("caction") == "voir") {
 			$this->view->estVueEtendue = true;
 		} else {
-			$this->view->centre_x = $this->view->user->x_hobbit;
-			$this->view->centre_y = $this->view->user->y_hobbit;
+			$this->view->centre_x = $x;
+			$this->view->centre_y = $y;
 		}
+	}
+
+	private function prepareAdministrationVue() {
+		Zend_Loader::loadClass("Ville");
+		$villeTable = new Ville();
+		$villes = $villeTable->fetchAll();
+		$this->view->administrationVilles = $villes;
+
+		Zend_Loader::loadClass("Lieu");
+		$lieuTable = new Lieu();
+		$lieux = $lieuTable->fetchAll();
+		$this->view->administrationLieux = $lieux;
 	}
 
 	private function deplacement() {
@@ -228,7 +256,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		}
 
 		$marcher = null;
-		if ($this->view->estVueEtendue === false) {
+		if ($this->view->estVueEtendue === false && $this->view->user->administrationvue == false) {
 			$utilMarcher = new Bral_Util_Marcher();
 			$marcher = $utilMarcher->calcul($this->view->user);
 		}
@@ -657,6 +685,5 @@ class Bral_Box_Vue extends Bral_Box_Box {
 
 		$this->view->tableau = $tableau;
 		unset($tableau);
-
 	}
 }

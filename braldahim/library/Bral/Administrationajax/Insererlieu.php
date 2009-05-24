@@ -101,6 +101,7 @@ class Bral_Administrationajax_Insererlieu extends Bral_Administrationajax_Admini
 			"x_lieu" => $xLieu,
 			"y_lieu" => $yLieu,
 			"est_soule_lieu" => $estSoule,
+			"etat_lieu" => 100,
 		);
 		$idLieu = $lieuTable->insert($data);
 		$this->view->dataLieu = $data;

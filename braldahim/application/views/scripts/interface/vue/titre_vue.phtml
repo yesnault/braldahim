@@ -36,3 +36,25 @@
   	</td>
   </tr>
   </table>
+  
+  <? if ($this->user->administrationvue == true) :?>
+  <b>Administration par la vue activée.</b><br>
+  Double-Cliquez sur le coin supérieur droit d'une case pour ajouter un lieu.<br>
+
+	Ville : 
+ 	<select name='administrationvue_ville' id="administrationvue_ville" onChange="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&id_ville=' + this.value);">
+ 	<option value="-1" selected>Choisissez une ville</option>
+ 	<? foreach ($this->administrationVilles as $v) : ?>
+		<option value="<?=$v["id_ville"]?>"><?=$v["id_ville"]?> : <?=$v["nom_ville"]?></option>
+	<? endforeach; ?>
+	</select>
+	
+	Lieux : 
+ 	<select name='administrationvue_lieu' id="administrationvue_lieu" onChange="_get_('/administrationajax/doaction?caction=do_administrationajax_positionnervue&id_lieu=' + this.value);">
+ 	<option value="-1" selected>Choisissez un lieu</option>
+ 	<? foreach ($this->administrationLieux as $l) : ?>
+		<option value="<?=$l["id_lieu"]?>"><?=$l["id_lieu"]?> : <?=$l["nom_lieu"]?></option>
+	<? endforeach; ?>
+	</select>
+
+  <? endif;?>

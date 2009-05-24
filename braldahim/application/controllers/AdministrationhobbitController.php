@@ -117,6 +117,7 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 				Zend_Auth::getInstance()->getIdentity()->administrateur = true;
 				Zend_Auth::getInstance()->getIdentity()->usurpationEnCours = true;
 				Zend_Auth::getInstance()->getIdentity()->administrationvue = false;
+				Zend_Auth::getInstance()->getIdentity()->administrationvueDonnees = null;
 
 				$sessionTable = new Session();
 				$where = "id_php_session = '".session_id()."'";

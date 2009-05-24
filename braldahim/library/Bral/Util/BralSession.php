@@ -25,6 +25,7 @@ class Bral_Util_BralSession {
 		$gardeEnCours = $user->gardeEnCours;
 		$administrateur = $user->administrateur;
 		$administrationvue = $user->administrationvue;
+		$administrationvueDonnees = $user->administrationvueDonnees;
 
 		$dbAdapter = Zend_Registry::get('dbAdapter');
 			
@@ -50,6 +51,7 @@ class Bral_Util_BralSession {
 			Zend_Auth::getInstance()->getIdentity()->gardeEnCours = $gardeEnCours;
 			Zend_Auth::getInstance()->getIdentity()->administrateur = $administrateur;
 			Zend_Auth::getInstance()->getIdentity()->administrationvue = $administrationvue;
+			Zend_Auth::getInstance()->getIdentity()->administrationvueDonnees = $administrationvueDonnees;
 			
 			$data = array("id_fk_hobbit_session" => $hobbit->id_hobbit, "id_php_session" => session_id(), "ip_session" => $_SERVER['REMOTE_ADDR'], "date_derniere_action_session" => date("Y-m-d H:i:s")); 
 			$sessionTable->insertOrUpdate($data);

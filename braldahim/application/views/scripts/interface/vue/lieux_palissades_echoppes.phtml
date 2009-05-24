@@ -74,10 +74,6 @@ if ($case["n_echoppes"] > 0) :
 	}
 endif; ?>
  
-<? if ($this->user->administrationvue == true) :?>
-<span class='alabel' onClick='_get_("/administrationajax/doaction?caction=ask_administrationajax_insererlieu&xy_lieu=<?=$case["x"]."h".$case["y"]?>");' title='Cliquez pour insérer un nouveau lieu'>[N]</span><br>
-<? endif;?>
-
 <? if ($textLieu != "" ) :?>
 	<span <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
 		<? if ($type_lieu != "") : ?>

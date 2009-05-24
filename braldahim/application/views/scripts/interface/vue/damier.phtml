@@ -29,7 +29,15 @@ foreach($this->tableau as $k => $case) :
       	
 	if ($case["change_level"] == 1 && $col == "ok") :
 		echo "</tr>";
-	endif; ?>
+	endif; 
+	
+	if ($this->user->administrationvue == true) {
+		$adminDoubleClick = "OnDblClick=\"Javascript:_get_('/administrationajax/doaction?caction=ask_administrationajax_insererlieu&xy_lieu=".$case["x"]."h".$case["y"]."');\" title='Double-Cliquez pour insérer un nouveau lieu'";
+	} else {
+		$adminDoubleClick = "";
+	}
+	
+	?>
 	<?php if ($case["change_level"] == true) : 
 		$col="ok"; ?>
 		<tr nowrap><td><?=$case["y"]?></td>
@@ -40,7 +48,7 @@ foreach($this->tableau as $k => $case) :
 		<table class="cases">
 		<tr>
 		<td class="cases"><? include('hobbits_monstres.phtml');ob_flush();?></td>
-		<td class="cases"><? include('lieux_palissades_echoppes.phtml');ob_flush();?></td>
+		<td class="cases" <?=$adminDoubleClick?>><? include('lieux_palissades_echoppes.phtml');ob_flush();?></td>
 		</tr>
 		<tr>
 		<td class="cases"><? include('cadavres_castars_runes.phtml'); ob_flush(); ?></td>
