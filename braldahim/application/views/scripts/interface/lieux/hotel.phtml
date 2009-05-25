@@ -1,0 +1,6 @@
+<br /><br /><br />
+<? if ($this->config->general->production == 1) : ?>
+<input type="button" class='button1' value="Rentrer dans l'Hôtel des Ventes" onClick='_get_("/interface/load/?box=box_hotel");'>
+<? else: ?>
+L'Hôtel des Ventes est actuellement en construction.
+<? endif;?>
