@@ -98,7 +98,6 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 		$de10 = Bral_Util_De::get_1d10();
 		$deCompetence = 0;
 
-		$de10 = 10;
 		if ($de10 >= 8 && $this->view->boutiquerMetierCourant) {
 			$this->view->ameliorationCompetence = true;
 			$deCompetence = Bral_Util_De::get_1d2();
