@@ -24,7 +24,7 @@ class StockPeau extends Zend_Db_Table {
 		$resultat = $db->fetchAll($sql);
 
 		if (count($resultat) != 1) {
-			throw new Zend_Exception("StockBois::findDernierStockByIdRegion count invalide:".count($resultat). " idregion:".$idRegion);
+			throw new Zend_Exception("StockPeau::findDernierStockByIdRegion count invalide:".count($resultat). " idregion:".$idRegion);
 		}
 		
 		$select = $db->select();
@@ -67,7 +67,7 @@ class StockPeau extends Zend_Db_Table {
 		$resultat = $db->fetchAll($sql);
 
 		if (count($resultat) != 1) {
-			throw new Zend_Exception("StockBois::updateStock count invalide:".count($resultat). " id_stock_peau:".$data["id_stock_peau"]);
+			throw new Zend_Exception("StockPeau::updateStock count invalide:".count($resultat). " id_stock_peau:".$data["id_stock_peau"]);
 		}
 		
 		$quantitePeauRestant = $resultat[0]["quantitePeauRestant"];
