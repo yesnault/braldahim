@@ -1201,7 +1201,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$idTabac = null;
 			$nbTabac = null;
 		
-			for ($i=$this->view->valeur_fin_minerais; $i<=$this->view->valeur_fin_tabacs; $i++) {
+			for ($i=$this->view->valeur_fin_minerais + 1; $i<=$this->view->valeur_fin_tabacs; $i++) {
 			
 				if ( $this->request->get("valeur_".$i) > 0) {
 					$nbTabac = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_".$i));
@@ -1209,7 +1209,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$tabac = $this->view->tabacs[$i];
 		
 					if ($nbTabac > $tabac["quantite"] || $nbTabac < 0) {
-						throw new Zend_Exception(get_class($this)." Quantite Tabac invalide : ".$nbTabac);
+						throw new Zend_Exception(get_class($this)." Quantite Tabac invalide : ".$nbTabac. " i=".$i);
 					}
 					
 					if ($arrivee == "Laban") {
