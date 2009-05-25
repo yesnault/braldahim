@@ -122,7 +122,7 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 
 	private function calculCoutPlanche($charrette) {
 		$usure = $charrette["durabilite_max_charrette"] - $charrette["durabilite_actuelle_charrette"];
-		$ratio = ($charrette["durabilite_max_charrette"] / 100) - $usure + $charrette["poids_transportable_charrette"];
+		$ratio = ($charrette["durabilite_max_charrette"] / 100) + $usure + $charrette["poids_transportable_charrette"];
 
 		$coef =  ($charrette["durabilite_actuelle_charrette"] * 100) / $charrette["durabilite_max_charrette"];
 		$retour = 0;
