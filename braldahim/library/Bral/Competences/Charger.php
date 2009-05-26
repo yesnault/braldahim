@@ -61,6 +61,8 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			if ($this->view->chargerPossible == false) {
 				return;
 			}
+		} else if ($nombreCharrette <= 0) {
+			$this->view->chargerPossible = true;
 		} else if ($nombreCharrette > 1) {
 			throw new Zend_Exception(get_class($this)." NB Charrette invalide idh:".$this->view->user->id_hobbit);
 		}
