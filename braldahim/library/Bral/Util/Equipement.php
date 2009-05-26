@@ -121,24 +121,27 @@ class Bral_Util_Equipement {
 		$typesEmplacement = $typesEmplacement->toArray();
 
 		foreach ($typesEmplacement as $t) {
-			$affiche = "oui";
-			$position = "gauche";
-			if ($t["nom_systeme_type_emplacement"] == "deuxmains" ||
-			$t["nom_systeme_type_emplacement"] == "mains" ||
-			$t["nom_systeme_type_emplacement"] == "maingauche" ||
-			$t["nom_systeme_type_emplacement"] == "maindroite") {
-				$affiche = "non";
-				$position = "droite";
+			
+			if ($t["est_equipable_type_emplacement"] == "oui") {
+				$affiche = "oui";
+				$position = "gauche";
+				if ($t["nom_systeme_type_emplacement"] == "deuxmains" ||
+				$t["nom_systeme_type_emplacement"] == "mains" ||
+				$t["nom_systeme_type_emplacement"] == "maingauche" ||
+				$t["nom_systeme_type_emplacement"] == "maindroite") {
+					$affiche = "non";
+					$position = "droite";
+				}
+					
+				$tabTypesEmplacement[$t["nom_systeme_type_emplacement"]] = array(
+						"id_type_emplacement" => $t["id_type_emplacement"],
+						"nom_type_emplacement" => $t["nom_type_emplacement"],
+						"ordre_emplacement" => $t["ordre_emplacement"],
+						"equipementPorte" => null,
+						"affiche" => $affiche,
+						"position" => $position,
+				);
 			}
-				
-			$tabTypesEmplacement[$t["nom_systeme_type_emplacement"]] = array(
-					"id_type_emplacement" => $t["id_type_emplacement"],
-					"nom_type_emplacement" => $t["nom_type_emplacement"],
-					"ordre_emplacement" => $t["ordre_emplacement"],
-					"equipementPorte" => null,
-					"affiche" => $affiche,
-					"position" => $position,
-			);
 		}
 		unset($typesEmplacement);
 
