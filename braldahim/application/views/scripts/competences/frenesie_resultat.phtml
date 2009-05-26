@@ -32,7 +32,7 @@
 		 			<?=htmlspecialchars($this->retourAttaque["cible"]["nom_cible"])?> (<?=$this->retourAttaque["cible"]["id_cible"]?>)<br /><br />
 		 			
 		 			<? if ($this->retourAttaque["gains"] != null) :?>
-			 			<? if ($this->retourAttaque["gains"]["gainRune"] != false) :?>
+			 			<? if (isset($this->retourAttaque["gains"]["gainRune"]) && $this->retourAttaque["gains"]["gainRune"] != false) :?>
 			 				Une rune est tomb&eaucte;e &agrave; terre <? if ($this->retourAttaque["gains"]["gainCastars"] > 0) : ?>
 			 				ainsi que <?=$this->retourAttaque["gains"]["gainCastars"]?> castar<? if ($this->retourAttaque["gains"]["gainCastars"] > 1): echo "s"; endif;?>
 			 				<? endif;?>.
