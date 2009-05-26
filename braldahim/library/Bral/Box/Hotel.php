@@ -13,7 +13,7 @@
 class Bral_Box_Hotel extends Bral_Box_Box {
 
 	function getTitreOnglet() {
-		return "&Eacute;choppe";
+		return "H&ocirc;tel";
 	}
 
 	function getNomInterne() {
@@ -25,7 +25,17 @@ class Bral_Box_Hotel extends Bral_Box_Box {
 	}
 
 	function render() {
-		
+		if ($this->view->affichageInterne) {
+			$this->data();
+		}
+		$this->view->nom_interne = $this->getNomInterne();
 		return $this->view->render("interface/hotel.phtml");
+	}
+
+	private function data() {
+		Zend_Loader::loadClass("Bral_Hotel_Hotel");
+		Zend_Loader::loadClass("Bral_Hotel_Voir");
+		$box = new Bral_Hotel_Voir("voir", $this->_request, $this->view, "ask");
+		$this->view->htmlContenu = $box->render();
 	}
 }

@@ -67,8 +67,6 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." NB Charrette invalide idh:".$this->view->user->id_hobbit);
 		}
 
-
-
 		if (count($equipementPorteRowset) > 0){
 			$armeTirPortee = true;
 		} else if ($this->view->user->est_intangible_hobbit == "non") {

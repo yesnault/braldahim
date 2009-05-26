@@ -16,11 +16,7 @@ function _get_(url, encode) {
 	revealModal('modalPage');
 	
 	if (url.length > 34) {
-		if (url.substring(0, 9) == "/boutique") { // /boutique/doaction?caction=ask/do
-			if ((url.substring(10, 12) == "do") && (url.substring(27, 29) == "do")) {
-				action = "do";
-			}
-		} else if (url.substring(0, 12) == "/competences") { // /competences/doaction?caction=ask/do
+		if (url.substring(0, 12) == "/competences") { // /competences/doaction?caction=ask/do
 			if ((url.substring(13, 15) == "do") && (url.substring(30, 32) == "do")) {
 				action = "do";
 			}
@@ -28,7 +24,7 @@ function _get_(url, encode) {
 			if ((url.substring(11, 13) == "do") && (url.substring(28, 30) == "do")) {
 				action = "do";
 			}
-		} else if (url.substring(0, 9) == "/echoppes") { // /echoppes/doaction?caction=ask/do
+		} else if (url.substring(0, 9) == "/boutique" || url.substring(0, 9) == "/echoppes") { // /echoppes/doaction?caction=ask/do
 			if ((url.substring(10, 12) == "do") && (url.substring(27, 29) == "do")) {
 				action = "do";
 			}
@@ -36,19 +32,11 @@ function _get_(url, encode) {
 			if ((url.substring(9, 11) == "do") && (url.substring(26, 28) == "do")) {
 				action = "do";
 			}
-		} else if (url.substring(0, 6) == "/lieux") { // /lieux/doaction?caction=ask/do
+		} else if (url.substring(0, 6) == "/lieux" || url.substring(0, 6) == "/hotel" || url.substring(0, 6) == "/soule") { // /lieux/doaction?caction=ask/do
 			if ((url.substring(7, 9) == "do") && (url.substring(24, 26) == "do")) {
 				action = "do";
 			}
-		} else if (url.substring(0, 6) == "/soule") { // /soule/doaction?caction=ask/do
-			if ((url.substring(7, 9) == "do") && (url.substring(24, 26) == "do")) {
-				action = "do";
-			}
-		} else if (url.substring(0, 11) == "/messagerie") { // /messagerie/doaction?caction=ask/do
-			if ((url.substring(12, 14) == "do") && (url.substring(29, 31) == "do")) {
-				action = "do";
-			}
-		} else if (url.substring(0, 11) == "/communaute") { // /communaute/doaction?caction=ask/do
+		} else if (url.substring(0, 11) == "/messagerie" || url.substring(0, 11) == "/communaute") { // /messagerie/doaction?caction=ask/do
 			if ((url.substring(12, 14) == "do") && (url.substring(29, 31) == "do")) {
 				action = "do";
 			}
