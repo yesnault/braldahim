@@ -431,7 +431,7 @@ class Bral_Util_Quete {
 				'id_fk_hobbit_coffre_aliment' => $hobbit->id_hobbit,
 				'id_fk_type_coffre_aliment' => TypeAliment::ID_TYPE_RAGOUT,
 				'id_fk_type_qualite_coffre_aliment' => $qualiteAliment,
-				'bbdf_coffre_aliment' => $qualiteAliment,
+				'bbdf_coffre_aliment' => $bbdfAliment,
 			);
 			$coffreAlimentTable->insert($data);
 		}
