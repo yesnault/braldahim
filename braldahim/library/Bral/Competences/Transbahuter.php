@@ -3,6 +3,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Lieu");
+		Zend_Loader::loadClass("Charrette");
 		$config = Zend_Registry::get("config");
 
 		$choixDepart = false;
@@ -14,15 +15,23 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		//Si on est sur une banque :
 		$lieu = new Lieu();
 		$banque = $lieu->findByTypeAndCase($config->game->lieu->type->banque,$this->view->user->x_hobbit,$this->view->user->y_hobbit);
-		if (count($banque) > 0){
+		if (count($banque) > 0) {
 			$tabEndroit[3] = array("id_type_endroit" => 3,"nom_systeme" => "Coffre", "nom_type_endroit" => "Votre coffre");
 			$tabEndroit[4] = array("id_type_endroit" => 4,"nom_systeme" => "Coffre", "nom_type_endroit" => "Le coffre d'un autre Hobbit");
 		}
 
+		//Si le hobbit a une charette
+		/*$charrette = new Charrette();
+		$tabCharrette = $charrette->findByIdHobbit($this->view->user->id_hobbit);
+		if ( count($tabCharrette) > 0) {
+			$tabEndroit[5] = array("id_type_endroit" => 5,"nom_systeme" => "Charrette", "nom_type_endroit" => "Votre charrette");
+			$this->view->id_charrette_depart = $tabCharrette[0]["id_charrette"];
+		}*/
+		
+		//S'il y a d'autres charettes sur la case.
+
 		//@TODO Si on est sur une echoppe
-
-		//@TODO S'il y a des charettes sur la case
-
+		
 		// On récupère la valeur du départ
 		if ($this->request->get("valeur_1") != "" && $this->request->get("valeur_1") != -1) {
 			$id_type_courant_depart = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_1"));
@@ -31,7 +40,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				throw new Zend_Exception("Bral_Competences_Transbahuter Valeur invalide : id_type_courant_depart=".$id_type_courant_depart);
 			}
 		} else {
-			$id_type_courant_depart = -1;//@TODO vérifier
+			$id_type_courant_depart = -1;
 		}
 
 		//Construction du tableau des départs
@@ -75,11 +84,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 			foreach ($tabEndroit as $e){
 				if ($e["id_type_endroit"] != $id_type_courant_depart ){
-					if ($e["id_type_endroit"] != 2 ){
-						$tabTypeArrivee[$i] = array("id_type_arrivee" => $e["id_type_endroit"], "selected" => $id_type_courant_arrivee, "nom_systeme" => $e["nom_systeme"], "nom_type_arrivee" => $e["nom_type_endroit"]);
-						$i++;
-					}
-					elseif ($poidsRestant > 0 ){
+					if ($e["id_type_endroit"] != 2 || $poidsRestant > 0 ){
 						$tabTypeArrivee[$i] = array("id_type_arrivee" => $e["id_type_endroit"], "selected" => $id_type_courant_arrivee, "nom_systeme" => $e["nom_systeme"], "nom_type_arrivee" => $e["nom_type_endroit"]);
 						$i++;
 					}
@@ -93,9 +98,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->choixDepart = $choixDepart;
 		$this->view->tabEndroit = $tabEndroit;
 
-		//gérer matériel
-		//afficher ce qui est transbahuté et de koi vers koi.
-		//gerer si on a un seul élément dans la liste depart ou arrivée
+		//@TODO gérer matériel
+		//@TODO afficher ce qui est transbahuté et de koi vers koi.
+		//@TODO gerer si on a un seul élément dans la liste depart ou arrivée
 
 	}
 
@@ -214,6 +219,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$equipements = $coffreEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
 				unset($coffreEquipementTable);
 				break;
+			case "Charrette" :
+				$charretteEquipementTable = new CharretteEquipement();
+				$equipements = $charretteEquipementTable->findByIdCharrette($this->view->id_charrette_depart);
+				unset($charretteEquipementTable);
+				break;
 		}
 
 		Zend_Loader::loadClass("Bral_Util_Equipement");
@@ -324,7 +334,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$data = array (
 							"id_coffre_equipement" => $equipement["id_equipement"],
 							"id_fk_recette_coffre_equipement" => $equipement["id_fk_recette"],
-							"id_fk_hobbit_coffre_equipement" => $this->view->user->id_hobbit,
+							"id_fk_hobbit_coffre_equipement" => $this->view->id_hobbit_coffre,
 							"nb_runes_coffre_equipement" => $equipement["nb_runes"],
 							"id_fk_mot_runique_coffre_equipement" => $equipement["id_fk_mot_runique"],
 							"id_fk_region_coffre_equipement" => $equipement["id_fk_region"],
@@ -356,6 +366,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$coffreRuneTable = new CoffreRune();
 				$runes = $coffreRuneTable->findByIdHobbit($this->view->user->id_hobbit);
 				unset($coffreRuneTable);
+				break;
+			case "Charrette" :
+				$charretteRuneTable = new CharretteRune();
+				$runes = $charretteRuneTable->findByIdCharrette($this->view->id_charrette_depart);
+				unset($charretteRuneTable);
 				break;
 		}
 
@@ -472,6 +487,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$coffrePotionTable = new CoffrePotion();
 				$potions = $coffrePotionTable->findByIdHobbit($this->view->user->id_hobbit);
 				unset($coffrePotionTable);
+				break;
+			case "Charrette" :
+				$charrettePotionTable = new CharrettePotion();
+				$potions = $charrettePotionTable->findByIdCharrette($this->view->id_charrette_depart);
+				unset($charrettePotionTable);
 				break;
 		}
 
@@ -598,6 +618,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$aliments = $coffreAlimentTable->findByIdHobbit($this->view->user->id_hobbit);
 				unset($coffreAlimentTable);
 				break;
+			case "Charrette" :
+				$charretteAlimentTable = new CharretteAliment();
+				$aliments = $charretteAlimentTable->findByIdCharrette($this->view->id_charrette_depart);
+				unset($charretteAlimentTable);
+				break;
 		}
 
 		if (count($aliments) > 0) {
@@ -721,6 +746,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$coffreMunitionTable = new CoffreMunition();
 				$munitions = $coffreMunitionTable->findByIdHobbit($this->view->user->id_hobbit);
 				unset($coffreMunitionTable);
+				break;
+			case "Charrette" :
+				$charretteMunitionTable = new CharretteMunition();
+				$munitions = $charretteMunitionTable->findByIdCharrette($this->view->id_charrette_depart);
+				unset($charretteMunitionTable);
 				break;
 		}
 
@@ -856,6 +886,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$coffreMineraiTable = new CoffreMinerai();
 				$minerais = $coffreMineraiTable->findByIdHobbit($this->view->user->id_hobbit);
 				unset($coffreMineraiTable);
+				break;
+			case "Charrette" :
+				$charretteMineraiTable = new CharretteMinerai();
+				$minerais = $charretteMineraiTable->findByIdCharrette($this->view->id_charrette_depart);
+				unset($charretteMineraiTable);
 				break;
 		}
 
@@ -1013,6 +1048,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$coffrePartiePlanteTable = new CoffrePartieplante();
 				$partiePlantes = $coffrePartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
 				unset($coffrePartiePlanteTable);
+				break;
+			case "Charrette" :
+				$charrettePartiePlanteTable = new CharrettePartiePlante();
+				$partiePlantes = $charrettePartiePlanteTable->findByIdCharrette($this->view->id_charrette_depart);
+				unset($charrettePartiePlanteTable);
 				break;
 		}
 
@@ -1181,6 +1221,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$tabacs = $coffreTabacTable->findByIdHobbit($this->view->user->id_hobbit);
 				unset($coffreTabacTable);
 				break;
+			case "Charrette" :
+				$charretteTabacTable = new CharretteTabac();
+				$tabacs = $charretteTabacTable->findByIdCharrette($this->view->id_charrette_depart);
+				unset($charretteTabacTable);
+				break;
 		}
 
 		if (count($tabacs) > 0) {
@@ -1338,6 +1383,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$autres = $coffreTable->findByIdHobbit($this->view->user->id_hobbit);
 				unset($coffreTable);
 				break;
+			case "Charrette" :
+				$charretteTable = new Charrette();
+				$autres = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+				unset($charretteTable);
+				break;
 		}
 
 		if (count($autres) == 1) {
@@ -1469,12 +1519,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						);
 						$arriveeTable = new Coffre();
 						break;
-					case "Charette" :
+					case "Charrette" :
 						$data = array(
-								"quantite_".$nom_systeme."_charette" => $nb,
-								"id_charette" => $this->view->id_charette,
+								"quantite_".$nom_systeme."_charrette" => $nb,
+								"id_charrette" => $this->view->id_charrette,
 						);
-						$arriveeTable = new Charette();
+						$arriveeTable = new Charrette();
 						break;
 				}
 				if ($arriveeTable){
