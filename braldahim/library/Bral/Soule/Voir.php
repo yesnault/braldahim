@@ -128,6 +128,8 @@ class Bral_Soule_Voir extends Bral_Soule_Soule {
 			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire sur ce terrain qui n'est pas de votre niveau";
 		} else if ($this->view->user->est_engage_hobbit == "oui") {
 			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire, vous êtes engagé";
+		} else if ($this->view->user->est_soule_hobbit == "oui") {
+			$this->view->inscriptionNonPossibleInfo = "Vous ne pouvez pas vous inscrire, vous êtes déjà en plein match";
 		} else if ($this->matchEnCours == null) { // s'il n'y a pas de match en cours
 
 			if ($nombre == 0) { // si le joueur n'est pas déjà inscrit
