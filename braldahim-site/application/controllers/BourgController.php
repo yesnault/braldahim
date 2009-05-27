@@ -80,8 +80,9 @@ class BourgController extends Zend_Controller_Action {
 		$evenementTable = new Evenement();
 		$dateFin = date("Y-m-d H:i:s", mktime(0, 0, 0, 1, 1,  $this->view->anneeSelect+1));
 		$dateDebut = date("Y-m-d H:i:s", mktime(0, 0, 0, 1, 1,  $this->view->anneeSelect));
-		$type = $this->view->config->game->evenements->type->evenement;
-		$rowset = $evenementTable->findByType($dateDebut, $dateFin, $type, $ordre, $posStart, $count);
+		$types[] = $this->view->config->game->evenements->type->evenement;
+		$types[] = $this->view->config->game->evenements->type->naissance;
+		$rowset = $evenementTable->findByType($dateDebut, $dateFin, $types, $ordre, $posStart, $count);
 		
 		$dhtmlxGrid = new Bral_Xml_GridDhtmlx();
 		
