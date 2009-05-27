@@ -74,9 +74,15 @@
 	 	<br>
 			
 			<br>
-			Filtre par années: <select id="annee" name="annee" onChange="document.location.href = '/bourg/?anneeselect='+this.value+'&uid='+(new Date()).valueOf()">
+			Filtre par années: <select id="annee" name="annee" onChange="document.location.href = '/bourg/?anneeselect='+this.value+'&typeselect='+$('type').value+'&uid='+(new Date()).valueOf()">
 			<? foreach($this->annees as $a): ?>
 				<option value="<?=$a?>" <?if ($this->anneeSelect == $a): echo "selected" ; endif;?>><?=$a?></option>
+			<? endforeach;?>
+			</select>
+			
+			Filtre par type: <select id="type" name="type" onChange="document.location.href = '/bourg/?anneeselect='+$('annee').value+'&typeselect='+this.value+'&uid='+(new Date()).valueOf()">
+			<? foreach($this->types as $t): ?>
+				<option value="<?=$t["id_type"]?>" <?if ($this->typeSelect == $t["id_type"]): echo "selected" ; endif;?>><?=$t["nom_type"]?></option>
 			<? endforeach;?>
 			</select>
 			<br><br>

@@ -131,14 +131,7 @@ class Evenement extends Zend_Db_Table {
 		$select->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'));
 		$select->from('evenement', array('id_evenement', 'date_evenement', 'details_evenement'));
 		$select->where('id_fk_hobbit_evenement = id_hobbit');
-		if (is_array($type)) {
-			foreach($type as $t) {
-				$select->where('id_fk_type_evenement = ?', $type);
-			}
-		} else {
-			$select->where('id_fk_type_evenement = ?', $type);
-		}
-		
+		$select->where('id_fk_type_evenement = ?', $type);
 		$select->where('date_evenement >= ?', $dateDebut);
 		$select->where('date_evenement < ?', $dateFin);
 		
