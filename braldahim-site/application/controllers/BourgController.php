@@ -95,7 +95,7 @@ class BourgController extends Zend_Controller_Action {
 		$dateFin = date("Y-m-d H:i:s", mktime(0, 0, 0, 1, 1,  $this->view->anneeSelect+1));
 		$dateDebut = date("Y-m-d H:i:s", mktime(0, 0, 0, 1, 1,  $this->view->anneeSelect));
 
-		if ($this->view->typeSelect == 2) {
+		if ($this->view->typeSelect == 1) {
 			$type = $this->view->config->game->evenements->type->evenement;
 		} else {
 			$type = $this->view->config->game->evenements->type->naissance;
