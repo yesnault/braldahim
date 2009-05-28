@@ -92,8 +92,13 @@ class Charrette extends Zend_Db_Table {
 	function updateCharrette($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('charrette', 'quantite_rondin_charrette as quantiteRondin')
-		->where('id_fk_hobbit_charrette = ?',$data["id_fk_hobbit_charrette"]);
+		$select->from('charrette', 'quantite_rondin_charrette as quantiteRondin');
+		
+		if (isset($data["id_charrette"])) {
+			$select->where('id_charrette = ?',$data["id_charrette"]);
+		} else {
+			$select->where('id_fk_hobbit_charrette = ?',$data["id_fk_hobbit_charrette"]);
+		}
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
