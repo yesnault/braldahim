@@ -26,6 +26,7 @@ class Bral_Brasserie_Match extends Bral_Brasserie_Box {
 
 	function render() {
 		Zend_Loader::loadClass("Bral_Helper_Tooltip");
+		Zend_Loader::loadClass("Hobbit");
 		$this->view->nom_interne = $this->getNomInterne();
 		$this->prepareMatch();
 		$this->prepareEquipes();
