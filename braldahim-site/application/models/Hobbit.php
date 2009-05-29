@@ -29,6 +29,11 @@ class Hobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
+	public function findById($id){
+		$where = $this->getAdapter()->quoteInto('id_hobbit = ?',(int)$id);
+		return $this->fetchRow($where);
+	}
+	
 	function findAllByDateCreationAndFamille($dateDebut, $dateFin) {
 		$db = $this->getAdapter();
 		$select = $db->select();
