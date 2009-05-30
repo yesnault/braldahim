@@ -277,7 +277,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 	private function dessineMonstres(&$image) {
 		Zend_Loader::loadClass('Monstre');
 		$monstresTable = new Monstre();
-		$monstres = $monstresTable->fetchall();
+		$monstres = $monstresTable->fetchall("est_mort_monstre = 'non'");
 
 		$tab[0] = 0;
 		$tab[1] = 0;
