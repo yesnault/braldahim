@@ -12,7 +12,7 @@
  		Potion &agrave; utiliser : <br />
  		<select name='valeur_1' id="valeur_1" onChange="javascript:try{$('valeur_2').selectedIndex=0 ; $('valeur_3').selectedIndex=0 } catch(e){}; if ($('valeur_1').value==-1 || $('valeur_2').value==-1 && $('valeur_3').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false }">
 			<option value='-1'>(Choisissez une potion)</option>
-			<? $tabPotions = " new Array(";
+			<? $tabPotions = "";
 				foreach ($this->tabPotions as $p) : 
 					if ($p["bm_type"] == "malus") :
 						$tabPotions .= "'".$p["id_potion"]."',";
@@ -20,8 +20,13 @@
 			?>
 				<option value="<?=$p["id_potion"] ?>"><?=htmlspecialchars($p["nom"]) ?> : qualit&eacute; <?=htmlspecialchars($p["qualite"]) ?>,
 				 niveau: <?=$p["niveau"] ?> (<?=$p["bm_type"]?>)</option>
-			<? $tabPotions = substr($tabPotions, 0, strlen($tabPotions)-1).");" ;
-			endforeach; ?>
+			<? endforeach; 
+			if ($tabPotions != "") :
+				$tabPotions = " new Array(".substr($tabPotions, 0, strlen($tabPotions)-1).");" ;
+			else:
+				$tabPotions = " new Array();";
+			endif;
+			?>
 		</select><br /><br />
 		
 		<? $js=" 
