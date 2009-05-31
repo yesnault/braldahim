@@ -25,6 +25,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 	}
 
 	function prepareFormulaire() {
+		$this->boxHotelToRefresh = false;
 		if ($this->view->assezDePa == false) {
 			return;
 		}
@@ -40,6 +41,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			throw new Zend_Exception(get_class($this)." Deposer interdit ");
 		}
 
+		$this->boxHotelToRefresh = true;
 		$this->calculVendre($this->view->typeDepart[$this->view->idTypeCourantDepart]);
 	}
 
@@ -60,7 +62,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($idTypeCourantDepart == 1) {
 			$selected = "selected";
 		}
-		$tabEndroit[1] = array("id_type_depart" => 1, "nom_systeme" => "Laban", "nom_type_depart" => "Votre laban", "selected" => $selected, "suffixe" => "laban");
+		$tabEndroit[1] = array("id_type_depart" => 1, "nom_systeme" => "Laban", "nom_type_depart" => "Votre laban", "selected" => $selected, "suffixe" => "laban", "box" => "box_laban");
 
 		$charretteTable = new Charrette();
 		$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
@@ -72,7 +74,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			if ($idTypeCourantDepart == 2) {
 				$selected = "selected";
 			}
-			$tabEndroit[2] = array("id_type_depart" => 2, "nom_systeme" => "Charrette", "nom_type_depart" => "Votre charrette", "selected" => $selected, "suffixe" => "charrette", "id_charrette" => $charrette["id_charrette"]);
+			$tabEndroit[2] = array("id_type_depart" => 2, "nom_systeme" => "Charrette", "nom_type_depart" => "Votre charrette", "selected" => $selected, "suffixe" => "charrette", "box" => "box_charrette", "id_charrette" => $charrette["id_charrette"]);
 		}
 
 		$choixDepartDansListe = false;
@@ -204,8 +206,11 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		$typeUniteRowset = $typeUniteRowset->toArray();
 
 		foreach($typeUniteRowset as $t) {
-			$unites[$t["nom_systeme_type_unite"]] = array("id_type_unite" => $t["id_type_unite"] ,
-							  "nom_type_unite" => $t["nom_type_unite"]);
+			$unites[$t["nom_systeme_type_unite"]] = array(
+							"id_type_unite" => $t["id_type_unite"] ,
+							"nom_type_unite" => $t["nom_type_unite"],
+							"nom_pluriel_type_unite" => $t["nom_pluriel_type_unite"],
+			);
 		}
 
 		Zend_Loader::loadClass("TypeMinerai");
@@ -214,8 +219,8 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		$typeMineraiRowset = $typeMineraiRowset->toArray();
 
 		foreach($typeMineraiRowset as $t) {
-			$unites["mineraibrut:".$t["id_type_minerai"]] = array("id_type_minerai" => $t["id_type_minerai"], "nom_type_unite" => "Minerai Brut: ".$t["nom_type_minerai"], "type_forme" => "brut");
-			$unites["minerailingot:".$t["id_type_minerai"]] = array("id_type_minerai" => $t["id_type_minerai"], "nom_type_unite" => "Lingot: ".$t["nom_type_minerai"], "type_forme" => "lingot");
+			$unites["mineraibrut:".$t["id_type_minerai"]] = array("id_type_minerai" => $t["id_type_minerai"], "nom_type_unite" => "Minerai Brut: ".$t["nom_type_minerai"], "type_forme" => "brut", "texte_forme_singulier" => "Minerai Brut", "texte_forme_pluriel" => "Minerais Bruts");
+			$unites["minerailingot:".$t["id_type_minerai"]] = array("id_type_minerai" => $t["id_type_minerai"], "nom_type_unite" => "Lingot: ".$t["nom_type_minerai"], "type_forme" => "lingot", "texte_forme_singulier" => "Lingot", "texte_forme_pluriel" => "Lingots");
 		}
 
 		Zend_Loader::loadClass("TypePartieplante");
@@ -275,14 +280,14 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 
 		if (count($autresRowset) == 1) {
 			foreach ($autresRowset as $p) {
-				if ($p["quantite_peau_".$endroit["suffixe"]] > 0) $tabAutres[1] = array("nom" => "Peau", "nom_systeme" => "quantite_peau" , "nb" => $p["quantite_peau_".$endroit["suffixe"]]);
-				if ($p["quantite_viande_".$endroit["suffixe"]] > 0) $tabAutres[2] = array("nom" => "Viande", "nom_systeme" => "quantite_viande" , "nb" => $p["quantite_viande_".$endroit["suffixe"]]);
-				if ($p["quantite_viande_preparee_".$endroit["suffixe"]] > 0) $tabAutres[3] = array("nom" => "Viande pr&eacute;par&eacute;e", "nom_systeme" => "quantite_viande_preparee" , "nb" => $p["quantite_viande_preparee_".$endroit["suffixe"]]);
-				if ($p["quantite_ration_".$endroit["suffixe"]] > 0) $tabAutres[4] = array("nom" => "Ration", "nom_systeme" => "quantite_ration" , "nb" => $p["quantite_ration_".$endroit["suffixe"]]);
-				if ($p["quantite_cuir_".$endroit["suffixe"]] > 0) $tabAutres[5] = array("nom" => "Cuir", "nom_systeme" => "quantite_cuir" , "nb" => $p["quantite_cuir_".$endroit["suffixe"]]);
-				if ($p["quantite_fourrure_".$endroit["suffixe"]] > 0) $tabAutres[6] = array("nom" => "Fourrure", "nom_systeme" => "quantite_fourrure" , "nb" => $p["quantite_fourrure_".$endroit["suffixe"]]);
-				if ($p["quantite_planche_".$endroit["suffixe"]] > 0) $tabAutres[7] = array("nom" => "Planche", "nom_systeme" => "quantite_planche" , "nb" => $p["quantite_planche_".$endroit["suffixe"]]);
-				if ($p["quantite_rondin_".$endroit["suffixe"]] > 0) $tabAutres[8] = array("nom" => "Rondin", "nom_systeme" => "quantite_rondin" , "nb" => $p["quantite_rondin_".$endroit["suffixe"]]);
+				if ($p["quantite_peau_".$endroit["suffixe"]] > 0) $tabAutres[1] = array("nom" => "Peau", "nom_pluriel" => "Peaux", "nom_systeme" => "quantite_peau" , "nb" => $p["quantite_peau_".$endroit["suffixe"]]);
+				if ($p["quantite_viande_".$endroit["suffixe"]] > 0) $tabAutres[2] = array("nom" => "Viande", "nom_pluriel" => "Viandes", "nom_systeme" => "quantite_viande" , "nb" => $p["quantite_viande_".$endroit["suffixe"]]);
+				if ($p["quantite_viande_preparee_".$endroit["suffixe"]] > 0) $tabAutres[3] = array("nom" => "Viande pr&eacute;par&eacute;e", "nom_pluriel" => "Viandes pr&eacute;par&eacute;es", "nom_systeme" => "quantite_viande_preparee" , "nb" => $p["quantite_viande_preparee_".$endroit["suffixe"]]);
+				if ($p["quantite_ration_".$endroit["suffixe"]] > 0) $tabAutres[4] = array("nom" => "Ration", "nom_pluriel" => "Rations", "nom_systeme" => "quantite_ration" , "nb" => $p["quantite_ration_".$endroit["suffixe"]]);
+				if ($p["quantite_cuir_".$endroit["suffixe"]] > 0) $tabAutres[5] = array("nom" => "Cuir", "nom_pluriel" => "Cuirs", "nom_systeme" => "quantite_cuir" , "nb" => $p["quantite_cuir_".$endroit["suffixe"]]);
+				if ($p["quantite_fourrure_".$endroit["suffixe"]] > 0) $tabAutres[6] = array("nom" => "Fourrure", "nom_pluriel" => "Fourrures", "nom_systeme" => "quantite_fourrure" , "nb" => $p["quantite_fourrure_".$endroit["suffixe"]]);
+				if ($p["quantite_planche_".$endroit["suffixe"]] > 0) $tabAutres[7] = array("nom" => "Planche", "nom_pluriel" => "Planches", "nom_systeme" => "quantite_planche" , "nb" => $p["quantite_planche_".$endroit["suffixe"]]);
+				if ($p["quantite_rondin_".$endroit["suffixe"]] > 0) $tabAutres[8] = array("nom" => "Rondin", "nom_pluriel" => "Rondins", "nom_systeme" => "quantite_rondin" , "nb" => $p["quantite_rondin_".$endroit["suffixe"]]);
 
 				if (count($tabAutres) > 0) {
 					$this->view->vendreOk = true;
@@ -329,6 +334,12 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			"id_fk_vente_element" => $idVente,
 		);
 		$venteTable->insert($data);
+
+		$keyTexte = "nom";
+		if ($nb > 1) {
+			$keyTexte = "nom_pluriel";
+		}
+		$this->view->objetVente = $nb. " ".$autre[$keyTexte];
 	}
 
 	private function prepareTypeEquipements($endroit) {
@@ -401,6 +412,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			"id_fk_region_vente_equipement" => $equipement["id_fk_region"],
 		);
 		$venteEquipementTable->insert($data);
+		$this->view->objetVente = $equipement["nom"]. " n°".$equipement["id_equipement"]. " de qualité ".$equipement["qualite"];
 	}
 
 	private function prepareTypePotions($endroit) {
@@ -468,6 +480,8 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			"id_fk_type_vente_potion" => $potion["id_fk_type"],
 		);
 		$ventePotionTable->insert($data);
+
+		$this->view->objetVente = " la potion n°".$potion["id_potion"]. ", ".$p["nom_type_potion"]." de qualité ".$p["qualite"];
 	}
 
 	private function prepareTypeRunes($endroit) {
@@ -534,6 +548,8 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			"est_identifiee_vente_rune" => $rune["est_identifiee"],
 		);
 		$venteRuneTable->insert($data);
+
+		$this->view->objetVente = " la rune n°".$rune["id_rune"];
 	}
 
 	private function prepareTypeMunitions($endroit) {
@@ -557,6 +573,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 					$tabMunitions[$m["id_fk_type_".$endroit["suffixe"]."_munition"]] = array(
 						"id_type_munition" => $m["id_fk_type_".$endroit["suffixe"]."_munition"],
 						"type" => $m["nom_type_munition"],
+						"nom_pluriel" => $m["nom_pluriel_type_munition"],
 						"quantite" => $m["quantite_".$endroit["suffixe"]."_munition"],
 					);
 				}
@@ -611,6 +628,12 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 				"quantite_vente_munition" => $nbMunition,
 		);
 		$venteMunitionTable->insertOrUpdate($data);
+
+		$keyTexte = "type";
+		if ($nbMunition > 1) {
+			$keyTexte = "nom_pluriel";
+		}
+		$this->view->objetVente =  $nbMunition. " ".$munition[$keyTexte];
 	}
 
 	private function prepareTypeMinerais($endroit) {
@@ -635,6 +658,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 						"quantite" => $m["quantite_brut_laban_minerai"],
 						"type_forme" => "brut",
 						"nom_forme" => "Minerai Brut",
+						"nom_forme_pluriel" => "Minerais Bruts",
 					);
 					$this->view->vendreOk = true;
 				}
@@ -646,6 +670,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 						"quantite" => $m["quantite_lingots_laban_minerai"],
 						"type_forme" => "lingots",
 						"nom_forme" => "Lingot",
+						"nom_forme_pluriel" => "Lingots",
 					);
 					$this->view->vendreOk = true;
 				}
@@ -709,6 +734,13 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 				"quantite_vente_minerai" => $nbMinerai,
 		);
 		$venteMineraiTable->insert($data);
+
+		$keyTexte = "nom_forme";
+		if ($nbMinerai > 1) {
+			$keyTexte = "nom_forme_pluriel";
+		}
+
+		$this->view->objetVente = $minerai["type"] . " : ".$nbMinerai. " ".$minerai[$keyTexte];
 	}
 
 	private function prepareTypePartiesPlantes($endroit) {
@@ -813,6 +845,12 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 				"type_vente_partieplante" => $partiePlante["type_forme"],
 		);
 		$ventePartiePlanteTable->insert($data);
+
+		$s = "";
+		if ($nbPartiePlante > 1) {
+			$s = "s";
+		}
+		$this->view->objetVente = $partiePlante["type_plante"]. " - ".$partiePlante["nom_forme"]. " : ".$nbPartiePlante. " ".$partiePlante["type"].$s;
 	}
 
 	private function prepareTypeMateriels($endroit) {
@@ -873,6 +911,8 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			"id_fk_type_vente_materiel" => $materiel["id_fk_type_materiel"],
 		);
 		$venteMaterielTable->insert($data);
+
+		$this->view->objetVente = " le matériel n°".$materiel["id_materiel"]. " ".$materiel["nom"];
 	}
 
 	private function prepareTypeAliments($endroit) {
@@ -910,15 +950,16 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		$aliments = array();
 		$aliments = $this->request->get("valeur_3");
 
+		$this->view->objetVente = "";
 		foreach ($aliments as $idAliment) {
 			if (!array_key_exists($idAliment, $this->view->aliments)) {
 				throw new Zend_Exception(get_class($this)." ID Aliment invalide : ".$idAliment);
 			}
-	
+
 			$idVente = $this->initVente();
-	
+
 			$aliment = $this->view->aliments[$idAliment];
-	
+
 			if ($endroit["nom_systeme"] == "Laban") {
 				Zend_Loader::loadClass("LabanAliment");
 				$table = new LabanAliment();
@@ -926,10 +967,10 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 				Zend_Loader::loadClass("CharretteAliment");
 				$table = new CharretteAliment();
 			}
-	
+
 			$where = "id_".$endroit["suffixe"]."_aliment=".$idAliment;
 			$table->delete($where);
-	
+
 			Zend_Loader::loadClass("VenteAliment");
 			$venteAlimentTable = new VenteAliment();
 			$data = array (
@@ -940,6 +981,11 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 				"id_fk_type_vente_aliment" => $aliment["id_fk_type"],
 			);
 			$venteAlimentTable->insert($data);
+
+			$this->view->objetVente .= " le ".$aliment["nom"]. " n°".$aliment["id_aliment"]. " (+".$aliment["bbdf"]."%), ";
+		}
+		if ($this->view->objetVente != "") {
+			$this->view->objetVente = substr($this->view->objetVente, 0, strlen($this->view->objetVente) -2);
 		}
 	}
 
@@ -992,6 +1038,8 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 
 		$tabPrix = $this->verificationPrix();
 
+		$this->view->textePrixVente = array();
+
 		$unite_1 = 0;
 		$unite_2 = 0;
 		$unite_3 = 0;
@@ -1002,14 +1050,32 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			if ($tabPrix["unite_1"] == $k && mb_substr($tabPrix["unite_1"], 0, 6) != "plante" && mb_substr($tabPrix["unite_1"], 0, 7) != "minerai") {
 				$prix_1 = $tabPrix["prix_1"];
 				$unite_1 = $u["id_type_unite"];
+				if ($prix_1 > 1) {
+					$keyTexte = "nom_pluriel_type_unite";
+				} else {
+					$keyTexte = "nom_type_unite";
+				}
+				$this->view->textePrixVente[] = array("texte" => $prix_1." ".$u[$keyTexte]);
 			}
 			if ($tabPrix["unite_2"] == $k && mb_substr($tabPrix["unite_2"], 0, 6) != "plante" && mb_substr($tabPrix["unite_2"], 0, 7) != "minerai") {
 				$prix_2 = $tabPrix["prix_2"];
 				$unite_2 = $u["id_type_unite"];
+				if ($prix_2 > 1) {
+					$keyTexte = "nom_pluriel_type_unite";
+				} else {
+					$keyTexte = "nom_type_unite";
+				}
+				$this->view->textePrixVente[] = array("texte" => $prix_2." ".$u[$keyTexte]);
 			}
 			if ($tabPrix["unite_3"] == $k && mb_substr($tabPrix["unite_3"], 0, 6) != "plante" && mb_substr($tabPrix["unite_3"], 0, 7) != "minerai") {
 				$prix_3 = $tabPrix["prix_3"];
 				$unite_3 = $u["id_type_unite"];
+				if ($prix_3 > 1) {
+					$keyTexte = "nom_pluriel_type_unite";
+				} else {
+					$keyTexte = "nom_type_unite";
+				}
+				$this->view->textePrixVente[] = array("texte" => $prix_3." ".$u[$keyTexte]);
 			}
 		}
 
@@ -1045,6 +1111,12 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 							  "id_fk_vente_prix_minerai" => $idVente,
 							  "type_prix_minerai" => $u["type_forme"]);
 				$ventePrixMineraiTable->insertOrUpdate($data);
+				if ($prix_1 > 1) {
+					$keyTexte = "texte_forme_singulier";
+				} else {
+					$keyTexte = "texte_forme_pluriel";
+				}
+				$this->view->textePrixVente[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_1." ".$u[$keyTexte]);
 			}
 			if ($unite_2 == $k && mb_substr($unite_2, 0, 7) == "minerai") {
 				$data = array("prix_vente_prix_minerai" => $prix_2,
@@ -1052,6 +1124,12 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 							  "id_fk_vente_prix_minerai" => $idVente,
 							  "type_prix_minerai" => $u["type_forme"]);
 				$ventePrixMineraiTable->insertOrUpdate($data);
+				if ($prix_2 > 1) {
+					$keyTexte = "texte_forme_singulier";
+				} else {
+					$keyTexte = "texte_forme_pluriel";
+				}
+				$this->view->textePrixVente[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_2." ".$u[$keyTexte]);
 			}
 			if ($unite_3 == $k && mb_substr($unite_3, 0, 7) == "minerai") {
 				$data = array("prix_vente_prix_minerai" => $prix_3,
@@ -1059,6 +1137,12 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 							  "id_fk_vente_prix_minerai" => $idVente,
 							  "type_prix_minerai" => $u["type_forme"]);
 				$ventePrixMineraiTable->insertOrUpdate($data);
+				if ($prix_3 > 1) {
+					$keyTexte = "texte_forme_singulier";
+				} else {
+					$keyTexte = "texte_forme_pluriel";
+				}
+				$this->view->textePrixVente[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_3." ".$u[$keyTexte]);
 			}
 		}
 	}
@@ -1075,6 +1159,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 							  "id_fk_vente_prix_partieplante" => $idVente,
 							  "type_prix_partieplante" => $u["type_forme"]);
 				$ventePrixPartiePlanteTable->insertOrUpdate($data);
+				$this->view->textePrixVente[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_1);
 			}
 			if ($unite_2 == $k && mb_substr($unite_2, 0, 6) == "plante") {
 				$data = array("prix_vente_prix_partieplante" => $prix_2,
@@ -1083,6 +1168,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 							  "id_fk_vente_prix_partieplante" => $idVente,
 							  "type_prix_partieplante" => $u["type_forme"]);
 				$ventePrixPartiePlanteTable->insertOrUpdate($data);
+				$this->view->textePrixVente[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_2);
 			}
 			if ($unite_3 == $k && mb_substr($unite_3, 0, 6) == "plante") {
 				$data = array("prix_vente_prix_partieplante" => $prix_3,
@@ -1091,11 +1177,22 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 							  "id_fk_vente_prix_partieplante" => $idVente,
 							  "type_prix_partieplante" => $u["type_forme"]);
 				$ventePrixPartiePlanteTable->insertOrUpdate($data);
+				$this->view->textePrixVente[] = array("texte" => $u["nom_type_unite"]. " : ". $prix_3);
 			}
 		}
 	}
 
 	function getListBoxRefresh() {
-		$this->constructListBoxRefresh();
+		if ($this->boxHotelToRefresh == true) {
+			$box[] = "box_hotel";
+
+			if ($this->view->idTypeCourantDepart > 0) {
+				$box[] = $this->view->typeDepart[$this->view->idTypeCourantDepart]["box"];
+			}
+			return $this->constructListBoxRefresh($box);
+		} else {
+			return $this->constructListBoxRefresh();
+		}
+
 	}
 }

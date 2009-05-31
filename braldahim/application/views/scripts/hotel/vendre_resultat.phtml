@@ -1,2 +1,11 @@
-	Vous avez mis en vente : <br />
-	TODO
+Vous avez mis en vente <br /><br />
+<?=$this->objetVente?> <br>
+
+contre : <br>
+
+<? 
+$n = 0;
+foreach($this->textePrixVente as $t) : ?>
+	<? if ($n > 0): echo "<br> OU "; endif;?>
+	<?=$t["texte"]; $n++?> 
+<? endforeach; ?>
