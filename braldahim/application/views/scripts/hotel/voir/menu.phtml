@@ -1,0 +1,10 @@
+MENU
+<select name="hotel_menu_recherche" id="hotel_menu_recherche">
+<option value="-1">Choisissez un type de recherche</option>
+<? foreach($this->menuRecherche as $m) : ?>
+	<optgroup label="<?=$m["titre"]?>" style="font-weight:bold"></optgroup>
+	<? foreach($m["elements"] as $e) : ?>
+		<option value="<?=$e["id_element"]?>"><?=$e["nom"]?></option>
+	<? endforeach; ?>
+<? endforeach;?>
+</select>
