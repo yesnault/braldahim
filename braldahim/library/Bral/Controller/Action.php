@@ -61,24 +61,24 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 			$xml_entry->set_type("display");
 
 			try {
-				if ($factory == "Bral_Competences_Factory") {
-					$action = Bral_Competences_Factory::getAction($this->_request, $this->view);
-				} elseif ($factory == "Bral_Echoppes_Factory") {
-					$action = Bral_Echoppes_Factory::getAction($this->_request, $this->view);
-				} elseif ($factory == "Bral_Echoppe_Factory") {
-					$action = Bral_Echoppe_Factory::getAction($this->_request, $this->view);
-				} elseif ($factory == "Bral_Boutique_Factory") {
+				if ($factory == "Bral_Boutique_Factory") {
 					$action = Bral_Boutique_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Charrette_Factory") {
 					$action = Bral_Charrette_Factory::getAction($this->_request, $this->view);
+				} elseif ($factory == "Bral_Competences_Factory") {
+					$action = Bral_Competences_Factory::getAction($this->_request, $this->view);
+				} elseif ($factory == "Bral_Echoppes_Factory") {
+					$action = Bral_Echoppes_Factory::getAction($this->_request, $this->view);
+				} elseif ($factory == "Bral_Hotel_Factory") {
+					$action = Bral_Hotel_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Lieux_Factory") {
 					$action = Bral_Lieux_Factory::getAction($this->_request, $this->view);
-				} elseif ($factory == "Bral_Soule_Factory") {
-					$action = Bral_Soule_Factory::getAction($this->_request, $this->view);
-				} elseif ($factory == "Bral_Quete_Factory") {
-					$action = Bral_Quete_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Messagerie_Factory") {
 					$action = Bral_Messagerie_Factory::getAction($this->_request, $this->view);
+				} elseif ($factory == "Bral_Quete_Factory") {
+					$action = Bral_Quete_Factory::getAction($this->_request, $this->view);
+				} elseif ($factory == "Bral_Soule_Factory") {
+					$action = Bral_Soule_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Administrationajax_Factory") {
 					$action = Bral_Administrationajax_Factory::getAction($this->_request, $this->view);
 				}

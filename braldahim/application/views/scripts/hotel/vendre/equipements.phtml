@@ -1,0 +1,10 @@
+<? if ($this->vendreOk === true) : ?>
+Choississez un &eacute;quipement &agrave; mettre en vente : <br />
+	<select name="valeur_3" id="valeur_3" onChange="if (this.value > 0 && $('valeur_5').value > 0 && $('valeur_6').value != -1) {$('bouton_vendrehotel').disabled=false} else {$('bouton_vendrehotel').disabled=true} ">
+	 	<option value="-1">(Choisissez un &eacute;quipement)</option>
+	 	<? foreach($this->equipements as $e) :?>
+	 		<option value="<?=$e["id_equipement"]?>">n&deg;<?=$e["id_equipement"] ?> <?=$e["nom"]." ".addslashes($e["suffixe"])." de qualit&eacute; ".$e["qualite"] ?>, niveau <?=$e["niveau"] ?></option>
+	 	<? endforeach; ?>
+	</select>
+	<input type='hidden' name='valeur_4' id='valeur_4' value='0' />
+<? endif; ?>

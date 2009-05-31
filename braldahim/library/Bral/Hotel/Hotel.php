@@ -38,7 +38,7 @@ abstract class Bral_Hotel_Hotel {
 			unset($lieuRowset);
 			$this->view->idHotel = $lieu["id_lieu"];
 			$this->view->nomLieu = $lieu["nom_lieu"];
-			$this->paUtilisationHotel = $lieu["pa_utilisation_type_lieu"];
+			$this->view->paUtilisationHotel = $lieu["pa_utilisation_type_lieu"];
 		}
 
 		$this->calculNbPa();
@@ -68,12 +68,12 @@ abstract class Bral_Hotel_Hotel {
 	}
 
 	public function calculNbPa() {
-		if ($this->view->user->pa_hobbit - $this->paUtilisationHotel < 0) {
+		if ($this->view->user->pa_hobbit - $this->view->paUtilisationHotel < 0) {
 			$this->view->assezDePa = false;
 		} else {
 			$this->view->assezDePa = true;
 		}
-		$this->view->nb_pa = $this->paUtilisationHotel;
+		$this->view->nb_pa = $this->view->paUtilisationHotel;
 	}
 
 	/*
@@ -104,6 +104,12 @@ abstract class Bral_Hotel_Hotel {
 			default:
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
 		}
+	}
+
+	protected function constructListBoxRefresh($tab = null) {
+		$tab[] = "box_profil";
+		$tab[] = "box_evenements";
+		return $tab;
 	}
 
 	private function majHobbit() {

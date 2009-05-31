@@ -90,7 +90,7 @@ class Bral_Echoppes_Vendreequipement extends Bral_Echoppes_Echoppe {
 		
 		foreach($typeMineraiRowset as $t) {
 			$unites["minerai:".$t["id_type_minerai"]] = array("id_type_minerai" => $t["id_type_minerai"],
-							  "nom_type_unite" => "Minerai : ".$t["nom_type_minerai"]);
+							  "nom_type_unite" => "Minerai Brut : ".$t["nom_type_minerai"]);
 		}
 		
 		$typePartiePlanteTable = new TypePartieplante();
@@ -109,13 +109,13 @@ class Bral_Echoppes_Vendreequipement extends Bral_Echoppes_Echoppe {
 			$unites["plante:".$t["id_type_plante"]."|".$t["id_fk_partieplante1_type_plante"]] = array("id_type_plante" =>  $t["id_type_plante"],
 							  "id_type_partieplante" => $t["id_fk_partieplante1_type_plante"],
 							  "nom_systeme_type_unite" => "plante:".$t["nom_systeme_type_plante"] ,
-							  "nom_type_unite" => "Plante : ".$t["nom_type_plante"]. ' '.$partiePlante[$t["id_fk_partieplante1_type_plante"]]["nom_partieplante"] );
+							  "nom_type_unite" => "Plante Brute : ".$t["nom_type_plante"]. ' '.$partiePlante[$t["id_fk_partieplante1_type_plante"]]["nom_partieplante"] );
 			
 			if ($t["id_fk_partieplante2_type_plante"] != "") {
 				$unites["plante:".$t["id_type_plante"]."|".$t["id_fk_partieplante2_type_plante"]] = array("id_type_plante" =>  $t["id_type_plante"],
 							  "id_type_partieplante" => $t["id_fk_partieplante2_type_plante"],
 							  "nom_systeme_type_unite" => "plante:".$t["nom_systeme_type_plante"] ,
-							  "nom_type_unite" => "Plante : ".$t["nom_type_plante"]. ' '.$partiePlante[$t["id_fk_partieplante2_type_plante"]]["nom_partieplante"] );
+							  "nom_type_unite" => "Plante Brute : ".$t["nom_type_plante"]. ' '.$partiePlante[$t["id_fk_partieplante2_type_plante"]]["nom_partieplante"] );
 				
 			}
 			
@@ -123,7 +123,7 @@ class Bral_Echoppes_Vendreequipement extends Bral_Echoppes_Echoppe {
 				$unites["plante:".$t["id_type_plante"]."|".$t["id_fk_partieplante3_type_plante"]] = array("id_type_plante" =>  $t["id_type_plante"],
 							  "id_type_partieplante" => $t["id_fk_partieplante3_type_plante"],
 							  "nom_systeme_type_unite" => "plante:".$t["nom_systeme_type_plante"] ,
-							  "nom_type_unite" => "Plante : ".$t["nom_type_plante"]. ' '.$partiePlante[$t["id_fk_partieplante3_type_plante"]]["nom_partieplante"] );
+							  "nom_type_unite" => "Plante Brute : ".$t["nom_type_plante"]. ' '.$partiePlante[$t["id_fk_partieplante3_type_plante"]]["nom_partieplante"] );
 				
 			}
 			
@@ -131,7 +131,7 @@ class Bral_Echoppes_Vendreequipement extends Bral_Echoppes_Echoppe {
 				$unites["plante:".$t["id_type_plante"]."|".$t["id_fk_partieplante4_type_plante"]] = array("id_type_plante" =>  $t["id_type_plante"],
 							  "id_type_partieplante" => $t["id_fk_partieplante4_type_plante"],
 							  "nom_systeme_type_unite" => "plante:".$t["nom_systeme_type_plante"] ,
-							  "nom_type_unite" => "Plante : ".$t["nom_type_plante"]. ' '.$partiePlante[$t["id_fk_partieplante4_type_plante"]]["nom_partieplante"] );
+							  "nom_type_unite" => "Plante Brute : ".$t["nom_type_plante"]. ' '.$partiePlante[$t["id_fk_partieplante4_type_plante"]]["nom_partieplante"] );
 				
 			}
 		}

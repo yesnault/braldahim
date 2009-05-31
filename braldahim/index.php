@@ -39,9 +39,10 @@ Zend_Loader :: loadClass("Bral_Competences_Factory");
 Zend_Loader :: loadClass("Bral_Charrette_Factory");
 Zend_Loader :: loadClass("Bral_Echoppe_Factory");
 Zend_Loader :: loadClass("Bral_Echoppes_Factory");
-Zend_Loader :: loadClass("Bral_Quete_Factory");
+Zend_Loader :: loadClass("Bral_Hotel_Factory");
 Zend_Loader :: loadClass("Bral_Lieux_Factory");
 Zend_Loader :: loadClass("Bral_Messagerie_Factory");
+Zend_Loader :: loadClass("Bral_Quete_Factory");
 Zend_Loader :: loadClass("Bral_Soule_Factory");
 
 Zend_Loader :: loadClass("Bral_Helper_Affiche");

@@ -12,7 +12,7 @@
  */
 class VenteElement extends Zend_Db_Table {
 	protected $_name = 'vente_element';
-	protected $_primary = array('id_vente');
+	protected $_primary = array('id_vente_element');
 
 	function findByIdVente($idVente) {
 		$db = $this->getAdapter();

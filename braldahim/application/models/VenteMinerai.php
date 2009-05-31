@@ -10,18 +10,19 @@
  * $LastChangedRevision: $
  * $LastChangedBy: $
  */
-class VenteMateriel extends Zend_Db_Table {
-	protected $_name = 'vente_materiel';
-	protected $_primary = array('id_vente_materiel');
+class VenteMinerai extends Zend_Db_Table {
+	protected $_name = 'vente_minerai';
+	protected $_primary = array('id_vente_minerai');
 
 	function findByIdVente($idVente) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('vente_materiel', '*')
-		->from('type_materiel')
-		->where('id_fk_type_vente_materiel = id_type_materiel')
-		->where('id_fk_vente_materiel = ?', intval($idVente));
+		$select->from('vente_minerai', '*')
+		->from('type_minerai', '*')
+		->where('vente_minerai.id_fk_type_vente_minerai = type_minerai.id_type_minerai')
+		->where('id_fk_vente_minerai = ?', (int)$idVente);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+
 }

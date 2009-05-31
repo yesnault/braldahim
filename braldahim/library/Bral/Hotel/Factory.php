@@ -38,5 +38,4 @@ class Bral_Hotel_Factory {
 			throw new Zend_Exception("Bral_Hotel_Factory action invalide: ".$nomSystemeAction);
 		}
 	}
-
 }
