@@ -306,5 +306,6 @@ class Bral_Echoppes_Vendremateriel extends Bral_Echoppes_Echoppe {
 		}
 	}
 	function getListBoxRefresh() {
+		return array("box_echoppe", "box_echoppes");
 	}
 }

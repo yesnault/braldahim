@@ -24,6 +24,7 @@
 		<?
 		$jsTrue = "";
 		$jsFalse = "";
+		$js = "";
 		foreach($this->prix as $k => $p) {
 			if ($p["possible"] === true) {
 				$jsTrue .= "$('bouton_achetereequipement".$k."').disabled = true,";
@@ -37,7 +38,7 @@
 		}
 		?>
 		Destination de la pi&egrave;ce : <br>
-		<select name="valeur_3" id="valeur_3" onChange="<?=$js?>">
+		<select name="valeur_3" id="valeur_3" onChange="<? if ($js!= ""): echo $js; endif;?>">
 	 		<option value="-1">(Choisissez une destination)</option>
 			<? foreach($this->destinationTransfert as $d) :?>
 				<option value="<?=$d["id_destination"] ?>" <? if ($d["possible"] == false): echo "disabled"; endif;?>><?=$d["texte"] ?> <? if ($d["possible"] == false): echo " : pas assez de place"; endif;?></option>
