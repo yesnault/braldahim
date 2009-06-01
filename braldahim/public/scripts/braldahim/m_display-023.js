@@ -362,7 +362,7 @@ function selectAll(){
 }
 
 function charrette() {
-	if ($('valeur_2').value > 5){
+	if ($('valeur_2').value >= 5){
 		$('valeur_3').value = $('id_charrette_' + $('valeur_2').value).value;
 	}
 }

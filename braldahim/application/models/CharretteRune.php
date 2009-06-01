@@ -12,7 +12,7 @@
  */
 class CharretteRune extends Zend_Db_Table {
 	protected $_name = 'charrette_rune';
-	protected $_primary = array('id_charrette_rune', 'id_fk_hobbit_charrette_rune');
+	protected $_primary = array('id_rune_charrette_rune');
 	
     function findByIdCharrette($idCharrette, $identifiee = null) {
     	$whereIdentifiee = "";
