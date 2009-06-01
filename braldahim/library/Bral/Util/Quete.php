@@ -1111,7 +1111,7 @@ class Bral_Util_Quete {
 
 		if ($etape["param_3_etape"] == self::ETAPE_POSSEDER_PARAM3_MINERAI) {
 			Zend_Loader::loadClass("CoffreMinerai");
-			$coffreMineraiTable = new LabanMinerai();
+			$coffreMineraiTable = new CoffreMinerai();
 			$coffreMinerai = $coffreMineraiTable->findByIdHobbit($hobbit->id_hobbit);
 			if ($coffreMinerai != null && count($coffreMinerai) >= 1) {
 				foreach($coffreMinerai as $l) {
