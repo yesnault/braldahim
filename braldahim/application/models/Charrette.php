@@ -26,6 +26,18 @@ class Charrette extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
+	function findByIdCharrette($idCharrette) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('charrette', '*')
+		->from('type_materiel', '*')
+		->where('id_fk_type_materiel_charrette = id_type_materiel')
+		->where('id_charrette = '.intval($idCharrette));
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
+	
 	function findByPositionAvecHobbit($x, $y) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -127,9 +139,13 @@ class Charrette extends Zend_Db_Table {
 		quantite_cuir_charrette as quantiteCuir,
 		quantite_fourrure_charrette as quantiteFourrure,
 		quantite_planche_charrette as quantitePlanche,
-		quantite_rondin_charrette as quantiteRondin')
-		->where('id_fk_hobbit_charrette = ?',$data["id_fk_hobbit_charrette"])
-		->group(array('quantitePeau', 'quantiteViande', 'quantiteViandePreparee'));
+		quantite_rondin_charrette as quantiteRondin');	
+		if (isset($data["id_charrette"])) {
+			$select->where('id_charrette = ?',$data["id_charrette"]);
+		} else {
+			$select->where('id_fk_hobbit_charrette = ?',$data["id_fk_hobbit_charrette"]);
+		}
+		$select->group(array('quantitePeau', 'quantiteViande', 'quantiteViandePreparee'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -171,7 +187,11 @@ class Charrette extends Zend_Db_Table {
 				$dataUpdate['quantite_rondin_charrette'] = $quantiteRondin + $data["quantite_rondin_charrette"];
 			}
 			if (isset($dataUpdate)) {
-				$where = 'id_fk_hobbit_charrette = '.$data["id_fk_hobbit_charrette"];
+				if (isset($data["id_charrette"])) {
+					$where = 'id_charrette = '.$data["id_charrette"];
+				} else {
+					$where = 'id_fk_hobbit_charrette = '.$data["id_fk_hobbit_charrette"];
+				}
 				$this->update($dataUpdate, $where);
 			}
 		}

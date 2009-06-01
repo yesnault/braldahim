@@ -9,27 +9,38 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$choixDepart = false;
 		//liste des endroits
 		//On peut essayer de transbahuter pour le sol et le laban
-		$tabEndroit[1] = array("id_type_endroit" => 1,"nom_systeme" => "Element", "nom_type_endroit" => "Le sol");
-		$tabEndroit[2] = array("id_type_endroit" => 2,"nom_systeme" => "Laban", "nom_type_endroit" => "Votre laban");
+		$tabEndroit[1] = array("id_type_endroit" => 1,"nom_systeme" => "Element", "nom_type_endroit" => "Le sol", "est_depart" => true, "poids_restant" => -1, "panneau" => true);
+		$poidsRestantLaban = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+		$tabEndroit[2] = array("id_type_endroit" => 2,"nom_systeme" => "Laban", "nom_type_endroit" => "Votre laban", "est_depart" => true, "poids_restant" => $poidsRestantLaban, "panneau" => true);
 
 		//Si on est sur une banque :
 		$lieu = new Lieu();
 		$banque = $lieu->findByTypeAndCase($config->game->lieu->type->banque,$this->view->user->x_hobbit,$this->view->user->y_hobbit);
 		if (count($banque) > 0) {
-			$tabEndroit[3] = array("id_type_endroit" => 3,"nom_systeme" => "Coffre", "nom_type_endroit" => "Votre coffre");
-			$tabEndroit[4] = array("id_type_endroit" => 4,"nom_systeme" => "Coffre", "nom_type_endroit" => "Le coffre d'un autre Hobbit");
+			$tabEndroit[3] = array("id_type_endroit" => 3,"nom_systeme" => "Coffre", "nom_type_endroit" => "Votre coffre", "est_depart" => true, "poids_restant" => -1, "panneau" => true);
+			$tabEndroit[4] = array("id_type_endroit" => 4,"nom_systeme" => "Coffre", "nom_type_endroit" => "Le coffre d'un autre Hobbit", "est_depart" => false, "poids_restant" => -1, "panneau" => true);
 		}
 
-		//Si le hobbit a une charette
-		/*$charrette = new Charrette();
-		$tabCharrette = $charrette->findByIdHobbit($this->view->user->id_hobbit);
+		//Cas des charrettes
+		$nbendroit=5;
+		$charrette = new Charrette();
+		$tabCharrette = $charrette->findByPositionAvecHobbit($this->view->user->x_hobbit,$this->view->user->y_hobbit);
 		if ( count($tabCharrette) > 0) {
-			$tabEndroit[5] = array("id_type_endroit" => 5,"nom_systeme" => "Charrette", "nom_type_endroit" => "Votre charrette");
-			$this->view->id_charrette_depart = $tabCharrette[0]["id_charrette"];
-		}*/
+			foreach ($tabCharrette as $c) {
+				Zend_Loader::loadClass("Bral_Util_Charrette");
+				$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($c["id_hobbit"]);
+				if ( $c["id_hobbit"] == $this->view->user->id_hobbit) {
+					$panneau = Bral_Util_Charrette::possedePanneauAmovible($c["id_charrette"]);
+					$tabEndroit[$nbendroit] = array("id_type_endroit" => $nbendroit,"nom_systeme" => "Charrette", "id_charrette" => $c["id_charrette"], "id_hobbit_charrette" => $c["id_fk_hobbit_charrette"], "panneau" => $panneau, "nom_type_endroit" => "Votre charrette", "est_depart" => true, "poids_restant" => $tabPoidsCharrette["place_restante"]);
+					$this->view->id_charrette_depart = $tabCharrette[0]["id_charrette"];
+				}
+				else {
+					$tabEndroit[$nbendroit] = array("id_type_endroit" => $nbendroit,"nom_systeme" => "Charrette", "id_charrette" => $c["id_charrette"], "id_hobbit_charrette" => $c["id_fk_hobbit_charrette"], "nom_type_endroit" => "La charrette de ".$c["prenom_hobbit"]." ".$c["nom_hobbit"]." (n°".$c["id_hobbit"].")", "est_depart" => false, "poids_restant" => $tabPoidsCharrette["place_restante"]);
+				}
+				$nbendroit++;
+			}
+		}
 		
-		//S'il y a d'autres charettes sur la case.
-
 		//@TODO Si on est sur une echoppe
 		
 		// On récupère la valeur du départ
@@ -48,12 +59,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$choixDepartDansListe = false;
 		$i=1;
 		foreach ($tabEndroit as $e){
-			//On ne prend pas les autres coffres dans les départs
-			if ($e["id_type_endroit"] != 4){
+			//On ne prend que ce qui peut être dans les départs
+			if ($e["est_depart"] == true){
 				$this->view->deposerOk = false;
 				$this->prepareType($e["nom_systeme"]);
 				if ($this->view->deposerOk == true) {
-					$tabTypeDepart[$i] = array("id_type_depart" => $e["id_type_endroit"], "selected" => $id_type_courant_depart, "nom_systeme" => $e["nom_systeme"], "nom_type_depart" => $e["nom_type_endroit"]);
+					$tabTypeDepart[$i] = array("id_type_depart" => $e["id_type_endroit"], "selected" => $id_type_courant_depart, "nom_systeme" => $e["nom_systeme"], "nom_type_depart" => $e["nom_type_endroit"], "panneau" => $e["panneau"]);
 					if ($id_type_courant_depart == $e["id_type_endroit"]) {
 						$choixDepartDansListe = true;
 					}
@@ -80,18 +91,20 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			} else {
 				$id_type_courant_arrivee = -1;
 			}
+			
 			$i=1;
-			$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
 			foreach ($tabEndroit as $e){
 				if ($e["id_type_endroit"] != $id_type_courant_depart ){
-					if ($e["id_type_endroit"] != 2 || $poidsRestant > 0 ){
-						$tabTypeArrivee[$i] = array("id_type_arrivee" => $e["id_type_endroit"], "selected" => $id_type_courant_arrivee, "nom_systeme" => $e["nom_systeme"], "nom_type_arrivee" => $e["nom_type_endroit"]);
+					if ($e["poids_restant"] == -1 || $e["poids_restant"] > 0 ){
+						$tabTypeArrivee[$i] = array("id_type_arrivee" => $e["id_type_endroit"], "selected" => $id_type_courant_arrivee, "nom_systeme" => $e["nom_systeme"], "nom_type_arrivee" => $e["nom_type_endroit"], "poids_restant" => $e["poids_restant"]);
+						if ($e["nom_systeme"] == "Charrette") {
+							$tabTypeArrivee[$i]["id_charrette"] = $e["id_charrette"];
+						}
 						$i++;
 					}
 				}
 			}
 			$this->view->typeArrivee = $tabTypeArrivee;
-			$this->view->poidsRestant = $poidsRestant;
 			$this->view->nb_valeurs = 15;
 			$this->prepareType($tabEndroit[$id_type_courant_depart]["nom_systeme"]);
 		}
@@ -116,12 +129,23 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$idArrivee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
 		$endroitDepart = false;
 		$endroitArrivee = false;
-		foreach ($this->view->tabEndroit as $e){
-			if ($e["id_type_endroit"] == $idDepart){
+		foreach ($this->view->tabEndroit as $e) {
+			if ($e["id_type_endroit"] == $idDepart) {
 				$endroitDepart = true;
+				$this->view->a_panneau = $e["panneau"];
 			}
-			if ($e["id_type_endroit"] == $idArrivee){
+			if ($e["id_type_endroit"] == $idArrivee) {
 				$endroitArrivee = true;
+				if ($e["nom_systeme"] == "Charrette") {
+					$id_charrette = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
+					if ( $id_charrette != $e["id_charrette"]) {
+						throw new Zend_Exception(get_class($this)." Charrette invalide = ".$id_charrette.")");
+					}
+					else {
+						$this->view->id_charrette_arrivee = $id_charrette;
+					}
+				}
+				$this->view->poidsRestant = $e["poids_restant"];
 			}
 		}
 		if ($endroitDepart === false) {
@@ -138,9 +162,20 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		else{
 			$this->view->id_hobbit_coffre = $idCoffre;
 		}
-
+		
 		$this->view->poidsOk = true;
+		$this->view->nbelement = 0;
+		$this->view->panneau = true;
 		$this->deposeType($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
+		
+		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Charrette") {
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit,true);
+		}
+		
+		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Charrette") {
+			Bral_Util_Poids::calculPoidsCharrette($this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"],true);
+		}
+		
 		$this->detailEvenement = "";
 		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Element"){
 			$idEvenement = $this->view->config->game->evenements->type->ramasser;
@@ -171,7 +206,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		$tab = array("box_vue", "box_laban", "box_coffre");
+		$tab = array("box_vue", "box_laban", "box_coffre", "box_charrette");
 		return $this->constructListBoxRefresh($tab);
 	}
 
@@ -249,10 +284,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	}
 
 	private function controlePoids($poidsAutorise, $quantite, $poidsElt){
-		if ($poidsAutorise < $quantite * $poidsElt){
+		if ($poidsAutorise < $quantite * $poidsElt) {
 			return false;
 		}
-		else{
+		else {
 			return true;
 		}
 	}
@@ -271,8 +306,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				}
 
 				$equipement = $this->view->equipements[$idEquipement];
-
-				if ($arrivee == "Laban") {
+				
+				$this->view->nbelement = $this->view->nbelement + 1;
+				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ){
+					$this->view->panneau = false;
+					break;
+				}
+				
+				if ($arrivee == "Laban" || $arrivee == "Charrette") {
 					$poidsOk = $this->controlePoids($this->view->poidsRestant,1,$equipement["poids"]);
 					if ($poidsOk == false){
 						$this->view->poidsOk = false;
@@ -291,8 +332,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					case "Coffre" :
 						$departEquipementTable = new CoffreEquipement();
 						break;
-					case "Charette" :
-						$departEquipementTable = new CharetteEquipement();
+					case "Charrette" :
+						$departEquipementTable = new CharretteEquipement();
 						break;
 				}
 
@@ -338,6 +379,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							"nb_runes_coffre_equipement" => $equipement["nb_runes"],
 							"id_fk_mot_runique_coffre_equipement" => $equipement["id_fk_mot_runique"],
 							"id_fk_region_coffre_equipement" => $equipement["id_fk_region"],
+						);
+						break;
+					case "Charrette" :
+						$arriveeEquipementTable = new CharretteEquipement();
+						$data = array (
+							"id_charrette_equipement" => $equipement["id_equipement"],
+							"id_fk_recette_charrette_equipement" => $equipement["id_fk_recette"],
+							"id_fk_charrette_equipement" => $this->view->id_charrette_arrivee,
+							"nb_runes_charrette_equipement" => $equipement["nb_runes"],
+							"id_fk_mot_runique_charrette_equipement" => $equipement["id_fk_mot_runique"],
+							"id_fk_region_charrette_equipement" => $equipement["id_fk_region"],
 						);
 						break;
 				}
@@ -402,8 +454,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					throw new Zend_Exception(get_class($this)." ID Rune invalide : ".$idRune);
 				}
 				$rune = $this->view->runes[$idRune];
-
-				if ($arrivee == "Laban") {
+				
+				$this->view->nbelement = $this->view->nbelement + 1;
+				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ){
+					$this->view->panneau = false;
+					break;
+				}
+				
+				if ($arrivee == "Laban" || $arrivee == "Charrette") {
 					$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_RUNE);
 					if ($poidsOk == false){
 						$this->view->poidsOk = false;
@@ -423,8 +481,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					case "Coffre" :
 						$departRuneTable = new CoffreRune();
 						break;
-					case "Charette" :
-						$departRuneTable = new CharetteRune();
+					case "Charrette" :
+						$departRuneTable = new CharretteRune();
 						break;
 				}
 
@@ -459,6 +517,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						"id_fk_type_coffre_rune" => $rune["id_fk_type_rune"],
 						"est_identifiee_coffre_rune" => $rune["est_identifiee"],
 						"id_fk_hobbit_coffre_rune" => $this->view->id_hobbit_coffre,
+						);
+						break;
+					case "Charrette" :
+						$arriveeRuneTable = new CharretteRune();
+						$data = array (
+						"id_rune_charrette_rune" => $rune["id_rune"],
+						"id_fk_type_charrette_rune" => $rune["id_fk_type_rune"],
+						"est_identifiee_charrette_rune" => $rune["est_identifiee"],
+						"id_fk_charrette_rune" => $this->view->id_charrette_arrivee,
 						);
 						break;
 				}
@@ -525,8 +592,13 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				}
 
 				$potion = $this->view->potions[$idPotion];
-
-				if ($arrivee == "Laban") {
+				
+				$this->view->nbelement = $this->view->nbelement + 1;
+				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ){
+					$this->view->panneau = false;
+					break;
+				}
+				if ($arrivee == "Laban" || $arrivee == "Charrette") {
 					$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_POTION);
 					if ($poidsOk == false){
 						$this->view->poidsOk = false;
@@ -545,8 +617,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					case "Coffre" :
 						$departPotionTable = new CoffrePotion();
 						break;
-					case "Charette" :
-						$departPotionTable = new CharettePotion();
+					case "Charrette" :
+						$departPotionTable = new CharrettePotion();
 						break;
 				}
 
@@ -589,6 +661,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							"niveau_coffre_potion" => $potion["niveau"],
 							"id_fk_type_qualite_coffre_potion" => $potion["id_fk_type_qualite"],
 							"id_fk_type_coffre_potion" => $potion["id_fk_type"],
+						);
+						break;
+					case "Charrette" :
+						$arriveePotionTable = new CharrettePotion();
+						$data = array (
+							"id_charrette_potion" => $potion["id_potion"],
+							"id_fk_charrette_potion" => $this->view->id_charrette_arrivee,
+							"niveau_charrette_potion" => $potion["niveau"],
+							"id_fk_type_qualite_charrette_potion" => $potion["id_fk_type_qualite"],
+							"id_fk_type_charrette_potion" => $potion["id_fk_type"],
 						);
 						break;
 				}
@@ -654,8 +736,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				}
 
 				$aliment = $this->view->aliments[$idAliment];
-
-				if ($arrivee == "Laban") {
+				
+				$this->view->nbelement = $this->view->nbelement + 1;
+				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ){
+					$this->view->panneau = false;
+					break;
+				}
+				
+				if ($arrivee == "Laban" || $arrivee == "Charrette") {
 					$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_RATION);
 					if ($poidsOk == false){
 						$this->view->poidsOk = false;
@@ -674,8 +762,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					case "Coffre" :
 						$departAlimentTable = new CoffreAliment();
 						break;
-					case "Charette" :
-						$departAlimentTable = new CharetteAliment();
+					case "Charrette" :
+						$departAlimentTable = new CharretteAliment();
 						break;
 				}
 				$departAlimentTable->delete($where);
@@ -717,6 +805,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							"bbdf_coffre_aliment" => $aliment["bbdf"],
 							"id_fk_type_qualite_coffre_aliment" => $aliment["id_fk_type_qualite"],
 							"id_fk_type_coffre_aliment" => $aliment["id_fk_type"],
+						);
+						break;
+					case "Charrette" :
+						$arriveeAlimentTable = new CharretteAliment();
+						$data = array (
+							"id_charrette_aliment" => $aliment["id_aliment"],
+							"id_fk_charrette_aliment" => $this->view->id_charrette_arrivee,
+							"bbdf_charrette_aliment" => $aliment["bbdf"],
+							"id_fk_type_qualite_charrette_aliment" => $aliment["id_fk_type_qualite"],
+							"id_fk_type_charrette_aliment" => $aliment["id_fk_type"],
 						);
 						break;
 				}
@@ -779,7 +877,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		if (count($this->view->munitions) > 0) {
 			$idMunition = null;
 			$nbMunition = null;
-
+			
 			for ($i=16; $i<=$this->view->valeur_fin_munitions; $i++) {
 					
 				if ( $this->request->get("valeur_".$i) > 0) {
@@ -790,8 +888,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					if ($nbMunition > $munition["quantite"] || $nbMunition < 0) {
 						throw new Zend_Exception(get_class($this)." Quantite Munition invalide : ".$nbMunition);
 					}
-						
-					if ($arrivee == "Laban") {
+
+					$this->view->nbelement = $this->view->nbelement + 1;
+					if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ){
+						$this->view->panneau = false;
+						break;
+					}
+					
+					if ($arrivee == "Laban" || $arrivee == "Charrette") {
 						$poidsOk = $this->controlePoids($this->view->poidsRestant, $nbMunition, Bral_Util_Poids::POIDS_MUNITION);
 						if ($poidsOk == false){
 							$this->view->poidsOk = false;
@@ -816,14 +920,21 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									"id_fk_type_element_munition" => $munition["id_type_munition"],
 									"quantite_element_munition" => -$nbMunition,
 							);
-							break;
-								
+							break;					
 						case "Coffre" :
 							$departMunitionTable = new CoffreMunition();
 							$data = array(
 									"quantite_coffre_munition" => -$nbMunition,
 									"id_fk_type_coffre_munition" => $munition["id_type_munition"],
 									"id_fk_hobbit_coffre_munition" => $this->view->user->id_hobbit,
+							);
+							break;
+						case "Charrette" :
+							$departMunitionTable = new CharretteMunition();
+							$data = array(
+									"quantite_charrette_munition" => -$nbMunition,
+									"id_fk_type_charrette_munition" => $munition["id_type_munition"],
+									"id_fk_charrette_munition" => $this->view->id_charrette_depart,
 							);
 							break;
 					}
@@ -856,6 +967,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									"quantite_coffre_munition" => $nbMunition,
 									"id_fk_type_coffre_munition" => $munition["id_type_munition"],
 									"id_fk_hobbit_coffre_munition" => $this->view->id_hobbit_coffre,
+							);
+							break;
+						case "Charrette" :
+							$arriveeMunitionTable = new CharretteMunition();
+							$data = array(
+									"quantite_charrette_munition" => $nbMunition,
+									"id_fk_type_charrette_munition" => $munition["id_type_munition"],
+									"id_fk_charrette_munition" => $this->view->id_charrette_arrivee,
 							);
 							break;
 					}
@@ -949,8 +1068,18 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			}
 				
 			if ($nbBrut > 0 || $nbLingot > 0) {
-
-				if ($arrivee == "Laban") {
+				
+				$this->view->nbelement = $this->view->nbelement + 1;
+				if ( $nbBrut > 0 && $nbLingot > 0 && $this->view->a_panneau === false) {
+					$nbLingot = 0;
+					$this->view->panneau = false;
+				}
+				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ){
+					$this->view->panneau = false;
+					break;
+				}
+				
+				if ($arrivee == "Laban" || $arrivee == "Charrette") {
 					$poidsOk1 = $this->controlePoids($this->view->poidsRestant, $nbBrut, Bral_Util_Poids::POIDS_MINERAI);
 					$poidsOk2 = $this->controlePoids($this->view->poidsRestant, $nbLingot, Bral_Util_Poids::POIDS_LINGOT);
 					if ($poidsOk1 == false || $poidsOk2 == false){
@@ -988,6 +1117,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							"quantite_lingots_coffre_minerai" => -$nbLingot,
 						);
 						break;
+					case "Charrette" :
+						$departMineraiTable = new CharretteMinerai();
+						$data = array (
+							"id_fk_charrette_minerai" => $this->view->id_charrette_depart,
+							"id_fk_type_charrette_minerai" => $this->view->minerais[$indice]["id_fk_type_minerai"],
+							"quantite_brut_charrette_minerai" => -$nbBrut,
+							"quantite_lingots_charrette_minerai" => -$nbLingot,
+						);
+						break;	
 				}
 				$departMineraiTable->insertOrUpdate($data);
 				unset ($departMineraiTable);
@@ -1019,6 +1157,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							"id_fk_type_coffre_minerai" => $this->view->minerais[$indice]["id_fk_type_minerai"],
 							"quantite_brut_coffre_minerai" => $nbBrut,
 							"quantite_lingots_coffre_minerai" => $nbLingot,
+						);
+						break;
+					case "Charrette" :
+						$arriveeMineraiTable = new CharretteMinerai();
+						$data = array (
+							"id_fk_charrette_minerai" => $this->view->id_charrette_arrivee,
+							"id_fk_type_charrette_minerai" => $this->view->minerais[$indice]["id_fk_type_minerai"],
+							"quantite_brut_charrette_minerai" => $nbBrut,
+							"quantite_lingots_charrette_minerai" => $nbLingot,
 						);
 						break;
 				}
@@ -1113,7 +1260,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			}
 			if ($nbBrutes > 0 || $nbPreparees > 0) {
 
-				if ($arrivee == "Laban") {
+				$this->view->nbelement = $this->view->nbelement + 1;
+				if ( $nbBrutes > 0 && $nbPreparees > 0 && $this->view->a_panneau === false) {
+					$nbPreparees = 0;
+					$this->view->panneau = false;
+				}
+				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ){
+					$this->view->panneau = false;
+					break;
+				}
+				
+				if ($arrivee == "Laban" || $arrivee == "Charrette") {
 					$poidsOk1 = $this->controlePoids($this->view->poidsRestant, $nbBrutes, Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE);
 					$poidsOk2 = $this->controlePoids($this->view->poidsRestant, $nbPreparees, Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE);
 					if ($poidsOk1 == false || $poidsOk2 == false){
@@ -1144,7 +1301,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								"quantite_preparee_element_partieplante" => -$nbPreparees,
 						);
 						break;
-
 					case "Coffre" :
 						$departPartiePlanteTable = new CoffrePartieplante();
 						$data = array(
@@ -1155,7 +1311,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							'quantite_preparee_coffre_partieplante' => -$nbPreparees
 						);
 						break;
-
+					case "Charrette" :
+						$departPartiePlanteTable = new CharrettePartieplante();
+						$data = array(
+							'id_fk_type_charrette_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_partieplante"],
+							'id_fk_type_plante_charrette_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_partieplante"],
+							'id_fk_charrette_partieplante' => $this->view->id_charrette_depart,
+							'quantite_charrette_partieplante' => -$nbBrutes,
+							'quantite_preparee_charrette_partieplante' => -$nbPreparees
+						);
+						break;
 				}
 
 				$departPartiePlanteTable->insertOrUpdate($data);
@@ -1191,6 +1356,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							"id_fk_type_plante_coffre_partieplante" => $this->view->partieplantes[$indice]["id_fk_type_plante_partieplante"],
 							"quantite_coffre_partieplante" => $nbBrutes,
 							"quantite_preparee_coffre_partieplante" => $nbPreparees,
+						);
+						break;
+					case "Charrette" :
+						$arriveePartiePlanteTable = new CharrettePartieplante();
+						$data = array (
+							"id_fk_charrette_partieplante" => $this->view->id_charrette_arrivee,
+							"id_fk_type_charrette_partieplante" => $this->view->partieplantes[$indice]["id_fk_type_partieplante"],
+							"id_fk_type_plante_charrette_partieplante" => $this->view->partieplantes[$indice]["id_fk_type_plante_partieplante"],
+							"quantite_charrette_partieplante" => $nbBrutes,
+							"quantite_preparee_charrette_partieplante" => $nbPreparees,
 						);
 						break;
 				}
@@ -1264,8 +1439,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					if ($nbTabac > $tabac["quantite"] || $nbTabac < 0) {
 						throw new Zend_Exception(get_class($this)." Quantite Tabac invalide : ".$nbTabac. " i=".$i);
 					}
-						
-					if ($arrivee == "Laban") {
+					
+					$this->view->nbelement = $this->view->nbelement + 1;
+					if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ){
+						$this->view->panneau = false;
+						break;
+					}
+					
+					if ($arrivee == "Laban" || $arrivee == "Charrette") {
 						$poidsOk = $this->controlePoids($this->view->poidsRestant, $nbTabac, Bral_Util_Poids::POIDS_TABAC);
 						if ($poidsOk == false){
 							$this->view->poidsOk = false;
@@ -1290,14 +1471,21 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									"id_fk_type_element_tabac" => $tabac["id_type_tabac"],
 									"quantite_feuille_element_tabac" => -$nbTabac,
 							);
-							break;
-								
+							break;		
 						case "Coffre" :
 							$departTabacTable = new CoffreTabac();
 							$data = array(
 									"quantite_feuille_coffre_tabac" => -$nbTabac,
 									"id_fk_type_coffre_tabac" => $tabac["id_type_tabac"],
 									"id_fk_hobbit_coffre_tabac" => $this->view->user->id_hobbit,
+							);
+							break;
+						case "Charrette" :
+							$departTabacTable = new CharretteTabac();
+							$data = array(
+									"quantite_feuille_charrette_tabac" => -$nbTabac,
+									"id_fk_type_charrette_tabac" => $tabac["id_type_tabac"],
+									"id_fk_hobbit_charrette_tabac" => $this->view->id_charrette_depart,
 							);
 							break;
 					}
@@ -1330,6 +1518,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									"quantite_feuille_coffre_tabac" => $nbTabac,
 									"id_fk_type_coffre_tabac" => $tabac["id_type_tabac"],
 									"id_fk_hobbit_coffre_tabac" => $this->view->id_hobbit_coffre,
+							);
+							break;
+						case "Charrette" :
+							$arriveeTabacTable = new CharretteTabac();
+							$data = array(
+									"quantite_feuille_charrette_tabac" => $nbTabac,
+									"id_fk_type_charrette_tabac" => $tabac["id_type_tabac"],
+									"id_fk_charrette_tabac" => $this->view->id_charrette_arrivee,
 							);
 							break;
 					}
@@ -1385,7 +1581,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 			case "Charrette" :
 				$charretteTable = new Charrette();
-				$autres = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+				$autres = $charretteTable->findByIdCharrette($this->view->id_charrette_depart);
 				unset($charretteTable);
 				break;
 		}
@@ -1448,8 +1644,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				if ($nb > $this->view->autres["nb_".$nom_systeme]) {
 					$nb = $this->view->autres["nb_".$nom_systeme];
 				}
-
-				if ($arrivee == "Laban") {
+				
+				$this->view->nbelement = $this->view->nbelement + 1;
+				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ){
+					$this->view->panneau = false;
+					break;
+				}
+				
+				if ($arrivee == "Laban" || $arrivee == "Charrette") {
 					$poidsOk = $this->controlePoids($this->view->poidsRestant, $nb, $poids );
 					if ($poidsOk == false){
 						$this->view->poidsOk = false;
@@ -1483,6 +1685,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						break;
 					case "Coffre" :
 						$departTable = new Coffre();
+						break;
+					case "Charrette" :
+						$departTable = new Charrette();
 						break;
 				}
 				if ($departTable){
@@ -1522,7 +1727,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					case "Charrette" :
 						$data = array(
 								"quantite_".$nom_systeme."_charrette" => $nb,
-								"id_charrette" => $this->view->id_charrette,
+								"id_charrette" => $this->view->id_charrette_arrivee,
 						);
 						$arriveeTable = new Charrette();
 						break;

@@ -4,15 +4,17 @@
 	<div class='comp_contenu'>
 		<?
 		$poches = null;
-		$jsBtn = "controleQte(".$this->poidsRestant.");";
+		$jsBtn = "controleQte();";
+		$panneau = true;
 		?>
 		Transbahuter à partir de :<br />
 		<select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1='+this.value);">
 			<option value="-1">(Choisissez un endroit de d&eacute;part)</option>
 			<? foreach($this->typeDepart as $t) : ?>
-			 	<option value="<?=$t["id_type_depart"]?>" <? if ($t["selected"] == $t["id_type_depart"]): echo "selected"; endif;?>><?=$t["nom_type_depart"]?></option>
+			 	<option value="<?=$t["id_type_depart"]?>" <? if ($t["selected"] == $t["id_type_depart"]): echo "selected"; $panneau=$t["panneau"]; endif;?>><?=$t["nom_type_depart"]?></option>
 			<? endforeach; ?>
 		 </select>
+		 <input type="hidden" name="valeur_panneau" id="valeur_panneau" value="<?=$panneau ?>">
 		 <br/><br/>
 		
 		<? if ($this->choixDepart == true) : ?>
@@ -28,7 +30,7 @@
 				<?php include("transbahuter/tabacs.phtml")?>
 			
 				<?php 
-				$js = "selectAll(".$this->poidsRestant.");";
+				$js = "selectAll();";
 				
 				$jsCoffre = "
 					if($('valeur_2').value==4){
@@ -56,12 +58,28 @@
 				<input type='button' class='button1' id="ouvrir_poche" name="ouvrir_poche"  value='Ouvrir Tout' onClick="<?=$jsOuvrir ?>">
 				<br/><br/>
 				Transbahuter vers :<br />
+					<? 
+						$option = "";
+						$poids = "";
+						$charrette = "";
+						foreach($this->typeArrivee as $t){ 
+							$option .="<option value='".$t["id_type_arrivee"]."'";
+					 		if ($t["selected"] == $t["id_type_arrivee"]) {
+					 			$option .=" selected ";
+					 		}
+					 		$option .= ">".$t["nom_type_arrivee"]."</option>";
+					 		$poids .= "<input type='hidden' name='poids_".$t["id_type_arrivee"]."' id='poids_".$t["id_type_arrivee"]."' value='".$t["poids_restant"]."' />";
+					 		if ($t["nom_systeme"] == "Charrette") {
+					 			$charrette .= "<input type='hidden' name='id_charrette_".$t["id_type_arrivee"]."' id='id_charrette_".$t["id_type_arrivee"]."' value='".$t["id_charrette"]."' />";
+					 		}
+					   	}
+					?>
 				<select name="valeur_2" id="valeur_2" onChange="<?=$jsBtn.$jsCoffre?>">
 					<option value="-1">(Choisissez un endroit d'arriv&eacute;e)</option>
-					<? foreach($this->typeArrivee as $t) : ?>
-					 	<option value="<?=$t["id_type_arrivee"]?>" <? if ($t["selected"] == $t["id_type_arrivee"]): echo "selected"; endif;?>><?=$t["nom_type_arrivee"]?></option>
-					<? endforeach; ?>
+					<?=$option ?>
 				</select>
+				<?=$poids ?><br/>
+				<?=$charrette ?>
 				<br/><br/>
 				<input type="hidden" name="valeur_3" id="valeur_3" value="-1"/>
 				<div id="div_hobbit" style="visibility: hidden;display :none">
@@ -71,7 +89,7 @@
    					<span id="indicateur_recherche_valeur_3_dest" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
    				</div>
 				<br/>
-				<input type='button' class='button1' id='bouton_deposer' value='Transbahuter !' onClick="this.disabled=true;_get_('/competences/doaction?caction=do_competence_transbahuter');" disabled>
+				<input type='button' class='button1' id='bouton_deposer' value='Transbahuter !' onClick="charrette();this.disabled=true;_get_('/competences/doaction?caction=do_competence_transbahuter');" disabled>
 		<?else : ?>
 			Pas de destination possible autre que votre laban et il est plein ! <br/><br/>
 		<?endif; ?>

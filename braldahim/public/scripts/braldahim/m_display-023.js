@@ -248,30 +248,36 @@ function wiglwogl(uddeElement) {
 /************************* Transbahuter ********************/
 /********************************************************************/
 
-function controlePoids(poidsRestant){
+function controlePoids(){
 	var poids=0;
-	if ($('valeur_2').value == 2){
-	 	for (i=4; i<=$('nb_valeurs').value; i++) {
-			if ( $('valeur_' + i).type == 'select-multiple' ){
-				for (j=0; j<$('valeur_' + i).options.length; j++){
-					if ($('valeur_' + i).options[j].selected == true) {
-						if ( i==12 ){
-							poids = parseFloat(poids) + parseFloat($('valeur_' + i + '_poids_' + $('valeur_' + i).options[j].value).value);
-						}
-						else{
-							poids = parseFloat(poids) + parseFloat($('valeur_' + i + '_poids').value);
+	if ($('valeur_2').value != -1 ){
+		poidsRestant = $('poids_' + $('valeur_2').value).value;
+		if (poidsRestant != -1){
+		 	for (i=4; i<=$('nb_valeurs').value; i++) {
+				if ( $('valeur_' + i).type == 'select-multiple' ){
+					for (j=0; j<$('valeur_' + i).options.length; j++){
+						if ($('valeur_' + i).options[j].selected == true) {
+							if ( i==12 ){
+								poids = parseFloat(poids) + parseFloat($('valeur_' + i + '_poids_' + $('valeur_' + i).options[j].value).value);
+							}
+							else{
+								poids = parseFloat(poids) + parseFloat($('valeur_' + i + '_poids').value);
+							}
 						}
 					}
 				}
+				else {
+					poids = parseFloat(poids) + $('valeur_' + i).value * $('valeur_' + i + '_poids').value;
+				}
 			}
-			else {
-				poids = parseFloat(poids) + $('valeur_' + i).value * $('valeur_' + i + '_poids').value;
+			if (poids > poidsRestant){
+				poidsDep = Math.round((poids - poidsRestant)*100)/100;
+				alert ('Pas assez de place dans la source d\'arrivée !\nVous dépassez de ' + poidsDep + ' kg');
+				return false;
 			}
-		}
-		if (poids > poidsRestant){
-			poidsDep = Math.round((poids - poidsRestant)*100)/100;
-			alert ('Pas assez de place dans la source d\'arrivée !\nVous dépassez de ' + poidsDep + ' kg');
-			return false;
+			else{
+				return true;
+			}
 		}
 		else{
 			return true;
@@ -282,18 +288,34 @@ function controlePoids(poidsRestant){
 	}
 }
 
-function controleQte(poidsRestant){
+function controlePanneau (i) {
+	if ( $('valeur_' + i).type == 'select-multiple' ){
+		for (j=0; j<$('valeur_' + i).options.length; j++){
+			if ($('valeur_' + i).options[j].value != -1) {
+				$('valeur_' + i).options[j].selected = false;
+				cacher = false;
+			}
+		}
+	}
+	else {
+		$('valeur_'+i).value = 0;
+	}		
+	alert ("Votre charrette ne possède pas de panneau amovible, vous ne pouvez transbahuter qu\'un seul type d\'élément ! \n Seul le premier élément sélectionné a été pris en compte.");
+}
+
+function controleQte(){
 	 v=false;
 	 for (i=4;i<=$('nb_valeurs').value;i++){
-	 	if ($('valeur_'+i).value>0) {
+	 	if ($('valeur_'+i).value > 0 && $('valeur_panneau').value != true && v==true) {
+			controlePanneau (i);
+	 	}
+	 	if ($('valeur_'+i).value > 0) {
 			v=true;
 		}
 	 };
 	 cacher = true;
-	 poidsOk = true;
-	 if (poidsRestant!=""){
-	 	poidsOk = controlePoids(poidsRestant);
-	 }
+	 poidsOk = controlePoids();
+
 	 if (v==true && $('valeur_1').value != -1 && $('valeur_2').value != -1 && poidsOk == true){
 		cacher = false;
 	 }
@@ -303,14 +325,20 @@ function controleQte(poidsRestant){
 	 $('bouton_deposer').disabled=cacher;
 }
 
-function selectAll(poidsRestant){
+function selectAll(){
 	cacher = true;
+	v = false;
 	for (i=4; i<=$('nb_valeurs').value; i++) {
+		if ($('valeur_panneau').value != true && v==true) {
+			controlePanneau (i);
+			break;
+	 	}
 		if ( $('valeur_' + i).type == 'select-multiple' ){
 			for (j=0; j<$('valeur_' + i).options.length; j++){
 				if ($('valeur_' + i).options[j].value != -1) {
 					$('valeur_' + i).options[j].selected = true;
 					cacher = false;
+					v = true;
 				}
 			}
 		}
@@ -318,20 +346,25 @@ function selectAll(poidsRestant){
 			$('valeur_' + i).value = $('valeur_' + i + '_max').value;
 			if (cacher == true && $('valeur_' + i + '_max').value > 0) {
 				cacher = false;
+				v = true;
 			}
 		}
 	}
-	poidsOk = true;
-	if (poidsRestant!=""){
-		poidsOk = controlePoids(poidsRestant);
-	}
+	poidsOk = controlePoids();
 	if ( $('valeur_1').value == -1 || $('valeur_2').value == -1 || poidsOk==false){
 		cacher = true;
 	}
+	/*Coffre*/
 	if ( $('valeur_2').value == 4 && $('valeur_3').value == -1){
 		cacher = true;
 	}
 	$('bouton_deposer').disabled=cacher;
+}
+
+function charrette() {
+	if ($('valeur_2').value > 5){
+		$('valeur_3').value = $('id_charrette_' + $('valeur_2').value).value;
+	}
 }
 
 function activerRechercheCoffreHobbit(id) {

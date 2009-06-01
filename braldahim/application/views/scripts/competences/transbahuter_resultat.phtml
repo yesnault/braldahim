@@ -3,5 +3,9 @@
 Vous avez transbahut&eacute; avec succ&egrave;s des &eacute;l&eacute;ments.<br/>
 
 <? if ($this->poidsOk == false) : ?>
-	Certains &eacute;l&eacute;ments trop lourds n'ont pu &ecirc;tre transbahut&eacute;
+	Certains &eacute;l&eacute;ments trop lourds pour la destination n'ont pu &ecirc;tre transbahut&eacute;<br/>
+<? endif; ?>
+
+<? if ($this->panneau == false) : ?>
+	Certains &eacute;l&eacute;ments n'ont pu &ecirc;tre transbahut&eacute; car votre charrette ne poss&egrave;de pas de panneau amovible.<br/>
 <? endif; ?>
