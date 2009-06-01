@@ -1,10 +1,94 @@
-MENU
-<select name="hotel_menu_recherche" id="hotel_menu_recherche">
+
+<ul class="titre textalic textsizee">
+Recherche par Équipement
+</ul>
+<select name="hotel_menu_recherche_equipements" id="hotel_menu_recherche_equipements">
 <option value="-1">Choisissez un type de recherche</option>
-<? foreach($this->menuRecherche as $m) : ?>
+<? foreach($this->menuRechercheEquipement as $m) : ?>
 	<optgroup label="<?=$m["titre"]?>" style="font-weight:bold"></optgroup>
 	<? foreach($m["elements"] as $e) : ?>
-		<option value="<?=$e["id_element"]?>"><?=$e["nom"]?></option>
+		<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
 	<? endforeach; ?>
 <? endforeach;?>
 </select>
+
+<br><br>
+<ul class="titre textalic textsizee">
+Recherche par Matériel
+</ul>
+<select name="hotel_menu_recherche_materiels" id="hotel_menu_recherche_materiels">
+<option value="-1">Choisissez un type de recherche</option>
+<? foreach($this->menuRechercheMateriel as $m) : ?>
+	<? foreach($m["elements"] as $e) : ?>
+		<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
+	<? endforeach; ?>
+<? endforeach;?>
+</select>
+
+<br><br>
+<ul class="titre textalic textsizee">
+Recherche par Matière Première
+</ul>
+<select name="hotel_menu_recherche_matieres_premieres" id="hotel_menu_recherche_matieres_premieres">
+<option value="-1">Choisissez un type de recherche</option>
+<? foreach($this->menuRechercheMatieresPremieres as $m) : ?>
+	<optgroup label="<?=$m["titre"]?>" style="font-weight:bold"></optgroup>
+	<? foreach($m["elements"] as $e) : ?>
+		<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
+	<? endforeach; ?>
+<? endforeach;?>
+</select>
+
+<br><br>
+<ul class="titre textalic textsizee">
+Recherche par Matière Transformée
+</ul>
+<select name="hotel_menu_recherche_matieres_transformees" id="hotel_menu_recherche_matieres_transformees">
+<option value="-1">Choisissez un type de recherche</option>
+<? foreach($this->menuRechercheMatieresTransformees as $m) : ?>
+	<optgroup label="<?=$m["titre"]?>" style="font-weight:bold"></optgroup>
+	<? foreach($m["elements"] as $e) : ?>
+		<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
+	<? endforeach; ?>
+<? endforeach;?>
+</select>
+
+<br><br>
+<ul class="titre textalic textsizee">
+Recherche par Aliment
+</ul>
+<select name="hotel_menu_recherche_aliments" id="hotel_menu_recherche_aliments">
+<option value="-1">Choisissez un type de recherche</option>
+<? foreach($this->menuRechercheAliment as $m) : ?>
+	<? foreach($m["elements"] as $e) : ?>
+		<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
+	<? endforeach; ?>
+<? endforeach;?>
+</select>
+
+<br><br>
+<ul class="titre textalic textsizee">
+Recherche par Potion
+</ul>
+<select name="hotel_menu_recherche_potions" id="hotel_menu_recherche_potions">
+<option value="-1">Choisissez un type de recherche</option>
+<? foreach($this->menuRecherchePotion as $m) : ?>
+	<? foreach($m["elements"] as $e) : ?>
+		<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
+	<? endforeach; ?>
+<? endforeach;?>
+</select>
+
+<br><br>
+<ul class="titre textalic textsizee">
+Recherche par Rune
+</ul>
+<select name="hotel_menu_recherche_runes" id="hotel_menu_recherche_runes">
+<option value="-1">Choisissez un type de recherche</option>
+<? foreach($this->menuRechercheRune as $m) : ?>
+	<? foreach($m["elements"] as $e) : ?>
+		<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
+	<? endforeach; ?>
+<? endforeach;?>
+</select>
+

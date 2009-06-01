@@ -1,0 +1,31 @@
+ <table class="table_liste" width="100%">
+	<thead class="table_liste">
+	  <tr class="table_liste">
+		<th>Nom</th>
+		<th>Vendeur</th>
+		<th>Localisation</th>
+		<th>Prix</th>
+		<th>Acheter</th>
+	  </tr>
+	</thead>
+  <? if ($this->nbResultats > 0): ?>
+	<tbody>
+  	<? $i = 0; 
+  	foreach($this->resultats as $e): ?>
+  		<tr class="table_liste<?=($i % 2);$i++; ?>" style="cursor:pointer">
+	  		<td class="table_liste"></td>
+	  		<td class="table_liste"></td>
+	  		<td class="table_liste"></td>
+	  		<td class="table_liste"></td>
+	  		<td class="table_liste"></td>
+  		</tr>
+  	<? endforeach; ?>
+  	</tbody>
+   <? else: ?>
+   	<tr class="table_liste">
+   		<td colspan="5">
+   			Aucun r&eacute;sultat
+   		</td>
+   	</tr>
+   <? endif; ?>
+</table>
