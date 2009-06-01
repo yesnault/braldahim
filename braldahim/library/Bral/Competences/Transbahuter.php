@@ -32,7 +32,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				if ( $c["id_hobbit"] == $this->view->user->id_hobbit) {
 					$panneau = Bral_Util_Charrette::possedePanneauAmovible($c["id_charrette"]);
 					$tabEndroit[$nbendroit] = array("id_type_endroit" => $nbendroit,"nom_systeme" => "Charrette", "id_charrette" => $c["id_charrette"], "id_hobbit_charrette" => $c["id_fk_hobbit_charrette"], "panneau" => $panneau, "nom_type_endroit" => "Votre charrette", "est_depart" => true, "poids_restant" => $tabPoidsCharrette["place_restante"]);
-					$this->view->id_charrette_depart = $tabCharrette[0]["id_charrette"];
+					$this->view->id_charrette_depart = $c["id_charrette"];
 				}
 				else {
 					$tabEndroit[$nbendroit] = array("id_type_endroit" => $nbendroit,"nom_systeme" => "Charrette", "id_charrette" => $c["id_charrette"], "id_hobbit_charrette" => $c["id_fk_hobbit_charrette"], "nom_type_endroit" => "La charrette de ".$c["prenom_hobbit"]." ".$c["nom_hobbit"]." (n°".$c["id_hobbit"].")", "est_depart" => false, "poids_restant" => $tabPoidsCharrette["place_restante"]);
@@ -134,18 +134,19 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$endroitDepart = true;
 				$this->view->a_panneau = $e["panneau"];
 			}
-			if ($e["id_type_endroit"] == $idArrivee) {
+			if ($e["id_type_endroit"] == $idArrivee && $idArrivee < 5) {
 				$endroitArrivee = true;
+				$this->view->poidsRestant = $e["poids_restant"];
+			}
+			if ($idArrivee >= 5 ) {
 				if ($e["nom_systeme"] == "Charrette") {
 					$id_charrette = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
-					if ( $id_charrette != $e["id_charrette"]) {
-						throw new Zend_Exception(get_class($this)." Charrette invalide = ".$id_charrette.")");
-					}
-					else {
+					if ( $id_charrette == $e["id_charrette"]) {
+						$endroitArrivee = true;
 						$this->view->id_charrette_arrivee = $id_charrette;
+						$this->view->poidsRestant = $e["poids_restant"];
 					}
-				}
-				$this->view->poidsRestant = $e["poids_restant"];
+				}	
 			}
 		}
 		if ($endroitDepart === false) {
@@ -300,101 +301,101 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$equipements = $this->request->get("valeur_12");
 
 		if (count($equipements) > 0 && $equipements != 0) {
-			foreach ($equipements as $idEquipement) {
-				if (!array_key_exists($idEquipement, $this->view->equipements)) {
-					throw new Zend_Exception(get_class($this)." ID Equipement invalide : ".$idEquipement);
-				}
-
-				$equipement = $this->view->equipements[$idEquipement];
-				
-				$this->view->nbelement = $this->view->nbelement + 1;
-				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ){
-					$this->view->panneau = false;
-					break;
-				}
-				
-				if ($arrivee == "Laban" || $arrivee == "Charrette") {
-					$poidsOk = $this->controlePoids($this->view->poidsRestant,1,$equipement["poids"]);
-					if ($poidsOk == false){
-						$this->view->poidsOk = false;
-						break;
+			$this->view->nbelement = $this->view->nbelement + 1;
+			if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ){
+				$this->view->panneau = false;
+			}
+			else {
+				foreach ($equipements as $idEquipement) {
+					if (!array_key_exists($idEquipement, $this->view->equipements)) {
+						throw new Zend_Exception(get_class($this)." ID Equipement invalide : ".$idEquipement);
 					}
+	
+					$equipement = $this->view->equipements[$idEquipement];
+					
+					if ($arrivee == "Laban" || $arrivee == "Charrette") {
+						$poidsOk = $this->controlePoids($this->view->poidsRestant,1,$equipement["poids"]);
+						if ($poidsOk == false){
+							$this->view->poidsOk = false;
+							break;
+						}
+					}
+	
+					$where = "id_".strtolower($depart)."_equipement=".$idEquipement;
+					switch ($depart){
+						case "Laban" :
+							$departEquipementTable = new LabanEquipement();
+							break;
+						case "Element" :
+							$departEquipementTable = new ElementEquipement();
+							break;
+						case "Coffre" :
+							$departEquipementTable = new CoffreEquipement();
+							break;
+						case "Charrette" :
+							$departEquipementTable = new CharretteEquipement();
+							break;
+					}
+	
+					$departEquipementTable->delete($where);
+					unset($departEquipementTable);
+	
+					switch ($arrivee){
+						case "Laban" :
+							$arriveeEquipementTable = new LabanEquipement();
+							$data = array (
+								"id_laban_equipement" => $equipement["id_equipement"],
+								"id_fk_hobbit_laban_equipement" => $this->view->user->id_hobbit,
+								"id_fk_recette_laban_equipement" => $equipement["id_fk_recette"],
+								"nb_runes_laban_equipement" => $equipement["nb_runes"],
+								"id_fk_mot_runique_laban_equipement" => $equipement["id_fk_mot_runique"],
+								"id_fk_region_laban_equipement" => $equipement["id_fk_region"],
+							);
+							$this->view->poidsRestant = $this->view->poidsRestant - $equipement["poids"];
+							break;
+						case "Element" :
+							$dateCreation = date("Y-m-d H:i:s");
+							$nbJours = Bral_Util_De::get_2d10();
+							$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+	
+							$arriveeEquipementTable = new ElementEquipement();
+							$data = array (
+								"id_element_equipement" => $equipement["id_equipement"],
+								"x_element_equipement" => $this->view->user->x_hobbit,
+								"y_element_equipement" => $this->view->user->y_hobbit,
+								"id_fk_recette_element_equipement" => $equipement["id_fk_recette"],
+								"nb_runes_element_equipement" => $equipement["nb_runes"],
+								"id_fk_mot_runique_element_equipement" => $equipement["id_fk_mot_runique"],
+								"date_fin_element_equipement" => $dateFin,
+								"id_fk_region_element_equipement" => $equipement["id_fk_region"],
+							);
+							break;
+						case "Coffre" :
+							$arriveeEquipementTable = new CoffreEquipement();
+							$data = array (
+								"id_coffre_equipement" => $equipement["id_equipement"],
+								"id_fk_recette_coffre_equipement" => $equipement["id_fk_recette"],
+								"id_fk_hobbit_coffre_equipement" => $this->view->id_hobbit_coffre,
+								"nb_runes_coffre_equipement" => $equipement["nb_runes"],
+								"id_fk_mot_runique_coffre_equipement" => $equipement["id_fk_mot_runique"],
+								"id_fk_region_coffre_equipement" => $equipement["id_fk_region"],
+							);
+							break;
+						case "Charrette" :
+							$arriveeEquipementTable = new CharretteEquipement();
+							$data = array (
+								"id_charrette_equipement" => $equipement["id_equipement"],
+								"id_fk_recette_charrette_equipement" => $equipement["id_fk_recette"],
+								"id_fk_charrette_equipement" => $this->view->id_charrette_arrivee,
+								"nb_runes_charrette_equipement" => $equipement["nb_runes"],
+								"id_fk_mot_runique_charrette_equipement" => $equipement["id_fk_mot_runique"],
+								"id_fk_region_charrette_equipement" => $equipement["id_fk_region"],
+							);
+							break;
+					}
+					$arriveeEquipementTable->insert($data);
+					unset($arriveeEquipementTable);
 				}
-
-				$where = "id_".strtolower($depart)."_equipement=".$idEquipement;
-				switch ($depart){
-					case "Laban" :
-						$departEquipementTable = new LabanEquipement();
-						break;
-					case "Element" :
-						$departEquipementTable = new ElementEquipement();
-						break;
-					case "Coffre" :
-						$departEquipementTable = new CoffreEquipement();
-						break;
-					case "Charrette" :
-						$departEquipementTable = new CharretteEquipement();
-						break;
-				}
-
-				$departEquipementTable->delete($where);
-				unset($departEquipementTable);
-
-				switch ($arrivee){
-					case "Laban" :
-						$arriveeEquipementTable = new LabanEquipement();
-						$data = array (
-							"id_laban_equipement" => $equipement["id_equipement"],
-							"id_fk_hobbit_laban_equipement" => $this->view->user->id_hobbit,
-							"id_fk_recette_laban_equipement" => $equipement["id_fk_recette"],
-							"nb_runes_laban_equipement" => $equipement["nb_runes"],
-							"id_fk_mot_runique_laban_equipement" => $equipement["id_fk_mot_runique"],
-							"id_fk_region_laban_equipement" => $equipement["id_fk_region"],
-						);
-						$this->view->poidsRestant = $this->view->poidsRestant - $equipement["poids"];
-						break;
-					case "Element" :
-						$dateCreation = date("Y-m-d H:i:s");
-						$nbJours = Bral_Util_De::get_2d10();
-						$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-
-						$arriveeEquipementTable = new ElementEquipement();
-						$data = array (
-							"id_element_equipement" => $equipement["id_equipement"],
-							"x_element_equipement" => $this->view->user->x_hobbit,
-							"y_element_equipement" => $this->view->user->y_hobbit,
-							"id_fk_recette_element_equipement" => $equipement["id_fk_recette"],
-							"nb_runes_element_equipement" => $equipement["nb_runes"],
-							"id_fk_mot_runique_element_equipement" => $equipement["id_fk_mot_runique"],
-							"date_fin_element_equipement" => $dateFin,
-							"id_fk_region_element_equipement" => $equipement["id_fk_region"],
-						);
-						break;
-					case "Coffre" :
-						$arriveeEquipementTable = new CoffreEquipement();
-						$data = array (
-							"id_coffre_equipement" => $equipement["id_equipement"],
-							"id_fk_recette_coffre_equipement" => $equipement["id_fk_recette"],
-							"id_fk_hobbit_coffre_equipement" => $this->view->id_hobbit_coffre,
-							"nb_runes_coffre_equipement" => $equipement["nb_runes"],
-							"id_fk_mot_runique_coffre_equipement" => $equipement["id_fk_mot_runique"],
-							"id_fk_region_coffre_equipement" => $equipement["id_fk_region"],
-						);
-						break;
-					case "Charrette" :
-						$arriveeEquipementTable = new CharretteEquipement();
-						$data = array (
-							"id_charrette_equipement" => $equipement["id_equipement"],
-							"id_fk_recette_charrette_equipement" => $equipement["id_fk_recette"],
-							"id_fk_charrette_equipement" => $this->view->id_charrette_arrivee,
-							"nb_runes_charrette_equipement" => $equipement["nb_runes"],
-							"id_fk_mot_runique_charrette_equipement" => $equipement["id_fk_mot_runique"],
-							"id_fk_region_charrette_equipement" => $equipement["id_fk_region"],
-						);
-						break;
-				}
-				$arriveeEquipementTable->insert($data);
-				unset($arriveeEquipementTable);
 			}
 		}
 	}
@@ -449,88 +450,89 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$runes = array();
 		$runes = $this->request->get("valeur_14");
 		if (count($runes) > 0 && $runes !=0 ) {
-			foreach ($runes as $idRune) {
-				if (!array_key_exists($idRune, $this->view->runes)) {
-					throw new Zend_Exception(get_class($this)." ID Rune invalide : ".$idRune);
-				}
-				$rune = $this->view->runes[$idRune];
-				
-				$this->view->nbelement = $this->view->nbelement + 1;
-				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ){
-					$this->view->panneau = false;
-					break;
-				}
-				
-				if ($arrivee == "Laban" || $arrivee == "Charrette") {
-					$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_RUNE);
-					if ($poidsOk == false){
-						$this->view->poidsOk = false;
-						break;
+			$this->view->nbelement = $this->view->nbelement + 1;
+			if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ){
+				$this->view->panneau = false;
+			}
+			else {
+				foreach ($runes as $idRune) {
+					if (!array_key_exists($idRune, $this->view->runes)) {
+						throw new Zend_Exception(get_class($this)." ID Rune invalide : ".$idRune);
 					}
+					
+					$rune = $this->view->runes[$idRune];
+					
+					if ($arrivee == "Laban" || $arrivee == "Charrette") {
+						$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_RUNE);
+						if ($poidsOk == false){
+							$this->view->poidsOk = false;
+							break;
+						}
+					}
+	
+					$where = "id_rune_".strtolower($depart)."_rune=".$idRune;
+	
+					switch ($depart){
+						case "Laban" :
+							$departRuneTable = new LabanRune();
+							break;
+						case "Element" :
+							$departRuneTable = new ElementRune();
+							break;
+						case "Coffre" :
+							$departRuneTable = new CoffreRune();
+							break;
+						case "Charrette" :
+							$departRuneTable = new CharretteRune();
+							break;
+					}
+	
+					$departRuneTable->delete($where);
+					unset($departRuneTable);
+	
+					switch ($arrivee){
+						case "Laban" :
+							$arriveeRuneTable = new LabanRune();
+							$data = array (
+								"id_rune_laban_rune" => $rune["id_rune"],
+								"id_fk_type_laban_rune" => $rune["id_fk_type_rune"],
+								"est_identifiee_laban_rune" => $rune["est_identifiee"],
+								"id_fk_hobbit_laban_rune" => $this->view->user->id_hobbit,
+							);
+							$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RUNE;
+							break;
+						case "Element" :
+							$arriveeRuneTable = new ElementRune();
+							$data = array (
+								"id_rune_element_rune" => $rune["id_rune"],
+								"x_element_rune" => $this->view->user->x_hobbit,
+								"y_element_rune" => $this->view->user->y_hobbit,
+								"id_fk_type_element_rune" => $rune["id_fk_type_rune"],
+								"est_identifiee_element_rune" => $rune["est_identifiee"],
+							);
+							break;
+						case "Coffre" :
+							$arriveeRuneTable = new CoffreRune();
+							$data = array (
+							"id_rune_coffre_rune" => $rune["id_rune"],
+							"id_fk_type_coffre_rune" => $rune["id_fk_type_rune"],
+							"est_identifiee_coffre_rune" => $rune["est_identifiee"],
+							"id_fk_hobbit_coffre_rune" => $this->view->id_hobbit_coffre,
+							);
+							break;
+						case "Charrette" :
+							$arriveeRuneTable = new CharretteRune();
+							$data = array (
+							"id_rune_charrette_rune" => $rune["id_rune"],
+							"id_fk_type_charrette_rune" => $rune["id_fk_type_rune"],
+							"est_identifiee_charrette_rune" => $rune["est_identifiee"],
+							"id_fk_charrette_rune" => $this->view->id_charrette_arrivee,
+							);
+							break;
+					}
+					$arriveeRuneTable->insert($data);
+					unset($arriveeRuneTable);
 				}
-
-				$where = "id_rune_".strtolower($depart)."_rune=".$idRune;
-
-				switch ($depart){
-					case "Laban" :
-						$departRuneTable = new LabanRune();
-						break;
-					case "Element" :
-						$departRuneTable = new ElementRune();
-						break;
-					case "Coffre" :
-						$departRuneTable = new CoffreRune();
-						break;
-					case "Charrette" :
-						$departRuneTable = new CharretteRune();
-						break;
-				}
-
-				$departRuneTable->delete($where);
-				unset($departRuneTable);
-
-				switch ($arrivee){
-					case "Laban" :
-						$arriveeRuneTable = new LabanRune();
-						$data = array (
-							"id_rune_laban_rune" => $rune["id_rune"],
-							"id_fk_type_laban_rune" => $rune["id_fk_type_rune"],
-							"est_identifiee_laban_rune" => $rune["est_identifiee"],
-							"id_fk_hobbit_laban_rune" => $this->view->user->id_hobbit,
-						);
-						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RUNE;
-						break;
-					case "Element" :
-						$arriveeRuneTable = new ElementRune();
-						$data = array (
-							"id_rune_element_rune" => $rune["id_rune"],
-							"x_element_rune" => $this->view->user->x_hobbit,
-							"y_element_rune" => $this->view->user->y_hobbit,
-							"id_fk_type_element_rune" => $rune["id_fk_type_rune"],
-							"est_identifiee_element_rune" => $rune["est_identifiee"],
-						);
-						break;
-					case "Coffre" :
-						$arriveeRuneTable = new CoffreRune();
-						$data = array (
-						"id_rune_coffre_rune" => $rune["id_rune"],
-						"id_fk_type_coffre_rune" => $rune["id_fk_type_rune"],
-						"est_identifiee_coffre_rune" => $rune["est_identifiee"],
-						"id_fk_hobbit_coffre_rune" => $this->view->id_hobbit_coffre,
-						);
-						break;
-					case "Charrette" :
-						$arriveeRuneTable = new CharretteRune();
-						$data = array (
-						"id_rune_charrette_rune" => $rune["id_rune"],
-						"id_fk_type_charrette_rune" => $rune["id_fk_type_rune"],
-						"est_identifiee_charrette_rune" => $rune["est_identifiee"],
-						"id_fk_charrette_rune" => $this->view->id_charrette_arrivee,
-						);
-						break;
-				}
-				$arriveeRuneTable->insert($data);
-				unset($arriveeRuneTable);
 			}
 		}
 	}
@@ -586,96 +588,97 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$potions = array();
 		$potions = $this->request->get("valeur_15");
 		if (count($potions) > 0 && $potions != 0) {
-			foreach ($potions as $idPotion) {
-				if (!array_key_exists($idPotion, $this->view->potions)) {
-					throw new Zend_Exception(get_class($this)." ID Potion invalide : ".$idPotion);
-				}
-
-				$potion = $this->view->potions[$idPotion];
-				
-				$this->view->nbelement = $this->view->nbelement + 1;
-				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ){
-					$this->view->panneau = false;
-					break;
-				}
-				if ($arrivee == "Laban" || $arrivee == "Charrette") {
-					$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_POTION);
-					if ($poidsOk == false){
-						$this->view->poidsOk = false;
-						break;
+			$this->view->nbelement = $this->view->nbelement + 1;
+			if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ){
+				$this->view->panneau = false;
+			}
+			else {
+				foreach ($potions as $idPotion) {
+					if (!array_key_exists($idPotion, $this->view->potions)) {
+						throw new Zend_Exception(get_class($this)." ID Potion invalide : ".$idPotion);
 					}
+	
+					$potion = $this->view->potions[$idPotion];
+					
+					if ($arrivee == "Laban" || $arrivee == "Charrette") {
+						$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_POTION);
+						if ($poidsOk == false){
+							$this->view->poidsOk = false;
+							break;
+						}
+					}
+	
+					$where = "id_".strtolower($depart)."_potion=".$idPotion;
+					switch ($depart){
+						case "Laban" :
+							$departPotionTable = new LabanPotion();
+							break;
+						case "Element" :
+							$departPotionTable = new ElementPotion();
+							break;
+						case "Coffre" :
+							$departPotionTable = new CoffrePotion();
+							break;
+						case "Charrette" :
+							$departPotionTable = new CharrettePotion();
+							break;
+					}
+	
+					$departPotionTable->delete($where);
+					unset($departPotionTable);
+	
+					switch($arrivee){
+						case "Laban" :
+							$arriveePotionTable = new LabanPotion();
+							$data = array (
+								"id_laban_potion" => $potion["id_potion"],
+								"id_fk_hobbit_laban_potion" => $this->view->user->id_hobbit,
+								"niveau_laban_potion" => $potion["niveau"],
+								"id_fk_type_qualite_laban_potion" => $potion["id_fk_type_qualite"],
+								"id_fk_type_laban_potion" => $potion["id_fk_type"],
+							);
+							$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POTION;
+							break;
+						case "Element" :
+							$dateCreation = date("Y-m-d H:i:s");
+							$nbJours = Bral_Util_De::get_2d10();
+							$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+	
+							$arriveePotionTable = new ElementPotion();
+							$data = array (
+								"id_element_potion" => $potion["id_potion"],
+								"x_element_potion" => $this->view->user->x_hobbit,
+								"y_element_potion" => $this->view->user->y_hobbit,
+								"niveau_element_potion" => $potion["niveau"],
+								"id_fk_type_qualite_element_potion" => $potion["id_fk_type_qualite"],
+								"id_fk_type_element_potion" => $potion["id_fk_type"],
+								"date_fin_element_potion" => $dateFin,
+							);
+							break;
+						case "Coffre" :
+							$arriveePotionTable = new CoffrePotion();
+							$data = array (
+								"id_coffre_potion" => $potion["id_potion"],
+								"id_fk_hobbit_coffre_potion" => $this->view->id_hobbit_coffre,
+								"niveau_coffre_potion" => $potion["niveau"],
+								"id_fk_type_qualite_coffre_potion" => $potion["id_fk_type_qualite"],
+								"id_fk_type_coffre_potion" => $potion["id_fk_type"],
+							);
+							break;
+						case "Charrette" :
+							$arriveePotionTable = new CharrettePotion();
+							$data = array (
+								"id_charrette_potion" => $potion["id_potion"],
+								"id_fk_charrette_potion" => $this->view->id_charrette_arrivee,
+								"niveau_charrette_potion" => $potion["niveau"],
+								"id_fk_type_qualite_charrette_potion" => $potion["id_fk_type_qualite"],
+								"id_fk_type_charrette_potion" => $potion["id_fk_type"],
+							);
+							break;
+					}
+					$arriveePotionTable->insert($data);
+					unset($arriveePotionTable);
 				}
-
-				$where = "id_".strtolower($depart)."_potion=".$idPotion;
-				switch ($depart){
-					case "Laban" :
-						$departPotionTable = new LabanPotion();
-						break;
-					case "Element" :
-						$departPotionTable = new ElementPotion();
-						break;
-					case "Coffre" :
-						$departPotionTable = new CoffrePotion();
-						break;
-					case "Charrette" :
-						$departPotionTable = new CharrettePotion();
-						break;
-				}
-
-				$departPotionTable->delete($where);
-				unset($departPotionTable);
-
-				switch($arrivee){
-					case "Laban" :
-						$arriveePotionTable = new LabanPotion();
-						$data = array (
-							"id_laban_potion" => $potion["id_potion"],
-							"id_fk_hobbit_laban_potion" => $this->view->user->id_hobbit,
-							"niveau_laban_potion" => $potion["niveau"],
-							"id_fk_type_qualite_laban_potion" => $potion["id_fk_type_qualite"],
-							"id_fk_type_laban_potion" => $potion["id_fk_type"],
-						);
-						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POTION;
-						break;
-					case "Element" :
-						$dateCreation = date("Y-m-d H:i:s");
-						$nbJours = Bral_Util_De::get_2d10();
-						$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-
-						$arriveePotionTable = new ElementPotion();
-						$data = array (
-							"id_element_potion" => $potion["id_potion"],
-							"x_element_potion" => $this->view->user->x_hobbit,
-							"y_element_potion" => $this->view->user->y_hobbit,
-							"niveau_element_potion" => $potion["niveau"],
-							"id_fk_type_qualite_element_potion" => $potion["id_fk_type_qualite"],
-							"id_fk_type_element_potion" => $potion["id_fk_type"],
-							"date_fin_element_potion" => $dateFin,
-						);
-						break;
-					case "Coffre" :
-						$arriveePotionTable = new CoffrePotion();
-						$data = array (
-							"id_coffre_potion" => $potion["id_potion"],
-							"id_fk_hobbit_coffre_potion" => $this->view->id_hobbit_coffre,
-							"niveau_coffre_potion" => $potion["niveau"],
-							"id_fk_type_qualite_coffre_potion" => $potion["id_fk_type_qualite"],
-							"id_fk_type_coffre_potion" => $potion["id_fk_type"],
-						);
-						break;
-					case "Charrette" :
-						$arriveePotionTable = new CharrettePotion();
-						$data = array (
-							"id_charrette_potion" => $potion["id_potion"],
-							"id_fk_charrette_potion" => $this->view->id_charrette_arrivee,
-							"niveau_charrette_potion" => $potion["niveau"],
-							"id_fk_type_qualite_charrette_potion" => $potion["id_fk_type_qualite"],
-							"id_fk_type_charrette_potion" => $potion["id_fk_type"],
-						);
-						break;
-				}
-				$arriveePotionTable->insert($data);
-				unset($arriveePotionTable);
 			}
 		}
 	}
@@ -730,96 +733,96 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$aliments = array();
 		$aliments = $this->request->get("valeur_13");
 		if (count($aliments) > 0 && $aliments !=0 ) {
-			foreach ($aliments as $idAliment) {
-				if (!array_key_exists($idAliment, $this->view->aliments)) {
-					throw new Zend_Exception(get_class($this)." ID Aliment invalide : ".$idAliment);
-				}
-
-				$aliment = $this->view->aliments[$idAliment];
-				
-				$this->view->nbelement = $this->view->nbelement + 1;
-				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ){
-					$this->view->panneau = false;
-					break;
-				}
-				
-				if ($arrivee == "Laban" || $arrivee == "Charrette") {
-					$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_RATION);
-					if ($poidsOk == false){
-						$this->view->poidsOk = false;
-						break;
+			$this->view->nbelement = $this->view->nbelement + 1;
+			if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ){
+				$this->view->panneau = false;
+			}
+			else {
+				foreach ($aliments as $idAliment) {
+					if (!array_key_exists($idAliment, $this->view->aliments)) {
+						throw new Zend_Exception(get_class($this)." ID Aliment invalide : ".$idAliment);
 					}
+	
+					$aliment = $this->view->aliments[$idAliment];
+					
+					if ($arrivee == "Laban" || $arrivee == "Charrette") {
+						$poidsOk = $this->controlePoids($this->view->poidsRestant, 1, Bral_Util_Poids::POIDS_RATION);
+						if ($poidsOk == false){
+							$this->view->poidsOk = false;
+							break;
+						}
+					}
+	
+					$where = "id_".strtolower($depart)."_aliment=".$idAliment;
+					switch ($depart){
+						case "Laban" :
+							$departAlimentTable = new LabanAliment();
+							break;
+						case "Element" :
+							$departAlimentTable = new ElementAliment();
+							break;
+						case "Coffre" :
+							$departAlimentTable = new CoffreAliment();
+							break;
+						case "Charrette" :
+							$departAlimentTable = new CharretteAliment();
+							break;
+					}
+					$departAlimentTable->delete($where);
+					unset($departAlimentTable);
+	
+					switch ($arrivee){
+						case "Laban" :
+							$arriveeAlimentTable = new LabanAliment();
+							$data = array (
+								"id_laban_aliment" => $aliment["id_aliment"],
+								"id_fk_hobbit_laban_aliment" => $this->view->user->id_hobbit,
+								"bbdf_laban_aliment" => $aliment["bbdf"],
+								"id_fk_type_qualite_laban_aliment" => $aliment["id_fk_type_qualite"],
+								"id_fk_type_laban_aliment" => $aliment["id_fk_type"],
+							);
+							$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RATION;
+							break;
+						case "Element" :
+							$dateCreation = date("Y-m-d H:i:s");
+							$nbJours = Bral_Util_De::get_2d10();
+							$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+	
+							$arriveeAlimentTable = new ElementAliment();
+							$data = array (
+										"id_element_aliment" => $aliment["id_aliment"],
+										"x_element_aliment" => $this->view->user->x_hobbit,
+										"y_element_aliment" => $this->view->user->y_hobbit,
+										"bbdf_element_aliment" => $aliment["bbdf"],
+										"id_fk_type_qualite_element_aliment" => $aliment["id_fk_type_qualite"],
+										"id_fk_type_element_aliment" => $aliment["id_fk_type"],
+										"date_fin_element_aliment" => $dateFin,
+							);
+							break;
+						case "Coffre" :
+							$arriveeAlimentTable = new CoffreAliment();
+							$data = array (
+								"id_coffre_aliment" => $aliment["id_aliment"],
+								"id_fk_hobbit_coffre_aliment" => $this->view->id_hobbit_coffre,
+								"bbdf_coffre_aliment" => $aliment["bbdf"],
+								"id_fk_type_qualite_coffre_aliment" => $aliment["id_fk_type_qualite"],
+								"id_fk_type_coffre_aliment" => $aliment["id_fk_type"],
+							);
+							break;
+						case "Charrette" :
+							$arriveeAlimentTable = new CharretteAliment();
+							$data = array (
+								"id_charrette_aliment" => $aliment["id_aliment"],
+								"id_fk_charrette_aliment" => $this->view->id_charrette_arrivee,
+								"bbdf_charrette_aliment" => $aliment["bbdf"],
+								"id_fk_type_qualite_charrette_aliment" => $aliment["id_fk_type_qualite"],
+								"id_fk_type_charrette_aliment" => $aliment["id_fk_type"],
+							);
+							break;
+					}
+					$arriveeAlimentTable->insert($data);
+					unset($arriveeAlimentTable);
 				}
-
-				$where = "id_".strtolower($depart)."_aliment=".$idAliment;
-				switch ($depart){
-					case "Laban" :
-						$departAlimentTable = new LabanAliment();
-						break;
-					case "Element" :
-						$departAlimentTable = new ElementAliment();
-						break;
-					case "Coffre" :
-						$departAlimentTable = new CoffreAliment();
-						break;
-					case "Charrette" :
-						$departAlimentTable = new CharretteAliment();
-						break;
-				}
-				$departAlimentTable->delete($where);
-				unset($departAlimentTable);
-
-				switch ($arrivee){
-					case "Laban" :
-						$arriveeAlimentTable = new LabanAliment();
-						$data = array (
-							"id_laban_aliment" => $aliment["id_aliment"],
-							"id_fk_hobbit_laban_aliment" => $this->view->user->id_hobbit,
-							"bbdf_laban_aliment" => $aliment["bbdf"],
-							"id_fk_type_qualite_laban_aliment" => $aliment["id_fk_type_qualite"],
-							"id_fk_type_laban_aliment" => $aliment["id_fk_type"],
-						);
-						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RATION;
-						break;
-					case "Element" :
-						$dateCreation = date("Y-m-d H:i:s");
-						$nbJours = Bral_Util_De::get_2d10();
-						$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-
-						$arriveeAlimentTable = new ElementAliment();
-						$data = array (
-									"id_element_aliment" => $aliment["id_aliment"],
-									"x_element_aliment" => $this->view->user->x_hobbit,
-									"y_element_aliment" => $this->view->user->y_hobbit,
-									"bbdf_element_aliment" => $aliment["bbdf"],
-									"id_fk_type_qualite_element_aliment" => $aliment["id_fk_type_qualite"],
-									"id_fk_type_element_aliment" => $aliment["id_fk_type"],
-									"date_fin_element_aliment" => $dateFin,
-						);
-						break;
-					case "Coffre" :
-						$arriveeAlimentTable = new CoffreAliment();
-						$data = array (
-							"id_coffre_aliment" => $aliment["id_aliment"],
-							"id_fk_hobbit_coffre_aliment" => $this->view->id_hobbit_coffre,
-							"bbdf_coffre_aliment" => $aliment["bbdf"],
-							"id_fk_type_qualite_coffre_aliment" => $aliment["id_fk_type_qualite"],
-							"id_fk_type_coffre_aliment" => $aliment["id_fk_type"],
-						);
-						break;
-					case "Charrette" :
-						$arriveeAlimentTable = new CharretteAliment();
-						$data = array (
-							"id_charrette_aliment" => $aliment["id_aliment"],
-							"id_fk_charrette_aliment" => $this->view->id_charrette_arrivee,
-							"bbdf_charrette_aliment" => $aliment["bbdf"],
-							"id_fk_type_qualite_charrette_aliment" => $aliment["id_fk_type_qualite"],
-							"id_fk_type_charrette_aliment" => $aliment["id_fk_type"],
-						);
-						break;
-				}
-				$arriveeAlimentTable->insert($data);
-				unset($arriveeAlimentTable);
 			}
 		}
 	}
