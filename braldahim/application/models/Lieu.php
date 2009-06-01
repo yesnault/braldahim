@@ -35,7 +35,7 @@ class Lieu extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	public function findByTypeAndRegion($type, $region) {
+	public function findByTypeAndRegion($type, $region, $estSoule = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
@@ -49,6 +49,11 @@ class Lieu extends Zend_Db_Table {
 		->where('lieu.y_lieu >= region.y_min_region')
 		->where('lieu.y_lieu <= region.y_max_region')
 		->joinLeft('ville','id_fk_ville_lieu = id_ville');
+
+		if ($estSoule != null) {
+			$select->where('lieu.est_soule_lieu = ?',$estSoule);
+		}
+
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
