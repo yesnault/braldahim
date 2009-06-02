@@ -13,7 +13,7 @@
 	<tbody>
   	<? $i = 0; 
   	foreach($this->resultats as $e): ?>
-  		<tr class="table_liste<?=($i % 2);$i++; ?>" style="cursor:pointer">
+  		<tr class="table_liste<?=($i % 2);$i++; ?>">
 	  		<td class="table_liste">
 	  		<?
 	  		if ($e["type"] == "equipement") :
@@ -28,8 +28,10 @@
 		  		</a>
 		  		<img src='/public/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onClick="ecrireMessage('<?=$e["vente"]["id_hobbit"]?>');" style='cursor:pointer'/>
 	  		</td>
-	  		<td class="table_liste"></td>
-	  		<td class="table_liste"></td>
+	  		<td class="table_liste">En Stock</td>
+	  		<td class="table_liste">
+	  		<?=Bral_Helper_DetailHotel::afficherPrix($e["vente"]);?>
+	  		</td>
 	  		<td class="table_liste"></td>
   		</tr>
   	<? endforeach; ?>
