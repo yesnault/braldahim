@@ -317,7 +317,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			throw new Zend_Exception(get_class($this)." Quantite invalide : ".$nb);
 		}
 
-		$idVente = $this->initVente();
+		$idVente = $this->initVente("element");
 
 		$table = new $endroit["nom_systeme"]();
 		$data = array(
@@ -386,7 +386,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			throw new Zend_Exception(get_class($this)." ID Equipement invalide : ".$idEquipement);
 		}
 
-		$idVente = $this->initVente();
+		$idVente = $this->initVente("equipement");
 
 		$equipement = $this->view->equipements[$idEquipement];
 
@@ -455,7 +455,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			throw new Zend_Exception(get_class($this)." ID Potion invalide : ".$idPotion);
 		}
 
-		$idVente = $this->initVente();
+		$idVente = $this->initVente("potion");
 
 		$potion = $this->view->potions[$idPotion];
 
@@ -524,7 +524,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			throw new Zend_Exception(get_class($this)." ID Rune invalide : ".$idRune);
 		}
 
-		$idVente = $this->initVente();
+		$idVente = $this->initVente("rune");
 
 		$rune = $this->view->runes[$idRune];
 
@@ -599,7 +599,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			throw new Zend_Exception(get_class($this)." Quantite Munition invalide : ".$nbMunition);
 		}
 
-		$idVente = $this->initVente();
+		$idVente = $this->initVente("munition");
 
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanMunition");
@@ -698,7 +698,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			throw new Zend_Exception(get_class($this)." Quantite Minerai Brut invalide : ".$nbMinerai);
 		}
 
-		$idVente = $this->initVente();
+		$idVente = $this->initVente("minerai");
 
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanMinerai");
@@ -808,7 +808,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			throw new Zend_Exception(get_class($this)." Quantite PartiePlante invalide : ".$nbPartiePlante);
 		}
 
-		$idVente = $this->initVente();
+		$idVente = $this->initVente("partieplante");
 
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanPartieplante");
@@ -888,7 +888,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			throw new Zend_Exception(get_class($this)." ID Materiel invalide : ".$idMateriel);
 		}
 
-		$idVente = $this->initVente();
+		$idVente = $this->initVente("materiel");
 
 		$materiel = $this->view->materiels[$idMateriel];
 
@@ -956,7 +956,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 				throw new Zend_Exception(get_class($this)." ID Aliment invalide : ".$idAliment);
 			}
 
-			$idVente = $this->initVente();
+			$idVente = $this->initVente("aliment");
 
 			$aliment = $this->view->aliments[$idAliment];
 
@@ -1026,7 +1026,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		return $tabPrix;
 	}
 
-	private function initVente() {
+	private function initVente($typeVente) {
 		Zend_Loader::loadClass("Vente");
 		Zend_Loader::loadClass("Bral_Util_BBParser");
 
@@ -1090,6 +1090,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			"prix_1_vente" => $prix_1,
 			"prix_2_vente" => $prix_2,
 			"prix_3_vente" => $prix_3,
+			"type_vente" => $typeVente,
 		);
 
 		$idVente = $venteTable->insert($data);

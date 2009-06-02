@@ -20,7 +20,15 @@ class Vente extends Zend_Db_Table {
 		$select->from('vente', '*')
 		->where('id_fk_hobbit_vente = '.intval($idHobbit));
 		$sql = $select->__toString();
-
+		return $db->fetchAll($sql);
+	}
+	
+	function findByType($typeVente) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('vente', '*')
+		->where('type_vente = ?', $typeVente);
+		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 }

@@ -1,3 +1,4 @@
+ <br>
  <table class="table_liste" width="100%">
 	<thead class="table_liste">
 	  <tr class="table_liste">
@@ -8,13 +9,25 @@
 		<th>Acheter</th>
 	  </tr>
 	</thead>
-  <? if ($this->nbResultats > 0): ?>
+  <? if (count($this->resultats) > 0): ?>
 	<tbody>
   	<? $i = 0; 
   	foreach($this->resultats as $e): ?>
   		<tr class="table_liste<?=($i % 2);$i++; ?>" style="cursor:pointer">
-	  		<td class="table_liste"></td>
-	  		<td class="table_liste"></td>
+	  		<td class="table_liste">
+	  		<?
+	  		if ($e["type"] == "equipement") :
+	  			include("resultats_equipements.phtml");
+	  		endif;
+	  		
+	  		?>
+	  		</td>
+	  		<td class="table_liste">
+	  			<a onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$e["vente"]["id_hobbit"]?>');" title="Cliquez pour voir le profil">
+		  		<?=$e["vente"]["prenom_hobbit"]?> <?=$e["vente"]["nom_hobbit"]?> (<?=$e["vente"]["id_hobbit"]?>)
+		  		</a>
+		  		<img src='/public/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onClick="ecrireMessage('<?=$e["vente"]["id_hobbit"]?>');" style='cursor:pointer'/>
+	  		</td>
 	  		<td class="table_liste"></td>
 	  		<td class="table_liste"></td>
 	  		<td class="table_liste"></td>

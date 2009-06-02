@@ -2,7 +2,8 @@
 <ul class="titre textalic textsizee">
 Recherche par Équipement
 </ul>
-<select name="hotel_menu_recherche_equipements" id="hotel_menu_recherche_equipements">
+
+<select name="hotel_menu_recherche_equipements" id="hotel_menu_recherche_equipements" onChange="jsMenuHotel('hotel_menu_recherche_equipements', this.value)">
 <option value="-1">Choisissez un type de recherche</option>
 <? foreach($this->menuRechercheEquipement as $m) : ?>
 	<optgroup label="<?=$m["titre"]?>" style="font-weight:bold"></optgroup>

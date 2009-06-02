@@ -84,8 +84,9 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				} elseif ($factory == "Bral_Administrationajax_Factory") {
 					$action = Bral_Administrationajax_Factory::getAction($this->_request, $this->view);
 				}
-				$xml_entry->set_valeur($action->getNomInterne());
+				
 				$xml_entry->set_data($action->render());
+				$xml_entry->set_valeur($action->getNomInterne());
 				$this->xml_response->add_entry($xml_entry);
 				$boxToRefresh = $action->getListBoxRefresh();
 				for ($i=0; $i<count($boxToRefresh); $i++) {
