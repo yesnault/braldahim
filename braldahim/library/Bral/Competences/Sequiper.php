@@ -283,12 +283,15 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 						$p["nom_systeme_type_emplacement"] == "maindroite" ||
 						$p["nom_systeme_type_emplacement"] == "deuxmains") {
 							$this->calculTransfertVersLaban($p);
+							$this->calculRetireEffet($p);
 						}
 					} else if (($equipement["nom_systeme_type_emplacement"] == "maingauche" || $equipement["nom_systeme_type_emplacement"] == "maindroite")
 					&& $p["nom_systeme_type_emplacement"] == "deuxmains") {
 						$this->calculTransfertVersLaban($p);
+						$this->calculRetireEffet($p);
 					} else if ($equipement["id_type_emplacement"] == $p["id_type_emplacement"]) {
 						$this->calculTransfertVersLaban($p);
+						$this->calculRetireEffet($p);
 					}
 				}
 			}
