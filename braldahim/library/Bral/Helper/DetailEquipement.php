@@ -14,7 +14,7 @@ class Bral_Helper_DetailEquipement {
 	
  	public static function afficherPrix($e) {
     	Zend_Loader::loadClass("Bral_Helper_DetailPrix");
- 		return Bral_Helper_DetailPrix::afficherPrix($e, "echoppe_equipement");
+ 		return Bral_Helper_DetailPrix::afficherPrix($e, "_echoppe_equipement");
     }
     
     public static function afficher($e) {

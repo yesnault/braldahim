@@ -14,7 +14,7 @@ class Bral_Helper_DetailPotion {
 
  	public static function afficherPrix($e) {
  		Zend_Loader::loadClass("Bral_Helper_DetailPrix");
- 		return Bral_Helper_DetailPrix::afficherPrix($e, "echoppe_potion");
+ 		return Bral_Helper_DetailPrix::afficherPrix($e, "_echoppe_potion");
     }
     
     public static function afficher($p) {
