@@ -217,7 +217,7 @@ class Bral_Util_Soule {
 		}
 
 		if ($idHobbitFin != $hobbit["id_hobbit"]) {
-			$detailsBot = Bral_Util_Lien::remplaceBaliseParNomEtJs("[h".$hobbit["id_hobbit"]."]", false);
+			$detailsBot = Bral_Util_Lien::remplaceBaliseParNomEtJs("[h".$idHobbitFin."]", false);
 			$detailsBot .= " a";
 		} else {
 			$detailsBot = " Vous avez";
