@@ -23,7 +23,17 @@ class Vente extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function findByType($typeVente) {
+	function findDernieres($nb) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('vente', '*')
+		->order('id_vente desc')
+		->limit($nb, 0);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
+	function findAllByType($typeVente) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('vente', '*')

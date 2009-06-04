@@ -19,7 +19,7 @@ class Bral_Helper_DetailPrix {
 
 		$suffixe2 = $suffixe;
 		if ($suffixe2 == "") {
-			$suffixe2 = "vente_prix"; // pour les tables vente_prix_minerai et vente_prix_partieplante
+			$suffixe2 = "_vente_prix"; // pour les tables vente_prix_minerai et vente_prix_partieplante
 		}
 
 		if ($e["prix_1_vente".$suffixe] >= 0 && $e["unite_1_vente".$suffixe] > 0) {

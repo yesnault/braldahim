@@ -1,5 +1,5 @@
  <br>
- <table class="table_liste" width="100%">
+ <table class="table_liste" style="width:90%">
 	<thead class="table_liste">
 	  <tr class="table_liste">
 		<th>Nom</th>
@@ -18,6 +18,10 @@
 	  		<?
 	  		if ($e["type"] == "equipement") :
 	  			include("resultats_equipements.phtml");
+	  		elseif ($e["type"] == "element") :
+	  			include("resultats_elements.phtml");
+	  		elseif ($e["type"] == "aliment") :
+	  			include("resultats_aliments.phtml");
 	  		endif;
 	  		
 	  		?>

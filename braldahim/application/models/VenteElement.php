@@ -15,12 +15,45 @@ class VenteElement extends Zend_Db_Table {
 	protected $_primary = array('id_vente_element');
 
 	function findByIdVente($idVente) {
+			
+		$nomChamp = "id_fk_vente_element";
+		$liste = "";
+		if (!is_array($idVente)) {
+			$liste = intval($idVente);
+		} else {
+			foreach($idVente as $id) {
+				if ((int) $id."" == $id."") {
+					if ($liste == "") {
+						$liste = $id;
+					} else {
+						$liste = $liste." OR ".$nomChamp."=".$id;
+					}
+				}
+			}
+		}
+		
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('vente_element', '*')
-		->where('id_fk_vente_element = '.intval($idVente));
+		->from('vente')
+		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
+		->where('id_fk_vente_element = id_vente')
+		->where('id_fk_hobbit_vente = id_hobbit')
+		->where('id_fk_vente_element = '.$liste);
 		$sql = $select->__toString();
-
+		return $db->fetchAll($sql);
+	}
+	
+	function findByType($type) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('vente_element', '*')
+		->from('vente')
+		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
+		->where('id_fk_vente_element = id_vente')
+		->where('id_fk_hobbit_vente = id_hobbit')
+		->where('type_vente_element = ?', $type);
+		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 }

@@ -6,6 +6,10 @@
 	Vous pouvez vendre des &eacute;l&eacute;ments pr&eacute;sents dans votre laban <br>
  	ou dans votre charrette si vous en avez une.<br />
  	<br>
+ 	
+ 	<? if ($this->assezDePa == false) :?>
+ 		Vous n'avez pas assez de PA.
+ 	<? else: ?>
  	Vendre à partir de :<br />
 	<select name="valeur_1" id="valeur_1"  onChange="_get_('/hotel/doaction?caction=ask_hotel_vendre&valeur_1='+this.value);">
 		<option value="-1">(Choisissez un endroit de d&eacute;part)</option>
@@ -34,8 +38,8 @@
 		 <br />
 		 Vous n'avez rien &agrave; vendre
 		<? endif; ?>
-	 <? endif ?>
-	 
+	<? endif ?>
+	<? endif; ?> 
  </div>
 
 </form>

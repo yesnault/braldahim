@@ -15,14 +15,54 @@ class VenteAliment extends Zend_Db_Table {
 	protected $_primary = array('id_vente_aliment');
 
 	function findByIdVente($idVente) {
+			
+		$nomChamp = "id_fk_vente_aliment";
+		$liste = "";
+		if (!is_array($idVente)) {
+			$liste = intval($idVente);
+		} else {
+			foreach($idVente as $id) {
+				if ((int) $id."" == $id."") {
+					if ($liste == "") {
+						$liste = $id;
+					} else {
+						$liste = $liste." OR ".$nomChamp."=".$id;
+					}
+				}
+			}
+		}
+
 		$db = $this->getAdapter();
+		$select = $db->select();
 		$select->from('vente_aliment', '*')
 		->from('type_aliment')
 		->from('type_qualite')
+		->from('vente')
+		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
+		->where('id_fk_vente_aliment = id_vente')
+		->where('id_fk_hobbit_vente = id_hobbit')
 		->where('id_fk_type_vente_aliment = id_type_aliment')
 		->where('id_fk_type_qualite_vente_aliment = id_type_qualite')
-		->where('id_fk_vente_aliment = '.intval($idVente));
+		->where('id_fk_vente_aliment = '.$liste);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 
+	function findByIdType($idType) {
+			
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('vente_aliment', '*')
+		->from('type_aliment')
+		->from('type_qualite')
+		->from('vente')
+		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
+		->where('id_fk_vente_aliment = id_vente')
+		->where('id_fk_hobbit_vente = id_hobbit')
+		->where('id_fk_type_vente_aliment = id_type_aliment')
+		->where('id_fk_type_qualite_vente_aliment = id_type_qualite')
+		->where('id_fk_type_vente_aliment = ?', $idType);
+		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 }

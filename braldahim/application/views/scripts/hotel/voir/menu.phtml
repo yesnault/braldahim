@@ -3,7 +3,7 @@
 Recherche par Équipement
 </ul>
 
-<select name="hotel_menu_recherche_equipements" id="hotel_menu_recherche_equipements" onChange="jsMenuHotel('hotel_menu_recherche_equipements', this.value)">
+<select name="hotel_menu_recherche_equipements" id="hotel_menu_recherche_equipements" onChange="jsMenuHotel(this.id, this.value)">
 <option value="-1">Choisissez un type de recherche</option>
 <? foreach($this->menuRechercheEquipement as $m) : ?>
 	<optgroup label="<?=$m["titre"]?>" style="font-weight:bold"></optgroup>
@@ -17,7 +17,7 @@ Recherche par Équipement
 <ul class="titre textalic textsizee">
 Recherche par Matériel
 </ul>
-<select name="hotel_menu_recherche_materiels" id="hotel_menu_recherche_materiels">
+<select name="hotel_menu_recherche_materiels" id="hotel_menu_recherche_materiels" onChange="jsMenuHotel(this.id, this.value)">
 <option value="-1">Choisissez un type de recherche</option>
 <? foreach($this->menuRechercheMateriel as $m) : ?>
 	<? foreach($m["elements"] as $e) : ?>
@@ -30,7 +30,7 @@ Recherche par Matériel
 <ul class="titre textalic textsizee">
 Recherche par Matière Première
 </ul>
-<select name="hotel_menu_recherche_matieres_premieres" id="hotel_menu_recherche_matieres_premieres">
+<select name="hotel_menu_recherche_matieres_premieres" id="hotel_menu_recherche_matieres_premieres" onChange="jsMenuHotel(this.id, this.value)">
 <option value="-1">Choisissez un type de recherche</option>
 <? foreach($this->menuRechercheMatieresPremieres as $m) : ?>
 	<optgroup label="<?=$m["titre"]?>" style="font-weight:bold"></optgroup>
@@ -44,7 +44,7 @@ Recherche par Matière Première
 <ul class="titre textalic textsizee">
 Recherche par Matière Transformée
 </ul>
-<select name="hotel_menu_recherche_matieres_transformees" id="hotel_menu_recherche_matieres_transformees">
+<select name="hotel_menu_recherche_matieres_transformees" id="hotel_menu_recherche_matieres_transformees" onChange="jsMenuHotel(this.id, this.value)">
 <option value="-1">Choisissez un type de recherche</option>
 <? foreach($this->menuRechercheMatieresTransformees as $m) : ?>
 	<optgroup label="<?=$m["titre"]?>" style="font-weight:bold"></optgroup>
@@ -58,7 +58,7 @@ Recherche par Matière Transformée
 <ul class="titre textalic textsizee">
 Recherche par Aliment
 </ul>
-<select name="hotel_menu_recherche_aliments" id="hotel_menu_recherche_aliments">
+<select name="hotel_menu_recherche_aliments" id="hotel_menu_recherche_aliments" onChange="jsMenuHotel(this.id, this.value)">
 <option value="-1">Choisissez un type de recherche</option>
 <? foreach($this->menuRechercheAliment as $m) : ?>
 	<? foreach($m["elements"] as $e) : ?>
@@ -71,7 +71,7 @@ Recherche par Aliment
 <ul class="titre textalic textsizee">
 Recherche par Potion
 </ul>
-<select name="hotel_menu_recherche_potions" id="hotel_menu_recherche_potions">
+<select name="hotel_menu_recherche_potions" id="hotel_menu_recherche_potions" onChange="jsMenuHotel(this.id, this.value)">
 <option value="-1">Choisissez un type de recherche</option>
 <? foreach($this->menuRecherchePotion as $m) : ?>
 	<? foreach($m["elements"] as $e) : ?>
@@ -84,7 +84,7 @@ Recherche par Potion
 <ul class="titre textalic textsizee">
 Recherche par Rune
 </ul>
-<select name="hotel_menu_recherche_runes" id="hotel_menu_recherche_runes">
+<select name="hotel_menu_recherche_runes" id="hotel_menu_recherche_runes" onChange="jsMenuHotel(this.id, this.value)">
 <option value="-1">Choisissez un type de recherche</option>
 <? foreach($this->menuRechercheRune as $m) : ?>
 	<? foreach($m["elements"] as $e) : ?>
