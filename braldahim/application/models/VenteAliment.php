@@ -49,7 +49,6 @@ class VenteAliment extends Zend_Db_Table {
 	}
 
 	function findByIdType($idType) {
-			
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('vente_aliment', '*')

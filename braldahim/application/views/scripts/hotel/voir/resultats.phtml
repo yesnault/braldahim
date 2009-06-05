@@ -2,6 +2,7 @@
  <table class="table_liste" style="width:90%">
 	<thead class="table_liste">
 	  <tr class="table_liste">
+	  	<th>N&deg; Vente</th>
 		<th>Nom</th>
 		<th>Vendeur</th>
 		<th>Localisation</th>
@@ -14,6 +15,7 @@
   	<? $i = 0; 
   	foreach($this->resultats as $e): ?>
   		<tr class="table_liste<?=($i % 2);$i++; ?>">
+  			<td class="table_liste"><?=$e["vente"]["id_vente"]?></td>
 	  		<td class="table_liste">
 	  		<?
 	  		if ($e["type"] == "equipement") :
@@ -22,6 +24,10 @@
 	  			include("resultats_elements.phtml");
 	  		elseif ($e["type"] == "aliment") :
 	  			include("resultats_aliments.phtml");
+	  		elseif ($e["type"] == "potion") :
+	  			include("resultats_potions.phtml");
+	  		elseif ($e["type"] == "rune") :
+	  			include("resultats_runes.phtml");
 	  		endif;
 	  		
 	  		?>

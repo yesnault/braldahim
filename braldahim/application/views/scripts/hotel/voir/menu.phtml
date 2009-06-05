@@ -60,10 +60,8 @@ Recherche par Aliment
 </ul>
 <select name="hotel_menu_recherche_aliments" id="hotel_menu_recherche_aliments" onChange="jsMenuHotel(this.id, this.value)">
 <option value="-1">Choisissez un type de recherche</option>
-<? foreach($this->menuRechercheAliment as $m) : ?>
-	<? foreach($m["elements"] as $e) : ?>
-		<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
-	<? endforeach; ?>
+<? foreach($this->menuRechercheAliment as $e) : ?>
+	<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
 <? endforeach;?>
 </select>
 
@@ -73,10 +71,8 @@ Recherche par Potion
 </ul>
 <select name="hotel_menu_recherche_potions" id="hotel_menu_recherche_potions" onChange="jsMenuHotel(this.id, this.value)">
 <option value="-1">Choisissez un type de recherche</option>
-<? foreach($this->menuRecherchePotion as $m) : ?>
-	<? foreach($m["elements"] as $e) : ?>
-		<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
-	<? endforeach; ?>
+<? foreach($this->menuRecherchePotion as $e) : ?>
+	<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
 <? endforeach;?>
 </select>
 
@@ -86,10 +82,8 @@ Recherche par Rune
 </ul>
 <select name="hotel_menu_recherche_runes" id="hotel_menu_recherche_runes" onChange="jsMenuHotel(this.id, this.value)">
 <option value="-1">Choisissez un type de recherche</option>
-<? foreach($this->menuRechercheRune as $m) : ?>
-	<? foreach($m["elements"] as $e) : ?>
-		<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
-	<? endforeach; ?>
+<? foreach($this->menuRechercheRune as $e) : ?>
+	<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
 <? endforeach;?>
 </select>
 

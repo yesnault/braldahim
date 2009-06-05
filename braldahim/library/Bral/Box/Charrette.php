@@ -221,7 +221,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 				$tabRunesNonIdentifiees[] = array(
 					"id_rune" => $r["id_rune_charrette_rune"],
 					"type" => $r["nom_type_rune"],
-					"image" => $r["image_type_rune"],
+					"image" => "rune_inconnue.png",
 					"est_identifiee" => $r["est_identifiee_charrette_rune"],
 					"effet_type_rune" => $r["effet_type_rune"],
 				);

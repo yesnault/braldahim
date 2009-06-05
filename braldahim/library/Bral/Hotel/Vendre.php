@@ -481,7 +481,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		);
 		$ventePotionTable->insert($data);
 
-		$this->view->objetVente = " la potion n°".$potion["id_potion"]. ", ".$p["nom_type_potion"]." de qualité ".$p["qualite"];
+		$this->view->objetVente = " la potion n°".$potion["id_potion"]. ", ".$potion["nom_type_potion"]." de qualité ".$potion["qualite"];
 	}
 
 	private function prepareTypeRunes($endroit) {
@@ -507,7 +507,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 					"image" => $r["image_type_rune"],
 					"est_identifiee" => $r["est_identifiee_".$endroit["suffixe"]."_rune"],
 					"effet_type_rune" => $r["effet_type_rune"],
-					"id_fk_type_rune" => $r["id_fk_type_laban_rune"],
+					"id_fk_type_rune" => $r["id_fk_type_".$endroit["suffixe"]."_rune"],
 				);
 			}
 		} else {

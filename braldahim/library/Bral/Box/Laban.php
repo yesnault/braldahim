@@ -203,7 +203,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 				$tabRunesNonIdentifiees[$r["id_rune_laban_rune"]] = array(
 					"id_rune" => $r["id_rune_laban_rune"],
 					"type" => $r["nom_type_rune"],
-					"image" => $r["image_type_rune"],
+					"image" => "rune_inconnue.png",
 					"est_identifiee" => $r["est_identifiee_laban_rune"],
 					"effet_type_rune" => $r["effet_type_rune"],
 				);
