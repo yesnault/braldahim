@@ -33,6 +33,16 @@ class Vente extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
+	function findATerme($nb) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('vente', '*')
+		->order('date_fin_vente desc')
+		->limit($nb, 0);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
 	function findAllByType($typeVente) {
 		$db = $this->getAdapter();
 		$select = $db->select();

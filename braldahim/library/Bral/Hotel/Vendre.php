@@ -281,7 +281,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if (count($autresRowset) == 1) {
 			foreach ($autresRowset as $p) {
 				if ($p["quantite_peau_".$endroit["suffixe"]] > 0) $tabAutres[1] = array("type_element" => "peau", "nom" => "Peau", "nom_pluriel" => "Peaux", "nom_systeme" => "quantite_peau" , "nb" => $p["quantite_peau_".$endroit["suffixe"]]);
-				if ($p["quantite_viande_".$endroit["suffixe"]] > 0) $tabAutres[2] = array("type_element" => "viande", "nom" => "Viande", "nom_pluriel" => "Viandes", "nom_systeme" => "quantite_viande" , "nb" => $p["quantite_viande_".$endroit["suffixe"]]);
+				if ($p["quantite_viande_".$endroit["suffixe"]] > 0) $tabAutres[2] = array("type_element" => "viande_fraiche", "nom" => "Viande", "nom_pluriel" => "Viandes", "nom_systeme" => "quantite_viande" , "nb" => $p["quantite_viande_".$endroit["suffixe"]]);
 				if ($p["quantite_viande_preparee_".$endroit["suffixe"]] > 0) $tabAutres[3] = array("type_element" => "viande_preparee", "nom" => "Viande pr&eacute;par&eacute;e", "nom_pluriel" => "Viandes pr&eacute;par&eacute;es", "nom_systeme" => "quantite_viande_preparee" , "nb" => $p["quantite_viande_preparee_".$endroit["suffixe"]]);
 				if ($p["quantite_ration_".$endroit["suffixe"]] > 0) $tabAutres[4] = array("type_element" => "ration", "nom" => "Ration", "nom_pluriel" => "Rations", "nom_systeme" => "quantite_ration" , "nb" => $p["quantite_ration_".$endroit["suffixe"]]);
 				if ($p["quantite_cuir_".$endroit["suffixe"]] > 0) $tabAutres[5] = array("type_element" => "cuir", "nom" => "Cuir", "nom_pluriel" => "Cuirs", "nom_systeme" => "quantite_cuir" , "nb" => $p["quantite_cuir_".$endroit["suffixe"]]);
@@ -651,11 +651,11 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 
 		if (count($minerais) > 0) {
 			foreach ($minerais as $m) {
-				if ($m["quantite_brut_laban_minerai"] > 0) {
+				if ($m["quantite_brut_".$endroit["suffixe"]."_minerai"] > 0) {
 					$tabMinerais[] = array(
-						"id_type_minerai" => $m["id_fk_type_laban_minerai"],
+						"id_type_minerai" => $m["id_fk_type_".$endroit["suffixe"]."_minerai"],
 						"type" => $m["nom_type_minerai"],
-						"quantite" => $m["quantite_brut_laban_minerai"],
+						"quantite" => $m["quantite_brut_".$endroit["suffixe"]."_minerai"],
 						"type_forme" => "brut",
 						"nom_forme" => "Minerai Brut",
 						"nom_forme_pluriel" => "Minerais Bruts",
@@ -663,12 +663,12 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 					$this->view->vendreOk = true;
 				}
 
-				if ($m["quantite_lingots_laban_minerai"] > 0) {
+				if ($m["quantite_lingots_".$endroit["suffixe"]."_minerai"] > 0) {
 					$tabMinerais[] = array(
-						"id_type_minerai" => $m["id_fk_type_laban_minerai"],
+						"id_type_minerai" => $m["id_fk_type_".$endroit["suffixe"]."_minerai"],
 						"type" => $m["nom_type_minerai"],
-						"quantite" => $m["quantite_lingots_laban_minerai"],
-						"type_forme" => "lingots",
+						"quantite" => $m["quantite_lingots_".$endroit["suffixe"]."_minerai"],
+						"type_forme" => "lingot",
 						"nom_forme" => "Lingot",
 						"nom_forme_pluriel" => "Lingots",
 					);
@@ -759,26 +759,26 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 
 		if (count($partiesPlantes) > 0) {
 			foreach ($partiesPlantes as $m) {
-				if ($m["quantite_laban_partieplante"] > 0) {
+				if ($m["quantite_".$endroit["suffixe"]."_partieplante"] > 0) {
 					$tabPartiePlantes[] = array(
-						"id_type_partieplante" => $m["id_fk_type_laban_partieplante"],
-						"id_type_plante" => $m["id_fk_type_plante_laban_partieplante"],
+						"id_type_partieplante" => $m["id_fk_type_".$endroit["suffixe"]."_partieplante"],
+						"id_type_plante" => $m["id_fk_type_plante_".$endroit["suffixe"]."_partieplante"],
 						"type" => $m["nom_type_partieplante"],
 						"type_plante" => $m["nom_type_plante"],
-						"quantite" => $m["quantite_laban_partieplante"],
+						"quantite" => $m["quantite_".$endroit["suffixe"]."_partieplante"],
 						"type_forme" => "brute",
 						"nom_forme" => "Plante Brute",
 					);
 					$this->view->vendreOk = true;
 				}
 
-				if ($m["quantite_preparee_laban_partieplante"] > 0) {
+				if ($m["quantite_preparee_".$endroit["suffixe"]."_partieplante"] > 0) {
 					$tabPartiePlantes[] = array(
-						"id_type_partieplante" => $m["id_fk_type_laban_partieplante"],
-						"id_type_plante" => $m["id_fk_type_plante_laban_partieplante"],
+						"id_type_partieplante" => $m["id_fk_type_".$endroit["suffixe"]."_partieplante"],
+						"id_type_plante" => $m["id_fk_type_plante_".$endroit["suffixe"]."_partieplante"],
 						"type" => $m["nom_type_partieplante"],
 						"type_plante" => $m["nom_type_plante"],
-						"quantite" => $m["quantite_preparee_laban_partieplante"],
+						"quantite" => $m["quantite_preparee_".$endroit["suffixe"]."_partieplante"],
 						"type_forme" => "preparee",
 						"nom_forme" => "Plante Préparée",
 					);

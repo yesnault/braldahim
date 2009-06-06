@@ -43,7 +43,8 @@ class VenteAliment extends Zend_Db_Table {
 		->where('id_fk_hobbit_vente = id_hobbit')
 		->where('id_fk_type_vente_aliment = id_type_aliment')
 		->where('id_fk_type_qualite_vente_aliment = id_type_qualite')
-		->where('id_fk_vente_aliment = '.$liste);
+		->where('id_fk_vente_aliment = '.$liste)
+		->order('date_fin_vente desc');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -60,7 +61,8 @@ class VenteAliment extends Zend_Db_Table {
 		->where('id_fk_hobbit_vente = id_hobbit')
 		->where('id_fk_type_vente_aliment = id_type_aliment')
 		->where('id_fk_type_qualite_vente_aliment = id_type_qualite')
-		->where('id_fk_type_vente_aliment = ?', $idType);
+		->where('id_fk_type_vente_aliment = ?', $idType)
+		->order('date_fin_vente desc');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

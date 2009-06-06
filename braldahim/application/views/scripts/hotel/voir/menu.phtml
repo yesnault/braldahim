@@ -2,7 +2,13 @@
 <table class="table_liste" style="width:95%">
 <tr>
 	<td>
-		
+		<select name="hotel_menu_recherche_pratique" id="hotel_menu_recherche_pratique" onChange="jsMenuHotel(this.id, this.value)">
+		<option value="-1">Recherches pratiques</option>
+		<? foreach($this->menuRecherchePratique as $m) : ?>
+			<option value="<?=$m["numero_element"]?>" <?=$m["selected"]?>><?=$m["nom"]?></option>
+		<? endforeach;?>
+		</select>
+		</select>
 	</td>
 	<td>
 		<select name="hotel_menu_recherche_equipements" id="hotel_menu_recherche_equipements" onChange="jsMenuHotel(this.id, this.value)">

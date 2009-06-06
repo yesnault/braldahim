@@ -39,7 +39,8 @@ class VenteElement extends Zend_Db_Table {
 		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
 		->where('id_fk_vente_element = id_vente')
 		->where('id_fk_hobbit_vente = id_hobbit')
-		->where('id_fk_vente_element = '.$liste);
+		->where('id_fk_vente_element = '.$liste)
+		->order('date_fin_vente desc');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -52,7 +53,8 @@ class VenteElement extends Zend_Db_Table {
 		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
 		->where('id_fk_vente_element = id_vente')
 		->where('id_fk_hobbit_vente = id_hobbit')
-		->where('type_vente_element = ?', $type);
+		->where('type_vente_element = ?', $type)
+		->order('date_fin_vente desc');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

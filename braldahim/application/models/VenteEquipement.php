@@ -50,7 +50,8 @@ class VenteEquipement extends Zend_Db_Table {
 		->where('id_fk_vente_equipement ='. $liste)
 		->where('id_fk_vente_equipement = id_vente')
 		->where('id_fk_hobbit_vente = id_hobbit')
-		->joinLeft('mot_runique','id_fk_mot_runique_vente_equipement = id_mot_runique');
+		->joinLeft('mot_runique','id_fk_mot_runique_vente_equipement = id_mot_runique')
+		->order('date_fin_vente desc');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -74,7 +75,8 @@ class VenteEquipement extends Zend_Db_Table {
 		->where('id_fk_type_piece_type_equipement = id_type_piece')
 		->where('id_fk_vente_equipement = id_vente')
 		->where('id_fk_hobbit_vente = id_hobbit')
-		->joinLeft('mot_runique','id_fk_mot_runique_vente_equipement = id_mot_runique');
+		->joinLeft('mot_runique','id_fk_mot_runique_vente_equipement = id_mot_runique')
+		->order('date_fin_vente desc');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -98,7 +100,8 @@ class VenteEquipement extends Zend_Db_Table {
 		->where('id_fk_type_piece_type_equipement = id_type_piece')
 		->where('id_fk_vente_equipement = id_vente')
 		->where('id_fk_hobbit_vente = id_hobbit')
-		->joinLeft('mot_runique','id_fk_mot_runique_vente_equipement = id_mot_runique');
+		->joinLeft('mot_runique','id_fk_mot_runique_vente_equipement = id_mot_runique')
+		->order('date_fin_vente desc');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

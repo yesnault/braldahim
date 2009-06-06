@@ -837,6 +837,8 @@ function pasteAtCursor(theGirl, theGuy) {
 
 function jsMenuHotel(id, valeur) {
 	
+	if (id != "hotel_menu_recherche_pratique") $("hotel_menu_recherche_pratique").value = -1;
+	if (id != "hotel_menu_recherche_equipements") $("hotel_menu_recherche_equipements").value = -1;
 	if (id != "hotel_menu_recherche_materiels") $("hotel_menu_recherche_materiels").value = -1;
 	if (id != "hotel_menu_recherche_matieres_premieres") $("hotel_menu_recherche_matieres_premieres").value = -1;
 	if (id != "hotel_menu_recherche_matieres_transformees") $("hotel_menu_recherche_matieres_transformees").value = -1;
