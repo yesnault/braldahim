@@ -1,8 +1,8 @@
  <br>
- <table class="table_liste" style="width:90%">
+ <table class="table_liste" style="width:95%">
 	<thead class="table_liste">
 	  <tr class="table_liste">
-	  	<th>N&deg; Vente</th>
+	  	<th>N&deg; Vente <br>Date fin</th>
 		<th>Nom</th>
 		<th>Vendeur</th>
 		<th>Localisation</th>
@@ -15,7 +15,9 @@
   	<? $i = 0; 
   	foreach($this->resultats as $e): ?>
   		<tr class="table_liste<?=($i % 2);$i++; ?>">
-  			<td class="table_liste"><?=$e["vente"]["id_vente"]?></td>
+  			<td class="table_liste">N&deg;<?=$e["vente"]["id_vente"]?>
+  			<br><?=$e["vente"]["date_fin_vente"]?>
+  			</td>
 	  		<td class="table_liste">
 	  		<?
 	  		if ($e["type"] == "equipement") :
@@ -28,8 +30,9 @@
 	  			include("resultats_potions.phtml");
 	  		elseif ($e["type"] == "rune") :
 	  			include("resultats_runes.phtml");
+	  		elseif ($e["type"] == "materiel") :
+	  			include("resultats_materiels.phtml");
 	  		endif;
-	  		
 	  		?>
 	  		</td>
 	  		<td class="table_liste">
@@ -42,7 +45,9 @@
 	  		<td class="table_liste">
 	  		<?=Bral_Helper_DetailHotel::afficherPrix($e["vente"]);?>
 	  		</td>
-	  		<td class="table_liste"></td>
+	  		<td class="table_liste">
+	  			<input type="button" class='button1' onClick='_get_("/hotel/doaction?caction=ask_hotel_acheter&id_vente=<?=$e["vente"]["id_vente"]?>");' value="<?=$this->paUtilisationHotel ?> PA - Acheter">
+		  	</td>
   		</tr>
   	<? endforeach; ?>
   	</tbody>

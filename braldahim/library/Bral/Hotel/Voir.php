@@ -26,6 +26,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 	function render() {
 		Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
 		Zend_Loader::loadClass("Bral_Helper_DetailHotel");
+		Zend_Loader::loadClass("Bral_Helper_DetailMateriel");
 
 		if ($this->box_lieu == "box_hotel_resultats") {
 			return $this->view->render("hotel/voir/resultats.phtml");
@@ -60,6 +61,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		} else if ($this->request->get("hotel_menu_recherche_materiels") != "") {
 			$numeroElement = Bral_Util_Controle::getValeurIntVerif($this->request->get("hotel_menu_recherche_materiels"));
 			$this->prepareMenuMateriels();
+			$tabResultats = $this->prepareRechercheMateriel($numeroElement);
 		} else if ($this->request->get("hotel_menu_recherche_matieres_premieres") != "") {
 			$numeroElement = Bral_Util_Controle::getValeurIntVerif($this->request->get("hotel_menu_recherche_matieres_premieres"));
 			$this->prepareMenusMatieres();
@@ -100,6 +102,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		$avecAliments = false;
 		$avecPotions = false;
 		$avecRunes = false;
+		$avecMateriels = false;
 		foreach ($ventes as $e) {
 			$idVentes[] = $e["id_vente"];
 			if ($e["type_vente"] == "equipement") {
@@ -112,6 +115,8 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 				$avecPotions = true;
 			} elseif ($e["type_vente"] == "rune") {
 				$avecRunes = true;
+			} elseif ($e["type_vente"] == "materiel") {
+				$avecMateriels = true;
 			}
 		}
 
@@ -134,6 +139,10 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 
 		if ($avecRunes) {
 			$tabResultats = array_merge($tabResultats, $this->prepareRechercheRune(null, $idVentes));
+		}
+
+		if ($avecMateriels) {
+			$tabResultats = array_merge($tabResultats, $this->prepareRechercheMateriel(null, $idVentes));
 		}
 
 		return $tabResultats;
@@ -388,6 +397,74 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		return $tabReturn;
 	}
 
+	private function prepareRechercheMateriel($numeroMateriel, $idsVente = null) {
+		Zend_Loader::loadClass("VenteMateriel");
+
+		$venteMaterielTable = new VenteMateriel();
+		if ($idsVente != null) {
+			$materiels = $venteMaterielTable->findByIdVente($idsVente);
+		} else {
+			$materiels = $venteMaterielTable->findByIdType($this->view->menuRechercheMateriel[$numeroMateriel]["id_type_materiel"]);
+		}
+
+		$tabReturn = array();
+
+		$idMateriels = null;
+		$idVentes = null;
+		if ($materiels != null) {
+			foreach ($materiels as $e) {
+				$idMateriels[] = $e["id_vente_materiel"];
+				$idVentes[] = $e["id_vente"];
+			}
+		}
+
+		if ($idMateriels != null && count($idMateriels) > 0) {
+			Zend_Loader::loadClass("VentePrixMinerai");
+			$ventePrixMineraiTable = new VentePrixMinerai();
+			$ventePrixMinerai = $ventePrixMineraiTable->findByIdsVente($idVentes);
+
+			Zend_Loader::loadClass("VentePrixPartiePlante");
+			$ventePrixPartiePlanteTable = new VentePrixPartiePlante();
+			$ventePrixPartiePlante = $ventePrixPartiePlanteTable->findByIdVente($idVentes);
+		}
+
+		if (count($materiels) > 0) {
+			foreach($materiels as $e) {
+
+				$minerai = $this->recuperePrixMineraiAvecIdVente($ventePrixMinerai, $e["id_vente"]);
+				$partiesPlantes = $this->recuperePrixPartiePlantesAvecIdVente($ventePrixPartiePlante, $e["id_vente"]);
+
+				$tabMateriel = array(
+					"id_vente_materiel" => $e["id_vente_materiel"],
+					"id_type_materiel" => $e["id_type_materiel"],
+					"nom" => $e["nom_type_materiel"],
+					"id_materiel" => $e["id_vente_materiel"],
+					"id_type_materiel" => $e["id_type_materiel"],
+					'nom_systeme_type_materiel' => $e["nom_systeme_type_materiel"],
+					'capacite' => $e["capacite_type_materiel"], 
+					'durabilite' => $e["durabilite_type_materiel"], 
+					'usure' => $e["usure_type_materiel"], 
+					'poids' => $e["poids_type_materiel"], 
+				);
+
+				if (array_key_exists($e["id_vente"], $tabReturn)) {
+					$tabReturn[$e["id_vente"]]["objet"][] = $tabMateriel;
+				} else {
+					$tabObjet = null;
+					$tabObjet[] = $tabMateriel;
+
+					$tabReturn[$e["id_vente"]] = array(
+					"type" => "materiel",
+					"vente" => $this->prepareRowVente($e, $minerai, $partiesPlantes),
+					"objet" => $tabObjet,
+					);
+				}
+
+			}
+		}
+		return $tabReturn;
+	}
+
 	private function prepareRechercheRune($numeroRune, $idsVente = null) {
 		Zend_Loader::loadClass("VenteRune");
 
@@ -564,7 +641,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 				"prix_2_vente" => $r["prix_2_vente"],
 				"prix_3_vente" => $r["prix_3_vente"],
 				"date_debut_vente" => $r["date_debut_vente"],
-				"date_fin_vente" => $r["date_fin_vente"],
+				"date_fin_vente" => Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y à H\h ', $r["date_fin_vente"]),
 				"commentaire_vente" => $r["commentaire_vente"],
 				"prix_minerais" => $minerai,
 				"prix_parties_plantes" => $partiesPlantes,
@@ -634,16 +711,14 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		$typesMateriels = $typeMaterielTable->fetchAll(null, "nom_type_materiel");
 		$typesMateriels = $typesMateriels->toArray();
 
-		$elements = null;
+		$tabMateriel = null;
 		$numeroElement = 0;
-		$tabMateriel["elements"] = null;
 		foreach($typesMateriels as $e) {
 			$numeroElement++;
-			$tabMateriel["elements"][$numeroElement] = array('numero_element' => $numeroElement, 'nom' => $e["nom_type_materiel"], "id_element" => $e["id_type_materiel"]);
+			$tabMateriel[$numeroElement] = array('numero_element' => $numeroElement, 'nom' => $e["nom_type_materiel"], "id_type_materiel" => $e["id_type_materiel"]);
 		}
 
-		$tab[] = $tabMateriel;
-		$this->view->menuRechercheMateriel = $tab;
+		$this->view->menuRechercheMateriel = $tabMateriel;
 	}
 
 	private function prepareMenusMatieres() {
