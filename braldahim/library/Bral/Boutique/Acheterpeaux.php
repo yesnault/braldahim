@@ -157,7 +157,7 @@ class Bral_Boutique_Acheterpeaux extends Bral_Boutique_Boutique {
 					if (count($labanRowset) == 1) {
 						$laban = $labanRowset[0];
 					} else {
-						throw new Zend_Exception("Bral_Boutique_Acheterpeau :: Nombre laban invalide idh:".$this->view->user->id_hobbit);
+						$laban["quantite_peau_laban"] = 0;
 					}
 					$this->view->nbMaximumContenant = floor(($this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit) / Bral_Util_Poids::POIDS_PEAU);
 					$this->view->nbPeauxActuels = $laban["quantite_peau_laban"];
