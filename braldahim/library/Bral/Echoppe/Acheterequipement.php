@@ -110,9 +110,11 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		$tabEquipement = array(
 			"id_equipement" => $this->equipement["id_echoppe_equipement"],
 			"nom" => Bral_Util_Equipement::getNomByIdRegion($this->equipement, $this->equipement["id_fk_region_echoppe_equipement"]),
+			"nom_standard" => $this->equipement["nom_type_equipement"],
 			"qualite" => $this->equipement["nom_type_qualite"],
 			"niveau" => $this->equipement["niveau_recette_equipement"],
 			"id_type_emplacement" => $this->equipement["id_type_emplacement"],
+			"emplacement" => $this->equipement["nom_type_emplacement"],
 			"nom_systeme_type_emplacement" => $this->equipement["nom_systeme_type_emplacement"],
 			"nb_runes" => $this->equipement["nb_runes_echoppe_equipement"],
 			"id_fk_recette_equipement" => $this->equipement["id_fk_recette_echoppe_equipement"],

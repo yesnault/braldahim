@@ -29,6 +29,9 @@ class Bral_Helper_DetailEquipement {
     	$text = htmlspecialchars($e["nom"])." ".htmlspecialchars(addslashes($e["suffixe"]))." de qualit&eacute; ".htmlspecialchars($e["qualite"])." <br /><br />";
      	$text .= "Num&eacute;ro de la pi&egrave;ce :".$e["id_equipement"]."<br />";
     	$text .= "Niveau : ".$e["niveau"]."<br />";
+    	$text .= "Nom d\'origine : ".$e["nom_standard"]."<br />";
+    	$text .= "Emplacement : ".$e["emplacement"]."<br /><br />";
+    	
      	$text .= "Caract&eacute;ristiques :<br />";
     	$text .= self::display("Armure", $e["armure"]);
     	$text .= self::display("Force", $e["force"] );

@@ -401,8 +401,10 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 			$tabEquipements[$e["id_charrette_equipement"]] = array(
 					"id_equipement" => $e["id_charrette_equipement"],
 					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_charrette_equipement"]),
+					"nom_standard" => $e["nom_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
+					"emplacement" => $e["nom_type_emplacement"],
 					"nb_runes" => $e["nb_runes_charrette_equipement"],
 					"armure" => $e["armure_recette_equipement"],
 					"force" => $e["force_recette_equipement"],

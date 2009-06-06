@@ -846,6 +846,8 @@ function jsMenuHotel(id, valeur) {
 	if (id != "hotel_menu_recherche_potions") $("hotel_menu_recherche_potions").value = -1;
 	if (id != "hotel_menu_recherche_runes") $("hotel_menu_recherche_runes").value = -1;
 	
-	_get_('/hotel/doaction?caction=ask_hotel_voir&'+id+'='+valeur);
+	if (valeur != -1) {
+		_get_('/hotel/doaction?caction=ask_hotel_voir&'+id+'='+valeur);
+	}
 }
 

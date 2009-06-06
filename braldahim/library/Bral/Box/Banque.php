@@ -404,7 +404,9 @@ class Bral_Box_Banque extends Bral_Box_Box {
 			$tabEquipements[$e["id_coffre_equipement"]] = array(
 					"id_equipement" => $e["id_coffre_equipement"],
 					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_coffre_equipement"]),
+					"nom_standard" => $e["nom_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
+					"emplacement" => $e["nom_type_emplacement"],
 					"niveau" => $e["niveau_recette_equipement"],
 					"nb_runes" => $e["nb_runes_coffre_equipement"],
 					"armure" => $e["armure_recette_equipement"],

@@ -365,8 +365,10 @@ class Bral_Box_Laban extends Bral_Box_Box {
 			$tabEquipements[$e["id_laban_equipement"]] = array(
 					"id_equipement" => $e["id_laban_equipement"],
 					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_laban_equipement"]),
+					"nom_standard" => $e["nom_type_equipement"],
 					"id_type_equipement" => $e["id_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
+					"emplacement" => $e["nom_type_emplacement"],
 					"niveau" => $e["niveau_recette_equipement"],
 					"nb_runes" => $e["nb_runes_laban_equipement"],
 					"armure" => $e["armure_recette_equipement"],

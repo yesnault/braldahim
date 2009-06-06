@@ -479,10 +479,12 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 				$tabObjet = array(
 					"id_equipement" => $e["id_vente_equipement"],
 					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_vente_equipement"]),
+					"nom_standard" => $e["nom_type_equipement"],
 					"id_type_equipement" => $e["id_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
 					"id_type_emplacement" => $e["id_type_emplacement"],
+					"emplacement" => $e["nom_type_emplacement"],
 					"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
 					"nb_runes" => $e["nb_runes_vente_equipement"],
 					"id_fk_recette_equipement" => $e["id_fk_recette_vente_equipement"],
