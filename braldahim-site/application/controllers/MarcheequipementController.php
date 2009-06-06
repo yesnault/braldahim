@@ -215,9 +215,11 @@ class MarcheequipementController extends Zend_Controller_Action {
 				$equipement = array(
 					"id_equipement" => $e["id_echoppe_equipement"],
 					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_echoppe_equipement"]),
+					"nom_standard" => $e["nom_type_equipement"],
 					"id_type_equipement" => $e["id_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
+					"emplacement" => $e["nom_type_emplacement"],
 					"id_type_emplacement" => $e["id_type_emplacement"],
 					"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
 					"nb_runes" => $e["nb_runes_echoppe_equipement"],
