@@ -106,15 +106,15 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		} else if ($vente["type_vente"] == "aliment") {
 			$objet = $this->prepareVenteAliment($idVente);
 		} else if ($vente["type_vente"] == "element") {
-			//			$objet = $this->prepareVenteElement($idVente);
+			$objet = $this->prepareVenteElement($idVente);
 		} else if ($vente["type_vente"] == "equipement") {
 			$objet = $this->prepareVenteEquipement($idVente);
 		} else if ($vente["type_vente"] == "minerai") {
-			//			$objet = $this->prepareVenteMinerai($idVente);
+			$objet = $this->prepareVenteMinerai($idVente);
 		} else if ($vente["type_vente"] == "munition") {
 			$objet = $this->prepareVenteMunition($idVente);
 		} else if ($vente["type_vente"] == "partieplante") {
-			//			$objet = $this->prepareVentePartieplante($idVente);
+			$objet = $this->prepareVentePartieplante($idVente);
 		} else if ($vente["type_vente"] == "potion") {
 			$objet = $this->prepareVentePotion($idVente);
 		} else if ($vente["type_vente"] == "rune") {
@@ -232,6 +232,95 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		return $tabAliments;
 	}
 
+	private function prepareVenteElement($idVente) {
+		Zend_Loader::loadClass("VenteElement");
+		$venteElementTable = new VenteElement();
+
+		$element = $venteElementTable->findByIdVente($idVente);
+
+		if ($element == null || count($element) != 1) {
+			throw new Zend_Exception(get_class($this)."::prepareVenteElement invalide:".$idVente);
+		}
+
+		$element = $element[0];
+
+		$placeDispo = false;
+		$i = 0;
+
+		$poidsUnitaire = 10000;
+		$nom = $element["quantite_vente_element"]. " ";
+		$s = "";
+		if ($element["type_vente_element"] == "viande_fraiche") {
+			$poidsUnitaire = Bral_Util_Poids::POIDS_VIANDE;
+			if ($element["quantite_vente_element"] > 1) {
+				$nom .= " viandes fraîches";
+			} else {
+				$nom .= " viande fraîche";
+			}
+		} else if ($element["type_vente_element"] == "peau") {
+			$poidsUnitaire = Bral_Util_Poids::POIDS_PEAU;
+			if ($element["quantite_vente_element"] > 1) {
+				$nom .= " peaux";
+			} else {
+				$nom .= " peau";
+			}
+		} else if ($element["type_vente_element"] == "viande_preparee") {
+			$poidsUnitaire = Bral_Util_Poids::POIDS_VIANDE_PREPAREE;
+			if ($element["quantite_vente_element"] > 1) {
+				$nom .= " viandes préparées";
+			} else {
+				$nom .= " viande préparée";
+			}
+		} else if ($element["type_vente_element"] == "cuir") {
+			$poidsUnitaire = Bral_Util_Poids::POIDS_CUIR;
+			if ($element["quantite_vente_element"] > 1) {
+				$nom .= " cuirs";
+			} else {
+				$nom .= " cuir";
+			}
+		} else if ($element["type_vente_element"] == "fourrure") {
+			$poidsUnitaire = Bral_Util_Poids::POIDS_FOURRURE;
+			if ($element["quantite_vente_element"] > 1) {
+				$nom .= " fourrures";
+			} else {
+				$nom .= " fourrure";
+			}
+		} else if ($element["type_vente_element"] == "planche") {
+			$poidsUnitaire = Bral_Util_Poids::POIDS_PLANCHE;
+			if ($element["quantite_vente_element"] > 1) {
+				$nom .= " planches";
+			} else {
+				$nom .= " planche";
+			}
+		} else if ($element["type_vente_element"] == "rondin") {
+			$poidsUnitaire = Bral_Util_Poids::POIDS_RONDIN;
+			if ($element["quantite_vente_element"] > 1) {
+				$nom .= " rondins";
+			} else {
+				$nom .= " rondin";
+			}
+		}
+
+		foreach($this->view->destinationTransfert as $d) {
+			if ($d["poids_restant"] >= ($element["quantite_vente_element"] * $poidsUnitaire)) {
+				$placeDispo = true;
+				$this->view->destinationTransfert[$i]["possible"] = true;
+			}
+			$i ++;
+		}
+
+		$tabElements = array(
+			"type_vente_element" => $element["type_vente_element"],
+			"quantite_vente_element" => $element["quantite_vente_element"],
+			"nom" => $nom,
+			"place_dispo" => $placeDispo,
+			"est_charrette" => false,
+			"charrette_possible" => true,
+		);
+
+		return $tabElements;
+	}
+
 	private function prepareVenteMunition($idVente) {
 		Zend_Loader::loadClass("VenteMunition");
 		$venteMunitionTable = new VenteMunition();
@@ -272,6 +361,102 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		);
 
 		return $tabMunition;
+	}
+
+	private function prepareVenteMinerai($idVente) {
+		Zend_Loader::loadClass("VenteMinerai");
+		$venteMineraiTable = new VenteMinerai();
+
+		$minerai = $venteMineraiTable->findByIdVente($idVente);
+
+		if ($minerai == null || count($minerai) != 1) {
+			throw new Zend_Exception(get_class($this)."::prepareVenteMinerai invalide:".$idVente);
+		}
+
+		$minerai = $minerai[0];
+
+		$placeDispo = false;
+		$i = 0;
+		foreach($this->view->destinationTransfert as $d) {
+			if ($d["poids_restant"] >= $minerai["quantite_vente_minerai"] * Bral_Util_Poids::POIDS_MINERAI) {
+				$placeDispo = true;
+				$this->view->destinationTransfert[$i]["possible"] = true;
+			}
+			$i ++;
+		}
+
+		$nom = $minerai["nom_type_minerai"]." : ".$minerai["quantite_vente_minerai"];
+
+		$s = "";
+		if ($minerai["quantite_vente_minerai"] > 1) {
+			$s = "s";
+		}
+
+		if ($minerai["type_vente_minerai"] == "lingot") {
+			$nom .= " lingot".$s;
+		} else {
+			$nom .= " minerai".$s. " brut".$s;
+		}
+
+		$tabMinerai = array(
+			"nom" => $nom,
+			"quantite_vente_minerai" => $minerai["quantite_vente_minerai"],
+			"id_type_minerai" => $minerai["id_fk_type_vente_minerai"],
+			"type_vente_minerai" => $minerai["type_vente_minerai"],
+			"place_dispo" => $placeDispo,
+			"est_charrette" => false,
+			"charrette_possible" => true,
+		);
+
+		return $tabMinerai;
+	}
+
+	private function prepareVentePartieplante($idVente) {
+		Zend_Loader::loadClass("VentePartieplante");
+		$ventePartieplanteTable = new VentePartieplante();
+
+		$partieplante = $ventePartieplanteTable->findByIdVente($idVente);
+
+		if ($partieplante == null || count($partieplante) != 1) {
+			throw new Zend_Exception(get_class($this)."::prepareVentePartieplante invalide:".$idVente);
+		}
+
+		$partieplante = $partieplante[0];
+
+		$placeDispo = false;
+		$i = 0;
+		foreach($this->view->destinationTransfert as $d) {
+			if ($d["poids_restant"] >= $partieplante["quantite_vente_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE) {
+				$placeDispo = true;
+				$this->view->destinationTransfert[$i]["possible"] = true;
+			}
+			$i ++;
+		}
+
+		$nom = $partieplante["nom_type_partieplante"]." : ".$partieplante["quantite_vente_partieplante"];
+
+		$s = "";
+		if ($partieplante["quantite_vente_partieplante"] > 1) {
+			$s = "s";
+		}
+
+		if ($partieplante["type_vente_partieplante"] == "lingot") {
+			$nom .= " lingot".$s;
+		} else {
+			$nom .= " partieplante".$s. " brut".$s;
+		}
+
+		$tabPartieplante = array(
+			"nom" => $nom,
+			"quantite_vente_partieplante" => $partieplante["quantite_vente_partieplante"],
+			"id_type_partieplante" => $partieplante["id_fk_type_vente_partieplante"],
+			"type_vente_partieplante" => $partieplante["type_vente_partieplante"],
+			"place_dispo" => $placeDispo,
+			"est_charrette" => false,
+			"charrette_possible" => true,
+		);
+
+		return $tabPartieplante;
 	}
 
 	private function prepareVenteEquipement($idVente) {
@@ -574,7 +759,10 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 					$acheterOk = true;
 				}
 				$prix = $m["prix_vente_prix_minerai"];
-				$nom = htmlspecialchars($m["nom_type_minerai"]);
+				$nom = htmlspecialchars($m["nom_type_minerai"]). " brut";
+				if ($prix > 1) {
+					$nom .= "s";
+				}
 				$type = "minerais";
 				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "minerais" => $m, "possible" => $m["possible"], "id_destination" => $m["id_destination"]);
 			}
@@ -715,11 +903,11 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		} else if ($this->view->vente["vente"]["type_vente"] == "aliment") {
 			$objet = $this->calculTransfertAliment($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "element") {
-			//			$objet = $this->calculTransfertElement($idDestination);
+			$objet = $this->calculTransfertElement($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "equipement") {
 			$objet = $this->calculTransfertEquipement($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "minerai") {
-			//			$objet = $this->calculTransfertMinerai($idDestination);
+			$objet = $this->calculTransfertMinerai($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "munition") {
 			$objet = $this->calculTransfertMunition($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "partieplante") {
@@ -1089,6 +1277,83 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			}
 			$table->insert($data);
 		}
+
+		if ($idDestination == "charrette") {
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+		}
+
+		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
+
+		$venteTable = new Vente();
+		$where = "id_vente=".$this->idVente;
+		$venteTable->delete($where);
+	}
+
+	private function calculTransfertElement($idDestination) {
+		if ($idDestination == "charrette") {
+			Zend_Loader::loadClass("Charrette");
+			$table = new Charrette();
+			$suffixe = "charrette";
+		} else {
+			Zend_Loader::loadClass("Laban");
+			$table = new Laban();
+			$suffixe = "laban";
+		}
+
+		$prefix = $this->view->vente["objet"]["type_vente_element"];
+		if ($prefix == "viande_fraiche") {
+			$prefix = "viande";
+		}
+
+		$data = array(
+			"quantite_".$prefix."_".$suffixe => $this->view->vente["objet"]["quantite_vente_element"],
+		);
+
+		if ($idDestination == "charrette") {
+			$data["id_charrette"] = $this->view->charrette["id_charrette"];
+		} else {
+			$data["id_fk_hobbit_laban"] = $this->view->user->id_hobbit;
+		}
+		$table->insertOrUpdate($data);
+
+		if ($idDestination == "charrette") {
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+		}
+
+		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
+
+		$venteTable = new Vente();
+		$where = "id_vente=".$this->idVente;
+		$venteTable->delete($where);
+	}
+
+	private function calculTransfertMinerai($idDestination) {
+		if ($idDestination == "charrette") {
+			Zend_Loader::loadClass("CharretteMinerai");
+			$table = new CharretteMinerai();
+			$suffixe = "charrette";
+		} else {
+			Zend_Loader::loadClass("LabanMinerai");
+			$table = new LabanMinerai();
+			$suffixe = "laban";
+		}
+
+		$prefix = "brut";
+		if ($this->view->vente["objet"]["type_vente_minerai"] == "lingot") {
+			$prefix = "lingots";
+		}
+
+		$data = array(
+			"id_fk_type_".$suffixe."_minerai" => $this->view->vente["objet"]["id_type_minerai"],
+			"quantite_".$prefix."_".$suffixe."_minerai" => $this->view->vente["objet"]["quantite_vente_minerai"],
+		);
+
+		if ($idDestination == "charrette") {
+			$data["id_fk_charrette_minerai"] = $this->view->charrette["id_charrette"];
+		} else {
+			$data["id_fk_hobbit_laban_minerai"] = $this->view->user->id_hobbit;
+		}
+		$table->insertOrUpdate($data);
 
 		if ($idDestination == "charrette") {
 			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
