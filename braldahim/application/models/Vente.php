@@ -14,6 +14,15 @@ class Vente extends Zend_Db_Table {
 	protected $_name = 'vente';
 	protected $_primary = array('id_vente');
 
+	function findByIdVente($idVente) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('vente', '*')
+		->where('id_vente = '.intval($idVente));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
 	function findByIdHobbit($idHobbit) {
 		$db = $this->getAdapter();
 		$select = $db->select();

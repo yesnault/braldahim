@@ -218,7 +218,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		if ($idMinerais != null && count($idMinerais) > 0) {
 			Zend_Loader::loadClass("VentePrixMinerai");
 			$ventePrixMineraiTable = new VentePrixMinerai();
-			$ventePrixMinerai = $ventePrixMineraiTable->findByIdsVente($idVentes);
+			$ventePrixMinerai = $ventePrixMineraiTable->findByIdVente($idVentes);
 
 			Zend_Loader::loadClass("VentePrixPartiePlante");
 			$ventePrixPartiePlanteTable = new VentePrixPartiePlante();
@@ -293,7 +293,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		if ($idPartieplantes != null && count($idPartieplantes) > 0) {
 			Zend_Loader::loadClass("VentePrixMinerai");
 			$ventePrixMineraiTable = new VentePrixMinerai();
-			$ventePrixMinerai = $ventePrixMineraiTable->findByIdsVente($idVentes);
+			$ventePrixMinerai = $ventePrixMineraiTable->findByIdVente($idVentes);
 
 			Zend_Loader::loadClass("VentePrixPartiePlante");
 			$ventePrixPartiePlanteTable = new VentePrixPartiePlante();
@@ -368,7 +368,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		if ($idElements != null && count($idElements) > 0) {
 			Zend_Loader::loadClass("VentePrixMinerai");
 			$ventePrixMineraiTable = new VentePrixMinerai();
-			$ventePrixMinerai = $ventePrixMineraiTable->findByIdsVente($idVentes);
+			$ventePrixMinerai = $ventePrixMineraiTable->findByIdVente($idVentes);
 
 			Zend_Loader::loadClass("VentePrixPartiePlante");
 			$ventePrixPartiePlanteTable = new VentePrixPartiePlante();
@@ -438,7 +438,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 
 			Zend_Loader::loadClass("VentePrixMinerai");
 			$ventePrixMineraiTable = new VentePrixMinerai();
-			$ventePrixMinerai = $ventePrixMineraiTable->findByIdsVente($idVentes);
+			$ventePrixMinerai = $ventePrixMineraiTable->findByIdVente($idVentes);
 
 			Zend_Loader::loadClass("VentePrixPartiePlante");
 			$ventePrixPartiePlanteTable = new VentePrixPartiePlante();
@@ -542,7 +542,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		if ($idAliments != null && count($idAliments) > 0) {
 			Zend_Loader::loadClass("VentePrixMinerai");
 			$ventePrixMineraiTable = new VentePrixMinerai();
-			$ventePrixMinerai = $ventePrixMineraiTable->findByIdsVente($idVentes);
+			$ventePrixMinerai = $ventePrixMineraiTable->findByIdVente($idVentes);
 
 			Zend_Loader::loadClass("VentePrixPartiePlante");
 			$ventePrixPartiePlanteTable = new VentePrixPartiePlante();
@@ -604,7 +604,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		if ($idMateriels != null && count($idMateriels) > 0) {
 			Zend_Loader::loadClass("VentePrixMinerai");
 			$ventePrixMineraiTable = new VentePrixMinerai();
-			$ventePrixMinerai = $ventePrixMineraiTable->findByIdsVente($idVentes);
+			$ventePrixMinerai = $ventePrixMineraiTable->findByIdVente($idVentes);
 
 			Zend_Loader::loadClass("VentePrixPartiePlante");
 			$ventePrixPartiePlanteTable = new VentePrixPartiePlante();
@@ -672,7 +672,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		if ($idRunes != null && count($idRunes) > 0) {
 			Zend_Loader::loadClass("VentePrixMinerai");
 			$ventePrixMineraiTable = new VentePrixMinerai();
-			$ventePrixMinerai = $ventePrixMineraiTable->findByIdsVente($idVentes);
+			$ventePrixMinerai = $ventePrixMineraiTable->findByIdVente($idVentes);
 
 			Zend_Loader::loadClass("VentePrixPartiePlante");
 			$ventePrixPartiePlanteTable = new VentePrixPartiePlante();
@@ -742,7 +742,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		if ($idPotions != null && count($idPotions) > 0) {
 			Zend_Loader::loadClass("VentePrixMinerai");
 			$ventePrixMineraiTable = new VentePrixMinerai();
-			$ventePrixMinerai = $ventePrixMineraiTable->findByIdsVente($idVentes);
+			$ventePrixMinerai = $ventePrixMineraiTable->findByIdVente($idVentes);
 
 			Zend_Loader::loadClass("VentePrixPartiePlante");
 			$ventePrixPartiePlanteTable = new VentePrixPartiePlante();

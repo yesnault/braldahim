@@ -341,20 +341,24 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			$table = new Laban();
 			$conteneur = $table->findByIdHobbit($this->view->user->id_hobbit);
 			$suffixe = "laban";
+			$possedeConteneur = true;
+			if ($conteneur == null || count($conteneur) < 1) {
+				$conteneur["quantite_peau_laban"] = 0;
+				$conteneur["quantite_rondin_laban"] = 0;
+			} else {
+				$conteneur = $conteneur[0];
+			}
 		} else {
 			$conteneur = $this->view->charrette;
+			if ($conteneur == null) {
+				$possedeConteneur = false;
+			} else {
+				$possedeConteneur = true;
+			}
 			$suffixe = "charrette";
 		}
 
-		if (count($conteneur) != 1) {
-			$possedeConteneur = false;
-		} else {
-			$possedeConteneur = true;
-			$conteneur = $conteneur[0];
-		}
-
-		if ($nomSysteme == "rondin") {
-		} elseif (($nomSysteme == "peau" || $nomSysteme == "rondin") && $possedeConteneur == true) {
+		if (($nomSysteme == "peau" || $nomSysteme == "rondin") && $possedeConteneur == true) {
 			if ($conteneur["quantite_".$nomSysteme."_".$suffixe] >= $prix) {
 				$retour = true;
 			}
@@ -399,7 +403,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 
 		$idDestination = $this->request->get("valeur_3");
 
-		if ($this->view->charrette == null && $this->request->get("id_destination_courante") == "charrette") {
+		if ($this->view->charrette == null && $this->request->get("valeur_3") == "charrette") {
 			throw new Zend_Exception(get_class($this)." destination invalide 2");
 		}
 
@@ -469,7 +473,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			if ($prix["prix"] > 0) {
 				$data = array(
 					'id_echoppe' => $this->idEchoppe,
-					'quantite_peau_caisse_echoppe' => $prix["prix"],
+					"quantite_".$nomSysteme."_caisse_echoppe" => $prix["prix"],
 				);
 				$echoppeTable->insertOrUpdate($data);
 			}

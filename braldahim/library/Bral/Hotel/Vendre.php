@@ -481,7 +481,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		);
 		$ventePotionTable->insert($data);
 
-		$this->view->objetVente = " la potion n°".$potion["id_potion"]. ", ".$potion["nom_type_potion"]." de qualité ".$potion["qualite"];
+		$this->view->objetVente = " la potion n°".$potion["id_potion"]. ", ".$potion["nom"]." de qualité ".$potion["qualite"];
 	}
 
 	private function prepareTypeRunes($endroit) {
@@ -1034,7 +1034,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 
 		$venteTable = new Vente();
 
-		$dateDebut = date("Y-m-d H:i:s");
+		$dateDebut = date("Y-m-d H:0:0");
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateDebut, 30);
 		$commentaire = stripslashes(Bral_Util_BBParser::bbcodeStripPlus($this->request->get('valeur_11')));
 
@@ -1099,7 +1099,9 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 
 		$this->calculPrixMinerai($idVente, $tabPrix["prix_1"], $tabPrix["prix_2"], $tabPrix["prix_3"], $tabPrix["unite_1"], $tabPrix["unite_2"], $tabPrix["unite_3"]);
 		$this->calculPrixPartiePlante($idVente, $tabPrix["prix_1"], $tabPrix["prix_2"], $tabPrix["prix_3"], $tabPrix["unite_1"], $tabPrix["unite_2"], $tabPrix["unite_3"]);
-
+		
+		$this->view->idVente = $idVente;
+		$this->view->dateFinVente = Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y à H\h ', $dateFin);
 		return $idVente;
 	}
 
