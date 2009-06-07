@@ -23,7 +23,7 @@ class Bral_Batchs_Palissades extends Bral_Batchs_Batch {
 		unset($palissadeTable);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Palissades - nb:".$nb." - where:".$where);
 		
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Palissades - purgeBatch - exit -");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Palissades - calculBatchImpl - exit -");
 		return "nb delete:".$nb. " date:".$dateFin;
 	}
 }

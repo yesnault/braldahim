@@ -249,7 +249,6 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 		$poidsUnitaire = 10000;
 		$nom = $element["quantite_vente_element"]. " ";
-		$s = "";
 		if ($element["type_vente_element"] == "viande_fraiche") {
 			$poidsUnitaire = Bral_Util_Poids::POIDS_VIANDE;
 			if ($element["quantite_vente_element"] > 1) {
