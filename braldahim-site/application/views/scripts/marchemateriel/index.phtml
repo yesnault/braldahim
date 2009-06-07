@@ -1,0 +1,57 @@
+<ul class="box_contenu1 textalic">
+	<ul class="titre textalic textsizeb">
+	Marché aux matériels
+	</ul><br>
+	
+<table width='100%'>
+<tr>
+<td>
+	Filtre par comté: 
+	<br>
+	<select id="region" name="region" onChange="document.location.href = '/marchemateriel/?regionselect='+this.value+'&materielselect=<?=$this->materielSelect?>&uid='+(new Date()).valueOf()">
+	<? foreach($this->regions as $k => $e): ?>
+		<option value="<?=$k?>" <?if ($this->regionSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
+	<? endforeach;?>
+	</select>
+</td>
+<td>
+	Filtre par équipement:
+	<br>
+	<select id="materiel" name="materiel" onChange="document.location.href = '/marchemateriel/?regionselect<?=$this->regionSelect?>&materielselect='+this.value+'&uid='+(new Date()).valueOf()">
+	<? foreach($this->materiels as $k => $e): ?>
+		<option value="<?=$k?>" <?if ($this->materielSelect == $k): echo "selected" ; endif;?>><?=$e?></option>
+	<? endforeach;?>
+	</select>
+</td>
+</tr>
+</table>
+
+<br><br>
+
+<div id="mygrid_container" style="width:770px;height:650px;background-color:#E7C57B; align:center"></div> 
+<script>
+	gridQString = '/marchemateriel/renderxml?regionselect=<?=$this->regionSelect?>&materielselect=<?=$this->materielSelect?>&uid='+(new Date()).valueOf();
+	function sortGridOnServer(ind,gridObj,direct){
+	    mygrid.clearAll();
+	    murl = gridQString+(gridQString.indexOf("?")>=0?"&":"?")+"orderby="+ind+"&direct="+direct;
+	    mygrid.loadXML(murl);
+	    mygrid.setSortImgState(true,ind,direct);
+	    return false;
+	}
+	
+	mygrid = new dhtmlXGridObject('mygrid_container');
+	mygrid.setImagePath("/public/scripts/dhtmlxGrid-2.0.0/codebase/imgs/"); 
+	mygrid.setHeader("Comté,Date,Hobbit,Echoppe,,Objet,Prix,Commentaire");
+	mygrid.setInitWidths("60,55,110,80,40,135,70,*");
+	mygrid.setColAlign("left,left,left,left,left,left,left,left");
+	mygrid.setColTypes("ro,ro,link,ro,ro,ro,ro,ro");
+	mygrid.setSkin("braldahim");
+	mygrid.setColSorting("server,server,server,server,server,server");
+	mygrid.attachEvent("onBeforeSorting",sortGridOnServer);
+	mygrid.enableSmartRendering(true,100);
+	mygrid.init();
+	mygrid.loadXML(gridQString);
+	mygrid.setSortImgState(true,1,"des");
+</script>
+
+</ul>

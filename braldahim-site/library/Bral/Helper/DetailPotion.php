@@ -13,66 +13,8 @@
 class Bral_Helper_DetailPotion {
 
  	public static function afficherPrix($e) {
-    	$retour = "<span>";
-    	$firstOu = true;
-		$ou =  "  <br /> ou ";
-		
-    	if ($e["prix_1_vente_echoppe_potion"] >= 0 && $e["unite_1_vente_echoppe_potion"] > 0) {
-	    	$retour .= $e["prix_1_vente_echoppe_potion"]. " ";
-	    	$retour .= Bral_Util_Registre::getNomUnite($e["unite_1_vente_echoppe_potion"], false, $e["prix_1_vente_echoppe_potion"]);
-	    	$firstOu = false; 
-    	}
-    	
-    	if ($e["prix_2_vente_echoppe_potion"] >= 0 && $e["unite_2_vente_echoppe_potion"] > 0) {
-    		if (!$firstOu) { 
-    			$retour .= $ou;
-    		}
-	    	$retour .= $e["prix_2_vente_echoppe_potion"]. " ";
-	    	$retour .= Bral_Util_Registre::getNomUnite($e["unite_2_vente_echoppe_potion"], false, $e["prix_2_vente_echoppe_potion"]);
-	    	$firstOu = false; 
-    	}	
-	    
-    	if ($e["prix_3_vente_echoppe_potion"] >= 0 && $e["unite_3_vente_echoppe_potion"] > 0) {
-    		if (!$firstOu) { 
-    			$retour .= $ou;
-    		}
-	    	$retour .= $e["prix_3_vente_echoppe_potion"]. " ";
-	    	$retour .= Bral_Util_Registre::getNomUnite($e["unite_3_vente_echoppe_potion"], false, $e["prix_3_vente_echoppe_potion"]);
-	    	$firstOu = false; 
-    	}
-    	
-    	if (count($e["prix_minerais"]) > 0) {
- 	    	foreach($e["prix_minerais"] as $m) {
- 	    		if (!$firstOu) { 
-    				$retour .= $ou;
-    			}
-		    	$retour .= $m["prix_echoppe_potion_minerai"]. " ";
-	    		$retour .= htmlspecialchars($m["nom_type_minerai"]);
-	    		$firstOu = false; 
- 	    	}
-    	}
-    	
-    	if (count($e["prix_parties_plantes"]) > 0) {
-    	 	foreach($e["prix_parties_plantes"] as $p) {
-    	 	  	if (!$firstOu) { 
-    				$retour .= $ou;
-    			}
-		    	$retour .= $p["prix_echoppe_potion_partieplante"]. " ";
-		    	$s = "";
-		    	if ($p["prix_echoppe_potion_partieplante"] > 1) {
-		    		$s = "s";
-		    	}
-	    		$retour .= htmlspecialchars($p["nom_type_partieplante"]). "$s ";
-	    		$retour .= htmlspecialchars($p["prefix_type_plante"]);
-	    		$retour .= htmlspecialchars($p["nom_type_plante"]);
-	    		$firstOu = false; 
- 	    	}
-    	}
-    	
-    	
-    	$retour .= "</span>";
-    	
-    	return $retour;
+ 		Zend_Loader::loadClass("Bral_Helper_DetailPrix");
+ 		return Bral_Helper_DetailPrix::afficherPrix($e, "_echoppe_potion");
     }
     
     public static function afficher($p) {

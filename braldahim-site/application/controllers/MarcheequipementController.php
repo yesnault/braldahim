@@ -29,7 +29,7 @@ class MarcheequipementController extends Zend_Controller_Action {
 		Zend_Loader::loadClass('Bral_Helper_Tooltip');
 		
 		$f = new Zend_Filter_StripTags();
-		$anneeCourante = date("Y");
+		
 		$emplacementSelect = intval($f->filter($this->_request->get("emplacementselect")));
 		if ($emplacementSelect <= 0) {
 			$emplacementSelect = -1;
