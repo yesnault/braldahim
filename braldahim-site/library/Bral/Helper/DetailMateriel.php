@@ -24,7 +24,7 @@ class Bral_Helper_DetailMateriel {
 		$text .= self::display("Capacit&eacute;", $e["capacite"]);
 		$text .= self::display("Durabilit&eacute;", $e["durabilite"]);
 		$text .= self::display("Usure", $e["usure"]);
-		$text .= self::display("Poids", $e["poids"]);
+		$text .= "Poids : ".$e["poids"]. " Kg";
 		 
 		$text .= "<br />";
 		return Bral_Helper_Tooltip::jsTip($text);

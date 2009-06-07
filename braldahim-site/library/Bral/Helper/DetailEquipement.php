@@ -42,7 +42,8 @@ class Bral_Helper_DetailEquipement {
 		$text .= self::display("BM Attaque", $e["bm_attaque"]);
 		$text .= self::display("BM Defense", $e["bm_defense"]);
 		$text .= self::display("BM Dég&acirc;ts", $e["bm_degat"]);
-		$text .= self::display("Poids", $e["poids"], " Kg");
+		$text .= "Poids : ".$e["poids"]. " Kg";
+		$text .= "<br>";
 		 
 		if (count($e["bonus"]) > 0) {
 			$text .= " Bonus r&eacute;gional: ";
