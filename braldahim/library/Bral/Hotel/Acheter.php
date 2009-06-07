@@ -104,19 +104,19 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		if ($vente["type_vente"] == "materiel") {
 			$objet = $this->prepareVenteMateriel($idVente);
 		} else if ($vente["type_vente"] == "aliment") {
-//			$objet = $this->prepareVenteAliment($idVente);
+			//			$objet = $this->prepareVenteAliment($idVente);
 		} else if ($vente["type_vente"] == "element") {
-//			$objet = $this->prepareVenteElement($idVente);
+			//			$objet = $this->prepareVenteElement($idVente);
 		} else if ($vente["type_vente"] == "equipement") {
-//			$objet = $this->prepareVenteEquipement($idVente);
+			$objet = $this->prepareVenteEquipement($idVente);
 		} else if ($vente["type_vente"] == "minerai") {
-//			$objet = $this->prepareVenteMinerai($idVente);
+			//			$objet = $this->prepareVenteMinerai($idVente);
 		} else if ($vente["type_vente"] == "munition") {
-//			$objet = $this->prepareVenteMunition($idVente);
+			$objet = $this->prepareVenteMunition($idVente);
 		} else if ($vente["type_vente"] == "partieplante") {
-//			$objet = $this->prepareVentePartieplante($idVente);
+			//			$objet = $this->prepareVentePartieplante($idVente);
 		} else if ($vente["type_vente"] == "potion") {
-//			$objet = $this->prepareVentePotion($idVente);
+			//			$objet = $this->prepareVentePotion($idVente);
 		}
 
 		$tab = array(
@@ -191,6 +191,149 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		);
 
 		return $tabMateriel;
+	}
+
+	private function prepareVenteMunition($idVente) {
+		Zend_Loader::loadClass("VenteMunition");
+		$venteMunitionTable = new VenteMunition();
+
+		$munition = $venteMunitionTable->findByIdVente($idVente);
+
+		if ($munition == null || count($munition) != 1) {
+			throw new Zend_Exception(get_class($this)."::prepareVenteMunition invalide:".$idVente);
+		}
+
+		$munition = $munition[0];
+
+		$placeDispo = false;
+		$i = 0;
+		foreach($this->view->destinationTransfert as $d) {
+			if ($d["poids_restant"] >= $munition["quantite_vente_munition"] * Bral_Util_Poids::POIDS_MUNITION) {
+				$placeDispo = true;
+				$this->view->destinationTransfert[$i]["possible"] = true;
+			}
+			$i ++;
+		}
+
+		$nom = $munition["quantite_vente_munition"]. " ";
+		if ($munition["quantite_vente_munition"] > 1) {
+			$nom .= $munition["nom_pluriel_type_munition"];
+		} else {
+			$nom .= $munition["nom_type_munition"];
+		}
+		
+		$tabMunition = array(
+			"nom" => $nom,
+			"quantite_vente_munition" => $munition["quantite_vente_munition"],
+			"id_type_munition" => $munition["id_fk_type_vente_munition"],
+			'nom_systeme_type_munition' => $munition["nom_systeme_type_munition"],
+			"place_dispo" => $placeDispo,
+			"est_charrette" => false,
+			"charrette_possible" => true,
+		);
+
+		return $tabMunition;
+	}
+
+	private function prepareVenteEquipement($idVente) {
+		Zend_Loader::loadClass("VenteEquipement");
+		$venteEquipementTable = new VenteEquipement();
+
+		$equipement = $venteEquipementTable->findByIdVente($idVente);
+
+		if ($equipement == null || count($equipement) != 1) {
+			throw new Zend_Exception(get_class($this)."::prepareVenteEquipement invalide:".$idVente);
+		}
+
+		$equipement = $equipement[0];
+
+		$placeDispo = false;
+		$i = 0;
+		foreach($this->view->destinationTransfert as $d) {
+			if ($d["poids_restant"] >= $equipement["poids_recette_equipement"]) {
+				$placeDispo = true;
+				$this->view->destinationTransfert[$i]["possible"] = true;
+			}
+			$i ++;
+		}
+
+		$runes = $this->prepareEquipementRune($equipement["id_vente_equipement"]);
+		$bonus = $this->prepareEquipementBonus($equipement["id_vente_equipement"]);
+
+		Zend_Loader::loadClass("Bral_Util_Equipement");
+		$tabEquipement = array(
+			"id_equipement" => $equipement["id_vente_equipement"],
+			"nom" => Bral_Util_Equipement::getNomByIdRegion($equipement, $equipement["id_fk_region_vente_equipement"]),
+			"nom_standard" => $equipement["nom_type_equipement"],
+			"qualite" => $equipement["nom_type_qualite"],
+			"niveau" => $equipement["niveau_recette_equipement"],
+			"id_type_emplacement" => $equipement["id_type_emplacement"],
+			"id_type_equipement" => $equipement["id_type_equipement"],
+			"emplacement" => $equipement["nom_type_emplacement"],
+			"nom_systeme_type_emplacement" => $equipement["nom_systeme_type_emplacement"],
+			"nb_runes" => $equipement["nb_runes_vente_equipement"],
+			"id_fk_recette_equipement" => $equipement["id_fk_recette_vente_equipement"],
+			"armure" => $equipement["armure_recette_equipement"],
+			"force" => $equipement["force_recette_equipement"],
+			"agilite" => $equipement["agilite_recette_equipement"],
+			"vigueur" => $equipement["vigueur_recette_equipement"],
+			"sagesse" => $equipement["sagesse_recette_equipement"],
+			"vue" => $equipement["vue_recette_equipement"],
+			"bm_attaque" => $equipement["bm_attaque_recette_equipement"],
+			"bm_degat" => $equipement["bm_degat_recette_equipement"],
+			"bm_defense" => $equipement["bm_defense_recette_equipement"],
+			"suffixe" => $equipement["suffixe_mot_runique"],
+			"id_fk_mot_runique" => $equipement["id_fk_mot_runique_vente_equipement"],
+			"id_fk_region" => $equipement["id_fk_region_vente_equipement"],
+			"nom_systeme_mot_runique" => $equipement["nom_systeme_mot_runique"],
+			"poids" => $equipement["poids_recette_equipement"],
+			"place_dispo" => $placeDispo,
+			"runes" => $runes,
+			"bonus" => $bonus,
+			"est_charrette" => false,
+			"charrette_possible" => true,
+		);
+
+		return $tabEquipement;
+	}
+
+	private function prepareEquipementRune($idEquipement) {
+		Zend_Loader::loadClass("EquipementRune");
+		$equipementRuneTable = new EquipementRune();
+		$equipementRunes = $equipementRuneTable->findByIdEquipement($idEquipement);
+
+		$runes = null;
+		if (count($equipementRunes) > 0) {
+			foreach($equipementRunes as $r) {
+				if ($r["id_equipement_rune"] == $idEquipement) {
+					$runes[] = array(
+						"id_rune_equipement_rune" => $r["id_rune_equipement_rune"],
+						"id_fk_type_rune_equipement_rune" => $r["id_fk_type_rune_equipement_rune"],
+						"nom_type_rune" => $r["nom_type_rune"],
+						"image_type_rune" => $r["image_type_rune"],
+						"effet_type_rune" => $r["effet_type_rune"],
+					);
+				}
+			}
+		}
+		return $runes;
+	}
+
+	private function prepareEquipementBonus($idEquipement) {
+		Zend_Loader::loadClass("EquipementBonus");
+		$equipementBonusTable = new EquipementBonus();
+		$equipementBonus = $equipementBonusTable->findByIdEquipement($idEquipement);
+
+		$bonus = null;
+		if (count($equipementBonus) > 0) {
+			foreach($equipementBonus as $b) {
+				if ($b["id_equipement_bonus"] == $idEquipement) {
+					$bonus = $b;
+					break;
+				}
+			}
+		}
+		return $bonus;
 	}
 
 	private function prepareVentePrixMinerai($idVente, $destination, $venteMinerai, &$minerai) {
@@ -452,19 +595,19 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		if ($this->view->vente["vente"]["type_vente"] == "materiel") {
 			$objet = $this->calculTransfertMateriel($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "aliment") {
-//			$objet = $this->calculTransfertAliment($idDestination);
+			//			$objet = $this->calculTransfertAliment($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "element") {
-//			$objet = $this->calculTransfertElement($idDestination);
+			//			$objet = $this->calculTransfertElement($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "equipement") {
-//			$objet = $this->calculTransfertEquipement($idDestination);
+			$objet = $this->calculTransfertEquipement($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "minerai") {
-//			$objet = $this->calculTransfertMinerai($idDestination);
+			//			$objet = $this->calculTransfertMinerai($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "munition") {
-//			$objet = $this->calculTransfertMunition($idDestination);
+			$objet = $this->calculTransfertMunition($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "partieplante") {
-//			$objet = $this->calculTransfertPartieplante($idDestination);
+			//			$objet = $this->calculTransfertPartieplante($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "potion") {
-//			$objet = $this->calculTransfertPotion($idDestination);
+			//			$objet = $this->calculTransfertPotion($idDestination);
 		}
 
 		$this->view->destination = $destination;
@@ -645,8 +788,84 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			$table->insert($data);
 		}
 
+		if ($idDestination == "charrette") {
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+		}
+
 		$this->view->objetAchat = $this->view->vente["objet"]["nom"].", n°".$this->view->vente["objet"]["id_materiel"];
-		
+
+		$venteTable = new Vente();
+		$where = "id_vente=".$this->idVente;
+		$venteTable->delete($where);
+	}
+
+	private function calculTransfertEquipement($idDestination) {
+
+		if ($idDestination == "charrette") {
+			Zend_Loader::loadClass("CharretteEquipement");
+			$table = new CharretteEquipement();
+			$suffixe = "charrette";
+		} else {
+			Zend_Loader::loadClass("LabanEquipement");
+			$table = new LabanEquipement();
+			$suffixe = "laban";
+		}
+
+		$data = array(
+				"id_".$suffixe."_equipement" => $this->view->vente["objet"]["id_equipement"],
+				"id_fk_recette_".$suffixe."_equipement" => $this->view->vente["objet"]["id_fk_recette_equipement"],
+				"nb_runes_".$suffixe."_equipement" => $this->view->vente["objet"]["nb_runes"],
+				"id_fk_mot_runique_".$suffixe."_equipement" => $this->view->vente["objet"]["id_fk_mot_runique"],
+				"id_fk_region_".$suffixe."_equipement" => $this->view->vente["objet"]["id_fk_region"],
+		);
+
+		if ($idDestination == "charrette") {
+			$data["id_fk_charrette_equipement"] = $this->view->charrette["id_charrette"];
+		} else {
+			$data["id_fk_hobbit_laban_equipement"] = $this->view->user->id_hobbit;
+		}
+		$table->insert($data);
+
+		if ($idDestination == "charrette") {
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+		}
+
+		$this->view->objetAchat = $this->view->vente["objet"]["nom"].", n°".$this->view->vente["objet"]["id_equipement"];
+
+		$venteTable = new Vente();
+		$where = "id_vente=".$this->idVente;
+		$venteTable->delete($where);
+	}
+
+	private function calculTransfertMunition($idDestination) {
+		if ($idDestination == "charrette") {
+			Zend_Loader::loadClass("CharretteMunition");
+			$table = new CharretteMunition();
+			$suffixe = "charrette";
+		} else {
+			Zend_Loader::loadClass("LabanMunition");
+			$table = new LabanMunition();
+			$suffixe = "laban";
+		}
+
+		$data = array(
+			"id_fk_type_".$suffixe."_munition" => $this->view->vente["objet"]["id_type_munition"],
+			"quantite_".$suffixe."_munition" => $this->view->vente["objet"]["quantite_vente_munition"],
+		);
+
+		if ($idDestination == "charrette") {
+			$data["id_fk_charrette_munition"] = $this->view->charrette["id_charrette"];
+		} else {
+			$data["id_fk_hobbit_laban_munition"] = $this->view->user->id_hobbit;
+		}
+		$table->insertOrUpdate($data);
+
+		if ($idDestination == "charrette") {
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+		}
+
+		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
+
 		$venteTable = new Vente();
 		$where = "id_vente=".$this->idVente;
 		$venteTable->delete($where);

@@ -3,10 +3,7 @@
 <thead class="table_liste">
 <tr class="table_liste">
 	<th colspan="4">Recherche dans l'Hôtel des Ventes
-	</th>
-</tr>
-</thead>
-	<td>
+	<br>
 		<select name="hotel_menu_recherche_pratique" id="hotel_menu_recherche_pratique" onChange="jsMenuHotel(this.id, this.value)">
 		<option value="-1">Recherches pratiques</option>
 		<? foreach($this->menuRecherchePratique as $m) : ?>
@@ -14,7 +11,10 @@
 		<? endforeach;?>
 		</select>
 		</select>
-	</td>
+		
+	</th>
+</tr>
+</thead>
 	<td>
 		<select name="hotel_menu_recherche_equipements" id="hotel_menu_recherche_equipements" onChange="jsMenuHotel(this.id, this.value)">
 		<option value="-1">Recherche par Équipement</option>
@@ -23,6 +23,14 @@
 			<? foreach($m["elements"] as $e) : ?>
 				<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
 			<? endforeach; ?>
+		<? endforeach;?>
+		</select>
+	</td>
+	<td>
+		<select name="hotel_menu_recherche_munitions" id="hotel_menu_recherche_munitions" onChange="jsMenuHotel(this.id, this.value)">
+		<option value="-1">Recherche par Munition</option>
+		<? foreach($this->menuRechercheMunition as $m) : ?>
+			<option value="<?=$m["numero_element"]?>"><?=$m["nom"]?></option>
 		<? endforeach;?>
 		</select>
 	</td>

@@ -30,6 +30,8 @@
 	  		<?
 	  		if ($e["type"] == "equipement") :
 	  			include("resultats_equipements.phtml");
+	  		elseif ($e["type"] == "munition") :
+	  			include("resultats_munitions.phtml");
 	  		elseif ($e["type"] == "element") :
 	  			include("resultats_elements.phtml");
 	  		elseif ($e["type"] == "minerai") :

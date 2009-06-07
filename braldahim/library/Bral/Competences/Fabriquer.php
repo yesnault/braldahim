@@ -319,7 +319,7 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 			$this->view->qualite = "bonne";
 		}
 
-		// on regarde si c'est pas des munition. Niveau:0, Qualité Standard:2
+		// on regarde si c'est pas des munitions. Niveau:0, Qualité Standard:2
 		if ($this->view->caracs[0][2][0]["nom_systeme_type_emplacement"] == "laban") {
 			$niveau = 0;
 			$nbRunes = 0;

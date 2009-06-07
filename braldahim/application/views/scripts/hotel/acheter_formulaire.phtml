@@ -8,6 +8,19 @@
 	
 	Co&ucirc;t du service : <?=$this->nb_pa ?> PA<br />
 	
+	Objet : 
+	
+	<? if ($this->vente["vente"]["type_vente"] == "materiel") : ?>
+		<? $this->materiels = array($this->vente["objet"]); ?>
+		<?=$this->render("/interface/commun/materiels/materiels.phtml"); ?>
+	<? elseif ($this->vente["vente"]["type_vente"] == "equipement"): ?>
+		<? $this->equipements = array($this->vente["objet"]); ?>
+		<?=$this->render("/interface/commun/equipements/equipements.phtml"); ?>
+	<? else : ?>
+		<?=$this->vente["objet"]["nom"]; ?>
+	<? endif; ?>
+	<br />
+	
 	<? if ($this->vente["objet"]["place_dispo"] === false) : ?>
 		Il n'y a pas assez de place dans votre laban et dans votre charrette (si vous en avez une). <br>
 	<? endif; ?>

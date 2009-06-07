@@ -37,7 +37,6 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 
 	function prepareCommun() {
 		$this->prepare();
-
 	}
 
 	function prepareFormulaire() {
@@ -54,11 +53,15 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 
 		$this->box_lieu = "box_hotel_resultats";
 		$this->view->venteDefaut = false;
-		
+
 		if ($this->request->get("hotel_menu_recherche_equipements") != "") {
 			$numeroElement = Bral_Util_Controle::getValeurIntVerif($this->request->get("hotel_menu_recherche_equipements"));
 			$this->prepareMenuEquipements();
 			$tabResultats = $this->prepareRechercheEquipement($numeroElement);
+		} else if ($this->request->get("hotel_menu_recherche_munitions") != "") {
+			$numeroElement = Bral_Util_Controle::getValeurIntVerif($this->request->get("hotel_menu_recherche_munitions"));
+			$this->prepareMenuMunitions();
+			$tabResultats = $this->prepareRechercheMunition($numeroElement);
 		} else if ($this->request->get("hotel_menu_recherche_materiels") != "") {
 			$numeroElement = Bral_Util_Controle::getValeurIntVerif($this->request->get("hotel_menu_recherche_materiels"));
 			$this->prepareMenuMateriels();
@@ -109,6 +112,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 
 		$avecEquipements = false;
 		$avecElements = false;
+		$avecMunitions = false;
 		$avecAliments = false;
 		$avecPotions = false;
 		$avecRunes = false;
@@ -119,6 +123,8 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 			$idVentes[] = $e["id_vente"];
 			if ($e["type_vente"] == "equipement") {
 				$avecEquipements = true;
+			} elseif ($e["type_vente"] == "munition") {
+				$avecMunitions = true;
 			} elseif ($e["type_vente"] == "element") {
 				$avecElements = true;
 			} elseif ($e["type_vente"] == "aliment") {
@@ -139,6 +145,10 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		$tabResultats = array();
 		if ($avecEquipements) {
 			$tabResultats = array_merge($tabResultats, $this->prepareRechercheEquipement(null, $idVentes));
+		}
+
+		if ($avecMunitions) {
+			$tabResultats = array_merge($tabResultats, $this->prepareRechercheMunition(null, $idVentes));
 		}
 
 		if ($avecElements) {
@@ -518,6 +528,69 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		return $tabReturn;
 	}
 
+	private function prepareRechercheMunition($numeroElement, $idsVente = null) {
+		Zend_Loader::loadClass("VenteMunition");
+		Zend_Loader::loadClass("Bral_Util_Equipement");
+
+		$venteMunitionTable = new VenteMunition();
+
+		if ($idsVente != null) {
+			$munitions = $venteMunitionTable->findByIdVente($idsVente);
+		} else {
+			$munitions = $venteMunitionTable->findAllByIdTypeMunition($this->view->menuRechercheMunition[$numeroElement]["id_type_munition"]);
+		}
+
+		$tabReturn = array();
+
+		$idMunitions = null;
+		$idVentes = null;
+		if ($munitions != null) {
+			foreach ($munitions as $e) {
+				$idMunitions[] = $e["id_vente_munition"];
+				$idVentes[] = $e["id_vente"];
+			}
+		}
+
+		if ($idMunitions != null && count($idMunitions) > 0) {
+			Zend_Loader::loadClass("VentePrixMinerai");
+			$ventePrixMineraiTable = new VentePrixMinerai();
+			$ventePrixMinerai = $ventePrixMineraiTable->findByIdVente($idVentes);
+
+			Zend_Loader::loadClass("VentePrixPartiePlante");
+			$ventePrixPartiePlanteTable = new VentePrixPartiePlante();
+			$ventePrixPartiePlante = $ventePrixPartiePlanteTable->findByIdVente($idVentes);
+		}
+
+		if (count($munitions) > 0) {
+			foreach($munitions as $e) {
+
+				$minerai = $this->recuperePrixMineraiAvecIdVente($ventePrixMinerai, $e["id_vente"]);
+				$partiesPlantes = $this->recuperePrixPartiePlantesAvecIdVente($ventePrixPartiePlante, $e["id_vente"]);
+
+				$nom = $e["quantite_vente_munition"]. " ";
+				if ($e["quantite_vente_munition"] <= 1) {
+					$nom .= $e["nom_type_munition"];
+				} else {
+					$nom .= $e["nom_pluriel_type_munition"];
+				}
+
+				$tabObjet = array(
+					"id_munition" => $e["id_vente_munition"],
+					"nom" => $nom,
+					"id_type_munition" => $e["id_type_munition"],
+				);
+
+				$tabReturn[] = array(
+					"type" => "munition",
+					"vente" => $this->prepareRowVente($e, $minerai, $partiesPlantes),
+					"objet" => $tabObjet,
+				);
+			}
+		}
+
+		return $tabReturn;
+	}
+
 	private function prepareRechercheAliment($numeroAliment, $idsVente = null) {
 		Zend_Loader::loadClass("VenteAliment");
 
@@ -836,6 +909,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 	private function prepareMenuDefaut() {
 		$this->prepareMenuPratique();
 		$this->prepareMenuEquipements();
+		$this->prepareMenuMunitions();
 		$this->prepareMenuMateriels();
 		$this->prepareMenusMatieres();
 		$this->prepareMenuPotions();
@@ -868,12 +942,13 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 
 		$elements = null;
 		foreach($typesEmplacements as $e) {
-			$numeroElement++;
-			$elements[$numeroElement] = array('numero_element' => $numeroElement, 'nom' => $e["nom_type_emplacement"], "id_type_emplacement" => $e["id_type_emplacement"]);
+			if ($e["nom_systeme_type_emplacement"] != "laban") {
+				$numeroElement++;
+				$elements[$numeroElement] = array('numero_element' => $numeroElement, 'nom' => $e["nom_type_emplacement"], "id_type_emplacement" => $e["id_type_emplacement"]);
+			}
 		}
 
 		$retour["elements"] = $elements;
-
 		return $retour;
 	}
 
@@ -882,18 +957,34 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 
 		Zend_Loader::loadClass("TypeEquipement");
 		$typeEquipementTable = new TypeEquipement();
-		$typesEquipements = $typeEquipementTable->fetchAll(null, "nom_type_equipement");
-		$typesEquipements = $typesEquipements->toArray();
+		$typesEquipements = $typeEquipementTable->findAll("nom_type_equipement ASC");
 
 		$elements = null;
 		foreach($typesEquipements as $e) {
-			$numeroElement++;
-			$elements[$numeroElement] = array('numero_element' => $numeroElement, 'nom' => $e["nom_type_equipement"], "id_type_equipement" => $e["id_type_equipement"]);
+			if ($e["nom_systeme_type_piece"] != "munition") {
+				$numeroElement++;
+				$elements[$numeroElement] = array('numero_element' => $numeroElement, 'nom' => $e["nom_type_equipement"], "id_type_equipement" => $e["id_type_equipement"]);
+			}
 		}
 
 		$retour["elements"] = $elements;
-
 		return $retour;
+	}
+
+	private function prepareMenuMunitions() {
+		Zend_Loader::loadClass("TypeMunition");
+		$typeMunitionTable = new TypeMunition();
+		$typesMunitions = $typeMunitionTable->fetchAll(null, "nom_type_munition");
+		$typesMunitions = $typesMunitions->toArray();
+
+		$tabMunition = null;
+		$numeroElement = 0;
+		foreach($typesMunitions as $e) {
+			$numeroElement++;
+			$tabMunition[$numeroElement] = array('numero_element' => $numeroElement, 'nom' => $e["nom_type_munition"], "id_type_munition" => $e["id_type_munition"]);
+		}
+
+		$this->view->menuRechercheMunition = $tabMunition;
 	}
 
 	private function prepareMenuMateriels() {

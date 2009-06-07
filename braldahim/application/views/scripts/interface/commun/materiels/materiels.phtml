@@ -34,7 +34,7 @@
 						<? endif; ?>
 						<? if ($this->estElementsEtalAchat === true) : ?>
 							<td class="table_liste">
-							<input type="button" class='button1' onClick='_get_("/echoppe/doaction?caction=ask_echoppe_achetermateriel&idMateriel=<?=$e["id_materiel"] ?>");' value="<?=$this->config->game->echoppe->nb_pa_service ?> PA - Acheter">
+							<input type="button" class='button1' onClick='_get_("/echoppe/doaction?caction=ask_echoppe_achetermateriel&valeur_1=<?=$e["id_materiel"] ?>");' value="<?=$this->config->game->echoppe->nb_pa_service ?> PA - Acheter">
 							</td>
 						<? endif; ?>
 						<td class="table_liste">

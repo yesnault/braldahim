@@ -114,6 +114,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			"qualite" => $this->equipement["nom_type_qualite"],
 			"niveau" => $this->equipement["niveau_recette_equipement"],
 			"id_type_emplacement" => $this->equipement["id_type_emplacement"],
+			"id_type_equipement" => $this->equipement["id_type_equipement"],
 			"emplacement" => $this->equipement["nom_type_emplacement"],
 			"nom_systeme_type_emplacement" => $this->equipement["nom_systeme_type_emplacement"],
 			"nb_runes" => $this->equipement["nb_runes_echoppe_equipement"],

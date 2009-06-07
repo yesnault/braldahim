@@ -584,7 +584,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		$this->view->munitions = $tabMunitions;
 	}
 
-	private function deposeTypeMunitions() {
+	private function deposeTypeMunitions($endroit) {
 
 		$idMunition = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
 		$nbMunition = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_4"));
@@ -623,11 +623,11 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		Zend_Loader::loadClass("VenteMunition");
 		$venteMunitionTable = new VenteMunition();
 		$data = array (
-				"id_vente_munition" => $idVente,
+				"id_fk_vente_munition" => $idVente,
 				"id_fk_type_vente_munition" => $munition["id_type_munition"],
 				"quantite_vente_munition" => $nbMunition,
 		);
-		$venteMunitionTable->insertOrUpdate($data);
+		$venteMunitionTable->insert($data);
 
 		$keyTexte = "type";
 		if ($nbMunition > 1) {

@@ -108,7 +108,16 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		$labanEquipementTable = new LabanEquipement();
 		$where = "id_laban_equipement=".$idEquipement;
 		$labanEquipementTable->delete($where);
-		unset($labanEquipementTable);
+		
+		Zend_Loader::loadClass("EquipementBonus");
+		$equipementBonusTable = new EquipementBonus();
+		$where = "id_equipement_bonus=".$idEquipement;
+		$equipementBonusTable->delete($where);
+		
+		Zend_Loader::loadClass("EquipementRune");
+		$equipementRuneTable = new EquipementRune();
+		$where = "id_equipement_rune=".$idEquipement;
+		$equipementRuneTable->delete($where);
 		
 		$recetteCoutTable = new RecetteCout();
 		$recetteCout = $recetteCoutTable->findByIdTypeEquipementAndNiveau($idTypeEquipement, $nivEquipement);
