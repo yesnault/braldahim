@@ -52,11 +52,11 @@ class CharrettePartieplante extends Zend_Db_Table {
 			
 			if (isset($data["quantite_charrette_partieplante"])) {
 				$quantiteBrute += $data["quantite_charrette_partieplante"];
-			};
+			}
 			
 			if (isset($data["quantite_preparee_charrette_partieplante"])) {
 				$quantitePreparee += $data["quantite_preparee_charrette_partieplante"];
-			};
+			}
 			
 			$dataUpdate = array(
 					'quantite_charrette_partieplante' => $quantiteBrute,
@@ -66,6 +66,7 @@ class CharrettePartieplante extends Zend_Db_Table {
 			$where = ' id_fk_type_charrette_partieplante = '.$data["id_fk_type_charrette_partieplante"];
 			$where .= ' AND id_fk_charrette_partieplante = '.$data["id_fk_charrette_partieplante"];
 			$where .= ' AND id_fk_type_plante_charrette_partieplante = '.$data["id_fk_type_plante_charrette_partieplante"];
+			
 			$this->update($dataUpdate, $where);
 		}
 	}

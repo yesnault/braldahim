@@ -21,6 +21,11 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 	}
 
 	function prepareCommun() {
+		$this->view->assezDeCastars = false;
+		if ($this->view->user->castars_hobbit >= 1) {
+			$this->view->assezDeCastars = true;
+		}
+
 		$this->prepareDepart();
 	}
 
@@ -37,12 +42,23 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			throw new Zend_Exception(get_class($this)." Pas assez de PA : ".$this->view->user->pa_hobbit);
 		}
 
+		if ($this->view->assezDeCastars == false) {
+			throw new Zend_Exception(get_class($this)." Pas assez de castars : ".$this->view->user->castars_hobbit);
+		}
+
 		if ($this->view->vendreOk == false) {
 			throw new Zend_Exception(get_class($this)." Deposer interdit ");
 		}
 
+		$valeur_4 = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_4"));
+		if ($valeur_4 <= 0) {
+			throw new Zend_Exception(get_class($this)." Valeur 4 invalide : ".$valeur_4);
+		}
+
 		$this->boxHotelToRefresh = true;
 		$this->calculVendre($this->view->typeDepart[$this->view->idTypeCourantDepart]);
+
+		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - 1;
 	}
 
 	private function prepareDepart() {
@@ -825,10 +841,10 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($partiePlante["type_forme"] == "brute") {
 			$prefix = "";
 		} else {
-			$prefix = "preparee";
+			$prefix = "_preparee";
 		}
 		$data = array(
-			"quantite_".$prefix."_".$endroit["suffixe"]."_partieplante" => -$nbPartiePlante,
+			"quantite".$prefix."_".$endroit["suffixe"]."_partieplante" => -$nbPartiePlante,
 			"id_fk_type_".$endroit["suffixe"]."_partieplante" => $partiePlante["id_type_partieplante"],
 			"id_fk_type_plante_".$endroit["suffixe"]."_partieplante" => $partiePlante["id_type_plante"],
 		);
@@ -1099,7 +1115,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 
 		$this->calculPrixMinerai($idVente, $tabPrix["prix_1"], $tabPrix["prix_2"], $tabPrix["prix_3"], $tabPrix["unite_1"], $tabPrix["unite_2"], $tabPrix["unite_3"]);
 		$this->calculPrixPartiePlante($idVente, $tabPrix["prix_1"], $tabPrix["prix_2"], $tabPrix["prix_3"], $tabPrix["unite_1"], $tabPrix["unite_2"], $tabPrix["unite_3"]);
-		
+
 		$this->view->idVente = $idVente;
 		$this->view->dateFinVente = Bral_Util_ConvertDate::get_datetime_mysql_datetime('\l\e d/m/y à H\h ', $dateFin);
 		return $idVente;

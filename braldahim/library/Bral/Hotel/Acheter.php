@@ -375,10 +375,16 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 		$minerai = $minerai[0];
 
+		$poidsUnitaire = Bral_Util_Poids::POIDS_MINERAI;
+
+		if ($minerai["type_vente_minerai"] == "lingot") {
+			$poidsUnitaire = Bral_Util_Poids::POIDS_LINGOT;
+		}
+
 		$placeDispo = false;
 		$i = 0;
 		foreach($this->view->destinationTransfert as $d) {
-			if ($d["poids_restant"] >= $minerai["quantite_vente_minerai"] * Bral_Util_Poids::POIDS_MINERAI) {
+			if ($d["poids_restant"] >= $minerai["quantite_vente_minerai"] * $poidsUnitaire) {
 				$placeDispo = true;
 				$this->view->destinationTransfert[$i]["possible"] = true;
 			}
@@ -423,6 +429,10 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 		$partieplante = $partieplante[0];
 
+		if ($partieplante["type_vente_partieplante"] == "preparee") {
+			$poidsUnitaire = Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE;
+		}
+
 		$placeDispo = false;
 		$i = 0;
 		foreach($this->view->destinationTransfert as $d) {
@@ -433,23 +443,27 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			$i ++;
 		}
 
-		$nom = $partieplante["nom_type_partieplante"]." : ".$partieplante["quantite_vente_partieplante"];
+		$nom = $partieplante["quantite_vente_partieplante"]. " ".$partieplante["nom_type_partieplante"];
 
 		$s = "";
 		if ($partieplante["quantite_vente_partieplante"] > 1) {
-			$s = "s";
+			$s .= "s";
+			$nom .= $s;
 		}
 
-		if ($partieplante["type_vente_partieplante"] == "lingot") {
-			$nom .= " lingot".$s;
+		if ($partieplante["type_vente_partieplante"] == "preparee") {
+			$nom .= " préparée".$s;
 		} else {
-			$nom .= " partieplante".$s. " brut".$s;
+			$nom .= " brute".$s;
 		}
+
+		$nom .= " " .$partieplante["prefix_type_plante"].$partieplante["nom_type_plante"];
 
 		$tabPartieplante = array(
 			"nom" => $nom,
 			"quantite_vente_partieplante" => $partieplante["quantite_vente_partieplante"],
 			"id_type_partieplante" => $partieplante["id_fk_type_vente_partieplante"],
+			"id_type_plante" => $partieplante["id_fk_type_plante_vente_partieplante"],
 			"type_vente_partieplante" => $partieplante["type_vente_partieplante"],
 			"place_dispo" => $placeDispo,
 			"est_charrette" => false,
@@ -911,7 +925,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		} else if ($this->view->vente["vente"]["type_vente"] == "munition") {
 			$objet = $this->calculTransfertMunition($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "partieplante") {
-			//			$objet = $this->calculTransfertPartieplante($idDestination);
+			$objet = $this->calculTransfertPartieplante($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "potion") {
 			$objet = $this->calculTransfertPotion($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "rune") {
@@ -1352,6 +1366,46 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			$data["id_fk_charrette_minerai"] = $this->view->charrette["id_charrette"];
 		} else {
 			$data["id_fk_hobbit_laban_minerai"] = $this->view->user->id_hobbit;
+		}
+		$table->insertOrUpdate($data);
+
+		if ($idDestination == "charrette") {
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+		}
+
+		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
+
+		$venteTable = new Vente();
+		$where = "id_vente=".$this->idVente;
+		$venteTable->delete($where);
+	}
+
+	private function calculTransfertPartieplante($idDestination) {
+		if ($idDestination == "charrette") {
+			Zend_Loader::loadClass("CharrettePartieplante");
+			$table = new CharrettePartieplante();
+			$suffixe = "charrette";
+		} else {
+			Zend_Loader::loadClass("LabanPartieplante");
+			$table = new LabanPartieplante();
+			$suffixe = "laban";
+		}
+
+		$prefix = "";
+		if ($this->view->vente["objet"]["type_vente_partieplante"] == "preparee") {
+			$prefix = "_preparee";
+		}
+
+		$data = array(
+			"id_fk_type_".$suffixe."_partieplante" => $this->view->vente["objet"]["id_type_partieplante"],
+			"id_fk_type_plante_".$suffixe."_partieplante" => $this->view->vente["objet"]["id_type_plante"],
+			"quantite".$prefix."_".$suffixe."_partieplante" => $this->view->vente["objet"]["quantite_vente_partieplante"],
+		);
+
+		if ($idDestination == "charrette") {
+			$data["id_fk_charrette_partieplante"] = $this->view->charrette["id_charrette"];
+		} else {
+			$data["id_fk_hobbit_laban_partieplante"] = $this->view->user->id_hobbit;
 		}
 		$table->insertOrUpdate($data);
 
