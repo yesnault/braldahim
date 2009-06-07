@@ -17,7 +17,7 @@
 		<? $this->equipements = array($this->vente["objet"]); ?>
 		<?=$this->render("/interface/commun/equipements/equipements.phtml"); ?>
 	<? else : ?>
-		<?=$this->vente["objet"]["nom"]; ?>
+		<?=$this->vente["objet"]["nom"]; ?>.<br>
 	<? endif; ?>
 	<br />
 	

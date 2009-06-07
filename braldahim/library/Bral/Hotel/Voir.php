@@ -728,7 +728,11 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		if ($idsVente != null) {
 			$runes = $venteRuneTable->findByIdVente($idsVente);
 		} else {
-			$runes = $venteRuneTable->findByIdType($this->view->menuRechercheRune[$numeroRune]["id_type_rune"]);
+			if ($this->view->menuRechercheRune[$numeroRune]["id_type_rune"] != -1) {
+				$runes = $venteRuneTable->findByIdType($this->view->menuRechercheRune[$numeroRune]["id_type_rune"]);
+			} else {
+				$runes = $venteRuneTable->findNonIdentifiee();
+			}
 		}
 
 		$tabReturn = array();
@@ -1132,7 +1136,8 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		$typesRunes = $typesRunes->toArray();
 
 		$tabRune = null;
-		$numeroElement = 0;
+		$numeroElement = 1;
+		$tabRune[$numeroElement] = array('numero_element' => $numeroElement, 'nom' => "Rune non identifiée", "id_type_rune" => -1);
 		foreach($typesRunes as $e) {
 			$numeroElement++;
 			$tabRune[$numeroElement] = array('numero_element' => $numeroElement, 'nom' => $e["nom_type_rune"], "id_type_rune" => $e["id_type_rune"]);

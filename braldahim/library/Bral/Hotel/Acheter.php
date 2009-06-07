@@ -104,7 +104,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		if ($vente["type_vente"] == "materiel") {
 			$objet = $this->prepareVenteMateriel($idVente);
 		} else if ($vente["type_vente"] == "aliment") {
-			//			$objet = $this->prepareVenteAliment($idVente);
+			$objet = $this->prepareVenteAliment($idVente);
 		} else if ($vente["type_vente"] == "element") {
 			//			$objet = $this->prepareVenteElement($idVente);
 		} else if ($vente["type_vente"] == "equipement") {
@@ -116,7 +116,9 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		} else if ($vente["type_vente"] == "partieplante") {
 			//			$objet = $this->prepareVentePartieplante($idVente);
 		} else if ($vente["type_vente"] == "potion") {
-			//			$objet = $this->prepareVentePotion($idVente);
+			$objet = $this->prepareVentePotion($idVente);
+		} else if ($vente["type_vente"] == "rune") {
+			$objet = $this->prepareVenteRune($idVente);
 		}
 
 		$tab = array(
@@ -193,6 +195,43 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		return $tabMateriel;
 	}
 
+	private function prepareVenteAliment($idVente) {
+		Zend_Loader::loadClass("VenteAliment");
+		$venteAlimentTable = new VenteAliment();
+
+		$aliments = $venteAlimentTable->findByIdVente($idVente);
+
+		if ($aliments == null || count($aliments) < 1) {
+			throw new Zend_Exception(get_class($this)."::prepareVenteAliment invalide:".$idVente);
+		}
+
+
+		$placeDispo = false;
+		$i = 0;
+		foreach($this->view->destinationTransfert as $d) {
+			if ($d["poids_restant"] >= (count($aliments) * Bral_Util_Poids::POIDS_ALIMENT)) {
+				$placeDispo = true;
+				$this->view->destinationTransfert[$i]["possible"] = true;
+			}
+			$i ++;
+		}
+
+		$nom = "<br>";
+		foreach($aliments as $a) {
+			$nom .= $a["nom_type_aliment"]." +".$a["bbdf_vente_aliment"]."%<br>";
+		}
+
+		$tabAliments = array(
+			"aliments" => $aliments,
+			"nom" => $nom,
+			"place_dispo" => $placeDispo,
+			"est_charrette" => false,
+			"charrette_possible" => true,
+		);
+
+		return $tabAliments;
+	}
+
 	private function prepareVenteMunition($idVente) {
 		Zend_Loader::loadClass("VenteMunition");
 		$venteMunitionTable = new VenteMunition();
@@ -221,7 +260,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		} else {
 			$nom .= $munition["nom_type_munition"];
 		}
-		
+
 		$tabMunition = array(
 			"nom" => $nom,
 			"quantite_vente_munition" => $munition["quantite_vente_munition"],
@@ -295,6 +334,85 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		);
 
 		return $tabEquipement;
+	}
+
+	private function prepareVentePotion($idVente) {
+		Zend_Loader::loadClass("VentePotion");
+		$ventePotionTable = new VentePotion();
+
+		$potion = $ventePotionTable->findByIdVente($idVente);
+
+		if ($potion == null || count($potion) != 1) {
+			throw new Zend_Exception(get_class($this)."::prepareVentePotion invalide:".$idVente);
+		}
+
+		$potion = $potion[0];
+
+		$placeDispo = false;
+		$i = 0;
+		foreach($this->view->destinationTransfert as $d) {
+			if ($d["poids_restant"] >= Bral_Util_Poids::POIDS_POTION) {
+				$placeDispo = true;
+				$this->view->destinationTransfert[$i]["possible"] = true;
+			}
+			$i ++;
+		}
+
+		$nom = $potion["nom_type_potion"]. " de qualité ".$potion["nom_type_qualite"]." et de niveau ".$potion["niveau_vente_potion"];
+
+		$tabPotion = array(
+			"id_potion" => $potion["id_vente_potion"],
+			"nom" => $nom,
+			"id_fk_type_qualite_vente_potion" => $potion["id_fk_type_qualite_vente_potion"],
+			"id_fk_type_vente_potion" => $potion["id_fk_type_vente_potion"],
+			"niveau_vente_potion" => $potion["niveau_vente_potion"],
+			"place_dispo" => $placeDispo,
+			"est_charrette" => false,
+			"charrette_possible" => true,
+		);
+
+		return $tabPotion;
+	}
+
+	private function prepareVenteRune($idVente) {
+		Zend_Loader::loadClass("VenteRune");
+		$venteRuneTable = new VenteRune();
+
+		$rune = $venteRuneTable->findByIdVente($idVente);
+
+		if ($rune == null || count($rune) != 1) {
+			throw new Zend_Exception(get_class($this)."::prepareVenteRune invalide:".$idVente);
+		}
+
+		$rune = $rune[0];
+
+		$placeDispo = false;
+		$i = 0;
+		foreach($this->view->destinationTransfert as $d) {
+			if ($d["poids_restant"] >= Bral_Util_Poids::POIDS_RUNE) {
+				$placeDispo = true;
+				$this->view->destinationTransfert[$i]["possible"] = true;
+			}
+			$i ++;
+		}
+
+		if ($rune["est_identifiee_vente_rune"] == "oui") {
+			$nom = "Rune ".$rune["nom_type_rune"]. ", n°".$rune["id_rune_vente_rune"];
+		} else {
+			$nom = "Rune non identifiée, n°".$rune["id_rune_vente_rune"];
+		}
+
+		$tabRune = array(
+			"id_rune" => $rune["id_rune_vente_rune"],
+			"nom" => $nom,
+			"id_fk_type_vente_rune" => $rune["id_fk_type_vente_rune"],
+			"est_identifiee_vente_rune" => $rune["est_identifiee_vente_rune"],
+			"place_dispo" => $placeDispo,
+			"est_charrette" => false,
+			"charrette_possible" => true,
+		);
+
+		return $tabRune;
 	}
 
 	private function prepareEquipementRune($idEquipement) {
@@ -595,7 +713,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		if ($this->view->vente["vente"]["type_vente"] == "materiel") {
 			$objet = $this->calculTransfertMateriel($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "aliment") {
-			//			$objet = $this->calculTransfertAliment($idDestination);
+			$objet = $this->calculTransfertAliment($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "element") {
 			//			$objet = $this->calculTransfertElement($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "equipement") {
@@ -607,7 +725,9 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		} else if ($this->view->vente["vente"]["type_vente"] == "partieplante") {
 			//			$objet = $this->calculTransfertPartieplante($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "potion") {
-			//			$objet = $this->calculTransfertPotion($idDestination);
+			$objet = $this->calculTransfertPotion($idDestination);
+		} else if ($this->view->vente["vente"]["type_vente"] == "rune") {
+			$objet = $this->calculTransfertRune($idDestination);
 		}
 
 		$this->view->destination = $destination;
@@ -837,6 +957,78 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$venteTable->delete($where);
 	}
 
+	private function calculTransfertPotion($idDestination) {
+
+		if ($idDestination == "charrette") {
+			Zend_Loader::loadClass("CharrettePotion");
+			$table = new CharrettePotion();
+			$suffixe = "charrette";
+		} else {
+			Zend_Loader::loadClass("LabanPotion");
+			$table = new LabanPotion();
+			$suffixe = "laban";
+		}
+
+		$data = array(
+				"id_".$suffixe."_potion" => $this->view->vente["objet"]["id_potion"],
+				"id_fk_type_".$suffixe."_potion" => $this->view->vente["objet"]["id_fk_type_vente_potion"],
+				"id_fk_type_qualite_".$suffixe."_potion" => $this->view->vente["objet"]["id_fk_type_qualite_vente_potion"],
+				"niveau_".$suffixe."_potion" => $this->view->vente["objet"]["niveau_vente_potion"],
+		);
+
+		if ($idDestination == "charrette") {
+			$data["id_fk_charrette_potion"] = $this->view->charrette["id_charrette"];
+		} else {
+			$data["id_fk_hobbit_laban_potion"] = $this->view->user->id_hobbit;
+		}
+		$table->insert($data);
+
+		if ($idDestination == "charrette") {
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+		}
+
+		$this->view->objetAchat = $this->view->vente["objet"]["nom"].", n°".$this->view->vente["objet"]["id_potion"];
+
+		$venteTable = new Vente();
+		$where = "id_vente=".$this->idVente;
+		$venteTable->delete($where);
+	}
+
+	private function calculTransfertRune($idDestination) {
+		if ($idDestination == "charrette") {
+			Zend_Loader::loadClass("CharretteRune");
+			$table = new CharretteRune();
+			$suffixe = "charrette";
+		} else {
+			Zend_Loader::loadClass("LabanRune");
+			$table = new LabanRune();
+			$suffixe = "laban";
+		}
+
+		$data = array(
+				"id_rune_".$suffixe."_rune" => $this->view->vente["objet"]["id_rune"],
+				"id_fk_type_".$suffixe."_rune" => $this->view->vente["objet"]["id_fk_type_vente_rune"],
+				"est_identifiee_".$suffixe."_rune" => $this->view->vente["objet"]["est_identifiee_vente_rune"],
+		);
+
+		if ($idDestination == "charrette") {
+			$data["id_fk_charrette_rune"] = $this->view->charrette["id_charrette"];
+		} else {
+			$data["id_fk_hobbit_laban_rune"] = $this->view->user->id_hobbit;
+		}
+		$table->insert($data);
+
+		if ($idDestination == "charrette") {
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+		}
+
+		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
+
+		$venteTable = new Vente();
+		$where = "id_vente=".$this->idVente;
+		$venteTable->delete($where);
+	}
+
 	private function calculTransfertMunition($idDestination) {
 		if ($idDestination == "charrette") {
 			Zend_Loader::loadClass("CharretteMunition");
@@ -859,6 +1051,44 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			$data["id_fk_hobbit_laban_munition"] = $this->view->user->id_hobbit;
 		}
 		$table->insertOrUpdate($data);
+
+		if ($idDestination == "charrette") {
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+		}
+
+		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
+
+		$venteTable = new Vente();
+		$where = "id_vente=".$this->idVente;
+		$venteTable->delete($where);
+	}
+
+	private function calculTransfertAliment($idDestination) {
+		if ($idDestination == "charrette") {
+			Zend_Loader::loadClass("CharretteAliment");
+			$table = new CharretteAliment();
+			$suffixe = "charrette";
+		} else {
+			Zend_Loader::loadClass("LabanAliment");
+			$table = new LabanAliment();
+			$suffixe = "laban";
+		}
+
+		foreach($this->view->vente["objet"]["aliments"] as $a) {
+			$data = array(
+				"id_".$suffixe."_aliment" => $a["id_vente_aliment"],
+				"id_fk_type_".$suffixe."_aliment" => $a["id_fk_type_vente_aliment"],
+				"id_fk_type_qualite_".$suffixe."_aliment" =>$a["id_fk_type_qualite_vente_aliment"],
+				"bbdf_".$suffixe."_aliment" => $a["bbdf_vente_aliment"],
+			);
+
+			if ($idDestination == "charrette") {
+				$data["id_fk_charrette_aliment"] = $this->view->charrette["id_charrette"];
+			} else {
+				$data["id_fk_hobbit_laban_aliment"] = $this->view->user->id_hobbit;
+			}
+			$table->insert($data);
+		}
 
 		if ($idDestination == "charrette") {
 			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
