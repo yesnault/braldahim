@@ -111,8 +111,10 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 			$equipement = array(
 					"id_equipement" => $e["id_equipement_hequipement"],
 					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_hequipement"]),
+					"nom_standard" => $e["nom_type_equipement"],
 					"id_type_equipement" => $e["id_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
+					"emplacement" => $e["nom_type_emplacement"],
 					"niveau" => $e["niveau_recette_equipement"],
 					"id_type_emplacement" => $e["id_type_emplacement"],
 					"nom_systeme_type_piece" => $e["nom_systeme_type_piece"],
@@ -173,7 +175,9 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 				$equipement = array(
 						"id_equipement" => $e["id_laban_equipement"],
 						"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_laban_equipement"]),
+						"nom_standard" => $e["nom_type_equipement"],
 						"qualite" => $e["nom_type_qualite"],
+						"emplacement" => $e["nom_type_emplacement"],
 						"niveau" => $e["niveau_recette_equipement"],
 						"id_type_emplacement" => $e["id_type_emplacement"],
 						"nom_systeme_type_piece" => $e["nom_systeme_type_piece"],

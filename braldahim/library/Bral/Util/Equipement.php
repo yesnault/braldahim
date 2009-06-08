@@ -199,7 +199,9 @@ class Bral_Util_Equipement {
 				$equipement = array(
 						"id_equipement" => $e["id_equipement_hequipement"],
 						"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_hequipement"]),
+						"nom_standard" => $e["nom_type_equipement"],
 						"qualite" => $e["nom_type_qualite"],
+						"emplacement" => $e["nom_type_emplacement"],
 						"niveau" => $e["niveau_recette_equipement"],
 						"id_type_equipement" => $e["id_type_equipement"],
 						"id_type_emplacement" => $e["id_type_emplacement"],
