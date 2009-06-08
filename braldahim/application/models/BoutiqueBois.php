@@ -24,19 +24,18 @@ class BoutiqueBois extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function countVenteByDateAndRegion($dateDebut, $dateFin, $idRegion) {
-		return $this->countByDateAndRegion($dateDebut, $dateFin, $idRegion, "vente");
+	function countVenteByDate($dateDebut, $dateFin) {
+		return $this->countByDate($dateDebut, $dateFin, "vente");
 	}
 	
-	function countRepriseByDateAndRegion($dateDebut, $dateFin, $idRegion) {
-		return $this->countByDateAndRegion($dateDebut, $dateFin, $idRegion, "reprise");
+	function countRepriseByDate($dateDebut, $dateFin) {
+		return $this->countByDate($dateDebut, $dateFin, "reprise");
 	}
 	
-	private function countByDateAndRegion($dateDebut, $dateFin, $idRegion, $type) {
+	private function countByDate($dateDebut, $dateFin, $type) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('boutique_bois', 'SUM(quantite_rondin_boutique_bois) as nombre')
-		->where('id_fk_region_boutique_bois = ?', $idRegion)
 		->where('date_achat_boutique_bois >= ?', $dateDebut)
 		->where('date_achat_boutique_bois <= ?', $dateFin)
 		->where('action_boutique_bois = ?', $type);

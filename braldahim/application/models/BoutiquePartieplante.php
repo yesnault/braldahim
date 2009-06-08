@@ -62,19 +62,18 @@ class BoutiquePartieplante extends Zend_Db_Table {
 		}
 	}
 	
-	function countVenteByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypePartiePlante, $idTypePlante) {
-		return $this->countByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypePartiePlante, $idTypePlante, "achat");
+	function countVenteByDate($dateDebut, $dateFin, $idTypePartiePlante, $idTypePlante) {
+		return $this->countByDate($dateDebut, $dateFin, $idTypePartiePlante, $idTypePlante, "achat");
 	}
 	
-	function countRepriseByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypePartiePlante, $idTypePlante) {
-		return $this->countByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypePartiePlante, $idTypePlante, "reprise");
+	function countRepriseByDate($dateDebut, $dateFin, $idTypePartiePlante, $idTypePlante) {
+		return $this->countByDate($dateDebut, $dateFin, $idTypePartiePlante, $idTypePlante, "reprise");
 	}
 	
-	private function countByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypePartiePlante, $idTypePlante, $type) {
+	private function countByDate($dateDebut, $dateFin, $idTypePartiePlante, $idTypePlante, $type) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('boutique_partieplante', 'SUM(quantite_brut_boutique_partieplante) as nombre')
-		->where('id_fk_region_boutique_partieplante = ?', $idRegion)
 		->where('date_achat_boutique_partieplante >= ?', $dateDebut)
 		->where('date_achat_boutique_partieplante <= ?', $dateFin)
 		->where('action_boutique_partieplante = ?', $type)

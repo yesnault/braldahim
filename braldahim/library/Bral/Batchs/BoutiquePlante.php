@@ -36,20 +36,18 @@ class Bral_Batchs_BoutiquePlante extends Bral_Batchs_Boutique {
 		
 		$this->initDate();
 		
-		foreach($regionRowset as $r) {
-			foreach($typePlanteRowset as $t) {
-				$this->calcul($r->id_region, $t["id_fk_partieplante1_type_plante"], $t["id_type_plante"]);
-				if ($t["id_fk_partieplante2_type_plante"] > 0) {
-					$this->calcul($r->id_region, $t["id_fk_partieplante2_type_plante"], $t["id_type_plante"]);
-				}
-				
-				if ($t["id_fk_partieplante3_type_plante"] > 0) {
-					$this->calcul($r->id_region, $t["id_fk_partieplante3_type_plante"], $t["id_type_plante"]);
-				}
-				
-				if ($t["id_fk_partieplante4_type_plante"] > 0) {
-					$this->calcul($r->id_region, $t["id_fk_partieplante4_type_plante"], $t["id_type_plante"]);
-				}
+		foreach($typePlanteRowset as $t) {
+			$this->calcul($regionRowset, $t["id_fk_partieplante1_type_plante"], $t["id_type_plante"]);
+			if ($t["id_fk_partieplante2_type_plante"] > 0) {
+				$this->calcul($regionRowset, $t["id_fk_partieplante2_type_plante"], $t["id_type_plante"]);
+			}
+			
+			if ($t["id_fk_partieplante3_type_plante"] > 0) {
+				$this->calcul($regionRowset, $t["id_fk_partieplante3_type_plante"], $t["id_type_plante"]);
+			}
+			
+			if ($t["id_fk_partieplante4_type_plante"] > 0) {
+				$this->calcul($regionRowset, $t["id_fk_partieplante4_type_plante"], $t["id_type_plante"]);
 			}
 		}
 		
@@ -57,20 +55,22 @@ class Bral_Batchs_BoutiquePlante extends Bral_Batchs_Boutique {
 		return "Stock Plante cree pour le ".$mDate;
 	}
 	
-	private function calcul($idRegion, $idTypePartiePlante, $idTypePlante) {
-		$this->calculAchatVente($idRegion, $idTypePartiePlante, $idTypePlante);
+	private function calcul($regionRowset, $idTypePartiePlante, $idTypePlante) {
+		$this->calculAchatVente($idTypePartiePlante, $idTypePlante);
 		$this->calculMoyennes();
 		$this->calculRatios();
-		$this->calculStock($idRegion, $idTypePartiePlante, $idTypePlante);
+		foreach($regionRowset as $r) {
+			$this->calculStock($r->id_region, $idTypePartiePlante, $idTypePlante);
+		}
 	}
 	
-	public function calculAchatVente($idRegion, $idTypePartiePlante, $idTypePlante) {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiquePlante - calculAchatVente - enter - region:".$idRegion. " idTypePartiePlante:".$idTypePartiePlante." idTypePlante:".$idTypePlante);
+	public function calculAchatVente($idTypePartiePlante, $idTypePlante) {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiquePlante - calculAchatVente - enter - idTypePartiePlante:".$idTypePartiePlante." idTypePlante:".$idTypePlante);
 		$boutiquePartieplanteTable = new BoutiquePartieplante();
-		$this->nombreReprise = $boutiquePartieplanteTable->countRepriseByDateAndRegion($this->dateDebut, $this->dateFin, $idRegion, $idTypePartiePlante, $idTypePlante);
-		$this->nombreReprisePrecedent = $boutiquePartieplanteTable->countRepriseByDateAndRegion($this->dateDebutPrecedent, $this->dateFinPrecedent, $idRegion, $idTypePartiePlante, $idTypePlante);
-		$this->nombreVente = $boutiquePartieplanteTable->countVenteByDateAndRegion($this->dateDebut, $this->dateFin, $idRegion, $idTypePartiePlante, $idTypePlante);
-		$this->nombreVentePrecedent = $boutiquePartieplanteTable->countVenteByDateAndRegion($this->dateDebutPrecedent, $this->dateFinPrecedent, $idRegion, $idTypePartiePlante, $idTypePlante);
+		$this->nombreReprise = $boutiquePartieplanteTable->countRepriseByDate($this->dateDebut, $this->dateFin, $idTypePartiePlante, $idTypePlante);
+		$this->nombreReprisePrecedent = $boutiquePartieplanteTable->countRepriseByDate($this->dateDebutPrecedent, $this->dateFinPrecedent, $idTypePartiePlante, $idTypePlante);
+		$this->nombreVente = $boutiquePartieplanteTable->countVenteByDate($this->dateDebut, $this->dateFin, $idTypePartiePlante, $idTypePlante);
+		$this->nombreVentePrecedent = $boutiquePartieplanteTable->countVenteByDate($this->dateDebutPrecedent, $this->dateFinPrecedent, $idTypePartiePlante, $idTypePlante);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiquePlante - calculAchatVente - exit -");
 	}
 	

@@ -25,26 +25,4 @@ class BoutiqueTabac extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
-	
-	function countVenteByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypeTabac) {
-		return $this->countByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypeTabac, "vente");
-	}
-	
-	function countRepriseByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypeTabac) {
-		return $this->countByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypeTabac, "reprise");
-	}
-	
-	private function countByDateAndRegion($dateDebut, $dateFin, $idRegion, $idTypeTabac, $type) {
-		$db = $this->getAdapter();
-		$select = $db->select();
-		$select->from('boutique_tabac', 'SUM(quantite_feuille_boutique_tabac) as nombre')
-		->where('id_fk_region_boutique_tabac = ?', $idRegion)
-		->where('date_achat_boutique_tabac >= ?', $dateDebut)
-		->where('date_achat_boutique_tabac <= ?', $dateFin)
-		->where('action_boutique_tabac = ?', $type)
-		->where('id_fk_type_boutique_tabac = ?', $idTypeTabac);
-		$sql = $select->__toString();
-		$resultat =  $db->fetchAll($sql);
-		return $resultat[0]["nombre"];
-	}
 }

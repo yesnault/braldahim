@@ -65,12 +65,12 @@ abstract class Bral_Batchs_Boutique extends Bral_Batchs_Batch {
 	protected function calculRatios() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - calculRatios - enter -");
 		if ($this->moyenneReprise > 0 && $this->moyenneVente > 0) {
-			$this->ratio = $this->moyenneVente / $this->moyenneReprise;
+			$this->ratio = $this->moyenneReprise / $this->moyenneVente;
 		} else {
 			$this->ratio = 1;
 		}
 		if ($this->moyenneReprisePrecedent > 0 && $this->moyenneVentePrecedent > 0) {
-			$this->ratioPrecedent = $this->moyenneVentePrecedent / $this->moyenneReprisePrecedent;
+			$this->ratioPrecedent = $this->moyenneReprisePrecedent / $this->moyenneVentePrecedent;
 		} else {
 			$this->ratioPrecedent = 1;
 		}
