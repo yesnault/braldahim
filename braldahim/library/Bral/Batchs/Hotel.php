@@ -54,6 +54,8 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			$retour = $this->transfertVersCoffreRune($vente);
 		}
 		
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hotel - transfertVersCoffre - Message -".$retour);
+		
 		//TODO Message vers Hobbit
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hotel - transfertVersCoffre - exit -");
@@ -124,7 +126,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			
 			$this->deleteVente($vente);
 
-			$nom = $element["quantite_vente_element"]. " ";
+			$nom = $element["quantite_vente_element"];
 			if ($element["type_vente_element"] == "viande_fraiche") {
 				if ($element["quantite_vente_element"] > 1) {
 					$nom .= " viandes fraîches";
@@ -313,7 +315,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			
 			$this->deleteVente($vente);
 
-			$retour = $minerai["quantite_vente_minerai"];
+			$retour = $minerai["nom_type_minerai"]. " : ".$minerai["quantite_vente_minerai"];
 				
 			$s = "";
 			if ($minerai["quantite_vente_minerai"] > 1) {
@@ -405,7 +407,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			
 			$this->deleteVente($vente);
 
-			$retour = "la potion n°".$potion["id_vente_potion"]." ".$potion["nom_type_potion"]. " de qualité. ".$potion["nom_type_qualite"]." et de niveau ".$potion["niveau_vente_potion"];
+			$retour = "la potion n°".$potion["id_vente_potion"]." ".$potion["nom_type_potion"]. " de qualité ".$potion["nom_type_qualite"]." et de niveau ".$potion["niveau_vente_potion"];
 		} else {
 			throw new Zend_Exception("Bral_Batchs_Hotel transfertVersCoffrePotion vente invalide:".$vente["id_vente"]);
 		}
@@ -439,7 +441,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			$this->deleteVente($vente);
 
 			if ($rune["est_identifiee_vente_rune"] == "oui") {
-				$retour = "Rune ".$rune["nom_type_rune"]. " n°".$rune["id_vente_rune"];
+				$retour = "Rune ".$rune["nom_type_rune"]. " n°".$rune["id_rune_vente_rune"];
 			} else {
 				$retour = "Rune non identifiée n°".$rune["id_vente_rune"];
 			}

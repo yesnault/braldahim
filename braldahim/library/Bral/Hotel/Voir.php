@@ -1170,7 +1170,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 
 		if ($element == 'viande_preparee') {
 			$nom = "viande".$s." préparée".$s;
-		} elseif ($element == 'viande' && $quantite > 1) {
+		} elseif ($element == 'viande_fraiche' && $quantite > 1) {
 			$nom = "viande".$s." fraîche".$s;
 		} else if ($element == 'peau' && $quantite > 1) {
 			$nom = "peaux";
