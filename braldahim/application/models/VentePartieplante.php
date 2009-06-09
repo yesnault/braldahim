@@ -48,8 +48,8 @@ class VentePartieplante extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
-	function findByIdType($idType) {
+
+	function findByIdType($idTypePlante, $idTypePartiePlante) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('vente_partieplante', '*')
@@ -60,7 +60,8 @@ class VentePartieplante extends Zend_Db_Table {
 		->where('id_fk_vente_partieplante = id_vente')
 		->where('id_fk_hobbit_vente = id_hobbit')
 		->where('id_fk_type_vente_partieplante = id_type_partieplante')
-		->where('id_fk_type_vente_partieplante = ?', $idType)
+		->where('id_fk_type_plante_vente_partieplante = ?', $idTypePlante)
+		->where('id_fk_type_vente_partieplante = ?', $idTypePartiePlante)
 		->where('id_fk_type_plante_vente_partieplante = id_type_plante')
 		->order(array('date_fin_vente desc', 'nom_type_plante', 'nom_type_partieplante'));
 		$sql = $select->__toString();

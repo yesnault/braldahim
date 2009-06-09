@@ -12,9 +12,6 @@
  */
 class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 
-	private $arBoutiqueBruts;
-	private $arBoutiqueTransformes;
-
 	function getNomInterne() {
 		return $this->box_lieu;
 	}
@@ -205,12 +202,12 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		} else {
 			$typeMinerai = null;
 			if ($type == "matieres_premieres") {
-				$typeMinerai = $this->view->menuRechercheMatieresPremieres["minerais"]["elements"][$numeroMinerai]["id_type_minerai"];
+				$typeMinerai = $this->view->menuRechercheMatieresPremieres["minerais"]["elements"][$numeroElement]["id_type_minerai"];
 			} elseif ($type == "matieres_transformees") {
-				$typeMinerai = $this->view->menuRechercheMatieresTransformees["minerais"]["elements"][$numeroMinerai]["id_type_minerai"];
+				$typeMinerai = $this->view->menuRechercheMatieresTransformees["minerais"]["elements"][$numeroElement]["id_type_minerai"];
 			}
-			if ($numeroMinerai < $this->numeroElementPemiereMatierePlante && $typeMinerai != null) {
-				$minerais = $venteMineraiTable->findByType($typeMinerai);
+			if ($numeroElement < $this->numeroElementPemiereMatierePlante && $typeMinerai != null) {
+				$minerais = $venteMineraiTable->findByIdType($typeMinerai);
 			}
 		}
 
@@ -278,14 +275,17 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		if ($idsVente != null) {
 			$elements = $ventePartieplanteTable->findByIdVente($idsVente);
 		} else {
-			$typePartieplante = null;
-			if ($type == "matieres_premieres") {
-				$typePartieplante = $this->view->menuRechercheMatieresPremieres["autres"]["elements"][$numeroPartieplante]["type_element"];
+			$typePlante = null;
+			$typePartiePlante = null;
+		if ($type == "matieres_premieres") {
+				$typePlante = $this->view->menuRechercheMatieresPremieres["plantes"]["elements"][$numeroElement]["id_type_plante"];
+				$typePartiePlante = $this->view->menuRechercheMatieresPremieres["plantes"]["elements"][$numeroElement]["id_type_partieplante"];
 			} elseif ($type == "matieres_transformees") {
-				$typePartieplante = $this->view->menuRechercheMatieresTransformees["autres"]["elements"][$numeroPartieplante]["type_element"];
+				$typePlante = $this->view->menuRechercheMatieresTransformees["plantes"]["elements"][$numeroElement]["id_type_plante"];
+				$typePartiePlante = $this->view->menuRechercheMatieresTransformees["plantes"]["elements"][$numeroElement]["id_type_partieplante"];
 			}
-			if ($numeroPartieplante >= $this->numeroPartieplantePemiereMatiereAutre && $typePartieplante != null) {
-				$elements = $ventePartieplanteTable->findByType($typePartieplante);
+			if ($numeroElement < $this->numeroElementPemiereMatiereAutre && $typePlante != null && $typePartiePlante != null) {
+				$elements = $ventePartieplanteTable->findByIdType($typePlante, $typePartiePlante);
 			}
 		}
 
@@ -1051,27 +1051,30 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 
 		foreach($typePlanteRowset as $t) {
 			$numeroElement++;
-			$tabPlantesBrutes["elements"][$numeroElement] = $this->prepareUnitesRowPlante($t, $partiePlante, 1, "brute");
-			$tabPlantesPreparees["elements"][$numeroElement] = $this->prepareUnitesRowPlante($t, $partiePlante, 1, "preparee");
+			$tabPlantesBrutes["elements"][$numeroElement] = $this->prepareUnitesRowPlante($numeroElement, $t, $partiePlante, 1, "brute");
+			$tabPlantesPreparees["elements"][$numeroElement] = $this->prepareUnitesRowPlante($numeroElement, $t, $partiePlante, 1, "preparee");
 
 			if ($t["id_fk_partieplante2_type_plante"] != "") {
-				$tabPlantesBrutes["elements"][$numeroElement] = $this->prepareUnitesRowPlante($t, $partiePlante, 1, "brute");
-				$tabPlantesPreparees["elements"][$numeroElement] = $this->prepareUnitesRowPlante($t, $partiePlante, 1, "preparee");
+				$numeroElement++;
+				$tabPlantesBrutes["elements"][$numeroElement] = $this->prepareUnitesRowPlante($numeroElement, $t, $partiePlante, 2, "brute");
+				$tabPlantesPreparees["elements"][$numeroElement] = $this->prepareUnitesRowPlante($numeroElement, $t, $partiePlante, 2, "preparee");
 			}
 
 			if ($t["id_fk_partieplante3_type_plante"] != "") {
-				$tabPlantesBrutes["elements"][$numeroElement] = $this->prepareUnitesRowPlante($t, $partiePlante, 1, "brute");
-				$tabPlantesPreparees["elements"][$numeroElement] = $this->prepareUnitesRowPlante($t, $partiePlante, 1, "preparee");
+				$numeroElement++;
+				$tabPlantesBrutes["elements"][$numeroElement] = $this->prepareUnitesRowPlante($numeroElement, $t, $partiePlante, 3, "brute");
+				$tabPlantesPreparees["elements"][$numeroElement] = $this->prepareUnitesRowPlante($numeroElement, $t, $partiePlante, 3, "preparee");
 			}
 
 			if ($t["id_fk_partieplante4_type_plante"] != "") {
-				$tabPlantesBrutes["elements"][$numeroElement] = $this->prepareUnitesRowPlante($t, $partiePlante, 1, "brute");
-				$tabPlantesPreparees["elements"][$numeroElement] = $this->prepareUnitesRowPlante($t, $partiePlante, 1, "preparee");
+				$numeroElement++;
+				$tabPlantesBrutes["elements"][$numeroElement] = $this->prepareUnitesRowPlante($numeroElement, $t, $partiePlante, 4, "brute");
+				$tabPlantesPreparees["elements"][$numeroElement] = $this->prepareUnitesRowPlante($numeroElement, $t, $partiePlante, 4, "preparee");
 			}
 		}
 
-		$tabMenuMatieresPremieres[] = $tabPlantesBrutes;
-		$tabMenuMatieresTransformees[] = $tabPlantesPreparees;
+		$tabMenuMatieresPremieres["plantes"] = $tabPlantesBrutes;
+		$tabMenuMatieresTransformees["plantes"] = $tabPlantesPreparees;
 
 		$tabAutresPremieres = array("titre" => "Autres éléments");
 		$tabAutresTransformees = array("titre" => "Autres éléments");
@@ -1099,13 +1102,14 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		$this->view->menuRechercheMatieresTransformees = $tabMenuMatieresTransformees;
 	}
 
-	private function prepareUnitesRowPlante($type, $partiePlante, $num, $forme) {
+	private function prepareUnitesRowPlante($numeroElement, $type, $partiePlante, $num, $forme) {
 		if ($forme == "brute") {
 			$nomForme = "Brute";
 		} else {
 			$nomForme = "Préparée";
 		}
-		return array("id_type_plante" =>  $type["id_type_plante"],
+		return array( "numero_element" => $numeroElement,
+					  "id_type_plante" =>  $type["id_type_plante"],
 					  "id_type_partieplante" => $type["id_fk_partieplante".$num."_type_plante"],
 					  "nom_systeme_type_unite" => "plantebrute:".$type["nom_systeme_type_plante"] ,
 					  "nom" => "Plante ".$nomForme.": ".$type["nom_type_plante"]. ' '.$partiePlante[$type["id_fk_partieplante".$num."_type_plante"]]["nom_partieplante"],
