@@ -167,8 +167,10 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 
 				if (count($equipementBonus) > 0) {
 					foreach($equipementBonus as $b) {
-						$bonus = $b;
-						break;
+						if ($b["id_equipement_bonus"] == $e["id_laban_equipement"]) {
+							$bonus = $b;
+							break;
+						}
 					}
 				}
 
