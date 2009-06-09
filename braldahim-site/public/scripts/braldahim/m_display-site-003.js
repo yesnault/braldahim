@@ -87,3 +87,20 @@ function ouvrirWin(url, titre) {
 	}
 	window.open(url, titre, "directories=no,location=yes,menubar=yes,resizable=yes,scrollbars=yes,status=yes,toolbar=yes,width=800,height=600");
 }
+
+function jsMenuHotel(id, valeur) {
+	
+	if (id != "hotel_menu_recherche_pratique") $("hotel_menu_recherche_pratique").value = -1;
+	if (id != "hotel_menu_recherche_equipements") $("hotel_menu_recherche_equipements").value = -1;
+	if (id != "hotel_menu_recherche_munitions") $("hotel_menu_recherche_munitions").value = -1;
+	if (id != "hotel_menu_recherche_materiels") $("hotel_menu_recherche_materiels").value = -1;
+	if (id != "hotel_menu_recherche_matieres_premieres") $("hotel_menu_recherche_matieres_premieres").value = -1;
+	if (id != "hotel_menu_recherche_matieres_transformees") $("hotel_menu_recherche_matieres_transformees").value = -1;
+	if (id != "hotel_menu_recherche_aliments") $("hotel_menu_recherche_aliments").value = -1;
+	if (id != "hotel_menu_recherche_potions") $("hotel_menu_recherche_potions").value = -1;
+	if (id != "hotel_menu_recherche_runes") $("hotel_menu_recherche_runes").value = -1;
+	
+	if (valeur != -1) {
+		_get_('/hotel/load?caction=do_hotel_voir&'+id+'='+valeur);
+	}
+}

@@ -24,6 +24,10 @@ function _get_(url, encode) {
 			if ((url.substring(11, 13) == "do") && (url.substring(28, 30) == "do")) {
 				action = "do";
 			}
+		} else if (url.substring(0, 6) == "/hotel") { // /hotel/doaction?caction=ask/do
+			if ((url.substring(7, 9) == "do") && (url.substring(24, 28) == "do")) {
+				action = "do";
+			}
 		}
 	}
 

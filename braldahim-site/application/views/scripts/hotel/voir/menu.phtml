@@ -1,0 +1,95 @@
+
+<table class="table_liste" style="width:95%">
+<thead class="table_liste">
+<tr class="table_liste">
+	<th colspan="4">Recherche dans l'Hôtel des Ventes
+	<br>
+		<select name="hotel_menu_recherche_pratique" id="hotel_menu_recherche_pratique" onChange="jsMenuHotel(this.id, this.value)">
+		<option value="-1">Recherches pratiques</option>
+		<? foreach($this->menuRecherchePratique as $m) : ?>
+			<option value="<?=$m["numero_element"]?>" <?=$m["selected"]?>><?=$m["nom"]?></option>
+		<? endforeach;?>
+		</select>
+		</select>
+		
+	</th>
+</tr>
+</thead>
+	<td>
+		<select name="hotel_menu_recherche_equipements" id="hotel_menu_recherche_equipements" onChange="jsMenuHotel(this.id, this.value)">
+		<option value="-1">Recherche par Équipement</option>
+		<? foreach($this->menuRechercheEquipement as $m) : ?>
+			<optgroup label="<?=$m["titre"]?>" style="font-weight:bold"></optgroup>
+			<? foreach($m["elements"] as $e) : ?>
+				<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
+			<? endforeach; ?>
+		<? endforeach;?>
+		</select>
+	</td>
+	<td>
+		<select name="hotel_menu_recherche_munitions" id="hotel_menu_recherche_munitions" onChange="jsMenuHotel(this.id, this.value)">
+		<option value="-1">Recherche par Munition</option>
+		<? foreach($this->menuRechercheMunition as $m) : ?>
+			<option value="<?=$m["numero_element"]?>"><?=$m["nom"]?></option>
+		<? endforeach;?>
+		</select>
+	</td>
+	<td>
+		<select name="hotel_menu_recherche_materiels" id="hotel_menu_recherche_materiels" onChange="jsMenuHotel(this.id, this.value)">
+		<option value="-1">Recherche par Matériel</option>
+		<? foreach($this->menuRechercheMateriel as $m) : ?>
+			<option value="<?=$m["numero_element"]?>"><?=$m["nom"]?></option>
+		<? endforeach;?>
+		</select>
+	</td>
+	<td>
+		<select name="hotel_menu_recherche_aliments" id="hotel_menu_recherche_aliments" onChange="jsMenuHotel(this.id, this.value)">
+		<option value="-1">Recherche par Aliment</option>
+		<? foreach($this->menuRechercheAliment as $e) : ?>
+			<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
+		<? endforeach;?>
+		</select>
+	</td>
+</tr>
+<tr>
+	<td>
+		<select name="hotel_menu_recherche_matieres_premieres" id="hotel_menu_recherche_matieres_premieres" onChange="jsMenuHotel(this.id, this.value)">
+		<option value="-1">Recherche par Matière Première</option>
+		<? foreach($this->menuRechercheMatieresPremieres as $m) : ?>
+			<optgroup label="<?=$m["titre"]?>" style="font-weight:bold"></optgroup>
+			<? foreach($m["elements"] as $e) : ?>
+				<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
+			<? endforeach; ?>
+		<? endforeach;?>
+		</select>
+	</td>
+	<td>
+		<select name="hotel_menu_recherche_matieres_transformees" id="hotel_menu_recherche_matieres_transformees" onChange="jsMenuHotel(this.id, this.value)">
+		<option value="-1">Recherche par Matière Transformée</option>
+		<? foreach($this->menuRechercheMatieresTransformees as $m) : ?>
+			<optgroup label="<?=$m["titre"]?>" style="font-weight:bold"></optgroup>
+			<? foreach($m["elements"] as $e) : ?>
+				<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
+			<? endforeach; ?>
+		<? endforeach;?>
+		</select>
+	</td>
+	<td>
+		<select name="hotel_menu_recherche_runes" id="hotel_menu_recherche_runes" onChange="jsMenuHotel(this.id, this.value)">
+		<option value="-1">Recherche par Rune</option>
+		<? foreach($this->menuRechercheRune as $e) : ?>
+			<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
+		<? endforeach;?>
+		</select>
+	</td>
+	<td>
+		<select name="hotel_menu_recherche_potions" id="hotel_menu_recherche_potions" onChange="jsMenuHotel(this.id, this.value)">
+		<option value="-1">Recherche par Potion</option>
+		<? foreach($this->menuRecherchePotion as $e) : ?>
+			<option value="<?=$e["numero_element"]?>"><?=$e["nom"]?></option>
+		<? endforeach;?>
+		</select>
+	</td>
+</tr>
+</table>
+

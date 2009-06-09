@@ -1,0 +1,70 @@
+
+<? if ($this->venteDefaut == true) : ?>
+	<ul class="titre textalic">
+	Affichage des 50 dernières ventes inscrites
+	</ul>
+	Vous pouvez affiner votre recherche avec les listes à choix présentes ci-dessus.
+	<br><br>
+<? endif;?>
+ <br>
+ <table class="table_liste" style="width:95%">
+	<thead class="table_liste">
+	  <tr class="table_liste">
+	  	<th>N&deg; Vente <br>Date fin</th>
+		<th>Nom</th>
+		<th>Vendeur</th>
+		<th>Prix</th>
+		<th>Commentaire</th>
+	  </tr>
+	</thead>
+  <? if (count($this->resultats) > 0): ?>
+	<tbody>
+  	<? $i = 0; 
+  	foreach($this->resultats as $e): ?>
+  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+  			<td class="table_liste">N&deg;<?=$e["vente"]["id_vente"]?>
+  			<br><?=$e["vente"]["date_fin_vente"]?>
+  			</td>
+	  		<td class="table_liste">
+	  		<?
+	  		if ($e["type"] == "equipement") :
+	  			include("resultats_equipements.phtml");
+	  		elseif ($e["type"] == "munition") :
+	  			include("resultats_munitions.phtml");
+	  		elseif ($e["type"] == "element") :
+	  			include("resultats_elements.phtml");
+	  		elseif ($e["type"] == "minerai") :
+	  			include("resultats_minerais.phtml");
+	  		elseif ($e["type"] == "partieplante") :
+	  			include("resultats_plantes.phtml");
+	  		elseif ($e["type"] == "aliment") :
+	  			include("resultats_aliments.phtml");
+	  		elseif ($e["type"] == "potion") :
+	  			include("resultats_potions.phtml");
+	  		elseif ($e["type"] == "rune") :
+	  			include("resultats_runes.phtml");
+	  		elseif ($e["type"] == "materiel") :
+	  			include("resultats_materiels.phtml");
+	  		endif;
+	  		?>
+	  		</td>
+	  		<td class="table_liste">
+	  			<a onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$e["vente"]["id_hobbit"]?>');" title="Cliquez pour voir le profil">
+		  		<?=$e["vente"]["prenom_hobbit"]?> <?=$e["vente"]["nom_hobbit"]?> (<?=$e["vente"]["id_hobbit"]?>)
+		  		</a>
+	  		</td>
+	  		<td class="table_liste">
+	  		<?=Bral_Helper_DetailHotel::afficherPrix($e["vente"]);?>
+	  		</td>
+	  		<td class="table_liste"><?=Bral_Util_BBParser::bbcodeReplace($e["vente"]["commentaire_vente"])?></td>
+  		</tr>
+  	<? endforeach; ?>
+  	</tbody>
+   <? else: ?>
+   	<tr class="table_liste">
+   		<td colspan="5">
+   			Aucun r&eacute;sultat
+   		</td>
+   	</tr>
+   <? endif; ?>
+</table>
