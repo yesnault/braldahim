@@ -76,6 +76,7 @@ class Bral_Batchs_BoutiqueMinerai extends Bral_Batchs_Boutique {
 			$tabPrix = $this->calculPrix($tabPrix);
 			$this->updateStockBase($idRegion, $idTypeMinerai, $nbInitial, $tabPrix);
 		}
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_BoutiqueMinerai - calculStock - exit");
 	}
 
 	public function updateStockBase($idRegion, $idTypeMinerai, $nbInitial, $tabPrix) {

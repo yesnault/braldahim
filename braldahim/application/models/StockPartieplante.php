@@ -26,7 +26,7 @@ class StockPartieplante extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('stock_partieplante', array('max(date_stock_partieplante) as date_stock_partieplante'))
 		->where($where.'id_fk_region_stock_partieplante  = ?', $idRegion)
-		->where('date_stock_partieplante < ?', date("Y-m-d 23:59:59"));
+		->where('date_stock_partieplante <= ?', date("Y-m-d 23:59:59"));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 

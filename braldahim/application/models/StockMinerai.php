@@ -25,7 +25,7 @@ class StockMinerai extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('stock_minerai', array('max(date_stock_minerai) as date_stock_minerai'))
 		->where($where.'id_fk_region_stock_minerai  = ?', $idRegion)
-		->where('date_stock_minerai < ?', date("Y-m-d 23:59:59"));
+		->where('date_stock_minerai <= ?', date("Y-m-d 23:59:59"));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -39,7 +39,6 @@ class StockMinerai extends Zend_Db_Table {
 		->where($where.'date_stock_minerai = ?', $resultat[0]["date_stock_minerai"]);
 		
 		$sql = $select->__toString();
-		
 		return $db->fetchAll($sql);
 	}
 	

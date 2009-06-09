@@ -19,7 +19,7 @@ class StockPeau extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('stock_peau', array('max(date_stock_peau) as date_stock_peau'))
 		->where('id_fk_region_stock_peau  = ?', $idRegion)
-		->where('date_stock_peau < ?', date("Y-m-d 23:59:59"));
+		->where('date_stock_peau <= ?', date("Y-m-d 23:59:59"));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 

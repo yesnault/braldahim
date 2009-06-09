@@ -25,7 +25,7 @@ class StockTabac extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('stock_tabac', array('max(date_stock_tabac) as date_stock_tabac'))
 		->where($where.'id_fk_region_stock_tabac  = ?', $idRegion)
-		->where('date_stock_tabac < ?', date("Y-m-d 23:59:59"));
+		->where('date_stock_tabac <= ?', date("Y-m-d 23:59:59"));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
