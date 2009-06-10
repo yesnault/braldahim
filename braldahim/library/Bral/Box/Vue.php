@@ -599,8 +599,10 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				if ($this->view->centre_x == $display_x && $this->view->centre_y == $display_y) {
 					$this->view->centre_environnement = $nom_environnement;
 				}
-
-				if ($marcher != null && $marcher["tableauValidationXY"] != null && array_key_exists($display_x, $marcher["tableauValidationXY"]) && array_key_exists($display_y, $marcher["tableauValidationXY"][$display_x])) {
+				
+				if ($this->view->user->x_hobbit == $display_x && $this->view->user->y_hobbit == $display_y) {
+					$tabMarcher["case"] = null;
+				} else if ($marcher != null && $marcher["tableauValidationXY"] != null && array_key_exists($display_x, $marcher["tableauValidationXY"]) && array_key_exists($display_y, $marcher["tableauValidationXY"][$display_x])) {
 					$tabMarcher["case"] = $marcher["tableauValidationXY"][$display_x][$display_y];
 					$tabMarcher["general"] = $marcher; 
 				} else {
