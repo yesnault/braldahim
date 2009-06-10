@@ -1,5 +1,5 @@
 <div class="vue2d_case_num">
-<? if ($case["marcher"] != null && $case["marcher"]["case"] === true): 
+<? if ($case["marcher"] != null && $case["marcher"]["case"] != null): 
 	$texte = "Environnement : ".$case["marcher"]["general"]["environnement"]."<br>";
 	$texte .= "Nombre PA nécessaire : ".$case["marcher"]["general"]["nb_pa"]."<br>";
 ?>
