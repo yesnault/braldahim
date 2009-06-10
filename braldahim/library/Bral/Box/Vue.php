@@ -601,9 +601,10 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				}
 
 				if ($marcher != null && $marcher["tableauValidationXY"] != null && array_key_exists($display_x, $marcher["tableauValidationXY"]) && array_key_exists($display_y, $marcher["tableauValidationXY"][$display_x])) {
-					$tabMarcher = $marcher["tableauValidationXY"][$display_x][$display_y];
+					$tabMarcher["case"] = $marcher["tableauValidationXY"][$display_x][$display_y];
+					$tabMarcher["general"] = $marcher; 
 				} else {
-					$tabMarcher = null;
+					$tabMarcher["case"] = null;
 				}
 
 				$tab = array ("x" => $display_x, "y" => $display_y, //
