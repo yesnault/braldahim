@@ -102,6 +102,11 @@ $frontController->setControllerDirectory('./application/controllers');
 // run!
 try {
 	$frontController->dispatch();
+	if ($config->db->game->config->profiler == true) {
+		Zend_Loader::loadClass("Bral_Util_Profiler");
+		Bral_Util_Profiler::traite($dbAdapterGame);
+	}
+	
 } catch (Exception $e) {
 	Bral_Util_Exception :: traite($e);
 }

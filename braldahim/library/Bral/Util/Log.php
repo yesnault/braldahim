@@ -26,12 +26,13 @@ class Bral_Util_Log {
 	private static $inscription = null;
 	private static $mail = null;
 	private static $potion = null;
+	private static $profiler = null;
 	private static $quete = null;
 	private static $soule = null;
 	private static $tech = null;
 	private static $tour = null;
 	private static $viemonstres = null;
-	
+
 	public static function authentification() {
 		if (self::$instance == null) {
 			$instance = self::getInstance();
@@ -92,6 +93,13 @@ class Bral_Util_Log {
 			self::initLogPotion();
 		}
 		return self::$potion;
+	}
+
+	public static function profiler() {
+		if (self::$profiler == null) {
+			self::initLogProfiler();
+		}
+		return self::$profiler;
 	}
 
 	public static function soule() {
@@ -270,6 +278,24 @@ class Bral_Util_Log {
 		if (self::$config->log->general->debug_browser == "oui") {
 			$redacteur = new Zend_Log_Writer_Stream('php://output');
 			self::$potion->addWriter($redacteur);
+		}
+	}
+
+	private static function initLogProfiler() {
+		if (self::$instance == null) {
+			$instance = self::getInstance();
+		}
+		self::$config = Zend_Registry::get('config');
+		self::$profiler = new Zend_Log();
+		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->profiler);
+		self::$profiler->addWriter($redacteur);
+		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->profiler);
+		self::$profiler->addFilter($filtre);
+		self::$profiler->addPriority('TRACE', 8);
+
+		if (self::$config->log->general->debug_browser == "oui") {
+			$redacteur = new Zend_Log_Writer_Stream('php://output');
+			self::$profiler->addWriter($redacteur);
 		}
 	}
 
