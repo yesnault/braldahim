@@ -103,9 +103,13 @@ abstract class Bral_Batchs_Boutique extends Bral_Batchs_Batch {
 			$tabPrix["prixVente"] = floor($tabPrix["prixVente"]/$this->ratio) + 1;
 		}
 		
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - majStockBois -Prix d'reprise:".$tabPrix["prixReprise"]. " Prix de vente:".$tabPrix["prixVente"]);
+		
 		if ($tabPrix["prixVente"]  <= 2*$tabPrix["prixReprise"]) {
 			$tabPrix["prixVente"] = 2*$tabPrix["prixReprise"];
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - majStockBois - Ajustement. Reprise*2=vente. Prix d'reprise:".$tabPrix["prixReprise"]. " Prix de vente:".$tabPrix["prixVente"]);
 		}
+		
 		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Boutique - calculPrix - exit -");
 		return $tabPrix;
