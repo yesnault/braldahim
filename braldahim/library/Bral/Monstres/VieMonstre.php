@@ -425,7 +425,7 @@ Consultez vos événements pour plus de détails.";
 			'sagesse_bm_monstre' => $this->monstre["sagesse_bm_monstre"],
 			'vigueur_bm_monstre' => $this->monstre["vigueur_bm_monstre"],
 		);
-		
+
 		$where = "id_monstre=".$this->monstre["id_monstre"];
 		$monstreTable->update($data, $where);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateMonstre - exit");
@@ -475,7 +475,7 @@ Consultez vos événements pour plus de détails.";
 
 		$tabGains["gainRune"] = self::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $niveauHobbit, $monstre["id_fk_type_groupe_monstre"], $effetMotD);
 		$tabGains["gainCastars"] = $this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $effetMotH, $niveauHobbit, $monstre["id_fk_type_groupe_monstre"]);
-		
+
 		return $tabGains;
 	}
 
@@ -530,8 +530,13 @@ Consultez vos événements pour plus de détails.";
 		$nbJours = Bral_Util_De::get_2d10();
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
 
+		Zend_Loader::loadClass("IdsRune");
+		$idsRuneTable = new IdsRune();
+		$id_rune = $idsRuneTable->prepareNext();
+			
 		$elementRuneTable = new ElementRune();
 		$data = array(
+			"id_rune" => $id_rune,
 			"x_element_rune"  => $x,
 			"y_element_rune" => $y,
 			"id_fk_type_element_rune" => $typeRune["id_type_rune"],
@@ -549,7 +554,7 @@ Consultez vos événements pour plus de détails.";
 		$dataRunes["mois_stats_runes"] = date("Y-m-d", $moisEnCours);
 		$dataRunes["nb_rune_stats_runes"] = 1;
 		$statsRunes->insertOrUpdate($dataRunes);
-		
+
 		return true;
 	}
 
@@ -570,7 +575,7 @@ Consultez vos événements pour plus de détails.";
 		}
 
 		$nbCastars = round($nbCastars);
-		
+
 		Zend_Loader::loadClass("Element");
 		$elementTable = new Element();
 		$data = array(
@@ -579,7 +584,7 @@ Consultez vos événements pour plus de détails.";
 				"y_element" => $y,
 		);
 		$elementTable->insertOrUpdate($data);
-		
+
 		return $nbCastars;
 	}
 

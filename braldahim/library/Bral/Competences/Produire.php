@@ -274,17 +274,10 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d H:i:s"), 1);
 
-		Zend_Loader::loadClass("ElementMateriel");
-		$elementMaterielTable = new ElementMateriel();
-		$data = array(
-			'id_fk_type_element_materiel' => $this->view->typeMaterielCourant["id_type_materiel"],
-			'date_fin_element_materiel' => 'aucune',
-			'x_element_materiel' => $this->view->user->x_hobbit,
-			'y_element_materiel' => $this->view->user->y_hobbit,
-			'date_fin_element_materiel' => $dateFin,
-		);
-		$idMateriel = $elementMaterielTable->insert($data);
-
+		Zend_Loader::loadClass("IdsMateriel");
+		$idsMaterielTable = new IdsMateriel();
+		$idMateriel = $idsMaterielTable->prepareNext();
+		
 		Zend_Loader::loadClass("EchoppeMateriel");
 		$echoppeMaterielTable = new EchoppeMateriel();
 		$data = array(

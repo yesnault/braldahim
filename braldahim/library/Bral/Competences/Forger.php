@@ -106,7 +106,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 
 			$recetteEquipementTable = new RecetteEquipement();
 			$recetteEquipement = $recetteEquipementTable->findByIdTypeEquipement($typeEquipementCourant["id_type_equipement"]);
-				
+
 			foreach($recetteEquipement as $r) {
 				$tabCaracs[$r["niveau_recette_equipement"]][$r["id_fk_type_qualite_recette_equipement"]][] = array(
 						'nom_qualite' => $r["nom_type_qualite"],
@@ -127,7 +127,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 					$tabNiveaux[$r["niveau_recette_equipement"]]["a_afficher"] = true;
 				}
 			}
-				
+
 			$recetteCoutTable = new RecetteCout();
 			$recetteCout = $recetteCoutTable->findByIdTypeEquipement($typeEquipementCourant["id_type_equipement"]);
 
@@ -164,7 +164,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 
 			$echoppeMineraiTable = new EchoppeMinerai();
 			$this->echoppeMinerai = $echoppeMineraiTable->findByIdEchoppe($idEchoppe);
-				
+
 			foreach($recetteCoutMinerai as $r) {
 				if (($r["quantite_recette_cout_minerai"] > 0) &&
 				($r["niveau_recette_cout_minerai"] <=floor($this->view->user->niveau_hobbit / 10))) {
@@ -343,9 +343,14 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 				break;
 			}
 				
+			Zend_Loader::loadClass("IdsEquipement");
+			$idsEquipementTable = new IdsEquipement();
+			$id_equipement = $idsEquipementTable->prepareNext();
+
 			Zend_Loader::loadClass("EchoppeEquipement");
 			$echoppeEquipementTable = new EchoppeEquipement();
 			$data = array(
+				'id_echoppe_equipement' => $id_equipement,
 				'id_fk_echoppe_echoppe_equipement' => $this->idEchoppe,
 				'id_fk_recette_echoppe_equipement' => $recetteEquipementACreer["id_recette_equipement"],
 				'nb_runes_echoppe_equipement' => $nbRunes,
@@ -353,9 +358,9 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 				'id_fk_region_echoppe_equipement' => $this->region["id_region"],
 			);
 			$idEquipement = $echoppeEquipementTable->insert($data);
-				
+
 			$this->view->bonus = Bral_Util_Equipement::insertEquipementBonus($idEquipement, $niveau, $this->region["id_region"]);
-				
+
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapeFabriquer($this->view->user, $idTypeEquipement, $qualite);
 
 			Zend_Loader::loadClass("StatsFabricants");

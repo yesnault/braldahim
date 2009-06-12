@@ -336,9 +336,14 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 				break;
 			}
 
+			Zend_Loader::loadClass("IdsEquipement");
+			$idsEquipementTable = new IdsEquipement();
+			$id_equipement = $idsEquipementTable->prepareNext();
+			
 			Zend_Loader::loadClass("EchoppeEquipement");
 			$echoppeEquipementTable = new EchoppeEquipement();
 			$data = array(
+				'id_echoppe_equipement' => $id_equipement,
 				'id_fk_echoppe_echoppe_equipement' => $this->idEchoppe,
 				'id_fk_recette_echoppe_equipement' => $recetteEquipementACreer["id_recette_equipement"],
 				'nb_runes_echoppe_equipement' => $nbRunes,

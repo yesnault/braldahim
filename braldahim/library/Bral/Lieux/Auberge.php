@@ -141,10 +141,10 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 		$labanAlimentTable = new LabanAliment();
 
 		Zend_Loader::loadClass("IdsAliment");
-		$idsAliment = new IdsAliment();
+		$idsAlimentTable = new IdsAliment();
 		
 		for ($i = 1; $i <= $this->view->nbAcheter; $i++) {
-			$id_aliment = $idsAliment->prepareNext();
+			$id_aliment = $idsAlimentTable->prepareNext();
 
 			$data = array(
 				'id_laban_aliment' => $id_aliment,
