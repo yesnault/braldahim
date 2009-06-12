@@ -140,21 +140,14 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 		$elementAlimentTable = new ElementAliment();
 		$labanAlimentTable = new LabanAliment();
 
+		Zend_Loader::loadClass("IdsAliment");
+		$idsAliment = new IdsAliment();
+		
 		for ($i = 1; $i <= $this->view->nbAcheter; $i++) {
-			$data = array(
-				"id_fk_type_element_aliment" => TypeAliment::ID_TYPE_RAGOUT,
-				"x_element_aliment" => $this->view->user->x_hobbit,
-				"y_element_aliment" => $this->view->user->y_hobbit,
-				"id_fk_type_qualite_element_aliment" => $this->view->qualiteAliment,
-				"bbdf_element_aliment" => $this->view->bbdfAliment,
-			);
-			$idLastInsert = $elementAlimentTable->insert($data);
-
-			$where = "id_element_aliment = ".(int)$idLastInsert;
-			$elementAlimentTable->delete($where);
+			$id_aliment = $idsAliment->prepareNext();
 
 			$data = array(
-				'id_laban_aliment' => $idLastInsert,
+				'id_laban_aliment' => $id_aliment,
 				'id_fk_hobbit_laban_aliment' => $this->view->user->id_hobbit,
 				'id_fk_type_laban_aliment' => TypeAliment::ID_TYPE_RAGOUT,
 				'id_fk_type_qualite_laban_aliment' => $this->view->qualiteAliment,

@@ -412,22 +412,15 @@ class Bral_Util_Quete {
 
 		$elementAlimentTable = new ElementAliment();
 		$coffreAlimentTable = new CoffreAliment();
+		
+		Zend_Loader::loadClass("IdsAliment");
+		$idsAliment = new IdsAliment();
 
 		for ($i = 1; $i <= $nbRagouts; $i++) {
-			$data = array(
-				"id_fk_type_element_aliment" => TypeAliment::ID_TYPE_RAGOUT,
-				"x_element_aliment" => $hobbit->x_hobbit,
-				"y_element_aliment" => $hobbit->y_hobbit,
-				"id_fk_type_qualite_element_aliment" => $qualiteAliment,
-				"bbdf_element_aliment" => $bbdfAliment,
-			);
-			$idLastInsert = $elementAlimentTable->insert($data);
-
-			$where = "id_element_aliment = ".(int)$idLastInsert;
-			$elementAlimentTable->delete($where);
+			$id_aliment = $idsAliment->prepareNext();
 
 			$data = array(
-				'id_coffre_aliment' => $idLastInsert,
+				'id_coffre_aliment' => $id_aliment,
 				'id_fk_hobbit_coffre_aliment' => $hobbit->id_hobbit,
 				'id_fk_type_coffre_aliment' => TypeAliment::ID_TYPE_RAGOUT,
 				'id_fk_type_qualite_coffre_aliment' => $qualiteAliment,
