@@ -268,12 +268,10 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("IdsPotion");
 		$idsPotionTable = new IdsPotion();
-		$idPotion = $idsPotionTable->prepareNext();
-			
+		
 		Zend_Loader::loadClass("EchoppePotion");
 		$echoppePotionTable = new EchoppePotion();
 		$data = array(
-			'id_echoppe_potion' => $idPotion,
 			'id_fk_echoppe_echoppe_potion' => $this->idEchoppe,
 			'id_fk_type_potion_echoppe_potion' => $idTypePotion,
 			'type_vente_echoppe_potion' => 'aucune',
@@ -283,6 +281,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$this->view->nbPotions = Bral_Util_De::get_2d3();
 
 		for ($i = 1; $i <= $this->view->nbPotions; $i++) {
+			$data['id_echoppe_potion'] = $idsPotionTable->prepareNext();
 			$echoppePotionTable->insert($data);
 		}
 
