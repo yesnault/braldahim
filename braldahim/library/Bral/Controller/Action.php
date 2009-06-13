@@ -62,40 +62,29 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 
 			try {
 				if ($factory == "Bral_Boutique_Factory") {
-					Zend_Loader::loadClass("Bral_Boutique_Factory");
 					$action = Bral_Boutique_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Charrette_Factory") {
-					Zend_Loader::loadClass("Bral_Charrette_Factory");
 					$action = Bral_Charrette_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Competences_Factory") {
-					Zend_Loader::loadClass("Bral_Competences_Factory");
 					$action = Bral_Competences_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Echoppe_Factory") {
-					Zend_Loader::loadClass("Bral_Echoppe_Factory");
 					$action = Bral_Echoppe_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Echoppes_Factory") {
-					Zend_Loader::loadClass("Bral_Echoppes_Factory");
 					$action = Bral_Echoppes_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Hotel_Factory") {
-					Zend_Loader::loadClass("Bral_Hotel_Factory");
 					$action = Bral_Hotel_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Lieux_Factory") {
-					Zend_Loader::loadClass("Bral_Lieux_Factory");
 					$action = Bral_Lieux_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Messagerie_Factory") {
-					Zend_Loader::loadClass("Bral_Messagerie_Factory");
 					$action = Bral_Messagerie_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Quete_Factory") {
-					Zend_Loader::loadClass("Bral_Quete_Factory");
 					$action = Bral_Quete_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Soule_Factory") {
-					Zend_Loader::loadClass("Bral_Soule_Factory");
 					$action = Bral_Soule_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Administrationajax_Factory") {
-					Zend_Loader::loadClass("Bral_Administrationajax_Factory");
 					$action = Bral_Administrationajax_Factory::getAction($this->_request, $this->view);
 				}
-
+				
 				$xml_entry->set_data($action->render());
 				$xml_entry->set_valeur($action->getNomInterne());
 				$this->xml_response->add_entry($xml_entry);
@@ -142,6 +131,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 	private function getXmlEntryVoirEchoppe($action) {
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("display");
+		Zend_Loader::loadClass("Bral_Echoppes_Factory");
 		$c = Bral_Echoppes_Factory::getVoir($this->_request, $this->view, $action->getIdEchoppeCourante());
 		$xml_entry->set_valeur($c->getNomInterne());
 		$xml_entry->set_data($c->render());
