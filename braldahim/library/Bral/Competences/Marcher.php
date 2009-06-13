@@ -14,10 +14,6 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 
-		if ($this->view->assezDePa == false) {
-			return;
-		}
-
 		Zend_Loader::loadClass('Bral_Util_Marcher');
 		Zend_Loader::loadClass('Bral_Util_Quete');
 
@@ -48,6 +44,9 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 	}
 
 	function prepareFormulaire() {
+		if ($this->view->assezDePa == false) {
+			return;
+		}
 	}
 
 	function prepareResultat() {
