@@ -43,6 +43,7 @@ class Bral_Box_Echoppes extends Bral_Box_Box {
 		$idEchoppeCourante = $box->prepareCommun();
 
 		if ($idEchoppeCourante != false) {
+			Zend_Loader :: loadClass("Bral_Echoppes_Factory");
 			$box = Bral_Echoppes_Factory::getVoir($this->_request, $this->view, $idEchoppeCourante);
 			$this->view->htmlContenu = $box->render();
 		} else {
