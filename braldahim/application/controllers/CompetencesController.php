@@ -12,6 +12,7 @@
  */
 class CompetencesController extends Bral_Controller_Action {
 	public function doactionAction() {
+		Zend_Loader :: loadClass("Bral_Competences_Factory");
 		$this->doBralAction("Bral_Competences_Factory");
 	}	
 }

@@ -536,7 +536,7 @@ Consultez vos événements pour plus de détails.";
 			
 		$elementRuneTable = new ElementRune();
 		$data = array(
-			"id_rune" => $id_rune,
+			"id_rune_element_rune" => $id_rune,
 			"x_element_rune"  => $x,
 			"y_element_rune" => $y,
 			"id_fk_type_element_rune" => $typeRune["id_type_rune"],

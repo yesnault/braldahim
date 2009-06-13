@@ -13,6 +13,7 @@
 class QueteController extends Bral_Controller_Action {
 
 	public function doactionAction() {
+		Zend_Loader :: loadClass("Bral_Quete_Factory");
 		$this->doBralAction("Bral_Quete_Factory");
 	}
 }

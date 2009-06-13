@@ -17,6 +17,7 @@ class MessagerieController extends Bral_Controller_Action {
 	}
 
 	public function doactionAction() {
+		Zend_Loader :: loadClass("Bral_Messagerie_Factory");
 		$this->doBralAction("Bral_Messagerie_Factory");
 	}	
 }

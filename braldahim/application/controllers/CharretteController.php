@@ -17,6 +17,7 @@ class CharretteController extends Bral_Controller_Action {
 	}
 
 	public function doactionAction() {
+		Zend_Loader :: loadClass("Bral_Charrette_Factory");
 		$this->doBralAction("Bral_Charrette_Factory");
 	}	
 }

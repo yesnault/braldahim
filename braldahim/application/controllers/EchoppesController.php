@@ -12,6 +12,7 @@
  */
 class EchoppesController extends Bral_Controller_Action {
 	public function doactionAction() {
+		Zend_Loader :: loadClass("Bral_Echoppes_Factory");
 		$this->doBralAction("Bral_Echoppes_Factory");
 	}	
 }

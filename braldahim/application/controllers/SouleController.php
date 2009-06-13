@@ -13,6 +13,7 @@
 class SouleController extends Bral_Controller_Action {
 
 	public function doactionAction() {
+		Zend_Loader :: loadClass("Bral_Soule_Factory");
 		$this->doBralAction("Bral_Soule_Factory");
 	}
 }

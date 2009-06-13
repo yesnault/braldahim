@@ -12,6 +12,7 @@
  */
 class LieuxController extends Bral_Controller_Action {
 	public function doactionAction() {
+		Zend_Loader :: loadClass("Bral_Lieux_Factory");
 		$this->doBralAction("Bral_Lieux_Factory");
 	}	
 }

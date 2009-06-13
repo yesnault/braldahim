@@ -11,9 +11,8 @@
  * $LastChangedBy$
  */
 class BoutiqueController extends Bral_Controller_Action {
-
 	public function doactionAction() {
+		Zend_Loader :: loadClass("Bral_Boutique_Factory");
 		$this->doBralAction("Bral_Boutique_Factory");
 	}
-
 }

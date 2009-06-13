@@ -15,6 +15,7 @@ class BatchsController extends Zend_Controller_Action {
 	function init() {
 		$this->initView();
 		Bral_Util_Securite::controlBatchsOrAdmin($this->_request);
+		Zend_Loader :: loadClass("Bral_Batchs_Factory");
 	}
 
 	// 1 action par batch

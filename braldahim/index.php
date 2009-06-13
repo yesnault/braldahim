@@ -19,6 +19,8 @@ date_default_timezone_set('Europe/Paris');
 set_include_path('.' . PATH_SEPARATOR . './library' . PATH_SEPARATOR . './application/models/' . PATH_SEPARATOR . get_include_path());
 include "Zend/Loader.php";
 
+$debut = microtime(true);
+
 Zend_Loader :: loadClass('Zend_Controller_Action');
 Zend_Loader :: loadClass('Zend_Controller_Front');
 Zend_Loader :: loadClass('Zend_Controller_Plugin_ErrorHandler');
@@ -29,21 +31,9 @@ Zend_Loader :: loadClass('Zend_Db');
 Zend_Loader :: loadClass('Zend_Db_Table');
 Zend_Loader :: loadClass("Zend_Auth");
 
-Zend_Loader :: loadClass("Bral_Administrationajax_Factory");
 Zend_Loader :: loadClass("Bral_Box_Factory");
 Zend_Loader :: loadClass("Bral_Box_Box");
-Zend_Loader :: loadClass("Bral_Boutique_Factory");
-Zend_Loader :: loadClass("Bral_Batchs_Factory");
 Zend_Loader :: loadClass("Bral_Controller_Action");
-Zend_Loader :: loadClass("Bral_Competences_Factory");
-Zend_Loader :: loadClass("Bral_Charrette_Factory");
-Zend_Loader :: loadClass("Bral_Echoppe_Factory");
-Zend_Loader :: loadClass("Bral_Echoppes_Factory");
-Zend_Loader :: loadClass("Bral_Hotel_Factory");
-Zend_Loader :: loadClass("Bral_Lieux_Factory");
-Zend_Loader :: loadClass("Bral_Messagerie_Factory");
-Zend_Loader :: loadClass("Bral_Quete_Factory");
-Zend_Loader :: loadClass("Bral_Soule_Factory");
 
 Zend_Loader :: loadClass("Bral_Helper_Affiche");
 Zend_Loader :: loadClass("Bral_Helper_Calendrier");
@@ -106,7 +96,8 @@ try {
 		Zend_Loader::loadClass("Bral_Util_Profiler");
 		Bral_Util_Profiler::traite($dbAdapterGame);
 	}
-	
 } catch (Exception $e) {
 	Bral_Util_Exception :: traite($e);
 }
+
+echo "<!--exec:".(microtime(true) - $debut)."s-->";
