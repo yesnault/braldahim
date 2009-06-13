@@ -109,13 +109,13 @@ function showResponse(originalRequest) {
 	if ((xmldoc == null) || (textdoc.substring(0, 39) != xmlHeader)) {
 		if (textdoc == "") {
 			return;
-		} else if (textdoc == "logout") {
+		} else if (textdoc.substring(0, 6) == "logout") {
 			alert("Votre session a expiré, veuillez vous reconnecter.");
 			document.location.href = "/";
-		} else if (textdoc != "clear") {
+		} else if (textdoc.substring(0, 5) != "clear") {
 			_display_("erreur_catch", textdoc);
 			display_erreur_catch = true;
-		} else if (textdoc == "clear") {
+		} else if (textdoc.substring(0, 5) == "clear") {
 			$("box_action").innerHTML = "";
 		}
 	} else {
