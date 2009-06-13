@@ -1,5 +1,9 @@
-<? include("commun_text_resultat.phtml") ?>
-D&eacute;placement r&eacute;ussi jusqu'en : <br />
-x=<?=$this->user->x_hobbit?>, y=<?=$this->user->y_hobbit?> <br /><br />
- 
-Type de terrain de d&eacute;part : <?=htmlspecialchars($this->environnement)?><br /><br />
+<?php if ($this->assezDePa == false) : ?>
+ Vous n'avez pas assez de PA
+<? else: ?>
+	<? include("commun_text_resultat.phtml") ?>
+	D&eacute;placement r&eacute;ussi jusqu'en : <br />
+	x=<?=$this->user->x_hobbit?>, y=<?=$this->user->y_hobbit?> <br /><br />
+	 
+	Type de terrain de d&eacute;part : <?=htmlspecialchars($this->environnement)?><br /><br />
+<? endif; ?>
