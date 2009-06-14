@@ -436,11 +436,11 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		$this->view->detailPrix = "";
 
 		if ($this->view->prix[$idPrix]["type"] == "echoppe") {
-			$this->calculAchatEchoppe($idDestination, $this->view->prix[$idPrix]);
+			$this->calculAchatEchoppe($this->view->prix[$idPrix]);
 		} elseif ($this->view->prix[$idPrix]["type"] == "minerais") {
-			$this->calculAchatMinerais($idDestination, $this->view->prix[$idPrix]);
+			$this->calculAchatMinerais($this->view->prix[$idPrix]);
 		} elseif ($this->view->prix[$idPrix]["type"] == "parties_plantes") {
-			$this->calculAchatPartiesPlantes($idDestination, $this->view->prix[$idPrix]);
+			$this->calculAchatPartiesPlantes($this->view->prix[$idPrix]);
 		}
 
 		$this->calculTransfert($idDestination);
@@ -451,9 +451,9 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		}
 	}
 
-	private function calculAchatEchoppe($idDestination, $prix) {
+	private function calculAchatEchoppe($prix) {
 
-		if ($idDestination == "charrette") {
+		if ($prix["id_destination"] == "charrette") {
 			$table = new Charrette();
 			$suffixe = "charrette";
 		} else {
@@ -482,7 +482,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			$this->view->detailPrix .= $prix["prix"]. " ". Bral_Util_Registre::getNomUnite($prix["unite"], false, $prix["prix"]).", ";
 
 		} elseif ($nomSysteme  == "castar") {
-			if ($idDestination == "charrette") {
+			if ($prix["id_destination"] == "charrette") {
 				$data = array(
 					"id_fk_hobbit_".$suffixe => $this->view->user->id_hobbit,
 					"quantite_".$nomSysteme."_".$suffixe => -$prix["prix"],
@@ -504,9 +504,9 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		}
 	}
 
-	private function calculAchatMinerais($idDestination, $prix) {
+	private function calculAchatMinerais($prix) {
 
-		if ($idDestination == "charrette") {
+		if ($prix["id_destination"] == "charrette") {
 			$table = new CharretteMinerai();
 			$suffixe = "charrette";
 		} else {
@@ -519,7 +519,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			"quantite_brut_".$suffixe."_minerai" => - $prix["prix"],
 		);
 
-		if ($idDestination == "charrette") {
+		if ($prix["id_destination"] == "charrette") {
 			$data["id_fk_charrette_minerai"] = $this->view->charrette["id_charrette"];
 		} else {
 			$data["id_fk_hobbit_laban_minerai"] = $this->view->user->id_hobbit;
@@ -540,8 +540,8 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		$this->view->detailPrix .= $prix["prix"]. " ".$prix["nom"].", ";
 	}
 
-	private function calculAchatPartiesPlantes($idDestination, $prix) {
-		if ($idDestination == "charrette") {
+	private function calculAchatPartiesPlantes($prix) {
+		if ($prix["id_destination"] == "charrette") {
 			$table = new CharrettePartieplante();
 			$suffixe = "charrette";
 		} else {
@@ -555,7 +555,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			"quantite_".$suffixe."_partieplante" => - $prix["prix"],
 		);
 
-		if ($idDestination == "charrette") {
+		if ($prix["id_destination"] == "charrette") {
 			$data["id_fk_charrette_partieplante"] = $this->view->charrette["id_charrette"];
 		} else {
 			$data["id_fk_hobbit_laban_partieplante"] = $this->view->user->id_hobbit;
