@@ -6,6 +6,7 @@
 		<th>Nom</th>
 		<th>Qualit&eacute;</th>
 		<th>Bonus</th>
+		<th>Poids</th>
 	  </tr>
 	</thead>
 	<tbody>
@@ -18,6 +19,7 @@
 			  		<td class="table_liste"><?=htmlspecialchars($a["nom"]) ?></td>
 			  		<td class="table_liste"><?=htmlspecialchars($a["qualite"]) ?></td>
 			  		<td class="table_liste"><?=$a["bbdf"] ?></td>
+			  		<td class="table_liste"><?=Bral_Util_Poids::POIDS_ALIMENT ?> Kg</td>
 				  </tr>
 			<? endforeach; ?>
 		<? else: ?>
