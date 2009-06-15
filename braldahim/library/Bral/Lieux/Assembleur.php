@@ -297,8 +297,7 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 	}
 
 	function getListBoxRefresh() {
-		$tab = array("box_laban", "box_charrette");
-		return $this->constructListBoxRefresh($tab);
+		return $this->constructListBoxRefresh(array("box_laban", "box_charrette"));
 	}
 
 	private function calculCoutCastars() {

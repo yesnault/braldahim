@@ -209,6 +209,6 @@ class Bral_Boutique_Vendrepeaux extends Bral_Boutique_Boutique {
 		} else {
 			$boxToRefresh = "box_laban";
 		}
-		return array($boxToRefresh, "box_charrette", "box_profil", "box_evenements", "box_bpeaux");
+		return $this->constructListBoxRefresh(array($boxToRefresh, "box_bpeaux"));
 	}
 }

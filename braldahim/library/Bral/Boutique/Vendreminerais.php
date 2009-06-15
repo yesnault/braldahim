@@ -226,6 +226,6 @@ class Bral_Boutique_Vendreminerais extends Bral_Boutique_Boutique {
 		} else {
 			$boxToRefresh = "box_laban";
 		}
-		return array($boxToRefresh, "box_charrette", "box_profil", "box_evenements", "box_bminerais");
+		return $this->constructListBoxRefresh(array($boxToRefresh, "box_bminerais"));
 	}
 }

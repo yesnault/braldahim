@@ -236,6 +236,6 @@ class Bral_Boutique_Vendrepartieplantes extends Bral_Boutique_Boutique {
 		} else {
 			$boxToRefresh = "box_laban";
 		}
-		return array($boxToRefresh, "box_profil", "box_evenements", "box_bpartieplantes");
+		return $this->constructListBoxRefresh(array($boxToRefresh, "box_bpartieplantes"));
 	}
 }

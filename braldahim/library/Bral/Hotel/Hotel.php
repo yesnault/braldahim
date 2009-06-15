@@ -109,6 +109,9 @@ abstract class Bral_Hotel_Hotel {
 	protected function constructListBoxRefresh($tab = null) {
 		$tab[] = "box_profil";
 		$tab[] = "box_evenements";
+		if ($this->view->user->pa_hobbit < 1 && !in_array("box_vue", $tab)) {
+			$tab[] = "box_vue";
+		}
 		return $tab;
 	}
 

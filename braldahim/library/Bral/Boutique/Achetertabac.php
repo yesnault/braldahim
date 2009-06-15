@@ -139,6 +139,6 @@ class Bral_Boutique_Achetertabac extends Bral_Boutique_Boutique {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_profil", "box_laban", "box_evenements", "box_btabac");
+		return $this->constructListBoxRefresh(array("box_laban", "box_btabac"));
 	}
 }

@@ -154,8 +154,7 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 	}
 
 	function getListBoxRefresh() {
-		$tab = array("box_laban");
-		return $this->constructListBoxRefresh($tab);
+		return $this->constructListBoxRefresh(array("box_laban"));
 	}
 
 }

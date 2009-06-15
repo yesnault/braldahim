@@ -78,7 +78,7 @@ abstract class Bral_Charrette_Charrette {
 		$this->detailEvenement = $details;
 		$this->idTypeEvenement = $idType;
 	}
-	
+
 	/*
 	 * Mise à jour des événements du hobbit : type : compétence.
 	 */
@@ -111,6 +111,9 @@ abstract class Bral_Charrette_Charrette {
 		$tab[] = "box_profil";
 		$tab[] = "box_evenements";
 		$tab[] = "box_charrette";
+		if ($this->view->user->pa_hobbit < 1 && !in_array("box_vue", $tab)) {
+			$tab[] = "box_vue";
+		}
 		return $tab;
 	}
 

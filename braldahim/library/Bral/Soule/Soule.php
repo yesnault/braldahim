@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -11,14 +11,14 @@
  * $LastChangedBy$
  */
 abstract class Bral_Soule_Soule {
-	
+
 	function __construct($nomSystemeAction, $request, $view, $action, $idTerrainDefaut = null) {
 		$this->view = $view;
 		$this->request = $request;
 		$this->action = $action;
 		$this->nom_systeme = $nomSystemeAction;
 		$this->idTerrainDefaut = $idTerrainDefaut;
-		
+
 		$this->prepareCommun();
 
 		switch($this->action) {
@@ -40,21 +40,24 @@ abstract class Bral_Soule_Soule {
 	abstract function getNomInterne();
 	abstract function getTitreAction();
 	abstract function calculNbPa();
-	
+
 	protected function constructListBoxRefresh($tab = null) {
 		if ($this->view->user->niveau_hobbit > 0 && ($this->view->user->niveau_hobbit % 10) == 0) {
 			$tab[] = "box_titres";
 		}
 		$tab[] = "box_profil";
 		$tab[] = "box_evenements";
+		if ($this->view->user->pa_hobbit < 1 && !in_array("box_vue", $tab)) {
+			$tab[] = "box_vue";
+		}
 		return $tab;
 	}
-	
+
 	protected function setDetailsEvenement($details, $idType) {
 		$this->detailEvenement = $details;
 		$this->idTypeEvenement = $idType;
 	}
-	
+
 	/*
 	 * Mise à jour des événements du hobbit : type : compétence.
 	 */
@@ -62,11 +65,11 @@ abstract class Bral_Soule_Soule {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
 		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_hobbit);
 	}
-	
+
 	public function getIdEchoppeCourante() {
 		return false;
 	}
-	
+
 	function render() {
 		$this->view->nomAction = $this->getTitreAction();
 		$this->view->nomSysteme = $this->nom_systeme;
@@ -75,14 +78,14 @@ abstract class Bral_Soule_Soule {
 				$texte = $this->view->render("soule/".$this->nom_systeme."_formulaire.phtml");
 				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
-				
+
 				return $this->view->render("soule/commun_formulaire.phtml");
 				break;
 			case "do":
 				$texte = $this->view->render("soule/".$this->nom_systeme."_resultat.phtml");
 				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
-				
+
 				$this->majEvenementsSoule(Bral_Helper_Affiche::copie($this->view->texte));
 				return $this->view->render("soule/commun_resultat.phtml");
 				break;
@@ -90,19 +93,19 @@ abstract class Bral_Soule_Soule {
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
 		}
 	}
-	
+
 	protected function majHobbit() {
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 		$hobbit = $hobbitRowset->current();
-		
+
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa;
 		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
-		
+
 		if ($this->view->user->balance_faim_hobbit < 0) {
-			$this->view->user->balance_faim_hobbit = 0; 
+			$this->view->user->balance_faim_hobbit = 0;
 		}
-		
+
 		$data = array(
 			'pa_hobbit' => $this->view->user->pa_hobbit,
 			'castars_hobbit' => $this->view->user->castars_hobbit,
@@ -111,5 +114,5 @@ abstract class Bral_Soule_Soule {
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
 	}
-	
+
 }

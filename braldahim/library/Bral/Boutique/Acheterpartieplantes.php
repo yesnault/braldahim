@@ -227,9 +227,10 @@ class Bral_Boutique_Acheterpartieplantes extends Bral_Boutique_Boutique {
 	function getListBoxRefresh() {
 		if ($this->view->destination["id_destination"] == "charrette") {
 			$boxToRefresh = "box_charrette";
+			return $this->constructListBoxRefresh(array("box_laban", $boxToRefresh, "box_bpartieplantes"));
 		} else {
 			$boxToRefresh = "box_laban";
+			return $this->constructListBoxRefresh(array($boxToRefresh, "box_bpartieplantes"));
 		}
-		return array("box_profil", $boxToRefresh, "box_evenements", "box_bpartieplantes");
 	}
 }

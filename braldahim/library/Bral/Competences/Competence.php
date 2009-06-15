@@ -97,6 +97,10 @@ abstract class Bral_Competences_Competence {
 			$tab[] = "box_coffre";
 			$tab[] = "box_laban";
 		}
+		
+		if ($this->view->user->pa_hobbit < 1 && !in_array("box_vue", $tab)) {
+			$tab[] = "box_vue";
+		}
 		return $tab;
 	}
 

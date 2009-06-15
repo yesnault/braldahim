@@ -270,7 +270,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_metier", "box_laban");
+		return $this->constructListBoxRefresh(array("box_laban", "box_metier"));
 	}
 
 	private function calculCoutCastars() {

@@ -182,12 +182,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 	}
 
 	function getListBoxRefresh() {
-		return array (
-			"box_profil",
-			"box_vue",
-			"box_laban",
-			"box_echoppes"
-		);
+		return $this->constructListBoxRefresh(array("box_laban", "box_vue", "box_echoppes"));
 	}
 
 	/* la premiere echoppe est gratuite */

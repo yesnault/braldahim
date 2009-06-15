@@ -237,6 +237,6 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 		} else {
 			$boxToRefresh = "box_laban";
 		}
-		return array("box_profil", $boxToRefresh, "box_charrette", "box_evenements", "box_bbois");
+		return $this->constructListBoxRefresh(array($boxToRefresh, "box_bbois"));
 	}
 }

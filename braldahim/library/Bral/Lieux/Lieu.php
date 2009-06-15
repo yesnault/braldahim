@@ -29,7 +29,7 @@ abstract class Bral_Lieux_Lieu {
 		if (count($lieuRowset) > 1) {
 			throw new Zend_Exception(get_class($this)."::nombre de lieux invalide > 1 !");
 		} elseif (count($lieuRowset) == 1) {
-				
+
 			$estBanque = false;
 			if (strlen($nomSystemeLieu) == 13 && substr($nomSystemeLieu, 0, 6) == "banque") { // banque pour banquedeposer / banqueretirer
 				$estBanque = true;
@@ -174,6 +174,9 @@ abstract class Bral_Lieux_Lieu {
 		$tab[] = "box_evenements";
 		if ($this->view->estQueteEvenement) {
 			$tab[] = "box_quetes";
+		}
+		if ($this->view->user->pa_hobbit < 1 && !in_array("box_vue", $tab)) {
+			$tab[] = "box_vue";
 		}
 		return $tab;
 	}

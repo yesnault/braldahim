@@ -30,7 +30,7 @@ class Bral_Lieux_Bbois extends Bral_Lieux_Lieu {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_laban");
+		return $this->constructListBoxRefresh(array("box_laban"));
 	}
 
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -11,30 +11,30 @@
  * $LastChangedBy$
  */
 abstract class Bral_Boutique_Boutique {
-	
+
 	protected $reloadInterface = false;
 
 	function __construct($nomSystemeAction, $request, $view, $action) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
-		
+
 		$this->view = $view;
 		$this->request = $request;
 		$this->action = $action;
 		$this->nom_systeme = $nomSystemeAction;
 		$this->view->nom_systeme = $this->nom_systeme;
-		
+
 		Zend_Loader::loadClass("Lieu");
-		
+
 		$lieuxTable = new Lieu();
 		$lieuRowset = $lieuxTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		unset($lieuxTable);
-		
+
 		Zend_Loader::loadClass("Region");
-		
+
 		$regionTable = new Region();
 		$this->idRegion = $regionTable->findIdRegionByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		unset($regionTable);
-		
+
 		if (count($lieuRowset) <= 0) {
 			throw new Zend_Exception("Bral_Box_Boutique::nombre de lieux invalide <= 0 !");
 		} elseif (count($lieuRowset) > 1) {
@@ -46,7 +46,7 @@ abstract class Bral_Boutique_Boutique {
 			$this->view->nomLieu = $lieu["nom_lieu"];
 			$this->paUtilisationBoutique = $lieu["pa_utilisation_type_lieu"];
 		}
-		
+
 		$this->calculNbPa();
 		$this->prepareCommun();
 
@@ -68,11 +68,20 @@ abstract class Bral_Boutique_Boutique {
 	abstract function getListBoxRefresh();
 	abstract function getNomInterne();
 	abstract function getTitreAction();
-	
+
+	protected function constructListBoxRefresh($tab = null) {
+		$tab[] = "box_profil";
+		$tab[] = "box_evenements";
+		if ($this->view->user->pa_hobbit < 1 && !in_array("box_vue", $tab)) {
+			$tab[] = "box_vue";
+		}
+		return $tab;
+	}
+
 	function getIdEchoppeCourante() {
 		return false;
 	}
-	
+
 	public function calculNbPa() {
 		if ($this->view->user->pa_hobbit - $this->paUtilisationBoutique < 0) {
 			$this->view->assezDePa = false;
@@ -81,7 +90,7 @@ abstract class Bral_Boutique_Boutique {
 		}
 		$this->view->nb_pa = $this->paUtilisationBoutique;
 	}
-	
+
 	/*
 	 * Mise à jour des événements du hobbit : type : compétence.
 	 */
@@ -90,7 +99,7 @@ abstract class Bral_Boutique_Boutique {
 		$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a utilisé les services d'une boutique";
 		Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_hobbit);
 	}
-	
+
 	function render() {
 		$this->view->titreAction = $this->getTitreAction();
 		switch($this->action) {
@@ -100,7 +109,7 @@ abstract class Bral_Boutique_Boutique {
 			case "do":
 				$this->view->reloadInterface = $this->reloadInterface;
 				$texte = $this->view->render("boutique/".$this->nom_systeme."_resultat.phtml");
-				
+
 				// suppression des espaces : on met un espace à la place de n espaces à suivre
 				$this->view->texte = trim(preg_replace('/\s{2,}/', ' ', $texte));
 				$this->majEvenementsBoutique(Bral_Helper_Affiche::copie($this->view->texte));
@@ -111,15 +120,15 @@ abstract class Bral_Boutique_Boutique {
 				throw new Zend_Exception(get_class($this)."::action invalide :".$this->action);
 		}
 	}
-	
+
 	private function majHobbit() {
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
 		$hobbit = $hobbitRowset->current();
-		
+
 		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
 		$this->view->user->pa_hobbit = $this->view->user->pa_hobbit - $this->view->nb_pa ;
-		
+
 		$data = array(
 			'pa_hobbit' => $this->view->user->pa_hobbit,
 			'castars_hobbit' => $this->view->user->castars_hobbit,
@@ -128,5 +137,5 @@ abstract class Bral_Boutique_Boutique {
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
 	}
-	
+
 }

@@ -234,9 +234,10 @@ class Bral_Boutique_Acheterpeaux extends Bral_Boutique_Boutique {
 	function getListBoxRefresh() {
 		if ($this->view->destination["id_destination"] == "charrette") {
 			$boxToRefresh = "box_charrette";
+			return $this->constructListBoxRefresh(array("box_laban", $boxToRefresh, "box_bpeaux"));
 		} else {
 			$boxToRefresh = "box_laban";
+			return $this->constructListBoxRefresh(array($boxToRefresh, "box_bpeaux"));
 		}
-		return array("box_profil", $boxToRefresh, "box_charrette", "box_evenements", "box_bpeaux");
 	}
 }

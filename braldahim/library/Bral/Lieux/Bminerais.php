@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -30,7 +30,7 @@ class Bral_Lieux_Bminerais extends Bral_Lieux_Lieu {
 	}
 
 	function getListBoxRefresh() {
-		return array("box_profil", "box_laban");
+		return $this->constructListBoxRefresh(array("box_laban"));
 	}
 
 }
