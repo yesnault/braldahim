@@ -75,6 +75,7 @@ class Bral_Box_Soule extends Bral_Box_Box {
 		$this->view->terrains = $terrains;
 		$this->view->terrainHobbit = $terrainHobbit;
 		
+		Zend_Loader::loadClass("Bral_Soule_Factory");
 		$voir = Bral_Soule_Factory::getVoir($this->_request, $this->view, $idTerrainDefaut);
 		$this->view->htmlTerrain = $voir->render();
 	}
