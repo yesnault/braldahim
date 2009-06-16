@@ -590,6 +590,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 		Bral_Util_Log::tour()->debug(get_class($this)." this->hobbit->duree_prochain_tour_hobbit=".$this->hobbit->duree_prochain_tour_hobbit);
 
+		Zend_Loader::loadClass("Bral_Util_Tour");
 		$tabProchainTour = Bral_Util_Tour::getTabMinutesProchainTour($this->hobbit);
 		$minutesCourant = $tabProchainTour["minutesBase"];
 
