@@ -29,7 +29,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Laban");
 		Zend_Loader::loadClass("StatsRecolteurs");
 		Zend_Loader::loadClass("Bral_Util_Quete");
-		
+
 		$this->preCalculPoids();
 		if ($this->view->poidsPlaceDisponible !== true) {
 			return;
@@ -163,6 +163,10 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		$this->view->nbPeau = intval($this->view->nbPeau);
 		if ($this->view->nbPeau < 0) {
 			$this->view->nbPeau = 0;
+		}
+
+		if ($this->view->nbViande < 0) {
+			$this->view->nbViande = 0;
 		}
 
 		if ($this->view->nbPeau > $this->view->nbElementPossible) {
