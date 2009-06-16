@@ -217,7 +217,11 @@ class Bral_Util_Log {
 		self::$config = Zend_Registry::get('config');
 		self::$exception = new Zend_Log();
 		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->exception);
-		$formateur = new Zend_Log_Formatter_Simple("--------> ".date("Y-m-d H:m:s"). ' '. $_SERVER['REMOTE_ADDR'].' %message%' . PHP_EOL);
+		$formatTexte = "--------> ".date("Y-m-d H:m:s"). ' '. $_SERVER['REMOTE_ADDR'];
+		$formatTexte .=  ' '. $_SERVER['SERVER_NAME'].' '. $_SERVER['REQUEST_METHOD'];
+		$formatTexte .= ' '. $_SERVER['REQUEST_URI'];
+		$formatTexte .= ' '.$_SERVER['HTTP_USER_AGENT'].' %message%' . PHP_EOL;
+		$formateur = new Zend_Log_Formatter_Simple($formatTexte);
 		$redacteur->setFormatter($formateur);
 		self::$exception->addWriter($redacteur);
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->erreur);
@@ -342,6 +346,12 @@ class Bral_Util_Log {
 		self::$config = Zend_Registry::get('config');
 		self::$tech = new Zend_Log();
 		$redacteur = new Zend_Log_Writer_Stream(self::$config->log->fichier->tech);
+		$formatTexte = "--------> ".date("Y-m-d H:m:s"). ' '. $_SERVER['REMOTE_ADDR'];
+		$formatTexte .=  ' '. $_SERVER['SERVER_NAME'].' '. $_SERVER['REQUEST_METHOD'];
+		$formatTexte .= ' '. $_SERVER['REQUEST_URI'];
+		$formatTexte .= ' '.$_SERVER['HTTP_USER_AGENT'].' %message%' . PHP_EOL;
+		$formateur = new Zend_Log_Formatter_Simple($formatTexte);
+		$redacteur->setFormatter($formateur);
 		self::$tech->addWriter($redacteur);
 		$filtre = new Zend_Log_Filter_Priority((int)self::$config->log->niveau->tech);
 		self::$tech->addFilter($filtre);

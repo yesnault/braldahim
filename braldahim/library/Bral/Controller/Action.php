@@ -29,13 +29,23 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 			if (!Zend_Auth::getInstance()->hasIdentity() ) {
 				Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax 1A - Session perdue");
 			} else {
-				Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax 1B action=".$this->_request->action. " initialCall=".$this->view->user->initialCall. " dateAuth=".$this->_request->get("dateAuth"). " dateAuth2=".$this->view->user->dateAuth);
+				$texte = "hobbit:inconnu";
+				if ($this->view != null && $this->view->user != null) {
+					$texte = $this->view->user->prenom_hobbit . " ". $this->view->user->nom_hobbit. " (".$this->view->user->id_hobbit.")";
+				}
+				Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax 1B ".$texte." action=".$this->_request->action. " initialCall=".$this->view->user->initialCall. " dateAuth=".$this->_request->get("dateAuth"). " dateAuth2=".$this->view->user->dateAuth);
 			}
 
 			$this->_redirect('/auth/logoutajax');
 		} else {
 			Zend_Loader::loadClass('Bral_Util_BralSession');
 			if (Bral_Util_BralSession::refreshSession() == false) {
+				$texte = "hobbit:inconnu";
+				if ($this->view != null && $this->view->user != null) {
+					$texte = $this->view->user->prenom_hobbit . " ". $this->view->user->nom_hobbit. " (".$this->view->user->id_hobbit.")";
+				}
+				$texte .= " action=".$this->_request->action. " uri=".$this->_request->getRequestUri();
+				Bral_Util_Log::tech()->warn("Bral_Controller_Action - logoutajax ".$texte);
 				$this->_redirect('/auth/logoutajax');
 			}
 		}
@@ -116,7 +126,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				$xml_entry->set_data($b->render());
 				$this->xml_response->add_entry($xml_entry);
 				Zend_Loader::loadClass("Bral_Util_Exception");
-				Bral_Util_Exception::traite($b->render(), false);
+				Bral_Util_Exception::traite($b->render(), false, $this->view);
 			}
 		}
 		$this->xml_response->render();
@@ -126,7 +136,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 		$errors = $this->_getParam('error_handler');
 		$exception = $errors->exception;
 		Zend_Loader::loadClass("Bral_Util_Exception");
-		Bral_Util_Exception::traite("type:".$errors->type." msg:".$exception->getMessage()." ex:".$exception->getTraceAsString(), false);
+		Bral_Util_Exception::traite("type:".$errors->type." msg:".$exception->getMessage()." ex:".$exception->getTraceAsString(), false, $this->view);
 	}
 
 	private function getXmlEntryVoirEchoppe($action) {
