@@ -12,6 +12,7 @@
  */
 class AdministrationajaxController  extends Bral_Controller_Action {
 	public function doactionAction() {
+		Zend_Loader::loadClass("Bral_Util_Securite");
 		Bral_Util_Securite::controlAdmin();
 		Zend_Loader :: loadClass("Bral_Administrationajax_Factory");
 		$this->doBralAction("Bral_Administrationajax_Factory");

@@ -18,7 +18,8 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("HobbitsCompetences");
-
+		Zend_Loader::loadClass("Competence");
+		
 		$competenceTable = new Competence();
 		$competenceRowset = $competenceTable->findCommunesByNiveau($this->view->user->niveau_hobbit);
 		$hobbitsCompetencesTables = new HobbitsCompetences();

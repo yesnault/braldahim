@@ -22,7 +22,9 @@ class Bral_Administrationajax_Factory {
 		$nomSystemeAction = $matches[2];
 		$construct = null;
 
+		Zend_Loader::loadClass("Bral_Util_Securite");
 		Bral_Util_Securite::controlAdmin();
+		
 		$construct = "Bral_Administrationajax_".Bral_Util_String::firstToUpper($nomSystemeAction);
 		try {
 			Zend_Loader::loadClass($construct);

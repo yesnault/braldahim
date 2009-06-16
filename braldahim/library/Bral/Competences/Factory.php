@@ -25,7 +25,7 @@ class Bral_Competences_Factory {
 		$hobbitCompetence = null;
 
 		// On regarde si c'est une competence basique
-		$competencesBasiques = Zend_Registry::get('competencesBasiques');
+		$competencesBasiques = Bral_Util_Registre::get('competencesBasiques');
 		foreach($competencesBasiques as $c) {
 			if ($c["nom_systeme"] == $nomSystemeCompetence) {
 				$construct = "Bral_Competences_".Bral_Util_String::firstToUpper($nomSystemeCompetence);
@@ -40,7 +40,7 @@ class Bral_Competences_Factory {
 
 		// On regarde si c'est une competence de soule
 		if ($construct == null) {
-			$competencesSoule = Zend_Registry::get('competencesSoule');
+			$competencesSoule = Bral_Util_Registre::get('competencesSoule');
 			foreach($competencesSoule as $c) {
 				if ($c["nom_systeme"] == $nomSystemeCompetence) {
 					$construct = "Bral_Competences_".Bral_Util_String::firstToUpper($nomSystemeCompetence);
@@ -56,7 +56,7 @@ class Bral_Competences_Factory {
 			$hobbitsCompetencesTables = new HobbitsCompetences();
 			$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($view->user->id_hobbit);
 				
-			$competences = Zend_Registry::get('competences');
+			$competences = Bral_Util_Registre::get('competences');
 
 			foreach($hobbitCompetences as $c) {
 				if ($c["nom_systeme_competence"] == $nomSystemeCompetence) {

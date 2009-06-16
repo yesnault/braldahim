@@ -84,7 +84,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				} elseif ($factory == "Bral_Administrationajax_Factory") {
 					$action = Bral_Administrationajax_Factory::getAction($this->_request, $this->view);
 				}
-				
+
 				$xml_entry->set_data($action->render());
 				$xml_entry->set_valeur($action->getNomInterne());
 				$this->xml_response->add_entry($xml_entry);
@@ -115,6 +115,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				$xml_entry->set_valeur($b->getNomInterne());
 				$xml_entry->set_data($b->render());
 				$this->xml_response->add_entry($xml_entry);
+				Zend_Loader::loadClass("Bral_Util_Exception");
 				Bral_Util_Exception::traite($b->render(), false);
 			}
 		}
@@ -124,7 +125,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 	public function errorAction() {
 		$errors = $this->_getParam('error_handler');
 		$exception = $errors->exception;
-			
+		Zend_Loader::loadClass("Bral_Util_Exception");
 		Bral_Util_Exception::traite("type:".$errors->type." msg:".$exception->getMessage()." ex:".$exception->getTraceAsString(), false);
 	}
 

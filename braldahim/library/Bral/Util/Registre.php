@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -14,12 +14,19 @@ class Bral_Util_Registre {
 
 	private function __construct(){}
 
+	public static function get($key) {
+		if (Zend_Registry::isRegistered($key) == false && ($key == "competencesBasiques" || $key == "competencesSoule" || $key == "competences")) {
+			self::chargementCompetence();
+		}
+		return Zend_Registry::get($key);
+	}
+
 	public static function chargement() {
-		self::chargementCompetence();
 		self::chargementNomTour();
 	}
-	
+
 	private static function chargementCompetence() {
+		Zend_Loader::loadClass("Competence");
 		$competenceTable = new Competence();
 		$competences = $competenceTable->fetchall(null, "ordre_competence");
 		$tab = null;
@@ -39,11 +46,11 @@ class Bral_Util_Registre {
 			$tab[$c->id_competence]["pa_manquee"] = $c->pa_manquee_competence;
 			$tab[$c->id_competence]["type_competence"] = $c->type_competence;
 			$tab[$c->id_competence]["id_fk_metier_competence"] = $c->id_fk_metier_competence;
-			
+
 			//$tab2[$c->nom_systeme_competence]["id_competence"] = $c->id_competence;
-			
+
 			if ($c->type_competence == 'basic' || $c->type_competence == 'soule') {
-				$tabCompetence = array 
+				$tabCompetence = array
 				( "id_competence" => $c->id_competence,
 					"nom" => $c->nom_competence,
 					"nom_systeme" => $c->nom_systeme_competence,
@@ -59,25 +66,25 @@ class Bral_Util_Registre {
 				} elseif ($c->type_competence == 'soule') {
 					$tabSoule[] = $tabCompetence;
 				}
-				
+
 			}
 		}
 		Zend_Registry::set('competences', $tab);
 		Zend_Registry::set('competencesBasiques', $tabBasiques);
 		Zend_Registry::set('competencesSoule', $tabSoule);
 	}
-	
+
 	private static function chargementNomTour() {
 		$tab[1] = "Sommeil";
 		$tab[2] = "Éveil";
 		$tab[3] = "Activité";
 		Zend_Registry::set('nomsTour', $tab);
 	}
-	
+
 	public static function getNomUnite($unite, $systeme = false, $quantite = 0) {
 		if (Zend_Registry::isRegistered("typesUnites") == false) {
-			self::chargementTypeUnite();		
-		} 
+			self::chargementTypeUnite();
+		}
 		$tabUnite = Zend_Registry::get('typesUnites');
 		if ($unite != null && isset($tabUnite[$unite])) {
 			if (!$systeme) {
@@ -91,7 +98,7 @@ class Bral_Util_Registre {
 			}
 		}
 	}
-	
+
 	private static function chargementTypeUnite() {
 		Zend_Loader::loadClass("TypeUnite");
 		$typeUniteTable = new TypeUnite();

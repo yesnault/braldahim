@@ -21,7 +21,6 @@ class InscriptionController extends Zend_Controller_Action {
 		Zend_Loader::loadClass("Zend_Validate_EmailAddress");
 		Zend_Loader::loadClass("Zend_Validate");
 		Zend_Loader::loadClass("Bral_Util_Mail");
-		Zend_Loader::loadClass("Bral_Util_String");
 		Zend_Loader::loadClass("Bral_Util_Evenement");
 		Zend_Loader::loadClass("Lieu");
 		Zend_Loader::loadClass("HobbitsCompetences");

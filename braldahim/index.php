@@ -11,7 +11,7 @@
  * $LastChangedBy$
  */
 error_reporting(E_ALL | E_STRICT);
-ini_set('display_startup_errors', 1);  
+ini_set('display_startup_errors', 1);
 ini_set('display_errors', 1);
 
 date_default_timezone_set('Europe/Paris');
@@ -42,31 +42,27 @@ Zend_Loader :: loadClass("Bral_Helper_Image");
 
 Zend_Loader :: loadClass("Bral_Util_BBParser");
 Zend_Loader :: loadClass("Bral_Util_De");
-Zend_Loader :: loadClass("Bral_Util_Exception");
 Zend_Loader :: loadClass("Bral_Util_Controle");
 Zend_Loader :: loadClass("Bral_Util_ConvertDate");
 Zend_Loader :: loadClass("Bral_Util_Commun");
-Zend_Loader :: loadClass("Bral_Util_Faim");
 Zend_Loader :: loadClass("Bral_Util_Messagerie");
 Zend_Loader :: loadClass("Bral_Util_Log");
 Zend_Loader :: loadClass("Bral_Util_Poids");
 Zend_Loader :: loadClass("Bral_Util_Registre");
-Zend_Loader :: loadClass("Bral_Util_Securite");
 Zend_Loader :: loadClass("Bral_Util_String");
-Zend_Loader :: loadClass("Bral_Util_Tour");
 
 Zend_Loader :: loadClass("Bral_Helper_BBBoutons");
 Zend_Loader :: loadClass("Bral_Helper_Box");
 Zend_Loader :: loadClass("Bral_Helper_Tooltip");
-Zend_Loader :: loadClass("Bral_Helper_Messagerie");
 
 Zend_Loader :: loadClass("Bral_Xml_Response");
 Zend_Loader :: loadClass("Bral_Xml_Entry");
 
-Zend_Loader :: loadClass("Competence");
 Zend_Loader :: loadClass("Hobbit");
 Zend_Loader :: loadClass("JosUddeim");
 Zend_Loader :: loadClass("Session");
+
+$debut2 = microtime(true);
 
 // load configuration
 $config = new Zend_Config_Ini('./application/config.ini', 'general');
@@ -74,7 +70,7 @@ $registry = Zend_Registry :: getInstance();
 $registry->set('config', $config);
 
 // setup database Game
-$dbAdapterGame = Zend_Db :: factory($config->db->game->adapter, $config->db->game->config->toArray());
+$dbAdapterGame = Zend_Db::factory($config->db->game->adapter, $config->db->game->config->toArray());
 $dbAdapterGame->query('SET NAMES UTF8');
 
 Zend_Db_Table :: setDefaultAdapter($dbAdapterGame);
@@ -88,7 +84,9 @@ $frontController->setParam('noViewRenderer', true);
 //$frontController->throwExceptions(true);
 $frontController->setControllerDirectory('./application/controllers');
 //$frontController->registerPlugin(new Zend_Controller_Plugin_ErrorHandler());
-				
+
+$debut3 = microtime(true);
+
 // run!
 try {
 	$frontController->dispatch();
@@ -97,7 +95,8 @@ try {
 		Bral_Util_Profiler::traite($dbAdapterGame);
 	}
 } catch (Exception $e) {
+	Zend_Loader::loadClass("Bral_Util_Exception");
 	Bral_Util_Exception :: traite($e);
 }
 
-echo "<!--exec:".(microtime(true) - $debut)."s-->";
+echo "<!--exec: total:".(microtime(true) - $debut)."s load:".($debut2 - $debut)."s init:".($debut3 - $debut2)."s w:".(microtime(true) - $debut3)."s-->";

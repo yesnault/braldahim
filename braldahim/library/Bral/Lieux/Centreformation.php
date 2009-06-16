@@ -201,6 +201,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 			$where = "id_fk_hobbit_hmetier =".intval($this->view->user->id_hobbit);
 			$hobbitsMetiersTable->update($data, $where);
 
+			Zend_Loader::loadClass("Competence");
 			$competenceTable = new Competence();
 			$competencesMetier = $competenceTable->findByIdMetier($idNouveauMetier);
 			if (count($competencesMetier) <= 0) {

@@ -17,6 +17,7 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 			$this->_redirect('/');
 		}
 
+		Zend_Loader::loadClass("Bral_Util_Securite");
 		Bral_Util_Securite::controlAdmin();
 
 		$this->initView();

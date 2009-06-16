@@ -121,6 +121,7 @@ abstract class Bral_Charrette_Charrette {
 		$this->view->balanceFaimUtilisee = true;
 		$this->view->balance_faim = -1;
 		$this->view->user->balance_faim_hobbit = $this->view->user->balance_faim_hobbit + $this->view->balance_faim;
+		Zend_Loader::loadClass("Bral_Util_Faim");
 		Bral_Util_Faim::calculBalanceFaim($this->view->user);
 	}
 

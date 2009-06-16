@@ -122,6 +122,7 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 		}
 
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
+		Zend_Loader::loadClass("Bral_Util_Faim");
 		Bral_Util_Faim::calculBalanceFaim($this->view->user);
 		$this->majHobbit();
 

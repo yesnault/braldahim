@@ -234,7 +234,9 @@ class Bral_Box_Tour extends Bral_Box_Box {
 				$this->hobbit->est_intangible_hobbit = "non";
 			}
 
+			Zend_Loader::loadClass("Bral_Util_Faim");
 			Bral_Util_Faim::calculBalanceFaim($this->hobbit);
+			Zend_Loader :: loadClass("Bral_Util_Tour");
 			Bral_Util_Tour::updateTourTabac($this->hobbit);
 			
 			Zend_Loader::loadClass("Bral_Monstres_Util");

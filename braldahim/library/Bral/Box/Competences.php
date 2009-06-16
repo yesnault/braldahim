@@ -78,9 +78,9 @@ class Bral_Box_Competences extends Bral_Box_Box {
 		$this->view->nom_interne = $this->getNomInterne();
 
 		if ($this->type == 'basic') {
-			$tabCompetences = Zend_Registry::get('competencesBasiques');
+			$tabCompetences = Bral_Util_Registre::get('competencesBasiques');
 		} else if ($this->type == 'soule') {
-			$tabCompetences = Zend_Registry::get('competencesSoule');
+			$tabCompetences = Bral_Util_Registre::get('competencesSoule');
 		} else if ($this->type == 'metier') {
 			Zend_Loader::loadClass("HobbitsCompetences");
 			Zend_Loader::loadClass("HobbitsMetiers");
