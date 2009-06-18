@@ -121,8 +121,20 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 	}
 
 	private function calculCoutPlanche($charrette) {
-		$usure = $charrette["durabilite_max_charrette"] - $charrette["durabilite_actuelle_charrette"];
-		$ratio = ($charrette["durabilite_max_charrette"] / 100) + $usure + $charrette["poids_transportable_charrette"];
+
+		Zend_Loader::loadClass("CharretteMaterielAssemble");
+		$charretteMaterielAssembleTable = new CharretteMaterielAssemble();
+		$materielsAssembles = $charretteMaterielAssembleTable->findByIdCharrette($charrette["id_charrette"]);
+
+		$usureJournaliere = $charrette["usure_type_materiel"];
+
+		if ($materielsAssembles != null && count($materielsAssembles) > 0) {
+			foreach($materielsAssembles as $m) {
+				$usureJournaliere = $usureJournaliere - $m["usure_type_materiel"];
+			}
+		}
+			
+		$ratio = ($charrette["durabilite_max_charrette"] / 100) + $usureJournaliere + $charrette["poids_transportable_charrette"];
 
 		$coef =  ($charrette["durabilite_actuelle_charrette"] * 100) / $charrette["durabilite_max_charrette"];
 		$retour = 0;
@@ -185,11 +197,11 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 			$this->setDetailsEvenement($details, $id_type);
 		}
 		$this->setEvenementQueSurOkJet1(false);
-		
+
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
-		
+
 		$this->view->charrette = $charrette;
 	}
 
