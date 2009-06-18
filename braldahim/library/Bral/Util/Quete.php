@@ -117,7 +117,7 @@ class Bral_Util_Quete {
 		$etapes[] = self::prepareEtapeQueteInitiatiqueManger($numero, $idQuete, $hobbit, $config, $dateDebut);
 		$etapes[] = self::prepareEtapeQueteInitiatiqueMetier($numero, $idQuete, $hobbit, $config);
 		$etapes[] = self::prepareEtapeQueteInitiatiqueAmeliorerCaracteristique($numero, $idQuete, $hobbit, $config);
-		$etapes[] = self::prepareEtapeQueteInitiatiqueApprenderIdentifier($numero, $idQuete, $hobbit, $config);
+		$etapes[] = self::prepareEtapeQueteInitiatiqueApprendreIdentifier($numero, $idQuete, $hobbit, $config);
 		$etapes[] = self::prepareEtapeQueteInitiatiqueMarcherMaison($numero, $idQuete, $hobbit, $config);
 		Bral_Util_Log::quete()->trace("Bral_Util_Quete::prepareEtapeQueteInitiatique - exit");
 		return $etapes;
@@ -242,8 +242,8 @@ class Bral_Util_Quete {
 		return $dataEtape;
 	}
 
-	private static function prepareEtapeQueteInitiatiqueApprenderIdentifier(&$numero, $idQuete, $hobbit, $config) {
-		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::prepareEtapeQueteInitiatiqueApprenderIdentifier - enter");
+	private static function prepareEtapeQueteInitiatiqueApprendreIdentifier(&$numero, $idQuete, $hobbit, $config) {
+		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::prepareEtapeQueteInitiatiqueApprendreIdentifier - enter");
 
 		$libelleEtape = "Vous devez apprendre la compétence Identification des runes ";
 		$dataEtape = self::getDataEtape($idQuete, $hobbit->id_hobbit, self::QUETE_ETAPE_APPRENDRE_IDENTIFICATION_RUNES_ID, null, $libelleEtape, $numero);
@@ -252,7 +252,7 @@ class Bral_Util_Quete {
 		$lieux = $lieuTable->findByTypeAndPosition($config->game->lieu->type->bibliotheque, $hobbit->x_hobbit, $hobbit->y_hobbit);
 
 		if ($lieux == null || count($lieux) < 1) {
-			throw new Zend_Exception("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::prepareEtapeQueteInitiatiqueApprenderIdentifier lieu invalide nb:".count($lieux). " x:".$hobbit->x_hobbit. " y:".$hobbit->y_hobbit);
+			throw new Zend_Exception("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::prepareEtapeQueteInitiatiqueApprendreIdentifier lieu invalide nb:".count($lieux). " x:".$hobbit->x_hobbit. " y:".$hobbit->y_hobbit);
 		}
 
 		$lieu = $lieux[0];
@@ -262,7 +262,7 @@ class Bral_Util_Quete {
 		$etapeTable->insert($dataEtape);
 		$numero++;
 
-		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::prepareEtapeQueteInitiatiqueApprenderIdentifier - exit");
+		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::prepareEtapeQueteInitiatiqueApprendreIdentifier - exit");
 		return $dataEtape;
 	}
 

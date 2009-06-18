@@ -56,11 +56,6 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 				$tropCher = true;
 				$piCout = $c["pi_cout_competence"];
 
-				// la premiere competence commune est gratuite
-				if ($possedeCompetenceCommune == false) {
-					$piCout = 0;
-				}
-
 				if ($piCout <= $this->view->user->pi_hobbit) {
 					$tropCher = false;
 					$achatPiPossible = true;
