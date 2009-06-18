@@ -173,7 +173,7 @@ class PalmaresController extends Bral_Controller_Box {
 	}
 	
 	private function prepareSelection() {
-		$selection[] = array("nom" => "Naissance", "url" => "naissance");
+		$selection[] = array("nom" => "Naissances", "url" => "naissance");
 		$selection[] = array("nom" => "Grands Combattants PvE", "url" => "combattantspve");
 		$selection[] = array("nom" => "Grands Combattants PvP", "url" => "combattantspvp");
 		$selection[] = array("nom" => "KO", "url" => "ko");
