@@ -15,22 +15,31 @@
 			<? if (empty($this->tabHobbitGarde)) : ?>
 				Vous n'avez aucun Hobbit en garde actuellement.
 			<? else: ?>
-				Vos gardes en cours : 
-				<table align="center">
-				<th class='comp_titre'>S&eacute;lectionner</th>
-				<th class='comp_titre'>Hobbit</th>
-				<th class='comp_titre'>Date de d&eacute;but</th>
-				<th class='comp_titre'>Nombre de jour(s)</th>
-				<th class='comp_titre'>Commentaire</th>
+				<ul class="titre textalic textsized">Gardes à effectuer</ul><br>
+				<table class="table_liste">
+				<thead class="table_liste">
+					<tr class="table_liste">
+					<th>S&eacute;lectionner</th>
+					<th>Hobbit</th>
+					<th>Date de d&eacute;but</th>
+					<th>Nombre de jour(s)</th>
+					<th>Commentaire</th>
+				</thead>
 				<? foreach($this->tabHobbitGarde as $g): ?>
 					<tr>
 						<td>
 							<? if($g["date_ok"] === true): ?>
 							<input type="radio" name="id_gardiennage" value="<?=$g["id_gardiennage"]?>" />
+							<? else:?>
+							-
 							<? endif; ?>
 						</td>
-						<td nowrap><?=htmlspecialchars(stripslashes($g["prenom_hobbit"])). " ". htmlspecialchars(stripslashes($g["nom_hobbit"])). ' ('.$g["id_hobbit"].')';?></td>
-						<td nowrap><?=$g["date_debut"] ?></td>
+						<td nowrap>
+							<a onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$g["id_hobbit"] ?>');" title="Cliquez pour voir le profil">
+						  		<?=htmlspecialchars(stripslashes($g["prenom_hobbit"])). " ". htmlspecialchars(stripslashes($g["nom_hobbit"])). ' ('.$g["id_hobbit"].')';?>
+						  	</a>
+						</td>
+						<td nowrap>Le <?=Bral_Util_ConvertDate::get_date_mysql_datetime('d/m/y',$g["date_debut"]); ?></td>
 						<td nowrap><?=$g["nb_jours"] ?></td>
 						<td nowrap><?=htmlspecialchars(stripslashes($g["commentaire"])) ?></td>
 					</tr>
@@ -43,8 +52,10 @@
 		<? endif; ?>
 <br />
 <div id="formbutton">
-<? if (!empty($this->tabHobbitGarde)) : ?>
+<? if (!empty($this->tabHobbitGarde) && $this->uneGardePossible) : ?>
 <input type="submit" name="add" class='button1' value="Jouer !" />
+<? elseif (!empty($this->tabHobbitGarde)): ?>
+Aucune des gardes débute aujourd'hui.<br><br>
 <? endif; ?>
 <input type="button" name="retour" class='button1' value="Retour Interface" onClick="javascript:document.location.href='/interface/'"/>
 <? if (!empty($this->message)) : ?>

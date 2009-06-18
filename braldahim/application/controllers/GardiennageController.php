@@ -39,10 +39,12 @@ class GardiennageController extends Zend_Controller_Action {
 			
 			$dateCourante = date("Y-m-d", mktime(0, 0, 0, date("m"), date("d"), date("Y")));
 			
+			$uneGardePossible = false;
 			foreach($gardiennage as $g) {
 				$dateOk = false;
 				if ($g["date_debut_gardiennage"] <= $dateCourante && $g["date_fin_gardiennage"] > $dateCourante) {
 					$dateOk = true;
+					$uneGardePossible = true;
 				}
 				$tabHobbitGarde[] = array(
 					"id_gardiennage" => $g["id_gardiennage"], 
@@ -55,6 +57,7 @@ class GardiennageController extends Zend_Controller_Action {
 					"date_ok" => $dateOk) ;
 			}
 			$this->view->tabHobbitGarde = $tabHobbitGarde;
+			$this->view->unGardePossible = $uneGardePossible;
 		} else {
 			$this->view->message = "Vous n'avez pas activé le gardiennage à la connexion";
 		}
