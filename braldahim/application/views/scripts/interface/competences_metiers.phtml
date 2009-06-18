@@ -18,8 +18,13 @@ elseif ($this->affichageInterne == true) : ?>
 				<ul id="menuCompetencesMetier<?=$m["nom_systeme_metier"]?>-body" style="display:none">
 				<? foreach($m["competences"] as $c) : ?>
 					<li>
-					<input type="button" class='button1' value="<?=$c["pa_utilisation"]?> PA - <?=$c["nom"]?><? if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?>"
-	       		  onClick="Javascript:_get_('/competences/doaction?caction=ask_competence_<?=$c["nom_systeme"] ?>')">
+					<? if ($this->user->pa_hobbit >=$c["pa_utilisation"]) : 
+				      $attr = "onClick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
+				    else:
+				      $attr = " disabled ";
+				    endif;?>
+				    <input type="button" class='button1' value="<?=$c["pa_utilisation"]?> PA - <?=$c["nom"]?><? if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?>" <?=$attr?>>
+			    
 					</li>
 				<? endforeach; ?>
 				</ul>

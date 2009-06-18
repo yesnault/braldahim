@@ -15,8 +15,12 @@ $disabled = "disabled" ;
 <? endif; ?>
 <? endif; ?>
 <? foreach($this->competences as $c) : ?>
-	<input type="button" class='button1' value="<?=$c["pa_utilisation"]?> PA - <?=htmlspecialchars($c["nom"])?><? if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?>"
-	onClick="Javascript:_get_('/competences/doaction?caction=ask_competence_<?=$c["nom_systeme"] ?>')" <?=$disabled ?>>
+	<? if ($this->user->pa_hobbit >=$c["pa_utilisation"]) : 
+      $attr = "onClick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_".$c["nom_systeme"]."')\"";
+    else:
+      $attr = " disabled ";
+    endif;?>
+    <input type="button" class='button1' value="<?=$c["pa_utilisation"]?> PA - <?=$c["nom"]?><? if ($c["pourcentage_init"] < 100) : echo " ".$c["pourcentage"]." %"; endif; ?>" <?=$attr?>>
 <? endforeach; ?>
 
 <br /><br />

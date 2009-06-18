@@ -175,8 +175,9 @@ abstract class Bral_Lieux_Lieu {
 		if ($this->view->estQueteEvenement) {
 			$tab[] = "box_quetes";
 		}
-		if ($this->view->user->pa_hobbit < 1 && !in_array("box_vue", $tab)) {
-			$tab[] = "box_vue";
+		if ($this->view->user->pa_hobbit < 1) {
+			Zend_Loader::loadClass("Bral_Util_Box");
+			Bral_Util_Box::calculBoxToRefresh0PA($tab);
 		}
 		return $tab;
 	}

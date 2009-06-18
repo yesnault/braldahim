@@ -97,9 +97,10 @@ abstract class Bral_Competences_Competence {
 			$tab[] = "box_coffre";
 			$tab[] = "box_laban";
 		}
-		
-		if ($this->view->user->pa_hobbit < 1 && !in_array("box_vue", $tab)) {
-			$tab[] = "box_vue";
+
+		if ($this->view->user->pa_hobbit < 1) {
+			Zend_Loader::loadClass("Bral_Util_Box");
+			Bral_Util_Box::calculBoxToRefresh0PA($tab);
 		}
 		return $tab;
 	}
@@ -209,7 +210,7 @@ abstract class Bral_Competences_Competence {
 		// a t-on le droit d'améliorer la compétence métier
 		if ($this->view->estCompetenceMetier === true && $this->view->ameliorationCompetenceMetierCourant === false) {
 			$this->view->okJet2 = false;
-				
+
 		}  else if (($this->view->okJet1 === true || $this->hobbit_competence["pourcentage_hcomp"] < 50) && $this->hobbit_competence["pourcentage_hcomp"] < $this->competence["pourcentage_max"]) {
 			// 2nd Jet : réussite ou non de l'amélioration de la compétence
 			// seulement si la maitrise de la compétence est < 50 ou si le jet1 est réussi
