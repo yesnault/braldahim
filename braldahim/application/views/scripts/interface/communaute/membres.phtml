@@ -21,11 +21,12 @@ Filtrer par rang :
 	<th style="cursor:pointer" onClick='_get_("/communaute/doaction?caction=ask_communaute_membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=4&valeur_6=<?=$this->sensOrdre ?>");'>Niveau <?=Bral_Helper_Tri::sens(4, $this->ordre, $this->sensOrdre); ?></th>
 	<th style="cursor:pointer" onClick='_get_("/communaute/doaction?caction=ask_communaute_membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=5&valeur_6=<?=$this->sensOrdre ?>");'>Date d'entr&eacute;e <?=Bral_Helper_Tri::sens(5, $this->ordre, $this->sensOrdre); ?></th>
 	<th style="cursor:pointer" onClick='_get_("/communaute/doaction?caction=ask_communaute_membres&valeur_1=o&valeur_2=<?=$this->filtre ?>&valeur_5=6&valeur_6=<?=$this->sensOrdre ?>");'>Rang <?=Bral_Helper_Tri::sens(6, $this->ordre, $this->sensOrdre); ?></th>
+	<th>Profil</th>
   </tr>
 </thead>
 <tfoot class="table_liste">
   <tr class="table_liste">
-    <th colspan='6'>
+    <th colspan='7'>
     	Affichage de <?=count($this->tabMembres) ?> hobbit<? if (count($this->tabMembres) > 1) : echo 's'; endif; ?> sur un total de <?=$this->nbMembresTotal ?> dans la communaut&eacute;<br />
        <? if ($this->precedentOk === true) : ?>
 	   <input type="button" class='button1' onClick="Javascript:_get_('/communaute/doaction?caction=ask_communaute_membres&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>&valeur_5=<?=$this->ordre ?>&valeur_6=<?=$this->sensOrdre ?>')" value="Page pr&eacute;c&eacute;dente">
@@ -47,11 +48,16 @@ Filtrer par rang :
 	  <td class="table_liste"><?=htmlspecialchars($m["niveau_hobbit"]) ?></td>
 	  <td class="table_liste"><?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$m["date_entree"]); ?></td>
 	  <td class="table_liste">Rang n&deg;<?=$m["ordre_rang_communaute"] ?> : <?=htmlspecialchars($m["nom_rang_communaute"]) ?></td>
+	  <td class="table_liste">
+		  <a onClick="javascript:ouvrirWin('/voir/hobbit/?hobbit=<?=$m["id_hobbit"] ?>');" title="Cliquez pour voir le profil">
+		  	Profil
+		  </a>
+	  </td>
 	</tr>
 <? endforeach; ?>
 <? else: ?>
 	<tr class="table_liste0">
-	  <td class="table_liste" colspan="6">Pas d'autre membre</td>
+	  <td class="table_liste" colspan="7">Pas d'autre membre</td>
 	</tr>
 <? endif; ?>
 </tbody>
