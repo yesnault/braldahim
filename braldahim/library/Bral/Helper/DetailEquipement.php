@@ -45,7 +45,7 @@ class Bral_Helper_DetailEquipement {
      	$text .= "Poids : ".$e["poids"]. " Kg";
      	$text .= "<br>";
     	
-     	if (count($e["bonus"]) > 0) {
+     	if (count($e["bonus"]) > 0 && (!array_key_exists("nom_systeme_type_piece", $e) || $e["nom_systeme_type_piece"] != "munition")) {
      		$text .= " Bonus r&eacute;gional: ";
      		$text .= self::display("Armure", $e["bonus"]["armure_equipement_bonus"], "");
      		$text .= self::display("Force", $e["bonus"]["force_equipement_bonus"], "");
@@ -54,22 +54,24 @@ class Bral_Helper_DetailEquipement {
      		$text .= self::display("Sagesse", $e["bonus"]["sagesse_equipement_bonus"], "");
      	}
      	
-     	$text .= "<br />Nombre d\'emplacement runique : ".$e["nb_runes"]."<br />";
-     	if (count($e["runes"]) > 1) $s='s'; else $s="";
-     	 
-     	 
-     	$text .= count($e["runes"]) ." rune$s sertie$s "."<br />";
-     	if (count($e["runes"]) > 0) {
-	    	 foreach($e["runes"] as $r) {
-	     	 	$text .= "<img src=\'/public/images/runes/".$r["image_type_rune"]."\'  class=\'rune\' title=\'".$r["nom_type_rune"]." :".str_replace("'", "&#180;", htmlspecialchars(addslashes($r["effet_type_rune"])))."\' n&deg;".$r["id_rune_equipement_rune"]." alt=\'".$r["nom_type_rune"]."\' n&deg;".$r["id_rune_equipement_rune"]."  />";
-	     	 }
-	     	 if ($e["suffixe"] != null && $e["suffixe"] != "") {
-	     	 	$text .= "<br />Mot runique associ&eacute; &agrave; ces runes : ".htmlspecialchars(addslashes($e["suffixe"]));
-	     	 } else {
-	     	 	$text .= "<br />Aucun mot runique n\'est associ&eacute; &agrave; ces runes";
-	     	 }
-    	}
-    	
+     	if (!array_key_exists("nom_systeme_type_piece", $e) || $e["nom_systeme_type_piece"] != "munition") {
+	     	$text .= "<br />Nombre d\'emplacement runique : ".$e["nb_runes"]."<br />";
+	     	if (count($e["runes"]) > 1) $s='s'; else $s="";
+	     	 
+	     	 
+	     	$text .= count($e["runes"]) ." rune$s sertie$s "."<br />";
+	     	if (count($e["runes"]) > 0) {
+		    	 foreach($e["runes"] as $r) {
+		     	 	$text .= "<img src=\'/public/images/runes/".$r["image_type_rune"]."\'  class=\'rune\' title=\'".$r["nom_type_rune"]." :".str_replace("'", "&#180;", htmlspecialchars(addslashes($r["effet_type_rune"])))."\' n&deg;".$r["id_rune_equipement_rune"]." alt=\'".$r["nom_type_rune"]."\' n&deg;".$r["id_rune_equipement_rune"]."  />";
+		     	 }
+		     	 if ($e["suffixe"] != null && $e["suffixe"] != "") {
+		     	 	$text .= "<br />Mot runique associ&eacute; &agrave; ces runes : ".htmlspecialchars(addslashes($e["suffixe"]));
+		     	 } else {
+		     	 	$text .= "<br />Aucun mot runique n\'est associ&eacute; &agrave; ces runes";
+		     	 }
+	    	}
+     	}
+     	
     	$text .= "<br />";
     	return Bral_Helper_Tooltip::jsTip($text);
     }

@@ -422,6 +422,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					"id_type_emplacement" => $e["id_type_emplacement"],
 					"emplacement" => $e["nom_type_emplacement"],
 					"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
+					"nom_systeme_type_piece" => $e["nom_systeme_type_piece"],
 					"nb_runes" => $e["nb_runes_echoppe_equipement"],
 					"id_fk_recette_equipement" => $e["id_fk_recette_echoppe_equipement"],
 					"armure" => $e["armure_recette_equipement"],

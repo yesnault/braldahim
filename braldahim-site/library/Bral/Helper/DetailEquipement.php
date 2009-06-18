@@ -45,7 +45,7 @@ class Bral_Helper_DetailEquipement {
 		$text .= "Poids : ".$e["poids"]. " Kg";
 		$text .= "<br>";
 		 
-		if (count($e["bonus"]) > 0) {
+		if (count($e["bonus"]) > 0 && $e["nom_systeme_type_piece"] != "munition") {
 			$text .= " Bonus r&eacute;gional: ";
 			$text .= self::display("Armure", $e["bonus"]["armure_equipement_bonus"], "");
 			$text .= self::display("Force", $e["bonus"]["force_equipement_bonus"], "");

@@ -1,14 +1,21 @@
 <? include("commun_text_resultat.phtml") ?>
 
 <? if ($this->okJet1 === true): ?>
-	Vous avez r&eacute;ussi &agrave; fabriquer une pi&egrave;ce d'&eacute;quipement : 
+	Vous avez r&eacute;ussi &agrave; fabriquer 
+	<? if ($this->typePiece == "munition") : ?>
+		des munitions :
+	<? else: ?>
+		une pi&egrave;ce d'&eacute;quipement : 
+	<? endif;?>
 	<br />
 	<?=htmlspecialchars($this->typeEquipementCourant["nom_type_equipement"]) ?>, de qualit&eacute; <?=$this->qualite ?>
 	et de niveau <?=$this->niveau ?>.
 	<br />
-	Il y a <?=$this->nbRunes ?> emplacement<? if ($this->nbRunes > 1) echo 's'; ?> runique<? if ($this->nbRunes > 1) echo 's'; ?>.
-	<br /><br />
-	Le bonus apport&eacute; sur l'&eacute;quipement est : <?=$this->bonus?>.
+	<? if ($this->typePiece != "munition") : ?>
+		Il y a <?=$this->nbRunes ?> emplacement<? if ($this->nbRunes > 1) echo 's'; ?> runique<? if ($this->nbRunes > 1) echo 's'; ?>.
+		<br /><br />
+		Le bonus apport&eacute; sur l'&eacute;quipement est : <?=$this->bonus?>.
+	<? endif;?>
 	<br><br>
 	<? if ($this->effetRune) :?>
 		Une rune que vous portez a eu de l'effet sur la qualit&eacute; de cette pi&egrave;ce d'&eacute;quipement.

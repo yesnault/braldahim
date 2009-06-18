@@ -481,6 +481,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 					"id_type_emplacement" => $e["id_type_emplacement"],
 					"emplacement" => $e["nom_type_emplacement"],
 					"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
+					"nom_systeme_type_piece" => $e["nom_systeme_type_piece"],
 					"nb_runes" => $e["nb_runes_vente_equipement"],
 					"id_fk_recette_equipement" => $e["id_fk_recette_vente_equipement"],
 					"armure" => $e["armure_recette_equipement"],

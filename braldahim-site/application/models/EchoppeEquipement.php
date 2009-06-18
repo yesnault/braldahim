@@ -22,12 +22,14 @@ class EchoppeEquipement extends Zend_Db_Table {
 		$select->from('type_equipement');
 		$select->from('type_qualite');
 		$select->from('type_emplacement');
+		$select->from('type_piece');
 		$select->from('echoppe');
 		$select->from('region');
 		$select->from('metier', array('nom_masculin_metier', 'nom_feminin_metier'));
 		$select->from('hobbit', array('id_hobbit', 'prenom_hobbit', 'nom_hobbit', 'sexe_hobbit'));
 		$select->where('id_fk_recette_echoppe_equipement = id_recette_equipement');
 		$select->where('id_fk_type_recette_equipement = id_type_equipement');
+		$select->where('id_fk_type_piece_type_equipement = id_type_piece');
 		$select->where('id_fk_type_qualite_recette_equipement = id_type_qualite');
 		$select->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement');
 		$select->where("type_vente_echoppe_equipement like ?", "publique");

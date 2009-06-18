@@ -337,12 +337,12 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 
 			$this->majCout($niveau, true);
 
-			$recetteEquipementACreer = null;
+			$this->recetteEquipementACreer = null;
 			foreach($recetteEquipement as $r) {
-				$recetteEquipementACreer = $r;
+				$this->recetteEquipementACreer = $r;
 				break;
 			}
-				
+
 			Zend_Loader::loadClass("IdsEquipement");
 			$idsEquipementTable = new IdsEquipement();
 			$id_equipement = $idsEquipementTable->prepareNext();
@@ -352,7 +352,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 			$data = array(
 				'id_echoppe_equipement' => $id_equipement,
 				'id_fk_echoppe_echoppe_equipement' => $this->idEchoppe,
-				'id_fk_recette_echoppe_equipement' => $recetteEquipementACreer["id_recette_equipement"],
+				'id_fk_recette_echoppe_equipement' => $this->recetteEquipementACreer["id_recette_equipement"],
 				'nb_runes_echoppe_equipement' => $nbRunes,
 				'type_vente_echoppe_equipement' => 'aucune',
 				'id_fk_region_echoppe_equipement' => $this->region["id_region"],
@@ -360,6 +360,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 			$idEquipement = $echoppeEquipementTable->insert($data);
 
 			$this->view->bonus = Bral_Util_Equipement::insertEquipementBonus($idEquipement, $niveau, $this->region["id_region"]);
+			$this->view->typePiece = $this->recetteEquipementACreer["nom_systeme_type_piece"];
 
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapeFabriquer($this->view->user, $idTypeEquipement, $qualite);
 
@@ -370,7 +371,7 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 			$dataFabricants["id_fk_hobbit_stats_fabricants"] = $this->view->user->id_hobbit;
 			$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
 			$dataFabricants["nb_piece_stats_fabricants"] = 1;
-			$dataFabricants["somme_niveau_piece_stats_fabricants"] = $recetteEquipementACreer["niveau_recette_equipement"];
+			$dataFabricants["somme_niveau_piece_stats_fabricants"] = $this->recetteEquipementACreer["niveau_recette_equipement"];
 			$dataFabricants["id_fk_metier_stats_fabricants"] = $this->view->config->game->metier->forgeron->id;
 			$statsFabricants->insertOrUpdate($dataFabricants);
 		} else {
@@ -442,7 +443,11 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 		$this->view->nb_px_commun = 0;
 		$this->view->calcul_px_generique = true;
 		if ($this->view->okJet1 === true) {
-			$this->view->nb_px_perso = (($this->view->niveau +1)/(floor($this->view->user->niveau_hobbit/10) + 1) + 1 + ($this->view->niveauQualite - 1) )*10;
+			if ($this->recetteEquipementACreer["nom_systeme_type_piece"] == "munition") {
+				$this->view->nb_px_perso = 2;
+			} else {
+				$this->view->nb_px_perso = (($this->view->niveau +1)/(floor($this->view->user->niveau_hobbit/10) + 1) + 1 + ($this->view->niveauQualite - 1) )*10;
+			}
 		} else {
 			$this->view->nb_px_perso = 0;
 		}
