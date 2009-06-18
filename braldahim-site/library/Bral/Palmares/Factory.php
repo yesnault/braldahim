@@ -47,7 +47,7 @@ class Bral_Palmares_Factory {
 		$retour[] = new Bral_Palmares_Naissancefamille($request, $view, false);
 		$retour[] = new Bral_Palmares_Naissancecomte($request, $view, false);
 		$retour[] = new Bral_Palmares_Naissancesexe($request, $view, false);
-		$view->titre = "Naissance";
+		$view->titre = "Naissances";
 		return $retour;
 	}
 	
@@ -123,7 +123,7 @@ class Bral_Palmares_Factory {
 		$retour = null;
 		$retour[] = new Bral_Palmares_Monstrestop10($request, $view, false);
 		$retour[] = new Bral_Palmares_Monstrestype($request, $view, false);
-		$view->titre = "Montres";
+		$view->titre = "Monstres";
 		return $retour;
 	}
 	
