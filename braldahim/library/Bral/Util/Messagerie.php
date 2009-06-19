@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -23,14 +23,14 @@ class Bral_Util_Messagerie {
 		$xml_entry->set_data($nbNotRead);
 		$xml_response->add_entry($xml_entry);
 	}
-	
+
 	public static function constructTabHobbit($tabDestinataires, $valeur = "valeur_2", $sansIdHobbit = -1) {
 		Zend_Loader::loadClass("Bral_Util_Lien");
 		$hobbitTable = new Hobbit();
 		$idDestinatairesTab = split(',', $tabDestinataires);
-		
+
 		$hobbits = $hobbitTable->findByIdList($idDestinatairesTab);
-		
+
 		if ($hobbits == null) {
 			return null;
 		}
@@ -40,7 +40,7 @@ class Bral_Util_Messagerie {
 		$tabHobbits = null;
 
 		foreach($hobbits as $h) {
-			
+				
 			if (in_array($h["id_hobbit"],$idDestinatairesTab) && ($sansIdHobbit == -1 || $sansIdHobbit != $h["id_hobbit"])) {
 				if ($destinataires == "") {
 					$destinataires = $h["id_hobbit"];
@@ -52,7 +52,7 @@ class Bral_Util_Messagerie {
 				$aff_js_destinataires .= ' <img src="/public/images/supprimer.gif" ';
 				$aff_js_destinataires .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'_dest\',\'m_'.$valeur.'_'.$h["id_hobbit"].'\', \''.$valeur.'_dest\', \''.$h["id_hobbit"].'\')" />';
 				$aff_js_destinataires .= '</span>';
-				
+
 				$tabHobbits[$h["id_hobbit"]] = $h;
 			}
 		}
@@ -63,19 +63,19 @@ class Bral_Util_Messagerie {
 		);
 		return $tab;
 	}
-	
+
 	public static function constructTabContacts($tabContacts, $idHobbit, $valeur = "valeur_4_contacts") {
 		Zend_Loader::loadClass('JosUserlists');
-		
+
 		$tab = array("contacts" => "", "aff_js_contacts" => "", "userids" => "", "hobbits" => null);
-		
+
 		if ($tabContacts == null || $tabContacts == "") {
 			return $tab;
 		}
-		
+
 		$josUserListsTable = new JosUserlists();
 		$idContactsTab = split(',', $tabContacts);
-		
+
 		$contactsTab = $josUserListsTable->findByIdsList($idContactsTab, $idHobbit);
 		if ($contactsTab == null) {
 			return $tab;
@@ -86,7 +86,7 @@ class Bral_Util_Messagerie {
 		$userIds = "";
 		$hobbits = "";
 		$tabHobbits = null;
-		
+
 		foreach($contactsTab as $c) {
 			if (in_array($c["id"], $idContactsTab)) {
 				if ($contacts == "") {
@@ -99,7 +99,7 @@ class Bral_Util_Messagerie {
 				$aff_js_contacts .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'\',\'m_'.$valeur.'_'.$c["id"].'\', \''.$valeur.'\', '.$c["id"].')" />';
 				$aff_js_contacts .= '</span>';
 			}
-			
+				
 			if ($userIds != "") {
 				$userIds .= ",";
 			}
@@ -109,9 +109,9 @@ class Bral_Util_Messagerie {
 				$tabHobbits[] = $t;
 			}
 		}
-		
+
 		$userIdsControlles = "";
-		
+
 		if ($tabHobbits != null) {
 			$hobbitTable = new Hobbit();
 			$hobbitsRowset = $hobbitTable->findByIdList($tabHobbits);
@@ -123,7 +123,7 @@ class Bral_Util_Messagerie {
 				$userIdsControlles .= $h["id_hobbit"];
 			}
 		}
-		
+
 		$tab = array(
 			"hobbits" => $hobbits,
 			"aff_js_contacts" => $aff_js_contacts,
@@ -132,12 +132,12 @@ class Bral_Util_Messagerie {
 		);
 		return $tab;
 	}
-	
+
 	public static function prepareListe($id_hobbit) {
 		Zend_Loader::loadClass("JosUserlists");
 		$josUserlistsTable = new JosUserlists();
 		$listesContacts = $josUserlistsTable->findByUserId($id_hobbit);
-		
+
 		$tabListes = null;
 		if ($listesContacts != null && count($listesContacts) > 0) {
 			$idsHobbit = null;
@@ -149,10 +149,10 @@ class Bral_Util_Messagerie {
 				);
 			}
 		}
-		
+
 		return $tabListes;
 	}
-	
+
 	public static function prepareMessageAEnvoyer($idHobbitSource, $idHobbitDestinataire, $contenu, $idDestinatairesListe) {
 		return array ('fromid' => $idHobbitSource,
 					  'toid' => $idHobbitDestinataire,
@@ -165,6 +165,14 @@ class Bral_Util_Messagerie {
 						'disablereply' => 0,
 						'archived' => 0,
 						'cryptmode' => 0,
-					);
+		);
 	}
+
+	public static function envoiMessageAutomatique($idHobbitSource, $idHobbitDestinataire, $contenu) {
+		Zend_Loader::loadClass("JosUddeim");
+		$data = Bral_Util_Messagerie::prepareMessageAEnvoyer($idHobbitSource, $idHobbitDestinataire, $contenu, $idHobbitDestinataire);
+		$josUddeimTable = new JosUddeim();
+		$josUddeimTable->insert($data);
+	}
+
 }
