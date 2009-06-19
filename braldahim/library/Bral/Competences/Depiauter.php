@@ -10,18 +10,6 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-/**
- Enlève la peau d'un monstre de monstre qui est au sol.
- (Pour les monstres qui ont une peau).
-
- La quantité de peau est fonction de la taille du monstre :
- petit : 1D2 unité de peau
- normal : 1D3 unité de peau
- grand : 2D3 unité de peau
- gigantesque : 3D3 unité de peau
- (Directement dans le sac à dos)
-
- */
 class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 
 	function prepareCommun() {
@@ -100,10 +88,10 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 
 	/*
 	 * La quantité de peau est fonction de la taille du monstre :
-	 * petit : 1D2 unité de peau
-	 * normal : 1D3 unité de peau
-	 * grand : 2D3 unité de peau
-	 * gigantesque : 3D3 unité de peau
+	 * petit : 1D2 unité de peau + arrondi inf (BM FOR/2) unité de peau
+	 * normal : 1D3 unité de peau + arrondi inf (BM FOR/2) unité de peau
+	 * grand : 2D3 unité de peau + arrondi inf (BM FOR/2) unité de peau
+	 * gigantesque : 3D3 unité de peau + arrondi inf (BM FOR/2) unité de peau
 	 *
 	 * Petit : 1D3 + arrondi inf (BM FOR/2) unité de viande
 	 * Normal : 2D3 + arrondi inf (BM FOR/2)
