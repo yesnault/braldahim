@@ -132,10 +132,7 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		$message .= " Nombre de jours : ".$nbJour.PHP_EOL;
 		$message .= " Commentaire : ".$commentaire.PHP_EOL;
 		
-		Zend_Loader::loadClass("JosUddeim");
-		$data = Bral_Util_Messagerie::prepareMessageAEnvoyer($this->view->user->id_hobbit, $idGardien, $message, $idGardien);
-		$josUddeimTable = new JosUddeim();
-		$josUddeimTable->insert($data);
+		$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $idGardien, $message);
 	}
 	
 	private function voirGardiennage() {

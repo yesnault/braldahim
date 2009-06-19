@@ -82,6 +82,7 @@ class Hobbit extends Zend_Db_Table {
 		$select->where('est_ko_hobbit = ?', "non");
 		$select->where('est_compte_actif_hobbit = ?', "oui");
 		$select->where('est_en_hibernation_hobbit = ?', "non");
+		$select->where('est_pnj_hobbit = ?', "non");
 		
 		if ($avecIntangibles == false) {
 			$select->where("est_intangible_hobbit like ?", "non");
@@ -106,6 +107,7 @@ class Hobbit extends Zend_Db_Table {
 		$select->where('est_compte_actif_hobbit = ?', "oui");
 		$select->where('est_en_hibernation_hobbit = ?', "non");
 		$select->where('est_ko_hobbit = ?', "non");
+		$select->where('est_pnj_hobbit = ?', "non");
 		
 		if ($sansHobbitCourant != -1) {
 			$select->where('id_hobbit != ?',$sansHobbitCourant);
@@ -198,7 +200,8 @@ class Hobbit extends Zend_Db_Table {
 		->where('y_hobbit <= ?', $y + $rayon)
 		->where("est_ko_hobbit = 'non'")
 		->where('est_compte_actif_hobbit = ?', "oui")
-		->where('est_en_hibernation_hobbit = ?', "non");
+		->where('est_en_hibernation_hobbit = ?', "non")
+		->where('est_pnj_hobbit = ?', "non");
 		
 		if ($avecIntangibles == false) {
 			$select->where("est_intangible_hobbit like ?", "non");
@@ -224,6 +227,7 @@ class Hobbit extends Zend_Db_Table {
 		->where('est_ko_hobbit = ?', "non")
 		->where('est_compte_actif_hobbit = ?', "oui")
 		->where('est_en_hibernation_hobbit = ?' ,"non")
+		->where('est_pnj_hobbit = ?', "non")
 		->where('id_hobbit = ?', $idHobbit);
 		
 		if ($avecIntangibles == false) {
@@ -328,6 +332,7 @@ class Hobbit extends Zend_Db_Table {
 		$select->from('hobbit', '*')
 			->where('est_compte_actif_hobbit = ?', "oui")
 			->where('est_en_hibernation_hobbit = ?', "non")
+			->where('est_pnj_hobbit = ?', "non")
 			->where('date_fin_tour_hobbit <= ?',$dateFin);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -338,19 +343,20 @@ class Hobbit extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('hobbit', '*')
 			->where('est_compte_actif_hobbit = ?', "non")
+			->where('est_pnj_hobbit = ?', "non")
 			->where('date_creation_hobbit <= ?',$dateFin);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 	
 	function deleteAllBatchByDateFin($dateFin) {
-		$where = "est_compte_actif_hobbit = 'oui' AND est_en_hibernation_hobbit = 'non' AND date_fin_tour_hobbit <= '".$dateFin."'";
+		$where = "est_compte_actif_hobbit = 'oui' AND est_pnj_hobbit = 'non' AND est_en_hibernation_hobbit = 'non' AND date_fin_tour_hobbit <= '".$dateFin."'";
 		return $this->delete($where);
 	}
 	
 	function deleteAllCompteInactif($dateFin) {
 		$db = $this->getAdapter();
-		$where = "est_compte_actif_hobbit = 'non' AND date_creation_hobbit <= '".$dateFin."'";
+		$where = "est_compte_actif_hobbit = 'non' AND est_pnj_hobbit = 'non' AND date_creation_hobbit <= '".$dateFin."'";
 		return $this->delete($where);
 	}
 }
