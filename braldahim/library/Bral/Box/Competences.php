@@ -101,7 +101,7 @@ class Bral_Box_Competences extends Bral_Box_Box {
 
 						$pourcentage = Bral_Util_Commun::getPourcentage($c, $this->view->config);
 							
-						$pa_texte = "";
+						$pa_texte = $c["pa_utilisation_competence"];
 						if ($c["nom_systeme_competence"] == "terrasser") {
 							$pa_texte = "2 ou 3";
 						} 
@@ -132,7 +132,7 @@ class Bral_Box_Competences extends Bral_Box_Box {
 
 			foreach($hobbitCompetences as $c) {
 				if ($c["type_competence"] == $this->type ) {
-					$pa_texte = "";
+					$pa_texte = $c["pa_utilisation_competence"];
 					if ($c["nom_systeme_competence"] == "marcher") {
 						$pa_texte = "1 ou 2";
 					}
