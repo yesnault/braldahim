@@ -27,6 +27,7 @@ class Bral_Helper_DetailMateriel {
 		$text .= "Poids : ".$e["poids"]. " Kg";
 		 
 		$text .= "<br />";
+		Zend_Loader::loadClass("Bral_Helper_Tooltip");
 		return Bral_Helper_Tooltip::jsTip($text);
 	}
 

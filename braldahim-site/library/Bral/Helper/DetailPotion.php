@@ -31,6 +31,7 @@ class Bral_Helper_DetailPotion {
      	$text .= " sur la caract&eacute;ristique ".$p["caracteristique"];
     	$text .= "<br />";
     	
+    	Zend_Loader::loadClass("Bral_Helper_Tooltip");
     	return Bral_Helper_Tooltip::jsTip($text, $titre);
     }
 }
