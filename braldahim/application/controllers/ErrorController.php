@@ -25,7 +25,7 @@ EOH;
 			default:
 				$errors = $this->_getParam('error_handler');
 				$exception = $errors->exception;
-		 
+		 		Zend_Loader::loadClass("Bral_Util_Exception");
 		 		Bral_Util_Exception::traite("type:".$errors->type." msg:".$exception->getMessage()." in ".$exception->getFile().":".$exception->getLine().PHP_EOL." StackTrace:".PHP_EOL.$exception->getTraceAsString(), true);
 		}
 
