@@ -57,7 +57,7 @@ class GardiennageController extends Zend_Controller_Action {
 					"date_ok" => $dateOk) ;
 			}
 			$this->view->tabHobbitGarde = $tabHobbitGarde;
-			$this->view->unGardePossible = $uneGardePossible;
+			$this->view->uneGardePossible = $uneGardePossible;
 		} else {
 			$this->view->message = "Vous n'avez pas activé le gardiennage à la connexion";
 		}
