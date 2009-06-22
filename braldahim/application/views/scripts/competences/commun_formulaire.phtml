@@ -1,7 +1,7 @@
 <div class='comp_titre'><?=$this->competence["nom"] ?></div>
 <br/>
 <form name='myForm' id='myForm'>
-<?php if ($this->assezDePa == false) : ?>
+<?php if ($this->assezDePa == false && $this->competence["nom_systeme"] != "marcher") : ?>
 	<div class='comp_contenu'>
 	Vous n'avez pas assez de PA.
 	<br /><br/>
