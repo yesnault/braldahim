@@ -32,11 +32,18 @@ class Bral_Util_Exception {
 		if ($config->general->mail->exception->use == '1') {
 			Zend_Loader::loadClass("Bral_Util_Mail");
 			$mail = Bral_Util_Mail::getNewZendMail();
-				
+
 			$mail->setFrom($config->general->mail->exception->from, $config->general->mail->exception->nom);
 			$mail->addTo($config->general->mail->exception->from, $config->general->mail->exception->nom);
 			$mail->setSubject("[Braldahim-Exception] Exception rencontrée");
-			$mail->setBodyText("--------> ".date("Y-m-d H:m:s"). ' '. $_SERVER['REMOTE_ADDR'].' '.$e.' ' . PHP_EOL);
+				
+			$formatTexte = date("Y-m-d H:m:s"). ' '. $_SERVER['REMOTE_ADDR'];
+			$formatTexte .=  ' '. $_SERVER['SERVER_NAME'].' '. $_SERVER['REQUEST_METHOD'];
+			$formatTexte .= ' '. $_SERVER['REQUEST_URI'];
+			$formatTexte .= ' '.$_SERVER['HTTP_USER_AGENT'];
+			$formatTexte .= ' '.$user;
+
+			$mail->setBodyText("--------> ".$formatTexte." ".$e." " . PHP_EOL);
 			$mail->send();
 		}
 	}
