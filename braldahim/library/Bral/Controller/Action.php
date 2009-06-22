@@ -106,7 +106,7 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 						//$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, false);
 						//$nomInterne = $c->getNomInterne();
 						$nomInterne = $boxToRefresh[$i];
-						$xml_entry->set_data(null);
+						$xml_entry->set_data("foo");
 					} else {
 						$xml_entry->set_type("display");
 						$c = Bral_Box_Factory::getBox($boxToRefresh[$i], $this->_request, $this->view, true);
