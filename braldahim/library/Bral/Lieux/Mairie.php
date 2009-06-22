@@ -41,7 +41,8 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		foreach($communautes as $c) {
 			$tabCommunaute[$c["id_communaute"]] = array(
 							'id_communaute' => $c["id_communaute"], 
-							'nom_communaute' => $c["nom_communaute"]
+							'nom_communaute' => $c["nom_communaute"],
+						    'id_fk_hobbit_gestionnaire_communaute' => $c["id_fk_hobbit_gestionnaire_communaute"]
 			);
 			if ($c["id_fk_hobbit_gestionnaire_communaute"] == $this->view->user->id_hobbit) {
 				$this->view->gestionnaireCommunaute = true;
@@ -120,7 +121,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 					break;
 				}
 			}
-				
+
 			if ($communaute == null) {
 				throw new Zend_Exception(get_class($this)." Communaute invalide (".$idCommunaute.")");
 			}
@@ -195,6 +196,16 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
 
+		$message = "[Ceci est un message automatique de communauté]".PHP_EOL;
+		$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit;
+		$e = "";
+		if ($this->view->user->sexe_hobbit == "feminin") {
+			$e = "e";
+		}
+		$message .= " (".$this->view->user->id_hobbit.") est entré".$e." dans votre communauté.".PHP_EOL;
+
+		Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $communaute["id_fk_hobbit_gestionnaire_communaute"], $message);
+
 		return $communaute;
 	}
 
@@ -215,7 +226,19 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 
 		if ($this->view->gestionnaireCommunaute === true) {
 			$this->supprimerCommunaute($idCommunaute);
+		} else {
+
+			$message = "[Ceci est un message automatique de communauté]".PHP_EOL;
+			$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit;
+			$e = "";
+			if ($this->view->user->sexe_hobbit == "feminin") {
+				$e = "e";
+			}
+			$message .= " (".$this->view->user->id_hobbit.") est sorti".$e." de votre communauté.".PHP_EOL;
+
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $communaute["id_fk_hobbit_gestionnaire_communaute"], $message);
 		}
+
 		return $communaute;
 	}
 

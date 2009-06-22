@@ -14,7 +14,7 @@ class Communaute extends Zend_Db_Table {
 	protected $_name = 'communaute';
 	protected $_primary = array('id_communaute');
 	
-	public function findById($id){
+	public function findById($id) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('communaute', '*')

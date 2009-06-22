@@ -35,7 +35,7 @@
 		</select><br /><br />
    	  	ou cr&eacute;er une communaut&eacute; (<i>40 caract&egrave;res max</i>) : <br />
    	  		<input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
-   	  		<input type='text' id='valeur_3' name='valeur_3' value='' size='40' maxlength='40' onChange="javascript:$('valeur_1').value=-1 ; $('valeur_2').value=1; $('bouton_mairie_rentrer').disabled=true; if ($('valeur_3').value != '') { $('bouton_mairie_creer').disabled=false; } else { $('bouton_mairie_creer').disabled=true; }">
+   	  		<input type='text' id='valeur_3' name='valeur_3' value='' size='40' maxlength='40' onKeyup="javascript:$('valeur_1').value=-1 ; $('valeur_2').value=1; $('bouton_mairie_rentrer').disabled=true; if ($('valeur_3').value != '') { $('bouton_mairie_creer').disabled=false; } else { $('bouton_mairie_creer').disabled=true; }">
    	  		
    	<? endif; ?>
  </div> 
