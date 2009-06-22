@@ -267,7 +267,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 			} else {
 				$nbPreparees = (int)$nbPreparees;
 			}
-			if ($nbPreparees > $this->view->partieplantes[$indice]["quantite_preparees_echoppe_partieplante"]) {
+			if ($nbPreparees > $this->view->partieplantes[$indice]["quantite_preparee_echoppe_partieplante"]) {
 				throw new Zend_Exception(get_class($this)." NB Partie Plante Preparee interdit=".$nbPreparees);
 			}
 
@@ -276,7 +276,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 
 			if ($nbBrutes > 0 || $nbPreparees > 0) {
 				$data = array('quantite_arriere_echoppe_partieplante' => -$nbBrutes,
-							  'quantite_preparees_echoppe_partieplante' => -$nbPreparees,
+							  'quantite_preparee_echoppe_partieplante' => -$nbPreparees,
 							  'id_fk_type_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_echoppe_partieplante"],
 							  'id_fk_type_plante_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_echoppe_partieplante"],
 							  'id_fk_echoppe_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_echoppe_echoppe_partieplante"]);
@@ -322,7 +322,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 			} else {
 				$nbBrut = (int)$nbBrut;
 			}
-			if ($nbBrut > $this->view->minerais[$indice]["quantite_arriere_echoppe_minerai"]) {
+			if ($nbBrut > $this->view->minerais[$indice]["quantite_brut_arriere_echoppe_minerai"]) {
 				throw new Zend_Exception(get_class($this)." NB Minerai brut interdit=".$nbBrut);
 			}
 
@@ -339,7 +339,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 			$nbLingot = $this->calculNbPoidsPossible($nbLingot, Bral_Util_Poids::POIDS_LINGOT);
 
 			if ($nbBrut > 0 || $nbLingot > 0) {
-				$data = array('quantite_arriere_echoppe_minerai' => -$nbBrut,
+				$data = array('quantite_brut_arriere_echoppe_minerai' => -$nbBrut,
 							  'quantite_lingots_echoppe_minerai' => -$nbLingot,
 							  'id_fk_type_echoppe_minerai' => $this->view->minerais[$indice]["id_fk_type_echoppe_minerai"],
 							  'id_fk_echoppe_echoppe_minerai' => $this->view->minerais[$indice]["id_fk_echoppe_echoppe_minerai"]);
@@ -377,7 +377,7 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 
 		if ($partiePlantes != null) {
 			foreach ($partiePlantes as $p) {
-				if ($p["quantite_arriere_echoppe_partieplante"] > 0 || $p["quantite_preparees_echoppe_partieplante"] > 0) {
+				if ($p["quantite_arriere_echoppe_partieplante"] > 0 || $p["quantite_preparee_echoppe_partieplante"] > 0) {
 					$this->view->nb_valeurs = $this->view->nb_valeurs + 1; // brutes
 					$tabPartiePlantes[$this->view->nb_valeurs] = array(
 						"nom_type" => $p["nom_type_partieplante"],
@@ -386,13 +386,13 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 						"id_fk_type_plante_echoppe_partieplante" => $p["id_fk_type_plante_echoppe_partieplante"],
 						"id_fk_echoppe_echoppe_partieplante" => $p["id_fk_echoppe_echoppe_partieplante"],
 						"quantite_arriere_echoppe_partieplante" => $p["quantite_arriere_echoppe_partieplante"],
-						"quantite_preparees_echoppe_partieplante" => $p["quantite_preparees_echoppe_partieplante"],
+						"quantite_preparee_echoppe_partieplante" => $p["quantite_preparee_echoppe_partieplante"],
 						"indice_valeur" => $this->view->nb_valeurs,
 					);
 					$this->view->retirerRessourcesOk = true;
 					$this->view->nb_valeurs = $this->view->nb_valeurs + 1; // preparees
 					$this->view->nb_arrierePartiePlantes = $this->view->nb_arrierePartiePlantes + $p["quantite_arriere_echoppe_partieplante"];
-					$this->view->nb_prepareesPartiePlantes = $this->view->nb_prepareesPartiePlantes + $p["quantite_preparees_echoppe_partieplante"];
+					$this->view->nb_prepareesPartiePlantes = $this->view->nb_prepareesPartiePlantes + $p["quantite_preparee_echoppe_partieplante"];
 				}
 			}
 		}
@@ -408,19 +408,19 @@ class Bral_Echoppes_Retirerressources extends Bral_Echoppes_Echoppe {
 
 		if ($minerais != null) {
 			foreach ($minerais as $m) {
-				if ($m["quantite_arriere_echoppe_minerai"] > 0 || $m["quantite_lingots_echoppe_minerai"] > 0) {
+				if ($m["quantite_brut_arriere_echoppe_minerai"] > 0 || $m["quantite_lingots_echoppe_minerai"] > 0) {
 					$this->view->nb_valeurs = $this->view->nb_valeurs + 1; // brut
 					$tabMinerais[$this->view->nb_valeurs] = array(
 						"type" => $m["nom_type_minerai"],
 						"id_fk_echoppe_echoppe_minerai" => $m["id_fk_echoppe_echoppe_minerai"],
 						"id_fk_type_echoppe_minerai" => $m["id_fk_type_echoppe_minerai"],
-						"quantite_arriere_echoppe_minerai" => $m["quantite_arriere_echoppe_minerai"],
+						"quantite_brut_arriere_echoppe_minerai" => $m["quantite_brut_arriere_echoppe_minerai"],
 						"quantite_lingots_echoppe_minerai" => $m["quantite_lingots_echoppe_minerai"],
 						"indice_valeur" => $this->view->nb_valeurs,
 					);
 					$this->view->retirerRessourcesOk = true;
 					$this->view->nb_valeurs = $this->view->nb_valeurs + 1; // lingot
-					$this->view->nb_arriereMinerai = $this->view->nb_arriereMinerai + $m["quantite_arriere_echoppe_minerai"];
+					$this->view->nb_arriereMinerai = $this->view->nb_arriereMinerai + $m["quantite_brut_arriere_echoppe_minerai"];
 					$this->view->nb_arriereLingot = $this->view->nb_arriereLingot + $m["quantite_lingots_echoppe_minerai"];
 				}
 			}

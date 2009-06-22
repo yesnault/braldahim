@@ -66,7 +66,7 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 						"nom_type_partieplante" => $m["nom_type_partieplante"],
 						"nom_type" => $m["nom_type_plante"],
 						"quantite_arriere" => $m["quantite_arriere_echoppe_partieplante"],
-						"quantite_preparees" => $m["quantite_preparees_echoppe_partieplante"],
+						"quantite_preparees" => $m["quantite_preparee_echoppe_partieplante"],
 					);
 					$this->view->concocterPlanteOk = true;
 					$this->view->nbArrierePlante = $this->view->nbArrierePlante + $m["quantite_arriere_echoppe_partieplante"];
@@ -172,7 +172,7 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 			'id_fk_type_echoppe_partieplante' => $idTypePartiePlante,
 			'id_fk_type_plante_echoppe_partieplante' => $idTypePlante,
 			'id_fk_echoppe_echoppe_partieplante' => $this->idEchoppe,
-			'quantite_preparees_echoppe_partieplante' => $this->view->nbPartiesPlantesPreparees,
+			'quantite_preparee_echoppe_partieplante' => $this->view->nbPartiesPlantesPreparees,
 			'quantite_arriere_echoppe_partieplante' => -$nb,
 		);
 		$echoppePlanteTable->insertOrUpdate($data);

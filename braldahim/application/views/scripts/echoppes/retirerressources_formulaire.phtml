@@ -100,10 +100,10 @@
 				    		<? if ($p["quantite_arriere_echoppe_partieplante"] > 1) : $s="s" ; else: $s=""; endif;?>
 				    		<? if ($p["quantite_arriere_echoppe_partieplante"] > 1) : $s2="s" ; else: $s2="";endif; ?>
 				    		
-				    		<?=htmlspecialchars($p["nom_plante"])?> : <?=$p["quantite_arriere_echoppe_partieplante"]?> <?=htmlspecialchars($p["nom_type"])?><?=$s ?> brute<?=$s ?> et <?=$p["quantite_preparees_echoppe_partieplante"]?> <?=htmlspecialchars($p["nom_type"])?><?=$s2 ?> pr&eacute;par&eacute;<?=$s2 ?>.
+				    		<?=htmlspecialchars($p["nom_plante"])?> : <?=$p["quantite_arriere_echoppe_partieplante"]?> <?=htmlspecialchars($p["nom_type"])?><?=$s ?> brute<?=$s ?> et <?=$p["quantite_preparee_echoppe_partieplante"]?> <?=htmlspecialchars($p["nom_type"])?><?=$s2 ?> pr&eacute;par&eacute;<?=$s2 ?>.
 				    		Quantit&eacute; &agrave; retirer :<br>
 				    		<br>Brute <input type='text' maxlength='4' size='4' name='valeur_<?=$k?>' id='valeur_<?=$k?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$p["quantite_arriere_echoppe_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}">
-				    		<br>Pr&eacute;par&eacute;e <input type='text' maxlength='4' size='4' name='valeur_<?=($k+1)?>' id='valeur_<?=($k+1)?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$p["quantite_preparees_echoppe_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}">
+				    		<br>Pr&eacute;par&eacute;e <input type='text' maxlength='4' size='4' name='valeur_<?=($k+1)?>' id='valeur_<?=($k+1)?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$p["quantite_preparee_echoppe_partieplante"] ?>) { alert('Valeur trop grande'); this.value=0}; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}">
 				    	</td>
 				    	<? if ($i % 3 == 2) {
 				    		echo "</tr>";
@@ -166,9 +166,9 @@
 		     	if ($i % 3 == 0) echo "<tr>"; 
 		    	?>
 		    	<td>
-		    		<?=htmlspecialchars($m["type"])?> - brut<? if ($m["quantite_arriere_echoppe_minerai"] > 0) echo "s" ?> : <?=$m["quantite_arriere_echoppe_minerai"]?>, lingot<? if ($m["quantite_lingots_echoppe_minerai"] > 0) echo "s" ?> : <?=$m["quantite_lingots_echoppe_minerai"]?>
+		    		<?=htmlspecialchars($m["type"])?> - brut<? if ($m["quantite_brut_arriere_echoppe_minerai"] > 0) echo "s" ?> : <?=$m["quantite_brut_arriere_echoppe_minerai"]?>, lingot<? if ($m["quantite_lingots_echoppe_minerai"] > 0) echo "s" ?> : <?=$m["quantite_lingots_echoppe_minerai"]?>
 		    		<br>Quantit&eacute; &agrave; retirer -<br>
-		    		<br>Brut : <input type='text' maxlength='4' size='4' name='valeur_<?=$k ?>' id='valeur_<?=$k ?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_arriere_echoppe_minerai"] ?>) { alert('Valeur trop grande'); this.value = 0 }; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}" >
+		    		<br>Brut : <input type='text' maxlength='4' size='4' name='valeur_<?=$k ?>' id='valeur_<?=$k ?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_brut_arriere_echoppe_minerai"] ?>) { alert('Valeur trop grande'); this.value = 0 }; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}" >
 		    		Lingot : <input type='text' maxlength='4' size='4' name='valeur_<?=($k+1) ?>' id='valeur_<?=($k+1) ?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_lingots_echoppe_minerai"] ?>) { alert('Valeur trop grande'); this.value = 0 }; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirermatierespremieres').disabled=false;}else{$('bouton_retirermatierespremieres').disabled=true;}" >
 		    	</td>
 		    	<? if ($i % 3 == 2) echo "</tr>"; 

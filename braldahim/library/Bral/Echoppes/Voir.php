@@ -252,19 +252,19 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					$tabPartiePlantesBruts[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["poids"] = $p["quantite_arriere_echoppe_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE;
 				}
 
-				if ($p["quantite_preparees_echoppe_partieplante"] > 0) {
+				if ($p["quantite_preparee_echoppe_partieplante"] > 0) {
 					$this->arBoutiqueTransformes["plantes_preparees"]["a_afficher"] = true;
 					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["a_afficher"] = true;
 					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["a_afficher"] = true;
-					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_preparees_echoppe_partieplante"];
+					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["quantite"] = $p["quantite_preparee_echoppe_partieplante"];
 					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["id_type_partieplante"] = $p["id_type_partieplante"];
 					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["estPreparee"] = true;
-					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["poids"] = $p["quantite_preparees_echoppe_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE;
+					$tabPartiePlantesPreparees[$p["categorie_type_plante"]]["type_plante"][$p["nom_type_plante"]]["parties"][$p["nom_systeme_type_partieplante"]]["poids"] = $p["quantite_preparee_echoppe_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE;
 				}
 
 				$this->view->nb_caissePartiePlantes = $this->view->nb_caissePartiePlantes + $p["quantite_caisse_echoppe_partieplante"];
 				$this->view->nb_arrierePartiePlantes = $this->view->nb_arrierePartiePlantes + $p["quantite_arriere_echoppe_partieplante"];
-				$this->view->nb_prepareePartiePlantes = $this->view->nb_prepareePartiePlantes  + $p["quantite_preparees_echoppe_partieplante"];
+				$this->view->nb_prepareePartiePlantes = $this->view->nb_prepareePartiePlantes  + $p["quantite_preparee_echoppe_partieplante"];
 			}
 		}
 
@@ -287,8 +287,8 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					"type" => $m["nom_type_minerai"],
 					"id_type_minerai" => $m["id_type_minerai"],
 					"estLingot" => false,
-					"quantite" => $m["quantite_arriere_echoppe_minerai"],
-					"poids" => $m["quantite_arriere_echoppe_minerai"] * Bral_Util_Poids::POIDS_MINERAI,
+					"quantite" => $m["quantite_brut_arriere_echoppe_minerai"],
+					"poids" => $m["quantite_brut_arriere_echoppe_minerai"] * Bral_Util_Poids::POIDS_MINERAI,
 				);
 				$tabLingots[] = array(
 					"type" => $m["nom_type_minerai"],
@@ -301,11 +301,11 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					"type" => $m["nom_type_minerai"],
 					"id_type_minerai" => $m["id_type_minerai"],
 					"estLingot" => false,
-					"quantite" => $m["quantite_caisse_echoppe_minerai"],
-					"poids" => $m["quantite_caisse_echoppe_minerai"] * Bral_Util_Poids::POIDS_MINERAI,
+					"quantite" => $m["quantite_brut_caisse_echoppe_minerai"],
+					"poids" => $m["quantite_brut_caisse_echoppe_minerai"] * Bral_Util_Poids::POIDS_MINERAI,
 				);
 
-				if ($m["quantite_arriere_echoppe_minerai"] > 0) {
+				if ($m["quantite_brut_arriere_echoppe_minerai"] > 0) {
 					$this->arBoutiqueBruts["minerais"]["a_afficher"] = true;
 				}
 
@@ -317,7 +317,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					$this->arBoutiqueCaisse["minerais"]["a_afficher"] = true;
 				}
 
-				$this->view->nb_caisseMinerai = $this->view->nb_caisseMinerai + $m["quantite_caisse_echoppe_minerai"];
+				$this->view->nb_caisseMinerai = $this->view->nb_caisseMinerai + $m["quantite_brut_caisse_echoppe_minerai"];
 			}
 		}
 

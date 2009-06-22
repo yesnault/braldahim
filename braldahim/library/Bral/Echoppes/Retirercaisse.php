@@ -254,7 +254,7 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 				throw new Zend_Exception(get_class($this)." NB Minerais interdit=".$nb);
 			}
 			if ($nb > 0) {
-				$data = array('quantite_caisse_echoppe_minerai' => -$nb,
+				$data = array('quantite_brut_caisse_echoppe_minerai' => -$nb,
 							  'id_fk_type_echoppe_minerai' => $this->view->minerais[$indice]["id_fk_type_echoppe_minerai"],
 							  'id_fk_echoppe_echoppe_minerai' => $this->view->minerais[$indice]["id_fk_echoppe_echoppe_minerai"]);
 				$echoppeMineraiTable->insertOrUpdate($data);
@@ -319,19 +319,19 @@ class Bral_Echoppes_Retirercaisse extends Bral_Echoppes_Echoppe {
 
 		if ($minerais != null) {
 			foreach ($minerais as $m) {
-				if ($m["quantite_caisse_echoppe_minerai"] > 0) {
+				if ($m["quantite_brut_caisse_echoppe_minerai"] > 0) {
 					$this->view->nb_valeurs = $this->view->nb_valeurs + 1;
 					$tabMinerais["valeur_".$this->view->nb_valeurs] = array(
 						"type" => $m["nom_type_minerai"],
 						"id_fk_echoppe_echoppe_minerai" => $m["id_fk_echoppe_echoppe_minerai"],
 						"id_fk_type_echoppe_minerai" => $m["id_fk_type_echoppe_minerai"],
-						"quantite_caisse" => $m["quantite_caisse_echoppe_minerai"],
+						"quantite_caisse" => $m["quantite_brut_caisse_echoppe_minerai"],
 						"indice_valeur" => $this->view->nb_valeurs,
 					);
-					if ($m["quantite_caisse_echoppe_minerai"] > 0) {
+					if ($m["quantite_brut_caisse_echoppe_minerai"] > 0) {
 						$this->view->retirerCaisseOk = true;
 					}
-					$this->view->nb_caisseMinerai = $this->view->nb_caisseMinerai + $m["quantite_caisse_echoppe_minerai"];
+					$this->view->nb_caisseMinerai = $this->view->nb_caisseMinerai + $m["quantite_brut_caisse_echoppe_minerai"];
 				}
 			}
 		}

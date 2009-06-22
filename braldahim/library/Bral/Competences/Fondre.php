@@ -56,15 +56,15 @@ class Bral_Competences_Fondre extends Bral_Competences_Competence {
 
 		if ($minerais != null) {
 			foreach ($minerais as $m) {
-				if ($m["quantite_arriere_echoppe_minerai"] >= 1) {
+				if ($m["quantite_brut_arriere_echoppe_minerai"] >= 1) {
 					$tabMinerais[] = array(
 					"id_type" => $m["id_fk_type_echoppe_minerai"],
 					"nom_type" => $m["nom_type_minerai"],
-					"quantite_arriere" => $m["quantite_arriere_echoppe_minerai"],
+					"quantite_arriere" => $m["quantite_brut_arriere_echoppe_minerai"],
 					"quantite_lingots" => $m["quantite_lingots_echoppe_minerai"],
 					);
 					$this->view->fondreMineraiOk = true;
-					$this->view->nbArriereMinerai = $this->view->nbArriereMinerai + $m["quantite_arriere_echoppe_minerai"];
+					$this->view->nbArriereMinerai = $this->view->nbArriereMinerai + $m["quantite_brut_arriere_echoppe_minerai"];
 				}
 			}
 		}
@@ -161,7 +161,7 @@ class Bral_Competences_Fondre extends Bral_Competences_Competence {
 			'id_fk_type_echoppe_minerai' => $idTypeMinerai,
 			'id_fk_echoppe_echoppe_minerai' => $this->idEchoppe,
 			'quantite_lingots_echoppe_minerai' => $this->view->nbLingots,
-			'quantite_arriere_echoppe_minerai' => -$nb,
+			'quantite_brut_arriere_echoppe_minerai' => -$nb,
 		);
 		$echoppeMineraiTable->insertOrUpdate($data);
 		

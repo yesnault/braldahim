@@ -366,7 +366,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			$data = array(
 				'id_fk_type_echoppe_minerai' => $prix["minerais"]["id_fk_type_minerai"],
 				'id_fk_echoppe_echoppe_minerai' => $this->idEchoppe,
-				'quantite_caisse_echoppe_minerai' => $prix["prix"],
+				'quantite_brut_caisse_echoppe_minerai' => $prix["prix"],
 			);
 			$echoppeMineraiTable->insertOrUpdate($data);
 		}

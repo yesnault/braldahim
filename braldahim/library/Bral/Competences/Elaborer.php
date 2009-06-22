@@ -105,11 +105,11 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 
 			if ($partiesPlantes != null) {
 				foreach ($partiesPlantes as $m) {
-					if ($m["quantite_preparees_echoppe_partieplante"] >= 1) {
+					if ($m["quantite_preparee_echoppe_partieplante"] >= 1) {
 						$tabPartiePlantes[$m["id_fk_type_plante_echoppe_partieplante"]][$m["id_fk_type_echoppe_partieplante"]] = array(
 							"nom_type_partieplante" => $m["nom_type_partieplante"],
 							"nom_type" => $m["nom_type_plante"],
-							"quantite_preparees" => $m["quantite_preparees_echoppe_partieplante"],
+							"quantite_preparees" => $m["quantite_preparee_echoppe_partieplante"],
 						);
 						$this->view->elaborerPlanteOk = true;
 					}
@@ -200,7 +200,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 
 		foreach ($this->view->cout[$niveau] as $c) {
-			$data = array('quantite_preparees_echoppe_partieplante' => -intval($c["cout"]/2),
+			$data = array('quantite_preparee_echoppe_partieplante' => -intval($c["cout"]/2),
 						  'id_fk_type_echoppe_partieplante' => $c["id_type_partieplante"],
 						  'id_fk_type_plante_echoppe_partieplante' => $c["id_type_plante"],
 						  'id_fk_echoppe_echoppe_partieplante' => $this->idEchoppe);
@@ -259,7 +259,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 
 		foreach ($this->view->cout[$niveau] as $c) {
-			$data = array('quantite_preparees_echoppe_partieplante' => -$c["cout"],
+			$data = array('quantite_preparee_echoppe_partieplante' => -$c["cout"],
 						  'id_fk_type_echoppe_partieplante' => $c["id_type_partieplante"],
 						  'id_fk_type_plante_echoppe_partieplante' => $c["id_type_plante"],
 						  'id_fk_echoppe_echoppe_partieplante' => $this->idEchoppe);

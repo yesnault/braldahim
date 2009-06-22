@@ -31,8 +31,8 @@ class EchoppeMinerai extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from(
 		'echoppe_minerai', 
-		'count(*) as nombre, quantite_caisse_echoppe_minerai as quantiteCaisse'
-		.', quantite_arriere_echoppe_minerai as quantiteArriere'
+		'count(*) as nombre, quantite_brut_caisse_echoppe_minerai as quantiteCaisse'
+		.', quantite_brut_arriere_echoppe_minerai as quantiteArriere'
 		.', quantite_lingots_echoppe_minerai as quantiteLingots')
 		->where('id_fk_type_echoppe_minerai = ?',$data["id_fk_type_echoppe_minerai"])
 		->where('id_fk_echoppe_echoppe_minerai = ?',$data["id_fk_echoppe_echoppe_minerai"])
@@ -48,11 +48,11 @@ class EchoppeMinerai extends Zend_Db_Table {
 			$quantiteArriere = $resultat[0]["quantiteArriere"];
 			$quantiteLingots = $resultat[0]["quantiteLingots"];
 			
-			if (isset($data["quantite_caisse_echoppe_minerai"])) {
-				$quantiteCaisse = $quantiteCaisse + $data["quantite_caisse_echoppe_minerai"];
+			if (isset($data["quantite_brut_caisse_echoppe_minerai"])) {
+				$quantiteCaisse = $quantiteCaisse + $data["quantite_brut_caisse_echoppe_minerai"];
 			}
-			if (isset($data["quantite_arriere_echoppe_minerai"])) {
-				$quantiteArriere = $quantiteArriere + $data["quantite_arriere_echoppe_minerai"];
+			if (isset($data["quantite_brut_arriere_echoppe_minerai"])) {
+				$quantiteArriere = $quantiteArriere + $data["quantite_brut_arriere_echoppe_minerai"];
 			}
 			if (isset($data["quantite_lingots_echoppe_minerai"])) {
 				$quantiteLingots = $quantiteLingots + $data["quantite_lingots_echoppe_minerai"];
@@ -63,8 +63,8 @@ class EchoppeMinerai extends Zend_Db_Table {
 			if ($quantiteLingots < 0) $quantiteLingots = 0;
 			
 			$dataUpdate = array(
-			'quantite_caisse_echoppe_minerai' => $quantiteCaisse,
-			'quantite_arriere_echoppe_minerai' => $quantiteArriere,
+			'quantite_brut_caisse_echoppe_minerai' => $quantiteCaisse,
+			'quantite_brut_arriere_echoppe_minerai' => $quantiteArriere,
 			'quantite_lingots_echoppe_minerai' => $quantiteLingots,
 			);
 			$where = ' id_fk_type_echoppe_minerai = '.$data["id_fk_type_echoppe_minerai"];

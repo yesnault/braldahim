@@ -268,7 +268,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 			}
 			if ($nbBrutes > 0 || $nbPreparees > 0) {
 				$data = array('quantite_arriere_echoppe_partieplante' => $nbBrutes,
-							  'quantite_preparees_echoppe_partieplante' => $nbPreparees,
+							  'quantite_preparee_echoppe_partieplante' => $nbPreparees,
 							  'id_fk_type_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_laban_partieplante"],
 							  'id_fk_type_plante_echoppe_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_laban_partieplante"],
 							  'id_fk_echoppe_echoppe_partieplante' => $this->view->idEchoppe);
@@ -327,7 +327,7 @@ class Bral_Echoppes_Deposerressources extends Bral_Echoppes_Echoppe {
 			}
 				
 			if ($nbBrut > 0 || $nbLingot > 0) {
-				$data = array('quantite_arriere_echoppe_minerai' => $nbBrut,
+				$data = array('quantite_brut_arriere_echoppe_minerai' => $nbBrut,
 							  'quantite_lingots_echoppe_minerai' => $nbLingot,
 							  'id_fk_type_echoppe_minerai' => $this->view->minerais[$indice]["id_fk_type_laban_minerai"],
 							  'id_fk_echoppe_echoppe_minerai' => $this->view->idEchoppe);

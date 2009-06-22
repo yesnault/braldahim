@@ -491,8 +491,8 @@ DROP TABLE IF EXISTS `echoppe_minerai`;
 CREATE TABLE `echoppe_minerai` (
   `id_fk_type_echoppe_minerai` int(11) NOT NULL,
   `id_fk_echoppe_echoppe_minerai` int(11) NOT NULL,
-  `quantite_caisse_echoppe_minerai` int(11) NOT NULL default '0',
-  `quantite_arriere_echoppe_minerai` int(11) NOT NULL default '0',
+  `quantite_brut_caisse_echoppe_minerai` int(11) NOT NULL default '0',
+  `quantite_brut_arriere_echoppe_minerai` int(11) NOT NULL default '0',
   `quantite_lingots_echoppe_minerai` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id_fk_type_echoppe_minerai`,`id_fk_echoppe_echoppe_minerai`),
   KEY `id_fk_echoppe_echoppe_minerai` (`id_fk_echoppe_echoppe_minerai`)
@@ -511,7 +511,7 @@ CREATE TABLE `echoppe_partieplante` (
   `id_fk_echoppe_echoppe_partieplante` int(11) NOT NULL,
   `quantite_caisse_echoppe_partieplante` int(11) NOT NULL default '0',
   `quantite_arriere_echoppe_partieplante` int(11) NOT NULL default '0',
-  `quantite_preparees_echoppe_partieplante` int(11) NOT NULL default '0',
+  `quantite_preparee_echoppe_partieplante` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id_fk_type_echoppe_partieplante`,`id_fk_type_plante_echoppe_partieplante`,`id_fk_echoppe_echoppe_partieplante`),
   KEY `id_fk_type_plante_echoppe_partieplante` (`id_fk_type_plante_echoppe_partieplante`),
   KEY `id_fk_echoppe_echoppe_partieplante` (`id_fk_echoppe_echoppe_partieplante`)
