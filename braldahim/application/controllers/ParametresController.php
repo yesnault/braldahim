@@ -52,10 +52,9 @@ class ParametresController extends Zend_Controller_Action {
 		Zend_Loader::loadClass('Zend_Filter_StringTrim');
 	
 		$filter = new Zend_Filter();
-		$filter->addFilter(new Zend_Filter_StringTrim())
-		->addFilter(new Zend_Filter_StripTags());
+		$filter->addFilter(new Zend_Filter_StringTrim());
 		
-		$valeur = stripslashes($filter->filter($this->_request->getPost("valeur_2")));
+		$valeur = htmlspecialchars($filter->filter($this->_request->getPost("valeur_2")));
 			
 		$hobbitTable = new Hobbit();
 		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
