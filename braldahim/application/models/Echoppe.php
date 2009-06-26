@@ -94,12 +94,12 @@ class Echoppe extends Zend_Db_Table {
 	function findById($id) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('echopppe', '*')
+		$select->from('echoppe', '*')
 		->from('metier', '*')
-		->where('id_echopppe = ?', $id)
+		->where('id_echoppe = ?', $id)
 		->where('echoppe.id_fk_metier_echoppe = metier.id_metier');
 		$sql = $select->__toString();
-		return $db->fetchRow($sql);
+		return $db->fetchAll($sql);
 	}
 	
 	function insertOrUpdate($data) {
