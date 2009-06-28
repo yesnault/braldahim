@@ -237,6 +237,10 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_laban"));
+		if ($this->view->nbAlimentATerre == 0) {
+			return $this->constructListBoxRefresh(array("box_competences_metiers", "box_laban"));
+		} else {
+			return $this->constructListBoxRefresh(array("box_vue", "box_competences_metiers", "box_laban"));
+		}
 	}
 }
