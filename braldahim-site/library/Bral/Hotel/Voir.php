@@ -1033,7 +1033,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 		$typePlanteRowset = $typePlanteTable->fetchall(null, "nom_type_plante");
 		$typePlanteRowset = $typePlanteRowset->toArray();
 
-		$this->numeroElementPemiereMatierePlante = $numeroElement;
+		$this->numeroElementPemiereMatierePlante = $numeroElement + 1;
 
 		foreach($typePlanteRowset as $t) {
 			$numeroElement++;
