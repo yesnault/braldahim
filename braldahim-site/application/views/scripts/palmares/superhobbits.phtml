@@ -11,32 +11,38 @@
 	Pour un niveau choisi, la valeur maximum de chaque caractéristique (possédée par un hobbit) est indiquée.<br>
 	Les Bonus et les Malus ne sont pas pris en compte.
 	<br><br>
-	<table class="table_liste" style="width:90%">
-	<thead class="table_liste">
-	  <tr class="table_liste">
-		<th>Caractéristique</th>
-		<th>Valeur Maximum</th>
-	  </tr>
-	</thead>
-		<tbody>
-	  	<? $i = 0; 
-	  	foreach($this->hobbits as $k => $v): ?>
-	  		<tr class="table_liste<?=($i % 2);$i++; ?>">
-	  			<td class="table_liste" >
-	  			<?=$k?>
-	  			</td>
-		  		<td class="table_liste">
-		  			<? if ($v["base"] != ""): ?>
-		  				<?=($v["nombre"] + $v["base"]) ?>
-		  			<? else: ?>
-		  				<?=$v["nombre"] ?>
-		  			<? endif;?>
-		  			<?=$v["libelle"]?>
-		  		</td>
-	  		</tr>
-	  	<? endforeach; ?>
-	  	</tbody>
-	</table>
+	
+	<? if ($this->hobbits == null) : ?>
+		Il n'y a pas assez de Hobbits de niveau <?=$this->filtre?> pour afficher les caractéristiques "Super Hobbits".
+		<br><br>
+	<? else: ?>
+		<table class="table_liste" style="width:90%">
+		<thead class="table_liste">
+		  <tr class="table_liste">
+			<th>Caractéristique</th>
+			<th>Valeur Maximum</th>
+		  </tr>
+		</thead>
+			<tbody>
+		  	<? $i = 0; 
+		  	foreach($this->hobbits as $k => $v): ?>
+		  		<tr class="table_liste<?=($i % 2);$i++; ?>">
+		  			<td class="table_liste" >
+		  			<?=$k?>
+		  			</td>
+			  		<td class="table_liste">
+			  			<? if ($v["base"] != ""): ?>
+			  				<?=($v["nombre"] + $v["base"]) ?>
+			  			<? else: ?>
+			  				<?=$v["nombre"] ?>
+			  			<? endif;?>
+			  			<?=$v["libelle"]?>
+			  		</td>
+		  		</tr>
+		  	<? endforeach; ?>
+		  	</tbody>
+		</table>
+	<? endif; ?>
 	<br>
 </ul>
 </div>

@@ -29,6 +29,18 @@ class Hobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
+	function countByNiveau($niveau) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', 'count(id_hobbit) as nombre');
+		$select->where('niveau_hobbit = ?', $niveau);
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
+	}
+	
 	public function findById($id){
 		$where = $this->getAdapter()->quoteInto('id_hobbit = ?',(int)$id);
 		return $this->fetchRow($where);
