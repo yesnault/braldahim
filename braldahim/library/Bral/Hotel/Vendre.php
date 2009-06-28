@@ -299,11 +299,10 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 				if ($p["quantite_peau_".$endroit["suffixe"]] > 0) $tabAutres[1] = array("type_element" => "peau", "nom" => "Peau", "nom_pluriel" => "Peaux", "nom_systeme" => "quantite_peau" , "nb" => $p["quantite_peau_".$endroit["suffixe"]]);
 				if ($p["quantite_viande_".$endroit["suffixe"]] > 0) $tabAutres[2] = array("type_element" => "viande_fraiche", "nom" => "Viande", "nom_pluriel" => "Viandes", "nom_systeme" => "quantite_viande" , "nb" => $p["quantite_viande_".$endroit["suffixe"]]);
 				if ($p["quantite_viande_preparee_".$endroit["suffixe"]] > 0) $tabAutres[3] = array("type_element" => "viande_preparee", "nom" => "Viande pr&eacute;par&eacute;e", "nom_pluriel" => "Viandes pr&eacute;par&eacute;es", "nom_systeme" => "quantite_viande_preparee" , "nb" => $p["quantite_viande_preparee_".$endroit["suffixe"]]);
-				if ($p["quantite_ration_".$endroit["suffixe"]] > 0) $tabAutres[4] = array("type_element" => "ration", "nom" => "Ration", "nom_pluriel" => "Rations", "nom_systeme" => "quantite_ration" , "nb" => $p["quantite_ration_".$endroit["suffixe"]]);
-				if ($p["quantite_cuir_".$endroit["suffixe"]] > 0) $tabAutres[5] = array("type_element" => "cuir", "nom" => "Cuir", "nom_pluriel" => "Cuirs", "nom_systeme" => "quantite_cuir" , "nb" => $p["quantite_cuir_".$endroit["suffixe"]]);
-				if ($p["quantite_fourrure_".$endroit["suffixe"]] > 0) $tabAutres[6] = array("type_element" => "fourrure", "nom" => "Fourrure", "nom_pluriel" => "Fourrures", "nom_systeme" => "quantite_fourrure" , "nb" => $p["quantite_fourrure_".$endroit["suffixe"]]);
-				if ($p["quantite_planche_".$endroit["suffixe"]] > 0) $tabAutres[7] = array("type_element" => "planche", "nom" => "Planche", "nom_pluriel" => "Planches", "nom_systeme" => "quantite_planche" , "nb" => $p["quantite_planche_".$endroit["suffixe"]]);
-				if ($p["quantite_rondin_".$endroit["suffixe"]] > 0) $tabAutres[8] = array("type_element" => "rondin", "nom" => "Rondin", "nom_pluriel" => "Rondins", "nom_systeme" => "quantite_rondin" , "nb" => $p["quantite_rondin_".$endroit["suffixe"]]);
+				if ($p["quantite_cuir_".$endroit["suffixe"]] > 0) $tabAutres[4] = array("type_element" => "cuir", "nom" => "Cuir", "nom_pluriel" => "Cuirs", "nom_systeme" => "quantite_cuir" , "nb" => $p["quantite_cuir_".$endroit["suffixe"]]);
+				if ($p["quantite_fourrure_".$endroit["suffixe"]] > 0) $tabAutres[5] = array("type_element" => "fourrure", "nom" => "Fourrure", "nom_pluriel" => "Fourrures", "nom_systeme" => "quantite_fourrure" , "nb" => $p["quantite_fourrure_".$endroit["suffixe"]]);
+				if ($p["quantite_planche_".$endroit["suffixe"]] > 0) $tabAutres[6] = array("type_element" => "planche", "nom" => "Planche", "nom_pluriel" => "Planches", "nom_systeme" => "quantite_planche" , "nb" => $p["quantite_planche_".$endroit["suffixe"]]);
+				if ($p["quantite_rondin_".$endroit["suffixe"]] > 0) $tabAutres[7] = array("type_element" => "rondin", "nom" => "Rondin", "nom_pluriel" => "Rondins", "nom_systeme" => "quantite_rondin" , "nb" => $p["quantite_rondin_".$endroit["suffixe"]]);
 
 				if (count($tabAutres) > 0) {
 					$this->view->vendreOk = true;
