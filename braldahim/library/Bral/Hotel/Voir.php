@@ -277,7 +277,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		} else {
 			$typePlante = null;
 			$typePartiePlante = null;
-		if ($type == "matieres_premieres") {
+			if ($type == "matieres_premieres") {
 				$typePlante = $this->view->menuRechercheMatieresPremieres["plantes"]["elements"][$numeroElement]["id_type_plante"];
 				$typePartiePlante = $this->view->menuRechercheMatieresPremieres["plantes"]["elements"][$numeroElement]["id_type_partieplante"];
 			} elseif ($type == "matieres_transformees") {
@@ -1047,7 +1047,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		$typePlanteRowset = $typePlanteTable->fetchall(null, "nom_type_plante");
 		$typePlanteRowset = $typePlanteRowset->toArray();
 
-		$this->numeroElementPemiereMatierePlante = $numeroElement;
+		$this->numeroElementPemiereMatierePlante = $numeroElement + 1;
 
 		foreach($typePlanteRowset as $t) {
 			$numeroElement++;
