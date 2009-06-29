@@ -21,6 +21,7 @@ class Bral_Boutique_Acheterbois extends Bral_Boutique_Boutique {
 	}
 
 	function prepareCommun() {
+		throw new Zend_Exception("Boutique fermee");
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("Bral_Util_BoutiqueBois");
 		Zend_Loader::loadClass("StockBois");

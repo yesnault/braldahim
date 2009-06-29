@@ -21,6 +21,7 @@ class Bral_Boutique_Vendrepeaux extends Bral_Boutique_Boutique {
 	}
 
 	function prepareCommun() {
+		throw new Zend_Exception("Boutique fermee");
 		Zend_Loader::loadClass('Charrette');
 		Zend_Loader::loadClass('Laban');
 		Zend_Loader::loadClass('BoutiquePeau');

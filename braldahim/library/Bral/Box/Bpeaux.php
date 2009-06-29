@@ -21,6 +21,7 @@ class Bral_Box_Bpeaux extends Bral_Box_Boutique {
 	}
 	
 	public function render() {
+		throw new Zend_Exception("Boutique fermee");
 		$this->preRender();
 		
 		Zend_Loader::loadClass('Bral_Util_BoutiquePeaux');

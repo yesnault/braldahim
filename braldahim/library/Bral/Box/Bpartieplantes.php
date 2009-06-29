@@ -21,6 +21,7 @@ class Bral_Box_Bpartieplantes extends Bral_Box_Boutique {
 	}
 	
 	public function render() {
+		throw new Zend_Exception("Boutique fermee");
 		$this->preRender();
 		$this->prepareArticles();
 		return $this->view->render("interface/bpartieplantes.phtml");

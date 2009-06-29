@@ -16,6 +16,7 @@ class Bral_Lieux_Bbois extends Bral_Lieux_Lieu {
 	private $_coutCastars = null;
 
 	function prepareCommun() {
+		throw new Zend_Exception("Boutique fermee");
 		Zend_Loader::loadClass("Lieu");
 		$this->_coutCastars = 0;
 		$this->_utilisationPossible = true;

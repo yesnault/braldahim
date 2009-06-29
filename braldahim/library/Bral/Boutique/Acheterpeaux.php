@@ -21,6 +21,7 @@ class Bral_Boutique_Acheterpeaux extends Bral_Boutique_Boutique {
 	}
 
 	function prepareCommun() {
+		throw new Zend_Exception("Boutique fermee");
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("Bral_Util_BoutiquePeaux");
 		Zend_Loader::loadClass("StockPeau");

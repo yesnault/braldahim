@@ -21,6 +21,7 @@ class Bral_Boutique_Acheterminerais extends Bral_Boutique_Boutique {
 	}
 
 	function prepareCommun() {
+		throw new Zend_Exception("Boutique fermee");
 		Zend_Loader::loadClass('Bral_Util_BoutiqueMinerais');
 		Zend_Loader::loadClass('Region');
 		Zend_Loader::loadClass('StockMinerai');
