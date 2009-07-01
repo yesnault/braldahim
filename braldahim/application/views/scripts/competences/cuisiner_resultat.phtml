@@ -10,7 +10,7 @@
 	<?=$this->typeAliment->nom_type_aliment?><?=$s ?> de qualit&eacute; <?=$this->qualite?> avec pour effet sur la balance de +<?=$this->bbdfAliment?> %.
 	<br />
 	<? if ($this->nbAlimentATerre > 0): ?>
-		Faute de place dans le laban, <?=$this->nbAlimentATerre ?> aliment<? if ($this->nbAlimentATerre > 0): echo "s sont tombés terre"; else: " est tombé à terre"; endif?>
+		Faute de place dans le laban, <?=$this->nbAlimentATerre ?> aliment<? if ($this->nbAlimentATerre > 1): echo "s sont tombés terre"; else: " est tombé à terre"; endif?>
 	<? endif;?>
 	<br /><br />
 	
