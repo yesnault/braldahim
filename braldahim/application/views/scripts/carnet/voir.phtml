@@ -12,10 +12,10 @@
 
 <div id='carnet_html'><?=nl2br($this->htmlCarnet)?></div>
 
-<input type="button" class="button1" value="&Eacute;diter" onClick="$('carnet_html').style.display='none';$('carnet_edit').style.display='block'; $('bouton_edition_carnet').style.display='block'; this.style.display='none'">
+<input type="button" class="button1" value="&Eacute;diter" onClick="stopDrag(); $('carnet_html').style.display='none';$('carnet_edit').style.display='block'; $('bouton_edition_carnet').style.display='block'; this.style.display='none'">
 
 <div id="bouton_edition_carnet" style="display:none">
-<input type="button" class="button1" value="Valider" onClick="_get_specifique_('/carnet/doaction?caction=do_carnet_voir', 'mode=editer&carnet=<?=$this->idCarnet?>&texte_carnet='+encodeURIComponent($('valeur_carnet').value))">
-<input type="button" class="button1" value="Annuler" onClick="_get_('/carnet/doaction?caction=do_carnet_voir&carnet=<?=$this->idCarnet?>')">
+<input type="button" class="button1" value="Valider" onClick="startDrag(); _get_specifique_('/carnet/doaction?caction=do_carnet_voir', 'mode=editer&carnet=<?=$this->idCarnet?>&texte_carnet='+encodeURIComponent($('valeur_carnet').value))">
+<input type="button" class="button1" value="Annuler" onClick="startDrag(); _get_('/carnet/doaction?caction=do_carnet_voir&carnet=<?=$this->idCarnet?>')">
 </div>
 <br><br>
