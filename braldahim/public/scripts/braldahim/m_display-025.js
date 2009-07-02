@@ -226,6 +226,10 @@ function copierTooltip() {
 	$('contenuTooltipCopieText').value = $('contenuTooltipCopieText').value.replace(/<br>/g, '\n');
 }
 
+function copierTooltipStatic(idDivInitiale, replaceBrChar) {
+	javascript:switch2div('contenuTooltip','contenuTooltipCopie');
+	$('contenuTooltipCopieText').value = $(idDivInitiale).innerHTML.replace(/<br>/g, replaceBrChar);
+}
 
 function textCount(field,counterfield,max) {
 	if (field.value.length > max) // if too long...trim it!

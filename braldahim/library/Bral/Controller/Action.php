@@ -73,6 +73,8 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 			try {
 				if ($factory == "Bral_Boutique_Factory") {
 					$action = Bral_Boutique_Factory::getAction($this->_request, $this->view);
+				} elseif ($factory == "Bral_Carnet_Factory") {
+					$action = Bral_Carnet_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Charrette_Factory") {
 					$action = Bral_Charrette_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Competences_Factory") {

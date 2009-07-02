@@ -1,0 +1,21 @@
+<select name='id_carnet' id="id_carnet" onChange='_get_("/carnet/doaction?caction=do_carnet_voir&carnet="+this.value);'>
+<? for($i = 1; $i <=5; $i++) :?>
+	<option value="<?=$i?>" <? if ($i==$this->idCarnet) echo "selected";?>>Note n°<?=$i?></option>
+<? endfor;?>
+</select>
+<br><br>
+
+<div id='carnet_edit' style="display:none">
+    <textarea name="valeur_carnet" id="valeur_carnet" class="inputbox" rows="4" cols="30" onkeydown="textCount($('valeur_carnet'),$('characterstyped'),1000);" onkeyup="textCount($('valeur_carnet'),$('characterstyped'),1000);"><?=$this->htmlCarnet?></textarea>
+	<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="1000" type="text"> Caract&egrave;res restants<br>
+</div>
+
+<div id='carnet_html'><?=nl2br($this->htmlCarnet)?></div>
+
+<input type="button" class="button1" value="&Eacute;diter" onClick="$('carnet_html').style.display='none';$('carnet_edit').style.display='block'; $('bouton_edition_carnet').style.display='block'; this.style.display='none'">
+
+<div id="bouton_edition_carnet" style="display:none">
+<input type="button" class="button1" value="Valider" onClick="_get_specifique_('/carnet/doaction?caction=do_carnet_voir', 'mode=editer&carnet=<?=$this->idCarnet?>&texte_carnet='+encodeURIComponent($('valeur_carnet').value))">
+<input type="button" class="button1" value="Annuler" onClick="_get_('/carnet/doaction?caction=do_carnet_voir&carnet=<?=$this->idCarnet?>')">
+</div>
+<br><br>

@@ -8,6 +8,17 @@ function findSelectedRadioButton(groupname) {
 	return null;
 }
 
+function _get_specifique_(url, valeurs) {
+	var sep = '&';
+	if ($('dateAuth')) {
+		valeurs = valeurs + sep + "dateAuth=" + $('dateAuth').value;
+	} else {
+		valeurs = valeurs + sep + "dateAuth=-1" ;
+	}
+	var pars = valeurs;
+	var myAjax = new Ajax.Request(url, { postBody :pars, onComplete :showResponse });
+}
+
 function _get_(url, encode) {
 	var valeurs = "";
 	var nb_valeurs = 0;
@@ -26,6 +37,10 @@ function _get_(url, encode) {
 			}
 		} else if (url.substring(0, 9) == "/boutique" || url.substring(0, 9) == "/echoppes") { // /echoppes/doaction?caction=ask/do
 			if ((url.substring(10, 12) == "do") && (url.substring(27, 29) == "do")) {
+				action = "do";
+			}
+		} else if (url.substring(0, 7) == "/carnet") { // /carnet/doaction?caction=ask/do
+			if ((url.substring(8, 10) == "do") && (url.substring(25, 27) == "do")) {
 				action = "do";
 			}
 		} else if (url.substring(0, 8) == "/echoppe") { // /echoppe/doaction?caction=ask/do
