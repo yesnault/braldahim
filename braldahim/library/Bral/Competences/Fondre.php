@@ -116,6 +116,9 @@ class Bral_Competences_Fondre extends Bral_Competences_Competence {
 			if ($t["id_type"] == $idTypeMinerai) {
 				$mineraiOk = true;
 				$this->view->mineraiNomType = $t["nom_type"];
+				if ($nombre > $t["quantite_arriere"]) {
+					$nombre = $t["quantite_arriere"];
+				}
 				break;
 			}
 		}
