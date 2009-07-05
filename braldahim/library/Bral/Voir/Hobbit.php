@@ -45,7 +45,17 @@ class Bral_Voir_Hobbit {
 		$tabMetier["tabMetiers"] = null;
 		$tabMetier["possedeMetier"] = false;
 		$tabTitre["tabTitres"] = null;
-		
+
+		$val = $this->_request->get("hobbit");
+		if ($val != "" && ((int)$val."" == $val."")) {
+			return $this->renderData();
+		} else {
+			$this->view->flux = $this->view->render("voir/hobbit/profil.phtml");;
+			return $this->view->render("voir/hobbit.phtml");
+		}
+	}
+
+	private function renderData() {
 		$hobbitTable = new Hobbit();
 		$idHobbit = Bral_Util_Controle::getValeurIntVerif($this->_request->get("hobbit"));
 		$hobbitRowset = $hobbitTable->findById($idHobbit);
@@ -76,7 +86,7 @@ class Bral_Voir_Hobbit {
 			$this->view->tabMetiers = $tabMetier["tabMetiers"];
 			$this->view->possedeMetier = $tabMetier["possedeMetier"];
 			$this->view->tabTitres = $tabTitre["tabTitres"];
-			
+
 			$charretteTable = new Charrette();
 			$nbCharrette = $charretteTable->countByIdHobbit($this->view->hobbit["id_hobbit"]);
 			if ($nbCharrette > 0) {
@@ -110,7 +120,7 @@ class Bral_Voir_Hobbit {
 			$this->view->connu = true;
 			$this->view->ancien = true;
 			$this->view->hobbit["id_hobbit"] = $hobbit["id_hobbit_ancien_hobbit"];
-				
+
 			$this->view->hobbit["nom_hobbit"] = $hobbit["nom_ancien_hobbit"];
 			$this->view->hobbit["prenom_hobbit"] = $hobbit["prenom_ancien_hobbit"];
 			$this->view->hobbit["id_fk_nom_initial_hobbit"] = $hobbit["id_fk_nom_initial_ancien_hobbit"];
