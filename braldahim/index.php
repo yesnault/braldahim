@@ -89,6 +89,7 @@ $debut3 = microtime(true);
 
 // run!
 try {
+
 	$frontController->dispatch();
 	if ($config->db->game->config->profiler == true) {
 		Zend_Loader::loadClass("Bral_Util_Profiler");
