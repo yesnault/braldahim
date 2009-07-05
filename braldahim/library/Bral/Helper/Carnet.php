@@ -19,7 +19,7 @@ class Bral_Helper_Carnet {
 		$carnet = "<div id='box_carnet'>Chargement en cours</div>";
 		
 		$retour = "<input type='hidden' id='loaded_carnet' value='0'>";
-		$retour .= "<div id='ccarnet' style='display:none'>".Bral_Helper_Tooltip::maketip($carnet, "Carnet", true, false, 300, true, false, "copierTooltipStatic(\"carnet_html\", \"\")")."</div>";
+		$retour .= "<div id='ccarnet' style='display:none'>".Bral_Helper_Tooltip::maketip($carnet, "Carnet", true, false, 400, true, false, "copierTooltipStatic(\"carnet_html\", \"\")")."</div>";
 		$retour .= "<span class='alabel' title='Carnet' ".Bral_Helper_Tooltip::jsTipFromDiv("ccarnet", $jsBefore).">";
 		$retour .= "<label style='text-decoration:underline;cursor:pointer'>Carnet</label>&nbsp;";
 		$retour .= "<img src='/public/images/uddeim/menu_book.gif' alt='Contacts' border='0'>"; 

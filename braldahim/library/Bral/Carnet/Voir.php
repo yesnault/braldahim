@@ -35,11 +35,14 @@ class Bral_Carnet_Voir extends Bral_Carnet_Carnet {
 			$data["id_carnet"] = $idCarnet;
 			$data["id_fk_hobbit_carnet"] = $this->view->user->id_hobbit;
 			
-			Zend_Loader::loadClass("Zend_Filter_StripTags");
-			$filter = new Zend_Filter_StripTags();
+			Zend_Loader::loadClass('Zend_Filter');
+			Zend_Loader::loadClass('Zend_Filter_StringTrim');
+		
+			$filter = new Zend_Filter();
+			$filter->addFilter(new Zend_Filter_StringTrim());
 			
-			$data["texte_carnet"] = stripslashes($filter->filter(trim($this->request->get('texte_carnet'))));
-			
+			$data["texte_carnet"] = htmlspecialchars($filter->filter($this->request->get('texte_carnet')));
+		
 			$carnetTable->insertOrUpdate($data);
 		}
 

@@ -6,8 +6,8 @@
 <br><br>
 
 <div id='carnet_edit' style="display:none">
-    <textarea name="valeur_carnet" id="valeur_carnet" class="inputbox" rows="4" cols="30" onkeydown="textCount($('valeur_carnet'),$('characterstyped'),1000);" onkeyup="textCount($('valeur_carnet'),$('characterstyped'),1000);"><?=$this->htmlCarnet?></textarea>
-	<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="1000" type="text"> Caract&egrave;res restants<br>
+    <textarea name="valeur_carnet" id="valeur_carnet" class="inputbox" rows="6" cols="40" onkeydown="textCount($('valeur_carnet'),$('characterstyped'),1000);" onkeyup="textCount($('valeur_carnet'),$('characterstyped'),1000);"><?=$this->htmlCarnet?></textarea>
+	<br><input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="<?=1000-mb_strlen($this->htmlCarnet)?>" type="text"> Caract&egrave;res restants<br>
 </div>
 
 <div id='carnet_html'><?=nl2br($this->htmlCarnet)?></div>

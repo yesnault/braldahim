@@ -48,7 +48,6 @@ class ParametresController extends Zend_Controller_Action {
 
 	function descriptionAction() {
 		Zend_Loader::loadClass('Zend_Filter');
-		Zend_Loader::loadClass('Zend_Filter_StripTags');
 		Zend_Loader::loadClass('Zend_Filter_StringTrim');
 	
 		$filter = new Zend_Filter();
