@@ -25,7 +25,7 @@ class Bral_Util_Titre {
 
 		foreach($hobbitsTitreRowset as $t) {
 			$possedeTitre = true;
-				
+
 			if ($sexeHobbit == 'feminin') {
 				$nom_titre = $t["nom_feminin_type_titre"];
 			} else {
@@ -39,7 +39,7 @@ class Bral_Util_Titre {
 				"date_acquis_htitre" => Bral_Util_ConvertDate::get_date_mysql_datetime("d/m/Y", $t["date_acquis_htitre"]),
 				"niveau_acquis_htitre" => $t["niveau_acquis_htitre"],
 			);
-				
+
 		}
 		unset($hobbitsTitreRowset);
 
@@ -55,6 +55,9 @@ class Bral_Util_Titre {
 				break;
 			case "vigueur":
 				$hobbit->vigueur_base_hobbit = $hobbit->vigueur_base_hobbit + 1;
+				$pvAvant = $hobbit->pv_max_hobbit;
+				$hobbit->pv_max_hobbit = Bral_Util_Commun::calculPvMaxBaseSansEffetMotE(Zend_Registry::get('config'), $hobbit->vigueur_base_hobbit);
+				$hobbit->pv_restant_hobbit = $hobbit->pv_restant_hobbit  + ($hobbit->pv_max_hobbit - $pvAvant);
 				break;
 			case "force" :
 				$hobbit->force_base_hobbit = $hobbit->force_base_hobbit + 1;

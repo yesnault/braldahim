@@ -356,6 +356,7 @@ abstract class Bral_Competences_Competence {
 			'x_hobbit' => $this->view->user->x_hobbit,
 			'y_hobbit'  => $this->view->user->y_hobbit,
 			'pv_restant_hobbit' => $this->view->user->pv_restant_hobbit,
+			'pv_max_hobbit' => $this->view->user->pv_max_hobbit,
 			'pv_max_bm_hobbit' => $this->view->user->pv_max_bm_hobbit,
 			'poids_transporte_hobbit' => $this->view->user->poids_transporte_hobbit,
 			'poids_transportable_hobbit' => $this->view->user->poids_transportable_hobbit,
