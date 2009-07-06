@@ -217,7 +217,7 @@ class Bral_Helper_Profil {
      	$section_milieu = "Section survol&eacute;e : &Eacute;veil, termin&eacute;e &agrave; ".$pourcent_milieu." %<br><br>";
      	$section_latence = "Section survol&eacute;e : Sommeil, termin&eacute;e &agrave; ".$pourcent_latence." %<br><br>";
      	
-     	$retour .= "<table border='0' margin='0' cellspacing='0' cellpadding='0'><tr>";
+     	$retour .= "<table border='0' margin='0' cellspacing='0' cellpadding='0' align='center'><tr>";
      	$retour .= "<td>";
      	$retour .= "<div class='barre_tour_sommeil'  ".Bral_Helper_Tooltip::jsTip($section_latence.$texte, $titre, true).">";
 		$retour .= "<img src='/public/images/barre_tour_sommeil.gif' height='10px' width='".$width_latence."px'></div>";

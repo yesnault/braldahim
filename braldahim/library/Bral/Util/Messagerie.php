@@ -40,7 +40,7 @@ class Bral_Util_Messagerie {
 		$tabHobbits = null;
 
 		foreach($hobbits as $h) {
-				
+
 			if (in_array($h["id_hobbit"],$idDestinatairesTab) && ($sansIdHobbit == -1 || $sansIdHobbit != $h["id_hobbit"])) {
 				if ($destinataires == "") {
 					$destinataires = $h["id_hobbit"];
@@ -99,7 +99,7 @@ class Bral_Util_Messagerie {
 				$aff_js_contacts .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'\',\'m_'.$valeur.'_'.$c["id"].'\', \''.$valeur.'\', '.$c["id"].')" />';
 				$aff_js_contacts .= '</span>';
 			}
-				
+
 			if ($userIds != "") {
 				$userIds .= ",";
 			}
@@ -173,6 +173,81 @@ class Bral_Util_Messagerie {
 		$data = Bral_Util_Messagerie::prepareMessageAEnvoyer($idHobbitSource, $idHobbitDestinataire, $contenu, $idHobbitDestinataire);
 		$josUddeimTable = new JosUddeim();
 		$josUddeimTable->insert($data);
+	}
+
+	public static function prepareMessages($idHobbit, $filtre = null, $page = null, $nbMax = null, $toread = null) {
+		Zend_Loader::loadClass("Bral_Util_Lien");
+
+		$josUddeimTable = new JosUddeim();
+		$config = Zend_Registry::get('config');
+
+		if ($filtre == $config->messagerie->message->type->envoye) {
+			$messages = $josUddeimTable->findByFromId($idHobbit, $page, $nbMax);
+		} else if ($filtre == $config->messagerie->message->type->supprime) {
+			$messages = $josUddeimTable->findByToOrFromIdSupprime($idHobbit, $page, $nbMax);
+		} else { // reception
+			$messages = $josUddeimTable->findByToId($idHobbit, $page, $nbMax, $toread);
+		}
+
+		$idsHobbit = "";
+		$tabHobbits = null;
+		$tabMessages = null;
+
+		if ($messages != null) {
+			foreach ($messages as $m) {
+				if ($filtre == $config->messagerie->message->type->envoye) {
+					$fieldId = "toid";
+				} else {
+					$fieldId = "fromid";
+				}
+				$idsHobbit[$m["toid"]] = $m["toid"];
+				$idsHobbit[$m["fromid"]] = $m["fromid"];
+			}
+				
+			if ($idsHobbit != null) {
+				$hobbitTable = new Hobbit();
+				$hobbits = $hobbitTable->findByIdList($idsHobbit);
+				if ($hobbits != null) {
+					foreach($hobbits as $h) {
+						$tabHobbits[$h["id_hobbit"]] = $h;
+					}
+				}
+			}
+				
+			foreach ($messages as $m) {
+				$expediteur = "";
+				$destinataire = "";
+				if ($tabHobbits != null) {
+					if (array_key_exists($m["toid"], $tabHobbits)) {
+						$destinataire = Bral_Util_Lien::getJsHobbit($tabHobbits[$m["toid"]]["id_hobbit"], $tabHobbits[$m["toid"]]["prenom_hobbit"] . " ". $tabHobbits[$m["toid"]]["nom_hobbit"]. " (".$tabHobbits[$m["toid"]]["id_hobbit"].")");
+					} else {
+						$destinataire = " Erreur ".$m["toid"];
+					}
+						
+					if (array_key_exists($m["fromid"], $tabHobbits)) {
+						$expediteur = Bral_Util_Lien::getJsHobbit($tabHobbits[$m["fromid"]]["id_hobbit"], $tabHobbits[$m["fromid"]]["prenom_hobbit"] . " ". $tabHobbits[$m["fromid"]]["nom_hobbit"]. " (".$tabHobbits[$m["fromid"]]["id_hobbit"].")");
+					} else {
+						$expediteur = " Erreur ".$m["fromid"];
+					}
+				}
+				if ($expediteur == "") {
+					$expediteur = " Erreur inconnue";
+				}
+				if ($destinataire == "") {
+					$destinataire = " Erreur inconnue";
+				}
+
+				$tabMessages[] = array(
+					"id_message" => $m["id"],
+					"titre" => $m["message"],
+					"date" => $m["datum"],
+					"expediteur" => $expediteur,
+					"destinataire" => $destinataire,
+					"toread" => $m["toread"],
+				);
+			}
+		}
+		return $tabMessages;
 	}
 
 }

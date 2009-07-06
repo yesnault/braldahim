@@ -57,7 +57,7 @@ class JosUddeim extends Zend_Db_Table {
 		}
 	}
 	
-	public function findByToId($toId, $page, $nbMax) {
+	public function findByToId($toId, $page, $nbMax, $toread = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		
@@ -66,6 +66,11 @@ class JosUddeim extends Zend_Db_Table {
 		->where('jos_uddeim.totrash = 0')
 		->order('datum DESC')
 		->limitPage($page, $nbMax);
+		
+		if ($toread != null && $toread === true) {
+			$select->where('toread = 0');
+		}
+		
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

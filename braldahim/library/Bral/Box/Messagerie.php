@@ -42,76 +42,8 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 	}
 	
 	private function prepareMessages() {
-		Zend_Loader::loadClass("Bral_Util_Lien");
 		
-		$josUddeimTable = new JosUddeim();
-		
-		if ($this->_filtre == $this->view->config->messagerie->message->type->envoye) {
-			$messages = $josUddeimTable->findByFromId($this->view->user->id_hobbit, $this->_page, $this->_nbMax);
-		} else if ($this->_filtre == $this->view->config->messagerie->message->type->supprime) {
-			$messages = $josUddeimTable->findByToOrFromIdSupprime($this->view->user->id_hobbit, $this->_page, $this->_nbMax);
-		} else { // reception
-			$messages = $josUddeimTable->findByToId($this->view->user->id_hobbit, $this->_page, $this->_nbMax);
-		}
-		
-		$idsHobbit = "";
-		$tabHobbits = null;
-		$tabMessages = null;
-		
-		if ($messages != null) {
-			foreach ($messages as $m) {
-				if ($this->_filtre == $this->view->config->messagerie->message->type->envoye) {
-					$fieldId = "toid";
-				} else {
-					$fieldId = "fromid";
-				}
-				$idsHobbit[$m["toid"]] = $m["toid"];
-				$idsHobbit[$m["fromid"]] = $m["fromid"];
-			}
-			
-			if ($idsHobbit != null) {
-				$hobbitTable = new Hobbit();
-				$hobbits = $hobbitTable->findByIdList($idsHobbit);
-				if ($hobbits != null) {
-					foreach($hobbits as $h) {
-						$tabHobbits[$h["id_hobbit"]] = $h;
-					}
-				}
-			}
-			
-			foreach ($messages as $m) {
-				$expediteur = "";
-				$destinataire = "";
-				if ($tabHobbits != null) {
-					if (array_key_exists($m["toid"], $tabHobbits)) {
-						$destinataire = Bral_Util_Lien::getJsHobbit($tabHobbits[$m["toid"]]["id_hobbit"], $tabHobbits[$m["toid"]]["prenom_hobbit"] . " ". $tabHobbits[$m["toid"]]["nom_hobbit"]. " (".$tabHobbits[$m["toid"]]["id_hobbit"].")");
-					} else {
-						$destinataire = " Erreur ".$m["toid"];
-					}
-					
-					if (array_key_exists($m["fromid"], $tabHobbits)) {
-						$expediteur = Bral_Util_Lien::getJsHobbit($tabHobbits[$m["fromid"]]["id_hobbit"], $tabHobbits[$m["fromid"]]["prenom_hobbit"] . " ". $tabHobbits[$m["fromid"]]["nom_hobbit"]. " (".$tabHobbits[$m["fromid"]]["id_hobbit"].")");
-					} else {
-						$expediteur = " Erreur ".$m["fromid"];
-					}
-				}
-				if ($expediteur == "") {
-					$expediteur = " Erreur inconnue";
-				}
-				if ($destinataire == "") {
-					$destinataire = " Erreur inconnue";
-				}
-				
-				$tabMessages[] = array(
-					"id_message" => $m["id"],
-					"titre" => $m["message"],
-					"date" => $m["datum"],
-					"expediteur" => $expediteur,
-					"destinataire" => $destinataire,
-					"toread" => $m["toread"],
-				);
-			}
-		}
+		$tabMessages = Bral_Util_Messagerie::prepareMessages($this->view->user->id_hobbit, $this->_filtre, $this->_page, $this->_nbMax);
 		
 		if ($this->_page == 1) {
 			$precedentOk = false;

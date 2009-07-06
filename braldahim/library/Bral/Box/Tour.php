@@ -41,6 +41,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 	}
 
 	function render() {
+		$this->view->messages = Bral_Util_Messagerie::prepareMessages($this->view->user->id_hobbit, null, 1, 5, true);
+		Zend_Loader::loadClass("JosUddeim");
+		$josUddeim = new JosUddeim();
+		$this->view->nbMessagesNonLus = $josUddeim->countByToIdNotRead($this->view->user->id_hobbit);
 		$this->view->user->nom_tour = $this->nomsTour[$this->view->user->tour_position_hobbit];
 		return $this->view->render("interface/tour.phtml");
 	}
