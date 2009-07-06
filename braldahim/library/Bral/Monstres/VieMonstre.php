@@ -62,10 +62,10 @@ class Bral_Monstres_VieMonstre {
 		}
 
 		$palissadeTable = new Palissade();
-		$x_min = $this->monstre["x_monstre"] - $this->monstre["vue_monstre"];
-		$x_max = $this->monstre["x_monstre"] + $this->monstre["vue_monstre"];
-		$y_min = $this->monstre["y_monstre"] - $this->monstre["vue_monstre"];
-		$y_max = $this->monstre["y_monstre"] + $this->monstre["vue_monstre"];
+		$x_min = $this->monstre["x_monstre"] - 12;
+		$x_max = $this->monstre["x_monstre"] + 12;
+		$y_min = $this->monstre["y_monstre"] - 12;
+		$y_max = $this->monstre["y_monstre"] + 12;
 
 		$palissades = $palissadeTable->selectVue($x_min, $y_min, $x_max, $y_max);
 
@@ -118,6 +118,10 @@ class Bral_Monstres_VieMonstre {
 				$this->monstre["x_monstre"] = $this->monstre["x_monstre"] ;
 				$this->monstre["y_monstre"] = $this->monstre["y_monstre"] + $y_offset;
 				$modif = true;
+			} else {
+				if ($this->tabValidationPalissade[$x_monstre][$y_monstre] == false) {
+					Bral_Util_Log::viemonstres()->debug(get_class($this)." - pas de deplacement, cause palissade");
+				}
 			}
 
 			$nb_pa_joues = $nb_pa_joues + 1;
