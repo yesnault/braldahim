@@ -41,7 +41,7 @@ class Bral_Carnet_Voir extends Bral_Carnet_Carnet {
 			$filter = new Zend_Filter();
 			$filter->addFilter(new Zend_Filter_StringTrim());
 			
-			$data["texte_carnet"] = htmlspecialchars($filter->filter($this->request->get('texte_carnet')));
+			$data["texte_carnet"] = stripslashes(htmlspecialchars($filter->filter($this->request->get('texte_carnet'))));
 		
 			$carnetTable->insertOrUpdate($data);
 		}

@@ -16,7 +16,7 @@ class Bral_Helper_Carnet {
 		
 		$jsBefore = "if ($('loaded_carnet').value == 0) { $('loaded_carnet').value = 1; _get_('/carnet/doaction?caction=do_carnet_voir'); };";
 		
-		$carnet = "<div id='box_carnet'>Chargement en cours</div>";
+		$carnet = "<div id='box_carnet' name='box_carnet'>Chargement en cours</div>";
 		
 		$retour = "<input type='hidden' id='loaded_carnet' value='0'>";
 		$retour .= "<div id='ccarnet' style='display:none'>".Bral_Helper_Tooltip::maketip($carnet, "Carnet", true, false, 400, true, false, "copierTooltipStatic(\"carnet_html\", \"\")")."</div>";
