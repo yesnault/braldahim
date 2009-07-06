@@ -211,7 +211,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 			}
 				
 			if ($this->view->message["userids"] != "") {
-				$idDestinatairesTab = $idDestinatairesTab + split(',', $this->view->message["userids"]);
+				$idDestinatairesTab = array_merge($idDestinatairesTab, split(',', $this->view->message["userids"]));
 				if ($idDestinatairesListe != null) {
 					$idDestinatairesListe .= ",";
 				}
