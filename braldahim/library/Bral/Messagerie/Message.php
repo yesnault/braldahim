@@ -176,6 +176,10 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 			$validateurContacts = new Bral_Validate_Messagerie_Contacts(false, $this->view->user->id_hobbit);
 			$validContacts = $validateurContacts->isValid($this->view->message["contacts"]);
 			$avecContacts = true;
+			
+			if ($validContacts == false || mb_strlen($this->view->message["contacts"] < 1)) {
+				$avecContacts = false;
+			}
 		} else {
 			$validateurDestinataires = new Bral_Validate_Messagerie_Destinataires(true);
 			$validContacts = true;
