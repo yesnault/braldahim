@@ -392,4 +392,23 @@ class Bral_Util_Poids {
 
 		return $poids;
 	}
+	
+	public static function getPoidsUnite($nomSystemeUnite) {
+		$retour = null;
+		switch($nomSystemeUnite) {
+			case "rondin":
+				$retour = self::POIDS_RONDIN;
+				break;
+			case "peau":
+				$retour = self::POIDS_PEAU;
+				break;
+			case "castar":
+				$retour = self::POIDS_CASTARS;
+				break;
+			default:
+				throw new Zend_Exception("Unite invalide:".$nomSystemeUnite);
+				break;
+		}
+		return $retour;
+	}
 }
