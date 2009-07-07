@@ -296,7 +296,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 						$destinataires .= Bral_Util_Lien::getJsHobbit($tabHobbits[$d]["id_hobbit"], $tabHobbits[$d]["prenom_hobbit"] . " ". $tabHobbits[$d]["nom_hobbit"]. " (".$tabHobbits[$d]["id_hobbit"].")");
 						$destinataires .= ", ";
 					} else {
-						$destinataires .= " Erreur Hobbit n°:".$d." ";
+						$destinataires .= " Erreur Hobbit n°:".$d.", ";
 					}
 				}
 			}
