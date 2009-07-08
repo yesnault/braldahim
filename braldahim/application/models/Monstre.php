@@ -198,6 +198,7 @@ class Monstre extends Zend_Db_Table {
 		->where('y_monstre <= ?', $y + $rayon)
 		->where('monstre.id_fk_type_monstre = type_monstre.id_type_monstre')
 		->where('type_monstre.id_type_monstre = ?', intval($idtype))
+		->where('est_mort_monstre = ?', "non")
 		->order('distance ASC');
 		$sql = $select->__toString();
 		return $db->fetchRow($sql);
