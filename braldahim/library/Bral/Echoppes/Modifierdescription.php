@@ -53,14 +53,12 @@ class Bral_Echoppes_Modifierdescription extends Bral_Echoppes_Echoppe {
 
 	function prepareResultat() {
 		Zend_Loader::loadClass('Zend_Filter');
-		Zend_Loader::loadClass('Zend_Filter_StripTags');
 		Zend_Loader::loadClass('Zend_Filter_StringTrim');
 	
 		$filter = new Zend_Filter();
-		$filter->addFilter(new Zend_Filter_StringTrim())
-		->addFilter(new Zend_Filter_StripTags());
+		$filter->addFilter(new Zend_Filter_StringTrim());
 		
-		$valeur = stripslashes($filter->filter($this->request->getPost("valeur_2")));
+		$valeur = stripslashes($filter->filter(htmlspecialchars($this->request->getPost("valeur_2"))));
 
 		$data = array("commentaire_echoppe" => $valeur);
 		$echoppeTable = new Echoppe();
