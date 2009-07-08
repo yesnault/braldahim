@@ -381,7 +381,7 @@ Consultez vos événements pour plus de détails.";
 	private function updateCible(&$cible) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateCible - enter (id_hobbit=".$cible["id_hobbit"].")");
 
-		Bral_Util_Attaque::calculStatutEngage(&$cible);
+		Bral_Util_Attaque::calculStatutEngage(&$cible, true);
 
 		// Mise a jour de la cible
 		$hobbitTable = new Hobbit();
