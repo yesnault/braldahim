@@ -309,17 +309,23 @@ function controlePanneau (i) {
 
 function controleQte(){
 	 v=false;
-	 for (i=4;i<=$('nb_valeurs').value;i++){
+	 ctrlEchoppe = false;
+	 for (i=4;i<=$('nb_valeurs').value;i++) {
 	 	if ($('valeur_'+i).value > 0 && $('valeur_panneau').value != true && v==true) {
 			controlePanneau (i);
 	 	}
-	 	if ($('valeur_'+i).value > 0) {
+	 	if (controleEchoppe(i) == false ) {
+	 		ctrlEchoppe = true;
+	 	}
+	 	else if ($('valeur_'+i).value > 0 ) {
 			v=true;
 		}
-	 };
+	 }
 	 cacher = true;
+	 if (ctrlEchoppe == true ) {
+		 alert ("Dans une échoppe, vous ne pouvez transbahuter que des matières premières !");
+	 }
 	 poidsOk = controlePoids();
-
 	 if (v==true && $('valeur_1').value != -1 && $('valeur_2').value != -1 && poidsOk == true){
 		cacher = false;
 	 }
@@ -332,27 +338,36 @@ function controleQte(){
 function selectAll(){
 	cacher = true;
 	v = false;
+	ctrlEchoppe = false;
 	for (i=4; i<=$('nb_valeurs').value; i++) {
 		if ($('valeur_panneau').value != true && v==true) {
 			controlePanneau (i);
 			break;
 	 	}
-		if ( $('valeur_' + i).type == 'select-multiple' ){
-			for (j=0; j<$('valeur_' + i).options.length; j++){
-				if ($('valeur_' + i).options[j].value != -1) {
-					$('valeur_' + i).options[j].selected = true;
+		if ( $('valeur_' + i + '_echoppe').value == 'oui' || $('valeur_2').value != 5) {
+			if ( $('valeur_' + i).type == 'select-multiple' ){
+				for (j=0; j<$('valeur_' + i).options.length; j++){
+					if ($('valeur_' + i).options[j].value != -1) {
+						$('valeur_' + i).options[j].selected = true;
+						cacher = false;
+						v = true;
+					}
+				}
+			}
+			else {
+				$('valeur_' + i).value = $('valeur_' + i + '_max').value;
+				if (cacher == true && $('valeur_' + i + '_max').value > 0) {
 					cacher = false;
 					v = true;
 				}
 			}
 		}
 		else {
-			$('valeur_' + i).value = $('valeur_' + i + '_max').value;
-			if (cacher == true && $('valeur_' + i + '_max').value > 0) {
-				cacher = false;
-				v = true;
-			}
+			ctrlEchoppe = true;
 		}
+	}
+	if (ctrlEchoppe == true ) {
+		alert ("Dans une échoppe, vous ne pouvez transbahuter que des matières premières !");
 	}
 	poidsOk = controlePoids();
 	if ( $('valeur_1').value == -1 || $('valeur_2').value == -1 || poidsOk==false){
@@ -366,8 +381,51 @@ function selectAll(){
 }
 
 function charrette() {
-	if ($('valeur_2').value >= 5){
+	if ($('valeur_2').value >= 7){
 		$('valeur_3').value = $('id_charrette_' + $('valeur_2').value).value;
+	}
+}
+
+function controleEchoppe(i) {
+	if($('valeur_2').value == 5){
+		if ( ($('valeur_' + i + '_echoppe').value == 'non') && $('valeur_' + i).value > 0) {
+			if ( $('valeur_' + i).type == 'select-multiple' ) {
+				for (j=0; j<$('valeur_' + i).options.length; j++) {
+					$('valeur_' + i).options[j].selected = false;
+				}
+			}
+			else {
+				$('valeur_' + i).value = 0;
+			}
+			return false;
+		}
+	}
+	return true;
+}
+
+/*function echoppe() {
+	if($('valeur_2').value == 5){
+		ctrlEchoppe = false;
+		for (i=4; i<=$('nb_valeurs').value; i++) {
+			if (controleEchoppe(i) == false && ctrlEchoppe == false) {
+				ctrlEchoppe = true;
+			}
+		}
+		if (ctrlEchoppe == true) {
+			alert ("Dans une échoppe, vous ne pouvez transbahuter que des matières premières !");
+		}
+	}
+}*/
+
+function afficheAutreCoffre(){
+	if($('valeur_2').value==4){
+		document.getElementById('div_hobbit').style.visibility='visible';
+		document.getElementById('div_hobbit').style.display='block';
+	}
+	else{
+		document.getElementById('div_hobbit').style.visibility='hidden';
+		document.getElementById('div_hobbit').style.display='none';
+		$('valeur_3').value=-1;
 	}
 }
 

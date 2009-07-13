@@ -10,9 +10,10 @@
 				<? foreach($this->tabacs as $k => $t) :?>
 					<?=$t["type"]?> : <?=$t["quantite"]?>
 					Quantit&eacute; &agrave; transbahuter : 
-					<input type='text' maxlength='4' size='4' name='valeur_<?=$k?>' id='valeur_<?=$k?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$t["quantite"] ?>) { alert('Valeur trop grande'); this.value=0}; <?=$jsBtn?>">
-					<input type='hidden' maxlength='4' size='4' name='valeur_<?=$k?>_max' id='valeur_<?=$k?>_max' value='<?=$t["quantite"]?>' >
-					<input type='hidden' maxlength='4' size='4' name='valeur_<?=$k?>_poids' id='valeur_<?=$k?>_poids' value='<?=Bral_Util_Poids::POIDS_TABAC ?>' >
+					<input type='text' maxlength='4' size='4' name='valeur_<?=$k?>' id='valeur_<?=$k?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$t["quantite"] ?>) { alert('Valeur trop grande'); this.value=0}; <?=$jsBtn?>"/>
+					<input type='hidden' maxlength='4' size='4' name='valeur_<?=$k?>_max' id='valeur_<?=$k?>_max' value='<?=$t["quantite"]?>' />
+					<input type='hidden' maxlength='4' size='4' name='valeur_<?=$k?>_poids' id='valeur_<?=$k?>_poids' value='<?=Bral_Util_Poids::POIDS_TABAC ?>' />
+					<input type='hidden' maxlength='4' size='4' name='valeur_<?=$k?>_echoppe' id='valeur_<?=$k?>_echoppe' value='non' />
 					<br>
 				<? endforeach; ?>
 			  	</li>
