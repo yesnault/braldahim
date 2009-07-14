@@ -356,6 +356,8 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 				'id_fk_recette_equipement' => $this->recetteEquipementACreer["id_recette_equipement"],
 				'nb_runes_equipement' => $nbRunes,
 				'id_fk_region_equipement' => $this->region["id_region"],
+				'etat_initial_equipement' => $this->recetteEquipementACreer["etat_initial_recette_equipement"],
+				'etat_courant_equipement' => $this->recetteEquipementACreer["etat_initial_recette_equipement"],
 			);
 			$equipementTable->insert($data);
 			
