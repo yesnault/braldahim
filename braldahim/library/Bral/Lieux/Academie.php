@@ -116,6 +116,9 @@ class Bral_Lieux_Academie extends Bral_Lieux_Lieu {
 					$pvAvant = $this->view->user->pv_max_hobbit;
 					$this->view->user->pv_max_hobbit = Bral_Util_Commun::calculPvMaxBaseSansEffetMotE($this->view->config, $this->view->user->vigueur_base_hobbit);
 					$this->view->user->pv_restant_hobbit = $this->view->user->pv_restant_hobbit  + ($this->view->user->pv_max_hobbit - $pvAvant);
+					if ($this->view->user->pv_restant_hobbit > $this->view->user->pv_max_hobbit + $this->view->user->pv_max_bm_hobbit) {
+						$this->view->user->pv_restant_hobbit = $this->view->user->pv_max_hobbit + $this->view->user->pv_max_bm_hobbit;
+					}
 				}
 				break;
 			case "AGI":
