@@ -30,7 +30,8 @@ class Bral_Helper_DetailEquipement {
 		$text .= "Numéro de la pièce :".$e["id_equipement"]."<br />";
 		$text .= "Niveau : ".$e["niveau"]."<br />";
 		$text .= "Nom d\'origine : ".$e["nom_standard"]."<br />";
-    	$text .= "Emplacement : ".$e["emplacement"]."<br /><br />";
+    	$text .= "Emplacement : ".$e["emplacement"]."<br />";
+    	$text .= "&Eacute;tat : ".$e["etat_courant"]." / ".$e["etat_initial"]."<br /><br />";
     	
 		$text .= "Caractéristiques :<br />";
 		$text .= self::display("Armure", $e["armure"]);

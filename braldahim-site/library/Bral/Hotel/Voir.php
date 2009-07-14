@@ -498,6 +498,8 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 					"id_fk_mot_runique" => $e["id_fk_mot_runique_equipement"],
 					"id_fk_region" => $e["id_fk_region_equipement"],
 					"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
+					"etat_courant" => $e["etat_courant_equipement"],
+					"etat_initial" => $e["etat_initial_equipement"],
 					"runes" => $runes,
 					"bonus" => $bonus,
 				);

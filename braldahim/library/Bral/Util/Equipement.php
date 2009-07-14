@@ -219,6 +219,8 @@ class Bral_Util_Equipement {
 						"bm_defense" => $e["bm_defense_recette_equipement"],
 						"suffixe" => $e["suffixe_mot_runique"],
 						"poids" => $e["poids_recette_equipement"],
+						"etat_courant" => $e["etat_courant_equipement"],
+						"etat_initial" => $e["etat_initial_equipement"],
 						"runes" => $runes,
 						"bonus" => $bonus,
 				);
