@@ -35,7 +35,7 @@ class Bral_Echoppes_Modifierdescription extends Bral_Echoppes_Echoppe {
 				$e["y_echoppe"] == $this->view->user->y_hobbit) {
 				$tabEchoppe = array(
 					'id_echoppe' => $e["id_echoppe"],
-					'commentaire_echoppe' => $e["commentaire_echoppe"],
+					'commentaire_echoppe' => stripslashes($e["commentaire_echoppe"]),
 				);
 				break;
 			}
@@ -58,7 +58,7 @@ class Bral_Echoppes_Modifierdescription extends Bral_Echoppes_Echoppe {
 		$filter = new Zend_Filter();
 		$filter->addFilter(new Zend_Filter_StringTrim());
 		
-		$valeur = stripslashes($filter->filter(htmlspecialchars($this->request->getPost("valeur_2"))));
+		$valeur = $filter->filter(htmlspecialchars($this->request->getPost("valeur_2")));
 
 		$data = array("commentaire_echoppe" => $valeur);
 		$echoppeTable = new Echoppe();
