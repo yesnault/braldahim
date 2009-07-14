@@ -1085,7 +1085,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		$tabAutresTransformees["elements"][$numeroElement] = array('numero_element' => $numeroElement, 'nom' => "Cuir", "type_element" => "cuir");
 
 		$numeroElement++;
-		$tabAutresPremieres["elements"][$numeroElement] = array('numero_element' => $numeroElement, 'nom' => "Viande fraîche", "type_element" => "viande");
+		$tabAutresPremieres["elements"][$numeroElement] = array('numero_element' => $numeroElement, 'nom' => "Viande fraîche", "type_element" => "viande_fraiche");
 		$tabAutresTransformees["elements"][$numeroElement] = array('numero_element' => $numeroElement, 'nom' => "Fourrure", "type_element" => "fourrure");
 
 		$numeroElement++;
