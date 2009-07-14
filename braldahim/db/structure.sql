@@ -207,8 +207,6 @@ CREATE TABLE `coffre_equipement` (
   `id_coffre_equipement` int(11) NOT NULL,
   `id_fk_recette_coffre_equipement` int(11) NOT NULL,
   `id_fk_hobbit_coffre_equipement` int(11) NOT NULL,
-  `nb_runes_coffre_equipement` int(11) NOT NULL,
-  `id_fk_mot_runique_coffre_equipement` int(11) default NULL,
   PRIMARY KEY  (`id_coffre_equipement`),
   KEY `id_fk_hobbit_coffre_equipement` (`id_fk_hobbit_coffre_equipement`),
   KEY `id_fk_recette_coffre_equipement` (`id_fk_recette_coffre_equipement`)

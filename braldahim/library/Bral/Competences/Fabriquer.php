@@ -349,19 +349,26 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 			$idsEquipementTable = new IdsEquipement();
 			$id_equipement = $idsEquipementTable->prepareNext();
 
+			Zend_Loader::loadClass("Equipement");
+			$equipementTable = new Equipement();
+			$data = array(
+				'id_equipement' => $id_equipement,
+				'id_fk_recette_equipement' => $this->recetteEquipementACreer["id_recette_equipement"],
+				'nb_runes_equipement' => $nbRunes,
+				'id_fk_region_equipement' => $this->region["id_region"],
+			);
+			$equipementTable->insert($data);
+			
 			Zend_Loader::loadClass("EchoppeEquipement");
 			$echoppeEquipementTable = new EchoppeEquipement();
 			$data = array(
 				'id_echoppe_equipement' => $id_equipement,
 				'id_fk_echoppe_echoppe_equipement' => $this->idEchoppe,
-				'id_fk_recette_echoppe_equipement' => $this->recetteEquipementACreer["id_recette_equipement"],
-				'nb_runes_echoppe_equipement' => $nbRunes,
 				'type_vente_echoppe_equipement' => 'aucune',
-				'id_fk_region_echoppe_equipement' => $this->region["id_region"],
 			);
-			$idEquipement = $echoppeEquipementTable->insert($data);
+			$echoppeEquipementTable->insert($data);
 
-			$this->view->bonus = Bral_Util_Equipement::insertEquipementBonus($idEquipement, $niveau, $this->region["id_region"]);
+			$this->view->bonus = Bral_Util_Equipement::insertEquipementBonus($id_equipement, $niveau, $this->region["id_region"]);
 			$this->view->typePiece = $this->recetteEquipementACreer["nom_systeme_type_piece"];
 
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapeFabriquer($this->view->user, $idTypeEquipement, $qualite);

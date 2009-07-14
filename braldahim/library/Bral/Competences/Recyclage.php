@@ -33,7 +33,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		foreach ($equipementLabanRowset as $e) {
 			$tabEquipementLaban[] = array(
 				"id_equipement" => $e["id_laban_equipement"],
-				"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_laban_equipement"]),
+				"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
 				"qualite" => $e["nom_type_qualite"],
 				"niveau" => $e["niveau_recette_equipement"],
 				"id_type" => $e["id_type_equipement"],
@@ -104,6 +104,11 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		$tabMineraiTerre = null;		
 		
 		$this->poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit + $poidsEquipement;
+		
+		Zend_Loader::loadClass("Equipement");
+		$equipementTable = new Equipement();
+		$where = "id_equipement =".$idEquipement;
+		$equipementTable->delete($where);
 		
 		$labanEquipementTable = new LabanEquipement();
 		$where = "id_laban_equipement=".$idEquipement;

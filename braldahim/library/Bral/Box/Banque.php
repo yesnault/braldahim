@@ -403,13 +403,13 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		foreach ($equipements as $e) {
 			$tabEquipements[$e["id_coffre_equipement"]] = array(
 					"id_equipement" => $e["id_coffre_equipement"],
-					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_coffre_equipement"]),
+					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
 					"nom_standard" => $e["nom_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
 					"id_type_equipement" => $e["id_type_equipement"],
 					"emplacement" => $e["nom_type_emplacement"],
 					"niveau" => $e["niveau_recette_equipement"],
-					"nb_runes" => $e["nb_runes_coffre_equipement"],
+					"nb_runes" => $e["nb_runes_equipement"],
 					"armure" => $e["armure_recette_equipement"],
 					"force" => $e["force_recette_equipement"],
 					"agilite" => $e["agilite_recette_equipement"],

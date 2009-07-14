@@ -42,7 +42,9 @@ class VenteEquipement extends Zend_Db_Table {
 		->from('type_piece')
 		->from('vente')
 		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
-		->where('id_fk_recette_vente_equipement = id_recette_equipement')
+		->from('equipement')
+		->where('id_equipement = id_vente_equipement')
+		->where('id_fk_recette_equipement = id_recette_equipement')
 		->where('id_fk_type_recette_equipement = id_type_equipement')
 		->where('id_fk_type_qualite_recette_equipement = id_type_qualite')
 		->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement')
@@ -50,7 +52,7 @@ class VenteEquipement extends Zend_Db_Table {
 		->where('id_fk_vente_equipement ='. $liste)
 		->where('id_fk_vente_equipement = id_vente')
 		->where('id_fk_hobbit_vente = id_hobbit')
-		->joinLeft('mot_runique','id_fk_mot_runique_vente_equipement = id_mot_runique')
+		->joinLeft('mot_runique','id_fk_mot_runique_equipement = id_mot_runique')
 		->order('date_fin_vente desc');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -67,7 +69,9 @@ class VenteEquipement extends Zend_Db_Table {
 		->from('type_piece')
 		->from('vente')
 		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
-		->where('id_fk_recette_vente_equipement = id_recette_equipement')
+		->from('equipement')
+		->where('id_equipement = id_vente_equipement')
+		->where('id_fk_recette_equipement = id_recette_equipement')
 		->where('id_fk_type_recette_equipement = id_type_equipement')
 		->where('id_fk_type_qualite_recette_equipement = id_type_qualite')
 		->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement')
@@ -75,7 +79,7 @@ class VenteEquipement extends Zend_Db_Table {
 		->where('id_fk_type_piece_type_equipement = id_type_piece')
 		->where('id_fk_vente_equipement = id_vente')
 		->where('id_fk_hobbit_vente = id_hobbit')
-		->joinLeft('mot_runique','id_fk_mot_runique_vente_equipement = id_mot_runique')
+		->joinLeft('mot_runique','id_fk_mot_runique_equipement = id_mot_runique')
 		->order('date_fin_vente desc');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -92,7 +96,9 @@ class VenteEquipement extends Zend_Db_Table {
 		->from('type_piece')
 		->from('vente')
 		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
-		->where('id_fk_recette_vente_equipement = id_recette_equipement')
+		->from('equipement')
+		->where('id_equipement = id_vente_equipement')
+		->where('id_fk_recette_equipement = id_recette_equipement')
 		->where('id_fk_type_recette_equipement = id_type_equipement')
 		->where('id_fk_type_qualite_recette_equipement = id_type_qualite')
 		->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement')
@@ -100,7 +106,7 @@ class VenteEquipement extends Zend_Db_Table {
 		->where('id_fk_type_piece_type_equipement = id_type_piece')
 		->where('id_fk_vente_equipement = id_vente')
 		->where('id_fk_hobbit_vente = id_hobbit')
-		->joinLeft('mot_runique','id_fk_mot_runique_vente_equipement = id_mot_runique')
+		->joinLeft('mot_runique','id_fk_mot_runique_equipement = id_mot_runique')
 		->order('date_fin_vente desc');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

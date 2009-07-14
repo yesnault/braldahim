@@ -310,15 +310,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				foreach ($equipements as $e) {
 					$tabEquipements[$e["id_".strtolower($depart)."_equipement"]] = array(
 							"id_equipement" => $e["id_".strtolower($depart)."_equipement"],
-							"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_".strtolower($depart)."_equipement"]),
+							"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
 							"qualite" => $e["nom_type_qualite"],
 							"niveau" => $e["niveau_recette_equipement"],
-							"nb_runes" => $e["nb_runes_".strtolower($depart)."_equipement"],
+							"nb_runes" => $e["nb_runes_equipement"],
 							"suffixe" => $e["suffixe_mot_runique"],
 							"poids" => $e["poids_recette_equipement"],
-							"id_fk_mot_runique" => $e["id_fk_mot_runique_".strtolower($depart)."_equipement"], 
-							"id_fk_recette" => $e["id_fk_recette_".strtolower($depart)."_equipement"] ,
-							"id_fk_region" => $e["id_fk_region_".strtolower($depart)."_equipement"],
+							"id_fk_mot_runique" => $e["id_fk_mot_runique_equipement"], 
+							"id_fk_recette" => $e["id_fk_recette_equipement"] ,
+							"id_fk_region" => $e["id_fk_region_equipement"],
 					);
 				}
 				$this->view->deposerOk = true;
@@ -387,10 +387,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								$data = array (
 									"id_laban_equipement" => $equipement["id_equipement"],
 									"id_fk_hobbit_laban_equipement" => $this->view->user->id_hobbit,
-									"id_fk_recette_laban_equipement" => $equipement["id_fk_recette"],
-									"nb_runes_laban_equipement" => $equipement["nb_runes"],
-									"id_fk_mot_runique_laban_equipement" => $equipement["id_fk_mot_runique"],
-									"id_fk_region_laban_equipement" => $equipement["id_fk_region"],
 								);
 								$this->view->poidsRestant = $this->view->poidsRestant - $equipement["poids"];
 								break;
@@ -404,44 +400,28 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									"id_element_equipement" => $equipement["id_equipement"],
 									"x_element_equipement" => $this->view->user->x_hobbit,
 									"y_element_equipement" => $this->view->user->y_hobbit,
-									"id_fk_recette_element_equipement" => $equipement["id_fk_recette"],
-									"nb_runes_element_equipement" => $equipement["nb_runes"],
-									"id_fk_mot_runique_element_equipement" => $equipement["id_fk_mot_runique"],
 									"date_fin_element_equipement" => $dateFin,
-									"id_fk_region_element_equipement" => $equipement["id_fk_region"],
 								);
 								break;
 							case "Coffre" :
 								$arriveeEquipementTable = new CoffreEquipement();
 								$data = array (
 									"id_coffre_equipement" => $equipement["id_equipement"],
-									"id_fk_recette_coffre_equipement" => $equipement["id_fk_recette"],
 									"id_fk_hobbit_coffre_equipement" => $this->view->id_hobbit_coffre,
-									"nb_runes_coffre_equipement" => $equipement["nb_runes"],
-									"id_fk_mot_runique_coffre_equipement" => $equipement["id_fk_mot_runique"],
-									"id_fk_region_coffre_equipement" => $equipement["id_fk_region"],
 								);
 								break;
 							case "Charrette" :
 								$arriveeEquipementTable = new CharretteEquipement();
 								$data = array (
 									"id_charrette_equipement" => $equipement["id_equipement"],
-									"id_fk_recette_charrette_equipement" => $equipement["id_fk_recette"],
 									"id_fk_charrette_equipement" => $this->view->id_charrette_arrivee,
-									"nb_runes_charrette_equipement" => $equipement["nb_runes"],
-									"id_fk_mot_runique_charrette_equipement" => $equipement["id_fk_mot_runique"],
-									"id_fk_region_charrette_equipement" => $equipement["id_fk_region"],
 								);
 								break;
 							/*case "Echoppe" :
 								$arriveeEquipementTable = new EchoppeEquipement();
 								$data = array (
 									"id_echoppe_equipement" => $equipement["id_equipement"],
-									"id_fk_recette_echoppe_equipement" => $equipement["id_fk_recette"],
 									"id_fk_echoppe_echoppe_equipement" => $this->view->id_echoppe_arrivee,
-									"nb_runes_echoppe_equipement" => $equipement["nb_runes"],
-									"id_fk_mot_runique_echoppe_equipement" => $equipement["id_fk_mot_runique"],
-									"id_fk_region_echoppe_equipement" => $equipement["id_fk_region"],
 								);
 								break;*/
 						}

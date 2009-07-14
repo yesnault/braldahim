@@ -421,10 +421,6 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		$data = array (
 			"id_vente_equipement" => $equipement["id_equipement"],
 			"id_fk_vente_equipement" => $idVente,
-			"id_fk_recette_vente_equipement" => $equipement["id_fk_recette"],
-			"nb_runes_vente_equipement" => $equipement["nb_runes"],
-			"id_fk_mot_runique_vente_equipement" => $equipement["id_fk_mot_runique"],
-			"id_fk_region_vente_equipement" => $equipement["id_fk_region"],
 		);
 		$venteEquipementTable->insert($data);
 		$this->view->objetVente = $equipement["nom"]. " n°".$equipement["id_equipement"]. " de qualité ".$equipement["qualite"];

@@ -52,10 +52,10 @@ class Bral_Echoppes_Retirerequipement extends Bral_Echoppes_Echoppe {
 				if ($e["type_vente_echoppe_equipement"] != "aucune") {
 					$tabEquipementsEtal[] = array(
 					"id_echoppe_equipement" => $e["id_echoppe_equipement"],
-					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_echoppe_equipement"]),
+					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
-					"nb_runes" => $e["nb_runes_echoppe_equipement"]
+					"nb_runes" => $e["nb_runes_equipement"]
 					);
 				}
 			}

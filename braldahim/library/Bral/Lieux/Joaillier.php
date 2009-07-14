@@ -49,11 +49,11 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 					
 				$t = array(
 					"id_laban_equipement" => $e["id_laban_equipement"],
-					"id_fk_recette_laban_equipement" => $e["id_fk_recette_laban_equipement"],
-					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_laban_equipement"]),
+					"id_fk_recette_equipement" => $e["id_fk_recette_equipement"],
+					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
-					"nb_runes" => $e["nb_runes_laban_equipement"],
+					"nb_runes" => $e["nb_runes_equipement"],
 					"id_fk_type_piece" => $e["id_fk_type_piece_type_equipement"],
 					"nom_systeme_type_piece" => $e["nom_systeme_type_piece"],
 					"selected" => $selected
@@ -186,7 +186,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 		// on regarde si les runes ne signifient pas un mot runique
 		$motRuniqueTable = new MotRunique();
 
-		$id_fk_mot_runique_laban_equipement = null;
+		$id_fk_mot_runique_equipement = null;
 		$nom_mot_runique = null;
 
 		if ($this->view->equipementCourant["nom_systeme_type_piece"] == "arme_tir") { // si c'est une "arme de tir", on prend les mots runiques de "arme"
@@ -198,7 +198,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 		$motsRowset = $motRuniqueTable->findByIdTypePieceAndRunes($nomSystemeTypePiece, $tabRunes);
 		if (count($motsRowset) > 0) {
 			foreach ($motsRowset as $m) {
-				$id_fk_mot_runique_laban_equipement = $m["id_mot_runique"];
+				$id_fk_mot_runique_equipement = $m["id_mot_runique"];
 				$nom_mot_runique = $m["nom_systeme_mot_runique"];
 				$this->view->suffixe = $m["suffixe_mot_runique"];
 				break; // s'il y a plusieurs mots (ce qui devrait jamais arriver), on prend le premier
@@ -221,19 +221,20 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			$labanRunes = $labanRuneTable->delete($where);
 		}
 
-		if ($id_fk_mot_runique_laban_equipement != null) {
-			$labanEquipementTable = new LabanEquipement();
+		if ($id_fk_mot_runique_equipement != null) {
+			Zend_Loader::loadClass("Equipement");
+			$equipementTable = new Equipement();
 			$data = array(
-				'id_fk_mot_runique_laban_equipement' => $id_fk_mot_runique_laban_equipement,
+				'id_fk_mot_runique_equipement' => $id_fk_mot_runique_equipement,
 			);
-			$where = "id_laban_equipement=".$this->view->equipementCourant["id_laban_equipement"];
-			$labanEquipementTable->update($data, $where);
+			$where = "id_equipement=".$this->view->equipementCourant["id_laban_equipement"];
+			$equipementTable->update($data, $where);
 				
 			Zend_Loader::loadClass("StatsMotsRuniques");
 			$statsMotsRuniques = new StatsMotsRuniques();
 			$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
 			$dataMotsRuniques["niveau_piece_stats_mots_runiques"] = $this->view->equipementCourant["niveau"];
-			$dataMotsRuniques["id_fk_mot_runique_stats_mots_runiques"] = $id_fk_mot_runique_laban_equipement;
+			$dataMotsRuniques["id_fk_mot_runique_stats_mots_runiques"] = $id_fk_mot_runique_equipement;
 			$dataMotsRuniques["mois_stats_mots_runiques"] = date("Y-m-d", $moisEnCours);
 			$dataMotsRuniques["nb_piece_stats_mots_runiques"] = 1;
 			$dataMotsRuniques["id_fk_type_piece_stats_mots_runiques"] = $this->view->equipementCourant["id_fk_type_piece"];

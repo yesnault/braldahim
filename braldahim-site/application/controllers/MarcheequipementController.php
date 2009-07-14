@@ -214,7 +214,7 @@ class MarcheequipementController extends Zend_Controller_Action {
 				
 				$equipement = array(
 					"id_equipement" => $e["id_echoppe_equipement"],
-					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_echoppe_equipement"]),
+					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
 					"nom_standard" => $e["nom_type_equipement"],
 					"id_type_equipement" => $e["id_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
@@ -223,8 +223,8 @@ class MarcheequipementController extends Zend_Controller_Action {
 					"id_type_emplacement" => $e["id_type_emplacement"],
 					"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
 					"nom_systeme_type_piece" => $e["nom_systeme_type_piece"],
-					"nb_runes" => $e["nb_runes_echoppe_equipement"],
-					"id_fk_recette_equipement" => $e["id_fk_recette_echoppe_equipement"],
+					"nb_runes" => $e["nb_runes_equipement"],
+					"id_fk_recette_equipement" => $e["id_fk_recette_equipement"],
 					"armure" => $e["armure_recette_equipement"],
 					"force" => $e["force_recette_equipement"],
 					"agilite" => $e["agilite_recette_equipement"],
@@ -236,7 +236,7 @@ class MarcheequipementController extends Zend_Controller_Action {
 					"bm_defense" => $e["bm_defense_recette_equipement"],
 					"poids" => $e["poids_recette_equipement"],
 					"suffixe" => $e["suffixe_mot_runique"],
-					"id_fk_mot_runique" => $e["id_fk_mot_runique_echoppe_equipement"],
+					"id_fk_mot_runique" => $e["id_fk_mot_runique_equipement"],
 					"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
 					"prix_1_vente_echoppe_equipement" => $e["prix_1_vente_echoppe_equipement"],
 					"prix_2_vente_echoppe_equipement" => $e["prix_2_vente_echoppe_equipement"],

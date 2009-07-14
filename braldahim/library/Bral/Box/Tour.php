@@ -380,15 +380,15 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 				/*$equipement = array(
 				 "id_equipement" => $e["id_equipement_hequipement"],
-				 "nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_hequipement"]),
+				 "nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
 				 "nom_standard" => $e["nom_type_equipement"],
 				 "qualite" => $e["nom_type_qualite"],
 				 "niveau" => $e["niveau_recette_equipement"],
 				 "emplacement" => $e["nom_type_emplacement"],
 				 "id_type_emplacement" => $e["id_type_emplacement"],
 				 "nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
-				 "nb_runes" => $e["nb_runes_hequipement"],
-				 "id_fk_recette_equipement" => $e["id_fk_recette_hequipement"],
+				 "nb_runes" => $e["nb_runes_equipement"],
+				 "id_fk_recette_equipement" => $e["id_fk_recette_equipement"],
 				 "armure" => $e["armure_recette_equipement"],
 				 "force" => $e["force_recette_equipement"],
 				 "agilite" => $e["agilite_recette_equipement"],
@@ -400,7 +400,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 				 "bm_defense" => $e["bm_defense_recette_equipement"],
 				 "poids" => $e["poids_recette_equipement"],
 				 "suffixe" => $e["suffixe_mot_runique"],
-				 "id_mot_runique" =>  $e["id_fk_mot_runique_hequipement"],
+				 "id_mot_runique" =>  $e["id_fk_mot_runique_equipement"],
 				 );*/
 
 				$this->hobbit->force_bm_hobbit = $this->hobbit->force_bm_hobbit + $e["force_recette_equipement"];

@@ -283,10 +283,6 @@ class Bral_Util_Charrette {
 			"x_element_equipement" => $x,
 			"y_element_equipement" => $y,
 			"id_element_equipement" => $a["id_charrette_equipement"],
-			"id_fk_recette_element_equipement" => $a["id_fk_recette_charrette_equipement"],
-			"nb_runes_element_equipement" => $a["nb_runes_charrette_equipement"],
-			"id_fk_mot_runique_element_equipement" => $a["id_fk_mot_runique_charrette_equipement"],
-			"id_fk_region_element_equipement" => $a["id_fk_region_charrette_equipement"],
 			"date_fin_element_equipement" => $dateFin,
 			);
 			$elementEquipementTable->insert($data);

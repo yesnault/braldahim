@@ -195,18 +195,14 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 
 			$data = array(
 				"id_coffre_equipement" => $equipement["id_vente_equipement"],
-				"id_fk_recette_coffre_equipement" => $equipement["id_fk_recette_vente_equipement"],
 				"id_fk_hobbit_coffre_equipement" => $vente["id_fk_hobbit_vente"],
-				"nb_runes_coffre_equipement" => $equipement["nb_runes_vente_equipement"],
-				"id_fk_mot_runique_coffre_equipement" => $equipement["id_fk_mot_runique_vente_equipement"],
-				"id_fk_region_coffre_equipement" => $equipement["id_fk_region_vente_equipement"],
 			);
 			$coffreEquipementTable->insert($data);
 			
 			$this->deleteVente($vente);
 
 			Zend_Loader::loadClass("Bral_Util_Equipement");
-			$retour = Bral_Util_Equipement::getNomByIdRegion($equipement, $equipement["id_fk_region_vente_equipement"]). " de qualité ";
+			$retour = Bral_Util_Equipement::getNomByIdRegion($equipement, $equipement["id_fk_region_equipement"]). " de qualité ";
 			$retour .= $equipement["nom_type_qualite"]. " et de niveau ".$equipement["niveau_recette_equipement"];
 		} else {
 			throw new Zend_Exception("Bral_Batchs_Hotel transfertVersCoffreEquipement vente invalide:".$vente["id_vente"]);

@@ -372,7 +372,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						foreach($elementsEquipements as $e) {
 							if ($display_x == $e["x_element_equipement"] && $display_y == $e["y_element_equipement"]) {
 								$tabElementsEquipements[] = array("id_equipement" => $e["id_element_equipement"],
-									"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_element_equipement"]),
+									"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
 									"qualite" => $e["nom_type_qualite"],
 									"niveau" => $e["niveau_recette_equipement"],
 									"suffixe" => $e["suffixe_mot_runique"]);

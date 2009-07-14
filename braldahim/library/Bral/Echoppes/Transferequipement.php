@@ -94,17 +94,17 @@ class Bral_Echoppes_Transferequipement extends Bral_Echoppes_Echoppe {
 
 						$tabEquipementsArriereBoutique[] = array(
 							"id_echoppe_equipement" => $e["id_echoppe_equipement"],
-							"id_fk_recette_echoppe_equipement" => $e["id_fk_recette_echoppe_equipement"],
-							"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_echoppe_equipement"]),
+							"id_fk_recette_equipement" => $e["id_fk_recette_equipement"],
+							"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
 							"qualite" => $e["nom_type_qualite"],
 							"niveau" => $e["niveau_recette_equipement"],
-							"nb_runes" => $e["nb_runes_echoppe_equipement"],
+							"nb_runes" => $e["nb_runes_equipement"],
 							"poids" => $e["poids_recette_equipement"],
 							"place_dispo" => $placeDispo,
 							"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
 							"id_fk_type_munition_type_equipement" => $e["id_fk_type_munition_type_equipement"],
 							"nb_munition_type_equipement" => $e["nb_munition_type_equipement"],
-							"id_fk_region" => $e["id_fk_region_echoppe_equipement"],
+							"id_fk_region" => $e["id_fk_region_equipement"],
 						);
 					}
 				}
@@ -223,9 +223,6 @@ class Bral_Echoppes_Transferequipement extends Bral_Echoppes_Echoppe {
 
 			$data = array(
 				"id_".$suffixe."_equipement" => $equipement["id_echoppe_equipement"],
-				"id_fk_recette_".$suffixe."_equipement" => $equipement["id_fk_recette_echoppe_equipement"],
-				"nb_runes_".$suffixe."_equipement" => $equipement["nb_runes"],
-				"id_fk_region_".$suffixe."_equipement" => $equipement["id_fk_region"],
 			);
 
 			if ($idDestination == "charrette") {

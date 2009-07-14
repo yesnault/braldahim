@@ -23,13 +23,15 @@ class HobbitEquipement extends Zend_Db_Table {
 		->from('type_qualite')
 		->from('type_emplacement')
 		->from('type_piece')
-		->where('id_fk_recette_hequipement = id_recette_equipement')
+		->from('equipement')
+		->where('id_equipement = id_equipement_hequipement')
+		->where('id_fk_recette_equipement = id_recette_equipement')
 		->where('id_fk_type_recette_equipement = id_type_equipement')
 		->where('id_fk_type_qualite_recette_equipement = id_type_qualite')
 		->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement')
 		->where('id_fk_type_piece_type_equipement = id_type_piece')
 		->where('id_fk_hobbit_hequipement = ?', intval($idHobbit))
-		->joinLeft('mot_runique','id_fk_mot_runique_hequipement = id_mot_runique');
+		->joinLeft('mot_runique','id_fk_mot_runique_equipement = id_mot_runique');
 		
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -58,12 +60,14 @@ class HobbitEquipement extends Zend_Db_Table {
 		->from('type_qualite')
 		->from('type_emplacement')
 		->from('mot_runique')
-		->where('id_fk_recette_hequipement = id_recette_equipement')
+		->from('equipement')
+		->where('id_equipement = id_equipement_hequipement')
+		->where('id_fk_recette_equipement = id_recette_equipement')
 		->where('id_fk_type_recette_equipement = id_type_equipement')
 		->where('id_fk_type_qualite_recette_equipement = id_type_qualite')
 		->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement')
 		->where('id_fk_hobbit_hequipement = ?', intval($idHobbit))
-		->where('id_fk_mot_runique_hequipement = id_mot_runique')
+		->where('id_fk_mot_runique_equipement = id_mot_runique')
 		->where('nom_systeme_mot_runique = ?', $nomSystemeMot);
 		
 		$sql = $select->__toString();
@@ -78,7 +82,9 @@ class HobbitEquipement extends Zend_Db_Table {
 		->from('type_equipement')
 		->from('type_piece')
 		->from('recette_equipements')
-		->where('id_fk_recette_hequipement = id_recette_equipement')
+		->from('equipement')
+		->where('id_equipement = id_equipement_hequipement')
+		->where('id_fk_recette_equipement = id_recette_equipement')
 		->where('id_fk_type_recette_equipement = id_type_equipement')
 		->where('id_fk_type_piece_type_equipement = id_type_piece')
 		->where('id_fk_hobbit_hequipement = ?', intval($idHobbit))

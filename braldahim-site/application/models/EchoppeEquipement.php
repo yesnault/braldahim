@@ -25,9 +25,11 @@ class EchoppeEquipement extends Zend_Db_Table {
 		$select->from('type_piece');
 		$select->from('echoppe');
 		$select->from('region');
+		$select->from('equipement');
+		$select->where('id_equipement = id_echoppe_equipement');
 		$select->from('metier', array('nom_masculin_metier', 'nom_feminin_metier'));
 		$select->from('hobbit', array('id_hobbit', 'prenom_hobbit', 'nom_hobbit', 'sexe_hobbit'));
-		$select->where('id_fk_recette_echoppe_equipement = id_recette_equipement');
+		$select->where('id_fk_recette_equipement = id_recette_equipement');
 		$select->where('id_fk_type_recette_equipement = id_type_equipement');
 		$select->where('id_fk_type_piece_type_equipement = id_type_piece');
 		$select->where('id_fk_type_qualite_recette_equipement = id_type_qualite');
@@ -49,7 +51,7 @@ class EchoppeEquipement extends Zend_Db_Table {
 		if ($idTypeEquipement != -1) {
 			$select->where('id_type_equipement = ?', $idTypeEquipement);
 		}
-		$select->joinLeft('mot_runique','id_fk_mot_runique_echoppe_equipement = id_mot_runique');
+		$select->joinLeft('mot_runique','id_fk_mot_runique_equipement = id_mot_runique');
 		
 		if ($ordre != null) {
 			$select->order($ordre);
@@ -73,7 +75,9 @@ class EchoppeEquipement extends Zend_Db_Table {
 		$select->from('echoppe', null);
 		$select->from('hobbit', null);
 		$select->from('region', null);
-		$select->where('id_fk_recette_echoppe_equipement = id_recette_equipement');
+		$select->from('equipement');
+		$select->where('id_equipement = id_echoppe_equipement');
+		$select->where('id_fk_recette_equipement = id_recette_equipement');
 		$select->where('id_fk_type_recette_equipement = id_type_equipement');
 		$select->where('id_fk_type_qualite_recette_equipement = id_type_qualite');
 		$select->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement');
