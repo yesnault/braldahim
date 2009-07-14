@@ -79,8 +79,8 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 			throw new Zend_Exception(get_class($this)."::materiel invalide:".$idMateriel);
 		}
 
-		$echoppMaterielMineraiTable = new EchoppeMaterielMinerai();
-		$echoppeMaterielMinerai = $echoppMaterielMineraiTable->findByIdsMateriel($idMateriels);
+		$echoppeMaterielMineraiTable = new EchoppeMaterielMinerai();
+		$echoppeMaterielMinerai = $echoppeMaterielMineraiTable->findByIdsMateriel($idMateriels);
 
 		$minerai = null;
 		foreach($this->view->destinationTransfert as $d) {
@@ -254,7 +254,7 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 
 		$i = 0;
 		foreach($this->view->destinationTransfert as $d) {
-			if ($d["poids_restant"] >= $this->materiel["poids_type_materiel"]) {
+			if ($d["poids_restant"] >= $this->materiel["poids_type_materiel"] || (substr($this->materiel["nom_systeme_type_materiel"], 0, 9) == "charrette")) {
 				$placeDispo = true;
 				$this->view->destinationTransfert[$i]["possible"] = true;
 			}
