@@ -75,7 +75,7 @@ class EchoppeEquipement extends Zend_Db_Table {
 		$select->from('echoppe', null);
 		$select->from('hobbit', null);
 		$select->from('region', null);
-		$select->from('equipement');
+		$select->from('equipement', null);
 		$select->where('id_equipement = id_echoppe_equipement');
 		$select->where('id_fk_recette_equipement = id_recette_equipement');
 		$select->where('id_fk_type_recette_equipement = id_type_equipement');
