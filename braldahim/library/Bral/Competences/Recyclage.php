@@ -105,24 +105,12 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		
 		$this->poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit + $poidsEquipement;
 		
-		Zend_Loader::loadClass("Equipement");
-		$equipementTable = new Equipement();
-		$where = "id_equipement =".$idEquipement;
-		$equipementTable->delete($where);
-		
 		$labanEquipementTable = new LabanEquipement();
 		$where = "id_laban_equipement=".$idEquipement;
 		$labanEquipementTable->delete($where);
 		
-		Zend_Loader::loadClass("EquipementBonus");
-		$equipementBonusTable = new EquipementBonus();
-		$where = "id_equipement_bonus=".$idEquipement;
-		$equipementBonusTable->delete($where);
-		
-		Zend_Loader::loadClass("EquipementRune");
-		$equipementRuneTable = new EquipementRune();
-		$where = "id_equipement_rune=".$idEquipement;
-		$equipementRuneTable->delete($where);
+		Zend_Loader::loadClass("Bral_Util_Equipement");
+		Bral_Util_Equipement::destructionEquipement($idEquipement);
 		
 		$recetteCoutTable = new RecetteCout();
 		$recetteCout = $recetteCoutTable->findByIdTypeEquipementAndNiveau($idTypeEquipement, $nivEquipement);

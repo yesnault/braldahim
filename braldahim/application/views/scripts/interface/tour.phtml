@@ -60,6 +60,12 @@
 		<br>
 	<? endif; ?>
 	
+	<? if ($this->equipementDetruit != null) : ?>
+		<br>Vous n'avez pas réparé votre équipement correctement :<br>
+		<b><?=$this->equipementDetruit?></b>
+		<br>
+	<? endif; ?>
+	
 	<? include("tour/effet_mot_text.phtml"); ?>
 	<? include("tour/effet_potion_text.phtml"); ?>
 	<? include("tour/derniers_messages.phtml"); ?>

@@ -248,6 +248,9 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			
 			Zend_Loader::loadClass("Bral_Util_Charrette");
 			$this->view->charretteDetruite = Bral_Util_Charrette::calculNouvelleDlaCharrette($this->hobbit->id_hobbit, $this->hobbit->x_hobbit, $this->hobbit->y_hobbit);
+
+			Zend_Loader::loadClass("Bral_Util_Equipement");
+			$this->view->equipementDetruit = Bral_Util_Equipement::calculNouvelleDlaEquipement($this->hobbit->id_hobbit, $this->hobbit->x_hobbit, $this->hobbit->y_hobbit);
 		}
 
 		if ($this->is_update_tour) {

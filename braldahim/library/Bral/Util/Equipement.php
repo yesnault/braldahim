@@ -36,9 +36,9 @@ class Bral_Util_Equipement {
 	}
 
 	public static function insertEquipementBonus($idEquipement, $niveauEquipement, $idRegion) {
-		
+
 		$data["id_equipement_bonus"] = $idEquipement;
-		
+
 		switch($idRegion) {
 			case 1:
 				$data["sagesse_equipement_bonus"] = floor(Bral_Util_De::getLanceDeSpecifique($niveauEquipement+1, 1, 2));
@@ -69,19 +69,19 @@ class Bral_Util_Equipement {
 				throw new Zend_Exception("Bral_Util_Equipement::getNomByIdRegion Region invalide id:".$idRegion);
 				break;
 		}
-		
+
 		Zend_Loader::loadClass("EquipementBonus");
 		$equipementBonusTable = new EquipementBonus();
 		$equipementBonusTable->insert($data);
 		return $retour;
 	}
-	
+
 	public static function populateRune(&$tabEquipements, $tabWhere) {
 		Zend_Loader::loadClass("EquipementRune");
 		$equipementRuneTable = new EquipementRune();
 		$equipementRunes = $equipementRuneTable->findByIdsEquipement($tabWhere);
 		unset($equipementRuneTable);
-		
+
 		foreach($equipementRunes as $e) {
 			$tabEquipements[$e["id_equipement_rune"]]["runes"][] = array(
 				"id_rune_equipement_rune" => $e["id_rune_equipement_rune"],
@@ -93,13 +93,13 @@ class Bral_Util_Equipement {
 		}
 		unset($equipementRunes);
 	}
-	
+
 	public static function populateBonus(&$tabEquipements, $tabWhere) {
 		Zend_Loader::loadClass("EquipementBonus");
 		$equipementBonusTable = new EquipementBonus();
 		$equipementBonus = $equipementBonusTable->findByIdsEquipement($tabWhere);
 		unset($equipementBonusTable);
-		
+
 		foreach($equipementBonus as $b) {
 			$tabEquipements[$b["id_equipement_bonus"]]["bonus"] = $b;
 		}
@@ -121,7 +121,7 @@ class Bral_Util_Equipement {
 		$typesEmplacement = $typesEmplacement->toArray();
 
 		foreach ($typesEmplacement as $t) {
-			
+
 			if ($t["est_equipable_type_emplacement"] == "oui") {
 				$affiche = "oui";
 				$position = "gauche";
@@ -158,18 +158,18 @@ class Bral_Util_Equipement {
 			$equipementRuneTable = new EquipementRune();
 			$equipementBonusTable = new EquipementBonus();
 			$equipements = null;
-				
+
 			$idEquipements = null;
-				
+
 			foreach ($equipementPorteRowset as $e) {
 				$idEquipements[] = $e["id_equipement_hequipement"];
 			}
-				
+
 			$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
 			unset($equipementRuneTable);
 			$equipementBonus = $equipementBonusTable->findByIdsEquipement($idEquipements);
 			unset($equipementBonusTable);
-				
+
 			foreach ($equipementPorteRowset as $e) {
 				$runes = null;
 				if (count($equipementRunes) > 0) {
@@ -185,7 +185,7 @@ class Bral_Util_Equipement {
 						}
 					}
 				}
-				
+
 				$bonus = null;
 				if (count($equipementBonus) > 0) {
 					foreach($equipementBonus as $b) {
@@ -232,5 +232,52 @@ class Bral_Util_Equipement {
 		}
 		return array ("equipementPorte" => $equipementPorte ,
 					"tabTypesEmplacement" => $tabTypesEmplacement);
+	}
+
+
+	public static function calculNouvelleDlaEquipement($idHobbit, $x, $y) {
+		Zend_Loader::loadClass("HobbitEquipement");
+		Zend_Loader::loadClass("Equipement");
+
+		$hobbitEquipementTable = new HobbitEquipement();
+		$equipements = $hobbitEquipementTable->findByIdHobbit($idHobbit);
+
+		$equipementTable = new Equipement();
+
+		$retour = null;
+
+		foreach($equipements as $e) {
+			$etat = $e["etat_courant_equipement"] - 15;
+			if ($etat <= 0) {
+				$where = "id_equipement_hequipement =".$e["id_equipement_hequipement"];
+				$hobbitEquipementTable->delete($where);
+				self::destructionEquipement($e["id_equipement_hequipement"]);
+				$retour .= "Votre équipement ".Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]);
+				$retour .= " n&deg;".$e["id_equipement_hequipement"]." est détruit.<br>";
+			} else {
+				$data = array("etat_courant_equipement" => $etat);
+				$where = "id_equipement = ".$e["id_equipement_hequipement"];
+				$equipementTable->update($data, $where);
+			}
+		}
+
+		return $retour;
+	}
+	
+	public static function destructionEquipement($idEquipement) {
+		Zend_Loader::loadClass("EquipementBonus");
+		$equipementBonusTable = new EquipementBonus();
+		$where = "id_equipement_bonus=".$idEquipement;
+		$equipementBonusTable->delete($where);
+		
+		Zend_Loader::loadClass("EquipementRune");
+		$equipementRuneTable = new EquipementRune();
+		$where = "id_equipement_rune=".$idEquipement;
+		$equipementRuneTable->delete($where);
+		
+		Zend_Loader::loadClass("Equipement");
+		$equipementTable = new Equipement();
+		$where = "id_equipement =".$idEquipement;
+		$equipementTable->delete($where);
 	}
 }
