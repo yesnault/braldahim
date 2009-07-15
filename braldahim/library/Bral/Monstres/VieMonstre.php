@@ -665,6 +665,10 @@ Vous avez esquivé parfaitement l'attaque";
 			$offsetX = $rayonMin;
 			$offsetY = $rayonMin;
 		}
+		
+		if ($niveau < 3) {
+			$rayonMin = -5;
+		}
 
 		foreach($villes as $v) {
 			// vérification rayon
@@ -710,8 +714,8 @@ Vous avez esquivé parfaitement l'attaque";
 					}
 				}
 				$estPasse = true;
-			} else if ($v["x_min_ville"] - $rayonMin - 10 <= $directionX && $v["x_max_ville"] + $rayonMin + 10 >= $directionX
-			&& $v["y_min_ville"] - $rayonMin - 10 <= $directionY && $v["y_max_ville"] + $rayonMin + 10 >= $directionY) { // dans le rayon autorisé +/- 10 cases
+			} else if ($v["x_min_ville"] - $rayonMin - 15 <= $directionX && $v["x_max_ville"] + $rayonMin + 15 >= $directionX
+			&& $v["y_min_ville"] - $rayonMin - 15 <= $directionY && $v["y_max_ville"] + $rayonMin + 15 >= $directionY) { // dans le rayon autorisé +/- 15 cases
 				Bral_Util_Log::viemonstres()->debug("Bral_Monstres_VieMonstre - getTabXYRayon - monstre en rayon autorise, niveau $niveau xmin:".$v["x_min_ville"] ." xmax:".$v["x_max_ville"] ." ymin:".$v["y_min_ville"] ." ymax:".$v["y_max_ville"]. " directionX:".$directionX. " directionY:".$directionY. " offsetX:".$offsetX. " offsetY:".$offsetY);
 				$estPasse = true;
 			}
