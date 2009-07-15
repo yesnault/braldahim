@@ -58,7 +58,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 						$retour .= " match(".$m["id_soule_match"].") e1:".$equipes[0]["nombre"]." e2:0";
 						Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - match(".$m["id_soule_match"].") equipe 1:".$equipes[0]["nombre"]);
 					} else {
-						Bral_Util_Log::batchs()->erreur("Bral_Batchs_Soule - pas d'equipe avec un match (".$m["id_soule_match"].") initialise");
+						Bral_Util_Log::batchs()->err("Bral_Batchs_Soule - pas d'equipe avec un match (".$m["id_soule_match"].") initialise");
 						$retour .= " Erreur match(".$m["id_soule_match"].")";
 					}
 				}
