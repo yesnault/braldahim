@@ -42,6 +42,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 
 		if ($matchs != null) {
 			foreach($matchs as $m) { // pour tous les matchs non débutés
+				Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationMatchs - Traitement du match(".$m["id_soule_match"].") ");
 				$equipes = $souleEquipe->countInscritsNonDebuteByIdMatch($m["id_soule_match"]);
 				if ($equipes != null && count($equipes) == 2
 				&& (($equipes[0]["nombre"] >= $nbJoueursEquipeMin && $equipes[1]["nombre"] >= $nbJoueursEquipeMin)
@@ -82,7 +83,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		$where = "id_soule_match = ".(int)$match["id_soule_match"];
 		$souleMatchTable->update($data, $where);
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateJoursQuotaMinMatch - enter -");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - updateJoursQuotaMinMatch - exit -");
 		return $retour;
 	}
 
@@ -107,7 +108,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 
 		$this->updateMatchDb($match);
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationMath - enter -");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Soule - calculCreationMath - exit -");
 		return $retour;
 	}
 
