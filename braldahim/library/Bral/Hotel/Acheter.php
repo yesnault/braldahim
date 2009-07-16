@@ -1134,10 +1134,6 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 		$data = array(
 				"id_".$suffixe."_equipement" => $this->view->vente["objet"]["id_equipement"],
-				"id_fk_recette_".$suffixe."_equipement" => $this->view->vente["objet"]["id_fk_recette_equipement"],
-				"nb_runes_".$suffixe."_equipement" => $this->view->vente["objet"]["nb_runes"],
-				"id_fk_mot_runique_".$suffixe."_equipement" => $this->view->vente["objet"]["id_fk_mot_runique"],
-				"id_fk_region_".$suffixe."_equipement" => $this->view->vente["objet"]["id_fk_region"],
 		);
 
 		if ($idDestination == "charrette") {
