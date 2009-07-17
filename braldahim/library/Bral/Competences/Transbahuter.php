@@ -22,7 +22,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$tabEndroit[4] = array("id_type_endroit" => 4,"nom_systeme" => "Coffre", "nom_type_endroit" => "Le coffre d'un autre Hobbit", "est_depart" => false, "poids_restant" => -1, "panneau" => true);
 		}
 		
-		//@TODO Si on est sur une echoppe
+		//Si on est sur une echoppe
 		$echoppe = new Echoppe();
 		$echoppeCase = $echoppe->findByCase($this->view->user->x_hobbit,$this->view->user->y_hobbit);
 		if (count($echoppeCase) > 0) {
@@ -126,7 +126,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->tabEndroit = $tabEndroit;
 
 		//@TODO gérer matériel
-		//@TODO JS Controle Echoppe sur Qté et SelectAll
 		//@TODO afficher ce qui est transbahuté et de koi vers koi.
 		//@TODO gerer si on a un seul élément dans la liste depart ou arrivée
 

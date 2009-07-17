@@ -1,7 +1,0 @@
-<? foreach($this->munitions as $k => $m) :?>
-	<?=$m["type"]?> : <?=$m["quantite"]?>
-	Quantit&eacute; &agrave; d&eacute;poser : 
-	<input type='text' maxlength='4' size='4' name='valeur_<?=$k?>' id='valeur_<?=$k?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite"] ?>) { alert('Valeur trop grande'); this.value=0}; <?=$jsBtn?>">
-	<input type='hidden' maxlength='4' size='4' name='valeur_<?=$k?>_max' id='valeur_<?=$k?>_max' value='<?=$m["quantite"]?>' >
-	<br>
-<? endforeach; ?>
