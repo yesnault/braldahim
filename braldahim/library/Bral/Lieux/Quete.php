@@ -62,7 +62,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		if ($this->view->idLieu == Bral_Util_Quete::QUETE_ID_LIEU_INITIATIQUE) {
 			$this->view->etapes = Bral_Util_Quete::creationQueteInitiatique($this->view->user, $this->view->config);
 		} else {
-			$this->calculQuete();	
+			$this->calculQuete();
 		}
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
 		$this->view->user->est_quete_hobbit = "oui";
@@ -257,10 +257,18 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 	private function pepareParamTypeEtapeManger() {
 		$dataTypeEtape = $this->initDataTypeEtape();
 
-		$dataTypeEtape["param1"] = Bral_Util_De::get_de_specifique(5, 10);
-		$dataTypeEtape["libelle_etape"] = "Vous devez manger ".$dataTypeEtape["param1"]." repas";
 
+		$dataTypeEtape["libelle_etape"] = "";
+		
 		$this->pepareParamTypeEtapeMangerParam2et3($dataTypeEtape);
+		
+		if (Bral_Util_Quete::ETAPE_MANGER_PARAM2_ETAT == $dataTypeEtape["param2"]) {
+			$dataTypeEtape["param1"] = 1;
+		} else {
+			$dataTypeEtape["param1"] = Bral_Util_De::get_de_specifique(5, 10);
+		}
+
+		$dataTypeEtape["libelle_etape"] = "Vous devez manger ".$dataTypeEtape["param1"]." repas " . $dataTypeEtape["libelle_etape"];
 
 		$dataTypeEtape["param4"] = Bral_Util_De::get_1D7();
 		$dataTypeEtape["libelle_etape"] .= ", un ".Bral_Helper_Calendrier::getJourSemaine($dataTypeEtape["param4"]);
