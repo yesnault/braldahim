@@ -41,15 +41,17 @@
 	</tr>
 </table>
 
-<? if ($this->estSurEchoppe === true && $this->user->activation == true): 
+<? if ($this->estSurEchoppe === true && $this->user->activation == true && $this->user->pa_hobbit >= 1): 
 	$disabled = "";
 else:
 	$disabled = "disabled" ;
 ?>
-	<? if ($this->user->activation == true) : ?>
+	<? if ($this->estSurEchoppe == false) : ?>
   		Vous n'&ecirc;tes pas dans votre &eacute;choppe, vous n'avez pas acc&egrave;s aux actions...<br />
-  	<? else :?>
+  	<? elseif ($this->user->activation == false) :?>
   		Tour non activé à la connexion, vous n'avez pas acc&egrave;s aux actions...<br />
+  	<? elseif ($this->user->pa_hobbit < 1) :?>
+  		Vous n'avez pas assez de PA, vous n'avez pas acc&egrave;s aux actions...<br />
   	<? endif; ?>
 <? endif; ?>
     
