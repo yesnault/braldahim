@@ -91,7 +91,7 @@ class Bral_Monstres_VieGibier {
 				$monstre["y_direction_monstre"] = $monstre["y_direction_monstre"] + $dy;
 			}
 
-			$tab = Bral_Monstres_VieMonstre::getTabXYRayon($monstre["niveau_monstre"], $this->villes, $monstre["x_direction_monstre"], $monstre["y_direction_monstre"], $dx, $dy);
+			$tab = Bral_Monstres_VieMonstre::getTabXYRayon($monstre["niveau_monstre"], true, $this->villes, $monstre["x_direction_monstre"], $monstre["y_direction_monstre"], $dx, $dy);
 			$monstre["x_direction_monstre"] = $tab["x_direction"];
 			$monstre["y_direction_monstre"] = $tab["y_direction"];
 

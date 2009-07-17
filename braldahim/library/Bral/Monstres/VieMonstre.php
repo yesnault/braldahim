@@ -653,7 +653,7 @@ Vous avez esquivé parfaitement l'attaque";
 		return $retour;
 	}
 
-	public static function getTabXYRayon($niveau, $villes, $directionX, $directionY, $offsetX = null, $offsetY = null) {
+	public static function getTabXYRayon($niveau, $estSolitaire, $villes, $directionX, $directionY, $offsetX = null, $offsetY = null) {
 		Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - enter - niveau=".$niveau." directionX=".$directionX." directionY=".$directionY. " offsetX=".$offsetX. " offsetY=".$offsetY);
 		
 		$tab["x_direction"] = $directionX;
@@ -666,7 +666,7 @@ Vous avez esquivé parfaitement l'attaque";
 			$offsetY = $rayonMin;
 		}
 		
-		if ($niveau < 3) {
+		if ($niveau < 1) {
 			$rayonMin = -5;
 		}
 		
@@ -736,7 +736,7 @@ Vous avez esquivé parfaitement l'attaque";
 		$yMinVille = 0;
 		$yMaxVille = 0;
 
-		if ($estPasse == false) { // si le monstre est en dehors de son rayon autorisé et en dehors de son rayon interdit
+		if ($estPasse == false && $estSolitaire) { // si le monstre est en dehors de son rayon autorisé et en dehors de son rayon interdit
 			foreach($villes as $v) {
 				$xCentreVille = $v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"] / 2);
 				$yCentreVille = $v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"] / 2);
@@ -760,15 +760,15 @@ Vous avez esquivé parfaitement l'attaque";
 			}
 
 			if ($directionX <= $xMinVille - $rayonMin) {
-				$directionX = $xMinVille - $rayonMin;
+				$directionX = $xMinVille - $rayonMin - $largeurRayonAutorise / 2;
 			} else {
-				$directionX = $xMaxVille + $rayonMin;
+				$directionX = $xMaxVille + $rayonMin + $largeurRayonAutorise / 2;
 			}
 
 			if ($directionY <= $yMinVille - $rayonMin) {
-				$directionY = $yMinVille - $rayonMin;
+				$directionY = $yMinVille - $rayonMin - $largeurRayonAutorise / 2;
 			} else {
-				$directionY = $yMaxVille + $rayonMin;
+				$directionY = $yMaxVille + $rayonMin + $largeurRayonAutorise / 2;
 			}
 			
 			// todo peut etre, contrôle si un gros monstre se trouve dans une ville à côté.

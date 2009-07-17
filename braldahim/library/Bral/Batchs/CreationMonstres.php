@@ -249,12 +249,12 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$x_monstre = $x_monstre + $enVille;
 		$y_monstre = $y_monstre + $enVille;
 
-		$tab = Bral_Monstres_VieMonstre::getTabXYRayon($niveau_monstre, $villes, $x_monstre, $y_monstre);
+		$tab = Bral_Monstres_VieMonstre::getTabXYRayon($niveau_monstre, false, $villes, $x_monstre, $y_monstre);
 		$x_monstre = $tab["x_direction"];
 		$y_monstre = $tab["y_direction"];
 
 		if ($tab["est_traite"] == true) {
-			$tab = Bral_Monstres_VieMonstre::getTabXYRayon($niveau_monstre, $villes, $x_monstre, $y_monstre);
+			$tab = Bral_Monstres_VieMonstre::getTabXYRayon($niveau_monstre, false, $villes, $x_monstre, $y_monstre);
 			$x_monstre = $tab["x_direction"];
 			$y_monstre = $tab["y_direction"];
 			if ($tab["est_traite"] == true) { // si l'on arrive pas à le mettre en dehors de son rayon, on passe
