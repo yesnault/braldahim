@@ -1,8 +1,9 @@
 <div class="vue2d_case_num">
-<? if ($case["marcher"] != null && $case["marcher"]["case"] != null): 
+<? if ($case["marcher"] != null && $case["marcher"]["case"] != null && $case["marcher"]["case"]["valid"] === true): 
 	$texte = "Environnement : ".$case["marcher"]["general"]["environnement"]."<br>";
 	$texte .= "Nombre PA nécessaire : ".$case["marcher"]["general"]["nb_pa"]."<br>";
 ?>
+
 	<img src='/public/styles/braldahim_defaut/images/vue/chaussures.png' <?=Bral_Helper_Tooltip::jsTip($texte, "Cliquez sur les chaussures pour Marcher", false, false) ?> alt='Cliquez pour Marcher' title='Cliquez pour Marcher'
 		onClick="Javascript:_get_('/competences/doaction?caction=do_competence_marcher&valeur_1=<?=$case["marcher"]["case"]["offset"]?>')" style="cursor:pointer;" />
 <? endif; ?>
