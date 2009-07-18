@@ -11,7 +11,7 @@
 		<select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1='+this.value);">
 			<option value="-1">(Choisissez un endroit de d&eacute;part)</option>
 			<? foreach($this->typeDepart as $t) : ?>
-			 	<option value="<?=$t["id_type_depart"]?>" <? if ($t["selected"] == $t["id_type_depart"]): echo "selected"; $panneau=$t["panneau"]; endif;?>><?=$t["nom_type_depart"]?></option>
+			 	<option value="<?=$t["id_type_depart"]?>" <? if ($t["selected"] == $t["id_type_depart"] || count($this->typeDepart)==1): echo "selected"; $panneau=$t["panneau"]; endif;?>><?=$t["nom_type_depart"]?></option>
 			<? endforeach; ?>
 		 </select>
 		 <input type="hidden" name="valeur_panneau" id="valeur_panneau" value="<?=$panneau ?>">
@@ -28,6 +28,7 @@
 				<?php include("transbahuter/partiesplantes.phtml")?>
 				<?php include("transbahuter/minerais.phtml")?>
 				<?php include("transbahuter/tabacs.phtml")?>
+				<?php include("transbahuter/materiels.phtml")?>
 			
 				<?php 
 				$js = "selectAll();";
@@ -53,7 +54,7 @@
 						$charrette = "";
 						foreach($this->typeArrivee as $t){ 
 							$option .="<option value='".$t["id_type_arrivee"]."'";
-					 		if ($t["selected"] == $t["id_type_arrivee"]) {
+					 		if ($t["selected"] == $t["id_type_arrivee"] || count($this->typeArrivee) == 1) {
 					 			$option .=" selected ";
 					 		}
 					 		$option .= ">".$t["nom_type_arrivee"]."</option>";

@@ -261,7 +261,7 @@ function controlePoids(){
 				if ( $('valeur_' + i).type == 'select-multiple' ){
 					for (j=0; j<$('valeur_' + i).options.length; j++){
 						if ($('valeur_' + i).options[j].selected == true) {
-							if ( i==12 ){
+							if ( i==12 || i==16 ){
 								poids = parseFloat(poids) + parseFloat($('valeur_' + i + '_poids_' + $('valeur_' + i).options[j].value).value);
 							}
 							else{

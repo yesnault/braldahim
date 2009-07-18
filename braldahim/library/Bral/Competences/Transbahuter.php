@@ -70,7 +70,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		//Construction du tableau des départs
 		$tabTypeDepart = null;
-		$choixDepartDansListe = false;
 		$i=1;
 		foreach ($tabEndroit as $e){
 			//On ne prend que ce qui peut être dans les départs
@@ -79,18 +78,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$this->prepareType($e["nom_systeme"]);
 				if ($this->view->deposerOk == true) {
 					$tabTypeDepart[$i] = array("id_type_depart" => $e["id_type_endroit"], "selected" => $id_type_courant_depart, "nom_systeme" => $e["nom_systeme"], "nom_type_depart" => $e["nom_type_endroit"], "panneau" => $e["panneau"]);
-					if ($id_type_courant_depart == $e["id_type_endroit"]) {
-						$choixDepartDansListe = true;
-					}
 					$i++;
 				}
 			}
 		}
-		$this->view->typeDepart = $tabTypeDepart;
-
-		if ($choixDepartDansListe !== true) {
-			$choixDepart = false;
+		if ( count($tabTypeDepart) == 1) {
+			$id_type_courant_depart = $tabTypeDepart[1]["id_type_depart"];
+			$choixDepart = true;
 		}
+		
+		$this->view->typeDepart = $tabTypeDepart;
 
 		//Si on a choisi le départ, on peut choisir l'arrivée
 		if ($choixDepart === true) {
@@ -119,15 +116,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				}
 			}
 			$this->view->typeArrivee = $tabTypeArrivee;
-			$this->view->nb_valeurs = 15;
+			$this->view->nb_valeurs = 16;
 			$this->prepareType($tabEndroit[$id_type_courant_depart]["nom_systeme"]);
 		}
 		$this->view->choixDepart = $choixDepart;
 		$this->view->tabEndroit = $tabEndroit;
 
-		//@TODO gérer matériel
 		//@TODO afficher ce qui est transbahuté et de koi vers koi.
-		//@TODO gerer si on a un seul élément dans la liste depart ou arrivée
+		//@TODO gerer envoi message
 
 	}
 
@@ -257,6 +253,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->prepareTypePartiesPlantes($depart);
 		$this->prepareTypeMinerais($depart);
 		$this->prepareTypeTabac($depart);
+		$this->prepareTypeMateriel($depart);
 	}
 
 	private function deposeType($depart,$arrivee){
@@ -269,6 +266,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->deposeTypePartiesPlantes($depart,$arrivee);
 		$this->deposeTypeMinerais($depart,$arrivee);
 		$this->deposeTypeTabac($depart,$arrivee);
+		$this->deposeTypeMateriel($depart,$arrivee);
 	}
 
 	private function prepareTypeEquipements($depart) {
@@ -962,7 +960,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$idMunition = null;
 				$nbMunition = null;
 				
-				for ($i=16; $i<=$this->view->valeur_fin_munitions; $i++) {
+				for ($i=17; $i<=$this->view->valeur_fin_munitions; $i++) {
 						
 					if ( $this->request->get("valeur_".$i) > 0) {
 						$nbMunition = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_".$i));
@@ -1687,7 +1685,159 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			}
 		}
 	}
+	
+	private function prepareTypeMateriel($depart) {
+		Zend_Loader::loadClass($depart."Materiel");
+		$tabMateriels = null;
+		
+		switch ($depart) {
+			case "Laban" :
+				$labanMaterielTable = new LabanMateriel();
+				$materiels = $labanMaterielTable->findByIdHobbit($this->view->user->id_hobbit);
+				unset($labanMaterielTable);
+				break;
+			case "Element" :
+				$elementMaterielTable = new ElementMateriel();
+				$materiels = $elementMaterielTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+				unset($elementMaterielTable);
+				break;
+			case "Coffre" :
+				$coffreMaterielTable = new CoffreMateriel();
+				$materiels = $coffreMaterielTable->findByIdHobbit($this->view->user->id_hobbit);
+				unset($coffreMaterielTable);
+				break;
+			case "Charrette" :
+				$charretteMaterielTable = new CharretteMateriel();
+				$materiels = $charretteMaterielTable->findByIdCharrette($this->view->id_charrette_depart);
+				unset($charretteMaterielTable);
+				break;
+			case "Echoppe" :
+				$echoppeMaterielTable = new EchoppeMateriel();
+				$materiels = $echoppeMaterielTable->findByIdEchoppe($this->view->id_echoppe_depart);
+				unset($echoppeMaterielTable);
+				break;
+		}
 
+		if (count($materiels) > 0) {
+			foreach ($materiels as $e) {
+				$tabMateriels[$e["id_".strtolower($depart)."_materiel"]] = array(
+						"id_materiel" => $e["id_".strtolower($depart)."_materiel"],
+						"id_fk_type_materiel" => $e["id_fk_type_".strtolower($depart)."_materiel"],
+						"nom" => $e["nom_type_materiel"],
+						"poids" => $e["poids_type_materiel"],
+				);
+			}
+			$this->view->deposerOk = true;
+		}
+		$this->view->materiels = $tabMateriels;
+	}
+
+	private function deposeTypeMateriel($depart,$arrivee) {	
+		Zend_Loader::loadClass($depart."Materiel");
+		Zend_Loader::loadClass($arrivee."Materiel");
+
+		$materiels = array();
+		$materiels = $this->request->get("valeur_16");
+
+		if (count($materiels) > 0 && $materiels != 0) {
+			$this->view->nbelement = $this->view->nbelement + 1;
+			if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ){
+				$this->view->panneau = false;
+			}
+			else {
+				foreach ($materiels as $idMateriel) {
+					if (!array_key_exists($idMateriel, $this->view->materiels)) {
+						throw new Zend_Exception(get_class($this)." ID Materiel invalide : ".$idMateriel);
+					}
+	
+					$materiel = $this->view->materiels[$idMateriel];
+					
+					if ($arrivee == "Laban" || $arrivee == "Charrette") {
+						$poidsOk = $this->controlePoids($this->view->poidsRestant,1,$materiel["poids"]);
+						if ($poidsOk == false){
+							$this->view->poidsOk = false;
+							break;
+						}
+					}
+	
+					$where = "id_".strtolower($depart)."_materiel=".$idMateriel;
+					switch ($depart){
+						case "Laban" :
+							$departMaterielTable = new LabanMateriel();
+							break;
+						case "Element" :
+							$departMaterielTable = new ElementMateriel();
+							break;
+						case "Coffre" :
+							$departMaterielTable = new CoffreMateriel();
+							break;
+						case "Charrette" :
+							$departMaterielTable = new CharretteMateriel();
+							break;
+						case "Echoppe" :
+							$departMaterielTable = new EchoppeMateriel();
+							break;
+					}
+	
+					$departMaterielTable->delete($where);
+					unset($departMaterielTable);
+	
+					switch ($arrivee){
+						case "Laban" :
+							$arriveeMaterielTable = new LabanMateriel();
+							$data = array (
+								"id_laban_materiel" => $materiel["id_materiel"],
+								"id_fk_type_laban_materiel" => $materiel["id_fk_type_materiel"],
+								"id_fk_hobbit_laban_materiel" => $this->view->user->id_hobbit,
+							);
+							$this->view->poidsRestant = $this->view->poidsRestant - $materiel["poids"];
+							break;
+						case "Element" :
+							$dateCreation = date("Y-m-d H:i:s");
+							$nbJours = Bral_Util_De::get_2d10();
+							$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+	
+							$arriveeMaterielTable = new ElementMateriel();
+							$data = array (
+								"id_element_materiel" => $materiel["id_materiel"],
+								"x_element_materiel" => $this->view->user->x_hobbit,
+								"y_element_materiel" => $this->view->user->y_hobbit,
+								"id_fk_type_element_materiel" => $materiel["id_fk_type_materiel"],
+								"date_fin_element_materiel" => $dateFin,
+							);
+							break;
+						case "Coffre" :
+							$arriveeMaterielTable = new CoffreMateriel();
+							$data = array (
+								"id_coffre_materiel" => $materiel["id_materiel"],
+								"id_fk_type_coffre_materiel" => $materiel["id_fk_type_materiel"],
+								"id_fk_hobbit_coffre_materiel" => $this->view->id_hobbit_coffre,
+							);
+							break;
+						case "Charrette" :
+							$arriveeMaterielTable = new CharretteMateriel();
+							$data = array (
+								"id_charrette_materiel" => $materiel["id_materiel"],
+								"id_fk_type_charrette_materiel" => $materiel["id_fk_type_materiel"],
+								"id_fk_charrette_materiel" => $this->view->id_charrette_arrivee,
+							);
+							break;
+						case "Echoppe" :
+							$arriveeMaterielTable = new EchoppeMateriel();
+							$data = array (
+								"id_echoppe_materiel" => $materiel["id_materiel"],
+								"id_fk_type_echoppe_materiel" => $materiel["id_fk_type_materiel"],
+								"id_fk_echoppe_echoppe_materiel" => $this->view->id_echoppe_arrivee,
+							);
+							break;
+					}
+					$arriveeMaterielTable->insert($data);
+					unset($arriveeMaterielTable);
+				}
+			}
+		}
+	}
+	
 	private function prepareTypeAutres($depart){
 		Zend_Loader::loadClass($depart);
 

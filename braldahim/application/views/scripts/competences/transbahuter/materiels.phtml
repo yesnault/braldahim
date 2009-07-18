@@ -1,0 +1,32 @@
+<? if (count($this->materiels) > 0) : ?>
+	 <ul id="navigation" style="width:99%;text-align:left">
+		<li id="deposer_materiels">
+			<? $poches[] = "deposer_materiels-head" ?>
+			<h3 id="deposer_materiels-head" class="head" onClick="maccordion(this);" />
+				Mat&eacute;riels
+			</h3>
+			<ul id="deposer_materiels-body" style="display:none">
+				<li>
+					<?
+					$option = "";
+					$poids = "";
+					foreach($this->materiels as $e) {
+						 $option .= "<option value='".$e["id_materiel"]."'>n&deg;".$e["id_materiel"]." ".htmlspecialchars($e["nom"]).", poids ".$e["poids"]."kg</option>";
+						 $poids .= "<input type='hidden' name='valeur_16_poids_".$e["id_materiel"]."' id='valeur_16_poids_".$e["id_materiel"]."' value='".$e["poids"]."'>";
+					}
+					?>
+					Choississez un mat&eacute;riel (ou plusieurs en appuyant sur ctrl) &agrave; transbahuter.<br />
+					<select multiple size="5" name="valeur_16" id="valeur_16" onChange="<?=$jsBtn?>">
+						<?=$option ?>
+					</select>
+					<?=$poids ?>
+			  	</li>
+			</ul>
+		</li>
+	</ul>
+<? else : ?>
+	<input type='hidden' maxlength='4' size='4' name='valeur_16' id='valeur_16' value='0' />
+	<input type='hidden' maxlength='4' size='4' name='valeur_16_max' id='valeur_16_max' value='0' />
+	<input type='hidden' maxlength='4' size='4' name='valeur_16_poids' id='valeur_16_poids' value='0' />
+<?endif; ?>
+<input type='hidden' maxlength='4' size='4' name='valeur_16_echoppe' id='valeur_16_echoppe' value='oui' />
