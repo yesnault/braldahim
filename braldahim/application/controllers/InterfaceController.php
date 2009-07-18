@@ -177,10 +177,10 @@ class InterfaceController extends Zend_Controller_Action {
 	}
 
 	private function getBoxesData() {
-		$r = "<table width='100%'><tr valign='top'><td width='30%'>";
+		$r = "<table width='100%'><tr valign='top'><td width='365px'>";
 		$r .= $this->getDataList("boite_a");
 		$r .= $this->getDataList("boite_b");
-		$r .= "</td><td width='70%'>";
+		$r .= "</td><td width='auto'>";
 		$r .= $this->getDataList("boite_c");
 		$r .= "</td></tr></table>";
 		return $r;
