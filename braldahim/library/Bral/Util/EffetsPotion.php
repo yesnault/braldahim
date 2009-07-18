@@ -13,7 +13,7 @@
 class Bral_Util_EffetsPotion {
 	
 	public static function calculPotionHobbit($hobbitCible, $appliqueEffet) {
-		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - calculPotionHobbit - enter - appliqueEffet:".$appliqueEffet. " idH:".$hobbitCible->id_hobbit);
+		Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - calculPotionHobbit - enter - appliqueEffet:".$appliqueEffet. " idH:".$hobbitCible->id_hobbit);
 		
 		Zend_Loader::loadClass("EffetPotionHobbit");
 		$effetPotionHobbitTable = new EffetPotionHobbit();
@@ -50,12 +50,12 @@ class Bral_Util_EffetsPotion {
 		}
 		
 		unset($effetPotionHobbitRowset);
-		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - calculPotionHobbit - exit");
+		Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - calculPotionHobbit - exit");
 		return $potions;
 	}
 
 	public static function calculPotionMonstre($monstreCible) {
-		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - calculPotionMonstre - enter");
+		Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - calculPotionMonstre - enter");
 		
 		Zend_Loader::loadClass("EffetPotionMonstre");
 		$effetPotionMonstreTable = new EffetPotionMonstre();
@@ -84,7 +84,7 @@ class Bral_Util_EffetsPotion {
 		}
 		
 		unset($effetPotionMonstreRowset);
-		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - calculPotionMonstre - exit");
+		Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - calculPotionMonstre - exit");
 		return $potions;
 	}
 	
