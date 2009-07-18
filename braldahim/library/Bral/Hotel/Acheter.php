@@ -527,6 +527,8 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			"place_dispo" => $placeDispo,
 			"runes" => $runes,
 			"bonus" => $bonus,
+			"etat_courant" => $e["etat_courant_equipement"],
+			"etat_initial" => $e["etat_initial_equipement"],
 			"est_charrette" => false,
 			"charrette_possible" => true,
 		);
