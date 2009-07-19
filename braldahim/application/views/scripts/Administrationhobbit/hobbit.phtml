@@ -12,6 +12,7 @@
 	    <? endif; ?>
 	    Compte actif : <?=$this->hobbit["est_compte_actif_hobbit"]?><br>
 	    Compte en hibernation : <?=$this->hobbit["est_en_hibernation_hobbit"]?><br>
+	    PNJ : <?=$this->hobbit["est_pnj_hobbit"]?><br>
 	    
 	    <form action="/Administrationhobbit/hobbit/mode/<?=$this->mode?>/idhobbit/<?=$this->id_hobbit?>" method="post">
 		<? if ($this->hobbit == null): ?>

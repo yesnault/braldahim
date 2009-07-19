@@ -383,6 +383,11 @@ class InscriptionController extends Zend_Controller_Action {
 			Bral_Util_Evenement::majEvenements($couple["id_fk_m_hobbit_couple"], $this->view->config->game->evenements->type->famille, $detailEvenement, $detailsBot, 0, "hobbit", true, $this->view);
 			Bral_Util_Evenement::majEvenements($couple["id_fk_f_hobbit_couple"], $this->view->config->game->evenements->type->famille, $detailEvenement, $detailsBot, 0, "hobbit", true, $this->view);
 
+			Zend_Loader::loadClass("Bral_Util_Messagerie");
+			$message = $detailsBot.PHP_EOL.PHP_EOL." Signé Irène Doucelac".PHP_EOL."Inutile de répondre à ce message.";
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $couple["id_fk_m_hobbit_couple"], $message);
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $couple["id_fk_f_hobbit_couple"], $message);
+				
 			Bral_Util_Log::inscription()->notice("InscriptionController - calculParent - utilisation d'un couple existant (m:".$couple["id_fk_m_hobbit_couple"]." f:".$couple["id_fk_f_hobbit_couple"]." enfants:".$nombreEnfants.")");
 		} else { // pas de couple dispo, on tente d'en creer un nouveau
 			$dataParents = $this->creationCouple($idHobbit);
@@ -423,7 +428,12 @@ class InscriptionController extends Zend_Controller_Action {
 
 				Bral_Util_Evenement::majEvenements($pere["id_hobbit"], $this->view->config->game->evenements->type->famille, $detailEvenement, $detailsBot, $pere["niveau_hobbit"], "hobbit", true, $this->view);
 				Bral_Util_Evenement::majEvenements($mere["id_hobbit"], $this->view->config->game->evenements->type->famille, $detailEvenement, $detailsBot, $mere["niveau_hobbit"], "hobbit", true, $this->view);
-
+				
+				Zend_Loader::loadClass("Bral_Util_Messagerie");
+				$message = $detailsBot.PHP_EOL.PHP_EOL." Signé Irène Doucelac".PHP_EOL."Inutile de répondre à ce message.";
+				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $mere["id_hobbit"], $message);
+				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $pere["id_hobbit"], $message);
+				
 				Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - creation d'un nouveau couple");
 			} else {
 				Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - plus de hobbit f disponible");
