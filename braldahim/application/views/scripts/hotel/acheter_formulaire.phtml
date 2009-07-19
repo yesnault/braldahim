@@ -14,7 +14,12 @@
 		<? $this->materiels = array($this->vente["objet"]); ?>
 		<?=$this->render("/interface/commun/materiels/materiels.phtml"); ?>
 	<? elseif ($this->vente["vente"]["type_vente"] == "equipement"): ?>
-		<? $this->equipements = array($this->vente["objet"]); ?>
+		<?  
+			$equipements = null;
+			$equipements[$this->vente["objet"]["id_type_emplacement"]]["equipements"][] = $this->vente["objet"];
+			$equipements[$this->vente["objet"]["id_type_emplacement"]]["nom_type_emplacement"] = $this->vente["objet"]["emplacement"];
+			$this->equipements = $equipements;
+			?>
 		<?=$this->render("/interface/commun/equipements/equipements.phtml"); ?>
 	<? else : ?>
 		<?=$this->vente["objet"]["nom"]; ?>.<br>

@@ -61,9 +61,16 @@
 	<? endif; ?>
 	
 	<? if ($this->equipementDetruit != null) : ?>
-		<br>Vous n'avez pas réparé votre équipement correctement :<br>
-		<b><?=$this->equipementDetruit?></b>
-		<br>
+		<? if (array_key_exists("detruit", $this->equipementDetruit)) : ?>
+			<br>Vous n'avez pas réparé votre équipement correctement :<br>
+			<b><?=$this->equipementDetruit?></b>
+			<br>
+		<? endif;?>
+		<? if (array_key_exists("abime", $this->equipementDetruit)) : ?>
+			<br>Réparation<? if ($this->equipementDetruit["abime"]["nb"] > 1): echo "s"; endif;?> à faire rapidement :<br>
+			<b><?=$this->equipementDetruit["abime"]["texte"]?></b>
+			<br>
+		<? endif;?>
 	<? endif; ?>
 	
 	<? include("tour/effet_mot_text.phtml"); ?>

@@ -245,19 +245,29 @@ class Bral_Util_Equipement {
 		$equipementTable = new Equipement();
 
 		$retour = null;
-
+		
+		$nbAbime = 0;
+		$texte = "";
 		foreach($equipements as $e) {
 			$etat = $e["etat_courant_equipement"] - 15;
 			if ($etat <= 0) {
 				$where = "id_equipement_hequipement =".$e["id_equipement_hequipement"];
 				$hobbitEquipementTable->delete($where);
 				self::destructionEquipement($e["id_equipement_hequipement"]);
-				$retour .= "Votre équipement ".Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]);
-				$retour .= " n&deg;".$e["id_equipement_hequipement"]." est détruit.<br>";
+				$retour["detruit"] .= "Votre équipement ".Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]);
+				$retour["detruit"] .= " n&deg;".$e["id_equipement_hequipement"]." est détruit.<br>";
 			} else {
 				$data = array("etat_courant_equipement" => $etat);
 				$where = "id_equipement = ".$e["id_equipement_hequipement"];
 				$equipementTable->update($data, $where);
+				
+				if ($etat <= 500) {
+					$nbAbime = $nbAbime +1;
+					$retour["abime"]["nb"] =  $nbAbime;
+					$texte .= "Votre équipement ".Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]);
+					$texte .= " n&deg;".$e["id_equipement_hequipement"]." est très abimé, état : ".$e["etat_courant_equipement"]."/".$e["etat_initial_equipement"].".<br>";
+					$retour["abime"]["texte"] = $texte;
+				}
 			}
 		}
 
