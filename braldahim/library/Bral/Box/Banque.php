@@ -197,7 +197,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 					$tabMetiers["menuisier"]["a_afficher"] = true;
 				}
 			}
-				
+
 			if ($p["quantite_rondin_coffre"] > 0) {
 				if (isset($tabMetiers["bucheron"])) {
 					$tabMetiers["bucheron"]["a_afficher"] = true;
@@ -407,6 +407,8 @@ class Bral_Box_Banque extends Bral_Box_Box {
 					"nom_standard" => $e["nom_type_equipement"],
 					"qualite" => $e["nom_type_qualite"],
 					"id_type_equipement" => $e["id_type_equipement"],
+					"id_type_emplacement" => $e["id_type_emplacement"],
+					"nom_type_emplacement" => $e["nom_type_emplacement"],
 					"emplacement" => $e["nom_type_emplacement"],
 					"niveau" => $e["niveau_recette_equipement"],
 					"nb_runes" => $e["nb_runes_equipement"],
@@ -436,8 +438,16 @@ class Bral_Box_Banque extends Bral_Box_Box {
 			Bral_Util_Equipement::populateBonus($tabEquipements, $tabWhere);
 		}
 
+		$tabRetour = null;
+		if ($tabEquipements != null) {
+			foreach($tabEquipements as $e) {
+				$tabRetour[$e["id_type_emplacement"]]["equipements"][] = $e;
+				$tabRetour[$e["id_type_emplacement"]]["nom_type_emplacement"] = $e["emplacement"];
+			}
+		}
+
 		$this->view->nb_equipements = count($tabEquipements);
-		$this->view->equipements = $tabEquipements;
+		$this->view->equipements = $tabRetour;
 	}
 
 	private function renderMunition() {

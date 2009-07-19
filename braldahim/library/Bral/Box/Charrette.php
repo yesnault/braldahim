@@ -112,7 +112,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 			}
 		}
 		unset($metiersRowset);
-		
+
 		$charrette = null;
 		$charretteTable = new Charrette();
 		$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
@@ -432,8 +432,17 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 			Bral_Util_Equipement::populateBonus($tabEquipements, $tabWhere);
 		}
 
+		$tabRetour = null;
+
+		if ($tabEquipements != null) {
+			foreach($tabEquipements as $e) {
+				$tabRetour[$e["id_type_emplacement"]]["equipements"][] = $e;
+				$tabRetour[$e["id_type_emplacement"]]["nom_type_emplacement"] = $e["emplacement"];
+			}
+		}
+
 		$this->view->nb_equipements = count($tabEquipements);
-		$this->view->equipements = $tabEquipements;
+		$this->view->equipements = $tabRetour;
 	}
 
 	private function renderMunition($charrette) {
@@ -505,7 +514,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 
 		$materiels = $charretteMaterielAssembleTable->findByIdCharrette($charrette["id_charrette"]);
 		unset($charretteMaterielAssembleTable);
-		
+
 		$tabMateriel = null;
 		foreach ($materiels as $m) {
 			$tabMateriel[] = array(

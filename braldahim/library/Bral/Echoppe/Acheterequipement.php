@@ -139,6 +139,11 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		);
 
 		$this->view->equipement = $tabEquipement;
+		
+		$equipements = null;
+		$equipements[$tabEquipement["id_type_emplacement"]]["equipements"][] = $tabEquipement;
+		$equipements[$tabEquipement["id_type_emplacement"]]["nom_type_emplacement"] = $tabEquipement["emplacement"];
+		$this->view->equipements = $equipements;
 	}
 
 	private function prepareEquipementRune($idEquipements) {

@@ -722,9 +722,10 @@ tbody.communaute_membres {
 	border: 1px solid #791E1E;
 }
 
-th.table_liste {
+th.table_liste, td.table_liste_th {
 	padding: 5px;
-	background-color: #791E1E;
+	background-color: #CCCC99;
+	border: 1px solid #791E1E;
 	width: 25%;
 	text-align: center;
 	font-weight: normal;

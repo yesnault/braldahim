@@ -19,8 +19,14 @@
 	</thead>
 	<tbody>
 		<? if (count($this->equipements) > 0) :?>
-			<? $i = 0;
-			   foreach($this->equipements as $e) :?>
+		
+			<? foreach($this->equipements as $em) : ?>
+			   	 <tr class="table_liste">
+				  	<td colspan="8" class="table_liste_th"><?=$em["nom_type_emplacement"] ?></th>
+			  	</tr>
+			   	<? 
+			   	  $i = 0;
+			      foreach($em["equipements"] as $e) :?>
 					<tr class="table_liste<?=($i % 2);$i++; ?>">
 				  		<td class="table_liste"><?=$e["id_equipement"] ?></td>
 				  		<td class="table_liste"><img src='/public/styles/braldahim_defaut/images/type_equipement/type_equipement_<?=$e["id_type_equipement"]?>.png' alt="<?=htmlspecialchars($e["nom"]) ?>"/></td>
@@ -39,6 +45,7 @@
 							</td>
 						<? endif; ?>
 				  	</tr>
+				  <? endforeach; ?>
 			<? endforeach; ?>
 		<? else: ?>
 			<tr class="table_liste"><td class="table_liste" colspan="20"><i>aucune pi&egrave;ce d'&eacute;quipement</i></td></tr>

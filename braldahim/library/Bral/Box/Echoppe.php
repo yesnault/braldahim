@@ -205,7 +205,8 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 				);
 
 				if ($e["type_vente_echoppe_equipement"] == "publique") {
-					$tabEquipementsEtal[] = $equipement;
+					$tabEquipementsEtal[$e["id_type_emplacement"]]["equipements"][] = $equipement;
+					$tabEquipementsEtal[$e["id_type_emplacement"]]["nom_type_emplacement"] = $e["nom_type_emplacement"];
 				}
 			}
 		}

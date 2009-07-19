@@ -455,9 +455,11 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 				);
 
 				if ($e["type_vente_echoppe_equipement"] == "aucune") {
-					$tabEquipementsArriereBoutique[] = $equipement;
+					$tabEquipementsArriereBoutique[$e["id_type_emplacement"]]["equipements"][] = $equipement;
+					$tabEquipementsArriereBoutique[$e["id_type_emplacement"]]["nom_type_emplacement"] = $e["nom_type_emplacement"];
 				} else {
-					$tabEquipementsEtal[] = $equipement;
+					$tabEquipementsEtal[$e["id_type_emplacement"]]["equipements"][] = $equipement;
+					$tabEquipementsEtal[$e["id_type_emplacement"]]["nom_type_emplacement"] = $e["nom_type_emplacement"];
 				}
 			}
 		}

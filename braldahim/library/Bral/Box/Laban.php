@@ -367,6 +367,8 @@ class Bral_Box_Laban extends Bral_Box_Box {
 					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
 					"nom_standard" => $e["nom_type_equipement"],
 					"id_type_equipement" => $e["id_type_equipement"],
+					"id_type_emplacement" => $e["id_type_emplacement"],
+					"nom_type_emplacement" => $e["nom_type_emplacement"],
 					"qualite" => $e["nom_type_qualite"],
 					"emplacement" => $e["nom_type_emplacement"],
 					"niveau" => $e["niveau_recette_equipement"],
@@ -388,6 +390,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 					"bonus" => array(),
 			);
 			$tabWhere[] = $e["id_laban_equipement"];
+				
 		}
 		unset($equipements);
 
@@ -397,8 +400,16 @@ class Bral_Box_Laban extends Bral_Box_Box {
 			Bral_Util_Equipement::populateBonus($tabEquipements, $tabWhere);
 		}
 
+		$tabRetour = null;
+		if ($tabEquipements != null) {
+			foreach($tabEquipements as $e) {
+				$tabRetour[$e["id_type_emplacement"]]["equipements"][] = $e;
+				$tabRetour[$e["id_type_emplacement"]]["nom_type_emplacement"] = $e["emplacement"];
+			}
+		}
+
 		$this->view->nb_equipements = count($tabEquipements);
-		$this->view->equipements = $tabEquipements;
+		$this->view->equipements = $tabRetour;
 	}
 
 	private function renderMateriel() {

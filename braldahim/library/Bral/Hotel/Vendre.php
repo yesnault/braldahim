@@ -376,15 +376,15 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			foreach ($equipements as $e) {
 				$tabEquipements[$e["id_".$endroit["suffixe"]."_equipement"]] = array(
 						"id_equipement" => $e["id_".$endroit["suffixe"]."_equipement"],
-						"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_".$endroit["suffixe"]."_equipement"]),
+						"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
 						"qualite" => $e["nom_type_qualite"],
 						"niveau" => $e["niveau_recette_equipement"],
-						"nb_runes" => $e["nb_runes_".$endroit["suffixe"]."_equipement"],
+						"nb_runes" => $e["nb_runes_equipement"],
 						"suffixe" => $e["suffixe_mot_runique"],
-						"nb_runes" => $e["nb_runes_".$endroit["suffixe"]."_equipement"],
-						"id_fk_mot_runique" => $e["id_fk_mot_runique_".$endroit["suffixe"]."_equipement"], 
-						"id_fk_recette" => $e["id_fk_recette_".$endroit["suffixe"]."_equipement"] ,
-						"id_fk_region" => $e["id_fk_region_".$endroit["suffixe"]."_equipement"],
+						"nb_runes" => $e["nb_runes_equipement"],
+						"id_fk_mot_runique" => $e["id_fk_mot_runique_equipement"], 
+						"id_fk_recette" => $e["id_fk_recette_equipement"] ,
+						"id_fk_region" => $e["id_fk_region_equipement"],
 				);
 			}
 		} else {
