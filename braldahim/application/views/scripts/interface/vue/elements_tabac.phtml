@@ -6,7 +6,7 @@
 		if ($m["quantite"] > 1) {
 			$s = "s";
 		}
-		$textElementsTabac .= $m["quantite"] . " feuille".$s." ".htmlspecialchars($m["type"])."<br />";
+		$textElementsTabac .= $m["quantite"] . " feuille".$s." ".addslashes($m["type"])."<br />";
 		$nbFeuilles = $nbFeuilles + $m["quantite"] ;
 	} 
 	$s = "";
