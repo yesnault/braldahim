@@ -94,6 +94,7 @@ class InscriptionController extends Zend_Controller_Action {
 					Zend_Loader::loadClass("Bral_Util_Quete");
 					Bral_Util_Quete::creationQueteInitiatique($hobbit, $this->view->config);
 					
+					Zend_Loader::loadClass("Bral_Util_Messagerie");
 					$message = $this->view->render("inscription/messagepnj.phtml");
 					Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->inscription->id_hobbit, $hobbit->id_hobbit, $message);
 

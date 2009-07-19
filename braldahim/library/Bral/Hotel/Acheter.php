@@ -938,6 +938,15 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		if ($this->view->detailPrix != "") {
 			$this->view->detailPrix = mb_substr($this->view->detailPrix, 0, -2);
 		}
+		
+		Zend_Loader::loadClass("Bral_Util_Messagerie");
+		$message = "[Hôtel des Ventes]".PHP_EOL.PHP_EOL;
+		$message .=  $this->view->user->prenom_hobbit. " ".$this->view->user->nom_hobbit;
+		$message .= " (".$this->view->user->id_hobbit.") a achet&eacute; ".PHP_EOL; 
+		$message .= $this->view->objetAchat. PHP_EOL. "pour ".$this->view->detailPrix." (gain placé dans votre coffre).".PHP_EOL.PHP_EOL; 
+		$message .= "&Eacute;mile Claclac, gestionnaire de l'Hôtel des ventes.".PHP_EOL;
+		$message .= "Inutile de répondre à ce message.";
+		Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->hotel->id_hobbit, $this->view->vente["vente"]["id_fk_hobbit_vente"], $message);
 	}
 
 	private function calculAchatElement($idDestination, $prix) {
