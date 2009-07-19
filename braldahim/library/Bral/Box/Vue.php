@@ -33,6 +33,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("ElementEquipement");
 			Zend_Loader::loadClass("ElementMunition");
 			Zend_Loader::loadClass("ElementPartieplante");
+			Zend_Loader::loadClass("ElementMateriel");
 			Zend_Loader::loadClass("ElementMinerai");
 			Zend_Loader::loadClass("ElementPotion");
 			Zend_Loader::loadClass("ElementRune");
@@ -67,7 +68,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			$x = $this->view->user->administrationvueDonnees["x_position"];
 			$y = $this->view->user->administrationvueDonnees["y_position"];
 			$bm = 10;
-				
+
 		} else {
 			$x = $this->view->user->x_hobbit;
 			$y = $this->view->user->y_hobbit;
@@ -200,6 +201,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$elementPartiePlanteTable = new ElementPartieplante();
 		$elementsPartieplantes = $elementPartiePlanteTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($elementPartiePlanteTable);
+		$elementMaterielTable = new ElementMateriel();
+		$elementsMateriels = $elementMaterielTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($elementMaterielTable);
 		$elementMineraisTable = new ElementMinerai();
 		$elementsMinerais = $elementMineraisTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($elementMineraisTable);
@@ -272,6 +276,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabEchoppes = null;
 				$tabElements = null;
 				$tabElementsEquipements = null;
+				$tabElementsMateriels = null;
 				$tabElementsMunitions = null;
 				$tabElementsMineraisBruts = null;
 				$tabElementsLingots = null;
@@ -376,6 +381,14 @@ class Bral_Box_Vue extends Bral_Box_Box {
 									"qualite" => $e["nom_type_qualite"],
 									"niveau" => $e["niveau_recette_equipement"],
 									"suffixe" => $e["suffixe_mot_runique"]);
+							}
+						}
+					}
+						
+					if ($elementsMateriels != null) {
+						foreach($elementsMateriels as $e) {
+							if ($display_x == $e["x_element_materiel"] && $display_y == $e["y_element_materiel"]) {
+								$tabElementsMateriels[] = array("id_materiel" => $e["id_element_materiel"], 'nom' => $e["nom_type_materiel"]);
 							}
 						}
 					}
@@ -599,12 +612,12 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				if ($this->view->centre_x == $display_x && $this->view->centre_y == $display_y) {
 					$this->view->centre_environnement = $nom_environnement;
 				}
-				
+
 				if ($this->view->user->x_hobbit == $display_x && $this->view->user->y_hobbit == $display_y) {
 					$tabMarcher["case"] = null;
 				} else if ($marcher != null && $marcher["tableauValidationXY"] != null && array_key_exists($display_x, $marcher["tableauValidationXY"]) && array_key_exists($display_y, $marcher["tableauValidationXY"][$display_x])) {
 					$tabMarcher["case"] = $marcher["tableauValidationXY"][$display_x][$display_y];
-					$tabMarcher["general"] = $marcher; 
+					$tabMarcher["general"] = $marcher;
 				} else {
 					$tabMarcher["case"] = null;
 				}
@@ -627,6 +640,8 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"elements" => $tabElements,
 					"n_elements_equipements" => count($tabElementsEquipements),
 					"elements_equipements" => $tabElementsEquipements,
+					"n_elements_materiels" => count($tabElementsMateriels),
+					"elements_materiels" => $tabElementsMateriels,
 					"n_elements_munitions" => count($tabElementsMunitions),
 					"elements_munitions" => $tabElementsMunitions,
 					"n_elements_partieplante_brutes" => count($tabElementsPartieplantesBrutes),
@@ -673,6 +688,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		unset($echoppes);
 		unset($elements);
 		unset($elementsEquipements);
+		unset($elementsMateriels);
 		unset($elementsPartieplantes);
 		unset($elementsMinerais);
 		unset($elementsPotions);

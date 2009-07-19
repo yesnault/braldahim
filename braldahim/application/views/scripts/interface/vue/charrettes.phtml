@@ -1,12 +1,10 @@
-<?php if ($case["n_charrettes"] > 0) : ?>
-      	<?php 
-      		$textCharrette = "";
-      		foreach($case["charrettes"] as $c) {
-      			$textCharrette .= $c["nom"]. ", n&deg; ".$c["id_charrette"]. "<br />";
-      		} 
-			$s = "";
-			if ($case["n_charrettes"] > 1) {
-				$s = "s";
-			}
-		?>
-<?php endif; ?>	
+<?php if ($case["n_charrettes"] > 0) :
+	$textCharrette = "";
+	foreach($case["charrettes"] as $c) {
+		$textCharrette .= $c["nom"]. ", n&deg; ".$c["id_charrette"]. "<br />";
+	} 
+	$s = "";
+	if ($case["n_charrettes"] > 1) {
+		$s = "s";
+	}
+endif; ?>	
