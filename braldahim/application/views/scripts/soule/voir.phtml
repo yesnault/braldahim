@@ -31,7 +31,12 @@
 <? if ($this->inscriptionPossible === true): ?>
 	<? if ($this->user->activation == true) :?>
 		Vous pouvez vous inscrire.
-		<input type="button" class='button1' value="1 PA - Inscription" onClick="Javascript:_get_('/soule/doaction?caction=ask_soule_inscription');"/>
+		<? if ($this->user->pa_hobbit >=$c["pa_utilisation"]) : 
+	      $attr = "onClick=\"Javascript:_get_('/soule/doaction?caction=ask_soule_inscription');\"";
+	    else:
+	      $attr = "disabled";
+	    endif;?>
+		<input type="button" class='button1' value="1 PA - Inscription" <?=$attr?>/>
 	<? else: ?>
 	Tour non activ&eacute; &agrave; la connexion, activez-le pour vous inscrire.
 	<? endif;?>
@@ -40,7 +45,12 @@
 	<br>
 	<? if ($this->desinscriptionPossible === true): ?>
 		Vous pouvez vous désinscrire.
-		<input type="button" class='button1' value="2 PA - Désinscription" onClick="Javascript:_get_('/soule/doaction?caction=ask_soule_desinscription');"/>
+		<? if ($this->user->pa_hobbit >=2) : 
+	      $attr = "onClick=\"Javascript:_get_('/soule/doaction?caction=ask_soule_desinscription');\"";
+	    else:
+	      $attr = "disabled";
+	    endif;?>
+		<input type="button" class='button1' value="2 PA - Désinscription" <?=$attr?>/>
 	<? endif; ?>
 	<? if ($this->deinscriptionNonPossibleInfo != "") : ?>
 		<br><?=$this->deinscriptionNonPossibleInfo ?><br>

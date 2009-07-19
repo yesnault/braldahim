@@ -5,7 +5,6 @@
   <ul class="box_contenu1 textalic">
   <ul class="titre textalic textsized">Règle : prendre le ballon et l'emmener dans le fond du camp adverse</ul>
 	  
-
  <? if ($this->affichageInterne == true) : ?>
    <? if ($this->terrainHobbit != null) : ?>
    Avec votre niveau, le terrain vous correspondant est le <?=$this->terrainHobbit["nom_soule_terrain"]?>.<br>
@@ -16,7 +15,7 @@
 	<select name='id_terrain' onChange="Javascript:_get_('/soule/doaction?caction=ask_soule_voir&id_terrain='+this.value);">
 	<? if ($this->terrains != null) : ?>
 	   	<? foreach ($this->terrains as $t) : ?>
-		<option value='<?=$t["id_soule_terrain"]?>' <?if ($t["selected"] == true){echo "selected";}?>><?=$t["nom_soule_terrain"]?> (<?=$t["info_soule_terrain"]?>)</option>
+		<option value='<?=$t["id_soule_terrain"]?>' <?if ($t["selected"] == true) { echo "selected"; }?>><?=$t["nom_soule_terrain"]?> (<?=$t["info_soule_terrain"]?>)</option>
 		<? endforeach; ?>
 	<? endif;?>
 	</select>

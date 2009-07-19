@@ -16,7 +16,7 @@ class Bral_Util_Box {
 	}
 
 	public static function calculBoxToRefresh0PA(&$tab) {
-		
+
 		if (!in_array("box_vue", $tab)) {
 			$tab[] = "box_vue";
 		}
@@ -31,6 +31,19 @@ class Bral_Util_Box {
 		}
 		if (!in_array("box_competences_soule", $tab)) {
 			$tab[] = "box_competences_soule";
+		}
+		if (!in_array("box_charrette", $tab)) {
+			$tab[] = "box_charrette";
+		}
+		if (!in_array("box_soule", $tab)) {
+			$tab[] = "box_soule";
+		}
+	}
+
+	public static function calculBoxToRefresh1PA(&$tab) {
+
+		if (!in_array("box_soule", $tab)) {
+			$tab[] = "box_soule";
 		}
 	}
 

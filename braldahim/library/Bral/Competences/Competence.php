@@ -101,6 +101,9 @@ abstract class Bral_Competences_Competence {
 		if ($this->view->user->pa_hobbit < 1) {
 			Zend_Loader::loadClass("Bral_Util_Box");
 			Bral_Util_Box::calculBoxToRefresh0PA($tab);
+		} else if ($this->view->user->pa_hobbit < 2) {
+			Zend_Loader::loadClass("Bral_Util_Box");
+			Bral_Util_Box::calculBoxToRefresh1PA($tab);
 		}
 		return $tab;
 	}
