@@ -286,9 +286,9 @@ class Bral_Util_Commun {
 				Zend_Loader::loadClass("Element");
 				$elementTable = new Element();
 				$data = array(
-				"quantite_castar_element" => $nbCastars,
-				"x_element" => $cible->x_hobbit,
-				"y_element" => $cible->y_hobbit,
+					"quantite_castar_element" => $nbCastars,
+					"x_element" => $cible->x_hobbit,
+					"y_element" => $cible->y_hobbit,
 				);
 				$elementTable->insertOrUpdate($data);
 				
