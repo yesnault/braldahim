@@ -197,6 +197,16 @@ class Bral_Util_Attaque {
 					if ($hobbitCible->castars_hobbit < 0) {
 						$hobbitCible->castars_hobbit = 0;
 					}
+					
+					Zend_Loader::loadClass("Element");
+					$elementTable = new Element();
+					$data = array(
+							"quantite_castar_element" => $nbCastars,
+							"x_element" => $hobbitCible->x_hobbit,
+							"y_element" => $hobbitCible->y_hobbit,
+					);
+					$elementTable->insertOrUpdate($data);
+					
 				}
 			} else {
 				$hobbitCible->agilite_bm_hobbit = $hobbitCible->agilite_bm_hobbit - $hobbitCible->niveau_hobbit;
