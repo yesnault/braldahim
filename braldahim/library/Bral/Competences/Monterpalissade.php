@@ -205,6 +205,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 
 		$this->calculPx();
 		$this->calculPoids();
+		Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}
