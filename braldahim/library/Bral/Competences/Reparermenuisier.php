@@ -19,8 +19,6 @@
  Da/Dm 26-50 %	Ratio/10
  Da/Dm 51-75%	Ratio/15
  Da/Dm >75%	Ratio/20
-
-
  */
 class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 
