@@ -265,7 +265,7 @@ class Bral_Util_Equipement {
 					$nbAbime = $nbAbime +1;
 					$retour["abime"]["nb"] =  $nbAbime;
 					$texte .= "Votre équipement ".Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]);
-					$texte .= " n&deg;".$e["id_equipement_hequipement"]." est très abimé, état : ".$e["etat_courant_equipement"]."/".$e["etat_initial_equipement"].".<br>";
+					$texte .= " n&deg;".$e["id_equipement_hequipement"]." est très abimé, état : ".$etat."/".$e["etat_initial_equipement"].".<br>";
 					$retour["abime"]["texte"] = $texte;
 				}
 			}
