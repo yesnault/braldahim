@@ -262,6 +262,7 @@ Consultez vos événements pour plus de détails.";
 			$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible);
 			$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
 		} else {
+			Bral_Util_Attaque::calculStatutEngage(&$cible, true);
 			$id_type_evenement = self::$config->game->evenements->type->attaquer;
 			$details = "[m".$this->monstre["id_monstre"]."] a attaqué le hobbit [h".$cible["id_hobbit"]."] qui a esquivé l'attaque parfaitement";
 			$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible);
