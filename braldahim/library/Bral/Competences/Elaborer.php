@@ -55,7 +55,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("TypePotion");
 		$typePotionTable = new TypePotion();
-		$typePotionRowset = $typePotionTable->fetchall(null, "nom_type_potion");
+		$typePotionRowset = $typePotionTable->fetchall(array("type_potion = ?" => 'potion'), "nom_type_potion");
 		$typePotionRowset = $typePotionRowset->toArray();
 		$tabTypePotion = null;
 		foreach($typePotionRowset as $t) {

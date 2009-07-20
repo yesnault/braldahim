@@ -270,7 +270,7 @@ class Bral_Util_Commun {
 	}
 	
 	/*
-	 * Lorqu'un Hobbit meurt il perd une partie de ces castars : 1/3 arr inf�rieur.
+	 * Lorqu'un Hobbit meurt il perd une partie de ces castars : 1/3 arr inférieur.
 	 */
 	public static function dropHobbitCastars($cible, $effetH = null) {
 		$nbCastars = 0;
