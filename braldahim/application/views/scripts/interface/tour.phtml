@@ -63,7 +63,7 @@
 	<? if ($this->equipementDetruit != null) : ?>
 		<? if (array_key_exists("detruit", $this->equipementDetruit)) : ?>
 			<br>Vous n'avez pas réparé votre équipement correctement :<br>
-			<b><?=$this->equipementDetruit?></b>
+			<b><?=$this->equipementDetruit["detruit"]?></b>
 			<br>
 		<? endif;?>
 		<? if (array_key_exists("abime", $this->equipementDetruit)) : ?>
