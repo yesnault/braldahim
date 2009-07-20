@@ -248,14 +248,17 @@ class Bral_Util_Equipement {
 		
 		$nbAbime = 0;
 		$texte = "";
+		$texteDetruit = "";
 		foreach($equipements as $e) {
 			$etat = $e["etat_courant_equipement"] - 15;
 			if ($etat <= 0) {
 				$where = "id_equipement_hequipement =".$e["id_equipement_hequipement"];
 				$hobbitEquipementTable->delete($where);
 				self::destructionEquipement($e["id_equipement_hequipement"]);
-				$retour["detruit"] .= "Votre équipement ".Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]);
-				$retour["detruit"] .= " n&deg;".$e["id_equipement_hequipement"]." est détruit.<br>";
+				
+				$texteDetruit .= "Votre équipement ".Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]);
+				$texteDetruit .= " n&deg;".$e["id_equipement_hequipement"]." est détruit.<br>";
+				$retour["detruit"] = $texteDetruit;
 			} else {
 				$data = array("etat_courant_equipement" => $etat);
 				$where = "id_equipement = ".$e["id_equipement_hequipement"];
