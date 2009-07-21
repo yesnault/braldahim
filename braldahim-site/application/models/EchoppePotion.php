@@ -24,7 +24,7 @@ class EchoppePotion extends Zend_Db_Table {
 		$select->from('region');
 		$select->from('metier', array('nom_masculin_metier', 'nom_feminin_metier'));
 		$select->from('hobbit', array('id_hobbit', 'prenom_hobbit', 'nom_hobbit', 'sexe_hobbit'));
-		$select->where('id_fk_type_potion_echoppe_potion = id_type_potion');
+		$select->where('id_fk_type_echoppe_potion = id_type_potion');
 		$select->where('id_fk_type_qualite_echoppe_potion = id_type_qualite');
 		$select->where("type_vente_echoppe_potion like ?", "publique");
 		$select->where('id_fk_hobbit_echoppe = id_hobbit');
@@ -65,7 +65,7 @@ class EchoppePotion extends Zend_Db_Table {
 		$select->from('region', null);
 		$select->from('metier', null);
 		$select->from('hobbit', null);
-		$select->where('id_fk_type_potion_echoppe_potion = id_type_potion');
+		$select->where('id_fk_type_echoppe_potion = id_type_potion');
 		$select->where('id_fk_type_qualite_echoppe_potion = id_type_qualite');
 		$select->where("type_vente_echoppe_potion like ?", "publique");
 		$select->where('id_fk_hobbit_echoppe = id_hobbit');

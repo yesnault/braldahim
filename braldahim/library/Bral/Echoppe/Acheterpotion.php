@@ -403,7 +403,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 		$labanPotionTable = new LabanPotion();
 		$data = array(
 			'id_laban_potion' => $this->potion["id_echoppe_potion"],
-			'id_fk_type_laban_potion' => $this->potion["id_fk_type_potion_echoppe_potion"],
+			'id_fk_type_laban_potion' => $this->potion["id_fk_type_echoppe_potion"],
 			'id_fk_hobbit_laban_potion' => $this->view->user->id_hobbit,
 			'id_fk_type_qualite_laban_potion' => $this->potion["id_fk_type_qualite_echoppe_potion"],
 			'niveau_laban_potion' => $this->potion["niveau_echoppe_potion"],

@@ -57,7 +57,7 @@ class Bral_Echoppes_Transferpotion extends Bral_Echoppes_Echoppe {
 				if ($e["type_vente_echoppe_potion"] == "aucune") {
 					$tabPotionsArriereBoutique[] = array(
 						"id_echoppe_potion" => $e["id_echoppe_potion"],
-						"id_fk_type_potion_echoppe_potion" => $e["id_fk_type_potion_echoppe_potion"],
+						"id_fk_type_echoppe_potion" => $e["id_fk_type_echoppe_potion"],
 						"id_fk_type_qualite_laban_potion" => $e["id_fk_type_qualite_echoppe_potion"],
 						"nom" => $e["nom_type_potion"],
 						"qualite" => $e["nom_type_qualite"],
@@ -157,7 +157,7 @@ class Bral_Echoppes_Transferpotion extends Bral_Echoppes_Echoppe {
 		$labanPotionTable = new LabanPotion();
 		$data = array(
 			'id_laban_potion' => $potion["id_echoppe_potion"],
-			'id_fk_type_laban_potion' => $potion["id_fk_type_potion_echoppe_potion"],
+			'id_fk_type_laban_potion' => $potion["id_fk_type_echoppe_potion"],
 			'id_fk_hobbit_laban_potion' => $this->view->user->id_hobbit,
 			'id_fk_type_qualite_laban_potion' => $potion["id_fk_type_qualite_laban_potion"],
 			'niveau_laban_potion' => $potion["niveau"],
