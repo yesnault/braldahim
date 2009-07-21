@@ -122,7 +122,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->choixDepart = $choixDepart;
 		$this->view->tabEndroit = $tabEndroit;
 
-		//@TODO afficher ce qui est transbahuté et de koi vers koi (reprendre aux minerais)
+		//@TODO afficher ce qui est transbahuté et de koi vers koi (tester tout et améliorer ortho)
 		//@TODO gerer envoi message
 		//@TODO bouton transfert equipement, potion et materiel dans echoppe
 
@@ -180,6 +180,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->panneau = true;
 		$this->view->elementsRetires = "";
 		$this->deposeType($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
+		$this->view->depart = $this->view->tabEndroit[$idDepart]["nom_type_endroit"];
+		if ($idArrivee == 4) {
+			Zend_Loader::loadClass("Hobbit");
+			$hobbit = new Hobbit();
+			$nomHobbit = $hobbit->findNomById($this->view->id_hobbit_coffre);
+			$this->view->arrivee = "le coffre de ".$nomHobbit;
+		}
+		else {
+			$this->view->arrivee = $this->view->tabEndroit[$idArrivee]["nom_type_endroit"];
+		}
 		
 		if ($this->view->elementsRetires != "") {
 			$this->view->elementsRetires = mb_substr($this->view->elementsRetires, 0, -2);
@@ -939,6 +949,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$tabMunitions[$this->view->nb_valeurs] = array(
 							"id_type_munition" => $m["id_fk_type_".strtolower($depart)."_munition"],
 							"type" => $m["nom_type_munition"],
+							"type_pluriel" => $m["nom_pluriel_type_munition"],
 							"quantite" => $m["quantite_".strtolower($depart)."_munition"],
 							"indice_valeur" => $this->view->nb_valeurs,
 						);
@@ -1066,7 +1077,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						}
 						$arriveeMunitionTable->insertOrUpdate($data);
 						unset($arriveeMunitionTable);
-						$this->view->elementsRetires .= $nbMunition." ".$munition["type"].", ";
+						if ($nbMunition > 1){
+							$this->view->elementsRetires .= $nbMunition." ".$munition["type_pluriel"].", ";
+						}
+						else {
+							$this->view->elementsRetires .= $nbMunition." ".$munition["type"].", ";
+						}
 					}
 				}
 			}
@@ -1288,6 +1304,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				}
 				$arriveeMineraiTable->insertOrUpdate($data);
 				unset ($arriveeMineraiTable);
+				$sbrut = "";
+				$slingot = "";
+				if ($nbBrut > 1) $sbrut = "s";
+				if ($nbLingot > 1) $slingot = "s";
+				$this->view->elementsRetires .= $this->view->minerais[$indice]["type"]. " : ".$nbBrut. " minerai".$sbrut." brut".$sbrut." et ".$nbLingot." lingot".$slingot;
+				$this->view->elementsRetires .= ", ";
 			}
 		}
 	}
@@ -1519,6 +1541,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				}
 				$arriveePartiePlanteTable->insertOrUpdate($data);
 				unset ($arriveePartiePlanteTable);
+				$sbrute = "";
+				$spreparee = "";
+				if ($nbBrutes > 1) $sbrute = "s";
+				if ($nbPreparees > 1) $spreparee = "s";
+				$this->view->elementsRetires .= $this->view->partieplantes[$indice]["nom_plante"]. " : ";
+				$this->view->elementsRetires .= $nbBrutes. " ".$this->view->partieplantes[$indice]["nom_type"]. " brute".$sbrute;
+				$this->view->elementsRetires .=  " et ".$nbPreparees. " ".$this->view->partieplantes[$indice]["nom_type"]. " préparée".$spreparee;
+				$this->view->elementsRetires .= ", ";
 			}
 		}
 	}
@@ -1685,6 +1715,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						}
 						$arriveeTabacTable->insertOrUpdate($data);
 						unset($arriveeTabacTable);
+						$stabac = "";
+						if ($nbTabac > 1) $stabac = "s";
+						$this->view->elementsRetires.= $nbTabac." feuille".$stabac." de ".$tabac["type"].", ";
 					}
 				}
 			}
@@ -1839,6 +1872,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						}
 						$arriveeMaterielTable->insert($data);
 						unset($arriveeMaterielTable);
+						$this->view->elementsRetires .= "Matériel n°".$materiel["id_materiel"]." : ".$materiel["nom"].", ";
 					}
 				}
 			}
@@ -2082,6 +2116,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				if ($arriveeTable){
 					$arriveeTable->insertOrUpdate($data);
 					unset($arriveeTable);
+					if ($nom_systeme == "peau") {
+						$this->view->elementsRetires .= $nb. " peau";
+						if ($nb > 1) $this->view->elementsRetires .= "x";
+						$this->view->elementsRetires .= ", ";
+					}
+					else{
+						$this->view->elementsRetires .= $nb." ".str_replace("_preparee"," préparée",$nom_systeme);
+						if ($nb > 1) $this->view->elementsRetires .= "s";
+						$this->view->elementsRetires .= ", ";
+					}
 				}
 			}
 		}

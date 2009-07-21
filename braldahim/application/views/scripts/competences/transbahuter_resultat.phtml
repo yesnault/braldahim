@@ -1,6 +1,10 @@
 <? include("commun_text_resultat.phtml") ?>
 
-Vous avez transbahut&eacute; avec succ&egrave;s des &eacute;l&eacute;ments.<br/>
+Vous avez transbahut&eacute; avec succ&egrave;s ces &eacute;l&eacute;ments : <br/><br/>
+
+<?=htmlspecialchars($this->elementsRetires);?><br/><br/>
+Source : <?=$this->depart?><br/>
+Destination : <?=$this->arrivee?><br/><br/>
 
 <? if ($this->poidsOk == false) : ?>
 	Certains &eacute;l&eacute;ments trop lourds pour la destination n'ont pu &ecirc;tre transbahut&eacute;<br/>
