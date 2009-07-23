@@ -86,8 +86,9 @@
 					x:<?=$g["x_monstre"]?> y:<?=$g["y_monstre"]?>
 					FOR:<?=$g["force_base_monstre"]?> SAG:<?=$g["sagesse_base_monstre"]?>
 					AGI:<?=$g["agilite_base_monstre"]?> VIG:<?=$g["vigueur_base_monstre"]?>
-					ARMNAT :<?=$g["armure_naturelle_monstre"]?> DLA:<?=$g["duree_base_tour_monstre"]?><br />
-					<input type='button' name='goProfilMonstre' value='Ouvrir Profil Public' class='button1' onclick='javascript:ouvrirWin("/voir/monstre/?monstre=<?=$g["id_monstre"]?>");'> 
+					ARMNAT :<?=$g["armure_naturelle_monstre"]?> DLA:<?=$g["duree_base_tour_monstre"]?>
+					 <input type='button' name='goFicheMonstre' value='Ouvrir Fiche'   class='button1'  onClick='document.location.href="/Administrationmonstre/monstre/mode/simple/idmonstre/<?=$g["id_monstre"]?>"'> 
+	   				<input type='button' name='goProfilMonstre' value='Ouvrir Profil Public' class='button1' onclick='javascript:ouvrirWin("/voir/monstre/?monstre=<?=$g["id_monstre"]?>");'> <br />
 				<? endforeach; ?>
 				
 				Les monstres créés en villes ont été ensuite supprimés.

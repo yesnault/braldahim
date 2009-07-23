@@ -162,7 +162,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				}
 			} else {
 				// insertion de solitaires
-				for ($i = 1; $i < $nombre; $i++) {
+				for ($i = 1; $i <= $nombre; $i++) {
 					$this->creationCalcul($referenceCourante, $x_min_zone, $x_max_zone, $y_min_zone, $y_max_zone, $x_min_position, $x_max_position, $y_min_position, $y_max_position, $x_position, $y_position);
 				}
 				$this->_tabCreation["groupesMonstres"] = null;
