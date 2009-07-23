@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -18,10 +18,10 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			$this->_redirect('/');
 		}
-		
+
 		Zend_Loader::loadClass("Bral_Util_Securite");
 		Bral_Util_Securite::controlAdmin();
-		
+
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
 		$this->view->config = Zend_Registry::get('config');
@@ -54,28 +54,75 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			$filter->addFilter(new Zend_Filter_StringTrim())->addFilter(new Zend_Filter_StripTags());
 
 			$id_fk_type_ref_monstre = $filter->filter($this->_request->getPost('id_type'));
-			$x_min = $filter->filter($this->_request->getPost('x_min'));
-			$x_max = $filter->filter($this->_request->getPost('x_max'));
-			$y_min = $filter->filter($this->_request->getPost('y_min'));
-			$y_max = $filter->filter($this->_request->getPost('y_max'));
+			$x_min_zone = $filter->filter($this->_request->getPost('x_min_zone'));
+			$x_max_zone = $filter->filter($this->_request->getPost('x_max_zone'));
+			$y_min_zone = $filter->filter($this->_request->getPost('y_min_zone'));
+			$y_max_zone = $filter->filter($this->_request->getPost('y_max_zone'));
+
+			$x_min_position = null;
+			$x_max_position = null;
+			$y_min_position = null;
+			$y_max_position = null;
+			$x_position = null;
+			$y_position = null;
+
+			if ($this->_request->getPost('x_min_position') != "") {
+				$x_min_position = $filter->filter($this->_request->getPost('x_min_position'));
+			}
+			if ($this->_request->getPost('x_max_position') != "") {
+				$x_max_position = $filter->filter($this->_request->getPost('x_max_position'));
+			}
+			if ($this->_request->getPost('y_min_position') != "") {
+				$y_min_position = $filter->filter($this->_request->getPost('y_min_position'));
+			}
+			if ($this->_request->getPost('y_max_position') != "") {
+				$y_max_position = $filter->filter($this->_request->getPost('y_max_position'));
+			}
+			if ($this->_request->getPost('x_position') != "") {
+				$x_position = $filter->filter($this->_request->getPost('x_position'));
+			}
+			if ($this->_request->getPost('y_position') != "") {
+				$y_position = $filter->filter($this->_request->getPost('y_position'));
+			}
+
 			$nombre = $filter->filter($this->_request->getPost('nombre'));
 
 			if (((int)$id_fk_type_ref_monstre."" != $id_fk_type_ref_monstre."")) {
 				throw new Zend_Exception(get_class($this)." Valeur invalide. id_fk_type_ref_monstre : ".$id_fk_type_ref_monstre);
 			}
-			if (((int)$x_min.""!=$x_min."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. x_min : ".$x_min);
+
+			if (((int)$x_min_zone.""!=$x_min_zone."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. x_min_zone : ".$x_min_zone);
 			}
-			if (((int)$x_max.""!=$x_max."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. x_max : ".$x_max);
+			if (((int)$x_max_zone.""!=$x_max_zone."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. x_max_zone : ".$x_max_zone);
 			}
-			if (((int)$y_min.""!=$y_min."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. y_min : ".$y_min);
+			if (((int)$y_min_zone.""!=$y_min_zone."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. y_min_zone : ".$y_min_zone);
 			}
-			if (((int)$y_max.""!=$y_max."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. y_max : ".$y_max);
+			if (((int)$y_max_zone.""!=$y_max_zone."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. y_max_zone : ".$y_max_zone);
 			}
-			
+
+			if ($x_min_position != "" && ((int)$x_min_position.""!=$x_min_position."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. x_min_position : ".$x_min_position);
+			}
+			if ($x_max_position != "" && ((int)$x_max_position.""!=$x_max_position."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. x_max_position : ".$x_max_position);
+			}
+			if ($y_min_position != "" && ((int)$y_min_position.""!=$y_min_position."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. y_min_position : ".$y_min_position);
+			}
+			if ($y_max_position != "" && ((int)$y_max_position.""!=$y_max_position."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. y_max_position : ".$y_max_position);
+			}
+			if ($x_position != "" && ((int)$x_position.""!=$x_position."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. x_position : ".$x_position);
+			}
+			if ($y_position != "" && ((int)$y_position.""!=$y_position."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. y_position : ".$y_position);
+			}
+
 			$referenceCourante = $this->recupereReferenceMonstre($id_fk_type_ref_monstre);
 			$this->view->nb_creation_monstres = 0;
 			$this->view->nb_creation_groupes_monstres = 0;
@@ -85,8 +132,8 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				for ($i = 1; $i < $nombre; $i++) {
 					$nb_membres = Bral_Util_De::get_de_specifique($referenceCourante["nb_membres_min"], $referenceCourante["nb_membres_max"]);
 					$i = $i + $nb_membres;
-					$x_min_groupe = Bral_Util_De::get_de_specifique($x_min, $x_max);
-					$y_min_groupe = Bral_Util_De::get_de_specifique($y_min, $y_max);
+					$x_min_groupe = Bral_Util_De::get_de_specifique($x_min_zone, $x_max_zone);
+					$y_min_groupe = Bral_Util_De::get_de_specifique($y_min_zone, $y_max_zone);
 					if ($referenceCourante["id_type_groupe_monstre"] > 2) { //2 => nuée : tous sur la même case
 						$x_max_groupe = $x_min_groupe + 4;
 						$y_max_groupe = $y_min_groupe + 4;
@@ -110,19 +157,19 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 							$est_role_b = true;
 						}
 
-						$this->creationCalcul($referenceCourante, $x_min_groupe, $x_max_groupe, $y_min_groupe, $y_max_groupe, $id_groupe, $est_role_a, $est_role_b);
+						$this->creationCalcul($referenceCourante, $x_min_groupe, $x_max_groupe, $y_min_groupe, $y_max_groupe, $x_min_position, $x_max_position, $y_min_position, $y_max_position, $x_position, $y_position, $id_groupe, $est_role_a, $est_role_b);
 					}
 				}
 			} else {
 				// insertion de solitaires
 				for ($i = 1; $i < $nombre; $i++) {
-					$this->creationCalcul($referenceCourante, $x_min, $x_max, $y_min, $y_max);
+					$this->creationCalcul($referenceCourante, $x_min_zone, $x_max_zone, $y_min_zone, $y_max_zone, $x_min_position, $x_max_position, $y_min_position, $y_max_position, $x_position, $y_position);
 				}
 				$this->_tabCreation["groupesMonstres"] = null;
 			}
 			$this->view->tabCreation = $this->_tabCreation;
 		}
-		
+
 		$this->view->creation = $creation;
 		$this->render();
 	}
@@ -147,6 +194,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 					"nb_membres_max" => $r["nb_membres_max"],
 					"taille" => $r["taille"],
 					"nom_type" => $r["nom_type"],
+					"coef_pi_ref_monstre" => $r["coef_pi_ref_monstre"],
 				);
 				break;
 			}
@@ -177,7 +225,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		return $id_groupe;
 	}
 
-	private function creationCalcul($referenceCourante, $x_min, $x_max, $y_min, $y_max, $id_groupe_monstre = null, $est_role_a = false, $est_role_b = false) {
+	private function creationCalcul($referenceCourante, $x_min_zone, $x_max_zone, $y_min_zone, $y_max_zone,  $x_min_position, $x_max_position, $y_min_position, $y_max_position, $x_position, $y_position, $id_groupe_monstre = null, $est_role_a = false, $est_role_b = false) {
 		$id_fk_taille_monstre = $this->creationCalculTaille();
 
 		$referenceCourante = $this->recupereReferenceMonstre($referenceCourante["id_type_monstre"], $id_fk_taille_monstre);
@@ -186,8 +234,14 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		$id_type_groupe_monstre = $referenceCourante["id_type_groupe_monstre"];
 
 		$niveau_monstre = Bral_Util_De::get_de_specifique($referenceCourante["niveau_min"], $referenceCourante["niveau_max"]);
-		$x_monstre = Bral_Util_De::get_de_specifique($x_min, $x_max);
-		$y_monstre = Bral_Util_De::get_de_specifique($y_min, $y_max);
+
+		if ($x_position != null && $y_position != null) {
+			$x_monstre = $x_position;
+			$y_monstre = $y_position;
+		} else {
+			$x_monstre = Bral_Util_De::get_de_specifique($x_min_zone, $x_max_zone);
+			$y_monstre = Bral_Util_De::get_de_specifique($y_min_zone, $y_max_zone);
+		}
 
 		// NiveauSuivantPX = NiveauSuivant x 3 + debutNiveauPrecedentPx
 		$pi_min = 0;
@@ -203,6 +257,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		}
 
 		$nb_pi = Bral_Util_De::get_de_specifique($pi_min, $pi_max);
+		$nb_pi = floor($nb_pi * $referenceCourante["coef_pi_ref_monstre"]);
 
 		// Application de +/- 5% sur chaque carac
 		$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
@@ -253,6 +308,10 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			"id_fk_groupe_monstre" => $id_groupe_monstre,
 			"x_monstre" => $x_monstre,
 			"y_monstre" => $y_monstre,
+			"x_min_monstre" => $x_min_position,
+			"x_max_monstre" => $x_max_position,
+			"y_min_monstre" => $y_min_position,
+			"y_max_monstre" => $y_max_position,
 			"id_fk_hobbit_cible_monstre" => null,
 			"pv_restant_monstre" => $pv_restant_monstre,
 			"pv_max_monstre" => $pv_restant_monstre,
@@ -292,6 +351,10 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 					"id_role_a_groupe_monstre" => $id_monstre,
 					"x_direction_groupe_monstre" => $x_monstre,
 					"y_direction_groupe_monstre" => $y_monstre,
+					"x_min_monstre" => $x_min_position,
+					"x_max_monstre" => $x_max_position,
+					"y_min_monstre" => $y_min_position,
+					"y_max_monstre" => $y_max_position,
 					"date_fin_tour_groupe_monstre" => $date_fin_tour_monstre,
 				);
 			}
@@ -319,7 +382,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 
 		return $id_taille;
 	}
-	
+
 	private function calculNiveau($pi_caract) {
 		$niveau = 0;
 		$pi = 0;
@@ -421,7 +484,8 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			"p_sagesse" => '',
 			"p_vigueur" => '',
 			"p_agilite" => '',
-			"vue" => ''
+			"vue" => '',
+			"coef_pi_ref_monstre" => '',
 		);
 
 		foreach($this->view->refMonstre as $r) {
@@ -438,7 +502,8 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 					"p_sagesse" => $r["p_sagesse"],
 					"p_vigueur" => $r["p_vigueur"],
 					"p_agilite" => $r["p_agilite"],
-					"vue" => $r["vue"]
+					"vue" => $r["vue"],
+					"coef_pi_ref_monstre" => $r["coef_pi_ref_monstre"],
 				);
 			}
 		}
@@ -458,14 +523,14 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		$zoneTable = new Zone();
 		$groupeMonstreTable = new GroupeMonstre();
 		$villeTable = new Ville();
-		
+
 		$refRowset = $refTable->findAll();
 		$taillesRowset = $taillesTable->fetchall();
-		$typesRowset = $typesTable->fetchall();
+		$typesRowset = $typesTable->fetchAllAvecTypeGroupe();
 		$zonesRowset = $zoneTable->fetchAllAvecEnvironnement();
 		$villesRowset = $villeTable->fetchAll();
-		
-		
+
+
 		foreach($refRowset as $r) {
 			if ($r["genre_type_monstre"] == 'feminin') {
 				$m_taille = $r["nom_taille_f_monstre"];
@@ -488,6 +553,8 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				"vue" => $r["vue_ref_monstre"],
 				"nb_membres_min" => $r["nb_membres_min_type_groupe_monstre"],
 				"nb_membres_max" => $r["nb_membres_max_type_groupe_monstre"],
+				"nom_groupe_monstre" => $r["nom_groupe_monstre"],
+				"coef_pi_ref_monstre" => $r["coef_pi_ref_monstre"],
 			);
 		}
 
@@ -508,13 +575,16 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 
 		foreach($typesRowset as $t) {
 			$types[] = array(
-				"id_type_monstre" => $t->id_type_monstre,
-				"nom_type" => $t->nom_type_monstre,
+				"id_type_monstre" => $t["id_type_monstre"],
+				"nom_type" => $t["nom_type_monstre"],
+				"nom_groupe_monstre" => $t["nom_groupe_monstre"],
+				"nb_membres_min" => $t["nb_membres_min_type_groupe_monstre"],
+				"nb_membres_max" => $t["nb_membres_max_type_groupe_monstre"],
 			);
 
 			$stats["nb_monstre_par_type"][] = array(
-				"nom_type" => $t->nom_type_monstre,
-				"nombre" => $monstresTable->countAllByType($t->id_type_monstre)
+				"nom_type" => $t["nom_type_monstre"],
+				"nombre" => $monstresTable->countAllByType($t["id_type_monstre"])
 			);
 		}
 
@@ -526,7 +596,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			} else {
 				$couverture = 0;
 			}
-			
+
 			$villes = "";
 			foreach($villesRowset as $v) {
 				if ($z["x_min_zone"] <= $v->x_max_ville && $z["x_max_zone"] >= $v->x_min_ville &&
@@ -534,7 +604,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 					$villes .= $v->nom_ville.", ";
 				}
 			}
-			
+
 			$zones[] = array("id_zone" =>$z["id_zone"],
 				"x_min" => $z["x_min_zone"] ,
 				"x_max" => $z["x_max_zone"] ,
@@ -558,4 +628,59 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		$this->view->typesMonstre = $types;
 		$this->view->zones = $zones;
 	}
+
+	function monstreAction() {
+		Zend_Loader::loadClass('Monstre');
+
+		$this->modificationMonstre = false;
+
+		if ($this->_request->isPost() && $this->_request->get('idmonstre') == $this->_request->getPost("id_monstre")) {
+			$tabPost = $this->_request->getPost();
+			foreach ($tabPost as $key => $value) {
+				if ($key != 'id_monstre' && mb_substr($key, -8) == "_monstre") {
+					if ($value == '') {
+						$value = null;
+						$data [$key] = $value;
+					} else {
+						$data [$key] = stripslashes($value);
+					}
+				}
+			}
+
+			$monstreTable = new Monstre();
+			$where = "id_monstre=" . $this->_request->getPost("id_monstre");
+			$monstreTable->update($data, $where);
+			$this->view->modificationMonstre = true;
+		}
+
+		$this->monstrePrepare();
+		$this->render();
+	}
+
+	private function monstrePrepare() {
+		$monstreTable = new Monstre();
+		
+		$where = $monstreTable->getAdapter()->quoteInto('id_monstre = ?',(int)$this->_request->get('idmonstre'));
+		$monstreRowset = $monstreTable->fetchRow($where);
+
+		if (count($monstreRowset) == 1) {
+			$this->view->monstre = $monstreRowset->toArray();
+		} else {
+			$this->view->monstre = $monstreRowset;
+		}
+		$this->view->id_monstre = $this->_request->get('idmonstre');
+
+		if ($this->_request->get('mode') == "" || $this->_request->get('mode') == "simple") {
+			$this->view->mode = "simple";
+			$keySimple [] = "id_monstre";
+			$keySimple [] = "x_monstre";
+			$keySimple [] = "y_monstre";
+			$keySimple [] = "pa_monstre";
+			$keySimple [] = "date_fin_tour_monstre";
+			$this->view->keySimple = $keySimple;
+		} else {
+			$this->view->mode = "complexe";
+		}
+	}
+
 }

@@ -53,6 +53,11 @@
 	    <a href='/Administrationmonstre/creation'>[ Cr&eacute;ation ]</a> 
 	    <a href='/Administrationmonstre/referentiel'>[ R&eacute;f&eacute;rentiel ]</a>
 	    <a href='/Batchs/viemonstres'>[ Jouer Vie Monstre ]</a>
+	    <br>
+	     Monstre Id <input type='text' name='id_monstre' id='id_monstre' value='' size='5'> 
+	    <input type='button' name='goFicheMonstre' value='Ouvrir Fiche'   class='button1'  onClick='document.location.href="/Administrationmonstre/monstre/mode/simple/idmonstre/"+$("id_monstre").value;'> 
+	    <input type='button' name='goProfilMonstre' value='Ouvrir Profil Public'   class='button1'  onclick='javascript:ouvrirWin("/voir/monstre/?monstre="+$("id_monstre").value);'> 
+	   
 	    <br /> <br /> 
 	    
 	    <span class="titre textalia textsizec">Administration Hobbit</span>
@@ -63,8 +68,8 @@
 		<span id="indicateur_recherche_valeur_2_voir" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
 		<br>
 	    Hobbit Id <input type='text' name='id_hobbit' id='id_hobbit' value='' size='5'> 
-	    <input type='button' name='goFiche' value='Ouvrir Fiche'   class='button1'  onClick='document.location.href="/Administrationhobbit/hobbit/mode/simple/idhobbit/"+$("id_hobbit").value;'> 
-	    <input type='button' name='goProfil' value='Ouvrir Profil Publique'   class='button1'  onclick='javascript:ouvrirWin("/voir/hobbit/?hobbit="+$("id_hobbit").value);'> 
+	    <input type='button' name='goFiche' value='Ouvrir Fiche' class='button1'  onClick='document.location.href="/Administrationhobbit/hobbit/mode/simple/idhobbit/"+$("id_hobbit").value;'> 
+	    <input type='button' name='goProfil' value='Ouvrir Profil Public' class='button1'  onclick='javascript:ouvrirWin("/voir/hobbit/?hobbit="+$("id_hobbit").value);'> 
 	    
 	    <br /> <br /> <br />
 	    

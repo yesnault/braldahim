@@ -11,62 +11,59 @@
 			<table align='center'>
 			<tr>
 			<td colspan='20'>
-				<select name="id_zone" onChange="javascript:t=this.value.split(':'); $('x_min').value=t[0]; $('x_max').value=t[1]; $('y_min').value=t[2]; $('y_max').value=t[3]">
-					<option value=":::">
-						(Zones pr&eacute;d&eacute;finies)
-					</option>
-					<? foreach ($this->zones as $z) : ?>
-					<option value="<?=$z["x_min"]?>:<?=$z["x_max"]?>:<?=$z["y_min"]?>:<?=$z["y_max"]?>">
-						Zone <?=$z["id_zone"]?>
-					</option>
-					<? endforeach; ?>
-					</select>
-			</td>
-			</tr>
-			<tr>
-				<td>
-					Type
-				</td>
-				<td>
-					<select name="id_type">
-					<? foreach ($this->typesMonstre as $t) : ?>
-					<option value="<?=$t["id_type_monstre"]?>"><?=$t["nom_type"]?></option>
-					<? endforeach; ?>
-					</select>
-				</td>
-				<td>
-					X min
-				</td>
-				<td>
-					<input type="textbox" name="x_min" id="x_min" size="4" maxlength="4" />
-				</td>
-				<td>
-					X max
-				</td>
-				<td>
-					<input type="textbox" name="x_max" id="x_max" size="4" maxlength="4" />
-				</td>
-				<td>
-					Y min
-				</td>
-				<td>
-					<input type="textbox" name="y_min" id="y_min" size="4" maxlength="4" />
-				</td>
-				<td>
-					Y max
-				</td>
-				<td>
-					<input type="textbox" name="y_max" id="y_max" size="4" maxlength="4" />
-				</td>
-				<td>
+				Type<br>
+				
+				<select name="id_type">
+				<? foreach ($this->typesMonstre as $t) : ?>
+				<option value="<?=$t["id_type_monstre"]?>"><?=$t["nom_groupe_monstre"]?> - <?=$t["nom_type"]?> (min:<?=$t["nb_membres_min"]?>, max:<?=$t["nb_membres_max"]?>) </option>
+				<? endforeach; ?>
+				</select>
+				<br><br>
+				
+				
+				<br>Création dans la zone : <br>
+				(non utilisé si des coodonnées sont utilisées ci-dessous, mais à remplir tout de même)
+				<br>
+				<select name="id_zone" onChange="javascript:t=this.value.split(':'); $('x_min_zone').value=t[0]; $('x_max_zone').value=t[1]; $('y_min_zone').value=t[2]; $('y_max_zone').value=t[3]">
+				<option value=":::">
+					(Zones pr&eacute;d&eacute;finies)
+				</option>
+				<? foreach ($this->zones as $z) : ?>
+				<option value="<?=$z["x_min"]?>:<?=$z["x_max"]?>:<?=$z["y_min"]?>:<?=$z["y_max"]?>">
+					Zone <?=$z["id_zone"]?> xmin:<?=$z["x_min"]?> xmax:<?=$z["x_max"]?>, ymin <?=$z["y_min"]?> ymax:<?=$z["y_max"]?>
+				</option>
+				<? endforeach; ?>
+				</select>
+				<br>				
+				X min
+				<input type="textbox" name="x_min_zone" id="x_min_zone" size="4" maxlength="4" />
+				X max
+				<input type="textbox" name="x_max_zone" id="x_max_zone" size="4" maxlength="4" />
+				Y min
+				<input type="textbox" name="y_min_zone" id="y_min_zone" size="4" maxlength="4" />
+				Y max
+				<input type="textbox" name="y_max_zone" id="y_max_zone" size="4" maxlength="4" />
+				
+				<br><br>
+				Facultatif : le monstre restera à l'intérieur de ces coordonnées (laissez vide si pas de rayon défini): <br>
+				X Position départ
+				<input type="textbox" name="x_position" id="x_position" size="4" maxlength="4" />
+				Y Position départ
+				<input type="textbox" name="y_position" id="y_position" size="4" maxlength="4" />
+				X min
+				<input type="textbox" name="x_min_position" id="x_min_position" size="4" maxlength="4" />
+				X max
+				<input type="textbox" name="x_max_position" id="x_max_position" size="4" maxlength="4" />
+				Y min
+				<input type="textbox" name="y_min_position" id="y_min_position" size="4" maxlength="4" />
+				Y max
+				<input type="textbox" name="y_max_position" id="y_max_position" size="4" maxlength="4" />
+				
+				<br /><br />
 					Nombre de monstre<br />
 					(Cr&eacute;ation automatique de groupe)
-				</td>
-				<td>
-					<input type="textbox" name="nombre" onkeypress="chiffres(event);" size="3" maxlength="3" />
-				</td>
-			</tr>
-			</table>
+				<input type="textbox" name="nombre" onkeypress="chiffres(event);" size="3" maxlength="3" />
+				
 			<input type="submit" class="button1" name="Ajouter" value="Ajouter" />
 			</form>
 			
@@ -75,12 +72,12 @@
 			<ul class="titre textalic textsizeb">R&eacute;sultats Cr&eacute;ation</ul>
 				Cr&eacute;ation de <?=count($this->tabCreation["monstres"])?> monstre(s) et de <?=count($this->tabCreation["groupesMonstres"])?> groupe(s) de monstres<br />
 				
-				<? if ($this->tabCreation["groupesMonstres"] != null) { ?>
+				<? if ($this->tabCreation["groupesMonstres"] != null) : ?>
 					Groupes : <br />
 					<? foreach($this->tabCreation["groupesMonstres"] as $g): ?>
 						Groupe Id <?=$g["id_groupe_monstre"]?> Nombre de membres <?=$g["nb_membres_max_groupe_monstre"]?><br />
 					<? endforeach; ?>
-				<? } ?>
+				<? endif; ?>
 				
 				Monstres : <br />
 				<? foreach($this->tabCreation["monstres"] as $g): ?>
@@ -90,6 +87,7 @@
 					FOR:<?=$g["force_base_monstre"]?> SAG:<?=$g["sagesse_base_monstre"]?>
 					AGI:<?=$g["agilite_base_monstre"]?> VIG:<?=$g["vigueur_base_monstre"]?>
 					ARMNAT :<?=$g["armure_naturelle_monstre"]?> DLA:<?=$g["duree_base_tour_monstre"]?><br />
+					<input type='button' name='goProfilMonstre' value='Ouvrir Profil Public' class='button1' onclick='javascript:ouvrirWin("/voir/monstre/?monstre=<?=$g["id_monstre"]?>");'> 
 				<? endforeach; ?>
 				
 				Les monstres créés en villes ont été ensuite supprimés.
