@@ -122,7 +122,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->choixDepart = $choixDepart;
 		$this->view->tabEndroit = $tabEndroit;
 
-		//@TODO afficher ce qui est transbahuté et de koi vers koi (tester tout et améliorer ortho)
 		//@TODO gerer envoi message
 		//@TODO bouton transfert equipement, potion et materiel dans echoppe
 
@@ -330,6 +329,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						"poids" => $e["poids_recette_equipement"],
 						"id_fk_mot_runique" => $e["id_fk_mot_runique_equipement"], 
 						"id_fk_recette" => $e["id_fk_recette_equipement"] ,
+						"id_fk_type_munition_type_equipement" => $e["id_fk_type_munition_type_equipement"],
+						"nb_munition_type_equipement" => $e["nb_munition_type_equipement"],
+						"nom_systeme_type_piece" => $e["nom_systeme_type_piece"],
 						"id_fk_region" => $e["id_fk_region_equipement"],
 				);
 			}
@@ -390,26 +392,54 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						unset($departEquipementTable);
 		
 						switch ($arrivee){
-							case "Laban" :
-								$arriveeEquipementTable = new LabanEquipement();
-								$data = array (
-									"id_laban_equipement" => $equipement["id_equipement"],
-									"id_fk_hobbit_laban_equipement" => $this->view->user->id_hobbit,
-								);
+							case "Laban" :						
+								if ($equipement["nom_systeme_type_piece"] == "munition") {
+									Zend_Loader::loadClass("LabanMunition");
+									$arriveeEquipementTable = new LabanMunition();
+									$data = array(
+									"id_fk_hobbit_laban_munition" => $this->view->user->id_hobbit,
+									"id_fk_type_laban_munition" => $equipement["id_fk_type_munition_type_equipement"],
+									"quantite_laban_munition" => $equipement["nb_munition_type_equipement"],
+									);
+									$arriveeEquipementTable->insertOrUpdate($data);	
+								}
+								else {
+									$arriveeEquipementTable = new LabanEquipement();
+									$data = array (
+										"id_laban_equipement" => $equipement["id_equipement"],
+										"id_fk_hobbit_laban_equipement" => $this->view->user->id_hobbit,
+									);
+									$arriveeEquipementTable->insert($data);
+								}
 								$this->view->poidsRestant = $this->view->poidsRestant - $equipement["poids"];
 								break;
 							case "Element" :
 								$dateCreation = date("Y-m-d H:i:s");
 								$nbJours = Bral_Util_De::get_2d10();
 								$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
-		
-								$arriveeEquipementTable = new ElementEquipement();
-								$data = array (
-									"id_element_equipement" => $equipement["id_equipement"],
-									"x_element_equipement" => $this->view->user->x_hobbit,
-									"y_element_equipement" => $this->view->user->y_hobbit,
-									"date_fin_element_equipement" => $dateFin,
-								);
+								
+								if ($equipement["nom_systeme_type_piece"] == "munition") {
+									Zend_Loader::loadClass("ElementMunition");
+									$arriveeEquipementTable = new ElementMunition();
+									$data = array(
+									"x_element_munition" => $this->view->user->x_hobbit,
+									"y_element_munition" => $this->view->user->y_hobbit,
+									"date_fin_element_munition" => $dateFin,
+									"id_fk_type_element_munition" => $equipement["id_fk_type_munition_type_equipement"],
+									"quantite_element_munition" => $equipement["nb_munition_type_equipement"],
+									);
+									$arriveeEquipementTable->insertOrUpdate($data);	
+								}
+								else {
+									$arriveeEquipementTable = new ElementEquipement();
+									$data = array (
+										"id_element_equipement" => $equipement["id_equipement"],
+										"x_element_equipement" => $this->view->user->x_hobbit,
+										"y_element_equipement" => $this->view->user->y_hobbit,
+										"date_fin_element_equipement" => $dateFin,
+									);
+									$arriveeEquipementTable->insert($data);
+								}
 								break;
 							case "Coffre" :
 								$arriveeEquipementTable = new CoffreEquipement();
@@ -417,13 +447,27 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									"id_coffre_equipement" => $equipement["id_equipement"],
 									"id_fk_hobbit_coffre_equipement" => $this->view->id_hobbit_coffre,
 								);
+								$arriveeEquipementTable->insert($data);
 								break;
 							case "Charrette" :
-								$arriveeEquipementTable = new CharretteEquipement();
-								$data = array (
-									"id_charrette_equipement" => $equipement["id_equipement"],
-									"id_fk_charrette_equipement" => $this->view->id_charrette_arrivee,
-								);
+								if ($equipement["nom_systeme_type_piece"] == "munition") {
+									Zend_Loader::loadClass("CharretteMunition");
+									$arriveeEquipementTable = new CharretteMunition();
+									$data = array(
+									"id_fk_charrette_munition" => $this->view->id_charrette_arrivee,
+									"id_fk_type_charrette_munition" => $equipement["id_fk_type_munition_type_equipement"],
+									"quantite_charrette_munition" => $equipement["nb_munition_type_equipement"],
+									);
+									$arriveeEquipementTable->insertOrUpdate($data);	
+								}
+								else {
+									$arriveeEquipementTable = new CharretteEquipement();
+									$data = array (
+										"id_charrette_equipement" => $equipement["id_equipement"],
+										"id_fk_charrette_equipement" => $this->view->id_charrette_arrivee,
+									);
+									$arriveeEquipementTable->insert($data);
+								}
 								break;
 							/*case "Echoppe" :
 								$arriveeEquipementTable = new EchoppeEquipement();
@@ -433,7 +477,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								);
 								break;*/
 						}
-						$arriveeEquipementTable->insert($data);
 						unset($arriveeEquipementTable);
 						$this->view->elementsRetires .= "Equipement n°".$equipement["id_equipement"]." : ".$equipement["nom"].", ";
 					}
@@ -2074,6 +2117,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					case "Laban" :
 						if ($nom_systeme == "castar") {
 							$this->view->user->castars_hobbit = $this->view->user->castars_hobbit + $nb;
+							$this->view->elementsRetires .= $nb. " castar";
+							if ($nb > 1) $this->view->elementsRetires .= "s";
+							$this->view->elementsRetires .= ", ";
 						} else {
 							$data = array(
 								"quantite_".$nom_systeme."_laban" => $nb,
