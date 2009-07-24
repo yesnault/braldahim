@@ -15,7 +15,7 @@
 				
 				<select name="id_type">
 				<? foreach ($this->typesMonstre as $t) : ?>
-				<option value="<?=$t["id_type_monstre"]?>"><?=$t["nom_groupe_monstre"]?> - <?=$t["nom_type"]?> (min:<?=$t["nb_membres_min"]?>, max:<?=$t["nb_membres_max"]?>) </option>
+				<option value="<?=$t["id_type_monstre"]?>" <? if ($t["nom_groupe_monstre"] == "Gibier"): echo 'disabled'; endif; ?>><?=$t["nom_groupe_monstre"]?> - <?=$t["nom_type"]?> (min:<?=$t["nb_membres_min"]?>, max:<?=$t["nb_membres_max"]?>) </option>
 				<? endforeach; ?>
 				</select>
 				<br><br>

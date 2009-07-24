@@ -308,6 +308,8 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			"id_fk_groupe_monstre" => $id_groupe_monstre,
 			"x_monstre" => $x_monstre,
 			"y_monstre" => $y_monstre,
+			"x_direction_monstre" => $x_monstre,
+			"y_direction_monstre" => $y_monstre,
 			"x_min_monstre" => $x_min_position,
 			"x_max_monstre" => $x_max_position,
 			"y_min_monstre" => $y_min_position,
