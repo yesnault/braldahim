@@ -110,7 +110,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 				$tabCaracs[$r["niveau_recette_equipement"]][$r["id_fk_type_qualite_recette_equipement"]][] = array(
 						'nom_qualite' => $r["nom_type_qualite"],
 						'niveau' => $r["niveau_recette_equipement"], 
-						'poids' => $r["niveau_recette_equipement"], 
+						'poids' => $r["poids_recette_equipement"], 
 						'armure' => $r["armure_recette_equipement"], 
 						'force' => $r["force_recette_equipement"], 
 						'agilite' => $r["agilite_recette_equipement"], 
