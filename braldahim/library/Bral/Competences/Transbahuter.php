@@ -1,4 +1,18 @@
 <?php
+/**
+ * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * $Id:$
+ * $Author:$
+ * $LastChangedDate:$
+ * $LastChangedRevision:$
+ * $LastChangedBy:$
+ */
+
+//@TODO gerer envoi message
+//@TODO bouton transfert equipement, potion et materiel dans echoppe
+//@TODO afficher poids restant dans formulaire
 class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 	function prepareCommun() {
@@ -121,10 +135,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 		$this->view->choixDepart = $choixDepart;
 		$this->view->tabEndroit = $tabEndroit;
-
-		//@TODO gerer envoi message
-		//@TODO bouton transfert equipement, potion et materiel dans echoppe
-
 	}
 
 	function prepareFormulaire() {
@@ -205,11 +215,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->detailEvenement = "";
 		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Element"){
 			$idEvenement = $this->view->config->game->evenements->type->ramasser;
-			$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a ramassé des élèments à terre ";
+			$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a ramassé des éléments à terre ";
 		}
 		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Element"){
 			$idEvenement = $this->view->config->game->evenements->type->deposer;
-			$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a déposé des élèments à terre ";
+			$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a déposé des éléments à terre ";
 		}
 		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Coffre" || $this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Coffre" ){
 			$idEvenement = $this->view->config->game->evenements->type->service;
@@ -217,7 +227,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 		if ($this->detailEvenement == ""){
 			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
-			$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des élèments ";
+			$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments ";
 		}
 		$this->setDetailsEvenement($this->detailEvenement, $idEvenement);
 
