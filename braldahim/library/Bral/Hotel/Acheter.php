@@ -1030,8 +1030,8 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$coffreMineraiTable = new CoffreMinerai();
 		if ($prix["prix"] > 0) {
 			$data = array(
-				'id_fk_hobbit_coffre_minerai' => $prix["minerais"]["id_fk_type_minerai"],
-				'id_fk_type_coffre_minerai' => $this->view->vente["vente"]["id_fk_hobbit_vente"],
+				'id_fk_hobbit_coffre_minerai' => $this->view->vente["vente"]["id_fk_hobbit_vente"],
+				'id_fk_type_coffre_minerai' => $prix["minerais"]["id_fk_type_minerai"],
 				'quantite_brut_coffre_minerai' => $prix["prix"],
 			);
 			$coffreMineraiTable->insertOrUpdate($data);
