@@ -1949,7 +1949,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$labanTable = new Laban();
 				$autres = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
 				if ($autres == null) { // si l'on a pas de laban
-					$autres = array(
+					$autres [0] = array(
 						"quantite_castar_".strtolower($depart) => 0,
 						"quantite_peau_".strtolower($depart) => 0,
 						"quantite_viande_".strtolower($depart) => 0,
