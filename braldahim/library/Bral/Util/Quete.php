@@ -404,8 +404,8 @@ class Bral_Util_Quete {
 		$typeAlimentTable = new TypeAliment();
 		$aliment = $typeAlimentTable->findById(TypeAliment::ID_TYPE_RAGOUT);
 
-		$qualiteAliment = 2; // qualite correcte
-		$bbdfAliment = $aliment->bbdf_base_type_aliment;
+		$qualiteAliment = 3; // qualite bonne
+		$bbdfAliment = 100;
 
 		Zend_Loader::loadClass("ElementAliment");
 		Zend_Loader::loadClass("CoffreAliment");
