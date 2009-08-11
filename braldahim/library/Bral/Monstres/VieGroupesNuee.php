@@ -156,8 +156,8 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 			}
 
 			$tab = Bral_Monstres_VieMonstre::getTabXYRayon($monstre_role_a["niveau_monstre"], false, $this->villes, $groupe["x_direction_groupe_monstre"], $groupe["y_direction_groupe_monstre"], $dx, $dy);
-			$monstre["x_direction_groupe_monstre"] = $tab["x_direction"];
-			$monstre["y_direction_groupe_monstre"] = $tab["y_direction"];
+			$groupe["x_direction_groupe_monstre"] = $tab["x_direction"];
+			$groupe["y_direction_groupe_monstre"] = $tab["y_direction"];
 
 			if ($groupe["x_direction_groupe_monstre"] <= $this->config->game->x_min) {
 				$groupe["x_direction_groupe_monstre"] = -$this->config->game->x_min;
