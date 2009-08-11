@@ -172,14 +172,14 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 				$groupe["y_direction_groupe_monstre"] = -$this->config->game->y_max;
 			}
 
-			if ($groupe["x_direction_groupe_monstre"] < $monstre_role_a["x_min_monstre"]) {
+			if ($monstre_role_a["x_min_monstre"] != null && $groupe["x_direction_groupe_monstre"] < $monstre_role_a["x_min_monstre"]) {
 				$groupe["x_direction_groupe_monstre"] = $monstre_role_a["x_min_monstre"];
-			} else if ($groupe["x_direction_groupe_monstre"] > $monstre_role_a["x_max_monstre"]) {
+			} else if ($monstre_role_a["x_max_monstre"] != null && $groupe["x_direction_groupe_monstre"] > $monstre_role_a["x_max_monstre"]) {
 				$groupe["x_direction_groupe_monstre"] = $monstre_role_a["x_max_monstre"];
 			}
-			if ($groupe["y_direction_groupe_monstre"] < $monstre_role_a["y_min_monstre"]) {
+			if ($monstre_role_a["y_min_monstre"] != null && $groupe["y_direction_groupe_monstre"] < $monstre_role_a["y_min_monstre"]) {
 				$groupe["y_direction_groupe_monstre"] = $monstre_role_a["y_min_monstre"];
-			} else if ($groupe["y_direction_groupe_monstre"] > $monstre_role_a["y_max_monstre"]) {
+			} else if ($monstre_role_a["y_max_monstre"] != null && $groupe["y_direction_groupe_monstre"] > $monstre_role_a["y_max_monstre"]) {
 				$groupe["y_direction_groupe_monstre"] = $monstre_role_a["y_max_monstre"];
 			}
 
