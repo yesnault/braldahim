@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -15,7 +15,7 @@ class Bral_Util_De {
 	public static function get_1d1() {
 		return 1;
 	}
-	
+
 	public static function get_1d2() {
 		srand(self::make_seed());
 		return rand(1, 2);
@@ -25,17 +25,17 @@ class Bral_Util_De {
 		srand(self::make_seed());
 		return rand(1, 3);
 	}
-	
+
 	public static function get_1d4() {
 		srand(self::make_seed());
 		return rand(1, 4);
 	}
-	
+
 	public static function get_1d5() {
 		srand(self::make_seed());
 		return rand(1, 5);
 	}
-	
+
 	public static function get_1d6() {
 		srand(self::make_seed());
 		return rand(1, 6);
@@ -45,62 +45,55 @@ class Bral_Util_De {
 		srand(self::make_seed());
 		return rand(1, 10);
 	}
-	
+
 	public static function get_1d20() {
 		srand(self::make_seed());
 		return rand(1, 20);
 	}
-	
+
 	public static function get_1d30() {
 		srand(self::make_seed());
 		return rand(1, 30);
 	}
-	
+
 	public static function get_1d100() {
 		srand(self::make_seed());
 		return rand(1, 100);
 	}
-	
+
 	public static function get_2d3() {
-		$n = self::get_1d3();
-		$n = $n + self::get_1d3();
-		return $n;
+		srand(self::make_seed());
+		return rand(2, 6);
 	}
-	
+
 	public static function get_3d3() {
-		$n = self::get_2d3();
-		$n = $n + self::get_1d3();
-		return $n;
+		srand(self::make_seed());
+		return rand(3, 9);
 	}
-	
+
 	public static function get_4d3() {
-		$n = self::get_3d3();
-		$n = $n + self::get_1d3();
-		return $n;
+		srand(self::make_seed());
+		return rand(4, 12);
 	}
 
 	public static function get_1d7() {
 		srand(self::make_seed());
 		return rand(1, 7);
 	}
-	
+
 	public static function get_2d10() {
 		return self::getLanceDeSpecifique(2, 1, 10);
 	}
-	
+
 	public static function get_3d10() {
 		return self::getLanceDeSpecifique(3, 1, 10);
 	}
-	
+
 	public static function getLanceDeSpecifique($n, $a, $b) {
-		$retour = 0;
-		for ($i = 1; $i <= $n; $i++) {
-			$retour = $retour + self::get_de_specifique($a, $b);
-		}
-		
-		return $retour;
+		srand(self::make_seed());
+		return rand($n * $a, $n * $b);
 	}
-	
+
 	public static function get_de_specifique($a, $b) {
 		if (!is_int(intval($a))) {
 			throw new Exception("De::get_de_specifique : a invalides : ".$a);
@@ -115,7 +108,7 @@ class Bral_Util_De {
 		srand(self::make_seed());
 		return rand($a, $b);
 	}
-	
+
 	public static function get_de_specifique_hors_liste($a, $b, $liste) {
 		$n = self::get_de_specifique($a, $b);
 
@@ -131,23 +124,23 @@ class Bral_Util_De {
 			throw new Exception("De::get_de_specifique_hors_liste : liste invalide ");
 		}
 	}
-	
+
 	public static function get_chaine_aleatoire($longueur) {
 		srand(self::make_seed());
 		// 10 + 26 + 26 = 62
 		$tab = array(
-			0,1,2,3,4,5,6,7,8,9,
+		0,1,2,3,4,5,6,7,8,9,
 			'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',  'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
 			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',  'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
 		);
-		
+
 		$mot = "";
 		for ($i = 0; $i < $longueur; $i++) {
 			$mot .= $tab[rand (0, count($tab) - 1)];
 		}
 		return $mot;
 	}
-	
+
 	private function __construct() {}
 
 	private static function make_seed() {
