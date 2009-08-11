@@ -5,6 +5,16 @@
   <ul class="box_contenu1 textalic">
   
 <? if ($this->affichageInterne == true) : ?>
+
+	<? if ($this->user->pa_hobbit >= 1) : 
+      $attr = "onClick=\"Javascript:_get_('/competences/doaction?caction=ask_competence_transbahuter&valeur_1=2')\"";
+    else:
+      $attr = "disabled";
+    endif;?>
+    
+	<input type="button" class='button1' <?=$attr?> value="1 PA - Transbahuter">
+	
+	<br><br>
 	Votre laban contient plusieurs poches. Cliquez sur celle(s) que vous souhaitez ouvrir. <br /><br />
     <? include("commun/poches.phtml"); ?>
 <? else: ?>
