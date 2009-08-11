@@ -133,8 +133,9 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 
 		$groupe["phase_tactique_groupe_monstre"] = self::PHASE_NOMINAL;
 
-		if (($monstre_role_a["x_monstre"] == $groupe["x_direction_groupe_monstre"]) && //
-		($monstre_role_a["y_monstre"] == $groupe["y_direction_groupe_monstre"])) {
+		if ((($monstre_role_a["x_monstre"] == $groupe["x_direction_groupe_monstre"]) && //
+		($monstre_role_a["y_monstre"] == $groupe["y_direction_groupe_monstre"])) || 
+		($groupe["x_direction_groupe_monstre"] == 0 && $groupe["y_direction_groupe_monstre"] == 0)) {
 
 			$dx = Bral_Util_De::get_1d20();
 			$dy = Bral_Util_De::get_1d20();
@@ -143,15 +144,15 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 			$plusMoinsY = Bral_Util_De::get_1d2();
 
 			if ($plusMoinsX == 1) {
-				$groupe["x_direction_groupe_monstre"] = $groupe["x_direction_groupe_monstre"] - $dx;
+				$groupe["x_direction_groupe_monstre"] = $monstre_role_a["x_monstre"] - $dx;
 			} else {
-				$groupe["x_direction_groupe_monstre"] = $groupe["x_direction_groupe_monstre"] + $dx;
+				$groupe["x_direction_groupe_monstre"] = $monstre_role_a["x_monstre"] + $dx;
 			}
 
 			if ($plusMoinsY == 1) {
-				$groupe["y_direction_groupe_monstre"] = $groupe["y_direction_groupe_monstre"] - $dy;
+				$groupe["y_direction_groupe_monstre"] = $monstre_role_a["y_monstre"] - $dy;
 			} else {
-				$groupe["y_direction_groupe_monstre"] = $groupe["y_direction_groupe_monstre"] + $dy;
+				$groupe["y_direction_groupe_monstre"] = $monstre_role_a["y_monstre"] + $dy;
 			}
 
 			$tab = Bral_Monstres_VieMonstre::getTabXYRayon($monstre_role_a["niveau_monstre"], false, $this->villes, $groupe["x_direction_groupe_monstre"], $groupe["y_direction_groupe_monstre"], $dx, $dy);
