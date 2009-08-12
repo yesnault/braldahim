@@ -255,7 +255,7 @@ Consultez vos événements pour plus de détails.";
 			}
 
 		} else if ($jetCible/2 < $jetAttaquant) {
-			$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - floor($cible["niveau_hobbit"]);
+			$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - $cible["niveau_hobbit"];
 			$this->updateCible($cible);
 			$id_type_evenement = self::$config->game->evenements->type->attaquer;
 			$details = "[m".$this->monstre["id_monstre"]."] a attaqué le hobbit [h".$cible["id_hobbit"]."] qui a esquivé l'attaque";
