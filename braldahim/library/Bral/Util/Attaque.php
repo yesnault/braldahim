@@ -199,7 +199,7 @@ class Bral_Util_Attaque {
 					}
 				}
 			} else {
-				$hobbitCible->agilite_bm_hobbit = $hobbitCible->agilite_bm_hobbit - $hobbitCible->niveau_hobbit;
+				$hobbitCible->agilite_bm_hobbit = $hobbitCible->agilite_bm_hobbit - $hobbitAttaquant->niveau_hobbit;
 				$hobbitCible->est_ko_hobbit = "non";
 				$retourAttaque["mort"] = false;
 				$retourAttaque["fragilisee"] = true;
@@ -272,7 +272,7 @@ class Bral_Util_Attaque {
 			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Mise a jour du hobbit ".$hobbitCible->id_hobbit." pv_restant_hobbit=".$hobbitCible->pv_restant_hobbit);
 		} else if ($retourAttaque["jetCible"] / 2 <= $retourAttaque["jetAttaquant"]) {
 			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Attaque esquivee malus sur ajoute a agilite_bm_hobbit=".$hobbitCible->niveau_hobbit);
-			$hobbitCible->agilite_bm_hobbit = $hobbitCible->agilite_bm_hobbit - $hobbitCible->niveau_hobbit;
+			$hobbitCible->agilite_bm_hobbit = $hobbitCible->agilite_bm_hobbit - $hobbitAttaquant->niveau_hobbit;
 			$data = array('agilite_bm_hobbit' => $hobbitCible->agilite_bm_hobbit);
 			$where = "id_hobbit=".$hobbitCible->id_hobbit;
 			$hobbitTable = new Hobbit();
@@ -517,7 +517,7 @@ Consultez vos événements pour plus de détails.";
 				$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
 				$retourAttaque["gains"] = $vieMonstre->mortMonstreDb($cible["id_cible"], $effetD, $effetH, $hobbitAttaquant->niveau_hobbit);
 			} else {
-				$monstre["agilite_bm_monstre"] = $monstre["agilite_bm_monstre"] - $monstre["niveau_monstre"];
+				$monstre["agilite_bm_monstre"] = $monstre["agilite_bm_monstre"] - $hobbitAttaquant->niveau_hobbit;
 				$retourAttaque["fragilisee"] = true;
 
 				$retourAttaque["mort"] = false;
@@ -535,7 +535,7 @@ Consultez vos événements pour plus de détails.";
 			}
 		} else if ($retourAttaque["jetCible"] / 2 <= $retourAttaque["jetAttaquant"]) {
 			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Attaque esquivee malus sur ajoute a agilite_bm_monstre=".$monstre["niveau_monstre"]);
-			$monstre["agilite_bm_monstre"] = $monstre["agilite_bm_monstre"] - $monstre["niveau_monstre"];
+			$monstre["agilite_bm_monstre"] = $monstre["agilite_bm_monstre"] - $hobbitAttaquant->niveau_hobbit;
 			$retourAttaque["mort"] = false;
 			$data = array('agilite_bm_monstre' => $monstre["agilite_bm_monstre"]);
 			$where = "id_monstre=".$cible["id_cible"];

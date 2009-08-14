@@ -223,7 +223,7 @@ class Bral_Monstres_VieMonstre {
 				$this->updateCible($cible);
 			} else {
 				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Survie de la cible La cible (".$cible["id_hobbit"].") attaquee par Monstre id:".$this->monstre["id_monstre"]. " pvPerdus=".$pvPerdus. " pv_restant_hobbit=".$cible["pv_restant_hobbit"]);
-				$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - (floor($cible["niveau_hobbit"] / 10) + 1);
+				$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - $this->monstre["niveau_monstre"];
 				$cible["est_ko_hobbit"] = "non";
 				$id_type_evenement = self::$config->game->evenements->type->attaquer;
 				$details = "[m".$this->monstre["id_monstre"]."] a attaqué le hobbit [h".$cible["id_hobbit"]."]";
@@ -255,7 +255,7 @@ Consultez vos événements pour plus de détails.";
 			}
 
 		} else if ($jetCible/2 < $jetAttaquant) {
-			$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - $cible["niveau_hobbit"];
+			$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - $this->monstre["niveau_monstre"];
 			$this->updateCible($cible);
 			$id_type_evenement = self::$config->game->evenements->type->attaquer;
 			$details = "[m".$this->monstre["id_monstre"]."] a attaqué le hobbit [h".$cible["id_hobbit"]."] qui a esquivé l'attaque";
