@@ -46,6 +46,7 @@ class Charrette extends Zend_Db_Table {
 		->from('hobbit', '*')
 		->where('id_hobbit = id_fk_hobbit_charrette')
 		->where('id_fk_type_materiel_charrette = id_type_materiel')
+		->where('est_ko_hobbit = ?', 'non')
 		->where('x_hobbit = '.intval($x))
 		->where('y_hobbit = '.intval($y));
 		$sql = $select->__toString();
