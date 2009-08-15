@@ -187,14 +187,14 @@ class Bral_Monstres_VieSolitaire {
 				$monstre["y_direction_monstre"] = -$this->config->game->y_max;
 			}
 
-			if ($monstre["x_direction_monstre"] < $monstre["x_min_monstre"]) {
+			if ($monstre["x_min_monstre"] != null && $monstre["x_direction_monstre"] < $monstre["x_min_monstre"]) {
 				$monstre["x_direction_monstre"] = $monstre["x_min_monstre"];
-			} else if ($monstre["x_direction_monstre"] > $monstre["x_max_monstre"]) {
+			} else if ($monstre["x_max_monstre"] != null && $monstre["x_direction_monstre"] > $monstre["x_max_monstre"]) {
 				$monstre["x_direction_monstre"] = $monstre["x_max_monstre"];
 			}
-			if ($monstre["y_direction_monstre"] < $monstre["y_min_monstre"]) {
+			if ($monstre["y_min_monstre"] != null && $monstre["y_direction_monstre"] < $monstre["y_min_monstre"]) {
 				$monstre["y_direction_monstre"] = $monstre["y_min_monstre"];
-			} else if ($monstre["y_direction_monstre"] > $monstre["y_max_monstre"]) {
+			} else if ($monstre["y_max_monstre"] != null && $monstre["y_direction_monstre"] > $monstre["y_max_monstre"]) {
 				$monstre["y_direction_monstre"] = $monstre["y_max_monstre"];
 			}
 				
