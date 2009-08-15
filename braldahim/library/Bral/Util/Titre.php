@@ -58,8 +58,8 @@ class Bral_Util_Titre {
 				$pvAvant = $hobbit->pv_max_hobbit;
 				$hobbit->pv_max_hobbit = Bral_Util_Commun::calculPvMaxBaseSansEffetMotE(Zend_Registry::get('config'), $hobbit->vigueur_base_hobbit);
 				$hobbit->pv_restant_hobbit = $hobbit->pv_restant_hobbit  + ($hobbit->pv_max_hobbit - $pvAvant);
-				if ($hobbit->pv_restant_hobbit > $hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit) {
-					$hobbit->pv_restant_hobbit = $hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit;
+				if ($hobbit->pv_restant_hobbit > $hobbit->pv_max_hobbit + $hobbit->hobbit->pv_max_bm_hobbit) {
+					$hobbit->pv_restant_hobbit = $hobbit->pv_max_hobbit + $hobbit->hobbit->pv_max_bm_hobbit;
 				}
 				break;
 			case "force" :
