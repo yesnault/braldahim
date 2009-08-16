@@ -26,6 +26,8 @@ class Bral_Util_Niveau {
 			$changeNiveau = false;
 		}
 		
+		$niveauDiv10Precedent = floor($hobbit->niveau_hobbit / 10);
+		
 		$niveauSuivantPx = ($hobbit->niveau_hobbit + 1) * 5;
 		if ($hobbit->px_perso_hobbit >= $niveauSuivantPx) {
 			$hobbit->px_perso_hobbit = $hobbit->px_perso_hobbit - $niveauSuivantPx;
@@ -34,7 +36,8 @@ class Bral_Util_Niveau {
 			$hobbit->pi_hobbit = $hobbit->pi_hobbit + $niveauSuivantPx;
 			$changeNiveau = true;
 			
-			if (($hobbit->niveau_hobbit % 10) == 0) {
+			$niveauDiv10Actuel = floor($hobbit->niveau_hobbit / 10);
+			if ($niveauDiv10Precedent == $niveauDiv10Actuel) {
 				self::calculTitre(&$hobbit);
 			}
 		}
@@ -56,7 +59,7 @@ class Bral_Util_Niveau {
 		$data = array(
 			'id_fk_hobbit_htitre' => $hobbit->id_hobbit,
 			'id_fk_type_htitre' => $idTitre,
-			'niveau_acquis_htitre' => $hobbit->niveau_hobbit,
+			'niveau_acquis_htitre' => floor($hobbit->niveau_hobbit / 10) * 10,
 			'date_acquis_htitre' => date("Y-m-d"),
 		);
 		
