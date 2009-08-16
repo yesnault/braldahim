@@ -813,7 +813,11 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 			$ventePrixPartiePlanteTable = new VentePrixPartiePlante();
 			$ventePrixPartiePlante = $ventePrixPartiePlanteTable->findByIdVente($idVentes);
 		}
-
+		
+		Zend_Loader::loadClass("Bral_Util_Potion");
+		Zend_Loader::loadClass("Bral_Util_Poids");
+		Zend_Loader::loadClass("Bral_Helper_Tooltip");
+		Zend_Loader::loadClass("Bral_Helper_DetailPotion");
 		if (count($potions) > 0) {
 			foreach($potions as $e) {
 
@@ -824,6 +828,14 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 					"id_vente_potion" => $e["id_vente_potion"],
 					"id_type_potion" => $e["id_type_potion"],
 					"nom" => $e["nom_type_potion"],
+					"id_potion" => $e["id_vente_potion"],
+					"qualite" => $e["nom_type_qualite"],
+					"niveau" => $e["niveau_vente_potion"],
+					"caracteristique" => $e["caract_type_potion"],
+					"bm_type" => $e["bm_type_potion"],
+					"caracteristique2" => $e["caract2_type_potion"],
+					"bm2_type" => $e["bm2_type_potion"],
+					"nom_type" => Bral_Util_Potion::getNomType($e["type_potion"]),
 				);
 
 				if (array_key_exists($e["id_vente"], $tabReturn)) {
@@ -1108,14 +1120,16 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 	private function prepareMenuPotions() {
 		Zend_Loader::loadClass("TypePotion");
 		$typePotionTable = new TypePotion();
-		$typesPotions = $typePotionTable->fetchAll(null, "nom_type_potion");
+		$typesPotions = $typePotionTable->fetchAll(null, array("type_potion ASC", "nom_type_potion ASC"));
 		$typesPotions = $typesPotions->toArray();
 
+		Zend_Loader::loadClass("Bral_Util_Potion");
+				
 		$tabPotion = null;
 		$numeroElement = 0;
 		foreach($typesPotions as $e) {
 			$numeroElement++;
-			$tabPotion[$numeroElement] = array('numero_element' => $numeroElement, 'nom' => $e["nom_type_potion"], "id_type_potion" => $e["id_type_potion"]);
+			$tabPotion[$numeroElement] = array('numero_element' => $numeroElement, 'nom_type' => Bral_Util_Potion::getNomType($e["type_potion"]), 'nom' => $e["nom_type_potion"], "id_type_potion" => $e["id_type_potion"]);
 		}
 
 		$this->view->menuRecherchePotion = $tabPotion;

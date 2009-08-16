@@ -156,6 +156,8 @@ class MarchepotionController extends Zend_Controller_Action {
 		
 		$dhtmlxGrid = new Bral_Xml_GridDhtmlx();
 		
+		Zend_Loader::loadClass("Bral_Util_Potion");
+		
 		if (count($potions) > 0) {
 			foreach($potions as $p) {
 				$minerai = null;
@@ -192,6 +194,9 @@ class MarchepotionController extends Zend_Controller_Action {
 					"niveau" => $p["niveau_echoppe_potion"],
 					"caracteristique" => $p["caract_type_potion"],
 					"bm_type" => $p["bm_type_potion"],
+					"caracteristique2" => $p["caract2_type_potion"],
+					"bm2_type" => $p["bm2_type_potion"],
+					"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
 					"prix_1_vente_echoppe_potion" => $p["prix_1_vente_echoppe_potion"],
 					"prix_2_vente_echoppe_potion" => $p["prix_2_vente_echoppe_potion"],
 					"prix_3_vente_echoppe_potion" => $p["prix_3_vente_echoppe_potion"],
