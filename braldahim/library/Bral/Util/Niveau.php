@@ -37,7 +37,7 @@ class Bral_Util_Niveau {
 			$changeNiveau = true;
 			
 			$niveauDiv10Actuel = floor($hobbit->niveau_hobbit / 10);
-			if ($niveauDiv10Precedent == $niveauDiv10Actuel) {
+			if ($niveauDiv10Precedent != $niveauDiv10Actuel) {
 				self::calculTitre(&$hobbit);
 			}
 		}
