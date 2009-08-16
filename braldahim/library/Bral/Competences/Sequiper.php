@@ -152,7 +152,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 			$runes = null;
 			$bonus = null;
 
-			if ($e["est_equipable_type_emplacement"] == "oui") {
+			if ($e["est_equipable_type_emplacement"] == "oui" && floor($this->view->user->niveau_hobbit / 10) >= $e["niveau_recette_equipement"]) {
 				if (count($equipementRunes) > 0) {
 					foreach($equipementRunes as $r) {
 						if ($r["id_equipement_rune"] == $e["id_laban_equipement"]) {
