@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id: MarcheequipementController.php 1121 2009-02-02 18:32:05Z yvonnickesnault $
@@ -25,11 +25,11 @@ class MarchepotionController extends Zend_Controller_Action {
 		Zend_Loader::loadClass('Bral_Util_BBParser');
 		Zend_Loader::loadClass('Bral_Helper_Tooltip');
 		Zend_Loader::loadClass('Bral_Util_Poids');
-		
+
 		$f = new Zend_Filter_StripTags();
 		$anneeCourante = date("Y");
 		$typebmSelect = $f->filter($this->_request->get("typebmselect"));
-		
+
 		if ($typebmSelect == 'malus') {
 			$typebmSelect = 'malus';
 		} elseif ($typebmSelect == 'malus') {
@@ -38,13 +38,13 @@ class MarchepotionController extends Zend_Controller_Action {
 			$typebmSelect = -1;
 		}
 		$this->view->typebmSelect = $typebmSelect;
-		
+
 		$regionSelect = intval($f->filter($this->_request->get("regionselect")));
 		if ($regionSelect <= 0) {
 			$regionSelect = -1;
 		}
 		$this->view->regionSelect = $regionSelect;
-		
+
 		$potionSelect = intval($f->filter($this->_request->get("potionselect")));
 		if ($potionSelect <= 0) {
 			$potionSelect = -1;
@@ -54,6 +54,8 @@ class MarchepotionController extends Zend_Controller_Action {
 
 	function indexAction() {
 		Zend_Loader::loadClass('TypePotion');
+		Zend_Loader::loadClass("Bral_Util_Potion");
+		
 		$typePotion = new TypePotion();
 		$rowset = $typePotion->findDistinctType();
 		$types[-1] = "Tous";
@@ -61,7 +63,7 @@ class MarchepotionController extends Zend_Controller_Action {
 			$types[$r["bm_type_potion"]] = $r["bm_type_potion"];
 		}
 		$this->view->types = $types;
-		
+
 		Zend_Loader::loadClass('Region');
 		$regionTable = new Region();
 		$rowset = $regionTable->fetchAll(null, "nom_region");
@@ -70,46 +72,46 @@ class MarchepotionController extends Zend_Controller_Action {
 			$regions[$r["id_region"]] = $r["nom_region"];
 		}
 		$this->view->regions = $regions;
-		
+
 		Zend_Loader::loadClass('TypePotion');
 		$typePotion = new TypePotion();
-		$rowset = $typePotion->fetchAll(null, "nom_type_potion");
-		
+		$rowset = $typePotion->fetchAll(null, array("type_potion","nom_type_potion"));
+
 		$potions[-1] = "Tous";
 		foreach ($rowset as $r) {
-			$potions[$r["id_type_potion"]] = $r["nom_type_potion"];
+			$potions[$r["id_type_potion"]] = Bral_Util_Potion::getNomType($r["type_potion"]). " ".$r["nom_type_potion"];
 		}
 		$this->view->potions = $potions;
-		
+
 		$this->render();
 	}
-	
+
 	function renderxmlAction() {
 		Zend_Controller_Front::getInstance()->setParam('noViewRenderer', true);
 		Zend_Layout::resetMvcInstance();
-		
+
 		$f = new Zend_Filter_StripTags();
 		$posStart = intval($f->filter($this->_request->get("posStart")));
 		$count = intval($f->filter($this->_request->get("count")));
-		
+
 		$ordreRecu = intval($f->filter($this->_request->get("orderby")));
 		$direct = $f->filter($this->_request->get("direct"));
-		 
+			
 		$ordre = null;
 		if ($direct == "asc") {
 			$direct = "ASC";
 		} else {
 			$direct = "DESC";
 		}
-		
+
 		if ($posStart == null || $posStart <= 0) {
 			$posStart = 0;
 		}
-		
+
 		if ($count == null || $count <= 0) {
 			$count = 100;
 		}
-		
+
 		switch($ordreRecu) {
 			case 0:
 				$ordre = "nom_region ".$direct;
@@ -136,28 +138,28 @@ class MarchepotionController extends Zend_Controller_Action {
 				$ordre = "niveau_echoppe_potion ".$direct;
 				break;
 		}
-		
+
 		$echoppePotionTable = new EchoppePotion();
 		$potions = $echoppePotionTable->findByCriteres($ordre, $posStart, $count, $this->view->regionSelect, $this->view->typebmSelect, $this->view->potionSelect);
-		
+
 		$idPotions = null;
-		
+
 		foreach ($potions as $p) {
 			$idPotions[] = $p["id_echoppe_potion"];
 		}
-		
+
 		if (count($idPotions) > 0) {
 			$echoppPotionMineraiTable = new EchoppePotionMinerai();
 			$echoppePotionMinerai = $echoppPotionMineraiTable->findByIdsPotion($idPotions);
-				
+
 			$echoppePotionPartiePlanteTable = new EchoppePotionPartiePlante();
 			$echoppePotionPartiePlante = $echoppePotionPartiePlanteTable->findByIdsPotion($idPotions);
 		}
-		
+
 		$dhtmlxGrid = new Bral_Xml_GridDhtmlx();
-		
+
 		Zend_Loader::loadClass("Bral_Util_Potion");
-		
+
 		if (count($potions) > 0) {
 			foreach($potions as $p) {
 				$minerai = null;
@@ -171,7 +173,7 @@ class MarchepotionController extends Zend_Controller_Action {
 						}
 					}
 				}
-				
+
 				$partiesPlantes = null;
 				if (count($echoppePotionPartiePlante) > 0) {
 					foreach($echoppePotionPartiePlante as $a) {
@@ -185,7 +187,7 @@ class MarchepotionController extends Zend_Controller_Action {
 						}
 					}
 				}
-				
+
 				$potion = array(
 					"id_potion" => $p["id_echoppe_potion"],
 					"nom" => $p["nom_type_potion"],
@@ -219,7 +221,17 @@ class MarchepotionController extends Zend_Controller_Action {
 				} else {
 					$tab[] = $p["nom_feminin_metier"]. "<br>(".$p["x_echoppe"].", ".$p["y_echoppe"].")";
 				}
-				$tab[] = $p["bm_type_potion"];
+
+				if ($potion["bm_type"] == null) {
+					$tab[] = "État équipement";
+				} else {
+					$type = $potion["bm_type"]." ".$potion["caracteristique"];
+					if ($potion["bm2_type"] != null) {
+						$type .= "<br>".$potion["bm2_type"]." ".$potion["caracteristique2"];
+					}
+					$tab[] = $type;
+				}
+				 
 				$tab[] = "<img src='/public/styles/braldahim_defaut/images/type_potion/type_potion_".$potion["id_type_potion"].".png' alt=\"".htmlspecialchars($potion["nom"]) ."\" ".Bral_Helper_DetailPotion::afficherJs($potion)."/>";
 				$tab[] = $p["nom_type_potion"]." de qualité ".$p["nom_type_qualite"];
 				$tab[] = $p["niveau_echoppe_potion"];
@@ -228,7 +240,7 @@ class MarchepotionController extends Zend_Controller_Action {
 				$dhtmlxGrid->addRow($p["id_echoppe_potion"], $tab);
 			}
 		}
-		
+
 		$total = $echoppePotionTable->countByCriteres($this->view->regionSelect, $this->view->typebmSelect, $this->view->potionSelect);
 		$this->view->grid = $dhtmlxGrid->render($total, $posStart);
 	}

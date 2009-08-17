@@ -1,6 +1,6 @@
 <ul class="box_contenu1 textalic">
 	<ul class="titre textalic textsizeb">
-	Marché aux potions
+	Marché aux potions et vernis
 	</ul><br>
 	
 <table width='100%'>
@@ -24,7 +24,7 @@
 	</select>
 </td>
 <td>
-	Filtre par potion:
+	Filtre par potion et vernis:
 	<br>
 	<select id="potion" name="potion" onChange="document.location.href = '/marchepotion/?regionselect<?=$this->regionSelect?>&typebmselect=<?=$this->typebmSelect?>&potionselect='+this.value+'&uid='+(new Date()).valueOf()">
 	<? foreach($this->potions as $k => $e): ?>
