@@ -466,6 +466,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 	}
 
 	private function renderPotion($charrette) {
+		Zend_Loader::loadClass("Bral_Util_Potion");
 		$tabPotions = null;
 		$charrettePotionTable = new CharrettePotion();
 		$potions = $charrettePotionTable->findByIdCharrette($charrette["id_charrette"]);
@@ -479,6 +480,9 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 					"niveau" => $p["niveau_charrette_potion"],
 					"caracteristique" => $p["caract_type_potion"],
 					"bm_type" => $p["bm_type_potion"],
+					"caracteristique2" => $p["caract2_type_potion"],
+					"bm2_type" => $p["bm2_type_potion"],
+					"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
 			);
 		}
 		unset($potions);

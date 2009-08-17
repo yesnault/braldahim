@@ -2,7 +2,7 @@
 
 <? if ($this->okJet1 === true): ?>
 	Vous avez r&eacute;ussi &agrave; &eacute;laborer <?=$this->nbPotions?> 
-	potion<? if ($this->nbPotions > 1): echo "s"; endif;?> : 
+	<?=$this->nomPotionVernis?> : 
 	<br />
 	<?=htmlspecialchars($this->typePotionCourante["nom_type_potion"]) ?>, de qualit&eacute; <?=$this->qualite ?>
 	et de niveau <?=$this->niveau ?>.

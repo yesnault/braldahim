@@ -43,7 +43,10 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 					'id_echoppe' => $e["id_echoppe"],
 					'x_echoppe' => $e["x_echoppe"],
 					'y_echoppe' => $e["y_echoppe"],
-					'id_metier' => $e["id_metier"]
+					'id_metier' => $e["id_metier"],
+					'quantite_cuir_arriere_echoppe' => $e["quantite_cuir_arriere_echoppe"],
+					'quantite_fourrure_arriere_echoppe' => $e["quantite_fourrure_arriere_echoppe"],
+					'quantite_planche_arriere_echoppe' => $e["quantite_planche_arriere_echoppe"],
 				);
 				break;
 			}
@@ -55,9 +58,11 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("TypePotion");
 		$typePotionTable = new TypePotion();
-		$typePotionRowset = $typePotionTable->fetchall(array("type_potion = ?" => 'potion'), "nom_type_potion");
-		$typePotionRowset = $typePotionRowset->toArray();
+		$typePotionRowset = $typePotionTable->findAll();
 		$tabTypePotion = null;
+
+		Zend_Loader::loadClass("Bral_Util_Potion");
+
 		foreach($typePotionRowset as $t) {
 			$selected = "";
 			if ($id_type_courant == $t["id_type_potion"]) {
@@ -66,14 +71,29 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			$t = array(
 				'id_type_potion' => $t["id_type_potion"],
 				'nom_type_potion' => $t["nom_type_potion"],
+				'type_potion' => $t["type_potion"],
 				'selected' => $selected,
 				'bm_type_potion' => $t["bm_type_potion"],
 				'caract_type_potion' => $t["caract_type_potion"],
+				'bm2_type_potion' => $t["bm2_type_potion"],
+				'caract2_type_potion' => $t["caract2_type_potion"],
+				'nom_type_ingredient' => $t["nom_type_ingredient"],
+				'nom_systeme_type_ingredient' => $t["nom_systeme_type_ingredient"],
+				'id_fk_type_minerai_ingredient' => $t["id_fk_type_minerai_ingredient"],
 			);
 			if ($id_type_courant == $t["id_type_potion"]) {
 				$typePotionCourante = $t;
 			}
-			$tabTypePotion[] = $t;
+
+			if ($t["type_potion"] == "potion") {
+				$t["nom_type_potion"] .= " (".$t["bm_type_potion"]." sur ".$t["caract_type_potion"].")";
+			} else if ($t["type_potion"] == "vernis_enchanteur") {
+				$t["nom_type_potion"] .= " (".$t["bm_type_potion"]." sur ".$t["caract_type_potion"].", ".$t["bm2_type_potion"]." sur ".$t["caract2_type_potion"].")";
+			}
+
+			$tabTypePotion[$t["type_potion"]]["liste"][] = $t;
+			$tabTypePotion[$t["type_potion"]]["nom"] = Bral_Util_Potion::getNomType($t["type_potion"]);
+
 		}
 
 		$tabNiveaux = null;
@@ -84,67 +104,177 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$this->view->cout = null;
 		$this->view->niveaux = null;
 		$this->view->elaborerPlanteOk = false;
+		
+		$this->idEchoppe = $idEchoppe;
+		$this->echoppeCourante = $echoppeCourante;
 
 		if (isset($typePotionCourante)) {
-			Zend_Loader::loadClass("RecettePotions");
-			Zend_Loader::loadClass("EchoppePartieplante");
+			$this->prepareCourant($typePotionCourante, $idEchoppe);
+		}
+		$this->view->typePotion = $tabTypePotion;
+	}
 
-			$this->view->etape1 = true;
+	function prepareCourant($typePotionCourante, $idEchoppe) {
+		Zend_Loader::loadClass("EchoppePartieplante");
+		$tabPartiePlantes = null;
+		$echoppePlanteTable = new EchoppePartieplante();
+		$partiesPlantes = $echoppePlanteTable->findByIdEchoppe($idEchoppe);
 
+		Zend_Loader::loadClass("EchoppePartieplante");
+		$this->view->etape1 = true;
+
+		if ($typePotionCourante["type_potion"] == "potion") {
 			for ($i = 0; $i <= $this->view->user->niveau_hobbit / 10 ; $i++) {
 				$tabNiveaux[$i] = array('niveauText' => 'Niveau '.$i, 'ressourcesOk' => true);
 			}
-				
-			$recettePotionsTable = new RecettePotions();
-			$recettePotions = $recettePotionsTable->findByIdTypePotion($typePotionCourante["id_type_potion"]);
-				
-			Zend_Loader::loadClass("EchoppePartieplante");
-			$tabPartiePlantes = null;
-			$echoppePlanteTable = new EchoppePartieplante();
-			$partiesPlantes = $echoppePlanteTable->findByIdEchoppe($idEchoppe);
+			$this->preparePotionCourante($typePotionCourante, $tabNiveaux, $partiesPlantes);
+		} else {
+			for ($i = 1; $i <= $this->view->user->niveau_hobbit / 10 ; $i++) {
+				$tabNiveaux[$i] = array('niveauText' => 'Niveau '.$i, 'ressourcesOk' => true);
+			}
+			$this->prepareVernisCourant($typePotionCourante, $tabNiveaux, $partiesPlantes);
+		}
+	}
 
-			if ($partiesPlantes != null) {
-				foreach ($partiesPlantes as $m) {
-					if ($m["quantite_preparee_echoppe_partieplante"] >= 1) {
-						$tabPartiePlantes[$m["id_fk_type_plante_echoppe_partieplante"]][$m["id_fk_type_echoppe_partieplante"]] = array(
+	function preparePotionCourante($typePotionCourante, &$tabNiveaux, $partiesPlantes) {
+		Zend_Loader::loadClass("RecettePotions");
+
+		$recettePotionsTable = new RecettePotions();
+		$recettePotions = $recettePotionsTable->findByIdTypePotion($typePotionCourante["id_type_potion"]);
+
+		if ($partiesPlantes != null) {
+			foreach ($partiesPlantes as $m) {
+				if ($m["quantite_preparee_echoppe_partieplante"] >= 1) {
+					$tabPartiePlantes[$m["id_fk_type_plante_echoppe_partieplante"]][$m["id_fk_type_echoppe_partieplante"]] = array(
 							"nom_type_partieplante" => $m["nom_type_partieplante"],
 							"nom_type" => $m["nom_type_plante"],
 							"quantite_preparees" => $m["quantite_preparee_echoppe_partieplante"],
-						);
-						$this->view->elaborerPlanteOk = true;
-					}
+					);
+					$this->view->elaborerPlanteOk = true;
 				}
 			}
+		}
 
-			foreach($tabNiveaux as $k => $v) {
-				foreach($recettePotions as $r) {
-					$tabCout[$k][] = array(
+		foreach($tabNiveaux as $k => $v) {
+			foreach($recettePotions as $r) {
+				$tabCout[$k][] = array(
 						"nom_type_plante"=>$r["nom_type_plante"], 
 						"id_type_plante"=>$r["id_type_plante"], 
 						"nom_type_partieplante"=>$r["nom_type_partieplante"], 
 						"id_type_partieplante"=>$r["id_type_partieplante"], 
 						"cout" => ($r["coef_recette_potion"] + $k),
-					);
-						
-					if (isset($tabPartiePlantes[$r["id_fk_type_plante_recette_potion"]]) && (isset($tabPartiePlantes[$r["id_fk_type_plante_recette_potion"]][$r["id_fk_type_partieplante_recette_potion"]]["quantite_preparees"])) ) {
-						if (($r["coef_recette_potion"] + $k) > $tabPartiePlantes[$r["id_fk_type_plante_recette_potion"]][$r["id_fk_type_partieplante_recette_potion"]]["quantite_preparees"]) {
-							$tabNiveaux[$k]["ressourcesOk"] = false;
-						}
-					} else {
+				);
+
+				if (isset($tabPartiePlantes[$r["id_fk_type_plante_recette_potion"]]) && (isset($tabPartiePlantes[$r["id_fk_type_plante_recette_potion"]][$r["id_fk_type_partieplante_recette_potion"]]["quantite_preparees"])) ) {
+					if (($r["coef_recette_potion"] + $k) > $tabPartiePlantes[$r["id_fk_type_plante_recette_potion"]][$r["id_fk_type_partieplante_recette_potion"]]["quantite_preparees"]) {
 						$tabNiveaux[$k]["ressourcesOk"] = false;
 					}
+				} else {
+					$tabNiveaux[$k]["ressourcesOk"] = false;
 				}
 			}
-
-			$this->view->cout = $tabCout;
-			$this->view->niveaux = $tabNiveaux;
-			$this->view->typePotionCourante = $typePotionCourante;
 		}
 
-		$this->view->typePotion = $tabTypePotion;
-		$this->idEchoppe = $idEchoppe;
-		$this->echoppeCourante = $echoppeCourante;
+		$this->view->cout = $tabCout;
+		$this->view->niveaux = $tabNiveaux;
+		$this->view->typePotionCourante = $typePotionCourante;
 	}
+
+	function prepareVernisCourant($typePotionCourante, &$tabNiveaux, $partiesPlantes) {
+		Zend_Loader::loadClass("RecetteVernis");
+
+		$recetteVernisTable = new RecetteVernis();
+		$recetteVernis = $recetteVernisTable->findByIdTypePotion($typePotionCourante["id_type_potion"]);
+
+		if ($partiesPlantes != null) {
+			foreach ($partiesPlantes as $m) {
+				if ($m["quantite_preparee_echoppe_partieplante"] >= 1) {
+					if ($m["quantite_preparee_echoppe_partieplante"] > 1) {
+						$s = "s";
+					} else {
+						$s = "";
+					}
+					$tabPartiePlantes[$m["id_fk_type_echoppe_partieplante"]][$m["id_fk_type_plante_echoppe_partieplante"]] = array(
+							"id_calcule" => $m["id_fk_type_echoppe_partieplante"]."-".$m["id_fk_type_plante_echoppe_partieplante"],
+							"nom_type_partieplante" => $m["nom_type_partieplante"].$s,
+							"nom_type" => $m["nom_type_plante"],
+							"quantite_preparees" => $m["quantite_preparee_echoppe_partieplante"],
+							"id_type_partieplante" => $m["id_fk_type_echoppe_partieplante"],
+					);
+					$this->view->elaborerPlanteOk = true;
+				}
+			}
+		}
+
+		$tabCoutIngredient = null;
+		
+		Zend_Loader::loadClass("EchoppeMinerai");
+
+		$echoppeMineraiTable = new EchoppeMinerai();
+		$minerais = $echoppeMineraiTable->findByIdEchoppe($this->idEchoppe);
+
+		foreach($tabNiveaux as $k => $v) {
+			$n = 0;
+			foreach($recetteVernis as $r) {
+				$n++;
+				$tabCout[$k][] = array(
+					"nom_type_plante" => "Plante choisie n°".$n,
+					"nom_type_partieplante"=>$r["nom_type_partieplante"], 
+					"id_type_partieplante"=>$r["id_type_partieplante"], 
+					"cout" => $k + 1,
+				);
+			}
+			if ($typePotionCourante["type_potion"] == "vernis_enchanteur") {
+				$n++;
+				$tabCout[$k][] = array(
+					"nom_type_plante" => "Plante choisie n°".$n,
+					"nom_type_partieplante"=> "élément", 
+					"id_type_partieplante"=> -1, 
+					"cout" => $k + 3,
+				);
+			} else if ($typePotionCourante["type_potion"] == "vernis_reparateur") {
+				$ressourcesOk = false;
+				$cout = $k + 1;
+				if ($typePotionCourante["nom_systeme_type_ingredient"] == "anga" ||
+				$typePotionCourante["nom_systeme_type_ingredient"] == "galvorn" ||
+				$typePotionCourante["nom_systeme_type_ingredient"] == "mithril" ||
+				$typePotionCourante["nom_systeme_type_ingredient"] == "tambe"
+				) {
+					$nom = $typePotionCourante["nom_type_ingredient"]. " : ".($k + 1) . " lingôts";
+					foreach($minerais as $m) {
+						if ($m["id_fk_type_echoppe_minerai"] == $typePotionCourante["id_fk_type_minerai_ingredient"] && $m["quantite_lingots_echoppe_minerai"] >= $cout) {
+							$ressourcesOk = true;
+							break;
+						}
+					}
+				} else {
+					$nom = $typePotionCourante["nom_type_ingredient"]. " : ".($k+1);
+					if ($this->echoppeCourante["quantite_".$typePotionCourante["nom_systeme_type_ingredient"]."_arriere_echoppe"] >= $cout) {
+						$ressourcesOk = true;
+					}
+				}
+				
+				if ($ressourcesOk == false) {
+					$tabNiveaux[$k]["ressourcesOk"] = false;
+				}
+				
+				$tabCoutIngredient[$k][] = array(
+					"nom" => $nom,
+					"nom_systeme" => $typePotionCourante["nom_systeme_type_ingredient"],
+					"id_type_minerai" => $typePotionCourante["id_fk_type_minerai_ingredient"],
+					"cout" => $cout,
+					"ressourcesOk" => $ressourcesOk,
+				);
+			}
+		}
+
+		$this->view->coutIngredient = $tabCoutIngredient;
+		$this->view->cout = $tabCout;
+		$this->view->niveaux = $tabNiveaux;
+		$this->view->typePotionCourante = $typePotionCourante;
+		$this->view->tabPartiePlantes = $tabPartiePlantes;
+	}
+
 
 	function prepareFormulaire() {
 		if ($this->view->assezDePa == false) {
@@ -171,40 +301,145 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." idTypePotion interdit A=".$idTypePotion. " B=".$this->view->typePotionCourante["id_type_potion"]);
 		}
 
-		$niveauxOk = false;
-		foreach ($this->view->niveaux as $k => $v) {
-			if ($k == $niveau && $v["ressourcesOk"] === true) {
-				$niveauxOk = true;
+		if ($this->view->typePotionCourante["type_potion"] == "potion") {
+			$niveauxOk = false;
+			foreach ($this->view->niveaux as $k => $v) {
+				if ($k == $niveau && $v["ressourcesOk"] === true) {
+					$niveauxOk = true;
+				}
 			}
-		}
-		if ($niveauxOk == false) {
-			throw new Zend_Exception(get_class($this)." Niveau interdit ");
+			if ($niveauxOk == false) {
+				throw new Zend_Exception(get_class($this)." Niveau interdit ");
+			}
+		} else {
+			$ingredient1 = $this->request->get("valeur_3");
+			$ingredient2 = $this->request->get("valeur_4");
+			$ingredient3 = $this->request->get("valeur_5");
 		}
 
 		// calcul des jets
 		$this->calculJets();
 
+		$coef = 2;
 		if ($this->view->okJet1 === true) {
-			$this->calculElaborer($idTypePotion, $niveau);
-		} else { // Jet Raté
-			$this->calculRateElaborer($niveau);
+			$coef = 1;
 		}
 
+		if ($this->view->typePotionCourante["type_potion"] == "potion") {
+			$this->calculCoutElaborerPotion($niveau, $coef);
+		} else {
+			$this->calculCoutElaborerVernis($niveau, $ingredient1, $ingredient2, $ingredient3, $coef);
+		}
+
+		if ($this->view->okJet1 === true) {
+			$this->calculElaborer($idTypePotion, $niveau);
+		}
+		
+		if ($this->view->nbPotions > 1) {
+			$s = "s";
+		} else {
+			$s = "";
+		}
+		
+		if ($this->view->typePotionCourante["type_potion"] == "potion") {
+			$nom = "potion".$s;
+		} elseif ($this->view->typePotionCourante["type_potion"] == "vernis_enchanteur") {
+			$nom = "vernis enchanteur".$s;
+		} else { // reparateur
+			$nom = "vernis réparateur".$s;
+		}
+		$this->view->nomPotionVernis = $nom;
 		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}
 
-	private function calculRateElaborer($niveau) {
+	private function calculCoutElaborerPotion($niveau, $coef) {
+		Zend_Loader::loadClass("EchoppePartieplante");
+		$echoppePartiePlanteTable = new EchoppePartieplante();
+		foreach ($this->view->cout[$niveau] as $c) {
+			$data = array('quantite_preparee_echoppe_partieplante' => -intval($c["cout"] / $coef),
+							  'id_fk_type_echoppe_partieplante' => $c["id_type_partieplante"],
+							  'id_fk_type_plante_echoppe_partieplante' => $c["id_type_plante"],
+							  'id_fk_echoppe_echoppe_partieplante' => $this->idEchoppe);
+			$echoppePartiePlanteTable->insertOrUpdate($data);
+		}
+	}
+
+	private function calculCoutElaborerVernis($niveau, $ingredient1, $ingredient2, $ingredient3, $coef) {
 		Zend_Loader::loadClass("EchoppePartieplante");
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 
+		list($idTypePartiePlante, $idTypePlante) = split('-', $ingredient1);
+
+		$data['id_fk_type_echoppe_partieplante'] = $idTypePartiePlante;
+		$data['id_fk_echoppe_echoppe_partieplante'] = $this->idEchoppe;
+
+		$this->calculCoutElaborerVernisDb($echoppePartiePlanteTable, $niveau, $data, $idTypePartiePlante, $idTypePlante, $coef);
+
+		if ($ingredient3 != -2) { // enchanteur
+			list($idTypePartiePlante, $idTypePlante) = split('-', $ingredient2);
+			$this->calculCoutElaborerVernisDb($echoppePartiePlanteTable, $niveau, $data, $idTypePartiePlante, $idTypePlante, $coef);
+			list($idTypePartiePlante, $idTypePlante) = split('-', $ingredient3);
+			$this->calculCoutElaborerVernisDb($echoppePartiePlanteTable, $niveau, $data, $idTypePartiePlante, $idTypePlante, $coef, true);
+		} else if ($ingredient2 != -2) { // protecteur
+			throw new Zend_Exception(get_class($this)." Elaborer invalide calculCoutElaborerVernis");
+		} else {
+			$this->updateDbIngredient2($niveau, $data, $coef);
+		}
+	}
+
+	private function calculCoutElaborerVernisDb($echoppePartiePlanteTable, $niveau, $data, $idTypePartiePlante, $idTypePlante, $coef, $estIngredient3 = false) {
+		$traite = false;
 		foreach ($this->view->cout[$niveau] as $c) {
-			$data = array('quantite_preparee_echoppe_partieplante' => -intval($c["cout"]/2),
-						  'id_fk_type_echoppe_partieplante' => $c["id_type_partieplante"],
-						  'id_fk_type_plante_echoppe_partieplante' => $c["id_type_plante"],
-						  'id_fk_echoppe_echoppe_partieplante' => $this->idEchoppe);
-			$echoppePartiePlanteTable->insertOrUpdate($data);
+			if ($c["id_type_partieplante"] == $idTypePartiePlante || ($estIngredient3 && $c["id_type_partieplante"] == -1)) {
+				if (!isset($this->view->tabPartiePlantes[$idTypePartiePlante]) ||
+				!isset($this->view->tabPartiePlantes[$idTypePartiePlante][$idTypePlante]) ||
+				$this->view->tabPartiePlantes[$idTypePartiePlante][$idTypePlante]["quantite_preparees"] < intval($c["cout"])) {
+					throw new Zend_Exception(get_class($this)." Elaborer invalide calculCoutElaborerVernisDb 1 N:".$niveau." coef:".$coef." idT".$idTypePartiePlante. " idP".$idTypePlante. " cout:".$c["cout"]);
+				}
+				$data['id_fk_type_plante_echoppe_partieplante'] = $idTypePlante;
+				$data['quantite_preparee_echoppe_partieplante'] = -intval($c["cout"] / $coef);
+				$echoppePartiePlanteTable->insertOrUpdate($data);
+				$traite = true;
+				break;
+			}
+		}
+		if ($traite == false) {
+			throw new Zend_Exception(get_class($this)." Elaborer invalide calculCoutElaborerVernisDb 2 N:".$niveau." coef:".$coef." idT".$idTypePartiePlante. " idP".$idTypePlante);
+		}
+	}
+
+	private function updateDbIngredient2($niveau, $data, $coef) {
+
+		$echoppeMineraiTable = new EchoppeMinerai();
+		$minerais = $echoppeMineraiTable->findByIdEchoppe($this->idEchoppe);
+
+		foreach($this->view->coutIngredient[$niveau] as $c) {
+			if ($c["nom_systeme"] == "planche" || $c["nom_systeme"] == "cuir" || $c["nom_systeme"] == "fourrure") {
+				if ($this->echoppeCourante["quantite_".$c["nom_systeme"]."_arriere_echoppe"] < intval($c["cout"])) {
+					throw new Zend_Exception(get_class($this)." Elaborer invalide updateDbIngredient2 1 N:".$niveau." coef:".$coef. " n:".$c["nom_systeme"]);
+				}
+				$echoppeTable = new Echoppe();
+				$data['id_echoppe'] = $this->idEchoppe;
+				$data['quantite_'.$c["nom_systeme"].'_echoppe_partieplante'] = -intval($c["cout"] / $coef);
+				$echoppeTable->insertOrUpdate($data);
+				break;
+			} else { // lingot
+				$traite = false;
+				foreach($minerais as $m) {
+					if ($m["id_fk_type_echoppe_minerai"] == $c["id_type_minerai"] && $m["quantite_lingots_echoppe_minerai"] >= $c["cout"]) {
+						$traite = true;
+					}
+				}
+				if ($traite == false) {
+					throw new Zend_Exception(get_class($this)." Elaborer invalide updateDbIngredient2 3 N:".$niveau." coef:".$coef. " n:".$c["nom_systeme"]);
+				}
+				$data['id_fk_type_echoppe_minerai'] = $c["id_type_minerai"];
+				$data['id_fk_echoppe_echoppe_minerai'] = $this->idEchoppe;
+				$data['quantite_lingots_echoppe_minerai'] = -intval($c["cout"] / $coef);
+				$echoppeMineraiTable->insertOrUpdate($data);
+			}
 		}
 	}
 
@@ -255,20 +490,9 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$this->view->niveau = $niveau;
 		$this->view->niveauQualite = $qualite;
 
-		Zend_Loader::loadClass("EchoppePartieplante");
-		$echoppePartiePlanteTable = new EchoppePartieplante();
-
-		foreach ($this->view->cout[$niveau] as $c) {
-			$data = array('quantite_preparee_echoppe_partieplante' => -$c["cout"],
-						  'id_fk_type_echoppe_partieplante' => $c["id_type_partieplante"],
-						  'id_fk_type_plante_echoppe_partieplante' => $c["id_type_plante"],
-						  'id_fk_echoppe_echoppe_partieplante' => $this->idEchoppe);
-			$echoppePartiePlanteTable->insertOrUpdate($data);
-		}
-
 		Zend_Loader::loadClass("IdsPotion");
 		$idsPotionTable = new IdsPotion();
-		
+
 		Zend_Loader::loadClass("EchoppePotion");
 		$echoppePotionTable = new EchoppePotion();
 		$data = array(

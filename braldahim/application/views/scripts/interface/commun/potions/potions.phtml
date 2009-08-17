@@ -30,8 +30,19 @@
 			  		<td class="table_liste"><?=htmlspecialchars($p["nom"]) ?></td>
 			  		<td class="table_liste"><?=htmlspecialchars($p["qualite"]) ?></td>
 			  		<td class="table_liste"><?=$p["niveau"] ?></td>
-			  		<td class="table_liste"><?=$p["bm_type"] ?></td>
-			  		<td class="table_liste"><?=$p["caracteristique"] ?></td>
+			  		<td class="table_liste">
+			  		<?=$p["nom_type"] ?>
+			   		</td>
+			  		<td class="table_liste">
+			  		<? if ($p["bm_type"] == null) : ?>
+			  			État équipement
+			  		<? else :?>
+				  		<?=$p["bm_type"] ?> <?=$p["caracteristique"] ?>
+				  		<? if ($p["bm2_type"] != null) : ?>
+				  			<br><?=$p["bm2_type"] ?> <?=$p["caracteristique2"] ?>
+				  		<? endif;?>
+			  		<? endif;?>
+			  		</td>
 			  		<td class="table_liste">
 						<img src="/public/images/info_icon.gif" <?=Bral_Helper_DetailPotion::afficherJs($p);?> />
 					</td>
@@ -47,7 +58,7 @@
 				  </tr>
 			<? endforeach; ?>
 		<? else: ?>
-			<tr class="table_liste"><td class="table_liste" colspan="20"><i>aucune potion</i></td></tr>
+			<tr class="table_liste"><td class="table_liste" colspan="20"><i>aucune potion ou vernis</i></td></tr>
 		<? endif; ?>
 	</tbody>
 </table>

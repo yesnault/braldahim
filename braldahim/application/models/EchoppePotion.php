@@ -22,7 +22,8 @@ class EchoppePotion extends Zend_Db_Table {
 		->from('type_qualite')
 		->where('id_fk_type_echoppe_potion = id_type_potion')
 		->where('id_fk_type_qualite_echoppe_potion = id_type_qualite')
-		->where('id_fk_echoppe_echoppe_potion = ?', $idEchoppe);
+		->where('id_fk_echoppe_echoppe_potion = ?', $idEchoppe)
+		->order(array('type_potion ASC', 'id_echoppe_potion ASC'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

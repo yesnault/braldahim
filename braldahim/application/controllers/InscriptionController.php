@@ -208,7 +208,7 @@ class InscriptionController extends Zend_Controller_Action {
 					$tabPassword[] = $message;
 				}
 				if (!$validSexe) {
-					$this->view->messagesSexe = "Choisis un genre !";
+					$this->view->messagesSexe = "Choisissez un genre !";
 				}
 				if (!$validEmailConfirm) {
 					$this->view->messagesEmailConfirm = "Les deux emails sont diff&eacute;rents";

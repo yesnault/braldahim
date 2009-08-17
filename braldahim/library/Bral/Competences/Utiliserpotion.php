@@ -16,6 +16,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("LabanPotion");
 		Zend_Loader::loadClass("Bral_Util_Attaque");
+		Zend_Loader::loadClass("Bral_Util_Potion");
 
 		$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 
@@ -23,7 +24,9 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$labanPotionTable = new LabanPotion();
 		$potions = $labanPotionTable->findByIdHobbit($this->view->user->id_hobbit);
 		foreach ($potions as $p) {
-			$tabPotions[$p["id_laban_potion"]] = array(
+			// TODO action vernis
+			if ($p["type_potion"] == "potion") {
+				$tabPotions[$p["id_laban_potion"]] = array(
 					"id_potion" => $p["id_laban_potion"],
 					"id_fk_type_potion" => $p["id_fk_type_laban_potion"],
 					"id_fk_type_qualite_potion" => $p["id_fk_type_qualite_laban_potion"],
@@ -33,7 +36,11 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 					"niveau" => $p["niveau_laban_potion"],
 					"caracteristique" => $p["caract_type_potion"],
 					"bm_type" => $p["bm_type_potion"],
-			);
+					"caracteristique2" => $p["caract2_type_potion"],
+					"bm2_type" => $p["bm2_type_potion"],
+					"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
+				);
+			}
 		}
 
 		$tabHobbits = null;

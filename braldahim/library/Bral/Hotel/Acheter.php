@@ -557,8 +557,9 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			}
 			$i ++;
 		}
-
-		$nom = $potion["nom_type_potion"]. " de qualité ".$potion["nom_type_qualite"]." et de niveau ".$potion["niveau_vente_potion"];
+		Zend_Loader::loadClass("Bral_Util_Potion");
+		$nom = Bral_Util_Potion::getNomType($potion["type_potion"]);
+		$nom .= " ".$potion["nom_type_potion"]. " n°".$potion["id_vente_potion"].", de qualité ".$potion["nom_type_qualite"]." et de niveau ".$potion["niveau_vente_potion"];
 
 		$tabPotion = array(
 			"id_potion" => $potion["id_vente_potion"],
@@ -1195,7 +1196,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
 		}
 
-		$this->view->objetAchat = $this->view->vente["objet"]["nom"].", n°".$this->view->vente["objet"]["id_potion"];
+		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
 
 		$venteTable = new Vente();
 		$where = "id_vente=".$this->idVente;

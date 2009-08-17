@@ -1,9 +1,9 @@
-<div class='comp_titre'>Transf&eacute;rer une potion</div>
+<div class='comp_titre'>Transf&eacute;rer une potion ou un vernis</div>
 
  <div class='comp_contenu'>
 	 <div id='transferpotion_text' style="display:block"  onClick="javascript:switch2div('transferpotion_text','transferpotion_copie');">
-		Vous avez transf&eacute;r&eacute; dans <?=htmlspecialchars($this->destination["texte"])?> la potion <br />
-		<?=htmlspecialchars($this->potion["nom"]) ?> n&deg; <?=$this->potion["id_echoppe_potion"] ?>
+		Vous avez transf&eacute;r&eacute; dans <?=htmlspecialchars($this->destination["texte"])?> l'élément suivant : <br />
+		<?=$this->potion["nom_type"]?> <?=htmlspecialchars($this->potion["nom"]) ?> n&deg; <?=$this->potion["id_echoppe_potion"] ?>
 		<br />
 	 </div>
 	 
@@ -11,7 +11,8 @@
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
 		echo "Vous avez transf&eacute;r&eacute; ";
 		echo " dans ".htmlspecialchars($this->destination["texte"]);
-		echo " la potion ";
+		echo " l'élément suivant : ";
+		echo $this->potion["nom_type"]. " ";
 		echo htmlspecialchars($this->potion["nom"]);
 		echo " n&deg;".$this->potion["id_echoppe_potion"]; 
 		

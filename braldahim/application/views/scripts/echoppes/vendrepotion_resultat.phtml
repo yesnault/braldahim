@@ -2,14 +2,15 @@
 
  <div class='comp_contenu'>
 	 <div id='vendre_text' style="display:block"  onClick="javascript:switch2div('vendre_text','vendre_copie');">
-		Vous avez mis en vente la potion suivante : <br />
-		<?=htmlspecialchars($this->potion["nom"]) ?> n&deg;<?=htmlspecialchars($this->potion["id_echoppe_potion"]) ?>
+		Vous avez mis en vente l'élément suivant : <br />
+		<?=$this->potion["nom_type"]?> <?=htmlspecialchars($this->potion["nom"]) ?> n&deg;<?=htmlspecialchars($this->potion["id_echoppe_potion"]) ?>
 		<br />
 	 </div>
 	 
 	 <div id='vendre_copie' style="display:none">
 		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
-		echo "Vous avez mis en vente la potion suivante: ";
+		echo "Vous avez mis en vente l'élément suivant: ";
+		echo $this->potion["nom_type"]. " ";
 		echo htmlspecialchars($this->potion["nom"]);
 		echo " n&deg;". htmlspecialchars($this->potion["id_echoppe_potion"]);
 	?>

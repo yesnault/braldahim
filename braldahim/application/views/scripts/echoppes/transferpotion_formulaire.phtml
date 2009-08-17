@@ -1,14 +1,13 @@
-<div class='comp_titre'>Transf&eacute;rer une potion</div>
+<div class='comp_titre'>Transf&eacute;rer une potion ou un vernis</div>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <input type='hidden' id='valeur_1' name='valeur_1' value='<?=$this->idEchoppe ?>'>
  <form name='myForm'>
  <div class='comp_contenu'>
  <br />
 	<? if (count($this->potionsArriereBoutique) > 0): ?>
-		Vous pouvez transf&eacute;rer une potion pr&eacute;sente soit dans la r&eacute;serve, 
-		soit dans votre laban, soit une autre de vos &eacute;choppes.<br />
+		Vous pouvez transf&eacute;rer une potion ou un vernis pr&eacute;sent dans votre laban.<br />
 		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_transferpotion').disabled=true } else {$('bouton_transferpotion').disabled=false }">
-	 		<option value="-1">(Choisis une potion)</option>
+	 		<option value="-1">(Choisissez une potion ou un vernis)</option>
 			<? foreach($this->potionsArriereBoutique as $e) :?>
 				<option value="<?=$e["id_echoppe_potion"] ?>">N&deg;<?=$e["id_echoppe_potion"] ?> <?=htmlspecialchars($e["nom"]) ?> : qualit&eacute; <?=htmlspecialchars($e["qualite"]) ?>,
 				 niveau: <?=$e["niveau"] ?></option>
@@ -18,7 +17,7 @@
 		
 		Vers : <br />
 		<select name="valeur_3" id="valeur_3"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_transferpotion').disabled=true } else {$('bouton_transferpotion').disabled=false }">
-	 		<option value="-1">(Choisis une destination)</option>
+	 		<option value="-1">(Choisissez une destination)</option>
 			<? foreach($this->destinationTransfert as $d) :?>
 				<option value="<?=$d["id_destination"] ?>"><?=$d["texte"] ?></option>
 			<? endforeach; ?>

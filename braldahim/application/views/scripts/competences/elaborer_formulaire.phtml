@@ -1,21 +1,67 @@
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='5'>
  <div class='comp_contenu'>
 	 <? if ($this->elaborerEchoppeOk === true) : ?>
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez &eacute;laborer une ou plusieurs potions<br /><br />
+	 Pour <?=$this->nb_pa ?> PA, vous pouvez &eacute;laborer une ou plusieurs potions ou vernis<br /><br />
      
-     Type de potion :<br />
+     Type de potion / vernis :<br />
      <select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_elaborer&type_potion='+this.value);">
-	 	<option value="-1">(Choisissez une potion)</option>
-	 	<? foreach($this->typePotion as $t) : ?>
-	 		<option value="<?=$t["id_type_potion"]?>" <?=$t["selected"]?>><?=htmlspecialchars($t["nom_type_potion"])." (".$t["bm_type_potion"]." sur ".$t["caract_type_potion"].")"?></option>
+	 	<option value="-1">(Choisissez une potion ou un vernis)</option>
+	 	<? foreach($this->typePotion as $p) : ?>
+	 		<optgroup label="<?=$p["nom"] ?>" style="font-weight:bold"></optgroup>
+	 		<? foreach($p["liste"] as $t) : ?>
+	 		<option value="<?=$t["id_type_potion"]?>" <?=$t["selected"]?>><?=htmlspecialchars($t["nom_type_potion"]) ?></option>
+	 		<? endforeach; ?>
 	 	<? endforeach; ?>
 	 </select>
 	<? endif; ?>
 
 	 <? if ($this->niveaux != null) : ?>
 	 <br /><br />
-	 Niveau de la potion<br />
-	 <select name="valeur_2" id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1){$('bouton_elaborer').disabled=true } else {$('bouton_elaborer').disabled=false }">
+	 Niveau de la potion / vernis<br />
+	 
+	 <? 
+	 
+	 $js1 = "
+	 	javascript:
+	 	if ($('valeur_3').value != -1 && $('valeur_3').value != -2) {
+	 		$('valeur_3').selectedIndex = 0;
+	 	}
+	 	if ($('valeur_4').value != -1 && $('valeur_4').value != -2) {
+	 		$('valeur_4').selectedIndex = 0;
+	 	}
+	 	if ($('valeur_5').value != -1 && $('valeur_5').value != -2) {
+	 		$('valeur_5').selectedIndex = 0;
+	 	}
+	 	if ($('valeur_1').value==-1 || $('valeur_2').value==-1 || $('valeur_3').value==-1 || $('valeur_4').value==-1 || $('valeur_5').value==-1) {
+	 		$('bouton_elaborer').disabled=true;
+	 	} else {
+	 		$('bouton_elaborer').disabled=false; 
+	 	}
+		if ($('valeur_2').value > 0) {
+			if ($('valeur_3').value != -2) { 
+	 			$('valeur_3').disabled = false;
+	 		} 
+	 		if ($('valeur_4').value != -2) { 
+	 			$('valeur_4').disabled = false;
+	 		} 
+	 		if ($('valeur_5').value != -2) { 
+	 			$('valeur_5').disabled = false;
+	 		}
+	 	} else {
+			if ($('valeur_3').value != -2) { 
+	 			$('valeur_3').disabled = true;
+	 		} 
+	 		if ($('valeur_4').value != -2) { 
+	 			$('valeur_4').disabled = true;
+	 		} 
+	 		if ($('valeur_5').value != -2) { 
+	 			$('valeur_5').disabled = true;
+	 		}
+	 	}
+	 ";
+	 
+	 ?>
+	 <select name="valeur_2" id="valeur_2" onChange="<?=$js1?>">
 	 	<option value="-1">(Choisissez un niveau)</option>
 	 	<? foreach($this->niveaux as $k => $v) : ?>
 	 		<option value="<?=$k?>" <? if ($v["ressourcesOk"] === false) echo "disabled"; ?>><?=htmlspecialchars($v["niveauText"])?></option>
@@ -32,13 +78,129 @@
 		 			foreach($value1 as $c) :
 		 			$i++;
 		 		?>
-		 		<?=htmlspecialchars($c["nom_type_plante"]) ?>, <?=htmlspecialchars($c["nom_type_partieplante"]) ?>: <?=$c["cout"] ?><?if ($i<count($value1))echo ","; else echo "."; ?>
+		 		<?=htmlspecialchars($c["nom_type_plante"]) ?>: <?=$c["cout"] ?> <?=htmlspecialchars($c["nom_type_partieplante"]) ?><? if ($c["cout"] > 1): echo "s"; endif;?><?if ($i<count($value1))echo ","; else echo "."; ?>
+		 		<input type="hidden" id="hiddenCout-<?=$key1 ?>-<?=$c["id_type_partieplante"]?>" value="<?=$c["cout"] ?>">
 		 	<? endforeach; ?>
 		 	<? if ($this->niveaux[$key1]["ressourcesOk"] === false) : ?>
 		 		Pas assez de ressource dans l'&eacute;choppe
 			<? endif; ?>
 	 	<? endforeach; ?>
 	<? endif; ?>
+	
+	<? if (isset($this->tabPartiePlantes)) : ?>
+	<br>
+	
+	
+	<?
+	foreach($this->tabPartiePlantes as $k => $v) :
+		foreach($v as $k2 => $v2) :
+			?> 
+			<input type="hidden" id="hiddenIngredientQuantite-<?=$v2["id_calcule"]?>" value="<?=$v2["quantite_preparees"]?>">
+			<input type="hidden" id="hiddenIngredientIdType-<?=$v2["id_calcule"]?>" value="<?=$v2["id_type_partieplante"]?>">
+			<?
+		endforeach;
+	endforeach;
+	
+	$js = "
+		val1 = 'valeur_4';
+		val2 = 'valeur_5';
+		if (this.name == 'valeur_4') {
+			val1 = 'valeur_3';
+			val2 = 'valeur_5';
+		}
+		if (this.name == 'valeur_5') {
+			val1 = 'valeur_3';
+			val2 = 'valeur_4';
+		}
+		
+		if ($(val1).value == this.value) {
+			$(val1).selectedIndex = 0;
+		}
+		if ($(val2).value == this.value) {
+			$(val2).selectedIndex = 0;
+		}
+		
+		nomHiddenType = 'hiddenIngredientIdType-' + this.value;
+		nomHiddenQuantite = 'hiddenIngredientQuantite-' + this.value;
+		
+		if (this.name != 'valeur_5') {
+			nomHiddenCout = 'hiddenCout-' + $('valeur_2').value + '-' + $(nomHiddenType).value;
+			if ($(nomHiddenQuantite).value < $(nomHiddenCout).value) {
+				alert('Il n\'y a pas assez de ressouces de cette plante pour le niveau choisi');
+				this.selectedIndex = 0;
+			}
+		} else {
+			nomHiddenCout = 'hiddenCout-' + $('valeur_2').value + '--1';
+			if ($(nomHiddenQuantite).value < $(nomHiddenCout).value) {
+				alert('Il n\'y a pas assez de ressouces de cette plante pour le niveau choisi');
+				this.selectedIndex = 0;
+			}
+		}
+		
+		if ($('valeur_2').value != -1 && $('valeur_3').value != -1 && $('valeur_4').value != -1 && $('valeur_5').value != -1) {
+		 	$('bouton_elaborer').disabled=false;
+		} else {
+			$('bouton_elaborer').disabled=true;
+		}
+	
+	"
+	?>
+		<select name="valeur_3" id="valeur_3" onChange="<?=$js?>" disabled>
+		 	<option value="-1">(Choisissez l'ingrédient 1)</option>
+		 	<? foreach($this->tabPartiePlantes as $k => $v) : ?>
+		 		<? if ($k == $this->cout[1][0]["id_type_partieplante"]): ?>
+			 		<? foreach($v as $k2 => $v2) : ?>
+			 			<option value="<?=$v2["id_calcule"]?>"><?=$v2["nom_type"]. " : ". $v2["quantite_preparees"]. " ".$v2["nom_type_partieplante"]?></option>
+			 		<? endforeach; ?>
+	 			<? endif;?>
+		 	<? endforeach; ?>
+		</select>
+	<? else: ?>
+		<input type='hidden' id='valeur_3' name='valeur_3' value='-2'>
+	<? endif;?>
+	
+	<? if (isset($this->coutIngredient)): ?>
+		<br /><br />Autre Co&ucirc;t :
+		<? foreach($this->coutIngredient as $key1 => $value1) :?>
+	 			<br />Niveau <?=$key1 ?> -> 
+		 		<? 
+		 			$i = 0;
+		 			foreach($value1 as $c) :
+		 			$i++;
+		 		?>
+		 		<?=htmlspecialchars($c["nom"]) ?><?if ($i<count($value1)) echo ","; else echo "."; ?>
+		 		<? if ($c["ressourcesOk"] == false) : ?>
+			 		Pas assez de ressource dans l'&eacute;choppe
+				<? endif; ?>
+		 		<? endforeach; ?>
+		 <? endforeach; ?>
+		 <input type='hidden' id='valeur_4' name='valeur_4' value='-2'>
+		 <input type='hidden' id='valeur_5' name='valeur_5' value='-2'>
+	<? elseif (isset($this->tabPartiePlantes)) : ?> 
+		<br>
+		<select name="valeur_4" id="valeur_4" onChange="<?=$js?>" disabled>
+		 	<option value="-1">(Choisissez l'ingrédient 2)</option>
+		 	<? foreach($this->tabPartiePlantes as $k => $v) : ?>
+		 		<? if ($k == $this->cout[1][1]["id_type_partieplante"]): ?>
+			 		<? foreach($v as $k2 => $v2) : ?>
+			 			<option value="<?=$v2["id_calcule"]?>"><?=$v2["nom_type"]. " : ". $v2["quantite_preparees"]. " ".$v2["nom_type_partieplante"]?></option>
+			 		<? endforeach; ?>
+	 			<? endif;?>
+		 	<? endforeach; ?>
+		</select>
+		<br>
+		<select name="valeur_5" id="valeur_5" onChange="<?=$js?>" disabled>
+		 	<option value="-1">(Choisissez l'ingrédient 3)</option>
+		 	<? foreach($this->tabPartiePlantes as $k => $v) : ?>
+		 		<? foreach($v as $k2 => $v2) : ?>
+		 			<option value="<?=$v2["id_calcule"]?>"><?=$v2["nom_type"]. " : ". $v2["quantite_preparees"]. " ".$v2["nom_type_partieplante"]?></option>
+		 		<? endforeach; ?>
+		 	<? endforeach; ?>
+		</select>
+	<? else :?>
+		<input type='hidden' id='valeur_4' name='valeur_4' value='-2'>
+	    <input type='hidden' id='valeur_5' name='valeur_5' value='-2'>
+	<? endif;?>
 	 
 	 <? if ($this->elaborerEchoppeOk == false) : ?>
 		<br />Vous ne pouvez &eacute;laborer une potion que dans une de vos &eacute;choppes d'Aphoticaire.

@@ -10,7 +10,7 @@
  	<br />
  		Pour <?=$this->nb_pa?> PA, vous pouvez d&eacute;piauter :<br /><br />
 		<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_depiauter').disabled=true } else {$('bouton_depiauter').disabled=false }">
-		<option value='-1'>(Choisis un monstre)</option>
+		<option value='-1'>(Choisissez un monstre)</option>
 		<? foreach ($this->tabCadavres as $m) : ?>
 		<option value="<?=$m["id_monstre"]?>"><? if ($m["est_gibier"]): ?> Gibier : <? endif;?><?=htmlspecialchars($m["nom_monstre"])?> <?=htmlspecialchars($m["taille_monstre"])?>  (<?=$m["id_monstre"]?>)</option>
 		<? endforeach; ?>

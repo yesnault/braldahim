@@ -554,7 +554,8 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		Zend_Loader::loadClass("EchoppePotion");
 		Zend_Loader::loadClass("EchoppePotionMinerai");
 		Zend_Loader::loadClass("EchoppePotionPartiePlante");
-
+		Zend_Loader::loadClass("Bral_Util_Potion");
+		
 		$tabPotionsArriereBoutique = null;
 		$tabPotionsEtal = null;
 		$echoppePotionTable = new EchoppePotion();
@@ -601,7 +602,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 						}
 					}
 				}
-
+				
 				$tab = array(
 					"id_potion" => $p["id_echoppe_potion"],
 					"nom" => $p["nom_type_potion"],
@@ -610,6 +611,9 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					"niveau" => $p["niveau_echoppe_potion"],
 					"caracteristique" => $p["caract_type_potion"],
 					"bm_type" => $p["bm_type_potion"],
+					"caracteristique2" => $p["caract2_type_potion"],
+					"bm2_type" => $p["bm2_type_potion"],
+					"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
 					"prix_1_vente_echoppe_potion" => $p["prix_1_vente_echoppe_potion"],
 					"prix_2_vente_echoppe_potion" => $p["prix_2_vente_echoppe_potion"],
 					"prix_3_vente_echoppe_potion" => $p["prix_3_vente_echoppe_potion"],

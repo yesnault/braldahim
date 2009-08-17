@@ -130,7 +130,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		$typesElements[4] = array("id_type_element" => 4, "selected" => $idTypeCourant, "nom_systeme" => "munitions", "nom_element" => "Munitions");
 		$typesElements[5] = array("id_type_element" => 5, "selected" => $idTypeCourant, "nom_systeme" => "minerais", "nom_element" => "Minerais");
 		$typesElements[6] = array("id_type_element" => 6, "selected" => $idTypeCourant, "nom_systeme" => "partiesplantes", "nom_element" => "Parties de Plantes");
-		$typesElements[7] = array("id_type_element" => 7, "selected" => $idTypeCourant, "nom_systeme" => "potions", "nom_element" => "Potions");
+		$typesElements[7] = array("id_type_element" => 7, "selected" => $idTypeCourant, "nom_systeme" => "potions", "nom_element" => "Potions et Vernis");
 		$typesElements[8] = array("id_type_element" => 8, "selected" => $idTypeCourant, "nom_systeme" => "runes", "nom_element" => "Runes");
 		$typesElements[9] = array("id_type_element" => 9, "selected" => $idTypeCourant, "nom_systeme" => "autres", "nom_element" => "Autres Elements");
 
@@ -427,7 +427,8 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 	}
 
 	private function prepareTypePotions($endroit) {
-
+		Zend_Loader::loadClass("Bral_Util_Potion");
+		
 		$tabPotions = null;
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanPotion");
@@ -449,6 +450,9 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 					"niveau" => $p["niveau_".$endroit["suffixe"]."_potion"],
 					"caracteristique" => $p["caract_type_potion"],
 					"bm_type" => $p["bm_type_potion"],
+					"caracteristique2" => $p["caract2_type_potion"],
+					"bm2_type" => $p["bm2_type_potion"],
+					"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
 					"id_fk_type_qualite" => $p["id_fk_type_qualite_".$endroit["suffixe"]."_potion"],
 					"id_fk_type" => $p["id_fk_type_".$endroit["suffixe"]."_potion"]
 				);
@@ -492,7 +496,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		);
 		$ventePotionTable->insert($data);
 
-		$this->view->objetVente = " la potion n°".$potion["id_potion"]. ", ".$potion["nom"]." de qualité ".$potion["qualite"];
+		$this->view->objetVente = $potion["nom_type"]. " ".$potion["nom"]. " n°".$potion["id_potion"]. " de qualité ".$potion["qualite"];
 	}
 
 	private function prepareTypeRunes($endroit) {

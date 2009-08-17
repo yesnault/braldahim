@@ -53,6 +53,7 @@ class Bral_Echoppes_Transferpotion extends Bral_Echoppes_Echoppe {
 		$potions = $echoppePotionTable->findByIdEchoppe($id_echoppe);
 
 		if (count($potions) > 0) {
+			Zend_Loader::loadClass("Bral_Util_Potion");
 			foreach($potions as $e) {
 				if ($e["type_vente_echoppe_potion"] == "aucune") {
 					$tabPotionsArriereBoutique[] = array(
@@ -60,6 +61,7 @@ class Bral_Echoppes_Transferpotion extends Bral_Echoppes_Echoppe {
 						"id_fk_type_echoppe_potion" => $e["id_fk_type_echoppe_potion"],
 						"id_fk_type_qualite_laban_potion" => $e["id_fk_type_qualite_echoppe_potion"],
 						"nom" => $e["nom_type_potion"],
+						"nom_type" => Bral_Util_Potion::getNomType($e["type_potion"]),
 						"qualite" => $e["nom_type_qualite"],
 						"niveau" => $e["niveau_echoppe_potion"],
 					);

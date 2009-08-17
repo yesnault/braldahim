@@ -1,4 +1,4 @@
 <? foreach($e["objet"] as $a) : ?>
 <img src='/public/styles/braldahim_defaut/images/type_potion/type_potion_<?=$a["id_type_potion"]?>.png'>
-<br>n°<?=$a["id_vente_potion"] ?> <?=$a["nom"] ?><br>
+<br><?=$a["nom_type"] ?> <?=$a["nom"] ?> n°<?=$a["id_vente_potion"] ?>  <img src="/public/images/info_icon.gif" <?=Bral_Helper_DetailPotion::afficherJs($a);?> /><br>
 <? endforeach;?>

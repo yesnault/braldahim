@@ -1,5 +1,5 @@
 <br><br>
-Vous pouvez vendre l'&eacute;quipement &agrave; l'aide de trois unit&eacute;s diff&eacute;rentes : <br>
+Vous pouvez vendre &agrave; l'aide de trois unit&eacute;s diff&eacute;rentes : <br>
 
 <? $js = "
 	if ($('valeur_2').value !=-1 && $('valeur_3').value != -1 && $('valeur_4').value > 0 && $('valeur_4').value != '' && $('valeur_5').value >= 0 && $('valeur_5').value != '' && $('valeur_6').value !=-1 ) {
@@ -19,7 +19,7 @@ Vous pouvez vendre l'&eacute;quipement &agrave; l'aide de trois unit&eacute;s di
 		</td>
 		<td align="left">&nbsp;
 			<select name="valeur_6" id="valeur_6" onChange="<?=$js ?>">
-		 		<option value="-1">(Choisis une unit&eacute;)</option>
+		 		<option value="-1">(Choisissez une unit&eacute;)</option>
 				<? foreach($this->unites as $k => $u) :?>
 					<option value="<?=$k ?>"><?=htmlspecialchars($u["nom_type_unite"]) ?> </option>
 				<? endforeach; ?>
@@ -33,7 +33,7 @@ Vous pouvez vendre l'&eacute;quipement &agrave; l'aide de trois unit&eacute;s di
 		</td>
 		<td align="left">&nbsp;
 			<select name="valeur_8" id="valeur_8">
-		 		<option value="-1">(Choisis une unit&eacute;)</option>
+		 		<option value="-1">(Choisissez une unit&eacute;)</option>
 				<? foreach($this->unites as $k => $u) :?>
 					<option value="<?=$k ?>"><?=htmlspecialchars($u["nom_type_unite"]) ?> </option>
 				<? endforeach; ?>
@@ -47,7 +47,7 @@ Vous pouvez vendre l'&eacute;quipement &agrave; l'aide de trois unit&eacute;s di
 		</td>
 		<td align="left">&nbsp;
 			<select name="valeur_10" id="valeur_10">
-		 		<option value="-1">(Choisis une unit&eacute;)</option>
+		 		<option value="-1">(Choisissez une unit&eacute;)</option>
 				<? foreach($this->unites as $k => $u) :?>
 					<option value="<?=$k ?>"><?=htmlspecialchars($u["nom_type_unite"]) ?> </option>
 				<? endforeach; ?>

@@ -7,7 +7,7 @@
 	<? if ($this->nbMaterielsEtal > 0): ?>
 		Vous pouvez retirer de l'&eacute;tal un mat&eacute;riel : <br />
 		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1){$('bouton_retirer').disabled=true } else {$('bouton_retirer').disabled=false }">
-	 		<option value="-1">(Choisis un mat&eacute;riel)</option>
+	 		<option value="-1">(Choisissez un mat&eacute;riel)</option>
 			<? foreach($this->materielsEtal as $e) :?>
 				<option value="<?=$e["id_echoppe_materiel"] ?>">n&deg; <?=$e["id_echoppe_materiel"] ?> : <?=htmlspecialchars($e["nom"]) ?></option>
 			<? endforeach; ?>

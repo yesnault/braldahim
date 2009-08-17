@@ -14,7 +14,7 @@ class Bral_Util_EffetsPotion {
 	
 	public static function calculPotionHobbit($hobbitCible, $appliqueEffet) {
 		Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - calculPotionHobbit - enter - appliqueEffet:".$appliqueEffet. " idH:".$hobbitCible->id_hobbit);
-		
+		Zend_Loader::loadClass("Bral_Util_Potion");
 		Zend_Loader::loadClass("EffetPotionHobbit");
 		$effetPotionHobbitTable = new EffetPotionHobbit();
 		$effetPotionHobbitRowset = $effetPotionHobbitTable->findByIdHobbitCible($hobbitCible->id_hobbit);
@@ -34,6 +34,9 @@ class Bral_Util_EffetsPotion {
 					"niveau" => $p["niveau_effet_potion_hobbit"],
 					"caracteristique" => $p["caract_type_potion"],
 					"bm_type" => $p["bm_type_potion"],
+					"caracteristique2" => $p["caract2_type_potion"],
+					"bm2_type" => $p["bm2_type_potion"],
+					"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
 					"bm_effet_potion" => $p["bm_effet_potion_hobbit"],
 					"nb_tour_restant" => $p["nb_tour_restant_effet_potion_hobbit"]);
 			
@@ -56,7 +59,8 @@ class Bral_Util_EffetsPotion {
 
 	public static function calculPotionMonstre($monstreCible) {
 		Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - calculPotionMonstre - enter");
-		
+
+		Zend_Loader::loadClass("Bral_Util_Potion");
 		Zend_Loader::loadClass("EffetPotionMonstre");
 		$effetPotionMonstreTable = new EffetPotionMonstre();
 		$effetPotionMonstreRowset = $effetPotionMonstreTable->findByIdMonstreCible($monstreCible->id_monstre);
@@ -76,6 +80,9 @@ class Bral_Util_EffetsPotion {
 					"niveau" => $p["niveau_effet_potion_monstre"],
 					"caracteristique" => $p["caract_type_potion"],
 					"bm_type" => $p["bm_type_potion"],
+					"caracteristique2" => $p["caract2_type_potion"],
+					"bm2_type" => $p["bm2_type_potion"],
+					"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
 					"bm_effet_potion" => $p["bm_effet_potion_monstre"],
 			);
 			

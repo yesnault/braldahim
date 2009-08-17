@@ -11,7 +11,7 @@
  */
 
 //@TODO gerer envoi message
-//@TODO bouton transfert equipement, potion et materiel dans echoppe
+//@TODO bouton transfert equipement, potion et materiel dans echoppe ==> edit Boule. On ne remet pas quelque chose dans l'échoppe si c'est déjà sorti.
 //@TODO afficher poids restant dans formulaire
 class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
@@ -646,6 +646,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 	private function prepareTypePotions($depart) {
 		Zend_Loader::loadClass($depart."Potion");
+		Zend_Loader::loadClass("Bral_Util_Potion");
 		$tabPotions = null;
 
 		switch ($depart) {
@@ -685,6 +686,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					"niveau" => $p["niveau_".strtolower($depart)."_potion"],
 					"caracteristique" => $p["caract_type_potion"],
 					"bm_type" => $p["bm_type_potion"],
+					"caracteristique2" => $p["caract2_type_potion"],
+					"bm2_type" => $p["bm2_type_potion"],
+					"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
 					"id_fk_type_qualite" => $p["id_fk_type_qualite_".strtolower($depart)."_potion"],
 					"id_fk_type" => $p["id_fk_type_".strtolower($depart)."_potion"]
 				);
@@ -804,7 +808,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						}
 						$arriveePotionTable->insert($data);
 						unset($arriveePotionTable);
-						$this->view->elementsRetires .= "Potion n°".$potion["id_potion"]." : ".$potion["nom"].", ";
+						$this->view->elementsRetires .= $potion["nom_type"]." ".$potion["nom"]. " n°".$potion["id_potion"].", ";
 					}
 				}
 			}

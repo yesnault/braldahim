@@ -1,4 +1,4 @@
-<div class='comp_titre'>Retirer de la vente une potion</div>
+<div class='comp_titre'>Retirer de la vente une potion ou un vernis</div>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <input type='hidden' id='valeur_1' name='valeur_1' value='<?=$this->idEchoppe ?>'>
  <form name='myForm'>
@@ -7,7 +7,7 @@
 	<? if (count($this->potionsEtal) > 0): ?>
 		Vous pouvez retirer de l'&eacute;tal une potion : <br />
 		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1){$('bouton_retirer').disabled=true } else {$('bouton_retirer').disabled=false }">
-	 		<option value="-1">(Choisis une potion)</option>
+	 		<option value="-1">(Choisissez une potion ou un vernis)</option>
 			<? foreach($this->potionsEtal as $e) :?>
 				<option value="<?=$e["id_echoppe_potion"] ?>">n&deg; <?=$e["id_echoppe_potion"] ?> : <?=htmlspecialchars($e["nom"]) ?> de qualit&eacute; <?=htmlspecialchars($e["qualite"]) ?>,
 				 niveau: <?=$e["niveau"] ?></option>
@@ -15,7 +15,7 @@
 		</select>
 		<br /><br />
 	<? else: ?>
-		Vous n'avez aucune potion sur l'&eacute;tal.
+		Vous n'avez aucune potion ou vernis sur l'&eacute;tal.
 	<? endif; ?>
 </div>
 

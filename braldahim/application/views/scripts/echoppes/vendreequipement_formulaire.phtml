@@ -7,7 +7,7 @@
 	<? if (count($this->equipementsArriereBoutique) > 0): ?>
 		Vous pouvez mettre en vente un &eacute;quipement pr&eacute;sent dans la r&eacute;serve : <br />
 		<select name="valeur_2" id="valeur_2"  onChange="javascript:$('valeur_commentaire').value=$('commentaire_' + this.value).value; if ($('valeur_2').value==-1 || $('valeur_3').value=='' || $('valeur_4').value==-1 ){$('bouton_vendreequipement').disabled=true } else {$('bouton_vendreequipement').disabled=false }">
-	 		<option value="-1">(Choisis un &eacute;quipement)</option>
+	 		<option value="-1">(Choisissez un &eacute;quipement)</option>
 			<? foreach($this->equipementsArriereBoutique as $e) :?>
 				<option value="<?=$e["id_echoppe_equipement"] ?>">n&deg; <?=$e["id_echoppe_equipement"] ?> : <?=htmlspecialchars($e["nom"]) ?> de qualit&eacute; <?=htmlspecialchars($e["qualite"]) ?>,
 				 niveau: <?=$e["niveau"] ?></option>
@@ -40,7 +40,7 @@
 				</td>
 				<td align="left">&nbsp;
 					<select name="valeur_4" id="valeur_4" onChange="<?=$js ?>">
-				 		<option value="-1">(Choisis une unit&eacute;)</option>
+				 		<option value="-1">(Choisissez une unit&eacute;)</option>
 						<? foreach($this->unites as $k => $u) :?>
 							<option value="<?=$k ?>"><?=htmlspecialchars($u["nom_type_unite"]) ?> </option>
 						<? endforeach; ?>
@@ -54,7 +54,7 @@
 				</td>
 				<td align="left">&nbsp;
 					<select name="valeur_6" id="valeur_6">
-				 		<option value="-1">(Choisis une unit&eacute;)</option>
+				 		<option value="-1">(Choisissez une unit&eacute;)</option>
 						<? foreach($this->unites as $k => $u) :?>
 							<option value="<?=$k ?>"><?=htmlspecialchars($u["nom_type_unite"]) ?> </option>
 						<? endforeach; ?>
@@ -68,7 +68,7 @@
 				</td>
 				<td align="left">&nbsp;
 					<select name="valeur_8" id="valeur_8">
-				 		<option value="-1">(Choisis une unit&eacute;)</option>
+				 		<option value="-1">(Choisissez une unit&eacute;)</option>
 						<? foreach($this->unites as $k => $u) :?>
 							<option value="<?=$k ?>"><?=htmlspecialchars($u["nom_type_unite"]) ?> </option>
 						<? endforeach; ?>

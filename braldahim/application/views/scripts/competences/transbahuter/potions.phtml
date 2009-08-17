@@ -3,14 +3,14 @@
 		<li id="deposer_potions">
 			<? $poches[] = "deposer_potions-head" ?>
 			<h3 id="deposer_potions-head" class="head" onClick="maccordion(this);" />
-				Potions
+				Potions / Vernis
 			</h3>
 			<ul id="deposer_potions-body" style="display:none">
 				<li>
-					Choississez une potion (ou plusieurs en appuyant sur ctrl) &agrave; transbahuter.<br />
+					Choississez une potion ou un vernis (ou plusieurs en appuyant sur ctrl) &agrave; transbahuter.<br />
 					<select multiple size="5" name="valeur_15" id="valeur_15" onChange="<?=$jsBtn?>">
 						 <? foreach($this->potions as $p) :?>
-						 	<option value="<?=$p["id_potion"]?>">Potion <?=$p["nom"] ?> de qualit&eacute; <?=$p["qualite"] ?> (n&deg;<?=$p["id_potion"] ?>) </option>
+						 	<option value="<?=$p["id_potion"]?>"><?=$p["nom_type"] ?> <?=$p["nom"] ?> de qualit&eacute; <?=$p["qualite"] ?> (n&deg;<?=$p["id_potion"] ?>) </option>
 						 <? endforeach; ?>
 					</select>	
 				</li>

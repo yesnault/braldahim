@@ -19,7 +19,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 	}
 	
 	function getTitreAction() {
-		return "Acheter une potion";
+		return "Acheter une potion ou un vernis";
 	}
 	
 	function prepareCommun() {
@@ -41,6 +41,8 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 	}
 
 	private function preparePotion($idPotion) {
+		Zend_Loader::loadClass("Bral_Util_Potion");
+		
 		$echoppePotionTable = new EchoppePotion();
 		$potions = $echoppePotionTable->findByIdEchoppe($this->idEchoppe);
 		
@@ -133,14 +135,19 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			$placeDispo = true;
 		}
 		
+		Zend_Loader::loadClass("Bral_Util_Potion");
 		$tabPotion = array(
 			"id_potion" => $this->potion["id_echoppe_potion"],
 			"nom" => $this->potion["nom_type_potion"],
+			"nom_type" => Bral_Util_Potion::getNomType($this->potion["type_potion"]),
 			"qualite" => $this->potion["nom_type_qualite"],
 			"id_type_potion" => $this->potion["id_type_potion"],
 			"niveau" => $this->potion["niveau_echoppe_potion"],
 			"caracteristique" => $this->potion["caract_type_potion"],
 			"bm_type" => $this->potion["bm_type_potion"],
+			"caracteristique2" => $this->potion["caract2_type_potion"],
+			"bm2_type" => $this->potion["bm2_type_potion"],
+			"nom_type" => Bral_Util_Potion::getNomType($this->potion["type_potion"]),
 			"prix_1_vente_echoppe_potion" => $this->potion["prix_1_vente_echoppe_potion"],
 			"prix_2_vente_echoppe_potion" => $this->potion["prix_2_vente_echoppe_potion"],
 			"prix_3_vente_echoppe_potion" => $this->potion["prix_3_vente_echoppe_potion"],

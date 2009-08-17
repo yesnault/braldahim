@@ -51,11 +51,13 @@ class Bral_Echoppes_Vendrepotion extends Bral_Echoppes_Echoppe {
 		$potions = $echoppePotionTable->findByIdEchoppe($id_echoppe);
 
 		if (count($potions) > 0) {
+			Zend_Loader::loadClass("Bral_Util_Potion");
 			foreach($potions as $e) {
 				if ($e["type_vente_echoppe_potion"] == "aucune") {
 					$tabPotionsArriereBoutique[] = array(
 					"id_echoppe_potion" => $e["id_echoppe_potion"],
 					"nom" => $e["nom_type_potion"],
+					"nom_type" => Bral_Util_Potion::getNomType($e["type_potion"]),
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_echoppe_potion"],
 					"commentaire" => $e["commentaire_vente_echoppe_potion"],
@@ -307,5 +309,6 @@ class Bral_Echoppes_Vendrepotion extends Bral_Echoppes_Echoppe {
 		}
 	}
 	function getListBoxRefresh() {
+		return array("box_echoppe", "box_echoppes");
 	}
 }
