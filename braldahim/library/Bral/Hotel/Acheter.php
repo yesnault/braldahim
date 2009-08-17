@@ -529,6 +529,16 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			"bonus" => $bonus,
 			"etat_courant" => $equipement["etat_courant_equipement"],
 			"etat_initial" => $equipement["etat_initial_equipement"],
+			"vernis_bm_vue" => $equipement["vernis_bm_vue_equipement"],
+			"vernis_bm_armure" => $equipement["vernis_bm_armure_equipement"],
+			"vernis_bm_poids" => $equipement["vernis_bm_poids_equipement"],
+			"vernis_bm_agilite" => $equipement["vernis_bm_agilite_equipement"],
+			"vernis_bm_force" => $equipement["vernis_bm_force_equipement"],
+			"vernis_bm_sagesse" => $equipement["vernis_bm_sagesse_equipement"],
+			"vernis_bm_vigueur" => $equipement["vernis_bm_vigueur_equipement"],
+			"vernis_bm_attaque" => $equipement["vernis_bm_attaque_equipement"],
+			"vernis_bm_degat" => $equipement["vernis_bm_degat_equipement"],
+			"vernis_bm_defense" => $equipement["vernis_bm_defense_equipement"],
 			"est_charrette" => false,
 			"charrette_possible" => true,
 		);
@@ -939,12 +949,12 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		if ($this->view->detailPrix != "") {
 			$this->view->detailPrix = mb_substr($this->view->detailPrix, 0, -2);
 		}
-		
+
 		Zend_Loader::loadClass("Bral_Util_Messagerie");
 		$message = "[Hôtel des Ventes]".PHP_EOL.PHP_EOL;
 		$message .=  $this->view->user->prenom_hobbit. " ".$this->view->user->nom_hobbit;
-		$message .= " (".$this->view->user->id_hobbit.") a achet&eacute; ".PHP_EOL; 
-		$message .= $this->view->objetAchat. PHP_EOL. "pour ".$this->view->detailPrix." (gain placé dans votre coffre).".PHP_EOL.PHP_EOL; 
+		$message .= " (".$this->view->user->id_hobbit.") a achet&eacute; ".PHP_EOL;
+		$message .= $this->view->objetAchat. PHP_EOL. "pour ".$this->view->detailPrix." (gain placé dans votre coffre).".PHP_EOL.PHP_EOL;
 		$message .= "&Eacute;mile Claclac, gestionnaire de l'Hôtel des ventes.".PHP_EOL;
 		$message .= "Inutile de répondre à ce message.";
 		Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->hotel->id_hobbit, $this->view->vente["vente"]["id_fk_hobbit_vente"], $message);

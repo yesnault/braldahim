@@ -4,7 +4,7 @@
 	 Pour <?=$this->nb_pa ?> PA, vous pouvez &eacute;laborer une ou plusieurs potions ou vernis<br /><br />
      
      Type de potion / vernis :<br />
-     <select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_elaborer&type_potion='+this.value);">
+     <select name="valeur_1" id="valeur_1" onChange="_get_('/competences/doaction?caction=ask_competence_elaborer&type_potion='+this.value);">
 	 	<option value="-1">(Choisissez une potion ou un vernis)</option>
 	 	<? foreach($this->typePotion as $p) : ?>
 	 		<optgroup label="<?=$p["nom"] ?>" style="font-weight:bold"></optgroup>

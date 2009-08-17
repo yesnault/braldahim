@@ -124,6 +124,16 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			"nom_systeme_mot_runique" => $this->equipement["nom_systeme_mot_runique"],
 			"etat_courant" => $this->equipement["etat_courant_equipement"],
 			"etat_initial" => $this->equipement["etat_initial_equipement"],
+			"vernis_bm_vue" => $this->equipement["vernis_bm_vue_equipement"],
+			"vernis_bm_armure" => $this->equipement["vernis_bm_armure_equipement"],
+			"vernis_bm_poids" => $this->equipement["vernis_bm_poids_equipement"],
+			"vernis_bm_agilite" => $this->equipement["vernis_bm_agilite_equipement"],
+			"vernis_bm_force" => $this->equipement["vernis_bm_force_equipement"],
+			"vernis_bm_sagesse" => $this->equipement["vernis_bm_sagesse_equipement"],
+			"vernis_bm_vigueur" => $this->equipement["vernis_bm_vigueur_equipement"],
+			"vernis_bm_attaque" => $this->equipement["vernis_bm_attaque_equipement"],
+			"vernis_bm_degat" => $this->equipement["vernis_bm_degat_equipement"],
+			"vernis_bm_defense" => $this->equipement["vernis_bm_defense_equipement"],
 			"prix_1_vente_echoppe_equipement" => $this->equipement["prix_1_vente_echoppe_equipement"],
 			"prix_2_vente_echoppe_equipement" => $this->equipement["prix_2_vente_echoppe_equipement"],
 			"prix_3_vente_echoppe_equipement" => $this->equipement["prix_3_vente_echoppe_equipement"],
@@ -139,7 +149,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 		);
 
 		$this->view->equipement = $tabEquipement;
-		
+
 		$equipements = null;
 		$equipements[$tabEquipement["id_type_emplacement"]]["equipements"][] = $tabEquipement;
 		$equipements[$tabEquipement["id_type_emplacement"]]["nom_type_emplacement"] = $tabEquipement["emplacement"];
