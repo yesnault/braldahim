@@ -13,11 +13,11 @@
 class Bral_Util_Equipement {
 
 	public static function getNomByIdRegion($typeEquipement, $idRegion) {
-	$template = "";
-		if ($typeEquipement["vernis_template_equipement"] != null) {
+		$template = "";
+		if (isset($typeEquipement["vernis_template_equipement"])) {
 			$template = " [".$typeEquipement["vernis_template_equipement"]."]";
 		}
-		
+
 		switch($idRegion) {
 			case 1:
 				return $typeEquipement["region_1_nom_type_equipement"].$template;
@@ -251,7 +251,7 @@ class Bral_Util_Equipement {
 		$equipementTable = new Equipement();
 
 		$retour = null;
-		
+
 		$nbAbime = 0;
 		$texte = "";
 		$texteDetruit = "";
@@ -261,7 +261,7 @@ class Bral_Util_Equipement {
 				$where = "id_equipement_hequipement =".$e["id_equipement_hequipement"];
 				$hobbitEquipementTable->delete($where);
 				self::destructionEquipement($e["id_equipement_hequipement"]);
-				
+
 				$texteDetruit .= "Votre équipement ".Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]);
 				$texteDetruit .= " n&deg;".$e["id_equipement_hequipement"]." est détruit.<br>";
 				$retour["detruit"] = $texteDetruit;
@@ -269,7 +269,7 @@ class Bral_Util_Equipement {
 				$data = array("etat_courant_equipement" => $etat);
 				$where = "id_equipement = ".$e["id_equipement_hequipement"];
 				$equipementTable->update($data, $where);
-				
+
 				if ($etat <= 500) {
 					$nbAbime = $nbAbime +1;
 					$retour["abime"]["nb"] =  $nbAbime;
@@ -282,18 +282,18 @@ class Bral_Util_Equipement {
 
 		return $retour;
 	}
-	
+
 	public static function destructionEquipement($idEquipement) {
 		Zend_Loader::loadClass("EquipementBonus");
 		$equipementBonusTable = new EquipementBonus();
 		$where = "id_equipement_bonus=".$idEquipement;
 		$equipementBonusTable->delete($where);
-		
+
 		Zend_Loader::loadClass("EquipementRune");
 		$equipementRuneTable = new EquipementRune();
 		$where = "id_equipement_rune=".$idEquipement;
 		$equipementRuneTable->delete($where);
-		
+
 		Zend_Loader::loadClass("Equipement");
 		$equipementTable = new Equipement();
 		$where = "id_equipement =".$idEquipement;
