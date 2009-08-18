@@ -50,6 +50,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("Zone");
 			Zend_Loader::loadClass('Bral_Util_Marcher');
 			Zend_Loader::loadClass("Bral_Util_Equipement");
+			Zend_Loader::loadClass("Bral_Util_Potion");
 
 			$this->prepare();
 			$this->deplacement();
@@ -411,6 +412,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						foreach($elementsPotions as $p) {
 							if ($display_x == $p["x_element_potion"] && $display_y == $p["y_element_potion"]) {
 								$tabElementsPotions[] = array("id_element_potion" => $p["id_element_potion"],
+									"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),	
 									"nom" => $p["nom_type_potion"],
 									"qualite" => $p["nom_type_qualite"],
 									"niveau" => $p["niveau_element_potion"],

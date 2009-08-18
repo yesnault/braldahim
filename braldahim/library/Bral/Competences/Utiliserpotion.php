@@ -23,10 +23,17 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$tabPotions = null;
 		$labanPotionTable = new LabanPotion();
 		$potions = $labanPotionTable->findByIdHobbit($this->view->user->id_hobbit);
+
+		$potionCourante = null;
+		$idPotionCourante = $this->request->get("potion");
+
 		foreach ($potions as $p) {
-			// TODO action vernis
-			if ($p["type_potion"] == "potion") {
-				$tabPotions[$p["id_laban_potion"]] = array(
+			$selected = "";
+			if ($idPotionCourante == $p["id_laban_potion"]) {
+				$selected = "selected";
+			}
+
+			$tabPotions[$p["id_laban_potion"]] = array(
 					"id_potion" => $p["id_laban_potion"],
 					"id_fk_type_potion" => $p["id_fk_type_laban_potion"],
 					"id_fk_type_qualite_potion" => $p["id_fk_type_qualite_laban_potion"],
@@ -39,10 +46,32 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 					"caracteristique2" => $p["caract2_type_potion"],
 					"bm2_type" => $p["bm2_type_potion"],
 					"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
-				);
+					"type_potion" => $p["type_potion"],
+					'selected' => $selected,
+					'template_m_type_potion' => $p["template_m_type_potion"],
+					'template_f_type_potion' => $p["template_f_type_potion"],
+			);
+
+			if ($idPotionCourante == $p["id_laban_potion"]) {
+				$potionCourante = $p;
 			}
 		}
 
+		if (isset($potionCourante)) {
+			if ($potionCourante["type_potion"] == "potion") {
+				$this->preparePotion();
+			} else {
+				$this->prepareVernis();
+			}
+		}
+
+		$this->view->estRegionPvp = $estRegionPvp;
+		$this->view->nPotions = count($tabPotions);
+		$this->view->tabPotions = $tabPotions;
+		$this->view->potionCourante = $potionCourante;
+	}
+
+	private function preparePotion() {
 		$tabHobbits = null;
 		$tabMonstres = null;
 		// recuperation des hobbits qui sont presents sur la case
@@ -70,13 +99,51 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"]);
 		}
 
-		$this->view->estRegionPvp = $estRegionPvp;
-		$this->view->nPotions = count($tabPotions);
-		$this->view->tabPotions = $tabPotions;
 		$this->view->tabHobbits = $tabHobbits;
 		$this->view->nHobbits = count($tabHobbits);
 		$this->view->tabMonstres = $tabMonstres;
 		$this->view->nMonstres = count($tabMonstres);
+	}
+
+	private function prepareVernis() {
+		$tabEquipementsLaban = null;
+		$tabEquipementsCharrette = null;
+
+		Zend_Loader::loadClass("Bral_Util_Equipement");
+
+		// recuperation des équipement qui sont presents dans le laban
+		Zend_Loader::loadClass("LabanEquipement");
+		$labanEquipementTable = new LabanEquipement();
+		$equipementsLaban = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
+		$tabEquipementsLaban = null;
+		foreach ($equipementsLaban as $e) {
+			$tabEquipementsLaban[$e["id_laban_equipement"]] = array(
+					"id_equipement" => $e["id_laban_equipement"],
+					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
+					"nom_standard" => $e["nom_type_equipement"],
+					"niveau" => $e["niveau_recette_equipement"],
+					"genre_type_equipement" => $e["genre_type_equipement"],
+			);
+		}
+
+		// recuperation des équipement qui sont presents dans la charrette
+		Zend_Loader::loadClass("CharretteEquipement");
+		$charretteEquipementTable = new CharretteEquipement();
+		$equipementsCharrette = $charretteEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
+		$tabEquipementsCharrette = null;
+		foreach ($equipementsCharrette as $e) {
+			$tabEquipementsCharrette[$e["id_charrette_equipement"]] = array(
+					"id_equipement" => $e["id_charrette_equipement"],
+					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
+					"nom_standard" => $e["nom_type_equipement"],
+					"niveau" => $e["niveau_recette_equipement"],
+			);
+		}
+
+		$this->view->tabEquipementsLaban = $tabEquipementsLaban;
+		$this->view->nEquipementsLaban = count($tabEquipementsLaban);
+		$this->view->tabEquipementsCharrette = $tabEquipementsCharrette;
+		$this->view->nEquipementsCharrette = count($tabEquipementsCharrette);
 	}
 
 	function prepareFormulaire() {
@@ -90,6 +157,32 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		} else {
 			$idPotion = (int)$this->request->get("valeur_1");
 		}
+
+		if (isset($this->view->potionCourante)) {
+			if ($idPotion == $this->view->potionCourante["id_laban_potion"]) {
+				if ($this->view->potionCourante["type_potion"] == "potion") {
+					$potion = $this->controlePotion($idPotion);
+					$this->appliquePotion($potion);
+				} else {
+					$vernis = $this->controleVernis($idPotion);
+					$this->appliqueVernis($vernis);
+				}
+			} else {
+				throw new Zend_Exception(get_class($this)." Potion invalide 2 : ".$this->request->get("valeur_1") . " id2:".$this->view->potionCourante["id_laban_potion"]);
+			}
+		} else {
+			throw new Zend_Exception(get_class($this)." Potion invalide 3 : ".$this->request->get("valeur_1"));
+		}
+
+		$this->calculPx();
+		$this->calculPoids();
+		$this->calculBalanceFaim();
+		$this->majHobbit();
+	}
+
+	private function controlePotion($idPotion) {
+		$idHobbit = null;
+		$idMonstre = null;
 
 		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
 			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_2"));
@@ -109,7 +202,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 
 		$potion = null;
 		foreach ($this->view->tabPotions as $p) {
-			if ($p["id_potion"] == $idPotion) {
+			if ($p["id_potion"] == $idPotion && $p["type_potion"] == "potion") {
 				$potion = $p;
 				break;
 			}
@@ -124,14 +217,99 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Potion invalide (".$idPotion.") region pve, idh:".$this->view->user->id_hobbit." x:".$this->view->user->x_hobbit. " y=".$this->view->user->y_hobbit);
 		}
 
+		$trouveH = false;
+		foreach($this->view->tabHobbits as $h) {
+			if ($h["id_hobbit"] == $idHobbit) {
+				$trouveH = true;
+				break;
+			}
+		}
+
+		$trouveM = false;
+		foreach ($this->view->tabMonstres as $m) {
+			if ($m["id_monstre"] == $idMonstre) {
+				$trouveM = true;
+				break;
+			}
+		}
+
+		if ($trouveH == false && $trouveM == false) {
+			throw new Zend_Exception(get_class($this)." id Monstre (".$idMonstre.") ou id Hobbit (".$idHobbit.") invalide");
+		}
+
+		$this->idHobbitCible = $idHobbit;
+		$this->idMonstreCible = $idMonstre;
+
+		return $potion;
+	}
+
+	private function controleVernis($idPotion) {
+		$idEquipementLaban = null;
+		$idEquipementCharrette = null;
+
+		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
+			throw new Zend_Exception(get_class($this)." Equipement Laban invalide : ".$this->request->get("valeur_2"));
+		} else {
+			$idEquipementLaban = (int)$this->request->get("valeur_2");
+		}
+
+		if (((int)$this->request->get("valeur_3").""!=$this->request->get("valeur_3")."")) {
+			throw new Zend_Exception(get_class($this)." Equipement Charrette invalide : ".$this->request->get("valeur_3"));
+		} else {
+			$idEquipementCharrette = (int)$this->request->get("valeur_3");
+		}
+
+		if ($idEquipementCharrette == -1 && $idEquipementLaban == -1) {
+			throw new Zend_Exception(get_class($this)." Equipement laban ou Equipement charrette invalide (==-1)");
+		}
+
+		$vernis = null;
+		foreach ($this->view->tabPotions as $p) {
+			if ($p["id_potion"] == $idPotion &&  ($p["type_potion"] == "vernis_reparateur" || $p["type_potion"] == "vernis_enchanteur")) {
+				$vernis = $p;
+				break;
+			}
+		}
+
+		if ($vernis == null) {
+			throw new Zend_Exception(get_class($this)." Vernis invalide (".$idPotion.")");
+		}
+
+		$trouveL = false;
+		foreach($this->view->tabEquipementsLaban as $l) {
+			if ($l["id_equipement"] == $idEquipementLaban) {
+				$trouveL = true;
+				break;
+			}
+		}
+
+		$trouveC = false;
+		foreach ($this->view->tabEquipementsCharrette as $c) {
+			if ($c["id_equipement"] == $idEquipementCharrette) {
+				$trouveC = true;
+				break;
+			}
+		}
+
+		if ($trouveL == false && $trouveC == false) {
+			throw new Zend_Exception(get_class($this)." id Equipement Laban (".$idEquipementLaban.") ou id Equipement Charrette (".$idEquipementCharrette.") invalide");
+		}
+
+		$this->idEquipementLaban = $idEquipementLaban;
+		$this->idEquipementCharrette = $idEquipementCharrette;
+
+		return $vernis;
+	}
+
+	private function appliquePotion($potion) {
 		$this->retourPotion = null;
 
 		$utiliserPotionMonstre = false;
 		$utiliserPotionHobbit = false;
-		if ($idHobbit != -1) {
+		if ($this->idHobbitCible != -1) {
 			if (isset($this->view->tabHobbits) && count($this->view->tabHobbits) > 0) {
 				foreach ($this->view->tabHobbits as $h) {
-					if ($h["id_hobbit"] == $idHobbit) {
+					if ($h["id_hobbit"] == $this->idHobbitCible) {
 						$utiliserPotionHobbit = true;
 						$this->retourPotion['cible'] = array('nom_cible' => $h["prenom_hobbit"]. " ". $h["nom_hobbit"],
 													   'id_cible' => $h["id_hobbit"],
@@ -142,12 +320,12 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 				}
 			}
 			if ($utiliserPotionHobbit === false) {
-				throw new Zend_Exception(get_class($this)." Hobbit invalide (".$idHobbit.")");
+				throw new Zend_Exception(get_class($this)." Hobbit invalide (".$this->idHobbitCible.")");
 			}
 		} else {
 			if (isset($this->view->tabMonstres) && count($this->view->tabMonstres) > 0) {
 				foreach ($this->view->tabMonstres as $m) {
-					if ($m["id_monstre"] == $idMonstre) {
+					if ($m["id_monstre"] == $this->idMonstreCible) {
 						$utiliserPotionMonstre = true;
 						$this->retourPotion['cible'] = array('nom_cible' => $m["nom_monstre"],
 													   'id_cible' => $m["id_monstre"],
@@ -158,7 +336,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 				}
 			}
 			if ($utiliserPotionMonstre === false) {
-				throw new Zend_Exception(get_class($this)." Monstre invalide (".$idMonstre.")");
+				throw new Zend_Exception(get_class($this)." Monstre invalide (".$this->idMonstreCible.")");
 			}
 		}
 
@@ -168,7 +346,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		if ($this->retourPotion['cible']["id_cible"] == $this->view->user->id_hobbit && $utiliserPotionHobbit === true) {
 			$this->detailEvenement .= "bu une potion";
 		} else {
-			if ($idHobbit != -1) {
+			if ($this->idHobbitCible != -1) {
 				$this->detailEvenement .= "utilisé une potion sur le hobbit [h".$this->retourPotion['cible']["id_cible"]."]";
 			} else {
 				$this->detailEvenement .= "utilisé une potion sur le monstre [m".$this->retourPotion['cible']["id_cible"]."]";
@@ -178,25 +356,52 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$this->setDetailsEvenement($this->detailEvenement, $this->view->config->game->evenements->type->competence);
 
 		if ($utiliserPotionHobbit === true) {
-			$this->utiliserPotionHobbit($potion, $idHobbit);
+			$this->utiliserPotionHobbit($potion, $this->idHobbitCible);
 			if ($this->view->user->id_hobbit != $this->retourPotion['cible']["id_cible"]) {
 				$detailsBot = $this->getDetailEvenementCible($potion);
 				Bral_Util_Evenement::majEvenements($this->retourPotion['cible']["id_cible"], $this->view->config->game->evenements->type->competence, $this->detailEvenement, $detailsBot, $this->retourPotion['cible']["niveau_cible"], "hobbit", true, $this->view);
 			}
 		} elseif ($utiliserPotionMonstre === true) {
-			$this->utiliserPotionMonstre($potion, $idMonstre);
-			$this->setDetailsEvenementCible($idMonstre, "monstre", $this->retourPotion['cible']["niveau_cible"]);
+			$this->utiliserPotionMonstre($potion, $this->idMonstreCible);
+			$this->setDetailsEvenementCible($this->idMonstreCible, "monstre", $this->retourPotion['cible']["niveau_cible"]);
 		} else {
 			throw new Zend_Exception(get_class($this)." Erreur inconnue");
 		}
 
 		$this->retourPotion['potion'] = $potion;
 		$this->view->retourPotion = $this->retourPotion;
+	}
 
-		$this->calculPx();
-		$this->calculPoids();
-		$this->calculBalanceFaim();
-		$this->majHobbit();
+	private function appliqueVernis($potion) {
+
+		if ($this->idEquipementLaban != null) {
+			$equipement = $this->view->tabEquipementsLaban[$this->idEquipementLaban];
+		} else { // Charrette
+			$equipement = $this->view->tabEquipementsCharrette[$this->idEquipementCharrette];
+		}
+		
+		Zend_Loader::loadClass("Equipement");
+		$table = new Equipement();
+		if ($equipement["genre_type_equipement"] == "masculin") {
+			$template = $potion["template_m_type_potion"];
+		} else {
+			$template = $potion["template_f_type_potion"];
+		}
+		$data = array(
+			'vernis_template_equipement' => $template
+		);
+		$where = "id_equipement = ".$equipement["id_equipement"];
+		$table->update($data, $where);
+		
+		
+		/*$table = new EquipementBonus();
+		$data = array(
+			'vernis_template_equipement' => $template
+		);
+		$where = "id_equipement_bonus = ".$equipement["id_equipement"];
+		$table->update($data, $where);
+		*/
+
 	}
 
 	function getListBoxRefresh() {
