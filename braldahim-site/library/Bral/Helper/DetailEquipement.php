@@ -80,6 +80,7 @@ class Bral_Helper_DetailEquipement {
 		}
 
 		$text .= "<br />";
+		Zend_Loader::loadClass("Bral_Helper_Tooltip");
 		return Bral_Helper_Tooltip::jsTip($text);
 	}
 
