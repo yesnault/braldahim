@@ -240,6 +240,7 @@ class MarcheequipementController extends Zend_Controller_Action {
 					"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
 					"etat_courant" => $e["etat_courant_equipement"],
 					"etat_initial" => $e["etat_initial_equipement"],
+					"ingredient" => $e["nom_type_ingredient"],
 					"prix_1_vente_echoppe_equipement" => $e["prix_1_vente_echoppe_equipement"],
 					"prix_2_vente_echoppe_equipement" => $e["prix_2_vente_echoppe_equipement"],
 					"prix_3_vente_echoppe_equipement" => $e["prix_3_vente_echoppe_equipement"],

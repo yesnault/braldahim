@@ -136,6 +136,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
 					"etat_courant" => $e["etat_courant_equipement"],
 					"etat_initial" => $e["etat_initial_equipement"],
+					"ingredient" => $e["nom_type_ingredient"],
 					"poids" => $e["poids_recette_equipement"],
 					"runes" => $runes,
 					"bonus" => $bonus,
@@ -325,7 +326,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$labanEquipementTable = new LabanEquipement();
 		$where = "id_laban_equipement=".$equipement["id_equipement"];
 		$labanEquipementTable->delete($where);
-		
+
 		Zend_Loader::loadClass("Bral_Util_Quete");
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeEquiper($this->view->user, $equipement["id_type_emplacement"]);
 	}
@@ -359,21 +360,16 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 
 		if ($equipement["bonus"] != null && count($equipement["bonus"]) > 0) {
 			$b = $equipement["bonus"];
-			if ($b["armure_equipement_bonus"] != null && $b["armure_equipement_bonus"] != "" && $b["armure_equipement_bonus"] > 0) {
-				$this->view->user->armure_equipement_hobbit = $this->view->user->armure_equipement_hobbit + $b["armure_equipement_bonus"];
-			}
-			if ($b["agilite_equipement_bonus"] != null && $b["agilite_equipement_bonus"] != "" && $b["agilite_equipement_bonus"] > 0) {
-				$this->view->user->agilite_bm_hobbit = $this->view->user->agilite_bm_hobbit + $b["agilite_equipement_bonus"];
-			}
-			if ($b["force_equipement_bonus"] != null && $b["force_equipement_bonus"] != "" && $b["force_equipement_bonus"] > 0) {
-				$this->view->user->force_bm_hobbit = $this->view->user->force_bm_hobbit + $b["force_equipement_bonus"];
-			}
-			if ($b["sagesse_equipement_bonus"] != null && $b["sagesse_equipement_bonus"] != "" && $b["sagesse_equipement_bonus"] > 0) {
-				$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit + $b["sagesse_equipement_bonus"];
-			}
-			if ($b["vigueur_equipement_bonus"] != null && $b["vigueur_equipement_bonus"] != "" && $b["vigueur_equipement_bonus"] > 0) {
-				$this->view->user->vigueur_bm_hobbit = $this->view->user->vigueur_bm_hobbit + $b["vigueur_equipement_bonus"];
-			}
+			$this->view->user->armure_equipement_hobbit = $this->view->user->armure_equipement_hobbit + $b["armure_equipement_bonus"] + $b["vernis_bm_armure_equipement_bonus"];
+			$this->view->user->agilite_bm_hobbit = $this->view->user->agilite_bm_hobbit + $b["agilite_equipement_bonus"] + $b["vernis_bm_agilite_equipement_bonus"];
+			$this->view->user->force_bm_hobbit = $this->view->user->force_bm_hobbit + $b["force_equipement_bonus"] + $b["vernis_bm_force_equipement_bonus"];
+			$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit + $b["sagesse_equipement_bonus"] + $b["vernis_bm_sagesse_equipement_bonus"];
+			$this->view->user->vigueur_bm_hobbit = $this->view->user->vigueur_bm_hobbit + $b["vigueur_equipement_bonus"] + $b["vernis_bm_vigueur_equipement_bonus"];
+
+			$this->view->user->vue_bm_hobbit = intval($this->view->user->vue_bm_hobbit + $b["vernis_bm_vigueur_equipement_bonus"]);
+			$this->view->user->bm_attaque_hobbit = intval($this->view->user->bm_attaque_hobbit + $b["vernis_bm_vigueur_equipement_bonus"]);
+			$this->view->user->bm_degat_hobbit = intval($this->view->user->bm_degat_hobbit + $b["vernis_bm_vigueur_equipement_bonus"]);
+			$this->view->user->bm_defense_hobbit = intval($this->view->user->bm_defense_hobbit + $b["vernis_bm_vigueur_equipement_bonus"]);
 		}
 			
 		if ($equipement["runes"] != null && count($equipement["runes"]) > 0) {
@@ -461,21 +457,16 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 
 		if ($equipement["bonus"] != null && count($equipement["bonus"]) > 0) {
 			$b = $equipement["bonus"];
-			if ($b["armure_equipement_bonus"] != null && $b["armure_equipement_bonus"] != "" && $b["armure_equipement_bonus"] > 0) {
-				$this->view->user->armure_equipement_hobbit = $this->view->user->armure_equipement_hobbit - $b["armure_equipement_bonus"];
-			}
-			if ($b["agilite_equipement_bonus"] != null && $b["agilite_equipement_bonus"] != "" && $b["agilite_equipement_bonus"] > 0) {
-				$this->view->user->agilite_bm_hobbit = $this->view->user->agilite_bm_hobbit - $b["agilite_equipement_bonus"];
-			}
-			if ($b["force_equipement_bonus"] != null && $b["force_equipement_bonus"] != "" && $b["force_equipement_bonus"] > 0) {
-				$this->view->user->force_bm_hobbit = $this->view->user->force_bm_hobbit - $b["force_equipement_bonus"];
-			}
-			if ($b["sagesse_equipement_bonus"] != null && $b["sagesse_equipement_bonus"] != "" && $b["sagesse_equipement_bonus"] > 0) {
-				$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit - $b["sagesse_equipement_bonus"];
-			}
-			if ($b["vigueur_equipement_bonus"] != null && $b["vigueur_equipement_bonus"] != "" && $b["vigueur_equipement_bonus"] > 0) {
-				$this->view->user->vigueur_bm_hobbit = $this->view->user->vigueur_bm_hobbit - $b["vigueur_equipement_bonus"];
-			}
+				$this->view->user->armure_equipement_hobbit = $this->view->user->armure_equipement_hobbit - $b["armure_equipement_bonus"] - $b["vernis_bm_armure_equipement_bonus"];
+			$this->view->user->agilite_bm_hobbit = $this->view->user->agilite_bm_hobbit - $b["agilite_equipement_bonus"] - $b["vernis_bm_agilite_equipement_bonus"];
+			$this->view->user->force_bm_hobbit = $this->view->user->force_bm_hobbit - $b["force_equipement_bonus"] - $b["vernis_bm_force_equipement_bonus"];
+			$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit - $b["sagesse_equipement_bonus"] - $b["vernis_bm_sagesse_equipement_bonus"];
+			$this->view->user->vigueur_bm_hobbit = $this->view->user->vigueur_bm_hobbit - $b["vigueur_equipement_bonus"] - $b["vernis_bm_vigueur_equipement_bonus"];
+
+			$this->view->user->vue_bm_hobbit = intval($this->view->user->vue_bm_hobbit - $b["vernis_bm_vigueur_equipement_bonus"]);
+			$this->view->user->bm_attaque_hobbit = intval($this->view->user->bm_attaque_hobbit - $b["vernis_bm_vigueur_equipement_bonus"]);
+			$this->view->user->bm_degat_hobbit = intval($this->view->user->bm_degat_hobbit - $b["vernis_bm_vigueur_equipement_bonus"]);
+			$this->view->user->bm_defense_hobbit = intval($this->view->user->bm_defense_hobbit - $b["vernis_bm_vigueur_equipement_bonus"]);
 		}
 
 		if ($equipement["runes"] != null && count($equipement["runes"]) > 0) {
@@ -548,6 +539,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 	private function majHobbitEffet() {
 		$hobbitTable = new Hobbit();
 		$data = array(
+				'vue_bm_hobbit' => $this->view->user->vue_bm_hobbit,
 				'force_bm_hobbit' => $this->view->user->force_bm_hobbit,
 				'agilite_bm_hobbit' => $this->view->user->agilite_bm_hobbit,
 				'vigueur_bm_hobbit' => $this->view->user->vigueur_bm_hobbit,

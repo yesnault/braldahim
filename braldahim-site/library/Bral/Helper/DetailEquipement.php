@@ -26,27 +26,33 @@ class Bral_Helper_DetailEquipement {
 	}
 
 	public static function afficherJs($e) {
-		$text = htmlspecialchars($e["nom"])." ".htmlspecialchars(addslashes($e["suffixe"]))." de qualité ".htmlspecialchars($e["qualite"])." <br /><br />";
-		$text .= "Numéro de la pièce :".$e["id_equipement"]."<br />";
+		$text = htmlspecialchars($e["nom"])." ".htmlspecialchars(addslashes($e["suffixe"]));
+		$text .= " de qualit&eacute; ".htmlspecialchars($e["qualite"])." <br /><br />";
+		$text .= "Num&eacute;ro de la pi&egrave;ce :".$e["id_equipement"]."<br />";
 		$text .= "Niveau : ".$e["niveau"]."<br />";
 		$text .= "Nom d\'origine : ".$e["nom_standard"]."<br />";
-    	$text .= "Emplacement : ".$e["emplacement"]."<br />";
-    	$text .= "&Eacute;tat : ".$e["etat_courant"]." / ".$e["etat_initial"]."<br /><br />";
-    	
-		$text .= "Caractéristiques :<br />";
-		$text .= self::display("Armure", $e["armure"]);
-		$text .= self::display("Force", $e["force"] );
-		$text .= self::display("Agilité", $e["agilite"]);
-		$text .= self::display("Vigueur", $e["vigueur"]);
-		$text .= self::display("Sagesse", $e["sagesse"]);
-		$text .= self::display("Vue", $e["vue"]);
-		$text .= self::display("BM Attaque", $e["bm_attaque"]);
-		$text .= self::display("BM Defense", $e["bm_defense"]);
-		$text .= self::display("BM Dég&acirc;ts", $e["bm_degat"]);
-		$text .= "Poids : ".$e["poids"]. " Kg";
+		$text .= "Emplacement : ".$e["emplacement"]."<br />";
+		$text .= "&Eacute;tat : ".$e["etat_courant"]." / ".$e["etat_initial"]."<br />";
+		$text .= "Ingr&eacute;dient de base : ".$e["ingredient"]."<br /><br />";
+			
+		$text .= "Caract&eacute;ristiques :<br />";
+		$text .= self::displayBM("Armure", $e, "armure");
+		$text .= self::displayBM("Force", $e, "force");
+		$text .= self::displayBM("Agilit&eacute;", $e, "agilite");
+		$text .= self::displayBM("Vigueur", $e, "vigueur");
+		$text .= self::displayBM("Sagesse", $e, "sagesse");
+		$text .= self::displayBM("Vue", $e, "vue");
+		$text .= self::displayBM("BM Attaque", $e, "bm_attaque");
+		$text .= self::displayBM("BM Defense", $e, "bm_defense");
+		$text .= self::displayBM("BM D&eacute;g&acirc;ts", $e, "bm_degat");
+		$text .= "Poids : ".$e["poids"];
+		if (isset($e["bonus"]["vernis_bm_poids_equipement_bonus"])) {
+			$text .= self::display("",$e["bonus"]["vernis_bm_poids_equipement_bonus"]);
+		}
+		$text .= " Kg";
 		$text .= "<br>";
-		 
-		if (count($e["bonus"]) > 0 && $e["nom_systeme_type_piece"] != "munition") {
+			
+		if (count($e["bonus"]) > 0 && (!array_key_exists("nom_systeme_type_piece", $e) || $e["nom_systeme_type_piece"] != "munition")) {
 			$text .= " Bonus r&eacute;gional: ";
 			$text .= self::display("Armure", $e["bonus"]["armure_equipement_bonus"], "");
 			$text .= self::display("Force", $e["bonus"]["force_equipement_bonus"], "");
@@ -55,33 +61,53 @@ class Bral_Helper_DetailEquipement {
 			$text .= self::display("Sagesse", $e["bonus"]["sagesse_equipement_bonus"], "");
 		}
 
-		$text .= "<br />Nombre d\'emplacement runique : ".$e["nb_runes"]."<br />";
-		if (count($e["runes"]) > 1) $s='s'; else $s="";
-		 
-		 
-		$text .= count($e["runes"]) ." rune$s sertie$s "."<br />";
-		if (count($e["runes"]) > 0) {
-			foreach($e["runes"] as $r) {
-				$text .= "<img src=\'/public/images/runes/".$r["image_type_rune"]."\'  class=\'rune\' title=\'".$r["nom_type_rune"]." :".str_replace("'", "&#180;", htmlspecialchars(addslashes($r["effet_type_rune"])))."\' n&deg;".$r["id_rune_equipement_rune"]." alt=\'".$r["nom_type_rune"]."\' n&deg;".$r["id_rune_equipement_rune"]."  />";
-			}
-			if ($e["suffixe"] != null && $e["suffixe"] != "") {
-				$text .= "<br />Mot runique associé à ces runes : ".htmlspecialchars(addslashes($e["suffixe"]));
-			} else {
-				$text .= "<br />Aucun mot runique n\'est associé à ces runes";
+		if (!array_key_exists("nom_systeme_type_piece", $e) || $e["nom_systeme_type_piece"] != "munition") {
+			$text .= "<br />Nombre d\'emplacement runique : ".$e["nb_runes"]."<br />";
+			if (count($e["runes"]) > 1) $s='s'; else $s="";
+
+
+			$text .= count($e["runes"]) ." rune$s sertie$s "."<br />";
+			if (count($e["runes"]) > 0) {
+				foreach($e["runes"] as $r) {
+					$text .= "<img src=\'/public/images/runes/".$r["image_type_rune"]."\'  class=\'rune\' title=\'".$r["nom_type_rune"]." :".str_replace("'", "&#180;", htmlspecialchars(addslashes($r["effet_type_rune"])))."\' n&deg;".$r["id_rune_equipement_rune"]." alt=\'".$r["nom_type_rune"]."\' n&deg;".$r["id_rune_equipement_rune"]."  />";
+				}
+				if ($e["suffixe"] != null && $e["suffixe"] != "") {
+					$text .= "<br />Mot runique associ&eacute; &agrave; ces runes : ".htmlspecialchars(addslashes($e["suffixe"]));
+				} else {
+					$text .= "<br />Aucun mot runique n\'est associ&eacute; &agrave; ces runes";
+				}
 			}
 		}
+
 		$text .= "<br />";
-		Zend_Loader::loadClass("Bral_Helper_Tooltip");
 		return Bral_Helper_Tooltip::jsTip($text);
 	}
 
-	private static function display($display, $valeur, $unite = "") {
+	private static function displayBM($texte, $e, $bm) {
+		$vernisBM = null;
+		if (isset($e["bonus"]["vernis_bm_".$bm."_equipement_bonus"])) {
+			$vernisBM = $e["bonus"]["vernis_bm_".$bm."_equipement_bonus"];
+		}
+		$valeur = $e[$bm];
+		$text = null;
 		if ($valeur != null && $valeur != 0) {
+			$text = self::display($texte, $valeur, null, "");
+			$text .= self::display("", $vernisBM, " (vernis)", "", true, " ");
+			$text .= "<br>";
+		} else if ($vernisBM != null) {
+			$text = self::display($texte, $vernisBM, " (vernis)", "", true);
+			$text .= "<br>";
+		}
+		return $text;
+	}
+
+	private static function display($display, $valeur, $unite = "", $br = "<br />", $bmVernis = false, $deuxPoints = " : ") {
+		if ($valeur != null && (($bmVernis == false && $valeur != 0) || ($bmVernis == true)) ) {
 			$plus = "";
-			if ($valeur > 0) {
+			if ($valeur >= 0) {
 				$plus = "+";
 			}
-			return $display ." : $plus".$valeur . $unite."<br />";
+			return $display .$deuxPoints.$plus.$valeur . $unite . $br;
 		} else {
 			return null;
 		}

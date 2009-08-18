@@ -124,6 +124,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			"nom_systeme_mot_runique" => $this->equipement["nom_systeme_mot_runique"],
 			"etat_courant" => $this->equipement["etat_courant_equipement"],
 			"etat_initial" => $this->equipement["etat_initial_equipement"],
+			"ingredient" => $this->equipement["nom_type_ingredient"],
 			"prix_1_vente_echoppe_equipement" => $this->equipement["prix_1_vente_echoppe_equipement"],
 			"prix_2_vente_echoppe_equipement" => $this->equipement["prix_2_vente_echoppe_equipement"],
 			"prix_3_vente_echoppe_equipement" => $this->equipement["prix_3_vente_echoppe_equipement"],

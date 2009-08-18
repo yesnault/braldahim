@@ -529,6 +529,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			"bonus" => $bonus,
 			"etat_courant" => $equipement["etat_courant_equipement"],
 			"etat_initial" => $equipement["etat_initial_equipement"],
+			"ingredient" => $equipement["nom_type_ingredient"],
 			"est_charrette" => false,
 			"charrette_possible" => true,
 		);

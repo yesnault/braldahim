@@ -166,7 +166,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$this->view->ciblesEffetU = null;
 
 		$this->is_tour_manque = false;
-		
+
 		$this->view->charretteDetruite = false;
 
 		$this->modificationTour();
@@ -242,10 +242,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			Bral_Util_Faim::calculBalanceFaim($this->hobbit);
 			Zend_Loader :: loadClass("Bral_Util_Tour");
 			Bral_Util_Tour::updateTourTabac($this->hobbit);
-			
+
 			Zend_Loader::loadClass("Bral_Monstres_Util");
 			Bral_Monstres_Util::marqueAJouer($this->hobbit->x_hobbit, $this->hobbit->y_hobbit);
-			
+
 			Zend_Loader::loadClass("Bral_Util_Charrette");
 			$this->view->charretteDetruite = Bral_Util_Charrette::calculNouvelleDlaCharrette($this->hobbit->id_hobbit, $this->hobbit->x_hobbit, $this->hobbit->y_hobbit);
 
@@ -493,21 +493,16 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 			if (count($equipementBonus) > 0) {
 				foreach($equipementBonus as $b) {
-					if ($b["armure_equipement_bonus"] != null && $b["armure_equipement_bonus"] != "" && $b["armure_equipement_bonus"] > 0) {
-						$this->hobbit->armure_equipement_hobbit = $this->hobbit->armure_equipement_hobbit + $b["armure_equipement_bonus"];
-					}
-					if ($b["agilite_equipement_bonus"] != null && $b["agilite_equipement_bonus"] != "" && $b["agilite_equipement_bonus"] > 0) {
-						$this->hobbit->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit + $b["agilite_equipement_bonus"];
-					}
-					if ($b["force_equipement_bonus"] != null && $b["force_equipement_bonus"] != "" && $b["force_equipement_bonus"] > 0) {
-						$this->hobbit->force_bm_hobbit = $this->hobbit->force_bm_hobbit + $b["force_equipement_bonus"];
-					}
-					if ($b["sagesse_equipement_bonus"] != null && $b["sagesse_equipement_bonus"] != "" && $b["sagesse_equipement_bonus"] > 0) {
-						$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + $b["sagesse_equipement_bonus"];
-					}
-					if ($b["vigueur_equipement_bonus"] != null && $b["vigueur_equipement_bonus"] != "" && $b["vigueur_equipement_bonus"] > 0) {
-						$this->hobbit->vigueur_bm_hobbit = $this->hobbit->vigueur_bm_hobbit + $b["vigueur_equipement_bonus"];
-					}
+					$this->hobbit->armure_equipement_hobbit = intval($this->hobbit->armure_equipement_hobbit + $b["armure_equipement_bonus"] + $b["vernis_bm_armure_equipement_bonus"]);
+					$this->hobbit->agilite_bm_hobbit = intval($this->hobbit->agilite_bm_hobbit + $b["agilite_equipement_bonus"] + $b["vernis_bm_agilite_equipement_bonus"]);
+					$this->hobbit->force_bm_hobbit = intval($this->hobbit->force_bm_hobbit + $b["force_equipement_bonus"] + $b["vernis_bm_force_equipement_bonus"]);
+					$this->hobbit->sagesse_bm_hobbit = intval($this->hobbit->sagesse_bm_hobbit + $b["sagesse_equipement_bonus"] + $b["vernis_bm_sagesse_equipement_bonus"]);
+					$this->hobbit->vigueur_bm_hobbit = intval($this->hobbit->vigueur_bm_hobbit + $b["vigueur_equipement_bonus"] + $b["vernis_bm_vigueur_equipement_bonus"]);
+
+					$this->hobbit->vue_bm_hobbit = intval($this->hobbit->vue_bm_hobbit + $b["vernis_bm_vigueur_equipement_bonus"]);
+					$this->hobbit->bm_attaque_hobbit = intval($this->hobbit->bm_attaque_hobbit + $b["vernis_bm_vigueur_equipement_bonus"]);
+					$this->hobbit->bm_degat_hobbit = intval($this->hobbit->bm_degat_hobbit + $b["vernis_bm_vigueur_equipement_bonus"]);
+					$this->hobbit->bm_defense_hobbit = intval($this->hobbit->bm_defense_hobbit + $b["vernis_bm_vigueur_equipement_bonus"]);
 				}
 			}
 

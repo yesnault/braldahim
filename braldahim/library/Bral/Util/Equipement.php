@@ -226,6 +226,7 @@ class Bral_Util_Equipement {
 						"poids" => $e["poids_recette_equipement"],
 						"etat_courant" => $e["etat_courant_equipement"],
 						"etat_initial" => $e["etat_initial_equipement"],
+						"ingredient" => $e["nom_type_ingredient"],
 						"runes" => $runes,
 						"bonus" => $bonus,
 				);

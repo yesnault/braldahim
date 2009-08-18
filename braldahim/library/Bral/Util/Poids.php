@@ -93,7 +93,7 @@ class Bral_Util_Poids {
 			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementRune($idHobbit, $charrette);
 			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementMunitions($idHobbit, $charrette);
 			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementMateriel($idHobbit, $charrette);
-			
+
 			$tab["transportable"] = $charrette["poids_transportable_charrette"];
 
 			$data = array(
@@ -223,7 +223,7 @@ class Bral_Util_Poids {
 
 		return $poids;
 	}
-	
+
 	private static function calculPoidsTransporteElementMateriel($idHobbit, $charrette = null) {
 		$poids = 0;
 
@@ -307,6 +307,18 @@ class Bral_Util_Poids {
 
 			unset($equipementRuneTable);
 			unset($equipementRunes);
+			
+			Zend_Loader::loadClass("EquipementBonus");
+			$equipementBonusTable = new EquipementBonus();
+			$equipementBonus = $equipementBonusTable->findByIdsEquipement($tabWhere);
+			unset($equipementBonusTable);
+
+			if (count($equipementBonus) > 0) {
+				foreach($equipementBonus as $b) {
+					$poids = $poids + $b["vernis_bm_poids_equipement_bonus"];
+				}
+			}
+			unset($equipementBonus);
 		}
 
 		unset($table);
@@ -392,7 +404,7 @@ class Bral_Util_Poids {
 
 		return $poids;
 	}
-	
+
 	public static function getPoidsUnite($nomSystemeUnite) {
 		$retour = null;
 		switch($nomSystemeUnite) {

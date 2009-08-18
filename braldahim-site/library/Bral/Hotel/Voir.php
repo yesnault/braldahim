@@ -500,6 +500,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 					"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
 					"etat_courant" => $e["etat_courant_equipement"],
 					"etat_initial" => $e["etat_initial_equipement"],
+					"ingredient" => $e["nom_type_ingredient"],
 					"runes" => $runes,
 					"bonus" => $bonus,
 				);

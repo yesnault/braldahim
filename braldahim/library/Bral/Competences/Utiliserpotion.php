@@ -123,6 +123,8 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 					"nom_standard" => $e["nom_type_equipement"],
 					"niveau" => $e["niveau_recette_equipement"],
 					"genre_type_equipement" => $e["genre_type_equipement"],
+					"etat_initial_equipement" => $e["etat_initial_equipement"],
+					"etat_courant_equipement" => $e["etat_courant_equipement"],
 			);
 		}
 
@@ -137,6 +139,8 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
 					"nom_standard" => $e["nom_type_equipement"],
 					"niveau" => $e["niveau_recette_equipement"],
+					"etat_initial_equipement" => $e["etat_initial_equipement"],
+					"etat_courant_equipement" => $e["etat_courant_equipement"],
 			);
 		}
 
@@ -379,7 +383,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		} else { // Charrette
 			$equipement = $this->view->tabEquipementsCharrette[$this->idEquipementCharrette];
 		}
-		
+
 		Zend_Loader::loadClass("Equipement");
 		$table = new Equipement();
 		if ($equipement["genre_type_equipement"] == "masculin") {
@@ -392,16 +396,176 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		);
 		$where = "id_equipement = ".$equipement["id_equipement"];
 		$table->update($data, $where);
+
+		Zend_Loader::loadClass("EquipementBonus");
+		if ($potion["type_potion"] == "vernis_enchanteur") {
+			$this->appliqueVernisEnchanteur($equipement, $potion);
+		} else { // reparateur
+			$this->appliqueVernisReparateur($potion, $equipement);
+		}
 		
+		//$this->supprimeDuLaban($potion);
+		$this->view->equipement = $equipement;
+	}
+
+	private function appliqueVernisEnchanteur($equipement, $potion) {
+		$this->resetVernisBM($equipement);
+		$data = array();
+		$detail = "";
+		$this->determineBonusMalus(&$data, $detail, $potion["caracteristique"], $potion["bm_type"], $potion);
+		$this->determineBonusMalus(&$data, $detail, $potion["caracteristique2"], $potion["bm2_type"], $potion);
+		$this->view->detail = $detail;
+		$where = "id_equipement_bonus = ".$equipement["id_equipement"];
+		$table = new EquipementBonus();
+		$table->update($data, $where);
 		
-		/*$table = new EquipementBonus();
+	}
+
+	private function resetVernisBM($equipement) {
+		$table = new EquipementBonus();
 		$data = array(
-			'vernis_template_equipement' => $template
+			'vernis_bm_vue_equipement_bonus' => null,
+			'vernis_bm_armure_equipement_bonus' => null,
+			'vernis_bm_poids_equipement_bonus' => null,
+			'vernis_bm_agilite_equipement_bonus' => null,
+			'vernis_bm_force_equipement_bonus' => null,
+			'vernis_bm_sagesse_equipement_bonus' => null,
+			'vernis_bm_vigueur_equipement_bonus' => null,
+			'vernis_bm_attaque_equipement_bonus' => null,
+			'vernis_bm_degat_equipement_bonus' => null,
+			'vernis_bm_defense_equipement_bonus' => null,
 		);
+
 		$where = "id_equipement_bonus = ".$equipement["id_equipement"];
 		$table->update($data, $where);
-		*/
+	}
 
+	private function determineBonusMalus(&$data, &$detail, $caracteristique, $bmType, $potion) {
+		if ($caracteristique == "VUE") {
+			$type = "A";
+			$nom = "vernis_bm_vue_equipement_bonus";
+		} else if ($caracteristique == "ARM") {
+			$type = "B";
+			$nom = "vernis_bm_armure_equipement_bonus";
+		} else if ($caracteristique == "POIDS") {
+			$type = "C";
+			$nom = "vernis_bm_poids_equipement_bonus";
+		} else if ($caracteristique == "AGI") {
+			$type = "D";
+			$nom = "vernis_bm_agilite_equipement_bonus";
+		} else if ($caracteristique == "FOR") {
+			$type = "D";
+			$nom = "vernis_bm_force_equipement_bonus";
+		} else if ($caracteristique == "SAG") {
+			$type = "D";
+			$nom = "vernis_bm_sagesse_equipement_bonus";
+		} else if ($caracteristique == "VIG") {
+			$type = "D";
+			$nom = "vernis_bm_vigueur_equipement_bonus";
+		} else if ($caracteristique == "ATT") {
+			$type = "D";
+			$nom = "vernis_bm_attaque_equipement_bonus";
+		} else if ($caracteristique == "DEG") {
+			$type = "D";
+			$nom = "vernis_bm_degat_equipement_bonus";
+		} else if ($caracteristique == "DEF") {
+			$type = "D";
+			$nom = "vernis_bm_defense_equipement_bonus";
+		}
+
+		if ($type == "A") {
+			if ($bmType == "malus") {
+				$valeur = -1;
+			} else {
+				$valeur = 1;
+			}
+		} elseif ($type == "B") {
+			if ($bmType == "malus") {
+				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
+					$valeur = -3 * $potion["niveau"];
+				} elseif ($potion["nom_systeme_type_qualite"] == "standard") {
+					$valeur = -2 * $potion["niveau"];
+				} else {
+					$valeur = - $potion["niveau"];
+				}
+			} else {
+				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
+					$valeur = $potion["niveau"];
+				} elseif ($potion["nom_systeme_type_qualite"] == "standard") {
+					$valeur = 2 * $potion["niveau"];
+				} else {
+					$valeur = 3 * $potion["niveau"];
+				}
+			}
+		} elseif ($type == "C") {
+			if ($bmType == "malus") {
+				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
+					$valeur = 0.2 * $potion["niveau"];
+				} elseif ($potion["nom_systeme_type_qualite"] == "standard") {
+					$valeur = 0.1 * $potion["niveau"];
+				} else {
+					$valeur = 0;
+				}
+			} else {
+				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
+					$valeur = 0;
+				} elseif ($potion["nom_systeme_type_qualite"] == "standard") {
+					$valeur = -0.1 * $potion["niveau"];
+				} else {
+					$valeur = -0.2 * $potion["niveau"];
+				}
+			}
+		} elseif ($type == "D") {
+			if ($bmType == "malus") {
+				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
+					$valeur = -$potion["niveau"] -1;
+				} elseif ($potion["nom_systeme_type_qualite"] == "standard") {
+					$valeur = -$potion["niveau"];
+				} else {
+					$valeur = -$potion["niveau"] +1;
+				}
+			} else {
+				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
+					$valeur = $potion["niveau"] -1;
+				} elseif ($potion["nom_systeme_type_qualite"] == "standard") {
+					$valeur = $potion["niveau"];
+				} else {
+					$valeur = $potion["niveau"] +1;
+				}
+			}
+		}
+		
+		$detail .= $bmType. " de ".$valeur." sur la caractéristique ".$caracteristique. " de la pièce d'équipement.<br>";
+		$data[$nom] = $valeur;
+	}
+
+	private function appliqueVernisReparateur($potion, $equipement) {
+		$this->resetVernisBM($equipement);
+
+		if ($potion["nom_systeme_type_qualite"] == "mediocre") {
+			$valeur = +500;
+		} elseif ($potion["nom_systeme_type_qualite"] == "standard") {
+			$valeur = +1000;
+		} else {
+			$valeur = +1500;
+		}
+		
+		Zend_Loader::loadClass("Equipement");
+		$table = new Equipement();
+		
+		$etat = $equipement["etat_courant_equipement"] + $valeur;
+		
+		if ($etat > $equipement["etat_initial_equipement"]) {
+			$etat = $equipement["etat_initial_equipement"];
+		}
+		$data = array(
+			'etat_courant_equipement' => $etat,
+		);
+		$where = "id_equipement = ".$equipement["id_equipement"];
+		$detail = "&Eacute;tat de l'équipement : +".$valeur."<br>";
+		$detail .= "Nouvel &eacute;tat : ".$etat ." / ".$equipement["etat_initial_equipement"];
+		$this->view->detail = $detail;
+		$table->update($data, $where);
 	}
 
 	function getListBoxRefresh() {

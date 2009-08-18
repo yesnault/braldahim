@@ -24,6 +24,8 @@ class ElementEquipement extends Zend_Db_Table {
 		->from('type_emplacement')
 		->from('type_piece')
 		->from('equipement')
+		->from('type_ingredient')
+		->where('id_type_ingredient = id_fk_type_ingredient_base_type_equipement')
 		->where('id_equipement = id_element_equipement')
 		->where('id_fk_recette_equipement = id_recette_equipement')
 		->where('id_fk_type_recette_equipement = id_type_equipement')
