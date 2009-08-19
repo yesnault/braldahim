@@ -1,0 +1,25 @@
+<div id="mygrid_recherche_container" style="width:380px;height:500px;background-color:#E7C57B; align:center"></div> 
+<script>
+	gridQStringRecherche = '/bourg/relatexml?typeselect=recherche&uid='+(new Date()).valueOf();
+	function sortGridOnServerRecherche(ind,gridObj,direct){
+	    mygridRecherche.clearAll();
+	    murl = gridQString+(gridQStringRecherche.indexOf("?")>=0?"&":"?")+"orderby="+ind+"&direct="+direct;
+	    mygridRecherche.loadXML(murl);
+	    mygridRecherche.setSortImgState(true,ind,direct);
+	    return false;
+	}
+	
+	mygridRecherche = new dhtmlXGridObject('mygrid_recherche_container');
+	mygridRecherche.setImagePath("/public/scripts/dhtmlxGrid-2.0.0/codebase/imgs/"); 
+	mygridRecherche.setHeader("Date,À la recherche de...");
+	mygridRecherche.setInitWidths("70,*");
+	mygridRecherche.setColAlign("left,left");
+	mygridRecherche.setColTypes("ro,txt");
+	mygridRecherche.setSkin("braldahim");
+	mygridRecherche.setColSorting("server");
+	mygridRecherche.attachEvent("onBeforeSorting",sortGridOnServerRecherche);
+	mygridRecherche.enableSmartRendering(true,100);
+	mygridRecherche.init();
+	mygridRecherche.loadXML(gridQStringRecherche);
+	mygridRecherche.setSortImgState(true,0,"des");
+</script>

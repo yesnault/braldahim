@@ -28,8 +28,9 @@ class BourgController extends Zend_Controller_Action {
 
 		$f = new Zend_Filter_StripTags();
 		$typeCourant = 1;
-		$typeSelect = intval($f->filter($this->_request->get("typeselect")));
-		if ($typeSelect <= 0 || $typeSelect == null) {
+
+		$typeSelect = $f->filter($this->_request->get("typeselect"));
+		if ($typeSelect != "recherche" && ($typeSelect <= 0 || $typeSelect == null)) {
 			$typeSelect = $typeCourant;
 		}
 		$this->view->typeSelect = $typeSelect;
@@ -97,6 +98,9 @@ class BourgController extends Zend_Controller_Action {
 
 		if ($this->view->typeSelect == 1) {
 			$type = $this->view->config->game->evenements->type->evenement;
+		} elseif ($this->view->typeSelect == "recherche") {
+			$type = $this->view->config->game->evenements->type->recherche;
+			$dateDebut = date('Y-m-d H:i:s', strtotime('-10 days'));
 		} else {
 			$type = $this->view->config->game->evenements->type->naissance;
 		}
@@ -110,9 +114,8 @@ class BourgController extends Zend_Controller_Action {
 			$tab[] = Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y à H:i:s ',$r["date_evenement"]);
 			$hobbit = $r["prenom_hobbit"]." ".$r["nom_hobbit"]." (".$r["id_hobbit"].")";
 			$hobbit .= "^javascript:ouvrirWin(\"".$this->view->config->url->game."/voir/hobbit/?hobbit=".$r["id_hobbit"]."\");^_self";
-			$tab[] = $hobbit;
 			$tab[] = $r["details_evenement"];
-				
+
 			$dhtmlxGrid->addRow($r["id_evenement"], $tab);
 		}
 

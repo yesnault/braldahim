@@ -53,21 +53,19 @@
 </ul>
 <br>
 <ul class="box_contenu1 textalic">
-	<table style="width:100%">
-	<tr>
-		<td style="width:600px" valign="top">
-			<ul class="titre textalic textsizec">
-			Ils relatent...
-			</ul><br>
-			<i>Pour relater un fait, choisissez la compétence "<a href="http://wiki.braldahim.com/wiki/Relater_un_fait">Relater un fait</a>" dans le jeu.</i><br>
-			<br>
+<i>Pour relater un fait, choisissez la compétence "<a href="http://wiki.braldahim.com/wiki/Relater_un_fait">Relater un fait</a>" dans le jeu.</i><br>
 			<label class="alabel" style="text-decoration:underline" onClick="javascript:$('abus_div').style.display='block';">Merci de signaler tout abus constaté</label>.<br>
 			<div id='abus_div' style="display:none">
 			<?=$this->render('abus/formulaire.phtml')?>
 			</div>
-	 	<br>
+			<br><br>
+	<table style="width:100%">
+	<tr>
+		<td style="width:300px" valign="top">
+			<ul class="titre textalic textsizec">
+			Ils relatent...
+			</ul><br>
 			
-			<br>
 			Filtre par année: <select id="annee" name="annee" onChange="document.location.href = '/bourg/?anneeselect='+this.value+'&typeselect='+$('type').value+'&uid='+(new Date()).valueOf()">
 			<? foreach($this->annees as $a): ?>
 				<option value="<?=$a?>" <?if ($this->anneeSelect == $a): echo "selected" ; endif;?>><?=$a?></option>
@@ -80,8 +78,27 @@
 			<? endforeach;?>
 			</select>
 			<br><br>
-			<? include('relate.phtml')?>
+			
+		</td>
+		
+		<td style="width:320px" valign="top">
+			<ul class="titre textalic textsizec">
+			Ils recherchent...
+			</ul><br>
+	 		Seules les annonces de 10 jours ou moins sont affichées.<br>
+			<br>
 		</td>
 	</tr>
+	<tr>
+		<td style="width:320px" valign="top">
+		<? include('relate.phtml')?>
+		</td>
+		
+		<td style="width:320px" valign="top">
+		<? include('recherche.phtml')?>
+		</td>
+	
+	</tr>
+	
 	</table>
 </ul>

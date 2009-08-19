@@ -2,7 +2,10 @@
  <div class='comp_contenu'>
  	
  	Indiquez ici un fait &eacute;minemment notoire... il sera rajout&eacute; dans vos &eacute;v&eacute;nements sur votre profil, 
- 	ainsi que dans le <a href="http://www.braldahim.com/bourg" target="site">bourg</a>.<br>
+ 	ainsi que dans le <a href="http://www.braldahim.com/bourg" target="site">bourg</a>.<br><br>
+ 	
+ 	Si vous utilisez le verbe <b><u>recherche</u></b>, le texte apparaitra uniquement dans le <a href="http://www.braldahim.com/bourg" target="site">bourg</a>
+ 	 dans la section "Ils recherchent".<br>
  	<br>
  	Vous pouvez utiliser les raccourcis suivants : <br>
  	Hobbit : [h1] affichera le hobbit n&deg; 1<br>
@@ -12,7 +15,7 @@
  	<br><br>
  	Le verbe : <br>
  	
- 	<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value!=-1 && $('valeur_2').value!=''){$('bouton_relater').disabled=false;$('bouton_relater_verif').disabled=false; } else {$('bouton_relater').disabled=true;$('bouton_relater_verif').disabled=true;}">
+ 	<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value!=-1 && $('valeur_2').value!=''){ $('bouton_relater_verif').disabled=false; if ($('premiereVerif').value == 'true') {$('bouton_relater').disabled=false;} } else {$('bouton_relater').disabled=true;$('bouton_relater_verif').disabled=true;}">
 		<option value='-1'>(Choisissez un verbe)</option>
 	 	<? foreach($this->verbes as $k => $v): ?>
 	 		<option value='<?=$k?>' <? if ($this->idVerbe == $k) :echo "selected"; endif;?>><?=$v?></option>
@@ -20,12 +23,14 @@
  	</select>
 	<br /><br>Le Texte : <br>
 	<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="80" type="text"> Caract&egrave;res restants<br>
-	<input type="text" name="valeur_2" id="valeur_2" class="inputbox" onkeydown="textCount($('valeur_2'),$('characterstyped'),80);" onkeyup="textCount($('valeur_2'),$('characterstyped'),80); if ($('valeur_1').value!=-1 && this.value != '') {$('bouton_relater').disabled=false;$('bouton_relater_verif').disabled=false; } else {$('bouton_relater').disabled=true;$('bouton_relater_verif').disabled=true; }"  maxlength="80" size="40" value="<?=htmlspecialchars($this->texte_original)?>"/>
+	<input type="text" name="valeur_2" id="valeur_2" class="inputbox" onkeydown="textCount($('valeur_2'),$('characterstyped'),80);" onkeyup="textCount($('valeur_2'),$('characterstyped'),80); if ($('valeur_1').value!=-1 && this.value != '') { $('bouton_relater_verif').disabled=false; if ($('premiereVerif').value == 'true') {$('bouton_relater').disabled=false;} } else {$('bouton_relater').disabled=true;$('bouton_relater_verif').disabled=true;}"  maxlength="80" size="40" value="<?=htmlspecialchars($this->texte_original)?>"/>
+	
+	<input type="hidden" id="premiereVerif" name="premiereVerif" value="<? if ($this->texte != null) : echo "true"; else: echo "false"; endif; ?>">
 	
 	<? if ($this->texte != null) : ?>
-		<br>
-		V&eacute;rification : <br>
-		<?=$this->texte?>
+		<br><br>
+		V&eacute;rification : tout le texte en gras, votre Prénom et votre Nom <u>compris</u>, apparaitra tel quel dans le <a href="http://www.braldahim.com/bourg" target="site">bourg</a>: <br><br>
+		<b><?=$this->texte?></b>
 		<br>
 	<? endif;?>
    
