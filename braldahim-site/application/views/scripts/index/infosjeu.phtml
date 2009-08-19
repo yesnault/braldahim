@@ -1,21 +1,17 @@
 <? if (count($this->infosJeu) > 0) : ?>
     <ul class="titre textalic textsizeb">Chronique...</ul><br>
-    <table class="table_liste" style="width:300px">
-    <thead class="table_liste">
+    <table class="table_liste" style="width:365px; border: 0px">
 	<? 
 		$i = 0; 
 		foreach ($this->infosJeu as $info) : ?>
 		<tr class="table_liste<?=($i % 2);$i++; ?>">
 			<td>
-			<? if (Bral_Util_ConvertDate::get_date_add_time_to_date($info["date_info_jeu"], "36:00:00") > date("Y-m-d H:i:s")): ?>
-				<img src="/public/images/new.gif" title="information de moins de 36 heures" style="cursor:pointer"/>
-			<? else:?>
-				&nbsp;
-			<? endif;?>
-			</td>
-			<td>
 			Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?>
 			<br>
+			<? if (Bral_Util_ConvertDate::get_date_add_time_to_date($info["date_info_jeu"], "36:00:00") > date("Y-m-d H:i:s")): ?>
+				<img src="/public/images/new.gif" title="information de moins de 36 heures" style="cursor:pointer"/>
+				<br>
+			<? endif;?>
 			<?=Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
 			<? if ($info["lien_info_jeu"] != null) :?>
 				<br><a href="<?=$info["lien_info_jeu"]?>">Discussions</a>
@@ -24,6 +20,5 @@
 			</td>
 		</tr>
 	<? endforeach; ?>
-	</thead>
 	</table>
 <? endif; ?>
