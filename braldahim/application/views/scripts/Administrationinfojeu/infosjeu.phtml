@@ -15,10 +15,10 @@
 				<br>
 			<? endif; ?>
 			
-			<?=Bral_Helper_BBBoutons::affiche('texte_info', 2500)?>
+			<?=Bral_Helper_BBBoutons::affiche('texte_info', 3000)?>
 	
 			<span>Message</span><br>
-			<textarea name="texte_info" id="texte_info" class="inputbox" rows="10" cols="60" onkeydown="textCount($('texte_info'),$('characterstyped'),2500);" onkeyup="textCount($('texte_info'),$('characterstyped'),2500);"><?=stripslashes($this->infoJeu["text_info_jeu"])?></textarea>
+			<textarea name="texte_info" id="texte_info" class="inputbox" rows="10" cols="60" onkeydown="textCount($('texte_info'),$('characterstyped'),3000);" onkeyup="textCount($('texte_info'),$('characterstyped'),3000);"><?=stripslashes($this->infoJeu["text_info_jeu"])?></textarea>
 			<br>
 			<input type="text" name="lien_info" id="lien_info" size="40" maxlength="200" class="inputbox" value="<?=$this->infoJeu["lien_info_jeu"]?>"/>
 			<br>
