@@ -70,9 +70,11 @@ class AuthController extends Zend_Controller_Action {
 				Zend_Loader::loadClass("Bral_Util_Admin");
 				Bral_Util_Admin::init($hobbit);
 
+				$this->calculSortieHibernation($hobbit);
+
 				if ($hobbit->est_en_hibernation_hobbit == "oui") {
 					Bral_Util_Log::authentification()->warn("AuthController - loginAction - compte non actif : ".$email);
-					$this->view->message = "Ce compte est en hibernation jusqu'au ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$hobbit->date_fin_hibernation_hobbit). " inclus.";
+					$this->view->message = "Ce compte est en hibernation jusqu'au ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$hobbit->date_fin_hibernation_hobbit). " minimum inclus.";
 					Zend_Auth::getInstance()->clearIdentity();
 				} else if ($hobbit->est_compte_actif_hobbit == "oui" && $hobbit->est_compte_desactive_hobbit == "non") {
 					Bral_Util_Log::authentification()->notice("AuthController - loginAction - authentification OK pour ".$email);
@@ -138,6 +140,26 @@ class AuthController extends Zend_Controller_Action {
 		$this->deleteSessionInTable();
 		Zend_Auth::getInstance()->clearIdentity();
 		$this->render();
+	}
+
+	private function calculSortieHibernation(&$hobbit) {
+		if ($hobbit->est_en_hibernation_hobbit == "oui") {
+			$aujourdhui = date("Y-m-d 0:0:0");
+			echo $aujourdhui;
+			if ($aujourdhui > Bral_Util_ConvertDate::get_datetime_mysql_datetime("Y-m-d 0:0:0", $hobbit->date_fin_hibernation_hobbit)) {
+				$hobbit->date_fin_hibernation_hobbit = null;
+				$hobbit->est_en_hibernation_hobbit = "non";
+				$hobbit->date_fin_tour_hobbit = $aujourdhui;
+				$data = array(
+					'date_fin_hibernation_hobbit' => $hobbit->date_fin_hibernation_hobbit,
+					'est_en_hibernation_hobbit' => $hobbit->est_en_hibernation_hobbit,
+					'date_fin_tour_hobbit' => $hobbit->date_fin_tour_hobbit,
+				);
+				$where = "id_hobbit = ".intval($hobbit->id_hobbit);
+				$table = new Hobbit();
+				$table->update($data, $where);
+			}
+		}
 	}
 
 	private function deleteSessionInTable() {

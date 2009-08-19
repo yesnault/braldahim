@@ -19,14 +19,6 @@ class Bral_Batchs_Hibernation extends Bral_Batchs_Batch {
 		
 		$hobbitTable = new Hobbit();
 		
-		$where = 'date_fin_hibernation_hobbit < \''.$aujourdhui.'\' AND date_fin_hibernation_hobbit != \'0000-00-00 00:00:00\'';
-		$data = array(
-			'date_fin_hibernation_hobbit' => 'NULL',
-			'est_en_hibernation_hobbit' => 'non',
-			'date_fin_tour_hobbit' => $aujourdhui,
-		);
-		$nbSortis = $hobbitTable->update($data, $where);
-		
 		$where = 'date_fin_hibernation_hobbit >= \''.$aujourdhui.'\'';
 		$data = array(
 			'est_en_hibernation_hobbit' => 'oui',
