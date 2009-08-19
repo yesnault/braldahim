@@ -85,10 +85,18 @@
 			
 		<? elseif (isset($this->potionCourante) && $this->potionCourante["type_potion"] == "vernis_reparateur" || $this->potionCourante["type_potion"] == "vernis_enchanteur") : // vernis ?>
 			
+			<? if ($this->potionCourante["type_potion"] == "vernis_reparateur"):?>
+				Vous avez choisi un vernis réparateur. Il ne peut être appliqué que sur les équipements sélectionnés suivant leur ingrédient de base.
+			<? else : ?>
+				Vous avez choisi un vernis enchanteur. Il peut être appliqué sur tout type d'équipement.
+			<? endif;?>
+			<br><br>
+			Attention, si l'équipement est déjà vernis, il perdra les caractéristiques du vernis précédent.<br><br>
+			
 			<? if ($this->nEquipementsLaban > 0 || $this->nEquipementsCharrette > 0): ?>
 		 			Pour <?=$this->nb_pa?> PA, vous pouvez utiliser le vernis choisi sur : <br /><br />
 		 		<? else: ?>
-		 			Aucun équipement disponible dans votre laban ou dans votre charrette.
+		 			Aucun équipement n'est disponible dans votre laban ou dans votre charrette pour l'application du vernis sélectionné.
 		 		<? endif;?>
 		 		
 				<? if ($this->nEquipementsLaban > 0): ?>

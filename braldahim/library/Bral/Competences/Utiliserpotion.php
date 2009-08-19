@@ -50,12 +50,18 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 					'selected' => $selected,
 					'template_m_type_potion' => $p["template_m_type_potion"],
 					'template_f_type_potion' => $p["template_f_type_potion"],
+					'id_fk_type_ingredient_type_potion' => $p["id_fk_type_ingredient_type_potion"],
 			);
 
 			if ($idPotionCourante == $p["id_laban_potion"]) {
 				$potionCourante = $p;
 			}
 		}
+		
+		$this->view->estRegionPvp = $estRegionPvp;
+		$this->view->nPotions = count($tabPotions);
+		$this->view->tabPotions = $tabPotions;
+		$this->view->potionCourante = $potionCourante;
 
 		if (isset($potionCourante)) {
 			if ($potionCourante["type_potion"] == "potion") {
@@ -64,11 +70,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 				$this->prepareVernis();
 			}
 		}
-
-		$this->view->estRegionPvp = $estRegionPvp;
-		$this->view->nPotions = count($tabPotions);
-		$this->view->tabPotions = $tabPotions;
-		$this->view->potionCourante = $potionCourante;
+		
 	}
 
 	private function preparePotion() {
@@ -117,7 +119,9 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$equipementsLaban = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
 		$tabEquipementsLaban = null;
 		foreach ($equipementsLaban as $e) {
-			$tabEquipementsLaban[$e["id_laban_equipement"]] = array(
+			if ($this->view->potionCourante["type_potion"] == "vernis_enchanteur" ||
+			($this->view->potionCourante["type_potion"] == "vernis_reparateur" && $this->view->potionCourante["id_fk_type_ingredient_type_potion"] == $e["id_fk_type_ingredient_base_type_equipement"])) {
+				$tabEquipementsLaban[$e["id_laban_equipement"]] = array(
 					"id_equipement" => $e["id_laban_equipement"],
 					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
 					"nom_standard" => $e["nom_type_equipement"],
@@ -125,7 +129,8 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 					"genre_type_equipement" => $e["genre_type_equipement"],
 					"etat_initial_equipement" => $e["etat_initial_equipement"],
 					"etat_courant_equipement" => $e["etat_courant_equipement"],
-			);
+				);
+			}
 		}
 
 		// recuperation des équipement qui sont presents dans la charrette
@@ -134,14 +139,17 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$equipementsCharrette = $charretteEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
 		$tabEquipementsCharrette = null;
 		foreach ($equipementsCharrette as $e) {
-			$tabEquipementsCharrette[$e["id_charrette_equipement"]] = array(
+			if ($this->view->potionCourante["type_potion"] == "vernis_enchanteur" ||
+			($this->view->potionCourante["type_potion"] == "vernis_reparateur" && $this->view->potionCourante["id_fk_type_ingredient_type_potion"] == $e["id_fk_type_ingredient_base_type_equipement"])) {
+				$tabEquipementsCharrette[$e["id_charrette_equipement"]] = array(
 					"id_equipement" => $e["id_charrette_equipement"],
 					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
 					"nom_standard" => $e["nom_type_equipement"],
 					"niveau" => $e["niveau_recette_equipement"],
 					"etat_initial_equipement" => $e["etat_initial_equipement"],
 					"etat_courant_equipement" => $e["etat_courant_equipement"],
-			);
+				);
+			}
 		}
 
 		$this->view->tabEquipementsLaban = $tabEquipementsLaban;
@@ -403,7 +411,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		} else { // reparateur
 			$this->appliqueVernisReparateur($potion, $equipement);
 		}
-		
+
 		//$this->supprimeDuLaban($potion);
 		$this->view->equipement = $equipement;
 	}
@@ -418,7 +426,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$where = "id_equipement_bonus = ".$equipement["id_equipement"];
 		$table = new EquipementBonus();
 		$table->update($data, $where);
-		
+
 	}
 
 	private function resetVernisBM($equipement) {
@@ -534,7 +542,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 				}
 			}
 		}
-		
+
 		$detail .= $bmType. " de ".$valeur." sur la caractéristique ".$caracteristique. " de la pièce d'équipement.<br>";
 		$data[$nom] = $valeur;
 	}
@@ -549,12 +557,12 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		} else {
 			$valeur = +1500;
 		}
-		
+
 		Zend_Loader::loadClass("Equipement");
 		$table = new Equipement();
-		
+
 		$etat = $equipement["etat_courant_equipement"] + $valeur;
-		
+
 		if ($etat > $equipement["etat_initial_equipement"]) {
 			$etat = $equipement["etat_initial_equipement"];
 		}
