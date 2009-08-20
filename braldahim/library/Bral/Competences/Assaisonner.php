@@ -95,9 +95,7 @@ class Bral_Competences_Assaisonner extends Bral_Competences_Competence {
 			$y = 1;
 		}
 
-		for ($i=1; $i <= $nombre; $i++) {
-			$tirage = $tirage + Bral_Util_De::get_de_specifique(1, $y);
-		}
+		$tirage = Bral_Util_De::getLanceDeSpecifique($nombre, 1, $y);
 		$this->view->nbViandePreparee = $tirage;
 
 		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;

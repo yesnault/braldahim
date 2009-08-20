@@ -19,11 +19,9 @@ class Bral_Util_Vie {
 		$jetRegeneration = 0;
 		
 		if ($hobbit->pv_restant_hobbit < $hobbit->pv_max_hobbit + $hobbit->pv_max_bm_hobbit) {
-			for ($i=1; $i <= $hobbit->regeneration_hobbit; $i++) {
-				$jetRegeneration = $jetRegeneration + Bral_Util_De::get_1d6();
-			}
-	
+			$jetRegeneration = Bral_Util_De::getLanceDe6($hobbit->regeneration_hobbit);
 			$jetRegeneration = $jetRegeneration - $hobbit->regeneration_malus_hobbit;
+
 			if ($jetRegeneration < 0) { // pas de regénération négative (même si le malus est important)
 				$jetRegeneration = 0;
 			}

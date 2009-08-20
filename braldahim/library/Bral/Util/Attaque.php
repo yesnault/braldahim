@@ -595,12 +595,11 @@ Consultez vos événements pour plus de détails.";
 	public static function calculJetCibleHobbit($hobbitCible) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleHobbit - enter -");
 		$config = Zend_Registry::get('config');
-		$jetCible = 0;
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleHobbit - config->game->base_agilite=".$config->game->base_agilite." hobbitCible->agilite_base_hobbit=".$hobbitCible->agilite_base_hobbit);
-		for ($i=1; $i<=$config->game->base_agilite + $hobbitCible->agilite_base_hobbit; $i++) {
-			$jetCible = $jetCible + Bral_Util_De::get_1d6();
-			Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleHobbit - jetCible=".$jetCible);
-		}
+		
+		$jetCible = Bral_Util_De::getLanceDe6($config->game->base_agilite + $hobbitCible->agilite_base_hobbit);
+		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleHobbit - jetCible=".$jetCible);
+
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleHobbit - hobbitCible->agilite_bm_hobbit=".$hobbitCible->agilite_bm_hobbit);
 		$jetCible = $jetCible + $hobbitCible->agilite_bm_hobbit + $hobbitCible->agilite_bbdf_hobbit + $hobbitCible->bm_defense_hobbit;
 		if ($jetCible < 0) {
@@ -614,10 +613,7 @@ Consultez vos événements pour plus de détails.";
 	public static function calculJetCibleMonstre($monstre) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetCibleMonstre - enter -");
 		$config = Zend_Registry::get('config');
-		$jetCible = 0;
-		for ($i=1; $i <= $monstre["agilite_base_monstre"]; $i++) {
-			$jetCible = $jetCible + Bral_Util_De::get_1d6();
-		}
+		$jetCible = Bral_Util_De::getLanceDe6($monstre["agilite_base_monstre"]);
 		$jetCible = $jetCible + $monstre["agilite_bm_monstre"];
 		if ($jetCible < 0) {
 			$jetCible = 0;
@@ -629,10 +625,7 @@ Consultez vos événements pour plus de détails.";
 	public static function calculJetAttaqueNormale($hobbit) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetAttaqueNormale - enter -");
 		$config = Zend_Registry::get('config');
-		$jetAttaquant = 0;
-		for ($i=1; $i<=$config->game->base_agilite + $hobbit->agilite_base_hobbit; $i++) {
-			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
-		}
+		$jetAttaquant = Bral_Util_De::getLanceDe6($config->game->base_agilite + $hobbit->agilite_base_hobbit);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculJetAttaqueNormale - jetAttaquant=".$jetAttaquant);
 		$jetAttaquant = $jetAttaquant + $hobbit->agilite_bm_hobbit + $hobbit->agilite_bbdf_hobbit + $hobbit->bm_attaque_hobbit;
 		if ($jetAttaquant < 0) {
@@ -650,14 +643,9 @@ Consultez vos événements pour plus de détails.";
 		$jetDegat["noncritique"] = 0;
 		$coefCritique = 1.5;
 
-		for ($i=1; $i<= ($config->game->base_force + $hobbit->force_base_hobbit) * $coefCritique; $i++) {
-			$jetDegat["critique"] = $jetDegat["critique"] + Bral_Util_De::get_1d6();
-		}
-
-		for ($i=1; $i<= ($config->game->base_force + $hobbit->force_base_hobbit); $i++) {
-			$jetDegat["noncritique"] = $jetDegat["noncritique"] + Bral_Util_De::get_1d6();
-		}
-
+		$jetDegat["critique"] = Bral_Util_De::getLanceDe6(($config->game->base_force + $hobbit->force_base_hobbit) * $coefCritique);
+		$jetDegat["noncritique"] = Bral_Util_De::getLanceDe6($config->game->base_force + $hobbit->force_base_hobbit);
+		
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatAttaqueNormale - critique=".$jetDegat["critique"]);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatAttaqueNormale - noncritique=".$jetDegat["noncritique"]);
 

@@ -88,10 +88,7 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 	 * s'il peut l'identifier ou si le niveau de sagesse est vraiment trop important pour lui. 
 	 */
 	private function calculIdentifierRune($rune) {
-		$jetHobbit = 0;
-		for ($i = 1; $i <= $this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit; $i++) {
-			$jetHobbit = $jetHobbit + Bral_Util_De::get_1d6();
-		}
+		$jetHobbit = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit);
 		$this->view->jetHobbit = $jetHobbit + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
 		
 		if ($this->view->jetHobbit >= $rune["sagesse_type_rune"]) {

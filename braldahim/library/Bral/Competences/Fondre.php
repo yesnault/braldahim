@@ -143,16 +143,10 @@ class Bral_Competences_Fondre extends Bral_Competences_Competence {
 		$this->view->nbLingots = 0;
 		
 		for($j = 1; $j <= $nb; $j++) {
-			$tirage = 0;
-			for ($i=1; $i <= ($this->view->config->game->base_vigueur + $this->view->user->vigueur_base_hobbit) ; $i++) {
-				$tirage = $tirage + Bral_Util_De::get_1d6();
-			}
+			$tirage = Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $this->view->user->vigueur_base_hobbit);
 			$tirage = $tirage + $this->view->user->vigueur_bm_hobbit + $this->view->user->vigueur_bbdf_hobbit;
 
-			$tirage2 = 0;
-			for ($i=1; $i <= ($this->view->config->game->base_vigueur + $this->view->user->vigueur_base_hobbit) ; $i++) {
-				$tirage2 = $tirage2 + Bral_Util_De::get_1d6();
-			}
+			$tirage2 = Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $this->view->user->vigueur_base_hobbit);
 
 			if ($tirage > $tirage2) {
 				$this->view->nbLingots = $this->view->nbLingots + 1;

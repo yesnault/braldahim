@@ -123,10 +123,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		 * Si Ni*30 < Js  alors 80 % des ...
 		 */
 		
-		$jetSag = 0;
-		for ($i=1; $i<=$this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit; $i++) {
-			$jetSag = $jetSag + Bral_Util_De::get_1d6();
-		}
+		$jetSag = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit);
 		$jetSag = $jetSag + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
 		
 		if ($jetSag < $nivEquipement*10) {

@@ -335,11 +335,9 @@ Consultez vos événements pour plus de détails.";
 
 	private function calculJetCible($cible) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetCible - enter");
-		$jetCible = 0;
-		for ($i=1; $i<= self::$config->game->base_agilite + $cible["agilite_base_hobbit"]; $i++) {
-			$jetCible = $jetCible + Bral_Util_De::get_1d6();
-		}
+		$jetCible = Bral_Util_De::getLanceDe6(self::$config->game->base_agilite + $cible["agilite_base_hobbit"]);
 		$jetCible = $jetCible + $cible["agilite_bm_hobbit"] + $cible["bm_defense_hobbit"] + $cible["agilite_bbdf_hobbit"];
+		
 		if ($jetCible < 0) {
 			$jetCible = 0;
 		}
@@ -349,11 +347,9 @@ Consultez vos événements pour plus de détails.";
 
 	private function calculJetAttaque() {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetAttaque - enter");
-		$jetAttaquant = 0;
-		for ($i=1; $i<=$this->monstre["agilite_base_monstre"]; $i++) {
-			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
-		}
+		$jetAttaquant = Bral_Util_De::getLanceDe6($this->monstre["agilite_base_monstre"]);
 		$jetAttaquant = $jetAttaquant + $this->monstre["agilite_bm_monstre"];
+
 		if ($jetAttaquant < 0) {
 			$jetAttaquant = 0;
 		}
@@ -363,15 +359,14 @@ Consultez vos événements pour plus de détails.";
 
 	private function calculDegat($estCritique) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDegat - enter (critique=".$estCritique.")");
-		$jetDegat = 0;
 		$coefCritique = 1;
 		if ($estCritique === true) {
 			$coefCritique = 1.5;
 		}
-		for ($i=1; $i <= (self::$config->game->base_force + $this->monstre["force_base_monstre"])  * $coefCritique; $i++) {
-			$jetDegat = $jetDegat + Bral_Util_De::get_1d6();
-		}
+		
+		$jetDegat = Bral_Util_De::getLanceDe6((self::$config->game->base_force + $this->monstre["force_base_monstre"])  * $coefCritique);
 		$jetDegat = $jetDegat + $this->monstre["force_bm_monstre"];
+		
 		if ($jetDegat < 0) {
 			$jetDegat = 0;
 		}

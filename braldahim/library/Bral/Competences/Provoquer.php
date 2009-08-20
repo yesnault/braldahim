@@ -104,16 +104,10 @@ class Bral_Competences_Provoquer extends Bral_Competences_Competence {
 	private function calculProvoquer($monstre) {
 		// jet VIG hobbit > jet de SAG
 		
-		$jetHobbit = 0;
-		for ($i = 1; $i <= $this->view->config->game->base_vigueur + $this->view->user->vigueur_base_hobbit; $i++) {
-			$jetHobbit = $jetHobbit + Bral_Util_De::get_1d6();
-		}
+		$jetHobbit = Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $this->view->user->vigueur_base_hobbit);
 		$this->view->jetHobbit = $jetHobbit + $this->view->user->vigueur_bm_hobbit + $this->view->user->vigueur_bbdf_hobbit;
 		
-		$jetMonstre = 0;
-		for ($i = 1; $i <= $monstre["sagesse_base_monstre"]; $i++) {
-			$jetMonstre = $jetMonstre + Bral_Util_De::get_1d6();
-		}
+		$jetMonstre = Bral_Util_De::getLanceDe6($monstre["sagesse_base_monstre"]);
 		$this->view->jetMonstre = $jetMonstre + $monstre["sagesse_bm_monstre"];
 		
 		if ($this->view->jetHobbit > $this->view->jetMonstre) {

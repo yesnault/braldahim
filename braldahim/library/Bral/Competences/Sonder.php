@@ -63,10 +63,7 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 
 	private function sonder($choix) {
 		// La distance max de repérage d'un filon est : jet VIG+BM
-		$tirageRayonMax = 0;
-		for ($i=1; $i<= ($this->view->config->game->base_vigueur + $this->view->user->vigueur_base_hobbit) ; $i++) {
-			$tirageRayonMax = $tirageRayonMax + Bral_Util_De::get_1d6();
-		}
+		$tirageRayonMax = Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $this->view->user->vigueur_base_hobbit);
 		$this->view->rayon_max = $tirageRayonMax + $this->view->user->vigueur_bm_hobbit + $this->view->user->vigueur_bbdf_hobbit;
 
 		$idTypeMinerai = null;

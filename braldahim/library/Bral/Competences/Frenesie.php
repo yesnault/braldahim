@@ -155,11 +155,9 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 
 	protected function calculJetAttaque($hobbit) {
 		//Attaque : 0.5*(jet d'AGI)+BM AGI + bonus arme att
-		$jetAttaquant = 0;
-		for ($i=1; $i<=$this->view->config->game->base_agilite + $hobbit->agilite_base_hobbit; $i++) {
-			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
-		}
+		$jetAttaquant = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $hobbit->agilite_base_hobbit);
 		$jetAttaquant = floor((0.5 * $jetAttaquant) + $hobbit->agilite_bm_hobbit + $hobbit->agilite_bbdf_hobbit + $hobbit->bm_attaque_hobbit);
+		
 		if ($jetAttaquant < 0) {
 			$jetAttaquant = 0;
 		}
@@ -174,10 +172,8 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		$jetDegatForce = 0;
 		$coefCritique = 1.5;
 			
-		for ($i=1; $i<= ($this->view->config->game->base_force + $hobbit->force_base_hobbit); $i++) {
-			$jetDegatForce = $jetDegatForce + Bral_Util_De::get_1d6();
-		}
-
+		$jetDegatForce = Bral_Util_De::getLanceDe6($this->view->config->game->base_force + $hobbit->force_base_hobbit);
+		
 		if (Bral_Util_Commun::isRunePortee($hobbit->id_hobbit, "EM")) {
 			$this->view->effetRune = true;
 			// dégats : Jet FOR + BM + Bonus de dégat de l'arme

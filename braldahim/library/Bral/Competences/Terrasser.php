@@ -134,10 +134,7 @@ class Bral_Competences_Terrasser extends Bral_Competences_Competence {
 	}
 
 	private function calculJetSagesse() {
-		$jet = 0;
-		for ($i=1; $i <= ($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit) ; $i++) {
-			$jet = $jet + Bral_Util_De::get_1d6();
-		}
+		$jet = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit);
 		$jet = $jet + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
 		if ($jet < 0) {
 			$jet = 0;

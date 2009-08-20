@@ -89,9 +89,28 @@ class Bral_Util_De {
 		return self::getLanceDeSpecifique(3, 1, 10);
 	}
 
+	/*
+	 * $n : nombre dés lancés
+	 * $a : valeur minimum du dé
+	 * $b : valeur maximum du dé
+	 */
 	public static function getLanceDeSpecifique($n, $a, $b) {
 		srand(self::make_seed());
 		return rand($n * $a, $n * $b);
+	}
+
+	/*
+	 * $n : nombre dés 6 lancés
+	 */
+	public static function getLanceDe6($n) {
+		return self::getLanceDeSpecifique($n, 1, 6);
+	}
+	
+	/*
+	 * $n : nombre dés 3 lancés
+	 */
+	public static function getLanceDe3($n) {
+		return self::getLanceDeSpecifique($n, 1, 3);
 	}
 
 	public static function get_de_specifique($a, $b) {

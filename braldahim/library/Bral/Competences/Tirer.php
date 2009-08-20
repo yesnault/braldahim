@@ -207,13 +207,11 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 	 * coeff varie suivant distance et palissade
 	 */
 	protected function calculJetAttaque($hobbit) {
-		$jetAttaquant = 0;
 		$coef = 0;
 		$palissade = false;
 		$monte=false;
-		for ($i=1; $i<=$this->view->config->game->base_agilite + $hobbit->agilite_base_hobbit; $i++) {
-			$jetAttaquant = $jetAttaquant + Bral_Util_De::get_1d6();
-		}
+		
+		$jetAttaquant = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $hobbit->agilite_base_hobbit);
 		
 		if ($this->view->xCible < $hobbit->x_hobbit){
 			$x_min = $this->view->xCible;
@@ -321,18 +319,12 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 	protected function calculDegat($hobbit) {
 		$jetDegat["critique"] = 0;
 		$jetDegat["noncritique"] = 0;
-		$jetDegAgi = 0;
-		$jetDegSag = 0;
 		$coefCritique = 1.5;
 		
-		for ($i=1; $i<= ($this->view->config->game->base_agilite + $hobbit->agilite_base_hobbit); $i++) {
-			$jetDegAgi = $jetDegAgi + Bral_Util_De::get_1d6();
-		}
+		$jetDegAgi = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $hobbit->agilite_base_hobbit);
 		$jetDegAgi = $jetDegAgi + $this->view->user->agilite_bm_hobbit + $this->view->user->agilite_bbdf_hobbit;
 		
-		for ($i=1; $i<= ($this->view->config->game->base_sagesse + $hobbit->sagesse_base_hobbit); $i++) {
-			$jetDegSag = $jetDegSag + Bral_Util_De::get_1d6();
-		}
+		$jetDegSag = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $hobbit->sagesse_base_hobbit);
 		$jetDegSag = $jetDegSag + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
 		
 		$jetDegat["noncritique"] = floor(($jetDegAgi + $jetDegSag)/2);

@@ -62,10 +62,8 @@ class Bral_Competences_Rechercherplante extends Bral_Competences_Competence {
 	private function rechercherPlante($choix) {
 		
 		// La distance max de repérage d'une plante est : jet SAG+BM
-		$tirageRayonMax = 0;
-		for ($i=1; $i <= ($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit) ; $i++) {
-			$tirageRayonMax = $tirageRayonMax + Bral_Util_De::get_1d6();
-		}
+		$tirageRayonMax = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $this->view->user->sagesse_base_hobbit);
+		
 		$this->view->rayon_max = $tirageRayonMax + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
 
 		$idTypePlante = null;

@@ -646,12 +646,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 	}
 
 	private function calculBm($niveau) {
-		$retour = 0;
-
-		for ($i = 1; $i <= $niveau + 1; $i++) {
-			$retour = $retour + Bral_Util_De::get_1d3();
-		}
-		return $retour;
+		return Bral_Util_De::getLanceDe3($niveau + 1);;
 	}
 
 	private function calculNbTour($potion) {
