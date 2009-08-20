@@ -181,7 +181,7 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 		$tabCompetencesAmeliorees = null;
 
 		foreach ($competences as $c) {
-			if (("produire".$this->boutiquerMetier != $c["nom_systeme_competence"] && "reparer".$this->boutiquerMetier != $c["nom_systeme_competence"] && $nbPa != -1) || $nbPa == -1) {
+			if ($c["pourcentage_hcomp"] < 50 && ("produire".$this->boutiquerMetier != $c["nom_systeme_competence"] && "reparer".$this->boutiquerMetier != $c["nom_systeme_competence"] && $nbPa != -1) || $nbPa == -1) {
 				$pourcentage = $c["pourcentage_hcomp"] + $deCompetence;
 				if ($pourcentage > $c["pourcentage_max_competence"]) { // % comp maximum
 					$pourcentage = $c["pourcentage_max_competence"];
