@@ -81,7 +81,7 @@ abstract class Bral_Competences_Competence {
 	abstract function getListBoxRefresh();
 
 	protected function constructListBoxRefresh($tab = null) {
-		if ($this->view->user->niveau_hobbit > 0 && ($this->view->user->niveau_hobbit % 10) == 0) {
+		if ($this->view->user->niveau_hobbit > 0 && $this->view->changeNiveau == true) {
 			$tab[] = "box_titres";
 		}
 		$tab[] = "box_profil";
