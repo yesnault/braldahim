@@ -1,3 +1,4 @@
+
 <? if (count($this->infosJeu) > 0) : ?>
     <ul class="titre textalic textsizeb">Chronique...</ul><br>
     <table class="table_liste" style="width:365px; border: 0px">
@@ -10,11 +11,10 @@
 			<br>
 			<? if (Bral_Util_ConvertDate::get_date_add_time_to_date($info["date_info_jeu"], "36:00:00") > date("Y-m-d H:i:s")): ?>
 				<img src="/public/images/new.gif" title="information de moins de 36 heures" style="cursor:pointer"/>
-				<br>
 			<? endif;?>
 			<?=Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
 			<? if ($info["lien_info_jeu"] != null) :?>
-				<br><a href="<?=$info["lien_info_jeu"]?>">Discussions</a>
+				<a href="<?=$info["lien_info_jeu"]?>">...Lire la suite.</a>
 			<? endif;?>
 			<br><br>
 			</td>
