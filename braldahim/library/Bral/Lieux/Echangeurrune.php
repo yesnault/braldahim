@@ -127,19 +127,9 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 		$dateCreation = date("Y-m-d H:i:s");
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, 10);
 
-		Zend_Loader::loadClass("ElementRune");
-		$elementRuneTable = new ElementRune();
-		$data = array(
-			"x_element_rune"  => $this->view->user->x_hobbit,
-			"y_element_rune" => $this->view->user->y_hobbit,
-			"id_fk_type_element_rune" => $typeRune["id_type_rune"],
-			"date_fin_element_rune" => $dateFin,
-		);
-
-		$idRune = $elementRuneTable->insert($data);
-
-		$where = "id_rune_element_rune=".$idRune;
-		$elementRuneTable->delete($where);
+		Zend_Loader::loadClass("IdsRune");
+		$idsRuneTable = new IdsRune();
+		$idRune = $idsRuneTable->prepareNext();
 
 		$labanRuneTable = new LabanRune();
 		$data = array (
