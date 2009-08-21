@@ -50,8 +50,8 @@ class Bral_Helper_Calendrier {
     	}
     	
     	
-    	// l'an 143 correspond à l'an 2008, soit 1865 années de différence
-    	$annee = $annee - 1865;
+    	// l'an 401 correspond à l'an 2008, soit 1607 années de différence
+    	$annee = $annee - 1607;
     	$anneeTexte = "";
     	
     	if ($avecSautLigneAnnee) {
