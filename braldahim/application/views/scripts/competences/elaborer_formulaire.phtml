@@ -37,7 +37,7 @@
 	 	} else {
 	 		$('bouton_elaborer').disabled=false; 
 	 	}
-		if ($('valeur_2').value > 0) {
+		if (parseInt($('valeur_2').value) > 0) {
 			if ($('valeur_3').value != -2) { 
 	 			$('valeur_3').disabled = false;
 	 		} 
@@ -125,13 +125,13 @@
 		
 		if (this.name != 'valeur_5') {
 			nomHiddenCout = 'hiddenCout-' + $('valeur_2').value + '-' + $(nomHiddenType).value;
-			if ($(nomHiddenQuantite).value < $(nomHiddenCout).value) {
+			if (parseInt($(nomHiddenQuantite).value) < parseInt($(nomHiddenCout).value)) {
 				alert('Il n\'y a pas assez de ressouces de cette plante pour le niveau choisi');
 				this.selectedIndex = 0;
 			}
 		} else {
 			nomHiddenCout = 'hiddenCout-' + $('valeur_2').value + '--1';
-			if ($(nomHiddenQuantite).value < $(nomHiddenCout).value) {
+			if (parseInt($(nomHiddenQuantite).value) < parseInt($(nomHiddenCout).value)) {
 				alert('Il n\'y a pas assez de ressouces de cette plante pour le niveau choisi');
 				this.selectedIndex = 0;
 			}
@@ -150,7 +150,7 @@
 		 	<? foreach($this->tabPartiePlantes as $k => $v) : ?>
 		 		<? if ($k == $this->cout[1][0]["id_type_partieplante"]): ?>
 			 		<? foreach($v as $k2 => $v2) : ?>
-			 			<option value="<?=$v2["id_calcule"]?>"><?=$v2["nom_type"]. " : ". $v2["quantite_preparees"]. " ".$v2["nom_type_partieplante"]?></option>
+			 			<option value="<?=$v2["id_calcule"]?>"><?=$v2["nom_type"]. " : ". $v2["quantite_preparees"]. " ".$v2["nom_type_partieplante"]?> en stock</option>
 			 		<? endforeach; ?>
 	 			<? endif;?>
 		 	<? endforeach; ?>
@@ -183,7 +183,7 @@
 		 	<? foreach($this->tabPartiePlantes as $k => $v) : ?>
 		 		<? if ($k == $this->cout[1][1]["id_type_partieplante"]): ?>
 			 		<? foreach($v as $k2 => $v2) : ?>
-			 			<option value="<?=$v2["id_calcule"]?>"><?=$v2["nom_type"]. " : ". $v2["quantite_preparees"]. " ".$v2["nom_type_partieplante"]?></option>
+			 			<option value="<?=$v2["id_calcule"]?>"><?=$v2["nom_type"]. " : ". $v2["quantite_preparees"]. " ".$v2["nom_type_partieplante"]?> en stock</option>
 			 		<? endforeach; ?>
 	 			<? endif;?>
 		 	<? endforeach; ?>
@@ -193,7 +193,7 @@
 		 	<option value="-1">(Choisissez l'ingrédient 3)</option>
 		 	<? foreach($this->tabPartiePlantes as $k => $v) : ?>
 		 		<? foreach($v as $k2 => $v2) : ?>
-		 			<option value="<?=$v2["id_calcule"]?>"><?=$v2["nom_type"]. " : ". $v2["quantite_preparees"]. " ".$v2["nom_type_partieplante"]?></option>
+		 			<option value="<?=$v2["id_calcule"]?>"><?=$v2["nom_type"]. " : ". $v2["quantite_preparees"]. " ".$v2["nom_type_partieplante"]?> en stock</option>
 		 		<? endforeach; ?>
 		 	<? endforeach; ?>
 		</select>
