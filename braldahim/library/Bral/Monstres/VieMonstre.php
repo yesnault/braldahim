@@ -44,7 +44,7 @@ class Bral_Monstres_VieMonstre {
 	 * @return boolean : le monstre a bougé (true) ou non (false)
 	 */
 	public function deplacementMonstre($x_destination, $y_destination) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementMonstre - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementMonstre ".$this->monstre["id_monstre"]."  - enter");
 		if ($this->monstre == null) {
 			new Zend_Exception("Bral_Monstres_VieMonstre::deplacementMonstre, monstre inconnu");
 		}
@@ -53,13 +53,13 @@ class Bral_Monstres_VieMonstre {
 
 		// on regarde si le monstre est déjà dans la position
 		if (($x_destination == $this->monstre["x_monstre"]) && ($y_destination == $this->monstre["y_monstre"])) {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre en position");
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  en position");
 			return false;
 		}
 		$modif = false;
 		Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA restants pour idm:" .$this->monstre["id_monstre"]." : ".$this->monstre["pa_monstre"]);
 		if ($this->monstre["pa_monstre"] == 0) {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - Le monstre n'a plus de PA");
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - Le monstre ".$this->monstre["id_monstre"]." n'a plus de PA");
 		}
 
 		$palissadeTable = new Palissade();
@@ -121,7 +121,7 @@ class Bral_Monstres_VieMonstre {
 				$modif = true;
 			} else {
 				if ($this->tabValidationPalissade[$x_monstre][$y_monstre] == false) {
-					Bral_Util_Log::viemonstres()->debug(get_class($this)." - pas de deplacement, cause palissade");
+					Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas de deplacement, cause palissade");
 				}
 			}
 
@@ -173,7 +173,7 @@ class Bral_Monstres_VieMonstre {
 		$jetCible = $this->calculJetCible($cible);
 
 		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
-		Bral_Util_Log::viemonstres()->debug(get_class($this)." - Jets : attaque=".$jetAttaquant. " esquive=".$jetCible."");
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - idm (".$this->monstre["id_monstre"]." ) Jets : attaque=".$jetAttaquant. " esquiveCible=".$jetCible."");
 		if ($jetAttaquant > $jetCible) {
 			$critique = false;
 			if ($jetAttaquant / 2 > $jetCible) {
