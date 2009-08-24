@@ -57,6 +57,7 @@ class Bral_Monstres_VieMonstre {
 			return false;
 		}
 		$modif = false;
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA restants pour idm:" .$this->monstre["id_monstre"]." : ".$this->monstre["pa_monstre"]);
 		if ($this->monstre["pa_monstre"] == 0) {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - Le monstre n'a plus de PA");
 		}
@@ -182,6 +183,7 @@ class Bral_Monstres_VieMonstre {
 			return false; // cible non morte
 		}
 
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA Monstre (".$this->monstre["id_monstre"].") avant attaque nb=".$this->monstre["pa_monstre"]);
 		$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - 4;
 
 		$jetAttaquant = $this->calculJetAttaque();
@@ -317,6 +319,8 @@ Consultez vos événements pour plus de détails.";
 			$this->monstre["sagesse_bm_monstre"] = 0;
 			$this->monstre["vigueur_bm_monstre"] = 0;
 			$this->updateMonstre();
+		} else {
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - pas de nouveau tour");
 		}
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour (idm:".$this->monstre["id_monstre"].") - exit");
 	}
@@ -397,7 +401,7 @@ Consultez vos événements pour plus de détails.";
 	}
 
 	private function updateMonstre() {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateMonstre - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateMonstre (".$this->monstre["id_monstre"].") - enter");
 		if ($this->monstre == null) {
 			new Zend_Exception(get_class($this)." - miseAJourMonstre, monstre inconnu");
 		}
