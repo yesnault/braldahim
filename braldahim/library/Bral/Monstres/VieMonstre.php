@@ -295,7 +295,9 @@ Consultez vos événements pour plus de détails.";
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - nouveau tour");
 			$this->monstre["date_fin_tour_monstre"] = Bral_Util_ConvertDate::get_date_add_time_to_date($this->monstre["date_fin_tour_monstre"], $this->monstre["duree_prochain_tour_monstre"]);
 			if ($this->monstre["date_fin_tour_monstre"]  < $date_courante) {
+				Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$this->monstre["id_monstre"].") date_fin_tour_monstre avant calcul:".$this->monstre["date_fin_tour_monstre"]. " duree prochain:".$this->monstre["duree_prochain_tour_monstre"]);
 				$this->monstre["date_fin_tour_monstre"] = Bral_Util_ConvertDate::get_date_add_time_to_date($date_courante, $this->monstre["duree_prochain_tour_monstre"]);
+				Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$this->monstre["id_monstre"].") date_fin_tour_monstre calculee:".$this->monstre["date_fin_tour_monstre"]);
 			}
 			$this->monstre["duree_prochain_tour_monstre"] = $this->monstre["duree_base_tour_monstre"];
 			$this->monstre["pa_monstre"] = self::$config->game->monstre->pa_max;
@@ -320,7 +322,7 @@ Consultez vos événements pour plus de détails.";
 			$this->monstre["vigueur_bm_monstre"] = 0;
 			$this->updateMonstre();
 		} else {
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - pas de nouveau tour");
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$this->monstre["id_monstre"].") pas de nouveau tour");
 		}
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour (idm:".$this->monstre["id_monstre"].") - exit");
 	}
@@ -405,7 +407,10 @@ Consultez vos événements pour plus de détails.";
 		if ($this->monstre == null) {
 			new Zend_Exception(get_class($this)." - miseAJourMonstre, monstre inconnu");
 		}
-
+		
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateMonstre (idm:".$this->monstre["id_monstre"].") (PA:".$this->monstre["pa_monstre"].")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateMonstre (idm:".$this->monstre["date_fin_tour_monstre"].") (Date fin tour:".$this->monstre["date_fin_tour_monstre"].")");
+		
 		$monstreTable = new Monstre();
 		$data = array(
 			'pa_monstre' => $this->monstre["pa_monstre"],
@@ -432,7 +437,7 @@ Consultez vos événements pour plus de détails.";
 
 		$where = "id_monstre=".$this->monstre["id_monstre"];
 		$monstreTable->update($data, $where);
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateMonstre - exit");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateMonstre (idm:".$this->monstre["id_monstre"].") - exit");
 	}
 
 	/*
