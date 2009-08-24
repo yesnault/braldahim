@@ -649,7 +649,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			foreach ($tabPost as $key => $value) {
 				if ($key != 'id_monstre' && mb_substr($key, -8) == "_monstre") {
 					$modification .= "$key avant: ".$monstre[$key]. " apres:".$value;
-					if ($data [$key] != $value) {
+					if ($monstre[$key] != $value) {
 						$modification .= " ==> Valeur modifiée";
 					}
 					$modification .= PHP_EOL;

@@ -47,7 +47,7 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 				if ($key != 'id_hobbit' && mb_substr($key, -7) == "_hobbit") {
 
 					$modification .= "$key avant: ".$hobbit[$key]. " apres:".$value;
-					if ($data [$key] != $value) {
+					if ($hobbit[$key] != $value) {
 						$modification .= " ==> Valeur modifiée";
 					}
 					$modification .= PHP_EOL;
