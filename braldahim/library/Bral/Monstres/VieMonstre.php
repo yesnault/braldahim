@@ -138,25 +138,8 @@ class Bral_Monstres_VieMonstre {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementMonstre - exit (".$retour.")");
 	}
 
-	public function attaque($view) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaque - enter");
-
-		$this->calculTour();
-
-		if ($this->monstre["id_fk_hobbit_cible_monstre"] != null) {
-			$hobbitTable = new Hobbit();
-			$cibleDuMonstre = $hobbitTable->findById($m["id_fk_hobbit_cible_monstre"]);
-			$cibleDuMonstre = $cibleDuMonstre->toArray();
-			$vieMonstre->attaqueCible($cibleDuMonstre, $this->view);
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaque - exit (cible)");
-		} else {
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaque - exit (pas de cible)");
-			return null; // pas de cible
-		}
-	}
-
 	public function attaqueCible(&$cible, $view) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible (idm:".$this->monstre["id_monstre"].") - enter");
 		$koCible = false;
 
 		if ($this->monstre == null) {
@@ -209,7 +192,7 @@ class Bral_Monstres_VieMonstre {
 			}
 			$cible["pv_restant_hobbit"] = $cible["pv_restant_hobbit"] - $pvPerdus;
 			if ($cible["pv_restant_hobbit"]  <= 0) {
-				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Ko de la cible La cible (".$cible["id_hobbit"].") par Monstre id:".$this->monstre["id_monstre"]. " pvPerdus=".$pvPerdus);
+				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible (idm:".$this->monstre["id_monstre"].") - Ko de la cible La cible (".$cible["id_hobbit"].") par Monstre id:".$this->monstre["id_monstre"]. " pvPerdus=".$pvPerdus);
 				$koCible = true;
 				$this->monstre["nb_kill_monstre"] = $this->monstre["nb_kill_monstre"] + 1;
 				$this->monstre["id_fk_hobbit_cible_monstre"] = null;
@@ -224,7 +207,7 @@ class Bral_Monstres_VieMonstre {
 				$this->majEvenements($cible["id_hobbit"], null, $id_type_evenement_cible, $details, $detailsBot, $cible["niveau_hobbit"], $view);
 				$this->updateCible($cible);
 			} else {
-				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - Survie de la cible La cible (".$cible["id_hobbit"].") attaquee par Monstre id:".$this->monstre["id_monstre"]. " pvPerdus=".$pvPerdus. " pv_restant_hobbit=".$cible["pv_restant_hobbit"]);
+				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible (idm:".$this->monstre["id_monstre"].") - Survie de la cible La cible (".$cible["id_hobbit"].") attaquee par Monstre id:".$this->monstre["id_monstre"]. " pvPerdus=".$pvPerdus. " pv_restant_hobbit=".$cible["pv_restant_hobbit"]);
 				$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - $this->monstre["niveau_monstre"];
 				$cible["est_ko_hobbit"] = "non";
 				$id_type_evenement = self::$config->game->evenements->type->attaquer;
@@ -241,7 +224,7 @@ Consultez vos événements pour plus de détails.";
 					// mise a jour de l'événement avant la riposte
 					$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
 
-					Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible - La cible (".$cible["id_hobbit"].") possede le mot S -> Riposte");
+					Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible (idm:".$this->monstre["id_monstre"].") - La cible (".$cible["id_hobbit"].") possede le mot S -> Riposte");
 					$hobbitTable = new Hobbit();
 					$hobbitRowset = $hobbitTable->find($cible["id_hobbit"]);
 					$hobbitAttaquant = $hobbitRowset->current();
@@ -271,7 +254,7 @@ Consultez vos événements pour plus de détails.";
 			$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
 		}
 		$this->updateMonstre();
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - exit (return=".$koCible.")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - (idm:".$this->monstre["id_monstre"].") - exit");
 		return $koCible;
 	}
 
@@ -292,7 +275,7 @@ Consultez vos événements pour plus de détails.";
 
 		$date_courante = date("Y-m-d H:i:s");
 		if ($date_courante > $this->monstre["date_fin_tour_monstre"]) {
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - nouveau tour");
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$this->monstre["id_monstre"].") nouveau tour");
 			$this->monstre["date_fin_tour_monstre"] = Bral_Util_ConvertDate::get_date_add_time_to_date($this->monstre["date_fin_tour_monstre"], $this->monstre["duree_prochain_tour_monstre"]);
 			if ($this->monstre["date_fin_tour_monstre"]  < $date_courante) {
 				Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$this->monstre["id_monstre"].") date_fin_tour_monstre avant calcul:".$this->monstre["date_fin_tour_monstre"]. " duree prochain:".$this->monstre["duree_prochain_tour_monstre"]);
@@ -308,9 +291,9 @@ Consultez vos événements pour plus de détails.";
 			$monstre = $monstreRowset->current();
 			$effetsPotions = Bral_Util_EffetsPotion::calculPotionMonstre($monstre);
 			if (count($effetsPotions) > 0) {
-				Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - des potions sur le monstre ont ete trouvee(s). Cf. log potion.log");
+				Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - (idm:".$this->monstre["id_monstre"].") des potions sur le monstre ont ete trouvee(s). Cf. log potion.log");
 			} else {
-				Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - aucune potion sur le monstre n'a ete trouvee. Cf. log potion.log");
+				Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - (idm:".$this->monstre["id_monstre"].") aucune potion sur le monstre n'a ete trouvee. Cf. log potion.log");
 			}
 			$this->calulRegeneration();
 			$this->monstre["regeneration_malus_monstre"] = 0;
@@ -352,19 +335,19 @@ Consultez vos événements pour plus de détails.";
 	}
 
 	private function calculJetAttaque() {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetAttaque - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetAttaque - (idm:".$this->monstre["id_monstre"].") enter");
 		$jetAttaquant = Bral_Util_De::getLanceDe6($this->monstre["agilite_base_monstre"]);
 		$jetAttaquant = $jetAttaquant + $this->monstre["agilite_bm_monstre"];
 
 		if ($jetAttaquant < 0) {
 			$jetAttaquant = 0;
 		}
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetAttaque - exit (jet=".$jetAttaquant.")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetAttaque - (idm:".$this->monstre["id_monstre"].") exit (jet=".$jetAttaquant.")");
 		return $jetAttaquant;
 	}
 
 	private function calculDegat($estCritique) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDegat - enter (critique=".$estCritique.")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDegat - (idm:".$this->monstre["id_monstre"].") enter (critique=".$estCritique.")");
 		$coefCritique = 1;
 		if ($estCritique === true) {
 			$coefCritique = 1.5;
@@ -376,7 +359,7 @@ Consultez vos événements pour plus de détails.";
 		if ($jetDegat < 0) {
 			$jetDegat = 0;
 		}
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDegat - exit (jet=$jetDegat)");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDegat - (idm:".$this->monstre["id_monstre"].") exit (jet=$jetDegat)");
 		return $jetDegat;
 	}
 
