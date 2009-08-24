@@ -155,14 +155,15 @@ class Bral_Monstres_VieMonstre {
 		|| ($cible["y_hobbit"] < $this->monstre["y_monstre"] - $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])) {
 			// cible en dehors de la vue du monstre
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible en dehors de la vue hx=".$cible["x_hobbit"] ." hy=".$cible["y_hobbit"]. " mx=".$this->monstre["x_monstre"]. " my=".$this->monstre["y_monstre"]. " vue=". $this->monstre["vue_monstre"]."");
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - exit");
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - monstre (".$this->monstre["id_monstre"].") attaqueCible - exit null");
 			return null; // pas de cible
 		} else if (($cible["x_hobbit"] != $this->monstre["x_monstre"]) || ($cible["y_hobbit"] != $this->monstre["y_monstre"])) {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible (".$cible["id_hobbit"].") sur une case differente");
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - exit");
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre (".$this->monstre["id_monstre"].") cible (".$cible["id_hobbit"].") sur une case differente");
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - monstre (".$this->monstre["id_monstre"].") attaqueCible - exit null");
 			return null; // pas de cible
 		} else if ($this->monstre["pa_monstre"] < 4) {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA Monstre (".$this->monstre["id_monstre"].") insuffisant nb=".$this->monstre["pa_monstre"]);
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - monstre (".$this->monstre["id_monstre"].") attaqueCible - exit false");
 			return false; // cible non morte
 		}
 
