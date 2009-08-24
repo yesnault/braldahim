@@ -62,18 +62,15 @@ class Bral_Util_De {
 	}
 
 	public static function get_2d3() {
-		srand(self::make_seed());
-		return rand(2, 6);
+		return self::getLanceDe3(2);
 	}
 
 	public static function get_3d3() {
-		srand(self::make_seed());
-		return rand(3, 9);
+		return self::getLanceDe3(3);
 	}
 
 	public static function get_4d3() {
-		srand(self::make_seed());
-		return rand(4, 12);
+		return self::getLanceDe3(4);
 	}
 
 	public static function get_1d7() {
@@ -95,8 +92,12 @@ class Bral_Util_De {
 	 * $b : valeur maximum du dé
 	 */
 	public static function getLanceDeSpecifique($n, $a, $b) {
-		srand(self::make_seed());
-		return rand($n * $a, $n * $b);
+		$retour = 0;
+		for ($i = 1; $i <= $n; $i++) {
+			$retour = $retour + self::get_de_specifique($a, $b);
+		}
+
+		return $retour;
 	}
 
 	/*
@@ -105,7 +106,7 @@ class Bral_Util_De {
 	public static function getLanceDe6($n) {
 		return self::getLanceDeSpecifique($n, 1, 6);
 	}
-	
+
 	/*
 	 * $n : nombre dés 3 lancés
 	 */
