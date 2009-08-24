@@ -638,22 +638,23 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 
 		if ($this->_request->isPost() && $this->_request->get('idmonstre') == $this->_request->getPost("id_monstre")) {
 			$modification = "";
-			
+				
 			$monstreTable = new Monstre();
-			
+				
 			$where = $monstreTable->getAdapter()->quoteInto('id_monstre = ?',(int)$this->_request->getPost('id_monstre'));
 			$monstreRowset = $monstreTable->fetchRow($where);
 			$monstre = $monstreRowset->toArray();
-				
+
 			$tabPost = $this->_request->getPost();
 			foreach ($tabPost as $key => $value) {
 				if ($key != 'id_monstre' && mb_substr($key, -8) == "_monstre") {
-					$modification .= "$key avant: ".$monstre[$key]. " apres:".$value;
-					if ($monstre[$key] != $value) {
-						$modification .= " ==> Valeur modifiée";
-					}
-					$modification .= PHP_EOL;
 						
+					if ($monstre[$key] != $value) {
+						$modification .= " ==> Valeur modifiée : ";
+					}
+					$modification .= "$key avant: ".$monstre[$key]. " apres:".$value;
+					$modification .= PHP_EOL;
+
 					if ($value == '') {
 						$value = null;
 						$data [$key] = $value;

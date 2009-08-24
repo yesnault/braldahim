@@ -36,7 +36,7 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 
 		if ($this->_request->isPost() && $this->_request->get('idhobbit') == $this->_request->getPost("id_hobbit")) {
 			$modification = "";
-				
+
 			$tabPost = $this->_request->getPost();
 
 			$hobbitTable = new Hobbit();
@@ -46,10 +46,10 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 			foreach ($tabPost as $key => $value) {
 				if ($key != 'id_hobbit' && mb_substr($key, -7) == "_hobbit") {
 
-					$modification .= "$key avant: ".$hobbit[$key]. " apres:".$value;
 					if ($hobbit[$key] != $value) {
-						$modification .= " ==> Valeur modifiée";
+						$modification .= " ==> Valeur modifiée : ";
 					}
+					$modification .= "$key avant: ".$hobbit[$key]. " apres:".$value;
 					$modification .= PHP_EOL;
 
 					if ($value == '') {
@@ -64,7 +64,7 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 			$where = "id_hobbit=" . $this->_request->getPost("id_hobbit");
 			$hobbitTable->update($data, $where);
 			$this->view->modificationHobbit = true;
-				
+
 			$config = Zend_Registry::get('config');
 			if ($config->general->mail->exception->use == '1') {
 				Zend_Loader::loadClass("Bral_Util_Mail");
