@@ -639,15 +639,21 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		if ($this->_request->isPost() && $this->_request->get('idmonstre') == $this->_request->getPost("id_monstre")) {
 			$modification = "";
 			
+			$monstreTable = new Monstre();
+			
+			$where = $monstreTable->getAdapter()->quoteInto('id_monstre = ?',(int)$this->_request->getPost('id_monstre'));
+			$monstreRowset = $monstreTable->fetchRow($where);
+			$monstre = $monstreRowset->toArray();
+				
 			$tabPost = $this->_request->getPost();
 			foreach ($tabPost as $key => $value) {
 				if ($key != 'id_monstre' && mb_substr($key, -8) == "_monstre") {
-					$modification .= "$key avant: ".$data [$key]. " apres:".$value;
+					$modification .= "$key avant: ".$monstre[$key]. " apres:".$value;
 					if ($data [$key] != $value) {
 						$modification .= " ==> Valeur modifiée";
 					}
 					$modification .= PHP_EOL;
-					
+						
 					if ($value == '') {
 						$value = null;
 						$data [$key] = $value;
@@ -657,11 +663,10 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				}
 			}
 
-			$monstreTable = new Monstre();
 			$where = "id_monstre=" . $this->_request->getPost("id_monstre");
 			$monstreTable->update($data, $where);
 			$this->view->modificationMonstre = true;
-				
+
 			$config = Zend_Registry::get('config');
 			if ($config->general->mail->exception->use == '1') {
 				Zend_Loader::loadClass("Bral_Util_Mail");
@@ -672,7 +677,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				$mail->setSubject("[Braldahim-Admin Jeu] Administration Monstre ".$this->_request->getPost("id_monstre"));
 				$texte = "--------> Utilisateur ".$this->view->user->prenom_hobbit." ".$this->view->user->nom_hobbit. " (".$this->view->user->id_hobbit.")".PHP_EOL;
 				$texte .= PHP_EOL.$modification;
-				
+
 				$mail->setBodyText($texte);
 				$mail->send();
 			}

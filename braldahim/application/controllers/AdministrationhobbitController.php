@@ -35,9 +35,23 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 		$this->modificationHobbit = false;
 
 		if ($this->_request->isPost() && $this->_request->get('idhobbit') == $this->_request->getPost("id_hobbit")) {
+			$modification = "";
+				
 			$tabPost = $this->_request->getPost();
+
+			$hobbitTable = new Hobbit();
+			$hobbitRowset = $hobbitTable->findById($this->_request->getPost('id_hobbit'));
+			$hobbit = $hobbitRowset->toArray();
+
 			foreach ($tabPost as $key => $value) {
 				if ($key != 'id_hobbit' && mb_substr($key, -7) == "_hobbit") {
+
+					$modification .= "$key avant: ".$hobbit[$key]. " apres:".$value;
+					if ($data [$key] != $value) {
+						$modification .= " ==> Valeur modifiée";
+					}
+					$modification .= PHP_EOL;
+
 					if ($value == '') {
 						$value = null;
 						$data [$key] = $value;
@@ -46,11 +60,25 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 					}
 				}
 			}
-				
-			$hobbitTable = new Hobbit();
+
 			$where = "id_hobbit=" . $this->_request->getPost("id_hobbit");
 			$hobbitTable->update($data, $where);
 			$this->view->modificationHobbit = true;
+				
+			$config = Zend_Registry::get('config');
+			if ($config->general->mail->exception->use == '1') {
+				Zend_Loader::loadClass("Bral_Util_Mail");
+				$mail = Bral_Util_Mail::getNewZendMail();
+
+				$mail->setFrom($config->general->mail->administration->from, $config->general->mail->administration->nom);
+				$mail->addTo($config->general->mail->administration->from, $config->general->mail->administration->nom);
+				$mail->setSubject("[Braldahim-Admin Jeu] Administration Hobbit ".$this->_request->getPost("id_hobbit"));
+				$texte = "--------> Utilisateur ".$this->view->user->prenom_hobbit." ".$this->view->user->nom_hobbit. " (".$this->view->user->id_hobbit.")".PHP_EOL;
+				$texte .= PHP_EOL.$modification;
+
+				$mail->setBodyText($texte);
+				$mail->send();
+			}
 		}
 
 		$this->hobbitPrepare();
@@ -90,7 +118,7 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 		$authAdapter->setTableName('hobbit');
 		$authAdapter->setIdentityColumn('id_hobbit');
 		$authAdapter->setCredentialColumn('id_hobbit');
-		 
+			
 		// Set the input credential values to authenticate against
 		$authAdapter->setIdentity($this->_request->get('idhobbit'));
 		$authAdapter->setCredential($this->_request->get('idhobbit'));
@@ -100,7 +128,7 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 		} else {
 			$activation = false;
 		}
-		 
+			
 		// authentication
 		$auth = Zend_Auth::getInstance();
 		$result = $auth->authenticate($authAdapter);
@@ -123,7 +151,7 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 				$sessionTable = new Session();
 				$where = "id_php_session = '".session_id()."'";
 				$sessionTable->delete($where);
-				 
+					
 				$this->_redirect('/');
 			}
 		}
