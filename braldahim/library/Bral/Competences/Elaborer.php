@@ -359,9 +359,9 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$echoppePartiePlanteTable = new EchoppePartieplante();
 		foreach ($this->view->cout[$niveau] as $c) {
 			$data = array('quantite_preparee_echoppe_partieplante' => -intval($c["cout"] / $coef),
-							  'id_fk_type_echoppe_partieplante' => $c["id_type_partieplante"],
-							  'id_fk_type_plante_echoppe_partieplante' => $c["id_type_plante"],
-							  'id_fk_echoppe_echoppe_partieplante' => $this->idEchoppe);
+						  'id_fk_type_echoppe_partieplante' => $c["id_type_partieplante"],
+						  'id_fk_type_plante_echoppe_partieplante' => $c["id_type_plante"],
+						  'id_fk_echoppe_echoppe_partieplante' => $this->idEchoppe);
 			$echoppePartiePlanteTable->insertOrUpdate($data);
 		}
 	}
@@ -372,11 +372,9 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 
 		list($idTypePartiePlante, $idTypePlante) = split('-', $ingredient1);
 
-		$data['id_fk_type_echoppe_partieplante'] = $idTypePartiePlante;
 		$data['id_fk_echoppe_echoppe_partieplante'] = $this->idEchoppe;
 
 		$this->calculCoutElaborerVernisDb($echoppePartiePlanteTable, $niveau, $data, $idTypePartiePlante, $idTypePlante, $coef);
-
 		if ($ingredient3 != -2) { // enchanteur
 			list($idTypePartiePlante, $idTypePlante) = split('-', $ingredient2);
 			$this->calculCoutElaborerVernisDb($echoppePartiePlanteTable, $niveau, $data, $idTypePartiePlante, $idTypePlante, $coef);
@@ -398,6 +396,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 				$this->view->tabPartiePlantes[$idTypePartiePlante][$idTypePlante]["quantite_preparees"] < intval($c["cout"])) {
 					throw new Zend_Exception(get_class($this)." Elaborer invalide calculCoutElaborerVernisDb 1 N:".$niveau." coef:".$coef." idT".$idTypePartiePlante. " idP".$idTypePlante. " cout:".$c["cout"]);
 				}
+				$data['id_fk_type_echoppe_partieplante'] = $idTypePartiePlante;
 				$data['id_fk_type_plante_echoppe_partieplante'] = $idTypePlante;
 				$data['quantite_preparee_echoppe_partieplante'] = -intval($c["cout"] / $coef);
 				$echoppePartiePlanteTable->insertOrUpdate($data);
@@ -422,7 +421,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 				}
 				$echoppeTable = new Echoppe();
 				$data['id_echoppe'] = $this->idEchoppe;
-				$data['quantite_'.$c["nom_systeme"].'_echoppe_partieplante'] = -intval($c["cout"] / $coef);
+				$data['quantite_'.$c["nom_systeme"].'_arriere_echoppe'] = -intval($c["cout"] / $coef);
 				$echoppeTable->insertOrUpdate($data);
 				break;
 			} else { // lingot
