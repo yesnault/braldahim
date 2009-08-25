@@ -26,7 +26,7 @@ class Bral_Util_Commun {
 		
 		Zend_Loader::loadClass("Bosquet");
 		$bosquetTable = new Bosquet();
-		$nombreBosquets = $bosquetTable->countByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+		$nombreBosquets = $bosquetTable->countByCase($x, $y);
 
 		if ($nombreBosquets >= 1) {
 			$environnement = "bosquet";
