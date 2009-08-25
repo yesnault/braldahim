@@ -57,7 +57,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 				$potionCourante = $p;
 			}
 		}
-		
+
 		$this->view->estRegionPvp = $estRegionPvp;
 		$this->view->nPotions = count($tabPotions);
 		$this->view->tabPotions = $tabPotions;
@@ -70,7 +70,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 				$this->prepareVernis();
 			}
 		}
-		
+
 	}
 
 	private function preparePotion() {
@@ -85,6 +85,17 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 				'nom_hobbit' => $h["nom_hobbit"],
 				'prenom_hobbit' => $h["prenom_hobbit"],
 				'niveau_hobbit' => $h["niveau_hobbit"],
+			);
+			$tabHobbits[] = $tab;
+		}
+
+		// si le joueur courant est intangible, on le rajoute à la liste
+		if ($this->view->user->est_intangible_hobbit == "oui") {
+			$tab = array(
+				'id_hobbit' => $this->view->user->id_hobbit,
+				'nom_hobbit' => $this->view->user->nom_hobbit,
+				'prenom_hobbit' => $this->view->user->prenom_hobbit,
+				'niveau_hobbit' => $this->view->user->niveau_hobbit,
 			);
 			$tabHobbits[] = $tab;
 		}
@@ -230,18 +241,22 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		}
 
 		$trouveH = false;
-		foreach($this->view->tabHobbits as $h) {
-			if ($h["id_hobbit"] == $idHobbit) {
-				$trouveH = true;
-				break;
+		if ($this->view->tabHobbits != null) {
+			foreach($this->view->tabHobbits as $h) {
+				if ($h["id_hobbit"] == $idHobbit) {
+					$trouveH = true;
+					break;
+				}
 			}
 		}
 
 		$trouveM = false;
-		foreach ($this->view->tabMonstres as $m) {
-			if ($m["id_monstre"] == $idMonstre) {
-				$trouveM = true;
-				break;
+		if ($this->view->tabMonstres != null) {
+			foreach ($this->view->tabMonstres as $m) {
+				if ($m["id_monstre"] == $idMonstre) {
+					$trouveM = true;
+					break;
+				}
 			}
 		}
 
