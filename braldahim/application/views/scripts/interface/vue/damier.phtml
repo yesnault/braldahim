@@ -44,15 +44,15 @@ foreach($this->tableau as $k => $case) :
     <?php endif; ?>
 	<td class='vue2d <?=$case["css"] ?> <?=$case["css_actuelle"]?>' nowrap title="<?=$case["x"]. "," . $case["y"]." ".$textVille?>">
 	
-	<div class="cases">
-		<table class="cases">
+	<div class="cases <?=$case["css_actuelle"]?>">
+		<table class="cases <?=$case["css_actuelle"]?>">
 		<tr>
-		<td class="cases"><? include('hobbits_monstres.phtml');ob_flush();?></td>
-		<td class="cases" <?=$adminDoubleClick?>><? include('lieux_palissades_echoppes.phtml');ob_flush();?></td>
+		<td class="cases <?=$case["css_actuelle"]?>"><? include('hobbits_monstres.phtml');ob_flush();?></td>
+		<td class="cases <?=$case["css_actuelle"]?>" <?=$adminDoubleClick?>><? include('lieux_palissades_echoppes.phtml');ob_flush();?></td>
 		</tr>
 		<tr>
-		<td class="cases"><? include('cadavres_castars_runes.phtml'); ob_flush(); ?></td>
-		<td class="cases"><? include('elements_charrettes.phtml'); ob_flush();?><? include('cases.phtml');?></td>
+		<td class="cases <?=$case["css_actuelle"]?>"><? include('cadavres_castars_runes.phtml'); ob_flush(); ?></td>
+		<td class="cases <?=$case["css_actuelle"]?>"><? include('elements_charrettes.phtml'); ob_flush();?><? include('cases.phtml');?></td>
 		</tr>
 	</table>
 	</div>

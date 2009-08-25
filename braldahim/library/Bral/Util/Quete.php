@@ -790,13 +790,20 @@ class Bral_Util_Quete {
 				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeMangerParam3 - A - sur le lieu");
 				$retour = true;
 			} else {
-				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeMangerParam3 - A - non sur l'environnement");
+				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeMangerParam3 - A - non sur le lieu");
 			}
 		} else if ($etape["param_2_etape"] == self::ETAPE_MANGER_PARAM2_TERRAIN && $estDansLieu == false) {
 			Zend_Loader::loadClass("Zone");
 			$zoneTable = new Zone();
 			$zones = $zoneTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
-			if ($zones != null && count($zones) == 1 && $zones[0]["id_environnement"] == $etape["param_3_etape"]) {
+			
+			Zend_Loader::loadClass("Bosquet");
+			$bosquetTable = new Bosquet();
+			$nombreBosquets = $bosquetTable->countByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+			
+			if ($zones != null && count($zones) == 1 && 
+				($zones[0]["id_environnement"] == $etape["param_3_etape"] 
+				|| ($etape["param_3_etape"] == 2 && $nombreBosquets > 1))) {
 				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeMangerParam3 - B - sur l'environnement");
 				$retour = true;
 			} else {

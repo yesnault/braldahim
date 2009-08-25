@@ -75,25 +75,17 @@ if ($case["n_echoppes"] > 0) :
 endif; ?>
  
 <? if ($textLieu != "" ) :?>
-	<span <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
 		<? if ($type_lieu != "") : ?>
-			<img src='/public/styles/braldahim_defaut/images/vue/batiments/<?=$type_lieu?>.png' />
+			<img <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/batiments/<?=$type_lieu?>.png' />
 		<? else: ?>
 			<img src='/public/styles/braldahim_defaut/images/vue/batiment.png' />
 		<? endif; ?>
-	</span>
 <? elseif ($textEchoppe != "") : ?>
-	<span <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
-		<img src='/public/styles/braldahim_defaut/images/vue/echoppes/<?=$nomSystemeEchoppe?>.png' />
-	</span>
+		<img <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/echoppes/<?=$nomSystemeEchoppe?>.png' />
 <? elseif ($textPalissade != "") : ?>
-	<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
-		<img src='/public/styles/braldahim_defaut/images/vue/palissade_b.png' />
-	</span>
+		<img <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/palissade_b.png' />
 <? elseif ($textRoute != "") : ?>
-	<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
-		<img src='/public/styles/braldahim_defaut/images/vue/route_b.png' />
-	</span>
+		<img <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/route_b.png' />
 <? else: ?>
 	<br>
 <? endif;?>  

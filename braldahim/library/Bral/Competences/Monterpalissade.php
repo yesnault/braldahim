@@ -23,6 +23,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 
 		$this->view->monterPalissadeOk = false;
 		$this->view->monterPalissadeCharretteOk = false;
+		
 		/*
 		 * On verifie qu'il y a au moins 2 rondins
 		 */
@@ -40,8 +41,13 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 			break;
 		}
 
-		if ($this->view->nRondins < 2) {
-			return;
+		//(niveau du Hobbit/10 + 1)*2
+		$niveau = $this->view->user->niveau_hobbit;
+		$this->view->nRondinsNecessaires = ((floor($niveau / 10) + 1)) * 2;
+		$this->view->nRondinsSuffisants = false;
+
+		if ($this->view->nRondins >= $this->view->nRondinsNecessaires) {
+			$this->view->nRondinsSuffisants = true;
 		}
 
 		$this->distance = 1;
@@ -172,7 +178,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Monter Palissade interdit");
 		}
 
-		if ($this->view->nRondins < 2 ) {
+		if ($this->view->nRondinsSuffisants == false) {
 			throw new Zend_Exception(get_class($this)." Monter Palissade interdit : rondins insuffisants");
 		}
 
@@ -212,51 +218,6 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 
 	private function calculMonterPalissade($x, $y) {
 
-		$maitrise = $this->hobbit_competence["pourcentage_hcomp"];
-		$chance_a = -0.375 * $maitrise + 53.75 ;
-		$chance_b = 0.25 * $maitrise + 42.5 ;
-		$chance_c = 0.125 * $maitrise + 3.75 ;
-
-		/*
-		 * Afin de déterminer la qualité de la palissage n jet de dés sont effectués.
-		 * Seul le meilleur des n jets est gardé. n=(BM SAG/2)+1.
-		 */
-		$n = (($this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit) / 2 ) + 1;
-
-		if ($n < 1) $n = 1;
-
-		$tirage = 0;
-
-		for ($i = 1; $i <= $n; $i ++) {
-			$tirageTemp = Bral_Util_De::get_1d100();
-			if ($tirageTemp > $tirage) {
-				$tirage = $tirageTemp;
-			}
-		}
-
-		if ($tirage > 0 && $tirage <= $chance_a) {
-			$this->view->nRondinsNecessairesFormule = "Niveau Vigueur (".$this->view->user->vigueur_base_hobbit.") / 2";
-			$this->view->nRondinsNecessaires = floor($this->view->user->vigueur_base_hobbit / 2);
-		} elseif ($tirage > $chance_a && $tirage <= $chance_a + $chance_b) {
-			$this->view->nRondinsNecessairesFormule = "Niveau Vigueur (".$this->view->user->vigueur_base_hobbit.") / 3";
-			$this->view->nRondinsNecessaires = floor($this->view->user->vigueur_base_hobbit / 3);
-		} else {
-			$this->view->nRondinsNecessairesFormule = "Niveau Vigueur (".$this->view->user->vigueur_base_hobbit.") / 4";
-			$this->view->nRondinsNecessaires = floor($this->view->user->vigueur_base_hobbit / 4);
-		}
-
-		if ($this->view->nRondinsNecessaires < 1 ) {
-			$this->view->nRondinsNecessaires = 1;
-		}
-
-		$this->view->nRondinsSuffisants = false;
-
-		if ($this->view->nRondins >= $this->view->nRondinsNecessaires) {
-			$this->view->nRondinsSuffisants = true;
-		} else {
-			return;
-		}
-
 		$charretteTable = new Charrette();
 		$data = array(
 			'quantite_rondin_charrette' => -$this->view->nRondinsNecessaires,
@@ -266,7 +227,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		unset($charretteTable);
 
 		$date_creation = date("Y-m-d H:00:00");
-		$nb_jours = ($this->view->user->vigueur_base_hobbit / 2) + Bral_Util_De::get_1d3();
+		$nb_jours = Bral_Util_De::getLanceDe6($this->view->config->base_sagesse + $this->view->user->sagesse_base_hobbit) + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
 		$date_fin = Bral_Util_ConvertDate::get_date_add_day_to_date($date_creation, $nb_jours);
 
 		$data = array(
@@ -274,8 +235,8 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 			"y_palissade" => $y,
 			"agilite_palissade" => 0,
 			"armure_naturelle_palissade" => $this->view->user->armure_naturelle_hobbit * 4,
-			"pv_restant_palissade" => $this->view->user->pv_restant_hobbit * 4,
-			"pv_max_palissade" => $this->view->user->pv_restant_hobbit * 4,
+			"pv_restant_palissade" => $this->view->user->pv_restant_hobbit,
+			"pv_max_palissade" => $this->view->user->pv_restant_hobbit,
 			"date_creation_palissade" => $date_creation,
 			"date_fin_palissade" => $date_fin,
 		);

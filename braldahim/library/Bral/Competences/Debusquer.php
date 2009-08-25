@@ -63,25 +63,25 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 
 		$nbGibier = floor($this->view->user->agilite_base_hobbit / 4) + 1 + $coefH + $coefM + $coefD + $coefT;
 		if ($nbGibier < 1) {
-			$nbGibier = 1;	
+			$nbGibier = 1;
 		}
-		
+
 		for ($i = 1; $i <= $nbGibier; $i++) {
 			$idTaille = $this->calculTaille();
 			$this->creationGibier($typeGibier["id_type_monstre"], $idTaille);
-		} 
+		}
 
 		$this->view->nbGibier = $nbGibier;
 	}
-	
+
 	private function creationGibier($id_fk_type_monstre, $id_fk_taille_monstre) {
-		
+
 		$niveau_monstre = 0;
 		$niveau_force = 0;
 		$niveau_sagesse = 0;
 		$niveau_agilite = 0;
 		$niveau_vigueur = 0;
-		
+
 		$aleaX = Bral_Util_De::get_1d4();
 		$aleaY = Bral_Util_De::get_1d4();
 		if (Bral_Util_De::get_1d2() == 1) {
@@ -90,15 +90,15 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 		if (Bral_Util_De::get_1d2() == 1) {
 			$aleaY = -$aleaY;
 		}
-		
+
 		$x_monstre = $this->view->user->x_hobbit + $aleaX;
 		$y_monstre = $this->view->user->y_hobbit + $aleaY;
-		
+
 		$force_base_monstre = $this->view->config->game->inscription->force_base + $niveau_force;
 		$sagesse_base_monstre = $this->view->config->game->inscription->sagesse_base + $niveau_sagesse;
 		$agilite_base_monstre = $this->view->config->game->inscription->agilite_base + $niveau_agilite;
 		$vigueur_base_monstre = $this->view->config->game->inscription->vigueur_base + $niveau_vigueur;
-		
+
 		//REG
 		$regeneration_monstre = 1;
 
@@ -108,7 +108,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 		//DLA
 		$dla_monstre = Bral_Util_ConvertDate::get_time_from_minutes(720 - 10 * $niveau_sagesse);
 		$date_fin_tour_monstre = date("Y-m-d H:i:s");
-		
+
 		//Le gibier reste visible 1+1D3 jours
 		$dateSuppressionGibier = Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d H:i:s"), 1 + Bral_Util_De::get_1d3());
 
@@ -149,7 +149,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 			"pa_monstre" => 0, // pas de PA à la creation.
 			"date_suppression_monstre" => $dateSuppressionGibier,
 		);
-		
+
 		$monstreTable = new Monstre();
 		$id_monstre = $monstreTable->insert($data);
 	}
@@ -193,10 +193,10 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 		} else {
 			$tailleMonstre = TailleMonstre::ID_TAILLE_GIGANTESQUE;
 		}
-		
+
 		return $tailleMonstre;
 	}
-	
+
 	private function initVariablesVue() {
 		$this->view->vue_nb_cases = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
 		$this->view->x_min = $this->view->user->x_hobbit - $this->view->vue_nb_cases;
@@ -264,12 +264,12 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 	 */
 	private function calculCoefD() {
 		$retour = 0;
-		
+
 		Zend_Loader::loadClass("Lieu");
 		$lieu = new Lieu();
 		$lieuxTable = new Lieu();
 		$lieux = $lieuxTable->findByPositionMax($this->view->user->x_hobbit, $this->view->user->y_hobbit, 20);
-		
+
 		if ($lieux == null || count($lieux) <= 0) {
 			$retour = 1;
 		} else {
@@ -303,7 +303,17 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 		$zone = $zones[0];
 		unset($zones);
 
-		switch($zone["nom_systeme_environnement"]) {
+		Zend_Loader::loadClass("Bosquet");
+		$bosquetTable = new Bosquet();
+		$nombreBosquets = $bosquetTable->countByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+
+		if ($nombreBosquets >= 1) {
+			$environnement = "bosquet";
+		} else {
+			$environnement = $zone["nom_systeme_environnement"];
+		}
+		
+		switch($environnement) {
 			case "marais":
 			case "montagne":
 				$retour = -1;
@@ -313,7 +323,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 			case "gazon" :
 				$retour = 0;
 				break;
-			case "foret" :
+			case "bosquet" :
 				$retour = 1;
 				break;
 			default :

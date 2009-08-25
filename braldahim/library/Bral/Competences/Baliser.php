@@ -10,7 +10,7 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class Bral_Competences_Construire extends Bral_Competences_Competence {
+class Bral_Competences_Baliser extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass('Monstre');
@@ -24,7 +24,6 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 
 		$calcul = $utilMarcher->calcul($this->view->user, null, true);
 
-		$this->view->assezDePa  = $calcul["assezDePa"];
 		$this->view->nb_cases = $calcul["nb_cases"];
 		$this->view->tableau = $calcul["tableau"];
 		$this->tableauValidation = $calcul["tableauValidation"];
@@ -65,11 +64,11 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 			$this->view->route = $routes[0];
 		}
 
-		if (count($monstres) <= 0 && count($hobbits) == 1 && count($palissades) <= 0 && $this->view->route != null && $this->view->route["est_route"] == "non" && $this->estEnvironnementValid($this->environnement)) {
+		if (count($monstres) <= 0 && count($hobbits) == 1 && count($palissades) <= 0 && $this->view->route == null && $this->estEnvironnementValid($this->environnement)) {
 			$this->view->construireOk = true;
 
 			$routesAutour = $routeTable->selectVue($this->view->user->x_hobbit - 1, $this->view->user->y_hobbit - 1, $this->view->user->x_hobbit + 1, $this->view->user->y_hobbit + 1);
-			if ($routesAutour != null && count($routesAutour) > 1) {
+			if ($routesAutour != null && count($routesAutour) > 0) {
 				$this->view->construireRouteContinueOk = true;
 			}
 		}
@@ -89,7 +88,7 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 		}
 
 		if ($this->view->construireOk == false) {
-			throw new Zend_Exception(get_class($this)." Construire interdit");
+			throw new Zend_Exception(get_class($this)." Baliser interdit");
 		}
 
 		$bmJet1 = 0;
@@ -116,7 +115,7 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 		$this->calculJets();
 
 		if ($this->view->okJet1 === true) {
-			$this->calculConstruire();
+			$this->calculBaliser();
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapeConstuire($this->view->user, $this->nom_systeme);
 		}
 
@@ -126,7 +125,7 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 		$this->majHobbit();
 	}
 
-	private function calculConstruire() {
+	private function calculBaliser() {
 
 		$maitrise = $this->hobbit_competence["pourcentage_hcomp"] / 100;
 
@@ -155,16 +154,16 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 		$date_fin = Bral_Util_ConvertDate::get_date_add_day_to_date($date_creation, $nbJours);
 
 		$data = array(
+			"x_route"  => $this->view->user->x_hobbit,
+			"y_route" => $this->view->user->y_hobbit,
 			"id_fk_hobbit_route" => $this->view->user->id_hobbit,
-			"est_route" => "oui",
 			"date_creation_route" => $date_creation,
 			"date_fin_route" => $date_fin,
 			"id_fk_type_qualite_route" => $qualite,
 		);
-		$where = "x_route = ".$this->view->user->x_hobbit. " and y_route=".$this->view->user->y_hobbit;
+		
 		$routeTable = new Route();
-		$routeTable->update($data, $where);
-		unset($routeTable);
+		$routeTable->insert($data);
 
 		$this->view->route = $data;
 
@@ -185,8 +184,6 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 			$this->view->user->x_hobbit = $this->view->user->x_hobbit + $offset_x;
 			$this->view->user->y_hobbit = $this->view->user->y_hobbit + $offset_y;
 		}
-		
-		$this->calculGainCastars();
 	}
 
 	private function calculJetForce() {
@@ -216,97 +213,12 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 		return $jet;
 	}
 
-	private function calculGainCastars() {
-
-		//Le gain de castars de base est (gainBase) : (niv SAG/2) arrondi inf avec 1 comme minimum
-		$gainBase = floor($this->view->user->sagesse_base_hobbit / 2);
-		if ($gainBase < 1) {
-			$gainBase = 1;
-		}
-
-		/**
-		 * Plaine : -1
-		 * Forêt : 1
-		 * Montagne : 2
-		 * Marais : 2
-		 * Gazon 0
-		 */
-		switch($this->environnement) {
-			case "plaine" :
-				$coefT = -1;
-				break;
-			case "marais" :
-				$coefT = 2;
-				break;
-			case "montagne" :
-				$coefT = 2;
-				break;
-			case "foret" :
-				$coefT = 1;
-				break;
-			case "caverne" :
-			case "gazon" :
-				$coefT = 0;
-				break;
-			default:
-				throw new Zend_Exception(get_class($this)."::environnement invalide :".$this->environnement);
-		}
-
-		/*
-		 * Si moins de 200 cases en route alors coefD = 2
-		 * Si de 201 à 400 alors coefD = 0
-		 * Si de 401 à 600 alors coefD = -2
-		 * Si de 601 à 800 alors coefD = -4
-		 * Si plus de 800 cases en route alors = -6
-		 */
-		$nbRoutes = $this->getNbRouteDansComte();
-		if ($nbRoutes < 200) {
-			$coefD = 2;
-		} else if ($nbRoutes < 400) {
-			$coefD = 0;
-		} else if ($nbRoutes < 600) {
-			$coefD = -2;
-		} else if ($nbRoutes < 800) {
-			$coefD = -4;
-		} else {
-			$coefD = -6;
-		}
-
-		$this->view->nbCastarsGagnes = $gainBase + $coefT + $coefD;
-		if ($this->view->nbCastarsGagnes < 0) {
-			$this->view->nbCastarsGagnes = 0;
-		}
-
-		$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
-		if ($poidsRestant < 0) $poidsRestant = 0;
-		$this->view->nbCastarsPossible = floor($poidsRestant / Bral_Util_Poids::POIDS_CASTARS);
-
-		if ($this->view->nbCastarsPossible < $this->view->nbCastarsGagnes) {
-			$this->view->nbCastarsLaban = $this->view->nbCastarsPossible;
-			$this->view->nbCastarsATerre =  $this->view->nbCastarsGagnes - $this->view->nbCastarsLaban;
-
-			Zend_Loader::loadClass("Element");
-			$elementTable = new Element();
-			$data = array(
-				"quantite_castar_element" => $nb,
-				"x_element" => $this->view->user->x_hobbit,
-				"y_element" => $this->view->user->y_hobbit,
-			);
-			$elementTable->insertOrUpdate($data);
-		} else {
-			$this->view->nbCastarsLaban = $this->view->nbCastarsGagnes;
-		}
-
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit + $this->view->nbCastarsLaban;
-	}
-
 	private function estEnvironnementValid($environnement) {
 		$retour = false;
 		switch($environnement) {
 			case "plaine" :
 			case "marais" :
 			case "montagne" :
-			case "foret" :
 			case "gazon" :
 				$retour = true;
 				break;
@@ -321,20 +233,5 @@ class Bral_Competences_Construire extends Bral_Competences_Competence {
 
 	function getListBoxRefresh() {
 		return $this->constructListBoxRefresh(array("box_competences_metiers", "box_vue", "box_laban", "box_lieu"));
-	}
-
-	private function getNbRouteDansComte() {
-		Zend_Loader::loadClass("Region");
-		$regionTable = new Region();
-		$region = $regionTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		
-		if ($region == null) {
-			throw new Zend_Exception(get_class($this)."::calculNbRouteDansComte region invalide x:".$this->view->user->x_hobbit. " y:". $this->view->user->y_hobbit);
-		}
-		
-		$routeTable = new Route();
-		$nbRoutes = $routeTable->countVue($region["x_min_region"], $region["y_min_region"], $region["x_max_region"], $region["y_max_region"]);
-		
-		return $nbRoutes;
 	}
 }

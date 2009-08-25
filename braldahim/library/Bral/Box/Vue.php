@@ -43,6 +43,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("Monstre");
 			Zend_Loader::loadClass("Palissade");
 			Zend_Loader::loadClass("Region");
+			Zend_Loader::loadClass("Bosquet");
 			Zend_Loader::loadClass("TypeLieu");
 			Zend_Loader::loadClass("Route");
 			Zend_Loader::loadClass("SouleMatch");
@@ -232,6 +233,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$palissadeTable = new Palissade();
 		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($palissadeTable);
+		$bosquetTable = new Bosquet();
+		$bosquets = $bosquetTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		unset($bosquetTable);
 		$regionTable = new Region();
 		$regions = $regionTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($regionTable);
@@ -291,6 +295,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabLieux = null;
 				$tabMonstres = null;
 				$tabPalissades = null;
+				$tabBosquets = null;
 				$tabRoutes = null;
 				$tabBallons = null;
 				$nom_systeme_environnement = null;
@@ -385,7 +390,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
-						
+
 					if ($elementsMateriels != null) {
 						foreach($elementsMateriels as $e) {
 							if ($display_x == $e["x_element_materiel"] && $display_y == $e["y_element_materiel"]) {
@@ -572,10 +577,20 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						}
 					}
 
+					if ($bosquets != null) {
+						foreach($bosquets as $b) {
+							if ($display_x == $b["x_bosquet"] && $display_y == $b["y_bosquet"]) {
+								$tabBosquets[] = array("id_bosquet" => $b["id_bosquet"]);
+								$nom_systeme_environnement = $b["nom_systeme_type_bosquet"];
+								$nom_environnement = $b["description_type_bosquet"];
+							}
+						}
+					}
+
 					if ($routes != null) {
 						foreach($routes as $r) {
 							if ($display_x == $r["x_route"] && $display_y == $r["y_route"]) {
-								$tabRoutes[] = array("id_route" => $r["id_route"], "est_route" => $r["est_route"]);
+								$tabRoutes[] = array("id_route" => $r["id_route"]);
 							}
 						}
 					}
@@ -601,14 +616,13 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					$cssActuelle = "";
 				}
 					
-				if (count($tabRoutes) == 1 && $tabRoutes[0]["est_route"] == "oui") {
-					$css = "route";
-				} else if (count($tabRoutes) == 1 && $tabRoutes[0]["est_route"] == "non") {
-					$css = "terrasse";
-				} else if (count($tabPalissades) > 0) {
+				if (count($tabPalissades) > 0) {
 					$css = "palissade";
-				} else {
+				} else  {
 					$css = $nom_systeme_environnement;
+					if (count($tabRoutes) >= 1) {
+						$css .= "-gr";
+					}
 				}
 
 				if ($this->view->centre_x == $display_x && $this->view->centre_y == $display_y) {
@@ -670,6 +684,8 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"monstres" => $tabMonstres,
 					"n_palissades" => count($tabPalissades),
 					"palissades" => $tabPalissades,
+					"n_bosquets" => count($tabBosquets),
+					"bosquets" => $tabBosquets,
 					"n_routes" => count($tabRoutes),
 					"routes" => $tabRoutes,
 					"n_ballons" => count($tabBallons),

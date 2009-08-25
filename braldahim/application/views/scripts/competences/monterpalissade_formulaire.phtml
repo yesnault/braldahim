@@ -1,12 +1,16 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
 
+Pour construire une palissade, vous devez avoir dans votre charrette au minimum
+<?=$this->nRondinsNecessaires?> rondin<? if ($this->nRondinsNecessaires > 1): echo "s"; endif;?>.
+
+
 <?php if ($this->monterPalissadeCharretteOk == false) : ?>
  Vous n'avez pas de charrette ?!
-<?php elseif ($this->nRondins < 2) : ?>
- Vous n'avez pas assez de rondins 
+<?php elseif ($this->nRondinsSuffisants == false) : ?>
+ Vous n'avez pas assez de rondins.
 <?php elseif ($this->monterPalissadeOk == false) : ?>
- Vous ne pouvez pas monter de palissade aux alentours de vous
+ Vous ne pouvez pas monter de palissade aux alentours de vous.
 <?php else : ?>
   <table align='center'>
    <tr>
@@ -44,6 +48,6 @@
 </div>
 
 <br />
-<?php if ($this->assezDePa === true && $this->monterPalissadeOk === true) : ?>
+<?php if ($this->assezDePa === true && $this->monterPalissadeOk === true && $this->nRondinsSuffisants === true) : ?>
 <input type='button' class='button1' value='Monter une palissade !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_monterpalissade");'>
 <? endif ?>

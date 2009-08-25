@@ -2,7 +2,7 @@
  <div class='comp_contenu'>
 
 <?php if ($this->estEngage == false && $this->estSurRoute == false) : ?>
- <?=htmlspecialchars($this->environnement) ?>: <?=$this->nb_pa ?> PA, <?=$this->nb_cases ?>
+ Environnement : <?=htmlspecialchars($this->environnement) ?>. <?=$this->nb_pa ?> PA, <?=$this->nb_cases ?>
  <?php if ($this->nb_cases == 1) :?>
    case
  <?php else :?>

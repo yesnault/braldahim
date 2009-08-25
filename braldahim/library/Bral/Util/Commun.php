@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -14,7 +14,7 @@ class Bral_Util_Commun {
 
 	private function __construct() {
 	}
-	
+
 	public static function getVueBase($x, $y) {
 		Zend_Loader::loadClass('Zone');
 		
@@ -23,9 +23,19 @@ class Bral_Util_Commun {
 		unset($zoneTable);
 		$zone = $zones[0];
 		unset($zones);
+		
+		Zend_Loader::loadClass("Bosquet");
+		$bosquetTable = new Bosquet();
+		$nombreBosquets = $bosquetTable->countByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
 
+		if ($nombreBosquets >= 1) {
+			$environnement = "bosquet";
+		} else {
+			$environnement = $zone["nom_systeme_environnement"];
+		}
+		
 		$r = 0;
-		switch($zone["nom_systeme_environnement"]) {
+		switch($environnement) {
 			case "marais":
 				$r = 5;
 				break;
@@ -38,7 +48,7 @@ class Bral_Util_Commun {
 			case "plaine" :
 				$r = 6;
 				break;
-			case "foret" :
+			case "bosquet" :
 				$r = 4;
 				break;
 			case "gazon" :
@@ -50,7 +60,7 @@ class Bral_Util_Commun {
 		unset($zone);
 		return $r;
 	}
-	
+
 	public static function getEnvironnement($x, $y) {
 		Zend_Loader::loadClass('Zone');
 		$zoneTable = new Zone();
@@ -60,7 +70,7 @@ class Bral_Util_Commun {
 		unset($zones);
 		return $zone["nom_systeme_environnement"];
 	}
-	
+
 	/*
 	 * Regarde si la rune de @param est portée
 	 */
@@ -70,7 +80,7 @@ class Bral_Util_Commun {
 		$hobbitEquipementTable = new HobbitEquipement();
 		$runesRowset = $hobbitEquipementTable->findRunesOnly($idHobbit);
 		unset($hobbitEquipementTable);
-		
+
 		if ($runesRowset != null && count($runesRowset) > 0) {
 			foreach ($runesRowset as $r) {
 				if ($r["nom_type_rune"] == $nomTypeRune) {
@@ -82,14 +92,14 @@ class Bral_Util_Commun {
 		}
 		return $retour;
 	}
-	
+
 	public static function getEquipementByNomSystemeMot($idHobbit, $nomSystemeMot) {
 		$retour = null;
 		Zend_Loader::loadClass("HobbitEquipement");
 		$hobbitEquipementTable = new HobbitEquipement();
 		$equipementRowset = $hobbitEquipementTable->findByNomSystemeMot($idHobbit, $nomSystemeMot);
 		unset($hobbitEquipementTable);
-		
+
 		if ($equipementRowset != null && count($equipementRowset) > 0) {
 			foreach ($equipementRowset as $e) {
 				$retour = $e;
@@ -99,22 +109,22 @@ class Bral_Util_Commun {
 		}
 		return $retour;
 	}
-	
+
 	public static function calculPvMaxBaseSansEffetMotE($config, $vigueur_base_hobbit) {
 		// calcul des pvs restants avec la regeneration
 		return ($config->game->pv_base + $vigueur_base_hobbit * $config->game->pv_max_coef);
 	}
-	
+
 	public static function calculArmureNaturelle($forceBase, $vigueurBase) {
 		return intval(($forceBase + $vigueurBase) / 5) + 1;
 	}
-	
+
 	public static function ajouteEffetMotR($idHobbit) {
 		Zend_Loader::loadClass("HobbitsCompetences");
 		$hobbitsCompetencesTables = new HobbitsCompetences();
 		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($idHobbit);
 		unset($hobbitsCompetencesTables);
-		
+
 		foreach($hobbitCompetences as $c) {
 			if ($c["type_competence"] == "metier") {
 				$data = array("pourcentage_hcomp" => $c["pourcentage_hcomp"] + 2);
@@ -124,7 +134,7 @@ class Bral_Util_Commun {
 		}
 		unset($hobbitCompetences);
 	}
-	
+
 	public static function retireEffetMotR($idHobbit) {
 		Zend_Loader::loadClass("HobbitsCompetences");
 		$hobbitsCompetencesTables = new HobbitsCompetences();
@@ -137,7 +147,7 @@ class Bral_Util_Commun {
 			}
 		}
 	}
-	
+
 	public static function getEffetMotA($idHobbit, $jetDegat) {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_a");
 		if ($equipement != null) {
@@ -147,7 +157,7 @@ class Bral_Util_Commun {
 		}
 		return $jetDegat;
 	}
-	
+
 	public static function getEffetMotD($idHobbit) {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_d");
 		$retour = 0;
@@ -156,7 +166,7 @@ class Bral_Util_Commun {
 		}
 		return $retour;
 	}
-	
+
 	public static function getEffetMotE($idHobbit) {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_e");
 		$retour = null;
@@ -165,7 +175,7 @@ class Bral_Util_Commun {
 		}
 		return $retour;
 	}
-	
+
 	public static function getEffetMotF($idHobbit) {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_f");
 		$retour = null;
@@ -174,7 +184,7 @@ class Bral_Util_Commun {
 		}
 		return $retour;
 	}
-	
+
 	public static function getEffetMotG($idHobbit) {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_g");
 		$retour = null;
@@ -187,7 +197,7 @@ class Bral_Util_Commun {
 		}
 		return $retour;
 	}
-	
+
 	public static function getEffetMotH($idHobbit) {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_h");
 		$retour = false;
@@ -196,7 +206,7 @@ class Bral_Util_Commun {
 		}
 		return $retour;
 	}
-	
+
 	public static function getEffetMotI($idHobbit) {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_i");
 		$retour = null;
@@ -205,7 +215,7 @@ class Bral_Util_Commun {
 		}
 		return $retour;
 	}
-	
+
 	public static function getEffetMotJ($idHobbit) {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_j");
 		$retour = null;
@@ -214,7 +224,7 @@ class Bral_Util_Commun {
 		}
 		return $retour;
 	}
-	
+
 	public static function getEffetMotL($idHobbit) {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_l");
 		$retour = false;
@@ -232,7 +242,7 @@ class Bral_Util_Commun {
 		}
 		return $retour;
 	}
-	
+
 	public static function getEffetMotO($idHobbit) {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_o");
 		$retour = null;
@@ -241,7 +251,7 @@ class Bral_Util_Commun {
 		}
 		return $retour;
 	}
-	
+
 	public static function getEffetMotQ($idHobbit) {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_q");
 		$retour = null;
@@ -250,7 +260,7 @@ class Bral_Util_Commun {
 		}
 		return $retour;
 	}
-	
+
 	public static function getEffetMotS($idHobbit) {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_s");
 		$retour = null;
@@ -259,7 +269,7 @@ class Bral_Util_Commun {
 		}
 		return $retour;
 	}
-	
+
 	public static function getEffetMotX($idHobbit) {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_x");
 		$retour = false;
@@ -268,20 +278,20 @@ class Bral_Util_Commun {
 		}
 		return $retour;
 	}
-	
+
 	/*
 	 * Lorqu'un Hobbit meurt il perd une partie de ces castars : 1/3 arr inférieur.
 	 */
 	public static function dropHobbitCastars($cible, $effetH = null) {
 		$nbCastars = 0;
-		
+
 		if ($cible->castars_hobbit > 0) {
 			$nbCastars = floor($cible->castars_hobbit / 3);
-			
-			if ($effetH != null && $effetH == true) { 
+				
+			if ($effetH != null && $effetH == true) {
 				$nbCastars = $nbCastars * 2;
 			}
-			
+				
 			if ($nbCastars > 0 && $cible->castars_hobbit >= $nbCastars) {
 				Zend_Loader::loadClass("Element");
 				$elementTable = new Element();
@@ -291,20 +301,20 @@ class Bral_Util_Commun {
 					"y_element" => $cible->y_hobbit,
 				);
 				$elementTable->insertOrUpdate($data);
-				
+
 			}
 		}
-		
+
 		return $nbCastars;
 	}
-	
+
 	public static function getPourcentage($competence, $config) {
 		if ($competence["nb_tour_restant_bonus_tabac_hcomp"] > 0) {
 			$pourcentage = $competence["pourcentage_hcomp"]."% + ".$config->game->tabac->bonus." (tabac)";
 		} else if ($competence["nb_tour_restant_malus_tabac_hcomp"] > 0) {
 			$pourcentage = $competence["pourcentage_hcomp"]."% - ".$config->game->tabac->malus." (tabac)";
 		} else {
-			$pourcentage = $competence["pourcentage_hcomp"];	
+			$pourcentage = $competence["pourcentage_hcomp"];
 		}
 		if ($pourcentage > 100) {
 			$pourcentage = 100;

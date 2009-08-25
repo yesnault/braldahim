@@ -19,6 +19,7 @@ class Bral_Util_Marcher {
 		Zend_Loader::loadClass('Zone');
 		Zend_Loader::loadClass('Palissade');
 		Zend_Loader::loadClass('Route');
+		Zend_Loader::loadClass("Bosquet");
 
 		$retour["environnement"] = null;
 		$retour["nb_cases"] = null;
@@ -50,12 +51,20 @@ class Bral_Util_Marcher {
 		}
 		unset($zone);
 
-		$environnement = $case["nom_environnement"];
+		$bosquetTable = new Bosquet();
+		$bosquets = $bosquetTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+
+		if (count($bosquets) == 1) {
+			$environnement = $bosquets[0]["description_type_bosquet"];
+			$case["nom_systeme_environnement"] = "bosquet";
+		} else {
+			$environnement = $case["nom_environnement"];
+		}
 
 		$routeTable = new Route();
 		$routes = $routeTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
 
-		if (count($routes) == 1 && $routes[0]["est_route"] == "oui") {
+		if (count($routes) == 1) {
 			$retour["estSurRoute"] = true;
 		}
 
@@ -175,7 +184,7 @@ class Bral_Util_Marcher {
 	/* Pour marcher, le nombre de PA utilise est variable suivant l'environnement
 	 * sur lequel le hobbit marche :
 	 * Plaine : 1 PA jusqu'a 2 cases
-	 * Foret : 1 PA pour 1 case
+	 * Bosquet : 1 PA pour 1 case
 	 * Marais : 2 PA pour 1 case
 	 * Montagneux : 2 PA pour 1 case
 	 * Caverneux : 1 PA pour 1 case
@@ -204,7 +213,7 @@ class Bral_Util_Marcher {
 					$this->nb_pa = 1;
 				}
 				break;
-			case "foret" :
+			case "bosquet" :
 				$this->nb_cases = 1;
 				$this->nb_pa = 1;
 				if (Bral_Util_Commun::getEquipementByNomSystemeMot($hobbit->id_hobbit, "mot_t") != null) {

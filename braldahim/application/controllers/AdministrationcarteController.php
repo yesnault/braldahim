@@ -74,9 +74,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 
 		$this->dessineZones(&$image);
 		//$this->dessineFilons(&$image);
+		$this->dessineBosquets(&$image);
 		$this->dessineVilles(&$image);
 		$this->dessineHobbits(&$image);
-		$this->dessineMonstres(&$image);
+		//$this->dessineMonstres(&$image);
 
 		$this->view->image = $image;
 		$this->render();
@@ -169,9 +170,9 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$x_fin_map =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $z["x_max_zone"]) / $this->coefTaille;
 			$y_deb_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $z["y_max_zone"]) / $this->coefTaille;
 			$y_fin_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $z["y_min_zone"]) / $this->coefTaille;
-				
+
 			$texte = $this->getTexteEnvironnement($z["id_fk_environnement_zone"]);
-				
+
 			ImageRectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->gris2);
 			ImageString($image, 1, $x_deb_map , $y_deb_map, "zone ".$z["id_zone"]. " ".$z["x_min_zone"]."/".$z["y_max_zone"]. " ".$texte, $this->gris2);
 		}
@@ -182,9 +183,6 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		switch($idEnvironnement) {
 			case 1 : // plaine
 				$retour = "plaine";
-				break;
-			case 2 : // forêt
-				$retour = "foret";
 				break;
 			case 3 : // marais
 				$retour = "marais";
@@ -216,9 +214,9 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$x_fin_map =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $v["x_max_ville"]) / $this->coefTaille;
 			$y_deb_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $v["y_max_ville"]) / $this->coefTaille;
 			$y_fin_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $v["y_min_ville"]) / $this->coefTaille;
-				
+
 			$coefRayon = 4;
-				
+
 			ImageRectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->vert);
 			$palier = 5;
 			ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[0]);
@@ -238,7 +236,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$palier = 30;
 			ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[5]);
 			ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[5]);
-				
+
 			ImageString($image, 1, $x_deb_map , $y_deb_map, $v["nom_ville"]. " ".($v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2)."/".($v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"]) / 2), $this->noir);
 			$nbVilles++;
 		}
@@ -258,6 +256,21 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$nbFilons++;
 		}
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 20, $nbFilons." Filons", $this->gris2);
+	}
+
+	private function dessineBosquets(&$image) {
+		Zend_Loader::loadClass('Bosquet');
+		$bosquetsTable = new Bosquet();
+		$bosquets = $bosquetsTable->fetchall();
+
+		$nbBosquets = 0;
+		foreach ($bosquets as $f) {
+			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $f["x_bosquet"]) / $this->coefTaille;
+			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $f["y_bosquet"]) / $this->coefTaille;
+			ImageFilledEllipse($image, $x, $y, 2, 2, $this->gris2);
+			$nbBosquets++;
+		}
+		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 20, $nbBosquets." Bosquets", $this->gris2);
 	}
 
 	private function dessineHobbits(&$image) {
@@ -289,7 +302,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		foreach ($monstres as $m) {
 			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $m["x_monstre"]) / $this->coefTaille;
 			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $m["y_monstre"]) / $this->coefTaille;
-				
+
 			$niveau = floor($m["niveau_monstre"] / 5);
 			$couleur = $this->tab_rouge[$niveau];
 			ImageFilledEllipse($image, $x, $y, 4, 4, $couleur);

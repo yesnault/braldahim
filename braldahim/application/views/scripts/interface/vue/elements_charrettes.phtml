@@ -27,9 +27,7 @@ include('elements.phtml');
 if ($textCharrette != "" || $textElementsMateriels != "" || $textElementsEquipements != "" || $textElementsMunitions != "" || $textElementsMineraisBruts != "" 
 	|| $textElementsLingots != "" || $textElementsPartiesPlantesBrutes != "" || $textElementsPartiesPlantesPreparees != "" 
 	|| $textElements != "" || $textElementsPotions != "" || $textElementsTabac != "" || $textElementsAliments != "") : ?>
-	<span <?=Bral_Helper_Tooltip::jsTip($textCharrette.$textElementsMateriels.$textElementsEquipements.$textElementsMunitions.$textElementsMineraisBruts.$textElementsLingots.$textElementsPartiesPlantesBrutes.$textElementsPartiesPlantesPreparees.$textElementsPotions.$textElementsTabac.$textElementsAliments.$textElements, $titre) ?>>
-		<img src='/public/styles/braldahim_defaut/images/vue/elements.png' />
-	</span>
+		<img <?=Bral_Helper_Tooltip::jsTip($textCharrette.$textElementsMateriels.$textElementsEquipements.$textElementsMunitions.$textElementsMineraisBruts.$textElementsLingots.$textElementsPartiesPlantesBrutes.$textElementsPartiesPlantesPreparees.$textElementsPotions.$textElementsTabac.$textElementsAliments.$textElements, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/elements.png' />
 <? else: ?>
 	&nbsp;
 <? endif; ?>

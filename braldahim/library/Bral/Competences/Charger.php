@@ -75,11 +75,15 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 				$this->view->charge_nb_cases = 6;
 			}
 
-			//En forêt un malus de -1 en distance, en marais et montagne un malus de -2 sur la distance est appliqué
+			Zend_Loader::loadClass("Bosquet");
+			$bosquetTable = new Bosquet();
+			$nombreBosquets = $bosquetTable->countByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+
+			//En bosquet un malus de -1 en distance, en marais et montagne un malus de -2 sur la distance est appliqué
 			$environnement = Bral_Util_Commun::getEnvironnement($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 			if ($environnement == "montage" || $environnement == "marais") {
 				$this->view->charge_nb_cases = $this->view->charge_nb_cases  - 2;
-			} elseif ($environnement == "foret") {
+			} elseif ($nombreBosquets > 1) {
 				$this->view->charge_nb_cases = $this->view->charge_nb_cases  - 1;
 			}
 
@@ -263,9 +267,9 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 	 */
 	protected function calculJetAttaque($hobbit) {
 		$jetAttaquant = 0;
-		
+
 		$jetAttaquant = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $hobbit->agilite_base_hobbit);
-		
+
 		$jetAttaquant = floor(0.5 * $jetAttaquant + $hobbit->agilite_bm_hobbit + $hobbit->agilite_bbdf_hobbit + $hobbit->bm_attaque_hobbit);
 		if ($jetAttaquant < 0){
 			$jetAttaquant = 0;
@@ -292,7 +296,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 
 		$jetDegat["critique"] = $jetDegat["critique"] + Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $hobbit->vigueur_base_hobbit);
 		$jetDegat["noncritique"] = $jetDegat["noncritique"] + Bral_Util_De::getLanceDe6($this->view->config->game->base_vigueur + $hobbit->vigueur_base_hobbit);
-		
+
 		$jetDegat["critique"] = floor($jetDegat["critique"] + $hobbit->vigueur_bm_hobbit + $hobbit->vigueur_bbdf_hobbit + $hobbit->bm_degat_hobbit);
 		$jetDegat["noncritique"] = floor($jetDegat["noncritique"] + $hobbit->vigueur_bm_hobbit + $hobbit->vigueur_bbdf_hobbit + $hobbit->bm_degat_hobbit);
 

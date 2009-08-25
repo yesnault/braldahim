@@ -1063,7 +1063,6 @@ li.resultat div.nom {
 table.vue2d {
 	border: solid #777;
 	text-align: center;
-	#background-color: #eeeeee;
 	border-spacing: 1;
 	border-width: 1pt;
 }
@@ -1080,72 +1079,58 @@ td.vue2d {
 	height: 64px;
 }
 
-td.vue2d.plaine {
-	#background-color: rgb(173, 186, 140);
-	background: url('/public/styles/braldahim_defaut/images/vue/plaine.png') repeat;
+td.vue2d.actuelle {
+	border-width: 2px; 
+	border-style: solid;
+	border-color:#ff6666;
+	width: 60px;
+	height: 60px;
 }
 
-td.vue2d.gazon {
-	#background-color: #99AA4A;
-	background: url('/public/styles/braldahim_defaut/images/vue/gazon.png') repeat;
-}
+td.vue2d.plaine { background: url('/public/styles/braldahim_defaut/images/vue/plaine.png') repeat; }
+td.vue2d.plaine-gr { background: url('/public/styles/braldahim_defaut/images/vue/plaine-gr.png') repeat; }
+td.vue2d.gazon { background: url('/public/styles/braldahim_defaut/images/vue/gazon.png') repeat; }
+td.vue2d.gazon-gr { background: url('/public/styles/braldahim_defaut/images/vue/gazon-gr.png') repeat;}
+td.vue2d.marais { background: url('/public/styles/braldahim_defaut/images/vue/marais.png') repeat; }
+td.vue2d.marais-gr { background: url('/public/styles/braldahim_defaut/images/vue/marais-gr.png') repeat; }
+td.vue2d.montagne { background: url('/public/styles/braldahim_defaut/images/vue/montagne.png') repeat; }
+td.vue2d.montagne-gr { background: url('/public/styles/braldahim_defaut/images/vue/montagne-gr.png') repeat;}
+td.vue2d.caverne { background: url('/public/styles/braldahim_defaut/images/vue/inconnu.png') repeat;}
+td.vue2d.caverne-gr { background: url('/public/styles/braldahim_defaut/images/vue/inconnu-gr.png') repeat;}
 
-td.vue2d.foret {
-	#background-color: #7E9E50;
-	background: url('/public/styles/braldahim_defaut/images/vue/foret.png') repeat;
-}
+td.vue2d.route { background: url('/public/styles/braldahim_defaut/images/vue/route.png') repeat; }
 
-td.vue2d.marais {
-	#background-color: #6699cc;
-	background: url('/public/styles/braldahim_defaut/images/vue/marais.png') repeat;
-}
-
-td.vue2d.montagne {
-	#background-color: #f5f5f5;
-	background: url('/public/styles/braldahim_defaut/images/vue/montagne.png') repeat;
-}
-
-td.vue2d.caverne {
-	#background-color: #666600;
-	background: url('/public/styles/braldahim_defaut/images/vue/inconnu.png') repeat;
-}
-
-td.vue2d.route {
-	background: url('/public/styles/braldahim_defaut/images/vue/route.png') repeat;
-}
-
-td.vue2d.terrasse {
-	background: url('/public/styles/braldahim_defaut/images/vue/terrasse.png') repeat;
-}
 
 td.vue2d.palissade {
 	background: url('/public/styles/braldahim_defaut/images/vue/palissade.png') repeat;
 }
 
 td.vue2d.inconnu {
-	#background-color: grey;
 	background: url('/public/styles/braldahim_defaut/images/vue/inconnu.png') repeat;
 }
+
+td.vue2d.erables { background: url('/public/styles/braldahim_defaut/images/vue/bosquets/erables.png') repeat; }
+td.vue2d.erables-gr { background: url('/public/styles/braldahim_defaut/images/vue/bosquets/erables-gr.png') repeat; }
+td.vue2d.chenes { background: url('/public/styles/braldahim_defaut/images/vue/cbosquets/henes.png') repeat; }
+td.vue2d.chenes-gr { background: url('/public/styles/braldahim_defaut/images/vue/bosquets/chenes-gr.png') repeat; }
+td.vue2d.peupliers { background: url('/public/styles/braldahim_defaut/images/vue/bosquets/peupliers.png') repeat; }
+td.vue2d.peupliers-gr { background: url('/public/styles/braldahim_defaut/images/vue/bosquets/peupliers-gr.png') repeat; }
+td.vue2d.hetres { background: url('/public/styles/braldahim_defaut/images/vue/bosquets/hetres.png') repeat; }
+td.vue2d.hetres-gr { background: url('/public/styles/braldahim_defaut/images/vue/bosquets/hetres-gr.png') repeat; }
+
 
 .vue2d_case_num {
 	text-align: right;
 	font-size: 7pt;
 	color: #e0ffe0;
-	#background-color: #6f5f6f;
 	height:0.5px;
 	position:relative;
 	top : -7px;
+	z-index: 100;
 }
 
-td.vue2d.actuelle {
-	border-width: 2px; 
-	border-style: solid;
-	border-color:#ff6666;
-}
-
-div.cases {
-	width:64px;
-}
+div.cases { width:64px; }
+div.cases.actuelle { width:30px; }
 
 table.cases {
 	padding: 0px;
@@ -1153,9 +1138,18 @@ table.cases {
 	width:64px;
 }
 
+table.cases.actuelle {
+	width:60px;
+}
+
 td.cases {
 	width: 32px;
 	height: 32px;
+}
+
+td.cases.actuelle {
+	width: 30px;
+	height: 30px;
 }
 
 #modalPage {
@@ -1206,8 +1200,6 @@ td.cases {
 /* ************************************************ */
 /* ********************** Menu *********************** */
 /* ************************************************ */
-
-
 #menu {
 	-moz-background-clip:border;
 	-moz-background-inline-policy:continuous;

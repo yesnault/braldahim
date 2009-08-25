@@ -1,0 +1,18 @@
+<? include("commun_text_resultat.phtml") ?>
+
+<? if ($this->okJet1 === true): ?>
+
+		Vous avez balisé un sentier !<br />
+		
+		Ce sentier a les caract&eacute;ristiques suivantes : <br />
+		Qualit&eacute; : <?=$this->qualite?><br />
+		Position : <?=$this->user->x_hobbit ?>, <?=$this->user->y_hobbit ?><br />
+		Date de destruction : le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$this->route["date_fin_route"]); ?>
+		
+		<br><br>
+		
+		<? if ($this->construireRouteContinueOk == true) : ?>
+		Vous êtes arrivé en x=<?=$this->user->x_hobbit?>, y=<?=$this->user->y_hobbit?>.
+		<? endif;?>
+		
+<? endif; ?>

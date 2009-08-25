@@ -14,50 +14,17 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Charrette");
-		Zend_Loader::loadClass("Zone");
-		Zend_Loader::loadClass('Lieu');
-		Zend_Loader::loadClass('Echoppe');
+		Zend_Loader::loadClass("Bosquet");
 		Zend_Loader::loadClass("Bral_Util_Quete");
 
-		$lieuxTable = new Lieu();
-		$lieux = $lieuxTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		unset($lieuxTable);
-		$zoneTable = new Zone();
-		$zones = $zoneTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		unset($zoneTable);
-		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-		unset($echoppeTable);
+		$bosquetTable = new Bosquet();
+		$bosquets = $bosquetTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 
-		$this->view->abattreArbreLieuOk = true;
-		$this->view->abattreArbreEchoppeOk = true;
-
-		if (count($lieux) > 0) {
-			$this->view->abattreArbreLieuOk = false;
-		}
-		unset($lieux);
-
-		if (count($echoppes) > 0) {
-			$this->view->abattreArbreEchoppeOk = false;
-		}
-		unset($echoppes);
-
-		$zone = $zones[0];
-
-
-		switch($zone["nom_systeme_environnement"]) {
-			case "foret" :
-				$this->view->abattreArbreEnvironnementOk = true;
-				break;
-			case "marais":
-			case "gazon":
-			case "montagne":
-			case "caverne":
-			case "plaine" :
-				$this->view->abattreArbreEnvironnementOk = false;
-				break;
-			default :
-				throw new Exception("Abattre un arbre Environnement invalide:".$zone["nom_systeme_environnement"]. " x=".$this->view->user->x_hobbit." y=".$this->view->user->y_hobbit);
+		$bosquet = null;
+		$this->view->abattreArbreEnvironnementOk = false;
+		if ($bosquets != null) {
+			$bosquet = $bosquets[0];
+			$this->view->abattreArbreEnvironnementOk = true;
 		}
 
 		$charretteTable = new Charrette();
@@ -65,10 +32,10 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		$this->view->charettePleine = true;
 		if ($nombre == 1) {
 			$this->view->possedeCharrette = true;
-				
+
 			$tabPoidsCharrette = Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit);
 			$nbPossibleDansCharretteMaximum = floor($tabPoidsCharrette["place_restante"] / Bral_Util_Poids::POIDS_RONDIN);
-			
+
 			if ($nbPossibleDansCharretteMaximum > 0) {
 				$this->view->charettePleine = false;
 			}
@@ -76,8 +43,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 			$this->view->possedeCharrette = false;
 		}
 
-		unset($zones);
-		unset($zone);
+		$this->view->bosquetCourant = $bosquet;
 	}
 
 	function prepareFormulaire() {
@@ -93,7 +59,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		}
 
 		// Verification abattre arbre
-		if ($this->view->abattreArbreEnvironnementOk == false || $this->view->abattreArbreLieuOk == false || $this->view->possedeCharrette == false || $this->view->abattreArbreEchoppeOk == false) {
+		if ($this->view->abattreArbreEnvironnementOk == false || $this->view->possedeCharrette == false) {
 			throw new Zend_Exception(get_class($this)." Abattre un arbre interdit ");
 		}
 
@@ -152,6 +118,21 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 			$this->view->nbRondins = $nbPossibleDansCharretteMaximum;
 		}
 
+		$bosquetTable = new Bosquet();
+		$where = "id_bosquet=".$this->view->bosquetCourant["id_bosquet"];
+		// Destruction du bosquet s'il ne reste plus rien
+		if ($this->view->bosquetCourant["quantite_restante_bosquet"] - $this->view->nbRondins  <= 0) {
+			$this->view->nbRondins = $this->view->bosquetCourant["quantite_restante_bosquet"];
+			$bosquetTable->delete($where);
+			$bosquetDetruit = true;
+		} else {
+			$data = array(
+				'quantite_restante_bosquet' => $this->view->bosquetCourant["quantite_restante_bosquet"] - $this->view->nbRondins,
+			);
+			$bosquetTable->update($data, $where);
+			$bosquetDetruit = false;
+		}
+
 		$charretteTable = new Charrette();
 		$data = array(
 			'quantite_rondin_charrette' => $this->view->nbRondins,
@@ -159,7 +140,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		);
 		$charretteTable->updateCharrette($data);
 		unset($charretteTable);
-		
+
 		Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
 
 		$statsRecolteurs = new StatsRecolteurs();
@@ -171,6 +152,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		$statsRecolteurs->insertOrUpdate($dataRecolteurs);
 
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeCollecter($this->view->user, $this->competence["id_fk_metier_competence"]);
+		$this->view->bosquetDetruit = $bosquetDetruit;
 	}
 
 	function getListBoxRefresh() {

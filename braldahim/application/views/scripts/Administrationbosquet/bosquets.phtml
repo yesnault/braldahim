@@ -1,0 +1,84 @@
+<?php echo $this->render('header.phtml'); ?>
+<div class="box_administration">
+<?=Bral_Helper_Box::haut(); ?>
+<div class="inner">
+    <ul class="titre textalic textsizea">Administration Bosquets</ul>
+    	&nbsp;
+	<div class="contenu">
+	    <ul class="box_contenu1 textalic">
+	    
+			<? if ($this->creation === true) : ?>
+			<b>Cr&eacute;ation de <?=$this->nb_creation ?> bosquets</b> <br />
+			<b>Les bosquets créés en villes ont été ensuite supprimés</b>.<br />
+			<? endif; ?>
+			<form action="/Administrationbosquet/bosquets" method="post">
+			<table align='center'>
+			<th class='comp_titre'>Zone</th>
+			<th class='comp_titre'>Bosquet</th>
+			<th class='comp_titre'>Couverture</th>
+			<tr valign='top'>
+				<td>
+					<select name="id_zone">
+					<? foreach ($this->zones as $z) : ?>
+					<option value="<?=$z["id_zone"]?>"><?=$z["id_zone"]?></option>
+					<? endforeach; ?>
+					</select>
+				</td>
+				<td>
+					<select name="id_type_bosquet_bosquet">
+					<? foreach ($this->typeBosquets as $p) : ?>
+					<option value="<?=$p["id_type_bosquet"]?>"><?=$p["nom"]?></option>
+					<? endforeach; ?>
+					</select>
+					<br />
+					Quantit&eacute; min <input type="textbox" name="quantite_min" onkeypress="chiffres(event);" />
+					 max : <input type="textbox" name="quantite_max" onkeypress="chiffres(event);" /> <br />
+				</td>
+				<td>
+					<select name="couverture">
+					<? for ($i=1; $i<100; $i++) : ?>
+						<option value="<?=$i?>"><?=$i?> %</option>
+					<? endfor; ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td colspan='3'> <input type="submit"  class='button1' name="Ajouter" value="Ajouter la couverture de bosquet" /></td>
+			</tr>
+			</table>
+			</form>
+		<br /><br />
+			<table  align='center'>
+			<th class='comp_titre'>N&deg;</th>
+			<th class='comp_titre'>Environnement</th>
+			<th class='comp_titre'>x_min</th>
+			<th class='comp_titre'>x_max</th>
+			<th class='comp_titre'>y_min</th>
+			<th class='comp_titre'>y_max</th>
+			<th class='comp_titre'>Nombre Cases</th>
+			<th class='comp_titre'>Nombre Bosquets</th>
+			<th class='comp_titre'>Couverture</th>
+			<? foreach ($this->zones as $zone) : ?>
+				<tr>
+					<td><?=$zone["id_zone"] ?></td>
+					<td><?=$zone["environnement"] ?></td>
+					<td><?=$zone["x_min"] ?></td>
+					<td><?=$zone["x_max"] ?></td>
+					<td><?=$zone["y_min"] ?></td>
+					<td><?=$zone["y_max"] ?></td>
+					<td><?=$zone["nombre_cases"] ?></td>
+					<td><?=$zone["nombre_bosquets"] ?></td>
+					<td><?=$zone["couverture"] ?> % </td>
+					<td>
+					
+					</td>
+				</tr>
+			<? endforeach; ?>
+			</table>
+		</ul>
+	</div>
+	&nbsp;
+</div>
+<?=Bral_Helper_Box::bas(); ?>
+</div>
+<?php echo $this->render('footer.phtml'); ?>

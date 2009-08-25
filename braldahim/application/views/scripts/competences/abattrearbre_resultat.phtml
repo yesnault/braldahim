@@ -12,6 +12,10 @@
 		Vous avez r&eacute;cup&eacute;r&eacute; <?=$this->nbRondins ?> 
 		rondin<?=$s ?>.
 	<? endif; ?>
+	
+	<? if ($this->bosquetDetruit) : ?>
+		<br>Vous avez récupéré les derniers rondins sur ce bosquet.
+	<? endif;?>
 	<br /><br />
 	<? if ($this->effetRune) :?>
 		Une rune que vous portez a eu de l'effet sur la quantit&eacute; de rondins r&eacute;cup&eacute;r&eacute;e.
