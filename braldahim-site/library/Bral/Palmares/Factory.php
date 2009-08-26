@@ -196,11 +196,11 @@ class Bral_Palmares_Factory {
 			case "tanneurs":
 				$view->titre .= " - Tanneurs";
 				break;
-			case "bucherons":
-				$view->titre .= " - Bûcherons";
+			case "bucherons_palissades":
+				$view->titre .= " - Bûcherons - Palissades";
 				break;
-			case "terrassiers":
-				$view->titre .= " - Terrassier";
+			case "bucherons_routes":
+				$view->titre .= " - Bûcherons - Sentiers";
 				break;
 			case "cuisiniers":
 				$view->titre .= " - Cuisinier";

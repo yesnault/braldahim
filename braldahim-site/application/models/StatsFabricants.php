@@ -90,11 +90,8 @@ class StatsFabricants extends Zend_Db_Table {
 			case "tanneurs":
 				$retour = "id_fk_metier_stats_fabricants = ".$config->game->metier->tanneur->id;
 				break;
-			case "bucherons":
+			case "bucherons_palissades":
 				$retour = "id_fk_metier_stats_fabricants = ".$config->game->metier->bucheron->id;
-				break;
-			case "terrassiers":
-				$retour = "id_fk_metier_stats_fabricants = ".$config->game->metier->terrassier->id;
 				break;
 			case "cuisiniers":
 				$retour = "id_fk_metier_stats_fabricants = ".$config->game->metier->cuisinier->id;

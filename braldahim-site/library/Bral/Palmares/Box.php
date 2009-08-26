@@ -104,11 +104,11 @@ abstract class Bral_Palmares_Box {
 				$retour = "Nombre de pièces d'équipements fabriquées";
 				$this->view->afficheMoyenne = true;
 				break;
-			case "bucherons":
+			case "bucherons_palissades":
 				$retour = "Nombre de palissades fabriquées";
 				break;
-			case "terrassiers":
-				$retour = "Nombre de routes fabriquées";
+			case "bucherons_routes":
+				$retour = "Nombre de sentiers balisés";
 				break;
 			case "cuisiniers":
 				$retour = "Nombre de rations préparées";

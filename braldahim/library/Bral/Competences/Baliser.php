@@ -167,15 +167,15 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 
 		$this->view->route = $data;
 
-		Zend_Loader::loadClass("StatsFabricants");
-		$statsFabricants = new StatsFabricants();
+		Zend_Loader::loadClass("StatsRoutes");
+		$statsRoutes = new StatsRoutes();
 		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
-		$dataFabricants["niveau_hobbit_stats_fabricants"] = $this->view->user->niveau_hobbit;
-		$dataFabricants["id_fk_hobbit_stats_fabricants"] = $this->view->user->id_hobbit;
-		$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
-		$dataFabricants["nb_piece_stats_fabricants"] = 1;
-		$dataFabricants["id_fk_metier_stats_fabricants"] = $this->view->config->game->metier->bucheron->id;
-		$statsFabricants->insertOrUpdate($dataFabricants);
+		$dataRoutes["niveau_hobbit_stats_routes"] = $this->view->user->niveau_hobbit;
+		$dataRoutes["id_fk_hobbit_stats_routes"] = $this->view->user->id_hobbit;
+		$dataRoutes["mois_stats_routes"] = date("Y-m-d", $moisEnCours);
+		$dataRoutes["nb_stats_routes"] = 1;
+		$dataRoutes["id_fk_metier_stats_routes"] = $this->view->config->game->metier->bucheron->id;
+		$statsRoutes->insertOrUpdate($dataRoutes);
 
 		if ($this->view->construireRouteContinueOk == true) {
 			$x_y = $this->request->get("valeur_1");

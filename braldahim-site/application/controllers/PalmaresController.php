@@ -132,16 +132,16 @@ class PalmaresController extends Bral_Controller_Box {
 		$this->render("index");
 	}
 	
-	function bucheronsfabriquantsAction() {
+	function bucheronsfabriquantspalissadesAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "bucherons"), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "bucherons_palissades"), "boite_a");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
-	function terrassiersAction() {
+	function bucheronsfabriquantsroutesAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "terrassiers"), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "bucherons_routes"), "boite_a");
 		$this->prepareCommun();
 		$this->render("index");
 	}
@@ -194,8 +194,8 @@ class PalmaresController extends Bral_Controller_Box {
 		$selectionFabricants[] = array("nom" => "Menuisiers", "url" => "menuisiers");
 		$selectionFabricants[] = array("nom" => "Forgerons", "url" => "forgerons");
 		$selectionFabricants[] = array("nom" => "Tanneurs", "url" => "tanneurs");
-		$selectionFabricants[] = array("nom" => "Bûcherons", "url" => "bucheronsfabriquants");
-		$selectionFabricants[] = array("nom" => "Terrassiers", "url" => "terrassiers");
+		$selectionFabricants[] = array("nom" => "Bûcherons - Palissades", "url" => "bucheronsfabriquantspalissades");
+		$selectionFabricants[] = array("nom" => "Bûcherons - Sentiers", "url" => "bucheronsfabriquantsroutes");
 		$selectionFabricants[] = array("nom" => "Cuisiniers", "url" => "cuisiniers");
 		$this->view->selectionFabricants = $selectionFabricants;
 		
