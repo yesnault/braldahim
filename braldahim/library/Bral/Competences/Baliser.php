@@ -174,7 +174,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		$dataFabricants["id_fk_hobbit_stats_fabricants"] = $this->view->user->id_hobbit;
 		$dataFabricants["mois_stats_fabricants"] = date("Y-m-d", $moisEnCours);
 		$dataFabricants["nb_piece_stats_fabricants"] = 1;
-		$dataFabricants["id_fk_metier_stats_fabricants"] = $this->view->config->game->metier->terrassier->id;
+		$dataFabricants["id_fk_metier_stats_fabricants"] = $this->view->config->game->metier->bucheron->id;
 		$statsFabricants->insertOrUpdate($dataFabricants);
 
 		if ($this->view->construireRouteContinueOk == true) {
