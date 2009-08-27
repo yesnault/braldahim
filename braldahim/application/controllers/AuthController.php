@@ -11,9 +11,8 @@
  * $LastChangedBy$
  */
 class AuthController extends Zend_Controller_Action {
+	
 	function init() {
-
-
 		$this->initView();
 		Zend_Loader::loadClass('Hobbit');
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
@@ -126,7 +125,6 @@ class AuthController extends Zend_Controller_Action {
 		$this->view->title = "Authentification";
 
 		$this->prepareInfosJeu();
-
 		$this->render();
 	}
 
@@ -173,24 +171,11 @@ class AuthController extends Zend_Controller_Action {
 			}
 		}
 	}
-
+	
 	private function prepareInfosJeu() {
-		Zend_Loader::loadClass('InfoJeu');
-		$infoJeuTable = new InfoJeu();
-
-		$infosRowset = $infoJeuTable->findAllAccueil();
-		$infosJeu = null;
-		foreach ($infosRowset as $i) {
-			$infosJeu[] = array(
-				"id_info_jeu" => $i["id_info_jeu"],
-				"date_info_jeu" => $i["date_info_jeu"],
-				"text_info_jeu" => $i["text_info_jeu"],
-				"est_sur_accueil_info_jeu" => $i["est_sur_accueil_info_jeu"],
-				"lien_info_jeu" => $i["lien_info_jeu"],
-			);
-		}
-
-		$this->view->infosJeu = $infosJeu;
+		Zend_Loader::loadClass("Bral_Util_InfoJeu");
+		$infoJeu = Bral_Util_InfoJeu::prepareInfosJeu();
+		$this->view->annonces = $infoJeu["annonces"];
+		$this->view->histoires = $infoJeu["histoires"];
 	}
-
 }

@@ -1,0 +1,38 @@
+<? 
+	$i = 0; 
+	foreach ($this->histoires as $info) : ?>
+		<table class="table_liste" style="width:90%">
+    	<thead class="table_liste">
+    
+		<tr class="table_liste<?=($i % 2);$i++; ?>"">
+			<td class="table_liste" style="height:250px;text-align: justify; vertical-align:top">
+			
+			Parution le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?>
+			<br>
+			<? if ($info["titre_info_jeu"] != null && $info["titre_info_jeu"] != "") :?>
+				<br>
+				<ul class="titre textalic textsized"><?=$info["titre_info_jeu"]?></ul>
+			<? endif;?>
+			
+			<? if (Bral_Util_ConvertDate::get_date_add_time_to_date($info["date_info_jeu"], "36:00:00") > date("Y-m-d H:i:s")): ?>
+				<img src="/public/images/new.gif" title="information de moins de 36 heures" style="cursor:pointer"/>
+			<? else:?>
+				&nbsp;
+			<? endif;?>
+			
+			<div class="gazette_histoire">
+				<?=Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
+				<? if ($info["lien_wiki_info_jeu"] != null) :?>
+					<a href="<?=$info["lien_wiki_info_jeu"]?>">...Lire la suite.</a>
+				<? endif;?>
+			</div>
+			
+			<? if ($info["lien_wiki_info_jeu"] != null) :?>
+				<br>Les hobbits en discutent
+				<a href="<?=$info["lien_wiki_info_jeu"]?>">sur le forum.</a>
+			<? endif;?>
+			</td>
+		</tr>
+		</thead>
+	</table>
+<? endforeach; ?>

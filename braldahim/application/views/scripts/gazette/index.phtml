@@ -1,0 +1,35 @@
+<?php echo $this->render('header.phtml'); ?>  
+<?php echo $this->render('headerNonAuth.phtml'); ?> 
+<?php echo $this->render('headerArchives.phtml'); ?> 
+
+<br>
+<table width="100%">
+	<tr>
+		<td width="40%" valign="top" align="right">
+			<div style="width:200px">
+			<?=Bral_Helper_Box::haut(); ?>
+			<div class="inner">
+				<div class="contenu">
+						Filtre par année: <select id="annee" name="annee" onChange="document.location.href = '/gazette/?anneeselect='+this.value+'&uid='+(new Date()).valueOf()">
+						<? foreach($this->annees as $a): ?>
+							<option value="<?=$a?>" <?if ($this->anneeSelect == $a): echo "selected='true'" ; endif;?>><?=$a?></option>
+						<? endforeach;?>
+						</select>
+						
+						<br><br>
+						
+						<?=count($this->histoires)?> article<? if (count($this->histoires) > 0) : echo "s"; endif; ?>
+						 dans la gazette pour l'année <?=$this->anneeSelect?> 
+				</div>
+			</div>
+			<?=Bral_Helper_Box::bas(); ?>
+			</div>
+			</td>
+			
+			<td width="60%" valign="top" align="left">
+			<? include("gazette.phtml") ?>	
+			<br>
+		</td>
+	</tr>
+</table>
+<?php echo $this->render('footer.phtml'); ?>  

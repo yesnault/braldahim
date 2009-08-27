@@ -19,11 +19,25 @@
 	
 			<span>Message</span><br>
 			<textarea name="texte_info" id="texte_info" class="inputbox" rows="10" cols="60" onkeydown="textCount($('texte_info'),$('characterstyped'),3000);" onkeyup="textCount($('texte_info'),$('characterstyped'),3000);"><?=stripslashes($this->infoJeu["text_info_jeu"])?></textarea>
-			<br>
-			<input type="text" name="lien_info" id="lien_info" size="40" maxlength="200" class="inputbox" value="<?=$this->infoJeu["lien_info_jeu"]?>"/>
+			
 			<br>
 			<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="2500" type="text"> Caract&egrave;res restants<br>
-					
+			
+			<br>
+			Titre (facultatif) : <input type="text" name="titre_info" id="titre_info" size="50" maxlength="50" class="inputbox" value="<?=$this->infoJeu["titre_info_jeu"]?>"/>
+			
+			<br>
+			Lien article wiki : <input type="text" name="lien_wiki_info" id="lien_wiki_info" size="40" maxlength="200" class="inputbox" value="<?=$this->infoJeu["lien_wiki_info_jeu"]?>"/>
+			<br>
+			Autre lien (post sur le forum par exemple) <input type="text" name="lien_info" id="lien_info" size="40" maxlength="200" class="inputbox" value="<?=$this->infoJeu["lien_info_jeu"]?>"/>
+			<br>
+			
+			<select name='type_info' id="type_info">
+				<? foreach ($this->tabTypes as $k => $v) : ?>
+				<option value="<?=$k?>" <? if ($this->infoJeu["type_info_jeu"] == $k) : echo "selected"; endif;?>><?=$v?></option>
+				<? endforeach; ?>
+			</select><br /><br />
+			
 			<? if ($this->infoJeu["id_info_jeu"] != -1) : ?>
 				<input type="submit"  class='button1' name="Editer" value="Editer l'info" />
 			<? else :?>

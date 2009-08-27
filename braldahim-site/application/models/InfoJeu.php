@@ -14,7 +14,7 @@ class InfoJeu extends Zend_Db_Table {
 	protected $_name = 'info_jeu';
 	protected $_primary = 'id_info_jeu';
 
-	public function findAllAccueil() {
+	public function findAll() {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('info_jeu', '*')

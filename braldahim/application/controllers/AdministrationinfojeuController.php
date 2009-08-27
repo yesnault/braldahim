@@ -30,7 +30,15 @@ class AdministrationinfojeuController extends Zend_Controller_Action {
 		$infoJeu["date_info_jeu"] = -1;
 		$infoJeu["text_info_jeu"] = "NouveauTexte. [url=lienhttp]Exemple lien[/url]";
 		$infoJeu["lien_info_jeu"] = "Url du post sur le forum";
+		$infoJeu["lien_wiki_info_jeu"] = "Url de l'article sur le wiki";
+		$infoJeu["type_info_jeu"] = "annonce";
+		$infoJeu["titre_info_jeu"] = null;
+		
+		$tabTypes["annonce"] = "Annonce à droite";
+		$tabTypes["histoire"] = "Histoire de gazette";
+		
 		$this->view->infoJeu = $infoJeu;
+		$this->view->tabTypes = $tabTypes;
 	}
 	
 	function indexAction() {
@@ -75,12 +83,15 @@ class AdministrationinfojeuController extends Zend_Controller_Action {
 			$filter = new Zend_Filter();
 			$filter->addFilter(new Zend_Filter_StringTrim())->addFilter(new Zend_Filter_StripTags());
 			$texte = $filter->filter($this->_request->getPost('texte_info'));
+			$titre = $filter->filter($this->_request->getPost('titre_info'));
 			$lien = $filter->filter($this->_request->getPost('lien_info'));
+			$lienWiki = $filter->filter($this->_request->getPost('lien_wiki_info'));
+			$type = $filter->filter($this->_request->getPost('type_info'));
 			
 			$infoJeuTable = new InfoJeu();
 			
 			if ($this->_request->get('idinfoEdit') != -1) {
-				$data = array('text_info_jeu' => $texte, 'lien_info_jeu' => $lien);
+				$data = array('titre_info_jeu' => $titre, 'text_info_jeu' => $texte, 'lien_info_jeu' => $lien, 'lien_wiki_info_jeu' => $lienWiki, 'type_info_jeu' => $type);
 				$where = 'id_info_jeu = '.$this->_request->get('idinfoEdit');
 				$infoJeuTable->update($data, $where);
 				$idInfo = $this->_request->get('idinfoEdit');
@@ -88,7 +99,11 @@ class AdministrationinfojeuController extends Zend_Controller_Action {
 				$data = array(
 					'date_info_jeu' => date("Y-m-d H:i:s"),
 				 	'text_info_jeu' => $texte,
-					'lien_info_jeu' => $lien
+					'lien_info_jeu' => $lien,
+					'lien_wiki_info_jeu' => $lienWiki,
+					"type_info_jeu" => $type,
+					"titre_info_jeu" => $titre,
+					
 				);
 				$idInfo = $infoJeuTable->insert($data);
 			}
@@ -112,7 +127,10 @@ class AdministrationinfojeuController extends Zend_Controller_Action {
 				"date_info_jeu" => $i["date_info_jeu"],
 				"text_info_jeu" => $i["text_info_jeu"],
 				"est_sur_accueil_info_jeu" => $i["est_sur_accueil_info_jeu"],
+				"titre_info_jeu" => $i["titre_info_jeu"],
 				"lien_info_jeu" => $i["lien_info_jeu"],
+				"lien_wiki_info_jeu" => $i["lien_wiki_info_jeu"],
+				"type_info_jeu" => $i["type_info_jeu"],
 				);
 		}
 		

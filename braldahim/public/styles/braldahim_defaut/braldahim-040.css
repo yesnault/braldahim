@@ -375,12 +375,25 @@ span.id_hobbit {
 }
 
 .box_infos_jeu {
-	width: 600px;
+	width: 350px;
 	height: auto;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 0px;
 	text-align: center;
+}
+
+.box_gazette {
+	width: 350px;
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0px;
+	text-align: center;
+}
+
+.gazette_histoire{
+	padding : 10px;
 }
 
 .contenu {

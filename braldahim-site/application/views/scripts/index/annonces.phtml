@@ -1,0 +1,40 @@
+
+<br><br>
+    <ul class="titre textalic textsizeb">Les Annonces</ul><br>
+<? if (count($this->annonces) > 0) : ?>
+    <table class="table_liste" style="width:300px; border: 0px">
+		    	<thead class="table_liste">
+		<? 
+			$i = 0; 
+			foreach ($this->annonces as $info) : ?>
+			<tr class="table_liste<?=($i % 2);$i++; ?>">
+				<td class="table_liste">
+				
+				Le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?>
+				
+				<? if (Bral_Util_ConvertDate::get_date_add_time_to_date($info["date_info_jeu"], "36:00:00") > date("Y-m-d H:i:s")): ?>
+					<img src="/public/images/new.gif" title="information de moins de 36 heures" style="cursor:pointer"/>
+				<? else:?>
+					&nbsp;
+				<? endif;?>
+				
+				<? if ($info["titre_info_jeu"] != null && $info["titre_info_jeu"] != "") :?>
+					<br>
+					<?=$info["titre_info_jeu"]?>
+					<br>
+				<? endif;?>
+				
+				<?=Bral_Util_BBParser::bbcodeReplace($info["text_info_jeu"]);?>
+				<? if ($info["lien_wiki_info_jeu"] != null) :?>
+					<a href="<?=$info["lien_wiki_info_jeu"]?>">Voir les règles.</a> 
+				<? endif;?>
+				<? if ($info["lien_info_jeu"] != null) :?>
+					<br><a href="<?=$info["lien_info_jeu"]?>">Discussions.</a>
+				<? endif;?>
+				</td>
+			</tr>
+		<? endforeach; ?>
+		</thead>
+		</table>
+<? endif; ?>
+<a href="http://jeu.braldahim.com/annonces">Voir les archives</a>

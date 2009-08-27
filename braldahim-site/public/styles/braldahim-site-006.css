@@ -120,6 +120,20 @@ span.id_hobbit {
 	z-index: 1000;
 }
 
+
+.box_gazette {
+	width: 350px;
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0px;
+	text-align: center;
+}
+
+.gazette_histoire{
+	padding : 10px;
+}
+
 #navigation {
 	background-color: #FADC9B;
 	border: 3px solid #FADC9B;

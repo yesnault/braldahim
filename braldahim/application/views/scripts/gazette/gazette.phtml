@@ -1,0 +1,14 @@
+<? if (count($this->histoires) > 0) : ?>
+<div class="box_gazette">
+<?=Bral_Helper_Box::haut(); ?>
+<div class="inner">
+	<div class="contenu">
+	    <ul class="box_contenu1 textalib">
+	    	<ul class="titre textalic textsizeb">La Gazette</ul>
+				<?php echo $this->render('gazette/histoires.phtml'); ?> 
+	    </ul>
+	</div>
+</div>
+<?=Bral_Helper_Box::bas(); ?>
+</div>
+<? endif; ?>

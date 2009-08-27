@@ -34,6 +34,7 @@ Zend_Loader :: loadClass("Zend_Auth");
 Zend_Loader :: loadClass("Bral_Box_Factory");
 Zend_Loader :: loadClass("Bral_Box_Box");
 Zend_Loader :: loadClass("Bral_Controller_Action");
+Zend_Loader :: loadClass("Bral_Controller_InfoJeu");
 
 Zend_Loader :: loadClass("Bral_Helper_Affiche");
 Zend_Loader :: loadClass("Bral_Helper_Calendrier");
@@ -50,6 +51,8 @@ Zend_Loader :: loadClass("Bral_Util_Log");
 Zend_Loader :: loadClass("Bral_Util_Poids");
 Zend_Loader :: loadClass("Bral_Util_Registre");
 Zend_Loader :: loadClass("Bral_Util_String");
+
+
 
 Zend_Loader :: loadClass("Bral_Helper_BBBoutons");
 Zend_Loader :: loadClass("Bral_Helper_Box");
