@@ -90,9 +90,11 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			} else if ($t["type_potion"] == "vernis_enchanteur") {
 				$t["nom_type_potion"] .= " (".$t["bm_type_potion"]." sur ".$t["caract_type_potion"].", ".$t["bm2_type_potion"]." sur ".$t["caract2_type_potion"].")";
 			}
-
-			$tabTypePotion[$t["type_potion"]]["liste"][] = $t;
-			$tabTypePotion[$t["type_potion"]]["nom"] = Bral_Util_Potion::getNomType($t["type_potion"]);
+				
+			if ($t["type_potion"] == "potion" || $this->view->user->niveau_courant > 9) {
+				$tabTypePotion[$t["type_potion"]]["liste"][] = $t;
+				$tabTypePotion[$t["type_potion"]]["nom"] = Bral_Util_Potion::getNomType($t["type_potion"]);
+			}
 
 		}
 
@@ -104,7 +106,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$this->view->cout = null;
 		$this->view->niveaux = null;
 		$this->view->elaborerPlanteOk = false;
-		
+
 		$this->idEchoppe = $idEchoppe;
 		$this->echoppeCourante = $echoppeCourante;
 
@@ -207,7 +209,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		}
 
 		$tabCoutIngredient = null;
-		
+
 		Zend_Loader::loadClass("EchoppeMinerai");
 
 		$echoppeMineraiTable = new EchoppeMinerai();
@@ -253,11 +255,11 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 						$ressourcesOk = true;
 					}
 				}
-				
+
 				if ($ressourcesOk == false) {
 					$tabNiveaux[$k]["ressourcesOk"] = false;
 				}
-				
+
 				$tabCoutIngredient[$k][] = array(
 					"nom" => $nom,
 					"nom_systeme" => $typePotionCourante["nom_systeme_type_ingredient"],
@@ -334,13 +336,13 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		if ($this->view->okJet1 === true) {
 			$this->calculElaborer($idTypePotion, $niveau);
 		}
-		
+
 		if ($this->view->nbPotions > 1) {
 			$s = "s";
 		} else {
 			$s = "";
 		}
-		
+
 		if ($this->view->typePotionCourante["type_potion"] == "potion") {
 			$nom = "potion".$s;
 		} elseif ($this->view->typePotionCourante["type_potion"] == "vernis_enchanteur") {
