@@ -98,9 +98,10 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$this->view->effetRune = false;
 
 		$this->view->nbAliment = $nombre;
+		$this->view->nbViandePreparee = $nombre;
 
 		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "RU")) { // s'il possède une rune RU
-			$this->view->nbAliment = floor($this->view->nbAliment * 1.5);
+			$this->view->nbAliment = $this->view->nbAliment + 1;
 			$this->view->effetRune = true;
 		} else {
 			$this->view->nbAliment = $this->view->nbAliment + 0;

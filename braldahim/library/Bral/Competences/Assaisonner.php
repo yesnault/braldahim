@@ -118,6 +118,8 @@ class Bral_Competences_Assaisonner extends Bral_Competences_Competence {
 			'quantite_viande_preparee_laban' => $this->view->nbViandePrepareeLaban,
 		);
 		$labanTable->insertOrUpdate($data);
+		
+		$this->view->nbViande = $nombre;
 
 		// on depose à terre si çà passe pas dans le laban
 		if ($this->view->nbViandeATerre > 0) {
