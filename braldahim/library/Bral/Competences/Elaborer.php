@@ -91,11 +91,10 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 				$t["nom_type_potion"] .= " (".$t["bm_type_potion"]." sur ".$t["caract_type_potion"].", ".$t["bm2_type_potion"]." sur ".$t["caract2_type_potion"].")";
 			}
 				
-			if ($t["type_potion"] == "potion" || $this->view->user->niveau_courant > 9) {
+			if ($t["type_potion"] == "potion" || $this->view->user->niveau_hobbit > 9) {
 				$tabTypePotion[$t["type_potion"]]["liste"][] = $t;
 				$tabTypePotion[$t["type_potion"]]["nom"] = Bral_Util_Potion::getNomType($t["type_potion"]);
 			}
-
 		}
 
 		$tabNiveaux = null;
