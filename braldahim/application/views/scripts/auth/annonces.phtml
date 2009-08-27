@@ -1,15 +1,15 @@
-<? if (count($this->annonces) > 0) : ?>
 <div class="box_infos_jeu">
 <?=Bral_Helper_Box::haut(); ?>
 <div class="inner">
 	<div class="contenu">
 	    <ul class="box_contenu1 textalib">
 	    	<ul class="titre textalic textsizeb" ><a href="/annonces" title="Voir les Archives" style="text-decoration:none">Les Annonces</a></ul>
+	    		<? if (count($this->annonces) > 0) : ?>
 				<?php echo $this->render('annonces/histoires.phtml'); ?> 
+				<? endif; ?>
 				<br><a href="/annonces">Archives</a>&nbsp;
 	    </ul>
 	</div>
 </div>
 <?=Bral_Helper_Box::bas(); ?>
 </div>
-<? endif; ?>
