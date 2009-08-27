@@ -31,7 +31,6 @@ class Bral_Util_Vie {
 			}
 			
 			$hobbit->pv_restant_hobbit = $hobbit->pv_restant_hobbit + $jetRegeneration;
-			
 		}
 	}
 	

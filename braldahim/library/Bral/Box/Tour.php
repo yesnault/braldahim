@@ -226,10 +226,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 				Bral_Util_Log::tour()->trace(get_class($this)." activer - effetMotE Actif - effetMotE=".$effetMotE);
 				$this->view->effetMotE = true;
 				$this->hobbit->pv_max_bm_hobbit = $this->hobbit->pv_max_bm_hobbit - ($effetMotE * 3);
-
-				if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit) {
-					$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit;
-				}
+			}
+				
+			if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit) {
+				$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit;
 			}
 
 			$this->calculPv();
