@@ -32,11 +32,6 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 			);
 		}
 
-		$this->view->mangerBalanceOk = true;
-		if ($this->view->user->balance_faim_hobbit >= 100) {
-			$this->view->mangerBalanceOk = false;
-		}
-
 		if (isset($tabAliments) && count($tabAliments) > 0) {
 			$this->view->mangerNbAlimentOk = true;
 		}
