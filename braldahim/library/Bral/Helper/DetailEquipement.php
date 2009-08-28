@@ -47,7 +47,7 @@ class Bral_Helper_DetailEquipement {
 		$text .= self::displayBM("BM D&eacute;g&acirc;ts", $e, "bm_degat");
 		$text .= "Poids : ".$e["poids"];
 		if (isset($e["bonus"]["vernis_bm_poids_equipement_bonus"])) {
-			$text .= self::display("",$e["bonus"]["vernis_bm_poids_equipement_bonus"]);
+			$text .= " " . self::display("",$e["bonus"]["vernis_bm_poids_equipement_bonus"], " (vernis)", "", true, "");
 		}
 		$text .= " Kg";
 		$text .= "<br>";

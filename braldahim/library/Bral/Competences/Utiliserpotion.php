@@ -140,6 +140,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 					"genre_type_equipement" => $e["genre_type_equipement"],
 					"etat_initial_equipement" => $e["etat_initial_equipement"],
 					"etat_courant_equipement" => $e["etat_courant_equipement"],
+					"poids_recette_equipement" => $e["poids_recette_equipement"],
 				);
 			}
 		}
@@ -439,8 +440,8 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$this->resetVernisBM($equipement);
 		$data = array();
 		$detail = "";
-		$this->determineBonusMalus(&$data, $detail, $potion["caracteristique"], $potion["bm_type"], $potion);
-		$this->determineBonusMalus(&$data, $detail, $potion["caracteristique2"], $potion["bm2_type"], $potion);
+		$this->determineBonusMalus(&$data, $detail, $potion["caracteristique"], $potion["bm_type"], $potion, $equipement);
+		$this->determineBonusMalus(&$data, $detail, $potion["caracteristique2"], $potion["bm2_type"], $potion, $equipement);
 		$this->view->detail = $detail;
 		$where = "id_equipement_bonus = ".$equipement["id_equipement"];
 		$table = new EquipementBonus();
@@ -467,7 +468,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$table->update($data, $where);
 	}
 
-	private function determineBonusMalus(&$data, &$detail, $caracteristique, $bmType, $potion) {
+	private function determineBonusMalus(&$data, &$detail, $caracteristique, $bmType, $potion, $equipement) {
 		if ($caracteristique == "VUE") {
 			$type = "A";
 			$nom = "vernis_bm_vue_equipement_bonus";
@@ -524,7 +525,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 					$valeur = 3 * $potion["niveau"];
 				}
 			}
-		} elseif ($type == "C") {
+		} elseif ($type == "C") { // poids
 			if ($bmType == "malus") {
 				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
 					$valeur = 0.2 * $potion["niveau"];
@@ -541,6 +542,12 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 				} else {
 					$valeur = -0.2 * $potion["niveau"];
 				}
+
+				// il ne faut pas que la valeur dépasse le poids de l'équipement.
+				if ($valeur > $equipement["poids_recette_equipement"]) {
+					$valeur = $equipement["poids_recette_equipement"];
+				}
+
 			}
 		} elseif ($type == "D") {
 			if ($bmType == "malus") {

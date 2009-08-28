@@ -241,7 +241,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 				$typePotionCourante["nom_systeme_type_ingredient"] == "mithril" ||
 				$typePotionCourante["nom_systeme_type_ingredient"] == "tambe"
 				) {
-					$nom = $typePotionCourante["nom_type_ingredient"]. " : ".($k + 1) . " lingôts";
+					$nom = $typePotionCourante["nom_type_ingredient"]. " : ".($k + 1) . " lingots";
 					foreach($minerais as $m) {
 						if ($m["id_fk_type_echoppe_minerai"] == $typePotionCourante["id_fk_type_minerai_ingredient"] && $m["quantite_lingots_echoppe_minerai"] >= $cout) {
 							$ressourcesOk = true;
