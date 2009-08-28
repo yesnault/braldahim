@@ -303,18 +303,22 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		}
 
 		$trouveL = false;
-		foreach($this->view->tabEquipementsLaban as $l) {
-			if ($l["id_equipement"] == $idEquipementLaban) {
-				$trouveL = true;
-				break;
+		if ($this->view->tabEquipementsLaban != null) {
+			foreach($this->view->tabEquipementsLaban as $l) {
+				if ($l["id_equipement"] == $idEquipementLaban) {
+					$trouveL = true;
+					break;
+				}
 			}
 		}
 
 		$trouveC = false;
-		foreach ($this->view->tabEquipementsCharrette as $c) {
-			if ($c["id_equipement"] == $idEquipementCharrette) {
-				$trouveC = true;
-				break;
+		if ($this->view->tabEquipementsCharrette != null) {
+			foreach ($this->view->tabEquipementsCharrette as $c) {
+				if ($c["id_equipement"] == $idEquipementCharrette) {
+					$trouveC = true;
+					break;
+				}
 			}
 		}
 
