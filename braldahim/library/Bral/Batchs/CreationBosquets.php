@@ -124,8 +124,10 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 		for($i = 1; $i <= $aCreer; $i++) {
 			$x = Bral_Util_De::get_de_specifique($zone["x_min_zone"], $zone["x_max_zone"]);
 			$y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
-				
-			$nbCasesAutour = Bral_Util_De::get_de_specifique(3, 10);
+			
+			usleep(Bral_Util_De::get_de_specifique(1, 1000000));
+			
+			$nbCasesAutour = Bral_Util_De::get_de_specifique(2, 9);
 			for($j=0; $j<=$nbCasesAutour; $j++) {
 				for($k=0; $k<=$nbCasesAutour; $k++) {
 					$i = $i + 1;
