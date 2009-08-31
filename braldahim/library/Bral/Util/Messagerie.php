@@ -187,7 +187,7 @@ class Bral_Util_Messagerie {
 		if ($envoiEmail == "oui") {
 			$config = Zend_Registry::get('config');
 			Zend_Loader::loadClass("Bral_Util_Mail");
-			Bral_Util_Mail::envoiMailAutomatique($idHobbitDestinataire, $config->mail->message->titre, $contenu, $view);
+			Bral_Util_Mail::envoiMailAutomatique($hobbit, $config->mail->message->titre, $contenu, $view);
 		}
 	}
 
