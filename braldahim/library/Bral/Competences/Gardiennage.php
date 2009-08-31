@@ -132,7 +132,7 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		$message .= " Nombre de jours : ".$nbJour.PHP_EOL;
 		$message .= " Commentaire : ".$commentaire.PHP_EOL;
 		
-		$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $idGardien, $message);
+		$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $idGardien, $message, $this->view);
 	}
 	
 	private function voirGardiennage() {

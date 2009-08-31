@@ -204,7 +204,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 		}
 		$message .= " (".$this->view->user->id_hobbit.") est entré".$e." dans votre communauté.".PHP_EOL;
 
-		Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $communaute["id_fk_hobbit_gestionnaire_communaute"], $message);
+		Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $communaute["id_fk_hobbit_gestionnaire_communaute"], $message, $this->view);
 
 		return $communaute;
 	}
@@ -236,7 +236,7 @@ class Bral_Lieux_Mairie extends Bral_Lieux_Lieu {
 			}
 			$message .= " (".$this->view->user->id_hobbit.") est sorti".$e." de votre communauté.".PHP_EOL;
 
-			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $communaute["id_fk_hobbit_gestionnaire_communaute"], $message);
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $communaute["id_fk_hobbit_gestionnaire_communaute"], $message, $this->view);
 		}
 
 		return $communaute;

@@ -168,17 +168,26 @@ class Bral_Util_Messagerie {
 		);
 	}
 
-	public static function envoiMessageAutomatique($idHobbitSource, $idHobbitDestinataire, $contenu) {
+	public static function envoiMessageAutomatique($idHobbitSource, $idHobbitDestinataire, $contenu, $view) {
 		Zend_Loader::loadClass("JosUddeim");
 		$data = Bral_Util_Messagerie::prepareMessageAEnvoyer($idHobbitSource, $idHobbitDestinataire, $contenu, $idHobbitDestinataire);
 		$josUddeimTable = new JosUddeim();
 		$josUddeimTable->insert($data);
-		
-		/** TODO
-		if ($view != null && $envoiEmail) {
-			Bral_Util_Mail::envoiMailAutomatique($idHobbitDestinataire, $this->view->config->mail->message->titre, $contenu, $view);
+
+		$envoiEmail = "non";
+		$hobbitTable = new Hobbit();
+		$hobbitRowset = $hobbitTable->findById($idHobbitDestinataire);
+		if ($hobbitRowset != null) {
+			$hobbit = $hobbitRowset->toArray();
+			if ($hobbit["envoi_mail_evenement_hobbit"] == "oui") {
+				$envoiEmail = "oui";
+			}
 		}
-		*/
+
+		if ($envoiEmail == "oui") {
+			$config = Zend_Registry::get('config');
+			Bral_Util_Mail::envoiMailAutomatique($idHobbitDestinataire, $config->mail->message->titre, $contenu, $view);
+		}
 	}
 
 	public static function prepareMessages($idHobbit, $filtre = null, $page = null, $nbMax = null, $toread = null) {
@@ -209,7 +218,7 @@ class Bral_Util_Messagerie {
 				$idsHobbit[$m["toid"]] = $m["toid"];
 				$idsHobbit[$m["fromid"]] = $m["fromid"];
 			}
-				
+
 			if ($idsHobbit != null) {
 				$hobbitTable = new Hobbit();
 				$hobbits = $hobbitTable->findByIdList($idsHobbit);
@@ -219,7 +228,7 @@ class Bral_Util_Messagerie {
 					}
 				}
 			}
-				
+
 			foreach ($messages as $m) {
 				$expediteur = "";
 				$destinataire = "";
@@ -229,7 +238,7 @@ class Bral_Util_Messagerie {
 					} else {
 						$destinataire = " Erreur ".$m["toid"];
 					}
-						
+
 					if (array_key_exists($m["fromid"], $tabHobbits)) {
 						$expediteur = Bral_Util_Lien::getJsHobbit($tabHobbits[$m["fromid"]]["id_hobbit"], $tabHobbits[$m["fromid"]]["prenom_hobbit"] . " ". $tabHobbits[$m["fromid"]]["nom_hobbit"]. " (".$tabHobbits[$m["fromid"]]["id_hobbit"].")");
 					} else {

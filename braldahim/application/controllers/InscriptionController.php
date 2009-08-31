@@ -96,7 +96,7 @@ class InscriptionController extends Zend_Controller_Action {
 					
 					Zend_Loader::loadClass("Bral_Util_Messagerie");
 					$message = $this->view->render("inscription/messagepnj.phtml");
-					Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->inscription->id_hobbit, $hobbit->id_hobbit, $message);
+					Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->inscription->id_hobbit, $hobbit->id_hobbit, $message, $this->view);
 
 					Bral_Util_Log::inscription()->notice("InscriptionController - validationAction - validation OK pour :".$email_hobbit);
 				}
@@ -385,8 +385,8 @@ class InscriptionController extends Zend_Controller_Action {
 
 			Zend_Loader::loadClass("Bral_Util_Messagerie");
 			$message = $detailsBot.PHP_EOL.PHP_EOL." Signé Irène Doucelac".PHP_EOL."Inutile de répondre à ce message.";
-			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $couple["id_fk_m_hobbit_couple"], $message);
-			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $couple["id_fk_f_hobbit_couple"], $message);
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $couple["id_fk_m_hobbit_couple"], $message, $this->view);
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $couple["id_fk_f_hobbit_couple"], $message, $this->view);
 				
 			Bral_Util_Log::inscription()->notice("InscriptionController - calculParent - utilisation d'un couple existant (m:".$couple["id_fk_m_hobbit_couple"]." f:".$couple["id_fk_f_hobbit_couple"]." enfants:".$nombreEnfants.")");
 		} else { // pas de couple dispo, on tente d'en creer un nouveau
@@ -431,8 +431,8 @@ class InscriptionController extends Zend_Controller_Action {
 				
 				Zend_Loader::loadClass("Bral_Util_Messagerie");
 				$message = $detailsBot.PHP_EOL.PHP_EOL." Signé Irène Doucelac".PHP_EOL."Inutile de répondre à ce message.";
-				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $mere["id_hobbit"], $message);
-				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $pere["id_hobbit"], $message);
+				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $mere["id_hobbit"], $message, $this->view);
+				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $pere["id_hobbit"], $message, $this->view);
 				
 				Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - creation d'un nouveau couple");
 			} else {

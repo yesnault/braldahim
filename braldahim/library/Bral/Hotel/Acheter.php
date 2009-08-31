@@ -948,7 +948,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$message .= $this->view->objetAchat. PHP_EOL. "pour ".$this->view->detailPrix." (gain placé dans votre coffre).".PHP_EOL.PHP_EOL;
 		$message .= "&Eacute;mile Claclac, gestionnaire de l'Hôtel des ventes.".PHP_EOL;
 		$message .= "Inutile de répondre à ce message.";
-		Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->hotel->id_hobbit, $this->view->vente["vente"]["id_fk_hobbit_vente"], $message);
+		Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->hotel->id_hobbit, $this->view->vente["vente"]["id_fk_hobbit_vente"], $message, $this->view);
 	}
 
 	private function calculAchatElement($idDestination, $prix) {
