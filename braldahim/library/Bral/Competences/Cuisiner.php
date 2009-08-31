@@ -77,12 +77,30 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		if ($this->view->okJet1 === true) {
 			$this->calculCuisiner($nombre);
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapeConstuire($this->view->user, $this->nom_systeme);
+		} else {
+			$this->calculRateCuisiner($nombre);
 		}
 
 		$this->calculPx();
 		$this->calculPoids();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
+	}
+	
+	private function calculRateCuisiner($nombre) {
+		$this->view->nbViandePrepareePerdue = floor($nombre / 2);
+		
+		if ($this->view->nbViandePrepareePerdue < 1) {
+			$this->view->nbViandePrepareePerdue = 1;
+		}
+		
+		Zend_Loader::loadClass("Laban");
+		$labanTable = new Laban();
+		$data = array(
+			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
+			'quantite_viande_preparee_laban' => -$this->view->nbViandePrepareePerdue,
+		);
+		$labanTable->insertOrUpdate($data);
 	}
 
 	/*

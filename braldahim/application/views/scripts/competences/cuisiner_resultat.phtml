@@ -10,11 +10,14 @@
 	<?=$this->typeAliment->nom_type_aliment?><?=$s ?> de qualit&eacute; <?=$this->qualite?> avec pour effet sur la balance de +<?=$this->bbdfAliment?> %.
 	<br />
 	<? if ($this->nbAlimentATerre > 0): ?>
-		Faute de place dans le laban, <?=$this->nbAlimentATerre ?> aliment<? if ($this->nbAlimentATerre > 1): echo "s sont tombés terre"; else: " est tombé à terre"; endif?>
+		Faute de place dans le laban, <?=$this->nbAlimentATerre ?> aliment<? if ($this->nbAlimentATerre > 1): echo "s sont tomb&eacute;s terre"; else: " est tomb&eacute; à terre"; endif?>
 	<? endif;?>
 	<br /><br />
 	
 	<? if ($this->effetRune) :?>
 		Une rune que vous portez a eu de l'effet sur le nombre d'aliment pr&eacute;par&eacute;.
 	<? endif; ?>
+<? else: ?>
+	Vous avez manqu&eacute; votre cuisine. Vous avez perdu <?=$this->nbViandePrepareePerdue?> 
+	viande<? if ($this->nbViandePrepareePerdue > 1): $s = "s"; else : $s = ""; endif; echo $s?> pr&eacute;prar&eacute;e<?=$s?>.<br />
 <? endif; ?>
