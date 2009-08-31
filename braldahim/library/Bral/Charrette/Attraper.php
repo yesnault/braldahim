@@ -166,7 +166,7 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 			$dataUpdate["poids_transporte_charrette"] = 0;
 			
 			$where = "id_charrette = ".$charrette["id_charrette"];
-			$charretteTable->insert($dataUpdate, $where);
+			$charretteTable->insert($dataUpdate);
 
 			$echoppeMaterielTable = new EchoppeMateriel();
 			$where = "id_echoppe_materiel=".$charrette["id_charrette"];

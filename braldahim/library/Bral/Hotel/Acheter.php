@@ -1096,7 +1096,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			);
 			$where = "id_charrette = ".$this->view->vente["objet"]["id_materiel"];
 			$charretteTable = new Charrette();
-			$charretteTable->insert($dataUpdate, $where);
+			$charretteTable->insert($dataUpdate);
 		} else {
 			if ($idDestination == "charrette") {
 				Zend_Loader::loadClass("CharretteMateriel");

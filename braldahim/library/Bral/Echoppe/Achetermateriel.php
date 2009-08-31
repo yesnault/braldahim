@@ -614,7 +614,7 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 			);
 			$where = "id_charrette = ".$this->view->materiel["id_materiel"];
 			$charretteTable = new Charrette();
-			$charretteTable->insert($dataUpdate, $where);
+			$charretteTable->insert($dataUpdate);
 		} else {
 			if ($idDestination == "charrette") {
 				Zend_Loader::loadClass("CharretteMateriel");
