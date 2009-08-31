@@ -99,7 +99,6 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 		$deCompetence = 0;
 
 		if ($de10 >= 8 && $this->view->boutiquerMetierCourant) {
-			$this->view->ameliorationCompetence = true;
 			$deCompetence = Bral_Util_De::get_1d2();
 			if ($de10 == 8) {
 				$this->updateCompetenceDb($deCompetence, "produire".$this->boutiquerMetier);
@@ -190,6 +189,7 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 				$where = array("id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]." AND id_fk_hobbit_hcomp = ".$this->view->user->id_hobbit);
 				$hobbitsCompetencesTable->update($data, $where);
 				$tabCompetencesAmeliorees[] = $c;
+				$this->view->ameliorationCompetence = true;
 			}
 		}
 		$this->view->tabCompetencesAmeliorees = $tabCompetencesAmeliorees;
