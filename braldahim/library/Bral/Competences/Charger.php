@@ -77,7 +77,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 
 			Zend_Loader::loadClass("Bosquet");
 			$bosquetTable = new Bosquet();
-			$nombreBosquets = $bosquetTable->countByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+			$nombreBosquets = $bosquetTable->countByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 
 			//En bosquet un malus de -1 en distance, en marais et montagne un malus de -2 sur la distance est appliqué
 			$environnement = Bral_Util_Commun::getEnvironnement($this->view->user->x_hobbit, $this->view->user->y_hobbit);

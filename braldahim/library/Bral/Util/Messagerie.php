@@ -173,6 +173,12 @@ class Bral_Util_Messagerie {
 		$data = Bral_Util_Messagerie::prepareMessageAEnvoyer($idHobbitSource, $idHobbitDestinataire, $contenu, $idHobbitDestinataire);
 		$josUddeimTable = new JosUddeim();
 		$josUddeimTable->insert($data);
+		
+		/** TODO
+		if ($view != null && $envoiEmail) {
+			Bral_Util_Mail::envoiMailAutomatique($idHobbitDestinataire, $this->view->config->mail->message->titre, $contenu, $view);
+		}
+		*/
 	}
 
 	public static function prepareMessages($idHobbit, $filtre = null, $page = null, $nbMax = null, $toread = null) {
