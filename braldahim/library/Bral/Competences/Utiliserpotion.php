@@ -406,7 +406,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 
 	private function appliqueVernis($potion) {
 
-		if ($this->idEquipementLaban != null) {
+		if ($this->idEquipementLaban != null && $this->idEquipementLaban != -1) {
 			$equipement = $this->view->tabEquipementsLaban[$this->idEquipementLaban];
 		} else { // Charrette
 			$equipement = $this->view->tabEquipementsCharrette[$this->idEquipementCharrette];
