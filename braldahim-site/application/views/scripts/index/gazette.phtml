@@ -13,7 +13,7 @@
 			<br>
 			<? if ($info["titre_info_jeu"] != null && $info["titre_info_jeu"] != "") :?>
 				<br>
-				<ul class="titre textalic textsized"><?=$info["titre_info_jeu"]?></ul>
+				<ul class="titre textalic textsized"><?=stripslashes($info["titre_info_jeu"])?></ul>
 			<? endif;?>
 			
 			<? if (Bral_Util_ConvertDate::get_date_add_time_to_date($info["date_info_jeu"], "36:00:00") > date("Y-m-d H:i:s")): ?>

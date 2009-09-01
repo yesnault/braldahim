@@ -17,7 +17,7 @@
 		
 		<? if ($info["titre_info_jeu"] != null && $info["titre_info_jeu"] != "") :?>
 			<br>
-			<?=$info["titre_info_jeu"]?>
+			<?=stripslashes($info["titre_info_jeu"])?>
 			<br>
 		<? endif;?>
 		
