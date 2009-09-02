@@ -20,8 +20,10 @@ class CharrettePotion extends Zend_Db_Table {
 		$select->from('charrette_potion', '*')
 		->from('type_potion')
 		->from('type_qualite')
-		->where('id_fk_type_charrette_potion = id_type_potion')
-		->where('id_fk_type_qualite_charrette_potion = id_type_qualite')
+		->from('potion')
+		->where('id_charrette_potion = id_potion')
+		->where('id_fk_type_potion = id_type_potion')
+		->where('id_fk_type_qualite_potion = id_type_qualite')
 		->where('id_fk_charrette_potion = ?', intval($idCharrette));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

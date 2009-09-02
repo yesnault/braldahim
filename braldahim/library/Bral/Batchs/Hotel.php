@@ -395,15 +395,12 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			$data = array(
 				"id_coffre_potion" => $potion["id_vente_potion"],
 				"id_fk_hobbit_coffre_potion" => $vente["id_fk_hobbit_vente"],
-				"id_fk_type_coffre_potion" => $potion["id_fk_type_vente_potion"],
-				"id_fk_type_qualite_coffre_potion" => $potion["id_fk_type_qualite_vente_potion"],
-				"niveau_coffre_potion" => $potion["niveau_vente_potion"],
 			);
 			$coffrePotionTable->insert($data);
 			
 			$this->deleteVente($vente);
 
-			$retour = "la potion n°".$potion["id_vente_potion"]." ".$potion["nom_type_potion"]. " de qualité ".$potion["nom_type_qualite"]." et de niveau ".$potion["niveau_vente_potion"];
+			$retour = "la potion n°".$potion["id_vente_potion"]." ".$potion["nom_type_potion"]. " de qualité ".$potion["nom_type_qualite"]." et de niveau ".$potion["niveau_potion"];
 		} else {
 			throw new Zend_Exception("Bral_Batchs_Hotel transfertVersCoffrePotion vente invalide:".$vente["id_vente"]);
 		}

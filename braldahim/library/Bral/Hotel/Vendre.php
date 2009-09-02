@@ -424,11 +424,15 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		);
 		$venteEquipementTable->insert($data);
 		$this->view->objetVente = $equipement["nom"]. " n°".$equipement["id_equipement"]. " de qualité ".$equipement["qualite"];
+
+		$details = "[h".$this->view->user->id_hobbit."] a mis en vente la pièce d'équipement n°".$equipement["id_equipement"]. " à l'Hôtel des Ventes";
+		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_VENDRE_ID, $equipement["id_equipement"], $details);
+
 	}
 
 	private function prepareTypePotions($endroit) {
 		Zend_Loader::loadClass("Bral_Util_Potion");
-		
+
 		$tabPotions = null;
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanPotion");
@@ -447,14 +451,14 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 					"id_potion" => $p["id_".$endroit["suffixe"]."_potion"],
 					"nom" => $p["nom_type_potion"],
 					"qualite" => $p["nom_type_qualite"],
-					"niveau" => $p["niveau_".$endroit["suffixe"]."_potion"],
+					"niveau" => $p["niveau_potion"],
 					"caracteristique" => $p["caract_type_potion"],
 					"bm_type" => $p["bm_type_potion"],
 					"caracteristique2" => $p["caract2_type_potion"],
 					"bm2_type" => $p["bm2_type_potion"],
 					"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
-					"id_fk_type_qualite" => $p["id_fk_type_qualite_".$endroit["suffixe"]."_potion"],
-					"id_fk_type" => $p["id_fk_type_".$endroit["suffixe"]."_potion"]
+					"id_fk_type_qualite" => $p["id_fk_type_qualite_potion"],
+					"id_fk_type" => $p["id_fk_type_potion"]
 				);
 			}
 		} else {
@@ -490,13 +494,15 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		$data = array (
 			"id_vente_potion" => $potion["id_potion"],
 			"id_fk_vente_potion" => $idVente,
-			"niveau_vente_potion" => $potion["niveau"],
-			"id_fk_type_qualite_vente_potion" => $potion["id_fk_type_qualite"],
-			"id_fk_type_vente_potion" => $potion["id_fk_type"],
 		);
 		$ventePotionTable->insert($data);
 
 		$this->view->objetVente = $potion["nom_type"]. " ".$potion["nom"]. " n°".$potion["id_potion"]. " de qualité ".$potion["qualite"];
+
+		Zend_Loader::loadClass("Bral_Util_Potion");
+		$details = "[h".$this->view->user->id_hobbit."] a mis en vente ".$potion["nom_type"]. " ".$potion["nom"]. " n°".$potion["id_potion"]. " à l'Hôtel des Ventes";
+		Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_VENDRE_ID, $potion["id_potion"], $details);
+
 	}
 
 	private function prepareTypeRunes($endroit) {

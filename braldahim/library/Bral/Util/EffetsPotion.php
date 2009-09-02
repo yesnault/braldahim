@@ -25,13 +25,13 @@ class Bral_Util_EffetsPotion {
 			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - calculPotionHobbit - potion ".$p["id_effet_potion_hobbit"]. " trouvee");
 			$potion = array(
 					"id_potion" => $p["id_effet_potion_hobbit"],
-					"id_fk_type_potion" => $p["id_fk_type_potion_effet_potion_hobbit"],
-					"id_fk_type_qualite_potion" => $p["id_fk_type_qualite_effet_potion_hobbit"],
+					"id_fk_type_potion" => $p["id_fk_type_potion"],
+					"id_fk_type_qualite_potion" => $p["id_fk_type_qualite_potion"],
 					"nb_tour_restant" => $p["nb_tour_restant_effet_potion_hobbit"],
 					"nom_systeme_type_qualite" => $p["nom_systeme_type_qualite"],
 					"nom" => $p["nom_type_potion"],
 					"qualite" => $p["nom_type_qualite"],
-					"niveau" => $p["niveau_effet_potion_hobbit"],
+					"niveau" => $p["niveau_potion"],
 					"caracteristique" => $p["caract_type_potion"],
 					"bm_type" => $p["bm_type_potion"],
 					"caracteristique2" => $p["caract2_type_potion"],
@@ -71,13 +71,13 @@ class Bral_Util_EffetsPotion {
 			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - calculPotionMonstre - potion ".$p["id_effet_potion_monstre"]. " trouvee");
 			$potion = array(
 					"id_potion" => $p["id_effet_potion_monstre"],
-					"id_fk_type_potion" => $p["id_fk_type_potion_effet_potion_monstre"],
-					"id_fk_type_qualite_potion" => $p["id_fk_type_qualite_effet_potion_monstre"],
+					"id_fk_type_potion" => $p["id_fk_type_potion"],
+					"id_fk_type_qualite_potion" => $p["id_fk_type_qualite_potino"],
 					"nb_tour_restant" => $p["nb_tour_restant_effet_potion_monstre"],
 					"nom_systeme_type_qualite" => $p["nom_systeme_type_qualite"],
 					"nom" => $p["nom_type_potion"],
 					"qualite" => $p["nom_type_qualite"],
-					"niveau" => $p["niveau_effet_potion_monstre"],
+					"niveau" => $p["niveau_potion"],
 					"caracteristique" => $p["caract_type_potion"],
 					"bm_type" => $p["bm_type_potion"],
 					"caracteristique2" => $p["caract2_type_potion"],

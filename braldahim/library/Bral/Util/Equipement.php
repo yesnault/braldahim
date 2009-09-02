@@ -12,6 +12,16 @@
  */
 class Bral_Util_Equipement {
 
+	const HISTORIQUE_CREATION_ID = 1;
+	const HISTORIQUE_SERTIR_ID = 2;
+	const HISTORIQUE_EQUIPER_ID = 3;
+	const HISTORIQUE_DESTRUCTION_ID = 4;
+	const HISTORIQUE_VERNIR_ID = 5;
+	const HISTORIQUE_REPARER_ID = 6;
+	const HISTORIQUE_ACHETER_ID = 7;
+	const HISTORIQUE_VENDRE_ID = 8;
+	const HISTORIQUE_TRANSBAHUTER_ID = 9;
+
 	public static function getNomByIdRegion($typeEquipement, $idRegion) {
 		$template = "";
 		if (isset($typeEquipement["vernis_template_equipement"])) {
@@ -265,6 +275,9 @@ class Bral_Util_Equipement {
 				$texteDetruit .= "Votre équipement ".Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]);
 				$texteDetruit .= " n&deg;".$e["id_equipement_hequipement"]." est détruit.<br>";
 				$retour["detruit"] = $texteDetruit;
+
+				$details = "[h".$idHobbit."] n'a pas réparé la pièce d'équipement n°".$id_equipement. ". Elle est détruite.";
+				self::insertHistorique(self::HISTORIQUE_DESTRUCTION_ID, $e["id_equipement_hequipement"], $details);
 			} else {
 				$data = array("etat_courant_equipement" => $etat);
 				$where = "id_equipement = ".$e["id_equipement_hequipement"];
@@ -298,5 +311,22 @@ class Bral_Util_Equipement {
 		$equipementTable = new Equipement();
 		$where = "id_equipement =".$idEquipement;
 		$equipementTable->delete($where);
+
+	}
+
+	public static function insertHistorique($idTypeHistoriqueEquipement, $idEquipement, $details) {
+		Zend_Loader::loadClass("Bral_Util_Lien");
+		$detailsTransforme = Bral_Util_Lien::remplaceBaliseParNomEtJs($details);
+
+		Zend_Loader::loadClass('HistoriqueEquipement');
+		$historiqueEquipementTable = new HistoriqueEquipement();
+
+		$data = array(
+			'date_historique_equipement' => date("Y-m-d H:i:s"),
+			'id_fk_type_historique_equipement' => $idTypeHistoriqueEquipement,
+			'id_fk_historique_equipement' => $idEquipement,
+			'details_historique_equipement' => $detailsTransforme,
+		);
+		$historiqueEquipementTable->insert($data);
 	}
 }

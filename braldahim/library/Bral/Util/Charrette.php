@@ -390,9 +390,6 @@ class Bral_Util_Charrette {
 			"x_element_potion" => $x,
 			"y_element_potion" => $y,
 			"id_element_potion" => $a["id_charrette_potion"],
-			"id_fk_type_element_potion" => $a["id_fk_type_charrette_potion"],
-			"id_fk_type_qualite_element_potion" => $a["id_fk_type_qualite_charrette_potion"],
-			"niveau_element_potion" => $a["niveau_charrette_potion"],
 			"date_fin_element_potion" => $dateFin,
 			);
 			$elementPotionTable->insert($data);

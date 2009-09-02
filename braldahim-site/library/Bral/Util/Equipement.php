@@ -11,13 +11,13 @@
  * $LastChangedBy: yvonnickesnault $
  */
 class Bral_Util_Equipement {
-
+	
 	public static function getNomByIdRegion($typeEquipement, $idRegion) {
 		$template = "";
 		if ($typeEquipement["vernis_template_equipement"] != null) {
 			$template = " [".$typeEquipement["vernis_template_equipement"]."]";
 		}
-		
+
 		switch($idRegion) {
 			case 1:
 				return $typeEquipement["region_1_nom_type_equipement"].$template;
@@ -39,4 +39,5 @@ class Bral_Util_Equipement {
 				break;
 		}
 	}
+
 }

@@ -37,11 +37,13 @@ class VentePotion extends Zend_Db_Table {
 		->from('type_potion')
 		->from('type_qualite')
 		->from('vente')
+		->from('potion')
 		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
 		->where('id_fk_vente_potion = id_vente')
 		->where('id_fk_hobbit_vente = id_hobbit')
-		->where('id_fk_type_vente_potion = id_type_potion')
-		->where('id_fk_type_qualite_vente_potion = id_type_qualite')
+		->where('id_vente_potion = id_potion')
+		->where('id_fk_type_potion = id_type_potion')
+		->where('id_fk_type_qualite_potion = id_type_qualite')
 		->where('id_fk_vente_potion = '.$liste)
 		->order('date_fin_vente desc');
 		$sql = $select->__toString();
@@ -55,12 +57,14 @@ class VentePotion extends Zend_Db_Table {
 		->from('type_potion')
 		->from('type_qualite')
 		->from('vente')
+		->from('potion')
 		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
 		->where('id_fk_vente_potion = id_vente')
+		->where('id_vente_potion = id_potion')
 		->where('id_fk_hobbit_vente = id_hobbit')
-		->where('id_fk_type_vente_potion = id_type_potion')
-		->where('id_fk_type_qualite_vente_potion = id_type_qualite')
-		->where('id_fk_type_vente_potion = ?', $idType)
+		->where('id_fk_type_potion = id_type_potion')
+		->where('id_fk_type_qualite_potion = id_type_qualite')
+		->where('id_fk_type_potion = ?', $idType)
 		->order('date_fin_vente desc');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

@@ -53,7 +53,7 @@ class Bral_Echoppes_Retirerpotion extends Bral_Echoppes_Echoppe {
 						"id_echoppe_potion" => $e["id_echoppe_potion"],
 						"nom" => $e["nom_type_potion"],
 						"qualite" => $e["nom_type_qualite"],
-						"niveau" => $e["niveau_echoppe_potion"]
+						"niveau" => $e["niveau_potion"]
 					);
 				}
 			}

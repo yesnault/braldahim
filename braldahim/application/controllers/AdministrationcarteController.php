@@ -74,10 +74,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 
 		$this->dessineZones(&$image);
 		//$this->dessineFilons(&$image);
-		$this->dessineBosquets(&$image);
+		//$this->dessineBosquets(&$image);
 		$this->dessineVilles(&$image);
 		$this->dessineHobbits(&$image);
-		//$this->dessineMonstres(&$image);
+		$this->dessineMonstres(&$image);
 
 		$this->view->image = $image;
 		$this->render();

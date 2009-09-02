@@ -20,8 +20,10 @@ class CoffrePotion extends Zend_Db_Table {
 		$select->from('coffre_potion', '*')
 		->from('type_potion')
 		->from('type_qualite')
-		->where('id_fk_type_coffre_potion = id_type_potion')
-		->where('id_fk_type_qualite_coffre_potion = id_type_qualite')
+		->from('potion')
+		->where('id_coffre_potion = id_potion')
+		->where('id_fk_type_potion = id_type_potion')
+		->where('id_fk_type_qualite_potion = id_type_qualite')
 		->where('id_fk_hobbit_coffre_potion = ?', intval($idHobbit));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

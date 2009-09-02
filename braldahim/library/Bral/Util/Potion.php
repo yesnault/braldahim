@@ -12,6 +12,12 @@
  */
 class Bral_Util_Potion {
 
+	const HISTORIQUE_CREATION_ID = 1;
+	const HISTORIQUE_UTILISER_ID = 2;
+	const HISTORIQUE_ACHETER_ID = 3;
+	const HISTORIQUE_VENDRE_ID = 4;
+	const HISTORIQUE_TRANSBAHUTER_ID = 5;
+
 	public static function getNomType($typePotion) {
 		switch($typePotion) {
 			case "potion":
@@ -27,5 +33,21 @@ class Bral_Util_Potion {
 				throw new Zend_Exception("Bral_Util_Potion::getNomType typePotion invalide id:".$typePotion);
 				break;
 		}
+	}
+
+	public static function insertHistorique($idTypeHistoriquePotion, $idPotion, $details) {
+		Zend_Loader::loadClass("Bral_Util_Lien");
+		$detailsTransforme = Bral_Util_Lien::remplaceBaliseParNomEtJs($details);
+
+		Zend_Loader::loadClass('HistoriquePotion');
+		$historiquePotionTable = new HistoriquePotion();
+
+		$data = array(
+			'date_historique_potion' => date("Y-m-d H:i:s"),
+			'id_fk_type_historique_potion' => $idTypeHistoriquePotion,
+			'id_fk_historique_potion' => $idPotion,
+			'details_historique_potion' => $detailsTransforme,
+		);
+		$historiquePotionTable->insert($data);
 	}
 }

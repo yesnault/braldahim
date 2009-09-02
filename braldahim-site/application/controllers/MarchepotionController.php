@@ -135,7 +135,7 @@ class MarchepotionController extends Zend_Controller_Action {
 				$ordre = "id_type_potion ".$direct;
 				break;
 			case 7:
-				$ordre = "niveau_echoppe_potion ".$direct;
+				$ordre = "niveau_potion ".$direct;
 				break;
 		}
 
@@ -193,7 +193,7 @@ class MarchepotionController extends Zend_Controller_Action {
 					"nom" => $p["nom_type_potion"],
 					"id_type_potion" => $p["id_type_potion"],
 					"qualite" => $p["nom_type_qualite"],
-					"niveau" => $p["niveau_echoppe_potion"],
+					"niveau" => $p["niveau_potion"],
 					"caracteristique" => $p["caract_type_potion"],
 					"bm_type" => $p["bm_type_potion"],
 					"caracteristique2" => $p["caract2_type_potion"],
@@ -234,7 +234,7 @@ class MarchepotionController extends Zend_Controller_Action {
 				 
 				$tab[] = "<img src='/public/styles/braldahim_defaut/images/type_potion/type_potion_".$potion["id_type_potion"].".png' alt=\"".htmlspecialchars($potion["nom"]) ."\" ".Bral_Helper_DetailPotion::afficherJs($potion)."/>";
 				$tab[] = $p["nom_type_potion"]." de qualité ".$p["nom_type_qualite"];
-				$tab[] = $p["niveau_echoppe_potion"];
+				$tab[] = $p["niveau_potion"];
 				$tab[] = Bral_Helper_DetailPotion::afficherPrix($potion);
 				$tab[] = Bral_Util_BBParser::bbcodeReplace($potion["commentaire_vente_echoppe_potion"]);
 				$dhtmlxGrid->addRow($p["id_echoppe_potion"], $tab);

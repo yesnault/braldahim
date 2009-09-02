@@ -17,6 +17,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("LabanPotion");
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		Zend_Loader::loadClass("Bral_Util_Potion");
+		Zend_Loader::loadClass("Potion");
 
 		$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 
@@ -35,12 +36,12 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 
 			$tabPotions[$p["id_laban_potion"]] = array(
 					"id_potion" => $p["id_laban_potion"],
-					"id_fk_type_potion" => $p["id_fk_type_laban_potion"],
-					"id_fk_type_qualite_potion" => $p["id_fk_type_qualite_laban_potion"],
+					"id_fk_type_potion" => $p["id_fk_type_potion"],
+					"id_fk_type_qualite_potion" => $p["id_fk_type_qualite_potion"],
 					"nom_systeme_type_qualite" => $p["nom_systeme_type_qualite"],
 					"nom" => $p["nom_type_potion"],
 					"qualite" => $p["nom_type_qualite"],
-					"niveau" => $p["niveau_laban_potion"],
+					"niveau" => $p["niveau_potion"],
 					"caracteristique" => $p["caract_type_potion"],
 					"bm_type" => $p["bm_type_potion"],
 					"caracteristique2" => $p["caract2_type_potion"],
@@ -158,6 +159,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
 					"nom_standard" => $e["nom_type_equipement"],
 					"niveau" => $e["niveau_recette_equipement"],
+					"genre_type_equipement" => $e["genre_type_equipement"],
 					"etat_initial_equipement" => $e["etat_initial_equipement"],
 					"etat_courant_equipement" => $e["etat_courant_equipement"],
 				);
@@ -387,6 +389,8 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$this->setEvenementQueSurOkJet1(false);
 		$this->setDetailsEvenement($this->detailEvenement, $this->view->config->game->evenements->type->competence);
 
+		Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_UTILISER_ID, $potion["id_potion"], $this->detailEvenement);
+			
 		if ($utiliserPotionHobbit === true) {
 			$this->utiliserPotionHobbit($potion, $this->idHobbitCible);
 			if ($this->view->user->id_hobbit != $this->retourPotion['cible']["id_cible"]) {
@@ -428,11 +432,19 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("EquipementBonus");
 		if ($potion["type_potion"] == "vernis_enchanteur") {
 			$this->appliqueVernisEnchanteur($equipement, $potion);
+			$details = "[h".$this->view->user->id_hobbit."] a verni la pièce d'équipement n°".$equipement["id_equipement"];
+			Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_VERNIR_ID, $equipement["id_equipement"], $details);
+			$details = "[h".$this->view->user->id_hobbit."] a utilisé le verni n°".$potion["id_potion"]." sur la pièce d'équipement n°".$equipement["id_equipement"];
+			Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_UTILISER_ID, $potion["id_potion"], $details);
 		} else { // reparateur
 			$this->appliqueVernisReparateur($potion, $equipement);
+			$details = "[h".$this->view->user->id_hobbit."] a réparé la pièce d'équipement n°".$equipement["id_equipement"];
+			Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_REPARER_ID, $equipement["id_equipement"], $details);
+			$details = "[h".$this->view->user->id_hobbit."] a utilisé le verni n°".$potion["id_potion"]." pour réparer la pièce d'équipement n°".$equipement["id_equipement"];
+			Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_UTILISER_ID, $potion["id_potion"], $details);
 		}
 
-		//$this->supprimeDuLaban($potion);
+		$this->supprimeDuLaban($potion);
 		$this->view->equipement = $equipement;
 	}
 
@@ -616,12 +628,9 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			$effetPotionHobbitTable = new EffetPotionHobbit();
 			$data = array(
 				  'id_effet_potion_hobbit' => $potion["id_potion"],
-				  'id_fk_type_potion_effet_potion_hobbit' => $potion["id_fk_type_potion"],
 				  'id_fk_hobbit_cible_effet_potion_hobbit' => $idHobbit,
 				  'id_fk_hobbit_lanceur_effet_potion_hobbit' => $this->view->user->id_hobbit,
-				  'id_fk_type_qualite_effet_potion_hobbit' => $potion["id_fk_type_qualite_potion"],
 				  'nb_tour_restant_effet_potion_hobbit' => $nbTour,
-				  'niveau_effet_potion_hobbit' => $potion["niveau"],
 				  'bm_effet_potion_hobbit' => $potion["bm_effet_potion"],
 			);
 			$effetPotionHobbitTable->insert($data);
@@ -650,12 +659,9 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			$effetPotionMonstreTable = new EffetPotionMonstre();
 			$data = array(
 				  'id_effet_potion_monstre' => $potion["id_potion"],
-				  'id_fk_type_potion_effet_potion_monstre' => $potion["id_fk_type_potion"],
 				  'id_fk_monstre_cible_effet_potion_monstre' => $idMonstre,
 				  'id_fk_hobbit_lanceur_effet_potion_monstre' => $this->view->user->id_hobbit,
-				  'id_fk_type_qualite_effet_potion_monstre' => $potion["id_fk_type_qualite_potion"],
 				  'nb_tour_restant_effet_potion_monstre' => $nbTour,
-				  'niveau_effet_potion_monstre' => $potion["niveau"],
 				  'bm_effet_potion_monstre' => $potion["bm_effet_potion"],
 			);
 			$effetPotionMonstreTable->insert($data);
@@ -693,6 +699,11 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$labanPotionTable = new LabanPotion();
 		$where = 'id_laban_potion = '.$potion["id_potion"];
 		$labanPotionTable->delete($where);
+		
+		$potionTable = new Potion();
+		$where = 'id_potion = '.$potion["id_potion"];
+		$data = array('date_utilisation_potion' => date("Y-m-d H:i:s"));
+		$potionTable->update($data, $where);
 	}
 
 	private function getDetailEvenementCible($potion) {

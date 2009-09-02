@@ -59,7 +59,7 @@ class Bral_Echoppes_Vendrepotion extends Bral_Echoppes_Echoppe {
 					"nom" => $e["nom_type_potion"],
 					"nom_type" => Bral_Util_Potion::getNomType($e["type_potion"]),
 					"qualite" => $e["nom_type_qualite"],
-					"niveau" => $e["niveau_echoppe_potion"],
+					"niveau" => $e["niveau_potion"],
 					"commentaire" => $e["commentaire_vente_echoppe_potion"],
 					);
 				}
@@ -197,6 +197,10 @@ class Bral_Echoppes_Vendrepotion extends Bral_Echoppes_Echoppe {
 		$this->calculPrixEchoppe($id_potion, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
 		$this->calculPrixMinerai($id_potion, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
 		$this->calculPrixPartiePlante($id_potion, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
+	
+		$details = "[h".$this->view->user->id_hobbit."] a mis en vente ".$this->view->potion ["nom_type"]." ".$this->view->potion ["nom"]. " n°".$this->view->potion ["id_echoppe_potion"]. " dans son échoppe";
+		Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_VENDRE_ID, $this->view->potion ["id_echoppe_potion"], $details);
+	
 	}
 	
 	private function calculPrixEchoppe($id_potion, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3) {

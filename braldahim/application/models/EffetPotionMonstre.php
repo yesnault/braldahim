@@ -20,8 +20,10 @@ class EffetPotionMonstre extends Zend_Db_Table {
 		$select->from('effet_potion_monstre', '*')
 		->from('type_potion')
 		->from('type_qualite')
-		->where('id_fk_type_potion_effet_potion_monstre = id_type_potion')
-		->where('id_fk_type_qualite_effet_potion_monstre = id_type_qualite')
+		->from('potion')
+		->where('id_effet_potion_monstre = id_potion')
+		->where('id_fk_type_potion = id_type_potion')
+		->where('id_fk_type_qualite_potion = id_type_qualite')
 		->where('id_fk_monstre_cible_effet_potion_monstre = ?', intval($id_monstre));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

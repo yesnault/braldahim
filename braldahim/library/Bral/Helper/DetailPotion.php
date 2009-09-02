@@ -22,9 +22,17 @@ class Bral_Helper_DetailPotion {
     }
     
     public static function afficherJs($p) {
-    	$titre = htmlspecialchars($p["nom"])." de qualit&eacute; ".htmlspecialchars($p["qualite"])."<br>";
+		return Bral_Helper_Tooltip::jsTip(self::prepareDetail($p));
+	}
+	
+	public static function afficherTexte($p) {
+		return stripslashes(self::prepareDetail($p));
+	}
+	
+	private static function prepareDetail($p) {
+    	$text = htmlspecialchars($p["nom"])." de qualit&eacute; ".htmlspecialchars($p["qualite"])."<br>";
     	
-   		$text = $p["nom_type"]. " n&deg; ".$p["id_potion"]."<br />";
+   		$text .= $p["nom_type"]. " n&deg; ".$p["id_potion"]."<br />";
     	$text .= "Niveau : ".$p["niveau"]."<br />";
     	$text .= "Poids : ".Bral_Util_Poids::POIDS_POTION." Kg<br />";
     	if ($p["bm_type"] != null) {
@@ -41,6 +49,6 @@ class Bral_Helper_DetailPotion {
      	}
     	$text .= "<br />";
     	
-    	return Bral_Helper_Tooltip::jsTip($text, $titre);
+    	return $text;
     }
 }

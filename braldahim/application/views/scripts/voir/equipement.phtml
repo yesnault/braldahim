@@ -1,0 +1,39 @@
+<? include('voirHeader.phtml'); ?>
+
+<div class="box_public">
+<?=Bral_Helper_Box::haut(); ?>
+<div class="inner">
+
+<? if ($this->connu == false) : ?>
+	<ul class="titre textalic textsizea">&Eacute;quipement Inconnu</ul>
+<? else : ?>
+    <ul class="titre textalic textsizea">
+    <?=$this->equipement["nom"]." ".addslashes($this->equipement["suffixe"])." de qualit&eacute; ".$this->equipement["qualite"] ?>
+     </ul>
+     <ul class="titre textalic textsized">
+      &Eacute;quipement n&deg;<?=$this->equipement["id_equipement"]?><br>
+     </ul>
+     
+	&nbsp;
+	<div class="contenu">
+	    <ul class="box_contenu1 textalic">
+			<table class="table_liste" style="width:150px;">
+			<thead class="table_liste">
+			  <tr class="table_liste">
+				<th style="cursor:pointer" onClick='document.location.href="/voir/equipement/?equipement=<?=$this->equipement["id_equipement"] ?>"' title="Voir le profil">Profil</th>
+				<th style="cursor:pointer" onClick='_get_("/voir/doaction?caction=ask_voir_equipement&equipement=<?=$this->equipement["id_equipement"] ?>&menu=historique");' title="Voir l'historique">Historique</th>
+			  </tr>
+			</thead>
+			</table>
+			<div id="box_voir_equipement_inner">
+				<?=$this->flux; ?>
+			</div>
+		</ul>
+	</div>
+	&nbsp;
+<? endif; ?>
+</div>
+<?=Bral_Helper_Box::bas(); ?>
+</div>
+
+<?php echo $this->render('footer.phtml'); ?>

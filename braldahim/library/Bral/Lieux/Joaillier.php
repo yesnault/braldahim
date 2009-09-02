@@ -76,7 +76,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			$tabEquipementsRune = null;
 			$equipementRuneTable = new EquipementRune();
 			$equipementRunes = $equipementRuneTable->findByIdEquipement($id_equipement_courant);
-				
+
 			foreach($equipementRunes as $e) {
 				$tabEquipementsRune[] = array(
 					"id_rune_equipement_rune" => $e["id_rune_equipement_rune"],
@@ -85,16 +85,16 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 					"effet_type_rune" => $e["effet_type_rune"],
 				);
 			}
-				
+
 			$this->view->nbEquipementRune = count($tabEquipementsRune);
 			$this->view->equipementRunes = $tabEquipementsRune;
 			$this->view->equipementCourant = $equipementCourant;
-				
+
 			Zend_Loader::loadClass("LabanRune");
 			$tabLabanRune = null;
 			$labanRuneTable = new LabanRune();
 			$labanRunes = $labanRuneTable->findByIdHobbit($this->view->user->id_hobbit, "oui");
-				
+
 			foreach($labanRunes as $l) {
 				if ($l["est_identifiee_laban_rune"] == "oui") {
 					$tabLabanRune[$l["id_rune_laban_rune"]] = array(
@@ -173,6 +173,10 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 
 		$this->view->suffixe = "";
 		$this->calculSertir($tabRunes);
+
+		$details = "[h".$this->view->user->id_hobbit."] a serti la pièce d'équipement n°".$idEquipementLaban;
+		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_SERTIR_ID, $idEquipementLaban, $details);
+
 		$this->view->nbRunes = $nb;
 		$this->view->tabRunes = $tabRunes;
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
@@ -215,7 +219,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 				'ordre_equipement_rune' => $ordre
 			);
 			$equipementRuneTable->insert($data);
-				
+
 			// Suppression des runes du laban
 			$where = "id_rune_laban_rune = ".$v["id_rune_laban_rune"];
 			$labanRunes = $labanRuneTable->delete($where);
@@ -229,7 +233,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			);
 			$where = "id_equipement=".$this->view->equipementCourant["id_laban_equipement"];
 			$equipementTable->update($data, $where);
-				
+
 			Zend_Loader::loadClass("StatsMotsRuniques");
 			$statsMotsRuniques = new StatsMotsRuniques();
 			$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
@@ -244,25 +248,25 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 		if ($nom_mot_runique != null && $nom_mot_runique == "mot_f") {
 			Zend_Loader::loadClass("EffetMotF");
 			Zend_Loader::loadClass("TypeMonstre");
-				
+
 			$this->view->effetMotF = false;
 			$typeMonstreTable = new TypeMonstre();
-				
+
 			$typeMonstreRowset = $typeMonstreTable->fetchall();
 			$typeMonstreRowset = $typeMonstreRowset->toArray();
-				
+
 			$typesMonstre = null;
-				
+
 			foreach($typeMonstreRowset as $t) {
 				$typesMonstre[] = array(
 					"id_type_monstre" => $t["id_type_monstre"],
 				//"nom_type_monstre" => $t["nom_type_monstre"],
 				);
 			}
-				
+
 			$nTypeMonstre = Bral_Util_De::get_de_specifique(0, count($typesMonstre)-1);
 			$idTypeMonstre = $typesMonstre[$nTypeMonstre]["id_type_monstre"];
-				
+
 			$effetMotFTable = new EffetMotF();
 			$data = array("id_fk_hobbit_effet_mot_f" => $this->view->user->id_hobbit,
 						  "id_fk_type_monstre_effet_mot_f" => $idTypeMonstre);

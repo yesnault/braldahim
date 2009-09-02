@@ -482,7 +482,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 					"id_potion" => $p["id_coffre_potion"],
 					"nom" => $p["nom_type_potion"],
 					"qualite" => $p["nom_type_qualite"],
-					"niveau" => $p["niveau_coffre_potion"],
+					"niveau" => $p["niveau_potion"],
 					"caracteristique" => $p["caract_type_potion"],
 					"bm_type" => $p["bm_type_potion"],
 					"caracteristique2" => $p["caract2_type_potion"],

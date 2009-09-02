@@ -90,7 +90,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			} else if ($t["type_potion"] == "vernis_enchanteur") {
 				$t["nom_type_potion"] .= " (".$t["bm_type_potion"]." sur ".$t["caract_type_potion"].", ".$t["bm2_type_potion"]." sur ".$t["caract2_type_potion"].")";
 			}
-				
+
 			if ($t["type_potion"] == "potion" || $this->view->user->niveau_hobbit > 9) {
 				$tabTypePotion[$t["type_potion"]]["liste"][] = $t;
 				$tabTypePotion[$t["type_potion"]]["nom"] = Bral_Util_Potion::getNomType($t["type_potion"]);
@@ -495,18 +495,33 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("EchoppePotion");
 		$echoppePotionTable = new EchoppePotion();
-		$data = array(
+		$dataPotionLaban = array(
 			'id_fk_echoppe_echoppe_potion' => $this->idEchoppe,
-			'id_fk_type_echoppe_potion' => $idTypePotion,
 			'type_vente_echoppe_potion' => 'aucune',
-			'id_fk_type_qualite_echoppe_potion' => $qualite,
-			'niveau_echoppe_potion' => $niveau,
+		);
+		$dataPotion = array(
+			'id_fk_type_potion' => $idTypePotion,
+			'id_fk_type_qualite_potion' => $qualite,
+			'niveau_potion' => $niveau,
 		);
 		$this->view->nbPotions = Bral_Util_De::get_2d3();
+		
+		Zend_Loader::loadClass("Potion");
+		$potionTable = new Potion();
 
 		for ($i = 1; $i <= $this->view->nbPotions; $i++) {
-			$data['id_echoppe_potion'] = $idsPotionTable->prepareNext();
-			$echoppePotionTable->insert($data);
+			$dataPotionLaban['id_echoppe_potion'] = $idsPotionTable->prepareNext();
+			$echoppePotionTable->insert($dataPotionLaban);
+			$dataPotion['id_potion'] = $dataPotionLaban['id_echoppe_potion'];
+			$potionTable->insert($dataPotion);
+				
+			if ($idTypePotion > 1) {
+				$type = "le vernis";
+			} else {
+				$type = "la potion";
+			}
+			$details = "[h".$this->view->user->id_hobbit."] a élaboré ".$type. " n°".$dataPotionLaban['id_echoppe_potion'];
+			Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_CREATION_ID, $dataPotionLaban['id_echoppe_potion'], $details);
 		}
 
 		Zend_Loader::loadClass("StatsFabricants");

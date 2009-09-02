@@ -26,6 +26,14 @@ class Bral_Helper_DetailEquipement {
 	}
 
 	public static function afficherJs($e) {
+		return Bral_Helper_Tooltip::jsTip(self::prepareDetail($e));
+	}
+	
+	public static function afficherTexte($e) {
+		return stripslashes(self::prepareDetail($e));
+	}
+	
+	private static function prepareDetail($e) {
 		$text = htmlspecialchars($e["nom"])." ".htmlspecialchars(addslashes($e["suffixe"]));
 		$text .= " de qualit&eacute; ".htmlspecialchars($e["qualite"])." <br /><br />";
 		$text .= "Num&eacute;ro de la pi&egrave;ce :".$e["id_equipement"]."<br />";
@@ -80,7 +88,7 @@ class Bral_Helper_DetailEquipement {
 		}
 
 		$text .= "<br />";
-		return Bral_Helper_Tooltip::jsTip($text);
+		return $text;
 	}
 
 	private static function displayBM($texte, $e, $bm) {

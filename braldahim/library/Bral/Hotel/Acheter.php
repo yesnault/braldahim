@@ -560,14 +560,14 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		}
 		Zend_Loader::loadClass("Bral_Util_Potion");
 		$nom = Bral_Util_Potion::getNomType($potion["type_potion"]);
-		$nom .= " ".$potion["nom_type_potion"]. " n°".$potion["id_vente_potion"].", de qualité ".$potion["nom_type_qualite"]." et de niveau ".$potion["niveau_vente_potion"];
+		$nom .= " ".$potion["nom_type_potion"]. " n°".$potion["id_vente_potion"].", de qualité ".$potion["nom_type_qualite"]." et de niveau ".$potion["niveau_potion"];
 
 		$tabPotion = array(
 			"id_potion" => $potion["id_vente_potion"],
 			"nom" => $nom,
-			"id_fk_type_qualite_vente_potion" => $potion["id_fk_type_qualite_vente_potion"],
-			"id_fk_type_vente_potion" => $potion["id_fk_type_vente_potion"],
-			"niveau_vente_potion" => $potion["niveau_vente_potion"],
+			"id_fk_type_qualite_potion" => $potion["id_fk_type_qualite_potion"],
+			"id_fk_type_potion" => $potion["id_fk_type_potion"],
+			"niveau_potion" => $potion["niveau_potion"],
 			"place_dispo" => $placeDispo,
 			"est_charrette" => false,
 			"charrette_possible" => true,
@@ -1165,6 +1165,9 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$venteTable = new Vente();
 		$where = "id_vente=".$this->idVente;
 		$venteTable->delete($where);
+
+		$details = "[h".$this->view->user->id_hobbit."] a acheté la pièce d'équipement n°".$this->view->vente["objet"]["id_equipement"]. " à l'Hôtel des Ventes";
+		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_ACHETER_ID, $this->view->vente["objet"]["id_equipement"], $details);
 	}
 
 	private function calculTransfertPotion($idDestination) {
@@ -1181,9 +1184,6 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 		$data = array(
 				"id_".$suffixe."_potion" => $this->view->vente["objet"]["id_potion"],
-				"id_fk_type_".$suffixe."_potion" => $this->view->vente["objet"]["id_fk_type_vente_potion"],
-				"id_fk_type_qualite_".$suffixe."_potion" => $this->view->vente["objet"]["id_fk_type_qualite_vente_potion"],
-				"niveau_".$suffixe."_potion" => $this->view->vente["objet"]["niveau_vente_potion"],
 		);
 
 		if ($idDestination == "charrette") {
@@ -1199,6 +1199,10 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
 
+		Zend_Loader::loadClass("Bral_Util_Potion");
+		$details = "[h".$this->view->user->id_hobbit."] a acheté ".$this->view->vente["objet"]["nom"]. " à l'Hôtel des Ventes";
+		Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_ACHETER_ID, $this->view->vente["objet"]["id_potion"], $details);
+		
 		$venteTable = new Vente();
 		$where = "id_vente=".$this->idVente;
 		$venteTable->delete($where);

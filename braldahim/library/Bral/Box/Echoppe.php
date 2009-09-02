@@ -355,7 +355,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 						"nom" => $p["nom_type_potion"],
 						"id_type_potion" => $p["id_type_potion"],
 						"qualite" => $p["nom_type_qualite"],
-						"niveau" => $p["niveau_echoppe_potion"],
+						"niveau" => $p["niveau_potion"],
 						"caracteristique" => $p["caract_type_potion"],
 						"bm_type" => $p["bm_type_potion"],
 						"caracteristique2" => $p["caract2_type_potion"],

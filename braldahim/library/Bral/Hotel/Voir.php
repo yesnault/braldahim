@@ -843,7 +843,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 					"nom" => $e["nom_type_potion"],
 					"id_potion" => $e["id_vente_potion"],
 					"qualite" => $e["nom_type_qualite"],
-					"niveau" => $e["niveau_vente_potion"],
+					"niveau" => $e["niveau_potion"],
 					"caracteristique" => $e["caract_type_potion"],
 					"bm_type" => $e["bm_type_potion"],
 					"caracteristique2" => $e["caract2_type_potion"],

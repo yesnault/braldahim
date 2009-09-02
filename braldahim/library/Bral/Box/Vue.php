@@ -420,7 +420,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 									"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),	
 									"nom" => $p["nom_type_potion"],
 									"qualite" => $p["nom_type_qualite"],
-									"niveau" => $p["niveau_element_potion"],
+									"niveau" => $p["niveau_potion"],
 								);
 							}
 						}

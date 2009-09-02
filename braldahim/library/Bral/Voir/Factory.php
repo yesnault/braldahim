@@ -38,6 +38,26 @@ class Bral_Voir_Factory {
 		Zend_Loader::loadClass("Bral_Voir_Communaute");
 		return new Bral_Voir_Communaute($request, $view);
 	}
+
+	static function getCharrette($request, $view) {
+		Zend_Loader::loadClass("Bral_Voir_Charrette");
+		return new Bral_Voir_Charrette($request, $view);
+	}
+	
+	static function getEquipement($request, $view) {
+		Zend_Loader::loadClass("Bral_Voir_Equipement");
+		return new Bral_Voir_Equipement($request, $view);
+	}
+
+	static function getPotion($request, $view) {
+		Zend_Loader::loadClass("Bral_Voir_Potion");
+		return new Bral_Voir_Potion($request, $view);
+	}
+	
+	static function getRune($request, $view) {
+		Zend_Loader::loadClass("Bral_Voir_Rune");
+		return new Bral_Voir_Rune($request, $view);
+	}
 	
 	static function getHobbit($request, $view) {
 		Zend_Loader::loadClass("Bral_Voir_Hobbit");

@@ -271,8 +271,10 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 
 		if ($destination == "porte") {
 			$details = "[h".$this->view->user->id_hobbit."] a mis une pièce d'équipement";
+			Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_EQUIPER_ID, $equipement["id_equipement"], $details);
 		} else {
 			$details = "[h".$this->view->user->id_hobbit."] a enlevé une pièce d'équipement";
+			Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_EQUIPER_ID, $equipement["id_equipement"], $details);
 		}
 
 		$this->setDetailsEvenement($details, $this->view->config->game->evenements->type->competence);
@@ -438,7 +440,6 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		if ($equipement["nom_systeme_mot_runique"] == "mot_v") {
 			$this->view->user->vue_bm_hobbit = $this->view->user->vue_bm_hobbit + 2;
 		}
-
 
 		$this->majHobbitEffet();
 	}
