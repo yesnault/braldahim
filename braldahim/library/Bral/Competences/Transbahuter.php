@@ -533,9 +533,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						"id_rune" => $r["id_rune_".strtolower($depart)."_rune"],
 						"type" => $r["nom_type_rune"],
 						"image" => $r["image_type_rune"],
-						"est_identifiee" => $r["est_identifiee_".strtolower($depart)."_rune"],
+						"est_identifiee" => $r["est_identifiee_rune"],
 						"effet_type_rune" => $r["effet_type_rune"],
-						"id_fk_type_rune" => $r["id_fk_type_".strtolower($depart)."_rune"],
+						"id_fk_type_rune" => $r["id_fk_type_rune"],
 					);
 				}
 				$this->view->deposerOk = true;
@@ -601,7 +601,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								$arriveeRuneTable = new LabanRune();
 								$data = array (
 									"id_rune_laban_rune" => $rune["id_rune"],
-									"id_fk_type_rune" => $rune["id_fk_type_rune"],
 									"id_fk_hobbit_laban_rune" => $this->view->user->id_hobbit,
 								);
 								$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RUNE;
@@ -612,14 +611,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									"id_rune_element_rune" => $rune["id_rune"],
 									"x_element_rune" => $this->view->user->x_hobbit,
 									"y_element_rune" => $this->view->user->y_hobbit,
-									"id_fk_type_rune" => $rune["id_fk_type_rune"],
 								);
 								break;
 							case "Coffre" :
 								$arriveeRuneTable = new CoffreRune();
 								$data = array (
 								"id_rune_coffre_rune" => $rune["id_rune"],
-								"id_fk_type_rune" => $rune["id_fk_type_rune"],
 								"id_fk_hobbit_coffre_rune" => $this->view->id_hobbit_coffre,
 								);
 								break;
@@ -627,7 +624,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								$arriveeRuneTable = new CharretteRune();
 								$data = array (
 								"id_rune_charrette_rune" => $rune["id_rune"],
-								"id_fk_type_rune" => $rune["id_fk_type_rune"],
 								"id_fk_charrette_rune" => $this->view->id_charrette_arrivee,
 								);
 								break;

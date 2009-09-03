@@ -526,9 +526,9 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 					"id_rune" => $r["id_rune_".$endroit["suffixe"]."_rune"],
 					"type" => $r["nom_type_rune"],
 					"image" => $r["image_type_rune"],
-					"est_identifiee" => $r["est_identifiee_".$endroit["suffixe"]."_rune"],
+					"est_identifiee" => $r["est_identifiee_rune"],
 					"effet_type_rune" => $r["effet_type_rune"],
-					"id_fk_type_rune" => $r["id_fk_type_".$endroit["suffixe"]."_rune"],
+					"id_fk_type_rune" => $r["id_fk_type_rune"],
 				);
 			}
 		} else {

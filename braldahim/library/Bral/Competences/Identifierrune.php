@@ -104,10 +104,16 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 		}
 		$this->view->rune = $rune;
 		
-		$labanRuneTable = new LabanRune();
-		$data["est_identifiee_laban_rune"] = 'oui';
-		$where = 'id_rune_laban_rune = '.$rune["id_rune"];
-		$labanRuneTable->update($data, $where);
+		Zend_Loader::loadClass("Rune");
+		$runeTable = new Rune();
+		$data["est_identifiee_rune"] = 'oui';
+		$where = 'id_rune = '.$rune["id_rune"];
+		$runeTable->update($data, $where);
+		
+		$details = "[h".$this->view->user->id_hobbit."] a identifié la rune n°".$rune["id_rune"];
+		Zend_Loader::loadClass("Bral_Util_Rune");
+		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_IDENTIFIER_ID, $rune["id_rune"], $details);
+		
 	}
 	
 	public function calculPx() {

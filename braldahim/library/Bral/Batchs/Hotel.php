@@ -430,7 +430,7 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			
 			$this->deleteVente($vente);
 
-			if ($rune["est_identifiee_vente_rune"] == "oui") {
+			if ($rune["est_identifiee_rune"] == "oui") {
 				$retour = "Rune ".$rune["nom_type_rune"]. " n°".$rune["id_rune_vente_rune"];
 			} else {
 				$retour = "Rune non identifiée n°".$rune["id_vente_rune"];

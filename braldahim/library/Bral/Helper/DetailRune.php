@@ -22,7 +22,11 @@ class Bral_Helper_DetailRune {
 
 	private static function prepareDetail($e) {
 		$text = "Num&eacute;ro de la rune: ".$e["id_rune"]."<br />";
-		$text .= "<br />Type : ".htmlspecialchars($e["nom_type"])."<br />";
+		/*if ($e["est_identifiee"] == "oui") {
+			$text .= "<br />Type : ".htmlspecialchars($e["nom_type"])."<br />";
+		} else {
+			$text .= "<br />Type : Inconnu<br />";
+		}*/
 		return $text;
 	}
 }

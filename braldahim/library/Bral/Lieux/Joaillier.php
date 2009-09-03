@@ -96,7 +96,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			$labanRunes = $labanRuneTable->findByIdHobbit($this->view->user->id_hobbit, "oui");
 
 			foreach($labanRunes as $l) {
-				if ($l["est_identifiee_laban_rune"] == "oui") {
+				if ($l["est_identifiee_rune"] == "oui") {
 					$tabLabanRune[$l["id_rune_laban_rune"]] = array(
 						"id_fk_type_rune" => $l["id_fk_type_rune"],
 						"nom_type_rune" => $l["nom_type_rune"],

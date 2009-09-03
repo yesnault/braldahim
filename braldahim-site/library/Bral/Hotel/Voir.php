@@ -751,7 +751,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 				$minerai = $this->recuperePrixMineraiAvecIdVente($ventePrixMinerai, $e["id_vente"]);
 				$partiesPlantes = $this->recuperePrixPartiePlantesAvecIdVente($ventePrixPartiePlante, $e["id_vente"]);
 
-				if ($e['est_identifiee_vente_rune'] == "oui") {
+				if ($e['est_identifiee_rune'] == "oui") {
 					$nom = $e["nom_type_rune"];
 					$image = $e["image_type_rune"];
 				} else {

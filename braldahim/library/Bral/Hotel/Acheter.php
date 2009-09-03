@@ -598,7 +598,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			$i ++;
 		}
 
-		if ($rune["est_identifiee_vente_rune"] == "oui") {
+		if ($rune["est_identifiee_rune"] == "oui") {
 			$nom = "Rune ".$rune["nom_type_rune"]. ", n°".$rune["id_rune_vente_rune"];
 		} else {
 			$nom = "Rune non identifiée, n°".$rune["id_rune_vente_rune"];
