@@ -35,11 +35,6 @@ class VoirController extends Zend_Controller_Action {
 		echo $voir->render();
 	}
 	
-	function charretteAction() {
-		$voir = Bral_Voir_Factory::getCharrette($this->_request, $this->view);
-		echo $voir->render();
-	}
-	
 	function equipementAction() {
 		$voir = Bral_Voir_Factory::getEquipement($this->_request, $this->view);
 		echo $voir->render();
@@ -52,6 +47,11 @@ class VoirController extends Zend_Controller_Action {
 	
 	function runeAction() {
 		$voir = Bral_Voir_Factory::getRune($this->_request, $this->view);
+		echo $voir->render();
+	}
+	
+	function materielAction() {
+		$voir = Bral_Voir_Factory::getMateriel($this->_request, $this->view);
 		echo $voir->render();
 	}
 	

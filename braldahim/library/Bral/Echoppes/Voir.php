@@ -367,7 +367,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 						if ($r["id_equipement_rune"] == $e["id_echoppe_equipement"]) {
 							$runes[] = array(
 								"id_rune_equipement_rune" => $r["id_rune_equipement_rune"],
-								"id_fk_type_rune_equipement_rune" => $r["id_fk_type_rune_equipement_rune"],
+								"id_fk_type_rune" => $r["id_fk_type_rune"],
 								"nom_type_rune" => $r["nom_type_rune"],
 								"image_type_rune" => $r["image_type_rune"],
 								"effet_type_rune" => $r["effet_type_rune"],

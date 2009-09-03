@@ -19,7 +19,9 @@ class EchoppeMateriel extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('echoppe_materiel', '*')
 		->from('type_materiel')
-		->where('id_fk_type_echoppe_materiel = id_type_materiel')
+		->from('materiel')
+		->where('id_fk_echoppe_echoppe_materiel = id_materiel')
+		->where('id_fk_type_materiel = id_type_materiel')
 		->where('id_fk_echoppe_echoppe_materiel = ?', $idEchoppe);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

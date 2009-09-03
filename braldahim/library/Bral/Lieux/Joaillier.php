@@ -80,7 +80,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			foreach($equipementRunes as $e) {
 				$tabEquipementsRune[] = array(
 					"id_rune_equipement_rune" => $e["id_rune_equipement_rune"],
-					"id_fk_type_rune_equipement_rune" => $e["id_fk_type_rune_equipement_rune"],
+					"id_fk_type_rune" => $e["id_fk_type_rune"],
 					"nom_type_rune" => $e["nom_type_rune"],
 					"effet_type_rune" => $e["effet_type_rune"],
 				);
@@ -98,7 +98,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			foreach($labanRunes as $l) {
 				if ($l["est_identifiee_laban_rune"] == "oui") {
 					$tabLabanRune[$l["id_rune_laban_rune"]] = array(
-						"id_fk_type_rune_laban_rune" => $l["id_fk_type_laban_rune"],
+						"id_fk_type_rune" => $l["id_fk_type_rune"],
 						"nom_type_rune" => $l["nom_type_rune"],
 						"image_type_rune" => $l["image_type_rune"],
 						"effet_type_rune" => $l["effet_type_rune"],
@@ -215,7 +215,6 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			$data = array(
 				'id_equipement_rune' => $this->view->equipementCourant["id_laban_equipement"],
 				'id_rune_equipement_rune' => $v["id_rune_laban_rune"],
-				'id_fk_type_rune_equipement_rune' => $v["id_fk_type_rune_laban_rune"],
 				'ordre_equipement_rune' => $ordre
 			);
 			$equipementRuneTable->insert($data);
@@ -223,6 +222,10 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			// Suppression des runes du laban
 			$where = "id_rune_laban_rune = ".$v["id_rune_laban_rune"];
 			$labanRunes = $labanRuneTable->delete($where);
+				
+			$details = "[h".$this->view->user->id_hobbit."] a serti la rune n°".$v["id_rune_laban_rune"];
+			Zend_Loader::loadClass("Bral_Util_Rune");
+			Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_SERTIR_ID, $v["id_rune_laban_rune"], $details);
 		}
 
 		if ($id_fk_mot_runique_equipement != null) {

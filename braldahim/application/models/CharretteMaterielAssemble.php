@@ -19,7 +19,9 @@ class CharretteMaterielAssemble extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('charrette_materiel_assemble', '*')
 		->from('type_materiel', '*')
-		->where('id_fk_type_charrette_materiel_assemble = id_type_materiel')
+		->from('materiel', '*')
+		->where('id_charrette_materiel_assemble = id_materiel')
+		->where('id_fk_type_materiel = id_type_materiel')
 		->where('id_charrette_materiel_assemble = ?', intval($idCharrette));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

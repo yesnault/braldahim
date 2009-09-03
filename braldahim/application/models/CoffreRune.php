@@ -17,14 +17,16 @@ class CoffreRune extends Zend_Db_Table {
     function findByIdHobbit($idHobbit, $identifiee = null) {
     	$whereIdentifiee = "";
     	if ($identifiee != null) {
-    		$whereIdentifiee = " AND coffre_rune.est_identifiee_coffre_rune = '".$identifiee."'";
+    		$whereIdentifiee = " AND est_identifiee_rune = '".$identifiee."'";
     	}
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('coffre_rune', '*')
 		->from('type_rune', '*')
+		->from('rune', '*')
+		->where('id_rune_coffre_rune = id_rune')
 		->where('id_fk_hobbit_coffre_rune = '.intval($idHobbit))
-		->where('coffre_rune.id_fk_type_coffre_rune = type_rune.id_type_rune'.$whereIdentifiee);
+		->where('id_fk_type_rune = id_type_rune'.$whereIdentifiee);
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

@@ -19,8 +19,10 @@ class EquipementRune extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('equipement_rune', '*')
 		->from('type_rune', '*')
+		->from('rune', '*')
+		->where('id_rune_equipement_rune = id_rune')
 		->where('id_equipement_rune = ?', (int)$id_equipement)
-		->where('equipement_rune.id_fk_type_rune_equipement_rune = type_rune.id_type_rune')
+		->where('id_fk_type_rune = id_type_rune')
 		->order('ordre_equipement_rune');
 		$sql = $select->__toString();
 
@@ -46,8 +48,10 @@ class EquipementRune extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('equipement_rune', '*')
 		->from('type_rune', '*')
+		->from('rune', '*')
+		->where('id_rune_equipement_rune = id_rune')
 		->where($where)
-		->where('equipement_rune.id_fk_type_rune_equipement_rune = type_rune.id_type_rune')
+		->where('id_fk_type_rune = id_type_rune')
 		->order('ordre_equipement_rune');
 		$sql = $select->__toString();
 		

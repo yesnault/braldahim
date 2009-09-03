@@ -62,7 +62,7 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 			
 		foreach($labanRunes as $l) {
 			$tabLabanRune[$l["id_rune_laban_rune"]] = array(
-					"id_fk_type_rune_laban_rune" => $l["id_fk_type_laban_rune"],
+					"id_fk_type_rune" => $l["id_fk_type_rune"],
 					"nom_type_rune" => $l["nom_type_rune"],
 					"image_type_rune" => $l["image_type_rune"],
 					"effet_type_rune" => $l["effet_type_rune"],

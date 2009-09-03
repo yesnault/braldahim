@@ -175,7 +175,7 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 	private function estDejaAssembleSurCharrette($materielsDejaAssembles, $idTypeMateriel) {
 		$retour = false;
 		foreach($materielsDejaAssembles as $m) {
-			if ($m["id_fk_type_charrette_materiel_assemble"] == $idTypeMateriel) {
+			if ($m["id_fk_type_materiel"] == $idTypeMateriel) {
 				$retour = true;
 				break;
 			}
@@ -271,7 +271,6 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 		$data = array(
 			"id_charrette_materiel_assemble" => $materielBase["id_materiel"],
 			"id_materiel_materiel_assemble" => $materielAAssembler["id_materiel"],
-			"id_fk_type_charrette_materiel_assemble" => $materielAAssembler["id_type_materiel"],
 		);
 		$charretteMaterielAssembleTable->insert($data);
 		$this->supprimeMaterielAAsembler($materielAAssembler);

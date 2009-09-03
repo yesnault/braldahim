@@ -125,7 +125,7 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 		$tabMateriel = array(
 			"id_materiel" => $this->materiel["id_echoppe_materiel"],
 			"nom" => $this->materiel["nom_type_materiel"],
-			"id_type_materiel" => $this->materiel["id_fk_type_echoppe_materiel"],
+			"id_type_materiel" => $this->materiel["id_fk_type_materiel"],
 			'nom_systeme_type_materiel' => $this->materiel["nom_systeme_type_materiel"],
 			'capacite' => $this->materiel["capacite_type_materiel"], 
 			'durabilite' => $this->materiel["durabilite_type_materiel"], 
@@ -470,6 +470,10 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 		if ($this->view->detailPrix != "") {
 			$this->view->detailPrix = mb_substr($this->view->detailPrix, 0, -2);
 		}
+		
+		$details = "[h".$this->view->user->id_hobbit."] a acheté le matériel n°".$this->idMateriel. " dans l'échoppe";
+		Zend_Loader::loadClass("Bral_Util_Materiel");
+		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_ACHETER_ID, $this->idMateriel, $details);
 	}
 
 	private function calculAchatEchoppe($prix) {

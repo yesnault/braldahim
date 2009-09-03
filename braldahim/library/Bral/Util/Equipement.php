@@ -100,7 +100,7 @@ class Bral_Util_Equipement {
 		foreach($equipementRunes as $e) {
 			$tabEquipements[$e["id_equipement_rune"]]["runes"][] = array(
 				"id_rune_equipement_rune" => $e["id_rune_equipement_rune"],
-				"id_fk_type_rune_equipement_rune" => $e["id_fk_type_rune_equipement_rune"],
+				"id_fk_type_rune" => $e["id_fk_type_rune"],
 				"nom_type_rune" => $e["nom_type_rune"],
 				"image_type_rune" => $e["image_type_rune"],
 				"effet_type_rune" => $e["effet_type_rune"],
@@ -192,7 +192,7 @@ class Bral_Util_Equipement {
 						if ($r["id_equipement_rune"] == $e["id_equipement_hequipement"]) {
 							$runes[] = array(
 							"id_rune_equipement_rune" => $r["id_rune_equipement_rune"],
-							"id_fk_type_rune_equipement_rune" => $r["id_fk_type_rune_equipement_rune"],
+							"id_fk_type_rune" => $r["id_fk_type_rune"],
 							"nom_type_rune" => $r["nom_type_rune"],
 							"image_type_rune" => $r["image_type_rune"],
 							"effet_type_rune" => $r["effet_type_rune"],

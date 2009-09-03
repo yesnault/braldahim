@@ -179,7 +179,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$tabMateriel = array(
 			"id_materiel" => $materiel["id_vente_materiel"],
 			"nom" => $materiel["nom_type_materiel"],
-			"id_type_materiel" => $materiel["id_fk_type_vente_materiel"],
+			"id_type_materiel" => $materiel["id_fk_type_materiel"],
 			'nom_systeme_type_materiel' => $materiel["nom_systeme_type_materiel"],
 			'capacite' => $materiel["capacite_type_materiel"], 
 			'durabilite' => $materiel["durabilite_type_materiel"], 
@@ -607,8 +607,6 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$tabRune = array(
 			"id_rune" => $rune["id_rune_vente_rune"],
 			"nom" => $nom,
-			"id_fk_type_vente_rune" => $rune["id_fk_type_vente_rune"],
-			"est_identifiee_vente_rune" => $rune["est_identifiee_vente_rune"],
 			"place_dispo" => $placeDispo,
 			"est_charrette" => false,
 			"charrette_possible" => true,
@@ -628,7 +626,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 				if ($r["id_equipement_rune"] == $idEquipement) {
 					$runes[] = array(
 						"id_rune_equipement_rune" => $r["id_rune_equipement_rune"],
-						"id_fk_type_rune_equipement_rune" => $r["id_fk_type_rune_equipement_rune"],
+						"id_fk_type_rune" => $r["id_fk_type_rune"],
 						"nom_type_rune" => $r["nom_type_rune"],
 						"image_type_rune" => $r["image_type_rune"],
 						"effet_type_rune" => $r["effet_type_rune"],
@@ -1131,6 +1129,10 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$venteTable = new Vente();
 		$where = "id_vente=".$this->idVente;
 		$venteTable->delete($where);
+		
+		$details = "[h".$this->view->user->id_hobbit."] a acheté le matériel n°".$this->view->vente["objet"]["id_materiel"]. " à l'Hôtel des Ventes";
+		Zend_Loader::loadClass("Bral_Util_Materiel");
+		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_ACHETER_ID, $this->view->vente["objet"]["id_materiel"], $details);
 	}
 
 	private function calculTransfertEquipement($idDestination) {
@@ -1221,8 +1223,6 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 		$data = array(
 				"id_rune_".$suffixe."_rune" => $this->view->vente["objet"]["id_rune"],
-				"id_fk_type_".$suffixe."_rune" => $this->view->vente["objet"]["id_fk_type_vente_rune"],
-				"est_identifiee_".$suffixe."_rune" => $this->view->vente["objet"]["est_identifiee_vente_rune"],
 		);
 
 		if ($idDestination == "charrette") {
@@ -1241,6 +1241,10 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$venteTable = new Vente();
 		$where = "id_vente=".$this->idVente;
 		$venteTable->delete($where);
+		
+		$details = "[h".$this->view->user->id_hobbit."] a acheté la rune n°".$this->view->vente["objet"]["id_rune"]. " à l'Hôtel des Ventes";
+		Zend_Loader::loadClass("Bral_Util_Rune");
+		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_ACHETER_ID, $this->view->vente["objet"]["id_rune"], $details);
 	}
 
 	private function calculTransfertMunition($idDestination) {

@@ -277,17 +277,26 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("IdsMateriel");
 		$idsMaterielTable = new IdsMateriel();
 		$idMateriel = $idsMaterielTable->prepareNext();
+
+		Zend_Loader::loadClass("Materiel");
+		$materielTable = new Materiel();
+		$data = array(
+			'id_materiel' => $idMateriel,
+			'id_fk_type_materiel' => $this->view->typeMaterielCourant["id_type_materiel"],
+		);
+		$materielTable->insert($data);
 		
 		Zend_Loader::loadClass("EchoppeMateriel");
 		$echoppeMaterielTable = new EchoppeMateriel();
-		$data = array(
+		$dataEchoppe = array(
 			'id_echoppe_materiel' => $idMateriel,
 			'id_fk_echoppe_echoppe_materiel' => $this->idEchoppe,
-			'id_fk_type_echoppe_materiel' => $this->view->typeMaterielCourant["id_type_materiel"],
 			'type_vente_echoppe_materiel' => 'aucune',
 		);
-		$echoppeMaterielTable->insert($data);
-
+		$echoppeMaterielTable->insert($dataEchoppe);
+		
+		$details = "[h".$this->view->user->id_hobbit."] a produit le matériel n°".$idMateriel;
+		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_CREATION_ID, $idMateriel, $details);
 	}
 
 	private function majCout($estReussi) {

@@ -19,7 +19,9 @@ class ElementMateriel extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('element_materiel', '*')
 		->from('type_materiel', '*')
-		->where('id_fk_type_element_materiel = id_type_materiel')
+		->from('materiel', '*')
+		->where('id_element_materiel = id_materiel')
+		->where('id_fk_type_materiel = id_type_materiel')
 		->where('x_element_materiel <= ?', $x_max)
 		->where('x_element_materiel >= ?', $x_min)
 		->where('y_element_materiel <= ?', $y_max)

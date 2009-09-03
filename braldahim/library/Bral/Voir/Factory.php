@@ -39,9 +39,9 @@ class Bral_Voir_Factory {
 		return new Bral_Voir_Communaute($request, $view);
 	}
 
-	static function getCharrette($request, $view) {
-		Zend_Loader::loadClass("Bral_Voir_Charrette");
-		return new Bral_Voir_Charrette($request, $view);
+	static function getMateriel($request, $view) {
+		Zend_Loader::loadClass("Bral_Voir_Materiel");
+		return new Bral_Voir_Materiel($request, $view);
 	}
 	
 	static function getEquipement($request, $view) {

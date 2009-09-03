@@ -77,7 +77,7 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 			if ($tab["tabMetierCourant"]["nom_systeme"] == "bucheron" || $tab["tabMetierCourant"]["nom_systeme"] == "menuisier") {
 				$estMenuisierOuBucheron = true;
 			}
-				
+
 			Zend_Loader::loadClass("Bral_Util_Charrette");
 			foreach ($charrettes as $c) {
 				$this->view->attraperCharrettePossible = true;
@@ -141,6 +141,10 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 		$id_type = $this->view->config->game->evenements->type->ramasser;
 		$details = "[h".$this->view->user->id_hobbit."] a attrapé une charrette";
 		$this->setDetailsEvenement($details, $id_type);
+
+		$details = "[h".$this->view->user->id_hobbit."] a attrapé la charrette n°".$charrette["id_charrette"];
+		Zend_Loader::loadClass("Bral_Util_Materiel");
+		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_UTILISER_ID, $charrette["id_charrette"], $details);
 	}
 
 	private function calculAttrapperCharrette($charrette) {
@@ -159,12 +163,12 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 			$charretteTable->update($dataUpdate, $where);
 		} else if ($this->view->provenance == "echoppe") {
 			$dataUpdate["id_charrette"] = $charrette["id_charrette"];
-			
+				
 			$dataUpdate["durabilite_max_charrette"] = $charrette["durabilite_type_materiel"];
 			$dataUpdate["durabilite_actuelle_charrette"] = $charrette["durabilite_type_materiel"];
 			$dataUpdate["poids_transportable_charrette"] = $charrette["capacite_type_materiel"];
 			$dataUpdate["poids_transporte_charrette"] = 0;
-			
+				
 			$where = "id_charrette = ".$charrette["id_charrette"];
 			$charretteTable->insert($dataUpdate);
 

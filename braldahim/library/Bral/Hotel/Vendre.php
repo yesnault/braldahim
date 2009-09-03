@@ -565,12 +565,14 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		$data = array (
 			"id_rune_vente_rune" => $rune["id_rune"],
 			"id_fk_vente_rune" => $idVente,
-			"id_fk_type_vente_rune" => $rune["id_fk_type_rune"],
-			"est_identifiee_vente_rune" => $rune["est_identifiee"],
 		);
 		$venteRuneTable->insert($data);
 
 		$this->view->objetVente = " la rune n°".$rune["id_rune"];
+		
+		$details = "[h".$this->view->user->id_hobbit."] a mis en vente la rune n°".$rune["id_rune"]. " à l'Hôtel des Ventes";
+		Zend_Loader::loadClass("Bral_Util_Rune");
+		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_VENDRE_ID, $rune["id_rune"], $details);
 	}
 
 	private function prepareTypeMunitions($endroit) {
@@ -929,11 +931,14 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		$data = array (
 			"id_vente_materiel" => $materiel["id_materiel"],
 			"id_fk_vente_materiel" => $idVente,
-			"id_fk_type_vente_materiel" => $materiel["id_fk_type_materiel"],
 		);
 		$venteMaterielTable->insert($data);
 
 		$this->view->objetVente = " le matériel n°".$materiel["id_materiel"]. " ".$materiel["nom"];
+		
+		$details = "[h".$this->view->user->id_hobbit."] a mis en vente le matériel n°".$materiel["id_materiel"]. " à l'Hôtel des Ventes";
+		Zend_Loader::loadClass("Bral_Util_Materiel");
+		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_VENDRE_ID, $materiel["id_materiel"], $details);
 	}
 
 	private function prepareTypeAliments($endroit) {

@@ -14,10 +14,18 @@ class Bral_Helper_DetailMateriel {
 
 	public static function afficherPrix($e) {
 		Zend_Loader::loadClass("Bral_Helper_DetailPrix");
- 		return Bral_Helper_DetailPrix::afficherPrix($e, "_echoppe_materiel");
+		return Bral_Helper_DetailPrix::afficherPrix($e, "_echoppe_materiel");
 	}
 
-	public static function afficherJs($e) {
+	public static function afficherJs($p) {
+		return Bral_Helper_Tooltip::jsTip(self::prepareDetail($p));
+	}
+
+	public static function afficherTexte($p) {
+		return stripslashes(self::prepareDetail($p));
+	}
+
+	private static function prepareDetail($e) {
 		$text = htmlspecialchars($e["nom"])." <br /><br />";
 		$text .= "Num&eacute;ro du mat&eacute;riel : ".$e["id_materiel"]."<br />";
 		$text .= "<br />Caract&eacute;ristiques : <br />";
@@ -25,9 +33,9 @@ class Bral_Helper_DetailMateriel {
 		$text .= self::display("Durabilit&eacute;", $e["durabilite"]);
 		$text .= self::display("Usure", $e["usure"]);
 		$text .= "Poids : ".$e["poids"]. " Kg";
-		 
+			
 		$text .= "<br />";
-		return Bral_Helper_Tooltip::jsTip($text);
+		return $text;
 	}
 
 	private static function display($display, $valeur, $unite = "") {

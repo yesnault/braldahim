@@ -44,8 +44,10 @@ class HobbitEquipement extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('equipement_rune', 'id_equipement_rune')
 		->from('type_rune', '*')
+		->from('rune', '*')
 		->from('hobbits_equipement', 'id_equipement_hequipement')
-		->where('equipement_rune.id_fk_type_rune_equipement_rune = type_rune.id_type_rune')
+		->where('id_rune_equipement_rune = id_rune')
+		->where('id_fk_type_rune = id_type_rune')
 		->where('hobbits_equipement.id_equipement_hequipement = equipement_rune.id_equipement_rune')
 		->where('hobbits_equipement.id_fk_hobbit_hequipement = ?', intval($idHobbit));
 		$sql = $select->__toString();

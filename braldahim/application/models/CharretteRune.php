@@ -17,14 +17,16 @@ class CharretteRune extends Zend_Db_Table {
     function findByIdCharrette($idCharrette, $identifiee = null) {
     	$whereIdentifiee = "";
     	if ($identifiee != null) {
-    		$whereIdentifiee = " AND charrette_rune.est_identifiee_charrette_rune = '".$identifiee."'";
+    		$whereIdentifiee = " AND est_identifiee_rune = '".$identifiee."'";
     	}
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette_rune', '*')
 		->from('type_rune', '*')
+		->from('rune', '*')
+		->where('id_rune_charrette_rune = id_rune')
 		->where('id_fk_charrette_rune = '.intval($idCharrette))
-		->where('charrette_rune.id_fk_type_charrette_rune = type_rune.id_type_rune'.$whereIdentifiee);
+		->where('id_fk_type_rune = id_type_rune'.$whereIdentifiee);
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

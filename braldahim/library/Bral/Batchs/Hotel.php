@@ -229,7 +229,6 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			$data = array(
 				"id_coffre_materiel" => $materiel["id_vente_materiel"],
 				"id_fk_hobbit_coffre_materiel" => $vente["id_fk_hobbit_vente"],
-				"id_fk_type_coffre_materiel" => $materiel["id_fk_type_vente_materiel"],
 			);
 			$coffreMaterielTable->insert($data);
 			
@@ -426,8 +425,6 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			$data = array(
 				"id_rune_coffre_rune" => $rune["id_rune_vente_rune"],
 				"id_fk_hobbit_coffre_rune" => $vente["id_fk_hobbit_vente"],
-				"id_fk_type_coffre_rune" => $rune["id_fk_type_vente_rune"],
-				"est_identifiee_coffre_rune" => $rune["est_identifiee_vente_rune"],
 			);
 			$coffreRuneTable->insert($data);
 			

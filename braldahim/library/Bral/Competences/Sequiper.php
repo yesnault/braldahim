@@ -89,7 +89,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					if ($r["id_equipement_rune"] == $e["id_equipement_hequipement"]) {
 						$runes[] = array(
 							"id_rune_equipement_rune" => $r["id_rune_equipement_rune"],
-							"id_fk_type_rune_equipement_rune" => $r["id_fk_type_rune_equipement_rune"],
+							"id_fk_type_rune" => $r["id_fk_type_rune"],
 							"nom_type_rune" => $r["nom_type_rune"],
 							"image_type_rune" => $r["image_type_rune"],
 							"effet_type_rune" => $r["effet_type_rune"],
@@ -159,7 +159,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 						if ($r["id_equipement_rune"] == $e["id_laban_equipement"]) {
 							$runes[] = array(
 								"id_rune_equipement_rune" => $r["id_rune_equipement_rune"],
-								"id_fk_type_rune_equipement_rune" => $r["id_fk_type_rune_equipement_rune"],
+								"id_fk_type_rune" => $r["id_fk_type_rune"],
 								"nom_type_rune" => $r["nom_type_rune"],
 								"image_type_rune" => $r["image_type_rune"],
 								"effet_type_rune" => $r["effet_type_rune"],

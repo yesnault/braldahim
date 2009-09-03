@@ -32,7 +32,7 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 
 				$tabLabanRune[$l["id_type_rune"]]["runes"][] = array(
 						"id_rune_laban_rune" => $l["id_rune_laban_rune"],
-						"id_fk_type_rune_laban_rune" => $l["id_fk_type_laban_rune"],
+						"id_fk_type_rune" => $l["id_fk_type_rune"],
 						"nom_type_rune" => $l["nom_type_rune"],
 						"image_type_rune" => $l["image_type_rune"],
 						"effet_type_rune" => $l["effet_type_rune"],
@@ -128,16 +128,27 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 		$idsRuneTable = new IdsRune();
 		$idRune = $idsRuneTable->prepareNext();
 
-		$labanRuneTable = new LabanRune();
-		$data = array (
-			"id_rune_laban_rune" => $idRune,
-			"id_fk_type_laban_rune" => $typeRune["id_type_rune"],
-			"id_fk_hobbit_laban_rune" => $this->view->user->id_hobbit,
-			"est_identifiee_laban_rune" => "non",
+		Zend_Loader::loadClass("Rune");
+		$runeTable = new Rune();
+		$dataRune = array (
+			"id_rune" => $idRune,
+			"id_fk_type_rune" => $typeRune["id_type_rune"],
+			"est_identifiee_rune" => "non",
 		);
-		$labanRuneTable->insert($data);
+		$runeTable->insert($dataRune);
+		
+		$labanRuneTable = new LabanRune();
+		$dataLaban = array (
+			"id_rune_laban_rune" => $idRune,
+			"id_fk_hobbit_laban_rune" => $this->view->user->id_hobbit,
+		);
+		$labanRuneTable->insert($dataLaban);
 
 		$this->view->texte = $texte;
+		
+		$details = "L'échangeur de rune a donné la rune n°".$idRune. " a [h".$this->view->user->id_hobbit."]";
+		Zend_Loader::loadClass("Bral_Util_Rune");
+		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_CREATION_ID, $idRune, $details);
 	}
 
 	function getListBoxRefresh() {

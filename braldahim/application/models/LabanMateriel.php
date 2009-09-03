@@ -19,7 +19,9 @@ class LabanMateriel extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('laban_materiel', '*')
 		->from('type_materiel')
-		->where('id_fk_type_laban_materiel = id_type_materiel')
+		->from('materiel', '*')
+		->where('id_laban_materiel = id_materiel')
+		->where('id_fk_type_materiel = id_type_materiel')
 		->where('id_fk_hobbit_laban_materiel = ?', intval($idHobbit));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

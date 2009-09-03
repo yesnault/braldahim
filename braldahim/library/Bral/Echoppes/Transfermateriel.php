@@ -91,7 +91,7 @@ class Bral_Echoppes_Transfermateriel extends Bral_Echoppes_Echoppe {
 
 						$tabMaterielsArriereBoutique[] = array(
 							"id_echoppe_materiel" => $e["id_echoppe_materiel"],
-							"id_fk_type_echoppe_materiel" => $e["id_fk_type_echoppe_materiel"],
+							"id_fk_type_materiel" => $e["id_fk_type_materiel"],
 							"nom" => $e["nom_type_materiel"],
 							"poids" => $e["poids_type_materiel"],
 							"place_dispo" => $placeDispo,
@@ -190,7 +190,6 @@ class Bral_Echoppes_Transfermateriel extends Bral_Echoppes_Echoppe {
 
 		$data = array(
 				"id_".$suffixe."_materiel" => $materiel["id_echoppe_materiel"],
-				"id_fk_type_".$suffixe."_materiel" => $materiel["id_fk_type_echoppe_materiel"],
 		);
 
 		if ($idDestination == "charrette") {

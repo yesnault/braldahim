@@ -10,7 +10,7 @@
  * $LastChangedRevision: $
  * $LastChangedBy: $
  */
-class HistoriqueCharrette extends Zend_Db_Table {
-	protected $_name = 'historique_charrette';
-	protected $_primary = "id_historique_charrette";
+class TypeHistoriqueMateriel extends Zend_Db_Table {
+	protected $_name = 'type_historique_materiel';
+	protected $_primary = 'id_type_historique_materiel';
 }

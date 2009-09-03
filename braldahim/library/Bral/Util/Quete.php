@@ -527,15 +527,26 @@ class Bral_Util_Quete {
 		$idsRuneTable = new IdsRune();
 		$idRune = $idsRuneTable->prepareNext();
 		
+		Zend_Loader::loadClass("Rune");
+		$runeTable = new Rune();
+		$dataRune = array (
+			"id_rune" => $idRune,
+			"id_fk_type_rune" => $typeRune["id_type_rune"],
+			"est_identifiee_rune" => "oui",
+		);
+		$runeTable->insert($dataRune);
+		
 		$coffreRuneTable = new CoffreRune();
 		$data = array (
 			"id_rune_coffre_rune" => $idRune,
-			"id_fk_type_coffre_rune" => $typeRune["id_type_rune"],
 			"id_fk_hobbit_coffre_rune" => $hobbit->id_hobbit,
-			"est_identifiee_coffre_rune" => "oui",
 		);
 		$coffreRuneTable->insert($data);
 
+		$details = "[h".$hobbit->id_hobbit."] a reçu la rune n°".$idRune. " en récompense de quête";
+		Zend_Loader::loadClass("Bral_Util_Rune");
+		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_CREATION_ID, $idRune, $details);
+		
 		$retour = " une rune de type ".$typeRune["nom_type_rune"].PHP_EOL;
 		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculGainRune - exit");
 		return $retour;

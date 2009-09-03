@@ -303,7 +303,6 @@ class Bral_Util_Charrette {
 			"x_element_materiel" => $x,
 			"y_element_materiel" => $y,
 			"id_element_materiel" => $a["id_charrette_materiel"],
-			"id_fk_type_element_materiel" => $a["id_fk_type_charrette_materiel"],
 			"date_fin_element_materiel" => $dateFin,
 			);
 			$elementMaterielTable->insert($data);
@@ -410,8 +409,6 @@ class Bral_Util_Charrette {
 			"x_element_rune" => $x,
 			"y_element_rune" => $y,
 			"id_rune_element_rune" => $a["id_rune_charrette_rune"],
-			"id_fk_type_element_rune" => $a["id_fk_type_charrette_rune"],
-			"est_identifiee_element_rune" => $a["est_identifiee_charrette_rune"],
 			"date_fin_element_rune" => $dateFin,
 			);
 			$elementRuneTable->insert($data);

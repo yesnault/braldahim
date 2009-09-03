@@ -193,6 +193,10 @@ class Bral_Echoppes_Vendremateriel extends Bral_Echoppes_Echoppe {
 		$this->calculPrixEchoppe($id_materiel, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
 		$this->calculPrixMinerai($id_materiel, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
 		$this->calculPrixPartiePlante($id_materiel, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
+		
+		$details = "[h".$this->view->user->id_hobbit."] a mis en vente le matériel n°".$id_materiel. " dans son échoppe";
+		Zend_Loader::loadClass("Bral_Util_Materiel");
+		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_VENDRE_ID, $id_materiel, $details);
 	}
 
 	private function calculPrixEchoppe($id_materiel, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3) {

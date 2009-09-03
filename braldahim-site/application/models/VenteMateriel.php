@@ -37,9 +37,11 @@ class VenteMateriel extends Zend_Db_Table {
 		->from('type_materiel')
 		->from('vente')
 		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
+		->from('materiel', '*')
+		->where('id_vente_materiel = id_materiel')
+		->where('id_fk_type_materiel = id_type_materiel')
 		->where('id_fk_vente_materiel = id_vente')
 		->where('id_fk_hobbit_vente = id_hobbit')
-		->where('id_fk_type_vente_materiel = id_type_materiel')
 		->where('id_fk_vente_materiel = '.$liste)
 		->order('date_fin_vente desc');
 		$sql = $select->__toString();
@@ -54,10 +56,12 @@ class VenteMateriel extends Zend_Db_Table {
 		->from('type_materiel')
 		->from('vente')
 		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'id_hobbit'))
+		->from('materiel', '*')
+		->where('id_vente_materiel = id_materiel')
+		->where('id_fk_type_materiel = id_type_materiel')
 		->where('id_fk_vente_materiel = id_vente')
 		->where('id_fk_hobbit_vente = id_hobbit')
-		->where('id_fk_type_vente_materiel = id_type_materiel')
-		->where('id_fk_type_vente_materiel = ?', $idType)
+		->where('id_fk_type_materiel = ?', $idType)
 		->order('date_fin_vente desc');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

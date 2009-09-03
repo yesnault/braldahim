@@ -19,7 +19,9 @@ class CoffreMateriel extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('coffre_materiel', '*')
 		->from('type_materiel', '*')
-		->where('id_fk_type_coffre_materiel = id_type_materiel')
+		->from('materiel', '*')
+		->where('id_coffre_materiel = id_materiel')
+		->where('id_fk_type_materiel = id_type_materiel')
 		->where('id_fk_hobbit_coffre_materiel = ?', intval($idHobbit));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
