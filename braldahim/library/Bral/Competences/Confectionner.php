@@ -461,7 +461,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			if ($this->recetteEquipementACreer["nom_systeme_type_piece"] == "munition") {
 				$this->view->nb_px_perso = 2;
 			} else {
-				$this->view->nb_px_perso = (($this->view->niveau +1)/(floor($this->view->user->niveau_hobbit/10) + 1) + 1 + ($this->view->niveauQualite - 1) )*5;
+				$this->view->nb_px_perso = floor((($this->view->niveau +1)/(floor($this->view->user->niveau_hobbit/10) + 1) + 1 + ($this->view->niveauQualite - 1) )*5);
 			}
 		} else {
 			$this->view->nb_px_perso = 0;
