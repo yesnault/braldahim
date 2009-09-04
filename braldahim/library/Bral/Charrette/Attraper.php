@@ -152,7 +152,6 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 		$charretteTable = new Charrette();
 
 		$dataUpdate = array(
-			"id_fk_type_materiel_charrette" => $charrette["id_type_materiel"],
 			"id_fk_hobbit_charrette" => $this->view->user->id_hobbit,
 			"x_charrette" => null,
 			"y_charrette" => null,

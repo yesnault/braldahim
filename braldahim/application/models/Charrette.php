@@ -19,7 +19,9 @@ class Charrette extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('charrette', '*')
 		->from('type_materiel', '*')
-		->where('id_fk_type_materiel_charrette = id_type_materiel')
+		->from('materiel', '*')
+		->where('id_charrette = id_materiel')
+		->where('id_fk_type_materiel = id_type_materiel')
 		->where('id_fk_hobbit_charrette = '.intval($idHobbit));
 		$sql = $select->__toString();
 
@@ -31,7 +33,9 @@ class Charrette extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('charrette', '*')
 		->from('type_materiel', '*')
-		->where('id_fk_type_materiel_charrette = id_type_materiel')
+		->from('materiel', '*')
+		->where('id_charrette = id_materiel')
+		->where('id_fk_type_materiel = id_type_materiel')
 		->where('id_charrette = '.intval($idCharrette));
 		$sql = $select->__toString();
 
@@ -44,8 +48,10 @@ class Charrette extends Zend_Db_Table {
 		$select->from('charrette', '*')
 		->from('type_materiel', '*')
 		->from('hobbit', '*')
+		->from('materiel', '*')
 		->where('id_hobbit = id_fk_hobbit_charrette')
-		->where('id_fk_type_materiel_charrette = id_type_materiel')
+		->where('id_charrette = id_materiel')
+		->where('id_fk_type_materiel = id_type_materiel')
 		->where('est_ko_hobbit = ?', 'non')
 		->where('x_hobbit = '.intval($x))
 		->where('y_hobbit = '.intval($y));
@@ -63,7 +69,9 @@ class Charrette extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('charrette', '*')
 		->from('type_materiel', '*')
-		->where('id_fk_type_materiel_charrette = id_type_materiel')
+		->from('materiel', '*')
+		->where('id_charrette = id_materiel')
+		->where('id_fk_type_materiel = id_type_materiel')
 		->where('x_charrette = '.intval($x))
 		->where('y_charrette = '.intval($y).$and);
 		$sql = $select->__toString();
@@ -80,11 +88,13 @@ class Charrette extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('charrette', '*')
 		->from('type_materiel', '*')
+		->from('materiel', '*')
 		->where('x_charrette <= ?', $x_max)
 		->where('x_charrette >= ?', $x_min)
 		->where('y_charrette >= ?', $y_min)
 		->where('y_charrette <= ?', $y_max)
-		->where('id_fk_type_materiel_charrette = id_type_materiel')
+		->where('id_charrette = id_materiel')
+		->where('id_fk_type_materiel = id_type_materiel')
 		->where('id_fk_hobbit_charrette is NULL');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

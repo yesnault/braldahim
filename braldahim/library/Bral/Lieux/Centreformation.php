@@ -32,17 +32,17 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 
 		foreach($hobbitsMetierRowset as $m) {
 			$this->_possedeMetier = true;
-				
+
 			if ($this->view->user->sexe_hobbit == 'feminin') {
 				$nom_metier = $m["nom_feminin_metier"];
 			} else {
 				$nom_metier = $m["nom_masculin_metier"];
 			}
-				
+
 			if ($m["est_actif_hmetier"] == "oui") {
 				$this->_idAncienMetier = $m["id_metier"];
 			}
-				
+
 			$this->_tabMetiers[] = array(
 				"id_metier" => $m["id_metier"],
 				"nom" => $nom_metier,
@@ -77,7 +77,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 					} else {
 						$nom_metier = $m->nom_masculin_metier;
 					}
-						
+
 					$this->_tabNouveauMetiers[] = array("id_metier" => $m->id_metier,
 						"nom" => $nom_metier,
 						"nom_systeme" => $m->nom_systeme_metier,
@@ -174,7 +174,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 			$hobbitsMetiersTable->update($data, $where);
 
 			$hobbitsCompetencesTable = new HobbitsCompetences();
-				
+
 			if ($this->_idAncienMetier != null) {
 				$hobbitCompetences = $hobbitsCompetencesTable->findByIdHobbit($this->view->user->id_hobbit);
 				foreach($hobbitCompetences as $e) {
@@ -189,7 +189,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 					}
 				}
 			}
-				
+
 			$data = array('est_actif_hmetier' => 'oui');
 			$where = array("id_fk_hobbit_hmetier = ".intval($this->view->user->id_hobbit)." AND id_fk_metier_hmetier = ".intval($idNouveauMetierCourant));
 			$hobbitsMetiersTable->update($data, $where);
@@ -207,7 +207,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 			if (count($competencesMetier) <= 0) {
 				throw new Zend_Exception(get_class($this)." Competences pour le nouveau metier invalide:".$idNouveauMetier. " idH=".$this->view->user->id_hobbit);
 			}
-				
+
 			$dataNouveauMetier = array(
 				'id_fk_hobbit_hmetier' => $this->view->user->id_hobbit,
 				'id_fk_metier_hmetier'  => $idNouveauMetier,
@@ -231,26 +231,33 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 			$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
 
 			$this->view->constructionEchoppe = $constructionEchoppe;
-				
+
 			$this->view->constructionCharrette = false;
-				
+
 			if ($constructionCharrette === true && $this->_possedeMetier == false) {
 
 				Zend_Loader::loadClass("IdsMateriel");
 				$idsMaterielTable = new IdsMateriel();
 				$idMateriel = $idsMaterielTable->prepareNext();
 
+				Zend_Loader::loadClass('Materiel');
+				$materielTable = new Materiel();
+				$dataMateriel = array(
+					'id_materiel' => $idMateriel,
+					'id_fk_type_materiel' => 1,// charrette legere offerte
+				);
+				$materielTable->insert($dataMateriel);
+					
 				$charretteTable = new Charrette();
 				$data = array(
 					"id_charrette" => $idMateriel,
 					"id_fk_hobbit_charrette" => $this->view->user->id_hobbit,
 					"quantite_rondin_charrette" => 0,
-					"id_fk_type_materiel_charrette" => 1, // charrette legere offerte
 				);
 				$charretteTable->insert($data);
 				$this->view->constructionCharrette = true;
 			}
-				
+
 			Zend_Loader::loadClass("Bral_Util_Quete");
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapeApprendreMetier($this->view->user);
 		}

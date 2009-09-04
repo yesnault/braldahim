@@ -1086,7 +1086,6 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 				"x_charrette" => null,
 				"y_charrette" => null,
 				"id_charrette" => $this->view->vente["objet"]["id_materiel"],
-				"id_fk_type_materiel_charrette" => $this->view->vente["objet"]["id_type_materiel"],
 				"durabilite_max_charrette" => $this->view->vente["objet"]["durabilite"],
 				"durabilite_actuelle_charrette" => $this->view->vente["objet"]["durabilite"],
 				"poids_transportable_charrette" => $this->view->vente["objet"]["capacite"],
