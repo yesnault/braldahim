@@ -18,16 +18,20 @@ class Bral_Helper_DetailMateriel {
 	}
 
 	public static function afficherJs($p) {
-		return Bral_Helper_Tooltip::jsTip(self::prepareDetail($p));
+		return Bral_Helper_Tooltip::jsTip(self::prepareDetail($p, true));
 	}
 
 	public static function afficherTexte($p) {
-		return stripslashes(self::prepareDetail($p));
+		return stripslashes(self::prepareDetail($p, false));
 	}
 
-	private static function prepareDetail($e) {
-		$text = htmlspecialchars($e["nom"])." <br /><br />";
-		$text .= "Num&eacute;ro du mat&eacute;riel : ".$e["id_materiel"]."<br />";
+	private static function prepareDetail($e, $afficheLienHistorique) {
+		$text = htmlspecialchars($e["nom"])." n° ".$e["id_materiel"]."<br />";
+
+		if ($afficheLienHistorique) {
+			$text .= "<label class=\'alabel\' onclick=ouvHistoMa(".$e["id_materiel"].")>Voir l\'historique</label><br>";
+		}
+
 		$text .= "<br />Caract&eacute;ristiques : <br />";
 		$text .= self::display("Capacit&eacute;", $e["capacite"]);
 		$text .= self::display("Durabilit&eacute;", $e["durabilite"]);

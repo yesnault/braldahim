@@ -81,6 +81,43 @@ function ouvrirEvenementsM(idMonstre) {
 	ouvrirWin('/voir/monstre/?monstre=' + idMonstre + '&direct=evenements', 'Evenements Monstre n°' + idMonstre);
 }
 
+function ouvEquipement(id) {
+	ouvrirWin('/voir/equipement/?equipement=' + id, 'Equipement n°' + id);
+}
+function ouvProfilE(id) {
+	ouvrirWin('/voir/equipement/?equipement=' + id + '&direct=profil', 'Profil Equipement n°' + id);
+}
+function ouvHistoE(id) {
+	ouvrirWin('/voir/equipement/?equipement=' + id + '&direct=historique', 'Historique Equipement n°' + id);
+}
+function ouvPotion(id) {
+	ouvrirWin('/voir/potion/?potion=' + id, 'Potion n°' + id);
+}
+function ouvProfilP(id) {
+	ouvrirWin('/voir/potion/?potion=' + id + '&direct=profil', 'Profil Potion n°' + id);
+}
+function ouvHistoP(id) {
+	ouvrirWin('/voir/potion/?potion=' + id + '&direct=historique', 'Historique Potion n°' + id);
+}
+function ouvMateriel(id) {
+	ouvrirWin('/voir/materiel/?materiel=' + id, 'Matériel n°' + id);
+}
+function ouvProfilMa(id) {
+	ouvrirWin('/voir/materiel/?materiel=' + id + '&direct=profil', 'Profil Matériel n°' + id);
+}
+function ouvHistoMa(id) {
+	ouvrirWin('/voir/materiel/?materiel=' + id + '&direct=historique', 'Historique Matériel n°' + id);
+}
+function ouvRune(id) {
+	ouvrirWin('/voir/rune/?rune=' + id, 'Rune n°' + id);
+}
+function ouvProfilR(id) {
+	ouvrirWin('/voir/rune/?rune=' + id + '&direct=profil', 'Profil Rune n°' + id);
+}
+function ouvHistoR(id) {
+	ouvrirWin('/voir/rune/?rune=' + id + '&direct=historique', 'Historique Rune n°' + id);
+}
+
 function ouvrirWin(url, titre) {
 	if (url.substring(0, 6) == '/voir/') {
 		url = "http://jeu.braldahim.com" + url;

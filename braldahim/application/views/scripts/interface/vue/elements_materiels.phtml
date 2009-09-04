@@ -1,7 +1,8 @@
 <?php if ($case["n_elements_materiels"] > 0) : 
-	$textElementsMateriels = "";
+	$textElementsMateriels = "<br>Mat&eacute;riels:<br>";
  	foreach($case["elements_materiels"] as $e) {
-		$textElementsMateriels .= htmlspecialchars($e["nom"])." n&deg;".$e["id_materiel"] ." <br />";
+ 		$textElementsMateriels .= "<label class=\'alabel\' onclick=ouvMateriel(".$e["id_materiel"].")>";
+		$textElementsMateriels .= htmlspecialchars($e["nom"])." n&deg;".$e["id_materiel"] ."</label><br />";
 	} 
 	$s = "";
 	if ($case["n_elements_materiels"] > 1) {

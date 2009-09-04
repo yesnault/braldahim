@@ -27,7 +27,9 @@ class Bral_Helper_DetailEquipement {
 
 	public static function afficherJs($e) {
 		$text = htmlspecialchars($e["nom"])." ".htmlspecialchars(addslashes($e["suffixe"]));
-		$text .= " de qualit&eacute; ".htmlspecialchars($e["qualite"])." <br /><br />";
+		$text .= " de qualit&eacute; ".htmlspecialchars($e["qualite"])." <br />";
+		$text .= "<label class=\'alabel\' onclick=ouvHistoE(".$e["id_equipement"].")>Voir l\'historique</label><br>";
+		
 		$text .= "Num&eacute;ro de la pi&egrave;ce :".$e["id_equipement"]."<br />";
 		$text .= "Niveau : ".$e["niveau"]."<br />";
 		$text .= "Nom d\'origine : ".$e["nom_standard"]."<br />";

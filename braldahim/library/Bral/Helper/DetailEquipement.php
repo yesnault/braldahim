@@ -26,16 +26,20 @@ class Bral_Helper_DetailEquipement {
 	}
 
 	public static function afficherJs($e) {
-		return Bral_Helper_Tooltip::jsTip(self::prepareDetail($e));
+		return Bral_Helper_Tooltip::jsTip(self::prepareDetail($e, true));
 	}
 	
 	public static function afficherTexte($e) {
-		return stripslashes(self::prepareDetail($e));
+		return stripslashes(self::prepareDetail($e, false));
 	}
 	
-	private static function prepareDetail($e) {
+	private static function prepareDetail($e, $afficheLienHistorique) {
 		$text = htmlspecialchars($e["nom"])." ".htmlspecialchars(addslashes($e["suffixe"]));
-		$text .= " de qualit&eacute; ".htmlspecialchars($e["qualite"])." <br /><br />";
+		$text .= " de qualit&eacute; ".htmlspecialchars($e["qualite"])." <br />";
+		if ($afficheLienHistorique) {
+			$text .= "<label class=\'alabel\' onclick=ouvHistoE(".$e["id_equipement"].")>Voir l\'historique</label><br>";
+		}
+		$text .= "<br>";
 		$text .= "Num&eacute;ro de la pi&egrave;ce :".$e["id_equipement"]."<br />";
 		$text .= "Niveau : ".$e["niveau"]."<br />";
 		$text .= "Nom d\'origine : ".$e["nom_standard"]."<br />";

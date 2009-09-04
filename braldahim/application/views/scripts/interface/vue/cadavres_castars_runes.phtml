@@ -38,7 +38,8 @@ endif;
 if ($case["n_elements_runes"] > 0) :
 	$textRune = "<br>";
 	foreach($case["elements_runes"] as $r) {
-		$textRune .= "Rune n&deg; ".$r["id_rune_element_rune"]."<br />";
+		$textRune .= "<label class=\'alabel\' onclick=ouvMateriel(".$r["id_rune_element_rune"].")>";
+		$textRune .= "Rune n&deg;".$r["id_rune_element_rune"]."</label><br />";
 	} 
 	$s = "";
 	if ($case["n_elements_runes"] > 1) {

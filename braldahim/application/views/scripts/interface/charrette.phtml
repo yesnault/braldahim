@@ -26,7 +26,7 @@
 		   		<td align="center" valign="top">
 		   			<ul class="titre textalic textsized">Caract&eacute;ristiques</ul>
 		   			
-		   			<?=$this->charrette["nom_charrette"]?> n&deg;<?=$this->charrette["id_charrette"]?><br><br>
+		   			<?=$this->charrette["nom_charrette"]?> n&deg;<?=$this->charrette["id_charrette"]?>, voir <label class='alabel' onclick='ouvHistoMa("<?=$this->charrette["id_charrette"]?>")'>l'historique</label><br><br>
 				   <? Zend_Loader::loadClass("Bral_Helper_Charrette")?>
 				   <?=Bral_Helper_Charrette::afficheBarrePoids($this->charrette)?>
 				   <?=$this->tabPoidsCharrette["transporte"]?> Kg / <?=$this->tabPoidsCharrette["transportable"]?> Kg transportable.

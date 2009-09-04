@@ -70,8 +70,9 @@ class Bral_Voir_Rune {
 		$rune = array(
 					"id_rune" => $p["id_rune"],
 					"id_type_rune" => $p["id_type_rune"],
-					"nom_type" => $p["nom_type_rune"],
+					"type" => $p["nom_type_rune"],
 					"est_identifiee" => $p["est_identifiee_rune"],
+					"effet_type_rune" => $p["effet_type_rune"],
 		);
 		return $rune;
 	}

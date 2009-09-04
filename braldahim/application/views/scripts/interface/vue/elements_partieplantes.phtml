@@ -1,5 +1,5 @@
 <?php if ($case["n_elements_partieplante_brutes"] > 0) :
-	$textElementsPartiesPlantesBrutes = "";
+	$textElementsPartiesPlantesBrutes = "<br>Plantes brutes:<br>";
 	$nbPartiesPlantesBrutes = 0;
 	foreach($case["elements_partieplantes_brutes"] as $m) {
 		if ($m["quantite"] > 0) $s = "s"; else $s = "s";
@@ -13,7 +13,7 @@
 endif; ?>
 <?php if ($case["n_elements_partieplante_preparees"] > 0) :
 	$nbPartiesPlantesPreparees = 0;
-	$textElementsPartiesPlantesPreparees = "";
+	$textElementsPartiesPlantesPreparees = "<br>Plantes prépar&eacute;es;";
 	foreach($case["elements_partieplantes_preparees"] as $m) {
 		if ($m["quantite"] > 0) $s = "s"; else $s = "s";
 			$textElementsPartiesPlantesPreparees .= $m["quantite"] . " ".htmlspecialchars($m["type"])."$s de ".htmlspecialchars($m["type_plante"])."<br />";

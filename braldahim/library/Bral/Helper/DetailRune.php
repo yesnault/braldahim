@@ -13,20 +13,27 @@
 class Bral_Helper_DetailRune {
 
 	public static function afficherJs($p) {
-		return Bral_Helper_Tooltip::jsTip(self::prepareDetail($p));
+		return Bral_Helper_Tooltip::jsTip(self::prepareDetail($p, true));
 	}
 
 	public static function afficherTexte($p) {
-		return stripslashes(self::prepareDetail($p));
+		return stripslashes(self::prepareDetail($p, false));
 	}
 
-	private static function prepareDetail($e) {
-		$text = "Num&eacute;ro de la rune: ".$e["id_rune"]."<br />";
-		/*if ($e["est_identifiee"] == "oui") {
-			$text .= "<br />Type : ".htmlspecialchars($e["nom_type"])."<br />";
+	private static function prepareDetail($e, $afficheLienHistorique) {
+		if ($e["est_identifiee"] == "non") {
+			$text = "Rune non identifiée n° ".$e["id_rune"]."<br />";
 		} else {
-			$text .= "<br />Type : Inconnu<br />";
-		}*/
+			$text = "Rune ".$e["type"]." n° ".$e["id_rune"]."<br />";
+		}
+
+		if ($afficheLienHistorique) {
+			$text .= "<label class=\'alabel\' onclick=ouvHistoR(".$e["id_rune"].")>Voir l\'historique</label><br>";
+		}
+		if ($e["est_identifiee"] == "oui") {
+			$text .= "<br>".addslashes($e["effet_type_rune"]);
+		}
+
 		return $text;
 	}
 }

@@ -55,6 +55,8 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		Zend_Loader::loadClass("Metier");
 		Zend_Loader::loadClass("TypePlante");
 		Zend_Loader::loadClass("TypePartieplante");
+		
+		Zend_Loader::loadClass("Bral_Helper_DetailRune");
 
 		$hobbitsMetiersTable = new HobbitsMetiers();
 		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersByHobbitId($this->view->user->id_hobbit);

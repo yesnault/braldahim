@@ -17,7 +17,7 @@ class Bral_Util_Rune {
 	const HISTORIQUE_ACHETER_ID = 3;
 	const HISTORIQUE_VENDRE_ID = 4;
 	const HISTORIQUE_TRANSBAHUTER_ID = 5;
-	const HISTORIQUE_IDENTIFIER_ID = 5;
+	const HISTORIQUE_IDENTIFIER_ID = 6;
 	
 	public static function dropRune($x, $y, $niveauTue, $niveauHobbit, $idTypeGroupeMonstre, $effetMotD, $idMonstre) {
 
