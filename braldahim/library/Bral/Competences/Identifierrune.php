@@ -113,7 +113,6 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 		$details = "[h".$this->view->user->id_hobbit."] a identifié la rune n°".$rune["id_rune"];
 		Zend_Loader::loadClass("Bral_Util_Rune");
 		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_IDENTIFIER_ID, $rune["id_rune"], $details);
-		
 	}
 	
 	public function calculPx() {
