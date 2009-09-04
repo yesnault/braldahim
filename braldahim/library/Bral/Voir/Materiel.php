@@ -71,6 +71,10 @@ class Bral_Voir_Materiel {
 					"id_materiel" => $p["id_materiel"],
 					"id_type_materiel" => $p["id_type_materiel"],
 					"nom" => $p["nom_type_materiel"],
+					'capacite' => $p["capacite_type_materiel"], 
+					'durabilite' => $p["durabilite_type_materiel"], 
+					'usure' => $p["usure_type_materiel"], 
+					'poids' => $p["poids_type_materiel"], 
 		);
 		return $materiel;
 	}

@@ -1,7 +1,7 @@
 <? if ($this->okJet1 === true): ?>
 	Vous avez r&eacute;ussi &agrave; produire un mat&eacute;riel : 
 	<br />
-	<?=htmlspecialchars($this->typeMaterielCourant["nom_type_materiel"]) ?>.
+	<?=htmlspecialchars($this->typeMaterielCourant["nom_type_materiel"]) ?> n°<?=$this->id_materiel_cree ?>.
 	<br><br>
 <? else: ?>
 	Vous avez manqu&eacute; votre production.<br/>

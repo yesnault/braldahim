@@ -295,8 +295,11 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 		);
 		$echoppeMaterielTable->insert($dataEchoppe);
 		
+		Zend_Loader::loadClass("Bral_Util_Materiel");
 		$details = "[h".$this->view->user->id_hobbit."] a produit le matériel n°".$idMateriel;
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_CREATION_ID, $idMateriel, $details);
+		
+		$this->view->id_materiel_cree = $idMateriel;
 	}
 
 	private function majCout($estReussi) {

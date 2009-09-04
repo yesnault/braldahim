@@ -632,7 +632,6 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 
 			$data = array(
 				"id_".$suffixe."_materiel" => $this->view->materiel["id_materiel"],
-				"id_fk_type_".$suffixe."_materiel" => $this->view->materiel["id_type_materiel"],
 			);
 
 			if ($idDestination == "charrette") {

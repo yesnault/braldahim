@@ -91,6 +91,7 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 	}
 
 	private function echange($idTypeRune) {
+		Zend_Loader::loadClass("Bral_Util_Rune");
 
 		$this->view->cout = $this->view->labanRunes[$idTypeRune]["cout_castars"];
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->cout;
@@ -104,6 +105,8 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 			if ($i < 2) {
 				$texte .= ",";
 			}
+			$details = "[h".$this->view->user->id_hobbit."] a échangé la rune n°".$this->view->labanRunes[$idTypeRune]["runes"][$i]["id_rune_laban_rune"]. " chez l'échangeur";
+			Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_CREATION_ID, $this->view->labanRunes[$idTypeRune]["runes"][$i]["id_rune_laban_rune"], $details);
 		}
 
 		$niveauRune = "c";
@@ -136,7 +139,7 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 			"est_identifiee_rune" => "non",
 		);
 		$runeTable->insert($dataRune);
-		
+
 		$labanRuneTable = new LabanRune();
 		$dataLaban = array (
 			"id_rune_laban_rune" => $idRune,
@@ -145,9 +148,8 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 		$labanRuneTable->insert($dataLaban);
 
 		$this->view->texte = $texte;
-		
-		$details = "L'échangeur de rune a donné la rune n°".$idRune. " a [h".$this->view->user->id_hobbit."]";
-		Zend_Loader::loadClass("Bral_Util_Rune");
+
+		$details = "L'échangeur de rune a donné la rune n°".$idRune. " à [h".$this->view->user->id_hobbit."]";
 		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_CREATION_ID, $idRune, $details);
 	}
 

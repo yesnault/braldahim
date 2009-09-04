@@ -1807,7 +1807,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			foreach ($materiels as $e) {
 				$tabMateriels[$e["id_".strtolower($depart)."_materiel"]] = array(
 						"id_materiel" => $e["id_".strtolower($depart)."_materiel"],
-						"id_fk_type_materiel" => $e["id_fk_type_".strtolower($depart)."_materiel"],
+						"id_fk_type_materiel" => $e["id_fk_type_materiel"],
 						"nom" => $e["nom_type_materiel"],
 						"poids" => $e["poids_type_materiel"],
 				);

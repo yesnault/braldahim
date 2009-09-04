@@ -155,8 +155,8 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 		foreach($materiels as $m) {
 			foreach($typesBase as $t) {
 				// on verifie que le materiel peut être assemblé avec le matériel de base choisi
-				if ($t["id_supplement_type_materiel_assemble"] == $m["id_fk_type_".$suffixe."_materiel"] &&
-				$this->estDejaAssembleSurCharrette($materielsDejaAssembles, $m["id_fk_type_".$suffixe."_materiel"]) == false) {
+				if ($t["id_supplement_type_materiel_assemble"] == $m["id_fk_type_materiel"] &&
+				$this->estDejaAssembleSurCharrette($materielsDejaAssembles, $m["id_fk_type_materiel"]) == false) {
 
 					$tabMaterielsAAssembler[] = array(
 							"type" => $suffixe,
@@ -260,7 +260,10 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 
 		$this->view->materielBase = $materielBase;
 		$this->view->materielAAssembler = $materielAAssembler;
-
+		
+		$details = "[h".$this->view->user->id_hobbit."] a assemblé le matériel n°".$materielAAssembler["id_materiel"];
+		Zend_Loader::loadClass("Bral_Util_Materiel");
+		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_UTILISER_ID, $materielAAssembler["id_materiel"], $details);
 	}
 
 	private function assemblerSurCharrette($materielBase, $materielAAssembler) {
