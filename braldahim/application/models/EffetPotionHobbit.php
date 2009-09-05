@@ -57,7 +57,11 @@ class EffetPotionHobbit extends Zend_Db_Table {
 				$retour = false;
 			}
 		}
-		Bral_Util_Log::potion()->debug('EffetPotionHobbit - enleveUnTour - exit - ('.$retour.')');
+		$texte = "false";
+		if ($retour == true) {
+			$texte = "true";
+		}
+		Bral_Util_Log::potion()->debug('EffetPotionHobbit - enleveUnTour - exit - ('.$texte.')');
 		return $retour;
 	}
 }

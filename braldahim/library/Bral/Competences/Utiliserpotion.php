@@ -726,18 +726,15 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			$retour .= " commence à faire effet...";
 		}
 
-		$retour .= "
-";
+		$retour .= PHP_EOL;
 		$retour .= "L'effet de la potion porte sur ".$this->retourPotion['effet']['nb_tour_restant']." tour";
 		if ($this->retourPotion['effet']['nb_tour_restant'] > 1): $retour .= 's'; endif;
-		$retour .= ".
-Vous venez de subir ".$this->retourPotion['effet']["nEffet"];
+		$retour .= ".".PHP_EOL."Vous venez de subir ".$this->retourPotion['effet']["nEffet"];
 		$retour .= " point";
 		if ($this->retourPotion['effet']["nEffet"] > 1): $retour .= 's'; endif;
 		$retour .= " de ".$potion["bm_type"];
 		$retour .= " sur ".$potion["caracteristique"];
-		$retour .= "
-L'effet est immédiat.";
+		$retour .= PHP_EOL."L'effet est immédiat.";
 
 		return $retour;
 	}

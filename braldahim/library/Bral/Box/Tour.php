@@ -345,7 +345,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 			Zend_Loader::loadClass("EffetPotionHobbit");
 			$effetPotionHobbitTable = new EffetPotionHobbit();
-			$effetPotionHobbitTable->delete($this->hobbit->id_hobbit);
+			$where = "id_fk_hobbit_cible_effet_potion_hobbit = ".intval($this->hobbit->id_hobbit);
+			$effetPotionHobbitTable->delete($where);
 
 			Zend_Loader::loadClass("HobbitsCompetences");
 			$hobbitsCompetencesTable = new HobbitsCompetences();
