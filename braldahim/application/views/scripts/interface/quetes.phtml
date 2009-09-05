@@ -5,6 +5,8 @@
   <ul class="box_contenu1 textalic">
   
   <br>
+  <ul class="titre textalic textsized">Terminez toutes les quêtes d'une comté pour accéder à un Donjon</ul>
+  <br> 
   
   <? if ($this->affichageInterne == true) : ?>
  	<table width="100%">
@@ -13,33 +15,40 @@
  				<table class="table_liste" style="width:90%">
 					<thead class="table_liste">
 					  <tr class="table_liste">
-						<th> Qu&ecirc;tes r&eacute;alis&eacute;es ou en cours<br></th>
-						<th>&nbsp;</th>
+						<th colspan='2'> Qu&ecirc;tes r&eacute;alis&eacute;es ou en cours<br></th>
 					  </tr>
 					</thead>
 					
 					<tbody>
-					<? if (count($this->quetes) > 0): ?>
-					 <? $i = 0; 
-					 	foreach($this->quetes as $q) :?>
+					 <? foreach($this->lieuxQuetes as $region) :
+					 	$i = 0; 
+					 	?>
+					 	<tr class="table_liste">
+							<td class="table_liste_th" colspan='2'><?=$region["nom"]?></td>
+					 	</tr>
+					 	<? foreach($region["lieux"] as $l) : ?>
 				  		<tr class="table_liste<?=($i % 2);$i++; ?>">
 				  		<td class="table_liste">
-						  	<label class="alabel" onClick="Javascript:_get_('/quete/doaction?caction=ask_quete_voir&id_quete=<?=$q["id_quete"]?>');">
-						  	Qu&ecirc;te de la <?=$q["nom_lieu"]?> (<?=$q["nom_ville"]?>)
+				  			<? if ($l["id_quete"] != null) : ?>
+						  	<label class="alabel" onClick="Javascript:_get_('/quete/doaction?caction=ask_quete_voir&id_quete=<?=$l["id_quete"]?>');">
+						  	<? else: ?>
+						  	<label>
+						  	<? endif;?>
+						  	Qu&ecirc;te de la <?=$l["nom_lieu"]?> (<?=$l["nom_ville"]?>)
 						  	</label>
 						</td>
 						<td class="table_liste" nowrap>
-						  	<? if ($q["date_fin_quete"] != null): ?> 
+						  	<? if ($l["date_fin_quete"] != null): ?> 
 						  		Terminée
-						  	<? else: ?>
+						  	<? elseif ($l["en_cours"] === true): ?>
 						  		En Cours
+						  	<? else: ?>
+						  		Non Débuté
 						  	<? endif;?>
 						 </td>
 					  	 </tr>
 					  	<? endforeach;?>
-					  <? else: ?>
-					  	<tr class="table_liste"><td colspan="2">Aucune qu&ecirc;te</td></tr>
-					  <? endif;?>
+					  <? endforeach;?>
 					</tbody>
 				</table>
  			</td>

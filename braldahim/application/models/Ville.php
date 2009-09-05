@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -32,7 +32,7 @@ class Ville extends Zend_Db_Table {
 	function findByCase($x, $y) {
 		return $this->selectVue($x, $y, $x, $y);
 	}
-	
+
 	public function findById($id){
 		$where = $this->getAdapter()->quoteInto('id_ville = ?',(int)$id);
 		return $this->fetchRow($where);

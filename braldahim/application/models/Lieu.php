@@ -151,4 +151,19 @@ class Lieu extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+
+	public function findAllLieuQueteAvecRegion() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('lieu', '*')
+		->from('type_lieu', '*')
+		->from('ville', '*')
+		->from('region', '*')
+		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
+		->where('lieu.id_fk_ville_lieu = id_ville')
+		->where('ville.id_fk_region_ville = region.id_region')
+		->where('nom_systeme_type_lieu = ?', 'quete');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }
