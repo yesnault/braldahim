@@ -63,7 +63,9 @@ class Bral_Box_Quetes extends Bral_Box_Box {
 			foreach($quetes as $q) {
 				if ($q["date_fin_quete"] == null) {
 					$idQueteEnCours = $q["id_quete"];
-					$lieu["en_cours"] = true;
+					if ($q["id_fk_lieu_quete"] == $l["id_lieu"]) {
+						$lieu["en_cours"] = true;
+					}
 				}
 				if ($q["id_fk_lieu_quete"] == $l["id_lieu"]) {
 					$lieu["date_fin_quete"] = $q["date_fin_quete"];
