@@ -209,7 +209,14 @@ class Bral_Monstres_VieMonstre {
 				$this->updateCible($cible);
 			} else {
 				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible (idm:".$this->monstre["id_monstre"].") - Survie de la cible La cible (".$cible["id_hobbit"].") attaquee par Monstre id:".$this->monstre["id_monstre"]. " pvPerdus=".$pvPerdus. " pv_restant_hobbit=".$cible["pv_restant_hobbit"]);
-				$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - $this->monstre["niveau_monstre"];
+				if ($critique == true) { // En cas de frappe critique : malus en BNS ATT : -2D3. Malus en BNS DEF : -2D6.
+					$cible["bm_attaque_hobbit"] = $cible["bm_attaque_hobbit"] - Bral_Util_De::get_2d3();
+					$cible["bm_defense_hobbit"] = $cible["bm_defense_hobbit"] - Bral_Util_De::get_2d6();
+				} else { //  En cas de frappe : malus en BNS ATT : -1D3. Malus en BNS DEF : -1D6.
+					$cible["bm_attaque_hobbit"] = $cible["bm_attaque_hobbit"] - Bral_Util_De::get_1d3();
+					$cible["bm_defense_hobbit"] = $cible["bm_defense_hobbit"] - Bral_Util_De::get_1d6();
+				}
+
 				$cible["est_ko_hobbit"] = "non";
 				$id_type_evenement = self::$config->game->evenements->type->attaquer;
 				$details = "[m".$this->monstre["id_monstre"]."] a attaqué le hobbit [h".$cible["id_hobbit"]."]";
@@ -218,9 +225,8 @@ class Bral_Monstres_VieMonstre {
 				$effetMotS = Bral_Util_Commun::getEffetMotS($cible["id_hobbit"]);
 				$this->updateCible($cible);
 				if ($effetMotS != null) {
-					$detailsBot .= "
-Le hobbit ".$cible["prenom_hobbit"]." ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ") a riposté.
-Consultez vos événements pour plus de détails.";
+					$detailsBot .= PHP_EOL."Le hobbit ".$cible["prenom_hobbit"]." ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ") a riposté.";
+					$detailsBot .= PHP_EOL."Consultez vos événements pour plus de détails.";
 
 					// mise a jour de l'événement avant la riposte
 					$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
@@ -237,17 +243,20 @@ Consultez vos événements pour plus de détails.";
 				} else { // si pas de riposte, mise a jour de l'événement
 					$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
 				}
-
 			}
 
 		} else if ($jetCible/2 < $jetAttaquant) {
-			$cible["agilite_bm_hobbit"] = $cible["agilite_bm_hobbit"] - $this->monstre["niveau_monstre"];
+			// En cas d'esquive : malus en BNS ATT : -1D3. Malus en BNS DEF : -1D6.
+			$cible["bm_attaque_hobbit"] = $cible["bm_attaque_hobbit"] - Bral_Util_De::get_1d3();
+			$cible["bm_defense_hobbit"] = $cible["bm_defense_hobbit"] - Bral_Util_De::get_1d6();
+
 			$this->updateCible($cible);
 			$id_type_evenement = self::$config->game->evenements->type->attaquer;
 			$details = "[m".$this->monstre["id_monstre"]."] a attaqué le hobbit [h".$cible["id_hobbit"]."] qui a esquivé l'attaque";
 			$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible);
 			$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
 		} else {
+			// En cas d'esquive parfaite : Aucun malus appliqué.
 			Bral_Util_Attaque::calculStatutEngage(&$cible, true);
 			$id_type_evenement = self::$config->game->evenements->type->attaquer;
 			$details = "[m".$this->monstre["id_monstre"]."] a attaqué le hobbit [h".$cible["id_hobbit"]."] qui a esquivé l'attaque parfaitement";
@@ -304,6 +313,9 @@ Consultez vos événements pour plus de détails.";
 			$this->monstre["agilite_malus_monstre"] = 0;
 			$this->monstre["sagesse_bm_monstre"] = 0;
 			$this->monstre["vigueur_bm_monstre"] = 0;
+			$this->monstre["bm_attaque_monstre"] = 0;
+			$this->monstre["bm_defense_monstre"] = 0;
+			$this->monstre["bm_degat_monstre"] = 0;
 			$this->updateMonstre();
 		} else {
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$this->monstre["id_monstre"].") pas de nouveau tour");
@@ -338,7 +350,7 @@ Consultez vos événements pour plus de détails.";
 	private function calculJetAttaque() {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetAttaque - (idm:".$this->monstre["id_monstre"].") enter");
 		$jetAttaquant = Bral_Util_De::getLanceDe6($this->monstre["agilite_base_monstre"]);
-		$jetAttaquant = $jetAttaquant + $this->monstre["agilite_bm_monstre"];
+		$jetAttaquant = $jetAttaquant + $this->monstre["agilite_bm_monstre"] + $this->monstre["bm_attaque_monstre"];
 
 		if ($jetAttaquant < 0) {
 			$jetAttaquant = 0;
@@ -355,7 +367,7 @@ Consultez vos événements pour plus de détails.";
 		}
 
 		$jetDegat = Bral_Util_De::getLanceDe6((self::$config->game->base_force + $this->monstre["force_base_monstre"])  * $coefCritique);
-		$jetDegat = $jetDegat + $this->monstre["force_bm_monstre"];
+		$jetDegat = $jetDegat + $this->monstre["force_bm_monstre"] + $this->monstre["bm_degat_monstre"];
 
 		if ($jetDegat < 0) {
 			$jetDegat = 0;
@@ -380,6 +392,8 @@ Consultez vos événements pour plus de détails.";
 			'est_engage_next_dla_hobbit' => $cible["est_engage_next_dla_hobbit"],
 			'date_fin_tour_hobbit' => $cible["date_fin_tour_hobbit"],
 			'est_quete_hobbit' => $cible["est_quete_hobbit"],
+			'bm_attaque_hobbit' => $cible["bm_attaque_hobbit"],
+			'bm_defense_hobbit' => $cible["bm_defense_hobbit"],
 		);
 		$where = "id_hobbit=".$cible["id_hobbit"];
 		$hobbitTable->update($data, $where);
@@ -509,55 +523,41 @@ Consultez vos événements pour plus de détails.";
 
 		$retour .= "Vous avez été attaqué par ".$this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].")";
 
-		$retour .= "
-Jet d'attaque : ".$jetAttaquant;
-		$retour .= "
-Jet de défense : ".$jetCible;
-		$retour .= "
-Jet de dégâts : ".$jetDegat;
+		$retour .= PHP_EOL."Jet d'attaque : ".$jetAttaquant;
+		$retour .= PHP_EOL."Jet de défense : ".$jetCible;
+		$retour .= PHP_EOL."Jet de dégâts : ".$jetDegat;
 
 		if ($jetAttaquant > $jetCible) {
 			if ($critique) {
-				$retour .= "
-Vous avez été touché par une attaque critique";
+				$retour .= PHP_EOL."Vous avez été touché par une attaque critique";
 			} else {
-				$retour .= "
-Vous avez été touché";
+				$retour .= PHP_EOL."Vous avez été touché";
 			}
 
 			if ($cible["armure_naturelle_hobbit"] > 0) {
-				$retour .= "
-Votre armure naturelle vous a protégé en réduisant les dégâts de ";
+				$retour .= PHP_EOL."Votre armure naturelle vous a protégé en réduisant les dégâts de ";
 				$retour .= $cible["armure_naturelle_hobbit"].".";
 			} else {
-				$retour .= "
-Votre armure naturelle ne vous a pas protégé (ARM NAT:".$cible["armure_naturelle_hobbit"].")"; 	
+				$retour .= PHP_EOL."Votre armure naturelle ne vous a pas protégé (ARM NAT:".$cible["armure_naturelle_hobbit"].")"; 	
 			}
 
 			if ($cible["armure_equipement_hobbit"] > 0) {
-				$retour .= "
-Votre équipement vous a protégé en réduisant les dégâts de ";
+				$retour .= PHP_EOL."Votre équipement vous a protégé en réduisant les dégâts de ";
 				$retour .= $cible["armure_equipement_hobbit"].".";
 			} else {
-				$retour .= "
-Aucun équipement ne vous a protégé (ARM EQU:".$cible["armure_equipement_hobbit"].")"; 	
+				$retour .= PHP_EOL."Aucun équipement ne vous a protégé (ARM EQU:".$cible["armure_equipement_hobbit"].")"; 	
 			}
 
-			$retour .= "
-Vous avez perdu ".$pvPerdus. " PV ";
-			$retour .= "
-Il vous reste ".$cible["pv_restant_hobbit"]." PV ";
+			$retour .= PHP_EOL."Vous avez perdu ".$pvPerdus. " PV ";
+			$retour .= PHP_EOL."Il vous reste ".$cible["pv_restant_hobbit"]." PV ";
 
 			if ($koCible) {
-				$retour .= "
-Vous avez été mis KO";
+				$retour .= PHP_EOL."Vous avez été mis KO";
 			}
 		} else if ($jetCible/2 < $jetAttaquant) { // esquive
-			$retour .= "
-Vous avez esquivé l'attaque";
+			$retour .= PHP_EOL."Vous avez esquivé l'attaque";
 		} else { // esquive parfaite
-			$retour .= "
-Vous avez esquivé parfaitement l'attaque";
+			$retour .= PHP_EOL."Vous avez esquivé parfaitement l'attaque";
 		}
 
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
@@ -681,7 +681,7 @@ Vous avez esquivé parfaitement l'attaque";
 			} else {
 				$directionY = $yMaxVille + $rayonMin + $largeurRayonAutorise / 2;
 			}
-				
+
 			// todo peut etre, contrôle si un gros monstre se trouve dans une ville à côté.
 		}
 

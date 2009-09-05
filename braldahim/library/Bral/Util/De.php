@@ -64,6 +64,10 @@ class Bral_Util_De {
 	public static function get_2d3() {
 		return self::getLanceDe3(2);
 	}
+	
+	public static function get_2d6() {
+		return self::getLanceDe6(2);
+	}
 
 	public static function get_3d3() {
 		return self::getLanceDe3(3);

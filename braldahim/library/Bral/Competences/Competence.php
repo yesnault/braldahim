@@ -439,7 +439,7 @@ abstract class Bral_Competences_Competence {
 		$jetCible = Bral_Util_Attaque::calculJetCibleHobbit($hobbitCible);
 		$retourAttaque = Bral_Util_Attaque::attaqueHobbit(&$hobbitAttaquant, $hobbitCible, $jetAttaquant, $jetCible, $jetsDegat, $this->view, false, $effetMotSPossible, $tir);
 		$this->detailEvenement = $retourAttaque["details"];
-		$this->idTypeEvenement =$retourAttaque["typeEvemenent"];
+		$this->idTypeEvenement = $retourAttaque["typeEvenement"];
 		$this->idMatchSoule = $retourAttaque["idMatchSoule"];
 		return $retourAttaque;
 	}
@@ -454,7 +454,7 @@ abstract class Bral_Competences_Competence {
 		$jetCible = Bral_Util_Attaque::calculJetCibleMonstre($monstre);
 		$retourAttaque = Bral_Util_Attaque::attaqueMonstre(&$hobbitAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, false, $tir);
 		$this->detailEvenement = $retourAttaque["details"];
-		$this->idTypeEvenement = $retourAttaque["typeEvemenent"];
+		$this->idTypeEvenement = $retourAttaque["typeEvenement"];
 		$this->view->estQueteEvenement = $retourAttaque["etape"];
 		return $retourAttaque;
 	}
