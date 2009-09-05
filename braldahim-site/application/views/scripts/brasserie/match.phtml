@@ -14,6 +14,8 @@
 		<? endif;?>
 	</ul>
 	<br>
+	Adresse directe pour vos marques-pages : <a href='http://www.braldahim.com/brasserie/?match=<?=$this->matchEnCours["id_soule_match"]?>'>http://www.braldahim.com/brasserie/?match=<?=$this->matchEnCours["id_soule_match"]?></a>
+	<br><br>
 	<? if ($this->matchEnCours["date_debut_soule_match"] != null && $this->matchEnCours["date_fin_soule_match"] == null) :?>
 		<? if ($this->matchEnCours["x_ballon_soule_match"] != null && $this->matchEnCours["y_ballon_soule_match"]) :?>
 			Le ballon est actuellement libre et se trouve en x:<?=$this->matchEnCours["x_ballon_soule_match"]?>,

@@ -86,7 +86,6 @@ class Bral_Brasserie_Match extends Bral_Brasserie_Box {
 		$equipes["equipeb"]["plaquages"] = 0;
 		$equipes["equipeb"]["plaques"] = 0;
 
-
 		if ($joueurs != null && count($joueurs) > 0) {
 			foreach($joueurs as $j) {
 				if ($j["camp_soule_equipe"] == 'a') {

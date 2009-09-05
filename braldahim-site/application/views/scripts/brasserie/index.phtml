@@ -3,10 +3,10 @@
 <img src='/public/images/ballon.png'/>
 <? if (count($this->matchs) > 0):?>
 	<ul style="padding-left:20px">
-		Liste des matchs : <br><select id="filtre" name="filtre" onChange="Javascript:if (this.value != -1) {_get_('/brasserie/load?caction=do_brasserie_match&id_match='+this.value, false)}" style="text-decoration: underline;"">
+		Liste des matchs : <br><select id="filtre" name="filtre" onChange="Javascript:if (this.value != -1) {_get_('/brasserie/load?caction=do_brasserie_match&id_match='+this.value, false)};" style="text-decoration: underline;"">
 		<option value="-1">Choisissez un match</option>
 		<? foreach($this->matchs as $m) : ?>
-			<option value="<?=$m["id_soule_match"]?>">
+			<option value="<?=$m["id_soule_match"]?>" <? if ($this->idMatchDirect == $m["id_soule_match"]): echo 'selected'; endif;?>>
 			Match n°<?=$m["id_soule_match"]?> 
 		 - <?=$m["nom_soule_terrain"]?> 
 			<? if ($m["date_debut_soule_match"] == null && $m["date_fin_soule_match"] == null) : ?>
@@ -30,11 +30,21 @@ Aucun match
 	<td style="width:500px; border: 0px solid #791E1E;" valign="top">
 		<?=$this->render("commun/box_header.phtml"); ?>
 		<div class="box_brasserie_match" id="box_brasserie_match">
-			<div class="inner">
-				<ul class="box_contenu1 textalic"><br>
-				Choisissez un match<br><br>
-				</ul>
-			</div>
+		    <? if ($this->directFluxErreur == true) : ?>
+		    	<div class="inner">
+					<ul class="box_contenu1 textalic"><br>
+					Match invalide. Choisissez un match<br><br>
+					</ul>
+				</div>
+		    <? elseif ($this->directFlux != null): ?>
+		    	<?=$this->directFlux?>
+		    <? else : ?>
+				<div class="inner">
+					<ul class="box_contenu1 textalic"><br>
+					Choisissez un match<br><br>
+					</ul>
+				</div>
+			<? endif;?>
 		</div>
 		<?=$this->render("commun/box_bottom.phtml"); ?>
 	</td>

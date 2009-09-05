@@ -13,10 +13,33 @@
 class BrasserieController extends Bral_Controller_Box {
 
 	function indexAction() {
-		$this->prepareMatchs();
+
 		$this->view->affichageInterne = true;
 		$this->view->nom_interne = "box_brasserie";
 		$this->view->display = "block";
+		$this->view->directFlux = null;
+		$this->view->directFluxErreur = false;
+
+		$idMatch = null;
+		$accesDirect = false;
+		if ($this->_request->get("match") != null) {
+			$idMatch = intval($this->_request->get("match"));
+			$accesDirect = true;
+		}
+
+		$matchTrouve = $this->prepareMatchs($idMatch);
+
+		if ($accesDirect && $matchTrouve == false) {
+			$this->view->directFlux = "Match inconnu";
+			$this->view->directFluxErreur = true;
+		} else if ($idMatch > 0 && $matchTrouve == true) {
+			$this->_request->setParam('id_match', $idMatch);
+			$this->_request->setParam('caction', 'do_brasserie_match');
+			$box = Bral_Brasserie_Factory::getBox($this->_request, $this->view, true);
+			$this->view->directFlux = $box->render();
+			$this->view->idMatchDirect = $idMatch;
+		}
+
 		$this->render();
 	}
 
@@ -34,10 +57,20 @@ class BrasserieController extends Bral_Controller_Box {
 		$this->xml_response->render();
 	}
 
-	private function prepareMatchs() {
+	private function prepareMatchs($idMatch = null) {
 		Zend_Loader::loadClass("SouleMatch");
 		$souleMatchTable = new SouleMatch();
 		$matchs = $souleMatchTable->fetchAllAvecTerrain();
+		$retour = false;
+		if ($idMatch != null) {
+			foreach($matchs as $m) {
+				if ($m["id_soule_match"] == $idMatch) {
+					$retour = true;
+					break;
+				}
+			}
+		}
 		$this->view->matchs = $matchs;
+		return $retour;
 	}
 }
