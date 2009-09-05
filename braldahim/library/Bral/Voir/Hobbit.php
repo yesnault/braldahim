@@ -15,10 +15,12 @@ class Bral_Voir_Hobbit {
 	function __construct($request, $view) {
 		Zend_Loader::loadClass("Evenement");
 		Zend_Loader::loadClass("TypeEvenement");
+		Zend_Loader::loadClass("HobbitsDistinction");
 		Zend_Loader::loadClass("HobbitsTitres");
 		Zend_Loader::loadClass("Communaute");
 		Zend_Loader::loadClass("Bral_Util_Metier");
 		Zend_Loader::loadClass("Bral_Util_Titre");
+		Zend_Loader::loadClass("Bral_Util_Distinction");
 		Zend_Loader::loadClass("Bral_Helper_ProfilEquipement");
 		Zend_Loader::loadClass('AncienHobbit');
 		Zend_Loader::loadClass("Charrette");
@@ -41,11 +43,6 @@ class Bral_Voir_Hobbit {
 		$this->view->hobbit = null;
 		$this->view->communaute = null;
 
-		$tabMetier["tabMetierCourant"] = null;
-		$tabMetier["tabMetiers"] = null;
-		$tabMetier["possedeMetier"] = false;
-		$tabTitre["tabTitres"] = null;
-
 		$val = $this->_request->get("hobbit");
 		if ($val != "" && ((int)$val."" == $val."")) {
 			return $this->renderData();
@@ -56,6 +53,12 @@ class Bral_Voir_Hobbit {
 	}
 
 	private function renderData() {
+		$tabMetier["tabMetierCourant"] = null;
+		$tabMetier["tabMetiers"] = null;
+		$tabMetier["possedeMetier"] = false;
+		$tabTitre["tabTitres"] = null;
+		$tabDistinction["tabDistinctions"] = null;
+		
 		$hobbitTable = new Hobbit();
 		$idHobbit = Bral_Util_Controle::getValeurIntVerif($this->_request->get("hobbit"));
 		$hobbitRowset = $hobbitTable->findById($idHobbit);
@@ -73,6 +76,7 @@ class Bral_Voir_Hobbit {
 			}
 			$tabMetier = Bral_Util_Metier::prepareMetier($this->view->hobbit["id_hobbit"], $this->view->hobbit["sexe_hobbit"]);
 			$tabTitre = Bral_Util_Titre::prepareTitre($this->view->hobbit["id_hobbit"], $this->view->hobbit["sexe_hobbit"]);
+			$tabDistinction = Bral_Util_Distinction::prepareDistinctions($this->view->hobbit["id_hobbit"]);
 		} else {
 			$this->rechercheAncien($idHobbit);
 		}
@@ -86,6 +90,7 @@ class Bral_Voir_Hobbit {
 			$this->view->tabMetiers = $tabMetier["tabMetiers"];
 			$this->view->possedeMetier = $tabMetier["possedeMetier"];
 			$this->view->tabTitres = $tabTitre["tabTitres"];
+			$this->view->tabDistinctions = $tabDistinction["tabDistinctions"];
 
 			$charretteTable = new Charrette();
 			$nbCharrette = $charretteTable->countByIdHobbit($this->view->hobbit["id_hobbit"]);
@@ -136,6 +141,7 @@ class Bral_Voir_Hobbit {
 			$this->view->hobbit["id_fk_pere_hobbit"] = $hobbit["id_fk_pere_ancien_hobbit"];
 			$this->view->hobbit["metiers_ancien_hobbit"] = $hobbit["metiers_ancien_hobbit"];
 			$this->view->hobbit["titres_ancien_hobbit"] = $hobbit["titres_ancien_hobbit"];
+			$this->view->hobbit["distinctions_ancien_hobbit"] = $hobbit["distinctions_ancien_hobbit"];
 			$this->view->hobbit["date_creation_hobbit"] = $hobbit["date_creation_ancien_hobbit"];
 		}
 	}

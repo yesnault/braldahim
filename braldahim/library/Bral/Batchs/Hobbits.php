@@ -86,6 +86,7 @@ class Bral_Batchs_Hobbits extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass("AncienHobbit");
 		Zend_Loader::loadClass("HobbitsMetiers");
 		Zend_Loader::loadClass("HobbitsTitres");
+		Zend_Loader::loadClass("HobbitsDistinction");
 
 		$retour = "";
 		$nb = 0;
@@ -154,6 +155,18 @@ class Bral_Batchs_Hobbits extends Bral_Batchs_Batch {
 			}
 		}
 
+		$hobbitsDistinctionTable = new HobbitsDistinction();
+		$hobbitsDistinctionRowset = $hobbitsDistinctionTable->findDistinctionsByHobbitId($hobbit["id_hobbit"]);
+		$distinctions = "";
+		if ($hobbitsDistinctionRowset != null) {
+			foreach($hobbitsDistinctionRowset as $d) {
+				$distinctions .= $d["texte_hdistinction"].", ";
+			}
+			if ($distinctions != "") {
+				$distinctions = substr($distinctions, 0, mb_strlen($distinctions) -2);
+			}
+		}
+
 		$ancienHobbitTable = new AncienHobbit();
 		$data = array(
 			"id_hobbit_ancien_hobbit" => $hobbit["id_hobbit"],
@@ -173,21 +186,22 @@ class Bral_Batchs_Hobbits extends Bral_Batchs_Batch {
 			"date_creation_ancien_hobbit" => $hobbit["date_creation_hobbit"],
 			"metiers_ancien_hobbit" => $metiers,
 			"titres_ancien_hobbit" => $titres,
+			"distinctions_ancien_hobbit" => $distinctions,
 		);
 
 		$ancienHobbitTable->insert($data);
-		
+
 		Zend_Loader::loadClass("Couple");
 		$coupleTable = new Couple();
 		$data = array('est_valide_couple' => 'non');
-		
+
 		if ($hobbit["sexe_hobbit"] == "masculin") {
 			$where = 'id_fk_m_hobbit_couple = '.$hobbit["id_hobbit"];
 		} else {
 			$where = 'id_fk_f_hobbit_couple = '.$hobbit["id_hobbit"];
 		}
 		$coupleTable->update($data, $where);
-		
+
 	}
 
 	private function envoiMailSuppression($hobbit) {
