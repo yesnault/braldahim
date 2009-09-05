@@ -1,13 +1,13 @@
 <div class='comp_titre'><?=$this->nomAction ?></div>
 
  <div class='comp_contenu'>
-	 <div id='<?=$this->nomSysteme?>_text' style="display:block"  onClick="javascript:switch2div('<?=$this->nomSysteme?>_text','<?=$this->nomSysteme?>_copie');">
+	 <div id='<?=$this->nomSysteme?>_text' style="display:block">
 	<?=$this->texte ?>
 		<br />
 	 </div>
 	 
 	 <div id='<?=$this->nomSysteme?>_copie' style="display:none">
-		<textarea onClick="javascript:this.select();" rows=4 cols=40><?=Bral_Helper_Affiche::copie($this->texte); ?></textarea>
+		<textarea onClick="javascript:this.select();" rows=4 cols=35><?=Bral_Helper_Affiche::copie($this->texte); ?></textarea>
 	</div>
  </div>
 

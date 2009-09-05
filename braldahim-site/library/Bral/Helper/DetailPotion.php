@@ -44,6 +44,6 @@ class Bral_Helper_DetailPotion {
 		}
 		$text .= "<br />";
 			
-		return Bral_Helper_Tooltip::jsTip($text, $titre);
+		return Bral_Helper_Tooltip::jsTip($text);
 	}
 }

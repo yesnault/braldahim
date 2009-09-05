@@ -1,3 +1,5 @@
 <? foreach($e["objet"] as $a) : ?>
-<img src="/public/images/runes/<?=$a["image"]?>"  class="rune">n°<?=$a["id_rune_vente_rune"] ?> <?=$a["nom"] ?><br>
+<img src="/public/images/runes/<?=$a["image"]?>" <?=Bral_Helper_DetailRune::afficherJs($a);?> class="rune">n°<?=$a["id_rune"] ?> <?=$a["nom"] ?>
+<br>
 <? endforeach;?>
+

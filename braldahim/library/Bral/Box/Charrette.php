@@ -526,7 +526,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$tabMateriel = null;
 		foreach ($materiels as $m) {
 			$tabMateriel[] = array(
-					"id_materiel" => $m["id_type_materiel"],
+					"id_materiel" => $m["id_materiel_materiel_assemble"],
 					"nom" => $m["nom_type_materiel"],
 					"id_type_materiel" => $m["id_type_materiel"],
 					'capacite' => $m["capacite_type_materiel"], 

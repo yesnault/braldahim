@@ -1,5 +1,7 @@
 <?php if ($case["n_elements_potions"] > 0) : 
-	$textElementsPotions = "<br>Potions / Vernis:<br>";
+	$s = '';
+	if ($case["n_elements_potions"] > 1) $s = 's';
+	$textElementsPotions = "<br>Potion".$s." / Verni".$s.":<br>";
 	foreach($case["elements_potions"] as $p) {
 		$textElementsPotions .= "<label class=\'alabel\' onclick=ouvPotion(".$p["id_element_potion"].")>";
 		$textElementsPotions .= $p["nom_type"]. " ".htmlspecialchars($p["nom"]) ." de qualit&eacute; ".htmlspecialchars($p["qualite"]) .", n&deg;".$p["id_element_potion"]." </label><br />";

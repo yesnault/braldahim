@@ -30,6 +30,8 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 		Zend_Loader::loadClass("Bral_Helper_DetailEquipement");
 		Zend_Loader::loadClass("Bral_Helper_DetailHotel");
 		Zend_Loader::loadClass("Bral_Helper_DetailMateriel");
+		Zend_Loader::loadClass("Bral_Helper_DetailPotion");
+		Zend_Loader::loadClass("Bral_Helper_DetailRune");
 		Zend_Loader::loadClass("Bral_Util_Controle");
 
 		$tabResultats = null;
@@ -760,10 +762,13 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 				}
 
 				$tabRune = array(
-					"id_rune_vente_rune" => $e["id_rune_vente_rune"],
+					"id_rune" => $e["id_rune_vente_rune"],
 					"id_type_rune" => $e["id_type_rune"],
 					"nom" => $nom,
 					"image" => $image,
+					"est_identifiee" => $e['est_identifiee_rune'],
+					"effet_type_rune" => $e["effet_type_rune"],
+					"type" => $e["nom_type_rune"],
 				);
 
 				if (array_key_exists($e["id_vente"], $tabReturn)) {

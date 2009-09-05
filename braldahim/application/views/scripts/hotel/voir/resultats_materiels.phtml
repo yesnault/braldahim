@@ -1,6 +1,5 @@
 <? foreach($e["objet"] as $a) : ?>
-<img src='/public/styles/braldahim_defaut/images/type_materiel/type_materiel_<?=$a["id_type_materiel"]?>.png'>
+<img src='/public/styles/braldahim_defaut/images/type_materiel/type_materiel_<?=$a["id_type_materiel"]?>.png' <?=Bral_Helper_DetailMateriel::afficherJs($a);?>>
 <br>
-n°<?=$a["id_vente_materiel"] ?> <?=$a["nom"] ?> 
-<img src="/public/images/info_icon.gif" <?=Bral_Helper_DetailMateriel::afficherJs($a);?> />
+<?=$a["nom"] ?> n°<?=$a["id_vente_materiel"] ?>
 <? endforeach;?>
