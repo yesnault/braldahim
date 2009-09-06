@@ -91,6 +91,10 @@ class Bral_Administrationajax_Insererlieu extends Bral_Administrationajax_Admini
 		$estSoule = $this->request->getPost("valeur_7");
 
 		$lieuTable = new Lieu();
+		
+		if ($idVille == -1) {
+			$idVille = null;
+		}
 
 		$data = array(
 			"nom_lieu" => $nomLieu,

@@ -21,6 +21,7 @@
 	 
 	 Ville : <br>
 	 	<select name='valeur_6' id="valeur_6">
+	 	<option value="-1">Aucune ville (pour lieu RP par exemple)</option>
 	 	<? foreach ($this->villes as $v) : ?>
 		<option value="<?=$v["ville"]["id_ville"]?>" <?=$v["selected"]?>><?=$v["ville"]["id_ville"]?> : <?=$v["ville"]["nom_ville"]?> <?=$v["info"]?></option>
 		<? endforeach; ?>
