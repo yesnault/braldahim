@@ -374,9 +374,71 @@ class Bral_Util_Quete {
 			);
 			$where = "id_quete=".$quete["id_quete"];
 			$queteTable->update($data, $where);
+
+			self::termineQueteDistinction($quete, $hobbit);
 		}
 		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::termineQuete - Fin de la quete - exit");
 	}
+
+	private static function termineQueteDistinction($quete, &$hobbit) {
+		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::termineQueteDistinction - enter");
+
+		Zend_Loader::loadClass("Lieu");
+		$lieuTable = new Lieu();
+		$lieux = $lieuTable->findAllLieuQueteAvecRegion();
+
+		Zend_Loader::loadClass("Quete");
+		$queteTable = new Quete();
+		$quetes = $queteTable->findByIdHobbit($hobbit->id_hobbit);
+
+		$lieuxQuetes = null;
+		$idRegionCourante = null;
+		$nomRegionCourante = null;
+
+		foreach($lieux as $l) {
+			$lieu = array(
+				'date_fin_quete' => null,
+			);
+
+			foreach($quetes as $q) {
+				if ($q["id_fk_lieu_quete"] == $l["id_lieu"]) {
+					if ($quete["id_quete"] == $q["id_quete"]) {
+						$idRegionCourante = $l["id_region"];
+						$nomRegionCourante = $l["nom_region"];
+					}
+					$lieu["date_fin_quete"] = $q["date_fin_quete"];
+				}
+			}
+			$lieuxQuetes[$l["id_region"]]["lieux"][] = $lieu;
+			$lieuxQuetes[$l["id_region"]]["nom"] = $l["nom_region"];
+		}
+
+		if ($lieuxQuetes != null && array_key_exists($idRegionCourante, $lieuxQuetes)
+		&& array_key_exists("lieux", $lieuxQuetes[$idRegionCourante])
+		&& $idRegionCourante != null && $nomRegionCourante != null) {
+			$terminee = true;
+			foreach($lieuxQuetes[$idRegionCourante]["lieux"] as $l) {
+				if ($l["date_fin_quete"] == null) {
+					$terminee = false;
+					break;
+				}
+			}
+
+			if ($terminee == true) {
+				Zend_Loader::loadClass("Bral_Util_Distinction");
+				$texte = "Bourlingueur de la ".$nomRegionCourante;
+				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::termineQueteDistinction - Ajout d'une distinction : ".$texte);
+				Bral_Util_Distinction::ajouterDistinction($hobbit->id_hobbit, Bral_Util_Distinction::ID_TYPE_BOURLINGUEUR, $texte);
+			} else {
+				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::termineQueteDistinction - Pas de distinction à ajouter A");
+			}
+		} else {
+			Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::termineQueteDistinction - Pas de distinction à ajouter B");
+		}
+
+		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::termineQueteDistinction - exit");
+	}
+
 
 	private static function calculGain(&$hobbit, $nbEtape, $quete) {
 		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculGain - enter");
@@ -412,7 +474,7 @@ class Bral_Util_Quete {
 
 		$elementAlimentTable = new ElementAliment();
 		$coffreAlimentTable = new CoffreAliment();
-		
+
 		Zend_Loader::loadClass("IdsAliment");
 		$idsAliment = new IdsAliment();
 
@@ -468,7 +530,6 @@ class Bral_Util_Quete {
 
 	private static function calculGainStandard(&$hobbit, $nbEtape) {
 		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculGainStandard - enter");
-
 
 		$nbRecompenses = $nbEtape - Bral_Util_De::get_1d3();
 		if ($nbRecompenses < 1) {
@@ -526,7 +587,7 @@ class Bral_Util_Quete {
 		Zend_Loader::loadClass("IdsRune");
 		$idsRuneTable = new IdsRune();
 		$idRune = $idsRuneTable->prepareNext();
-		
+
 		Zend_Loader::loadClass("Rune");
 		$runeTable = new Rune();
 		$dataRune = array (
@@ -535,7 +596,7 @@ class Bral_Util_Quete {
 			"est_identifiee_rune" => "oui",
 		);
 		$runeTable->insert($dataRune);
-		
+
 		$coffreRuneTable = new CoffreRune();
 		$data = array (
 			"id_rune_coffre_rune" => $idRune,
@@ -546,7 +607,7 @@ class Bral_Util_Quete {
 		$details = "[h".$hobbit->id_hobbit."] a reçu la rune n°".$idRune. " en récompense de quête";
 		Zend_Loader::loadClass("Bral_Util_Rune");
 		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_CREATION_ID, $idRune, $details);
-		
+
 		$retour = " une rune de type ".$typeRune["nom_type_rune"].PHP_EOL;
 		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculGainRune - exit");
 		return $retour;
@@ -807,14 +868,14 @@ class Bral_Util_Quete {
 			Zend_Loader::loadClass("Zone");
 			$zoneTable = new Zone();
 			$zones = $zoneTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
-			
+
 			Zend_Loader::loadClass("Bosquet");
 			$bosquetTable = new Bosquet();
 			$nombreBosquets = $bosquetTable->countByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
-			
-			if ($zones != null && count($zones) == 1 && 
-				($zones[0]["id_environnement"] == $etape["param_3_etape"] 
-				|| ($etape["param_3_etape"] == 2 && $nombreBosquets > 1))) {
+
+			if ($zones != null && count($zones) == 1 &&
+			($zones[0]["id_environnement"] == $etape["param_3_etape"]
+			|| ($etape["param_3_etape"] == 2 && $nombreBosquets > 1))) {
 				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeMangerParam3 - B - sur l'environnement");
 				$retour = true;
 			} else {
@@ -1442,7 +1503,7 @@ class Bral_Util_Quete {
 				self::termineQuete($hobbit);
 			}
 		}
-		
+
 		return $estFinEtape;
 	}
 

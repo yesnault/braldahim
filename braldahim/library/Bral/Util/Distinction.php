@@ -12,7 +12,29 @@
  */
 class Bral_Util_Distinction {
 
+	const ID_TYPE_BOURLINGUEUR = 1;
+	const ID_TYPE_TEAM = 2;
+	const ID_TYPE_QUETE_RP = 3;
+	const ID_TYPE_SOULE = 4;
+	const ID_TYPE_BETA_TESTEUR = 5;
+	
 	function __construct() {
+	}
+	
+	public static function ajouterDistinction($idHobbit, $idTypeDistinction, $texte, $url = null) {
+		Zend_Loader::loadClass("HobbitsDistinction");
+		$hobbitsDistinctionTable = new HobbitsDistinction();
+		
+		$data = array(
+			'id_fk_hobbit_hdistinction' => $idHobbit,
+			'id_fk_type_distinction_hdistinction' => $idTypeDistinction,
+			'texte_hdistinction' => $texte,
+			'url_hdistinction' => $url,
+			'date_hdistinction' => date("Y-m-d"),
+		);
+		
+		$hobbitsDistinctionTable->insert($data);
+				
 	}
 
 	public static function prepareDistinctions($idHobbit) {
