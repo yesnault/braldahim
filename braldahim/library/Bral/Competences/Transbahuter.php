@@ -1716,7 +1716,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								$data = array(
 										"quantite_feuille_charrette_tabac" => -$nbTabac,
 										"id_fk_type_charrette_tabac" => $tabac["id_type_tabac"],
-										"id_fk_hobbit_charrette_tabac" => $this->view->id_charrette_depart,
+										"id_fk_charrette_tabac" => $this->view->id_charrette_depart,
 								);
 								break;
 						}
