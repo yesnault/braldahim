@@ -1,0 +1,7 @@
+<br /><br /><br />
+
+Le poste de garde est en construction.<br /><br />
+
+<? if ($this->config->general->production == 0) : ?>
+<input type="button" class='button1' value="Rentrer dans le poste de garde" onClick='_get_("/lieux/doaction?caction=ask_lieu_postedegarde");'>
+<? endif;?>
