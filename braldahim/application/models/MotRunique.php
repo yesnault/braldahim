@@ -21,7 +21,7 @@ class MotRunique extends Zend_Db_Table {
 		if ($tabRunes != null && count($tabRunes) > 0) {
 			foreach($tabRunes as $k => $v) {
 				$nb++;
-				$where .= " AND id_fk_type_rune_".$k."_mot_runique = ".$v["id_fk_type_rune_laban_rune"];
+				$where .= " AND id_fk_type_rune_".$k."_mot_runique = ".$v["id_fk_type_rune"];
 			}
 		}
 			
@@ -32,7 +32,6 @@ class MotRunique extends Zend_Db_Table {
 		->where('id_fk_type_piece_mot_runique = id_type_piece')
 		->where("nb_total_rune_mot_runique = ".$nb." AND nom_systeme_type_piece like '".$nomSystemeTypePiece."'".$where);
 		
-
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

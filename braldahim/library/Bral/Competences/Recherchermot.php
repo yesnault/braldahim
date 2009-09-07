@@ -196,11 +196,11 @@ class Bral_Competences_Recherchermot extends Bral_Competences_Competence {
 				break;
 			}
 			
-			if ($motRecherche["id_fk_type_rune_".$ordre."_mot_runique"] == $v["id_fk_type_rune_laban_rune"]) {
+			if ($motRecherche["id_fk_type_rune_".$ordre."_mot_runique"] == $v["id_fk_type_rune"]) {
 				$nbPositionOk++;
 			} else {
 				for($i = 1; $i<=6; $i++) {
-					if ($motRecherche["id_fk_type_rune_".$i."_mot_runique"] != null && $motRecherche["id_fk_type_rune_".$i."_mot_runique"] == $v["id_fk_type_rune_laban_rune"]) {
+					if ($motRecherche["id_fk_type_rune_".$i."_mot_runique"] != null && $motRecherche["id_fk_type_rune_".$i."_mot_runique"] == $v["id_fk_type_rune"]) {
 						$nbOkMalPlace++;
 					}
 				}
