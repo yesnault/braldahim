@@ -12,10 +12,10 @@
  */
 class Bral_Helper_DetailEquipement {
 
- 	public static function afficherPrix($e) {
-    	Zend_Loader::loadClass("Bral_Helper_DetailPrix");
- 		return Bral_Helper_DetailPrix::afficherPrix($e, "_echoppe_equipement");
-    }
+	public static function afficherPrix($e) {
+		Zend_Loader::loadClass("Bral_Helper_DetailPrix");
+		return Bral_Helper_DetailPrix::afficherPrix($e, "_echoppe_equipement");
+	}
 
 	public static function afficher($e) {
 		//return "<span ".self::afficherJs($e).">".htmlspecialchars($e["nom"]).", n&deg;".$e["id_equipement"]."</span>";
@@ -29,7 +29,7 @@ class Bral_Helper_DetailEquipement {
 		$text = htmlspecialchars($e["nom"])." ".htmlspecialchars(addslashes($e["suffixe"]));
 		$text .= " de qualit&eacute; ".htmlspecialchars($e["qualite"])." <br />";
 		$text .= "<label class=\'alabel\' onclick=ouvHistoE(".$e["id_equipement"].")>Voir l\'historique</label><br>";
-		
+
 		$text .= "Num&eacute;ro de la pi&egrave;ce :".$e["id_equipement"]."<br />";
 		$text .= "Niveau : ".$e["niveau"]."<br />";
 		$text .= "Nom d\'origine : ".$e["nom_standard"]."<br />";
@@ -44,9 +44,9 @@ class Bral_Helper_DetailEquipement {
 		$text .= self::displayBM("Vigueur", $e, "vigueur");
 		$text .= self::displayBM("Sagesse", $e, "sagesse");
 		$text .= self::displayBM("Vue", $e, "vue");
-		$text .= self::displayBM("BM Attaque", $e, "bm_attaque");
-		$text .= self::displayBM("BM Defense", $e, "bm_defense");
-		$text .= self::displayBM("BM D&eacute;g&acirc;ts", $e, "bm_degat");
+		$text .= self::displayBM("Attaque", $e, "bm_attaque");
+		$text .= self::displayBM("Defense", $e, "bm_defense");
+		$text .= self::displayBM("D&eacute;g&acirc;ts", $e, "bm_degat");
 		$text .= "Poids : ".$e["poids"];
 		if (isset($e["bonus"]["vernis_bm_poids_equipement_bonus"])) {
 			$text .= " ".self::display("",$e["bonus"]["vernis_bm_poids_equipement_bonus"], " (vernis)", "", true, "");
@@ -90,6 +90,9 @@ class Bral_Helper_DetailEquipement {
 		$vernisBM = null;
 		if (isset($e["bonus"]["vernis_bm_".$bm."_equipement_bonus"])) {
 			$vernisBM = $e["bonus"]["vernis_bm_".$bm."_equipement_bonus"];
+		}
+		if (isset($e["bonus"]["vernis_".$bm."_equipement_bonus"])) {
+			$vernisBM = $e["bonus"]["vernis_".$bm."_equipement_bonus"];
 		}
 		$valeur = $e[$bm];
 		$text = null;
