@@ -368,10 +368,10 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 			$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit + $b["sagesse_equipement_bonus"] + $b["vernis_bm_sagesse_equipement_bonus"];
 			$this->view->user->vigueur_bm_hobbit = $this->view->user->vigueur_bm_hobbit + $b["vigueur_equipement_bonus"] + $b["vernis_bm_vigueur_equipement_bonus"];
 
-			$this->view->user->vue_bm_hobbit = intval($this->view->user->vue_bm_hobbit + $b["vernis_bm_vigueur_equipement_bonus"]);
-			$this->view->user->bm_attaque_hobbit = intval($this->view->user->bm_attaque_hobbit + $b["vernis_bm_vigueur_equipement_bonus"]);
-			$this->view->user->bm_degat_hobbit = intval($this->view->user->bm_degat_hobbit + $b["vernis_bm_vigueur_equipement_bonus"]);
-			$this->view->user->bm_defense_hobbit = intval($this->view->user->bm_defense_hobbit + $b["vernis_bm_vigueur_equipement_bonus"]);
+			$this->view->user->vue_bm_hobbit = intval($this->view->user->vue_bm_hobbit + $b["vernis_bm_vue_equipement_bonus"]);
+			$this->view->user->bm_attaque_hobbit = intval($this->view->user->bm_attaque_hobbit + $b["vernis_bm_attaque_equipement_bonus"]);
+			$this->view->user->bm_degat_hobbit = intval($this->view->user->bm_degat_hobbit + $b["vernis_bm_degat_equipement_bonus"]);
+			$this->view->user->bm_defense_hobbit = intval($this->view->user->bm_defense_hobbit + $b["vernis_bm_defense_equipement_bonus"]);
 		}
 			
 		if ($equipement["runes"] != null && count($equipement["runes"]) > 0) {

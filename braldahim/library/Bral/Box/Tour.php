@@ -500,10 +500,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 					$this->hobbit->sagesse_bm_hobbit = intval($this->hobbit->sagesse_bm_hobbit + $b["sagesse_equipement_bonus"] + $b["vernis_bm_sagesse_equipement_bonus"]);
 					$this->hobbit->vigueur_bm_hobbit = intval($this->hobbit->vigueur_bm_hobbit + $b["vigueur_equipement_bonus"] + $b["vernis_bm_vigueur_equipement_bonus"]);
 
-					$this->hobbit->vue_bm_hobbit = intval($this->hobbit->vue_bm_hobbit + $b["vernis_bm_vigueur_equipement_bonus"]);
-					$this->hobbit->bm_attaque_hobbit = intval($this->hobbit->bm_attaque_hobbit + $b["vernis_bm_vigueur_equipement_bonus"]);
-					$this->hobbit->bm_degat_hobbit = intval($this->hobbit->bm_degat_hobbit + $b["vernis_bm_vigueur_equipement_bonus"]);
-					$this->hobbit->bm_defense_hobbit = intval($this->hobbit->bm_defense_hobbit + $b["vernis_bm_vigueur_equipement_bonus"]);
+					$this->hobbit->vue_bm_hobbit = intval($this->hobbit->vue_bm_hobbit + $b["vernis_bm_vue_equipement_bonus"]);
+					$this->hobbit->bm_attaque_hobbit = intval($this->hobbit->bm_attaque_hobbit + $b["vernis_bm_attaque_equipement_bonus"]);
+					$this->hobbit->bm_degat_hobbit = intval($this->hobbit->bm_degat_hobbit + $b["vernis_bm_degat_equipement_bonus"]);
+					$this->hobbit->bm_defense_hobbit = intval($this->hobbit->bm_defense_hobbit + $b["vernis_bm_defense_equipement_bonus"]);
 				}
 			}
 
