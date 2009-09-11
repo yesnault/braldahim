@@ -875,7 +875,7 @@ class Bral_Util_Quete {
 
 			if ($zones != null && count($zones) == 1 &&
 			($zones[0]["id_environnement"] == $etape["param_3_etape"]
-			|| ($etape["param_3_etape"] == 2 && $nombreBosquets > 1))) {
+			|| ($etape["param_3_etape"] == 2 && $nombreBosquets >= 1))) {
 				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeMangerParam3 - B - sur l'environnement");
 				$retour = true;
 			} else {
