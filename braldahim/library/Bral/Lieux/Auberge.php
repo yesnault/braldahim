@@ -135,7 +135,8 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 		$aliment = $typeAlimentTable->findById(TypeAliment::ID_TYPE_RAGOUT);
 
 		$this->view->qualiteAliment = 2; // qualite correcte
-		$this->view->bbdfAliment = $aliment->bbdf_base_type_aliment;
+		
+		$this->view->bbdfAliment = Bral_Util_De::get_de_specifique(25, 35);
 		$this->view->aliment= $aliment;
 
 		$elementAlimentTable = new ElementAliment();
@@ -163,6 +164,6 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 	}
 
 	private function calculCoutCastars() {
-		return 5;
+		return 7;
 	}
 }
