@@ -232,7 +232,7 @@ class InscriptionController extends Zend_Controller_Action {
 		->setWordLen('6')
 		->setHeight('80')
 		->setFont('./public/fonts/Arial.ttf')
-		->setImgDir('./public/images/captcha/');
+		->setImgDir($this->view->config->captcha->patch);
 
 		$id = $captcha->generate();
 		$this->view->captcha = $captcha;
