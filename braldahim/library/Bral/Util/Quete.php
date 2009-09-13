@@ -405,6 +405,7 @@ class Bral_Util_Quete {
 					if ($quete["id_quete"] == $q["id_quete"]) {
 						$idRegionCourante = $l["id_region"];
 						$nomRegionCourante = $l["nom_region"];
+						$idTypeDistinctionQueteRegion = $l["id_fk_distinction_quete_region"];
 					}
 					$lieu["date_fin_quete"] = $q["date_fin_quete"];
 				}
@@ -428,7 +429,7 @@ class Bral_Util_Quete {
 				Zend_Loader::loadClass("Bral_Util_Distinction");
 				$texte = "Bourlingueur de la ".$nomRegionCourante;
 				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::termineQueteDistinction - Ajout d'une distinction : ".$texte);
-				Bral_Util_Distinction::ajouterDistinction($hobbit->id_hobbit, Bral_Util_Distinction::ID_TYPE_BOURLINGUEUR, $texte);
+				Bral_Util_Distinction::ajouterDistinction($hobbit->id_hobbit, $idTypeDistinctionQueteRegion, $texte);
 			} else {
 				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::termineQueteDistinction - Pas de distinction à ajouter A");
 			}

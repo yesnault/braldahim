@@ -12,11 +12,16 @@
  */
 class Bral_Util_Distinction {
 
-	const ID_TYPE_BOURLINGUEUR = 1;
-	const ID_TYPE_TEAM = 2;
-	const ID_TYPE_QUETE_RP = 3;
-	const ID_TYPE_SOULE = 4;
-	const ID_TYPE_BETA_TESTEUR = 5;
+	const ID_TYPE_BOURLINGUEUR_CENTRE = 1;
+	const ID_TYPE_BOURLINGUEUR_SUD_OUEST = 2;
+	const ID_TYPE_BOURLINGUEUR_SUD_EST = 3;
+	const ID_TYPE_BOURLINGUEUR_NORD = 4;
+	const ID_TYPE_BOURLINGUEUR_EST = 5;
+	
+	const ID_TYPE_TEAM = 6;
+	const ID_TYPE_QUETE_RP = 7;
+	const ID_TYPE_SOULE = 8;
+	const ID_TYPE_BETA_TESTEUR = 9;
 	
 	function __construct() {
 	}

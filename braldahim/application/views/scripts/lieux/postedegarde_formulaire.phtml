@@ -1,10 +1,69 @@
 <div class='comp_titre'>Poste de Garde</div>
  <form name='myForm' id='myForm'>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='4'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
- 	TODO
+ 	
+ 	<br>
+ 	Pour utiliser les services du poste, il vous faut <?=$this->paUtilisationLieu?> PA.<br /><br />
+ 	
+ 	
+ 	<? if ($this->utilisationPaPossible !== true): ?>
+ 		Vous n'avez pas assez de PA.
+ 	<? elseif ($this->nouvelleEquipePossible === true) : ?>
+ 		
+ 		<? if ($this->inscriptionParHobbitNouvelleEquipePossible === true):?>
+	 		Vous êtes Bourlingueur de cette comtée. Félicitations !<br>
+	 		Vous pouvez inscrire une équipe pour entrer dans ce Donjon. <br><br>
+	 		Vous devez choisir 8 coéquipiers, également Bourlingueurs de cette Comté.<br><br>
+	 		Saisissez un prénom de hobbit ci-dessous. Attention, les hobbits qui ne sont pas 
+	 		Bourlingueurs de cette Comtée ne seront pas retournés par la recherche.<br>
+	 		De plus, vous êtes directement inclus dans l'équipe, ne prenez donc pas la peine
+	 		de vous rechercher, vous n'apparaitrez pas dans la recherche également.
+ 		<? else:?>
+ 			Pour rentrer dans ce Donjon, vous devez être Bourlingueur de cette Comtée (avoir
+ 			terminé toutes les quêtes de cette Comtée, consultez votre onglet Quêtes).<br>
+ 		<? endif;?>
+ 		
+ 	<? else : ?>
+	 	<? if ($this->inscriptionDemandee === true): ?>
+	 		Vous êtes demandé pour vous inscrire dans ce Donjon. Si vous n'acceptez pas, l'inscription
+	 		de toute l'équipe sera annulée le <?=$this->dateLimiteInscription?>.
+	 	<? elseif ($this->inscriptionRealisee === true): ?>
+	 		Vous êtes déjà inscrit pour participer à ce Donjon. Dès lors que tous vos coéquipiers
+	 		auront validé leur inscription, vous entrerez automatiquement dans le Donjon.
+	 	<? else: ?>
+	 		Il y déjà une équipe dans ce Donjon ou en cours d'inscription, sans que vous 
+	 		soyez demandé pour en faire partie. Attendez leur sortie pour inscrire une 
+	 		nouvelle équipe.
+	 	<? endif;?>
+	 <? endif;?>
+	 
+	 
+	<? if ($this->utilisationPaPossible === true): ?> 
+		
+		<input type="hidden" name="valeur_1" id="valeur_1" value="" />
+		
+		<? if ($this->nouvelleEquipePossible === true && 
+		   	   $this->inscriptionParHobbitNouvelleEquipePossible === true) : ?>
+ 		
+ 			<div id='aff_valeur_1_coequiper' name='aff_valeur_1_coequiper'></div>
+			<input type="hidden" name="valeur_1_coequiper" id="valeur_1_coequiper" value="" />
+			
+			<input type="text" name="recherche_valeur_1_coequiper" size='40' id="recherche_valeur_1_coequiper" value="Entrez un nom" onFocus='this.value=""; activerRechercheBourlingueur("valeur_1_coequiper", "<?=$this->idTypeDistinctionCourante?>");' />
+			<input type="hidden" name="recherche_valeur_1_coequiper_actif" id="recherche_valeur_1_coequiper_actif" value="0" />
+			<div class="recherche" id="recherche_valeur_1_coequiper_update" ></div> <img src="/public/images/loupe.gif" />
+		    <span id="indicateur_recherche_valeur_1_coequiper" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
+		    
+		    <br><br>
+		    <input type='button' class='button1' id="bouton_poste_nouveau" value="Inscrire l'équipe" onClick="this.disabled=true;$('valeur_1').value=$('valeur_1_coequiper').value;_get_('/lieux/doaction?caction=do_lieu_poste');" />
+	
+		<? elseif ($this->inscriptionDemandee === true): ?>
+			TODO
+			 <input type='button' class='button1' id="bouton_poste_nouveau" value="Valider l'inscription" onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_poste');" />
+	
+		<? endif;?>
+ 	<? endif;?>
+ 	
  </div> 
 </form>
-<br /> 
-<br />
 <? echo Bral_Helper_Fermer::affiche(); ?>

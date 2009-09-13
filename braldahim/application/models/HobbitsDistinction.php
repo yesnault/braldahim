@@ -25,4 +25,17 @@ class HobbitsDistinction extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+
+	function findDistinctionsByHobbitIdAndIdTypeDistinction($idHobbit, $idTypeDistinction) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbits_distinction', '*')
+		->from('type_distinction', '*')
+		->where('id_fk_hobbit_hdistinction = ? ', intval($idHobbit))
+		->where('id_fk_type_distinction_hdistinction = id_type_distinction')
+		->where('id_type_distinction = ?', intval($idTypeDistinction))
+		->order('date_hdistinction');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }
