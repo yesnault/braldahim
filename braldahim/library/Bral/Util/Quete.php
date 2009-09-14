@@ -1604,6 +1604,7 @@ class Bral_Util_Quete {
 		Zend_Loader::loadClass("StatsRecolteurs");
 		$statsRecolteursTable = new StatsRecolteurs();
 		$stats = $statsRecolteursTable->findByHobbitAndDateAndIdTypeMetier($hobbit->id_hobbit, $dateDebut, $dateFin, $etape["param_1_etape"]);
+		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeCollecterParam2 - dateDebut:".$dateDebut. " dateFin:".$dateFin. " nb:".$nb);
 		if ($stats != null && count($stats) > 0) { // mise à jour des objectifs avec ce qu'il y a dans la table stats
 			$nb = $stats[0]["nombre"];
 			$retour = true;
@@ -1612,7 +1613,8 @@ class Bral_Util_Quete {
 			$data = array("objectif_etape" => $nb);
 			if ($nb >= $etape["param_2_etape"]) { // fin etape
 				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeCollecterParam2 nb Ok, nb:".$nb);
-				$data = array("est_terminee_etape" => "oui", "date_fin_etape" => date("Y-m-d H:i:s"));
+				$data["est_terminee_etape"] = "oui";
+				$data["date_fin_etape"] = date("Y-m-d H:i:s");
 				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeFinStandard - Fin Ok");
 				$where = "id_etape = ".$etape["id_etape"];
 				$etapeTable->update($data, $where);

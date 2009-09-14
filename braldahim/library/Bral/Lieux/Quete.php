@@ -684,7 +684,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 			$dataTypeEtape["param2"] = Bral_Util_De::get_de_specifique(15, 30);
 			$dataTypeEtape["libelle_etape"] .= "abattre des arbres et récupérer ".$dataTypeEtape["param2"]. " rondins";
 		}
-		$dataTypeEtape["libelle_etape"] .= " en deux mois (du 1er du mois précédent au 31 du mois en cours).";
+		$dataTypeEtape["libelle_etape"] .= " en deux mois (du 1er du mois précédent au 31 du mois en cours, objectifs mis à jour à la prochaine collecte).";
 		return $dataTypeEtape;
 	}
 
