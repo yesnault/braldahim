@@ -576,6 +576,13 @@ function makeJsListeAvecSupprimer(champ, valeur, idJos, idHobbit) {
 	texte = texte + ' <img src="/public/images/supprimer.gif" onClick="javascript:supprimerElement(\'' + 'aff_' + champ + '\'';
 	texte = texte + ',\'' + contenu.name + '\', \'' + champ + '\', ' + idJos + ')" />';
 	
+	if ($('cpt_' + champ)) {
+		$('cpt_' + champ).value = parseInt($('cpt_' + champ).value *1) + parseInt(1);
+	}
+	if ($('onChange_' + champ)) {
+		eval($('onChange_' + champ).value);
+	}
+	
 	contenu.id = contenu.name;
 	contenu.innerHTML = texte;
 	$('aff_' + champ).appendChild(contenu);
@@ -598,6 +605,12 @@ function supprimerElement(idConteneur, idContenu, idChamp, valeur) {
 		}
 	}
 	$(idChamp).value = nouvelleValeur;
+	if ($('cpt_' + idChamp)) {
+		$('cpt_' + idChamp).value = parseInt($('cpt_' + idChamp).value) - parseInt(1);
+	}
+	if ($('onChange_' + idChamp)) {
+		eval($('onChange_' + idChamp).value);
+	}
 }
 
 function ajouterAuContenu(idsource, iddestination) {
