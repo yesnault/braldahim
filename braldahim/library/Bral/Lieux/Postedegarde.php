@@ -61,9 +61,9 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 
 
 		if ($this->equipeCourante == null) {
-				
+
 			$this->view->inscriptionParHobbitNouvelleEquipePossible = false;
-				
+
 			Zend_Loader::loadClass("HobbitsDistinction");
 			$hobbitsDistinctionTable = new HobbitsDistinction();
 			$distinction = $hobbitsDistinctionTable->findDistinctionsByHobbitIdAndIdTypeDistinction($this->view->user->id_hobbit, $this->donjonCourant["id_fk_distinction_quete_region"]);
@@ -102,6 +102,47 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		if ($this->view->utilisationPaPossible == false) {
 			throw new Zend_Exception(get_class($this)." Utilisation impossible : pa:".$this->view->user->pa_hobbit." cout:".$this->$this->view->paUtilisationLieu);
 		}
+
+		if ($this->view->nouvelleEquipePossible == false && $this->view->inscriptionDemandee == false) {
+			throw new Zend_Exception(get_class($this)." Utilisation impossible 1 idh:".$this->view->user->pa_hobbit);
+		}
+
+		if ($this->view->nouvelleEquipePossible == true && $this->view->inscriptionParHobbitNouvelleEquipePossible == false) {
+			throw new Zend_Exception(get_class($this)." Utilisation impossible 2 idh:".$this->view->user->pa_hobbit);
+		}
+
+		if ($this->view->nouvelleEquipePossible == true && $this->view->inscriptionParHobbitNouvelleEquipePossible == true) {
+			$this->inscriptionNouvelleEquipe();
+		} elseif ($this->view->inscriptionDemandee == true) {
+			$this->inscriptionHobbit();
+		}
+
+	}
+
+	private function inscriptionNouvelleEquipe() {
+		//TODO
+		$hobbits = $this->recupereHobbitFromValeur1();
+	}
+
+	private function recupereHobbitFromValeur1() {
+		Zend_Loader::loadClass('Zend_Filter_StripTags');
+		$filter = new Zend_Filter_StripTags();
+		$hobbitsList = $filter->filter(trim($this->request->get('valeur_1')));
+
+		$idHobbitsTab = split(',', $hobbitsList);
+
+		$hobbitTable = new Hobbit();
+		$hobbits = $hobbitTable->findByIdList($idHobbitsTab);
+
+		if ($hobbits == null) {
+			throw new Zend_Exception(get_class($this)." Liste invalide:".$hobbitsList);
+		}
+
+		return $hobbits;
+	}
+
+	private function inscriptionHobbit() {
+		//TODO
 	}
 
 	function getListBoxRefresh() {
