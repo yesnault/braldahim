@@ -313,6 +313,6 @@ class Bral_Echoppes_Vendrepotion extends Bral_Echoppes_Echoppe {
 		}
 	}
 	function getListBoxRefresh() {
-		return array("box_echoppe", "box_echoppes");
+		//return array("box_echoppe", "box_echoppes");
 	}
 }

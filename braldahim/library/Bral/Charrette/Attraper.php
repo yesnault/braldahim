@@ -42,7 +42,6 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 			Zend_Loader::loadClass("Echoppe");
 			// On regarde si le hobbit est dans une de ses echopppes
 			$echoppeTable = new Echoppe();
-			$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
 
 			$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
 
