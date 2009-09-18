@@ -134,14 +134,14 @@ class PalmaresController extends Bral_Controller_Box {
 	
 	function bucheronsfabriquantspalissadesAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "bucherons_palissades"), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "bucheronspalissades"), "boite_a");
 		$this->prepareCommun();
 		$this->render("index");
 	}
 	
 	function bucheronsfabriquantsroutesAction() {
 		$this->prepareFiltre();
-		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "bucherons_routes"), "boite_a");
+		$this->addBoxes(Bral_Palmares_Factory::getBoxesFabricants($this->_request, $this->view, "bucheronsroutes"), "boite_a");
 		$this->prepareCommun();
 		$this->render("index");
 	}

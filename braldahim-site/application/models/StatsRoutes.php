@@ -78,7 +78,7 @@ class StatsRoutes extends Zend_Db_Table {
 	private function getWhereType($type, $config) {
 		$retour = "";
 		switch($type) {
-			case "bucherons_routes":
+			case "bucheronsroutes":
 				$retour = "id_fk_metier_stats_routes = ".$config->game->metier->bucheron->id;
 				break;
 		}

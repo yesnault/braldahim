@@ -36,7 +36,7 @@ class Bral_Palmares_Fabricantsniveau extends Bral_Palmares_Box {
 	}
 
 	private function prepare() {
-		if ($this->view->type == "bucherons_routes") {
+		if ($this->view->type == "bucheronsroutes") {
 			Zend_Loader::loadClass("StatsRoutes");
 			$this->view->titreColonne2 = $this->getSelectTypeFabricant($this->view->type);
 			$mdate = $this->getTabDateFiltre();
