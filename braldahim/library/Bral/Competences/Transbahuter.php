@@ -161,7 +161,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			if ($idArrivee >= 7 ) {
 				if ($e["nom_systeme"] == "Charrette") {
 					$id_charrette = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
-					if ( $id_charrette == $e["id_charrette"]) {
+					if ($id_charrette == $e["id_charrette"]) {
 						$endroitArrivee = true;
 						$this->view->id_charrette_arrivee = $id_charrette;
 						$this->view->poidsRestant = $e["poids_restant"];
@@ -205,11 +205,20 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 
 		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Charrette") {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit,true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+			
+			
+			$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
+			$details = "[h".$this->view->user->id_hobbit."] a transbahuté des choses depuis la charrette n°".$this->view->tabEndroit[$idDepart]["id_charrette"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+			Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idDepart]["id_charrette"], $details);
 		}
 
 		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Charrette") {
-			Bral_Util_Poids::calculPoidsCharrette($this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"],true);
+			Bral_Util_Poids::calculPoidsCharrette($this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"], true);
+			
+			$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
+			$details = "[h".$this->view->user->id_hobbit."] a transbahuté des choses dans la charrette n°".$this->view->tabEndroit[$idArrivee]["id_charrette"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+			Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idArrivee]["id_charrette"], $details);
 		}
 
 		$this->detailEvenement = "";
@@ -635,7 +644,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$nomRune = $rune["type"];
 						}
 						$this->view->elementsRetires .= "Rune n°".$rune["id_rune"]." : ".$nomRune.", ";
-						
+
 						$texte = $this->calculTexte($depart, $arrivee);
 						$details = "[h".$this->view->user->id_hobbit."] a transbahuté la rune n°".$rune["id_rune"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 						Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_TRANSBAHUTER_ID, $rune["id_rune"], $details);
@@ -1916,7 +1925,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$arriveeMaterielTable->insert($data);
 						unset($arriveeMaterielTable);
 						$this->view->elementsRetires .= "Matériel n°".$materiel["id_materiel"]." : ".$materiel["nom"].", ";
-						
+
 						$texte = $this->calculTexte($depart, $arrivee);
 						$details = "[h".$this->view->user->id_hobbit."] a transbahuté le matériel n°".$materiel["id_materiel"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 						Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $materiel["id_materiel"], $details);
