@@ -107,7 +107,7 @@ class AdministrationinfojeuController extends Zend_Controller_Action {
 				);
 				$idInfo = $infoJeuTable->insert($data);
 
-				if ($this->view->config->twitter->use == 1) {
+				if ($this->view->config->twitter->use == '1') {
 					$this->twitter($texte, $titre, $lien, $lienWiki);
 				}
 			}
@@ -130,26 +130,26 @@ class AdministrationinfojeuController extends Zend_Controller_Action {
 		$texteTwitter = "";
 
 		if ($lienWiki != null && $lienWiki != "") {
-			if ((strlen($texteTwitter) +  strlen("Suite: ")) < 130) {
-				$texteTwitter .= "Suite: ".$lienWiki;
+			if ((strlen($texteTwitter) +  strlen(" Suite: ")) < 120) {
+				$texteTwitter .= " Suite: ".$lienWiki;
 			}
 		}
 
 		if ($lien != null && $lien != "") {
-			if ((strlen($texteTwitter) +  strlen("Discussions: ")) < 130) {
-				$texteTwitter .= "Discussions: ".$lien;
+			if ((strlen($texteTwitter) +  strlen(" Discussions: ")) < 120) {
+				$texteTwitter .= " Discussions: ".$lien;
 			}
 		}
 
-		if ((strlen($texteTwitter) +  strlen($texte)) < 140) {
-			if ((strlen($texteTwitter) +  strlen($texte)) < 140) {
+		if ($texte != null && $texte != "") {
+			if ((strlen($texteTwitter) +  strlen($texte)) < 135) {
 				$texteTwitter = $texte. $texteTwitter;
+			} elseif (strlen($texteTwitter) < 135) {
+				$texteTwitter = substr($texte, 0, 135-strlen($texteTwitter)). $texteTwitter;
 			}
-		} elseif (strlen($texteTwitter) < 140) {
-			$texteTwitter = substr($texte, 140-strlen($texteTwitter)). $texteTwitter;
 		}
 
-		if ((strlen($texteTwitter) +  strlen($texte)) < 140) {
+		if ((strlen($texteTwitter) +  strlen($titre)) < 135) {
 			if ($titre != null && $titre != "") {
 				$texteTwitter = $titre.".".$texteTwitter;
 			}
