@@ -505,7 +505,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			'niveau_potion' => $niveau,
 		);
 		$this->view->nbPotions = Bral_Util_De::get_2d3();
-		
+
 		Zend_Loader::loadClass("Potion");
 		$potionTable = new Potion();
 
@@ -514,11 +514,11 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			$echoppePotionTable->insert($dataPotionLaban);
 			$dataPotion['id_potion'] = $dataPotionLaban['id_echoppe_potion'];
 			$potionTable->insert($dataPotion);
-				
-			if ($idTypePotion > 1) {
-				$type = "le vernis";
-			} else {
+
+			if ($this->view->typePotionCourante["type_potion"] == "potion") {
 				$type = "la potion";
+			} else {
+				$type = "le vernis";
 			}
 			$details = "[h".$this->view->user->id_hobbit."] a élaboré ".$type. " n°".$dataPotionLaban['id_echoppe_potion'];
 			Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_CREATION_ID, $dataPotionLaban['id_echoppe_potion'], $details);
