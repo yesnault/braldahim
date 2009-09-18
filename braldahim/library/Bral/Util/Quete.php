@@ -1604,11 +1604,11 @@ class Bral_Util_Quete {
 		Zend_Loader::loadClass("StatsRecolteurs");
 		$statsRecolteursTable = new StatsRecolteurs();
 		$stats = $statsRecolteursTable->findByHobbitAndDateAndIdTypeMetier($hobbit->id_hobbit, $dateDebut, $dateFin, $etape["param_1_etape"]);
-		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeCollecterParam2 - dateDebut:".$dateDebut. " dateFin:".$dateFin. " nb:".$nb);
+		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeCollecterParam2 - dateDebut:".$dateDebut. " dateFin:".$dateFin);
 		if ($stats != null && count($stats) > 0) { // mise à jour des objectifs avec ce qu'il y a dans la table stats
 			$nb = $stats[0]["nombre"];
 			$retour = true;
-
+			
 			$etapeTable = new Etape();
 			$data = array("objectif_etape" => $nb);
 			if ($nb >= $etape["param_2_etape"]) { // fin etape
