@@ -51,20 +51,60 @@ class RechercheController extends Zend_Controller_Action {
 			$hobbitTable = new Hobbit();
 
 			if ($idTypeDistinction != null) {
+
 				$hobbitRowset = $hobbitTable->findHobbitsParPrenomAndIdTypeDistinction($this->_request->get("valeur").'%', $idTypeDistinction);
+				$hobbits = array();
+				foreach ($hobbitRowset as $h) {
+					$hobbits[] = $h["id_hobbit"];
+				}
+
+				Zend_Loader::loadClass('Bral_Util_Distinction');
+				$idTypeDistinctionDonjon = Bral_Util_Distinction::getIdDistinctionDonjonFromIdDistinctionBourlingueur($idTypeDistinction);
+				Zend_Loader::loadClass("HobbitsDistinction");
+				$hobbitsDistinctionTable = new HobbitsDistinction();
+				$distinctionsDonjon = $hobbitsDistinctionTable->countDistinctionByIdHobbitList($hobbits, $idTypeDistinctionDonjon);
+
+				Zend_Loader::loadClass("SouleEquipe");
+				$souleEquipeTable = new SouleEquipe();
+				$soule = $souleEquipeTable->countNonDebuteByIdHobbitList($hobbits);
+
 			} else {
 				$hobbitRowset = $hobbitTable->findHobbitsParPrenom($this->_request->get("valeur").'%');
 			}
 			$this->view->champ = $this->_request->get("champ");
 
 			foreach ($hobbitRowset as $h) {
-				if ($idTypeDistinction == null ||
-				($idTypeDistinction != null && $h["id_hobbit"] != $this->view->user->id_hobbit)) {
-					$tabHobbits[] = array(
-							"id_hobbit" => $h["id_hobbit"],
-							"nom" => $h["nom_hobbit"],
-							"prenom" => $h["prenom_hobbit"],
-					);
+				$hobbit = array(
+						"id_hobbit" => $h["id_hobbit"],
+						"nom" => $h["nom_hobbit"],
+						"prenom" => $h["prenom_hobbit"],
+				);
+					
+				if ($idTypeDistinction == null) {
+					$tabHobbits[] = $hobbit;
+				} else if ($idTypeDistinction != null && $h["id_hobbit"] != $this->view->user->id_hobbit) {
+					if ($distinctionsDonjon == null) {
+						$tabHobbits[] = $hobbit;
+					} else {
+						$okD = false;
+						$okS = false;
+						foreach($distinctionsDonjon as $d) {
+							if ($d["id_fk_hobbit_hdistinction"] == $h["id_hobbit"] && $d["nombre"] < 1) {
+								$okD = true;
+								break;
+							}
+						}
+						foreach($soule as $s) {
+							if ($h["est_soule_hobbit"] == "non" && $s["id_fk_hobbit_soule_equipe"] == $h["id_hobbit"] && $d["nombre"] < 1) {
+								$okS = true;
+								break;
+							}
+						}
+
+						if ($okD == true && $okS == true) {
+							$tabHobbits[] = $hobbit;
+						}
+					}
 				}
 			}
 			$this->view->pattern = $this->_request->get("valeur");

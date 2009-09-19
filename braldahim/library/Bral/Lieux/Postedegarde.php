@@ -132,10 +132,32 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$idHobbitsTab = split(',', $hobbitsList);
 
 		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByIdList($idHobbitsTab);
+		$hobbits = $hobbitTable->findByIdListAndIdTypeDistinction($idHobbitsTab, $this->view->idTypeDistinctionCourante);
 
 		if ($hobbits == null) {
 			throw new Zend_Exception(get_class($this)." Liste invalide:".$hobbitsList);
+		} else if (count($hobbits) != 8) {
+			throw new Zend_Exception(get_class($this)." Liste invalide B:".$hobbitsList);
+		}
+
+		Zend_Loader::loadClass('Bral_Util_Distinction');
+		$idTypeDistinctionDonjon = Bral_Util_Distinction::getIdDistinctionDonjonFromIdDistinctionBourlingueur($this->view->idTypeDistinctionCourante);
+		Zend_Loader::loadClass("HobbitsDistinction");
+		$hobbitsDistinctionTable = new HobbitsDistinction();
+		$distinctionsDonjon = $hobbitsDistinctionTable->countDistinctionByIdHobbitList($idHobbitsTab, $idTypeDistinctionDonjon);
+		foreach($distinctionsDonjon as $d) {
+			if ($d["nombre"] != 0) {
+				throw new Zend_Exception(get_class($this)." Liste invalide C:".$d["nombre"]. " h:".$d["id_fk_hobbit_hdistinction"]);
+			}
+		}
+
+		Zend_Loader::loadClass("SouleEquipe");
+		$souleEquipeTable = new SouleEquipe();
+		$soule = $souleEquipeTable->countNonDebuteByIdHobbitList($idHobbitsTab);
+		foreach($soule as $s) {
+			if ($s["nombre"] != 0) {
+				throw new Zend_Exception(get_class($this)." Liste invalide D:".$s["nombre"]. " h:".$s["id_fk_hobbit_soule_equipe"]);
+			}
 		}
 
 		return $hobbits;

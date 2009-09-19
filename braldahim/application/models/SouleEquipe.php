@@ -61,6 +61,31 @@ class SouleEquipe extends Zend_Db_Table {
 		return $result[0]["nombre"];
 	}
 
+	public function countNonDebuteByIdHobbitList($listId) {
+		$nomChamp = "id_fk_hobbit_soule_equipe";
+		$liste = "";
+		foreach($listId as $id) {
+			if ((int) $id."" == $id."") {
+				if ($liste == "") {
+					$liste = $id;
+				} else {
+					$liste = $liste." OR ".$nomChamp."=".$id;
+				}
+			}
+		}
+		
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('soule_equipe', array('count(id_fk_hobbit_soule_equipe) as nombre', 'id_fk_hobbit_soule_equipe'))
+		->from('soule_match', null)
+		->where($nomChamp ."=".$liste)
+		->where('id_fk_match_soule_equipe = id_soule_match')
+		->where('date_debut_soule_match is null')
+		->group('id_fk_hobbit_soule_equipe');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
 	public function countNonDebuteByNiveauTerrain($niveauTerrain) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -110,7 +135,7 @@ class SouleEquipe extends Zend_Db_Table {
 		if ($ordre != null) {
 			$select->order($ordre);
 		}
-		
+
 		$sql = $select->__toString();
 		$result = $db->fetchAll($sql);
 		return $result;

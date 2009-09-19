@@ -269,6 +269,39 @@ class Hobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
+	function findByIdListAndIdTypeDistinction($listId, $idTypeDistinction) {
+
+		$liste = "";
+		$nomChamp = "id_hobbit";
+		if (count($listId) < 1) {
+			$liste = "";
+		} else {
+			foreach($listId as $id) {
+				if ((int) $id."" == $id."") {
+					if ($liste == "") {
+						$liste = $id;
+					} else {
+						$liste = $liste." OR ".$nomChamp."=".$id;
+					}
+				}
+			}
+		}
+
+		if ($liste != "") {
+			$db = $this->getAdapter();
+			$select = $db->select();
+			$select->from('hobbit', '*')
+			->from('hobbits_distinction', null)
+			->where('id_fk_type_distinction_hdistinction = ?', intval($idTypeDistinction))
+			->where('id_fk_hobbit_hdistinction = id_hobbit')
+			->where($nomChamp .'='. $liste);
+			$sql = $select->__toString();
+			return $db->fetchAll($sql);
+		} else {
+			return null;
+		}
+	}
+
 	function findHobbitsMasculinSansConjoint($idHobbit) {
 		$db = $this->getAdapter();
 		$sql = "SELECT id_hobbit, nom_hobbit, prenom_hobbit, niveau_hobbit FROM hobbit WHERE sexe_hobbit='masculin' AND est_compte_actif_hobbit='oui' AND est_pnj_hobbit='non' AND id_hobbit <> ".(int)$idHobbit." AND id_hobbit NOT IN (SELECT id_fk_m_hobbit_couple FROM couple)";

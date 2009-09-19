@@ -38,4 +38,28 @@ class HobbitsDistinction extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+
+	function countDistinctionByIdHobbitList($listId, $idTypeDistinction) {
+
+		$nomChamp = "id_fk_hobbit_hdistinction";
+		$liste = "";
+		foreach($listId as $id) {
+			if ((int) $id."" == $id."") {
+				if ($liste == "") {
+					$liste = $id;
+				} else {
+					$liste = $liste." OR ".$nomChamp."=".$id;
+				}
+			}
+		}
+			
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbits_distinction', array('count(*) as nombre', 'id_fk_hobbit_hdistinction'))
+		->where('id_fk_type_distinction_hdistinction = ?', intval($idTypeDistinction))
+		->where('id_fk_hobbit_hdistinction = '.$liste)
+		->group('id_fk_hobbit_hdistinction');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }

@@ -17,19 +17,25 @@ class Bral_Util_Distinction {
 	const ID_TYPE_BOURLINGUEUR_SUD_EST = 3;
 	const ID_TYPE_BOURLINGUEUR_NORD = 4;
 	const ID_TYPE_BOURLINGUEUR_EST = 5;
-	
-	const ID_TYPE_TEAM = 6;
-	const ID_TYPE_QUETE_RP = 7;
-	const ID_TYPE_SOULE = 8;
-	const ID_TYPE_BETA_TESTEUR = 9;
-	
+
+	const ID_TYPE_DONJON_CENTRE = 6;
+	const ID_TYPE_DONJON_SUD_OUEST = 7;
+	const ID_TYPE_DONJON_SUD_EST = 8;
+	const ID_TYPE_DONJON_NORD = 9;
+	const ID_TYPE_DONJON_EST = 10;
+
+	const ID_TYPE_TEAM = 11;
+	const ID_TYPE_QUETE_RP = 12;
+	const ID_TYPE_SOULE = 12;
+	const ID_TYPE_BETA_TESTEUR = 14;
+
 	function __construct() {
 	}
-	
+
 	public static function ajouterDistinction($idHobbit, $idTypeDistinction, $texte, $url = null) {
 		Zend_Loader::loadClass("HobbitsDistinction");
 		$hobbitsDistinctionTable = new HobbitsDistinction();
-		
+
 		$data = array(
 			'id_fk_hobbit_hdistinction' => $idHobbit,
 			'id_fk_type_distinction_hdistinction' => $idTypeDistinction,
@@ -37,9 +43,9 @@ class Bral_Util_Distinction {
 			'url_hdistinction' => $url,
 			'date_hdistinction' => date("Y-m-d"),
 		);
-		
+
 		$hobbitsDistinctionTable->insert($data);
-				
+
 	}
 
 	public static function prepareDistinctions($idHobbit) {
@@ -67,5 +73,27 @@ class Bral_Util_Distinction {
 		$retour["tabDistinctions"] = $tabDistinctions;
 		$retour["possedeDistinction"] = $possedeDistinction;
 		return $retour;
+	}
+
+	public static function getIdDistinctionDonjonFromIdDistinctionBourlingueur($idType) {
+		switch($idType) {
+			case self::ID_TYPE_BOURLINGUEUR_CENTRE:
+				return self::ID_TYPE_DONJON_CENTRE;
+				break;
+			case self::ID_TYPE_BOURLINGUEUR_SUD_OUEST:
+				return self::ID_TYPE_DONJON_SUD_OUEST;
+				break;
+			case self::ID_TYPE_BOURLINGUEUR_SUD_EST:
+				return self::ID_TYPE_DONJON_SUD_EST;
+				break;
+			case self::ID_TYPE_BOURLINGUEUR_NORD:
+				return self::ID_TYPE_DONJON_NORD;
+				break;
+			case self::ID_TYPE_BOURLINGUEUR_EST:
+				return self::ID_TYPE_DONJON_EST;
+				break;
+			default :
+				throw new Zend_Exception("getIdDistinctionDonjonFromIdDistinctionBourlingueur invalide:".$idType);
+		}
 	}
 }
