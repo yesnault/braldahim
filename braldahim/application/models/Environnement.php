@@ -14,13 +14,12 @@ class Environnement extends Zend_Db_Table {
 	protected $_name = 'environnement';
 	protected $_primary = 'id_environnement';
 
-	function findAllHorsGazon() {
+	function findAllQuete() {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('environnement', '*')
-		->where('nom_systeme_environnement not like ?', "gazon");
+		->where('est_quete_environnement like ?', "oui");
 		$sql = $select->__toString();
-
 		return $db->fetchAll($sql);
 	}
 }

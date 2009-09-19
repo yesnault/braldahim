@@ -290,7 +290,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		} else if (Bral_Util_Quete::ETAPE_MANGER_PARAM2_TERRAIN == $dataTypeEtape["param2"]) {
 			Zend_Loader::loadClass("Environnement");
 			$environnementTable = new Environnement();
-			$environnements = $environnementTable->fetchAll();
+			$environnements = $environnementTable->findAllQuete();
 			$deEnvironnement = Bral_Util_De::get_de_specifique(0, count($environnements) -1);
 			$environnement = $environnements[$deEnvironnement];
 			$dataTypeEtape["param3"] = $environnement["id_environnement"];
@@ -353,7 +353,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		if (Bral_Util_Quete::ETAPE_FUMER_PARAM4_TERRAIN == $dataTypeEtape["param4"]) {
 			Zend_Loader::loadClass("Environnement");
 			$environnementTable = new Environnement();
-			$environnements = $environnementTable->fetchAll();
+			$environnements = $environnementTable->findAllQuete();
 			$deEnvironnement = Bral_Util_De::get_de_specifique(0, count($environnements) -1);
 			$environnement = $environnements[$deEnvironnement];
 			$dataTypeEtape["param5"] = $environnement["id_environnement"];
@@ -406,7 +406,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		if (Bral_Util_Quete::ETAPE_MARCHER_PARAM3_TERRAIN == $dataTypeEtape["param3"]) {
 			Zend_Loader::loadClass("Environnement");
 			$environnementTable = new Environnement();
-			$environnements = $environnementTable->fetchAll();
+			$environnements = $environnementTable->findAllQuete();
 			$deEnvironnement = Bral_Util_De::get_de_specifique(0, count($environnements) -1);
 			$environnement = $environnements[$deEnvironnement];
 			$dataTypeEtape["param4"] = $environnement["id_environnement"];
@@ -586,7 +586,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		if (Bral_Util_Quete::ETAPE_CONSTRUIRE_PARAM3_TERRAIN == $dataTypeEtape["param3"]) {
 			Zend_Loader::loadClass("Environnement");
 			$environnementTable = new Environnement();
-			$environnements = $environnementTable->findAllHorsGazon();
+			$environnements = $environnementTable->findAllQuete();
 			$deEnvironnement = Bral_Util_De::get_de_specifique(0, count($environnements) -1);
 			$environnement = $environnements[$deEnvironnement];
 			$dataTypeEtape["param4"] = $environnement["id_environnement"];

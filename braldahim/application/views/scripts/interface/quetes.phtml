@@ -34,7 +34,8 @@
 						  	<? else: ?>
 						  	<label>
 						  	<? endif;?>
-						  	Qu&ecirc;te de la <?=$l["nom_lieu"]?> (<?=$l["nom_ville"]?>)
+						  	Qu&ecirc;te de la <?=$l["nom_lieu"]?> 
+						  	(<a title="Cliquez pour voir <?=$l["nom_ville"]?> dans les règles" style="text-decoration: none" onClick="javascript:ouvrirWin('http://wiki.braldahim.com/wiki/<?=$l["nom_ville"]?>')";><?=$l["nom_ville"]?></a>)
 						  	</label>
 						</td>
 						<td class="table_liste" nowrap>
