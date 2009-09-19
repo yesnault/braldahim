@@ -1081,10 +1081,12 @@ class Bral_Util_Quete {
 			Zend_Loader::loadClass("Zone");
 			$zoneTable = new Zone();
 			$zones = $zoneTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
-			
-			Zend_Loader::loadClass("Bosquet");
-			$bosquetTable = new Bosquet();
-			$nombreBosquets = $bosquetTable->countByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+
+			if ($etape["param_4_etape"] == 2) { // anciennement foret
+				Zend_Loader::loadClass("Bosquet");
+				$bosquetTable = new Bosquet();
+				$nombreBosquets = $bosquetTable->countByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+			}
 
 			if ($zones != null && count($zones) == 1 &&
 			($zones[0]["id_environnement"] == $etape["param_4_etape"]
@@ -1615,7 +1617,7 @@ class Bral_Util_Quete {
 		if ($stats != null && count($stats) > 0) { // mise à jour des objectifs avec ce qu'il y a dans la table stats
 			$nb = $stats[0]["nombre"];
 			$retour = true;
-			
+				
 			$etapeTable = new Etape();
 			$data = array("objectif_etape" => $nb);
 			if ($nb >= $etape["param_2_etape"]) { // fin etape
