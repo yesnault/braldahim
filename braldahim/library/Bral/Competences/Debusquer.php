@@ -66,15 +66,18 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 			$nbGibier = 1;
 		}
 
+		Zend_Loader::loadClass("Palissade");
+		$palissadeTable = new Palissade();
+
 		for ($i = 1; $i <= $nbGibier; $i++) {
 			$idTaille = $this->calculTaille();
-			$this->creationGibier($typeGibier["id_type_monstre"], $idTaille);
+			$this->creationGibier($palissadeTable, $typeGibier["id_type_monstre"], $idTaille);
 		}
 
 		$this->view->nbGibier = $nbGibier;
 	}
 
-	private function creationGibier($id_fk_type_monstre, $id_fk_taille_monstre) {
+	private function creationGibier($palissadeTable, $id_fk_type_monstre, $id_fk_taille_monstre) {
 
 		$niveau_monstre = 0;
 		$niveau_force = 0;
@@ -93,6 +96,23 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 
 		$x_monstre = $this->view->user->x_hobbit + $aleaX;
 		$y_monstre = $this->view->user->y_hobbit + $aleaY;
+
+		$surPalissade = true;
+		while($surPalissade) {
+			$nb = $palissadeTable->countCase($x_monstre, $y_monstre);
+			if ($nb < 1) {
+				$surPalissade = false;
+			} else {
+				$de = Bral_Util_De::get_1d2();
+				if ($de == 1) {
+					$x_monstre = $x_monstre + $de;
+					$y_monstre = $y_monstre + $de;
+				} else {
+					$x_monstre = $x_monstre - $de;
+					$y_monstre = $y_monstre - $de;
+				}
+			}
+		}
 
 		$force_base_monstre = $this->view->config->game->inscription->force_base + $niveau_force;
 		$sagesse_base_monstre = $this->view->config->game->inscription->sagesse_base + $niveau_sagesse;
@@ -312,7 +332,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 		} else {
 			$environnement = $zone["nom_systeme_environnement"];
 		}
-		
+
 		switch($environnement) {
 			case "marais":
 			case "montagne":
