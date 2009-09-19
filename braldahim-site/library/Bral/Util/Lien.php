@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Lien.php 1408 2009-03-29 16:26:37Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-03-29 18:26:37 +0200 (Sun, 29 Mar 2009) $
- * $LastChangedRevision: 1408 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Util_Lien {
 	

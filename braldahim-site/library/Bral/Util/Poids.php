@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3. 
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Poids.php 1078 2009-01-27 06:53:49Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-01-27 07:53:49 +0100 (Tue, 27 Jan 2009) $
- * $LastChangedRevision: 1078 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Util_Poids {
 

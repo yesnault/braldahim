@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Factory.php 1569 2009-05-12 21:27:14Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-05-12 23:27:14 +0200 (Tue, 12 May 2009) $
- * $LastChangedRevision: 1569 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Administrationajax_Factory {
 	

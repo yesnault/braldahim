@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: MarcheequipementController.php 1121 2009-02-02 18:32:05Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-02-02 19:32:05 +0100 (Mon, 02 Feb 2009) $
- * $LastChangedRevision: 1121 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class MarchepotionController extends Zend_Controller_Action {
 

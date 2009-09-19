@@ -4,11 +4,11 @@
  * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Id: Acheterequipement.php 1627 2009-05-21 20:05:28Z yvonnickesnault $
- * $Author: yvonnickesnault $
- * $LastChangedDate: 2009-05-21 22:05:28 +0200 (Thu, 21 May 2009) $
- * $LastChangedRevision: 1627 $
- * $LastChangedBy: yvonnickesnault $
+ * $Id$
+ * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  */
 class Bral_Administrationajax_Deplacerlieu extends Bral_Administrationajax_Administrationajax {
 
