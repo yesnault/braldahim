@@ -1081,7 +1081,14 @@ class Bral_Util_Quete {
 			Zend_Loader::loadClass("Zone");
 			$zoneTable = new Zone();
 			$zones = $zoneTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
-			if ($zones != null && count($zones) == 1 && $zones[0]["id_environnement"] == $etape["param_4_etape"]) {
+			
+			Zend_Loader::loadClass("Bosquet");
+			$bosquetTable = new Bosquet();
+			$nombreBosquets = $bosquetTable->countByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+
+			if ($zones != null && count($zones) == 1 &&
+			($zones[0]["id_environnement"] == $etape["param_4_etape"]
+			|| ($etape["param_4_etape"] == 2 && $nombreBosquets >= 1))) {
 				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeMarcherParam3et4et5 - A - sur l'environnement");
 				$retour = true;
 			} else {
@@ -1095,7 +1102,7 @@ class Bral_Util_Quete {
 				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeMarcherParam3et4et5 - B - sur le lieu");
 				$retour = true;
 			} else {
-				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeMarcherParam3et4et5 - B - non sur l'environnement");
+				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeMarcherParam3et4et5 - B - non sur le lieu");
 			}
 		} else if ($etape["param_3_etape"] == self::ETAPE_MARCHER_PARAM3_POSITION) {
 			if ($hobbit->x_hobbit == $etape["param_4_etape"] && $hobbit->y_hobbit == $etape["param_5_etape"]) {
