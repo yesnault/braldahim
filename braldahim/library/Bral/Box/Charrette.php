@@ -478,6 +478,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		foreach ($potions as $p) {
 			$tabPotions[$p["id_charrette_potion"]] = array(
 					"id_potion" => $p["id_charrette_potion"],
+					"id_type_potion" => $p["id_type_potion"],
 					"nom" => $p["nom_type_potion"],
 					"qualite" => $p["nom_type_qualite"],
 					"niveau" => $p["niveau_potion"],
