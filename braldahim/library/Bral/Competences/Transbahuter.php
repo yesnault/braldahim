@@ -207,9 +207,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Charrette") {
 			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
 			
-			
 			$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
 			$details = "[h".$this->view->user->id_hobbit."] a transbahuté des choses depuis la charrette n°".$this->view->tabEndroit[$idDepart]["id_charrette"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+			Zend_Loader::loadClass("Bral_Util_Materiel");
 			Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idDepart]["id_charrette"], $details);
 		}
 
@@ -218,6 +218,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			
 			$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
 			$details = "[h".$this->view->user->id_hobbit."] a transbahuté des choses dans la charrette n°".$this->view->tabEndroit[$idArrivee]["id_charrette"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+			Zend_Loader::loadClass("Bral_Util_Materiel");
 			Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idArrivee]["id_charrette"], $details);
 		}
 
@@ -1839,8 +1840,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$this->view->nbelement = $this->view->nbelement + 1;
 				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ) {
 					$this->view->panneau = false;
-				}
-				else {
+				} else {
 					foreach ($materiels as $idMateriel) {
 						if (!array_key_exists($idMateriel, $this->view->materiels)) {
 							throw new Zend_Exception(get_class($this)." ID Materiel invalide : ".$idMateriel);
