@@ -294,13 +294,13 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 			$deEnvironnement = Bral_Util_De::get_de_specifique(0, count($environnements) -1);
 			$environnement = $environnements[$deEnvironnement];
 			$dataTypeEtape["param3"] = $environnement["id_environnement"];
-			$dataTypeEtape["libelle_etape"] .= " sur un terrain de type ".$environnement["nom_environnement"];
+			$dataTypeEtape["libelle_etape"] .= " (en dehors d'une auberge) sur un terrain de type ".$environnement["nom_environnement"];
 		} else if (Bral_Util_Quete::ETAPE_MANGER_PARAM2_ETAT == $dataTypeEtape["param2"]) {
 			$dataTypeEtape["param3"] = Bral_Util_De::get_1D2();
 			if (Bral_Util_Quete::ETAPE_MANGER_PARAM3_ETAT_AFFAME == $dataTypeEtape["param3"]) {
-				$dataTypeEtape["libelle_etape"] .= " en étant affamé";
+				$dataTypeEtape["libelle_etape"] .= " (en dehors d'une auberge) en étant affamé";
 			} else {
-				$dataTypeEtape["libelle_etape"] .= " en étant repu";
+				$dataTypeEtape["libelle_etape"] .= " (en dehors d'une auberge) en étant repu";
 			}
 		} else {
 			throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeMangerParam2et3 param2 invalide:".$dataTypeEtape["param2"]);
