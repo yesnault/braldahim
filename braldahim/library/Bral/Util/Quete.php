@@ -995,7 +995,16 @@ class Bral_Util_Quete {
 			Zend_Loader::loadClass("Zone");
 			$zoneTable = new Zone();
 			$zones = $zoneTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
-			if ($zones != null && count($zones) == 1 && $zones[0]["id_environnement"] == $etape["param_5_etape"]) {
+			
+			if ($etape["param_5_etape"] == 2) { // anciennement foret
+				Zend_Loader::loadClass("Bosquet");
+				$bosquetTable = new Bosquet();
+				$nombreBosquets = $bosquetTable->countByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+			}
+
+			if ($zones != null && count($zones) == 1 &&
+				($zones[0]["id_environnement"] == $etape["param_5_etape"]
+				|| ($etape["param_5_etape"] == 2 && $nombreBosquets >= 1))) {
 				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeFumerParam4et5 - A - sur l'environnement");
 				$retour = true;
 			} else {
