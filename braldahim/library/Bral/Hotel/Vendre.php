@@ -58,6 +58,10 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		$this->boxHotelToRefresh = true;
 		$this->calculVendre($this->view->typeDepart[$this->view->idTypeCourantDepart]);
 
+		if ($this->view->typeDepart[$this->view->idTypeCourantDepart]["nom_systeme"] == "Charrette") {
+			Zend_Loader::loadClass("Bral_Util_Poids");
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+		}
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - 1;
 	}
 
@@ -569,7 +573,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		$venteRuneTable->insert($data);
 
 		$this->view->objetVente = " la rune n°".$rune["id_rune"];
-		
+
 		$details = "[h".$this->view->user->id_hobbit."] a mis en vente la rune n°".$rune["id_rune"]. " à l'Hôtel des Ventes";
 		Zend_Loader::loadClass("Bral_Util_Rune");
 		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_VENDRE_ID, $rune["id_rune"], $details);
@@ -935,7 +939,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		$venteMaterielTable->insert($data);
 
 		$this->view->objetVente = " le matériel n°".$materiel["id_materiel"]. " ".$materiel["nom"];
-		
+
 		$details = "[h".$this->view->user->id_hobbit."] a mis en vente le matériel n°".$materiel["id_materiel"]. " à l'Hôtel des Ventes";
 		Zend_Loader::loadClass("Bral_Util_Materiel");
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_VENDRE_ID, $materiel["id_materiel"], $details);
