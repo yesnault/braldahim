@@ -1,1 +1,23 @@
-TODO
+<div class='comp_titre'>Poste de Garde</div>
+
+<?php if ($this->inscriptionDemandee == true) : ?>
+	Vous inscription est prise en compte. Restez ici pour que le meneur puisse ouvrir 
+	la porte du Donjon une fois que tout le monde aura validé.
+<? elseif ($this->inscriptionEquipe === true): ?>
+	Vous avez inscrit avec succès votre équipe.<br>
+	Demandez à vos coéquipiers de valider leur inscription au Poste de Garde (ici-même)
+	et de rester en place pour que vous puissiez ouvrir la porte dès que tout le monde
+	à validé son inscription.<br><br>
+	
+	En tant que meneur, votre inscription est automatiquement validé.
+	<br><br>
+	
+	Vous avez à partir de maintenant 5 jours pour ouvrir la porte avant que l'inscription
+	de votre équipe soit annulée.<br><br>
+	
+	Votre équipe : <br>
+	<? foreach($this->tabHobbitsEquipe as $h):?>
+		<?=$h["prenom_hobbit"]. " ".$h["nom_hobbit"]." (".$h["id_hobbit"].")";?><br>	
+	<? endforeach;?>
+	
+<? endif;?>

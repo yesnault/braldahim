@@ -6,7 +6,6 @@
  	<br>
  	Pour utiliser les services du poste, il vous faut <?=$this->paUtilisationLieu?> PA.<br /><br />
  	
- 	
  	<? if ($this->utilisationPaPossible !== true): ?>
  		Vous n'avez pas assez de PA.
  	<? elseif ($this->nouvelleEquipePossible === true) : ?>
@@ -27,16 +26,34 @@
  		
  	<? else : ?>
 	 	<? if ($this->inscriptionDemandee === true): ?>
-	 		Vous êtes demandé pour vous inscrire dans ce Donjon. Si vous n'acceptez pas, l'inscription
+	 		Vous êtes demandé pour vous inscrire dans ce Donjon. Si vous n'acceptez pas, le meneur 
+	 		ne pourra pas ouvrir la porte et l'inscription
 	 		de toute l'équipe sera annulée le <?=$this->dateLimiteInscription?>.
 	 	<? elseif ($this->inscriptionRealisee === true): ?>
-	 		Vous êtes déjà inscrit pour participer à ce Donjon. Dès lors que tous vos coéquipiers
-	 		auront validé leur inscription, vous entrerez automatiquement dans le Donjon.
+	 		
+	 		<? if ($this->estMeneur) : ?>
+	 		Vous êtes déjà inscrit pour participer à ce Donjon dont vous êtes le meneur.<br>
+	 		
+	 		Dès que tous vos coéquipiers
+		 		auront validé leur inscription, 
+		 		vous pourrez revenir ici-même ouvrir la porte du Donjon et faire
+		 		rentrer toute votre équipe à l'intérieur.
+	 		<? else : ?>
+	 		Vous êtes déjà inscrit pour participer à ce Donjon.
+	 		
+	 		 Dès lors que tous vos coéquipiers
+		 		auront validé leur inscription, 
+		 		
+		 		le meneur pourra ouvrir la porte du Donjon et vous
+		 		rentrerez automatiquement à l'intérieur.
+	 		<? endif;?>
+	 		
 	 	<? else: ?>
 	 		Il y déjà une équipe dans ce Donjon ou en cours d'inscription, sans que vous 
 	 		soyez demandé pour en faire partie. Attendez leur sortie pour inscrire une 
 	 		nouvelle équipe.
 	 	<? endif;?>
+	 	<br><br>
 	 <? endif;?>
 	 
 	 
@@ -61,9 +78,7 @@
 		    <input type='button' class='button1' id="bouton_poste_nouveau" value="Inscrire l'équipe" onClick="this.disabled=true;$('valeur_1').value=$('valeur_1_coequiper').value;_get_('/lieux/doaction?caction=do_lieu_postedegarde');" disabled/>
 	
 		<? elseif ($this->inscriptionDemandee === true): ?>
-			TODO
 			 <input type='button' class='button1' id="bouton_poste_nouveau" value="Valider l'inscription" onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_postedegarde');" />
-	
 		<? endif;?>
  	<? endif;?>
  	
