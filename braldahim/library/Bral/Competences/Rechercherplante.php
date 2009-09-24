@@ -18,7 +18,7 @@ class Bral_Competences_Rechercherplante extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Plantes');
 
 		// Position précise avec (Vue+BM) de vue *2
-		$this->view->rayon_precis =  (Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit ) * 2;
+		$this->view->rayon_precis =  (Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit) + $this->view->user->vue_bm_hobbit ) * 2;
 
 		$this->view->avecChoix = false;
 		$tabChoix = array();

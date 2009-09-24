@@ -16,7 +16,7 @@ class Bral_Competences_Pister extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("TypeMonstre");
 		
 		// Position précise avec (Vue+BM) de vue *2
-		$this->view->rayon_precis =  (Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit ) * 2;
+		$this->view->rayon_precis =  (Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit) + $this->view->user->vue_bm_hobbit ) * 2;
 		
 		$typeMonstreTable = new TypeMonstre();
 		$typeMonstreRowset = $typeMonstreTable->fetchall(null, "nom_type_monstre");

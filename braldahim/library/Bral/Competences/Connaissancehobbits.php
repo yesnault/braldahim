@@ -22,7 +22,7 @@ class Bral_Competences_Connaissancehobbits extends Bral_Competences_Competence {
 			return;
 		}
 		
-		$vue_nb_cases = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
+		$vue_nb_cases = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit) + $this->view->user->vue_bm_hobbit;
 		$this->view->distance = $vue_nb_cases;
 		
 		$x_min = $this->view->user->x_hobbit - $this->view->distance;

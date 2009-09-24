@@ -218,7 +218,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 	}
 
 	private function initVariablesVue() {
-		$this->view->vue_nb_cases = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
+		$this->view->vue_nb_cases = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit) + $this->view->user->vue_bm_hobbit;
 		$this->view->x_min = $this->view->user->x_hobbit - $this->view->vue_nb_cases;
 		$this->view->x_max = $this->view->user->x_hobbit + $this->view->vue_nb_cases;
 		$this->view->y_min = $this->view->user->y_hobbit - $this->view->vue_nb_cases;

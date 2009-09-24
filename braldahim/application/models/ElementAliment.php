@@ -32,6 +32,6 @@ class ElementAliment extends Zend_Db_Table {
 	}
 
 	function findByCase($x, $y, $z) {
-		return $this->selectVue($x, $y, $x, $y, $zs);
+		return $this->selectVue($x, $y, $x, $y, $z);
 	}
 }

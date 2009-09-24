@@ -93,7 +93,7 @@ class Bral_Util_Marcher {
 
 		Zend_Loader::loadClass("Bral_Util_Dijkstra");
 		$dijkstra = new Bral_Util_Dijkstra();
-		$dijkstra->calcul($this->nb_cases, $hobbit->x_hobbit, $hobbit->y_hobbit);
+		$dijkstra->calcul($this->nb_cases, $hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
 
 		$defautChecked = false;
 		$config = Zend_Registry::get('config');

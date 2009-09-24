@@ -60,7 +60,7 @@ class Palissade extends Zend_Db_Table {
 		->where('x_palissade >= ?',$x_min)
 		->where('y_palissade >= ?',$y_min)
 		->where('y_palissade <= ?',$y_max)
-		->where('z_palissade <= ?',$z);
+		->where('z_palissade = ?',$z);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

@@ -80,7 +80,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		}
 
 
-		$this->view->vue_nb_cases = Bral_Util_Commun::getVueBase($x, $y) + $bm;
+		$this->view->vue_nb_cases = Bral_Util_Commun::getVueBase($x, $y, $z) + $bm;
 		$this->view->x_min = $x - $this->view->vue_nb_cases;
 		$this->view->x_max = $x + $this->view->vue_nb_cases;
 		$this->view->y_min = $y - $this->view->vue_nb_cases;
@@ -624,6 +624,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					$css = "palissade";
 				} else  {
 					$css = $nom_systeme_environnement;
+					if ($css == null) {
+						$css = "inconnu";						
+					}
 					if (count($tabRoutes) >= 1) {
 						$css .= "-gr";
 					}

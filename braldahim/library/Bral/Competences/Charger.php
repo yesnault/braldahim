@@ -93,14 +93,14 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			}
 
 			//La distance de charge est bornée par la VUE
-			$vue = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
+			$vue = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit) + $this->view->user->vue_bm_hobbit;
 			if ($vue < $this->view->charge_nb_cases) {
 				$this->view->charge_nb_cases = $vue;
 			}
 
 			Zend_Loader::loadClass("Bral_Util_Dijkstra");
 			$dijkstra = new Bral_Util_Dijkstra();
-			$dijkstra->calcul($this->view->charge_nb_cases, $this->view->user->x_hobbit, $this->view->user->y_hobbit);
+			$dijkstra->calcul($this->view->charge_nb_cases, $this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 
 			$x_min = $this->view->user->x_hobbit - $this->view->charge_nb_cases;
 			$x_max = $this->view->user->x_hobbit + $this->view->charge_nb_cases;

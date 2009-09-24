@@ -1108,8 +1108,8 @@ td.vue2d.marais { background: url('/public/styles/braldahim_defaut/images/vue/ma
 td.vue2d.marais-gr { background: url('/public/styles/braldahim_defaut/images/vue/marais-gr.png') repeat; }
 td.vue2d.montagne { background: url('/public/styles/braldahim_defaut/images/vue/montagne.png') repeat; }
 td.vue2d.montagne-gr { background: url('/public/styles/braldahim_defaut/images/vue/montagne-gr.png') repeat;}
-td.vue2d.caverne { background: url('/public/styles/braldahim_defaut/images/vue/inconnu.png') repeat;}
-td.vue2d.caverne-gr { background: url('/public/styles/braldahim_defaut/images/vue/inconnu-gr.png') repeat;}
+td.vue2d.caverne { background: url('/public/styles/braldahim_defaut/images/vue/caverne.png') repeat;}
+td.vue2d.caverne-gr { background: url('/public/styles/braldahim_defaut/images/vue/caverne-gr.png') repeat;}
 
 td.vue2d.route { background: url('/public/styles/braldahim_defaut/images/vue/route.png') repeat; }
 

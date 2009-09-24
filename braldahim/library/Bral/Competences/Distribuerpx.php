@@ -20,7 +20,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 		// s'il y a trop de hobbits, on prend que les plus proches
 		$this->view->estMaxHobbits = false;
 
-		$vue = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit) + $this->view->user->vue_bm_hobbit;
+		$vue = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit) + $this->view->user->vue_bm_hobbit;
 		$hobbits = $hobbitTable->findLesPlusProches($this->view->user->x_hobbit, $this->view->user->y_hobbit, $vue, $this->view->config->game->competence->distribuerpx->nb_max_hobbit);
 
 		foreach($hobbits as $h) {

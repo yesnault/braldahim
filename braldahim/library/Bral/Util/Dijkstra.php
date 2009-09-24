@@ -33,14 +33,14 @@ class Bral_Util_Dijkstra {
 
 	public function Dijkstra() {}
 
-	public function calcul($nbCases, $xPosition, $yPosition) {
+	public function calcul($nbCases, $xPosition, $yPosition, $zPosition) {
 
 		$this->bestPath = 0;
 		$this->nbCasesLargeur = $nbCases + $nbCases + 1;
 		$this->nbCases = $nbCases;
 		$this->xPosition = $xPosition;
 		$this->yPosition = $yPosition;
-
+		$this->zPosition = $zPosition;
 
 		$this->initTabPalissades();
 		$this->map = $this->initMap();
@@ -58,7 +58,7 @@ class Bral_Util_Dijkstra {
 		$yMin = $this->yPosition - $this->nbCasesLargeur;
 		$yMax = $this->yPosition + $this->nbCasesLargeur;
 
-		$palissades = $palissadeTable->selectVue($xMin, $yMin, $xMax, $yMax);
+		$palissades = $palissadeTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition);
 
 		$numero = -1;
 		for ($j = $this->nbCases; $j >= -$this->nbCases; $j--) {
