@@ -77,7 +77,7 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass('Filon');
 		$filonTable = new Filon();
-		$filonRow = $filonTable->findLePlusProche($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->rayon_max, $idTypeMinerai);
+		$filonRow = $filonTable->findLePlusProche($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, $this->view->rayon_max, $idTypeMinerai);
 		unset($filonTable);
 
 		if (!empty($filonRow)) {

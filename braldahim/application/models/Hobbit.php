@@ -70,7 +70,7 @@ class Hobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function selectVue($x_min, $y_min, $x_max, $y_max, $sansHobbitCourant = -1, $avecIntangibles = true) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z, $sansHobbitCourant = -1, $avecIntangibles = true) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 
@@ -79,6 +79,7 @@ class Hobbit extends Zend_Db_Table {
 		$select->where('x_hobbit >= ?',$x_min);
 		$select->where('y_hobbit >= ?',$y_min);
 		$select->where('y_hobbit <= ?',$y_max);
+		$select->where('z_hobbit = ?',$z);
 		$select->where('est_ko_hobbit = ?', "non");
 		$select->where('est_compte_actif_hobbit = ?', "oui");
 		$select->where('est_en_hibernation_hobbit = ?', "non");
@@ -97,13 +98,14 @@ class Hobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findByCase($x, $y, $sansHobbitCourant = -1, $avecIntangibles = true) {
+	function findByCase($x, $y, $z, $sansHobbitCourant = -1, $avecIntangibles = true) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 
 		$select->from('hobbit', '*');
 		$select->where('x_hobbit = ?',$x);
 		$select->where('y_hobbit = ?',$y);
+		$select->where('z_hobbit = ?',$z);
 		$select->where('est_compte_actif_hobbit = ?', "oui");
 		$select->where('est_en_hibernation_hobbit = ?', "non");
 		$select->where('est_ko_hobbit = ?', "non");

@@ -38,7 +38,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		//Si on est sur une echoppe
 		$echoppe = new Echoppe();
-		$echoppeCase = $echoppe->findByCase($this->view->user->x_hobbit,$this->view->user->y_hobbit);
+		$echoppeCase = $echoppe->findByCase($this->view->user->x_hobbit,$this->view->user->y_hobbit, $this->view->user->z_hobbit);
 		if (count($echoppeCase) > 0) {
 			if ($echoppeCase[0]["id_hobbit"] == $this->view->user->id_hobbit) {
 				$tabEndroit[5] = array("id_type_endroit" => 5,"nom_systeme" => "Echoppe", "nom_type_endroit" => "Votre échoppe", "est_depart" => true, "poids_restant" => -1, "panneau" => true);
@@ -54,7 +54,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		//Cas des charrettes
 		$nbendroit=7;
 		$charrette = new Charrette();
-		$tabCharrette = $charrette->findByPositionAvecHobbit($this->view->user->x_hobbit,$this->view->user->y_hobbit);
+		$tabCharrette = $charrette->findByPositionAvecHobbit($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 		if ( count($tabCharrette) > 0) {
 			foreach ($tabCharrette as $c) {
 				Zend_Loader::loadClass("Bral_Util_Charrette");
@@ -256,7 +256,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$lieu = new Lieu();
 		$banque = $lieu->findByTypeAndCase($config->game->lieu->type->banque,$this->view->user->x_hobbit,$this->view->user->y_hobbit);
 		$echoppe = new Echoppe();
-		$echoppeCase = $echoppe->findByCase($this->view->user->x_hobbit,$this->view->user->y_hobbit);
+		$echoppeCase = $echoppe->findByCase($this->view->user->x_hobbit,$this->view->user->y_hobbit, $this->view->user->z_hobbit);
 		if (count($banque) > 0) {
 			$tab = array("box_vue", "box_laban", "box_coffre", "box_charrette", "box_banque");
 		}
@@ -317,7 +317,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 			case "Element" :
 				$elementEquipementTable = new ElementEquipement();
-				$equipements = $elementEquipementTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+				$equipements = $elementEquipementTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 				unset($elementEquipementTable);
 				break;
 			case "Coffre" :
@@ -522,7 +522,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					break;
 				case "Element" :
 					$elementRuneTable = new ElementRune();
-					$runes = $elementRuneTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+					$runes = $elementRuneTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 					unset($elementruneTable);
 					break;
 				case "Coffre" :
@@ -668,7 +668,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 			case "Element" :
 				$elementPotionTable = new ElementPotion();
-				$potions = $elementPotionTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+				$potions = $elementPotionTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 				unset($elementPotionTable);
 				break;
 			case "Coffre" :
@@ -828,7 +828,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					break;
 				case "Element" :
 					$elementAlimentTable = new ElementAliment();
-					$aliments = $elementAlimentTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+					$aliments = $elementAlimentTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 					unset($elementAlimentTable);
 					break;
 				case "Coffre" :
@@ -984,7 +984,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					break;
 				case "Element" :
 					$elementMunitionTable = new ElementMunition();
-					$munitions = $elementMunitionTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+					$munitions = $elementMunitionTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 					unset($elementMunitionTable);
 					break;
 				case "Coffre" :
@@ -1159,7 +1159,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 			case "Element" :
 				$elementMineraiTable = new ElementMinerai();
-				$minerais = $elementMineraiTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+				$minerais = $elementMineraiTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 				unset($elementMineraiTable);
 				break;
 			case "Coffre" :
@@ -1384,7 +1384,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 			case "Element" :
 				$elementPartiePlanteTable = new ElementPartieplante();
-				$partiePlantes = $elementPartiePlanteTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+				$partiePlantes = $elementPartiePlanteTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 				unset($elementPartiePlanteTable);
 				break;
 			case "Coffre" :
@@ -1623,7 +1623,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					break;
 				case "Element" :
 					$elementTabacTable = new ElementTabac();
-					$tabacs = $elementTabacTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+					$tabacs = $elementTabacTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 					unset($elementTabacTable);
 					break;
 				case "Coffre" :
@@ -1793,7 +1793,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 			case "Element" :
 				$elementMaterielTable = new ElementMateriel();
-				$materiels = $elementMaterielTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+				$materiels = $elementMaterielTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 				unset($elementMaterielTable);
 				break;
 			case "Coffre" :
@@ -1970,7 +1970,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 			case "Element" :
 				$elementTable = new Element();
-				$autres = $elementTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+				$autres = $elementTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 				unset($elementTable);
 				break;
 			case "Coffre" :

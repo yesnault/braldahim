@@ -858,7 +858,7 @@ class Bral_Util_Quete {
 		if ($etape["param_2_etape"] == self::ETAPE_MANGER_PARAM2_AUBERGE && $estDansLieu) {
 			Zend_Loader::loadClass("Lieu");
 			$lieuxTable = new Lieu();
-			$lieuRowset = $lieuxTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+			$lieuRowset = $lieuxTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
 			if ($lieuRowset != null && count($lieuRowset) == 1 && $lieuRowset[0]["id_lieu"] == $etape["param_3_etape"]) {
 				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeMangerParam3 - A - sur le lieu");
 				$retour = true;
@@ -868,11 +868,11 @@ class Bral_Util_Quete {
 		} else if ($etape["param_2_etape"] == self::ETAPE_MANGER_PARAM2_TERRAIN && $estDansLieu == false) {
 			Zend_Loader::loadClass("Zone");
 			$zoneTable = new Zone();
-			$zones = $zoneTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+			$zones = $zoneTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
 
 			Zend_Loader::loadClass("Bosquet");
 			$bosquetTable = new Bosquet();
-			$nombreBosquets = $bosquetTable->countByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+			$nombreBosquets = $bosquetTable->countByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
 
 			if ($zones != null && count($zones) == 1 &&
 			($zones[0]["id_environnement"] == $etape["param_3_etape"]
@@ -994,12 +994,12 @@ class Bral_Util_Quete {
 		if ($etape["param_4_etape"] == self::ETAPE_FUMER_PARAM4_TERRAIN) {
 			Zend_Loader::loadClass("Zone");
 			$zoneTable = new Zone();
-			$zones = $zoneTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+			$zones = $zoneTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
 			
 			if ($etape["param_5_etape"] == 2) { // anciennement foret
 				Zend_Loader::loadClass("Bosquet");
 				$bosquetTable = new Bosquet();
-				$nombreBosquets = $bosquetTable->countByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+				$nombreBosquets = $bosquetTable->countByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
 			}
 
 			if ($zones != null && count($zones) == 1 &&
@@ -1089,12 +1089,12 @@ class Bral_Util_Quete {
 		if ($etape["param_3_etape"] == self::ETAPE_MARCHER_PARAM3_TERRAIN) {
 			Zend_Loader::loadClass("Zone");
 			$zoneTable = new Zone();
-			$zones = $zoneTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+			$zones = $zoneTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
 
 			if ($etape["param_4_etape"] == 2) { // anciennement foret
 				Zend_Loader::loadClass("Bosquet");
 				$bosquetTable = new Bosquet();
-				$nombreBosquets = $bosquetTable->countByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+				$nombreBosquets = $bosquetTable->countByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
 			}
 
 			if ($zones != null && count($zones) == 1 &&
@@ -1108,7 +1108,7 @@ class Bral_Util_Quete {
 		} else if ($etape["param_3_etape"] == self::ETAPE_MARCHER_PARAM3_LIEU) {
 			Zend_Loader::loadClass("Lieu");
 			$lieuxTable = new Lieu();
-			$lieuRowset = $lieuxTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+			$lieuRowset = $lieuxTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
 			if ($lieuRowset != null && count($lieuRowset) == 1 && $lieuRowset[0]["id_lieu"] == $etape["param_4_etape"]) {
 				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeMarcherParam3et4et5 - B - sur le lieu");
 				$retour = true;
@@ -1473,7 +1473,7 @@ class Bral_Util_Quete {
 			Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeConstruireParam3et4 - B - jour ok");
 			Zend_Loader::loadClass("Zone");
 			$zoneTable = new Zone();
-			$zones = $zoneTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+			$zones = $zoneTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
 			if ($zones != null && count($zones) == 1 && $zones[0]["id_environnement"] == $etape["param_4_etape"]) {
 				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeConstruireParam3et4 - B - sur l'environnement");
 				$retour = true;

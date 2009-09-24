@@ -53,6 +53,7 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 			$x_max = $this->view->user->x_hobbit + 1;
 			$y_min = $this->view->user->y_hobbit - 1;
 			$y_max = $this->view->user->y_hobbit + 1;
+			$z = $this->view->user->z_hobbit;
 			
 			$tabCoord = null;
 			$course = false;
@@ -61,7 +62,7 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 			for ($x=$x_min;$x<=$x_max;$x++){
 				for ($y=$y_min;$y<=$y_max;$y++){
 					if ( !($x == $this->view->user->x_hobbit && $y == $this->view->user->y_hobbit)){
-						if (($palissadeTable->findByCase($x,$y)==false) && ($x <= $config->game->x_max) && ($x >= $config->game->x_min) && ($y <= $config->game->y_max) && ($y >= $config->game->y_min)){
+						if (($palissadeTable->findByCase($x,$y,$z)==false) && ($x <= $config->game->x_max) && ($x >= $config->game->x_min) && ($y <= $config->game->y_max) && ($y >= $config->game->y_min)){
 							$tabCoord[]=array(
 								'x' => $x,
 								'y' => $y,
@@ -96,7 +97,7 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 				
 				// recuperation des monstres qui sont presents sur la case
 				$monstreTable = new Monstre();
-				$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+				$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 				foreach($monstres as $m) {
 					if ($m["genre_type_monstre"] == 'feminin') {
 						$m_taille = $m["nom_taille_f_monstre"];

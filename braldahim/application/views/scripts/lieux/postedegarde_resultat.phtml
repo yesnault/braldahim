@@ -19,5 +19,7 @@
 	<? foreach($this->tabHobbitsEquipe as $h):?>
 		<?=$h["prenom_hobbit"]. " ".$h["nom_hobbit"]." (".$h["id_hobbit"].")";?><br>	
 	<? endforeach;?>
-	
+<? elseif ($this->estMeneur && $this->descentePossible) : ?>
+	Vous avez ouvert la porte du Donjon... Tous vos coéquipiers vous ont suivi. <br><br>
+	Vous avez maintenant deux lunes pour sortir victorieux du Donjon ou sinon gare aux conséquences.<br>
 <? endif;?>

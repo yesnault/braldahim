@@ -23,7 +23,7 @@ abstract class Bral_Lieux_Lieu {
 		$this->nom_systeme = $nomSystemeLieu;
 
 		$lieuxTable = new Lieu();
-		$lieuRowset = $lieuxTable->findByCase($view->user->x_hobbit, $view->user->y_hobbit);
+		$lieuRowset = $lieuxTable->findByCase($view->user->x_hobbit, $view->user->y_hobbit, $view->user->z_hobbit);
 		$this->view->estLieuCourant = false;
 
 		if (count($lieuRowset) > 1) {
@@ -57,7 +57,7 @@ abstract class Bral_Lieux_Lieu {
 		} else {
 			Zend_Loader::loadClass("Echoppe");
 			$echoppesTable = new Echoppe();
-			$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+			$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 			if (count($echoppeRowset) > 1) {
 				throw new Zend_Exception(get_class($this)."::nombre d'echoppe invalide > 1 !");
 			} elseif (count($echoppeRowset) == 1) {

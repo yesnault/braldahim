@@ -40,7 +40,7 @@ class Bral_Util_Marcher {
 		$retour["y_max"] = null;
 
 		$zoneTable = new Zone();
-		$zone = $zoneTable->findByCase($hobbit->x_hobbit,$hobbit->y_hobbit);
+		$zone = $zoneTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
 		unset($zoneTable);
 
 		// La requete ne doit renvoyer qu'une seule case
@@ -52,7 +52,7 @@ class Bral_Util_Marcher {
 		unset($zone);
 
 		$bosquetTable = new Bosquet();
-		$bosquets = $bosquetTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+		$bosquets = $bosquetTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
 
 		if (count($bosquets) == 1) {
 			$environnement = $bosquets[0]["description_type_bosquet"];
@@ -62,7 +62,7 @@ class Bral_Util_Marcher {
 		}
 
 		$routeTable = new Route();
-		$routes = $routeTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+		$routes = $routeTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
 
 		if (count($routes) == 1) {
 			$retour["estSurRoute"] = true;

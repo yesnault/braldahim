@@ -18,7 +18,7 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 
 		// On regarde si le hobbit est dans une de ses echopppes
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 
 		$this->view->boutiquerEchoppeOk = false;
 		if ($echoppes == null || count($echoppes) == 0) {

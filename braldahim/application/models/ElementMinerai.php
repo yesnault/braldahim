@@ -14,7 +14,7 @@ class ElementMinerai extends Zend_Db_Table {
 	protected $_name = 'element_minerai';
 	protected $_primary = array('x_element_minerai',  'y_element_minerai', 'id_fk_type_element_minerai');
 
-	function selectVue($x_min, $y_min, $x_max, $y_max) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('element_minerai', '*')
@@ -23,13 +23,14 @@ class ElementMinerai extends Zend_Db_Table {
 		->where('x_element_minerai <= ?',$x_max)
 		->where('x_element_minerai >= ?',$x_min)
 		->where('y_element_minerai <= ?',$y_max)
-		->where('y_element_minerai >= ?',$y_min);
+		->where('y_element_minerai >= ?',$y_min)
+		->where('z_element_minerai = ?',$z);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function findByCase($x, $y) {
-		return $this->selectVue($x, $y, $x, $y);
+	function findByCase($x, $y, $z) {
+		return $this->selectVue($x, $y, $x, $y, $z);
 	}
 	
 	function insertOrUpdate($data) {

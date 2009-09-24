@@ -42,7 +42,7 @@ class Charrette extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function findByPositionAvecHobbit($x, $y) {
+	function findByPositionAvecHobbit($x, $y, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', '*')
@@ -53,14 +53,15 @@ class Charrette extends Zend_Db_Table {
 		->where('id_charrette = id_materiel')
 		->where('id_fk_type_materiel = id_type_materiel')
 		->where('est_ko_hobbit = ?', 'non')
-		->where('x_hobbit = '.intval($x))
-		->where('y_hobbit = '.intval($y));
+		->where('x_hobbit = ?', intval($x))
+		->where('y_hobbit = ?', intval($y))
+		->where('z_hobbit = ?', intval($z));
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
 	}
 
-	function findByCase($x, $y, $avecProprietaire = true) {
+	function findByCase($x, $y, $z, $avecProprietaire = true) {
 		$and = "";
 		if ($avecProprietaire === false) {
 			$and = " AND id_fk_hobbit_charrette is null";
@@ -72,6 +73,7 @@ class Charrette extends Zend_Db_Table {
 		->from('materiel', '*')
 		->where('id_charrette = id_materiel')
 		->where('id_fk_type_materiel = id_type_materiel')
+		->where('z_charrette = '.intval($z))
 		->where('x_charrette = '.intval($x))
 		->where('y_charrette = '.intval($y).$and);
 		$sql = $select->__toString();
@@ -79,11 +81,11 @@ class Charrette extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findByCaseSansProprietaire($x, $y) {
-		return findByCase($x, $y, false);
+	function findByCaseSansProprietaire($x, $y, $z) {
+		return findByCase($x, $y, $z, false);
 	}
 
-	function selectVue($x_min, $y_min, $x_max, $y_max) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('charrette', '*')
@@ -93,6 +95,7 @@ class Charrette extends Zend_Db_Table {
 		->where('x_charrette >= ?', $x_min)
 		->where('y_charrette >= ?', $y_min)
 		->where('y_charrette <= ?', $y_max)
+		->where('z_charrette = ?', $z)
 		->where('id_charrette = id_materiel')
 		->where('id_fk_type_materiel = id_type_materiel')
 		->where('id_fk_hobbit_charrette is NULL');

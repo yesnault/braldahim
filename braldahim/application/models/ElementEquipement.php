@@ -14,7 +14,7 @@ class ElementEquipement extends Zend_Db_Table {
 	protected $_name = 'element_equipement';
 	protected $_primary = 'id_element_equipement';
 
-	function selectVue($x_min, $y_min, $x_max, $y_max) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('element_equipement', '*')
@@ -36,13 +36,14 @@ class ElementEquipement extends Zend_Db_Table {
 		->where('x_element_equipement >= ?', $x_min)
 		->where('y_element_equipement <= ?', $y_max)
 		->where('y_element_equipement >= ?', $y_min)
+		->where('z_element_equipement = ?', $z)
 		->joinLeft('mot_runique','id_fk_mot_runique_equipement = id_mot_runique');
 		
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function findByCase($x, $y) {
-		return $this->selectVue($x, $y, $x, $y);
+	function findByCase($x, $y, $z) {
+		return $this->selectVue($x, $y, $x, $y, $z);
 	}
 }

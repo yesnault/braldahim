@@ -24,4 +24,15 @@ class DonjonHobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
+	public function findByIdEquipe($idDonjonEquipe) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('donjon_hobbit', '*')
+		->from('hobbit', '*')
+		->where('id_fk_hobbit_donjon_hobbit = id_hobbit')
+		->where("id_fk_equipe_donjon_hobbit = ?", intval($idDonjonEquipe));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
 }

@@ -25,14 +25,15 @@ class Palissade extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function countVue($x_min, $y_min, $x_max, $y_max) {
+	function countVue($x_min, $y_min, $x_max, $y_max, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('palissade', 'count(id_palissade) as nombre')
 		->where('x_palissade <= ?',$x_max)
 		->where('x_palissade >= ?',$x_min)
 		->where('y_palissade >= ?',$y_min)
-		->where('y_palissade <= ?',$y_max);
+		->where('y_palissade <= ?',$y_max)
+		->where('z_palissade = ?',$z);
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 		$nombre = $resultat[0]["nombre"];
@@ -51,24 +52,26 @@ class Palissade extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function selectVue($x_min, $y_min, $x_max, $y_max) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('palissade', '*')
 		->where('x_palissade <= ?',$x_max)
 		->where('x_palissade >= ?',$x_min)
 		->where('y_palissade >= ?',$y_min)
-		->where('y_palissade <= ?',$y_max);
+		->where('y_palissade <= ?',$y_max)
+		->where('z_palissade <= ?',$z);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 	
-	function findByCase($x, $y) {
+	function findByCase($x, $y, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('palissade', '*')
 		->where('x_palissade = ?',$x)
-		->where('y_palissade = ?',$y);
+		->where('y_palissade = ?',$y)
+		->where('z_palissade = ?',$z);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

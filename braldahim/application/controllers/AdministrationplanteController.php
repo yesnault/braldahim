@@ -131,7 +131,7 @@ class AdministrationplanteController extends Zend_Controller_Action {
 		$villesRowset = $villeTable->fetchAll();
 		
 		foreach($zonesRowset as $z) {
-			$nombrePlantes = $planteTable->countVue($z["x_min_zone"] ,$z["y_min_zone"] ,$z["x_max_zone"] ,$z["y_max_zone"]);
+			$nombrePlantes = $planteTable->countVue($z["x_min_zone"] ,$z["y_min_zone"] ,$z["x_max_zone"] ,$z["y_max_zone"], 0);
 			$nombreCases = ($z["x_max_zone"]  - $z["x_min_zone"] ) * ($z["y_max_zone"]  - $z["y_min_zone"] );
 			$couverture = ($nombrePlantes * 100) / $nombreCases;
 			

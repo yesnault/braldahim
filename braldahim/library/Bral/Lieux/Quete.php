@@ -422,10 +422,10 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		} else if (Bral_Util_Quete::ETAPE_MARCHER_PARAM3_POSITION == $dataTypeEtape["param3"]) {
 			$x = Bral_Util_De::get_de_specifique(0, $this->view->config->game->x_max * 2) - $this->view->config->game->x_max;
 			$y = Bral_Util_De::get_de_specifique(0, $this->view->config->game->y_max * 2) - $this->view->config->game->y_max;
-
+			$z = 0;
 			Zend_Loader::loadClass("Palissade");
 			$palissadeTable = new Palissade();
-			$palissades = $palissadeTable->findByCase($x, $y);
+			$palissades = $palissadeTable->findByCase($x, $y, $z);
 			if ($palissades != null && count($palissades) == 1 && $palissades[0]["est_destructible_palissade"] == "non") {
 				$x = 0;
 				$y = 0;

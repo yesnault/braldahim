@@ -39,7 +39,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			if ($estRegionPvp) {
 				// recuperation des hobbits qui sont presents sur la vue
 				$hobbitTable = new Hobbit();
-				$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit, false);
+				$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, $this->view->user->id_hobbit, false);
 				foreach($hobbits as $h) {
 					$tab = array(
 						'id_hobbit' => $h["id_hobbit"],
@@ -55,7 +55,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 
 			// recuperation des monstres qui sont presents sur la vue
 			$monstreTable = new Monstre();
-			$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+			$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 			foreach($monstres as $m) {
 				if ($m["genre_type_monstre"] == 'feminin') {
 					$m_taille = $m["nom_taille_f_monstre"];

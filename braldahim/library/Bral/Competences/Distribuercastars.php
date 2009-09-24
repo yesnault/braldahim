@@ -18,7 +18,7 @@ class Bral_Competences_Distribuercastars extends Bral_Competences_Competence {
 		// s'il y a trop de hobbits, on prend que les plus proches
 		$this->view->estMaxHobbits = false;
 
-		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->id_hobbit);
+		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, $this->view->user->id_hobbit);
 
 		$tabHobbits = null;
 		foreach($hobbits as $h) {

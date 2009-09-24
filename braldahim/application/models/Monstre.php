@@ -52,7 +52,7 @@ class Monstre extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function countVue($x_min, $y_min, $x_max, $y_max, $id_type = null) {
+	function countVue($x_min, $y_min, $x_max, $y_max, $z, $id_type = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('monstre', 'count(id_monstre) as nombre')
@@ -60,6 +60,7 @@ class Monstre extends Zend_Db_Table {
 		->where('x_monstre >= ?',$x_min)
 		->where('y_monstre >= ?',$y_min)
 		->where('y_monstre <= ?',$y_max)
+		->where('z_monstre = ?',$z)
 		->where('est_mort_monstre = ?', 'non');
 
 		if ($id_type != null) {
@@ -72,7 +73,7 @@ class Monstre extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function selectVue($x_min, $y_min, $x_max, $y_max) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('monstre', '*')
@@ -84,12 +85,13 @@ class Monstre extends Zend_Db_Table {
 		->where('x_monstre >= ?',$x_min)
 		->where('y_monstre >= ?',$y_min)
 		->where('y_monstre <= ?',$y_max)
+		->where('z_monstre = ?',$z)
 		->where('est_mort_monstre = ?', "non");
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function selectVueCadavre($x_min, $y_min, $x_max, $y_max) {
+	function selectVueCadavre($x_min, $y_min, $x_max, $y_max, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('monstre', '*')
@@ -101,13 +103,14 @@ class Monstre extends Zend_Db_Table {
 		->where('x_monstre >= ?',$x_min)
 		->where('y_monstre >= ?',$y_min)
 		->where('y_monstre <= ?',$y_max)
+		->where('z_monstre = ?',$z)
 		->where('est_mort_monstre = ?','oui')
 		->where('est_depiaute_cadavre = ?', 'non');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function findByCaseCadavre($x, $y) {
+	function findByCaseCadavre($x, $y, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('monstre', '*')
@@ -117,13 +120,14 @@ class Monstre extends Zend_Db_Table {
 		->where('monstre.id_fk_taille_monstre = taille_monstre.id_taille_monstre')
 		->where('x_monstre = ?',$x)
 		->where('y_monstre = ?',$y)
+		->where('z_monstre = ?',$z)
 		->where('est_mort_monstre = ?','oui')
 		->where('est_depiaute_cadavre = ?', 'non');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function findByCase($x, $y) {
+	function findByCase($x, $y, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('monstre', '*')
@@ -133,6 +137,7 @@ class Monstre extends Zend_Db_Table {
 		->where('monstre.id_fk_taille_monstre = taille_monstre.id_taille_monstre')
 		->where('x_monstre = ?',$x)
 		->where('y_monstre = ?',$y)
+		->where('z_monstre = ?',$z)
 		->where('est_mort_monstre = ?', 'non');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -187,7 +192,7 @@ class Monstre extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findLePlusProcheParType($idtype, $x, $y, $rayon) {
+	function findLePlusProcheParType($idtype, $x, $y, $z, $rayon) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('monstre', 'id_monstre, y_monstre, x_monstre, id_fk_type_monstre, SQRT(((x_monstre - '.$x.') * (x_monstre - '.$x.')) + ((y_monstre - '.$y.') * ( y_monstre - '.$y.'))) as distance')
@@ -196,6 +201,7 @@ class Monstre extends Zend_Db_Table {
 		->where('x_monstre <= ?', $x + $rayon)
 		->where('y_monstre >= ?', $y - $rayon)
 		->where('y_monstre <= ?', $y + $rayon)
+		->where('z_monstre = ?', $z)
 		->where('monstre.id_fk_type_monstre = type_monstre.id_type_monstre')
 		->where('type_monstre.id_type_monstre = ?', intval($idtype))
 		->where('est_mort_monstre = ?', "non")

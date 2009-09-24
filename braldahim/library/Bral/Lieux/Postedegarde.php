@@ -20,6 +20,9 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$this->prepareDonjon();
 		$this->prepareEquipe();
 		$this->prepareInscription();
+		if ($this->view->estMeneur && $this->view->inscriptionRealisee) {
+			$this->prepareDescente();
+		}
 	}
 
 	private function prepareDonjon() {
@@ -51,7 +54,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		}
 
 		$this->view->estMeneur = false;
-		
+
 		if (count($donjonEquipe) == 1) {
 			$this->equipeCourante = $donjonEquipe[0];
 			if ($this->view->user->id_hobbit == $this->equipeCourante["id_fk_hobbit_meneur_equipe"]) {
@@ -89,7 +92,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$this->view->inscriptionRealisee = false;
 		if ($donjonHobbit != null) {
 			$donjonHobbit = $donjonHobbit[0];
-			if ($donjonHobbit["date_entree_donjon_hobbit"] == null) {
+			if ($donjonHobbit["date_inscription_donjon_hobbit"] == null) {
 				$this->view->inscriptionDemandee = true;
 				$this->view->dateLimiteInscription = Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s', $this->equipeCourante["date_limite_inscription_donjon_equipe"]);
 			} else {
@@ -107,12 +110,14 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 			throw new Zend_Exception(get_class($this)." Utilisation impossible : pa:".$this->view->user->pa_hobbit." cout:".$this->$this->view->paUtilisationLieu);
 		}
 
-		if ($this->view->nouvelleEquipePossible == false && $this->view->inscriptionDemandee == false) {
-			throw new Zend_Exception(get_class($this)." Utilisation impossible 1 idh:".$this->view->user->pa_hobbit);
+		if ($this->view->estMeneur && $this->view->descentePossible == false) {
+			throw new Zend_Exception(get_class($this)." Utilisation impossible 1 idh:".$this->view->user->id_hobbit);
+		} elseif ($this->view->estMeneur == false && $this->view->nouvelleEquipePossible == false && $this->view->inscriptionDemandee == false) {
+			throw new Zend_Exception(get_class($this)." Utilisation impossible 2 idh:".$this->view->user->id_hobbit);
 		}
 
 		if ($this->view->nouvelleEquipePossible == true && $this->view->inscriptionParHobbitNouvelleEquipePossible == false) {
-			throw new Zend_Exception(get_class($this)." Utilisation impossible 2 idh:".$this->view->user->pa_hobbit);
+			throw new Zend_Exception(get_class($this)." Utilisation impossible 3 idh:".$this->view->user->id_hobbit);
 		}
 
 		if ($this->view->nouvelleEquipePossible == true && $this->view->inscriptionParHobbitNouvelleEquipePossible == true) {
@@ -121,6 +126,8 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		} elseif ($this->view->inscriptionDemandee == true) {
 			$this->inscriptionHobbit();
 			$this->envoieMessageInscriptionHobbit();
+		} elseif ($this->view->estMeneur && $this->view->inscriptionRealisee) {
+			$this->calculDescente();
 		}
 
 	}
@@ -143,7 +150,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 			"nb_jour_restant_donjon_equipe" => null,
 		);
 		$idEquipe = $donjonEquipeTable->insert($dataEquipe);
-		$dataEquipe["id_donjon_equipe"] = $idEquipe; 
+		$dataEquipe["id_donjon_equipe"] = $idEquipe;
 
 		Zend_Loader::loadClass("DonjonHobbit");
 		$donjonHobbitTable = new DonjonHobbit();
@@ -159,7 +166,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 			);
 		}
 		$this->view->tabHobbitsEquipe = $tabHobbits;
-		
+
 		$this->equipeCourante = $dataEquipe;
 		$this->inscriptionHobbit();
 	}
@@ -205,7 +212,6 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 	}
 
 	public function envoieMessageInscriptionEquipe($hobbit, $dateLimite) {
-
 		$message = "[Poste de Garde]".PHP_EOL.PHP_EOL;
 
 		if ($hobbit["id_hobbit"] != $this->view->user->id_hobbit) {
@@ -228,7 +234,6 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 	}
 
 	public function envoieMessageInscriptionHobbit() {
-
 		$message = "[Poste de Garde]".PHP_EOL.PHP_EOL;
 
 		$message .= "Félicitations ! ".PHP_EOL;
@@ -258,8 +263,60 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$where = "id_fk_hobbit_donjon_hobbit = ".$this->view->user->id_hobbit;
 		$where .= " AND id_fk_equipe_donjon_hobbit = ".$this->equipeCourante["id_donjon_equipe"];
 			
-		$data["date_entree_donjon_hobbit"] = date("Y-m-d H:i:s");
+		$data["date_inscription_donjon_hobbit"] = date("Y-m-d H:i:s");
 		$donjonHobbitTable->update($data, $where);
+	}
+
+	private function prepareDescente() {
+		// verification que tous les hobbits de l'équipe sont sur la case.
+		Zend_Loader::loadClass('DonjonHobbit');
+		$donjonHobbitTable = new DonjonHobbit();
+		$donjonHobbit = $donjonHobbitTable->findByIdEquipe($this->equipeCourante["id_donjon_equipe"]);
+
+		$inscriptionEquipeOk = true;
+
+		foreach($donjonHobbit as $h) {
+
+			if ($h["date_inscription_donjon_hobbit"] == null) {
+				$inscriptionEquipeOk = false;
+				break;
+			} elseif (($h["x_hobbit"] != $this->view->user->x_hobbit ||
+			$h["y_hobbit"] != $this->view->user->y_hobbit)) {
+				$inscriptionEquipeOk = false;
+				break;
+			}
+		}
+
+		$this->view->descentePossible = false;
+
+		if ($inscriptionEquipeOk) {
+			$this->view->descentePossible = true;
+			$this->hobbitsADescendre = $donjonHobbit;
+		}
+
+	}
+
+	private function calculDescente() {
+
+		$hobbitTable = new Hobbit();
+		foreach($this->hobbitsADescendre as $h) {
+			$where = "id_hobbit = ".$h["id_hobbit"];
+			$data = array(
+				"z_hobbit" => -1,
+			);
+			$hobbitTable->update($data, $where);
+		}
+	}
+
+	public function envoieMessageDescente() {
+		$message = "[Poste de Garde]".PHP_EOL.PHP_EOL;
+		$message .=  $this->view->user->prenom_hobbit. " ".$this->view->user->nom_hobbit;
+		$message .= " (".$this->view->user->id_hobbit.") a ouvert la porte du Donjon.";
+		$message .= "Vous êtes entrés avec lui...".PHP_EOL;
+		$message .= "Vous avez maintenant deux lunes pour sortir victorieux ou sinon gare aux conséquences.".PHP_EOL;
+
+		$this->messageSignature($message);
+		Bral_Util_Messagerie::envoiMessageAutomatique($this->donjonCourant["id_fk_pnj_donjon"], $this->view->user->id_hobbit, $message, $this->view);
 	}
 
 	function getListBoxRefresh() {

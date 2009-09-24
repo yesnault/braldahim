@@ -14,7 +14,7 @@ class Plante extends Zend_Db_Table {
 	protected $_name = 'plante';
 	protected $_primary = 'id_plante';
 
-	function selectVue($x_min, $y_min, $x_max, $y_max) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('plante', '*')
@@ -23,6 +23,7 @@ class Plante extends Zend_Db_Table {
 		->where('x_plante >= ?',$x_min)
 		->where('y_plante >= ?',$y_min)
 		->where('y_plante <= ?',$y_max)
+		->where('z_plante = ?',$z)
 		->where('plante.id_fk_type_plante = type_plante.id_type_plante');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -48,13 +49,14 @@ class Plante extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function findByCase($x, $y) {
+	function findByCase($x, $y, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('plante', '*')
 		->from('type_plante', '*')
 		->where('x_plante = ?',$x)
 		->where('y_plante = ?',$y)
+		->where('z_plante = ?',$z)
 		->where('plante.id_fk_type_plante = type_plante.id_type_plante');
 		$sql = $select->__toString();
 

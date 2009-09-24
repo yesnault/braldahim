@@ -46,7 +46,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		Zend_Loader::loadClass("Lieu");
 
 		$lieuxTable = new Lieu();
-		$lieuRowset = $lieuxTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$lieuRowset = $lieuxTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 		unset($lieuxTable);
 
 		if (count($lieuRowset) <= 0) {

@@ -69,11 +69,13 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		if ($this->view->user->administrationvue === true && $this->view->user->administrationvueDonnees != null) {
 			$x = $this->view->user->administrationvueDonnees["x_position"];
 			$y = $this->view->user->administrationvueDonnees["y_position"];
+			$z = $this->view->user->administrationvueDonnees["z_position"];
 			$bm = 10;
 
 		} else {
 			$x = $this->view->user->x_hobbit;
 			$y = $this->view->user->y_hobbit;
+			$z = $this->view->user->z_hobbit;
 			$bm = $this->view->user->vue_bm_hobbit;
 		}
 
@@ -83,6 +85,8 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$this->view->x_max = $x + $this->view->vue_nb_cases;
 		$this->view->y_min = $y - $this->view->vue_nb_cases;
 		$this->view->y_max = $y + $this->view->vue_nb_cases;
+		
+		$this->view->z_position = $z;
 
 		$this->view->estVueEtendue = false;
 
@@ -183,64 +187,64 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		}
 
 		$monstreTable = new Monstre();
-		$cadavres = $monstreTable->selectVueCadavre($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$cadavres = $monstreTable->selectVueCadavre($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($monstreTable);
 		$charretteTable = new Charrette();
-		$charrettes = $charretteTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$charrettes = $charretteTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($charretteTable);
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$echoppes = $echoppeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($echoppeTable);
 		$elementTable = new Element();
-		$elements = $elementTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$elements = $elementTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($elementTable);
 		$elementEquipementTable = new ElementEquipement();
-		$elementsEquipements = $elementEquipementTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$elementsEquipements = $elementEquipementTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($elementEquipementTable);
 		$elementMunitionsTable = new ElementMunition();
-		$elementsMunitions = $elementMunitionsTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$elementsMunitions = $elementMunitionsTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($elementMunitionsTable);
 		$elementPartiePlanteTable = new ElementPartieplante();
-		$elementsPartieplantes = $elementPartiePlanteTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$elementsPartieplantes = $elementPartiePlanteTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($elementPartiePlanteTable);
 		$elementMaterielTable = new ElementMateriel();
-		$elementsMateriels = $elementMaterielTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$elementsMateriels = $elementMaterielTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($elementMaterielTable);
 		$elementMineraisTable = new ElementMinerai();
-		$elementsMinerais = $elementMineraisTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$elementsMinerais = $elementMineraisTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($elementMineraisTable);
 		$elementPotionTable = new ElementPotion();
-		$elementsPotions = $elementPotionTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$elementsPotions = $elementPotionTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($elementPotionTable);
 		$elementAlimentTable = new ElementAliment();
-		$elementsAliments = $elementAlimentTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$elementsAliments = $elementAlimentTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($elementAlimentTable);
 		$elementRuneTable = new ElementRune();
-		$elementsRunes = $elementRuneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$elementsRunes = $elementRuneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($elementRuneTable);
 		$elementTabacTable = new ElementTabac();
-		$elementsTabac = $elementTabacTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$elementsTabac = $elementTabacTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($elementTabacTable);
 		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$hobbits = $hobbitTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($hobbitTable);
 		$lieuxTable = new Lieu();
-		$lieux = $lieuxTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$lieux = $lieuxTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($lieuxTable);
 		$monstreTable = new Monstre();
-		$monstres = $monstreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$monstres = $monstreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($monstreTable);
 		$palissadeTable = new Palissade();
-		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($palissadeTable);
 		$bosquetTable = new Bosquet();
-		$bosquets = $bosquetTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$bosquets = $bosquetTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($bosquetTable);
 		$regionTable = new Region();
 		$regions = $regionTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($regionTable);
 		$routeTable = new Route();
-		$routes = $routeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$routes = $routeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($routeTable);
 		$souleMatchTable = new SouleMatch();
 		$souleMatch = $souleMatchTable->selectBallonVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
@@ -249,7 +253,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$villes = $villeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
 		unset($villeTable);
 		$zoneTable = new Zone();
-		$zones = $zoneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$zones = $zoneTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($zoneTable);
 
 		if ($this->view->estVueEtendue == false) {

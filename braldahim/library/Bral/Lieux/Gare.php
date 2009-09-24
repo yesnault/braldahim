@@ -22,7 +22,7 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) >= 0);
 
 		$lieuTable = new Lieu();
-		$gareCourant = $lieuTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$gareCourant = $lieuTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 		$gareCourant = $gareCourant[0];
 		$gareRowset = $lieuTable->findByType($this->view->config->game->lieu->type->gare);
 

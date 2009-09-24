@@ -25,38 +25,41 @@ class Route extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function countVue($x_min, $y_min, $x_max, $y_max) {
+	function countVue($x_min, $y_min, $x_max, $y_max, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('route', 'count(id_route) as nombre')
 		->where('x_route <= ?',$x_max)
 		->where('x_route >= ?',$x_min)
 		->where('y_route >= ?',$y_min)
-		->where('y_route <= ?',$y_max);
+		->where('y_route <= ?',$y_max)
+		->where('z_route = ?',$z);
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 		$nombre = $resultat[0]["nombre"];
 		return $nombre;
 	}
 
-	function selectVue($x_min, $y_min, $x_max, $y_max) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('route', '*')
 		->where('x_route <= ?',$x_max)
 		->where('x_route >= ?',$x_min)
 		->where('y_route >= ?',$y_min)
-		->where('y_route <= ?',$y_max);
+		->where('y_route <= ?',$y_max)
+		->where('z_route = ?',$z);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 	
-	function findByCase($x, $y) {
+	function findByCase($x, $y, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('route', '*')
 		->where('x_route = ?',$x)
-		->where('y_route = ?',$y);
+		->where('y_route = ?',$y)
+		->where('z_route = ?',$z);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

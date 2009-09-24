@@ -126,12 +126,14 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		$x = intval($x);
 		$y = intval($y);
 
+		$z = $this->view->user->z_hobbit;
+		
 		$this->view->x_construction = $x;
 		$this->view->y_construction = $y;
 
 		// on verifie que l'on est pas sur un lieu
 		$lieuxTable = new Lieu();
-		$lieux = $lieuxTable->findByCase($x, $y);
+		$lieux = $lieuxTable->findByCase($x, $y, $z);
 
 		$this->view->construireLieuOk = true;
 		if (count($lieux) > 0) {
@@ -141,7 +143,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		
 		// on verifie que l'on est pas sur une echoppe
 		$echoppesTable = new Echoppe();
-		$echoppes = $echoppesTable->findByCase($x, $y);
+		$echoppes = $echoppesTable->findByCase($x, $y, $z);
 
 		$this->view->construireLieuEchoppeOk = true;
 		if (count($echoppes) > 0) {
@@ -151,7 +153,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		
 		// on verifie que l'on est pas sur une palissade
 		$palissadesTable = new Palissade();
-		$palissades = $palissadesTable->findByCase($x, $y);
+		$palissades = $palissadesTable->findByCase($x, $y, $z);
 
 		$this->view->construireLieuPalissadeOk = true;
 		if (count($palissades) > 0) {

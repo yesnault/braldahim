@@ -229,6 +229,8 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			$y_max = $this->view->yCible;
 		}
 		
+		$z = $hobbit->z_hobbit;
+		
 		if ($this->view->distCible > 1){
 			Zend_Loader::loadClass("Palissade");
 			
@@ -260,7 +262,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 				for ($y = $y_min; $y <= $y_max; $y++) {
 					$dist = abs (($a * $x + $b * $y + $c)/sqrt(pow($a,2)+pow($b,2)));
 					if ( round($dist,5) < sqrt(2)/2 ){
-						if ($palissadeTable->findByCase($x,$y)){
+						if ($palissadeTable->findByCase($x,$y, $z)){
 							$palissade = true;
 							break;
 						}

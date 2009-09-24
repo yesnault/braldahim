@@ -82,7 +82,7 @@ class Bral_Competences_Pister extends Bral_Competences_Competence {
 		$this->view->rayon_max = $tirageRayonMax + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
 		
 		$monstreTable = new Monstre();
-		$monstreRow = $monstreTable->findLePlusProcheParType($idTypeMonstre,$this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->rayon_max);
+		$monstreRow = $monstreTable->findLePlusProcheParType($idTypeMonstre,$this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, $this->view->rayon_max);
 
 		if (!empty($monstreRow)) {
 			$monstre = array(

@@ -95,7 +95,7 @@ class AdministrationbosquetController extends Zend_Controller_Action {
 		$typeBosquetRowset = $typeBosquetTable->fetchAll();
 		
 		foreach ($zonesRowset as $z) {
-			$nombreBosquets = $bosquetTable->countVue($z ["x_min_zone"], $z ["y_min_zone"], $z ["x_max_zone"], $z ["y_max_zone"]);
+			$nombreBosquets = $bosquetTable->countVue($z ["x_min_zone"], $z ["y_min_zone"], $z ["x_max_zone"], $z ["y_max_zone"], 0);
 			$nombreCases = ($z ["x_max_zone"] - $z ["x_min_zone"]) * ($z ["y_max_zone"] - $z ["y_min_zone"]);
 			$couverture = ($nombreBosquets * 100) / $nombreCases;
 			$zones [] = array("id_zone" => $z ["id_zone"], "x_min" => $z ["x_min_zone"], "x_max" => $z ["x_max_zone"], "y_min" => $z ["y_min_zone"], "y_max" => $z ["y_max_zone"], "environnement" => $z ["nom_environnement"], "nombre_bosquets" => $nombreBosquets, "nombre_cases" => $nombreCases, "couverture" => round($couverture));

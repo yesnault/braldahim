@@ -43,7 +43,7 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 			// On regarde si le hobbit est dans une de ses echopppes
 			$echoppeTable = new Echoppe();
 
-			$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+			$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 
 			if (count($echoppes) == 1) {
 				$echoppe = $echoppes[0];
@@ -64,7 +64,7 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 				$nomIdCharrette = "id_echoppe_materiel";
 			}
 		} else {
-			$charrettes = $charretteTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+			$charrettes = $charretteTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 			$typeProvenance = "sol";
 			$nomIdCharrette = "id_charrette";
 		}

@@ -752,7 +752,7 @@ class Bral_Util_Attaque {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatCaseHobbit - enter -");
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->id_hobbit, false);
+		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit, $hobbit->id_hobbit, false);
 
 		$jetsDegat["critique"] = $degats;
 		$jetsDegat["noncritique"] = $degats;
@@ -775,7 +775,7 @@ class Bral_Util_Attaque {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatCaseMonstre - enter -");
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		$monstreTable = new Monstre();
-		$monstres = $monstreTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit);
+		$monstres = $monstreTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
 
 		$jetsDegat["critique"] = $degats;
 		$jetsDegat["noncritique"] = $degats;
@@ -795,7 +795,7 @@ class Bral_Util_Attaque {
 	public static function calculSoinCase($config, $hobbit, $soins) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculSoinCase - enter -");
 		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->id_hobbit, false);
+		$hobbits = $hobbitTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit, $hobbit->id_hobbit, false);
 		$retour["hobbitTouches"] = null;
 		$i = 0;
 		foreach($hobbits as $h) {

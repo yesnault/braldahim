@@ -28,14 +28,15 @@ class Filon extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function countVue($x_min, $y_min, $x_max, $y_max, $id_type = null) {
+	function countVue($x_min, $y_min, $x_max, $y_max, $z, $id_type = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('filon', 'count(*) as nombre')
 		->where('x_filon <= ?',$x_max)
 		->where('x_filon >= ?',$x_min)
 		->where('y_filon >= ?',$y_min)
-		->where('y_filon <= ?',$y_max);
+		->where('y_filon <= ?',$y_max)
+		->where('z_filon = ?',$z);
 
 		if ($id_type != null) {
 			$select->where('id_fk_type_minerai_filon = ?',$id_type);
@@ -48,13 +49,14 @@ class Filon extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function findByCase($x, $y) {
+	function findByCase($x, $y, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('filon', '*')
 		->from('type_minerai', '*')
 		->where('x_filon = ?',$x)
 		->where('y_filon = ?',$y)
+		->where('z_filon = ?',$z)
 		->where('filon.id_fk_type_minerai_filon = type_minerai.id_type_minerai')
 		->order('filon.id_filon');
 		$sql = $select->__toString();
@@ -62,7 +64,7 @@ class Filon extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findLePlusProche($x, $y, $rayon, $idTypeMinerai = null) {
+	function findLePlusProche($x, $y, $z, $rayon, $idTypeMinerai = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('filon', 'id_filon, x_filon, y_filon, id_fk_type_minerai_filon, SQRT(((x_filon - '.$x.') * (x_filon - '.$x.')) + ((y_filon - '.$y.') * ( y_filon - '.$y.'))) as distance')
@@ -71,6 +73,7 @@ class Filon extends Zend_Db_Table {
 		->where('x_filon <= ?', $x + $rayon)
 		->where('y_filon >= ?', $y - $rayon)
 		->where('y_filon <= ?', $y + $rayon)
+		->where('z_filon <= ?', $z)
 		->where('filon.id_fk_type_minerai_filon = type_minerai.id_type_minerai')
 		->order('distance ASC');
 

@@ -28,7 +28,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		Zend_Loader::loadClass("Echoppe");
 
 		$echoppesTable = new Echoppe();
-		$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 		if (count($echoppeRowset) > 1) {
 			throw new Zend_Exception(get_class($this)."::nombre d'echoppe invalide > 1 !");
 		} else if (count($echoppeRowset) == 0) {

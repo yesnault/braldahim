@@ -85,7 +85,7 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 					if ($z["id_fk_environnement_zone"] == $c["id_fk_environnement_creation_bosquets"]) {
 						$tmp = "";
 						$nbCreation = ceil($t["nb_creation_type_bosquet"] * ($superficieZones[$z["id_zone"]] / $superficieTotale[$c["id_fk_type_bosquet_creation_bosquets"]]));
-						$nbActuel = $bosquetTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"], $t["id_type_bosquet"]);
+						$nbActuel = $bosquetTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"], 0, $t["id_type_bosquet"]);
 
 						$aCreer = $nbCreation - $nbActuel;
 						if ($aCreer <= 0) {
@@ -131,7 +131,7 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 			for($j=0; $j<=$nbCasesAutour; $j++) {
 				for($k=0; $k<=$nbCasesAutour; $k++) {
 					$i = $i + 1;
-					$this->insertDb($bosquetTable, $idTypeBosquet, $x + $j, $y + $k, Bral_Util_De::get_de_specifique(5, 15));
+					$this->insertDb($bosquetTable, $idTypeBosquet, $x + $j, $y + $k, 0, Bral_Util_De::get_de_specifique(5, 15));
 				}
 			}
 		}
@@ -139,12 +139,13 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 		return $retour;
 	}
 
-	private function insertDb($bosquetTable, $idTypeBosquet, $x, $y, $quantite) {
-		if ($bosquetTable->countByCase($y, $y) == 0) {
+	private function insertDb($bosquetTable, $idTypeBosquet, $x, $y, $z, $quantite) {
+		if ($bosquetTable->countByCase($y, $y, $z) == 0) {
 			$data = array(
 				'id_fk_type_bosquet_bosquet' => $idTypeBosquet, 
 				'x_bosquet' => $x, 
 				'y_bosquet' => $y, 
+				'z_bosquet' => $z, 
 				'quantite_restante_bosquet' => $quantite, 
 				'quantite_max_bosquet' => $quantite
 			);

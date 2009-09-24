@@ -29,7 +29,7 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 		Zend_Loader::loadClass("Lieu");
 
 		$lieuxTable = new Lieu();
-		$lieuRowset = $lieuxTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$lieuRowset = $lieuxTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 		unset($lieuxTable);
 		$this->view->estLieuCourant = false;
 
@@ -54,7 +54,7 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 			$this->view->htmlLieu = $this->view->render("interface/lieux/".$lieu["nom_systeme_type_lieu"].".phtml");
 		} else {
 			$echoppesTable = new Echoppe();
-			$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+			$echoppeRowset = $echoppesTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 			unset($echoppesTable);
 			if (count($echoppeRowset) > 1) {
 				throw new Zend_Exception(get_class($this)."::nombre d'echoppe invalide > 1 !");

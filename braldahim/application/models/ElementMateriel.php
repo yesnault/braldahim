@@ -14,7 +14,7 @@ class ElementMateriel extends Zend_Db_Table {
 	protected $_name = 'element_materiel';
 	protected $_primary = 'id_element_materiel';
 
-	function selectVue($x_min, $y_min, $x_max, $y_max) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('element_materiel', '*')
@@ -25,13 +25,14 @@ class ElementMateriel extends Zend_Db_Table {
 		->where('x_element_materiel <= ?', $x_max)
 		->where('x_element_materiel >= ?', $x_min)
 		->where('y_element_materiel <= ?', $y_max)
-		->where('y_element_materiel >= ?', $y_min);
+		->where('y_element_materiel >= ?', $y_min)
+		->where('z_element_materiel = ?', $z);
 		
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function findByCase($x, $y) {
-		return $this->selectVue($x, $y, $x, $y);
+	function findByCase($x, $y, $z) {
+		return $this->selectVue($x, $y, $x, $y, $z);
 	}
 }

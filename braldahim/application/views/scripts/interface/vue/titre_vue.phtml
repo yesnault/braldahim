@@ -30,8 +30,17 @@
   	</td>
   	<td width="35%">
 	  	<ul class="titre textalib textsized">
-	    Ma Position : X=  <?=$this->user->x_hobbit ?> , Y= <?=$this->user->y_hobbit ?> Vue=<?=$this->vue_nb_cases ?> <?=$this->environnement ?> <br />
-	    Centrage : X= <?=$this->centre_x ?> , Y= <?=$this->centre_y ?> <?=$this->centre_environnement ?> <br />
+	    Ma Position : X=  <?=$this->user->x_hobbit ?>, Y= <?=$this->user->y_hobbit ?>, 
+	    
+	    <? if ($this->user->z_hobbit != 0):?>
+	   	 Z= <?=$this->user->z_hobbit ?>
+	    <? endif;?>
+	    Vue=<?=$this->vue_nb_cases ?> <?=$this->environnement ?> <br />
+	    Centrage : X= <?=$this->centre_x ?> , Y= <?=$this->centre_y ?> 
+	    <? if ($this->user->z_hobbit != 0):?>
+	   	 Z= <?=$this->user->z_hobbit ?>
+	    <? endif;?>
+	    <?=$this->centre_environnement ?> <br />
 	  	</ul>	<br /><br />
   	</td>
   </tr>

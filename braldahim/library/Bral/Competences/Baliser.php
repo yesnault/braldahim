@@ -37,16 +37,16 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		$this->view->construireRouteContinueOk = false;
 
 		$monstreTable = new Monstre();
-		$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$monstres = $monstreTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 		$palissadeTable = new Palissade();
-		$palissades = $palissadeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$palissades = $palissadeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 		$routeTable = new Route();
-		$routes = $routeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$routes = $routeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 
 		$zoneTable = new Zone();
-		$zone = $zoneTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$zone = $zoneTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 		unset($zoneTable);
 
 		if (count($zone) == 1) {

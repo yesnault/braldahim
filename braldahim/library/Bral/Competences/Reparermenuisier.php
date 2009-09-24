@@ -27,7 +27,7 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 
 		// On regarde si le hobbit est dans une de ses echopppes
 		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 
 		$this->view->reparermenuisierEchoppeOk = false;
 		if ($echoppes == null || count($echoppes) == 0) {
@@ -76,7 +76,7 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("Charrette");
 		$charretteTable = new Charrette();
-		$charrettesRowset = $charretteTable->findByPositionAvecHobbit($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$charrettesRowset = $charretteTable->findByPositionAvecHobbit($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 
 		if ($charrettesRowset != null && count($charrettesRowset) > 0) {
 

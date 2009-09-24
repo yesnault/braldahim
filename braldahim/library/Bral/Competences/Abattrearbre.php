@@ -18,7 +18,7 @@ class Bral_Competences_Abattrearbre extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Bral_Util_Quete");
 
 		$bosquetTable = new Bosquet();
-		$bosquets = $bosquetTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$bosquets = $bosquetTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 
 		$bosquet = null;
 		$this->view->abattreArbreEnvironnementOk = false;

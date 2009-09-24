@@ -24,7 +24,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		}
 
 		$monstreTable = new Monstre();
-		$monstres = $monstreTable->findByCaseCadavre($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$monstres = $monstreTable->findByCaseCadavre($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 
 		$tabCadavres = null;
 		foreach($monstres as $c) {

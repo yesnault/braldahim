@@ -318,14 +318,14 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Zone");
 
 		$zoneTable = new Zone();
-		$zones = $zoneTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$zones = $zoneTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 		unset($zoneTable);
 		$zone = $zones[0];
 		unset($zones);
 
 		Zend_Loader::loadClass("Bosquet");
 		$bosquetTable = new Bosquet();
-		$nombreBosquets = $bosquetTable->countByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$nombreBosquets = $bosquetTable->countByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 
 		if ($nombreBosquets >= 1) {
 			$environnement = "bosquet";

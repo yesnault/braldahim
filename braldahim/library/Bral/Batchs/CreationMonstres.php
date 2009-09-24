@@ -100,7 +100,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 					if ($z["id_fk_environnement_zone"] == $c["id_fk_environnement_creation_monstres"]) {
 						$tmp = "";
 						$nbCreation = ceil($t["nb_creation_type_monstre"] * ($superficieZones[$z["id_zone"]] / $superficieTotale[$c["id_fk_type_monstre_creation_monstres"]]));
-						$nbActuel = $monstreTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"], $t["id_type_monstre"]);
+						$nbActuel = $monstreTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"], 0, $t["id_type_monstre"]);
 
 						$aCreer = $nbCreation - $nbActuel;
 						if ($aCreer <= 0) {

@@ -59,7 +59,7 @@ class Lieu extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function selectVue($x_min, $y_min, $x_max, $y_max) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
@@ -68,6 +68,7 @@ class Lieu extends Zend_Db_Table {
 		->where('x_lieu >= ?',$x_min)
 		->where('y_lieu >= ?',$y_min)
 		->where('y_lieu <= ?',$y_max)
+		->where('z_lieu = ?',$z)
 		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu');
 		$sql = $select->__toString();
 
@@ -92,13 +93,14 @@ class Lieu extends Zend_Db_Table {
 		return $retour;
 	}
 
-	function findByCase($x, $y) {
+	function findByCase($x, $y, $z) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('lieu', '*')
 		->from('type_lieu', '*')
 		->where('x_lieu = ?',$x)
 		->where('y_lieu = ?',$y)
+		->where('z_lieu = ?',$z)
 		->where('lieu.id_fk_type_lieu = type_lieu.id_type_lieu')
 		->joinLeft('ville','id_fk_ville_lieu = id_ville');
 		$sql = $select->__toString();

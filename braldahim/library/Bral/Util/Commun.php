@@ -15,18 +15,18 @@ class Bral_Util_Commun {
 	private function __construct() {
 	}
 
-	public static function getVueBase($x, $y) {
+	public static function getVueBase($x, $y, $z) {
 		Zend_Loader::loadClass('Zone');
 		
 		$zoneTable = new Zone();
-		$zones = $zoneTable->findByCase($x, $y);
+		$zones = $zoneTable->findByCase($x, $y, $z);
 		unset($zoneTable);
 		$zone = $zones[0];
 		unset($zones);
 		
 		Zend_Loader::loadClass("Bosquet");
 		$bosquetTable = new Bosquet();
-		$nombreBosquets = $bosquetTable->countByCase($x, $y);
+		$nombreBosquets = $bosquetTable->countByCase($x, $y, $z);
 
 		if ($nombreBosquets >= 1) {
 			$environnement = "bosquet";
@@ -61,10 +61,10 @@ class Bral_Util_Commun {
 		return $r;
 	}
 
-	public static function getEnvironnement($x, $y) {
+	public static function getEnvironnement($x, $y, $z) {
 		Zend_Loader::loadClass('Zone');
 		$zoneTable = new Zone();
-		$zones = $zoneTable->findByCase($x, $y);
+		$zones = $zoneTable->findByCase($x, $y, $z);
 		unset($zoneTable);
 		$zone = $zones[0];
 		unset($zones);

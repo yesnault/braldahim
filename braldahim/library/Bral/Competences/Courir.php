@@ -50,7 +50,7 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 
 		$this->view->courirPossible = false;
 
-		$environnement = Bral_Util_Commun::getEnvironnement($this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$environnement = Bral_Util_Commun::getEnvironnement($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 
 		$this->view->nb_cases = 1;
 		if ($environnement == "plaine") {
