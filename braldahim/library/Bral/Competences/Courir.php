@@ -177,6 +177,9 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 		$this->view->user->x_hobbit = $this->view->user->x_hobbit + $this->offset_x_calcul;
 		$this->view->user->y_hobbit = $this->view->user->y_hobbit + $this->offset_y_calcul;
 
+		Zend_Loader::loadClass("Bral_Util_Crevasse");
+		$this->view->estCrevasseEvenement = Bral_Util_Crevasse::calculCrevasse($this->view->user);
+		
 		$id_type = $this->view->config->game->evenements->type->deplacement;
 		$details = "[h".$this->view->user->id_hobbit."] a couru";
 		$this->setDetailsEvenement($details, $id_type);

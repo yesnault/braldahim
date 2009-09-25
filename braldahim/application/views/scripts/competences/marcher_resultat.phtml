@@ -14,30 +14,9 @@
 	Type de terrain de d&eacute;part : <?=htmlspecialchars($this->environnement)?><br /><br />
 	
 	<? if ($this->estCrevasseEvenement === true) : ?>
-	<b>Vous êtes tombé dans une crevasse.</b> <br><br>Vous vous retrouvez un niveau en dessus 
-	et perdez 50% de votre bonus de balance de faim restant.<br />
-	
-	<table class="table_liste" style="border:0" >
-		<tbody>
-			<tr class="table_liste" align="left" valign="middle">
-				<td width="10%" nowrap>
-					Points de Vie
-	    		</td>
-	    		<td width="80%">
-	    		<? Zend_Loader::loadClass("Bral_Helper_Profil");?>
-				<?=Bral_Helper_Profil::afficheBarreVie($this->user->pv_restant_hobbit, $this->config->game->pv_base, $this->user->vigueur_base_hobbit, $this->config->game->pv_max_coef,  $this->user->pv_max_bm_hobbit, $this->user->duree_prochain_tour_hobbit)?>
-				</td>
-				<td width="10%" nowrap>
-					<?=$this->user->pv_restant_hobbit ?> / 
-					<span style="cursor:pointer" title="(<?=($this->config->game->pv_base + $this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) ?><? if ($this->user->pv_max_bm_hobbit >= 0): echo "+"; endif;?><?= $this->user->pv_max_bm_hobbit ?>)">
-					<?=($this->config->game->pv_base + ($this->user->vigueur_base_hobbit * $this->config->game->pv_max_coef) + $this->user->pv_max_bm_hobbit) ?> 
-		    		</span>
-				</td>
-			</tr>
-		</tbody>
-		</table>
-	
+		<? Zend_Loader::loadClass("Bral_Helper_Crevasse");
+		   echo Bral_Helper_Crevasse::afficheResultat($this->user);
+		?>
 	<br />
-	
 	<? endif;?>
 <? endif; ?>

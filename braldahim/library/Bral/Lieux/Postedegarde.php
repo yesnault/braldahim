@@ -132,6 +132,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 			$this->envoieMessageInscriptionHobbit();
 		} elseif ($this->view->estMeneur && $this->view->inscriptionRealisee) {
 			$this->calculDescente();
+			$this->creationDonjon();
 		}
 
 	}
@@ -324,7 +325,66 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh();
+		$tab = array("box_vue", "box_lieu");
+		return $this->constructListBoxRefresh($tab);
+	}
+
+	private function creationDonjon() {
+		Zend_Loader::loadClass("Zone");
+		$zoneTable = new Zone();
+
+		$zones = $zoneTable->findByIdDonjon($this->donjonCourant["id_donjon"]);
+
+		$this->creationPalissadesAlentour($zones);
+		$this->creationPalissadesInternes($zones);
+		$this->creationCrevassesAlentour($zones);
+	}
+
+	private function creationPalissadesAlentour($zones) {
+
+		Zend_Loader::loadClass("Palissade");
+		$palissadeTable = new Palissade();
+		$where = array("id_fk_donjon_palissade" => $this->donjonCourant["id_donjon"]);
+		$palissadeTable->delete($where);
+
+		$data["id_fk_donjon_palissade"] = $this->donjonCourant["id_donjon"];
+		$data["est_destructible_palissade"] = "non";
+
+		foreach ($zones as $z) {
+			$data["z_palissade"] = $z["z_zone"];
+
+			for($x=$z["x_min_zone"] - 1; $x <= $z["x_max_zone"] + 1; $x++) {
+				$data["x_palissade"] = $x;
+				$data["y_palissade"] = $z["y_min_zone"] - 1;
+				$palissadeTable->insert($data);
+				$data["y_palissade"] = $z["y_max_zone"] + 1;
+				$palissadeTable->insert($data);
+			}
+
+			for($y=$z["y_min_zone"]; $y <= $z["y_max_zone"]; $y++) {
+				$data["y_palissade"] = $y;
+				$data["x_palissade"] = $z["x_min_zone"] - 1;
+				$palissadeTable->insert($data);
+				$data["x_palissade"] = $z["x_max_zone"] + 1;
+				$palissadeTable->insert($data);
+			}
+		}
+	}
+
+	private function creationPalissadesInternes() {
+		//TODO
+	}
+	
+	
+	private function creationCrevassesAlentour($zones) {
+		Zend_Loader::loadClass("Crevasse");
+		$crevasseTable = new Crevasse();
+		$where = "id_fk_donjon_crevasse = ".$this->donjonCourant["id_donjon"];
+		$crevasseTable->delete($where);
+
+		$data["id_fk_donjon_crevasse"] = $this->donjonCourant["id_donjon"];
+
+		//TODO
 	}
 
 	private function calculCoutCastars() {

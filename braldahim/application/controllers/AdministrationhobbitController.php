@@ -102,6 +102,7 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 			$keySimple [] = "prenom_hobbit";
 			$keySimple [] = "x_hobbit";
 			$keySimple [] = "y_hobbit";
+			$keySimple [] = "z_hobbit";
 			$keySimple [] = "pa_hobbit";
 			$keySimple [] = "date_fin_tour_hobbit";
 			$keySimple [] = "castars_hobbit";

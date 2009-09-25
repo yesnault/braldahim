@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -25,6 +25,16 @@ class Zone extends Zend_Db_Table {
 		->where('y_max_zone >= ?',$y_min)
 		->where('z_zone = ?',$z)
 		->where('zone.id_fk_environnement_zone = environnement.id_environnement');
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
+
+	function findByIdDonjon($idDonjon) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('zone', '*')
+		->where('id_fk_donjon_zone = ?',$idDonjon);
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
@@ -57,7 +67,7 @@ class Zone extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
-	
+
 	public function findByIdEnvironnementList($listId, $avecSoule) {
 		$liste = "";
 		$nomChamp = "id_fk_environnement_zone";
@@ -74,7 +84,7 @@ class Zone extends Zend_Db_Table {
 				}
 			}
 		}
-		
+
 		if ($liste != "") {
 			$db = $this->getAdapter();
 			$select = $db->select();
@@ -89,7 +99,7 @@ class Zone extends Zend_Db_Table {
 			return null;
 		}
 	}
-	
+
 	public function countByIdEnvironnement($idEnvironnement) {
 		$db = $this->getAdapter();
 		$select = $db->select();

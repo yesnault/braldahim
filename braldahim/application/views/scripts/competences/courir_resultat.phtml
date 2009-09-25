@@ -4,5 +4,17 @@ Vous avez couru jusqu'en  : <br />
 x=<?=$this->user->x_hobbit?>, y=<?=$this->user->y_hobbit?> <br /><br />
 
 <? if ($this->palissadeRencontree === true) : ?>
-	Vous vous &ecirc;tes arr&ecirc;t&eacute; devant une palissade<br /><br />
+	Vous vous &ecirc;tes arr&ecirc;t&eacute; devant une palissade.
+	
+	<? if ($this->estCrevasseEvenement === true) : ?>
+	... et ...
+	<? endif?>
+	<br /><br />
 <? endif; ?>
+
+<? if ($this->estCrevasseEvenement === true) : ?>
+	<? Zend_Loader::loadClass("Bral_Helper_Crevasse");
+	   echo Bral_Helper_Crevasse::afficheResultat($this->user);
+	?>
+	<br />
+<? endif;?>

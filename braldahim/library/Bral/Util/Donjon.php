@@ -12,7 +12,6 @@
  */
 class Bral_Util_Donjon {
 
-
 	public static function messageSignature(&$message, $donjonCourant) {
 		$message .= $donjonCourant["prenom_hobbit"]. " ".$donjonCourant["nom_hobbit"]. ", ";
 		if ($donjonCourant["sexe_hobbit"] == "masculin") {
@@ -55,7 +54,7 @@ class Bral_Util_Donjon {
 		Zend_Loader::loadClass("DonjonHobbit");
 		$donjonHobbitTable = new DonjonHobbit();
 		$donjonHobbit = $donjonHobbitTable->findByIdEquipe($equipe["id_donjon_equipe"]);
-		
+
 		foreach($donjonHobbit as $h) {
 			self::envoieMessageAnnulationHobbit($donjon, $h["id_hobbit"], $view);
 		}
