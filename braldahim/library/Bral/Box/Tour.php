@@ -525,8 +525,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune Ze active - apres this->hobbit->force_bm_hobbit=".$this->hobbit->force_bm_hobbit);
 					} else if ($r["nom_type_rune"] == "IL") {
 						// IL Reduit le tour de jeu de 10 minutes
-						//$this->hobbit->duree_courant_tour_hobbit = Bral_Util_ConvertDate::get_time_remove_time_to_time($this->hobbit->duree_courant_tour_hobbit, "00:10:00");
-						// effectue dans la competence s'equiper, pour mettre a  jour le temps du prochain tour.
+						$this->hobbit->duree_courant_tour_hobbit = Bral_Util_ConvertDate::get_time_remove_time_to_time($this->hobbit->duree_courant_tour_hobbit, "00:10:00");
 					} else if ($r["nom_type_rune"] == "MU") {
 						// MU PV + niveau du Hobbit/10 arrondi inferieur
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune MU active - avant this->hobbit->pv_max_bm_hobbit=".$this->hobbit->pv_max_bm_hobbit);
