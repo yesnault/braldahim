@@ -463,7 +463,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		$dataTypeEtape["param2"] = Bral_Util_De::get_1d2();
 		if (Bral_Util_Quete::ETAPE_POSSEDER_PARAM2_COFFRE == $dataTypeEtape["param2"]) {
 			$dataTypeEtape["libelle_etape"] .= "dans votre coffre ".$dataTypeEtape["param1"];
-			$dataTypeEtape["libelle_etape_fin"] = ". Le calcul est fait sur l'action de dépot de votre part dans le coffre, les éléments seront détruits à la fin de l'étape.";
+			$dataTypeEtape["libelle_etape_fin"] = ". Le calcul est fait sur l'action de dépôt de votre part dans le coffre, les éléments seront détruits à la fin de l'étape.";
 		} else if (Bral_Util_Quete::ETAPE_POSSEDER_PARAM2_LABAN == $dataTypeEtape["param2"]) {
 			$dataTypeEtape["libelle_etape"] .= "dans votre laban ".$dataTypeEtape["param1"];
 			$dataTypeEtape["libelle_etape_fin"] = ". Le calcul est fait sur la compétence Transbahuter, les éléments seront détruits à la fin de l'étape.";
