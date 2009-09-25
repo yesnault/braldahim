@@ -41,7 +41,8 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit &&
 			$e["nom_systeme_metier"] == $metier &&
 			$e["x_echoppe"] == $this->view->user->x_hobbit &&
-			$e["y_echoppe"] == $this->view->user->y_hobbit) {
+			$e["y_echoppe"] == $this->view->user->y_hobbit && 
+			$e["z_echoppe"] == $this->view->user->z_hobbit) {
 				$this->view->reparermenuisierEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
 
@@ -49,6 +50,7 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 					'id_echoppe' => $e["id_echoppe"],
 					'x_echoppe' => $e["x_echoppe"],
 					'y_echoppe' => $e["y_echoppe"],
+					'z_echoppe' => $e["z_echoppe"],
 					'id_metier' => $e["id_metier"],
 					'quantite_planche_arriere_echoppe' => $e["quantite_planche_arriere_echoppe"],
 				);

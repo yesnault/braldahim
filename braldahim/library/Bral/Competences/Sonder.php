@@ -84,7 +84,8 @@ class Bral_Competences_Sonder extends Bral_Competences_Competence {
 			$f = array(
 				'type_minerai' => $filonRow["nom_type_minerai"],
 				'x_filon' => $filonRow["x_filon"],
-				'y_filon' => $filonRow["y_filon"]
+				'y_filon' => $filonRow["y_filon"],
+				'z_filon' => $filonRow["z_filon"],
 			);
 			$this->view->trouve = true;
 			$this->view->filon = $f;

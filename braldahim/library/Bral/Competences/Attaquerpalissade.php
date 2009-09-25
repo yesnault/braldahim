@@ -25,8 +25,7 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 		
 		if (count($equipementPorteRowset) > 0){
 			$armeTirPortee = true;
-		}
-		else{
+		} else {
 			$this->distance = 1;
 			$this->view->x_min = $this->view->user->x_hobbit - $this->distance;
 			$this->view->x_max = $this->view->user->x_hobbit + $this->distance;

@@ -172,6 +172,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 			"quantite_planche_element" => $nbPlancheTerre,
 			"x_element" => $this->view->user->x_hobbit,
 			"y_element" => $this->view->user->y_hobbit,
+			"z_element" => $this->view->user->z_hobbit,
 		);
 		$elementTable->insertOrUpdate($data);
 

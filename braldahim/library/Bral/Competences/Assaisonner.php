@@ -126,9 +126,10 @@ class Bral_Competences_Assaisonner extends Bral_Competences_Competence {
 			Zend_Loader::loadClass("Element");
 			$elementTable = new Element();
 			$data = array(
-			"quantite_viande_preparee_element" => $this->view->nbViandeATerre,
-			"x_element" => $this->view->user->x_hobbit,
-			"y_element" => $this->view->user->y_hobbit,
+				"quantite_viande_preparee_element" => $this->view->nbViandeATerre,
+				"x_element" => $this->view->user->x_hobbit,
+				"y_element" => $this->view->user->y_hobbit,
+				"z_element" => $this->view->user->z_hobbit,
 			);
 			$elementTable->insertOrUpdate($data);
 		}

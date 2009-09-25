@@ -21,7 +21,7 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 		$this->view->estMaxHobbits = false;
 
 		$vue = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit) + $this->view->user->vue_bm_hobbit;
-		$hobbits = $hobbitTable->findLesPlusProches($this->view->user->x_hobbit, $this->view->user->y_hobbit, $vue, $this->view->config->game->competence->distribuerpx->nb_max_hobbit);
+		$hobbits = $hobbitTable->findLesPlusProches($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, $vue, $this->view->config->game->competence->distribuerpx->nb_max_hobbit);
 
 		foreach($hobbits as $h) {
 			if ($h["id_hobbit"] == $this->view->user->id_hobbit) {

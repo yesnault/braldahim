@@ -29,14 +29,15 @@ class Plante extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function countVue($x_min, $y_min, $x_max, $y_max, $id_type = null) {
+	function countVue($x_min, $y_min, $x_max, $y_max, $z, $id_type = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('plante', 'count(*) as nombre')
 		->where('x_plante <= ?',$x_max)
 		->where('x_plante >= ?',$x_min)
 		->where('y_plante >= ?',$y_min)
-		->where('y_plante <= ?',$y_max);
+		->where('y_plante <= ?',$y_max)
+		->where('z_plante <= ?',$z);
 		
 		if ($id_type != null) {
 			$select->where('id_fk_type_plante = ?',$id_type);
@@ -63,7 +64,7 @@ class Plante extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findLaPlusProche($x, $y, $rayon, $idTypePlante = null, $idTypePartiePlante = null) {
+	function findLaPlusProche($x, $y, $z, $rayon, $idTypePlante = null, $idTypePartiePlante = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('plante', 'id_plante, y_plante, x_plante, id_fk_type_plante, SQRT(((x_plante - '.$x.') * (x_plante - '.$x.')) + ((y_plante - '.$y.') * ( y_plante - '.$y.'))) as distance')
@@ -72,6 +73,7 @@ class Plante extends Zend_Db_Table {
 		->where('x_plante <= ?', $x + $rayon)
 		->where('y_plante >= ?', $y - $rayon)
 		->where('y_plante <= ?', $y + $rayon)
+		->where('z_plante = ?', $z)
 		->where('plante.id_fk_type_plante = type_plante.id_type_plante')
 		->order('distance ASC');
 		

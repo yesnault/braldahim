@@ -81,6 +81,7 @@ class Bral_Charrette_Lacher extends Bral_Charrette_Charrette {
 			"id_fk_hobbit_charrette" => null,
 			"x_charrette" => $this->view->user->x_hobbit,
 			"y_charrette" => $this->view->user->y_hobbit,
+			"z_charrette" => $this->view->user->z_hobbit,
 		);
 		$where = "id_fk_hobbit_charrette = ".$this->view->user->id_hobbit;
 		$charretteTable->update($dataUpdate, $where);

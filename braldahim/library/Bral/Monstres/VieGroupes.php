@@ -143,7 +143,7 @@ abstract class Bral_Monstres_VieGroupes {
         $hobbitTable = new Hobbit();
 
         foreach($monstres as $monstre) {
-            $cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["vue_monstre"], 1, $monstre["id_type_monstre"], false);
+            $cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["vue_monstre"], 1, $monstre["id_type_monstre"], false);
             if ($cibles != null) {
                 $cible = $cibles[0];
                 Bral_Util_Log::viemonstres()->debug(get_class($this)." - nouvelle cible trouvee:".$cible["id_hobbit"]);

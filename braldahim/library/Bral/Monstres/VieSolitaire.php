@@ -92,7 +92,7 @@ class Bral_Monstres_VieSolitaire {
 	private function rechercheNouvelleCible(&$monstre) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - rechercheNouvelleCible - enter");
 		$hobbitTable = new Hobbit();
-		$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["vue_monstre"], 1, $monstre["id_fk_type_monstre"], false);
+		$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["vue_monstre"], 1, $monstre["id_fk_type_monstre"], false);
 		if ($cibles != null) {
 			$cible = $cibles[0];
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - nouvelle cible trouvee:".$cible["id_hobbit"]);

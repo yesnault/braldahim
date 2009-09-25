@@ -233,6 +233,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		$data = array(
 			"x_palissade"  => $x,
 			"y_palissade" => $y,
+			"z_palissade" => $this->view->user->z_hobbit,
 			"agilite_palissade" => 0,
 			"armure_naturelle_palissade" => $this->view->user->armure_naturelle_hobbit * 4,
 			"pv_restant_palissade" => $this->view->user->pv_restant_hobbit,

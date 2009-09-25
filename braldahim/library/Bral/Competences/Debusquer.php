@@ -144,6 +144,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 			"id_fk_groupe_monstre" => null,
 			"x_monstre" => $x_monstre,
 			"y_monstre" => $y_monstre,
+			"z_monstre" => $this->view->user->z_hobbit,
 			"x_direction_monstre" => $x_monstre,
 			"y_direction_monstre" => $y_monstre,
 			"id_fk_hobbit_cible_monstre" => null,

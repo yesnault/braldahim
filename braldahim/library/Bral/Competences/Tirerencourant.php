@@ -71,11 +71,10 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 					}
 				}
 			}
-			if (count($tabCoord) == 0){
+			if (count($tabCoord) == 0) {
 				//Aucune case de libre à proximité du hobbit
 				$course = false;
-			}
-			else{
+			} else {
 				$course = true;
 				$tabHobbits = null;
 				$tabMonstres = null;

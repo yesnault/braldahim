@@ -113,6 +113,7 @@ class Bral_Competences_Distribuercastars extends Bral_Competences_Competence {
 				"quantite_castar_element" => $tab["castars_recus_terre"],
 				"x_element" => $this->view->user->x_hobbit,
 				"y_element" => $this->view->user->y_hobbit,
+				"z_element" => $this->view->user->z_hobbit,
 				);
 				$elementTable->insertOrUpdate($data);
 

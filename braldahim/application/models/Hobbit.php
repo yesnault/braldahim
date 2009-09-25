@@ -187,7 +187,7 @@ class Hobbit extends Zend_Db_Table {
 		return $this->fetchRow($where);
 	}
 
-	function findLesPlusProches($x, $y, $rayon, $nombre, $idTypeMonstre = null, $avecIntangibles = true) {
+	function findLesPlusProches($x, $y, $z, $rayon, $nombre, $idTypeMonstre = null, $avecIntangibles = true) {
 		$and = "";
 		if ($idTypeMonstre != null) {
 			$and = " AND id_fk_type_monstre_effet_mot_f != ".(int)$idTypeMonstre;
@@ -200,6 +200,7 @@ class Hobbit extends Zend_Db_Table {
 		->where('x_hobbit <= ?', $x + $rayon)
 		->where('y_hobbit >= ?', $y - $rayon)
 		->where('y_hobbit <= ?', $y + $rayon)
+		->where('z_hobbit = ?', $z)
 		->where("est_ko_hobbit = 'non'")
 		->where('est_compte_actif_hobbit = ?', "oui")
 		->where('est_en_hibernation_hobbit = ?', "non")

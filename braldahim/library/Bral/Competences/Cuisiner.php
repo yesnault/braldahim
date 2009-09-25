@@ -170,6 +170,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 				"id_fk_type_element_aliment" => TypeAliment::ID_TYPE_RAGOUT,
 				"x_element_aliment" => $this->view->user->x_hobbit,
 				"y_element_aliment" => $this->view->user->y_hobbit,
+				"z_element_aliment" => $this->view->user->z_hobbit,
 				"id_fk_type_qualite_element_aliment" => $this->view->qualiteAliment,
 				"bbdf_element_aliment" => $this->view->bbdfAliment,
 			);

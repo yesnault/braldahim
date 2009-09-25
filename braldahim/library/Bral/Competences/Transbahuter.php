@@ -444,6 +444,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									$data = array(
 									"x_element_munition" => $this->view->user->x_hobbit,
 									"y_element_munition" => $this->view->user->y_hobbit,
+									"z_element_munition" => $this->view->user->z_hobbit,
 									"date_fin_element_munition" => $dateFin,
 									"id_fk_type_element_munition" => $equipement["id_fk_type_munition_type_equipement"],
 									"quantite_element_munition" => $equipement["nb_munition_type_equipement"],
@@ -456,6 +457,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 										"id_element_equipement" => $equipement["id_equipement"],
 										"x_element_equipement" => $this->view->user->x_hobbit,
 										"y_element_equipement" => $this->view->user->y_hobbit,
+										"z_element_equipement" => $this->view->user->z_hobbit,
 										"date_fin_element_equipement" => $dateFin,
 									);
 									$arriveeEquipementTable->insert($data);
@@ -621,6 +623,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									"id_rune_element_rune" => $rune["id_rune"],
 									"x_element_rune" => $this->view->user->x_hobbit,
 									"y_element_rune" => $this->view->user->y_hobbit,
+									"z_element_rune" => $this->view->user->z_hobbit,
 								);
 								break;
 							case "Coffre" :
@@ -777,6 +780,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									"id_element_potion" => $potion["id_potion"],
 									"x_element_potion" => $this->view->user->x_hobbit,
 									"y_element_potion" => $this->view->user->y_hobbit,
+									"z_element_potion" => $this->view->user->z_hobbit,
 									"date_fin_element_potion" => $dateFin,
 								);
 								break;
@@ -934,6 +938,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 											"id_element_aliment" => $aliment["id_aliment"],
 											"x_element_aliment" => $this->view->user->x_hobbit,
 											"y_element_aliment" => $this->view->user->y_hobbit,
+											"z_element_aliment" => $this->view->user->z_hobbit,
 											"bbdf_element_aliment" => $aliment["bbdf"],
 											"id_fk_type_qualite_element_aliment" => $aliment["id_fk_type_qualite"],
 											"id_fk_type_element_aliment" => $aliment["id_fk_type"],
@@ -1071,6 +1076,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								$data = array (
 										"x_element_munition" => $this->view->user->x_hobbit,
 										"y_element_munition" => $this->view->user->y_hobbit,
+										"z_element_munition" => $this->view->user->z_hobbit,
 										"id_fk_type_element_munition" => $munition["id_type_munition"],
 										"quantite_element_munition" => -$nbMunition,
 								);
@@ -1111,6 +1117,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								$data = array (
 									"x_element_munition" => $this->view->user->x_hobbit,
 									"y_element_munition" => $this->view->user->y_hobbit,
+									"z_element_munition" => $this->view->user->z_hobbit,
 									"id_fk_type_element_munition" => $munition["id_type_munition"],
 									"quantite_element_munition" => $nbMunition,
 								);
@@ -1275,6 +1282,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$data = array (
 							"x_element_minerai" => $this->view->user->x_hobbit,
 							"y_element_minerai" => $this->view->user->y_hobbit,
+							"z_element_minerai" => $this->view->user->z_hobbit,
 							"id_fk_type_element_minerai" => $this->view->minerais[$indice]["id_fk_type_minerai"],
 							"quantite_brut_element_minerai" => -$nbBrut,
 							"quantite_lingots_element_minerai" => -$nbLingot,
@@ -1326,6 +1334,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$arriveeMineraiTable = new ElementMinerai();
 						$data = array("x_element_minerai" => $this->view->user->x_hobbit,
 							  "y_element_minerai" => $this->view->user->y_hobbit,
+							  "z_element_minerai" => $this->view->user->z_hobbit,
 							  'quantite_brut_element_minerai' => $nbBrut,
 							  'quantite_lingots_element_minerai' => $nbLingot,
 							  'id_fk_type_element_minerai' => $this->view->minerais[$indice]["id_fk_type_minerai"],
@@ -1502,6 +1511,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$data = array (
 								"x_element_partieplante" => $this->view->user->x_hobbit,
 								"y_element_partieplante" => $this->view->user->y_hobbit,
+								"z_element_partieplante" => $this->view->user->z_hobbit,
 								"id_fk_type_element_partieplante" => $this->view->partieplantes[$indice]["id_fk_type_partieplante"],
 								"id_fk_type_plante_element_partieplante" => $this->view->partieplantes[$indice]["id_fk_type_plante_partieplante"],
 								"quantite_element_partieplante" => -$nbBrutes,
@@ -1559,6 +1569,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$arriveePartiePlanteTable = new ElementPartieplante();
 						$data = array("x_element_partieplante" => $this->view->user->x_hobbit,
 							  "y_element_partieplante" => $this->view->user->y_hobbit,
+							  "z_element_partieplante" => $this->view->user->z_hobbit,
 							  'quantite_element_partieplante' => $nbBrutes,
 							  'quantite_preparee_element_partieplante' => $nbPreparees,
 							  'id_fk_type_element_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_partieplante"],
@@ -1709,6 +1720,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								$data = array (
 										"x_element_tabac" => $this->view->user->x_hobbit,
 										"y_element_tabac" => $this->view->user->y_hobbit,
+										"z_element_tabac" => $this->view->user->z_hobbit,
 										"id_fk_type_element_tabac" => $tabac["id_type_tabac"],
 										"quantite_feuille_element_tabac" => -$nbTabac,
 								);
@@ -1749,6 +1761,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								$data = array (
 									"x_element_tabac" => $this->view->user->x_hobbit,
 									"y_element_tabac" => $this->view->user->y_hobbit,
+									"z_element_tabac" => $this->view->user->z_hobbit,
 									"id_fk_type_element_tabac" => $tabac["id_type_tabac"],
 									"quantite_feuille_element_tabac" => $nbTabac,
 								);
@@ -1897,6 +1910,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									"id_element_materiel" => $materiel["id_materiel"],
 									"x_element_materiel" => $this->view->user->x_hobbit,
 									"y_element_materiel" => $this->view->user->y_hobbit,
+									"z_element_materiel" => $this->view->user->z_hobbit,
 									"date_fin_element_materiel" => $dateFin,
 								);
 								break;
@@ -2104,6 +2118,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							"quantite_".$nom_systeme."_element" => -$nb,
 							"x_element" => $this->view->user->x_hobbit,
 							"y_element" => $this->view->user->y_hobbit,
+							"z_element" => $this->view->user->z_hobbit,
 						);
 						break;
 					case "Coffre" :
@@ -2147,6 +2162,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								"quantite_".$nom_systeme."_element" => $nb,
 								"x_element" => $this->view->user->x_hobbit,
 								"y_element" => $this->view->user->y_hobbit,
+								"z_element" => $this->view->user->z_hobbit,
 						);
 						$arriveeTable = new Element();
 						break;
