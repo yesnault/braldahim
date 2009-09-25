@@ -19,7 +19,7 @@ class Bral_Quete_Factory {
 		$nomSystemeAction = $matches[2];
 		$construct = null;
 
-		if ($view->user->activation == false) {
+		if ($view->user->activation == false && $nomSystemeAction != 'voir') {
 			throw new Zend_Exception("Tour non activé");
 		}
 		
