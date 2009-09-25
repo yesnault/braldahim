@@ -89,7 +89,7 @@ class RechercheController extends Zend_Controller_Action {
 						$okD = false;
 						$okS = false;
 						foreach($distinctionsDonjon as $d) {
-							if ($d["id_fk_hobbit_hdistinction"] == $h["id_hobbit"] && $d["nombre"] < 1) {
+							if ($h["est_donjon_hobbit"] == "non" && $d["id_fk_hobbit_hdistinction"] == $h["id_hobbit"] && $d["nombre"] < 1) {
 								$okD = true;
 								break;
 							}

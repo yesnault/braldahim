@@ -26,4 +26,16 @@ class Donjon extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+
+	public function findAll() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('donjon', '*')
+		->from('region', '*')
+		->from('hobbit', '*')
+		->where('id_fk_pnj_donjon = id_hobbit')
+		->where('id_fk_region_donjon = id_region');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }
