@@ -215,6 +215,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 					$data = array (
 						"x_element_minerai" => $this->view->user->x_hobbit,
 						"y_element_minerai" => $this->view->user->y_hobbit,
+						"z_element_minerai" => $this->view->user->z_hobbit,
 						"id_fk_type_element_minerai" => $r["id_type_minerai"],
 						"quantite_lingots_element_minerai" => $nbMineraiTerre,
 					);
@@ -232,8 +233,8 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		$this->view->nbPlancheTerre = $nbPlancheTerre;
 		$this->view->mineraiTerre = $tabMineraiTerre;
 
-		$details = "[h".$this->view->user->id_hobbit."] a recyclé la pièce d'équipement n°".$id_equipement;
-		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_DESTRUCTION_ID, $id_equipement, $details);
+		$details = "[h".$this->view->user->id_hobbit."] a recyclé la pièce d'équipement n°".$idEquipement;
+		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_DESTRUCTION_ID, $idEquipement, $details);
 
 	}
 
