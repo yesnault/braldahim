@@ -358,6 +358,7 @@ abstract class Bral_Competences_Competence {
 			'nb_monstre_kill_hobbit' => $this->view->user->nb_monstre_kill_hobbit,
 			'x_hobbit' => $this->view->user->x_hobbit,
 			'y_hobbit'  => $this->view->user->y_hobbit,
+			'z_hobbit'  => $this->view->user->z_hobbit,
 			'pv_restant_hobbit' => $this->view->user->pv_restant_hobbit,
 			'pv_max_hobbit' => $this->view->user->pv_max_hobbit,
 			'pv_max_bm_hobbit' => $this->view->user->pv_max_bm_hobbit,

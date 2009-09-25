@@ -72,6 +72,8 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 
 		$this->view->user->x_hobbit = $this->view->user->x_hobbit + $offset_x;
 		$this->view->user->y_hobbit = $this->view->user->y_hobbit + $offset_y;
+		
+		$this->calculCrevasse();
 
 		$id_type = $this->view->config->game->evenements->type->deplacement;
 		$details = "[h".$this->view->user->id_hobbit."] a marché";
@@ -83,6 +85,24 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		$this->calculBalanceFaim();
 		$this->calculFinMatchSoule();
 		$this->majHobbit();
+	}
+	
+	private function calculCrevasse() {
+		Zend_Loader::loadClass("Crevasse");
+		
+		$this->view->estCrevasseEvenement = false;
+		
+		$crevasseTable = new Crevasse();
+		$nbCrevasses = $crevasseTable->countByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		
+		if ($nbCrevasses > 0) {
+			$this->view->estCrevasseEvenement = true;
+			$this->view->user->z_hobbit = $this->view->user->z_hobbit - 1;
+			$this->view->user->pv_restant_hobbit = $this->view->user->pv_restant_hobbit - floor($this->view->user->pv_restant_hobbit / 2);
+			if ($this->view->user->pv_restant_hobbit < 1) {
+				$this->view->user->pv_restant_hobbit = 1;
+			}
+		}
 	}
 
 	function getListBoxRefresh() {

@@ -17,7 +17,11 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 	private $_tabDestinations = null;
 
 	function prepareCommun() {
+		Zend_Loader::loadClass("Bral_Util_Donjon");
+
 		$this->prepareDonjon();
+		Bral_Util_Donjon::controleInscriptionEquipe($this->donjonCourant, $this->view);
+
 		$this->prepareEquipe();
 		$this->prepareInscription();
 		if ($this->view->estMeneur && $this->view->inscriptionRealisee) {
@@ -229,7 +233,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 			$message .= " Et quand ils auront tous validé leur inscription, vous pourrez ouvrir la porte du Donjon pour les faire tous descendre avec vous, automatiquement.".PHP_EOL.PHP_EOL;
 		}
 
-		$this->messageSignature($message);
+		Bral_Util_Donjon::messageSignature($message, $this->donjonCourant);
 		Bral_Util_Messagerie::envoiMessageAutomatique($this->donjonCourant["id_fk_pnj_donjon"], $hobbit["id_hobbit"], $message, $this->view);
 	}
 
@@ -241,19 +245,8 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$message .= " Attendez maintenant que tous vos coéquipiers valident leur ";
 		$message .= " inscription et que le meneur puisse ouvrir la porte";
 
-		$this->messageSignature($message);
+		Bral_Util_Donjon::messageSignature($message, $this->donjonCourant);
 		Bral_Util_Messagerie::envoiMessageAutomatique($this->donjonCourant["id_fk_pnj_donjon"], $this->view->user->id_hobbit, $message, $this->view);
-	}
-
-	private function messageSignature(&$message) {
-		$message .= $this->donjonCourant["prenom_hobbit"]. " ".$this->donjonCourant["nom_hobbit"]. ", ";
-		if ($this->donjonCourant["sexe_hobbit"] == "masculin") {
-			$message .= "garde";
-		} else {
-			$message .= "gardienne";
-		}
-		$message .= " du donjon de la ".$this->donjonCourant["nom_region"].PHP_EOL;
-		$message .= "Inutile de répondre à ce message.";
 	}
 
 	private function inscriptionHobbit() {
@@ -281,7 +274,8 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 				$inscriptionEquipeOk = false;
 				break;
 			} elseif (($h["x_hobbit"] != $this->view->user->x_hobbit ||
-			$h["y_hobbit"] != $this->view->user->y_hobbit)) {
+			$h["y_hobbit"] != $this->view->user->y_hobbit &&
+			$h["z_hobbit"] != $this->view->user->z_hobbit)) {
 				$inscriptionEquipeOk = false;
 				break;
 			}
@@ -302,10 +296,20 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		foreach($this->hobbitsADescendre as $h) {
 			$where = "id_hobbit = ".$h["id_hobbit"];
 			$data = array(
-				"z_hobbit" => -1,
+				'z_hobbit' => -1,
+				'est_donjon_hobbit' => 'oui',
 			);
 			$hobbitTable->update($data, $where);
 		}
+
+		$donjonEquipeTable = new DonjonEquipe();
+
+		$data = array(
+			"etat_donjon_equipe" => "en_cours",
+			"nb_jour_restant_donjon_equipe" => 42,
+		);
+		$where = 'id_donjon_equipe='.$this->equipeCourante["id_donjon_equipe"];
+		$donjonEquipeTable->update($data, $where);
 	}
 
 	public function envoieMessageDescente() {
@@ -315,7 +319,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$message .= "Vous êtes entrés avec lui...".PHP_EOL;
 		$message .= "Vous avez maintenant deux lunes pour sortir victorieux ou sinon gare aux conséquences.".PHP_EOL;
 
-		$this->messageSignature($message);
+		Bral_Util_Donjon::messageSignature($message, $this->donjonCourant);
 		Bral_Util_Messagerie::envoiMessageAutomatique($this->donjonCourant["id_fk_pnj_donjon"], $this->view->user->id_hobbit, $message, $this->view);
 	}
 

@@ -19,7 +19,7 @@ class DonjonEquipe extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('donjon_equipe', '*')
 		->where('id_fk_donjon_equipe = ?', intval($idDonjon))
-		->where("etat_donjon_equipe not like 'termine' AND etat_donjon_equipe not like 'annulee'");
+		->where("etat_donjon_equipe not like 'termine' AND etat_donjon_equipe not like 'annule'");
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
