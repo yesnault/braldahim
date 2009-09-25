@@ -34,7 +34,7 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 			$this->view->y_max = $this->view->user->y_hobbit + $this->distance;
 			
 			$palissadeTable = new Palissade();
-			$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+			$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_hobbit);
 			$defautChecked = false;
 			
 			for ($j = $this->distance; $j >= -$this->distance; $j --) {

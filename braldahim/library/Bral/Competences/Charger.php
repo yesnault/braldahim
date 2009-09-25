@@ -130,7 +130,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 			if ($estRegionPvp) {
 				// recuperation des hobbits qui sont presents sur la vue
 				$hobbitTable = new Hobbit();
-				$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->id_hobbit, false);
+				$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->z_hobbit, $this->view->user->id_hobbit, false);
 
 				foreach($hobbits as $h) {
 					if ($tabValide[$h["x_hobbit"]][$h["y_hobbit"]] === true) {
@@ -151,7 +151,7 @@ class Bral_Competences_Charger extends Bral_Competences_Competence {
 
 			// recuperation des monstres qui sont presents sur la vue
 			$monstreTable = new Monstre();
-			$monstres = $monstreTable->selectVue($x_min, $y_min, $x_max, $y_max);
+			$monstres = $monstreTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->z_hobbit);
 			foreach($monstres as $m) {
 				if ($m["genre_type_monstre"] == 'feminin') {
 					$m_taille = $m["nom_taille_f_monstre"];

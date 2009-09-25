@@ -12,10 +12,10 @@
  */
 class Bral_Helper_Messagerie {
 
-	public static function destinatairesZoneJs($xMin, $yMin, $xMax, $yMax, $idHobbit, $texte) {
+	public static function destinatairesZoneJs($xMin, $yMin, $xMax, $yMax, $z, $idHobbit, $texte) {
 
 		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->selectVue($xMin, $yMin, $xMax, $yMax, $idHobbit);
+		$hobbits = $hobbitTable->selectVue($xMin, $yMin, $xMax, $yMax, $z, $idHobbit);
 		unset($hobbitTable);
 		
 		$js = "";

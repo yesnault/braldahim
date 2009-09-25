@@ -236,7 +236,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 		$retour = 0;
 
 		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$hobbits = $hobbitTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_hobbit);
 
 		$nbHobbits = count($hobbits);
 		if ($nbHobbits < 2) {
@@ -261,7 +261,7 @@ class Bral_Competences_Debusquer extends Bral_Competences_Competence {
 	private function calculCoefM() {
 		$retour = 0;
 		$monstreTable = new Monstre();
-		$monstres = $monstreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max);
+		$monstres = $monstreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_hobbit);
 
 		$nbMonstres = count($monstres);
 		if ($nbMonstres < 2) {

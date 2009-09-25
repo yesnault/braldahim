@@ -68,7 +68,7 @@ class Bral_Monstres_VieMonstre {
 		$y_min = $this->monstre["y_monstre"] - 12;
 		$y_max = $this->monstre["y_monstre"] + 12;
 
-		$palissades = $palissadeTable->selectVue($x_min, $y_min, $x_max, $y_max);
+		$palissades = $palissadeTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->monstre["z_monstre"]);
 
 		$this->tabValidationPalissade = null;
 		for ($j = 12; $j >= -12; $j--) {

@@ -34,7 +34,7 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		// recuperation des monstres qui sont presents sur la vue
 		$tabMonstres = null;
 		$monstreTable = new Monstre();
-		$monstres = $monstreTable->selectVue($x_min, $y_min, $x_max, $y_max);
+		$monstres = $monstreTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->z_hobbit);
 		foreach($monstres as $m) {
 			if ($m["genre_type_monstre"] == 'feminin') {
 				$m_taille = $m["nom_taille_f_monstre"];

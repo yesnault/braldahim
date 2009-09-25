@@ -65,7 +65,7 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 		$this->y_max = $this->view->user->y_hobbit + $this->distance;
 
 		$palissadeTable = new Palissade();
-		$palissades = $palissadeTable->selectVue($this->x_min, $this->y_min, $this->x_max, $this->y_max);
+		$palissades = $palissadeTable->selectVue($this->x_min, $this->y_min, $this->x_max, $this->y_max, $this->view->user->z_hobbit);
 
 		$this->tabValidationPalissade = null;
 		for ($j = $this->distance; $j >= -$this->distance; $j--) {

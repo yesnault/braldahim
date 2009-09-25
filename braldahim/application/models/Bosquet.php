@@ -23,7 +23,7 @@ class Bosquet extends Zend_Db_Table {
 		->where('x_bosquet >= ?',$x_min)
 		->where('y_bosquet >= ?',$y_min)
 		->where('y_bosquet <= ?',$y_max)
-		->where('z_bosquet <= ?',$z)
+		->where('z_bosquet = ?',$z)
 		->where('bosquet.id_fk_type_bosquet_bosquet = type_bosquet.id_type_bosquet');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
