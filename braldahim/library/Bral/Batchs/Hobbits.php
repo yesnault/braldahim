@@ -32,10 +32,12 @@ class Bral_Batchs_Hobbits extends Bral_Batchs_Batch {
 
 		$hobbitTable = new Hobbit();
 		$date = date("Y-m-d H:i:s");
-		$add_day = - $this->config->batchs->purge->table->hobbit->prevention->nbjours;
+		$add_day = - ($this->config->batchs->purge->table->hobbit->suppression->nbjours - $this->config->batchs->purge->table->hobbit->prevention->nbjours);
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($date, $add_day);
 		$hobbits = $hobbitTable->findAllBatchByDateFin($dateFin);
 
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hobbits - preventionSuppression - date:".$date." dateFin -".$dateFin);
+		
 		if (count($hobbits) > 0) {
 			foreach ($hobbits as $h) {
 				$retour .= $this->envoiMailPrevention($h);
