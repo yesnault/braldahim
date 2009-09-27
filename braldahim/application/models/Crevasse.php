@@ -68,8 +68,8 @@ class Crevasse extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('crevasse', 'count(id_crevasse) as nombre')
-		->where('x_crevasse <= ?',$x)
-		->where('y_crevasse <= ?',$y)
+		->where('x_crevasse = ?',$x)
+		->where('y_crevasse = ?',$y)
 		->where('z_crevasse = ?',$z);
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);

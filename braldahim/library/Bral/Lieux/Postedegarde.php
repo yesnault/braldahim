@@ -330,38 +330,42 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 	}
 
 	private function creationDonjon() {
-		Zend_Loader::loadClass("Zone");
-		$zoneTable = new Zone();
-
-		$zones = $zoneTable->findByIdDonjon($this->donjonCourant["id_donjon"]);
-
-		$this->creationPalissadesAlentour($zones);
-		$this->creationPalissadesInternes($zones);
-		$this->creationCrevassesAlentour($zones);
-	}
-
-	private function creationPalissadesAlentour($zones) {
 
 		Zend_Loader::loadClass("Palissade");
 		$palissadeTable = new Palissade();
 		$where = array("id_fk_donjon_palissade" => $this->donjonCourant["id_donjon"]);
 		$palissadeTable->delete($where);
+		
+		$this->creationPalissadesAlentour();
+		$this->creationPalissadesInternes();
+		$this->creationCrevasses();
+	}
+
+	private function creationPalissadesAlentour() {
+
+		Zend_Loader::loadClass("Zone");
+		$zoneTable = new Zone();
+
+		$zones = $zoneTable->findByIdDonjon($this->donjonCourant["id_donjon"]);
 
 		$data["id_fk_donjon_palissade"] = $this->donjonCourant["id_donjon"];
 		$data["est_destructible_palissade"] = "non";
 
+		Zend_Loader::loadClass("Palissade");
+		$palissadeTable = new Palissade();
+		
 		foreach ($zones as $z) {
 			$data["z_palissade"] = $z["z_zone"];
 
 			for($x=$z["x_min_zone"] - 1; $x <= $z["x_max_zone"] + 1; $x++) {
 				$data["x_palissade"] = $x;
-				$data["y_palissade"] = $z["y_min_zone"] - 1;
+				$data["y_palissade"] = $z["y_min_zone"];
 				$palissadeTable->insert($data);
 				$data["y_palissade"] = $z["y_max_zone"] + 1;
 				$palissadeTable->insert($data);
 			}
 
-			for($y=$z["y_min_zone"]; $y <= $z["y_max_zone"]; $y++) {
+			for($y=$z["y_min_zone"] + 1; $y <= $z["y_max_zone"]; $y++) {
 				$data["y_palissade"] = $y;
 				$data["x_palissade"] = $z["x_min_zone"] - 1;
 				$palissadeTable->insert($data);
@@ -372,19 +376,48 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 	}
 
 	private function creationPalissadesInternes() {
-		//TODO
+		Zend_Loader::loadClass("DonjonPalissade");
+
+		$donjonPalissadeTable = new DonjonPalissade();
+		$palissades = $donjonPalissadeTable->findByIdDonjon($this->donjonCourant["id_donjon"]);
+
+		Zend_Loader::loadClass("Palissade");
+		$palissadeTable = new Palissade();
+		
+		foreach ($palissades as $p) {
+			$data["x_palissade"] = $p["x_donjon_palissade"];
+			$data["y_palissade"] = $p["y_donjon_palissade"];
+			$data["z_palissade"] = $p["z_donjon_palissade"];
+			$data["agilite_palissade"] = $p["agilite_donjon_palissade"];
+			$data["armure_naturelle_palissade"] = $p["armure_naturelle_donjon_palissade"];
+			$data["pv_max_palissade"] = $p["pv_max_donjon_palissade"];
+			$data["pv_restant_palissade"] = $p["pv_restant_donjon_palissade"];
+			$data["est_destructible_palissade"] = $p["est_destructible_donjon_palissade"];
+			$data["id_fk_donjon_palissade"] = $p["id_fk_donjon_palissade"];
+			$data["date_creation_palissade"] = date("Y-m-d H:i:s");
+			$data["date_fin_palissade"] = Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d H:i:s"), 100);
+			$palissadeTable->insert($data);
+		}
 	}
-	
-	
-	private function creationCrevassesAlentour($zones) {
+
+
+	private function creationCrevasses() {
 		Zend_Loader::loadClass("Crevasse");
 		$crevasseTable = new Crevasse();
 		$where = "id_fk_donjon_crevasse = ".$this->donjonCourant["id_donjon"];
 		$crevasseTable->delete($where);
 
-		$data["id_fk_donjon_crevasse"] = $this->donjonCourant["id_donjon"];
+		Zend_Loader::loadClass("DonjonCrevasse");
+		$donjonCrevasseTable = new DonjonCrevasse();
+		$crevasses = $donjonCrevasseTable->findByIdDonjon($this->donjonCourant["id_donjon"]);
 
-		//TODO
+		foreach ($crevasses as $c) {
+			$data["x_crevasse"] = $c["x_donjon_crevasse"];
+			$data["y_crevasse"] = $c["y_donjon_crevasse"];
+			$data["z_crevasse"] = $c["z_donjon_crevasse"];
+			$data["id_fk_donjon_crevasse"] = $c["id_fk_donjon_crevasse"];
+			$crevasseTable->insert($data);
+		}
 	}
 
 	private function calculCoutCastars() {
