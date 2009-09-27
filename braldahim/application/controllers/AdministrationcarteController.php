@@ -76,7 +76,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		//$this->dessineFilons(&$image);
 		//$this->dessineBosquets(&$image);
 		$this->dessineVilles(&$image);
-		$this->dessineHobbits(&$image);
+		//$this->dessineHobbits(&$image);
 		$this->dessineMonstres(&$image);
 
 		$this->view->image = $image;
@@ -163,7 +163,8 @@ class AdministrationcarteController extends Zend_Controller_Action {
 
 		Zend_Loader::loadClass('Zone');
 		$zonesTable = new Zone();
-		$zones = $zonesTable->fetchall();
+	 	$where = "z_zone = 0";
+		$zones = $zonesTable->fetchall($where);
 
 		foreach ($zones as $z) {
 			$x_deb_map =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $z["x_min_zone"]) / $this->coefTaille;
@@ -174,7 +175,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$texte = $this->getTexteEnvironnement($z["id_fk_environnement_zone"]);
 
 			ImageRectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->gris2);
-			ImageString($image, 1, $x_deb_map , $y_deb_map, "zone ".$z["id_zone"]. " ".$z["x_min_zone"]."/".$z["y_max_zone"]. " ".$texte, $this->gris2);
+			ImageString($image, 1, $x_deb_map , $y_deb_map, $z["id_zone"]."Z".$z["id_zone"]. " ".$z["x_min_zone"]."/".$z["y_max_zone"]. " ".$texte, $this->gris2);
 		}
 	}
 
@@ -215,7 +216,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$y_deb_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $v["y_max_ville"]) / $this->coefTaille;
 			$y_fin_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $v["y_min_ville"]) / $this->coefTaille;
 
-			$coefRayon = 4;
+			$coefRayon = 3;
 
 			ImageRectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->vert);
 			$palier = 5;
@@ -236,7 +237,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$palier = 30;
 			ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[5]);
 			ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[5]);
-
+		
 			ImageString($image, 1, $x_deb_map , $y_deb_map, $v["nom_ville"]. " ".($v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2)."/".($v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"]) / 2), $this->noir);
 			$nbVilles++;
 		}
