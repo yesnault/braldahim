@@ -339,6 +339,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$this->creationPalissadesAlentour();
 		$this->creationPalissadesInternes();
 		$this->creationCrevasses();
+		$this->creationMonstres();
 	}
 
 	private function creationPalissadesAlentour() {
@@ -418,6 +419,10 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 			$data["id_fk_donjon_crevasse"] = $c["id_fk_donjon_crevasse"];
 			$crevasseTable->insert($data);
 		}
+	}
+	
+	private function creationMonstres() {
+		//TODO
 	}
 
 	private function calculCoutCastars() {
