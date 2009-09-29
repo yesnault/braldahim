@@ -68,7 +68,7 @@ class Filon extends Zend_Db_Table {
 	function findLePlusProche($x, $y, $z, $rayon, $idTypeMinerai = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('filon', 'id_filon, x_filon, y_filon, id_fk_type_minerai_filon, SQRT(((x_filon - '.$x.') * (x_filon - '.$x.')) + ((y_filon - '.$y.') * ( y_filon - '.$y.'))) as distance')
+		$select->from('filon', 'id_filon, x_filon, y_filon, z_filon, id_fk_type_minerai_filon, SQRT(((x_filon - '.$x.') * (x_filon - '.$x.')) + ((y_filon - '.$y.') * ( y_filon - '.$y.'))) as distance')
 		->from('type_minerai', '*')
 		->where('x_filon >= ?', $x - $rayon)
 		->where('x_filon <= ?', $x + $rayon)
