@@ -72,7 +72,8 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		//Puis on initialise le fond du terrain à blanc
 		ImageFilledRectangle($image, $this->distanceD, $this->distanceD, $this->tailleX + $this->distanceD, $this->tailleY + $this->distanceD, $this->blanc);
 
-		$this->dessineZones(&$image);
+		//$this->dessineZones(&$image);
+		$this->dessineZonesNids(&$image);
 		//$this->dessineFilons(&$image);
 		//$this->dessineBosquets(&$image);
 		$this->dessineVilles(&$image);
@@ -163,7 +164,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 
 		Zend_Loader::loadClass('Zone');
 		$zonesTable = new Zone();
-	 	$where = "z_zone = 0";
+		$where = "z_zone = 0";
 		$zones = $zonesTable->fetchall($where);
 
 		foreach ($zones as $z) {
@@ -176,6 +177,30 @@ class AdministrationcarteController extends Zend_Controller_Action {
 
 			ImageRectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->gris2);
 			ImageString($image, 1, $x_deb_map , $y_deb_map, $z["id_zone"]."Z".$z["id_zone"]. " ".$z["x_min_zone"]."/".$z["y_max_zone"]. " ".$texte, $this->gris2);
+		}
+	}
+
+	private function dessineZonesNids(&$image) {
+
+		Zend_Loader::loadClass('ZoneNid');
+		$zonesNidsTable = new ZoneNid();
+		$where = "z_zone_nid = 0";
+		$zonesNids = $zonesNidsTable->fetchall($where);
+
+		foreach ($zonesNids as $z) {
+			$x_deb_map =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $z["x_min_zone_nid"]) / $this->coefTaille;
+			$x_fin_map =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $z["x_max_zone_nid"]) / $this->coefTaille;
+			$y_deb_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $z["y_max_zone_nid"]) / $this->coefTaille;
+			$y_fin_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $z["y_min_zone_nid"]) / $this->coefTaille;
+
+			ImageRectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->gris2);
+			
+			$marge = 0;
+			
+			if ($z["est_ville_zone_nid"] == "oui") {
+					$marge = 10;
+			}
+			ImageString($image, 2, $x_deb_map + $marge, $y_deb_map + $marge, " ".$z["id_zone_nid"]. ":".$z["x_min_zone_nid"]."/".$z["y_max_zone_nid"], $this->gris2);
 		}
 	}
 
@@ -215,11 +240,31 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$x_fin_map =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $v["x_max_ville"]) / $this->coefTaille;
 			$y_deb_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $v["y_max_ville"]) / $this->coefTaille;
 			$y_fin_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $v["y_min_ville"]) / $this->coefTaille;
-
-			$coefRayon = 3;
-
+			
+			$x_centre = $this->distanceD + ($this->tailleX * $this->coefTaille / 2 +$v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2) / $this->coefTaille;
+			$y_centre = $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $v["y_min_ville"] - ($v["y_max_ville"] - $v["y_min_ville"]) / 2) / $this->coefTaille;
+			
 			ImageRectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->vert);
+			
+			//$rayon = $this->distanceD + (100 * $this->coefTaille / 2) / $this->coefTaille;
+			
+			/*for ($rayonTexte = 10; $rayonTexte <= 100; $rayonTexte = $rayonTexte + 10) {
+				$rayon = $rayonTexte / $this->coefTaille;
+				
+				$texte = "Rayon ".$rayonTexte.":".(($v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2)-$rayonTexte)."/".(($v["y_max_ville"] - ($v["y_max_ville"] - $v["y_min_ville"]) / 2)+$rayonTexte);
+				ImageString($image, 1, $x_centre - $rayon + 5 , $y_centre - $rayon + 5, $texte, $this->tab_rouge[0]);
+				ImageRectangle($image, $x_centre - $rayon, $y_centre - $rayon, $x_centre + $rayon, $y_centre + $rayon, $this->tab_rouge[0]);
+			
+			}*/
+			
+			/*$coefRayon = 1;
 			$palier = 5;
+			
+			ImageRectangle($image, $x_centre - $coefRayon*$palier/$this->coefTaille, $y_centre - $coefRayon*$palier/$this->coefTaille, $x_centre + $coefRayon*$palier/$this->coefTaille, $y_centre + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[0]);
+			//ImageString($image, 1, $x_centre - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[0]);
+			*/
+			
+		/*	$palier = 5;
 			ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[0]);
 			ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[0]);
 			$palier = 10;
@@ -237,8 +282,8 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$palier = 30;
 			ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[5]);
 			ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[5]);
-		
-			ImageString($image, 1, $x_deb_map , $y_deb_map, $v["nom_ville"]. " ".($v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2)."/".($v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"]) / 2), $this->noir);
+			*/
+			ImageString($image, 2, $x_deb_map , $y_deb_map, $v["nom_ville"]. " ".($v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2)."/".($v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"]) / 2), $this->noir);
 			$nbVilles++;
 		}
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 2, $nbVilles." Villes", $this->noir);
