@@ -13,4 +13,14 @@
 class ZoneNid extends Zend_Db_Table {
 	protected $_name = 'zone_nid';
 	protected $_primary = 'id_zone_nid';
+
+	function findZonesHorsVille() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('zone_nid', '*')
+		->where('est_ville_zone_nid', 'non');
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
 }

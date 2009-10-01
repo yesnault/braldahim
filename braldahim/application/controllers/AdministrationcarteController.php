@@ -78,7 +78,8 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		//$this->dessineBosquets(&$image);
 		$this->dessineVilles(&$image);
 		//$this->dessineHobbits(&$image);
-		$this->dessineMonstres(&$image);
+		//$this->dessineMonstres(&$image);
+		$this->dessineNids(&$image);
 
 		$this->view->image = $image;
 		$this->render();
@@ -194,11 +195,11 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$y_fin_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $z["y_min_zone_nid"]) / $this->coefTaille;
 
 			ImageRectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->gris2);
-			
+				
 			$marge = 0;
-			
+				
 			if ($z["est_ville_zone_nid"] == "oui") {
-					$marge = 10;
+				$marge = 10;
 			}
 			ImageString($image, 2, $x_deb_map + $marge, $y_deb_map + $marge, " ".$z["id_zone_nid"]. ":".$z["x_min_zone_nid"]."/".$z["y_max_zone_nid"], $this->gris2);
 		}
@@ -240,49 +241,49 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$x_fin_map =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $v["x_max_ville"]) / $this->coefTaille;
 			$y_deb_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $v["y_max_ville"]) / $this->coefTaille;
 			$y_fin_map =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $v["y_min_ville"]) / $this->coefTaille;
-			
+				
 			$x_centre = $this->distanceD + ($this->tailleX * $this->coefTaille / 2 +$v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2) / $this->coefTaille;
 			$y_centre = $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $v["y_min_ville"] - ($v["y_max_ville"] - $v["y_min_ville"]) / 2) / $this->coefTaille;
-			
+				
 			ImageRectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->vert);
-			
+				
 			//$rayon = $this->distanceD + (100 * $this->coefTaille / 2) / $this->coefTaille;
-			
+				
 			/*for ($rayonTexte = 10; $rayonTexte <= 100; $rayonTexte = $rayonTexte + 10) {
 				$rayon = $rayonTexte / $this->coefTaille;
-				
+
 				$texte = "Rayon ".$rayonTexte.":".(($v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2)-$rayonTexte)."/".(($v["y_max_ville"] - ($v["y_max_ville"] - $v["y_min_ville"]) / 2)+$rayonTexte);
 				ImageString($image, 1, $x_centre - $rayon + 5 , $y_centre - $rayon + 5, $texte, $this->tab_rouge[0]);
 				ImageRectangle($image, $x_centre - $rayon, $y_centre - $rayon, $x_centre + $rayon, $y_centre + $rayon, $this->tab_rouge[0]);
-			
-			}*/
-			
+					
+				}*/
+				
 			/*$coefRayon = 1;
-			$palier = 5;
-			
-			ImageRectangle($image, $x_centre - $coefRayon*$palier/$this->coefTaille, $y_centre - $coefRayon*$palier/$this->coefTaille, $x_centre + $coefRayon*$palier/$this->coefTaille, $y_centre + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[0]);
-			//ImageString($image, 1, $x_centre - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[0]);
-			*/
-			
-		/*	$palier = 5;
-			ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[0]);
-			ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[0]);
-			$palier = 10;
-			ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[1]);
-			ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[1]);
-			$palier = 15;
-			ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[2]);
-			ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[2]);
-			$palier = 20;
-			ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[3]);
-			ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[3]);
-			$palier = 25;
-			ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[4]);
-			ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[4]);
-			$palier = 30;
-			ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[5]);
-			ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[5]);
-			*/
+			 $palier = 5;
+			 	
+			 ImageRectangle($image, $x_centre - $coefRayon*$palier/$this->coefTaille, $y_centre - $coefRayon*$palier/$this->coefTaille, $x_centre + $coefRayon*$palier/$this->coefTaille, $y_centre + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[0]);
+			 //ImageString($image, 1, $x_centre - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[0]);
+			 */
+				
+			/*	$palier = 5;
+			 ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[0]);
+			 ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[0]);
+			 $palier = 10;
+			 ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[1]);
+			 ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[1]);
+			 $palier = 15;
+			 ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[2]);
+			 ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[2]);
+			 $palier = 20;
+			 ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[3]);
+			 ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[3]);
+			 $palier = 25;
+			 ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[4]);
+			 ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[4]);
+			 $palier = 30;
+			 ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[5]);
+			 ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[5]);
+			 */
 			ImageString($image, 2, $x_deb_map , $y_deb_map, $v["nom_ville"]. " ".($v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2)."/".($v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"]) / 2), $this->noir);
 			$nbVilles++;
 		}
@@ -332,6 +333,18 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$nbHobbits++;
 		}
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 10, $nbHobbits." Hobbits", $this->vert2);
+	}
+
+	private function dessineNids(&$image) {
+		Zend_Loader::loadClass('Nid');
+		$nidTable = new Nid();
+		$nids = $nidTable->fetchall();
+
+		foreach ($nids as $h) {
+			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $h["x_nid"]) / $this->coefTaille;
+			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $h["y_nid"]) / $this->coefTaille;
+			ImageFilledEllipse($image, $x, $y, 2, 2, $this->vert2);
+		}
 	}
 
 	private function dessineMonstres(&$image) {

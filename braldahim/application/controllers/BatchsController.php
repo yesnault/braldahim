@@ -56,8 +56,8 @@ class BatchsController extends Zend_Controller_Action {
 		echo $this->view->render("batchs/resultat.phtml");
 	}
 
-	function creationmonstresAction() {
-		$this->view->retour = Bral_Batchs_Factory::calculBatch("CreationMonstres");
+	function creationnidsAction() {
+		$this->view->retour = Bral_Batchs_Factory::calculBatch("CreationNids");
 		echo $this->view->render("batchs/resultat.phtml");
 	}
 

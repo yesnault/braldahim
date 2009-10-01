@@ -26,17 +26,43 @@ class Monstre extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function countAllByType($id_type) {
+	function countAllByType($idType) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('monstre', 'count(id_monstre) as nombre')
-		->where('id_fk_type_monstre = ?', intval($id_type))
+		->where('id_fk_type_monstre = ?', intval($idType))
 		->where('est_mort_monstre = ?', 'non');
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
 		$nombre = $resultat[0]["nombre"];
 		return $nombre;
+	}
+
+	function countAllByIdZoneNid($idZone) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('monstre', 'count(id_monstre) as nombre')
+		->where('id_fk_type_monstre = ?', intval($idZone))
+		->where('est_mort_monstre = ?', 'non');
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
+	}
+
+	function countAllByTypeAndIdZoneNid($idZone) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('monstre', array('count(id_monstre) as nombre', 'id_fk_type_monstre'))
+		->where('id_fk_type_monstre = ?', intval($idZone))
+		->where('est_mort_monstre = ?', 'non')
+		->group('id_fk_type_monstre');
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		return $resultat;
 	}
 
 	function countAllByTaille($id_taille) {

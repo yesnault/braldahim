@@ -21,7 +21,6 @@ class TypeMonstre extends Zend_Db_Table {
 		->from('type_groupe_monstre', '*')
 		->where('type_monstre.id_fk_type_groupe_monstre = type_groupe_monstre.id_type_groupe_monstre')
 		->order(array('nom_groupe_monstre ASC', 'nom_type_monstre ASC'));
-		
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
