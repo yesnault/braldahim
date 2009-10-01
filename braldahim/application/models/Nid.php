@@ -18,7 +18,7 @@ class Nid extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('nid', 'count(nb_monstres_restants_nid) as nombre')
-		->where('id_fk_zone_nid', $idZone);
+		->where('id_fk_zone_nid = ?', $idZone);
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -30,7 +30,7 @@ class Nid extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('nid', array('count(nb_monstres_restants_nid) as nombre', 'id_fk_type_monstre_nid'))
-		->where('id_fk_zone_nid', $idZone)
+		->where('id_fk_zone_nid = ?', $idZone)
 		->group('id_fk_type_monstre_nid');
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);

@@ -18,7 +18,7 @@ class CreationNids extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('creation_nid', '*')
-		->where('id_fk_zone_creation_nid', $idZone);
+		->where('id_fk_zone_creation_nid = ?', $idZone);
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 

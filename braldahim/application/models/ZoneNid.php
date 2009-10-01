@@ -18,7 +18,7 @@ class ZoneNid extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('zone_nid', '*')
-		->where('est_ville_zone_nid', 'non');
+		->where('est_ville_zone_nid = ?', 'non');
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
