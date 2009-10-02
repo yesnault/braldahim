@@ -15,12 +15,20 @@ class ZoneNid extends Zend_Db_Table {
 	protected $_primary = 'id_zone_nid';
 
 	function findZonesHorsVille() {
+		return $this->findZonesNids('non');
+	}
+
+	function findZonesVille() {
+		return $this->findZonesNids('oui');
+	}
+
+	function findZonesNids($estVille) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('zone_nid', '*')
-		->where('est_ville_zone_nid = ?', 'non');
+		->where('est_ville_zone_nid = ?', $estVille);
 		$sql = $select->__toString();
-
+		
 		return $db->fetchAll($sql);
 	}
 }
