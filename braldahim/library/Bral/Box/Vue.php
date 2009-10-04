@@ -41,6 +41,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("Lieu");
 			Zend_Loader::loadClass("HobbitsMetiers");
 			Zend_Loader::loadClass("Monstre");
+			Zend_Loader::loadClass("Nid");
 			Zend_Loader::loadClass("Palissade");
 			Zend_Loader::loadClass("Region");
 			Zend_Loader::loadClass("Bosquet");
@@ -85,7 +86,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$this->view->x_max = $x + $this->view->vue_nb_cases;
 		$this->view->y_min = $y - $this->view->vue_nb_cases;
 		$this->view->y_max = $y + $this->view->vue_nb_cases;
-		
+
 		$this->view->z_position = $z;
 
 		$this->view->estVueEtendue = false;
@@ -234,6 +235,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$monstreTable = new Monstre();
 		$monstres = $monstreTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($monstreTable);
+		$nidTable = new Nid();
+		$nids = $nidTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
+		unset($nidTable);
 		$palissadeTable = new Palissade();
 		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($palissadeTable);
@@ -298,6 +302,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabHobbits = null;
 				$tabLieux = null;
 				$tabMonstres = null;
+				$tabNids = null;
 				$tabPalissades = null;
 				$tabBosquets = null;
 				$tabRoutes = null;
@@ -543,6 +548,14 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
+						
+					if ($nids != null) {
+						foreach($nids as $n) {
+							if ($display_x == $n["x_nid"] && $display_y == $n["y_nid"]) {
+								$tabNids[] = array("id_nid" => $n["id_nid"], "nom_nid" => $n["nom_nid_type_monstre"]);
+							}
+						}
+					}
 
 					if ($villes != null) {
 						foreach($villes as $v) {
@@ -625,7 +638,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				} else  {
 					$css = $nom_systeme_environnement;
 					if ($css == null) {
-						$css = "inconnu";						
+						$css = "inconnu";
 					}
 					if (count($tabRoutes) >= 1) {
 						$css .= "-gr";
@@ -689,6 +702,8 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"lieux" => $tabLieux,
 					"n_monstres" => count($tabMonstres),
 					"monstres" => $tabMonstres,
+					"n_nids" => count($tabNids),
+					"nids" => $tabNids,
 					"n_palissades" => count($tabPalissades),
 					"palissades" => $tabPalissades,
 					"n_bosquets" => count($tabBosquets),

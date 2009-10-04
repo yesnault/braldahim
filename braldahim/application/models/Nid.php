@@ -45,6 +45,8 @@ class Nid extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('nid', '*')
+		->from('type_monstre', '*')
+		->where('id_fk_type_monstre_nid = id_type_monstre')
 		->where('x_nid <= ?',$x_max)
 		->where('x_nid >= ?',$x_min)
 		->where('y_nid >= ?',$y_min)

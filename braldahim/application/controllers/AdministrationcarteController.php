@@ -60,8 +60,13 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		}
 		if (intval($this->_request->get("zonesnids")) == 1) {
 			$parametres	.= "&zonesnids=1";
+			$parametres	.= "&nids=1";
 		}
-		
+
+		if (intval($this->_request->get("hobbits")) == 1) {
+			$parametres .= "&hobbits=1";
+		}
+
 		if (intval($this->_request->get("monstres")) == 1) {
 			$parametres .= "&monstres=1";
 		}
@@ -94,11 +99,18 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		//$this->dessineFilons(&$image);
 		//$this->dessineBosquets(&$image);
 		$this->dessineVilles(&$image);
-		//$this->dessineHobbits(&$image);
+
+		if (intval($this->_request->get("hobbits")) == 1) {
+			$this->dessineHobbits(&$image);
+		}
+
 		if (intval($this->_request->get("monstres")) == 1) {
 			$this->dessineMonstres(&$image);
 		}
-		$this->dessineNids(&$image);
+		
+		if (intval($this->_request->get("nids")) == 1) {
+			$this->dessineNids(&$image);
+		}
 
 		$this->view->image = $image;
 		$this->render();
