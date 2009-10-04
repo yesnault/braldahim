@@ -316,6 +316,7 @@ class Bral_Monstres_VieMonstre {
 			$this->monstre["bm_attaque_monstre"] = 0;
 			$this->monstre["bm_defense_monstre"] = 0;
 			$this->monstre["bm_degat_monstre"] = 0;
+			$this->monstre["nb_dla_jouees_monstre"] = $this->monstre["nb_dla_jouees_monstre"] + 1;
 			$this->updateMonstre();
 		} else {
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$this->monstre["id_monstre"].") pas de nouveau tour");
@@ -431,6 +432,7 @@ class Bral_Monstres_VieMonstre {
 			'agilite_malus_monstre' => $this->monstre["agilite_malus_monstre"],
 			'sagesse_bm_monstre' => $this->monstre["sagesse_bm_monstre"],
 			'vigueur_bm_monstre' => $this->monstre["vigueur_bm_monstre"],
+			'nb_dla_jouees_monstre' => $this->monstre["nb_dla_jouees_monstre"],
 		);
 
 		$where = "id_monstre=".$this->monstre["id_monstre"];

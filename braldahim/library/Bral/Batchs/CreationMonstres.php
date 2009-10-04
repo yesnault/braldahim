@@ -60,7 +60,6 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 			foreach($nids as $n) { // pour tous les nids dans la zone de nid
 				$retour .= $this->calculZoneNid($n, $z, $refRowset, $taillesRowset);
 			}
-			break; // dev zone 1
 		}
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculCreation - exit -");
 		return $retour;
