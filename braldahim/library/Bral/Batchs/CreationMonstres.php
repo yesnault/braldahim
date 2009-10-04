@@ -47,7 +47,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$taillesRowset = $taillesTable->fetchall();
 
 		$zoneNidTable = new ZoneNid();
-		$zones = $zoneNidTable->findZonesVille();
+		$zones = $zoneNidTable->fetchAll();
 
 		$creationNidsTable = new CreationNids();
 
