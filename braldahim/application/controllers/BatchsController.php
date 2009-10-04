@@ -50,7 +50,7 @@ class BatchsController extends Zend_Controller_Action {
 		$this->view->retour = Bral_Batchs_Factory::calculBatch("CreationBosquets");
 		echo $this->view->render("batchs/resultat.phtml");
 	}
-	
+
 	function creationfilonsAction() {
 		$this->view->retour = Bral_Batchs_Factory::calculBatch("CreationMinerais");
 		echo $this->view->render("batchs/resultat.phtml");
@@ -61,11 +61,16 @@ class BatchsController extends Zend_Controller_Action {
 		echo $this->view->render("batchs/resultat.phtml");
 	}
 
+	function creationmonstresAction() {
+		$this->view->retour = Bral_Batchs_Factory::calculBatch("CreationMonstres");
+		echo $this->view->render("batchs/resultat.phtml");
+	}
+
 	function creationplantesAction() {
 		$this->view->retour = Bral_Batchs_Factory::calculBatch("CreationPlantes");
 		echo $this->view->render("batchs/resultat.phtml");
 	}
-	
+
 	function donjonsAction() {
 		$this->view->retour = Bral_Batchs_Factory::calculBatch("Donjons");
 		echo $this->view->render("batchs/resultat.phtml");
@@ -85,7 +90,7 @@ class BatchsController extends Zend_Controller_Action {
 		$this->view->retour = Bral_Batchs_Factory::calculBatch("Hotel");
 		echo $this->view->render("batchs/resultat.phtml");
 	}
-	
+
 	function motsruniquesAction() {
 		$this->view->retour = Bral_Batchs_Factory::calculBatch("MotsRuniques", $this->view);
 		echo $this->view->render("batchs/resultat.phtml");

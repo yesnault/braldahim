@@ -43,7 +43,7 @@ class Monstre extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('monstre', 'count(id_monstre) as nombre')
-		->where('id_fk_type_monstre = ?', intval($idZone))
+		->where('id_fk_zone_nid_monstre = ?', intval($idZone))
 		->where('est_mort_monstre = ?', 'non');
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
@@ -56,9 +56,23 @@ class Monstre extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('monstre', array('count(id_monstre) as nombre', 'id_fk_type_monstre'))
-		->where('id_fk_type_monstre = ?', intval($idZone))
+		->where('id_fk_zone_nid_monstre = ?', intval($idZone))
 		->where('est_mort_monstre = ?', 'non')
 		->group('id_fk_type_monstre');
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+
+		return $resultat;
+	}
+
+	function findVivantByIdZoneNidAndIdType($idZone, $idTypeMonstre) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('monstre', array('id_monstre', 'id_fk_type_monstre', 'niveau_monstre'))
+		->where('id_fk_zone_nid_monstre = ?', intval($idZone))
+		->where('est_mort_monstre = ?', 'non')
+		->where('id_fk_type_monstre = ?', intval($idTypeMonstre))
+		->order('date_creation_monstre desc');
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 

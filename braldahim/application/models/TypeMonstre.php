@@ -14,6 +14,8 @@ class TypeMonstre extends Zend_Db_Table {
 	protected $_name = 'type_monstre';
 	protected $_primary = "id_type_monstre";
 
+	
+	
 	public function fetchAllAvecTypeGroupe() {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -21,6 +23,17 @@ class TypeMonstre extends Zend_Db_Table {
 		->from('type_groupe_monstre', '*')
 		->where('type_monstre.id_fk_type_groupe_monstre = type_groupe_monstre.id_type_groupe_monstre')
 		->order(array('nom_groupe_monstre ASC', 'nom_type_monstre ASC'));
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
+
+	public function fetchAllSansGibier() {
+		Zend_Loader::loadClass("TypeGroupeMonstre");
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('type_monstre', '*')
+		->where('type_monstre.id_fk_type_groupe_monstre != ?', TypeGroupeMonstre::ID_TYPE_GIBIER);
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

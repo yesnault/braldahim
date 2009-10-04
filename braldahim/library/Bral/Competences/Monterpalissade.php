@@ -19,11 +19,12 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Monstre');
 		Zend_Loader::loadClass('Palissade');
 		Zend_Loader::loadClass('Route');
+		Zend_Loader::loadClass('Nid');
 		Zend_Loader::loadClass('Bral_Util_Quete');
 
 		$this->view->monterPalissadeOk = false;
 		$this->view->monterPalissadeCharretteOk = false;
-		
+
 		/*
 		 * On verifie qu'il y a au moins 2 rondins
 		 */
@@ -70,6 +71,9 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 		$routeTable = new Route();
 		$routes = $routeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_hobbit);
 
+		$nidTable = new Nid();
+		$nids = $nidTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->user->z_hobbit);
+
 		$defautChecked = false;
 
 		for ($j = $this->distance; $j >= -$this->distance; $j --) {
@@ -77,6 +81,7 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 			for ($i = -$this->distance; $i <= $this->distance; $i ++) {
 				$x = $this->view->user->x_hobbit + $i;
 				$y = $this->view->user->y_hobbit + $j;
+				$z = $this->view->user->z_hobbit;
 					
 				$display = $x;
 				$display .= " ; ";
@@ -94,42 +99,49 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 				}
 					
 				foreach($echoppes as $e) {
-					if ($x == $e["x_echoppe"] && $y == $e["y_echoppe"]) {
+					if ($x == $e["x_echoppe"] && $y == $e["y_echoppe"] && $z == $e["z_echoppe"]) {
 						$valid = false;
 						break;
 					}
 				}
 
 				foreach($lieux as $l) {
-					if ($x == $l["x_lieu"] && $y == $l["y_lieu"]) {
+					if ($x == $l["x_lieu"] && $y == $l["y_lieu"] && $z == $l["z_lieu"]) {
 						$valid = false;
 						break;
 					}
 				}
 					
 				foreach($hobbits as $h) {
-					if ($x == $h["x_hobbit"] && $y == $h["y_hobbit"]) {
+					if ($x == $h["x_hobbit"] && $y == $h["y_hobbit"] && $z == $h["z_hobbit"]) {
 						$valid = false;
 						break;
 					}
 				}
 
 				foreach($monstres as $m) {
-					if ($x == $m["x_monstre"] && $y == $m["y_monstre"]) {
+					if ($x == $m["x_monstre"] && $y == $m["y_monstre"] && $z == $m["z_monstre"]) {
 						$valid = false;
 						break;
 					}
 				}
 
 				foreach($palissades as $p) {
-					if ($x == $p["x_palissade"] && $y == $p["y_palissade"]) {
+					if ($x == $p["x_palissade"] && $y == $p["y_palissade"] && $z == $p["z_palissade"]) {
 						$valid = false;
 						break;
 					}
 				}
 
 				foreach($routes as $r) {
-					if ($x == $r["x_route"] && $y == $r["y_route"]) {
+					if ($x == $r["x_route"] && $y == $r["y_route"] && $z == $r["z_route"]) {
+						$valid = false;
+						break;
+					}
+				}
+
+				foreach($nids as $n) {
+					if ($x == $n["x_route"] && $y == $n["y_nid"] && $z == $n["z_nid"]) {
 						$valid = false;
 						break;
 					}
