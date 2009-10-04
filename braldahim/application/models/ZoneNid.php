@@ -22,13 +22,23 @@ class ZoneNid extends Zend_Db_Table {
 		return $this->findZonesNids('oui');
 	}
 
+	function findById($idZoneNid) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('zone_nid', '*')
+		->where('id_zone_nid = ?', intval($idZoneNid));
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
+
 	function findZonesNids($estVille) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('zone_nid', '*')
 		->where('est_ville_zone_nid = ?', $estVille);
 		$sql = $select->__toString();
-		
+
 		return $db->fetchAll($sql);
 	}
 }

@@ -128,7 +128,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 					$referenceCourante = $this->recupereReferenceMonstre($refRowset, $referenceCourante["id_fk_type_ref_monstre"], $id_fk_taille_monstre);
 					$niveau_monstre = Bral_Util_De::get_de_specifique($referenceCourante["niveau_min_ref_monstre"], $referenceCourante["niveau_max_ref_monstre"]);
 					$positions = $this->calculPositions($zone, $id_fk_taille_monstre);
-					$this->creationCalcul($refRowset, $referenceCourante, $id_fk_taille_monstre, $niveau_monstre, $nid["x_nid"], $nid["y_nid"], $positions["x_min"], $positions["x_max"], $positions["y_min"], $positions["y_max"], $id_groupe, $est_role_a, $est_role_b);
+					$this->creationCalcul($zone['id_zone_nid'], $refRowset, $referenceCourante, $id_fk_taille_monstre, $niveau_monstre, $nid["x_nid"], $nid["y_nid"], $positions["x_min"], $positions["x_max"], $positions["y_min"], $positions["y_max"], $id_groupe, $est_role_a, $est_role_b);
 				}
 			}
 		} else {
@@ -138,7 +138,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 				$referenceCourante = $this->recupereReferenceMonstre($refRowset, $referenceCourante["id_fk_type_ref_monstre"], $id_fk_taille_monstre);
 				$niveau_monstre = Bral_Util_De::get_de_specifique($referenceCourante["niveau_min_ref_monstre"], $referenceCourante["niveau_max_ref_monstre"]);
 				$positions = $this->calculPositions($zone, $niveau_monstre);
-				$this->creationCalcul($refRowset, $referenceCourante, $id_fk_taille_monstre, $niveau_monstre, $nid["x_nid"], $nid["y_nid"], $positions["x_min"], $positions["x_max"], $positions["y_min"], $positions["y_max"]);
+				$this->creationCalcul($zone['id_zone_nid'], $refRowset, $referenceCourante, $id_fk_taille_monstre, $niveau_monstre, $nid["x_nid"], $nid["y_nid"], $positions["x_min"], $positions["x_max"], $positions["y_min"], $positions["y_max"]);
 				$nid["nb_monstres_restants_nid"] = $nid["nb_monstres_restants_nid"] - 1;
 			}
 		}
@@ -191,7 +191,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		return $id_groupe;
 	}
 
-	private function creationCalcul($refMonstre, $referenceCourante, $id_fk_taille_monstre, $niveau_monstre, $x, $y, $x_min, $x_max, $y_min, $y_max, $id_groupe_monstre = null, $est_role_a = false, $est_role_b = false) {
+	private function creationCalcul($id_zone_nid, $refMonstre, $referenceCourante, $id_fk_taille_monstre, $niveau_monstre, $x, $y, $x_min, $x_max, $y_min, $y_max, $id_groupe_monstre = null, $est_role_a = false, $est_role_b = false) {
 
 		$id_fk_type_monstre = $referenceCourante["id_fk_type_ref_monstre"];
 		$id_type_groupe_monstre = $referenceCourante["id_type_groupe_monstre"];
@@ -260,6 +260,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 			"id_fk_type_monstre" => $id_fk_type_monstre,
 			"id_fk_taille_monstre" => $id_fk_taille_monstre,
 			"id_fk_groupe_monstre" => $id_groupe_monstre,
+			"id_fk_zone_nid_monstre" => $id_zone_nid,
 			"x_monstre" => $x,
 			"y_monstre" => $y,
 			"x_min_monstre" => $x_min,

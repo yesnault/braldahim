@@ -91,22 +91,9 @@ class Bral_Monstres_VieGibier {
 				$monstre["y_direction_monstre"] = $monstre["y_direction_monstre"] + $dy;
 			}
 
-			$tab = Bral_Monstres_VieMonstre::getTabXYRayon($monstre["niveau_monstre"], true, $this->villes, $monstre["x_direction_monstre"], $monstre["y_direction_monstre"], $dx, $dy);
+			$tab = Bral_Monstres_VieMonstre::getTabXYRayon($monstre["id_fk_zone_nid_monstre"], $monstre["niveau_monstre"], $monstre["x_direction_monstre"], $monstre["y_direction_monstre"], $monstre["x_min_monstre"], $monstre["x_max_monstre"], $monstre["y_min_monstre"], $monstre["y_max_monstre"]);
 			$monstre["x_direction_monstre"] = $tab["x_direction"];
 			$monstre["y_direction_monstre"] = $tab["y_direction"];
-
-			if ($monstre["x_direction_monstre"] <= $this->config->game->x_min) {
-				$monstre["x_direction_monstre"] = -$this->config->game->x_min;
-			}
-			if ($monstre["x_direction_monstre"] >= $this->config->game->x_max) {
-				$monstre["x_direction_monstre"] = -$this->config->game->x_max;
-			}
-			if ($monstre["y_direction_monstre"] <= $this->config->game->y_min) {
-				$monstre["y_direction_monstre"] = -$this->config->game->y_min;
-			}
-			if ($monstre["y_direction_monstre"] >= $this->config->game->y_max) {
-				$monstre["y_direction_monstre"] = -$this->config->game->y_max;
-			}
 
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." monstre (".$monstre["id_monstre"].")- calcul nouvelle valeur direction x=".$monstre["x_direction_monstre"]." y=".$monstre["y_direction_monstre"]." ");
 		}

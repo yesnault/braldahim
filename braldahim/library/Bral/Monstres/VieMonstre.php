@@ -538,14 +538,14 @@ class Bral_Monstres_VieMonstre {
 				$retour .= PHP_EOL."Votre armure naturelle vous a protégé en réduisant les dégâts de ";
 				$retour .= $cible["armure_naturelle_hobbit"].".";
 			} else {
-				$retour .= PHP_EOL."Votre armure naturelle ne vous a pas protégé (ARM NAT:".$cible["armure_naturelle_hobbit"].")"; 	
+				$retour .= PHP_EOL."Votre armure naturelle ne vous a pas protégé (ARM NAT:".$cible["armure_naturelle_hobbit"].")";
 			}
 
 			if ($cible["armure_equipement_hobbit"] > 0) {
 				$retour .= PHP_EOL."Votre équipement vous a protégé en réduisant les dégâts de ";
 				$retour .= $cible["armure_equipement_hobbit"].".";
 			} else {
-				$retour .= PHP_EOL."Aucun équipement ne vous a protégé (ARM EQU:".$cible["armure_equipement_hobbit"].")"; 	
+				$retour .= PHP_EOL."Aucun équipement ne vous a protégé (ARM EQU:".$cible["armure_equipement_hobbit"].")";
 			}
 
 			$retour .= PHP_EOL."Vous avez perdu ".$pvPerdus. " PV ";
@@ -564,133 +564,104 @@ class Bral_Monstres_VieMonstre {
 		return $retour;
 	}
 
-	public static function getTabXYRayon($niveau, $estSolitaire, $villes, $directionX, $directionY, $offsetX = null, $offsetY = null) {
-		Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - enter - niveau=".$niveau." directionX=".$directionX." directionY=".$directionY. " offsetX=".$offsetX. " offsetY=".$offsetY);
+	public static function getTabXYRayon($idZoneNid, $niveau, $directionX, $directionY, $xMin, $xMax, $yMin, $yMax) {
+		Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - enter - idZoneNid:".$idZoneNid." niveau=".$niveau." directionX=".$directionX." directionY=".$directionY. "  xMin:".$xMin." , xMax:".$xMax." , yMin:".$yMin.", yMax:".$yMax);
 
 		$tab["x_direction"] = $directionX;
 		$tab["y_direction"] = $directionY;
 
-		$rayonMin = $niveau * 4;
+		Zend_Loader::loadClass("ZoneNid");
+		$zoneNidTable = new ZoneNid();
 
-		if ($offsetX == null || $offsetY == null) {
-			$offsetX = $rayonMin;
-			$offsetY = $rayonMin;
+		$zone = $zoneNidTable->findById($idZoneNid);
+		if (count($zone) != 1) {
+			throw new Zend_Exception(" Zone Nid Invalide idZoneNid:".$idZoneNid);
+		}
+		$zone = $zone[0];
+
+		if ($tab["x_direction"] < $xMin) {
+			$tab["x_direction"] = $xMin + Bral_Util_De::get_de_specifique(0, 5);
+		}
+		if ($tab["x_direction"] > $xMax) {
+			$tab["x_direction"] = $xMax - Bral_Util_De::get_de_specifique(0, 5);
+		}
+		if ($tab["y_direction"] < $yMin) {
+			$tab["y_direction"] = $yMin + Bral_Util_De::get_de_specifique(0, 5);
+		}
+		if ($tab["y_direction"] > $yMax) {
+			$tab["y_direction"] = $yMax - Bral_Util_De::get_de_specifique(0, 5);
 		}
 
-		if ($niveau < 1) {
-			$rayonMin = -5;
-		}
+		if ($zone["est_ville_zone_nid"] == "oui") {
 
-		$largeurRayonAutorise = 100;
+			$rayonMin = $niveau * 3;
+			$rayonMax = $niveau * 3 + 20;
 
-		foreach($villes as $v) {
-			// vérification rayon
-			$estPasse = false;
-			if ($v["x_min_ville"] - $rayonMin <= $directionX && $v["x_max_ville"] + $rayonMin >= $directionX
-			&& $v["y_min_ville"] - $rayonMin <= $directionY && $v["y_max_ville"] + $rayonMin >= $directionY) { // dans le rayon interdit
+			$xCentreVille = $zone["x_min_zone_nid"] + ($zone["x_max_zone_nid"] - $zone["x_min_zone_nid"]) / 2;
+			$yCentreVille = $zone["y_min_zone_nid"] + ($zone["y_max_zone_nid"] - $zone["y_min_zone_nid"]) / 2;
 
-				Bral_Util_Log::viemonstres()->debug("Bral_Monstres_VieMonstre - getTabXYRayon - monstre en rayon interdit, niveau $niveau xmin:".$v["x_min_ville"] ." xmax:".$v["x_max_ville"] ." ymin:".$v["y_min_ville"] ." ymax:".$v["y_max_ville"]. " directionX:".$directionX. " directionY:".$directionY. " offsetX:".$offsetX. " offsetY:".$offsetY);
-
-				if ($v["x_min_ville"] - $rayonMin <= $directionX && $v["x_max_ville"] + $rayonMin >= $directionX) {
-					if ($directionX <= $v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2) { // centre x de la ville
-						Bral_Util_Log::viemonstres()->debug("Bral_Monstres_VieMonstre - getTabXYRayon choix A offsetX=$offsetX");
-						$directionX = $directionX - $offsetX;
-						if ($v["x_min_ville"] - $rayonMin <= $directionX && $v["x_max_ville"] + $rayonMin >= $directionX) {
-							Bral_Util_Log::viemonstres()->debug("Bral_Monstres_VieMonstre - getTabXYRayon choix A2");
-							$directionX = $v["x_min_ville"] - $rayonMin;
-						}
-					} else if ($directionX >= $v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2) {
-						Bral_Util_Log::viemonstres()->debug("Bral_Monstres_VieMonstre - getTabXYRayon choix B offsetX=$offsetX");
-						$directionX = $directionX + $offsetX;
-						if ($v["x_min_ville"] - $rayonMin <= $directionX && $v["x_max_ville"] + $rayonMin >= $directionX) {
-							Bral_Util_Log::viemonstres()->debug("Bral_Monstres_VieMonstre - getTabXYRayon choix B2");
-							$directionX = $v["x_min_ville"] + $rayonMin;
-						}
-					}
+			if ($tab["x_direction"] < $xCentreVille) { // à gauche de la ville
+				if ($tab["x_direction"] > $xCentreVille - $rayonMin) { // à l'intérieur du rayon à gauche
+					$tab["x_direction"] = $xCentreVille - $rayonMin - Bral_Util_De::get_de_specifique(0, 5);
+				} else if ($tab["x_direction"] < $xCentreVille - $rayonMax) { // à l'extérieur du rayon à gauche
+					$tab["x_direction"] = $xCentreVille - $rayonMax - Bral_Util_De::get_de_specifique(0, 5);
 				}
-					
-				if ($v["y_min_ville"] - $rayonMin <= $directionY && $v["y_max_ville"] + $rayonMin >= $directionY) {
-					if ($directionY <= $v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"]) / 2) { // centre y de la ville
-						Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon choix C offsetY=$offsetY");
-						$directionY = $directionY - $offsetY;
-						if ($v["y_min_ville"] - $rayonMin <= $directionY && $v["y_max_ville"] + $rayonMin >= $directionY) {
-							Bral_Util_Log::viemonstres()->debug("Bral_Monstres_VieMonstre - getTabXYRayon choix C2");
-							$directionY = $v["y_min_ville"] - $rayonMin;
-						}
-					} else if ($directionY >= $v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"]) / 2) {
-						Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon choix D offsetY=$offsetY");
-						$directionY = $directionY + $offsetY;
-						if ($v["y_min_ville"] - $rayonMin <= $directionY && $v["y_max_ville"] + $rayonMin >= $directionY) {
-							Bral_Util_Log::viemonstres()->debug("Bral_Monstres_VieMonstre - getTabXYRayon choix D2");
-							$directionY = $v["y_min_ville"] + $rayonMin;
-						}
-					}
-				}
-				$estPasse = true;
-			} else if ($v["x_min_ville"] - $rayonMin - $largeurRayonAutorise <= $directionX && $v["x_max_ville"] + $rayonMin + $largeurRayonAutorise >= $directionX
-			&& $v["y_min_ville"] - $rayonMin - $largeurRayonAutorise <= $directionY && $v["y_max_ville"] + $rayonMin + $largeurRayonAutorise >= $directionY) { // dans le rayon autorisé $largeurRayonAutorise cases
-				Bral_Util_Log::viemonstres()->debug("Bral_Monstres_VieMonstre - getTabXYRayon - monstre en rayon autorise, niveau $niveau xmin:".$v["x_min_ville"] ." xmax:".$v["x_max_ville"] ." ymin:".$v["y_min_ville"] ." ymax:".$v["y_max_ville"]. " directionX:".$directionX. " directionY:".$directionY. " offsetX:".$offsetX. " offsetY:".$offsetY);
-				$estPasse = true;
-			}
-
-			if ($estPasse) {
-				break;
-			}
-		}
-
-		$xPositionMonstre = $directionX - $offsetX;
-		$yPositionMonstre = $directionY - $offsetY;
-
-		$hypothenuseCarre = 10000000;
-		$xMinVille = 0;
-		$xMaxVille = 0;
-		$yMinVille = 0;
-		$yMaxVille = 0;
-
-		if ($estPasse == false && $estSolitaire) { // si le monstre est en dehors de son rayon autorisé et en dehors de son rayon interdit
-			foreach($villes as $v) {
-				$xCentreVille = $v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"] / 2);
-				$yCentreVille = $v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"] / 2);
-
-				$xCarre = ($xCentreVille - $xPositionMonstre) * ($xCentreVille - $xPositionMonstre);
-				$yCarre = ($yCentreVille - $yPositionMonstre) * ($yCentreVille - $yPositionMonstre);
-
-				if ($xCarre + $yCarre < $hypothenuseCarre) {
-					$hypothenuseCarre = $xCarre + $yCarre;
-					$xMinVille = $v["x_min_ville"];
-					$xMaxVille = $v["x_max_ville"];
-					$yMinVille = $v["y_min_ville"];
-					$yMaxVille = $v["y_max_ville"];
+			} else { // à droite de la ville
+				if ($tab["x_direction"] < $xCentreVille + $rayonMin) { // à l'intérieur du rayon à droite
+					$tab["x_direction"] = $xCentreVille + $rayonMin + Bral_Util_De::get_de_specifique(0, 5);
+				} else if ($tab["x_direction"] > $xCentreVille + $rayonMax) { // à l'extérieur du rayon à gauche
+					$tab["x_direction"] = $xCentreVille + $rayonMax + Bral_Util_De::get_de_specifique(0, 5);
 				}
 			}
 
-			if ($hypothenuseCarre == 10000000) {
-				Bral_Util_Log::viemonstres()->err("Bral_Monstres_VieMonstre - getTabXYRayon -Determination ville KO x=".$xPositionMonstre." y=".$yPositionMonstre);
-			} else {
-				Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - Determination ville Ok x=".$xPositionMonstre." y=".$yPositionMonstre. " xminville=".$xMinVille." xmaxville=".$xMaxVille. " yminville=".$yMinVille." ymaxville=".$yMaxVille);
+			if ($tab["y_direction"] < $yCentreVille) { // au bas de la ville
+				if ($tab["y_direction"] > $yCentreVille - $rayonMin) { // à l'intérieur du rayon en bas
+					$tab["y_direction"] = $yCentreVille - $rayonMin - Bral_Util_De::get_de_specifique(0, 5);
+				} else if ($tab["y_direction"] < $yCentreVille - $rayonMax) { // à l'extérieur du rayon en bas
+					$tab["y_direction"] = $yCentreVille - $rayonMax - Bral_Util_De::get_de_specifique(0, 5);
+				}
+			} else { // en haut de la ville
+				if ($tab["y_direction"] < $yCentreVille + $rayonMin) { // à l'intérieur du rayon en haut
+					$tab["y_direction"] = $yCentreVille + $rayonMin + Bral_Util_De::get_de_specifique(0, 5);
+				} else if ($tab["y_direction"] > $yCentreVille + $rayonMax) { // à l'extérieur du rayon en haut
+					$tab["y_direction"] = $yCentreVille + $rayonMax + Bral_Util_De::get_de_specifique(0, 5);
+				}
 			}
+		}
 
-			if ($directionX <= $xMinVille - $rayonMin) {
-				$directionX = $xMinVille - $rayonMin - $largeurRayonAutorise / 2;
-			} else {
-				$directionX = $xMaxVille + $rayonMin + $largeurRayonAutorise / 2;
-			}
+		// si toutefois on sort du périmètre (parce que le périmètre à une largeur de moins de 5 cases), on re-contrôle
+		if ($tab["x_direction"] < $xMin) {
+			$tab["x_direction"] = $xMin;
+		} else if ($tab["x_direction"] > $xMax) {
+			$tab["x_direction"] = $xMax;
+		}
+		if ($tab["y_direction"] < $yMin) {
+			$tab["y_direction"] = $yMin;
+		} else if ($tab["y_direction"] > $yMax) {
+			$tab["y_direction"] = $yMax;
+		}
 
-			if ($directionY <= $yMinVille - $rayonMin) {
-				$directionY = $yMinVille - $rayonMin - $largeurRayonAutorise / 2;
-			} else {
-				$directionY = $yMaxVille + $rayonMin + $largeurRayonAutorise / 2;
-			}
+		$config = Zend_Registry::get('config');
 
-			// todo peut etre, contrôle si un gros monstre se trouve dans une ville à côté.
+		if ($directionX <= $config->game->x_min) {
+			$directionX = -$config->game->x_min;
+		}
+		if ($directionX >= $config->game->x_max) {
+			$directionX = -$config->game->x_max;
+		}
+		if ($directionY <= $config->game->y_min) {
+			$directionY = -$config->game->y_min;
+		}
+		if ($directionY >= $config->game->y_max) {
+			$directionY = -$config->game->y_max;
 		}
 
 		$tab["x_direction"] = $directionX;
 		$tab["y_direction"] = $directionY;
-		$tab["est_traite"] = $estPasse;
 
 		Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - exit - directionX=".$directionX." directionY=".$directionY);
 
 		return $tab;
+
 	}
 }

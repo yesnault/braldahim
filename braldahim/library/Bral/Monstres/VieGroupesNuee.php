@@ -137,8 +137,8 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 		($monstre_role_a["y_monstre"] == $groupe["y_direction_groupe_monstre"])) || 
 		($groupe["x_direction_groupe_monstre"] == 0 && $groupe["y_direction_groupe_monstre"] == 0)) {
 
-			$dx = Bral_Util_De::get_1d20();
-			$dy = Bral_Util_De::get_1d20();
+			$dx = Bral_Util_De::get_1d12();
+			$dy = Bral_Util_De::get_1d12();
 
 			$plusMoinsX = Bral_Util_De::get_1d2();
 			$plusMoinsY = Bral_Util_De::get_1d2();
@@ -155,33 +155,10 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 				$groupe["y_direction_groupe_monstre"] = $monstre_role_a["y_monstre"] + $dy;
 			}
 
-			$tab = Bral_Monstres_VieMonstre::getTabXYRayon($monstre_role_a["niveau_monstre"], false, $this->villes, $groupe["x_direction_groupe_monstre"], $groupe["y_direction_groupe_monstre"], $dx, $dy);
+			$tab = Bral_Monstres_VieMonstre::getTabXYRayon($monstre_role_a["id_fk_zone_nid_monstre"], $monstre_role_a["niveau_monstre"], $groupe["x_direction_groupe_monstre"], $groupe["y_direction_groupe_monstre"], $monstre_role_a["x_min_monstre"], $monstre_role_a["x_max_monstre"], $monstre_role_a["y_min_monstre"], $monstre_role_a["y_max_monstre"]);
+			
 			$groupe["x_direction_groupe_monstre"] = $tab["x_direction"];
 			$groupe["y_direction_groupe_monstre"] = $tab["y_direction"];
-
-			if ($groupe["x_direction_groupe_monstre"] <= $this->config->game->x_min) {
-				$groupe["x_direction_groupe_monstre"] = -$this->config->game->x_min;
-			}
-			if ($groupe["x_direction_groupe_monstre"] >= $this->config->game->x_max) {
-				$groupe["x_direction_groupe_monstre"] = -$this->config->game->x_max;
-			}
-			if ($groupe["y_direction_groupe_monstre"] <= $this->config->game->y_min) {
-				$groupe["y_direction_groupe_monstre"] = -$this->config->game->y_min;
-			}
-			if ($groupe["y_direction_groupe_monstre"] >= $this->config->game->y_max) {
-				$groupe["y_direction_groupe_monstre"] = -$this->config->game->y_max;
-			}
-
-			if ($monstre_role_a["x_min_monstre"] != null && $groupe["x_direction_groupe_monstre"] < $monstre_role_a["x_min_monstre"]) {
-				$groupe["x_direction_groupe_monstre"] = $monstre_role_a["x_min_monstre"];
-			} else if ($monstre_role_a["x_max_monstre"] != null && $groupe["x_direction_groupe_monstre"] > $monstre_role_a["x_max_monstre"]) {
-				$groupe["x_direction_groupe_monstre"] = $monstre_role_a["x_max_monstre"];
-			}
-			if ($monstre_role_a["y_min_monstre"] != null && $groupe["y_direction_groupe_monstre"] < $monstre_role_a["y_min_monstre"]) {
-				$groupe["y_direction_groupe_monstre"] = $monstre_role_a["y_min_monstre"];
-			} else if ($monstre_role_a["y_max_monstre"] != null && $groupe["y_direction_groupe_monstre"] > $monstre_role_a["y_max_monstre"]) {
-				$groupe["y_direction_groupe_monstre"] = $monstre_role_a["y_max_monstre"];
-			}
 
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - calcul nouvelle valeur direction x=".$groupe["x_direction_groupe_monstre"]." y=".$groupe["y_direction_groupe_monstre"]." ");
 		}

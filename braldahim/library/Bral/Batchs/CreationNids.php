@@ -115,7 +115,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 	}
 
 	private function calculCreationNidsHorsVille($zone) {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculCreationNids - enter -");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculCreationNids - enter idZone:".$zone["id_zone_nid"]." -");
 		$retour = "";
 
 		$nidTable = new Nid();

@@ -45,6 +45,11 @@ class Bral_Util_De {
 		srand(self::make_seed());
 		return rand(1, 10);
 	}
+	
+	public static function get_1d12() {
+		srand(self::make_seed());
+		return rand(1, 12);
+	}
 
 	public static function get_1d20() {
 		srand(self::make_seed());
