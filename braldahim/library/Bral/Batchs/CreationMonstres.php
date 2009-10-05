@@ -247,7 +247,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 
 		//DLA
 		$dla_monstre = Bral_Util_ConvertDate::get_time_from_minutes(720 - 10 * $niveau_sagesse);
-		$date_fin_tour_monstre = Bral_Util_ConvertDate::get_date_add_time_to_date(date("Y-m-d H:i:s"), "24:00:00");
+		$date_fin_tour_monstre = Bral_Util_ConvertDate::get_date_add_time_to_date(date("Y-m-d H:i:s"), "01:00:00");
 
 		//PV
 		$pv_restant_monstre = 20 + $niveau_vigueur * 4;
@@ -288,7 +288,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 			"nb_kill_monstre" => 0,
 			"date_creation_monstre" => date("Y-m-d H:i:s"),
 			"est_mort_monstre" => 'non',
-			"pa_monstre" => 0, // pas de PA à la creation.
+			"pa_monstre" => 6, // pas de PA à la creation.
 		);
 
 		$monstreTable = new Monstre();
