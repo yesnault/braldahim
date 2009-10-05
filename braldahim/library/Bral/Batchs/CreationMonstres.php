@@ -126,7 +126,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 					$id_fk_taille_monstre = $this->creationCalculTaille($taillesMonstre);
 					$referenceCourante = $this->recupereReferenceMonstre($refRowset, $referenceCourante["id_fk_type_ref_monstre"], $id_fk_taille_monstre);
 					$niveau_monstre = Bral_Util_De::get_de_specifique($referenceCourante["niveau_min_ref_monstre"], $referenceCourante["niveau_max_ref_monstre"]);
-					$positions = $this->calculPositions($zone, $id_fk_taille_monstre);
+					$positions = $this->calculPositions($zone, $niveau_monstre);
 					$this->creationCalcul($zone['id_zone_nid'], $refRowset, $referenceCourante, $id_fk_taille_monstre, $niveau_monstre, $nid["x_nid"], $nid["y_nid"], $positions["x_min"], $positions["x_max"], $positions["y_min"], $positions["y_max"], $id_groupe, $est_role_a, $est_role_b);
 				}
 			}
@@ -353,9 +353,9 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 			$xCentre =  $zone_nid["x_min_zone_nid"] + ($zone_nid["x_max_zone_nid"] - $zone_nid["x_min_zone_nid"]) /2;
 			$yCentre =  $zone_nid["y_min_zone_nid"] + ($zone_nid["y_max_zone_nid"] - $zone_nid["y_min_zone_nid"]) /2;
 				
-			$position["x_min"] = $xCentre - ($niveauMonstre * 3) + 20;
+			$position["x_min"] = $xCentre - ($niveauMonstre * 3) - 20;
 			$position["x_max"] = $xCentre + ($niveauMonstre * 3) + 20;
-			$position["y_min"] = $yCentre - ($niveauMonstre * 3) + 20;
+			$position["y_min"] = $yCentre - ($niveauMonstre * 3) - 20;
 			$position["y_max"] = $yCentre + ($niveauMonstre * 3) + 20;
 		}
 
