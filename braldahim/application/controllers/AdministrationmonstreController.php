@@ -414,6 +414,8 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			$pourcentage_vigueur_ref_monstre = $filter->filter($this->_request->getPost('p_vigueur'));
 			$pourcentage_agilite_ref_monstre = $filter->filter($this->_request->getPost('p_agilite'));
 			$vue_ref_monstre = $filter->filter($this->_request->getPost('vue'));
+
+
 			if (((int)$id_fk_type_ref_monstre.""!=$id_fk_type_ref_monstre."")) {
 				throw new Zend_Exception(get_class($this)." Valeur invalide. id_fk_type_ref_monstre : ".$id_fk_type_ref_monstre);
 			}
@@ -638,9 +640,9 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 
 		if ($this->_request->isPost() && $this->_request->get('idmonstre') == $this->_request->getPost("id_monstre")) {
 			$modification = "";
-				
+
 			$monstreTable = new Monstre();
-				
+
 			$where = $monstreTable->getAdapter()->quoteInto('id_monstre = ?',(int)$this->_request->getPost('id_monstre'));
 			$monstreRowset = $monstreTable->fetchRow($where);
 			$monstre = $monstreRowset->toArray();
@@ -648,7 +650,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			$tabPost = $this->_request->getPost();
 			foreach ($tabPost as $key => $value) {
 				if ($key != 'id_monstre' && mb_substr($key, -8) == "_monstre") {
-						
+
 					if ($monstre[$key] != $value) {
 						$modification .= " ==> Valeur modifiée : ";
 					}
@@ -713,6 +715,99 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		} else {
 			$this->view->mode = "complexe";
 		}
+	}
+
+	public function repartitionAction() {
+		Zend_Loader::loadClass("CreationNids");
+		Zend_Loader::loadClass("Nid");
+		Zend_Loader::loadClass("Monstre");
+		Zend_Loader::loadClass("ZoneNid");
+
+		$nidTable = new Nid();
+		$monstreTable = new Monstre();
+
+		$monstres = $monstreTable->countAllByTypeAndIdZoneNid();
+		$nids = $nidTable->countMonstresACreerByTypeMonstreAndIdZone();
+
+		$creationNidsTable = new CreationNids();
+
+		$zoneNidTable = new ZoneNid();
+		$zones = $zoneNidTable->fetchAll();
+
+		$tabZones = null;
+
+		$typeMonstreTable = new TypeMonstre();
+		$tousTypesMontres = $typeMonstreTable->fetchAllSansGibier();
+		foreach($tousTypesMontres as $t) {
+			$tabTypesMonstres[$t["id_type_monstre"]]["nom"] = $t["nom_type_monstre"];	
+		}
+		
+		$this->view->typesMonstres = $tabTypesMonstres;
+		
+		foreach($zones as $z) {
+			$tab = array("id_zone_nid" => $z["id_zone_nid"]);
+			$tab["nbVivants"] = 0;
+			$tab["nbDansNids"] = 0;
+			$tab["vivants"] = null;
+			$tab["dansNids"] = null;
+			$tab["details"] = array();
+			foreach($monstres as $m) {
+				if ($z["id_zone_nid"] == $m["id_fk_zone_nid_monstre"]) {
+					$tab["nbVivants"] = $tab["nbVivants"] + $m["nombre"];
+					$tab["details"][$m["id_fk_type_monstre"]]["vivants"] = $m["nombre"];
+				}
+				if (!array_key_exists($m["id_fk_type_monstre"], $tab["details"]) || !array_key_exists("vivants", $tab["details"][$m["id_fk_type_monstre"]])) {
+					$tab["details"][$m["id_fk_type_monstre"]]["vivants"] = 0;
+				}
+			}
+
+			foreach($nids as $n) {
+				if ($z["id_zone_nid"] == $n["id_fk_zone_nid"]) {
+					$tab["nbDansNids"] = $tab["nbDansNids"] + $n["nombre"];
+					$tab["details"][$n["id_fk_type_monstre_nid"]]["dansNids"] = $n["nombre"];
+				}
+				if (!array_key_exists($n["id_fk_type_monstre_nid"], $tab["details"]) || !array_key_exists("dansNids", $tab["details"][$n["id_fk_type_monstre_nid"]])) {
+					$tab["details"][$n["id_fk_type_monstre_nid"]]["dansNids"] = 0;
+				}
+			}
+
+			$creationNidsRowset = $creationNidsTable->findByIdZoneNid($z["id_zone_nid"]);
+
+			$nbCasesDansZone = ($z["x_max_zone_nid"] - $z["x_min_zone_nid"]) * ($z["y_max_zone_nid"] - $z["y_min_zone_nid"]);
+
+			$tab["estVille"] = $z["est_ville_zone_nid"];
+			
+			if ($tab["estVille"] == "oui") {
+				$tab["couvertureDemandee"] = "non applicable";
+			} else {
+				$tab["couvertureDemandee"] = $z["couverture_zone_nid"]."%";
+			}
+			$nbTypesTotalDansZone = count($creationNidsRowset);
+
+			foreach($creationNidsRowset as $c) {
+				$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalReel"] =  $tab["details"][$c["id_fk_type_monstre_creation_nid"]]["vivants"] + $tab["details"][$c["id_fk_type_monstre_creation_nid"]]["dansNids"];
+
+				if ($c["nb_monstres_ville_creation_nid"] != null) { // ville
+					$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalDemande"] = $c["nb_monstres_ville_creation_nid"];
+				} else {
+					$nbPourcentMonstresParTypeAAvoir = $z["couverture_zone_nid"] / $nbTypesTotalDansZone;
+					$nbMonstresParTypeAAvoir = $nbPourcentMonstresParTypeAAvoir * $nbCasesDansZone / 100;
+
+					$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalDemande"] = number_format($nbMonstresParTypeAAvoir, 2);
+				}
+				
+				$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["manque"] = number_format($tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalDemande"]  - $tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalReel"], 2);
+			}
+
+			$tab["nbTotal"] =  $tab["nbDansNids"] + $tab["nbVivants"];
+
+			$tab["couvertureReelle"] = number_format($tab["nbTotal"] * 100 / $nbCasesDansZone, 2);
+
+			$tabZones[] = $tab;
+		}
+
+		$this->view->zonesNids = $tabZones;
+		$this->render();
 	}
 
 }

@@ -1,0 +1,86 @@
+<?php echo $this->render('header.phtml'); ?>
+<div class="box_administration">
+<?=Bral_Helper_Box::haut(); ?>
+<div class="inner">
+	<ul class="titre textalia textsizea">Administration</ul>
+    <ul class="titre textalic textsizeb">Répartition des Monstres</ul>
+    	&nbsp;
+	<div class="contenu">
+	    <ul class="box_contenu1 textalic">
+		
+		<table class="table_liste">
+			<thead class="table_liste">
+			  <tr class="table_liste">
+				<th>Nid Id</th>
+				<th>Nb dans Nid</th>
+				<th>Nb Vivant</th>
+				<th>Nb Total</th>
+				<th>Couverture demandée</th>
+				<th>Couverture réelle</th>
+				<th>Couverture par Type</th>
+			  </tr>
+			</thead>
+			
+			<tbody>
+		  	<? $i = 0; 
+		  	foreach($this->zonesNids as $z) : ?>
+		  		<tr class="table_liste<?=($i % 2);$i++; ?>" valign="top">
+			  		<td class="table_liste"><?=$z["id_zone_nid"]?>
+				  		<? if ($z["estVille"] == "oui") : ?>
+				  			Zone de Ville
+				  		<? endif;?>
+			  		</td>
+			  		<td class="table_liste"><?=$z["nbDansNids"]?></td>
+			  		<td class="table_liste"><?=$z["nbVivants"]?></td>
+			  		<td class="table_liste"><?=$z["nbTotal"]?></td>
+			  		<td class="table_liste"><?=$z["couvertureDemandee"]?></td>
+			  		<td class="table_liste"><?=$z["couvertureReelle"]?>%</td>
+			  		<td>
+			  		
+			  		<div id='detaila_<?=$z["id_zone_nid"]?>' style="display:block" >
+			  			<input type='button' class='button1' value='Afficher' onClick="javascript:switch2div('detaila_<?=$z["id_zone_nid"]?>','detailb_<?=$z["id_zone_nid"]?>');">
+					</div>
+					
+			  		 <div id='detailb_<?=$z["id_zone_nid"]?>' style="display:none" >
+			  		 
+				  		<table class="table_liste">
+						<thead class="table_liste">
+						  <tr class="table_liste">
+							<th>Id Type</th>
+							<th>Nb dans Nid</th>
+							<th>Nb Vivant</th>
+							<th>Total demandé</th>
+							<th>Total réel</th>
+							<th>Manque</th>
+						  </tr>
+						</thead>
+						<tbody>
+							<? foreach($z["details"] as $k => $t) : ?>
+								<tr class="table_liste">
+								<td class="table_liste" nowrap><?=$this->typesMonstres[$k]["nom"]?> (<?=$k?>)</td>
+								<td class="table_liste"><?=$t["dansNids"]?></td>
+								<td class="table_liste"><?=$t["vivants"]?></td>
+								<td class="table_liste"><?=$t["totalDemande"]?></td>
+								<td class="table_liste"><?=$t["totalReel"]?></td>
+								<td class="table_liste"><?=$t["manque"]?></td>
+								</tr>
+							<? endforeach;?>
+						</tbody>
+						</table>
+						<input type='button' class='button1' value='Cacher' onClick="javascript:switch2div('detaila_<?=$z["id_zone_nid"]?>','detailb_<?=$z["id_zone_nid"]?>');">
+					
+			  		 </div>
+			  		</td>
+		  		</tr>
+		  	<? endforeach; ?>
+		  	</tbody>
+	  	
+	  	</table>
+		
+		</ul>
+	</div>
+	&nbsp;
+</div>
+<?=Bral_Helper_Box::bas(); ?>
+</div>
+<?php echo $this->render('footer.phtml'); ?>

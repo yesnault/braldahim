@@ -98,7 +98,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		$nbMonstresActuels = $monstreTable->countAllByIdZoneNid($zone["id_zone_nid"]);
 		$totalMonstres = $nbMonstresDansNidsEnCours + $nbMonstresActuels;
 
-		Bral_Util_Log::batchs()->debug("Bral_Batchs_CreationNids - calculZoneHorsVille - idZoneNid ".$zone["id_zone_nid"].". nbMonstresDansNidsEnCours:".$nbMonstresDansNidsEnCours. " nbMonstresActuels:".$nbMonstresActuels. " totalMonstres:".$totalMonstres);
+		Bral_Util_Log::batchs()->debug("Bral_Batchs_CreationNids - calculZoneHorsVille - idZoneNid:".$zone["id_zone_nid"].". nbMonstresDansNidsEnCours:".$nbMonstresDansNidsEnCours. " nbMonstresActuels:".$nbMonstresActuels. " totalMonstres:".$totalMonstres);
 
 		$nbCasesDansZone = ($zone["x_max_zone_nid"] - $zone["x_min_zone_nid"]) * ($zone["y_max_zone_nid"] - $zone["y_min_zone_nid"]);
 		$couvertureMonstres = 100 * $totalMonstres / $nbCasesDansZone;
@@ -135,8 +135,10 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 
 		$nbPourcentMonstresParTypeAAvoir = $zone["couverture_zone_nid"] / $nbTypesTotalDansZone;
 		$nbMonstresParTypeAAvoir = $nbPourcentMonstresParTypeAAvoir * $nbCasesDansZone / 100;
-
-		Bral_Util_Log::batchs()->debug("Bral_Batchs_CreationNids - calculZoneHorsVille - nbCasesDansZone:".$nbCasesDansZone." nbTypesTotalDansZone:".$nbTypesTotalDansZone." nbMonstresParTypeAAvoir ".$nbMonstresParTypeAAvoir);
+		
+		$nbMonstresTotalAAvoir = $nbCasesDansZone * $zone["couverture_zone_nid"] / 100;
+		
+		Bral_Util_Log::batchs()->debug("Bral_Batchs_CreationNids - calculZoneHorsVille - nbCasesDansZone:".$nbCasesDansZone." nbTypesTotalDansZone:".$nbTypesTotalDansZone." nbMonstresParTypeAAvoir ".$nbMonstresParTypeAAvoir. " nbMonstresTotalAAvoir ".$nbMonstresTotalAAvoir);
 
 		foreach($tousTypesMontres as $t) {
 			$nbMonstre = 0;
@@ -168,7 +170,6 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 				$nbMonstresManquants = - $nbMonstre;
 				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculCreationNids - idTypeMonstre:".$t["id_type_monstre"]." non present dans la zone. Nb monstres à supprimer:".$nbMonstre);
 			}
-
 			
 			// il n'y a pas assez de monstre du type dans la zone
 			if ($nbMonstresManquants > self::NB_MONSTRES_PAR_NID_MOYENNE) {
@@ -338,6 +339,8 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 			}
 			
 			$nbACreerDansZone = $nb_monstres_ville_creation_nid - $nbMonstre;
+			
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculZoneVille - nb_monstres_ville_creation_nid:".$nb_monstres_ville_creation_nid. " nbMonstre:".$nbMonstre." nbACreerDansZone:".$nbACreerDansZone);
 			
 			if ($nbACreerDansZone < 0) {  // il faut supprimer les monstres en trop
 				$this->suppressionMonstresParTypeMonstre($zone, $t["id_type_monstre"], -$nbACreerDansZone);				

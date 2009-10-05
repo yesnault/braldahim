@@ -29,12 +29,14 @@ class Nid extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function countMonstresACreerByTypeMonstreAndIdZone($idZone) {
+	function countMonstresACreerByTypeMonstreAndIdZone($idZone = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('nid', array('sum(nb_monstres_restants_nid) as nombre', 'id_fk_type_monstre_nid'))
-		->where('id_fk_zone_nid = ?', $idZone)
-		->group('id_fk_type_monstre_nid');
+		$select->from('nid', array('sum(nb_monstres_restants_nid) as nombre', 'id_fk_type_monstre_nid', 'id_fk_zone_nid'));
+		if ($idZone != null) {
+			$select->where('id_fk_zone_nid = ?', $idZone);
+		}
+		$select->group(array('id_fk_type_monstre_nid', 'id_fk_zone_nid'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 

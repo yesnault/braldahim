@@ -53,10 +53,11 @@
 	    
 	    <span class="titre textalia textsizec">Administration Monstres</span>
 	    <br />
+	    <a href='/Administrationmonstre/repartition'>[ R&eacute;partition ]</a>
 	    <a href='/Administrationmonstre/creation'>[ Cr&eacute;ation ]</a> 
 	    <a href='/Administrationmonstre/referentiel'>[ R&eacute;f&eacute;rentiel ]</a>
 	    <a href='/Batchs/viemonstres'>[ Jouer Vie Monstre ]</a>
-	    <br>
+	    <br><br>
 	     Monstre Id <input type='text' name='id_monstre' id='id_monstre' value='' size='5'> 
 	    <input type='button' name='goFicheMonstre' value='Ouvrir Fiche'   class='button1'  onClick='document.location.href="/Administrationmonstre/monstre/mode/simple/idmonstre/"+$("id_monstre").value;'> 
 	    <input type='button' name='goProfilMonstre' value='Ouvrir Profil Public'   class='button1'  onclick='javascript:ouvrirWin("/voir/monstre/?monstre="+$("id_monstre").value);'> 
