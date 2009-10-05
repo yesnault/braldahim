@@ -90,7 +90,6 @@ class Bral_Util_Quete {
 	const ETAPE_CONSTUIRE_COMPETENCE_CONSTUIRE = "construire";
 
 	const ETAPE_FABRIQUER_PARAM1_TYPE_PIECE = 1;
-	const ETAPE_FABRIQUER_PARAM1_QUALITE = 2;
 
 	public static function creationQueteInitiatique($hobbit, $config) {
 		Bral_Util_Log::quete()->trace("Bral_Util_Quete::creationQueteInitiatique - enter");
@@ -1555,14 +1554,15 @@ class Bral_Util_Quete {
 	private static function calculEtapeFabriquerParam1et2et3($etape, &$hobbit, $idTypeEquipement, $idTypeQualite) {
 		$retour = false;
 		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeFabriquerParam1et2et3 - param1:".$etape["param_1_etape"]. " param2:".$etape["param_2_etape"]. " param3:".$etape["param_3_etape"]);
-		if ($etape["param_3_etape"] == date('N') && $etape["param_1_etape"] == self::ETAPE_FABRIQUER_PARAM1_QUALITE && $etape["param_2_etape"] == $idTypeQualite) {
+		
+		if ($etape["param_3_etape"] == date('N') && $etape["param_1_etape"] == 2) { // TODO à SUPPRIMER quand tout le monde a fini ce genre d'etape
 			Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeFabriquerParam1et2et3 - A");
 			$retour = true;
-		} else if ($etape["param_3_etape"] == date('N') && $etape["param_1_etape"] == self::ETAPE_FABRIQUER_PARAM1_TYPE_PIECE && $etape["param_2_etape"] == $idTypeEquipement) {
-			Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeFabriquerParam1et2et3 - B");
+		} elseif ($etape["param_3_etape"] == date('N') && $etape["param_1_etape"] == self::ETAPE_FABRIQUER_PARAM1_TYPE_PIECE && $etape["param_2_etape"] == $idTypeEquipement) {
+			Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeFabriquerParam1et2et3 - A");
 			$retour = true;
 		} else {
-			Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeFabriquerParam1et2et3 - C");
+			Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeFabriquerParam1et2et3 - B");
 		}
 		return $retour;
 	}

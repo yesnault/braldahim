@@ -617,7 +617,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 
 		$dataTypeEtape["libelle_etape"] = "Vous devez fabriquer une pièce ";
 
-		$dataTypeEtape["param1"] = Bral_Util_De::get_1d2();
+		$dataTypeEtape["param1"] = 1;
 
 		if ($dataTypeEtape["param1"] == Bral_Util_Quete::ETAPE_FABRIQUER_PARAM1_TYPE_PIECE) {
 			Zend_Loader::loadClass("HobbitsMetiers");
@@ -639,20 +639,6 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 			$typeEquipement = $typeEquipements[$deTypeEquipement];
 			$dataTypeEtape["param2"] = $typeEquipement["id_type_equipement"];
 			$dataTypeEtape["libelle_etape"] .= "de type ".$typeEquipement["nom_type_equipement"]. " (ou équivalent)";
-
-		} else if ($dataTypeEtape["param1"] == Bral_Util_Quete::ETAPE_FABRIQUER_PARAM1_QUALITE) {
-			Zend_Loader::loadClass("TypeQualite");
-			$typeQualiteTable = new TypeQualite();
-			$typeQualites = $typeQualiteTable->fetchAll();
-
-			if ($typeQualites == null || count($typeQualites) < 1) {
-				throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeFabriquerParam1et2 typeQualite invalide");
-			}
-
-			$deTypeQualite = Bral_Util_De::get_de_specifique(0, count($typeQualites) -1);
-			$typeQualite = $typeQualites[$deTypeQualite];
-			$dataTypeEtape["param2"] = $typeQualite["id_type_qualite"];
-			$dataTypeEtape["libelle_etape"] .= "de qualité ".$typeQualite["nom_type_qualite"];
 		} else {
 			throw new Zend_Exception(get_class($this)."::pepareParamTypeEtapeFabriquerParam1et2 param1 invalide:".$dataTypeEtape["param1"]);
 		}
