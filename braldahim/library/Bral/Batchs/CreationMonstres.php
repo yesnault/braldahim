@@ -93,10 +93,10 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 			if ($aCreer < $referenceCourante["nb_membres_min_type_groupe_monstre"]) { // s'il n'y a pas assez a creer pour le type de groupe
 				if ($aCreer + $nbRestantsDansNid < $referenceCourante["nb_membres_min_type_groupe_monstre"]) { // et qu'en rajoutant le reste du nid il n'y a pas assez
 					// on supprime le nid
-					$nbRestantsDansNid = -1;
+					$aCreer = 0;
+					$nid["nb_monstres_restants_nid"] = 0;
 				} else { // il y a assez pour faire un groupe avec ce qu'il reste dans le nid
 					$aCreer = $referenceCourante["nb_membres_min_type_groupe_monstre"];
-					$nbRestantsDansNid = $nid["nb_monstres_restants_nid"] - $aCreer;
 				}
 			}
 
@@ -144,7 +144,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 
 		$nidTable = new Nid();
 
-		if ($nbRestantsDansNid > 0) {
+		if ($nid["nb_monstres_restants_nid"] > 0) {
 			$data = array("nb_monstres_restants_nid" => $nid["nb_monstres_restants_nid"]);
 			$where = "id_nid=".$nid["id_nid"];
 			$nidTable->update($data, $where);
