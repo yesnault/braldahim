@@ -247,7 +247,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - suppressionMonstresParTypeMonstre A - nbMonstreASupprimer:".$nbMonstreASupprimer." nbSupprime dans nids:".$nbSupprime);
 
-		if ($nbSupprime >= $nbMonstreASupprimer) { // s'il n'y a pas assez de monstres supprimés, il faut en supprimer des vivants
+		if ($nbSupprime <= $nbMonstreASupprimer) { // s'il n'y a pas assez de monstres supprimés, il faut en supprimer des vivants
 			$monstreTable = new Monstre();
 			$monstres = $monstreTable->findVivantByIdZoneNidAndIdType($zone["id_zone_nid"], $idTypeMonstre);
 

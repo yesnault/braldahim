@@ -46,23 +46,23 @@
 				  		<table class="table_liste">
 						<thead class="table_liste">
 						  <tr class="table_liste">
-							<th>Id Type</th>
-							<th>Nb dans Nid</th>
-							<th>Nb Vivant</th>
-							<th>Total demandé</th>
-							<th>Total réel</th>
-							<th>Manque</th>
+							<th nowrap>Id Type</th>
+							<th nowrap>Nb dans Nid</th>
+							<th nowrap>Nb Vivant</th>
+							<th nowrap>Total demandé</th>
+							<th nowrap>Total réel</th>
+							<th nowrap>Manque</th>
 						  </tr>
 						</thead>
 						<tbody>
 							<? foreach($z["details"] as $k => $t) : ?>
 								<tr class="table_liste">
 								<td class="table_liste" nowrap><?=$this->typesMonstres[$k]["nom"]?> (<?=$k?>)</td>
-								<td class="table_liste"><?=$t["dansNids"]?></td>
-								<td class="table_liste"><?=$t["vivants"]?></td>
-								<td class="table_liste"><?=$t["totalDemande"]?></td>
-								<td class="table_liste"><?=$t["totalReel"]?></td>
-								<td class="table_liste"><?=$t["manque"]?></td>
+								<td class="table_liste" nowrap><?=$t["dansNids"]?></td>
+								<td class="table_liste" nowrap><?=$t["vivants"]?></td>
+								<td class="table_liste" nowrap><?=$t["totalDemande"]?></td>
+								<td class="table_liste" nowrap><?=$t["totalReel"]?></td>
+								<td class="table_liste" nowrap><?=$t["manque"]?></td>
 								</tr>
 							<? endforeach;?>
 						</tbody>
