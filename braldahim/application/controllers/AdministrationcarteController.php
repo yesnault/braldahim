@@ -26,9 +26,16 @@ class AdministrationcarteController extends Zend_Controller_Action {
 
 		$this->tailleMapBottom = 40;
 		$this->distanceD = 20;
-		$this->coefTaille = 0.6;
+
+		if (floatval($this->_request->get("coef")) > 0) {
+			$this->coefTaille = floatval($this->_request->get("coef"));
+		} else {
+			$this->coefTaille = 1;
+		}
+
 		$this->tailleX = (-$this->view->config->game->x_min + $this->view->config->game->x_max) / $this->coefTaille;
 		$this->tailleY = (-$this->view->config->game->y_min + $this->view->config->game->y_max) / $this->coefTaille;
+
 	}
 
 	function indexAction() {
@@ -67,8 +74,12 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$parametres .= "&hobbits=1";
 		}
 
-		if (intval($this->_request->get("monstres")) == 1) {
-			$parametres .= "&monstres=1";
+		if (intval($this->_request->get("monstres")) == 1 && intval($this->_request->get("zonenidmin")) >= 1 && intval($this->_request->get("zonenidmax")) >= 1) {
+			$parametres .= "&monstres=1&zonenidmin=".intval($this->_request->get("zonenidmin"))."&zonenidmax=".intval($this->_request->get("zonenidmax"));
+		}
+
+		if (floatval($this->_request->get("coef")) > 0) {
+			$parametres .= "&coef=".floatval($this->_request->get("coef"));
 		}
 
 		$this->view->parametres = $parametres;
@@ -105,12 +116,13 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		}
 
 		if (intval($this->_request->get("monstres")) == 1) {
-			$this->dessineMonstres(&$image);
+			$this->dessineMonstres(&$image, intval($this->_request->get("zonenidmin")), intval($this->_request->get("zonenidmax")));
 		}
-		
+
 		if (intval($this->_request->get("nids")) == 1) {
 			$this->dessineNids(&$image);
 		}
+
 
 		$this->view->image = $image;
 		$this->render();
@@ -378,10 +390,11 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		}
 	}
 
-	private function dessineMonstres(&$image) {
+	private function dessineMonstres(&$image, $idZoneNidMin, $idZoneNidMax) {
 		Zend_Loader::loadClass('Monstre');
 		$monstresTable = new Monstre();
-		$monstres = $monstresTable->fetchall("est_mort_monstre = 'non'");
+
+		$monstres = $monstresTable->findByIdZoneNidMinAndIdZoneNidMax($idZoneNidMin, $idZoneNidMax);
 
 		$tab[0] = 0;
 		$tab[1] = 0;

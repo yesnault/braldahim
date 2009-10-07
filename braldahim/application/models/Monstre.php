@@ -298,4 +298,19 @@ class Monstre extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+
+	function findByIdZoneNidMinAndIdZoneNidMax($idZoneMin, $idZoneMax) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('monstre', array('x_monstre', 'y_monstre', 'niveau_monstre'))
+		->where('id_fk_zone_nid_monstre >= ?', intval($idZoneMin))
+		->where('id_fk_zone_nid_monstre <= ?', intval($idZoneMax))
+		->where('est_mort_monstre = ?', 'non');
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		
+		echo $sql;
+
+		return $resultat;
+	}
 }

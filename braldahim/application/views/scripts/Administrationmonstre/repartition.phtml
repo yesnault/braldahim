@@ -18,6 +18,7 @@
 				<th>Couverture demandée</th>
 				<th>Couverture réelle</th>
 				<th>Couverture par Type</th>
+				<th>Carte</th>
 			  </tr>
 			</thead>
 			
@@ -70,6 +71,9 @@
 						<input type='button' class='button1' value='Cacher' onClick="javascript:switch2div('detaila_<?=$z["id_zone_nid"]?>','detailb_<?=$z["id_zone_nid"]?>');">
 					
 			  		 </div>
+			  		</td>
+			  		<td>
+			  		 <a href='/Administrationcarte/carte?monstres=1&coef=0.5&zonenidmin=<?=$z["id_zone_nid"]?>&zonenidmax=<?=$z["id_zone_nid"]?>'>Carte</a>
 			  		</td>
 		  		</tr>
 		  	<? endforeach; ?>
