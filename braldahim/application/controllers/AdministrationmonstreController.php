@@ -740,6 +740,11 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		$tousTypesMontres = $typeMonstreTable->fetchAll();
 		foreach($tousTypesMontres as $t) {
 			$tabTypesMonstres[$t["id_type_monstre"]]["nom"] = $t["nom_type_monstre"];	
+			$tab["details"][$t["id_type_monstre"]]["vivants"] = 0;
+			$tab["details"][$t["id_type_monstre"]]["dansNids"] = 0;
+			$tab["details"][$t["id_type_monstre"]]["totalDemande"] = 0;
+			$tab["details"][$t["id_type_monstre"]]["totalReel"] = 0;
+			$tab["details"][$t["id_type_monstre"]]["manque"] = 0;
 		}
 		
 		$this->view->typesMonstres = $tabTypesMonstres;
