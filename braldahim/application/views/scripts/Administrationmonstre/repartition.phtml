@@ -56,16 +56,20 @@
 						  </tr>
 						</thead>
 						<tbody>
-							<? foreach($z["details"] as $k => $t) : ?>
+							<? foreach($z["details"] as $k => $t) : 
+								if (array_key_exists($k, $this->typesMonstres)) :
+							?>
 								<tr class="table_liste">
 								<td class="table_liste" nowrap><?=$this->typesMonstres[$k]["nom"]?> (<?=$k?>)</td>
 								<td class="table_liste" nowrap><?=$t["dansNids"]?></td>
 								<td class="table_liste" nowrap><?=$t["vivants"]?></td>
-								<td class="table_liste" nowrap><? if (array_key_exists("totalDemande", $t["totalDemande"])) : echo  $t["totalDemande"]; endif; ?></td>
-								<td class="table_liste" nowrap><? if (array_key_exists("totalDemande", $t["totalReel"])) : echo  $t["totalReel"]; endif; ?></td>
+								<td class="table_liste" nowrap><?=$t["totalDemande"]; ?></td>
+								<td class="table_liste" nowrap><?=$t["totalReel"]; ?></td>
 								<td class="table_liste" nowrap><?=$t["manque"]?></td>
 								</tr>
-							<? endforeach;?>
+							<? 
+							    endif;
+							endforeach;?>
 						</tbody>
 						</table>
 						<input type='button' class='button1' value='Cacher' onClick="javascript:switch2div('detaila_<?=$z["id_zone_nid"]?>','detailb_<?=$z["id_zone_nid"]?>');">
