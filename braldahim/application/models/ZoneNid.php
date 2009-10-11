@@ -41,4 +41,18 @@ class ZoneNid extends Zend_Db_Table {
 
 		return $db->fetchAll($sql);
 	}
+	
+	function findByCase($x, $y, $z) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('zone_nid', '*')
+		->where('x_min_zone_nid <= ?',$x)
+		->where('x_max_zone_nid >= ?',$x)
+		->where('y_min_zone_nid <= ?',$y)
+		->where('y_max_zone_nid >= ?',$y)
+		->where('z_zone_nid = ?',$z);
+		$sql = $select->__toString();
+
+		return $db->fetchAll($sql);
+	}
 }

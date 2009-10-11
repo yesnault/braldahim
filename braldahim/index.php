@@ -30,6 +30,7 @@ Zend_Loader :: loadClass('Zend_Date');
 Zend_Loader :: loadClass('Zend_Db');
 Zend_Loader :: loadClass('Zend_Db_Table');
 Zend_Loader :: loadClass("Zend_Auth");
+Zend_Loader :: loadClass("Zend_Exception");
 
 Zend_Loader :: loadClass("Bral_Box_Factory");
 Zend_Loader :: loadClass("Bral_Box_Box");
