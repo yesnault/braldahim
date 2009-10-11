@@ -737,7 +737,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		$tabZones = null;
 
 		$typeMonstreTable = new TypeMonstre();
-		$tousTypesMontres = $typeMonstreTable->fetchAllSansGibier();
+		$tousTypesMontres = $typeMonstreTable->fetchAll();
 		foreach($tousTypesMontres as $t) {
 			$tabTypesMonstres[$t["id_type_monstre"]]["nom"] = $t["nom_type_monstre"];	
 		}
