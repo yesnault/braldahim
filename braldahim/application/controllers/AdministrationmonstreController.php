@@ -737,18 +737,14 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		$tabZones = null;
 
 		$typeMonstreTable = new TypeMonstre();
-		$tousTypesMontres = $typeMonstreTable->fetchAll();
+		$tousTypesMontres = $typeMonstreTable->fetchAllSansGibier();
 		foreach($tousTypesMontres as $t) {
-			$tabTypesMonstres[$t["id_type_monstre"]]["nom"] = $t["nom_type_monstre"];	
-			$tab["details"][$t["id_type_monstre"]]["vivants"] = 0;
-			$tab["details"][$t["id_type_monstre"]]["dansNids"] = 0;
-			$tab["details"][$t["id_type_monstre"]]["totalDemande"] = 0;
-			$tab["details"][$t["id_type_monstre"]]["totalReel"] = 0;
-			$tab["details"][$t["id_type_monstre"]]["manque"] = 0;
+			$tabTypesMonstres[$t["id_type_monstre"]]["nom"] = $t["nom_type_monstre"];
 		}
-		
+
 		$this->view->typesMonstres = $tabTypesMonstres;
-		
+		Zend_Loader::loadClass("TypeGroupeMonstre");
+
 		foreach($zones as $z) {
 			$tab = array("id_zone_nid" => $z["id_zone_nid"]);
 			$tab["nbVivants"] = 0;
@@ -782,7 +778,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			$nbCasesDansZone = ($z["x_max_zone_nid"] - $z["x_min_zone_nid"]) * ($z["y_max_zone_nid"] - $z["y_min_zone_nid"]);
 
 			$tab["estVille"] = $z["est_ville_zone_nid"];
-			
+
 			if ($tab["estVille"] == "oui") {
 				$tab["couvertureDemandee"] = "non applicable";
 			} else {
@@ -801,7 +797,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 
 					$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalDemande"] = number_format($nbMonstresParTypeAAvoir, 2);
 				}
-				
+
 				$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["manque"] = number_format($tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalDemande"]  - $tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalReel"], 2);
 			}
 
