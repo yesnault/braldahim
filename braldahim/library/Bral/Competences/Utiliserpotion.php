@@ -40,6 +40,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 					"id_fk_type_qualite_potion" => $p["id_fk_type_qualite_potion"],
 					"nom_systeme_type_qualite" => $p["nom_systeme_type_qualite"],
 					"nom" => $p["nom_type_potion"],
+					"de" => $p["de_type_potion"],
 					"qualite" => $p["nom_type_qualite"],
 					"niveau" => $p["niveau_potion"],
 					"caracteristique" => $p["caract_type_potion"],
@@ -622,7 +623,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("EffetPotionHobbit");
 
 		$nbTour = $this->calculNbTour($potion);
-		$potion["bm_effet_potion"] = $this->calculBm($potion["niveau"]);
+		$potion["bm_effet_potion"] = $this->calculBm($potion["de"], $potion["niveau"]);
 
 		if ($nbTour >= 1) {
 			$effetPotionHobbitTable = new EffetPotionHobbit();
@@ -677,8 +678,8 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$this->retourPotion["effet"] = Bral_Util_EffetsPotion::appliquePotionSurMonstre($potion, $this->view->user->id_hobbit, $monstre, false);
 	}
 
-	private function calculBm($niveau) {
-		return Bral_Util_De::getLanceDe3($niveau + 1);;
+	private function calculBm($de, $niveau) {
+		return Bral_Util_De::getLanceDeSpecifique($niveau + 1, 1, $de);
 	}
 
 	private function calculNbTour($potion) {

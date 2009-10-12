@@ -116,7 +116,7 @@ class Bral_Util_Commun {
 	}
 
 	public static function calculArmureNaturelle($forceBase, $vigueurBase) {
-		return intval(($forceBase + $vigueurBase) / 5) + 1;
+		return intval(($forceBase + $vigueurBase) / 5) + 2;
 	}
 
 	public static function ajouteEffetMotR($idHobbit) {

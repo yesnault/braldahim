@@ -250,7 +250,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$date_fin_tour_monstre = Bral_Util_ConvertDate::get_date_add_time_to_date(date("Y-m-d H:i:s"), "01:00:00");
 
 		//PV
-		$pv_restant_monstre = 20 + $niveau_vigueur * 4;
+		$pv_restant_monstre = (20 + $niveau_vigueur * 4) * 2;
 
 		//Vue
 		$vue_monstre = $referenceCourante["vue_ref_monstre"];

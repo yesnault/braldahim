@@ -30,6 +30,7 @@ class Bral_Util_EffetsPotion {
 					"nb_tour_restant" => $p["nb_tour_restant_effet_potion_hobbit"],
 					"nom_systeme_type_qualite" => $p["nom_systeme_type_qualite"],
 					"nom" => $p["nom_type_potion"],
+					"de" => $p["de_type_potion"],
 					"qualite" => $p["nom_type_qualite"],
 					"niveau" => $p["niveau_potion"],
 					"caracteristique" => $p["caract_type_potion"],
