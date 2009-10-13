@@ -209,7 +209,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		}
 
 		$tabCout = null;
-		$tabPartiePlantes = null;
+		$tabPartiePlantes = array();
 		$tabCoutIngredient = null;
 
 		Zend_Loader::loadClass("EchoppeMinerai");
