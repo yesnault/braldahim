@@ -679,7 +679,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 	}
 
 	private function calculBm($de, $niveau) {
-		return Bral_Util_De::getLanceDeSpecifique($niveau + 1, 1, $de);
+		return Bral_Util_De::getLanceDeSpecifique($niveau + 2, 1, $de);
 	}
 
 	private function calculNbTour($potion) {

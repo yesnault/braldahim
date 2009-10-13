@@ -110,19 +110,27 @@ class Bral_Util_De {
 	}
 
 	/*
-	 * $n : nombre dés 6 lancés
-	 */
-	public static function getLanceDe6($n) {
-		return self::getLanceDeSpecifique($n, 1, 6);
-	}
-
-	/*
 	 * $n : nombre dés 3 lancés
 	 */
 	public static function getLanceDe3($n) {
 		return self::getLanceDeSpecifique($n, 1, 3);
 	}
 
+	/*
+	 * $n : nombre dés 6 lancés
+	 */
+	public static function getLanceDe6($n) {
+		return self::getLanceDeSpecifique($n, 1, 6);
+	}
+	
+	/*
+	 * $n : nombre dés 10 lancés
+	 */
+	public static function getLanceDe10($n) {
+		return self::getLanceDeSpecifique($n, 1, 10);
+	}
+	
+	
 	public static function get_de_specifique($a, $b) {
 		if (!is_int(intval($a))) {
 			throw new Exception("De::get_de_specifique : a invalides : ".$a);

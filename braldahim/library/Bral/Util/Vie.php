@@ -19,7 +19,7 @@ class Bral_Util_Vie {
 		$jetRegeneration = 0;
 		
 		if ($hobbit->pv_restant_hobbit < $hobbit->pv_max_hobbit + $hobbit->pv_max_bm_hobbit) {
-			$jetRegeneration = Bral_Util_De::getLanceDe6($hobbit->regeneration_hobbit);
+			$jetRegeneration = Bral_Util_De::getLanceDe10($hobbit->regeneration_hobbit);
 			$jetRegeneration = $jetRegeneration - $hobbit->regeneration_malus_hobbit;
 
 			if ($jetRegeneration < 0) { // pas de regénération négative (même si le malus est important)
@@ -38,11 +38,10 @@ class Bral_Util_Vie {
 		$jetRegeneration = 0;
 		
 		if ($monstre["pv_restant_monstre"] < $monstre["pv_max_monstre"]) {
-			for ($i=1; $i <= $monstre["regeneration_monstre"]; $i++) {
-				$jetRegeneration = $jetRegeneration + Bral_Util_De::get_1d6();
-			}
-	
+			
+			$jetRegeneration = Bral_Util_De::getLanceDe10($monstre["regeneration_monstre"]);
 			$jetRegeneration = $jetRegeneration - $monstre["regeneration_malus_monstre"];
+			
 			if ($jetRegeneration < 0) { // pas de regénération négative (même si le malus est important)
 				$jetRegeneration = 0;
 			}
