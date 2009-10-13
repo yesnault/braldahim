@@ -405,7 +405,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		}
 
 		if ($equipement["nom_systeme_mot_runique"] == "mot_b") {
-			$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit + (2 * $equipement["niveau"]);
+			$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit + (2 * ($equipement["niveau"] + 1));
 		}
 
 		if ($equipement["nom_systeme_mot_runique"] == "mot_e") {
@@ -501,7 +501,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		}
 
 		if ($equipement["nom_systeme_mot_runique"] == "mot_b") {
-			$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit - (2 * $equipement["niveau"]);
+			$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit - (2 * ($equipement["niveau"] + 1));
 		}
 
 		if ($equipement["nom_systeme_mot_runique"] == "mot_e") {
