@@ -36,6 +36,12 @@ class GestionController extends Zend_Controller_Action {
 		}
 		
 		$this->view->roles = $tabRoles;
+		
+		Zend_Loader::loadClass("Lieu");
+		$lieuTable = new Lieu();
+		$lieux = $lieuTable->fetchAll();
+		$this->view->administrationLieux = $lieux;
+		
 		$this->render();
 	}
 }

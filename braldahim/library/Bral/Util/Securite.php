@@ -47,7 +47,7 @@ class Bral_Util_Securite {
 			$acl->addRole(new Zend_Acl_Role(self::ROLE_AUTEUR_LIEU));
 			$acl->addRole(new Zend_Acl_Role(self::ROLE_BETA_TESTEUR));
 			
-			$acl->allow(self::ROLE_AUTEUR_LIEU, null, 'todo');
+			$acl->allow(self::ROLE_AUTEUR_LIEU, null, 'AdministrationlieuController');
 			$acl->allow(self::ROLE_BETA_TESTEUR, null, 'AdministrationhobbitController');
 			
 			$acl->allow(self::ROLE_AUTEUR_LIEU, null, 'GestionController');

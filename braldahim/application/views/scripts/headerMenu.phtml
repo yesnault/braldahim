@@ -23,7 +23,7 @@
 		 <? if ($this->user->administrateur === true) : ?>
 		  	<a href="/Administration/" class="menu_lien">Administration</a> |
 		 <? endif; ?>
-		 <? if ($this->user->gestion === true) : ?>
+		 <? if ($this->user->administrateur === true || $this->user->gestion === true) : ?>
 			 <a href="/Gestion/" class="menu_lien">Gestion</a> |
 		 <? endif; ?>
 		 <a href="/interface/" class="menu_lien">Interface</a> |
