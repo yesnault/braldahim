@@ -31,6 +31,7 @@ class GestionController extends Zend_Controller_Action {
 		$hobbitsRoles = new HobbitsRoles();
 		$roles = $hobbitsRoles->findByIdHobbit(Zend_Auth::getInstance()->getIdentity()->id_hobbit);
 		
+		$tabRoles = null;
 		foreach($roles as $r) {
 			$tabRoles[] = $r["nom_systeme_role"];
 		}
