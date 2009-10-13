@@ -18,7 +18,7 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 		}
 
 		Zend_Loader::loadClass("Bral_Util_Securite");
-		Bral_Util_Securite::controlAdmin();
+		Bral_Util_Securite::controlRole(get_class($this));
 
 		$this->initView();
 		$this->view->user = Zend_Auth::getInstance()->getIdentity();
@@ -36,6 +36,12 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 
 		if ($this->_request->isPost() && $this->_request->get('idhobbit') == $this->_request->getPost("id_hobbit")) {
 			$modification = "";
+
+			if (!Zend_Auth::getInstance()->getIdentity()->administrateur !== true) { // role testeur
+				if ($this->_request->getPost("id_hobbit") != $this->view->user->id_hobbit) {
+					throw new Zend_Exception("Hobbit Invalide : (demande)".$this->_request->getPost("id_hobbit") ."!= (courant)". $this->view->user->id_hobbit);
+				}
+			}
 
 			$tabPost = $this->_request->getPost();
 
@@ -86,14 +92,22 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 	}
 
 	private function hobbitPrepare() {
+
+		$this->view->id_hobbit = intval($this->_request->get('idhobbit'));
+
+		if (!Zend_Auth::getInstance()->getIdentity()->administrateur == true) { // role testeur
+			if ($this->view->id_hobbit != $this->view->user->id_hobbit) {
+				throw new Zend_Exception("Hobbit Invalide : (demande)".$this->view->id_hobbit ."!= (courant)". $this->view->user->id_hobbit);
+			}
+		} 
+
 		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->findById($this->_request->get('idhobbit'));
+		$hobbitRowset = $hobbitTable->findById($this->view->id_hobbit);
 		if (count($hobbitRowset) == 1) {
 			$this->view->hobbit = $hobbitRowset->toArray();
 		} else {
 			$this->view->hobbit = null;
 		}
-		$this->view->id_hobbit = $this->_request->get('idhobbit');
 
 		if ($this->_request->get('mode') == "" || $this->_request->get('mode') == "simple") {
 			$this->view->mode = "simple";
@@ -108,11 +122,14 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 			$keySimple [] = "castars_hobbit";
 			$this->view->keySimple = $keySimple;
 		} else {
+			Bral_Util_Securite::controlAdmin(); // uniquement pour les admin
 			$this->view->mode = "complexe";
 		}
 	}
 
 	public function usurpationAction() {
+		Bral_Util_Securite::controlAdmin();
+
 		Zend_Loader::loadClass('Zend_Auth_Adapter_DbTable');
 		$dbAdapter = Zend_Registry::get('dbAdapter');
 		$authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
@@ -145,6 +162,7 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 				Zend_Auth::getInstance()->getIdentity()->gardiennage = false;
 				Zend_Auth::getInstance()->getIdentity()->gardeEnCours = true;
 				Zend_Auth::getInstance()->getIdentity()->administrateur = true;
+				Zend_Auth::getInstance()->getIdentity()->gestion = ($hobbit->sysgroupe_hobbit == 'gestion');
 				Zend_Auth::getInstance()->getIdentity()->usurpationEnCours = true;
 				Zend_Auth::getInstance()->getIdentity()->administrationvue = false;
 				Zend_Auth::getInstance()->getIdentity()->administrationvueDonnees = null;

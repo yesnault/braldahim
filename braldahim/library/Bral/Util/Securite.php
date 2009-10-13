@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -11,19 +11,70 @@
  * $LastChangedBy$
  */
 class Bral_Util_Securite {
-
+	
+	const ROLE_AUTEUR_LIEU = "auteurlieu";
+	const ROLE_BETA_TESTEUR = "testeur";
+	
 	private function __construct() {}
 
 	public static function controlAdmin() {
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
 			throw new Zend_Exception("Securite : session invalide");
 		}
-		
+
 		if (Zend_Auth::getInstance()->getIdentity()->administrateur != true) {
 			throw new Zend_Exception("Securite : role invalide");
 		}
 	}
-	
+
+	public static function controlRole($nomController) {
+		if (!Zend_Auth::getInstance()->hasIdentity()) {
+			throw new Zend_Exception("Securite : session invalide");
+		}
+
+		if (Zend_Auth::getInstance()->getIdentity()->administrateur == true) {
+			return ;
+		} else {
+
+			if (Zend_Auth::getInstance()->getIdentity()->gestion == false) {
+				throw new Zend_Exception("Securite : gestionnaire invalide");
+			}
+			
+			Zend_Loader::loadClass("Zend_Acl");
+			Zend_Loader::loadClass("Zend_Acl_Role");
+			$acl = new Zend_Acl();
+
+			$acl->addRole(new Zend_Acl_Role(self::ROLE_AUTEUR_LIEU));
+			$acl->addRole(new Zend_Acl_Role(self::ROLE_BETA_TESTEUR));
+			
+			$acl->allow(self::ROLE_AUTEUR_LIEU, null, 'todo');
+			$acl->allow(self::ROLE_BETA_TESTEUR, null, 'AdministrationhobbitController');
+			
+			$acl->allow(self::ROLE_AUTEUR_LIEU, null, 'GestionController');
+			$acl->allow(self::ROLE_BETA_TESTEUR, null, 'GestionController');
+
+			Zend_Loader::loadClass("HobbitsRoles");
+			$hobbitsRoles = new HobbitsRoles();
+			$roles = $hobbitsRoles->findByIdHobbit(Zend_Auth::getInstance()->getIdentity()->id_hobbit);
+
+			if ($roles == null || count($roles) == 0) {
+				throw new Zend_Exception("Securite : role invalide A");
+			}
+			
+			$roleOk = false;
+			foreach($roles as $r) {
+				if ($acl->isAllowed($r["nom_systeme_role"], null, $nomController)) {
+					$roleOk = true;
+					break;
+				}
+			}
+
+			if ($roleOk == false) {
+				throw new Zend_Exception("Securite : role invalide B");
+			}
+		}
+	}
+
 	public static function controlBatchsOrAdmin($request) {
 		$passe = $request->get("batchspassword");
 		$config = Zend_Registry::get('config');

@@ -93,6 +93,7 @@ class AuthController extends Zend_Controller_Action {
 					Zend_Auth::getInstance()->getIdentity()->usurpationEnCours = false;
 					Zend_Auth::getInstance()->getIdentity()->administrationvue = false;
 					Zend_Auth::getInstance()->getIdentity()->administrationvueDonnees = null;
+					Zend_Auth::getInstance()->getIdentity()->gestion = (Zend_Auth::getInstance()->getIdentity()->sysgroupe_hobbit == 'gestion');
 
 					$sessionTable = new Session();
 					$data = array("id_fk_hobbit_session" => $hobbit->id_hobbit, "id_php_session" => session_id(), "ip_session" => $_SERVER['REMOTE_ADDR'], "date_derniere_action_session" => date("Y-m-d H:i:s"));

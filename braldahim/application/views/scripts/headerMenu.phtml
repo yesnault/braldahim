@@ -23,6 +23,9 @@
 		 <? if ($this->user->administrateur === true) : ?>
 		  	<a href="/Administration/" class="menu_lien">Administration</a> |
 		 <? endif; ?>
+		 <? if ($this->user->gestion === true) : ?>
+			 <a href="/Gestion/" class="menu_lien">Gestion</a> |
+		 <? endif; ?>
 		 <a href="/interface/" class="menu_lien">Interface</a> |
 		 <? if ($this->user->gardeEnCours === false) : ?>
 		  	<a href="/Parametres/" class="menu_lien">Param&egrave;tres</a> |

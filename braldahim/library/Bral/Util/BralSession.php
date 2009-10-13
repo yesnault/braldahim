@@ -24,6 +24,7 @@ class Bral_Util_BralSession {
 		$gardiennage = $user->gardiennage;
 		$gardeEnCours = $user->gardeEnCours;
 		$administrateur = $user->administrateur;
+		$gestion = $user->gestion;
 		$administrationvue = $user->administrationvue;
 		$administrationvueDonnees = $user->administrationvueDonnees;
 
@@ -50,6 +51,7 @@ class Bral_Util_BralSession {
 			Zend_Auth::getInstance()->getIdentity()->gardiennage = $gardiennage;
 			Zend_Auth::getInstance()->getIdentity()->gardeEnCours = $gardeEnCours;
 			Zend_Auth::getInstance()->getIdentity()->administrateur = $administrateur;
+			Zend_Auth::getInstance()->getIdentity()->gestion = $gestion;
 			Zend_Auth::getInstance()->getIdentity()->administrationvue = $administrationvue;
 			Zend_Auth::getInstance()->getIdentity()->administrationvueDonnees = $administrationvueDonnees;
 			
