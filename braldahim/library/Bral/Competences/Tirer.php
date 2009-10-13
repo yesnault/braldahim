@@ -71,7 +71,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 				$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->z_hobbit, $this->view->user->id_hobbit, false);
 
 				foreach($hobbits as $h) {
-					if ($h["x_hobbit"] != $this->view->user->x_hobbit && $h["y_hobbit"] != $this->view->user->y_hobbit) { // on ne prend pas la case courante
+					if ($h["x_hobbit"] != $this->view->user->x_hobbit || $h["y_hobbit"] != $this->view->user->y_hobbit) { // on ne prend pas la case courante
 						$tabHobbits[] = array(
 							'id_hobbit' => $h["id_hobbit"],
 							'nom_hobbit' => $h["nom_hobbit"],
@@ -88,7 +88,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			$monstreTable = new Monstre();
 			$monstres = $monstreTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->z_hobbit);
 			foreach($monstres as $m) {
-				if ($m["x_monstre"] != $this->view->user->x_hobbit && $m["y_monstre"] != $this->view->user->y_hobbit) { // on ne prend pas la case courante
+				if ($m["x_monstre"] != $this->view->user->x_hobbit || $m["y_monstre"] != $this->view->user->y_hobbit) { // on ne prend pas la case courante
 					if ($m["genre_type_monstre"] == 'feminin') {
 						$m_taille = $m["nom_taille_f_monstre"];
 					} else {
