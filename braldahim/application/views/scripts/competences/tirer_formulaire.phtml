@@ -12,11 +12,12 @@
 		<? if ($this->estRegionPvp == false) :?>
 			Vous ne pouvez pas attaquer de hobbit dans cette r&eacute;gion.<br><br>
 		<? endif;?>
+		Vous ne pouvez pas tirer sur une cible présente sur votre case.<br></br>
 	 	<? if ($this->nHobbits == 0 && $this->nMonstres == 0): ?>
-	 		Il n'y a rien &agrave; tirer dans votre distance de tir de <?=$this->tir_nb_cases ?> case<?if ($this->tir_nb_cases > 1): echo 's'; endif; ?><br />
+	 		Il n'y a rien &agrave; tirer dans votre distance de tir de <?=$this->tir_nb_cases ?> case<?if ($this->tir_nb_cases > 1): echo 's'; endif; ?>.<br />
 	 	<? else: ?>
 	 		Pour <?=$this->nb_pa?> PA, vous pouvez tirer &agrave; <?=$this->tir_nb_cases ?> case<?if ($this->tir_nb_cases > 1): echo 's'; endif; ?>.<br /><br />
-	 		 <br /><br />
+	 		 <br />
 			<? if ($this->nMonstres > 0): ?>
 				Tirer sur un monstre<br />
 				<select name='valeur_1' id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1 && $('valeur_2').value==-1){$('bouton_tirer').disabled=true } else {$('valeur_2').value=-1; $('bouton_tirer').disabled=false }">

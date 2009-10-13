@@ -156,10 +156,17 @@ class Bral_Util_Attaque {
 			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - hobbitCible->agilite_bm_hobbit=".$hobbitCible->agilite_bm_hobbit);
 		}
 
-		//on enlève l'armure du hobbit
-		if ($tir == true){
-			$retourAttaque["cible"]["armure_equipement_hobbit"] = 0;
-			$hobbitCible->armure_equipement_hobbit = 0;
+		// pour le tir
+		if ($tir == true) {
+			$penetrationArmure = floor(($hobbitCible->agilite_bm_hobbit + $hobbitCible->agilite_bbdf_hobbit + $hobbitCible->sagesse_bm_hobbit + $hobbitCible->sagesse_bbdf_hobbit)/2);
+			if ($penetrationArmure < 0) {
+				$penetrationArmure = 0;
+			}
+			$hobbitCible->armure_equipement_hobbit = $hobbitCible->armure_equipement_hobbit - $penetrationArmure;
+			if ($hobbitCible->armure_equipement_hobbit < 0) {
+				$hobbitCible->armure_equipement_hobbit = 0;
+			}
+			$retourAttaque["cible"]["armure_equipement_hobbit"] = $hobbitCible->armure_equipement_hobbit;
 		}
 
 		$retourAttaque["jetDegatReel"] = $retourAttaque["jetDegat"] - $hobbitCible->armure_naturelle_hobbit - $hobbitCible->armure_equipement_hobbit;
@@ -304,7 +311,7 @@ class Bral_Util_Attaque {
 		}
 
 		$retourAttaque["details"] = $details;
-		
+
 		Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Mise a jour du hobbit ".$hobbitCible->id_hobbit." pv_restant_hobbit=".$hobbitCible->pv_restant_hobbit);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculAttaqueHobbitReussie - exit -");
 	}
@@ -346,7 +353,7 @@ class Bral_Util_Attaque {
 		//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
 
 		$retourAttaque["details"] = $details;
-		
+
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculAttaqueHobbitEsquivee - exit -");
 	}
 
@@ -371,7 +378,7 @@ class Bral_Util_Attaque {
 		//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
 
 		$retourAttaque["details"] = $details;
-		
+
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculAttaqueHobbitParfaitementEsquivee - exit -");
 	}
 
@@ -597,7 +604,7 @@ class Bral_Util_Attaque {
 			$monstre["bm_defense_monstre"] = $monstre["bm_defense_monstre"] - Bral_Util_De::get_1d6();
 
 			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Attaque esquivee malus sur ajoute a bm_attaque_monstre et bm_defense_monstre");
-				
+
 			$retourAttaque["mort"] = false;
 			$data = array(
 				'bm_attaque_monstre' => $monstre["bm_attaque_monstre"],

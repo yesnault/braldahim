@@ -53,45 +53,48 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			if ($this->view->tir_nb_cases > 4) {
 				$this->view->tir_nb_cases = 4;
 			}
-				
+
 			//On calcule les cases où on peut tirer.
 			$x_min = $this->view->user->x_hobbit - $this->view->tir_nb_cases;
 			$x_max = $this->view->user->x_hobbit + $this->view->tir_nb_cases;
 			$y_min = $this->view->user->y_hobbit - $this->view->tir_nb_cases;
 			$y_max = $this->view->user->y_hobbit + $this->view->tir_nb_cases;
-				
+
 			$tabHobbits = null;
 			$tabMonstres = null;
 
 			$estRegionPvp = Bral_Util_Attaque::estRegionPvp($this->view->user->x_hobbit, $this->view->user->y_hobbit);
-				
+
 			if ($estRegionPvp) {
 				// recuperation des hobbits qui sont presents sur la vue
 				$hobbitTable = new Hobbit();
 				$hobbits = $hobbitTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->z_hobbit, $this->view->user->id_hobbit, false);
 
 				foreach($hobbits as $h) {
-					$tabHobbits[] = array(
-						'id_hobbit' => $h["id_hobbit"],
-						'nom_hobbit' => $h["nom_hobbit"],
-						'prenom_hobbit' => $h["prenom_hobbit"],
-						'x_hobbit' => $h["x_hobbit"],
-						'y_hobbit' => $h["y_hobbit"],
-						'dist_hobbit' => max(abs($h["x_hobbit"] - $this->view->user->x_hobbit), abs($h["y_hobbit"] - $this->view->user->y_hobbit))
-					);
+					if ($h["x_hobbit"] != $this->view->user->x_hobbit && $h["y_hobbit"] != $this->view->user->y_hobbit) { // on ne prend pas la case courante
+						$tabHobbits[] = array(
+							'id_hobbit' => $h["id_hobbit"],
+							'nom_hobbit' => $h["nom_hobbit"],
+							'prenom_hobbit' => $h["prenom_hobbit"],
+							'x_hobbit' => $h["x_hobbit"],
+							'y_hobbit' => $h["y_hobbit"],
+							'dist_hobbit' => max(abs($h["x_hobbit"] - $this->view->user->x_hobbit), abs($h["y_hobbit"] - $this->view->user->y_hobbit))
+						);
+					}
 				}
 			}
-				
+
 			// recuperation des monstres qui sont presents sur la vue
 			$monstreTable = new Monstre();
 			$monstres = $monstreTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->view->user->z_hobbit);
 			foreach($monstres as $m) {
-				if ($m["genre_type_monstre"] == 'feminin') {
-					$m_taille = $m["nom_taille_f_monstre"];
-				} else {
-					$m_taille = $m["nom_taille_m_monstre"];
-				}
-				$tabMonstres[] = array(
+				if ($m["x_monstre"] != $this->view->user->x_hobbit && $m["y_monstre"] != $this->view->user->y_hobbit) { // on ne prend pas la case courante
+					if ($m["genre_type_monstre"] == 'feminin') {
+						$m_taille = $m["nom_taille_f_monstre"];
+					} else {
+						$m_taille = $m["nom_taille_m_monstre"];
+					}
+					$tabMonstres[] = array(
 					'id_monstre' => $m["id_monstre"], 
 					'nom_monstre' => $m["nom_type_monstre"], 
 					'taille_monstre' => $m_taille, 
@@ -99,7 +102,8 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 					'x_monstre' => $m["x_monstre"],
 					'y_monstre' => $m["y_monstre"],
 					'dist_monstre' => max(abs($m["x_monstre"] - $this->view->user->x_hobbit), abs($m["y_monstre"]-$this->view->user->y_hobbit))
-				);
+					);
+				}
 			}
 			$this->view->tabHobbits = $tabHobbits;
 			$this->view->nHobbits = count($tabHobbits);
@@ -233,11 +237,11 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 
 		if ($this->view->distCible > 1){
 			Zend_Loader::loadClass("Palissade");
-				
+
 			// equation droite y = mx + p  => ax + by + c = 0
 			// distance d'un point à une droite = abs ( (ax + by + c)/sqrt(a² + b²))
 			// la distance entre le point et la droite doit être inférieure à sqrt(2)/2
-				
+
 			// calcul de m, p, a, b et c :
 			if ($this->view->user->x_hobbit != $this->view->xCible){
 				$m = ($this->view->user->y_hobbit-$this->view->yCible)/($this->view->user->x_hobbit-$this->view->xCible);
@@ -255,9 +259,9 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 				$b = 0;
 				$c = -1*$this->view->user->x_hobbit;
 			}
-				
+
 			$palissadeTable = new Palissade();
-				
+
 			for ($x = $x_min; $x <= $x_max; $x++) {
 				for ($y = $y_min; $y <= $y_max; $y++) {
 					$dist = abs (($a * $x + $b * $y + $c)/sqrt(pow($a,2)+pow($b,2)));
@@ -312,26 +316,16 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		return $jetAttaquant;
 	}
 
-	/*
-	 * Le jet de dégats diffère aussi :
-	 * floor(jet AGI+BM;jet SAG +BM)
-	 * cas du critique :
-	 * 1,5*floor(jet AGI+BM;jet SAG +BM)
-	 */
 	protected function calculDegat($hobbit) {
 		$jetDegat["critique"] = 0;
 		$jetDegat["noncritique"] = 0;
 		$coefCritique = 1.5;
 
 		$jetDegAgi = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $hobbit->agilite_base_hobbit);
-		$jetDegAgi = $jetDegAgi + $this->view->user->agilite_bm_hobbit + $this->view->user->agilite_bbdf_hobbit;
-
 		$jetDegSag = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $hobbit->sagesse_base_hobbit);
-		$jetDegSag = $jetDegSag + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
 
-		$penetrationArmure = floor(($this->view->user->agilite_bm_hobbit + $this->view->user->agilite_bbdf_hobbit)/2);
-		$jetDegat["noncritique"] = floor(($jetDegAgi + $jetDegSag)/2) + $penetrationArmure;
-		$jetDegat["critique"] = floor($coefCritique * ($jetDegAgi + $jetDegSag)/2) + $penetrationArmure;
+		$jetDegat["noncritique"] = floor(($jetDegAgi + $jetDegSag)/2);
+		$jetDegat["critique"] = floor($coefCritique * ($jetDegAgi + $jetDegSag)/2);
 
 		return $jetDegat;
 	}
