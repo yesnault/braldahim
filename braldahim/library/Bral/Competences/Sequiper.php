@@ -384,7 +384,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					$this->view->user->force_bm_hobbit = $this->view->user->force_bm_hobbit + floor($this->view->user->force_base_hobbit / 3);
 				} else if ($r["nom_type_rune"] == "IL") {
 					// IL Réduit le tour de jeu de 10 minutes ==> on rajoute 10 minutes donc
-					$this->view->user->duree_prochain_tour_hobbit = Bral_Util_ConvertDate::get_time_remove_time_to_time($this->view->user->duree_prochain_tour_hobbit, "00:10:00");
+					$this->view->user->duree_bm_tour_hobbit = $this->view->user->duree_bm_tour_hobbit + 10;
 				} else if ($r["nom_type_rune"] == "MU") {
 					// MU PV + niveau du Hobbit/10 arrondi inférieur
 					$this->view->user->pv_max_bm_hobbit = $this->view->user->pv_max_bm_hobbit + floor($this->view->user->niveau_hobbit / 10);
@@ -458,7 +458,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 
 		if ($equipement["bonus"] != null && count($equipement["bonus"]) > 0) {
 			$b = $equipement["bonus"];
-				$this->view->user->armure_equipement_hobbit = $this->view->user->armure_equipement_hobbit - $b["armure_equipement_bonus"] - $b["vernis_bm_armure_equipement_bonus"];
+			$this->view->user->armure_equipement_hobbit = $this->view->user->armure_equipement_hobbit - $b["armure_equipement_bonus"] - $b["vernis_bm_armure_equipement_bonus"];
 			$this->view->user->agilite_bm_hobbit = $this->view->user->agilite_bm_hobbit - $b["agilite_equipement_bonus"] - $b["vernis_bm_agilite_equipement_bonus"];
 			$this->view->user->force_bm_hobbit = $this->view->user->force_bm_hobbit - $b["force_equipement_bonus"] - $b["vernis_bm_force_equipement_bonus"];
 			$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit - $b["sagesse_equipement_bonus"] - $b["vernis_bm_sagesse_equipement_bonus"];
@@ -480,7 +480,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					$this->view->user->force_bm_hobbit = $this->view->user->force_bm_hobbit - floor($this->view->user->force_base_hobbit / 3);
 				} else if ($r["nom_type_rune"] == "IL") {
 					// IL Réduit le tour de jeu de 10 minutes ==> on rajoute 10 minutes donc
-					$this->view->user->duree_prochain_tour_hobbit = Bral_Util_ConvertDate::get_time_add_time_to_time($this->view->user->duree_prochain_tour_hobbit, "00:10:00");
+					$this->view->user->duree_bm_tour_hobbit = $this->view->user->duree_bm_tour_hobbit - 10;
 				} else if ($r["nom_type_rune"] == "MU") {
 					// MU PV + niveau du Hobbit/10 arrondi inférieur
 					$this->view->user->pv_max_bm_hobbit = $this->view->user->pv_max_bm_hobbit - floor($this->view->user->niveau_hobbit / 10);
@@ -554,6 +554,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 				'bm_attaque_hobbit' => $this->view->user->bm_attaque_hobbit,
 				'bm_degat_hobbit' => $this->view->user->bm_degat_hobbit,
 				'bm_defense_hobbit' => $this->view->user->bm_defense_hobbit,
+				'duree_bm_tour_hobbit' => $this->view->user->duree_bm_tour_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);

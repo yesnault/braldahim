@@ -24,11 +24,13 @@ class Bral_Util_Tour {
 		$retour = null;
 		$retour["minutesBase"] = Bral_Util_ConvertDate::getMinuteFromHeure($hobbit->duree_prochain_tour_hobbit);
 		$retour["minutesBlessures"] = 0;
+		$retour["minutesBM"] = $hobbit->duree_bm_tour_hobbit;
+		
 		if (($hobbit->pv_max_hobbit + $hobbit->pv_max_bm_hobbit) >= $hobbit->pv_restant_hobbit) {
 			$retour["minutesBlessures"]  = floor($retour["minutesBase"] / (4 * $hobbit->pv_max_hobbit)) * ($hobbit->pv_max_hobbit - $hobbit->pv_restant_hobbit);
-			$retour["heureMinuteTotal"] = Bral_Util_ConvertDate::getHeureFromMinute($retour["minutesBase"] + $retour["minutesBlessures"]);
+			$retour["heureMinuteTotal"] = Bral_Util_ConvertDate::getHeureFromMinute($retour["minutesBase"] + $retour["minutesBlessures"] + $retour["minutesBM"]);
 		} else {
-			$retour["heureMinuteTotal"] = Bral_Util_ConvertDate::getHeureFromMinute($retour["minutesBase"]);
+			$retour["heureMinuteTotal"] = Bral_Util_ConvertDate::getHeureFromMinute($retour["minutesBase"] + $retour["minutesBM"]);
 		}
 		return $retour;
 	}

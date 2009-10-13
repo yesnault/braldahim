@@ -190,6 +190,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->hobbit->bm_attaque_hobbit = 0;
 			$this->hobbit->bm_degat_hobbit = 0;
 			$this->hobbit->bm_defense_hobbit = 0;
+			$this->hobbit->duree_bm_tour_hobbit = 0;
 
 			// Recalcul de l'armure naturelle
 			$this->hobbit->armure_naturelle_hobbit = Bral_Util_Commun::calculArmureNaturelle($this->hobbit->force_base_hobbit, $this->hobbit->vigueur_base_hobbit);
@@ -525,7 +526,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune Ze active - apres this->hobbit->force_bm_hobbit=".$this->hobbit->force_bm_hobbit);
 					} else if ($r["nom_type_rune"] == "IL") {
 						// IL Reduit le tour de jeu de 10 minutes
-						$this->hobbit->duree_courant_tour_hobbit = Bral_Util_ConvertDate::get_time_remove_time_to_time($this->hobbit->duree_courant_tour_hobbit, "00:10:00");
+						$this->hobbit->duree_bm_tour_hobbit = $this->hobbit->duree_bm_tour_hobbit + 10;
 					} else if ($r["nom_type_rune"] == "MU") {
 						// MU PV + niveau du Hobbit/10 arrondi inferieur
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune MU active - avant this->hobbit->pv_max_bm_hobbit=".$this->hobbit->pv_max_bm_hobbit);
@@ -657,6 +658,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$this->view->user->date_fin_latence_hobbit = $this->hobbit->date_fin_latence_hobbit;
 		$this->view->user->duree_courant_tour_hobbit = $this->hobbit->duree_courant_tour_hobbit;
 		$this->view->user->duree_prochain_tour_hobbit = $this->hobbit->duree_prochain_tour_hobbit;
+		$this->view->user->duree_bm_tour_hobbit = $this->hobbit->duree_bm_tour_hobbit;
 		$this->view->user->tour_position_hobbit = $this->hobbit->tour_position_hobbit;
 		$this->view->user->pa_hobbit = $this->hobbit->pa_hobbit;
 		$this->view->user->armure_naturelle_hobbit = $this->hobbit->armure_naturelle_hobbit;
@@ -686,7 +688,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$this->view->user->est_engage_next_dla_hobbit = $this->hobbit->est_engage_next_dla_hobbit;
 
 		$this->view->user->est_intangible_hobbit = $this->hobbit->est_intangible_hobbit;
-
+		
 		$data = array(
 			'x_hobbit' => $this->hobbit->x_hobbit,
 			'y_hobbit'  => $this->hobbit->y_hobbit,
@@ -696,6 +698,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			'date_debut_cumul_hobbit' => $this->hobbit->date_debut_cumul_hobbit,
 			'duree_courant_tour_hobbit' => $this->hobbit->duree_courant_tour_hobbit,
 			'duree_prochain_tour_hobbit' => $this->hobbit->duree_prochain_tour_hobbit,
+			'duree_bm_tour_hobbit' => $this->hobbit->duree_bm_tour_hobbit,
 			'tour_position_hobbit' => $this->hobbit->tour_position_hobbit,
 			'pa_hobbit' => $this->hobbit->pa_hobbit,
 			'armure_naturelle_hobbit' => $this->hobbit->armure_naturelle_hobbit,
