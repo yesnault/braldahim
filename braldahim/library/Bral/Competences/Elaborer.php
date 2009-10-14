@@ -188,6 +188,8 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$recetteVernisTable = new RecetteVernis();
 		$recetteVernis = $recetteVernisTable->findByIdTypePotion($typePotionCourante["id_type_potion"]);
 		
+		$tabPartiePlantes = array();
+		
 		if ($partiesPlantes != null) {
 			foreach ($partiesPlantes as $m) {
 				if ($m["quantite_preparee_echoppe_partieplante"] >= 1) {
@@ -209,7 +211,6 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		}
 
 		$tabCout = null;
-		$tabPartiePlantes = array();
 		$tabCoutIngredient = null;
 
 		Zend_Loader::loadClass("EchoppeMinerai");
