@@ -654,7 +654,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("EffetPotionMonstre");
 
 		$nbTour = $this->calculNbTour($potion);
-		$potion["bm_effet_potion"] = $this->calculBm($potion["niveau"]);
+		$potion["bm_effet_potion"] = $this->calculBm($potion["de"], $potion["niveau"]);
 
 		if ($nbTour > 1) {
 			$effetPotionMonstreTable = new EffetPotionMonstre();
