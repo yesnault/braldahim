@@ -1,0 +1,53 @@
+<?php echo $this->render('header.phtml'); ?>
+
+<form id="form_message" action="/Parametres/contacter" method="post">
+<div class="box_parametres">
+<?=Bral_Helper_Box::haut(); ?>
+<div class="inner">
+	<ul class="titre textalic textsizea">Contacter les enquêteurs</ul>
+    <ul class="titre textalic textsizeb">Envoyer un message</ul>
+	&nbsp;
+	<div class="contenu">
+	<ul class="box_contenu1 textalic">
+	
+	<? if ($this->idEnquete != null) : ?>
+		Votre message est bien envoyé. Un enquêteur vous contactera par mail si besoin.
+		<br><br>
+		<input type="button" class='button1' name="Retour" value="Retour" onClick="javascript:document.location.href='/Parametres/'"/>
+		 
+	<? else: ?>
+	   	<table width='70%' align='center'>
+ 		<tr>
+ 		<td style='text-align:justify'>
+ 		
+ 		 Vous pouvez envoyer un message aux enquêteurs : <br><br>
+		 
+		  - Permet de demander l'ouverture d'une enquête sur des Hobbits.
+		  Si vous pensez que certains hobbits ne respectent pas la 
+		  <a href="http://wiki.braldahim.com/wiki/Charte">charte d'admission</a>, 
+		  c'est ici qu'il faut le signaler.
+		  <br><br>
+		  - Permet de contacter un enquêteur en cas de problème avec votre Hobbit.
+ 		</td></tr>
+ 		</table>
+		<br>
+		Un enquêteur prendra contact avec vous par mail si besoin ensuite.
+		
+		 <br><br>
+		 
+		 Votre message : <br>
+		  <textarea rows='10' cols='80' name="message"  id="message"></textarea>
+		  <br><br></br>
+		  <input type="button" class='button1' name="Envoyer" onClick="$('form_message').submit(); " value="Envoyer" />
+		  <input type="button" class='button1' name="Annuler" value="Annuler" onClick="javascript:document.location.href='/Parametres/'"/>
+	
+	 <? endif;?>
+		
+	 </ul>
+	</div>
+	&nbsp;
+</div>
+<?=Bral_Helper_Box::bas(); ?>
+</div>
+</form>
+<?php echo $this->render('footer.phtml'); ?>
