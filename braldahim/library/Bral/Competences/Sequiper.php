@@ -269,14 +269,6 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$this->view->equipementRetire = $this->equipementRetire;
 		$this->setEvenementQueSurOkJet1(false);
 
-		if ($destination == "porte") {
-			$details = "[h".$this->view->user->id_hobbit."] a mis une pièce d'équipement";
-			Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_EQUIPER_ID, $equipement["id_equipement"], $details);
-		} else {
-			$details = "[h".$this->view->user->id_hobbit."] a enlevé une pièce d'équipement";
-			Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_EQUIPER_ID, $equipement["id_equipement"], $details);
-		}
-
 		$this->setDetailsEvenement($details, $this->view->config->game->evenements->type->competence);
 
 		$this->calculPx();
@@ -331,6 +323,9 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("Bral_Util_Quete");
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeEquiper($this->view->user, $equipement["id_type_emplacement"]);
+
+		$details = "[h".$this->view->user->id_hobbit."] a mis une pièce d'équipement";
+		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_EQUIPER_ID, $equipement["id_equipement"], $details);
 	}
 
 	private function calculTransfertVersLaban($equipement) {
@@ -346,6 +341,9 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$hobbitEquipementTable = new HobbitEquipement();
 		$where = "id_equipement_hequipement=".$equipement["id_equipement"];
 		$hobbitEquipementTable->delete($where);
+
+		$details = "[h".$this->view->user->id_hobbit."] a enlevé une pièce d'équipement";
+		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_EQUIPER_ID, $equipement["id_equipement"], $details);
 	}
 
 	private function calculAjoutEffet($equipement) {
