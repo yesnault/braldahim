@@ -313,7 +313,7 @@ class ParametresController extends Zend_Controller_Action {
 			$texte .= $message.PHP_EOL;
 
 			$mail->setBodyText($texte);
-			//$mail->send();
+			$mail->send();
 		}
 		$this->render();
 	}
