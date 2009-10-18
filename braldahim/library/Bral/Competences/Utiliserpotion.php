@@ -132,8 +132,10 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$equipementsLaban = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
 		$tabEquipementsLaban = null;
 		foreach ($equipementsLaban as $e) {
-			if ($this->view->potionCourante["type_potion"] == "vernis_enchanteur" ||
-			($this->view->potionCourante["type_potion"] == "vernis_reparateur" && $this->view->potionCourante["id_fk_type_ingredient_type_potion"] == $e["id_fk_type_ingredient_base_type_equipement"])) {
+			if (
+			$this->view->potionCourante["niveau"] >=$e["niveau_recette_equipement"] &&
+			($this->view->potionCourante["type_potion"] == "vernis_enchanteur" ||
+			($this->view->potionCourante["type_potion"] == "vernis_reparateur" && $this->view->potionCourante["id_fk_type_ingredient_type_potion"] == $e["id_fk_type_ingredient_base_type_equipement"]))) {
 				$tabEquipementsLaban[$e["id_laban_equipement"]] = array(
 					"id_equipement" => $e["id_laban_equipement"],
 					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
@@ -153,8 +155,10 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$equipementsCharrette = $charretteEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
 		$tabEquipementsCharrette = null;
 		foreach ($equipementsCharrette as $e) {
-			if ($this->view->potionCourante["type_potion"] == "vernis_enchanteur" ||
-			($this->view->potionCourante["type_potion"] == "vernis_reparateur" && $this->view->potionCourante["id_fk_type_ingredient_type_potion"] == $e["id_fk_type_ingredient_base_type_equipement"])) {
+			if (
+			$this->view->potionCourante["niveau"] >=$e["niveau_recette_equipement"] &&
+			($this->view->potionCourante["type_potion"] == "vernis_enchanteur" ||
+			($this->view->potionCourante["type_potion"] == "vernis_reparateur" && $this->view->potionCourante["id_fk_type_ingredient_type_potion"] == $e["id_fk_type_ingredient_base_type_equipement"]))) {
 				$tabEquipementsCharrette[$e["id_charrette_equipement"]] = array(
 					"id_equipement" => $e["id_charrette_equipement"],
 					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
@@ -700,7 +704,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$labanPotionTable = new LabanPotion();
 		$where = 'id_laban_potion = '.$potion["id_potion"];
 		$labanPotionTable->delete($where);
-		
+
 		$potionTable = new Potion();
 		$where = 'id_potion = '.$potion["id_potion"];
 		$data = array('date_utilisation_potion' => date("Y-m-d H:i:s"));
