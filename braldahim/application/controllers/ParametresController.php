@@ -305,7 +305,7 @@ class ParametresController extends Zend_Controller_Action {
 			$mail->addTo($this->view->config->general->mail->enqueteurs->from, $this->view->config->general->mail->enqueteurs->nom);
 			$mail->setSubject("[Braldahim-Enqueteur Jeu] Partage n°".$this->view->idPartage);
 			$texte = "--------> Hobbit déclarant : ".$this->view->user->prenom_hobbit." ".$this->view->user->nom_hobbit. " (".$this->view->user->id_hobbit.")".PHP_EOL;
-			$texte = "--------> Hobbit déclaré : ".$hobbit->prenom_hobbit." ".$hobbit->nom_hobbit. " (".$hobbit->id_hobbit.")".PHP_EOL;
+			$texte .= "--------> Hobbit déclaré : ".$hobbit->prenom_hobbit." ".$hobbit->nom_hobbit. " (".$hobbit->id_hobbit.")".PHP_EOL;
 			$texte .= "--------> Mail du déclarant : ".$this->view->user->email_hobbit.PHP_EOL;
 			$texte .= "--------> Mail du déclaré : ".$hobbit->email_hobbit.PHP_EOL;
 			$texte .= "--------> IP du déclarant : ".$_SERVER['REMOTE_ADDR']." Host:".gethostbyaddr($_SERVER['REMOTE_ADDR']).PHP_EOL;
