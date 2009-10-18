@@ -270,7 +270,7 @@ class ParametresController extends Zend_Controller_Action {
 		$filter = new Zend_Filter();
 		$filter->addFilter(new Zend_Filter_StringTrim());
 
-		$this->view->idEnquete = null;
+		$this->view->idPartage = null;
 		$this->view->erreurHobbit = false;
 		$hobbit = null;
 
@@ -303,7 +303,7 @@ class ParametresController extends Zend_Controller_Action {
 
 			$mail->setFrom($this->view->config->general->mail->enqueteurs->from, $this->view->config->general->mail->enqueteurs->nom);
 			$mail->addTo($this->view->config->general->mail->enqueteurs->from, $this->view->config->general->mail->enqueteurs->nom);
-			$mail->setSubject("[Braldahim-Enqueteur Jeu] Partage n°".$this->view->idEnquete);
+			$mail->setSubject("[Braldahim-Enqueteur Jeu] Partage n°".$this->view->idPartage);
 			$texte = "--------> Hobbit déclarant : ".$this->view->user->prenom_hobbit." ".$this->view->user->nom_hobbit. " (".$this->view->user->id_hobbit.")".PHP_EOL;
 			$texte = "--------> Hobbit déclaré : ".$hobbit->prenom_hobbit." ".$hobbit->nom_hobbit. " (".$hobbit->id_hobbit.")".PHP_EOL;
 			$texte .= "--------> Mail du déclarant : ".$this->view->user->email_hobbit.PHP_EOL;
