@@ -120,6 +120,9 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 			$keySimple [] = "pa_hobbit";
 			$keySimple [] = "date_fin_tour_hobbit";
 			$keySimple [] = "castars_hobbit";
+			$keySimple [] = "balance_faim_hobbit";
+			$keySimple [] = "est_engage_hobbit";
+			$keySimple [] = "est_intangible_hobbit";
 			$this->view->keySimple = $keySimple;
 		} else {
 			Bral_Util_Securite::controlAdmin(); // uniquement pour les admin
