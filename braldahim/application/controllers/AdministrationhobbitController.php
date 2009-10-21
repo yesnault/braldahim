@@ -37,7 +37,7 @@ class AdministrationhobbitController extends Zend_Controller_Action {
 		if ($this->_request->isPost() && $this->_request->get('idhobbit') == $this->_request->getPost("id_hobbit")) {
 			$modification = "";
 
-			if (!Zend_Auth::getInstance()->getIdentity()->administrateur !== true) { // role testeur
+			if (Zend_Auth::getInstance()->getIdentity()->administrateur !== true) { // role testeur
 				if ($this->_request->getPost("id_hobbit") != $this->view->user->id_hobbit) {
 					throw new Zend_Exception("Hobbit Invalide : (demande)".$this->_request->getPost("id_hobbit") ."!= (courant)". $this->view->user->id_hobbit);
 				}
