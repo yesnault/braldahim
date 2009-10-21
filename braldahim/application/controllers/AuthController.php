@@ -113,7 +113,8 @@ class AuthController extends Zend_Controller_Action {
 					Zend_Auth::getInstance()->clearIdentity();
 				} else { //if ($hobbit->est_compte_desactive_hobbit == "oui") {
 					Bral_Util_Log::authentification()->warn("AuthController - loginAction - compte desactive : ".$email);
-					$this->view->message = "Ce compte est actuellement désactivé";
+					$this->view->message = "Ce compte est actuellement désactivé. ";
+					$this->view->message .= "Contactez les enquêteurs à l'adresse ".$this->view->config->general->mail->enqueteurs->from." si vous n'êtes pas déjà en contact avec un enquêteur.";
 					Zend_Auth::getInstance()->clearIdentity();
 				}
 			} else {
