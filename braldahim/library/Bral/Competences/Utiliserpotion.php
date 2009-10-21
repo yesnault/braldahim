@@ -133,7 +133,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$tabEquipementsLaban = null;
 		foreach ($equipementsLaban as $e) {
 			if (
-			$this->view->potionCourante["niveau"] >=$e["niveau_recette_equipement"] &&
+			$this->view->potionCourante["niveau_potion"] >=$e["niveau_recette_equipement"] &&
 			($this->view->potionCourante["type_potion"] == "vernis_enchanteur" ||
 			($this->view->potionCourante["type_potion"] == "vernis_reparateur" && $this->view->potionCourante["id_fk_type_ingredient_type_potion"] == $e["id_fk_type_ingredient_base_type_equipement"]))) {
 				$tabEquipementsLaban[$e["id_laban_equipement"]] = array(
@@ -156,7 +156,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$tabEquipementsCharrette = null;
 		foreach ($equipementsCharrette as $e) {
 			if (
-			$this->view->potionCourante["niveau"] >=$e["niveau_recette_equipement"] &&
+			$this->view->potionCourante["niveau_potion"] >=$e["niveau_recette_equipement"] &&
 			($this->view->potionCourante["type_potion"] == "vernis_enchanteur" ||
 			($this->view->potionCourante["type_potion"] == "vernis_reparateur" && $this->view->potionCourante["id_fk_type_ingredient_type_potion"] == $e["id_fk_type_ingredient_base_type_equipement"]))) {
 				$tabEquipementsCharrette[$e["id_charrette_equipement"]] = array(
