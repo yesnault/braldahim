@@ -269,6 +269,11 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$this->view->equipementRetire = $this->equipementRetire;
 		$this->setEvenementQueSurOkJet1(false);
 
+		if ($destination == "porte") {
+			$details = "[h".$this->view->user->id_hobbit."] a mis une pièce d'équipement";
+		} else {
+			$details = "[h".$this->view->user->id_hobbit."] a enlevé une pièce d'équipement";
+		}
 		$this->setDetailsEvenement($details, $this->view->config->game->evenements->type->competence);
 
 		$this->calculPx();
