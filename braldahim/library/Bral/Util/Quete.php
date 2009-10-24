@@ -366,12 +366,13 @@ class Bral_Util_Quete {
 		} else {
 			$etapeTable = new Etape();
 			$nbEtape = $etapeTable->countByIdQuete($quete["id_quete"]);
-			$gain = self::calculGain($hobbit, $nbEtape, $quete);
+			$quete["gain_quete"] = self::calculGain($hobbit, $nbEtape, $quete);
 			$data = array(
 				"date_fin_quete" => date("Y-m-d H:i:s"),
-				"gain_quete" => $gain,
+				"gain_quete" => $quete["gain_quete"],
 			);
 			$where = "id_quete=".$quete["id_quete"];
+			
 			$queteTable->update($data, $where);
 
 			self::termineQueteDistinction($quete, $hobbit);
@@ -428,7 +429,7 @@ class Bral_Util_Quete {
 				Zend_Loader::loadClass("Bral_Util_Distinction");
 				$texte = "Bourlingueur de la ".$nomRegionCourante;
 				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::termineQueteDistinction - Ajout d'une distinction : ".$texte);
-				Bral_Util_Distinction::ajouterDistinction($hobbit->id_hobbit, $idTypeDistinctionQueteRegion, $texte);
+				Bral_Util_Distinction::ajouterDistinction($hobbit->id_hobbit, $idTypeDistinctionQueteRegion, $texte, null, $quete);
 			} else {
 				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::termineQueteDistinction - Pas de distinction à ajouter A");
 			}
@@ -994,7 +995,7 @@ class Bral_Util_Quete {
 			Zend_Loader::loadClass("Zone");
 			$zoneTable = new Zone();
 			$zones = $zoneTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
-			
+				
 			if ($etape["param_5_etape"] == 2) { // anciennement foret
 				Zend_Loader::loadClass("Bosquet");
 				$bosquetTable = new Bosquet();
@@ -1002,8 +1003,8 @@ class Bral_Util_Quete {
 			}
 
 			if ($zones != null && count($zones) == 1 &&
-				($zones[0]["id_environnement"] == $etape["param_5_etape"]
-				|| ($etape["param_5_etape"] == 2 && $nombreBosquets >= 1))) {
+			($zones[0]["id_environnement"] == $etape["param_5_etape"]
+			|| ($etape["param_5_etape"] == 2 && $nombreBosquets >= 1))) {
 				Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeFumerParam4et5 - A - sur l'environnement");
 				$retour = true;
 			} else {
@@ -1554,10 +1555,10 @@ class Bral_Util_Quete {
 	private static function calculEtapeFabriquerParam1et2et3($etape, &$hobbit, $idTypeEquipement, $idTypeQualite) {
 		$retour = false;
 		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeFabriquerParam1et2et3 - param1:".$etape["param_1_etape"]. " param2:".$etape["param_2_etape"]. " param3:".$etape["param_3_etape"]);
-		
+
 		if ($etape["param_3_etape"] == date('N') && $etape["param_1_etape"] == 2) { // TODO à SUPPRIMER quand tout le monde a fini ce genre d'etape
-			Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeFabriquerParam1et2et3 - A");
-			$retour = true;
+		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeFabriquerParam1et2et3 - A");
+		$retour = true;
 		} elseif ($etape["param_3_etape"] == date('N') && $etape["param_1_etape"] == self::ETAPE_FABRIQUER_PARAM1_TYPE_PIECE && $etape["param_2_etape"] == $idTypeEquipement) {
 			Bral_Util_Log::quete()->trace("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::calculEtapeFabriquerParam1et2et3 - A");
 			$retour = true;
@@ -1626,7 +1627,7 @@ class Bral_Util_Quete {
 		if ($stats != null && count($stats) > 0) { // mise à jour des objectifs avec ce qu'il y a dans la table stats
 			$nb = $stats[0]["nombre"];
 			$retour = true;
-				
+
 			$etapeTable = new Etape();
 			$data = array("objectif_etape" => $nb);
 			if ($nb >= $etape["param_2_etape"]) { // fin etape

@@ -1,6 +1,6 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-  <ul class="titre textalia textsizeb">Mes Titres</ul>
+  <ul class="titre textalia textsizeb">Mes Titres et Distinctions</ul>
   <div class="contenu">
 	  <ul class="box_contenu1 textalic">
 
@@ -32,6 +32,18 @@
 				</table>
 		    <? endif; ?>
 	   <? endif; ?>
+	   <br>
+	   <? $liste = "Aucune Distinction";?>
+	  	<? if ($this->tabDistinctions != null && count($this->tabDistinctions) >= 1): ?>
+			<?
+			$liste = "";
+			foreach ($this->tabDistinctions as $t) :
+			$liste .= $t["nom"]." depuis le ".$t["date_hdistinction"]."<br>";
+			endforeach; ?>
+	  	<? endif; ?>
+	    <? if ($liste != "") : ?>
+	    	<?=$liste ?>
+	    <? endif;?>
 	   
 <? else: ?>
 	Chargement en cours

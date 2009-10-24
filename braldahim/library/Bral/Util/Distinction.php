@@ -32,7 +32,7 @@ class Bral_Util_Distinction {
 	function __construct() {
 	}
 
-	public static function ajouterDistinction($idHobbit, $idTypeDistinction, $texte, $url = null) {
+	public static function ajouterDistinction($idHobbit, $idTypeDistinction, $texte, $url = null, $quete = null) {
 		Zend_Loader::loadClass("HobbitsDistinction");
 		$hobbitsDistinctionTable = new HobbitsDistinction();
 
@@ -45,6 +45,17 @@ class Bral_Util_Distinction {
 		);
 
 		$hobbitsDistinctionTable->insert($data);
+
+		if ($quete != null) {
+			Zend_Loader::loadClass("Quete");
+			$queteTable = new Quete();
+			$quete["gain_quete"] .= " Nouvelle distinction:". $texte.PHP_EOL;
+			$data = array(
+				"gain_quete" => $quete["gain_quete"],
+			);
+			$where = "id_quete=".$quete["id_quete"];
+			$queteTable->update($data, $where);
+		}
 
 	}
 
