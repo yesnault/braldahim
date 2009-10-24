@@ -112,7 +112,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		}
 
 		// calcul des jets
-		$this->calculJets();
+		$this->calculJets($bmJet1);
 
 		if ($this->view->okJet1 === true) {
 			$this->calculBaliser();

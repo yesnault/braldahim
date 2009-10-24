@@ -168,10 +168,11 @@ abstract class Bral_Competences_Competence {
 		$this->view->user->poids_transporte_hobbit = Bral_Util_Poids::calculPoidsTransporte($this->view->user->id_hobbit, $this->view->user->castars_hobbit);
 	}
 
-	protected function calculJets($bmJet1 = 0) {
+	protected function calculJets($bmJet1 = false) {
 		$this->view->jetUtilise = true;
 		$this->view->okJet1 = false; // jet de compétence
 		$this->view->okJet2 = false; // jet amélioration de la compétence
+		$this->view->bmJet1 = $bmJet1; // BM sur le jet 1
 		$this->calculJets1($bmJet1);
 		$this->calculJets2et3();
 		$this->majSuiteJets();
@@ -181,7 +182,11 @@ abstract class Bral_Competences_Competence {
 
 	private function calculJets1($bmJet1) {
 		// 1er Jet : réussite ou non de la compétence
-		$this->view->jet1 = Bral_Util_De::get_1d100() + $bmJet1;
+		if ($this->view->bmJet1 != false) {
+			$this->view->jet1 = Bral_Util_De::get_1d100() + $this->view->bmJet1;
+		} else {
+			$this->view->jet1 = Bral_Util_De::get_1d100();
+		}
 
 		if ($this->hobbit_competence["nb_tour_restant_bonus_tabac_hcomp"] > 0) {
 			$pourcentage = $this->hobbit_competence["pourcentage_hcomp"] + $this->view->config->game->tabac->bonus;
