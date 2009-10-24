@@ -186,6 +186,17 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		$data = array('est_depiaute_cadavre' => 'oui');
 		$monstreTable->update($data, $where);
 
+		$idTypeEvenement = $this->view->config->game->evenements->type->competence;
+		$libelleMonstreGibier = "monstre";
+		if ($monstre["id_fk_type_groupe_monstre"] == $this->view->config->game->groupe_monstre->type->gibier) {
+			$libelleMonstreGibier = "gibier";
+		}
+
+		$details = "[h".$this->view->user->id_hobbit."] a dépiauté le ".$libelleMonstreGibier." [m".$id_monstre."]";
+		$this->setDetailsEvenement($details, $idTypeEvenement);
+		
+		Bral_Util_Evenement::majEvenements($id_monstre, $idTypeEvenement, $details, "", $monstre["niveau_monstre"], "monstre");
+			
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeCollecter($this->view->user, $this->competence["id_fk_metier_competence"]);
 	}
 
