@@ -134,10 +134,17 @@ class Bral_Util_Poids {
 		return $retour;
 	}
 
-	private static function ajoute($poids, $e, $poidsUnitaire) {
+	/**
+	 * Ajoute au poids n elements de poids poidsUnitaire
+	 * @param unknown_type $poids poids initial
+	 * @param unknown_type $n nombre d'élément
+	 * @param unknown_type $poidsUnitaire poids
+	 * @return unknown_type le poids
+	 */
+	public static function ajoute($poids, $n, $poidsUnitaire) {
 		$ajout = 0;
-		if ($e > 0) {
-			$ajout = $e * $poidsUnitaire;
+		if ($n > 0) {
+			$ajout = $n * $poidsUnitaire;
 		}
 		return $poids + $ajout;
 	}
@@ -292,33 +299,8 @@ class Bral_Util_Poids {
 
 		$tabWhere = null;
 		foreach ($equipements as $e) {
-			$poids = self::ajoute($poids, 1, $e["poids_recette_equipement"]);
+			$poids = self::ajoute($poids, 1, $e["poids_equipement"]);
 			$tabWhere[] = $e["id_".$suffixe."_equipement"];
-		}
-
-		if ($tabWhere != null) {
-			Zend_Loader::loadClass("EquipementRune");
-			$equipementRuneTable = new EquipementRune();
-			$equipementRunes = $equipementRuneTable->findByIdsEquipement($tabWhere);
-
-			if (count($equipementRunes) > 0) {
-				$poids = self::ajoute($poids, count($equipementRunes), self::POIDS_RUNE);
-			}
-
-			unset($equipementRuneTable);
-			unset($equipementRunes);
-			
-			Zend_Loader::loadClass("EquipementBonus");
-			$equipementBonusTable = new EquipementBonus();
-			$equipementBonus = $equipementBonusTable->findByIdsEquipement($tabWhere);
-			unset($equipementBonusTable);
-
-			if (count($equipementBonus) > 0) {
-				foreach($equipementBonus as $b) {
-					$poids = $poids + $b["vernis_bm_poids_equipement_bonus"];
-				}
-			}
-			unset($equipementBonus);
 		}
 
 		unset($table);
@@ -381,21 +363,8 @@ class Bral_Util_Poids {
 
 		$tabWhere = null;
 		foreach ($equipements as $e) {
-			$poids = self::ajoute($poids, 1, $e["poids_recette_equipement"]);
+			$poids = self::ajoute($poids, 1, $e["poids_equipement"]);
 			$tabWhere[] = $e["id_equipement_hequipement"];
-		}
-
-		if ($tabWhere != null) {
-			Zend_Loader::loadClass("EquipementRune");
-			$equipementRuneTable = new EquipementRune();
-			$equipementRunes = $equipementRuneTable->findByIdsEquipement($tabWhere);
-
-			if (count($equipementRunes) > 0) {
-				$poids = self::ajoute($poids, count($equipementRunes), self::POIDS_RUNE);
-			}
-
-			unset($equipementRuneTable);
-			unset($equipementRunes);
 		}
 
 		unset($hobbitEquipementTable);

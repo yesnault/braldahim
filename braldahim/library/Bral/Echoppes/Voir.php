@@ -452,7 +452,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 					"bonus" => $bonus,
 					"prix_minerais" => $minerai,
 					"prix_parties_plantes" => $partiesPlantes,
-					"poids" => $e["poids_recette_equipement"],
+					"poids" => $e["poids_equipement"],
 				);
 
 				if ($e["type_vente_echoppe_equipement"] == "aucune") {

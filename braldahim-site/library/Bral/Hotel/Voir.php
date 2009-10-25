@@ -495,7 +495,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 					"bm_attaque" => $e["bm_attaque_recette_equipement"],
 					"bm_degat" => $e["bm_degat_recette_equipement"],
 					"bm_defense" => $e["bm_defense_recette_equipement"],
-					"poids" => $e["poids_recette_equipement"],
+					"poids" => $e["poids_equipement"],
 					"suffixe" => $e["suffixe_mot_runique"],
 					"id_fk_mot_runique" => $e["id_fk_mot_runique_equipement"],
 					"id_fk_region" => $e["id_fk_region_equipement"],

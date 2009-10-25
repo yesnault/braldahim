@@ -37,7 +37,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 				"qualite" => $e["nom_type_qualite"],
 				"niveau" => $e["niveau_recette_equipement"],
 				"id_type" => $e["id_type_equipement"],
-				"poids" => $e["poids_recette_equipement"],
+				"poids" => $e["poids_equipement"],
 				"suffixe" => $e["suffixe_mot_runique"],
 			);
 		}

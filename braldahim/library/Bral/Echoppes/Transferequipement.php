@@ -86,7 +86,7 @@ class Bral_Echoppes_Transferequipement extends Bral_Echoppes_Echoppe {
 			if (count($equipements) > 0) {
 				foreach($equipements as $e) {
 					if ($e["type_vente_echoppe_equipement"] == "aucune") {
-						if ($poidsRestant < $e["poids_recette_equipement"]) {
+						if ($poidsRestant < $e["poids_equipement"]) {
 							$placeDispo = false;
 						} else {
 							$placeDispo = true;
@@ -99,7 +99,7 @@ class Bral_Echoppes_Transferequipement extends Bral_Echoppes_Echoppe {
 							"qualite" => $e["nom_type_qualite"],
 							"niveau" => $e["niveau_recette_equipement"],
 							"nb_runes" => $e["nb_runes_equipement"],
-							"poids" => $e["poids_recette_equipement"],
+							"poids" => $e["poids_equipement"],
 							"place_dispo" => $placeDispo,
 							"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
 							"id_fk_type_munition_type_equipement" => $e["id_fk_type_munition_type_equipement"],

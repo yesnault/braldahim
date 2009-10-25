@@ -137,7 +137,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					"etat_courant" => $e["etat_courant_equipement"],
 					"etat_initial" => $e["etat_initial_equipement"],
 					"ingredient" => $e["nom_type_ingredient"],
-					"poids" => $e["poids_recette_equipement"],
+					"poids" => $e["poids_equipement"],
 					"runes" => $runes,
 					"bonus" => $bonus,
 			);
@@ -202,7 +202,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 						"id_fk_mot_runique" => $e["id_fk_mot_runique_equipement"],
 						"id_fk_region" => $e["id_fk_region_equipement"],
 						"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
-						"poids" => $e["poids_recette_equipement"],
+						"poids" => $e["poids_equipement"],
 						"runes" => $runes,
 						"bonus" => $bonus,
 				);

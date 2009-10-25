@@ -346,7 +346,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						"niveau" => $e["niveau_recette_equipement"],
 						"nb_runes" => $e["nb_runes_equipement"],
 						"suffixe" => $e["suffixe_mot_runique"],
-						"poids" => $e["poids_recette_equipement"],
+						"poids" => $e["poids_equipement"],
 						"id_fk_mot_runique" => $e["id_fk_mot_runique_equipement"], 
 						"id_fk_recette" => $e["id_fk_recette_equipement"] ,
 						"id_fk_type_munition_type_equipement" => $e["id_fk_type_munition_type_equipement"],

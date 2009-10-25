@@ -132,7 +132,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			"unite_2_vente_echoppe_equipement" => $this->equipement["unite_2_vente_echoppe_equipement"],
 			"unite_3_vente_echoppe_equipement" => $this->equipement["unite_3_vente_echoppe_equipement"],
 			"commentaire_vente_echoppe_equipement" => $this->equipement["commentaire_vente_echoppe_equipement"],
-			"poids" => $this->equipement["poids_recette_equipement"],
+			"poids" => $this->equipement["poids_equipement"],
 			"runes" => $runes,
 			"bonus" => $bonus,
 			"prix_minerais" => $minerai,
@@ -212,7 +212,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 					}
 
 					$placeDispoForce = false;
-					if ($destination["possible"] == false && $destination["poids_restant"] >= $this->equipement["poids_recette_equipement"] - $r["prix_echoppe_equipement_minerai"] * Bral_Util_Poids::POIDS_MINERAI) {
+					if ($destination["possible"] == false && $destination["poids_restant"] >= $this->equipement["poids_equipement"] - $r["prix_echoppe_equipement_minerai"] * Bral_Util_Poids::POIDS_MINERAI) {
 						$placeDispoForce = true;
 						$this->view->destinationTransfert[$i]["possible_force"] = true;
 					}
@@ -258,7 +258,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 					}
 
 					$placeDispoForce = false;
-					if ($destination["possible"] == false && $destination["poids_restant"] >= $this->equipement["poids_recette_equipement"] - $r["prix_echoppe_equipement_minerai"] * Bral_Util_Poids::POIDS_MINERAI) {
+					if ($destination["possible"] == false && $destination["poids_restant"] >= $this->equipement["poids_equipement"] - $r["prix_echoppe_equipement_minerai"] * Bral_Util_Poids::POIDS_MINERAI) {
 						$placeDispoForce = true;
 						$this->view->destinationTransfert[$i]["possible_force"] = true;
 					}
@@ -290,7 +290,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 
 		$i = 0;
 		foreach($this->view->destinationTransfert as $d) {
-			if ($d["poids_restant"] >= $this->equipement["poids_recette_equipement"]) {
+			if ($d["poids_restant"] >= $this->equipement["poids_equipement"]) {
 				$placeDispo = true;
 				$this->view->destinationTransfert[$i]["possible"] = true;
 			}
@@ -306,7 +306,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			$i = 0;
 			foreach($this->view->destinationTransfert as $d) {
 				$possible = $this->calculPrixUnitaire($d, $prix, $nomSystemeUnite);
-				if ($this->view->destinationTransfert[$i]["possible"] == false && $d["poids_restant"] >= $this->equipement["poids_recette_equipement"] - $poidsPrix) {
+				if ($this->view->destinationTransfert[$i]["possible"] == false && $d["poids_restant"] >= $this->equipement["poids_equipement"] - $poidsPrix) {
 					$placeDispo = true;
 					$this->view->destinationTransfert[$i]["possible_force"] = true;
 				}
@@ -325,7 +325,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			foreach($this->view->destinationTransfert as $d) {
 				$possible = $this->calculPrixUnitaire($d, $prix, $nomSystemeUnite);
 				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_2_vente_echoppe_equipement"], "id_destination" => $d["id_destination"]);
-				if ($this->view->destinationTransfert[$i]["possible"] == false && $d["poids_restant"] >= $this->equipement["poids_recette_equipement"] - $poidsPrix) {
+				if ($this->view->destinationTransfert[$i]["possible"] == false && $d["poids_restant"] >= $this->equipement["poids_equipement"] - $poidsPrix) {
 					$placeDispo = true;
 					$this->view->destinationTransfert[$i]["possible_force"] = true;
 				}
@@ -343,7 +343,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			foreach($this->view->destinationTransfert as $d) {
 				$possible = $this->calculPrixUnitaire($d, $prix, $nomSystemeUnite);
 				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_3_vente_echoppe_equipement"], "id_destination" => $d["id_destination"]);
-				if ($this->view->destinationTransfert[$i]["possible"] == false && $d["poids_restant"] >= $this->equipement["poids_recette_equipement"] - $poidsPrix) {
+				if ($this->view->destinationTransfert[$i]["possible"] == false && $d["poids_restant"] >= $this->equipement["poids_equipement"] - $poidsPrix) {
 					$placeDispo = true;
 					$this->view->destinationTransfert[$i]["possible_force"] = true;
 				}

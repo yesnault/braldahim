@@ -53,6 +53,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
 					"qualite" => $e["nom_type_qualite"],
 					"niveau" => $e["niveau_recette_equipement"],
+					"poids" => $e["poids_equipement"],
 					"nb_runes" => $e["nb_runes_equipement"],
 					"id_fk_type_piece" => $e["id_fk_type_piece_type_equipement"],
 					"nom_systeme_type_piece" => $e["nom_systeme_type_piece"],
@@ -222,12 +223,22 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			// Suppression des runes du laban
 			$where = "id_rune_laban_rune = ".$v["id_rune_laban_rune"];
 			$labanRunes = $labanRuneTable->delete($where);
-				
+
 			$details = "[h".$this->view->user->id_hobbit."] a serti la rune n°".$v["id_rune_laban_rune"];
 			Zend_Loader::loadClass("Bral_Util_Rune");
 			Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_SERTIR_ID, $v["id_rune_laban_rune"], $details);
 		}
 
+		// mise a jour du poids
+		Zend_Loader::loadClass("Bral_Util_Poids");
+		$poids = Bral_Util_Poids::ajoute($this->view->equipementCourant["poids"], count($tabRunes), Bral_Util_Poids::POIDS_RUNE);
+
+		Zend_Loader::loadClass("Equipement");
+		$equipementTable = new Equipement();
+		$data = array('poids_equipement' => $poids);
+		$where = "id_equipement=".$this->view->equipementCourant["id_laban_equipement"];
+		$equipementTable->update($data, $where);
+			
 		if ($id_fk_mot_runique_equipement != null) {
 			Zend_Loader::loadClass("Equipement");
 			$equipementTable = new Equipement();

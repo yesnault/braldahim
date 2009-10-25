@@ -487,7 +487,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$placeDispo = false;
 		$i = 0;
 		foreach($this->view->destinationTransfert as $d) {
-			if ($d["poids_restant"] >= $equipement["poids_recette_equipement"]) {
+			if ($d["poids_restant"] >= $equipement["poids_equipement"]) {
 				$placeDispo = true;
 				$this->view->destinationTransfert[$i]["possible"] = true;
 			}
@@ -523,7 +523,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			"id_fk_mot_runique" => $equipement["id_fk_mot_runique_equipement"],
 			"id_fk_region" => $equipement["id_fk_region_equipement"],
 			"nom_systeme_mot_runique" => $equipement["nom_systeme_mot_runique"],
-			"poids" => $equipement["poids_recette_equipement"],
+			"poids" => $equipement["poids_equipement"],
 			"place_dispo" => $placeDispo,
 			"runes" => $runes,
 			"bonus" => $bonus,

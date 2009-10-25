@@ -144,7 +144,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 					"genre_type_equipement" => $e["genre_type_equipement"],
 					"etat_initial_equipement" => $e["etat_initial_equipement"],
 					"etat_courant_equipement" => $e["etat_courant_equipement"],
-					"poids_recette_equipement" => $e["poids_recette_equipement"],
+					"poids_equipement" => $e["poids_equipement"],
 				);
 			}
 		}
@@ -461,13 +461,30 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$this->determineBonusMalus(&$data, $detail, $potion["caracteristique2"], $potion["bm2_type"], $potion, $equipement);
 		$this->view->detail = $detail;
 		$where = "id_equipement_bonus = ".$equipement["id_equipement"];
-		$table = new EquipementBonus();
-		$table->update($data, $where);
+		$equipementBonusTable = new EquipementBonus();
+		$equipementBonusTable->update($data, $where);
+
+		// mise à jour du poids
+		Zend_Loader::loadClass("Equipement");
+		$equipementTable = new Equipement();
+		$data = array('poids_equipement' => $equipement["poids_equipement"]);
+		$where = "id_equipement=".$equipement["id_equipement"];
+		$equipementTable->update($data, $where);
 
 	}
 
-	private function resetVernisBM($equipement) {
-		$table = new EquipementBonus();
+	private function resetVernisBM(&$equipement) {
+
+		// recalcul du poids
+		$equipementBonusTable = new EquipementBonus();
+		$equipementBonus = $equipementBonusTable->findByIdEquipement($equipement["id_equipement"]);
+
+		if (count($equipementBonus) > 0) {
+			foreach($equipementBonus as $b) {
+				$equipement["poids_equipement"] = $equipement["poids_equipement"] - $b["vernis_bm_poids_equipement_bonus"];
+			}
+		}
+
 		$data = array(
 			'vernis_bm_vue_equipement_bonus' => null,
 			'vernis_bm_armure_equipement_bonus' => null,
@@ -482,10 +499,10 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		);
 
 		$where = "id_equipement_bonus = ".$equipement["id_equipement"];
-		$table->update($data, $where);
+		$equipementBonusTable->update($data, $where);
 	}
 
-	private function determineBonusMalus(&$data, &$detail, $caracteristique, $bmType, $potion, $equipement) {
+	private function determineBonusMalus(&$data, &$detail, $caracteristique, $bmType, $potion, &$equipement) {
 		if ($caracteristique == "VUE") {
 			$type = "A";
 			$nom = "vernis_bm_vue_equipement_bonus";
@@ -561,9 +578,12 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 				}
 
 				// il ne faut pas que la valeur dépasse le poids de l'équipement.
-				if ($valeur > $equipement["poids_recette_equipement"]) {
-					$valeur = $equipement["poids_recette_equipement"];
+				if ($valeur > $equipement["poids_equipement"]) {
+					$valeur = $equipement["poids_equipement"];
 				}
+
+				// mise à jour du poids
+				$equipement["poids_equipement"] = $equipement["poids_equipement"] + $valeur;
 
 			}
 		} elseif ($type == "D") {

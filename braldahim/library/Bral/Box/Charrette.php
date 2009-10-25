@@ -420,7 +420,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 					"bm_degat" => $e["bm_degat_recette_equipement"],
 					"bm_defense" => $e["bm_defense_recette_equipement"],
 					"suffixe" => $e["suffixe_mot_runique"],
-					"poids" => $e["poids_recette_equipement"],
+					"poids" => $e["poids_equipement"],
 					"etat_courant" => $e["etat_courant_equipement"],
 					"etat_initial" => $e["etat_initial_equipement"],
 					"ingredient" => $e["nom_type_ingredient"],
