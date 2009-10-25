@@ -11,7 +11,7 @@
  * $LastChangedBy$
  */
 class AuthController extends Zend_Controller_Action {
-	
+
 	function init() {
 		$this->initView();
 		Zend_Loader::loadClass('Hobbit');
@@ -147,6 +147,18 @@ class AuthController extends Zend_Controller_Action {
 			$aujourdhui = date("Y-m-d 0:0:0");
 			echo $aujourdhui;
 			if ($aujourdhui > Bral_Util_ConvertDate::get_datetime_mysql_datetime("Y-m-d 0:0:0", $hobbit->date_fin_hibernation_hobbit)) {
+
+				// si le hobbit est dans un donjon, on le remet à l'hopital le plus proche
+				if ($hobbit->est_donjon_hobbit = "oui") {
+					Zend_Loader::loadClass("Lieu");
+					$lieuTable = new Lieu();
+					$hopitalRowset = $lieuTable->findByTypeAndPosition($this->view->config->game->lieu->type->hopital, $hobbit->x_hobbit, $hobbit->y_hobbit, "non");
+					$hobbit->x_hobbit = $hopitalRowset[0]["x_lieu"];
+					$hobbit->y_hobbit = $hopitalRowset[0]["y_lieu"];
+					$hobbit->z_hobbit = $hopitalRowset[0]["z_lieu"];
+					$hobbit->est_donjon_hobbit = "non";
+				}
+
 				$hobbit->date_fin_hibernation_hobbit = null;
 				$hobbit->est_en_hibernation_hobbit = "non";
 				$hobbit->date_fin_tour_hobbit = $aujourdhui;
@@ -154,7 +166,12 @@ class AuthController extends Zend_Controller_Action {
 					'date_fin_hibernation_hobbit' => $hobbit->date_fin_hibernation_hobbit,
 					'est_en_hibernation_hobbit' => $hobbit->est_en_hibernation_hobbit,
 					'date_fin_tour_hobbit' => $hobbit->date_fin_tour_hobbit,
+					'est_donjon_hobbit' => $hobbit->est_donjon_hobbit,
+					'x_hobbit' => $hobbit->x_hobbit,
+					'y_hobbit' => $hobbit->y_hobbit,
+					'z_hobbit' => $hobbit->z_hobbit,
 				);
+
 				$where = "id_hobbit = ".intval($hobbit->id_hobbit);
 				$table = new Hobbit();
 				$table->update($data, $where);
@@ -173,7 +190,7 @@ class AuthController extends Zend_Controller_Action {
 			}
 		}
 	}
-	
+
 	private function prepareInfosJeu() {
 		Zend_Loader::loadClass("Bral_Util_InfoJeu");
 		$infoJeu = Bral_Util_InfoJeu::prepareInfosJeu();

@@ -322,6 +322,8 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		);
 		$where = 'id_donjon_equipe='.$this->equipeCourante["id_donjon_equipe"];
 		$donjonEquipeTable->update($data, $where);
+		
+		$this->envoieMessageDescente();
 	}
 
 	public function envoieMessageDescente() {
@@ -329,7 +331,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$message .=  $this->view->user->prenom_hobbit. " ".$this->view->user->nom_hobbit;
 		$message .= " (".$this->view->user->id_hobbit.") a ouvert la porte du Donjon.";
 		$message .= "Vous êtes entrés avec lui...".PHP_EOL;
-		$message .= "Vous avez maintenant deux lunes pour sortir victorieux ou sinon gare aux conséquences.".PHP_EOL;
+		$message .= "Vous avez maintenant deux lunes pour sortir victorieux ou sinon gare aux conséquences.".PHP_EOL.PHP_EOL;
 
 		Bral_Util_Donjon::messageSignature($message, $this->donjonCourant);
 		Bral_Util_Messagerie::envoiMessageAutomatique($this->donjonCourant["id_fk_pnj_donjon"], $this->view->user->id_hobbit, $message, $this->view);
@@ -347,14 +349,14 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$where = array("id_fk_donjon_palissade" => $this->donjonCourant["id_donjon"]);
 		$palissadeTable->delete($where);
 
-		$this->creationPalissadesAlentour();
+		$this->suppressionElementsCreationPalissadesAlentour();
 		$this->creationPalissadesInternes();
 		$this->creationCrevasses();
 		$this->creationNids();
 		$this->creationMonstres();
 	}
 
-	private function creationPalissadesAlentour() {
+	private function suppressionElementsCreationPalissadesAlentour() {
 
 		Zend_Loader::loadClass("Zone");
 		$zoneTable = new Zone();
@@ -385,6 +387,8 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 				$data["x_palissade"] = $z["x_max_zone"] + 1;
 				$palissadeTable->insert($data);
 			}
+			
+			$this->suppressionElements($z["x_min_zone"], $z["x_max_zone"], $z["y_min_zone"], $z["y_max_zone"], $z["z_zone"]);
 		}
 	}
 
@@ -402,9 +406,9 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 			$data["y_palissade"] = $p["y_donjon_palissade"];
 			$data["z_palissade"] = $p["z_donjon_palissade"];
 			$data["agilite_palissade"] = $p["agilite_donjon_palissade"];
-			$data["armure_naturelle_palissade"] = $p["armure_naturelle_donjon_palissade"];
-			$data["pv_max_palissade"] = $p["pv_max_donjon_palissade"];
-			$data["pv_restant_palissade"] = $p["pv_restant_donjon_palissade"];
+			$data["armure_naturelle_palissade"] = $this->equipeCourante["niveau_moyen_donjon_equipe"];
+			$data["pv_max_palissade"] = $this->equipeCourante["niveau_moyen_donjon_equipe"] * 10;
+			$data["pv_restant_palissade"] = $data["pv_max_palissade"];
 			$data["est_destructible_palissade"] = $p["est_destructible_donjon_palissade"];
 			$data["id_fk_donjon_palissade"] = $p["id_fk_donjon_palissade"];
 			$data["date_creation_palissade"] = date("Y-m-d H:i:s");
@@ -471,6 +475,30 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 
 		Zend_Loader::loadClass("Bral_Batchs_Factory");
 		Bral_Batchs_Factory::calculBatch("CreationMonstres", $this->view, $this->donjonCourant["id_donjon"]);
+	}
+	
+	private function suppressionElements($xmin, $xmax, $ymin, $ymax, $z) {
+		$this->deleteInElement("ElementAliment", "_element_aliment", $xmin, $xmax, $ymin, $ymax, $z);
+		$this->deleteInElement("ElementEquipement", "_element_equipement", $xmin, $xmax, $ymin, $ymax, $z);
+		$this->deleteInElement("ElementMateriel", "_element_materiel", $xmin, $xmax, $ymin, $ymax, $z);
+		$this->deleteInElement("ElementMinerai", "_element_minerai", $xmin, $xmax, $ymin, $ymax, $z);
+		$this->deleteInElement("ElementPartieplante", "_element_partieplante", $xmin, $xmax, $ymin, $ymax, $z);
+		$this->deleteInElement("ElementPotion", "_element_potion", $xmin, $xmax, $ymin, $ymax, $z);
+		$this->deleteInElement("ElementRune", "_element_rune", $xmin, $xmax, $ymin, $ymax, $z);
+		$this->deleteInElement("ElementTabac", "_element_tabac", $xmin, $xmax, $ymin, $ymax, $z);
+		$this->deleteInElement("Charrette", "_charrette", $xmin, $xmax, $ymin, $ymax, $z);
+		$this->deleteInElement("Element", "_element", $xmin, $xmax, $ymin, $ymax, $z);
+	}
+	
+	private function deleteInElement($nom, $prefix, $xmin, $xmax, $ymin, $ymax, $z) {
+		Zend_Loader::loadClass($nom);
+		$table = new $nom();
+		$where = "x".$prefix. " >= ". $xmin;
+		$where .= " AND x".$prefix. " <= ". $xmax;
+		$where .= " AND y".$prefix. " >= ". $ymin;
+		$where .= " AND y".$prefix. " <= ". $ymax;
+		$where .= " AND z".$prefix. " = ". $z;
+		$table->delete($where);
 	}
 
 	private function calculCoutCastars() {
