@@ -44,6 +44,8 @@ class ZoneNid extends Zend_Db_Table {
 		
 		if ($idDonjon != null) {
 			$select->where('id_fk_donjon_zone_nid = ?', $idDonjon);
+		} else {
+			$select->where('id_fk_donjon_zone_nid is NULL');
 		}
 		$sql = $select->__toString();
 
