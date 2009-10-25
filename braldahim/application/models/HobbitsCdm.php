@@ -14,15 +14,16 @@
 class HobbitsCdm extends Zend_Db_Table {
 	protected $_name = 'hobbits_cdm';
 	
-    function findByIdHobbitAndIdTypeMonstre($idHobbit,$idTypeMonstre) {
+    function findByIdHobbitAndIdTypeMonstre($idHobbit, $idTypeMonstre) {
 		//Retourne vrai si le nombre de cdm effectué suffit pour pister ce type de monstre
     	$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('taille_monstre', '*');
+		$select->from('taille_monstre', '*')
+		->where('nb_cdm_taille_monstre > 0');
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 		$tailleManquante = null;
-		foreach ($resultat as $taille){
+		foreach ($resultat as $taille) {
 			$select = $db->select();
 			$select->from('hobbits_cdm', 'count(*) as nb_cdm')
 			->where('hobbits_cdm.id_fk_hobbit_hcdm = '.intval($idHobbit))
@@ -31,7 +32,7 @@ class HobbitsCdm extends Zend_Db_Table {
 			->group('id_fk_taille_monstre_hcdm');
 			$sql = $select->__toString();
 			$resultatb = $db->fetchAll($sql);
-			if (count($resultatb) == 0 || $resultatb[0]['nb_cdm'] < $taille["nb_cdm_taille_monstre"]){
+			if (count($resultatb) == 0 || $resultatb[0]['nb_cdm'] < $taille["nb_cdm_taille_monstre"]) {
 				$tailleManquante[] = Array (
 					'taille' => $taille['nom_taille_m_monstre'],
 				);

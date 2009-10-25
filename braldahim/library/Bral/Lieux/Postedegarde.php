@@ -146,6 +146,15 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$donjonEquipeTable = new DonjonEquipe();
 		$mdate = date("Y-m-d H:i:s");
 		$mdateLimite = Bral_Util_ConvertDate::get_date_add_day_to_date($mdate, 5);
+
+		$niveauMoyenHobbits = null;
+		$totalNiveau = 0;
+		foreach($hobbits as $h) {
+			$totalNiveau = $totalNiveau + $h["niveau_hobbit"];
+		}
+
+		$niveauMoyenHobbits = $totalNiveau / count($hobbits);
+
 		$dataEquipe = array(
 			"id_fk_donjon_equipe" => $this->donjonCourant["id_donjon"],
 			"id_fk_hobbit_meneur_equipe" => $this->view->user->id_hobbit,
@@ -153,6 +162,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 			"date_limite_inscription_donjon_equipe" => $mdateLimite,
 			"etat_donjon_equipe" => "inscription",
 			"nb_jour_restant_donjon_equipe" => null,
+			"niveau_moyen_donjon_equipe" => $niveauMoyenHobbits,
 		);
 		$idEquipe = $donjonEquipeTable->insert($dataEquipe);
 		$dataEquipe["id_donjon_equipe"] = $idEquipe;
@@ -302,6 +312,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 			);
 			$hobbitTable->update($data, $where);
 		}
+		$this->view->user->z_hobbit = -1;
 
 		$donjonEquipeTable = new DonjonEquipe();
 
@@ -335,10 +346,11 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$palissadeTable = new Palissade();
 		$where = array("id_fk_donjon_palissade" => $this->donjonCourant["id_donjon"]);
 		$palissadeTable->delete($where);
-		
+
 		$this->creationPalissadesAlentour();
 		$this->creationPalissadesInternes();
 		$this->creationCrevasses();
+		$this->creationNids();
 		$this->creationMonstres();
 	}
 
@@ -354,7 +366,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 
 		Zend_Loader::loadClass("Palissade");
 		$palissadeTable = new Palissade();
-		
+
 		foreach ($zones as $z) {
 			$data["z_palissade"] = $z["z_zone"];
 
@@ -384,7 +396,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 
 		Zend_Loader::loadClass("Palissade");
 		$palissadeTable = new Palissade();
-		
+
 		foreach ($palissades as $p) {
 			$data["x_palissade"] = $p["x_donjon_palissade"];
 			$data["y_palissade"] = $p["y_donjon_palissade"];
@@ -420,13 +432,48 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 			$crevasseTable->insert($data);
 		}
 	}
-	
+
+	private function creationNids() {
+		Zend_Loader::loadClass("Nid");
+		$nidTable = new Nid();
+		$where = "id_fk_donjon_nid = ".$this->donjonCourant["id_donjon"];
+		$nidTable->delete($where);
+
+		Zend_Loader::loadClass("DonjonNid");
+		$donjonNidTable = new DonjonNid();
+		$nids = $donjonNidTable->findByIdDonjon($this->donjonCourant["id_donjon"]);
+
+		foreach ($nids as $n) {
+			$nbMonstres = Bral_Util_De::get_de_specifique($n["nb_membres_min_type_groupe_monstre"], $n["nb_membres_max_type_groupe_monstre"]);
+			$data["x_nid"] = $n["x_donjon_nid"];
+			$data["y_nid"] = $n["y_donjon_nid"];
+			$data["z_nid"] = $n["z_donjon_nid"];
+			$data["nb_monstres_total_nid"] = $nbMonstres;
+			$data["nb_monstres_restants_nid"] = $nbMonstres;
+
+			$data["id_fk_zone_nid"] = $n["id_fk_zone_nid_donjon_nid"];
+			$data["id_fk_type_monstre_nid"] = $n["id_fk_type_monstre_donjon_nid"];
+
+			$data["id_fk_donjon_nid"] = $n["id_fk_donjon_nid"];
+			$data["date_creation_nid"] = date("Y-m-d H:i:s");
+			
+			$data["date_generation_nid"] = Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d H:i:s"), abs($n["z_donjon_nid"]) - 7);
+
+			$nidTable->insert($data);
+		}
+	}
+
 	private function creationMonstres() {
-		//TODO
+		Zend_Loader::loadClass("Monstre");
+		$monstreTable = new Monstre();
+		$where = "id_fk_donjon_monstre = ".$this->donjonCourant["id_donjon"];
+		$monstreTable->delete($where);
+
+		Zend_Loader::loadClass("Bral_Batchs_Factory");
+		Bral_Batchs_Factory::calculBatch("CreationMonstres", $this->view, $this->donjonCourant["id_donjon"]);
 	}
 
 	private function calculCoutCastars() {
 		return 0;
 	}
-
 }

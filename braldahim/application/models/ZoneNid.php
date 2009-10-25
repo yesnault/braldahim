@@ -21,6 +21,10 @@ class ZoneNid extends Zend_Db_Table {
 	function findZonesVille() {
 		return $this->findZonesNids('oui');
 	}
+	
+	function findZonesByIdDonjon($idDonjon) {
+		return $this->findZonesNids('non', $idDonjon);
+	}
 
 	function findById($idZoneNid) {
 		$db = $this->getAdapter();
@@ -36,8 +40,11 @@ class ZoneNid extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('zone_nid', '*')
-		->where('est_ville_zone_nid = ?', $estVille)
-		->where('id_fk_donjon_zone_nid = ?', $idDonjon);
+		->where('est_ville_zone_nid = ?', $estVille);
+		
+		if ($idDonjon != null) {
+			$select->where('id_fk_donjon_zone_nid = ?', $idDonjon);
+		}
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);

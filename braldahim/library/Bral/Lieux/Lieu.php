@@ -160,6 +160,7 @@ abstract class Bral_Lieux_Lieu {
 			'sagesse_bbdf_hobbit' => $this->view->user->sagesse_bbdf_hobbit,
 			'x_hobbit' => $this->view->user->x_hobbit,
 			'y_hobbit' => $this->view->user->y_hobbit,
+			'z_hobbit' => $this->view->user->z_hobbit,
 			'pv_restant_hobbit' => $this->view->user->pv_restant_hobbit,
 			'armure_naturelle_hobbit' => $this->view->user->armure_naturelle_hobbit,
 			'regeneration_hobbit' => $this->view->user->regeneration_hobbit,

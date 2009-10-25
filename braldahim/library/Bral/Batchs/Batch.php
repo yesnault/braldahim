@@ -27,14 +27,14 @@ abstract class Bral_Batchs_Batch {
 	
 	abstract function calculBatchImpl();
 	
-	public function calculBatch() {
+	public function calculBatch($param = null) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Batch - calculBatch - enter -");
 		
 		$batchTable = new Batch();
 	 	$idBatch = $this->preCalcul($batchTable);
 	 	$message = null;
 	 	try {
-			$message = $this->calculBatchImpl();
+			$message = $this->calculBatchImpl($param);
 	 	} catch (Zend_Exception $e) {
 	 		$this->postCalcul($batchTable, $idBatch, self::ETAT_KO, $e->getMessage());
 	 		Bral_Util_Log::batchs()->err("Bral_Batchs_Batch - calculBatch - Erreur -");
