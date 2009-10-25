@@ -58,11 +58,11 @@ class Bral_Helper_DetailEquipement {
 		$text .= self::displayBM("Defense", $e, "bm_defense");
 		$text .= self::displayBM("D&eacute;g&acirc;ts", $e, "bm_degat");
 
-		$text .= "Poids : ".$e["poids"];
+		$text .= "<span style=\'cursor:pointer\' title=\'Le poids prend en compte les bonus / malus sur Poids et le poids des runes\'>Poids : ".$e["poids"];
 		if (isset($e["bonus"]["vernis_bm_poids_equipement_bonus"])) {
 			$text .= " " . self::display("",$e["bonus"]["vernis_bm_poids_equipement_bonus"], " (vernis)", "", true, "");
 		}
-		$text .= " Kg";
+		$text .= " Kg </span>";
 		$text .= "<br>";
 			
 		if (count($e["bonus"]) > 0 && (!array_key_exists("nom_systeme_type_piece", $e) || $e["nom_systeme_type_piece"] != "munition")) {
