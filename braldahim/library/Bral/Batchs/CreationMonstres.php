@@ -67,7 +67,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 
 	private function calculZoneNid($nid, $zone, $refRowset, $taillesMonstre) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculZoneNid - enter - idNid(".$nid["id_nid"].") id_zone_nid(".$zone['id_zone_nid'].")");
-	
+
 		$retour = "";
 		$referenceCourante = $this->recupereReferenceMonstre($refRowset, $nid["id_fk_type_monstre_nid"]);
 		$creation = true;
@@ -172,22 +172,22 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		return $referenceCourante;
 	}
 
-	private function creationGroupe($id_type, $nb_membres) {
+	private function creationGroupe($idType, $nbMembres) {
 		$data = array(
-			"id_fk_type_groupe_monstre" => $id_type,
+			"id_fk_type_groupe_monstre" => $idType,
 			"date_creation_groupe_monstre" => date("Y-m-d H:i:s"),
 			"id_fk_hobbit_cible_groupe_monstre"  => null,
-			"nb_membres_max_groupe_monstre"  => $nb_membres,
-			"nb_membres_restant_groupe_monstre" => $nb_membres,
+			"nb_membres_max_groupe_monstre"  => $nbMembres,
+			"nb_membres_restant_groupe_monstre" => $nbMembres,
 			"phase_tactique_groupe_monstre" => 0,
 			"id_role_a_groupe_monstre" => null,
 			"id_role_b_groupe_monstre" => null
 		);
 
 		$groupeMonstreTable = new GroupeMonstre();
-		$id_groupe = $groupeMonstreTable->insert($data);
-		$data["id_groupe_monstre"] = $id_groupe;
-		return $id_groupe;
+		$idGroupe = $groupeMonstreTable->insert($data);
+		$data["id_groupe_monstre"] = $idGroupe;
+		return $idGroupe;
 	}
 
 	private function creationCalcul($id_zone_nid, $refMonstre, $referenceCourante, $id_fk_taille_monstre, $niveau_monstre, $x, $y, $x_min, $x_max, $y_min, $y_max, $id_groupe_monstre = null, $est_role_a = false, $est_role_b = false) {
@@ -314,27 +314,29 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 	}
 
 	private function creationCalculTaille($taillesMonstre) {
-		$id_taille = null;
+		$idTaille = null;
 
 		usleep(Bral_Util_De::get_de_specifique(1, self::USLEEP_DELTA));
 		$n = Bral_Util_De::get_de_specifique(1, 100);
 		$total = 0;
 		foreach($taillesMonstre as $t) {
-			$total = $total + $t["pourcentage_taille_monstre"]; // % d'apparition
-			if ($total >= $n) {
-				$id_taille = $t["id_taille_monstre"];
-				break;
+			if ($t["pourcentage_taille_monstre"] > 0) {
+				$total = $total + $t["pourcentage_taille_monstre"]; // % d'apparition
+				if ($total >= $n) {
+					$idTaille = $t["id_taille_monstre"];
+					break;
+				}
 			}
 		}
-		return $id_taille;
+		return $idTaille;
 	}
 
-	private function calculNiveau($pi_caract) {
+	private function calculNiveau($piCaract) {
 		$niveau = 0;
 		$pi = 0;
 		for ($a=1; $a <= 100; $a++) {
 			$pi = $pi + ($a - 1) * $a;
-			if ($pi >= $pi_caract) {
+			if ($pi >= $piCaract) {
 				$niveau = $a;
 				break;
 			}
@@ -352,7 +354,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		if ($zone_nid["est_ville_zone_nid"] == "oui") {
 			$xCentre =  $zone_nid["x_min_zone_nid"] + ($zone_nid["x_max_zone_nid"] - $zone_nid["x_min_zone_nid"]) /2;
 			$yCentre =  $zone_nid["y_min_zone_nid"] + ($zone_nid["y_max_zone_nid"] - $zone_nid["y_min_zone_nid"]) /2;
-				
+
 			$position["x_min"] = $xCentre - ($niveauMonstre * 3) - 20;
 			$position["x_max"] = $xCentre + ($niveauMonstre * 3) + 20;
 			$position["y_min"] = $yCentre - ($niveauMonstre * 3) - 20;
