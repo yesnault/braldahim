@@ -23,4 +23,13 @@ class DonjonEquipe extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+	
+	public function findNonTerminee() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('donjon_equipe', '*')
+		->where("etat_donjon_equipe not like 'termine' AND etat_donjon_equipe not like 'annule'");
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }

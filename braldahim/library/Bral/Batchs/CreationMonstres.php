@@ -29,13 +29,28 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
 
 		$retour = null;
-		$retour .= $this->calculCreation($idDonjon);
+
+		if ($idDonjon != null) { // si l'on provient de la creation du donjon
+			$retour .= $this->calculCreation($idDonjon);
+		} else {
+			$retour .= $this->calculCreation();
+				
+			// et l'on s'occupe des donjons en cours
+			Zend_Loader::loadClass("DonjonEquipe");
+			$donjonEquipeTable = new DonjonEquipe();
+			$donjonEnCours = $donjonEquipeTable->findNonTerminee();
+			if (count($donjonEnCours) > 0) {
+				foreach($donjonEnCours as $d) {
+					$retour .= $this->calculCreation($d["id_fk_donjon_equipe"]);
+				}
+			}
+		}
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculBatchImpl - exit -");
 		return $retour;
 	}
 
-	public function calculCreation($idDonjon) {
+	public function calculCreation($idDonjon = null) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculCreation - enter -");
 		$retour = "";
 
@@ -58,8 +73,10 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 			} else {
 				throw new Zend_Exception(" Erreur calculCreation calculNiveauMoyen idDonjon:".$idDonjon);
 			}
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculCreation - niveauMoyen:".$niveauMoyen);
 		} else {
-			$zones = $zoneNidTable->fetchAll();
+			$where = "id_fk_donjon_zone_nid is NULL";
+			$zones = $zoneNidTable->fetchAll($where);
 		}
 
 		$nidTable = new Nid();
