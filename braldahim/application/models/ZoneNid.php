@@ -32,11 +32,12 @@ class ZoneNid extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
-	function findZonesNids($estVille) {
+	function findZonesNids($estVille, $idDonjon = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('zone_nid', '*')
-		->where('est_ville_zone_nid = ?', $estVille);
+		->where('est_ville_zone_nid = ?', $estVille)
+		->where('id_fk_donjon_zone_nid = ?', $idDonjon);
 		$sql = $select->__toString();
 
 		return $db->fetchAll($sql);
