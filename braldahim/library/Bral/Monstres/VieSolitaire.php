@@ -110,7 +110,7 @@ class Bral_Monstres_VieSolitaire {
 	/**
 	 * Attaque de la cible.
 	 */
-	protected function attaqueSolitaire(&$monstre, &$cible) {
+	protected function attaqueSolitaire(&$monstre, $cible) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueSolitaire - enter");
 
 		$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
@@ -192,7 +192,7 @@ class Bral_Monstres_VieSolitaire {
 		if (($monstre["pv_restant_monstre"] * 100 / $monstre["pv_max_monstre"]) <= 20) {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - Fuite du monstre - enter");
 			$monstre["id_fk_hobbit_cible_monstre"] = null;
-			$this->deplacementSolitaire(&$monstre, $fuite = false);
+			$this->deplacementSolitaire(&$monstre, true);
 			$retour = true;
 		}
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculFuiteSolitaire - exit (".$retour.")");

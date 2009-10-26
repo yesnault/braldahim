@@ -138,7 +138,7 @@ class Bral_Monstres_VieMonstre {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementMonstre - exit (".$retour.")");
 	}
 
-	public function attaqueCible(&$cible, $view) {
+	public function attaqueCible($cible, $view) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible (idm:".$this->monstre["id_monstre"].") - enter");
 		$koCible = false;
 
@@ -147,122 +147,15 @@ class Bral_Monstres_VieMonstre {
 		}
 
 		$this->calculTour();
-
-		// on regarde si la cible est dans la vue du monstre
-		if (($cible["x_hobbit"] > $this->monstre["x_monstre"] + $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])
-		|| ($cible["x_hobbit"] < $this->monstre["x_monstre"] - $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])
-		|| ($cible["y_hobbit"] > $this->monstre["y_monstre"] + $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])
-		|| ($cible["y_hobbit"] < $this->monstre["y_monstre"] - $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])) {
-			// cible en dehors de la vue du monstre
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible en dehors de la vue hx=".$cible["x_hobbit"] ." hy=".$cible["y_hobbit"]. " mx=".$this->monstre["x_monstre"]. " my=".$this->monstre["y_monstre"]. " vue=". $this->monstre["vue_monstre"]."");
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - monstre (".$this->monstre["id_monstre"].") attaqueCible - exit null");
-			return null; // pas de cible
-		} else if (($cible["x_hobbit"] != $this->monstre["x_monstre"]) || ($cible["y_hobbit"] != $this->monstre["y_monstre"])) {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre (".$this->monstre["id_monstre"].") cible (".$cible["id_hobbit"].") sur une case differente");
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - monstre (".$this->monstre["id_monstre"].") attaqueCible - exit null");
-			return null; // pas de cible
-		} else if ($this->monstre["pa_monstre"] < 4) {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA Monstre (".$this->monstre["id_monstre"].") insuffisant nb=".$this->monstre["pa_monstre"]);
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - monstre (".$this->monstre["id_monstre"].") attaqueCible - exit false");
-			return false; // cible non morte
-		}
-
-		Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA Monstre (".$this->monstre["id_monstre"].") avant attaque nb=".$this->monstre["pa_monstre"]);
-		$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - 4;
-
-		$jetAttaquant = $this->calculJetAttaque();
-		$jetCible = $this->calculJetCible($cible);
-
-		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
-		Bral_Util_Log::viemonstres()->debug(get_class($this)." - idm (".$this->monstre["id_monstre"]." ) Jets : attaque=".$jetAttaquant. " esquiveCible=".$jetCible."");
-		if ($jetAttaquant > $jetCible) {
-			$critique = false;
-			if ($jetAttaquant / 2 > $jetCible) {
-				if (Bral_Util_Commun::getEffetMotX($cible["id_hobbit"]) == true) {
-					$critique = false;
-				} else {
-					$critique = true;
-				}
-			}
-			$jetDegat = $this->calculDegat($critique);
-			$jetDegat = Bral_Util_Commun::getEffetMotA($cible["id_hobbit"], $jetDegat);
-
-			$pvPerdus = $jetDegat - $cible["armure_naturelle_hobbit"] - $cible["armure_equipement_hobbit"];
-			if ($pvPerdus <= 0) {
-				$pvPerdus = 1; // on perd 1 pv quoi qu'il arrive
-			}
-			$cible["pv_restant_hobbit"] = $cible["pv_restant_hobbit"] - $pvPerdus;
-			if ($cible["pv_restant_hobbit"]  <= 0) {
-				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible (idm:".$this->monstre["id_monstre"].") - Ko de la cible La cible (".$cible["id_hobbit"].") par Monstre id:".$this->monstre["id_monstre"]. " pvPerdus=".$pvPerdus);
-				$koCible = true;
-				$this->monstre["nb_kill_monstre"] = $this->monstre["nb_kill_monstre"] + 1;
-				$this->monstre["id_fk_hobbit_cible_monstre"] = null;
-				$cible["nb_ko_hobbit"] = $cible["nb_ko_hobbit"] + 1;
-				$cible["est_ko_hobbit"] = "oui";
-				$cible["date_fin_tour_hobbit"] = date("Y-m-d H:i:s");
-				$id_type_evenement = self::$config->game->evenements->type->kohobbit;
-				$id_type_evenement_cible = self::$config->game->evenements->type->ko;
-				$details = "[m".$this->monstre["id_monstre"]."] a mis KO le hobbit [h".$cible["id_hobbit"]."]";
-				$this->majEvenements(null, $this->monstre["id_monstre"], $id_type_evenement, $details, $this->monstre["niveau_monstre"], "", $view);
-				$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus, $koCible);
-				$this->majEvenements($cible["id_hobbit"], null, $id_type_evenement_cible, $details, $detailsBot, $cible["niveau_hobbit"], $view);
-				$this->updateCible($cible);
-			} else {
-				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible (idm:".$this->monstre["id_monstre"].") - Survie de la cible La cible (".$cible["id_hobbit"].") attaquee par Monstre id:".$this->monstre["id_monstre"]. " pvPerdus=".$pvPerdus. " pv_restant_hobbit=".$cible["pv_restant_hobbit"]);
-				if ($critique == true) { // En cas de frappe critique : malus en BNS ATT : -2D3. Malus en BNS DEF : -2D6.
-					$cible["bm_attaque_hobbit"] = $cible["bm_attaque_hobbit"] - Bral_Util_De::get_2d3();
-					$cible["bm_defense_hobbit"] = $cible["bm_defense_hobbit"] - Bral_Util_De::get_2d6();
-				} else { //  En cas de frappe : malus en BNS ATT : -1D3. Malus en BNS DEF : -1D6.
-					$cible["bm_attaque_hobbit"] = $cible["bm_attaque_hobbit"] - Bral_Util_De::get_1d3();
-					$cible["bm_defense_hobbit"] = $cible["bm_defense_hobbit"] - Bral_Util_De::get_1d6();
-				}
-
-				$cible["est_ko_hobbit"] = "non";
-				$id_type_evenement = self::$config->game->evenements->type->attaquer;
-				$details = "[m".$this->monstre["id_monstre"]."] a attaqué le hobbit [h".$cible["id_hobbit"]."]";
-				$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus);
-
-				$effetMotS = Bral_Util_Commun::getEffetMotS($cible["id_hobbit"]);
-				$this->updateCible($cible);
-				if ($effetMotS != null) {
-					$detailsBot .= PHP_EOL."Le hobbit ".$cible["prenom_hobbit"]." ".$cible["nom_hobbit"]." (".$cible["id_hobbit"] . ") a riposté.";
-					$detailsBot .= PHP_EOL."Consultez vos événements pour plus de détails.";
-
-					// mise a jour de l'événement avant la riposte
-					$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
-
-					Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible (idm:".$this->monstre["id_monstre"].") - La cible (".$cible["id_hobbit"].") possede le mot S -> Riposte");
-					$hobbitTable = new Hobbit();
-					$hobbitRowset = $hobbitTable->find($cible["id_hobbit"]);
-					$hobbitAttaquant = $hobbitRowset->current();
-					$jetAttaquant =  Bral_Util_Attaque::calculJetAttaqueNormale($hobbitAttaquant);
-					$jetsDegat = Bral_Util_Attaque::calculDegatAttaqueNormale($hobbitAttaquant);
-					$jetCible = Bral_Util_Attaque::calculJetCibleMonstre($this->monstre);
-					Bral_Util_Attaque::attaqueMonstre($hobbitAttaquant, $this->monstre, $jetAttaquant, $jetCible, $jetsDegat, false, false, true);
-
-				} else { // si pas de riposte, mise a jour de l'événement
-					$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
-				}
-			}
-
-		} else if ($jetCible/2 < $jetAttaquant) {
-			// En cas d'esquive : malus en BNS ATT : -1D3. Malus en BNS DEF : -1D6.
-			$cible["bm_attaque_hobbit"] = $cible["bm_attaque_hobbit"] - Bral_Util_De::get_1d3();
-			$cible["bm_defense_hobbit"] = $cible["bm_defense_hobbit"] - Bral_Util_De::get_1d6();
-
-			$this->updateCible($cible);
-			$id_type_evenement = self::$config->game->evenements->type->attaquer;
-			$details = "[m".$this->monstre["id_monstre"]."] a attaqué le hobbit [h".$cible["id_hobbit"]."] qui a esquivé l'attaque";
-			$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible);
-			$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
-		} else {
-			// En cas d'esquive parfaite : Aucun malus appliqué.
-			Bral_Util_Attaque::calculStatutEngage(&$cible, true);
-			$id_type_evenement = self::$config->game->evenements->type->attaquer;
-			$details = "[m".$this->monstre["id_monstre"]."] a attaqué le hobbit [h".$cible["id_hobbit"]."] qui a esquivé l'attaque parfaitement";
-			$detailsBot = $this->getDetailsBot($cible, $jetAttaquant, $jetCible);
-			$this->majEvenements($cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $cible["niveau_hobbit"], $view);
-		}
+		
+		// Choix de l'action dans mcompetences
+		// lancement de l'action
+		// TODO
+		Zend_Loader::loadClass("Bral_Monstres_Competences_Attaque");
+		Zend_Loader::loadClass("Bral_Monstres_Competences_Attaquer");
+		$attaquer = new Bral_Monstres_Competences_Attaquer($this->monstre, $cible, self::$config, $view);
+		$koCible = $attaquer->action();
+		
 		$this->updateMonstre();
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - (idm:".$this->monstre["id_monstre"].") - exit");
 		return $koCible;
@@ -336,71 +229,6 @@ class Bral_Monstres_VieMonstre {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calulRegeneration (idm:".$this->monstre["id_monstre"].") - exit");
 	}
 
-	private function calculJetCible($cible) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetCible - enter");
-		$jetCible = Bral_Util_De::getLanceDe6(self::$config->game->base_agilite + $cible["agilite_base_hobbit"]);
-		$jetCible = $jetCible + $cible["agilite_bm_hobbit"] + $cible["bm_defense_hobbit"] + $cible["agilite_bbdf_hobbit"];
-
-		if ($jetCible < 0) {
-			$jetCible = 0;
-		}
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetCible - exit (jet=".$jetCible.")");
-		return $jetCible;
-	}
-
-	private function calculJetAttaque() {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetAttaque - (idm:".$this->monstre["id_monstre"].") enter");
-		$jetAttaquant = Bral_Util_De::getLanceDe6($this->monstre["agilite_base_monstre"]);
-		$jetAttaquant = $jetAttaquant + $this->monstre["agilite_bm_monstre"] + $this->monstre["bm_attaque_monstre"];
-
-		if ($jetAttaquant < 0) {
-			$jetAttaquant = 0;
-		}
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetAttaque - (idm:".$this->monstre["id_monstre"].") exit (jet=".$jetAttaquant.")");
-		return $jetAttaquant;
-	}
-
-	private function calculDegat($estCritique) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDegat - (idm:".$this->monstre["id_monstre"].") enter (critique=".$estCritique.")");
-		$coefCritique = 1;
-		if ($estCritique === true) {
-			$coefCritique = 1.5;
-		}
-
-		$jetDegat = Bral_Util_De::getLanceDe6((self::$config->game->base_force + $this->monstre["force_base_monstre"])  * $coefCritique);
-		$jetDegat = $jetDegat + $this->monstre["force_bm_monstre"] + $this->monstre["bm_degat_monstre"];
-
-		if ($jetDegat < 0) {
-			$jetDegat = 0;
-		}
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculDegat - (idm:".$this->monstre["id_monstre"].") exit (jet=$jetDegat)");
-		return $jetDegat;
-	}
-
-	private function updateCible(&$cible) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateCible - enter (id_hobbit=".$cible["id_hobbit"].")");
-
-		Bral_Util_Attaque::calculStatutEngage(&$cible, true);
-
-		// Mise a jour de la cible
-		$hobbitTable = new Hobbit();
-		$data = array(
-			'pv_restant_hobbit' => $cible["pv_restant_hobbit"],
-			'est_ko_hobbit' => $cible["est_ko_hobbit"],
-			'nb_ko_hobbit' => $cible["nb_ko_hobbit"],
-			'agilite_bm_hobbit' => $cible["agilite_bm_hobbit"],
-			'est_engage_hobbit' => $cible["est_engage_hobbit"],
-			'est_engage_next_dla_hobbit' => $cible["est_engage_next_dla_hobbit"],
-			'date_fin_tour_hobbit' => $cible["date_fin_tour_hobbit"],
-			'est_quete_hobbit' => $cible["est_quete_hobbit"],
-			'bm_attaque_hobbit' => $cible["bm_attaque_hobbit"],
-			'bm_defense_hobbit' => $cible["bm_defense_hobbit"],
-		);
-		$where = "id_hobbit=".$cible["id_hobbit"];
-		$hobbitTable->update($data, $where);
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateCible - exit");
-	}
-
 	private function updateMonstre() {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateMonstre (".$this->monstre["id_monstre"].") - enter");
 		if ($this->monstre == null) {
@@ -438,15 +266,6 @@ class Bral_Monstres_VieMonstre {
 		$where = "id_monstre=".$this->monstre["id_monstre"];
 		$monstreTable->update($data, $where);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateMonstre (idm:".$this->monstre["id_monstre"].") - exit");
-	}
-
-	/*
-	 * Mise à jour des événements du monstre.
-	 */
-	public function majEvenements($id_hobbit, $id_monstre, $id_type_evenement, $details, $detailsBot, $niveau, $view) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - majEvenements - enter");
-		Bral_Util_Evenement::majEvenementsFromVieMonstre($id_hobbit, $id_monstre, $id_type_evenement, $details, $detailsBot, $niveau, $view);
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - majEvenements - exit");
 	}
 
 	/*
@@ -517,53 +336,6 @@ class Bral_Monstres_VieMonstre {
 		$elementTable->insertOrUpdate($data);
 
 		return $nbCastars;
-	}
-
-	private function getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat = 0, $critique = false, $pvPerdus = 0, $koCible = false) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
-		$retour = "";
-
-		$retour .= "Vous avez été attaqué par ".$this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].")";
-
-		$retour .= PHP_EOL."Jet d'attaque : ".$jetAttaquant;
-		$retour .= PHP_EOL."Jet de défense : ".$jetCible;
-		$retour .= PHP_EOL."Jet de dégâts : ".$jetDegat;
-
-		if ($jetAttaquant > $jetCible) {
-			if ($critique) {
-				$retour .= PHP_EOL."Vous avez été touché par une attaque critique";
-			} else {
-				$retour .= PHP_EOL."Vous avez été touché";
-			}
-
-			if ($cible["armure_naturelle_hobbit"] > 0) {
-				$retour .= PHP_EOL."Votre armure naturelle vous a protégé en réduisant les dégâts de ";
-				$retour .= $cible["armure_naturelle_hobbit"].".";
-			} else {
-				$retour .= PHP_EOL."Votre armure naturelle ne vous a pas protégé (ARM NAT:".$cible["armure_naturelle_hobbit"].")";
-			}
-
-			if ($cible["armure_equipement_hobbit"] > 0) {
-				$retour .= PHP_EOL."Votre équipement vous a protégé en réduisant les dégâts de ";
-				$retour .= $cible["armure_equipement_hobbit"].".";
-			} else {
-				$retour .= PHP_EOL."Aucun équipement ne vous a protégé (ARM EQU:".$cible["armure_equipement_hobbit"].")";
-			}
-
-			$retour .= PHP_EOL."Vous avez perdu ".$pvPerdus. " PV ";
-			$retour .= PHP_EOL."Il vous reste ".$cible["pv_restant_hobbit"]." PV ";
-
-			if ($koCible) {
-				$retour .= PHP_EOL."Vous avez été mis KO";
-			}
-		} else if ($jetCible/2 < $jetAttaquant) { // esquive
-			$retour .= PHP_EOL."Vous avez esquivé l'attaque";
-		} else { // esquive parfaite
-			$retour .= PHP_EOL."Vous avez esquivé parfaitement l'attaque";
-		}
-
-		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
-		return $retour;
 	}
 
 	public static function getTabXYRayon($idZoneNid, $niveau, $directionX, $directionY, $xMin, $xMax, $yMin, $yMax) {

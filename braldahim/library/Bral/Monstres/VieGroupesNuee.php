@@ -24,7 +24,7 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 	/**
 	 * Attaque de la cible.
 	 */
-	protected function attaqueGroupe(&$monstre_role_a, &$groupe, &$monstres, &$cible) {
+	protected function attaqueGroupe(&$monstre_role_a, &$groupe, &$monstres, $cible) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - enter");
 
 		if ($groupe["date_phase_tactique_groupe_monstre"] < $this->dateCourante) {
@@ -41,8 +41,8 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 		}
 
 		if ($groupe["phase_tactique_groupe_monstre"] == self::PHASE_ATTAQUE_3) {
-			$this->phaseTactique3(&$monstre_role_a, &$groupe, &$monstres, &$cible);
-			$this->majDateTactique(&$groupe, &$monstres);
+			$this->phaseTactique3($monstre_role_a, $groupe, $monstres, $cible);
+			$this->majDateTactique($groupe, $monstres);
 			return;
 		}
 
@@ -93,7 +93,7 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - exit");
 	}
 
-	private function phaseTactique3(&$monstre_role_a, &$groupe, &$monstres, &$cible) {
+	private function phaseTactique3(&$monstre_role_a, &$groupe, &$monstres, $cible) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - phaseTactique3 - enter");
 		$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
 
