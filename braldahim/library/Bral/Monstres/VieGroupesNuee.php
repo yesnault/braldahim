@@ -53,16 +53,27 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 				$vieMonstre->setMonstre($m);
 				$koCible = false;
 				$cibleDuMonstre = null;
-				// on regarde si la cible demandée est bien la cible du monstre
+
+				// s'il un monstre à une cible à lui, on verifie qu'elle peut être atteinte
+				if ($m["id_fk_hobbit_cible_monstre"] != null) {
+					$hobbitTable = new Hobbit();
+					$cibleDuMonstre = $hobbitTable->findHobbitAvecRayon($m["x_monstre"], $m["y_monstre"], $m["vue_monstre"], $m["id_fk_hobbit_cible_monstre"], false);
+					if (count($cible) > 0) {
+						$cibleDuMonstre = $cible[0];
+						Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du monstre (".$m["id_monstre"].") : ".$m["id_fk_hobbit_cible_monstre"]);
+						$koCibleMonstre = $vieMonstre->attaqueCible($cibleDuMonstre, $this->view);
+						if ($koCibleMonstre === true || $koCibleMonstre === null) {
+							$m["id_fk_hobbit_cible_monstre"] = null;
+						}
+					} else {
+						$m["id_fk_hobbit_cible_monstre"] = null;
+					}
+				}
+
+				// on regarde si la cible demandée est bien la cible du groupe
 				if ($cible["id_hobbit"] == $m["id_fk_hobbit_cible_monstre"] || $m["id_fk_hobbit_cible_monstre"] == null) {
 					Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du groupe (".$groupe["id_groupe_monstre"].") : ".$cible["id_hobbit"]);
 					$koCible = $vieMonstre->attaqueCible($cible, $this->view);
-				} else {
-					Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du monstre (".$m["id_monstre"].") : ".$m["id_fk_hobbit_cible_monstre"]);
-					$hobbitTable = new Hobbit();
-					$cibleDuMonstre = $hobbitTable->findById($m["id_fk_hobbit_cible_monstre"]);
-					$cibleDuMonstre = $cibleDuMonstre->toArray();
-					$vieMonstre->attaqueCible($cibleDuMonstre, $this->view);
 				}
 
 				if ($cibleDuMonstre != null) {
@@ -134,7 +145,7 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 		$groupe["phase_tactique_groupe_monstre"] = self::PHASE_NOMINAL;
 
 		if ((($monstre_role_a["x_monstre"] == $groupe["x_direction_groupe_monstre"]) && //
-		($monstre_role_a["y_monstre"] == $groupe["y_direction_groupe_monstre"])) || 
+		($monstre_role_a["y_monstre"] == $groupe["y_direction_groupe_monstre"])) ||
 		($groupe["x_direction_groupe_monstre"] == 0 && $groupe["y_direction_groupe_monstre"] == 0)) {
 
 			$dx = Bral_Util_De::get_1d12();
@@ -156,7 +167,7 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 			}
 
 			$tab = Bral_Monstres_VieMonstre::getTabXYRayon($monstre_role_a["id_fk_zone_nid_monstre"], $monstre_role_a["niveau_monstre"], $groupe["x_direction_groupe_monstre"], $groupe["y_direction_groupe_monstre"], $monstre_role_a["x_min_monstre"], $monstre_role_a["x_max_monstre"], $monstre_role_a["y_min_monstre"], $monstre_role_a["y_max_monstre"]);
-			
+
 			$groupe["x_direction_groupe_monstre"] = $tab["x_direction"];
 			$groupe["y_direction_groupe_monstre"] = $tab["y_direction"];
 
