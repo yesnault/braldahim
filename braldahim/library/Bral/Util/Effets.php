@@ -11,22 +11,23 @@
  * $LastChangedBy: $
  */
 class Bral_Util_Effets {
-	
+
 	const TYPE_BONUS = "bonus";
 	const TYPE_MALUS = "malus";
-	
+
 	const CARACT_FORCE = 'FOR';
 	const CARACT_AGILITE = 'AGI';
 	const CARACT_VIGUEUR = 'VIGUEUR';
 	const CARACT_SAGESSE = 'SAG';
 	const CARACT_PV = 'PV';
+	const CARACT_BBDF = 'BBDF';
 	const CARACT_VUE = 'VUE';
 	const CARACT_ARMURE = 'ARM';
 	const CARACT_POIDS = 'POIDS';
 	const CARACT_ATTAQUE = 'ATT';
 	const CARACT_DEGAT = 'DEG';
 	const CARACT_DEF = 'DEF';
-	
+
 	public static function ajouteEtAppliqueEffet($idHobbit, $caract, $type, $nbTour, $bm) {
 		Zend_Loader::loadClass("EffetHobbit");
 
@@ -71,7 +72,7 @@ class Bral_Util_Effets {
 					"bm_type" => $e["bm_type_effet_hobbit"],
 					"bm_effet_hobbit" => $e["bm_effet_hobbit"]
 			);
-				
+
 			$retourEffet = null;
 			if ($appliqueEffet) {
 				Bral_Util_Log::potion()->debug("Bral_Util_Effets - calculEffetHobbit - application de l'effet ".$e["id_effet_hobbit"]);
@@ -148,6 +149,13 @@ class Bral_Util_Effets {
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur SAG avant = ".$hobbitCible->sagesse_bm_hobbit);
 			$hobbitCible->sagesse_bm_hobbit = $hobbitCible->sagesse_bm_hobbit + $coef * $retourEffet["nEffet"];
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur SAG apres = ".$hobbitCible->sagesse_bm_hobbit);
+		} else if ($effet["caracteristique"] == 'BBDF') {
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur BBDF avant = ".$hobbitCible->sagesse_bm_hobbit);
+			$hobbitCible->balance_faim_hobbit = $hobbitCible->balance_faim_hobbit + $coef * $retourEffet["nEffet"];
+			if ($hobbitCible->balance_faim_hobbit <= 0) {
+				$hobbitCible->balance_faim_hobbit = 0;
+			}
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur BBDF apres = ".$hobbitCible->sagesse_bm_hobbit);
 		} else {
 			throw new Zend_Exception("Bral_Util_Effets - appliqueEffetSurHobbit - type effet non gere =".$effet["caracteristique"]);
 		}
@@ -158,6 +166,7 @@ class Bral_Util_Effets {
 				'vigueur_bm_hobbit' => $hobbitCible->vigueur_bm_hobbit,
 				'sagesse_bm_hobbit' => $hobbitCible->sagesse_bm_hobbit,
 				'pv_restant_hobbit' => $hobbitCible->pv_restant_hobbit,
+				'balance_faim_hobbit' => $hobbitCible->balance_faim_hobbit,
 		);
 		$where = "id_hobbit=".$hobbitCible->id_hobbit;
 

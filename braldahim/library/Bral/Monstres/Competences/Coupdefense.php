@@ -12,6 +12,9 @@
  */
 class Bral_Monstres_Competences_Coupdefense extends Bral_Monstres_Competences_Attaque {
 
+	public function calculJetAttaque(){}
+	public function calculDegat($estCritique){}
+	
 	public function actionSpecifique() {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - enter");
 
@@ -35,11 +38,11 @@ class Bral_Monstres_Competences_Coupdefense extends Bral_Monstres_Competences_At
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");
 	}
 
-	private function getDetailsBot($malus, $nbTours) {
+	protected function getDetailsBot($malus, $nbTours) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
 		$retour = "";
 		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") vous a donné un coup de défense, vous avez été influencé :";
-		$retour .= PHP_EOL."Malus sur votre agilité : ".$malus;
+		$retour .= PHP_EOL."Malus sur votre agilité : -".$malus;
 		$retour .= PHP_EOL."Nombre de tours : ".$nbTours;
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
 		return $retour;

@@ -10,7 +10,7 @@
  * $LastChangedRevision: $
  * $LastChangedBy: $
  */
-class Bral_Monstres_Competences_Barrir extends Bral_Monstres_Competences_Attaque {
+class Bral_Monstres_Competences_Morsure extends Bral_Monstres_Competences_Attaque {
 
 	public function calculJetAttaque(){}
 	public function calculDegat($estCritique){}
@@ -19,18 +19,11 @@ class Bral_Monstres_Competences_Barrir extends Bral_Monstres_Competences_Attaque
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - enter");
 
 		Zend_Loader::loadClass("Bral_Util_Effets");
-		
-		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findByCase($this->monstre["x_monstre"], $this->monstre["y_monstre"], $this->monstre["z_monstre"], -1, false);
 
-		if ($hobbits != null) {
-			foreach($hobbits as $h) {
-				$malus = floor($this->monstre["niveau_monstre"] / 4);
-				$nbTours = 2;
-				Bral_Util_Effets::ajouteEtAppliqueEffet($h["id_hobbit"], Bral_Util_Effets::CARACT_SAGESSE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus);
-				$this->majEvenement($h, $malus, $nbTours);
-			}
-		}
+		$malus = $this->monstre["niveau_monstre"];
+		$nbTours = Bral_Util_De::get_1d3();
+		Bral_Util_Effets::ajouteEtAppliqueEffet($this->cible["id_hobbit"], Bral_Util_Effets::CARACT_PV, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus);
+		$this->majEvenement($this->cible, $malus, $nbTours);
 
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - exit");
 		return null;
@@ -39,7 +32,7 @@ class Bral_Monstres_Competences_Barrir extends Bral_Monstres_Competences_Attaque
 	private function majEvenement($hobbit, $malus, $nbTours) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
 		$idTypeEvenement = self::$config->game->evenements->type->attaquer;
-		$details = "[m".$this->monstre["id_monstre"]."] a barri sur le hobbit [h".$hobbit["id_hobbit"]."]";
+		$details = "[m".$this->monstre["id_monstre"]."] a mordu le hobbit [h".$hobbit["id_hobbit"]."]";
 		$detailsBot = $this->getDetailsBot($malus, $nbTours);
 		Bral_Util_Evenement::majEvenementsFromVieMonstre($hobbit["id_hobbit"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $hobbit["niveau_hobbit"], $this->view);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");
@@ -48,8 +41,8 @@ class Bral_Monstres_Competences_Barrir extends Bral_Monstres_Competences_Attaque
 	protected function getDetailsBot($malus, $nbTours) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
 		$retour = "";
-		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a barri, vous avez été influencé :";
-		$retour .= PHP_EOL."Malus sur votre sagesse : -".$malus;
+		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") vous a mordu, vous avez été influencé :";
+		$retour .= PHP_EOL."Points de vie : -".$malus;
 		$retour .= PHP_EOL."Nombre de tours : ".$nbTours;
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
 		return $retour;
