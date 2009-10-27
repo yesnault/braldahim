@@ -5,7 +5,7 @@
 	 	transformer jusqu'&agrave; <?=$this->nbViande ?> unit&eacute;<? if ($this->nbViande > 1) : echo "s"; endif; ?> de 
 	 	viande en unit&eacute;(s) de viande pr&eacute;par&eacute;e<br /><br />
 	 	
-	 	Nombre d'unit&eacute; &agrave; pr&eacute;par&eacute;er<br />
+	 	Nombre d'unit&eacute;(s) &agrave; pr&eacute;parer<br />
 		 <select name="valeur_1" id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_assaisonner').disabled=true } else {$('bouton_assaisonner').disabled=false }">
 		 	<option value="-1">(Choisissez le nombre)</option>
 		 	<? for ($i = 1; $i<= $this->nbViande; $i++) : ?>
