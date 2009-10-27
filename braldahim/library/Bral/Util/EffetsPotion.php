@@ -39,7 +39,7 @@ class Bral_Util_EffetsPotion {
 					"bm2_type" => $p["bm2_type_potion"],
 					"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
 					"bm_effet_potion" => $p["bm_effet_potion_hobbit"],
-					"nb_tour_restant" => $p["nb_tour_restant_effet_potion_hobbit"]);
+			);
 			
 			$retourPotion = null;
 			if ($appliqueEffet) {
@@ -73,7 +73,7 @@ class Bral_Util_EffetsPotion {
 			$potion = array(
 					"id_potion" => $p["id_effet_potion_monstre"],
 					"id_fk_type_potion" => $p["id_fk_type_potion"],
-					"id_fk_type_qualite_potion" => $p["id_fk_type_qualite_potino"],
+					"id_fk_type_qualite_potion" => $p["id_fk_type_qualite_potion"],
 					"nb_tour_restant" => $p["nb_tour_restant_effet_potion_monstre"],
 					"nom_systeme_type_qualite" => $p["nom_systeme_type_qualite"],
 					"nom" => $p["nom_type_potion"],

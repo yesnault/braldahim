@@ -1,0 +1,11 @@
+<? if ($this->effetHobbit == true) :
+	$nb = count($this->effetHobbitEffets);
+	if ($nb > 1) { $s = 's'; $verb = 'ont'; } else { $s =''; $verb = 'a'; }
+	?>
+	<br /><b><?=$nb ?> effet<?=$s ?> <?=$verb?> eu de l'influence sur vous.</b><br />
+	
+	<? foreach($this->effetHobbitEffets as $e) : ?>
+		<?=$e["retourEffet"]["nEffet"] ?> point<? if ($e["retourEffet"]["nEffet"]): echo 's'; endif; ?> de <?=$e["effet"]["bm_type"] ?> sur <?=$e["effet"]["caracteristique"]?>
+		et <?=$e["retourEffet"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["retourEffet"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>.<br /><br />
+	<? endforeach; ?>
+<? endif; ?>

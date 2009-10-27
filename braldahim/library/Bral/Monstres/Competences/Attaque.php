@@ -17,10 +17,11 @@ abstract class Bral_Monstres_Competences_Attaque {
 	protected $view = null;
 	protected static $config = null;
 
-	public function __construct(&$monstre, $cible, $config, $view) {
+	public function __construct($competence, &$monstre, $cible, $view) {
+		$this->competence = $competence;
 		$this->monstre = &$monstre;
 		$this->cible = $cible;
-		self::$config = $config;
+		self::$config = Zend_Registry::get('config');
 		$this->view = $view;
 	}
 
@@ -41,14 +42,14 @@ abstract class Bral_Monstres_Competences_Attaque {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre (".$this->monstre["id_monstre"].") cible (".$this->cible["id_hobbit"].") sur une case differente");
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - monstre (".$this->monstre["id_monstre"].") attaqueCible - exit null");
 			return null; // pas de cible
-		} else if ($this->monstre["pa_monstre"] < $this->getNbPA()) {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA Monstre (".$this->monstre["id_monstre"].") insuffisant nb=".$this->monstre["pa_monstre"]);
+		} else if ($this->monstre["pa_monstre"] < $this->competence["pa_utilisation_mcompetence"]) {
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA Monstre (".$this->monstre["id_monstre"].") insuffisant nb=".$this->monstre["pa_monstre"]." requis=".$competence["pa_utilisation_mcompetence"]);
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - monstre (".$this->monstre["id_monstre"].") attaqueCible - exit false");
 			return false; // cible non morte
 		}
 
-		Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA Monstre (".$this->monstre["id_monstre"].") avant attaque nb=".$this->monstre["pa_monstre"]);
-		$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - $this->getNbPA();
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA Monstre (".$this->monstre["id_monstre"].") avant action nb=".$this->monstre["pa_monstre"]);
+		$this->monstre["pa_monstre"] = $this->monstre["pa_monstre"] - $this->competence["pa_utilisation_mcompetence"];
 
 		$koCible = $this->actionSpecifique();
 
@@ -58,10 +59,6 @@ abstract class Bral_Monstres_Competences_Attaque {
 
 	abstract function actionSpecifique();
 	
-	private function getNbPA() {
-		//TODO
-	}
-
 	protected function updateCible() {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateCible - enter (id_hobbit=".$this->cible["id_hobbit"].")");
 

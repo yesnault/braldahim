@@ -13,6 +13,9 @@
 class Bral_Monstres_Competences_Attaquer extends Bral_Monstres_Competences_Attaque {
 
 	public function actionSpecifique() {
+		
+		$koCible = null;
+		
 		$jetAttaquant = $this->calculJetAttaque();
 		$jetCible = $this->calculJetCible($this->cible);
 
@@ -106,6 +109,8 @@ class Bral_Monstres_Competences_Attaquer extends Bral_Monstres_Competences_Attaq
 			$detailsBot = $this->getDetailsBot($this->cible, $jetAttaquant, $jetCible);
 			Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view);
 		}
+		
+		return $koCible;
 	}
 
 	private function getDetailsBot($cible, $jetAttaquant, $jetCible, $jetDegat = 0, $critique = false, $pvPerdus = 0, $koCible = false) {

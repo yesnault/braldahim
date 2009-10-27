@@ -1,21 +1,24 @@
 <? include("box_header.phtml") ?>
 <div class="inner">
-<ul class="titre textalia textsizeb">Effets de Potion</ul>
+<ul class="titre textalia textsizeb">Effets</ul>
  <div class="contenuC">
   <ul class="box_contenu1 textalic">
   
  <? if ($this->affichageInterne == true) : ?>
-		<?$nb = count($this->potions);
+ 
+ 	<ul class="titre textalic textsized">Potions</ul>
+ 
+		<? $nb = count($this->potions);
 		if ($nb > 1) { $s = 's'; $verb = 'ont'; } else { $s =''; $verb = 'a'; }
 		?>
 		
-		
 		<? if ($nb > 0) :?>
-		<br /><?=$nb ?> potion<?=$s ?> <?=$verb?> actuellement de l'effet sur vous.<br />
+		<?=$nb ?> potion<?=$s ?> <?=$verb?> actuellement de l'effet sur vous.<br />
 		
-			<table class="table_liste" style="width:80%">
+			<table class="table_liste" style="width:90%">
 				<thead class="table_liste">
 				  <tr class="table_liste" title="Cliquer pour Trier">
+					<th>N°</th>
 					<th>Potion</th>
 					<th>Effet</th>
 				  </tr>
@@ -23,6 +26,9 @@
 				<tbody>
 					<? foreach($this->potions as $e) : ?>
 					<tr class="table_liste">
+						<td class='alabel' onclick='ouvHistoP("<?=$e["potion"]["id_potion"]?>")'>
+						n°<?=$e["potion"]["id_potion"]?>
+						</td>
 						<td><?=htmlspecialchars($e["potion"]["nom"]) ?> de qualit&eacute; <?=htmlspecialchars($e["potion"]["qualite"]) ?>, 
 						niveau <?=$e["potion"]["niveau"] ?>
 						</td>
@@ -35,9 +41,36 @@
 				</tbody>
 			</table>
 		<? else: ?>
-		Aucun effet de potion n'est appliqu&eacute; sur vous actuellement.
+		Aucun effet de potion n'est appliqu&eacute; sur vous actuellement.<br>
 		<? endif;?>
-   <br> <br>
+   <br>
+   
+   <ul class="titre textalic textsized">Autres Effets</ul>
+   
+	  	<? $nb = count($this->effets);?>
+		<? if ($nb > 0) :?>
+			<table class="table_liste" style="width:90%">
+				<thead class="table_liste">
+				  <tr class="table_liste" title="Cliquer pour Trier">
+					<th>Effet</th>
+				  </tr>
+				</thead>
+				<tbody>
+					<? foreach($this->effets as $e) : ?>
+					<tr class="table_liste">
+						<td>
+						<?=$e["effet"]["bm_effet_hobbit"] ?> point<? if ($e["effet"]["bm_effet_hobbit"]): echo 's'; endif; ?> de <?=$e["effet"]["bm_type"] ?> sur <?=$e["effet"]["caracteristique"]?>
+						et <?=$e["effet"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["effet"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>
+						</td>
+					</tr>
+					<? endforeach; ?>
+				</tbody>
+			</table>
+		<? else: ?>
+		Aucun autre effet n'est appliqu&eacute; sur vous actuellement.
+		<? endif;?>
+		<br><br>
+   
  <? else: ?>
 	Chargement en cours
 	<br /><img src="/public/images/wait.gif" />

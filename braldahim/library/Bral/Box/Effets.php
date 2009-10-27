@@ -38,7 +38,9 @@ class Bral_Box_Effets extends Bral_Box_Box {
 	
 	private function data() {
 		Zend_Loader::loadClass("Bral_Util_EffetsPotion");
+		Zend_Loader::loadClass("Bral_Util_Effets");
 		$this->view->potions = Bral_Util_EffetsPotion::calculPotionHobbit($this->view->user, false);
+		$this->view->effets = Bral_Util_Effets::calculEffetHobbit($this->view->user, false);
 		$this->view->nom_interne = $this->getNomInterne();
 	}
 }

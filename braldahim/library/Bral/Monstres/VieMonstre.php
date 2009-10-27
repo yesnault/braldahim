@@ -147,15 +147,21 @@ class Bral_Monstres_VieMonstre {
 		}
 
 		$this->calculTour();
-		
+
+		Zend_Loader::loadClass("Bral_Monstres_Competences_Factory");
+
+		Zend_Loader::loadClass("TypeMonstreMCompetence");
+		$typeMonstreMCompetence = new TypeMonstreMCompetence();
+
 		// Choix de l'action dans mcompetences
-		// lancement de l'action
-		// TODO
-		Zend_Loader::loadClass("Bral_Monstres_Competences_Attaque");
-		Zend_Loader::loadClass("Bral_Monstres_Competences_Attaquer");
-		$attaquer = new Bral_Monstres_Competences_Attaquer($this->monstre, $cible, self::$config, $view);
-		$koCible = $attaquer->action();
-		
+		$competences = $typeMonstreMCompetence->findAttaqueByIdTypeGroupe($this->monstre["id_fk_type_monstre"]);
+		if ($competences != null) {
+			foreach($competences as $c) {
+				$actionAttaque = Bral_Monstres_Competences_Factory::getAction($c, $this->monstre, $cible, $view);
+				$koCible = $actionAttaque->action();
+			}
+		}
+
 		$this->updateMonstre();
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - (idm:".$this->monstre["id_monstre"].") - exit");
 		return $koCible;

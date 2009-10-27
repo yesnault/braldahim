@@ -1,13 +1,13 @@
 <? if ($this->effetPotion == true) :
-		$nb = count($this->effetPotionPotions);
-		if ($nb > 1) { $s = 's'; $verb = 'ont'; } else { $s =''; $verb = 'a'; }
-		?>
-		<br /><?=$nb ?> potion<?=$s ?> <?=$verb?> eu de l'effet sur vous.<br />
-		
-		<? foreach($this->effetPotionPotions as $e) : ?>
-			<?=htmlspecialchars($e["potion"]["nom"]) ?> de qualit&eacute; <?=htmlspecialchars($e["potion"]["qualite"]) ?>, 
-			niveau <?=$e["potion"]["niveau"] ?> : <br />
-			<?=$e["retourPotion"]["nEffet"] ?> point<? if ($e["retourPotion"]["nEffet"]): echo 's'; endif; ?> de <?=$e["potion"]["bm_type"] ?> sur <?=$e["potion"]["caracteristique"]?>
-			et <?=$e["retourPotion"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["retourPotion"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?><br /><br />
-		<? endforeach; ?>
+	$nb = count($this->effetPotionPotions);
+	if ($nb > 1) { $s = 's'; $verb = 'ont'; } else { $s =''; $verb = 'a'; }
+	?>
+	<br /><b><?=$nb ?> potion<?=$s ?> <?=$verb?> eu de l'effet sur vous.</b><br />
+	
+	<? foreach($this->effetPotionPotions as $e) : ?>
+		<?=htmlspecialchars($e["potion"]["nom"]) ?> de qualit&eacute; <?=htmlspecialchars($e["potion"]["qualite"]) ?>, 
+		niveau <?=$e["potion"]["niveau"] ?> : <br />
+		<?=$e["retourPotion"]["nEffet"] ?> point<? if ($e["retourPotion"]["nEffet"]): echo 's'; endif; ?> de <?=$e["potion"]["bm_type"] ?> sur <?=$e["potion"]["caracteristique"]?>
+		et <?=$e["retourPotion"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["retourPotion"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>.<br /><br />
+	<? endforeach; ?>
 <? endif; ?>

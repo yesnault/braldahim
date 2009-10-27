@@ -151,6 +151,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		}
 
 		$this->view->effetPotion = false;
+		$this->view->effetHobbit = false;
 
 		$this->view->effetMotB = false;
 		$this->view->effetMotE = false;
@@ -212,6 +213,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 			$this->calculBMEquipement();
 			$this->calculBMPotion();
+			$this->calculBMEffet();
 
 			// Mise a  jour de la regeneration // c'est aussi mis a  jour dans l'eujimnasiumne
 			$this->hobbit->regeneration_hobbit = floor($this->hobbit->vigueur_base_hobbit / 4) + 1;
@@ -228,7 +230,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 				$this->view->effetMotE = true;
 				$this->hobbit->pv_max_bm_hobbit = $this->hobbit->pv_max_bm_hobbit - ($effetMotE * 3);
 			}
-				
+
 			if ($this->hobbit->pv_restant_hobbit > $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit) {
 				$this->hobbit->pv_restant_hobbit = $this->hobbit->pv_max_hobbit + $this->hobbit->pv_max_bm_hobbit;
 			}
@@ -348,6 +350,11 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$effetPotionHobbitTable = new EffetPotionHobbit();
 			$where = "id_fk_hobbit_cible_effet_potion_hobbit = ".intval($this->hobbit->id_hobbit);
 			$effetPotionHobbitTable->delete($where);
+				
+			Zend_Loader::loadClass("EffetHobbit");
+			$effetHobbitTable = new EffetHobbit();
+			$where = "id_fk_hobbit_cible_effet_hobbit = ".intval($this->hobbit->id_hobbit);
+			$effetHobbitTable->delete($where);
 
 			Zend_Loader::loadClass("HobbitsCompetences");
 			$hobbitsCompetencesTable = new HobbitsCompetences();
@@ -573,6 +580,18 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		Bral_Util_Log::tour()->trace(get_class($this)." calculBMPotion - exit -");
 	}
 
+	private function calculBMEffet() {
+		Bral_Util_Log::tour()->trace(get_class($this)." calculBMEffet - enter -");
+		Zend_Loader::loadClass("Bral_Util_Effets");
+		$effetsHobbit = Bral_Util_Effets::calculEffetHobbit($this->hobbit, true);
+
+		if (count($effetsHobbit) > 0) {
+			$this->view->effetHobbit = true;
+			$this->view->effetHobbitEffets = $effetsHobbit;
+		}
+		Bral_Util_Log::tour()->trace(get_class($this)." calculBMEffet - exit -");
+	}
+
 	private function calculInfoTour() {
 		Bral_Util_Log::tour()->trace(get_class($this)." calculInfoTour - enter -");
 		$info = "";
@@ -688,7 +707,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$this->view->user->est_engage_next_dla_hobbit = $this->hobbit->est_engage_next_dla_hobbit;
 
 		$this->view->user->est_intangible_hobbit = $this->hobbit->est_intangible_hobbit;
-		
+
 		$data = array(
 			'x_hobbit' => $this->hobbit->x_hobbit,
 			'y_hobbit'  => $this->hobbit->y_hobbit,
