@@ -14,16 +14,23 @@ class Bral_Monstres_Competences_Petnauseabond extends Bral_Monstres_Competences_
 
 	public function calculJetAttaque(){}
 	public function calculDegat($estCritique){}
-	
+
 	public function actionSpecifique() {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - enter");
 
 		Zend_Loader::loadClass("Bral_Util_Effets");
 
-		$malus = $this->monstre["niveau_monstre"];
-		$nbTours = 1;
-		Bral_Util_Effets::ajouteEtAppliqueEffet($this->cible["id_hobbit"], Bral_Util_Effets::CARACT_BBDF, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus);
-		$this->majEvenement($this->cible, $malus, $nbTours);
+		$hobbitTable = new Hobbit();
+		$hobbits = $hobbitTable->findByCase($this->monstre["x_monstre"], $this->monstre["y_monstre"], $this->monstre["z_monstre"], -1, false);
+
+		if ($hobbits != null) {
+			foreach($hobbits as $h) {
+				$malus = $this->monstre["niveau_monstre"];
+				$nbTours = 1;
+				Bral_Util_Effets::ajouteEtAppliqueEffet($h["id_hobbit"], Bral_Util_Effets::CARACT_BBDF, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus);
+				$this->majEvenement($h, $malus, $nbTours);
+			}
+		}
 
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - exit");
 		return null;
