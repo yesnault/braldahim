@@ -26,26 +26,12 @@ abstract class Bral_Monstres_Competences_Attaque {
 	}
 
 	public function action() {
-
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - action - (idm:".$this->monstre["id_monstre"].") - enter");
 
-		// on regarde si la cible est dans la vue du monstre
-		if (($this->cible["x_hobbit"] > $this->monstre["x_monstre"] + $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])
-		|| ($this->cible["x_hobbit"] < $this->monstre["x_monstre"] - $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])
-		|| ($this->cible["y_hobbit"] > $this->monstre["y_monstre"] + $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])
-		|| ($this->cible["y_hobbit"] < $this->monstre["y_monstre"] - $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])) {
-			// cible en dehors de la vue du monstre
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible en dehors de la vue hx=".$this->cible["x_hobbit"] ." hy=".$this->cible["y_hobbit"]. " mx=".$this->monstre["x_monstre"]. " my=".$this->monstre["y_monstre"]. " vue=". $this->monstre["vue_monstre"]."");
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - monstre (".$this->monstre["id_monstre"].") attaqueCible - exit null");
-			return null; // pas de cible
-		} else if (($this->cible["x_hobbit"] != $this->monstre["x_monstre"]) || ($this->cible["y_hobbit"] != $this->monstre["y_monstre"])) {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre (".$this->monstre["id_monstre"].") cible (".$this->cible["id_hobbit"].") sur une case differente");
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - monstre (".$this->monstre["id_monstre"].") attaqueCible - exit null");
-			return null; // pas de cible
-		} else if ($this->monstre["pa_monstre"] < $this->competence["pa_utilisation_mcompetence"]) {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA Monstre (".$this->monstre["id_monstre"].") insuffisant nb=".$this->monstre["pa_monstre"]." requis=".$competence["pa_utilisation_mcompetence"]);
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - monstre (".$this->monstre["id_monstre"].") attaqueCible - exit false");
-			return false; // cible non morte
+		$retourVerificationCible = $this->verificationCible();
+		if ($retourVerificationCible !== true) { // si d'action sur la cible possible
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - action - (idm:".$this->monstre["id_monstre"].") action non possible - exit");
+			return $retourVerificationCible;
 		}
 
 		Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA Monstre (".$this->monstre["id_monstre"].") avant action nb=".$this->monstre["pa_monstre"]);
@@ -55,6 +41,31 @@ abstract class Bral_Monstres_Competences_Attaque {
 
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - action - (idm:".$this->monstre["id_monstre"].") - exit");
 		return $koCible;
+	}
+
+	protected function verificationCible() {
+		Bral_Util_Log::viemonstres()->debug(get_class($this)." - verificationCible - PA Monstre (".$this->monstre["id_monstre"].") avant action nb=".$this->monstre["pa_monstre"]);
+
+		// on regarde si la cible est dans la vue du monstre
+		if (($this->cible["x_hobbit"] > $this->monstre["x_monstre"] + $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])
+		|| ($this->cible["x_hobbit"] < $this->monstre["x_monstre"] - $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])
+		|| ($this->cible["y_hobbit"] > $this->monstre["y_monstre"] + $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])
+		|| ($this->cible["y_hobbit"] < $this->monstre["y_monstre"] - $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])) {
+			// cible en dehors de la vue du monstre
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible en dehors de la vue hx=".$this->cible["x_hobbit"] ." hy=".$this->cible["y_hobbit"]. " mx=".$this->monstre["x_monstre"]. " my=".$this->monstre["y_monstre"]. " vue=". $this->monstre["vue_monstre"]."");
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - verificationCible -  monstre (".$this->monstre["id_monstre"].") attaqueCible - exit null");
+			return null; // pas de cible
+		} else if (($this->cible["x_hobbit"] != $this->monstre["x_monstre"]) || ($this->cible["y_hobbit"] != $this->monstre["y_monstre"])) {
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre (".$this->monstre["id_monstre"].") cible (".$this->cible["id_hobbit"].") sur une case differente");
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - verificationCible -  monstre (".$this->monstre["id_monstre"].") attaqueCible - exit null");
+			return null; // pas de cible
+		} else if ($this->monstre["pa_monstre"] < $this->competence["pa_utilisation_mcompetence"]) {
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA Monstre (".$this->monstre["id_monstre"].") insuffisant nb=".$this->monstre["pa_monstre"]." requis=".$competence["pa_utilisation_mcompetence"]);
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - verificationCible -  monstre (".$this->monstre["id_monstre"].") attaqueCible - exit false");
+			return false; // cible non morte
+		} else {
+			return true;
+		}
 	}
 
 	abstract function actionSpecifique();
@@ -103,6 +114,12 @@ abstract class Bral_Monstres_Competences_Attaque {
 
 		$jetAttaquant = $this->calculJetAttaque();
 		$jetCible = $this->calculJetCible($this->cible);
+		
+		if ($this->competence["nom_systeme_mcompetence"] == "charger") {
+			$verbe = "chargé";
+		} else {
+			$verbe = "attaqué";
+		}
 
 		//Pour que l'attaque touche : jet AGI attaquant > jet AGI attaqué
 		Bral_Util_Log::viemonstres()->debug(get_class($this)." - idm (".$this->monstre["id_monstre"]." ) Jets : attaque=".$jetAttaquant. " esquiveCible=".$jetCible."");
@@ -150,7 +167,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 
 				$this->cible["est_ko_hobbit"] = "non";
 				$id_type_evenement = self::$config->game->evenements->type->attaquer;
-				$details = "[m".$this->monstre["id_monstre"]."] a attaqué le hobbit [h".$this->cible["id_hobbit"]."]";
+				$details = "[m".$this->monstre["id_monstre"]."] a $verbe le hobbit [h".$this->cible["id_hobbit"]."]";
 				$detailsBot = $this->getDetailsBotAttaque($this->cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus);
 
 				$effetMotS = Bral_Util_Commun::getEffetMotS($this->cible["id_hobbit"]);
@@ -183,14 +200,14 @@ abstract class Bral_Monstres_Competences_Attaque {
 
 			$this->updateCible();
 			$id_type_evenement = self::$config->game->evenements->type->attaquer;
-			$details = "[m".$this->monstre["id_monstre"]."] a attaqué le hobbit [h".$this->cible["id_hobbit"]."] qui a esquivé l'attaque";
+			$details = "[m".$this->monstre["id_monstre"]."] a $verbe le hobbit [h".$this->cible["id_hobbit"]."] qui a esquivé l'attaque";
 			$detailsBot = $this->getDetailsBotAttaque($this->cible, $jetAttaquant, $jetCible);
 			Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view);
 		} else {
 			// En cas d'esquive parfaite : Aucun malus appliqué.
 			Bral_Util_Attaque::calculStatutEngage(&$this->cible, true);
 			$id_type_evenement = self::$config->game->evenements->type->attaquer;
-			$details = "[m".$this->monstre["id_monstre"]."] a attaqué le hobbit [h".$this->cible["id_hobbit"]."] qui a esquivé l'attaque parfaitement";
+			$details = "[m".$this->monstre["id_monstre"]."] a $verbe le hobbit [h".$this->cible["id_hobbit"]."] qui a esquivé l'attaque parfaitement";
 			$detailsBot = $this->getDetailsBotAttaque($this->cible, $jetAttaquant, $jetCible);
 			Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view);
 		}
@@ -202,7 +219,13 @@ abstract class Bral_Monstres_Competences_Attaque {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBotAttaque - enter");
 		$retour = "";
 
-		$retour .= "Vous avez été attaqué par ".$this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].")";
+		$retour .= "Vous avez été ";
+		if ($this->competence["nom_systeme_mcompetence"] == "charger") {
+			$retour .= "chargé";
+		} else {
+			$retour .= "attaqué";
+		}
+		$retour .= " par ".$this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].")";
 
 		$retour .= PHP_EOL."Jet d'attaque : ".$jetAttaquant;
 		$retour .= PHP_EOL."Jet de défense : ".$jetCible;
