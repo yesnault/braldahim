@@ -321,14 +321,16 @@ class Bral_Monstres_VieMonstre {
 			return;
 		}
 
-		$nbCastars = 10 * $niveauMonstre + Bral_Util_De::get_1d5();
+		$nbCastars = 15 * $niveauMonstre + Bral_Util_De::get_1d5();
 		if ($effetMotH == true) {
 			$nbCastars = $nbCastars * 2;
 		}
 
 		if ((10 + 2 * ($niveauMonstre - $niveauHobbit) + $niveauMonstre) <= 0) {
 			$nbCastars = $nbCastars / 2;
-		}
+		} else {
+                $nbCastars = $nbCastars + Bral_Util_De::get_2d10();
+        }
 
 		$nbCastars = round($nbCastars);
 
