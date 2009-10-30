@@ -221,7 +221,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			Zend_Loader::loadClass("Bral_Util_Materiel");
 			Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idArrivee]["id_charrette"], $details);
 		}
-
+		
 		$this->detailEvenement = "";
 		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Element") {
 			$idEvenement = $this->view->config->game->evenements->type->ramasser;
@@ -240,7 +240,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments ";
 		}
 		$this->setDetailsEvenement($this->detailEvenement, $idEvenement);
-
+		
+		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Coffre" && $this->view->id_hobbit_coffre != $this->view->user->id_hobbit ) {
+			$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
+			$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
+			$message .= $this->view->elementsRetires;
+			
+			$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->id_hobbit_coffre, $message, $this->view);
+		}
+		
+		
 		$this->setEvenementQueSurOkJet1(false);
 
 		Zend_Loader::loadClass("Bral_Util_Quete");
