@@ -28,7 +28,7 @@ class Bral_Util_Effets {
 	const CARACT_DEGAT = 'DEG';
 	const CARACT_DEF = 'DEF';
 
-	public static function ajouteEtAppliqueEffet($idHobbit, $caract, $type, $nbTour, $bm) {
+	public static function ajouteEtAppliqueEffetHobbit($idHobbit, $caract, $type, $nbTour, $bm) {
 		Zend_Loader::loadClass("EffetHobbit");
 
 		$effet["nb_tour_restant"] = $nbTour;
@@ -177,6 +177,139 @@ class Bral_Util_Effets {
 			unset($hobbitTable);
 		}
 		Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - exit");
+		return $retourEffet;
+	}
+
+	public static function ajouteEtAppliqueEffetMonstre(&$monstre, $caract, $type, $nbTour, $bm) {
+		Zend_Loader::loadClass("EffetMonstre");
+
+		$effet["nb_tour_restant"] = $nbTour;
+		$effet["caracteristique"] = $caract;
+		$effet["bm_type"] = $type;
+		$effet["bm_effet_monstre"] = $bm;
+
+		$effetMonstreTable = new EffetMonstre();
+		$data = array(
+			'id_fk_monstre_cible_effet_monstre' => $monstre["id_monstre"],
+			'caract_effet_monstre' => $effet["caracteristique"],
+			'bm_effet_monstre' => $effet["bm_effet_monstre"],
+			'nb_tour_restant_effet_monstre' => $effet["nb_tour_restant"],
+			'bm_type_effet_monstre' => $effet["bm_type"], 
+		);
+		$effetMonstreTable->insert($data);
+
+		$potion["nb_tour_restant"] = $nbTour;
+		Zend_Loader::loadClass("Bral_Util_Effets");
+		return Bral_Util_Effets::appliqueEffetSurMonstre($effet, $monstre, false);
+	}
+
+	public static function calculEffetMonstre(&$monstreCible) {
+		Bral_Util_Log::potion()->trace("Bral_Util_Effets - calculEffetMonstre - enter - idm:".$monstreCible["id_monstre"]);
+		Zend_Loader::loadClass("EffetMonstre");
+		$effetMonstreTable = new EffetMonstre();
+		$effetMonstreRowset = $effetMonstreTable->findByIdMonstreCible($monstreCible["id_monstre"]);
+		unset($effetMonstreTable);
+
+		$effets = null;
+		foreach ($effetMonstreRowset as $e) {
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - calculEffetMonstre - effet ".$e["id_effet_monstre"]. " trouve");
+			$effet = array(
+					"id_effet_monstre" => $e["id_effet_monstre"],
+					"nb_tour_restant" => $e["nb_tour_restant_effet_monstre"],
+					"caracteristique" => $e["caract_effet_monstre"],
+					"bm_type" => $e["bm_type_effet_monstre"],
+					"bm_effet_monstre" => $e["bm_effet_monstre"]
+			);
+
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - calculEffetMonstre - application de l'effet ".$e["id_effet_monstre"]);
+			$retourEffet = self::appliqueEffetSurMonstre($effet, $monstreCible, true, false);
+			$effets[] = array('effet' => $effet, 'retourEffet' => $retourEffet);
+		}
+
+		unset($effetMonstreRowset);
+		Bral_Util_Log::potion()->trace("Bral_Util_Effets - calculEffetMonstre - exit");
+		return $effets;
+	}
+
+	public static function appliqueEffetSurMonstre($effet, &$monstreCible, $majTableEffetMonstre = true, $majTableMonstre = true) {
+		Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurMonstre - enter");
+		Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurMonstre - monstreCible->id_monstre = ".$monstreCible["id_monstre"]);
+		Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurMonstre - majTableEffetMonstre = ".$majTableEffetMonstre);
+
+		Zend_Loader::loadClass("EffetMonstre");
+
+		$retourEffet["nb_tour_restant"] = $effet["nb_tour_restant"];
+
+		if ($majTableEffetMonstre === true) {
+			Bral_Util_Log::potion()->trace("Bral_Util_Effets - appliqueEffetSurMonstre - maj table effet debut");
+			$effetEffetMonstreTable = new EffetMonstre();
+			$estSupprime = $effetEffetMonstreTable->enleveUnTour($effet);
+			$retourEffet["nb_tour_restant"] = $effet["nb_tour_restant"] - 1;
+			unset($effetEffetMonstreTable);
+			Bral_Util_Log::potion()->trace("Bral_Util_Effets - appliqueEffetSurMonstre - maj table effet fin");
+			if ($estSupprime) {
+				return null;
+			}
+		}
+
+		if ($effet["bm_type"] == 'malus') {
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurMonstre - malus");
+			$coef = -1;
+		} else { // bonus
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurMonstre - bonus");
+			$coef = 1;
+		}
+
+		$retourEffet["nEffet"] = $effet["bm_effet_monstre"];
+
+		Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurMonstre - nEffet = ".$retourEffet["nEffet"]);
+
+		if ($effet["caracteristique"] == 'AGI') {
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurMonstre - effet sur AGI avant = ".$monstreCible["agilite_bm_monstre"]);
+			$monstreCible["agilite_bm_monstre"] = $monstreCible["agilite_bm_monstre"] + $coef * $retourEffet["nEffet"];
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurMonstre - effet sur AGI apres = ".$monstreCible["agilite_bm_monstre"]);
+		} else if ($effet["caracteristique"] == 'FOR') {
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurMonstre - effet sur FOR avant = ".$monstreCible["force_bm_monstre"]);
+			$monstreCible["force_bm_monstre"] = $monstreCible["force_bm_monstre"] + $coef * $retourEffet["nEffet"];
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurMonstre - effet sur FOR apres = ".$monstreCible["force_bm_monstre"]);
+		} else if ($effet["caracteristique"] == 'PV') {
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurMonstre - effet sur PV avant = ".$monstreCible["pv_restant_monstre"]);
+			$monstreCible["pv_restant_monstre"] = $monstreCible["pv_restant_monstre"] + $coef * $retourEffet["nEffet"];
+			if ($monstreCible["pv_restant_monstre"] > $monstreCible["pv_max_monstre"]) {
+				$monstreCible["pv_restant_monstre"] = $monstreCible["pv_max_monstre"];
+			}
+			if ($monstreCible["pv_restant_monstre"] <= 0) {
+				$monstreCible["pv_restant_monstre"] = 1;
+			}
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurMonstre - effet sur PV apres = ".$monstreCible["pv_restant_monstre"]);
+		} else if ($effet["caracteristique"] == 'VIG') {
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurMonstre - effet sur VIG avant = ".$monstreCible["vigueur_bm_monstre"]);
+			$monstreCible["vigueur_bm_monstre"] = $monstreCible["vigueur_bm_monstre"] + $coef * $retourEffet["nEffet"];
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurMonstre - effet sur VIG apres = ".$monstreCible["vigueur_bm_monstre"]);
+		} else if ($effet["caracteristique"] == 'SAG') {
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurMonstre - effet sur SAG avant = ".$monstreCible["sagesse_bm_monstre"]);
+			$monstreCible["sagesse_bm_monstre"] = $monstreCible["sagesse_bm_monstre"] + $coef * $retourEffet["nEffet"];
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurMonstre - effet sur SAG apres = ".$monstreCible["sagesse_bm_monstre"]);
+		} else {
+			throw new Zend_Exception("Bral_Util_Effets - appliqueEffetSurMonstre - type effet non gere =".$effet["caracteristique"]);
+		}
+
+		$data = array(
+			'force_bm_monstre' => $monstreCible["force_bm_monstre"],
+			'agilite_bm_monstre' => $monstreCible["agilite_bm_monstre"],
+			'vigueur_bm_monstre' => $monstreCible["vigueur_bm_monstre"],
+			'sagesse_bm_monstre' => $monstreCible["sagesse_bm_monstre"],
+			'pv_restant_monstre' => $monstreCible["pv_restant_monstre"],
+		);
+		$where = "id_monstre=".$monstreCible["id_monstre"];
+
+		if ($majTableMonstre === true) {
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurMonstre - maj du monstre ".$monstreCible["id_monstre"]. " en base");
+			$monstreTable = new Monstre();
+			$monstreTable->update($data, $where);
+			unset($monstreTable);
+		}
+		Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurMonstre - exit");
 		return $retourEffet;
 	}
 }

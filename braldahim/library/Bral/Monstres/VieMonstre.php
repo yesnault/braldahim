@@ -183,7 +183,7 @@ class Bral_Monstres_VieMonstre {
 		}
 
 		$date_courante = date("Y-m-d H:i:s");
-		if ($date_courante > $this->monstre["date_fin_tour_monstre"]) {
+		if ($date_courante > $this->monstre["date_fin_tour_monstre"]) { // nouveau tour
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$this->monstre["id_monstre"].") nouveau tour");
 			$this->monstre["date_fin_tour_monstre"] = Bral_Util_ConvertDate::get_date_add_time_to_date($this->monstre["date_fin_tour_monstre"], $this->monstre["duree_prochain_tour_monstre"]);
 			if ($this->monstre["date_fin_tour_monstre"]  < $date_courante) {
@@ -194,16 +194,6 @@ class Bral_Monstres_VieMonstre {
 			$this->monstre["duree_prochain_tour_monstre"] = $this->monstre["duree_base_tour_monstre"];
 			$this->monstre["pa_monstre"] = self::$config->game->monstre->pa_max;
 
-			Zend_Loader::loadClass("Bral_Util_EffetsPotion");
-			$monstreTable = new Monstre();
-			$monstreRowset = $monstreTable->find($this->monstre["id_monstre"]);
-			$monstre = $monstreRowset->current();
-			$effetsPotions = Bral_Util_EffetsPotion::calculPotionMonstre($monstre);
-			if (count($effetsPotions) > 0) {
-				Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - (idm:".$this->monstre["id_monstre"].") des potions sur le monstre ont ete trouvee(s). Cf. log potion.log");
-			} else {
-				Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - (idm:".$this->monstre["id_monstre"].") aucune potion sur le monstre n'a ete trouvee. Cf. log potion.log");
-			}
 			$this->calulRegeneration();
 			$this->monstre["regeneration_malus_monstre"] = 0;
 			$this->monstre["vue_malus_monstre"] = 0;
@@ -216,7 +206,25 @@ class Bral_Monstres_VieMonstre {
 			$this->monstre["bm_defense_monstre"] = 0;
 			$this->monstre["bm_degat_monstre"] = 0;
 			$this->monstre["nb_dla_jouees_monstre"] = $this->monstre["nb_dla_jouees_monstre"] + 1;
+				
+			Zend_Loader::loadClass("Bral_Util_EffetsPotion");
+			$effetsPotions = Bral_Util_EffetsPotion::calculPotionMonstre($this->monstre);
+			if (count($effetsPotions) > 0) {
+				Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - (idm:".$this->monstre["id_monstre"].") des potions sur le monstre ont ete trouvee(s). Cf. log potion.log");
+			} else {
+				Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - (idm:".$this->monstre["id_monstre"].") aucune potion sur le monstre n'a ete trouvee. Cf. log potion.log");
+			}
+			
+			Zend_Loader::loadClass("Bral_Util_Effets");
+			$effets = Bral_Util_Effets::calculEffetMonstre($this->monstre);
+			if (count($effets) > 0) {
+				Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - (idm:".$this->monstre["id_monstre"].") des effets sur le monstre ont ete trouve(s).");
+			} else {
+				Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - (idm:".$this->monstre["id_monstre"].") aucun effet sur le monstre n'a ete trouve.");
+			}
+			
 			$this->updateMonstre();
+			
 		} else {
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$this->monstre["id_monstre"].") pas de nouveau tour");
 		}
@@ -329,8 +337,8 @@ class Bral_Monstres_VieMonstre {
 		if ((10 + 2 * ($niveauMonstre - $niveauHobbit) + $niveauMonstre) <= 0) {
 			$nbCastars = $nbCastars / 2;
 		} else {
-                $nbCastars = $nbCastars + Bral_Util_De::get_2d10();
-        }
+			$nbCastars = $nbCastars + Bral_Util_De::get_2d10();
+		}
 
 		$nbCastars = round($nbCastars);
 

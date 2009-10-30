@@ -58,13 +58,13 @@ class Bral_Util_EffetsPotion {
 		return $potions;
 	}
 
-	public static function calculPotionMonstre($monstreCible) {
+	public static function calculPotionMonstre(&$monstreCible) {
 		Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - calculPotionMonstre - enter");
 
 		Zend_Loader::loadClass("Bral_Util_Potion");
 		Zend_Loader::loadClass("EffetPotionMonstre");
 		$effetPotionMonstreTable = new EffetPotionMonstre();
-		$effetPotionMonstreRowset = $effetPotionMonstreTable->findByIdMonstreCible($monstreCible->id_monstre);
+		$effetPotionMonstreRowset = $effetPotionMonstreTable->findByIdMonstreCible($monstreCible["id_monstre"]);
 		unset($effetPotionMonstreTable);
 		
 		$potions = null;
@@ -179,10 +179,10 @@ class Bral_Util_EffetsPotion {
 		return $retourPotion;
 	}
 	
-	public static function appliquePotionSurMonstre($potion, $idHobbitSource, $monstre, $majTableEffetPotion = true, $majTableMonstre = true) {
+	public static function appliquePotionSurMonstre($potion, $idHobbitSource, &$monstre, $majTableEffetPotion = true, $majTableMonstre = true) {
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - enter");
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - idHobbitSource = ".$idHobbitSource);
-		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - monstre->id_monstre= ".$monstre->id_monstre);
+		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - monstre->id_monstre= ".$monstre["id_monstre"]);
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - majTableEffetPotion = ".$majTableEffetPotion);
 		
 		Zend_Loader::loadClass("Monstre");
@@ -201,46 +201,46 @@ class Bral_Util_EffetsPotion {
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - nEffet = ".$retourPotion["nEffet"]);
 		
 		if ($potion["caracteristique"] == 'AGI') {
-			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur AGI avant = ".$monstre->agilite_bm_monstre);
-			$monstre->agilite_bm_monstre = $monstre->agilite_bm_monstre + $coef * $retourPotion["nEffet"];
-			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur AGI apres = ".$monstre->agilite_bm_monstre);
+			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur AGI avant = ".$monstre["agilite_bm_monstre"]);
+			$monstre["agilite_bm_monstre"] = $monstre["agilite_bm_monstre"] + $coef * $retourPotion["nEffet"];
+			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur AGI apres = ".$monstre["agilite_bm_monstre"]);
 		} else if ($potion["caracteristique"] == 'FOR') {
-			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur FOR avant = ".$monstre->force_bm_monstre);
-			$monstre->force_bm_monstre = $monstre->force_bm_monstre + $coef * $retourPotion["nEffet"];
-			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur FOR apres = ".$monstre->force_bm_monstre);
+			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur FOR avant = ".$monstre["force_bm_monstre"]);
+			$monstre["force_bm_monstre"] = $monstre["force_bm_monstre"] + $coef * $retourPotion["nEffet"];
+			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur FOR apres = ".$monstre["force_bm_monstre"]);
 		} else if ($potion["caracteristique"] == 'PV') {
-			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur PV avant = ".$monstre->pv_restant_monstre);
-			$monstre->pv_restant_monstre = $monstre->pv_restant_monstre + $coef * $retourPotion["nEffet"];
-			if ($monstre->pv_restant_monstre > $monstre->pv_max_monstre) {
-				$monstre->pv_restant_monstre = $monstre->pv_max_monstre;
+			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur PV avant = ".$monstre["pv_restant_monstre"]);
+			$monstre["pv_restant_monstre"] = $monstre["pv_restant_monstre"] + $coef * $retourPotion["nEffet"];
+			if ($monstre["pv_restant_monstre"] > $monstre["pv_max_monstre"]) {
+				$monstre["pv_restant_monstre"] = $monstre["pv_max_monstre"];
 			}
-			if ($monstre->pv_restant_monstre <= 0) {
-				$monstre->pv_restant_monstre = 1;
+			if ($monstre["pv_restant_monstre"] <= 0) {
+				$monstre["pv_restant_monstre"] = 1;
 			}
-			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur PV apres = ".$monstre->pv_restant_monstre);
+			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur PV apres = ".$monstre["pv_restant_monstre"]);
 		} else if ($potion["caracteristique"] == 'VIG') {
-			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur VIG apres = ".$monstre->vigueur_bm_monstre);
-			$monstre->vigueur_bm_monstre = $monstre->vigueur_bm_monstre + $coef * $retourPotion["nEffet"];
-			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur VIG apres = ".$monstre->vigueur_bm_monstre);
+			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur VIG apres = ".$monstre["vigueur_bm_monstre"]);
+			$monstre["vigueur_bm_monstre"] = $monstre["vigueur_bm_monstre"] + $coef * $retourPotion["nEffet"];
+			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur VIG apres = ".$monstre["vigueur_bm_monstre"]);
 		} else if ($potion["caracteristique"] == 'SAG') {
-			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur SAG apres = ".$monstre->sagesse_bm_monstre);
-			$monstre->sagesse_bm_monstre = $monstre->sagesse_bm_monstre + $coef * $retourPotion["nEffet"];
-			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur SAG apres = ".$monstre->sagesse_bm_monstre);
+			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur SAG apres = ".$monstre["sagesse_bm_monstre"]);
+			$monstre["sagesse_bm_monstre"] = $monstre["sagesse_bm_monstre"] + $coef * $retourPotion["nEffet"];
+			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur SAG apres = ".$monstre["sagesse_bm_monstre"]);
 		} else {
 			throw new Zend_Exception("Bral_Util_EffetsPotion - appliquePotionSurMonstre - type effet non gere =".$potion["caracteristique"] );
 		}
 		
 		$data = array(
-			'force_bm_monstre' => $monstre->force_bm_monstre,
-			'agilite_bm_monstre' => $monstre->agilite_bm_monstre,
-			'vigueur_bm_monstre' => $monstre->vigueur_bm_monstre,
-			'sagesse_bm_monstre' => $monstre->sagesse_bm_monstre,
-			'pv_restant_monstre' => $monstre->pv_restant_monstre,
+			'force_bm_monstre' => $monstre["force_bm_monstre"],
+			'agilite_bm_monstre' => $monstre["agilite_bm_monstre"],
+			'vigueur_bm_monstre' => $monstre["vigueur_bm_monstre"],
+			'sagesse_bm_monstre' => $monstre["sagesse_bm_monstre"],
+			'pv_restant_monstre' => $monstre["pv_restant_monstre"],
 		);
-		$where = "id_monstre=".$monstre->id_monstre;
+		$where = "id_monstre=".$monstre["id_monstre"];
 		
 		if ($majTableMonstre === true) {
-			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - maj du monstre ".$monstre->id_monstre. " en base");
+			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - maj du monstre ".$monstre["id_monstre"]. " en base");
 			$monstreTable = new Monstre();
 			$monstreTable->update($data, $where);
 			unset($monstreTable);

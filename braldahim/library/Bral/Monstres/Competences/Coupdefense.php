@@ -25,7 +25,7 @@ class Bral_Monstres_Competences_Coupdefense extends Bral_Monstres_Competences_At
 			$malus = 1;
 		}
 		$nbTours = 2;
-		Bral_Util_Effets::ajouteEtAppliqueEffet($this->cible["id_hobbit"], Bral_Util_Effets::CARACT_AGILITE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus);
+		Bral_Util_Effets::ajouteEtAppliqueEffetHobbit($this->cible["id_hobbit"], Bral_Util_Effets::CARACT_AGILITE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus);
 		$this->majEvenement($this->cible, $malus, $nbTours);
 
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - exit");

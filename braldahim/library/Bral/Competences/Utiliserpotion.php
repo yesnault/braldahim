@@ -696,6 +696,7 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$monstreTable = new Monstre();
 		$monstreRowset = $monstreTable->find($idMonstre);
 		$monstre = $monstreRowset->current();
+		$monstre = $monstre->toArray();
 
 		$potion["nb_tour_restant"] = $nbTour;
 

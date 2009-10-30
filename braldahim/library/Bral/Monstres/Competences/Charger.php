@@ -77,7 +77,7 @@ class Bral_Monstres_Competences_Charger extends Bral_Monstres_Competences_Attaqu
 		}
 		
 		// on ne charge pas sur la case
-		$tabValide[$this->cible["x_monstre"]][$this->cible["y_monstre"]] = false;
+		$tabValide[$this->monstre["x_monstre"]][$this->monstre["y_monstre"]] = false;
 		
 		if ($tabValide[$this->cible["x_hobbit"]][$this->cible["y_hobbit"]] === true) {
 			return true; // controle cible OK
