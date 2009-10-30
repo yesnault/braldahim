@@ -20,7 +20,10 @@ class Bral_Monstres_Competences_Morsure extends Bral_Monstres_Competences_Attaqu
 
 		Zend_Loader::loadClass("Bral_Util_Effets");
 
-		$malus = $this->monstre["niveau_monstre"];
+		$malus = $this->monstre["niveau_monstre"] - 3 + Bral_Util_De::get_1d6();
+		if ($malus <= 0) {
+			$malus = 1;
+		}
 		$nbTours = Bral_Util_De::get_1d3();
 		Bral_Util_Effets::ajouteEtAppliqueEffet($this->cible["id_hobbit"], Bral_Util_Effets::CARACT_PV, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus);
 		$this->majEvenement($this->cible, $malus, $nbTours);

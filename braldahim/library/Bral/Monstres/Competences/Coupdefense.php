@@ -14,13 +14,16 @@ class Bral_Monstres_Competences_Coupdefense extends Bral_Monstres_Competences_At
 
 	public function calculJetAttaque(){}
 	public function calculDegat($estCritique){}
-	
+
 	public function actionSpecifique() {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - enter");
 
 		Zend_Loader::loadClass("Bral_Util_Effets");
 
-		$malus = floor($this->monstre["niveau_monstre"] / 4);
+		$malus = floor($this->monstre["niveau_monstre"] / 4) - 3 + Bral_Util_De::get_1d6();
+		if ($malus < 0) {
+			$malus = 1;
+		}
 		$nbTours = 2;
 		Bral_Util_Effets::ajouteEtAppliqueEffet($this->cible["id_hobbit"], Bral_Util_Effets::CARACT_AGILITE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus);
 		$this->majEvenement($this->cible, $malus, $nbTours);

@@ -25,7 +25,10 @@ class Bral_Monstres_Competences_Petnauseabond extends Bral_Monstres_Competences_
 
 		if ($hobbits != null) {
 			foreach($hobbits as $h) {
-				$malus = $this->monstre["niveau_monstre"];
+				$malus = $this->monstre["niveau_monstre"] - 3 + Bral_Util_De::get_1d6();
+				if ($malus <= 0) {
+					$malus = 1;
+				}
 				$nbTours = 1;
 				Bral_Util_Effets::ajouteEtAppliqueEffet($h["id_hobbit"], Bral_Util_Effets::CARACT_BBDF, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus);
 				$this->majEvenement($h, $malus, $nbTours);

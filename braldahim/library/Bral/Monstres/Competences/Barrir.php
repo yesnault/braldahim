@@ -14,18 +14,21 @@ class Bral_Monstres_Competences_Barrir extends Bral_Monstres_Competences_Attaque
 
 	public function calculJetAttaque(){}
 	public function calculDegat($estCritique){}
-	
+
 	public function actionSpecifique() {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - enter");
 
 		Zend_Loader::loadClass("Bral_Util_Effets");
-		
+
 		$hobbitTable = new Hobbit();
 		$hobbits = $hobbitTable->findByCase($this->monstre["x_monstre"], $this->monstre["y_monstre"], $this->monstre["z_monstre"], -1, false);
 
 		if ($hobbits != null) {
 			foreach($hobbits as $h) {
-				$malus = floor($this->monstre["niveau_monstre"] / 4);
+				$malus = floor($this->monstre["niveau_monstre"] / 4) - 3 + Bral_Util_De::get_1d6();
+				if ($malus < 0) {
+					$malus = 1;
+				}
 				$nbTours = 2;
 				Bral_Util_Effets::ajouteEtAppliqueEffet($h["id_hobbit"], Bral_Util_Effets::CARACT_SAGESSE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus);
 				$this->majEvenement($h, $malus, $nbTours);
