@@ -23,6 +23,10 @@ class Bral_Competences_Provoquer extends Bral_Competences_Competence {
 			return;
 		}
 		
+		if ($this->view->user->est_intangible_hobbit == "oui") {
+			return;
+		}
+		
 		$tabMonstres = null;
 
 		// recuperation des monstres qui sont presents sur la case
