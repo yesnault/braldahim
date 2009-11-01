@@ -20,7 +20,7 @@ class Bral_Monstres_Competences_Eclairlucidite extends Bral_Monstres_Competences
 
 		Zend_Loader::loadClass("Bral_Util_Effets");
 
-		$bonus = floor($this->monstre["niveau_monstre"] / 4) - 3 + Bral_Util_De::get_1d6();
+		$bonus = floor($this->monstre["niveau_monstre"] / 2) - 3 + Bral_Util_De::get_1d6();
 		if ($bonus < 0) {
 			$bonus = 1;
 		}
