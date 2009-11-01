@@ -415,7 +415,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		} else if (Bral_Util_Quete::ETAPE_MARCHER_PARAM3_LIEU == $dataTypeEtape["param3"]) {
 			Zend_Loader::loadClass("Lieu");
 			$lieuTable = new Lieu();
-			$lieux = $lieuTable->fetchAll("est_soule_lieu = 'non'");
+			$lieux = $lieuTable->fetchAll("est_soule_lieu = 'non' AND est_donjon_lieu = 'non'");
 			$deLieu = Bral_Util_De::get_de_specifique(0, count($lieux) -1);
 			$lieu = $lieux[$deLieu];
 			$dataTypeEtape["param4"] = $lieu["id_lieu"];

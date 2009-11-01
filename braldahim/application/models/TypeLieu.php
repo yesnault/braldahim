@@ -34,4 +34,6 @@ class TypeLieu extends Zend_Db_Table {
 	const ID_TYPE_BPEAUX = 18;
 	const ID_TYPE_HOTEL = 19;
 	const ID_TYPE_POSTEDEGARDE = 20;
+	const ID_TYPE_ENTREE_GROTTE = 21;
+	const ID_TYPE_ESCALIERS = 22;
 }
