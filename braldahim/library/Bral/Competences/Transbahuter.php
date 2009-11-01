@@ -16,9 +16,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 	function prepareCommun() {
 		Zend_Loader::loadClass("Lieu");
+		Zend_Loader::loadClass("TypeLieu");
 		Zend_Loader::loadClass("Charrette");
 		Zend_Loader::loadClass("Echoppe");
-		$config = Zend_Registry::get("config");
 
 		$choixDepart = false;
 		//liste des endroits
@@ -29,7 +29,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		//Si on est sur une banque :
 		$lieu = new Lieu();
-		$banque = $lieu->findByTypeAndCase($config->game->lieu->type->banque,$this->view->user->x_hobbit,$this->view->user->y_hobbit);
+		$banque = $lieu->findByTypeAndCase(TypeLieu::ID_TYPE_BANQUE,$this->view->user->x_hobbit,$this->view->user->y_hobbit);
 		if (count($banque) > 0) {
 			$tabEndroit[3] = array("id_type_endroit" => 3,"nom_systeme" => "Coffre", "nom_type_endroit" => "Votre coffre", "est_depart" => true, "poids_restant" => -1, "panneau" => true);
 			$tabEndroit[4] = array("id_type_endroit" => 4,"nom_systeme" => "Coffre", "nom_type_endroit" => "Le coffre d'un autre Hobbit", "est_depart" => false, "poids_restant" => -1, "panneau" => true);
@@ -280,9 +280,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		$config = Zend_Registry::get("config");
 		$lieu = new Lieu();
-		$banque = $lieu->findByTypeAndCase($config->game->lieu->type->banque,$this->view->user->x_hobbit,$this->view->user->y_hobbit);
+		$banque = $lieu->findByTypeAndCase(TypeLieu::ID_TYPE_BANQUE,$this->view->user->x_hobbit,$this->view->user->y_hobbit);
 		$echoppe = new Echoppe();
 		$echoppeCase = $echoppe->findByCase($this->view->user->x_hobbit,$this->view->user->y_hobbit, $this->view->user->z_hobbit);
 		if (count($banque) > 0) {

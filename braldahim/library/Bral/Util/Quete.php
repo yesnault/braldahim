@@ -172,8 +172,9 @@ class Bral_Util_Quete {
 		$dataEtape["param_1_etape"] = 1;
 		$dataEtape["param_2_etape"] = self::ETAPE_MANGER_PARAM2_AUBERGE;
 
+		Zend_Loader::loadClass("TypeLieu");
 		$lieuTable = new Lieu();
-		$lieux = $lieuTable->findByTypeAndPosition($config->game->lieu->type->auberge, $hobbit->x_hobbit, $hobbit->y_hobbit);
+		$lieux = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_AUBERGE, $hobbit->x_hobbit, $hobbit->y_hobbit);
 
 		if ($lieux == null || count($lieux) < 1) {
 			throw new Zend_Exception("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::prepareEtapeQueteInitiatiqueManger auberge invalide nb:".count($lieux). " x:".$hobbit->x_hobbit. " y:".$hobbit->y_hobbit);
@@ -198,8 +199,9 @@ class Bral_Util_Quete {
 		$libelleEtape = "Vous devez apprendre un métier";
 		$dataEtape = self::getDataEtape($idQuete, $hobbit->id_hobbit, self::QUETE_ETAPE_APPRENDRE_METIER_ID, null, $libelleEtape, $numero);
 
+		Zend_Loader::loadClass("TypeLieu");
 		$lieuTable = new Lieu();
-		$lieux = $lieuTable->findByTypeAndPosition($config->game->lieu->type->centreformation, $hobbit->x_hobbit, $hobbit->y_hobbit);
+		$lieux = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_CENTREFORMATION, $hobbit->x_hobbit, $hobbit->y_hobbit);
 
 		if ($lieux == null || count($lieux) < 1) {
 			throw new Zend_Exception("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::prepareEtapeQueteInitiatiqueMetier lieu invalide nb:".count($lieux). " x:".$hobbit->x_hobbit. " y:".$hobbit->y_hobbit);
@@ -223,8 +225,9 @@ class Bral_Util_Quete {
 		$libelleEtape = "Vous devez améliorer une caractéristique ";
 		$dataEtape = self::getDataEtape($idQuete, $hobbit->id_hobbit, self::QUETE_ETAPE_AMELIORER_CARACTERISTIQUE_ID, null, $libelleEtape, $numero);
 
+		Zend_Loader::loadClass("TypeLieu");
 		$lieuTable = new Lieu();
-		$lieux = $lieuTable->findByTypeAndPosition($config->game->lieu->type->academie, $hobbit->x_hobbit, $hobbit->y_hobbit);
+		$lieux = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_ACADEMIE, $hobbit->x_hobbit, $hobbit->y_hobbit);
 
 		if ($lieux == null || count($lieux) < 1) {
 			throw new Zend_Exception("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::prepareEtapeQueteInitiatiqueAmeliorerCaracteristique lieu invalide nb:".count($lieux). " x:".$hobbit->x_hobbit. " y:".$hobbit->y_hobbit);
@@ -247,8 +250,9 @@ class Bral_Util_Quete {
 		$libelleEtape = "Vous devez apprendre la compétence Identification des runes ";
 		$dataEtape = self::getDataEtape($idQuete, $hobbit->id_hobbit, self::QUETE_ETAPE_APPRENDRE_IDENTIFICATION_RUNES_ID, null, $libelleEtape, $numero);
 
+		Zend_Loader::loadClass("TypeLieu");
 		$lieuTable = new Lieu();
-		$lieux = $lieuTable->findByTypeAndPosition($config->game->lieu->type->bibliotheque, $hobbit->x_hobbit, $hobbit->y_hobbit);
+		$lieux = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_BIBLIOTHEQUE, $hobbit->x_hobbit, $hobbit->y_hobbit);
 
 		if ($lieux == null || count($lieux) < 1) {
 			throw new Zend_Exception("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::prepareEtapeQueteInitiatiqueApprendreIdentifier lieu invalide nb:".count($lieux). " x:".$hobbit->x_hobbit. " y:".$hobbit->y_hobbit);
@@ -275,8 +279,9 @@ class Bral_Util_Quete {
 		$dataEtape["param_1_etape"] = self::ETAPE_MARCHER_PARAM1_RIEN;
 		$dataEtape["param_3_etape"] = self::ETAPE_MARCHER_PARAM3_LIEU;
 
+		Zend_Loader::loadClass("TypeLieu");
 		$lieuTable = new Lieu();
-		$lieux = $lieuTable->findByTypeAndPosition($config->game->lieu->type->quete, $hobbit->x_hobbit, $hobbit->y_hobbit);
+		$lieux = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_QUETE, $hobbit->x_hobbit, $hobbit->y_hobbit);
 
 		if ($lieux == null || count($lieux) < 1) {
 			throw new Zend_Exception("Hobbit ".$hobbit->id_hobbit." - Bral_Util_Quete::prepareEtapeQueteInitiatiqueMarcherMaison lieu invalide nb:".count($lieux). " x:".$hobbit->x_hobbit. " y:".$hobbit->y_hobbit);

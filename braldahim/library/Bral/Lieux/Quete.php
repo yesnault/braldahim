@@ -281,8 +281,9 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		$dataTypeEtape["param2"] = Bral_Util_De::get_1d3();
 
 		if (Bral_Util_Quete::ETAPE_MANGER_PARAM2_AUBERGE == $dataTypeEtape["param2"]) {
+			Zend_Loader::loadClass("TypeLieu");
 			$lieuTable = new Lieu();
-			$auberges = $lieuTable->findByType($this->view->config->game->lieu->type->auberge, "non");
+			$auberges = $lieuTable->findByType(TypeLieu::ID_TYPE_AUBERGE, "non");
 			$deAuberge = Bral_Util_De::get_de_specifique(0, count($auberges) -1);
 			$auberge = $auberges[$deAuberge];
 			$dataTypeEtape["param3"] = $auberge["id_lieu"];

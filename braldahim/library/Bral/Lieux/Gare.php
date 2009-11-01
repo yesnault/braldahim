@@ -21,10 +21,11 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 		$this->_coutCastars = $this->calculCoutCastars();
 		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) >= 0);
 
+		Zend_Loader::loadClass("TypeLieu");
 		$lieuTable = new Lieu();
 		$gareCourant = $lieuTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 		$gareCourant = $gareCourant[0];
-		$gareRowset = $lieuTable->findByType($this->view->config->game->lieu->type->gare);
+		$gareRowset = $lieuTable->findByType(TypeLieu::ID_TYPE_GARE);
 
 		foreach($gareRowset as $e) {
 			if ($e["x_lieu"] == $this->view->user->x_hobbit && $e["y_lieu"] == $this->view->user->y_hobbit) {

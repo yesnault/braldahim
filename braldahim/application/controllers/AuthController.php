@@ -151,8 +151,9 @@ class AuthController extends Zend_Controller_Action {
 				// si le hobbit est dans un donjon, on le remet à l'hopital le plus proche
 				if ($hobbit->est_donjon_hobbit = "oui") {
 					Zend_Loader::loadClass("Lieu");
+					Zend_Loader::loadClass("TypeLieu");
 					$lieuTable = new Lieu();
-					$hopitalRowset = $lieuTable->findByTypeAndPosition($this->view->config->game->lieu->type->hopital, $hobbit->x_hobbit, $hobbit->y_hobbit, "non");
+					$hopitalRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_HOPITAL, $hobbit->x_hobbit, $hobbit->y_hobbit, "non");
 					$hobbit->x_hobbit = $hopitalRowset[0]["x_lieu"];
 					$hobbit->y_hobbit = $hopitalRowset[0]["y_lieu"];
 					$hobbit->z_hobbit = $hopitalRowset[0]["z_lieu"];

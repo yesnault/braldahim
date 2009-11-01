@@ -24,9 +24,9 @@ abstract class Bral_Hotel_Hotel {
 		$this->view->nom_systeme = $this->nom_systeme;
 
 		Zend_Loader::loadClass("Lieu");
-
+		Zend_Loader::loadClass("TypeLieu");
 		$lieuxTable = new Lieu();
-		$lieuRowset = $lieuxTable->findByTypeAndCase($this->view->config->game->lieu->type->hotel, $this->view->user->x_hobbit, $this->view->user->y_hobbit);
+		$lieuRowset = $lieuxTable->findByTypeAndCase(TypeLieu::ID_TYPE_HOTEL, $this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		unset($lieuxTable);
 
 		if (count($lieuRowset) <= 0) {

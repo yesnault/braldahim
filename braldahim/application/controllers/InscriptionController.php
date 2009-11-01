@@ -262,8 +262,9 @@ class InscriptionController extends Zend_Controller_Action {
 		}
 
 		// Mairie aleatoire dans la region
+		Zend_Loader::loadClass("TypeLieu");
 		$lieuTable = new Lieu();
-		$lieuxRowset = $lieuTable->findByTypeAndRegion($this->view->config->game->lieu->type->hopital, $this->id_region, "non");
+		$lieuxRowset = $lieuTable->findByTypeAndRegion(TypeLieu::ID_TYPE_HOPITAL, $this->id_region, "non");
 		$de = Bral_Util_De::get_de_specifique(0, count($lieuxRowset)-1);
 		$lieu = $lieuxRowset[$de];
 

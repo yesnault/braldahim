@@ -324,33 +324,13 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->hobbit->est_engage_hobbit = "non";
 			$this->hobbit->est_engage_next_dla_hobbit = "non";
 
-			// recalcul de la position
-			$lieuTable = new Lieu();
-			if ($this->hobbit->est_soule_hobbit == "oui" && $this->hobbit->id_fk_soule_match_hobbit != null) {
-				Zend_Loader::loadClass("SouleMatch");
-				$souleMatchTable = new SouleMatch();
-				$rowset = $souleMatchTable->findByIdMatch($this->hobbit->id_fk_soule_match_hobbit);
-				$match = $rowset[0];
-
-				$x = $match["x_min_soule_terrain"] + ($match["x_max_soule_terrain"] - $match["x_min_soule_terrain"]);
-				if ($this->hobbit->soule_camp_hobbit == "a") {
-					$y = $match["y_max_soule_terrain"];
-				} else {
-					$y = $match["y_min_soule_terrain"];
-				}
-
-				$hopitalRowset = $lieuTable->findByTypeAndPosition($this->view->config->game->lieu->type->hopital, $x, $y);
-			} else {
-				$hopitalRowset = $lieuTable->findByTypeAndPosition($this->view->config->game->lieu->type->hopital, $this->hobbit->x_hobbit, $this->hobbit->y_hobbit, "non");
-			}
-			$this->hobbit->x_hobbit = $hopitalRowset[0]["x_lieu"];
-			$this->hobbit->y_hobbit = $hopitalRowset[0]["y_lieu"];
+			$this->calculKoPosition();
 
 			Zend_Loader::loadClass("EffetPotionHobbit");
 			$effetPotionHobbitTable = new EffetPotionHobbit();
 			$where = "id_fk_hobbit_cible_effet_potion_hobbit = ".intval($this->hobbit->id_hobbit);
 			$effetPotionHobbitTable->delete($where);
-				
+
 			Zend_Loader::loadClass("EffetHobbit");
 			$effetHobbitTable = new EffetHobbit();
 			$where = "id_fk_hobbit_cible_effet_hobbit = ".intval($this->hobbit->id_hobbit);
@@ -361,6 +341,37 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$hobbitsCompetencesTable->annuleEffetsTabacByIdHobbit($this->hobbit->id_hobbit);
 		}
 		Bral_Util_Log::tour()->trace(get_class($this)." calculKo - exit -");
+	}
+
+	// recalcule de la position suite à un KO
+	private function calculKoPosition() {
+		Zend_Loader::loadClass("TypeLieu");
+		
+		// recalcul de la position
+		$lieuTable = new Lieu();
+		if ($this->hobbit->est_soule_hobbit == "oui" && $this->hobbit->id_fk_soule_match_hobbit != null) { // match de Soule
+			Zend_Loader::loadClass("SouleMatch");
+			$souleMatchTable = new SouleMatch();
+			$rowset = $souleMatchTable->findByIdMatch($this->hobbit->id_fk_soule_match_hobbit);
+			$match = $rowset[0];
+
+			$x = $match["x_min_soule_terrain"] + ($match["x_max_soule_terrain"] - $match["x_min_soule_terrain"]);
+			if ($this->hobbit->soule_camp_hobbit == "a") {
+				$y = $match["y_max_soule_terrain"];
+			} else {
+				$y = $match["y_min_soule_terrain"];
+			}
+
+			$lieuRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_HOPITAL, $x, $y);
+		} elseif ($this->hobbit->est_donjon_hobbit == "oui") { // Donjon
+			$lieuRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_POSTEDEGARDE, $this->hobbit->x_hobbit, $this->hobbit->y_hobbit, "non");
+			$lieuRowset[0]["z_lieu"] = $lieuRowset[0]["z_lieu"] - 1; // 1 case en dessous le poste de garde
+		} else {
+			$lieuRowset = $lieuTable->findByTypeAndPosition(TypeLieu::ID_TYPE_HOPITAL, $this->hobbit->x_hobbit, $this->hobbit->y_hobbit, "non");
+		}
+		$this->hobbit->x_hobbit = $lieuRowset[0]["x_lieu"];
+		$this->hobbit->y_hobbit = $lieuRowset[0]["y_lieu"];
+		$this->hobbit->z_hobbit = $lieuRowset[0]["z_lieu"];
 	}
 
 	private function calculBMEquipement() {
