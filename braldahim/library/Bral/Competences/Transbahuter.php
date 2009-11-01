@@ -10,7 +10,6 @@
  * $LastChangedBy$
  */
 
-//@TODO gerer envoi message
 //@TODO bouton transfert equipement, potion et materiel dans echoppe ==> edit Boule. On ne remet pas quelque chose dans l'échoppe si c'est déjà sorti.
 //@TODO afficher poids restant dans formulaire
 class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
@@ -41,12 +40,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$echoppeCase = $echoppe->findByCase($this->view->user->x_hobbit,$this->view->user->y_hobbit, $this->view->user->z_hobbit);
 		if (count($echoppeCase) > 0) {
 			if ($echoppeCase[0]["id_hobbit"] == $this->view->user->id_hobbit) {
-				$tabEndroit[5] = array("id_type_endroit" => 5,"nom_systeme" => "Echoppe", "nom_type_endroit" => "Votre échoppe", "est_depart" => true, "poids_restant" => -1, "panneau" => true);
+				$tabEndroit[5] = array("id_type_endroit" => 5,"nom_systeme" => "Echoppe", "nom_type_endroit" => "Votre échoppe", "id_hobbit_echoppe" => $echoppeCase[0]["id_hobbit"], "est_depart" => true, "poids_restant" => -1, "panneau" => true);
 				//$tabEndroit[6] = array("id_type_endroit" => 6,"nom_systeme" => "Echoppe", "nom_type_endroit" => "La caisse de votre échoppe", "est_depart" => true, "poids_restant" => -1, "panneau" => true);
 				$this->view->id_echoppe_depart = $echoppeCase[0]["id_echoppe"];
 			}
 			else {
-				$tabEndroit[5] = array("id_type_endroit" => 5,"nom_systeme" => "Echoppe", "nom_type_endroit" => "L'échoppe de ".$echoppeCase[0]["prenom_hobbit"]." ".$echoppeCase[0]["nom_hobbit"], "est_depart" => false, "poids_restant" => -1, "panneau" => true);
+				$tabEndroit[5] = array("id_type_endroit" => 5,"nom_systeme" => "Echoppe", "nom_type_endroit" => "L'échoppe de ".$echoppeCase[0]["prenom_hobbit"]." ".$echoppeCase[0]["nom_hobbit"], "id_hobbit_echoppe" => $echoppeCase[0]["id_hobbit"], "est_depart" => false, "poids_restant" => -1, "panneau" => true);
 			}
 			$this->view->id_echoppe_arrivee = $echoppeCase[0]["id_echoppe"];
 		}
@@ -201,9 +200,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 
 		if ($this->view->elementsRetires != "") {
+			// on enlève la dernière virgule de la chaîne
 			$this->view->elementsRetires = mb_substr($this->view->elementsRetires, 0, -2);
 		}
-
+		
+		// Historique
 		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Charrette") {
 			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
 			
@@ -222,6 +223,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idArrivee]["id_charrette"], $details);
 		}
 		
+		// événements
 		$this->detailEvenement = "";
 		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Element") {
 			$idEvenement = $this->view->config->game->evenements->type->ramasser;
@@ -241,6 +243,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 		$this->setDetailsEvenement($this->detailEvenement, $idEvenement);
 		
+		
+		// envoi des messages
 		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Coffre" && $this->view->id_hobbit_coffre != $this->view->user->id_hobbit ) {
 			$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
 			$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
@@ -249,6 +253,21 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->id_hobbit_coffre, $message, $this->view);
 		}
 		
+		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Charrette" && $this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"] != $this->view->user->id_hobbit ) {
+			$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
+			$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre charrette : ".PHP_EOL;
+			$message .= $this->view->elementsRetires;
+			
+			$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"], $message, $this->view);
+		}
+		
+		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Echoppe" && $this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"] != $this->view->user->id_hobbit ) {
+			$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
+			$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre échoppe : ".PHP_EOL;
+			$message .= $this->view->elementsRetires;
+			
+			$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"], $message, $this->view);
+		}
 		
 		$this->setEvenementQueSurOkJet1(false);
 
