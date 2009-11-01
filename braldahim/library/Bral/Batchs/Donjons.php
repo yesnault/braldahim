@@ -24,11 +24,11 @@ class Bral_Batchs_Donjons extends Bral_Batchs_Batch {
 		if ($donjons != null) {
 			foreach($donjons as $d) {
 				Bral_Util_Donjon::controleInscriptionEquipe($d, $this->view);
+				Bral_Util_Donjon::controleFin($d, $this->view);
 			}
 		}
 		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Donjon - calculBatchImpl - exit -");
 		return "";
 	}
-
 }

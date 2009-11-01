@@ -161,7 +161,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 			"date_creation_donjon_equipe" => $mdate,
 			"date_limite_inscription_donjon_equipe" => $mdateLimite,
 			"etat_donjon_equipe" => "inscription",
-			"nb_jour_restant_donjon_equipe" => null,
+			"date_fin_donjon_equipe" => null,
 			"niveau_moyen_donjon_equipe" => $niveauMoyenHobbits,
 		);
 		$idEquipe = $donjonEquipeTable->insert($dataEquipe);
@@ -318,7 +318,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 
 		$data = array(
 			"etat_donjon_equipe" => "en_cours",
-			"nb_jour_restant_donjon_equipe" => 42,
+			"date_fin_donjon_equipe" =>  Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d 00:00:00"), 41),
 		);
 		$where = 'id_donjon_equipe='.$this->equipeCourante["id_donjon_equipe"];
 		$donjonEquipeTable->update($data, $where);

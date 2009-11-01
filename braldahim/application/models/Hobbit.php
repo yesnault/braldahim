@@ -387,6 +387,17 @@ class Hobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
+	function findAllJoueurs() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', '*')
+		->where('est_compte_actif_hobbit = ?', "oui")
+		->where('est_pnj_hobbit = ?', "non")
+		->where('est_compte_desactive_hobbit = ?', "non");
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
 	function findAllCompteInactif($dateFin) {
 		$db = $this->getAdapter();
 		$select = $db->select();
