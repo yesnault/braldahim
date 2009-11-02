@@ -438,33 +438,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 	}
 
 	private function creationNids() {
-		Zend_Loader::loadClass("Nid");
-		$nidTable = new Nid();
-		$where = "id_fk_donjon_nid = ".$this->donjonCourant["id_donjon"];
-		$nidTable->delete($where);
-
-		Zend_Loader::loadClass("DonjonNid");
-		$donjonNidTable = new DonjonNid();
-		$nids = $donjonNidTable->findByIdDonjon($this->donjonCourant["id_donjon"]);
-
-		foreach ($nids as $n) {
-			$nbMonstres = Bral_Util_De::get_de_specifique($n["nb_membres_min_type_groupe_monstre"], $n["nb_membres_max_type_groupe_monstre"]);
-			$data["x_nid"] = $n["x_donjon_nid"];
-			$data["y_nid"] = $n["y_donjon_nid"];
-			$data["z_nid"] = $n["z_donjon_nid"];
-			$data["nb_monstres_total_nid"] = $nbMonstres;
-			$data["nb_monstres_restants_nid"] = $nbMonstres;
-
-			$data["id_fk_zone_nid"] = $n["id_fk_zone_nid_donjon_nid"];
-			$data["id_fk_type_monstre_nid"] = $n["id_fk_type_monstre_donjon_nid"];
-
-			$data["id_fk_donjon_nid"] = $n["id_fk_donjon_nid"];
-			$data["date_creation_nid"] = date("Y-m-d H:i:s");
-			
-			$data["date_generation_nid"] = Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d H:i:s"), abs($n["z_donjon_nid"]) - 7);
-
-			$nidTable->insert($data);
-		}
+		Bral_Util_Donjon::creationNids($this->donjonCourant, "creation");
 	}
 
 	private function creationMonstres() {

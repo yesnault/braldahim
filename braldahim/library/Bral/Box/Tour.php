@@ -426,6 +426,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 				 "id_mot_runique" =>  $e["id_fk_mot_runique_equipement"],
 				 );*/
 
+				//TODO Prise en compte du Set
+				
 				$this->hobbit->force_bm_hobbit = $this->hobbit->force_bm_hobbit + $e["force_recette_equipement"];
 				$this->hobbit->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit + $e["agilite_recette_equipement"];
 				$this->hobbit->vigueur_bm_hobbit = $this->hobbit->vigueur_bm_hobbit + $e["vigueur_recette_equipement"];

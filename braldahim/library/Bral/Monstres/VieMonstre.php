@@ -318,7 +318,15 @@ class Bral_Monstres_VieMonstre {
 		Zend_Loader::loadClass("Bral_Util_Rune");
 		$tabGains["gainRune"] = Bral_Util_Rune::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $niveauHobbit, $monstre["id_fk_type_groupe_monstre"], $effetMotD, $id_monstre);
 		$tabGains["gainCastars"] = $this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $effetMotH, $niveauHobbit, $monstre["id_fk_type_groupe_monstre"]);
-
+		
+		$tabGains["finDonjon"] = null;
+		
+		Zend_Loader::loadClass("TailleMonstre");
+		if ($monstre["id_fk_taille_monstre"] == TailleMonstre::ID_TAILLE_BOSS) {
+			Zend_Loader::loadClass("Bral_Util_Donjon");
+			$tabGains["finDonjon"] = Bral_Util_Donjon::dropGainsEtUpdateDonjon($monstre["id_fk_donjon_monstre"]);
+		}
+		
 		return $tabGains;
 	}
 

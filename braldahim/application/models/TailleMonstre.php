@@ -18,4 +18,5 @@ class TailleMonstre extends Zend_Db_Table {
 	const ID_TAILLE_NORMAL = 2;
 	const ID_TAILLE_GRAND = 3;
 	const ID_TAILLE_GIGANTESQUE = 4;
+	const ID_TAILLE_BOSS = 5;
 }
