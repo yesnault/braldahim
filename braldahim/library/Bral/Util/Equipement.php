@@ -97,14 +97,16 @@ class Bral_Util_Equipement {
 		$equipementRunes = $equipementRuneTable->findByIdsEquipement($tabWhere);
 		unset($equipementRuneTable);
 
-		foreach($equipementRunes as $e) {
-			$tabEquipements[$e["id_equipement_rune"]]["runes"][] = array(
+		if ($equipementRunes != null) {
+			foreach($equipementRunes as $e) {
+				$tabEquipements[$e["id_equipement_rune"]]["runes"][] = array(
 				"id_rune_equipement_rune" => $e["id_rune_equipement_rune"],
 				"id_fk_type_rune" => $e["id_fk_type_rune"],
 				"nom_type_rune" => $e["nom_type_rune"],
 				"image_type_rune" => $e["image_type_rune"],
 				"effet_type_rune" => $e["effet_type_rune"],
-			);
+				);
+			}
 		}
 		unset($equipementRunes);
 	}
@@ -115,8 +117,10 @@ class Bral_Util_Equipement {
 		$equipementBonus = $equipementBonusTable->findByIdsEquipement($tabWhere);
 		unset($equipementBonusTable);
 
-		foreach($equipementBonus as $b) {
-			$tabEquipements[$b["id_equipement_bonus"]]["bonus"] = $b;
+		if ($equipementBonus != null) {
+			foreach($equipementBonus as $b) {
+				$tabEquipements[$b["id_equipement_bonus"]]["bonus"] = $b;
+			}
 		}
 		unset($equipementBonus);
 	}
@@ -328,5 +332,75 @@ class Bral_Util_Equipement {
 			'details_historique_equipement' => $detailsTransforme,
 		);
 		$historiqueEquipementTable->insert($data);
+	}
+
+	public static function prepareTabEquipements($equipementsRowset, $filtreEquipable = false, $niveauHobbit = null) {
+
+		$filtreEquipableAFaire = false;
+		if ($filtreEquipable == true && $niveauHobbit != null) {
+			$filtreEquipableAFaire = true;
+		}
+
+		$idEquipements = null;
+		$tabEquipements = null;
+
+		foreach ($equipementsRowset as $e) {
+				
+			if ($filtreEquipableAFaire == false ||
+			($filtreEquipableAFaire == true && $e["est_equipable_type_emplacement"] == "oui" && floor($niveauHobbit / 10) >= $e["niveau_recette_equipement"])) {
+					
+				$equipement = array(
+					"id_equipement" => $e["id_equipement"],
+					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
+					"nom_standard" => $e["nom_type_equipement"],
+					"id_type_equipement" => $e["id_type_equipement"],
+					"qualite" => $e["nom_type_qualite"],
+					"emplacement" => $e["nom_type_emplacement"],
+					"niveau" => $e["niveau_recette_equipement"],
+					"id_type_emplacement" => $e["id_type_emplacement"],
+					"nom_systeme_type_piece" => $e["nom_systeme_type_piece"],
+					"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
+					"nb_runes" => $e["nb_runes_equipement"],
+					"id_fk_recette_equipement" => $e["id_fk_recette_equipement"],
+					"armure" => self::calculBmSet($e, 'armure_equipement', $niveauHobbit),
+					"force" => self::calculBmSet($e, 'force_equipement', $niveauHobbit),
+					"agilite" => self::calculBmSet($e, 'agilite_equipement', $niveauHobbit),
+					"vigueur" => self::calculBmSet($e, 'vigueur_equipement', $niveauHobbit),
+					"sagesse" => self::calculBmSet($e, 'sagesse_equipement', $niveauHobbit),
+					"vue" => $e["vue_recette_equipement"],
+					"attaque" => self::calculBmSet($e, 'attaque_equipement', $niveauHobbit),
+					"degat" => self::calculBmSet($e, 'degat_equipement', $niveauHobbit),
+					"defense" => self::calculBmSet($e, 'defense_equipement', $niveauHobbit),
+					"suffixe" => $e["suffixe_mot_runique"],
+					"id_fk_mot_runique" => $e["id_fk_mot_runique_equipement"],
+					"id_fk_region" => $e["id_fk_region_equipement"],
+					"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
+					"etat_courant" => $e["etat_courant_equipement"],
+					"etat_initial" => $e["etat_initial_equipement"],
+					"ingredient" => $e["nom_type_ingredient"],
+					"poids" => $e["poids_equipement"],
+					"runes" => array(),
+					"bonus" => array(),
+				);
+
+				$idEquipements[] = $e["id_equipement"];
+				$tabEquipements[] = $equipement;
+			}
+		}
+
+		if ($idEquipements != null) {
+			Bral_Util_Equipement::populateRune($tabEquipements, $idEquipements);
+			Bral_Util_Equipement::populateBonus($tabEquipements, $idEquipements);
+		}
+
+		return $tabEquipements;
+	}
+	
+	private static function calculBmSet($equipement, $key, $niveauHobbit) {
+		if ($equipement["id_fk_donjon_type_equipement"] != null && $niveauHobbit != null) {
+			return $equipement[$key] * $niveauHobbit;
+		} else {
+			return $equipement[$key];
+		}
 	}
 }

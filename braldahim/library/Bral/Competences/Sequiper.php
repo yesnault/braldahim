@@ -57,159 +57,32 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		}
 
 		// on va chercher l'équipement porté
-		$tabEquipementPorte = null;
 		$hobbitEquipementTable = new HobbitEquipement();
 		$equipementPorteRowset = $hobbitEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
+		$tabEquipementPorte = Bral_Util_Equipement::prepareTabEquipements($equipementPorteRowset, false, $this->view->user->niveau_hobbit);
 
-		$idEquipements = null;
-		foreach ($equipementPorteRowset as $e) {
-			$idEquipements[] = $e["id_equipement_hequipement"];
+		if ($tabEquipementPorte != null) {
+			foreach ($tabEquipementPorte as $e) {
+				$this->view->sequiperOk = true;
+				$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["equipementPorte"][] = $e;
+				$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["affiche"] = "oui";
+			}
 		}
 
 		// on va chercher l'équipement présent dans le laban
-		$tabEquipementLaban = null;
 		$labanEquipementTable = new LabanEquipement();
 		$equipementLabanRowset = $labanEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
+		$tabEquipementLaban = Bral_Util_Equipement::prepareTabEquipements($equipementLabanRowset, true, $this->view->user->niveau_hobbit);
 
-		foreach ($equipementLabanRowset as $e) {
-			$idEquipements[] = $e["id_laban_equipement"];
-		}
-
-		$equipementRuneTable = new EquipementRune();
-		$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
-
-		$equipementBonusTable = new EquipementBonus();
-		$equipementBonus = $equipementBonusTable->findByIdsEquipement($idEquipements);
-			
-		foreach ($equipementPorteRowset as $e) {
-			$this->view->sequiperOk = true;
-			$runes = null;
-			if (count($equipementRunes) > 0) {
-				foreach($equipementRunes as $r) {
-					if ($r["id_equipement_rune"] == $e["id_equipement_hequipement"]) {
-						$runes[] = array(
-							"id_rune_equipement_rune" => $r["id_rune_equipement_rune"],
-							"id_fk_type_rune" => $r["id_fk_type_rune"],
-							"nom_type_rune" => $r["nom_type_rune"],
-							"image_type_rune" => $r["image_type_rune"],
-							"effet_type_rune" => $r["effet_type_rune"],
-						);
-					}
-				}
-			}
-
-			$bonus = null;
-			if (count($equipementBonus) > 0) {
-				foreach($equipementBonus as $b) {
-					if ($b["id_equipement_bonus"] == $e["id_equipement_hequipement"]) {
-						$bonus = $b;
-						break;
-					}
-				}
-			}
-
-			$equipement = array(
-					"id_equipement" => $e["id_equipement_hequipement"],
-					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
-					"nom_standard" => $e["nom_type_equipement"],
-					"id_type_equipement" => $e["id_type_equipement"],
-					"qualite" => $e["nom_type_qualite"],
-					"emplacement" => $e["nom_type_emplacement"],
-					"niveau" => $e["niveau_recette_equipement"],
-					"id_type_emplacement" => $e["id_type_emplacement"],
-					"nom_systeme_type_piece" => $e["nom_systeme_type_piece"],
-					"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
-					"nb_runes" => $e["nb_runes_equipement"],
-					"id_fk_recette_equipement" => $e["id_fk_recette_equipement"],
-					"armure" => $e["armure_equipement"],
-					"force" => $e["force_equipement"],
-					"agilite" => $e["agilite_equipement"],
-					"vigueur" => $e["vigueur_equipement"],
-					"sagesse" => $e["sagesse_equipement"],
-					"vue" => $e["vue_recette_equipement"],
-					"attaque" => $e["attaque_equipement"],
-					"degat" => $e["degat_equipement"],
-					"defense" => $e["defense_equipement"],
-					"suffixe" => $e["suffixe_mot_runique"],
-					"id_fk_mot_runique" => $e["id_fk_mot_runique_equipement"],
-					"id_fk_region" => $e["id_fk_region_equipement"],
-					"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
-					"etat_courant" => $e["etat_courant_equipement"],
-					"etat_initial" => $e["etat_initial_equipement"],
-					"ingredient" => $e["nom_type_ingredient"],
-					"poids" => $e["poids_equipement"],
-					"runes" => $runes,
-					"bonus" => $bonus,
-			);
-
-
-			$this->equipementPorte[] = $equipement;
-			$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["equipementPorte"][] = $equipement;
-			$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["affiche"] = "oui";
-		}
-
-		foreach ($equipementLabanRowset as $e) {
-			$this->view->sequiperOk = true;
-			$runes = null;
-			$bonus = null;
-
-			if ($e["est_equipable_type_emplacement"] == "oui" && floor($this->view->user->niveau_hobbit / 10) >= $e["niveau_recette_equipement"]) {
-				if (count($equipementRunes) > 0) {
-					foreach($equipementRunes as $r) {
-						if ($r["id_equipement_rune"] == $e["id_laban_equipement"]) {
-							$runes[] = array(
-								"id_rune_equipement_rune" => $r["id_rune_equipement_rune"],
-								"id_fk_type_rune" => $r["id_fk_type_rune"],
-								"nom_type_rune" => $r["nom_type_rune"],
-								"image_type_rune" => $r["image_type_rune"],
-								"effet_type_rune" => $r["effet_type_rune"],
-							);
-						}
-					}
-				}
-
-				if (count($equipementBonus) > 0) {
-					foreach($equipementBonus as $b) {
-						if ($b["id_equipement_bonus"] == $e["id_laban_equipement"]) {
-							$bonus = $b;
-							break;
-						}
-					}
-				}
-
-				$equipement = array(
-						"id_equipement" => $e["id_laban_equipement"],
-						"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
-						"nom_standard" => $e["nom_type_equipement"],
-						"qualite" => $e["nom_type_qualite"],
-						"emplacement" => $e["nom_type_emplacement"],
-						"niveau" => $e["niveau_recette_equipement"],
-						"id_type_emplacement" => $e["id_type_emplacement"],
-						"nom_systeme_type_piece" => $e["nom_systeme_type_piece"],
-						"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
-						"nb_runes" => $e["nb_runes_equipement"],
-						"id_fk_recette_equipement" => $e["id_fk_recette_equipement"],
-						"armure" => $e["armure_equipement"],
-						"force" => $e["force_equipement"],
-						"agilite" => $e["agilite_equipement"],
-						"vigueur" => $e["vigueur_equipement"],
-						"sagesse" => $e["sagesse_equipement"],
-						"vue" => $e["vue_recette_equipement"],
-						"attaque" => $e["attaque_equipement"],
-						"degat" => $e["degat_equipement"],
-						"defense" => $e["defense_equipement"],
-						"suffixe" => $e["suffixe_mot_runique"],
-						"id_fk_mot_runique" => $e["id_fk_mot_runique_equipement"],
-						"id_fk_region" => $e["id_fk_region_equipement"],
-						"nom_systeme_mot_runique" => $e["nom_systeme_mot_runique"],
-						"poids" => $e["poids_equipement"],
-						"runes" => $runes,
-						"bonus" => $bonus,
-				);
-				$this->equipementLaban[] = $equipement;
-				$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["equipementLaban"][] = $equipement;
+		if ($tabEquipementLaban != null) {
+			foreach ($tabEquipementLaban as $e) {
+				$this->view->sequiperOk = true;
+				$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["equipementLaban"][] = $e;
 			}
 		}
+
+		$this->equipementPorte = $tabEquipementPorte;
+		$this->equipementLaban = $tabEquipementLaban;
 
 		$this->view->typesEmplacement = $tabTypesEmplacement;
 		$this->view->nbTypesEmplacement = count($tabTypesEmplacement);
@@ -455,9 +328,9 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit - $equipement["sagesse"];
 		$this->view->user->vue_bm_hobbit = $this->view->user->vue_bm_hobbit - $equipement["vue"];
 		$this->view->user->armure_equipement_hobbit = $this->view->user->armure_equipement_hobbit - $equipement["armure"];
-		$this->view->user->bm_attaque_hobbit = $this->view->user->bm_attaque_hobbit - $equipement["bm_attaque"];
-		$this->view->user->bm_degat_hobbit = $this->view->user->bm_degat_hobbit - $equipement["bm_degat"];
-		$this->view->user->bm_defense_hobbit = $this->view->user->bm_defense_hobbit - $equipement["bm_defense"];
+		$this->view->user->bm_attaque_hobbit = $this->view->user->bm_attaque_hobbit - $equipement["attaque"];
+		$this->view->user->bm_degat_hobbit = $this->view->user->bm_degat_hobbit - $equipement["degat"];
+		$this->view->user->bm_defense_hobbit = $this->view->user->bm_defense_hobbit - $equipement["defense"];
 
 		if ($equipement["bonus"] != null && count($equipement["bonus"]) > 0) {
 			$b = $equipement["bonus"];
