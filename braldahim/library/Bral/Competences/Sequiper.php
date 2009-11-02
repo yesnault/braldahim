@@ -121,15 +121,15 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
 					"nb_runes" => $e["nb_runes_equipement"],
 					"id_fk_recette_equipement" => $e["id_fk_recette_equipement"],
-					"armure" => $e["armure_recette_equipement"],
-					"force" => $e["force_recette_equipement"],
-					"agilite" => $e["agilite_recette_equipement"],
-					"vigueur" => $e["vigueur_recette_equipement"],
-					"sagesse" => $e["sagesse_recette_equipement"],
+					"armure" => $e["armure_equipement"],
+					"force" => $e["force_equipement"],
+					"agilite" => $e["agilite_equipement"],
+					"vigueur" => $e["vigueur_equipement"],
+					"sagesse" => $e["sagesse_equipement"],
 					"vue" => $e["vue_recette_equipement"],
-					"bm_attaque" => $e["bm_attaque_recette_equipement"],
-					"bm_degat" => $e["bm_degat_recette_equipement"],
-					"bm_defense" => $e["bm_defense_recette_equipement"],
+					"attaque" => $e["attaque_equipement"],
+					"degat" => $e["degat_equipement"],
+					"defense" => $e["defense_equipement"],
 					"suffixe" => $e["suffixe_mot_runique"],
 					"id_fk_mot_runique" => $e["id_fk_mot_runique_equipement"],
 					"id_fk_region" => $e["id_fk_region_equipement"],
@@ -189,15 +189,15 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 						"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
 						"nb_runes" => $e["nb_runes_equipement"],
 						"id_fk_recette_equipement" => $e["id_fk_recette_equipement"],
-						"armure" => $e["armure_recette_equipement"],
-						"force" => $e["force_recette_equipement"],
-						"agilite" => $e["agilite_recette_equipement"],
-						"vigueur" => $e["vigueur_recette_equipement"],
-						"sagesse" => $e["sagesse_recette_equipement"],
+						"armure" => $e["armure_equipement"],
+						"force" => $e["force_equipement"],
+						"agilite" => $e["agilite_equipement"],
+						"vigueur" => $e["vigueur_equipement"],
+						"sagesse" => $e["sagesse_equipement"],
 						"vue" => $e["vue_recette_equipement"],
-						"bm_attaque" => $e["bm_attaque_recette_equipement"],
-						"bm_degat" => $e["bm_degat_recette_equipement"],
-						"bm_defense" => $e["bm_defense_recette_equipement"],
+						"attaque" => $e["attaque_equipement"],
+						"degat" => $e["degat_equipement"],
+						"defense" => $e["defense_equipement"],
 						"suffixe" => $e["suffixe_mot_runique"],
 						"id_fk_mot_runique" => $e["id_fk_mot_runique_equipement"],
 						"id_fk_region" => $e["id_fk_region_equipement"],
@@ -359,9 +359,9 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$this->view->user->sagesse_bm_hobbit = $this->view->user->sagesse_bm_hobbit + $equipement["sagesse"];
 		$this->view->user->vue_bm_hobbit = $this->view->user->vue_bm_hobbit + $equipement["vue"];
 		$this->view->user->armure_equipement_hobbit = $this->view->user->armure_equipement_hobbit + $equipement["armure"];
-		$this->view->user->bm_attaque_hobbit = $this->view->user->bm_attaque_hobbit + $equipement["bm_attaque"];
-		$this->view->user->bm_degat_hobbit = $this->view->user->bm_degat_hobbit + $equipement["bm_degat"];
-		$this->view->user->bm_defense_hobbit = $this->view->user->bm_defense_hobbit + $equipement["bm_defense"];
+		$this->view->user->bm_attaque_hobbit = $this->view->user->bm_attaque_hobbit + $equipement["attaque"];
+		$this->view->user->bm_degat_hobbit = $this->view->user->bm_degat_hobbit + $equipement["degat"];
+		$this->view->user->bm_defense_hobbit = $this->view->user->bm_defense_hobbit + $equipement["defense"];
 
 		if ($equipement["bonus"] != null && count($equipement["bonus"]) > 0) {
 			$b = $equipement["bonus"];
@@ -419,19 +419,19 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		}
 
 		if ($equipement["nom_systeme_mot_runique"] == "mot_k") {
-			if ($equipement["bm_attaque"] > 0) { // positif
-				$val = $equipement["bm_attaque"];
+			if ($equipement["attaque"] > 0) { // positif
+				$val = $equipement["attaque"];
 			} else { // negatif
-				$val = abs($equipement["bm_attaque"]) / 2;
+				$val = abs($equipement["attaque"]) / 2;
 			}
 			$this->view->user->bm_attaque_hobbit = $this->view->user->bm_attaque_hobbit + $val;
 		}
 
 		if ($equipement["nom_systeme_mot_runique"] == "mot_m") {
-			if ($equipement["bm_defense"] > 0) { // positif
-				$val = $equipement["bm_defense"];
+			if ($equipement["defense"] > 0) { // positif
+				$val = $equipement["defense"];
 			} else { // negatif
-				$val = abs($equipement["bm_defense"]) / 2;
+				$val = abs($equipement["defense"]) / 2;
 			}
 			$this->view->user->bm_defense_hobbit = $this->view->user->bm_defense_hobbit + $val;
 		}

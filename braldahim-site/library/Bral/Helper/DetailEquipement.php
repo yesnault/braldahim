@@ -44,9 +44,9 @@ class Bral_Helper_DetailEquipement {
 		$text .= self::displayBM("Vigueur", $e, "vigueur");
 		$text .= self::displayBM("Sagesse", $e, "sagesse");
 		$text .= self::displayBM("Vue", $e, "vue");
-		$text .= self::displayBM("Attaque", $e, "bm_attaque");
-		$text .= self::displayBM("Defense", $e, "bm_defense");
-		$text .= self::displayBM("D&eacute;g&acirc;ts", $e, "bm_degat");
+		$text .= self::displayBM("Attaque", $e, "attaque");
+		$text .= self::displayBM("Defense", $e, "defense");
+		$text .= self::displayBM("D&eacute;g&acirc;ts", $e, "degat");
 		$text .= "<span style=\'cursor:pointer\' title=\'Le poids prend en compte les bonus / malus sur Poids et le poids des runes\'>Poids : ".$e["poids"];
 		if (isset($e["bonus"]["vernis_bm_poids_equipement_bonus"])) {
 			$text .= " ".self::display("",$e["bonus"]["vernis_bm_poids_equipement_bonus"], " (vernis)", "", true, "");
@@ -156,9 +156,9 @@ class Bral_Helper_DetailEquipement {
 							$retour .= "<td>".$c["vigueur"]." </td>";
 							$retour .= "<td>".$c["sagesse"]." </td>";
 							$retour .= "<td>".$c["vue"]." </td>";
-							$retour .= "<td>".$c["bm_attaque"]."</td>";
-							$retour .= "<td>".$c["bm_degat"]." </td>";
-							$retour .= "<td>".$c["bm_defense"]." </td>";
+							$retour .= "<td>".$c["attaque"]."</td>";
+							$retour .= "<td>".$c["degat"]." </td>";
+							$retour .= "<td>".$c["defense"]." </td>";
 							$retour .= "</tr>";
 						}
 					}

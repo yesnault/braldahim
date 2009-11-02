@@ -189,10 +189,10 @@ class Bral_Util_Commun {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_g");
 		$retour = null;
 		if ($equipement != null) {
-			if ($equipement["bm_degat_recette_equipement"] < 0) {
-				$retour = (- $equipement["bm_degat_recette_equipement"]) / 2; // le malus est divise par deux : on enleve la moitie
+			if ($equipement["degat_equipement"] < 0) {
+				$retour = (- $equipement["degat_equipement"]) / 2; // le malus est divise par deux : on enleve la moitie
 			} else {
-				$retour = $equipement["bm_degat_recette_equipement"]; // double
+				$retour = $equipement["degat_equipement"]; // double
 			}
 		}
 		return $retour;

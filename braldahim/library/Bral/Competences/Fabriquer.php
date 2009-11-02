@@ -118,9 +118,9 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 						'vigueur' => $r["vigueur_recette_equipement"], 
 						'sagesse' => $r["sagesse_recette_equipement"], 
 						'vue' => $r["vue_recette_equipement"], 
-						'bm_attaque' => $r["bm_attaque_recette_equipement"], 
-						'bm_degat' => $r["bm_degat_recette_equipement"], 
-						'bm_defense' => $r["bm_defense_recette_equipement"], 
+						'attaque' => $r["bm_attaque_recette_equipement"], 
+						'degat' => $r["bm_degat_recette_equipement"], 
+						'defense' => $r["bm_defense_recette_equipement"], 
 						'nom_emplacement' => $r["nom_type_emplacement"], 
 						'nom_systeme_type_emplacement' => $r["nom_systeme_type_emplacement"], 
 				);
@@ -360,6 +360,14 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 				'etat_initial_equipement' => $this->recetteEquipementACreer["etat_initial_recette_equipement"],
 				'etat_courant_equipement' => $this->recetteEquipementACreer["etat_initial_recette_equipement"],
 				'poids_equipement' => $this->recetteEquipementACreer["poids_recette_equipement"],
+				'armure_equipement' => $this->recetteEquipementACreer["armure_recette_equipement"],
+				'force_equipement' => $this->recetteEquipementACreer["force_recette_equipement"],
+				'agilite_equipement' => $this->recetteEquipementACreer["agilite_recette_equipement"],
+				'vigueur_equipement' => $this->recetteEquipementACreer["vigueur_recette_equipement"],
+				'sagesse_equipement' => $this->recetteEquipementACreer["sagesse_recette_equipement"],
+				'attaque_equipement' => $this->recetteEquipementACreer["attaque_recette_equipement"],
+				'degat_equipement' => $this->recetteEquipementACreer["degat_recette_equipement"],
+				'defense_equipement' => $this->recetteEquipementACreer["defense_recette_equipement"],
 			);
 			$equipementTable->insert($data);
 				

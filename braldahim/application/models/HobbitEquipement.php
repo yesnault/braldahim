@@ -77,7 +77,6 @@ class HobbitEquipement extends Zend_Db_Table {
 		->where('nom_systeme_mot_runique = ?', $nomSystemeMot);
 		
 		$sql = $select->__toString();
-		
 		return $db->fetchAll($sql);
     }
     

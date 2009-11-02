@@ -412,15 +412,15 @@ class Bral_Box_Tour extends Bral_Box_Box {
 				 "nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
 				 "nb_runes" => $e["nb_runes_equipement"],
 				 "id_fk_recette_equipement" => $e["id_fk_recette_equipement"],
-				 "armure" => $e["armure_recette_equipement"],
-				 "force" => $e["force_recette_equipement"],
-				 "agilite" => $e["agilite_recette_equipement"],
-				 "vigueur" => $e["vigueur_recette_equipement"],
-				 "sagesse" => $e["sagesse_recette_equipement"],
+				 "armure" => $e["armure_equipement"],
+				 "force" => $e["force_equipement"],
+				 "agilite" => $e["agilite_equipement"],
+				 "vigueur" => $e["vigueur_equipement"],
+				 "sagesse" => $e["sagesse_equipement"],
 				 "vue" => $e["vue_recette_equipement"],
-				 "bm_attaque" => $e["bm_attaque_recette_equipement"],
-				 "bm_degat" => $e["bm_degat_recette_equipement"],
-				 "bm_defense" => $e["bm_defense_recette_equipement"],
+				 "attaque" => $e["attaque_equipement"],
+				 "degat" => $e["degat_equipement"],
+				 "defense" => $e["defense_equipement"],
 				 "poids" => $e["poids_equipement"],
 				 "suffixe" => $e["suffixe_mot_runique"],
 				 "id_mot_runique" =>  $e["id_fk_mot_runique_equipement"],
@@ -428,15 +428,15 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 				//TODO Prise en compte du Set
 				
-				$this->hobbit->force_bm_hobbit = $this->hobbit->force_bm_hobbit + $e["force_recette_equipement"];
-				$this->hobbit->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit + $e["agilite_recette_equipement"];
-				$this->hobbit->vigueur_bm_hobbit = $this->hobbit->vigueur_bm_hobbit + $e["vigueur_recette_equipement"];
-				$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + $e["sagesse_recette_equipement"];
+				$this->hobbit->force_bm_hobbit = $this->hobbit->force_bm_hobbit + $e["force_equipement"];
+				$this->hobbit->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit + $e["agilite_equipement"];
+				$this->hobbit->vigueur_bm_hobbit = $this->hobbit->vigueur_bm_hobbit + $e["vigueur_equipement"];
+				$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + $e["sagesse_equipement"];
 				$this->hobbit->vue_bm_hobbit = $this->hobbit->vue_bm_hobbit + $e["vue_recette_equipement"];
-				$this->hobbit->armure_equipement_hobbit = $this->hobbit->armure_equipement_hobbit + $e["armure_recette_equipement"];
-				$this->hobbit->bm_attaque_hobbit = $this->hobbit->bm_attaque_hobbit + $e["bm_attaque_recette_equipement"];
-				$this->hobbit->bm_degat_hobbit = $this->hobbit->bm_degat_hobbit + $e["bm_degat_recette_equipement"];
-				$this->hobbit->bm_defense_hobbit = $this->hobbit->bm_defense_hobbit + $e["bm_defense_recette_equipement"];
+				$this->hobbit->armure_equipement_hobbit = $this->hobbit->armure_equipement_hobbit + $e["armure_equipement"];
+				$this->hobbit->bm_attaque_hobbit = $this->hobbit->bm_attaque_hobbit + $e["attaque_equipement"];
+				$this->hobbit->bm_degat_hobbit = $this->hobbit->bm_degat_hobbit + $e["degat_equipement"];
+				$this->hobbit->bm_defense_hobbit = $this->hobbit->bm_defense_hobbit + $e["defense_equipement"];
 					
 				if ($e["nom_systeme_mot_runique"] == "mot_b") {
 					$this->view->effetMotB = true;
@@ -447,10 +447,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 				if ($e["nom_systeme_mot_runique"] == "mot_k") {
 					$this->view->effetMotK = true;
-					if ($e["bm_attaque_recette_equipement"] > 0) { // positif
-						$val = $e["bm_attaque_recette_equipement"];
+					if ($e["attaque_equipement"] > 0) { // positif
+						$val = $e["attaque_equipement"];
 					} else { // negatif
-						$val = abs($e["bm_attaque_recette_equipement"]) / 2;
+						$val = abs($e["attaque_equipement"]) / 2;
 					}
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotK actif - avant : val a ajouer au bm_attaque_hobbit=".$val);
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotK actif - avant : this->hobbit->bm_attaque_hobbit".$this->hobbit->bm_attaque_hobbit);
@@ -460,10 +460,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 				if ($e["nom_systeme_mot_runique"] == "mot_m") {
 					$this->view->effetMotM = true;
-					if ($e["bm_defense_recette_equipement"] > 0) { // positif
-						$val = $e["bm_defense_recette_equipement"];
+					if ($e["defense_equipement"] > 0) { // positif
+						$val = $e["defense_equipement"];
 					} else { // negatif
-						$val = abs($e["bm_defense_recette_equipement"]) / 2;
+						$val = abs($e["defense_equipement"]) / 2;
 					}
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotM actif - avant : val a ajouer au bm_defense_hobbit=".$val);
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotM actif - avant : this->hobbit->bm_defense_hobbit".$this->hobbit->bm_defense_hobbit);
