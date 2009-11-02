@@ -361,48 +361,8 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		unset($labanEquipementTable);
 
 		Zend_Loader::loadClass("Bral_Util_Equipement");
-
-		$tabWhere = null;
-		foreach ($equipements as $e) {
-			$tabEquipements[$e["id_laban_equipement"]] = array(
-					"id_equipement" => $e["id_laban_equipement"],
-					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
-					"nom_standard" => $e["nom_type_equipement"],
-					"id_type_equipement" => $e["id_type_equipement"],
-					"id_type_emplacement" => $e["id_type_emplacement"],
-					"nom_type_emplacement" => $e["nom_type_emplacement"],
-					"qualite" => $e["nom_type_qualite"],
-					"emplacement" => $e["nom_type_emplacement"],
-					"niveau" => $e["niveau_recette_equipement"],
-					"nb_runes" => $e["nb_runes_equipement"],
-					"armure" => $e["armure_equipement"],
-					"force" => $e["force_equipement"],
-					"agilite" => $e["agilite_equipement"],
-					"vigueur" => $e["vigueur_equipement"],
-					"sagesse" => $e["sagesse_equipement"],
-					"vue" => $e["vue_recette_equipement"],
-					"attaque" => $e["bm_attaque_equipement"],
-					"degat" => $e["bm_degat_equipement"],
-					"defense" => $e["bm_defense_equipement"],
-					"suffixe" => $e["suffixe_mot_runique"],
-					"poids" => $e["poids_equipement"],
-					"etat_courant" => $e["etat_courant_equipement"],
-					"etat_initial" => $e["etat_initial_equipement"],
-					"ingredient" => $e["nom_type_ingredient"],
-					"runes" => array(),
-					"bonus" => array(),
-			);
-			$tabWhere[] = $e["id_laban_equipement"];
-
-		}
-		unset($equipements);
-
-		if ($tabWhere != null) {
-			Zend_Loader::loadClass("Bral_Util_Equipement");
-			Bral_Util_Equipement::populateRune($tabEquipements, $tabWhere);
-			Bral_Util_Equipement::populateBonus($tabEquipements, $tabWhere);
-		}
-
+		$tabEquipements = Bral_Util_Equipement::prepareTabEquipements($equipements);
+		
 		$tabRetour = null;
 		if ($tabEquipements != null) {
 			foreach($tabEquipements as $e) {

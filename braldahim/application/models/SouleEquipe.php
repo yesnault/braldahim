@@ -62,6 +62,9 @@ class SouleEquipe extends Zend_Db_Table {
 	}
 
 	public function countNonDebuteByIdHobbitList($listId) {
+		if ($listId == null) {
+			return null;
+		}
 		$nomChamp = "id_fk_hobbit_soule_equipe";
 		$liste = "";
 		foreach($listId as $id) {

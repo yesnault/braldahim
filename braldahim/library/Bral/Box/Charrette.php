@@ -68,7 +68,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		Zend_Loader::loadClass("Metier");
 		Zend_Loader::loadClass("TypePlante");
 		Zend_Loader::loadClass("TypePartieplante");
-		
+
 		Zend_Loader::loadClass("Bral_Helper_DetailRune");
 
 		$hobbitsMetiersTable = new HobbitsMetiers();
@@ -397,45 +397,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		unset($charretteEquipementTable);
 
 		Zend_Loader::loadClass("Bral_Util_Equipement");
-
-		$tabWhere = null;
-		foreach ($equipements as $e) {
-			$tabEquipements[$e["id_charrette_equipement"]] = array(
-					"id_equipement" => $e["id_charrette_equipement"],
-					"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
-					"nom_standard" => $e["nom_type_equipement"],
-					"id_type_equipement" => $e["id_type_equipement"],
-					"qualite" => $e["nom_type_qualite"],
-					"niveau" => $e["niveau_recette_equipement"],
-					"emplacement" => $e["nom_type_emplacement"],
-					"id_type_emplacement" => $e["id_type_emplacement"],
-					"nb_runes" => $e["nb_runes_equipement"],
-					"armure" => $e["armure_equipement"],
-					"force" => $e["force_equipement"],
-					"agilite" => $e["agilite_equipement"],
-					"vigueur" => $e["vigueur_equipement"],
-					"sagesse" => $e["sagesse_equipement"],
-					"vue" => $e["vue_recette_equipement"],
-					"attaque" => $e["attaque_equipement"],
-					"degat" => $e["degat_equipement"],
-					"defense" => $e["defense_equipement"],
-					"suffixe" => $e["suffixe_mot_runique"],
-					"poids" => $e["poids_equipement"],
-					"etat_courant" => $e["etat_courant_equipement"],
-					"etat_initial" => $e["etat_initial_equipement"],
-					"ingredient" => $e["nom_type_ingredient"],
-					"runes" => array(),
-					"bonus" => array(),
-			);
-			$tabWhere[] = $e["id_charrette_equipement"];
-		}
-		unset($equipements);
-
-		if ($tabWhere != null) {
-			Zend_Loader::loadClass("Bral_Util_Equipement");
-			Bral_Util_Equipement::populateRune($tabEquipements, $tabWhere);
-			Bral_Util_Equipement::populateBonus($tabEquipements, $tabWhere);
-		}
+		$tabEquipements = Bral_Util_Equipement::prepareTabEquipements($equipements);
 
 		$tabRetour = null;
 

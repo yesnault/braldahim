@@ -40,7 +40,10 @@ class HobbitsDistinction extends Zend_Db_Table {
 	}
 
 	function countDistinctionByIdHobbitList($listId, $idTypeDistinction) {
-
+		if ($listId == null) {
+			return null;
+		}
+		
 		$nomChamp = "id_fk_hobbit_hdistinction";
 		$liste = "";
 		foreach($listId as $id) {
