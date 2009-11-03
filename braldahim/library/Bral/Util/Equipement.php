@@ -384,7 +384,7 @@ class Bral_Util_Equipement {
 				);
 
 				$idEquipements[] = $e["id_equipement"];
-				$tabEquipements[] = $equipement;
+				$tabEquipements[$e["id_equipement"]] = $equipement;
 			}
 		}
 
