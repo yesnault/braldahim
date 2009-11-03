@@ -363,9 +363,9 @@ class Bral_Competences_Forger extends Bral_Competences_Competence {
 				'agilite_equipement' => $this->recetteEquipementACreer["agilite_recette_equipement"],
 				'vigueur_equipement' => $this->recetteEquipementACreer["vigueur_recette_equipement"],
 				'sagesse_equipement' => $this->recetteEquipementACreer["sagesse_recette_equipement"],
-				'attaque_equipement' => $this->recetteEquipementACreer["attaque_recette_equipement"],
-				'degat_equipement' => $this->recetteEquipementACreer["degat_recette_equipement"],
-				'defense_equipement' => $this->recetteEquipementACreer["defense_recette_equipement"],
+				'attaque_equipement' => $this->recetteEquipementACreer["bm_attaque_recette_equipement"],
+				'degat_equipement' => $this->recetteEquipementACreer["bm_degat_recette_equipement"],
+				'defense_equipement' => $this->recetteEquipementACreer["bm_defense_recette_equipement"],
 			);
 			$equipementTable->insert($data);
 				
