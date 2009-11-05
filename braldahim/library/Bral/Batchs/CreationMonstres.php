@@ -122,7 +122,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		}
 
 		if ($referenceCourante["id_fk_type_groupe_monstre"] != 1 && $referenceCourante["id_fk_type_groupe_monstre"] != 6) { // 1 => type Solitaire, 6 => type Boss
-
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculZoneNid - insertion de nuee ");
 			if ($aCreer < $referenceCourante["nb_membres_min_type_groupe_monstre"]) { // s'il n'y a pas assez a creer pour le type de groupe
 				if ($aCreer + $nbRestantsDansNid < $referenceCourante["nb_membres_min_type_groupe_monstre"]) { // et qu'en rajoutant le reste du nid il n'y a pas assez
 					// on supprime le nid
@@ -164,14 +164,15 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 				}
 			}
 		} else {
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculZoneNid - insertion de solitaires ou boss");
 			// insertion de solitaires / boss
 			for ($i = 1; $i <= $aCreer; $i++) {
+				$nid["nb_monstres_restants_nid"] = $nid["nb_monstres_restants_nid"] - 1;
 				$id_fk_taille_monstre = $this->creationCalculTaille($refRowset, $nid["id_fk_type_monstre_nid"], $taillesMonstre);
 				$referenceCourante = $this->recupereReferenceMonstre($refRowset, $referenceCourante["id_fk_type_ref_monstre"], $id_fk_taille_monstre);
 				$niveau_monstre = $this->creationCalculNiveau($referenceCourante, $niveauMoyen, $nid["z_nid"], $referenceCourante["id_fk_type_groupe_monstre"]);
 				$positions = $this->calculPositions($zone, $niveau_monstre);
 				$this->creationCalcul($zone['id_zone_nid'], $refRowset, $referenceCourante, $id_fk_taille_monstre, $niveau_monstre, $nid["x_nid"], $nid["y_nid"], $nid["z_nid"], $positions["x_min"], $positions["x_max"], $positions["y_min"], $positions["y_max"], $idDonjon);
-				$nid["nb_monstres_restants_nid"] = $nid["nb_monstres_restants_nid"] - 1;
 			}
 		}
 
@@ -181,9 +182,11 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 			$data = array("nb_monstres_restants_nid" => $nid["nb_monstres_restants_nid"]);
 			$where = "id_nid=".$nid["id_nid"];
 			$nidTable->update($data, $where);
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculZoneNid - maj du nid:".$nid["id_nid"]);
 		} else {
 			$where = "id_nid=".$nid["id_nid"];
 			$nidTable->delete($where);
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculZoneNid - delete du nid:".$nid["id_nid"]);
 		}
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculZoneNid - exit -");
@@ -282,7 +285,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$regeneration_monstre = floor(($niveau_sagesse / 4) + 1);
 
 		//ARMNAT
-		$aleaArmNat = Bral_Util_De::get_de_specifique($referenceCourante["min_alea_pourcentage_armure_naturelle_ref_monstre"], $referenceCourante["min_alea_pourcentage_armure_naturelle_ref_monstre"]);
+		$aleaArmNat = Bral_Util_De::get_de_specifique($referenceCourante["min_alea_pourcentage_armure_naturelle_ref_monstre"], $referenceCourante["max_alea_pourcentage_armure_naturelle_ref_monstre"]);
 		$armure_naturelle_monstre = floor(($force_base_monstre + $vigueur_base_monstre) / 5) + $aleaArmNat;
 
 		//DLA
@@ -338,8 +341,9 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 
 		// mise à jour des roles
 		if (($est_role_a === true) || ($est_role_b === true)) {
+			$dataGroupe = null;
 			if ($est_role_a) {
-				$data = array(
+				$dataGroupe = array(
 					"id_role_a_groupe_monstre" => $idMonstre,
 					"x_direction_groupe_monstre" => $x,
 					"y_direction_groupe_monstre" => $y,
@@ -347,11 +351,11 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 				);
 			}
 			if ($est_role_b) {
-				$data = array("id_role_b_groupe_monstre" => $idMonstre);
+				$dataGroupe = array("id_role_b_groupe_monstre" => $idMonstre);
 			}
 			$groupeMonstreTable = new GroupeMonstre();
 			$where = "id_groupe_monstre=".$id_groupe_monstre;
-			$groupeMonstreTable->update($data, $where);
+			$groupeMonstreTable->update($dataGroupe, $where);
 		}
 
 		// si c'est le boss, on met à jour donjon_equipe
@@ -359,13 +363,14 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 			$donjonEquipeTable = new DonjonEquipe();
 			$donjonEnCours = $donjonEquipeTable->findNonTermineeByIdDonjon($idDonjon);
 			if (count($donjonEnCours) > 0) {
+				$dataDonjon = null;
 				foreach($donjonEnCours as $d) {
-					$data["id_fk_monstre_donjon_equipe"] = $idMonstre;
-					$where = "id_donjon_equipe=".intval($donjonEnCours["id_donjon_equipe"]);
-					$donjonEquipeTable->update($data, $where);
+					$dataDonjon["id_fk_monstre_donjon_equipe"] = $idMonstre;
+					$where = "id_donjon_equipe=".intval($d["id_donjon_equipe"]);
+					$donjonEquipeTable->update($dataDonjon, $where);
 				}
 			}
-			
+
 		}
 	}
 

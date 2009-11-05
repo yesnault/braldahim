@@ -11,7 +11,15 @@
 					$option = "";
 					$poids = "";
 					foreach($this->equipements as $e) {
-						 $option .= "<option value='".$e["id_equipement"]."'>n&deg;".$e["id_equipement"]." ".$e["nom"]." ".addslashes($e["suffixe"])." de qualit&eacute; ".$e["qualite"].", niveau ".$e["niveau"].", poids ".$e["poids"]."kg</option>";
+						 $option .= "<option value='".$e["id_equipement"]."'>n&deg;".$e["id_equipement"]." ".$e["nom"]." ".addslashes($e["suffixe"])." de qualit&eacute; ".$e["qualite"].", niveau ";
+						 
+						 if ($e["niveau"] == -1) {
+						 	$option .= " spécial";
+						 } else {
+						 	$option .= $e["niveau"];
+						 }
+						 
+						 $option .= ", poids ".$e["poids"]."kg</option>";
 						 $poids .= "<input type='hidden' name='valeur_12_poids_".$e["id_equipement"]."' id='valeur_12_poids_".$e["id_equipement"]."' value='".$e["poids"]."'>";
 					}
 					?>

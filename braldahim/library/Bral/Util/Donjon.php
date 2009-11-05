@@ -249,34 +249,105 @@ class Bral_Util_Donjon {
 		}
 	}
 
-	public static function dropGainsEtUpdateDonjon($idDonjon) {
+	public static function dropGainsEtUpdateDonjon($idDonjon, $monstre, $niveauHobbit, $effetMotD) {
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - dropGainsEtUpdateDonjon - enter -");
 
 		Zend_Loader::loadClass("DonjonEquipe");
 		$donjonEquipeTable = new DonjonEquipe();
-		$donjonEquipe = $donjonEquipeTable->findNonTermineeByIdDonjon($donjon["id_donjon"]);
+		$donjonEquipe = $donjonEquipeTable->findNonTermineeByIdDonjon($idDonjon);
 
 		if (count($donjonEquipe) != 1) {
-			throw new Exception('Equipe de donjon en cours != 1 idDonjon:'.$donjon["id_donjon"]);
+			throw new Exception('Equipe de donjon en cours != 1 idDonjon:'.$idDonjon);
+		} else {
+			$donjonEquipe = $donjonEquipe[0];
 		}
-		
-		self::dropGains($equipe);
-		
+
+		self::dropGains($idDonjon, $donjonEquipe, $monstre, $niveauHobbit, $effetMotD);
+
 		$data["date_mort_monstre_donjon_equipe"] = date("Y-m-d H:i:s");
 		$where = "id_donjon_equipe = ".$donjonEquipe["id_donjon_equipe"];
 		$donjonEquipeTable->update($data, $where);
-		
+
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - dropGainsEtUpdateDonjon - exit -");
 		return true;
 	}
 
-	public static function dropGains($equipe) {
+	public static function dropGains($idDonjon, $donjonEquipe, $monstre, $niveauHobbit, $effetMotD) {
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - dropGains - enter -");
-		
-		// TODO
+
+		Zend_Loader::loadClass("IdsEquipement");
+		Zend_Loader::loadClass("Equipement");
+		Zend_Loader::loadClass("ElementEquipement");
+		Zend_Loader::loadClass("Bral_Util_Equipement");
+
+		$nbHobbit = 9;
+		for($i = 1; $i< $nbHobbit; $i++) {
+			// 1 rune par hobbit, 1 rune a déjà été droppé dans mortMonstreDb
+			Bral_Util_Rune::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $niveauHobbit, $monstre["id_fk_type_groupe_monstre"], $effetMotD, $monstre["id_monstre"]);
+		}
+
+		Zend_Loader::loadClass("RecetteEquipement");
+		$recetteEquipementTable = new RecetteEquipement();
+
+		$equipementsRowset = $recetteEquipementTable->findByIdDonjon($idDonjon);
+		if (count($equipementsRowset) != 1) {
+			throw new Exception('dropGains Set de donjon en cours != 1 idDonjon:'.$idDonjon);
+		} else {
+			$equipement = $equipementsRowset[0];
+		}
+
+		for($i = 1; $i<= $nbHobbit; $i++) {
+			self::dropSet($equipement, $donjonEquipe, $monstre);
+		}
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - dropGains - exit -");
 	}
-	
+
+	public static function dropSet($equipement, $donjonEquipe, $monstre) {
+		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - dropSet - enter -");
+
+		$idsEquipementTable = new IdsEquipement();
+		$idEquipement = $idsEquipementTable->prepareNext();
+
+		$equipementTable = new Equipement();
+		$data = array(
+				'id_equipement' => $idEquipement,
+				'id_fk_recette_equipement' => $equipement["id_recette_equipement"],
+				'nb_runes_equipement' => 0,
+				'id_fk_region_equipement' => $donjonEquipe["id_fk_region_donjon"],
+				'etat_initial_equipement' => $equipement["etat_initial_recette_equipement"],
+				'etat_courant_equipement' => $equipement["etat_initial_recette_equipement"],
+				'poids_equipement' => $equipement["poids_recette_equipement"],
+				'armure_equipement' => $equipement["armure_recette_equipement"],
+				'force_equipement' => $equipement["force_recette_equipement"],
+				'agilite_equipement' => $equipement["agilite_recette_equipement"],
+				'vigueur_equipement' => $equipement["vigueur_recette_equipement"],
+				'sagesse_equipement' => $equipement["sagesse_recette_equipement"],
+				'attaque_equipement' => $equipement["bm_attaque_recette_equipement"],
+				'degat_equipement' => $equipement["bm_degat_recette_equipement"],
+				'defense_equipement' => $equipement["bm_defense_recette_equipement"],
+		);
+		$equipementTable->insert($data);
+
+		$dateCreation = date("Y-m-d H:i:s");
+		$nbJours = Bral_Util_De::get_2d10();
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+
+		$elementEquipementTable = new ElementEquipement();
+		$data = array (
+				"id_element_equipement" => $idEquipement,
+				"x_element_equipement" => $monstre["x_monstre"],
+				"y_element_equipement" => $monstre["y_monstre"],
+				"z_element_equipement" => $monstre["z_monstre"],
+				"date_fin_element_equipement" => $dateFin,
+		);
+		$elementEquipementTable->insert($data);
+
+		$details = "[m".$monstre["id_monstre"]."] a lâché la pièce d'équipement n°".$idEquipement;
+		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_CREATION_ID, $idEquipement, $details);
+
+		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - dropSet - exit -");
+	}
+
 	public static function finaliseDonjonReussi($donjon, $equipe, $view) {
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - finaliseDonjonReussi - enter -");
 
@@ -300,7 +371,7 @@ class Bral_Util_Donjon {
 		}
 
 		self::envoieMessageReussiHobbits($donjon, $equipe, $nomComte, $listeHobbits, $view);
-			
+
 		$donjonEquipeTable = new DonjonEquipe();
 		$data = array(
 			'etat_donjon_equipe' => 'termine',

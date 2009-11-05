@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -31,10 +31,9 @@ class RecetteEquipement extends Zend_Db_Table {
 		->where('id_fk_type_piece_type_equipement = id_type_piece');
 
 		$sql = $select->__toString();
-
 		return $db->fetchAll($sql);
 	}
-	
+
 	function findByIdTypeEquipement($idType) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -49,7 +48,23 @@ class RecetteEquipement extends Zend_Db_Table {
 		->order(array('niveau_recette_equipement', 'id_fk_type_qualite_recette_equipement'));
 
 		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 
+	function findByIdDonjon($idDonjon) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('recette_equipements', '*')
+		->from('type_equipement')
+		->from('type_qualite')
+		->from('type_emplacement')
+		->where('id_fk_donjon_type_equipement = ?', intval($idDonjon))
+		->where('id_fk_type_recette_equipement = id_type_equipement')
+		->where('id_fk_type_qualite_recette_equipement = id_type_qualite')
+		->where('id_fk_type_emplacement_recette_equipement = id_type_emplacement')
+		->order(array('niveau_recette_equipement', 'id_fk_type_qualite_recette_equipement'));
+
+		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 }

@@ -324,7 +324,7 @@ class Bral_Monstres_VieMonstre {
 		Zend_Loader::loadClass("TailleMonstre");
 		if ($monstre["id_fk_taille_monstre"] == TailleMonstre::ID_TAILLE_BOSS) {
 			Zend_Loader::loadClass("Bral_Util_Donjon");
-			$tabGains["finDonjon"] = Bral_Util_Donjon::dropGainsEtUpdateDonjon($monstre["id_fk_donjon_monstre"]);
+			$tabGains["finDonjon"] = Bral_Util_Donjon::dropGainsEtUpdateDonjon($monstre["id_fk_donjon_monstre"], $monstre, $niveauHobbit, $effetMotD);
 		}
 		
 		return $tabGains;

@@ -14,6 +14,11 @@ Vous avez r&eacute;ussi &agrave; changer d'&eacute;quipement. <br />
 <? if (count($this->equipementAjoute)) :?>
 	et vous avez rajout&eacute; sur vous : <br />
 	<? foreach($this->equipementAjoute as $r) :?>
-		<?=htmlspecialchars($r["nom"]) ?>, n&deg;<?=htmlspecialchars($r["id_equipement"]) ?>, niveau <?=htmlspecialchars($r["niveau"]) ?><br />
+		<?=htmlspecialchars($r["nom"]) ?>, n&deg;<?=htmlspecialchars($r["id_equipement"]) ?>, niveau 
+		<? if ($r["niveau"] == -1) : ?>
+			spécial.<br />
+		<? else : ?>
+			<?=htmlspecialchars($r["niveau"]) ?>.<br />
+		<? endif;?>
 	<? endforeach; ?>
 <? endif; ?>
