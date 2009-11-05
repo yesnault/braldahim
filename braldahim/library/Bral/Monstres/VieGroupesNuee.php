@@ -58,8 +58,8 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 				if ($m["id_fk_hobbit_cible_monstre"] != null) {
 					$hobbitTable = new Hobbit();
 					$cibleDuMonstre = $hobbitTable->findHobbitAvecRayon($m["x_monstre"], $m["y_monstre"], $m["vue_monstre"], $m["id_fk_hobbit_cible_monstre"], false);
-					if (count($cible) > 0) {
-						$cibleDuMonstre = $cible[0];
+					if (count($cibleDuMonstre) > 0) {
+						$cibleDuMonstre = $cibleDuMonstre[0];
 						Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - cible du monstre (".$m["id_monstre"].") : ".$m["id_fk_hobbit_cible_monstre"]);
 						$koCibleMonstre = $vieMonstre->attaqueCible($cibleDuMonstre, $this->view);
 						if ($koCibleMonstre === true || $koCibleMonstre === null) {
