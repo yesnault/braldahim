@@ -60,7 +60,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - verificationCible -  monstre (".$this->monstre["id_monstre"].") attaqueCible - exit null");
 			return null; // pas de cible
 		} else if ($this->monstre["pa_monstre"] < $this->competence["pa_utilisation_mcompetence"]) {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA Monstre (".$this->monstre["id_monstre"].") insuffisant nb=".$this->monstre["pa_monstre"]." requis=".$competence["pa_utilisation_mcompetence"]);
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - PA Monstre (".$this->monstre["id_monstre"].") insuffisant nb=".$this->monstre["pa_monstre"]." requis=".$this->competence["pa_utilisation_mcompetence"]);
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - verificationCible -  monstre (".$this->monstre["id_monstre"].") attaqueCible - exit false");
 			return false; // cible non morte
 		} else {
