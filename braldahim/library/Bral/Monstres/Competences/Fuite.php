@@ -11,5 +11,27 @@
  * $LastChangedBy: $
  */
 abstract class Bral_Monstres_Competences_Fuite {
-	
+
+	protected $monstre = null;
+	protected $cible = null;
+	protected $view = null;
+	protected static $config = null;
+
+	public function __construct($competence, &$monstre, $view) {
+		$this->competence = $competence;
+		$this->monstre = &$monstre;
+		self::$config = Zend_Registry::get('config');
+		$this->view = $view;
+	}
+
+	public function action() {
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - action - (idm:".$this->monstre["id_monstre"].") - enter");
+
+		$estFuite = $this->actionSpecifique();
+		
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - action - (idm:".$this->monstre["id_monstre"].") - exit");
+		return $estFuite;
+	}
+
+	abstract function actionSpecifique();
 }

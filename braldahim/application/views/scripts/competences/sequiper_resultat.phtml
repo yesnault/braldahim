@@ -5,7 +5,12 @@ Vous avez r&eacute;ussi &agrave; changer d'&eacute;quipement. <br />
 <? if (count($this->equipementRetire) > 0) :?>
 	Vous avez retir&eacute; : <br />
 	<? foreach($this->equipementRetire as $r) :?>
-		<?=htmlspecialchars($r["nom"]) ?>, n&deg;<?=htmlspecialchars($r["id_equipement"]) ?>, niveau <?=htmlspecialchars($r["niveau"]) ?><br />
+		<?=htmlspecialchars($r["nom"]) ?>, n&deg;<?=htmlspecialchars($r["id_equipement"]) ?>, niveau 
+		<? if ($r["niveau"] == -1) : ?>
+			spécial.<br />
+		<? else : ?>
+			<?=htmlspecialchars($r["niveau"]) ?>.<br />
+		<? endif;?><br />
 	<? endforeach; ?>
 <? else : ?>
 	Vous n'avez rien retir&eacute;

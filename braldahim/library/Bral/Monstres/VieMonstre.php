@@ -19,6 +19,7 @@ class Bral_Monstres_VieMonstre {
 		Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getInstance - enter");
 
 		if (self::$instance == null) {
+			Zend_Loader::loadClass("Crevasse");
 			Zend_Loader::loadClass("Palissade");
 
 			self::$config = Zend_Registry::get('config');
@@ -70,16 +71,22 @@ class Bral_Monstres_VieMonstre {
 
 		$palissades = $palissadeTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->monstre["z_monstre"]);
 
-		$this->tabValidationPalissade = null;
+		$crevasseTable = new Crevasse();
+		$crevasses = $crevasseTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->monstre["z_monstre"]);
+
+		$this->tabValidationPalissadesCrevasses = null;
 		for ($j = 12; $j >= -12; $j--) {
 			for ($i = -12; $i <= 12; $i++) {
 				$x = $this->monstre["x_monstre"] + $i;
 				$y = $this->monstre["y_monstre"] + $j;
-				$this->tabValidationPalissade[$x][$y] = true;
+				$this->tabValidationPalissadesCrevasses[$x][$y] = true;
 			}
 		}
 		foreach($palissades as $p) {
-			$this->tabValidationPalissade[$p["x_palissade"]][$p["y_palissade"]] = false;
+			$this->tabValidationPalissadesCrevasses[$p["x_palissade"]][$p["y_palissade"]] = false;
+		}
+		foreach($crevasses as $c) {
+			$this->tabValidationPalissadesCrevasses[$c["x_crevasse"]][$c["y_crevasse"]] = false;
 		}
 			
 		$pa_a_jouer = Bral_Util_De::get_de_specifique(0, $this->monstre["pa_monstre"]);
@@ -107,20 +114,20 @@ class Bral_Monstres_VieMonstre {
 				$y_offset = -1;
 			}
 
-			if ($this->tabValidationPalissade[$x_monstre][$y_monstre] == true) {
+			if ($this->tabValidationPalissadesCrevasses[$x_monstre][$y_monstre] == true) {
 				$this->monstre["x_monstre"] = $x_monstre;
 				$this->monstre["y_monstre"] = $y_monstre;
 				$modif = true;
-			} elseif ($this->tabValidationPalissade[$this->monstre["x_monstre"] + $x_offset][$this->monstre["y_monstre"]] == true) {
+			} elseif ($this->tabValidationPalissadesCrevasses[$this->monstre["x_monstre"] + $x_offset][$this->monstre["y_monstre"]] == true) {
 				$this->monstre["x_monstre"] = $this->monstre["x_monstre"]  + $x_offset;
 				$this->monstre["y_monstre"] = $this->monstre["y_monstre"];
 				$modif = true;
-			} elseif ($this->tabValidationPalissade[$this->monstre["x_monstre"]][$this->monstre["y_monstre"] + $y_offset] == true) {
+			} elseif ($this->tabValidationPalissadesCrevasses[$this->monstre["x_monstre"]][$this->monstre["y_monstre"] + $y_offset] == true) {
 				$this->monstre["x_monstre"] = $this->monstre["x_monstre"] ;
 				$this->monstre["y_monstre"] = $this->monstre["y_monstre"] + $y_offset;
 				$modif = true;
 			} else {
-				if ($this->tabValidationPalissade[$x_monstre][$y_monstre] == false) {
+				if ($this->tabValidationPalissadesCrevasses[$x_monstre][$y_monstre] == false) {
 					Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas de deplacement, cause palissade");
 				}
 			}
@@ -138,6 +145,34 @@ class Bral_Monstres_VieMonstre {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementMonstre - exit (".$retour.")");
 	}
 
+	public function calculFuite($view) {
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculFuite (idm:".$this->monstre["id_monstre"].") - enter");
+		$estFuite = false;
+
+		if ($this->monstre == null) {
+			new Zend_Exception("Bral_Monstres_VieMonstre::calculFuite, monstre inconnu");
+		}
+
+		$this->calculTour();
+
+		Zend_Loader::loadClass("Bral_Monstres_Competences_Factory");
+		Zend_Loader::loadClass("TypeMonstreMCompetence");
+		$typeMonstreMCompetence = new TypeMonstreMCompetence();
+
+		// Choix de l'action dans mcompetences
+		$competences = $typeMonstreMCompetence->findFuiteByIdTypeGroupe($this->monstre["id_fk_type_monstre"]);
+		if ($competences != null) {
+			foreach($competences as $c) {
+				$actionAttaque = Bral_Monstres_Competences_Factory::getAction($c, $this->monstre, null, $view);
+				$estFuite = $actionAttaque->action();
+			}
+		}
+
+		$this->updateMonstre();
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculFuite - (idm:".$this->monstre["id_monstre"].") - exit");
+		return $estFuite;
+	}
+
 	public function attaqueCible($cible, $view) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible (idm:".$this->monstre["id_monstre"].") - enter");
 		$koCible = false;
@@ -149,7 +184,6 @@ class Bral_Monstres_VieMonstre {
 		$this->calculTour();
 
 		Zend_Loader::loadClass("Bral_Monstres_Competences_Factory");
-
 		Zend_Loader::loadClass("TypeMonstreMCompetence");
 		$typeMonstreMCompetence = new TypeMonstreMCompetence();
 
@@ -174,6 +208,10 @@ class Bral_Monstres_VieMonstre {
 		}
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - setMonstre - exit (id=".$m["id_monstre"].")");
 		$this->monstre = $m;
+	}
+	
+	public function getMonstre() {
+		return $this->monstre;
 	}
 
 	private function calculTour() {
@@ -206,7 +244,7 @@ class Bral_Monstres_VieMonstre {
 			$this->monstre["bm_defense_monstre"] = 0;
 			$this->monstre["bm_degat_monstre"] = 0;
 			$this->monstre["nb_dla_jouees_monstre"] = $this->monstre["nb_dla_jouees_monstre"] + 1;
-				
+
 			Zend_Loader::loadClass("Bral_Util_EffetsPotion");
 			$effetsPotions = Bral_Util_EffetsPotion::calculPotionMonstre($this->monstre);
 			if (count($effetsPotions) > 0) {
@@ -214,7 +252,7 @@ class Bral_Monstres_VieMonstre {
 			} else {
 				Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - (idm:".$this->monstre["id_monstre"].") aucune potion sur le monstre n'a ete trouvee. Cf. log potion.log");
 			}
-			
+
 			Zend_Loader::loadClass("Bral_Util_Effets");
 			$effets = Bral_Util_Effets::calculEffetMonstre($this->monstre);
 			if (count($effets) > 0) {
@@ -222,9 +260,9 @@ class Bral_Monstres_VieMonstre {
 			} else {
 				Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculTour - (idm:".$this->monstre["id_monstre"].") aucun effet sur le monstre n'a ete trouve.");
 			}
-			
+
 			$this->updateMonstre();
-			
+
 		} else {
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$this->monstre["id_monstre"].") pas de nouveau tour");
 		}
@@ -257,6 +295,7 @@ class Bral_Monstres_VieMonstre {
 			'pa_monstre' => $this->monstre["pa_monstre"],
 			'x_monstre' => $this->monstre["x_monstre"],
 			'y_monstre' => $this->monstre["y_monstre"],
+			'z_monstre' => $this->monstre["z_monstre"],
 			'x_direction_monstre' => $this->monstre["x_direction_monstre"],
 			'y_direction_monstre' => $this->monstre["y_direction_monstre"],
 			'nb_kill_monstre' => $this->monstre["nb_kill_monstre"],
@@ -318,15 +357,15 @@ class Bral_Monstres_VieMonstre {
 		Zend_Loader::loadClass("Bral_Util_Rune");
 		$tabGains["gainRune"] = Bral_Util_Rune::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $niveauHobbit, $monstre["id_fk_type_groupe_monstre"], $effetMotD, $id_monstre);
 		$tabGains["gainCastars"] = $this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $effetMotH, $niveauHobbit, $monstre["id_fk_type_groupe_monstre"]);
-		
+
 		$tabGains["finDonjon"] = null;
-		
+
 		Zend_Loader::loadClass("TailleMonstre");
 		if ($monstre["id_fk_taille_monstre"] == TailleMonstre::ID_TAILLE_BOSS) {
 			Zend_Loader::loadClass("Bral_Util_Donjon");
 			$tabGains["finDonjon"] = Bral_Util_Donjon::dropGainsEtUpdateDonjon($monstre["id_fk_donjon_monstre"], $monstre, $niveauHobbit, $effetMotD);
 		}
-		
+
 		return $tabGains;
 	}
 

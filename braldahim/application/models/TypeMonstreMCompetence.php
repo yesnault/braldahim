@@ -14,10 +14,14 @@ class TypeMonstreMCompetence extends Zend_Db_Table {
 	protected $_name = 'type_monstre_mcompetence';
 	protected $_primary = array('id_fk_type_monstre_mcompetence', 'id_fk_mcompetence_type_monstre_mcompetence');
 
-	public function findAttaqueByIdTypeGroupe($idTypeMonstre) {
-		return $this->findByIdTypeGroupe($idTypeMonstre, "attaque");	
+	public function findFuiteByIdTypeGroupe($idTypeMonstre) {
+		return $this->findByIdTypeGroupe($idTypeMonstre, "fuite");
 	}
-	
+
+	public function findAttaqueByIdTypeGroupe($idTypeMonstre) {
+		return $this->findByIdTypeGroupe($idTypeMonstre, "attaque");
+	}
+
 	private function findByIdTypeGroupe($idTypeMonstre, $type) {
 		$db = $this->getAdapter();
 		$select = $db->select();

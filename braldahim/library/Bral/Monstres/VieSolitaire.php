@@ -46,7 +46,9 @@ class Bral_Monstres_VieSolitaire {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - vieSolitaireAction - enter (id=".$monstre["id_monstre"].")");
 
 		$estFuite = $this->calculFuiteSolitaire(&$monstre);
-		if (!$estFuite) {
+		if ($estFuite) {
+			$this->deplacementSolitaire(&$monstre, true);
+		} else {
 			$cible = self::reperageCible($monstre);
 			if ($cible != null) { // si une cible est trouvee, on attaque
 				$this->attaqueSolitaire($monstre, $cible);
@@ -169,7 +171,7 @@ class Bral_Monstres_VieSolitaire {
 			}
 
 			$tab = Bral_Monstres_VieMonstre::getTabXYRayon($monstre["id_fk_zone_nid_monstre"], $monstre["niveau_monstre"], $monstre["x_direction_monstre"], $monstre["y_direction_monstre"], $monstre["x_min_monstre"], $monstre["x_max_monstre"], $monstre["y_min_monstre"], $monstre["y_max_monstre"]);
-			
+
 			$monstre["x_direction_monstre"] = $tab["x_direction"];
 			$monstre["y_direction_monstre"] = $tab["y_direction"];
 
@@ -183,19 +185,15 @@ class Bral_Monstres_VieSolitaire {
 	}
 
 	/*
-	 * Fuite si moins de 20% restants en pv.
+	 * Recherche competence de fuite.
 	 */
 	private function calculFuiteSolitaire(&$monstre) {
-		$retour = false;
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculFuiteSolitaire - enter");
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculFuiteSolitaire - pvRestants:".$monstre["pv_restant_monstre"]." pvMax:".$monstre["pv_max_monstre"]);
-		if (($monstre["pv_restant_monstre"] * 100 / $monstre["pv_max_monstre"]) <= 20) {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - Fuite du monstre - enter");
-			$monstre["id_fk_hobbit_cible_monstre"] = null;
-			$this->deplacementSolitaire(&$monstre, true);
-			$retour = true;
-		}
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculFuiteSolitaire - exit (".$retour.")");
-		return $retour;
+		$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
+		$vieMonstre->setMonstre($monstre);
+		$estFuite = $vieMonstre->calculFuite($this->view);
+		$monstre = $vieMonstre->getMonstre();
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculFuiteSolitaire - exit");
+		return $estFuite;
 	}
 }
