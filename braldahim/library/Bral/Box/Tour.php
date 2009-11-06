@@ -386,8 +386,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$hobbitEquipementTable = new HobbitEquipement();
 		$equipementPorteRowset = $hobbitEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($hobbitEquipementTable);
+		Zend_Loader::loadClass("Bral_Util_Equipement");
+		$tabEquipementPorte = Bral_Util_Equipement::prepareTabEquipements($equipementPorteRowset, false, $this->view->user->niveau_hobbit);
 
-		if (count($equipementPorteRowset) > 0) {
+		if (count($tabEquipementPorte) > 0) {
 
 			Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement nb equipement porte:".count($equipementPorteRowset));
 
@@ -398,59 +400,32 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 			$idEquipements = null;
 
-			foreach ($equipementPorteRowset as $e) {
-				$idEquipements[] = $e["id_equipement_hequipement"];
+			foreach ($tabEquipementPorte as $e) {
+				$idEquipements[] = $e["id_equipement"];
 
-				/*$equipement = array(
-				 "id_equipement" => $e["id_equipement_hequipement"],
-				 "nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
-				 "nom_standard" => $e["nom_type_equipement"],
-				 "qualite" => $e["nom_type_qualite"],
-				 "niveau" => $e["niveau_recette_equipement"],
-				 "emplacement" => $e["nom_type_emplacement"],
-				 "id_type_emplacement" => $e["id_type_emplacement"],
-				 "nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
-				 "nb_runes" => $e["nb_runes_equipement"],
-				 "id_fk_recette_equipement" => $e["id_fk_recette_equipement"],
-				 "armure" => $e["armure_equipement"],
-				 "force" => $e["force_equipement"],
-				 "agilite" => $e["agilite_equipement"],
-				 "vigueur" => $e["vigueur_equipement"],
-				 "sagesse" => $e["sagesse_equipement"],
-				 "vue" => $e["vue_recette_equipement"],
-				 "attaque" => $e["attaque_equipement"],
-				 "degat" => $e["degat_equipement"],
-				 "defense" => $e["defense_equipement"],
-				 "poids" => $e["poids_equipement"],
-				 "suffixe" => $e["suffixe_mot_runique"],
-				 "id_mot_runique" =>  $e["id_fk_mot_runique_equipement"],
-				 );*/
-
-				//TODO Prise en compte du Set
-				
-				$this->hobbit->force_bm_hobbit = $this->hobbit->force_bm_hobbit + $e["force_equipement"];
-				$this->hobbit->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit + $e["agilite_equipement"];
-				$this->hobbit->vigueur_bm_hobbit = $this->hobbit->vigueur_bm_hobbit + $e["vigueur_equipement"];
-				$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + $e["sagesse_equipement"];
-				$this->hobbit->vue_bm_hobbit = $this->hobbit->vue_bm_hobbit + $e["vue_recette_equipement"];
-				$this->hobbit->armure_equipement_hobbit = $this->hobbit->armure_equipement_hobbit + $e["armure_equipement"];
-				$this->hobbit->bm_attaque_hobbit = $this->hobbit->bm_attaque_hobbit + $e["attaque_equipement"];
-				$this->hobbit->bm_degat_hobbit = $this->hobbit->bm_degat_hobbit + $e["degat_equipement"];
-				$this->hobbit->bm_defense_hobbit = $this->hobbit->bm_defense_hobbit + $e["defense_equipement"];
+				$this->hobbit->force_bm_hobbit = $this->hobbit->force_bm_hobbit + $e["force"];
+				$this->hobbit->agilite_bm_hobbit = $this->hobbit->agilite_bm_hobbit + $e["agilite"];
+				$this->hobbit->vigueur_bm_hobbit = $this->hobbit->vigueur_bm_hobbit + $e["vigueur"];
+				$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + $e["sagesse"];
+				$this->hobbit->vue_bm_hobbit = $this->hobbit->vue_bm_hobbit + $e["vue"];
+				$this->hobbit->armure_equipement_hobbit = $this->hobbit->armure_equipement_hobbit + $e["armure"];
+				$this->hobbit->bm_attaque_hobbit = $this->hobbit->bm_attaque_hobbit + $e["attaque"];
+				$this->hobbit->bm_degat_hobbit = $this->hobbit->bm_degat_hobbit + $e["degat"];
+				$this->hobbit->bm_defense_hobbit = $this->hobbit->bm_defense_hobbit + $e["defense"];
 					
 				if ($e["nom_systeme_mot_runique"] == "mot_b") {
 					$this->view->effetMotB = true;
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotB actif - avant : this->hobbit->sagesse_bm_hobbit".$this->hobbit->sagesse_bm_hobbit);
-					$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + (2 * ($e["niveau_recette_equipement"] + 1));
-					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotB actif - apres : this->hobbit->sagesse_bm_hobbit".$this->hobbit->sagesse_bm_hobbit. " ajout de :".(2 * $e["niveau_recette_equipement"]));
+					$this->hobbit->sagesse_bm_hobbit = $this->hobbit->sagesse_bm_hobbit + (2 * ($e["niveau"] + 1));
+					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotB actif - apres : this->hobbit->sagesse_bm_hobbit".$this->hobbit->sagesse_bm_hobbit. " ajout de :".(2 * $e["niveau"]));
 				}
 
 				if ($e["nom_systeme_mot_runique"] == "mot_k") {
 					$this->view->effetMotK = true;
-					if ($e["attaque_equipement"] > 0) { // positif
-						$val = $e["attaque_equipement"];
+					if ($e["attaque"] > 0) { // positif
+						$val = $e["attaque"];
 					} else { // negatif
-						$val = abs($e["attaque_equipement"]) / 2;
+						$val = abs($e["attaque"]) / 2;
 					}
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotK actif - avant : val a ajouer au bm_attaque_hobbit=".$val);
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotK actif - avant : this->hobbit->bm_attaque_hobbit".$this->hobbit->bm_attaque_hobbit);
@@ -460,10 +435,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 				if ($e["nom_systeme_mot_runique"] == "mot_m") {
 					$this->view->effetMotM = true;
-					if ($e["defense_equipement"] > 0) { // positif
-						$val = $e["defense_equipement"];
+					if ($e["defense"] > 0) { // positif
+						$val = $e["defense"];
 					} else { // negatif
-						$val = abs($e["defense_equipement"]) / 2;
+						$val = abs($e["defense"]) / 2;
 					}
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotM actif - avant : val a ajouer au bm_defense_hobbit=".$val);
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotM actif - avant : this->hobbit->bm_defense_hobbit".$this->hobbit->bm_defense_hobbit);
@@ -486,7 +461,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 				if ($e["nom_systeme_mot_runique"] == "mot_u") {
 					$this->view->effetMotU = true;
-					$this->view->effetMotUPointsDegats = $e["niveau_recette_equipement"] / 2;
+					$this->view->effetMotUPointsDegats = $e["niveau"] / 2;
 					$this->view->effetMotUNbCibles = 0;
 					$ciblesEffetU = Bral_Util_Attaque::calculDegatCase($this->view->config, $this->hobbit, $this->view->effetMotUPointsDegats, $this->view);
 					Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - effetMotU actif - avant recuperation pv this->hobbit->pv_restant_hobbit=".$this->hobbit->pv_restant_hobbit);

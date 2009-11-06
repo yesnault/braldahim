@@ -125,7 +125,7 @@ class Bral_Util_Equipement {
 		unset($equipementBonus);
 	}
 
-	public static function getTabEmplacementsEquipement($idHobbit) {
+	public static function getTabEmplacementsEquipement($idHobbit, $niveauHobbit) {
 
 		Zend_Loader::loadClass("TypeEmplacement");
 		Zend_Loader::loadClass("HobbitEquipement");
@@ -168,85 +168,18 @@ class Bral_Util_Equipement {
 		$tabEquipementPorte = null;
 		$hobbitEquipementTable = new HobbitEquipement();
 		$equipementPorteRowset = $hobbitEquipementTable->findByIdHobbit($idHobbit);
+		$tabEquipementPorte = Bral_Util_Equipement::prepareTabEquipements($equipementPorteRowset, false, $niveauHobbit);
 		unset($hobbitEquipementTable);
 
 		$equipementPorte = null;
 
-		if (count($equipementPorteRowset) > 0) {
-			$tabWhere = null;
-			$equipementRuneTable = new EquipementRune();
-			$equipementBonusTable = new EquipementBonus();
+		if (count($tabEquipementPorte) > 0) {
 			$equipements = null;
 
-			$idEquipements = null;
-
-			foreach ($equipementPorteRowset as $e) {
-				$idEquipements[] = $e["id_equipement_hequipement"];
-			}
-
-			$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
-			unset($equipementRuneTable);
-			$equipementBonus = $equipementBonusTable->findByIdsEquipement($idEquipements);
-			unset($equipementBonusTable);
-
-			foreach ($equipementPorteRowset as $e) {
-				$runes = null;
-				if (count($equipementRunes) > 0) {
-					foreach($equipementRunes as $r) {
-						if ($r["id_equipement_rune"] == $e["id_equipement_hequipement"]) {
-							$runes[] = array(
-							"id_rune_equipement_rune" => $r["id_rune_equipement_rune"],
-							"id_fk_type_rune" => $r["id_fk_type_rune"],
-							"nom_type_rune" => $r["nom_type_rune"],
-							"image_type_rune" => $r["image_type_rune"],
-							"effet_type_rune" => $r["effet_type_rune"],
-							);
-						}
-					}
-				}
-
-				$bonus = null;
-				if (count($equipementBonus) > 0) {
-					foreach($equipementBonus as $b) {
-						if ($b["id_equipement_bonus"] == $e["id_equipement_hequipement"]) {
-							$bonus = $b;
-							break;
-						}
-					}
-				}
-					
-				$equipement = array(
-						"id_equipement" => $e["id_equipement_hequipement"],
-						"nom" => Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]),
-						"nom_standard" => $e["nom_type_equipement"],
-						"qualite" => $e["nom_type_qualite"],
-						"emplacement" => $e["nom_type_emplacement"],
-						"niveau" => $e["niveau_recette_equipement"],
-						"id_type_equipement" => $e["id_type_equipement"],
-						"id_type_emplacement" => $e["id_type_emplacement"],
-						"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
-						"nb_runes" => $e["nb_runes_equipement"],
-						"id_fk_recette_equipement" => $e["id_fk_recette_equipement"],
-						"armure" => $e["armure_equipement"],
-						"force" => $e["force_equipement"],
-						"agilite" => $e["agilite_equipement"],
-						"vigueur" => $e["vigueur_equipement"],
-						"sagesse" => $e["sagesse_equipement"],
-						"vue" => $e["vue_recette_equipement"],
-						"attaque" => $e["attaque_equipement"],
-						"degat" => $e["degat_equipement"],
-						"defense" => $e["defense_equipement"],
-						"suffixe" => $e["suffixe_mot_runique"],
-						"poids" => $e["poids_equipement"],
-						"etat_courant" => $e["etat_courant_equipement"],
-						"etat_initial" => $e["etat_initial_equipement"],
-						"ingredient" => $e["nom_type_ingredient"],
-						"runes" => $runes,
-						"bonus" => $bonus,
-				);
-				$equipementPorte[] = $equipement;
+			foreach ($tabEquipementPorte as $e) {
+				$equipementPorte[] = $e;
 				$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["affiche"] = "oui";
-				$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["equipementPorte"][] = $equipement;
+				$tabTypesEmplacement[$e["nom_systeme_type_emplacement"]]["equipementPorte"][] = $e;
 			}
 			unset($equipementPorteRowset);
 		}
@@ -398,9 +331,10 @@ class Bral_Util_Equipement {
 	
 	private static function calculBmSet($equipement, $key, $niveauHobbit) {
 		if ($equipement["id_fk_donjon_type_equipement"] != null && $niveauHobbit != null) {
-			return $equipement[$key] * $niveauHobbit;
+			return $equipement[$key] * intval($niveauHobbit / 10);
 		} else {
 			return $equipement[$key];
 		}
 	}
+	
 }
