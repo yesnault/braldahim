@@ -15,11 +15,9 @@ class Bral_Monstres_Competences_Fuitecrevasse extends Bral_Monstres_Competences_
 	public function actionSpecifique() {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - (idm:".$this->monstre["id_monstre"].") - enter");
 
-		Bral_Util_Log::viemonstres()->debug(get_class($this)." - Fuite du monstre - (idm:".$this->monstre["id_monstre"].") :pv restant : ".$this->monstre["pv_restant_monstre"]. " pv max : ".$this->monstre["pv_max_monstre"]);
-			
 		$retour = false;
 
-		if (($this->monstre["pv_restant_monstre"] * 100 / $this->monstre["pv_max_monstre"]) <= 60) {
+		if (($this->monstre["pv_restant_monstre"] * 100 / $this->monstre["pv_max_monstre"]) <= 20) {
 			
 			Zend_Loader::loadClass("Crevasse");
 			$crevasseTable = new Crevasse();
