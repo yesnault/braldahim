@@ -44,6 +44,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("Nid");
 			Zend_Loader::loadClass("Palissade");
 			Zend_Loader::loadClass("Region");
+			Zend_Loader::loadClass("Buisson");
 			Zend_Loader::loadClass("Bosquet");
 			Zend_Loader::loadClass("TypeLieu");
 			Zend_Loader::loadClass("Route");
@@ -241,6 +242,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$palissadeTable = new Palissade();
 		$palissades = $palissadeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($palissadeTable);
+		$buissonTable = new Buisson();
+		$buissons = $buissonTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
+		unset($bosquetTable);
 		$bosquetTable = new Bosquet();
 		$bosquets = $bosquetTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($bosquetTable);
@@ -304,6 +308,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabMonstres = null;
 				$tabNids = null;
 				$tabPalissades = null;
+				$tabBuissons = null;
 				$tabBosquets = null;
 				$tabRoutes = null;
 				$tabBallons = null;
@@ -548,7 +553,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
-						
+
 					if ($nids != null) {
 						foreach($nids as $n) {
 							if ($display_x == $n["x_nid"] && $display_y == $n["y_nid"]) {
@@ -594,6 +599,16 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						}
 					}
 
+					if ($buissons != null) {
+						foreach($buissons as $b) {
+							if ($display_x == $b["x_buisson"] && $display_y == $b["y_buisson"]) {
+								$tabBuissons[] = array("id_buisson" => $b["id_buisson"]);
+								$nom_systeme_environnement = $b["nom_systeme_type_buisson"];
+								$nom_environnement = $b["description_type_buisson"];
+							}
+						}
+					}
+						
 					if ($bosquets != null) {
 						foreach($bosquets as $b) {
 							if ($display_x == $b["x_bosquet"] && $display_y == $b["y_bosquet"]) {
@@ -706,6 +721,8 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"nids" => $tabNids,
 					"n_palissades" => count($tabPalissades),
 					"palissades" => $tabPalissades,
+					"n_buissons" => count($tabBuissons),
+					"buissons" => $tabBuissons,
 					"n_bosquets" => count($tabBosquets),
 					"bosquets" => $tabBosquets,
 					"n_routes" => count($tabRoutes),
