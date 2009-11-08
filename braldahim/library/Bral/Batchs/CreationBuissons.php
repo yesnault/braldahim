@@ -124,7 +124,7 @@ class Bral_Batchs_CreationBuissons extends Bral_Batchs_Batch {
 			$x = Bral_Util_De::get_de_specifique($zone["x_min_zone"], $zone["x_max_zone"]);
 			$y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
 			
-			usleep(Bral_Util_De::get_de_specifique(1, 1000000));
+			usleep(Bral_Util_De::get_de_specifique(1, 300000));
 			$this->insertDb($buissonTable, $idTypeBuisson, $x, $y, 0, 1);
 		}
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - insert - exit -");
