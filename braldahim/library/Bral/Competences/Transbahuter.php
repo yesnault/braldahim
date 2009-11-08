@@ -2039,11 +2039,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		for ($i=$this->view->valeur_fin_minerais + 1; $i<=$this->view->valeur_fin_graines; $i++) {
 			$indice = $i;
-			$indiceBrut = $i;
-			$nb = $this->request->get("valeur_".$indiceBrut);
+			$nb = $this->request->get("valeur_".$indice);
 
-			if ((int) $nb."" != $this->request->get("valeur_".$indiceBrut)."") {
-				throw new Zend_Exception(get_class($this)." NB Graine invalide=".$nb. " indice=".$indiceBrut);
+			if ((int) $nb."" != $this->request->get("valeur_".$indice)."") {
+				throw new Zend_Exception(get_class($this)." NB Graine invalide=".$nb. " indice=".$indice);
 			} else {
 				$nb = (int)$nb;
 			}
@@ -2063,7 +2062,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				}
 
 				if ($arrivee == "Laban" || $arrivee == "Charrette") {
-					$poidsOk1 = $this->controlePoids($this->view->poidsRestant, $nb, Bral_Util_Poids::POIDS_MINERAI);
+					$poidsOk1 = $this->controlePoids($this->view->poidsRestant, $nb, Bral_Util_Poids::POIDS_POIGNEE_GRAINES);
 					if ($poidsOk1 == false) {
 						$this->view->poidsOk = false;
 						break;
