@@ -60,6 +60,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		Zend_Loader::loadClass("CharretteMinerai");
 		Zend_Loader::loadClass("CharrettePartieplante");
 		Zend_Loader::loadClass("CharretteAliment");
+		Zend_Loader::loadClass("CharretteGraine");
 		Zend_Loader::loadClass("CharretteMunition");
 		Zend_Loader::loadClass("CharrettePotion");
 		Zend_Loader::loadClass("CharretteRune");
@@ -250,6 +251,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$this->renderMunition($charrette);
 		$this->renderPotion($charrette);
 		$this->renderAliment($charrette);
+		$this->renderGraine($charrette);
 		$this->renderTabac($charrette);
 		$this->renderAmeliorations($charrette);
 
@@ -500,5 +502,27 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 			);
 		}
 		$this->view->materielsAssembles = $tabMateriel;
+	}
+
+	private function renderGraine($charrette) {
+		$tabGraines = null;
+		$charretteGraineTable = new CharretteGraine();
+		$graines = $charretteGraineTable->findByIdCharrette($charrette["id_charrette"]);
+		unset($charretteGraineTable);
+
+		foreach ($graines as $g) {
+			if ($g["quantite_charrette_graine"] > 0) {
+				$tabGraines[] = array(
+					"type" => $g["nom_type_graine"],
+					"id_type_graine" => $g["id_type_graine"],
+					"quantite" => $g["quantite_charrette_graine"],
+					"poids" => $g["quantite_charrette_graine"] * Bral_Util_Poids::POIDS_POIGNEE_GRAINES,
+				);
+			}
+		}
+		unset($graines);
+
+		$this->view->nb_graines = count($tabGraines);
+		$this->view->graines = $tabGraines;
 	}
 }

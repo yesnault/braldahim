@@ -70,6 +70,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		Zend_Loader::loadClass("CoffreMinerai");
 		Zend_Loader::loadClass("CoffrePartieplante");
 		Zend_Loader::loadClass("CoffreAliment");
+		Zend_Loader::loadClass("CoffreGraine");
 		Zend_Loader::loadClass("CoffreMunition");
 		Zend_Loader::loadClass("CoffrePotion");
 		Zend_Loader::loadClass("CoffreRune");
@@ -78,7 +79,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		Zend_Loader::loadClass("Metier");
 		Zend_Loader::loadClass("TypePlante");
 		Zend_Loader::loadClass("TypePartieplante");
-		
+
 		Zend_Loader::loadClass("Bral_Helper_DetailRune");
 
 		$hobbitsMetiersTable = new HobbitsMetiers();
@@ -253,6 +254,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		$this->renderMunition();
 		$this->renderPotion();
 		$this->renderAliment();
+		$this->renderGraine();
 		$this->renderTabac();
 		$this->renderMateriel();
 
@@ -479,5 +481,27 @@ class Bral_Box_Banque extends Bral_Box_Box {
 
 		$this->view->nb_aliments = count($tabAliments);
 		$this->view->aliments = $tabAliments;
+	}
+
+	private function renderGraine() {
+		$tabGraines = null;
+		$coffreGraineTable = new CoffreGraine();
+		$graines = $coffreGraineTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($coffreGraineTable);
+
+		foreach ($graines as $g) {
+			if ($g["quantite_coffre_graine"] > 0) {
+				$tabGraines[] = array(
+					"type" => $g["nom_type_graine"],
+					"id_type_graine" => $g["id_type_graine"],
+					"quantite" => $g["quantite_coffre_graine"],
+					"poids" => $g["quantite_coffre_graine"] * Bral_Util_Poids::POIDS_POIGNEE_GRAINES,
+				);
+			}
+		}
+		unset($graines);
+
+		$this->view->nb_graines = count($tabGraines);
+		$this->view->graines = $tabGraines;
 	}
 }
