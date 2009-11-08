@@ -10,7 +10,7 @@
  * $LastChangedRevision: $
  * $LastChangedBy: $
  */
-class CreationBosquets extends Zend_Db_Table {
+class CreationBuissons extends Zend_Db_Table {
 	protected $_name = 'creation_buissons';
 	protected $_primary = array('id_fk_type_buisson_creation_buissons', 'id_fk_environnement_creation_buissons');
 }

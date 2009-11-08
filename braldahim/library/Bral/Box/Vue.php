@@ -602,9 +602,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if ($buissons != null) {
 						foreach($buissons as $b) {
 							if ($display_x == $b["x_buisson"] && $display_y == $b["y_buisson"]) {
-								$tabBuissons[] = array("id_buisson" => $b["id_buisson"]);
-								$nom_systeme_environnement = $b["nom_systeme_type_buisson"];
-								$nom_environnement = $b["description_type_buisson"];
+								$tabBuissons[] = array("id_buisson" => $b["id_buisson"], "nom_buisson" => $b["nom_type_buisson"]);
 							}
 						}
 					}
