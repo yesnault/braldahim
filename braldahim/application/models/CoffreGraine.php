@@ -33,7 +33,7 @@ class CoffreGraine extends Zend_Db_Table {
 		quantite_coffre_graine as quantite')
 		->where('id_fk_type_coffre_graine = ?',$data["id_fk_type_coffre_graine"])
 		->where('id_fk_hobbit_coffre_graine = ?',$data["id_fk_hobbit_coffre_graine"])
-		->group(array('quantite', 'quantiteLingots'));
+		->group(array('quantite'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 

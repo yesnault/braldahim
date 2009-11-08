@@ -20,7 +20,7 @@
 						if ($i % 3 == 0) echo "<tr>"; 
 					?>
 						<td>
-						<?=htmlspecialchars($m["type"])?>  : <?=$m["quantite_graine"]?> poignée<? if ($m["quantite_graine"] > 0) echo "s" ?>
+						<?=htmlspecialchars($m["type"])?>  : <?=$m["quantite_graine"]?> poignée<? if ($m["quantite_graine"] > 1) echo "s" ?>
 						<br />
 						Quantit&eacute; &agrave; transbahuter : <br>
 						<input type='text' maxlength='4' size='4' name='valeur_<?=$k ?>' id='valeur_<?=$k ?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_graine"] ?>) { alert('Valeur trop grande'); this.value = 0 }; <?=$jsBtn?>" />

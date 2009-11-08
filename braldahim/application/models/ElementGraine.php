@@ -41,7 +41,7 @@ class ElementGraine extends Zend_Db_Table {
 		->where('id_fk_type_element_graine = ?',$data["id_fk_type_element_graine"])
 		->where('x_element_graine = ?',$data["x_element_graine"])
 		->where('y_element_graine = ?',$data["y_element_graine"])
-		->group(array('quantite', 'quantiteLingots'));
+		->group(array('quantite'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 

@@ -178,8 +178,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$idCoffre = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
 		if ($idCoffre == -1) {
 			$this->view->id_hobbit_coffre = $this->view->user->id_hobbit;
-		}
-		else{
+		} else{
 			$this->view->id_hobbit_coffre = $idCoffre;
 		}
 
@@ -203,11 +202,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			// on enlève la dernière virgule de la chaîne
 			$this->view->elementsRetires = mb_substr($this->view->elementsRetires, 0, -2);
 		}
-		
+
 		// Historique
 		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Charrette") {
 			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
-			
+				
 			$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
 			$details = "[h".$this->view->user->id_hobbit."] a transbahuté des choses depuis la charrette n°".$this->view->tabEndroit[$idDepart]["id_charrette"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 			Zend_Loader::loadClass("Bral_Util_Materiel");
@@ -216,13 +215,13 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Charrette") {
 			Bral_Util_Poids::calculPoidsCharrette($this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"], true);
-			
+				
 			$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
 			$details = "[h".$this->view->user->id_hobbit."] a transbahuté des choses dans la charrette n°".$this->view->tabEndroit[$idArrivee]["id_charrette"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 			Zend_Loader::loadClass("Bral_Util_Materiel");
 			Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idArrivee]["id_charrette"], $details);
 		}
-		
+
 		// événements
 		$this->detailEvenement = "";
 		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Element") {
@@ -242,33 +241,33 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments ";
 		}
 		$this->setDetailsEvenement($this->detailEvenement, $idEvenement);
-		
-		
+
+
 		// envoi des messages
 		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Coffre" && $this->view->id_hobbit_coffre != $this->view->user->id_hobbit ) {
 			$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
 			$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
 			$message .= $this->view->elementsRetires;
-			
+				
 			$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->id_hobbit_coffre, $message, $this->view);
 		}
-		
+
 		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Charrette" && $this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"] != $this->view->user->id_hobbit ) {
 			$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
 			$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre charrette : ".PHP_EOL;
 			$message .= $this->view->elementsRetires;
-			
+				
 			$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"], $message, $this->view);
 		}
-		
+
 		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Echoppe" && $this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"] != $this->view->user->id_hobbit ) {
 			$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
 			$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre échoppe : ".PHP_EOL;
 			$message .= $this->view->elementsRetires;
-			
+				
 			$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"], $message, $this->view);
 		}
-		
+
 		$this->setEvenementQueSurOkJet1(false);
 
 		Zend_Loader::loadClass("Bral_Util_Quete");
@@ -314,6 +313,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->prepareTypeMunitions($depart);
 		$this->prepareTypePartiesPlantes($depart);
 		$this->prepareTypeMinerais($depart);
+		$this->prepareTypeGraines($depart);
 		$this->prepareTypeTabac($depart);
 		$this->prepareTypeMateriel($depart);
 	}
@@ -327,6 +327,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->deposeTypeMunitions($depart,$arrivee);
 		$this->deposeTypePartiesPlantes($depart,$arrivee);
 		$this->deposeTypeMinerais($depart,$arrivee);
+		$this->deposeTypeGraines($depart,$arrivee);
 		$this->deposeTypeTabac($depart,$arrivee);
 		$this->deposeTypeMateriel($depart,$arrivee);
 	}
@@ -891,8 +892,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$this->view->deposerOk = true;
 			}
 			$this->view->aliments = $tabAliments;
-		}
-		else {
+		} else {
 			$this->view->aliments = null;
 		}
 	}
@@ -908,8 +908,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$this->view->nbelement = $this->view->nbelement + 1;
 				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ) {
 					$this->view->panneau = false;
-				}
-				else {
+				} else {
 					foreach ($aliments as $idAliment) {
 						if (!array_key_exists($idAliment, $this->view->aliments)) {
 							throw new Zend_Exception(get_class($this)." ID Aliment invalide : ".$idAliment);
@@ -1692,8 +1691,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			}
 			$this->view->valeur_fin_tabacs = $this->view->nb_valeurs;
 			$this->view->tabacs = $tabTabacs;
-		}
-		else {
+		} else {
 			$this->view->valeur_fin_tabacs = $this->view->nb_valeurs;
 			$this->view->tabacs = null;
 		}
@@ -1708,7 +1706,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$idTabac = null;
 				$nbTabac = null;
 
-				for ($i=$this->view->valeur_fin_minerais + 1; $i<=$this->view->valeur_fin_tabacs; $i++) {
+				for ($i=$this->view->valeur_fin_graines + 1; $i<=$this->view->valeur_fin_tabacs; $i++) {
 
 					if ( $this->request->get("valeur_".$i) > 0) {
 						$nbTabac = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_".$i));
@@ -1975,8 +1973,8 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			}
 		}
 	}
-	
-private function prepareTypeGraines($depart) {
+
+	private function prepareTypeGraines($depart) {
 		Zend_Loader::loadClass($depart."Graine");
 
 		$tabGraines = null;
@@ -2014,13 +2012,12 @@ private function prepareTypeGraines($depart) {
 		if ($graines != null) {
 			if ($depart == "Echoppe") {
 				$strqte = "arriere_echoppe";
-			}
-			else {
+			} else {
 				$strqte = $depart;
 			}
 			foreach ($graines as $m) {
 				if ($m["quantite_".strtolower($strqte)."_graine"] > 0) {
-					$this->view->nb_valeurs = $this->view->nb_valeurs + 1; 
+					$this->view->nb_valeurs = $this->view->nb_valeurs + 1;
 					$tabGraines[$this->view->nb_valeurs] = array(
 						"type" => $m["nom_type_graine"],
 						"id_fk_type_graine" => $m["id_fk_type_".strtolower($depart)."_graine"],
@@ -2040,7 +2037,7 @@ private function prepareTypeGraines($depart) {
 		Zend_Loader::loadClass($depart."Graine");
 		Zend_Loader::loadClass($arrivee."Graine");
 
-		for ($i=$this->view->valeur_fin_partieplantes + 1; $i<=$this->view->valeur_fin_graines; $i = $i + 2) {
+		for ($i=$this->view->valeur_fin_minerais + 1; $i<=$this->view->valeur_fin_graines; $i++) {
 			$indice = $i;
 			$indiceBrut = $i;
 			$nb = $this->request->get("valeur_".$indiceBrut);
@@ -2156,14 +2153,14 @@ private function prepareTypeGraines($depart) {
 						);
 						break;
 						/*
-					case "Echoppe" :
-						$arriveeGraineTable = new EchoppeGraine();
-						$data = array (
+						 case "Echoppe" :
+						 $arriveeGraineTable = new EchoppeGraine();
+						 $data = array (
 							"id_fk_echoppe_echoppe_graine" => $this->view->id_echoppe_arrivee,
 							"id_fk_type_echoppe_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
 							"quantite_arriere_echoppe_graine" => $nb,
-						);
-						break;*/
+							);
+							break;*/
 				}
 				$arriveeGraineTable->insertOrUpdate($data);
 				unset ($arriveeGraineTable);

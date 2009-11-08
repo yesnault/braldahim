@@ -7,6 +7,7 @@ $textElementsMunitions = "";
 $textElementsLingots = "";
 $textElementsPartiesPlantesBrutes = "";
 $textElementsPartiesPlantesPreparees = "";
+$textElementsGraines = "";
 $textElements = "";
 $textElementsPotions = "";
 $textElementsTabac = "";
@@ -20,14 +21,15 @@ include('elements_equipements.phtml');
 include('elements_munitions.phtml');
 include('elements_minerais.phtml');
 include('elements_partieplantes.phtml');
+include('elements_graines.phtml');
 include('elements_tabac.phtml');
 include('elements.phtml'); 
 
 
 if ($textCharrette != "" || $textElementsMateriels != "" || $textElementsEquipements != "" || $textElementsMunitions != "" || $textElementsMineraisBruts != "" 
-	|| $textElementsLingots != "" || $textElementsPartiesPlantesBrutes != "" || $textElementsPartiesPlantesPreparees != "" 
+	|| $textElementsLingots != "" || $textElementsPartiesPlantesBrutes != "" || $textElementsPartiesPlantesPreparees != "" || $textElementsGraines != ""
 	|| $textElements != "" || $textElementsPotions != "" || $textElementsTabac != "" || $textElementsAliments != "") : ?>
-		<img <?=Bral_Helper_Tooltip::jsTip($textCharrette.$textElementsMateriels.$textElementsEquipements.$textElementsMunitions.$textElementsMineraisBruts.$textElementsLingots.$textElementsPartiesPlantesBrutes.$textElementsPartiesPlantesPreparees.$textElementsPotions.$textElementsTabac.$textElementsAliments.$textElements, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/elements.png' />
+		<img <?=Bral_Helper_Tooltip::jsTip($textCharrette.$textElementsMateriels.$textElementsEquipements.$textElementsMunitions.$textElementsMineraisBruts.$textElementsLingots.$textElementsPartiesPlantesBrutes.$textElementsPartiesPlantesPreparees.$textElementsGraines.$textElementsPotions.$textElementsTabac.$textElementsAliments.$textElements, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/elements.png' />
 <? else: ?>
 	&nbsp;
 <? endif; ?>

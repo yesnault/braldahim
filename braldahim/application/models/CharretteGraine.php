@@ -32,7 +32,7 @@ class CharretteGraine extends Zend_Db_Table {
 		$select->from('charrette_graine', 'count(*) as nombre, quantite_charrette_graine as quantite')
 		->where('id_fk_type_charrette_graine = ?',$data["id_fk_type_charrette_graine"])
 		->where('id_fk_charrette_graine = ?',$data["id_fk_charrette_graine"])
-		->group(array('quantite', 'quantiteLingots'));
+		->group(array('quantite'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
