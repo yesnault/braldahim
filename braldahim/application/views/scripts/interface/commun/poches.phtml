@@ -126,6 +126,17 @@
 			</li>
 		</ul>
 	</li>
+	<li id="poche<?=$this->pocheNomSysteme ?>Graine">
+		<? $poches[] = "poche".$this->pocheNomSysteme."Graine-head" ?>
+      	<h3 id="poche<?=$this->pocheNomSysteme ?>Graine-head" class="head" onClick="maccordion(this);" />
+			<?=$this->pocheNom ?> pour les graines
+		</h3>
+		<ul id="poche<?=$this->pocheNomSysteme ?>Graine-body" style="display:none">
+			<li>
+				<? include("poches/poche_graine.phtml") ?>
+			</li>
+		</ul>
+	</li>
 	
 	<li id="poche<?=$this->pocheNomSysteme ?>Tabac">
 		<? $poches[] = "poche".$this->pocheNomSysteme."Tabac-head" ?>

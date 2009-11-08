@@ -1,57 +1,105 @@
 <div class='comp_titre'>Office Notarial</div>
  <form name='myForm' id='myForm'>
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
- <input type='hidden' id='valeur_1' name='valeur_1' value=''>
  <div class='comp_contenu'>
 
- 	<ul class="titre textalic textsizec">Construction d'&eacute;choppes</ul>
- 	<br />
+	Choisissez ce que vous souhaitez acheter : 
+	
+	<select name="valeur_1" id="valeur_1" onChange="_get_('/lieux/doaction?caction=ask_lieu_notaire&valeur_1='+this.value);">
+ 		<option value="-1">(Choisissez un type)</option>
+		<? foreach($this->typeAchat as $t) :?>
+			<option value="<?=$t["id_type_achat"] ?>" <?=$t["selected"]?>><?=$t["texte"] ?></option>
+		<? endforeach; ?>
+	</select>
+	
+	<br /><br />
  	
- 	<? if ($this->construireMetierPossible !== true) :?>
-		Vous ne pouvez pas construire d'&eacute;choppe avec votre m&eacute;tier courant...
- 	<? elseif ($this->nEchoppes < 1) : ?>
- 		Vous ne poss&eacute;dez pas encore d'&eacute;choppe. La premi&egrave;re est gratuite (<?=$this->coutCastars?> castar, mais <?=$this->paUtilisationLieu?> PA tout de m&ecirc;me).<br /><br />
- 	<? else: ?>
- 		Pour <?=$this->paUtilisationLieu?> PA et <?=$this->coutCastars?> castars, vous pouvez constuire une nouvelle &eacute;choppe.<br /><br />
- 	<? endif; ?>
+ 	<? if ($this->idTypeCourant == "champ") : ?>
+ 	
+ 		<ul class="titre textalic textsizec">Construction de champs</ul>
+ 		<br />
+ 		
+ 		Vous possédez actuellement <?=$this->nChamps?> champ<? if ($this->nChamps > 1): echo "s"; endif;?> 
+ 		et vous pouvez en avoir au maximum <?=$this->nChampsPossibleMax?>.<br>
+	 	Pour <?=$this->paUtilisationLieu?> PA et <?=$this->coutCastars?> castars, vous pouvez acheter un champ.<br /><br />
+ 	
+ 		<? if ($this->nChampsPossible < 1) : ?>
+ 			Vous ne pouvez pas avoir de champ supplémentaire.
+ 		<? elseif ($this->achatPossible === false || $this->utilisationPaPossible === false): ?>
+	   		<? if ($this->achatPossible === false) : ?>
+	   		Vous n'avez pas assez de castars. <br />
+	   		<? endif;?>
+	   		<? if ($this->utilisationPaPossible === false) : ?>
+	   		Vous n'avez pas assez de PA. <br />
+	   		<? endif; ?>
+	   	<? else : ?>
+	   		Dans cette comt&eacute; (<?=$this->tabRegionCourante["nom_region"]?>),
+			 vous pouvez acheter un champ.<br /><br />
 
-	<? if ($this->construireMetierPossible !== true) :?>
-		<!-- rien ici -->
-   	<? elseif ($this->achatPossible === false || $this->utilisationPaPossible === false): ?>
-   		<? if ($this->achatPossible === false) : ?>
-   		Vous n'avez pas assez de castars. <br />
-   		<? endif;?>
-   		<? if ($this->utilisationPaPossible === false) : ?>
-   		Vous n'avez pas assez de PA. <br />
-   		<? endif; ?>
-   		<input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
-   	<? else : ?>
-	 	<? if ($this->construireMetierPossible === true && $this->aucuneEchoppe === true) : ?>
-			 Dans cette comt&eacute; (<?=$this->tabRegionCourante["nom_region"]?>),
-			 vous pouvez construire une &eacute;choppe
-			<? if ($this->nom_metier_courant{0} == 'A') : echo 'd'; else: echo "de"; endif; ?>
-			<?=$this->nom_metier_courant ?>.<br /><br />
-
-			Indiquez la position de l'&eacute;choppe : <br />
-			X = <input type='textbox' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
+			Indiquez la position du champ : <br />
+			X = <input type='textbox' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('acheter_champ').disabled=true} else {$('acheter_champ').disabled=false};">
 			<br />
-			Y = <input type='textbox' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
+			Y = <input type='textbox' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('acheter_champ').disabled=true} else {$('acheter_champ').disabled=false};">
 			<br />
-		<? else: ?>
-			<? if ($this->aucuneEchoppe == false) : ?>
-				Vous poss&eacute;dez d&eacute;j&agrave; une &eacute;choppe pour ce m&eacute;tier dans
-				cette r&eacute;gion.
-			<? else: // doit jamais arriver, mais a cas où... ?>
-				Vous ne pouvez pas construire d'&eacute;choppe avec votre m&eacute;tier courant...
+	   	<? endif; ?>
+	   	
+ 	<? elseif ($this->idTypeCourant == "echoppe") : ?>
+ 	
+ 	 	<ul class="titre textalic textsizec">Construction d'&eacute;choppes</ul>
+ 		<br />
+ 	
+	 	<? if ($this->construireMetierPossible !== true) :?>
+			Vous ne pouvez pas construire d'&eacute;choppe avec votre m&eacute;tier courant...
+	 	<? elseif ($this->nEchoppes < 1) : ?>
+	 		Vous ne poss&eacute;dez pas encore d'&eacute;choppe. La premi&egrave;re est gratuite (<?=$this->coutCastars?> castar, mais <?=$this->paUtilisationLieu?> PA tout de m&ecirc;me).<br /><br />
+	 	<? else: ?>
+	 		Pour <?=$this->paUtilisationLieu?> PA et <?=$this->coutCastars?> castars, vous pouvez constuire une nouvelle &eacute;choppe.<br /><br />
+	 	<? endif; ?>
+	
+		<? if ($this->construireMetierPossible !== true) :?>
+			<!-- rien ici -->
+	   	<? elseif ($this->achatPossible === false || $this->utilisationPaPossible === false): ?>
+	   		<? if ($this->achatPossible === false) : ?>
+	   		Vous n'avez pas assez de castars. <br />
+	   		<? endif;?>
+	   		<? if ($this->utilisationPaPossible === false) : ?>
+	   		Vous n'avez pas assez de PA. <br />
+	   		<? endif; ?>
+	   	<? else : ?>
+		 	<? if ($this->construireMetierPossible === true && $this->aucuneEchoppe === true) : ?>
+				 Dans cette comt&eacute; (<?=$this->tabRegionCourante["nom_region"]?>),
+				 vous pouvez construire une &eacute;choppe
+				<? if ($this->nom_metier_courant{0} == 'A') : echo 'd'; else: echo "de"; endif; ?>
+				<?=$this->nom_metier_courant ?>.<br /><br />
+	
+				Indiquez la position de l'&eacute;choppe : <br />
+				X = <input type='textbox' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
+				<br />
+				Y = <input type='textbox' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
+				<br />
+			<? else: ?>
+				<? if ($this->aucuneEchoppe == false) : ?>
+					Vous poss&eacute;dez d&eacute;j&agrave; une &eacute;choppe pour ce m&eacute;tier dans
+					cette r&eacute;gion.
+				<? else: // doit jamais arriver, mais a cas où... ?>
+					Vous ne pouvez pas construire d'&eacute;choppe avec votre m&eacute;tier courant...
+				<? endif; ?>
 			<? endif; ?>
 		<? endif; ?>
-	<? endif; ?>
+	
+	<? endif;?>
  </div>
 </form>
 <br />
 
-<? if ($this->construireMetierPossible === true && $this->aucuneEchoppe === true && $this->utilisationPaPossible === true && $this->achatPossible === true) : ?>
-<input type='button' class='button1' id="construire_echoppe" value='Construire une &eacute;choppe' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_notaire');" disabled>
-<? endif; ?>
+<? if ($this->idTypeCourant == "champ") : ?>
+	<? if ($this->nChampsPossible > 0 && $this->utilisationPaPossible === true && $this->achatPossible === true) : ?>
+	<input type='button' class='button1' id="acheter_champ" value='Acheter un champ' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_notaire');" disabled>
+	<? endif; ?>
+<? else: ?>
+	<? if ($this->construireMetierPossible === true && $this->aucuneEchoppe === true && $this->utilisationPaPossible === true && $this->achatPossible === true) : ?>
+	<input type='button' class='button1' id="construire_echoppe" value='Construire une &eacute;choppe' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_notaire');" disabled>
+	<? endif; ?>
+<? endif;?>
 <br />
 <? echo Bral_Helper_Fermer::affiche(); ?>

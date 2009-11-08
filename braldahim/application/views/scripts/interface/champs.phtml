@@ -1,0 +1,18 @@
+<? include("box_header.phtml") ?>
+<div class="inner">
+<ul class="titre textalia textsizec">Gestion des champs</ul>
+ <div class="contenuc">
+  <ul class="box_contenu1 textalic">
+  <div id="box_champ">
+ 
+<? if ($this->affichageInterne == true) : ?>
+    <?=$this->htmlContenu ?>
+<? else: ?>
+	Chargement en cours
+	<br /><img src="/public/images/wait.gif" />
+<? endif; ?>
+
+  </div>
+</div>
+</div>
+<? include("box_bottom.phtml") ?>

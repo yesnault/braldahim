@@ -1,0 +1,20 @@
+<div class='comp_titre'>Modifier le nom du champ</div>
+ <div class='comp_contenu'>
+ 	<br />	
+	 <div id='modifierdescription_text' style="display:block"  onClick="javascript:switch2div('modifierdescription_text','modifierdescription_copie');">
+		La description du champ est maintenant : <br>
+		<?=Bral_Util_BBParser::bbcodeReplace($this->description) ?>
+	 </div>
+	 
+	 <div id='modifierdescription_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+	echo "La description du champ est maintenant : 
+";
+		echo $this->description;
+		?>
+	</textarea>
+	</div>
+ </div>
+
+<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('modifierdescription_text','modifierdescription_copie');">
+<? echo Bral_Helper_Fermer::affiche(); ?>

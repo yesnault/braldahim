@@ -70,6 +70,10 @@ abstract class Bral_Soule_Soule {
 	public function getIdEchoppeCourante() {
 		return false;
 	}
+	
+	public function getIdChampCourant() {
+		return false;
+	}
 
 	function render() {
 		$this->view->nomAction = $this->getTitreAction();

@@ -45,6 +45,10 @@ abstract class Bral_Quete_Quete {
 		return false;
 	}
 	
+	public function getIdChampCourant() {
+		return false;
+	}
+	
 	abstract function render();
 		
 }

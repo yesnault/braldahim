@@ -109,6 +109,10 @@ abstract class Bral_Lieux_Lieu {
 	function getIdEchoppeCourante() {
 		return false;
 	}
+	
+	public function getIdChampCourant() {
+		return false;
+	}
 
 	function render() {
 		switch($this->action) {

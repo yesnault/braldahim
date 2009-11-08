@@ -579,7 +579,7 @@ span.id_hobbit {
 
 .box_competences_basiques,.box_metier,.box_competences_communes,.box_competences_metiers 
 	       , .box_equipement,.box_profil,.box_vue,.box_lieu,.box_laban,.box_messagerie,.box_famille,.box_effets
-	       , .box_communaute, .box_soule,.box_coffre,.box_quetes {
+	       , .box_communaute, .box_soule,.box_coffre, .box_quetes {
 	color: black;
 	height: auto;
 	text-align: center;

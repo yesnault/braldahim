@@ -65,6 +65,10 @@ abstract class Bral_Charrette_Charrette {
 		return false;
 	}
 
+	public function getIdChampCourant() {
+		return false;
+	}
+	
 	public function calculNbPa() {
 		if ($this->view->user->pa_hobbit - $this->view->config->game->charrette->nb_pa_action < 0) {
 			$this->view->assezDePa = false;

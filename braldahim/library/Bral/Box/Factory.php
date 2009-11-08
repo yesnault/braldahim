@@ -35,6 +35,12 @@ class Bral_Box_Factory {
 			case "box_coffre" :
 				return self::getCoffre($request, $view, $interne);
 				break;
+			case "box_champ" :
+				return self::getChamp($request, $view, $interne);
+				break;
+			case "box_champs" :
+				return self::getChamps($request, $view, $interne);
+				break;
 			case "box_communaute" :
 				return self::getCommunaute($request, $view, $interne);
 				break;
@@ -115,6 +121,16 @@ class Bral_Box_Factory {
 		Zend_Loader::loadClass("Bral_Box_Banque");
 		Zend_Loader::loadClass("Bral_Box_Coffre");
 		return new Bral_Box_Coffre($request, $view, $interne);
+	}
+
+	static function getChamp($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Champ");
+		return new Bral_Box_Champ($request, $view, $interne);
+	}
+
+	static function getChamps($request, $view, $interne) {
+		Zend_Loader::loadClass("Bral_Box_Champs");
+		return new Bral_Box_Champs($request, $view, $interne);
 	}
 
 	static function getBbois($request, $view, $interne) {
@@ -218,7 +234,7 @@ class Bral_Box_Factory {
 		Zend_Loader::loadClass("Bral_Box_Famille");
 		return new Bral_Box_Famille($request, $view, $interne);
 	}
-	
+
 	public static function getHotel($request, $view, $interne) {
 		Zend_Loader::loadClass("Bral_Box_Hotel");
 		return new Bral_Box_Hotel($request, $view, $interne);

@@ -79,6 +79,10 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 					$action = Bral_Charrette_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Competences_Factory") {
 					$action = Bral_Competences_Factory::getAction($this->_request, $this->view);
+				} elseif ($factory == "Bral_Champ_Factory") {
+					$action = Bral_Champ_Factory::getAction($this->_request, $this->view);
+				} elseif ($factory == "Bral_Champs_Factory") {
+					$action = Bral_Champs_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Echoppe_Factory") {
 					$action = Bral_Echoppe_Factory::getAction($this->_request, $this->view);
 				} elseif ($factory == "Bral_Echoppes_Factory") {
@@ -121,6 +125,9 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				if ($action->getIdEchoppeCourante() !== false) {
 					$this->xml_response->add_entry($this->getXmlEntryVoirEchoppe($action));
 				}
+				if ($action->getIdChampCourant() !== false) {
+					$this->xml_response->add_entry($this->getXmlEntryVoirChamp($action));
+				}
 				Bral_Util_Messagerie::setXmlResponseMessagerie($this->xml_response, $this->view->user->id_hobbit);
 			} catch (Zend_Exception $e) {
 				$b = Bral_Box_Factory::getErreur($this->_request, $this->view, false, $e->getMessage());
@@ -146,6 +153,16 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 		$xml_entry->set_type("display");
 		Zend_Loader::loadClass("Bral_Echoppes_Factory");
 		$c = Bral_Echoppes_Factory::getVoir($this->_request, $this->view, $action->getIdEchoppeCourante());
+		$xml_entry->set_valeur($c->getNomInterne());
+		$xml_entry->set_data($c->render());
+		return $xml_entry;
+	}
+
+	private function getXmlEntryVoirChamp($action) {
+		$xml_entry = new Bral_Xml_Entry();
+		$xml_entry->set_type("display");
+		Zend_Loader::loadClass("Bral_Champs_Factory");
+		$c = Bral_Champs_Factory::getVoir($this->_request, $this->view, $action->getIdChampCourant());
 		$xml_entry->set_valeur($c->getNomInterne());
 		$xml_entry->set_data($c->render());
 		return $xml_entry;

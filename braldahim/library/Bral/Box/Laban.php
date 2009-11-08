@@ -43,6 +43,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 
 		Zend_Loader::loadClass("Laban");
 		Zend_Loader::loadClass("LabanEquipement");
+		Zend_Loader::loadClass("LabanGraine");
 		Zend_Loader::loadClass("LabanMinerai");
 		Zend_Loader::loadClass("LabanMunition");
 		Zend_Loader::loadClass("LabanPartieplante");
@@ -55,7 +56,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		Zend_Loader::loadClass("Metier");
 		Zend_Loader::loadClass("TypePlante");
 		Zend_Loader::loadClass("TypePartieplante");
-		
+
 		Zend_Loader::loadClass("Bral_Helper_DetailRune");
 
 		$hobbitsMetiersTable = new HobbitsMetiers();
@@ -236,6 +237,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		$this->renderMunition();
 		$this->renderPotion();
 		$this->renderAliment();
+		$this->renderGraine();
 		$this->renderTabac();
 
 		$this->view->estElementsEtal = false;
@@ -362,7 +364,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 
 		Zend_Loader::loadClass("Bral_Util_Equipement");
 		$tabEquipements = Bral_Util_Equipement::prepareTabEquipements($equipements);
-		
+
 		$tabRetour = null;
 		if ($tabEquipements != null) {
 			foreach($tabEquipements as $e) {
@@ -466,5 +468,27 @@ class Bral_Box_Laban extends Bral_Box_Box {
 
 		$this->view->nb_aliments = count($tabAliments);
 		$this->view->aliments = $tabAliments;
+	}
+
+	private function renderGraine() {
+		$tabGraines = null;
+		$labanGraineTable = new LabanGraine();
+		$graines = $labanGraineTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($labanGraineTable);
+
+		foreach ($graines as $g) {
+			if ($g["quantite_laban_graine"] > 0) {
+				$tabGraines[] = array(
+					"type" => $g["nom_type_graine"],
+					"id_type_graine" => $g["id_type_graine"],
+					"quantite" => $g["quantite_laban_graine"],
+					"poids" => $g["quantite_laban_graine"] * Bral_Util_Poids::POIDS_POIGNEE_GRAINES,
+				);
+			}
+		}
+		unset($graines);
+
+		$this->view->nb_graines = count($tabGraines);
+		$this->view->graines = $tabGraines;
 	}
 }

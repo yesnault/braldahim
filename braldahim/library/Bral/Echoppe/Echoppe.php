@@ -83,6 +83,10 @@ abstract class Bral_Echoppe_Echoppe {
 		return false;
 	}
 	
+	public function getIdChampCourant() {
+		return false;
+	}
+	
 	public function calculNbPa() {
 		if ($this->view->user->pa_hobbit - $this->view->config->game->echoppe->nb_pa_service < 0) {
 			$this->view->assezDePa = false;

@@ -1,0 +1,21 @@
+<div class='comp_titre'>Modifier le nom du Champ</div>
+ <div class='comp_contenu'>
+ 	<br />	
+	 <div id='modifiernom_text' style="display:block"  onClick="javascript:switch2div('modifiernom_text','modifiernom_copie');">
+		Le nom du Champ est maintenant : <br>
+		<?=$this->nom?>
+	 </div>
+	 
+	 <div id='modifiernom_copie' style="display:none">
+		<textarea onClick="javascript:this.select();" rows=4 cols=40><?
+		echo "Le nom du Champ est maintenant : 
+";
+		echo $this->nom;
+	?>
+	</textarea>
+	</div>
+	<br />	
+ </div>
+
+<input type='button' class='button1' value='Copier' onClick="javascript:switch2div('modifiernom_text','modifiernom_copie');">
+<? echo Bral_Helper_Fermer::affiche(); ?>

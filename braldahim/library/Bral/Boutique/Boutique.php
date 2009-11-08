@@ -82,6 +82,10 @@ abstract class Bral_Boutique_Boutique {
 	function getIdEchoppeCourante() {
 		return false;
 	}
+	
+	public function getIdChampCourant() {
+		return false;
+	}
 
 	public function calculNbPa() {
 		if ($this->view->user->pa_hobbit - $this->paUtilisationBoutique < 0) {

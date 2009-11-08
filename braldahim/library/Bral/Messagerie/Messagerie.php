@@ -36,6 +36,10 @@ abstract class Bral_Messagerie_Messagerie {
 		return false;
 	}
 	
+	public function getIdChampCourant() {
+		return false;
+	}
+	
 	public function getNomInterne() {
 		return "messagerie_contenu";
 	}

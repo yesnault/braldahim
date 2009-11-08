@@ -1975,6 +1975,205 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			}
 		}
 	}
+	
+private function prepareTypeGraines($depart) {
+		Zend_Loader::loadClass($depart."Graine");
+
+		$tabGraines = null;
+
+		switch ($depart) {
+			case "Laban" :
+				$labanGraineTable = new labanGraine();
+				$graines = $labanGraineTable->findByIdHobbit($this->view->user->id_hobbit);
+				unset($labanGraineTable);
+				break;
+			case "Element" :
+				$elementGraineTable = new ElementGraine();
+				$graines = $elementGraineTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+				unset($elementGraineTable);
+				break;
+			case "Coffre" :
+				$coffreGraineTable = new CoffreGraine();
+				$graines = $coffreGraineTable->findByIdHobbit($this->view->user->id_hobbit);
+				unset($coffreGraineTable);
+				break;
+			case "Charrette" :
+				$charretteGraineTable = new CharretteGraine();
+				$graines = $charretteGraineTable->findByIdCharrette($this->view->id_charrette_depart);
+				unset($charretteGraineTable);
+				break;
+			case "Echoppe" :
+				$echoppeGraineTable = new EchoppeGraine();
+				$graines = $echoppeGraineTable->findByIdEchoppe($this->view->id_echoppe_depart);
+				unset($echoppeGraineTable);
+				break;
+		}
+
+		$this->view->nb_graine = 0;
+
+		if ($graines != null) {
+			if ($depart == "Echoppe") {
+				$strqte = "arriere_echoppe";
+			}
+			else {
+				$strqte = $depart;
+			}
+			foreach ($graines as $m) {
+				if ($m["quantite_".strtolower($strqte)."_graine"] > 0) {
+					$this->view->nb_valeurs = $this->view->nb_valeurs + 1; 
+					$tabGraines[$this->view->nb_valeurs] = array(
+						"type" => $m["nom_type_graine"],
+						"id_fk_type_graine" => $m["id_fk_type_".strtolower($depart)."_graine"],
+						"quantite_graine" => $m["quantite_".strtolower($strqte)."_graine"],
+						"indice_valeur" => $this->view->nb_valeurs,
+					);
+					$this->view->deposerOk = true;
+					$this->view->nb_graine = $this->view->nb_graine + $m["quantite_".strtolower($strqte)."_graine"];
+				}
+			}
+		}
+		$this->view->valeur_fin_graines = $this->view->nb_valeurs;
+		$this->view->graines = $tabGraines;
+	}
+
+	private function deposeTypeGraines($depart,$arrivee) {
+		Zend_Loader::loadClass($depart."Graine");
+		Zend_Loader::loadClass($arrivee."Graine");
+
+		for ($i=$this->view->valeur_fin_partieplantes + 1; $i<=$this->view->valeur_fin_graines; $i = $i + 2) {
+			$indice = $i;
+			$indiceBrut = $i;
+			$nb = $this->request->get("valeur_".$indiceBrut);
+
+			if ((int) $nb."" != $this->request->get("valeur_".$indiceBrut)."") {
+				throw new Zend_Exception(get_class($this)." NB Graine invalide=".$nb. " indice=".$indiceBrut);
+			} else {
+				$nb = (int)$nb;
+			}
+			if ($nb > $this->view->graines[$indice]["quantite_graine"]) {
+				throw new Zend_Exception(get_class($this)." NB Graine interdit=".$nb);
+			}
+
+			if ($nb > 0) {
+
+				$this->view->nbelement = $this->view->nbelement + 1;
+				if ( $nb > 0 && $this->view->a_panneau === false) {
+					$this->view->panneau = false;
+				}
+				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ) {
+					$this->view->panneau = false;
+					break;
+				}
+
+				if ($arrivee == "Laban" || $arrivee == "Charrette") {
+					$poidsOk1 = $this->controlePoids($this->view->poidsRestant, $nb, Bral_Util_Poids::POIDS_MINERAI);
+					if ($poidsOk1 == false) {
+						$this->view->poidsOk = false;
+						break;
+					}
+				}
+
+				switch ($depart) {
+					case "Laban" :
+						$departGraineTable = new LabanGraine();
+						$data = array(
+							'id_fk_type_laban_graine' => $this->view->graines[$indice]["id_fk_type_graine"],
+							'id_fk_hobbit_laban_graine' => $this->view->user->id_hobbit,
+							'quantite_laban_graine' => -$nb,
+						);
+						break;
+					case "Element" :
+						$departGraineTable = new ElementGraine();
+						$data = array (
+							"x_element_graine" => $this->view->user->x_hobbit,
+							"y_element_graine" => $this->view->user->y_hobbit,
+							"z_element_graine" => $this->view->user->z_hobbit,
+							"id_fk_type_element_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
+							"quantite_element_graine" => -$nb,
+						);
+						break;
+					case "Coffre" :
+						$departGraineTable = new CoffreGraine();
+						$data = array (
+							"id_fk_hobbit_coffre_graine" => $this->view->user->id_hobbit,
+							"id_fk_type_coffre_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
+							"quantite_coffre_graine" => -$nb,
+						);
+						break;
+					case "Charrette" :
+						$departGraineTable = new CharretteGraine();
+						$data = array (
+							"id_fk_charrette_graine" => $this->view->id_charrette_depart,
+							"id_fk_type_charrette_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
+							"quantite_charrette_graine" => -$nb,
+						);
+						break;
+					case "Echoppe" :
+						$departGraineTable = new EchoppeGraine();
+						$data = array (
+							"id_fk_echoppe_echoppe_graine" => $this->view->id_echoppe_depart,
+							"id_fk_type_echoppe_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
+							"quantite_arriere_echoppe_graine" => -$nb,
+						);
+						break;
+				}
+				$departGraineTable->insertOrUpdate($data);
+				unset ($departGraineTable);
+
+				switch ($arrivee) {
+					case "Laban" :
+						$arriveeGraineTable = new LabanGraine();
+						$data = array(
+							"quantite_laban_graine" => $nb,
+							"id_fk_type_laban_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
+							"id_fk_hobbit_laban_graine" => $this->view->user->id_hobbit,
+						);
+						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POIGNEE_GRAINES * $nb;
+						break;
+					case "Element" :
+						$arriveeGraineTable = new ElementGraine();
+						$data = array("x_element_graine" => $this->view->user->x_hobbit,
+							  "y_element_graine" => $this->view->user->y_hobbit,
+							  "z_element_graine" => $this->view->user->z_hobbit,
+							  'quantite_element_graine' => $nb,
+							  'id_fk_type_element_graine' => $this->view->graines[$indice]["id_fk_type_graine"],
+						);
+						break;
+					case "Coffre" :
+						$arriveeGraineTable = new CoffreGraine();
+						$data = array (
+							"id_fk_hobbit_coffre_graine" => $this->view->id_hobbit_coffre,
+							"id_fk_type_coffre_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
+							"quantite_coffre_graine" => $nb,
+						);
+						break;
+					case "Charrette" :
+						$arriveeGraineTable = new CharretteGraine();
+						$data = array (
+							"id_fk_charrette_graine" => $this->view->id_charrette_arrivee,
+							"id_fk_type_charrette_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
+							"quantite_charrette_graine" => $nb,
+						);
+						break;
+						/*
+					case "Echoppe" :
+						$arriveeGraineTable = new EchoppeGraine();
+						$data = array (
+							"id_fk_echoppe_echoppe_graine" => $this->view->id_echoppe_arrivee,
+							"id_fk_type_echoppe_graine" => $this->view->graines[$indice]["id_fk_type_graine"],
+							"quantite_arriere_echoppe_graine" => $nb,
+						);
+						break;*/
+				}
+				$arriveeGraineTable->insertOrUpdate($data);
+				unset ($arriveeGraineTable);
+				$s = "";
+				if ($nb > 1) $s = "s";
+				$this->view->elementsRetires .= $this->view->graines[$indice]["type"]. " : ".$nb. " poignée".$s." de graines";
+				$this->view->elementsRetires .= ", ";
+			}
+		}
+	}
 
 	private function prepareTypeAutres($depart) {
 		Zend_Loader::loadClass($depart);

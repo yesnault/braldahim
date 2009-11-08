@@ -47,6 +47,10 @@ abstract class Bral_Administrationajax_Administrationajax {
 		return false;
 	}
 	
+	public function getIdChampCourant() {
+		return false;
+	}
+	
 	function render() {
 		$this->view->titreAction = $this->getTitreAction();
 		switch($this->action) {

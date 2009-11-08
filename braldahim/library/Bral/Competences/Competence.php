@@ -111,6 +111,10 @@ abstract class Bral_Competences_Competence {
 	public function getIdEchoppeCourante() {
 		return false;
 	}
+	
+	public function getIdChampCourant() {
+		return false;
+	}
 
 	protected function calculNbPa() {
 		if ($this->view->user->pa_hobbit - $this->competence["pa_utilisation"] < 0) {

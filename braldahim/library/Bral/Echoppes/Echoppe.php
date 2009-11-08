@@ -39,6 +39,10 @@ abstract class Bral_Echoppes_Echoppe {
 	abstract function getNomInterne();
 	abstract function getIdEchoppeCourante();
 	
+	public function getIdChampCourant() {
+		return false;
+	}
+	
 	function render() {
 		switch($this->action) {
 			case "ask":
@@ -71,4 +75,5 @@ abstract class Bral_Echoppes_Echoppe {
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
 	}
+	
 }
