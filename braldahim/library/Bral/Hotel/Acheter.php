@@ -119,6 +119,8 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			$objet = $this->prepareVentePotion($idVente);
 		} else if ($vente["type_vente"] == "rune") {
 			$objet = $this->prepareVenteRune($idVente);
+		} else if ($vente["type_vente"] == "graine") {
+			$objet = $this->prepareVenteGraine($idVente);
 		}
 
 		$tab = array(
@@ -414,6 +416,48 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		);
 
 		return $tabMinerai;
+	}
+
+	private function prepareVenteGraine($idVente) {
+		Zend_Loader::loadClass("VenteGraine");
+		$venteGraineTable = new VenteGraine();
+
+		$graine = $venteGraineTable->findByIdVente($idVente);
+
+		if ($graine == null || count($graine) != 1) {
+			throw new Zend_Exception(get_class($this)."::prepareVenteGraine invalide:".$idVente);
+		}
+
+		$graine = $graine[0];
+		$poidsUnitaire = Bral_Util_Poids::POIDS_POIGNEE_GRAINES;
+
+		$placeDispo = false;
+		$i = 0;
+		foreach($this->view->destinationTransfert as $d) {
+			if ($d["poids_restant"] >= $graine["quantite_vente_graine"] * $poidsUnitaire) {
+				$placeDispo = true;
+				$this->view->destinationTransfert[$i]["possible"] = true;
+			}
+			$i ++;
+		}
+
+		$s = "";
+		if ($graine["quantite_vente_graine"] > 1) {
+			$s = "s";
+		}
+
+		$nom = $graine["nom_type_graine"]." : ".$graine["quantite_vente_graine"]. " poignée".$s. " de graines";
+
+		$tabGraine = array(
+			"nom" => $nom,
+			"quantite_vente_graine" => $graine["quantite_vente_graine"],
+			"id_type_graine" => $graine["id_fk_type_vente_graine"],
+			"place_dispo" => $placeDispo,
+			"est_charrette" => false,
+			"charrette_possible" => true,
+		);
+
+		return $tabGraine;
 	}
 
 	private function prepareVentePartieplante($idVente) {
@@ -931,6 +975,8 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			$objet = $this->calculTransfertPotion($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "rune") {
 			$objet = $this->calculTransfertRune($idDestination);
+		} else if ($this->view->vente["vente"]["type_vente"] == "graine") {
+			$objet = $this->calculTransfertGraine($idDestination);
 		}
 
 		$this->view->destination = $destination;
@@ -1127,7 +1173,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$venteTable = new Vente();
 		$where = "id_vente=".$this->idVente;
 		$venteTable->delete($where);
-		
+
 		$details = "[h".$this->view->user->id_hobbit."] a acheté le matériel n°".$this->view->vente["objet"]["id_materiel"]. " à l'Hôtel des Ventes";
 		Zend_Loader::loadClass("Bral_Util_Materiel");
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_ACHETER_ID, $this->view->vente["objet"]["id_materiel"], $details);
@@ -1202,7 +1248,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		Zend_Loader::loadClass("Bral_Util_Potion");
 		$details = "[h".$this->view->user->id_hobbit."] a acheté ".$this->view->vente["objet"]["nom"]. " à l'Hôtel des Ventes";
 		Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_ACHETER_ID, $this->view->vente["objet"]["id_potion"], $details);
-		
+
 		$venteTable = new Vente();
 		$where = "id_vente=".$this->idVente;
 		$venteTable->delete($where);
@@ -1239,7 +1285,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$venteTable = new Vente();
 		$where = "id_vente=".$this->idVente;
 		$venteTable->delete($where);
-		
+
 		$details = "[h".$this->view->user->id_hobbit."] a acheté la rune n°".$this->view->vente["objet"]["id_rune"]. " à l'Hôtel des Ventes";
 		Zend_Loader::loadClass("Bral_Util_Rune");
 		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_ACHETER_ID, $this->view->vente["objet"]["id_rune"], $details);
@@ -1380,6 +1426,40 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			$data["id_fk_charrette_minerai"] = $this->view->charrette["id_charrette"];
 		} else {
 			$data["id_fk_hobbit_laban_minerai"] = $this->view->user->id_hobbit;
+		}
+		$table->insertOrUpdate($data);
+
+		if ($idDestination == "charrette") {
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+		}
+
+		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
+
+		$venteTable = new Vente();
+		$where = "id_vente=".$this->idVente;
+		$venteTable->delete($where);
+	}
+
+	private function calculTransfertGraine($idDestination) {
+		if ($idDestination == "charrette") {
+			Zend_Loader::loadClass("CharretteGraine");
+			$table = new CharretteGraine();
+			$suffixe = "charrette";
+		} else {
+			Zend_Loader::loadClass("LabanGraine");
+			$table = new LabanGraine();
+			$suffixe = "laban";
+		}
+
+		$data = array(
+			"id_fk_type_".$suffixe."_graine" => $this->view->vente["objet"]["id_type_graine"],
+			"quantite_".$suffixe."_graine" => $this->view->vente["objet"]["quantite_vente_graine"],
+		);
+
+		if ($idDestination == "charrette") {
+			$data["id_fk_charrette_graine"] = $this->view->charrette["id_charrette"];
+		} else {
+			$data["id_fk_hobbit_laban_graine"] = $this->view->user->id_hobbit;
 		}
 		$table->insertOrUpdate($data);
 

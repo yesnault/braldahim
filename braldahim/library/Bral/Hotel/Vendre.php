@@ -130,13 +130,14 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 
 		$typesElements[1] = array("id_type_element" => 1, "selected" => $idTypeCourant, "nom_systeme" => "aliments", "nom_element" => "Aliments");
 		$typesElements[2] = array("id_type_element" => 2, "selected" => $idTypeCourant, "nom_systeme" => "equipements", "nom_element" => "Equipements");
-		$typesElements[3] = array("id_type_element" => 3, "selected" => $idTypeCourant, "nom_systeme" => "materiels", "nom_element" => "Matériels");
-		$typesElements[4] = array("id_type_element" => 4, "selected" => $idTypeCourant, "nom_systeme" => "munitions", "nom_element" => "Munitions");
-		$typesElements[5] = array("id_type_element" => 5, "selected" => $idTypeCourant, "nom_systeme" => "minerais", "nom_element" => "Minerais");
-		$typesElements[6] = array("id_type_element" => 6, "selected" => $idTypeCourant, "nom_systeme" => "partiesplantes", "nom_element" => "Parties de Plantes");
-		$typesElements[7] = array("id_type_element" => 7, "selected" => $idTypeCourant, "nom_systeme" => "potions", "nom_element" => "Potions et Vernis");
-		$typesElements[8] = array("id_type_element" => 8, "selected" => $idTypeCourant, "nom_systeme" => "runes", "nom_element" => "Runes");
-		$typesElements[9] = array("id_type_element" => 9, "selected" => $idTypeCourant, "nom_systeme" => "autres", "nom_element" => "Autres Elements");
+		$typesElements[3] = array("id_type_element" => 3, "selected" => $idTypeCourant, "nom_systeme" => "graines", "nom_element" => "Graines");
+		$typesElements[4] = array("id_type_element" => 4, "selected" => $idTypeCourant, "nom_systeme" => "materiels", "nom_element" => "Matériels");
+		$typesElements[5] = array("id_type_element" => 5, "selected" => $idTypeCourant, "nom_systeme" => "munitions", "nom_element" => "Munitions");
+		$typesElements[6] = array("id_type_element" => 6, "selected" => $idTypeCourant, "nom_systeme" => "minerais", "nom_element" => "Minerais");
+		$typesElements[7] = array("id_type_element" => 7, "selected" => $idTypeCourant, "nom_systeme" => "partiesplantes", "nom_element" => "Parties de Plantes");
+		$typesElements[8] = array("id_type_element" => 8, "selected" => $idTypeCourant, "nom_systeme" => "potions", "nom_element" => "Potions et Vernis");
+		$typesElements[9] = array("id_type_element" => 9, "selected" => $idTypeCourant, "nom_systeme" => "runes", "nom_element" => "Runes");
+		$typesElements[10] = array("id_type_element" => 10, "selected" => $idTypeCourant, "nom_systeme" => "autres", "nom_element" => "Autres Elements");
 
 		$this->view->typeElements = $typesElements;
 		$this->view->typeCourant = null;
@@ -164,6 +165,9 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 				break;
 			case "aliments" :
 				$this->prepareTypeAliments($endroit);
+				break;
+			case "graines" :
+				$this->prepareTypeGraines($endroit);
 				break;
 			case "materiels" :
 				$this->prepareTypeMateriels($endroit);
@@ -201,6 +205,9 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 				break;
 			case "aliments" :
 				$this->deposeTypeAliments($endroit);
+				break;
+			case "graines" :
+				$this->deposeTypeGraines($endroit);
 				break;
 			case "materiels" :
 				$this->deposeTypeMateriels($endroit);
@@ -1019,6 +1026,91 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($this->view->objetVente != "") {
 			$this->view->objetVente = substr($this->view->objetVente, 0, strlen($this->view->objetVente) -2);
 		}
+	}
+
+	private function prepareTypeGraines($endroit) {
+		$tabGraines = null;
+
+		if ($endroit["nom_systeme"] == "Laban") {
+			Zend_Loader::loadClass("LabanGraine");
+			$table = new LabanGraine();
+			$graines = $table->findByIdHobbit($this->view->user->id_hobbit);
+		} else {
+			Zend_Loader::loadClass("CharretteGraine");
+			$table = new CharretteGraine();
+			$graines = $table->findByIdCharrette($endroit["id_charrette"]);
+		}
+
+		if (count($graines) > 0) {
+			foreach ($graines as $m) {
+				if ($m["quantite_".$endroit["suffixe"]."_graine"] > 0) {
+					$tabGraines[] = array(
+						"id_type_graine" => $m["id_fk_type_".$endroit["suffixe"]."_graine"],
+						"type" => $m["nom_type_graine"],
+						"quantite" => $m["quantite_".$endroit["suffixe"]."_graine"],
+					);
+					$this->view->vendreOk = true;
+				}
+			}
+		} else {
+			$this->view->vendreOk = false;
+		}
+		$this->view->graines = $tabGraines;
+	}
+
+	private function deposeTypeGraines($endroit) {
+		$idGraine = null;
+		$nbGraine = null;
+
+		$idGraine = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
+		$nbGraine = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_4"));
+
+		if (!array_key_exists($idGraine, $this->view->graines)) {
+			throw new Zend_Exception(get_class($this)." ID Graine invalide : ".$idGraine);
+		}
+
+		$graine = $this->view->graines[$idGraine];
+
+		if ($nbGraine > $graine["quantite"] || $nbGraine < 0) {
+			throw new Zend_Exception(get_class($this)." Quantite Graine Brut invalide : ".$nbGraine);
+		}
+
+		$idVente = $this->initVente("graine");
+
+		if ($endroit["nom_systeme"] == "Laban") {
+			Zend_Loader::loadClass("LabanGraine");
+			$table = new LabanGraine();
+			$nomFk = "id_fk_hobbit_laban_graine";
+			$valeurFk = $this->view->user->id_hobbit;
+		} else {
+			Zend_Loader::loadClass("CharretteGraine");
+			$table = new CharretteGraine();
+			$nomFk = "id_fk_charrette_graine";
+			$valeurFk = $endroit["id_charrette"];
+		}
+
+		$data = array(
+			"quantite_".$endroit["suffixe"]."_graine" => -$nbGraine,
+			"id_fk_type_".$endroit["suffixe"]."_graine" => $graine["id_type_graine"],
+		);
+		$data[$nomFk] = $valeurFk;
+		$table->insertOrUpdate($data);
+
+		Zend_Loader::loadClass("VenteGraine");
+		$venteGraineTable = new VenteGraine();
+		$data = array (
+				"id_fk_vente_graine" => $idVente,
+				"id_fk_type_vente_graine" => $graine["id_type_graine"],
+				"quantite_vente_graine" => $nbGraine,
+		);
+		$venteGraineTable->insert($data);
+
+		$s = "";
+		if ($nbGraine > 1) {
+			$s = "s";
+		}
+
+		$this->view->objetVente = $graine["type"] . " : ".$nbGraine. " poignée".$s." de graines";
 	}
 
 	private function verificationPrix() {

@@ -470,7 +470,7 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 		if ($this->view->detailPrix != "") {
 			$this->view->detailPrix = mb_substr($this->view->detailPrix, 0, -2);
 		}
-		
+
 		$details = "[h".$this->view->user->id_hobbit."] a acheté le matériel n°".$this->idMateriel. " dans l'échoppe";
 		Zend_Loader::loadClass("Bral_Util_Materiel");
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_ACHETER_ID, $this->idMateriel, $details);
@@ -645,6 +645,10 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 		$echoppeMaterielTable = new EchoppeMateriel();
 		$where = "id_echoppe_materiel=".$this->view->materiel["id_materiel"];
 		$echoppeMaterielTable->delete($where);
+
+		if ($idDestination == "charrette") {
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+		}
 	}
 
 	function getListBoxRefresh() {

@@ -4,10 +4,10 @@
 	<select name="valeur_3" id="valeur_3" onChange="$('valeur_4').value = 0; $('bouton_vendrehotel').disabled=true ">
 	 	<option value="-1">(Choisissez un type)</option>
 	 	<? foreach($this->graines as $k => $m) :?>
-	 		<option value="<?=$k?>"><?=$m["nom_forme"]?> : <?=$m["quantite"]?> <?=$m["type"]?></option>
+	 		<option value="<?=$k?>"><?=$m["type"]?> : <?=$m["quantite"]?> poignée<? if ($m["quantite"] > 1): echo 's'; endif;?> de graines</option>
 	 	<? endforeach; ?>
 	</select>
 	<br/>
-	Quantit&eacute; &agrave; vendre : <br />
+	Nombre de poingnées à vendre : <br />
 	<input type='text' maxlength='7' size='7' name='valeur_4' id='valeur_4' value='0' onkeypress="chiffres(event);" onkeyup="if (this.value > 0 && $('valeur_3').value > 0 && $('valeur_5').value > 0 && $('valeur_6').value != -1) {$('bouton_vendrehotel').disabled=false} else {$('bouton_vendrehotel').disabled=true} ">
 <? endif; ?>

@@ -112,6 +112,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		$avecElements = false;
 		$avecMunitions = false;
 		$avecAliments = false;
+		$avecGraines = false;
 		$avecPotions = false;
 		$avecRunes = false;
 		$avecMateriels = false;
@@ -137,6 +138,8 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 				$avecMinerais = true;
 			} elseif ($e["type_vente"] == "partieplante") {
 				$avecPlantes = true;
+			} elseif ($e["type_vente"] == "graine") {
+				$avecGraines = true;
 			}
 		}
 
@@ -165,6 +168,10 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 			$tabResultats = array_merge($tabResultats, $this->prepareRechercheAliment(null, $idVentes));
 		}
 
+		if ($avecGraines) {
+			$tabResultats = array_merge($tabResultats, $this->prepareRechercheGraine(null, "graine", $idVentes));
+		}
+
 		if ($avecPotions) {
 			$tabResultats = array_merge($tabResultats, $this->prepareRecherchePotion(null, $idVentes));
 		}
@@ -185,6 +192,8 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		$tabReturn = array();
 		if ($numeroElement >= $this->numeroElementPemiereMatiereAutre || $type == "element") {
 			$tabReturn = $this->prepareRechercheElement($numeroElement, $type, $idsVente);
+		} else if ($numeroElement >= $this->numeroElementPemiereMatiereGraine || $type == "graine") {
+			$tabReturn = $this->prepareRechercheGraine($numeroElement, $type, $idsVente);
 		} elseif ($numeroElement >= $this->numeroElementPemiereMatierePlante || $type == "partieplante") {
 			$tabReturn = $this->prepareRecherchePartieplante($numeroElement, $type, $idsVente);
 		} else if ($numeroElement < $this->numeroElementPemiereMatierePlante || $type == "minerai") {
@@ -285,7 +294,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 				$typePlante = $this->view->menuRechercheMatieresTransformees["plantes"]["elements"][$numeroElement]["id_type_plante"];
 				$typePartiePlante = $this->view->menuRechercheMatieresTransformees["plantes"]["elements"][$numeroElement]["id_type_partieplante"];
 			}
-			if ($numeroElement < $this->numeroElementPemiereMatiereAutre && $typePlante != null && $typePartiePlante != null) {
+			if ($numeroElement < $this->numeroElementPemiereMatiereGraine && $typePlante != null && $typePartiePlante != null) {
 				$elements = $ventePartieplanteTable->findByIdType($typePlante, $typePartiePlante);
 			}
 		}
@@ -339,6 +348,77 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 				$tabReturn[] = array(
 					"type" => "partieplante",
 					"vente" => $this->prepareRowVente($e, $minerai, $partiesPlantes),
+					"objet" => $tabObjet,
+				);
+
+			}
+		}
+		return $tabReturn;
+	}
+
+	private function prepareRechercheGraine($numeroElement, $type, $idsVente = null) {
+		Zend_Loader::loadClass("VenteGraine");
+
+		$venteGraineTable = new VenteGraine();
+		$graines = null;
+		if ($idsVente != null) {
+			$graines = $venteGraineTable->findByIdVente($idsVente);
+		} else {
+			$typeGraine = null;
+			if ($type == "graine") {
+				$typeGraine = $this->view->menuRechercheMatieresPremieres["graines"]["elements"][$numeroElement]["id_type_graine"];
+			}
+				
+			$typeGraine = $this->view->menuRechercheMatieresPremieres["graines"]["elements"][$numeroElement]["id_type_graine"];
+			if ($numeroElement < $this->numeroElementPemiereMatiereAutre && $typeGraine != null) {
+				$graines = $venteGraineTable->findByIdType($typeGraine);
+			}
+		}
+
+		$tabReturn = array();
+
+		$idGraines = null;
+		$idVentes = null;
+		if ($graines != null) {
+			foreach ($graines as $e) {
+				$idGraines[] = $e["id_vente_graine"];
+				$idVentes[] = $e["id_vente"];
+			}
+		}
+
+		if ($idGraines != null && count($idGraines) > 0) {
+			Zend_Loader::loadClass("VentePrixGraine");
+			$ventePrixGraineTable = new VentePrixGraine();
+			$ventePrixGraine = $ventePrixGraineTable->findByIdVente($idVentes);
+
+			Zend_Loader::loadClass("VentePrixPartiePlante");
+			$ventePrixPartiePlanteTable = new VentePrixPartiePlante();
+			$ventePrixPartiePlante = $ventePrixPartiePlanteTable->findByIdVente($idVentes);
+		}
+
+		if (count($graines) > 0) {
+			foreach($graines as $e) {
+
+				$minerais = $this->recuperePrixMineraiAvecIdVente($ventePrixGraine, $e["id_vente"]);
+				$partiesPlantes = $this->recuperePrixPartiePlantesAvecIdVente($ventePrixPartiePlante, $e["id_vente"]);
+
+				$s = "";
+				if ($e["quantite_vente_graine"] > 1) {
+					$s = "s";
+				}
+
+				$nom = $e["nom_type_graine"]. " : ".$e["quantite_vente_graine"]. " poignée".$s. " de graines";
+				$image = "type_graine_".$e["id_type_graine"];
+
+				$tabObjet = array(
+					"id_graine" => $e["id_vente_graine"],
+					"image" => $image,
+					"nom" => $nom,
+				);
+
+				$tabReturn[] = array(
+					"type" => "graine",
+					"vente" => $this->prepareRowVente($e, $minerais, $partiesPlantes),
 					"objet" => $tabObjet,
 				);
 
@@ -1093,6 +1173,20 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		$tabMenuMatieresPremieres["plantes"] = $tabPlantesBrutes;
 		$tabMenuMatieresTransformees["plantes"] = $tabPlantesPreparees;
 
+		Zend_Loader::loadClass("TypeGraine");
+		$typeGraineTable = new TypeGraine();
+		$typesGraines = $typeGraineTable->fetchAll(null, "nom_type_graine");
+		$typesGraines = $typesGraines->toArray();
+		$tabGraines = array("titre" => "Graines");
+
+		$this->numeroElementPemiereMatiereGraine = $numeroElement + 1;
+
+		foreach($typesGraines as $e) {
+			$numeroElement++;
+			$tabGraines["elements"][$numeroElement] = array('numero_element' => $numeroElement, 'nom' => "Graine : ".$e["nom_type_graine"], "id_type_graine" => $e["id_type_graine"]);
+		}
+		$tabMenuMatieresPremieres["graines"] = $tabGraines;
+
 		$tabAutresPremieres = array("titre" => "Autres éléments");
 		$tabAutresTransformees = array("titre" => "Autres éléments");
 
@@ -1139,9 +1233,9 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 		$typePotionTable = new TypePotion();
 		$typesPotions = $typePotionTable->fetchAll(null, array("type_potion ASC", "nom_type_potion ASC"));
 		$typesPotions = $typesPotions->toArray();
-		
+
 		Zend_Loader::loadClass("Bral_Util_Potion");
-		
+
 		$tabPotion = null;
 		$numeroElement = 0;
 		foreach($typesPotions as $e) {
