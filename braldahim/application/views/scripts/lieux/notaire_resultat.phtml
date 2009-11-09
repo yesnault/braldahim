@@ -18,6 +18,10 @@
 		Une palissade existe d&eacute;j&agrave; en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas acheter de champ
 		&agrave; cet endroit.
 		
+	<? elseif ($this->construireLieuChampOk == false) : ?>
+		Un champ existe d&eacute;j&agrave; en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas acheter de champ
+		&agrave; cet endroit.
+		
 	<? elseif ($this->construireRegionOk == false) : ?>
 		&Eacute;tant dans la <?=$this->regionCourante["nom_region"] ?>, vous ne pouvez pas 
 		acheter de champ dans une autre comt&eacute;.
@@ -42,6 +46,10 @@
 		
 	<? elseif ($this->construireLieuPalissadeOk == false) : ?>
 		Une palissade existe d&eacute;j&agrave; en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas construire d'&eacute;choppe 
+		&agrave; cet endroit.
+		
+	<? elseif ($this->construireLieuChampOk == false) : ?>
+		Un champ existe d&eacute;j&agrave; en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas construire d'&eacute;choppe 
 		&agrave; cet endroit.
 	
 	<? elseif ($this->construireRegionOk == false) : ?>

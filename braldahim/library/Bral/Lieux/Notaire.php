@@ -250,13 +250,23 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 			return false;
 		}
 
+		// on verifie que l'on est pas sur une palissade
+		$champsTable = new Champ();
+		$champs = $champsTable->findByCase($x, $y, $z);
+
+		$this->view->construireLieuChampOk = true;
+		if (count($champs) > 0) {
+			$this->view->construireLieuChampOk = false;
+			return false;
+		}
+
 		// on verifie que la position est dans la comté de la tentative
 		$this->view->construireRegionOk = true;
 		if ($this->regionCourante["x_min_region"] > $x || $this->regionCourante["x_max_region"] < $x || $this->regionCourante["y_min_region"] > $y || $this->regionCourante["y_max_region"] < $y) {
 			$this->view->construireRegionOk = false;
 			return false;
 		}
-		
+
 		return true;
 	}
 
