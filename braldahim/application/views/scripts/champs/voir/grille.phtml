@@ -1,9 +1,21 @@
 <ul class="titre textalic textsizec">Le champ</ul><br />
 
-<br />
+<? if ($this->champ["phase_champ"] == "seme") : ?>
+	Le champ est semé depuis le 
+	<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->champ["date_seme_champ"]);?>, 
+	vous pouvez l'entretenir pour avoir une meilleure récolte.
+<? elseif ($this->champ["phase_champ"] == "a_recolter") : ?>
+	Le champ peut-être récolté ! 
+	Dépêchez-vous, s'il n'est pas récolté avant 
+	<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->champ["date_fin_recolte_champ"]);?>,
+	il passera en jachère. 
+<? else : ?>
+	Le champ est actuellement en jachère. Si vous avez assez de graines, vous pouvez en semer.
+<? endif; ?>
+<br /><br />
 
 <div class="box_contenu1 textalic">
-	<table class='vue2d' align='center'>
+	<table class='champ2d' align='center'>
 	<?php 
 	$col="";
 	echo "<tr><td>&nbsp;</td>";
@@ -28,13 +40,60 @@ foreach($this->tableau as $k => $case) :
     <?php endif; ?>
 	<td class='champ2d <?=$case["css_champ"]?>' nowrap title="<?=$case["x"]. "," . $case["y"]?>">
 	<? if ($case["taupe"] != null) : ?>
-		<img src='/public/styles/braldahim_defaut/images/champ/<?=$case["taupe"]["etat_champ_taupe"]?>.png'>
-	<? else: ?>
-		
+		<? include("taupe.phtml"); ?>
 	<? endif;?>
 	</td>
 <? endforeach; ?>
 </tr>
 </table>
-&nbsp;
+
+
+Légende : 
+
+<table class='champ' align='center'>
+<tr>
+	<td class='champ2d jachere'>
+	&nbsp;
+	</td><td>
+		Champ en jachère.
+	</td>
+</tr>
+<tr>
+	<td class='champ2d a_recolter'>
+	&nbsp;
+	</td><td>
+		Champ à récolter.
+	</td>
+</tr>
+<tr>
+	<td class='champ2d seme'>
+	&nbsp;
+	</td><td>
+		Champ semé.
+	</td>
+</tr>
+<tr>
+	<td class='champ2d a_recolter'>
+	<img src='/public/styles/braldahim_defaut/images/champ/vivant.png'>
+	</td><td>
+		Taupe vivante (visible quand le champ est à récolter).
+	</td>
+</tr>
+<tr>
+	<td class='champ2d seme'>
+		<img src='/public/styles/braldahim_defaut/images/champ/detruit.png'>
+	</td><td>
+		Zone entretenue, taupe détruite.
+	</td>
+</tr>
+<tr>
+	<td class='champ2d seme'>
+		<img src='/public/styles/braldahim_defaut/images/champ/entretenu.png'>
+	</td><td>
+		Zone entretenue, aucune taupe.
+	</td>
+</tr>
+
+</table>
+
 </div>

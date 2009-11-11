@@ -53,6 +53,9 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 					'x_champ' => $e["x_champ"],
 					'y_champ' => $e["y_champ"],
 					'z_champ' => $e["z_champ"],
+					'phase_champ' => $e["phase_champ"],
+					'date_seme_champ' => $e["date_seme_champ"],
+					'date_fin_recolte_champ' => $e["date_fin_recolte_champ"],
 				);
 
 				if ($this->view->user->x_hobbit == $e["x_champ"] &&
@@ -95,9 +98,14 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 		$taupes = $champTaupeTable->findByIdChamp($champ["id_champ"]);
 
 		$tabTaupes = array();
-		if ($taupes != null) {
-			foreach($taupes as $t) {
-				$tabTaupes[$t["x_champ_taupe"].'t'.$t["y_champ_taupe"]] = $t;
+		if ($champ["phase_champ"] != "jachere") {
+			if ($taupes != null) {
+				foreach($taupes as $t) {
+					if ($champ["phase_champ"] == 'a_recolter' ||
+					$champ["phase_champ"] == 'seme' && $t["etat_champ_taupe"] != 'vivant') {
+						$tabTaupes[$t["x_champ_taupe"].'t'.$t["y_champ_taupe"]] = $t;
+					}
+				}
 			}
 		}
 
