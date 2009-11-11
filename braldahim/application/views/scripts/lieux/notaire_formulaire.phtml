@@ -33,7 +33,7 @@
 	   		Vous n'avez pas assez de PA. <br />
 	   		<? endif; ?>
 	   	<? else : ?>
-	   		Dans cette comt&eacute; (<?=$this->tabRegionCourante["nom_region"]?>),
+	   		Dans cette Comt&eacute; (<?=$this->tabRegionCourante["nom_region"]?>),
 			 vous pouvez acheter un champ.<br /><br />
 
 			Indiquez la position du champ : <br />
@@ -67,7 +67,7 @@
 	   		<? endif; ?>
 	   	<? else : ?>
 		 	<? if ($this->construireMetierPossible === true && $this->aucuneEchoppe === true) : ?>
-				 Dans cette comt&eacute; (<?=$this->tabRegionCourante["nom_region"]?>),
+				 Dans cette Comt&eacute; (<?=$this->tabRegionCourante["nom_region"]?>),
 				 vous pouvez construire une &eacute;choppe
 				<? if ($this->nom_metier_courant{0} == 'A') : echo 'd'; else: echo "de"; endif; ?>
 				<?=$this->nom_metier_courant ?>.<br /><br />
