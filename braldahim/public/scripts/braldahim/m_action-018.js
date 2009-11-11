@@ -39,7 +39,7 @@ function _get_(url, encode) {
 			if ((url.substring(10, 12) == "do") && (url.substring(27, 29) == "do")) {
 				action = "do";
 			}
-		} else if (url.substring(0, 7) == "/carnet") { // /carnet/doaction?caction=ask/do
+		} else if (url.substring(0, 7) == "/carnet" || url.substring(0, 7) == "/champs") { // /carnet/doaction?caction=ask/do
 			if ((url.substring(8, 10) == "do") && (url.substring(25, 27) == "do")) {
 				action = "do";
 			}

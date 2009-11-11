@@ -1,8 +1,10 @@
 <? include("commun_text_resultat.phtml") ?>
 
-Vous avez ramassé une poignée de graines.<br /> 
-
-<? if ($this->buissonDetruit) : ?>
-	<br>Vous avez récupéré toutes les graines de ce buisson.
+<? if ($this->okJet1 === true):?>
+	Vous avez ramassé une poignée de graines.<br /> 
+	
+	<? if ($this->buissonDetruit) : ?>
+		<br>Vous avez récupéré toutes les graines de ce buisson.
+	<? endif;?>
 <? endif;?>
 <br /><br />

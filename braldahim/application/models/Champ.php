@@ -54,7 +54,7 @@ class Champ extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 	
-	function findByCase($x, $y, $z) {
+	function findByCase($x, $y, $z, $idHobbit = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('champ', '*')
@@ -68,7 +68,13 @@ class Champ extends Zend_Db_Table {
 		->where('region.x_max_region >= champ.x_champ')
 		->where('region.y_min_region <= champ.y_champ')
 		->where('region.y_max_region >= champ.y_champ');
+		
+		if ($idHobbit != null) {
+			$select->where('id_hobbit = ?', $idHobbit);
+		}
+		
 		$sql = $select->__toString();
+		
 		return $db->fetchAll($sql);
 	}
 

@@ -57,7 +57,7 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 
 				if ($this->view->user->x_hobbit == $e["x_champ"] &&
 				$this->view->user->y_hobbit == $e["y_champ"] &&
-				$this->view->user->z_hobbit == $e["y_champ"]) {
+				$this->view->user->z_hobbit == $e["z_champ"]) {
 					$this->view->estSurChamp = true;
 				}
 				break;

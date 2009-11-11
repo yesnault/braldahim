@@ -1,6 +1,9 @@
 <? include("commun_text_resultat.phtml") ?>
 
-Vous avez semé des graines de TODO.<br /> 
+<? if ($this->okJet1 === true):?>
+	Vous avez semé 2 poignées de graines <?=$this->nom_graine?>.<br /> 
+	
+	Vous pourrez récolter dans 21 jours. En attendant, n'oubliez pas d'entretenir votre champ...
+	<br /><br />
+<? endif;?>
 
-Vous pourrez récolter dans 21 jours. En attendant, n'oubliez pas d'entretenir votre champ...
-<br /><br />

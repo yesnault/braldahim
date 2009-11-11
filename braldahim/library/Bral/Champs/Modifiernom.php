@@ -19,10 +19,10 @@ class Bral_Champs_Modifiernom extends Bral_Champs_Champ {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Champ");
 		
-		$id_champ = $this->request->get("valeur_1");
+		$idChamp = $this->request->get("valeur_1");
 		
-		if ($id_champ == "" || $id_champ == null) {
-			throw new Zend_Exception(get_class($this)." Champ invalide=".$id_champ);
+		if ($idChamp == "" || $idChamp == null) {
+			throw new Zend_Exception(get_class($this)." Champ invalide=".$idChamp);
 		}
 		
 		$champTable = new Champ();
@@ -30,9 +30,10 @@ class Bral_Champs_Modifiernom extends Bral_Champs_Champ {
 		
 		$tabChamp = null;
 		foreach ($champs as $e) {
-			if ($e["id_champ"] == $id_champ && 
+			if ($e["id_champ"] == $idChamp && 
 				$e["x_champ"] == $this->view->user->x_hobbit && 
-				$e["y_champ"] == $this->view->user->y_hobbit) {
+				$e["y_champ"] == $this->view->user->y_hobbit && 
+				$e["z_champ"] == $this->view->user->z_hobbit) {
 				$tabChamp = array(
 					'id_champ' => $e["id_champ"],
 					'nom_champ' => $e["nom_champ"],
@@ -41,11 +42,11 @@ class Bral_Champs_Modifiernom extends Bral_Champs_Champ {
 			}
 		}
 		if ($tabChamp == null) {
-			throw new Zend_Exception(get_class($this)." Champ invalide idh:".$this->view->user->id_hobbit." ide:".$id_champ);
+			throw new Zend_Exception(get_class($this)." Champ invalide idh:".$this->view->user->id_hobbit." ide:".$idChamp);
 		}
 		
 		$this->view->champ = $tabChamp;
-		$this->view->idChamp = $id_champ;
+		$this->view->idChamp = $idChamp;
 	}
 
 	function prepareFormulaire() {
@@ -79,6 +80,6 @@ class Bral_Champs_Modifiernom extends Bral_Champs_Champ {
 	}
 	
 	function getListBoxRefresh() {
-		return array();
+		return array("box_lieu", "box_vue");
 	}
 }

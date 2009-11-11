@@ -14,12 +14,12 @@ class LabanGraine extends Zend_Db_Table {
 	protected $_name = 'laban_graine';
 	protected $_primary = array('id_fk_hobbit_laban_graine', 'id_fk_type_laban_graine');
 
-	function findByIdHobbit($id_hobbit) {
+	function findByIdHobbit($idHobbit) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban_graine', '*')
 		->from('type_graine', '*')
-		->where('id_fk_hobbit_laban_graine = '.intval($id_hobbit))
+		->where('id_fk_hobbit_laban_graine = ?', intval($idHobbit))
 		->where('laban_graine.id_fk_type_laban_graine = type_graine.id_type_graine');
 		$sql = $select->__toString();
 

@@ -77,6 +77,6 @@ class Bral_Champs_Modifierdescription extends Bral_Champs_Champ {
 	}
 	
 	function getListBoxRefresh() {
-		return array("box_lieu");
+		return array("box_lieu", "box_vue");
 	}
 }

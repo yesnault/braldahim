@@ -19,7 +19,7 @@ class CharretteGraine extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('charrette_graine', '*')
 		->from('type_graine', '*')
-		->where('id_fk_charrette_graine = '.intval($idCharrette))
+		->where('id_fk_charrette_graine = ?', intval($idCharrette))
 		->where('charrette_graine.id_fk_type_charrette_graine = type_graine.id_type_graine');
 		$sql = $select->__toString();
 
