@@ -127,12 +127,15 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		if ($this->view->nouvelleEquipePossible == true && $this->view->inscriptionParHobbitNouvelleEquipePossible == true) {
 			$this->inscriptionNouvelleEquipe();
 			$this->view->inscriptionEquipe = true;
+			$this->majHobbit();
 		} elseif ($this->view->inscriptionDemandee == true) {
 			$this->inscriptionHobbit();
 			$this->envoieMessageInscriptionHobbit();
+			$this->majHobbit();
 		} elseif ($this->view->estMeneur && $this->view->inscriptionRealisee) {
 			$this->calculDescente();
 			$this->creationDonjon();
+			$this->majHobbit();
 		}
 
 	}
