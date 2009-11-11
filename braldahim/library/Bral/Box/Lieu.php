@@ -121,14 +121,14 @@ class Bral_Box_Lieu extends Bral_Box_Box {
 			unset($champRowset);
 			$this->view->estLieuCourant = true;
 
-			$nom .= " Champ appartenant à ".$champ["prenom_hobbit"];
+			$nom = " Champ appartenant à ".$champ["prenom_hobbit"];
 			$nom .= " ".$champ["nom_hobbit"];
 			$nom .= " n°".$champ["id_hobbit"];
 
 			$this->view->nomLieu = $nom;
 			$this->view->nomTypeLieu = "champ";
 			$this->view->nomSystemeLieu = "champ";
-			$this->view->nomImageLieu = "champs/".$champ["nom_systeme_metier"];
+			$this->view->nomImageLieu = "champs/todo.png";
 			$this->view->nomChamp = $champ["nom_champ"];
 			$this->view->descriptionLieu = "";
 			$this->view->commentaireChamp = $champ["commentaire_champ"];
