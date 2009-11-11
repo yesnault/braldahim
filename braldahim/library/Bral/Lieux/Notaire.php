@@ -47,7 +47,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		}
 
 		$tabTypeAchat[] = array("id_type_achat" => "champ", "texte" => "Un champ", "selected" => $selectedChamp);
-		$tabTypeAchat[] = array("id_type_achat" => "echoppe", "texte" => "une échoppe", "selected" => $selectedEchoppe);
+		$tabTypeAchat[] = array("id_type_achat" => "echoppe", "texte" => "Une échoppe", "selected" => $selectedEchoppe);
 
 		$this->view->idTypeCourant = $idTypeCourant;
 		$this->view->typeAchat = $tabTypeAchat;
@@ -188,8 +188,8 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		$echoppesTable = new Echoppe();
 		$data = array (
 				'id_fk_hobbit_echoppe' => $this->view->user->id_hobbit,
-				'x_echoppe' => $x,
-				'y_echoppe' => $y,
+				'x_echoppe' => $this->view->x_construction,
+				'y_echoppe' => $this->view->y_construction,
 				'z_echoppe' => 0,
 				'id_fk_metier_echoppe' => $this->id_metier_courant,
 				'date_creation_echoppe' => date("Y-m-d H:i:s"),
