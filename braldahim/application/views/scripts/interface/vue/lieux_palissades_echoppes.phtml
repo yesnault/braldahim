@@ -1,8 +1,8 @@
 <?
 $textLieu = "";
 $textPalissade = "";
-$textRoute = "";
 $textEchoppe = "";
+$textChamp = "";
 $type_lieu = "";
 $textBallon = "";
 
@@ -72,26 +72,50 @@ if ($case["n_echoppes"] > 0) :
 		$doubleClick = "title=\"Double Cliquer pour acc&eacute;der directement &agrave; l'&eacute;choppe\"";
 		$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return fermeturePopup(); \"";
 	}
+endif; 
+
+if ($case["n_champs"] > 0) :
+	$textChamp = "<br>Champ : <br>";
+	$nomSystemeChamp = "";
+	foreach($case["champs"] as $c) {
+		if ($c["nom_champ"] != null && $c["nom_champ"] != "") :
+			$textChamp .= addslashes(htmlspecialchars($c["nom_champ"])). ", ";
+		endif; 
+		$textChamp .= "Champ appartenant &agrave; <br>";
+		$textChamp .= '<label class=\\\'alabel\\\' onClick=ouvrirWin(\\\'\/voir\/hobbit\/?hobbit='.$c["id_hobbit"].'\\\'); title=\\\'Voir le profil\\\' >';
+		$textChamp .= addslashes(htmlspecialchars($c["prenom_hobbit"]))." ".addslashes(htmlspecialchars($c["nom_hobbit"])).", n&deg; ".$c["id_hobbit"];
+		$textChamp .= "</label>";
+		if ($this->estVueEtendue == false) {
+			$textChamp .= ' <img src=\\\'/public/images/uddeim/env.gif\\\' title=\\\'Envoyer un message\\\' alt=\\\'Ecrire\\\' border=\\\'0\\\' onClick=ecrireMessage('.$c["id_hobbit"].'); style=\\\'cursor:pointer\\\'/> ';
+		}
+      	$textChamp .= "<br />";
+	}
+	
+	$doubleClick = "";
+	if ($this->user->x_hobbit == $case["x"] && $this->user->y_hobbit == $case["y"] && $this->estVueEtendue == false) {
+		$doubleClick = "title=\"Double Cliquer pour acc&eacute;der directement au champ\"";
+		$doubleClick .= "OnDblClick=\"Javascript:my_switch('box_lieu','boite_c'); return fermeturePopup(); \"";
+	}
 endif; ?>
  
 <? if ($textLieu != "" ) :?>
-		<? if ($type_lieu != "") : ?>
-			<img <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/batiments/<?=$type_lieu?>.png' />
-		<? else: ?>
-			<img src='/public/styles/braldahim_defaut/images/vue/batiment.png' />
-		<? endif; ?>
+	<? if ($type_lieu != "") : ?>
+		<img <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textChamp, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/batiments/<?=$type_lieu?>.png' />
+	<? else: ?>
+		<img src='/public/styles/braldahim_defaut/images/vue/batiment.png' />
+	<? endif; ?>
+<? elseif ($textChamp != "") : ?>
+	<img <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textChamp, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/champ.png' />
 <? elseif ($textEchoppe != "") : ?>
-		<img <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/echoppes/<?=$nomSystemeEchoppe?>.png' />
+	<img <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textChamp, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/echoppes/<?=$nomSystemeEchoppe?>.png' />
 <? elseif ($textPalissade != "") : ?>
-		<img <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/palissade_b.png' />
-<? elseif ($textRoute != "") : ?>
-		<img <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textRoute, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/route_b.png' />
+	<img <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textChamp, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/palissade_b.png' />
 <? else: ?>
 	<br>
 <? endif;?>  
 
 <? if ($textBallon != "") : ?>
-<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textBallon.$textEchoppe.$textPalissade.$textRoute, $titre) ?>>
+<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textBallon.$textEchoppe.$textPalissade.$textChamp, $titre) ?>>
 	<img src='/public/styles/braldahim_defaut/images/vue/ballon.png'/>
 </span>
 <? endif;?>

@@ -28,6 +28,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		if ($this->view->affichageInterne === true) {
 			Zend_Loader::loadClass("Charrette");
 			Zend_Loader::loadClass("Echoppe");
+			Zend_Loader::loadClass("Champ");
 			Zend_Loader::loadClass("Element");
 			Zend_Loader::loadClass("ElementAliment");
 			Zend_Loader::loadClass("ElementEquipement");
@@ -195,6 +196,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$charretteTable = new Charrette();
 		$charrettes = $charretteTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($charretteTable);
+		$champTable = new Champ();
+		$champs = $champTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
+		unset($champTable);
 		$echoppeTable = new Echoppe();
 		$echoppes = $echoppeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($echoppeTable);
@@ -294,6 +298,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabCadavres = null;
 				$tabCastars = null;
 				$tabCharrettes = null;
+				$tabChamps = null;
 				$tabEchoppes = null;
 				$tabElements = null;
 				$tabElementsEquipements = null;
@@ -382,6 +387,14 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						}
 					}
 
+					if ($champs != null) {
+						foreach($champs as $e) {
+							if ($display_x == $e["x_champ"] && $display_y == $e["y_champ"]) {
+								$tabChamps[] = array("id_champ" => $e["id_champ"], "nom_champ" => $e["nom_champ"], "nom_hobbit" => $e["nom_hobbit"], "prenom_hobbit" => $e["prenom_hobbit"], "id_hobbit" => $e["id_hobbit"]);
+							}
+						}
+					}
+						
 					if ($elements != null) {
 						foreach($elements as $e) {
 							if ($display_x == $e["x_element"] && $display_y == $e["y_element"]) {
@@ -455,7 +468,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 							}
 						}
 					}
-						
+
 					if ($elementsGraines != null) {
 						foreach($elementsGraines as $p) {
 							if ($display_x == $p["x_element_graine"] && $display_y == $p["y_element_graine"]) {
@@ -694,6 +707,8 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"css" => $css,
 					"n_cadavres" => count($tabCadavres),
 					"cadavres" => $tabCadavres,
+					"n_champs" => count($tabChamps),
+					"champs" => $tabChamps,
 					"n_echoppes" => count($tabEchoppes),
 					"echoppes" => $tabEchoppes,
 					"n_castars" => count($tabCastars),
