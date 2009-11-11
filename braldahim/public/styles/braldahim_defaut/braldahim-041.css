@@ -1070,9 +1070,33 @@ li.resultat div.nom {
 	line-height: 1.2em;
 }
 
+table.champ2d {
+	border: solid #777;
+	text-align: center;
+	border-spacing: 1;
+	border-width: 1pt;
+}
+
+td.champ2d {
+	border-style: solid;
+	border-color: #eeeeee;
+	border-spacing: 0;
+	border-width: 0.0pt;
+	font-size: 7pt;
+	vertical-align: top;
+	horizontal-align: center;
+	width: 32px;
+	height: 32px;
+}
+
+td.champ2d.seme { background: url('/public/styles/braldahim_defaut/images/champ/seme.png') no-repeat; }
+td.champ2d.a_recolter { background: url('/public/styles/braldahim_defaut/images/champ/a_recolter.png') no-repeat; }
+td.champ2d.jachere { background: url('/public/styles/braldahim_defaut/images/champ/jachere.png') no-repeat; }
+
+
 /* ************************************************ */
-	/* ************************* Vue ****************** */
-	/* ************************************************ */
+/* ************************* Vue ****************** */
+/* ************************************************ */
 table.vue2d {
 	border: solid #777;
 	text-align: center;

@@ -59,6 +59,7 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 				$this->view->user->y_hobbit == $e["y_champ"] &&
 				$this->view->user->z_hobbit == $e["z_champ"]) {
 					$this->view->estSurChamp = true;
+					$this->prepareChamp($e);
 				}
 				break;
 			}
@@ -86,6 +87,51 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 		$this->view->competences = $tabCompetences;
 		$this->view->champ = $tabChamp;
 	}
+
+	private function prepareChamp($champ) {
+
+		Zend_Loader::loadClass("ChampTaupe");
+		$champTaupeTable = new ChampTaupe();
+		$taupes = $champTaupeTable->findByIdChamp($champ["id_champ"]);
+
+		$tabTaupes = array();
+		if ($taupes != null) {
+			foreach($taupes as $t) {
+				$tabTaupes[$t["x_champ_taupe"].'t'.$t["y_champ_taupe"]] = $t;
+			}
+		}
+
+		for ($y = 1; $y <= 10; $y++) {
+			$change_level = true;
+			for ($x = 1; $x <= 10; $x++) {
+
+				$taupe = null;
+				if ($tabTaupes != null) {
+					$key = $x.'t'.$y;
+					if (array_key_exists($key, $tabTaupes)) {
+						$taupe = array(
+							'etat_champ_taupe' => $tabTaupes[$key]["etat_champ_taupe"],
+						);
+					}
+				}
+
+				$tab = array (
+					"css_champ" => $champ["phase_champ"],
+					"x" => $x, 
+					"y" => $y, //
+					"change_level" => $change_level, // nouvelle ligne dans le tableau ;
+					"taupe" => $taupe,
+				);
+
+				$tableau[] = $tab;
+				if ($change_level) {
+					$change_level = false;
+				}
+			}
+		}
+		$this->view->tableau = $tableau;
+	}
+
 
 	function prepareFormulaire() {
 	}
