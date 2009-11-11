@@ -200,7 +200,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		if ($hobbits == null) {
 			throw new Zend_Exception(get_class($this)." Liste invalide:".$hobbitsList);
 		} else if (count($hobbits) != 9) {
-			throw new Zend_Exception(get_class($this)." Liste invalide B:".$hobbitsList);
+			throw new Zend_Exception(get_class($this)." Liste invalide B:".$hobbitsList. " count=".count($hobbits));
 		}
 
 		Zend_Loader::loadClass('Bral_Util_Distinction');
