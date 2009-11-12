@@ -355,8 +355,8 @@ class Bral_Monstres_VieMonstre {
 		$monstreTable->update($data, $where);
 
 		Zend_Loader::loadClass("Bral_Util_Rune");
-		$tabGains["gainRune"] = Bral_Util_Rune::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $niveauHobbit, $monstre["id_fk_type_groupe_monstre"], $effetMotD, $id_monstre);
-		$tabGains["gainCastars"] = $this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $effetMotH, $niveauHobbit, $monstre["id_fk_type_groupe_monstre"]);
+		$tabGains["gainRune"] = Bral_Util_Rune::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["niveau_monstre"], $niveauHobbit, $monstre["id_fk_type_groupe_monstre"], $effetMotD, $id_monstre);
+		$tabGains["gainCastars"] = $this->dropCastars($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["niveau_monstre"], $effetMotH, $niveauHobbit, $monstre["id_fk_type_groupe_monstre"]);
 
 		$tabGains["finDonjon"] = null;
 
@@ -369,7 +369,7 @@ class Bral_Monstres_VieMonstre {
 		return $tabGains;
 	}
 
-	private function dropCastars($x, $y, $niveauMonstre, $effetMotH, $niveauHobbit, $idTypeGroupeMonstre) {
+	private function dropCastars($x, $y, $z, $niveauMonstre, $effetMotH, $niveauHobbit, $idTypeGroupeMonstre) {
 
 		if ($idTypeGroupeMonstre == self::$config->game->groupe_monstre->type->gibier) {
 			// pas de drop de castar pour les gibiers
@@ -395,6 +395,7 @@ class Bral_Monstres_VieMonstre {
 				"quantite_castar_element" => $nbCastars,
 				"x_element" => $x,
 				"y_element" => $y,
+				"z_element" => $z,
 		);
 		$elementTable->insertOrUpdate($data);
 

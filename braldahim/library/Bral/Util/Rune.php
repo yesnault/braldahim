@@ -19,7 +19,7 @@ class Bral_Util_Rune {
 	const HISTORIQUE_TRANSBAHUTER_ID = 5;
 	const HISTORIQUE_IDENTIFIER_ID = 6;
 	
-	public static function dropRune($x, $y, $niveauTue, $niveauHobbit, $idTypeGroupeMonstre, $effetMotD, $idMonstre) {
+	public static function dropRune($x, $y, $z, $niveauTue, $niveauHobbit, $idTypeGroupeMonstre, $effetMotD, $idMonstre) {
 
 		// on ne prend pas le config initialise ici,
 		// methode pouvant etre appelée en static de l'exterieur de la classe
@@ -88,6 +88,7 @@ class Bral_Util_Rune {
 			"id_rune_element_rune" => $idRune,
 			"x_element_rune"  => $x,
 			"y_element_rune" => $y,
+			"z_element_rune" => $z,
 			"date_fin_element_rune" => $dateFin,
 		);
 

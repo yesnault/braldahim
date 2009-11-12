@@ -270,7 +270,7 @@ class Bral_Util_Donjon {
 		$nbHobbit = 9;
 		for($i = 1; $i< $nbHobbit; $i++) {
 			// 1 rune par hobbit, 1 rune a déjà été droppé dans mortMonstreDb
-			Bral_Util_Rune::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["niveau_monstre"], $niveauHobbit, $monstre["id_fk_type_groupe_monstre"], $effetMotD, $monstre["id_monstre"]);
+			Bral_Util_Rune::dropRune($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["niveau_monstre"], $niveauHobbit, $monstre["id_fk_type_groupe_monstre"], $effetMotD, $monstre["id_monstre"]);
 		}
 
 		Zend_Loader::loadClass("RecetteEquipement");
