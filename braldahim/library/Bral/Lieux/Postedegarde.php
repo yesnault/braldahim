@@ -325,19 +325,61 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		);
 		$where = 'id_donjon_equipe='.$this->equipeCourante["id_donjon_equipe"];
 		$donjonEquipeTable->update($data, $where);
-		
-		$this->envoieMessageDescente();
 	}
 
-	public function envoieMessageDescente() {
+	public function envoieMessageDescente($idHobbit) {
 		$message = "[Poste de Garde]".PHP_EOL.PHP_EOL;
-		$message .=  $this->view->user->prenom_hobbit. " ".$this->view->user->nom_hobbit;
-		$message .= " (".$this->view->user->id_hobbit.") a ouvert la porte du Donjon.";
-		$message .= "Vous êtes entrés avec lui...".PHP_EOL;
+
+		if ($idHobbit == $this->view->user->id_hobbit) {
+			$message .= "Vous avez ouvert la porte du Donjon".PHP_EOL;
+		} else {
+			$message .=  $this->view->user->prenom_hobbit. " ".$this->view->user->nom_hobbit;
+			$message .= " (".$this->view->user->id_hobbit.") a ouvert la porte du Donjon.";
+			$message .= "Vous êtes entrés avec lui...".PHP_EOL;
+		}
 		$message .= "Vous avez maintenant deux lunes pour sortir victorieux ou sinon gare aux conséquences.".PHP_EOL.PHP_EOL;
 
 		Bral_Util_Donjon::messageSignature($message, $this->donjonCourant);
-		Bral_Util_Messagerie::envoiMessageAutomatique($this->donjonCourant["id_fk_pnj_donjon"], $this->view->user->id_hobbit, $message, $this->view);
+		Bral_Util_Messagerie::envoiMessageAutomatique($this->donjonCourant["id_fk_pnj_donjon"], $idHobbit, $message, $this->view);
+	}
+
+	private function envoieMessageDescenteHobbits() {
+		Bral_Util_Log::batchs()->trace("Bral_Lieux_Postedegarde - envoieMessageDescenteHobbits - enter -");
+
+		$listeHobbits = "";
+		foreach($this->hobbitsADescendre as $h) {
+			$this->envoieMessageDescente($h["id_hobbit"]);
+			$listeHobbits .= $h["prenom_hobbit"]. " ".$h["nom_hobbit"]. " (".$h["id_hobbit"]."), ";
+		}
+
+		Zend_Loader::loadClass("Region");
+		$regionTable = new Region();
+		$region = $regionTable->findById($this->donjonCourant["id_fk_region_donjon"]);
+		$nomComte = $region["nom_region"];
+
+		$donjonEquipeTable = new DonjonEquipe();
+		$donjonEquipe = $donjonEquipeTable->findNonTermineeByIdDonjon($this->donjonCourant["id_donjon"]);
+		$equipeCourante = $donjonEquipe[0];
+		
+		$message = "[Poste de Garde]".PHP_EOL.PHP_EOL;
+
+		$message .= "Bonjour à vous habitants de Braldahim.".PHP_EOL.PHP_EOL;
+		$message .= "En ce jour, une bien belle équipe ";
+		$message .= " est entrée dans le Donjon de la $nomComte afin d'en découdre avec [m".$equipeCourante["id_fk_monstre_donjon_equipe"]."].".PHP_EOL.PHP_EOL;
+		$message .= "Souhaitons leur bonne chance : ".$listeHobbits;
+		$message .= " espérons qu'ils lui mettent une bonne rouste à [m".$equipeCourante["id_fk_monstre_donjon_equipe"]."], sinon les conséquences seraient terribles.".PHP_EOL.PHP_EOL;
+
+		Zend_Loader::loadClass("Bral_Util_Lien");
+		$message = Bral_Util_Lien::remplaceBaliseParNomEtJs($message, false);
+
+		Bral_Util_Donjon::messageSignature($message, $this->donjonCourant);
+		$hobbitTable = new Hobbit();
+		$hobbits = $hobbitTable->findAllJoueurs();
+		Bral_Util_Log::batchs()->trace("Bral_Lieux_Postedegarde - envoieMessageDescenteHobbits - nbJoueurs:".count($hobbits));
+		foreach($hobbits as $h) {
+			Bral_Util_Messagerie::envoiMessageAutomatique($this->donjonCourant["id_fk_pnj_donjon"], $h["id_hobbit"], $message, $this->view);
+		}
+		Bral_Util_Log::batchs()->trace("Bral_Lieux_Postedegarde - envoieMessageDescenteHobbits - exit -");
 	}
 
 	function getListBoxRefresh() {
@@ -346,7 +388,6 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 	}
 
 	private function creationDonjon() {
-
 		Zend_Loader::loadClass("Palissade");
 		$palissadeTable = new Palissade();
 		$where = array("id_fk_donjon_palissade" => $this->donjonCourant["id_donjon"]);
@@ -357,6 +398,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$this->creationCrevasses();
 		$this->creationNids();
 		$this->creationMonstres();
+		$this->envoieMessageDescenteHobbits();
 	}
 
 	private function suppressionElementsCreationPalissadesAlentour() {
@@ -390,7 +432,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 				$data["x_palissade"] = $z["x_max_zone"] + 1;
 				$palissadeTable->insert($data);
 			}
-			
+
 			$this->suppressionElements($z["x_min_zone"], $z["x_max_zone"], $z["y_min_zone"], $z["y_max_zone"], $z["z_zone"]);
 		}
 	}
@@ -453,7 +495,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		Zend_Loader::loadClass("Bral_Batchs_Factory");
 		Bral_Batchs_Factory::calculBatch("CreationMonstres", $this->view, $this->donjonCourant["id_donjon"]);
 	}
-	
+
 	private function suppressionElements($xmin, $xmax, $ymin, $ymax, $z) {
 		$this->deleteInElement("ElementAliment", "_element_aliment", $xmin, $xmax, $ymin, $ymax, $z);
 		$this->deleteInElement("ElementEquipement", "_element_equipement", $xmin, $xmax, $ymin, $ymax, $z);
@@ -466,7 +508,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$this->deleteInElement("Charrette", "_charrette", $xmin, $xmax, $ymin, $ymax, $z);
 		$this->deleteInElement("Element", "_element", $xmin, $xmax, $ymin, $ymax, $z);
 	}
-	
+
 	private function deleteInElement($nom, $prefix, $xmin, $xmax, $ymin, $ymax, $z) {
 		Zend_Loader::loadClass($nom);
 		$table = new $nom();

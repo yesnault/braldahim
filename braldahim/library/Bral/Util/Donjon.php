@@ -107,31 +107,18 @@ class Bral_Util_Donjon {
 		$region = $regionTable->findById($donjon["id_fk_region_donjon"]);
 		$nomComte = $region["nom_region"];
 
-		/*
-		 *
-		 *
-		 *
-		 *
-		 *
-		 *  A Decommenter à la fin des devs des donjons
-		 *
-		 *
-		 *
+		Zend_Loader::loadClass("DonjonHobbit");
+		$donjonHobbitTable = new DonjonHobbit();
+		$donjonHobbit = $donjonHobbitTable->findByIdEquipe($equipe["id_donjon_equipe"]);
 
-
-		 Zend_Loader::loadClass("DonjonHobbit");
-		 $donjonHobbitTable = new DonjonHobbit();
-		 $donjonHobbit = $donjonHobbitTable->findByIdEquipe($equipe["id_donjon_equipe"]);
-
-		 $listeHobbits = "";
-		 foreach($donjonHobbit as $h) {
-			$listeHobbits .= $h["prenom_hobbit"]. " ".$h["nom_hobbit"]. "(".$h["id_hobbit"]."), ";
+		$listeHobbits = "";
+		foreach($donjonHobbit as $h) {
+			$listeHobbits .= $h["prenom_hobbit"]. " ".$h["nom_hobbit"]. " (".$h["id_hobbit"]."), ";
 			self::envoieMessageEchecHobbit($donjon, $equipe, $h, $view);
 			self::finaliseHobbitEchec($h);
-			}
+		}
 
-			self::envoieMessageEchecHobbits($donjon, $equipe, $nomComte, $listeHobbits, $view);
-			*/
+		self::envoieMessageEchecHobbits($donjon, $equipe, $nomComte, $listeHobbits, $view);
 		self::creationEmissaires($donjon, $view);
 
 		// et l'on termine le donjon
@@ -140,7 +127,7 @@ class Bral_Util_Donjon {
 			'etat_donjon_equipe' => 'termine',
 		);
 		$where = 'id_donjon_equipe='.$equipe['id_donjon_equipe'];
-		//		$donjonEquipeTable->update($data, $where);
+		$donjonEquipeTable->update($data, $where);
 			
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - finaliseDonjonEchec - exit -");
 	}
@@ -377,7 +364,7 @@ class Bral_Util_Donjon {
 			'etat_donjon_equipe' => 'termine',
 		);
 		$where = 'id_donjon_equipe='.$equipe['id_donjon_equipe'];
-		//		$donjonEquipeTable->update($data, $where);
+		$donjonEquipeTable->update($data, $where);
 
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - finaliseDonjonReussi - exit -");
 	}
