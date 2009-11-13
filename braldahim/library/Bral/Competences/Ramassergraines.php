@@ -66,6 +66,8 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 				$this->view->placeDispo = true;
 			}
 		}
+		
+		$this->view->charrette = $charrette;
 	}
 
 	function prepareFormulaire() {
@@ -120,13 +122,13 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 			$buissonDetruit = false;
 		}
 
-		if ($this->view->idDestinationCourante == "charrette" && $charrette != null) {
+		if ($this->view->idDestinationCourante == "charrette" && $this->view->charrette != null) {
 			Zend_Loader::loadClass("CharretteGraine");
 			$charretteGraineTable = new CharretteGraine();
 			$data = array(
 				'quantite_charrette_graine' => $this->view->nbGraines,
-				'id_fk_hobbit_charrette_graine' => $this->view->user->id_hobbit,
 				'id_fk_type_charrette_graine' => $this->view->buissonCourant["id_fk_type_buisson_buisson"],
+				'id_fk_charrette_graine' => $this->view->charrette["id_charrette"],
 			);
 			$charretteTable->insertOrUpdate($data);
 			unset($charretteTable);
