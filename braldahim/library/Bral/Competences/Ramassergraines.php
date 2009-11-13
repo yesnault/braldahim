@@ -130,8 +130,8 @@ class Bral_Competences_Ramassergraines extends Bral_Competences_Competence {
 				'id_fk_type_charrette_graine' => $this->view->buissonCourant["id_fk_type_buisson_buisson"],
 				'id_fk_charrette_graine' => $this->view->charrette["id_charrette"],
 			);
-			$charretteTable->insertOrUpdate($data);
-			unset($charretteTable);
+			$charretteGraineTable->insertOrUpdate($data);
+			unset($charretteGraineTable);
 
 			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
 		} else {
