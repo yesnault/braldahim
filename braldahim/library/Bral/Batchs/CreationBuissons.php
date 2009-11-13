@@ -132,7 +132,7 @@ class Bral_Batchs_CreationBuissons extends Bral_Batchs_Batch {
 	}
 
 	private function insertDb($buissonTable, $idTypeBuisson, $x, $y, $z, $quantite) {
-		if ($buissonTable->countByCase($y, $y, $z) == 0) {
+		if ($buissonTable->countByCase($x, $y, $z) == 0) {
 			$data = array(
 				'id_fk_type_buisson_buisson' => $idTypeBuisson, 
 				'x_buisson' => $x, 

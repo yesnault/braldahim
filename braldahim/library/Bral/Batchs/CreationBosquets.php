@@ -140,7 +140,7 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 	}
 
 	private function insertDb($bosquetTable, $idTypeBosquet, $x, $y, $z, $quantite) {
-		if ($bosquetTable->countByCase($y, $y, $z) == 0) {
+		if ($bosquetTable->countByCase($x, $y, $z) == 0) {
 			$data = array(
 				'id_fk_type_bosquet_bosquet' => $idTypeBosquet, 
 				'x_bosquet' => $x, 
