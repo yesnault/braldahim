@@ -70,5 +70,4 @@ class CharretteGraine extends Zend_Db_Table {
 			}
 		}
 	}
-
 }

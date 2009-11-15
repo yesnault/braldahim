@@ -1,5 +1,3 @@
-<ul class="titre textalic textsizec">Le champ</ul><br />
-
 <? if ($this->champ["phase_champ"] == "seme") : ?>
 	Le champ est semé depuis le 
 	<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->champ["date_seme_champ"]);?>, 
@@ -38,7 +36,13 @@ foreach($this->tableau as $k => $case) :
 		$col="ok"; ?>
 		<tr nowrap><td><?=$case["y"]?></td>
     <?php endif; ?>
-	<td class='champ2d <?=$case["css_champ"]?>' nowrap title="<?=$case["x"]. "," . $case["y"]?>">
+	<td class='champ2d <?=$case["css_champ"]?>' nowrap
+		<? if ($case["taupe"] == null) : ?>
+			onClick="Javascript:_get_('/competences/doaction?caction=ask_competence_entretenir&position=<?=$case["x"]. "-".$case["y"]?>')" style="cursor:pointer;" title='<?=$case["x"]. "," . $case["y"]?> : Cliquez pour entretenir'
+		<? else: ?>
+			title="<?=$case["x"]. "," . $case["y"]?>"
+		<? endif;?>
+	>
 	<? if ($case["taupe"] != null) : ?>
 		<? include("taupe.phtml"); ?>
 	<? endif;?>

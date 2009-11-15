@@ -62,15 +62,21 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 				$this->view->user->y_hobbit == $e["y_champ"] &&
 				$this->view->user->z_hobbit == $e["z_champ"]) {
 					$this->view->estSurChamp = true;
-					$this->prepareChamp($e);
 				}
+				$this->prepareChamp($e);
 				break;
 			}
 		}
+
 		if ($tabChamp == null) {
 			throw new Zend_Exception(get_class($this)." Champ invalide idh:".$this->view->user->id_hobbit." ide:".$id_champ);
 		}
 
+		$this->prepareCompetences();
+		$this->view->champ = $tabChamp;
+	}
+
+	private function prepareCompetences() {
 		Zend_Loader::loadClass("HobbitsCompetences");
 		$hobbitsCompetencesTables = new HobbitsCompetences();
 		$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($this->view->user->id_hobbit);
@@ -78,17 +84,19 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 		$competence = null;
 		$tabCompetences = null;
 		foreach($hobbitCompetences as $c) {
-			$tabCompetences[] = array("id_competence" => $c["id_fk_competence_hcomp"],
+			if ($c["nom_systeme_competence"] == "semer" ||
+			$c["nom_systeme_competence"] == "entretenir" ||
+			$c["nom_systeme_competence"] == "recolter") {
+				$tabCompetences[] = array("id_competence" => $c["id_fk_competence_hcomp"],
 					"nom" => $c["nom_competence"],
 					"pa_utilisation" => $c["pa_utilisation_competence"],
 					"pourcentage" => Bral_Util_Commun::getPourcentage($c, $this->view->config),
 					"nom_systeme" => $c["nom_systeme_competence"],
 					"pourcentage_init" => $c["pourcentage_init_competence"],
-			);
+				);
+			}
 		}
-
 		$this->view->competences = $tabCompetences;
-		$this->view->champ = $tabChamp;
 	}
 
 	private function prepareChamp($champ) {
