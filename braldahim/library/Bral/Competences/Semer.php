@@ -218,16 +218,16 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 
 	private function initialiseTaupes() {
 
-		//numero_taupe : n°1 : longueur 4, n°2: longueur 3, n°3, 4, 5 : longueur 2
+		//numero_taupe : n°1 et 2 : longueur 4, n°3 et 4: longueur 3, n°5 : longueur 2
 		$numero = range(1, 5);
 		shuffle($numero);
 
 		$taupes = null;
 		foreach ($numero as $n) {
 			$taupes[$n]["numero"] = $n;
-			if ($n == 1) {
+			if ($n == 1 || $n == 2) {
 				$taupes[$n]["taille"] = 4;
-			} elseif ($n == 2) {
+			} elseif ($n == 3 || $n == 4) {
 				$taupes[$n]["taille"] = 3;
 			} else {
 				$taupes[$n]["taille"] = 2;
