@@ -46,7 +46,9 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 			$selectedEchoppe = "selected";
 		}
 
-		$tabTypeAchat[] = array("id_type_achat" => "champ", "texte" => "Un champ", "selected" => $selectedChamp);
+		if ($this->view->user->niveau_hobbit >= 5) {
+			$tabTypeAchat[] = array("id_type_achat" => "champ", "texte" => "Un champ", "selected" => $selectedChamp);
+		}
 		$tabTypeAchat[] = array("id_type_achat" => "echoppe", "texte" => "Une échoppe", "selected" => $selectedEchoppe);
 
 		$this->view->idTypeCourant = $idTypeCourant;
