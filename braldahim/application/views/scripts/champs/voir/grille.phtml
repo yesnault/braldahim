@@ -2,9 +2,16 @@
 	Le champ est semé depuis le 
 	<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->champ["date_seme_champ"]);?>, 
 	vous pouvez l'entretenir pour avoir une meilleure récolte.
+	<br><br>
+	Vous pourrez le récolter à partir du 
+	<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->champ["date_fin_seme_champ"]);?> pendant 5 jours. 
+	<br>
+	Estimation de la récolte : <?=$this->champ["quantite_champ"]?>.
+	<br><br>
+	Cliquez sur une case pour l'entretenir.
 <? elseif ($this->champ["phase_champ"] == "a_recolter") : ?>
 	Le champ peut-être récolté ! 
-	Dépêchez-vous, s'il n'est pas récolté avant 
+	Dépêchez-vous, s'il n'est pas récolté avant le
 	<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y',$this->champ["date_fin_recolte_champ"]);?>,
 	il passera en jachère. 
 <? else : ?>

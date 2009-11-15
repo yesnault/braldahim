@@ -239,8 +239,8 @@ class Bral_Helper_Profil {
 	public static function afficheBarrePoids($transportable, $transporte) {
 		$largeur = (($transporte * 100) / $transportable) * 2;
 		$titre = "Poids transportable";
-		$texte = "Vous portez actuellement ".$transporte." Kg.<br>";
-		$texte .= "Vous pouvez porter jusqu\'&agrave; ".$transportable." Kg.<br>";
+		$texte = "Vous portez actuellement ".round($transporte, 3)." Kg.<br>";
+		$texte .= "Vous pouvez porter jusqu\'&agrave; ".round($transportable, 3)." Kg.<br>";
 		
 		if ($largeur > 200) {
 			$largeur = 200;

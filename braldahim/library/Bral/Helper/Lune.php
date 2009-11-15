@@ -12,6 +12,12 @@
  */
 class Bral_Helper_Lune {
 
+	const PHASE_NOUVELLE_LUNE = 1;
+	const PHASE_ASCENDENTE = 2;
+	const PHASE_PLEINE_LUNE = 3;
+	const PHASE_DESCENDENTE = 4;
+	
+
 	/*
 	 *
 	 Zend_Loader::loadClass("Bral_Util_Lune");
@@ -34,11 +40,11 @@ class Bral_Helper_Lune {
 	 echo "La Lune est éclairée $mpfrac à ".number_format($MoonPhase*100, 2, ',', '')."%"." nouvelle <br>";
 
 	 */
-	
+
 	public static function afficheSuivantDate($annee, $mois, $jour, $heure, $mine, $seconde) {
 		return  self::afficheImg($annee, $mois, $jour, $heure, $mine, $seconde);
 	}
-	
+
 	public static function affiche() {
 		$annee = date('Y');
 		$mois = date('m');
@@ -46,9 +52,9 @@ class Bral_Helper_Lune {
 		$heure = date('H');
 		$mine = date('i');
 		$seconde = date('s');
-		
+
 		return  self::afficheImg($annee, $mois, $jour, $heure, $mine, $seconde);
-	} 
+	}
 
 	private static function afficheImg($annee, $mois, $jour, $heure, $mine, $seconde) {
 		Zend_Loader :: loadClass("Bral_Util_Lune");
@@ -56,7 +62,7 @@ class Bral_Helper_Lune {
 
 		$titre = "La Lune au ";
 		$titre .= Bral_Helper_Calendrier::affiche(true, $annee."-".$mois."-".$jour." ".$heure.":".$mine.":".$seconde);
-		
+
 		$age = floor($moonAge);
 		$s = '';
 		if ($age > 1) {
@@ -74,18 +80,42 @@ class Bral_Helper_Lune {
 			$libelle = 'une Lune gibbeuse croissante';
 		} elseif ($mpfrac >= 0.49 && $mpfrac <= 0.51) { // pleine lune
 			$libelle = 'une Pleine Lune';
-		} elseif ($mpfrac > 0.51 && $mpfrac < 0.74) { 
+		} elseif ($mpfrac > 0.51 && $mpfrac < 0.74) {
 			$libelle = 'une Lune gibbeuse décroissante';
 		} elseif ($mpfrac >= 0.74 && $mpfrac <= 0.76) { // Dernier quartier
 			$libelle = 'le Dernier quartier';
-		} elseif ($mpfrac > 0.76 && $mpfrac < 0.99) { // pleine lune
+		} elseif ($mpfrac > 0.76 && $mpfrac < 0.99) { //
 			$libelle = 'une Lune décroissante';
 		}
-		
+
 		$texte = "<br>Son âge est de ".floor($moonAge)." jour".$s."<br>";
 		$texte .= "C\'est ".$libelle." (indice : ".floor($mpfrac * 100)." %)<br>";
-		
+
 		$retour = "<span class='lune lune".floor($moonAge)."' ".Bral_Helper_Tooltip::jsTip($texte, $titre).">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>";
+		return $retour;
+	}
+
+	public static function calculPhase() {
+		$annee = date('Y');
+		$mois = date('m');
+		$jour = date('d');
+		$heure = date('H');
+		$mine = date('i');
+		$seconde = date('s');
+
+		Zend_Loader :: loadClass("Bral_Util_Lune");
+		list($moonPhase, $moonAge, $moonDist, $moonAng, $sunDist, $sunAng, $mpfrac) = Bral_Util_Lune::calculPhase($annee, $mois, $jour, $heure, $mine, $seconde);
+
+		if ($mpfrac >= 0.99 || $mpfrac <= 0.1) {
+			$retour = self::PHASE_NOUVELLE_LUNE;
+		} elseif ($mpfrac > 0.1 && $mpfrac < 0.49) {
+			$retour = self::PHASE_ASCENDENTE;
+		} elseif ($mpfrac >= 0.49 && $mpfrac <= 0.51) { // pleine lune
+			$retour = self::PHASE_PLEINE_LUNE;
+		} elseif ($mpfrac > 0.51 && $mpfrac < 0.99) { //
+			$retour = self::PHASE_DESCENDENTE;
+		}
+
 		return $retour;
 	}
 

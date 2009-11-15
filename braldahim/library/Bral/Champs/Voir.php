@@ -56,6 +56,8 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 					'phase_champ' => $e["phase_champ"],
 					'date_seme_champ' => $e["date_seme_champ"],
 					'date_fin_recolte_champ' => $e["date_fin_recolte_champ"],
+					'date_fin_seme_champ' => $e["date_fin_seme_champ"],
+					'quantite_champ' => $e["quantite_champ"],
 				);
 
 				if ($this->view->user->x_hobbit == $e["x_champ"] &&

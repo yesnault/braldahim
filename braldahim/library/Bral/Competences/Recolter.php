@@ -80,7 +80,8 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 			'phase_champ' => 'jachere',
 			'date_seme_champ' => null,
 			'date_fin_recolte_champ' => null,
-			'id_fk_type_graine_champ' => null,
+			//'id_fk_type_graine_champ' => null, ==> on ne vide pas, c'est utile pour le % quantité à la prochaine action semer
+			'quantite_champ' => 0,
 		);
 
 		$where = 'id_champ='.$this->view->champ["id_champ"];

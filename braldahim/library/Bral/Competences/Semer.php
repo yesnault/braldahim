@@ -178,6 +178,21 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 	}
 
 	private function initialiseChamp($idTypeGraine) {
+
+		$quantite = 500;
+
+		Zend_Loader::loadClass("Bral_Helper_Lune");
+		$phase = Bral_Helper_Lune::calculPhase();
+		if ($phase == Bral_Helper_Lune::PHASE_ASCENDENTE) {
+			$quantite = $quantite + ($quantite * 10 / 100); // +10%
+		} elseif ($phase == Bral_Helper_Lune::PHASE_DESCENDENTE) {
+			$quantite = $quantite - ($quantite * 5 / 100); // -5%
+		}
+
+		if ($this->champ["id_fk_type_graine_champ"] == $idTypeGraine) { // meme type de graine
+			$quantite = $quantite - ($quantite * 5 / 100); // -5%
+		}
+
 		$champTable = new Champ();
 		$data = array(
 			'phase_champ' => 'seme',
@@ -185,6 +200,7 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 			'id_fk_type_graine_champ' => $idTypeGraine,
 			'date_fin_seme_champ' => Bral_Util_ConvertDate::get_date_add_day_to_date(date('Y-m-d 00:00:00'), 21),
 			'date_fin_recolte_champ' => Bral_Util_ConvertDate::get_date_add_day_to_date(date('Y-m-d 00:00:00'), 26),
+			'quantite_champ' => $quantite,
 		);
 
 		$where = 'id_champ='.$this->champ["id_champ"];
