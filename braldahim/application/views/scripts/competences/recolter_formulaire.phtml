@@ -1,0 +1,14 @@
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ <div class='comp_contenu'>
+ 	Pour <?=$this->nb_pa ?> PA, vous pouvez récolter un de vos champs.<br><br>
+ 	
+	 <? if ($this->recolterChampOk !== true) : ?>
+	 	Vous ne pouvez récolter un de vos champs quand étant dessus et il faut qu'il soit à l'état récoltable au préalable.
+	 <? endif; ?>
+	 <br />
+</div>
+
+<br />
+<?php if ($this->assezDePa == true && $this->recolterChampOk === true) : ?>
+<input type='button' class='button1' id='bouton_entretenir' value='Entretenir !' onClick='this.disabled=true;_get_("/competences/doaction?caction=do_competence_entretenir");'>
+<? endif ?>

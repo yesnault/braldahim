@@ -24,7 +24,7 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 	}
 
 	private function verificationChamp() {
-		$this->view->semerChampOk = false;
+		$this->view->entretenirChampOk = false;
 
 		$champTable = new Champ();
 		$champs = $champTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, $this->view->user->id_hobbit);

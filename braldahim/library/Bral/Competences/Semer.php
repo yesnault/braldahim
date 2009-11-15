@@ -183,6 +183,8 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 			'phase_champ' => 'seme',
 			'date_seme_champ' => date("Y-m-d H:i:s"),
 			'id_fk_type_graine_champ' => $idTypeGraine,
+			'date_fin_seme_champ' => Bral_Util_ConvertDate::get_date_add_day_to_date(date('Y-m-d 00:00:00'), 21),
+			'date_fin_recolte_champ' => Bral_Util_ConvertDate::get_date_add_day_to_date(date('Y-m-d 00:00:00'), 26),
 		);
 
 		$where = 'id_champ='.$this->champ["id_champ"];

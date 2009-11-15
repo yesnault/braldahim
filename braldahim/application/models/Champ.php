@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id: $
@@ -53,7 +53,7 @@ class Champ extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	function findByCase($x, $y, $z, $idHobbit = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -68,13 +68,13 @@ class Champ extends Zend_Db_Table {
 		->where('region.x_max_region >= champ.x_champ')
 		->where('region.y_min_region <= champ.y_champ')
 		->where('region.y_max_region >= champ.y_champ');
-		
+
 		if ($idHobbit != null) {
 			$select->where('id_hobbit = ?', $idHobbit);
 		}
-		
+
 		$sql = $select->__toString();
-		
+
 		return $db->fetchAll($sql);
 	}
 
@@ -88,11 +88,11 @@ class Champ extends Zend_Db_Table {
 		->where('region.x_max_region >= champ.x_champ')
 		->where('region.y_min_region <= champ.y_champ')
 		->where('region.y_max_region >= champ.y_champ');
-		
+
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	function findById($id) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -101,5 +101,29 @@ class Champ extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
+	function selectSemerARecolter() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('champ', '*')
+		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'sexe_hobbit', 'id_hobbit'))
+		->where('hobbit.id_hobbit = champ.id_fk_hobbit_champ')
+		->where('phase_champ = ?', 'seme')
+		->where('date_fin_seme_champ <= ?', date('Y-m-d H:i:s'));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
+	function selectFinARecolter() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('champ', '*')
+		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'sexe_hobbit', 'id_hobbit'))
+		->where('hobbit.id_hobbit = champ.id_fk_hobbit_champ')
+		->where('phase_champ = ?', 'a_recolter')
+		->where('date_fin_recolte_champ <= ?', date('Y-m-d H:i:s'));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
 }
