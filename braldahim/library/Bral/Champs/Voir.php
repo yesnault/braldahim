@@ -85,6 +85,7 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 
 		$competence = null;
 		$tabCompetences = null;
+		$possedeEntretenir = false;
 		foreach($hobbitCompetences as $c) {
 			if ($c["nom_systeme_competence"] == "semer" ||
 			$c["nom_systeme_competence"] == "entretenir" ||
@@ -97,8 +98,13 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 					"pourcentage_init" => $c["pourcentage_init_competence"],
 				);
 			}
+			
+			if ($c["nom_systeme_competence"] == "entretenir") {
+				$possedeEntretenir = true;
+			}
 		}
 		$this->view->competences = $tabCompetences;
+		$this->view->possedeEntretenir = $possedeEntretenir;
 	}
 
 	private function prepareChamp($champ) {

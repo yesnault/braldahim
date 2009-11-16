@@ -8,7 +8,12 @@
 	<br>
 	Estimation de la récolte : <?=$this->champ["quantite_champ"]?>.
 	<br><br>
-	Cliquez sur une case pour l'entretenir.
+	
+	<? if ($this->possedeEntretenir == false) : ?>
+		Cliquez sur une case pour l'entretenir.
+	<? else: ?>
+		Vous ne possédez pas la compétence Entretenir pour entretenir votre champ !
+	<? endif;?>
 <? elseif ($this->champ["phase_champ"] == "a_recolter") : ?>
 	Le champ peut-être récolté ! 
 	Dépêchez-vous, s'il n'est pas récolté avant le
@@ -44,7 +49,7 @@ foreach($this->tableau as $k => $case) :
 		<tr nowrap><td><?=$case["y"]?></td>
     <?php endif; ?>
 	<td class='champ2d <?=$case["css_champ"]?>' nowrap
-		<? if ($case["taupe"] == null) : ?>
+		<? if ($case["taupe"] == null && $this->possedeEntretenir) : ?>
 			onClick="Javascript:_get_('/competences/doaction?caction=ask_competence_entretenir&position=<?=$case["x"]. "-".$case["y"]?>')" style="cursor:pointer;" title='<?=$case["x"]. "," . $case["y"]?> : Cliquez pour entretenir'
 		<? else: ?>
 			title="<?=$case["x"]. "," . $case["y"]?>"
