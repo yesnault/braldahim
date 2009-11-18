@@ -699,6 +699,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$data = array(
 			'x_hobbit' => $this->hobbit->x_hobbit,
 			'y_hobbit'  => $this->hobbit->y_hobbit,
+			'z_hobbit'  => $this->hobbit->z_hobbit,
 			'date_debut_tour_hobbit' => $this->hobbit->date_debut_tour_hobbit,
 			'date_fin_tour_hobbit' => $this->hobbit->date_fin_tour_hobbit,
 			'date_fin_latence_hobbit' => $this->hobbit->date_fin_latence_hobbit,
