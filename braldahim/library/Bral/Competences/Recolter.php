@@ -62,7 +62,10 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 		$this->calculJets();
 
 		if ($this->view->okJet1 === true) {
-			$this->entretenir();
+			$this->recolter();
+			$idType = $this->view->config->game->evenements->type->competence;
+			$details = "[h".$this->view->user->id_hobbit."] a récolté un champ";
+			$this->setDetailsEvenement($details, $idType);
 		}
 
 		$this->calculPx();

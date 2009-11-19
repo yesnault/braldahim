@@ -140,6 +140,10 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 
 		if ($this->view->okJet1 === true) {
 			$this->calculSemerChamp($type, $idTypeGraine);
+				
+			$idType = $this->view->config->game->evenements->type->competence;
+			$details = "[h".$this->view->user->id_hobbit."] a semé un champ";
+			$this->setDetailsEvenement($details, $idType);
 		}
 
 		$this->calculPx();
