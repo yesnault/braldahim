@@ -17,7 +17,7 @@ class Bral_Monstres_Competences_Fuitecrevasse extends Bral_Monstres_Competences_
 
 		$retour = false;
 
-		if (($this->monstre["pv_restant_monstre"] * 100 / $this->monstre["pv_max_monstre"]) <= 20) {
+		if (($this->monstre["pv_restant_monstre"] * 100 / $this->monstre["pv_max_monstre"]) <= 50) {
 			
 			Zend_Loader::loadClass("Crevasse");
 			$crevasseTable = new Crevasse();
