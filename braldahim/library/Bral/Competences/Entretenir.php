@@ -108,12 +108,13 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." XY impossibles : ".$x_y);
 		}
 
-		// calcul des jets
-		$this->calculJets();
 
-		if ($this->view->okJet1 === true) {
-			$this->entretenir($x, $y);
-		}
+		$this->entretenir($x, $y);
+
+		$idType = $this->view->config->game->evenements->type->competence;
+		$details = "[h".$this->view->user->id_hobbit."] a entretenu son champ";
+		$this->setDetailsEvenement($details, $idType);
+		$this->setEvenementQueSurOkJet1(false);
 
 		$this->calculPx();
 		$this->calculBalanceFaim();
@@ -124,16 +125,16 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("ChampTaupe");
 		$champTaupeTable = new ChampTaupe();
-		
+
 		$data = array(
 			'x_champ_taupe' => $x,
 			'y_champ_taupe' => $y,
 			'id_fk_champ_taupe' => $this->champ["id_champ"],
 			'date_entretien_champ_taupe' => date('Y-m-d H:i:s'),
 		);
-		
+
 		$etatZone = $champTaupeTable->entretenir($data);
-		
+
 		$etatZone["x"] = $x;
 		$etatZone["y"] = $y;
 		$this->view->etatZone = $etatZone;
