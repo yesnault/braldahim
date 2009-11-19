@@ -225,9 +225,9 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 		$taupes = null;
 		foreach ($numero as $n) {
 			$taupes[$n]["numero"] = $n;
-			if ($n == 1 || $n == 2) {
+			if ($n == 1) {
 				$taupes[$n]["taille"] = 4;
-			} elseif ($n == 3 || $n == 4) {
+			} elseif ($n == 2) {
 				$taupes[$n]["taille"] = 3;
 			} else {
 				$taupes[$n]["taille"] = 2;
