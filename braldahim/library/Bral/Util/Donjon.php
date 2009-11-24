@@ -154,7 +154,7 @@ class Bral_Util_Donjon {
 		$detailsBot = "[Poste de Garde]".PHP_EOL.PHP_EOL;
 
 		$detailsBot .= "Ahhhh ! ".PHP_EOL;
-		$detailsBot .= "Vous n'avez réussi à venir à bout de [m".$equipe["id_fk_monstre_donjon_equipe"]."] en 2 lunes. ".PHP_EOL.PHP_EOL;
+		$detailsBot .= "Vous n'avez pas réussi à venir à bout de [m".$equipe["id_fk_monstre_donjon_equipe"]."] en 2 lunes. ".PHP_EOL.PHP_EOL;
 		$detailsBot .= "Vous êtes KO et renvoyé à l'hôpital le plus proche.".PHP_EOL.PHP_EOL;
 
 		Bral_Util_Donjon::messageSignature($detailsBot, $donjon);
@@ -255,6 +255,8 @@ class Bral_Util_Donjon {
 		$where = "id_donjon_equipe = ".$donjonEquipe["id_donjon_equipe"];
 		$donjonEquipeTable->update($data, $where);
 
+		// TODO mssage à l'équipe indiquant le délais de 3 jours avant de sortir.
+		
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - dropGainsEtUpdateDonjon - exit -");
 		return true;
 	}

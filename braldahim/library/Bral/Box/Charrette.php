@@ -61,6 +61,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		Zend_Loader::loadClass("CharrettePartieplante");
 		Zend_Loader::loadClass("CharretteAliment");
 		Zend_Loader::loadClass("CharretteGraine");
+		Zend_Loader::loadClass("CharretteIngredient");
 		Zend_Loader::loadClass("CharretteMunition");
 		Zend_Loader::loadClass("CharrettePotion");
 		Zend_Loader::loadClass("CharretteRune");
@@ -127,13 +128,13 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 				"id_charrette" => $p["id_charrette"],
 				"nom_charrette" => $p["nom_type_materiel"],
 				"nb_peau" => $p["quantite_peau_charrette"],
-				"nb_viande" => $p["quantite_viande_charrette"],
-				"nb_viande_preparee" => $p["quantite_viande_preparee_charrette"],
 				"nb_cuir" => $p["quantite_cuir_charrette"],
 				"nb_fourrure" => $p["quantite_fourrure_charrette"],
 				"nb_planche" => $p["quantite_planche_charrette"],
 				"nb_castar" => $p["quantite_castar_charrette"],
 				"nb_rondin" => $p["quantite_rondin_charrette"],
+				"nb_viande" => 0, // remplit dans renderIngredient
+				"nb_viande_poids_unitaire" => 0, // remplit dans renderIngredient
 				"durabilite_max" => $p["durabilite_max_charrette"],
 				"durabilite_actuelle" => $p["durabilite_actuelle_charrette"],
 				"poids_transportable" => $p["poids_transportable_charrette"],
@@ -232,28 +233,28 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		}
 		unset($runes);
 
-		$this->view->tabHobbitMetiers = $tabHobbitMetiers;
-
-
 		$this->view->mineraisBruts = $tabMineraisBruts;
 		$this->view->lingots = $tabLingots;
 
 		$this->view->nb_runes = count($tabRunesIdentifiees) + count($tabRunesNonIdentifiees);
 		$this->view->runesIdentifiees = $tabRunesIdentifiees;
 		$this->view->runesNonIdentifiees = $tabRunesNonIdentifiees;
-		$this->view->charrette = $charrette;
-		$this->view->laban = $charrette; // pour les poches
 
 		$this->renderPlante($tabMetiers, $charrette);
-		$this->view->tabMetiers = $tabMetiers;
 		$this->renderEquipement($charrette);
 		$this->renderMateriel($charrette);
 		$this->renderMunition($charrette);
 		$this->renderPotion($charrette);
 		$this->renderAliment($charrette);
 		$this->renderGraine($charrette);
+		$this->renderIngredient($tabMetiers, $charrette);
 		$this->renderTabac($charrette);
 		$this->renderAmeliorations($charrette);
+
+		$this->view->tabMetiers = $tabMetiers;
+		$this->view->tabHobbitMetiers = $tabHobbitMetiers;
+		$this->view->charrette = $charrette;
+		$this->view->laban = $charrette; // pour les poches
 
 		$this->view->estElementsEtal = false;
 		$this->view->estElementsEtalAchat = false;
@@ -524,5 +525,36 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 
 		$this->view->nb_graines = count($tabGraines);
 		$this->view->graines = $tabGraines;
+	}
+
+	private function renderIngredient(&$tabMetiers, &$charrette) {
+		$tabIngredients = null;
+		$charretteIngredientTable = new CharretteIngredient();
+		$ingredients = $charretteIngredientTable->findByIdCharrette($charrette["id_charrette"]);
+		unset($charretteIngredientTable);
+
+		Zend_Loader::loadClass("TypeIngredient");
+		foreach ($ingredients as $g) {
+			if ($g["quantite_charrette_ingredient"] > 0) {
+				$tabIngredients[] = array(
+					"type" => $g["nom_type_ingredient"],
+					"id_type_ingredient" => $g["id_type_ingredient"],
+					"quantite" => $g["quantite_charrette_ingredient"],
+					"poids" => $g["quantite_charrette_ingredient"] * $g["poids_unitaire_type_ingredient"],
+				);
+
+				if ($g["id_type_ingredient"] ==  TypeIngredient::ID_TYPE_VIANDE_FRAICHE) {
+					if (isset($tabMetiers["chasseur"])) {
+						$tabMetiers["chasseur"]["a_afficher"] = true;
+					}
+					$charrette["nb_viande"] = $g["quantite_laban_ingredient"];
+					$charrette["nb_viande_poids_unitaire"] = $g["poids_unitaire_type_ingredient"];
+				}
+			}
+		}
+		unset($ingredients);
+
+		$this->view->nb_ingredients = count($tabIngredients);
+		$this->view->ingredients = $tabIngredients;
 	}
 }

@@ -15,16 +15,16 @@
 			</td>
 			<td class="table_liste" valign="bottom">
 			<?=$this->laban["nb_viande"] ?>
-			<img src='/public/styles/braldahim_defaut/images/elements/viande_fraiche.png' alt='viande_fraiche'/>
+			<img src='/public/styles/braldahim_defaut/images/type_ingredient/type_ingredient_8.png' alt='viande_fraiche'/>
 			</td>
 		</tr>
 		<tr class="table_liste">
 			<td style="width:auto; padding:5px;" valign="bottom">Poids</td>
 			<td class="table_liste"  valign="bottom" style="cursor:pointer" title="Poids unitaire : <?=Bral_Util_Poids::POIDS_PEAU?> Kg">
-			<?=($this->laban["nb_peau"]*Bral_Util_Poids::POIDS_PEAU) ?> Kg
+			<?=($this->laban["nb_peau"] * Bral_Util_Poids::POIDS_PEAU) ?> Kg
 			</td>
 			<td class="table_liste"  valign="bottom" style="cursor:pointer" title="Poids unitaire : <?=Bral_Util_Poids::POIDS_VIANDE?> Kg">
-			<?=($this->laban["nb_viande"]*Bral_Util_Poids::POIDS_VIANDE) ?> Kg
+			<?=($this->laban["nb_viande"] * $this->laban["nb_viande_poids_unitaire"]) ?> Kg
 			</td>
 		</tr>
 	</tbody>

@@ -49,6 +49,7 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 			$this->champ = $champs[0];
 			if ($this->champ["phase_champ"] == "jachere") {
 				$this->view->semerChampOk = true;
+				$this->idChamp = $this->view->champ["id_champ"];
 				$retour = true;
 			}
 		}
@@ -202,6 +203,7 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 			'phase_champ' => 'seme',
 			'date_seme_champ' => date("Y-m-d H:i:s"),
 			'id_fk_type_graine_champ' => $idTypeGraine,
+			'deja_recolte_champ' => 'non',
 			'date_fin_seme_champ' => Bral_Util_ConvertDate::get_date_add_day_to_date(date('Y-m-d 00:00:00'), 21),
 			'date_fin_recolte_champ' => Bral_Util_ConvertDate::get_date_add_day_to_date(date('Y-m-d 00:00:00'), 26),
 			'quantite_champ' => $quantite,
@@ -313,7 +315,15 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 		return $positionOk;
 	}
 
+	public function getIdChampCourant() {
+		if (isset($this->idChamp)) {
+			return $this->idChamp;
+		} else {
+			return false;
+		}
+	}
+	
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_vue", "box_competences_communes", "box_laban", "box_charrette"));
+		return $this->constructListBoxRefresh(array("box_vue", "box_competences_communes", "box_laban", "box_charrette", "box_champs"));
 	}
 }

@@ -121,6 +121,8 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			$objet = $this->prepareVenteRune($idVente);
 		} else if ($vente["type_vente"] == "graine") {
 			$objet = $this->prepareVenteGraine($idVente);
+		} else if ($vente["type_vente"] == "ingredient") {
+			$objet = $this->prepareVenteIngredient($idVente);
 		}
 
 		$tab = array(
@@ -251,26 +253,12 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 		$poidsUnitaire = 10000;
 		$nom = $element["quantite_vente_element"]. " ";
-		if ($element["type_vente_element"] == "viande_fraiche") {
-			$poidsUnitaire = Bral_Util_Poids::POIDS_VIANDE;
-			if ($element["quantite_vente_element"] > 1) {
-				$nom .= " viandes fraîches";
-			} else {
-				$nom .= " viande fraîche";
-			}
-		} else if ($element["type_vente_element"] == "peau") {
+		if ($element["type_vente_element"] == "peau") {
 			$poidsUnitaire = Bral_Util_Poids::POIDS_PEAU;
 			if ($element["quantite_vente_element"] > 1) {
 				$nom .= " peaux";
 			} else {
 				$nom .= " peau";
-			}
-		} else if ($element["type_vente_element"] == "viande_preparee") {
-			$poidsUnitaire = Bral_Util_Poids::POIDS_VIANDE_PREPAREE;
-			if ($element["quantite_vente_element"] > 1) {
-				$nom .= " viandes préparées";
-			} else {
-				$nom .= " viande préparée";
 			}
 		} else if ($element["type_vente_element"] == "cuir") {
 			$poidsUnitaire = Bral_Util_Poids::POIDS_CUIR;
@@ -458,6 +446,48 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		);
 
 		return $tabGraine;
+	}
+
+	private function prepareVenteIngredient($idVente) {
+		Zend_Loader::loadClass("VenteIngredient");
+		$venteIngredientTable = new VenteIngredient();
+
+		$ingredient = $venteIngredientTable->findByIdVente($idVente);
+
+		if ($ingredient == null || count($ingredient) != 1) {
+			throw new Zend_Exception(get_class($this)."::prepareVenteIngredient invalide:".$idVente);
+		}
+
+		$ingredient = $ingredient[0];
+		$poidsUnitaire = $ingredient["poids_unitaire_type_ingredient"];
+
+		$placeDispo = false;
+		$i = 0;
+		foreach($this->view->destinationTransfert as $d) {
+			if ($d["poids_restant"] >= $ingredient["quantite_vente_ingredient"] * $poidsUnitaire) {
+				$placeDispo = true;
+				$this->view->destinationTransfert[$i]["possible"] = true;
+			}
+			$i ++;
+		}
+
+		$s = "";
+		if ($ingredient["quantite_vente_ingredient"] > 1) {
+			$s = "s";
+		}
+
+		$nom = $ingredient["nom_type_ingredient"]." : ".$ingredient["quantite_vente_ingredient"]. " élément".$s;
+
+		$tabIngredient = array(
+			"nom" => $nom,
+			"quantite_vente_ingredient" => $ingredient["quantite_vente_ingredient"],
+			"id_type_ingredient" => $ingredient["id_fk_type_vente_ingredient"],
+			"place_dispo" => $placeDispo,
+			"est_charrette" => false,
+			"charrette_possible" => true,
+		);
+
+		return $tabIngredient;
 	}
 
 	private function prepareVentePartieplante($idVente) {
@@ -977,6 +1007,8 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			$objet = $this->calculTransfertRune($idDestination);
 		} else if ($this->view->vente["vente"]["type_vente"] == "graine") {
 			$objet = $this->calculTransfertGraine($idDestination);
+		} else if ($this->view->vente["vente"]["type_vente"] == "ingredient") {
+			$objet = $this->calculTransfertIngredient($idDestination);
 		}
 
 		$this->view->destination = $destination;
@@ -1374,11 +1406,6 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			$suffixe = "laban";
 		}
 
-		$prefix = $this->view->vente["objet"]["type_vente_element"];
-		if ($prefix == "viande_fraiche") {
-			$prefix = "viande";
-		}
-
 		$data = array(
 			"quantite_".$prefix."_".$suffixe => $this->view->vente["objet"]["quantite_vente_element"],
 		);
@@ -1460,6 +1487,40 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			$data["id_fk_charrette_graine"] = $this->view->charrette["id_charrette"];
 		} else {
 			$data["id_fk_hobbit_laban_graine"] = $this->view->user->id_hobbit;
+		}
+		$table->insertOrUpdate($data);
+
+		if ($idDestination == "charrette") {
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
+		}
+
+		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
+
+		$venteTable = new Vente();
+		$where = "id_vente=".$this->idVente;
+		$venteTable->delete($where);
+	}
+
+	private function calculTransfertIngredient($idDestination) {
+		if ($idDestination == "charrette") {
+			Zend_Loader::loadClass("CharretteIngredient");
+			$table = new CharretteIngredient();
+			$suffixe = "charrette";
+		} else {
+			Zend_Loader::loadClass("LabanIngredient");
+			$table = new LabanIngredient();
+			$suffixe = "laban";
+		}
+
+		$data = array(
+			"id_fk_type_".$suffixe."_ingredient" => $this->view->vente["objet"]["id_type_ingredient"],
+			"quantite_".$suffixe."_ingredient" => $this->view->vente["objet"]["quantite_vente_ingredient"],
+		);
+
+		if ($idDestination == "charrette") {
+			$data["id_fk_charrette_ingredient"] = $this->view->charrette["id_charrette"];
+		} else {
+			$data["id_fk_hobbit_laban_ingredient"] = $this->view->user->id_hobbit;
 		}
 		$table->insertOrUpdate($data);
 

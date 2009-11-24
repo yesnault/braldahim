@@ -963,7 +963,7 @@ function jsMenuHotel(id, valeur) {
 	if (id != "hotel_menu_recherche_materiels") $("hotel_menu_recherche_materiels").value = -1;
 	if (id != "hotel_menu_recherche_matieres_premieres") $("hotel_menu_recherche_matieres_premieres").value = -1;
 	if (id != "hotel_menu_recherche_matieres_transformees") $("hotel_menu_recherche_matieres_transformees").value = -1;
-	if (id != "hotel_menu_recherche_aliments") $("hotel_menu_recherche_aliments").value = -1;
+	if (id != "hotel_menu_recherche_aliments_ingredients") $("hotel_menu_recherche_aliments_ingredients").value = -1;
 	if (id != "hotel_menu_recherche_potions") $("hotel_menu_recherche_potions").value = -1;
 	if (id != "hotel_menu_recherche_runes") $("hotel_menu_recherche_runes").value = -1;
 	

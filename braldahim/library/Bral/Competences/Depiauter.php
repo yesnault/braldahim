@@ -173,6 +173,16 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		);
 		$labanTable->insertOrUpdate($data);
 
+		Zend_Loader::loadClass("LabanIngredient");
+		Zend_Loader::loadClass("TypeIngredient");
+		$labanTable = new LabanIngredient();
+		$data = array(
+			'id_fk_type_laban_ingredient' => TypeIngredient::ID_TYPE_VIANDE_FRAICHE,
+			'id_fk_hobbit_laban_ingredient' => $this->view->user->id_hobbit,
+			'quantite_laban_ingredient' => $this->view->nbViande,
+		);
+		$labanTable->insertOrUpdate($data);
+
 		$statsRecolteurs = new StatsRecolteurs();
 		$moisEnCours  = mktime(0, 0, 0, date("m"), 2, date("Y"));
 		$dataRecolteurs["niveau_hobbit_stats_recolteurs"] = $this->view->user->niveau_hobbit;
@@ -194,7 +204,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 
 		$details = "[h".$this->view->user->id_hobbit."] a dépiauté le ".$libelleMonstreGibier." [m".$id_monstre."]";
 		$this->setDetailsEvenement($details, $idTypeEvenement);
-		
+
 		Bral_Util_Evenement::majEvenements($id_monstre, $idTypeEvenement, $details, "", $monstre["niveau_monstre"], "monstre");
 			
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeCollecter($this->view->user, $this->competence["id_fk_metier_competence"]);

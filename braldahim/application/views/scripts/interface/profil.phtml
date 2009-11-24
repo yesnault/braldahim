@@ -198,7 +198,7 @@
 					<?=Bral_Helper_Profil::afficheBarrePoids($this->user->poids_transportable_hobbit, $this->user->poids_transporte_hobbit);?>
 				</td>
 				<td  width='12%' nowrap>
-					<span title="Poids Transport&eacute; en Kg" style="cursor:pointer"><?=$this->user->poids_transporte_hobbit ?></span> / 
+					<span title="Poids Transport&eacute; en Kg" style="cursor:pointer"><?=round($this->user->poids_transporte_hobbit, 3) ?></span> / 
 					<span title="Poids Transportable en Kg" style="cursor:pointer"><?=$this->user->poids_transportable_hobbit ?></span> 
 	    		</td>
 			</tr>

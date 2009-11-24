@@ -58,10 +58,14 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 			$numeroElement = Bral_Util_Controle::getValeurIntVerif($this->request->get("hotel_menu_recherche_matieres_transformees"));
 			$this->prepareMenusMatieres();
 			$tabResultats = $this->prepareRechercheMatieres($numeroElement, "matieres_transformees");
-		} else if ($this->request->get("hotel_menu_recherche_aliments") != "") {
-			$numeroElement = Bral_Util_Controle::getValeurIntVerif($this->request->get("hotel_menu_recherche_aliments"));
-			$this->prepareMenuAliments();
-			$tabResultats = $this->prepareRechercheAliment($numeroElement);
+		} else if ($this->request->get("hotel_menu_recherche_aliments_ingredients") != "") {
+			$numeroElement = Bral_Util_Controle::getValeurIntVerif($this->request->get("hotel_menu_recherche_aliments_ingredients"));
+			$this->prepareMenuAlimentsIngredients();
+			if ($numeroElement <= $this->numeroElementFinAliment) {
+				$tabResultats = $this->prepareRechercheAliment($numeroElement);
+			} else {
+				$tabResultats = $this->prepareRechercheIngredient($numeroElement);
+			}
 		} else if ($this->request->get("hotel_menu_recherche_potions") != "") {
 			$numeroElement = Bral_Util_Controle::getValeurIntVerif($this->request->get("hotel_menu_recherche_potions"));
 			$this->prepareMenuPotions();
@@ -97,6 +101,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 		$avecElements = false;
 		$avecMunitions = false;
 		$avecAliments = false;
+		$avecIngredients = false;
 		$avecGraines = false;
 		$avecPotions = false;
 		$avecRunes = false;
@@ -113,6 +118,8 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 				$avecElements = true;
 			} elseif ($e["type_vente"] == "aliment") {
 				$avecAliments = true;
+			} elseif ($e["type_vente"] == "ingredient") {
+				$avecIngredients = true;
 			} elseif ($e["type_vente"] == "potion") {
 				$avecPotions = true;
 			} elseif ($e["type_vente"] == "rune") {
@@ -151,6 +158,10 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 
 		if ($avecAliments) {
 			$tabResultats = array_merge($tabResultats, $this->prepareRechercheAliment(null, $idVentes));
+		}
+
+		if ($avecIngredients) {
+			$tabResultats = array_merge($tabResultats, $this->prepareRechercheIngredient(null, $idVentes));
 		}
 
 		if ($avecGraines) {
@@ -404,6 +415,68 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 
 				$tabReturn[] = array(
 					"type" => "graine",
+					"vente" => $this->prepareRowVente($e, $minerais, $partiesPlantes),
+					"objet" => $tabObjet,
+				);
+
+			}
+		}
+		return $tabReturn;
+	}
+
+	private function prepareRechercheIngredient($numeroElement, $idsVente = null) {
+		Zend_Loader::loadClass("VenteIngredient");
+
+		$venteIngredientTable = new VenteIngredient();
+		if ($idsVente != null) {
+			$ingredients = $venteIngredientTable->findByIdVente($idsVente);
+		} else {
+			$ingredients = $venteIngredientTable->findByIdType($this->view->menuRechercheAlimentsIngredients["ingredients"]["elements"][$numeroElement]["id_type_ingredient"]);
+		}
+		
+		$tabReturn = array();
+
+		$idIngredients = null;
+		$idVentes = null;
+		if ($ingredients != null) {
+			foreach ($ingredients as $e) {
+				$idIngredients[] = $e["id_vente_ingredient"];
+				$idVentes[] = $e["id_vente"];
+			}
+		}
+
+		if ($idIngredients != null && count($idIngredients) > 0) {
+			Zend_Loader::loadClass("VentePrixIngredient");
+			$ventePrixIngredientTable = new VentePrixIngredient();
+			$ventePrixIngredient = $ventePrixIngredientTable->findByIdVente($idVentes);
+
+			Zend_Loader::loadClass("VentePrixPartiePlante");
+			$ventePrixPartiePlanteTable = new VentePrixPartiePlante();
+			$ventePrixPartiePlante = $ventePrixPartiePlanteTable->findByIdVente($idVentes);
+		}
+
+		if (count($ingredients) > 0) {
+			foreach($ingredients as $e) {
+
+				$minerais = $this->recuperePrixMineraiAvecIdVente($ventePrixIngredient, $e["id_vente"]);
+				$partiesPlantes = $this->recuperePrixPartiePlantesAvecIdVente($ventePrixPartiePlante, $e["id_vente"]);
+
+				$s = "";
+				if ($e["quantite_vente_ingredient"] > 1) {
+					$s = "s";
+				}
+
+				$nom = $e["nom_type_ingredient"]. " : ".$e["quantite_vente_ingredient"]. " élément".$s;
+				$image = "type_ingredient_".$e["id_type_ingredient"];
+
+				$tabObjet = array(
+					"id_ingredient" => $e["id_vente_ingredient"],
+					"image" => $image,
+					"nom" => $nom,
+				);
+
+				$tabReturn[] = array(
+					"type" => "ingredient",
 					"vente" => $this->prepareRowVente($e, $minerais, $partiesPlantes),
 					"objet" => $tabObjet,
 				);
@@ -669,7 +742,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 		if ($idsVente != null) {
 			$aliments = $venteAlimentTable->findByIdVente($idsVente);
 		} else {
-			$aliments = $venteAlimentTable->findByIdType($this->view->menuRechercheAliment[$numeroAliment]["id_type_aliment"]);
+			$aliments = $venteAlimentTable->findByIdType($this->view->menuRechercheAlimentsIngredients["aliments"]["elements"][$numeroAliment]["id_type_aliment"]);
 		}
 
 		$tabReturn = array();
@@ -1004,7 +1077,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 		$this->prepareMenusMatieres();
 		$this->prepareMenuPotions();
 		$this->prepareMenuRunes();
-		$this->prepareMenuAliments();
+		$this->prepareMenuAlimentsIngredients();
 	}
 
 	private function prepareMenuPratique() {
@@ -1252,7 +1325,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 		$this->view->menuRechercheRune = $tabRune;
 	}
 
-	private function prepareMenuAliments() {
+	private function prepareMenuAlimentsIngredients() {
 		Zend_Loader::loadClass("TypeAliment");
 		$typeAlimentTable = new TypeAliment();
 		$typesAliments = $typeAlimentTable->fetchAll(null, "nom_type_aliment");
@@ -1265,7 +1338,23 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 			$tabAliment[$numeroElement] = array('numero_element' => $numeroElement, 'nom' => $e["nom_type_aliment"], "id_type_aliment" => $e["id_type_aliment"]);
 		}
 
-		$this->view->menuRechercheAliment = $tabAliment;
+		$this->numeroElementFinAliment = $numeroElement;
+		$tabAlimentsIngredients["aliments"] = array("elements" => $tabAliment, "titre" => 'Aliments');
+
+		Zend_Loader::loadClass("TypeIngredient");
+		$typeIngredientTable = new TypeIngredient();
+		$typesIngredients = $typeIngredientTable->fetchAll("est_cuisinier_type_ingredient='oui'", "nom_type_ingredient");
+		$typesIngredients = $typesIngredients->toArray();
+
+		$tabIngredient = null;
+		foreach($typesIngredients as $e) {
+			$numeroElement++;
+			$tabIngredient[$numeroElement] = array('numero_element' => $numeroElement, 'nom' => $e["nom_type_ingredient"], "id_type_ingredient" => $e["id_type_ingredient"]);
+		}
+
+		$tabAlimentsIngredients["ingredients"] = array("elements" => $tabIngredient, "titre" => 'Ingrédients');
+
+		$this->view->menuRechercheAlimentsIngredients = $tabAlimentsIngredients;
 	}
 
 	private function getNomElement($quantite, $element) {

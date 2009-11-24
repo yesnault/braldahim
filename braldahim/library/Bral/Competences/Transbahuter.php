@@ -206,7 +206,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		// Historique
 		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Charrette") {
 			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
-				
+
 			$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
 			$details = "[h".$this->view->user->id_hobbit."] a transbahuté des choses depuis la charrette n°".$this->view->tabEndroit[$idDepart]["id_charrette"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 			Zend_Loader::loadClass("Bral_Util_Materiel");
@@ -215,7 +215,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Charrette") {
 			Bral_Util_Poids::calculPoidsCharrette($this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"], true);
-				
+
 			$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
 			$details = "[h".$this->view->user->id_hobbit."] a transbahuté des choses dans la charrette n°".$this->view->tabEndroit[$idArrivee]["id_charrette"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 			Zend_Loader::loadClass("Bral_Util_Materiel");
@@ -248,7 +248,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
 			$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
 			$message .= $this->view->elementsRetires;
-				
+
 			$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->id_hobbit_coffre, $message, $this->view);
 		}
 
@@ -256,7 +256,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
 			$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre charrette : ".PHP_EOL;
 			$message .= $this->view->elementsRetires;
-				
+
 			$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"], $message, $this->view);
 		}
 
@@ -264,7 +264,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
 			$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre échoppe : ".PHP_EOL;
 			$message .= $this->view->elementsRetires;
-				
+
 			$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"], $message, $this->view);
 		}
 
@@ -314,6 +314,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->prepareTypePartiesPlantes($depart);
 		$this->prepareTypeMinerais($depart);
 		$this->prepareTypeGraines($depart);
+		$this->prepareTypeIngredients($depart);
 		$this->prepareTypeTabac($depart);
 		$this->prepareTypeMateriel($depart);
 	}
@@ -328,6 +329,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->deposeTypePartiesPlantes($depart,$arrivee);
 		$this->deposeTypeMinerais($depart,$arrivee);
 		$this->deposeTypeGraines($depart,$arrivee);
+		$this->deposeTypeIngredients($depart,$arrivee);
 		$this->deposeTypeTabac($depart,$arrivee);
 		$this->deposeTypeMateriel($depart,$arrivee);
 	}
@@ -1243,6 +1245,66 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->minerais = $tabMinerais;
 	}
 
+	private function prepareTypeIngredients($depart) {
+		Zend_Loader::loadClass($depart."Ingredient");
+
+		$tabIngredients = null;
+
+		switch ($depart) {
+			case "Laban" :
+				$labanIngredientTable = new LabanIngredient();
+				$ingredients = $labanIngredientTable->findByIdHobbit($this->view->user->id_hobbit);
+				unset($labanIngredientTable);
+				break;
+			case "Element" :
+				$elementIngredientTable = new ElementIngredient();
+				$ingredients = $elementIngredientTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+				unset($elementIngredientTable);
+				break;
+			case "Coffre" :
+				$coffreIngredientTable = new CoffreIngredient();
+				$ingredients = $coffreIngredientTable->findByIdHobbit($this->view->user->id_hobbit);
+				unset($coffreIngredientTable);
+				break;
+			case "Charrette" :
+				$charretteIngredientTable = new CharretteIngredient();
+				$ingredients = $charretteIngredientTable->findByIdCharrette($this->view->id_charrette_depart);
+				unset($charretteIngredientTable);
+				break;
+			case "Echoppe" :
+				$echoppeIngredientTable = new EchoppeIngredient();
+				$ingredients = $echoppeIngredientTable->findByIdEchoppe($this->view->id_echoppe_depart);
+				unset($echoppeIngredientTable);
+				break;
+		}
+
+		$this->view->nb_ingredient = 0;
+
+		if ($ingredients != null) {
+			if ($depart == "Echoppe") {
+				$strqte = "arriere_echoppe";
+			} else {
+				$strqte = $depart;
+			}
+			foreach ($ingredients as $m) {
+				if ($m["quantite_".strtolower($strqte)."_ingredient"] > 0) {
+					$this->view->nb_valeurs = $this->view->nb_valeurs + 1;
+					$tabIngredients[$this->view->nb_valeurs] = array(
+						"type" => $m["nom_type_ingredient"],
+						"id_fk_type_ingredient" => $m["id_fk_type_".strtolower($depart)."_ingredient"],
+						"quantite_ingredient" => $m["quantite_".strtolower($strqte)."_ingredient"],
+						"poids_unitaire_ingredient" => $m["poids_unitaire_type_ingredient"],
+						"indice_valeur" => $this->view->nb_valeurs,
+					);
+					$this->view->deposerOk = true;
+					$this->view->nb_ingredient = $this->view->nb_ingredient + $m["quantite_".strtolower($strqte)."_ingredient"];
+				}
+			}
+		}
+		$this->view->valeur_fin_ingredients = $this->view->nb_valeurs;
+		$this->view->ingredients = $tabIngredients;
+	}
+
 	private function deposeTypeMinerais($depart,$arrivee) {
 		Zend_Loader::loadClass($depart."Minerai");
 		Zend_Loader::loadClass($arrivee."Minerai");
@@ -1706,7 +1768,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$idTabac = null;
 				$nbTabac = null;
 
-				for ($i=$this->view->valeur_fin_graines + 1; $i<=$this->view->valeur_fin_tabacs; $i++) {
+				for ($i=$this->view->valeur_fin_ingredients + 1; $i<=$this->view->valeur_fin_tabacs; $i++) {
 
 					if ( $this->request->get("valeur_".$i) > 0) {
 						$nbTabac = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_".$i));
@@ -1981,7 +2043,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 
 		switch ($depart) {
 			case "Laban" :
-				$labanGraineTable = new labanGraine();
+				$labanGraineTable = new LabanGraine();
 				$graines = $labanGraineTable->findByIdHobbit($this->view->user->id_hobbit);
 				unset($labanGraineTable);
 				break;
@@ -2171,13 +2233,149 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 	}
 
+	private function deposeTypeIngredients($depart,$arrivee) {
+		Zend_Loader::loadClass($depart."Ingredient");
+		Zend_Loader::loadClass($arrivee."Ingredient");
+
+		for ($i=$this->view->valeur_fin_graines + 1; $i<=$this->view->valeur_fin_ingredients; $i++) {
+			$indice = $i;
+			$nb = $this->request->get("valeur_".$indice);
+
+			if ((int) $nb."" != $this->request->get("valeur_".$indice)."") {
+				throw new Zend_Exception(get_class($this)." NB Ingredient invalide=".$nb. " indice=".$indice);
+			} else {
+				$nb = (int)$nb;
+			}
+			if ($nb > $this->view->ingredients[$indice]["quantite_ingredient"]) {
+				throw new Zend_Exception(get_class($this)." NB Ingredient interdit=".$nb);
+			}
+
+			if ($nb > 0) {
+
+				$this->view->nbelement = $this->view->nbelement + 1;
+				if ( $nb > 0 && $this->view->a_panneau === false) {
+					$this->view->panneau = false;
+				}
+				if ($depart == "Charrette" && $this->view->a_panneau === false && $this->view->nbelement > 1 ) {
+					$this->view->panneau = false;
+					break;
+				}
+
+				if ($arrivee == "Laban" || $arrivee == "Charrette") {
+					$poidsOk1 = $this->controlePoids($this->view->poidsRestant, $nb, Bral_Util_Poids::POIDS_POIGNEE_GRAINES);
+					if ($poidsOk1 == false) {
+						$this->view->poidsOk = false;
+						break;
+					}
+				}
+
+				switch ($depart) {
+					case "Laban" :
+						$departIngredientTable = new LabanIngredient();
+						$data = array(
+							'id_fk_type_laban_ingredient' => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
+							'id_fk_hobbit_laban_ingredient' => $this->view->user->id_hobbit,
+							'quantite_laban_ingredient' => -$nb,
+						);
+						break;
+					case "Element" :
+						$departIngredientTable = new ElementIngredient();
+						$data = array (
+							"x_element_ingredient" => $this->view->user->x_hobbit,
+							"y_element_ingredient" => $this->view->user->y_hobbit,
+							"z_element_ingredient" => $this->view->user->z_hobbit,
+							"id_fk_type_element_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
+							"quantite_element_ingredient" => -$nb,
+						);
+						break;
+					case "Coffre" :
+						$departIngredientTable = new CoffreIngredient();
+						$data = array (
+							"id_fk_hobbit_coffre_ingredient" => $this->view->user->id_hobbit,
+							"id_fk_type_coffre_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
+							"quantite_coffre_ingredient" => -$nb,
+						);
+						break;
+					case "Charrette" :
+						$departIngredientTable = new CharretteIngredient();
+						$data = array (
+							"id_fk_charrette_ingredient" => $this->view->id_charrette_depart,
+							"id_fk_type_charrette_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
+							"quantite_charrette_ingredient" => -$nb,
+						);
+						break;
+					case "Echoppe" :
+						$departIngredientTable = new EchoppeIngredient();
+						$data = array (
+							"id_fk_echoppe_echoppe_ingredient" => $this->view->id_echoppe_depart,
+							"id_fk_type_echoppe_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
+							"quantite_arriere_echoppe_ingredient" => -$nb,
+						);
+						break;
+				}
+				$departIngredientTable->insertOrUpdate($data);
+				unset ($departIngredientTable);
+
+				switch ($arrivee) {
+					case "Laban" :
+						$arriveeIngredientTable = new LabanIngredient();
+						$data = array(
+							"quantite_laban_ingredient" => $nb,
+							"id_fk_type_laban_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
+							"id_fk_hobbit_laban_ingredient" => $this->view->user->id_hobbit,
+						);
+						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POIGNEE_GRAINES * $nb;
+						break;
+					case "Element" :
+						$arriveeIngredientTable = new ElementIngredient();
+						$data = array("x_element_ingredient" => $this->view->user->x_hobbit,
+							  "y_element_ingredient" => $this->view->user->y_hobbit,
+							  "z_element_ingredient" => $this->view->user->z_hobbit,
+							  'quantite_element_ingredient' => $nb,
+							  'id_fk_type_element_ingredient' => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
+						);
+						break;
+					case "Coffre" :
+						$arriveeIngredientTable = new CoffreIngredient();
+						$data = array (
+							"id_fk_hobbit_coffre_ingredient" => $this->view->id_hobbit_coffre,
+							"id_fk_type_coffre_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
+							"quantite_coffre_ingredient" => $nb,
+						);
+						break;
+					case "Charrette" :
+						$arriveeIngredientTable = new CharretteIngredient();
+						$data = array (
+							"id_fk_charrette_ingredient" => $this->view->id_charrette_arrivee,
+							"id_fk_type_charrette_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
+							"quantite_charrette_ingredient" => $nb,
+						);
+						break;
+						/*
+						 case "Echoppe" :
+						 $arriveeIngredientTable = new EchoppeIngredient();
+						 $data = array (
+							"id_fk_echoppe_echoppe_ingredient" => $this->view->id_echoppe_arrivee,
+							"id_fk_type_echoppe_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
+							"quantite_arriere_echoppe_ingredient" => $nb,
+							);
+							break;*/
+				}
+				$arriveeIngredientTable->insertOrUpdate($data);
+				unset ($arriveeIngredientTable);
+				$s = "";
+				if ($nb > 1) $s = "s";
+				$this->view->elementsRetires .= $this->view->ingredients[$indice]["type"]. " : ".$nb;
+				$this->view->elementsRetires .= ", ";
+			}
+		}
+	}
+
 	private function prepareTypeAutres($depart) {
 		Zend_Loader::loadClass($depart);
 
 		$tabAutres["nb_castar"] = 0;
 		$tabAutres["nb_peau"] = 0;
-		$tabAutres["nb_viande"] = 0;
-		$tabAutres["nb_viande_preparee"] = 0;
 		$tabAutres["nb_cuir"] = 0;
 		$tabAutres["nb_fourrure"] = 0;
 		$tabAutres["nb_planche"] = 0;
@@ -2191,8 +2389,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					$autres [0] = array(
 						"quantite_castar_".strtolower($depart) => 0,
 						"quantite_peau_".strtolower($depart) => 0,
-						"quantite_viande_".strtolower($depart) => 0,
-						"quantite_viande_preparee_".strtolower($depart) => 0,
 						"quantite_cuir_".strtolower($depart) => 0,
 						"quantite_fourrure_".strtolower($depart) => 0,
 						"quantite_planche_".strtolower($depart) => 0,
@@ -2233,8 +2429,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$tabAutres = array(
 					"nb_castar" => 0,
 					"nb_peau" => $p["quantite_peau_".strtolower($strqte)],
-					"nb_viande" => 0,
-					"nb_viande_preparee" => 0,
 					"nb_cuir" => $p["quantite_cuir_".strtolower($strqte)],
 					"nb_fourrure" => $p["quantite_fourrure_".strtolower($strqte)],
 					"nb_planche" => $p["quantite_planche_".strtolower($strqte)],
@@ -2247,8 +2441,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$tabAutres = array(
 					"nb_castar" => $p["quantite_castar_".strtolower($strqte)],
 					"nb_peau" => $p["quantite_peau_".strtolower($strqte)],
-					"nb_viande" => $p["quantite_viande_".strtolower($strqte)],
-					"nb_viande_preparee" => $p["quantite_viande_preparee_".strtolower($strqte)],
 					"nb_cuir" => $p["quantite_cuir_".strtolower($strqte)],
 					"nb_fourrure" => $p["quantite_fourrure_".strtolower($strqte)],
 					"nb_planche" => $p["quantite_planche_".strtolower($strqte)],
@@ -2256,7 +2448,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				);
 			}
 			if ( $tabAutres["nb_castar"] != 0 || $tabAutres["nb_peau"] != 0 ||
-			$tabAutres["nb_viande"] != 0 || $tabAutres["nb_viande_preparee"] != 0 ||
 			$tabAutres["nb_cuir"] != 0 || $tabAutres["nb_fourrure"] != 0 ||
 			$tabAutres["nb_planche"] != 0 || $tabAutres["nb_rondin"] != 0
 			) {
@@ -2274,19 +2465,15 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$nbPeau = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_5"));
 		$nbCuir = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_6"));
 		$nbFourrure = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_7"));
-		$nbViande = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_8"));
-		$nbViandePreparee = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_9"));
-		$nbPlanche = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_10"));
-		$nbRondin = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_11"));
+		$nbPlanche = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_8"));
+		$nbRondin = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_9"));
 
 		$tabElement[1] = array("nom_systeme" => "castar", "nb" => $nbCastar, "poids" => Bral_Util_Poids::POIDS_CASTARS);
 		$tabElement[2] = array("nom_systeme" => "peau", "nb" => $nbPeau, "poids" => Bral_Util_Poids::POIDS_PEAU);
 		$tabElement[3] = array("nom_systeme" => "cuir", "nb" => $nbCuir, "poids" => Bral_Util_Poids::POIDS_CUIR);
 		$tabElement[4] = array("nom_systeme" => "fourrure", "nb" => $nbFourrure, "poids" => Bral_Util_Poids::POIDS_FOURRURE);
-		$tabElement[5] = array("nom_systeme" => "viande", "nb" => $nbViande, "poids" => Bral_Util_Poids::POIDS_VIANDE);
-		$tabElement[6] = array("nom_systeme" => "viande_preparee", "nb" => $nbViandePreparee, "poids" => Bral_Util_Poids::POIDS_VIANDE_PREPAREE);
-		$tabElement[7] = array("nom_systeme" => "planche", "nb" => $nbPlanche, "poids" => Bral_Util_Poids::POIDS_PLANCHE);
-		$tabElement[8] = array("nom_systeme" => "rondin", "nb" => $nbRondin, "poids" => Bral_Util_Poids::POIDS_RONDIN);
+		$tabElement[5] = array("nom_systeme" => "planche", "nb" => $nbPlanche, "poids" => Bral_Util_Poids::POIDS_PLANCHE);
+		$tabElement[6] = array("nom_systeme" => "rondin", "nb" => $nbRondin, "poids" => Bral_Util_Poids::POIDS_RONDIN);
 
 		foreach ($tabElement as $t) {
 			$nb=$t["nb"];

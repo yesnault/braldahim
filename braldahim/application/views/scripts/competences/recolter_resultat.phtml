@@ -4,9 +4,26 @@
 
 	Vous avez récolté votre champ situé en x:<?=$this->champ["x_champ"]?>, y:<?=$this->champ["y_champ"]?>. <br><br>
 	
-	// TODO En développement
+	Vous avez récupéré <?=$this->recolte?>.<br><br>
 	
-	<br><br>
-	Vous pouvez maitenant re-semer votre champ si vous le souhaitez.
+	<? if ($this->taupesVivantes != null) : ?>
+		La récolte a été affectée par : <br>
+		
+		<? foreach($this->taupesVivantes as $taille => $numero) : ?>
+			<? foreach($numero as $n) : ?>
+				1 taupe de taille <?=$taille?><br>
+			<? endforeach;?>
+		<? endforeach;?>
+	<? endif;?>
+	
+	<br>
+	<? if ($this->champDetruit) : ?>
+		Il n'y a plus rien à récolter dans le champ, il est passé en jachère.
+		<br>
+		Vous pouvez maitenant re-semer votre champ si vous le souhaitez.
+	<? else: ?>
+		Il reste encore des éléments à récolter dans le champ.		
+	<? endif;?>
+	
 <? endif; ?>
 <br><br>

@@ -7,7 +7,7 @@
 		} else {
 			$s = "";
 		}
-		$textElements .= $e["nb"]." ".$e["nom"]."$s<br />";
+		$textElements .= $e["nb"]." ".addslashes(htmlspecialchars($e["nom"]))."$s<br />";
 		$nb = $nb + $e["nb"];
 	} 
 	$s = "";

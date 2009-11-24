@@ -131,13 +131,14 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		$typesElements[1] = array("id_type_element" => 1, "selected" => $idTypeCourant, "nom_systeme" => "aliments", "nom_element" => "Aliments");
 		$typesElements[2] = array("id_type_element" => 2, "selected" => $idTypeCourant, "nom_systeme" => "equipements", "nom_element" => "Equipements");
 		$typesElements[3] = array("id_type_element" => 3, "selected" => $idTypeCourant, "nom_systeme" => "graines", "nom_element" => "Graines");
-		$typesElements[4] = array("id_type_element" => 4, "selected" => $idTypeCourant, "nom_systeme" => "materiels", "nom_element" => "Matériels");
-		$typesElements[5] = array("id_type_element" => 5, "selected" => $idTypeCourant, "nom_systeme" => "munitions", "nom_element" => "Munitions");
-		$typesElements[6] = array("id_type_element" => 6, "selected" => $idTypeCourant, "nom_systeme" => "minerais", "nom_element" => "Minerais");
-		$typesElements[7] = array("id_type_element" => 7, "selected" => $idTypeCourant, "nom_systeme" => "partiesplantes", "nom_element" => "Parties de Plantes");
-		$typesElements[8] = array("id_type_element" => 8, "selected" => $idTypeCourant, "nom_systeme" => "potions", "nom_element" => "Potions et Vernis");
-		$typesElements[9] = array("id_type_element" => 9, "selected" => $idTypeCourant, "nom_systeme" => "runes", "nom_element" => "Runes");
-		$typesElements[10] = array("id_type_element" => 10, "selected" => $idTypeCourant, "nom_systeme" => "autres", "nom_element" => "Autres Elements");
+		$typesElements[4] = array("id_type_element" => 4, "selected" => $idTypeCourant, "nom_systeme" => "ingredients", "nom_element" => "Ingrédients");
+		$typesElements[5] = array("id_type_element" => 5, "selected" => $idTypeCourant, "nom_systeme" => "materiels", "nom_element" => "Matériels");
+		$typesElements[6] = array("id_type_element" => 6, "selected" => $idTypeCourant, "nom_systeme" => "munitions", "nom_element" => "Munitions");
+		$typesElements[7] = array("id_type_element" => 7, "selected" => $idTypeCourant, "nom_systeme" => "minerais", "nom_element" => "Minerais");
+		$typesElements[8] = array("id_type_element" => 8, "selected" => $idTypeCourant, "nom_systeme" => "partiesplantes", "nom_element" => "Parties de Plantes");
+		$typesElements[9] = array("id_type_element" => 9, "selected" => $idTypeCourant, "nom_systeme" => "potions", "nom_element" => "Potions et Vernis");
+		$typesElements[10] = array("id_type_element" => 10, "selected" => $idTypeCourant, "nom_systeme" => "runes", "nom_element" => "Runes");
+		$typesElements[11] = array("id_type_element" => 11, "selected" => $idTypeCourant, "nom_systeme" => "autres", "nom_element" => "Autres Elements");
 
 		$this->view->typeElements = $typesElements;
 		$this->view->typeCourant = null;
@@ -168,6 +169,9 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 				break;
 			case "graines" :
 				$this->prepareTypeGraines($endroit);
+				break;
+			case "ingredients" :
+				$this->prepareTypeIngredients($endroit);
 				break;
 			case "materiels" :
 				$this->prepareTypeMateriels($endroit);
@@ -208,6 +212,9 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 				break;
 			case "graines" :
 				$this->deposeTypeGraines($endroit);
+				break;
+			case "ingredients" :
+				$this->deposeTypeIngredients($endroit);
 				break;
 			case "materiels" :
 				$this->deposeTypeMateriels($endroit);
@@ -308,12 +315,10 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if (count($autresRowset) == 1) {
 			foreach ($autresRowset as $p) {
 				if ($p["quantite_peau_".$endroit["suffixe"]] > 0) $tabAutres[1] = array("type_element" => "peau", "nom" => "Peau", "nom_pluriel" => "Peaux", "nom_systeme" => "quantite_peau" , "nb" => $p["quantite_peau_".$endroit["suffixe"]]);
-				if ($p["quantite_viande_".$endroit["suffixe"]] > 0) $tabAutres[2] = array("type_element" => "viande_fraiche", "nom" => "Viande", "nom_pluriel" => "Viandes", "nom_systeme" => "quantite_viande" , "nb" => $p["quantite_viande_".$endroit["suffixe"]]);
-				if ($p["quantite_viande_preparee_".$endroit["suffixe"]] > 0) $tabAutres[3] = array("type_element" => "viande_preparee", "nom" => "Viande pr&eacute;par&eacute;e", "nom_pluriel" => "Viandes pr&eacute;par&eacute;es", "nom_systeme" => "quantite_viande_preparee" , "nb" => $p["quantite_viande_preparee_".$endroit["suffixe"]]);
-				if ($p["quantite_cuir_".$endroit["suffixe"]] > 0) $tabAutres[4] = array("type_element" => "cuir", "nom" => "Cuir", "nom_pluriel" => "Cuirs", "nom_systeme" => "quantite_cuir" , "nb" => $p["quantite_cuir_".$endroit["suffixe"]]);
-				if ($p["quantite_fourrure_".$endroit["suffixe"]] > 0) $tabAutres[5] = array("type_element" => "fourrure", "nom" => "Fourrure", "nom_pluriel" => "Fourrures", "nom_systeme" => "quantite_fourrure" , "nb" => $p["quantite_fourrure_".$endroit["suffixe"]]);
-				if ($p["quantite_planche_".$endroit["suffixe"]] > 0) $tabAutres[6] = array("type_element" => "planche", "nom" => "Planche", "nom_pluriel" => "Planches", "nom_systeme" => "quantite_planche" , "nb" => $p["quantite_planche_".$endroit["suffixe"]]);
-				if ($p["quantite_rondin_".$endroit["suffixe"]] > 0) $tabAutres[7] = array("type_element" => "rondin", "nom" => "Rondin", "nom_pluriel" => "Rondins", "nom_systeme" => "quantite_rondin" , "nb" => $p["quantite_rondin_".$endroit["suffixe"]]);
+				if ($p["quantite_cuir_".$endroit["suffixe"]] > 0) $tabAutres[2] = array("type_element" => "cuir", "nom" => "Cuir", "nom_pluriel" => "Cuirs", "nom_systeme" => "quantite_cuir" , "nb" => $p["quantite_cuir_".$endroit["suffixe"]]);
+				if ($p["quantite_fourrure_".$endroit["suffixe"]] > 0) $tabAutres[3] = array("type_element" => "fourrure", "nom" => "Fourrure", "nom_pluriel" => "Fourrures", "nom_systeme" => "quantite_fourrure" , "nb" => $p["quantite_fourrure_".$endroit["suffixe"]]);
+				if ($p["quantite_planche_".$endroit["suffixe"]] > 0) $tabAutres[4] = array("type_element" => "planche", "nom" => "Planche", "nom_pluriel" => "Planches", "nom_systeme" => "quantite_planche" , "nb" => $p["quantite_planche_".$endroit["suffixe"]]);
+				if ($p["quantite_rondin_".$endroit["suffixe"]] > 0) $tabAutres[5] = array("type_element" => "rondin", "nom" => "Rondin", "nom_pluriel" => "Rondins", "nom_systeme" => "quantite_rondin" , "nb" => $p["quantite_rondin_".$endroit["suffixe"]]);
 
 				if (count($tabAutres) > 0) {
 					$this->view->vendreOk = true;
@@ -1111,6 +1116,91 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		}
 
 		$this->view->objetVente = $graine["type"] . " : ".$nbGraine. " poignée".$s." de graines";
+	}
+
+	private function prepareTypeIngredients($endroit) {
+		$tabIngredients = null;
+
+		if ($endroit["nom_systeme"] == "Laban") {
+			Zend_Loader::loadClass("LabanIngredient");
+			$table = new LabanIngredient();
+			$ingredients = $table->findByIdHobbit($this->view->user->id_hobbit);
+		} else {
+			Zend_Loader::loadClass("CharretteIngredient");
+			$table = new CharretteIngredient();
+			$ingredients = $table->findByIdCharrette($endroit["id_charrette"]);
+		}
+
+		if (count($ingredients) > 0) {
+			foreach ($ingredients as $m) {
+				if ($m["quantite_".$endroit["suffixe"]."_ingredient"] > 0) {
+					$tabIngredients[] = array(
+						"id_type_ingredient" => $m["id_fk_type_".$endroit["suffixe"]."_ingredient"],
+						"type" => $m["nom_type_ingredient"],
+						"quantite" => $m["quantite_".$endroit["suffixe"]."_ingredient"],
+					);
+					$this->view->vendreOk = true;
+				}
+			}
+		} else {
+			$this->view->vendreOk = false;
+		}
+		$this->view->ingredients = $tabIngredients;
+	}
+
+	private function deposeTypeIngredients($endroit) {
+		$idIngredient = null;
+		$nbIngredient = null;
+
+		$idIngredient = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_3"));
+		$nbIngredient = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_4"));
+
+		if (!array_key_exists($idIngredient, $this->view->ingredients)) {
+			throw new Zend_Exception(get_class($this)." ID Ingredient invalide : ".$idIngredient);
+		}
+
+		$ingredient = $this->view->ingredients[$idIngredient];
+
+		if ($nbIngredient > $ingredient["quantite"] || $nbIngredient < 0) {
+			throw new Zend_Exception(get_class($this)." Quantite Ingredient Brut invalide : ".$nbIngredient);
+		}
+
+		$idVente = $this->initVente("ingredient");
+
+		if ($endroit["nom_systeme"] == "Laban") {
+			Zend_Loader::loadClass("LabanIngredient");
+			$table = new LabanIngredient();
+			$nomFk = "id_fk_hobbit_laban_ingredient";
+			$valeurFk = $this->view->user->id_hobbit;
+		} else {
+			Zend_Loader::loadClass("CharretteIngredient");
+			$table = new CharretteIngredient();
+			$nomFk = "id_fk_charrette_ingredient";
+			$valeurFk = $endroit["id_charrette"];
+		}
+
+		$data = array(
+			"quantite_".$endroit["suffixe"]."_ingredient" => -$nbIngredient,
+			"id_fk_type_".$endroit["suffixe"]."_ingredient" => $ingredient["id_type_ingredient"],
+		);
+		$data[$nomFk] = $valeurFk;
+		$table->insertOrUpdate($data);
+
+		Zend_Loader::loadClass("VenteIngredient");
+		$venteIngredientTable = new VenteIngredient();
+		$data = array (
+				"id_fk_vente_ingredient" => $idVente,
+				"id_fk_type_vente_ingredient" => $ingredient["id_type_ingredient"],
+				"quantite_vente_ingredient" => $nbIngredient,
+		);
+		$venteIngredientTable->insert($data);
+
+		$s = "";
+		if ($nbIngredient > 1) {
+			$s = "s";
+		}
+
+		$this->view->objetVente = $ingredient["type"] . " : ".$nbIngredient;
 	}
 
 	private function verificationPrix() {

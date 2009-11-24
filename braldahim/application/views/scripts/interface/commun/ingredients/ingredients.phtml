@@ -1,0 +1,24 @@
+<?  Zend_Loader::loadClass('Bral_Helper_Contenu'); ?>
+<? if (count($this->ingredients) == 0) : ?>
+   <center><i>vide</i></center>
+<? else : ?>
+    <table class="table_liste" style="width:auto; padding:5px;" >
+		<thead class="table_liste">
+		  <tr class="table_liste">
+		  	<? foreach ($this->ingredients as $m) :  ?>
+			<th style="width:auto; padding:5px;" ><?=htmlspecialchars($m["type"])?></th>
+			<? endforeach; ?>
+		  </tr>
+		</thead>
+		<tbody>
+			<tr class="table_liste">
+			<? foreach ($this->ingredients as $m) : ?>
+			 	<td class="table_liste">
+			 		<?=Bral_Helper_Contenu::afficheIngredient($m)?>
+			 	</td>
+			<? endforeach; ?>
+			</tr>
+		</tbody>
+	</table>
+<? endif; ?>
+<br />

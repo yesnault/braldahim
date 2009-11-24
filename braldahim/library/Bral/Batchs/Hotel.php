@@ -114,9 +114,6 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			$coffreTable = new Coffre();
 
 			$prefix = "_".$element["type_vente_element"];
-			if ($element["type_vente_element"] == "viande_fraiche") {
-				$prefix = "";
-			}
 
 			$data = array(
 				"id_fk_hobbit_coffre" => $vente["id_fk_hobbit_vente"],
@@ -127,23 +124,11 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			$this->deleteVente($vente);
 
 			$nom = $element["quantite_vente_element"];
-			if ($element["type_vente_element"] == "viande_fraiche") {
-				if ($element["quantite_vente_element"] > 1) {
-					$nom .= " viandes fraîches";
-				} else {
-					$nom .= " viande fraîche";
-				}
-			} else if ($element["type_vente_element"] == "peau") {
+			if ($element["type_vente_element"] == "peau") {
 				if ($element["quantite_vente_element"] > 1) {
 					$nom .= " peaux";
 				} else {
 					$nom .= " peau";
-				}
-			} else if ($element["type_vente_element"] == "viande_preparee") {
-				if ($element["quantite_vente_element"] > 1) {
-					$nom .= " viandes préparées";
-				} else {
-					$nom .= " viande préparée";
 				}
 			} else if ($element["type_vente_element"] == "cuir") {
 				if ($element["quantite_vente_element"] > 1) {

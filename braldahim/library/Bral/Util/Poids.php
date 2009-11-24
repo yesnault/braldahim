@@ -18,7 +18,6 @@ class Bral_Util_Poids {
 	const POIDS_PEAU = 0.4;
 	const POIDS_VIANDE = 0.4;
 
-	const POIDS_VIANDE_PREPAREE = 0.3;
 	const POIDS_RATION = 0.4;
 	const POIDS_ALIMENT = 0.4;
 	const POIDS_CUIR = 0.4;
@@ -92,6 +91,7 @@ class Bral_Util_Poids {
 			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementPotion($idHobbit, $charrette);
 			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementAliment($idHobbit, $charrette);
 			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementGraine($idHobbit, $charrette);
+			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementIngredient($idHobbit, $charrette);
 			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementRune($idHobbit, $charrette);
 			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementMunitions($idHobbit, $charrette);
 			$tab["transporte"] = $tab["transporte"] + self::calculPoidsTransporteElementMateriel($idHobbit, $charrette);
@@ -169,8 +169,6 @@ class Bral_Util_Poids {
 				$poids = self::ajoute($poids, $p["quantite_castar_charrette"], self::POIDS_CASTARS);
 			}
 			$poids = self::ajoute($poids, $p["quantite_peau_".$suffixe], self::POIDS_PEAU);
-			$poids = self::ajoute($poids, $p["quantite_viande_".$suffixe], self::POIDS_VIANDE);
-			$poids = self::ajoute($poids, $p["quantite_viande_preparee_".$suffixe], self::POIDS_VIANDE_PREPAREE);
 			$poids = self::ajoute($poids, $p["quantite_cuir_".$suffixe], self::POIDS_CUIR);
 			$poids = self::ajoute($poids, $p["quantite_fourrure_".$suffixe], self::POIDS_FOURRURE);
 			$poids = self::ajoute($poids, $p["quantite_planche_".$suffixe], self::POIDS_PLANCHE);
@@ -254,6 +252,31 @@ class Bral_Util_Poids {
 
 		unset($table);
 		unset($materiels);
+
+		return $poids;
+	}
+
+	private static function calculPoidsTransporteElementIngredient($idHobbit, $charrette = null) {
+		$poids = 0;
+
+		if ($charrette != null) {
+			$suffixe = "charrette";
+			Zend_Loader::loadClass("CharretteIngredient");
+			$table = new CharretteIngredient();
+			$ingredients = $table->findByIdCharrette($charrette["id_charrette"]);
+		} else {
+			$suffixe = "laban";
+			Zend_Loader::loadClass("LabanIngredient");
+			$table = new LabanIngredient();
+			$ingredients = $table->findByIdHobbit($idHobbit);
+		}
+
+		foreach ($ingredients as $m) {
+			$poids = self::ajoute($poids, $m["quantite_".$suffixe."_ingredient"], $m["poids_unitaire_type_ingredient"]);
+		}
+
+		unset($table);
+		unset($ingredients);
 
 		return $poids;
 	}
@@ -356,6 +379,8 @@ class Bral_Util_Poids {
 		unset($table);
 		return self::ajoute(0, $nbPoigneesGraines, self::POIDS_POIGNEE_GRAINES);
 	}
+
+
 
 	private static function calculPoidsTransporteElementRune($idHobbit, $charrette = null) {
 		if ($charrette != null) {

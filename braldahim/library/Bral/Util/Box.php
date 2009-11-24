@@ -45,6 +45,9 @@ class Bral_Util_Box {
 		if (!in_array("box_soule", $tab)) {
 			$tab[] = "box_soule";
 		}
+		if (!in_array("box_vue", $tab)) {
+			$tab[] = "box_vue";
+		}
 	}
 
 }

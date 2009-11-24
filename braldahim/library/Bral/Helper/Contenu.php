@@ -70,6 +70,23 @@ class Bral_Helper_Contenu {
 		return $retour;
 	}
 
+	public static function afficheIngredient($tab) {
+		$retour = "";
+		if (array_key_exists("poids", $tab)) {
+			$poids = 0;
+			if ($tab["quantite"] > 0) {
+				$poids = $tab["poids"]/$tab["quantite"];
+			}
+			$retour .= "<span style='cursor:pointer' title='Poids unitaire : ".$poids." Kg, Poids total : ".$tab["poids"]." Kg'>";
+		}
+		$retour .= $tab["quantite"];
+		$retour .= "<img src='/public/styles/braldahim_defaut/images/type_ingredient/type_ingredient_".$tab["id_type_ingredient"].".png' alt=\"".htmlspecialchars($tab["type"])."\"/>";
+		if (array_key_exists("poids", $tab)) {
+			$retour .= "</span>";
+		}
+		return $retour;
+	}
+
 	public static function afficheGraine($tab) {
 		$retour = "";
 		if (array_key_exists("poids", $tab)) {

@@ -1,6 +1,5 @@
 <?if ($this->autres["nb_peau"] > 0  || $this->autres["nb_cuir"] > 0 || $this->autres["nb_castar"] ||
-	  $this->autres["nb_fourrure"] > 0 || $this->autres["nb_planche"] > 0 || $this->autres["nb_viande"] ||
-	  $this->autres["nb_viande_preparee"] || $this->autres["nb_rondin"]) :?>
+	  $this->autres["nb_fourrure"] > 0 || $this->autres["nb_planche"] > 0 || $this->autres["nb_rondin"]) :?>
 	<ul id="navigation" style="width:99%;text-align:left">
 		<li id="deposer_divers">
 			<? $poches[] = "deposer_divers-head" ?>
@@ -57,63 +56,47 @@
 				<? endif; ?>
 				<input type='hidden' maxlength='4' size='4' name='valeur_7_poids' id='valeur_7_poids' value='<?=Bral_Util_Poids::POIDS_FOURRURE ?>' />
 				<input type='hidden' maxlength='4' size='4' name='valeur_7_echoppe' id='valeur_7_echoppe' value='oui' />
-				<? if ($this->autres["nb_viande"] > 0): ?>
-					Viande : <?=$this->autres["nb_viande"] ?>.
+				<? if ($this->autres["nb_planche"] > 0): ?>
+					Planche : <?=$this->autres["nb_planche"] ?>.
 					Quantit&eacute; &agrave; transbahuter : 
-					<input type='text' maxlength='4' size='4' name='valeur_8' id='valeur_8' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->autres["nb_viande"]?>) { alert('Valeur trop grande'); this.value=0}; <?=$jsBtn?>"/>
-					<input type='hidden' maxlength='4' size='4' name='valeur_8_max' id='valeur_8_max' value='<?=$this->autres["nb_viande"] ?>' />
+					<input type='text' maxlength='4' size='4' name='valeur_8' id='valeur_8' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->autres["nb_planche"]?>) { alert('Valeur trop grande'); this.value=0}; <?=$jsBtn?>"/>
+					<input type='hidden' maxlength='4' size='4' name='valeur_8_max' id='valeur_8_max' value='<?=$this->autres["nb_planche"] ?>' />
 					<br />
 				<? else : ?>
 					<input type='hidden' maxlength='4' size='4' name='valeur_8_max' id='valeur_8_max' value='0' />
 					<input type='hidden' maxlength='4' size='4' name='valeur_8' id='valeur_8' value='0' />
 				<? endif; ?>
-				<input type='hidden' maxlength='4' size='4' name='valeur_8_poids' id='valeur_8_poids' value='<?=Bral_Util_Poids::POIDS_VIANDE ?>' />
-				<input type='hidden' maxlength='4' size='4' name='valeur_8_echoppe' id='valeur_8_echoppe' value='non' />
-				<? if ($this->autres["nb_viande_preparee"] > 0): ?>
-					Viande pr&eacute;par&eacute;e : <?=$this->autres["nb_viande_preparee"] ?>.
+				<input type='hidden' maxlength='4' size='4' name='valeur_8_poids' id='valeur_8_poids' value='<?=Bral_Util_Poids::POIDS_PLANCHE ?>' />
+				<input type='hidden' maxlength='4' size='4' name='valeur_8_echoppe' id='valeur_8_echoppe' value='oui' />
+				<? if ($this->autres["nb_rondin"] > 0): ?>
+					Rondin : <?=$this->autres["nb_rondin"] ?>.
 					Quantit&eacute; &agrave; transbahuter : 
-					<input type='text' maxlength='4' size='4' name='valeur_9' id='valeur_9' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->autres["nb_viande_preparee"]?>) { alert('Valeur trop grande'); this.value=0}; <?=$jsBtn?>"/>
-					<input type='hidden' maxlength='4' size='4' name='valeur_9_max' id='valeur_9_max' value='<?=$this->autres["nb_viande_preparee"] ?>' />
+					<input type='text' maxlength='4' size='4' name='valeur_9' id='valeur_9' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->autres["nb_rondin"]?>) { alert('Valeur trop grande'); this.value=0}; <?=$jsBtn?>"/>
+					<input type='hidden' maxlength='4' size='4' name='valeur_9_max' id='valeur_9_max' value='<?=$this->autres["nb_rondin"] ?>' />
 					<br />
 				<? else : ?>
 					<input type='hidden' maxlength='4' size='4' name='valeur_9_max' id='valeur_9_max' value='0' />
 					<input type='hidden' maxlength='4' size='4' name='valeur_9' id='valeur_9' value='0' />
 				<? endif; ?>
-				<input type='hidden' maxlength='4' size='4' name='valeur_9_poids' id='valeur_9_poids' value='<?=Bral_Util_Poids::POIDS_VIANDE_PREPAREE ?>' />
-				<input type='hidden' maxlength='4' size='4' name='valeur_9_echoppe' id='valeur_9_echoppe' value='non' />
-				<? if ($this->autres["nb_planche"] > 0): ?>
-					Planche : <?=$this->autres["nb_planche"] ?>.
-					Quantit&eacute; &agrave; transbahuter : 
-					<input type='text' maxlength='4' size='4' name='valeur_10' id='valeur_10' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->autres["nb_planche"]?>) { alert('Valeur trop grande'); this.value=0}; <?=$jsBtn?>"/>
-					<input type='hidden' maxlength='4' size='4' name='valeur_10_max' id='valeur_10_max' value='<?=$this->autres["nb_planche"] ?>' />
-					<br />
-				<? else : ?>
-					<input type='hidden' maxlength='4' size='4' name='valeur_10_max' id='valeur_10_max' value='0' />
-					<input type='hidden' maxlength='4' size='4' name='valeur_10' id='valeur_10' value='0' />
-				<? endif; ?>
-				<input type='hidden' maxlength='4' size='4' name='valeur_10_poids' id='valeur_10_poids' value='<?=Bral_Util_Poids::POIDS_PLANCHE ?>' />
-				<input type='hidden' maxlength='4' size='4' name='valeur_10_echoppe' id='valeur_10_echoppe' value='oui' />
-				<? if ($this->autres["nb_rondin"] > 0): ?>
-					Rondin : <?=$this->autres["nb_rondin"] ?>.
-					Quantit&eacute; &agrave; transbahuter : 
-					<input type='text' maxlength='4' size='4' name='valeur_11' id='valeur_11' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$this->autres["nb_rondin"]?>) { alert('Valeur trop grande'); this.value=0}; <?=$jsBtn?>"/>
-					<input type='hidden' maxlength='4' size='4' name='valeur_11_max' id='valeur_11_max' value='<?=$this->autres["nb_rondin"] ?>' />
-					<br />
-				<? else : ?>
-					<input type='hidden' maxlength='4' size='4' name='valeur_11_max' id='valeur_11_max' value='0' />
-					<input type='hidden' maxlength='4' size='4' name='valeur_11' id='valeur_11' value='0' />
-				<? endif; ?>
-				<input type='hidden' maxlength='4' size='4' name='valeur_11_poids' id='valeur_11_poids' value='<?=Bral_Util_Poids::POIDS_RONDIN ?>' />
-				<input type='hidden' maxlength='4' size='4' name='valeur_11_echoppe' id='valeur_11_echoppe' value='oui' />
+				<input type='hidden' maxlength='4' size='4' name='valeur_9_poids' id='valeur_9_poids' value='<?=Bral_Util_Poids::POIDS_RONDIN ?>' />
+				<input type='hidden' maxlength='4' size='4' name='valeur_9_echoppe' id='valeur_9_echoppe' value='oui' />
 				</li>
 			</ul>
 		</li>
 	</ul>
 <? else : ?>
-	<? for ($i=4 ; $i <= 11 ; $i++) : ?>
+	<? for ($i=4 ; $i <= 9 ; $i++) : ?>
 		<input type='hidden' maxlength='4' size='4' name='valeur_<?=$i?>_max' id='valeur_<?=$i?>_max' value='0' />
 		<input type='hidden' maxlength='4' size='4' name='valeur_<?=$i?>_poids' id='valeur_<?=$i?>_poids' value='0' />
 		<input type='hidden' maxlength='4' size='4' name='valeur_<?=$i?>' id='valeur_<?=$i?>' value='0' />
 		<input type='hidden' maxlength='4' size='4' name='valeur_<?=$i?>_echoppe' id='valeur_<?=$i?>_echoppe' value='non' />
 	<? endfor; ?>
 <? endif; ?>
+<? 
+//anciennement utilise par la viande et la viande preparee
+for ($i=10 ; $i <= 11 ; $i++) : ?>
+		<input type='hidden' maxlength='4' size='4' name='valeur_<?=$i?>_max' id='valeur_<?=$i?>_max' value='0' />
+		<input type='hidden' maxlength='4' size='4' name='valeur_<?=$i?>_poids' id='valeur_<?=$i?>_poids' value='0' />
+		<input type='hidden' maxlength='4' size='4' name='valeur_<?=$i?>' id='valeur_<?=$i?>' value='0' />
+		<input type='hidden' maxlength='4' size='4' name='valeur_<?=$i?>_echoppe' id='valeur_<?=$i?>_echoppe' value='non' />
+<? endfor; ?>

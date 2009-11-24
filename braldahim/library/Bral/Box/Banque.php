@@ -71,6 +71,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		Zend_Loader::loadClass("CoffrePartieplante");
 		Zend_Loader::loadClass("CoffreAliment");
 		Zend_Loader::loadClass("CoffreGraine");
+		Zend_Loader::loadClass("CoffreIngredient");
 		Zend_Loader::loadClass("CoffreMunition");
 		Zend_Loader::loadClass("CoffrePotion");
 		Zend_Loader::loadClass("CoffreRune");
@@ -168,13 +169,13 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		foreach ($coffre as $p) {
 			$tabCoffre = array(
 				"nb_peau" => $p["quantite_peau_coffre"],
-				"nb_viande" => $p["quantite_viande_coffre"],
-				"nb_viande_preparee" => $p["quantite_viande_preparee_coffre"],
 				"nb_cuir" => $p["quantite_cuir_coffre"],
 				"nb_fourrure" => $p["quantite_fourrure_coffre"],
 				"nb_planche" => $p["quantite_planche_coffre"],
 				"nb_castar" => $p["quantite_castar_coffre"],
 				"nb_rondin" => $p["quantite_rondin_coffre"],
+				"nb_viande" => 0, // remplit dans renderIngredient
+				"nb_viande_poids_unitaire" => 0, // remplit dans renderIngredient
 			);
 
 			if ($p["quantite_peau_coffre"] > 0 || $p["quantite_viande_coffre"] > 0) {
@@ -236,27 +237,27 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		}
 		unset($runes);
 
-		$this->view->tabHobbitMetiers = $tabHobbitMetiers;
-
-
 		$this->view->mineraisBruts = $tabMineraisBruts;
 		$this->view->lingots = $tabLingots;
 
 		$this->view->nb_runes = count($tabRunesIdentifiees) + count($tabRunesNonIdentifiees);
 		$this->view->runesIdentifiees = $tabRunesIdentifiees;
 		$this->view->runesNonIdentifiees = $tabRunesNonIdentifiees;
-		$this->view->coffre = $tabCoffre;
-		$this->view->laban = $tabCoffre; // pour les poches
 
 		$this->renderPlante($tabMetiers);
-		$this->view->tabMetiers = $tabMetiers;
 		$this->renderEquipement();
 		$this->renderMunition();
 		$this->renderPotion();
 		$this->renderAliment();
 		$this->renderGraine();
+		$this->renderIngredient($tabMetiers, $tabCoffre);
 		$this->renderTabac();
 		$this->renderMateriel();
+
+		$this->view->tabMetiers = $tabMetiers;
+		$this->view->tabHobbitMetiers = $tabHobbitMetiers;
+		$this->view->coffre = $tabCoffre;
+		$this->view->laban = $tabCoffre; // pour les poches
 
 		$this->view->estElementsEtal = false;
 		$this->view->estElementsEtalAchat = false;
@@ -503,5 +504,37 @@ class Bral_Box_Banque extends Bral_Box_Box {
 
 		$this->view->nb_graines = count($tabGraines);
 		$this->view->graines = $tabGraines;
+	}
+
+	private function renderIngredient(&$tabMietiers, &$tabCoffre) {
+		$tabIngredients = null;
+		$coffreIngredientTable = new CoffreIngredient();
+		$ingredients = $coffreIngredientTable->findByIdHobbit($this->view->user->id_hobbit);
+		unset($coffreIngredientTable);
+
+		Zend_Loader::loadClass("TypeIngredient");
+		
+		foreach ($ingredients as $g) {
+			if ($g["quantite_coffre_ingredient"] > 0) {
+				$tabIngredients[] = array(
+					"type" => $g["nom_type_ingredient"],
+					"id_type_ingredient" => $g["id_type_ingredient"],
+					"quantite" => $g["quantite_coffre_ingredient"],
+					"poids" => $g["quantite_coffre_ingredient"] * $g["poids_unitaire_type_ingredient"],
+				);
+
+				if ($g["id_type_ingredient"] ==  TypeIngredient::ID_TYPE_VIANDE_FRAICHE) {
+					if (isset($tabMetiers["chasseur"])) {
+						$tabMetiers["chasseur"]["a_afficher"] = true;
+					}
+					$tabCoffre["nb_viande"] = $g["quantite_laban_ingredient"];
+					$tabCoffre["nb_viande_poids_unitaire"] = $g["poids_unitaire_type_ingredient"];
+				}
+			}
+		}
+		unset($ingredients);
+
+		$this->view->nb_ingredients = count($tabIngredients);
+		$this->view->ingredients = $tabIngredients;
 	}
 }
