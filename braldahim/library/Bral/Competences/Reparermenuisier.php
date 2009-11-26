@@ -228,6 +228,6 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_echoppes", "box_charrette"));
+		return $this->constructListBoxRefresh(array("box_echoppes", "box_charrette", "box_competences_metiers"));
 	}
 }

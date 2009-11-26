@@ -1,22 +1,16 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
-	 <? if ($this->cuisinerNbViandeOk === true) : ?>
-	 	Pour <?=$this->nb_pa ?> PA, vous pouvez cuisiner 
-	 	jusqu'&agrave; <?=$this->nbViandePreparee ?> unit&eacute;<? if ($this->nbViandePreparee > 1) : echo "s"; endif;?> de viande pr&eacute;par&eacute;e 
-	 	en <?=$this->nbViandePreparee ?> ragoût<? if ($this->nbViandePreparee > 1) : echo "s"; endif;?>.
+
+	 	Pour <?=$this->nb_pa ?> PA, vous pouvez cuisiner. <br><br>
 	 
-		 <br><br>
-		 Nombre d'unit&eacute; de viande pr&eacute;par&eacute;e &agrave; cuisiner : <br />
-		 <select name="valeur_1" id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_cuisiner').disabled=true } else {$('bouton_cuisiner').disabled=false }">
-		 	<option value="-1">(Choisissez le nombre)</option>
-		 	<? for ($i = 1; $i<= $this->nbViandePreparee; $i++) : ?>
-		 		<option value="<?=$i?>"><?=$i?> unit&eacute;<? if ($i > 1): echo "s"; endif;?> de viande</option>
-		 	<? endfor; ?>
-		 </select>
+	 Type d'aliment :<br />
+     <select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_cuisiner&type_aliment='+this.value);">
+	 	<option value="-1">(Choisissez un aliment)</option>
+	 	<? foreach($this->typeAliment as $t) : ?>
+	 		<option value="<?=$t["id_type_aliment"]?>" <?=$t["selected"]?>><?=htmlspecialchars($t["nom_type_aliment"])?></option>
+	 	<? endforeach; ?>
+	 </select>
 	 
-	 <? else: ?>
-		 Vous n'avez pas assez de viande pr&eacute;par&eacute;e pour cuisiner.<br />
-	 <? endif; ?>
 </div>
 
 <br />

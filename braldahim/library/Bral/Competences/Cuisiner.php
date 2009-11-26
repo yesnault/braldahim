@@ -16,32 +16,154 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Laban");
 		Zend_Loader::loadClass('Bral_Util_Quete');
 
-		$this->view->cuisinerNbViandeOk = false;
-		
-		$labanTable = new Laban();
-		$laban = $labanTable->findByIdHobbit($this->view->user->id_hobbit);
+		$this->view->typeAlimentCourant = null;
+		$this->view->estSurEchoppe = false;
+		$this->view->possedeCharrette = false;
 
-		// Le joueur tente de transformer n+1 viandes préparées ou n est son niveau de SAG
-		$this->view->nbViandePreparee = $this->view->user->sagesse_base_hobbit;
+		$this->prepareAliments();
 
-		if ($this->view->nbViandePreparee < 1) {
-			$this->view->nbViandePreparee = 1;
+		if ($this->view->typeAlimentCourant != null) {
+			$this->calculEchoppe();
+			$this->calculCharrette();
+			$this->prepareIngredients(); // présent soit dans l'échoppe, soit dans le laban
+			$this->prepareDestinations(); // Soit dans l'échoppe, soit le laban, soit la charrette
 		}
+	}
 
-		$tabLaban = null;
-		foreach ($laban as $p) {
-			$tabLaban = array(
-				"nb_viande_preparee" => $p["quantite_viande_preparee_laban"],
+	private function calculEchoppe() {
+		// On regarde si le hobbit est dans une de ses echopppes
+
+		Zend_Loader::loadClass("Echoppe");
+		$echoppeTable = new Echoppe();
+		$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+
+		$idEchoppe = null;
+		foreach($echoppes as $e) {
+			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit &&
+			$e["nom_systeme_metier"] == "cuisinier" &&
+			$e["x_echoppe"] == $this->view->user->x_hobbit &&
+			$e["y_echoppe"] == $this->view->user->y_hobbit &&
+			$e["z_echoppe"] == $this->view->user->z_hobbit) {
+				$this->view->estSurEchoppe = true;
+				$idEchoppe = $e["id_echoppe"];
+				break;
+			}
+		}
+		$this->view->idEchoppe = $idEchoppe;
+	}
+
+	private function calculCharrette() {
+		// On regarde si le hobbit possède une charrette
+		Zend_Loader::loadClass("Charrette");
+		$charretteTable = new Charrette();
+		$charrette = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+		if ($charrette != null && count($charrette) == 1) {
+			$this->view->possedeCharrette = true;
+			$this->view->idCharrette = $charrette[0]["id_charrette"];
+		}
+	}
+
+	private function prepareAliments() {
+		$typeAlimentCourant = null;
+
+		$idTypeCourant = $this->request->get("type_aliment");
+
+		Zend_Loader::loadClass("TypeAliment");
+		$typeAlimentTable = new TypeAliment();
+		$typeAlimentsRowset = $typeAlimentTable->findAllByType('manger');
+		$tabTypeAliment = null;
+		foreach($typeAlimentsRowset as $t) {
+			$selected = "";
+			if ($idTypeCourant == $t["id_type_aliment"]) {
+				$selected = "selected";
+			}
+			$t = array(
+				'id_type_aliment' => $t["id_type_aliment"],
+				'nom_type_aliment' => $t["nom_type_aliment"],
+				'selected' => $selected
 			);
-		}
-		if (isset($tabLaban) && $tabLaban["nb_viande_preparee"] > 0) {
-			$this->view->cuisinerNbViandeOk = true;
-		}
-
-		if ($this->view->nbViandePreparee > $tabLaban["nb_viande_preparee"]) {
-			$this->view->nbViandePreparee = $tabLaban["nb_viande_preparee"];
+			if ($idTypeCourant == $t["id_type_aliment"]) {
+				$typeAlimentCourant = $t;
+			}
+			$tabTypeAliment[] = $t;
 		}
 
+		$this->view->typeAliment = $tabTypeAliment;
+		$this->view->typeAlimentCourant = $typeAlimentCourant;
+	}
+
+	private function prepareIngredients() {
+		// TODO présents soit dans l'échoppe, soit dans le laban
+
+		$tabIngredients = null;
+
+		Zend_Loader::loadClass("RecetteAliments");
+		$recetteAlimentsTable = new RecetteAliments();
+		$ingredientsRecetteRowset = $recetteAlimentsTable->findByIdTypeAliment($this->view->typeAlimentCourant["id_type_aliment"]);
+
+		if ($ingredientsRecetteRowset == null || count($ingredientsRecetteRowset) < 0) {
+			throw new Zend_Exception("Erreur recette aliment".$this->view->typeAlimentCourant["id_type_aliment"]);
+		}
+
+		$tabSources = null;
+		if ($this->view->estSurEchoppe === true) {
+			Zend_Loader::loadClass("EchoppeIngredient");
+			$echoppeIngredientTable = new EchoppeIngredient();
+			$ingredients = $echoppeIngredientTable->findByIdEchoppe($this->view->idEchoppe);
+			$tabSources["echoppe"]["ingredients"] = $ingredients;
+			$tabSources["echoppe"]["possible"] = true;
+			$tabSources["echoppe"]["nom"] = "Votre échoppe";
+		}
+
+		if ($this->view->possedeCharrette === true) {
+			Zend_Loader::loadClass("CharretteIngredient");
+			$charretteIngredientTable = new CharretteIngredient();
+			$ingredients = $charretteIngredientTable->findByIdCharrette($this->view->idCharrette);
+			$tabSources["charrette"]["ingredients"] = $ingredients;
+			$tabSources["charrette"]["possible"] = true;
+			$tabSources["charrette"]["nom"] = "Votre charrette";
+		}
+
+		Zend_Loader::loadClass("LabanIngredient");
+		$labanIngredientTable = new LabanIngredient();
+		$ingredients = $labanIngredientTable->findByIdHobbit($this->view->user->id_hobbit);
+		$tabSources["laban"]["ingredients"] = $ingredients;
+		$tabSources["laban"]["possible"] = true;
+		$tabSources["laban"]["nom"] = "Votre laban";
+			
+		foreach($ingredientsRecetteRowset as $i) {
+			$tabIngredients = array(
+				'nom_type_ingredient' => $i["nom_type_ingredient"],
+				'id_type_ingredient' => $i["id_type_ingredient"],
+				'quantite_recette_aliments' => $i["quantite_recette_aliments"],
+			);
+			$this->controleIngredientsDispo($tabSources, $i["id_type_ingredient"], $i["quantite_recette_aliments"]);
+		}
+
+		$this->view->ingredients = $tabIngredients;
+		$this->view->sources = $tabSources;
+	}
+
+	private function controleIngredientsDispo(&$tabSources, $idTypeIngredient, $quantite) {
+		foreach($tabSources as $k => $v) {
+			if ($tabSources[$k]["possible"] === true) {
+				if ($tabSources[$k]["ingredients"] != null && count($tabSources[$k]["ingredients"]) > 0) {
+					$ingredientOk = false;
+					foreach($tabSources[$k]["ingredients"] as $i) {
+						if ($i["id_type_ingredient"] == $idTypeIngredient && $i["quantite_".$k."_ingredient"] >= $quantite) {
+							$ingredientOk = true;
+						}
+					}
+					$tabSources[$k]["possible"] = $ingredientOk;
+				} else {
+					$tabSources[$k]["possible"] = false;
+				}
+			}
+		}
+	}
+
+	private function prepareDestinations() {
+		// TODO soit le laban, soit la charrette, soit l'échoppe
 	}
 
 	function prepareFormulaire() {
@@ -86,14 +208,14 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}
-	
+
 	private function calculRateCuisiner($nombre) {
 		$this->view->nbViandePrepareePerdue = floor($nombre / 2);
-		
+
 		if ($this->view->nbViandePrepareePerdue < 1) {
 			$this->view->nbViandePrepareePerdue = 1;
 		}
-		
+
 		Zend_Loader::loadClass("Laban");
 		$labanTable = new Laban();
 		$data = array(
@@ -147,24 +269,24 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 
 		$this->calculQualite();
 		$this->view->qualiteAliment = $this->view->niveauQualite;
-		
+
 		$typeAlimentTable = new TypeAliment();
 		$aliment = $typeAlimentTable->findById(TypeAliment::ID_TYPE_RAGOUT);
-		
+
 		$this->view->typeAliment = $aliment;
-		
+
 		$this->view->bbdfAliment = $this->calculBBDF($aliment->bbdf_base_type_aliment, $this->view->niveauQualite);
 
 		$elementAlimentTable = new ElementAliment();
 		$labanAlimentTable = new LabanAliment();
-		
+
 		Zend_Loader::loadClass("IdsAliment");
 		$idsAliment = new IdsAliment();
 
 		for ($i = 1; $i <= $this->view->nbAliment; $i++) {
-			
+
 			$id_aliment = $idsAliment->prepareNext();
-			
+
 			$data = array(
 				"id_element_aliment" => $id_aliment,
 				"id_fk_type_element_aliment" => TypeAliment::ID_TYPE_RAGOUT,
@@ -238,7 +360,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		}
 		$this->view->niveauQualite = $qualite;
 	}
-	
+
 	private function calculBBDF($base, $niveauQualite) {
 		$bm = 0;
 		/*
