@@ -82,7 +82,7 @@ class BatchsController extends Zend_Controller_Action {
 	}
 
 	function donjonsAction() {
-		$this->view->retour = Bral_Batchs_Factory::calculBatch("Donjons");
+		$this->view->retour = Bral_Batchs_Factory::calculBatch("Donjons", $this->view);
 		echo $this->view->render("batchs/resultat.phtml");
 	}
 
