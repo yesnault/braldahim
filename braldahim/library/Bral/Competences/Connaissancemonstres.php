@@ -87,6 +87,7 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 				if ($m["id_monstre"] == $idMonstre) {
 					$cdmMonstre = true;
 					$dist = $m["dist_monstre"];
+					$this->view->distance = $dist;
 					break;
 				}
 			}

@@ -83,6 +83,7 @@ class Bral_Competences_Connaissancehobbits extends Bral_Competences_Competence {
 				if ($m["id_hobbit"] == $idHobbit) {
 					$cdmHobbit = true;
 					$dist = $m["dist_hobbit"];
+					$this->view->distance = $dist;
 					break;
 				}
 			}
