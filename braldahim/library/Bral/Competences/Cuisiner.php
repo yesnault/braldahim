@@ -453,17 +453,17 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		if ($idDestination == "echoppe") {
 			$prefix = "echoppe";
 			Zend_Loader::loadClass("EchoppeAliment");
-			$table = new EchoppeIngredient();
+			$table = new EchoppeAliment();
 			$tabBase["id_fk_echoppe_echoppe_aliment"] = $this->view->idEchoppe;
 		} else if ($idDestination == "charrette") {
 			$prefix = "charrette";
 			Zend_Loader::loadClass("CharretteAliment");
-			$table = new CharretteIngredient();
+			$table = new CharretteAliment();
 			$tabBase["id_fk_charrette_aliment"] = $this->view->idCharrette;
 		} else if ($idDestination == "laban") {
 			$prefix = "laban";
 			Zend_Loader::loadClass("LabanAliment");
-			$table = new LabanIngredient();
+			$table = new LabanAliment();
 			$tabBase["id_fk_hobbit_laban_aliment"] = $this->view->user->id_hobbit;
 		} else if ($idDestination == "sol") {
 			$prefix = "element";
