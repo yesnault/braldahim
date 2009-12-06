@@ -231,9 +231,7 @@ class Bral_Util_Charrette {
 	private static function destructionCharretteElement($charrette, $x, $y, $dateFin) {
 		Zend_Loader::loadClass("Element");
 		$data = array(
-			"quantite_viande_element" => $charrette["quantite_viande_charrette"],
 			"quantite_peau_element" => $charrette["quantite_peau_charrette"],
-			"quantite_viande_preparee_element" => $charrette["quantite_viande_preparee_charrette"],
 			"quantite_cuir_element" => $charrette["quantite_cuir_charrette"],
 			"quantite_castar_element" => $charrette["quantite_castar_charrette"],
 			"quantite_fourrure_element" => $charrette["quantite_fourrure_charrette"],
