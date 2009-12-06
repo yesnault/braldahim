@@ -325,6 +325,7 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 			$niveau = 0;
 			$nbRunes = 0;
 			$qualite = 2; // standard
+			$this->view->qualite = "standard";
 		}
 
 		$this->view->niveau = $niveau;
