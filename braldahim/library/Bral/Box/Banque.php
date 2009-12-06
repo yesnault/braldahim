@@ -178,15 +178,9 @@ class Bral_Box_Banque extends Bral_Box_Box {
 				"nb_viande_poids_unitaire" => 0, // remplit dans renderIngredient
 			);
 
-			if ($p["quantite_peau_coffre"] > 0 || $p["quantite_viande_coffre"] > 0) {
+			if ($p["quantite_peau_coffre"] > 0) {
 				if (isset($tabMetiers["chasseur"])) {
 					$tabMetiers["chasseur"]["a_afficher"] = true;
-				}
-			}
-
-			if ($p["quantite_viande_preparee_coffre"] > 0) {
-				if (isset($tabMetiers["cuisinier"])) {
-					$tabMetiers["cuisinier"]["a_afficher"] = true;
 				}
 			}
 
@@ -527,7 +521,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 					if (isset($tabMetiers["chasseur"])) {
 						$tabMetiers["chasseur"]["a_afficher"] = true;
 					}
-					$tabCoffre["nb_viande"] = $g["quantite_laban_ingredient"];
+					$tabCoffre["nb_viande"] = $g["quantite_coffre_ingredient"];
 					$tabCoffre["nb_viande_poids_unitaire"] = $g["poids_unitaire_type_ingredient"];
 				}
 			}

@@ -141,15 +141,9 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 				"poids_transporte" => $p["poids_transporte_charrette"],
 			);
 
-			if ($p["quantite_peau_charrette"] > 0 || $p["quantite_viande_charrette"] > 0) {
+			if ($p["quantite_peau_charrette"] > 0) {
 				if (isset($tabMetiers["chasseur"])) {
 					$tabMetiers["chasseur"]["a_afficher"] = true;
-				}
-			}
-
-			if ($p["quantite_viande_preparee_charrette"] > 0) {
-				if (isset($tabMetiers["cuisinier"])) {
-					$tabMetiers["cuisinier"]["a_afficher"] = true;
 				}
 			}
 
@@ -547,7 +541,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 					if (isset($tabMetiers["chasseur"])) {
 						$tabMetiers["chasseur"]["a_afficher"] = true;
 					}
-					$charrette["nb_viande"] = $g["quantite_laban_ingredient"];
+					$charrette["nb_viande"] = $g["quantite_charrette_ingredient"];
 					$charrette["nb_viande_poids_unitaire"] = $g["poids_unitaire_type_ingredient"];
 				}
 			}
