@@ -52,6 +52,6 @@
 <br /> 
 
 <? if ($this->utilisationPossible === true && $this->utilisationPaPossible === true): ?>
-<input type='button' class='button1' id="bouton_auberge" value='Faites un choix' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_auberge');"  disabled>
+<input type='button' class='button1' id="bouton_auberge" value='Faites un choix' onClick="if ($('valeur_2').value <= 0 && ($('valeur_1').value == 2 || $('valeur_1').value == 3)) { alert('Entrez un nombre de ragoût > 0 ou sélectionnez \'Se restaurer uniquement\'')} else {this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_auberge');}"  disabled>
 <? endif; ?>
 <? echo Bral_Helper_Fermer::affiche(); ?>
