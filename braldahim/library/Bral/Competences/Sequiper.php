@@ -385,19 +385,19 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		}
 
 		if ($equipement["nom_systeme_mot_runique"] == "mot_k") {
-			if ($equipement["bm_attaque"] > 0) { // positif
-				$val = $equipement["bm_attaque"];
+			if ($equipement["attaque"] > 0) { // positif
+				$val = $equipement["attaque"];
 			} else { // negatif
-				$val = abs($equipement["bm_attaque"]) / 2;
+				$val = abs($equipement["attaque"]) / 2;
 			}
 			$this->view->user->bm_attaque_hobbit = $this->view->user->bm_attaque_hobbit - $val;
 		}
 
 		if ($equipement["nom_systeme_mot_runique"] == "mot_m") {
-			if ($equipement["bm_defense"] > 0) { // positif
-				$val = $equipement["bm_defense"];
+			if ($equipement["defense"] > 0) { // positif
+				$val = $equipement["defense"];
 			} else { // negatif
-				$val = abs($equipement["bm_defense"]) / 2;
+				$val = abs($equipement["defense"]) / 2;
 			}
 			$this->view->user->bm_defense_hobbit = $this->view->user->bm_defense_hobbit - $val;
 		}
