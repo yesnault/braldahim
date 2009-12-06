@@ -199,8 +199,6 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$tabDestinations["sol"]["poids_apres_ingredient"] = 10000;
 		$tabDestinations["sol"]["poids_restant"] = 10000;
 
-		// TODO Controle Poids
-
 		$this->view->destinations = $tabDestinations;
 	}
 
@@ -277,7 +275,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			$this->calculCuisiner($idSource, $idDestination);
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapeConstuire($this->view->user, $this->nom_systeme);
 		} else {
-			$this->calculRateCuisiner($idTypeAliment, $idSource);
+			$this->calculRateCuisiner($idSource);
 		}
 
 		$this->calculPx();
@@ -290,9 +288,6 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$this->retireIngredients($idSource, true);
 	}
 
-	/*
-	 * Transforme 1 unité de viande préparée en 1D2+1 aliment
-	 */
 	private function calculCuisiner($idSource, $idDestination) {
 
 		Zend_Loader::loadClass("Laban");
@@ -303,7 +298,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Commun');
 		$this->view->effetRune = false;
 
-		$this->view->nbAliment = Bral_Util_De::get_1d2();
+		$this->view->nbAliment = Bral_Util_De::get_1d2() + 1;
 		if (Bral_Util_Commun::isRunePortee($this->view->user->id_hobbit, "RU")) { // s'il possède une rune RU
 			$this->view->nbAliment = $this->view->nbAliment + 1;
 			$this->view->effetRune = true;
