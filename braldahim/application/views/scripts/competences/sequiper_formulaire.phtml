@@ -2,16 +2,16 @@
  <input type='hidden' id='valeur_1' name='valeur_1' value='-1'>
  <div class='comp_contenu'>
 
+	Seules les pièces d'équipement de niveau inférieur ou égal à votre niveau / 10 sont équipables. Avec votre niveau (<?=$this->user->niveau_hobbit?>),
+	vous pouvez équiper les pièces de niveau inférieur ou égal à <?=floor($this->user->niveau_hobbit / 10)?>.<br><br>	 	
+	 	
+	Si vous mettez une pi&egrave;ce d'&eacute;quipement &agrave; la place d'une pi&egrave;ce existante (ou de plusieurs pi&egrave;ces existantes), la pi&egrave;ce
+	existante sera automatiquement transf&eacute;r&eacute;e dans votre laban.<br />
+	 	
 <?php Zend_Loader::loadClass("Bral_Helper_DetailEquipement"); ?>
 	 <? if ($this->sequiperOk === true) : ?>
 	 	Pour <?=$this->nb_pa ?> PA, vous pouvez mettre ou enlever une pi&egrave;ce d'&eacute;quipement.<br /><br />
 
-		Seules les pièces d'équipement de niveau inférieur ou égal à votre niveau / 10 sont équipables. Avec votre niveau (<?=$this->user->niveau_hobbit?>),
-		vous pouvez équiper les pièces de niveau inférieur ou égal à <?=floor($this->user->niveau_hobbit / 10)?>.<br><br>	 	
-	 	
-	 	Si vous mettez une pi&egrave;ce d'&eacute;quipement &agrave; la place d'une pi&egrave;ce existante (ou de plusieurs pi&egrave;ces existantes), la pi&egrave;ce
-	 	existante sera automatiquement transf&eacute;r&eacute;e dans votre laban.<br />
-	 	
 	 	&Eacute;quipement pr&eacute;sent sur vous : <br />
 	<table align="center" border="0">
 	  <tr>

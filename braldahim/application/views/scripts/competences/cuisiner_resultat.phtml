@@ -5,19 +5,17 @@
 	if ($this->nbAliment > 1) : $s = "s"; endif;
 ?>
 	Vous avez r&eacute;ussi votre cuisine.<br /> <br />
-	Vous avez transform&eacute;
-	<?=$this->nbViandePreparee ?> unit&eacute;<? if ($this->nbViandePreparee > 1) : echo "s"; endif;?> de viande pr&eacute;par&eacute;e en <?=$this->nbAliment ?> 
-	<?=$this->typeAliment->nom_type_aliment?><?=$s ?> de qualit&eacute; <?=$this->qualite?> avec pour effet sur la balance de +<?=$this->bbdfAliment?> %.
+	Vous avez prépraré <?=$this->nbAliment ?> part<?=$s?> de 
+	<?=$this->typeAlimentCourant["nom_type_aliment"]?> de qualit&eacute; <?=$this->qualite?> avec pour effet sur la balance de +<?=$this->bbdfAliment?> %.
 	<br />
 	<? if ($this->nbAlimentATerre > 0): ?>
-		Faute de place dans le laban, <?=$this->nbAlimentATerre ?> aliment<? if ($this->nbAlimentATerre > 1): echo "s sont tomb&eacute;s terre"; else: " est tomb&eacute; à terre"; endif?>
+		Faute de place dans le laban, <?=$this->nbAlimentATerre ?> part<? if ($this->nbAlimentATerre > 1): echo "s sont tomb&eacute;es terre"; else: " est tomb&eacute;e à terre"; endif?>
 	<? endif;?>
 	<br /><br />
 	
 	<? if ($this->effetRune) :?>
-		Une rune que vous portez a eu de l'effet sur le nombre d'aliment pr&eacute;par&eacute;.
+		Une rune que vous portez a eu de l'effet sur le nombre d'aliment pr&eacute;par&eacute; : + 1 part.
 	<? endif; ?>
 <? else: ?>
-	Vous avez manqu&eacute; votre cuisine. Vous avez perdu <?=$this->nbViandePrepareePerdue?> 
-	viande<? if ($this->nbViandePrepareePerdue > 1): $s = "s"; else : $s = ""; endif; echo $s?> pr&eacute;prar&eacute;e<?=$s?>.<br />
+	Vous avez manqu&eacute; votre cuisine. Vous avez perdu la moitié des ingrédients nécessaires.<br />
 <? endif; ?>

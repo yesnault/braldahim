@@ -21,7 +21,8 @@ class RecetteAliments extends Zend_Db_Table {
 		->from('type_aliment', '*')
 		->from('type_ingredient', '*')
 		->where('id_fk_type_aliment_recette_aliments = ?',$idTypeAliment)
-		->where('id_fk_type_ingredient_recette_aliments = id_type_ingredient');
+		->where('id_fk_type_ingredient_recette_aliments = id_type_ingredient')
+		->where('id_fk_type_aliment_recette_aliments = id_type_aliment');
 
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
