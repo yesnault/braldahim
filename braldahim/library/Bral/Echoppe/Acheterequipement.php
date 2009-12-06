@@ -258,7 +258,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 					}
 
 					$placeDispoForce = false;
-					if ($destination["possible"] == false && $destination["poids_restant"] >= $this->equipement["poids_equipement"] - $r["prix_echoppe_equipement_minerai"] * Bral_Util_Poids::POIDS_MINERAI) {
+					if ($destination["possible"] == false && $destination["poids_restant"] >= $this->equipement["poids_equipement"] - $a["prix_echoppe_equipement_partieplante"] * Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE) {
 						$placeDispoForce = true;
 						$this->view->destinationTransfert[$i]["possible_force"] = true;
 					}
