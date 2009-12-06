@@ -646,22 +646,6 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 	private function utiliserPotionHobbit($potion, $idHobbit) {
 		Zend_Loader::loadClass("EffetPotionHobbit");
 
-		$nbTour = $this->calculNbTour($potion);
-		$potion["bm_effet_potion"] = $this->calculBm($potion["de"], $potion["niveau"]);
-
-		if ($nbTour >= 1) {
-			$effetPotionHobbitTable = new EffetPotionHobbit();
-			$data = array(
-				  'id_effet_potion_hobbit' => $potion["id_potion"],
-				  'id_fk_hobbit_cible_effet_potion_hobbit' => $idHobbit,
-				  'id_fk_hobbit_lanceur_effet_potion_hobbit' => $this->view->user->id_hobbit,
-				  'nb_tour_restant_effet_potion_hobbit' => $nbTour,
-				  'bm_effet_potion_hobbit' => $potion["bm_effet_potion"],
-			);
-			$effetPotionHobbitTable->insert($data);
-		}
-		$this->supprimeDuLaban($potion);
-
 		if ($this->view->user->id_hobbit == $idHobbit) {
 			$hobbit = $this->view->user;
 		} else {
@@ -670,55 +654,20 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 			$hobbit = $hobbitRowset->current();
 		}
 
-		$potion["nb_tour_restant"] = $nbTour;
-		$this->retourPotion["effet"] = Bral_Util_EffetsPotion::appliquePotionSurHobbit($potion, $this->view->user->id_hobbit, $hobbit, false);
+		$this->retourPotion["effet"] = Bral_Util_EffetsPotion::appliquePotionSurHobbit($potion, $this->view->user->id_hobbit, $hobbit, false, true, true);
+		$this->supprimeDuLaban($potion);
 	}
 
 	private function utiliserPotionMonstre($potion, $idMonstre) {
 		Zend_Loader::loadClass("EffetPotionMonstre");
-
-		$nbTour = $this->calculNbTour($potion);
-		$potion["bm_effet_potion"] = $this->calculBm($potion["de"], $potion["niveau"]);
-
-		if ($nbTour > 1) {
-			$effetPotionMonstreTable = new EffetPotionMonstre();
-			$data = array(
-				  'id_effet_potion_monstre' => $potion["id_potion"],
-				  'id_fk_monstre_cible_effet_potion_monstre' => $idMonstre,
-				  'id_fk_hobbit_lanceur_effet_potion_monstre' => $this->view->user->id_hobbit,
-				  'nb_tour_restant_effet_potion_monstre' => $nbTour,
-				  'bm_effet_potion_monstre' => $potion["bm_effet_potion"],
-			);
-			$effetPotionMonstreTable->insert($data);
-		}
-		$this->supprimeDuLaban($potion);
 
 		$monstreTable = new Monstre();
 		$monstreRowset = $monstreTable->find($idMonstre);
 		$monstre = $monstreRowset->current();
 		$monstre = $monstre->toArray();
 
-		$potion["nb_tour_restant"] = $nbTour;
-
-		$this->retourPotion["effet"] = Bral_Util_EffetsPotion::appliquePotionSurMonstre($potion, $this->view->user->id_hobbit, $monstre, false);
-	}
-
-	private function calculBm($de, $niveau) {
-		return Bral_Util_De::getLanceDeSpecifique($niveau + 2, 1, $de);
-	}
-
-	private function calculNbTour($potion) {
-		$nbTour = Bral_Util_De::get_1d3();
-		if ($potion["nom_systeme_type_qualite"] == 'standard') {
-			$nbTour = $nbTour + 1;
-		} else if ($potion["nom_systeme_type_qualite"] == 'bonne') {
-			$nbTour = $nbTour + 2;
-		}
-		$nbTour = $nbTour - 1; // tour courant
-		if ($nbTour < 1) {
-			$nbTour = 1;
-		}
-		return $nbTour;
+		$this->retourPotion["effet"] = Bral_Util_EffetsPotion::appliquePotionSurMonstre($potion, $this->view->user->id_hobbit, $monstre, false, true, true);
+		$this->supprimeDuLaban($potion);
 	}
 
 	private function supprimeDuLaban($potion) {

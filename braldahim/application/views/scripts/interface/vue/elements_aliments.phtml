@@ -1,8 +1,11 @@
 <?php if ($case["n_elements_aliments"] > 0) : 
-	$textElementsPotions = "";
+	$textElementsAliments = "";
 	foreach($case["elements_aliments"] as $p) {
-		$textElementsPotions .= "1 ".htmlspecialchars($p["nom"]) ." de qualit&eacute; ".htmlspecialchars($p["qualite"]) ." (n&deg; ".$p["id_element_aliment"].") <br />";
+		$textElementsAliments .= "1 ".htmlspecialchars(addslashes($p["nom"])) ." de qualit&eacute; ".htmlspecialchars($p["qualite"]) ." (n&deg; ".$p["id_element_aliment"].") <br />";
 	} 
+	if ($textElementsAliments != "") {
+		$textElementsAliments = "<br>Aliments:<br>".$textElementsAliments;
+	}
 	$s = "";
 	if ($case["n_elements_aliments"] > 1) {
 		$s = "s";

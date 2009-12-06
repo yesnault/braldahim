@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -11,7 +11,7 @@
  * $LastChangedBy$
  */
 class Bral_Util_EffetsPotion {
-	
+
 	public static function calculPotionHobbit($hobbitCible, $appliqueEffet) {
 		Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - calculPotionHobbit - enter - appliqueEffet:".$appliqueEffet. " idH:".$hobbitCible->id_hobbit);
 		Zend_Loader::loadClass("Bral_Util_Potion");
@@ -19,7 +19,7 @@ class Bral_Util_EffetsPotion {
 		$effetPotionHobbitTable = new EffetPotionHobbit();
 		$effetPotionHobbitRowset = $effetPotionHobbitTable->findByIdHobbitCible($hobbitCible->id_hobbit);
 		unset($effetPotionHobbitTable);
-		
+
 		$potions = null;
 		foreach ($effetPotionHobbitRowset as $p) {
 			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - calculPotionHobbit - potion ".$p["id_effet_potion_hobbit"]. " trouvee");
@@ -40,7 +40,7 @@ class Bral_Util_EffetsPotion {
 					"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
 					"bm_effet_potion" => $p["bm_effet_potion_hobbit"],
 			);
-			
+
 			$retourPotion = null;
 			if ($appliqueEffet) {
 				Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - calculPotionHobbit - application de l'effet potion ".$p["id_effet_potion_hobbit"]);
@@ -48,11 +48,11 @@ class Bral_Util_EffetsPotion {
 				if ($retourPotion != null) {
 					$potions[] = array('potion' => $potion, 'retourPotion' => $retourPotion);
 				}
-			} else { 
+			} else {
 				$potions[] = array('potion' => $potion, 'retourPotion' => $retourPotion);
 			}
 		}
-		
+
 		unset($effetPotionHobbitRowset);
 		Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - calculPotionHobbit - exit");
 		return $potions;
@@ -66,7 +66,7 @@ class Bral_Util_EffetsPotion {
 		$effetPotionMonstreTable = new EffetPotionMonstre();
 		$effetPotionMonstreRowset = $effetPotionMonstreTable->findByIdMonstreCible($monstreCible["id_monstre"]);
 		unset($effetPotionMonstreTable);
-		
+
 		$potions = null;
 		foreach ($effetPotionMonstreRowset as $p) {
 			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - calculPotionMonstre - potion ".$p["id_effet_potion_monstre"]. " trouvee");
@@ -86,26 +86,43 @@ class Bral_Util_EffetsPotion {
 					"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
 					"bm_effet_potion" => $p["bm_effet_potion_monstre"],
 			);
-			
+
 			$retourPotion = self::appliquePotionSurMonstre($potion, $p["id_fk_hobbit_lanceur_effet_potion_monstre"], $monstreCible, true, false);
 			$potions[] = array('potion' => $potion, 'retourPotion' => $retourPotion);
 		}
-		
+
 		unset($effetPotionMonstreRowset);
 		Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - calculPotionMonstre - exit");
 		return $potions;
 	}
-	
-	public static function appliquePotionSurHobbit($potion, $idHobbitSource, $hobbitCible, $majTableEffetPotion = true, $majTableHobbit = true) {
+
+	public static function appliquePotionSurHobbit($potion, $idHobbitSource, $hobbitCible, $majTableEffetPotion = true, $majTableHobbit = true, $initialisePotion = false) {
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurHobbit - enter");
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurHobbit - idHobbitSource = ".$idHobbitSource);
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurHobbit - hobbitCible->id_hobbit = ".$hobbitCible->id_hobbit);
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurHobbit - majTableEffetPotion = ".$majTableEffetPotion);
-		
+
 		Zend_Loader::loadClass("EffetPotionHobbit");
-		
+
+		if ($initialisePotion) {
+			$potion["bm_effet_potion"] = Bral_Util_De::getLanceDeSpecifique($potion["niveau"] + 2, 1, $potion["de"]);
+			$potion["nb_tour_restant"] = self::calculNbTour($potion);
+
+			if ($potion["nb_tour_restant"] > 1) {
+				$effetPotionHobbitTable = new EffetPotionHobbit();
+				$data = array(
+				  'id_effet_potion_hobbit' => $potion["id_potion"],
+				  'id_fk_hobbit_cible_effet_potion_hobbit' => $hobbitCible->id_hobbit,
+				  'id_fk_hobbit_lanceur_effet_potion_hobbit' => $idHobbitSource,
+				  'nb_tour_restant_effet_potion_hobbit' => $potion["nb_tour_restant"],
+				  'bm_effet_potion_hobbit' => $potion["bm_effet_potion"],
+				);
+				$effetPotionHobbitTable->insert($data);
+			}
+		}
+
 		$retourPotion["nb_tour_restant"] = $potion["nb_tour_restant"];
-		
+
 		if ($majTableEffetPotion === true) {
 			Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - appliquePotionSurHobbit - maj table effet debut");
 			$effetPotionHobbitTable = new EffetPotionHobbit();
@@ -117,7 +134,7 @@ class Bral_Util_EffetsPotion {
 				return null;
 			}
 		}
-		
+
 		if ($potion["bm_type"] == 'malus') {
 			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurHobbit - malus");
 			$coef = -1;
@@ -125,11 +142,11 @@ class Bral_Util_EffetsPotion {
 			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurHobbit - bonus");
 			$coef = 1;
 		}
-		
+
 		$retourPotion["nEffet"] = $potion["bm_effet_potion"];
-		
+
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurHobbit - nEffet = ".$retourPotion["nEffet"]);
-		
+
 		if ($potion["caracteristique"] == 'AGI') {
 			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurHobbit - effet sur AGI avant = ".$hobbitCible->agilite_bm_hobbit);
 			$hobbitCible->agilite_bm_hobbit = $hobbitCible->agilite_bm_hobbit + $coef * $retourPotion["nEffet"];
@@ -159,7 +176,7 @@ class Bral_Util_EffetsPotion {
 		} else {
 			throw new Zend_Exception("Bral_Util_EffetsPotion - appliquePotionSurHobbit - type effet non gere =".$potion["caracteristique"]);
 		}
-		
+
 		$data = array(
 				'force_bm_hobbit' => $hobbitCible->force_bm_hobbit,
 				'agilite_bm_hobbit' => $hobbitCible->agilite_bm_hobbit,
@@ -168,7 +185,7 @@ class Bral_Util_EffetsPotion {
 				'pv_restant_hobbit' => $hobbitCible->pv_restant_hobbit,
 		);
 		$where = "id_hobbit=".$hobbitCible->id_hobbit;
-		
+
 		if ($majTableHobbit === true) {
 			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurHobbit - maj du hobbit ".$hobbitCible->id_hobbit. " en base");
 			$hobbitTable = new Hobbit();
@@ -178,16 +195,33 @@ class Bral_Util_EffetsPotion {
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurHobbit - exit");
 		return $retourPotion;
 	}
-	
-	public static function appliquePotionSurMonstre($potion, $idHobbitSource, &$monstre, $majTableEffetPotion = true, $majTableMonstre = true) {
+
+	public static function appliquePotionSurMonstre($potion, $idHobbitSource, &$monstre, $majTableEffetPotion = true, $majTableMonstre = true, $initialisePotion = false) {
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - enter");
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - idHobbitSource = ".$idHobbitSource);
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - monstre->id_monstre= ".$monstre["id_monstre"]);
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - majTableEffetPotion = ".$majTableEffetPotion);
-		
+
 		Zend_Loader::loadClass("Monstre");
-		Zend_Loader::loadClass("EffetPotionMonstre"); 
-		
+		Zend_Loader::loadClass("EffetPotionMonstre");
+
+		if ($initialisePotion) {
+			$potion["bm_effet_potion"] = Bral_Util_De::getLanceDeSpecifique($potion["niveau"] + 2, 1, $potion["de"]);
+			$potion["nb_tour_restant"] = self::calculNbTour($potion);
+
+			if ($potion["nb_tour_restant"] > 1) {
+				$effetPotionMonstreTable = new EffetPotionMonstre();
+				$data = array(
+				  'id_effet_potion_monstre' => $potion["id_potion"],
+				  'id_fk_monstre_cible_effet_potion_monstre' => $idMonstre,
+				  'id_fk_hobbit_lanceur_effet_potion_monstre' => $this->view->user->id_hobbit,
+				  'nb_tour_restant_effet_potion_monstre' => $nbTour,
+				  'bm_effet_potion_monstre' => $potion["bm_effet_potion"],
+				);
+				$effetPotionMonstreTable->insert($data);
+			}
+		}
+
 		if ($potion["bm_type"] == 'malus') {
 			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - malus");
 			$coef = -1;
@@ -195,11 +229,11 @@ class Bral_Util_EffetsPotion {
 			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - bonus");
 			$coef = 1;
 		}
-		
+
 		$retourPotion["nEffet"] = $potion["bm_effet_potion"];
-		
+
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - nEffet = ".$retourPotion["nEffet"]);
-		
+
 		if ($potion["caracteristique"] == 'AGI') {
 			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - effet sur AGI avant = ".$monstre["agilite_bm_monstre"]);
 			$monstre["agilite_bm_monstre"] = $monstre["agilite_bm_monstre"] + $coef * $retourPotion["nEffet"];
@@ -229,7 +263,7 @@ class Bral_Util_EffetsPotion {
 		} else {
 			throw new Zend_Exception("Bral_Util_EffetsPotion - appliquePotionSurMonstre - type effet non gere =".$potion["caracteristique"] );
 		}
-		
+
 		$data = array(
 			'force_bm_monstre' => $monstre["force_bm_monstre"],
 			'agilite_bm_monstre' => $monstre["agilite_bm_monstre"],
@@ -238,14 +272,14 @@ class Bral_Util_EffetsPotion {
 			'pv_restant_monstre' => $monstre["pv_restant_monstre"],
 		);
 		$where = "id_monstre=".$monstre["id_monstre"];
-		
+
 		if ($majTableMonstre === true) {
 			Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurMonstre - maj du monstre ".$monstre["id_monstre"]. " en base");
 			$monstreTable = new Monstre();
 			$monstreTable->update($data, $where);
 			unset($monstreTable);
 		}
-		
+
 		if ($majTableEffetPotion === true) {
 			Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - appliquePotionSurMonstre - maj table effet debut");
 			$effetPotionMonstreTable = new EffetPotionMonstre();
@@ -253,9 +287,23 @@ class Bral_Util_EffetsPotion {
 			unset($effetPotionMonstreTable);
 			Bral_Util_Log::potion()->trace("Bral_Util_EffetsPotion - appliquePotionSurMonstre - maj table effet fin");
 		}
-		
+
 		$retourPotion["nb_tour_restant"] = $potion["nb_tour_restant"] - 1;
 		return $retourPotion;
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurHobbit - exit");
+	}
+
+	private static function calculNbTour($potion) {
+		$nbTour = Bral_Util_De::get_1d3();
+		if ($potion["nom_systeme_type_qualite"] == 'standard') {
+			$nbTour = $nbTour + 1;
+		} else if ($potion["nom_systeme_type_qualite"] == 'bonne') {
+			$nbTour = $nbTour + 2;
+		}
+		$nbTour = $nbTour - 1; // tour courant
+		if ($nbTour < 1) {
+			$nbTour = 1;
+		}
+		return $nbTour;
 	}
 }

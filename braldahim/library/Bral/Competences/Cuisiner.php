@@ -110,31 +110,64 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			throw new Zend_Exception("Erreur recette aliment".$this->view->typeAlimentCourant["id_type_aliment"]);
 		}
 
+		Zend_Loader::loadClass("RecetteAlimentsPotions");
+		$recetteAlimentsPotionsTable = new RecetteAlimentsPotions();
+		$potionsRecetteRowset = $recetteAlimentsPotionsTable->findByIdTypeAliment($this->view->typeAlimentCourant["id_type_aliment"]);
+		if ($potionsRecetteRowset != null && count($potionsRecetteRowset) > 0) {
+			$this->view->recetteAvecPotion = true;
+		} else {
+			$this->view->recetteAvecPotion = false;
+		}
+
 		$tabSources = null;
 		if ($this->view->estSurEchoppe === true) {
+			$tabSources["echoppe"]["nom"] = "Votre échoppe";
+			$tabSources["echoppe"]["possible"] = true;
+
 			Zend_Loader::loadClass("EchoppeIngredient");
 			$echoppeIngredientTable = new EchoppeIngredient();
 			$ingredients = $echoppeIngredientTable->findByIdEchoppe($this->view->idEchoppe);
 			$tabSources["echoppe"]["ingredients"] = $ingredients;
-			$tabSources["echoppe"]["possible"] = true;
-			$tabSources["echoppe"]["nom"] = "Votre échoppe";
+
+			if ($this->view->recetteAvecPotion) {
+				Zend_Loader::loadClass("EchoppePotion");
+				$echoppePotionTable = new EchoppePotion();
+				$potions = $echoppePotionTable->findByIdEchoppe($this->view->idEchoppe);
+				$tabSources["echoppe"]["potions"] = $this->prepareTabPotion("echoppe", $potions);
+			}
 		}
 
 		if ($this->view->possedeCharrette === true) {
+			$tabSources["charrette"]["nom"] = "Votre charrette";
+			$tabSources["charrette"]["possible"] = true;
+
 			Zend_Loader::loadClass("CharretteIngredient");
 			$charretteIngredientTable = new CharretteIngredient();
 			$ingredients = $charretteIngredientTable->findByIdCharrette($this->view->idCharrette);
 			$tabSources["charrette"]["ingredients"] = $ingredients;
-			$tabSources["charrette"]["possible"] = true;
-			$tabSources["charrette"]["nom"] = "Votre charrette";
+
+			if ($this->view->recetteAvecPotion) {
+				Zend_Loader::loadClass("CharrettePotion");
+				$charrettePotionTable = new CharrettePotion();
+				$potions = $charrettePotionTable->findByIdCharrette($this->view->idCharrette);
+				$tabSources["charrette"]["potions"] = $this->prepareTabPotion("charrette", $potions);
+			}
 		}
+
+		$tabSources["laban"]["nom"] = "Votre laban";
+		$tabSources["laban"]["possible"] = true;
 
 		Zend_Loader::loadClass("LabanIngredient");
 		$labanIngredientTable = new LabanIngredient();
 		$ingredients = $labanIngredientTable->findByIdHobbit($this->view->user->id_hobbit);
 		$tabSources["laban"]["ingredients"] = $ingredients;
-		$tabSources["laban"]["possible"] = true;
-		$tabSources["laban"]["nom"] = "Votre laban";
+
+		if ($this->view->recetteAvecPotion) {
+			Zend_Loader::loadClass("LabanPotion");
+			$labanPotionTable = new LabanPotion();
+			$potions = $labanPotionTable->findByIdHobbit($this->view->user->id_hobbit);
+			$tabSources["laban"]["potions"] = $this->prepareTabPotion("laban", $potions);
+		}
 			
 		$tabIngredients = null;
 
@@ -149,9 +182,26 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			$this->controleIngredientsDispo($tabSources, $i["id_type_ingredient"], $i["quantite_recette_aliments"]);
 		}
 
+		$tabPotions = null;
+		if ($potionsRecetteRowset != null) {
+			if (count($potionsRecetteRowset) > 1) {
+				throw new Zend_Exception('Erreur parametrage nb potion');
+			}
+			
+			foreach($potionsRecetteRowset as $i) {
+				$tabPotions[] = array(
+					'nom_type_potion' => $i['nom_type_potion'],
+					'id_type_potion' => $i['id_type_potion'],
+				);
+				$this->controlePotionsDispo($tabSources, $i["id_type_potion"]);
+				$this->view->idPotionIngredient = $i['id_type_potion'];
+			}
+		}
+
 		$this->view->typeAlimentCourant["poids_ingredients"] = $poidsIngredients;
 
 		$this->view->ingredients = $tabIngredients;
+		$this->view->potions = $tabPotions;
 		$this->view->sources = $tabSources;
 	}
 
@@ -166,6 +216,24 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 						}
 					}
 					$tabSources[$k]["possible"] = $ingredientOk;
+				} else {
+					$tabSources[$k]["possible"] = false;
+				}
+			}
+		}
+	}
+
+	private function controlePotionsDispo(&$tabSources, $idTypePotion) {
+		foreach($tabSources as $k => $v) {
+			if ($tabSources[$k]["possible"] === true) {
+				if ($tabSources[$k]["potions"] != null && count($tabSources[$k]["potions"]) > 0) {
+					$ingredientOk = false;
+					foreach($tabSources[$k]["potions"] as $i) {
+						if ($i["id_type_potion"] == $idTypePotion) {
+							$potionOk = true;
+						}
+					}
+					$tabSources[$k]["possible"] = $potionOk;
 				} else {
 					$tabSources[$k]["possible"] = false;
 				}
@@ -330,7 +398,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$this->view->qualiteAliment = $this->view->niveauQualite;
 		$this->view->bbdfAliment = $this->calculBBDF($this->view->typeAlimentCourant['type_bbdf_type_aliment'], $this->view->niveauQualite);
 
-		$this->creationAliment($idSource);
+		$this->creationAliment($idDestination);
 
 		Zend_Loader::loadClass("StatsFabricants");
 		$statsFabricants = new StatsFabricants();
@@ -341,6 +409,20 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$dataFabricants["nb_piece_stats_fabricants"] = $this->view->nbAliment;
 		$dataFabricants["id_fk_metier_stats_fabricants"] = $this->view->config->game->metier->cuisinier->id;
 		$statsFabricants->insertOrUpdate($dataFabricants);
+
+		// on applique l'effet de la potion
+		if ($this->view->recetteAvecPotion == true) {
+			Zend_Loader::loadClass('Bral_Util_EffetsPotion');
+			foreach($this->view->sources[$idSource]["potions"] as $p) {
+				if ($p["id_type_potion"] == $this->view->idPotionIngredient) {
+					$this->retourPotion["effet"] = Bral_Util_EffetsPotion::appliquePotionSurHobbit($p, $this->view->user->id_hobbit, $this->view->user, false, true, true);
+					$this->retourPotion['potion'] = $p;
+					$this->view->retourPotion = $this->retourPotion;
+					$this->supprimeDuConteneur($idSource, $p);
+					break;
+				}
+			}
+		}
 	}
 
 	private function retireIngredients($idSource, $estRate = false) {
@@ -493,7 +575,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			if ($i <= $this->view->nbAlimentDestination) {
 				$where = "id_element_aliment = ".(int)$idAliment;
 				$elementAlimentTable->delete($where);
-				
+
 				$data = $tabBase;
 				$data['id_'.$prefix.'_aliment'] = $idAliment;
 				$data['id_fk_type_'.$prefix.'_aliment'] = $this->view->typeAlimentCourant['id_type_aliment'];
@@ -502,6 +584,70 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 				$table->insert($data);
 			}
 		}
+	}
+
+	private function prepareTabPotion($idSource, $potions) {
+		Zend_Loader::loadClass("Bral_Util_Potion");
+		
+		if ($idSource == "echoppe") {
+			$prefix = "echoppe";
+		} else if ($idSource == "charrette") {
+			$prefix = "charrette";
+		} else if ($idSource == "laban") {
+			$prefix = "laban";
+		} else {
+			throw new Zend_Exception("creationAliment::Source invalide:".$idSource);
+		}
+
+		$tabPotions = null;
+		foreach($potions as $p) {
+			$tabPotions[] = array(
+				"id_potion" => $p["id_".$prefix."_potion"],
+				"id_type_potion" => $p["id_type_potion"],
+				"id_fk_type_potion" => $p["id_fk_type_potion"],
+				"id_fk_type_qualite_potion" => $p["id_fk_type_qualite_potion"],
+				"nom_systeme_type_qualite" => $p["nom_systeme_type_qualite"],
+				"nom" => $p["nom_type_potion"],
+				"de" => $p["de_type_potion"],
+				"qualite" => $p["nom_type_qualite"],
+				"niveau" => $p["niveau_potion"],
+				"caracteristique" => $p["caract_type_potion"],
+				"bm_type" => $p["bm_type_potion"],
+				"caracteristique2" => $p["caract2_type_potion"],
+				"bm2_type" => $p["bm2_type_potion"],
+				"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
+				"type_potion" => $p["type_potion"],
+				'template_m_type_potion' => $p["template_m_type_potion"],
+				'template_f_type_potion' => $p["template_f_type_potion"],
+				'id_fk_type_ingredient_type_potion' => $p["id_fk_type_ingredient_type_potion"],
+			);
+		}
+
+		return $tabPotions;
+	}
+
+	private function supprimeDuConteneur($idSource, $potion) {
+		if ($idSource == "echoppe") {
+			$prefix = "echoppe";
+			$table = new EchoppePotion();
+		} else if ($idSource == "charrette") {
+			$prefix = "charrette";
+			$table = new CharrettePotion();
+		} else if ($idSource == "laban") {
+			$prefix = "laban";
+			$table = new LabanPotion();
+		} else {
+			throw new Zend_Exception("creationAliment::Source invalide:".$idSource);
+		}
+
+		$where = 'id_'.$prefix.'_potion = '.$potion["id_potion"];
+		$table->delete($where);
+
+		Zend_Loader::loadClass('Potion');
+		$potionTable = new Potion();
+		$where = 'id_potion = '.$potion["id_potion"];
+		$data = array('date_utilisation_potion' => date("Y-m-d H:i:s"));
+		$potionTable->update($data, $where);
 	}
 
 	function getListBoxRefresh() {

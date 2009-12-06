@@ -17,6 +17,11 @@
 		<? foreach($this->ingredients as $k => $t) : ?>
 	 		<?=$t["nom_type_ingredient"]?> : <?=$t["quantite_recette_aliments"]?><br>
 	 	<? endforeach; ?>
+	 	<? if ($this->potions != null) : ?>
+		 	<? foreach($this->potions as $k => $t) : ?>
+		 		Potion <?=$t["nom_type_potion"]?> : 1<br>
+		 	<? endforeach; ?>
+	 	<? endif;?>
 		
 		<br>
 	Source des ingrédients :<br />

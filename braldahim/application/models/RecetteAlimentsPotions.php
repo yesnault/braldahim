@@ -21,6 +21,7 @@ class RecetteAlimentsPotions extends Zend_Db_Table {
 		->from('type_aliment', '*')
 		->from('type_potion', '*')
 		->where('id_fk_type_aliment_recette_aliments_potions = ?', $idTypeAliment)
+		->where('id_fk_type_aliment_recette_aliments_potions = id_type_aliment')
 		->where('id_fk_type_potion_recette_aliments_potions = id_type_potion');
 
 		$sql = $select->__toString();
