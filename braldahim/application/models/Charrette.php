@@ -175,9 +175,6 @@ class Charrette extends Zend_Db_Table {
 			if (isset($data["quantite_castar_charrette"])) {
 				$dataUpdate['quantite_castar_charrette'] = $quantiteCastar + $data["quantite_castar_charrette"];
 			}
-			if (isset($data["quantite_viande_charrette"])) {
-				$dataUpdate['quantite_viande_charrette'] = $quantiteViande + $data["quantite_viande_charrette"];
-			}
 			if (isset($data["quantite_peau_charrette"])) {
 				$dataUpdate['quantite_peau_charrette'] = $quantitePeau + $data["quantite_peau_charrette"];
 			}
