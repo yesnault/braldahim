@@ -404,8 +404,6 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						foreach($elements as $e) {
 							if ($display_x == $e["x_element"] && $display_y == $e["y_element"]) {
 								if ($e["quantite_peau_element"] > 0) $tabElements[] = array("nom" => "Peau", "s" => "x", "nb" => $e["quantite_peau_element"]);
-								if ($e["quantite_viande_element"] > 0) $tabElements[] = array("nom" => "Viande", "s" => "s", "nb" => $e["quantite_viande_element"]);
-								if ($e["quantite_viande_preparee_element"] > 0) $tabElements[] = array("nom" =>  "Viande(s) pr&eacute;par&eacute;e", "s" => "s", "nb" => $e["quantite_viande_preparee_element"]);
 								if ($e["quantite_cuir_element"] > 0) $tabElements[] = array("nom" => "Cuir", "s" => "s", "nb" => $e["quantite_cuir_element"]);
 								if ($e["quantite_fourrure_element"] > 0) $tabElements[] = array("nom" => "Fourrure", "s" => "s", "nb" => $e["quantite_fourrure_element"]);
 								if ($e["quantite_planche_element"] > 0) $tabElements[] = array("nom" => "Planche", "s" => "s", "nb" => $e["quantite_planche_element"]);
