@@ -28,15 +28,13 @@ class Laban extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('laban', 'count(*) as nombre,
-		quantite_viande_laban as quantiteViande, 
 		quantite_peau_laban as quantitePeau, 
-		quantite_viande_preparee_laban as quantiteViandePreparee,
 		quantite_cuir_laban as quantiteCuir,
 		quantite_fourrure_laban as quantiteFourrure,
 		quantite_planche_laban as quantitePlanche,
 		quantite_rondin_laban as quantiteRondin')
 		->where('id_fk_hobbit_laban = ?',$data["id_fk_hobbit_laban"])
-		->group(array('quantitePeau', 'quantiteViande', 'quantiteViandePreparee', 'quantiteCuir', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin'));
+		->group(array('quantitePeau', 'quantiteCuir', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -45,21 +43,13 @@ class Laban extends Zend_Db_Table {
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
 			$quantitePeau = $resultat[0]["quantitePeau"];
-			$quantiteViande = $resultat[0]["quantiteViande"];
-			$quantiteViandePreparee = $resultat[0]["quantiteViandePreparee"];
 			$quantiteCuir = $resultat[0]["quantiteCuir"];
 			$quantiteFourrure = $resultat[0]["quantiteFourrure"];
 			$quantitePlanche = $resultat[0]["quantitePlanche"];
 			$quantiteRondin = $resultat[0]["quantiteRondin"];
 				
-			if (isset($data["quantite_viande_laban"])) {
-				$dataUpdate['quantite_viande_laban'] = $quantiteViande + $data["quantite_viande_laban"];
-			}
 			if (isset($data["quantite_peau_laban"])) {
 				$dataUpdate['quantite_peau_laban'] = $quantitePeau + $data["quantite_peau_laban"];
-			}
-			if (isset($data['quantite_viande_preparee_laban'])) {
-				$dataUpdate['quantite_viande_preparee_laban'] = $quantiteViandePreparee + $data["quantite_viande_preparee_laban"];
 			}
 			if (isset($data['quantite_cuir_laban'])) {
 				$dataUpdate['quantite_cuir_laban'] = $quantiteCuir + $data["quantite_cuir_laban"];

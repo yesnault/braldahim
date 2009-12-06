@@ -28,16 +28,14 @@ class Coffre extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('coffre', 'count(*) as nombre,
-		quantite_viande_coffre as quantiteViande, 
 		quantite_peau_coffre as quantitePeau, 
-		quantite_viande_preparee_coffre as quantiteViandePreparee,
 		quantite_cuir_coffre as quantiteCuir,
 		quantite_fourrure_coffre as quantiteFourrure,
 		quantite_planche_coffre as quantitePlanche,
 		quantite_rondin_coffre as quantiteRondin,
 		quantite_castar_coffre as quantiteCastar')
 		->where('id_fk_hobbit_coffre = ?',$data["id_fk_hobbit_coffre"])
-		->group(array('quantitePeau', 'quantiteViande', 'quantiteViandePreparee', 'quantiteCuir', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin', 'quantiteCastar'));
+		->group(array('quantitePeau', 'quantiteCuir', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin', 'quantiteCastar'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -46,22 +44,14 @@ class Coffre extends Zend_Db_Table {
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
 			$quantitePeau = $resultat[0]["quantitePeau"];
-			$quantiteViande = $resultat[0]["quantiteViande"];
-			$quantiteViandePreparee = $resultat[0]["quantiteViandePreparee"];
 			$quantiteCuir = $resultat[0]["quantiteCuir"];
 			$quantiteFourrure = $resultat[0]["quantiteFourrure"];
 			$quantitePlanche = $resultat[0]["quantitePlanche"];
 			$quantiteRondin = $resultat[0]["quantiteRondin"];
 			$quantiteCastar = $resultat[0]["quantiteCastar"];
 				
-			if (isset($data["quantite_viande_coffre"])) {
-				$dataUpdate['quantite_viande_coffre'] = $quantiteViande + $data["quantite_viande_coffre"];
-			}
 			if (isset($data["quantite_peau_coffre"])) {
 				$dataUpdate['quantite_peau_coffre'] = $quantitePeau + $data["quantite_peau_coffre"];
-			}
-			if (isset($data['quantite_viande_preparee_coffre'])) {
-				$dataUpdate['quantite_viande_preparee_coffre'] = $quantiteViandePreparee + $data["quantite_viande_preparee_coffre"];
 			}
 			if (isset($data['quantite_cuir_coffre'])) {
 				$dataUpdate['quantite_cuir_coffre'] = $quantiteCuir + $data["quantite_cuir_coffre"];

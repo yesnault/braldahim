@@ -44,7 +44,7 @@ class Element extends Zend_Db_Table {
 		quantite_rondin_element as quantiteRondin')
 		->where('x_element = ?',$data["x_element"])
 		->where('y_element = ?',$data["y_element"])
-		->group(array('quantitePeau', 'quantiteViande', 'quantiteViandePreparee'));
+		->group(array('quantitePeau', 'quantiteCuir', 'quantiteCastar', 'quantiteFourrure', 'quantitePlanche', 'quantiteRondin'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -53,8 +53,6 @@ class Element extends Zend_Db_Table {
 		} else { // update
 			$nombre = $resultat[0]["nombre"];
 			$quantitePeau = $resultat[0]["quantitePeau"];
-			$quantiteViande = $resultat[0]["quantiteViande"];
-			$quantiteViandePreparee = $resultat[0]["quantiteViandePreparee"];
 			$quantiteCuir = $resultat[0]["quantiteCuir"];
 			$quantiteCastar = $resultat[0]["quantiteCastar"];
 			$quantiteFourrure = $resultat[0]["quantiteFourrure"];
