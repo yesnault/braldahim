@@ -497,12 +497,6 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		
 		foreach ($ingredients as $g) {
 			if ($g["quantite_laban_ingredient"] > 0) {
-				$tabIngredients[] = array(
-					"type" => $g["nom_type_ingredient"],
-					"id_type_ingredient" => $g["id_type_ingredient"],
-					"quantite" => $g["quantite_laban_ingredient"],
-					"poids" => $g["quantite_laban_ingredient"] * $g["poids_unitaire_type_ingredient"],
-				);
 
 				if ($g["id_type_ingredient"] ==  TypeIngredient::ID_TYPE_VIANDE_FRAICHE) {
 					if (isset($tabMetiers["chasseur"])) {
@@ -510,6 +504,13 @@ class Bral_Box_Laban extends Bral_Box_Box {
 					}
 					$tabLaban["nb_viande"] = $g["quantite_laban_ingredient"];
 					$tabLaban["nb_viande_poids_unitaire"] = $g["poids_unitaire_type_ingredient"];
+				} else {
+					$tabIngredients[] = array(
+						"type" => $g["nom_type_ingredient"],
+						"id_type_ingredient" => $g["id_type_ingredient"],
+						"quantite" => $g["quantite_laban_ingredient"],
+						"poids" => $g["quantite_laban_ingredient"] * $g["poids_unitaire_type_ingredient"],
+					);	
 				}
 			}
 		}

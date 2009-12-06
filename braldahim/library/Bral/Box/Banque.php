@@ -510,19 +510,19 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		
 		foreach ($ingredients as $g) {
 			if ($g["quantite_coffre_ingredient"] > 0) {
-				$tabIngredients[] = array(
-					"type" => $g["nom_type_ingredient"],
-					"id_type_ingredient" => $g["id_type_ingredient"],
-					"quantite" => $g["quantite_coffre_ingredient"],
-					"poids" => $g["quantite_coffre_ingredient"] * $g["poids_unitaire_type_ingredient"],
-				);
-
 				if ($g["id_type_ingredient"] ==  TypeIngredient::ID_TYPE_VIANDE_FRAICHE) {
 					if (isset($tabMetiers["chasseur"])) {
 						$tabMetiers["chasseur"]["a_afficher"] = true;
 					}
 					$tabCoffre["nb_viande"] = $g["quantite_coffre_ingredient"];
 					$tabCoffre["nb_viande_poids_unitaire"] = $g["poids_unitaire_type_ingredient"];
+				} else {
+					$tabIngredients[] = array(
+						"type" => $g["nom_type_ingredient"],
+						"id_type_ingredient" => $g["id_type_ingredient"],
+						"quantite" => $g["quantite_coffre_ingredient"],
+						"poids" => $g["quantite_coffre_ingredient"] * $g["poids_unitaire_type_ingredient"],
+					);
 				}
 			}
 		}
