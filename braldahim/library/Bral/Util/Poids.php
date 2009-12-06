@@ -132,6 +132,8 @@ class Bral_Util_Poids {
 			$retour = $retour + self::calculPoidsTransporteEquipement($idHobbit);
 			$retour = $retour + self::calculPoidsTransporteElementMunitions($idHobbit);
 			$retour = $retour + self::calculPoidsTransporteElementMateriel($idHobbit);
+			$retour = $retour + self::calculPoidsTransporteElementGraine($idHobbit);
+			$retour = $retour + self::calculPoidsTransporteElementIngredient($idHobbit);
 		}
 		return $retour;
 	}
