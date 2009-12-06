@@ -7,7 +7,7 @@
      <select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_cuisiner&type_aliment='+this.value);">
 	 	<option value="-1">(Choisissez un aliment)</option>
 	 	<? foreach($this->typeAliment as $t) : ?>
-	 		<option value="<?=$t["id_type_aliment"]?>" <?=$t["selected"]?>><?=htmlspecialchars($t["nom_type_aliment"])?></option>
+	 		<option value="<?=$t["id_type_aliment"]?>" <?=$t["selected"]?>><?=htmlspecialchars($t["nom_type_aliment"])?> (<?=$t['texte_type_bbdf']?>)</option>
 	 	<? endforeach; ?>
 	 </select>
 	 

@@ -20,6 +20,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$this->view->estSurEchoppe = false;
 		$this->view->possedeCharrette = false;
 		$this->view->sourceEtDestinationOk = false;
+		$this->view->estQuintuple = false;
 		$this->idDestination = null;
 		$this->idSource = null;
 
@@ -89,6 +90,8 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 				'poids_unitaire_type_aliment' => $t['poids_unitaire_type_aliment'],
 				'type_bbdf_type_aliment' => $t['type_bbdf_type_aliment'],
 				'poids_ingredients' => 100000, // calculé ensuite
+				'type_bbdf_type_aliment' => $t['type_bbdf_type_aliment'],
+				'texte_type_bbdf' => $this->texteTypeBbdf($t['type_bbdf_type_aliment']),
 			);
 			if ($idTypeCourant == $t["id_type_aliment"]) {
 				$typeAlimentCourant = $t;
@@ -187,7 +190,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			if (count($potionsRecetteRowset) > 1) {
 				throw new Zend_Exception('Erreur parametrage nb potion');
 			}
-			
+
 			foreach($potionsRecetteRowset as $i) {
 				$tabPotions[] = array(
 					'nom_type_potion' => $i['nom_type_potion'],
@@ -243,29 +246,38 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 
 	private function prepareDestinations() {
 		$tabDestinations = null;
-		if ($this->view->estSurEchoppe === true) {
-			$tabDestinations["echoppe"]["possible"] = true;
-			$tabDestinations["echoppe"]["nom"] = "Votre échoppe";
-			$tabDestinations["echoppe"]["poids_apres_ingredient"] = 10000;
-			$tabDestinations["echoppe"]["poids_restant"] = 10000;
+
+		if ($this->view->typeAlimentCourant['type_bbdf_type_aliment'] == 'quintuple') {
+			$tabDestinations["case"]["possible"] = true;
+			$tabDestinations["case"]["nom"] = "Tous les hobbits sur votre case";
+			$tabDestinations["case"]["poids_apres_ingredient"] = 10000;
+			$tabDestinations["case"]["poids_restant"] = 10000;
+		} else {
+			if ($this->view->estSurEchoppe === true) {
+				$tabDestinations["echoppe"]["possible"] = true;
+				$tabDestinations["echoppe"]["nom"] = "Votre échoppe";
+				$tabDestinations["echoppe"]["poids_apres_ingredient"] = 10000;
+				$tabDestinations["echoppe"]["poids_restant"] = 10000;
+			}
+
+			if ($this->view->possedeCharrette === true) {
+				$tabDestinations["charrette"]["possible"] = true;
+				$tabDestinations["charrette"]["nom"] = "Votre charrette";
+				$tabDestinations["charrette"]["poids_apres_ingredient"] = $this->view->poidsRestantCharrette + $this->view->typeAlimentCourant["poids_ingredients"];
+				$tabDestinations["charrette"]["poids_restant"] = $this->view->poidsRestantCharrette;
+			}
+
+			$tabDestinations["laban"]["possible"] = true;
+			$tabDestinations["laban"]["nom"] = "Votre laban";
+			$tabDestinations["laban"]["poids_apres_ingredient"] = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit + $this->view->typeAlimentCourant["poids_ingredients"];
+			$tabDestinations["laban"]["poids_restant"] = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+
+			$tabDestinations["sol"]["possible"] = true;
+			$tabDestinations["sol"]["nom"] = "Au Sol";
+			$tabDestinations["sol"]["poids_apres_ingredient"] = 10000;
+			$tabDestinations["sol"]["poids_restant"] = 10000;
+
 		}
-
-		if ($this->view->possedeCharrette === true) {
-			$tabDestinations["charrette"]["possible"] = true;
-			$tabDestinations["charrette"]["nom"] = "Votre charrette";
-			$tabDestinations["charrette"]["poids_apres_ingredient"] = $this->view->poidsRestantCharrette + $this->view->typeAlimentCourant["poids_ingredients"];
-			$tabDestinations["charrette"]["poids_restant"] = $this->view->poidsRestantCharrette;
-		}
-
-		$tabDestinations["laban"]["possible"] = true;
-		$tabDestinations["laban"]["nom"] = "Votre laban";
-		$tabDestinations["laban"]["poids_apres_ingredient"] = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit + $this->view->typeAlimentCourant["poids_ingredients"];
-		$tabDestinations["laban"]["poids_restant"] = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
-
-		$tabDestinations["sol"]["possible"] = true;
-		$tabDestinations["sol"]["nom"] = "Au Sol";
-		$tabDestinations["sol"]["poids_apres_ingredient"] = 10000;
-		$tabDestinations["sol"]["poids_restant"] = 10000;
 
 		$this->view->destinations = $tabDestinations;
 	}
@@ -398,7 +410,17 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$this->view->qualiteAliment = $this->view->niveauQualite;
 		$this->view->bbdfAliment = $this->calculBBDF($this->view->typeAlimentCourant['type_bbdf_type_aliment'], $this->view->niveauQualite);
 
-		$this->creationAliment($idDestination);
+		if ($this->view->typeAlimentCourant['type_bbdf_type_aliment'] == 'quintuple') {
+			$this->appliqueQuintuple();
+			$idType = $this->view->config->game->evenements->type->competence;
+			$details = "[h".$this->view->user->id_hobbit."] cuisine un banquet pour tous ses confrères.";
+			$this->setDetailsEvenement($details, $idType);
+		} else {
+			$this->creationAliment($idDestination);
+			$idType = $this->view->config->game->evenements->type->competence;
+			$details = "[h".$this->view->user->id_hobbit."] a cuisiné.";
+			$this->setDetailsEvenement($details, $idType);
+		}
 
 		Zend_Loader::loadClass("StatsFabricants");
 		$statsFabricants = new StatsFabricants();
@@ -588,7 +610,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 
 	private function prepareTabPotion($idSource, $potions) {
 		Zend_Loader::loadClass("Bral_Util_Potion");
-		
+
 		if ($idSource == "echoppe") {
 			$prefix = "echoppe";
 		} else if ($idSource == "charrette") {
@@ -648,6 +670,53 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$where = 'id_potion = '.$potion["id_potion"];
 		$data = array('date_utilisation_potion' => date("Y-m-d H:i:s"));
 		$potionTable->update($data, $where);
+	}
+
+	// nourrit tous les hobbits sur la cases
+	private function appliqueQuintuple() {
+		$hobbitTable = new Hobbit();
+		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, -1, false);
+
+		$hobbitTable = new Hobbit();
+		$tabHobbit = null;
+		foreach($hobbits as $h) {
+			$idTypeEvenement = $this->view->config->game->evenements->type->effet;
+			if ($this->view->user->id_hobbit != $h["id_hobbit"]) {
+				$details = "[h".$h["id_hobbit"]."] s'empresse de manger une bonne assiette de pot au feu offert par [h".$this->view->user->id_hobbit."]";
+				$detailsBot = "Balance de faim : +".$this->view->bbdfAliment." %";
+				Bral_Util_Evenement::majEvenements($h["id_hobbit"], $idTypeEvenement, $details, $detailsBot, $h["niveau_hobbit"]);
+			}
+			$tabHobbit[] = $h;
+
+			$data["balance_faim_hobbit"] = $h["balance_faim_hobbit"] + $this->view->bbdfAliment;
+			if ($data["balance_faim_hobbit"] > 100) {
+				$data["balance_faim_hobbit"] = 100;
+			}
+			$where = "id_hobbit = ".$h["id_hobbit"];
+			$hobbitTable->update($data, $where);
+		}
+
+		$this->view->estQuintuple = true;
+		$this->view->hobbits = $tabHobbit;
+	}
+
+	private function texteTypeBbdf($typeBbdf) {
+		if ($typeBbdf == 'simple') {
+			$retour = "Simple";
+		} elseif ($typeBbdf == 'double') {
+			$retour = "Double";
+		} elseif ($typeBbdf == 'double_ameliore') {
+			$retour = "Double Amélioré";
+		} elseif ($typeBbdf == 'triple') {
+			$retour = "Triple";
+		} elseif ($typeBbdf == 'quadruple') {
+			$retour = "Quadruple";
+		} elseif ($typeBbdf == 'quintuple') {
+			$retour = "Quintuple";
+		} else {
+			throw new Zend_Exception('Erreut type typeBbdf:'.$typeBbdf);
+		}
+		return $retour;
 	}
 
 	function getListBoxRefresh() {
