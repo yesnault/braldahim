@@ -3,3 +3,9 @@ Vous avez mang&eacute; 1 <?=$this->aliment["nom"]?> de qualit&eacute; <?=$this->
  avec pour effet sur la balance de +<?=$this->aliment["bbdf"]?> %.<br /> 
 Votre balance de faim est maintenant de <?=$this->user->balance_faim_hobbit ?> %<br />
 <br />
+
+<? if ($this->avecEffet === true) : ?>
+	 Cette nourriture a eu de l'effet sur vous... Consultez votre onglet effets.
+	 <br />
+	 L'effet est imm&eacute;diat.<br />
+<? endif;?>

@@ -44,22 +44,29 @@ class Bral_Util_Effets {
 			'nb_tour_restant_effet_hobbit' => $effet["nb_tour_restant"],
 			'bm_type_effet_hobbit' => $effet["bm_type"], 
 		);
-		$effetHobbitTable->insert($data);
+		$idEffetHobbit = $effetHobbitTable->insert($data);
 
-		$hobbitTable = new Hobbit();
-		$hobbitRowset = $hobbitTable->find($idHobbit);
-		$hobbit = $hobbitRowset->current();
+		if ($idHobbit != null) {
+			$hobbitTable = new Hobbit();
+			$hobbitRowset = $hobbitTable->find($idHobbit);
+			$hobbit = $hobbitRowset->current();
 
-		$potion["nb_tour_restant"] = $nbTour;
-		Zend_Loader::loadClass("Bral_Util_Effets");
-		return Bral_Util_Effets::appliqueEffetSurHobbit($effet, $hobbit, false);
+			Zend_Loader::loadClass("Bral_Util_Effets");
+			return Bral_Util_Effets::appliqueEffetSurHobbit($effet, $hobbit, false);
+		} else {
+			return $idEffetHobbit;
+		}
 	}
 
-	public static function calculEffetHobbit($hobbitCible, $appliqueEffet) {
-		Bral_Util_Log::potion()->trace("Bral_Util_Effets - calculEffetHobbit - enter - appliqueEffet:".$appliqueEffet. " idH:".$hobbitCible->id_hobbit);
+	public static function calculEffetHobbit($hobbitCible, $appliqueEffet, $idEffet = null) {
+		Bral_Util_Log::potion()->trace("Bral_Util_Effets - calculEffetHobbit - enter - appliqueEffet:".$appliqueEffet. " idH:".$hobbitCible->id_hobbit. " idE:".$idEffet);
 		Zend_Loader::loadClass("EffetHobbit");
 		$effetHobbitTable = new EffetHobbit();
-		$effetHobbitRowset = $effetHobbitTable->findByIdHobbitCible($hobbitCible->id_hobbit);
+		if ($idEffet == null) {
+			$effetHobbitRowset = $effetHobbitTable->findByIdHobbitCible($hobbitCible->id_hobbit);
+		} else {
+			$effetHobbitRowset = $effetHobbitTable->findByIdEffetHobbit($idEffet);
+		}
 		unset($effetHobbitTable);
 
 		$effets = null;
@@ -107,6 +114,7 @@ class Bral_Util_Effets {
 			unset($effetEffetHobbitTable);
 			Bral_Util_Log::potion()->trace("Bral_Util_Effets - appliqueEffetSurHobbit - maj table effet fin");
 			if ($estSupprime) {
+				Bral_Util_Log::potion()->trace("Bral_Util_Effets - appliqueEffetSurHobbit - suppression effet");
 				return null;
 			}
 		}

@@ -105,7 +105,7 @@ class Bral_Util_EffetsPotion {
 		Zend_Loader::loadClass("EffetPotionHobbit");
 
 		if ($initialisePotion) {
-			$potion["bm_effet_potion"] = Bral_Util_De::getLanceDeSpecifique($potion["niveau"] + 2, 1, $potion["de"]);
+			$potion["bm_effet_potion"] = self::calculBM($potion);
 			$potion["nb_tour_restant"] = self::calculNbTour($potion);
 
 			if ($potion["nb_tour_restant"] > 1) {
@@ -206,7 +206,7 @@ class Bral_Util_EffetsPotion {
 		Zend_Loader::loadClass("EffetPotionMonstre");
 
 		if ($initialisePotion) {
-			$potion["bm_effet_potion"] = Bral_Util_De::getLanceDeSpecifique($potion["niveau"] + 2, 1, $potion["de"]);
+			$potion["bm_effet_potion"] = self::calculBM($potion);
 			$potion["nb_tour_restant"] = self::calculNbTour($potion);
 
 			if ($potion["nb_tour_restant"] > 1) {
@@ -293,7 +293,7 @@ class Bral_Util_EffetsPotion {
 		Bral_Util_Log::potion()->debug("Bral_Util_EffetsPotion - appliquePotionSurHobbit - exit");
 	}
 
-	private static function calculNbTour($potion) {
+	public static function calculNbTour($potion) {
 		$nbTour = Bral_Util_De::get_1d3();
 		if ($potion["nom_systeme_type_qualite"] == 'standard') {
 			$nbTour = $nbTour + 1;
@@ -305,5 +305,9 @@ class Bral_Util_EffetsPotion {
 			$nbTour = 1;
 		}
 		return $nbTour;
+	}
+	
+	public static function calculBM($potion) {
+		return Bral_Util_De::getLanceDeSpecifique($potion["niveau"] + 2, 1, $potion["de"]);
 	}
 }

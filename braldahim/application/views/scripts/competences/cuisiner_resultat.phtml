@@ -33,15 +33,7 @@
 	<? endif;?>
 	
 	<? if ($this->recetteAvecPotion === true) : ?>
-		 Vous avez utilis&eacute; une potion <?=htmlspecialchars($this->retourPotion['potion']["nom"]) ?> de qualit&eacute; <?=htmlspecialchars($this->retourPotion['potion']["qualite"])?>
-		 sur vous même.<br />
-		  
-		 L'effet de la potion porte sur <?=$this->retourPotion['effet']['nb_tour_restant']?> tour<? if ($this->retourPotion['effet']['nb_tour_restant'] > 1): echo 's'; endif; ?>.
-		 <br />
-		 Vous venir de subir
-		 <?=$this->retourPotion['effet']["nEffet"] ?> point<? if ($this->retourPotion['effet']["nEffet"] > 1): echo 's'; endif; ?> de <?=$this->retourPotion['potion']["bm_type"] ?> sur <?=$this->retourPotion['potion']["caracteristique"]?>
-		 <br />
-		 L'effet est imm&eacute;diat.<br />
+		 La potion utilisée sera appliquée lors de la consommation de la préparation.<br />
 	<? endif;?>
 <? else: ?>
 	Vous avez manqu&eacute; votre cuisine. Vous avez perdu la moitié des ingrédients nécessaires.<br />

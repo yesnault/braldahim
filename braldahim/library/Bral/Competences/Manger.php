@@ -29,6 +29,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 					"nom" => $p["nom_type_aliment"],
 					"qualite" => $p["nom_type_qualite"],
 					"bbdf" => $p["bbdf_aliment"],
+					"id_fk_effet_hobbit_aliment" => $p["id_fk_effet_hobbit_aliment"],
 			);
 		}
 
@@ -61,7 +62,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		} else {
 			$idAliment = (int)$this->request->get("valeur_1");
 		}
-		
+
 		$aliment = null;
 		foreach ($this->view->tabAliments as $a) {
 			if ($a["id_aliment"] == $idAliment) {
@@ -78,7 +79,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeManger($this->view->user, false);
 
 		$this->calculManger($aliment);
-		
+
 		$idType = $this->view->config->game->evenements->type->competence;
 		$details = "[h".$this->view->user->id_hobbit."] a mangé";
 		$this->setDetailsEvenement($details, $idType);
@@ -114,11 +115,28 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);
-		
+
 		$this->view->aliment = $aliment;
+
+		$this->view->avecEffet = false;
+		if ($aliment["id_fk_effet_hobbit_aliment"] != null) {
+			Zend_Loader::loadClass("Bral_Util_Effets");
+			Zend_Loader::loadClass("EffetHobbit");
+			$effetHobbitTable = new EffetHobbit();
+			$data = array("id_fk_hobbit_cible_effet_hobbit" => $this->view->user->id_hobbit);
+			$where = "id_effet_hobbit = ".intval($aliment["id_fk_effet_hobbit_aliment"]);
+			$effetHobbitTable->update($data, $where);
+			Bral_Util_Effets::calculEffetHobbit($this->view->user, true, $aliment["id_fk_effet_hobbit_aliment"]);
+			$this->view->avecEffet = true;
+		}
+		
+		Zend_Loader::loadClass("Aliment");
+		$alimentTable = new Aliment();
+		$where = 'id_aliment = '.(int)$aliment["id_aliment"];
+		$alimentTable->delete($where);
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_laban"));
+		return $this->constructListBoxRefresh(array("box_laban", "box_effets"));
 	}
 }

@@ -50,4 +50,33 @@ class Bral_Util_Potion {
 		);
 		$historiquePotionTable->insert($data);
 	}
+
+	public static function prepareTabPotions($potions) {
+
+		$tabPotions = null;
+		foreach($potions as $p) {
+			$tabPotions[] = array(
+				"id_potion" => $p["id_potion"],
+				"id_type_potion" => $p["id_type_potion"],
+				"id_fk_type_potion" => $p["id_fk_type_potion"],
+				"id_fk_type_qualite_potion" => $p["id_fk_type_qualite_potion"],
+				"nom_systeme_type_qualite" => $p["nom_systeme_type_qualite"],
+				"nom" => $p["nom_type_potion"],
+				"de" => $p["de_type_potion"],
+				"qualite" => $p["nom_type_qualite"],
+				"niveau" => $p["niveau_potion"],
+				"caracteristique" => $p["caract_type_potion"],
+				"bm_type" => $p["bm_type_potion"],
+				"caracteristique2" => $p["caract2_type_potion"],
+				"bm2_type" => $p["bm2_type_potion"],
+				"nom_type" => self::getNomType($p["type_potion"]),
+				"type_potion" => $p["type_potion"],
+				'template_m_type_potion' => $p["template_m_type_potion"],
+				'template_f_type_potion' => $p["template_f_type_potion"],
+				'id_fk_type_ingredient_type_potion' => $p["id_fk_type_ingredient_type_potion"],
+			);
+		}
+
+		return $tabPotions;
+	}
 }
