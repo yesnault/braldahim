@@ -977,9 +977,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 					"id_aliment" => $p["id_".$endroit["suffixe"]."_aliment"],
 					"nom" => $p["nom_type_aliment"],
 					"qualite" => $p["nom_type_qualite"],
-					"bbdf" => $p["bbdf_".$endroit["suffixe"]."_aliment"],
-					"id_fk_type_qualite" => $p["id_fk_type_qualite_".$endroit["suffixe"]."_aliment"],
-					"id_fk_type" => $p["id_fk_type_".$endroit["suffixe"]."_aliment"]
+					"bbdf" => $p["bbdf_aliment"],
 				);
 			}
 		} else {
@@ -1020,9 +1018,6 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			$data = array (
 				"id_vente_aliment" => $aliment["id_aliment"],
 				"id_fk_vente_aliment" => $idVente,
-				"bbdf_vente_aliment" => $aliment["bbdf"],
-				"id_fk_type_qualite_vente_aliment" => $aliment["id_fk_type_qualite"],
-				"id_fk_type_vente_aliment" => $aliment["id_fk_type"],
 			);
 			$venteAlimentTable->insert($data);
 

@@ -136,7 +136,7 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 
 		$this->view->qualiteAliment = 2; // qualite correcte
 		
-		$this->view->bbdfAliment = Bral_Util_De::get_de_specifique(25, 35);
+		$this->view->bbdfAliment = Bral_Util_De::get_de_specifique(20, 25);
 		$this->view->aliment= $aliment;
 
 		$elementAlimentTable = new ElementAliment();
@@ -145,15 +145,24 @@ class Bral_Lieux_Auberge extends Bral_Lieux_Lieu {
 		Zend_Loader::loadClass("IdsAliment");
 		$idsAlimentTable = new IdsAliment();
 		
+		Zend_Loader::loadClass('Aliment');
+		$alimentTable = new Aliment();
+		
 		for ($i = 1; $i <= $this->view->nbAcheter; $i++) {
+			
 			$id_aliment = $idsAlimentTable->prepareNext();
-
+			
+			$data = array(
+				'id_aliment' => $id_aliment,
+				'id_fk_type_aliment' => TypeAliment::ID_TYPE_RAGOUT,
+				'id_fk_type_qualite_aliment' => $this->view->qualiteAliment,
+				'bbdf_aliment' => $this->view->bbdfAliment,
+			);
+			$alimentTable->insert($data);
+			
 			$data = array(
 				'id_laban_aliment' => $id_aliment,
 				'id_fk_hobbit_laban_aliment' => $this->view->user->id_hobbit,
-				'id_fk_type_laban_aliment' => TypeAliment::ID_TYPE_RAGOUT,
-				'id_fk_type_qualite_laban_aliment' => $this->view->qualiteAliment,
-				'bbdf_laban_aliment' => $this->view->bbdfAliment,
 			);
 			$labanAlimentTable->insert($data);
 		}

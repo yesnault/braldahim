@@ -20,8 +20,10 @@ class CoffreAliment extends Zend_Db_Table {
 		$select->from('coffre_aliment', '*')
 		->from('type_aliment')
 		->from('type_qualite')
-		->where('id_fk_type_coffre_aliment = id_type_aliment')
-		->where('id_fk_type_qualite_coffre_aliment = id_type_qualite')
+		->from('aliment', '*')
+		->where('id_aliment = id_coffre_aliment')
+		->where('id_fk_type_aliment = id_type_aliment')
+		->where('id_fk_type_qualite_aliment = id_type_qualite')
 		->where('id_fk_hobbit_coffre_aliment = ?', intval($idHobbit));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

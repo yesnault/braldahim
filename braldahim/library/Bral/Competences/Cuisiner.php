@@ -579,18 +579,27 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("IdsAliment");
 		$idsAliment = new IdsAliment();
+		
+		Zend_Loader::loadClass('Aliment');
+		$alimentTable = new Aliment();
 
 		for ($i = 1; $i <= $this->view->nbAliment; $i++) {
 			$idAliment = $idsAliment->prepareNext();
 
 			$data = array(
+				"id_aliment" => $idAliment,
+				"id_fk_type_aliment" => $this->view->typeAlimentCourant['id_type_aliment'],
+				"id_fk_type_qualite_aliment" => $this->view->qualiteAliment,
+				"bbdf_aliment" => $this->view->bbdfAliment,
+				//TODO ID FK Potion
+			);
+			$alimentTable->insert($data);
+			
+			$data = array(
 				"id_element_aliment" => $idAliment,
-				"id_fk_type_element_aliment" => $this->view->typeAlimentCourant['id_type_aliment'],
 				"x_element_aliment" => $this->view->user->x_hobbit,
 				"y_element_aliment" => $this->view->user->y_hobbit,
 				"z_element_aliment" => $this->view->user->z_hobbit,
-				"id_fk_type_qualite_element_aliment" => $this->view->qualiteAliment,
-				"bbdf_element_aliment" => $this->view->bbdfAliment,
 			);
 			$elementAlimentTable->insert($data);
 
@@ -600,9 +609,6 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 
 				$data = $tabBase;
 				$data['id_'.$prefix.'_aliment'] = $idAliment;
-				$data['id_fk_type_'.$prefix.'_aliment'] = $this->view->typeAlimentCourant['id_type_aliment'];
-				$data['id_fk_type_qualite_'.$prefix.'_aliment'] = $this->view->qualiteAliment;
-				$data['bbdf_'.$prefix.'_aliment'] = $this->view->bbdfAliment;
 				$table->insert($data);
 			}
 		}

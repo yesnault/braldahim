@@ -222,7 +222,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 		$nom = "<br>";
 		foreach($aliments as $a) {
-			$nom .= $a["nom_type_aliment"]." +".$a["bbdf_vente_aliment"]."%<br>";
+			$nom .= $a["nom_type_aliment"]." +".$a["bbdf_aliment"]."%<br>";
 		}
 
 		$tabAliments = array(
@@ -1371,9 +1371,6 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		foreach($this->view->vente["objet"]["aliments"] as $a) {
 			$data = array(
 				"id_".$suffixe."_aliment" => $a["id_vente_aliment"],
-				"id_fk_type_".$suffixe."_aliment" => $a["id_fk_type_vente_aliment"],
-				"id_fk_type_qualite_".$suffixe."_aliment" =>$a["id_fk_type_qualite_vente_aliment"],
-				"bbdf_".$suffixe."_aliment" => $a["bbdf_vente_aliment"],
 			);
 
 			if ($idDestination == "charrette") {

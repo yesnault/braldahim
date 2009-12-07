@@ -20,8 +20,10 @@ class LabanAliment extends Zend_Db_Table {
 		$select->from('laban_aliment', '*')
 		->from('type_aliment')
 		->from('type_qualite')
-		->where('id_fk_type_laban_aliment = id_type_aliment')
-		->where('id_fk_type_qualite_laban_aliment = id_type_qualite')
+		->from('aliment', '*')
+		->where('id_aliment = id_laban_aliment')
+		->where('id_fk_type_aliment = id_type_aliment')
+		->where('id_fk_type_qualite_aliment = id_type_qualite')
 		->where('id_fk_hobbit_laban_aliment = ?', intval($idHobbit));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

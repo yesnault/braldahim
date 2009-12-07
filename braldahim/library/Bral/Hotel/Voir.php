@@ -789,7 +789,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Hotel {
 					"id_vente_aliment" => $e["id_vente_aliment"],
 					"id_type_aliment" => $e["id_type_aliment"],
 					"nom" => $e["nom_type_aliment"],
-					"bddf" => $e["bbdf_vente_aliment"],
+					"bddf" => $e["bbdf_aliment"],
 				);
 
 				if (array_key_exists($e["id_vente"], $tabReturn)) {

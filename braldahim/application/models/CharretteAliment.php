@@ -20,8 +20,10 @@ class CharretteAliment extends Zend_Db_Table {
 		$select->from('charrette_aliment', '*')
 		->from('type_aliment')
 		->from('type_qualite')
-		->where('id_fk_type_charrette_aliment = id_type_aliment')
-		->where('id_fk_type_qualite_charrette_aliment = id_type_qualite')
+		->from('aliment', '*')
+		->where('id_aliment = id_charrette_aliment')
+		->where('id_fk_type_aliment = id_type_aliment')
+		->where('id_fk_type_qualite_aliment = id_type_qualite')
 		->where('id_fk_charrette_aliment = ?', intval($idCharrette));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

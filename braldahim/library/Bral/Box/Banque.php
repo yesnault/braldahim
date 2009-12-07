@@ -469,7 +469,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 					"id_type_aliment" => $p["id_type_aliment"],
 					"nom" => $p["nom_type_aliment"],
 					"qualite" => $p["nom_aliment_type_qualite"],
-					"bbdf" => $p["bbdf_coffre_aliment"],
+					"bbdf" => $p["bbdf_aliment"],
 			);
 		}
 		unset($aliments);

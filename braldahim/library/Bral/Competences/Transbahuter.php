@@ -886,9 +886,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								"id_aliment" => $p["id_".strtolower($depart)."_aliment"],
 								"nom" => $p["nom_type_aliment"],
 								"qualite" => $p["nom_type_qualite"],
-								"bbdf" => $p["bbdf_".strtolower($depart)."_aliment"],
-								"id_fk_type_qualite" => $p["id_fk_type_qualite_".strtolower($depart)."_aliment"],
-								"id_fk_type" => $p["id_fk_type_".strtolower($depart)."_aliment"]
+								"bbdf" => $p["bbdf_aliment"],
+								"id_fk_type_qualite" => $p["id_fk_type_qualite_aliment"],
+								"id_fk_type" => $p["id_fk_type_aliment"]
 					);
 				}
 				$this->view->deposerOk = true;
@@ -950,9 +950,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								$data = array (
 									"id_laban_aliment" => $aliment["id_aliment"],
 									"id_fk_hobbit_laban_aliment" => $this->view->user->id_hobbit,
-									"bbdf_laban_aliment" => $aliment["bbdf"],
-									"id_fk_type_qualite_laban_aliment" => $aliment["id_fk_type_qualite"],
-									"id_fk_type_laban_aliment" => $aliment["id_fk_type"],
 								);
 								$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RATION;
 								break;
@@ -967,9 +964,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 											"x_element_aliment" => $this->view->user->x_hobbit,
 											"y_element_aliment" => $this->view->user->y_hobbit,
 											"z_element_aliment" => $this->view->user->z_hobbit,
-											"bbdf_element_aliment" => $aliment["bbdf"],
-											"id_fk_type_qualite_element_aliment" => $aliment["id_fk_type_qualite"],
-											"id_fk_type_element_aliment" => $aliment["id_fk_type"],
 											"date_fin_element_aliment" => $dateFin,
 								);
 								break;
@@ -978,9 +972,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								$data = array (
 									"id_coffre_aliment" => $aliment["id_aliment"],
 									"id_fk_hobbit_coffre_aliment" => $this->view->id_hobbit_coffre,
-									"bbdf_coffre_aliment" => $aliment["bbdf"],
-									"id_fk_type_qualite_coffre_aliment" => $aliment["id_fk_type_qualite"],
-									"id_fk_type_coffre_aliment" => $aliment["id_fk_type"],
 								);
 								break;
 							case "Charrette" :
@@ -988,9 +979,6 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								$data = array (
 									"id_charrette_aliment" => $aliment["id_aliment"],
 									"id_fk_charrette_aliment" => $this->view->id_charrette_arrivee,
-									"bbdf_charrette_aliment" => $aliment["bbdf"],
-									"id_fk_type_qualite_charrette_aliment" => $aliment["id_fk_type_qualite"],
-									"id_fk_type_charrette_aliment" => $aliment["id_fk_type"],
 								);
 								break;
 						}

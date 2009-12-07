@@ -22,13 +22,13 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 
 		$tabAliments = null;
 		foreach ($aliments as $p) {
-			$tabAliments[$p["id_laban_aliment"]] = array(
-					"id_aliment" => $p["id_laban_aliment"],
-					"id_fk_type_aliment" => $p["id_fk_type_laban_aliment"],
-					"id_fk_type_qualite_aliment" => $p["id_fk_type_qualite_laban_aliment"],
+			$tabAliments[$p["id_aliment"]] = array(
+					"id_aliment" => $p["id_aliment"],
+					"id_fk_type_aliment" => $p["id_fk_type_aliment"],
+					"id_fk_type_qualite_aliment" => $p["id_fk_type_qualite_aliment"],
 					"nom" => $p["nom_type_aliment"],
 					"qualite" => $p["nom_type_qualite"],
-					"bbdf" => $p["bbdf_laban_aliment"],
+					"bbdf" => $p["bbdf_aliment"],
 			);
 		}
 
