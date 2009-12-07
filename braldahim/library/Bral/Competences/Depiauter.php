@@ -169,7 +169,6 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		$data = array(
 			'id_fk_hobbit_laban' => $this->view->user->id_hobbit,
 			'quantite_peau_laban' => $this->view->nbPeau,
-			'quantite_viande_laban' => $this->view->nbViande,
 		);
 		$labanTable->insertOrUpdate($data);
 
