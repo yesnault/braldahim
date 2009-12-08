@@ -111,7 +111,7 @@ abstract class Bral_Competences_Competence {
 	public function getIdEchoppeCourante() {
 		return false;
 	}
-	
+
 	public function getIdChampCourant() {
 		return false;
 	}
@@ -549,6 +549,41 @@ abstract class Bral_Competences_Competence {
 		if ($this->view->user->est_soule_hobbit == "oui") {
 			Zend_Loader::loadClass("Bral_Util_Soule");
 			$this->view->finMatchSoule = Bral_Util_Soule::calculFinMatch($this->view->user, $this->view, false);
+		}
+	}
+
+	protected function calculEchoppe() {
+		// On regarde si le hobbit est dans une de ses echopppes
+		$this->view->estSurEchoppe = false;
+		Zend_Loader::loadClass("Echoppe");
+		$echoppeTable = new Echoppe();
+		$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+
+		$idEchoppe = null;
+		foreach($echoppes as $e) {
+			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit &&
+			$e["nom_systeme_metier"] == "cuisinier" &&
+			$e["x_echoppe"] == $this->view->user->x_hobbit &&
+			$e["y_echoppe"] == $this->view->user->y_hobbit &&
+			$e["z_echoppe"] == $this->view->user->z_hobbit) {
+				$this->view->estSurEchoppe = true;
+				$idEchoppe = $e["id_echoppe"];
+				break;
+			}
+		}
+		$this->view->idEchoppe = $idEchoppe;
+	}
+
+	protected function calculCharrette() {
+		// On regarde si le hobbit possède une charrette
+		$this->view->possedeCharrette = false;
+		Zend_Loader::loadClass("Charrette");
+		$charretteTable = new Charrette();
+		$charrette = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+		if ($charrette != null && count($charrette) == 1) {
+			$this->view->possedeCharrette = true;
+			$this->view->idCharrette = $charrette[0]["id_charrette"];
+			$this->view->poidsRestantCharrette = $charrette[0]["poids_transportable_charrette"] - $charrette[0]["poids_transporte_charrette"];
 		}
 	}
 }

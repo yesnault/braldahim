@@ -49,13 +49,13 @@ class Bral_Competences_Factory {
 				}
 			}
 		}
-		
+
 		// verification que le joueur a accès à la compétence
 		if ($construct == null) {
 			Zend_Loader::loadClass("HobbitsCompetences");
 			$hobbitsCompetencesTables = new HobbitsCompetences();
 			$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($view->user->id_hobbit);
-				
+
 			$competences = Bral_Util_Registre::get('competences');
 
 			foreach($hobbitCompetences as $c) {
@@ -74,7 +74,7 @@ class Bral_Competences_Factory {
 		} catch(Exception $e) {
 			throw new Zend_Exception("Comp&eacute;tence invalide (classe): ".$nomSystemeCompetence);
 		}
-	  
+		 
 		if (($construct != null) && (class_exists($construct))) {
 			Zend_Loader::loadClass($construct);
 			return new $construct ($competence, $hobbitCompetence, $request, $view, $action);

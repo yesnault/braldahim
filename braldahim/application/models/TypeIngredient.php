@@ -15,6 +15,8 @@ class TypeIngredient extends Zend_Db_Table {
 	protected $_primary = 'id_type_ingredient';
 
 	const ID_TYPE_VIANDE_FRAICHE = 8;
+	const ID_TYPE_ORGE = 13;
+	const ID_TYPE_HOUBLON = 14;
 
 	public function findById($id){
 		$where = $this->getAdapter()->quoteInto('id_type_ingredient = ?',(int)$id);

@@ -13,4 +13,8 @@
 class Aliment extends Zend_Db_Table {
 	protected $_name = 'aliment';
 	protected $_primary = array('id_aliment');
+	
+	const ID_TYPE_LAGER = 24;
+	const ID_TYPE_ALE = 25;
+	const ID_TYPE_STOUT = 26;
 }

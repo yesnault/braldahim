@@ -25,7 +25,7 @@
 		
 		<br>
 	Source des ingrédients :<br />
-     <select name="valeur_2" id="valeur_2" onChange="$('valeur_4').value = -1; if ($('valeur_2').value != -1 && $('valeur_3').value != -1) { $('bouton_cuisiner').disabled=false; } else {$('bouton_cuisiner').disabled=true; }">
+     <select name="valeur_2" id="valeur_2" onChange="if ($('valeur_2').value != -1 && $('valeur_3').value != -1) { $('bouton_cuisiner').disabled=false; } else {$('bouton_cuisiner').disabled=true; }">
 	 	<option value="-1">(Choisissez une source)</option>
 	 	<? if ($this->recetteAvecPotion === true) : ?>
 		 	<? foreach($this->sources as $k => $t) : ?>
@@ -39,7 +39,7 @@
 		 		<? endif?>
 		 	<? endforeach; ?>
 	 	<? else: ?>
-		 	<? foreach($this->destinations as $k => $t) : ?>
+		 	<? foreach($this->sources as $k => $t) : ?>
 		 		<option value="<?=$k?>" <? if ($t["possible"] != true): echo "disabled"; endif; ?>><?=$t["nom"]?> <? if ($t["possible"] != true): echo "- Ingrédients non disponibles"; endif; ?></option>
 		 	<? endforeach; ?>
 	 	<? endif; ?>

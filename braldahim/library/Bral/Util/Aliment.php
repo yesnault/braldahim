@@ -11,10 +11,8 @@
  * $LastChangedBy: $
  */
 class Bral_Util_Aliment {
-
-
 	public static function getNomType($typeRecette) {
-		
+
 		switch($typeRecette) {
 			case "simple":
 				return "Simple";

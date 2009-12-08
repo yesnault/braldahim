@@ -33,6 +33,7 @@ class Bral_Util_Poids {
 	const POIDS_PARTIE_PLANTE_PREPAREE = 0.003;
 	const POIDS_MUNITION = 0.04;
 	const POIDS_TABAC = 0;
+	const POIDS_BIERE = 0.3;
 
 	function __construct() {
 	}

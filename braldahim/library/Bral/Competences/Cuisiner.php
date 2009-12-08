@@ -35,40 +35,6 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		}
 	}
 
-	private function calculEchoppe() {
-		// On regarde si le hobbit est dans une de ses echopppes
-
-		Zend_Loader::loadClass("Echoppe");
-		$echoppeTable = new Echoppe();
-		$echoppes = $echoppeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
-
-		$idEchoppe = null;
-		foreach($echoppes as $e) {
-			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit &&
-			$e["nom_systeme_metier"] == "cuisinier" &&
-			$e["x_echoppe"] == $this->view->user->x_hobbit &&
-			$e["y_echoppe"] == $this->view->user->y_hobbit &&
-			$e["z_echoppe"] == $this->view->user->z_hobbit) {
-				$this->view->estSurEchoppe = true;
-				$idEchoppe = $e["id_echoppe"];
-				break;
-			}
-		}
-		$this->view->idEchoppe = $idEchoppe;
-	}
-
-	private function calculCharrette() {
-		// On regarde si le hobbit possède une charrette
-		Zend_Loader::loadClass("Charrette");
-		$charretteTable = new Charrette();
-		$charrette = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
-		if ($charrette != null && count($charrette) == 1) {
-			$this->view->possedeCharrette = true;
-			$this->view->idCharrette = $charrette[0]["id_charrette"];
-			$this->view->poidsRestantCharrette = $charrette[0]["poids_transportable_charrette"] - $charrette[0]["poids_transporte_charrette"];
-		}
-	}
-
 	private function prepareAliments() {
 		$typeAlimentCourant = null;
 
@@ -278,7 +244,6 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			$tabDestinations["sol"]["nom"] = "Au Sol";
 			$tabDestinations["sol"]["poids_apres_ingredient"] = 10000;
 			$tabDestinations["sol"]["poids_restant"] = 10000;
-
 		}
 
 		$this->view->destinations = $tabDestinations;
