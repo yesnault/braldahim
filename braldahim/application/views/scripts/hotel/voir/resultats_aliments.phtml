@@ -1,5 +1,9 @@
 <? foreach($e["objet"] as $a) : ?>
 <img src='/public/styles/braldahim_defaut/images/type_aliment/type_aliment_<?=$a["id_type_aliment"]?>.png'>
 <br>
-n°<?=$a["id_vente_aliment"] ?> <?=$a["nom"] ?> +<?=$a["bddf"]?>% (recette <?=htmlspecialchars($a["recette"]) ?>)<br>
+n°<?=$a["id_vente_aliment"] ?> <?=$a["nom"] ?> 
+	<? if ($a["bbdf"] > 0): ?>
+ 		de qualit&eacute; <?=$a["qualite"] ?> 
+ 	<? endif;?> 
+ 	<? if ($a["bbdf"] > 0): ?> +<?=$a["bbdf"]?> % (recette <?=htmlspecialchars($a["recette"]) ?>)<? endif;?> <br>
 <? endforeach;?>

@@ -1021,7 +1021,11 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			);
 			$venteAlimentTable->insert($data);
 
-			$this->view->objetVente .= " le ".$aliment["nom"]. " n°".$aliment["id_aliment"]. " (+".$aliment["bbdf"]."%), ";
+			$this->view->objetVente .= " le ".$aliment["nom"]. " n°".$aliment["id_aliment"];
+
+			if ($aliment["bbdf"] > 0) {
+				$this->view->objetVente .= " (+".$aliment["bbdf"]."%), ";
+			}
 		}
 		if ($this->view->objetVente != "") {
 			$this->view->objetVente = substr($this->view->objetVente, 0, strlen($this->view->objetVente) -2);

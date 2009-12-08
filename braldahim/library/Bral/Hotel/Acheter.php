@@ -222,7 +222,11 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 
 		$nom = "<br>";
 		foreach($aliments as $a) {
-			$nom .= $a["nom_type_aliment"]." +".$a["bbdf_aliment"]."%<br>";
+			$nom .= $a["nom_type_aliment"];
+
+			if ($a["bbdf_aliment"] > 0) {
+				$nom .= " +".$a["bbdf_aliment"]."%<br>";
+			}
 		}
 
 		$tabAliments = array(

@@ -777,7 +777,8 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 					"id_vente_aliment" => $e["id_vente_aliment"],
 					"id_type_aliment" => $e["id_type_aliment"],
 					"nom" => $e["nom_type_aliment"],
-					"bddf" => $e["bbdf_aliment"],
+					"bbdf" => $e["bbdf_aliment"],
+					"qualite" => $e["nom_aliment_type_qualite"],
 					"recette" => Bral_Util_Aliment::getNomType($e["type_bbdf_type_aliment"]),
 				);
 
@@ -1341,7 +1342,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 		}
 
 		$this->numeroElementFinAliment = $numeroElement;
-		$tabAlimentsIngredients["aliments"] = array("elements" => $tabAliment, "titre" => 'Aliments');
+		$tabAlimentsIngredients["aliments"] = array("elements" => $tabAliment, "titre" => 'Aliments / Boissons');
 
 		Zend_Loader::loadClass("TypeIngredient");
 		$typeIngredientTable = new TypeIngredient();

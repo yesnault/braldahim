@@ -21,6 +21,8 @@
 			  		<td class="table_liste">
 				  		<? if ($a["bbdf"] > 0): ?>
 				   		<?=htmlspecialchars($a["qualite"]) ?>
+				   		<? else:?>
+				   			n.a
 				   		<? endif;?>
 			   		</td>
 			  		<td class="table_liste"><?=htmlspecialchars($a["recette"]) ?></td>
