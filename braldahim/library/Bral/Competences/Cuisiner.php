@@ -293,7 +293,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		if ($this->view->recetteAvecPotion === true) {
 			list ($idSource, $idPotion) = split("-", $idSource);
 		} else {
-			$idPotion = null; 
+			$idPotion = null;
 		}
 		$sourceOk = false;
 		foreach ($this->view->sources as $k => $v) {
@@ -312,7 +312,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		if ($sourceOk == false) {
 			throw new Zend_Exception(get_class($this)." Cuisiner interdit source KO B idSource:".$idSource);
 		}
-		
+
 		if ($this->view->recetteAvecPotion === true && $sourceOkPotion === false) {
 			throw new Zend_Exception(get_class($this)." Cuisiner interdit source KO Potion $idPotion:".$idPotion);
 		}
@@ -560,7 +560,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			Zend_Loader::loadClass('Bral_Util_EffetsPotion');
 			foreach($this->view->sources[$idSource]["potions"] as $p) {
 				if ($idPotion == $p["id_potion"] && $p["id_type_potion"] == $this->view->idPotionIngredient) {
-					
+						
 					$potion = $p;
 					$this->supprimeDuConteneur($idSource, $p);
 					break;
@@ -570,16 +570,16 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			
 		for ($i = 1; $i <= $this->view->nbAliment; $i++) {
 			$idAliment = $idsAliment->prepareNext();
-				
+
 			$idEffetHobbit = null;
 			if ($potion != null) {
 				$idEffetHobbit = Bral_Util_Effets::ajouteEtAppliqueEffetHobbit(null, $potion["caracteristique"], Bral_Util_Effets::TYPE_BONUS, Bral_Util_EffetsPotion::calculNbTour($potion), Bral_Util_EffetsPotion::calculBM($potion));
 			}
-			
+				
 			if ($this->view->typeAlimentCourant['type_bbdf_type_aliment'] == 'quadruple') {
 				$idEffetHobbit = Bral_Util_Effets::ajouteEtAppliqueEffetHobbit(null, Bral_Util_Effets::CARACT_ATT_DEG_DEF, Bral_Util_Effets::TYPE_BONUS, Bral_Util_De::get_2d3(), (floor($this->view->user->niveau_hobbit / 10) + 1) * 4);
 			}
-			
+				
 			$data = array(
 				"id_aliment" => $idAliment,
 				"id_fk_type_aliment" => $this->view->typeAlimentCourant['id_type_aliment'],
@@ -605,6 +605,9 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 				$data['id_'.$prefix.'_aliment'] = $idAliment;
 				$table->insert($data);
 			}
+		}
+		if ($idDestination == "charrette") {
+			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
 		}
 	}
 

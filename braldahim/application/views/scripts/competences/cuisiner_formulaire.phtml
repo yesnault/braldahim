@@ -49,7 +49,9 @@
 	Destination :<br />
      <select name="valeur_3" id="valeur_3" onChange="if ($('valeur_3').value != -1 && $('valeur_2').value != -1) { $('bouton_cuisiner').disabled=false; } else {$('bouton_cuisiner').disabled=true;}">
 	 	<option value="-1">(Choisissez une destination)</option>
+	 	<? foreach($this->destinations as $k => $t) : ?>
 	 		<option value="<?=$k?>" <? if ($t["possible"] != true): echo "disabled"; endif; ?>><?=$t["nom"]?> <? if ($t["possible"] != true): echo "- Pas assez de place"; endif; ?></option>
+	 	<? endforeach?>
 	 </select>
 	<br>
 	Attention, si vous n'avez pas assez de place pour contenir les aliments créés, les aliments en trop seront laissés au sol.
