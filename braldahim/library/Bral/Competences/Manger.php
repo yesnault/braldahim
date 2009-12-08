@@ -18,7 +18,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Bral_Util_Quete");
 
 		$labanAlimentTable = new LabanAliment();
-		$aliments = $labanAlimentTable->findByIdHobbit($this->view->user->id_hobbit);
+		$aliments = $labanAlimentTable->findByIdHobbit($this->view->user->id_hobbit, "manger");
 
 		$tabAliments = null;
 		foreach ($aliments as $p) {
