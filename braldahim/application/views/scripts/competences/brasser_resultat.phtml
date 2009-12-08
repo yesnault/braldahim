@@ -2,10 +2,14 @@
 		
 <? if ($this->okJet1 === true):
 	$s = "";
-	if ($this->nbBiere > 1) : $s = "s"; endif;
+	if ($this->nbBieres > 1) : $s = "s"; endif;
 ?>
 		Vous avez r&eacute;ussi à brasser.<br /> 
 		Vous avez préparé
-		<?=$this->nbBiere ?> outre<? if ($this->nbBiere) : echo "s"; endif;?> <?=$this->qualite?>.<br /><br />
+		<?=$this->nbBieres ?> outre<? if ($this->nbBieres) : echo "s"; endif;?> <?=$this->qualite?>.<br /><br />
+		<? if ($this->nbBieresATerre > 0): ?>
+			Faute de place, <?=$this->nbBieresATerre ?> outre<? if ($this->nbBieresATerre > 1): echo "s sont tomb&eacute;es à terre"; else: " est tomb&eacute;e à terre"; endif?>.
+		<? endif;?>
+		<br /><br />
 <? endif; ?>
 <br />

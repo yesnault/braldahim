@@ -18,9 +18,19 @@
 			  		<td class="table_liste"><?=$a["id_aliment"] ?></td>
 			  		<td class="table_liste"><img src='/public/styles/braldahim_defaut/images/type_aliment/type_aliment_<?=$a["id_type_aliment"]?>.png' alt="<?=htmlspecialchars($a["nom"])?>"/></td>
 			  		<td class="table_liste"><?=htmlspecialchars($a["nom"]) ?></td>
-			  		<td class="table_liste"><?=htmlspecialchars($a["qualite"]) ?></td>
+			  		<td class="table_liste">
+				  		<? if ($a["bbdf"] > 0): ?>
+				   		<?=htmlspecialchars($a["qualite"]) ?>
+				   		<? endif;?>
+			   		</td>
 			  		<td class="table_liste"><?=htmlspecialchars($a["recette"]) ?></td>
-			  		<td class="table_liste"><?=$a["bbdf"] ?> %</td>
+			  		<td class="table_liste">
+			  		
+			   		<? if ($a["bbdf"] > 0): ?>
+			  			<?=$a["bbdf"] ?> %
+			  		<? else: ?>
+			  			n.a
+			  		<? endif; ?> </td>
 			  		<td class="table_liste"><?=Bral_Util_Poids::POIDS_ALIMENT ?> Kg</td>
 				  </tr>
 			<? endforeach; ?>

@@ -141,7 +141,6 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		}
 			
 		$tabIngredients = null;
-
 		$poidsIngredients = 0;
 		foreach($ingredientsRecetteRowset as $i) {
 			$tabIngredients[] = array(
@@ -447,7 +446,6 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			$data["quantite_".$prefix."_ingredient"] = $quantite;
 			$table->insertOrUpdate($data);
 		}
-
 	}
 
 	private function calculQualite() {
@@ -684,7 +682,6 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-
 		$tab[] = 'box_competences_metiers';
 		if ($this->idDestination == 'echoppe' || $this->idSource == 'echoppe') {
 			$tab[] = 'box_echoppes';

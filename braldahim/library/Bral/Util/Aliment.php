@@ -33,8 +33,7 @@ class Bral_Util_Aliment {
 				return "Quintuple";
 				break;
 			default:
-				throw new Zend_Exception("Bral_Util_Aliment::getNomType typeRecette invalide id:".$typeRecette);
-				break;
+				return "Bière";
 		}
 	}
 

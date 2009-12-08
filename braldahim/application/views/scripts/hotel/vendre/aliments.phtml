@@ -2,7 +2,12 @@
 	Choississez un aliment (ou plusieurs en appuyant sur ctrl) &agrave; vendre :<br />
 	<select multiple size="5" name="valeur_3" id="valeur_3" onChange="if (this.value > 0 && $('valeur_5').value > 0 && $('valeur_6').value != -1) {$('bouton_vendrehotel').disabled=false} else {$('bouton_vendrehotel').disabled=true} ">
 		 <? foreach($this->aliments as $a) :?>
-		 	<option value="<?=$a["id_aliment"]?>"><?=$a["nom"] ?> de qualit&eacute; <?=$a["qualite"] ?> (n&deg;<?=$a["id_aliment"] ?>), +<?=$a["bbdf"]?> %</option>
+		 	<option value="<?=$a["id_aliment"]?>"><?=$a["nom"] ?> 
+		 		<? if ($a["bbdf"] > 0): ?>
+			 		de qualit&eacute; <?=$a["qualite"] ?> 
+			 	<? endif;?> 
+			 	(n&deg;<?=$a["id_aliment"] ?>),<? if ($a["bbdf"] > 0): ?> +<?=$a["bbdf"]?> %<? endif;?>
+		 	</option>
 		 <? endforeach; ?>
 	</select>
 	<input type='hidden' name='valeur_4' id='valeur_4' value='1' />
