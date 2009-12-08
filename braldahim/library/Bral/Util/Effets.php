@@ -26,7 +26,8 @@ class Bral_Util_Effets {
 	const CARACT_POIDS = 'POIDS';
 	const CARACT_ATTAQUE = 'ATT';
 	const CARACT_DEGAT = 'DEG';
-	const CARACT_DEF = 'DEF';
+	const CARACT_DEFENSE = 'DEF';
+	const CARACT_ATT_DEG_DEF = 'ATTDEGDEF';
 
 	public static function ajouteEtAppliqueEffetHobbit($idHobbit, $caract, $type, $nbTour, $bm) {
 		Zend_Loader::loadClass("EffetHobbit");
@@ -131,15 +132,15 @@ class Bral_Util_Effets {
 
 		Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - nEffet = ".$retourEffet["nEffet"]);
 
-		if ($effet["caracteristique"] == 'AGI') {
+		if ($effet["caracteristique"] == self::CARACT_AGILITE) {
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur AGI avant = ".$hobbitCible->agilite_bm_hobbit);
 			$hobbitCible->agilite_bm_hobbit = $hobbitCible->agilite_bm_hobbit + $coef * $retourEffet["nEffet"];
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur AGI apres = ".$hobbitCible->agilite_bm_hobbit);
-		} else if ($effet["caracteristique"] == 'FOR') {
+		} else if ($effet["caracteristique"] == self::CARACT_FORCE) {
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur FOR avant = ".$hobbitCible->force_bm_hobbit);
 			$hobbitCible->force_bm_hobbit = $hobbitCible->force_bm_hobbit + $coef * $retourEffet["nEffet"];
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur FOR apres = ".$hobbitCible->force_bm_hobbit);
-		} else if ($effet["caracteristique"] == 'PV') {
+		} else if ($effet["caracteristique"] == self::CARACT_PV) {
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur PV avant = ".$hobbitCible->pv_restant_hobbit);
 			$hobbitCible->pv_restant_hobbit = $hobbitCible->pv_restant_hobbit + $coef * $retourEffet["nEffet"];
 			if ($hobbitCible->pv_restant_hobbit > $hobbitCible->pv_max_hobbit) {
@@ -149,21 +150,45 @@ class Bral_Util_Effets {
 				$hobbitCible->pv_restant_hobbit = 1;
 			}
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur PV apres = ".$hobbitCible->pv_restant_hobbit);
-		} else if ($effet["caracteristique"] == 'VIG') {
+		} else if ($effet["caracteristique"] == self::CARACT_VIGUEUR) {
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur VIG avant = ".$hobbitCible->vigueur_bm_hobbit);
 			$hobbitCible->vigueur_bm_hobbit = $hobbitCible->vigueur_bm_hobbit + $coef * $retourEffet["nEffet"];
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur VIG apres = ".$hobbitCible->vigueur_bm_hobbit);
-		} else if ($effet["caracteristique"] == 'SAG') {
+		} else if ($effet["caracteristique"] == self::CARACT_SAGESSE) {
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur SAG avant = ".$hobbitCible->sagesse_bm_hobbit);
 			$hobbitCible->sagesse_bm_hobbit = $hobbitCible->sagesse_bm_hobbit + $coef * $retourEffet["nEffet"];
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur SAG apres = ".$hobbitCible->sagesse_bm_hobbit);
-		} else if ($effet["caracteristique"] == 'BBDF') {
+		} else if ($effet["caracteristique"] == self::CARACT_BBDF) {
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur BBDF avant = ".$hobbitCible->sagesse_bm_hobbit);
 			$hobbitCible->balance_faim_hobbit = $hobbitCible->balance_faim_hobbit + $coef * $retourEffet["nEffet"];
 			if ($hobbitCible->balance_faim_hobbit <= 0) {
 				$hobbitCible->balance_faim_hobbit = 0;
 			}
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur BBDF apres = ".$hobbitCible->sagesse_bm_hobbit);
+		} else if ($effet["caracteristique"] == self::CARACT_ATTAQUE) {
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur ATT avant = ".$hobbitCible->bm_attaque_hobbit);
+			$hobbitCible->bm_attaque_hobbit = $hobbitCible->bm_attaque_hobbit + $coef * $retourEffet["nEffet"];
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur SAG apres = ".$hobbitCible->bm_attaque_hobbit);
+		} else if ($effet["caracteristique"] == self::CARACT_DEGAT) {
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur DEG avant = ".$hobbitCible->bm_degat_hobbit);
+			$hobbitCible->bm_degat_hobbit = $hobbitCible->bm_degat_hobbit + $coef * $retourEffet["nEffet"];
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur DEG apres = ".$hobbitCible->bm_degat_hobbit);
+		} else if ($effet["caracteristique"] == self::CARACT_DEFENSE) {
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur DEF avant = ".$hobbitCible->bm_defense_hobbit);
+			$hobbitCible->bm_defense_hobbit = $hobbitCible->bm_defense_hobbit + $coef * $retourEffet["nEffet"];
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur DEF apres = ".$hobbitCible->bm_defense_hobbit);
+		} else if ($effet["caracteristique"] == self::CARACT_ATT_DEG_DEF) {
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur ATT_DEG_DEF");
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur ATT avant = ".$hobbitCible->bm_attaque_hobbit);
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur DEF avant = ".$hobbitCible->bm_degat_hobbit);
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur DEF avant = ".$hobbitCible->bm_defense_hobbit);
+			$hobbitCible->bm_attaque_hobbit = $hobbitCible->bm_attaque_hobbit + $coef * $retourEffet["nEffet"];
+			$hobbitCible->bm_degat_hobbit = $hobbitCible->bm_degat_hobbit + $coef * $retourEffet["nEffet"];
+			$hobbitCible->bm_defense_hobbit = $hobbitCible->bm_defense_hobbit + $coef * $retourEffet["nEffet"];
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur ATT apres = ".$hobbitCible->bm_attaque_hobbit);
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur DEF apres = ".$hobbitCible->bm_degat_hobbit);
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur DEF apres = ".$hobbitCible->bm_defense_hobbit);
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur ATT_DEG_DEF");
 		} else {
 			throw new Zend_Exception("Bral_Util_Effets - appliqueEffetSurHobbit - type effet non gere =".$effet["caracteristique"]);
 		}
@@ -175,6 +200,9 @@ class Bral_Util_Effets {
 				'sagesse_bm_hobbit' => $hobbitCible->sagesse_bm_hobbit,
 				'pv_restant_hobbit' => $hobbitCible->pv_restant_hobbit,
 				'balance_faim_hobbit' => $hobbitCible->balance_faim_hobbit,
+				'bm_attaque_hobbit' => $hobbitCible->bm_attaque_hobbit,
+				'bm_degat_hobbit' => $hobbitCible->bm_degat_hobbit,
+				'bm_defense_hobbit' => $hobbitCible->bm_defense_hobbit,
 		);
 		$where = "id_hobbit=".$hobbitCible->id_hobbit;
 

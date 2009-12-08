@@ -419,7 +419,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		} else {
 			$this->creationAliment($idDestination, $idSource);
 			$idType = $this->view->config->game->evenements->type->competence;
-			$details = "[h".$this->view->user->id_hobbit."] a cuisiné.";
+			$details = "[h".$this->view->user->id_hobbit."] a cuisiné";
 			$this->setDetailsEvenement($details, $idType);
 		}
 
@@ -571,13 +571,14 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Aliment');
 		$alimentTable = new Aliment();
 
+		Zend_Loader::loadClass("Bral_Util_Effets");
 		// on applique l'effet de la potion
 		$potion = null;
 		if ($this->view->recetteAvecPotion == true) {
 			Zend_Loader::loadClass('Bral_Util_EffetsPotion');
 			foreach($this->view->sources[$idSource]["potions"] as $p) {
 				if ($p["id_type_potion"] == $this->view->idPotionIngredient) {
-					Zend_Loader::loadClass("Bral_Util_Effets");
+					
 					$potion = $p;
 					$this->supprimeDuConteneur($idSource, $p);
 					break;
@@ -592,6 +593,11 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			if ($potion != null) {
 				$idEffetHobbit = Bral_Util_Effets::ajouteEtAppliqueEffetHobbit(null, $potion["caracteristique"], Bral_Util_Effets::TYPE_BONUS, Bral_Util_EffetsPotion::calculNbTour($potion), Bral_Util_EffetsPotion::calculBM($potion));
 			}
+			
+			if ($this->view->typeAlimentCourant['type_bbdf_type_aliment'] == 'quadruple') {
+				$idEffetHobbit = Bral_Util_Effets::ajouteEtAppliqueEffetHobbit(null, Bral_Util_Effets::CARACT_ATT_DEG_DEF, Bral_Util_Effets::TYPE_BONUS, Bral_Util_De::get_2d3(), (floor($this->view->user->niveau_hobbit / 10) + 1) * 4);
+			}
+			
 			$data = array(
 				"id_aliment" => $idAliment,
 				"id_fk_type_aliment" => $this->view->typeAlimentCourant['id_type_aliment'],
@@ -700,7 +706,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		if ($this->idDestination == 'laban' || $this->idSource == 'laban') {
 			$tab[] = 'box_laban';
 		}
-		if ($this->idDestination == 'sol' || $this->idSource == 'sol') {
+		if ($this->idDestination == 'sol' || $this->idSource == 'sol' || $this->view->nbAlimentATerre > 0) {
 			$tab[] = 'box_vue';
 		}
 		if ($this->idDestination == 'charrette' || $this->idSource == 'charrette') {

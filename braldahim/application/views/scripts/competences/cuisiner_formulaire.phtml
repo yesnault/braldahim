@@ -40,7 +40,8 @@
 	 		<option value="<?=$k?>" <? if ($t["possible"] != true): echo "disabled"; endif; ?>><?=$t["nom"]?> <? if ($t["possible"] != true): echo "- Pas assez de place"; endif; ?></option>
 	 	<? endforeach; ?>
 	 </select>
-			
+	<br>
+	Attention, si vous n'avez pas assez de place pour contenir les aliments créés, les aliments en trop seront laissés au sol.
 	<? endif;?>
 	 
 </div>
