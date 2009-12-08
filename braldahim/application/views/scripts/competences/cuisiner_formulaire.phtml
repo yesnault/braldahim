@@ -25,24 +25,36 @@
 		
 		<br>
 	Source des ingrédients :<br />
-     <select name="valeur_2" id="valeur_2" onChange="if ($('valeur_2').value != -1 && $('valeur_3').value != -1) { $('bouton_cuisiner').disabled=false; } else {$('bouton_cuisiner').disabled=true; }">
+     <select name="valeur_2" id="valeur_2" onChange="$('valeur_4').value = -1; if ($('valeur_2').value != -1 && $('valeur_3').value != -1) { $('bouton_cuisiner').disabled=false; } else {$('bouton_cuisiner').disabled=true; }">
 	 	<option value="-1">(Choisissez une source)</option>
-	 	<? foreach($this->sources as $k => $t) : ?>
-	 		<option value="<?=$k?>" <? if ($t["possible"] != true): echo "disabled"; endif; ?>><?=$t["nom"]?> <? if ($t["possible"] != true): echo "- Ingrédients non disponibles"; endif; ?></option>
-	 	<? endforeach; ?>
+	 	<? if ($this->recetteAvecPotion === true) : ?>
+		 	<? foreach($this->sources as $k => $t) : ?>
+	 			<optgroup label="<?=$t["nom"] ?> et utiliser la potion : " style="font-weight:bold"></optgroup>
+	 			<? if ($t["potions"] != null && count($t["potions"]) > 0) : ?>
+		 			<? foreach($t["potions"] as $u => $v) : ?>
+			 			<option value="<?=$k.'-'.$v["id_potion"]?>" <? if ($t["possible"] != true): echo "disabled"; endif; ?>><?=$v["nom"]?> n°<?=$v["id_potion"]?> <? if ($t["possible"] != true): echo "- Pas assez de place ou manque d'ingrédient"; endif; ?></option>
+			 		<? endforeach; ?>
+		 		<? else: ?>
+		 			<option value="-2" disabled>Aucune potion</option>
+		 		<? endif?>
+		 	<? endforeach; ?>
+	 	<? else: ?>
+		 	<? foreach($this->destinations as $k => $t) : ?>
+		 		<option value="<?=$k?>" <? if ($t["possible"] != true): echo "disabled"; endif; ?>><?=$t["nom"]?> <? if ($t["possible"] != true): echo "- Ingrédients non disponibles"; endif; ?></option>
+		 	<? endforeach; ?>
+	 	<? endif; ?>
 	 </select>
 	 
 	 <br> <br>
 	Destination :<br />
-     <select name="valeur_3" id="valeur_3" onChange="if ($('valeur_3').value != -1 && $('valeur_2').value != -1) { $('bouton_cuisiner').disabled=false; } else {$('bouton_cuisiner').disabled=true; }">
+     <select name="valeur_3" id="valeur_3" onChange="if ($('valeur_3').value != -1 && $('valeur_2').value != -1) { $('bouton_cuisiner').disabled=false; } else {$('bouton_cuisiner').disabled=true;}">
 	 	<option value="-1">(Choisissez une destination)</option>
-	 	<? foreach($this->destinations as $k => $t) : ?>
 	 		<option value="<?=$k?>" <? if ($t["possible"] != true): echo "disabled"; endif; ?>><?=$t["nom"]?> <? if ($t["possible"] != true): echo "- Pas assez de place"; endif; ?></option>
-	 	<? endforeach; ?>
 	 </select>
 	<br>
 	Attention, si vous n'avez pas assez de place pour contenir les aliments créés, les aliments en trop seront laissés au sol.
 	<? endif;?>
+
 	 
 </div>
 

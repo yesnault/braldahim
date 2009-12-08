@@ -461,6 +461,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 		$aliments = $charretteAlimentTable->findByIdCharrette($charrette["id_charrette"]);
 		unset($charretteAlimentTable);
 
+		Zend_Loader::loadClass("Bral_Util_Aliment");
 		foreach ($aliments as $p) {
 			$tabAliments[$p["id_charrette_aliment"]] = array(
 					"id_aliment" => $p["id_charrette_aliment"],
@@ -468,6 +469,7 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 					"nom" => $p["nom_type_aliment"],
 					"qualite" => $p["nom_aliment_type_qualite"],
 					"bbdf" => $p["bbdf_aliment"],
+					"recette" => Bral_Util_Aliment::getNomType($p["type_bbdf_type_aliment"]),
 			);
 		}
 		unset($aliments);

@@ -5,7 +5,12 @@
 	<br /><b><?=$nb ?> effet<?=$s ?> <?=$verb?> eu de l'influence sur vous.</b><br />
 	
 	<? foreach($this->effetHobbitEffets as $e) : ?>
-		<?=$e["retourEffet"]["nEffet"] ?> point<? if ($e["retourEffet"]["nEffet"]): echo 's'; endif; ?> de <?=$e["effet"]["bm_type"] ?> sur <?=$e["effet"]["caracteristique"]?>
+		<?=$e["retourEffet"]["nEffet"] ?> point<? if ($e["retourEffet"]["nEffet"]): echo 's'; endif; ?> de <?=$e["effet"]["bm_type"] ?> sur 
+		<? if ($e["effet"]["caracteristique"] == "ATTDEGDEF") : ?>
+			ATT / DEG / DEF
+		<? else: ?>
+			<?=$e["effet"]["caracteristique"]?>
+		<? endif;?>
 		et <?=$e["retourEffet"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["retourEffet"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>.<br />
 	<? endforeach; ?>
 	<br />

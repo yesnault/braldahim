@@ -463,6 +463,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		$aliments = $coffreAlimentTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($coffreAlimentTable);
 
+		Zend_Loader::loadClass("Bral_Util_Aliment");
 		foreach ($aliments as $p) {
 			$tabAliments[$p["id_coffre_aliment"]] = array(
 					"id_aliment" => $p["id_coffre_aliment"],
@@ -470,6 +471,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 					"nom" => $p["nom_type_aliment"],
 					"qualite" => $p["nom_aliment_type_qualite"],
 					"bbdf" => $p["bbdf_aliment"],
+					"recette" => Bral_Util_Aliment::getNomType($p["type_bbdf_type_aliment"]),
 			);
 		}
 		unset($aliments);

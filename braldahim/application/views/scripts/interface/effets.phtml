@@ -59,7 +59,13 @@
 					<? foreach($this->effets as $e) : ?>
 					<tr class="table_liste">
 						<td>
-						<?=$e["effet"]["bm_effet_hobbit"] ?> point<? if ($e["effet"]["bm_effet_hobbit"]): echo 's'; endif; ?> de <?=$e["effet"]["bm_type"] ?> sur <?=$e["effet"]["caracteristique"]?>
+						<?=$e["effet"]["bm_effet_hobbit"] ?> point<? if ($e["effet"]["bm_effet_hobbit"]): echo 's'; endif; ?> de <?=$e["effet"]["bm_type"] ?> sur 
+						<? if ($e["effet"]["caracteristique"] == "ATTDEGDEF") : ?>
+							ATT / DEG / DEF
+						<? else: ?>
+							<?=$e["effet"]["caracteristique"]?>
+						<? endif;?>
+						
 						et <?=$e["effet"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["effet"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>
 						</td>
 					</tr>

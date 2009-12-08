@@ -450,6 +450,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		$aliments = $labanAlimentTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($labanAlimentTable);
 
+		Zend_Loader::loadClass("Bral_Util_Aliment");
 		foreach ($aliments as $p) {
 			$tabAliments[$p["id_laban_aliment"]] = array(
 					"id_aliment" => $p["id_laban_aliment"],
@@ -457,6 +458,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 					"nom" => $p["nom_type_aliment"],
 					"qualite" => $p["nom_aliment_type_qualite"],
 					"bbdf" => $p["bbdf_aliment"],
+					"recette" => Bral_Util_Aliment::getNomType($p["type_bbdf_type_aliment"]),
 			);
 		}
 		unset($aliments);

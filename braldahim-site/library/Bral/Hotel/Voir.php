@@ -767,6 +767,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 		}
 
 		if (count($aliments) > 0) {
+			Zend_Loader::loadClass("Bral_Util_Aliment");
 			foreach($aliments as $e) {
 
 				$minerai = $this->recuperePrixMineraiAvecIdVente($ventePrixMinerai, $e["id_vente"]);
@@ -777,6 +778,7 @@ class Bral_Hotel_Voir extends Bral_Hotel_Box {
 					"id_type_aliment" => $e["id_type_aliment"],
 					"nom" => $e["nom_type_aliment"],
 					"bddf" => $e["bbdf_aliment"],
+					"recette" => Bral_Util_Aliment::getNomType($e["type_bbdf_type_aliment"]),
 				);
 
 				if (array_key_exists($e["id_vente"], $tabReturn)) {

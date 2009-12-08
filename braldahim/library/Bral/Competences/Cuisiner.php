@@ -119,6 +119,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$potionsRecetteRowset = $recetteAlimentsPotionsTable->findByIdTypeAliment($this->view->typeAlimentCourant["id_type_aliment"]);
 		if ($potionsRecetteRowset != null && count($potionsRecetteRowset) > 0) {
 			$this->view->recetteAvecPotion = true;
+			$potionDemandee = $potionsRecetteRowset[0];
 		} else {
 			$this->view->recetteAvecPotion = false;
 		}
@@ -136,7 +137,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			if ($this->view->recetteAvecPotion) {
 				Zend_Loader::loadClass("EchoppePotion");
 				$echoppePotionTable = new EchoppePotion();
-				$potions = $echoppePotionTable->findByIdEchoppe($this->view->idEchoppe);
+				$potions = $echoppePotionTable->findByIdEchoppe($this->view->idEchoppe, $potionDemandee["id_type_potion"]);
 				$tabSources["echoppe"]["potions"] = Bral_Util_Potion::prepareTabPotions($potions);
 			}
 		}
@@ -153,7 +154,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			if ($this->view->recetteAvecPotion) {
 				Zend_Loader::loadClass("CharrettePotion");
 				$charrettePotionTable = new CharrettePotion();
-				$potions = $charrettePotionTable->findByIdCharrette($this->view->idCharrette);
+				$potions = $charrettePotionTable->findByIdCharrette($this->view->idCharrette, $potionDemandee["id_type_potion"]);
 				$tabSources["charrette"]["potions"] = Bral_Util_Potion::prepareTabPotions($potions);
 			}
 		}
@@ -169,7 +170,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		if ($this->view->recetteAvecPotion) {
 			Zend_Loader::loadClass("LabanPotion");
 			$labanPotionTable = new LabanPotion();
-			$potions = $labanPotionTable->findByIdHobbit($this->view->user->id_hobbit);
+			$potions = $labanPotionTable->findByIdHobbit($this->view->user->id_hobbit, $potionDemandee["id_type_potion"]);
 			$tabSources["laban"]["potions"] = Bral_Util_Potion::prepareTabPotions($potions);
 		}
 			
@@ -324,15 +325,31 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." idTypeAliment interdit A=".$idTypeAliment. " B=".$this->view->typeAlimentCourant["id_type_aliment"]);
 		}
 
+		if ($this->view->recetteAvecPotion === true) {
+			list ($idSource, $idPotion) = split("-", $idSource);
+		} else {
+			$idPotion = null; 
+		}
 		$sourceOk = false;
 		foreach ($this->view->sources as $k => $v) {
 			if ($k == $idSource && $v["possible"] === true) {
+				if ($idPotion != null) {
+					foreach ($v["potions"] as $x => $y) {
+						if ($idPotion == $y["id_potion"]) {
+							$sourceOkPotion = true;
+						}
+					}
+				}
 				$sourceOk = true;
 			}
 		}
 
 		if ($sourceOk == false) {
 			throw new Zend_Exception(get_class($this)." Cuisiner interdit source KO B idSource:".$idSource);
+		}
+		
+		if ($this->view->recetteAvecPotion === true && $sourceOkPotion === false) {
+			throw new Zend_Exception(get_class($this)." Cuisiner interdit source KO Potion $idPotion:".$idPotion);
 		}
 
 		$this->idSource = $idSource;
@@ -353,7 +370,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$this->calculJets();
 
 		if ($this->view->okJet1 === true) {
-			$this->calculCuisiner($idSource, $idDestination);
+			$this->calculCuisiner($idSource, $idDestination, $idPotion);
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapeConstuire($this->view->user, $this->nom_systeme);
 		} else {
 			$this->calculRateCuisiner($idSource);
@@ -369,7 +386,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$this->retireIngredients($idSource, true);
 	}
 
-	private function calculCuisiner($idSource, $idDestination) {
+	private function calculCuisiner($idSource, $idDestination, $idPotion) {
 
 		Zend_Loader::loadClass("Laban");
 		Zend_Loader::loadClass("LabanAliment");
@@ -417,7 +434,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			$details = "[h".$this->view->user->id_hobbit."] cuisine un banquet pour tous ses confrères.";
 			$this->setDetailsEvenement($details, $idType);
 		} else {
-			$this->creationAliment($idDestination, $idSource);
+			$this->creationAliment($idDestination, $idSource, $idPotion);
 			$idType = $this->view->config->game->evenements->type->competence;
 			$details = "[h".$this->view->user->id_hobbit."] a cuisiné";
 			$this->setDetailsEvenement($details, $idType);
@@ -536,7 +553,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		return $base + $bm;
 	}
 
-	private function creationAliment($idDestination, $idSource) {
+	private function creationAliment($idDestination, $idSource, $idPotion) {
 		if ($idDestination == "echoppe") {
 			$prefix = "echoppe";
 			Zend_Loader::loadClass("EchoppeAliment");
@@ -577,7 +594,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		if ($this->view->recetteAvecPotion == true) {
 			Zend_Loader::loadClass('Bral_Util_EffetsPotion');
 			foreach($this->view->sources[$idSource]["potions"] as $p) {
-				if ($p["id_type_potion"] == $this->view->idPotionIngredient) {
+				if ($idPotion == $p["id_potion"] && $p["id_type_potion"] == $this->view->idPotionIngredient) {
 					
 					$potion = $p;
 					$this->supprimeDuConteneur($idSource, $p);
@@ -648,6 +665,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$where = 'id_potion = '.$potion["id_potion"];
 		$data = array('date_utilisation_potion' => date("Y-m-d H:i:s"));
 		$potionTable->update($data, $where);
+		$this->view->idPotion = $potion["id_potion"];
 	}
 
 	// nourrit tous les hobbits sur la cases

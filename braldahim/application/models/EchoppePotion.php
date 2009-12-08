@@ -14,7 +14,7 @@ class EchoppePotion extends Zend_Db_Table {
 	protected $_name = 'echoppe_potion';
 	protected $_primary = "id_echoppe_potion";
 
-	public function findByIdEchoppe($idEchoppe) {
+	public function findByIdEchoppe($idEchoppe, $idTypePotion = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe_potion', '*')
@@ -26,6 +26,9 @@ class EchoppePotion extends Zend_Db_Table {
 		->where('id_fk_type_qualite_potion = id_type_qualite')
 		->where('id_fk_echoppe_echoppe_potion = ?', $idEchoppe)
 		->order(array('type_potion ASC', 'id_echoppe_potion ASC'));
+		if ($idTypePotion != null) {
+			$select->where('id_type_potion = ?', intval($idTypePotion));
+		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
