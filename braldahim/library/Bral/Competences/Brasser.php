@@ -47,24 +47,26 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 			$tabDestinations["echoppe"]["nom"] = "Votre échoppe";
 			$tabDestinations["echoppe"]["poids_apres_ingredient"] = 10000;
 			$tabDestinations["echoppe"]["poids_restant"] = 10000;
+		} else {
+
+			/*			if ($this->view->possedeCharrette === true) {
+				$tabDestinations["charrette"]["possible"] = true;
+				$tabDestinations["charrette"]["nom"] = "Votre charrette";
+				$tabDestinations["charrette"]["poids_apres_ingredient"] = $this->view->poidsRestantCharrette + self::POIDS_INGREDIENT;
+				$tabDestinations["charrette"]["poids_restant"] = $this->view->poidsRestantCharrette;
+				}
+
+				$tabDestinations["laban"]["possible"] = true;
+				$tabDestinations["laban"]["nom"] = "Votre laban";
+				$tabDestinations["laban"]["poids_apres_ingredient"] = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit + self::POIDS_INGREDIENT;
+				$tabDestinations["laban"]["poids_restant"] = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+
+				$tabDestinations["sol"]["possible"] = true;
+				$tabDestinations["sol"]["nom"] = "Au Sol";
+				$tabDestinations["sol"]["poids_apres_ingredient"] = 10000;
+				$tabDestinations["sol"]["poids_restant"] = 10000;
+				*/
 		}
-
-		if ($this->view->possedeCharrette === true) {
-			$tabDestinations["charrette"]["possible"] = true;
-			$tabDestinations["charrette"]["nom"] = "Votre charrette";
-			$tabDestinations["charrette"]["poids_apres_ingredient"] = $this->view->poidsRestantCharrette + self::POIDS_INGREDIENT;
-			$tabDestinations["charrette"]["poids_restant"] = $this->view->poidsRestantCharrette;
-		}
-
-		$tabDestinations["laban"]["possible"] = true;
-		$tabDestinations["laban"]["nom"] = "Votre laban";
-		$tabDestinations["laban"]["poids_apres_ingredient"] = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit + self::POIDS_INGREDIENT;
-		$tabDestinations["laban"]["poids_restant"] = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
-
-		$tabDestinations["sol"]["possible"] = true;
-		$tabDestinations["sol"]["nom"] = "Au Sol";
-		$tabDestinations["sol"]["poids_apres_ingredient"] = 10000;
-		$tabDestinations["sol"]["poids_restant"] = 10000;
 
 
 		$this->view->destinations = $tabDestinations;
@@ -90,25 +92,27 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 			$echoppeIngredientTable = new EchoppeIngredient();
 			$ingredients = $echoppeIngredientTable->findByIdEchoppe($this->view->idEchoppe);
 			$tabSources["echoppe"]["ingredients"] = $ingredients;
+		} else {
+			/*
+			 if ($this->view->possedeCharrette === true) {
+				$tabSources["charrette"]["nom"] = "Votre charrette";
+				$tabSources["charrette"]["possible"] = true;
+
+				Zend_Loader::loadClass("CharretteIngredient");
+				$charretteIngredientTable = new CharretteIngredient();
+				$ingredients = $charretteIngredientTable->findByIdCharrette($this->view->idCharrette);
+				$tabSources["charrette"]["ingredients"] = $ingredients;
+				}
+
+				$tabSources["laban"]["nom"] = "Votre laban";
+				$tabSources["laban"]["possible"] = true;
+
+				Zend_Loader::loadClass("LabanIngredient");
+				$labanIngredientTable = new LabanIngredient();
+				$ingredients = $labanIngredientTable->findByIdHobbit($this->view->user->id_hobbit);
+				$tabSources["laban"]["ingredients"] = $ingredients;
+				*/
 		}
-
-		if ($this->view->possedeCharrette === true) {
-			$tabSources["charrette"]["nom"] = "Votre charrette";
-			$tabSources["charrette"]["possible"] = true;
-
-			Zend_Loader::loadClass("CharretteIngredient");
-			$charretteIngredientTable = new CharretteIngredient();
-			$ingredients = $charretteIngredientTable->findByIdCharrette($this->view->idCharrette);
-			$tabSources["charrette"]["ingredients"] = $ingredients;
-		}
-
-		$tabSources["laban"]["nom"] = "Votre laban";
-		$tabSources["laban"]["possible"] = true;
-
-		Zend_Loader::loadClass("LabanIngredient");
-		$labanIngredientTable = new LabanIngredient();
-		$ingredients = $labanIngredientTable->findByIdHobbit($this->view->user->id_hobbit);
-		$tabSources["laban"]["ingredients"] = $ingredients;
 			
 		$tabIngredients = null;
 		$poidsIngredients = 0;
@@ -132,7 +136,11 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 				if ($tabSources[$k]["ingredients"] != null && count($tabSources[$k]["ingredients"]) > 0) {
 					$ingredientOk = false;
 					foreach($tabSources[$k]["ingredients"] as $i) {
-						if ($i["id_type_ingredient"] == $idTypeIngredient && $i["quantite_".$k."_ingredient"] >= $quantite) {
+						$prefix = $k;
+						if ($k == "echoppe") {
+							$prefix = "arriere_echoppe";
+						}
+						if ($i["id_type_ingredient"] == $idTypeIngredient && $i["quantite_".$prefix."_ingredient"] >= $quantite) {
 							$ingredientOk = true;
 						}
 					}
