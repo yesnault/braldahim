@@ -48,12 +48,15 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->arBoutiqueTransformes["lingots"] = array("nom_systeme" => "lingots", "nom" => "Lingots", "a_afficher" => false);
 		$this->arBoutiqueTransformes["plantes_preparees"] = array("nom_systeme" => "plantes_preparees", "nom" => "Plantes Préparées", "a_afficher" => false);
 		$this->arBoutiqueTransformes["cuir_fourrure"] = array("nom_systeme" => "cuir_fourrure", "nom" => "Cuir / Fourrure", "a_afficher" => false);
+		$this->arBoutiqueTransformes["ingredients"] = array("nom_systeme" => "ingredients", "nom" => "Ingredients", "a_afficher" => false);
+		$this->arBoutiqueTransformes["potions"] = array("nom_systeme" => "potions", "nom" => "Potions", "a_afficher" => false);
 
 		$this->arBoutiqueCaisse["castars"]  = array("nom_systeme" => "castars", "nom" => "Castars", "a_afficher" => true);
 		$this->arBoutiqueCaisse["minerais"] = array("nom_systeme" => "minerais", "nom" => "Minerais Bruts", "a_afficher" => false);
 		$this->arBoutiqueCaisse["rondins"]  = array("nom_systeme" => "rondins", "nom" => "Rondins", "a_afficher" => false);
 		$this->arBoutiqueCaisse["plantes_bruts"] = array("nom_systeme" => "plantes_bruts", "nom" => "Plantes Brutes", "a_afficher" => false);
 		$this->arBoutiqueCaisse["peaux"]  = array("nom_systeme" => "peaux", "nom" => "Peaux", "a_afficher" => false);
+		$this->arBoutiqueCaisse["ingredients"]  = array("nom_systeme" => "ingredients", "nom" => "Ingrédients", "a_afficher" => false);
 
 		$echoppeTable = new Echoppe();
 		$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
@@ -124,6 +127,8 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 				}
 				if ($e["nom_systeme_metier"] == "apothicaire") {
 					$this->view->afficheType = "potions";
+				} elseif ($e["nom_systeme_metier"] == "cuisinier") {
+					$this->view->afficheType = "aliments";
 				}
 				break;
 			}
@@ -140,9 +145,15 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$tabCompetences = null;
 		foreach($hobbitCompetences as $c) {
 			if ($id_metier == $c["id_fk_metier_competence"]) {
+				$pa_texte = $c["pa_utilisation_competence"];
+				if ($c["nom_systeme_competence"] == "cuisiner") {
+					$pa_texte = "2 ou 4";
+				}
+
 				$tabCompetences[] = array("id_competence" => $c["id_fk_competence_hcomp"],
 					"nom" => $c["nom_competence"],
 					"pa_utilisation" => $c["pa_utilisation_competence"],
+					"pa_texte" => $pa_texte,
 					"pourcentage" => Bral_Util_Commun::getPourcentage($c, $this->view->config),
 					"nom_systeme" => $c["nom_systeme_competence"],
 					"pourcentage_init" => $c["pourcentage_init_competence"],
@@ -152,8 +163,11 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 
 		$this->prepareCommunRessources($tabEchoppe["id_echoppe"]);
 		$this->prepareCommunEquipements($tabEchoppe["id_echoppe"]);
-		$this->prepareCommunPotions($tabEchoppe["id_echoppe"]);
+		if ($this->view->afficheType == "potions") {
+			$this->prepareCommunPotions($tabEchoppe["id_echoppe"]);
+		}
 		$this->prepareCommunMateriels($tabEchoppe["id_echoppe"]);
+		$this->prepareCommunAliments($tabEchoppe["id_echoppe"]);
 
 		$this->view->arBoutiqueBruts = $this->arBoutiqueBruts;
 		$this->view->arBoutiqueTransformes = $this->arBoutiqueTransformes;
@@ -178,8 +192,11 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 	private function prepareCommunRessources($idEchoppe) {
 		Zend_Loader::loadClass("EchoppePartieplante");
 		Zend_Loader::loadClass("EchoppeMinerai");
+		Zend_Loader::loadClass("EchoppeIngredient");
+		Zend_Loader::loadClass("EchoppePotion");
 		Zend_Loader::loadClass("TypePlante");
 		Zend_Loader::loadClass("TypePartieplante");
+		Zend_Loader::loadClass("Bral_Util_Potion");
 
 		$typePlantesTable = new TypePlante();
 		$typePlantesRowset = $typePlantesTable->findAll();
@@ -324,6 +341,73 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->view->mineraisArriere = $tabMineraisArriere;
 		$this->view->mineraisCaisse = $tabMineraisCaisse;
 		$this->view->lingots = $tabLingots;
+
+		$tabIngredientsArriere = null;
+		$tabIngredientsCaisse = null;
+
+		$echoppeIngredientTable = new EchoppeIngredient();
+		$ingredients = $echoppeIngredientTable->findByIdEchoppe($idEchoppe);
+
+		$this->view->nb_caisseIngredient = 0;
+
+		if ($ingredients != null) {
+			foreach ($ingredients as $m) {
+				$tabIngredientsArriere[] = array(
+					"type" => $m["nom_type_ingredient"],
+					"id_type_ingredient" => $m["id_type_ingredient"],
+					"quantite" => $m["quantite_arriere_echoppe_ingredient"],
+					"poids" => $m["quantite_arriere_echoppe_ingredient"] * $m["poids_unitaire_type_ingredient"],
+				);
+				$tabIngredientsCaisse[] = array(
+					"type" => $m["nom_type_ingredient"],
+					"id_type_ingredient" => $m["id_type_ingredient"],
+					"quantite" => $m["quantite_caisse_echoppe_ingredient"],
+					"poids" => $m["quantite_caisse_echoppe_ingredient"] * $m["poids_unitaire_type_ingredient"],
+				);
+
+				if ($m["quantite_arriere_echoppe_ingredient"] > 0) {
+					$this->arBoutiqueTransformes["ingredients"]["a_afficher"] = true;
+				}
+
+				if ($m["quantite_caisse_echoppe_ingredient"] > 0) {
+					$this->arBoutiqueCaisse["ingredients"]["a_afficher"] = true;
+				}
+
+				$this->view->nb_caisseIngredient = $this->view->nb_caisseIngredient + $m["quantite_caisse_echoppe_ingredient"];
+			}
+		}
+
+		$this->view->ingredientsArriere = $tabIngredientsArriere;
+		$this->view->ingredientsCaisse = $tabIngredientsCaisse;
+
+		$tabPotionsArriere = null;
+
+		if ($this->view->afficheType == "aliments") {
+			Zend_Loader::loadClass("Bral_Util_Potion");
+			$echoppePotionTable = new EchoppePotion();
+			$potions = $echoppePotionTable->findByIdEchoppe($idEchoppe);
+
+			if ($potions != null) {
+				foreach ($potions as $p) {
+					$tabPotionsArriere[] = array(
+						"id_potion" => $p["id_echoppe_potion"],
+						"nom" => $p["nom_type_potion"],
+						"id_type_potion" => $p["id_type_potion"],
+						"qualite" => $p["nom_type_qualite"],
+						"niveau" => $p["niveau_potion"],
+						"caracteristique" => $p["caract_type_potion"],
+						"bm_type" => $p["bm_type_potion"],
+						"caracteristique2" => $p["caract2_type_potion"],
+						"bm2_type" => $p["bm2_type_potion"],
+						"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
+					);
+
+					$this->arBoutiqueTransformes["potions"]["a_afficher"] = true;
+				}
+			}
+		}
+
+		$this->view->potionsArriere = $tabPotionsArriere;
 	}
 
 	private function prepareCommunEquipements($idEchoppe) {
@@ -347,13 +431,13 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		if (count($idEquipements) > 0) {
 			$equipementRuneTable = new EquipementRune();
 			$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
-				
+
 			$equipementBonusTable = new EquipementBonus();
 			$equipementBonus = $equipementBonusTable->findByIdsEquipement($idEquipements);
-			
+
 			$echoppeEquipementMineraiTable = new EchoppeEquipementMinerai();
 			$echoppeEquipementMinerai = $echoppeEquipementMineraiTable->findByIdsEquipement($idEquipements);
-				
+
 			$echoppeEquipementPartiePlanteTable = new EchoppeEquipementPartiePlante();
 			$echoppeEquipementPartiePlante = $echoppeEquipementPartiePlanteTable->findByIdsEquipement($idEquipements);
 		}
@@ -467,7 +551,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->view->equipementsArriereBoutique = $tabEquipementsArriereBoutique;
 		$this->view->equipementsEtal = $tabEquipementsEtal;
 	}
-	
+
 	private function prepareCommunMateriels($idEchoppe) {
 		Zend_Loader::loadClass("EchoppeMateriel");
 		Zend_Loader::loadClass("EchoppeMaterielMinerai");
@@ -486,7 +570,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		if (count($idMateriels) > 0) {
 			$echoppeMaterielMineraiTable = new EchoppeMaterielMinerai();
 			$echoppeMaterielMinerai = $echoppeMaterielMineraiTable->findByIdsMateriel($idMateriels);
-				
+
 			$echoppeMaterielPartiePlanteTable = new EchoppeMaterielPartiePlante();
 			$echoppeMaterielPartiePlante = $echoppeMaterielPartiePlanteTable->findByIdsMateriel($idMateriels);
 		}
@@ -551,12 +635,96 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		$this->view->materielsEtal = $tabMaterielsEtal;
 	}
 
+	private function prepareCommunAliments($idEchoppe) {
+		Zend_Loader::loadClass("EchoppeAliment");
+		Zend_Loader::loadClass("EchoppeAlimentMinerai");
+		Zend_Loader::loadClass("EchoppeAlimentPartiePlante");
+		Zend_Loader::loadClass("Bral_Util_Aliment");
+
+		$tabAlimentsArriereBoutique = null;
+		$tabAlimentsEtal = null;
+		$echoppeAlimentTable = new EchoppeAliment();
+		$aliments = $echoppeAlimentTable->findByIdEchoppe($idEchoppe);
+		$idAliments = null;
+
+		foreach ($aliments as $e) {
+			$idAliments[] = $e["id_echoppe_aliment"];
+		}
+
+		if (count($idAliments) > 0) {
+			$echoppeAlimentMineraiTable = new EchoppeAlimentMinerai();
+			$echoppeAlimentMinerai = $echoppeAlimentMineraiTable->findByIdsAliment($idAliments);
+
+			$echoppeAlimentPartiePlanteTable = new EchoppeAlimentPartiePlante();
+			$echoppeAlimentPartiePlante = $echoppeAlimentPartiePlanteTable->findByIdsAliment($idAliments);
+		}
+
+		if (count($aliments) > 0) {
+			foreach($aliments as $e) {
+					
+				$minerai = null;
+				if (count($echoppeAlimentMinerai) > 0) {
+					foreach($echoppeAlimentMinerai as $r) {
+						if ($r["id_fk_echoppe_aliment_minerai"] == $e["id_echoppe_aliment"]) {
+							$minerai[] = array(
+								"prix_echoppe_aliment_minerai" => $r["prix_echoppe_aliment_minerai"],
+								"nom_type_minerai" => $r["nom_type_minerai"],
+							);
+						}
+					}
+				}
+
+				$partiesPlantes = null;
+				if (count($echoppeAlimentPartiePlante) > 0) {
+					foreach($echoppeAlimentPartiePlante as $p) {
+						if ($p["id_fk_echoppe_aliment_partieplante"] == $e["id_echoppe_aliment"]) {
+							$partiesPlantes[] = array(
+								"prix_echoppe_aliment_partieplante" => $p["prix_echoppe_aliment_partieplante"],
+								"nom_type_plante" => $p["nom_type_plante"],
+								"nom_type_partieplante" => $p["nom_type_partieplante"],
+								"prefix_type_plante" => $p["prefix_type_plante"],
+							);
+						}
+					}
+				}
+
+				$aliment = array(
+					"id_aliment" => $e["id_echoppe_aliment"],
+					'id_type_aliment' => $e["id_type_aliment"],
+					'nom_systeme_type_aliment' => $e["nom_systeme_type_aliment"],
+					'nom' =>$e["nom_type_aliment"],
+					'poids' => $e["poids_unitaire_type_aliment"],
+					"qualite" => $e["nom_aliment_type_qualite"],
+					"bbdf" => $e["bbdf_aliment"],
+					"recette" => Bral_Util_Aliment::getNomType($e["type_bbdf_type_aliment"]),
+					"prix_1_vente_echoppe_aliment" => $e["prix_1_vente_echoppe_aliment"],
+					"prix_2_vente_echoppe_aliment" => $e["prix_2_vente_echoppe_aliment"],
+					"prix_3_vente_echoppe_aliment" => $e["prix_3_vente_echoppe_aliment"],
+					"unite_1_vente_echoppe_aliment" => $e["unite_1_vente_echoppe_aliment"],
+					"unite_2_vente_echoppe_aliment" => $e["unite_2_vente_echoppe_aliment"],
+					"unite_3_vente_echoppe_aliment" => $e["unite_3_vente_echoppe_aliment"],
+					"commentaire_vente_echoppe_aliment" => $e["commentaire_vente_echoppe_aliment"],
+					"prix_minerais" => $minerai,
+					"prix_parties_plantes" => $partiesPlantes,
+				);
+
+				if ($e["type_vente_echoppe_aliment"] == "aucune") {
+					$tabAlimentsArriereBoutique[] = $aliment;
+				} else {
+					$tabAlimentsEtal[] = $aliment;
+				}
+			}
+		}
+		$this->view->alimentsArriereBoutique = $tabAlimentsArriereBoutique;
+		$this->view->alimentsEtal = $tabAlimentsEtal;
+	}
+
 	private function prepareCommunPotions($idEchoppe) {
 		Zend_Loader::loadClass("EchoppePotion");
 		Zend_Loader::loadClass("EchoppePotionMinerai");
 		Zend_Loader::loadClass("EchoppePotionPartiePlante");
 		Zend_Loader::loadClass("Bral_Util_Potion");
-		
+
 		$tabPotionsArriereBoutique = null;
 		$tabPotionsEtal = null;
 		$echoppePotionTable = new EchoppePotion();
@@ -603,7 +771,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 						}
 					}
 				}
-				
+
 				$tab = array(
 					"id_potion" => $p["id_echoppe_potion"],
 					"nom" => $p["nom_type_potion"],

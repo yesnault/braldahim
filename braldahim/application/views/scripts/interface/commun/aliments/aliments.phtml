@@ -1,3 +1,5 @@
+<? Zend_Loader::loadClass("Bral_Helper_DetailAliment"); ?>
+
 <table class="table_liste" style="width:90%">
 	<thead class="table_liste">
 	  <tr class="table_liste">
@@ -8,6 +10,13 @@
 		<th>Type de Recette</th>
 		<th>Bonus sur la Balance de Faim</th>
 		<th>Poids</th>
+		<? if ($this->estElementsEtal === true) : ?>
+			<th>Prix</th>
+			<th>Commentaire du vendeur</th>
+		<? endif; ?>
+		<? if ($this->estElementsEtalAchat === true) : ?>
+			<th>Marchander / Acheter</th>
+		<? endif; ?>
 	  </tr>
 	</thead>
 	<tbody>
@@ -34,6 +43,15 @@
 			  			n.a
 			  		<? endif; ?> </td>
 			  		<td class="table_liste"><?=Bral_Util_Poids::POIDS_ALIMENT ?> Kg</td>
+			  		<? if ($this->estElementsEtal === true) : ?>
+						<td class="table_liste" nowrap><?=Bral_Helper_DetailAliment::afficherPrix($a);?></td>
+						<td class="table_liste"><?=Bral_Util_BBParser::bbcodeReplace($a["commentaire_vente_echoppe_aliment"])?></td>
+					<? endif; ?>
+					<? if ($this->estElementsEtalAchat === true) : ?>
+						<td class="table_liste">
+						<input type="button" class='button1' onClick='_get_("/echoppe/doaction?caction=ask_echoppe_acheteraliment&valeur_1=<?=$a["id_aliment"] ?>");' value="<?=$this->config->game->echoppe->nb_pa_service ?> PA - Acheter">
+						</td>
+					<? endif; ?>
 				  </tr>
 			<? endforeach; ?>
 		<? else: ?>

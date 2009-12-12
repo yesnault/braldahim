@@ -10,15 +10,21 @@
  	<div class="contenuC">
  		<ul class="box_contenu1 textalic">
 			<br /><br /><br />
-			<? $this->materiels = $this->materielsEtal; ?>
+			<? if ($this->afficheType == "equipements") :?>
+				<? $this->materiels = $this->materielsEtal; ?>
 				<?=$this->render("/interface/commun/materiels/materiels.phtml"); ?>
 				<br /><br />
-			<? if ($this->afficheType == "equipements") :?>
 				<? $this->equipements = $this->equipementsEtal; ?>
 				<?=$this->render("/interface/commun/equipements/equipements.phtml"); ?>
-			<? else: ?>
+			<? elseif ($this->afficheType == "potions") :?>
+				<? $this->materiels = $this->materielsEtal; ?>
+				<?=$this->render("/interface/commun/materiels/materiels.phtml"); ?>
+				<br /><br />
 				<? $this->potions = $this->potionsEtal; ?>
 				<?=$this->render("/interface/commun/potions/potions.phtml"); ?>
+			<? elseif ($this->afficheType == "aliments") :?>
+				<? $this->aliments = $this->alimentsEtal; ?>
+				<?=$this->render("/interface/commun/aliments/aliments.phtml"); ?>
 			<? endif; ?>
 			
 			<br />

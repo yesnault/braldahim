@@ -1,0 +1,42 @@
+<div class='comp_titre'>Transf&eacute;rer un aliment</div>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
+ <input type='hidden' id='valeur_1' name='valeur_1' value='<?=$this->idEchoppe ?>'>
+ <form name='myForm'>
+ <div class='comp_contenu'>
+ <br />
+	
+		Vous pouvez transf&eacute;rer un aliment pr&eacute;sent
+		soit dans votre laban, soit votre charrette.<br /><br />
+
+		<select name="valeur_3" id="valeur_3" onChange="_get_('/echoppes/doaction?caction=ask_echoppes_transferaliment&valeur_1=<?=$this->idEchoppe ?>&id_destination_courante='+this.value);">
+	 		<option value="-1">(Choisissez une destination)</option>
+			<? foreach($this->destinationTransfert as $d) :?>
+				<option value="<?=$d["id_destination"] ?>" <?=$d["selected"]?>><?=$d["texte"] ?></option>
+			<? endforeach; ?>
+		</select>
+		
+		
+	<? if (count($this->alimentsArriereBoutique) > 0): ?>
+		<br><br>
+		<? if ($this->destinationTransfertCourante != null) : ?>
+		<select name="valeur_2" id="valeur_2"  onChange="javascript:if ($('valeur_2').value==-1 || $('valeur_3').value==-1){$('bouton_transferaliment').disabled=true } else {$('bouton_transferaliment').disabled=false }">
+	 		<option value="-1">(Choisissez un aliment)</option>
+			<? foreach($this->alimentsArriereBoutique as $e) :?>
+				<option value="<?=$e["id_echoppe_aliment"] ?>" <? if ($e["place_dispo"] == false):echo "disabled"; endif;?>>N&deg; <?=$e["id_echoppe_aliment"] ?>, <?=htmlspecialchars($e["nom"]) ?> <? if ($e["place_dispo"] == false):echo "Trop Lourd !"; endif;?></option>
+			<? endforeach; ?>
+		</select>
+		<br /><br />
+		<? else: ?>
+			<input type="hidden" name="valeur_2" id="valeur_2" value="-1">
+		<? endif; ?>
+	<? endif; ?>
+	<br>
+	
+ </div>
+
+</form>
+<br />
+<?php if ($this->transfererOk > 0 && $this->destinationTransfertCourante != null) : ?>
+<input type='button' class='button1' id='bouton_transferaliment' value='Transf&eacute;rer !' onClick='this.disabled=true;_get_("/echoppes/doaction?caction=do_echoppes_transferaliment&id_destination_courante=<?=$this->destinationTransfertCourante?>");' disabled>
+<? endif ?>
+<? echo Bral_Helper_Fermer::affiche(); ?>

@@ -50,6 +50,8 @@ abstract class Bral_Competences_Competence {
 		$this->idMatchSoule = null;
 
 		$this->view->estQueteEvenement = false;
+		$this->view->estSurEchoppe = false;
+		$this->view->possedeCharrette = false;
 
 		// recuperation de hobbit competence
 		$this->hobbit_competence = $hobbitCompetence;
@@ -552,7 +554,7 @@ abstract class Bral_Competences_Competence {
 		}
 	}
 
-	protected function calculEchoppe() {
+	protected function calculEchoppe($metier) {
 		// On regarde si le hobbit est dans une de ses echopppes
 		$this->view->estSurEchoppe = false;
 		Zend_Loader::loadClass("Echoppe");
@@ -562,7 +564,7 @@ abstract class Bral_Competences_Competence {
 		$idEchoppe = null;
 		foreach($echoppes as $e) {
 			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit &&
-			$e["nom_systeme_metier"] == "cuisinier" &&
+			$e["nom_systeme_metier"] == $metier &&
 			$e["x_echoppe"] == $this->view->user->x_hobbit &&
 			$e["y_echoppe"] == $this->view->user->y_hobbit &&
 			$e["z_echoppe"] == $this->view->user->z_hobbit) {
@@ -572,6 +574,11 @@ abstract class Bral_Competences_Competence {
 			}
 		}
 		$this->view->idEchoppe = $idEchoppe;
+		if ($idEchoppe != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	protected function calculCharrette() {

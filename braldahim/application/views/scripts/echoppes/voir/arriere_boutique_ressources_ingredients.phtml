@@ -1,0 +1,22 @@
+<table width="80%" align="center">
+	<tr>
+		<td width="100%" valign="top">
+			<ul id="navigation" style="width:99%;text-align:left">
+				<? foreach($this->arBoutiqueTransformes as $k => $v) : ?>
+					<? if ($v["a_afficher"] == true) :?>
+					<li id="arboutiqueTransformes<?=$k?>">
+				      	<h3 id="arboutiqueTransformes<?=$k?>-head" class="head" onClick="maccordion(this);" />
+							<?=htmlspecialchars($v["nom"]) ?>
+						</h3>
+						<ul id="arboutiqueTransformes<?=$k?>-body" style="display:none">
+							<li>
+								<? include("poche_arr_bout_".$k.".phtml") ?>
+							</li>
+						</ul>
+					</li>
+					<? endif; ?>
+				<? endforeach; ?>
+			</ul>
+		</td>
+	</tr>
+</table>

@@ -17,17 +17,15 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Quete');
 
 		$this->view->typeAlimentCourant = null;
-		$this->view->estSurEchoppe = false;
-		$this->view->possedeCharrette = false;
 		$this->view->sourceEtDestinationOk = false;
 		$this->view->estQuintuple = false;
 		$this->idDestination = null;
 		$this->idSource = null;
 
 		$this->prepareAliments();
+		$this->calculEchoppe("cuisinier");
 
 		if ($this->view->typeAlimentCourant != null) {
-			$this->calculEchoppe();
 			$this->calculCharrette();
 			$this->prepareIngredients(); // présent soit dans l'échoppe, soit dans le laban
 			$this->prepareDestinations(); // Soit dans l'échoppe, soit le laban, soit la charrette
@@ -91,6 +89,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		}
 
 		$tabSources = null;
+		$poidsIngredients = 0;
 		if ($this->view->estSurEchoppe === true) {
 			$tabSources["echoppe"]["nom"] = "Votre échoppe";
 			$tabSources["echoppe"]["possible"] = true;
@@ -106,40 +105,41 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 				$potions = $echoppePotionTable->findByIdEchoppe($this->view->idEchoppe, $potionDemandee["id_type_potion"]);
 				$tabSources["echoppe"]["potions"] = Bral_Util_Potion::prepareTabPotions($potions);
 			}
-		}
+		} else {
 
-		if ($this->view->possedeCharrette === true) {
-			$tabSources["charrette"]["nom"] = "Votre charrette";
-			$tabSources["charrette"]["possible"] = true;
+			if ($this->view->possedeCharrette === true) {
+				$tabSources["charrette"]["nom"] = "Votre charrette";
+				$tabSources["charrette"]["possible"] = true;
 
-			Zend_Loader::loadClass("CharretteIngredient");
-			$charretteIngredientTable = new CharretteIngredient();
-			$ingredients = $charretteIngredientTable->findByIdCharrette($this->view->idCharrette);
-			$tabSources["charrette"]["ingredients"] = $ingredients;
+				Zend_Loader::loadClass("CharretteIngredient");
+				$charretteIngredientTable = new CharretteIngredient();
+				$ingredients = $charretteIngredientTable->findByIdCharrette($this->view->idCharrette);
+				$tabSources["charrette"]["ingredients"] = $ingredients;
+
+				if ($this->view->recetteAvecPotion) {
+					Zend_Loader::loadClass("CharrettePotion");
+					$charrettePotionTable = new CharrettePotion();
+					$potions = $charrettePotionTable->findByIdCharrette($this->view->idCharrette, $potionDemandee["id_type_potion"]);
+					$tabSources["charrette"]["potions"] = Bral_Util_Potion::prepareTabPotions($potions);
+				}
+			}
+
+			$tabSources["laban"]["nom"] = "Votre laban";
+			$tabSources["laban"]["possible"] = true;
+
+			Zend_Loader::loadClass("LabanIngredient");
+			$labanIngredientTable = new LabanIngredient();
+			$ingredients = $labanIngredientTable->findByIdHobbit($this->view->user->id_hobbit);
+			$tabSources["laban"]["ingredients"] = $ingredients;
 
 			if ($this->view->recetteAvecPotion) {
-				Zend_Loader::loadClass("CharrettePotion");
-				$charrettePotionTable = new CharrettePotion();
-				$potions = $charrettePotionTable->findByIdCharrette($this->view->idCharrette, $potionDemandee["id_type_potion"]);
-				$tabSources["charrette"]["potions"] = Bral_Util_Potion::prepareTabPotions($potions);
+				Zend_Loader::loadClass("LabanPotion");
+				$labanPotionTable = new LabanPotion();
+				$potions = $labanPotionTable->findByIdHobbit($this->view->user->id_hobbit, $potionDemandee["id_type_potion"]);
+				$tabSources["laban"]["potions"] = Bral_Util_Potion::prepareTabPotions($potions);
 			}
 		}
 
-		$tabSources["laban"]["nom"] = "Votre laban";
-		$tabSources["laban"]["possible"] = true;
-
-		Zend_Loader::loadClass("LabanIngredient");
-		$labanIngredientTable = new LabanIngredient();
-		$ingredients = $labanIngredientTable->findByIdHobbit($this->view->user->id_hobbit);
-		$tabSources["laban"]["ingredients"] = $ingredients;
-
-		if ($this->view->recetteAvecPotion) {
-			Zend_Loader::loadClass("LabanPotion");
-			$labanPotionTable = new LabanPotion();
-			$potions = $labanPotionTable->findByIdHobbit($this->view->user->id_hobbit, $potionDemandee["id_type_potion"]);
-			$tabSources["laban"]["potions"] = Bral_Util_Potion::prepareTabPotions($potions);
-		}
-			
 		$tabIngredients = null;
 		$poidsIngredients = 0;
 		foreach($ingredientsRecetteRowset as $i) {
@@ -181,7 +181,11 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 				if ($tabSources[$k]["ingredients"] != null && count($tabSources[$k]["ingredients"]) > 0) {
 					$ingredientOk = false;
 					foreach($tabSources[$k]["ingredients"] as $i) {
-						if ($i["id_type_ingredient"] == $idTypeIngredient && $i["quantite_".$k."_ingredient"] >= $quantite) {
+						$prefix = $k;
+						if ($k == "echoppe") {
+							$prefix = "arriere_echoppe";
+						}
+						if ($i["id_type_ingredient"] == $idTypeIngredient && $i["quantite_".$prefix."_ingredient"] >= $quantite) {
 							$ingredientOk = true;
 						}
 					}
@@ -225,24 +229,25 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 				$tabDestinations["echoppe"]["nom"] = "Votre échoppe";
 				$tabDestinations["echoppe"]["poids_apres_ingredient"] = 10000;
 				$tabDestinations["echoppe"]["poids_restant"] = 10000;
+			} else {
+
+				if ($this->view->possedeCharrette === true) {
+					$tabDestinations["charrette"]["possible"] = true;
+					$tabDestinations["charrette"]["nom"] = "Votre charrette";
+					$tabDestinations["charrette"]["poids_apres_ingredient"] = $this->view->poidsRestantCharrette + $this->view->typeAlimentCourant["poids_ingredients"];
+					$tabDestinations["charrette"]["poids_restant"] = $this->view->poidsRestantCharrette;
+				}
+
+				$tabDestinations["laban"]["possible"] = true;
+				$tabDestinations["laban"]["nom"] = "Votre laban";
+				$tabDestinations["laban"]["poids_apres_ingredient"] = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit + $this->view->typeAlimentCourant["poids_ingredients"];
+				$tabDestinations["laban"]["poids_restant"] = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+
+				$tabDestinations["sol"]["possible"] = true;
+				$tabDestinations["sol"]["nom"] = "Au Sol";
+				$tabDestinations["sol"]["poids_apres_ingredient"] = 10000;
+				$tabDestinations["sol"]["poids_restant"] = 10000;
 			}
-
-			if ($this->view->possedeCharrette === true) {
-				$tabDestinations["charrette"]["possible"] = true;
-				$tabDestinations["charrette"]["nom"] = "Votre charrette";
-				$tabDestinations["charrette"]["poids_apres_ingredient"] = $this->view->poidsRestantCharrette + $this->view->typeAlimentCourant["poids_ingredients"];
-				$tabDestinations["charrette"]["poids_restant"] = $this->view->poidsRestantCharrette;
-			}
-
-			$tabDestinations["laban"]["possible"] = true;
-			$tabDestinations["laban"]["nom"] = "Votre laban";
-			$tabDestinations["laban"]["poids_apres_ingredient"] = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit + $this->view->typeAlimentCourant["poids_ingredients"];
-			$tabDestinations["laban"]["poids_restant"] = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
-
-			$tabDestinations["sol"]["possible"] = true;
-			$tabDestinations["sol"]["nom"] = "Au Sol";
-			$tabDestinations["sol"]["poids_apres_ingredient"] = 10000;
-			$tabDestinations["sol"]["poids_restant"] = 10000;
 		}
 
 		$this->view->destinations = $tabDestinations;
@@ -558,7 +563,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			Zend_Loader::loadClass('Bral_Util_EffetsPotion');
 			foreach($this->view->sources[$idSource]["potions"] as $p) {
 				if ($idPotion == $p["id_potion"] && $p["id_type_potion"] == $this->view->idPotionIngredient) {
-						
+
 					$potion = $p;
 					$this->supprimeDuConteneur($idSource, $p);
 					break;
@@ -573,11 +578,11 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			if ($potion != null) {
 				$idEffetHobbit = Bral_Util_Effets::ajouteEtAppliqueEffetHobbit(null, $potion["caracteristique"], Bral_Util_Effets::TYPE_BONUS, Bral_Util_EffetsPotion::calculNbTour($potion), Bral_Util_EffetsPotion::calculBM($potion));
 			}
-				
+
 			if ($this->view->typeAlimentCourant['type_bbdf_type_aliment'] == 'quadruple') {
 				$idEffetHobbit = Bral_Util_Effets::ajouteEtAppliqueEffetHobbit(null, Bral_Util_Effets::CARACT_ATT_DEG_DEF, Bral_Util_Effets::TYPE_BONUS, Bral_Util_De::get_2d3(), (floor($this->view->user->niveau_hobbit / 10) + 1) * 4);
 			}
-				
+
 			$data = array(
 				"id_aliment" => $idAliment,
 				"id_fk_type_aliment" => $this->view->typeAlimentCourant['id_type_aliment'],
@@ -696,5 +701,19 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			$tab[] = 'box_charrette';
 		}
 		return $this->constructListBoxRefresh($tab);
+	}
+
+	protected function calculNbPa() {
+		if ($this->view->user->pa_hobbit - $this->competence["pa_utilisation"] < 0) {
+			$this->view->assezDePa = false;
+		} else {
+			$this->view->assezDePa = true;
+		}
+
+		if ($this->view->estSurEchoppe) {
+			$this->view->nb_pa = $this->competence["pa_utilisation"] / 2;
+		} else {
+			$this->view->nb_pa = $this->competence["pa_utilisation"];
+		}
 	}
 }

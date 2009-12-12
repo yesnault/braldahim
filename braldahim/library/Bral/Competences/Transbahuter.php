@@ -721,6 +721,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				break;
 		}
 
+		$this->calculEchoppe("cuisinier");
 		if (count($potions) > 0) {
 			foreach ($potions as $p) {
 				$tabPotions[$p["id_".strtolower($depart)."_potion"]] = array(
@@ -742,8 +743,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		$this->view->potions = $tabPotions;
 	}
 
-	private function deposeTypePotions($depart,$arrivee) {
-		if ($arrivee != "Echoppe") {
+	private function deposeTypePotions($depart, $arrivee) {
+		if ($arrivee != "Echoppe" ||
+		($this->view->idEchoppe != null)) { // echoppe cuisinier calcule dans prepare{
 			Zend_Loader::loadClass($depart."Potion");
 			Zend_Loader::loadClass($arrivee."Potion");
 			$potions = array();
@@ -828,13 +830,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									"id_fk_charrette_potion" => $this->view->id_charrette_arrivee,
 								);
 								break;
-								/*case "Echoppe" :
-								 $arriveePotionTable = new EchoppePotion();
-								 $data = array (
+							case "Echoppe" :
+								// si le joueur est sur son echoppe de cuisinier
+								if ($this->calculEchoppe("cuisinier")) {
+									$arriveePotionTable = new EchoppePotion();
+									$data = array (
 									"id_echoppe_potion" => $potion["id_potion"],
 									"id_fk_echoppe_echoppe_potion" => $this->view->id_echoppe_arrivee,
 									);
-									break;*/
+									break;
+								}
 						}
 						$arriveePotionTable->insert($data);
 						unset($arriveePotionTable);
@@ -2339,15 +2344,14 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							"quantite_charrette_ingredient" => $nb,
 						);
 						break;
-						/*
-						 case "Echoppe" :
-						 $arriveeIngredientTable = new EchoppeIngredient();
-						 $data = array (
+					case "Echoppe" :
+						$arriveeIngredientTable = new EchoppeIngredient();
+						$data = array (
 							"id_fk_echoppe_echoppe_ingredient" => $this->view->id_echoppe_arrivee,
 							"id_fk_type_echoppe_ingredient" => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
 							"quantite_arriere_echoppe_ingredient" => $nb,
-							);
-							break;*/
+						);
+						break;
 				}
 				$arriveeIngredientTable->insertOrUpdate($data);
 				unset ($arriveeIngredientTable);

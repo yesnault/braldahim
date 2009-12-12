@@ -1,0 +1,85 @@
+<div class='comp_titre'><?=htmlspecialchars($this->titreAction) ?></div>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
+ <input type='hidden' id='valeur_1' name='valeur_1' value='<?=$this->aliment["id_aliment"] ?>'>
+ <input type='hidden' id='valeur_2' name='valeur_2' value='-1'>
+ <form name='myForm'>
+ <div class='comp_contenu'>
+	<br />
+	
+	Co&ucirc;t du service : <?=$this->nb_pa ?> PA<br />
+	
+	<br>
+	<? $this->aliments = array($this->aliment); ?>
+	<?=$this->render("/interface/commun/aliments/aliments.phtml"); ?>
+	<br />
+	
+	<? if ($this->aliment["place_dispo"] === false) : ?>
+		Il n'y a pas assez de place dans votre laban et dans votre charrette (si vous en avez une). <br>
+	<? endif; ?>
+	
+	<? if (count($this->prix) > 0) : ?>
+		
+		<? foreach($this->destinationTransfert as $d) :?>
+			<input type="hidden" id="possible_<?=$d["id_destination"] ?>" value="<? if ($d["possible"] == true): echo 1; endif;?>"/>
+			<input type="hidden" id="possible_<?=$d["id_destination"] ?>_force" value="<? if ($d["possible_force"] == true): echo 1; endif;?>"/>
+		<? endforeach; ?>
+		
+		<? if ($this->aliment["est_charrette"] === false) : ?>
+			<?
+			$jsTrue = "";
+			$jsFalse = "";
+			$js = "";
+			foreach($this->prix as $k => $p) {
+				if ($p["possible"] === true) {
+					$jsTrue .= "$('bouton_acheterealiment".$k."').disabled = true;";
+					$jsFalse .= "if ($('possible_'+this.value+'_force').value == 1 && ('".$p["id_destination"]."' != this.value)) {  $('bouton_acheterealiment".$k."').disabled = true } else { $('bouton_acheterealiment".$k."').disabled = false};";
+				}
+			}
+			if ($jsTrue != "" && $jsFalse != "") {
+				$jsTrue = substr($jsTrue, 0, strlen($jsTrue)-1);
+				$jsFalse = substr($jsFalse, 0, strlen($jsFalse)-1);
+				$js = " if (this.value == -1) {".$jsTrue."} else {".$jsFalse."}";
+			}
+			?>
+			Destination de la pi&egrave;ce : <br>
+			<select name="valeur_3" id="valeur_3" onChange="<? if ($js!= ""): echo $js; endif;?>">
+		 		<option value="-1">(Choisissez une destination)</option>
+				<? foreach($this->destinationTransfert as $d) :?>
+					<option value="<?=$d["id_destination"] ?>" <? if ($d["possible"] == false && $d["possible_force"] == false): echo "disabled"; endif;?>><?=$d["texte"] ?> <? if ($d["possible"] == false && $d["possible_force"] == false): echo " : pas assez de place"; endif;?></option>
+				<? endforeach; ?>
+			</select>
+		<? else :?>
+			 <input type='hidden' id='valeur_3' name='valeur_3' value='laban'>
+		<? endif;?>
+		
+		<br>
+		
+		<? if ($this->aliment["charrette_possible"] === false) : ?>
+				Vous n'avez pas les caract&eacute;ristiques suffisantes pour tirer la charrette : <?=$this->aliment["charrette_detail"]?>
+		<? else: ?>	
+			<ul class="titre textalic textsizec">Prix</ul>
+			<br>
+			<? foreach($this->prix as $k => $p) : ?>
+				<?=$p["id_destination"] ?> : <?=$p["prix"] ?> <?=$p["nom"] ?>
+				<? if ($this->assezDePa !== true): ?>
+				: Pas assez de PA
+				<? elseif ($this->aliment["charrette_possible"] === false) : ?>
+					<br>
+					Vous n'avez pas les caract&eacute;ristiques suffisantes pour tirer la charrette : <?=$this->aliment["charrette_detail"]?>
+				<? elseif ($p["possible"] === true && $this->aliment["place_dispo"] === true) : ?>
+					<input type='button' class='button1' id='bouton_acheterealiment<?=$k?>' value='Acheter !' onClick='this.disabled=true;$("valeur_2").value=<?=$k ?>; _get_("/echoppe/doaction?caction=do_echoppe_acheteraliment");' <? if ($this->aliment["est_charrette"] == false) : echo "disabled"; endif;?>></input>
+				<? elseif ($this->aliment["place_dispo"] !== true): ?>
+				: Pas assez de place disponible
+				<? else: ?>
+				: Pas assez de ressources
+				<? endif; ?>
+				<br />
+			<? endforeach; ?>
+		<? endif;?>
+	<? endif; ?>
+	
+ </div>
+
+</form>
+<br />
+<? echo Bral_Helper_Fermer::affiche(); ?>

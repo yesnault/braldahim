@@ -102,9 +102,10 @@ class Bral_Box_Competences extends Bral_Box_Box {
 						$pourcentage = Bral_Util_Commun::getPourcentage($c, $this->view->config);
 							
 						$pa_texte = $c["pa_utilisation_competence"];
-						if ($c["nom_systeme_competence"] == "terrasser") {
-							$pa_texte = "2 ou 3";
-						} 
+						if ($c["nom_systeme_competence"] == "cuisiner") {
+							$pa_texte = "2 ou 4";
+						}
+						 
 						$pa = $c["pa_utilisation_competence"];
 
 						$competence[] = array("id_competence" => $c["id_fk_competence_hcomp"],

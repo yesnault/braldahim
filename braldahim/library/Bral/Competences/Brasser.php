@@ -18,8 +18,6 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 		$this->view->sourceOk = false;
 		$this->view->nbBieres = $this->view->user->force_base_hobbit;
 
-		$this->view->estSurEchoppe = false;
-		$this->view->possedeCharrette = false;
 		$this->idDestination = null;
 		$this->idSource = null;
 
@@ -27,7 +25,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 			$this->view->nbBieres = 1;
 		}
 
-		$this->calculEchoppe();
+		$this->calculEchoppe("cuisinier");
 		$this->calculCharrette();
 		$this->prepareDestinations(); // Soit dans l'échoppe, soit le laban, soit la charrette
 		$this->prepareIngredients();

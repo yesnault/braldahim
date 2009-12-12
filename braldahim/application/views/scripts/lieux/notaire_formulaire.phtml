@@ -3,8 +3,9 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <div class='comp_contenu'>
 	
-	Choisissez ce que vous souhaitez acheter (les champs sont disponibles à partir du niveau 5) : 
-	
+	Choisissez ce que vous souhaitez acheter 
+	<br /> (les champs sont disponibles à partir du niveau 5) : 
+	<br />
 	<select name="valeur_1" id="valeur_1" onChange="_get_('/lieux/doaction?caction=ask_lieu_notaire&valeur_1='+this.value);">
  		<option value="-1">(Choisissez un type)</option>
 		<? foreach($this->typeAchat as $t) :?>

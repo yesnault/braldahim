@@ -57,6 +57,9 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		if ($echoppe["nom_systeme_metier"] == "apothicaire") {
 			$this->view->afficheType = "potions";
 			$this->prepareCommunPotions($echoppe["id_echoppe"]);
+		} elseif ($echoppe["nom_systeme_metier"] == "cuisinier") {
+			$this->view->afficheType = "aliments";
+			$this->prepareCommunAliments($echoppe["id_echoppe"]);
 		} else {
 			$this->view->afficheType = "equipements";
 			$this->prepareCommunEquipements($echoppe["id_echoppe"]);
@@ -69,7 +72,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		$this->view->estElementsEtal = true;
 		$this->view->estElementsEtalAchat = true;
 		$this->view->estElementsAchat = false;
-		
+
 		return $this->view->render("interface/echoppe.phtml");
 	}
 
@@ -98,10 +101,10 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		if ($idEquipements != null && count($idEquipements) > 0) {
 			$equipementRuneTable = new EquipementRune();
 			$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
-				
+
 			$equipementBonusTable = new EquipementBonus();
 			$equipementBonus = $equipementBonusTable->findByIdsEquipement($idEquipements);
-				
+
 			$echoppeEquipementMineraiTable = new EchoppeEquipementMinerai();
 			$echoppeEquipementMinerai = $echoppeEquipementMineraiTable->findByIdsEquipement($idEquipements);
 
@@ -375,5 +378,84 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 			}
 		}
 		$this->view->potionsEtal = $tabPotionsEtal;
+	}
+
+	private function prepareCommunAliments($idEchoppe) {
+		Zend_Loader::loadClass("EchoppeAliment");
+		Zend_Loader::loadClass("EchoppeAlimentMinerai");
+		Zend_Loader::loadClass("EchoppeAlimentPartiePlante");
+		Zend_Loader::loadClass("Bral_Util_Aliment");
+
+		$tabAlimentsArriereBoutique = null;
+		$tabAlimentsEtal = null;
+		$echoppeAlimentTable = new EchoppeAliment();
+		$aliments = $echoppeAlimentTable->findByIdEchoppe($idEchoppe);
+
+		$idAliments = null;
+
+		foreach ($aliments as $p) {
+			$idAliments[] = $p["id_echoppe_aliment"];
+		}
+
+		if (count($idAliments) > 0) {
+			$echoppAlimentMineraiTable = new EchoppeAlimentMinerai();
+			$echoppeAlimentMinerai = $echoppAlimentMineraiTable->findByIdsAliment($idAliments);
+
+			$echoppeAlimentPartiePlanteTable = new EchoppeAlimentPartiePlante();
+			$echoppeAlimentPartiePlante = $echoppeAlimentPartiePlanteTable->findByIdsAliment($idAliments);
+		}
+
+		if (count($aliments) > 0) {
+			foreach($aliments as $p) {
+				$minerai = null;
+				if (count($echoppeAlimentMinerai) > 0) {
+					foreach($echoppeAlimentMinerai as $r) {
+						if ($r["id_fk_echoppe_aliment_minerai"] == $p["id_echoppe_aliment"]) {
+							$minerai[] = array(
+								"prix_echoppe_aliment_minerai" => $r["prix_echoppe_aliment_minerai"],
+								"nom_type_minerai" => $r["nom_type_minerai"],
+							);
+						}
+					}
+				}
+
+				$partiesPlantes = null;
+				if (count($echoppeAlimentPartiePlante) > 0) {
+					foreach($echoppeAlimentPartiePlante as $a) {
+						if ($a["id_fk_echoppe_aliment_partieplante"] == $p["id_echoppe_aliment"]) {
+							$partiesPlantes[] = array(
+								"prix_echoppe_aliment_partieplante" => $a["prix_echoppe_aliment_partieplante"],
+								"nom_type_plante" => $a["nom_type_plante"],
+								"nom_type_partieplante" => $a["nom_type_partieplante"],
+								"prefix_type_plante" => $a["prefix_type_plante"],
+							);
+						}
+					}
+				}
+
+				if ($p["type_vente_echoppe_aliment"] == "publique") {
+					$tabAlimentsEtal[] = array(
+						"id_aliment" => $p["id_echoppe_aliment"],
+						'id_type_aliment' => $p["id_type_aliment"],
+						'nom_systeme_type_aliment' => $p["nom_systeme_type_aliment"],
+						'nom' =>$p["nom_type_aliment"],
+						'poids' => $p["poids_unitaire_type_aliment"],
+						"qualite" => $p["nom_aliment_type_qualite"],
+						"bbdf" => $p["bbdf_aliment"],
+						"recette" => Bral_Util_Aliment::getNomType($p["type_bbdf_type_aliment"]),
+						"prix_1_vente_echoppe_aliment" => $p["prix_1_vente_echoppe_aliment"],
+						"prix_2_vente_echoppe_aliment" => $p["prix_2_vente_echoppe_aliment"],
+						"prix_3_vente_echoppe_aliment" => $p["prix_3_vente_echoppe_aliment"],
+						"unite_1_vente_echoppe_aliment" => $p["unite_1_vente_echoppe_aliment"],
+						"unite_2_vente_echoppe_aliment" => $p["unite_2_vente_echoppe_aliment"],
+						"unite_3_vente_echoppe_aliment" => $p["unite_3_vente_echoppe_aliment"],
+						"commentaire_vente_echoppe_aliment" => $p["commentaire_vente_echoppe_aliment"],
+						"prix_minerais" => $minerai,
+						"prix_parties_plantes" => $partiesPlantes,
+					);
+				}
+			}
+		}
+		$this->view->alimentsEtal = $tabAlimentsEtal;
 	}
 }

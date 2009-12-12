@@ -1,0 +1,20 @@
+<? if (count($this->alimentsArriereBoutique) > 0): ?>
+
+	<? $this->aliments = $this->alimentsArriereBoutique; ?>
+	<?=$this->render("/interface/commun/aliments/aliments.phtml"); ?>
+	
+	<? if ($this->estSurEchoppe === true): 
+  		$disabled = "";
+	   else: 
+  		$disabled = "disabled" ;
+  	   endif;
+  	?>
+  	
+	<input type="button" class='button1' value="0 PA - Mettre en vente un aliment"
+       		  onClick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_vendrealiment&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" />
+	<input type="button" class='button1' value="0 PA - Transf&eacute;rer un aliment"
+       		onClick="Javascript:_get_('/echoppes/doaction?caction=ask_echoppes_transferaliment&valeur_1=<?=$this->echoppe["id_echoppe"] ?>')" <?=$disabled ?>/>
+
+<? else: ?>
+	Vous n'avez aucun aliment en r&eacute;serve
+<? endif; ?>

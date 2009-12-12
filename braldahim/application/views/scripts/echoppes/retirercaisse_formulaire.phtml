@@ -122,6 +122,48 @@
 		 </ul>
 		</li>
 	</ul>
+	
+	<ul id="navigation" style="width:99%;text-align:left">
+	<li id="retirer_ingredients">
+		<? $poches[] = "retirer_ingredients-head" ?>
+		<h3 id="retirer_ingredients-head" class="head" onClick="maccordion(this);" />
+			Ingredients
+		</h3>
+		<ul id="retirer_ingredients-body" style="display:none">
+		<li>
+		   <? if ($this->nb_caisseIngredient == 0) : ?>
+		   	Aucun ingredient<br />
+		   <? else: ?>
+		    <? if ($this->nb_caisseIngredient==1):$s=''; else:$s='s';endif; ?>
+		    <?=$this->nb_caisseIngredient?> ingredient<?=$s?> brut<?=$s?>: <br />
+		    
+		    <table width='100%'>
+		    <? $i = 0;
+		      $enter = false;
+		      foreach ($this->ingredients as $k => $m) : 
+		      	if ($m["quantite_caisse"] > 0) :
+		      		$enter = true;
+			     	if ($i % 3 == 0) echo "<tr>"; 
+			    	?>
+			    	<td>
+			    		<?=htmlspecialchars($m["type"])?> : Quantit&eacute; : <?=$m["quantite_caisse"]?>.
+			    		Quantit&eacute; &agrave; retirer : 
+			    		<input type='text' maxlength='4' size='4' name='<?=$k ?>' id='<?=$k ?>' value='0' onkeypress="chiffres(event, false);" onkeyup="if (this.value=='')this.value = 0;if (this.value > <?=$m["quantite_caisse"] ?>) { alert('Valeur trop grande'); this.value = 0 }; v=false;for (i=2;i<=$('nb_valeurs').value;i++){if ($('valeur_'+i).value>0)v=true;};if (v==true){$('bouton_retirercaisse').disabled=false;}else{$('bouton_retirercaisse').disabled=true;}" >
+			    	</td>
+			    	<? if ($i % 3 == 2) echo "</tr>"; 
+			    	$i++; 
+			    endif;
+		     endforeach;
+		     if ($enter == true) :
+		     	if  ($i % 3 != 0) echo "</tr>"; 
+		     endif;
+		     ?>
+		    </table> 
+		    <? endif; ?>
+		  </li>
+		 </ul>
+		</li>
+	</ul>
  </div>
 
 <? 

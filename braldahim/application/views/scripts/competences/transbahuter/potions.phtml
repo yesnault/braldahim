@@ -22,4 +22,4 @@
 	<input type='hidden' maxlength='4' size='4' name='valeur_15_max' id='valeur_15_max' value='0' />
 <?endif; ?>
 <input type='hidden' maxlength='4' size='4' name='valeur_15_poids' id='valeur_15_poids' value='<?=Bral_Util_Poids::POIDS_POTION ?>' />
-<input type='hidden' maxlength='4' size='4' name='valeur_15_echoppe' id='valeur_15_echoppe' value='non' />
+<input type='hidden' maxlength='4' size='4' name='valeur_15_echoppe' id='valeur_15_echoppe' value='<? if ($this->idEchoppe != null) : echo "oui"; else : echo "non"; endif;?>' />
