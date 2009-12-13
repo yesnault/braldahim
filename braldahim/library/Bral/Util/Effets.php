@@ -29,7 +29,7 @@ class Bral_Util_Effets {
 	const CARACT_DEFENSE = 'DEF';
 	const CARACT_ATT_DEG_DEF = 'ATTDEGDEF';
 
-	public static function ajouteEtAppliqueEffetHobbit($idHobbit, $caract, $type, $nbTour, $bm) {
+	public static function ajouteEtAppliqueEffetHobbit($idHobbit, $caract, $type, $nbTour, $bm, $texte = null) {
 		Zend_Loader::loadClass("EffetHobbit");
 
 		$effet["nb_tour_restant"] = $nbTour;
@@ -44,6 +44,7 @@ class Bral_Util_Effets {
 			'bm_effet_hobbit' => $effet["bm_effet_hobbit"],
 			'nb_tour_restant_effet_hobbit' => $effet["nb_tour_restant"],
 			'bm_type_effet_hobbit' => $effet["bm_type"], 
+			'texte_effet_hobbit' => $texte,
 		);
 		$idEffetHobbit = $effetHobbitTable->insert($data);
 
@@ -78,7 +79,8 @@ class Bral_Util_Effets {
 					"nb_tour_restant" => $e["nb_tour_restant_effet_hobbit"],
 					"caracteristique" => $e["caract_effet_hobbit"],
 					"bm_type" => $e["bm_type_effet_hobbit"],
-					"bm_effet_hobbit" => $e["bm_effet_hobbit"]
+					"bm_effet_hobbit" => $e["bm_effet_hobbit"],
+					"texte_effet_hobbit" => $e["texte_effet_hobbit"],
 			);
 
 			$retourEffet = null;

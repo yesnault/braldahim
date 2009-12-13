@@ -1,4 +1,4 @@
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
 	 <? if ($this->mangerNbAlimentOk === true) : ?>
 	 	Pour <?=$this->nb_pa ?> PA, vous pouvez manger 1 aliment. <br><br>
@@ -7,9 +7,20 @@
  		<select name='valeur_1' id="valeur_1" onChange="if ($('valeur_1').value==-1) {$('bouton_manger').disabled=true } else {$('bouton_manger').disabled=false }">
 			<option value='-1'>(Choisissez un aliment)</option>
 			<? foreach ($this->tabAliments as $p) : ?>
-				<option value="<?=$p["id_aliment"] ?>"><?=htmlspecialchars($p["nom"]) ?> de qualit&eacute; <?=htmlspecialchars($p["qualite"]) ?>,
-				 : + <?=$p["bbdf"]?> % </option>
+				<option value="<?=$p["id_aliment"] ?>"><?=htmlspecialchars($p["nom"]) ?>
+				 : + <?=$p["bbdf"]?> % (recette <?=$p["recette"]?>)</option>
 			<? endforeach; ?>
+		</select>
+		
+		<br><br>
+		Boisson pour accompagner : <br />
+ 		<select name='valeur_2' id="valeur_2" onChange="if ($('valeur_1').value==-1) {$('bouton_manger').disabled=true } else {$('bouton_manger').disabled=false }">
+			<option value='-1'>(Choisissez une boisson - falcultatif)</option>
+			<? if ($this->tabBoissons != null) : ?>
+				<? foreach ($this->tabBoissons as $p) : ?>
+					<option value="<?=$p["id_aliment"] ?>"><?=htmlspecialchars($p["recette"]) ?> n°<?=htmlspecialchars($p["id_aliment"]) ?> : <?=htmlspecialchars($p["nom"]) ?></option>
+				<? endforeach; ?>
+			<? endif;?>
 		</select>
 		
 	 <? else: ?>

@@ -30,7 +30,7 @@ class Bral_Monstres_Competences_Petnauseabond extends Bral_Monstres_Competences_
 					$malus = 1;
 				}
 				$nbTours = 1;
-				Bral_Util_Effets::ajouteEtAppliqueEffetHobbit($h["id_hobbit"], Bral_Util_Effets::CARACT_BBDF, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus);
+				Bral_Util_Effets::ajouteEtAppliqueEffetHobbit($h["id_hobbit"], Bral_Util_Effets::CARACT_BBDF, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus, 'Pet Nauséabond');
 				$this->majEvenement($h, $malus, $nbTours);
 			}
 		}

@@ -265,6 +265,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("Aliment");
 		$tirage = Bral_Util_De::get_1d100();
+		$tirage = 100;
 		if ($tirage > 0 && $tirage <= $chance_a) {
 			$this->view->qualite = "de Lager";
 			$idTypeAliment = TypeAliment::ID_TYPE_LAGER;
@@ -314,14 +315,23 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Aliment');
 		$alimentTable = new Aliment();
 
+		Zend_Loader::loadClass("Bral_Util_Effets");
+		
 		for ($i = 1; $i <= $this->view->nbBieres; $i++) {
 			$idAliment = $idsAliment->prepareNext();
 
+			$idEffetHobbit = null;
+
+			if ($idTypeAliment == TypeAliment::ID_TYPE_STOUT) {
+				$idEffetHobbit = Bral_Util_Effets::ajouteEtAppliqueEffetHobbit(null, Bral_Util_Effets::CARACT_ATT_DEG_DEF, Bral_Util_Effets::TYPE_BONUS, Bral_Util_De::get_1d3(), (floor($this->view->user->niveau_hobbit / 10) + 1) * 4, 'Lovely day for a stout !');
+			}
+				
 			$data = array(
 				"id_aliment" => $idAliment,
 				"id_fk_type_aliment" => $idTypeAliment,
 				"id_fk_type_qualite_aliment" => 2,
 				"bbdf_aliment" => 0,
+				"id_fk_effet_hobbit_aliment" => $idEffetHobbit,
 			);
 			$alimentTable->insert($data);
 

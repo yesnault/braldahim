@@ -25,7 +25,7 @@ class Bral_Monstres_Competences_Morsure extends Bral_Monstres_Competences_Attaqu
 			$malus = 1;
 		}
 		$nbTours = Bral_Util_De::get_1d3();
-		Bral_Util_Effets::ajouteEtAppliqueEffetHobbit($this->cible["id_hobbit"], Bral_Util_Effets::CARACT_PV, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus);
+		Bral_Util_Effets::ajouteEtAppliqueEffetHobbit($this->cible["id_hobbit"], Bral_Util_Effets::CARACT_PV, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus, 'Morsure');
 		$this->majEvenement($this->cible, $malus, $nbTours);
 
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - exit");

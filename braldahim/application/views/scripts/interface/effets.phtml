@@ -67,6 +67,9 @@
 						<? endif;?>
 						
 						et <?=$e["effet"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["effet"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>
+						<? if ($e["effet"]["texte_effet_hobbit"]) : ?>
+							<br></i><?=$e["effet"]["texte_effet_hobbit"]?></i>
+						<? endif;?>
 						</td>
 					</tr>
 					<? endforeach; ?>
