@@ -76,7 +76,6 @@ class Bral_Batchs_Hotel extends Bral_Batchs_Batch {
 			foreach($aliments as $a) {
 				$data = array(
 					"id_coffre_aliment" => $a["id_vente_aliment"],
-					"id_fk_type_coffre_aliment" => $a["id_fk_type_vente_aliment"],
 					"id_fk_hobbit_coffre_aliment" => $vente["id_fk_hobbit_vente"],
 					"id_fk_type_qualite_coffre_aliment" => $a["id_fk_type_qualite_vente_aliment"],
 					"bbdf_coffre_aliment" => $a["bbdf_vente_aliment"],
