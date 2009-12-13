@@ -131,22 +131,24 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 	}
 
 	private function controleIngredientsDispo(&$tabSources, $idTypeIngredient, $quantite) {
-		foreach($tabSources as $k => $v) {
-			if ($tabSources[$k]["possible"] === true) {
-				if ($tabSources[$k]["ingredients"] != null && count($tabSources[$k]["ingredients"]) > 0) {
-					$ingredientOk = false;
-					foreach($tabSources[$k]["ingredients"] as $i) {
-						$prefix = $k;
-						if ($k == "echoppe") {
-							$prefix = "arriere_echoppe";
+		if ($tabSources != null && count($tabSources) > 0) {
+			foreach($tabSources as $k => $v) {
+				if ($tabSources[$k]["possible"] === true) {
+					if ($tabSources[$k]["ingredients"] != null && count($tabSources[$k]["ingredients"]) > 0) {
+						$ingredientOk = false;
+						foreach($tabSources[$k]["ingredients"] as $i) {
+							$prefix = $k;
+							if ($k == "echoppe") {
+								$prefix = "arriere_echoppe";
+							}
+							if ($i["id_type_ingredient"] == $idTypeIngredient && $i["quantite_".$prefix."_ingredient"] >= $quantite) {
+								$ingredientOk = true;
+							}
 						}
-						if ($i["id_type_ingredient"] == $idTypeIngredient && $i["quantite_".$prefix."_ingredient"] >= $quantite) {
-							$ingredientOk = true;
-						}
+						$tabSources[$k]["possible"] = $ingredientOk;
+					} else {
+						$tabSources[$k]["possible"] = false;
 					}
-					$tabSources[$k]["possible"] = $ingredientOk;
-				} else {
-					$tabSources[$k]["possible"] = false;
 				}
 			}
 		}
@@ -155,9 +157,11 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 	private function controleSource() {
 
 		$uneSourceOk = false;
-		foreach($this->view->sources as $s) {
-			if ($s["possible"] == true) {
-				$uneSourceOk = true;
+		if ($this->view->sources != null && count($this->view->sources) > 0) {
+			foreach($this->view->sources as $s) {
+				if ($s["possible"] == true) {
+					$uneSourceOk = true;
+				}
 			}
 		}
 
