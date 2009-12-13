@@ -502,14 +502,13 @@ class Bral_Box_Banque extends Bral_Box_Box {
 		$this->view->graines = $tabGraines;
 	}
 
-	private function renderIngredient(&$tabMietiers, &$tabCoffre) {
+	private function renderIngredient(&$tabMetiers, &$tabCoffre) {
 		$tabIngredients = null;
 		$coffreIngredientTable = new CoffreIngredient();
 		$ingredients = $coffreIngredientTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($coffreIngredientTable);
 
 		Zend_Loader::loadClass("TypeIngredient");
-		
 		foreach ($ingredients as $g) {
 			if ($g["quantite_coffre_ingredient"] > 0) {
 				if ($g["id_type_ingredient"] ==  TypeIngredient::ID_TYPE_VIANDE_FRAICHE) {
