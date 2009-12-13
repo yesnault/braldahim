@@ -28,6 +28,7 @@ class Bral_Util_Effets {
 	const CARACT_DEGAT = 'DEG';
 	const CARACT_DEFENSE = 'DEF';
 	const CARACT_ATT_DEG_DEF = 'ATTDEGDEF';
+	const CARACT_FOR_AGI_VIG_SAG = 'FORAGIVIGSAG';
 
 	public static function ajouteEtAppliqueEffetHobbit($idHobbit, $caract, $type, $nbTour, $bm, $texte = null) {
 		Zend_Loader::loadClass("EffetHobbit");
