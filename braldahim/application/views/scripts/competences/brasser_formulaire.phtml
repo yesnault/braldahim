@@ -1,21 +1,11 @@
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
  	Vous ne pouvez brasser qu'à l'intérieur de votre échoppe de cuisinier.<br>
  	Vous devez avoir au minimum 5Kg d'Orge et 26g de Houblon pour brasser.<br>
 	 <? if ($this->sourceOk === true) : ?>
-	 	Pour <?=$this->nb_pa ?> PA, vous pouvez brasser 
-	 	jusqu'&agrave; <?=$this->nbBieres ?> outre<? if ($this->nbBieres > 1) : echo "s"; endif;?> de bière.<br>
+	 	Pour <?=$this->nb_pa ?> PA, vous pouvez brasser <?=$this->nbBieres ?> outre<? if ($this->nbBieres > 1) : echo "s"; endif;?> de bière.<br>
 	 
-		 <br><br>
-		 Nombre de d'outre de bière à préparer : <br />
-		 <select name="valeur_1" id="valeur_1" onChange="javascript:if ($('valeur_1').value==-1){$('bouton_brasser').disabled=true } else {$('bouton_brasser').disabled=false }">
-		 	<option value="-1">(Choisissez le nombre)</option>
-		 	<? for ($i = 1; $i<= $this->nbBieres; $i++) : ?>
-		 		<option value="<?=$i?>"><?=$i?> outre<? if ($i > 1): echo "s"; endif;?></option>
-		 	<? endfor; ?>
-		 </select>
-			 
-			 <br><br>Ingrédients nécessaires : <br>
+		<br><br>Ingrédients nécessaires : <br>
 		<? foreach($this->ingredients as $k => $t) : ?>
 	 		<?=$t["nom_type_ingredient"]?> : <?=$t["quantite_recette_aliments"]?><br>
 	 	<? endforeach; ?>
@@ -27,16 +17,16 @@
 	 	
 		<br><br>
 		Source des ingrédients :<br />
-	     <select name="valeur_2" id="valeur_2" onChange="if ($('valeur_2').value != -1 && $('valeur_3').value != -1) { $('bouton_brasser').disabled=false; } else {$('bouton_brasser').disabled=true; }">
+	     <select name="valeur_1" id="valeur_1" onChange="if ($('valeur_1').value != -1 && $('valeur_2').value != -1) { $('bouton_brasser').disabled=false; } else {$('bouton_brasser').disabled=true; }">
 		 	<option value="-1">(Choisissez une source)</option>
 			 <? foreach($this->sources as $k => $t) : ?>
-		 		<option value="<?=$k?>" <? if ($t["possible"] != true): echo "disabled"; endif; ?>><?=$t["nom"]?> <? if ($t["possible"] != true): echo "- Ingrédients non disponibles"; endif; ?></option>
+		 		<option value="<?=$k?>" <? if ($t["possible"] != true): echo "disabled"; else: echo $t["selected"]; endif; ?>><?=$t["nom"]?> <? if ($t["possible"] != true): echo "- Ingrédients non disponibles"; endif; ?></option>
 		 	<? endforeach; ?>
 		 </select>
 		 
 		 <br> <br>
 		Destination :<br />
-	     <select name="valeur_3" id="valeur_3" onChange="if ($('valeur_3').value != -1 && $('valeur_2').value != -1) { $('bouton_brasser').disabled=false; } else {$('bouton_brasser').disabled=true;}">
+	     <select name="valeur_2" id="valeur_2" onChange="if ($('valeur_2').value != -1 && $('valeur_1').value != -1) { $('bouton_brasser').disabled=false; } else {$('bouton_brasser').disabled=true;}">
 		 	<option value="-1">(Choisissez une destination)</option>
 		 	<? foreach($this->destinations as $k => $t) : ?>
 		 		<option value="<?=$k?>" <? if ($t["possible"] != true): echo "disabled"; endif; ?>><?=$t["nom"]?> <? if ($t["possible"] != true): echo "- Pas assez de place"; endif; ?></option>

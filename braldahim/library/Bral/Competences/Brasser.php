@@ -47,6 +47,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 			$tabDestinations["echoppe"]["nom"] = "Votre échoppe";
 			$tabDestinations["echoppe"]["poids_apres_ingredient"] = 10000;
 			$tabDestinations["echoppe"]["poids_restant"] = 10000;
+			$tabDestinations["echoppe"]["selected"] = "selected";
 		} else {
 
 			/*			if ($this->view->possedeCharrette === true) {
@@ -87,6 +88,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 		if ($this->view->estSurEchoppe === true) {
 			$tabSources["echoppe"]["nom"] = "Votre échoppe";
 			$tabSources["echoppe"]["possible"] = true;
+			$tabSources["echoppe"]["selected"] = "selected";
 
 			Zend_Loader::loadClass("EchoppeIngredient");
 			$echoppeIngredientTable = new EchoppeIngredient();
@@ -148,6 +150,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 						$tabSources[$k]["possible"] = $ingredientOk;
 					} else {
 						$tabSources[$k]["possible"] = false;
+						$tabSources[$k]["selected"] = "";
 					}
 				}
 			}
@@ -183,13 +186,8 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Cuisiner interdit source KO ");
 		}
 
-		$nbBieres = (int)$this->request->get("valeur_1");
-		$idSource = $this->request->get("valeur_2");
-		$idDestination = $this->request->get("valeur_3");
-
-		if ($nbBieres < 1) {
-			throw new Zend_Exception(get_class($this)." nbBieres interdit A=".$nbBieres);
-		}
+		$idSource = $this->request->get("valeur_1");
+		$idDestination = $this->request->get("valeur_2");
 
 		$sourceOk = false;
 		foreach ($this->view->sources as $k => $v) {
@@ -220,7 +218,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 		$this->calculJets();
 
 		if ($this->view->okJet1 === true) {
-			$this->calculBrasser($nbBieres, $idSource, $idDestination);
+			$this->calculBrasser($idSource, $idDestination);
 		} else {
 			$this->retireIngredients($idSource, true);
 		}
@@ -231,7 +229,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 		$this->majHobbit();
 	}
 
-	private function calculBrasser($nbBieres, $idSource, $idDestination) {
+	private function calculBrasser($idSource, $idDestination) {
 		$idTypeAliment = $this->calculQualite();
 
 		$this->retireIngredients($idSource);
@@ -254,7 +252,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 			$this->view->nbBieresDestination = $this->view->nbBieres;
 		}
 
-		$this->creationBiere($idTypeAliment, $nbBieres, $idDestination, $idSource);
+		$this->creationBiere($idTypeAliment, $idDestination, $idSource);
 	}
 
 	private function calculQualite() {
@@ -279,7 +277,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 		return $idTypeAliment;
 	}
 
-	private function creationBiere($idTypeAliment, $nbBieres, $idDestination, $idSource) {
+	private function creationBiere($idTypeAliment, $idDestination, $idSource) {
 		if ($idDestination == "echoppe") {
 			$prefix = "echoppe";
 			Zend_Loader::loadClass("EchoppeAliment");
