@@ -321,7 +321,8 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 			$idEffetHobbit = null;
 
 			if ($idTypeAliment == TypeAliment::ID_TYPE_STOUT) {
-				$idEffetHobbit = Bral_Util_Effets::ajouteEtAppliqueEffetHobbit(null, Bral_Util_Effets::CARACT_FOR_AGI_VIG_SAG, Bral_Util_Effets::TYPE_BONUS, Bral_Util_De::get_1d3(), (floor($this->view->user->niveau_hobbit / 10) + 1) * 4, 'Lovely day for a stout !');
+				// la valeur est calculée sur l'application de l'effet
+				$idEffetHobbit = Bral_Util_Effets::ajouteEtAppliqueEffetHobbit(null, Bral_Util_Effets::CARACT_STOUT, Bral_Util_Effets::TYPE_BONUS, Bral_Util_De::get_1d3(), 0, 'Lovely day for a stout !');
 			}
 				
 			$data = array(

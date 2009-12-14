@@ -29,6 +29,7 @@ class Bral_Util_Effets {
 	const CARACT_DEFENSE = 'DEF';
 	const CARACT_ATT_DEG_DEF = 'ATTDEGDEF';
 	const CARACT_FOR_AGI_VIG_SAG = 'FORAGIVIGSAG';
+	const CARACT_STOUT = 'STOUT';
 
 	public static function ajouteEtAppliqueEffetHobbit($idHobbit, $caract, $type, $nbTour, $bm, $texte = null) {
 		Zend_Loader::loadClass("EffetHobbit");
@@ -46,8 +47,9 @@ class Bral_Util_Effets {
 			'nb_tour_restant_effet_hobbit' => $effet["nb_tour_restant"],
 			'bm_type_effet_hobbit' => $effet["bm_type"], 
 			'texte_effet_hobbit' => $texte,
+			'texte_calcule_effet_hobbit' => null,
 		);
-		$idEffetHobbit = $effetHobbitTable->insert($data);
+		$effet["id_effet_hobbit"] = $effetHobbitTable->insert($data);
 
 		if ($idHobbit != null) {
 			$hobbitTable = new Hobbit();
@@ -82,6 +84,7 @@ class Bral_Util_Effets {
 					"bm_type" => $e["bm_type_effet_hobbit"],
 					"bm_effet_hobbit" => $e["bm_effet_hobbit"],
 					"texte_effet_hobbit" => $e["texte_effet_hobbit"],
+					"texte_calcule_effet_hobbit" => $e["texte_calcule_effet_hobbit"],
 			);
 
 			$retourEffet = null;
@@ -191,6 +194,39 @@ class Bral_Util_Effets {
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur ATT apres = ".$hobbitCible->bm_attaque_hobbit);
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur DEF apres = ".$hobbitCible->bm_degat_hobbit);
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur DEF apres = ".$hobbitCible->bm_defense_hobbit);
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur ATT_DEG_DEF");
+		} else if ($effet["caracteristique"] == self::CARACT_STOUT) { // Lovely day for a Stout
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur FOR_AGI_VIG_SAG");
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur FOR avant = ".$hobbitCible->force_bm_hobbit);
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur AGI avant = ".$hobbitCible->agilite_bm_hobbit);
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur VIG avant = ".$hobbitCible->vigueur_bm_hobbit);
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur SAG avant = ".$hobbitCible->sagesse_bm_hobbit);
+			$bmForce = ($hobbitCible->force_base_hobbit + 1) * 4;
+			$bmAgilite = ($hobbitCible->agilite_base_hobbit + 1) * 4;
+			$bmVigueur = ($hobbitCible->vigueur_base_hobbit + 1) * 4;
+			$bmSagesse = ($hobbitCible->sagesse_base_hobbit + 1) * 4;
+				
+			$hobbitCible->force_bm_hobbit = $hobbitCible->force_bm_hobbit + $bmForce;
+			$hobbitCible->agilite_bm_hobbit = $hobbitCible->agilite_bm_hobbit + $bmAgilite;
+			$hobbitCible->vigueur_bm_hobbit = $hobbitCible->vigueur_bm_hobbit + $bmVigueur;
+			$hobbitCible->sagesse_bm_hobbit = $hobbitCible->sagesse_bm_hobbit + $bmSagesse;
+			$texte = "Force : +".$bmForce;
+			$texte .= ", Agilité : +".$bmAgilite;
+			$texte .= ", Vigueur : +".$bmVigueur;
+			$texte .= ", Sagesse : +".$bmSagesse;
+				
+			$effetHobbitTable = new EffetHobbit();
+			$data = array(
+				'texte_calcule_effet_hobbit' => $texte,
+			);
+			$where = 'id_effet_hobbit = '.$effet["id_effet_hobbit"];
+			$effetHobbitTable->update($data, $where);
+			$retourEffet["texte_calcule_effet_hobbit"] = $texte;
+
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur FOR avant = ".$hobbitCible->force_bm_hobbit);
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur AGI avant = ".$hobbitCible->agilite_bm_hobbit);
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur VIG avant = ".$hobbitCible->vigueur_bm_hobbit);
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur SAG avant = ".$hobbitCible->sagesse_bm_hobbit);
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur ATT_DEG_DEF");
 		} else {
 			throw new Zend_Exception("Bral_Util_Effets - appliqueEffetSurHobbit - type effet non gere =".$effet["caracteristique"]);
