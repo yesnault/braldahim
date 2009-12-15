@@ -23,6 +23,32 @@ class EffetHobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
+	function findByIdHobbitCibleAndTypeEffet($idHobbit, $tabType) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('effet_hobbit', '*')
+		->where('id_fk_hobbit_cible_effet_hobbit = ?', intval($idHobbit));
+
+		$nomChamp = 'caract_effet_hobbit';
+		$liste = "";
+		if (count($tabType) < 1) {
+			$liste = "";
+		} else {
+			foreach($tabType as $id) {
+				if ((int) $id."" == $id."") {
+					if ($liste == "") {
+						$liste = $id;
+					} else {
+						$liste = $liste." OR ".$nomChamp."=".$id;
+					}
+				}
+			}
+		}
+		$select->where($nomChamp .'='. $liste);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
 	function findByIdEffetHobbit($idEffetHobbit) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -47,7 +73,7 @@ class EffetHobbit extends Zend_Db_Table {
 		if ($resultat != null) {
 			$resultat["nb_tour_restant_effet_hobbit"] = $resultat["nb_tour_restant_effet_hobbit"] - 1;
 			Bral_Util_Log::potion()->debug('EffetHobbit - enleveUnTour - potion '.$effet["id_effet_hobbit"].' tour(s) restant(s)='.$resultat["nb_tour_restant_effet_hobbit"]);
-				
+
 			$where = 'id_effet_hobbit = '.intval($effet["id_effet_hobbit"]);
 			if ($resultat["nb_tour_restant_effet_hobbit"] < 0) {
 				Bral_Util_Log::potion()->debug('EffetHobbit - enleveUnTour - suppression de l\'effet '.$effet["id_effet_hobbit"].' de la table EffetHobbit');

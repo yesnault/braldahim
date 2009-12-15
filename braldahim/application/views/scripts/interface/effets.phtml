@@ -73,6 +73,10 @@
 							<? if ($e["effet"]["texte_effet_hobbit"]) : ?>
 								<br></i><?=$e["effet"]["texte_effet_hobbit"]?></i>
 							<? endif;?>
+						<? if ($e["effet"]["actif"] == false):?>
+							   Effet non cumulable donc non actif.
+						<? endif;?>
+						<hr>
 						</td>
 					</tr>
 					<? endforeach; ?>

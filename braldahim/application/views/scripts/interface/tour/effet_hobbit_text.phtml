@@ -15,7 +15,12 @@
 				<?=$e["effet"]["caracteristique"]?>
 			<? endif;?>
 		<? endif;?>
-		et <?=$e["retourEffet"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["retourEffet"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>.<br />
+		et <?=$e["retourEffet"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["retourEffet"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> 
+		restant<?=$s ?>.
+		<? if ($e["effet"]["actif"] == false):?>
+			-> Effet non cumulable donc non actif.
+		<? endif;?>
+		<br />
 	<? endforeach; ?>
 	<br />
 <? endif; ?>
