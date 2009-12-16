@@ -36,14 +36,14 @@ class EffetHobbit extends Zend_Db_Table {
 		} else {
 			foreach($tabType as $caract) {
 				if ($liste == "") {
-					$liste = $caract;
+					$liste = "'".$caract."'";
 				} else {
-					$liste = $liste." OR ".$nomChamp."=".$caract;
+					$liste = $liste." OR ".$nomChamp." like '".$caract."'";
 				}
 			}
 		}
 		if ($liste != "") {
-			$select->where($nomChamp .'='. $liste);
+			$select->where($nomChamp .' like '. $liste);
 		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
