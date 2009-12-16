@@ -72,6 +72,11 @@
 			Vous &ecirc;tes maintenant 
 			<?=$this->escape($this->user->prenom_hobbit);?>  <?=$this->escape($this->user->nom_hobbit);?>, <?=$this->user->titre_courant_hobbit?><br><br>
 		<? endif;?>
+		
+		<? if ($this->user->niveau_hobbit < 11) : ?>
+			Pour ce passage de niveau, vous avez gagné <?=($this->user->niveau_hobbit*50)?> castars, 
+			directement placés à la banque dans votre coffre.<br><br>
+		<? endif;?>
 	<? endif; ?>
 	
 	<? if ($this->finMatchSoule === true): ?>
