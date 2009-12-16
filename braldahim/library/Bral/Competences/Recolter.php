@@ -84,15 +84,11 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." idDestination impossible : ".$idDestination);
 		}
 
-		// calcul des jets
-		$this->calculJets();
-
-		if ($this->view->okJet1 === true) {
-			$this->recolter($idDestination);
-			$idType = $this->view->config->game->evenements->type->competence;
-			$details = "[h".$this->view->user->id_hobbit."] a récolté un champ";
-			$this->setDetailsEvenement($details, $idType);
-		}
+		$this->recolter($idDestination);
+		$idType = $this->view->config->game->evenements->type->competence;
+		$details = "[h".$this->view->user->id_hobbit."] a récolté un champ";
+		$this->setDetailsEvenement($details, $idType);
+		$this->setEvenementQueSurOkJet1(false);
 
 		$this->calculPx();
 		$this->calculBalanceFaim();
@@ -112,7 +108,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("TypeIngredient");
 		$typeIngredientTable = new TypeIngredient();
 		$typeIngredient = $typeIngredientTable->findById($typeGraine->id_fk_type_ingredient_type_graine);
-		
+
 		if ($typeGraine->type_type_graine == "tabac") {
 			Zend_Loader::loadClass("TypeTabac");
 			$typeTabacTable = new TypeTabac();
