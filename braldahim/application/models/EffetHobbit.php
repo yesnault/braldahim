@@ -34,17 +34,17 @@ class EffetHobbit extends Zend_Db_Table {
 		if (count($tabType) < 1) {
 			$liste = "";
 		} else {
-			foreach($tabType as $id) {
-				if ((int) $id."" == $id."") {
-					if ($liste == "") {
-						$liste = $id;
-					} else {
-						$liste = $liste." OR ".$nomChamp."=".$id;
-					}
+			foreach($tabType as $caract) {
+				if ($liste == "") {
+					$liste = $caract;
+				} else {
+					$liste = $liste." OR ".$nomChamp."=".$caract;
 				}
 			}
 		}
-		$select->where($nomChamp .'='. $liste);
+		if ($liste != "") {
+			$select->where($nomChamp .'='. $liste);
+		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
