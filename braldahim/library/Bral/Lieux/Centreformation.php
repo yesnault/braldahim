@@ -84,6 +84,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 						"description" => $m->description_metier,
 						"construction_charrette" => $m->construction_charrette_metier,
 						"construction_echoppe" => $m->construction_echoppe_metier,
+						"niveau_min_metier" => $m->niveau_min_metier,
 					);
 				}
 			}
@@ -152,7 +153,7 @@ class Bral_Lieux_Centreformation extends Bral_Lieux_Lieu {
 			$nouveau = false;
 			if (count($this->_tabNouveauMetiers) > 0) {
 				foreach ($this->_tabNouveauMetiers as $t) {
-					if ($idNouveauMetier == $t["id_metier"]) {
+					if ($idNouveauMetier == $t["id_metier"] && $this->view->user->niveau_hobbit >= $t["niveau_min_metier"]) {
 						$nouveau = true;
 						$nomMetier = $t["nom"];
 						$idNouveauMetier = $t["id_metier"];
