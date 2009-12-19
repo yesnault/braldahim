@@ -352,7 +352,7 @@ abstract class Bral_Competences_Produire extends Bral_Competences_Competence {
 					break;
 				case "plante" :
 					$echoppePartiePlanteTable = new EchoppePartieplante();
-					$data = array('quantite_preparee_echoppe_partieplante' => -$c["cout"],
+					$data = array('quantite_preparee_echoppe_partieplante' => - floor($c["cout"] / $coef),
 						  'id_fk_type_echoppe_partieplante' => $c["id_type_partieplante"],
 						  'id_fk_type_plante_echoppe_partieplante' => $c["id_type_plante"],
 						  'id_fk_echoppe_echoppe_partieplante' => $this->echoppeCourante["id_echoppe"]);
