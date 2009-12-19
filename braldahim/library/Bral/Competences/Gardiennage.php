@@ -108,8 +108,8 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		$jour = $break[2];
 		$mois = $break[1];
 		$annee = $break[0];
-		$dernierJour = date("Y-m-d", mktime(0, 0, 0, $mois  , $jour+$nbJour, $annee));
-		$dernierJourTexte = date("d/m/Y", mktime(0, 0, 0, $mois, $jour+$nbJour, $annee));
+		$dernierJour = date("Y-m-d", mktime(0, 0, 0, $mois  , $jour+$nbJour-1, $annee));
+		$dernierJourTexte = date("d/m/Y", mktime(0, 0, 0, $mois, $jour+$nbJour-1, $annee));
 		$premierJourTexte = date("d/m/Y", mktime(0, 0, 0, $mois, $jour, $annee));
 		
 		$gardiennageTable = new Gardiennage();
@@ -128,7 +128,7 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit;
 		$message .= " (".$this->view->user->id_hobbit.") vous confie son hobbit.".PHP_EOL;
 		$message .= " Premier jour de garde : ".$premierJourTexte.PHP_EOL;
-		$message .= " Dernier jour de garde : ".$dernierJourTexte.PHP_EOL;
+		$message .= " Dernier jour de garde (inclut) : ".$dernierJourTexte.PHP_EOL;
 		$message .= " Nombre de jours : ".$nbJour.PHP_EOL;
 		$message .= " Commentaire : ".$commentaire.PHP_EOL;
 		
