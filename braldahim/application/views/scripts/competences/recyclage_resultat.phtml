@@ -1,6 +1,8 @@
 <? include("commun_text_resultat.phtml") ?>
 <? if ($this->okJet1 === true): ?>
-	Vous avez recycl&eacute; votre &eacute;quipement ce qui a eu pour effet de le d&eacute;truire !<br /><br />
+	Vous avez recycl&eacute; votre &eacute;quipement ce qui a eu pour effet de le d&eacute;truire !<br />
+	Jet de recyclage effectué : <?=$this->jetRecyclage ?><br />
+	<br />
 	<?if ($this->nbPlancheLaban > 0 || $this->nbCuirLaban > 0 || $this->nbFourrureLaban > 0 || count($this->mineraiLaban) > 0 ):?> 
 		Vous avez r&eacute;cup&eacute;r&eacute; dans votre laban : <br />
 		<? if ($this->nbPlancheLaban > 0): ?>

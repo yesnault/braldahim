@@ -232,6 +232,7 @@ class Bral_Competences_Recyclage extends Bral_Competences_Competence {
 		$this->view->nbFourrureTerre = $nbFourrureTerre;
 		$this->view->nbPlancheTerre = $nbPlancheTerre;
 		$this->view->mineraiTerre = $tabMineraiTerre;
+		$this->view->jetRecyclage = $jetSag;
 
 		$details = "[h".$this->view->user->id_hobbit."] a recyclé la pièce d'équipement n°".$idEquipement;
 		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_DESTRUCTION_ID, $idEquipement, $details);
