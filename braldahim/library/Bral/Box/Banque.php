@@ -152,6 +152,7 @@ class Bral_Box_Banque extends Bral_Box_Box {
 					"type" => $m["nom_type_minerai"],
 					"quantite" => $m["quantite_lingots_coffre_minerai"],
 					"poids" => $m["quantite_lingots_coffre_minerai"] * Bral_Util_Poids::POIDS_LINGOT,
+					"estLingot" => true,
 				);
 					
 				if (isset($tabMetiers["forgeron"])) {
