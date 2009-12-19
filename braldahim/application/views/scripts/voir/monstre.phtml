@@ -7,13 +7,16 @@
 <? if ($this->connu == false) : ?>
 	<ul class="titre textalic textsizea">Monstre Inconnu</ul>
 <? else : ?>
-    <ul class="titre textalic textsizea">Monstre n&deg; <?=$this->monstre["id_monstre"] ?>, 
+    <ul class="titre textalic textsizea">
+    <?=$this->monstre["nom_type_monstre"] ?> 
     <? if ($this->monstre["genre_type_monstre"] == 'feminin') : ?>
     	<?=$this->monstre["nom_taille_f_monstre"] ?>
     <? else: ?>
     	<?=$this->monstre["nom_taille_m_monstre"] ?>
     <? endif; ?>
-    <?=$this->monstre["nom_type_monstre"] ?>
+     </ul>
+     <ul class="titre textalic textsizec">
+     Monstre n&deg; <?=$this->monstre["id_monstre"] ?>
      </ul>
 	&nbsp;
 	<div class="contenu">
