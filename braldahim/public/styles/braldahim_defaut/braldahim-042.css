@@ -1100,7 +1100,7 @@ td.champ2d.jachere { background: url('/public/styles/braldahim_defaut/images/cha
 table.vue2d {
 	border: solid #777;
 	text-align: center;
-	border-spacing: 1;
+	border-spacing: 1px;
 	border-width: 1pt;
 }
 
@@ -1108,6 +1108,8 @@ td.vue2d {
 	border-style: solid;
 	border-color: #eeeeee;
 	border-spacing: 0;
+	border-spacing: 0px;
+	border-collapse: collapse; 
 	border-width: 0.0pt;
 	font-size: 7pt;
 	vertical-align: top;
@@ -1117,7 +1119,7 @@ td.vue2d {
 }
 
 td.vue2d.actuelle {
-	border-width: 2px; 
+	border-width: 1px; 
 	border-style: solid;
 	border-color:#ff6666;
 	width: 60px;
@@ -1166,12 +1168,13 @@ td.vue2d.hetres-gr { background: url('/public/styles/braldahim_defaut/images/vue
 	z-index: 100;
 }
 
-div.cases { width:64px; }
-div.cases.actuelle { width:30px; }
+div.cases { width:64px; padding: 0px;}
+div.cases.actuelle { width:30px; padding: 0px;}
 
 table.cases {
 	padding: 0px;
 	border-spacing: 0px;
+	border-collapse: collapse; 
 	width:64px;
 }
 
@@ -1182,6 +1185,7 @@ table.cases.actuelle {
 td.cases {
 	width: 32px;
 	height: 32px;
+	padding:0px;
 }
 
 td.cases.actuelle {
