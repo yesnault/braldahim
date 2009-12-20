@@ -29,6 +29,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("Charrette");
 			Zend_Loader::loadClass("Echoppe");
 			Zend_Loader::loadClass("Champ");
+			Zend_Loader::loadClass("Crevasse");
 			Zend_Loader::loadClass("Element");
 			Zend_Loader::loadClass("ElementAliment");
 			Zend_Loader::loadClass("ElementEquipement");
@@ -200,6 +201,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$champTable = new Champ();
 		$champs = $champTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($champTable);
+		$crevasseTable = new Crevasse();
+		$crevasses = $crevasseTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position, 'oui');
+		unset($crevasseTable);
 		$echoppeTable = new Echoppe();
 		$echoppes = $echoppeTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($echoppeTable);
@@ -303,6 +307,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabCastars = null;
 				$tabCharrettes = null;
 				$tabChamps = null;
+				$tabCrevasses = null;
 				$tabEchoppes = null;
 				$tabElements = null;
 				$tabElementsEquipements = null;
@@ -396,6 +401,14 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						foreach($champs as $e) {
 							if ($display_x == $e["x_champ"] && $display_y == $e["y_champ"]) {
 								$tabChamps[] = array("id_champ" => $e["id_champ"], "nom_champ" => $e["nom_champ"], "nom_hobbit" => $e["nom_hobbit"], "prenom_hobbit" => $e["prenom_hobbit"], "id_hobbit" => $e["id_hobbit"]);
+							}
+						}
+					}
+
+					if ($crevasses != null) {
+						foreach($crevasses as $c) {
+							if ($display_x == $c["x_crevasse"] && $display_y == $c["y_crevasse"]) {
+								$tabCrevasses[] = array("id_crevasse" => $c["id_crevasse"]);
 							}
 						}
 					}
@@ -697,6 +710,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if (count($tabRoutes) >= 1) {
 						$css .= "-gr";
 					}
+					if (count($tabCrevasses) >= 1) {
+						$css .= "-crevasse";
+					}
 				}
 
 				if ($this->view->centre_x == $display_x && $this->view->centre_y == $display_y) {
@@ -722,6 +738,8 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"cadavres" => $tabCadavres,
 					"n_champs" => count($tabChamps),
 					"champs" => $tabChamps,
+					"n_crevasses" => count($tabCrevasses),
+					"crevasses" => $tabCrevasses,
 					"n_echoppes" => count($tabEchoppes),
 					"echoppes" => $tabEchoppes,
 					"n_castars" => count($tabCastars),

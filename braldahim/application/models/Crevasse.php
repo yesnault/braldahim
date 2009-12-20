@@ -40,7 +40,7 @@ class Crevasse extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z, $estDecouverte = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('crevasse', '*')
@@ -49,6 +49,9 @@ class Crevasse extends Zend_Db_Table {
 		->where('y_crevasse >= ?',$y_min)
 		->where('y_crevasse <= ?',$y_max)
 		->where('z_crevasse = ?',$z);
+		if ($estDecouverte != null) {
+			$select->where('est_decouverte_crevasse like ?', $estDecouverte);
+		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

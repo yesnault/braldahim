@@ -21,6 +21,14 @@ class Bral_Util_Crevasse {
 		$nbCrevasses = $crevasseTable->countByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
 
 		if ($nbCrevasses > 0) {
+
+			$data['est_decouverte_crevasse']  = 'oui';
+
+			$where = 'x_crevasse = '.$hobbit->x_hobbit.' AND ';
+			$where .= 'y_crevasse = '.$hobbit->y_hobbit.' AND ';
+			$where .= 'z_crevasse = '.$hobbit->z_hobbit;
+			$crevasseTable->update($data, $where);
+
 			$estCrevasseEvenement = true;
 			$hobbit->z_hobbit = $hobbit->z_hobbit - 1;
 			$hobbit->pv_restant_hobbit = $hobbit->pv_restant_hobbit - floor($hobbit->pv_restant_hobbit / 2);
@@ -28,7 +36,7 @@ class Bral_Util_Crevasse {
 				$hobbit->pv_restant_hobbit = 1;
 			}
 		}
-		
+
 		return $estCrevasseEvenement;
 	}
 }

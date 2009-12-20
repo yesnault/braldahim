@@ -1126,16 +1126,18 @@ td.vue2d.actuelle {
 	height: 60px;
 }
 
-td.vue2d.plaine { background: url('/public/styles/braldahim_defaut/images/vue/plaine.png') repeat; }
-td.vue2d.plaine-gr { background: url('/public/styles/braldahim_defaut/images/vue/plaine-gr.png') repeat; }
-td.vue2d.gazon { background: url('/public/styles/braldahim_defaut/images/vue/gazon.png') repeat; }
-td.vue2d.gazon-gr { background: url('/public/styles/braldahim_defaut/images/vue/gazon-gr.png') repeat;}
-td.vue2d.marais { background: url('/public/styles/braldahim_defaut/images/vue/marais.png') repeat; }
-td.vue2d.marais-gr { background: url('/public/styles/braldahim_defaut/images/vue/marais-gr.png') repeat; }
-td.vue2d.montagne { background: url('/public/styles/braldahim_defaut/images/vue/montagne.png') repeat; }
-td.vue2d.montagne-gr { background: url('/public/styles/braldahim_defaut/images/vue/montagne-gr.png') repeat;}
-td.vue2d.caverne { background: url('/public/styles/braldahim_defaut/images/vue/caverne.png') repeat;}
-td.vue2d.caverne-gr { background: url('/public/styles/braldahim_defaut/images/vue/caverne-gr.png') repeat;}
+td.vue2d.plaine { background: url('/public/styles/braldahim_defaut/images/vue/environnement/plaine.png') repeat; }
+td.vue2d.plaine-gr { background: url('/public/styles/braldahim_defaut/images/vue/environnement/plaine-gr.png') repeat; }
+td.vue2d.gazon { background: url('/public/styles/braldahim_defaut/images/vue/environnement/gazon.png') repeat; }
+td.vue2d.gazon-gr { background: url('/public/styles/braldahim_defaut/images/vue/environnement/gazon-gr.png') repeat;}
+td.vue2d.marais { background: url('/public/styles/braldahim_defaut/images/vue/environnement/marais.png') repeat; }
+td.vue2d.marais-gr { background: url('/public/styles/braldahim_defaut/images/vue/environnement/marais-gr.png') repeat; }
+td.vue2d.montagne { background: url('/public/styles/braldahim_defaut/images/vue/environnement/montagne.png') repeat; }
+td.vue2d.montagne-gr { background: url('/public/styles/braldahim_defaut/images/vue/environnement/montagne-gr.png') repeat;}
+td.vue2d.caverne { background: url('/public/styles/braldahim_defaut/images/vue/environnement/caverne.png') repeat;}
+td.vue2d.caverne-gr { background: url('/public/styles/braldahim_defaut/images/vue/environnement/caverne-gr.png') repeat;}
+td.vue2d.caverne-crevasse { background: url('/public/styles/braldahim_defaut/images/vue/environnement/caverne-crevasse.png') repeat;}
+td.vue2d.caverne-gr-crevasse { background: url('/public/styles/braldahim_defaut/images/vue/environnement/caverne-gr-crevasse.png') repeat;}
 
 td.vue2d.route { background: url('/public/styles/braldahim_defaut/images/vue/route.png') repeat; }
 
