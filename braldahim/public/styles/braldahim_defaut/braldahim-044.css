@@ -327,6 +327,12 @@ span.id_hobbit {
 	margin: 0pt 5px;
 }
 
+.xb_t3.chargement, .xb_t4.chargement, .xb_t5.chargement, .xb_t6.chargement, .xb_t7.chargement, 
+.xb_b3.chargement, .xb_b4.chargement, .xb_b5.chargement, .xb_b6.chargement, .xb_b7.chargement,
+.inner.chargement  {
+	background: #739141 none repeat scroll 0%;
+}
+
 .xb_b3 {
 	background: #e7c57b none repeat scroll 0%;
 	height: 1px;
