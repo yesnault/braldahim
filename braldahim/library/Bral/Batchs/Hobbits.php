@@ -23,7 +23,6 @@ class Bral_Batchs_Hobbits extends Bral_Batchs_Batch {
 		return $retour;
 	}
 
-
 	private function preventionSuppression() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hobbits - preventionSuppression - enter -");
 		Zend_Loader::loadClass("Bral_Util_Mail");
