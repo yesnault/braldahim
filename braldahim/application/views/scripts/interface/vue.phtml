@@ -12,10 +12,16 @@
 	}
 ?>
 <div class="box_contenu1 textalic">
-  &nbsp;
   <table align="center">
   	<tr>
-  		<td valign="top"><? include('vue/damier.phtml'); ?></td>
+  		<td valign="top">
+		<? if ($this->user->z_hobbit != 0) : ?>
+			<ul class="textalic textsizee">
+				<b>Vous êtes au niveau z:<?=$this->user->z_hobbit?></b>
+			</ul>
+		<? endif;?>  		
+		<? include('vue/damier.phtml'); ?>
+		</td>
   		<td valign="top"><img src="http://www.jeuxweb.org/images/stories/publicite/banmodel_120x600.gif" /></td>
   	</tr>
   </table>

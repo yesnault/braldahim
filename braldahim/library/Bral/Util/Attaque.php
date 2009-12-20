@@ -408,7 +408,7 @@ class Bral_Util_Attaque {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculAttaqueHobbitRiposte - exit -");
 	}
 
-	public static function attaqueMonstre(&$hobbitAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, $degatCase, $tir=false, $riposte = false) {
+	public static function attaqueMonstre(&$hobbitAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, $view, $degatCase, $tir=false, $riposte = false) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - enter -");
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetAttaquant=".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetCible=".$jetCible);
@@ -572,7 +572,7 @@ class Bral_Util_Attaque {
 
 				$retourAttaque["mort"] = true;
 				$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
-				$retourAttaque["gains"] = $vieMonstre->mortMonstreDb($cible["id_cible"], $effetD, $effetH, $hobbitAttaquant->niveau_hobbit);
+				$retourAttaque["gains"] = $vieMonstre->mortMonstreDb($cible["id_cible"], $effetD, $effetH, $hobbitAttaquant->niveau_hobbit, $view);
 			} else {
 				if ($retourAttaque["critique"] == false) { // En cas de frappe : malus en BNS ATT : -1D3. Malus en BNS DEF : -1D6.
 					$monstre["bm_attaque_monstre"] = $monstre["bm_attaque_monstre"] - Bral_Util_De::get_1d3();
@@ -749,7 +749,7 @@ class Bral_Util_Attaque {
 		if ($estRegionPvp) {
 			self::calculDegatCaseHobbit($config, $hobbit, $degats, $retour, $view);
 		}
-		self::calculDegatCaseMonstre($config, $hobbit, $degats, $retour);
+		self::calculDegatCaseMonstre($config, $hobbit, $degats, $retour, $view);
 		$retour["n_cible"] = count($retour["hobbitTouches"]) + count($retour["monstreTouches"]);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatCase - exit -");
 		return $retour;
@@ -778,7 +778,7 @@ class Bral_Util_Attaque {
 		return $retour;
 	}
 
-	public static function calculDegatCaseMonstre($config, $hobbit, $degats, &$retour) {
+	public static function calculDegatCaseMonstre($config, $hobbit, $degats, &$retour, $view) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatCaseMonstre - enter -");
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		$monstreTable = new Monstre();
@@ -792,7 +792,7 @@ class Bral_Util_Attaque {
 		$i = 0;
 		foreach($monstres as $m) {
 			$retour["monstreTouches"][$i]["monstre"] = $m;
-			$retour["monstreTouches"][$i]["retourAttaque"] = Bral_Util_Attaque::attaqueMonstre($hobbit, $m, $jetAttaquant, $jetCible, $jetsDegat, true);
+			$retour["monstreTouches"][$i]["retourAttaque"] = Bral_Util_Attaque::attaqueMonstre($hobbit, $m, $jetAttaquant, $jetCible, $jetsDegat, $view, true);
 			$i++;
 		}
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculDegatCaseMonstre - exit -");

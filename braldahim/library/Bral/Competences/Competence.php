@@ -464,7 +464,7 @@ abstract class Bral_Competences_Competence {
 		$monstreRowset = $monstreTable->findById($idMonstre);
 		$monstre = $monstreRowset;
 		$jetCible = Bral_Util_Attaque::calculJetCibleMonstre($monstre);
-		$retourAttaque = Bral_Util_Attaque::attaqueMonstre(&$hobbitAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, false, $tir);
+		$retourAttaque = Bral_Util_Attaque::attaqueMonstre(&$hobbitAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, $this->view, false, $tir);
 		$this->detailEvenement = $retourAttaque["details"];
 		$this->idTypeEvenement = $retourAttaque["typeEvenement"];
 		$this->view->estQueteEvenement = $retourAttaque["etape"];

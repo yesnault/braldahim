@@ -325,7 +325,7 @@ class Bral_Monstres_VieMonstre {
 	 * Mort d'un monstre : mise à jour table monstre
 	 * Drop Rune
 	 */
-	public function mortMonstreDb($id_monstre, $effetMotD, $effetMotH, $niveauHobbit) {
+	public function mortMonstreDb($id_monstre, $effetMotD, $effetMotH, $niveauHobbit, $view) {
 
 		if ($id_monstre == null || (int)$id_monstre<=0 ) {
 			throw new Zend_Exception(get_class($this)."::mortMonstreDb id_monstre inconnu:".$id_monstre);
@@ -363,7 +363,7 @@ class Bral_Monstres_VieMonstre {
 		Zend_Loader::loadClass("TailleMonstre");
 		if ($monstre["id_fk_taille_monstre"] == TailleMonstre::ID_TAILLE_BOSS) {
 			Zend_Loader::loadClass("Bral_Util_Donjon");
-			$tabGains["finDonjon"] = Bral_Util_Donjon::dropGainsEtUpdateDonjon($monstre["id_fk_donjon_monstre"], $monstre, $niveauHobbit, $effetMotD);
+			$tabGains["finDonjon"] = Bral_Util_Donjon::dropGainsEtUpdateDonjon($monstre["id_fk_donjon_monstre"], $monstre, $niveauHobbit, $effetMotD, $view);
 		}
 
 		return $tabGains;

@@ -236,7 +236,7 @@ class Bral_Util_Donjon {
 		}
 	}
 
-	public static function dropGainsEtUpdateDonjon($idDonjon, $monstre, $niveauHobbit, $effetMotD) {
+	public static function dropGainsEtUpdateDonjon($idDonjon, $monstre, $niveauHobbit, $effetMotD, $view) {
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - dropGainsEtUpdateDonjon - enter -");
 
 		Zend_Loader::loadClass("DonjonEquipe");
@@ -255,10 +255,34 @@ class Bral_Util_Donjon {
 		$where = "id_donjon_equipe = ".$donjonEquipe["id_donjon_equipe"];
 		$donjonEquipeTable->update($data, $where);
 
-		// TODO mssage à l'équipe indiquant le délais de 3 jours avant de sortir.
+		Zend_Loader::loadClass("DonjonHobbit");
+		$donjonHobbitTable = new DonjonHobbit();
+		$donjonHobbit = $donjonHobbitTable->findByIdEquipe($donjonEquipe["id_donjon_equipe"]);
 		
+		Zend_Loader::loadClass('Donjon');
+		$donjonTable = new Donjon();
+		$donjon = $donjonTable->findByIdDonjon($idDonjon);
+
+		foreach($donjonHobbit as $h) {
+			self::envoieMessageDelaiSortie($donjon, $h["id_hobbit"], $view);
+		}
+
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - dropGainsEtUpdateDonjon - exit -");
 		return true;
+	}
+
+	private static function envoieMessageDelaiSortie($donjon, $idHobbit, $view) {
+		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageDelaiSortie - enter -");
+		$message = "[Poste de Garde]".PHP_EOL.PHP_EOL;
+
+		$message .= "Bravo ! ".PHP_EOL;
+		$message .= "Vous avez réussi à vaincre le boss.".PHP_EOL.PHP_EOL;
+		$message .= " Vous avez maintenant 3 jours pour ramasser les gains tombés à";
+		$message .= " terre et vous serez ensuite automatiquement renvoyé à la capitale de la Comté.".PHP_EOL.PHP_EOL;
+
+		Bral_Util_Donjon::messageSignature($message, $donjon);
+		Bral_Util_Messagerie::envoiMessageAutomatique($donjon["id_fk_pnj_donjon"], $idHobbit, $message, $view);
+		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - envoieMessageDelaiSortie - exit -");
 	}
 
 	public static function dropGains($idDonjon, $donjonEquipe, $monstre, $niveauHobbit, $effetMotD) {
