@@ -7,3 +7,4 @@ rangs_communautes.csv : liste des rangs dans les communautées
 competences.csv : liste des compétences
 
 metiers.csv : liste des métiers
+
