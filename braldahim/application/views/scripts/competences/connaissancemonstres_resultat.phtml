@@ -17,17 +17,23 @@
 	<br />
 	Vous avez effectué cette compétence à une distance de <?=$this->distance?> de la cible.
 	<br />
-	<? if (count ($this->pister) == 0): ?>
-		Vous pouvez pister ce type de monstre !<br />
-	<? else: ?>
-		Vous ne pouvez pas encore pister ce type de monstre !<br />
-		<? if ($this->possedePister === true) : ?>
-			Il vous faut reconna&icirc;tre encore au moins : <br />
-			<? foreach ($this->pister as $p) : ?>
-				1 <?=$p['taille'] ?><br />
-			<? endforeach; ?>
+	<? if ($this->tabCDM["id_taille_monstre"] != TailleMonstre::ID_TAILLE_BOSS) : ?>
+		<? if (count ($this->pister) == 0): ?>
+			Vous pouvez pister ce type de monstre !<br />
+		<? else: ?>
+			Vous ne pouvez pas encore pister ce type de monstre !<br />
+			<? if ($this->possedePister === true) : ?>
+				Il vous faut reconna&icirc;tre encore au moins : <br />
+				<? foreach ($this->pister as $p) : ?>
+					1 <?=$p['taille'] ?><br />
+				<? endforeach; ?>
+			<? endif; ?>
 		<? endif; ?>
-	<? endif; ?>
+	<? else:?>
+		<? if ($this->possedePister === true) : ?>
+			Vous ne pouvez pas pister ce type de monstre.<br>
+		<? endif;?>
+	<? endif;?>
 	
 <? else: ?>
 	Vous avez manqu&eacute; votre reconnaissance.<br />
