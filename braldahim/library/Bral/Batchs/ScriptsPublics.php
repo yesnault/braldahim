@@ -16,15 +16,15 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - calculBatchImpl - enter -");
 		$retour = null;
 
-		$retour = $this->genereFichierPublique();
+		$retour = $this->genereFichierHobbits();
+		$retour .= $this->genereFichierCommunautes();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - calculBatchImpl - exit -");
 		return $retour;
 	}
 
-
-	private function genereFichierPublique() {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierPublique - enter -");
+	private function genereFichierHobbits() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierHobbits - enter -");
 		$retour = "";
 		Zend_Loader::loadClass("Bral_Util_Fichier");
 
@@ -32,14 +32,13 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		$hobbits = $hobbitTable->findAllJoueursAvecPnj();
 
 		$contenu = "id_hobbit;prenom_hobbit;nom_hobbit;niveau_hobbit;";
-		$contenu .= "nb_ko_hobbit;nb_hobbit_ko_hobbit;nb_plaque_hobbit;nb_hobbit_plaquage_hobbit";
-		$contenu .= "nb_monstre_kill_hobbit;id_fk_mere_hobbit;id_fk_pere_hobbit;id_fk_communaute_hobbit";
+		$contenu .= "nb_ko_hobbit;nb_hobbit_ko_hobbit;nb_plaque_hobbit;nb_hobbit_plaquage_hobbit;";
+		$contenu .= "nb_monstre_kill_hobbit;id_fk_mere_hobbit;id_fk_pere_hobbit;id_fk_communaute_hobbit;";
 		$contenu .= "id_fk_rang_communaute_hobbit;url_blason_hobbit;url_avatar_hobbit;est_pnj_hobbit";
-		
+
 		$contenu .= PHP_EOL;
-		
+
 		if (count($hobbits) > 0) {
-			//id; nom; prenom; niveau;
 			foreach ($hobbits as $h) {
 				$contenu .= $h["id_hobbit"].';';
 				$contenu .= $h["prenom_hobbit"].';';
@@ -57,14 +56,42 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 				$contenu .= $h["url_blason_hobbit"].';';
 				$contenu .= $h["url_avatar_hobbit"].';';
 				$contenu .= $h["est_pnj_hobbit"];
-				
+
 				$contenu .= PHP_EOL;
 			}
 		}
 
 		Bral_Util_Fichier::ecrire($this->config->fichier->liste_hobbits, $contenu);
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierPublique - exit -");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierHobbits - exit -");
+		return $retour;
+	}
+
+	private function genereFichierCommunautes() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierCommunautes - enter -");
+		$retour = "";
+		Zend_Loader::loadClass("Bral_Util_Fichier");
+
+		Zend_Loader::loadClass("Communaute");
+		$communauteTable = new Communaute();
+		$communautes = $communauteTable->findAll();
+
+		$contenu = "id_communaute;nom_communaute;id_fk_hobbit_gestionnaire_communaute;site_web_communaute";
+		$contenu .= PHP_EOL;
+
+		if (count($communautes) > 0) {
+			foreach ($communautes as $c) {
+				$contenu .= $c["id_communaute"].';';
+				$contenu .= $c["nom_communaute"].';';
+				$contenu .= $c["id_fk_hobbit_gestionnaire_communaute"].';';
+				$contenu .= $c["site_web_communaute"];
+				$contenu .= PHP_EOL;
+			}
+		}
+
+		Bral_Util_Fichier::ecrire($this->config->fichier->liste_communautes, $contenu);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierCommunautes - exit -");
 		return $retour;
 	}
 }
