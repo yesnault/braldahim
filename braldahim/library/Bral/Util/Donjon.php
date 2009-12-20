@@ -262,6 +262,7 @@ class Bral_Util_Donjon {
 		Zend_Loader::loadClass('Donjon');
 		$donjonTable = new Donjon();
 		$donjon = $donjonTable->findByIdDonjon($idDonjon);
+		$donjon = $donjon[0];
 
 		foreach($donjonHobbit as $h) {
 			self::envoieMessageDelaiSortie($donjon, $h["id_hobbit"], $view);
