@@ -18,6 +18,9 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 
 		$retour = $this->genereFichierHobbits();
 		$retour .= $this->genereFichierCommunautes();
+		$retour .= $this->genereFichierCommunautesRangs();
+		$retour .= $this->genereFichierCompetences();
+		$retour .= $this->genereFichierMetiers();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - calculBatchImpl - exit -");
 		return $retour;
@@ -92,6 +95,94 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		Bral_Util_Fichier::ecrire($this->config->fichier->liste_communautes, $contenu);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierCommunautes - exit -");
+		return $retour;
+	}
+
+	private function genereFichierCommunautesRangs() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierCommunautesRangs - enter -");
+		$retour = "";
+		Zend_Loader::loadClass("Bral_Util_Fichier");
+
+		Zend_Loader::loadClass("RangCommunaute");
+		$rangCommunauteTable = new RangCommunaute();
+		$rangs = $rangCommunauteTable->findAll();
+
+		$contenu = "id_communaute;id_rang_communaute;ordre_rang_communaute;nom_rang_communaute";
+		$contenu .= PHP_EOL;
+
+		if (count($rangs) > 0) {
+			foreach ($rangs as $r) {
+				$contenu .= $r["id_fk_communaute_rang_communaute"].';';
+				$contenu .= $r["id_rang_communaute"].';';
+				$contenu .= $r["ordre_rang_communaute"].';';
+				$contenu .= $r["nom_rang_communaute"];
+				$contenu .= PHP_EOL;
+			}
+		}
+
+		Bral_Util_Fichier::ecrire($this->config->fichier->liste_rangs_communautes, $contenu);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierCommunautesRangs - exit -");
+		return $retour;
+	}
+
+	private function genereFichierCompetences() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierCommunautesRangs - enter -");
+		$retour = "";
+		Zend_Loader::loadClass("Bral_Util_Fichier");
+
+		Zend_Loader::loadClass("Competence");
+		$competenceTable = new Competence();
+		$competences = $competenceTable->findAll();
+
+		$contenu = "id_competence;nom_systeme_competence;nom_competence;niveau_requis_competence;type_competence";
+		$contenu .= PHP_EOL;
+
+		if (count($competences) > 0) {
+			foreach ($competences as $c) {
+				$contenu .= $c["id_competence"].';';
+				$contenu .= $c["nom_systeme_competence"].';';
+				$contenu .= $c["nom_competence"].';';
+				$contenu .= $c["niveau_requis_competence"].';';
+				$contenu .= $c["type_competence"];
+				$contenu .= PHP_EOL;
+			}
+		}
+
+		Bral_Util_Fichier::ecrire($this->config->fichier->liste_competences, $contenu);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierCompetences - exit -");
+		return $retour;
+	}
+
+	private function genereFichierMetiers() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierMetiers - enter -");
+		$retour = "";
+		Zend_Loader::loadClass("Bral_Util_Fichier");
+
+		Zend_Loader::loadClass("Metier");
+		$metierTable = new Metier();
+		$metiers = $metierTable->findAll();
+
+		$contenu = "id_metier;nom_masculin_metier;nom_feminin_metier;nom_systeme_metier;";
+		$contenu .= "construction_echoppe_metier;niveau_min_metier";
+		$contenu .= PHP_EOL;
+
+		if (count($metiers) > 0) {
+			foreach ($metiers as $c) {
+				$contenu .= $c["id_metier"].';';
+				$contenu .= $c["nom_masculin_metier"].';';
+				$contenu .= $c["nom_feminin_metier"].';';
+				$contenu .= $c["nom_systeme_metier"].';';
+				$contenu .= $c["construction_echoppe_metier"].';';
+				$contenu .= $c["niveau_min_metier"];
+				$contenu .= PHP_EOL;
+			}
+		}
+
+		Bral_Util_Fichier::ecrire($this->config->fichier->liste_metiers, $contenu);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierMetiers - exit -");
 		return $retour;
 	}
 }

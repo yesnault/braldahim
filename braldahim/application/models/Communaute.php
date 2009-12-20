@@ -29,7 +29,8 @@ class Communaute extends Zend_Db_Table {
 	function findAll() {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('communaute', '*');
+		$select->from('communaute', '*')
+		->order('id_communaute ASC');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

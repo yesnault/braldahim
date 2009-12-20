@@ -1,6 +1,9 @@
-hobbits.csv : 
-id_hobbit;prenom_hobbit;nom_hobbit;niveau_hobbit;nb_ko_hobbit;nb_hobbit_ko_hobbit;nb_plaque_hobbit;nb_hobbit_plaquage_hobbit;nb_monstre_kill_hobbit;id_fk_mere_hobbit;id_fk_pere_hobbit;id_fk_communaute_hobbit;id_fk_rang_communaute_hobbit;url_blason_hobbit;url_avatar_hobbit;est_pnj_hobbit
+hobbits.csv : liste des hobbits, avec les personnages non joueurs (PNJ) 
 
-communautes.csv :
-id_communaute;nom_communaute;id_fk_hobbit_gestionnaire_communaute;site_web_communaute
+communautes.csv : liste des communautées
 
+rangs_communautes.csv : liste des rangs dans les communautées
+
+competences.csv : liste des compétences
+
+metiers.csv : liste des métiers
