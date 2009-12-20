@@ -13,6 +13,21 @@
 	<th>Nombre de Hobbits mis KO</th>
 	<td class="table_liste"><?=$this->monstre["nb_kill_monstre"] ?></td>
   </tr>
+  <tr class="table_liste">
+	<th colspan="2"><br><hr><ul class="titre textalic textsizeb">Description</ul></th>
+  </tr>
+  <tr class="table_liste">
+  	<td class="table_liste">
+		<img src='/public/styles/braldahim_defaut/images/type_monstre/<?=$this->monstre["id_type_monstre"]?>.png'/>
+  	</td>
+	<td class="table_liste">
+		<? if ($this->monstre["description_type_monstre"] != null) : ?>
+			<?=$this->monstre["description_type_monstre"] ?>
+		<? else:?>
+			Aucune description
+		<? endif;?>
+	</td>
+  </tr>
 </table>
 
 
