@@ -37,4 +37,15 @@ class Ville extends Zend_Db_Table {
 		$where = $this->getAdapter()->quoteInto('id_ville = ?',(int)$id);
 		return $this->fetchRow($where);
 	}
+
+	function findAllWithRegion() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('ville', '*')
+		->from('region', '*')
+		->where('ville.id_fk_region_ville = region.id_region')
+		->order(array('id_region ASC', 'id_ville ASC'));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 }

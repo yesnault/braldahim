@@ -21,6 +21,8 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		$retour .= $this->genereFichierCommunautesRangs();
 		$retour .= $this->genereFichierCompetences();
 		$retour .= $this->genereFichierMetiers();
+		$retour .= $this->genereFichierVilles();
+		$retour .= $this->genereFichierRegions();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - calculBatchImpl - exit -");
 		return $retour;
@@ -183,6 +185,72 @@ class Bral_Batchs_ScriptsPublics extends Bral_Batchs_Batch {
 		Bral_Util_Fichier::ecrire($this->config->fichier->liste_metiers, $contenu);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierMetiers - exit -");
+		return $retour;
+	}
+
+	private function genereFichierVilles() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierVilles - enter -");
+		$retour = "";
+		Zend_Loader::loadClass("Bral_Util_Fichier");
+
+		Zend_Loader::loadClass("Ville");
+		$villeTable = new Ville();
+		$villes = $villeTable->findAllWithRegion();
+
+		$contenu = "id_ville;nom_ville;est_capitale_ville;";
+		$contenu .= "x_min_ville;y_min_ville;x_max_ville;y_max_ville;id_region;nom_region";
+		$contenu .= PHP_EOL;
+
+		if (count($villes) > 0) {
+			foreach ($villes as $v) {
+				$contenu .= $v["id_ville"].';';
+				$contenu .= $v["nom_ville"].';';
+				$contenu .= $v["est_capitale_ville"].';';
+				$contenu .= $v["x_min_ville"].';';
+				$contenu .= $v["y_min_ville"].';';
+				$contenu .= $v["x_max_ville"].';';
+				$contenu .= $v["y_max_ville"].';';
+				$contenu .= $v["id_region"].';';
+				$contenu .= $v["nom_region"];
+				$contenu .= PHP_EOL;
+			}
+		}
+
+		Bral_Util_Fichier::ecrire($this->config->fichier->liste_villes, $contenu);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierVilles - exit -");
+		return $retour;
+	}
+
+	private function genereFichierRegions() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierRegions - enter -");
+		$retour = "";
+		Zend_Loader::loadClass("Bral_Util_Fichier");
+
+		Zend_Loader::loadClass("Region");
+		$regionTable = new Region();
+		$regions = $regionTable->findAll();
+
+		$contenu = "id_region;nom_region;";
+		$contenu .= "x_min_region;x_max_region;y_min_region;y_max_region;est_pvp_region";
+		$contenu .= PHP_EOL;
+
+		if (count($regions) > 0) {
+			foreach ($regions as $v) {
+				$contenu .= $v["id_region"].';';
+				$contenu .= $v["nom_region"].';';
+				$contenu .= $v["x_min_region"].';';
+				$contenu .= $v["y_min_region"].';';
+				$contenu .= $v["x_max_region"].';';
+				$contenu .= $v["y_max_region"].';';
+				$contenu .= $v["est_pvp_region"];
+				$contenu .= PHP_EOL;
+			}
+		}
+
+		Bral_Util_Fichier::ecrire($this->config->fichier->liste_regions, $contenu);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_ScriptsPublics - genereFichierRegions - exit -");
 		return $retour;
 	}
 }

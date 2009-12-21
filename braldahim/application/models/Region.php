@@ -62,7 +62,15 @@ class Region extends Zend_Db_Table {
 		->where('y_min_region <= ?',$y_max)
 		->where('y_max_region >= ?',$y_min);
 		$sql = $select->__toString();
-
+		return $db->fetchAll($sql);
+	}
+	
+	function findAll() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('region', '*')
+		->order('id_region ASC');
+		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 }
