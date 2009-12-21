@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+		<meta http-equiv="Cache-Control" content="no-cache" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<title>Braldahim - Site</title>
+		<meta name="description" content="Braldahim - Jeu Web - Hobbits" />
+		<meta name="keywords" content="jeu web, hobbits, MMO, rôle" />
+		<link href="/public/styles/braldahim-sp-001.css" media="screen" rel="Stylesheet" type="text/css" />
+		<link href="/public/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+		<link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique" href="http://jeu.braldahim.com/Feed/" />
+	</head>
+
+	<body>
+	
+	<?include("headerDiv.phtml")?>
+	
+	<div id="page">
+		<div id="header">
+			<h1><a href="/">Braldahim - Site</a></h1>
+		</div>
+		
+		<?=$this->render("menu.phtml"); ?>
+		
+		<br>
+		
+		<?=Bral_Helper_Box::haut(); ?>
+		<div class="inner">
+			<div class="contenu">
+				<?= $this->layout()->contenu ?>
+			</div>
+		</div>
+		<?=Bral_Helper_Box::bas(); ?>
+
+		<?=$this->render("footer.phtml"); ?>
+	</div>
+</body>
+</html>

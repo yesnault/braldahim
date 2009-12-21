@@ -1,0 +1,30 @@
+<div id="footer">
+  <div style="height:10px">&nbsp;</div>
+	<?=Bral_Helper_Box::haut(); ?>
+	 <div class="inner_bot">
+	 	<span id='date_heure' class=''>&nbsp;</span>
+	 	<a href="http://www.braldahim.com">www.braldahim.com</a> |
+	 	<? if (isset($this->user) && isset($this->user->email_hobbit)) : ?> 
+	 		<span id='nb_connectes' class=''>&nbsp;</span><br>
+	 	<? endif;?>
+		<a href="http://www.jeuxweb.org">Braldahim est hébergé par l'Association JeuxWeb.org ASBL</a>
+		 	
+	 	<br>
+ 		<a href="http://www.braldahim.com/abus/">Signaler un abus</a> | 
+ 		<a href="http://jeu.braldahim.com/Feed/" class="feed">Flux RSS</a>
+	 	<br>
+	 </div>
+	 <?=Bral_Helper_Box::bas(); ?>
+	
+	<? if ($this->config->tracker->enabled == "1") : ?>
+	<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+	var pageTracker = _gat._getTracker("<?=$this->config->tracker->id?>");
+	pageTracker._initData();
+	pageTracker._trackPageview();
+	</script>
+	<? endif; ?>
+</div>
