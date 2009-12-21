@@ -20,13 +20,14 @@ abstract class Bral_Scripts_Script {
 	const TYPE_STATIQUE = 'statique';
 	const TYPE_APPELS = 'appels';
 	
-	const ERREUR_01_EXCEPTION = "ERREUR-01. L'équipe est informée";
+	const ERREUR_01_EXCEPTION = "ERREUR-01. Erreur Technique, l'équipe est informée";
 	const ERREUR_02_PARAMETRES = "ERREUR-02. Paramètres incorrects";
 	const ERREUR_03_HOBBIT_INCONNU = "ERREUR-03. Hobbit inconnu";
 	const ERREUR_04_MDP_INVALIDE = "ERREUR-04. Mot de passe invalide";
 	const ERREUR_05_HOBBIT_DESACTIVE = "ERREUR-05. Hobbit désactivé ou pnj";
 	const ERREUR_06_SERVICE_TEMPORAIREMENT_DESACTIVE = "ERREUR-06. Service temporairement désactivé";
 	const ERREUR_07_SERVICE_INCONNU = "ERREUR-07. Service inconnu";
+	const ERREUR_08_VERSION_INCORRECTE = "ERREUR-08. Version incorrecte";
 	
 	protected $view = null;
 	
@@ -85,7 +86,6 @@ abstract class Bral_Scripts_Script {
 			'hostname_script' => gethostbyaddr($_SERVER['REMOTE_ADDR']),
 			'url_script' => $_SERVER["REQUEST_URI"],
 		);
-		print_r($_REQUEST);
 		$idScript = $scriptTable->insert($data);
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - preCalcul (id:".$idScript.") - exit -");
 		return $idScript;
