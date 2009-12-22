@@ -26,7 +26,7 @@ class ScriptsController extends Zend_Controller_Action {
 	}
 
 	function vueAction() {
-		$this->view->retour = Bral_Scripts_Factory::calculScript("Vue", $this->view);
+		$this->view->retour = Bral_Scripts_Factory::calculScript("Vue", $this->view, $this->_request);
 		echo $this->view->render("scripts/resultat.phtml");
 	}
 }
