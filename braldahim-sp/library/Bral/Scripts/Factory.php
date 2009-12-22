@@ -11,7 +11,10 @@
  * $LastChangedBy: $
  */
 class Bral_Scripts_Factory {
-	static function calculScript($nomSystemeAction, $view) {
+	
+	const ERREUR_07_SERVICE_INCONNU = "ERREUR-07. Service inconnu";
+	
+	static function calculScript($nomSystemeAction, $view, $request) {
 		Zend_Loader::loadClass("Bral_Scripts_Script");
 		Zend_Loader::loadClass("Bral_Util_Log");
 
@@ -25,10 +28,10 @@ class Bral_Scripts_Factory {
 		 
 		// verification que la classe de l'action existe.
 		if (($construct != null) && (class_exists($construct))) {
-			$batchClasse = new $construct ($nomSystemeAction, $view);
+			$batchClasse = new $construct ($nomSystemeAction, $view, $request);
 			return $batchClasse->calculScript();
 		} else {
-			throw new Zend_Exception("Bral_Boutique_Script action invalide: ".$nomSystemeAction);
+			return self::ERREUR_07_SERVICE_INCONNU;
 		}
 	}
 }
