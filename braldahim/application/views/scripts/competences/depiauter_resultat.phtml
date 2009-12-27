@@ -15,6 +15,13 @@
 	<? endif;?>
 	
 	<br /><br />
+	
+	<? if ($this->limitationLaban == true) : ?>
+		Vous n'avez pas eu assez de place dans votre laban pour contenir tout ce que 
+		vous avez dépiauté.
+		<br><br>
+	<? endif;?>
+	
 	<? if ($this->effetRune) :?>
 		Une rune que vous portez a eu de l'effet sur la quantit&eacute; de peau d&eacute;piaut&eacutee;.
 	<? endif; ?>

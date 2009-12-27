@@ -153,16 +153,20 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 			$this->view->nbPeau = 0;
 		}
 
+		$this->view->limitationLaban = false;
+		
 		if ($this->view->nbViande < 0) {
 			$this->view->nbViande = 0;
 		}
 
 		if ($this->view->nbPeau > $this->view->nbElementPossible) {
 			$this->view->nbPeau = $this->view->nbElementPossible;
+			$this->view->limitationLaban = true;
 		}
 
 		if ($this->view->nbViande > $this->view->nbElementPossible - $this->view->nbPeau) {
 			$this->view->nbViande = $this->view->nbElementPossible - $this->view->nbPeau;
+			$this->view->limitationLaban = true;
 		}
 
 		$labanTable = new Laban();
