@@ -86,7 +86,6 @@ abstract class Bral_Competences_Competence {
 		if ($this->view->user->niveau_hobbit > 0 && $this->view->changeNiveau == true) {
 			$tab[] = "box_titres";
 		}
-		$tab[] = "box_profil";
 		$tab[] = "box_evenements";
 		if ($this->view->finMatchSoule) {
 			$tab[] = "box_soule";
@@ -107,6 +106,7 @@ abstract class Bral_Competences_Competence {
 			Zend_Loader::loadClass("Bral_Util_Box");
 			Bral_Util_Box::calculBoxToRefresh1PA($tab);
 		}
+		$tab[] = "box_profil";
 		return $tab;
 	}
 

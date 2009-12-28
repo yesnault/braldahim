@@ -149,9 +149,9 @@ class Bral_Util_Poids {
 	public static function ajoute($poids, $n, $poidsUnitaire) {
 		$ajout = 0;
 		if ($n > 0) {
-			$ajout = $n * $poidsUnitaire;
+			$ajout = intval($n) *  floatval($poidsUnitaire);
 		}
-		return $poids + $ajout;
+		return floatval($poids + $ajout);
 	}
 
 	private static function calculPoidsTransporteElement($idHobbit, $charrette = null) {
@@ -382,8 +382,6 @@ class Bral_Util_Poids {
 		unset($table);
 		return self::ajoute(0, $nbPoigneesGraines, self::POIDS_POIGNEE_GRAINES);
 	}
-
-
 
 	private static function calculPoidsTransporteElementRune($idHobbit, $charrette = null) {
 		if ($charrette != null) {

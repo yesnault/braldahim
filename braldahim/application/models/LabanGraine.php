@@ -29,7 +29,7 @@ class LabanGraine extends Zend_Db_Table {
 	function countByIdHobbit($idHobbit) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('laban_graine', 'count(*) as nombre')
+		$select->from('laban_graine', 'sum(quantite_laban_graine) as nombre')
 		->where('id_fk_hobbit_laban_graine = ?', intval($idHobbit));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
