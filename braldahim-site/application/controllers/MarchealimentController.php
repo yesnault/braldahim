@@ -192,6 +192,9 @@ class MarchealimentController extends Zend_Controller_Action {
 				}
 				$tab[] = "<img src='/public/styles/braldahim_defaut/images/type_aliment/type_aliment_".$aliment["id_type_aliment"].".png' alt=\"".htmlspecialchars($aliment["nom"]) ."\"/>";
 				$tab[] = $e["nom_type_aliment"];
+				$tab[] = $aliment["qualite"];
+				$tab[] = $aliment["recette"];
+				$tab[] = '+'.$aliment["bbdf"].'%';
 				$tab[] = Bral_Helper_DetailAliment::afficherPrix($aliment);
 				$tab[] = Bral_Util_BBParser::bbcodeReplace($aliment["commentaire_vente_echoppe_aliment"]);
 				$dhtmlxGrid->addRow($e["id_echoppe_aliment"], $tab);
