@@ -13,19 +13,19 @@
 class Bral_Batchs_Champs extends Bral_Batchs_Batch {
 
 	public function calculBatchImpl() {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Champs - calculBatchImpl - enter -");
+		Bral_Util_Log::batchs()->notice("Bral_Batchs_Champs - calculBatchImpl - enter -");
 
 		Zend_Loader::loadClass('Champ');
 
 		$retour = null;
 		$retour .= $this->calculChamps();
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Champs - calculBatchImpl - exit -");
+		Bral_Util_Log::batchs()->notice("Bral_Batchs_Champs - calculBatchImpl - exit -");
 		return $retour;
 	}
 
 	private function calculChamps() {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Champs - calculChamp - enter -");
+		Bral_Util_Log::batchs()->notice("Bral_Batchs_Champs - calculChamp - enter -");
 		$retour = "";
 
 		// les champs semés => à récolter
@@ -45,12 +45,12 @@ class Bral_Batchs_Champs extends Bral_Batchs_Batch {
 			}
 		}
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Champs - calculChamp - exit -");
+		Bral_Util_Log::batchs()->notice("Bral_Batchs_Champs - calculChamp - exit -");
 		return $retour;
 	}
 
 	private function updateChampARecolter($champ) {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Champs - updateChampARecolter - enter -");
+		Bral_Util_Log::batchs()->notice("Bral_Batchs_Champs - updateChampARecolter - enter -");
 		$retour = "";
 
 		$champTable = new Champ();
@@ -60,19 +60,19 @@ class Bral_Batchs_Champs extends Bral_Batchs_Batch {
 		$where = 'id_champ = '.$champ["id_champ"];
 		$champTable->update($data, $where);
 
-		$retour = ' champ:'.$champ["id_champ"].'->a_recolter';
+		$retour .= ' champ:'.$champ["id_champ"].'->a_recolter';
 
 		$detailsBot = "Bonjour,".PHP_EOL.PHP_EOL."Vous avez un champ (x:".$champ["x_champ"]." y:".$champ["y_champ"].") à récolter. Si vous ne le récoltez pas avant 5 jours, il repassera en jachère et la récolte sera perdue.";
 		Zend_Loader::loadClass("Bral_Util_Messagerie");
 		$message = $detailsBot.PHP_EOL.PHP_EOL." Signé José le Faucheur".PHP_EOL."Inutile de répondre à ce message.";
 		Bral_Util_Messagerie::envoiMessageAutomatique($this->config->game->pnj->jose->id_hobbit, $champ["id_hobbit"], $message, $this->view);
 			
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Champs - updateChampARecolter - exit -");
+		Bral_Util_Log::batchs()->notice("Bral_Batchs_Champs - updateChampARecolter - exit -");
 		return $retour;
 	}
 
 	private function updateChampVersJachere($champ) {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Champs - updateChampVersJachere - enter -");
+		Bral_Util_Log::batchs()->notice("Bral_Batchs_Champs - updateChampVersJachere - enter -");
 		$retour = "";
 
 		$champTable = new Champ();
@@ -80,6 +80,7 @@ class Bral_Batchs_Champs extends Bral_Batchs_Batch {
 			'phase_champ' => 'jachere',
 			'date_seme_champ' => null,
 			'date_fin_recolte_champ' => null,
+			'date_fin_seme_champ' => null,
 			//'id_fk_type_graine_champ' => null, ==> on ne vide pas, c'est utile pour le % quantité à la prochaine action semer
 			'quantite_champ' => 0,
 		);
@@ -87,14 +88,14 @@ class Bral_Batchs_Champs extends Bral_Batchs_Batch {
 		$where = 'id_champ = '.$champ["id_champ"];
 		$champTable->update($data, $where);
 
-		$retour = ' champ:'.$champ["id_champ"].'->jachere';
+		$retour .= ' champ:'.$champ["id_champ"].'->jachere';
 		
 		$detailsBot = "Bonjour,".PHP_EOL.PHP_EOL."Votre champ (x:".$champ["x_champ"]." y:".$champ["y_champ"].") passé automatiquement en jachère. La récolte est perdue.";
 		Zend_Loader::loadClass("Bral_Util_Messagerie");
 		$message = $detailsBot.PHP_EOL.PHP_EOL." Signé José le Faucheur".PHP_EOL."Inutile de répondre à ce message.";
 		Bral_Util_Messagerie::envoiMessageAutomatique($this->config->game->pnj->jose->id_hobbit, $champ["id_hobbit"], $message, $this->view);
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Champs - updateChampVersJachere - exit -");
+		Bral_Util_Log::batchs()->notice("Bral_Batchs_Champs - updateChampVersJachere - exit -");
 		return $retour;
 	}
 }

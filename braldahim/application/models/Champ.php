@@ -108,7 +108,7 @@ class Champ extends Zend_Db_Table {
 		$select->from('champ', '*')
 		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'sexe_hobbit', 'id_hobbit'))
 		->where('hobbit.id_hobbit = champ.id_fk_hobbit_champ')
-		->where('phase_champ = ?', 'seme')
+		->where('phase_champ like ?', 'seme')
 		->where('date_fin_seme_champ <= ?', date('Y-m-d H:i:s'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -120,7 +120,7 @@ class Champ extends Zend_Db_Table {
 		$select->from('champ', '*')
 		->from('hobbit', array('nom_hobbit', 'prenom_hobbit', 'sexe_hobbit', 'id_hobbit'))
 		->where('hobbit.id_hobbit = champ.id_fk_hobbit_champ')
-		->where('phase_champ = ?', 'a_recolter')
+		->where('phase_champ like ?', 'a_recolter')
 		->where('date_fin_recolte_champ <= ?', date('Y-m-d H:i:s'));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
