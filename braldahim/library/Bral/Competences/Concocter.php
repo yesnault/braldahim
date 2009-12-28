@@ -127,6 +127,9 @@ class Bral_Competences_Concocter extends Bral_Competences_Competence {
 				$this->view->planteNomTypePartiePlante = $t["nom_type_partieplante"];
 				$idTypePartiePlante = $t["id_type"];
 				$idTypePlante = $t["id_type_plante"];
+				if ($nombre > $t["quantite_arriere"]) {
+					$nombre = $t["quantite_arriere"];
+				}
 				break;
 			}
 		}
