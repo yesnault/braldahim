@@ -92,6 +92,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 
 		$this->calculPx();
 		$this->calculBalanceFaim();
+		$this->calculPoids();
 		$this->majHobbit();
 	}
 
