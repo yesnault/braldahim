@@ -230,7 +230,7 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		$this->renderGraine();
 		$this->renderIngredient($tabMetiers, $tabLaban);
 		$this->renderTabac();
-		
+
 		$this->view->laban = $tabLaban;
 		$this->view->tabHobbitMetiers = $tabHobbitMetiers;
 		$this->view->tabMetiers = $tabMetiers;
@@ -494,9 +494,9 @@ class Bral_Box_Laban extends Bral_Box_Box {
 		$labanIngredientTable = new LabanIngredient();
 		$ingredients = $labanIngredientTable->findByIdHobbit($this->view->user->id_hobbit);
 		unset($labanIngredientTable);
-		
+
 		Zend_Loader::loadClass("TypeIngredient");
-		
+
 		foreach ($ingredients as $g) {
 			if ($g["quantite_laban_ingredient"] > 0) {
 
@@ -512,8 +512,10 @@ class Bral_Box_Laban extends Bral_Box_Box {
 						"id_type_ingredient" => $g["id_type_ingredient"],
 						"quantite" => $g["quantite_laban_ingredient"],
 						"poids" => $g["quantite_laban_ingredient"] * $g["poids_unitaire_type_ingredient"],
-					);	
-					$tabMetiers["cuisinier"]["a_afficher"] = true;
+					);
+					if (isset($tabMetiers["cuisinier"])) {
+						$tabMetiers["cuisinier"]["a_afficher"] = true;
+					}
 				}
 			}
 		}

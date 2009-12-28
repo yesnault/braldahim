@@ -547,7 +547,9 @@ class Bral_Box_Charrette extends Bral_Box_Box {
 						"quantite" => $g["quantite_charrette_ingredient"],
 						"poids" => $g["quantite_charrette_ingredient"] * $g["poids_unitaire_type_ingredient"],
 					);
-					$tabMetiers["cuisinier"]["a_afficher"] = true;
+					if (isset($tabMetiers["cuisinier"])) {
+						$tabMetiers["cuisinier"]["a_afficher"] = true;
+					}
 				}
 			}
 		}
