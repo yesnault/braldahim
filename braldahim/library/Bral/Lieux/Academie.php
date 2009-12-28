@@ -155,11 +155,7 @@ class Bral_Lieux_Academie extends Bral_Lieux_Lieu {
 	}
 
 	private function calculCoutCastars($pi) {
-		if ($pi < 50) {
-			return $pi;
-		} else {
-			return 50;
-		}
+		return $pi;
 	}
 
 	private function calculCoutAmelioration($niveau) {
