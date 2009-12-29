@@ -253,6 +253,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 		}
 
 		$this->creationBiere($idTypeAliment, $idDestination, $idSource);
+		$this->idTypeAliment = $idTypeAliment;
 	}
 
 	private function calculQualite() {
@@ -314,7 +315,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 		$alimentTable = new Aliment();
 
 		Zend_Loader::loadClass("Bral_Util_Effets");
-		
+
 		for ($i = 1; $i <= $this->view->nbBieres; $i++) {
 			$idAliment = $idsAliment->prepareNext();
 
@@ -324,7 +325,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 				// la valeur est calculée sur l'application de l'effet
 				$idEffetHobbit = Bral_Util_Effets::ajouteEtAppliqueEffetHobbit(null, Bral_Util_Effets::CARACT_STOUT, Bral_Util_Effets::TYPE_BONUS, Bral_Util_De::get_1d3(), 0, 'Lovely day for a stout !');
 			}
-				
+
 			$data = array(
 				"id_aliment" => $idAliment,
 				"id_fk_type_aliment" => $idTypeAliment,
@@ -399,5 +400,25 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 			$tab[] = 'box_charrette';
 		}
 		return $this->constructListBoxRefresh($tab);
+	}
+
+	public function calculPx() {
+		$this->view->nb_px_commun = 0;
+		$this->view->calcul_px_generique = true;
+		if ($this->view->okJet1 === true) {
+			if ($this->idTypeAliment == TypeAliment::ID_TYPE_LAGER) {
+				$gain = 1;
+			} elseif ($this->idTypeAliment == TypeAliment::ID_TYPE_ALE) {
+				$gain = 2;
+			} elseif ($this->idTypeAliment == TypeAliment::ID_TYPE_STOUT) {
+				$gain = 4;
+			} else {
+				throw new Zend_Exception("Calcul gain invalide:idTypeAliment:".$idTypeAliment);
+			}
+			$this->view->nb_px_perso = $this->competence["px_gain"] + $gain;
+		} else {
+			$this->view->nb_px_perso = 0;
+		}
+		$this->view->nb_px = floor($this->view->nb_px_perso + $this->view->nb_px_commun);
 	}
 }

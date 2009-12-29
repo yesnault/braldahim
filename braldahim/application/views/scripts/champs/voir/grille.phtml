@@ -77,6 +77,9 @@ foreach($this->tableau as $k => $case) :
 <td valign='top'>
 
 <ul class="titre textalic textsized">
+
+<? if ($this->champ["phase_champ"] != "jachere") : ?>
+
 Taupes vivantes : 
 </ul>
 <? if (count($this->taupesVivantes) > 0): ?>
@@ -106,6 +109,8 @@ Taupes détruites : <br>
 	<? endforeach;?>
 <? else: ?>
 	Aucune taupe n'est détruite.
+<? endif;?>
+
 <? endif;?>
 
 </td>

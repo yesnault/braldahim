@@ -129,6 +129,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 		if ($idDestination == "charrette") {
 			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
 		}
+		$this->quantiteN = $quantiteN;
 	}
 
 	private function calculQuantite() {
@@ -278,5 +279,12 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 
 	function getListBoxRefresh() {
 		return $this->constructListBoxRefresh(array("box_competences_communes", "box_champs", "box_laban", "box_charrette"));
+	}
+
+	public function calculPx() {
+		$this->view->nb_px_commun = 0;
+		$this->view->calcul_px_generique = true;
+		$this->view->nb_px_perso = floor($this->quantiteN / 10);
+		$this->view->nb_px = floor($this->view->nb_px_perso + $this->view->nb_px_commun);
 	}
 }

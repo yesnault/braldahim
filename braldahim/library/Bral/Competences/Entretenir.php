@@ -122,7 +122,6 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 	}
 
 	private function entretenir($x, $y) {
-
 		Zend_Loader::loadClass("ChampTaupe");
 		$champTaupeTable = new ChampTaupe();
 
@@ -142,5 +141,19 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 
 	function getListBoxRefresh() {
 		return $this->constructListBoxRefresh(array("box_competences_communes", "box_champs"));
+	}
+
+	public function calculPx() {
+		$this->view->nb_px_commun = 0;
+		$this->view->calcul_px_generique = true;
+
+		if ($this->view->etatZone["taille"] == 4) {
+			$this->view->nb_px_perso = 4;
+		} elseif ($this->view->etatZone["taille"] == 3) {
+			$this->view->nb_px_perso = 5;
+		} elseif ($this->view->etatZone["taille"] == 2) {
+			$this->view->nb_px_perso = 8;
+		}
+		$this->view->nb_px = floor($this->view->nb_px_perso + $this->view->nb_px_commun);
 	}
 }

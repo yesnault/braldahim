@@ -44,15 +44,15 @@
 				Vous avez rat&eacute; votre jet d'am&eacute;lioration : <?=$this->jet2?> %<br /><br />
 			<? endif; ?>
 		<? endif; ?>
-		<? if ($this->calcul_px_generique === true) : ?>
-			<? if ($this->nb_px == 0) : ?>
-				Vous n'avez gagn&eacute; aucun PX<br /><br /> 
-			<? else: ?>
-				Vous avez gagn&eacute; <?=$this->nb_px?> PX<br /><br />
-			<? endif; ?>
+	<? endif; ?>
+	<? if ($this->calcul_px_generique === true) : ?>
+		<? if ($this->nb_px == 0) : ?>
+			Vous n'avez gagn&eacute; aucun PX<br /><br /> 
+		<? else: ?>
+			Vous avez gagn&eacute; <?=$this->nb_px?> PX<br /><br />
 		<? endif; ?>
 	<? endif; ?>
-	
+			
 	<? if ($this->balanceFaimUtilisee === true): ?>
 		Influence sur la balance de faim : <?=$this->balance_faim ?> %<br /><br />
 	<? endif; ?>

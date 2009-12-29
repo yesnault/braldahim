@@ -82,7 +82,7 @@ class Bral_Util_Effets {
 			Zend_Loader::loadClass("Bral_Util_Effets");
 			return Bral_Util_Effets::appliqueEffetSurHobbit($effet, $hobbit, false);
 		} else {
-			return $idEffetHobbit;
+			return $effet["id_effet_hobbit"];
 		}
 	}
 

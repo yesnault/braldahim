@@ -137,17 +137,13 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 		}
 
 		// calcul des jets
-		$this->calculJets();
+		$this->calculSemerChamp($type, $idTypeGraine);
 
-		if ($this->view->okJet1 === true) {
-			$this->calculSemerChamp($type, $idTypeGraine);
-				
-			$idType = $this->view->config->game->evenements->type->competence;
-			$details = "[h".$this->view->user->id_hobbit."] a semé un champ";
-			$this->setDetailsEvenement($details, $idType);
-		}
+		$idType = $this->view->config->game->evenements->type->competence;
+		$details = "[h".$this->view->user->id_hobbit."] a semé un champ";
+		$this->setDetailsEvenement($details, $idType);
+		$this->setEvenementQueSurOkJet1(false);
 
-		$this->calculPx();
 		$this->calculBalanceFaim();
 		$this->calculPoids();
 		$this->majHobbit();
@@ -322,7 +318,7 @@ class Bral_Competences_Semer extends Bral_Competences_Competence {
 			return false;
 		}
 	}
-	
+
 	function getListBoxRefresh() {
 		return $this->constructListBoxRefresh(array("box_vue", "box_competences_communes", "box_laban", "box_charrette", "box_champs"));
 	}
