@@ -98,7 +98,7 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 					"pourcentage_init" => $c["pourcentage_init_competence"],
 				);
 			}
-			
+
 			if ($c["nom_systeme_competence"] == "entretenir") {
 				$possedeEntretenir = true;
 			}
@@ -154,8 +154,43 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 			}
 		}
 		$this->view->tableau = $tableau;
+		$this->prepareTaupes($champ);
 	}
 
+	private function prepareTaupes($champ) {
+		Zend_Loader::loadClass("ChampTaupe");
+		$champTaupeTable = new ChampTaupe();
+		$taupes = $champTaupeTable->findByIdChamp($champ["id_champ"]);
+
+		$taupesChamps = null;
+		foreach($taupes as $t) {
+			$taupesChamps[$t["numero_champ_taupe"]]['morceaux'][] = $t;
+			$taupesChamps[$t["numero_champ_taupe"]]['etat'] = 'vivante';
+		}
+
+		$taupesVivantes = array();
+		foreach($taupes as $t) {
+			if ($t["etat_champ_taupe"] == "vivant") {
+				$taupesVivantes[$t["numero_champ_taupe"]]["taille"] = $t["taille_champ_taupe"];
+			}
+		}
+
+		$taupesDetruites = array();
+		foreach($taupes as $t) {
+			if ($t["etat_champ_taupe"] == "detruit" && !array_key_exists($t["numero_champ_taupe"], $taupesVivantes)) {
+				$taupesDetruites[$t["numero_champ_taupe"]] = $t["taille_champ_taupe"];
+			}
+		}
+		
+		$this->view->taupesVivantes = $taupesVivantes;
+		$this->view->taupesDetruites = $taupesDetruites;
+		
+		$toutes = null;
+		foreach($taupes as $t) {
+			$toutes[$t["numero_champ_taupe"]][] = $t;
+		}
+		$this->view->toutes = $toutes;
+	}
 
 	function prepareFormulaire() {
 	}

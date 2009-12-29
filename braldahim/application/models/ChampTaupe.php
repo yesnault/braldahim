@@ -25,7 +25,8 @@ class ChampTaupe extends Zend_Db_Table {
 		$select->from('champ_taupe', '*')
 		->from('champ', '*')
 		->where('id_champ = ?', $idChamp)
-		->where('id_fk_champ_taupe = id_champ');
+		->where('id_fk_champ_taupe = id_champ')
+		->order('numero_champ_taupe');
 
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
