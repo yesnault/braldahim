@@ -149,16 +149,19 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 
 			if ($taupesVivantes != null) {
 				foreach($taupesVivantes as $taille => $numero) {
-					//4 => -100
-					//3 => -75
-					//2 => -50
 
-					if ($taille == 4) {
-						$quantite = $quantite - 100;
-					} elseif ($taille == 3) {
-						$quantite = $quantite - 74;
-					} elseif ($taille == 2) {
-						$quantite = $quantite - 50;
+					foreach($numero as $num => $foo) {
+						//4 => -100
+						//3 => -75
+						//2 => -50
+
+						if ($taille == 4) {
+							$quantite = $quantite - 100;
+						} elseif ($taille == 3) {
+							$quantite = $quantite - 75;
+						} elseif ($taille == 2) {
+							$quantite = $quantite - 50;
+						}
 					}
 				}
 			}

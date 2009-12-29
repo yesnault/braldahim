@@ -8,8 +8,9 @@ Vous avez récupéré <?=$this->recolte?>.<br><br>
 	La récolte a été affectée par : <br>
 	
 	<? foreach($this->taupesVivantes as $taille => $numero) : ?>
-		<? foreach($numero as $n) : ?>
-			1 taupe de taille <?=$taille?><br>
+	
+		<? foreach($numero as $num => $foo) : ?>
+			1 taupe de taille <?=$taille?> (n°<?=$num?>)<br>
 		<? endforeach;?>
 	<? endforeach;?>
 <? endif;?>
