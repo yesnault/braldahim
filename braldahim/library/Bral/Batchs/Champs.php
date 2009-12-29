@@ -58,13 +58,18 @@ class Bral_Batchs_Champs extends Bral_Batchs_Batch {
 			'phase_champ' => 'a_recolter',
 		);
 		$where = 'id_champ = '.$champ["id_champ"];
+		
+		Bral_Util_Log::batchs()->notice("Bral_Batchs_Champs - updateChampARecolter - avant maj -".$champ["id_champ"]);
 		$champTable->update($data, $where);
+		Bral_Util_Log::batchs()->notice("Bral_Batchs_Champs - updateChampARecolter - apres maj -".$champ["id_champ"]);
 
 		$retour .= ' champ:'.$champ["id_champ"].'->a_recolter';
 
 		$detailsBot = "Bonjour,".PHP_EOL.PHP_EOL."Vous avez un champ (x:".$champ["x_champ"]." y:".$champ["y_champ"].") à récolter. Si vous ne le récoltez pas avant 5 jours, il repassera en jachère et la récolte sera perdue.";
 		Zend_Loader::loadClass("Bral_Util_Messagerie");
 		$message = $detailsBot.PHP_EOL.PHP_EOL." Signé José le Faucheur".PHP_EOL."Inutile de répondre à ce message.";
+		
+		Bral_Util_Log::batchs()->notice("Bral_Batchs_Champs - updateChampARecolter - avant message mail -".$champ["id_hobbit"]);
 		Bral_Util_Messagerie::envoiMessageAutomatique($this->config->game->pnj->jose->id_hobbit, $champ["id_hobbit"], $message, $this->view);
 			
 		Bral_Util_Log::batchs()->notice("Bral_Batchs_Champs - updateChampARecolter - exit -");
