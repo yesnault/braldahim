@@ -108,7 +108,6 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." XY impossibles : ".$x_y);
 		}
 
-
 		$this->entretenir($x, $y);
 
 		$idType = $this->view->config->game->evenements->type->competence;
@@ -136,6 +135,16 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 
 		$etatZone["x"] = $x;
 		$etatZone["y"] = $y;
+
+		$this->view->taupeDetruite = false;
+
+		if ($etatZone["etat"] == ChampTaupe::ETAT_DETRUIT) {
+			$taupe = $champTaupeTable->findByIdChampNumeroTaupeVivant($this->champ["id_champ"], $etatZone["numero"]);
+			if ($taupe == null || count($taupe) < 1) {
+				$this->view->taupeDetruite = true;
+			}
+		}
+
 		$this->view->etatZone = $etatZone;
 	}
 
@@ -145,14 +154,17 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 
 	public function calculPx() {
 		$this->view->nb_px_commun = 0;
+		$this->view->nb_px_perso = 0;
 		$this->view->calcul_px_generique = true;
 
-		if ($this->view->etatZone["taille"] == 4) {
-			$this->view->nb_px_perso = 4;
-		} elseif ($this->view->etatZone["taille"] == 3) {
-			$this->view->nb_px_perso = 5;
-		} elseif ($this->view->etatZone["taille"] == 2) {
-			$this->view->nb_px_perso = 8;
+		if ($this->view->taupeDetruite == true) {
+			if ($this->view->etatZone["taille"] == 4) {
+				$this->view->nb_px_perso = 4;
+			} elseif ($this->view->etatZone["taille"] == 3) {
+				$this->view->nb_px_perso = 5;
+			} elseif ($this->view->etatZone["taille"] == 2) {
+				$this->view->nb_px_perso = 8;
+			}
 		}
 		$this->view->nb_px = floor($this->view->nb_px_perso + $this->view->nb_px_commun);
 	}

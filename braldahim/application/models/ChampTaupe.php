@@ -31,15 +31,30 @@ class ChampTaupe extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+	
+	function findByIdChampNumeroTaupeVivant($idChamp, $numero) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('champ_taupe', '*')
+		->from('champ', '*')
+		->where('id_champ = ?', $idChamp)
+		->where('id_fk_champ_taupe = id_champ')
+		->where('numero_champ_taupe = ?', $numero)
+		->where('etat_champ_taupe = ?', 'vivant')
+		->order('numero_champ_taupe');
+
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
 
 	function entretenir($data) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('champ_taupe', array('count(*) as nombre', 'id_champ_taupe', 'etat_champ_taupe', 'taille_champ_taupe'))
+		$select->from('champ_taupe', array('count(*) as nombre', 'id_champ_taupe', 'etat_champ_taupe', 'taille_champ_taupe', 'numero_champ_taupe'))
 		->where('x_champ_taupe = ?',$data["x_champ_taupe"])
 		->where('y_champ_taupe = ?',$data["y_champ_taupe"])
 		->where('id_fk_champ_taupe = ?',$data["id_fk_champ_taupe"])
-		->group(array('id_champ_taupe', 'etat_champ_taupe', 'taille_champ_taupe'));
+		->group(array('id_champ_taupe', 'etat_champ_taupe', 'taille_champ_taupe', 'numero_champ_taupe'));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -50,6 +65,7 @@ class ChampTaupe extends Zend_Db_Table {
 			$retour = array(
 				'etat' => self::ETAT_ENTRETENU,
 				'taille' => null,
+				'numero' => null,
 			);
 
 		} else { // update
@@ -67,6 +83,7 @@ class ChampTaupe extends Zend_Db_Table {
 			$retour = array(
 				'etat' => self::ETAT_DETRUIT,
 				'taille' => $resultat[0]["taille_champ_taupe"],
+				'numero' => $resultat[0]["numero_champ_taupe"],
 			);
 		}
 		return $retour;

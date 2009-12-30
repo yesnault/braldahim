@@ -7,6 +7,10 @@ Vous avez entretenu la zone x:<?=$this->etatZone["x"]?> y:<?=$this->etatZone["y"
 <? else: ?>
 	Vous avez trouvé une partie de taupe de taille <?=$this->etatZone["taille"] ?> ! <br><br>
 	
-	Consultez votre champ pour voir ce qu'il reste à trouver de cette taupe pour l'éliminer complètement.<br>
+	<? if ($this->taupeDetruite) : ?>
+		La taupe est occise.
+	<? else: ?>
+		Consultez votre champ pour voir ce qu'il reste à trouver de cette taupe pour l'éliminer complètement.<br>
+	<? endif;?>
 <? endif?>
 <br><br>

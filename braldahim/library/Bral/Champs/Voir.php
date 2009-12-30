@@ -108,7 +108,6 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 	}
 
 	private function prepareChamp($champ) {
-
 		Zend_Loader::loadClass("ChampTaupe");
 		$champTaupeTable = new ChampTaupe();
 		$taupes = $champTaupeTable->findByIdChamp($champ["id_champ"]);
@@ -154,14 +153,11 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 			}
 		}
 		$this->view->tableau = $tableau;
-		$this->prepareTaupes($champ);
+		$this->prepareTaupes($taupes);
+		$this->prepareRecolte($champ);
 	}
 
-	private function prepareTaupes($champ) {
-		Zend_Loader::loadClass("ChampTaupe");
-		$champTaupeTable = new ChampTaupe();
-		$taupes = $champTaupeTable->findByIdChamp($champ["id_champ"]);
-
+	private function prepareTaupes($taupes) {
 		$taupesChamps = null;
 		foreach($taupes as $t) {
 			$taupesChamps[$t["numero_champ_taupe"]]['morceaux'][] = $t;
@@ -190,6 +186,16 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 			$toutes[$t["numero_champ_taupe"]][] = $t;
 		}
 		$this->view->toutes = $toutes;
+	}
+	
+	private function prepareRecolte($champ) {
+		Zend_Loader::loadClass("TypeGraine");
+		$typeGraineTable = new TypeGraine();
+		$types = $typeGraineTable->findById($champ["id_fk_type_graine_champ"]);
+		if ($types == null) {
+			throw new Zend_Exception("Erreur Type Graine:".$champ["id_fk_type_graine_champ"]);
+		}
+		$this->view->typeGraine = $types->nom_type_graine;
 	}
 
 	function prepareFormulaire() {
