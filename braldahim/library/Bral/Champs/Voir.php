@@ -177,25 +177,27 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 				$taupesDetruites[$t["numero_champ_taupe"]] = $t["taille_champ_taupe"];
 			}
 		}
-		
+
 		$this->view->taupesVivantes = $taupesVivantes;
 		$this->view->taupesDetruites = $taupesDetruites;
-		
+
 		$toutes = null;
 		foreach($taupes as $t) {
 			$toutes[$t["numero_champ_taupe"]][] = $t;
 		}
 		$this->view->toutes = $toutes;
 	}
-	
+
 	private function prepareRecolte($champ) {
-		Zend_Loader::loadClass("TypeGraine");
-		$typeGraineTable = new TypeGraine();
-		$types = $typeGraineTable->findById($champ["id_fk_type_graine_champ"]);
-		if ($types == null) {
-			throw new Zend_Exception("Erreur Type Graine:".$champ["id_fk_type_graine_champ"]);
+		if ($champ["phase_champ"] != 'jachere') {
+			Zend_Loader::loadClass("TypeGraine");
+			$typeGraineTable = new TypeGraine();
+			$types = $typeGraineTable->findById($champ["id_fk_type_graine_champ"]);
+			if ($types == null) {
+				throw new Zend_Exception("Erreur Type Graine:".$champ["id_fk_type_graine_champ"]);
+			}
+			$this->view->typeGraine = $types->nom_type_graine;
 		}
-		$this->view->typeGraine = $types->nom_type_graine;
 	}
 
 	function prepareFormulaire() {
