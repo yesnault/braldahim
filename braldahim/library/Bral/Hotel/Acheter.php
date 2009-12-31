@@ -1407,6 +1407,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			$suffixe = "laban";
 		}
 
+		$prefix = $this->view->vente["objet"]["type_vente_element"];
 		$data = array(
 			"quantite_".$prefix."_".$suffixe => $this->view->vente["objet"]["quantite_vente_element"],
 		);
