@@ -98,13 +98,11 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 
 	private function recolter($idDestination) {
 
-		$quantiteN = $this->calculQuantite();
-
 		Zend_Loader::loadClass("TypeGraine");
 		$typeGraineTable = new TypeGraine();
 		$typeGraine = $typeGraineTable->findById($this->view->champ["id_fk_type_graine_champ"]);
-
-		$quantiteKg = round($quantiteN / $typeGraine->coef_poids_type_graine, 3);
+		
+		$quantiteKg = $this->calculQuantite($typeGraine);
 
 		Zend_Loader::loadClass("TypeIngredient");
 		$typeIngredientTable = new TypeIngredient();
@@ -129,10 +127,9 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 		if ($idDestination == "charrette") {
 			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
 		}
-		$this->quantiteN = $quantiteN;
 	}
 
-	private function calculQuantite() {
+	private function calculQuantite($typeGraine) {
 		$quantite = $this->view->champ["quantite_champ"];
 
 		if ($this->view->champ["deja_recolte_champ"] == 'non') {
@@ -178,9 +175,15 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 			$quantite = $this->view->champ["quantite_champ"];
 		}
 
+		$quantiteKg = round($quantite / $typeGraine->coef_poids_type_graine, 3);
+		$quantiteNJuste = floor($quantiteKg * $typeGraine->coef_poids_type_graine);
+		$quantiteKg = round($quantiteNJuste / $typeGraine->coef_poids_type_graine, 3);
+		
 		$this->view->champ["quantite_champ"] = $this->view->champ["quantite_champ"] - $quantite;
-
-		return $quantite;
+		
+		$this->quantiteN = $quantite;
+		
+		return $quantiteKg;
 	}
 
 	private function calculTransfertTabac($idDestination, $quantite, $idTypeTabac) {
