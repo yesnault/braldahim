@@ -10,7 +10,7 @@
  * $LastChangedRevision: $
  * $LastChangedBy: $
  */
-class Bral_Monstres_Competences_Morsure extends Bral_Monstres_Competences_Attaque {
+class Bral_Monstres_Competences_Piqure extends Bral_Monstres_Competences_Attaque {
 
 	public function calculJetAttaque(){}
 	public function calculDegat($estCritique){}
@@ -26,17 +26,17 @@ class Bral_Monstres_Competences_Morsure extends Bral_Monstres_Competences_Attaqu
 		}
 		$nbTours = Bral_Util_De::get_1d3() + 1;
 
-		$jetMonstre = Bral_Util_De::getLanceDe6(self::$config->game->base_vigueur + $this->monstre["vigueur_base_monstre"]);
+		$jetMonstre = Bral_Util_De::getLanceDe6(self::$config->game->base_agilite + $this->monstre["agilite_base_monstre"]);
 		$jetMonstre = $jetMonstre + $this->monstre["agilite_bm_monstre"];
 		
-		$jetHobbit = Bral_Util_De::getLanceDe6(self::$config->game->base_vigueur + $this->cible["vigueur_base_hobbit"]);
+		$jetHobbit = Bral_Util_De::getLanceDe6(self::$config->game->base_agilite + $this->cible["agilite_base_hobbit"]);
 		$jetHobbit = $jetHobbit + $this->cible["agilite_bm_hobbit"] + $this->cible["agilite_bbdf_hobbit"];
 		
 		if ($jetHobbit > $jetMonstre) {
 			$nbTours = 1;
 		}
 
-		Bral_Util_Effets::ajouteEtAppliqueEffetHobbit($this->cible["id_hobbit"], Bral_Util_Effets::CARACT_PV, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus, 'Morsure');
+		Bral_Util_Effets::ajouteEtAppliqueEffetHobbit($this->cible["id_hobbit"], Bral_Util_Effets::CARACT_AGILITE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus, 'Piqure aux Pieds');
 		$this->majEvenement($this->cible, $malus, $nbTours, $jetMonstre, $jetHobbit);
 
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - exit");
@@ -46,7 +46,7 @@ class Bral_Monstres_Competences_Morsure extends Bral_Monstres_Competences_Attaqu
 	private function majEvenement($hobbit, $malus, $nbTours, $jetMonstre, $jetHobbit) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
 		$idTypeEvenement = self::$config->game->evenements->type->attaquer;
-		$details = "[m".$this->monstre["id_monstre"]."] a mordu le hobbit [h".$hobbit["id_hobbit"]."]";
+		$details = "[m".$this->monstre["id_monstre"]."] a piqué les pieds du hobbit [h".$hobbit["id_hobbit"]."]";
 		$detailsBot = $this->getDetailsBot($malus, $nbTours, $jetMonstre, $jetHobbit);
 		Bral_Util_Evenement::majEvenementsFromVieMonstre($hobbit["id_hobbit"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $hobbit["niveau_hobbit"], $this->view);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");
@@ -55,13 +55,13 @@ class Bral_Monstres_Competences_Morsure extends Bral_Monstres_Competences_Attaqu
 	protected function getDetailsBot($malus, $nbTours, $jetMonstre, $jetHobbit) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
 		$retour = "";
-		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") vous a mordu, vous avez été influencé :";
-		$retour .= PHP_EOL."Jet du Monstre (jet de vigueur) : ".$jetMonstre;
-		$retour .= PHP_EOL."Jet de résistance (jet de vigueur) : ".$jetHobbit;
+		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") vous a piqué les pieds, vous avez été influencé :";
+		$retour .= PHP_EOL."Jet du Monstre (jet d'agilité) : ".$jetMonstre;
+		$retour .= PHP_EOL."Jet de résistance (jet d'agilité) : ".$jetHobbit;
 		if ($jetHobbit > $jetMonstre) {
-			$retour .= PHP_EOL."Vous avez résisté à la morsure, le poison porte sur seulement 1 tour.";
+			$retour .= PHP_EOL."Vous avez résisté à la piqure, l'effet porte sur seulement 1 tour.";
 		} else {
-			$retour .= PHP_EOL."Vous n'avez pas résisté à la morsure, le poison porte sur plusieurs tours.";
+			$retour .= PHP_EOL."Vous n'avez pas résisté à la piqure, l'effet porte sur plusieurs tours.";
 		}
 		$retour .= PHP_EOL."Points de vie : -".$malus;
 		$retour .= PHP_EOL."Nombre de tours : ".$nbTours;
