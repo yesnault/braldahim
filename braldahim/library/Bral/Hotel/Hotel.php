@@ -30,7 +30,30 @@ abstract class Bral_Hotel_Hotel {
 		unset($lieuxTable);
 
 		if (count($lieuRowset) <= 0) {
-			throw new Zend_Exception("Bral_Box_Hotel::nombre de lieux invalide <= 0 !");
+			//throw new Zend_Exception("Bral_Box_Hotel::nombre de lieux invalide <= 0 !");
+			// on verifie que l'on n'est pas dans une échoppe
+			Zend_Loader::loadClass("Echoppe");
+			$echoppesTable = new Echoppe();
+			$echoppeTable = new Echoppe();
+			$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
+			$tabEchoppe = null;
+			$this->idEchoppe = null;
+			$this->view->estSurEchoppe = false;
+			foreach ($echoppes as $e) {
+				if ($e["x_echoppe"] == $this->view->user->x_hobbit &&
+				$e["y_echoppe"] == $this->view->user->y_hobbit) {
+					$tabEchoppe = array('id_echoppe' => $e["id_echoppe"]);
+					$this->view->idHotel = null;
+					$this->idEchoppe = $e["id_echoppe"];
+					$this->view->nomLieu = 'Echoppe';
+					$this->view->paUtilisationHotel = 1;
+					$this->view->estSurEchoppe = true;
+					break;
+				}
+			}
+			if ($tabEchoppe == null) {
+				throw new Zend_Exception(get_class($this)." Echoppe ou hotel invalide idh:".$this->view->user->id_hobbit);
+			}
 		} elseif (count($lieuRowset) > 1) {
 			throw new Zend_Exception("Bral_Box_Hotel::nombre de lieux invalide > 1 !");
 		} elseif (count($lieuRowset) == 1) {
@@ -66,7 +89,7 @@ abstract class Bral_Hotel_Hotel {
 	function getIdEchoppeCourante() {
 		return false;
 	}
-	
+
 	public function getIdChampCourant() {
 		return false;
 	}

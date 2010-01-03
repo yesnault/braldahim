@@ -7,8 +7,13 @@
  	contenu de la vente sera directement renvoyé dans votre coffre. L'Hôtel gardera bien sûr la commission.<br>
 
  	<br />
+ 	<? if ($this->estSurEchoppe === true) : ?>
+ 		Vous pouvez vendre à l'Hôtel des Ventes des éléments créés dans votre atelier.
+ 	<? else: ?>
 	Vous pouvez vendre des &eacute;l&eacute;ments pr&eacute;sents dans votre laban <br>
- 	ou dans votre charrette si vous en avez une.<br />
+ 	ou dans votre charrette si vous en avez une.
+ 	<? endif;?>
+ 	<br />
  	
  	<? if ($this->assezDePa == false) :?>
  		Vous n'avez pas assez de PA.

@@ -82,19 +82,24 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($idTypeCourantDepart == 1) {
 			$selected = "selected";
 		}
-		$tabEndroit[1] = array("id_type_depart" => 1, "nom_systeme" => "Laban", "nom_type_depart" => "Votre laban", "selected" => $selected, "suffixe" => "laban", "box" => "box_laban");
 
-		$charretteTable = new Charrette();
-		$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+		if ($this->idEchoppe != null) {
+			$tabEndroit[1] = array("id_type_depart" => 1, "nom_systeme" => "Echoppe", "nom_type_depart" => "Votre échoppe", "selected" => $selected, "suffixe" => "echoppe", "box" => "box_echoppe");
+		} else {
+			$tabEndroit[1] = array("id_type_depart" => 1, "nom_systeme" => "Laban", "nom_type_depart" => "Votre laban", "selected" => $selected, "suffixe" => "laban", "box" => "box_laban");
 
-		$charrette = null;
-		if (count($charrettes) == 1) {
-			$charrette = $charrettes[0];
-			$selected = "";
-			if ($idTypeCourantDepart == 2) {
-				$selected = "selected";
+			$charretteTable = new Charrette();
+			$charrettes = $charretteTable->findByIdHobbit($this->view->user->id_hobbit);
+
+			$charrette = null;
+			if (count($charrettes) == 1) {
+				$charrette = $charrettes[0];
+				$selected = "";
+				if ($idTypeCourantDepart == 2) {
+					$selected = "selected";
+				}
+				$tabEndroit[2] = array("id_type_depart" => 2, "nom_systeme" => "Charrette", "nom_type_depart" => "Votre charrette", "selected" => $selected, "suffixe" => "charrette", "box" => "box_charrette", "id_charrette" => $charrette["id_charrette"]);
 			}
-			$tabEndroit[2] = array("id_type_depart" => 2, "nom_systeme" => "Charrette", "nom_type_depart" => "Votre charrette", "selected" => $selected, "suffixe" => "charrette", "box" => "box_charrette", "id_charrette" => $charrette["id_charrette"]);
 		}
 
 		$choixDepartDansListe = false;
@@ -121,25 +126,36 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 	private function prepareType($endroit) {
 		if ($this->request->get("valeur_2") != "") {
 			$idTypeCourant = Bral_Util_Controle::getValeurIntVerif($this->request->get("valeur_2"));
-			if ($idTypeCourant < 1 && $idTypeCourant > 8) {
+
+			$idTypeMax = 11;
+			if ($this->idEchoppe != null) {
+				$idTypeMax = 4;
+			}
+			if ($idTypeCourant < 1 && $idTypeCourant > $idTypeMax) {
 				throw new Zend_Exception("Bral_Hotel_Vendre Type invalide : idTypeCourant=".$idTypeCourant);
 			}
 		} else {
 			$idTypeCourant = -1;
 		}
 
-		$typesElements[1] = array("id_type_element" => 1, "selected" => $idTypeCourant, "nom_systeme" => "aliments", "nom_element" => "Aliments");
-		$typesElements[2] = array("id_type_element" => 2, "selected" => $idTypeCourant, "nom_systeme" => "equipements", "nom_element" => "Equipements");
-		$typesElements[3] = array("id_type_element" => 3, "selected" => $idTypeCourant, "nom_systeme" => "graines", "nom_element" => "Graines");
-		$typesElements[4] = array("id_type_element" => 4, "selected" => $idTypeCourant, "nom_systeme" => "ingredients", "nom_element" => "Ingrédients");
-		$typesElements[5] = array("id_type_element" => 5, "selected" => $idTypeCourant, "nom_systeme" => "materiels", "nom_element" => "Matériels");
-		$typesElements[6] = array("id_type_element" => 6, "selected" => $idTypeCourant, "nom_systeme" => "munitions", "nom_element" => "Munitions");
-		$typesElements[7] = array("id_type_element" => 7, "selected" => $idTypeCourant, "nom_systeme" => "minerais", "nom_element" => "Minerais");
-		$typesElements[8] = array("id_type_element" => 8, "selected" => $idTypeCourant, "nom_systeme" => "partiesplantes", "nom_element" => "Parties de Plantes");
-		$typesElements[9] = array("id_type_element" => 9, "selected" => $idTypeCourant, "nom_systeme" => "potions", "nom_element" => "Potions et Vernis");
-		$typesElements[10] = array("id_type_element" => 10, "selected" => $idTypeCourant, "nom_systeme" => "runes", "nom_element" => "Runes");
-		$typesElements[11] = array("id_type_element" => 11, "selected" => $idTypeCourant, "nom_systeme" => "autres", "nom_element" => "Autres Elements");
-
+		if ($this->idEchoppe != null) {
+			$typesElements[1] = array("id_type_element" => 1, "selected" => $idTypeCourant, "nom_systeme" => "aliments", "nom_element" => "Aliments");
+			$typesElements[2] = array("id_type_element" => 2, "selected" => $idTypeCourant, "nom_systeme" => "equipements", "nom_element" => "Equipements");
+			$typesElements[3] = array("id_type_element" => 3, "selected" => $idTypeCourant, "nom_systeme" => "materiels", "nom_element" => "Matériels");
+			$typesElements[4] = array("id_type_element" => 4, "selected" => $idTypeCourant, "nom_systeme" => "potions", "nom_element" => "Potions et Vernis");
+		} else {
+			$typesElements[1] = array("id_type_element" => 1, "selected" => $idTypeCourant, "nom_systeme" => "aliments", "nom_element" => "Aliments");
+			$typesElements[2] = array("id_type_element" => 2, "selected" => $idTypeCourant, "nom_systeme" => "equipements", "nom_element" => "Equipements");
+			$typesElements[3] = array("id_type_element" => 3, "selected" => $idTypeCourant, "nom_systeme" => "graines", "nom_element" => "Graines");
+			$typesElements[4] = array("id_type_element" => 4, "selected" => $idTypeCourant, "nom_systeme" => "ingredients", "nom_element" => "Ingrédients");
+			$typesElements[5] = array("id_type_element" => 5, "selected" => $idTypeCourant, "nom_systeme" => "materiels", "nom_element" => "Matériels");
+			$typesElements[6] = array("id_type_element" => 6, "selected" => $idTypeCourant, "nom_systeme" => "munitions", "nom_element" => "Munitions");
+			$typesElements[7] = array("id_type_element" => 7, "selected" => $idTypeCourant, "nom_systeme" => "minerais", "nom_element" => "Minerais");
+			$typesElements[8] = array("id_type_element" => 8, "selected" => $idTypeCourant, "nom_systeme" => "partiesplantes", "nom_element" => "Parties de Plantes");
+			$typesElements[9] = array("id_type_element" => 9, "selected" => $idTypeCourant, "nom_systeme" => "potions", "nom_element" => "Potions et Vernis");
+			$typesElements[10] = array("id_type_element" => 10, "selected" => $idTypeCourant, "nom_systeme" => "runes", "nom_element" => "Runes");
+			$typesElements[11] = array("id_type_element" => 11, "selected" => $idTypeCourant, "nom_systeme" => "autres", "nom_element" => "Autres Elements");
+		}
 		$this->view->typeElements = $typesElements;
 		$this->view->typeCourant = null;
 
@@ -379,6 +395,10 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			Zend_Loader::loadClass("LabanEquipement");
 			$table = new LabanEquipement();
 			$equipements = $table->findByIdHobbit($this->view->user->id_hobbit);
+		} elseif ($endroit["nom_systeme"] == "Echoppe") {
+			Zend_Loader::loadClass("EchoppeEquipement");
+			$table = new EchoppeEquipement();
+			$equipements = $table->findByIdEchoppe($this->idEchoppe, 'aucune');
 		} else {
 			Zend_Loader::loadClass("CharretteEquipement");
 			$table = new CharretteEquipement();
@@ -401,6 +421,9 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 						"id_fk_mot_runique" => $e["id_fk_mot_runique_equipement"], 
 						"id_fk_recette" => $e["id_fk_recette_equipement"] ,
 						"id_fk_region" => $e["id_fk_region_equipement"],
+						"nb_munition_type_equipement" => $e["nb_munition_type_equipement"],
+						"id_fk_type_munition_type_equipement" => $e["id_fk_type_munition_type_equipement"],
+						"nom_systeme_type_emplacement" => $e["nom_systeme_type_emplacement"],
 				);
 			}
 		} else {
@@ -418,12 +441,14 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		}
 
 		$idVente = $this->initVente("equipement");
-
 		$equipement = $this->view->equipements[$idEquipement];
 
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanEquipement");
 			$table = new LabanEquipement();
+		} else if ($endroit["nom_systeme"] == "Echoppe") {
+			Zend_Loader::loadClass("EchoppeEquipement");
+			$table = new EchoppeEquipement();
 		} else {
 			Zend_Loader::loadClass("CharretteEquipement");
 			$table = new CharretteEquipement();
@@ -432,13 +457,25 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		$where = "id_".$endroit["suffixe"]."_equipement=".$idEquipement;
 		$table->delete($where);
 
-		Zend_Loader::loadClass("VenteEquipement");
-		$venteEquipementTable = new VenteEquipement();
-		$data = array (
-			"id_vente_equipement" => $equipement["id_equipement"],
-			"id_fk_vente_equipement" => $idVente,
-		);
-		$venteEquipementTable->insert($data);
+		if ($equipement["nom_systeme_type_emplacement"] == 'laban' && $endroit["nom_systeme"] == "Echoppe") {
+			Zend_Loader::loadClass("VenteMunition");
+			$venteMunitionTable = new VenteMunition();
+			$data = array (
+				"id_fk_vente_munition" => $idVente,
+				"id_fk_type_vente_munition" => $equipement["id_fk_type_munition_type_equipement"],
+				"quantite_vente_munition" => $equipement["nb_munition_type_equipement"],
+			);
+			$venteMunitionTable->insert($data);
+		} else {
+			Zend_Loader::loadClass("VenteEquipement");
+			$venteEquipementTable = new VenteEquipement();
+			$data = array (
+				"id_vente_equipement" => $equipement["id_equipement"],
+				"id_fk_vente_equipement" => $idVente,
+			);
+			$venteEquipementTable->insert($data);
+		}
+
 		$this->view->objetVente = $equipement["nom"]. " n°".$equipement["id_equipement"]. " de qualité ".$equipement["qualite"];
 
 		$details = "[h".$this->view->user->id_hobbit."] a mis en vente la pièce d'équipement n°".$equipement["id_equipement"]. " à l'Hôtel des Ventes";
@@ -454,6 +491,10 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			Zend_Loader::loadClass("LabanPotion");
 			$table = new LabanPotion();
 			$potions = $table->findByIdHobbit($this->view->user->id_hobbit);
+		} elseif ($endroit["nom_systeme"] == "Echoppe") {
+			Zend_Loader::loadClass("EchoppePotion");
+			$table = new EchoppePotion();
+			$potions = $table->findByIdEchoppe($this->idEchoppe, null, 'aucune');
 		} else {
 			Zend_Loader::loadClass("CharrettePotion");
 			$table = new CharrettePotion();
@@ -497,6 +538,9 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanPotion");
 			$table = new LabanPotion();
+		} else if ($endroit["nom_systeme"] == "Echoppe") {
+			Zend_Loader::loadClass("EchoppePotion");
+			$table = new EchoppePotion();
 		} else {
 			Zend_Loader::loadClass("CharrettePotion");
 			$table = new CharrettePotion();
@@ -898,6 +942,10 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			Zend_Loader::loadClass("LabanMateriel");
 			$table = new LabanMateriel();
 			$materiels = $table->findByIdHobbit($this->view->user->id_hobbit);
+		} elseif ($endroit["nom_systeme"] == "Echoppe") {
+			Zend_Loader::loadClass("EchoppeMateriel");
+			$table = new EchoppeMateriel();
+			$materiels = $table->findByIdEchoppe($this->idEchoppe, 'aucune');
 		} else {
 			Zend_Loader::loadClass("CharretteMateriel");
 			$table = new CharretteMateriel();
@@ -934,6 +982,9 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($endroit["nom_systeme"] == "Laban") {
 			Zend_Loader::loadClass("LabanMateriel");
 			$table = new LabanMateriel();
+		} else if ($endroit["nom_systeme"] == "Echoppe") {
+			Zend_Loader::loadClass("EchoppeMateriel");
+			$table = new EchoppeMateriel();
 		} else {
 			Zend_Loader::loadClass("CharretteMateriel");
 			$table = new CharretteMateriel();
@@ -964,6 +1015,10 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			Zend_Loader::loadClass("LabanAliment");
 			$table = new LabanAliment();
 			$aliments = $table->findByIdHobbit($this->view->user->id_hobbit);
+		} elseif ($endroit["nom_systeme"] == "Echoppe") {
+			Zend_Loader::loadClass("EchoppeAliment");
+			$table = new EchoppeAliment();
+			$aliments = $table->findByIdEchoppe($this->idEchoppe, 'aucune');
 		} else {
 			Zend_Loader::loadClass("CharretteAliment");
 			$table = new CharretteAliment();
@@ -1005,6 +1060,9 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			if ($endroit["nom_systeme"] == "Laban") {
 				Zend_Loader::loadClass("LabanAliment");
 				$table = new LabanAliment();
+			} else if ($endroit["nom_systeme"] == "Echoppe") {
+				Zend_Loader::loadClass("EchoppeAliment");
+				$table = new EchoppeAliment();
 			} else {
 				Zend_Loader::loadClass("CharretteAliment");
 				$table = new CharretteAliment();
@@ -1402,13 +1460,16 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		if ($this->boxHotelToRefresh == true) {
 			$box[] = "box_hotel";
 
-			if ($this->view->idTypeCourantDepart > 0) {
+			if ($this->view->estSurEchoppe === true) {
+				$box[] = "box_echoppe";
+				$box[] = "box_echoppes";
+			} elseif ($this->view->idTypeCourantDepart > 0) {
 				$box[] = $this->view->typeDepart[$this->view->idTypeCourantDepart]["box"];
 			}
+			
 			return $this->constructListBoxRefresh($box);
 		} else {
 			return $this->constructListBoxRefresh();
 		}
-
 	}
 }

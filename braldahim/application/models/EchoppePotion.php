@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -14,7 +14,7 @@ class EchoppePotion extends Zend_Db_Table {
 	protected $_name = 'echoppe_potion';
 	protected $_primary = "id_echoppe_potion";
 
-	public function findByIdEchoppe($idEchoppe, $idTypePotion = null) {
+	public function findByIdEchoppe($idEchoppe, $idTypePotion = null, $typeVente = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('echoppe_potion', '*')
@@ -28,6 +28,9 @@ class EchoppePotion extends Zend_Db_Table {
 		->order(array('type_potion ASC', 'id_echoppe_potion ASC'));
 		if ($idTypePotion != null) {
 			$select->where('id_type_potion = ?', intval($idTypePotion));
+		}
+		if ($typeVente != null) {
+			$select->where('type_vente_echoppe_potion like ?', $typeVente);
 		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
