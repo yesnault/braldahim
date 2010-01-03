@@ -20,6 +20,10 @@ abstract class Bral_Scripts_Script {
 	const TYPE_STATIQUE = 'statique';
 	const TYPE_APPELS = 'appels';
 
+	const NB_TYPE_DYNAMIQUE_MAX = 4;
+	const NB_TYPE_STATIQUE_MAX = 10;
+	const NB_TYPE_APPELS_MAX = 6;
+
 	const PARM_ID_HOBBIT = 'idHobbit';
 	const PARM_MDP_RESTREINT = 'mdpRestreint';
 	const PARM_VERSION = 'version';
@@ -37,6 +41,7 @@ abstract class Bral_Scripts_Script {
 	const ERREUR_06_SERVICE_TEMPORAIREMENT_DESACTIVE = "ERREUR-06. Service temporairement désactivé";
 	//mis en place dans la factory : const ERREUR_07_SERVICE_INCONNU = "ERREUR-07. Service inconnu";
 	const ERREUR_08_VERSION_INCORRECTE = "ERREUR-08. Version incorrecte";
+	const ERREUR_09_DEPASSEMENT_APPELS = "ERREUR-09. Depassement Appels";
 
 	protected $view = null;
 	protected $hobbit = null;
@@ -70,6 +75,14 @@ abstract class Bral_Scripts_Script {
 
 		$scriptTable = new Script();
 		$idScript = $this->preCalcul($scriptTable);
+
+		$codeVerification = $this->verificationNbAppels($scriptTable);
+		if ($codeVerification != self::VERIFICATION_OK) {
+			$this->postCalcul($scriptTable, $idScript, self::ETAT_KO, $this->nbAppelsMsg);
+			Bral_Util_Log::scripts()->err("Bral_Scripts_Script - calculScript - Erreur NbAppels -");
+			return $codeVerification;
+		}
+
 		$message = null;
 			
 		try {
@@ -95,6 +108,7 @@ abstract class Bral_Scripts_Script {
 			
 		$this->postCalcul($scriptTable, $idScript, self::ETAT_OK, $message);
 
+		$message = $this->nbAppelsMsg.$message;
 		return $message;
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - calculScript - exit -");
 	}
@@ -184,16 +198,58 @@ abstract class Bral_Scripts_Script {
 			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_04_MDP_INVALIDE (".$idHobbit.", ".$mdpRestreintRecu.") - exit -");
 			return self::ERREUR_04_MDP_INVALIDE;
 		}
-		
+
 		if ($hobbitRow->est_pnj_hobbit == 'oui' || $hobbitRow->est_compte_desactive_hobbit == 'oui' || $hobbitRow->est_compte_actif_hobbit == 'non') {
 			Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - ERREUR_05_HOBBIT_DESACTIVE - exit -");
 			return self::ERREUR_05_HOBBIT_DESACTIVE;
 		}
 
 		$this->hobbit = $hobbitRow;
-		
+
 		$retour = self::VERIFICATION_OK;
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - initParametres - exit -");
+		return $retour;
+	}
+
+	private function getNbAppelsMax() {
+		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - getNbAppelsMax - enter -");
+		$type = $this->getType();
+		if ($type == self::TYPE_DYNAMIQUE) {
+			$nb = self::NB_TYPE_DYNAMIQUE_MAX;
+		} else if ($type == self::TYPE_STATIQUE) {
+			$nb = self::NB_TYPE_STATIQUE_MAX;
+		} else if ($type == self::TYPE_APPELS) {
+			$nb = self::NB_TYPE_APPELS_MAX;
+		} else {
+			throw new Zend_Exception("Erreur Parametrage Nb Appels");
+		}
+		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - getNbAppelsMax - exit:".$nb." -");
+		return $nb;
+	}
+
+	private function verificationNbAppels($scriptTable) {
+		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - verificationNbAppels - enter -");
+
+		$date = date("Y-m-d H:i:s");
+		$rem_time = "24:00:00";
+
+		Zend_Loader::loadClass("Bral_Util_ConvertDate");
+		$dateDebut = Bral_Util_ConvertDate::get_date_remove_time_to_date($date, $rem_time);
+		$where = $scriptTable->getAdapter()->quoteInto('date_debut_script <= ?',  $dateDebut);
+		$nb = $scriptTable->delete($where. " AND type_script like '".$this->getType()."'");
+		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - verificationNbAppels - del.".$nb." du type .".$this->getType()." -");
+
+		$nb = $scriptTable->countByIdHobbitAndType($this->hobbit->id_hobbit, $this->getType());
+		$nbMax = $this->getNbAppelsMax();
+		$this->nbAppelsMsg = "TYPE:".$this->getType().";NB_APPELS:".$nb.";MAX_AUTORISE:".$nbMax.PHP_EOL;
+		
+		if ($nb > $nbMax) {
+			$retour = self::ERREUR_09_DEPASSEMENT_APPELS.";".$this->nbAppelsMsg;
+		} else {
+			$retour = self::VERIFICATION_OK;
+		}
+
+		Bral_Util_Log::scripts()->trace("Bral_Scripts_Script - verificationNbAppels - exit -");
 		return $retour;
 	}
 }

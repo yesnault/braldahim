@@ -270,7 +270,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 					if ($champs != null) {
 						foreach($champs as $e) {
 							if ($display_x == $e["x_champ"] && $display_y == $e["y_champ"]) {
-								$retour .= 'CHAMP;'.$pos.';'.$e["id_champ"].';'.$e["nom_systeme_metier"].';'.$e["id_hobbit"].$fin;
+								$retour .= 'CHAMP;'.$pos.';'.$e["id_champ"].';'.$e["id_hobbit"].$fin;
 							}
 						}
 					}
