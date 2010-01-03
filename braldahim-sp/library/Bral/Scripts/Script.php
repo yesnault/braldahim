@@ -20,7 +20,7 @@ abstract class Bral_Scripts_Script {
 	const TYPE_STATIQUE = 'statique';
 	const TYPE_APPELS = 'appels';
 
-	const NB_TYPE_DYNAMIQUE_MAX = 4;
+	const NB_TYPE_DYNAMIQUE_MAX = 24;
 	const NB_TYPE_STATIQUE_MAX = 10;
 	const NB_TYPE_APPELS_MAX = 6;
 
