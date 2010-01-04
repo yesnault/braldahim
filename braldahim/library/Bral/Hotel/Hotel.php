@@ -28,6 +28,9 @@ abstract class Bral_Hotel_Hotel {
 		$lieuxTable = new Lieu();
 		$lieuRowset = $lieuxTable->findByTypeAndCase(TypeLieu::ID_TYPE_HOTEL, $this->view->user->x_hobbit, $this->view->user->y_hobbit);
 		unset($lieuxTable);
+		
+		$this->idEchoppe = null;
+		$this->view->estSurEchoppe = false;
 
 		if (count($lieuRowset) <= 0) {
 			//throw new Zend_Exception("Bral_Box_Hotel::nombre de lieux invalide <= 0 !");
@@ -37,8 +40,6 @@ abstract class Bral_Hotel_Hotel {
 			$echoppeTable = new Echoppe();
 			$echoppes = $echoppeTable->findByIdHobbit($this->view->user->id_hobbit);
 			$tabEchoppe = null;
-			$this->idEchoppe = null;
-			$this->view->estSurEchoppe = false;
 			foreach ($echoppes as $e) {
 				if ($e["x_echoppe"] == $this->view->user->x_hobbit &&
 				$e["y_echoppe"] == $this->view->user->y_hobbit) {
