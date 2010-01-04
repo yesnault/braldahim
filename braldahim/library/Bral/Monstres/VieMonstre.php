@@ -193,6 +193,9 @@ class Bral_Monstres_VieMonstre {
 			foreach($competences as $c) {
 				$actionAttaque = Bral_Monstres_Competences_Factory::getAction($c, $this->monstre, $cible, $view);
 				$koCible = $actionAttaque->action();
+				if ($koCible) {
+					break;
+				}
 			}
 		}
 

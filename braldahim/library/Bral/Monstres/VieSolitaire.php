@@ -129,6 +129,8 @@ class Bral_Monstres_VieSolitaire {
 			} else if ($koCible === true) {
 				$monstre["id_fk_hobbit_cible_monstre"] = null;
 				$cible = $this->rechercheNouvelleCible($monstre);
+				Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueSolitaire - nouvelle cible du monstre (".$monstre["id_monstre"].") : ".$cible["id_hobbit"]);
+				$vieMonstre->attaqueCible($cible, $this->view); // seconde attaque, utilise pour souffle de feu par exemple, si la cible principale est tuée par le souffle et qu'il reste 4 PA pour l'attaque
 			}
 		} else {
 			$vieMonstre->deplacementMonstre($monstre["x_direction_monstre"], $monstre["y_direction_monstre"]);

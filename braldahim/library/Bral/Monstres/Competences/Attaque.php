@@ -114,7 +114,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 
 		$jetAttaquant = $this->calculJetAttaque();
 		$jetCible = $this->calculJetCible($this->cible);
-		
+
 		if ($this->competence["nom_systeme_mcompetence"] == "charger") {
 			$verbe = "chargé";
 		} else {
@@ -143,16 +143,9 @@ abstract class Bral_Monstres_Competences_Attaque {
 			if ($this->cible["pv_restant_hobbit"]  <= 0) {
 				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible (idm:".$this->monstre["id_monstre"].") - Ko de la cible La cible (".$this->cible["id_hobbit"].") par Monstre id:".$this->monstre["id_monstre"]. " pvPerdus=".$pvPerdus);
 				$koCible = true;
-				$this->monstre["nb_kill_monstre"] = $this->monstre["nb_kill_monstre"] + 1;
-				$this->monstre["id_fk_hobbit_cible_monstre"] = null;
-				$this->cible["nb_ko_hobbit"] = $this->cible["nb_ko_hobbit"] + 1;
-				$this->cible["est_ko_hobbit"] = "oui";
-				$this->cible["date_fin_tour_hobbit"] = date("Y-m-d H:i:s");
-				$id_type_evenement = self::$config->game->evenements->type->kohobbit;
-				$id_type_evenement_cible = self::$config->game->evenements->type->ko;
-				$details = "[m".$this->monstre["id_monstre"]."] a mis KO le hobbit [h".$this->cible["id_hobbit"]."]";
-				Bral_Util_Evenement::majEvenementsFromVieMonstre(null, $this->monstre["id_monstre"], $id_type_evenement, $details, $this->monstre["niveau_monstre"], "", $this->view);
+				$details = $this->initKo();
 				$detailsBot = $this->getDetailsBotAttaque($this->cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus, $koCible);
+				$id_type_evenement_cible = self::$config->game->evenements->type->ko;
 				Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], null, $id_type_evenement_cible, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view);
 				$this->updateCible();
 			} else {
@@ -213,6 +206,21 @@ abstract class Bral_Monstres_Competences_Attaque {
 		}
 
 		return $koCible;
+	}
+
+	protected function initKo() {
+		$this->monstre["nb_kill_monstre"] = $this->monstre["nb_kill_monstre"] + 1;
+		if ($this->cible["id_hobbit"] == $this->monstre["id_fk_hobbit_cible_monstre"]) { // utile dans Souffledefeu par exemple
+			$this->monstre["id_fk_hobbit_cible_monstre"] = null;
+		}
+		$this->cible["nb_ko_hobbit"] = $this->cible["nb_ko_hobbit"] + 1;
+		$this->cible["est_ko_hobbit"] = "oui";
+		$this->cible["date_fin_tour_hobbit"] = date("Y-m-d H:i:s");
+		$id_type_evenement = self::$config->game->evenements->type->kohobbit;
+		$details = "[m".$this->monstre["id_monstre"]."] a mis KO le hobbit [h".$this->cible["id_hobbit"]."]";
+		Bral_Util_Evenement::majEvenementsFromVieMonstre(null, $this->monstre["id_monstre"], $id_type_evenement, $details, $this->monstre["niveau_monstre"], "", $this->view);
+
+		return $details;
 	}
 
 	protected function getDetailsBotAttaque($cible, $jetAttaquant, $jetCible, $jetDegat = 0, $critique = false, $pvPerdus = 0, $koCible = false) {
