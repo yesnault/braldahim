@@ -227,7 +227,7 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 						$display_y <= $z["y_max_zone"]) {
 							$nom_systeme_environnement = $z["nom_systeme_environnement"];
 							$nom_environnement = htmlspecialchars($z["nom_environnement"]);
-							$retour .= 'ENVIRONNEMENT;'.$pos.';'.$nom_systeme_environnement.';'.$nom_environnement.$fin;
+							$retour .= 'ENVIRONNEMENT;'.$pos.';'.$nom_systeme_environnement.';'.$nom_environnement.';'.$vue_nb_cases.$fin;
 							break;
 						}
 					}
