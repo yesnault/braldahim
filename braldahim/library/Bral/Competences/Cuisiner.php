@@ -428,16 +428,19 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 			Zend_Loader::loadClass("EchoppeIngredient");
 			$table = new EchoppeIngredient();
 			$data["id_fk_echoppe_echoppe_ingredient"] = $this->view->idEchoppe;
+			$prefix2 = "arriere_echoppe";
 		} else if ($idSource == "charrette") {
 			$prefix = "charrette";
 			Zend_Loader::loadClass("CharretteIngredient");
 			$table = new CharretteIngredient();
 			$data["id_fk_charrette_ingredient"] = $this->view->idCharrette;
+			$prefix2 = $prefix;
 		} else if ($idSource == "laban") {
 			$prefix = "laban";
 			Zend_Loader::loadClass("LabanIngredient");
 			$table = new LabanIngredient();
 			$data["id_fk_hobbit_laban_ingredient"] = $this->view->user->id_hobbit;
+			$prefix2 = $prefix;
 		} else {
 			throw new Zend_Exception("retireIngredients::Source invalide:".$idSource);
 		}
@@ -448,7 +451,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 				$quantite = floor($quantite / 2);
 			}
 			$data["id_fk_type_".$prefix."_ingredient"] = $i["id_type_ingredient"];
-			$data["quantite_".$prefix."_ingredient"] = $quantite;
+			$data["quantite_".$prefix2."_ingredient"] = $quantite;
 			$table->insertOrUpdate($data);
 		}
 	}
