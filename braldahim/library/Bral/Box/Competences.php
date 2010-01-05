@@ -132,7 +132,7 @@ class Bral_Box_Competences extends Bral_Box_Box {
 			$hobbitCompetences = $hobbitsCompetencesTables->findByIdHobbit($this->view->user->id_hobbit);
 
 			foreach($hobbitCompetences as $c) {
-				if ($c["type_competence"] == $this->type ) {
+				if ($c["type_competence"] == $this->type) {
 					$pa_texte = $c["pa_utilisation_competence"];
 					if ($c["nom_systeme_competence"] == "marcher") {
 						$pa_texte = "1 ou 2";

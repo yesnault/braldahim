@@ -1,7 +1,7 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <div class='comp_contenu'>
 
-	 Pour <?=$this->nb_pa ?> PA, vous pouvez cuisiner. <br><br>
+	Pour <?=$this->nb_pa ?> PA, vous pouvez cuisiner. <br><br>
 	 
 	 Recette :<br />
      <select name="valeur_1" id="valeur_1"  onChange="_get_('/competences/doaction?caction=ask_competence_cuisiner&type_aliment='+this.value);">
@@ -56,8 +56,6 @@
 	<br>
 	Attention, si vous n'avez pas assez de place pour contenir les aliments créés, les aliments en trop seront laissés au sol.
 	<? endif;?>
-
-	 
 </div>
 
 <br />

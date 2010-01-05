@@ -704,16 +704,18 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 	}
 
 	protected function calculNbPa() {
-		if ($this->view->user->pa_hobbit - $this->competence["pa_utilisation"] < 0) {
+		if ($this->view->estSurEchoppe) {
+			$this->view->nb_pa = $this->competence["pa_utilisation"];
+		} else {
+			$this->view->nb_pa = $this->competence["pa_utilisation"] * 2;
+		}
+
+		if ($this->view->user->pa_hobbit - $this->view->nb_pa < 0) {
 			$this->view->assezDePa = false;
 		} else {
 			$this->view->assezDePa = true;
 		}
 
-		if ($this->view->estSurEchoppe) {
-			$this->view->nb_pa = $this->competence["pa_utilisation"] / 2;
-		} else {
-			$this->view->nb_pa = $this->competence["pa_utilisation"];
-		}
+
 	}
 }
