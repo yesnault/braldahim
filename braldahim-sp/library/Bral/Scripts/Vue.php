@@ -35,10 +35,10 @@ class Bral_Scripts_Vue extends Bral_Scripts_Script {
 	}
 
 	private function calculVue() {
-		Bral_Util_Log::scripts()->trace("Bral_Scripts_Vue - calculChamp - enter -");
+		Bral_Util_Log::scripts()->trace("Bral_Scripts_Vue - calculVue - enter -");
 		$retour = "";
 		$this->calculVueHobbit($retour);
-		Bral_Util_Log::scripts()->trace("Bral_Scripts_Vue - calculChamp - exit -");
+		Bral_Util_Log::scripts()->trace("Bral_Scripts_Vue - calculVue - exit -");
 		return $retour;
 	}
 
