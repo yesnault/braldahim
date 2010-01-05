@@ -62,8 +62,8 @@ class Bral_Scripts_Profil extends Bral_Scripts_Script {
 		$retour2 .= $this->hobbit->nb_ko_hobbit.';'.$this->hobbit->nb_monstre_kill_hobbit.';'.$this->hobbit->nb_hobbit_ko_hobbit.';';
 		$retour1 .= 'estEngage;estEngageProchainTour;estIntangible;';
 		$retour2 .= $this->hobbit->est_engage_hobbit.';'.$this->hobbit->est_engage_next_dla_hobbit.';'.$this->hobbit->est_intangible_hobbit.';';
-		$retour1 .= 'nbPlaquagesSubis;nbPlaquagesEffectues;'.PHP_EOL;
-		$retour2 .= $this->hobbit->nb_plaque_hobbit.';'.$this->hobbit->nb_hobbit_plaquage_hobbit.';';
+		$retour1 .= 'nbPlaquagesSubis;nbPlaquagesEffectues'.PHP_EOL;
+		$retour2 .= $this->hobbit->nb_plaque_hobbit.';'.$this->hobbit->nb_hobbit_plaquage_hobbit;
 		$retour2 .= PHP_EOL;
 		
 		$retour .= $retour1;

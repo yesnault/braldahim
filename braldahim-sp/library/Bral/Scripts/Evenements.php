@@ -36,7 +36,7 @@ class Bral_Scripts_Evenements extends Bral_Scripts_Script {
 
 	private function calculEvenements(&$retour) {
 
-		$retour1 = 'idHobbit;idEvenement;type;date;details;'.PHP_EOL;
+		$retour1 = 'idHobbit;idEvenement;type;date;details'.PHP_EOL;
 		$retour2 = '';
 
 		Zend_Loader::loadClass("Evenement");
@@ -44,7 +44,7 @@ class Bral_Scripts_Evenements extends Bral_Scripts_Script {
 		$evenements = $evenementTable->findByIdHobbit($this->hobbit->id_hobbit, 1, 100, -1);
 
 		foreach ($evenements as $p) {
-			$retour2 .= $this->hobbit->id_hobbit.';'.$p["id_evenement"].';'.$p["nom_type_evenement"].';'.$p["date_evenement"].';'.str_replace(';','',$p["details_evenement"]).';'.PHP_EOL;
+			$retour2 .= $this->hobbit->id_hobbit.';'.$p["id_evenement"].';'.$p["nom_type_evenement"].';'.$p["date_evenement"].';'.str_replace(';','',$p["details_evenement"]).PHP_EOL;
 		}
 
 		$retour .= $retour1;
