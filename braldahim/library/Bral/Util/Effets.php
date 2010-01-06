@@ -199,6 +199,10 @@ class Bral_Util_Effets {
 				$hobbitCible->pv_restant_hobbit = 1;
 			}
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur PV apres = ".$hobbitCible->pv_restant_hobbit);
+		} else if ($effet["caracteristique"] == self::CARACT_VUE) {
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur VUE avant = ".$hobbitCible->vue_bm_hobbit);
+			$hobbitCible->vue_bm_hobbit = $hobbitCible->vue_bm_hobbit + $coef * $retourEffet["nEffet"];
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur VUE apres = ".$hobbitCible->vue_bm_hobbit);
 		} else if ($effet["caracteristique"] == self::CARACT_VIGUEUR) {
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur VIG avant = ".$hobbitCible->vigueur_bm_hobbit);
 			$hobbitCible->vigueur_bm_hobbit = $hobbitCible->vigueur_bm_hobbit + $coef * $retourEffet["nEffet"];
@@ -289,6 +293,7 @@ class Bral_Util_Effets {
 				'bm_attaque_hobbit' => $hobbitCible->bm_attaque_hobbit,
 				'bm_degat_hobbit' => $hobbitCible->bm_degat_hobbit,
 				'bm_defense_hobbit' => $hobbitCible->bm_defense_hobbit,
+				'vue_bm_hobbit' => $hobbitCible->bm_defense_hobbit,
 		);
 		$where = "id_hobbit=".$hobbitCible->id_hobbit;
 
