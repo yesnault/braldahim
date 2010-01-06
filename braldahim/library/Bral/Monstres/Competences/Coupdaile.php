@@ -40,7 +40,7 @@ class Bral_Monstres_Competences_Coupdaile extends Bral_Monstres_Competences_Atta
 	private function majEvenement($hobbit, $malus, $nbTours, $jetMonstre, $jetHobbit) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
 		$idTypeEvenement = self::$config->game->evenements->type->attaquer;
-		$details = "[m".$this->monstre["id_monstre"]."] a donné un Coup d'aile sur le nez du hobbit [h".$hobbit["id_hobbit"]."]";
+		$details = "[m".$this->monstre["id_monstre"]."] a donné un Coup d'Aile sur le nez du hobbit [h".$hobbit["id_hobbit"]."]";
 		$detailsBot = $this->getDetailsBot($malus, $nbTours, $jetMonstre, $jetHobbit);
 		Bral_Util_Evenement::majEvenementsFromVieMonstre($hobbit["id_hobbit"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $hobbit["niveau_hobbit"], $this->view);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");
@@ -49,7 +49,7 @@ class Bral_Monstres_Competences_Coupdaile extends Bral_Monstres_Competences_Atta
 	protected function getDetailsBot($malus, $nbTours, $jetMonstre, $jetHobbit) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
 		$retour = "";
-		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") vous a donné un Coup d'aile sur le nez :";
+		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") vous a donné un Coup d'Aile sur le nez :";
 		$retour .= PHP_EOL."Jet du Monstre (jet d'agilité) : ".$jetMonstre;
 		$retour .= PHP_EOL."Jet de résistance (jet d'agilité) : ".$jetHobbit;
 		if ($jetHobbit > $jetMonstre) {

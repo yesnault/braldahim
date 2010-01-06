@@ -62,7 +62,7 @@ class Bral_Monstres_Competences_Voleeboisvert extends Bral_Monstres_Competences_
 						$koCible = true;
 					}
 					$details = $this->initKo();
-					$detailsBot = "Vous avez perdu ".$malus." PV par la Volée de bois vert, vous êtes KO.";
+					$detailsBot = "Vous avez perdu ".$malus." PV par la Volée de Bois Vert, vous êtes KO.";
 					$id_type_evenement_cible = self::$config->game->evenements->type->ko;
 					Bral_Util_Evenement::majEvenementsFromVieMonstre($h["id_hobbit"], null, $id_type_evenement_cible, $details, $detailsBot, $h["niveau_hobbit"], $this->view);
 				}
@@ -78,7 +78,7 @@ class Bral_Monstres_Competences_Voleeboisvert extends Bral_Monstres_Competences_
 	private function majEvenement($hobbit, $malus, $jetMonstre, $jetHobbit) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
 		$idTypeEvenement = self::$config->game->evenements->type->attaquer;
-		$details = "[m".$this->monstre["id_monstre"]."] a effectué une volée de bois vert, touchant le hobbit [h".$hobbit["id_hobbit"]."]";
+		$details = "[m".$this->monstre["id_monstre"]."] a effectué une Volée de Bois Vert, touchant le hobbit [h".$hobbit["id_hobbit"]."]";
 		$detailsBot = $this->getDetailsBot($malus, $jetMonstre, $jetHobbit);
 		Bral_Util_Evenement::majEvenementsFromVieMonstre($hobbit["id_hobbit"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $hobbit["niveau_hobbit"], $this->view);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");
@@ -87,7 +87,7 @@ class Bral_Monstres_Competences_Voleeboisvert extends Bral_Monstres_Competences_
 	protected function getDetailsBot($malus, $jetMonstre, $jetHobbit) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
 		$retour = "";
-		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a effectué une volée de bois vert sur vous :";
+		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a effectué une Volée de Bois Vert sur vous :";
 		$retour .= PHP_EOL."Points de vie en moins : ".$malus." PV";
 		$retour .= PHP_EOL."Jet du Monstre (jet de vigueur) : ".$jetMonstre;
 		$retour .= PHP_EOL."Jet de résistance (jet de force) : ".$jetHobbit;

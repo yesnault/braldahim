@@ -30,7 +30,7 @@ class Bral_Monstres_Competences_Morsure extends Bral_Monstres_Competences_Attaqu
 		$jetMonstre = $jetMonstre + $this->monstre["agilite_bm_monstre"];
 		
 		$jetHobbit = Bral_Util_De::getLanceDe6(self::$config->game->base_vigueur + $this->cible["vigueur_base_hobbit"]);
-		$jetHobbit = $jetHobbit + $this->cible["agilite_bm_hobbit"] + $this->cible["agilite_bbdf_hobbit"];
+		$jetHobbit = $jetHobbit + $this->cible["vigueur_bm_hobbit"] + $this->cible["vigueur_bbdf_hobbit"];
 		
 		if ($jetHobbit > $jetMonstre) {
 			$nbTours = 1;
