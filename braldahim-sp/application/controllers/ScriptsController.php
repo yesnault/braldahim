@@ -39,4 +39,9 @@ class ScriptsController extends Zend_Controller_Action {
 		$this->view->retour = Bral_Scripts_Factory::calculScript("Evenements", $this->view, $this->_request);
 		echo $this->view->render("scripts/resultat.phtml");
 	}
+
+	function competencesAction() {
+		$this->view->retour = Bral_Scripts_Factory::calculScript("Competences", $this->view, $this->_request);
+		echo $this->view->render("scripts/resultat.phtml");
+	}
 }
