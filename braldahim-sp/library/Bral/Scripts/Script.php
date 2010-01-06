@@ -120,7 +120,7 @@ abstract class Bral_Scripts_Script {
 			'date_debut_script' => date("Y-m-d H:i:s"),
 			'etat_script' => self::ETAT_EN_COURS,
 			'type_script' => $this->getType(),
-			'id_fk_hobbit_script' => 1,
+			'id_fk_hobbit_script' => $this->hobbit->id_hobbit,
 			'ip_script' => $_SERVER['REMOTE_ADDR'],
 			'hostname_script' => gethostbyaddr($_SERVER['REMOTE_ADDR']),
 			'url_script' => $_SERVER["REQUEST_URI"],
