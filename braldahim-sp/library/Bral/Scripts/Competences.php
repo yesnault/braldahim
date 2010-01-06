@@ -36,7 +36,7 @@ class Bral_Scripts_Competences extends Bral_Scripts_Script {
 
 	private function calculCompetences(&$retour) {
 
-		$retour1 = 'idCompetence;nom;nom_systeme;maitrise;id_fk_metier_competence'.PHP_EOL;
+		$retour1 = 'idHobbit;typeCompetence;idCompetence;nom;nom_systeme;maitrise;id_fk_metier_competence'.PHP_EOL;
 		$retour2 = '';
 
 		Zend_Loader::loadClass("HobbitsCompetences");
