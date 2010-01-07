@@ -10,7 +10,7 @@
  * $LastChangedRevision: $
  * $LastChangedBy: $
  */
-class Bral_Monstres_Competences_Souffledefeu extends Bral_Monstres_Competences_Attaque {
+class Bral_Monstres_Competences_Frappedaile extends Bral_Monstres_Competences_Attaque {
 
 	public function calculJetAttaque(){}
 	public function calculDegat($estCritique){}
@@ -20,10 +20,10 @@ class Bral_Monstres_Competences_Souffledefeu extends Bral_Monstres_Competences_A
 
 		Zend_Loader::loadClass("Bral_Util_Effets");
 
-		$x_min = $this->monstre["x_monstre"] - 1;
-		$y_min = $this->monstre["y_monstre"] - 1;
-		$x_max = $this->monstre["x_monstre"] + 1;
-		$y_max = $this->monstre["y_monstre"] + 1;
+		$x_min = $this->monstre["x_monstre"];
+		$y_min = $this->monstre["y_monstre"];
+		$x_max = $this->monstre["x_monstre"];
+		$y_max = $this->monstre["y_monstre"];
 		$z = $this->monstre["z_monstre"];
 
 		$hobbitTable = new Hobbit();
@@ -44,8 +44,8 @@ class Bral_Monstres_Competences_Souffledefeu extends Bral_Monstres_Competences_A
 				$jetMonstre = Bral_Util_De::getLanceDe6(self::$config->game->base_force + $this->monstre["force_base_monstre"]);
 				$jetMonstre = $jetMonstre + $this->monstre["force_bm_monstre"];
 
-				$jetHobbit = Bral_Util_De::getLanceDe6(self::$config->game->base_vigueur + $h["vigueur_base_hobbit"]);
-				$jetHobbit = $jetHobbit + $h["vigueur_bm_hobbit"] + $h["vigueur_bbdf_hobbit"];
+				$jetHobbit = Bral_Util_De::getLanceDe6(self::$config->game->base_agilite + $h["agilite_base_hobbit"]);
+				$jetHobbit = $jetHobbit + $h["agilite_bm_hobbit"] + $h["agilite_bbdf_hobbit"];
 
 				if ($jetHobbit > $jetMonstre) {
 					$malus = floor($malus / 2);
@@ -60,7 +60,7 @@ class Bral_Monstres_Competences_Souffledefeu extends Bral_Monstres_Competences_A
 						$koCible = true;
 					}
 					$details = $this->initKo();
-					$detailsBot = "Vous avez perdu ".$malus." PV par le Souffle de Feu, vous êtes KO.";
+					$detailsBot = "Vous avez perdu ".$malus." PV par les frappes des ailes, vous êtes KO.";
 					$id_type_evenement_cible = self::$config->game->evenements->type->ko;
 					Bral_Util_Evenement::majEvenementsFromVieMonstre($h["id_hobbit"], null, $id_type_evenement_cible, $details, $detailsBot, $h["niveau_hobbit"], $this->view);
 				}
@@ -76,7 +76,7 @@ class Bral_Monstres_Competences_Souffledefeu extends Bral_Monstres_Competences_A
 	private function majEvenement($hobbit, $malus, $jetMonstre, $jetHobbit) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
 		$idTypeEvenement = self::$config->game->evenements->type->attaquer;
-		$details = "[m".$this->monstre["id_monstre"]."] a effectué un souffle de feu, touchant le hobbit [h".$hobbit["id_hobbit"]."]";
+		$details = "[m".$this->monstre["id_monstre"]."] frappe avec ses ailes le hobbit [h".$hobbit["id_hobbit"]."]";
 		$detailsBot = $this->getDetailsBot($malus, $jetMonstre, $jetHobbit);
 		Bral_Util_Evenement::majEvenementsFromVieMonstre($hobbit["id_hobbit"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $hobbit["niveau_hobbit"], $this->view);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");
@@ -85,13 +85,13 @@ class Bral_Monstres_Competences_Souffledefeu extends Bral_Monstres_Competences_A
 	protected function getDetailsBot($malus, $jetMonstre, $jetHobbit) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
 		$retour = "";
-		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a effectué un souffle de feu vous grillant quelques poils :";
+		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") vous frappe avec ses ailes :";
 		$retour .= PHP_EOL."Jet du Monstre (jet de force) : ".$jetMonstre;
-		$retour .= PHP_EOL."Jet de résistance (jet de vigueur) : ".$jetHobbit;
+		$retour .= PHP_EOL."Jet de résistance (jet d'agilite) : ".$jetHobbit;
 		if ($jetHobbit > $jetMonstre) {
-			$retour .= PHP_EOL."Vous avez résisté au Souffle, le malus a été divisé par 2.";
+			$retour .= PHP_EOL."Vous avez résisté aux frappes, le malus a été divisé par 2.";
 		} else {
-			$retour .= PHP_EOL."Vous n'avez pas résisté au Souffle.";
+			$retour .= PHP_EOL."Vous n'avez pas résisté aux frappes.";
 		}
 		$retour .= PHP_EOL."Points de vie en moins : ".$malus." PV";
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
