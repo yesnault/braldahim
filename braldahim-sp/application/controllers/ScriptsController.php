@@ -16,6 +16,7 @@ class ScriptsController extends Zend_Controller_Action {
 		$this->initView();
 		$this->view->config = Zend_Registry::get('config');
 		Zend_Loader::loadClass("Bral_Scripts_Factory");
+		Zend_Loader::loadClass("Bral_Scripts_Script");
 
 		Zend_Controller_Front::getInstance()->setParam('noViewRenderer', true);
 		Zend_Layout::resetMvcInstance();
@@ -42,6 +43,24 @@ class ScriptsController extends Zend_Controller_Action {
 
 	function competencesAction() {
 		$this->view->retour = Bral_Scripts_Factory::calculScript("Competences", $this->view, $this->_request);
+		echo $this->view->render("scripts/resultat.phtml");
+	}
+
+	function labanAction() {
+		Zend_Loader::loadClass("Bral_Scripts_Conteneur");
+		$this->view->retour = Bral_Scripts_Factory::calculScript("Laban", $this->view, $this->_request);
+		echo $this->view->render("scripts/resultat.phtml");
+	}
+	
+	function coffreAction() {
+		Zend_Loader::loadClass("Bral_Scripts_Conteneur");
+		$this->view->retour = Bral_Scripts_Factory::calculScript("Coffre", $this->view, $this->_request);
+		echo $this->view->render("scripts/resultat.phtml");
+	}
+	
+	function charretteAction() {
+		Zend_Loader::loadClass("Bral_Scripts_Conteneur");
+		$this->view->retour = Bral_Scripts_Factory::calculScript("Charrette", $this->view, $this->_request);
 		echo $this->view->render("scripts/resultat.phtml");
 	}
 }

@@ -24,6 +24,7 @@ Zend_Loader :: loadClass('Zend_Db');
 Zend_Loader :: loadClass('Zend_Db_Table');
 Zend_Loader :: loadClass("Zend_Layout");
 Zend_Loader :: loadClass("Zend_Registry");
+Zend_Loader::loadClass("Zend_Exception");
 
 Zend_Loader :: loadClass("Bral_Helper_Box");
 

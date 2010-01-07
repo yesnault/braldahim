@@ -15,7 +15,6 @@ class Bral_Scripts_Factory {
 	const ERREUR_07_SERVICE_INCONNU = "ERREUR-07. Service inconnu";
 	
 	static function calculScript($nomSystemeAction, $view, $request) {
-		Zend_Loader::loadClass("Bral_Scripts_Script");
 		Zend_Loader::loadClass("Bral_Util_Log");
 
 		$construct = null;
