@@ -85,8 +85,10 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			$bm = $this->view->user->vue_bm_hobbit;
 		}
 
-
 		$this->view->vue_nb_cases = Bral_Util_Commun::getVueBase($x, $y, $z) + $bm;
+		if ($this->view->vue_nb_cases < 0) {
+			$this->view->vue_nb_cases = 0;
+		}
 		$this->view->x_min = $x - $this->view->vue_nb_cases;
 		$this->view->x_max = $x + $this->view->vue_nb_cases;
 		$this->view->y_min = $y - $this->view->vue_nb_cases;
