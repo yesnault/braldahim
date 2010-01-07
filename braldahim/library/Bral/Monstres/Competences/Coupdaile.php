@@ -57,7 +57,7 @@ class Bral_Monstres_Competences_Coupdaile extends Bral_Monstres_Competences_Atta
 		} else {
 			$retour .= PHP_EOL."Vous n'avez pas résisté au Coup d'aile, le malus est appliqué.";
 		}
-		$retour .= PHP_EOL."Malus en vue : -".$malus;
+		$retour .= PHP_EOL."Malus sur votre vue : -".$malus;
 		$retour .= PHP_EOL."Nombre de tours : ".$nbTours;
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
 		return $retour;
