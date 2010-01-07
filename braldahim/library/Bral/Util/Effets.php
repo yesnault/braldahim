@@ -293,7 +293,7 @@ class Bral_Util_Effets {
 				'bm_attaque_hobbit' => $hobbitCible->bm_attaque_hobbit,
 				'bm_degat_hobbit' => $hobbitCible->bm_degat_hobbit,
 				'bm_defense_hobbit' => $hobbitCible->bm_defense_hobbit,
-				'vue_bm_hobbit' => $hobbitCible->bm_defense_hobbit,
+				'vue_bm_hobbit' => $hobbitCible->vue_bm_hobbit,
 		);
 		$where = "id_hobbit=".$hobbitCible->id_hobbit;
 
