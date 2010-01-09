@@ -47,7 +47,11 @@
 					<li>
 					Le mot de passe restreint peut-être obtenu ici : <a href='/md5/'>http://sp.braldahim.com/md5/</a>. 
 					</li>
+					<li>
+					Info, anomalies, pour en parler... <a href='http://forums.braldahim.com/viewforum.php?f=41'>Forum Scripts Publics et Interfaces Externes</a>
+					</li>
 				</ul>
+				
 				<br>
 				
 				<br>
@@ -66,13 +70,13 @@
 	
 	Le nombre d'appels autorisés aux Scripts Publics est limité par <u>jour et par catégorie</u>.<br>
 	<br>
-	<table style="width:90%" class="table_liste">
+	<table style="width:90%" class="table_liste"  valign="top">
 		
 		<thead class="table_liste">
 			<th colspan="2">Catégorie Scripts Dynamiques : 24 appels par jour</th>
 		</thead>
 		
-		<tr valign="top">
+		<tr>
 			<td width="20%">
 				Vue
 			</td>
@@ -126,6 +130,7 @@
 			</pre>
 			<input type='button' class='button1' value='Cacher détails' onClick="javascript:switch2div('details_vue_a', 'details_vue_b');">
 			</div>
+			<br>
 			</td>
 		</tr>
 		<tr valign="top">
@@ -135,8 +140,6 @@
 			<td width="80%" style="text-align:left">
 			Version : 1<br>
 			URL : http://sp.braldahim.com/scripts/profil/?idHobbit=XXX&mdpRestreint=YYYY&version=1<br>
-			Détails d'une ligne: 
-			
 			
 			<div id='details_profil_a' style="display:block" >
 			  	<input type='button' class='button1' value='Afficher détails' onClick="javascript:switch2div('details_profil_a','details_profil_b');">
@@ -159,6 +162,7 @@
 			</pre>
 			<input type='button' class='button1' value='Cacher détails' onClick="javascript:switch2div('details_profil_a', 'details_profil_b');">
 			</div>
+			<br>
 			</td>
 		</tr>
 		<tr valign="top">
@@ -192,15 +196,41 @@
 				<br>Contenu du Laban
 			</td>
 			<td width="80%" style="text-align:left">
-			A venir.
-			</td>
-		</tr>
-		<tr valign="top">
-			<td  width="20%">
-				<br>Contenu de la charrette
-			</td>
-			<td width="80%" style="text-align:left">
-			A venir.
+			Version : 1<br>
+			URL : http://sp.braldahim.com/scripts/laban/?idHobbit=XXX&mdpRestreint=YYYY&version=1<br>
+			Détails d'une ligne: TYPE;autre_element;autre_element...
+			
+			<div id='details_laban_a' style="display:block" >
+			  	<input type='button' class='button1' value='Afficher détails' onClick="javascript:switch2div('details_laban_a','details_laban_b');">
+			</div>
+				
+			<div id='details_laban_b' style="display:none" >
+			<input type='button' class='button1' value='Cacher détails' onClick="javascript:switch2div('details_laban_a', 'details_laban_b');">
+			
+			<pre style="background-color:#CCCC99; text-align:left" >
+			ELEMENT;Peau;quantite_peau_element
+			ELEMENT;Cuir;quantite_cuir_element 
+			ELEMENT;Fourrure;quantite_fourrure_element
+			ELEMENT;Planche;quantite_planche_element
+			ELEMENT;Rondin;quantite_rondin_element
+			ELEMENT;Castar;quantite_castar_element
+			EQUIPEMENT;id_element_equipement;nom;nom_type_qualite;niveau_recette_equipement;suffixe_mot_runique
+			MATERIEL;id_element_materiel;nom_type_materiel
+			MUNITION;nom_type_munition;nom_pluriel_type_munition;quantite_element_munition
+			POTION;id_element_potion;type;nom_type_potion;nom_type_qualite;niveau_potion
+			ALIMENT;id_element_aliment;nom_type_aliment;nom_type_qualite
+			GRAINE;quantite_element_graine;nom_type_graine
+			INGREDIENT;quantite_element_ingredient;nom_type_ingredient
+			MINERAI_BRUT;quantite_brut_element_minerai;nom_type_minerai
+			LINGOT;quantite_lingots_element_minerai;nom_type_minerai
+			PLANTE_BRUTE;quantite_element_partieplante;nom_type_partieplante;nom_type_plante
+			PLANTE_PREPAREE;quantite_preparee_element_partieplante;nom_type_partieplante;nom_type_plante
+			RUNE;id_rune_element_rune
+			TABAC;quantite_feuille_element_tabac;nom_court_type_tabac
+			</pre>
+			<input type='button' class='button1' value='Cacher détails' onClick="javascript:switch2div('details_laban_a', 'details_laban_b');">
+			</div>
+			<br>
 			</td>
 		</tr>
 		<tr valign="top">
@@ -208,7 +238,37 @@
 				<br>Contenu du coffre
 			</td>
 			<td width="80%" style="text-align:left">
-			A venir.
+			Version : 1<br>
+			URL : http://sp.braldahim.com/scripts/coffre/?idHobbit=XXX&mdpRestreint=YYYY&version=1<br>
+			Détails des lignes : similaire au script laban.
+			<br><br>
+			</td>
+		</tr>
+		<tr valign="top">
+			<td  width="20%">
+				<br>Contenu de la charrette
+			</td>
+			<td width="80%" style="text-align:left">
+			Version : 1<br>
+			URL : http://sp.braldahim.com/scripts/charrette/?idHobbit=XXX&mdpRestreint=YYYY&version=1<br>
+			
+			<div id='details_charrette_a' style="display:block" >
+			  	<input type='button' class='button1' value='Afficher détails' onClick="javascript:switch2div('details_charrette_a','details_charrette_b');">
+			</div>
+				
+			<div id='details_charrette_b' style="display:none" >
+			<input type='button' class='button1' value='Cacher détails' onClick="javascript:switch2div('details_charrette_a', 'details_charrette_b');">
+			
+			<pre style="background-color:#CCCC99; text-align:left" >
+			CHARRETTE;idCharrette;durabiliteMax;durabiliteActuelle;poidsTransportable;poidsTransporte
+			ou : 
+			AUCUNE_CHARRETTE
+			
+			Le restant des lignes est similaire au script Laban.
+			</pre>
+			<input type='button' class='button1' value='Cacher détails' onClick="javascript:switch2div('details_charrette_a', 'details_charrette_b');">
+			</div>
+			<br>
 			</td>
 		</tr>
 		<tr valign="top">
@@ -216,7 +276,13 @@
 				<br>Liste des échoppes
 			</td>
 			<td width="80%" style="text-align:left">
-			A venir.
+			Version : 1<br>
+			URL : http://sp.braldahim.com/scripts/echoppes/?idHobbit=XXX&mdpRestreint=YYYY&version=1<br>
+			
+			Détails d'une ligne : Echoppe;idChamp;x;y;z;idMetier;idRegion<br>
+			ou :<br>
+			AUCUNE_ECHOPPE
+			<br><br>
 			</td>
 		</tr>
 		<tr valign="top">
@@ -224,7 +290,12 @@
 				<br>Liste des champs
 			</td>
 			<td width="80%" style="text-align:left">
-			A venir.
+			Version : 1<br>
+			URL : http://sp.braldahim.com/scripts/champs/?idHobbit=XXX&mdpRestreint=YYYY&version=1<br>
+			
+			Détails d'une ligne : CHAMP;idChamp;x;y;z;idRegion<br>
+			ou :<br>
+			AUCUN_CHAMP
 			<br><br><br>
 			</td>
 		</tr>
@@ -237,7 +308,25 @@
 				<br>Appels
 			</td>
 			<td width="80%" style="text-align:left">
-			A venir.
+			Version : 1<br>
+			URL : http://sp.braldahim.com/scripts/appels/?idHobbit=XXX&mdpRestreint=YYYY&version=1<br>
+			<div id='details_appels_a' style="display:block" >
+			  	<input type='button' class='button1' value='Afficher détails' onClick="javascript:switch2div('details_appels_a','details_appels_b');">
+			</div>
+				
+			<div id='details_appels_b' style="display:none" >
+			<input type='button' class='button1' value='Cacher détails' onClick="javascript:switch2div('details_appels_a', 'details_appels_b');">
+			
+			<pre style="background-color:#CCCC99; text-align:left" >
+			
+			Exemple : 
+			TYPE:appels;NB_APPELS:0;MAX_AUTORISE:6
+			TYPE:dynamique;NB_DYNAMIQUE:0;MAX_AUTORISE:24
+			TYPE:statique;NB_STATIQUE:0;MAX_AUTORISE:100
+			</pre>
+			<input type='button' class='button1' value='Cacher détails' onClick="javascript:switch2div('details_appels_a', 'details_appels_b');">
+			</div>
+			
 			</td>
 		</tr>
 	</table>

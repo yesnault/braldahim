@@ -51,16 +51,34 @@ class ScriptsController extends Zend_Controller_Action {
 		$this->view->retour = Bral_Scripts_Factory::calculScript("Laban", $this->view, $this->_request);
 		echo $this->view->render("scripts/resultat.phtml");
 	}
-	
+
 	function coffreAction() {
 		Zend_Loader::loadClass("Bral_Scripts_Conteneur");
 		$this->view->retour = Bral_Scripts_Factory::calculScript("Coffre", $this->view, $this->_request);
 		echo $this->view->render("scripts/resultat.phtml");
 	}
-	
+
 	function charretteAction() {
 		Zend_Loader::loadClass("Bral_Scripts_Conteneur");
 		$this->view->retour = Bral_Scripts_Factory::calculScript("Charrette", $this->view, $this->_request);
+		echo $this->view->render("scripts/resultat.phtml");
+	}
+
+	function echoppesAction() {
+		Zend_Loader::loadClass("Bral_Scripts_Conteneur");
+		$this->view->retour = Bral_Scripts_Factory::calculScript("Echoppes", $this->view, $this->_request);
+		echo $this->view->render("scripts/resultat.phtml");
+	}
+
+	function champsAction() {
+		Zend_Loader::loadClass("Bral_Scripts_Conteneur");
+		$this->view->retour = Bral_Scripts_Factory::calculScript("Champs", $this->view, $this->_request);
+		echo $this->view->render("scripts/resultat.phtml");
+	}
+
+	function appelsAction() {
+		Zend_Loader::loadClass("Bral_Scripts_Conteneur");
+		$this->view->retour = Bral_Scripts_Factory::calculScript("Appels", $this->view, $this->_request);
 		echo $this->view->render("scripts/resultat.phtml");
 	}
 }

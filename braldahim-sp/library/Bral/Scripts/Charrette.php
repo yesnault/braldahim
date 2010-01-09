@@ -16,7 +16,17 @@ class Bral_Scripts_Charrette extends Bral_Scripts_Conteneur {
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Charrette - calculScriptImpl - enter -");
 
 		$retour = null;
-		$this->calculConteneur("Charrette");
+		
+		Zend_Loader::loadClass("Charrette");
+		$charretteTable = new Charrette();
+		$charrettes = $charretteTable->findByIdHobbit($this->hobbit->id_hobbit);
+		if ($charrettes != null && count($charrettes) == 1) {
+			$idCharrette = $charrettes[0]["id_charrette"];
+			$retour = "CHARRETTE;".$idCharrette.";".$charrettes[0]["durabilite_max_charrette"].';'.$charrettes[0]["durabilite_actuelle_charrette"].';'.$charrettes[0]["poids_transportable_charrette"].';'. $charrettes[0]["poids_transporte_charrette"].PHP_EOL;
+			$this->calculConteneur("Charrette", $retour, $idCharrette);	
+		} else {
+			$retour = "AUCUNE_CHARRETTE";
+		}
 
 		Bral_Util_Log::scripts()->trace("Bral_Scripts_Charrette - calculScriptImpl - exit -");
 		return $retour;

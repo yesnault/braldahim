@@ -24,8 +24,7 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		return 1;
 	}
 
-	public function calculConteneur($type, &$retour) {
-
+	public function calculConteneur($type, &$retour, $idCharrette = null) {
 		$typem = strtolower($type);
 		Zend_Loader::loadClass($type);
 		Zend_Loader::loadClass($type."Equipement");
@@ -45,7 +44,11 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 
 		$conteneurMinerai = $type."Minerai";
 		$mineraiTable = new $conteneurMinerai();
-		$minerais = $mineraiTable->findByIdHobbit($this->hobbit->id_hobbit);
+		if ($idCharrette == null) {
+			$minerais = $mineraiTable->findByIdHobbit($this->hobbit->id_hobbit);
+		} else {
+			$minerais = $mineraiTable->findByIdCharrette($idCharrette);
+		}
 		unset($mineraiTable);
 
 		foreach ($minerais as $m) {
@@ -61,7 +64,11 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		$tabLaban = null;
 		$conteneur = $type;
 		$table = new $conteneur();
-		$elements = $table->findByIdHobbit($this->hobbit->id_hobbit);
+		if ($idCharrette == null) {
+			$elements = $table->findByIdHobbit($this->hobbit->id_hobbit);
+		} else {
+			$elements = $table->findByIdCharrette($idCharrette);
+		}
 		unset($table);
 
 		foreach ($elements as $e) {
@@ -76,7 +83,11 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 
 		$conteneurRune = $type."Rune";
 		$runeTable = new $conteneurRune();
-		$runes = $runeTable->findByIdHobbit($this->hobbit->id_hobbit, null, array("niveau_type_rune", "nom_type_rune"));
+		if ($idCharrette == null) {
+			$runes = $runeTable->findByIdHobbit($this->hobbit->id_hobbit, null, array("niveau_type_rune", "nom_type_rune"));
+		} else {
+			$runes = $runeTable->findByIdCharrette($this->hobbit->id_hobbit, null, array("niveau_type_rune", "nom_type_rune"));
+		}
 		unset($runeTable);
 
 		foreach ($runes as $r) {
@@ -88,25 +99,26 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		}
 		unset($runes);
 
-		$this->renderPlante($type, $retour);
-		$this->renderEquipement($type, $retour);
-		/*
-		 $this->renderMateriel($type, $retour);
-		 $this->renderMunition($type, $retour);
-		 $this->renderPotion($type, $retour);
-		 $this->renderAliment($type, $retour);
-		 $this->renderGraine($type, $retour);
-		 $this->renderIngredient($type, $retour);
-		 */
-		$this->renderTabac($type, $retour);
-
+		$this->renderPlante($type, $retour, $idCharrette);
+		$this->renderEquipement($type, $retour, $idCharrette);
+		$this->renderMateriel($type, $retour, $idCharrette);
+		$this->renderMunition($type, $retour, $idCharrette);
+		$this->renderPotion($type, $retour, $idCharrette);
+		$this->renderAliment($type, $retour, $idCharrette);
+		$this->renderGraine($type, $retour, $idCharrette);
+		$this->renderIngredient($type, $retour, $idCharrette);
+		$this->renderTabac($type, $retour, $idCharrette);
 	}
 
-	private function renderTabac($type, &$retour) {
+	private function renderTabac($type, &$retour, $idCharrette = null) {
 		$typem = strtolower($type);
 		$conteneurTabac = $type."Tabac";
 		$tabacTable = new $conteneurTabac();
-		$tabacs = $tabacTable->findByIdHobbit($this->hobbit->id_hobbit);
+		if ($idCharrette == null) {
+			$tabacs = $tabacTable->findByIdHobbit($this->hobbit->id_hobbit);
+		} else {
+			$tabacs = $tabacTable->findByIdCharrette($idCharrette);
+		}
 		unset($tabacTable);
 
 		foreach ($tabacs as $m) {
@@ -117,13 +129,15 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		unset($tabacs);
 	}
 
-	private function renderPlante($type, &$retour) {
+	private function renderPlante($type, &$retour, $idCharrette = null) {
 		$typem = strtolower($type);
-
-		$tabTypePlantes = null;
 		$conteneurPlante = $type."Partieplante";
 		$partiePlanteTable = new $conteneurPlante();
-		$partiePlantes = $partiePlanteTable->findByIdHobbit($this->hobbit->id_hobbit);
+		if ($idCharrette == null) {
+			$partiePlantes = $partiePlanteTable->findByIdHobbit($this->hobbit->id_hobbit);
+		} else {
+			$partiePlantes = $partiePlanteTable->findByIdCharrette($idCharrette);
+		}
 		unset($partiePlanteTable);
 
 		foreach ($partiePlantes as $m) {
@@ -138,14 +152,15 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		unset($partiePlantes);
 	}
 
-	private function renderEquipement($type, &$retour) {
-
+	private function renderEquipement($type, &$retour, $idCharrette = null) {
 		$typem = strtolower($type);
-
-		$tabEquipements = null;
 		$conteneurEquipement = $type."Equipement";
 		$equipementTable = new $conteneurEquipement();
-		$equipements = $equipementTable->findByIdHobbit($this->hobbit->id_hobbit);
+		if ($idCharrette == null) {
+			$equipements = $equipementTable->findByIdHobbit($this->hobbit->id_hobbit);
+		} else {
+			$equipements = $equipementTable->findByIdCharrette($idCharrette);
+		}
 		unset($equipementTable);
 
 		Zend_Loader::loadClass("Bral_Util_Equipement");
@@ -159,138 +174,92 @@ abstract class Bral_Scripts_Conteneur extends Bral_Scripts_Script {
 		}
 	}
 
-	private function renderMateriel() {
-		$tabMateriels = null;
-		$labanMaterielTable = new LabanMateriel();
-		$materiels = $labanMaterielTable->findByIdHobbit($this->hobbit->id_hobbit);
-		unset($labanMaterielTable);
-
-		$tabWhere = null;
+	private function renderMateriel($type, &$retour, $idCharrette = null) {
+		$typem = strtolower($type);
+		$conteneurMateriel = $type."Materiel";
+		$materielTable = new $conteneurMateriel();
+		if ($idCharrette == null) {
+			$materiels = $materielTable->findByIdHobbit($this->hobbit->id_hobbit);
+		} else {
+			$materiels = $materielTable->findByIdCharrette($idCharrette);
+		}
 		foreach ($materiels as $e) {
-			$tabMateriels[$e["id_".$typem."_materiel"]] = array(
-					"id_materiel" => $e["id_".$typem."_materiel"],
-					'id_type_materiel' => $e["id_type_materiel"],
-					'nom_systeme_type_materiel' => $e["nom_systeme_type_materiel"],
-					'nom' =>$e["nom_type_materiel"],
-					'capacite' => $e["capacite_type_materiel"], 
-					'durabilite' => $e["durabilite_type_materiel"], 
-					'usure' => $e["usure_type_materiel"], 
-					'poids' => $e["poids_type_materiel"], 
-			);
-			$tabWhere[] = $e["id_".$typem."_materiel"];
+			$retour .= 'MATERIEL;'.$e["id_".$typem."_materiel"].';'.$e["nom_type_materiel"].PHP_EOL;
 		}
-		unset($materiels);
 	}
 
-	private function renderMunition() {
-		$tabMunitions = null;
-		$labanMunitionTable = new LabanMunition();
-		$munitions = $labanMunitionTable->findByIdHobbit($this->hobbit->id_hobbit);
-		unset($labanMunitionTable);
-
+	private function renderMunition($type, &$retour, $idCharrette = null) {
+		$typem = strtolower($type);
+		$conteneurMunition = $type."Munition";
+		$munitionTable = new $conteneurMunition();
+		if ($idCharrette == null) {
+			$munitions = $munitionTable->findByIdHobbit($this->hobbit->id_hobbit);
+		} else {
+			$munitions = $munitionTable->findByIdCharrette($idCharrette);
+		}
 		foreach ($munitions as $m) {
-			$tabMunitions[] = array(
-				"type" => $m["nom_type_munition"],
-				"quantite" => $m["quantite_".$typem."_munition"],
-				"poids" =>  $m["quantite_".$typem."_munition"] * Bral_Util_Poids::POIDS_MUNITION,
-			);
+			$retour .= 'MUNITION;'.$m["nom_type_munition"].';'.$m["nom_pluriel_type_munition"].';'.$m["quantite_".$typem."_munition"].PHP_EOL;
 		}
-		unset($munitions);
 	}
 
-	private function renderPotion() {
+	private function renderPotion($type, &$retour, $idCharrette = null) {
+		$typem = strtolower($type);
 		Zend_Loader::loadClass("Bral_Util_Potion");
-		$tabPotions = null;
-		$labanPotionTable = new LabanPotion();
-		$potions = $labanPotionTable->findByIdHobbit($this->hobbit->id_hobbit);
-		unset($labanPotionTable);
-
+		$conteneurPotion = $type."Potion";
+		$potionTable = new $conteneurPotion();
+		if ($idCharrette == null) {
+			$potions = $potionTable->findByIdHobbit($this->hobbit->id_hobbit);
+		} else {
+			$potions = $potionTable->findByIdCharrette($idCharrette);
+		}
 		foreach ($potions as $p) {
-			$tabPotions[$p["id_".$typem."_potion"]] = array(
-					"id_potion" => $p["id_".$typem."_potion"],
-					"id_type_potion" => $p["id_type_potion"],
-					"nom" => $p["nom_type_potion"],
-					"qualite" => $p["nom_type_qualite"],
-					"niveau" => $p["niveau_potion"],
-					"caracteristique" => $p["caract_type_potion"],
-					"bm_type" => $p["bm_type_potion"],
-					"caracteristique2" => $p["caract2_type_potion"],
-					"bm2_type" => $p["bm2_type_potion"],
-					"nom_type" => Bral_Util_Potion::getNomType($p["type_potion"]),
-			);
+			$retour .= 'POTION;'.$p["id_".$typem."_potion"].';'.Bral_Util_Potion::getNomType($p["type_potion"]).';'.$p["nom_type_potion"].';'.$p["nom_type_qualite"].';'.$p["niveau_potion"].PHP_EOL;
 		}
-		unset($potions);
 	}
 
-	private function renderAliment() {
-		$tabAliments = null;
-		$labanAlimentTable = new LabanAliment();
-		$aliments = $labanAlimentTable->findByIdHobbit($this->hobbit->id_hobbit);
-		unset($labanAlimentTable);
-
-		Zend_Loader::loadClass("Bral_Util_Aliment");
+	private function renderAliment($type, &$retour, $idCharrette = null) {
+		$typem = strtolower($type);
+		$conteneurAliment = $type."Aliment";
+		$alimentTable = new $conteneurAliment();
+		if ($idCharrette == null) {
+			$aliments = $alimentTable->findByIdHobbit($this->hobbit->id_hobbit);
+		} else {
+			$aliments = $alimentTable->findByIdCharrette($idCharrette);
+		}
 		foreach ($aliments as $p) {
-			$tabAliments[$p["id_".$typem."_aliment"]] = array(
-					"id_aliment" => $p["id_".$typem."_aliment"],
-					"id_type_aliment" => $p["id_type_aliment"],
-					"nom" => $p["nom_type_aliment"],
-					"qualite" => $p["nom_aliment_type_qualite"],
-					"bbdf" => $p["bbdf_aliment"],
-					"recette" => Bral_Util_Aliment::getNomType($p["type_bbdf_type_aliment"]),
-			);
+			$retour .= 'ALIMENT;'.$p["id_".$typem."_aliment"].';'.$p["nom_type_aliment"].';'.$p["nom_type_qualite"].PHP_EOL;
 		}
-		unset($aliments);
 	}
 
-	private function renderGraine() {
-		$tabGraines = null;
-		$labanGraineTable = new LabanGraine();
-		$graines = $labanGraineTable->findByIdHobbit($this->hobbit->id_hobbit);
-		unset($labanGraineTable);
-
+	private function renderGraine($type, &$retour, $idCharrette = null) {
+		$typem = strtolower($type);
+		$conteneurGraine = $type."Graine";
+		$graineTable = new $conteneurGraine();
+		if ($idCharrette == null) {
+			$graines = $graineTable->findByIdHobbit($this->hobbit->id_hobbit);
+		} else {
+			$graines = $graineTable->findByIdCharrette($idCharrette);
+		}
 		foreach ($graines as $g) {
 			if ($g["quantite_".$typem."_graine"] > 0) {
-				$tabGraines[] = array(
-					"type" => $g["nom_type_graine"],
-					"id_type_graine" => $g["id_type_graine"],
-					"quantite" => $g["quantite_".$typem."_graine"],
-					"poids" => $g["quantite_".$typem."_graine"] * Bral_Util_Poids::POIDS_POIGNEE_GRAINES,
-				);
+				$retour .= 'GRAINE;'.$g["quantite_".$typem."_graine"].';'.$g["nom_type_graine"].PHP_EOL;
 			}
 		}
-		unset($graines);
 	}
 
-	private function renderIngredient(&$tabMetiers, &$tabLaban) {
-		$tabIngredients = null;
-		$labanIngredientTable = new LabanIngredient();
-		$ingredients = $labanIngredientTable->findByIdHobbit($this->hobbit->id_hobbit);
-		unset($labanIngredientTable);
-
-		Zend_Loader::loadClass("TypeIngredient");
-
-		foreach ($ingredients as $g) {
-			if ($g["quantite_".$typem."_ingredient"] > 0) {
-
-				if ($g["id_type_ingredient"] ==  TypeIngredient::ID_TYPE_VIANDE_FRAICHE) {
-					if (isset($tabMetiers["chasseur"])) {
-						$tabMetiers["chasseur"]["a_afficher"] = true;
-					}
-					$tabLaban["nb_viande"] = $g["quantite_".$typem."_ingredient"];
-					$tabLaban["nb_viande_poids_unitaire"] = $g["poids_unitaire_type_ingredient"];
-				} else {
-					$tabIngredients[] = array(
-						"type" => $g["nom_type_ingredient"],
-						"id_type_ingredient" => $g["id_type_ingredient"],
-						"quantite" => $g["quantite_".$typem."_ingredient"],
-						"poids" => $g["quantite_".$typem."_ingredient"] * $g["poids_unitaire_type_ingredient"],
-					);
-					if (isset($tabMetiers["cuisinier"])) {
-						$tabMetiers["cuisinier"]["a_afficher"] = true;
-					}
-				}
+	private function renderIngredient($type, &$retour, $idCharrette = null) {
+		$typem = strtolower($type);
+		$conteneurIngredient = $type."Ingredient";
+		$ingredientTable = new $conteneurIngredient();
+		if ($idCharrette == null) {
+			$ingredients = $ingredientTable->findByIdHobbit($this->hobbit->id_hobbit);
+		} else {
+			$ingredients = $ingredientTable->findByIdCharrette($idCharrette);
+		}
+		foreach ($ingredients as $p) {
+			if ($p["quantite_".$typem."_ingredient"] > 0) {
+				$retour .= 'INGREDIENT;'.$p["quantite_".$typem."_ingredient"].';'.$p["nom_type_ingredient"].PHP_EOL;
 			}
 		}
-		unset($ingredients);
 	}
 }
