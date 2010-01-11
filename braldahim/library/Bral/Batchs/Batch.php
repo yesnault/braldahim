@@ -16,8 +16,6 @@ abstract class Bral_Batchs_Batch {
 	const ETAT_OK = 'OK';
 	const ETAT_KO = 'KO';
 	
-	protected $view = null;
-	
 	public function __construct($nomSysteme, $view = null) {
 		Zend_Loader::loadClass('Batch'); 
 		$this->nomSysteme = $nomSysteme;
