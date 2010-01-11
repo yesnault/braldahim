@@ -440,7 +440,6 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			throw new Zend_Exception(get_class($this)." ID Equipement invalide : ".$idEquipement);
 		}
 
-		$idVente = $this->initVente("equipement");
 		$equipement = $this->view->equipements[$idEquipement];
 
 		if ($endroit["nom_systeme"] == "Laban") {
@@ -458,6 +457,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		$table->delete($where);
 
 		if ($equipement["nom_systeme_type_emplacement"] == 'laban' && $endroit["nom_systeme"] == "Echoppe") {
+			$idVente = $this->initVente("munition");
 			Zend_Loader::loadClass("VenteMunition");
 			$venteMunitionTable = new VenteMunition();
 			$data = array (
@@ -467,6 +467,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 			);
 			$venteMunitionTable->insert($data);
 		} else {
+			$idVente = $this->initVente("equipement");
 			Zend_Loader::loadClass("VenteEquipement");
 			$venteEquipementTable = new VenteEquipement();
 			$data = array (
