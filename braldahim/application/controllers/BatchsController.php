@@ -97,7 +97,7 @@ class BatchsController extends Zend_Controller_Action {
 	}
 
 	function hotelAction() {
-		$this->view->retour = Bral_Batchs_Factory::calculBatch("Hotel");
+		$this->view->retour = Bral_Batchs_Factory::calculBatch("Hotel", $this->view);
 		echo $this->view->render("batchs/resultat.phtml");
 	}
 
