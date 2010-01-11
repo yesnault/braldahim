@@ -60,16 +60,16 @@ class Bral_Monstres_Competences_Rongecharrette extends Bral_Monstres_Competences
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
 		$idTypeEvenement = self::$config->game->evenements->type->attaquer;
 
-		$details = "[m".$this->monstre["id_monstre"]."] ronge la [t.".$idCharrette."]";
+		$details = "[m".$this->monstre["id_monstre"]."] ronge la [t".$idCharrette."]";
 		$detailsBot = "";
 		if ($idHobbit != null) {
-			$details .= " portée par [h".$idHobbit."].";
+			$details .= " portée par [h".$idHobbit."]";
 			$detailsBot = "Le Rat a rongé votre charrette, elle perd 1 point en durabilité."; 
 		}
 
-		Bral_Util_Evenement::majEvenementsFromVieMonstre($hobbit["id_hobbit"], $this->monstre["id_monstre"], $idTypeEvenement, $details, "", $this->monstre["niveau_monstre"], $this->view);
+		Bral_Util_Evenement::majEvenementsFromVieMonstre($idHobbit, $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $this->monstre["niveau_monstre"], $this->view);
 		Zend_loader::loadClass("Bral_Util_Materiel");
-		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_ATTAQUER_ID, $details, $details);
+		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_ATTAQUER_ID, $idCharrette, $details);
 
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");
 	}
