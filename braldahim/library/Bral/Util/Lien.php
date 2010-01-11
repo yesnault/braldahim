@@ -15,6 +15,7 @@ class Bral_Util_Lien {
 	public static function remplaceBaliseParNomEtJs($texteOriginal, $avecJs = true) {
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Lieu");
+		Zend_Loader::loadClass("Materiel");
 		
 		// Monstre
 		$texte = preg_replace_callback("/\[m(.*?)]/si", 
@@ -23,6 +24,10 @@ class Bral_Util_Lien {
 		// Hobbit
 		$texte = preg_replace_callback("/\[h(.*?)]/si", 
 		create_function('$matches', self::getFunctionHobbit($avecJs)), $texte);
+		
+		// Materiel
+		$texte = preg_replace_callback("/\[t(.*?)]/si", 
+		create_function('$matches', self::getFunctionMateriel($avecJs)), $texte);
 		
 		// Lieu
 		$texte = preg_replace_callback("/\[l(.*?)]/si", 
@@ -52,6 +57,16 @@ class Bral_Util_Lien {
 		$retour .= '$nom = "";';
 		if ($avecJs) $retour .= '$nom = "<label class=\'alabel\' onclick=\"javascript:ouvrirWin(\'/voir/hobbit/?hobbit=".$matches[1]."\');\">";';
 		$retour .= '$nom .= $h->findNomById($matches[1]);';
+		if ($avecJs) $retour .= '$nom .= "</label>";';
+		$retour .= 'return $nom;';
+		return $retour;
+	}
+	
+	private static function getFunctionMateriel($avecJs = true) {
+		$retour = '$m = new Materiel();';
+		$retour .= '$nom = "";';
+		if ($avecJs) $retour .= '$nom = "<label class=\'alabel\' onclick=\"javascript:ouvrirWin(\'/voir/materiel/?materiel=".$matches[1]."\');\">";';
+		$retour .= '$nom .= $m->findNomById($matches[1]);';
 		if ($avecJs) $retour .= '$nom .= "</label>";';
 		$retour .= 'return $nom;';
 		return $retour;

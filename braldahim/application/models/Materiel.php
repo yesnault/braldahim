@@ -25,4 +25,16 @@ class Materiel extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
+
+	function findNomById($id) {
+		$materiels = $this->findByIdMaterielWithDetails($id);
+
+		if ($materiels == null || count($materiels) != 1) {
+			$retour = "materiel inconnu";
+		} else {
+			$materiel = $materiels[0];
+			$retour = $materiel["nom_type_materiel"]. " (".$materiel["id_materiel"].")";
+		}
+		return $retour;
+	}
 }
