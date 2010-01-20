@@ -234,39 +234,52 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Coffre" || $this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Coffre" ) {
 			$idEvenement = $this->view->config->game->evenements->type->service;
-			$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a utilisé les services de la banque ";
+			if ($this->view->id_hobbit_coffre != $this->view->user->id_hobbit) {
+				$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
+				$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
+				$message .= $this->view->elementsRetires;
+				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans le coffre de [h".$this->view->id_hobbit_coffre."]";
+				$this->setDetailsEvenementCible($this->view->id_hobbit_coffre, "hobbit", 0, $this->view->elementsRetires);
+				$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->id_hobbit_coffre, $message, $this->view);
+			}
+			else {
+				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a utilisé les services de la banque ";
+			}
+		}
+		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Charrette" ) {
+			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
+			if ($this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"] != $this->view->user->id_hobbit) {
+				$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
+				$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre charrette : ".PHP_EOL;
+				$message .= $this->view->elementsRetires;
+				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans la charrette de [h".$this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"]."]";
+				$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"], "hobbit", 0, $this->view->elementsRetires);
+				$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"], $message, $this->view);
+			}
+			else {
+				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans sa charrette ";
+			}
+		}		
+		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Echoppe" ) {
+			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
+			if ($this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"] != $this->view->user->id_hobbit) {
+				$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
+				$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre échoppe : ".PHP_EOL;
+				$message .= $this->view->elementsRetires;
+				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans l'échoppe de [h".$this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"]."]";
+				$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"], "hobbit", 0, $this->view->elementsRetires);
+				$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"], $message, $this->view);
+			}
+			else {
+				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans son échoppe ";
+			}
 		}
 		if ($this->detailEvenement == "") {
 			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
 			$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments ";
 		}
+		
 		$this->setDetailsEvenement($this->detailEvenement, $idEvenement);
-
-
-		// envoi des messages
-		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Coffre" && $this->view->id_hobbit_coffre != $this->view->user->id_hobbit ) {
-			$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
-			$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
-			$message .= $this->view->elementsRetires;
-
-			$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->id_hobbit_coffre, $message, $this->view);
-		}
-
-		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Charrette" && $this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"] != $this->view->user->id_hobbit ) {
-			$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
-			$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre charrette : ".PHP_EOL;
-			$message .= $this->view->elementsRetires;
-
-			$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"], $message, $this->view);
-		}
-
-		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Echoppe" && $this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"] != $this->view->user->id_hobbit ) {
-			$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
-			$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre échoppe : ".PHP_EOL;
-			$message .= $this->view->elementsRetires;
-
-			$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"], $message, $this->view);
-		}
 
 		$this->setEvenementQueSurOkJet1(false);
 

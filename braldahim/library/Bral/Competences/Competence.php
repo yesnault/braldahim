@@ -277,10 +277,11 @@ abstract class Bral_Competences_Competence {
 	/*
 	 * Mise à jour des événements de la cible.
 	 */
-	protected function setDetailsEvenementCible($idCible, $typeCible, $niveauCible) {
+	protected function setDetailsEvenementCible($idCible, $typeCible, $niveauCible, $detailBotCible="?") {
 		$this->idCible = $idCible;
 		$this->niveauCible = $niveauCible;
 		$this->typeCible = $typeCible;
+		$this->detailBotCible = $detailBotCible;
 	}
 
 	/*
@@ -315,7 +316,7 @@ abstract class Bral_Competences_Competence {
 			if ($this->view->okJet1 === true || $this->evenementQueSurOkJet1 == false) {
 				Bral_Util_Evenement::majEvenements($this->view->user->id_hobbit, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_hobbit, "hobbit", false, null, $this->idMatchSoule);
 				if ($this->idCible != null && $this->typeCible != null){
-					Bral_Util_Evenement::majEvenements($this->idCible, $this->idTypeEvenement, $this->detailEvenement, "?", $this->niveauCible, $this->typeCible);
+					Bral_Util_Evenement::majEvenements($this->idCible, $this->idTypeEvenement, $this->detailEvenement, $this->detailBotCible, $this->niveauCible, $this->typeCible);
 				}
 			}
 		}
