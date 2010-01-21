@@ -234,7 +234,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 		}
 		if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Coffre" || $this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Coffre" ) {
 			$idEvenement = $this->view->config->game->evenements->type->service;
-			if ($this->view->id_hobbit_coffre != $this->view->user->id_hobbit) {
+			if ($this->view->id_hobbit_coffre != $this->view->user->id_hobbit && $this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Coffre") {
 				$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
 				$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
 				$message .= $this->view->elementsRetires;
