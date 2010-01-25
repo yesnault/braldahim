@@ -238,9 +238,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
 				$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
 				$message .= $this->view->elementsRetires;
-				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans le coffre de [h".$this->view->id_hobbit_coffre."]";
-				$this->setDetailsEvenementCible($this->view->id_hobbit_coffre, "hobbit", 0, $this->view->elementsRetires);
 				$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->id_hobbit_coffre, $message, $this->view);
+				
+				$messageCible = $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
+				$messageCible .= $this->view->elementsRetires;
+				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans le coffre de [h".$this->view->id_hobbit_coffre."]";
+				$this->setDetailsEvenementCible($this->view->id_hobbit_coffre, "hobbit", 0, $messageCible);
 			}
 			else {
 				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a utilisé les services de la banque ";
@@ -252,9 +255,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
 				$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre charrette : ".PHP_EOL;
 				$message .= $this->view->elementsRetires;
-				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans la charrette de [h".$this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"]."]";
-				$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"], "hobbit", 0, $this->view->elementsRetires);
 				$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"], $message, $this->view);
+				
+				$messageCible = $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre charrette : ".PHP_EOL;
+				$messageCible .= $this->view->elementsRetires;
+				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans la charrette de [h".$this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"]."]";
+				$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_hobbit_charrette"], "hobbit", 0, $messageCible);	
 			}
 			else {
 				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans sa charrette ";
@@ -266,9 +272,12 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				$message = "[Ceci est un message automatique de transbahutage]".PHP_EOL;
 				$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre échoppe : ".PHP_EOL;
 				$message .= $this->view->elementsRetires;
-				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans l'échoppe de [h".$this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"]."]";
-				$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"], "hobbit", 0, $this->view->elementsRetires);
 				$data = Bral_Util_Messagerie::envoiMessageAutomatique($this->view->user->id_hobbit, $this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"], $message, $this->view);
+				
+				$messageCible = $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit. " a transbahuté ces éléments dans votre échoppe : ".PHP_EOL;
+				$messageCible .= $this->view->elementsRetires;
+				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans l'échoppe de [h".$this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"]."]";
+				$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"], "hobbit", 0, $messageCible);	
 			}
 			else {
 				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans son échoppe ";
