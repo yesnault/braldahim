@@ -46,8 +46,7 @@ class RechercheController extends Zend_Controller_Action {
 
 	private function rechercheHobbit($idTypeDistinction = null) {
 		
-		if (Bral_Util_String::isChaineValide($this->_request->get("valeur"))) {
-
+		if (Bral_Util_String::isChaineValide(stripslashes($this->_request->get("valeur")))) {
 			$tabHobbits = null;
 			$hobbitTable = new Hobbit();
 
