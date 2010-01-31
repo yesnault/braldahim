@@ -158,7 +158,7 @@ class Bral_Util_Attaque {
 
 		// pour le tir
 		if ($tir == true) {
-			$penetrationArmure = floor(($hobbitCible->agilite_bm_hobbit + $hobbitCible->agilite_bbdf_hobbit + $hobbitCible->sagesse_bm_hobbit + $hobbitCible->sagesse_bbdf_hobbit)/2);
+			$penetrationArmure = floor(($hobbitAttaquant->agilite_bm_hobbit + $hobbitAttaquant->agilite_bbdf_hobbit + $hobbitAttaquant->sagesse_bm_hobbit + $hobbitAttaquant->sagesse_bbdf_hobbit)/2);
 			if ($penetrationArmure < 0) {
 				$penetrationArmure = 0;
 			}
