@@ -17,7 +17,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 	protected $view = null;
 	protected static $config = null;
 
-	public function __construct($competence, &$monstre, $cible, $view) {
+	public function __construct($competence, &$monstre, &$cible, $view) {
 		$this->competence = $competence;
 		$this->monstre = &$monstre;
 		$this->cible = $cible;
