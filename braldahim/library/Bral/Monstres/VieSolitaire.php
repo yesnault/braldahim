@@ -67,13 +67,19 @@ class Bral_Monstres_VieSolitaire {
 		if ($monstre["id_fk_hobbit_cible_monstre"] != null) {
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - cible en cours");
 			$hobbitTable = new Hobbit();
-			$cible = $hobbitTable->findHobbitAvecRayon($monstre["x_monstre"], $monstre["y_monstre"], $monstre["vue_monstre"], $monstre["id_fk_hobbit_cible_monstre"], false);
+			$vue = $monstre["vue_monstre"] + $monstre["vue_malus_monstre"];
+			if ($vue < 0) {
+				$vue = 0;
+			}
+				
+			$cible = $hobbitTable->findHobbitAvecRayon($monstre["x_monstre"], $monstre["y_monstre"], $vue, $monstre["id_fk_hobbit_cible_monstre"], false);
 			if (count($cible) > 0) {
 				$cible = $cible[0];
 				$monstre["x_direction_monstre"] = $cible["x_hobbit"];
 				$monstre["y_direction_monstre"] = $cible["y_hobbit"];
 				Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible trouvee:".$cible["id_hobbit"]. " x=".$monstre["x_direction_monstre"]. " y=".$monstre["y_direction_monstre"]);
 			} else {
+				$monstre["id_fk_hobbit_cible_monstre"] = null;
 				Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible non trouvee x=".$monstre["x_direction_monstre"]. " y=".$monstre["y_direction_monstre"]);
 			}
 		} else { // pas de cible en cours
@@ -94,7 +100,12 @@ class Bral_Monstres_VieSolitaire {
 	private function rechercheNouvelleCible(&$monstre) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - rechercheNouvelleCible - enter");
 		$hobbitTable = new Hobbit();
-		$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $monstre["vue_monstre"], 1, $monstre["id_fk_type_monstre"], false);
+		$vue = $monstre["vue_monstre"] + $monstre["vue_malus_monstre"];
+		if ($vue < 0) {
+			$vue = 0;
+		}
+			
+		$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $vue, 1, $monstre["id_fk_type_monstre"], false);
 		if ($cibles != null) {
 			$cible = $cibles[0];
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - nouvelle cible trouvee:".$cible["id_hobbit"]);
