@@ -265,7 +265,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			else {
 				$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments dans sa charrette ";
 			}
-		}		
+		}
 		if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Echoppe" ) {
 			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
 			if ($this->view->tabEndroit[$idArrivee]["id_hobbit_echoppe"] != $this->view->user->id_hobbit) {
@@ -287,7 +287,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$idEvenement = $this->view->config->game->evenements->type->transbahuter;
 			$this->detailEvenement = "[h".$this->view->user->id_hobbit."] a transbahuté des éléments ";
 		}
-		
+
 		$this->setDetailsEvenement($this->detailEvenement, $idEvenement);
 
 		$this->setEvenementQueSurOkJet1(false);
@@ -670,12 +670,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_RUNE;
 								break;
 							case "Element" :
+								$dateCreation = date("Y-m-d H:i:s");
+								$nbJours = Bral_Util_De::get_2d10();
+								$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+
 								$arriveeRuneTable = new ElementRune();
 								$data = array (
 									"id_rune_element_rune" => $rune["id_rune"],
 									"x_element_rune" => $this->view->user->x_hobbit,
 									"y_element_rune" => $this->view->user->y_hobbit,
 									"z_element_rune" => $this->view->user->z_hobbit,
+									"date_fin_element_rune" => $dateFin,
 								);
 								break;
 							case "Coffre" :
@@ -1156,6 +1161,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 								$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_MUNITION * $nbMunition;
 								break;
 							case "Element" :
+								$dateCreation = date("Y-m-d H:i:s");
+								$nbJours = Bral_Util_De::get_2d10();
+								$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+
 								$arriveeMunitionTable = new ElementMunition();
 								$data = array (
 									"x_element_munition" => $this->view->user->x_hobbit,
@@ -1163,6 +1172,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 									"z_element_munition" => $this->view->user->z_hobbit,
 									"id_fk_type_element_munition" => $munition["id_type_munition"],
 									"quantite_element_munition" => $nbMunition,
+									'date_fin_element_munition' => $dateFin,
 								);
 								break;
 							case "Coffre" :
@@ -1434,6 +1444,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_MINERAI * $nbBrut - Bral_Util_Poids::POIDS_LINGOT * $nbLingot;
 						break;
 					case "Element" :
+						$dateCreation = date("Y-m-d H:i:s");
+						$nbJours = Bral_Util_De::get_2d10();
+						$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+
 						$arriveeMineraiTable = new ElementMinerai();
 						$data = array("x_element_minerai" => $this->view->user->x_hobbit,
 							  "y_element_minerai" => $this->view->user->y_hobbit,
@@ -1441,6 +1455,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							  'quantite_brut_element_minerai' => $nbBrut,
 							  'quantite_lingots_element_minerai' => $nbLingot,
 							  'id_fk_type_element_minerai' => $this->view->minerais[$indice]["id_fk_type_minerai"],
+							  'date_fin_element_minerai' => $dateFin,
 						);
 						break;
 					case "Coffre" :
@@ -1669,6 +1684,10 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_PARTIE_PLANTE_BRUTE * $nbBrutes - Bral_Util_Poids::POIDS_PARTIE_PLANTE_PREPAREE * $nbPreparees;
 						break;
 					case "Element" :
+						$dateCreation = date("Y-m-d H:i:s");
+						$nbJours = Bral_Util_De::get_2d10();
+						$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+
 						$arriveePartiePlanteTable = new ElementPartieplante();
 						$data = array("x_element_partieplante" => $this->view->user->x_hobbit,
 							  "y_element_partieplante" => $this->view->user->y_hobbit,
@@ -1677,6 +1696,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							  'quantite_preparee_element_partieplante' => $nbPreparees,
 							  'id_fk_type_element_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_partieplante"],
 							  'id_fk_type_plante_element_partieplante' => $this->view->partieplantes[$indice]["id_fk_type_plante_partieplante"],
+							  'date_fin_element_partieplante' => $dateFin,
 						);
 						break;
 					case "Coffre" :
@@ -2204,12 +2224,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POIGNEE_GRAINES * $nb;
 						break;
 					case "Element" :
+						$dateCreation = date("Y-m-d H:i:s");
+						$nbJours = Bral_Util_De::get_2d10();
+						$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+
 						$arriveeGraineTable = new ElementGraine();
 						$data = array("x_element_graine" => $this->view->user->x_hobbit,
 							  "y_element_graine" => $this->view->user->y_hobbit,
 							  "z_element_graine" => $this->view->user->z_hobbit,
 							  'quantite_element_graine' => $nb,
 							  'id_fk_type_element_graine' => $this->view->graines[$indice]["id_fk_type_graine"],
+							  'date_fin_element_graine' => $dateFin,
 						);
 						break;
 					case "Coffre" :
@@ -2342,12 +2367,17 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 						$this->view->poidsRestant = $this->view->poidsRestant - Bral_Util_Poids::POIDS_POIGNEE_GRAINES * $nb;
 						break;
 					case "Element" :
+						$dateCreation = date("Y-m-d H:i:s");
+						$nbJours = Bral_Util_De::get_2d10();
+						$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateCreation, $nbJours);
+
 						$arriveeIngredientTable = new ElementIngredient();
 						$data = array("x_element_ingredient" => $this->view->user->x_hobbit,
 							  "y_element_ingredient" => $this->view->user->y_hobbit,
 							  "z_element_ingredient" => $this->view->user->z_hobbit,
 							  'quantite_element_ingredient' => $nb,
 							  'id_fk_type_element_ingredient' => $this->view->ingredients[$indice]["id_fk_type_ingredient"],
+							  'date_fin_element_ingredient' => $dateFin,
 						);
 						break;
 					case "Coffre" :
