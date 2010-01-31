@@ -128,7 +128,7 @@ class Bral_Competences_Gardiennage extends Bral_Competences_Competence {
 		$message .= $this->view->user->prenom_hobbit. " ". $this->view->user->nom_hobbit;
 		$message .= " (".$this->view->user->id_hobbit.") vous confie son hobbit.".PHP_EOL;
 		$message .= " Premier jour de garde : ".$premierJourTexte.PHP_EOL;
-		$message .= " Dernier jour de garde (inclut) : ".$dernierJourTexte.PHP_EOL;
+		$message .= " Dernier jour de garde (inclus) : ".$dernierJourTexte.PHP_EOL;
 		$message .= " Nombre de jours : ".$nbJour.PHP_EOL;
 		$message .= " Commentaire : ".$commentaire.PHP_EOL;
 		
