@@ -264,7 +264,6 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("Aliment");
 		$tirage = Bral_Util_De::get_1d100();
-		$tirage = 100;
 		if ($tirage > 0 && $tirage <= $chance_a) {
 			$this->view->qualite = "de Lager";
 			$idTypeAliment = TypeAliment::ID_TYPE_LAGER;
@@ -355,8 +354,10 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 	}
 
 	private function retireIngredients($idSource, $estRate = false) {
+		$prefix2 = "";
 		if ($idSource == "echoppe") {
 			$prefix = "echoppe";
+			$prefix2 = "arriere_";
 			Zend_Loader::loadClass("EchoppeIngredient");
 			$table = new EchoppeIngredient();
 			$data["id_fk_echoppe_echoppe_ingredient"] = $this->view->idEchoppe;
@@ -380,7 +381,7 @@ class Bral_Competences_Brasser extends Bral_Competences_Competence {
 				$quantite = floor($quantite / 2);
 			}
 			$data["id_fk_type_".$prefix."_ingredient"] = $i["id_type_ingredient"];
-			$data["quantite_".$prefix."_ingredient"] = $quantite;
+			$data["quantite_".$prefix2.$prefix."_ingredient"] = $quantite;
 			$table->insertOrUpdate($data);
 		}
 	}
