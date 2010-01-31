@@ -95,7 +95,7 @@ class Bral_Batchs_Champs extends Bral_Batchs_Batch {
 
 		$retour .= ' champ:'.$champ["id_champ"].'->jachere';
 		
-		$detailsBot = "Bonjour,".PHP_EOL.PHP_EOL."Votre champ (x:".$champ["x_champ"]." y:".$champ["y_champ"].") passé automatiquement en jachère. La récolte est perdue.";
+		$detailsBot = "Bonjour,".PHP_EOL.PHP_EOL."Votre champ (x:".$champ["x_champ"]." y:".$champ["y_champ"].") est passé automatiquement en jachère. La récolte est perdue.";
 		Zend_Loader::loadClass("Bral_Util_Messagerie");
 		$message = $detailsBot.PHP_EOL.PHP_EOL." Signé José le Faucheur".PHP_EOL."Inutile de répondre à ce message.";
 		Bral_Util_Messagerie::envoiMessageAutomatique($this->config->game->pnj->jose->id_hobbit, $champ["id_hobbit"], $message, $this->view);
