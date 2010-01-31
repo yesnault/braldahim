@@ -24,7 +24,7 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 	/**
 	 * Attaque de la cible.
 	 */
-	protected function attaqueGroupe(&$monstre_role_a, &$groupe, &$monstres, $cible) {
+	protected function attaqueGroupe(&$monstre_role_a, &$groupe, &$monstres, &$cible) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueGroupe - enter");
 
 		if ($groupe["date_phase_tactique_groupe_monstre"] < $this->dateCourante) {

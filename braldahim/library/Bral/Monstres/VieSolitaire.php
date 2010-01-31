@@ -112,7 +112,7 @@ class Bral_Monstres_VieSolitaire {
 	/**
 	 * Attaque de la cible.
 	 */
-	protected function attaqueSolitaire(&$monstre, $cible) {
+	protected function attaqueSolitaire(&$monstre, &$cible) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueSolitaire - enter");
 
 		$vieMonstre = Bral_Monstres_VieMonstre::getInstance();

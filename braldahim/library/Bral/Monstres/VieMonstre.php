@@ -173,7 +173,7 @@ class Bral_Monstres_VieMonstre {
 		return $estFuite;
 	}
 
-	public function attaqueCible($cible, $view) {
+	public function attaqueCible(&$cible, $view) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible (idm:".$this->monstre["id_monstre"].") - enter");
 		$koCible = false;
 
