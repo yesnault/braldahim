@@ -277,7 +277,11 @@ class Bral_Util_Attaque {
 			} else {
 				$retourAttaque["typeEvenement"] = $config->game->evenements->type->attaquer;
 				$idTypeEvenementCible = $retourAttaque["typeEvenement"];
-				$details .=" a attaqué ";
+				if ($tir) {
+					$details .=" a tiré sur ";
+				} else {
+					$details .=" a attaqué ";
+				}
 			}
 		} else { // soule
 			$retourAttaque["typeEvenement"] = $config->game->evenements->type->soule;
@@ -286,6 +290,8 @@ class Bral_Util_Attaque {
 			$retourAttaque["idMatchSoule"]  = $hobbitAttaquant->id_fk_soule_match_hobbit;
 			if ($retourAttaque["mort"] == true) {
 				$details .=" a plaqué ";
+			} elseif ($tir) {
+				$details .=" a tiré sur ";
 			} else {
 				$details .=" a attaqué ";
 			}
@@ -630,7 +636,12 @@ class Bral_Util_Attaque {
 			Bral_Util_Evenement::majEvenements($cible["id_cible"], $config->game->evenements->type->killmonstre, $details, "", $cible["niveau_cible"], "monstre");
 		} else {
 			$idTypeEvenement = $config->game->evenements->type->attaquer;
-			$details = " [h".$hobbitAttaquant->id_hobbit."] a attaqué le ".$libelleMonstreGibier." [m".$cible["id_cible"]."]";
+			if ($tir) {
+				$verbe =" a tiré sur ";
+			} else {
+				$verbe =" a attaqué ";
+			}
+			$details = " [h".$hobbitAttaquant->id_hobbit."] ".$verbe." le ".$libelleMonstreGibier." [m".$cible["id_cible"]."]";
 
 			if ($retourAttaque["jetAttaquant"] * 2 < $retourAttaque["jetCible"]) { // esquive parfaite
 				$details .= " qui a esquivé parfaitement";
