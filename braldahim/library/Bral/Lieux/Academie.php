@@ -90,7 +90,36 @@ class Bral_Lieux_Academie extends Bral_Lieux_Lieu {
 					$this->view->coutCastars = $this->view->coutCastarsForce;
 					Zend_Loader::loadClass("Bral_Util_Poids");
 					$this->view->user->poids_transportable_hobbit = Bral_Util_Poids::calculPoidsTransportable($this->view->user->force_base_hobbit);
+
+					Zend_Loader::loadClass("HobbitEquipement");
+					Zend_Loader::loadClass("EquipementRune");
+
+					// on va chercher l'equipement porte et les runes
+					$hobbitEquipementTable = new HobbitEquipement();
+					$equipementPorteRowset = $hobbitEquipementTable->findByIdHobbit($this->view->user->id_hobbit);
+					Zend_Loader::loadClass("Bral_Util_Equipement");
+					$tabEquipementPorte = Bral_Util_Equipement::prepareTabEquipements($equipementPorteRowset, false, $this->view->user->niveau_hobbit);
+					if (count($tabEquipementPorte) > 0) {
+						$idEquipements = null;
+
+						foreach ($tabEquipementPorte as $e) {
+							$idEquipements[] = $e["id_equipement"];
+						}
+
+						$equipementRuneTable = new EquipementRune();
+						$equipementRunes = $equipementRuneTable->findByIdsEquipement($idEquipements);
+
+						if (count($equipementRunes) > 0) {
+							foreach($equipementRunes as $r) {
+								if ($r["nom_type_rune"] == "OX") {
+									// OX Poids maximum porte augmente de Niveau du Hobbit/10 arrondi inferieur
+									$this->view->user->poids_transportable_hobbit = $this->view->user->poids_transportable_hobbit + floor($this->view->user->niveau_hobbit / 10);
+								}
+							}
+						}
+					}
 				}
+
 				break;
 			case "SAG":
 				if ($this->view->achatPossibleSagesse == false) {

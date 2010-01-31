@@ -225,7 +225,6 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 	}
 
 	private function calculAjoutEffet($equipement) {
-
 		$this->view->user->force_bm_hobbit = $this->view->user->force_bm_hobbit + $equipement["force"];
 		$this->view->user->agilite_bm_hobbit = $this->view->user->agilite_bm_hobbit + $equipement["agilite"];
 		$this->view->user->vigueur_bm_hobbit = $this->view->user->vigueur_bm_hobbit + $equipement["vigueur"];
