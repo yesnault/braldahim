@@ -250,10 +250,10 @@ class Bral_Util_Effets {
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur AGI avant = ".$hobbitCible->agilite_bm_hobbit);
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur VIG avant = ".$hobbitCible->vigueur_bm_hobbit);
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur SAG avant = ".$hobbitCible->sagesse_bm_hobbit);
-			$bmForce = (floor($hobbitCible->force_base_hobbit / 10) + 1) * 4;
-			$bmAgilite = (floor($hobbitCible->agilite_base_hobbit / 10) + 1) * 4;
-			$bmVigueur = (floor($hobbitCible->vigueur_base_hobbit / 10) + 1) * 4;
-			$bmSagesse = (floor($hobbitCible->sagesse_base_hobbit / 10) + 1) * 4;
+			$bmForce = (floor($hobbitCible->niveau_hobbit / 10) + 1) * 4;
+			$bmAgilite = (floor($hobbitCible->niveau_hobbit / 10) + 1) * 4;
+			$bmVigueur = (floor($hobbitCible->niveau_hobbit / 10) + 1) * 4;
+			$bmSagesse = (floor($hobbitCible->niveau_hobbit / 10) + 1) * 4;
 
 			if ($effet["actif"] == true) {
 				$hobbitCible->force_bm_hobbit = $hobbitCible->force_bm_hobbit + $bmForce;
