@@ -605,7 +605,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 								} else {
 									$estGibier = false;
 								}
-								$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"], "est_gibier" => $estGibier);
+								$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "id_type_monstre" => $m["id_type_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"], "est_gibier" => $estGibier);
 							}
 						}
 					}

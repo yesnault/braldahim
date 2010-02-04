@@ -28,6 +28,7 @@
 	}
 endif; 
 
+$idTypeMonstre = "";
 if ($case["n_monstres"] > 0) :
 	$textMonstre = "<br>Monstre";
 	if ($case["n_monstres"] > 1) {
@@ -42,6 +43,12 @@ if ($case["n_monstres"] > 0) :
 		$textMonstre .= htmlspecialchars($m["nom_monstre"]) ." ".htmlspecialchars($m["taille_monstre"])." (n&deg;".$m["id_monstre"].")</label> ";
 		$textMonstre .= ' <img src=\\\'/public/images/puce_event.gif\\\' title=\\\'Voir les événements\\\' border=\\\'0\\\' onClick=ouvrirEvenementsM('.$m["id_monstre"].'); style=\\\'cursor:pointer\\\'/> ';
 		$textMonstre .= "<br />";
+		
+		if ($idTypeMonstre == "") {
+			$idTypeMonstre = $m["id_type_monstre"];
+		} elseif ($idTypeMonstre != $m["id_type_monstre"]) {
+			$idTypeMonstre = -1;
+		}
 	} 
 	$s = "";
 	if ($case["n_monstres"] > 1) {
@@ -66,11 +73,33 @@ endif;
 <? elseif ($case["n_monstres"] > 0 && $case["n_nids"]) : ?>
 	<img src='/public/styles/braldahim_defaut/images/vue/monstre_nid.png' <?=Bral_Helper_Tooltip::jsTip($textNid.$textMonstre, $titre) ?>/>
 <? elseif ($case["n_monstres"] > 0 && $case["n_hobbits"] > 0) : ?>
-    <img src='/public/styles/braldahim_defaut/images/vue/hobbit_monstre.png' <?=Bral_Helper_Tooltip::jsTip($textMonstre."<br>".$textHobbit, $titre) ?>/>
+    <?
+    if ($case["n_monstres"] == 1) {
+		$suffixe = "a";
+	} else {
+		$suffixe = "b";
+	}
+    if ($idTypeMonstre == 8 || $idTypeMonstre == 11) {
+    	?> <img src='/public/styles/braldahim_defaut/images/type_monstre/<?=$idTypeMonstre.$suffixe?>h.png' <?=Bral_Helper_Tooltip::jsTip($textMonstre."<br>".$textHobbit, $titre) ?>/> <?
+    } else {
+    	?> <img src='/public/styles/braldahim_defaut/images/vue/hobbit_monstre.png' <?=Bral_Helper_Tooltip::jsTip($textMonstre."<br>".$textHobbit, $titre) ?>/> <?
+    }
+    ?>
 <? elseif ($case["n_nids"] > 0) : ?>
     <img src='/public/styles/braldahim_defaut/images/vue/nid.png' <?=Bral_Helper_Tooltip::jsTip($textNid, $titre) ?>/>
 <? elseif ($case["n_monstres"] > 0) : ?>
-    <img src='/public/styles/braldahim_defaut/images/vue/monstre.png' <?=Bral_Helper_Tooltip::jsTip($textMonstre, $titre) ?>/>
+	<?
+	if ($case["n_monstres"] == 1) {
+		$suffixe = "a";
+	} else {
+		$suffixe = "b";
+	}
+    if ($idTypeMonstre == 8 || $idTypeMonstre == 11) {
+    	?> <img src='/public/styles/braldahim_defaut/images/type_monstre/<?=$idTypeMonstre.$suffixe?>.png' <?=Bral_Helper_Tooltip::jsTip($textMonstre, $titre) ?>/> <?
+    } else {
+    	?> <img src='/public/styles/braldahim_defaut/images/vue/monstre.png' <?=Bral_Helper_Tooltip::jsTip($textMonstre, $titre) ?>/> <?
+    }
+    ?>
 <? elseif ($case["n_hobbits"] > 0) : ?>
     <img src='/public/styles/braldahim_defaut/images/vue/hobbit_<?=$sexe_hobbit?>.png' <?=Bral_Helper_Tooltip::jsTip($textHobbit, $titre) ?>/>
 <? else: ?>
