@@ -63,7 +63,7 @@ class Bral_Monstres_Competences_Piqure extends Bral_Monstres_Competences_Attaque
 		} else {
 			$retour .= PHP_EOL."Vous n'avez pas résisté à la piqure, l'effet porte sur plusieurs tours.";
 		}
-		$retour .= PHP_EOL."Points de vie : -".$malus;
+		$retour .= PHP_EOL."Malus sur votre agilité : -".$malus;
 		$retour .= PHP_EOL."Nombre de tours : ".$nbTours;
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
 		return $retour;

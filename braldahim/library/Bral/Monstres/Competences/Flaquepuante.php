@@ -62,7 +62,7 @@ class Bral_Monstres_Competences_Flaquepuante extends Bral_Monstres_Competences_A
 		} else {
 			$retour .= PHP_EOL."Vous n'avez pas résisté à la flaque.";
 		}
-		$retour .= PHP_EOL."Malus sur votre agilite : -".$malus;
+		$retour .= PHP_EOL."Malus sur votre agilité : -".$malus;
 		$retour .= PHP_EOL."Nombre de tours : ".$nbTours;
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
 		return $retour;
