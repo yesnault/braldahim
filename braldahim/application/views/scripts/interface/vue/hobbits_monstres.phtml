@@ -79,7 +79,9 @@ endif;
 	} else {
 		$suffixe = "b";
 	}
-    if ($idTypeMonstre == 8 || $idTypeMonstre == 11) {
+    if ($idTypeMonstre == 1 || $idTypeMonstre == 5 || 
+        $idTypeMonstre == 6 || $idTypeMonstre == 7 || 
+        $idTypeMonstre == 8 || $idTypeMonstre == 11) {
     	?> <img src='/public/styles/braldahim_defaut/images/type_monstre/<?=$idTypeMonstre.$suffixe?>h.png' <?=Bral_Helper_Tooltip::jsTip($textMonstre."<br>".$textHobbit, $titre) ?>/> <?
     } else {
     	?> <img src='/public/styles/braldahim_defaut/images/vue/hobbit_monstre.png' <?=Bral_Helper_Tooltip::jsTip($textMonstre."<br>".$textHobbit, $titre) ?>/> <?
@@ -94,14 +96,18 @@ endif;
 	} else {
 		$suffixe = "b";
 	}
-    if ($idTypeMonstre == 8 || $idTypeMonstre == 11) {
+	if ($idTypeMonstre == 1 || $idTypeMonstre == 5 || 
+        $idTypeMonstre == 6 || $idTypeMonstre == 7 || 
+        $idTypeMonstre == 8 || $idTypeMonstre == 11) {
     	?> <img src='/public/styles/braldahim_defaut/images/type_monstre/<?=$idTypeMonstre.$suffixe?>.png' <?=Bral_Helper_Tooltip::jsTip($textMonstre, $titre) ?>/> <?
     } else {
     	?> <img src='/public/styles/braldahim_defaut/images/vue/monstre.png' <?=Bral_Helper_Tooltip::jsTip($textMonstre, $titre) ?>/> <?
     }
     ?>
+<? elseif ($case["n_hobbits"] > 1) : ?>
+    <img src='/public/styles/braldahim_defaut/images/vue/hobbits.png' <?=Bral_Helper_Tooltip::jsTip($textHobbit, $titre) ?>/>
 <? elseif ($case["n_hobbits"] > 0) : ?>
-    <img src='/public/styles/braldahim_defaut/images/vue/hobbit_<?=$sexe_hobbit?>.png' <?=Bral_Helper_Tooltip::jsTip($textHobbit, $titre) ?>/>
+    <img src='/public/styles/braldahim_defaut/images/vue/hobbit.png' <?=Bral_Helper_Tooltip::jsTip($textHobbit, $titre) ?>/>
 <? else: ?>
     &nbsp;
 <? endif;?>
