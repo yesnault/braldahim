@@ -107,7 +107,7 @@ endif;
 <? elseif ($case["n_hobbits"] > 1) : ?>
     <img src='/public/styles/braldahim_defaut/images/vue/hobbits.png' <?=Bral_Helper_Tooltip::jsTip($textHobbit, $titre) ?>/>
 <? elseif ($case["n_hobbits"] > 0) : ?>
-    <img src='/public/styles/braldahim_defaut/images/vue/hobbit.png' <?=Bral_Helper_Tooltip::jsTip($textHobbit, $titre) ?>/>
+    <img src='/public/styles/braldahim_defaut/images/vue/hobbit_<?=$sexe_hobbit?>.png' <?=Bral_Helper_Tooltip::jsTip($textHobbit, $titre) ?>/>
 <? else: ?>
     &nbsp;
 <? endif;?>
