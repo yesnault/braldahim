@@ -38,18 +38,23 @@ class Bral_Monstres_Competences_Frappeeclair extends Bral_Monstres_Competences_A
 			$malus = floor($malus / 2);
 		}
 
-		$this->majEvenement($this->cible, $malus, $jetMonstre, $jetHobbit);
-
-		$this->cible["pv_restant_hobbit"] = $this->cible["pv_restant_hobbit"] - $malus;
+		$pvEnMoins = $malus -  $this->cible["armure_naturelle_hobbit"] - $this->cible["armure_equipement_hobbit"];
+		if ($pvEnMoins < 1) {
+			$pvEnMoins = 1;
+		}
+		$this->cible["pv_restant_hobbit"] = $this->cible["pv_restant_hobbit"] - $pvEnMoins;
 		$koCible = false;
 		if ($this->cible["pv_restant_hobbit"] <= 0) {
 			if ($this->cible["id_hobbit"] == $this->monstre["id_fk_hobbit_cible_monstre"]) {
 				$koCible = true;
 			}
 			$details = $this->initKo();
-			$detailsBot = "Vous avez perdu ".$malus." PV par une frappe éclair, vous êtes KO.";
+			$detailsBot = $this->getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetHobbit);
+			$detailsBot .= PHP_EOL."Vous êtes KO.";
 			$id_type_evenement_cible = self::$config->game->evenements->type->ko;
 			Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], null, $id_type_evenement_cible, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view);
+		} else {
+			$this->majEvenement($this->cible, $malus, $pvEnMoins, $jetMonstre, $jetHobbit);
 		}
 
 		$this->updateCible();
@@ -58,16 +63,16 @@ class Bral_Monstres_Competences_Frappeeclair extends Bral_Monstres_Competences_A
 		return $koCible;
 	}
 
-	private function majEvenement($hobbit, $malus, $jetMonstre, $jetHobbit) {
+	private function majEvenement($hobbit, $malus, $pvEnMoins, $jetMonstre, $jetHobbit) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
 		$idTypeEvenement = self::$config->game->evenements->type->attaquer;
 		$details = "[m".$this->monstre["id_monstre"]."] envoie une frappe éclair sur le hobbit [h".$hobbit["id_hobbit"]."]";
-		$detailsBot = $this->getDetailsBot($malus, $jetMonstre, $jetHobbit);
+		$detailsBot = $this->getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetHobbit);
 		Bral_Util_Evenement::majEvenementsFromVieMonstre($hobbit["id_hobbit"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $hobbit["niveau_hobbit"], $this->view);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");
 	}
 
-	protected function getDetailsBot($malus, $jetMonstre, $jetHobbit) {
+	protected function getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetHobbit) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
 		$retour = "";
 		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") vous envoie une frappe éclair :";
@@ -78,7 +83,8 @@ class Bral_Monstres_Competences_Frappeeclair extends Bral_Monstres_Competences_A
 		} else {
 			$retour .= PHP_EOL."Vous n'avez pas résisté à la frappe.";
 		}
-		$retour .= PHP_EOL."Points de vie en moins : ".$malus." PV";
+		$retour .= PHP_EOL."Jet de Dégats de la frappe : ".$malus;
+		$retour .= PHP_EOL."Armure prise en compte, points de vie en moins : ".$pvEnMoins." PV";
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
 		return $retour;
 	}

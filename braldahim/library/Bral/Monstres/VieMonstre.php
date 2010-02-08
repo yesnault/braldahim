@@ -92,8 +92,8 @@ class Bral_Monstres_VieMonstre {
 		$pa_a_jouer = Bral_Util_De::get_de_specifique(0, $this->monstre["pa_monstre"]);
 		Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") - nb pa a jouer=".$pa_a_jouer. " destination x=".$x_destination." y=".$y_destination);
 		$nb_pa_joues = 0;
+		
 		while ((($x_destination != $this->monstre["x_monstre"]) || ($y_destination != $this->monstre["y_monstre"])) && ($nb_pa_joues < $pa_a_jouer)) {
-
 			$x_monstre = $this->monstre["x_monstre"];
 			$y_monstre = $this->monstre["y_monstre"];
 			$x_offset = 0;

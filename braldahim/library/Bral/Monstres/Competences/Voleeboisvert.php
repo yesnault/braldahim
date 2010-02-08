@@ -53,18 +53,23 @@ class Bral_Monstres_Competences_Voleeboisvert extends Bral_Monstres_Competences_
 					$malus = floor($malus / 2);
 				}
 
-				$this->majEvenement($h, $malus, $jetMonstre, $jetHobbit);
-
-				$h["pv_restant_hobbit"] = $h["pv_restant_hobbit"] - $malus;
+				$pvEnMoins = $malus -  $h["armure_naturelle_hobbit"] - $h["armure_equipement_hobbit"];
+				if ($pvEnMoins < 1) {
+					$pvEnMoins = 1;
+				}
+				$h["pv_restant_hobbit"] = $h["pv_restant_hobbit"] - $pvEnMoins;
 				$this->cible = $h;
 				if ($h["pv_restant_hobbit"] <= 0) {
 					if ($this->cible["id_hobbit"] == $this->monstre["id_fk_hobbit_cible_monstre"]) {
 						$koCible = true;
 					}
 					$details = $this->initKo();
-					$detailsBot = "Vous avez perdu ".$malus." PV par la Volée de Bois Vert, vous êtes KO.";
+					$detailsBot = $this->getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetHobbit);
+					$detailsBot .= PHP_EOL."Vous êtes KO.";
 					$id_type_evenement_cible = self::$config->game->evenements->type->ko;
 					Bral_Util_Evenement::majEvenementsFromVieMonstre($h["id_hobbit"], null, $id_type_evenement_cible, $details, $detailsBot, $h["niveau_hobbit"], $this->view);
+				} else {
+					$this->majEvenement($h, $malus, $pvEnMoins, $jetMonstre, $jetHobbit);
 				}
 
 				$this->updateCible();
@@ -75,20 +80,19 @@ class Bral_Monstres_Competences_Voleeboisvert extends Bral_Monstres_Competences_
 		return $koCible;
 	}
 
-	private function majEvenement($hobbit, $malus, $jetMonstre, $jetHobbit) {
+	private function majEvenement($hobbit, $malus, $pvEnMoins, $jetMonstre, $jetHobbit) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
 		$idTypeEvenement = self::$config->game->evenements->type->attaquer;
 		$details = "[m".$this->monstre["id_monstre"]."] a effectué une Volée de Bois Vert, touchant le hobbit [h".$hobbit["id_hobbit"]."]";
-		$detailsBot = $this->getDetailsBot($malus, $jetMonstre, $jetHobbit);
+		$detailsBot = $this->getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetHobbit);
 		Bral_Util_Evenement::majEvenementsFromVieMonstre($hobbit["id_hobbit"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $hobbit["niveau_hobbit"], $this->view);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");
 	}
 
-	protected function getDetailsBot($malus, $jetMonstre, $jetHobbit) {
+	protected function getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetHobbit) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
 		$retour = "";
 		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") a effectué une Volée de Bois Vert sur vous :";
-		$retour .= PHP_EOL."Points de vie en moins : ".$malus." PV";
 		$retour .= PHP_EOL."Jet du Monstre (jet de vigueur) : ".$jetMonstre;
 		$retour .= PHP_EOL."Jet de résistance (jet de force) : ".$jetHobbit;
 		if ($jetHobbit > $jetMonstre) {
@@ -96,6 +100,9 @@ class Bral_Monstres_Competences_Voleeboisvert extends Bral_Monstres_Competences_
 		} else {
 			$retour .= PHP_EOL."Vous n'avez pas résisté à la Volée";
 		}
+		$retour .= PHP_EOL."Jet de Dégats de la Volée : ".$malus;
+		$retour .= PHP_EOL."Armure prise en compte, points de vie en moins : ".$pvEnMoins." PV";
+		
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
 		return $retour;
 	}
