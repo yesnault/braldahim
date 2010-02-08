@@ -161,9 +161,10 @@ class Bral_Monstres_VieMonstre {
 
 		// Choix de l'action dans mcompetences
 		$competences = $typeMonstreMCompetence->findFuiteByIdTypeGroupe($this->monstre["id_fk_type_monstre"]);
+		$foo = null;
 		if ($competences != null) {
 			foreach($competences as $c) {
-				$actionAttaque = Bral_Monstres_Competences_Factory::getAction($c, $this->monstre, null, $view);
+				$actionAttaque = Bral_Monstres_Competences_Factory::getAction($c, $this->monstre, $foo, $view);
 				$estFuite = $actionAttaque->action();
 			}
 		}
