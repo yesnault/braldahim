@@ -74,6 +74,10 @@ endif;
 
 <div style="position: absolute;" <?=Bral_Helper_Tooltip::jsTip($textHobbit.$textMonstre.$textNid, $titre) ?>>
 
+<? if ($case["n_nids"] > 0) : ?>
+    <img src='/public/styles/braldahim_defaut/images/vue/nid.png' style="position: absolute;top:-8px"/>
+<?endif;?>
+
 <? if ($case["n_monstres"] > 0) : 
 	if ($case["n_monstres"] == 1) {
 		$suffixe = "a";
@@ -96,9 +100,7 @@ endif;
     <img src='/public/styles/braldahim_defaut/images/vue/hobbit_<?=$sexe_hobbit?>.png' style="position: absolute;top:-8px"/>
 <? endif; ?>
 
-<? if ($case["n_nids"] > 0) : ?>
-    <img src='/public/styles/braldahim_defaut/images/vue/nid.png' style="position: absolute;top:-8px"//>
-    
-<?endif;?>
+ 
+
     
 </div>
