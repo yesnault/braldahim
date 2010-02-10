@@ -59,9 +59,9 @@
 					<? foreach($this->effets as $e) : ?>
 					<tr class="table_liste">
 						<td>
-						<? if ($e["effet"]["caracteristique"] == "PAMARCHER") : ?>
-							<?=$e["effet"]["texte_calcule_effet_hobbit"]?>
-						<? elseif ($e["effet"]["caracteristique"] == "STOUT") : ?>
+						<? if ($e["effet"]["caracteristique"] == "PAMARCHER" ||
+						       $e["effet"]["caracteristique"] == "STOUT" || 
+						       $e["effet"]["caracteristique"] == "TOUR") : ?>
 							<?=$e["effet"]["texte_calcule_effet_hobbit"]?>
 						<? else: ?>
 							<?=$e["effet"]["bm_effet_hobbit"] ?> point<? if ($e["effet"]["bm_effet_hobbit"]): echo 's'; endif; ?> de <?=$e["effet"]["bm_type"] ?> sur 
@@ -71,10 +71,12 @@
 								<?=$e["effet"]["caracteristique"]?>
 							<? endif;?>
 						<? endif;?>
-						et <?=$e["effet"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["effet"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>
-							<? if ($e["effet"]["texte_effet_hobbit"]) : ?>
-								<br></i><?=$e["effet"]["texte_effet_hobbit"]?></i>
-							<? endif;?>
+						<? if ($e["effet"]["caracteristique"] != "TOUR") : ?>
+							et <?=$e["effet"]["nb_tour_restant"] ?> tour<? $s = ''; if ($e["effet"]["nb_tour_restant"] > 1) : $s= 's' ; endif; echo $s;?> restant<?=$s ?>
+						<? endif;?>
+						<? if ($e["effet"]["texte_effet_hobbit"]) : ?>
+							<br></i><?=$e["effet"]["texte_effet_hobbit"]?></i>
+						<? endif;?>
 						<? if ($e["effet"]["actif"] == false):?>
 							   Effet non cumulable donc non actif.
 						<? endif;?>

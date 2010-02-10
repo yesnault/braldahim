@@ -30,8 +30,10 @@ class Bral_Util_Effets {
 	const CARACT_ATT_DEG_DEF = 'ATTDEGDEF';
 	const CARACT_FOR_AGI_VIG_SAG = 'FORAGIVIGSAG';
 	const CARACT_STOUT = 'STOUT';
-	
+
 	const CARACT_PA_MARCHER = 'PAMARCHER';
+
+	const CARACT_DUREE_TOUR = 'TOUR';
 
 	public static function ajouteEtAppliqueEffetHobbit($idHobbit, $caract, $type, $nbTour, $bm, $texte = null) {
 		Zend_Loader::loadClass("EffetHobbit");
@@ -282,10 +284,10 @@ class Bral_Util_Effets {
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur SAG avant = ".$hobbitCible->sagesse_bm_hobbit);
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur ATT_DEG_DEF");
 		} else if ($effet["caracteristique"] == self::CARACT_PA_MARCHER) {
-			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur DEF avant = ".$hobbitCible->bm_defense_hobbit);
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur CARACT_PA_MARCHER avant = ".$hobbitCible->bm_marcher_hobbit);
 			$hobbitCible->bm_marcher_hobbit = $hobbitCible->bm_marcher_hobbit + $coef * $retourEffet["nEffet"];
-			
-			$texte = $retourEffet["nEffet"]." PA de plus pour marcher";
+
+			$texte = $retourEffet["nEffet"]." PA de malus pour marcher";
 
 			$effetHobbitTable = new EffetHobbit();
 			$data = array(
@@ -294,8 +296,23 @@ class Bral_Util_Effets {
 			$where = 'id_effet_hobbit = '.$effet["id_effet_hobbit"];
 			$effetHobbitTable->update($data, $where);
 			$retourEffet["texte_calcule_effet_hobbit"] = $texte;
-			
-			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur DEF apres = ".$hobbitCible->bm_defense_hobbit);
+
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur CARACT_PA_MARCHER apres = ".$hobbitCible->bm_marcher_hobbit);
+		} else if ($effet["caracteristique"] == self::CARACT_DUREE_TOUR) {
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur CARACT_DUREE_TOUR avant = ".$hobbitCible->duree_bm_tour_hobbit);
+			$hobbitCible->duree_bm_tour_hobbit = $hobbitCible->duree_bm_tour_hobbit + $retourEffet["nEffet"];
+
+			$texte = $retourEffet["nEffet"]." min de malus sur votre prochain tour";
+
+			$effetHobbitTable = new EffetHobbit();
+			$data = array(
+				'texte_calcule_effet_hobbit' => $texte,
+			);
+			$where = 'id_effet_hobbit = '.$effet["id_effet_hobbit"];
+			$effetHobbitTable->update($data, $where);
+			$retourEffet["texte_calcule_effet_hobbit"] = $texte;
+
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur CARACT_DUREE_TOUR apres = ".$hobbitCible->duree_bm_tour_hobbit);
 		} else {
 			throw new Zend_Exception("Bral_Util_Effets - appliqueEffetSurHobbit - type effet non gere =".$effet["caracteristique"]);
 		}
@@ -312,6 +329,7 @@ class Bral_Util_Effets {
 				'bm_defense_hobbit' => $hobbitCible->bm_defense_hobbit,
 				'vue_bm_hobbit' => $hobbitCible->vue_bm_hobbit,
 				'bm_marcher_hobbit' => $hobbitCible->bm_marcher_hobbit,
+				'duree_bm_tour_hobbit' => $hobbitCible->duree_bm_tour_hobbit,
 		);
 		$where = "id_hobbit=".$hobbitCible->id_hobbit;
 
