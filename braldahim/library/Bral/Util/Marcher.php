@@ -247,7 +247,11 @@ class Bral_Util_Marcher {
 			$this->nb_cases = 1;
 			$this->nb_pa = 0;
 		}
-
+			
+		if ($hobbit->bm_marcher_hobbit != 0) {
+			$this->nb_pa = $this->nb_pa - $hobbit->bm_marcher_hobbit;
+		}
+		
 		if ($hobbit->pa_hobbit - $this->nb_pa < 0) {
 			return false;
 		} else {

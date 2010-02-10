@@ -97,34 +97,34 @@
 			<br><br>
 			
 			<? if ($this->nEquipementsLaban > 0 || $this->nEquipementsCharrette > 0): ?>
-		 			Pour <?=$this->nb_pa?> PA, vous pouvez utiliser le vernis choisi sur : <br /><br />
-		 		<? else: ?>
-		 			Aucun équipement n'est disponible dans votre laban ou dans votre charrette pour l'application du vernis sélectionné.
-		 		<? endif;?>
+	 			Pour <?=$this->nb_pa?> PA, vous pouvez utiliser le vernis choisi sur : <br /><br />
+	 		<? else: ?>
+	 			Aucun équipement n'est disponible dans votre laban ou dans votre charrette pour l'application du vernis sélectionné.
+	 		<? endif;?>
 		 		
-				<? if ($this->nEquipementsLaban > 0): ?>
-					Un équipement présent dans votre laban<br />
-					<select name='valeur_2' id="valeur_2" onChange="javascript:$('valeur_3').value=-1; if ($('valeur_1').value==-1 || $('valeur_2').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false } ">
-					<option value='-1'>(Choisissez un équipement)</option>
-					<? foreach ($this->tabEquipementsLaban as $e) : ?>
-						<option value="<?=$e["id_equipement"]?>"><?=htmlspecialchars($e["nom"])?>, n&deg; <?=$e["id_equipement"]?></option>
-					<? endforeach; ?>
-					</select><br /><br />
-				<? else: ?>
-					<input type="hidden" name='valeur_2' value="-1" id="valeur_2" >
-				<? endif; ?>
-				
-		 		<? if ($this->nEquipementsCharrette > 0): ?>
-		 		 	Un équipement présent dans votre charrette<br />
-		 			<select name='valeur_3' id="valeur_3" onChange="javascript:$('valeur_2').value=-1; if ($('valeur_1').value==-1 || $('valeur_3').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false }  ">
-					<option value='-1'>(Choisissez un équipement)</option>
-					<? foreach ($this->tabEquipementsCharrette as $e) : ?>
-						<option value="<?=$e["id_equipement"]?>"><?=htmlspecialchars($e["nom"])?>, n&deg; <?=$e["id_equipement"]?></option>
-					<? endforeach; ?>
-					</select><br /><br />
-				<? else: ?>
-					<input type="hidden" name='valeur_3' value="-1" id="valeur_3">
-				<? endif;?>
+			<? if ($this->nEquipementsLaban > 0): ?>
+				Un équipement présent dans votre laban<br />
+				<select name='valeur_2' id="valeur_2" onChange="javascript:$('valeur_3').value=-1; if ($('valeur_1').value==-1 || $('valeur_2').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false } ">
+				<option value='-1'>(Choisissez un équipement)</option>
+				<? foreach ($this->tabEquipementsLaban as $e) : ?>
+					<option value="<?=$e["id_equipement"]?>"><?=htmlspecialchars($e["nom"])?>, n&deg; <?=$e["id_equipement"]?></option>
+				<? endforeach; ?>
+				</select><br /><br />
+			<? else: ?>
+				<input type="hidden" name='valeur_2' value="-1" id="valeur_2" >
+			<? endif; ?>
+			
+	 		<? if ($this->nEquipementsCharrette > 0): ?>
+	 		 	Un équipement présent dans votre charrette<br />
+	 			<select name='valeur_3' id="valeur_3" onChange="javascript:$('valeur_2').value=-1; if ($('valeur_1').value==-1 || $('valeur_3').value==-1) {$('bouton_utiliserpotion').disabled=true } else {$('bouton_utiliserpotion').disabled=false }  ">
+				<option value='-1'>(Choisissez un équipement)</option>
+				<? foreach ($this->tabEquipementsCharrette as $e) : ?>
+					<option value="<?=$e["id_equipement"]?>"><?=htmlspecialchars($e["nom"])?>, n&deg; <?=$e["id_equipement"]?></option>
+				<? endforeach; ?>
+				</select><br /><br />
+			<? else: ?>
+				<input type="hidden" name='valeur_3' value="-1" id="valeur_3">
+			<? endif;?>
 		<? endif;?>
 		
 	<? endif; ?>

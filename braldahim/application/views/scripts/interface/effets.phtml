@@ -59,7 +59,9 @@
 					<? foreach($this->effets as $e) : ?>
 					<tr class="table_liste">
 						<td>
-						<? if ($e["effet"]["caracteristique"] == "STOUT") : ?>
+						<? if ($e["effet"]["caracteristique"] == "PAMARCHER") : ?>
+							<?=$e["effet"]["texte_calcule_effet_hobbit"]?>
+						<? elseif ($e["effet"]["caracteristique"] == "STOUT") : ?>
 							<?=$e["effet"]["texte_calcule_effet_hobbit"]?>
 						<? else: ?>
 							<?=$e["effet"]["bm_effet_hobbit"] ?> point<? if ($e["effet"]["bm_effet_hobbit"]): echo 's'; endif; ?> de <?=$e["effet"]["bm_type"] ?> sur 
