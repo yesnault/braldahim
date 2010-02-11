@@ -17,7 +17,7 @@ class Bral_Util_Effets {
 
 	const CARACT_FORCE = 'FOR';
 	const CARACT_AGILITE = 'AGI';
-	const CARACT_VIGUEUR = 'VIGUEUR';
+	const CARACT_VIGUEUR = 'VIG';
 	const CARACT_SAGESSE = 'SAG';
 	const CARACT_PV = 'PV';
 	const CARACT_BBDF = 'BBDF';
