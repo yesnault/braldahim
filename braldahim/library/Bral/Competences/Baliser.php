@@ -162,7 +162,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 			"date_fin_route" => $date_fin,
 			"id_fk_type_qualite_route" => $qualite,
 		);
-		
+
 		$routeTable = new Route();
 		$routeTable->insert($data);
 
@@ -178,10 +178,15 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		$dataRoutes["id_fk_metier_stats_routes"] = $this->view->config->game->metier->bucheron->id;
 		$statsRoutes->insertOrUpdate($dataRoutes);
 
+		$this->view->deplacement = false;
 		if ($this->view->construireRouteContinueOk == true) {
 			$x_y = $this->request->get("valeur_1");
 			list ($offset_x, $offset_y) = split("h", $x_y);
-
+				
+			if ($offset_x != 0 && $offset_y != 0) {
+				$this->view->deplacement = true;
+			}
+				
 			$this->view->user->x_hobbit = $this->view->user->x_hobbit + $offset_x;
 			$this->view->user->y_hobbit = $this->view->user->y_hobbit + $offset_y;
 		}

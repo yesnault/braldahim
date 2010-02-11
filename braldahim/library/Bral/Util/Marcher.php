@@ -110,7 +110,7 @@ class Bral_Util_Marcher {
 					
 				$numero++;
 					
-				if (($j == 0 && $i == 0) == false) { // on n'affiche pas de boutons dans la case du milieu
+				if (($j == 0 && $i == 0) == false || $construireRoute == true) { // on n'affiche pas de boutons dans la case du milieu
 					$valid = true;
 				} else {
 					$valid = false;
