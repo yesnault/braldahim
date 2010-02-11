@@ -5,7 +5,7 @@
  	Pour <?=$this->nb_pa ?> PA, vous pouvez récolter jusqu'à <?=$this->user->balance_faim_hobbit ?> éléments dans votre champ.<br><br>
  	
 	 	<? if ($this->recolterChampOk !== true) : ?>
-			Vous ne pouvez récolter un de vos champs quand étant dessus et il faut qu'il soit à l'état récoltable au préalable.
+			Vous ne pouvez récolter un de vos champs qu'en étant dessus et il faut qu'il soit à l'état récoltable au préalable.
 		<? else: ?>
 			<select name="valeur_1" id="valeur_1" onChange="if (this.value != -1) { $('bouton_recolter').disabled=false; } else { $('bouton_recolter').disabled=true;}">
 		 		<option value="-1">(Choisissez une destination)</option>
