@@ -48,6 +48,7 @@
 						<thead class="table_liste">
 						  <tr class="table_liste">
 							<th nowrap>Id Type</th>
+							<th nowrap>Niveau Moyen</th>
 							<th nowrap>Nb dans Nid</th>
 							<th nowrap>Nb Vivant</th>
 							<th nowrap>Total demandé</th>
@@ -61,13 +62,18 @@
 							?>
 								<tr class="table_liste">
 								<td class="table_liste" nowrap><?=$this->typesMonstres[$k]["nom"]?> (<?=$k?>)</td>
+								<td class="table_liste" nowrap><?=$t["niveauMoyen"]?></td>
 								<td class="table_liste" nowrap><?=$t["dansNids"]?></td>
 								<td class="table_liste" nowrap><?=$t["vivants"]?></td>
-								<td class="table_liste" nowrap><?=$t["totalDemande"]; ?></td>
-								<td class="table_liste" nowrap><?=$t["totalReel"]; ?></td>
-								<td class="table_liste" nowrap><?=$t["manque"]?></td>
+								<td class="table_liste" nowrap><? if (isset($t["totalDemande"])): echo $t["totalDemande"]; else : echo 0; endif; ?></td>
+								<td class="table_liste" nowrap><? if (isset($t["totalDemande"])): echo $t["totalReel"]; else : echo 0; endif; ?></td>
+								<td class="table_liste" nowrap><? if (isset($t["totalDemande"])): echo $t["manque"]; else : echo 0; endif; ?></td>
 								</tr>
-							<? 
+							<? else: ?>
+							  <tr class="table_liste">
+								<td class="table_liste" colspan="10">Monstre <?=$k?> non defini pour cette zone</td>
+								</tr>
+							  <?
 							    endif;
 							endforeach;?>
 						</tbody>

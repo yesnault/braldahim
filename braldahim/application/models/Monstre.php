@@ -55,7 +55,7 @@ class Monstre extends Zend_Db_Table {
 	function countAllByTypeAndIdZoneNid($idZone = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		$select->from('monstre', array('count(id_monstre) as nombre', 'id_fk_type_monstre', 'id_fk_zone_nid_monstre'));
+		$select->from('monstre', array('count(id_monstre) as nombre', 'id_fk_type_monstre', 'id_fk_zone_nid_monstre', 'sum(niveau_monstre) as totalNiveau'));
 		if ($idZone != null) {
 			$select->where('id_fk_zone_nid_monstre = ?', intval($idZone));
 		}

@@ -750,16 +750,17 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			$tab["nbVivants"] = 0;
 			$tab["nbDansNids"] = 0;
 			$tab["vivants"] = null;
+			$tab["niveauMoyen"] = null;
 			$tab["dansNids"] = null;
 			$tab["details"] = array();
 			foreach($monstres as $m) {
 				$tab["details"][$m["id_fk_type_monstre"]]["dansNids"] = 0;
+				$tab["details"][$m["id_fk_type_monstre"]]["vivants"] = 0;
+				$tab["details"][$m["id_fk_type_monstre"]]["niveauMoyen"] = 0;
 				if ($z["id_zone_nid"] == $m["id_fk_zone_nid_monstre"]) {
 					$tab["nbVivants"] = $tab["nbVivants"] + $m["nombre"];
 					$tab["details"][$m["id_fk_type_monstre"]]["vivants"] = $m["nombre"];
-				}
-				if (!array_key_exists($m["id_fk_type_monstre"], $tab["details"]) || !array_key_exists("vivants", $tab["details"][$m["id_fk_type_monstre"]])) {
-					$tab["details"][$m["id_fk_type_monstre"]]["vivants"] = 0;
+					$tab["details"][$m["id_fk_type_monstre"]]["niveauMoyen"]  = floor($m["totalNiveau"] / $m["nombre"]);
 				}
 			}
 
@@ -787,6 +788,16 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			$nbTypesTotalDansZone = count($creationNidsRowset);
 
 			foreach($creationNidsRowset as $c) {
+				if (!array_key_exists($c["id_fk_type_monstre_creation_nid"], $tab["details"]) || !array_key_exists("vivants", $tab["details"][$c["id_fk_type_monstre_creation_nid"]])
+				|| !array_key_exists("niveauMoyen", $tab["details"][$c["id_fk_type_monstre_creation_nid"]])) {
+					$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["vivants"] = 0;
+					$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["niveauMoyen"] = 0;
+				}
+					
+				if (!array_key_exists($c["id_fk_type_monstre_creation_nid"], $tab["details"]) || !array_key_exists("dansNids", $tab["details"][$c["id_fk_type_monstre_creation_nid"]])) {
+					$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["dansNids"] = 0;
+				}
+
 				$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalReel"] =  $tab["details"][$c["id_fk_type_monstre_creation_nid"]]["vivants"] + $tab["details"][$c["id_fk_type_monstre_creation_nid"]]["dansNids"];
 
 				if ($c["nb_monstres_ville_creation_nid"] != null) { // ville
@@ -799,6 +810,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				}
 
 				$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["manque"] = number_format($tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalDemande"]  - $tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalReel"], 2);
+
 			}
 
 			$tab["nbTotal"] =  $tab["nbDansNids"] + $tab["nbVivants"];
