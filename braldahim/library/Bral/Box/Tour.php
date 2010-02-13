@@ -525,7 +525,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 					} else if ($r["nom_type_rune"] == "MU") {
 						// MU PV + niveau du Hobbit/10 arrondi inferieur
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune MU active - avant this->hobbit->pv_max_bm_hobbit=".$this->hobbit->pv_max_bm_hobbit);
-						$this->hobbit->pv_max_bm_hobbit = $this->hobbit->pv_max_bm_hobbit + floor($this->hobbit->niveau_hobbit / 10);
+						$this->hobbit->pv_max_bm_hobbit = $this->hobbit->pv_max_bm_hobbit + floor($this->hobbit->niveau_hobbit / 10) + 1;
 						Bral_Util_Log::tour()->debug(get_class($this)." calculBMEquipement - rune MU active - apres this->hobbit->pv_max_bm_hobbit=".$this->hobbit->pv_max_bm_hobbit);
 					} else if ($r["nom_type_rune"] == "RE") {
 						// RE ARM NAT + Niveau du Hobbit/10 arrondi inferieur

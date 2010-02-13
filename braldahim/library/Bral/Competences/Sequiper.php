@@ -262,7 +262,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 					$this->view->user->duree_bm_tour_hobbit = $this->view->user->duree_bm_tour_hobbit - 10;
 				} else if ($r["nom_type_rune"] == "MU") {
 					// MU PV + niveau du Hobbit/10 arrondi inférieur
-					$this->view->user->pv_max_bm_hobbit = $this->view->user->pv_max_bm_hobbit + floor($this->view->user->niveau_hobbit / 10);
+					$this->view->user->pv_max_bm_hobbit = $this->view->user->pv_max_bm_hobbit + floor($this->view->user->niveau_hobbit / 10) + 1;
 				} else if ($r["nom_type_rune"] == "RE") {
 					// RE ARM NAT + Niveau du Hobbit/10 arrondi inférieur
 					$this->view->user->armure_naturelle_hobbit = $this->view->user->armure_naturelle_hobbit + floor($this->view->user->niveau_hobbit / 10);
