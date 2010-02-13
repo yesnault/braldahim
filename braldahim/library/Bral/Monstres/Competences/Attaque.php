@@ -135,7 +135,11 @@ abstract class Bral_Monstres_Competences_Attaque {
 			$jetDegat = $this->calculDegat($critique);
 			$jetDegat = Bral_Util_Commun::getEffetMotA($this->cible["id_hobbit"], $jetDegat);
 
-			$pvPerdus = $jetDegat - $this->cible["armure_naturelle_hobbit"] - $this->cible["armure_equipement_hobbit"];
+			$armureTotale = $this->cible["armure_naturelle_hobbit"] + $this->cible["armure_equipement_hobbit"] + $this->cible["armure_bm_hobbit"];
+			if ($armureTotale < 0) {
+				$armureTotale = 0;
+			}
+			$pvPerdus = $jetDegat - $armureTotale;
 			if ($pvPerdus <= 0) {
 				$pvPerdus = 1; // on perd 1 pv quoi qu'il arrive
 			}
@@ -247,18 +251,23 @@ abstract class Bral_Monstres_Competences_Attaque {
 			}
 
 			if ($this->cible["armure_naturelle_hobbit"] > 0) {
-				$retour .= PHP_EOL."Votre armure naturelle vous a protégé en réduisant les dégâts de ";
-				$retour .= $this->cible["armure_naturelle_hobbit"].".";
+				$retour .= PHP_EOL."Votre armure naturelle vous a protégé.";
 			} else {
 				$retour .= PHP_EOL."Votre armure naturelle ne vous a pas protégé (ARM NAT:".$this->cible["armure_naturelle_hobbit"].")";
 			}
 
 			if ($this->cible["armure_equipement_hobbit"] > 0) {
-				$retour .= PHP_EOL."Votre équipement vous a protégé en réduisant les dégâts de ";
-				$retour .= $this->cible["armure_equipement_hobbit"].".";
+				$retour .= PHP_EOL."Votre équipement vous a protégé.";
 			} else {
 				$retour .= PHP_EOL."Aucun équipement ne vous a protégé (ARM EQU:".$this->cible["armure_equipement_hobbit"].")";
 			}
+				
+			$totalArmure = $this->cible["armure_equipement_hobbit"] + $this->cible["armure_naturelle_hobbit"] + $this->cible["armure_bm_hobbit"];
+			if ($totalArmure < 0) {
+				$totalArmure = 0;
+			}
+				
+			$retour .= PHP_EOL."Au total, votre armure vous a protégé en réduisant les dégâts de ".$totalArmure.".";
 
 			$retour .= PHP_EOL."Vous avez perdu ".$pvPerdus. " PV ";
 			$retour .= PHP_EOL."Il vous reste ".$this->cible["pv_restant_hobbit"]." PV ";

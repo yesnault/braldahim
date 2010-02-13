@@ -173,7 +173,7 @@ class Bral_Echoppes_Vendrealiment extends Bral_Echoppes_Echoppe {
 		$unite_3 = $this->request->get("valeur_8");
 
 		if ((int) $prix_1."" != $this->request->get("valeur_3")."") {
-			throw new Zend_Exception(get_class($this)." prix 1 invalide=".$id_aliment);
+			throw new Zend_Exception(get_class($this)." prix 1 invalide=".$id_aliment." p1=".$prix_1." p2=".$this->request->get("valeur_3"));
 		} else {
 			$prix_1 = (int)$prix_1;
 		}

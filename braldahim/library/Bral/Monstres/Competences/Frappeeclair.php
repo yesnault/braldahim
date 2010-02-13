@@ -38,7 +38,11 @@ class Bral_Monstres_Competences_Frappeeclair extends Bral_Monstres_Competences_A
 			$malus = floor($malus / 2);
 		}
 
-		$pvEnMoins = $malus -  $this->cible["armure_naturelle_hobbit"] - $this->cible["armure_equipement_hobbit"];
+		$armureTotale = $this->cible["armure_naturelle_hobbit"] + $this->cible["armure_equipement_hobbit"] + $this->cible["armure_bm_hobbit"];
+		if ($armureTotale < 0) {
+			$armureTotale = 0;
+		}
+		$pvEnMoins = $malus - $armureTotale;
 		if ($pvEnMoins < 1) {
 			$pvEnMoins = 1;
 		}

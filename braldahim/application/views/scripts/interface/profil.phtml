@@ -224,7 +224,10 @@
 	    			&Eacute;quipement : <?=$this->user->armure_equipement_hobbit ?>
 	    		</td>
 	    		<td>
-	    			Total : <?=($this->user->armure_naturelle_hobbit + $this->user->armure_equipement_hobbit)  ?>
+	    			Bonus / Malus : <?=$this->user->armure_bm_hobbit ?>
+	    		</td>
+	    		<td>
+	    			Total : <?=($this->armure_totale)  ?>
 	    		</td>
 			</tr>
 		</tbody>

@@ -49,6 +49,7 @@ class Bral_Util_Attaque {
 			'niveau_cible' => $hobbitCible->niveau_hobbit,
 			'armure_naturelle_hobbit' => $hobbitCible->armure_naturelle_hobbit,
 			'armure_equipement_hobbit' => $hobbitCible->armure_equipement_hobbit,
+			'armure_bm_hobbit' => $hobbitCible->armure_bm_hobbit,
 			'est_ko_hobbit' => $hobbitCible->est_ko_hobbit,
 			'est_engage_hobbit' => $hobbitCible->est_engage_hobbit,
 			'est_engage_next_dla_hobbit' => $hobbitCible->est_engage_next_dla_hobbit,
@@ -169,10 +170,15 @@ class Bral_Util_Attaque {
 			$retourAttaque["cible"]["armure_equipement_hobbit"] = $hobbitCible->armure_equipement_hobbit;
 		}
 
-		$retourAttaque["jetDegatReel"] = $retourAttaque["jetDegat"] - $hobbitCible->armure_naturelle_hobbit - $hobbitCible->armure_equipement_hobbit;
+		$armureTotale = $hobbitCible->armure_naturelle_hobbit + $hobbitCible->armure_equipement_hobbit + $hobbitCible->armure_bm_hobbit;
+		if ($armureTotale < 0) {
+			$armureTotale = 0;
+		}
+		$retourAttaque["jetDegatReel"] = $retourAttaque["jetDegat"] - $armureTotale;
 
 		$retourAttaque["arm_nat_cible"] = $hobbitCible->armure_naturelle_hobbit;
 		$retourAttaque["arm_eqpt_cible"] = $hobbitCible->armure_equipement_hobbit;
+		$retourAttaque["arm_totale_cible"] = $armureTotale;
 
 		//le jet de degat est au moins égal à 1
 		if ($retourAttaque["jetDegatReel"] <= 0 ) {
@@ -539,6 +545,7 @@ class Bral_Util_Attaque {
 
 			$retourAttaque["arm_nat_cible"] = $monstre["armure_naturelle_monstre"];
 			$retourAttaque["arm_eqpt_cible"] = 0;
+			$retourAttaque["arm_totale_cible"] = $monstre["armure_naturelle_monstre"];
 
 			Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - pv_restant_monstre avant degat=".$monstre["pv_restant_monstre"]);
 			$monstre["pv_restant_monstre"] = $monstre["pv_restant_monstre"] - $retourAttaque["jetDegatReel"];
@@ -879,20 +886,25 @@ class Bral_Util_Attaque {
 				$retour .= PHP_EOL."La cible a été touchée";
 			}
 
-			if (array_key_exists('armure_naturelle_hobbit', $cible) && array_key_exists('armure_equipement_hobbit', $cible)) {
+			if (array_key_exists('armure_naturelle_hobbit', $cible) && array_key_exists('armure_equipement_hobbit', $cible) && array_key_exists('armure_bm_hobbit', $cible)) {
 				if ($cible["armure_naturelle_hobbit"] > 0) {
-					$retour .= PHP_EOL."L'armure naturelle l'a protégé en réduisant les dégâts de ";
-					$retour .= $cible["armure_naturelle_hobbit"].".";
+					$retour .= PHP_EOL."L'armure naturelle l'a protégé.";
 				} else {
 					$retour .= PHP_EOL."L'armure naturelle ne l'a pas protégé (ARM NAT:".$cible["armure_naturelle_hobbit"].")";
 				}
 					
 				if ($cible["armure_equipement_hobbit"] > 0) {
-					$retour .= PHP_EOL."L'équipement l'a protégé en réduisant les dégâts de ";
-					$retour .= $cible["armure_equipement_hobbit"].".";
+					$retour .= PHP_EOL."L'équipement l'a protégé.";
 				} else {
 					$retour .= PHP_EOL."Aucun équipement ne l'a protégé (ARM EQU:".$cible["armure_equipement_hobbit"].")";
 				}
+
+				$totalArmure = $cible["armure_equipement_hobbit"] + $cible["armure_naturelle_hobbit"] + $cible["armure_bm_hobbit"];
+				if ($totalArmure < 0) {
+					$totalArmure = 0;
+				}
+					
+				$retour .= PHP_EOL."Au total, votre armure vous a protégé en réduisant les dégâts de ".$totalArmure.".";
 			}
 
 			if ($mortCible) {

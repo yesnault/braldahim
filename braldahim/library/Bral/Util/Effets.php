@@ -234,6 +234,10 @@ class Bral_Util_Effets {
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur DEF avant = ".$hobbitCible->bm_defense_hobbit);
 			$hobbitCible->bm_defense_hobbit = $hobbitCible->bm_defense_hobbit + $coef * $retourEffet["nEffet"];
 			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur DEF apres = ".$hobbitCible->bm_defense_hobbit);
+		} else if ($effet["caracteristique"] == self::CARACT_ARMURE) {
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur ARM avant = ".$hobbitCible->armure_bm_hobbit);
+			$hobbitCible->armure_bm_hobbit = $hobbitCible->armure_bm_hobbit + $coef * $retourEffet["nEffet"];
+			Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur ARM apres = ".$hobbitCible->armure_bm_hobbit);
 		} else if ($effet["caracteristique"] == self::CARACT_ATT_DEG_DEF) {
 			if ($effet["actif"] == true) {
 				Bral_Util_Log::potion()->debug("Bral_Util_Effets - appliqueEffetSurHobbit - effet sur ATT_DEG_DEF");
@@ -330,6 +334,7 @@ class Bral_Util_Effets {
 				'vue_bm_hobbit' => $hobbitCible->vue_bm_hobbit,
 				'bm_marcher_hobbit' => $hobbitCible->bm_marcher_hobbit,
 				'duree_bm_tour_hobbit' => $hobbitCible->duree_bm_tour_hobbit,
+				'armure_bm_hobbit' => $hobbitCible->armure_bm_hobbit,
 		);
 		$where = "id_hobbit=".$hobbitCible->id_hobbit;
 

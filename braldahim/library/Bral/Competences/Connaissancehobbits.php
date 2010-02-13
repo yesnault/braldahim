@@ -178,8 +178,12 @@ class Bral_Competences_Connaissancehobbits extends Bral_Competences_Competence {
 		$tabCDM["min_reg_hobbit"] = Bral_Util_Connaissance::calculConnaissanceMin ($hobbit["regeneration_hobbit"], $n, $dist);
 		$tabCDM["max_reg_hobbit"] = Bral_Util_Connaissance::calculConnaissanceMax ($hobbit["regeneration_hobbit"], $n, $dist);
 		
-		$tabCDM["min_arm_hobbit"] = Bral_Util_Connaissance::calculConnaissanceMin ($hobbit["armure_naturelle_hobbit"] + $hobbit["armure_equipement_hobbit"], $n, $dist);
-		$tabCDM["max_arm_hobbit"] = Bral_Util_Connaissance::calculConnaissanceMax ($hobbit["armure_naturelle_hobbit"] + $hobbit["armure_equipement_hobbit"], $n, $dist);
+		$armureTotale = $hobbit["armure_naturelle_hobbit"] + $hobbit["armure_equipement_hobbit"] + $hobbit["armure_bm_hobbit"];
+		if ($armureTotale < 0) {
+			$armureTotale = 0;
+		}
+		$tabCDM["min_arm_hobbit"] = Bral_Util_Connaissance::calculConnaissanceMin ($armureTotale, $n, $dist);
+		$tabCDM["max_arm_hobbit"] = Bral_Util_Connaissance::calculConnaissanceMax ($armureTotale, $n, $dist);
 		
 		$tabCDM["min_pvmax_hobbit"] = floor(floor($hobbit["pv_max_hobbit"] - $hobbit["pv_max_hobbit"] * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100)/5)*5;
 		$tabCDM["max_pvmax_hobbit"] = ceil(ceil($hobbit["pv_max_hobbit"] + $hobbit["pv_max_hobbit"] * (Bral_Util_De::getLanceDeSpecifique(1,0,$dist*3 + 6))/100)/5)*5;

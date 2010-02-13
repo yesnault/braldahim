@@ -30,12 +30,17 @@ class Bral_Box_Profil extends Bral_Box_Box {
 		$this->view->nom_interne = $this->getNomInterne();
 		$this->view->vue_nb_cases = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 
+		$this->view->armure_totale = $this->view->user->armure_naturelle_hobbit + $this->view->user->armure_equipement_hobbit + $this->view->user->armure_bm_hobbit;
+		if ($this->view->armure_totale < 0) {
+			$this->view->armure_totale = 0;
+		}
+
 		$tmp = "".substr($this->view->user->poids_transporte_hobbit, 0, 6);
-		
+
 		// Correction Bug sur Float, sur l'action semer
 		//if (strlen($this->view->user->poids_transporte_hobbit) > 10 && strpos($tmp, ".") !== false) {
 		if (strlen($this->view->user->poids_transporte_hobbit) > 10) {
-			
+				
 			/*
 			 * tmpInit=10.720000000000000639tmp=10.720tmp2a=10tmp2b=10.72poidsTransporteHobbitCorrige=10.72
 			 * affiche => 10.720000000000000639  / 17 !!

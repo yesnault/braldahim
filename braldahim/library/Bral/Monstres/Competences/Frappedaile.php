@@ -51,7 +51,11 @@ class Bral_Monstres_Competences_Frappedaile extends Bral_Monstres_Competences_At
 					$malus = floor($malus / 2);
 				}
 
-				$pvEnMoins = $malus -  $h["armure_naturelle_hobbit"] - $h["armure_equipement_hobbit"];
+				$armureTotale = $h["armure_naturelle_hobbit"] + $h["armure_equipement_hobbit"] + $h["armure_bm_hobbit"];
+				if ($armureTotale < 0) {
+					$armureTotale = 0;
+				}
+				$pvEnMoins = $malus -  $armureTotale;
 				if ($pvEnMoins < 1) {
 					$pvEnMoins = 1;
 				}

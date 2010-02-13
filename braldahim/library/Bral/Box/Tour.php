@@ -187,6 +187,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->hobbit->regeneration_hobbit = 0;
 			$this->hobbit->armure_naturelle_hobbit = 0;
 			$this->hobbit->armure_equipement_hobbit = 0;
+			$this->hobbit->armure_bm_hobbit = 0;
 			$this->hobbit->pv_max_bm_hobbit = 0;
 			$this->hobbit->bm_attaque_hobbit = 0;
 			$this->hobbit->bm_degat_hobbit = 0;
@@ -711,6 +712,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			'pa_hobbit' => $this->hobbit->pa_hobbit,
 			'armure_naturelle_hobbit' => $this->hobbit->armure_naturelle_hobbit,
 			'armure_equipement_hobbit' => $this->hobbit->armure_equipement_hobbit,
+			'armure_bm_hobbit' => $this->hobbit->armure_bm_hobbit,
 			'est_ko_hobbit' => $this->hobbit->est_ko_hobbit,
 			'px_commun_hobbit' => $this->hobbit->px_commun_hobbit,
 			'px_perso_hobbit' => $this->hobbit->px_perso_hobbit,

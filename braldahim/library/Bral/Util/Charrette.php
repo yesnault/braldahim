@@ -258,9 +258,6 @@ class Bral_Util_Charrette {
 			"x_element_aliment" => $x,
 			"y_element_aliment" => $y,
 			"id_element_aliment" => $a["id_charrette_aliment"],
-			"id_fk_type_element_aliment" => $a["id_fk_type_charrette_aliment"],
-			"id_fk_type_qualite_element_aliment" => $a["id_fk_type_qualite_charrette_aliment"],
-			"bbdf_element_aliment" => $a["bbdf_charrette_aliment"],
 			"date_fin_element_aliment" => $dateFin,
 			);
 			$elementAlimentTable->insert($data);
