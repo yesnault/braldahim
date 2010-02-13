@@ -88,15 +88,15 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 
 	/*
 	 * La quantité de peau est fonction de la taille du monstre :
-	 * petit : 1D2 unité de peau + arrondi inf (BM FOR/2) unité de peau
-	 * normal : 1D3 unité de peau + arrondi inf (BM FOR/2) unité de peau
-	 * grand : 2D3 unité de peau + arrondi inf (BM FOR/2) unité de peau
-	 * gigantesque : 3D3 unité de peau + arrondi inf (BM FOR/2) unité de peau
+	 * petit : 1D2 unité de peau + arrondi inf (BM FOR/2) unité de peau + 1
+	 * normal : 1D3 unité de peau + arrondi inf (BM FOR/2) unité de peau + 1
+	 * grand : 2D3 unité de peau + arrondi inf (BM FOR/2) unité de peau + 1
+	 * gigantesque : 3D3 unité de peau + arrondi inf (BM FOR/2) unité de peau + 1
 	 *
-	 * Petit : 1D3 + arrondi inf (BM FOR/2) unité de viande
-	 * Normal : 2D3 + arrondi inf (BM FOR/2)
-	 * Grand : 3D3 + arrondi inf (BM FOR/2)
-	 * Gigantesque : 4D3 + arrondi inf (BM FOR/2)
+	 * Petit : 1D3 + arrondi inf (BM FOR/2) unité de viande + 1
+	 * Normal : 2D3 + arrondi inf (BM FOR/2) + 1
+	 * Grand : 3D3 + arrondi inf (BM FOR/2) + 1
+	 * Gigantesque : 4D3 + arrondi inf (BM FOR/2) + 1
 	 */
 	private function calculDepiauter($id_monstre) {
 
@@ -115,30 +115,48 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("TailleMonstre");
 		switch ($monstre["id_fk_taille_monstre"]) {
 			case TailleMonstre::ID_TAILLE_PETIT : // petit
+				$coefTaille = 1;
 				$this->view->nbPeau = Bral_Util_De::get_1d2();
 				if ($monstre["id_fk_type_groupe_monstre"] == $this->view->config->game->groupe_monstre->type->gibier) {
+					$coefA = 4;
 					$this->view->nbViande = Bral_Util_De::get_1d3() + floor(($this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit) / 2);
+				} else {
+					$coefA = 8;
 				}
 				break;
 			case TailleMonstre::ID_TAILLE_NORMAL : // normal
+				$coefTaille = 2;
 				$this->view->nbPeau = Bral_Util_De::get_1d3();
 				if ($monstre["id_fk_type_groupe_monstre"] == $this->view->config->game->groupe_monstre->type->gibier) {
+					$coefA = 4;
 					$this->view->nbViande = Bral_Util_De::get_2d3() + floor(($this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit) / 2);
+				} else {
+					$coefA = 8;
 				}
 				break;
 			case TailleMonstre::ID_TAILLE_GRAND : // grand
+				$coefTaille = 3;
 				$this->view->nbPeau = Bral_Util_De::get_2d3();
 				if ($monstre["id_fk_type_groupe_monstre"] == $this->view->config->game->groupe_monstre->type->gibier) {
+					$coefA = 4;
 					$this->view->nbViande = Bral_Util_De::get_3d3() + floor(($this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit) / 2);
+				} else {
+					$coefA = 8;
 				}
 				break;
 			case TailleMonstre::ID_TAILLE_GIGANTESQUE : // gigantesque
+				$coefTaille = 4;
 				$this->view->nbPeau = Bral_Util_De::get_3d3();
 				if ($monstre["id_fk_type_groupe_monstre"] == $this->view->config->game->groupe_monstre->type->gibier) {
+					$coefA = 4;
 					$this->view->nbViande = Bral_Util_De::get_4d3() + floor(($this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit) / 2);
+				} else {
+					$coefA = 8;
 				}
 				break;
 		}
+
+		$nbMax = $coefA * $coefTaille;
 
 		$this->view->effetRune = false;
 
@@ -148,15 +166,24 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		}
 
 		$this->view->nbPeau = $this->view->nbPeau + ($this->view->user->force_bm_hobbit + $this->view->user->force_bbdf_hobbit) / 2 ;
-		$this->view->nbPeau = intval($this->view->nbPeau);
 		if ($this->view->nbPeau < 0) {
 			$this->view->nbPeau = 0;
 		}
+		$this->view->nbPeau = intval($this->view->nbPeau) + 1;
 
 		$this->view->limitationLaban = false;
-		
+
 		if ($this->view->nbViande < 0) {
 			$this->view->nbViande = 0;
+		}
+		$this->view->nbViande = $this->view->nbViande + 1;
+
+		if ($this->view->nbViande > $nbMax) {
+			$this->view->nbViande = $nbMax;
+		}
+
+		if ($this->view->nbPeau > $nbMax) {
+			$this->view->nbPeau = $nbMax;
 		}
 
 		if ($this->view->nbPeau > $this->view->nbElementPossible) {
