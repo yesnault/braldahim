@@ -19,4 +19,15 @@ class TypeGroupeMonstre extends Zend_Db_Table {
 	const ID_TYPE_MEUTE = 3;
 	const ID_TYPE_BANDE = 4;
 	const ID_TYPE_GIBIER = 5;
+	const ID_TYPE_BOSS = 6;
+	
+	public static function getStaticTypes() {
+		$tabTypeGroupe[self::ID_TYPE_SOLITAIRE] = "Solitaire";
+		$tabTypeGroupe[self::ID_TYPE_NUEE] = "Nuée";
+		$tabTypeGroupe[self::ID_TYPE_MEUTE] = "Meute";
+		$tabTypeGroupe[self::ID_TYPE_BANDE] = "Bande";
+		$tabTypeGroupe[self::ID_TYPE_GIBIER] = "Gibier";
+		$tabTypeGroupe[self::ID_TYPE_BOSS] = "Boss";
+		return $tabTypeGroupe;
+	}
 }

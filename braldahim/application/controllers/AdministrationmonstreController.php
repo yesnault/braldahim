@@ -718,6 +718,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 	}
 
 	public function repartitionAction() {
+		
 		Zend_Loader::loadClass("CreationNids");
 		Zend_Loader::loadClass("Nid");
 		Zend_Loader::loadClass("Monstre");
@@ -738,8 +739,12 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 
 		$typeMonstreTable = new TypeMonstre();
 		$tousTypesMontres = $typeMonstreTable->fetchAllSansGibier();
+
+		Zend_Loader::loadClass("TypeGroupeMonstre");
+		$tabTypeGroupe = TypeGroupeMonstre::getStaticTypes();
 		foreach($tousTypesMontres as $t) {
 			$tabTypesMonstres[$t["id_type_monstre"]]["nom"] = $t["nom_type_monstre"];
+			$tabTypesMonstres[$t["id_type_monstre"]]["type"] = $tabTypeGroupe[$t["id_fk_type_groupe_monstre"]];
 		}
 
 		$this->view->typesMonstres = $tabTypesMonstres;

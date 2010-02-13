@@ -48,6 +48,7 @@
 						<thead class="table_liste">
 						  <tr class="table_liste">
 							<th nowrap>Id Type</th>
+							<th nowrap>Type</th>
 							<th nowrap>Niveau Moyen</th>
 							<th nowrap>Nb dans Nid</th>
 							<th nowrap>Nb Vivant</th>
@@ -57,11 +58,13 @@
 						  </tr>
 						</thead>
 						<tbody>
-							<? foreach($z["details"] as $k => $t) : 
-								if (array_key_exists($k, $this->typesMonstres)) :
+							<? foreach($this->typesMonstres as $k => $m) : //$z["details"] as $k => $t) : 
+								if (array_key_exists($k, $z["details"]) && isset($z["details"][$k]["totalDemande"])) :
+								$t = $z["details"][$k];
 							?>
 								<tr class="table_liste">
 								<td class="table_liste" nowrap><?=$this->typesMonstres[$k]["nom"]?> (<?=$k?>)</td>
+								<td class="table_liste" nowrap><?=$this->typesMonstres[$k]["type"]?></td>
 								<td class="table_liste" nowrap><?=$t["niveauMoyen"]?></td>
 								<td class="table_liste" nowrap><?=$t["dansNids"]?></td>
 								<td class="table_liste" nowrap><?=$t["vivants"]?></td>
@@ -71,7 +74,7 @@
 								</tr>
 							<? else: ?>
 							  <tr class="table_liste">
-								<td class="table_liste" colspan="10">Monstre <?=$k?> non defini pour cette zone</td>
+								<td class="table_liste" colspan="8">Monstre <?=$this->typesMonstres[$k]["nom"]?> (<?=$k?>) non defini pour cette zone</td>
 								</tr>
 							  <?
 							    endif;
