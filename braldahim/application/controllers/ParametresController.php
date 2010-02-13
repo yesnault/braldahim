@@ -358,4 +358,31 @@ class ParametresController extends Zend_Controller_Action {
 		$this->render();
 	}
 
+	function betanomAction() {
+		$this->view->modification = false;
+
+		$beta_conserver_nom_hobbit = $this->_request->getPost("valeur_1");
+
+		$hobbitTable = new Hobbit();
+		$hobbitRowset = $hobbitTable->find($this->view->user->id_hobbit);
+		$hobbit = $hobbitRowset->current();
+			
+		if ($this->_request->isPost()) {
+
+			$this->view->user->beta_conserver_nom_hobbit = $beta_conserver_nom_hobbit;
+
+			$data = array(
+				'beta_conserver_nom_hobbit' => $this->view->user->beta_conserver_nom_hobbit,
+			);
+			$where = "id_hobbit=".$this->view->user->id_hobbit;
+			$hobbitTable = new Hobbit();
+			$hobbitTable->update($data, $where);
+
+			$this->view->message = "Modifications effectu&eacute;es";
+			echo $this->view->render("Parametres/index.phtml");
+		} else {
+			$this->render();
+		}
+	}
+	
 }
