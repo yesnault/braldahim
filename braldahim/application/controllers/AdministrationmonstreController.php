@@ -760,8 +760,6 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			$tab["details"] = array();
 			foreach($monstres as $m) {
 				$tab["details"][$m["id_fk_type_monstre"]]["dansNids"] = 0;
-				$tab["details"][$m["id_fk_type_monstre"]]["vivants"] = 0;
-				$tab["details"][$m["id_fk_type_monstre"]]["niveauMoyen"] = 0;
 				if ($z["id_zone_nid"] == $m["id_fk_zone_nid_monstre"]) {
 					$tab["nbVivants"] = $tab["nbVivants"] + $m["nombre"];
 					$tab["details"][$m["id_fk_type_monstre"]]["vivants"] = $m["nombre"];
