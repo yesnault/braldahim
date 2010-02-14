@@ -10,7 +10,14 @@ Zend_Loader::loadClass("Bral_Helper_ProfilEquipement");
  
    &Eacute;quipement pr&eacute;sent sur vous : <br />
 
-	<?=Bral_Helper_ProfilEquipement::afficher($this->typesEmplacement); ?>
+	<table>
+	<tr>
+	<td><img src='/public/styles/braldahim_defaut/images/vue/hobbit_<?=$this->user->sexe_hobbit?>_grand.png'"/></td>
+	
+	<td><?=Bral_Helper_ProfilEquipement::afficher($this->typesEmplacement); ?></td>
+	</tr>
+	</table>
+	
   	
  <? else: ?>
 	Chargement en cours
