@@ -1,6 +1,5 @@
 <?
 $textLieu = "";
-$textPalissade = "";
 $textEchoppe = "";
 $textChamp = "";
 $type_lieu = "";
@@ -26,23 +25,6 @@ endif;
 if ($case["n_ballons"] > 0) :
 	$textBallon = "Ballon &agrave terre !<br>";
 endif; 
-
-if ($case["n_palissades"] > 0) :
-      	$textPalissade = "<br>Palissade : <br>";
-      	foreach($case["palissades"] as $p) {
-      		$textPalissade .= "1 palissade (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
-      		if ($p["est_destructible_palissade"] == "oui") {
-      			$textPalissade .= " destructible";
-      		} else {
-      			$textPalissade .= " indestructible";
-      		}
-      		$textPalissade .= "<br />";
-		} 
-		$s = "";
-		if ($case["n_palissades"] > 1) {
-			$s = "s";
-		}
-endif;
 
 if ($case["n_echoppes"] > 0) :
 	$textEchoppe = "<br>&Eacute;choppe : <br>";
@@ -100,22 +82,20 @@ endif; ?>
  
 <? if ($textLieu != "" ) :?>
 	<? if ($type_lieu != "") : ?>
-		<img <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textChamp, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/batiments/<?=$type_lieu?>.png' />
+		<img <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textChamp, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/batiments/<?=$type_lieu?>.png' />
 	<? else: ?>
 		<img src='/public/styles/braldahim_defaut/images/vue/batiment.png' />
 	<? endif; ?>
 <? elseif ($textChamp != "") : ?>
-	<img <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textChamp, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/champ.png' />
+	<img <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textChamp, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/champ.png' />
 <? elseif ($textEchoppe != "") : ?>
-	<img <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textChamp, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/echoppes/<?=$nomSystemeEchoppe?>.png' />
-<? elseif ($textPalissade != "") : ?>
-	<img <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textPalissade.$textChamp, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/palissade_b.png' />
+	<img <?=$doubleClick ?> <?=Bral_Helper_Tooltip::jsTip($textLieu.$textEchoppe.$textChamp, $titre) ?> src='/public/styles/braldahim_defaut/images/vue/echoppes/<?=$nomSystemeEchoppe?>.png' />
 <? else: ?>
 	<br>
 <? endif;?>  
 
 <? if ($textBallon != "") : ?>
-<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textBallon.$textEchoppe.$textPalissade.$textChamp, $titre) ?>>
+<span <?=Bral_Helper_Tooltip::jsTip($textLieu.$textBallon.$textEchoppe.$textChamp, $titre) ?>>
 	<img src='/public/styles/braldahim_defaut/images/vue/ballon.png'/>
 </span>
 <? endif;?>

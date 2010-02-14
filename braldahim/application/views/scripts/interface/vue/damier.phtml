@@ -37,6 +37,24 @@ foreach($this->tableau as $k => $case) :
 		$adminDoubleClick = "";
 	}
 	
+	$textPalissade = "";
+	if ($case["n_palissades"] > 0) :
+      	$textPalissade = "<br>Palissade : <br>";
+      	foreach($case["palissades"] as $p) {
+      		$textPalissade .= "1 palissade (n&deg; ".htmlspecialchars($p["id_palissade"]).")";
+      		if ($p["est_destructible_palissade"] == "oui") {
+      			$textPalissade .= " destructible";
+      		} else {
+      			$textPalissade .= " indestructible";
+      		}
+      		$textPalissade .= "<br />";
+		} 
+		$s = "";
+		if ($case["n_palissades"] > 1) {
+			$s = "s";
+		}
+	endif;
+	
 	?>
 	<?php if ($case["change_level"] == true) : 
 		$col="ok"; ?>
@@ -44,7 +62,7 @@ foreach($this->tableau as $k => $case) :
     <?php endif; ?>
 	<td class='vue2d <?=$case["css"] ?> <?=$case["css_actuelle"]?>' nowrap title="<?=$case["x"]. "," . $case["y"]." ".$textVille?>">
 	
-	<div class="cases <?=$case["css_actuelle"]?>">
+	<div class="cases <?=$case["css_actuelle"]?>" <? if ($textPalissade != "") : echo Bral_Helper_Tooltip::jsTip($textPalissade, $titre); endif; ?>>
 		<table class="cases <?=$case["css_actuelle"]?>">
 		<tr>
 		<td class="cases <?=$case["css_actuelle"]?>"><? include('hobbits_monstres.phtml');ob_flush();?></td>
