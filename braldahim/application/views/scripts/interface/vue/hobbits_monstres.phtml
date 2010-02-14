@@ -5,7 +5,7 @@ $textMonstre = "";
 $textNid = "";
 
 if ($case["n_hobbits"] > 0) :
-	$sexe_hobbit = "feminin";
+	$sexe_hobbit = "";
 	$textHobbit = "<br>Hobbit";
 	if ($case["n_hobbits"] > 1) {
 		$textHobbit .= "s";
@@ -24,8 +24,15 @@ if ($case["n_hobbits"] > 0) :
 			$textHobbit .= ' - <label class=alabel onClick=ouvrirCommunaute('.$h["id_communaute"].');>'.addslashes(htmlspecialchars($h["nom_communaute"])).'</label>';
 		}
 		$textHobbit .= "<br>";
-		if ($h["sexe_hobbit"] == "masculin") {
+		
+		if ($sexe_hobbit != "masculin_feminin"  &&
+		    ($sexe_hobbit == "masculin" && $h["sexe_hobbit"] == "feminin") ||
+		    ($sexe_hobbit == "feminin" && $h["sexe_hobbit"] == "masculin")) {
+			$sexe_hobbit = "masculin_feminin";
+		} elseif ($h["sexe_hobbit"] == "masculin") {
 			$sexe_hobbit = "masculin";
+		} else {
+			$sexe_hobbit = "feminin";
 		}
 	} 
 	$s = "";
@@ -97,7 +104,7 @@ endif;
 ?>
 
 <? if ($case["n_hobbits"] > 1) : ?>
-    <img src='/public/styles/braldahim_defaut/images/vue/hobbits.png' style="position: absolute;top:-3px;left:5px;" />
+    <img src='/public/styles/braldahim_defaut/images/vue/hobbits_<?=$sexe_hobbit?>.png' style="position: absolute;top:-3px;left:5px;" />
 <? elseif ($case["n_hobbits"] > 0) : ?>
     <img src='/public/styles/braldahim_defaut/images/vue/hobbit_<?=$sexe_hobbit?>.png' style="position: absolute;left:5px;top:-3px"/>
 <? endif; ?>
