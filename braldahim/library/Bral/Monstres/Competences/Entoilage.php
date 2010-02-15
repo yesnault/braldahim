@@ -20,12 +20,7 @@ class Bral_Monstres_Competences_Entoilage extends Bral_Monstres_Competences_Atta
 
 		Zend_Loader::loadClass("Bral_Util_Effets");
 
-		$malus = Bral_Util_De::getLanceDe6(self::$config->game->base_agilite + $this->monstre["agilite_base_monstre"]);
-		$malus = $malus + $this->monstre["agilite_bm_monstre"];
-		$malus = floor($malus / 2);
-		if ($malus <= 2) {
-			$malus = 2;
-		}
+		$malus = 1;
 		$nbTours = 1;
 
 		$jetMonstre = Bral_Util_De::getLanceDe6(self::$config->game->base_agilite + $this->monstre["agilite_base_monstre"]);
@@ -35,7 +30,7 @@ class Bral_Monstres_Competences_Entoilage extends Bral_Monstres_Competences_Atta
 		$jetHobbit = $jetHobbit + $this->cible["force_bm_hobbit"] + $this->cible["force_bbdf_hobbit"];
 
 		if ($jetHobbit > $jetMonstre) {
-			$malus = 1;
+			$malus = 0;
 		}
 
 		Bral_Util_Effets::ajouteEtAppliqueEffetHobbit($this->cible["id_hobbit"], Bral_Util_Effets::CARACT_PA_MARCHER, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus, "Entoilage");
@@ -61,11 +56,12 @@ class Bral_Monstres_Competences_Entoilage extends Bral_Monstres_Competences_Atta
 		$retour .= PHP_EOL."Jet du Monstre (jet d'agilité) : ".$jetMonstre;
 		$retour .= PHP_EOL."Jet de résistance (jet de force) : ".$jetHobbit;
 		if ($jetHobbit > $jetMonstre) {
-			$retour .= PHP_EOL."Vous avez résisté au jet, vous n'avez pas de malus.";
+			$retour .= PHP_EOL."Vous avez résisté au jet, vous n'avez pas de malus en déplacement.";
 		} else {
 			$retour .= PHP_EOL."Vous n'avez pas résisté au jet.";
+			$retour .= PHP_EOL."Vos déplacements vous demandent ".$malus." PA supplémentaire.";
 		}
-		$retour .= PHP_EOL."Vos déplacements vous demandent ".$malus." PA supplémentaire.";
+		
 		$retour .= PHP_EOL."Nombre de tours : ".$nbTours;
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
 		return $retour;
