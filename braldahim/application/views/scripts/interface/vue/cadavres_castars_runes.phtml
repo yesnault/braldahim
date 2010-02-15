@@ -59,6 +59,29 @@ if ($case["n_buissons"] > 0) :
 	} 
 endif;
 
+
+?> <div style="position: absolute;" <?=Bral_Helper_Tooltip::jsTip($textCadavre.$textCastar.$textRune.$textBuisson, $titre) ?>> <?
+
+if ($case["n_buissons"] > 0) :
+?><img src='/public/styles/braldahim_defaut/images/vue/buisson.png' style="position: absolute;top:-14px"/><?
+endif;
+
+if ($case["n_elements_runes"] > 0) : 
+?><img src='/public/styles/braldahim_defaut/images/vue/coffre.png' style="position: absolute;left:4px;top:-9px"/><?
+
+elseif ($case["n_cadavres"] > 0 && $case["n_castars"] > 0) : 
+?> <img src='/public/styles/braldahim_defaut/images/vue/cadavre_castars.png' style="position: absolute;top:-9px"/> <?
+
+elseif ($case["n_castars"] > 0) :
+?> <img src='/public/styles/braldahim_defaut/images/vue/castars.png' style="position: absolute;left:10px;top:-10px"/> <?
+
+elseif ($case["n_cadavres"] > 0) :
+?> <img src='/public/styles/braldahim_defaut/images/vue/cadavre.png' style="position: absolute;top:-12px"/> <?
+endif;
+
+
+?> </div> <?
+/*
 if ($case["n_buissons"] == 0 && ($case["n_cadavres"] > 0 || $case["n_castars"] > 0 || $case["n_elements_runes"] > 0)) : ?>
 	<span <?=Bral_Helper_Tooltip::jsTip($textCadavre.$textCastar.$textRune, $titre) ?>>
 		<img src='/public/styles/braldahim_defaut/images/vue/coffre.png' />
@@ -74,3 +97,4 @@ if ($case["n_buissons"] == 0 && ($case["n_cadavres"] > 0 || $case["n_castars"] >
 <? else :?>
 	<br>
 <? endif; ?>
+*/
