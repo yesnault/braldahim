@@ -194,7 +194,6 @@ class Bral_Monstres_VieSolitaire {
 		$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
 		$vieMonstre->setMonstre($monstre);
 		$vieMonstre->deplacementMonstre($monstre["x_direction_monstre"], $monstre["y_direction_monstre"]);
-		$vieMonstre->update();
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementSolitaire - exit - (idm:".$monstre["id_monstre"].")");
 	}
 

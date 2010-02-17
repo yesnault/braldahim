@@ -166,7 +166,7 @@ class Bral_Monstres_VieGroupesNuee extends Bral_Monstres_VieGroupes {
 				$groupe["y_direction_groupe_monstre"] = $monstre_role_a["y_monstre"] + $dy;
 			}
 
-			$tab = Bral_Monstres_VieMonstre::getTabXYRayon($monstre_role_a["id_fk_zone_nid_monstre"], $monstre_role_a["niveau_monstre"], $groupe["x_direction_groupe_monstre"], $groupe["y_direction_groupe_monstre"], $monstre_role_a["x_min_monstre"], $monstre_role_a["x_max_monstre"], $monstre_role_a["y_min_monstre"], $monstre_role_a["y_max_monstre"]);
+			$tab = Bral_Monstres_VieMonstre::getTabXYRayon($monstre_role_a["id_fk_zone_nid_monstre"], $monstre_role_a["niveau_monstre"], $groupe["x_direction_groupe_monstre"], $groupe["y_direction_groupe_monstre"], $monstre_role_a["x_min_monstre"], $monstre_role_a["x_max_monstre"], $monstre_role_a["y_min_monstre"], $monstre_role_a["y_max_monstre"], $monstre_role_a["id_monstre"]);
 
 			$groupe["x_direction_groupe_monstre"] = $tab["x_direction"];
 			$groupe["y_direction_groupe_monstre"] = $tab["y_direction"];

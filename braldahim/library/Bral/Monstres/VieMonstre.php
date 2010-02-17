@@ -407,7 +407,7 @@ class Bral_Monstres_VieMonstre {
 		return $nbCastars;
 	}
 
-	public static function getTabXYRayon($idZoneNid, $niveau, $directionX, $directionY, $xMin, $xMax, $yMin, $yMax, $idMonstre=null) {
+	public static function getTabXYRayon($idZoneNid, $niveau, $directionX, $directionY, $xMin, $xMax, $yMin, $yMax, $idMonstre) {
 		Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - enter - (idm:".$idMonstre.") idZoneNid:".$idZoneNid." niveau=".$niveau." directionX=".$directionX." directionY=".$directionY. "  xMin:".$xMin." , xMax:".$xMax." , yMin:".$yMin.", yMax:".$yMax);
 
 		$tab["x_direction"] = $directionX;
@@ -499,7 +499,7 @@ class Bral_Monstres_VieMonstre {
 			$tab["y_direction"] = -$config->game->y_max;
 		}
 
-		Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - exit - directionX=".$tab["x_direction"]." directionY=".$tab["y_direction"]);
+		Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - exit - (idm:".$idMonstre.") directionX=".$tab["x_direction"]." directionY=".$tab["y_direction"]);
 
 		return $tab;
 
