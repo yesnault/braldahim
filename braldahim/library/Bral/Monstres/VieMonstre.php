@@ -98,6 +98,8 @@ class Bral_Monstres_VieMonstre {
 			$y_monstre = $this->monstre["y_monstre"];
 			$x_offset = 0;
 			$y_offset = 0;
+			
+			$modif = true;
 
 			if ($this->monstre["x_monstre"] < $x_destination) {
 				$x_monstre = $this->monstre["x_monstre"] + 1;
@@ -117,15 +119,12 @@ class Bral_Monstres_VieMonstre {
 			if ($this->tabValidationPalissadesCrevasses[$x_monstre][$y_monstre] == true) {
 				$this->monstre["x_monstre"] = $x_monstre;
 				$this->monstre["y_monstre"] = $y_monstre;
-				$modif = true;
 			} elseif ($this->tabValidationPalissadesCrevasses[$this->monstre["x_monstre"] + $x_offset][$this->monstre["y_monstre"]] == true) {
 				$this->monstre["x_monstre"] = $this->monstre["x_monstre"]  + $x_offset;
 				$this->monstre["y_monstre"] = $this->monstre["y_monstre"];
-				$modif = true;
 			} elseif ($this->tabValidationPalissadesCrevasses[$this->monstre["x_monstre"]][$this->monstre["y_monstre"] + $y_offset] == true) {
 				$this->monstre["x_monstre"] = $this->monstre["x_monstre"] ;
 				$this->monstre["y_monstre"] = $this->monstre["y_monstre"] + $y_offset;
-				$modif = true;
 			} else {
 				if ($this->tabValidationPalissadesCrevasses[$x_monstre][$y_monstre] == false) {
 					Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas de deplacement, cause palissade");
