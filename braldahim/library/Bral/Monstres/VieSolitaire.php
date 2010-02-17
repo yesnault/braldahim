@@ -153,7 +153,7 @@ class Bral_Monstres_VieSolitaire {
 	 * Deplacement du solitaire.
 	 */
 	protected function deplacementSolitaire(&$monstre, $fuite = false) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementSolitaire - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementSolitaire - enter - (idm:".$monstre["id_monstre"].")");
 
 		if ($fuite ||
 		(($monstre["x_monstre"] == $monstre["x_direction_monstre"]) && //
@@ -183,7 +183,7 @@ class Bral_Monstres_VieSolitaire {
 				$monstre["y_direction_monstre"] = $monstre["y_direction_monstre"] + $dy;
 			}
 
-			$tab = Bral_Monstres_VieMonstre::getTabXYRayon($monstre["id_fk_zone_nid_monstre"], $monstre["niveau_monstre"], $monstre["x_direction_monstre"], $monstre["y_direction_monstre"], $monstre["x_min_monstre"], $monstre["x_max_monstre"], $monstre["y_min_monstre"], $monstre["y_max_monstre"]);
+			$tab = Bral_Monstres_VieMonstre::getTabXYRayon($monstre["id_fk_zone_nid_monstre"], $monstre["niveau_monstre"], $monstre["x_direction_monstre"], $monstre["y_direction_monstre"], $monstre["x_min_monstre"], $monstre["x_max_monstre"], $monstre["y_min_monstre"], $monstre["y_max_monstre"], $monstre["id_monstre"]);
 
 			$monstre["x_direction_monstre"] = $tab["x_direction"];
 			$monstre["y_direction_monstre"] = $tab["y_direction"];
@@ -194,7 +194,8 @@ class Bral_Monstres_VieSolitaire {
 		$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
 		$vieMonstre->setMonstre($monstre);
 		$vieMonstre->deplacementMonstre($monstre["x_direction_monstre"], $monstre["y_direction_monstre"]);
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementSolitaire - exit");
+		$vieMonstre->update();
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementSolitaire - exit - (idm:".$monstre["id_monstre"].")");
 	}
 
 	/*

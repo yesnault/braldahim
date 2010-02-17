@@ -136,9 +136,11 @@ class Bral_Monstres_VieMonstre {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") nouvelle position x=".$this->monstre["x_monstre"]." y=".$this->monstre["y_monstre"].", pa restant=".$this->monstre["pa_monstre"]);
 		}
 		if ($modif === true) {
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif true, appel updateMonstre()");
 			$this->updateMonstre();
 			$retour = true;
 		} else {
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif false, pas appel updateMonstre()");
 			$retour = false;
 		}
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementMonstre - exit (".$retour.")");
@@ -405,8 +407,8 @@ class Bral_Monstres_VieMonstre {
 		return $nbCastars;
 	}
 
-	public static function getTabXYRayon($idZoneNid, $niveau, $directionX, $directionY, $xMin, $xMax, $yMin, $yMax) {
-		Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - enter - idZoneNid:".$idZoneNid." niveau=".$niveau." directionX=".$directionX." directionY=".$directionY. "  xMin:".$xMin." , xMax:".$xMax." , yMin:".$yMin.", yMax:".$yMax);
+	public static function getTabXYRayon($idZoneNid, $niveau, $directionX, $directionY, $xMin, $xMax, $yMin, $yMax, $idMonstre=null) {
+		Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - enter - (idm:".$idMonstre.") idZoneNid:".$idZoneNid." niveau=".$niveau." directionX=".$directionX." directionY=".$directionY. "  xMin:".$xMin." , xMax:".$xMax." , yMin:".$yMin.", yMax:".$yMax);
 
 		$tab["x_direction"] = $directionX;
 		$tab["y_direction"] = $directionY;
