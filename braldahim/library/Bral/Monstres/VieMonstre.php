@@ -143,7 +143,7 @@ class Bral_Monstres_VieMonstre {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif false, pas appel updateMonstre()");
 			$retour = false;
 		}
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementMonstre - exit (".$retour.")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementMonstre - (idm:".$this->monstre["id_monstre"].") - exit (".$retour.")");
 	}
 
 	public function calculFuite($view) {
@@ -207,7 +207,7 @@ class Bral_Monstres_VieMonstre {
 	}
 
 	public function setMonstre($m) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - setMonstre - enter");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - setMonstre - enter - (idm:".$m["id_monstre"].")");
 		if ($m == null) {
 			throw new Zend_Exception("Bral_Monstres_VieMonstre::setMonstre, monstre invalide");
 		}
@@ -280,7 +280,7 @@ class Bral_Monstres_VieMonstre {
 		if ($this->monstre["pv_restant_monstre"] < $this->monstre["pv_max_monstre"]) {
 			$this->monstre["regeneration_monstre"] = floor($this->monstre["vigueur_base_monstre"] / 4) + 1;
 			$jet = Bral_Util_Vie::calculRegenerationMonstre($this->monstre);
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - jet de regeneration:".$jet);
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$this->monstre["id_monstre"].") - jet de regeneration:".$jet);
 		}
 
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calulRegeneration (idm:".$this->monstre["id_monstre"].") - exit");
