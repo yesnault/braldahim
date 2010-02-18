@@ -170,7 +170,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 				$nbMonstresManquants = - $nbMonstre;
 				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculCreationNids - idTypeMonstre:".$t["id_type_monstre"]." non present dans la zone. Nb monstres à supprimer:".$nbMonstre);
 			}
-				
+
 			// il n'y a pas assez de monstre du type dans la zone
 			if ($nbMonstresManquants > self::NB_MONSTRES_PAR_NID_MOYENNE) {
 				$this->creationNidsParTypeMonstre($zone, $t["id_type_monstre"], $nbMonstresManquants, $zone["x_min_zone_nid"], $zone["x_max_zone_nid"], $zone["y_min_zone_nid"], $zone["y_max_zone_nid"]);
@@ -186,7 +186,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 	}
 
 	private function creationNidsParTypeMonstre($zone, $idTypeMonstre, $nbMonstreACreer, $xMin, $xMax, $yMin, $yMax) {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - creationNidsParTypeMonstre - enter - idz:".$zone["id_zone_nid"]);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - creationNidsParTypeMonstre - enter - idz:".$zone["id_zone_nid"] . " idTypeMonstre:".$idTypeMonstre);
 		$retour = "";
 
 		$nidTable = new Nid();
@@ -194,7 +194,8 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		$nbNidACreer = floor($nbMonstreACreer / self::NB_MONSTRES_PAR_NID_MOYENNE);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - idz:".$zone["id_zone_nid"]. " - nbMonstreACreer:".$nbMonstreACreer." nbNidACreer:".$nbNidACreer);
-
+		
+		$config = Zend_Registry::get('config');
 
 		for($i=1; $i <= $nbNidACreer; $i++) {
 			usleep(Bral_Util_De::get_de_specifique(1, self::USLEEP_DELTA));
@@ -207,6 +208,19 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 
 			usleep(Bral_Util_De::get_de_specifique(1, self::USLEEP_DELTA));
 			$y =  Bral_Util_De::get_de_specifique($yMin, $yMax);
+				
+			if ($x <= $config->game->x_min) {
+				$x = $config->game->x_min + 1;
+			}
+			if ($x >= $config->game->x_max) {
+				$x = $config->game->x_max - 1;
+			}
+			if ($y <= $config->game->y_min) {
+				$y = $config->game->y_min + 1;
+			}
+			if ($y >= $config->game->y_max) {
+				$y = $config->game->y_max - 1;
+			}
 
 			$data = array(
 				'x_nid' => $x,
@@ -326,7 +340,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 					break;
 				}
 			}
-				
+
 			$creationNidsRow = null;
 			$nbACreerDansZone = 0;
 			$nb_monstres_ville_creation_nid = 0;
@@ -337,11 +351,11 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 					break;
 				}
 			}
-				
+
 			$nbACreerDansZone = $nb_monstres_ville_creation_nid - $nbMonstre;
-				
+
 			Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculZoneVille - nb_monstres_ville_creation_nid:".$nb_monstres_ville_creation_nid. " nbMonstre:".$nbMonstre." nbACreerDansZone:".$nbACreerDansZone);
-				
+
 			if ($nbACreerDansZone < 0) {  // il faut supprimer les monstres en trop
 				$this->suppressionMonstresParTypeMonstre($zone, $t["id_type_monstre"], -$nbACreerDansZone);
 			} elseif ($creationNidsRow != null) {
@@ -382,7 +396,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 
 			$rayonMin = $niveauMaxMonstre * 3; // le nid, avec un niveau gigantesque à 5, sera généré au minimum à 15 cases du centre de la ville
 			$rayonMax = $rayonMin + 20; // et donc à 35 cases du centre de la ville au maximum
-				
+
 			for($nbMonstres = self::NB_MONSTRES_PAR_NID_MOYENNE; $nbMonstres <= $nbMonstreACreer; $nbMonstres = $nbMonstres + self::NB_MONSTRES_PAR_NID_MOYENNE) {
 				$this->calculCreationNidsVilleZone($zone, $typeMonstreCreationNid["id_fk_type_monstre_creation_nid"], $xCentreVille, $yCentreVille, $rayonMin, $rayonMax, $niveauMaxMonstre, self::NB_MONSTRES_PAR_NID_MOYENNE);
 			}
