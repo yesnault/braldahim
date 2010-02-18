@@ -293,7 +293,8 @@ class Bral_Monstres_VieMonstre {
 		}
 
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateMonstre (idm:".$this->monstre["id_monstre"].") (PA:".$this->monstre["pa_monstre"].")");
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateMonstre (idm:".$this->monstre["date_fin_tour_monstre"].") (Date fin tour:".$this->monstre["date_fin_tour_monstre"].")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateMonstre (idm:".$this->monstre["id_monstre"].") (Date fin tour:".$this->monstre["date_fin_tour_monstre"].")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - updateMonstre (idm:".$this->monstre["id_monstre"].") (x:".$this->monstre["x_monstre"].", y:".$this->monstre["y_monstre"].", x_direction:".$this->monstre["x_direction_monstre"].", y_direction:".$this->monstre["y_direction_monstre"].")");
 
 		$monstreTable = new Monstre();
 		$data = array(
