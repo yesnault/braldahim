@@ -193,6 +193,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->hobbit->bm_degat_hobbit = 0;
 			$this->hobbit->bm_defense_hobbit = 0;
 			$this->hobbit->duree_bm_tour_hobbit = 0;
+			$this->hobbit->bm_marcher_hobbit = 0;
 
 			// Recalcul de l'armure naturelle
 			$this->hobbit->armure_naturelle_hobbit = Bral_Util_Commun::calculArmureNaturelle($this->hobbit->force_base_hobbit, $this->hobbit->vigueur_base_hobbit);
@@ -736,6 +737,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			'bm_attaque_hobbit' => $this->hobbit->bm_attaque_hobbit,
 			'bm_degat_hobbit' => $this->hobbit->bm_degat_hobbit,
 			'bm_defense_hobbit' => $this->hobbit->bm_defense_hobbit,
+			'bm_marcher_hobbit' => $this->hobbit->bm_marcher_hobbit,
 			'est_engage_hobbit' => $this->hobbit->est_engage_hobbit,
 			'est_engage_next_dla_hobbit' => $this->hobbit->est_engage_next_dla_hobbit,
 			'est_intangible_hobbit' => $this->hobbit->est_intangible_hobbit,
