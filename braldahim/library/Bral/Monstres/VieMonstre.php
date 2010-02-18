@@ -447,28 +447,36 @@ class Bral_Monstres_VieMonstre {
 			if ($tab["x_direction"] < $xCentreVille) { // à gauche de la ville
 				if ($tab["x_direction"] > $xCentreVille - $rayonMin) { // à l'intérieur du rayon à gauche
 					$tab["x_direction"] = $xCentreVille - $rayonMin - Bral_Util_De::get_de_specifique(0, 5);
+					Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - A - (idm:".$idMonstre.") directionX=".$tab["x_direction"]." directionY=".$tab["y_direction"]);
 				} else if ($tab["x_direction"] < $xCentreVille - $rayonMax) { // à l'extérieur du rayon à gauche
 					$tab["x_direction"] = $xCentreVille - $rayonMax - Bral_Util_De::get_de_specifique(0, 5);
+					Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - B - (idm:".$idMonstre.") directionX=".$tab["x_direction"]." directionY=".$tab["y_direction"]);
 				}
 			} else { // à droite de la ville
 				if ($tab["x_direction"] < $xCentreVille + $rayonMin) { // à l'intérieur du rayon à droite
 					$tab["x_direction"] = $xCentreVille + $rayonMin + Bral_Util_De::get_de_specifique(0, 5);
+					Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - C - (idm:".$idMonstre.") directionX=".$tab["x_direction"]." directionY=".$tab["y_direction"]);
 				} else if ($tab["x_direction"] > $xCentreVille + $rayonMax) { // à l'extérieur du rayon à gauche
 					$tab["x_direction"] = $xCentreVille + $rayonMax + Bral_Util_De::get_de_specifique(0, 5);
+					Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - D - (idm:".$idMonstre.") directionX=".$tab["x_direction"]." directionY=".$tab["y_direction"]);
 				}
 			}
 
 			if ($tab["y_direction"] < $yCentreVille) { // au bas de la ville
 				if ($tab["y_direction"] > $yCentreVille - $rayonMin) { // à l'intérieur du rayon en bas
 					$tab["y_direction"] = $yCentreVille - $rayonMin - Bral_Util_De::get_de_specifique(0, 5);
+					Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - E - (idm:".$idMonstre.") directionX=".$tab["x_direction"]." directionY=".$tab["y_direction"]);
 				} else if ($tab["y_direction"] < $yCentreVille - $rayonMax) { // à l'extérieur du rayon en bas
 					$tab["y_direction"] = $yCentreVille - $rayonMax - Bral_Util_De::get_de_specifique(0, 5);
+					Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - F - (idm:".$idMonstre.") directionX=".$tab["x_direction"]." directionY=".$tab["y_direction"]);
 				}
 			} else { // en haut de la ville
 				if ($tab["y_direction"] < $yCentreVille + $rayonMin) { // à l'intérieur du rayon en haut
 					$tab["y_direction"] = $yCentreVille + $rayonMin + Bral_Util_De::get_de_specifique(0, 5);
+					Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - G - (idm:".$idMonstre.") directionX=".$tab["x_direction"]." directionY=".$tab["y_direction"]);
 				} else if ($tab["y_direction"] > $yCentreVille + $rayonMax) { // à l'extérieur du rayon en haut
 					$tab["y_direction"] = $yCentreVille + $rayonMax + Bral_Util_De::get_de_specifique(0, 5);
+					Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - H - (idm:".$idMonstre.") directionX=".$tab["x_direction"]." directionY=".$tab["y_direction"]);
 				}
 			}
 		}
