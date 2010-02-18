@@ -186,14 +186,14 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 	}
 
 	private function creationNidsParTypeMonstre($zone, $idTypeMonstre, $nbMonstreACreer, $xMin, $xMax, $yMin, $yMax) {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - creationNidsParTypeMonstre - enter -");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - creationNidsParTypeMonstre - enter - idz:".$zone["id_zone_nid"]);
 		$retour = "";
 
 		$nidTable = new Nid();
 
 		$nbNidACreer = floor($nbMonstreACreer / self::NB_MONSTRES_PAR_NID_MOYENNE);
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - nbMonstreACreer:".$nbMonstreACreer." nbNidACreer:".$nbNidACreer);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - idz:".$zone["id_zone_nid"]. " - nbMonstreACreer:".$nbMonstreACreer." nbNidACreer:".$nbNidACreer);
 
 
 		for($i=1; $i <= $nbNidACreer; $i++) {
@@ -222,12 +222,12 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 			$nidTable->insert($data);
 		}
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - creationNidsParTypeMonstre - exit -");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - creationNidsParTypeMonstre - exit - idz:".$zone["id_zone_nid"]);
 		return $retour;
 	}
 
 	private function suppressionMonstresParTypeMonstre($zone, $idTypeMonstre, $nbMonstreASupprimer) {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - suppressionMonstresParTypeMonstre - enter idTypeMonstre:".$idTypeMonstre." -");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - suppressionMonstresParTypeMonstre - enter - idz:".$zone["id_zone_nid"]. " - idTypeMonstre:".$idTypeMonstre." -");
 		$retour = "";
 
 		// s'il y a des nids de ce type, on les supprime
@@ -245,7 +245,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 			}
 		}
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - suppressionMonstresParTypeMonstre A - nbMonstreASupprimer:".$nbMonstreASupprimer." nbSupprime dans nids:".$nbSupprime);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - idz:".$zone["id_zone_nid"]. " - suppressionMonstresParTypeMonstre A - nbMonstreASupprimer:".$nbMonstreASupprimer." nbSupprime dans nids:".$nbSupprime);
 
 		if ($nbSupprime <= $nbMonstreASupprimer) { // s'il n'y a pas assez de monstres supprimés, il faut en supprimer des vivants
 			$monstreTable = new Monstre();
@@ -267,7 +267,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 
 				$nbSupprime = $nbSupprime + 1;
 
-				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - suppressionMonstresParTypeMonstre B - nbMonstreASupprimer:".$nbMonstreASupprimer." nbSupprime dans vivants:".$nbSupprime);
+				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - idz:".$zone["id_zone_nid"]. " - suppressionMonstresParTypeMonstre B - nbMonstreASupprimer:".$nbMonstreASupprimer." nbSupprime dans vivants:".$nbSupprime);
 					
 				if ($nbSupprime >= $nbMonstreASupprimer) {
 					break;
@@ -276,7 +276,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 			}
 		}
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - suppressionMonstresParTypeMonstre - exit -");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - suppressionMonstresParTypeMonstre - exit - idz:".$zone["id_zone_nid"]);
 		return $retour;
 	}
 
@@ -356,7 +356,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 	}
 
 	private function calculCreationNidsVille($zone, $typeMonstreCreationNid, $nbMonstrePresents) {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculCreationNidsVille - enter -");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculCreationNidsVille - enter - idz:".$zone["id_zone_nid"]);
 		$retour = "";
 
 		if ($typeMonstreCreationNid["nb_monstres_ville_creation_nid"] == null) {
@@ -364,7 +364,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		}
 
 		$nbMonstreACreer = $typeMonstreCreationNid["nb_monstres_ville_creation_nid"] - $nbMonstrePresents;
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculCreationNidsVille - nbAAvoir:".$typeMonstreCreationNid["nb_monstres_ville_creation_nid"]." nbMonstrePresents:".$nbMonstrePresents." nbMonstreACreer:".$nbMonstreACreer);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculCreationNidsVille - idz:".$zone["id_zone_nid"]. " - nbAAvoir:".$typeMonstreCreationNid["nb_monstres_ville_creation_nid"]." nbMonstrePresents:".$nbMonstrePresents." nbMonstreACreer:".$nbMonstreACreer);
 
 		if ($nbMonstreACreer > self::NB_MONSTRES_PAR_NID_MOYENNE) {
 
@@ -372,7 +372,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 			$referentielMonstreTable = new ReferentielMonstre();
 			$ref = $referentielMonstreTable->findByTailleAndType(TailleMonstre::ID_TAILLE_GIGANTESQUE, $typeMonstreCreationNid["id_fk_type_monstre_creation_nid"]);
 			if (count($ref) != 1) {
-				throw new Zend_Exception("calculCreationNidsVille Ref Invalide dans ref_monstre idTypeMonstre:".$typeMonstreCreationNid["id_fk_type_monstre_creation_nid"]);
+				throw new Zend_Exception("calculCreationNidsVille Ref Invalide dans ref_monstre idz:".$zone["id_zone_nid"]. " idTypeMonstre:".$typeMonstreCreationNid["id_fk_type_monstre_creation_nid"]);
 			}
 
 			$niveauMaxMonstre = $ref[0]["niveau_max_ref_monstre"];
@@ -389,12 +389,12 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 
 		}
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculCreationNidsVille - exit -");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculCreationNidsVille - exit - idz:".$zone["id_zone_nid"]);
 		return $retour;
 	}
 
 	private function calculCreationNidsVilleZone($zone, $idTypeMonstre, $xCentreVille, $yCentreVille, $rayonMin, $rayonMax, $niveauMaxMonstre, $nbMonstreACreer) {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculCreationNidsVilleZone - enter -");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculCreationNidsVilleZone - enter - idz:".$zone["id_zone_nid"]);
 		$retour = "";
 
 		$xMin = null;
@@ -430,10 +430,10 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 			$yMax = $yCentreVille + $rayonMax;
 		}
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculCreationNidsVille - niveauMaxMonstre:".$niveauMaxMonstre." rayonMin:".$rayonMin." rayonMax:".$rayonMax." xMin:".$xMin. " xMax:".$xMax. " yMin:".$yMin." yMax:".$yMax. " nbMonstreACreer:".$nbMonstreACreer);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculCreationNidsVille - idz:".$zone["id_zone_nid"]. " - niveauMaxMonstre:".$niveauMaxMonstre." rayonMin:".$rayonMin." rayonMax:".$rayonMax." xMin:".$xMin. " xMax:".$xMax. " yMin:".$yMin." yMax:".$yMax. " nbMonstreACreer:".$nbMonstreACreer);
 		$this->creationNidsParTypeMonstre($zone, $idTypeMonstre, $nbMonstreACreer, $xMin, $xMax, $yMin, $yMax);
 
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculCreationNidsVilleZone - exit -");
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculCreationNidsVilleZone - exit - idz:".$zone["id_zone_nid"]);
 		return $retour;
 	}
 
