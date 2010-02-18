@@ -136,13 +136,14 @@ class Bral_Monstres_VieMonstre {
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") nouvelle position x=".$this->monstre["x_monstre"]." y=".$this->monstre["y_monstre"].", pa restant=".$this->monstre["pa_monstre"]);
 		}
 		if ($modif === true) {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif true, appel updateMonstre()");
-			$this->updateMonstre();
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif true");
 			$retour = true;
 		} else {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif false, pas appel updateMonstre()");
+			Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") Modif false");
 			$retour = false;
 		}
+		// mise à jour du monstre, quoi qu'il arrive
+		$this->updateMonstre();
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementMonstre - (idm:".$this->monstre["id_monstre"].") - exit (".$retour.")");
 	}
 
