@@ -17,7 +17,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 	const NB_MONSTRES_PAR_NID_MAX = 12;
 
 	const USLEEP_DELTA = 1000000;
-	
+
 	public function calculBatchImpl() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculBatchImpl - enter -");
 
@@ -135,9 +135,9 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 
 		$nbPourcentMonstresParTypeAAvoir = $zone["couverture_zone_nid"] / $nbTypesTotalDansZone;
 		$nbMonstresParTypeAAvoir = $nbPourcentMonstresParTypeAAvoir * $nbCasesDansZone / 100;
-		
+
 		$nbMonstresTotalAAvoir = $nbCasesDansZone * $zone["couverture_zone_nid"] / 100;
-		
+
 		Bral_Util_Log::batchs()->debug("Bral_Batchs_CreationNids - calculZoneHorsVille - nbCasesDansZone:".$nbCasesDansZone." nbTypesTotalDansZone:".$nbTypesTotalDansZone." nbMonstresParTypeAAvoir ".$nbMonstresParTypeAAvoir. " nbMonstresTotalAAvoir ".$nbMonstresTotalAAvoir);
 
 		foreach($tousTypesMontres as $t) {
@@ -170,7 +170,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 				$nbMonstresManquants = - $nbMonstre;
 				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculCreationNids - idTypeMonstre:".$t["id_type_monstre"]." non present dans la zone. Nb monstres à supprimer:".$nbMonstre);
 			}
-			
+				
 			// il n'y a pas assez de monstre du type dans la zone
 			if ($nbMonstresManquants > self::NB_MONSTRES_PAR_NID_MOYENNE) {
 				$this->creationNidsParTypeMonstre($zone, $t["id_type_monstre"], $nbMonstresManquants, $zone["x_min_zone_nid"], $zone["x_max_zone_nid"], $zone["y_min_zone_nid"], $zone["y_max_zone_nid"]);
@@ -326,7 +326,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 					break;
 				}
 			}
-			
+				
 			$creationNidsRow = null;
 			$nbACreerDansZone = 0;
 			$nb_monstres_ville_creation_nid = 0;
@@ -337,18 +337,18 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 					break;
 				}
 			}
-			
+				
 			$nbACreerDansZone = $nb_monstres_ville_creation_nid - $nbMonstre;
-			
+				
 			Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculZoneVille - nb_monstres_ville_creation_nid:".$nb_monstres_ville_creation_nid. " nbMonstre:".$nbMonstre." nbACreerDansZone:".$nbACreerDansZone);
-			
+				
 			if ($nbACreerDansZone < 0) {  // il faut supprimer les monstres en trop
-				$this->suppressionMonstresParTypeMonstre($zone, $t["id_type_monstre"], -$nbACreerDansZone);				
+				$this->suppressionMonstresParTypeMonstre($zone, $t["id_type_monstre"], -$nbACreerDansZone);
 			} elseif ($creationNidsRow != null) {
 				$this->calculCreationNidsVille($zone, $creationNidsRow, $nbMonstre);
 			}
-				
-			// 				
+
+			//
 		}
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculZoneVille - exit -");
@@ -382,7 +382,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 
 			$rayonMin = $niveauMaxMonstre * 3; // le nid, avec un niveau gigantesque à 5, sera généré au minimum à 15 cases du centre de la ville
 			$rayonMax = $rayonMin + 20; // et donc à 35 cases du centre de la ville au maximum
-
+				
 			for($nbMonstres = self::NB_MONSTRES_PAR_NID_MOYENNE; $nbMonstres <= $nbMonstreACreer; $nbMonstres = $nbMonstres + self::NB_MONSTRES_PAR_NID_MOYENNE) {
 				$this->calculCreationNidsVilleZone($zone, $typeMonstreCreationNid["id_fk_type_monstre_creation_nid"], $xCentreVille, $yCentreVille, $rayonMin, $rayonMax, $niveauMaxMonstre, self::NB_MONSTRES_PAR_NID_MOYENNE);
 			}
@@ -404,6 +404,22 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		$yMin = null;
 		$yMax = null;
 		$this->determineZoneDepuisCentre($yMin, $yMax, $yCentreVille, $rayonMin, $rayonMax);
+
+		if ($xMin < $zone["x_min_zone_nid"]) {
+			$xMin = $xMin + Bral_Util_De::get_de_specifique(1, 5);
+		}
+
+		if ($xMax > $zone["x_min_zone_nid"]) {
+			$xMax = $xMax - Bral_Util_De::get_de_specifique(1, 5);
+		}
+
+		if ($yMin < $zone["y_min_zone_nid"]) {
+			$yMin = $yMin + Bral_Util_De::get_de_specifique(1, 5);
+		}
+
+		if ($yMax > $zone["y_max_zone_nid"]) {
+			$yMax = $yMax - Bral_Util_De::get_de_specifique(1, 5);
+		}
 
 		$d = Bral_Util_De::get_de_specifique(1, 2); // repartition pour eviter une repartition aux 4 coins
 		if ($d == 1) {
