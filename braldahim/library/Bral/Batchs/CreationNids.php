@@ -12,8 +12,8 @@
  */
 class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 
-	const NB_MONSTRES_PAR_NID_MOYENNE = 10;
-	const NB_MONSTRES_PAR_NID_MIN = 8;
+	const NB_MONSTRES_PAR_NID_MOYENNE = 8;
+	const NB_MONSTRES_PAR_NID_MIN = 5;
 	const NB_MONSTRES_PAR_NID_MAX = 12;
 
 	const USLEEP_DELTA = 1000000;
@@ -199,7 +199,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 		for($i=1; $i <= $nbNidACreer; $i++) {
 			usleep(Bral_Util_De::get_de_specifique(1, self::USLEEP_DELTA));
 
-			$nbMonstres = Bral_Util_De::get_de_specifique(8, 12);
+			$nbMonstres = Bral_Util_De::get_de_specifique(self::NB_MONSTRES_PAR_NID_MIN, self::NB_MONSTRES_PAR_NID_MAX);
 			$nbJours = Bral_Util_De::get_de_specifique(0, 4);
 
 			usleep(Bral_Util_De::get_de_specifique(1, self::USLEEP_DELTA));
