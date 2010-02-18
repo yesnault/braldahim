@@ -488,16 +488,16 @@ class Bral_Monstres_VieMonstre {
 		$config = Zend_Registry::get('config');
 
 		if ($tab["x_direction"] <= $config->game->x_min) {
-			$tab["x_direction"] = -$config->game->x_min;
+			$tab["x_direction"] = $config->game->x_min + 1;
 		}
 		if ($tab["x_direction"] >= $config->game->x_max) {
-			$tab["x_direction"] = -$config->game->x_max;
+			$tab["x_direction"] = $config->game->x_max - 1;
 		}
 		if ($tab["y_direction"] <= $config->game->y_min) {
-			$tab["y_direction"] = -$config->game->y_min;
+			$tab["y_direction"] = $config->game->y_min + 1;
 		}
 		if ($tab["y_direction"] >= $config->game->y_max) {
-			$tab["y_direction"] = -$config->game->y_max;
+			$tab["y_direction"] = $config->game->y_max - 1;
 		}
 
 		Bral_Util_Log::viemonstres()->trace("Bral_Monstres_VieMonstre - getTabXYRayon - exit - (idm:".$idMonstre.") directionX=".$tab["x_direction"]." directionY=".$tab["y_direction"]);
