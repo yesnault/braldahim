@@ -68,7 +68,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 			$this->view->construireOk = true;
 
 			$routesAutour = $routeTable->selectVue($this->view->user->x_hobbit - 1, $this->view->user->y_hobbit - 1, $this->view->user->x_hobbit + 1, $this->view->user->y_hobbit + 1, $this->view->user->z_hobbit);
-			if ($routesAutour != null && count($routesAutour) > 0) {
+			if ($routesAutour != null && count($routesAutour) > 0 && $this->view->tableau != null) {
 				$this->view->construireRouteContinueOk = true;
 			}
 		}
