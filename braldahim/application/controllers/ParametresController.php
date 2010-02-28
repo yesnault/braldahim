@@ -308,7 +308,7 @@ class ParametresController extends Zend_Controller_Action {
 			$texte .= "--------> Hobbit déclaré : ".$hobbit->prenom_hobbit." ".$hobbit->nom_hobbit. " (".$hobbit->id_hobbit.")".PHP_EOL;
 			$texte .= "--------> Mail du déclarant : ".$this->view->user->email_hobbit.PHP_EOL;
 			$texte .= "--------> Mail du déclaré : ".$hobbit->email_hobbit.PHP_EOL;
-			$texte .= "--------> IP du déclarant : ".$_SERVER['REMOTE_ADDR']." Host:".gethostbyaddr($_SERVER['REMOTE_ADDR']).PHP_EOL;
+			$texte .= "--------> IP du déclarant : ".$_SERVER['REMOTE_ADDR'];
 			$texte .= "--------> Message : ".PHP_EOL;
 			$texte .= $message.PHP_EOL;
 
