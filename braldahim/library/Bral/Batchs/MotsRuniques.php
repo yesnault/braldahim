@@ -29,9 +29,9 @@ class Bral_Batchs_MotsRuniques extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass("Bral_Util_Lune");
 		Zend_Loader::loadClass("MotRunique");
 		Zend_Loader::loadClass("TypeRune");
-		
+
 		$retour = "";
-		
+
 		$annee = date('Y');
 		$mois = date('m');
 		$jour = date('d');
@@ -89,26 +89,33 @@ class Bral_Batchs_MotsRuniques extends Bral_Batchs_Batch {
 		$mot["id_fk_type_rune_5_mot_runique"] = null;
 		$mot["id_fk_type_rune_6_mot_runique"] = null;
 
-		$indice = 0;
+		$nbRunesTotales = $mot["nb_total_rune_mot_runique"];
 
-		$retour .= $this->calculRuneNiveau($mot, $indice, 'a', $tabTypes);
-		$retour .= $this->calculRuneNiveau($mot, $indice, 'b', $tabTypes);
-		$retour .= $this->calculRuneNiveau($mot, $indice, 'c', $tabTypes);
-		$retour .= $this->calculRuneNiveau($mot, $indice, 'd', $tabTypes);
+		for ($i = 1; $i <= $nbRunesTotales; $i++) {
+			$tabIndices[] = $i;
+		}
+		shuffle($tabIndices);
 
+		$niveaux = array('a', 'b', 'c', 'd');
+		shuffle($niveaux);
+		
+		foreach($niveaux as $n) {
+			$retour .= $this->calculRuneNiveau($mot, $n, $tabTypes, $tabIndices);
+		}
+		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - regenereMot - exit -".$retour);
 		return $retour;
 	}
 
-	private function calculRuneNiveau(&$mot, &$indice, $niveau, $tabTypes) {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - calculRuneNiveau - enter -".$niveau."- ind:".$indice);
-		
+	private function calculRuneNiveau(&$mot, $niveau, $tabTypes, &$tabIndices) {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - calculRuneNiveau - enter -".$niveau);
+
 		for ($i = 1; $i <= $mot["nb_rune_niveau_".$niveau."_mot_runique"]; $i++) {
-			$indice = $indice + 1;
+			$indice = array_pop($tabIndices);
 			$mot["id_fk_type_rune_".$indice."_mot_runique"] = $tabTypes[$niveau][$i-1]["id_type_rune"];
 		}
-		$retour = " n:".$niveau."- ind:".$indice;
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - calculRuneNiveau - exit -".$niveau."- ind:".$indice);
+		$retour = " n:".$niveau;
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_MotsRuniques - calculRuneNiveau - exit -".$niveau);
 		return $retour;
 	}
 
