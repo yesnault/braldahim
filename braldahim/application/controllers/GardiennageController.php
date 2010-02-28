@@ -84,7 +84,7 @@ class GardiennageController extends Zend_Controller_Action {
 			foreach($gardiennage as $g) {
 				if ($id_garde == $g["id_gardiennage"] 
 					&& $g["date_debut_gardiennage"] <= $dateCourante
-					&& $g["date_fin_gardiennage"] > $dateCourante) {
+					&& $g["date_fin_gardiennage"] >= $dateCourante) {
 					$garde = true;
 					$id_hobbit = $g["id_fk_hobbit_gardiennage"];
 					$email_hobbit = $g["email_hobbit"];
