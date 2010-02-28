@@ -67,7 +67,6 @@ class Gardiennage extends Zend_Db_Table {
 		->where("hobbit.est_en_hibernation_hobbit = 'non'")
 		->where('gardiennage.date_fin_gardiennage >= \''.$date_courante.'\'');
 		$sql = $select->__toString();
-		echo $sql;
 
 		return $db->fetchAll($sql);
     }
