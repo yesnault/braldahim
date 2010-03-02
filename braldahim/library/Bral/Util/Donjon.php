@@ -258,7 +258,7 @@ class Bral_Util_Donjon {
 		Zend_Loader::loadClass("DonjonHobbit");
 		$donjonHobbitTable = new DonjonHobbit();
 		$donjonHobbit = $donjonHobbitTable->findByIdEquipe($donjonEquipe["id_donjon_equipe"]);
-		
+
 		Zend_Loader::loadClass('Donjon');
 		$donjonTable = new Donjon();
 		$donjon = $donjonTable->findByIdDonjon($idDonjon);
@@ -381,7 +381,7 @@ class Bral_Util_Donjon {
 		foreach($donjonHobbit as $h) {
 			$listeHobbits .= $h["prenom_hobbit"]. " ".$h["nom_hobbit"]. "(".$h["id_hobbit"]."), ";
 			self::envoieMessageReussiHobbit($donjon, $equipe, $nomComte, $h, $view);
-			self::finaliseHobbitReussi($donjon, $h);
+			self::finaliseHobbitReussi($donjon, $h, $nomComte);
 		}
 
 		self::envoieMessageReussiHobbits($donjon, $equipe, $nomComte, $listeHobbits, $view);
@@ -396,7 +396,7 @@ class Bral_Util_Donjon {
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - finaliseDonjonReussi - exit -");
 	}
 
-	private static function finaliseHobbitReussi($donjon, $hobbit) {
+	private static function finaliseHobbitReussi($donjon, $hobbit, $nomComte) {
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - finaliseHobbitReussi - enter h:".$hobbit["id_hobbit"]);
 
 		Zend_Loader::loadClass("TypeLieu");
@@ -413,6 +413,12 @@ class Bral_Util_Donjon {
 		$where = "id_hobbit = ".$hobbit["id_hobbit"];
 		$hobbitTable = new Hobbit();
 		$hobbitTable->update($data, $where);
+
+		Zend_Loader::loadClass("Bral_Util_Distinction");
+		$texte = "Écumeur du donjon de la ".$nomComte;
+		Bral_Util_Log::quete()->trace("Hobbit ".$hobbit["id_hobbit"]." - Bral_Util_Donjon::finaliseHobbitReussi - Ajout d'une distinction : ".$texte);
+		Bral_Util_Distinction::ajouterDistinction($hobbit["id_hobbit"], $donjon["id_fk_distinction_donjon"], $texte);
+
 		Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - finaliseHobbitReussi - exit -");
 	}
 
