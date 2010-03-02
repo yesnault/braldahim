@@ -176,7 +176,11 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 		if ($this->view->nbViande < 0) {
 			$this->view->nbViande = 0;
 		}
-		$this->view->nbViande = $this->view->nbViande + 1;
+
+		// viande que pour les gibiers
+		if ($monstre["id_fk_type_groupe_monstre"] == $this->view->config->game->groupe_monstre->type->gibier) {
+			$this->view->nbViande = $this->view->nbViande + 1;
+		}
 
 		if ($this->view->nbViande > $nbMax) {
 			$this->view->nbViande = $nbMax;
