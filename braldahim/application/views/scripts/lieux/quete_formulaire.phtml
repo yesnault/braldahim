@@ -4,17 +4,23 @@
  <div class='comp_contenu'>
  	<br />
  	
- 	Bonjour à toi <?=$this->user->prenom_hobbit ?> <?=$this->user->nom_hobbit ?>.<br>
+ 	Bonjour à vous <?=$this->user->prenom_hobbit ?> <?=$this->user->nom_hobbit ?>.<br>
  	<br>
  	<? if ($this->queteEnCours === true):?>
- 	Tu as d&eacute;j&agrave; une quête en cours... Termine-là et viens me revoir ensuite.
+ 	Vous avez d&eacute;j&agrave; une quête en cours... Terminez-là et revenez me voir ensuite.
  	<? elseif ($this->queteObtenue === false):?>
  	
- 	Tu es en recherche de quête à <?=$this->nomVille?> ? 
+ 	Vous êtes à la recherche de quête à <?=$this->nomVille?> ? 
  	<br><br>
- 	Bien, j'ai une mission pour toi qui me semble adapt&eacute;e.<br> Tu dois payer <?=$this->coutCastars?> castars 
+ 	Bien, j'ai une mission pour vous qui me semble adapt&eacute;e.<br> 
+ 	Vous devez payer <?=$this->coutCastars?> castars 
  	(et <?=$this->paUtilisationLieu ?> PA).<br><br>
- 	Es-tu prêt &agrave; accepter ?
+ 	
+ 	Cette mission sera en quelque sorte liée à votre métier courant, 
+ 	donc si vous souhaitez changer de métier avant, passez à l'académie et revenez ici ensuite...<br><br>
+ 	
+ 	Êtes-vous prêt &agrave; accepter ?<br><br>
+ 	
  	<? else: ?>
  	Vous êtes déjà rentré dans ce lieu, vous n'avez plus rien à faire ici...
  	<? endif;?>
