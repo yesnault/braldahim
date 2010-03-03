@@ -20,7 +20,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 	public function __construct($competence, &$monstre, &$cible, $view) {
 		$this->competence = $competence;
 		$this->monstre = &$monstre;
-		$this->cible = $cible;
+		$this->cible = &$cible; // $this->cible est une référence de $cible
 		self::$config = Zend_Registry::get('config');
 		$this->view = $view;
 	}
