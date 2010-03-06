@@ -28,7 +28,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 		$hobbitEquipement = new HobbitEquipement();
 		$equipementPorteRowset = $hobbitEquipement->findByTypePiece($this->view->user->id_hobbit,"arme_tir");
 
-		if (count($equipementPorteRowset) > 0){
+		if (count($equipementPorteRowset) > 0) {
 			$armeTirPortee = true;
 			//on verifie qu'il a des munitions et que ce sont les bonnes
 			$labanMunition = new LabanMunition();
@@ -46,7 +46,7 @@ class Bral_Competences_Tirer extends Bral_Competences_Competence {
 			}
 		}
 
-		if ($armeTirPortee == true && $munitionPortee == true){
+		if ($armeTirPortee == true && $munitionPortee == true && $this->view->user->est_intangible_hobbit == "non") {
 
 			//On ne peut tirer qu'à 4 cases maxi.
 			$this->view->tir_nb_cases = Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit) + $this->view->user->vue_bm_hobbit;

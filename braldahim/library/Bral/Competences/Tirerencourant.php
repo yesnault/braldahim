@@ -46,7 +46,7 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 			}
 		}
 		
-		if ($armeTirPortee == true && $munitionPortee == true){
+		if ($armeTirPortee == true && $munitionPortee == true && $this->view->user->est_intangible_hobbit == "non") {
 			
 			//on vérifie que le hobbit peut courrir (palissade et coins du jeu)
 			$x_min = $this->view->user->x_hobbit - 1;

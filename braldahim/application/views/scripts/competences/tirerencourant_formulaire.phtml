@@ -4,13 +4,17 @@
 		<? if (!$this->munitionPortee == true) :?>
 			Vous n'avez pas de munition correspondant &agrave; votre arme de tir !<br />
 		<? endif; ?>
+	<? elseif ($this->user->est_intangible_hobbit == 'oui') :?>
+			Vous êtes actuellement intangible, vous ne pouvez pas tirer.<br><br>
 	<? else: ?>
 		Vous ne portez pas d'arme de tir ! <br />
 	<? endif; ?>
+	
 	<? if ($this->course==false) :?>
 		Vous &ecirc;tes encercl&eacute;, vous ne pouvez pas courir !<br />
 	<? endif; ?>
-	<? if ($this->armeTirPortee == true &&  $this->munitionPortee == true && $this->course==true):?>
+	
+	<? if ($this->armeTirPortee == true &&  $this->munitionPortee == true && $this->course==true && $this->user->est_intangible_hobbit == 'non'):?>
 		<? if ($this->estRegionPvp == false) :?>
 			Vous ne pouvez pas attaquer de hobbit dans cette r&eacute;gion.<br /><br />
 		<? endif;?>
