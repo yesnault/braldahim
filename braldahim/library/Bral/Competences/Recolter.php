@@ -45,7 +45,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 	}
 
 	private function prepareDestination() {
-		$tabDestinationTransfert["laban"] = array("id_destination" => "laban", "texte" => "votre laban");
+		$tabDestinationTransfert["laban"] = array("id_destination" => "laban", "texte" => "votre laban", "selected" => "");
 
 		Zend_Loader::loadClass("Charrette");
 		$charretteTable = new Charrette();
@@ -54,9 +54,16 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 		$charrette = null;
 		if (count($charrettes) == 1) {
 			$charrette = $charrettes[0];
-			$tabDestinationTransfert["charrette"] = array("id_destination" => "charrette", "texte" => "votre charrette");
+			$tabDestinationTransfert["charrette"] = array("id_destination" => "charrette", "texte" => "votre charrette", "selected" => "");
 			$this->view->charrette = $charrette;
 		}
+
+		if (count($tabDestinationTransfert) == 0) {
+			$selectedSol = "selected";
+		} else {
+			$selectedSol = "";
+		}
+		$tabDestinationTransfert["sol"] = array("id_destination" => "sol", "texte" => "au sol", "selected" => $selectedSol);
 
 		$this->view->destinationTransfert = $tabDestinationTransfert;
 	}
@@ -101,7 +108,7 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("TypeGraine");
 		$typeGraineTable = new TypeGraine();
 		$typeGraine = $typeGraineTable->findById($this->view->champ["id_fk_type_graine_champ"]);
-		
+
 		$quantiteKg = $this->calculQuantite($typeGraine);
 
 		Zend_Loader::loadClass("TypeIngredient");
@@ -113,20 +120,43 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 			$typeTabacTable = new TypeTabac();
 			$quantiteFeuille = floor($quantiteKg);
 			$typeTabac = $typeTabacTable->findById($typeGraine->id_fk_type_tabac_type_graine);
+			
+			$this->view->placeDispo = true;
 
 			$this->view->recolte = $quantiteFeuille. " feuilles ".$typeTabac->nom_court_type_tabac;
 			$this->calculTransfertTabac($idDestination, $quantiteFeuille, $typeGraine->id_fk_type_tabac_type_graine);
 		} else {
+
 			$quantite = floor($quantiteKg / $typeIngredient->poids_unitaire_type_ingredient);
 			$quantiteKg = $quantite * $typeIngredient->poids_unitaire_type_ingredient;
+
+			if ($idDestination == "charrette") {
+				$poidsRestant = $this->view->charrette["poids_transportable_charrette"] - $this->view->charrette["poids_transporte_charrette"];
+			} elseif ($idDestination == "laban") {
+				$poidsRestant = $this->view->user->poids_transportable_hobbit - $this->view->user->poids_transporte_hobbit;
+			} else {
+				$poidsRestant = 10000000; // sol
+			}
+
+			if ($poidsRestant < $quantiteKg && $idDestination != "sol") { // pas assez de place dans le conteneur
+				$quantitePossible = floor($poidsRestant / $typeIngredient->poids_unitaire_type_ingredient);
+				$quantiteSol = $quantite - $quantitePossible;
+				$quantite = $quantitePossible;
+				$this->view->placeDispo = false;
+			} else {
+				$quantiteSol = 0;
+				$this->view->placeDispo = true;
+			}
+
 			$this->view->recolte = $quantiteKg. " Kg ".$typeGraine->prefix_type_graine.$typeGraine->nom_type_graine;
-			$this->calculTransferIngredient($idDestination, $quantite, $typeGraine->id_fk_type_ingredient_type_graine);
+			$this->calculTransferIngredient($idDestination, $quantite, $quantiteSol, $typeGraine->id_fk_type_ingredient_type_graine);
 		}
 		$this->majChamp();
 
 		if ($idDestination == "charrette") {
 			Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_hobbit, true);
 		}
+		$this->idDestination = $idDestination;
 	}
 
 	private function calculQuantite($typeGraine) {
@@ -149,10 +179,6 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 				foreach($taupesVivantes as $taille => $numero) {
 
 					foreach($numero as $num => $foo) {
-						//4 => -100
-						//3 => -75
-						//2 => -50
-
 						if ($taille == 4) {
 							$quantite = $quantite - 100;
 						} elseif ($taille == 3) {
@@ -178,11 +204,11 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 		$quantiteKg = round($quantite / $typeGraine->coef_poids_type_graine, 3);
 		$quantiteNJuste = floor($quantiteKg * $typeGraine->coef_poids_type_graine);
 		$quantiteKg = round($quantiteNJuste / $typeGraine->coef_poids_type_graine, 3);
-		
+
 		$this->view->champ["quantite_champ"] = $this->view->champ["quantite_champ"] - $quantite;
-		
+
 		$this->quantiteN = $quantite;
-		
+
 		return $quantiteKg;
 	}
 
@@ -191,6 +217,10 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 			Zend_Loader::loadClass("CharretteTabac");
 			$table = new CharretteTabac();
 			$suffixe = "charrette";
+		} elseif ($idDestination == "sol") {
+			Zend_Loader::loadClass("ElementTabac");
+			$table = new ElementTabac();
+			$suffixe = "element";
 		} else {
 			Zend_Loader::loadClass("LabanTabac");
 			$table = new LabanTabac();
@@ -204,17 +234,24 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 
 		if ($idDestination == "charrette") {
 			$data["id_fk_charrette_tabac"] = $this->view->charrette["id_charrette"];
+		} elseif ($idDestination == "sol") {
+			// rien
 		} else {
 			$data["id_fk_hobbit_laban_tabac"] = $this->view->user->id_hobbit;
 		}
 		$table->insertOrUpdate($data);
 	}
 
-	private function calculTransferIngredient($idDestination, $quantite, $idTypeIngredient) {
+	private function calculTransferIngredient($idDestination, $quantite, $quantiteSol, $idTypeIngredient) {
+
 		if ($idDestination == "charrette") {
 			Zend_Loader::loadClass("CharretteIngredient");
 			$table = new CharretteIngredient();
 			$suffixe = "charrette";
+		} elseif ($idDestination == "sol") {
+			Zend_Loader::loadClass("ElementIngredient");
+			$table = new ElementIngredient();
+			$suffixe = "element";
 		} else {
 			Zend_Loader::loadClass("LabanIngredient");
 			$table = new LabanIngredient();
@@ -228,10 +265,26 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 
 		if ($idDestination == "charrette") {
 			$data["id_fk_charrette_ingredient"] = $this->view->charrette["id_charrette"];
+		} elseif ($idDestination == "sol") {
+			$data["x_element_ingredient"] = $this->view->user->x_hobbit; 
+			$data["y_element_ingredient"] = $this->view->user->y_hobbit;
 		} else {
 			$data["id_fk_hobbit_laban_ingredient"] = $this->view->user->id_hobbit;
 		}
 		$table->insertOrUpdate($data);
+
+		if ($quantiteSol > 0) {
+			Zend_Loader::loadClass("ElementIngredient");
+			$table = new ElementIngredient();
+			$suffixe = "element";
+			$data = array(
+				"id_fk_type_".$suffixe."_ingredient" => $idTypeIngredient,
+				"quantite_".$suffixe."_ingredient" => $quantiteSol,
+			);
+			$data["x_element_ingredient"] = $this->view->user->x_hobbit; 
+			$data["y_element_ingredient"] = $this->view->user->y_hobbit;
+			$table->insertOrUpdate($data);
+		}
 
 	}
 
@@ -281,7 +334,11 @@ class Bral_Competences_Recolter extends Bral_Competences_Competence {
 	}
 
 	function getListBoxRefresh() {
-		return $this->constructListBoxRefresh(array("box_competences_communes", "box_champs", "box_laban", "box_charrette"));
+		$tab = array("box_competences_communes", "box_champs", "box_laban", "box_charrette");
+		if ($this->view->placeDispo == false || $this->idDestination == "sol") {
+			$tab[] = "box_vue";
+		}
+		return $this->constructListBoxRefresh($tab);
 	}
 
 	public function calculPx() {

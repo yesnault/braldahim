@@ -4,6 +4,10 @@ Vous avez récolté votre champ situé en x:<?=$this->champ["x_champ"]?>, y:<?=$
 
 Vous avez récupéré <?=$this->recolte?>.<br><br>
 
+<? if ($this->placeDispo == false) : ?>
+	Faute de place, certains éléments sont tombés au sol.<br><br>
+<? endif;?>
+
 <? if ($this->taupesVivantes != null) : ?>
 	La récolte a été affectée par : <br>
 	

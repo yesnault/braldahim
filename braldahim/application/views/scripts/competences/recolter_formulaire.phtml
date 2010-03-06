@@ -10,14 +10,13 @@
 			<select name="valeur_1" id="valeur_1" onChange="if (this.value != -1) { $('bouton_recolter').disabled=false; } else { $('bouton_recolter').disabled=true;}">
 		 		<option value="-1">(Choisissez une destination)</option>
 				<? foreach($this->destinationTransfert as $d) :?>
-					<option value="<?=$d["id_destination"] ?>"><?=$d["texte"] ?></option>
+					<option value="<?=$d["id_destination"] ?>" <?=$d["selected"] ?>><?=$d["texte"] ?></option>
 				<? endforeach; ?>
 			</select>	
 		<? endif; ?>
  	<? else: ?>
  		Votre balance de faim est trop basse pour pouvoir récolter quelque chose.<br><br>
  	<? endif;?>
- 	
 	
 	 <br />
 </div>
