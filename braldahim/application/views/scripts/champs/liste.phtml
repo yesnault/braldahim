@@ -11,38 +11,34 @@
 	<? if ($this->nChamps < 1) : ?>
   		Vous n'avez aucun champ.<br /><br />
    	<? else: ?>
-   	
-   	<table class="table_liste">
+	   	<table class="table_liste">
 		<thead class="table_liste">
 		  <tr class="table_liste">
-			<th>Comté</th>
-			<th colspan="<?=$this->nChamps?>">Position de vos champs [x ; y]</th>
+		  	<? $i = 0;
+			   $champ = false;
+			   foreach($this->tabRegions as $r) : ?>
+					<th><?=htmlspecialchars($r["nom_region"]); ?></th>
+			<? endforeach; ?>
 		  </tr>
 		</thead>
 		<tbody>
-		<? $i = 0;
-		   $champ = false;
-		   foreach($this->tabRegions as $r) : ?>
-			
-			<tr class="table_liste<?=($i % 2);$i++; ?>">
-				<td class="table_liste">
-				<?=htmlspecialchars($r["nom_region"]); ?>
-				</td>
-				
-				<? if ($r["champs"] != null) :?>
+		   <tr>
+	   		<? foreach($this->tabRegions as $r) : ?>
+	   			<td class="table_liste">
+	   			<? if ($r["champs"] != null) :?>
 			   		<? foreach($r["champs"] as $c) :?>
-		   				<td class="table_liste" style="cursor:pointer" onClick="_get_('/champs/doaction?caction=ask_champs_voir&valeur_1=<?=$c["id_champ"]?>')">
-		   					<?=$c["nom_champ"] ?> <span title="Cliquez pour regarder le contenu du champ"  class="alabel">[<?=$c["x_champ"] ?> ; <?=$c["y_champ"] ?>]
-		   				</td>
+		   				<span class='alabel' style="cursor:pointer" title="Cliquez pour regarder le contenu du champ" onClick="_get_('/champs/doaction?caction=ask_champs_voir&valeur_1=<?=$c["id_champ"]?>')">
+		   					<?=$c["nom_champ"] ?> [<?=$c["x_champ"] ?> ; <?=$c["y_champ"] ?>]
+		   				</span><br>
 			   		<? endforeach; ?>
-		   		<? else: ?>
-		   			<td class="table_liste" colspan="<?=$this->nChamps?>">&nbsp;</td>	
 		   		<? endif; ?>
-			</tr>
-		<? endforeach; ?>
+		   		</td>
+	   		<? endforeach;?>
+		   </tr>
 		</tbody>
-	</table>
+		</table>
 	<? endif; ?>
+	
 	<br /><br />
    </ul>
 </div>
