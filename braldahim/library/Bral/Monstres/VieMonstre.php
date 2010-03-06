@@ -321,6 +321,9 @@ class Bral_Monstres_VieMonstre {
 			'sagesse_bm_monstre' => $this->monstre["sagesse_bm_monstre"],
 			'vigueur_bm_monstre' => $this->monstre["vigueur_bm_monstre"],
 			'nb_dla_jouees_monstre' => $this->monstre["nb_dla_jouees_monstre"],
+			'bm_attaque_monstre' => $this->monstre["bm_attaque_monstre"],
+			'bm_defense_monstre' => $this->monstre["bm_defense_monstre"],
+			'bm_degat_monstre' => $this->monstre["bm_degat_monstre"],
 		);
 
 		$where = "id_monstre=".$this->monstre["id_monstre"];
