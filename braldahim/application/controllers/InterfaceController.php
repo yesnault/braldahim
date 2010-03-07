@@ -109,17 +109,29 @@ class InterfaceController extends Zend_Controller_Action {
 		$xml_entry->set_type("display");
 		$nomBox = $this->_request->get("box");
 		$box = Bral_Box_Factory::getBox($nomBox, $this->_request, $this->view, true);
-		//	$xml_entry->set_data($box->render());
-		$xml_entry->set_box($box);
+
+		if ($nomBox == "box_echoppes") {
+			$xml_entry->set_data($box->render());
+		} else {
+			$xml_entry->set_box($box);
+		}
 		$xml_entry->set_valeur($box->getNomInterne());
 		$this->xml_response->add_entry($xml_entry);
+
+		$tabTables = $box->getTablesHtmlTri();
+		if ($tabTables != false) {
+			Bral_Controller_Action::addXmlEntryTableHtmlTri($this->xml_response, $tabTables);
+		}
+
 		Bral_Util_Messagerie::setXmlResponseMessagerie($this->xml_response, $this->view->user->id_hobbit);
 		unset($xml_entry);
+
 		$this->xml_response->render();
 	}
 
 	function boxesAction() {
 		Zend_Loader::loadClass('HobbitsMetiers');
+		$tabTables = false;
 
 		try {
 			$this->addBox(Bral_Box_Factory::getProfil($this->_request, $this->view, false), "boite_a");

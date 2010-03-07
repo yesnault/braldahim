@@ -2,6 +2,7 @@
 <? if (count($this->potionsEtal) > 0) : ?>
 
 	<? $this->potions = $this->potionsEtal; ?>
+	<? $this->idPotionsTable = $this->idPotionsEtalTable ?>
 	<?=$this->render("/interface/commun/potions/potions.phtml"); ?>
 	
 		<input type="button" class='button1' value="0 PA - Retirer de la vente"

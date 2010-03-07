@@ -158,7 +158,9 @@ function showResponse(originalRequest) {
 						else if (m_type_valeur == "informations" && m_data != "")
 							display_informations = true; // affichage de la boite d'informations
 						else if (m_type_valeur == "erreur" && m_data != "") display_erreur = true; // affichage de la boite d'erreur
-
+						
+						//alert('m_type:' + m_type + " m_type_valeur:" + m_type_valeur );
+						
 						if (m_type == "display") {
 							_display_(m_type_valeur, m_data);
 						} else if (m_type == "action") {
@@ -167,6 +169,8 @@ function showResponse(originalRequest) {
 								redirection_url = m_data;
 							} else if (m_type_valeur == "effect.appear" && m_data != "") {
 								Effect.Appear(m_data, { duration :2.0 });
+							} else if (m_type_valeur == "HTMLTableTools" && m_data != "") {
+								new HTMLTableTools(m_data);
 							} else if (m_type_valeur == "messagerie" && m_data != "") {
 								messagerie(m_data);
 							}
@@ -198,6 +202,9 @@ function showResponse(originalRequest) {
 									redirection_url = m_data;
 								} else if (m_type_valeur == "effect.disappear" && m_data != "") {
 									Effect.Appear(m_data, { duration :4.0, from :1.0, to :0.0 });
+								} else if (m_type_valeur == "HTMLTableTools" && m_data != "") {
+									//alert('Fin entrie \n m_type='+m_type+' \n m_type_valeur='+m_type_valeur + ' m_data='+m_data);
+									new HTMLTableTools(m_data);
 								} else if (m_type_valeur == "messagerie" && m_data != "") {
 									messagerie(m_data);
 								}

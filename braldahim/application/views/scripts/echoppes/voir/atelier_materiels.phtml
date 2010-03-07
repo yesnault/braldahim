@@ -1,6 +1,7 @@
 <? if (count($this->materielsArriereBoutique) > 0): ?>
 
 	<? $this->materiels = $this->materielsArriereBoutique; ?>
+	<? $this->idMaterielsTable = $this->idMaterielsArriereBoutiqueTable; ?>
 	<?=$this->render("/interface/commun/materiels/materiels.phtml"); ?>
 	
 	<? if ($this->estSurEchoppe === true): 

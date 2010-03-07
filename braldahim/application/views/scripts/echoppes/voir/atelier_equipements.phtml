@@ -1,6 +1,7 @@
 <? if (count($this->equipementsArriereBoutique) > 0): ?>
 
 	<? $this->equipements = $this->equipementsArriereBoutique; ?>
+	<? $this->idEquipementsTable = $this->idEquipementsArriereBoutiqueTable; ?>
 	<?=$this->render("/interface/commun/equipements/equipements.phtml"); ?>
 	
 	<? if ($this->estSurEchoppe === true): 

@@ -12,18 +12,23 @@
 			<br /><br /><br />
 			<? if ($this->afficheType == "equipements") :?>
 				<? $this->materiels = $this->materielsEtal; ?>
+				<? $this->idMaterielsTable = false; ?>
 				<?=$this->render("/interface/commun/materiels/materiels.phtml"); ?>
 				<br /><br />
 				<? $this->equipements = $this->equipementsEtal; ?>
+				<? $this->idEquipementsTable = false; ?>
 				<?=$this->render("/interface/commun/equipements/equipements.phtml"); ?>
 			<? elseif ($this->afficheType == "potions") :?>
 				<? $this->materiels = $this->materielsEtal; ?>
+				<? $this->idMaterielsTable = false; ?>
 				<?=$this->render("/interface/commun/materiels/materiels.phtml"); ?>
 				<br /><br />
 				<? $this->potions = $this->potionsEtal; ?>
+				<? $this->idPotionsTable = $this->idPotionsEtal; ?>
 				<?=$this->render("/interface/commun/potions/potions.phtml"); ?>
 			<? elseif ($this->afficheType == "aliments") :?>
 				<? $this->aliments = $this->alimentsEtal; ?>
+				<? $this->idAlimentsTable = false; ?>
 				<?=$this->render("/interface/commun/aliments/aliments.phtml"); ?>
 			<? endif; ?>
 			

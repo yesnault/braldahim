@@ -1,6 +1,7 @@
 <? if (count($this->equipementsEtal) > 0) : ?>
 
 	<? $this->equipements = $this->equipementsEtal; ?>
+	<? $this->idEquipementsTable = $this->idEquipementsEtalTable; ?>
 	<?=$this->render("/interface/commun/equipements/equipements.phtml"); ?>
 	
 		<input type="button" class='button1' value="0 PA - Retirer de la vente"

@@ -408,6 +408,7 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		}
 
 		$this->view->potionsArriere = $tabPotionsArriere;
+		$this->view->idPotionsArriereTable = "idPotionsArriereTable";
 	}
 
 	private function prepareCommunEquipements($idEchoppe) {
@@ -550,6 +551,9 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		}
 		$this->view->equipementsArriereBoutique = $tabEquipementsArriereBoutique;
 		$this->view->equipementsEtal = $tabEquipementsEtal;
+
+		$this->view->idEquipementsArriereBoutiqueTable = "idEquipementsArriereBoutiqueTable";
+		$this->view->idEquipementsEtalTable = "idEquipementsEtalTable";
 	}
 
 	private function prepareCommunMateriels($idEchoppe) {
@@ -633,6 +637,9 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		}
 		$this->view->materielsArriereBoutique = $tabMaterielsArriereBoutique;
 		$this->view->materielsEtal = $tabMaterielsEtal;
+
+		$this->view->idMaterielsArriereBoutiqueTable = "idMaterielsArriereBoutiqueTable";
+		$this->view->idMaterielsEtalTable = "idMaterielsEtalTable";
 	}
 
 	private function prepareCommunAliments($idEchoppe) {
@@ -717,6 +724,9 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		}
 		$this->view->alimentsArriereBoutique = $tabAlimentsArriereBoutique;
 		$this->view->alimentsEtal = $tabAlimentsEtal;
+
+		$this->view->idAlimentsArriereBoutiqueTable = "idAlimentsArriereBoutiqueTable";
+		$this->view->idAlimentsEtalTable = "idAlimentsEtalTable";
 	}
 
 	private function prepareCommunPotions($idEchoppe) {
@@ -803,9 +813,48 @@ class Bral_Echoppes_Voir extends Bral_Echoppes_Echoppe {
 		}
 		$this->view->potionsArriereBoutique = $tabPotionsArriereBoutique;
 		$this->view->potionsEtal = $tabPotionsEtal;
+
+		$this->view->idPotionsArriereBoutiqueTable = "idPotionsArriereBoutiqueTable";
+		$this->view->idPotionsEtalTable = "idPotionsEtalTable";
 	}
 
 	public function getIdEchoppeCourante() {
 		return false;
+	}
+
+	public function getTablesHtmlTri() {
+		$tab = false;
+		if ($this->view->afficheType == "equipements") {
+			/*if (count($this->view->equipementsArriereBoutique) > 0) {
+				$tab[] = $this->view->idEquipementsArriereBoutiqueTable;
+			}
+			if (count($this->view->equipementsEtal) > 0) {
+				$tab[] = $this->view->idEquipementsEtalTable;
+			}*/
+		} elseif ($this->view->afficheType == "potions") {
+			if (count($this->view->potionsEtal) > 0) {
+				$tab[] = $this->view->idPotionsEtalTable;
+			}
+			if (count($this->view->potionsArriereBoutique) > 0) {
+				$tab[] = $this->view->idPotionsArriereBoutiqueTable;
+			}
+		} elseif ($this->view->afficheType == "aliments") {
+			if (count($this->view->alimentsArriereBoutique) > 0) {
+				$tab[] = $this->view->idAlimentsArriereBoutiqueTable;
+			}
+			if (count($this->view->alimentsEtal) > 0) {
+				$tab[] = $this->view->idAlimentsEtalTable;
+			}
+		}
+
+		if ($this->view->afficheType == "equipements" || $this->view->afficheType == "potions") {
+			if (count($this->view->materielsArriereBoutique) > 0) {
+				$tab[] = $this->view->idMaterielsArriereBoutiqueTable;
+			}
+			if (count($this->view->materielsEtal) > 0) {
+				$tab[] = $this->view->idMaterielsEtalTable;
+			}
+		}
+		return $tab;
 	}
 }

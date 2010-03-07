@@ -1,6 +1,6 @@
 <? Zend_Loader::loadClass("Bral_Helper_DetailMateriel"); ?>
 
-<table class="table_liste" style="width:90%">
+<table class="table_liste" style="width:90%" <? if ($this->idMaterielsTable != false) : ?> id="<?=$this->idMaterielsTable?>"<? endif; ?>>
 	<thead class="table_liste">
 	  <tr class="table_liste">
 	  	<th>N&deg;</th>

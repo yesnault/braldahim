@@ -2,6 +2,7 @@
 <? if (count($this->potionsArriereBoutique) > 0): ?>
 
 	<? $this->potions = $this->potionsArriereBoutique; ?>
+	<? $this->idPotionsTable = $this->idPotionsArriereBoutiqueTable; ?>
 	<?=$this->render("/interface/commun/potions/potions.phtml"); ?>
 
 	<? if ($this->estSurEchoppe === true): 

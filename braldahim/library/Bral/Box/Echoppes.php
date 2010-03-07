@@ -45,6 +45,7 @@ class Bral_Box_Echoppes extends Bral_Box_Box {
 		if ($idEchoppeCourante != false) {
 			Zend_Loader :: loadClass("Bral_Echoppes_Factory");
 			$box = Bral_Echoppes_Factory::getVoir($this->_request, $this->view, $idEchoppeCourante);
+			$this->tablesHtmlTri = $box->getTablesHtmlTri();
 			$this->view->htmlContenu = $box->render();
 		} else {
 			$this->view->htmlContenu = $box->render();

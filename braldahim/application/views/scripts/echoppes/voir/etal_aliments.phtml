@@ -1,6 +1,7 @@
 <? if (count($this->alimentsEtal) > 0) : ?>
 
 	<? $this->aliments = $this->alimentsEtal; ?>
+	<? $this->idAlimentsTable = $this->idAlimentsEtalTable; ?>
 	<?=$this->render("/interface/commun/aliments/aliments.phtml"); ?>
 	
 		<input type="button" class='button1' value="0 PA - Retirer de la vente"

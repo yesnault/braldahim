@@ -215,6 +215,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 			}
 		}
 		$this->view->equipementsEtal = $tabEquipementsEtal;
+		$this->view->idEquipementsEtalTable = "idEquipementsEtalTableEchoppe";
 	}
 
 	private function prepareCommunMateriels($idEchoppe) {
@@ -297,6 +298,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 			}
 		}
 		$this->view->materielsEtal = $tabMaterielsEtal;
+		$this->view->idMaterielsEtalTable = "idMaterielsEtalTableEchoppe";
 	}
 
 	private function prepareCommunPotions($idEchoppe) {
@@ -378,6 +380,7 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 			}
 		}
 		$this->view->potionsEtal = $tabPotionsEtal;
+		$this->view->idPotionsEtalTable = "idPotionsEtalTableEchoppe";
 	}
 
 	private function prepareCommunAliments($idEchoppe) {
@@ -457,5 +460,6 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 			}
 		}
 		$this->view->alimentsEtal = $tabAlimentsEtal;
+		$this->view->idAlimentsEtalTable = "idAlimentsEtalTableEchoppe";
 	}
 }

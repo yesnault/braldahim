@@ -1,6 +1,7 @@
 <? if (count($this->alimentsArriereBoutique) > 0): ?>
 
 	<? $this->aliments = $this->alimentsArriereBoutique; ?>
+	<? $this->idAlimentsTable = $this->idAlimentsArriereBoutiqueTable; ?>
 	<?=$this->render("/interface/commun/aliments/aliments.phtml"); ?>
 	
 	<? if ($this->estSurEchoppe === true): 

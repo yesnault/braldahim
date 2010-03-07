@@ -128,6 +128,13 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 				if ($action->getIdChampCourant() !== false) {
 					$this->xml_response->add_entry($this->getXmlEntryVoirChamp($action));
 				}
+
+				if ($factory == "Bral_Echoppes_Factory") {
+					$tabTables = $action->getTablesHtmlTri();
+					if ($tabTables != false) {
+						self::addXmlEntryTableHtmlTri($this->xml_response, $tabTables);
+					}
+				}
 				Bral_Util_Messagerie::setXmlResponseMessagerie($this->xml_response, $this->view->user->id_hobbit);
 			} catch (Zend_Exception $e) {
 				$b = Bral_Box_Factory::getErreur($this->_request, $this->view, false, $e->getMessage());
@@ -166,5 +173,15 @@ class Bral_Controller_Action extends Zend_Controller_Action {
 		$xml_entry->set_valeur($c->getNomInterne());
 		$xml_entry->set_data($c->render());
 		return $xml_entry;
+	}
+
+	public static function addXmlEntryTableHtmlTri(&$xmlResponse, $tabTables) {
+		foreach($tabTables as $t) {
+			$xml_entry = new Bral_Xml_Entry();
+			$xml_entry->set_type("action");
+			$xml_entry->set_valeur("HTMLTableTools");
+			$xml_entry->set_data($t);
+			$xmlResponse->add_entry($xml_entry);
+		}
 	}
 }

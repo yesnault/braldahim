@@ -43,6 +43,10 @@ abstract class Bral_Echoppes_Echoppe {
 		return false;
 	}
 	
+	public function getTablesHtmlTri() {
+		return false;
+	}
+	
 	function render() {
 		switch($this->action) {
 			case "ask":
