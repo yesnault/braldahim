@@ -26,6 +26,8 @@ class Bral_Batchs_Viemonstres extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		Zend_Loader::loadClass("Bral_Util_Vie");
+		Zend_Loader::loadClass("Bral_Monstres_Competences_Competence");
+		Zend_Loader::loadClass("Bral_Monstres_Competences_Reperage");
 		Zend_Loader::loadClass("Ville");
 
 		$villeTable = new Ville();
