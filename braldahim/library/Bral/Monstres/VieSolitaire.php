@@ -45,80 +45,24 @@ class Bral_Monstres_VieSolitaire {
 	private function vieSolitaireAction(&$monstre) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - vieSolitaireAction - enter (id=".$monstre["id_monstre"].")");
 
-		$estFuite = $this->calculFuiteSolitaire(&$monstre);
+		$estFuite = $this->calculFuiteSolitaire($monstre);
 		if ($estFuite) {
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - vieSolitaireAction - fuite - (idm:".$monstre["id_monstre"].")");
-			$this->deplacementSolitaire(&$monstre, true);
+			$this->deplacementSolitaire($monstre, true);
 		} else {
-			$cible = self::reperageCible($monstre);
+
+			// action pre Reperage
+
+			$cible = $this->calculReperageSolitaire($monstre);
 			if ($cible != null) { // si une cible est trouvee, on attaque
 				$this->attaqueSolitaire($monstre, $cible);
 			} else {
 				$this->deplacementSolitaire($monstre);
 			}
+
+			$this->calculPostAllSolitaire($monstre);
 		}
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - vieSolitaireAction - exit - (idm:".$monstre["id_monstre"].")");
-	}
-
-	private function reperageCible(&$monstre) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - reperageCible - enter - (idm:".$monstre["id_monstre"].")");
-		$cible = null;
-			
-		// on regarde s'il y a une cible en cours
-		if ($monstre["id_fk_hobbit_cible_monstre"] != null) {
-			Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$monstre["id_monstre"].") - cible en cours A");
-			$hobbitTable = new Hobbit();
-			$vue = $monstre["vue_monstre"] + $monstre["vue_malus_monstre"];
-			if ($vue < 0) {
-				$vue = 0;
-			}
-				
-			$cible = $hobbitTable->findHobbitAvecRayon($monstre["x_monstre"], $monstre["y_monstre"], $vue, $monstre["id_fk_hobbit_cible_monstre"], false);
-			if (count($cible) > 0) {
-				$cible = $cible[0];
-				$monstre["x_direction_monstre"] = $cible["x_hobbit"];
-				$monstre["y_direction_monstre"] = $cible["y_hobbit"];
-				Bral_Util_Log::viemonstres()->debug(get_class($this)." - (idm:".$monstre["id_monstre"].") - cible trouvee:".$cible["id_hobbit"]. " x=".$monstre["x_direction_monstre"]. " y=".$monstre["y_direction_monstre"]);
-			} else {
-				$monstre["id_fk_hobbit_cible_monstre"] = null;
-				Bral_Util_Log::viemonstres()->debug(get_class($this)." - (idm:".$monstre["id_monstre"].") - cible non trouvee x=".$monstre["x_direction_monstre"]. " y=".$monstre["y_direction_monstre"]);
-			}
-		} else { // pas de cible en cours
-			$cible = null;
-		}
-
-		// si la cible n'est pas dans la vue, on en recherche une autre ou l'on se deplace
-		if ($cible == null) {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - (idm:".$monstre["id_monstre"].") - pas de cible en cours B");
-			$monstre["id_fk_hobbit_cible_monstre"] = null;
-			$cible = $this->rechercheNouvelleCible($monstre);
-		}
-			
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - reperageCible - exit - (idm:".$monstre["id_monstre"].")");
-		return $cible;
-	}
-
-	private function rechercheNouvelleCible(&$monstre) {
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - rechercheNouvelleCible - enter - (idm:".$monstre["id_monstre"].")");
-		$hobbitTable = new Hobbit();
-		$vue = $monstre["vue_monstre"] + $monstre["vue_malus_monstre"];
-		if ($vue < 0) {
-			$vue = 0;
-		}
-			
-		$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $vue, 1, $monstre["id_fk_type_monstre"], false);
-		if ($cibles != null) {
-			$cible = $cibles[0];
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - (idm:".$monstre["id_monstre"].") - nouvelle cible trouvee:".$cible["id_hobbit"]);
-			$monstre["id_fk_hobbit_cible_monstre"] = $cible["id_hobbit"];
-			$monstre["x_direction_monstre"] = $cible["x_hobbit"];
-			$monstre["y_direction_monstre"] = $cible["y_hobbit"];
-		} else {
-			Bral_Util_Log::viemonstres()->debug(get_class($this)." - (idm:".$monstre["id_monstre"].") - aucune cible trouvee x=".$monstre["x_monstre"]." y=".$monstre["y_monstre"]." vue=".$monstre["vue_monstre"]);
-			$cible = null;
-		}
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - exit");
-		return $cible;
 	}
 
 	/**
@@ -128,9 +72,9 @@ class Bral_Monstres_VieSolitaire {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$monstre["id_monstre"].") attaqueSolitaire - enter");
 
 		$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
+		$vieMonstre->setMonstre($monstre);
 
 		if ($cible != null) {
-			$vieMonstre->setMonstre($monstre);
 			$koCible = false;
 			// on regarde si la cible demandée est bien la cible du monstre
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueSolitaire - cible du monstre (".$monstre["id_monstre"].") : ".$cible["id_hobbit"]);
@@ -143,13 +87,15 @@ class Bral_Monstres_VieSolitaire {
 				$monstre = $vieMonstre->getMonstre();
 				$monstre["id_fk_hobbit_cible_monstre"] = null;
 				$vieMonstre->setMonstre($monstre);
-				$cible = $this->rechercheNouvelleCible($monstre);
+				Zend_loader::loadClass("Bral_Monstres_Competences_Reperagestandard");
+				$cible = Bral_Monstres_Competences_Reperagestandard::rechercheNouvelleCible($monstre);
 				Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueSolitaire - nouvelle cible du monstre (".$monstre["id_monstre"].") : ".$cible["id_hobbit"]);
 				$vieMonstre->attaqueCible($cible, $this->view); // seconde attaque, utilise pour souffle de feu par exemple, si la cible principale est tuée par le souffle et qu'il reste 4 PA pour l'attaque
 			}
 		} else {
 			$vieMonstre->deplacementMonstre($monstre["x_direction_monstre"], $monstre["y_direction_monstre"]);
 		}
+		$monstre = $vieMonstre->getMonstre();
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - (idm:".$monstre["id_monstre"].") attaqueSolitaire - exit");
 	}
 
@@ -198,6 +144,7 @@ class Bral_Monstres_VieSolitaire {
 		$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
 		$vieMonstre->setMonstre($monstre);
 		$vieMonstre->deplacementMonstre($monstre["x_direction_monstre"], $monstre["y_direction_monstre"]);
+		$monstre = $vieMonstre->getMonstre();
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - deplacementSolitaire - exit - (idm:".$monstre["id_monstre"].")");
 	}
 
@@ -212,5 +159,25 @@ class Bral_Monstres_VieSolitaire {
 		$monstre = $vieMonstre->getMonstre();
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculFuiteSolitaire - exit");
 		return $estFuite;
+	}
+
+	private function calculReperageSolitaire(&$monstre) {
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculReperageSolitaire - enter");
+		$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
+		$vieMonstre->setMonstre($monstre);
+		$cible = $vieMonstre->calculReperage($this->view);
+		$monstre = $vieMonstre->getMonstre();
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculReperageSolitaire - exit");
+		return $cible;
+	}
+
+	private function calculPostAllSolitaire(&$monstre) {
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculPostAllSolitaire - enter");
+		$vieMonstre = Bral_Monstres_VieMonstre::getInstance();
+		$vieMonstre->setMonstre($monstre);
+		$cible = $vieMonstre->calculPostAll($this->view);
+		$monstre = $vieMonstre->getMonstre();
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculPostAllSolitaire - exit");
+		return $cible;
 	}
 }

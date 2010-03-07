@@ -11,7 +11,7 @@
  * $LastChangedBy: $
  */
 class Bral_Monstres_Competences_Fuir extends Bral_Monstres_Competences_Fuite {
-	
+
 	public function actionSpecifique() {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - actionSpecifique - (idm:".$this->monstre["id_monstre"].") - enter");
 

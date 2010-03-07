@@ -10,5 +10,5 @@
  * $LastChangedRevision: $
  * $LastChangedBy: $
  */
-abstract class Bral_Monstres_Competences_Fuite extends Bral_Monstres_Competences_Competence {
+abstract class Bral_Monstres_Competences_Reperage extends Bral_Monstres_Competences_Competence {
 }

@@ -92,13 +92,13 @@ class Bral_Monstres_VieMonstre {
 		$pa_a_jouer = Bral_Util_De::get_de_specifique(0, $this->monstre["pa_monstre"]);
 		Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre(".$this->monstre["id_monstre"].") - nb pa a jouer=".$pa_a_jouer. " destination x=".$x_destination." y=".$y_destination);
 		$nb_pa_joues = 0;
-		
+
 		while ((($x_destination != $this->monstre["x_monstre"]) || ($y_destination != $this->monstre["y_monstre"])) && ($nb_pa_joues < $pa_a_jouer)) {
 			$x_monstre = $this->monstre["x_monstre"];
 			$y_monstre = $this->monstre["y_monstre"];
 			$x_offset = 0;
 			$y_offset = 0;
-			
+				
 			$modif = true;
 
 			if ($this->monstre["x_monstre"] < $x_destination) {
@@ -176,6 +176,36 @@ class Bral_Monstres_VieMonstre {
 		return $estFuite;
 	}
 
+	public function calculReperage($view) {
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculReperage (idm:".$this->monstre["id_monstre"].") - enter");
+		
+		$reperageCible = null;
+		
+		if ($this->monstre == null) {
+			new Zend_Exception("Bral_Monstres_VieMonstre::calculReperage, monstre inconnu");
+		}
+
+		$this->calculTour();
+
+		Zend_Loader::loadClass("Bral_Monstres_Competences_Factory");
+		Zend_Loader::loadClass("TypeMonstreMCompetence");
+		$typeMonstreMCompetence = new TypeMonstreMCompetence();
+
+		// Choix de l'action dans mcompetences
+		$competences = $typeMonstreMCompetence->findReperageByIdTypeGroupe($this->monstre["id_fk_type_monstre"]);
+		$foo = null;
+		if ($competences != null) {
+			foreach($competences as $c) {
+				$actionReperage = Bral_Monstres_Competences_Factory::getAction($c, $this->monstre, $foo, $view);
+				$reperageCible = $actionReperage->action();
+			}
+		}
+
+		$this->updateMonstre();
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculReperage - (idm:".$this->monstre["id_monstre"].") - exit");
+		return $reperageCible;
+	}
+
 	public function attaqueCible(&$cible, $view) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible (idm:".$this->monstre["id_monstre"].") - enter");
 		$koCible = false;
@@ -206,6 +236,33 @@ class Bral_Monstres_VieMonstre {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - attaqueCible - (idm:".$this->monstre["id_monstre"].") - exit");
 		return $koCible;
 	}
+	
+	public function calculPostAll($view) {
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculPostAll (idm:".$this->monstre["id_monstre"].") - enter");
+		if ($this->monstre == null) {
+			new Zend_Exception("Bral_Monstres_VieMonstre::calculPostAll, monstre inconnu");
+		}
+
+		$this->calculTour();
+
+		Zend_Loader::loadClass("Bral_Monstres_Competences_Factory");
+		Zend_Loader::loadClass("TypeMonstreMCompetence");
+		$typeMonstreMCompetence = new TypeMonstreMCompetence();
+
+		// Choix de l'action dans mcompetences
+		$competences = $typeMonstreMCompetence->findPostAllByIdTypeGroupe($this->monstre["id_fk_type_monstre"]);
+		$foo = null;
+		if ($competences != null) {
+			foreach($competences as $c) {
+				$actionPostAll = Bral_Monstres_Competences_Factory::getAction($c, $this->monstre, $foo, $view);
+				$actionPostAll->action();
+			}
+		}
+
+		$this->updateMonstre();
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculPostAll - (idm:".$this->monstre["id_monstre"].") - exit");
+		return;
+	}
 
 	public function setMonstre($m) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - setMonstre - enter - (idm:".$m["id_monstre"].")");
@@ -215,7 +272,7 @@ class Bral_Monstres_VieMonstre {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - setMonstre - exit (id=".$m["id_monstre"].")");
 		$this->monstre = $m;
 	}
-	
+
 	public function getMonstre() {
 		return $this->monstre;
 	}
