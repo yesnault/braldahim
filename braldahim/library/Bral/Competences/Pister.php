@@ -13,25 +13,36 @@ class Bral_Competences_Pister extends Bral_Competences_Competence {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Bral_Util_Commun");
 		Zend_Loader::loadClass("HobbitsCdm");
-		Zend_Loader::loadClass("TypeMonstre");
+		//Zend_Loader::loadClass("TypeMonstre");
 		
 		// Position précise avec (Vue+BM) de vue *2
 		$this->view->rayon_precis =  (Bral_Util_Commun::getVueBase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit) + $this->view->user->vue_bm_hobbit ) * 2;
 		
-		$typeMonstreTable = new TypeMonstre();
-		$typeMonstreRowset = $typeMonstreTable->fetchall(null, "nom_type_monstre");
-		$typeMonstreRowset = $typeMonstreRowset->toArray();
-		$tabTypeMonstre = null;
-		$hobbitsCdmTable = new HobbitsCdm();
-		foreach($typeMonstreRowset as $t) {
-			if (count ($hobbitsCdmTable->findByIdHobbitAndIdTypeMonstre($this->view->user->id_hobbit,$t["id_type_monstre"])) == 0){
-				$tabTypeMonstre[] = array(
-					'id_type_monstre' => $t["id_type_monstre"],
+		$typeMonstreTable = new HobbitsCdm();
+		$typeMonstreHobbit = $typeMonstreTable->findByIdHobbit($this->view->user->id_hobbit);
+		$tabTypeMonstrePistable = null;
+		$tabTypeMonstreCdm = null;
+		$hobbitsCdmTable = new HobbitsCdm();	
+		foreach($typeMonstreHobbit as $t) {
+			$typeMonstreCdm = null;
+			$typeMonstreCdm = $hobbitsCdmTable->findByIdHobbitAndIdTypeMonstre($this->view->user->id_hobbit,$t["id_fk_type_monstre_hcdm"]);
+			if (count ($typeMonstreCdm) == 0){
+				$tabTypeMonstrePistable[] = array(
+					'id_type_monstre' => $t["id_fk_type_monstre_hcdm"],
 					'nom_type_monstre' => $t["nom_type_monstre"],
 				);	
-			}	
+			}
+			else {
+				$tabTypeMonstreCdm[] = array(
+					'id_type_monstre' => $t["id_fk_type_monstre_hcdm"],
+					'nom_type_monstre' => $t["nom_type_monstre"],
+					'tailles' => $typeMonstreCdm
+				);
+			}
 		}
-		$this->view->tabTypeMonstre = $tabTypeMonstre;
+		$this->view->tabTailleMonstre = $hobbitsCdmTable->findTaille();
+		$this->view->tabTypeMonstrePistable = $tabTypeMonstrePistable;
+		$this->view->tabTypeMonstreCdm = $tabTypeMonstreCdm;
 	}
 	
 	function prepareFormulaire() {
@@ -52,8 +63,8 @@ class Bral_Competences_Pister extends Bral_Competences_Competence {
 		}
 		
 		$pister = false;
-		if (isset($this->view->tabTypeMonstre) && count($this->view->tabTypeMonstre) > 0) {
-			foreach ($this->view->tabTypeMonstre as $m) {
+		if (isset($this->view->tabTypeMonstrePistable) && count($this->view->tabTypeMonstrePistable) > 0) {
+			foreach ($this->view->tabTypeMonstrePistable as $m) {
 				if ($m["id_type_monstre"] == $idTypeMonstre) {
 					$pister = true;
 					$this->view->nomTypeMonstre = $m["nom_type_monstre"];

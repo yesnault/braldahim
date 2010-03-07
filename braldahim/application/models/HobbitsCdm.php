@@ -33,12 +33,42 @@ class HobbitsCdm extends Zend_Db_Table {
 			$sql = $select->__toString();
 			$resultatb = $db->fetchAll($sql);
 			if (count($resultatb) == 0 || $resultatb[0]['nb_cdm'] < $taille["nb_cdm_taille_monstre"]) {
-				$tailleManquante[] = Array (
-					'taille' => $taille['nom_taille_m_monstre'],
-				);
+				if (count($resultatb) == 0) {
+					$tailleManquante[] = Array (
+						'taille' => $taille['nom_taille_m_monstre'],
+						'nb_manquant' => '0/'.$taille["nb_cdm_taille_monstre"],
+					);
+				}
+				else {
+					$tailleManquante[] = Array (
+						'taille' => $taille['nom_taille_m_monstre'],
+						'nb_manquant' => $resultatb[0]['nb_cdm'].'/'.$taille["nb_cdm_taille_monstre"],
+					);
+				}
 			}
 		}
 		return $tailleManquante;	
+    }
+    
+    function findByIdHobbit($idHobbit) {
+    	$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbits_cdm', 'id_fk_type_monstre_hcdm')
+		->from('type_monstre', 'nom_type_monstre')
+		->where('hobbits_cdm.id_fk_hobbit_hcdm = '.intval($idHobbit))
+		->where('hobbits_cdm.id_fk_type_monstre_hcdm = type_monstre.id_type_monstre')
+		->group('id_fk_type_monstre_hcdm');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+    }
+
+    function findTaille() {
+    	$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('taille_monstre', '*')
+		->where('nb_cdm_taille_monstre > 0');
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
     }
     
     function insertOrUpdate($data) {
