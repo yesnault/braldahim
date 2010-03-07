@@ -18,8 +18,16 @@ class TypeMonstreMCompetence extends Zend_Db_Table {
 		return $this->findByIdTypeGroupe($idTypeMonstre, "fuite");
 	}
 
+	public function findReperageByIdTypeGroupe($idTypeMonstre) {
+		return $this->findByIdTypeGroupe($idTypeMonstre, "reperage");
+	}
+
 	public function findAttaqueByIdTypeGroupe($idTypeMonstre) {
 		return $this->findByIdTypeGroupe($idTypeMonstre, "attaque");
+	}
+
+	public function findPostAllByIdTypeGroupe($idTypeMonstre) {
+		return $this->findByIdTypeGroupe($idTypeMonstre, "end");
 	}
 
 	private function findByIdTypeGroupe($idTypeMonstre, $type) {
