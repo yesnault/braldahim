@@ -13,6 +13,7 @@
 abstract class Bral_Box_Box {
 
 	protected $loadWithBoxes = true;
+	protected $tablesHtmlTri = false;
 
 	function __construct($request, $view, $interne) {
 		$this->_request = $request;
