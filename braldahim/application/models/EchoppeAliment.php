@@ -24,7 +24,8 @@ class EchoppeAliment extends Zend_Db_Table {
 		->where('id_echoppe_aliment = id_aliment')
 		->where('id_fk_type_aliment = id_type_aliment')
 		->where('id_fk_type_qualite_aliment = id_type_qualite')
-		->where('id_fk_echoppe_echoppe_aliment = ?', $idEchoppe);
+		->where('id_fk_echoppe_echoppe_aliment = ?', $idEchoppe)
+		->order(array('type_bbdf_type_aliment ASC', 'nom_type_aliment ASC', 'id_type_qualite ASC', 'bbdf_aliment ASC'));
 		if ($typeVente != null) {
 			$select->where('type_vente_echoppe_aliment like ?', $typeVente);
 		}

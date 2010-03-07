@@ -22,7 +22,8 @@ class EchoppeMateriel extends Zend_Db_Table {
 		->from('materiel')
 		->where('id_echoppe_materiel = id_materiel')
 		->where('id_fk_type_materiel = id_type_materiel')
-		->where('id_fk_echoppe_echoppe_materiel = ?', $idEchoppe);
+		->where('id_fk_echoppe_echoppe_materiel = ?', $idEchoppe)
+		->order(array('nom_type_materiel ASC'));
 		if ($typeVente != null) {
 			$select->where('type_vente_echoppe_materiel like ?', $typeVente);
 		}
