@@ -157,8 +157,6 @@ class Bral_Monstres_VieMonstre {
 
 		$this->calculTour();
 
-		Zend_Loader::loadClass("Bral_Monstres_Competences_Factory");
-		Zend_Loader::loadClass("TypeMonstreMCompetence");
 		$typeMonstreMCompetence = new TypeMonstreMCompetence();
 
 		// Choix de l'action dans mcompetences
@@ -187,8 +185,6 @@ class Bral_Monstres_VieMonstre {
 
 		$this->calculTour();
 
-		Zend_Loader::loadClass("Bral_Monstres_Competences_Factory");
-		Zend_Loader::loadClass("TypeMonstreMCompetence");
 		$typeMonstreMCompetence = new TypeMonstreMCompetence();
 
 		// Choix de l'action dans mcompetences
@@ -216,8 +212,6 @@ class Bral_Monstres_VieMonstre {
 
 		$this->calculTour();
 
-		Zend_Loader::loadClass("Bral_Monstres_Competences_Factory");
-		Zend_Loader::loadClass("TypeMonstreMCompetence");
 		$typeMonstreMCompetence = new TypeMonstreMCompetence();
 
 		// Choix de l'action dans mcompetences
@@ -245,8 +239,6 @@ class Bral_Monstres_VieMonstre {
 
 		$this->calculTour();
 
-		Zend_Loader::loadClass("Bral_Monstres_Competences_Factory");
-		Zend_Loader::loadClass("TypeMonstreMCompetence");
 		$typeMonstreMCompetence = new TypeMonstreMCompetence();
 
 		// Choix de l'action dans mcompetences

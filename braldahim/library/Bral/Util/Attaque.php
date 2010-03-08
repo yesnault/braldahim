@@ -596,7 +596,6 @@ class Bral_Util_Attaque {
 				}
 
 				$retourAttaque["fragilisee"] = true;
-
 				$retourAttaque["mort"] = false;
 				$data = array(
 					'pv_restant_monstre' => $monstre["pv_restant_monstre"],

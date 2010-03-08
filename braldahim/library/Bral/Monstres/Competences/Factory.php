@@ -16,7 +16,7 @@ class Bral_Monstres_Competences_Factory {
 		Zend_Loader::loadClass("Bral_Monstres_Competences_Attaque");
 		Zend_Loader::loadClass("Bral_Monstres_Competences_Attaquer");
 		Zend_Loader::loadClass("Bral_Monstres_Competences_Fuite");
-		
+
 		$construct = "Bral_Monstres_Competences_".Bral_Util_String::firstToUpper($competence["nom_systeme_mcompetence"]);
 		try {
 			Zend_Loader::loadClass($construct);
@@ -30,5 +30,15 @@ class Bral_Monstres_Competences_Factory {
 		} else {
 			throw new Zend_Exception("Bral_Monstres_Competences_Factory action invalide: ".$competence["nom_systeme_mcompetence"]);
 		}
+	}
+
+	public static function getActionReperageCase(&$monstre, &$cible, $view) {
+		Zend_Loader::loadClass("Bral_Monstres_Competences_Reperagecase");
+		Zend_Loader::loadClass("MCompetence");
+		$mCompetenceTable = new MCompetence();
+		// Choix de l'action dans mcompetences
+		$competences = $mCompetenceTable->findReperagecase();
+		$competence = $competences[0];
+		return new Bral_Monstres_Competences_Reperagecase ($competence, &$monstre, &$cible, $view);
 	}
 }

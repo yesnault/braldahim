@@ -39,7 +39,7 @@ class Champ extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z, $phaseChamp = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('champ', '*')
@@ -50,11 +50,16 @@ class Champ extends Zend_Db_Table {
 		->where('y_champ <= ?',$y_max)
 		->where('z_champ = ?',$z)
 		->where('hobbit.id_hobbit = champ.id_fk_hobbit_champ');
+
+		if ($phaseChamp != null) {
+			$select->where("phase_champ = ?", $phaseChamp);
+		}
+
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	function findByCase($x, $y, $z, $idHobbit = null) {
+	function findByCase($x, $y, $z, $idHobbit = null, $phaseChamp = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('champ', '*')
@@ -71,6 +76,10 @@ class Champ extends Zend_Db_Table {
 
 		if ($idHobbit != null) {
 			$select->where('id_hobbit = ?', $idHobbit);
+		}
+
+		if ($phaseChamp != null) {
+			$select->where("phase_champ = ?", $phaseChamp);
 		}
 
 		$sql = $select->__toString();
