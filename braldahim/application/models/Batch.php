@@ -15,29 +15,33 @@ class Batch extends Zend_Db_Table {
 	protected $_primary = array('id_batch');
 
 
-	public function countByDate($dateDebut, $dateFin, $etat = null) {
+	public function countByDate($dateDebut, $dateFin = null, $etat = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('batch', 'count(*) as nombre')
-		->where('date_debut_batch >= ?', $dateDebut)
-		->where('date_fin_batch <= ?', $dateFin);
+		->where('date_debut_batch >= ?', $dateDebut);
+		if ($dateFin != null) {
+			$select->where('date_fin_batch <= ?', $dateFin);
+		}
 		if ($etat != null) {
-			$select->where("etat_batch = ?", $etat);
+			$select->where("etat_batch like ?", $etat);
 		}
 		$sql = $select->__toString();
 		$resultat =  $db->fetchAll($sql);
 		return $resultat[0]["nombre"];
 	}
 
-	public function findByDate($dateDebut, $dateFin, $etat = null) {
+	public function findByDate($dateDebut, $dateFin = null, $etat = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('batch', '*')
-		->where('date_debut_batch >= ?', $dateDebut)
-		->where('date_fin_batch <= ?', $dateFin)
-		->order("id_batch desc");
+		->where('date_debut_batch >= ?', $dateDebut);
+		if ($dateFin != null) {
+			$select->where('date_fin_batch <= ?', $dateFin);
+		}
+		$select->order("id_batch desc");
 		if ($etat != null) {
-			$select->where("etat_batch = ?", $etat);
+			$select->where("etat_batch like ?", $etat);
 		}
 		$sql = $select->__toString();
 		$resultat =  $db->fetchAll($sql);
