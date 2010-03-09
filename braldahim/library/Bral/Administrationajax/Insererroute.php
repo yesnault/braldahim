@@ -58,20 +58,34 @@ class Bral_Administrationajax_Insererroute extends Bral_Administrationajax_Admin
 
 		$routeTable = new Route();
 
-		$data = array(
-			"x_route" => $xRoute,	 	 	 	 	 	 	
-			"y_route" => $yRoute,	 	
-			"z_route" => 0,		 	 	 	 	 	 	
-			"id_fk_hobbit_route" => null,	 	 	 	 	 	
-			"date_creation_route" => date("Y-m-d H:i:s"), 	 	 	 	 	 	
-			"id_fk_type_qualite_route"  => null, 	 	 	 	 	 	
-			"type_route" => $typeRoute,	
-			"est_visible_route" => 'oui',
-		);
-		
-		$where = "x_route = ".$xRoute. " AND y_route=".$yRoute;
-		$routeTable->delete($where);
-		$idRoute = $routeTable->insert($data);
+		Zend_Loader::loadClass("Ville");
+		$villeTable = new Ville();
+		$villes = $villeTable->fetchall();
+		foreach($villes as $v) {
+			for($i = -3; $i<= 3; $i++) {
+				for($j = -3; $j<= 3; $j++) {
+					$xRoute = ($v["x_min_ville"] + (($v["x_max_ville"] - $v["x_min_ville"]) / 2) )+ $i;
+					$yRoute = ( $v["y_min_ville"] + (($v["y_max_ville"] - $v["y_min_ville"]) / 2) )+ $j;
+
+					$data = array(
+						"x_route" => $xRoute,	 	 	 	 	 	 	
+						"y_route" => $yRoute,	 	
+						"z_route" => 0,		 	 	 	 	 	 	
+						"id_fk_hobbit_route" => null,	 	 	 	 	 	
+						"date_creation_route" => date("Y-m-d H:i:s"), 	 	 	 	 	 	
+						"id_fk_type_qualite_route"  => null, 	 	 	 	 	 	
+						"type_route" => $typeRoute,	
+						"est_visible_route" => 'oui',
+					);
+
+					$where = "x_route = ".$xRoute. " AND y_route=".$yRoute;
+					$routeTable->delete($where);
+					$idRoute = $routeTable->insert($data);
+				}
+			}
+		}
+
+
 		$this->view->dataRoute = $data;
 		$this->view->dataRoute["id_route"] = $idRoute;
 	}
