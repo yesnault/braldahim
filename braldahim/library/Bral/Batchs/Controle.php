@@ -43,9 +43,9 @@ class Bral_Batchs_Controle extends Bral_Batchs_Boutique {
 		}
 		if ($nbEnCoursjours > 0) {
 			$texte .=  " ------- ".PHP_EOL;
-			$texte .=  " ".$nbKojours." EN_COURS:".PHP_EOL;
+			$texte .=  $nbKojours." EN_COURS:".PHP_EOL;
 			$this->getDetail($texte, Bral_Batchs_Batch::ETAT_EN_COURS, $dateDebut, $dateFin);
-			$titre .=  $nbEnCoursjours." EN_COURS";
+			$titre .=  " ".$nbEnCoursjours." EN_COURS";
 		}
 		if ($titre == "") {
 			$titre = "OK";
