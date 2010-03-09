@@ -36,10 +36,14 @@ class Bral_Batchs_Controle extends Bral_Batchs_Boutique {
 		$texte .= $nbOkjours." OK, ".$nbKojours." KO, ".$nbEnCoursjours." EN_COURS".PHP_EOL.PHP_EOL;
 		$titre = "";
 		if ($nbKojours > 0) {
-			$this->getDetadil($texte, Bral_Batchs_Batch::ETAT_KO, $dateDebut, $dateFin);
+			$texte .=  " ------- ".PHP_EOL;
+			$texte .=  $nbKojours." KO:".PHP_EOL;
+			$this->getDetail($texte, Bral_Batchs_Batch::ETAT_KO, $dateDebut, $dateFin);
 			$titre .=  $nbKojours." KO";
 		}
 		if ($nbEnCoursjours > 0) {
+			$texte .=  " ------- ".PHP_EOL;
+			$texte .=  $nbKojours." EN_COURS:".PHP_EOL;
 			$this->getDetail($texte, Bral_Batchs_Batch::ETAT_EN_COURS, $dateDebut, $dateFin);
 			$titre .=  $nbEnCoursjours." EN_COURS";
 		}
@@ -61,11 +65,12 @@ class Bral_Batchs_Controle extends Bral_Batchs_Boutique {
 	}
 
 	private function getDetail(&$texte, $etat, $dateDebut, $dateFin) {
-
+		
+		$batchTable = new Batch();
 		$batchs = $batchTable->findByDate($dateDebut, $dateFin, $etat);
 		foreach($batchs as $b) {
 			$texte .= "etat:".$b["etat_batch"]." id:".$b["id_batch"]. " type:".$b["type_batch"];
-			$texte .= " debut:".$b["date_debut_batch"]. " fin:".$b["date_fin_batch"]. " message:".$b["message_batch"].PHP_EOL.PHP_EOL;
+			$texte .= " debut:".$b["date_debut_batch"]. " fin:".$b["date_fin_batch"]. " message:".$b["message_batch"].PHP_EOL;
 		}
 		$texte .= PHP_EOL.PHP_EOL;
 	}
