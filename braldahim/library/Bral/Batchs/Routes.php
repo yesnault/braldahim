@@ -18,7 +18,7 @@ class Bral_Batchs_Routes extends Bral_Batchs_Batch {
 		
 		$routeTable = new Route();
 		$dateFin = date("Y-m-d H:i:s");
-		$where = "date_fin_route <= '".$dateFin."'";
+		$where = "date_fin_route is not null and date_fin_route <= '".$dateFin."'";
 		$nb = $routeTable->delete($where);
 		unset($routeTable);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Routes - nb:".$nb." - where:".$where);

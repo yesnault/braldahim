@@ -32,9 +32,11 @@ foreach($this->tableau as $k => $case) :
 	endif; 
 	
 	if ($this->user->administrationvue == true) {
-		$adminDoubleClick = "OnDblClick=\"Javascript:_get_('/administrationajax/doaction?caction=ask_administrationajax_insererlieu&xy_lieu=".$case["x"]."h".$case["y"]."');\" title='Double-Cliquez pour insérer un nouveau lieu'";
+		$adminDoubleClickLieu = "OnDblClick=\"Javascript:_get_('/administrationajax/doaction?caction=ask_administrationajax_insererlieu&xy_lieu=".$case["x"]."h".$case["y"]."');\" title='Double-Cliquez pour insérer un nouveau lieu'";
+		$adminDoubleClickRoute = "OnDblClick=\"Javascript:_get_('/administrationajax/doaction?caction=ask_administrationajax_insererroute&xy_route=".$case["x"]."h".$case["y"]."');\" title='Double-Cliquez pour insérer une nouvelle route'";
 	} else {
-		$adminDoubleClick = "";
+		$adminDoubleClickLieu = "";
+		$adminDoubleClickRoute = "";
 	}
 	
 	$textPalissade = "";
@@ -66,10 +68,10 @@ foreach($this->tableau as $k => $case) :
 		<table class="cases <?=$case["css_actuelle"]?>">
 		<tr>
 		<td class="cases <?=$case["css_actuelle"]?>"><? include('hobbits_monstres.phtml');ob_flush();?></td>
-		<td class="cases <?=$case["css_actuelle"]?>" <?=$adminDoubleClick?>><? include('lieux_palissades_echoppes.phtml');ob_flush();?></td>
+		<td class="cases <?=$case["css_actuelle"]?>" <?=$adminDoubleClickLieu?>><? include('lieux_palissades_echoppes.phtml');ob_flush();?></td>
 		</tr>
 		<tr>
-		<td class="cases <?=$case["css_actuelle"]?>"><? include('cadavres_castars_runes.phtml'); ob_flush(); ?></td>
+		<td class="cases <?=$case["css_actuelle"]?>" <?=$adminDoubleClickRoute?>><? include('cadavres_castars_runes.phtml'); ob_flush(); ?></td>
 		<td class="cases <?=$case["css_actuelle"]?>"><? include('elements_charrettes.phtml'); ob_flush();?><? include('cases.phtml');?></td>
 		</tr>
 		</table>

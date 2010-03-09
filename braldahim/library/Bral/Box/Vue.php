@@ -676,7 +676,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if ($routes != null) {
 						foreach($routes as $r) {
 							if ($display_x == $r["x_route"] && $display_y == $r["y_route"]) {
-								$tabRoutes[] = array("id_route" => $r["id_route"]);
+								$tabRoutes[] = array("id_route" => $r["id_route"], "type_route" => $r["type_route"]);
 							}
 						}
 					}
@@ -710,7 +710,13 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						$css = "inconnu";
 					}
 					if (count($tabRoutes) >= 1) {
-						$css .= "-gr";
+						if ($tabRoutes[0]["type_route"] == "ville") {
+							$css = "pave";
+						} elseif ($tabRoutes[0]["type_route"] == "route") {
+							$css = "route";
+						} else {
+							$css .= "-gr";
+						}
 					}
 					if (count($tabCrevasses) >= 1) {
 						$css .= "-crevasse";

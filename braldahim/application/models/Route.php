@@ -20,7 +20,6 @@ class Route extends Zend_Db_Table {
 		$select->from('route', 'count(id_route) as nombre');
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
-
 		$nombre = $resultat[0]["nombre"];
 		return $nombre;
 	}
@@ -40,7 +39,7 @@ class Route extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z, $estVisible = 'oui') {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('route', '*')
@@ -48,18 +47,20 @@ class Route extends Zend_Db_Table {
 		->where('x_route >= ?',$x_min)
 		->where('y_route >= ?',$y_min)
 		->where('y_route <= ?',$y_max)
-		->where('z_route = ?',$z);
+		->where('z_route = ?',$z)
+		->where('est_visible_route = ?', $estVisible);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 	
-	function findByCase($x, $y, $z) {
+	function findByCase($x, $y, $z, $estVisible = 'oui') {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('route', '*')
 		->where('x_route = ?',$x)
 		->where('y_route = ?',$y)
-		->where('z_route = ?',$z);
+		->where('z_route = ?',$z)
+		->where('est_visible_route = ?', $estVisible);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
