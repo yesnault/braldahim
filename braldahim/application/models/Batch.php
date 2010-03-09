@@ -21,7 +21,7 @@ class Batch extends Zend_Db_Table {
 		$select->from('batch', 'count(*) as nombre')
 		->where('date_debut_batch >= ?', $dateDebut);
 		if ($dateFin != null) {
-			$select->where('date_fin_batch <= ?', $dateFin);
+			$select->where('date_debut_batch <= ?', $dateFin);
 		}
 		if ($etat != null) {
 			$select->where("etat_batch like ?", $etat);
@@ -37,7 +37,7 @@ class Batch extends Zend_Db_Table {
 		$select->from('batch', '*')
 		->where('date_debut_batch >= ?', $dateDebut);
 		if ($dateFin != null) {
-			$select->where('date_fin_batch <= ?', $dateFin);
+			$select->where('date_debut_batch <= ?', $dateFin);
 		}
 		$select->order("id_batch desc");
 		if ($etat != null) {
