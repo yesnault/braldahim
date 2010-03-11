@@ -91,11 +91,27 @@ class ParametresController extends Zend_Controller_Action {
 
 			Zend_Loader::loadClass("Bral_Util_Image");
 
-			$urlAvatarValide = Bral_Util_Image::controlAvatar($urlAvatar);
-			$urlBlasonValide = Bral_Util_Image::controlBlason($urlBlason);
+			if ($urlAvatar != "http://" && $urlAvatar != "") {
+				$urlAvatarValide = Bral_Util_Image::controlAvatar($urlAvatar);
+			} else {
+				$urlAvatar = "http://";
+				$urlAvatarValide = true;
+			}
 
-			if (!$urlAvatarValide) $urlAvatar = $this->view->user->url_avatar_hobbit;
-			if (!$urlBlasonValide) $urlBlason = $this->view->user->url_blason_hobbit;
+			if ($urlBlason != "http://" && $urlBlason != "") {
+				$urlBlasonValide = Bral_Util_Image::controlBlason($urlBlason);
+			} else {
+				$urlBlason = "http://";
+				$urlBlasonValide = true;
+			}
+				
+			if (!$urlAvatarValide) {
+				$urlAvatar = "http://";
+			}
+				
+			if (!$urlBlasonValide) {
+				$urlBlason = "http://";
+			}
 
 			$data = array(
 				'url_avatar_hobbit' => $urlAvatar,
@@ -107,6 +123,7 @@ class ParametresController extends Zend_Controller_Action {
 
 			$this->view->user->url_avatar_hobbit = $urlAvatar;
 			$this->view->user->url_blason_hobbit = $urlBlason;
+
 
 			$this->view->urlAvatarValide = $urlAvatarValide;
 			$this->view->urlBlasonValide = $urlBlasonValide;
@@ -384,5 +401,5 @@ class ParametresController extends Zend_Controller_Action {
 			$this->render();
 		}
 	}
-	
+
 }
