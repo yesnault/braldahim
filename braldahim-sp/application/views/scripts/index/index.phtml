@@ -1,4 +1,4 @@
-<ul class="box_contenu1 textalic">
+<ul class="box_contenu textalic">
 	<ul class="titre textalic textsizea">
 	Scripts Publics pour développeurs
 	</ul>
@@ -26,7 +26,7 @@
 				<br><br>
 			
 			</td>
-			<td style="border-left: 1px solid #791E1E; align:left" width="50%">
+			<td style="align:left" width="50%">
 				<ul class="titre textalic textsizeb">
 				Scripts Publics
 				</ul>
@@ -62,7 +62,7 @@
 
 <br>
 
-<ul class="box_contenu1 textalic">
+<ul class="box_contenu textalic">
 	<ul class="titre textalic textsizeb">
 	Détails des Scripts Publics
 	</ul>
@@ -92,7 +92,7 @@
 			<div id='details_vue_b' style="display:none" >
 			<input type='button' class='button1' value='Cacher détails' onClick="javascript:switch2div('details_vue_a', 'details_vue_b');">
 			
-			<pre style="background-color:#CCCC99; text-align:left" >
+			<pre style="background-color:#2a5911; text-align:left" >
 			ENVIRONNEMENT;x;y;z;nom_systeme_environnement;nom_environnement;vueNbCases
 			CADAVRE;x;y;z; id_monstre;nom_type_monstre;$c_taille
 			CHARRETTE;x;y;z; id_charrette;nom_type_materiel
@@ -148,7 +148,7 @@
 			<div id='details_profil_b' style="display:none" >
 			<input type='button' class='button1' value='Cacher détails' onClick="javascript:switch2div('details_profil_a', 'details_profil_b');">
 			
-			<pre style="background-color:#CCCC99; text-align:left" >
+			<pre style="background-color:#2a5911; text-align:left" >
 			Toutes les valeurs retournées sont sur une même ligne :
 			
 			idHobbit;prenom;nom;x;y;z;paRestant;DLA;DureeProchainTour;PvRestant;bmPVmax;bbdf;
@@ -207,7 +207,7 @@
 			<div id='details_laban_b' style="display:none" >
 			<input type='button' class='button1' value='Cacher détails' onClick="javascript:switch2div('details_laban_a', 'details_laban_b');">
 			
-			<pre style="background-color:#CCCC99; text-align:left" >
+			<pre style="background-color:#2a5911; text-align:left" >
 			ELEMENT;Peau;quantite_peau_element
 			ELEMENT;Cuir;quantite_cuir_element 
 			ELEMENT;Fourrure;quantite_fourrure_element
@@ -259,7 +259,7 @@
 			<div id='details_charrette_b' style="display:none" >
 			<input type='button' class='button1' value='Cacher détails' onClick="javascript:switch2div('details_charrette_a', 'details_charrette_b');">
 			
-			<pre style="background-color:#CCCC99; text-align:left" >
+			<pre style="background-color:#2a5911; text-align:left" >
 			CHARRETTE;idCharrette;durabiliteMax;durabiliteActuelle;poidsTransportable;poidsTransporte
 			ou : 
 			AUCUNE_CHARRETTE
@@ -317,7 +317,7 @@
 			<div id='details_appels_b' style="display:none" >
 			<input type='button' class='button1' value='Cacher détails' onClick="javascript:switch2div('details_appels_a', 'details_appels_b');">
 			
-			<pre style="background-color:#CCCC99; text-align:left" >
+			<pre style="background-color:#2a5911; text-align:left" >
 			
 			Exemple : 
 			TYPE:appels;NB_APPELS:0;MAX_AUTORISE:6
@@ -343,18 +343,18 @@
 			<br><br>
 			
 			Exemple nominal : 
-			<pre style="background-color:#CCCC99; text-align:left" >
+			<pre style="background-color:#2a5911; text-align:left" >
 			TYPE:dynamique;NB_APPELS:15;MAX_AUTORISE:24
 			[..] (la suite des résultats sur les lignes suivantes)
 			</pre>
 			
 			Exemple avec le code ERREUR-09 : 
-			<pre style="background-color:#CCCC99; text-align:left">
+			<pre style="background-color:#2a5911; text-align:left">
 			ERREUR-09. Depassement Appels;TYPE:dynamique;NB_APPELS:26;MAX_AUTORISE:24 
 			</pre>
 			
 			Exemple avec un autre code erreur : 
-			<pre style="background-color:#CCCC99; text-align:left">
+			<pre style="background-color:#2a5911; text-align:left">
 			ERREUR-03. Hobbit inconnu
 			</pre>
 			
@@ -419,7 +419,7 @@
 
 <br>
 
-<ul class="box_contenu1 textalia">
+<ul class="box_contenu textalia">
 	<ul class="titre textalic textsizeb">
 	Aide
 	</ul>
@@ -438,7 +438,7 @@
 		Premier Exemple
 	</ul>
 	
-	<pre style="background-color:#CCCC99">
+	<pre style="background-color:#2a5911">
 			
 			/* lecture du fichier et stockage dans la chaîne de caractères "$buffer" */
 			$fichier = "http://public.braldahim.com/hobbits.csv";
@@ -468,23 +468,23 @@
 			</ul>
 			
 			Remplacer :
-			<pre style="background-color:#CCCC99">
+			<pre style="background-color:#2a5911">
 			while (!@feof($fd)){ $buffer .= @fgets($fd, 4096); }
 			@fclose ($fd);
 			$lignes = explode("\n", $buffer );
 			</pre>
 			par :
-			<pre style="background-color:#CCCC99">
+			<pre style="background-color:#2a5911">
 			while (!@feof($fd)){ $lignes[] = @fgets($fd, 4096); }
 			@fclose ($fd);
 			</pre>
 			<br>
 			Remplacer :
-			<pre style="background-color:#CCCC99">
+			<pre style="background-color:#2a5911">
 			echo $data[0]." - ".$data[1]." - ". $data[2]." - ". $data[3]." - ". $data[4]." - ". $data[5]." - ". $data[6]."&lt;br&gt;";
 			</pre>
 			par :
-			<pre style="background-color:#CCCC99">
+			<pre style="background-color:#2a5911">
 			echo implode(" - ", $data );
 			</pre>
 
@@ -492,11 +492,4 @@
 	</ul>
 	<br>
 </ul>
-
 <br>
-
-<ul class="box_contenu1 textalic">
-	<p align="center"><a href="http://www.jeuxweb.org" target="_blank" class="AllLinks">Braldahim est un jeu géré par l'association sans but lucratif JeuxWeb.org </a><br>
-		<a href="http://www.jeuxweb.org" target="_blank"><img src="http://www.mountyhall.com/images/Banner/banner_jw.gif" alt="JeuxWeb" border="0" height="60" width="468"></a>
-	</p>
-</ul>

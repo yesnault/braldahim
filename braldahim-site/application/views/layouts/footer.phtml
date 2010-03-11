@@ -1,20 +1,18 @@
 <div id="footer">
   <div style="height:10px">&nbsp;</div>
-	<?=Bral_Helper_Box::haut(); ?>
-	 <div class="inner_bot">
+	 <div class="inner_footer">
 	 	<span id='date_heure' class=''>&nbsp;</span>
-	 	<a href="http://www.braldahim.com">www.braldahim.com</a> |
+	 	<a href="http://www.braldahim.com" class="afooter">www.braldahim.com</a> |
 	 	<? if (isset($this->user) && isset($this->user->email_hobbit)) : ?> 
 	 		<span id='nb_connectes' class=''>&nbsp;</span><br>
 	 	<? endif;?>
-		<a href="http://www.jeuxweb.org">Braldahim est hébergé par l'Association JeuxWeb.org ASBL</a>
+		<a href="http://www.jeuxweb.org" class="afooter">Braldahim est hébergé par l'Association JeuxWeb.org ASBL</a>
 		 	
 	 	<br>
- 		<a href="http://www.braldahim.com/abus/">Signaler un abus</a> | 
+ 		<a href="http://www.braldahim.com/abus/" class="afooter">Signaler un abus</a> | 
  		<a href="http://jeu.braldahim.com/Feed/" class="feed">Flux RSS</a>
 	 	<br>
 	 </div>
-	 <?=Bral_Helper_Box::bas(); ?>
 	
 	<? if ($this->config->tracker->enabled == "1") : ?>
 	<script type="text/javascript">

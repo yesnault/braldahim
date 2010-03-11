@@ -9,15 +9,30 @@
 
 body {
 	font: 11x arial, verdana, sans-serif;
-	background: #C3E691
-		url(/public/images/fond.png) repeat-x
-		scroll 0pt 0pt;
+	background: #003b00;
 	letter-spacing: 0pt;
 	background-position: center top;
 	margin-top: 0;
 	margin-bottom: 0;
-	margin-left: 10px;
-	margin-right: 10px;
+	margin-left: 00px;
+	margin-right: 00px;
+	color:#eeeeee;
+}
+
+#frisebot, #frisetop {
+	background:transparent url(/public/images/frise.gif) repeat-x scroll 0 0;
+	height:50px;
+	padding:0px;
+	margin-left: -10px;
+	margin-right: -10px;
+}
+
+#frisetop {
+	margin-top: 5px;
+}
+
+#frisebot {
+	margin-top: -10px;
 }
 
 #logo {
@@ -29,7 +44,7 @@ body {
 }
 
 #logo a:link,#logo a:visited,#logo a:hover,#logo a:active {
-	color: #791E1E;
+	color: #eeeeee;
 	font-size: 2em;
 	font-variant: small-caps;
 	letter-spacing: 2pt;
@@ -43,7 +58,7 @@ body {
 input {
 	margin: 2px 2pt;
 	background: #C3E691 none repeat-x scroll center top;
-	color: #791E1E;
+	color: #000000;
 	font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
 	padding-bottom: 1px;
 	padding-top: 2px;
@@ -52,12 +67,12 @@ input {
 }
 
 input:focus {
-	border: 1px solid #791E1E;
-	color: #791E1E;
+	border: 1px solid #000000;
+	color: #000000;
 }
 
 input:hover {
-	border: 1px solid #791E1E;
+	border: 1px solid #000000;
 	color: #cc0000;
 }
 
@@ -77,8 +92,8 @@ input.button1 {
 }
 
 input.button1:hover {
-	border-color: #791E1E;
-	color: #791E1E;
+	border-color: #000000;
+	color: #000000;
 	cursor: pointer;
 }
 
@@ -93,13 +108,17 @@ input.button1:disabled {
 }
 
 a,.alabel {
-	color: #791E1E;
+	color: #eeeeee;
 	text-align: center;
 }
 
 a:hover,.alabel:hover {
 	color: #cc0000;
 	cursor: pointer;
+}
+
+.afooter{
+	color: #eeeeee;
 }
 
 span.id_hobbit {
@@ -135,8 +154,8 @@ span.id_hobbit {
 }
 
 #navigation {
-	background-color: #FADC9B;
-	border: 3px solid #FADC9B;
+	background-color: #003b00;
+	border: 3px solid #003b00;
 	margin: 0px;
 	padding: 0px;
 	text-indent: 0px;
@@ -144,10 +163,10 @@ span.id_hobbit {
 }
 
 #navigation h3.head {
-	background: #e7c57b url(/public/images/collapsed.gif) no-repeat scroll
+	background: #003b00 url(/public/images/collapsed.gif) no-repeat scroll
 		3px 4px;
-	border: 1px solid #FADC9B;
-	color: #791E1E;
+	border: 1px solid #003b00;
+	color: #000000;
 	cursor: pointer;
 	display: block;
 	font-weight: bold;
@@ -210,19 +229,19 @@ span.id_hobbit {
 
 .onglet {
 	border-style: solid;
-	border-color: #791E1E;
+	border-color: #000000;
 	border-width: 1px;
 	margin: 2px;
 	margin-left: 10px;
 }
 
 .onglet.actif {
-	background-color: #e7c57b;
+	background-color: #003b00;
 	border-bottom-color: transparent;
 }
 
 .onglet.inactif {
-	background-color: #FADC9B;
+	background-color: #003b00;
 }
 
 .onglet:hover {
@@ -269,61 +288,61 @@ span.id_hobbit {
 
 .xb_t2,.xb_t3,.xb_t4,.xb_t5,.xb_t6,.xb_t7 {
 	background: #CCCCCC none repeat scroll 0%;
-	border-left: 1px solid #791E1E;
-	border-right: 1px solid #791E1E;
+	border-left: 1px solid #000000;
+	border-right: 1px solid #000000;
 }
 
 .xb_t3 {
-	border-left: 2px solid #791E1E;
-	border-right: 2px solid #791E1E;
+	border-left: 2px solid #000000;
+	border-right: 2px solid #000000;
 }
 
 .xb_t2 {
-	border-left: 2x solid #791E1E;
-	border-right: 2px solid #791E1E;
+	border-left: 2x solid #000000;
+	border-right: 2px solid #000000;
 }
 
 .xb_t1 {
-	background: #791E1E none repeat scroll 0%;
+	background: #000000 none repeat scroll 0%;
 	margin: 0pt 5px;
 	height: 1px;
 }
 
 .xb_t2 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #003b00 none repeat scroll 0%;
 	height: 0px;
 	margin: 0pt 5px;
 }
 
 .xb_t3 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #003b00 none repeat scroll 0%;
 	height: 1px;
 	margin: 0pt 3px;
 }
 
 .xb_t4 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #003b00 none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 1px;
 	margin: 0pt 2px;
 }
 
 .xb_t5 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #003b00 none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 1px;
 	margin: 0pt 1px;
 }
 
 .xb_t6 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #003b00 none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 0px;
 	margin: 0pt 1px;
 }
 
 .xb_t7 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #003b00 none repeat scroll 0%;
 	border-width: 0pt 2x;
 	height: 1px;
 	margin: 0pt 1px;
@@ -346,61 +365,61 @@ span.id_hobbit {
 
 .xb_b2,.xb_b3,.xb_b4,.xb_b5,.xb_b6,.xb_b7 {
 	background: #CCCCCC none repeat scroll 0%;
-	border-left: 1px solid #791E1E;
-	border-right: 1px solid #791E1E;
+	border-left: 1px solid #000000;
+	border-right: 1px solid #000000;
 }
 
 .xb_b3 {
-	border-left: 2px solid #791E1E;
-	border-right: 2px solid #791E1E;
+	border-left: 2px solid #000000;
+	border-right: 2px solid #000000;
 }
 
 .xb_b2 {
-	border-left: 2x solid #791E1E;
-	border-right: 2px solid #791E1E;
+	border-left: 2x solid #000000;
+	border-right: 2px solid #000000;
 }
 
 .xb_b1 {
-	background: #791E1E none repeat scroll 0%;
+	background: #000000 none repeat scroll 0%;
 	margin: 0pt 5px;
 	height: 1px;
 }
 
 .xb_b2 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #003b00 none repeat scroll 0%;
 	height: 0px;
 	margin: 0pt 5px;
 }
 
 .xb_b3 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #003b00 none repeat scroll 0%;
 	height: 1px;
 	margin: 0pt 3px;
 }
 
 .xb_b4 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #003b00 none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 1px;
 	margin: 0pt 2px;
 }
 
 .xb_b5 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #003b00 none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 1px;
 	margin: 0pt 1px;
 }
 
 .xb_b6 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #003b00 none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 0px;
 	margin: 0pt 1px;
 }
 
 .xb_b7 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #003b00 none repeat scroll 0%;
 	border-width: 0pt 2x;
 	height: 1px;
 	margin: 0pt 1px;
@@ -416,18 +435,21 @@ span.id_hobbit {
 	-moz-background-inline-policy:continuous;
 	-moz-background-origin:padding;
 	/*background:transparent url(/public/images/menu-fond.gif) repeat-x scroll 0 0;*/
-	border-color: #791E1E;
+	border-color: #000000;
 	border-style: solid;
 	border-width: 0pt 1px;
 	display: block;
-	background: #e7c57b repeat-x scroll 0pt 0%;
+	background:#023d04 url(/public/images/degrad.png) repeat-y scroll center top;
+	height:auto;
+	min-height:51px;
+	margin: -5px;
 }
 #menu ul {
 	-moz-background-clip:border;
 	-moz-background-inline-policy:continuous;
 	-moz-background-origin:padding;
-	/*background:transparent url(public/images/menuul.gif) no-repeat scroll 0 0; */
-	height:31px;
+	/*background:transparent url(/public/images/menu.gif) repeat-x scroll 0 0;*/
+	height:50px;
 	list-style-type:none;
 	margin:0 auto;
 	padding:1 50px;
@@ -442,81 +464,80 @@ span.id_hobbit {
 	float:left;
 	font-size:0;
 	text-indent:-9999em;
+	margin:10px auto;
+	height:46px;
 }
 #menu li.accueil a {
 	background-image:url(/public/images/menu.gif);
 	background-position: 0 0;
-	height:31px;
-	width:110px;
+	width:120px;
 }
 #menu li.accueil a:hover {
 	background-image:url(/public/images/menu.gif);
-	background-position: 0 -31px;
-	height:31px;
-	width:110px;
+	background-position: 0 -45px;
 }
 #menu li.jouer a {
 	background-image:url(/public/images/menu.gif);
-	background-position:-110px 0;
-	height:31px;
-	width:85px;
+	background-position:-120px 0;
+	width:70px;
 }
 #menu li.jouer a:hover {
 	background-image:url(/public/images/menu.gif);
-	background-position:-110px -31px;
+	background-position:-120px -45px;
 }
 #menu li.bourg a {
 	background-image:url(/public/images/menu.gif);
 	background-position:-190px 0;
-	height:31px;
 	width:110px;
 }
 #menu li.bourg a:hover {
 	background-image:url(/public/images/menu.gif);
-	background-position:-190px -31px;
-	height:31px;
+	background-position:-190px -45px;
 }
 #menu li.forums a {
 	background-image:url(/public/images/menu.gif);
 	background-position:-300px 0;
-	height:31px;
 	width:95px;
 }
 #menu li.forums a:hover {
 	background-image:url(/public/images/menu.gif);
-	background-position:-300px -31px;
+	background-position:-300px -45px;
 }
 #menu li.regles a {
 	background-image:url(/public/images/menu.gif);
-	background-position:-390px 0;
-	height:31px;
-	width:95px;
+	background-position:-395px 0;
+	width:75px;
 }
 #menu li.regles a:hover {
 	background-image:url(/public/images/menu.gif);
-	background-position:-390px -31px;
-	height:31px;
+	background-position:-395px -45px;
 }
 #menu li.projet a {
 	background-image:url(/public/images/menu.gif);
-	background-position:-490px 0;
-	height:31px;
-	width:106px;
+	background-position:-480px 0;
+	width:115px;
 }
 #menu li.projet a:hover {
 	background-image:url(/public/images/menu.gif);
-	background-position:-490px -31px;
+	background-position:-480px -45px;
+}
+
+#wrapper {
+	-moz-background-clip:border;
+	-moz-background-inline-policy:continuous;
+	-moz-background-origin:padding;
+	background:#003b00 url(/public/images/degrad.png) repeat-y scroll center top;
+	height:auto;
+	min-height:290px;
 }
 
 .contenu {
 	border-width: 0px;
-	border-color: #791E1E;
+	border-color: #000000;
 	height: auto;
-	
 	-moz-background-clip:border;
 	-moz-background-inline-policy:continuous;
 	-moz-background-origin:padding;
-	/*background:transparent url(/images.todo) no-repeat scroll 0 0;*/
 	margin:0 auto;
 	min-height:289px;
 	padding:1px 0 0;
@@ -526,13 +547,13 @@ span.id_hobbit {
 
 .contenuA,.contenuB {
 	border-width: 0px;
-	border-color: #791E1E;
+	border-color: #000000;
 	height: auto;
 }
 
 .contenuC {
 	border-width: 0px;
-	border-color: #791E1E;
+	border-color: #000000;
 	height: auto;
 }
 
@@ -544,7 +565,7 @@ span.id_hobbit {
 	padding: 0px;
 	font-weight: bolder;
 	margin: 0.0em;
-	color: #791E1E;
+	color: #f0ae21;
 	font-variant: small-caps;
 	letter-spacing: 2pt;
 }
@@ -583,7 +604,7 @@ span.id_hobbit {
 	font-weight: bolder;
 	margin-top: 0.5em;
 	text-align: left;
-	color: #791E1E;
+	color: #000000;
 	font-size: 1.4em;
 	font-variant: small-caps;
 	letter-spacing: 2pt;
@@ -592,40 +613,54 @@ span.id_hobbit {
 
 .inner { /* exterieur de boite */
 	padding: 1pt 10px;
-	border-color: #791E1E;
+	border-color: #000000;
 	border-style: solid;
 	border-width: 0pt 1px;
 	display: block;
-	background: #e7c57b repeat-x scroll 0pt 0%;
+	background: #003b00 repeat-x scroll 0pt 0%;
 }
 
 .inner_top { /* Interieur de la boite pour le bandeau haut*/
 	height: 35px;
 	padding: 1pt 10px;
-	border-color: #791E1E;
+	border-color: #000000;
 	border-style: solid;
 	border-width: 0pt 1px;
 	display: block;
-	background: #e7c57b repeat-x scroll 0pt 0%;
+	background: #003b00 repeat-x scroll 0pt 0%;
 	text-align: top;
 }
 
 .inner_bot { /* Interieur de la boite pour le bandeau bas */
 	height: 30px;
 	padding: 1pt 10px;
-	border-color: #791E1E;
+	border-color: #000000;
 	border-style: solid;
 	border-width: 0pt 1px;
 	display: block;
-	background: #e7c57b repeat-x scroll 0pt 0%;
+	background: #003b00 repeat-x scroll 0pt 0%;
 	text-align: center;
 }
 
-.box_contenu1 { /* interieur de la boite */
-	background: #FADC9B repeat-x scroll 0pt 0%;
+.inner_footer {
+	height: 30px;
+	padding: 1pt 10px;
+	display: block;
+	color: #eeeeee;
+	text-align: center;
+}
+	
+.box_contenu { /* interieur de la boite */
+	background: #003b00 repeat-x scroll 0pt 0%;
 	padding: 0px;
 	margin: 0px;
-	border: 1px solid #791E1E;
+	border: 1px solid #000000;
+}
+
+.box_contenu1 { /* interieur de la boite */
+	background: #003b00 repeat-x scroll 0pt 0%;
+	padding: 0px;
+	margin: 0px;
 }
 
 
@@ -641,24 +676,24 @@ span.id_hobbit {
 	-moz-background-clip:border;
 	-moz-background-inline-policy:continuous;
 	-moz-background-origin:padding;
-	background:transparent url(/public/images/logo_beta.png) no-repeat scroll 0 0;
+	background:transparent url(/public/images/logo.png) no-repeat scroll 0 0;
 	font-size:1px;
 	font-weight:normal;
-	height:50px;
+	height:75px;
 	margin:0;
 	padding:0;
 	text-indent:-999em;
 	width:550px;
+	position:absolute;
 }
 #header h1 a {
-	display:block;
 	height:100%;
 	text-decoration:none;
 	width:100%;
 }
 
 table.table_liste {
-	border: 1px solid #791E1E;
+	border: 1px solid #000000;
 	border-collapse: collapse;
 	width: 70%;
 	margin: auto;
@@ -666,18 +701,18 @@ table.table_liste {
 }
 
 thead.table_liste,tfoot.table_liste {
-	background-color: #CCCC99;
-	border: 1px solid #791E1E;
+	background-color: #5d8231;
+	border: 1px solid #000000;
 	text-align: center;
 }
 th.table_liste {
 	padding: 5px;
-	background-color: #791E1E;
+	background-color: #000000;
 	width: 25%;
 	text-align: center;
 }
 tr.table_liste0 {
-	background: #e7c57b;
+	background: #2a5911;
 }
 
 tr.table_liste1 {
@@ -685,7 +720,7 @@ tr.table_liste1 {
 }
 
 td.table_liste_border {
-	border: 1px solid #791E1E;
+	border: 1px solid #000000;
 }
 
 td.table_liste {
@@ -817,4 +852,5 @@ div.yoo-tooltip div.yoodefault .tooltip-arrow {
   margin-left: 3px;
   padding: 0 0 0 15px;
   background: url("/public/images/rss.png") no-repeat 0 50%;
+  color: #eeeeee;
 } 

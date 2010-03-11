@@ -1,43 +1,39 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-		<meta http-equiv="Cache-Control" content="no-cache" />
-		<meta http-equiv="Pragma" content="no-cache" />
-		<title>Braldahim - Scripts Publics</title>
-		<meta name="description" content="Braldahim - Jeu Web - Hobbits" />
-		<meta name="keywords" content="jeu web, hobbits, MMO, rôle" />
-		<link href="/public/styles/braldahim-sp-001.css" media="screen" rel="Stylesheet" type="text/css" />
-		
-		<link href="/public/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-		<link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique" href="http://jeu.braldahim.com/Feed/" />
-		
-		<script type="text/javascript" src="/public/scripts/braldahim/m_display-sp-001.js"></script>
-		<script type="text/javascript" src="/public/scripts/prototype_1602/prototype.js"></script>
-	</head>
-
-	<body>
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta http-equiv="Cache-Control" content="no-cache" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<title>Braldahim - Scripts Publics</title>
+	<meta name="description" content="Braldahim - Jeu Web - Hobbits" />
+	<meta name="keywords" content="jeu web, hobbits, MMO, rôle" />
+	<link href="/public/styles/braldahim-sp-002.css" media="screen" rel="Stylesheet" type="text/css" />
 	
+	<link href="/public/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	<link rel="alternate" type="application/rss+xml" title="Braldahim - Chronique" href="http://jeu.braldahim.com/Feed/" />
+	
+	<script type="text/javascript" src="/public/scripts/braldahim/m_display-sp-001.js"></script>
+	<script type="text/javascript" src="/public/scripts/prototype_1602/prototype.js"></script>
+</head>
+
+<body>
 	<?include("headerDiv.phtml")?>
-	
-	<div id="page">
+	<div id="frisetop">
 		<div id="header">
-			<h1><a href="/">Braldahim - Site</a></h1>
+			<h1><a href="/">Braldahim - Scripts Publics</a></h1>
 		</div>
-		
+	</div>
+	<div id="page">
 		<?=$this->render("menu.phtml"); ?>
-		
-		<br>
-		
-		<?=Bral_Helper_Box::haut(); ?>
-		<div class="inner">
-			<div class="contenu">
-				<?= $this->layout()->contenu ?>
-			</div>
+		<div id="wrapper">
+		<div class="contenu">
+			<br><br>
+			<?= $this->layout()->contenu ?>
+			<br><br>
 		</div>
-		<?=Bral_Helper_Box::bas(); ?>
-
+		</div>
+		<div id="frisebot" ></div>
 		<?=$this->render("footer.phtml"); ?>
 	</div>
 </body>

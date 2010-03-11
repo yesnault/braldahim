@@ -650,20 +650,19 @@ div.gridbox_sbdark .odd_sbdark {
 /*braldahim*/
 
 div.gridbox_braldahim .objbox {
-    background-color:#FADC9B;
+    background-color:#003b00;
 }
 
 div.gridbox_braldahim {
-	#border-top: 1px solid #791E1E;
 	margin-left:1px;
 }
 div.gridbox_braldahim .xhdr{
-	border: 1px solid #791E1E;
-	background-color: #CCCC99;
+	border: 1px solid #000000;
+	background-color: #5d8231;
 	text-align: center;
 }
 div.gridbox_braldahim .xhdr_last{
-	border: 1px solid #791E1E;
+	border: 1px solid #000000;
 }
 
 div.gridbox_braldahim table.hdr{
@@ -671,8 +670,8 @@ div.gridbox_braldahim table.hdr{
 }
 
 div.gridbox_braldahim table.hdr td {
-	border: 1px solid;
-	border-color : #FDFDFD #93AFBA #93AFBA #FDFDFD;
+	border: 0px solid;
+	border-color : #000000;
 	background-color:transparent;
 	font-family:Tahoma;
 	font-size:11px;
@@ -692,7 +691,7 @@ div.gridbox_braldahim table.hdr .filter{
 div.gridbox_braldahim table.obj td {
 	border-width: 0px 1px 0px 0px;
 	border-left: 0px solid white;
-	border-right: 0px solid #791E1E;
+	border-right: 0px solid #000000;
 	font-family:Tahoma;
 	font-size:11px;
 	padding-right:4px;
@@ -700,8 +699,8 @@ div.gridbox_braldahim table.obj td {
 	white-space : normal;
 }
 div.gridbox_braldahim table.obj{
-	border: 1px solid #791E1E;
-	background-color:#FADC9B;
+	border: 1px solid #000000;
+	background-color:#003b00;
 }
 div.gridbox_braldahim table.row20px tr td {
 	padding-right:4px;
@@ -713,14 +712,13 @@ div.gridbox_braldahim .dhx_combo_edit{
 	font-size:11px;
 }
 div.gridbox_braldahim table.obj tr.rowselected td{
-	background-color:#CCCC99;
 	color:black;
 }
 div.gridbox_braldahim table.obj tr.rowselected td.cellselected, div.gridbox table.obj td.cellselected {
 	background-color:#E7C57B;
 }
 div.gridbox_braldahim .odd_braldahim{
-	background-color:#e7c57b;
+	background-color:#2a5911;
 	white-space : normal;
 }
 div.gridbox_braldahim div.ftr td {
