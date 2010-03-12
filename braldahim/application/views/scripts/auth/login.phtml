@@ -1,26 +1,29 @@
 <?php echo $this->render('header.phtml'); ?> 
 <?php echo $this->render('headerNonAuth.phtml'); ?> 
-<br>
 
-<table width="100%">
-	<tr>
-		<td width="33%" valign="top" align="center">
-			<? include("gazette.phtml") ?>	
-			<br>
-		</td>
-		<td width="33%" valign="top" align="center">
-			<? include("login/formulaire.phtml")?>
-			<br>
-			<? include("login/pub.phtml")?>
-		</td>
-		<td width="33%" valign="top" align="center">
-			<? include("annonces.phtml") ?>	
-			<br>
-			<? include("login/association.phtml")?>
-		</td>
-	</tr>
-</table>
- 
+<div id="wrapper">
+	<br>
+	
+	<table width="100%">
+		<tr>
+			<td width="33%" valign="top" align="center">
+				<? include("gazette.phtml") ?>	
+				<br>
+			</td>
+			<td width="33%" valign="top" align="center">
+				<? include("login/formulaire.phtml")?>
+				<br>
+				<? include("login/pub.phtml")?>
+			</td>
+			<td width="33%" valign="top" align="center">
+				<? include("annonces.phtml") ?>	
+				<br>
+				<? include("login/association.phtml")?>
+			</td>
+		</tr>
+	</table>
+	<br>
+</div>
 <script language="javascript">
 $('post_email_hobbit').focus();
 </script>

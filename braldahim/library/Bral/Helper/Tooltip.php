@@ -47,9 +47,9 @@ class Bral_Helper_Tooltip {
 		if ($close) {
 			$retour .= "<center>";
 			if ($boutonCopier) {
-				$retour .= "<a href=".$b."'javascript:void(0);".$b."' onClick=".$b."'return ".$functionCopierToolTip.";".$b."'>Copier</a> ";
+				$retour .= "<a href=".$b."'javascript:void(0);".$b."' class=".$b."'alabeldark".$b."' onClick=".$b."'return ".$functionCopierToolTip.";".$b."'>Copier</a> ";
 			}
-			$retour .= " <a href=".$b."'javascript:void(0);".$b."' onClick=".$b."'return cClick();".$b."'>Fermer</a>";
+			$retour .= " <a href=".$b."'javascript:void(0);".$b."' class=".$b."'alabeldark".$b."' onClick=".$b."'return cClick();".$b."'>Fermer</a>";
 			$retour .= "</center>";
 		}
 

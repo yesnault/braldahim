@@ -1,5 +1,6 @@
 <?php echo $this->render('header.phtml'); ?>  
 <?php echo $this->render('headerNonAuth.phtml'); ?> 
+<div id="wrapper">
 <?php echo $this->render('headerArchives.phtml'); ?> 
 <br>
 
@@ -8,22 +9,20 @@
 		<td width="40%" valign="top" align="right">
 			
 			<div style="width:200px">
-			<?=Bral_Helper_Box::haut(); ?>
-			<div class="inner">
-				<div class="contenu">
-						Filtre par année: <select id="annee" name="annee" onChange="document.location.href = '/annonces/?anneeselect='+this.value+'&uid='+(new Date()).valueOf()">
-						<? foreach($this->annees as $a): ?>
-							<option value="<?=$a?>" <?if ($this->anneeSelect == $a): echo "selected='true'" ; endif;?>><?=$a?></option>
-						<? endforeach;?>
-						</select>
-						
-						<br><br>
-						
-						<?=count($this->annonces)?> annonce<? if (count($this->annonces) > 0) : echo "s"; endif; ?>
-						 pour l'année <?=$this->anneeSelect?> 
+				<div class="inner">
+					<div class="contenu">
+							Filtre par année: <select id="annee" name="annee" onChange="document.location.href = '/annonces/?anneeselect='+this.value+'&uid='+(new Date()).valueOf()">
+							<? foreach($this->annees as $a): ?>
+								<option value="<?=$a?>" <?if ($this->anneeSelect == $a): echo "selected='true'" ; endif;?>><?=$a?></option>
+							<? endforeach;?>
+							</select>
+							
+							<br><br>
+							
+							<?=count($this->annonces)?> annonce<? if (count($this->annonces) > 0) : echo "s"; endif; ?>
+							 pour l'année <?=$this->anneeSelect?> 
+					</div>
 				</div>
-			</div>
-			<?=Bral_Helper_Box::bas(); ?>
 			</div>
 			</td>
 			
@@ -33,4 +32,5 @@
 		</td>
 	</tr>
 </table>
+</div>
 <?php echo $this->render('footer.phtml'); ?>  

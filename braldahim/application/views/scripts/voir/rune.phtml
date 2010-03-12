@@ -1,7 +1,6 @@
 <? include('voirHeader.phtml'); ?>
 
 <div class="box_public">
-<?=Bral_Helper_Box::haut(); ?>
 <div class="inner">
 
 <? if ($this->connu == false) : ?>
@@ -30,7 +29,6 @@
 	&nbsp;
 <? endif; ?>
 </div>
-<?=Bral_Helper_Box::bas(); ?>
 </div>
 
 <?php echo $this->render('footer.phtml'); ?>

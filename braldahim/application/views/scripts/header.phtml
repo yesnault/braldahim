@@ -1,5 +1,4 @@
 <? include('headerHead.phtml'); ?>
-
 <? if($this->user && $this->controleur == "interface") : ?>
  <body onLoad="_get_('/interface/boxes');">
 <? else: ?>
@@ -24,12 +23,9 @@ Vous pouvez utiliser <a href="http://www.mozilla-europe.org/fr/firefox/">Firefox
   <div id="box_action" class="box_action" style="display:none"></div>
   <div id="informations" class="box_informations" style="display:none"></div>
   <div id="box_chargement" class="box_chargement" style="display:block">
-	<?=Bral_Helper_Box::haut(); ?>
 	 <div class="inner" style='background-color:#CC6666'>
 	 	Chargement en Cours<br /><img src="/public/images/wait.gif" />
 	 </div>
-	<?=Bral_Helper_Box::bas(); ?>
   </div>
 <? endif; ?>
-
 <? include('headerErreurRacine.phtml'); ?>

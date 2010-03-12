@@ -4,15 +4,37 @@
 
 body {
 	font: 11px arial, verdana, sans-serif;
-	background: #C3E691
-		url(/public/styles/braldahim_defaut/images/layout/fond.png) repeat-x
-		scroll 0pt 0pt;
+	background: #003b00;
 	letter-spacing: 0pt;
 	background-position: center top;
 	margin-top: 0;
 	margin-bottom: 0;
-	margin-left: 10px;
-	margin-right: 10px;
+	margin-left: 0px;
+	margin-right: 0px;
+	color:#eeeeee;
+}
+
+#frisebot, #frisetop {
+	background:transparent url(/public/images/frise.gif) repeat-x scroll 0 0;
+	height:50px;
+	padding:0px;
+	margin-left: -10px;
+	margin-right: -10px;
+}
+
+#frisetop {
+	margin-top: 5px;
+	background:transparent url(/public/images/frise.gif) repeat-x scroll 0 0;
+}
+
+#frisetopvide {
+	margin-top: 5px;
+	background:transparent url(/public/images/frisevide.gif) repeat-x scroll 0 0;
+}
+
+#frisebot {
+	background:transparent url(/public/images/frise.gif) repeat-x scroll 0 0;
+	margin-top: -10px;
 }
 
 #logo {
@@ -63,8 +85,6 @@ input:hover {
 
 input.button1 {
 	background-color: #FAFAFA;
-	background-image:
-		url(/public/styles/braldahim_defaut/images/layout/bg_button.gif);
 	color: #000000;
 	border-color: #666666;
 	font-size: 11px;
@@ -79,9 +99,12 @@ input.button1:hover {
 
 input.button1:active {
 	color: #000000;
+	background-image:
+		url(/public/styles/braldahim_defaut/images/layout/bg_button.gif);
 }
 
 input.button1:disabled {
+	background-color:#628b28;
 	background-position: 0pt 100%;
 	border: 1px solid #BCBCBC;
 	color: #BCBCBC;
@@ -94,11 +117,21 @@ input.button1:disabled {
 }
 
 a,.alabel {
-	color: #791E1E;
+	color: #eeeeee;
 	text-align: center;
 }
 
 a:hover,.alabel:hover {
+	color: #cc0000;
+	cursor: pointer;
+}
+
+.alabeldark {
+	color: #000000;
+	text-align: center;
+}
+
+.alabeldark:hover {
 	color: #cc0000;
 	cursor: pointer;
 }
@@ -108,8 +141,8 @@ span.id_hobbit {
 }
 
 #navigation {
-	background-color: #FADC9B;
-	border: 3px solid #FADC9B;
+	background-color: #5d8231;
+	/*border: 0px solid #FADC9B;*/
 	margin: 0px;
 	padding: 0px;
 	text-indent: 0px;
@@ -117,10 +150,10 @@ span.id_hobbit {
 }
 
 #navigation h3.head {
-	background: #e7c57b url(/public/images/collapsed.gif) no-repeat scroll
+	background: #2A5911 url(/public/images/collapsed.gif) no-repeat scroll
 		3px 4px;
-	border: 1px solid #FADC9B;
-	color: #791E1E;
+	border: 1px solid #2A5911;
+	color: #000000;
 	cursor: pointer;
 	display: block;
 	font-size:11px;
@@ -131,7 +164,7 @@ span.id_hobbit {
 }
 
 #navigation h3.head:hover {
-	color: #000000;
+	color: #eeeeee;
 }
 
 #navigation h3.selected {
@@ -183,29 +216,31 @@ span.id_hobbit {
 
 .onglet {
 	border-style: solid;
-	border-color: #791E1E;
+	border-color: #000000;
 	border-width: 1px;
-	margin: 1px;
-	margin-left: 4px;
+	margin: 2px;
+	margin-left: 10px;
+	color:#000000;
 }
 
 .onglet.actif {
-	background-color: #e7c57b;
+	background-color: #628b28;
 	border-bottom-color: transparent;
 }
 
 .onglet.inactif {
-	background-color: #FADC9B;
+	background-color: #2a5911;
 }
 
 .onglet:hover {
-	background-color: #ffd363;
+	background-color: #5d8231;
 	cursor: pointer;
 }
 
 /* ************************************************ */
 /* ********************** Box *********************** */
 /* ************************************************ */
+
 
 /* Bordures top */
 .xb_t1,.xb_t2,.xb_t3,.xb_t4,.xb_t5,.xb_t6,.xb_t7 {
@@ -224,61 +259,61 @@ span.id_hobbit {
 
 .xb_t2,.xb_t3,.xb_t4,.xb_t5,.xb_t6,.xb_t7 {
 	background: #CCCCCC none repeat scroll 0%;
-	border-left: 1px solid #791E1E;
-	border-right: 1px solid #791E1E;
+	border-left: 1px solid #000000;
+	border-right: 1px solid #000000;
 }
 
 .xb_t3 {
-	border-left: 2px solid #791E1E;
-	border-right: 2px solid #791E1E;
+	border-left: 2px solid #000000;
+	border-right: 2px solid #000000;
 }
 
 .xb_t2 {
-	border-left: 2x solid #791E1E;
-	border-right: 2px solid #791E1E;
+	border-left: 2x solid #000000;
+	border-right: 2px solid #000000;
 }
 
 .xb_t1 {
-	background: #791E1E none repeat scroll 0%;
+	background: #000000 none repeat scroll 0%;
 	margin: 0pt 5px;
 	height: 1px;
 }
 
 .xb_t2 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #628b28 none repeat scroll 0%;
 	height: 0px;
 	margin: 0pt 5px;
 }
 
 .xb_t3 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #628b28 none repeat scroll 0%;
 	height: 1px;
 	margin: 0pt 3px;
 }
 
 .xb_t4 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #628b28 none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 1px;
 	margin: 0pt 2px;
 }
 
 .xb_t5 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #628b28 none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 1px;
 	margin: 0pt 1px;
 }
 
 .xb_t6 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #628b28 none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 0px;
 	margin: 0pt 1px;
 }
 
 .xb_t7 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #628b28 none repeat scroll 0%;
 	border-width: 0pt 2x;
 	height: 1px;
 	margin: 0pt 1px;
@@ -301,67 +336,61 @@ span.id_hobbit {
 
 .xb_b2,.xb_b3,.xb_b4,.xb_b5,.xb_b6,.xb_b7 {
 	background: #CCCCCC none repeat scroll 0%;
-	border-left: 1px solid #791E1E;
-	border-right: 1px solid #791E1E;
+	border-left: 1px solid #000000;
+	border-right: 1px solid #000000;
 }
 
 .xb_b3 {
-	border-left: 2px solid #791E1E;
-	border-right: 2px solid #791E1E;
+	border-left: 2px solid #000000;
+	border-right: 2px solid #000000;
 }
 
 .xb_b2 {
-	border-left: 2x solid #791E1E;
-	border-right: 2px solid #791E1E;
+	border-left: 2x solid #000000;
+	border-right: 2px solid #000000;
 }
 
 .xb_b1 {
-	background: #791E1E none repeat scroll 0%;
+	background: #000000 none repeat scroll 0%;
 	margin: 0pt 5px;
 	height: 1px;
 }
 
 .xb_b2 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #628b28 none repeat scroll 0%;
 	height: 0px;
 	margin: 0pt 5px;
 }
 
-.xb_t3.chargement, .xb_t4.chargement, .xb_t5.chargement, .xb_t6.chargement, .xb_t7.chargement, 
-.xb_b3.chargement, .xb_b4.chargement, .xb_b5.chargement, .xb_b6.chargement, .xb_b7.chargement,
-.inner.chargement  {
-	background: #739141 none repeat scroll 0%;
-}
-
 .xb_b3 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #628b28 none repeat scroll 0%;
 	height: 1px;
 	margin: 0pt 3px;
 }
 
 .xb_b4 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #628b28 none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 1px;
 	margin: 0pt 2px;
 }
 
 .xb_b5 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #628b28 none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 1px;
 	margin: 0pt 1px;
 }
 
 .xb_b6 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #628b28 none repeat scroll 0%;
 	border-width: 0pt 1px;
 	height: 0px;
 	margin: 0pt 1px;
 }
 
 .xb_b7 {
-	background: #e7c57b none repeat scroll 0%;
+	background: #628b28 none repeat scroll 0%;
 	border-width: 0pt 2x;
 	height: 1px;
 	margin: 0pt 1px;
@@ -404,19 +433,19 @@ span.id_hobbit {
 
 .contenu {
 	border-width: 0px;
-	border-color: #791E1E;
+	border-color: #000000;
 	height: auto;
 }
 
 .contenuA,.contenuB {
 	border-width: 0px;
-	border-color: #791E1E;
+	border-color: #000000;
 	height: auto;
 }
 
 .contenuC {
 	border-width: 0px;
-	border-color: #791E1E;
+	border-color: #000000;
 	height: auto;
 }
 
@@ -428,26 +457,30 @@ span.id_hobbit {
 	padding: 0px;
 	font-weight: bolder;
 	margin: 0.0em;
-	color: #791E1E;
 	font-variant: small-caps;
 	letter-spacing: 2pt;
 }
 
 .textsizea {
 	font-size: 2em;
+		color: #f0ae21;
+	
 }
 
 .textsizeb {
 	font-size: 1.4em;
+	color: #f0ae21;
 }
 
 .textsizec {
 	font-size: 1.2em;
+	color: #f0ae21;
 }
 
 .textsized {
 	font-size: 1.1em;
 	letter-spacing: 1pt;
+	color: #791E1E;
 }
 
 .textalia {
@@ -467,7 +500,7 @@ span.id_hobbit {
 	font-weight: bolder;
 	margin-top: 0.5em;
 	text-align: left;
-	color: #791E1E;
+	color: #000000;
 	font-size: 1.4em;
 	font-variant: small-caps;
 	letter-spacing: 2pt;
@@ -594,38 +627,43 @@ span.id_hobbit {
 }
 
 .inner { /* exterieur de boite */
+	border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
 	padding: 1pt 10px;
-	border-color: #791E1E;
+	border-color: #000000;
 	border-style: solid;
-	border-width: 0pt 1px;
+	border-width: 1pt 1px;
 	display: block;
-	background: #e7c57b repeat-x scroll 0pt 0%;
+	background: #628b28 repeat-x scroll 0pt 0%;
 }
 
 .inner_top { /* Interieur de la boite pour le bandeau haut*/
-	height: 35px;
-	padding: 1pt 10px;
-	border-color: #791E1E;
-	border-style: solid;
-	border-width: 0pt 1px;
+	height: 50px;
+	padding:4px 10px 1pt;
 	display: block;
-	background: #e7c57b repeat-x scroll 0pt 0%;
-	text-align: top;
+	text-align: right;
+	color:#f0ae21;
+	margin-top:5px;
 }
 
 .inner_bot { /* Interieur de la boite pour le bandeau bas */
 	height: 30px;
 	padding: 1pt 10px;
-	border-color: #791E1E;
-	border-style: solid;
-	border-width: 0pt 1px;
 	display: block;
-	background: #e7c57b repeat-x scroll 0pt 0%;
 	text-align: center;
 }
 
+.box_contenu { /* interieur de la boite */
+	background: #003b00 repeat-x scroll 0pt 0%;
+	padding: 0px;
+	margin: 0px;
+	border: 1px solid #000000;
+}
+
 .box_contenu1 { /* interieur de la boite */
-	background: #FADC9B repeat-x scroll 0pt 0%;
+	background: #628b28 repeat-x scroll 0pt 0%;
 	padding: 0px;
 	margin: 0px;
 }
@@ -720,52 +758,49 @@ td.equipement {
 }
 
 table.table_liste {
-	border: 1px solid #791E1E;
+	border: 1px solid #000000;
 	border-collapse: collapse;
 	width: 70%;
 	margin: auto;
 	align: center;
 }
 
-tr.table_liste *{
-	font-weight: normal;
-}
-
 thead.table_liste,tfoot.table_liste {
-	background-color: #CCCC99;
-	border: 1px solid #791E1E;
+	color: #000000;
+	background-color: #2a5911;
+	border: 1px solid #000000;
 	text-align: center;
 }
 
-tbody.communaute_membres {
-	border: 1px solid #791E1E;
+td.table_liste_th {
+	color: #000000;
+	background-color: #2a5911;
+	border: 1px solid #000000;
 }
 
-th.table_liste, td.table_liste_th {
+th.table_liste {
 	padding: 5px;
-	background-color: #CCCC99;
-	border: 1px solid #791E1E;
+	background-color: #000000;
 	width: 25%;
 	text-align: center;
-	font-weight: normal;
 }
-
 tr.table_liste0 {
-	background: #e7c57b;
+	background: #5d8231;
 }
 
 tr.table_liste1 {
-	background: #;
+	background: #628b28;/*2a5911;*/
 }
 
 td.table_liste_border {
-	border: 1px solid #791E1E;
+	border: 1px solid #000000;
 }
 
 td.table_liste {
 	padding: 5px;
 	text-align: center;
 }
+
 
 /* ************************************************ */
 /* ******************* Competence ***************** */
@@ -1104,10 +1139,8 @@ td.champ2d.jachere { background: url('/public/styles/braldahim_defaut/images/cha
 /* ************************* Vue ****************** */
 /* ************************************************ */
 table.vue2d {
-	border: solid #777;
 	text-align: center;
 	border-spacing: 1px;
-	border-width: 1pt;
 }
 
 td.vue2d {
@@ -1250,23 +1283,26 @@ td.cases.actuelle {
 /* ************************************************ */
 /* ********************** Menu *********************** */
 /* ************************************************ */
+
 #menu {
 	-moz-background-clip:border;
 	-moz-background-inline-policy:continuous;
 	-moz-background-origin:padding;
-	/*background:transparent url(/public/images/menu-fond.gif) repeat-x scroll 0 0;*/
-	border-color: #791E1E;
+	border-color: #000000;
 	border-style: solid;
 	border-width: 0pt 1px;
 	display: block;
-	background: #e7c57b repeat-x scroll 0pt 0%;
+	background:#023d04 url(/public/images/degrad.png) repeat-y scroll center top;
+	height:auto;
+	min-height:51px;
+	margin: -10px;
 }
 #menu ul {
 	-moz-background-clip:border;
 	-moz-background-inline-policy:continuous;
 	-moz-background-origin:padding;
-	/*background:transparent url(public/images/menuul.gif) no-repeat scroll 0 0; */
-	height:31px;
+	/*background:transparent url(/public/images/menu.gif) repeat-x scroll 0 0;*/
+	height:50px;
 	list-style-type:none;
 	margin:0 auto;
 	padding:1 50px;
@@ -1281,92 +1317,111 @@ td.cases.actuelle {
 	float:left;
 	font-size:0;
 	text-indent:-9999em;
+	margin:10px auto;
+	height:46px;
 }
 #menu li.accueil a {
 	background-image:url(/public/images/menu.gif);
 	background-position: 0 0;
-	height:31px;
-	width:110px;
+	width:120px;
 }
 #menu li.accueil a:hover {
 	background-image:url(/public/images/menu.gif);
-	background-position: 0 -31px;
-	height:31px;
-	width:110px;
+	background-position: 0 -45px;
 }
 #menu li.jouer a {
 	background-image:url(/public/images/menu.gif);
-	background-position:-110px 0;
-	height:31px;
-	width:85px;
+	background-position:-120px 0;
+	width:70px;
 }
 #menu li.jouer a:hover {
 	background-image:url(/public/images/menu.gif);
-	background-position:-110px -31px;
+	background-position:-120px -45px;
 }
 #menu li.bourg a {
 	background-image:url(/public/images/menu.gif);
 	background-position:-190px 0;
-	height:31px;
 	width:110px;
 }
 #menu li.bourg a:hover {
 	background-image:url(/public/images/menu.gif);
-	background-position:-190px -31px;
-	height:31px;
+	background-position:-190px -45px;
 }
 #menu li.forums a {
 	background-image:url(/public/images/menu.gif);
 	background-position:-300px 0;
-	height:31px;
 	width:95px;
 }
 #menu li.forums a:hover {
 	background-image:url(/public/images/menu.gif);
-	background-position:-300px -31px;
+	background-position:-300px -45px;
 }
 #menu li.regles a {
 	background-image:url(/public/images/menu.gif);
-	background-position:-390px 0;
-	height:31px;
-	width:95px;
+	background-position:-395px 0;
+	width:75px;
 }
 #menu li.regles a:hover {
 	background-image:url(/public/images/menu.gif);
-	background-position:-390px -31px;
-	height:31px;
+	background-position:-395px -45px;
 }
 #menu li.projet a {
 	background-image:url(/public/images/menu.gif);
-	background-position:-490px 0;
-	height:31px;
-	width:106px;
+	background-position:-480px 0;
+	width:115px;
 }
 #menu li.projet a:hover {
 	background-image:url(/public/images/menu.gif);
-	background-position:-490px -31px;
+	background-position:-480px -45px;
 }
 
-#header-logo {
+#wrapper {
+	-moz-background-clip:border;
+	-moz-background-inline-policy:continuous;
+	-moz-background-origin:padding;
+	background:#003b00 url(/public/images/degrad.png) repeat-y scroll center top;
+	height:auto;
+	min-height:290px;
+	margin-top: -10px;
+}
+
+#header {
 	-moz-background-clip:border;
 	-moz-background-inline-policy:continuous;
 	-moz-background-origin:padding;
 	height:50px;
 	position:relative;
 }
-#header-logo h1 {
+#header h1 {
 	-moz-background-clip:border;
 	-moz-background-inline-policy:continuous;
 	-moz-background-origin:padding;
-	background:transparent url(http://www.braldahim.com/public/images/logo_beta.png) no-repeat scroll 0 0;
+	background:transparent url(/public/images/logo.png) no-repeat scroll 0 0;
 	font-size:1px;
 	font-weight:normal;
-	height:50px;
+	height:60px;
 	margin:0;
 	padding:0;
 	text-indent:-999em;
-	width:550px;
+	width:280px;
+	position:absolute;
 }
+
+#hobbitjeu {
+	z-index:1000;
+	background:transparent url(/public/images/hobbit-jeu.png) no-repeat scroll 0 0;
+	font-size:1px;
+	font-weight:normal;
+	height:220px;
+	margin:0;
+	padding:0;
+	text-indent:-999em;
+	width:190px;
+	position:absolute;
+	margin-top:25px;
+	margin-left:-110px;
+}
+
 #header-logo h1 a {
 	display:block;
 	height:100%;

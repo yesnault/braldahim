@@ -1,5 +1,4 @@
 <div class="box_authentification">
-<?=Bral_Helper_Box::haut(); ?>
 <div class="inner">
 	<ul class="titre textalic textsizee" style="font-style: italic ;"><?=Bral_Helper_Calendrier::affiche(true);?></ul>
     <ul class="titre textalia textsizea">Braldahim</ul>
@@ -23,6 +22,7 @@
 			Vous &ecirc;tes sur la version B&ecirc;ta Priv&eacute;e du jeu.
 		<? endif;?>
 	</ul>
+	<div id="hobbitjeu"></div>
 	
 		    <br />
 		    Adresse email du Joueur : <input type="text" name="post_email_hobbit" id='post_email_hobbit' size='23' maxlength='100'/> <br />
@@ -55,5 +55,4 @@
 	    Il y a actuellement <?=$this->nbConnecte?> hobbit<?=$s ?> connect&eacute;<?=$s?>
 	</div>
 </div>
-<?=Bral_Helper_Box::bas(); ?>
 </div>

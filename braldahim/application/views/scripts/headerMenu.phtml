@@ -1,22 +1,9 @@
 <? if (isset($this->user) && isset($this->user->email_hobbit) && $this->controleur != "voir") : ?> 
-	<div style="height:10px">&nbsp;</div>
-	<?=Bral_Helper_Box::haut(); ?>
 
-	<? if ($this->controleur == "interface") : ?>
-		<span id="message_nb_img" style="float:right; display:none" >
-		 	<img id="img_message_ancien" src="/public/images/uddeim/env.gif" alt="" border="0" style="display:none"/>
-			<img id="img_message_nouveau" src="/public/images/uddeim/env_ani.gif" alt="" border="0" style="display:none"/>
-		</span>
-		<span id="message_nb" style="float:right; display:none;">
-			<label id="message_nb_label" class="alabel" style="text-decoration:underline" onClick='Javascript:_get_("/interface/load/?box=box_messagerie");my_switch("box_messagerie","boite_c");	'></label>
-		
-			<div style="float:absolute; margin-top:1px">
-				<a href="http://www.jeuxweb.org" target="_blank" title="Braldahim est hébergé par l'Association JeuxWeb.org ASBL" alt="JeuxWeb.org">
-			 		<img src="http://www.mountyhall.com/images/Banner/banner_jw.gif" alt="Jeux Web" border="0" height="20" width="156">
-				</a>
-			</div>
-		</span>
-	<? endif; ?>
+	<div id="header">
+		<div id="frisetopvide">
+			<h1><a href="/">Braldahim - Site</a></h1>
+			
 	 
 	 <div class="inner_top">
 		 <?=$this->escape($this->user->prenom_hobbit);?> <?=$this->escape($this->user->nom_hobbit);?> | 
@@ -30,7 +17,6 @@
 		 <? if ($this->user->gardeEnCours === false) : ?>
 		  	<a href="/Parametres/" class="menu_lien">Param&egrave;tres</a> |
 		 <? endif; ?>
-		
 		 <a href="http://www.braldahim.com">Site</a> | 
 		 <a href="http://www.braldahim.com/bourg">Bourg</a> | 
 		 <a href="http://forums.braldahim.com">Forums</a> | 
@@ -47,16 +33,32 @@
 		 <div style='line-height : 20px;'>
 		  <? if ($this->user->administrateur === true) : ?>
 		  	<span class='alabel' onClick='_get_("/administrationajax/doaction?caction=do_administrationajax_activeradminvue");'>[Admin Vue]</span>
-			Admin info: <span id='admin_info_1' class=''>&nbsp;</span>
-			 <span id='admin_info_2' class=''>&nbsp;</span>
+			Admin info <input type="hidden" id='admin_info_1' class=''>&nbsp;</span>
+			 <input type="hidden" id='admin_info_2' class=''>&nbsp;</span>
 		  <? endif; ?>
 		  <?=Bral_Helper_Calendrier::affiche();?>
 		  <? Zend_Loader::loadClass("Bral_Helper_Lune"); echo Bral_Helper_Lune::affiche(); ?>
 		  
+		  <? if ($this->controleur == "interface") : ?>
+				<span id="message_nb_img" style="float:right; display:none; margin-top:2px;" >
+				 	<img id="img_message_ancien" src="/public/images/uddeim/env.gif" alt="" border="0" style="display:none"/>
+					<img id="img_message_nouveau" src="/public/images/uddeim/env_ani.gif" alt="" border="0" style="display:none"/>
+				</span>
+				<span id="message_nb" style="float:right; display:none;margin-top:2px;">
+					<label id="message_nb_label" class="alabel" style="text-decoration:underline" onClick='Javascript:_get_("/interface/load/?box=box_messagerie");my_switch("box_messagerie","boite_c");	'></label>
+				</span>
+			<? endif; ?>
+			
 		  <? Zend_Loader::loadClass("Bral_Helper_Carnet"); echo Bral_Helper_Carnet::affiche($this->user); ?>
 		  
+		  
+			
 		 </div>
 	 </div>
-	 
-	<?=Bral_Helper_Box::bas(); ?>
+		</div>
+		
+		
+	</div>
+	
+	
 <? endif; ?>

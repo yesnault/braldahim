@@ -3,5 +3,13 @@
 <textarea id="erreur_catch_contenu" rows="15" COLS="60"></textarea>
 </div>
 
-<div id="racine" class="box_racine">
+<? if (isset($this->user) ): ?>
+<div id="wrapper">
+<? endif; ?>
+	<div id="racine" class="box_racine">
+<? if (isset($this->user) ): ?>
+</div>
+<br>
+<? endif;?>
+
 </div>

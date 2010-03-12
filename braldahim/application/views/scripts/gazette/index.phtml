@@ -1,13 +1,12 @@
 <?php echo $this->render('header.phtml'); ?>  
 <?php echo $this->render('headerNonAuth.phtml'); ?> 
+<div id="wrapper">
 <?php echo $this->render('headerArchives.phtml'); ?> 
 
-<br>
 <table width="100%">
 	<tr>
 		<td width="40%" valign="top" align="right">
 			<div style="width:200px">
-			<?=Bral_Helper_Box::haut(); ?>
 			<div class="inner">
 				<div class="contenu">
 						Filtre par année: <select id="annee" name="annee" onChange="document.location.href = '/gazette/?anneeselect='+this.value+'&uid='+(new Date()).valueOf()">
@@ -22,7 +21,6 @@
 						 dans la gazette pour l'année <?=$this->anneeSelect?> 
 				</div>
 			</div>
-			<?=Bral_Helper_Box::bas(); ?>
 			</div>
 			</td>
 			
@@ -32,4 +30,5 @@
 		</td>
 	</tr>
 </table>
+</div>
 <?php echo $this->render('footer.phtml'); ?>  
