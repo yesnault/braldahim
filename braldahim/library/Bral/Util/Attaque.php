@@ -420,7 +420,7 @@ class Bral_Util_Attaque {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculAttaqueHobbitRiposte - exit -");
 	}
 
-	public static function attaqueMonstre(&$hobbitAttaquant, $monstre, $jetAttaquant, $jetCible, $jetsDegat, $view, $degatCase, $tir=false, $riposte = false) {
+	public static function attaqueMonstre(&$hobbitAttaquant, &$monstre, $jetAttaquant, $jetCible, $jetsDegat, $view, $degatCase, $tir=false, $riposte = false) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - enter -");
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetAttaquant=".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetCible=".$jetCible);
