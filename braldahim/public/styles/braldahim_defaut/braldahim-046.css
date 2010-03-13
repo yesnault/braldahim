@@ -121,9 +121,17 @@ a,.alabel {
 	text-align: center;
 }
 
-a:hover,.alabel:hover {
+#contenuTooltip .alabel:hover, a:hover,.alabel:hover {
 	color: #cc0000;
 	cursor: pointer;
+}
+
+#contenuTooltip .alabel:hover {
+	color: #000000;
+}
+
+#contenuTooltip .alabel {
+	color: #791E1E;
 }
 
 .alabeldark {
