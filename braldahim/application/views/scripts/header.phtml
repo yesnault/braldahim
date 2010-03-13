@@ -1,8 +1,8 @@
 <? include('headerHead.phtml'); ?>
 <? if($this->user && $this->controleur == "interface") : ?>
- <body onLoad="_get_('/interface/boxes');">
+<body onLoad="_get_('/interface/boxes');">
 <? else: ?>
- <body>
+<body>
 <? endif; ?>
 
 <!--[if IE]>
@@ -19,13 +19,12 @@ Vous pouvez utiliser <a href="http://www.mozilla-europe.org/fr/firefox/">Firefox
 
 <? include('headerMenu.phtml'); ?>
 
-<? if ($this->user && ($this->controleur == "interface")) : ?> 
-  <div id="box_action" class="box_action" style="display:none"></div>
-  <div id="informations" class="box_informations" style="display:none"></div>
-  <div id="box_chargement" class="box_chargement" style="display:block">
-	 <div class="inner" style='background-color:#CC6666'>
-	 	Chargement en Cours<br /><img src="/public/images/wait.gif" />
-	 </div>
-  </div>
+<? if ($this->user && ($this->controleur == "interface")) : ?>
+<div id="box_action" class="box_action" style="display: none"></div>
+	<div id="informations" class="box_informations" style="display: none"></div>
+	<div id="box_chargement" class="box_chargement" style="display: block">
+		<div class="inner" style='background-color: #CC6666'>Chargement en Cours<br />
+	<img src="/public/images/wait.gif" /></div>
+</div>
 <? endif; ?>
 <? include('headerErreurRacine.phtml'); ?>

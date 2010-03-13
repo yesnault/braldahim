@@ -1,64 +1,55 @@
 <? if (isset($this->user) && isset($this->user->email_hobbit) && $this->controleur != "voir") : ?> 
 
-	<div id="header">
-		<div id="frisetopvide">
-			<h1><a href="/">Braldahim - Site</a></h1>
-			
-	 
-	 <div class="inner_top">
-		 <?=$this->escape($this->user->prenom_hobbit);?> <?=$this->escape($this->user->nom_hobbit);?> | 
-		 <? if ($this->user->administrateur === true) : ?>
-		  	<a href="/Administration/" class="menu_lien">Administration</a> |
-		 <? endif; ?>
-		 <? if ($this->user->administrateur === true || $this->user->gestion === true) : ?>
-			 <a href="/Gestion/" class="menu_lien">Gestion</a> |
-		 <? endif; ?>
-		 <a href="/interface/" class="menu_lien">Interface</a> |
-		 <? if ($this->user->gardeEnCours === false) : ?>
-		  	<a href="/Parametres/" class="menu_lien">Param&egrave;tres</a> |
-		 <? endif; ?>
-		 <a href="http://www.braldahim.com">Site</a> | 
-		 <a href="http://www.braldahim.com/bourg">Bourg</a> | 
-		 <a href="http://forums.braldahim.com">Forums</a> | 
-		 <a href="http://wiki.braldahim.com">R&egrave;gles</a> | 
-		 <a href="http://wiki.braldahim.com/wiki/Charte">Charte</a> | 
-		 <a href="http://bugs.braldahim.com">Bugtrack</a> | 
-		 <label class="alabel" style="text-decoration:underline" onClick="javascript:ouvrirWin('/voir/');">Voir</label> | 
-		 <a href="/auth/logout"> D&eacute;connexion </a>
-		 
-		 <? if ($this->user->gardeEnCours === true) : ?>
-		 	| <a href="/Gardiennage/" style="background-color:#FF6347;"> Gardiennage de <?=htmlspecialchars($this->user->prenom_hobbit) ?> <?=htmlspecialchars($this->user->nom_hobbit) ?> (<?=$this->user->id_hobbit?>) en cours</a>
-		 <? endif; ?>
-		 
-		 <div style='line-height : 20px;'>
-		  <? if ($this->user->administrateur === true) : ?>
-		  	<span class='alabel' onClick='_get_("/administrationajax/doaction?caction=do_administrationajax_activeradminvue");'>[Admin Vue]</span>
-			Admin info <input type="hidden" id='admin_info_1' class=''>&nbsp;</span>
-			 <input type="hidden" id='admin_info_2' class=''>&nbsp;</span>
-		  <? endif; ?>
-		  <?=Bral_Helper_Calendrier::affiche();?>
-		  <? Zend_Loader::loadClass("Bral_Helper_Lune"); echo Bral_Helper_Lune::affiche(); ?>
-		  
-		  <? if ($this->controleur == "interface") : ?>
-				<span id="message_nb_img" style="float:right; display:none; margin-top:2px;" >
-				 	<img id="img_message_ancien" src="/public/images/uddeim/env.gif" alt="" border="0" style="display:none"/>
-					<img id="img_message_nouveau" src="/public/images/uddeim/env_ani.gif" alt="" border="0" style="display:none"/>
-				</span>
-				<span id="message_nb" style="float:right; display:none;margin-top:2px;">
-					<label id="message_nb_label" class="alabel" style="text-decoration:underline" onClick='Javascript:_get_("/interface/load/?box=box_messagerie");my_switch("box_messagerie","boite_c");	'></label>
-				</span>
-			<? endif; ?>
-			
-		  <? Zend_Loader::loadClass("Bral_Helper_Carnet"); echo Bral_Helper_Carnet::affiche($this->user); ?>
-		  
-		  
-			
+<div id="header">
+	<div id="frisetopvide">
+		<h1><a href="/">Braldahim - Site</a></h1>
+		 <div class="inner_top">
+			 <?=$this->escape($this->user->prenom_hobbit);?> <?=$this->escape($this->user->nom_hobbit);?> | 
+			 <? if ($this->user->administrateur === true) : ?>
+			  	<a href="/Administration/" class="menu_lien">Administration</a> |
+			 <? endif; ?>
+			 <? if ($this->user->administrateur === true || $this->user->gestion === true) : ?>
+				 <a href="/Gestion/" class="menu_lien">Gestion</a> |
+			 <? endif; ?>
+			 <a href="/interface/" class="menu_lien">Interface</a> |
+			 <? if ($this->user->gardeEnCours === false) : ?>
+			  	<a href="/Parametres/" class="menu_lien">Param&egrave;tres</a> |
+			 <? endif; ?>
+			 <a href="http://www.braldahim.com">Site</a> | 
+			 <a href="http://www.braldahim.com/bourg">Bourg</a> | 
+			 <a href="http://forums.braldahim.com">Forums</a> | 
+			 <a href="http://wiki.braldahim.com">R&egrave;gles</a> | 
+			 <a href="http://wiki.braldahim.com/wiki/Charte">Charte</a> | 
+			 <a href="http://bugs.braldahim.com">Bugtrack</a> | 
+			 <label class="alabel" style="text-decoration:underline" onClick="javascript:ouvrirWin('/voir/');">Voir</label> | 
+			 <a href="/auth/logout"> D&eacute;connexion </a>
+			 
+			 <? if ($this->user->gardeEnCours === true) : ?>
+			 	| <a href="/Gardiennage/" style="background-color:#FF6347;"> Gardiennage de <?=htmlspecialchars($this->user->prenom_hobbit) ?> <?=htmlspecialchars($this->user->nom_hobbit) ?> (<?=$this->user->id_hobbit?>) en cours</a>
+			 <? endif; ?>
+			 
+			 <div style='line-height : 20px;'>
+			  <? if ($this->user->administrateur === true) : ?>
+			  	<span class='alabel' onClick='_get_("/administrationajax/doaction?caction=do_administrationajax_activeradminvue");'>[Admin Vue]</span>
+				Admin info <input type="hidden" id='admin_info_1' class=''>&nbsp;</span>
+				 <input type="hidden" id='admin_info_2' class=''>&nbsp;</span>
+			  <? endif; ?>
+			  <?=Bral_Helper_Calendrier::affiche();?>
+			  <? Zend_Loader::loadClass("Bral_Helper_Lune"); echo Bral_Helper_Lune::affiche(); ?>
+			  
+			  <? if ($this->controleur == "interface") : ?>
+					<span id="message_nb_img" style="float:right; display:none; margin-top:2px;" >
+					 	<img id="img_message_ancien" src="/public/images/uddeim/env.gif" alt="" border="0" style="display:none"/>
+						<img id="img_message_nouveau" src="/public/images/uddeim/env_ani.gif" alt="" border="0" style="display:none"/>
+					</span>
+					<span id="message_nb" style="float:right; display:none;margin-top:2px;">
+						<label id="message_nb_label" class="alabel" style="text-decoration:underline" onClick='Javascript:_get_("/interface/load/?box=box_messagerie");my_switch("box_messagerie","boite_c");	'></label>
+					</span>
+				<? endif; ?>
+				
+			  <? Zend_Loader::loadClass("Bral_Helper_Carnet"); echo Bral_Helper_Carnet::affiche($this->user); ?>
+			 </div>
 		 </div>
-	 </div>
-		</div>
-		
-		
 	</div>
-	
-	
+</div>
 <? endif; ?>
