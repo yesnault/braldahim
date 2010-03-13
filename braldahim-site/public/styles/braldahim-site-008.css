@@ -35,6 +35,21 @@ body {
 	margin-top: -10px;
 }
 
+#hobbitsite {
+	z-index:1000;
+	background:transparent url(/public/images/hobbit-site.png) no-repeat scroll 0 0;
+	font-size:1px;
+	font-weight:normal;
+	height:340px;
+	margin:0;
+	padding:0;
+	text-indent:-999em;
+	width:330px;
+	position:absolute;
+	margin-top:-130px;
+	margin-left:-150px;
+}
+
 #logo {
 	position: absolute;
 	float: left;
@@ -544,6 +559,18 @@ span.id_hobbit {
 	width:775px;
 }
 
+.box_contenu1 { /* interieur de la boite */
+	background: #C3E691 repeat-x scroll 0pt 0%;
+	padding: 3px;
+	margin: 0px;
+	border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	margin-bottom:2px;
+	color:#000000;
+}
+
 .contenuA,.contenuB {
 	border-width: 0px;
 	border-color: #000000;
@@ -655,13 +682,6 @@ span.id_hobbit {
 	margin: 0px;
 	border: 1px solid #000000;
 }
-
-.box_contenu1 { /* interieur de la boite */
-	background: #003b00 repeat-x scroll 0pt 0%;
-	padding: 0px;
-	margin: 0px;
-}
-
 
 #header {
 	-moz-background-clip:border;
