@@ -1,13 +1,12 @@
+  <ul class="titre textalia textsizec"> Ma Vue</ul>
   <table width="100%">
   <tr>
   	<td width="20%">
-  	
-  	<ul class="titre textalia textsizec"> Ma Vue</ul>
 	  	<? if ($this->centre_nom_region != null) : ?>
 	  		<? $js=Bral_Helper_Tooltip::jsTip(str_replace(array("\r\n", "\r", "\n"),'',nl2br(htmlspecialchars(addslashes($this->centre_description_region)))), "Description de la ".htmlspecialchars($this->centre_nom_region), true) ?>
 	  	<? else: $js=""; ?>
 	  	<? endif; ?>
-	  	<ul class="titre textalia textsized" <?=$js ?>>
+	  	<ul class="box_contenu1 textalia textsized" <?=$js ?>>
 	    <?=$this->centre_nom_region ?>&nbsp;
 	    <? if ($this->est_pvp_region == true) :?>
 	    	<img src='/public/styles/braldahim_defaut/images/type_region/region_pvp.png' alt='region_pvp' title="R&eacute;gion PVP"/>
@@ -22,14 +21,13 @@
 	    <? if ($this->centre_est_capitale) : ?>
 	    	- Capitale
 	    <? endif; ?>
-	    &nbsp;<br /> &nbsp;
 	  </ul>
   	</td>
   	<td width="30%">
   		<? include('boussole.phtml'); ?>
   	</td>
   	<td width="35%">
-	  	<ul class="titre textalib textsized">
+	  	<ul class="box_contenu1 textalib textsized">
 	    Ma Position : X=  <?=$this->user->x_hobbit ?>, Y= <?=$this->user->y_hobbit ?>, 
 	    
 	    <? if ($this->user->z_hobbit != 0):?>
@@ -41,7 +39,7 @@
 	   	 Z= <?=$this->user->z_hobbit ?>
 	    <? endif;?>
 	    <?=$this->centre_environnement ?> <br />
-	  	</ul>	<br /><br />
+	  	</ul>
   	</td>
   </tr>
   </table>

@@ -11,7 +11,7 @@ body {
 	margin-bottom: 0;
 	margin-left: 0px;
 	margin-right: 0px;
-	color:#eeeeee;
+	color:#000000;
 }
 
 #frisebot, #frisetop {
@@ -104,7 +104,7 @@ input.button1:active {
 }
 
 input.button1:disabled {
-	background-color:#628b28;
+	background-color:#eeeeee;
 	background-position: 0pt 100%;
 	border: 1px solid #BCBCBC;
 	color: #BCBCBC;
@@ -117,6 +117,11 @@ input.button1:disabled {
 }
 
 a,.alabel {
+	color: #791E1E;
+	text-align: center;
+}
+
+.inner_top a, .inner_top .alabel {
 	color: #eeeeee;
 	text-align: center;
 }
@@ -149,8 +154,6 @@ span.id_hobbit {
 }
 
 #navigation {
-	background-color: #5d8231;
-	/*border: 0px solid #FADC9B;*/
 	margin: 0px;
 	padding: 0px;
 	text-indent: 0px;
@@ -158,10 +161,10 @@ span.id_hobbit {
 }
 
 #navigation h3.head {
-	background: #2A5911 url(/public/images/collapsed.gif) no-repeat scroll
+	background: #497621 url(/public/images/collapsed.gif) no-repeat scroll
 		3px 4px;
 	border: 1px solid #2A5911;
-	color: #000000;
+	color: #232323;
 	cursor: pointer;
 	display: block;
 	font-size:11px;
@@ -172,7 +175,7 @@ span.id_hobbit {
 }
 
 #navigation h3.head:hover {
-	color: #eeeeee;
+	color: #003b00;
 }
 
 #navigation h3.selected {
@@ -237,7 +240,7 @@ span.id_hobbit {
 }
 
 .onglet.inactif {
-	background-color: #2a5911;
+	background-color: #497621;
 }
 
 .onglet:hover {
@@ -471,18 +474,17 @@ span.id_hobbit {
 
 .textsizea {
 	font-size: 2em;
-		color: #f0ae21;
-	
+	color: #f0ae21;
 }
 
 .textsizeb {
 	font-size: 1.4em;
-	color: #f0ae21;
+	color: #0E0E0E;
 }
 
 .textsizec {
 	font-size: 1.2em;
-	color: #f0ae21;
+	color: #0E0E0E;
 }
 
 .textsized {
@@ -671,19 +673,23 @@ span.id_hobbit {
 }
 
 .box_contenu1 { /* interieur de la boite */
-	background: #628b28 repeat-x scroll 0pt 0%;
-	padding: 0px;
+	background: #C3E691 repeat-x scroll 0pt 0%;
+	padding: 3px;
 	margin: 0px;
-}
-
-.box_contenu2Clair {
-	background-color: #eeeeee;
-	padding: 0px;
-	margin: 0px;
+	border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	margin-bottom:2px;
 }
 
 .box_contenu2Fonce {
 	background-color: #ffd363;
+	padding: 0px;
+	margin: 0px;
+}
+
+.box_contenu3 {
 	padding: 0px;
 	margin: 0px;
 }
@@ -774,8 +780,8 @@ table.table_liste {
 }
 
 thead.table_liste,tfoot.table_liste {
-	color: #000000;
-	background-color: #2a5911;
+	color: #232323;
+	background-color: #497621;
 	border: 1px solid #000000;
 	text-align: center;
 }
@@ -793,7 +799,7 @@ th.table_liste {
 	text-align: center;
 }
 tr.table_liste0 {
-	background: #5d8231;
+	background: #C3E691;
 }
 
 tr.table_liste1 {
@@ -1148,21 +1154,23 @@ td.champ2d.jachere { background: url('/public/styles/braldahim_defaut/images/cha
 /* ************************************************ */
 table.vue2d {
 	text-align: center;
-	border-spacing: 1px;
+	border-spacing: 0px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #000000;
+	
 }
 
 td.vue2d {
-	border-style: solid;
-	border-color: #eeeeee;
-	border-spacing: 0;
-	border-spacing: 0px;
 	border-collapse: collapse; 
-	border-width: 0.0pt;
 	font-size: 7pt;
 	vertical-align: top;
 	horizontal-align: center;
 	width: 64px;
 	height: 64px;
+	border-top:1px solid #628B28;
+	border-left:1px solid #628B28;
+	background-color:#F1D499;
 }
 
 td.vue2d.actuelle {
