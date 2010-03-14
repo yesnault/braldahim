@@ -46,7 +46,7 @@ body {
 	text-indent:-999em;
 	width:330px;
 	position:absolute;
-	margin-top:-130px;
+	margin-top:-140px;
 	margin-left:-150px;
 }
 
@@ -123,7 +123,7 @@ input.button1:disabled {
 }
 
 a,.alabel {
-	color: #eeeeee;
+	color: #791E1E;
 	text-align: center;
 }
 
@@ -132,7 +132,7 @@ a:hover,.alabel:hover {
 	cursor: pointer;
 }
 
-.afooter{
+.aWhite {
 	color: #eeeeee;
 }
 
@@ -677,6 +677,10 @@ span.id_hobbit {
 }
 	
 .box_contenu { /* interieur de la boite */
+	border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
 	background: #003b00 repeat-x scroll 0pt 0%;
 	padding: 0px;
 	margin: 0px;
@@ -716,13 +720,22 @@ table.table_liste {
 	width: 70%;
 	margin: auto;
 	align: center;
+	color: #232323;
 }
 
 thead.table_liste,tfoot.table_liste {
-	background-color: #5d8231;
+	color: #232323;
+	background-color: #497621;
 	border: 1px solid #000000;
 	text-align: center;
 }
+
+td.table_liste_th {
+	color: #000000;
+	background-color: #2a5911;
+	border: 1px solid #000000;
+}
+
 th.table_liste {
 	padding: 5px;
 	background-color: #000000;
@@ -730,11 +743,11 @@ th.table_liste {
 	text-align: center;
 }
 tr.table_liste0 {
-	background: #2a5911;
+	background: #C3E691;
 }
 
 tr.table_liste1 {
-	background: #;
+	background: #628b28;/*2a5911;*/
 }
 
 td.table_liste_border {

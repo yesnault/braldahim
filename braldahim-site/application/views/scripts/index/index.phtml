@@ -1,45 +1,60 @@
 <ul class="box_contenu textalic">
 	<ul class="titre textalic textsizea">
-	Bienvenue sur Braldahim !
+		Bienvenue sur Braldahim !
 	</ul>
-	<br>
-	<ul class="titre textalic textsized">
-		Le jeu est actuellement en phase de beta-test publique. 
-	</ul>
-	Vous pouvez vous inscrire sur <a href="http://jeu.braldahim.com">http://jeu.braldahim.com</a>
-	et voir comment <a href="http://wiki.braldahim.com/wiki/Bien_d%C3%A9buter">bien débuter</a>.<br>
-	<br>
-	La fin de la phase de Bêta-Test Publique n'est pas encore connue.<br>
-	Tous les comptes créés seront supprimés à la fin de cette phase.<br>
+	<table style="width: 100%" align="center">
+		<tr>
+			<td valign="top" style="width: 150px"></td>
+			<td valign="top">
+			<ul class="box_contenu1" style="width: 250px;">
+				Braldahim est un jeu d'aventures et d'entraide dans lequel les
+				joueurs peuvent incarner un Hobbit.
+				<br>
+				<br>
+				Chaque Hobbit peut exercer un métier et évolue au rythme de 12
+				points d'actions par tranche de 24 heures.
+				<br>
+				<br>
+				Le jeu est entièrement gratuit et ouvert à toute personne disposant
+				d'une adresse mail et d'un accès internet régulier.
+				<br>
+				<br>
+			</ul>
+			</td>
+			<td>
+			<ul class="titre textalic textsized">
+				Le jeu est actuellement en phase de beta-test publique.
+			</ul>
+			Vous pouvez vous inscrire sur <a href="http://jeu.braldahim.com" class="aWhite">http://jeu.braldahim.com</a>
+			et voir comment <a
+				href="http://wiki.braldahim.com/wiki/Bien_d%C3%A9buter" class="aWhite">bien débuter</a>.<br>
+			<br>
+			La fin de la phase de Bêta-Test Publique n'est pas encore connue.<br>
+			Tous les comptes créés seront supprimés à la fin de cette phase.<br>
+			</td>
+		</tr>
+	</table>
 </ul>
 
 <br>
 
 <ul class="box_contenu textalic">
-	<table style="width:100%">
-	<tr>
-		<td style="width:130px" valign="top">
-		<div id="hobbitsite"></div>
-		<td style="width:300px" valign="top">
+	<table style="width: 100%">
+		<tr>
+			<td style="width: 130px" valign="top">
+			<div id="hobbitsite"></div>
+			<td style="width: 200px;" valign="top"><?=$this->render("index/gazette.phtml"); ?>
+			</td>
+			<td style="width: 200px;" valign="top"><?=$this->render("index/annonces.phtml"); ?>
+			</td>
 		
-		<ul class="box_contenu1" style="margin-top:50px">
-		Braldahim est un jeu d'aventures et d'entraide dans lequel les joueurs peuvent incarner un Hobbit.
-<br><br>
-Chaque Hobbit peut exercer un métier et évolue au rythme de 12 points d'actions par tranche de 24 heures.
-<br><br>
-Le jeu est entièrement gratuit et ouvert à toute personne disposant d'une adresse mail et d'un accès internet régulier.
-<br><br>
-		</ul>
-		</td>
-		<td style="width:200px;" valign="top">
-			<?=$this->render("index/gazette.phtml"); ?>
-			
-			<?=$this->render("index/annonces.phtml"); ?>
-		</td>
-	</tr>
+		</tr>
 	</table>
-	
-	<p align="center"><a href="http://www.jeuxweb.org" target="_blank" class="AllLinks">Braldahim est un jeu géré par l'association sans but lucratif JeuxWeb.org </a><br>
-		<a href="http://www.jeuxweb.org" target="_blank"><img src="http://www.mountyhall.com/images/Banner/banner_jw.gif" alt="JeuxWeb" border="0" height="60" width="468"></a>
-	</p>
+
+	<p align="center"><a href="http://www.jeuxweb.org" target="_blank"
+		class="AllLinks">Braldahim est un jeu géré par l'association sans but
+	lucratif JeuxWeb.org </a><br>
+	<a href="http://www.jeuxweb.org" target="_blank"><img
+		src="http://www.mountyhall.com/images/Banner/banner_jw.gif"
+		alt="JeuxWeb" border="0" height="60" width="468"></a></p>
 </ul>

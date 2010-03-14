@@ -651,6 +651,11 @@ div.gridbox_sbdark .odd_sbdark {
 
 div.gridbox_braldahim .objbox {
     background-color:#003b00;
+    color:#000000;
+}
+
+div.gridbox_braldahim .alabel{
+    color:#000000;
 }
 
 div.gridbox_braldahim {
@@ -700,7 +705,7 @@ div.gridbox_braldahim table.obj td {
 }
 div.gridbox_braldahim table.obj{
 	border: 1px solid #000000;
-	background-color:#003b00;
+	background-color:#C3E691;
 }
 div.gridbox_braldahim table.row20px tr td {
 	padding-right:4px;
@@ -718,7 +723,7 @@ div.gridbox_braldahim table.obj tr.rowselected td.cellselected, div.gridbox tabl
 	background-color:#E7C57B;
 }
 div.gridbox_braldahim .odd_braldahim{
-	background-color:#2a5911;
+	background-color:#628b28;
 	white-space : normal;
 }
 div.gridbox_braldahim div.ftr td {
