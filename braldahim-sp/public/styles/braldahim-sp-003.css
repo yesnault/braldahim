@@ -9,7 +9,7 @@
 
 body {
 	font: 11x arial, verdana, sans-serif;
-	background: #003b00;
+	background: #004400;
 	letter-spacing: 0pt;
 	background-position: center top;
 	margin-top: 0;
@@ -24,7 +24,6 @@ body {
 	height:50px;
 	padding:0px;
 	margin-left: -10px;
-	margin-right: -10px;
 }
 
 #frisetop {
@@ -442,7 +441,7 @@ span.id_hobbit {
 	background:#023d04 url(/public/images/degrad.png) repeat-y scroll center top;
 	height:auto;
 	min-height:51px;
-	margin: -5px;
+	margin-top: -10px;
 }
 #menu ul {
 	-moz-background-clip:border;
