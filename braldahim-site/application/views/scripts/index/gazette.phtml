@@ -3,17 +3,18 @@
 	<? 
 	$i = 0; 
 	foreach ($this->histoires as $info) : ?>
-		<table class="table_liste" style="width:300px">
-    	<thead class="table_liste">
+		<table style="width:300px">
+    	<thead>
     
-		<tr class="table_liste<?=($i % 2);$i++; ?>"">
-			<td class="table_liste" style="height:250px;text-align: justify; vertical-align:top">
+		<tr>
+			<td style="height:200px;text-align: justify; vertical-align:top">
 			
+			<ul class="box_contenu<?=($i % 2);$i++; ?>" style="height:200px;text-align: justify; vertical-align:top">
 			Parution le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y \&\a\g\r\a\v\e\; H:i:s ',$info["date_info_jeu"]) ?>
 			<br>
 			<? if ($info["titre_info_jeu"] != null && $info["titre_info_jeu"] != "") :?>
 				<br>
-				<ul class="titre textalic textsized"><?=stripslashes($info["titre_info_jeu"])?></ul>
+				<ul class="titre textalic textsized textdark"><?=stripslashes($info["titre_info_jeu"])?></ul>
 			<? endif;?>
 			
 			<? if (Bral_Util_ConvertDate::get_date_add_time_to_date($info["date_info_jeu"], "36:00:00") > date("Y-m-d H:i:s")): ?>
@@ -33,6 +34,8 @@
 				<br>Les hobbits en discutent
 				<a href="<?=$info["lien_info_jeu"]?>">sur le forum.</a>
 			<? endif;?>
+			
+			</ul>
 			</td>
 		</tr>
 		</thead>

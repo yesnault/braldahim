@@ -123,7 +123,7 @@ input.button1:disabled {
 }
 
 a,.alabel {
-	color: #791E1E;
+	color: #003b00;
 	text-align: center;
 }
 
@@ -571,6 +571,18 @@ span.id_hobbit {
 	color:#000000;
 }
 
+.box_contenu0 { /* interieur de la boite */
+	background: #628b28 repeat-x scroll 0pt 0%;
+	padding: 3px;
+	margin: 0px;
+	border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	margin-bottom:2px;
+	color:#000000;
+}
+
 .contenuA,.contenuB {
 	border-width: 0px;
 	border-color: #000000;
@@ -611,6 +623,10 @@ span.id_hobbit {
 .textsized {
 	font-size: 1.1em;
 	letter-spacing: 1pt;
+}
+
+.textdark {
+	color:#232323;	
 }
 
 .textalia {

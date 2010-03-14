@@ -1,3 +1,4 @@
+<br>
 <ul class="titre textalic textsizeb">L'Office des Palmarès</ul><br>
 
 <table style="width:100%">
@@ -8,7 +9,7 @@
 			Général
 			</ul>
 			<? foreach($this->selection as $s) : ?>
-				<a href="/palmares/<?=$s["url"]?>"><?=$s["nom"]?></a><br>
+				<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br>
 			<? endforeach;?>
 			<br>
 			
@@ -17,7 +18,7 @@
 			</ul>
 			<? if (count($this->selectionRecolteurs) > 0): ?>
 				<? foreach($this->selectionRecolteurs as $s) : ?>
-					<a href="/palmares/<?=$s["url"]?>"><?=$s["nom"]?></a><br>
+					<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br>
 				<? endforeach;?>
 			<? endif; ?>
 			<br>
@@ -26,7 +27,7 @@
 			</ul>
 			<? if (count($this->selectionFabricants) > 0): ?>
 				<? foreach($this->selectionFabricants as $s) : ?>
-					<a href="/palmares/<?=$s["url"]?>"><?=$s["nom"]?></a><br>
+					<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br>
 				<? endforeach;?>
 			<? endif; ?>
 			<br>
@@ -35,7 +36,7 @@
 			</ul>
 			<? if (count($this->selectionRunes) > 0): ?>
 				<? foreach($this->selectionRunes as $s) : ?>
-					<a href="/palmares/<?=$s["url"]?>"><?=$s["nom"]?></a><br>
+					<a href="/palmares/<?=$s["url"]?>" class="aWhite"><?=$s["nom"]?></a><br>
 				<? endforeach;?>
 			<? endif; ?>
 			<br>
