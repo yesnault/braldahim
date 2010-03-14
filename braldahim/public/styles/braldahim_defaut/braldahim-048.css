@@ -117,11 +117,11 @@ input.button1:disabled {
 }
 
 a,.alabel {
-	color: #791E1E;
+	color: #003b00;
 	text-align: center;
 }
 
-.inner_top a, .inner_top .alabel {
+.inner_top a, .inner_bot a, .inner_top .alabel {
 	color: #eeeeee;
 	text-align: center;
 }
@@ -240,171 +240,12 @@ span.id_hobbit {
 }
 
 .onglet.inactif {
-	background-color: #497621;
+	background-color: #5d8231;
 }
 
 .onglet:hover {
-	background-color: #5d8231;
+	background-color: #497621;
 	cursor: pointer;
-}
-
-/* ************************************************ */
-/* ********************** Box *********************** */
-/* ************************************************ */
-
-
-/* Bordures top */
-.xb_t1,.xb_t2,.xb_t3,.xb_t4,.xb_t5,.xb_t6,.xb_t7 {
-	display: block;
-	font-size: 0pt;
-	overflow: hidden;
-}
-
-.xb_t1,.xb_t2 {
-	height: 1px;
-}
-
-.xb_t3,.xb_t4,.xb_t5,.xb_t6 {
-	height: 1px;
-}
-
-.xb_t2,.xb_t3,.xb_t4,.xb_t5,.xb_t6,.xb_t7 {
-	background: #CCCCCC none repeat scroll 0%;
-	border-left: 1px solid #000000;
-	border-right: 1px solid #000000;
-}
-
-.xb_t3 {
-	border-left: 2px solid #000000;
-	border-right: 2px solid #000000;
-}
-
-.xb_t2 {
-	border-left: 2x solid #000000;
-	border-right: 2px solid #000000;
-}
-
-.xb_t1 {
-	background: #000000 none repeat scroll 0%;
-	margin: 0pt 5px;
-	height: 1px;
-}
-
-.xb_t2 {
-	background: #628b28 none repeat scroll 0%;
-	height: 0px;
-	margin: 0pt 5px;
-}
-
-.xb_t3 {
-	background: #628b28 none repeat scroll 0%;
-	height: 1px;
-	margin: 0pt 3px;
-}
-
-.xb_t4 {
-	background: #628b28 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	height: 1px;
-	margin: 0pt 2px;
-}
-
-.xb_t5 {
-	background: #628b28 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	height: 1px;
-	margin: 0pt 1px;
-}
-
-.xb_t6 {
-	background: #628b28 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	height: 0px;
-	margin: 0pt 1px;
-}
-
-.xb_t7 {
-	background: #628b28 none repeat scroll 0%;
-	border-width: 0pt 2x;
-	height: 1px;
-	margin: 0pt 1px;
-}
-
-/* Bordures bottom */
-.xb_b1,.xb_b2,.xb_b3,.xb_b4,.xb_b5,.xb_b6,.xb_b7 {
-	display: block;
-	font-size: 0pt;
-	overflow: hidden;
-}
-
-.xb_b1,.xb_b2 {
-	height: 1px;
-}
-
-.xb_b3,.xb_b4,.xb_b5,.xb_b6 {
-	height: 1px;
-}
-
-.xb_b2,.xb_b3,.xb_b4,.xb_b5,.xb_b6,.xb_b7 {
-	background: #CCCCCC none repeat scroll 0%;
-	border-left: 1px solid #000000;
-	border-right: 1px solid #000000;
-}
-
-.xb_b3 {
-	border-left: 2px solid #000000;
-	border-right: 2px solid #000000;
-}
-
-.xb_b2 {
-	border-left: 2x solid #000000;
-	border-right: 2px solid #000000;
-}
-
-.xb_b1 {
-	background: #000000 none repeat scroll 0%;
-	margin: 0pt 5px;
-	height: 1px;
-}
-
-.xb_b2 {
-	background: #628b28 none repeat scroll 0%;
-	height: 0px;
-	margin: 0pt 5px;
-}
-
-.xb_b3 {
-	background: #628b28 none repeat scroll 0%;
-	height: 1px;
-	margin: 0pt 3px;
-}
-
-.xb_b4 {
-	background: #628b28 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	height: 1px;
-	margin: 0pt 2px;
-}
-
-.xb_b5 {
-	background: #628b28 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	height: 1px;
-	margin: 0pt 1px;
-}
-
-.xb_b6 {
-	background: #628b28 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	height: 0px;
-	margin: 0pt 1px;
-}
-
-.xb_b7 {
-	background: #628b28 none repeat scroll 0%;
-	border-width: 0pt 2x;
-	height: 1px;
-	margin: 0pt 1px;
 }
 
 .box_authentification, .box_pub_login {
@@ -663,6 +504,7 @@ span.id_hobbit {
 	padding: 1pt 10px;
 	display: block;
 	text-align: center;
+	color:#eeeeee;
 }
 
 .box_contenu { /* interieur de la boite */
@@ -781,7 +623,7 @@ table.table_liste {
 
 thead.table_liste,tfoot.table_liste {
 	color: #232323;
-	background-color: #497621;
+	background-color: #5d8231;
 	border: 1px solid #000000;
 	text-align: center;
 }
@@ -1130,6 +972,7 @@ table.champ2d {
 	text-align: center;
 	border-spacing: 1;
 	border-width: 1pt;
+	background:#C2E15F;
 }
 
 td.champ2d {
