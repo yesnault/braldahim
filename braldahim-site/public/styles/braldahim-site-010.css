@@ -448,11 +448,8 @@ span.id_hobbit {
 	-moz-background-clip:border;
 	-moz-background-inline-policy:continuous;
 	-moz-background-origin:padding;
-	border-color: #000000;
-	border-style: solid;
-	border-width: 0pt 1px;
 	display: block;
-	background:#023d04 url(/public/images/degrad.png) repeat-y scroll center top;
+	background:#004400 url(/public/images/degrad.png) repeat-y scroll center top;
 	height:auto;
 	min-height:51px;
 	margin-top: -5px;
