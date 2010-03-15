@@ -4,7 +4,7 @@
 
 body {
 	font: 11px arial, verdana, sans-serif;
-	background: #004400;
+	background: #003b00;
 	letter-spacing: 0pt;
 	background-position: center top;
 	margin-top: 0;
@@ -15,7 +15,7 @@ body {
 }
 
 #frisebot, #frisetop {
-	background:transparent url(/public/images/frise.gif) repeat-x scroll 0 0;
+	background:transparent url(/public/styles/braldahim_defaut/images/layout/frise.gif) repeat-x scroll 0 0;
 	height:50px;
 	padding:0px;
 	margin-left: -10px;
@@ -23,16 +23,16 @@ body {
 
 #frisetop {
 	margin-top: 5px;
-	background:transparent url(/public/images/frise.gif) repeat-x scroll 0 0;
+	background:transparent url(/public/styles/braldahim_defaut/images/layout/frise.gif) repeat-x scroll 0 0;
 }
 
 #frisetopvide {
 	margin-top: 5px;
-	background:transparent url(/public/images/frisevide.gif) repeat-x scroll 0 0;
+	background:transparent url(/public/styles/braldahim_defaut/images/layout/frisevide.gif) repeat-x scroll 0 0;
 }
 
 #frisebot {
-	background:transparent url(/public/images/frise.gif) repeat-x scroll 0 0;
+	background:transparent url(/public/styles/braldahim_defaut/images/layout/frise.gif) repeat-x scroll 0 0;
 	margin-top: -10px;
 }
 
@@ -1143,20 +1143,12 @@ td.cases.actuelle {
 /* ************************************************ */
 
 #menu {
-	-moz-background-clip:border;
-	-moz-background-inline-policy:continuous;
-	-moz-background-origin:padding;
-	display: block;
-	background:#004400 url(/public/images/degrad.png) repeat-y scroll center top;
+	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/degrade.png) repeat-y scroll center top;
 	height:auto;
 	min-height:51px;
 	margin-top: -10px;
 }
 #menu ul {
-	-moz-background-clip:border;
-	-moz-background-inline-policy:continuous;
-	-moz-background-origin:padding;
-	/*background:transparent url(/public/images/menu.gif) repeat-x scroll 0 0;*/
 	height:50px;
 	list-style-type:none;
 	margin:0 auto;
@@ -1176,82 +1168,73 @@ td.cases.actuelle {
 	height:46px;
 }
 #menu li.accueil a {
-	background-image:url(/public/images/menu.gif);
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
 	background-position: 0 0;
 	width:120px;
 }
 #menu li.accueil a:hover {
-	background-image:url(/public/images/menu.gif);
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
 	background-position: 0 -45px;
 }
 #menu li.jouer a {
-	background-image:url(/public/images/menu.gif);
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
 	background-position:-120px 0;
 	width:70px;
 }
 #menu li.jouer a:hover {
-	background-image:url(/public/images/menu.gif);
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
 	background-position:-120px -45px;
 }
 #menu li.bourg a {
-	background-image:url(/public/images/menu.gif);
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
 	background-position:-190px 0;
 	width:110px;
 }
 #menu li.bourg a:hover {
-	background-image:url(/public/images/menu.gif);
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
 	background-position:-190px -45px;
 }
 #menu li.forums a {
-	background-image:url(/public/images/menu.gif);
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
 	background-position:-300px 0;
 	width:95px;
 }
 #menu li.forums a:hover {
-	background-image:url(/public/images/menu.gif);
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
 	background-position:-300px -45px;
 }
 #menu li.regles a {
-	background-image:url(/public/images/menu.gif);
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
 	background-position:-395px 0;
 	width:75px;
 }
 #menu li.regles a:hover {
-	background-image:url(/public/images/menu.gif);
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
 	background-position:-395px -45px;
 }
 #menu li.projet a {
-	background-image:url(/public/images/menu.gif);
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
 	background-position:-480px 0;
 	width:115px;
 }
 #menu li.projet a:hover {
-	background-image:url(/public/images/menu.gif);
+	background-image:url(/public/styles/braldahim_defaut/images/layout/menub.gif);
 	background-position:-480px -45px;
 }
 
 #wrapper {
-	-moz-background-clip:border;
-	-moz-background-inline-policy:continuous;
-	-moz-background-origin:padding;
-	background:#003b00 url(/public/images/degrad.png) repeat-y scroll center top;
+	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/degrade.png) repeat-y scroll center top;
 	height:auto;
 	min-height:290px;
 	margin-top: -10px;
 }
 
 #header {
-	-moz-background-clip:border;
-	-moz-background-inline-policy:continuous;
-	-moz-background-origin:padding;
 	height:50px;
 	position:relative;
 }
 #header h1 {
-	-moz-background-clip:border;
-	-moz-background-inline-policy:continuous;
-	-moz-background-origin:padding;
-	background:transparent url(/public/images/logo.png) no-repeat scroll 0 0;
+	background:transparent url(/public/styles/braldahim_defaut/images/layout/logo.png) no-repeat scroll 0 0;
 	font-size:1px;
 	font-weight:normal;
 	height:60px;
