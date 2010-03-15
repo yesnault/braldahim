@@ -1,0 +1,1 @@
+Recupere ici : http://groups-beta.google.com/group/prototype-core/files?pli=1
