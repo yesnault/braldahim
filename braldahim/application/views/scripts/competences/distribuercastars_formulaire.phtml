@@ -21,7 +21,7 @@
 	 			<?=htmlspecialchars($h["prenom_hobbit"])?> <?=htmlspecialchars($h["nom_hobbit"])?> (<?=$h["id_hobbit"]?>)
 	 			</td>
 	 			<td>
-	 				<input type='text' id='valeur_<?=$i?>' name='valeur_<?=$i?>' value='0' size='3' maxlength='3' onkeypress="chiffres(event);" onblur="if (this.value==''){this.value=0;}" onkeyup="if (this.value==''){this.value='';} var n=0;for (i = 2; i<=$('nb_valeurs').value ; i=i+2) {if ($('valeur_'+i).value != '') {n=parseInt(n * 1)+parseInt($('valeur_'+i).value * 1); }} if ($('cagnottecastars_origine').value < n){n=parseInt(n * 1)-parseInt(this.value * 1); this.value=0 ;} $('cagnottecastars').value=parseInt($('cagnottecastars_origine').value * 1) - parseInt(n * 1); ">
+	 				<input type='text' id='valeur_<?=$i?>' name='valeur_<?=$i?>' value='0' size='5' maxlength='5' onkeypress="chiffres(event);" onblur="if (this.value==''){this.value=0;}" onkeyup="if (this.value==''){this.value='';} var n=0;for (i = 2; i<=$('nb_valeurs').value ; i=i+2) {if ($('valeur_'+i).value != '') {n=parseInt(n * 1)+parseInt($('valeur_'+i).value * 1); }} if ($('cagnottecastars_origine').value < n){n=parseInt(n * 1)-parseInt(this.value * 1); this.value=0 ;} $('cagnottecastars').value=parseInt($('cagnottecastars_origine').value * 1) - parseInt(n * 1); ">
 	 			</td>
 	 		</tr>
 	 	<? endforeach; ?>
