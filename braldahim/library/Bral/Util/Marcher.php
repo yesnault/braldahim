@@ -64,7 +64,7 @@ class Bral_Util_Marcher {
 		$routeTable = new Route();
 		$routes = $routeTable->findByCase($hobbit->x_hobbit, $hobbit->y_hobbit, $hobbit->z_hobbit);
 
-		if (count($routes) == 1) {
+		if (count($routes) == 1 && $routes[0]["est_visible_route"] == "oui") {
 			$retour["estSurRoute"] = true;
 		}
 
