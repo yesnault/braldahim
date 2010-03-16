@@ -713,7 +713,8 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						if ($tabRoutes[0]["type_route"] == "ville") {
 							$css = "pave";
 						} elseif ($tabRoutes[0]["type_route"] == "route") {
-							$css = "route";
+							//$css = "route";
+							$css = "pave";
 						} else {
 							$css .= "-gr";
 						}
