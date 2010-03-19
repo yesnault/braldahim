@@ -61,8 +61,10 @@ class Route extends Zend_Db_Table {
 		$select->from('route', '*')
 		->where('x_route = ?',$x)
 		->where('y_route = ?',$y)
-		->where('z_route = ?',$z)
-		->where('est_visible_route = ?', $estVisible);
+		->where('z_route = ?',$z);
+		if ($estVisible != "toutes") {
+			$select->where('est_visible_route = ?', $estVisible);
+		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}

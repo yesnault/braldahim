@@ -33,7 +33,7 @@ foreach($this->tableau as $k => $case) :
 	
 	if ($this->user->administrationvue == true) {
 		$adminDoubleClickLieu = "OnDblClick=\"Javascript:_get_('/administrationajax/doaction?caction=ask_administrationajax_insererlieu&xy_lieu=".$case["x"]."h".$case["y"]."');\" title='Double-Cliquez pour insérer un nouveau lieu'";
-		$adminDoubleClickRoute = "OnDblClick=\"Javascript:_get_('/administrationajax/doaction?caction=ask_administrationajax_insererroute&xy_route=".$case["x"]."h".$case["y"]."');\" title='Double-Cliquez pour insérer une nouvelle route'";
+		$adminDoubleClickRoute = "OnDbClick=\"Javascript:_get_('/administrationajax/doaction?caction=do_administrationajax_insererroute&xy_route=".$case["x"]."h".$case["y"]."');\" title='Double-Cliquez pour insérer une nouvelle route'";
 	} else {
 		$adminDoubleClickLieu = "";
 		$adminDoubleClickRoute = "";

@@ -15,13 +15,13 @@
 	    <form action="/auth/login" method="post"> 
 	    
 	    <ul class="titre textalic textsized">
-	    <? if ($this->config->general->production == 1) :?>
-			Le jeu est actuellement en phase de beta-test Publique.
-		<? else: ?>
-			<br>
-			Vous &ecirc;tes sur la version B&ecirc;ta Priv&eacute;e du jeu.
-		<? endif;?>
-	</ul>
+		    <? if ($this->config->general->production == 1) :?>
+				Le jeu est actuellement en phase de beta-test Publique.
+			<? else: ?>
+				<br>
+				Vous &ecirc;tes sur la version B&ecirc;ta Priv&eacute;e du jeu.
+			<? endif;?>
+		</ul>
 	<div id="hobbitjeu"></div>
 	
 		    <br />

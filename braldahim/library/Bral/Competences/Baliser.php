@@ -43,7 +43,7 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		$hobbitTable = new Hobbit();
 		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 		$routeTable = new Route();
-		$routes = $routeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$routes = $routeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, "toutes");
 
 		$zoneTable = new Zone();
 		$zone = $zoneTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);

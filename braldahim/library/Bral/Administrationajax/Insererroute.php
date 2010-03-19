@@ -56,7 +56,7 @@ class Bral_Administrationajax_Insererroute extends Bral_Administrationajax_Admin
 		$this->calculRoute($xRoute, $yRoute);
 	}
 
-	function calculRoute($xRoute, $yRoute) {
+/*	function calculRoute($xRoute, $yRoute) {
 		$typeRoute = "route";
 
 		$routeTable = new Route();
@@ -87,6 +87,7 @@ class Bral_Administrationajax_Insererroute extends Bral_Administrationajax_Admin
 
 	}
 
+*/
 	/*function calculResultat($xRoute, $yRoute) {
 		$xRoute = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));
 		$yRoute = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_2"));
