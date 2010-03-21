@@ -74,10 +74,9 @@ class InscriptionController extends Zend_Controller_Action {
 					$hobbit->id_fk_pere_hobbit =  $dataParents["id_fk_pere_hobbit"];
 					$hobbit->id_fk_mere_hobbit =  $dataParents["id_fk_mere_hobbit"];
 
+					$e = "";
 					if ($hobbit->sexe_hobbit == "feminin") {
 						$e = "e";
-					} else {
-						$e = "";
 					}
 
 					$details = $hobbit->prenom_hobbit ." ".$hobbit->nom_hobbit." (".$hobbit->id_hobbit.") est apparu".$e." sur Braldahim";
@@ -93,7 +92,7 @@ class InscriptionController extends Zend_Controller_Action {
 
 					Zend_Loader::loadClass("Bral_Util_Quete");
 					Bral_Util_Quete::creationQueteInitiatique($hobbit, $this->view->config);
-					
+						
 					Zend_Loader::loadClass("Bral_Util_Messagerie");
 					$message = $this->view->render("inscription/messagepnj.phtml");
 					Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->inscription->id_hobbit, $hobbit->id_hobbit, $message, $this->view);
@@ -127,8 +126,10 @@ class InscriptionController extends Zend_Controller_Action {
 
 		$regions = null;
 		foreach ($regionsRowset as $r) {
-			$regions[$r["id_region"]]["nom"] = $r["nom_region"];
-			$regions[$r["id_region"]]["est_pvp"] = $r["est_pvp_region"];
+			if ($r["id_region"] == 1 || $r["id_region"] == 3) {
+				$regions[$r["id_region"]]["nom"] = $r["nom_region"];
+				$regions[$r["id_region"]]["est_pvp"] = $r["est_pvp_region"];
+			}
 		}
 
 		if ($this->_request->isPost()) {
@@ -264,7 +265,7 @@ class InscriptionController extends Zend_Controller_Action {
 		// Mairie aleatoire dans la region
 		Zend_Loader::loadClass("TypeLieu");
 		$lieuTable = new Lieu();
-		$lieuxRowset = $lieuTable->findByTypeAndRegion(TypeLieu::ID_TYPE_HOPITAL, $this->id_region, "non");
+		$lieuxRowset = $lieuTable->findByTypeAndRegion(TypeLieu::ID_TYPE_HOPITAL, $this->id_region, "non", "oui");
 		$de = Bral_Util_De::get_de_specifique(0, count($lieuxRowset)-1);
 		$lieu = $lieuxRowset[$de];
 
@@ -389,7 +390,7 @@ class InscriptionController extends Zend_Controller_Action {
 			$message = $detailsBot.PHP_EOL.PHP_EOL." Signé Irène Doucelac".PHP_EOL."Inutile de répondre à ce message.";
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $couple["id_fk_m_hobbit_couple"], $message, $this->view);
 			Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $couple["id_fk_f_hobbit_couple"], $message, $this->view);
-				
+
 			Bral_Util_Log::inscription()->notice("InscriptionController - calculParent - utilisation d'un couple existant (m:".$couple["id_fk_m_hobbit_couple"]." f:".$couple["id_fk_f_hobbit_couple"]." enfants:".$nombreEnfants.")");
 		} else { // pas de couple dispo, on tente d'en creer un nouveau
 			$dataParents = $this->creationCouple($idHobbit);
@@ -430,12 +431,12 @@ class InscriptionController extends Zend_Controller_Action {
 
 				Bral_Util_Evenement::majEvenements($pere["id_hobbit"], $this->view->config->game->evenements->type->famille, $detailEvenement, $detailsBot, $pere["niveau_hobbit"], "hobbit", true, $this->view);
 				Bral_Util_Evenement::majEvenements($mere["id_hobbit"], $this->view->config->game->evenements->type->famille, $detailEvenement, $detailsBot, $mere["niveau_hobbit"], "hobbit", true, $this->view);
-				
+
 				Zend_Loader::loadClass("Bral_Util_Messagerie");
 				$message = $detailsBot.PHP_EOL.PHP_EOL." Signé Irène Doucelac".PHP_EOL."Inutile de répondre à ce message.";
 				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $mere["id_hobbit"], $message, $this->view);
 				Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->naissance->id_hobbit, $pere["id_hobbit"], $message, $this->view);
-				
+
 				Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - creation d'un nouveau couple");
 			} else {
 				Bral_Util_Log::tech()->notice("InscriptionController - creationCouple - plus de hobbit f disponible");

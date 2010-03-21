@@ -716,8 +716,11 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if (count($tabRoutes) >= 1) {
 						if ($tabRoutes[0]["type_route"] == "ville") {
 							$css = "pave";
+						} elseif ($tabRoutes[0]["type_route"] == "echoppe") {
+							$css = "pave";
 						} elseif ($tabRoutes[0]["type_route"] == "route") {
 							//$css = "route";
+							//TODO A modifier en VF
 							if ($this->view->user->administrationvue === true) {
 								$css = "route";
 							} else {

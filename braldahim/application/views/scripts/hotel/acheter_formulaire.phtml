@@ -14,6 +14,10 @@
 		<? $this->materiels = array($this->vente["objet"]); ?>
 		<?=$this->render("/interface/commun/materiels/materiels.phtml"); ?>
 	<? elseif ($this->vente["vente"]["type_vente"] == "equipement"): ?>
+		
+		<? if (floor($this->user->niveau_hobbit / 10) < $this->vente["objet"]["niveau"]) : ?>
+			Attention ! Vous n'avez pas le niveau requis pour équiper cette pièce.
+		<? endif;?>
 		<?  
 			$equipements = null;
 			$equipements[$this->vente["objet"]["id_type_emplacement"]]["equipements"][] = $this->vente["objet"];

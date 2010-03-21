@@ -20,6 +20,8 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		Zend_Loader::loadClass('Bral_Util_Marcher');
 		Zend_Loader::loadClass('Bral_Util_Quete');
 
+		$this->view->routeTrouvee = false;
+
 		$utilMarcher = new Bral_Util_Marcher();
 
 		$calcul = $utilMarcher->calcul($this->view->user, null, true);
@@ -64,8 +66,14 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 			$this->view->route = $routes[0];
 		}
 
-		if (count($monstres) <= 0 && count($hobbits) == 1 && count($palissades) <= 0 && $this->view->route == null && $this->estEnvironnementValid($this->environnement)) {
+		if (count($monstres) <= 0 && count($hobbits) == 1 && count($palissades) <= 0 && $this->estEnvironnementValid($this->environnement)) {
 			$this->view->construireOk = true;
+				
+			if ($this->view->route != null && $this->view->route["est_visible_route"] == "oui") { //|| $this->view->config->general->production == 1) {
+				$this->view->construireOk = false;
+			} else { // route non visible
+				$this->view->construireOk = true;
+			}
 
 			$routesAutour = $routeTable->selectVue($this->view->user->x_hobbit - 1, $this->view->user->y_hobbit - 1, $this->view->user->x_hobbit + 1, $this->view->user->y_hobbit + 1, $this->view->user->z_hobbit);
 			if ($routesAutour != null && count($routesAutour) > 0 && $this->view->tableau != null) {
@@ -115,7 +123,11 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		$this->calculJets($bmJet1);
 
 		if ($this->view->okJet1 === true) {
-			$this->calculBaliser();
+			if ($this->view->route == null) {
+				$this->calculBaliser();
+			} else {
+				$this->calculDecouverteRoute();
+			}
 			$this->view->estQueteEvenement = Bral_Util_Quete::etapeConstuire($this->view->user, $this->nom_systeme);
 		}
 
@@ -123,6 +135,14 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		$this->calculPoids();
 		$this->calculBalanceFaim();
 		$this->majHobbit();
+	}
+
+	private function calculDecouverteRoute() {
+		$routeTable = new Route();
+		$data = array("est_visible_route" => "oui");
+		$where = "id_route = ".$this->view->route["id_route"];
+		$routeTable->update($data, $where);
+		$this->view->routeTrouvee = true;
 	}
 
 	private function calculBaliser() {
@@ -182,11 +202,11 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		if ($this->view->construireRouteContinueOk == true) {
 			$x_y = $this->request->get("valeur_1");
 			list ($offset_x, $offset_y) = split("h", $x_y);
-				
+
 			if ($offset_x != 0 && $offset_y != 0) {
 				$this->view->deplacement = true;
 			}
-				
+
 			$this->view->user->x_hobbit = $this->view->user->x_hobbit + $offset_x;
 			$this->view->user->y_hobbit = $this->view->user->y_hobbit + $offset_y;
 		}

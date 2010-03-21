@@ -1,4 +1,4 @@
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <form name='myForm'>
  <div class='comp_contenu'>
  	
@@ -29,12 +29,16 @@
 			<? endforeach; ?>
 		</select><br /><br />
 		<br>
+		
+		<!-- TODO A Remettre en VF
 		Où voulez-vous que la roulotte vous dépose après le match ?<br>
 		<select name='valeur_2' id="valeur_2" onChange="javascript:if ($('valeur_1').value==-1 || $('valeur_2').value==-1){$('bouton_inscription').disabled=true } else {$('bouton_inscription').disabled=false }">
 			<option value='-1'>(Choisissez le retour)</option>
 			<option value="1">&Agrave; la position X,Y d'avant match</option>
 			<option value="2">&Agrave; la ville la plus proche du terrain</option>
-		</select><br /><br />
+		</select>
+		-->
+		<br /><br />
 		
 		<? endif; ?>
 	<? endif;?>

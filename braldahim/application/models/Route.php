@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -54,7 +54,17 @@ class Route extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
+	function findAllVisibleHorsBalise() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('route', '*');
+		$select->where('est_visible_route = ?', 'oui')
+		->where('type_route not like ?', "balise");
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
 	function findByCase($x, $y, $z, $estVisible = 'oui') {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -68,7 +78,19 @@ class Route extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
+	function findByCaseHorsBalise($x, $y, $z) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('route', '*')
+		->where('x_route = ?',$x)
+		->where('y_route = ?',$y)
+		->where('z_route = ?',$z)
+		->where('type_route not like ?', "balise");
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
 	function findById($id) {
 		$db = $this->getAdapter();
 		$select = $db->select();

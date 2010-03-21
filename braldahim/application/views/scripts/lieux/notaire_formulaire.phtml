@@ -3,19 +3,24 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='3'>
  <div class='comp_contenu'>
 	
-	Choisissez ce que vous souhaitez acheter 
+	Nombre de PA : <?=$this->paUtilisationLieu?>.<br><br>	
+	
+	Que voulez-vous faire ?
 	<br /> (les champs sont disponibles à partir du niveau 5) : 
 	<br />
 	<select name="valeur_1" id="valeur_1" onChange="_get_('/lieux/doaction?caction=ask_lieu_notaire&valeur_1='+this.value);">
- 		<option value="-1">(Choisissez un type)</option>
-		<? foreach($this->typeAchat as $t) :?>
-			<option value="<?=$t["id_type_achat"] ?>" <?=$t["selected"]?>><?=$t["texte"] ?></option>
+ 		<option value="-1">(Choisissez une action)</option>
+		<? foreach($this->typeAction as $t) :?>
+			<option value="<?=$t["id_type_action"] ?>" <?=$t["selected"]?>><?=$t["texte"] ?></option>
 		<? endforeach; ?>
 	</select>
 	
 	<br /><br />
+	<? if ($this->coutCastars != null) : ?>
+		Coût en castars : <?=$this->coutCastars?>.<br><br>
+	<? endif;?>
  	
- 	<? if ($this->idTypeCourant == "champ") : ?>
+ 	<? if ($this->idTypeCourant == "acheterchamp") : ?>
  	
  		<ul class="titre textalic textsizec">Construction de champs</ul>
  		<br />
@@ -44,7 +49,7 @@
 			<br />
 	   	<? endif; ?>
 	   	
- 	<? elseif ($this->idTypeCourant == "echoppe") : ?>
+ 	<? elseif ($this->idTypeCourant == "acheterechoppe") : ?>
  	
  	 	<ul class="titre textalic textsizec">Construction d'&eacute;choppes</ul>
  		<br />
@@ -88,19 +93,35 @@
 			<? endif; ?>
 		<? endif; ?>
 	
+	<? elseif ($this->idTypeCourant == "deplacerechoppe") : ?>
+		Indiquez la nouvelle position de l'&eacute;choppe : <br />
+		X = <input type='textbox' maxlength='4' size='4' name='valeur_2' id='valeur_2' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
+		<br />
+		Y = <input type='textbox' maxlength='4' size='4' name='valeur_3' id='valeur_3' value='' onkeyup="chiffres(event, true);if($('valeur_2').value=='' || $('valeur_3').value=='') {$('construire_echoppe').disabled=true} else {$('construire_echoppe').disabled=false};">
+		<br />
+	<? elseif ($this->idTypeCourant == "supprimerechoppe") : ?>
+		Confirmer la suppression de cette échoppe ?<br><br>
+		
+		Attention, tout le contenu de l'échoppe sera définitivement détruit.<br><br>
 	<? endif;?>
  </div>
 </form>
 <br />
 
-<? if ($this->idTypeCourant == "champ") : ?>
-	<? if ($this->nChampsPossible > 0 && $this->utilisationPaPossible === true && $this->achatPossible === true) : ?>
-	<input type='button' class='button1' id="acheter_champ" value='Acheter un champ' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_notaire');" disabled>
-	<? endif; ?>
-<? else: ?>
-	<? if ($this->construireMetierPossible === true && $this->aucuneEchoppe === true && $this->utilisationPaPossible === true && $this->achatPossible === true) : ?>
-	<input type='button' class='button1' id="construire_echoppe" value='Construire une &eacute;choppe' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_notaire');" disabled>
-	<? endif; ?>
+<? if ($this->utilisationPaPossible === true && $this->achatPossible === true) : ?>
+	<? if ($this->idTypeCourant == "acheterchamp") : ?>
+		<? if ($this->nChampsPossible > 0) : ?>
+		<input type='button' class='button1' id="acheter_champ" value='Acheter un champ' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_notaire');" disabled>
+		<? endif; ?>
+	<? elseif ($this->idTypeCourant == "acheterechoppe") : ?>
+		<? if ($this->construireMetierPossible === true && $this->aucuneEchoppe === true) : ?>
+		<input type='button' class='button1' id="construire_echoppe" value='Construire une &eacute;choppe' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_notaire');" disabled>
+		<? endif; ?>
+	<? elseif ($this->idTypeCourant == "deplacerechoppe") : ?>
+		<input type='button' class='button1' id="construire_echoppe" value='Déplacer une &eacute;choppe' onClick="this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_notaire');" disabled>
+	<? elseif ($this->idTypeCourant == "supprimerechoppe") : ?>
+		<input type='button' class='button1' id="construire_echoppe" value='Supprimer une &eacute;choppe' onClick="$('nb_valeurs').value=1;this.disabled=true;_get_('/lieux/doaction?caction=do_lieu_notaire');">
+	<? endif;?>
 <? endif;?>
 <br />
 <? echo Bral_Helper_Fermer::affiche(); ?>

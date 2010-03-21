@@ -87,6 +87,8 @@ input.button1 {
 	border-color: #666666;
 	font-size: 11px;
 	border: 1px solid #666666;
+	background-image:
+		url(/public/styles/braldahim_defaut/images/layout/bg_button.gif);
 }
 
 input.button1:hover {

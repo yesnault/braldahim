@@ -23,8 +23,35 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 		$retour = null;
 
 		$retour .= $this->calculCreation();
+		$retour .= $this->suppressionBosquetSurRouteVisible();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBosquets - calculBatchImpl - exit -");
+		return $retour;
+	}
+
+	private function suppressionBosquetSurRouteVisible() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBosquets - suppressionBosquetSurRouteVisible - enter -");
+		$retour = "";
+
+		// Suppression des bosquets partout où il y a une route visible
+		Zend_Loader::loadClass("Route");
+		$routeTable = new Route();
+		$routes = $routeTable->findAllVisibleHorsBalise();
+
+		$where = "";
+		foreach($routes as $r) {
+			$or = "";
+			if ($where != "") {
+				$or = " OR ";
+			}
+				
+			$where .= $or." (x_bosquet = ".$r["x_route"]. " AND y_bosquet = ".$r["y_route"].") ";
+		}
+
+		$bosquetTable = new Bosquet();
+		$bosquetTable->delete($where);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBosquets - suppressionBosquetSurRouteVisible - exit -");
 		return $retour;
 	}
 
@@ -78,7 +105,7 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 					break;
 				}
 			}
-				
+
 			if ($t != null) {
 				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBosquets - traitement du bosquet ".$t["id_type_bosquet"]. " nbMaxMonde(".$t["nb_creation_type_bosquet"].") environnement(".$c["id_fk_environnement_creation_bosquets"].") suptotal(". $superficieTotale[$c["id_fk_type_bosquet_creation_bosquets"]].")");
 				foreach($zones as $z) {
@@ -124,9 +151,9 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 		for($i = 1; $i <= $aCreer; $i++) {
 			$x = Bral_Util_De::get_de_specifique($zone["x_min_zone"], $zone["x_max_zone"]);
 			$y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
-			
+
 			usleep(Bral_Util_De::get_de_specifique(1, 1000000));
-			
+
 			$nbCasesAutour = Bral_Util_De::get_de_specifique(2, 9);
 			for($j=0; $j<=$nbCasesAutour; $j++) {
 				for($k=0; $k<=$nbCasesAutour; $k++) {

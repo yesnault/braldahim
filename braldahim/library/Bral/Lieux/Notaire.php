@@ -26,44 +26,95 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		$regionCourante = null;
 		foreach ($regions as $r) {
 			if ($r["x_min_region"] <= $this->view->user->x_hobbit && $r["x_max_region"] >= $this->view->user->x_hobbit && $r["y_min_region"] <= $this->view->user->y_hobbit && $r["y_max_region"] >= $this->view->user->y_hobbit) {
-				$this->regionCourante = $r;
+				$this->view->regionCourante = $r;
 				break;
 			}
 		}
 
-		if ($this->regionCourante == null) {
+		if ($this->view->regionCourante == null) {
 			throw new Zend_Exception(get_class($this) . " Region inconnue x:" . $this->view->user->x_hobbit . " y:" . $this->view->user->y_hobbit);
 		}
-		$this->view->tabRegionCourante = $this->regionCourante;
+		$this->view->tabRegionCourante = $this->view->regionCourante;
 
-		$idTypeCourant = $this->request->get("valeur_1");
+		$this->idSelection = 0;
+		if ($this->request->get("valeur_1") != null) {
+			list ($this->view->idTypeCourant, $this->idSelection) = split("_", $this->request->get("valeur_1"));
+		}
 
 		$selectedChamp = "";
 		$selectedEchoppe = "";
-		if ($idTypeCourant == "champ") {
+		if ($this->view->idTypeCourant == "acheterchamp") {
 			$selectedChamp = "selected";
-		} else if ($idTypeCourant == "echoppe") {
+		} else if ($this->view->idTypeCourant == "acheterechoppe") {
 			$selectedEchoppe = "selected";
 		}
 
 		if ($this->view->user->niveau_hobbit >= 5) {
-			$tabTypeAchat[] = array("id_type_achat" => "champ", "texte" => "Un champ", "selected" => $selectedChamp);
+			$tabTypeAchat[] = array("id_type_action" => "acheterchamp_0", "texte" => "Acheter un champ", "selected" => $selectedChamp);
 		}
-		$tabTypeAchat[] = array("id_type_achat" => "echoppe", "texte" => "Une échoppe", "selected" => $selectedEchoppe);
+		$tabTypeAchat[] = array("id_type_action" => "acheterechoppe_0", "texte" => "Acheter une échoppe", "selected" => $selectedEchoppe);
 
-		$this->view->idTypeCourant = $idTypeCourant;
-		$this->view->typeAchat = $tabTypeAchat;
+		$this->prepareEchoppes($tabTypeAchat);
+		$this->view->typeAction = $tabTypeAchat;
 
-		if ($this->view->idTypeCourant == "champ") {
-			$this->prepareAchatChamp();
-		} elseif ($this->view->idTypeCourant == "echoppe") {
-			$this->prepareAchatEchoppe();
+		if ($this->view->idTypeCourant == "acheterchamp") {
+			$this->prepareAcheterChamp();
+		} elseif ($this->view->idTypeCourant == "acheterechoppe") {
+			$this->prepareAcheterEchoppe();
+		} elseif ($this->view->idTypeCourant == "deplacerechoppe") {
+			$this->prepareDeplacerEchoppe();
+		} elseif ($this->view->idTypeCourant == "supprimerechoppe") {
+			$this->prepareSupprimerEchoppe();
 		}
 		$this->view->coutCastars = $this->calculCoutCastars();
 		$this->view->achatPossible = (($this->view->user->castars_hobbit - $this->view->coutCastars) >= 0);
 	}
 
-	private function prepareAchatChamp() {
+	private function prepareEchoppes(&$tabTypeAchat) {
+		$echoppesTable = new Echoppe();
+		$echoppesRowset = $echoppesTable->findByIdHobbit($this->view->user->id_hobbit);
+
+		$idRecu = $this->view->idTypeCourant."_".$this->idSelection;
+		
+		$tabEchoppes = null;
+		foreach ($echoppesRowset as $e) {
+			$echoppe = array (
+				"id_echoppe" => $e["id_echoppe"],
+				"x_echoppe" => $e["x_echoppe"],
+				"y_echoppe" => $e["y_echoppe"],
+				"nom_metier" => $e["nom_masculin_metier"],
+				"id_metier" => $e["id_metier"],
+				"id_region" => $e["id_region"],
+				"nom_region" => $e["nom_region"]
+			);
+
+			if ($this->view->tabRegionCourante["id_region"] == $e["id_region"]) {
+				$idDeplacement = "deplacerechoppe_".$e["id_echoppe"];
+				$idSuppression = "supprimerechoppe_".$e["id_echoppe"];
+					
+				$selectedDeplacement = "";
+				$selectedSuppression = "";
+				if ($idRecu == $idDeplacement) {
+					$selectedDeplacement = "selected";
+					$this->echoppeCourante = $echoppe;
+				} elseif ($idRecu == $idSuppression) {
+					$selectedSuppression = "selected";
+					$this->echoppeCourante = $echoppe;
+				}
+					
+				$nom = $e["nom_masculin_metier"]. " x:".$e["x_echoppe"]." y:".$e["y_echoppe"];
+				$tabTypeAchat[] = array("id_type_action" => $idDeplacement, "texte" => "Déplacer l'échoppe ".$nom, "selected" => $selectedDeplacement);
+				$tabTypeAchat[] = array("id_type_action" => $idSuppression, "texte" => "Supprimer l'échoppe ".$nom, "selected" => $selectedSuppression);
+			}
+			
+			$tabEchoppes[] = $echoppe;
+		}
+
+		$this->view->nEchoppes = count($tabEchoppes);
+		$this->echoppes = $tabEchoppes;
+	}
+
+	private function prepareAcheterChamp() {
 		Zend_Loader :: loadClass("Champ");
 		$champsTable = new Champ();
 		$champsRowset = $champsTable->findByIdHobbit($this->view->user->id_hobbit);
@@ -84,26 +135,8 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		$this->view->nChampsPossible = $this->view->nChampsPossibleMax - $this->view->nChamps;
 	}
 
-	private function prepareAchatEchoppe() {
+	private function prepareAcheterEchoppe() {
 		Zend_Loader :: loadClass("HobbitsMetiers");
-
-		$echoppesTable = new Echoppe();
-		$echoppesRowset = $echoppesTable->findByIdHobbit($this->view->user->id_hobbit);
-
-		$tabEchoppes = null;
-		foreach ($echoppesRowset as $e) {
-			$tabEchoppes[] = array (
-				"id_echoppe" => $e["id_echoppe"],
-				"x_echoppe" => $e["x_echoppe"],
-				"y_echoppe" => $e["y_echoppe"],
-				"nom_metier" => $e["nom_masculin_metier"],
-				"id_metier" => $e["id_metier"],
-				"id_region" => $e["id_region"],
-				"nom_region" => $e["nom_region"]
-			);
-		}
-
-		$this->view->nEchoppes = count($tabEchoppes);
 
 		$hobbitsMetiersTable = new HobbitsMetiers();
 		$hobbitsMetierRowset = $hobbitsMetiersTable->findMetiersEchoppeByHobbitId($this->view->user->id_hobbit);
@@ -125,8 +158,8 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 				$this->view->nom_metier_courant = $m["nom_masculin_metier"];
 			}
 
-			if (count($tabEchoppes) > 0) {
-				foreach ($tabEchoppes as $e) {
+			if (count($this->echoppes) > 0) {
+				foreach ($this->echoppes as $e) {
 					if ($e["id_metier"] == $m["id_metier"] && $this->view->tabRegionCourante["id_region"] == $e["id_region"]) {
 						$this->view->aucuneEchoppe = false;
 						break;
@@ -140,14 +173,38 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		}
 	}
 
+	private function prepareDeplacerEchoppe() {
+		$this->verificationEchoppes();
+	}
+
+	private function prepareSupprimerEchoppe() {
+		$this->verificationEchoppes();
+	}
+
+	private function verificationEchoppes() {
+		$trouvee = false;
+		foreach($this->echoppes as $e) {
+			if ($e["id_echoppe"] == $this->idSelection) {
+				$trouvee = true;
+			}
+		}
+		if ($trouvee == false) {
+			throw new Zend_Exception("Erreur Echoppe ".$this->idSelection);
+		}
+	}
+
 	function prepareFormulaire() {
 	}
 
 	function prepareResultat() {
-		if ($this->view->idTypeCourant == "champ") {
+		if ($this->view->idTypeCourant == "acheterchamp") {
 			$this->prepareResultatAchatChamp();
-		} elseif ($this->view->idTypeCourant == "echoppe") {
+		} elseif ($this->view->idTypeCourant == "acheterechoppe") {
 			$this->prepareResultatAchatEchoppe();
+		} elseif ($this->view->idTypeCourant == "deplacerechoppe") {
+			$this->prepareResultatDeplacerEchoppe();
+		} elseif ($this->view->idTypeCourant == "supprimerechoppe") {
+			$this->prepareResultatSupprimerEchoppe();
 		} else {
 			throw new Zend_Exception(get_class($this) . "Erreur val1:" . $this->request->get("valeur_1"). " typeCourant:".$this->view->idTypeCourant);
 		}
@@ -172,13 +229,12 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		);
 		$champTable->insert($data);
 		$this->view->constructionChampOk = true;
-
+		
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		$this->majHobbit();
 	}
 
 	private function prepareResultatAchatEchoppe() {
-
 		if ($this->view->aucuneEchoppe !== true || $this->view->construireMetierPossible !== true || $this->view->achatPossible !== true && $this->utilisationPaPossible !== true) {
 			throw new Zend_Exception(get_class($this) . " Construction interdite");
 		}
@@ -196,9 +252,76 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 				'id_fk_metier_echoppe' => $this->id_metier_courant,
 				'date_creation_echoppe' => date("Y-m-d H:i:s"),
 		);
-		$echoppesTable->insert($data);
+		$idEchoppe = $echoppesTable->insert($data);
 		$this->view->constructionEchoppeOk = true;
 
+		$this->idSelection = $idEchoppe;
+		$this->constructionRoute();
+		
+		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
+		$this->majHobbit();
+	}
+
+	private function constructionRoute() {
+		$routeTable = new Route();
+		// Suppression d'une route s'il y en a une
+		$where = "x_route = ".$this->view->x_construction. " AND y_route=".$this->view->y_construction;
+		$routeTable->delete($where);
+
+		// et construction d'une route d'échoppe
+		$data = array(
+			"x_route" => $this->view->x_construction,
+			"y_route" => $this->view->y_construction,
+			"z_route" => 0,
+			"id_fk_hobbit_route" => null,
+			"id_fk_echoppe_route" => $this->idSelection,
+			"date_creation_route" => date("Y-m-d H:i:s"),
+			"id_fk_type_qualite_route"  => null,
+			"type_route" => "echoppe",
+			"est_visible_route" => 'oui',
+		);
+
+		$idRoute = $routeTable->insert($data);
+	}
+
+	private function prepareResultatDeplacerEchoppe() {
+
+		$this->verificationEchoppes();
+
+		if ($this->verificationPositions() == false) {
+			return;
+		}
+
+		$echoppesTable = new Echoppe();
+		$data = array (
+			'x_echoppe' => $this->view->x_construction,
+			'y_echoppe' => $this->view->y_construction,
+		);
+		$where = "id_echoppe = ".intval($this->idSelection);
+		$echoppesTable->update($data, $where);
+		$this->view->deplacerEchoppeOk = true;
+
+		$routeTable = new Route();
+		// Suppression d'une route s'il y en a une
+		$where = "x_route = ".$this->echoppeCourante["x_echoppe"]. " AND y_route=".$this->echoppeCourante["y_echoppe"];
+		$routeTable->delete($where);
+		
+		$this->constructionRoute();
+		
+		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
+		$this->majHobbit();
+	}
+
+	private function prepareResultatSupprimerEchoppe() {
+		$this->verificationEchoppes();
+
+		$echoppesTable = new Echoppe();
+		$where = "id_echoppe = ".intval($this->idSelection);
+		$echoppesTable->delete($where);
+
+		//Suppression route automatique (cascade)
+		$this->view->supprimerEchoppeOk = true;
+		
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		$this->majHobbit();
 	}
@@ -262,9 +385,20 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 			return false;
 		}
 
+		// on verifie que l'on est pas sur une route
+		Zend_Loader::loadClass("Route");
+		$routeTable = new Route();
+		$routes = $routeTable->findByCaseHorsBalise($x, $y, $z);
+
+		$this->view->construireLieuRouteOk = true;
+		if (count($routes) > 0) {
+			$this->view->construireLieuRouteOk = false;
+			return false;
+		}
+
 		// on verifie que la position est dans la comté de la tentative
 		$this->view->construireRegionOk = true;
-		if ($this->regionCourante["x_min_region"] > $x || $this->regionCourante["x_max_region"] < $x || $this->regionCourante["y_min_region"] > $y || $this->regionCourante["y_max_region"] < $y) {
+		if ($this->view->regionCourante["x_min_region"] > $x || $this->view->regionCourante["x_max_region"] < $x || $this->view->regionCourante["y_min_region"] > $y || $this->view->regionCourante["y_max_region"] < $y) {
 			$this->view->construireRegionOk = false;
 			return false;
 		}
@@ -278,13 +412,15 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 
 	/* la premiere echoppe est gratuite */
 	private function calculCoutCastars() {
-		if ($this->view->idTypeCourant == "echoppe") {
+		if ($this->view->idTypeCourant == "acheterechoppe") {
 			if ($this->view->nEchoppes < 1) {
 				return 0;
 			} else {
 				return 500;
 			}
-		} elseif ($this->view->idTypeCourant == "champ") {
+		} elseif ($this->view->idTypeCourant == "deplacerechoppe" || $this->view->idTypeCourant == "supprimerechoppe") {
+			return 500;
+		} elseif ($this->view->idTypeCourant == "acheterchamp") {
 			return $this->view->nChamps * 10 + 10;
 		}
 	}

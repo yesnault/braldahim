@@ -1,7 +1,7 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
 
-<? if ($this->route != null) : ?>
+<? if ($this->route != null && $this->config->general->production == 1) : //TODO à supprimer en VF. ?>
 	Bizarre, bizarre... Soit un sentier existe d&eacute;j&agrave;, soit vous ne pouvez pas baliser cette case...
 <? else : ?>
 	<? if ($this->construireOk == true) : ?>

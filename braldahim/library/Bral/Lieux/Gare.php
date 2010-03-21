@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -21,6 +21,31 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 		$this->_coutCastars = $this->calculCoutCastars();
 		$this->_utilisationPossible = (($this->view->user->castars_hobbit -  $this->_coutCastars) >= 0);
 
+		if ($this->view->config->general->production == 1) {
+			$this->prepareDestinationsBeta(); //TODO a supprimer en VF.
+		} else {
+			$this->prepareDestinations();
+		}
+
+	}
+
+	function prepareDestinations() {
+		$lieuTable = new Lieu();
+		$gareCourant = $lieuTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
+		$gareCourant = $gareCourant[0];
+
+		Zend_Loader::loadClass("RouteNumero");
+		$routeNumeroTable = new RouteNumero();
+		$routes = $routeNumeroTable->findOuverteByIdLieu($gareCourant["id_lieu"], $gareCourant["est_capitale_ville"]);
+
+		if (count($routes) > 0) {
+			foreach($routes as $e) {
+				$this->_tabDestinations[] = array("id_lieu" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => ($e["est_capitale_ville"] == "oui")) ;
+			}
+		}
+	}
+
+	function prepareDestinationsBeta() {
 		Zend_Loader::loadClass("TypeLieu");
 		$lieuTable = new Lieu();
 		$gareCourant = $lieuTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
@@ -34,7 +59,7 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 				$est_capitale = ($e["est_capitale_ville"] == "oui");
 				if ($gareCourant["est_capitale_ville"] == "oui") {
 					// deplacement vers les ville de la Comté et vers les capitales
-					if ($est_capitale === true) { 
+					if ($est_capitale === true) {
 						$this->_tabDestinations[] = array("id_lieu" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
 					} else if ($gareCourant["id_fk_region_ville"] == $e["id_fk_region_ville"]) {
 						$this->_tabDestinations[] = array("id_lieu" => $e["id_lieu"], "nom" => $e["nom_lieu"], "x" => $e["x_lieu"], "y" => $e["y_lieu"], "est_capitale" => $est_capitale) ;
@@ -59,12 +84,12 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 		$idDestination = intval($this->request->get("valeur_1"));
 		$xDestination = null;
 		$yDestination = null;
-		
+
 		// verification qu'il y a assez de castars
 		if ($this->_utilisationPossible == false) {
 			throw new Zend_Exception(get_class($this)." Achat impossible : castars:".$this->view->user->castars_hobbit." cout:".$this->_coutCastars);
 		}
-		
+
 		// verification que la destination etait bien dans la liste des destinations proposees
 		$destinationOk = false;
 		foreach($this->_tabDestinations as $d) {
@@ -84,7 +109,7 @@ class Bral_Lieux_Gare extends Bral_Lieux_Lieu {
 		$this->view->user->x_hobbit = $xDestination;
 		$this->view->user->y_hobbit = $yDestination;
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
-		
+
 		$this->majHobbit();
 	}
 

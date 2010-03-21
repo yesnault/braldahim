@@ -1,7 +1,10 @@
 <? include("commun_text_resultat.phtml") ?>
 
 <? if ($this->okJet1 === true): ?>
-
+	
+	<? if ($this->routeTrouvee) : ?>
+		Vous avez découvert une ancienne route. Félicitations !
+	<? else: ?>
 		Vous avez balisé un sentier !<br />
 		
 		Ce sentier a les caract&eacute;ristiques suivantes : <br />
@@ -17,4 +20,5 @@
 			<? endif;?>
 		Vous avez balisé à côté d'un autre sentier balisé, vous avez donc bénéficié de -10% sur votre jet d'action.
 		<? endif;?>
+	<? endif;?>
 <? endif; ?>
