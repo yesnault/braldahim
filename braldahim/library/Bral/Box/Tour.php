@@ -194,7 +194,10 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			$this->hobbit->bm_defense_hobbit = 0;
 			$this->hobbit->duree_bm_tour_hobbit = 0;
 			$this->hobbit->bm_marcher_hobbit = 0;
-
+			
+			// Nouvelle DLA
+			$this->hobbit->nb_dla_jouees_hobbit = $this->hobbit->nb_dla_jouees_hobbit + 1;
+			 
 			// Recalcul de l'armure naturelle
 			$this->hobbit->armure_naturelle_hobbit = Bral_Util_Commun::calculArmureNaturelle($this->hobbit->force_base_hobbit, $this->hobbit->vigueur_base_hobbit);
 
@@ -697,7 +700,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 		$this->view->user->est_engage_next_dla_hobbit = $this->hobbit->est_engage_next_dla_hobbit;
 
 		$this->view->user->est_intangible_hobbit = $this->hobbit->est_intangible_hobbit;
-
+		$this->view->user->nb_dla_jouees_hobbit = $this->hobbit->nb_dla_jouees_hobbit;
+		
 		$data = array(
 			'x_hobbit' => $this->hobbit->x_hobbit,
 			'y_hobbit'  => $this->hobbit->y_hobbit,
@@ -741,6 +745,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 			'est_engage_hobbit' => $this->hobbit->est_engage_hobbit,
 			'est_engage_next_dla_hobbit' => $this->hobbit->est_engage_next_dla_hobbit,
 			'est_intangible_hobbit' => $this->hobbit->est_intangible_hobbit,
+			'nb_dla_jouees_hobbit' => $this->hobbit->nb_dla_jouees_hobbit,
 		);
 		$where = "id_hobbit=".$this->hobbit->id_hobbit;
 		$hobbitTable->update($data, $where);

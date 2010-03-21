@@ -311,7 +311,7 @@ class Bral_Util_Attaque {
 
 		$detailsBot .= self::getDetailsBot($hobbitAttaquant, $retourAttaque["cible"], "hobbit", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"] , $retourAttaque["jetDegat"], $retourAttaque["ballonLache"], $retourAttaque["critique"], $retourAttaque["mort"], $retourAttaque["idMatchSoule"]);
 		if ($effetMotSPossible == false) {
-			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $retourAttaque["typeEvenement"], $details, $detailsBot, $hobbitAttaquant->niveau_hobbit); // uniquement en cas de riposte
+			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $retourAttaque["typeEvenement"], $details, $detailsBot, $hobbitAttaquant->niveau_hobbit, null, null, null, null, Bral_Util_Evenement::RIPOSTE); // uniquement en cas de riposte
 		}
 
 		if ($retourAttaque["mort"] == false) {
@@ -359,7 +359,7 @@ class Bral_Util_Attaque {
 		$details .= " qui a esquivé l'attaque";
 		$detailsBot .= self::getDetailsBot($hobbitAttaquant, $retourAttaque["cible"], "hobbit", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"]);
 		if ($effetMotSPossible == false) {
-			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $retourAttaque["typeEvenement"], $details, $detailsBot, $hobbitAttaquant->niveau_hobbit); // uniquement en cas de riposte
+			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $retourAttaque["typeEvenement"], $details, $detailsBot, $hobbitAttaquant->niveau_hobbit, null, null, null, null, Bral_Util_Evenement::RIPOSTE); // uniquement en cas de riposte
 		}
 		Bral_Util_Evenement::majEvenements($retourAttaque["cible"]["id_cible"], $retourAttaque["typeEvenement"], $details, $detailsBot, $retourAttaque["cible"]["niveau_cible"], "hobbit", true, $view);
 		//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
@@ -384,7 +384,7 @@ class Bral_Util_Attaque {
 		$details .= " qui a esquivé parfaitement l'attaque";
 		if ($effetMotSPossible == false) {
 			$detailsBot .= " Riposte de ".$hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.")".PHP_EOL;
-			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $retourAttaque["typeEvenement"], $details, $detailsBot, $hobbitAttaquant->niveau_hobbit); // uniquement en cas de riposte
+			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $retourAttaque["typeEvenement"], $details, $detailsBot, $hobbitAttaquant->niveau_hobbit, null, null, null, null,  Bral_Util_Evenement::RIPOSTE); // uniquement en cas de riposte
 		}
 		Bral_Util_Evenement::majEvenements($retourAttaque["cible"]["id_cible"], $retourAttaque["typeEvenement"], $details, $detailsBot, $retourAttaque["cible"]["niveau_cible"], "hobbit", true, $view);
 		//			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot); // fait dans competence.php avec le détail du résulat
@@ -663,10 +663,12 @@ class Bral_Util_Attaque {
 
 		if ($degatCase || $riposte) {
 			$details .= " (compétence spéciale utilisée) ";
+			$actionEvenement = null;
 			if ($riposte) {
 				$detailsBot .= " Riposte de ".$hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.")".PHP_EOL;
+				$actionEvenement = Bral_Util_Evenement::RIPOSTE;
 			}
-			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit);
+			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit, null, null, null, null, $actionEvenement);
 		}
 
 		if ($tir==false) {

@@ -11,11 +11,15 @@
  * $LastChangedBy$
  */
 class Bral_Util_Evenement {
+	
+	const ATTAQUE_REUSSIE = 'attaque_reussie';
+	const ATTAQUE_ESQUIVEE = 'attaque_esquivee';
+	const RIPOSTE = 'riposte';
 
 	/*
 	 * Mise a jour des Evenements du hobbit / du monstre.
 	 */
-	public static function majEvenements($idConcerne, $idTypeEvenement, $details, $detailsBot, $niveau, $type="hobbit", $estAEnvoyer = false, $view = null, $idMatchSoule = null) {
+	public static function majEvenements($idConcerne, $idTypeEvenement, $details, $detailsBot, $niveau, $type="hobbit", $estAEnvoyer = false, $view = null, $idMatchSoule = null, $actionEvenement = null) {
 		Zend_Loader::loadClass('Evenement');
 		Zend_Loader::loadClass("Bral_Util_Lien");
 		
@@ -32,6 +36,7 @@ class Bral_Util_Evenement {
 				'details_bot_evenement' => $detailsBot,
 				'niveau_evenement' => $niveau,
 				'id_fk_soule_match_evenement' => $idMatchSoule,
+				'action_evenement' => $actionEvenement,
 			);
 		} else {
 			$data = array(
@@ -40,6 +45,7 @@ class Bral_Util_Evenement {
 				'id_fk_type_evenement' => $idTypeEvenement,
 				'details_evenement' => $detailsTransforme,
 				'niveau_evenement' => $niveau,
+				'action_evenement' => $actionEvenement,
 			);
 		}
 		$evenementTable->insert($data);
@@ -49,7 +55,7 @@ class Bral_Util_Evenement {
 		}
 	}
 	
-	public static function majEvenementsFromVieMonstre($idHobbitConcerne, $idMonstreConcerne, $idTypeEvenement, $details, $detailsBot, $niveau, $view) {
+	public static function majEvenementsFromVieMonstre($idHobbitConcerne, $idMonstreConcerne, $idTypeEvenement, $details, $detailsBot, $niveau, $view, $numTourHobbit = null, $numTourMonstre = null, $actionEvenement = null) {
 		Zend_Loader::loadClass('Evenement');
 		Zend_loader::loadClass("Bral_Util_Lien");
 		$evenementTable = new Evenement();
@@ -64,6 +70,9 @@ class Bral_Util_Evenement {
 			'details_evenement' => $detailsTransforme,
 			'details_bot_evenement' => $detailsBot,
 			'niveau_evenement' => $niveau,
+			'tour_hobbit_evenement' => $numTourHobbit,
+			'tour_monstre_evenement' => $numTourMonstre,
+			'action_evenement' => $actionEvenement,
 		);
 		$evenementTable->insert($data);
 		

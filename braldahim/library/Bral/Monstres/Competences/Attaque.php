@@ -150,7 +150,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 				$details = $this->initKo();
 				$detailsBot = $this->getDetailsBotAttaque($this->cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus, $koCible);
 				$id_type_evenement_cible = self::$config->game->evenements->type->ko;
-				Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], null, $id_type_evenement_cible, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view);
+				Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], null, $id_type_evenement_cible, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view, $this->cible["nb_dla_jouees_hobbit"], $this->monstre["nb_dla_jouees_monstre"], Bral_Util_Evenement::ATTAQUE_REUSSIE);
 				$this->updateCible();
 			} else {
 				Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible (idm:".$this->monstre["id_monstre"].") - Survie de la cible La cible (".$this->cible["id_hobbit"].") attaquee par Monstre id:".$this->monstre["id_monstre"]. " pvPerdus=".$pvPerdus. " pv_restant_hobbit=".$this->cible["pv_restant_hobbit"]);
@@ -174,7 +174,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 					$detailsBot .= PHP_EOL."Consultez vos événements pour plus de détails.";
 
 					// mise a jour de l'événement avant la riposte
-					Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view);
+					Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view, $this->cible["nb_dla_jouees_hobbit"], $this->monstre["nb_dla_jouees_monstre"], Bral_Util_Evenement::ATTAQUE_REUSSIE);
 
 					Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible (idm:".$this->monstre["id_monstre"].") - La cible (".$this->cible["id_hobbit"].") possede le mot S -> Riposte");
 					$hobbitTable = new Hobbit();
@@ -186,7 +186,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 					Bral_Util_Attaque::attaqueMonstre($hobbitAttaquant, $this->monstre, $jetAttaquant, $jetCible, $jetsDegat, $this->view, false, false, true);
 
 				} else { // si pas de riposte, mise a jour de l'événement
-					Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view);
+					Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view, $this->cible["nb_dla_jouees_hobbit"], $this->monstre["nb_dla_jouees_monstre"], Bral_Util_Evenement::ATTAQUE_REUSSIE);
 				}
 			}
 
@@ -199,14 +199,14 @@ abstract class Bral_Monstres_Competences_Attaque {
 			$id_type_evenement = self::$config->game->evenements->type->attaquer;
 			$details = "[m".$this->monstre["id_monstre"]."] a $verbe le hobbit [h".$this->cible["id_hobbit"]."] qui a esquivé l'attaque";
 			$detailsBot = $this->getDetailsBotAttaque($this->cible, $jetAttaquant, $jetCible);
-			Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view);
+			Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view, $this->cible["nb_dla_jouees_hobbit"], $this->monstre["nb_dla_jouees_monstre"], Bral_Util_Evenement::ATTAQUE_ESQUIVEE);
 		} else {
 			// En cas d'esquive parfaite : Aucun malus appliqué.
 			Bral_Util_Attaque::calculStatutEngage(&$this->cible, true);
 			$id_type_evenement = self::$config->game->evenements->type->attaquer;
 			$details = "[m".$this->monstre["id_monstre"]."] a $verbe le hobbit [h".$this->cible["id_hobbit"]."] qui a esquivé l'attaque parfaitement";
 			$detailsBot = $this->getDetailsBotAttaque($this->cible, $jetAttaquant, $jetCible);
-			Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view);
+			Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view, $this->cible["nb_dla_jouees_hobbit"], $this->monstre["nb_dla_jouees_monstre"], Bral_Util_Evenement::ATTAQUE_ESQUIVEE);
 		}
 
 		return $koCible;
@@ -222,7 +222,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 		$this->cible["date_fin_tour_hobbit"] = date("Y-m-d H:i:s");
 		$id_type_evenement = self::$config->game->evenements->type->kohobbit;
 		$details = "[m".$this->monstre["id_monstre"]."] a mis KO le hobbit [h".$this->cible["id_hobbit"]."]";
-		Bral_Util_Evenement::majEvenementsFromVieMonstre(null, $this->monstre["id_monstre"], $id_type_evenement, $details, $this->monstre["niveau_monstre"], "", $this->view);
+		Bral_Util_Evenement::majEvenementsFromVieMonstre(null, $this->monstre["id_monstre"], $id_type_evenement, $details, $this->monstre["niveau_monstre"], "", $this->view, $this->cible["nb_dla_jouees_hobbit"], $this->monstre["nb_dla_jouees_monstre"], Bral_Util_Evenement::ATTAQUE_REUSSIE);
 
 		return $details;
 	}
