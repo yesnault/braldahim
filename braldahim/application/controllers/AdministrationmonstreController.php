@@ -33,6 +33,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		Zend_Loader::loadClass('TypeMonstre');
 		Zend_Loader::loadClass('Ville');
 		Zend_Loader::loadClass('Zone');
+		Zend_Loader::loadClass('Bral_Util_Niveau');
 
 		Zend_Loader::loadClass('Zend_Filter');
 		Zend_Loader::loadClass('Zend_Filter_StripTags');
@@ -178,6 +179,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		$referenceCourante = null;
 		foreach($this->view->refMonstre as $r) {
 			if (($id_fk_type_ref_monstre == $r["id_type_monstre"]) && ((int)$taille == (int)$r["id_taille_monstre"])) {
+
 				$referenceCourante = array(
 					"id_ref_monstre" => $r["id_ref_monstre"],
 					"id_type_monstre" => $r["id_type_monstre"],
@@ -195,6 +197,9 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 					"taille" => $r["taille"],
 					"nom_type" => $r["nom_type"],
 					"coef_pi_ref_monstre" => $r["coef_pi_ref_monstre"],
+					"coef_pv_ref_monstre" => $r["coef_pv_ref_monstre"],
+					"alea_min_armnat" => $r["alea_min_armnat"],
+					"alea_max_armnat" => $r["alea_min_armnat"],
 				);
 				break;
 			}
@@ -415,6 +420,10 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			$pourcentage_agilite_ref_monstre = $filter->filter($this->_request->getPost('p_agilite'));
 			$vue_ref_monstre = $filter->filter($this->_request->getPost('vue'));
 
+			$max_alea_pourcentage_armure_naturelle_ref_monstre = $filter->filter($this->_request->getPost('alea_max_armnat'));
+			$min_alea_pourcentage_armure_naturelle_ref_monstre = $filter->filter($this->_request->getPost('alea_min_armnat'));
+			$coef_pi_ref_monstre = $filter->filter($this->_request->getPost('coef_pi_ref_monstre'));
+			$coef_pv_ref_monstre = $filter->filter($this->_request->getPost('coef_pv_ref_monstre'));
 
 			if (((int)$id_fk_type_ref_monstre.""!=$id_fk_type_ref_monstre."")) {
 				throw new Zend_Exception(get_class($this)." Valeur invalide. id_fk_type_ref_monstre : ".$id_fk_type_ref_monstre);
@@ -443,6 +452,19 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			if (((int)$vue_ref_monstre.""!=$vue_ref_monstre."")) {
 				throw new Zend_Exception(get_class($this)." Valeur invalide. vue_ref_monstre : ".$vue_ref_monstre);
 			}
+			if (((int)$max_alea_pourcentage_armure_naturelle_ref_monstre.""!=$max_alea_pourcentage_armure_naturelle_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. max_alea_pourcentage_armure_naturelle_ref_monstre : ".$max_alea_pourcentage_armure_naturelle_ref_monstre);
+			}
+			if (((int)$min_alea_pourcentage_armure_naturelle_ref_monstre.""!=$min_alea_pourcentage_armure_naturelle_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. min_alea_pourcentage_armure_naturelle_ref_monstre : ".$min_alea_pourcentage_armure_naturelle_ref_monstre);
+			}
+			if (((float)$coef_pi_ref_monstre.""!=$coef_pi_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. coef_pi_ref_monstre : ".$coef_pi_ref_monstre);
+			}
+			if (((float)$coef_pv_ref_monstre.""!=$coef_pv_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. coef_pv_ref_monstre : ".$coef_pv_ref_monstre);
+			}
+
 			$data = array(
 				"id_fk_type_ref_monstre" => $id_fk_type_ref_monstre,
 				"id_fk_taille_ref_monstre" => $id_fk_taille_ref_monstre,
@@ -453,17 +475,22 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				"pourcentage_sagesse_ref_monstre" => $pourcentage_sagesse_ref_monstre,
 				"pourcentage_force_ref_monstre" => $pourcentage_force_ref_monstre,
 				"vue_ref_monstre" => $vue_ref_monstre,
+				"max_alea_pourcentage_armure_naturelle_ref_monstre" => $max_alea_pourcentage_armure_naturelle_ref_monstre, 
+				"min_alea_pourcentage_armure_naturelle_ref_monstre" => $min_alea_pourcentage_armure_naturelle_ref_monstre, 
+				"coef_pi_ref_monstre" => $coef_pi_ref_monstre, 
+				"coef_pv_ref_monstre" => $coef_pv_ref_monstre, 
 			);
 
 			$refTable = new ReferentielMonstre();
-			if ($this->_request->getParam('update', 0) != 0) {
-				// Mise à jour
+			if ($this->_request->getParam('update', 0) != 0) { // Mise à jour
+				$modifier = true;
 				$where = "id_ref_monstre=".(int)$this->_request->getParam('update', 0);
 				$refTable->update($data, $where);
 			} else {
 				// Insertion
 				$refTable->insert($data);
 			}
+			$this->prepareCommun();
 		} else if ($this->_request->getParam('modifier', 0) != 0) {
 			$modifier = true;
 			$nomAction = 'update/'.$this->_request->getParam('modifier');
@@ -490,12 +517,21 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			"p_agilite" => '',
 			"vue" => '',
 			"coef_pi_ref_monstre" => '',
+			"coef_pv_ref_monstre" => '',
+			"alea_min_armnat" => '',
+			"alea_max_armnat" => '',
 		);
 
-		foreach($this->view->refMonstre as $r) {
-			// si l'on veut modifier une reference, on prepare l'objet
-			if ($this->_request->getParam('modifier', 0) == $r["id_ref_monstre"]) {
-				$referenceCourante = array(
+		$idModifier = $this->_request->getParam('modifier', 0);
+		if ($idModifier > 0) {
+			$id = $idModifier;
+		} else {
+			$id = $this->_request->getParam('update', 0);
+		}
+
+		if ($id > 0) {// si l'on veut modifier une reference, on prepare l'objet
+			$r = $this->view->refMonstre[$id];
+			$referenceCourante = array(
 					"id_ref_monstre" => $r["id_ref_monstre"],
 					"id_type_monstre" => $r["id_type_monstre"],
 					"id_type_groupe_monstre" => $r["id_type_groupe_monstre"],
@@ -508,8 +544,10 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 					"p_agilite" => $r["p_agilite"],
 					"vue" => $r["vue"],
 					"coef_pi_ref_monstre" => $r["coef_pi_ref_monstre"],
-				);
-			}
+					"coef_pv_ref_monstre" => $r["coef_pv_ref_monstre"],
+					"alea_min_armnat" => $r["alea_min_armnat"],
+					"alea_max_armnat" => $r["alea_max_armnat"],
+			);
 		}
 		$this->view->referenceCourante = $referenceCourante;
 	}
@@ -534,6 +572,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		$zonesRowset = $zoneTable->fetchAllAvecEnvironnement();
 		$villesRowset = $villeTable->fetchAll();
 
+		$action = $this->_request->getParam('action');
 
 		foreach($refRowset as $r) {
 			if ($r["genre_type_monstre"] == 'feminin') {
@@ -541,7 +580,17 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			} else {
 				$m_taille = $r["nom_taille_m_monstre"];
 			}
-			$ref[] = array(
+				
+			$nb_pi = 0;
+			for ($n = 0; $n <= $r["niveau_min_ref_monstre"]; $n++) {
+				$nb_pi = $nb_pi + 3 * $n;
+			}
+			$pi_vigueur = round($nb_pi * $r["pourcentage_vigueur_ref_monstre"] / 100);
+			$niveau_vigueur = Bral_Util_Niveau::calculNiveauDepuisPI($pi_vigueur);
+			$estimationPvMin = ((20 + $niveau_vigueur * 4) * 2) * $r["coef_pv_ref_monstre"];
+				
+
+			$ref[$r["id_ref_monstre"]] = array(
 				"id_ref_monstre" => $r["id_ref_monstre"],
 				"nom_type" => $r["nom_type_monstre"],
 				"id_type_monstre" => $r["id_fk_type_ref_monstre"],
@@ -558,12 +607,16 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				"nb_membres_min" => $r["nb_membres_min_type_groupe_monstre"],
 				"nb_membres_max" => $r["nb_membres_max_type_groupe_monstre"],
 				"nom_groupe_monstre" => $r["nom_groupe_monstre"],
+				"coef_pv_ref_monstre" => $r["coef_pv_ref_monstre"],
 				"coef_pi_ref_monstre" => $r["coef_pi_ref_monstre"],
+				"alea_min_armnat" => $r["min_alea_pourcentage_armure_naturelle_ref_monstre"],
+				"alea_max_armnat" => $r["max_alea_pourcentage_armure_naturelle_ref_monstre"],
+				"estimation_pv_min" => $estimationPvMin,
 			);
 		}
 
 		foreach($taillesRowset as $t) {
-			$tailles[] = array(
+			$tailles[$t->id_taille_monstre] = array(
 				"id_taille_monstre" => $t->id_taille_monstre,
 				"nom_feminin" => $t->nom_taille_f_monstre,
 				"nom_masculin" => $t->nom_taille_m_monstre,
@@ -578,7 +631,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		}
 
 		foreach($typesRowset as $t) {
-			$types[] = array(
+			$types[$t["id_type_monstre"]] = array(
 				"id_type_monstre" => $t["id_type_monstre"],
 				"nom_type" => $t["nom_type_monstre"],
 				"nom_groupe_monstre" => $t["nom_groupe_monstre"],
@@ -592,24 +645,25 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			);
 		}
 
-		foreach($zonesRowset as $z) {
-			$nombreMonstres = $monstresTable->countVue($z["x_min_zone"] ,$z["y_min_zone"] ,$z["x_max_zone"] ,$z["y_max_zone"], 0);
-			$nombreCases = ($z["x_max_zone"]  - $z["x_min_zone"] ) * ($z["y_max_zone"]  - $z["y_min_zone"] );
-			if ($nombreMonstres > 0 && $nombreCases > 0) {
-				$couverture = ($nombreMonstres * 100) / $nombreCases;
-			} else {
-				$couverture = 0;
-			}
-
-			$villes = "";
-			foreach($villesRowset as $v) {
-				if ($z["x_min_zone"] <= $v->x_max_ville && $z["x_max_zone"] >= $v->x_min_ville &&
-				$z["y_min_zone"] <= $v->y_max_ville && $z["y_max_zone"] >= $v->y_min_ville) {
-					$villes .= $v->nom_ville.", ";
+		if ($action != "referentiel") {
+			foreach($zonesRowset as $z) {
+				$nombreMonstres = $monstresTable->countVue($z["x_min_zone"] ,$z["y_min_zone"] ,$z["x_max_zone"] ,$z["y_max_zone"], 0);
+				$nombreCases = ($z["x_max_zone"]  - $z["x_min_zone"] ) * ($z["y_max_zone"]  - $z["y_min_zone"] );
+				if ($nombreMonstres > 0 && $nombreCases > 0) {
+					$couverture = ($nombreMonstres * 100) / $nombreCases;
+				} else {
+					$couverture = 0;
 				}
-			}
 
-			$zones[] = array("id_zone" =>$z["id_zone"],
+				$villes = "";
+				foreach($villesRowset as $v) {
+					if ($z["x_min_zone"] <= $v->x_max_ville && $z["x_max_zone"] >= $v->x_min_ville &&
+					$z["y_min_zone"] <= $v->y_max_ville && $z["y_max_zone"] >= $v->y_min_ville) {
+						$villes .= $v->nom_ville.", ";
+					}
+				}
+
+				$zones[] = array("id_zone" =>$z["id_zone"],
 				"x_min" => $z["x_min_zone"] ,
 				"x_max" => $z["x_max_zone"] ,
 				"y_min" => $z["y_min_zone"] ,
@@ -619,18 +673,21 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				"nombre_cases" => $nombreCases,
 				"couverture" => round($couverture, 5),
 				"villes" => $villes
-			);
+				);
+			}
 		}
 
 		$stats["nb_monstres"] = $monstresTable->countAll();
 		$stats["nb_groupes"] = $groupeMonstreTable->countAll();
 		$stats["couverture_globale"] = round(($stats["nb_monstres"] * 100) / ((abs($this->view->config->game->x_min) + $this->view->config->game->x_max) * (abs($this->view->config->game->y_min) + $this->view->config->game->y_max)), 5);
 
-		$this->view->stats = $stats;
-		$this->view->refMonstre = $ref;
+		if ($action != "referentiel") {
+			$this->view->stats = $stats;
+			$this->view->zones = $zones;
+		}
 		$this->view->taillesMonstre = $tailles;
 		$this->view->typesMonstre = $types;
-		$this->view->zones = $zones;
+		$this->view->refMonstre = $ref;
 	}
 
 	function monstreAction() {
@@ -718,7 +775,6 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 	}
 
 	public function repartitionAction() {
-		
 		Zend_Loader::loadClass("CreationNids");
 		Zend_Loader::loadClass("Nid");
 		Zend_Loader::loadClass("Monstre");

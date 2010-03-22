@@ -28,6 +28,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass("Nid");
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
 		Zend_Loader::loadClass("DonjonEquipe");
+		Zend_Loader::loadClass("Bral_Util_Niveau");
 
 		$retour = null;
 
@@ -271,10 +272,10 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$pi_vigueur = round($nb_pi * $p_vigueur / 100);
 
 		// Détermination du nb d'améliorations possibles avec les PI dans chaque caractéristique
-		$niveau_force = $this->calculNiveau($pi_force);
-		$niveau_sagesse = $this->calculNiveau($pi_sagesse);
-		$niveau_agilite = $this->calculNiveau($pi_agilite);
-		$niveau_vigueur = $this->calculNiveau($pi_vigueur);
+		$niveau_force = Bral_Util_Niveau::calculNiveauDepuisPI($pi_force);
+		$niveau_sagesse = Bral_Util_Niveau::calculNiveauDepuisPI($pi_sagesse);
+		$niveau_agilite = Bral_Util_Niveau::calculNiveauDepuisPI($pi_agilite);
+		$niveau_vigueur = Bral_Util_Niveau::calculNiveauDepuisPI($pi_vigueur);
 
 		$force_base_monstre = $this->config->game->inscription->force_base + $niveau_force;
 		$sagesse_base_monstre = $this->config->game->inscription->sagesse_base + $niveau_sagesse;
@@ -294,6 +295,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 
 		//PV
 		$pv_restant_monstre = (20 + $niveau_vigueur * 4) * 2;
+		$pv_restant_monstre = $pv_restant_monstre * $referenceCourante["coef_pv_ref_monstre"];
 
 		//Vue
 		$vue_monstre = $referenceCourante["vue_ref_monstre"];
@@ -430,21 +432,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		return $idTaille;
 	}
 
-	private function calculNiveau($piCaract) {
-		$niveau = 0;
-		$pi = 0;
-		for ($a=1; $a <= 100; $a++) {
-			$pi = $pi + ($a - 1) * $a;
-			if ($pi >= $piCaract) {
-				$niveau = $a;
-				break;
-			}
-		}
-		return $niveau;
-	}
-
 	private function calculPositions($zone_nid, $niveauMonstre) {
-
 		$position["x_min"] = $zone_nid["x_min_zone_nid"];
 		$position["x_max"] = $zone_nid["x_max_zone_nid"];
 		$position["y_min"] = $zone_nid["y_min_zone_nid"];

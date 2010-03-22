@@ -1,139 +1,220 @@
 <?php echo $this->render('header.phtml'); ?>
 <div class="box_administration">
 <div class="inner">
-	<ul class="titre textalia textsizea">Administration</ul>
-    <ul class="titre textalic textsizeb">R&eacute;f&eacute;rentiel Monstres</ul>
-    	&nbsp;
-	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+<ul class="titre textalia textsizea">
+	Administration
+</ul>
+<ul class="titre textalic textsizeb">
+	R&eacute;f&eacute;rentiel Monstres
+</ul>
+&nbsp;
+<div class="contenu">
+<ul class="box_contenu1 textalic">
 
-			<form action="/Administrationmonstre/referentiel/<?=$this->nomAction?>" method="post">
-			<table align='center'>
+	<table>
+	<tr>
+	<td width='60%'>
+
+	<form action="/Administrationmonstre/referentiel/<?=$this->nomAction?>"
+		method="post">
+	<table align='center'>
+		<tr>
+			<td>Type</td>
+			<td><select name="id_type">
+			<? foreach ($this->typesMonstre as $t) : ?>
+				<option value="<?=$t["id_type_monstre"]?>"
+				<?if($this->referenceCourante["id_type_monstre"] == $t["id_type_monstre"]){echo "selected";}?>><?=$t["nom_type"]?></option>
+				<? endforeach; ?>
+			</select></td>
+		</tr>
+		<tr>
+			<td>Taille</td>
+			<td><select name="id_taille">
+			<? foreach ($this->taillesMonstre as $t) : ?>
+				<option value="<?=$t["id_taille_monstre"]?>"
+				<?if($this->referenceCourante["id_taille_monstre"] == $t["id_taille_monstre"]){echo "selected";}?>><?=$t["nom_feminin"]?>
+				/ <?=$t["nom_masculin"]?></option>
+				<? endforeach; ?>
+			</select></td>
 			<tr>
-				<td>
-					Type
-				</td>
-				<td>
-					<select name="id_type">
-					<? foreach ($this->typesMonstre as $t) : ?>
-					<option value="<?=$t["id_type_monstre"]?>"  <?if($this->referenceCourante["id_type_monstre"] == $t["id_type_monstre"]){echo "selected";}?>><?=$t["nom_type"]?></option>
-					<? endforeach; ?>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Taille
-				</td>
-				<td>
-					<select name="id_taille">
-					<? foreach ($this->taillesMonstre as $t) : ?>
-					<option value="<?=$t["id_taille_monstre"]?>" <?if($this->referenceCourante["id_taille_monstre"] == $t["id_taille_monstre"]){echo "selected";}?>><?=$t["nom_feminin"]?> / <?=$t["nom_masculin"]?></option>
-					<? endforeach; ?>
-					</select>
-				</td>
-			<tr>
-			<tr>
-				<td>
-					Niveau Min
-				</td>
-				<td>
-					<input type="textbox" name="niveau_min" onkeypress="chiffres(event);" size="3" maxlength="2" value="<?=$this->referenceCourante["niveau_min"]?>" />
-				</td>
-				</tr>
-			<tr>
-				<td>
-					Niveau Max
-				</td>
-				<td>
-					<input type="textbox" name="niveau_max" onkeypress="chiffres(event);" size="3" maxlength="2" value="<?=$this->referenceCourante["niveau_max"]?>" />
-				</td>
-				</tr>
-			<tr>
-				<td>
-					Force
-				</td>
-				<td>
-					<input type="textbox" name="p_force" onkeypress="chiffres(event);" size="3" maxlength="2" value="<?=$this->referenceCourante["p_force"]?>"/> %
-				</td>
-				</tr>
-			<tr>
-				<td>
-					Sagesse
-				</td>
-				<td> 
-					<input type="textbox" name="p_sagesse" onkeypress="chiffres(event);" size="3" maxlength="2" value="<?=$this->referenceCourante["p_sagesse"]?>" /> %
-				</td>
-				</tr>
-			<tr>
-				<td>
-					Vigueur
-				</td>
-				<td>
-					<input type="textbox" name="p_vigueur" onkeypress="chiffres(event);" size="3" maxlength="2" value="<?=$this->referenceCourante["p_vigueur"]?>" /> %
-				</td>
-				</tr>
-			<tr>
-				<td>
-					Agilit&eacute;
-				</td>
-				<td>
-					<input type="textbox" name="p_agilite" onkeypress="chiffres(event);" size="3" maxlength="2" value="<?=$this->referenceCourante["p_agilite"]?>" /> %
-				</td>
-				</tr>
-			<tr>
-				<td>
-					Vue
-				</td>
-				<td>
-					<input type="textbox" name="vue" onkeypress="chiffres(event);" size="3" maxlength="2"  value="<?=$this->referenceCourante["vue"]?>"/> 
-				</td>
-			</tr>
-			<tr>
-				<td colspan='2'>
-					<? if ($this->modifier === true): ?>
-						<input type="submit" class="button1" name="Modifier" value="Modifier la r&eacute;f&eacute;rence" />
-						<input type="button" class="button1" name="Annuler" value="Annuler" onClick="document.location.href='/Administrationmonstre/referentiel/'" />
-						
-					<? else: ?>
-						<input type="submit" class="button1" name="Ajouter" value="Ajouter une nouvelle r&eacute;f&eacute;rence" />
-					<? endif; ?>
-				</td>
-			</tr>
-			</table>
-			</form>
-		<br /><br />
-			<table align='center'>
-			<th class='comp_titre'>ID</th>
-			<th class='comp_titre'>Type</th>
-			<th class='comp_titre'>Taille</th>
-			<th class='comp_titre'>Niveau Min</th>
-			<th class='comp_titre'>Niveau Max</th>
-			<th class='comp_titre'>% Force</th>
-			<th class='comp_titre'>% Sagesse</th>
-			<th class='comp_titre'>% Vigueur</th>
-			<th class='comp_titre'>% Agilite</th>
-			<th class='comp_titre'>Vue</th>
-			<th class='comp_titre'>Edition</th>
-			<? foreach ($this->refMonstre as $r) : ?>
 				<tr>
-					<td><?=$r["id_ref_monstre"] ?></td>
-					<td><?=$r["nom_type"] ?></td>
-					<td><?=$r["taille"] ?></td>
-					<td><?=$r["niveau_min"] ?></td>
-					<td><?=$r["niveau_max"] ?></td>
-					<td><?=$r["p_force"] ?></td>
-					<td><?=$r["p_sagesse"] ?></td>
-					<td><?=$r["p_vigueur"] ?></td>
-					<td><?=$r["p_agilite"] ?></td>
-					<td><?=$r["vue"] ?> % </td>
-					<td> <input type="button" class="button1" name="Modifier" value="Modifier" onClick="document.location.href='/Administrationmonstre/referentiel/modifier/<?=$r["id_ref_monstre"] ?>';"/></td>
+					<td>Niveau Min</td>
+					<td><input type="textbox" name="niveau_min"
+						onkeypress="chiffres(event);" size="3" maxlength="2"
+						value="<?=$this->referenceCourante["niveau_min"]?>" /></td>
 				</tr>
-			<? endforeach; ?>
-			</table>
-		</ul>
-	</div>
-	&nbsp;
+				<tr>
+					<td>Niveau Max</td>
+					<td><input type="textbox" name="niveau_max"
+						onkeypress="chiffres(event);" size="3" maxlength="2"
+						value="<?=$this->referenceCourante["niveau_max"]?>" /></td>
+				</tr>
+				<tr>
+					<td>Force</td>
+					<td><input type="textbox" name="p_force"
+						onkeypress="chiffres(event);" size="3" maxlength="2"
+						value="<?=$this->referenceCourante["p_force"]?>" /> %</td>
+				</tr>
+				<tr>
+					<td>Sagesse</td>
+					<td><input type="textbox" name="p_sagesse"
+						onkeypress="chiffres(event);" size="3" maxlength="2"
+						value="<?=$this->referenceCourante["p_sagesse"]?>" /> %</td>
+				</tr>
+				<tr>
+					<td>Vigueur</td>
+					<td><input type="textbox" name="p_vigueur"
+						onkeypress="chiffres(event);" size="3" maxlength="2"
+						value="<?=$this->referenceCourante["p_vigueur"]?>" /> %</td>
+				</tr>
+				<tr>
+					<td>Agilit&eacute;</td>
+					<td><input type="textbox" name="p_agilite"
+						onkeypress="chiffres(event);" size="3" maxlength="2"
+						value="<?=$this->referenceCourante["p_agilite"]?>" /> %</td>
+				</tr>
+				<tr>
+					<td>Vue</td>
+					<td><input type="textbox" name="vue" onkeypress="chiffres(event);"
+						size="3" maxlength="4"
+						value="<?=$this->referenceCourante["vue"]?>" /></td>
+				</tr>
+				<tr>
+					<td>Coef PV</td>
+					<td><input type="textbox" name="coef_pv_ref_monstre"
+						onkeypress="chiffres(event);" size="3" maxlength="4"
+						value="<?=$this->referenceCourante["coef_pv_ref_monstre"]?>" /></td>
+				</tr>
+				<tr>
+					<td>Coef PI</td>
+					<td><input type="textbox" name="coef_pi_ref_monstre"
+						onkeypress="chiffres(event);" size="3" maxlength="4"
+						value="<?=$this->referenceCourante["coef_pi_ref_monstre"]?>" /></td>
+				</tr>
+				<tr>
+					<td>ArmNat Min Alea</td>
+					<td><input type="textbox" name="alea_min_armnat" onkeypress="chiffres(event);"
+						size="3" maxlength="4"
+						value="<?=$this->referenceCourante["alea_min_armnat"]?>" /></td>
+				</tr>
+				<tr>
+					<td>ArmNat Max Alea</td>
+					<td><input type="textbox" name="alea_max_armnat" onkeypress="chiffres(event);"
+						size="3" maxlength="4"
+						value="<?=$this->referenceCourante["alea_max_armnat"]?>" /></td>
+				</tr>
+				<tr>
+					<td colspan='2'>
+						<? if ($this->modifier === true): ?> 
+						<input
+						type="submit" class="button1" name="Modifier"
+						value="Modifier la r&eacute;f&eacute;rence" /> <input
+						type="button" class="button1" name="Annuler" value="Annuler"
+						onClick="document.location.href='/Administrationmonstre/referentiel/'" />
+
+						<? else: ?> <input type="submit" class="button1" name="Ajouter"
+						value="Ajouter une nouvelle r&eacute;f&eacute;rence" /> <? endif; ?>
+					</td>
+				</tr>
+	
+	</table>
+	</form>
+	
+	</td>
+	
+	<td>
+	Rappel :
+	<br />
+	Definition des caractéristiques Force, Vigueur, Sagesse, Agilité :
+	<br>
+	<pre style="text-align: left; width: 70%">
+				$nb_pi = Bral_Util_De::get_de_specifique($pi_min, $pi_max);
+				$nb_pi = floor($nb_pi * $referenceCourante["coef_pi_ref_monstre"]);
+				
+				// Application de +/- 5% sur chaque carac
+				$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
+				$p_force = $referenceCourante["pourcentage_force_ref_monstre"] + $alea;
+				$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
+				$p_sagesse = $referenceCourante["pourcentage_sagesse_ref_monstre"] + $alea;
+				$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
+				$p_agilite = $referenceCourante["pourcentage_agilite_ref_monstre"] + $alea;
+				$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
+				$p_vigueur = $referenceCourante["pourcentage_vigueur_ref_monstre"] + $alea;
+				
+				//Calcul des pi pour chaque caractéristique
+				$pi_force = round($nb_pi * $p_force / 100);
+				$pi_sagesse = round($nb_pi * $p_sagesse / 100);
+				$pi_agilite = round($nb_pi * $p_agilite / 100);
+				$pi_vigueur = round($nb_pi * $p_vigueur / 100);
+		</pre>
+	<br>
+	Definition de l'armure naturelle :
+	<br>
+
+	<pre style="text-align: left; width: 70%">
+				$aleaArmNat = Lancé de dé entre ArmNatAleaMin et ArmNatAleaMax.
+				$armure_naturelle_monstre = floor(($force_base_monstre + $vigueur_base_monstre) / 5) + $aleaArmNat;
+		</pre>
+				Définition des PV: 
+				<pre style="text-align: left; width: 70%">
+				$pv_restant_monstre = (20 + $niveau_vigueur * 4) * 2;
+				$pv_restant_monstre = $pv_restant_monstre * $referenceCourante["coef_pv_ref_monstre"];
+</pre>
+
+	<br />
+	<br />
+	</td>
+	</tr>
+	</table>
+	<br />
+	<br />
+
+	<table class="table_liste">
+		<thead class="table_liste">
+			<tr class="table_liste">
+				<th>ID</th>
+				<th>Type</th>
+				<th>Taille</th>
+				<th>Niveau Min</th>
+				<th>Niveau Max</th>
+				<th>% Force</th>
+				<th>% Sagesse</th>
+				<th>% Vigueur</th>
+				<th>% Agilite</th>
+				<th>Vue</th>
+				<th>ArmNat AleaMin</th>
+				<th>ArmNat AleaMax</th>
+				<th>Coef PV</th>
+				<th>Estim pvMin</th>
+				<th>Coef PI</th>
+				<th>Edition</th>
+			</tr>
+		</thead>
+		<? foreach ($this->refMonstre as $r) : ?>
+		<tr>
+			<td><?=$r["id_ref_monstre"] ?></td>
+			<td><?=$r["nom_type"] ?></td>
+			<td><?=$r["taille"] ?></td>
+			<td><?=$r["niveau_min"] ?></td>
+			<td><?=$r["niveau_max"] ?></td>
+			<td><?=$r["p_force"] ?></td>
+			<td><?=$r["p_sagesse"] ?></td>
+			<td><?=$r["p_vigueur"] ?></td>
+			<td><?=$r["p_agilite"] ?></td>
+			<td><?=$r["vue"] ?> %</td>
+			<td><?=$r["alea_min_armnat"] ?></td>
+			<td><?=$r["alea_max_armnat"] ?></td>
+			<td nowrap><?=$r["coef_pv_ref_monstre"] ?></td>
+			<td><?=$r["estimation_pv_min"]?></td>
+			<td><?=$r["coef_pi_ref_monstre"] ?></td>
+			<td><input type="button" class="button1" name="Modifier"
+				value="Modifier"
+				onClick="document.location.href='/Administrationmonstre/referentiel/modifier/<?=$r["id_ref_monstre"] ?>';" /></td>
+		</tr>
+		<? endforeach; ?>
+	</table>
+</ul>
 </div>
+&nbsp;</div>
 </div>
-<?php echo $this->render('footer.phtml'); ?>
+		<?php echo $this->render('footer.phtml'); ?>
