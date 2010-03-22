@@ -470,7 +470,6 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		$data = array('poids_equipement' => $equipement["poids_equipement"]);
 		$where = "id_equipement=".$equipement["id_equipement"];
 		$equipementTable->update($data, $where);
-
 	}
 
 	private function resetVernisBM(&$equipement) {
@@ -544,19 +543,19 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		} elseif ($type == "B") {
 			if ($bmType == "malus") {
 				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
-					$valeur = -3 * $potion["niveau"];
+					$valeur = -$potion["niveau"] - 3;
 				} elseif ($potion["nom_systeme_type_qualite"] == "standard") {
-					$valeur = -2 * $potion["niveau"];
+					$valeur = -$potion["niveau"] - 2;
 				} else {
-					$valeur = - $potion["niveau"];
+					$valeur = -$potion["niveau"] - 1;
 				}
 			} else {
 				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
-					$valeur = $potion["niveau"];
+					$valeur = $potion["niveau"] -1;
 				} elseif ($potion["nom_systeme_type_qualite"] == "standard") {
-					$valeur = 2 * $potion["niveau"];
+					$valeur = $potion["niveau"];
 				} else {
-					$valeur = 3 * $potion["niveau"];
+					$valeur = $potion["niveau"] +1;
 				}
 			}
 		} elseif ($type == "C") { // poids
@@ -589,11 +588,11 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		} elseif ($type == "D") {
 			if ($bmType == "malus") {
 				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
-					$valeur = -$potion["niveau"] -1;
+					$valeur = -$potion["niveau"] - 3;
 				} elseif ($potion["nom_systeme_type_qualite"] == "standard") {
-					$valeur = -$potion["niveau"];
+					$valeur = -$potion["niveau"] - 2;
 				} else {
-					$valeur = -$potion["niveau"] +1;
+					$valeur = -$potion["niveau"] - 1;
 				}
 			} else {
 				if ($potion["nom_systeme_type_qualite"] == "mediocre") {
