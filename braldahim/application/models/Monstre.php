@@ -280,7 +280,9 @@ class Monstre extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('monstre', '*')
 		->from('type_monstre', '*')
+		->from('taille_monstre', '*')
 		->where('monstre.id_fk_type_monstre = type_monstre.id_type_monstre')
+		->where('monstre.id_fk_taille_monstre = taille_monstre.id_taille_monstre')
 		->where('est_mort_monstre = ?', 'non');
 
 		if ($estGibier) {

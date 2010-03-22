@@ -25,11 +25,15 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 				$vue = 0;
 			}
 
-			$cible = $hobbitTable->findHobbitAvecRayon($this->monstre["x_monstre"], $this->monstre["y_monstre"], $vue, $this->monstre["id_fk_hobbit_cible_monstre"], false);
-			if (count($cible) > 0) {
-				$cible = $cible[0];
-				$this->monstre["x_direction_monstre"] = $cible["x_hobbit"];
-				$this->monstre["y_direction_monstre"] = $cible["y_hobbit"];
+			$cibles = $hobbitTable->findHobbitAvecRayon($this->monstre["x_monstre"], $this->monstre["y_monstre"], $vue, $this->monstre["id_fk_hobbit_cible_monstre"], false);
+			if (count($cibles) > 0) {
+				foreach($cibles as $c) {
+					if ($this->peutAttaquer($c)) {
+						$cible = $c;
+						break;
+					}
+				}
+
 				Bral_Util_Log::viemonstres()->debug(get_class($this)." - (idm:".$this->monstre["id_monstre"].") - cible trouvee:".$cible["id_hobbit"]. " x=".$this->monstre["x_direction_monstre"]. " y=".$this->monstre["y_direction_monstre"]);
 			} else {
 				$this->monstre["id_fk_hobbit_cible_monstre"] = null;
@@ -44,8 +48,11 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - (idm:".$this->monstre["id_monstre"].") - pas de cible en cours B");
 			$this->monstre["id_fk_hobbit_cible_monstre"] = null;
 			$cible = self::rechercheNouvelleCible($this->monstre);
+		} else {
+			$this->monstre["x_direction_monstre"] = $cible["x_hobbit"];
+			$this->monstre["y_direction_monstre"] = $cible["y_hobbit"];
 		}
-			
+
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - reperageCible - exit - (idm:".$this->monstre["id_monstre"].")");
 		return $cible;
 	}
@@ -62,7 +69,7 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 		} else {
 			$vue = $vueForcee;
 		}
-			
+
 		$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $vue, 1, $monstre["id_fk_type_monstre"], false, $order);
 		if ($cibles != null) {
 			$cible = $cibles[0];

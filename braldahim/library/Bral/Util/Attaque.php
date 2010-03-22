@@ -397,6 +397,12 @@ class Bral_Util_Attaque {
 	private static function calculAttaqueHobbitRiposte(&$detailsBot, &$retourAttaque, &$hobbitAttaquant, &$hobbitCible, $view, $config, $effetMotSPossible, $degatCase) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculAttaqueHobbitRiposte - enter -");
 
+		$peutRiposter = self::verificationNbRiposte($hobbitAttaquant->nb_dla_jouees_hobbit, $hobbitAttaquant->id_hobbit);
+		if ($peutRiposter != true) {
+			Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculAttaqueHobbitRiposte - ".$hobbitAttaquant->id_hobbit." ne peut pas riposter");
+			return;
+		}
+			
 		if ($effetMotSPossible == true && $retourAttaque["mort"] == false) {
 			$effetMotS = Bral_Util_Commun::getEffetMotS($hobbitCible->id_hobbit);
 			if ($effetMotS != null) {
@@ -990,6 +996,21 @@ class Bral_Util_Attaque {
 		$where = "id_hobbit=".$idHobbit;
 		$hobbitTable = new Hobbit();
 		$hobbitTable->update($data, $where);
+	}
+
+	public static function verificationNbRiposte($numTour, $idHobbit) {
+		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - verificationNbRiposte - enter -");
+		$evenementTable = new Evenement();
+		$nbRiposte = $evenementTable->countByIdHobbitTourCourant($numTour, $idHobbit, Bral_Util_Evenement::RIPOSTE);
+
+		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - verificationNbRiposte - nbRiposte:".$nbRiposte);
+		if ($nbRiposte >= 1) {
+			Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - verificationNbRiposte - exit false");
+			return false;
+		} else {
+			Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - verificationNbRiposte - exit true");
+			return true;
+		}
 	}
 }
 

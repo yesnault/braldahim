@@ -170,20 +170,27 @@ abstract class Bral_Monstres_Competences_Attaque {
 				$effetMotS = Bral_Util_Commun::getEffetMotS($this->cible["id_hobbit"]);
 				$this->updateCible();
 				if ($effetMotS != null) {
-					$detailsBot .= PHP_EOL."Le hobbit ".$this->cible["prenom_hobbit"]." ".$this->cible["nom_hobbit"]." (".$this->cible["id_hobbit"] . ") a riposté.";
-					$detailsBot .= PHP_EOL."Consultez vos événements pour plus de détails.";
+						
+					$peutRiposter = Bral_Util_Attaque::verificationNbRiposte($this->cible["nb_dla_jouees_hobbit"], $this->cible["id_hobbit"]);
+					if ($peutRiposter == true) {
+						Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - ".$this->cible["id_hobbit"]." peut riposter");
+						$detailsBot .= PHP_EOL."Le hobbit ".$this->cible["prenom_hobbit"]." ".$this->cible["nom_hobbit"]." (".$this->cible["id_hobbit"] . ") a riposté.";
+						$detailsBot .= PHP_EOL."Consultez vos événements pour plus de détails.";
 
-					// mise a jour de l'événement avant la riposte
-					Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view, $this->cible["nb_dla_jouees_hobbit"], $this->monstre["nb_dla_jouees_monstre"], Bral_Util_Evenement::ATTAQUE_REUSSIE);
+						// mise a jour de l'événement avant la riposte
+						Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view, $this->cible["nb_dla_jouees_hobbit"], $this->monstre["nb_dla_jouees_monstre"], Bral_Util_Evenement::ATTAQUE_REUSSIE);
 
-					Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible (idm:".$this->monstre["id_monstre"].") - La cible (".$this->cible["id_hobbit"].") possede le mot S -> Riposte");
-					$hobbitTable = new Hobbit();
-					$hobbitRowset = $hobbitTable->find($this->cible["id_hobbit"]);
-					$hobbitAttaquant = $hobbitRowset->current();
-					$jetAttaquant =  Bral_Util_Attaque::calculJetAttaqueNormale($hobbitAttaquant);
-					$jetsDegat = Bral_Util_Attaque::calculDegatAttaqueNormale($hobbitAttaquant);
-					$jetCible = Bral_Util_Attaque::calculJetCibleMonstre($this->monstre);
-					Bral_Util_Attaque::attaqueMonstre($hobbitAttaquant, $this->monstre, $jetAttaquant, $jetCible, $jetsDegat, $this->view, false, false, true);
+						Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible (idm:".$this->monstre["id_monstre"].") - La cible (".$this->cible["id_hobbit"].") possede le mot S -> Riposte");
+						$hobbitTable = new Hobbit();
+						$hobbitRowset = $hobbitTable->find($this->cible["id_hobbit"]);
+						$hobbitAttaquant = $hobbitRowset->current();
+						$jetAttaquant =  Bral_Util_Attaque::calculJetAttaqueNormale($hobbitAttaquant);
+						$jetsDegat = Bral_Util_Attaque::calculDegatAttaqueNormale($hobbitAttaquant);
+						$jetCible = Bral_Util_Attaque::calculJetCibleMonstre($this->monstre);
+						Bral_Util_Attaque::attaqueMonstre($hobbitAttaquant, $this->monstre, $jetAttaquant, $jetCible, $jetsDegat, $this->view, false, false, true);
+					} else {
+						Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - ".$this->cible["id_hobbit"]." ne peut pas riposter");
+					}
 
 				} else { // si pas de riposte, mise a jour de l'événement
 					Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view, $this->cible["nb_dla_jouees_hobbit"], $this->monstre["nb_dla_jouees_monstre"], Bral_Util_Evenement::ATTAQUE_REUSSIE);
@@ -261,12 +268,12 @@ abstract class Bral_Monstres_Competences_Attaque {
 			} else {
 				$retour .= PHP_EOL."Aucun équipement ne vous a protégé (ARM EQU:".$this->cible["armure_equipement_hobbit"].")";
 			}
-				
+
 			$totalArmure = $this->cible["armure_equipement_hobbit"] + $this->cible["armure_naturelle_hobbit"] + $this->cible["armure_bm_hobbit"];
 			if ($totalArmure < 0) {
 				$totalArmure = 0;
 			}
-				
+
 			$retour .= PHP_EOL."Au total, votre armure vous a protégé en réduisant les dégâts de ".$totalArmure.".";
 
 			$retour .= PHP_EOL."Vous avez perdu ".$pvPerdus. " PV ";
