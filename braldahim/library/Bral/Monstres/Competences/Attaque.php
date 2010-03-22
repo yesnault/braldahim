@@ -161,11 +161,14 @@ abstract class Bral_Monstres_Competences_Attaque {
 					$this->cible["bm_attaque_hobbit"] = $this->cible["bm_attaque_hobbit"] - Bral_Util_De::get_1d3();
 					$this->cible["bm_defense_hobbit"] = $this->cible["bm_defense_hobbit"] - Bral_Util_De::get_1d6();
 				}
-
+				
+				Zend_Loader::loadClass("Bral_Util_Equipement");
+				$pieceCibleAbimee = Bral_Util_Equipement::usureAttaquePiece($this->cible["id_hobbit"]);
+				
 				$this->cible["est_ko_hobbit"] = "non";
 				$id_type_evenement = self::$config->game->evenements->type->attaquer;
 				$details = "[m".$this->monstre["id_monstre"]."] a $verbe le hobbit [h".$this->cible["id_hobbit"]."]";
-				$detailsBot = $this->getDetailsBotAttaque($this->cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus);
+				$detailsBot = $this->getDetailsBotAttaque($this->cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus, false, $pieceCibleAbimee);
 
 				// mise a jour de l'événement avant la riposte
 				Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view, $this->cible["nb_dla_jouees_hobbit"], $this->monstre["nb_dla_jouees_monstre"], Bral_Util_Evenement::ATTAQUE_REUSSIE);
@@ -231,7 +234,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 		return $details;
 	}
 
-	protected function getDetailsBotAttaque($cible, $jetAttaquant, $jetCible, $jetDegat = 0, $critique = false, $pvPerdus = 0, $koCible = false) {
+	protected function getDetailsBotAttaque($cible, $jetAttaquant, $jetCible, $jetDegat = 0, $critique = false, $pvPerdus = 0, $koCible = false, $pieceCibleAbimee = null) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBotAttaque - enter");
 		$retour = "";
 
@@ -272,6 +275,11 @@ abstract class Bral_Monstres_Competences_Attaque {
 			}
 
 			$retour .= PHP_EOL."Au total, votre armure vous a protégé en réduisant les dégâts de ".$totalArmure.".";
+			
+			if ($pieceCibleAbimee != null) {
+				$retour .= PHP_EOL."Une pièce d'équipement a été abimée par le coup : ".$pieceCibleAbimee.".";
+			}
+			
 			$retour .= PHP_EOL."Vous avez perdu ".$pvPerdus. " PV ";
 			$retour .= PHP_EOL."Il vous reste ".$this->cible["pv_restant_hobbit"]." PV ";
 

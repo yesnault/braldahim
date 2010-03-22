@@ -187,6 +187,51 @@ class Bral_Util_Equipement {
 					"tabTypesEmplacement" => $tabTypesEmplacement);
 	}
 
+	/*
+	 * 33% chance d'avoir une usure prématurée quand on prend un coup sur l'une de ses pièce équipée.
+	 * - On tire au hasard une des pièce que le Hobbit a déquipée.
+	 * - Elle s'use de 1D10+5 immédiatement.
+	 * 
+	 * return le nom de la pièce d'équipement abimée ou null sinon
+	 */
+	public static function usureAttaquePiece($idHobbit) {
+
+		$chance = Bral_Util_De::get_1D100();
+		$chance = 20;
+		if ($chance > 34) {
+			return null;
+		}
+
+		Zend_Loader::loadClass("HobbitEquipement");
+		Zend_Loader::loadClass("Equipement");
+
+		$hobbitEquipementTable = new HobbitEquipement();
+		$equipements = $hobbitEquipementTable->findByIdHobbit($idHobbit);
+
+		if(count($equipements) > 0) {
+			shuffle($equipements);
+
+			$e = $equipements[0];
+			
+			$usure = Bral_Util_De::get_1D10() + 5;
+			$etat = $e["etat_courant_equipement"] - $usure;
+			
+			if ($etat < 1) {
+				$etat = 1;
+			}
+			$data = array("etat_courant_equipement" => $etat);
+			$where = "id_equipement = ".$e["id_equipement_hequipement"];
+			$equipementTable = new Equipement();
+			$equipementTable->update($data, $where);
+			
+			$nom = Bral_Util_Equipement::getNomByIdRegion($e, $e["id_fk_region_equipement"]);
+			$nom .= " n&deg;".$e["id_equipement_hequipement"];
+			$nom .= " usure choc:-".$usure. " etat:".$etat."/".$e["etat_initial_equipement"];
+			return $nom;
+		} else {
+			return null;
+		}
+	}
 
 	public static function calculNouvelleDlaEquipement($idHobbit, $x, $y) {
 		Zend_Loader::loadClass("HobbitEquipement");
@@ -278,7 +323,7 @@ class Bral_Util_Equipement {
 		$tabEquipements = null;
 
 		foreach ($equipementsRowset as $e) {
-				
+
 			if ($filtreEquipableAFaire == false ||
 			($filtreEquipableAFaire == true && $e["est_equipable_type_emplacement"] == "oui" && floor($niveauHobbit / 10) >= $e["niveau_recette_equipement"])) {
 					
@@ -328,7 +373,7 @@ class Bral_Util_Equipement {
 
 		return $tabEquipements;
 	}
-	
+
 	private static function calculBmSet($equipement, $key, $niveauHobbit) {
 		if ($equipement["id_fk_donjon_type_equipement"] != null && $niveauHobbit != null) {
 			return $equipement[$key] * intval($niveauHobbit / 10);
@@ -336,5 +381,5 @@ class Bral_Util_Equipement {
 			return $equipement[$key];
 		}
 	}
-	
+
 }

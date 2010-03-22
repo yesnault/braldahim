@@ -190,6 +190,10 @@ class Bral_Util_Attaque {
 		if ($pvTotalAvecDegat < $hobbitCible->pv_restant_hobbit) {
 			$hobbitCible->pv_restant_hobbit = $pvTotalAvecDegat;
 		}
+		
+		Zend_Loader::loadClass("Bral_Util_Equipement");
+		$pieceCibleAbimee = Bral_Util_Equipement::usureAttaquePiece($idHobbit);
+		
 		if ($hobbitCible->pv_restant_hobbit <= 0) { // mort du hobbit
 			$hobbitCible->pv_restant_hobbit = 0;
 
@@ -309,7 +313,7 @@ class Bral_Util_Attaque {
 			$details .= ". Le ballon est tombé à terre !";
 		}
 
-		$detailsBot .= self::getDetailsBot($hobbitAttaquant, $retourAttaque["cible"], "hobbit", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"] , $retourAttaque["jetDegat"], $retourAttaque["ballonLache"], $retourAttaque["critique"], $retourAttaque["mort"], $retourAttaque["idMatchSoule"]);
+		$detailsBot .= self::getDetailsBot($hobbitAttaquant, $retourAttaque["cible"], "hobbit", $retourAttaque["jetAttaquant"] , $retourAttaque["jetCible"] , $retourAttaque["jetDegat"], $retourAttaque["ballonLache"], $retourAttaque["critique"], $retourAttaque["mort"], $pieceCibleAbimee);
 		if ($effetMotSPossible == false) {
 			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $retourAttaque["typeEvenement"], $details, $detailsBot, $hobbitAttaquant->niveau_hobbit, null, null, null, null, Bral_Util_Evenement::RIPOSTE); // uniquement en cas de riposte
 		}
@@ -330,7 +334,6 @@ class Bral_Util_Attaque {
 
 	private static function calculAttaqueHobbitEsquivee(&$detailsBot, &$retourAttaque, &$hobbitAttaquant, &$hobbitCible, $view, $config, $effetMotSPossible) {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - calculAttaqueHobbitEsquivee - enter -");
-
 		Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - Attaque esquivee malus sur ajoute a agilite_bm_hobbit=".$hobbitCible->niveau_hobbit);
 
 		$hobbitCible->bm_attaque_hobbit = $hobbitCible->bm_attaque_hobbit - Bral_Util_De::get_1d3();
@@ -862,7 +865,7 @@ class Bral_Util_Attaque {
 		return $retour;
 	}
 
-	private static function getDetailsBot($hobbitAttaquant, $cible, $typeCible, $jetAttaquant, $jetCible, $jetDegat = 0, $ballonLache = false, $critique = false, $mortCible = false) {
+	private static function getDetailsBot($hobbitAttaquant, $cible, $typeCible, $jetAttaquant, $jetCible, $jetDegat = 0, $ballonLache = false, $critique = false, $mortCible = false, $pieceCibleAbimee = null) {
 		$retour = "";
 		$retour .= $hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.")";
 
@@ -916,6 +919,10 @@ class Bral_Util_Attaque {
 				}
 					
 				$retour .= PHP_EOL."Au total, votre armure vous a protégé en réduisant les dégâts de ".$totalArmure.".";
+			}
+			
+			if ($pieceCibleAbimee != null) {
+				$retour .= PHP_EOL."Une pièce d'équipement a été abimée par le coup : ".$pieceCibleAbimee.".";
 			}
 
 			if ($mortCible) {
