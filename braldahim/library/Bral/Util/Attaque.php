@@ -431,6 +431,10 @@ class Bral_Util_Attaque {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetAttaquant=".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetCible=".$jetCible);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - degatSurCase=".$degatCase);
+		
+		if ($riposte) {
+			Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - riposte:true");
+		}
 
 		$config = Zend_Registry::get('config');
 
@@ -674,7 +678,7 @@ class Bral_Util_Attaque {
 				$detailsBot .= " Riposte de ".$hobbitAttaquant->prenom_hobbit ." ". $hobbitAttaquant->nom_hobbit ." (".$hobbitAttaquant->id_hobbit.")".PHP_EOL;
 				$actionEvenement = Bral_Util_Evenement::RIPOSTE;
 			}
-			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit, null, null, null, null, $actionEvenement);
+			Bral_Util_Evenement::majEvenements($hobbitAttaquant->id_hobbit, $idTypeEvenement, $details, $detailsBot, $hobbitAttaquant->niveau_hobbit, "hobbit", null, null, null, $actionEvenement, $hobbitAttaquant->nb_dla_jouees_hobbit);
 		}
 
 		if ($tir==false) {

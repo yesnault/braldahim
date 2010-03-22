@@ -19,7 +19,7 @@ class Bral_Util_Evenement {
 	/*
 	 * Mise a jour des Evenements du hobbit / du monstre.
 	 */
-	public static function majEvenements($idConcerne, $idTypeEvenement, $details, $detailsBot, $niveau, $type="hobbit", $estAEnvoyer = false, $view = null, $idMatchSoule = null, $actionEvenement = null) {
+	public static function majEvenements($idConcerne, $idTypeEvenement, $details, $detailsBot, $niveau, $type="hobbit", $estAEnvoyer = false, $view = null, $idMatchSoule = null, $actionEvenement = null, $tour = null) {
 		Zend_Loader::loadClass('Evenement');
 		Zend_Loader::loadClass("Bral_Util_Lien");
 		
@@ -37,6 +37,7 @@ class Bral_Util_Evenement {
 				'niveau_evenement' => $niveau,
 				'id_fk_soule_match_evenement' => $idMatchSoule,
 				'action_evenement' => $actionEvenement,
+				'tour_hobbit_evenement' => $tour,
 			);
 		} else {
 			$data = array(
@@ -46,6 +47,7 @@ class Bral_Util_Evenement {
 				'details_evenement' => $detailsTransforme,
 				'niveau_evenement' => $niveau,
 				'action_evenement' => $actionEvenement,
+				'tour_monstre_evenement' => $tour,
 			);
 		}
 		$evenementTable->insert($data);
