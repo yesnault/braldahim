@@ -19,7 +19,6 @@
 				</select>
 				<br><br>
 				
-				
 				<br>Création dans la zone : <br>
 				(non utilisé si des coodonnées sont utilisées ci-dessous, mais à remplir tout de même)
 				<br>
@@ -65,8 +64,10 @@
 				
 			<input type="submit" class="button1" name="Ajouter" value="Ajouter" />
 			</form>
-			
-			<br /><br />
+			</td>
+			</tr>
+			</table>
+			<br><br>
 			<? if ($this->creation === true): ?>
 			<ul class="titre textalic textsizeb">R&eacute;sultats Cr&eacute;ation</ul>
 				Cr&eacute;ation de <?=count($this->tabCreation["monstres"])?> monstre(s) et de <?=count($this->tabCreation["groupesMonstres"])?> groupe(s) de monstres<br />
@@ -90,57 +91,72 @@
 	   				<input type='button' name='goProfilMonstre' value='Ouvrir Profil Public' class='button1' onclick='javascript:ouvrirWin("/voir/monstre/?monstre=<?=$g["id_monstre"]?>");'> <br />
 				<? endforeach; ?>
 				
-				Les monstres créés en villes ont été ensuite supprimés.
 			<? endif; ?>
+				
+			<br><br><br><br>
+			<ul class="titre textalic textsizea">Statistiques actuelles</ul><br />
 			
-			<br /><ul class="titre textalic textsizea">Statistiques actuelles</ul><br />
-
-			Nombre de groupe actuellement en base : <?=$this->stats["nb_groupes"] ?><br />
-			Nombre de monstre actuellement en base : <?=$this->stats["nb_monstres"] ?><br />
-			Pourcentage de couverture globale : <?=$this->stats["couverture_globale"] ?> % (si l'on consid&egrave;re 1 monstre par case).<br />
-
-			<br />
-			<br /><ul class="titre textalic textsizec">Nombre de monstres par type</ul>
-			<? foreach($this->stats["nb_monstre_par_type"] as $t): ?>
-				<?=$t["nom_type"]?> : <?=$t["nombre"]?><br />
-			<? endforeach; ?>
+			<table>
+			<tr>
+			<td valign="top">
+				
+				<ul class="titre textalic textsizec">Stats globales</ul>
+	
+				Nombre de groupe actuellement en base : <?=$this->stats["nb_groupes"] ?><br />
+				Nombre de monstre actuellement en base : <?=$this->stats["nb_monstres"] ?><br />
+				Pourcentage de couverture globale : <?=$this->stats["couverture_globale"] ?> % (si l'on consid&egrave;re 1 monstre par case).<br />
+	
+				<br />
+				<br /><ul class="titre textalic textsizec">Nombre de monstres par type</ul>
+				<? foreach($this->stats["nb_monstre_par_type"] as $t): ?>
+					<?=$t["nom_type"]?> : <?=$t["nombre"]?><br />
+				<? endforeach; ?>
+				
+				<br />
+				<ul class="titre textalic textsizec">Nombre de monstres par taille</ul>
+				<? foreach($this->stats["nb_monstre_par_taille"] as $t): ?>
+					<?=$t["nom_feminin"]?> / <?=$t["nom_masculin"]?> : <?=$t["nombre"]?><br />
+				<? endforeach; ?>
+				
+			</td>
+			<td>
+				<ul class="titre textalic textsizec">Couverture par zone</ul>
 			
-			<br />
-			<br /><ul class="titre textalic textsizec">Nombre de monstres par taille</ul>
-			<? foreach($this->stats["nb_monstre_par_taille"] as $t): ?>
-				<?=$t["nom_feminin"]?> / <?=$t["nom_masculin"]?> : <?=$t["nombre"]?><br />
-			<? endforeach; ?>
-			<br />
-			<br /><ul class="titre textalic textsizec">Couverture par zone</ul>
-			<table align='center'>
-			<th class='comp_titre'>N&deg;</th>
-			<th class='comp_titre'>Environnement</th>
-			<th class='comp_titre'>Villes</th>
-			<th class='comp_titre'>x_min</th>
-			<th class='comp_titre'>x_max</th>
-			<th class='comp_titre'>y_min</th>
-			<th class='comp_titre'>y_max</th>
-			<th class='comp_titre'>Nombre Cases</th>
-			<th class='comp_titre'>Nombre Monstres</th>
-			<th class='comp_titre'>Couverture</th>
-			<? foreach ($this->zones as $zone) : ?>
-				<tr>
-					<td><?=$zone["id_zone"] ?></td>
-					<td><?=$zone["environnement"] ?></td>
-					<td><?=$zone["villes"] ?></td>
-					<td><?=$zone["x_min"] ?></td>
-					<td><?=$zone["x_max"] ?></td>
-					<td><?=$zone["y_min"] ?></td>
-					<td><?=$zone["y_max"] ?></td>
-					<td><?=$zone["nombre_cases"] ?></td>
-					<td><?=$zone["nombre_monstres"] ?></td>
-					<td><?=$zone["couverture"] ?> % </td>
+				<table class="table_liste">
+				<thead class="table_liste">
+				<tr class="table_liste">
+					<th>N&deg;</th>
+					<th>Environnement</th>
+					<th>Villes</th>
+					<th>x_min</th>
+					<th>x_max</th>
+					<th>y_min</th>
+					<th>y_max</th>
+					<th>Nombre Cases</th>
+					<th>Nombre Monstres</th>
+					<th>Couverture</th>
 				</tr>
-			<? endforeach; ?>
+				</thead>
+				<? foreach ($this->zones as $zone) : ?>
+					<tr>
+						<td><?=$zone["id_zone"] ?></td>
+						<td><?=$zone["environnement"] ?></td>
+						<td><?=$zone["villes"] ?></td>
+						<td><?=$zone["x_min"] ?></td>
+						<td><?=$zone["x_max"] ?></td>
+						<td><?=$zone["y_min"] ?></td>
+						<td><?=$zone["y_max"] ?></td>
+						<td><?=$zone["nombre_cases"] ?></td>
+						<td><?=$zone["nombre_monstres"] ?></td>
+						<td><?=$zone["couverture"] ?> % </td>
+					</tr>
+				<? endforeach; ?>
+				</table>
+			</td>
+			</tr>
 			</table>
 		</ul>
 	</div>
 	&nbsp;
-</div>
 </div>
 <?php echo $this->render('footer.phtml'); ?>

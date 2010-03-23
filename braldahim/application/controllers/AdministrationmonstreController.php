@@ -179,28 +179,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		$referenceCourante = null;
 		foreach($this->view->refMonstre as $r) {
 			if (($id_fk_type_ref_monstre == $r["id_type_monstre"]) && ((int)$taille == (int)$r["id_taille_monstre"])) {
-
-				$referenceCourante = array(
-					"id_ref_monstre" => $r["id_ref_monstre"],
-					"id_type_monstre" => $r["id_type_monstre"],
-					"id_type_groupe_monstre" => $r["id_type_groupe_monstre"],
-					"id_taille_monstre" => $r["id_taille_monstre"],
-					"niveau_min" => $r["niveau_min"],
-					"niveau_max" => $r["niveau_max"],
-					"p_force" => $r["p_force"],
-					"p_sagesse" => $r["p_sagesse"],
-					"p_vigueur" => $r["p_vigueur"],
-					"p_agilite" => $r["p_agilite"],
-					"vue" => $r["vue"],
-					"nb_membres_min" => $r["nb_membres_min"],
-					"nb_membres_max" => $r["nb_membres_max"],
-					"taille" => $r["taille"],
-					"nom_type" => $r["nom_type"],
-					"coef_pi_ref_monstre" => $r["coef_pi_ref_monstre"],
-					"coef_pv_ref_monstre" => $r["coef_pv_ref_monstre"],
-					"alea_min_armnat" => $r["alea_min_armnat"],
-					"alea_max_armnat" => $r["alea_min_armnat"],
-				);
+				$referenceCourante = $r;
 				break;
 			}
 		}
@@ -231,8 +210,8 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 	}
 
 	private function creationCalcul($referenceCourante, $x_min_zone, $x_max_zone, $y_min_zone, $y_max_zone,  $x_min_position, $x_max_position, $y_min_position, $y_max_position, $x_position, $y_position, $id_groupe_monstre = null, $est_role_a = false, $est_role_b = false) {
-		$id_fk_taille_monstre = $this->creationCalculTaille();
 
+		$id_fk_taille_monstre = $this->creationCalculTaille();
 		$referenceCourante = $this->recupereReferenceMonstre($referenceCourante["id_type_monstre"], $id_fk_taille_monstre);
 
 		$id_fk_type_monstre = $referenceCourante["id_type_monstre"];
@@ -248,48 +227,24 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			$y_monstre = Bral_Util_De::get_de_specifique($y_min_zone, $y_max_zone);
 		}
 
-		// NiveauSuivantPX = NiveauSuivant x 3 + debutNiveauPrecedentPx
-		$pi_min = 0;
-		for ($n = 0; $n <=$niveau_monstre; $n++) {
-			$pi_min = $pi_min + 3 * $n;
-		}
-		$pi_max = 0;
-		for ($n = 0; $n <=$niveau_monstre + 1; $n++) {
-			$pi_max = $pi_max + 3 * $n;
-		}
-		if ($pi_max > $pi_min) {
-			$pi_max = $pi_max - 1;
-		}
+		$niveau_force = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_force"], $referenceCourante["max_niveau_force"]);
+		$niveau_sagesse = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_sagesse"], $referenceCourante["max_niveau_sagesse"]);
+		$niveau_agilite = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_agilite"], $referenceCourante["max_niveau_agilite"]);
+		$niveau_vigueur = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_vigueur"], $referenceCourante["max_niveau_vigueur"]);
 
-		$nb_pi = Bral_Util_De::get_de_specifique($pi_min, $pi_max);
-		$nb_pi = floor($nb_pi * $referenceCourante["coef_pi_ref_monstre"]);
-
-		// Application de +/- 5% sur chaque carac
-		$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
-		$p_force = $referenceCourante["p_force"] + $alea;
-		$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
-		$p_sagesse = $referenceCourante["p_sagesse"] + $alea;
-		$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
-		$p_agilite = $referenceCourante["p_agilite"] + $alea;
-		$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
-		$p_vigueur = $referenceCourante["p_vigueur"] + $alea;
-
-		//Calcul des pi pour chaque caractéristique
-		$pi_force = round($nb_pi * $p_force / 100);
-		$pi_sagesse = round($nb_pi * $p_sagesse / 100);
-		$pi_agilite = round($nb_pi * $p_agilite / 100);
-		$pi_vigueur = round($nb_pi * $p_vigueur / 100);
-
-		// Détermination du nb d'améliorations possibles avec les PI dans chaque caractéristique
-		$niveau_force = $this->calculNiveau($pi_force);
-		$niveau_sagesse = $this->calculNiveau($pi_sagesse);
-		$niveau_agilite = $this->calculNiveau($pi_agilite);
-		$niveau_vigueur = $this->calculNiveau($pi_vigueur);
+		$bm_force = $referenceCourante["bm_force"];
+		$bm_sagesse = $referenceCourante["bm_sagesse"];
+		$bm_agilite = $referenceCourante["bm_agilite"];
+		$bm_vigueur = $referenceCourante["bm_vigueur"];
 
 		$force_base_monstre = $this->view->config->game->inscription->force_base + $niveau_force;
 		$sagesse_base_monstre = $this->view->config->game->inscription->sagesse_base + $niveau_sagesse;
 		$agilite_base_monstre = $this->view->config->game->inscription->agilite_base + $niveau_agilite;
 		$vigueur_base_monstre = $this->view->config->game->inscription->vigueur_base + $niveau_vigueur;
+
+		$bm_attaque = $referenceCourante["bm_attaque"];
+		$bm_defense = $referenceCourante["bm_defense"];
+		$bm_degat = $referenceCourante["bm_degat"];
 
 		//REG
 		$regeneration_monstre = floor(($niveau_sagesse / 4) + 1);
@@ -326,12 +281,19 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			"vue_monstre" => $vue_monstre,
 			"force_base_monstre" => $force_base_monstre,
 			"force_bm_monstre" => 0,
+			"force_bm_init_monstre" => $bm_force,
 			"agilite_base_monstre" => $agilite_base_monstre,
 			"agilite_bm_monstre" => 0,
+			"agilite_bm_init_monstre" => $bm_agilite,
 			"sagesse_base_monstre" => $sagesse_base_monstre,
 			"sagesse_bm_monstre" => 0,
+			"sagesse_bm_init_monstre" => $bm_sagesse,
 			"vigueur_base_monstre" => $vigueur_base_monstre,
 			"vigueur_bm_monstre" => 0,
+			"vigueur_bm_init_monstre" => $bm_vigueur,
+			"bm_init_attaque_monstre" => $bm_attaque,
+			"bm_init_defense_monstre" => $bm_defense,
+			"bm_init_degat_monstre" => $bm_degat,
 			"regeneration_monstre" => $regeneration_monstre,
 			"armure_naturelle_monstre" => $armure_naturelle_monstre,
 			"date_fin_tour_monstre" => $date_fin_tour_monstre,
@@ -386,21 +348,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				break;
 			}
 		}
-
 		return $id_taille;
-	}
-
-	private function calculNiveau($pi_caract) {
-		$niveau = 0;
-		$pi = 0;
-		for ($a=1; $a <= 100; $a++) {
-			$pi = $pi + ($a - 1) * $a;
-			if ($pi >= $pi_caract) {
-				$niveau = $a;
-				break;
-			}
-		}
-		return $niveau;
 	}
 
 	function referentielAction() {
@@ -414,15 +362,25 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			$id_fk_taille_ref_monstre = $filter->filter($this->_request->getPost('id_taille'));
 			$niveau_min_ref_monstre = $filter->filter($this->_request->getPost('niveau_min'));
 			$niveau_max_ref_monstre = $filter->filter($this->_request->getPost('niveau_max'));
-			$pourcentage_force_ref_monstre = $filter->filter($this->_request->getPost('p_force'));
-			$pourcentage_sagesse_ref_monstre = $filter->filter($this->_request->getPost('p_sagesse'));
-			$pourcentage_vigueur_ref_monstre = $filter->filter($this->_request->getPost('p_vigueur'));
-			$pourcentage_agilite_ref_monstre = $filter->filter($this->_request->getPost('p_agilite'));
+			$min_niveau_force_ref_monstre = $filter->filter($this->_request->getPost('min_niveau_force'));
+			$max_niveau_force_ref_monstre = $filter->filter($this->_request->getPost('max_niveau_force'));
+			$bm_force_ref_monstre = $filter->filter($this->_request->getPost('bm_force'));
+			$min_niveau_sagesse_ref_monstre = $filter->filter($this->_request->getPost('min_niveau_sagesse'));
+			$max_niveau_sagesse_ref_monstre = $filter->filter($this->_request->getPost('max_niveau_sagesse'));
+			$bm_sagesse_ref_monstre = $filter->filter($this->_request->getPost('bm_sagesse'));
+			$min_niveau_vigueur_ref_monstre = $filter->filter($this->_request->getPost('min_niveau_vigueur'));
+			$max_niveau_vigueur_ref_monstre = $filter->filter($this->_request->getPost('max_niveau_vigueur'));
+			$bm_vigueur_ref_monstre = $filter->filter($this->_request->getPost('bm_vigueur'));
+			$min_niveau_agilite_ref_monstre = $filter->filter($this->_request->getPost('min_niveau_agilite'));
+			$max_niveau_agilite_ref_monstre = $filter->filter($this->_request->getPost('max_niveau_agilite'));
+			$bm_agilite_ref_monstre = $filter->filter($this->_request->getPost('bm_agilite'));
+			$bm_attaque_ref_monstre = $filter->filter($this->_request->getPost('bm_attaque'));
+			$bm_defense_ref_monstre = $filter->filter($this->_request->getPost('bm_defense'));
+			$bm_degat_ref_monstre = $filter->filter($this->_request->getPost('bm_degat'));
 			$vue_ref_monstre = $filter->filter($this->_request->getPost('vue'));
 
 			$max_alea_pourcentage_armure_naturelle_ref_monstre = $filter->filter($this->_request->getPost('alea_max_armnat'));
 			$min_alea_pourcentage_armure_naturelle_ref_monstre = $filter->filter($this->_request->getPost('alea_min_armnat'));
-			$coef_pi_ref_monstre = $filter->filter($this->_request->getPost('coef_pi_ref_monstre'));
 			$coef_pv_ref_monstre = $filter->filter($this->_request->getPost('coef_pv_ref_monstre'));
 
 			if (((int)$id_fk_type_ref_monstre.""!=$id_fk_type_ref_monstre."")) {
@@ -437,29 +395,59 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			if (((int)$niveau_max_ref_monstre.""!=$niveau_max_ref_monstre."")) {
 				throw new Zend_Exception(get_class($this)." Valeur invalide. niveau_max_ref_monstre : ".$niveau_max_ref_monstre);
 			}
-			if (((int)$pourcentage_force_ref_monstre.""!=$pourcentage_force_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. pourcentage_force_ref_monstre : ".$pourcentage_force_ref_monstre);
+			if (((int)$min_niveau_force_ref_monstre.""!=$min_niveau_force_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. min_niveau_force_ref_monstre : ".$min_niveau_force_ref_monstre);
 			}
-			if (((int)$pourcentage_sagesse_ref_monstre.""!=$pourcentage_sagesse_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. pourcentage_sagesse_ref_monstre : ".$pourcentage_sagesse_ref_monstre);
+			if (((int)$max_niveau_force_ref_monstre.""!=$max_niveau_force_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. max_niveau_force_ref_monstre : ".$max_niveau_force_ref_monstre);
 			}
-			if (((int)$pourcentage_vigueur_ref_monstre.""!=$pourcentage_vigueur_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. pourcentage_vigueur_ref_monstre : ".$pourcentage_vigueur_ref_monstre);
+			if (((int)$bm_force_ref_monstre.""!=$bm_force_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. bm_force_ref_monstre : ".$bm_force_ref_monstre);
 			}
-			if (((int)$pourcentage_agilite_ref_monstre.""!=$pourcentage_agilite_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. pourcentage_agilite_ref_monstre : ".$pourcentage_agilite_ref_monstre);
+			if (((int)$min_niveau_sagesse_ref_monstre.""!=$min_niveau_sagesse_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. min_niveau_sagesse_ref_monstre : ".$min_niveau_sagesse_ref_monstre);
+			}
+			if (((int)$max_niveau_sagesse_ref_monstre.""!=$max_niveau_sagesse_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. max_niveau_sagesse_ref_monstre : ".$max_niveau_sagesse_ref_monstre);
+			}
+			if (((int)$bm_sagesse_ref_monstre.""!=$bm_sagesse_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. bm_sagesse_ref_monstre : ".$bm_sagesse_ref_monstre);
+			}
+			if (((int)$min_niveau_vigueur_ref_monstre.""!=$min_niveau_vigueur_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. min_niveau_vigueur_ref_monstre : ".$min_niveau_vigueur_ref_monstre);
+			}
+			if (((int)$max_niveau_vigueur_ref_monstre.""!=$max_niveau_vigueur_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. max_niveau_vigueur_ref_monstre : ".$max_niveau_vigueur_ref_monstre);
+			}
+			if (((int)$bm_vigueur_ref_monstre.""!=$bm_vigueur_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. bm_vigueur_ref_monstre : ".$bm_vigueur_ref_monstre);
+			}
+			if (((int)$min_niveau_agilite_ref_monstre.""!=$min_niveau_agilite_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. min_niveau_agilite_ref_monstre : ".$min_niveau_agilite_ref_monstre);
+			}
+			if (((int)$max_niveau_agilite_ref_monstre.""!=$max_niveau_agilite_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. max_niveau_agilite_ref_monstre : ".$max_niveau_agilite_ref_monstre);
+			}
+			if (((int)$bm_agilite_ref_monstre.""!=$bm_agilite_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. bm_agilite_ref_monstre : ".$bm_agilite_ref_monstre);
+			}
+			if (((int)$bm_attaque_ref_monstre.""!=$bm_attaque_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. bm_attaque_ref_monstre : ".$bm_attaque_ref_monstre);
+			}
+			if (((int)$bm_defense_ref_monstre.""!=$bm_defense_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. bm_defense_ref_monstre : ".$bm_defense_ref_monstre);
+			}
+			if (((int)$bm_degat_ref_monstre.""!=$bm_degat_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. bm_degat_ref_monstre : ".$bm_degat_ref_monstre);
 			}
 			if (((int)$vue_ref_monstre.""!=$vue_ref_monstre."")) {
 				throw new Zend_Exception(get_class($this)." Valeur invalide. vue_ref_monstre : ".$vue_ref_monstre);
 			}
-			if (((int)$max_alea_pourcentage_armure_naturelle_ref_monstre.""!=$max_alea_pourcentage_armure_naturelle_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. max_alea_pourcentage_armure_naturelle_ref_monstre : ".$max_alea_pourcentage_armure_naturelle_ref_monstre);
-			}
 			if (((int)$min_alea_pourcentage_armure_naturelle_ref_monstre.""!=$min_alea_pourcentage_armure_naturelle_ref_monstre."")) {
 				throw new Zend_Exception(get_class($this)." Valeur invalide. min_alea_pourcentage_armure_naturelle_ref_monstre : ".$min_alea_pourcentage_armure_naturelle_ref_monstre);
 			}
-			if (((float)$coef_pi_ref_monstre.""!=$coef_pi_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. coef_pi_ref_monstre : ".$coef_pi_ref_monstre);
+			if (((int)$max_alea_pourcentage_armure_naturelle_ref_monstre.""!=$max_alea_pourcentage_armure_naturelle_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. max_alea_pourcentage_armure_naturelle_ref_monstre : ".$max_alea_pourcentage_armure_naturelle_ref_monstre);
 			}
 			if (((float)$coef_pv_ref_monstre.""!=$coef_pv_ref_monstre."")) {
 				throw new Zend_Exception(get_class($this)." Valeur invalide. coef_pv_ref_monstre : ".$coef_pv_ref_monstre);
@@ -470,14 +458,24 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				"id_fk_taille_ref_monstre" => $id_fk_taille_ref_monstre,
 				"niveau_min_ref_monstre" => $niveau_min_ref_monstre,
 				"niveau_max_ref_monstre" => $niveau_max_ref_monstre,
-				"pourcentage_vigueur_ref_monstre" => $pourcentage_vigueur_ref_monstre,
-				"pourcentage_agilite_ref_monstre" => $pourcentage_agilite_ref_monstre,
-				"pourcentage_sagesse_ref_monstre" => $pourcentage_sagesse_ref_monstre,
-				"pourcentage_force_ref_monstre" => $pourcentage_force_ref_monstre,
+				"min_niveau_vigueur_ref_monstre" => $min_niveau_vigueur_ref_monstre,
+				"max_niveau_vigueur_ref_monstre" => $max_niveau_vigueur_ref_monstre,
+				"bm_vigueur_ref_monstre" => $bm_vigueur_ref_monstre,
+				"min_niveau_agilite_ref_monstre" => $min_niveau_agilite_ref_monstre,
+				"max_niveau_agilite_ref_monstre" => $max_niveau_agilite_ref_monstre,
+				"bm_agilite_ref_monstre" => $bm_agilite_ref_monstre,
+				"min_niveau_sagesse_ref_monstre" => $min_niveau_sagesse_ref_monstre,
+				"max_niveau_sagesse_ref_monstre" => $max_niveau_sagesse_ref_monstre,
+				"bm_sagesse_ref_monstre" => $bm_sagesse_ref_monstre,
+				"min_niveau_force_ref_monstre" => $min_niveau_force_ref_monstre,
+				"max_niveau_force_ref_monstre" => $max_niveau_force_ref_monstre,
+				"bm_force_ref_monstre" => $bm_force_ref_monstre,
+				"bm_attaque_ref_monstre" => $bm_attaque_ref_monstre,
+				"bm_defense_ref_monstre" => $bm_defense_ref_monstre,
+				"bm_degat_ref_monstre" => $bm_degat_ref_monstre,
 				"vue_ref_monstre" => $vue_ref_monstre,
 				"max_alea_pourcentage_armure_naturelle_ref_monstre" => $max_alea_pourcentage_armure_naturelle_ref_monstre, 
 				"min_alea_pourcentage_armure_naturelle_ref_monstre" => $min_alea_pourcentage_armure_naturelle_ref_monstre, 
-				"coef_pi_ref_monstre" => $coef_pi_ref_monstre, 
 				"coef_pv_ref_monstre" => $coef_pv_ref_monstre, 
 			);
 
@@ -511,12 +509,22 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			"id_taille_monstre" => '',
 			"niveau_min" => '',
 			"niveau_max" => '',
-			"p_force" => '',
-			"p_sagesse" => '',
-			"p_vigueur" => '',
-			"p_agilite" => '',
+			"min_niveau_force" => '',
+			"max_niveau_force" => '',
+			"bm_force" => '',
+			"min_niveau_sagesse" => '',
+			"max_niveau_sagesse" => '',
+			"bm_sagesse" => '',
+			"min_niveau_vigueur" => '',
+			"max_niveau_vigueur" => '',
+			"bm_vigueur" => '',
+			"min_niveau_agilite" => '',
+			"max_niveau_agilite" => '',
+			"bm_agilite" => '',
+			"bm_attaque" => '',
+			"bm_defense" => '',
+			"bm_degat" => '',
 			"vue" => '',
-			"coef_pi_ref_monstre" => '',
 			"coef_pv_ref_monstre" => '',
 			"alea_min_armnat" => '',
 			"alea_max_armnat" => '',
@@ -530,24 +538,7 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 		}
 
 		if ($id > 0) {// si l'on veut modifier une reference, on prepare l'objet
-			$r = $this->view->refMonstre[$id];
-			$referenceCourante = array(
-					"id_ref_monstre" => $r["id_ref_monstre"],
-					"id_type_monstre" => $r["id_type_monstre"],
-					"id_type_groupe_monstre" => $r["id_type_groupe_monstre"],
-					"id_taille_monstre" => $r["id_taille_monstre"],
-					"niveau_min" => $r["niveau_min"],
-					"niveau_max" => $r["niveau_max"],
-					"p_force" => $r["p_force"],
-					"p_sagesse" => $r["p_sagesse"],
-					"p_vigueur" => $r["p_vigueur"],
-					"p_agilite" => $r["p_agilite"],
-					"vue" => $r["vue"],
-					"coef_pi_ref_monstre" => $r["coef_pi_ref_monstre"],
-					"coef_pv_ref_monstre" => $r["coef_pv_ref_monstre"],
-					"alea_min_armnat" => $r["alea_min_armnat"],
-					"alea_max_armnat" => $r["alea_max_armnat"],
-			);
+			$referenceCourante = $this->view->refMonstre[$id];
 		}
 		$this->view->referenceCourante = $referenceCourante;
 	}
@@ -580,15 +571,8 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			} else {
 				$m_taille = $r["nom_taille_m_monstre"];
 			}
-				
-			$nb_pi = 0;
-			for ($n = 0; $n <= $r["niveau_min_ref_monstre"]; $n++) {
-				$nb_pi = $nb_pi + 3 * $n;
-			}
-			$pi_vigueur = round($nb_pi * $r["pourcentage_vigueur_ref_monstre"] / 100);
-			$niveau_vigueur = Bral_Util_Niveau::calculNiveauDepuisPI($pi_vigueur);
-			$estimationPvMin = ((20 + $niveau_vigueur * 4) * 2) * $r["coef_pv_ref_monstre"];
-				
+
+			$estimationPvMin = ((20 + $r["min_niveau_vigueur_ref_monstre"] * 4) * 2) * $r["coef_pv_ref_monstre"];
 
 			$ref[$r["id_ref_monstre"]] = array(
 				"id_ref_monstre" => $r["id_ref_monstre"],
@@ -599,16 +583,26 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				"taille" => $m_taille,
 				"niveau_min" => $r["niveau_min_ref_monstre"],
 				"niveau_max" => $r["niveau_max_ref_monstre"],
-				"p_force" => $r["pourcentage_force_ref_monstre"],
-				"p_sagesse" => $r["pourcentage_sagesse_ref_monstre"],
-				"p_vigueur" => $r["pourcentage_vigueur_ref_monstre"],
-				"p_agilite" => $r["pourcentage_agilite_ref_monstre"],
+				"min_niveau_force" => $r["min_niveau_force_ref_monstre"],
+				"max_niveau_force" => $r["max_niveau_force_ref_monstre"],
+				"bm_force" => $r["bm_force_ref_monstre"],
+				"min_niveau_sagesse" => $r["min_niveau_sagesse_ref_monstre"],
+				"max_niveau_sagesse" => $r["max_niveau_sagesse_ref_monstre"],
+				"bm_sagesse" => $r["bm_sagesse_ref_monstre"],
+				"min_niveau_vigueur" => $r["min_niveau_vigueur_ref_monstre"],
+				"max_niveau_vigueur" => $r["max_niveau_vigueur_ref_monstre"],
+				"bm_vigueur" => $r["bm_vigueur_ref_monstre"],
+				"min_niveau_agilite" => $r["min_niveau_agilite_ref_monstre"],
+				"max_niveau_agilite" => $r["max_niveau_agilite_ref_monstre"],
+				"bm_agilite" => $r["bm_agilite_ref_monstre"],
+				"bm_attaque" => $r["bm_attaque_ref_monstre"],
+				"bm_defense" => $r["bm_defense_ref_monstre"],
+				"bm_degat" => $r["bm_degat_ref_monstre"],
 				"vue" => $r["vue_ref_monstre"],
 				"nb_membres_min" => $r["nb_membres_min_type_groupe_monstre"],
 				"nb_membres_max" => $r["nb_membres_max_type_groupe_monstre"],
 				"nom_groupe_monstre" => $r["nom_groupe_monstre"],
 				"coef_pv_ref_monstre" => $r["coef_pv_ref_monstre"],
-				"coef_pi_ref_monstre" => $r["coef_pi_ref_monstre"],
 				"alea_min_armnat" => $r["min_alea_pourcentage_armure_naturelle_ref_monstre"],
 				"alea_max_armnat" => $r["max_alea_pourcentage_armure_naturelle_ref_monstre"],
 				"estimation_pv_min" => $estimationPvMin,
@@ -664,15 +658,15 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				}
 
 				$zones[] = array("id_zone" =>$z["id_zone"],
-				"x_min" => $z["x_min_zone"] ,
-				"x_max" => $z["x_max_zone"] ,
-				"y_min" => $z["y_min_zone"] ,
-				"y_max" => $z["y_max_zone"] ,
-				"environnement" =>$z["nom_environnement"] ,
-				"nombre_monstres" => $nombreMonstres,
-				"nombre_cases" => $nombreCases,
-				"couverture" => round($couverture, 5),
-				"villes" => $villes
+					"x_min" => $z["x_min_zone"] ,
+					"x_max" => $z["x_max_zone"] ,
+					"y_min" => $z["y_min_zone"] ,
+					"y_max" => $z["y_max_zone"] ,
+					"environnement" =>$z["nom_environnement"] ,
+					"nombre_monstres" => $nombreMonstres,
+					"nombre_cases" => $nombreCases,
+					"couverture" => round($couverture, 5),
+					"villes" => $villes
 				);
 			}
 		}
@@ -869,13 +863,10 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				}
 
 				$tab["details"][$c["id_fk_type_monstre_creation_nid"]]["manque"] = number_format($tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalDemande"]  - $tab["details"][$c["id_fk_type_monstre_creation_nid"]]["totalReel"], 2);
-
 			}
 
 			$tab["nbTotal"] =  $tab["nbDansNids"] + $tab["nbVivants"];
-
 			$tab["couvertureReelle"] = number_format($tab["nbTotal"] * 100 / $nbCasesDansZone, 2);
-
 			$tabZones[] = $tab;
 		}
 

@@ -80,8 +80,8 @@ class Bral_Monstres_Competences_Frappeeclair extends Bral_Monstres_Competences_A
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - enter");
 		$retour = "";
 		$retour .= $this->monstre["nom_type_monstre"] ." (".$this->monstre["id_monstre"].") vous envoie une frappe éclair :";
-		$retour .= PHP_EOL."Jet du Monstre (jet de force) : ".$jetMonstre;
-		$retour .= PHP_EOL."Jet de résistance (jet d'agilite) : ".$jetHobbit;
+		$retour .= PHP_EOL."Jet du Monstre (jet d'agilité) : ".$jetMonstre;
+		$retour .= PHP_EOL."Jet de résistance (jet de force) : ".$jetHobbit;
 		if ($jetHobbit > $jetMonstre) {
 			$retour .= PHP_EOL."Vous avez résisté à la frappe, le malus a été divisé par 2.";
 		} else {

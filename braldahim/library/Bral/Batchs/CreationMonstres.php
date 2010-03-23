@@ -239,43 +239,10 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$id_fk_type_monstre = $referenceCourante["id_fk_type_ref_monstre"];
 		$id_type_groupe_monstre = $referenceCourante["id_type_groupe_monstre"];
 
-		// NiveauSuivantPX = NiveauSuivant x 3 + debutNiveauPrecedentPx
-		$pi_min = 0;
-		for ($n = 0; $n <= $niveau_monstre; $n++) {
-			$pi_min = $pi_min + 3 * $n;
-		}
-		$pi_max = 0;
-		for ($n = 0; $n <=$niveau_monstre + 1; $n++) {
-			$pi_max = $pi_max + 3 * $n;
-		}
-		if ($pi_max > $pi_min) {
-			$pi_max = $pi_max - 1;
-		}
-
-		$nb_pi = Bral_Util_De::get_de_specifique($pi_min, $pi_max);
-		$nb_pi = floor($nb_pi * $referenceCourante["coef_pi_ref_monstre"]);
-
-		// Application de +/- 5% sur chaque carac
-		$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
-		$p_force = $referenceCourante["pourcentage_force_ref_monstre"] + $alea;
-		$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
-		$p_sagesse = $referenceCourante["pourcentage_sagesse_ref_monstre"] + $alea;
-		$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
-		$p_agilite = $referenceCourante["pourcentage_agilite_ref_monstre"] + $alea;
-		$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
-		$p_vigueur = $referenceCourante["pourcentage_vigueur_ref_monstre"] + $alea;
-
-		//Calcul des pi pour chaque caractéristique
-		$pi_force = round($nb_pi * $p_force / 100);
-		$pi_sagesse = round($nb_pi * $p_sagesse / 100);
-		$pi_agilite = round($nb_pi * $p_agilite / 100);
-		$pi_vigueur = round($nb_pi * $p_vigueur / 100);
-
-		// Détermination du nb d'améliorations possibles avec les PI dans chaque caractéristique
-		$niveau_force = Bral_Util_Niveau::calculNiveauDepuisPI($pi_force);
-		$niveau_sagesse = Bral_Util_Niveau::calculNiveauDepuisPI($pi_sagesse);
-		$niveau_agilite = Bral_Util_Niveau::calculNiveauDepuisPI($pi_agilite);
-		$niveau_vigueur = Bral_Util_Niveau::calculNiveauDepuisPI($pi_vigueur);
+		$niveau_force = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_force_ref_monstre"], $referenceCourante["max_niveau_force_ref_monstre"]);
+		$niveau_sagesse = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_sagesse_ref_monstre"], $referenceCourante["max_niveau_sagesse_ref_monstre"]);
+		$niveau_agilite = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_agilite_ref_monstre"], $referenceCourante["max_niveau_agilite_ref_monstre"]);
+		$niveau_vigueur = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_vigueur_ref_monstre"], $referenceCourante["max_niveau_vigueur_ref_monstre"]);
 		
 		$bm_force = $referenceCourante["bm_force_ref_monstre"];
 		$bm_sagesse = $referenceCourante["bm_sagesse_ref_monstre"];
