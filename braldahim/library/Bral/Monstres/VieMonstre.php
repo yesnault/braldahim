@@ -290,14 +290,14 @@ class Bral_Monstres_VieMonstre {
 			$this->calulRegeneration();
 			$this->monstre["regeneration_malus_monstre"] = 0;
 			$this->monstre["vue_malus_monstre"] = 0;
-			$this->monstre["force_bm_monstre"] = 0;
-			$this->monstre["agilite_bm_monstre"] = - $this->monstre["agilite_malus_monstre"];
-			$this->monstre["agilite_malus_monstre"] = 0;
-			$this->monstre["sagesse_bm_monstre"] = 0;
-			$this->monstre["vigueur_bm_monstre"] = 0;
-			$this->monstre["bm_attaque_monstre"] = 0;
-			$this->monstre["bm_defense_monstre"] = 0;
-			$this->monstre["bm_degat_monstre"] = 0;
+			$this->monstre["force_bm_monstre"] = $this->monstre["force_bm_init_monstre"];
+			$this->monstre["agilite_bm_monstre"] = - $this->monstre["agilite_bm_init_monstre"];
+			$this->monstre["agilite_malus_monstre"] = $this->monstre["agilite_malus_monstre"];
+			$this->monstre["sagesse_bm_monstre"] = $this->monstre["sagesse_bm_init_monstre"];
+			$this->monstre["vigueur_bm_monstre"] = $this->monstre["vigueur_bm_init_monstre"];
+			$this->monstre["bm_attaque_monstre"] = $this->monstre["bm_init_attaque_monstre"];
+			$this->monstre["bm_defense_monstre"] = $this->monstre["bm_init_defense_monstre"];
+			$this->monstre["bm_degat_monstre"] = $this->monstre["bm_init_degat_monstre"];
 			$this->monstre["nb_dla_jouees_monstre"] = $this->monstre["nb_dla_jouees_monstre"] + 1;
 
 			Zend_Loader::loadClass("Bral_Util_EffetsPotion");

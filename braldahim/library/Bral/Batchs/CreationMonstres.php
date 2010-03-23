@@ -276,12 +276,21 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$niveau_sagesse = Bral_Util_Niveau::calculNiveauDepuisPI($pi_sagesse);
 		$niveau_agilite = Bral_Util_Niveau::calculNiveauDepuisPI($pi_agilite);
 		$niveau_vigueur = Bral_Util_Niveau::calculNiveauDepuisPI($pi_vigueur);
+		
+		$bm_force = $referenceCourante["bm_force_ref_monstre"];
+		$bm_sagesse = $referenceCourante["bm_sagesse_ref_monstre"];
+		$bm_agilite = $referenceCourante["bm_agilite_ref_monstre"];
+		$bm_vigueur = $referenceCourante["bm_vigueur_ref_monstre"];
 
 		$force_base_monstre = $this->config->game->inscription->force_base + $niveau_force;
 		$sagesse_base_monstre = $this->config->game->inscription->sagesse_base + $niveau_sagesse;
 		$agilite_base_monstre = $this->config->game->inscription->agilite_base + $niveau_agilite;
 		$vigueur_base_monstre = $this->config->game->inscription->vigueur_base + $niveau_vigueur;
-
+		
+		$bm_attaque = $referenceCourante["bm_attaque_ref_monstre"];
+		$bm_defense = $referenceCourante["bm_defense_ref_monstre"];
+		$bm_degat = $referenceCourante["bm_degat_ref_monstre"];
+		
 		//REG
 		$regeneration_monstre = floor(($niveau_sagesse / 4) + 1);
 
@@ -321,12 +330,19 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 			"vue_monstre" => $vue_monstre,
 			"force_base_monstre" => $force_base_monstre,
 			"force_bm_monstre" => 0,
+			"force_bm_init_monstre" => $bm_force,
 			"agilite_base_monstre" => $agilite_base_monstre,
 			"agilite_bm_monstre" => 0,
+			"agilite_bm_init_monstre" => $bm_agilite,
 			"sagesse_base_monstre" => $sagesse_base_monstre,
 			"sagesse_bm_monstre" => 0,
+			"sagesse_bm_init_monstre" => $bm_sagesse,
 			"vigueur_base_monstre" => $vigueur_base_monstre,
 			"vigueur_bm_monstre" => 0,
+			"vigueur_bm_init_monstre" => $bm_vigueur,
+			"bm_init_attaque_monstre" => $bm_attaque,
+			"bm_init_defense_monstre" => $bm_defense,
+			"bm_init_degat_monstre" => $bm_degat,
 			"regeneration_monstre" => $regeneration_monstre,
 			"armure_naturelle_monstre" => $armure_naturelle_monstre,
 			"date_fin_tour_monstre" => $date_fin_tour_monstre,
