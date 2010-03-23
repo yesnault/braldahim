@@ -14,12 +14,22 @@ class Bral_Batchs_Controle extends Bral_Batchs_Boutique {
 
 	public function calculBatchImpl() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - calculBatchImpl - enter -");
-		$this->controleBatchs();
+
+		$titre = "";
+		$texte = "";
+
+		$this->controleBatchs($titre, $texte);
+		$this->controleMonstres($titre, $texte);
+		$this->envoiMail($titre, $texte);
+
+		echo $titre;
+		echo $texte;
+
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - calculBatchImpl - exit -");
 		return ;
 	}
 
-	public function controleBatchs() {
+	public function controleBatchs(&$titre, &$texte) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - controleBatchs - enter -");
 
 		$batchTable = new Batch();
@@ -31,10 +41,10 @@ class Bral_Batchs_Controle extends Bral_Batchs_Boutique {
 		$nbKojours = $batchTable->countByDate($dateDebut, $dateFin, Bral_Batchs_Batch::ETAT_KO);
 		$nbEnCoursjours = $batchTable->countByDate($dateDebut, $dateFin, Bral_Batchs_Batch::ETAT_EN_COURS);
 
-		$texte = "Debut:".$dateDebut." Fin:".$dateFin.PHP_EOL;
+		$texte .= "Debut:".$dateDebut." Fin:".$dateFin.PHP_EOL;
 		$texte .= " Batchs : ".PHP_EOL;
 		$texte .= $nbOkjours." OK, ".$nbKojours." KO, ".$nbEnCoursjours." EN_COURS".PHP_EOL.PHP_EOL;
-		$titre = "";
+
 		if ($nbKojours > 0) {
 			$texte .=  " ------- ".PHP_EOL;
 			$texte .=  $nbKojours." KO:".PHP_EOL;
@@ -47,6 +57,77 @@ class Bral_Batchs_Controle extends Bral_Batchs_Boutique {
 			$this->getDetail($texte, Bral_Batchs_Batch::ETAT_EN_COURS, $dateDebut, $dateFin);
 			$titre .=  " ".$nbEnCoursjours." EN_COURS";
 		}
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - controleBatchs - exit -");
+	}
+
+	public function controleMonstres(&$titre, &$texte) {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - controleMonstres - enter -");
+
+		Zend_Loader::loadClass("Monstre");
+		$monstreTable = new Monstre();
+		$solitaireDirectionHorsZone = $monstreTable->findSolitaireDirectionHorsZone();
+		$nbsolitaireDirectionHorsZone = count($solitaireDirectionHorsZone);
+		$texte .=  " ------- ".PHP_EOL;
+		$texte .= " Monstre solitaire, direction en dehors de zone nb: ".$nbsolitaireDirectionHorsZone.PHP_EOL;
+		if ($nbsolitaireDirectionHorsZone > 0) {
+			$titre .= " SolitaireDirection:".$nbsolitaireDirectionHorsZone." KO";
+			foreach($solitaireDirectionHorsZone as $m) {
+				$texte .=  "Monstre n°".$m["id_monstre"]." Direction x/y:".$m["x_direction_monstre"]."/".$m["y_direction_monstre"];
+				$texte .= " xMin/xMax:".$m["x_min_monstre"]."/".$m["x_max_monstre"];
+				$texte .= " yMin/yMax:".$m["y_min_monstre"]."/".$m["y_max_monstre"];
+				$texte .=  PHP_EOL;
+			}
+		}
+
+		$nueeDirectionHorsZone = $monstreTable->findNueeDirectionHorsZone();
+		$nbnueeDirectionHorsZone = count($nueeDirectionHorsZone);
+		$texte .=  " ------- ".PHP_EOL;
+		$texte .= " Monstre de nuee, direction en dehors de zone (avec tolérance 20 cases) nb: ".$nbnueeDirectionHorsZone.PHP_EOL;
+		if ($nbnueeDirectionHorsZone > 0) {
+			$titre .= " monstreNueeDirection:".$nbnueeDirectionHorsZone." KO";
+			foreach($nueeDirectionHorsZone as $m) {
+				$texte .=  "Groupe n°".$m["id_fk_groupe_monstre"]." Monstre n°".$m["id_monstre"]." Direction x/y:".$m["x_direction_monstre"]."/".$m["y_direction_monstre"];
+				$texte .= " xMin/xMax:".$m["x_min_monstre"]."/".$m["x_max_monstre"];
+				$texte .= " yMin/yMax:".$m["y_min_monstre"]."/".$m["y_max_monstre"];
+				$texte .=  PHP_EOL;
+			}
+		}
+
+		$solitairePositionHorsZone = $monstreTable->findSolitairePositionHorsZone();
+		$nbsolitairePositionHorsZone = count($solitairePositionHorsZone);
+		$texte .=  " ------- ".PHP_EOL;
+		$texte .= " Monstre solitaire, Position en dehors de zone nb: ".$nbsolitairePositionHorsZone.PHP_EOL;
+		if ($nbsolitairePositionHorsZone > 0) {
+			$titre .= " SolitairePosition:".$nbsolitairePositionHorsZone." KO";
+			foreach($solitairePositionHorsZone as $m) {
+				$texte .=  "Monstre n°".$m["id_monstre"]." Position x/y:".$m["x_monstre"]."/".$m["y_monstre"];
+				$texte .= " xMin/xMax:".$m["x_min_monstre"]."/".$m["x_max_monstre"];
+				$texte .= " yMin/yMax:".$m["y_min_monstre"]."/".$m["y_max_monstre"];
+				$texte .= " cible:".$m["id_fk_hobbit_cible_monstre"];
+				$texte .=  PHP_EOL;
+			}
+		}
+
+		$nueePositionHorsZone = $monstreTable->findNueePositionHorsZone();
+		$nbnueePositionHorsZone = count($nueePositionHorsZone);
+		$texte .=  " ------- ".PHP_EOL;
+		$texte .= " Monstre de nuee, Position en dehors de zone (avec tolérance 20 cases) nb: ".$nbnueePositionHorsZone.PHP_EOL;
+		if ($nbnueePositionHorsZone > 0) {
+			$titre .= " monstreNueePosition:".$nbnueePositionHorsZone." KO";
+			foreach($nueePositionHorsZone as $m) {
+				$texte .=  "Groupe n°".$m["id_fk_groupe_monstre"]." Monstre n°".$m["id_monstre"]." Position x/y:".$m["x_monstre"]."/".$m["y_monstre"];
+				$texte .= " xMin/xMax:".$m["x_min_monstre"]."/".$m["x_max_monstre"];
+				$texte .= " yMin/yMax:".$m["y_min_monstre"]."/".$m["y_max_monstre"];
+				$texte .= " cible:".$m["id_fk_hobbit_cible_monstre"];
+				$texte .=  PHP_EOL;
+			}
+		}
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - controleMonstres - exit -");
+	}
+
+	private function envoiMail($titre, $texte) {
 		if ($titre == "") {
 			$titre = "OK";
 		}
@@ -60,12 +141,9 @@ class Bral_Batchs_Controle extends Bral_Batchs_Boutique {
 		$mail->setSubject("[Braldahim-Controle] ".$titre);
 		$mail->setBodyText("--------> ".$texte);
 		$mail->send();
-
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - controleBatchs - exit -");
 	}
 
 	private function getDetail(&$texte, $etat, $dateDebut, $dateFin) {
-		
 		$batchTable = new Batch();
 		$batchs = $batchTable->findByDate($dateDebut, $dateFin, $etat);
 		foreach($batchs as $b) {

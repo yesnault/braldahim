@@ -310,9 +310,69 @@ class Monstre extends Zend_Db_Table {
 		->where('est_mort_monstre = ?', 'non');
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
-		
-		echo $sql;
-
 		return $resultat;
 	}
+
+	function findSolitaireDirectionHorsZone() {
+		return $this->findMonstreDirectionHorsZone("solitaire");
+	}
+
+	function findNueeDirectionHorsZone() {
+		return $this->findMonstreDirectionHorsZone("groupe", 20);
+	}
+
+	function findMonstreDirectionHorsZone($type, $tolerance = 0) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('monstre', '*');
+
+		$where = 'x_direction_monstre > x_max_monstre + '.$tolerance.'  OR ';
+		$where .= 'x_direction_monstre < x_min_monstre - '.$tolerance.'  OR ';
+		$where .= 'y_direction_monstre > y_max_monstre + '.$tolerance.'  OR ';
+		$where .= 'y_direction_monstre < y_min_monstre - '.$tolerance.' ';
+
+		$select->where($where);
+		$select->where('est_mort_monstre like ?', 'non');
+		if ($type == "groupe") {
+			$select->where('id_fk_groupe_monstre is not null');
+		} else {
+			$select->where('id_fk_groupe_monstre is null');
+		}
+		$select->where('nb_dla_jouees_monstre > 0');
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		return $resultat;
+	}
+
+	function findSolitairePositionHorsZone() {
+		return $this->findMonstreDirectionHorsZone("solitaire");
+	}
+
+	function findNueePositionHorsZone() {
+		return $this->findMonstrePositionHorsZone("groupe", 20);
+	}
+
+	function findMonstrePositionHorsZone($type, $tolerance = 0) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('monstre', '*');
+
+		$where = 'x_monstre > x_max_monstre + '.$tolerance.' OR ';
+		$where .= 'x_monstre < x_min_monstre - '.$tolerance.'  OR ';
+		$where .= 'y_monstre > y_max_monstre + '.$tolerance.'  OR ';
+		$where .= 'y_monstre < y_min_monstre - '.$tolerance.' ';
+
+		$select->where($where);
+		$select->where('est_mort_monstre like ?', 'non');
+		if ($type == "groupe") {
+			$select->where('id_fk_groupe_monstre is not null');
+		} else {
+			$select->where('id_fk_groupe_monstre is null');
+		}
+		$select->where('nb_dla_jouees_monstre > 0');
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		return $resultat;
+	}
+
 }
