@@ -17,6 +17,9 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 	public function calculBatchImpl($idDonjon = null) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculBatchImpl - enter - idDonjon:".$idDonjon);
 
+		//TODO a supprimer avec les nouvelles caracts
+		return;
+		
 		Zend_Loader::loadClass('Monstre');
 		Zend_Loader::loadClass('GroupeMonstre');
 		Zend_Loader::loadClass('TypeMonstre');
