@@ -21,9 +21,9 @@ class Bral_Soule_Desinscription extends Bral_Soule_Soule {
 	}
 
 	function prepareCommun() {
-		Zend_Loader::loadClass('SouleEquipe');
 		Zend_Loader::loadClass('SouleMatch');
 		Zend_Loader::loadClass('SouleTerrain');
+		Zend_Loader::loadClass('Bral_Util_Soule');
 
 		$this->view->deinscriptionPossible = false;
 		$this->matchDesinscription = null;
@@ -32,27 +32,11 @@ class Bral_Soule_Desinscription extends Bral_Soule_Soule {
 		$this->calculNbCastars();
 
 		if ($this->view->assezDePa && $this->view->user->est_engage_hobbit == "non") {
-			$this->prepareTerrain();
-		}
-	}
-
-	private function prepareTerrain() {
-
-		$souleMatchTable = new SouleMatch();
-		$matchs = $souleMatchTable->findNonDebuteByIdHobbit($this->view->user->id_hobbit);
-
-		if ($matchs != null && count($matchs) == 1) { // s'il n'y a pas de match en cours
-			$match = $matchs[0];
-
-			// on regarde s'il le quota n'est pas atteint (enfin non en cours ie: == 0)
-			if ($match["nb_jours_quota_soule_match"] == 0) {
-				$this->view->match = $match;
+			$match = Bral_Util_Soule::desincriptionPrepareTerrain($this->view->user->id_hobbit);
+			$this->view->match = $match;
+			if ($this->view->match != null) {
 				$this->view->desinscriptionPossible = true;
-			} else {
-				throw new Zend_Exception(get_class($this)." deinscriptionPossible impossible quota");
 			}
-		} else {
-			throw new Zend_Exception(get_class($this)." Erreur terrain, idh:".$this->view->user->id_hobbit);
 		}
 	}
 
@@ -69,7 +53,17 @@ class Bral_Soule_Desinscription extends Bral_Soule_Soule {
 			throw new Zend_Exception(get_class($this)."match invalide");
 		}
 
-		$this->calculDesinscription();
+		Bral_Util_Soule::calculDesinscriptionBd($this->view->match["id_soule_match"], $this->view->user->id_hobbit);
+
+		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->nb_castars;
+		if ($this->view->user->castars_hobbit < 0) {
+			$this->view->user->castars_hobbit = 0;
+		}
+
+		$details = "[h".$this->view->user->id_hobbit."] s'est désinscrit du match sur le ".$this->view->match["nom_soule_terrain"];
+		$idType = $this->view->config->game->evenements->type->soule;
+		$this->setDetailsEvenement($details, $idType);
+
 		$this->majHobbit();
 	}
 
@@ -89,24 +83,6 @@ class Bral_Soule_Desinscription extends Bral_Soule_Soule {
 		} else {
 			$this->view->assezDeCastars = true;
 		}
-	}
-
-	private function calculDesinscription() {
-
-		$where = "id_fk_match_soule_equipe = ".(int)$this->view->match["id_soule_match"];
-		$where .= " AND id_fk_hobbit_soule_equipe = ".(int)$this->view->user->id_hobbit;
-
-		$souleEquipeTable = new SouleEquipe();
-		$souleEquipeTable->delete($where);
-
-		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->nb_castars;
-		if ($this->view->user->castars_hobbit < 0) {
-			$this->view->user->castars_hobbit = 0;
-		}
-
-		$details = "[h".$this->view->user->id_hobbit."] s'est désinscrit du match sur le ".$this->view->match["nom_soule_terrain"];
-		$idType = $this->view->config->game->evenements->type->soule;
-		$this->setDetailsEvenement($details, $idType);
 	}
 
 	function getListBoxRefresh() {

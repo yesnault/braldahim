@@ -71,6 +71,7 @@
 			<br />
 			Vous &ecirc;tes maintenant 
 			<?=$this->escape($this->user->prenom_hobbit);?>  <?=$this->escape($this->user->nom_hobbit);?>, <?=$this->user->titre_courant_hobbit?><br><br>
+			Si toutefois vous étiez inscrit à un match de Soule, vous êtes désinscrit automatiquement (sauf si le match s'apprête à être lancé).<br><br>
 		<? endif;?>
 		
 		<? if ($this->user->niveau_hobbit < 11) : ?>

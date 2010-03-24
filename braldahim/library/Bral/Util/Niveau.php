@@ -39,6 +39,8 @@ class Bral_Util_Niveau {
 			$niveauDiv10Actuel = floor($hobbit->niveau_hobbit / 10);
 			if ($niveauDiv10Precedent != $niveauDiv10Actuel) {
 				self::calculTitre(&$hobbit);
+				Zend_Loader::loadClass("Bral_Util_Soule");
+				Bral_Util_Soule::calculDesinscription($hobbit->id_hobbit);
 			}
 
 			self::gainCastars($hobbit);

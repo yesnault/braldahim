@@ -197,7 +197,7 @@ class Bral_Util_Soule {
 		$texte .= self::updateDbData($hobbit["id_hobbit"], $nbUnitaireGain, $tirage1, $nbMinerai, $nbPlante, $minerais, $plantes);
 		$texte .= self::updateDbData($hobbit["id_hobbit"], $nbUnitaireGain, $tirage2, $nbMinerai, $nbPlante, $minerais, $plantes);
 		$texte .= self::updateDbData($hobbit["id_hobbit"], $nbUnitaireGain, $tirage3, $nbMinerai, $nbPlante, $minerais, $plantes);
-		
+
 
 		$config = Zend_Registry::get('config');
 		$idType = $config->game->evenements->type->soule;
@@ -242,7 +242,7 @@ class Bral_Util_Soule {
 			$gainPxPerso = floor($match["px_equipeb_soule_match"] / count($equipe));
 			$nbPxPerso = $hobbit["px_perso_hobbit"] + $gainPxPerso;
 		}
-		
+
 		$hobbitTable = new Hobbit();
 		$data = array(
 			"px_perso_hobbit" => $nbPxPerso,
@@ -350,7 +350,7 @@ class Bral_Util_Soule {
 		$hobbitTable = new Hobbit();
 
 		foreach($joueurs as $j) {
-				
+
 			if ($j["retour_xy_soule_equipe"] == "oui") {
 				$x_hobbit = $j["x_avant_hobbit_soule_equipe"];
 				$y_hobbit = $j["y_avant_hobbit_soule_equipe"];
@@ -426,5 +426,46 @@ class Bral_Util_Soule {
 			$where = "id_soule_match = ".(int)$match["id_soule_match"];
 			$souleMatchTable->update($data, $where);
 		}
+	}
+
+	/**
+	 * Désinscription d'un hobbit à un match de Soule.
+	 * @param $idHobbit identifiant du Hobbbit
+	 * @return null si pas de match
+	 */
+	public static function calculDesinscription($idHobbit) {
+		$match = self::desincriptionPrepareTerrain($idHobbit);
+		if ($match != null) {
+			self::calculDesinscriptionBd($match["id_soule_match"], $idHobbit);
+		}
+		return $match;
+	}
+	
+	public static function desincriptionPrepareTerrain($idHobbit) {
+		Zend_Loader::loadClass('SouleMatch');
+		$souleMatchTable = new SouleMatch();
+		$matchs = $souleMatchTable->findNonDebuteByIdHobbit($idHobbit);
+
+		$matchRetour = null;
+
+		if ($matchs != null && count($matchs) == 1) { // s'il n'y a pas de match en cours
+			$match = $matchs[0];
+			// on regarde s'il le quota n'est pas atteint (enfin non en cours ie: == 0)
+			if ($match["nb_jours_quota_soule_match"] == 0) {
+				$matchRetour = $match;
+			//} else {
+			//	throw new Zend_Exception(get_class($this)." deinscriptionPossible impossible quota");
+			}
+		}
+		return $matchRetour;
+	}
+
+	public static function calculDesinscriptionBd($idMatch, $idHobbit) {
+		$where = "id_fk_match_soule_equipe = ".(int)$idMatch;
+		$where .= " AND id_fk_hobbit_soule_equipe = ".(int)$idHobbit;
+
+		Zend_Loader::loadClass('SouleEquipe');
+		$souleEquipeTable = new SouleEquipe();
+		$souleEquipeTable->delete($where);
 	}
 }

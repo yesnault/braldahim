@@ -1,8 +1,12 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='0'>
  <form name='myForm'>
  <div class='comp_contenu'>
+ 	<? if ($this->match != null) : ?>
 	Pour <?=$this->nb_pa?> PA et <?=$this->nb_castars?> castars, vous pouvez vous d&eacute;sinscrire du match de soule
 	sur le <?=$this->match["nom_soule_terrain"]?>.
+	<? else: ?>
+		Vous ne pouvez pas vous désinscrire, le match débute bientôt.
+	<? endif;?>
  </div>
  <br>
 
