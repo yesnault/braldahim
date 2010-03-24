@@ -158,16 +158,12 @@ class Bral_Champs_Voir extends Bral_Champs_Champ {
 	}
 
 	private function prepareTaupes($taupes) {
-		$taupesChamps = null;
-		foreach($taupes as $t) {
-			$taupesChamps[$t["numero_champ_taupe"]]['morceaux'][] = $t;
-			$taupesChamps[$t["numero_champ_taupe"]]['etat'] = 'vivante';
-		}
 
 		$taupesVivantes = array();
 		foreach($taupes as $t) {
 			if ($t["etat_champ_taupe"] == "vivant") {
 				$taupesVivantes[$t["numero_champ_taupe"]]["taille"] = $t["taille_champ_taupe"];
+				$taupesVivantes[$t["numero_champ_taupe"]]["morceaux"][] = $t;
 			}
 		}
 

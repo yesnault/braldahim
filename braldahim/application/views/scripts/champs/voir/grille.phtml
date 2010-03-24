@@ -89,10 +89,8 @@ Taupes vivantes :
 </ul>
 <? if (count($this->taupesVivantes) > 0): ?>
 	<? foreach($this->taupesVivantes as $numero => $details) : ?>
-		Taupe n°<?=$numero?> de taille <?=$details["taille"]?> : 
-		<? foreach($this->toutes[$numero] as $parties) : ?>
-			<?=$parties["etat_champ_taupe"]?>
-		<? endforeach;?>
+		Taupe n°<?=$numero?> de taille <?=$details["taille"]?>, 
+		parties vivantes : <?=count($this->taupesVivantes[$numero]["morceaux"])?> / <?=count($this->toutes[$numero])?>
 		<br>
 	<? endforeach;?>
 <? else: ?>
@@ -106,10 +104,8 @@ Taupes occises : <br>
 
 <? if (count($this->taupesDetruites) > 0): ?>
 	<? foreach($this->taupesDetruites as $numero => $details) : ?>
-		Taupe n°<?=$numero?> de taille <?=$details["taille"]?> : 
-		<? foreach($this->toutes[$numero] as $parties) : ?>
-			<?=$parties["etat_champ_taupe"]?>
-		<? endforeach;?>
+		Taupe n°<?=$numero?> de taille <?=$details["taille"]?>,  
+		parties détruites : <?=count($this->toutes[$numero])?> / <?=count($this->toutes[$numero])?>
 		<br>
 	<? endforeach;?>
 <? else: ?>
