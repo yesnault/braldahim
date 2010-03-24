@@ -12,6 +12,8 @@
  */
 class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 
+	const NOM_METIER = "tanneur";
+
 	function prepareCommun() {
 		Zend_Loader::loadClass("Echoppe");
 		Zend_Loader::loadClass("RecetteEquipement");
@@ -35,9 +37,9 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 		$idEchoppe = -1;
 		foreach($echoppes as $e) {
 			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit &&
-			$e["nom_systeme_metier"] == "tanneur" &&
+			$e["nom_systeme_metier"] == self::NOM_METIER &&
 			$e["x_echoppe"] == $this->view->user->x_hobbit &&
-			$e["y_echoppe"] == $this->view->user->y_hobbit && 
+			$e["y_echoppe"] == $this->view->user->y_hobbit &&
 			$e["z_echoppe"] == $this->view->user->z_hobbit) {
 				$this->view->confectionnerEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
@@ -340,7 +342,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			Zend_Loader::loadClass("IdsEquipement");
 			$idsEquipementTable = new IdsEquipement();
 			$id_equipement = $idsEquipementTable->prepareNext();
-				
+
 			Zend_Loader::loadClass("Equipement");
 			$equipementTable = new Equipement();
 			$data = array(
@@ -361,7 +363,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 				'defense_equipement' => $this->recetteEquipementACreer["bm_defense_recette_equipement"],
 			);
 			$equipementTable->insert($data);
-				
+
 			Zend_Loader::loadClass("EchoppeEquipement");
 			$echoppeEquipementTable = new EchoppeEquipement();
 			$data = array(
@@ -394,6 +396,10 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 		} else {
 			throw new Zend_Exception(get_class($this)." Recette inconnue: id=".$idTypeEquipement." n=".$niveau. " q=".$qualite);
 		}
+
+		Zend_Loader::loadClass("Bral_Util_Competence");
+		$nomSystemeCompetence = "produire".self::NOM_METIER;
+		$this->view->competenceAmelioree = Bral_Util_Competence::updateCompetence1d2($nomSystemeCompetence, $this->view->user->id_hobbit);
 	}
 
 	private function majCout($niveau, $estReussi) {

@@ -12,6 +12,8 @@
  */
 class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 
+	const NOM_METIER = "menuisier";
+
 	function prepareCommun() {
 		Zend_Loader::loadClass("Echoppe");
 		Zend_Loader::loadClass("RecetteEquipement");
@@ -35,9 +37,9 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 		$idEchoppe = -1;
 		foreach($echoppes as $e) {
 			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit &&
-			$e["nom_systeme_metier"] == "menuisier" &&
+			$e["nom_systeme_metier"] == self::NOM_METIER &&
 			$e["x_echoppe"] == $this->view->user->x_hobbit &&
-			$e["y_echoppe"] == $this->view->user->y_hobbit && 
+			$e["y_echoppe"] == $this->view->user->y_hobbit &&
 			$e["z_echoppe"] == $this->view->user->z_hobbit) {
 				$this->view->fabriquerEchoppeOk = true;
 				$idEchoppe = $e["id_echoppe"];
@@ -371,7 +373,7 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 				'defense_equipement' => $this->recetteEquipementACreer["bm_defense_recette_equipement"],
 			);
 			$equipementTable->insert($data);
-				
+
 			Zend_Loader::loadClass("EchoppeEquipement");
 			$echoppeEquipementTable = new EchoppeEquipement();
 			$data = array(
@@ -396,7 +398,7 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 			$dataFabricants["somme_niveau_piece_stats_fabricants"] = $this->recetteEquipementACreer["niveau_recette_equipement"];
 			$dataFabricants["id_fk_metier_stats_fabricants"] = $this->view->config->game->metier->menuisier->id;
 			$statsFabricants->insertOrUpdate($dataFabricants);
-				
+
 			if ($this->recetteEquipementACreer["nom_systeme_type_piece"] != "munition") {
 				$details = "[h".$this->view->user->id_hobbit."] a fabriqué la pièce d'équipement n°".$id_equipement;
 				Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_CREATION_ID, $id_equipement, $details);
@@ -404,6 +406,10 @@ class Bral_Competences_Fabriquer extends Bral_Competences_Competence {
 		} else {
 			throw new Zend_Exception(get_class($this)." Recette inconnue: id=".$idTypeEquipement." n=".$niveau. " q=".$qualite);
 		}
+
+		Zend_Loader::loadClass("Bral_Util_Competence");
+		$nomSystemeCompetence = "produire".self::NOM_METIER;
+		$this->view->competenceAmelioree = Bral_Util_Competence::updateCompetence1d2($nomSystemeCompetence, $this->view->user->id_hobbit);
 	}
 
 	public function majCout($niveau, $estReussi) {

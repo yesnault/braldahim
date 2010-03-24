@@ -20,6 +20,12 @@
 	<? if ($this->effetRune) :?>
 		Une rune que vous portez a eu de l'effet sur la qualit&eacute; de cette pi&egrave;ce d'&eacute;quipement.
 	<? endif; ?>
+	
+	<? if ($this->competenceAmelioree != null) : ?>
+		<br>Vous avez r&eacute;ussi &agrave; am&eacute;liorer votre compétence Produire :
+		<br>
+		<b><?=$this->competenceAmelioree["competence"]["nom_competence"]?> : + <?=$this->competenceAmelioree["gain"]?> % </b><br>
+	<? endif;?>
 <? else: ?>
 	Vous avez manqu&eacute; votre forgeage.<br/>
 	La moiti&eacute; des composants sont d&eacute;truits.<br />

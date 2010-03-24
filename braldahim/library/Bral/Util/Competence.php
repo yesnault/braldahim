@@ -11,8 +11,34 @@
  * $LastChangedBy$
  */
 class Bral_Util_Competence {
-	
+
 	const NOM_SYSTEME_IDENTIFIER_RUNE = "identifierrune";
 
 	private function __construct() {}
+
+	public static function updateCompetence1d2($nomSystemeCompetence, $idHobbit) {
+		$hobbitsCompetencesTable = new HobbitsCompetences();
+
+		$competences = $hobbitsCompetencesTable->findByIdHobbitAndNomSysteme($idHobbit, $nomSystemeCompetence);
+		if ($competences == null || count($competences) != 1) {
+			throw new Zend_Exception(get_class($this)." Competences invalides :".$idHobbit.",".$nomSystemeCompetence);
+		}
+
+		$tabCompetenceAmelioree = null;
+
+		$c = $competences[0];
+		if ($c["pourcentage_hcomp"] < 50) {
+			$gain = Bral_Util_De::get_1d2();
+			$pourcentage = $c["pourcentage_hcomp"] + $gain;
+			if ($pourcentage > $c["pourcentage_max_competence"]) { // % comp maximum
+				$pourcentage = $c["pourcentage_max_competence"];
+			}
+			$data = array('pourcentage_hcomp' => $pourcentage);
+			$where = array("id_fk_competence_hcomp = ".$c["id_fk_competence_hcomp"]." AND id_fk_hobbit_hcomp = ".$idHobbit);
+			$hobbitsCompetencesTable->update($data, $where);
+			$tabCompetenceAmelioree["competence"] = $c;
+			$tabCompetenceAmelioree["gain"] = $gain;
+		}
+		return $tabCompetenceAmelioree;
+	}
 }

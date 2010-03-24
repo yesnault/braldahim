@@ -12,6 +12,8 @@
  */
 class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 
+	const NOM_METIER = "apothicaire";
+
 	function prepareCommun() {
 		Zend_Loader::loadClass("Echoppe");
 
@@ -33,7 +35,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$idEchoppe = -1;
 		foreach($echoppes as $e) {
 			if ($e["id_fk_hobbit_echoppe"] == $this->view->user->id_hobbit &&
-			$e["nom_systeme_metier"] == "apothicaire" &&
+			$e["nom_systeme_metier"] == self::NOM_METIER &&
 			$e["x_echoppe"] == $this->view->user->x_hobbit &&
 			$e["y_echoppe"] == $this->view->user->y_hobbit &&
 			$e["z_echoppe"] == $this->view->user->z_hobbit) {
@@ -187,9 +189,9 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 
 		$recetteVernisTable = new RecetteVernis();
 		$recetteVernis = $recetteVernisTable->findByIdTypePotion($typePotionCourante["id_type_potion"]);
-		
+
 		$tabPartiePlantes = array();
-		
+
 		if ($partiesPlantes != null) {
 			foreach ($partiesPlantes as $m) {
 				if ($m["quantite_preparee_echoppe_partieplante"] >= 1) {
@@ -538,6 +540,10 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 		$dataFabricants["somme_niveau_piece_stats_fabricants"] = $niveau;
 		$dataFabricants["id_fk_metier_stats_fabricants"] = $this->view->config->game->metier->apothicaire->id;
 		$statsFabricants->insertOrUpdate($dataFabricants);
+
+		Zend_Loader::loadClass("Bral_Util_Competence");
+		$nomSystemeCompetence = "produire".self::NOM_METIER;
+		$this->view->competenceAmelioree = Bral_Util_Competence::updateCompetence1d2($nomSystemeCompetence, $this->view->user->id_hobbit);
 	}
 
 	// Gain : [(nivP+1)/(nivH+1)+1+NivQ]*10 PX
