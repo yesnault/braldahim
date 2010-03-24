@@ -19,7 +19,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 
 		//TODO a supprimer avec les nouvelles caracts
 		return;
-		
+
 		Zend_Loader::loadClass('Monstre');
 		Zend_Loader::loadClass('GroupeMonstre');
 		Zend_Loader::loadClass('TypeMonstre');
@@ -246,7 +246,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$niveau_sagesse = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_sagesse_ref_monstre"], $referenceCourante["max_niveau_sagesse_ref_monstre"]);
 		$niveau_agilite = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_agilite_ref_monstre"], $referenceCourante["max_niveau_agilite_ref_monstre"]);
 		$niveau_vigueur = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_vigueur_ref_monstre"], $referenceCourante["max_niveau_vigueur_ref_monstre"]);
-		
+
 		$bm_force = $referenceCourante["bm_force_ref_monstre"];
 		$bm_sagesse = $referenceCourante["bm_sagesse_ref_monstre"];
 		$bm_agilite = $referenceCourante["bm_agilite_ref_monstre"];
@@ -256,11 +256,11 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$sagesse_base_monstre = $this->config->game->inscription->sagesse_base + $niveau_sagesse;
 		$agilite_base_monstre = $this->config->game->inscription->agilite_base + $niveau_agilite;
 		$vigueur_base_monstre = $this->config->game->inscription->vigueur_base + $niveau_vigueur;
-		
+
 		$bm_attaque = $referenceCourante["bm_attaque_ref_monstre"];
 		$bm_defense = $referenceCourante["bm_defense_ref_monstre"];
 		$bm_degat = $referenceCourante["bm_degat_ref_monstre"];
-		
+
 		//REG
 		$regeneration_monstre = floor(($niveau_sagesse / 4) + 1);
 
@@ -432,6 +432,19 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 			$position["x_max"] = $xCentre + ($niveauMonstre * 3) + 20;
 			$position["y_min"] = $yCentre - ($niveauMonstre * 3) - 20;
 			$position["y_max"] = $yCentre + ($niveauMonstre * 3) + 20;
+		}
+
+		if ($position["x_min"] <= $this->config->game->x_min) {
+			$position["x_min"] = $this->config->game->x_min + 1;
+		}
+		if ($position["x_max"] >= $this->config->game->x_max) {
+			$position["x_max"] = $this->config->game->x_max - 1;
+		}
+		if ($position["y_min"] <= $this->config->game->y_min) {
+			$position["y_min"] = $this->config->game->y_min + 1;
+		}
+		if ($position["y_max"] >= $this->config->game->y_max) {
+			$position["y_max"] = $this->config->game->y_max - 1;
 		}
 
 		return $position;
