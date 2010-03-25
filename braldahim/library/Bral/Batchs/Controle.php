@@ -71,11 +71,12 @@ class Bral_Batchs_Controle extends Bral_Batchs_Boutique {
 		$texte .=  " ------- ".PHP_EOL;
 		$texte .= " Monstre solitaire, direction en dehors de zone nb: ".$nbsolitaireDirectionHorsZone.PHP_EOL;
 		if ($nbsolitaireDirectionHorsZone > 0) {
-			$titre .= " SolitaireDirection:".$nbsolitaireDirectionHorsZone." KO";
+			$titre .= " SolitaireDirection:".$nbsolitaireDirectionHorsZone." WARN";
 			foreach($solitaireDirectionHorsZone as $m) {
 				$texte .=  "Monstre n°".$m["id_monstre"]." Direction x/y:".$m["x_direction_monstre"]."/".$m["y_direction_monstre"];
 				$texte .= " xMin/xMax:".$m["x_min_monstre"]."/".$m["x_max_monstre"];
 				$texte .= " yMin/yMax:".$m["y_min_monstre"]."/".$m["y_max_monstre"];
+				$texte .= " cible:".$m["id_fk_hobbit_cible_monstre"];
 				$texte .=  PHP_EOL;
 			}
 		}
@@ -85,11 +86,12 @@ class Bral_Batchs_Controle extends Bral_Batchs_Boutique {
 		$texte .=  " ------- ".PHP_EOL;
 		$texte .= " Monstre de nuee, direction en dehors de zone (avec tolérance 20 cases) nb: ".$nbnueeDirectionHorsZone.PHP_EOL;
 		if ($nbnueeDirectionHorsZone > 0) {
-			$titre .= " monstreNueeDirection:".$nbnueeDirectionHorsZone." KO";
+			$titre .= " monstreNueeDirection:".$nbnueeDirectionHorsZone." WARN";
 			foreach($nueeDirectionHorsZone as $m) {
 				$texte .=  "Groupe n°".$m["id_fk_groupe_monstre"]." Monstre n°".$m["id_monstre"]." Direction x/y:".$m["x_direction_monstre"]."/".$m["y_direction_monstre"];
 				$texte .= " xMin/xMax:".$m["x_min_monstre"]."/".$m["x_max_monstre"];
 				$texte .= " yMin/yMax:".$m["y_min_monstre"]."/".$m["y_max_monstre"];
+				$texte .= " cible:".$m["id_fk_hobbit_cible_monstre"];
 				$texte .=  PHP_EOL;
 			}
 		}
@@ -99,7 +101,7 @@ class Bral_Batchs_Controle extends Bral_Batchs_Boutique {
 		$texte .=  " ------- ".PHP_EOL;
 		$texte .= " Monstre solitaire, Position en dehors de zone nb: ".$nbsolitairePositionHorsZone.PHP_EOL;
 		if ($nbsolitairePositionHorsZone > 0) {
-			$titre .= " SolitairePosition:".$nbsolitairePositionHorsZone." KO";
+			$titre .= " SolitairePosition:".$nbsolitairePositionHorsZone." WARN";
 			foreach($solitairePositionHorsZone as $m) {
 				$texte .=  "Monstre n°".$m["id_monstre"]." Position x/y:".$m["x_monstre"]."/".$m["y_monstre"];
 				$texte .= " xMin/xMax:".$m["x_min_monstre"]."/".$m["x_max_monstre"];
@@ -114,7 +116,7 @@ class Bral_Batchs_Controle extends Bral_Batchs_Boutique {
 		$texte .=  " ------- ".PHP_EOL;
 		$texte .= " Monstre de nuee, Position en dehors de zone (avec tolérance 20 cases) nb: ".$nbnueePositionHorsZone.PHP_EOL;
 		if ($nbnueePositionHorsZone > 0) {
-			$titre .= " monstreNueePosition:".$nbnueePositionHorsZone." KO";
+			$titre .= " monstreNueePosition:".$nbnueePositionHorsZone." WARN";
 			foreach($nueePositionHorsZone as $m) {
 				$texte .=  "Groupe n°".$m["id_fk_groupe_monstre"]." Monstre n°".$m["id_monstre"]." Position x/y:".$m["x_monstre"]."/".$m["y_monstre"];
 				$texte .= " xMin/xMax:".$m["x_min_monstre"]."/".$m["x_max_monstre"];
