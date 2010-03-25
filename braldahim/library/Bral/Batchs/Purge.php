@@ -24,6 +24,7 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$retour .= $this->purgeElementPotion();
 		$retour .= $this->purgeElementRune();
 		$retour .= $this->purgeElementEquipement();
+		$retour .= $this->purgeElementEvenement();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - calculBatchImpl - exit -");
 		return $retour;
@@ -181,6 +182,40 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$retour = " EltEquipement:nb delete:".$nb. " date:".$date;
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeElementEquipement - exit -");
+		return $retour;
+	}
+
+	private function purgeElementEvenement() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeElementEvenement - enter -");
+
+		Zend_Loader::loadClass('Evenement');
+
+		$retour = "";
+		$evenement = new Evenement();
+
+		$date = date("Y-m-d H:i:s");
+		$add_day = - 30;
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($date, $add_day);
+		
+		$where = $evenement->getAdapter()->quoteInto('date_evenement <= ?',  $dateFin);
+		$where .= " AND id_fk_type_evenement = ".$this->config->game->evenements->type->deplacement;
+		$nb = $evenement->delete($where);
+		
+		$add_day = - 90;
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($date, $add_day);
+		
+		$where = $evenement->getAdapter()->quoteInto('date_evenement <= ?',  $dateFin);
+		$where .= " AND (id_fk_type_evenement = ".$this->config->game->evenements->type->service;
+		$where .= " OR id_fk_type_evenement = ".$this->config->game->evenements->type->competence;
+		$where .= " OR id_fk_type_evenement = ".$this->config->game->evenements->type->transbahuter;
+		$where .= " )";
+		$nb = $evenement->delete($where);
+		
+		
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - Ok - nb:".$nb." - where:".$where);
+		$retour = " Evt delete:".$nb. " date:".$date;
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeElementEvenement - exit -");
 		return $retour;
 	}
 }
