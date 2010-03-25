@@ -26,12 +26,12 @@ class Bral_Monstres_Competences_Voletresor extends Bral_Monstres_Competences_Rep
 		if (count($runes) > 0 && count($castars) > 0) {
 			$choix = Bral_Util_De::get_1d2();
 			if ($choix == 1) {
-				$this->voleRune();
+				$this->voleRune($runes);
 			} else {
 				$this->voleCastars();
 			}
 		} elseif (count($runes) > 0) {
-			$this->voleRune();
+			$this->voleRune($runes);
 		} elseif (count($castars) > 0) {
 			$this->voleCastars();
 		}
