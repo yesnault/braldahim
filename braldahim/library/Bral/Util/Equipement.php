@@ -197,7 +197,6 @@ class Bral_Util_Equipement {
 	public static function usureAttaquePiece($idHobbit) {
 
 		$chance = Bral_Util_De::get_1D100();
-		$chance = 20;
 		if ($chance > 34) {
 			return null;
 		}
