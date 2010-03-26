@@ -99,6 +99,8 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 			"type_vente" => $vente["type_vente"],
 			"prix_minerais" => $minerai,
 			"prix_parties_plantes" => $partiesPlantes,
+			"date_debut_vente" => $vente["date_debut_vente"],
+			"date_fin_vente" => $vente["date_fin_vente"],
 		);
 
 		if ($vente["type_vente"] == "materiel") {
@@ -1029,6 +1031,34 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$message .= "&Eacute;mile Claclac, gestionnaire de l'Hôtel des ventes.".PHP_EOL;
 		$message .= "Inutile de répondre à ce message.";
 		Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->hotel->id_hobbit, $this->view->vente["vente"]["id_fk_hobbit_vente"], $message, $this->view);
+
+		$this->insertHistorique();
+	}
+
+	// Historique, que pour d'éventuelles stats
+	private function insertHistorique() {
+		Zend_Loader::loadClass("VenteHistorique");
+		$venteHistoriqueTable = new VenteHistorique();
+
+		$data = array(
+			'id_vente_historique' =>  $this->view->vente["vente"]["id_vente"], 
+			'id_fk_hobbit_vente_historique'  => $this->view->vente["vente"]["id_fk_hobbit_vente"],
+			'date_debut_vente_historique'  => $this->view->vente["vente"]["date_debut_vente"],
+			'date_vente_historique'  => date("Y-m-d H:i:s"),
+			'date_fin_vente_historique'  => $this->view->vente["vente"]["date_fin_vente"],
+			'commentaire_vente_historique'  => $this->view->vente["vente"]["commentaire_vente"], 
+			'unite_1_vente_historique'  => $this->view->vente["vente"]["unite_1_vente"],
+			'unite_2_vente_historique'  => $this->view->vente["vente"]["unite_2_vente"],
+			'unite_3_vente_historique'  => $this->view->vente["vente"]["unite_3_vente"],
+			'prix_1_vente_historique'  => $this->view->vente["vente"]["prix_1_vente"],
+			'prix_2_vente_historique'  => $this->view->vente["vente"]["prix_2_vente"],
+			'prix_3_vente_historique'  => $this->view->vente["vente"]["prix_3_vente"],
+			'type_vente_historique'  => $this->view->vente["vente"]["type_vente"],
+			'objet_vente_historique'  => $this->view->objetAchat,
+			'prix_vente_historique'  => $this->view->detailPrix,
+		);
+
+		$venteHistoriqueTable->insert($data);
 	}
 
 	private function calculAchatElement($prix) {
