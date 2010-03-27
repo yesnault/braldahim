@@ -264,5 +264,4 @@ class Bral_Util_Messagerie {
 		}
 		return $tabMessages;
 	}
-
 }

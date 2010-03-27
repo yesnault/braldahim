@@ -57,7 +57,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 
 	public function getInformations() {
 		if ($this->view->envoiMessage == true) {
-			return "Votre message est envoy&eacute;";
+			return "Votre message est envoyé;";
 		}
 	}
 
@@ -131,12 +131,11 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			);
 		}
 
-		$contenu = "
-
-
-__________
-Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this->view->message["date"])." : 
-".$this->view->message["titre"];
+		$contenu = PHP_EOL.PHP_EOL.PHP_EOL;
+		$contenu .= "__________".PHP_EOL;
+		$contenu .= "Message de ".$this->view->message["expediteur"]." ";
+		$contenu .= "le ".date('d/m/y, H:i', $this->view->message["date"])." : ".PHP_EOL;
+		$contenu .= $this->view->message["titre"];
 
 		$tabMessage = array(
 			"contenu" => $contenu,
@@ -176,7 +175,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 			$validateurContacts = new Bral_Validate_Messagerie_Contacts(false, $this->view->user->id_hobbit);
 			$validContacts = $validateurContacts->isValid($this->view->message["contacts"]);
 			$avecContacts = true;
-			
+				
 			if ($validContacts == false || mb_strlen($this->view->message["contacts"] < 1)) {
 				$avecContacts = false;
 			}
@@ -200,20 +199,20 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 
 		if (($validDestinataires || ($validContacts && $avecContacts) ) && ($validContenu)) {
 			$messageTable = new Message();
-				
+
 			$debutContenuMail = "Message de ".$this->view->user->prenom_hobbit." ".$this->view->user->nom_hobbit." (".$this->view->user->id_hobbit.") : ";
 
 			$tabIdDestinatairesDejaEnvoye = array();
 			$tabHobbits = array();
 			$idDestinatairesTab = array();
 			$idDestinatairesListe = null;
-				
+
 			if ($this->view->message["destinataires"] != "") {
 				$idDestinatairesTab = split(',', $this->view->message["destinataires"]);
 				$idDestinatairesListe = $this->view->message["destinataires"];
 				$tabHobbits = $tabHobbit["hobbits"];
 			}
-				
+
 			if ($this->view->message["userids"] != "") {
 				$idDestinatairesTab = array_merge($idDestinatairesTab, split(',', $this->view->message["userids"]));
 				if ($idDestinatairesListe != null) {
@@ -222,7 +221,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 				$idDestinatairesListe = $idDestinatairesListe . $this->view->message["userids"];
 				$tabHobbits = $tabHobbits + $tabContacts["hobbits"];
 			}
-				
+
 			if ($tabHobbits != null && count($idDestinatairesTab) > 0) {
 				foreach ($idDestinatairesTab as $idHobbit) {
 					$data = Bral_Util_Messagerie::prepareMessageAEnvoyer($this->view->user->id_hobbit, $idHobbit, $tabMessage["contenu"], $idDestinatairesListe);
@@ -264,7 +263,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 		$tabMessage = null;
 		if ($message != null && count($message) == 1) {
 			$message = $message[0];
-				
+
 			$idsHobbit[] = $message["toid"];
 			$idsHobbit[] = $message["fromid"];
 			$idsHobbit = array_merge($idsHobbit, split(',', $message["toids"]));
@@ -277,7 +276,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 					}
 				}
 			}
-				
+
 			$expediteur = "";
 			$destinataire = "";
 			$destinataires = "";
@@ -304,21 +303,21 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 					}
 				}
 			}
-				
+
 			if ($expediteur == "") {
 				$expediteur = " Erreur inconnue";
 			}
-				
+
 			if ($destinataire == "") {
 				$destinataire = " Erreur inconnue";
 			}
-				
+
 			if ($destinataires == "") {
 				$destinataires = " Erreur inconnue";
 			} else {
 				$destinataires = substr($destinataires, 0, strlen($destinataires) - 2);
 			}
-				
+
 			$tabMessage = array(
 				"id_message" => $message["id"],
 				"titre" => $message["message"],
@@ -331,7 +330,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 				"toids" => $message["toids"],
 				"toread" => $message["toread"],
 			);
-				
+
 			// Flag de lecture
 			if ($message["toid"] == $this->view->user->id_hobbit && $message["toread"] == 0) {
 				$data = array(
@@ -356,22 +355,19 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 			if ($message["fromid"] == $this->view->user->id_hobbit) {
 				$data = array(
 					"totrashoutbox" => 1,
-					"totrashdateoutbox" => time(),
 				);
 				if ($message["toid"] == $this->view->user->id_hobbit) {
 					$data["totrash"] = 1;
-					$data["totrashdate"] = time();
-						
+
 				}
 			} else {
 				$data = array(
 					"totrash" => 1,
-					"totrashdate" => time(),
 				);
 			}
 			$where = "id=".(int)$this->request->get("valeur_2");
 			$messageTable->update($data, $where);
-			$this->view->information = "Le message est supprim&eacute;";
+			$this->view->information = "Le message est supprimé;";
 			$this->refreshMessages = true;
 		} else {
 			throw new Zend_Exception(get_class($this)."::supprimer Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
@@ -390,17 +386,14 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 				if ($message["fromid"] == $this->view->user->id_hobbit) {
 					$data = array(
 						"totrashoutbox" => 1,
-						"totrashdateoutbox" => time(),
 					);
 					if ($message["toid"] == $this->view->user->id_hobbit) {
 						$data["totrash"] = 1;
-						$data["totrashdate"] = time();
 
 					}
 				} else {
 					$data = array(
 						"totrash" => 1,
-						"totrashdate" => time(),
 					);
 				}
 				$where = "id=".$message["id"];
@@ -409,9 +402,9 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 				$this->refreshMessages = true;
 			}
 			if (count($messages) > 1) {
-				$this->view->information = "Les messages sélectionnés sont supprim&eacute;s";
+				$this->view->information = "Les messages sélectionnés sont supprimés";
 			} else {
-				$this->view->information = "Le message sélectionné est supprim&eacute;";
+				$this->view->information = "Le message sélectionné est supprimé;";
 			}
 		} else {
 			throw new Zend_Exception(get_class($this)."::supprimerselection Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));

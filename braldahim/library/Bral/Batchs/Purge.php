@@ -16,7 +16,7 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - calculBatchImpl - enter -");
 		$retour = null;
 
-		$retour .= $this->purgeBatch();
+		/*$retour .= $this->purgeBatch();
 		$retour .= $this->purgeCadavres();
 		$retour .= $this->purgeElementMinerai();
 		$retour .= $this->purgeElementPartiePlante();
@@ -24,7 +24,7 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$retour .= $this->purgeElementPotion();
 		$retour .= $this->purgeElementRune();
 		$retour .= $this->purgeElementEquipement();
-		$retour .= $this->purgeElementEvenement();
+		$retour .= $this->purgeElementEvenement();*/
 		$retour .= $this->purgeMessages();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - calculBatchImpl - exit -");
@@ -219,8 +219,6 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		return $retour;
 	}
 
-
-
 	private function purgeMessages() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeMessages - enter -");
 
@@ -228,8 +226,13 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 
 		$retour = "";
 		$messageTable = new Message();
-
-		//TODO
+		
+		// Suppression des messages présents dans la corbeille
+		$where = " totrashoutbox = 1 OR totrash = 1";
+		$nb = $messageTable->delete($where);
+		
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeMessages - nb:".$nb." - where:".$where);
+		$retour = " Msg delete:".$nb;
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeMessages - exit -");
 		return $retour;

@@ -19,7 +19,7 @@ class Message extends Zend_Db_Table {
 		$select = $db->select();
 		
 		$select->from('message', '*')
-		->where('message.id = '.intval($id))
+		->where('message.id = ?', intval($id))
 		->where('message.toid = '.intval($idUser). ' OR message.fromid = '.intval($idUser));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -78,9 +78,8 @@ class Message extends Zend_Db_Table {
 	public function findByFromId($toId, $page, $nbMax) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		
 		$select->from('message', '*')
-		->where('message.fromid = '.intval($toId))
+		->where('message.fromid = ?', intval($toId))
 		->where('message.totrashoutbox = 0')
 		->order('datum DESC')
 		->limitPage($page, $nbMax);
@@ -91,7 +90,6 @@ class Message extends Zend_Db_Table {
 	public function findByToOrFromIdSupprime($toOrFromId, $page, $nbMax) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		
 		$select->from('message', '*')
 		->where('(message.toid = '.intval($toOrFromId). ' AND message.totrash = 1) OR (message.fromid = '.intval($toOrFromId).' AND message.totrashoutbox = 1)')
 		->order('datum DESC')
