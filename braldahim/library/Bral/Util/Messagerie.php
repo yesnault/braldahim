@@ -162,7 +162,6 @@ class Bral_Util_Messagerie {
 						'toread' => 0,
 						'totrash' => 0,
 						'totrashoutbox' => 0,
-						'disablereply' => 0,
 						'archived' => 0,
 		);
 	}
