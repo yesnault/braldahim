@@ -42,7 +42,10 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 				return $this->view->render("messagerie/nouveau.phtml");
 				break;
 			case "supprimer" :
+			case "archiver" :
 			case "supprimerselection" :
+			case "archiverselection" :
+			case "marquerlueselection" :
 			case "message" :
 				return $this->view->render("messagerie/message.phtml");
 				break;
@@ -57,7 +60,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 
 	public function getInformations() {
 		if ($this->view->envoiMessage == true) {
-			return "Votre message est envoyé;";
+			return "Votre message est envoyé";
 		}
 	}
 
@@ -85,6 +88,12 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 				break;
 			case "supprimerselection" :
 				$this->prepareSupprimerSelection();
+				break;
+			case "archiverselection" :
+				$this->prepareArchiverSelection();
+				break;
+			case "marquerlueselection" :
+				$this->prepareMarquerLueSelection();
 				break;
 			case "message" :
 				$this->prepareMessage();
@@ -175,7 +184,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			$validateurContacts = new Bral_Validate_Messagerie_Contacts(false, $this->view->user->id_hobbit);
 			$validContacts = $validateurContacts->isValid($this->view->message["contacts"]);
 			$avecContacts = true;
-				
+
 			if ($validContacts == false || mb_strlen($this->view->message["contacts"] < 1)) {
 				$avecContacts = false;
 			}
@@ -367,7 +376,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			}
 			$where = "id=".(int)$this->request->get("valeur_2");
 			$messageTable->update($data, $where);
-			$this->view->information = "Le message est supprimé;";
+			$this->view->information = "Le message est supprimé";
 			$this->refreshMessages = true;
 		} else {
 			throw new Zend_Exception(get_class($this)."::supprimer Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
@@ -404,7 +413,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			if (count($messages) > 1) {
 				$this->view->information = "Les messages sélectionnés sont supprimés";
 			} else {
-				$this->view->information = "Le message sélectionné est supprimé;";
+				$this->view->information = "Le message sélectionné est supprimé";
 			}
 		} else {
 			throw new Zend_Exception(get_class($this)."::supprimerselection Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
@@ -412,4 +421,57 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		unset($messageTable);
 		unset($message);
 	}
+
+	private function prepareArchiverSelection() {
+		$messageTable = new Message();
+		$listMessages = split(',', $this->request->get("valeur_2"));
+		$messages = $messageTable->findByIdList($this->view->user->id_hobbit, $listMessages);
+
+		if ($messages != null && count($messages) >= 1) {
+			foreach ($messages as $message) {
+				if ($message["toid"] != $this->view->user->id_hobbit) {
+					$data = array("archived" => 1);
+					$where = "id=".$message["id"];
+					$messageTable->update($data, $where);
+				}
+				$this->refreshMessages = true;
+			}
+			if (count($messages) > 1) {
+				$this->view->information = "Les messages sélectionnés sont archivés";
+			} else {
+				$this->view->information = "Le message sélectionné est archivé";
+			}
+		} else {
+			throw new Zend_Exception(get_class($this)."::archiverselection Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
+		}
+		unset($messageTable);
+		unset($message);
+	}
+
+	private function prepareMarquerLueSelection() {
+		$messageTable = new Message();
+		$listMessages = split(',', $this->request->get("valeur_2"));
+		$messages = $messageTable->findByIdList($this->view->user->id_hobbit, $listMessages);
+
+		if ($messages != null && count($messages) >= 1) {
+			foreach ($messages as $message) {
+				if ($message["toid"] == $this->view->user->id_hobbit) {
+					$data = array("toread" => 1);
+					$where = "id=".$message["id"];
+					$messageTable->update($data, $where);
+				}
+				$this->refreshMessages = true;
+			}
+			if (count($messages) > 1) {
+				$this->view->information = "Les messages sélectionnés sont marqués comme lus";
+			} else {
+				$this->view->information = "Le message sélectionné est marqué comme lu";
+			}
+		} else {
+			throw new Zend_Exception(get_class($this)."::marquerlueselection Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
+		}
+		unset($messageTable);
+		unset($message);
+	}
+
 }

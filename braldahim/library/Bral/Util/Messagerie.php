@@ -199,6 +199,8 @@ class Bral_Util_Messagerie {
 			$messages = $messageTable->findByFromId($idHobbit, $page, $nbMax);
 		} else if ($filtre == $config->messagerie->message->type->supprime) {
 			$messages = $messageTable->findByToOrFromIdSupprime($idHobbit, $page, $nbMax);
+		} else if ($filtre == $config->messagerie->message->type->archive) {
+			$messages = $messageTable->findByToIdArchive($idHobbit, $page, $nbMax);
 		} else { // reception
 			$messages = $messageTable->findByToId($idHobbit, $page, $nbMax, $toread);
 		}

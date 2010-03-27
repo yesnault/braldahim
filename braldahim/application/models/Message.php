@@ -64,6 +64,7 @@ class Message extends Zend_Db_Table {
 		$select->from('message', '*')
 		->where('message.toid = '.intval($toId))
 		->where('message.totrash = 0')
+		->where('message.archived = 0')
 		->order('date_message DESC')
 		->limitPage($page, $nbMax);
 		
@@ -92,6 +93,17 @@ class Message extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('message', '*')
 		->where('(message.toid = '.intval($toOrFromId). ' AND message.totrash = 1) OR (message.fromid = '.intval($toOrFromId).' AND message.totrashoutbox = 1)')
+		->order('date_message DESC')
+		->limitPage($page, $nbMax);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
+	public function findByToIdArchive($toId, $page, $nbMax) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('message', '*')
+		->where('message.archived = 1 AND (message.toid = ? AND message.totrash = 0)', intval($toId))
 		->order('date_message DESC')
 		->limitPage($page, $nbMax);
 		$sql = $select->__toString();
