@@ -15,8 +15,8 @@ class Bral_Util_Messagerie {
 	private function __construct() {}
 
 	public static function setXmlResponseMessagerie(&$xml_response, $id_hobbit) {
-		$josUddeimTable = new JosUddeim();
-		$nbNotRead = $josUddeimTable->countByToIdNotRead($id_hobbit);
+		$messageTable = new Message();
+		$nbNotRead = $messageTable->countByToIdNotRead($id_hobbit);
 		$xml_entry = new Bral_Xml_Entry();
 		$xml_entry->set_type("action");
 		$xml_entry->set_valeur("messagerie");
@@ -65,7 +65,7 @@ class Bral_Util_Messagerie {
 	}
 
 	public static function constructTabContacts($tabContacts, $idHobbit, $valeur = "valeur_4_contacts") {
-		Zend_Loader::loadClass('JosUserlists');
+		Zend_Loader::loadClass('MessagerieContacts');
 
 		$tab = array("contacts" => "", "aff_js_contacts" => "", "userids" => "", "hobbits" => null);
 
@@ -73,7 +73,7 @@ class Bral_Util_Messagerie {
 			return $tab;
 		}
 
-		$josUserListsTable = new JosUserlists();
+		$josUserListsTable = new MessagerieContacts();
 		$idContactsTab = split(',', $tabContacts);
 
 		$contactsTab = $josUserListsTable->findByIdsList($idContactsTab, $idHobbit);
@@ -134,9 +134,9 @@ class Bral_Util_Messagerie {
 	}
 
 	public static function prepareListe($id_hobbit) {
-		Zend_Loader::loadClass("JosUserlists");
-		$josUserlistsTable = new JosUserlists();
-		$listesContacts = $josUserlistsTable->findByUserId($id_hobbit);
+		Zend_Loader::loadClass("MessagerieContacts");
+		$messagerieContactsTable = new MessagerieContacts();
+		$listesContacts = $messagerieContactsTable->findByUserId($id_hobbit);
 
 		$tabListes = null;
 		if ($listesContacts != null && count($listesContacts) > 0) {
@@ -168,10 +168,10 @@ class Bral_Util_Messagerie {
 	}
 
 	public static function envoiMessageAutomatique($idHobbitSource, $idHobbitDestinataire, $contenu, $view) {
-		Zend_Loader::loadClass("JosUddeim");
+		Zend_Loader::loadClass("Message");
 		$data = Bral_Util_Messagerie::prepareMessageAEnvoyer($idHobbitSource, $idHobbitDestinataire, $contenu, $idHobbitDestinataire);
-		$josUddeimTable = new JosUddeim();
-		$josUddeimTable->insert($data);
+		$messageTable = new Message();
+		$messageTable->insert($data);
 
 		$envoiEmail = "non";
 		$hobbitTable = new Hobbit();
@@ -193,15 +193,15 @@ class Bral_Util_Messagerie {
 	public static function prepareMessages($idHobbit, $filtre = null, $page = null, $nbMax = null, $toread = null) {
 		Zend_Loader::loadClass("Bral_Util_Lien");
 
-		$josUddeimTable = new JosUddeim();
+		$messageTable = new Message();
 		$config = Zend_Registry::get('config');
 
 		if ($filtre == $config->messagerie->message->type->envoye) {
-			$messages = $josUddeimTable->findByFromId($idHobbit, $page, $nbMax);
+			$messages = $messageTable->findByFromId($idHobbit, $page, $nbMax);
 		} else if ($filtre == $config->messagerie->message->type->supprime) {
-			$messages = $josUddeimTable->findByToOrFromIdSupprime($idHobbit, $page, $nbMax);
+			$messages = $messageTable->findByToOrFromIdSupprime($idHobbit, $page, $nbMax);
 		} else { // reception
-			$messages = $josUddeimTable->findByToId($idHobbit, $page, $nbMax, $toread);
+			$messages = $messageTable->findByToId($idHobbit, $page, $nbMax, $toread);
 		}
 
 		$idsHobbit = "";

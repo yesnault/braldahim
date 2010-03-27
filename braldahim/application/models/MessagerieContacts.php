@@ -10,39 +10,29 @@
  * $LastChangedRevision$
  * $LastChangedBy$
  */
-class JosUserlists extends Zend_Db_Table {
-	protected $_name = 'jos_uddeim_userlists';
+class MessagerieContacts extends Zend_Db_Table {
+	protected $_name = 'messagerie_contacts';
 	protected $_primary = 'id';
-	
-/*	protected function _setupDatabaseAdapter() {
-		if (! $this->_db) {
-			$this->_db = Zend_Registry::get('dbSiteAdapter');
-			if (!$this->_db instanceof Zend_Db_Adapter_Abstract) {
-				throw new Zend_Db_Table_Exception('Aucun adapter pour ' . get_class($this));
-			}
-		}
-	}
-*/
-	
+
 	public function findByUserId($userId) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		
-		$select->from('jos_uddeim_userlists', '*')
-		->where('jos_uddeim_userlists.userid = '.intval($userId))
-		->order('jos_uddeim_userlists.name');
+		$select->from('messagerie_contacts', '*')
+		->where('messagerie_contacts.userid = '.intval($userId))
+		->order('messagerie_contacts.name');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 	
 	public function findByIdList($idList, $userId) {
-		$where = 'jos_uddeim_userlists.id = '.intval($idList);
-		$where .= ' AND jos_uddeim_userlists.userid = '.intval($userId);
+		$where = 'messagerie_contacts.id = '.intval($idList);
+		$where .= ' AND messagerie_contacts.userid = '.intval($userId);
 		return $this->fetchRow($where);
 	}
 	
 	public function findByIdsList($listIds, $userId) {
-		return $this->findByList("jos_uddeim_userlists.id", $listIds, $userId);
+		return $this->findByList("messagerie_contacts.id", $listIds, $userId);
 	}
 	
 	private function findByList($nomChamp, $listIds, $userId) {
@@ -62,15 +52,15 @@ class JosUserlists extends Zend_Db_Table {
 		}
 		
 		if ($liste != "") {
-			$liste = $liste . ' AND jos_uddeim_userlists.userid = '.intval($userId);
+			$liste = $liste . ' AND messagerie_contacts.userid = '.intval($userId);
 		} else {
-			$liste = 'jos_uddeim_userlists.userid = '.intval($userId);
+			$liste = 'messagerie_contacts.userid = '.intval($userId);
 		}
 		
 		if ($liste != "") {
 			$db = $this->getAdapter();
 			$select = $db->select();
-			$select->from('jos_uddeim_userlists', '*')
+			$select->from('messagerie_contacts', '*')
 			->where($nomChamp .'='. $liste);
 			$sql = $select->__toString();
 			return $db->fetchAll($sql);

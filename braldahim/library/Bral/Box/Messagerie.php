@@ -30,8 +30,7 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 
 	function render() {
 		if ($this->view->affichageInterne) {
-			Zend_Loader::loadClass('JosUddeim');
-			
+			Zend_Loader::loadClass('Message');
 			Zend_Loader::loadClass('Bral_Util_ConvertDate');
 		
 			$this->preparePage();

@@ -60,7 +60,7 @@ Zend_Loader::loadClass("Bral_Xml_Response");
 Zend_Loader::loadClass("Bral_Xml_Entry");
 
 Zend_Loader::loadClass("Hobbit");
-Zend_Loader::loadClass("JosUddeim");
+Zend_Loader::loadClass("Message");
 Zend_Loader::loadClass("Session");
 
 $debut2 = microtime(true);

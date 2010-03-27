@@ -199,7 +199,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 		}
 
 		if (($validDestinataires || ($validContacts && $avecContacts) ) && ($validContenu)) {
-			$josUddeimTable = new JosUddeim();
+			$messageTable = new Message();
 				
 			$debutContenuMail = "Message de ".$this->view->user->prenom_hobbit." ".$this->view->user->nom_hobbit." (".$this->view->user->id_hobbit.") : ";
 
@@ -227,7 +227,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 				foreach ($idDestinatairesTab as $idHobbit) {
 					$data = Bral_Util_Messagerie::prepareMessageAEnvoyer($this->view->user->id_hobbit, $idHobbit, $tabMessage["contenu"], $idDestinatairesListe);
 					if (!in_array($idHobbit, $tabIdDestinatairesDejaEnvoye)) {
-						$josUddeimTable->insert($data);
+						$messageTable->insert($data);
 						$tabIdDestinatairesDejaEnvoye[] = $idHobbit;
 						if ($tabHobbits[$idHobbit]["envoi_mail_message_hobbit"] == "oui") {
 							Bral_Util_Mail::envoiMailAutomatique($tabHobbits[$idHobbit], $this->view->config->mail->message->titre, $debutContenuMail.$tabMessage["contenu"], $this->view);
@@ -258,8 +258,8 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 	}
 
 	private function prepareMessage() {
-		$josUddeimTable = new JosUddeim();
-		$message = $josUddeimTable->findById($this->view->user->id_hobbit, (int)$this->request->get("valeur_2"));
+		$messageTable = new Message();
+		$message = $messageTable->findById($this->view->user->id_hobbit, (int)$this->request->get("valeur_2"));
 
 		$tabMessage = null;
 		if ($message != null && count($message) == 1) {
@@ -338,9 +338,9 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 					"toread" => 1,
 				);
 				$where = "id=".$message["id"];
-				$josUddeimTable->update($data, $where);
+				$messageTable->update($data, $where);
 			}
-			unset($josUddeimTable);
+			unset($messageTable);
 			unset($message);
 		} else {
 			throw new Zend_Exception(get_class($this)."::prepareMessage Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
@@ -349,8 +349,8 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 	}
 
 	private function prepareSupprimer() {
-		$josUddeimTable = new JosUddeim();
-		$message = $josUddeimTable->findById($this->view->user->id_hobbit, (int)$this->request->get("valeur_2"));
+		$messageTable = new Message();
+		$message = $messageTable->findById($this->view->user->id_hobbit, (int)$this->request->get("valeur_2"));
 		if ($message != null && count($message) == 1) {
 			$message = $message[0];
 			if ($message["fromid"] == $this->view->user->id_hobbit) {
@@ -370,20 +370,20 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 				);
 			}
 			$where = "id=".(int)$this->request->get("valeur_2");
-			$josUddeimTable->update($data, $where);
+			$messageTable->update($data, $where);
 			$this->view->information = "Le message est supprim&eacute;";
 			$this->refreshMessages = true;
 		} else {
 			throw new Zend_Exception(get_class($this)."::supprimer Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
 		}
-		unset($josUddeimTable);
+		unset($messageTable);
 		unset($message);
 	}
 
 	private function prepareSupprimerSelection() {
-		$josUddeimTable = new JosUddeim();
+		$messageTable = new Message();
 		$listMessages = split(',', $this->request->get("valeur_2"));
-		$messages = $josUddeimTable->findByIdList($this->view->user->id_hobbit, $listMessages);
+		$messages = $messageTable->findByIdList($this->view->user->id_hobbit, $listMessages);
 
 		if ($messages != null && count($messages) >= 1) {
 			foreach ($messages as $message) {
@@ -404,7 +404,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 					);
 				}
 				$where = "id=".$message["id"];
-				$josUddeimTable->update($data, $where);
+				$messageTable->update($data, $where);
 
 				$this->refreshMessages = true;
 			}
@@ -416,7 +416,7 @@ Message de ".$this->view->message["expediteur"]." le ".date('d/m/y, H:i', $this-
 		} else {
 			throw new Zend_Exception(get_class($this)."::supprimerselection Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
 		}
-		unset($josUddeimTable);
+		unset($messageTable);
 		unset($message);
 	}
 }

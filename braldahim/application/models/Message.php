@@ -12,27 +12,102 @@
  */
 class Message extends Zend_Db_Table {
 	protected $_name = 'message';
-	protected $_primary = 'id_message';
+	protected $_primary = 'id';
 
-	public function findByIdHobbit($idHobbit, $idType, $page, $nbMax) {
+	public function findById($idUser, $id) {
 		$db = $this->getAdapter();
 		$select = $db->select();
+		
 		$select->from('message', '*')
-		->where('message.id_fk_type_message = '.intval($idType))
-		->where('message.id_fk_hobbit_message = '.intval($idHobbit))
-		->order('date_envoi_message DESC')
+		->where('message.id = '.intval($id))
+		->where('message.toid = '.intval($idUser). ' OR message.fromid = '.intval($idUser));
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
+	public function findByIdList($idUser, $listId) {
+		
+		$liste = "";
+		$nomChamp = "id";
+		if (count($listId) < 1) {
+			$liste = "";
+		} else {
+			foreach($listId as $id) {
+				if ((int) $id."" == $id."") {
+					if ($liste == "") {
+						$liste = $id;
+					} else {
+						$liste = $liste." OR ".$nomChamp."=".$id;
+					}
+				}
+			}
+		}
+		
+		if ($liste != "") {
+			$db = $this->getAdapter();
+			$select = $db->select();
+			
+			$select->from('message', '*')
+			->where('message.toid = '.intval($idUser). ' OR message.fromid = '.intval($idUser))
+			->where($nomChamp ."=". $liste);
+			$sql = $select->__toString();
+			return $db->fetchAll($sql);
+		} else {
+			return null;
+		}
+	}
+	
+	public function findByToId($toId, $page, $nbMax, $toread = null) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		
+		$select->from('message', '*')
+		->where('message.toid = '.intval($toId))
+		->where('message.totrash = 0')
+		->order('datum DESC')
 		->limitPage($page, $nbMax);
+		
+		if ($toread != null && $toread === true) {
+			$select->where('toread = 0');
+		}
+		
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
 
-	public function findByIdHobbitAndIdMessage($idHobbit, $idMessage) {
+	public function findByFromId($toId, $page, $nbMax) {
 		$db = $this->getAdapter();
 		$select = $db->select();
+		
 		$select->from('message', '*')
-		->where('message.id_message = '.intval($idMessage))
-		->where('message.id_fk_hobbit_message = '.intval($idHobbit));
+		->where('message.fromid = '.intval($toId))
+		->where('message.totrashoutbox = 0')
+		->order('datum DESC')
+		->limitPage($page, $nbMax);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
+	}
+	
+	public function findByToOrFromIdSupprime($toOrFromId, $page, $nbMax) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		
+		$select->from('message', '*')
+		->where('(message.toid = '.intval($toOrFromId). ' AND message.totrash = 1) OR (message.fromid = '.intval($toOrFromId).' AND message.totrashoutbox = 1)')
+		->order('datum DESC')
+		->limitPage($page, $nbMax);
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+	
+	public function countByToIdNotRead($id) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('message', 'count(*) as nombre')
+		->where('message.toid = '.intval($id). ' AND message.toread = 0 AND message.totrash = 0');
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
 	}
 }
