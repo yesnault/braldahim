@@ -1,11 +1,16 @@
 
-<? if ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
 <br>
+<? if ($this->filtre == $this->config->messagerie->message->type->envoye): ?>
+Les messages envoyés sont supprimés au bout de 20 jours.
+<? elseif ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
 Les messages supprimés sont définitivement supprimés dans la nuit.
-<br>
+<? elseif ($this->filtre == $this->config->messagerie->message->type->reception): ?>
+Les messages présents dans la boite de réception sont supprimés au bout de 20 jours.
+<? elseif ($this->filtre == $this->config->messagerie->message->type->archive): ?>
+Vous ne pouvez pas avoir plus de 200 messages archivés
 <? endif; ?>
 		
-<br>
+<br><br>
 <table class="table_liste">
 	<tbody>
 	<? if (!empty($this->messages)): ?>

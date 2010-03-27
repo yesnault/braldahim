@@ -134,7 +134,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		$contenu = PHP_EOL.PHP_EOL.PHP_EOL;
 		$contenu .= "__________".PHP_EOL;
 		$contenu .= "Message de ".$this->view->message["expediteur"]." ";
-		$contenu .= "le ".date('d/m/y, H:i', $this->view->message["date"])." : ".PHP_EOL;
+		$contenu .= "le ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y, H:i', $this->view->message["date"])." : ".PHP_EOL;
 		$contenu .= $this->view->message["titre"];
 
 		$tabMessage = array(

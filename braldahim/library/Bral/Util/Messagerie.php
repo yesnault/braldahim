@@ -73,10 +73,10 @@ class Bral_Util_Messagerie {
 			return $tab;
 		}
 
-		$josUserListsTable = new MessagerieContacts();
+		$messagerieContactsTable = new MessagerieContacts();
 		$idContactsTab = split(',', $tabContacts);
 
-		$contactsTab = $josUserListsTable->findByIdsList($idContactsTab, $idHobbit);
+		$contactsTab = $messagerieContactsTable->findByIdsList($idContactsTab, $idHobbit);
 		if ($contactsTab == null) {
 			return $tab;
 		}

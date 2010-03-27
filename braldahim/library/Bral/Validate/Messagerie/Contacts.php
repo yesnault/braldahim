@@ -46,16 +46,16 @@ class Bral_Validate_Messagerie_Contacts implements Zend_Validate_Interface {
 			}
 		}
 		
-		Zend_Loader::loadClass('JosUserlists');
-		$josUserListsTable = new JosUserlists();
+		Zend_Loader::loadClass('MessagerieContacts');
+		$messagerieContactsTable = new MessagerieContacts();
 		$idContactsTab = split(',', $valeur);
-		$josUserLists = $josUserListsTable->findByIdsList($idContactsTab, $this->idFkJosUsersHobbit);
+		$messagerieContacts = $messagerieContactsTable->findByIdsList($idContactsTab, $this->idFkJosUsersHobbit);
 		
 		if ($valid) {
 			foreach ($idContactsTab as $id) {
 				$trouve = false;
 				
-				foreach($josUserLists as $j) {
+				foreach($messagerieContacts as $j) {
 					if ($j["id"] == $id) {
 						$trouve = true;
 					}

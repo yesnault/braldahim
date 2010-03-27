@@ -14,7 +14,7 @@ class Bral_Messagerie_Contacts extends Bral_Messagerie_Messagerie {
 
 	function __construct($request, $view, $action) {
 		Zend_Loader::loadClass('Bral_Util_Messagerie');
-		Zend_Loader::loadClass('JosUserlists');
+		Zend_Loader::loadClass('MessagerieContacts');
 		
 		parent::__construct($request, $view, $action);
 
@@ -97,7 +97,7 @@ class Bral_Messagerie_Contacts extends Bral_Messagerie_Messagerie {
 		
 		$filter = new Zend_Filter_StripTags();
 		
-		$josUserlistsTable = new JosUserlists();
+		$messagerieContactsTable = new MessagerieContacts();
 		Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_2'));
 		$id = $filter->filter(trim($this->request->get('valeur_2')));
 		
@@ -125,12 +125,12 @@ class Bral_Messagerie_Contacts extends Bral_Messagerie_Messagerie {
 			);
 			
 			if ($id == -1) { // nouveau
-				$id = $josUserlistsTable->insert($data);
+				$id = $messagerieContactsTable->insert($data);
 				$this->view->information = "La liste ". $nom ." est créée";
 			} else { // update
 				$where = " userid = ". $this->view->user->id_hobbit; // secu
 				$where .= " AND id=".intval($id);
-				$josUserlistsTable->update($data, $where);
+				$messagerieContactsTable->update($data, $where);
 				$this->view->information = "La liste ". $nom ." est modifiée";
 			}
 		} else {
@@ -176,8 +176,8 @@ class Bral_Messagerie_Contacts extends Bral_Messagerie_Messagerie {
 	}
 	
 	private function prepareContactsListe($id) {
-		$josUserlistsTable = new JosUserlists();
-		$rowset = $josUserlistsTable->findByIdList($id, $this->view->user->id_hobbit);
+		$messagerieContactsTable = new MessagerieContacts();
+		$rowset = $messagerieContactsTable->findByIdList($id, $this->view->user->id_hobbit);
 		if ($rowset == null) {
 			throw new Zend_Exception("Bral_Messagerie_Contacts::prepareEditer Valeur invalide : id=".$id. " id2=".$this->view->user->id_hobbit);
 		}
@@ -201,13 +201,13 @@ class Bral_Messagerie_Contacts extends Bral_Messagerie_Messagerie {
 		Zend_Loader::loadClass('Zend_Filter_StripTags');
 		$filter = new Zend_Filter_StripTags();
 		
-		$josUserlistsTable = new JosUserlists();
+		$messagerieContactsTable = new MessagerieContacts();
 		Bral_Util_Controle::getValeurIntVerif($this->request->get('valeur_2'));
 		$id = $filter->filter(trim($this->request->get('valeur_2')));
 		
 		$where = " userid = ". $this->view->user->id_hobbit; // secu
 		$where .= " AND id=".intval($id);
-		$josUserlistsTable->delete($where);
+		$messagerieContactsTable->delete($where);
 		$this->view->information = "La liste est supprimée";
 	}
 }

@@ -16,7 +16,7 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - calculBatchImpl - enter -");
 		$retour = null;
 
-		/*$retour .= $this->purgeBatch();
+		$retour .= $this->purgeBatch();
 		$retour .= $this->purgeCadavres();
 		$retour .= $this->purgeElementMinerai();
 		$retour .= $this->purgeElementPartiePlante();
@@ -24,7 +24,7 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$retour .= $this->purgeElementPotion();
 		$retour .= $this->purgeElementRune();
 		$retour .= $this->purgeElementEquipement();
-		$retour .= $this->purgeElementEvenement();*/
+		$retour .= $this->purgeElementEvenement();
 		$retour .= $this->purgeMessages();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - calculBatchImpl - exit -");
@@ -232,8 +232,18 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$nb = $messageTable->delete($where);
 		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeMessages - nb:".$nb." - where:".$where);
-		$retour = " Msg delete:".$nb;
-
+		$retour = " Msg delete trash:".$nb;
+		
+		$date = date("Y-m-d H:i:s");
+		$add_day = - 20;
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($date, $add_day);
+		$where = $messageTable->getAdapter()->quoteInto('date_message <= ?',  $dateFin);
+		$where .= " AND archived = 0";
+		$nb = $messageTable->delete($where);
+		
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeMessages - nb:".$nb." - where:".$where);
+		$retour .= " Msg delete date:".$nb;
+		
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeMessages - exit -");
 		return $retour;
 	}
