@@ -35,7 +35,8 @@ Les messages supprimés sont définitivement supprimés dans la nuit.
 	  					<? endif; ?>
 	  				</td>
 	  				<td class="table_liste" <?=$js ?>> <?if (mb_strlen($message["titre"]) > 25) echo Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else echo Bral_Util_BBParser::bbcodeStrip($message["titre"]);?></td>
-	  				<td class="table_liste" <?=$js ?>> le <?=date('d/m/y, H:i', $message["date"]);?></td>
+	  				<td class="table_liste" <?=$js ?>> le 
+	  					<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y, H:i', $message["date"]);?></td>
 	  				<td class="table_liste">
 						<? if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
 							<img src="/public/images/uddeim/forward.gif" alt="Transf&eacute;rer" title="Transf&eacute;rer"onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=transferer&valeur_2=<?=$message["id_message"];?>");' style="cursor:pointer"><br>
