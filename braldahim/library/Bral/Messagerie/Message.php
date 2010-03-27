@@ -411,9 +411,9 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 				$this->refreshMessages = true;
 			}
 			if (count($messages) > 1) {
-				$this->view->information = "Les messages sélectionnés sont supprimés";
+				$this->view->information = "Les messages sélectionnés sont supprimés.";
 			} else {
-				$this->view->information = "Le message sélectionné est supprimé";
+				$this->view->information = "Le message sélectionné est supprimé.";
 			}
 		} else {
 			throw new Zend_Exception(get_class($this)."::supprimerselection Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
@@ -423,13 +423,23 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 	}
 
 	private function prepareArchiverSelection() {
+		
 		$messageTable = new Message();
+		$nbDejaArchives = $messageTable->countByToIdArchived($this->view->user->id_hobbit);
+		
 		$listMessages = split(',', $this->request->get("valeur_2"));
 		$messages = $messageTable->findByIdList($this->view->user->id_hobbit, $listMessages);
 
-		if ($messages != null && count($messages) >= 1) {
+		$s = "";
+		if ($nbDejaArchives >= 1) {
+			$s = 's';
+		}
+		if ($nbDejaArchives >= 200) {
+			$this->view->information = "Vous avez ".$nbDejaArchives. " messages archivés.";
+			$this->view->information .= " Vous ne pouvez pas archiver plus de message, le message n'est donc pas archivé.";
+		} elseif ($messages != null && count($messages) >= 1) {
 			foreach ($messages as $message) {
-				if ($message["toid"] != $this->view->user->id_hobbit) {
+				if ($message["toid"] == $this->view->user->id_hobbit) {
 					$data = array("archived" => 1);
 					$where = "id=".$message["id"];
 					$messageTable->update($data, $where);
@@ -437,9 +447,9 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 				$this->refreshMessages = true;
 			}
 			if (count($messages) > 1) {
-				$this->view->information = "Les messages sélectionnés sont archivés";
+				$this->view->information = "Les messages sélectionnés sont archivés. Vous avez ".($nbDejaArchives + 1). " message$s archivé$s.";
 			} else {
-				$this->view->information = "Le message sélectionné est archivé";
+				$this->view->information = "Le message sélectionné est archivé. Vous avez ".($nbDejaArchives + 1)." message$s archivé$s.";
 			}
 		} else {
 			throw new Zend_Exception(get_class($this)."::archiverselection Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
@@ -463,9 +473,9 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 				$this->refreshMessages = true;
 			}
 			if (count($messages) > 1) {
-				$this->view->information = "Les messages sélectionnés sont marqués comme lus";
+				$this->view->information = "Les messages sélectionnés sont marqués comme lus.";
 			} else {
-				$this->view->information = "Le message sélectionné est marqué comme lu";
+				$this->view->information = "Le message sélectionné est marqué comme lu.";
 			}
 		} else {
 			throw new Zend_Exception(get_class($this)."::marquerlueselection Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));

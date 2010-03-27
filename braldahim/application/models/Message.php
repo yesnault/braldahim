@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -17,16 +17,16 @@ class Message extends Zend_Db_Table {
 	public function findById($idUser, $id) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		
+
 		$select->from('message', '*')
 		->where('message.id = ?', intval($id))
 		->where('message.toid = '.intval($idUser). ' OR message.fromid = '.intval($idUser));
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	public function findByIdList($idUser, $listId) {
-		
+
 		$liste = "";
 		$nomChamp = "id";
 		if (count($listId) < 1) {
@@ -42,11 +42,11 @@ class Message extends Zend_Db_Table {
 				}
 			}
 		}
-		
+
 		if ($liste != "") {
 			$db = $this->getAdapter();
 			$select = $db->select();
-			
+				
 			$select->from('message', '*')
 			->where('message.toid = '.intval($idUser). ' OR message.fromid = '.intval($idUser))
 			->where($nomChamp ."=". $liste);
@@ -56,22 +56,22 @@ class Message extends Zend_Db_Table {
 			return null;
 		}
 	}
-	
+
 	public function findByToId($toId, $page, $nbMax, $toread = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
-		
+
 		$select->from('message', '*')
 		->where('message.toid = '.intval($toId))
 		->where('message.totrash = 0')
 		->where('message.archived = 0')
 		->order('date_message DESC')
 		->limitPage($page, $nbMax);
-		
+
 		if ($toread != null && $toread === true) {
 			$select->where('toread = 0');
 		}
-		
+
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -87,7 +87,7 @@ class Message extends Zend_Db_Table {
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	public function findByToOrFromIdSupprime($toOrFromId, $page, $nbMax) {
 		$db = $this->getAdapter();
 		$select = $db->select();
@@ -103,18 +103,29 @@ class Message extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('message', '*')
-		->where('message.archived = 1 AND (message.toid = ? AND message.totrash = 0)', intval($toId))
+		->where('message.archived = 1 AND message.toid = ? AND message.totrash = 0', intval($toId))
 		->order('date_message DESC')
 		->limitPage($page, $nbMax);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
-	
+
 	public function countByToIdNotRead($id) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('message', 'count(*) as nombre')
 		->where('message.toid = '.intval($id). ' AND message.toread = 0 AND message.totrash = 0');
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
+	}
+
+	public function countByToIdArchived($id) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('message', 'count(*) as nombre')
+		->where('message.toid = ? AND message.archived = 1 AND message.totrash = 0', intval($id));
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 		$nombre = $resultat[0]["nombre"];
