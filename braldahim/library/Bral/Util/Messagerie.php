@@ -164,7 +164,6 @@ class Bral_Util_Messagerie {
 						'totrashoutbox' => 0,
 						'disablereply' => 0,
 						'archived' => 0,
-						'cryptmode' => 0,
 		);
 	}
 
