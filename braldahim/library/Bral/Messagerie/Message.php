@@ -321,7 +321,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			$tabMessage = array(
 				"id_message" => $message["id"],
 				"titre" => $message["message"],
-				"date" => $message["datum"],
+				"date" => $message["date_message"],
 				'expediteur' => $expediteur,
 				'destinataire' => $destinataire,
 				'destinataires' => $destinataires,

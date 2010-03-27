@@ -64,7 +64,7 @@ class Message extends Zend_Db_Table {
 		$select->from('message', '*')
 		->where('message.toid = '.intval($toId))
 		->where('message.totrash = 0')
-		->order('datum DESC')
+		->order('date_message DESC')
 		->limitPage($page, $nbMax);
 		
 		if ($toread != null && $toread === true) {
@@ -81,7 +81,7 @@ class Message extends Zend_Db_Table {
 		$select->from('message', '*')
 		->where('message.fromid = ?', intval($toId))
 		->where('message.totrashoutbox = 0')
-		->order('datum DESC')
+		->order('date_message DESC')
 		->limitPage($page, $nbMax);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
@@ -92,7 +92,7 @@ class Message extends Zend_Db_Table {
 		$select = $db->select();
 		$select->from('message', '*')
 		->where('(message.toid = '.intval($toOrFromId). ' AND message.totrash = 1) OR (message.fromid = '.intval($toOrFromId).' AND message.totrashoutbox = 1)')
-		->order('datum DESC')
+		->order('date_message DESC')
 		->limitPage($page, $nbMax);
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

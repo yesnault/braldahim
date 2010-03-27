@@ -158,7 +158,7 @@ class Bral_Util_Messagerie {
 					  'toid' => $idHobbitDestinataire,
 						'toids' => $idDestinatairesListe,
 						'message' => $contenu,
-						'datum' => time(),
+						'date_message' => date("Y-m-d H:i:s"),
 						'toread' => 0,
 						'totrash' => 0,
 						'totrashoutbox' => 0,
@@ -254,7 +254,7 @@ class Bral_Util_Messagerie {
 				$tabMessages[] = array(
 					"id_message" => $m["id"],
 					"titre" => $m["message"],
-					"date" => $m["datum"],
+					"date" => $m["date_message"],
 					"expediteur" => $expediteur,
 					"destinataire" => $destinataire,
 					"toread" => $m["toread"],
