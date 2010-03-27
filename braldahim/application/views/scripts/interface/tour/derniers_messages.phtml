@@ -22,7 +22,7 @@
   					<? endif; ?>
   				</td>
   				<td class="table_liste"> <?if (mb_strlen($message["titre"]) > 25) echo Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else echo Bral_Util_BBParser::bbcodeStrip($message["titre"]);?></td>
-  				<td class="table_liste"> le <?=date('d/m/y, H:i', $message["date"]);?></td>
+  				<td class="table_liste"> le <?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y, H:i', $message["date"]);?></td>
   			</tr>
 	  	<? endforeach; ?>
 	</tbody>
