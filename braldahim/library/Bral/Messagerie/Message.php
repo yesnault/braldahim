@@ -66,6 +66,8 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 
 	private function prepareAction() {
 		$this->view->valeur_1 = $this->request->get("valeur_1");
+		
+		Bral_Util_Messagerie::preparePage($this->request, $this->view);
 
 		switch($this->request->get("valeur_1")) {
 			case "envoi" :

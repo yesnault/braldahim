@@ -33,7 +33,7 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 			Zend_Loader::loadClass('Message');
 			Zend_Loader::loadClass('Bral_Util_ConvertDate');
 
-			$this->preparePage();
+			Bral_Util_Messagerie::preparePage($this->_request, $this->view);
 			$this->prepareMessages();
 		}
 		$this->view->nom_interne = $this->getNomInterne();
@@ -42,7 +42,7 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 
 	private function prepareMessages() {
 		$paginator = null;
-		$tabMessages = Bral_Util_Messagerie::prepareMessages($this->view->user->id_hobbit, $paginator, $this->view->filtre, $this->view->page, $this->_nbMax);
+		$tabMessages = Bral_Util_Messagerie::prepareMessages($this->view->user->id_hobbit, $paginator, $this->view->filtre, $this->view->page, $this->view->config->messagerie->messages->nb_affiche);
 
 		$this->view->paginator = $paginator;
 		$this->view->messages = $tabMessages;
@@ -51,27 +51,5 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 		Zend_Paginator::setDefaultScrollingStyle('All');
 		Zend_View_Helper_PaginationControl::setDefaultViewPartial('/interface/messagerie/pagination.phtml');
 		$this->view->paginator->setView($this->view);
-	}
-
-	private function preparePage() {
-		$this->view->page = 1;
-
-		if ($this->_request->get("valeur_4") != "") {
-			$this->view->filtre =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_4"));
-		} else {
-			$this->view->filtre = $this->view->config->messagerie->message->type->reception;
-		}
-			
-		if (($this->_request->get("box") == "box_messagerie") && ($this->_request->get("valeur_1") == "page")) { // si le joueur a clique sur une icone
-			$this->view->page =  Bral_Util_Controle::getValeurIntVerif($this->_request->get("valeur_3"));
-		} else {
-			$this->view->page = 1;
-		}
-
-		if ($this->view->page < 1) {
-			$this->view->page = 1;
-		}
-		$this->_nbMax = $this->view->config->messagerie->messages->nb_affiche;
-
 	}
 }

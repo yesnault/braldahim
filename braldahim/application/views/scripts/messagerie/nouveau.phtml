@@ -1,3 +1,5 @@
+<br>
+<ul class="titre textalic textsized" >Nouveau message</ul>
 
 <? if ($this->envoiMessage == true): ?>
 	Votre message est envoy&eacute;
@@ -26,9 +28,7 @@
 		</div>
 	<? endif; ?>
 
-	<label>Destinataires (entrez le pr&eacute;nom)</label><br />
-	Le ou les destinataires doivent s'&ecirc;tre d&eacute;j&agrave; connect&eacute;s au site au moins une fois.<br>
-	Sinon, ils n'appara&icirc;tront pas dans le r&eacute;sultat de la recherche ci-dessous.<br>
+	<label>Destinataires</label><br />
 	
 	<div id='aff_valeur_2_dest' name='aff_valeur_2_dest'><?=$this->message["aff_js_destinataires"]?></div>
 	<input type="hidden" name="valeur_2_dest" id="valeur_2_dest" value="<?=$this->message["destinataires"]?>" />
@@ -36,7 +36,7 @@
 	<div id='aff_valeur_4_contacts' name='aff_valeur_4_contacts'><?=$this->message["aff_js_contacts"]?></div>
 	<input type="hidden" name="valeur_4_contacts" id="valeur_4_contacts" value="<?=$this->message["contacts"]?>" />
 	
-	<input type="text" name="recherche_valeur_2_dest" size='40' id="recherche_valeur_2_dest" value="Entrez un nom" onFocus='this.value=""; activerRechercheHobbit("valeur_2_dest");' />
+	<input type="text" name="recherche_valeur_2_dest" size='40' id="recherche_valeur_2_dest" value="Entrez un prénom" onFocus='this.value=""; activerRechercheHobbit("valeur_2_dest");' />
 	<input type="hidden" name="recherche_valeur_2_dest_actif" id="recherche_valeur_2_dest_actif" value="0" />
 	<div class="recherche" id="recherche_valeur_2_dest_update" ></div> <img src="/public/images/loupe.gif" />
     <span id="indicateur_recherche_valeur_2_dest" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>

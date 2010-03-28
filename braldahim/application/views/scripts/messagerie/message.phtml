@@ -1,11 +1,23 @@
+<br/>
+<? if ($this->filtre == $this->config->messagerie->message->type->envoye): ?>
+	<ul class="titre textalic textsized" >Messages envoyés</ul>
+<? elseif ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
+	<ul class="titre textalic textsized" >Messages supprimés</ul>
+<? elseif ($this->filtre == $this->config->messagerie->message->type->reception): ?>
+	<ul class="titre textalic textsized" >Boite de réception</ul>
+<? elseif ($this->filtre == $this->config->messagerie->message->type->archive): ?>
+	<ul class="titre textalic textsized" >Messages archivés</ul>
+<? endif; ?>
+
 <? if ($this->information != null) :?>
 	<br><br><?=$this->information ?><br>
 	<?=$this->render("/commun/commun_quete_resultat.phtml") ?>
 	<br/>
+	<input type='button' class='button1' value='Retour' onClick='javascript:_get_("/interface/load/?box=box_messagerie&valeur_1=page&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");'>
 <? endif; ?>
 
 <? if ($this->message != null) : ?>
-	<br><br> 
+	<br>
 	<table class="table_liste">
 		<thead class="table_liste">
 			<tr class="table_liste">
@@ -28,9 +40,13 @@
 	</table>
 
     <br /><br />
-    <input type='button' class='button1' value='R&eacute;pondre' onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=repondre&valeur_2=<?=$this->message["id_message"];?>");'>
+    <input type='button' class='button1' value='Retour' onClick='javascript:_get_("/interface/load/?box=box_messagerie&valeur_1=page&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");'>
+    <br>
+    <input type='button' class='button1' value='R&eacute;pondre' onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=repondre&valeur_2=<?=$this->message["id_message"];?>&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");'>
     <input type='button' class='button1' value='R&eacute;pondre &agrave; tous' onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=repondretous&valeur_2=<?=$this->message["id_message"];?>");'>
 	<input type='button' class='button1' value='Transf&eacute;rer' onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=transferer&valeur_2=<?=$this->message["id_message"];?>");'>
-    <input type='button' class='button1' value='Supprimer' onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimer&valeur_2=<?=$this->message["id_message"];?>");'>
-    <input type='button' class='button1' value='Archiver' onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=archiver&valeur_2=<?=$this->message["id_message"];?>");'>
+    <input type='button' class='button1' value='Supprimer' onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimer&valeur_2=<?=$this->message["id_message"];?>&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");'>
+    <? if ($this->filtre != $this->config->messagerie->message->type->envoye): ?>
+    <input type='button' class='button1' value='Archiver' onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=archiver&valeur_2=<?=$this->message["id_message"];?>&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");'>
+    <? endif;?>
 <? endif; ?>

@@ -1,17 +1,20 @@
 
 <br>
 <? if ($this->filtre == $this->config->messagerie->message->type->envoye): ?>
-Les messages envoyés sont supprimés au bout de 30 jours.
+	<ul class="titre textalic textsized" >Messages envoyés</ul>
+	Les messages envoyés sont supprimés au bout de 30 jours.
 <? elseif ($this->filtre == $this->config->messagerie->message->type->supprime): ?>
-Les messages supprimés sont définitivement supprimés dans la nuit.
+	<ul class="titre textalic textsized" >Messages supprimés</ul>
+	Les messages supprimés sont définitivement supprimés dans la nuit.
 <? elseif ($this->filtre == $this->config->messagerie->message->type->reception): ?>
-Les messages présents dans la boite de réception sont supprimés au bout de 30 jours.
+	<ul class="titre textalic textsized" >Boite de réception</ul>
+	Les messages présents dans la boite de réception sont supprimés au bout de 30 jours.
 <? elseif ($this->filtre == $this->config->messagerie->message->type->archive): ?>
-Vous ne pouvez pas avoir plus de 200 messages archivés
+	<ul class="titre textalic textsized" >Messages archivés</ul>
+	Vous ne pouvez pas avoir plus de 200 messages archivés
 <? endif; ?>
 		
 <br><br>
-
 
 <table class="table_liste">
 	<tbody>
@@ -19,7 +22,7 @@ Vous ne pouvez pas avoir plus de 200 messages archivés
 		<? $i = 0;
 		   $listeIdMessage = "";
 		   foreach($this->messages as $message): ?>
-		   		<? $js="onClick=\"_get_('/messagerie/doaction?caction=do_messagerie_message&valeur_1=message&valeur_2=".$message['id_message']."');\"  title='Lire le message'"; ?>
+		   		<? $js="onClick=\"_get_('/messagerie/doaction?caction=do_messagerie_message&valeur_1=message&valeur_2=".$message['id_message']."&valeur_3=".$this->page."&valeur_4=".$this->filtre."');\"  title='Lire le message'"; ?>
 	  			<tr class="table_liste<?=($i % 2);$i++; ?> hhover">
 	  				<td class="table_liste">
 	  					<? if ($message["toread"] == "0") :?>
@@ -48,7 +51,9 @@ Vous ne pouvez pas avoir plus de 200 messages archivés
 						<? if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
 							<img src="/public/images/uddeim/forward.gif" alt="Transf&eacute;rer" title="Transf&eacute;rer"onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=transferer&valeur_2=<?=$message["id_message"];?>");' style="cursor:pointer">
 							<img src="/public/images/uddeim/trash.gif" alt="Effacer" title="Effacer" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimer&valeur_2=<?=$message["id_message"];?>");' style="cursor:pointer">
-							<img src="/public/images/uddeim/archive.gif" alt="Effacer" title="Archiver" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=archiver&valeur_2=<?=$message["id_message"];?>");' style="cursor:pointer">
+						<? endif;?>
+						<? if ($this->filtre != $this->config->messagerie->message->type->supprime && $this->filtre != $this->config->messagerie->message->type->envoye): ?>
+							<img src="/public/images/uddeim/archive.gif" alt="Archiver" title="Archiver" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=archiver&valeur_2=<?=$message["id_message"];?>");' style="cursor:pointer">
 						<? endif; ?>
 					</td>
 					<td class="table_liste">
@@ -102,13 +107,13 @@ Vous ne pouvez pas avoir plus de 200 messages archivés
 			   
 			   <? if (!empty($this->messages)) : ?>
 				   <? if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
-			       	<input type="button" class='button1'  onClick='javascript:listeMessages=chaineCheckbox($("listeIdMessage").value);if (listeMessages == "") {alert("Aucun message sélectionné");} else {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimerselection&valeur_2="+listeMessages);}'  value="Supprimer les messages sélectionnés" />
+			       	<input type="button" class='button1'  onClick='javascript:listeMessages=chaineCheckbox($("listeIdMessage").value);if (listeMessages == "") {alert("Aucun message sélectionné");} else {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimerselection&valeur_2="+listeMessages+"&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");}'  value="Supprimer les messages sélectionnés" />
 			       <? endif; ?>
 				   <? if ($this->filtre == $this->config->messagerie->message->type->reception): ?>
-				   	<input type="button" class='button1'  onClick='javascript:listeMessages=chaineCheckbox($("listeIdMessage").value);if (listeMessages == "") {alert("Aucun message sélectionné");} else {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=archiverselection&valeur_2="+listeMessages);}'  value="Archiver les messages sélectionnés" />
+				   	<input type="button" class='button1'  onClick='javascript:listeMessages=chaineCheckbox($("listeIdMessage").value);if (listeMessages == "") {alert("Aucun message sélectionné");} else {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=archiverselection&valeur_2="+listeMessages+"&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");}'  value="Archiver les messages sélectionnés" />
 				   <? endif; ?>
 				   <? if ($this->filtre != $this->config->messagerie->message->type->supprime && $this->filtre != $this->config->messagerie->message->type->envoye): ?>
-			       	<input type="button" class='button1'  onClick='javascript:listeMessages=chaineCheckbox($("listeIdMessage").value);if (listeMessages == "") {alert("Aucun message sélectionné");} else {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=marquerlueselection&valeur_2="+listeMessages);}'  value="Marquer les messages sélectionnés comme lus" />
+			       	<input type="button" class='button1'  onClick='javascript:listeMessages=chaineCheckbox($("listeIdMessage").value);if (listeMessages == "") {alert("Aucun message sélectionné");} else {_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=marquerlueselection&valeur_2="+listeMessages+"&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");}'  value="Marquer les messages sélectionnés comme lus" />
 			       <? endif; ?>
 			   <? endif;?>
 		    </th>

@@ -266,4 +266,40 @@ class Bral_Util_Messagerie {
 		}
 		return $tabMessages;
 	}
+
+	public static function preparePage($request, &$view) {
+		$view->page = 1;
+
+		if ($request->get("valeur_4") != "") {
+			$view->filtre =  Bral_Util_Controle::getValeurIntVerif($request->get("valeur_4"));
+		} else {
+			$view->filtre = $view->config->messagerie->message->type->reception;
+		}
+
+		switch($request->get("valeur_1")) {
+			case "envoi" :
+			case "nouveau" :
+			case "repondre" :
+			case "repondretous" :
+				$view->page = 1;
+				break;
+			case "transferer" :
+			case "archiver" :
+			case "supprimer" :
+			case "supprimerselection" :
+			case "archiverselection" :
+			case "marquerlueselection" :
+			case "message" :
+			case "page" :
+				$view->page =  Bral_Util_Controle::getValeurIntVerif($request->get("valeur_3"));
+				break;
+			default:
+				$view->page = 1;
+				break;
+		}
+
+		if ($view->page < 1) {
+			$view->page = 1;
+		}
+	}
 }
