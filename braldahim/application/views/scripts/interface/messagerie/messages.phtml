@@ -17,8 +17,8 @@ Vous ne pouvez pas avoir plus de 200 messages archivés
 		<? $i = 0;
 		   $listeIdMessage = "";
 		   foreach($this->messages as $message): ?>
-		   		<? $js="onClick=\"_get_('/messagerie/doaction?caction=do_messagerie_message&valeur_1=message&valeur_2=".$message['id_message']."');\" style='cursor:pointer' title='Lire le message'"; ?>
-	  			<tr class="table_liste<?=($i % 2);$i++; ?>">
+		   		<? $js="onClick=\"_get_('/messagerie/doaction?caction=do_messagerie_message&valeur_1=message&valeur_2=".$message['id_message']."');\"  title='Lire le message'"; ?>
+	  			<tr class="table_liste<?=($i % 2);$i++; ?> hhover">
 	  				<td class="table_liste">
 	  					<? if ($message["toread"] == "0") :?>
 		  					<img alt="&Agrave; lire" title="&Agrave; lire" src="/public/images/uddeim/new_im.gif" border="0" 

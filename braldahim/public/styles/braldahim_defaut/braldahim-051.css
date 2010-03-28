@@ -621,6 +621,11 @@ table.table_liste {
 	align: center;
 }
 
+tr.table_liste0.hhover:hover, tr.table_liste1.hhover:hover {
+	background-color: #4c872d;	
+	cursor:pointer;
+}
+
 thead.table_liste,tfoot.table_liste {
 	color: #232323;
 	background-color: #5d8231;
