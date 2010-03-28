@@ -235,7 +235,7 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$retour = " Msg delete trash:".$nb;
 		
 		$date = date("Y-m-d H:i:s");
-		$add_day = - 20;
+		$add_day = - 30;
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($date, $add_day);
 		$where = $messageTable->getAdapter()->quoteInto('date_message <= ?',  $dateFin);
 		$where .= " AND archived = 0";

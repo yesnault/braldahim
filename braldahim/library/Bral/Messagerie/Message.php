@@ -83,6 +83,9 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			case "transferer" :
 				$this->prepareRepondre(true, false);
 				break;
+			case "archiver" :
+				$this->prepareArchiver();
+				break;
 			case "supprimer" :
 				$this->prepareSupprimer();
 				break;
@@ -357,37 +360,15 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 	}
 
 	private function prepareSupprimer() {
-		$messageTable = new Message();
-		$message = $messageTable->findById($this->view->user->id_hobbit, (int)$this->request->get("valeur_2"));
-		if ($message != null && count($message) == 1) {
-			$message = $message[0];
-			if ($message["fromid"] == $this->view->user->id_hobbit) {
-				$data = array(
-					"totrashoutbox" => 1,
-				);
-				if ($message["toid"] == $this->view->user->id_hobbit) {
-					$data["totrash"] = 1;
-
-				}
-			} else {
-				$data = array(
-					"totrash" => 1,
-				);
-			}
-			$where = "id=".(int)$this->request->get("valeur_2");
-			$messageTable->update($data, $where);
-			$this->view->information = "Le message est supprimé";
-			$this->refreshMessages = true;
-		} else {
-			throw new Zend_Exception(get_class($this)."::supprimer Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
-		}
-		unset($messageTable);
-		unset($message);
+		$listMessages[] = intval($this->request->get("valeur_2"));
+		$this->prepareSupprimerSelection($listMessages);
 	}
 
-	private function prepareSupprimerSelection() {
+	private function prepareSupprimerSelection($listMessages = null) {
 		$messageTable = new Message();
-		$listMessages = split(',', $this->request->get("valeur_2"));
+		if ($listMessages == null) {
+			$listMessages = split(',', $this->request->get("valeur_2"));
+		}
 		$messages = $messageTable->findByIdList($this->view->user->id_hobbit, $listMessages);
 
 		if ($messages != null && count($messages) >= 1) {
@@ -422,12 +403,18 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 		unset($message);
 	}
 
-	private function prepareArchiverSelection() {
-		
+	private function prepareArchiver() {
+		$listMessages[] = intval($this->request->get("valeur_2"));
+		$this->prepareArchiverSelection($listMessages);
+	}
+
+	private function prepareArchiverSelection($listMessages = null) {
 		$messageTable = new Message();
 		$nbDejaArchives = $messageTable->countByToIdArchived($this->view->user->id_hobbit);
-		
-		$listMessages = split(',', $this->request->get("valeur_2"));
+
+		if ($listMessages == null) {
+			$listMessages = split(',', $this->request->get("valeur_2"));
+		}
 		$messages = $messageTable->findByIdList($this->view->user->id_hobbit, $listMessages);
 
 		$s = "";
