@@ -70,9 +70,18 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 			$vue = $vueForcee;
 		}
 
+		$cible = null;
 		$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $vue, 1, $monstre["id_fk_type_monstre"], false, $order);
 		if ($cibles != null) {
-			$cible = $cibles[0];
+			foreach($cibles as $c) {
+				if ($this->peutAttaquer($c)) {
+					$cible = $c;
+					break;
+				}
+			}
+		}
+		
+		if ($cible != null) {
 			Bral_Util_Log::viemonstres()->debug("rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - nouvelle cible trouvee:".$cible["id_hobbit"]);
 			$monstre["id_fk_hobbit_cible_monstre"] = $cible["id_hobbit"];
 			$monstre["x_direction_monstre"] = $cible["x_hobbit"];
