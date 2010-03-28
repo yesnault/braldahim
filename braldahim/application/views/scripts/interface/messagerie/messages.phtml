@@ -52,7 +52,7 @@
 							<img src="/public/images/uddeim/forward.gif" alt="Transf&eacute;rer" title="Transf&eacute;rer"onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=transferer&valeur_2=<?=$message["id_message"];?>");' style="cursor:pointer">
 							<img src="/public/images/uddeim/trash.gif" alt="Effacer" title="Effacer" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimer&valeur_2=<?=$message["id_message"];?>");' style="cursor:pointer">
 						<? endif;?>
-						<? if ($this->filtre != $this->config->messagerie->message->type->supprime && $this->filtre != $this->config->messagerie->message->type->envoye): ?>
+						<? if ($this->filtre != $this->config->messagerie->message->type->supprime && $this->filtre != $this->config->messagerie->message->type->envoye && $this->filtre != $this->config->messagerie->message->type->archive): ?>
 							<img src="/public/images/uddeim/archive.gif" alt="Archiver" title="Archiver" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=archiver&valeur_2=<?=$message["id_message"];?>");' style="cursor:pointer">
 						<? endif; ?>
 					</td>
@@ -69,7 +69,7 @@
 		  	<? endif;?>
 		<? else: ?>
    		<tr class="table_liste">
-   			<td colspan="5">Aucun message</td>
+   			<td colspan="6">Aucun message</td>
    		</tr>
    		<? endif; ?>
 	</tbody>
