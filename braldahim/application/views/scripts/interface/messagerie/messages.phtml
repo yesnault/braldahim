@@ -11,6 +11,8 @@ Vous ne pouvez pas avoir plus de 200 messages archivés
 <? endif; ?>
 		
 <br><br>
+
+
 <table class="table_liste">
 	<tbody>
 	<? if (!empty($this->messages)): ?>
@@ -42,10 +44,11 @@ Vous ne pouvez pas avoir plus de 200 messages archivés
 	  				<td class="table_liste" <?=$js ?>> <?if (mb_strlen($message["titre"]) > 25) echo Bral_Util_BBParser::bbcodeStrip(mb_substr($message["titre"], 0, 25))."..."; else echo Bral_Util_BBParser::bbcodeStrip($message["titre"]);?></td>
 	  				<td class="table_liste" <?=$js ?>> le 
 	  					<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y, H:i', $message["date"]);?></td>
-	  				<td class="table_liste">
+	  				<td class="table_liste" nowrap>
 						<? if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
-							<img src="/public/images/uddeim/forward.gif" alt="Transf&eacute;rer" title="Transf&eacute;rer"onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=transferer&valeur_2=<?=$message["id_message"];?>");' style="cursor:pointer"><br>
+							<img src="/public/images/uddeim/forward.gif" alt="Transf&eacute;rer" title="Transf&eacute;rer"onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=transferer&valeur_2=<?=$message["id_message"];?>");' style="cursor:pointer">
 							<img src="/public/images/uddeim/trash.gif" alt="Effacer" title="Effacer" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimer&valeur_2=<?=$message["id_message"];?>");' style="cursor:pointer">
+							<img src="/public/images/uddeim/archive.gif" alt="Effacer" title="Archiver" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=archiver&valeur_2=<?=$message["id_message"];?>");' style="cursor:pointer">
 						<? endif; ?>
 					</td>
 					<td class="table_liste">
@@ -91,12 +94,11 @@ Vous ne pouvez pas avoir plus de 200 messages archivés
 	<tfoot class="table_liste">
 	 <tr class="table_liste">
 		    <th colspan='6'>
-			   <? if ($this->precedentOk === true) : ?>
-			   <input type="button" class='button1' onClick="Javascript:_get_('/interface/load/?box=box_messagerie&valeur_1=p&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page pr&eacute;c&eacute;dente">
-			   <? endif; ?>
-			   <? if ($this->suivantOk === true) : ?>
-			   <input type="button" class='button1' onClick="Javascript:_get_('/interface/load/?box=box_messagerie&valeur_1=s&valeur_2=<?=$this->filtre ?>&valeur_3=<?=$this->page ?>&valeur_4=<?=$this->filtre?>')" value="Page suivante">
-			   <? endif; ?>
+		    
+		    	<br>
+		    	<input type="hidden" id="messagerie_filtre" name="messagerie_filtre" value="<?=$this->filtre?>" />
+		      	<?php echo $this->paginator; ?>
+             	<br>
 			   
 			   <? if (!empty($this->messages)) : ?>
 				   <? if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>

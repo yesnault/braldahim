@@ -57,7 +57,7 @@ class Message extends Zend_Db_Table {
 		}
 	}
 
-	public function findByToId($toId, $page, $nbMax, $toread = null) {
+	public function getSelectByToId($toId, $toread = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 
@@ -65,49 +65,40 @@ class Message extends Zend_Db_Table {
 		->where('message.toid = '.intval($toId))
 		->where('message.totrash = 0')
 		->where('message.archived = 0')
-		->order('date_message DESC')
-		->limitPage($page, $nbMax);
+		->order('date_message DESC');
 
 		if ($toread != null && $toread === true) {
 			$select->where('toread = 0');
 		}
-
-		$sql = $select->__toString();
-		return $db->fetchAll($sql);
+		return $select;
 	}
 
-	public function findByFromId($toId, $page, $nbMax) {
+	public function getSelectByFromId($toId) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('message', '*')
 		->where('message.fromid = ?', intval($toId))
 		->where('message.totrashoutbox = 0')
-		->order('date_message DESC')
-		->limitPage($page, $nbMax);
-		$sql = $select->__toString();
-		return $db->fetchAll($sql);
+		->order('date_message DESC');
+		return $select;
 	}
 
-	public function findByToOrFromIdSupprime($toOrFromId, $page, $nbMax) {
+	public function getSelectByToOrFromIdSupprime($toOrFromId) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('message', '*')
 		->where('(message.toid = '.intval($toOrFromId). ' AND message.totrash = 1) OR (message.fromid = '.intval($toOrFromId).' AND message.totrashoutbox = 1)')
-		->order('date_message DESC')
-		->limitPage($page, $nbMax);
-		$sql = $select->__toString();
-		return $db->fetchAll($sql);
+		->order('date_message DESC');
+		return $select;
 	}
 
-	public function findByToIdArchive($toId, $page, $nbMax) {
+	public function getSelectByToIdArchive($toId) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('message', '*')
 		->where('message.archived = 1 AND message.toid = ? AND message.totrash = 0', intval($toId))
-		->order('date_message DESC')
-		->limitPage($page, $nbMax);
-		$sql = $select->__toString();
-		return $db->fetchAll($sql);
+		->order('date_message DESC');
+		return $select;
 	}
 
 	public function countByToIdNotRead($id) {

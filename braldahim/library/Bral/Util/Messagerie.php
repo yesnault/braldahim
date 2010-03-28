@@ -189,33 +189,34 @@ class Bral_Util_Messagerie {
 		}
 	}
 
-	public static function prepareMessages($idHobbit, $filtre = null, $page = null, $nbMax = null, $toread = null) {
+	public static function prepareMessages($idHobbit, &$paginator, $filtre, $page, $nbMax, $toread = null) {
 		Zend_Loader::loadClass("Bral_Util_Lien");
 
 		$messageTable = new Message();
 		$config = Zend_Registry::get('config');
 
 		if ($filtre == $config->messagerie->message->type->envoye) {
-			$messages = $messageTable->findByFromId($idHobbit, $page, $nbMax);
+			$select = $messageTable->getSelectByFromId($idHobbit);
 		} else if ($filtre == $config->messagerie->message->type->supprime) {
-			$messages = $messageTable->findByToOrFromIdSupprime($idHobbit, $page, $nbMax);
+			$select = $messageTable->getSelectByToOrFromIdSupprime($idHobbit);
 		} else if ($filtre == $config->messagerie->message->type->archive) {
-			$messages = $messageTable->findByToIdArchive($idHobbit, $page, $nbMax);
+			$select = $messageTable->getSelectByToIdArchive($idHobbit);
 		} else { // reception
-			$messages = $messageTable->findByToId($idHobbit, $page, $nbMax, $toread);
+			$select = $messageTable->getSelectByToId($idHobbit, $toread);
 		}
+
+		Zend_Loader::loadClass('Zend_Paginator');
+		$paginator = Zend_Paginator::factory($select);
+		$paginator->setPageRange(2);
+		$paginator->setCurrentPageNumber($page);
+		$paginator->setItemCountPerPage($nbMax);
 
 		$idsHobbit = "";
 		$tabHobbits = null;
 		$tabMessages = null;
 
-		if ($messages != null) {
-			foreach ($messages as $m) {
-				if ($filtre == $config->messagerie->message->type->envoye) {
-					$fieldId = "toid";
-				} else {
-					$fieldId = "fromid";
-				}
+		if (count($paginator) > 0) {
+			foreach ($paginator as $m) {
 				$idsHobbit[$m["toid"]] = $m["toid"];
 				$idsHobbit[$m["fromid"]] = $m["fromid"];
 			}
@@ -230,7 +231,7 @@ class Bral_Util_Messagerie {
 				}
 			}
 
-			foreach ($messages as $m) {
+			foreach ($paginator as $m) {
 				$expediteur = "";
 				$destinataire = "";
 				if ($tabHobbits != null) {

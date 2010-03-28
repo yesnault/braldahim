@@ -41,7 +41,8 @@ class Bral_Box_Tour extends Bral_Box_Box {
 	}
 
 	function render() {
-		$this->view->messages = Bral_Util_Messagerie::prepareMessages($this->view->user->id_hobbit, null, 1, 5, true);
+		$paginator = null;
+		$this->view->messages = Bral_Util_Messagerie::prepareMessages($this->view->user->id_hobbit, $paginator, null, 1, 5, true);
 		Zend_Loader::loadClass("Message");
 		$messageTable = new Message();
 		$this->view->nbMessagesNonLus = $messageTable->countByToIdNotRead($this->view->user->id_hobbit);
