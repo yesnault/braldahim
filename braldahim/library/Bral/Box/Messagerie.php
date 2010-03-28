@@ -48,7 +48,7 @@ class Bral_Box_Messagerie extends Bral_Box_Box {
 		$this->view->messages = $tabMessages;
 
 		Zend_Loader::loadClass("Zend_View_Helper_PaginationControl");
-		Zend_Paginator::setDefaultScrollingStyle('Sliding');
+		Zend_Paginator::setDefaultScrollingStyle('All');
 		Zend_View_Helper_PaginationControl::setDefaultViewPartial('/interface/messagerie/pagination.phtml');
 		$this->view->paginator->setView($this->view);
 	}
