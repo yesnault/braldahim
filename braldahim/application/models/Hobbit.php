@@ -404,7 +404,7 @@ class Hobbit extends Zend_Db_Table {
 		$select->from('hobbit', '*')
 		->where('est_compte_actif_hobbit = ?', "oui")
 		->order('id_hobbit');
-		
+
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -430,6 +430,19 @@ class Hobbit extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$where = "est_compte_actif_hobbit = 'non' AND est_pnj_hobbit = 'non' AND est_compte_desactive_hobbit = 'non' AND date_creation_hobbit <= '".$dateFin."'";
 		return $this->delete($where);
+	}
+
+
+	function findAllJoueursWithGardeEmail() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', '*')
+		->where('est_compte_actif_hobbit = ?', "oui")
+		->where('est_pnj_hobbit = ?', "non")
+		->where('est_compte_desactive_hobbit = ?', "non")
+		->where('beta_conserver_nom_hobbit = ?', "oui");
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
 	}
 }
 

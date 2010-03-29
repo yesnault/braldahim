@@ -277,7 +277,7 @@ class InscriptionController extends Zend_Controller_Action {
 		Zend_Loader::loadClass('Bral_Util_Nom');
 		$nom = new Bral_Util_Nom();
 			
-		$dataNom = $nom->calculNom($this->prenom_hobbit);
+		$dataNom = $nom->calculNom($this->prenom_hobbit, $this->email_hobbit);
 		$nom_hobbit = $dataNom["nom"];
 		$id_fk_nom_initial_hobbit = $dataNom["id_nom"];
 

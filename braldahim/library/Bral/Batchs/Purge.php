@@ -16,6 +16,11 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - calculBatchImpl - enter -");
 		$retour = null;
 
+		/*
+ 		$retour .= $this->prepareVF();
+		return $retour;
+		*/
+		
 		$retour .= $this->purgeBatch();
 		$retour .= $this->purgeCadavres();
 		$retour .= $this->purgeElementMinerai();
@@ -29,6 +34,26 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - calculBatchImpl - exit -");
 		return $retour;
+	}
+
+	private function prepareVF() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - prepareVF - enter -");
+		Zend_Loader::loadClass("Testeur");
+		$testeurTable = new Testeur();
+
+		$hobbitTable = new Hobbit();
+		$hobbits = $hobbitTable->findAllJoueursWithGardeEmail();
+
+		foreach($hobbits as $h) {
+			$data = array(
+				'email_testeur' => $h["email_hobbit"], 
+				'id_fk_nom_testeur' => $h["id_fk_nom_initial_hobbit"],
+				'nom_testeur' => $h["nom_hobbit"],
+			);
+			$testeurTable->insert($data);
+			echo $h["email_hobbit"]. " n°".$h["id_hobbit"]. " conserve ".$h["nom_hobbit"].PHP_EOL;
+		}
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - prepareVF - exit -");
 	}
 
 	private function purgeBatch() {
@@ -226,24 +251,24 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 
 		$retour = "";
 		$messageTable = new Message();
-		
+
 		// Suppression des messages présents dans la corbeille
 		$where = " totrashoutbox = 1 OR totrash = 1";
 		$nb = $messageTable->delete($where);
-		
+
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeMessages - nb:".$nb." - where:".$where);
 		$retour = " Msg delete trash:".$nb;
-		
+
 		$date = date("Y-m-d H:i:s");
 		$add_day = - 30;
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($date, $add_day);
 		$where = $messageTable->getAdapter()->quoteInto('date_message <= ?',  $dateFin);
 		$where .= " AND archived = 0";
 		$nb = $messageTable->delete($where);
-		
+
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeMessages - nb:".$nb." - where:".$where);
 		$retour .= " Msg delete date:".$nb;
-		
+
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - purgeMessages - exit -");
 		return $retour;
 	}
