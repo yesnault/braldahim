@@ -19,7 +19,7 @@ abstract class Bral_Monstres_Competences_Reperage extends Bral_Monstres_Competen
 	 * - Si le résultat est < à DiffNiv alors le monstre lache la cible et ne pourra pas la recibler pendant 1D3+1 DLA (effet de zone fonctionne toujours bien sûr car il ne cible pas directement).
 	 * - Si le résultat est inférieur, le monstre jour sa DLA normalement et refera le test à la DLA suivante.
 	 */
-	protected function peutAttaquer($cible) {
+	public static function peutAttaquer($cible) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - peutAttaquer - enter - (idm:".$this->monstre["id_monstre"].") cible:".$cible["id_hobbit"]);
 		
 		$retour = true;

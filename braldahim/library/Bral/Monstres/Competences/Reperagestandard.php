@@ -28,7 +28,7 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 			$cibles = $hobbitTable->findHobbitAvecRayon($this->monstre["x_monstre"], $this->monstre["y_monstre"], $vue, $this->monstre["id_fk_hobbit_cible_monstre"], false);
 			if (count($cibles) > 0) {
 				foreach($cibles as $c) {
-					if ($this->peutAttaquer($c)) {
+					if (Bral_Monstres_Competences_Reperage::peutAttaquer($c)) {
 						$cible = $c;
 						break;
 					}
@@ -74,7 +74,7 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 		$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $vue, 1, $monstre["id_fk_type_monstre"], false, $order);
 		if ($cibles != null) {
 			foreach($cibles as $c) {
-				if ($this->peutAttaquer($c)) {
+				if (Bral_Monstres_Competences_Reperage::peutAttaquer($c)) {
 					$cible = $c;
 					break;
 				}
