@@ -66,7 +66,7 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 
 	private function prepareAction() {
 		$this->view->valeur_1 = $this->request->get("valeur_1");
-		
+
 		Bral_Util_Messagerie::preparePage($this->request, $this->view);
 
 		switch($this->request->get("valeur_1")) {
@@ -434,11 +434,16 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 					$messageTable->update($data, $where);
 				}
 				$this->refreshMessages = true;
+				$nbDejaArchives++;
+			}
+			$s = "";
+			if ($nbDejaArchives >= 1) {
+				$s = 's';
 			}
 			if (count($messages) > 1) {
-				$this->view->information = "Les messages sélectionnés sont archivés. Vous avez ".($nbDejaArchives + 1). " message$s archivé$s.";
+				$this->view->information = "Les messages sélectionnés sont archivés. Vous avez ".$nbDejaArchives. " message$s archivé$s.";
 			} else {
-				$this->view->information = "Le message sélectionné est archivé. Vous avez ".($nbDejaArchives + 1)." message$s archivé$s.";
+				$this->view->information = "Le message sélectionné est archivé. Vous avez ".$nbDejaArchives." message$s archivé$s.";
 			}
 		} else {
 			throw new Zend_Exception(get_class($this)."::archiverselection Message invalide : idhobbit=".$this->view->user->id_hobbit." val=".$this->request->get("valeur_2"));
