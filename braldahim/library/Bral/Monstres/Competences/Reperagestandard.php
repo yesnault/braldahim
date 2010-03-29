@@ -74,7 +74,7 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 		$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $vue, 1, $monstre["id_fk_type_monstre"], false, $order);
 		if ($cibles != null) {
 			foreach($cibles as $c) {
-				if (Bral_Monstres_Competences_Reperage::peutAttaquer($c, $this->monstre)) {
+				if (Bral_Monstres_Competences_Reperage::peutAttaquer($c, $monstre)) {
 					$cible = $c;
 					break;
 				}
