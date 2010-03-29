@@ -2,20 +2,14 @@
 /* ********************** SITE ******************** */
 /* ************************************************ */
 
-* {
-	font: 11px arial, verdana, sans-serif;
-	letter-spacing: 0pt;
-}
-
 body {
-	font: 11x arial, verdana, sans-serif;
+	font: 11px arial, verdana, sans-serif;
 	background: #003b00;
 	letter-spacing: 0pt;
-	background-position: center top;
 	margin-top: 0;
 	margin-bottom: 0;
-	margin-left: 00px;
-	margin-right: 00px;
+	margin-left: 0px;
+	margin-right: 0px;
 	color:#eeeeee;
 }
 
@@ -32,6 +26,21 @@ body {
 
 #frisebot {
 	margin-top: -10px;
+}
+
+#hobbitsite {
+	z-index:1000;
+	background:transparent url(/public/images/hobbit-site.png) no-repeat scroll 0 0;
+	font-size:1px;
+	font-weight:normal;
+	height:340px;
+	margin:0;
+	padding:0;
+	text-indent:-999em;
+	width:330px;
+	position:absolute;
+	margin-top:-140px;
+	margin-left:-150px;
 }
 
 #logo {
@@ -107,7 +116,7 @@ input.button1:disabled {
 }
 
 a,.alabel {
-	color: #eeeeee;
+	color: #003b00;
 	text-align: center;
 }
 
@@ -116,7 +125,7 @@ a:hover,.alabel:hover {
 	cursor: pointer;
 }
 
-.afooter{
+.aWhite {
 	color: #eeeeee;
 }
 
@@ -137,7 +146,6 @@ span.id_hobbit {
 	font-weight: bold;
 	z-index: 1000;
 }
-
 
 .box_gazette {
 	width: 350px;
@@ -265,178 +273,17 @@ span.id_hobbit {
 	text-align: center;
 }
 
-
-/* ************************************************ */
-/* ********************** Box ********************* */
-/* ************************************************ */
-
-/* Bordures top */
-.xb_t1,.xb_t2,.xb_t3,.xb_t4,.xb_t5,.xb_t6,.xb_t7 {
-	display: block;
-	font-size: 0pt;
-	overflow: hidden;
-}
-
-.xb_t1,.xb_t2 {
-	height: 1px;
-}
-
-.xb_t3,.xb_t4,.xb_t5,.xb_t6 {
-	height: 1px;
-}
-
-.xb_t2,.xb_t3,.xb_t4,.xb_t5,.xb_t6,.xb_t7 {
-	background: #CCCCCC none repeat scroll 0%;
-	border-left: 1px solid #000000;
-	border-right: 1px solid #000000;
-}
-
-.xb_t3 {
-	border-left: 2px solid #000000;
-	border-right: 2px solid #000000;
-}
-
-.xb_t2 {
-	border-left: 2x solid #000000;
-	border-right: 2px solid #000000;
-}
-
-.xb_t1 {
-	background: #000000 none repeat scroll 0%;
-	margin: 0pt 5px;
-	height: 1px;
-}
-
-.xb_t2 {
-	background: #003b00 none repeat scroll 0%;
-	height: 0px;
-	margin: 0pt 5px;
-}
-
-.xb_t3 {
-	background: #003b00 none repeat scroll 0%;
-	height: 1px;
-	margin: 0pt 3px;
-}
-
-.xb_t4 {
-	background: #003b00 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	height: 1px;
-	margin: 0pt 2px;
-}
-
-.xb_t5 {
-	background: #003b00 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	height: 1px;
-	margin: 0pt 1px;
-}
-
-.xb_t6 {
-	background: #003b00 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	height: 0px;
-	margin: 0pt 1px;
-}
-
-.xb_t7 {
-	background: #003b00 none repeat scroll 0%;
-	border-width: 0pt 2x;
-	height: 1px;
-	margin: 0pt 1px;
-}
-
-/* Bordures bottom */
-.xb_b1,.xb_b2,.xb_b3,.xb_b4,.xb_b5,.xb_b6,.xb_b7 {
-	display: block;
-	font-size: 0pt;
-	overflow: hidden;
-}
-
-.xb_b1,.xb_b2 {
-	height: 1px;
-}
-
-.xb_b3,.xb_b4,.xb_b5,.xb_b6 {
-	height: 1px;
-}
-
-.xb_b2,.xb_b3,.xb_b4,.xb_b5,.xb_b6,.xb_b7 {
-	background: #CCCCCC none repeat scroll 0%;
-	border-left: 1px solid #000000;
-	border-right: 1px solid #000000;
-}
-
-.xb_b3 {
-	border-left: 2px solid #000000;
-	border-right: 2px solid #000000;
-}
-
-.xb_b2 {
-	border-left: 2x solid #000000;
-	border-right: 2px solid #000000;
-}
-
-.xb_b1 {
-	background: #000000 none repeat scroll 0%;
-	margin: 0pt 5px;
-	height: 1px;
-}
-
-.xb_b2 {
-	background: #003b00 none repeat scroll 0%;
-	height: 0px;
-	margin: 0pt 5px;
-}
-
-.xb_b3 {
-	background: #003b00 none repeat scroll 0%;
-	height: 1px;
-	margin: 0pt 3px;
-}
-
-.xb_b4 {
-	background: #003b00 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	height: 1px;
-	margin: 0pt 2px;
-}
-
-.xb_b5 {
-	background: #003b00 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	height: 1px;
-	margin: 0pt 1px;
-}
-
-.xb_b6 {
-	background: #003b00 none repeat scroll 0%;
-	border-width: 0pt 1px;
-	height: 0px;
-	margin: 0pt 1px;
-}
-
-.xb_b7 {
-	background: #003b00 none repeat scroll 0%;
-	border-width: 0pt 2x;
-	height: 1px;
-	margin: 0pt 1px;
-}
-
 /* ************************************************ */
 /* ********************** Menu *********************** */
 /* ************************************************ */
 
 #menu {
-	display: block;
 	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/degrade.png) repeat-y scroll center top;
 	height:auto;
 	min-height:51px;
 	margin-top: -10px;
 }
 #menu ul {
-	height:50px;
 	list-style-type:none;
 	margin:0 auto;
 	padding:1 50px;
@@ -526,6 +373,30 @@ span.id_hobbit {
 	width:775px;
 }
 
+.box_contenu1 { /* interieur de la boite */
+	background: #C3E691 repeat-x scroll 0pt 0%;
+	padding: 3px;
+	margin: 0px;
+	border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	margin-bottom:2px;
+	color:#000000;
+}
+
+.box_contenu0 { /* interieur de la boite */
+	background: #628b28 repeat-x scroll 0pt 0%;
+	padding: 3px;
+	margin: 0px;
+	border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	margin-bottom:2px;
+	color:#000000;
+}
+
 .contenuA,.contenuB {
 	border-width: 0px;
 	border-color: #000000;
@@ -568,6 +439,10 @@ span.id_hobbit {
 	letter-spacing: 1pt;
 }
 
+.textdark {
+	color:#232323;	
+}
+
 .textalia {
 	text-align: left;
 }
@@ -593,10 +468,14 @@ span.id_hobbit {
 }
 
 .inner { /* exterieur de boite */
-	padding: 1pt 10px;
+	border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
+	padding: 5pt 10px;
 	border-color: #000000;
 	border-style: solid;
-	border-width: 0pt 1px;
+	border-width: 1pt 1px;
 	display: block;
 	background: #003b00 repeat-x scroll 0pt 0%;
 }
@@ -631,24 +510,18 @@ span.id_hobbit {
 	text-align: center;
 }
 	
-.box_contenu { /* interieur de la boite */
+.box_contenu {
+	border-radius: 10px; /* en css3 lui même */
+	-moz-border-radius: 10px; /* pour Gecko : Firefox, Epiphany… */
+	-webkit-border-radius: 10px; /* pour Webkit : Safari, Chrome… */
+	-khtml-border-radius: 10px; /* pour Khtml : Konqueror… */
 	background: #003b00 repeat-x scroll 0pt 0%;
 	padding: 0px;
 	margin: 0px;
 	border: 1px solid #000000;
 }
 
-.box_contenu1 { /* interieur de la boite */
-	background: #003b00 repeat-x scroll 0pt 0%;
-	padding: 0px;
-	margin: 0px;
-}
-
-
 #header {
-	-moz-background-clip:border;
-	-moz-background-inline-policy:continuous;
-	-moz-background-origin:padding;
 	height:50px;
 	position:relative;
 }
@@ -660,7 +533,7 @@ span.id_hobbit {
 	margin:0;
 	padding:0;
 	text-indent:-999em;
-	width:550px;
+	width:280px;
 	position:absolute;
 }
 #header h1 a {
@@ -675,13 +548,22 @@ table.table_liste {
 	width: 70%;
 	margin: auto;
 	align: center;
+	color: #232323;
 }
 
 thead.table_liste,tfoot.table_liste {
-	background-color: #5d8231;
+	color: #232323;
+	background-color: #497621;
 	border: 1px solid #000000;
 	text-align: center;
 }
+
+td.table_liste_th {
+	color: #000000;
+	background-color: #2a5911;
+	border: 1px solid #000000;
+}
+
 th.table_liste {
 	padding: 5px;
 	background-color: #000000;
@@ -689,11 +571,11 @@ th.table_liste {
 	text-align: center;
 }
 tr.table_liste0 {
-	background: #2a5911;
+	background: #C3E691;
 }
 
 tr.table_liste1 {
-	background: #;
+	background: #628b28;/*2a5911;*/
 }
 
 td.table_liste_border {
@@ -798,6 +680,7 @@ div.yoo-tooltip div.yoodefault .tooltip-m {
 	background: #ffffff;
 	padding: 10px 0px 0px 0px;
 	overflow: hidden;
+	color:#000000;
 }
 
 div.yoo-tooltip div.yoodefault .tooltip-bl {
@@ -831,3 +714,326 @@ div.yoo-tooltip div.yoodefault .tooltip-arrow {
   background: url("/public/images/rss.png") no-repeat 0 50%;
   color: #eeeeee;
 } 
+
+div.gridbox {
+	overflow: hidden;
+}
+
+.dhx_sub_row {
+	background-color: white;
+}
+
+div.gridbox .xhdr {
+	background-Color: #D4D0C8;
+}
+
+div.gridbox table.hdr td {
+	font-family: arial;
+	font-size: 12px;
+	background-Color: #D4D0C8;
+	border: 1px solid;
+	border-color: white Gray Gray white;
+	text-align: center;
+	margin: 0px;
+	padding: 5px 0px 5px 0px;
+	font-weight: normal;
+	-moz-user-select: none;
+	overflow: hidden;
+	empty-cells: show;
+}
+
+div.gridbox table.hdr td div.hdrcell {
+	overflow: hidden;
+}
+
+div.gridbox table.obj td {
+	border: 1px solid;
+	border-color: white Gray Gray white;
+	font-family: Arial;
+	font-size: 12px;
+	-moz-user-select: none;
+	overflow: hidden;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	empty-cells: show;
+}
+
+div.gridbox table.obj th {
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+}
+
+div.gridbox table.row20px tr  td {
+	height: 20px;
+	white-space: nowrap;
+	padding: 0px;
+}
+
+div.gridbox .objbox {
+	background-color: white;
+}
+
+div.gridbox table.obj td span.space,div.gridbox table.obj td img.space {
+	width: 18px;
+}
+
+div.gridbox table.obj tr.rowselected td.cellselected,div.gridbox table.obj td.cellselected
+	{
+	background-color: #d8d8d8;
+	color: black;
+}
+
+div.gridbox table.obj tr.rowselected td {
+	background-color: #e1e0d7;
+	color: black;
+}
+
+div.gridbox table.obj td.editable {
+	-moz-user-select: text;
+}
+
+div.gridbox table.obj td.group_row {
+	vertical-align: middle;
+	font-family: Tahoma;
+	font-size: 10pt;
+	font-weight: bold;
+	height: 30px;
+	border: 0px;
+	border-bottom: 2px solid navy;
+}
+
+.dragSpanDiv {
+	font-size: 12px;
+	border: 1px gray solid;
+	background-color: white;
+}
+
+.dhx_combo_select {
+	font-family: arial;
+	font-size: 12px;
+	border: 1px solid;
+	border-color: black silver silver black;
+	background-color: white;
+	overflow: hidden;
+	cursor: default;
+	position: absolute;
+	height: auto;
+	z-index: 600;
+}
+
+.dhx_combo_edit {
+	width: 100%;
+	border: 0px;
+	padding: 0px;
+	padding-right: 1px ! ie;
+	margin: 0px;
+	font: 12px arial;
+	overflow: hidden;
+}
+
+.dhx_textarea {
+	border: 1px solid;
+	border-color: black silver silver black;
+	position: absolute;
+	height: 100px;
+}
+
+.dhx_clist {
+	background-color: white;
+	border: 1px solid black;
+	padding: 2px 2px 2px 2px;
+	z-index: 300;
+}
+
+.gridDragLine {
+	position: absolute;
+	top: 10px;
+	left: 0px;
+	width: 100%;
+	height: 2px;
+	background-color: black;
+	overflow: hidden;
+}
+
+/*paginal output*/
+DIV.pagingBlock {
+	font-size: 12px;
+	font-family: verdana, arial;
+}
+
+DIV.pagingBlock .pagingCurrentPage {
+	font-weight: bold;
+	cursor: default;
+}
+
+DIV.pagingBlock .pagingPage {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+SPAN.recordsInfoBlock {
+	font-size: 12px;
+	font-family: verdana, arial;
+}
+
+DIV.pagingBlock a {
+	text-decoration: none;
+	padding-right: 2px;
+	color: black;
+}
+
+/*class for toolbar selectbox. used with pagingWT*/
+.toolbar_select {
+	font-size: 10px;
+}
+
+/*block selection style*/
+.dhtmlxGrid_selection {
+	-moz-opacity: 0.5;
+	filter: alpha(opacity =   50);
+	background-color: yellow;
+	opacity: 0.5;
+	border: 1px dotted black;
+}
+
+div.gridbox div.ftr {
+	position: absolute;
+	left: 0px;
+	bottom: 1px;
+	width: 100%;
+	padding-right: 20px;
+	overflow: hidden;
+}
+
+div.gridbox div.ftr td {
+	padding: 0px;
+	padding-left: 10px;
+	padding-right: 5px;
+	border-top: 1px solid gray;
+	border-right: 1px solid gray;
+	background-color: #ffffcc;
+	font-style: italic;
+	font-family: arial;
+	font-size: 12px;
+	overflow: hidden;
+}
+
+div.gridbox table.hdr td.columnTargetR div.hdrcell {
+	border-right: 3px double #FF6600;
+	border-left: 3px solid #D4D0C8;
+}
+
+div.gridbox table.hdr td.columnTargetL div.hdrcell {
+	border-right: 3px solid #D4D0C8;
+	border-left: 3px double #FF6600;
+}
+
+.dhx_dragColDiv {
+	font-family: Arial;
+	font-size: 12px;
+	background-color: #D4D0C8;
+	border: 1px solid;
+	border-color: white Gray Gray white;
+	text-align: center;
+	margin: 0px;
+	padding: 5px 20px 5px 20px;
+	font-weight: normal;
+	filter: alpha(opacity : 75);
+	-moz-opacity: 0.75;
+	opacity: 0.75;
+}
+
+/*braldahim*/
+div.gridbox_braldahim .objbox {
+	background-color: #003b00;
+	color: #000000;
+}
+
+div.gridbox_braldahim {
+	color: #232323;
+}
+
+div.gridbox_braldahim {
+	margin-left: 1px;
+}
+
+div.gridbox_braldahim .xhdr {
+	border: 1px solid #000000;
+	background-color: #5d8231;
+	text-align: center;
+}
+
+div.gridbox_braldahim .xhdr_last {
+	border: 1px solid #000000;
+}
+
+div.gridbox_braldahim table.hdr {
+	text-align: center;
+}
+
+div.gridbox_braldahim table.hdr td {
+	border: 0px solid;
+	border-color: #000000;
+	background-color: transparent;
+	font-family: Tahoma;
+	font-size: 11px;
+	font-weight: bold;
+	vertical-align: top;
+	text-align: left;
+}
+
+div.gridbox_braldahim table.hdr td div.hdrcell {
+	width: auto;
+	padding-left: 10px;
+}
+
+div.gridbox_braldahim table.hdr .filter {
+	padding-left: 0px !important;
+	text-align: center;
+	-moz-user-select: text;
+}
+
+div.gridbox_braldahim table.obj td {
+	border-width: 0px 1px 0px 0px;
+	border-left: 0px solid white;
+	border-right: 0px solid #000000;
+	font-family: Tahoma;
+	font-size: 11px;
+	padding-right: 4px;
+	padding-left: 4px;
+	white-space: normal;
+}
+
+div.gridbox_braldahim table.obj {
+	border: 1px solid #000000;
+	background-color: #C3E691;
+}
+
+div.gridbox_braldahim table.row20px tr td {
+	padding-right: 4px;
+	padding-left: 4px;
+	white-space: normal;
+}
+
+div.gridbox_braldahim .dhx_combo_edit {
+	font-family: Tahoma;
+	font-size: 11px;
+}
+
+div.gridbox_braldahim table.obj tr.rowselected td {
+	color: black;
+}
+
+div.gridbox_braldahim table.obj tr.rowselected td.cellselected,div.gridbox table.obj td.cellselected
+	{
+	background-color: #E7C57B;
+}
+
+div.gridbox_braldahim .odd_braldahim {
+	background-color: #628b28;
+	white-space: normal;
+}
+
+div.gridbox_braldahim div.ftr td {
+	empty-cells: show;
+}
