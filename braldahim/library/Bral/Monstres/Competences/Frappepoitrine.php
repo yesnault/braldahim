@@ -40,7 +40,7 @@ class Bral_Monstres_Competences_Frappepoitrine extends Bral_Monstres_Competences
 				if ($malus <= 2) {
 					$malus = 2;
 				}
-				
+
 				$nbTours = Bral_Util_De::get_1d3();
 
 				$jetMonstre = Bral_Util_De::getLanceDe6(self::$config->game->base_force + $this->monstre["force_base_monstre"]);
@@ -52,11 +52,8 @@ class Bral_Monstres_Competences_Frappepoitrine extends Bral_Monstres_Competences
 				if ($jetHobbit > $jetMonstre) {
 					$malus = floor($malus / 2);
 				}
-
-				if ($jetHobbit <= $jetMonstre) {
-					Zend_Loader::loadClass("Bral_Util_Effets");
-					Bral_Util_Effets::ajouteEtAppliqueEffetHobbit($this->cible["id_hobbit"], Bral_Util_Effets::CARACT_FORCE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus, "Gorille frappant sa poitrine");
-				}
+				
+				Bral_Util_Effets::ajouteEtAppliqueEffetHobbit($this->cible["id_hobbit"], Bral_Util_Effets::CARACT_FORCE, Bral_Util_Effets::TYPE_MALUS, $nbTours, $malus, "Gorille frappant sa poitrine");
 				$this->majEvenement($this->cible, $malus, $nbTours, $jetMonstre, $jetHobbit);
 			}
 		}
@@ -87,7 +84,7 @@ class Bral_Monstres_Competences_Frappepoitrine extends Bral_Monstres_Competences
 		}
 		$retour .= PHP_EOL."Malus sur votre force : -".$malus;
 		$retour .= PHP_EOL."Nombre de tours : ".$nbTours;
-		
+
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - getDetailsBot - exit");
 		return $retour;
 	}
