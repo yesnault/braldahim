@@ -72,7 +72,10 @@ class Bral_Util_Lien {
 		return $retour;
 	}
 	
-	public static function getJsHobbit($id, $texte) {
-		return "<label class='alabel' onclick=\"javascript:ouvrirWin('/voir/hobbit/?hobbit=".$id."');\">".$texte."</label>";
+	public static function getJsHobbit($id, $texte, $afficheMessage = false) {
+		$msg = "";
+		if ($afficheMessage) $msg = " <img src='/public/images/uddeim/env.gif' title='Envoyer un message' alt='Ecrire' border='0' onClick=ecrireMessage('$id'); style='cursor:pointer'/> ";
+		$lien = "<label class='alabel' onclick=\"javascript:ouvrirWin('/voir/hobbit/?hobbit=".$id."');\">".$texte."</label>".$msg;
+		return $lien;
 	}
 }

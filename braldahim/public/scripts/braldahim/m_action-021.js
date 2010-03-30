@@ -484,6 +484,15 @@ function ecrireMessage(idHobbit) {
 	my_switch("box_messagerie","boite_c");
 }
 
+function ecrireMessageListeContact(idListe) {
+	fermeturePopup();
+	if ($("loaded_box_messagerie").value != "1") {
+		$("loaded_box_messagerie").value = "1"; 
+	}
+	_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=nouveau&valeur_4=" + idListe);
+	my_switch("box_messagerie","boite_c");
+}
+
 function fermeturePopup() {
 	try {
 		return cClick(); // fermeture popup

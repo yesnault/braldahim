@@ -24,7 +24,7 @@ class Bral_Util_Messagerie {
 		$xml_response->add_entry($xml_entry);
 	}
 
-	public static function constructTabHobbit($tabDestinataires, $valeur = "valeur_2", $sansIdHobbit = -1) {
+	public static function constructTabHobbit($tabDestinataires, $valeur = "valeur_2", $sansIdHobbit = -1, $afficheSupprimer = true) {
 		Zend_Loader::loadClass("Bral_Util_Lien");
 		$hobbitTable = new Hobbit();
 		$idDestinatairesTab = split(',', $tabDestinataires);
@@ -39,6 +39,12 @@ class Bral_Util_Messagerie {
 		$aff_js_destinataires = "";
 		$tabHobbits = null;
 
+		if ($afficheSupprimer) {
+			$afficheLien = false;
+		} else {
+			$afficheLien = true;
+		}
+
 		foreach($hobbits as $h) {
 
 			if (in_array($h["id_hobbit"],$idDestinatairesTab) && ($sansIdHobbit == -1 || $sansIdHobbit != $h["id_hobbit"])) {
@@ -47,11 +53,15 @@ class Bral_Util_Messagerie {
 				} else {
 					$destinataires = $destinataires.",".$h["id_hobbit"];
 				}
-				$aff_js_destinataires .= '<span id="m_'.$valeur.'_'.$h["id_hobbit"].'">';
-				$aff_js_destinataires .= Bral_Util_Lien::getJsHobbit($h["id_hobbit"], $h["prenom_hobbit"].' '.$h["nom_hobbit"].' ('.$h["id_hobbit"].')');
-				$aff_js_destinataires .= ' <img src="/public/images/supprimer.gif" ';
-				$aff_js_destinataires .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'_dest\',\'m_'.$valeur.'_'.$h["id_hobbit"].'\', \''.$valeur.'_dest\', \''.$h["id_hobbit"].'\')" />';
-				$aff_js_destinataires .= '</span>';
+				if ($afficheSupprimer) $aff_js_destinataires .= '<span id="m_'.$valeur.'_'.$h["id_hobbit"].'">';
+				$aff_js_destinataires .= Bral_Util_Lien::getJsHobbit($h["id_hobbit"], $h["prenom_hobbit"].' '.$h["nom_hobbit"].' ('.$h["id_hobbit"].')', $afficheLien);
+				if ($afficheSupprimer)  {
+					$aff_js_destinataires .= ' <img src="/public/images/supprimer.gif" ';
+					$aff_js_destinataires .= ' onClick="javascript:supprimerElement(\'aff_'.$valeur.'_dest\',\'m_'.$valeur.'_'.$h["id_hobbit"].'\', \''.$valeur.'_dest\', \''.$h["id_hobbit"].'\')" />';
+					$aff_js_destinataires .= '</span>';
+				} else {
+					$aff_js_destinataires .= "<br>";
+				}
 
 				$tabHobbits[$h["id_hobbit"]] = $h;
 			}
@@ -133,20 +143,26 @@ class Bral_Util_Messagerie {
 		return $tab;
 	}
 
-	public static function prepareListe($id_hobbit) {
+	public static function prepareListe($idHobbit, $prepareHobbits = false) {
 		Zend_Loader::loadClass("MessagerieContacts");
 		$messagerieContactsTable = new MessagerieContacts();
-		$listesContacts = $messagerieContactsTable->findByUserId($id_hobbit);
+		$listesContacts = $messagerieContactsTable->findByUserId($idHobbit);
 
 		$tabListes = null;
 		if ($listesContacts != null && count($listesContacts) > 0) {
 			$idsHobbit = null;
 			foreach($listesContacts as $l) {
-				$tabListes[] = array(
+				$tab = array(
 					'id' => $l["id"],
 					'nom' => $l["name"],
-					'description' => $l["description"]
+					'description' => $l["description"],
+					'userids' => $l["userids"],
 				);
+
+				if ($prepareHobbits) {
+					$tab["hobbits"] = Bral_Util_Messagerie::constructTabHobbit($l["userids"], "listecontact", -1, false);
+				}
+				$tabListes[] = $tab;
 			}
 		}
 

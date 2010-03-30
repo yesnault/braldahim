@@ -19,7 +19,7 @@ class MessagerieContacts extends Zend_Db_Table {
 		$select = $db->select();
 
 		$select->from('messagerie_contacts', '*')
-		->where('messagerie_contacts.userid = '.intval($userId))
+		->where('messagerie_contacts.userid = ?', intval($userId))
 		->order('messagerie_contacts.name');
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

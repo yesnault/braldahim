@@ -118,12 +118,20 @@ class Bral_Messagerie_Message extends Bral_Messagerie_Messagerie {
 			$tabHobbit = Bral_Util_Messagerie::constructTabHobbit($filter->filter(trim($this->request->get('valeur_2'))));
 		}
 
+		$tabContacts["contacts"] = "";
+		$tabContacts["aff_js_contacts"] = "";
+		$tabContacts["userids"] = "";
+		if ($this->request->get('valeur_4') != "") {
+			$tabContacts = Bral_Util_Messagerie::constructTabContacts($filter->filter(trim($this->request->get('valeur_4'))), $this->view->user->id_hobbit);
+		}
+
 		$tabMessage = array(
 			'contenu' => "",
 			'destinataires' => $tabHobbit["destinataires"],
 			'aff_js_destinataires' => $tabHobbit["aff_js_destinataires"],
-			'contacts' => "",
-			'aff_js_contacts' => "",
+			"contacts" => $tabContacts["contacts"],
+			"aff_js_contacts" => $tabContacts["aff_js_contacts"],
+			"userids" => $tabContacts["userids"],
 		);
 		$this->view->message = $tabMessage;
 		$this->view->listesContacts = Bral_Util_Messagerie::prepareListe($this->view->user->id_hobbit);
