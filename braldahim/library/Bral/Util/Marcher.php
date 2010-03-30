@@ -76,6 +76,9 @@ class Bral_Util_Marcher {
 		 * Si le hobbit n'a pas de PA, on ne fait aucun traitement
 		 */
 		$assezDePa = $this->calculNbPa($hobbit, $case["nom_systeme_environnement"], $retour["estSurRoute"], $construireRoute);
+		$retour["nb_cases"] = $this->nb_cases;
+		$retour["effetMot"] = $this->effetMot;
+		$retour["nb_pa"] = $this->nb_pa;
 		if ($assezDePa == false || $hobbit->activation == false) {
 			$retour["assezDePa"] = false;
 			return $retour;
@@ -163,9 +166,6 @@ class Bral_Util_Marcher {
 		}
 
 		$retour["environnement"] = $environnement;
-		$retour["nb_cases"] = $this->nb_cases;
-		$retour["effetMot"] = $this->effetMot;
-		$retour["nb_pa"] = $this->nb_pa;
 
 		$retour["tableau"] = $tab;
 		$retour["tableauValidation"] = $tabValidation;
