@@ -10,6 +10,13 @@
 	    	Modification du monstre prise en compte.
 	    <? endif; ?>
 	    
+	     <form action="/Administrationbatch/logs" method="post">
+  		 	<input type="hidden" name="commande" value="grep" />
+  		 	<input type="hidden" name="recherche" value="<?=$this->id_monstre?>" />
+  		 	<input type="hidden" name="fichier" value="bral_viemonstre.log" />
+			<input type="submit" class="button1" name="Rechercher" value="Derniers Event Logs" />
+		</form>
+		
 	    <form action="/Administrationmonstre/monstre/mode/<?=$this->mode?>/idmonstre/<?=$this->id_monstre?>" method="post">
 		<? if ($this->monstre == null): ?>
 			Monstre inconnu 
@@ -23,7 +30,7 @@
 	   	 	<? else: ?>
 	    		<input type="button"  class='button1' name="mode" value="Passer en vue simple" onClick="document.location.href='/Administrationmonstre/monstre/mode/simple/idmonstre/<?=$this->id_monstre?>'"/>
 	    	<? endif; ?>
-	    
+	    	
 			<table  align='center'>
 			<? foreach ($this->monstre as $key => $value) : 
 				if ($this->mode == "simple") {

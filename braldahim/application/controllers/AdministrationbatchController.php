@@ -97,7 +97,6 @@ class AdministrationbatchController extends Zend_Controller_Action {
 				$cmd = "tail -$recherche $fichier";
 			}
 		}
-
 	
 		$this->view->commandeChoisie = $commandeChoisie;
 		$this->view->commandes = $commandes;
