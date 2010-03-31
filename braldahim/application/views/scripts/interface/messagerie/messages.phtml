@@ -49,8 +49,8 @@
 	  					<?=Bral_Util_ConvertDate::get_datetime_mysql_datetime('d/m/y, H:i', $message["date"]);?></td>
 	  				<td class="table_liste" nowrap>
 						<? if ($this->filtre != $this->config->messagerie->message->type->supprime): ?>
-							<img src="/public/images/uddeim/forward.gif" alt="Transf&eacute;rer" title="Transf&eacute;rer"onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=transferer&valeur_2=<?=$message["id_message"];?>");' style="cursor:pointer">
-							<img src="/public/images/uddeim/trash.gif" alt="Effacer" title="Effacer" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimer&valeur_2=<?=$message["id_message"];?>");' style="cursor:pointer">
+							<img src="/public/images/uddeim/forward.gif" alt="Transf&eacute;rer" title="Transf&eacute;rer"onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=transferer&valeur_2=<?=$message["id_message"];?>&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");' style="cursor:pointer">
+							<img src="/public/images/uddeim/trash.gif" alt="Effacer" title="Effacer" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=supprimer&valeur_2=<?=$message["id_message"];?>&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");' style="cursor:pointer">
 						<? endif;?>
 						<? if ($this->filtre != $this->config->messagerie->message->type->supprime && $this->filtre != $this->config->messagerie->message->type->envoye && $this->filtre != $this->config->messagerie->message->type->archive): ?>
 							<img src="/public/images/uddeim/archive.gif" alt="Archiver" title="Archiver" onClick='javascript:_get_("/messagerie/askaction?caction=do_messagerie_message&valeur_1=archiver&valeur_2=<?=$message["id_message"];?>&valeur_3=<?=$this->page?>&valeur_4=<?=$this->filtre?>");' style="cursor:pointer">
