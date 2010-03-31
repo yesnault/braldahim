@@ -4,7 +4,7 @@
     <ul class="titre textalic textsizea">Administration Logs</ul>
     	&nbsp;
 	<div class="contenu">
-	    <ul class="box_contenu1 textalic">
+	    <ul class="box_contenu1 textalia">
 	  		 <form action="/Administrationbatch/logs" method="post">
 				Recherche
 				<input type="textbox" name="recherche" value="<?=$this->recherche?>" onkeypress="chiffres(event);" size="10" maxlength="10" />
@@ -17,8 +17,9 @@
 				
 				<input type="submit" class="button1" name="Rechercher" value="Rechercher" />
 				
-				<pre>
+				
 				<?php 
+				echo "<pre>";
 					if ($this->cmd != "") :
 						passthru($this->cmd);
 					endif;
