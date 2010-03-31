@@ -28,9 +28,9 @@ abstract class Bral_Monstres_Competences_Reperage extends Bral_Monstres_Competen
 		$evenementTable = new Evenement();
 		$nbAttaqueEsquivee  = $evenementTable->countByIdMonstreIdHobbitLast3tours($monstre["nb_dla_jouees_monstre"], $monstre["id_monstre"], $cible["id_hobbit"], Bral_Util_Evenement::ATTAQUE_ESQUIVEE);
 		
-		if ($nbAttaqueEsquivee >= 3 && $cible["niveau_hobbit"] > $cible["niveau_monstre"] + 5) {
-			Bral_Util_Log::viemonstres()->trace("Bral_Monstres_Competences_Reperage - (idm:".$monstre["id_monstre"].") ".$cible["niveau_hobbit"]." > ".$cible["niveau_monstre"]."+5");
-			$diffNiv = $cible["niveau_hobbit"] - $cible["niveau_monstre"];
+		if ($nbAttaqueEsquivee >= 3 && $cible["niveau_hobbit"] > $monstre["niveau_monstre"] + 5) {
+			Bral_Util_Log::viemonstres()->trace("Bral_Monstres_Competences_Reperage - (idm:".$monstre["id_monstre"].") ".$cible["niveau_hobbit"]." > ".$monstre["niveau_monstre"]."+5");
+			$diffNiv = $cible["niveau_hobbit"] - $monstre["niveau_monstre"];
 			$de = Bral_Util_De::get_1D10();
 			if ($de < $diffNiv) {
 				$retour = false;
