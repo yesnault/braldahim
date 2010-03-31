@@ -6,26 +6,35 @@
 	<div class="contenu">
 	    <ul class="box_contenu1 textalia">
 	  		 <form action="/Administrationbatch/logs" method="post">
-				Recherche
+	  		 	
+	  		 	Commande <select name="commande">
+				<? foreach ($this->commandes as $f) : ?>
+				<option value="<?=$f?>" <? if ($this->commandeChoisie == $f): echo "selected" ; endif;?>><?=$f?></option>
+				<? endforeach; ?>
+				</select>
+				<br>
+				Argument : Chiffres exclusivement: Recherche, chaine à recherche, Tail : nombre de ligne<br> 
 				<input type="textbox" name="recherche" value="<?=$this->recherche?>" onkeypress="chiffres(event);" size="10" maxlength="10" />
+				<br>
 				
+				Fichier :
 				<select name="fichier">
 				<? foreach ($this->fichiers as $f) : ?>
 				<option value="<?=$f?>" <? if ($this->fichierChoisi == $f): echo "selected" ; endif;?>><?=$f?></option>
 				<? endforeach; ?>
 				</select>
-				
 				<input type="submit" class="button1" name="Rechercher" value="Rechercher" />
-				
+			</form>
 				
 				<?php 
 				echo "<pre>";
 					if ($this->cmd != "") :
+						echo "Commande exécutée : ".$this->cmd.PHP_EOL.PHP_EOL;
 						passthru($this->cmd);
 					endif;
 				?>
 				</pre>
-			</form>
+			
 	   <?=$this->retour?>
 		</ul>
 	</div>

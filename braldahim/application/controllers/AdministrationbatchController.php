@@ -72,20 +72,35 @@ class AdministrationbatchController extends Zend_Controller_Action {
 			closedir($handle);
 		}
 
+		$commandes[] = "grep";
+		$commandes[] = "tail";
+
 		$fichierChoisi = "";
 		$cmd = "";
 		$recherche = "";
+		$commandeChoisie = "";
 		if ($this->_request->isPost()) {
-			$recherche = Bral_Util_Controle::getValeurIntVerif($this->_request->getPost('recherche'));
 			$fichierChoisi = $this->_request->getPost('fichier');
-			
 			if (!in_array($fichierChoisi, $fichiers)) {
 				throw new Zend_Exception("logsAction Valeur invalide : fichier=".fichier);
 			}
+			$commandeChoisie = $this->_request->getPost('commande');
+			if (!in_array($commandeChoisie, $commandes)) {
+				throw new Zend_Exception("logsAction Valeur invalide : fichier=".fichier);
+			}
 			$fichier = $this->view->config->log->repertoire."/".$fichierChoisi;
-			$cmd = "grep $recherche $fichier";
+			if ($commandeChoisie == "grep") {
+				$recherche = Bral_Util_Controle::getValeurIntVerif($this->_request->getPost('recherche'));
+				$cmd = "grep $recherche $fichier";
+			} elseif ($commandeChoisie == "tail") {
+				$recherche = Bral_Util_Controle::getValeurIntVerif($this->_request->getPost('recherche'));
+				$cmd = "tail -$recherche $fichier";
+			}
 		}
-		
+
+	
+		$this->view->commandeChoisie = $commandeChoisie;
+		$this->view->commandes = $commandes;
 		$this->view->fichierChoisi = $fichierChoisi;
 		$this->view->cmd = $cmd;
 		$this->view->recherche = $recherche;
