@@ -68,6 +68,7 @@ class AdministrationbatchController extends Zend_Controller_Action {
 					$fichiers[] = $fichier;
 				}
 			}
+			sort($fichiers);
 			closedir($handle);
 		}
 
