@@ -82,11 +82,11 @@ class AdministrationbatchController extends Zend_Controller_Action {
 		if ($this->_request->isPost()) {
 			$fichierChoisi = $this->_request->getPost('fichier');
 			if (!in_array($fichierChoisi, $fichiers)) {
-				throw new Zend_Exception("logsAction Valeur invalide : fichier=".fichier);
+				throw new Zend_Exception("logsAction Valeur invalide : fichier=".$fichier);
 			}
 			$commandeChoisie = $this->_request->getPost('commande');
 			if (!in_array($commandeChoisie, $commandes)) {
-				throw new Zend_Exception("logsAction Valeur invalide : fichier=".fichier);
+				throw new Zend_Exception("logsAction Valeur invalide : commande=".$commandeChoisie);
 			}
 			$fichier = $this->view->config->log->repertoire."/".$fichierChoisi;
 			if ($commandeChoisie == "grep") {
