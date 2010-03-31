@@ -462,4 +462,24 @@ class Bral_Box_Echoppe extends Bral_Box_Box {
 		$this->view->alimentsEtal = $tabAlimentsEtal;
 		$this->view->idAlimentsEtalTable = "idAlimentsEtalTableEchoppe";
 	}
+
+	public function getTablesHtmlTri() {
+		$tab = false;
+		if ($this->view->afficheType == "potions") {
+			if (count($this->view->potionsEtal) > 0) {
+				$tab[] = $this->view->idPotionsEtalTable;
+			}
+		} elseif ($this->view->afficheType == "aliments") {
+			if (count($this->view->alimentsEtal) > 0) {
+				$tab[] = $this->view->idAlimentsEtalTable;
+			}
+		}
+
+		if ($this->view->afficheType == "equipements" || $this->view->afficheType == "potions") {
+			if (count($this->view->materielsEtal) > 0) {
+				$tab[] = $this->view->idMaterielsEtalTable;
+			}
+		}
+		return $tab;
+	}
 }

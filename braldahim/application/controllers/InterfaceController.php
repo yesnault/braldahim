@@ -110,7 +110,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$nomBox = $this->_request->get("box");
 		$box = Bral_Box_Factory::getBox($nomBox, $this->_request, $this->view, true);
 
-		if ($nomBox == "box_echoppes") {
+		if ($nomBox == "box_echoppes" || $nomBox == "box_echoppe") { // force render pour avoir htmlTri
 			$xml_entry->set_data($box->render());
 		} else {
 			$xml_entry->set_box($box);
