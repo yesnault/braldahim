@@ -222,7 +222,7 @@ class Bral_Echoppe_Acheteraliment extends Bral_Echoppe_Echoppe {
 					}
 
 					$placeDispoForce = false;
-					if ($destination["possible"] == false && $destination["poids_restant"] >= $this->aliment["poids_type_aliment"] - $r["prix_echoppe_aliment_partieplante"] * Bral_Util_Poids::POIDS_MINERAI) {
+					if ($destination["possible"] == false && $destination["poids_restant"] >= $this->aliment["poids_type_aliment"] - $a["prix_echoppe_aliment_partieplante"] * Bral_Util_Poids::POIDS_MINERAI) {
 						$placeDispoForce = true;
 						$this->view->destinationTransfert[$i]["possible_force"] = true;
 					}
