@@ -323,7 +323,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	}
 
 	private function controlePoids($poidsAutorise, $quantite, $poidsElt) {
-		if ($poidsAutorise < $quantite * $poidsElt) {
+		if (round($poidsAutorise,4) < intval($quantite) * floatval($poidsElt)) {
 			return false;
 		}
 		else {
