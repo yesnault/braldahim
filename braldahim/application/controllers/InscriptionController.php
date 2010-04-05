@@ -92,11 +92,12 @@ class InscriptionController extends Zend_Controller_Action {
 
 					Zend_Loader::loadClass("Bral_Util_Quete");
 					Bral_Util_Quete::creationQueteInitiatique($hobbit, $this->view->config);
-						
+
 					Zend_Loader::loadClass("Bral_Util_Messagerie");
 					$message = $this->view->render("inscription/messagepnj.phtml");
 					Bral_Util_Messagerie::envoiMessageAutomatique($this->view->config->game->pnj->inscription->id_hobbit, $hobbit->id_hobbit, $message, $this->view);
 
+					$this->ajouterDistinctionTesteur($hobbit->id_hobbit, $email_hobbit);
 					Bral_Util_Log::inscription()->notice("InscriptionController - validationAction - validation OK pour :".$email_hobbit);
 				}
 			} else {
@@ -109,6 +110,24 @@ class InscriptionController extends Zend_Controller_Action {
 		}
 		Bral_Util_Log::inscription()->trace("InscriptionController - validationAction - exit");
 		$this->render();
+	}
+
+	/**
+	 * Ajoute la distinction Beta Testeur aux anciens
+	 * @param unknown_type $idHobbit identifiant du Hobbit
+	 * @param unknown_type $emailHobbit email du hobbit, doit être le même qu'en version Beta (table Testeur)
+	 * @return void
+	 */
+	private function ajouterDistinctionTesteur($idHobbit, $emailHobbit) {
+		Zend_Loader::loadClass("Testeur");
+		$testeurTable = new Testeur();
+		$r = $testeurTable->findByEmail($emailHobbit);
+
+		if (count($r) != 0) {
+			Zend_Loader::loadClass("Bral_Util_Distinction");
+			$texte = "Testeur sur la version Beta de Braldahim";
+			Bral_Util_Distinction::ajouterDistinction($idHobbit, Bral_Util_Distinction::ID_TYPE_BETA_TESTEUR, $texte);
+		}
 	}
 
 	function ajouterAction() {
