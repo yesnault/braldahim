@@ -23,9 +23,6 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 		$this->controleHobbits($titre, $texte);
 		$this->envoiMail($titre, $texte);
 
-		echo $titre;
-		echo $texte;
-
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - calculBatchImpl - exit -");
 		return ;
 	}
@@ -143,13 +140,13 @@ class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 
 		// Inscription remonter le nombre d'inscrits et actif dans la semaine
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateMaintenant, -7);
-		$nbHobbits = $hobbitTable->countAllCompteActifInactif($dateFin, false);
+		$nbHobbits = $hobbitTable->countAllCompteActifInactif($dateFin, true);
 		$texte .= " Nouvelles inscriptions actives depuis 7j : ".$nbHobbits." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
 
 		// hobbits non actifs, avec date inscription, depuis 2 j
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateMaintenant, -7);
 		$nbHobbits = $hobbitTable->countAllCompteActifInactif($dateFin, false);
-		$texte .= " Nouvelles inscriptions actives depuis 2j : ".$nbHobbits." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
+		$texte .= " Nouvelles inscriptions non validées depuis 2j : ".$nbHobbits." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
 
 		// hobbits ayant joué depuis 24 et 48h
 		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateMaintenant, -1);
