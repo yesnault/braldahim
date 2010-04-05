@@ -177,7 +177,7 @@ class Bral_Echoppe_Acheteraliment extends Bral_Echoppe_Echoppe {
 					}
 
 					$placeDispoForce = false;
-					if ($destination["possible"] == false && $destination["poids_restant"] >= $this->aliment["poids_type_aliment"] - $r["prix_echoppe_aliment_minerai"] * Bral_Util_Poids::POIDS_MINERAI) {
+					if ($destination["possible"] == false && $destination["poids_restant"] >= $this->aliment["poids_unitaire_type_aliment"] - $r["prix_echoppe_aliment_minerai"] * Bral_Util_Poids::POIDS_MINERAI) {
 						$placeDispoForce = true;
 						$this->view->destinationTransfert[$i]["possible_force"] = true;
 					}
@@ -200,9 +200,11 @@ class Bral_Echoppe_Acheteraliment extends Bral_Echoppe_Echoppe {
 		if ($destination["id_destination"] == "laban") {
 			$labanPartiePlanteTable = new LabanPartieplante();
 			$partiePlantes = $labanPartiePlanteTable->findByIdHobbit($this->view->user->id_hobbit);
+			$i = 0;
 		} else {
 			$table = new CharrettePartieplante();
 			$partiePlantes = $table->findByIdCharrette($this->view->charrette["id_charrette"]);
+			$i = 1;
 		}
 
 		if (count($echoppeAlimentPartiePlante) > 0) {
@@ -222,7 +224,7 @@ class Bral_Echoppe_Acheteraliment extends Bral_Echoppe_Echoppe {
 					}
 
 					$placeDispoForce = false;
-					if ($destination["possible"] == false && $destination["poids_restant"] >= $this->aliment["poids_type_aliment"] - $a["prix_echoppe_aliment_partieplante"] * Bral_Util_Poids::POIDS_MINERAI) {
+					if ($destination["possible"] == false && $destination["poids_restant"] >= $this->aliment["poids_unitaire_type_aliment"] - $a["prix_echoppe_aliment_partieplante"] * Bral_Util_Poids::POIDS_MINERAI) {
 						$placeDispoForce = true;
 						$this->view->destinationTransfert[$i]["possible_force"] = true;
 					}
@@ -271,7 +273,7 @@ class Bral_Echoppe_Acheteraliment extends Bral_Echoppe_Echoppe {
 			foreach($this->view->destinationTransfert as $d) {
 				$possible = $this->calculPrixUnitaire($d, $prix, $nomSystemeUnite);
 				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_1_vente_echoppe_aliment"], "id_destination" => $d["id_destination"]);
-				if ($this->view->destinationTransfert[$i]["possible"] == false && $d["poids_restant"] >= $this->aliment["poids_type_aliment"] - $poidsPrix) {
+				if ($this->view->destinationTransfert[$i]["possible"] == false && $d["poids_restant"] >= $this->aliment["poids_unitaire_type_aliment"] - $poidsPrix) {
 					$placeDispo = true;
 					$this->view->destinationTransfert[$i]["possible_force"] = true;
 				}
@@ -289,7 +291,7 @@ class Bral_Echoppe_Acheteraliment extends Bral_Echoppe_Echoppe {
 			foreach($this->view->destinationTransfert as $d) {
 				$possible = $this->calculPrixUnitaire($d, $prix, $nomSystemeUnite);
 				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_2_vente_echoppe_aliment"], "id_destination" => $d["id_destination"]);
-				if ($this->view->destinationTransfert[$i]["possible"] == false && $d["poids_restant"] >= $this->aliment["poids_type_aliment"] - $poidsPrix) {
+				if ($this->view->destinationTransfert[$i]["possible"] == false && $d["poids_restant"] >= $this->aliment["poids_unitaire_type_aliment"] - $poidsPrix) {
 					$placeDispo = true;
 					$this->view->destinationTransfert[$i]["possible_force"] = true;
 				}
@@ -307,7 +309,7 @@ class Bral_Echoppe_Acheteraliment extends Bral_Echoppe_Echoppe {
 			foreach($this->view->destinationTransfert as $d) {
 				$possible = $this->calculPrixUnitaire($d, $prix, $nomSystemeUnite);
 				$tabPrix[] = array("prix" => $prix, "nom" => $nom, "type" => $type, "possible" => $possible, "unite" => $e["unite_3_vente_echoppe_aliment"], "id_destination" => $d["id_destination"]);
-				if ($this->view->destinationTransfert[$i]["possible"] == false && $d["poids_restant"] >= $this->aliment["poids_type_aliment"] - $poidsPrix) {
+				if ($this->view->destinationTransfert[$i]["possible"] == false && $d["poids_restant"] >= $this->aliment["poids_unitaire_type_aliment"] - $poidsPrix) {
 					$placeDispo = true;
 					$this->view->destinationTransfert[$i]["possible_force"] = true;
 				}
