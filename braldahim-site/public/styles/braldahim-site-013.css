@@ -278,7 +278,7 @@ span.id_hobbit {
 /* ************************************************ */
 
 #menu {
-	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/degrade.png) repeat-y scroll center top;
+	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/fonddegrad.png) repeat-y scroll center top;
 	height:auto;
 	min-height:51px;
 	margin-top: -10px;
@@ -357,7 +357,7 @@ span.id_hobbit {
 }
 
 #wrapper {
-	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/degrade.png) repeat-y scroll center top;
+	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/fonddegrad.png) repeat-y scroll center top;
 	height:auto;
 	min-height:290px;
 }

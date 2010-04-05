@@ -1149,7 +1149,7 @@ td.cases.actuelle {
 /* ************************************************ */
 
 #menu {
-	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/degrade.png) repeat-y scroll center top;
+	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/fonddegrad.png) repeat-y scroll center top;
 	height:auto;
 	min-height:51px;
 	margin-top: -10px;
@@ -1229,7 +1229,7 @@ td.cases.actuelle {
 }
 
 #wrapper {
-	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/degrade.png) repeat-y scroll center top;
+	background:#003b00 url(/public/styles/braldahim_defaut/images/layout/fonddegrad.png) repeat-y scroll center top;
 	height:auto;
 	min-height:290px;
 	margin-top: -10px;
