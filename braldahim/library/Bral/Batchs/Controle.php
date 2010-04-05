@@ -10,7 +10,7 @@
  * $LastChangedRevision: $
  * $LastChangedBy: $
  */
-class Bral_Batchs_Controle extends Bral_Batchs_Boutique {
+class Bral_Batchs_Controle extends Bral_Batchs_Batch {
 
 	public function calculBatchImpl() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - calculBatchImpl - enter -");
@@ -20,6 +20,7 @@ class Bral_Batchs_Controle extends Bral_Batchs_Boutique {
 
 		$this->controleBatchs($titre, $texte);
 		$this->controleMonstres($titre, $texte);
+		$this->controleHobbits($titre, $texte);
 		$this->envoiMail($titre, $texte);
 
 		echo $titre;
@@ -29,7 +30,7 @@ class Bral_Batchs_Controle extends Bral_Batchs_Boutique {
 		return ;
 	}
 
-	public function controleBatchs(&$titre, &$texte) {
+	private function controleBatchs(&$titre, &$texte) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - controleBatchs - enter -");
 
 		$batchTable = new Batch();
@@ -61,7 +62,7 @@ class Bral_Batchs_Controle extends Bral_Batchs_Boutique {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - controleBatchs - exit -");
 	}
 
-	public function controleMonstres(&$titre, &$texte) {
+	private function controleMonstres(&$titre, &$texte) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - controleMonstres - enter -");
 
 		Zend_Loader::loadClass("Monstre");
@@ -127,6 +128,65 @@ class Bral_Batchs_Controle extends Bral_Batchs_Boutique {
 		}
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - controleMonstres - exit -");
+	}
+
+	private function controleHobbits(&$titre, &$texte) {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - controleInscriptions - enter -");
+
+		$texte .=  PHP_EOL." ------- ".PHP_EOL;
+		$texte .=  "Hobbits : ".PHP_EOL;
+
+		$batchTable = new Batch();
+		$dateMaintenant = date("Y-m-d H:i:s");
+		$dateFin = date("Y-m-d H:i:s");
+		$hobbitTable = new Hobbit();
+
+		// Inscription remonter le nombre d'inscrits et actif dans la semaine
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateMaintenant, -7);
+		$nbHobbits = $hobbitTable->countAllCompteActifInactif($dateFin, false);
+		$texte .= " Nouvelles inscriptions actives depuis 7j : ".$nbHobbits." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
+
+		// hobbits non actifs, avec date inscription, depuis 2 j
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateMaintenant, -7);
+		$nbHobbits = $hobbitTable->countAllCompteActifInactif($dateFin, false);
+		$texte .= " Nouvelles inscriptions actives depuis 2j : ".$nbHobbits." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
+
+		// hobbits ayant joué depuis 24 et 48h
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateMaintenant, -1);
+		$nbHobbits = $hobbitTable->countAllBatchByDateFin($dateFin, true);
+		$texte .= " Hobbits ayant joué depuis 24h : ".$nbHobbits." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
+
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateMaintenant, -2);
+		$nbHobbits = $hobbitTable->countAllBatchByDateFin($dateFin, true);
+		$texte .= " Hobbits ayant joué depuis 48h : ".$nbHobbits." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
+
+		// nb Hobbits en hibernation
+		$nbHobbits = $hobbitTable->countAllHibernation();
+		$texte .= " Hobbits en hibernation : ".$nbHobbits.PHP_EOL;
+
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateMaintenant, -7);
+		$nbHobbits = $hobbitTable->countAllHibernation($dateFin);
+		$texte .= " Hobbits en hibernation depuis 7j: ".$nbHobbits." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
+
+		// nb Hobbits actifs, hors pnj, hibernation, non actifs, desactive
+		$dateFin = Bral_Util_ConvertDate::get_date_add_day_to_date($dateMaintenant, -5);
+		$nbHobbits = $hobbitTable->countAllCompteActif($dateFin);
+		$texte .= " Hobbits actifs, hors hibernation depuis 5j: ".$nbHobbits." => ".$dateFin. " à ".$dateMaintenant.PHP_EOL;
+
+		// Hobbits desactives
+		$hobbits = $hobbitTable->findAllCompteDesactives();
+		$nbHobbit = count($hobbits);
+		$texte .= " Hobbits désactivés : ".$nbHobbit.PHP_EOL;
+
+		if ($nbHobbits > 0) {
+			foreach($hobbits as $h) {
+				$texte .= "    Hobbit n°".$h["id_hobbit"]. " ".$h["prenom_hobbit"]." ".$h["nom_hobbit"]." ".$h["email_hobbit"];
+			}
+		}
+
+		$texte .=  PHP_EOL." ------- ".PHP_EOL;
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Controle - controleInscriptions - exit -");
 	}
 
 	private function envoiMail($titre, $texte) {

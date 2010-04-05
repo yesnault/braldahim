@@ -374,17 +374,40 @@ class Hobbit extends Zend_Db_Table {
 		return $nombre;
 	}
 
-	function findAllBatchByDateFin($dateFin) {
+	function findAllBatchByDateFin($dateFin, $inverse = false) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('hobbit', '*')
 		->where('est_compte_actif_hobbit = ?', "oui")
 		->where('est_en_hibernation_hobbit = ?', "non")
 		->where('est_compte_desactive_hobbit = ?', "non")
-		->where('est_pnj_hobbit = ?', "non")
-		->where('date_fin_tour_hobbit <= ?',$dateFin);
+		->where('est_pnj_hobbit = ?', "non");
+		if ($inverse == false) {
+			$select->where('date_fin_tour_hobbit <= ?',$dateFin);
+		} else {
+			$select->where('date_fin_tour_hobbit >= ?',$dateFin);
+		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
+	}
+
+	function countAllBatchByDateFin($dateFin, $inverse = false) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', 'count(*) as nombre')
+		->where('est_compte_actif_hobbit = ?', "oui")
+		->where('est_en_hibernation_hobbit = ?', "non")
+		->where('est_compte_desactive_hobbit = ?', "non")
+		->where('est_pnj_hobbit = ?', "non");
+		if ($inverse == false) {
+			$select->where('date_fin_tour_hobbit <= ?',$dateFin);
+		} else {
+			$select->where('date_fin_tour_hobbit >= ?',$dateFin);
+		}
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
 	}
 
 	function findAllJoueurs() {
@@ -416,9 +439,69 @@ class Hobbit extends Zend_Db_Table {
 		->where('est_compte_actif_hobbit = ?', "non")
 		->where('est_pnj_hobbit = ?', "non")
 		->where('est_compte_desactive_hobbit = ?', "non")
-		->where('date_creation_hobbit <= ?',$dateFin);
+		->where('date_creation_hobbit <= ?',$dateFin); // tous les plus vieux
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
+	}
+
+	function findAllCompteDesactives() {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', '*')
+		->where('est_compte_desactive_hobbit = ?', "oui");
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
+	function countAllCompteActifInactif($dateFin, $estActif) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', 'count(*) as nombre')
+		->where('est_pnj_hobbit = ?', "non")
+		->where('est_compte_desactive_hobbit = ?', "non")
+		->where('date_creation_hobbit >= ?',$dateFin); // tous les plus jeunes
+		if ($estActif) {
+			$select->where('est_compte_actif_hobbit = ?', "oui");
+		} else {
+			$select->where('est_compte_actif_hobbit = ?', "non");
+		}
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
+	}
+
+	function countAllCompteActif($dateFin = null) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', 'count(*) as nombre')
+		->where('est_pnj_hobbit = ?', "non")
+		->where('est_compte_desactive_hobbit = ?', "non")
+		->where('est_compte_actif_hobbit = ?', "oui")
+		->where('est_en_hibernation_hobbit = ?', "non");
+		
+		if ($dateFin != null) {
+			$select->where('date_fin_tour_hobbit >= ?', $dateFin);
+		}
+		
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
+	}
+
+	function countAllHibernation($dateFin = null) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('hobbit', 'count(*) as nombre')
+		->where('est_en_hibernation_hobbit = ?', "oui");
+		if ($dateFin != null) {
+			$select->where('date_fin_hibernation_hobbit >= ?', $dateFin);
+		}
+		$sql = $select->__toString();
+		$resultat = $db->fetchAll($sql);
+		$nombre = $resultat[0]["nombre"];
+		return $nombre;
 	}
 
 	function deleteAllBatchByDateFin($dateFin) {
