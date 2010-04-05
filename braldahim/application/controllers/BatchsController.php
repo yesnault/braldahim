@@ -21,26 +21,6 @@ class BatchsController extends Zend_Controller_Action {
 
 	// 1 action par batch
 
-	function boutiqueboisAction() {
-		$this->view->retour = Bral_Batchs_Factory::calculBatch("BoutiqueBois");
-		echo $this->view->render("batchs/resultat.phtml");
-	}
-
-	function boutiquemineraiAction() {
-		$this->view->retour = Bral_Batchs_Factory::calculBatch("BoutiqueMinerai");
-		echo $this->view->render("batchs/resultat.phtml");
-	}
-
-	function boutiqueplanteAction() {
-		$this->view->retour = Bral_Batchs_Factory::calculBatch("BoutiquePlante");
-		echo $this->view->render("batchs/resultat.phtml");
-	}
-
-	function boutiquepeauAction() {
-		$this->view->retour = Bral_Batchs_Factory::calculBatch("BoutiquePeau");
-		echo $this->view->render("batchs/resultat.phtml");
-	}
-
 	function boutiquetabacAction() {
 		$this->view->retour = Bral_Batchs_Factory::calculBatch("BoutiqueTabac");
 		echo $this->view->render("batchs/resultat.phtml");
