@@ -21,6 +21,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$this->view->estQuintuple = false;
 		$this->idDestination = null;
 		$this->idSource = null;
+		$this->coef_balance_faim = 1;
 
 		$this->prepareAliments();
 		$this->calculEchoppe("cuisinier");
@@ -347,7 +348,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 
 		$this->calculPx();
 		$this->calculPoids();
-		$this->calculBalanceFaim();
+		$this->calculBalanceFaim($this->coef_balance_faim);
 		$this->majHobbit();
 	}
 
@@ -709,8 +710,10 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 	protected function calculNbPa() {
 		if ($this->view->estSurEchoppe) {
 			$this->view->nb_pa = $this->competence["pa_utilisation"];
+			$this->coef_balance_faim = 0.5;
 		} else {
 			$this->view->nb_pa = $this->competence["pa_utilisation"] * 2;
+			$this->coef_balance_faim = 1;
 		}
 
 		if ($this->view->user->pa_hobbit - $this->view->nb_pa < 0) {
