@@ -35,4 +35,18 @@ class DonjonHobbit extends Zend_Db_Table {
 		return $db->fetchAll($sql);
 	}
 
+	public function findByIdHobbitNonTerminee($idHobbit) {
+		$db = $this->getAdapter();
+		$select = $db->select();
+		$select->from('donjon_hobbit', '*')
+		->from('donjon_equipe', '*')
+		->from('donjon', '*')
+		->where("id_fk_equipe_donjon_hobbit = id_donjon_equipe")
+		->where('id_fk_donjon_equipe = id_donjon')
+		->where('id_fk_hobbit_donjon_hobbit = ?', intval($idHobbit))
+		->where("etat_donjon_equipe not like 'termine' AND etat_donjon_equipe not like 'annule'");
+		$sql = $select->__toString();
+		return $db->fetchAll($sql);
+	}
+
 }

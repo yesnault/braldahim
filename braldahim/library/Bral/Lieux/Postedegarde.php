@@ -19,6 +19,10 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Bral_Util_Donjon");
 
+		if ($this->verificationSoule() == false) {
+			return;
+		}
+
 		$this->prepareDonjon();
 		Bral_Util_Donjon::controleInscriptionEquipe($this->donjonCourant, $this->view);
 
@@ -27,6 +31,29 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		if ($this->view->estMeneur && $this->view->inscriptionRealisee) {
 			$this->prepareDescente();
 		}
+	}
+
+	private function verificationSoule() {
+		$retour = true;
+
+		Zend_Loader::loadClass("SouleEquipe");
+		$souleEquipeTable = new SouleEquipe();
+		$idHobbitsTab[] = $this->view->user->id_hobbit;
+		$soule = $souleEquipeTable->countNonDebuteByIdHobbitList($idHobbitsTab);
+		foreach($soule as $s) {
+			if ($s["nombre"] != 0) {
+				$retour = false;
+				break;
+			}
+		}
+		
+		if ($this->view->user->est_soule_hobbit == 'oui') {
+			$retour = false;
+		}
+
+		$this->view->soulePossible = $retour;
+		
+		return $retour;
 	}
 
 	private function prepareDonjon() {
@@ -201,7 +228,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$hobbits = $hobbitTable->findByIdListAndIdTypeDistinction($idHobbitsTab, $this->view->idTypeDistinctionCourante);
 
 		if ($hobbits == null) {
-			throw new Zend_Exception(get_class($this)." Liste invalide:".$hobbitsList);
+			throw new Zend_Exception(get_class($this)." Liste invalide:".$hobbitsList." distinction".$this->view->idTypeDistinctionCourante);
 		} else if (count($hobbits) != 9) {
 			throw new Zend_Exception(get_class($this)." Liste invalide B:".$hobbitsList. " count=".count($hobbits));
 		}
@@ -360,7 +387,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 		$donjonEquipeTable = new DonjonEquipe();
 		$donjonEquipe = $donjonEquipeTable->findNonTermineeByIdDonjon($this->donjonCourant["id_donjon"]);
 		$equipeCourante = $donjonEquipe[0];
-		
+
 		$message = "[Poste de Garde]".PHP_EOL.PHP_EOL;
 
 		$message .= "Bonjour à vous habitants de Braldahim.".PHP_EOL.PHP_EOL;

@@ -29,19 +29,41 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 
 		$this->calculNbPa();
 		$this->calculNbCastars();
-		
+
 		$this->view->hibernationPrevue = true;
-		
+		$this->view->donjonEnCours = false;
+
 		$aujourdhui = date("Y-m-d 0:0:0");
-		
+
 		if ($this->view->user->date_fin_hibernation_hobbit == null || $this->view->user->date_fin_hibernation_hobbit < $aujourdhui) {
 			$this->view->hibernationPrevue = false;
 		}
+
 		
+		if ($this->verificationDonjon() == true || $this->view->user->est_donjon_hobbit == 'oui') {
+			$this->view->donjonEnCours = true;
+		}
+
+		if ($this->view->donjonEnCours == true || $this->view->hibernationPrevue == true) {
+			return;
+		}
+
 		if ($this->view->hibernationPrevue == false && $this->view->assezDePa && $this->view->user->est_engage_hobbit == "non") {
 			$this->prepareTerrain();
 			$this->prepareEquipes();
 		}
+	}
+
+	private function verificationDonjon() {
+		$retour = false;
+		Zend_Loader::loadClass("DonjonHobbit");
+		$donjonHobbitTable = new DonjonHobbit();
+		$hobbit = $donjonHobbitTable->findByIdHobbitNonTerminee($this->view->user->id_hobbit);
+
+		if ($hobbit != null) {
+			$retour = true;
+		}
+		return $retour;
 	}
 
 	private function prepareTerrain() {
@@ -143,13 +165,13 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 		}
 
 		/*
-		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
+		 if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
 			throw new Zend_Exception("Bral_Soule_Inscription :: Nombre invalideb : ".$this->request->get("valeur_2"));
-		} else {
+			} else {
 			$idChoix = (int)$this->request->get("valeur_2");
-		}
-		*/
-		
+			}
+			*/
+
 		$idChoix = 1;
 
 		$this->calculInscription($idEquipeChoisie, $idChoix);
@@ -220,7 +242,7 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 			"retour_xy_soule_equipe" => $retourXY,
 		);
 		$souleEquipeTable->insert($data);
-		
+
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->nb_castars;
 		if ($this->view->user->castars_hobbit < 0) {
 			$this->view->user->castars_hobbit = 0;

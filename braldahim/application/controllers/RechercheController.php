@@ -45,7 +45,7 @@ class RechercheController extends Zend_Controller_Action {
 	}
 
 	private function rechercheHobbit($idTypeDistinction = null) {
-		
+
 		if (Bral_Util_String::isChaineValide(stripslashes($this->_request->get("valeur")))) {
 			$tabHobbits = null;
 			$hobbitTable = new Hobbit();
@@ -83,27 +83,33 @@ class RechercheController extends Zend_Controller_Action {
 				if ($idTypeDistinction == null) {
 					$tabHobbits[] = $hobbit;
 				} else if ($idTypeDistinction != null && $h["id_hobbit"] != $this->view->user->id_hobbit) {
+					$okD = false;
+					$okS = false;
+
 					if ($distinctionsDonjon == null) {
-						$tabHobbits[] = $hobbit;
+						$okD = true;
 					} else {
-						$okD = false;
-						$okS = false;
 						foreach($distinctionsDonjon as $d) {
 							if ($h["est_donjon_hobbit"] == "non" && $d["id_fk_hobbit_hdistinction"] == $h["id_hobbit"] && $d["nombre"] < 1) {
 								$okD = true;
 								break;
 							}
 						}
+					}
+
+					if ($soule == null) {
+						$okS = true;
+					} else {
 						foreach($soule as $s) {
-							if ($h["est_soule_hobbit"] == "non" && $s["id_fk_hobbit_soule_equipe"] == $h["id_hobbit"] && $d["nombre"] < 1) {
+							if ($h["est_soule_hobbit"] == "non" && $s["id_fk_hobbit_soule_equipe"] == $h["id_hobbit"] && $s["nombre"] < 1) {
 								$okS = true;
 								break;
 							}
 						}
+					}
 
-						if ($okD == true && $okS == true) {
-							$tabHobbits[] = $hobbit;
-						}
+					if ($okD == true && $okS == true) {
+						$tabHobbits[] = $hobbit;
 					}
 				}
 			}

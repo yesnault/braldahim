@@ -8,6 +8,8 @@
  	
  	<? if ($this->utilisationPaPossible !== true): ?>
  		Vous n'avez pas assez de PA.
+ 	<? elseif ($this->soulePossible !== true): ?>
+ 		Vous ne pouvez pas entrer dans le Donjon en étant inscrit à un match de Soule.
  	<? elseif ($this->nouvelleEquipePossible === true) : ?>
  		
  		<? if ($this->inscriptionParHobbitNouvelleEquipePossible === true):?>
