@@ -23,7 +23,7 @@ class Bral_Util_Nom {
 		$testeurTable = new Testeur();
 		$testeur = $testeurTable->findByEmail($email);
 
-		if ($testeur != null) {
+		if ($testeur != null && $testeur->nom_testeur != null && $testeur->nom_testeur != "") {
 			$dataNom["nom"] = $testeur->nom_testeur;
 			$dataNom["id_nom"] = $testeur->id_fk_nom_testeur;
 		} else {

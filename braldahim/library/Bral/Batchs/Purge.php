@@ -17,10 +17,10 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$retour = null;
 
 		/*
- 		$retour .= $this->prepareVF();
+		$retour .= $this->prepareVF();
 		return $retour;
 		*/
-		
+
 		$retour .= $this->purgeBatch();
 		$retour .= $this->purgeCadavres();
 		$retour .= $this->purgeElementMinerai();
@@ -42,16 +42,21 @@ class Bral_Batchs_Purge extends Bral_Batchs_Batch {
 		$testeurTable = new Testeur();
 
 		$hobbitTable = new Hobbit();
-		$hobbits = $hobbitTable->findAllJoueursWithGardeEmail();
+		$hobbits = $hobbitTable->findAllJoueurs();
 
 		foreach($hobbits as $h) {
-			$data = array(
-				'email_testeur' => $h["email_hobbit"], 
-				'id_fk_nom_testeur' => $h["id_fk_nom_initial_hobbit"],
-				'nom_testeur' => $h["nom_hobbit"],
-			);
+			$data['email_testeur'] = $h["email_hobbit"];
+			$data['id_fk_nom_testeur'] = $h["id_fk_nom_initial_hobbit"];
+
+			if ($h["beta_conserver_nom_hobbit"] == "oui") {
+				$data['nom_testeur'] = $h["nom_hobbit"];
+				echo $h["email_hobbit"]. " n°".$h["id_hobbit"]. " conserve ".$h["nom_hobbit"].PHP_EOL;
+			} else {
+				$data['nom_testeur'] = null;
+				echo $h["email_hobbit"]. " n°".$h["id_hobbit"]. " ne conserve pas ".$h["nom_hobbit"].PHP_EOL;
+			}
+
 			$testeurTable->insert($data);
-			echo $h["email_hobbit"]. " n°".$h["id_hobbit"]. " conserve ".$h["nom_hobbit"].PHP_EOL;
 		}
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Purge - prepareVF - exit -");
 	}
