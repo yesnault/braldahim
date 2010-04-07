@@ -17,9 +17,6 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 	public function calculBatchImpl($idDonjon = null) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculBatchImpl - enter - idDonjon:".$idDonjon);
 
-		//TODO a supprimer avec les nouvelles caracts
-		return;
-
 		Zend_Loader::loadClass('Monstre');
 		Zend_Loader::loadClass('GroupeMonstre');
 		Zend_Loader::loadClass('TypeMonstre');
@@ -164,7 +161,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 					$referenceCourante = $this->recupereReferenceMonstre($refRowset, $referenceCourante["id_fk_type_ref_monstre"], $id_fk_taille_monstre);
 					$niveau_monstre = $this->creationCalculNiveau($referenceCourante, $niveauMoyen, $nid["z_nid"], $referenceCourante["id_fk_type_groupe_monstre"]);
 					$positions = $this->calculPositions($zone, $niveau_monstre);
-					$this->creationCalcul($zone['id_zone_nid'], $refRowset, $referenceCourante, $id_fk_taille_monstre, $niveau_monstre, $nid["x_nid"], $nid["y_nid"], $nid["z_nid"], $positions["x_min"], $positions["x_max"], $positions["y_min"], $positions["y_max"], $idDonjon, $id_groupe, $est_role_a, $est_role_b);
+					$this->creationCalcul($zone['id_zone_nid'], $refRowset, $referenceCourante, $id_fk_taille_monstre, $niveau_monstre, $nid["x_nid"], $nid["y_nid"], $nid["z_nid"], $positions["x_min"], $positions["x_max"], $positions["y_min"], $positions["y_max"], $idDonjon, $niveauMoyen, $id_groupe, $est_role_a, $est_role_b);
 				}
 			}
 		} else {
@@ -176,7 +173,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 				$referenceCourante = $this->recupereReferenceMonstre($refRowset, $referenceCourante["id_fk_type_ref_monstre"], $id_fk_taille_monstre);
 				$niveau_monstre = $this->creationCalculNiveau($referenceCourante, $niveauMoyen, $nid["z_nid"], $referenceCourante["id_fk_type_groupe_monstre"]);
 				$positions = $this->calculPositions($zone, $niveau_monstre);
-				$this->creationCalcul($zone['id_zone_nid'], $refRowset, $referenceCourante, $id_fk_taille_monstre, $niveau_monstre, $nid["x_nid"], $nid["y_nid"], $nid["z_nid"], $positions["x_min"], $positions["x_max"], $positions["y_min"], $positions["y_max"], $idDonjon);
+				$this->creationCalcul($zone['id_zone_nid'], $refRowset, $referenceCourante, $id_fk_taille_monstre, $niveau_monstre, $nid["x_nid"], $nid["y_nid"], $nid["z_nid"], $positions["x_min"], $positions["x_max"], $positions["y_min"], $positions["y_max"], $idDonjon, $niveauMoyen);
 			}
 		}
 
@@ -237,20 +234,69 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		return $idGroupe;
 	}
 
-	private function creationCalcul($id_zone_nid, $refMonstre, $referenceCourante, $id_fk_taille_monstre, $niveau_monstre, $x, $y, $z, $x_min, $x_max, $y_min, $y_max, $idDonjon, $id_groupe_monstre = null, $est_role_a = false, $est_role_b = false) {
+	private function creationCalcul($id_zone_nid, $refMonstre, $referenceCourante, $id_fk_taille_monstre, $niveau_monstre, $x, $y, $z, $x_min, $x_max, $y_min, $y_max, $idDonjon, $niveauMoyen, $id_groupe_monstre = null, $est_role_a = false, $est_role_b = false) {
 
 		$id_fk_type_monstre = $referenceCourante["id_fk_type_ref_monstre"];
 		$id_type_groupe_monstre = $referenceCourante["id_type_groupe_monstre"];
 
-		$niveau_force = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_force_ref_monstre"], $referenceCourante["max_niveau_force_ref_monstre"]);
-		$niveau_sagesse = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_sagesse_ref_monstre"], $referenceCourante["max_niveau_sagesse_ref_monstre"]);
-		$niveau_agilite = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_agilite_ref_monstre"], $referenceCourante["max_niveau_agilite_ref_monstre"]);
-		$niveau_vigueur = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_vigueur_ref_monstre"], $referenceCourante["max_niveau_vigueur_ref_monstre"]);
+		if ($referenceCourante["est_creation_pourcentage_ref_monstre"] == "non") {
+			$niveau_force = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_force_ref_monstre"], $referenceCourante["max_niveau_force_ref_monstre"]);
+			$niveau_sagesse = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_sagesse_ref_monstre"], $referenceCourante["max_niveau_sagesse_ref_monstre"]);
+			$niveau_agilite = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_agilite_ref_monstre"], $referenceCourante["max_niveau_agilite_ref_monstre"]);
+			$niveau_vigueur = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_vigueur_ref_monstre"], $referenceCourante["max_niveau_vigueur_ref_monstre"]);
+				
+			$bm_force = $referenceCourante["bm_force_ref_monstre"];
+			$bm_sagesse = $referenceCourante["bm_sagesse_ref_monstre"];
+			$bm_agilite = $referenceCourante["bm_agilite_ref_monstre"];
+			$bm_vigueur = $referenceCourante["bm_vigueur_ref_monstre"];
+		} else {
+			// NiveauSuivantPX = NiveauSuivant x 3 + debutNiveauPrecedentPx
+			$pi_min = 0;
+			for ($n = 0; $n <= $niveau_monstre; $n++) {
+				$pi_min = $pi_min + 3 * $n;
+			}
+			$pi_max = 0;
+			for ($n = 0; $n <=$niveau_monstre + 1; $n++) {
+				$pi_max = $pi_max + 3 * $n;
+			}
+			if ($pi_max > $pi_min) {
+				$pi_max = $pi_max - 1;
+			}
 
-		$bm_force = $referenceCourante["bm_force_ref_monstre"];
-		$bm_sagesse = $referenceCourante["bm_sagesse_ref_monstre"];
-		$bm_agilite = $referenceCourante["bm_agilite_ref_monstre"];
-		$bm_vigueur = $referenceCourante["bm_vigueur_ref_monstre"];
+			$nb_pi = Bral_Util_De::get_de_specifique($pi_min, $pi_max);
+			$nb_pi = floor($nb_pi * $referenceCourante["coef_pi_ref_monstre"]);
+
+			// Application de +/- 5% sur chaque carac
+			$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
+			$p_force = $referenceCourante["pourcentage_force_ref_monstre"] + $alea;
+			$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
+			$p_sagesse = $referenceCourante["pourcentage_sagesse_ref_monstre"] + $alea;
+			$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
+			$p_agilite = $referenceCourante["pourcentage_agilite_ref_monstre"] + $alea;
+			$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
+			$p_vigueur = $referenceCourante["pourcentage_vigueur_ref_monstre"] + $alea;
+
+			//Calcul des pi pour chaque caractéristique
+			$pi_force = round($nb_pi * $p_force / 100);
+			$pi_sagesse = round($nb_pi * $p_sagesse / 100);
+			$pi_agilite = round($nb_pi * $p_agilite / 100);
+			$pi_vigueur = round($nb_pi * $p_vigueur / 100);
+
+			// Détermination du nb d'améliorations possibles avec les PI dans chaque caractéristique
+			$niveau_force = Bral_Util_Niveau::calculNiveauDepuisPI($pi_force);
+			$niveau_sagesse = Bral_Util_Niveau::calculNiveauDepuisPI($pi_sagesse);
+			$niveau_agilite = Bral_Util_Niveau::calculNiveauDepuisPI($pi_agilite);
+			$niveau_vigueur = Bral_Util_Niveau::calculNiveauDepuisPI($pi_vigueur);
+
+			$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
+			$bm_force = $niveauMoyen + $alea;
+			$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
+			$bm_sagesse = $niveauMoyen + $alea;
+			$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
+			$bm_agilite = $niveauMoyen + $alea;
+			$alea = Bral_Util_De::get_de_specifique(0, 10) - 5; // entre -5 et 5
+			$bm_vigueur = $niveauMoyen + $alea;
+		}
 
 		$force_base_monstre = $this->config->game->inscription->force_base + $niveau_force;
 		$sagesse_base_monstre = $this->config->game->inscription->sagesse_base + $niveau_sagesse;

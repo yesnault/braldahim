@@ -84,7 +84,7 @@ class Bral_Util_Niveau {
 
 	// jusqu'au niveau 10 inclut, niveau*50 castars sont placés à la banque
 	private static function gainCastars($hobbit) {
-		
+
 		if ($hobbit->niveau_hobbit < 11) {
 			$nbCastars = $hobbit->niveau_hobbit * 50;
 
@@ -96,5 +96,18 @@ class Bral_Util_Niveau {
 			);
 			$coffreTable->insertOrUpdate($data);
 		}
+	}
+
+	public static function calculNiveauDepuisPI($piCaract) {
+		$niveau = 0;
+		$pi = 0;
+		for ($a=1; $a <= 100; $a++) {
+			$pi = $pi + ($a - 1) * $a;
+			if ($pi >= $piCaract) {
+				$niveau = $a;
+				break;
+			}
+		}
+		return $niveau;
 	}
 }
