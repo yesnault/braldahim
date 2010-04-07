@@ -259,8 +259,8 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 			for ($n = 0; $n <=$niveau_monstre + 1; $n++) {
 				$pi_max = $pi_max + 3 * $n;
 			}
-			if ($pi_max > $pi_min) {
-				$pi_max = $pi_max - 1;
+			if ($pi_min > $pi_max) {
+				$pi_min = $pi_max - 1;
 			}
 
 			$nb_pi = Bral_Util_De::get_de_specifique($pi_min, $pi_max);
@@ -313,6 +313,10 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		//ARMNAT
 		$aleaArmNat = Bral_Util_De::get_de_specifique($referenceCourante["min_alea_pourcentage_armure_naturelle_ref_monstre"], $referenceCourante["max_alea_pourcentage_armure_naturelle_ref_monstre"]);
 		$armure_naturelle_monstre = floor(($force_base_monstre + $vigueur_base_monstre) / 5) + $aleaArmNat;
+		
+		if ($id_fk_taille_monstre == TailleMonstre::ID_TAILLE_BOSS) {
+			$armure_naturelle_monstre = $armure_naturelle_monstre * 2;
+		}
 
 		//DLA
 		$dla_monstre = Bral_Util_ConvertDate::get_time_from_minutes(720 - 10 * $niveau_sagesse);
