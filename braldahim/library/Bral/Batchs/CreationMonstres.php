@@ -30,6 +30,11 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass("DonjonEquipe");
 		Zend_Loader::loadClass("Bral_Util_Niveau");
 
+		// A supprimer apres les nouvelles caracts.
+		if ($idDonjon == null) {
+			return;
+		}
+		
 		$retour = null;
 
 		if ($idDonjon != null) { // si l'on provient de la creation du donjon
