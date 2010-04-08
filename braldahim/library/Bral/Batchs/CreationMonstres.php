@@ -320,7 +320,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$armure_naturelle_monstre = floor(($force_base_monstre + $vigueur_base_monstre) / 5) + $aleaArmNat;
 		
 		if ($id_fk_taille_monstre == TailleMonstre::ID_TAILLE_BOSS) {
-			$armure_naturelle_monstre = $armure_naturelle_monstre * 2;
+			$armure_naturelle_monstre = $armure_naturelle_monstre * 3;
 		}
 
 		//DLA
