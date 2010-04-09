@@ -94,7 +94,7 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 		$tabValide[$monstre["x_monstre"]][$monstre["y_monstre"]] = false;
 
 		$cible = null;
-		$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $vue, 20, $monstre["id_fk_type_monstre"], false, $order);
+		$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $vue, 10, $monstre["id_fk_type_monstre"], false, $order);
 
 		if ($cibles != null) {
 			shuffle($cibles);
