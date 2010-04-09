@@ -291,7 +291,7 @@ class Bral_Monstres_VieMonstre {
 			$this->monstre["regeneration_malus_monstre"] = 0;
 			$this->monstre["vue_malus_monstre"] = 0;
 			$this->monstre["force_bm_monstre"] = $this->monstre["force_bm_init_monstre"];
-			$this->monstre["agilite_bm_monstre"] = - $this->monstre["agilite_bm_init_monstre"];
+			$this->monstre["agilite_bm_monstre"] = $this->monstre["agilite_bm_init_monstre"];
 			$this->monstre["agilite_malus_monstre"] = $this->monstre["agilite_malus_monstre"];
 			$this->monstre["sagesse_bm_monstre"] = $this->monstre["sagesse_bm_init_monstre"];
 			$this->monstre["vigueur_bm_monstre"] = $this->monstre["vigueur_bm_init_monstre"];

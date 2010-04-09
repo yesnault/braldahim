@@ -18,13 +18,14 @@ class Bral_Monstres_Competences_Attaquer extends Bral_Monstres_Competences_Attaq
 
 	public function calculJetAttaque() {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetAttaque - (idm:".$this->monstre["id_monstre"].") enter");
-		$jetAttaquant = Bral_Util_De::getLanceDe6($this->monstre["agilite_base_monstre"]);
+		$jetAttaquant = Bral_Util_De::getLanceDe6(self::$config->game->base_agilite + $this->monstre["agilite_base_monstre"]);
 		$jetAttaquant = $jetAttaquant + $this->monstre["agilite_bm_monstre"] + $this->monstre["bm_attaque_monstre"];
 
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetAttaque - (idm:".$this->monstre["id_monstre"].") exit (bm_attaque_monstre=".$this->monstre["bm_attaque_monstre"].")");
 		if ($jetAttaquant < 0) {
 			$jetAttaquant = 0;
 		}
-		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetAttaque - (idm:".$this->monstre["id_monstre"].") exit (jet=".$jetAttaquant.")");
+		Bral_Util_Log::viemonstres()->trace(get_class($this)." - calculJetAttaque - (idm:".$this->monstre["id_monstre"].") exit (jetAttaque=".$jetAttaquant.")");
 		return $jetAttaquant;
 	}
 
