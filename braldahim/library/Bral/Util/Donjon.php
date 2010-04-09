@@ -456,7 +456,7 @@ class Bral_Util_Donjon {
 		$message .= "Les voilà : ".$listeHobbits.PHP_EOL;
 
 		$message .= " revenant chargés de trésors et de gloire ! ".PHP_EOL.PHP_EOL;
-		$message .= "Sortez les toneaux, la bière va couler à flot ce soir dans notre belle ".$nomComte.".".PHP_EOL.PHP_EOL;
+		$message .= "Sortez les tonneaux, la bière va couler à flot ce soir dans notre belle ".$nomComte.".".PHP_EOL.PHP_EOL;
 
 		$message = Bral_Util_Lien::remplaceBaliseParNomEtJs($message, false);
 
