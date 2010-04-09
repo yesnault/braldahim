@@ -70,17 +70,48 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 			$vue = $vueForcee;
 		}
 
-		$cible = null;
-		$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $vue, 1, $monstre["id_fk_type_monstre"], false, $order);
-		if ($cibles != null) {
-			foreach($cibles as $c) {
-				if (Bral_Monstres_Competences_Reperage::peutAttaquer($c, $monstre)) {
-					$cible = $c;
-					break;
+		Zend_Loader::loadClass("Bral_Util_Dijkstra");
+		$dijkstra = new Bral_Util_Dijkstra();
+		$dijkstra->calcul($vue, $monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"]);
+
+		$x_min = $monstre["x_monstre"] - $vue;
+		$x_max = $monstre["x_monstre"] + $vue;
+		$y_min = $monstre["y_monstre"] - $vue;
+		$y_max = $monstre["y_monstre"] + $vue;
+
+		$tabValide = null;
+		$numero = -1;
+		for ($j = $y_max ; $j >= $y_min ; $j--) {
+			for ($i = $x_min ; $i <= $x_max ; $i++) {
+				$numero++;
+				$tabValide[$i][$j] = true;
+				if ($dijkstra->getDistance($numero) > $vue) {
+					$tabValide[$i][$j] = false;
 				}
 			}
 		}
 		
+		$tabValide[$monstre["x_monstre"]][$monstre["y_monstre"]] = false;
+
+		$cible = null;
+		$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $vue, 1, $monstre["id_fk_type_monstre"], false, $order);
+		
+		if ($cibles != null) {
+			shuffle($cibles);
+			foreach($cibles as $c) {
+				// on ne charge pas sur la case
+				if (array_key_exists($c["x_hobbit"], $tabValide) &&
+				array_key_exists($c["y_hobbit"], $tabValide[$c["x_hobbit"]]) &&
+				$tabValide[$c["x_hobbit"]][$c["y_hobbit"]] === true
+					&& Bral_Monstres_Competences_Reperage::peutAttaquer($c, $monstre)) {
+					$cible = $c; // controle cible OK
+					break; 
+				} else {
+					Bral_Util_Log::viemonstres()->debug("rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - cible non valide:".$c["id_hobbit"]);
+				}
+			}
+		}
+
 		if ($cible != null) {
 			Bral_Util_Log::viemonstres()->debug("rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - nouvelle cible trouvee:".$cible["id_hobbit"]);
 			$monstre["id_fk_hobbit_cible_monstre"] = $cible["id_hobbit"];
