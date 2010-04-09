@@ -90,12 +90,12 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 				}
 			}
 		}
-		
+
 		$tabValide[$monstre["x_monstre"]][$monstre["y_monstre"]] = false;
 
 		$cible = null;
-		$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $vue, 1, $monstre["id_fk_type_monstre"], false, $order);
-		
+		$cibles = $hobbitTable->findLesPlusProches($monstre["x_monstre"], $monstre["y_monstre"], $monstre["z_monstre"], $vue, 20, $monstre["id_fk_type_monstre"], false, $order);
+
 		if ($cibles != null) {
 			shuffle($cibles);
 			foreach($cibles as $c) {
@@ -103,9 +103,9 @@ class Bral_Monstres_Competences_Reperagestandard extends Bral_Monstres_Competenc
 				if (array_key_exists($c["x_hobbit"], $tabValide) &&
 				array_key_exists($c["y_hobbit"], $tabValide[$c["x_hobbit"]]) &&
 				$tabValide[$c["x_hobbit"]][$c["y_hobbit"]] === true
-					&& Bral_Monstres_Competences_Reperage::peutAttaquer($c, $monstre)) {
+				&& Bral_Monstres_Competences_Reperage::peutAttaquer($c, $monstre)) {
 					$cible = $c; // controle cible OK
-					break; 
+					break;
 				} else {
 					Bral_Util_Log::viemonstres()->debug("rechercheNouvelleCible - (idm:".$monstre["id_monstre"].") - cible non valide:".$c["id_hobbit"]);
 				}
