@@ -87,7 +87,8 @@ class Bral_Util_Donjon {
 
 		if (count($donjonEquipe) == 1) {
 			$equipeCourante = $donjonEquipe[0];
-			if ($equipeCourante["etat_donjon_equipe"] == "en_cours" && $equipeCourante["date_mort_monstre_donjon_equipe"] != null && $equipeCourante["date_mort_monstre_donjon_equipe"] <= Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d H:i:s"), 3)) {
+
+			if ($equipeCourante["etat_donjon_equipe"] == "en_cours" && $equipeCourante["date_mort_monstre_donjon_equipe"] != null && $equipeCourante["date_mort_monstre_donjon_equipe"] <= Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d H:i:s"), -3)) {
 				Bral_Util_Log::batchs()->trace("Bral_Util_Donjon - controleFin - finalise Reussi :".$equipeCourante["id_donjon_equipe"]);
 				self::finaliseDonjonReussi($donjon, $equipeCourante, $view);
 			} elseif ($equipeCourante["etat_donjon_equipe"] == "en_cours" && $equipeCourante["date_mort_monstre_donjon_equipe"] == null && $equipeCourante["date_fin_donjon_equipe"] != null && $equipeCourante["date_fin_donjon_equipe"] <= date("Y-m-d H:i:s")) {
