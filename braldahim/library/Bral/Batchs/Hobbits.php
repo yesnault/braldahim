@@ -17,8 +17,8 @@ class Bral_Batchs_Hobbits extends Bral_Batchs_Batch {
 		$retour = null;
 
 		$retour .= $this->calculPointsDistinctions();
-		//$retour .= $this->suppression();
-		//$retour .= $this->preventionSuppression();
+		$retour .= $this->suppression();
+		$retour .= $this->preventionSuppression();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hobbits - calculBatchImpl - exit -");
 		return $retour;
