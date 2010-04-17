@@ -1,6 +1,6 @@
 <div class='comp_titre'><?=htmlspecialchars($this->titreAction) ?></div>
 <form name='myForm'>
- <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='7'>
+ <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='8'>
  
  <div class='comp_contenu'>
  
@@ -16,9 +16,17 @@
 		<? endforeach; ?>
 		</select><br /><br />
 	 
-	 Nom : <input type='text' id='valeur_4' name='valeur_4' value="<?=$this->villeEnCours?>"><br />
-	 Description : <input type='text' id='valeur_5' name='valeur_5' value="Description <?=$this->villeEnCours?>"><br />
+	 Nom : <input type='text' id='valeur_4' name='valeur_4' onKeyUp="$('valeur_8_fin').value=this.value" value="<?=$this->villeEnCours?>"><br />
 	 
+	 <br>
+	 Nom Distinction (pour lieu mythique uniquement). Ceci est suivi automatiquement du nom du lieu.<br>
+	 Par exemple, mettre "A visité" pour "A visité La flêche dans l'arbre".<br> 
+	 <br><input type='text' id='valeur_8' name='valeur_8' value="">
+	 <input type='text' id='valeur_8_fin' name='valeur_8_fin' value="<?=$this->villeEnCours?>" readonly>
+	 <br />
+	<br> Description : 
+	 <textarea name="valeur_5" id="valeur_5" class="inputbox" rows="10" cols="60">Description <?=$this->villeEnCours?></textarea>
+	 <br><br>
 	 Ville : <br>
 	 	<select name='valeur_6' id="valeur_6">
 	 	<option value="-1">Aucune ville (pour lieu RP par exemple)</option>

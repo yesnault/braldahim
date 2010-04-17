@@ -16,10 +16,42 @@ class Bral_Batchs_Hobbits extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hobbits - calculBatchImpl - enter -");
 		$retour = null;
 
-		$retour .= $this->suppression();
-		$retour .= $this->preventionSuppression();
+		$retour .= $this->calculPointsDistinctions();
+		//$retour .= $this->suppression();
+		//$retour .= $this->preventionSuppression();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hobbits - calculBatchImpl - exit -");
+		return $retour;
+	}
+
+	private function calculPointsDistinctions() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hobbits - calculPointsDistinctions - enter -");
+
+		$retour = "";
+		$hobbitTable = new Hobbit();
+		$hobbits = $hobbitTable->fetchall();
+
+		Zend_Loader::loadClass("HobbitsDistinction");
+		$hobbitsDistinctionTable = new HobbitsDistinction();
+
+		if (count($hobbits) > 0) {
+			foreach ($hobbits as $h) {
+				$points = 0;
+				$hobbitsDistinctionRowset = $hobbitsDistinctionTable->findDistinctionsByHobbitId($h["id_hobbit"]);
+
+				if (count($hobbitsDistinctionRowset) > 0) {
+					foreach($hobbitsDistinctionRowset as $t) {
+						$points = $points + $t["points_type_distinction"];
+					}
+				}
+
+				$data = array('points_distinctions_hobbit' => $points);
+				$where = "id_hobbit=".intval($h["id_hobbit"]);
+				$hobbitTable->update($data, $where);
+			}
+		}
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hobbits - calculPointsDistinctions - exit -".$retour);
 		return $retour;
 	}
 
@@ -36,7 +68,7 @@ class Bral_Batchs_Hobbits extends Bral_Batchs_Batch {
 		$hobbits = $hobbitTable->findAllBatchByDateFin($dateFin);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_Hobbits - preventionSuppression - date:".$date." dateFin -".$dateFin);
-		
+
 		if (count($hobbits) > 0) {
 			foreach ($hobbits as $h) {
 				$retour .= $this->envoiMailPrevention($h);

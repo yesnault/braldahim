@@ -34,17 +34,23 @@
 		    <? endif; ?>
 	   <? endif; ?>
 	   <br>
-	   <? $liste = "Aucune Distinction";?>
-	  	<? if ($this->tabDistinctions != null && count($this->tabDistinctions) >= 1): ?>
-			<?
-			$liste = "";
-			foreach ($this->tabDistinctions as $t) :
-			$liste .= $t["nom"]." depuis le ".$t["date_hdistinction"]."<br>";
-			endforeach; ?>
-	  	<? endif; ?>
-	    <? if ($liste != "") : ?>
-	    	<?=$liste ?>
-	    <? endif;?>
+	   <? if ($this->tabDistinctions != null && count($this->tabDistinctions) >= 1): ?>
+	   	<? $s=""; if ($this->user->points_distinctions_hobbit > 1): $s='s'; endif; ?>
+	   	<span title='points actualisés une fois par jour' style='cursor:pointer'>Vous avez <?=$this->user->points_distinctions_hobbit ?> point<?=$s?> de distinction. (?)</span>
+	   	<br>
+	   	<? foreach($this->tabDistinctions as $d): ?>
+	   		<br>
+			 Catégorie : <?=$d["nom"]?>
+			 <br>
+		  	<? $i = 0; 
+		  	foreach($d["distinctions"] as $t): ?>
+			  	<?=$t["date_hdistinction"]?> : 
+			  	<?=$t["nom"]?> (<?=$t["points"]?> pts) <br>
+		  	<? endforeach; ?>
+	  	<? endforeach; ?>
+	  <? else: ?>
+	  	Aucune distinction
+	  <? endif;?>
 	   <br>
 <? else: ?>
 	Chargement en cours

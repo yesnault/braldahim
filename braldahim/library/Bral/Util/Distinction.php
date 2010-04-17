@@ -56,7 +56,6 @@ class Bral_Util_Distinction {
 			$where = "id_quete=".$quete["id_quete"];
 			$queteTable->update($data, $where);
 		}
-
 	}
 
 	public static function prepareDistinctions($idHobbit) {
@@ -70,12 +69,14 @@ class Bral_Util_Distinction {
 		foreach($hobbitsDistinctionRowset as $t) {
 			$possedeDistinction = true;
 
-			$tabDistinctions[] = array(
+			$tabDistinctions[$t["id_type_categorie"]]["nom"] = $t["nom_type_categorie"];
+			$tabDistinctions[$t["id_type_categorie"]]["distinctions"][] = array(
 				"nom_systeme" => $t["nom_systeme_type_distinction"],
 				"nom_type" => $t["nom_type_distinction"],
 				"nom" => $t["texte_hdistinction"],
 				"date_hdistinction" => Bral_Util_ConvertDate::get_date_mysql_datetime("d/m/Y", $t["date_hdistinction"]),
 				"url_hdistinction" => $t["url_hdistinction"],
+				"points" => $t["points_type_distinction"],
 			);
 
 		}

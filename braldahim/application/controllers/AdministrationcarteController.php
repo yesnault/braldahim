@@ -74,6 +74,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$parametres .= "&hobbits=1";
 		}
 
+		if (intval($this->_request->get("routes")) == 1) {
+			$parametres .= "&routes=1";
+		}
+
 		if (intval($this->_request->get("monstres")) == 1 && intval($this->_request->get("zonenidmin")) >= 1 && intval($this->_request->get("zonenidmax")) >= 1) {
 			$parametres .= "&monstres=1&zonenidmin=".intval($this->_request->get("zonenidmin"))."&zonenidmax=".intval($this->_request->get("zonenidmax"));
 		}
@@ -123,6 +127,9 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$this->dessineNids(&$image);
 		}
 
+		if (intval($this->_request->get("routes")) == 1) {
+			$this->dessineRoutes(&$image);
+		}
 
 		$this->view->image = $image;
 		$this->render();
@@ -132,10 +139,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		// Couleurs trouvées sur http://fr.wikipedia.org/wiki/Couleurs_du_Web
 		$couleurRouge = array("FFA07A", "DC143C", "FF0000", "B22222", "8B0000");
 
-		/*$couleurJaune=array("EEE8AA", "F0E68C", "BDB76B", "FFD700", "FFFF00");
-		 $couleurBleue=array("0033FF","336699","97058B","690261","3C0137");
-		 $couleurVert=array("00DD00","00AA00", "009900", "006600", "003300");
-		 $couleurGrise=array("888888","999999", "AAAAAA", "B9B9B9", "D0D0D0");*/
+		$red=array("EEE8AA", "F0E68C", "BDB76B", "FFD700", "FFFF00");
+		$blue=array("0033FF","336699","97058B","690261","3C0137");
+		$green=array("00DD00","00AA00", "009900", "006600", "003300");
+		$couleurGrise=array("888888","999999", "AAAAAA", "B9B9B9", "D0D0D0");
 
 		$this->noir = ImageColorAllocate($image, 0, 0, 0);
 		$this->blanc = ImageColorAllocate($image, 222, 222, 222);
@@ -144,13 +151,13 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		$this->vert = ImageColorAllocate($image, 0, 255, 0);
 		$this->vert2 = ImageColorAllocate($image, 0, 128, 0);
 
-		/*sscanf($couleurGrise[1], "%2x%2x%2x", $red, $green, $blue);
-		 $this->gris_1 = ImageColorAllocate($image, $red, $green, $blue);
-		 sscanf($couleurGrise[2], "%2x%2x%2x", $red, $green, $blue);
-		 $this->gris_2 = ImageColorAllocate($image, $red, $green, $blue);
-		 sscanf($couleurGrise[3], "%2x%2x%2x", $red, $green, $blue);
-		 $this->gris_3 = ImageColorAllocate($image, $red, $green, $blue);
-		 sscanf($couleurGrise[4], "%2x%2x%2x", $red, $green, $blue);*/
+		sscanf($couleurGrise[1], "%2x%2x%2x", $red, $green, $blue);
+		$this->gris_1 = ImageColorAllocate($image, $red, $green, $blue);
+		sscanf($couleurGrise[2], "%2x%2x%2x", $red, $green, $blue);
+		$this->gris_2 = ImageColorAllocate($image, $red, $green, $blue);
+		sscanf($couleurGrise[3], "%2x%2x%2x", $red, $green, $blue);
+		$this->gris_3 = ImageColorAllocate($image, $red, $green, $blue);
+		sscanf($couleurGrise[4], "%2x%2x%2x", $red, $green, $blue);
 
 		sscanf($couleurRouge[0], "%2x%2x%2x", $red, $green, $blue);
 		$this->rouge_0 = ImageColorAllocate($image, $red, $green, $blue);
@@ -163,38 +170,38 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		sscanf($couleurRouge[4], "%2x%2x%2x", $red, $green, $blue);
 		$this->rouge_4 = ImageColorAllocate($image, $red, $green, $blue);
 
-		/*sscanf($couleurJaune[0], "%2x%2x%2x", $red, $green, $blue);
-		 $this->jaune_0 = ImageColorAllocate($image, $red, $green, $blue);
-		 sscanf($couleurJaune[1], "%2x%2x%2x", $red, $green, $blue);
-		 $this->jaune_1 = ImageColorAllocate($image, $red, $green, $blue);
-		 sscanf($couleurJaune[2], "%2x%2x%2x", $red, $green, $blue);
-		 $this->jaune_2 = ImageColorAllocate($image, $red, $green, $blue);
-		 sscanf($couleurJaune[3], "%2x%2x%2x", $red, $green, $blue);
-		 $this->jaune_3 = ImageColorAllocate($image, $red, $green, $blue);
-		 sscanf($couleurJaune[4], "%2x%2x%2x", $red, $green, $blue);
-		 $this->jaune_4 = ImageColorAllocate($image, $red, $green, $blue);
+		sscanf($couleurJaune[0], "%2x%2x%2x", $red, $green, $blue);
+		$this->jaune_0 = ImageColorAllocate($image, $red, $green, $blue);
+		sscanf($couleurJaune[1], "%2x%2x%2x", $red, $green, $blue);
+		$this->jaune_1 = ImageColorAllocate($image, $red, $green, $blue);
+		sscanf($couleurJaune[2], "%2x%2x%2x", $red, $green, $blue);
+		$this->jaune_2 = ImageColorAllocate($image, $red, $green, $blue);
+		sscanf($couleurJaune[3], "%2x%2x%2x", $red, $green, $blue);
+		$this->jaune_3 = ImageColorAllocate($image, $red, $green, $blue);
+		sscanf($couleurJaune[4], "%2x%2x%2x", $red, $green, $blue);
+		$this->jaune_4 = ImageColorAllocate($image, $red, $green, $blue);
 
-		 sscanf($couleurVert[0], "%2x%2x%2x", $red, $green, $blue);
-		 $this->vert_0 = ImageColorAllocate($image, $red, $green, $blue);
-		 sscanf($couleurVert[1], "%2x%2x%2x", $red, $green, $blue);
-		 $this->vert_1 = ImageColorAllocate($image, $red, $green, $blue);
-		 sscanf($couleurVert[2], "%2x%2x%2x", $red, $green, $blue);
-		 $this->vert_2 = ImageColorAllocate($image, $red, $green, $blue);
-		 sscanf($couleurVert[3], "%2x%2x%2x", $red, $green, $blue);
-		 $this->vert_3 = ImageColorAllocate($image, $red, $green, $blue);
-		 sscanf($couleurVert[4], "%2x%2x%2x", $red, $green, $blue);
-		 $this->vert_4 = ImageColorAllocate($image, $red, $green, $blue);
-
-		 sscanf($couleurBleue[0], "%2x%2x%2x", $red, $green, $blue);
-		 $this->bleu_0 = ImageColorAllocate($image, $red, $green, $blue);
-		 sscanf($couleurBleue[1], "%2x%2x%2x", $red, $green, $blue);
-		 $this->bleu_1 = ImageColorAllocate($image, $red, $green, $blue);
-		 sscanf($couleurBleue[2], "%2x%2x%2x", $red, $green, $blue);
-		 $this->bleu_2 = ImageColorAllocate($image, $red, $green, $blue);
-		 sscanf($couleurBleue[3], "%2x%2x%2x", $red, $green, $blue);
-		 $this->bleu_3 = ImageColorAllocate($image, $red, $green, $blue);
-		 sscanf($couleurBleue[4], "%2x%2x%2x", $red, $green, $blue);
-		 $this->bleu_4 = ImageColorAllocate($image, $red, $green, $blue);*/
+		sscanf($couleurVert[0], "%2x%2x%2x", $red, $green, $blue);
+		$this->vert_0 = ImageColorAllocate($image, $red, $green, $blue);
+		sscanf($couleurVert[1], "%2x%2x%2x", $red, $green, $blue);
+		$this->vert_1 = ImageColorAllocate($image, $red, $green, $blue);
+		sscanf($couleurVert[2], "%2x%2x%2x", $red, $green, $blue);
+		$this->vert_2 = ImageColorAllocate($image, $red, $green, $blue);
+		sscanf($couleurVert[3], "%2x%2x%2x", $red, $green, $blue);
+		$this->vert_3 = ImageColorAllocate($image, $red, $green, $blue);
+		sscanf($couleurVert[4], "%2x%2x%2x", $red, $green, $blue);
+		$this->vert_4 = ImageColorAllocate($image, $red, $green, $blue);
+			
+		sscanf($couleurBleue[0], "%2x%2x%2x", $red, $green, $blue);
+		$this->bleu_0 = ImageColorAllocate($image, $red, $green, $blue);
+		sscanf($couleurBleue[1], "%2x%2x%2x", $red, $green, $blue);
+		$this->bleu_1 = ImageColorAllocate($image, $red, $green, $blue);
+		sscanf($couleurBleue[2], "%2x%2x%2x", $red, $green, $blue);
+		$this->bleu_2 = ImageColorAllocate($image, $red, $green, $blue);
+		sscanf($couleurBleue[3], "%2x%2x%2x", $red, $green, $blue);
+		$this->bleu_3 = ImageColorAllocate($image, $red, $green, $blue);
+		sscanf($couleurBleue[4], "%2x%2x%2x", $red, $green, $blue);
+		$this->bleu_4 = ImageColorAllocate($image, $red, $green, $blue);
 
 		$this->tab_rouge = array($this->rouge_0, $this->rouge_1, $this->rouge_2, $this->rouge_3 ,$this->rouge_4, $this->noir);
 
@@ -376,6 +383,46 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$nbHobbits++;
 		}
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 10, $nbHobbits." Hobbits", $this->vert2);
+	}
+
+	private function dessineRoutes(&$image) {
+		Zend_Loader::loadClass('Route');
+		$routesTable = new Route();
+		$routes = $routesTable->fetchall();
+
+		$nbRoutesVille = 0;
+		$nbBalises = 0;
+		$nbRoutesEchoppe = 0;
+		$nbRoutesVisible = 0;
+		$nbRoutesNonVisible = 0;
+		foreach ($routes as $h) {
+			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $h["x_route"]) / $this->coefTaille;
+			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $h["y_route"]) / $this->coefTaille;
+			if ($h["type_route"] == "route") {
+				if ($h["est_visible_route"] == "oui") {
+					ImageFilledEllipse($image, $x, $y, 2, 2, $this->rouge_0);
+					$nbRoutesVisible++;
+				} else {
+					ImageFilledEllipse($image, $x, $y, 2, 2, $this->rouge_3);
+					$nbRoutesNonVisible++;
+				}
+			} elseif ($h["type_route"] == "balise") {
+				ImageFilledEllipse($image, $x, $y, 2, 2, $this->vert2);
+				$nbBalises++;
+			} elseif ($h["type_route"] == "ville") {
+				ImageFilledEllipse($image, $x, $y, 2, 2, $this->bleu_0);
+				$nbRoutesVille++;
+			} elseif ($h["type_route"] == "route") {
+				ImageFilledEllipse($image, $x, $y, 2, 2, $this->rouge_1);
+				$nbRoutesEchoppe++;
+			}
+
+		}
+		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 10, $nbRoutesVille." Paves Ville", $this->bleu_0);
+		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 20, $nbBalises." Balises", $this->vert2);
+		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 30, $nbRoutesVisible." Routes visible", $this->rouge_0);
+		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 40, $nbRoutesNonVisible." Routes non visible", $this->rouge_3);
+		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 50, $nbRoutesEchoppe." Routes Echoppe", $this->rouge_1);
 	}
 
 	private function dessineNids(&$image) {

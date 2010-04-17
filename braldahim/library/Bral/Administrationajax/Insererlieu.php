@@ -89,6 +89,8 @@ class Bral_Administrationajax_Insererlieu extends Bral_Administrationajax_Admini
 		$descriptionLieu = $this->request->getPost("valeur_5");
 		$idVille = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_6"));
 		$estSoule = $this->request->getPost("valeur_7");
+		
+		$debutDistinction = $this->request->getPost("valeur_8");
 
 		$lieuTable = new Lieu();
 		
@@ -110,6 +112,19 @@ class Bral_Administrationajax_Insererlieu extends Bral_Administrationajax_Admini
 		$idLieu = $lieuTable->insert($data);
 		$this->view->dataLieu = $data;
 		$this->view->dataLieu["id_lieu"] = $idLieu;
+		
+		Zend_Loader::loadClass("TypeLieu");
+		if ($idTypeLieu == TypeLieu::ID_TYPE_LIEUMYTHIQUE) {
+			Zend_Loader::loadClass("TypeDistinction");
+			$typeDistinctionTable = new TypeDistinction();
+			$data = array(
+				'nom_systeme_type_distinction' => 'mythique_'.$idLieu,
+				'nom_type_distinction' => $debutDistinction.' '.$nomLieu,
+				'id_fk_lieu_type_distinction' => $idLieu,
+				'points_type_distinction' => 5,
+			);
+			$typeDistinctionTable->insert($data);
+		}
 	}
 
 	function getListBoxRefresh() {

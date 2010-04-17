@@ -58,7 +58,7 @@ class Bral_Voir_Hobbit {
 		$tabMetier["possedeMetier"] = false;
 		$tabTitre["tabTitres"] = null;
 		$tabDistinction["tabDistinctions"] = null;
-		
+
 		$hobbitTable = new Hobbit();
 		$idHobbit = Bral_Util_Controle::getValeurIntVerif($this->_request->get("hobbit"));
 		$hobbitRowset = $hobbitTable->findById($idHobbit);
@@ -76,7 +76,6 @@ class Bral_Voir_Hobbit {
 			}
 			$tabMetier = Bral_Util_Metier::prepareMetier($this->view->hobbit["id_hobbit"], $this->view->hobbit["sexe_hobbit"]);
 			$tabTitre = Bral_Util_Titre::prepareTitre($this->view->hobbit["id_hobbit"], $this->view->hobbit["sexe_hobbit"]);
-			$tabDistinction = Bral_Util_Distinction::prepareDistinctions($this->view->hobbit["id_hobbit"]);
 		} else {
 			$this->rechercheAncien($idHobbit);
 		}
@@ -90,7 +89,6 @@ class Bral_Voir_Hobbit {
 			$this->view->tabMetiers = $tabMetier["tabMetiers"];
 			$this->view->possedeMetier = $tabMetier["possedeMetier"];
 			$this->view->tabTitres = $tabTitre["tabTitres"];
-			$this->view->tabDistinctions = $tabDistinction["tabDistinctions"];
 
 			$charretteTable = new Charrette();
 			$nbCharrette = $charretteTable->countByIdHobbit($this->view->hobbit["id_hobbit"]);
@@ -103,11 +101,15 @@ class Bral_Voir_Hobbit {
 
 		if ($this->_request->get("menu") == "evenements" && $this->view->connu != null && $this->view->ancien == false) {
 			return $this->renderEvenements();
+		} else if ($this->_request->get("menu") == "distinctions" && $this->view->connu != null && $this->view->ancien == false) {
+			return $this->renderDistinctions();
 		} else if ($this->_request->get("menu") == "famille" && $this->view->connu != null) {
 			return $this->renderFamille();
 		} else {
 			if ($this->_request->get("direct") == "evenements") {
 				$flux = $this->renderEvenements();
+			} else if ($this->_request->get("direct") == "distinctions") {
+				$flux = $this->renderDistinctions();
 			} else if ($this->_request->get("direct") == "famille") {
 				$flux = $this->renderFamille();
 			} else {
@@ -304,6 +306,12 @@ class Bral_Voir_Hobbit {
 			$this->view->page = $this->_page;
 			$this->view->filtre = $this->_filtre;
 			return $this->view->render("voir/hobbit/evenements.phtml");
+	}
+
+	function renderDistinctions() {
+		$tabDistinction = Bral_Util_Distinction::prepareDistinctions($this->view->hobbit["id_hobbit"]);
+		$this->view->tabDistinctions = $tabDistinction["tabDistinctions"];
+		return $this->view->render("voir/hobbit/distinctions.phtml");
 	}
 
 	private function preparePage() {

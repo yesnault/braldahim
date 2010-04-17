@@ -14,28 +14,17 @@
   </tr>
   
   <tr class="table_liste">
+  
+  <? if ($this->ancien === true) : ?>
 	<th>Distinction<? if (count($this->tabDistinctions) > 0) :
 		echo "s";
 	   endif; ?></th>
 	<td class="table_liste">
-  	<? if ($this->ancien === true) : ?>
 		<? if ($this->hobbit["distinctions_ancien_hobbit"] != "") : ?>
 			<?=$this->hobbit["distinctions_ancien_hobbit"]?>
 		<? else: ?>
 			Aucune distinction
 		<? endif;?>
-	<? else : ?>
-		<? $liste = "Aucune Distinction";?>
-	  	<? if ($this->tabDistinctions != null && count($this->tabDistinctions) >= 1): ?>
-			<?
-			$liste = "";
-			foreach ($this->tabDistinctions as $t) :
-			$liste .= $t["nom"]."<br>";
-			endforeach; ?>
-	  	<? endif; ?>
-	    <? if ($liste != "") : ?>
-	    	<?=$liste ?>
-	    <? endif;?>
 	<? endif;?>
 	</td>
   </tr>
