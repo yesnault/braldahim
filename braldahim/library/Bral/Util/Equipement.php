@@ -53,6 +53,7 @@ class Bral_Util_Equipement {
 	public static function insertEquipementBonus($idEquipement, $niveauEquipement, $idRegion) {
 
 		$data["id_equipement_bonus"] = $idEquipement;
+		$retour = "";
 
 		switch($idRegion) {
 			case 1:
@@ -79,6 +80,8 @@ class Bral_Util_Equipement {
 				$data["vigueur_equipement_bonus"] = floor(Bral_Util_De::getLanceDeSpecifique($niveauEquipement+1, 1, 2));
 				if ($data["vigueur_equipement_bonus"] < 1) $data["vigueur_equipement_bonus"] = 1;
 				$retour = " Vigueur + ".$data["vigueur_equipement_bonus"];
+				break;
+			case -1 : // donjon
 				break;
 			default:
 				throw new Zend_Exception("Bral_Util_Equipement::getNomByIdRegion Region invalide id:".$idRegion);

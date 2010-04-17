@@ -360,6 +360,8 @@ class Bral_Util_Donjon {
 				"date_fin_element_equipement" => $dateFin,
 		);
 		$elementEquipementTable->insert($data);
+		
+		Bral_Util_Equipement::insertEquipementBonus($idEquipement, -1, -1);
 
 		$details = "[m".$monstre["id_monstre"]."] a lâché la pièce d'équipement n°".$idEquipement;
 		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_CREATION_ID, $idEquipement, $details);
