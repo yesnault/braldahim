@@ -114,6 +114,8 @@ class Bral_Administrationajax_Insererlieu extends Bral_Administrationajax_Admini
 		$this->view->dataLieu["id_lieu"] = $idLieu;
 		
 		Zend_Loader::loadClass("TypeLieu");
+		Zend_Loader::loadClass("TypeCategorie");
+		
 		if ($idTypeLieu == TypeLieu::ID_TYPE_LIEUMYTHIQUE) {
 			Zend_Loader::loadClass("TypeDistinction");
 			$typeDistinctionTable = new TypeDistinction();
@@ -121,6 +123,7 @@ class Bral_Administrationajax_Insererlieu extends Bral_Administrationajax_Admini
 				'nom_systeme_type_distinction' => 'mythique_'.$idLieu,
 				'nom_type_distinction' => $debutDistinction.' '.$nomLieu,
 				'id_fk_lieu_type_distinction' => $idLieu,
+				'id_fk_type_categorie_distinction' => TypeCategorie::ID_TYPE_VOYAGEUR,
 				'points_type_distinction' => 5,
 			);
 			$typeDistinctionTable->insert($data);
