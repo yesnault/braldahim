@@ -190,10 +190,10 @@ class Bral_Util_Attaque {
 		if ($pvTotalAvecDegat < $hobbitCible->pv_restant_hobbit) {
 			$hobbitCible->pv_restant_hobbit = $pvTotalAvecDegat;
 		}
-		
+
 		Zend_Loader::loadClass("Bral_Util_Equipement");
 		$pieceCibleAbimee = Bral_Util_Equipement::usureAttaquePiece($idHobbit);
-		
+
 		if ($hobbitCible->pv_restant_hobbit <= 0) { // mort du hobbit
 			$hobbitCible->pv_restant_hobbit = 0;
 
@@ -434,7 +434,7 @@ class Bral_Util_Attaque {
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetAttaquant=".$jetAttaquant);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - jetCible=".$jetCible);
 		Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - degatSurCase=".$degatCase);
-		
+
 		if ($riposte) {
 			Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - riposte:true");
 		}
@@ -548,15 +548,27 @@ class Bral_Util_Attaque {
 					$monstre["agilite_bm_monstre"] = $monstre["agilite_bm_monstre"] + $monstre["agilite_malus_monstre"];
 				}
 			}
+	
+			$armureNaturelle = $monstre["armure_naturelle_monstre"];
+			if ($tir == true) {
+				$penetrationArmure = floor(($hobbitAttaquant->agilite_bm_hobbit + $hobbitAttaquant->agilite_bbdf_hobbit + $hobbitAttaquant->sagesse_bm_hobbit + $hobbitAttaquant->sagesse_bbdf_hobbit)/2);
+				if ($penetrationArmure < 0) {
+					$penetrationArmure = 0;
+				}
+				$armureNaturelle = $armureNaturelle - $penetrationArmure;
+				if ($armureNaturelle < 0) {
+					$armureNaturelle = 0;
+				}
+			}
 
 			//on enlève l'armure naturelle du monstre
-			$retourAttaque["jetDegatReel"] = $retourAttaque["jetDegat"] - $monstre["armure_naturelle_monstre"];
+			$retourAttaque["jetDegatReel"] = $retourAttaque["jetDegat"] - $armureNaturelle;
 			//le jet de degat est au moins égal à 1
 			if ($retourAttaque["jetDegatReel"] <= 0 ) {
 				$retourAttaque["jetDegatReel"] = 1;
 			}
 
-			$retourAttaque["arm_nat_cible"] = $monstre["armure_naturelle_monstre"];
+			$retourAttaque["arm_nat_cible"] = $armureNaturelle;
 			$retourAttaque["arm_eqpt_cible"] = 0;
 			$retourAttaque["arm_totale_cible"] = $monstre["armure_naturelle_monstre"];
 
@@ -920,7 +932,7 @@ class Bral_Util_Attaque {
 					
 				$retour .= PHP_EOL."Au total, votre armure vous a protégé en réduisant les dégâts de ".$totalArmure.".";
 			}
-			
+				
 			if ($pieceCibleAbimee != null) {
 				$retour .= PHP_EOL."Une pièce d'équipement a été abimée par le coup : ".$pieceCibleAbimee.".";
 			}
