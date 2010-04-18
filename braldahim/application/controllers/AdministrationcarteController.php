@@ -78,6 +78,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$parametres .= "&routes=1";
 		}
 
+		if (intval($this->_request->get("lieuxmythiques")) == 1) {
+			$parametres .= "&lieuxmythiques=1";
+		}
+
 		if (intval($this->_request->get("monstres")) == 1 && intval($this->_request->get("zonenidmin")) >= 1 && intval($this->_request->get("zonenidmax")) >= 1) {
 			$parametres .= "&monstres=1&zonenidmin=".intval($this->_request->get("zonenidmin"))."&zonenidmax=".intval($this->_request->get("zonenidmax"));
 		}
@@ -129,6 +133,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 
 		if (intval($this->_request->get("routes")) == 1) {
 			$this->dessineRoutes(&$image);
+		}
+
+		if (intval($this->_request->get("lieuxmythiques")) == 1) {
+			$this->dessineLieuxmythiques(&$image);
 		}
 
 		$this->view->image = $image;
@@ -383,6 +391,23 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$nbHobbits++;
 		}
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 10, $nbHobbits." Hobbits", $this->vert2);
+	}
+
+	private function dessineLieuxmythiques(&$image) {
+		Zend_Loader::loadClass('Lieu');
+		Zend_Loader::loadClass('TypeLieu');
+
+		$lieuTable = new Lieu();
+		$lieux = $lieuTable->findByType(TypeLieu::ID_TYPE_LIEUMYTHIQUE); // lieux mythiques
+
+		$nbLieux = 0;
+		foreach ($lieux as $h) {
+			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $h["x_lieu"]) / $this->coefTaille;
+			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $h["y_lieu"]) / $this->coefTaille;
+			ImageFilledEllipse($image, $x, $y, 2, 2, $this->tab_rouge[2]);
+			$nbLieux++;
+		}
+		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 10, $nbLieux." Lieux Mythiques", $this->tab_rouge[2]);
 	}
 
 	private function dessineRoutes(&$image) {
