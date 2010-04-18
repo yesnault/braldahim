@@ -404,7 +404,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		foreach ($lieux as $h) {
 			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $h["x_lieu"]) / $this->coefTaille;
 			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $h["y_lieu"]) / $this->coefTaille;
-			ImageFilledEllipse($image, $x, $y, 2, 2, $this->tab_rouge[2]);
+			ImageFilledEllipse($image, $x, $y, 5, 5, $this->tab_rouge[2]);
 			$nbLieux++;
 		}
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 10, $nbLieux." Lieux Mythiques", $this->tab_rouge[2]);
