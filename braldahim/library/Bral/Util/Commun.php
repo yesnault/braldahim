@@ -151,8 +151,8 @@ class Bral_Util_Commun {
 	public static function getEffetMotA($idHobbit, $jetDegat) {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_a");
 		if ($equipement != null) {
-			if ($jetDegat > $equipement["niveau_recette_equipement"]) {
-				$jetDegat = $equipement["niveau_recette_equipement"];
+			if ($jetDegat > 5 * $equipement["niveau_recette_equipement"]) {
+				$jetDegat = 5 * $equipement["niveau_recette_equipement"];
 			}
 		}
 		return $jetDegat;
@@ -171,7 +171,7 @@ class Bral_Util_Commun {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_e");
 		$retour = null;
 		if ($equipement != null) {
-			$retour = $equipement["niveau_recette_equipement"];
+			$retour = 10 * $equipement["niveau_recette_equipement"];
 		}
 		return $retour;
 	}
@@ -211,7 +211,7 @@ class Bral_Util_Commun {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_i");
 		$retour = null;
 		if ($equipement != null) {
-			$retour = - $equipement["niveau_recette_equipement"];
+			$retour = - (3 * $equipement["niveau_recette_equipement"]);
 		}
 		return $retour;
 	}
@@ -256,7 +256,7 @@ class Bral_Util_Commun {
 		$equipement = self::getEquipementByNomSystemeMot($idHobbit, "mot_q");
 		$retour = null;
 		if ($equipement != null) {
-			$retour = - $equipement["niveau_recette_equipement"];
+			$retour = - (5 * $equipement["niveau_recette_equipement"]);
 		}
 		return $retour;
 	}

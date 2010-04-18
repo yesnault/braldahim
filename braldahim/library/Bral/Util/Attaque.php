@@ -111,8 +111,8 @@ class Bral_Util_Attaque {
 			if ($effetMotE != null && $effetMotSPossible == true) {
 				$retourAttaque["effetMotE"] = true;
 				$gainPv = ($retourAttaque["jetDegat"] / 2);
-				if ($gainPv > $effetMotE * 3) {
-					$gainPv = $effetMotE * 3;
+				if ($gainPv > $effetMotE) {
+					$gainPv = $effetMotE;
 				}
 				$retourAttaque["effetMotEPoints"] = $gainPv;
 				Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotE True effetMotE=".$effetMotE." gainPv=".$gainPv);
@@ -151,10 +151,10 @@ class Bral_Util_Attaque {
 		$effetMotQ = Bral_Util_Commun::getEffetMotQ($hobbitAttaquant->id_hobbit);
 		if ($effetMotQ != null && $effetMotSPossible == true) {
 			$retourAttaque["effetMotQ"]= true;
-			$hobbitCible->agilite_malus_hobbit = $hobbitCible->agilite_malus_hobbit + $effetMotQ;
-			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotQ True (agilite malus=".$effetMotQ."), hobbitCible->agilite_malus_hobbit=".$hobbitCible->agilite_malus_hobbit);
-			$hobbitCible->agilite_bm_hobbit = $hobbitCible->agilite_bm_hobbit + $hobbitCible->agilite_malus_hobbit;
-			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - hobbitCible->agilite_bm_hobbit=".$hobbitCible->agilite_bm_hobbit);
+			$hobbitCible->bm_defense_hobbit = $hobbitCible->bm_defense_hobbit + $effetMotQ;
+			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotQ True (defense malus=".$effetMotQ."), hobbitCible->bm_defense_hobbit=".$hobbitCible->bm_defense_hobbit);
+			$hobbitCible->bm_defense_hobbit = $hobbitCible->bm_defense_hobbit + $hobbitCible->bm_defense_hobbit;
+			Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - hobbitCible->bm_defense_hobbit=".$hobbitCible->bm_defense_hobbit);
 		}
 
 		// pour le tir
@@ -506,8 +506,8 @@ class Bral_Util_Attaque {
 					if ($effetMotE != null) {
 						$retourAttaque["effetMotE"] = true;
 						$gainPv = ($retourAttaque["jetDegat"] / 2);
-						if ($gainPv > $effetMotE * 3) {
-							$gainPv = $effetMotE * 3;
+						if ($gainPv > $effetMotE) {
+							$gainPv = $effetMotE;
 						}
 						$retourAttaque["effetMotEPoints"] = $gainPv;
 						Bral_Util_Log::attaque()->debug("Bral_Util_Attaque - effetMotE True effetMotE=".$effetMotE." gainPv=".$gainPv);

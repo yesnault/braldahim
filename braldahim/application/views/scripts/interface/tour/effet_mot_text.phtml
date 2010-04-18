@@ -26,7 +26,7 @@
 	<? if ($this->effetMotU) : ?>
 		<? if ($this->effetMotUPointsDegats > 1) : $s = 's'; else: $s = ''; endif;?>
 		Votre armure de Nosferatu inflige un souffle vampirique <?=$this->effetMotUPointsDegats?> point<?=$s?> de d&eacute;g&acirc;t <?=$s?> &agrave; tout ce qui se trouve sur sa case.<br />
-		Vous avez r&eacute;cup&eacute;r&eacute; <?=$this->effetMotUNbCibles?> PV.<br>
+		Vous avez r&eacute;cup&eacute;r&eacute; <?=$this->effetMotUNbPv?> PV.<br>
 		<? $this->ciblesEffet = $this->ciblesEffetU; ?>
 		<? include("tour_effet_touches_text.phtml") ?>
 	<? endif; ?>

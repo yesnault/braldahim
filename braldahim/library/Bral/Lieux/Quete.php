@@ -21,6 +21,13 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		Zend_Loader::loadClass("Bral_Util_Quete");
 		$queteTable = new Quete();
 
+		$this->view->niveauOk = false;
+		$this->view->niveauRequis = 10;
+
+		if ($this->view->user->niveau_hobbit >= $this->view->niveauRequis) {
+			$this->view->niveauOk = true;
+		}
+
 		$quete = $queteTable->findByIdHobbitAndIdLieu($this->view->user->id_hobbit, $this->view->idLieu);
 		if ($quete != null || count($quete) > 0) {
 			$this->view->queteObtenue = true;
@@ -57,6 +64,10 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 
 		if ($this->view->queteEnCours == true) {
 			throw new Zend_Exception(get_class($this)." Quete en cours id:".$this->view->user->id_hobbit);
+		}
+
+		if ($this->view->niveauOk == false) {
+			throw new Zend_Exception(get_class($this)." Niveau KO:".$this->view->user->niveau_hobbit);
 		}
 
 		if ($this->view->idLieu == Bral_Util_Quete::QUETE_ID_LIEU_INITIATIQUE) {
@@ -258,9 +269,9 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		$dataTypeEtape = $this->initDataTypeEtape();
 
 		$dataTypeEtape["libelle_etape"] = "";
-		
+
 		$this->pepareParamTypeEtapeMangerParam2et3($dataTypeEtape);
-		
+
 		if (Bral_Util_Quete::ETAPE_MANGER_PARAM2_ETAT == $dataTypeEtape["param2"]) {
 			$dataTypeEtape["param1"] = 1;
 		} else {

@@ -83,16 +83,15 @@ class Champ extends Zend_Db_Table {
 		}
 
 		$sql = $select->__toString();
-
 		return $db->fetchAll($sql);
 	}
 
-	function findByIdHobbit($id_hobbit) {
+	function findByIdHobbit($idHobbit) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('champ', '*')
 		->from('region', '*')
-		->where('id_fk_hobbit_champ = ?', $id_hobbit)
+		->where('id_fk_hobbit_champ = ?', $idHobbit)
 		->where('region.x_min_region <= champ.x_champ')
 		->where('region.x_max_region >= champ.x_champ')
 		->where('region.y_min_region <= champ.y_champ')
