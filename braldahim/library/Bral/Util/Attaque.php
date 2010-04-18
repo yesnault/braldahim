@@ -192,7 +192,7 @@ class Bral_Util_Attaque {
 		}
 
 		Zend_Loader::loadClass("Bral_Util_Equipement");
-		$pieceCibleAbimee = Bral_Util_Equipement::usureAttaquePiece($idHobbit);
+		$pieceCibleAbimee = Bral_Util_Equipement::usureAttaquePiece($hobbitCible->id_hobbit);
 
 		if ($hobbitCible->pv_restant_hobbit <= 0) { // mort du hobbit
 			$hobbitCible->pv_restant_hobbit = 0;
