@@ -457,7 +457,7 @@ abstract class Bral_Competences_Competence {
 		return $retourAttaque;
 	}
 
-	protected function attaqueMonstre(&$hobbitAttaquant, $idMonstre, $tir=false) {
+	protected function attaqueMonstre(&$hobbitAttaquant, $idMonstre, $tir = false) {
 		Zend_Loader::loadClass("Bral_Util_Attaque");
 		$jetAttaquant = $this->calculJetAttaque($hobbitAttaquant);
 		$jetsDegat = $this->calculDegat($hobbitAttaquant);

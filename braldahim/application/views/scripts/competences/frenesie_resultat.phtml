@@ -1,70 +1,75 @@
-	 <? include("commun_text_resultat.phtml") ?>
-	 	<? if ($this->okJet1 === true): ?>
-			 Vous avez attaqu&eacute; <?=htmlspecialchars($this->retourAttaque["cible"]["nom_cible"])?> (<?=$this->retourAttaque["cible"]["id_cible"]?>)  N <?=$this->retourAttaque["cible"]["niveau_cible"]?> 
-			 avec fr&eacute;n&eacute;sie :<br /><br />
-			 Jet d'attaque : <?=$this->retourAttaque["jetAttaquant"]?><br />
-			 Jet de d&eacute;fense de la cible : <?=$this->retourAttaque["jetCible"]?><br />
+ <? include("commun_text_resultat.phtml") ?>
+ 	<? if ($this->okJet1 === true): ?>
+ 	
+		Vous avez attaqu&eacute; avec fr&eacute;n&eacute;sie :<br /> 
+		
+		<? foreach($this->retoursAttaques as $retourAttaque) : ?> 
+	 		<?=htmlspecialchars($retourAttaque["cible"]["nom_cible"])?> (<?=$retourAttaque["cible"]["id_cible"]?>) 
+			 Jet d'attaque : <?=$retourAttaque["jetAttaquant"]?>, jet de d&eacute;fense : <?=$retourAttaque["jetCible"]?><br />
 			 
-		 	<? if ($this->retourAttaque["attaqueReussie"] === true) : ?>
-		 		<? if ($this->retourAttaque["jetDegat"] > 1) : $s='s'; else : $s=''; endif;?>
-		 		Vous avez inflig&eacute; <?=$this->retourAttaque["jetDegat"]?> point<?=$s?> de d&eacute;g&acirc;t
-		 		<? if ($this->retourAttaque["critique"]  == true): ?>
-		 		en attaque critique
+		 	<? if ($retourAttaque["attaqueReussie"] === true) : ?>
+		 		<? if ($retourAttaque["jetDegat"] > 1) : $s='s'; else : $s=''; endif;?>
+		 		Vous avez inflig&eacute; <?=$retourAttaque["jetDegat"]?> point<?=$s?> de d&eacute;g&acirc;t
+		 		<? if ($retourAttaque["critique"]  == true): ?>
+		 		en attaque critique.
 		 		<? endif; ?>
-		 		<br /><br />
-		 		<? if ($this->retourAttaque["arm_nat_cible"] > 0) :?>
+		 		<br />
+		 		<? if ($retourAttaque["arm_nat_cible"] > 0) :?>
 				 	L'armure naturelle l'a prot&eacute;g&eacute;e.<br />
 				<? endif; ?>
-				<? if ($this->retourAttaque["arm_eqpt_cible"] > 0) :?>
-				 	L'&eacute;quipement l'a prot&eacute;g&eacute;<br />
+				<? if ($retourAttaque["arm_eqpt_cible"] > 0) :?>
+				 	L'&eacute;quipement l'a prot&eacute;g&eacute;.<br />
 				<? endif; ?>
 				 
-				Au total, son armure l'a protégé en réduisant les dégâts de <?=$this->retourAttaque["arm_totale_cible"]?><br />
-				La cible a donc perdu <?=$this->retourAttaque["jetDegatReel"] ?> point<? if ($this->retourAttaque["jetDegatReel"] > 1) : ?>s<?endif;?> de vie<br />
+				Au total, son armure l'a protégé en réduisant les dégâts de <?=$retourAttaque["arm_totale_cible"]?>.<br />
+				La cible a donc perdu <?=$retourAttaque["jetDegatReel"] ?> point<? if ($retourAttaque["jetDegatReel"] > 1) : ?>s<?endif;?> de vie.
 		 		<br />
-		 		<? if ($this->retourAttaque["mort"]): ?>
+		 		<? if ($retourAttaque["mort"]): ?>
 		 			Vous avez 
-		 			<? if ($this->retourAttaque["cible"]["type_cible"] == "hobbit" && $this->user->est_soule_hobbit == "oui") :?>
+		 			<? if ($retourAttaque["cible"]["type_cible"] == "hobbit" && $this->user->est_soule_hobbit == "oui") :?>
 			 			plaqu&eacute;
-			 		<? elseif ($this->retourAttaque["cible"]["type_cible"] == "hobbit" && $this->user->est_soule_hobbit == "non") :?>
+			 		<? elseif ($retourAttaque["cible"]["type_cible"] == "hobbit" && $this->user->est_soule_hobbit == "non") :?>
 			 			mis KO
 			 		<? else: ?>	
 			 			tu&eacute; 
 			 		<? endif;?>
-		 			<?=htmlspecialchars($this->retourAttaque["cible"]["nom_cible"])?> (<?=$this->retourAttaque["cible"]["id_cible"]?>)<br /><br />
+		 			<?=htmlspecialchars($retourAttaque["cible"]["nom_cible"])?> (<?=$retourAttaque["cible"]["id_cible"]?>)<br />
 		 			
-		 			<? if ($this->retourAttaque["gains"] != null) :?>
-			 			<? if (isset($this->retourAttaque["gains"]["gainRune"]) && $this->retourAttaque["gains"]["gainRune"] != false) :?>
-			 				Une rune est tomb&eaucte;e &agrave; terre <? if ($this->retourAttaque["gains"]["gainCastars"] > 0) : ?>
-			 				ainsi que <?=$this->retourAttaque["gains"]["gainCastars"]?> castar<? if ($this->retourAttaque["gains"]["gainCastars"] > 1): echo "s"; endif;?>
+		 			<? if ($retourAttaque["gains"] != null) :?>
+			 			<? if (isset($retourAttaque["gains"]["gainRune"]) && $retourAttaque["gains"]["gainRune"] != false) :?>
+			 				Une rune est tomb&eaucte;e &agrave; terre <? if ($retourAttaque["gains"]["gainCastars"] > 0) : ?>
+			 				ainsi que <?=$retourAttaque["gains"]["gainCastars"]?> castar<? if ($retourAttaque["gains"]["gainCastars"] > 1): echo "s"; endif;?>
 			 				<? endif;?>.
-			 				<br /><br />
-			 			<? elseif ($this->retourAttaque["gains"]["gainCastars"] > 0) : ?>
-			 				<?=$this->retourAttaque["gains"]["gainCastars"]?> castar<? if ($this->retourAttaque["gains"]["gainCastars"] > 1) : echo "s"; endif;?>
-			 				sont tomb&eacute;s &agrave; terre.<br /><br />
+			 				<br />
+			 			<? elseif ($retourAttaque["gains"]["gainCastars"] > 0) : ?>
+			 				<?=$retourAttaque["gains"]["gainCastars"]?> castar<? if ($retourAttaque["gains"]["gainCastars"] > 1) : echo "s"; endif;?>
+			 				sont tomb&eacute;s &agrave; terre.<br />
 			 			<? endif;?>
 			 		<? endif;?>
 		 		<? endif; ?>
-		 		
-		 		<? if ($this->effetRune) :?>
-					Une rune que vous portez a eu de l'effet sur les d&eacute;g&acirc;ts inflig&eacute;s.<br />
-				<? endif; ?>
-				
-				<? if ($this->retourAttaque["ballonLache"]) : ?>
+		 		<br />
+				<? if ($retourAttaque["ballonLache"]) : ?>
 					<img src='/public/styles/braldahim_defaut/images/vue/ballon.png'/><br>
 					Le ballon de soule est tomb&eacute; &agrave; terre !<br>
 				<? endif;?>
+				
+				<? if ($this->effetRune) :?>
+					Une rune que vous portez a eu de l'effet sur les d&eacute;g&acirc;ts inflig&eacute;s.<br />
+				<? endif; ?>
+				
 		 	<? else: ?>
 		 		Votre attaque a &eacute;t&eacute; esquiv&eacute;e 
-		 		<? if ($this->retourAttaque["fragilisee"] === true) : ?>
+		 		<? if ($retourAttaque["fragilisee"] === true) : ?>
 		 		<br /> La cible est fragilis&eacute;e pour les prochaines attaques
 		 		<? else: ?>
 		 		parfaitement.
 		 		<? endif; ?>
+		 		<br /><br />
 		 	<? endif; ?>
-		 	<br /><br />
-		 	Vous avez gagn&eacute; <?=$this->nb_px?> PX<br /><br />
-	 	<? else: ?>
-			Vous avez manqu&eacute; votre fr&eacute;n&eacute;sie.<br />
-		<? endif; ?>
-		<? include("commun_text_effets.phtml") ?>
+	 	<? endforeach;?>
+		 	
+ 		Vous avez gagn&eacute; <?=$this->nb_px?> PX<br /><br />
+	<? else: ?>
+		Vous avez manqu&eacute; votre fr&eacute;n&eacute;sie.<br />
+	<? endif; ?>
+<? include("commun_text_effets.phtml") ?>

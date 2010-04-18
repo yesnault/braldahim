@@ -18,6 +18,8 @@
  */
 class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 
+	private $_coef = 1;
+
 	function prepareCommun() {
 		Zend_Loader::loadClass("Monstre");
 		Zend_Loader::loadClass("Bral_Monstres_VieMonstre");
@@ -70,10 +72,14 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 				$tabMonstres[] = array("id_monstre" => $m["id_monstre"], "nom_monstre" => $m["nom_type_monstre"], 'taille_monstre' => $m_taille, 'niveau_monstre' => $m["niveau_monstre"], 'est_gibier' => $estGibier);
 			}
 
-			$this->view->tabHobbits = $tabHobbits;
 			$this->view->nHobbits = count($tabHobbits);
-			$this->view->tabMonstres = $tabMonstres;
+			if ($this->view->nHobbits > 0) shuffle($tabHobbits);
+			$this->view->tabHobbits = $tabHobbits;
+			
 			$this->view->nMonstres = count($tabMonstres);
+			if ($this->view->nMonstres > 0) shuffle($tabMonstres);
+			$this->view->tabMonstres = $tabMonstres;
+			
 			$this->view->estRegionPvp = $estRegionPvp;
 		}
 		$this->view->armeTirPortee = $armeTirPortee;
@@ -85,66 +91,38 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 
 	function prepareResultat() {
 
-		if (((int)$this->request->get("valeur_1").""!=$this->request->get("valeur_1")."")) {
-			throw new Zend_Exception(get_class($this)." Monstre invalide : ".$this->request->get("valeur_1"));
+		if ($this->view->assezDePa == true && $this->view->armeTirPortee == false && 
+		($this->view->nHobbits > 0 || $this->view->nMonstres > 0) && $this->view->user->est_soule_hobbit == 'non' && $this->view->user->est_intangible_hobbit == 'non') {
+			// OK
 		} else {
-			$idMonstre = (int)$this->request->get("valeur_1");
+			throw new Zend_Exception("Erreur Frenesie");
 		}
-		if (((int)$this->request->get("valeur_2").""!=$this->request->get("valeur_2")."")) {
-			throw new Zend_Exception(get_class($this)." Hobbit invalide : ".$this->request->get("valeur_2"));
-		} else {
-			$idHobbit = (int)$this->request->get("valeur_2");
-		}
-
-		if ($idMonstre != -1 && $idHobbit != -1) {
-			throw new Zend_Exception(get_class($this)." Monstre ou Hobbit invalide (!=-1)");
-		}
-		if ($idMonstre == -1 && $idHobbit == -1) {
-			throw new Zend_Exception(get_class($this)." Monstre ou Hobbit invalide (==-1)");
-		}
-
-		$attaqueMonstre = false;
-		$attaqueHobbit = false;
-		if ($idHobbit != -1) {
-			if (isset($this->view->tabHobbits) && count($this->view->tabHobbits) > 0) {
-				foreach ($this->view->tabHobbits as $h) {
-					if ($h["id_hobbit"] == $idHobbit) {
-						$attaqueHobbit = true;
-						break;
-					}
-				}
-			}
-			if ($attaqueHobbit === false) {
-				throw new Zend_Exception(get_class($this)." Hobbit invalide (".$idHobbit.")");
-			}
-		} else {
-			if (isset($this->view->tabMonstres) && count($this->view->tabMonstres) > 0) {
-				foreach ($this->view->tabMonstres as $m) {
-					if ($m["id_monstre"] == $idMonstre) {
-						$attaqueMonstre = true;
-						break;
-					}
-				}
-			}
-			if ($attaqueMonstre === false) {
-				throw new Zend_Exception(get_class($this)." Monstre invalide (".$idMonstre.")");
-			}
-		}
-
+		
 		// calcul des jets
 		$this->calculJets();
+		$retours = null;
 
 		if ($this->view->okJet1 === true) {
-			if ($attaqueHobbit === true) {
-				$this->view->retourAttaque = $this->attaqueHobbit($this->view->user, $idHobbit);
-			} elseif ($attaqueMonstre === true) {
-				$this->view->retourAttaque = $this->attaqueMonstre($this->view->user, $idMonstre);
-			} else {
-				throw new Zend_Exception(get_class($this)." Erreur inconnue");
+			if (isset($this->view->tabHobbits) && count($this->view->tabHobbits) > 0) {
+				foreach ($this->view->tabHobbits as $h) {
+					$this->retourAttaque = $this->attaqueHobbit($this->view->user, $h["id_hobbit"]);
+					$this->calculPx();
+					$retours[] = $this->retourAttaque;
+					$this->_coef = $this->_coef * 0.8;
+				}
+			}
+
+			if (isset($this->view->tabMonstres) && count($this->view->tabMonstres) > 0) {
+				foreach ($this->view->tabMonstres as $m) {
+					$this->retourAttaque = $this->attaqueMonstre($this->view->user, $m["id_monstre"]);
+					$this->calculPx();
+					$retours[] = $this->retourAttaque;
+					$this->_coef = $this->_coef * 0.8;
+				}
 			}
 		}
 
-		$this->calculPx();
+		$this->view->retoursAttaques = $retours;
 		$this->calculBalanceFaim();
 		$this->majHobbit();
 	}
@@ -157,11 +135,11 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		//Attaque : 0.5*(jet d'AGI)+BM AGI + bonus arme att
 		$jetAttaquant = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $hobbit->agilite_base_hobbit);
 		$jetAttaquant = floor((0.5 * $jetAttaquant) + $hobbit->agilite_bm_hobbit + $hobbit->agilite_bbdf_hobbit + $hobbit->bm_attaque_hobbit);
-		
+
 		if ($jetAttaquant < 0) {
 			$jetAttaquant = 0;
 		}
-		return $jetAttaquant;
+		return floor($this->_coef * $jetAttaquant);
 	}
 
 	protected function calculDegat($hobbit) {
@@ -173,7 +151,7 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 		$coefCritique = 1.5;
 			
 		$jetDegatForce = Bral_Util_De::getLanceDe6($this->view->config->game->base_force + $hobbit->force_base_hobbit);
-		
+
 		if (Bral_Util_Commun::isRunePortee($hobbit->id_hobbit, "EM")) {
 			$this->view->effetRune = true;
 			// dégats : Jet FOR + BM + Bonus de dégat de l'arme
@@ -187,26 +165,29 @@ class Bral_Competences_Frenesie extends Bral_Competences_Competence {
 			$jetsDegat["noncritique"] = 0.5 * $jetDegatForce;
 		}
 
-		$jetsDegat["critique"] = floor($jetsDegat["critique"] + $hobbit->force_bm_hobbit + $hobbit->force_bbdf_hobbit + $hobbit->bm_degat_hobbit);
-		$jetsDegat["noncritique"] = floor($jetsDegat["noncritique"] + $hobbit->force_bm_hobbit + $hobbit->force_bbdf_hobbit + $hobbit->bm_degat_hobbit);
+		$jetsDegat["critique"] = floor($this->_coef * ($jetsDegat["critique"] + $hobbit->force_bm_hobbit + $hobbit->force_bbdf_hobbit + $hobbit->bm_degat_hobbit));
+		$jetsDegat["noncritique"] = floor($this->_coef * ($jetsDegat["noncritique"] + $hobbit->force_bm_hobbit + $hobbit->force_bbdf_hobbit + $hobbit->bm_degat_hobbit));
 
 		return $jetsDegat;
 	}
 
 	public function calculPx() {
-		parent::calculPx();
 
-		$this->view->nb_px_commun = 0;
-		$this->view->calcul_px_generique = false;
+		if ($this->_coef == 1) { // pour la première cible
+			parent::calculPx();
 
-		if ($this->view->retourAttaque["attaqueReussie"] === true) {
-			$this->view->nb_px_perso = $this->view->nb_px_perso + 1;
+			$this->view->nb_px_commun = 0;
+			$this->view->calcul_px_generique = false;
+
+			if ($this->view->retourAttaque["attaqueReussie"] === true) {
+				$this->view->nb_px_perso = $this->view->nb_px_perso + 1;
+			}
 		}
 
-		if ($this->view->retourAttaque["mort"] === true) {
+		if ($this->retourAttaque["mort"] === true) {
 			// [10+2*(diff de niveau) + Niveau Cible ]
-			$this->view->nb_px_commun = 10+2*($this->view->retourAttaque["cible"]["niveau_cible"] - $this->view->user->niveau_hobbit) + $this->view->retourAttaque["cible"]["niveau_cible"];
-			if ($this->view->nb_px_commun < $this->view->nb_px_perso ) {
+			$this->view->nb_px_commun = $this->view->nb_px_commun + 10+2*($this->view->retourAttaque["cible"]["niveau_cible"] - $this->view->user->niveau_hobbit) + $this->view->retourAttaque["cible"]["niveau_cible"];
+			if ($this->view->nb_px_commun < $this->view->nb_px_perso) {
 				$this->view->nb_px_commun = $this->view->nb_px_perso;
 			}
 		}
