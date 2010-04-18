@@ -23,16 +23,18 @@ class Bral_Administrationajax_Insererroute extends Bral_Administrationajax_Admin
 	function prepareCommun() {
 		Zend_Loader::loadClass("Route");
 
-		$xyRoute = $this->request->get("xy_route");
-		if ($xyRoute != null) {
-			list ($xRoute, $yRoute) = split("h", $xyRoute);
+		$xyzRoute = $this->request->get("xyz_route");
+		if ($xyzRoute != null) {
+			list ($xRoute, $yRoute, $zRoute) = split("h", $xyzRoute);
 			Bral_Util_Controle::getValeurIntVerif($xRoute);
 			Bral_Util_Controle::getValeurIntVerif($yRoute);
+			Bral_Util_Controle::getValeurIntVerif($zRoute);
 		}
 
-		if ($xyRoute != null) {
+		if ($xyzRoute != null) {
 			$this->view->xRoute = $xRoute;
 			$this->view->yRoute = $yRoute;
+			$this->view->zRoute = $zRoute;
 		}
 
 		$tabTypesRoute = null;
@@ -51,20 +53,24 @@ class Bral_Administrationajax_Insererroute extends Bral_Administrationajax_Admin
 	}
 
 	function prepareResultat() {
-		$xyRoute = $this->request->get("xy_route");
-		list ($xRoute, $yRoute) = split("h", $xyRoute);
-		$this->calculRoute($xRoute, $yRoute);
+		//$xyRoute = $this->request->get("xy_route");
+		//list ($xRoute, $yRoute) = split("h", $xyRoute);
+		$this->calculRoute();
 	}
 
-/*	function calculRoute($xRoute, $yRoute) {
-		$typeRoute = "route";
-
+	function calculRoute() {
+		
+		$xRoute = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));
+		$yRoute = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_2"));
+		$zRoute = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_3"));
+		$typeRoute = $this->request->getPost("valeur_4");
+		
 		$routeTable = new Route();
 
 		$data = array(
 			"x_route" => $xRoute,	 	 	 	 	 	 	
 			"y_route" => $yRoute,	 	
-			"z_route" => 0,		 	 	 	 	 	 	
+			"z_route" => $zRoute,		 	 	 	 	 	 	
 			"id_fk_hobbit_route" => null,	 	 	 	 	 	
 			"date_creation_route" => date("Y-m-d H:i:s"), 	 	 	 	 	 	
 			"id_fk_type_qualite_route"  => null, 	 	 	 	 	 	
@@ -81,13 +87,12 @@ class Bral_Administrationajax_Insererroute extends Bral_Administrationajax_Admin
 		
 		Zend_Auth::getInstance()->getIdentity()->administrationvueDonnees["x_position"] = $xRoute;
 		Zend_Auth::getInstance()->getIdentity()->administrationvueDonnees["y_position"] = $yRoute;
-		Zend_Auth::getInstance()->getIdentity()->administrationvueDonnees["z_position"] = 0;
+		Zend_Auth::getInstance()->getIdentity()->administrationvueDonnees["z_position"] = $zRoute;
 
 		$this->view->dataRoute = $data;
 
 	}
 
-*/
 	/*function calculResultat($xRoute, $yRoute) {
 		$xRoute = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));
 		$yRoute = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_2"));

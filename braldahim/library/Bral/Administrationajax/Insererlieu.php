@@ -25,12 +25,12 @@ class Bral_Administrationajax_Insererlieu extends Bral_Administrationajax_Admini
 		Zend_Loader::loadClass("TypeLieu");
 		Zend_Loader::loadClass("Ville");
 
-		$xyLieu = $this->request->get("xy_lieu");
-		if ($xyLieu != null) {
-			$xyLieu = $this->request->get("xy_lieu");
-			list ($xLieu, $yLieu) = split("h", $xyLieu);
+		$xyzLieu = $this->request->get("xyz_lieu");
+		if ($xyzLieu != null) {
+			list ($xLieu, $yLieu, $zLieu) = split("h", $xyzLieu);
 			Bral_Util_Controle::getValeurIntVerif($xLieu);
 			Bral_Util_Controle::getValeurIntVerif($yLieu);
+			Bral_Util_Controle::getValeurIntVerif($zLieu);
 		}
 
 		$typeLieuTable = new TypeLieu();
@@ -54,7 +54,7 @@ class Bral_Administrationajax_Insererlieu extends Bral_Administrationajax_Admini
 			$tabVilles[$v["id_ville"]]["ville"] = $v;
 			$tabVilles[$v["id_ville"]]["selected"] = "";
 			$tabVilles[$v["id_ville"]]["info"] = "";
-			if ($xyLieu != null) {
+			if ($xyzLieu != null) {
 				if ($xLieu >= $v["x_min_ville"] && $xLieu <= $v["x_max_ville"] &&
 				$yLieu >= $v["y_min_ville"] && $yLieu <= $v["y_max_ville"]) {
 					$tabVilles[$v["id_ville"]]["selected"] = "selected";
@@ -68,9 +68,10 @@ class Bral_Administrationajax_Insererlieu extends Bral_Administrationajax_Admini
 		$tabEstSoule = array("non" => "non", "oui" => "oui");
 
 		$this->view->villeEnCours = $tabTypesLieux[count($tabTypesLieux)]["type"]["nom_type_lieu"].$villeEnCours;
-		if ($xyLieu != null) {
+		if ($xyzLieu != null) {
 			$this->view->xLieu = $xLieu;
 			$this->view->yLieu = $yLieu;
+			$this->view->zLieu = $zLieu;
 		}
 		$this->view->villes = $tabVilles;
 		$this->view->typeLieux = $tabTypesLieux;
@@ -84,13 +85,14 @@ class Bral_Administrationajax_Insererlieu extends Bral_Administrationajax_Admini
 	function prepareResultat() {
 		$xLieu = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_1"));
 		$yLieu = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_2"));
-		$idTypeLieu = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_3"));
-		$nomLieu = $this->request->getPost("valeur_4");
-		$descriptionLieu = $this->request->getPost("valeur_5");
-		$idVille = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_6"));
-		$estSoule = $this->request->getPost("valeur_7");
+		$zLieu = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_3"));
+		$idTypeLieu = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_4"));
+		$nomLieu = $this->request->getPost("valeur_5");
+		$descriptionLieu = $this->request->getPost("valeur_6");
+		$idVille = Bral_Util_Controle::getValeurIntVerif($this->request->getPost("valeur_7"));
+		$estSoule = $this->request->getPost("valeur_8");
 		
-		$debutDistinction = $this->request->getPost("valeur_8");
+		$debutDistinction = $this->request->getPost("valeur_9");
 
 		$lieuTable = new Lieu();
 		
@@ -106,6 +108,7 @@ class Bral_Administrationajax_Insererlieu extends Bral_Administrationajax_Admini
 			"date_creation_lieu" => date("Y-m-d H:i:s"),
 			"x_lieu" => $xLieu,
 			"y_lieu" => $yLieu,
+			"z_lieu" => $zLieu,
 			"est_soule_lieu" => $estSoule,
 			"etat_lieu" => 100,
 		);

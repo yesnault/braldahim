@@ -303,7 +303,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			$utilMarcher = new Bral_Util_Marcher();
 			$marcher = $utilMarcher->calcul($this->view->user);
 		}
-
+		
 		for ($j = $centre_y_max; $j >= $centre_y_min; $j --) {
 			$change_level = true;
 			for ($i = $centre_x_min; $i <= $centre_x_max; $i ++) {
@@ -748,7 +748,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					$tabMarcher["case"] = null;
 				}
 
-				$tab = array ("x" => $display_x, "y" => $display_y, //
+				$tab = array ("x" => $display_x, "y" => $display_y, "z" => $this->view->z_position, //
 					"change_level" => $change_level, // nouvelle ligne dans le tableau ;
 					"css_actuelle" => $cssActuelle,
 					"nom_zone" => $nom_zone,
