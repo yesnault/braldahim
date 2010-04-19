@@ -325,8 +325,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 	private function controlePoids($poidsAutorise, $quantite, $poidsElt) {
 		if (round($poidsAutorise,4) < intval($quantite) * floatval($poidsElt)) {
 			return false;
-		}
-		else {
+		} else {
 			return true;
 		}
 	}
@@ -1355,6 +1354,9 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$slingot = "";
 			if ($nbBrut > 1) $sbrut = "s";
 			if ($nbLingot > 1) $slingot = "s";
+			
+			if ($nbBrut < 0) $nbBrut = 0;
+			if ($nbLingot < 0) $nbLingot = 0;
 			
 			if ($nbBrut > 0 || $nbLingot > 0) {
 				if ($depart == "Charrette" && $this->view->a_panneau === false && ( $this->view->nbelement > 0 || ($nbBrut > 0 && $nbLingot > 0))) {
