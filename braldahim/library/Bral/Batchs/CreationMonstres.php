@@ -30,11 +30,6 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		Zend_Loader::loadClass("DonjonEquipe");
 		Zend_Loader::loadClass("Bral_Util_Niveau");
 
-		// A supprimer apres les nouvelles caracts.
-		if ($idDonjon == null) {
-			return;
-		}
-		
 		$retour = null;
 
 		if ($idDonjon != null) { // si l'on provient de la creation du donjon
@@ -329,7 +324,8 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 
 		//PV
 		$pv_restant_monstre = (20 + $niveau_vigueur * 4) * 2;
-		$pv_restant_monstre = $pv_restant_monstre * $referenceCourante["coef_pv_ref_monstre"];
+		$coef_pv = Bral_Util_De::get_de_specifique($referenceCourante["coef_pv_min_ref_monstre"] * 10, $referenceCourante["coef_pv_max_ref_monstre"] * 10) / 10;
+		$pv_restant_monstre = $pv_restant_monstre * $coef_pv;
 
 		//Vue
 		$vue_monstre = $referenceCourante["vue_ref_monstre"];
