@@ -146,10 +146,16 @@
 						value="<?=$this->referenceCourante["vue"]?>" /></td>
 				</tr>
 				<tr>
-					<td>Coef PV</td>
-					<td><input type="textbox" name="coef_pv_ref_monstre"
+					<td>Coef PV Min</td>
+					<td><input type="textbox" name="coef_pv_min_ref_monstre"
 						size="3" maxlength="4"
-						value="<?=$this->referenceCourante["coef_pv_ref_monstre"]?>" /></td>
+						value="<?=$this->referenceCourante["coef_pv_min_ref_monstre"]?>" /></td>
+				</tr>
+				<tr>
+					<td>Coef PV Max</td>
+					<td><input type="textbox" name="coef_pv_max_ref_monstre"
+						size="3" maxlength="4"
+						value="<?=$this->referenceCourante["coef_pv_max_ref_monstre"]?>" /></td>
 				</tr>
 				<tr>
 					<td>ArmNat Min Alea</td>
@@ -223,8 +229,10 @@
 				<th>Vue</th>
 				<th>ArmNat AleaMin</th>
 				<th>ArmNat AleaMax</th>
-				<th>Coef PV</th>
+				<th>Coef PV Min</th>
+				<th>Coef PV Max</th>
 				<th>Estim pvMin</th>
+				<th>Estim pvMax</th>
 				<th>Edition</th>
 			</tr>
 		</thead>
@@ -253,8 +261,10 @@
 			<td><?=$r["vue"] ?></td>
 			<td><?=$r["alea_min_armnat"] ?></td>
 			<td><?=$r["alea_max_armnat"] ?></td>
-			<td nowrap><?=$r["coef_pv_ref_monstre"] ?></td>
+			<td nowrap><?=$r["coef_pv_min_ref_monstre"] ?></td>
+			<td nowrap><?=$r["coef_pv_max_ref_monstre"] ?></td>
 			<td><?=$r["estimation_pv_min"]?></td>
+			<td><?=$r["estimation_pv_max"]?></td>
 			<td><input type="button" class="button1" name="Modifier"
 				value="Modifier"
 				onClick="document.location.href='/Administrationmonstre/referentiel/modifier/<?=$r["id_ref_monstre"] ?>';" /></td>

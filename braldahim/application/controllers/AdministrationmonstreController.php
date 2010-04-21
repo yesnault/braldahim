@@ -381,7 +381,8 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 
 			$max_alea_pourcentage_armure_naturelle_ref_monstre = $filter->filter($this->_request->getPost('alea_max_armnat'));
 			$min_alea_pourcentage_armure_naturelle_ref_monstre = $filter->filter($this->_request->getPost('alea_min_armnat'));
-			$coef_pv_ref_monstre = $filter->filter($this->_request->getPost('coef_pv_ref_monstre'));
+			$coef_pv_min_ref_monstre = $filter->filter($this->_request->getPost('coef_pv_min_ref_monstre'));
+			$coef_pv_max_ref_monstre = $filter->filter($this->_request->getPost('coef_pv_max_ref_monstre'));
 
 			if (((int)$id_fk_type_ref_monstre.""!=$id_fk_type_ref_monstre."")) {
 				throw new Zend_Exception(get_class($this)." Valeur invalide. id_fk_type_ref_monstre : ".$id_fk_type_ref_monstre);
@@ -449,8 +450,11 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			if (((int)$max_alea_pourcentage_armure_naturelle_ref_monstre.""!=$max_alea_pourcentage_armure_naturelle_ref_monstre."")) {
 				throw new Zend_Exception(get_class($this)." Valeur invalide. max_alea_pourcentage_armure_naturelle_ref_monstre : ".$max_alea_pourcentage_armure_naturelle_ref_monstre);
 			}
-			if (((float)$coef_pv_ref_monstre.""!=$coef_pv_ref_monstre."")) {
-				throw new Zend_Exception(get_class($this)." Valeur invalide. coef_pv_ref_monstre : ".$coef_pv_ref_monstre);
+			if (((float)$coef_pv_min_ref_monstre.""!=$coef_pv_min_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. coef_pv_min_ref_monstre : ".$coef_pv_min_ref_monstre);
+			}
+			if (((float)$coef_pv_max_ref_monstre.""!=$coef_pv_max_ref_monstre."")) {
+				throw new Zend_Exception(get_class($this)." Valeur invalide. coef_pv_max_ref_monstre : ".$coef_pv_max_ref_monstre);
 			}
 
 			$data = array(
@@ -476,7 +480,8 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				"vue_ref_monstre" => $vue_ref_monstre,
 				"max_alea_pourcentage_armure_naturelle_ref_monstre" => $max_alea_pourcentage_armure_naturelle_ref_monstre, 
 				"min_alea_pourcentage_armure_naturelle_ref_monstre" => $min_alea_pourcentage_armure_naturelle_ref_monstre, 
-				"coef_pv_ref_monstre" => $coef_pv_ref_monstre, 
+				"coef_pv_min_ref_monstre" => $coef_pv_min_ref_monstre,
+				"coef_pv_max_ref_monstre" => $coef_pv_max_ref_monstre, 
 			);
 
 			$refTable = new ReferentielMonstre();
@@ -525,7 +530,8 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 			"bm_defense" => '',
 			"bm_degat" => '',
 			"vue" => '',
-			"coef_pv_ref_monstre" => '',
+			"coef_pv_min_ref_monstre" => '',
+			"coef_pv_max_ref_monstre" => '',
 			"alea_min_armnat" => '',
 			"alea_max_armnat" => '',
 		);
@@ -572,7 +578,8 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				$m_taille = $r["nom_taille_m_monstre"];
 			}
 
-			$estimationPvMin = ((20 + $r["min_niveau_vigueur_ref_monstre"] * 4) * 2) * $r["coef_pv_ref_monstre"];
+			$estimationPvMin = floor(((20 + $r["min_niveau_vigueur_ref_monstre"] * 4) * 2) * $r["coef_pv_min_ref_monstre"]);
+			$estimationPvMax = floor(((20 + $r["max_niveau_vigueur_ref_monstre"] * 4) * 2) * $r["coef_pv_min_ref_monstre"]);
 
 			$ref[$r["id_ref_monstre"]] = array(
 				"id_ref_monstre" => $r["id_ref_monstre"],
@@ -602,10 +609,12 @@ class AdministrationmonstreController extends Zend_Controller_Action {
 				"nb_membres_min" => $r["nb_membres_min_type_groupe_monstre"],
 				"nb_membres_max" => $r["nb_membres_max_type_groupe_monstre"],
 				"nom_groupe_monstre" => $r["nom_groupe_monstre"],
-				"coef_pv_ref_monstre" => $r["coef_pv_ref_monstre"],
+				"coef_pv_min_ref_monstre" => $r["coef_pv_min_ref_monstre"],
+				"coef_pv_max_ref_monstre" => $r["coef_pv_max_ref_monstre"],
 				"alea_min_armnat" => $r["min_alea_pourcentage_armure_naturelle_ref_monstre"],
 				"alea_max_armnat" => $r["max_alea_pourcentage_armure_naturelle_ref_monstre"],
 				"estimation_pv_min" => $estimationPvMin,
+				"estimation_pv_max" => $estimationPvMax,
 			);
 		}
 
