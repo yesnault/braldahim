@@ -102,12 +102,14 @@ class AuthController extends Zend_Controller_Action {
 					if (Zend_Auth::getInstance()->getIdentity()->gardiennage === true) {
 						Bral_Util_Log::authentification()->trace("AuthController - loginAction - appel gardiennage");
 						$this->_redirect('/Gardiennage/');
-					} else if (Zend_Auth::getInstance()->getIdentity()->est_charte_validee_hobbit == "non") {
+					} else if (Zend_Auth::getInstance()->getIdentity()->est_charte_validee_hobbit == 'non') {
 						$this->_redirect('/charte/');
+					} else if (Zend_Auth::getInstance()->getIdentity()->est_sondage_valide_hobbit == 'non' && Zend_Auth::getInstance()->getIdentity()->est_pnj_hobbit == 'non') {
+						$this->_redirect('/sondage/');
 					} else {
 						$this->_redirect('/interface/');
 					}
-				} else if ($hobbit->est_compte_actif_hobbit == "non") {
+				} else if ($hobbit->est_compte_actif_hobbit == 'non') {
 					Bral_Util_Log::authentification()->warn("AuthController - loginAction - compte non actif : ".$email);
 					$this->view->message = "Ce compte n'est pas actif";
 					Zend_Auth::getInstance()->clearIdentity();

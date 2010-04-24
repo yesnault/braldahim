@@ -1,0 +1,92 @@
+<?php echo $this->render('header.phtml'); ?>
+<form action="/sondage/" method="post">
+
+<div class="box_gardiennage">
+<div class="inner">
+	<ul class="titre textalic textsizea">Sondage</ul>
+	&nbsp;
+	<div class="contenu">
+	    <ul class="box_contenu1 textalic">
+	    <br />
+      	Merci de répondre au sondage suivant : <br><br />
+      	
+      	<?=nl2br($this->sondage["question_sondage"])?>
+      	
+      	<? if ($this->erreur != "") : ?>
+      	<br><br>Une erreur est survenue : <br>
+      	<?=$this->erreur?><br><br>
+      	<? endif;?>
+      	
+      	<br><br>
+      	
+      	Reponse 1 : Semi-Homme. 
+      	<select name='reponse_1'>
+				<option value='-1'>Choisir une note</option>
+				<option value='1'>1</option>
+				<option value='2'>2</option>
+				<option value='3'>3</option>
+				<option value='4'>4</option>
+				<option value='5'>5</option>
+		</select><br><br>
+		
+		Reponse 2 : Halfelin. 
+      	<select name='reponse_2'>
+				<option value='-1'>Choisir une note</option>
+				<option value='1'>1</option>
+				<option value='2'>2</option>
+				<option value='3'>3</option>
+				<option value='4'>4</option>
+				<option value='5'>5</option>
+		</select><br><br>
+		
+		Reponse 3 : Halflings. 
+      	<select name='reponse_3'>
+				<option value='-1'>Choisir une note</option>
+				<option value='1'>1</option>
+				<option value='2'>2</option>
+				<option value='3'>3</option>
+				<option value='4'>4</option>
+				<option value='5'>5</option>
+		</select><br><br>
+		
+		Reponse 4 : Mi-portion. 
+      	<select name='reponse_4'>
+				<option value='-1'>Choisir une note</option>
+				<option value='1'>1</option>
+				<option value='2'>2</option>
+				<option value='3'>3</option>
+				<option value='4'>4</option>
+				<option value='5'>5</option>
+		</select><br><br>
+		
+		Reponse 5 : Un Pied-Poilu (masculin), une Pied-Poilue (féminin). 
+      	<select name='reponse_5'>
+				<option value='-1'>Choisir une note</option>
+				<option value='1'>1</option>
+				<option value='2'>2</option>
+				<option value='3'>3</option>
+				<option value='4'>4</option>
+				<option value='5'>5</option>
+		</select><br><br>
+      	
+      	Commentaire à transmettre à l'équipe :<br>
+		<textarea name="commentaire" id="commentaire" class="inputbox" rows="10" cols="60" onkeydown="textCount($('texte_abus'),$('characterstyped'),2500);" onkeyup="textCount($('commentaire'),$('characterstyped'),2500);"></textarea>
+		
+		<br>
+		<input style="background-color: lightgray;" readonly="readonly" name="characterstyped" id="characterstyped" size="4" maxlength="4" value="2500" type="text"> Caract&egrave;res restants<br>
+		
+	
+      	<br /><br>
+		<div id="formbutton">
+			<input type="submit" name="repondre" class='button1' value="Répondre" />
+			<input type="button" name="deconnexion" class='button1' value="Ne pas répondre et se d&eacute;connecter" onClick="javascript:document.location.href='/auth/logout'"/>
+		</div>
+		</ul>
+	</div>
+	&nbsp;
+</div>
+</div>
+</form>
+
+<?php echo $this->render('footer.phtml'); ?>
+
