@@ -12,6 +12,9 @@
  */
 class Bral_Util_Niveau {
 
+	const NIVEAU_MAX = 40;
+	const NB_PI_NIVEAU_MAX = 4100;
+	
 	private function __construct() {
 	}
 
@@ -22,6 +25,10 @@ class Bral_Util_Niveau {
 	 */
 	public static function calculNiveau(&$hobbit, &$changeNiveau = null) {
 
+		if ($hobbit->niveau_hobbit >= self::NIVEAU_MAX) {
+			return false;
+		}
+		
 		if ($changeNiveau == null) {
 			$changeNiveau = false;
 		}
@@ -41,8 +48,9 @@ class Bral_Util_Niveau {
 				self::calculTitre(&$hobbit);
 				Zend_Loader::loadClass("Bral_Util_Soule");
 				Bral_Util_Soule::calculDesinscription($hobbit->id_hobbit);
+				self::calculAccesNiveau40($hobbit);
 			}
-
+			
 			self::gainCastars($hobbit);
 		}
 
@@ -51,6 +59,15 @@ class Bral_Util_Niveau {
 			self::calculNiveau(&$hobbit, &$changeNiveau);
 		}
 		return $changeNiveau;
+	}
+	
+	private static function calculAccesNiveau40(&$hobbit) {
+		// Si niveau >= 40
+		// pi = 4100 - pi_hobbit + pi_academie
+		if ($hobbit->niveau_hobbit >= self::NIVEAU_MAX) {
+			$pi = self::NB_PI_NIVEAU_MAX - $hobbit->pi_academie_hobbit;
+			$hobbit->pi_hobbit = $pi;
+		}
 	}
 
 	private static function calculTitre(&$hobbit) {

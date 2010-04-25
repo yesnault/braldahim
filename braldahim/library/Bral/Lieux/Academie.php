@@ -18,6 +18,7 @@ class Bral_Lieux_Academie extends Bral_Lieux_Lieu {
 	function prepareCommun() {
 		Zend_Loader::loadClass("Lieu");
 		Zend_Loader::loadClass("Bral_Util_Tour");
+		Zend_Loader::loadClass("Bral_Util_Niveau");
 
 		$coutPIForce =  $this->calculCoutAmelioration(1 + $this->view->user->force_base_hobbit);
 		$coutPIAgilite = $this->calculCoutAmelioration(1 + $this->view->user->agilite_base_hobbit);
@@ -39,6 +40,7 @@ class Bral_Lieux_Academie extends Bral_Lieux_Lieu {
 		$this->view->achatPossibleVigueur = false;
 		$this->view->achatPossibleSagesse = false;
 		$this->view->achatPossible  = false;
+		$this->view->achatPossibleCumul  = false;
 
 		if ($coutPIForce <= $this->view->user->pi_hobbit && $this->view->coutCastarsForce <= $this->view->user->castars_hobbit) {
 			$this->view->achatPossibleForce = true;
@@ -58,6 +60,9 @@ class Bral_Lieux_Academie extends Bral_Lieux_Lieu {
 			$this->view->achatPossible  = true;
 		}
 
+		if ($this->view->user->pi_academie_hobbit < Bral_Util_Niveau::NB_PI_NIVEAU_MAX) {
+			$this->view->achatPossibleCumul = true;
+		}
 		// $this->view->utilisationPaPossible initialisé dans Bral_Lieux_Lieu
 	}
 
@@ -75,6 +80,10 @@ class Bral_Lieux_Academie extends Bral_Lieux_Lieu {
 		// verification qu'il a assez de resssource
 		if ($this->view->achatPossible == false) {
 			throw new Zend_Exception(get_class($this)." Utilisation impossible (ressources)");
+		}
+		
+		if ($this->view->achatPossibleCumul == false) {
+			throw new Zend_Exception(get_class($this)." Utilisation impossible (ressources 4100)");
 		}
 
 		$this->view->nomCaracteristique = $this->request->get("valeur_1");
@@ -163,6 +172,9 @@ class Bral_Lieux_Academie extends Bral_Lieux_Lieu {
 			default:
 				throw new Zend_Exception(get_class($this)." Valeur invalide : val=".$this->request->get("valeur_1"));
 		}
+
+		// compteur PI académie
+		$this->view->user->pi_academie_hobbit = $this->view->user->pi_academie_hobbit + $this->view->coutPi;
 
 		// Recalcul de l'armure naturelle
 		$this->view->user->armure_naturelle_hobbit = Bral_Util_Commun::calculArmureNaturelle($this->view->user->force_base_hobbit, $this->view->user->vigueur_base_hobbit);

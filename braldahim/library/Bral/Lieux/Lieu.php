@@ -169,6 +169,7 @@ abstract class Bral_Lieux_Lieu {
 			'armure_naturelle_hobbit' => $this->view->user->armure_naturelle_hobbit,
 			'regeneration_hobbit' => $this->view->user->regeneration_hobbit,
 			'est_quete_hobbit' => $this->view->user->est_quete_hobbit,
+			'pi_academie_hobbit' => $this->view->user->pi_academie_hobbit,
 		);
 		$where = "id_hobbit=".$this->view->user->id_hobbit;
 		$hobbitTable->update($data, $where);

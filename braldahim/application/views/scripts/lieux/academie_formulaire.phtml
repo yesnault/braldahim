@@ -3,10 +3,27 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='1'>
  <div class='comp_contenu'>
   Pour <?=$this->paUtilisationLieu ?> PA, le professeur <br />
-  vous propose d'am&eacute;liorer une caract&eacute;ristique<br /><br />
+  vous propose d'am&eacute;liorer une caract&eacute;ristique.<br /><br />
+ 
+ <? if ($this->user->pi_academie_hobbit > 0) : ?>
+ Pour information, vous avez déjà dépensé <?=$this->user->pi_academie_hobbit?> PI à l'académie.<br><br>
+ <? endif;?>
+ 
+ <? if ($this->user->niveau_hobbit > 20 && $this->user->niveau_hobbit < Bral_Util_Niveau::NIVEAU_MAX) : ?>
+ 	Une fois que vous aurez atteint le niveau <?=Bral_Util_Niveau::NIVEAU_MAX?>, vous ne pourrez plus obtenir de nouveaux PI.
+ 	Vous aurez à ce moment là, en comptant les PI déjà dépensés, la possibilité de dépenser <?=Bral_Util_Niveau::NB_PI_NIVEAU_MAX?> en tout à l'académie.
+ 	<br><br>
+ <? elseif ($this->user->niveau_hobbit >= Bral_Util_Niveau::NIVEAU_MAX) : ?>
+ 	Vous avez atteint le niveau <?=Bral_Util_Niveau::NIVEAU_MAX?>, vous ne pouvez plus gagner de nouveau PI.<br>
+ 	Il vous reste <?=$this->user->pi_hobbit?> PI à dépenser à l'académie.<br><br>
+ <? endif;?>
+ 
+ Vous avez actuellement <?=$this->user->pi_hobbit?> PI à dépenser.<br><br>
  
  <? if ($this->utilisationPaPossible == false) : ?>
  	Vous ne pouvez rien am&eacute;liorer, vous n'avez pas assez de PA<br /><br />
+ <? elseif ($this->achatPossibleCumul == false) : ?>
+ 	Vous ne pouvez déjà dépensé <?=$this->user->pi_academie_hobbit?> PI, vous ne pouvez plus vous améliorer<br /><br />
  <? elseif ($this->achatPossible == false): ?>
  	Vous ne pouvez rien am&eacute;liorer, vous n'avez pas assez de PI ou de castars<br /><br />
  <? endif; ?>

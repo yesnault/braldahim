@@ -19,7 +19,8 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 	function prepareCommun() {
 		Zend_Loader::loadClass("HobbitsCompetences");
 		Zend_Loader::loadClass("Competence");
-		
+		Zend_Loader::loadClass("Bral_Util_Niveau");
+
 		$competenceTable = new Competence();
 		$competenceRowset = $competenceTable->findCommunesByNiveau($this->view->user->niveau_hobbit);
 		$hobbitsCompetencesTables = new HobbitsCompetences();
@@ -35,7 +36,7 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 				break;
 			}
 		}
-		
+
 		foreach ($competenceRowset as $c) {
 			$possible = true;
 			foreach ($hobbitCompetences as $h) {
@@ -47,16 +48,19 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 					break;
 				}
 			}
-				
+
 			if ($c["nom_systeme_competence"] == "pister" && $possedeCdm==true){
 				$pisterPossible = true;
 			}
-				
+
 			if ($possible === true) {
 				$tropCher = true;
 				$piCout = $c["pi_cout_competence"];
 
-				if ($piCout <= $this->view->user->pi_hobbit) {
+				if ($this->view->user->niveau_hobbit >= Bral_Util_Niveau::NIVEAU_MAX && $piCout <= $this->view->user->px_perso_hobbit) {
+					$tropCher = false;
+					$achatPiPossible = true;
+				} elseif ($piCout <= $this->view->user->pi_hobbit) {
 					$tropCher = false;
 					$achatPiPossible = true;
 				}
@@ -145,7 +149,12 @@ class Bral_Lieux_Bibliotheque extends Bral_Lieux_Lieu {
 
 		$hobbitTable = new Hobbit();
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->_coutCastars;
-		$this->view->user->pi_hobbit = $this->view->user->pi_hobbit -$this->view->coutPi;
+
+		if ($this->view->user->niveau_hobbit >= Bral_Util_Niveau::NIVEAU_MAX) {
+			$this->view->user->px_perso_hobbit = $this->view->user->px_perso_hobbit -$this->view->coutPi;
+		} else {
+			$this->view->user->pi_hobbit = $this->view->user->pi_hobbit -$this->view->coutPi;	
+		}
 
 		Zend_Loader::loadClass("Bral_Util_Quete");
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeApprendreIdentificationRune($this->view->user, $nomSysteme);
