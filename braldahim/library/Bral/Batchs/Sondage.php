@@ -70,7 +70,7 @@ class Bral_Batchs_Sondage extends Bral_Batchs_Batch {
 
 			// mise à jour des hobbits
 			$hobbitTable = new Hobbit();
-			$data = array('est_sondage_valide_hobbit' => 'oui');
+			$data = array('est_sondage_valide_hobbit' => 'non');
 			$where = "niveau_hobbit > 3";
 			$hobbitTable->update($data, $where);
 		} else {
