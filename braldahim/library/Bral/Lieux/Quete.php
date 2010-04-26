@@ -22,7 +22,7 @@ class Bral_Lieux_Quete extends Bral_Lieux_Lieu {
 		$queteTable = new Quete();
 
 		$this->view->niveauOk = false;
-		$this->view->niveauRequis = 10;
+		$this->view->niveauRequis = 0;
 
 		if ($this->view->user->niveau_hobbit >= $this->view->niveauRequis) {
 			$this->view->niveauOk = true;
