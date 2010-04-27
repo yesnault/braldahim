@@ -46,6 +46,8 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 		$hobbits = $hobbitTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 		$routeTable = new Route();
 		$routes = $routeTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit, "toutes");
+		$eauTable = new Eau();
+		$eaux = $eauTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
 
 		$zoneTable = new Zone();
 		$zone = $zoneTable->findByCase($this->view->user->x_hobbit, $this->view->user->y_hobbit, $this->view->user->z_hobbit);
@@ -66,9 +68,9 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 			$this->view->route = $routes[0];
 		}
 
-		if (count($monstres) <= 0 && count($hobbits) == 1 && count($palissades) <= 0 && $this->estEnvironnementValid($this->environnement)) {
+		if (count($monstres) <= 0 && count($hobbits) == 1 && count($palissades) <= 0 && count($eaux) <= 0 && $this->estEnvironnementValid($this->environnement)) {
 			$this->view->construireOk = true;
-				
+
 			if ($this->view->route != null && $this->view->route["est_visible_route"] == "oui") { //|| $this->view->config->general->production == 1) {
 				$this->view->construireOk = false;
 			} else { // route non visible
@@ -80,7 +82,6 @@ class Bral_Competences_Baliser extends Bral_Competences_Competence {
 				$this->view->construireRouteContinueOk = true;
 			}
 		}
-
 	}
 
 	function prepareFormulaire() {

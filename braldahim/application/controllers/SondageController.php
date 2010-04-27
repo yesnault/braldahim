@@ -92,8 +92,6 @@ class SondageController extends Zend_Controller_Action {
 				
 				$sondageReponseTable->insert($data);
 				
-				// TODO enregistrer les reponses
-				
 				$this->updateHobbitValide();
 				$this->_redirect('/sondage/fin');
 			}

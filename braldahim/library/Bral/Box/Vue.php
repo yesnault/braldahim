@@ -52,6 +52,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			Zend_Loader::loadClass("Bosquet");
 			Zend_Loader::loadClass("TypeLieu");
 			Zend_Loader::loadClass("Route");
+			Zend_Loader::loadClass("Eau");
 			Zend_Loader::loadClass("SouleMatch");
 			Zend_Loader::loadClass("Ville");
 			Zend_Loader::loadClass("Zone");
@@ -263,6 +264,9 @@ class Bral_Box_Vue extends Bral_Box_Box {
 		$buissonTable = new Buisson();
 		$buissons = $buissonTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($bosquetTable);
+		$eauTable = new Eau();
+		$eaux = $eauTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
+		unset($eauTable);
 		$bosquetTable = new Bosquet();
 		$bosquets = $bosquetTable->selectVue($this->view->x_min, $this->view->y_min, $this->view->x_max, $this->view->y_max, $this->view->z_position);
 		unset($bosquetTable);
@@ -303,7 +307,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 			$utilMarcher = new Bral_Util_Marcher();
 			$marcher = $utilMarcher->calcul($this->view->user);
 		}
-		
+
 		for ($j = $centre_y_max; $j >= $centre_y_min; $j --) {
 			$change_level = true;
 			for ($i = $centre_x_min; $i <= $centre_x_max; $i ++) {
@@ -314,6 +318,7 @@ class Bral_Box_Vue extends Bral_Box_Box {
 				$tabCharrettes = null;
 				$tabChamps = null;
 				$tabCrevasses = null;
+				$tabEaux = null;
 				$tabEchoppes = null;
 				$tabElements = null;
 				$tabElementsEquipements = null;
@@ -677,6 +682,15 @@ class Bral_Box_Vue extends Bral_Box_Box {
 						}
 					}
 
+					if ($eaux != null) {
+						foreach($eaux as $e) {
+							if ($display_x == $e["x_eau"] && $display_y == $e["y_eau"]) {
+								$tabEaux[] = array("id_eau" => $e["id_eau"]);
+								$nom_environnement = $e["type_eau"];
+							}
+						}
+					}
+
 					if ($routes != null) {
 						foreach($routes as $r) {
 							if ($display_x == $r["x_route"] && $display_y == $r["y_route"]) {
@@ -713,7 +727,10 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					if ($css == null) {
 						$css = "inconnu";
 					}
-					if (count($tabRoutes) >= 1) {
+					
+					if (count($tabEaux) >= 1) {
+						$css = $nom_environnement;
+					} elseif (count($tabRoutes) >= 1) {
 						if ($tabRoutes[0]["type_route"] == "ville") {
 							$css = "pave";
 						} elseif ($tabRoutes[0]["type_route"] == "echoppe") {
@@ -808,6 +825,8 @@ class Bral_Box_Vue extends Bral_Box_Box {
 					"buissons" => $tabBuissons,
 					"n_bosquets" => count($tabBosquets),
 					"bosquets" => $tabBosquets,
+					"n_eaux" => count($tabEaux),
+					"eaux" => $tabEaux,
 					"n_routes" => count($tabRoutes),
 					"routes" => $tabRoutes,
 					"n_ballons" => count($tabBallons),

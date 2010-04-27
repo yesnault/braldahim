@@ -34,10 +34,12 @@ foreach($this->tableau as $k => $case) :
 	if ($this->user->administrationvue == true) {
 		$adminDoubleClickLieu = "OnDblClick=\"Javascript:_get_('/administrationajax/doaction?caction=ask_administrationajax_insererlieu&xyz_lieu=".$case["x"]."h".$case["y"]."h".$case["z"]."');\" title='Double-Cliquez pour insérer un nouveau lieu'";
 		$adminDoubleClickRoute = "OnDblClick=\"Javascript:_get_('/administrationajax/doaction?caction=ask_administrationajax_insererroute&xyz_route=".$case["x"]."h".$case["y"]."h".$case["z"]."');\" title='Double-Cliquez pour insérer une nouvelle route'";
+		$adminDoubleClickEau = "OnDblClick=\"Javascript:_get_('/administrationajax/doaction?caction=ask_administrationajax_inserereau&xyz_eau=".$case["x"]."h".$case["y"]."h".$case["z"]."');\" title='Double-Cliquez pour insérer une nouvelle eau'";
 		$adminDoubleClickPalissade = "OnDblClick=\"Javascript:_get_('/administrationajax/doaction?caction=ask_administrationajax_insererpalissade&xyz_palissade=".$case["x"]."h".$case["y"]."h".$case["z"]."');\" title='Double-Cliquez pour insérer une nouvelle palissade'";
 	} else {
 		$adminDoubleClickLieu = "";
 		$adminDoubleClickRoute = "";
+		$adminDoubleClickEau = "";
 		$adminDoubleClickPalissade = "";
 	}
 	
@@ -67,7 +69,7 @@ foreach($this->tableau as $k => $case) :
 	<td class='vue2d <?=$case["css"] ?> <?=$case["css_actuelle"]?>' nowrap title="<?=$case["x"]. "," . $case["y"]." ".$textVille?>">
 	
 	<div class="cases <?=$case["css_actuelle"]?>" <? if ($textPalissade != "") : echo Bral_Helper_Tooltip::jsTip($textPalissade, $titre); endif; ?>>
-		<table class="cases <?=$case["css_actuelle"]?>">
+		<table class="cases <?=$case["css_actuelle"]?>" <?=$adminDoubleClickEau?>>
 		<tr>
 		<td class="cases <?=$case["css_actuelle"]?>"><? include('hobbits_monstres.phtml');ob_flush();?></td>
 		<td class="cases <?=$case["css_actuelle"]?>" <?=$adminDoubleClickLieu?>><? include('lieux_palissades_echoppes.phtml');ob_flush();?></td>

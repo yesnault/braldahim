@@ -17,7 +17,6 @@ class Bral_Util_Marcher {
 
 	function calcul($hobbit, $selection = null, $construireRoute = false) {
 		Zend_Loader::loadClass('Zone');
-		Zend_Loader::loadClass('Palissade');
 		Zend_Loader::loadClass('Route');
 		Zend_Loader::loadClass("Bosquet");
 

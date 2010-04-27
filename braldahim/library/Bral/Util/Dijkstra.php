@@ -42,16 +42,18 @@ class Bral_Util_Dijkstra {
 		$this->yPosition = $yPosition;
 		$this->zPosition = $zPosition;
 
-		$this->initTabPalissades();
+		$this->initTabPalissadesEaux();
 		$this->map = $this->initMap();
 		$this->numberOfNodes = count($this->map);
 
 		$this->findShortestPath();
 	}
 
-	private function initTabPalissades() {
+	private function initTabPalissadesEaux() {
 		Zend_Loader::loadClass('Palissade');
+		Zend_Loader::loadClass('Eau');
 		$palissadeTable = new Palissade();
+		$eauTable = new Eau();
 
 		$xMin = $this->xPosition - $this->nbCasesLargeur;
 		$xMax = $this->xPosition + $this->nbCasesLargeur;
@@ -59,6 +61,7 @@ class Bral_Util_Dijkstra {
 		$yMax = $this->yPosition + $this->nbCasesLargeur;
 
 		$palissades = $palissadeTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition);
+		$eaux = $eauTable->selectVue($xMin, $yMin, $xMax, $yMax, $this->zPosition, false);
 
 		$numero = -1;
 		for ($j = $this->nbCases; $j >= -$this->nbCases; $j--) {
@@ -66,10 +69,15 @@ class Bral_Util_Dijkstra {
 				$x = $this->xPosition + $i;
 				$y = $this->yPosition + $j;
 				$numero++;
-				$this->tabPalissades[$numero] = 1;
+				$this->tabPalissadesEaux[$numero] = 1;
 				foreach($palissades as $p) {
 					if ($p["x_palissade"] == $x && $p["y_palissade"] == $y) {
-						$this->tabPalissades[$numero] = $this->infiniteDistance;
+						$this->tabPalissadesEaux[$numero] = $this->infiniteDistance;
+					}
+				}
+				foreach($eaux as $e) {
+					if ($e["x_eau"] == $x && $e["y_eau"] == $y) {
+						$this->tabPalissadesEaux[$numero] = $this->infiniteDistance;
 					}
 				}
 				if ($x == $this->xPosition && $y == $this->yPosition) {
@@ -84,31 +92,31 @@ class Bral_Util_Dijkstra {
 		// Initialisation des distances connues
 		$points = array(); // Un point est un tableau entre la case de départ, la case de fin et la distance entre les deux
 		for ($i=0; $i<=$this->nbCasesLargeur * $this->nbCasesLargeur-1; $i++) {
-			if ($this->tabPalissades[$i] == 1) { // Ce n'est pas une palissade, on initialise les distances avec les cases autour
+			if ($this->tabPalissadesEaux[$i] == 1) { // Ce n'est pas une palissade, on initialise les distances avec les cases autour
 				// La case qui est à gauche
 				if ($i % $this->nbCasesLargeur > 0) { // Pas d'initialisation si la case en cours est sur un bord gauche
-					$points[] = array($i, $i-1, $this->tabPalissades[$i-1]);
+					$points[] = array($i, $i-1, $this->tabPalissadesEaux[$i-1]);
 				}
 
 				// La case qui est à droite
 				if (($i+1) % $this->nbCasesLargeur > 0) { // Pas d'initialisation si la case est sur un bord droit
-					$points[] = array($i, $i+1, $this->tabPalissades[$i+1]);
+					$points[] = array($i, $i+1, $this->tabPalissadesEaux[$i+1]);
 				}
 
 				// Initialisation des distances avec les cases du dessus
 				if ($i >= $this->nbCasesLargeur) { // Si on n'est pas sur la première ligne (car il n'y a rien au dessus)
 
 					// La case directement au dessus
-					$points[] = array($i, $i-$this->nbCasesLargeur, $this->tabPalissades[$i-$this->nbCasesLargeur]);
+					$points[] = array($i, $i-$this->nbCasesLargeur, $this->tabPalissadesEaux[$i-$this->nbCasesLargeur]);
 
 					// La case au dessus, à gauche
 					if ($i % $this->nbCasesLargeur > 0) { // Pas d'initialisation si la case est sur un bord gauche
-						$points[] = array($i, $i-$this->nbCasesLargeur-1, $this->tabPalissades[$i-$this->nbCasesLargeur-1]);
+						$points[] = array($i, $i-$this->nbCasesLargeur-1, $this->tabPalissadesEaux[$i-$this->nbCasesLargeur-1]);
 					}
 
 					// La case au dessus à droite
 					if (($i+1) % $this->nbCasesLargeur > 0) { // Pas d'initialisation si la case est sur un bord droit
-						$points[] = array($i, $i-$this->nbCasesLargeur+1, $this->tabPalissades[$i-$this->nbCasesLargeur+1]);
+						$points[] = array($i, $i-$this->nbCasesLargeur+1, $this->tabPalissadesEaux[$i-$this->nbCasesLargeur+1]);
 					}
 				}
 
@@ -116,16 +124,16 @@ class Bral_Util_Dijkstra {
 				if ($i <= $this->nbCasesLargeur*($this->nbCasesLargeur-1)-1) { // Si on n'est pas sur la dernière ligne
 
 					// La case juste en dessous
-					$points[] = array($i, $i+$this->nbCasesLargeur, $this->tabPalissades[$i+$this->nbCasesLargeur]);
+					$points[] = array($i, $i+$this->nbCasesLargeur, $this->tabPalissadesEaux[$i+$this->nbCasesLargeur]);
 
 					// La case en dessous à gauche
 					if ($i % $this->nbCasesLargeur > 0) { // Pas d'initialisation si la case est sur un bord gauche
-						$points[] = array($i, $i+$this->nbCasesLargeur-1, $this->tabPalissades[$i+$this->nbCasesLargeur-1]);
+						$points[] = array($i, $i+$this->nbCasesLargeur-1, $this->tabPalissadesEaux[$i+$this->nbCasesLargeur-1]);
 					}
 
 					// La case en dessous à droite
 					if (($i+1) % $this->nbCasesLargeur > 0) { // Pas d'initialisation si la case est sur un bord droit
-						$points[] = array($i, $i+$this->nbCasesLargeur+1, $this->tabPalissades[$i+$this->nbCasesLargeur+1]);
+						$points[] = array($i, $i+$this->nbCasesLargeur+1, $this->tabPalissadesEaux[$i+$this->nbCasesLargeur+1]);
 					}
 				}
 			} else { // Cas d'une palissade

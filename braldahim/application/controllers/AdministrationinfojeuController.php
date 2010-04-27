@@ -108,7 +108,7 @@ class AdministrationinfojeuController extends Zend_Controller_Action {
 				$idInfo = $infoJeuTable->insert($data);
 
 				if ($this->view->config->twitter->use == '1') {
-					$this->twitter($texte, $titre, $lien, $lienWiki);
+				//	$this->twitter($texte, $titre, $lien, $lienWiki);
 				}
 			}
 
