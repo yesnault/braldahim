@@ -226,10 +226,8 @@ class Bral_Competences_Tirerencourant extends Bral_Competences_Competence {
 		$coefCritique = 1.5;
 		
 		$jetDegAgi = Bral_Util_De::getLanceDe6($this->view->config->game->base_agilite + $hobbit->agilite_base_hobbit);
-		$jetDegAgi = $jetDegAgi + $this->view->user->agilite_bm_hobbit + $this->view->user->agilite_bbdf_hobbit;
 		
 		$jetDegSag = Bral_Util_De::getLanceDe6($this->view->config->game->base_sagesse + $hobbit->sagesse_base_hobbit);
-		$jetDegSag = $jetDegSag + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
 		
 		$jetDegat["noncritique"] = floor(($jetDegAgi + $jetDegSag)/2);
 		$jetDegat["critique"] = floor($coefCritique * ($jetDegAgi + $jetDegSag)/2);
