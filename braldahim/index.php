@@ -77,6 +77,7 @@ $dbAdapterGame->query('SET NAMES UTF8');
 Zend_Db_Table::setDefaultAdapter($dbAdapterGame);
 Zend_Registry::set('dbAdapter', $dbAdapterGame);
 
+
 Bral_Util_Registre::chargement();
 
 // setup controller

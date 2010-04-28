@@ -38,8 +38,8 @@ class Bral_Administrationajax_Inserereau extends Bral_Administrationajax_Adminis
 		}
 
 		$tabTypesEau = null;
-		$tabTypesEau["gue"]["type"] = "gue";
-		$tabTypesEau["gue"]["selected"] = "selected";
+		$tabTypesEau["peuProfonde"]["type"] = "peuProfonde";
+		$tabTypesEau["peuProfonde"]["selected"] = "selected";
 		$tabTypesEau["profonde"]["type"] = "profonde";
 		$tabTypesEau["profonde"]["selected"] = "";
 		$tabTypesEau["lac"]["type"] = "lac";

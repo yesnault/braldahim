@@ -78,6 +78,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$parametres .= "&routes=1";
 		}
 
+		if (intval($this->_request->get("eaux")) == 1) {
+			$parametres .= "&eaux=1";
+		}
+
 		if (intval($this->_request->get("lieuxmythiques")) == 1) {
 			$parametres .= "&lieuxmythiques=1";
 		}
@@ -133,6 +137,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 
 		if (intval($this->_request->get("routes")) == 1) {
 			$this->dessineRoutes(&$image);
+		}
+
+		if (intval($this->_request->get("eaux")) == 1) {
+			$this->dessineEaux(&$image);
 		}
 
 		if (intval($this->_request->get("lieuxmythiques")) == 1) {
@@ -448,6 +456,38 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 30, $nbRoutesVisible." Routes visible", $this->rouge_0);
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 40, $nbRoutesNonVisible." Routes non visible", $this->rouge_3);
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 50, $nbRoutesEchoppe." Routes Echoppe", $this->rouge_1);
+	}
+
+	private function dessineEaux(&$image) {
+		Zend_Loader::loadClass('Eau');
+		$eauxTable = new Eau();
+		$eaux = $eauxTable->fetchall();
+
+		$nbEauxGue = 0;
+		$nbEauxProfonde = 0;
+		$nbEauxLac = 0;
+		$nbEauxMer = 0;
+		foreach ($eaux as $h) {
+			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $h["x_eau"]) / $this->coefTaille;
+			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $h["y_eau"]) / $this->coefTaille;
+			if ($h["type_eau"] == "lac") {
+				ImageFilledEllipse($image, $x, $y, 2, 2, $this->vert2);
+				$nbEauxLac++;
+			} elseif ($h["type_eau"] == "mer") {
+				ImageFilledEllipse($image, $x, $y, 2, 2, $this->vert2);
+				$nbEauxMer++;
+			} elseif ($h["type_eau"] == "gue") {
+				ImageFilledEllipse($image, $x, $y, 2, 2, $this->rouge_2);
+				$nbEauxGue++;
+			} elseif ($h["type_eau"] == "profonde") {
+				ImageFilledEllipse($image, $x, $y, 2, 2, $this->vert2);
+				$nbEauxProfonde++;
+			}
+		}
+		ImageString($image, 1, $this->distanceD + 320, $this->distanceD + $this->tailleY + 10, $nbEauxGue." Gue", $this->rouge_2);
+		ImageString($image, 1, $this->distanceD + 320, $this->distanceD + $this->tailleY + 20, $nbEauxProfonde." Profonde", $this->vert2);
+		ImageString($image, 1, $this->distanceD + 320, $this->distanceD + $this->tailleY + 30, $nbEauxLac." Lac", $this->vert2);
+		ImageString($image, 1, $this->distanceD + 320, $this->distanceD + $this->tailleY + 50, $nbEauxMer." Mer", $this->rouge_1);
 	}
 
 	private function dessineNids(&$image) {

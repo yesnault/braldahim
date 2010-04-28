@@ -14,7 +14,7 @@ class Eau extends Zend_Db_Table {
 	protected $_name = 'eau';
 	protected $_primary = 'id_eau';
 
-	function selectVue($x_min, $y_min, $x_max, $y_max, $z, $avecGue = true) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z, $avecPeuProfonde = true) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('eau', '*')
@@ -23,8 +23,8 @@ class Eau extends Zend_Db_Table {
 		->where('y_eau >= ?',$y_min)
 		->where('y_eau <= ?',$y_max)
 		->where('z_eau = ?',$z);
-		if ($avecGue == false) {
-			$select->where('type_eau not like ?','gue');
+		if ($avecPeuProfonde == false) {
+			$select->where('type_eau not like ?','peuprofonde');
 		}
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);

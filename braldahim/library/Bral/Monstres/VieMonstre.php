@@ -20,6 +20,7 @@ class Bral_Monstres_VieMonstre {
 
 		if (self::$instance == null) {
 			Zend_Loader::loadClass("Crevasse");
+			Zend_Loader::loadClass("Eau");
 			Zend_Loader::loadClass("Palissade");
 
 			self::$config = Zend_Registry::get('config');
@@ -73,20 +74,26 @@ class Bral_Monstres_VieMonstre {
 
 		$crevasseTable = new Crevasse();
 		$crevasses = $crevasseTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->monstre["z_monstre"]);
+		
+		$eauTable = new Eau();
+		$eaux = $eauTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->monstre["z_monstre"], false);
 
-		$this->tabValidationPalissadesCrevasses = null;
+		$this->tabValidation = null;
 		for ($j = 12; $j >= -12; $j--) {
 			for ($i = -12; $i <= 12; $i++) {
 				$x = $this->monstre["x_monstre"] + $i;
 				$y = $this->monstre["y_monstre"] + $j;
-				$this->tabValidationPalissadesCrevasses[$x][$y] = true;
+				$this->tabValidation[$x][$y] = true;
 			}
 		}
 		foreach($palissades as $p) {
-			$this->tabValidationPalissadesCrevasses[$p["x_palissade"]][$p["y_palissade"]] = false;
+			$this->tabValidation[$p["x_palissade"]][$p["y_palissade"]] = false;
+		}
+		foreach($eaux as $e) {
+			$this->tabValidation[$e["x_eau"]][$e["y_eau"]] = false;
 		}
 		foreach($crevasses as $c) {
-			$this->tabValidationPalissadesCrevasses[$c["x_crevasse"]][$c["y_crevasse"]] = false;
+			$this->tabValidation[$c["x_crevasse"]][$c["y_crevasse"]] = false;
 		}
 			
 		$pa_a_jouer = Bral_Util_De::get_de_specifique(0, $this->monstre["pa_monstre"]);
@@ -116,17 +123,17 @@ class Bral_Monstres_VieMonstre {
 				$y_offset = -1;
 			}
 
-			if ($this->tabValidationPalissadesCrevasses[$x_monstre][$y_monstre] == true) {
+			if ($this->tabValidation[$x_monstre][$y_monstre] == true) {
 				$this->monstre["x_monstre"] = $x_monstre;
 				$this->monstre["y_monstre"] = $y_monstre;
-			} elseif ($this->tabValidationPalissadesCrevasses[$this->monstre["x_monstre"] + $x_offset][$this->monstre["y_monstre"]] == true) {
+			} elseif ($this->tabValidation[$this->monstre["x_monstre"] + $x_offset][$this->monstre["y_monstre"]] == true) {
 				$this->monstre["x_monstre"] = $this->monstre["x_monstre"]  + $x_offset;
 				$this->monstre["y_monstre"] = $this->monstre["y_monstre"];
-			} elseif ($this->tabValidationPalissadesCrevasses[$this->monstre["x_monstre"]][$this->monstre["y_monstre"] + $y_offset] == true) {
+			} elseif ($this->tabValidation[$this->monstre["x_monstre"]][$this->monstre["y_monstre"] + $y_offset] == true) {
 				$this->monstre["x_monstre"] = $this->monstre["x_monstre"] ;
 				$this->monstre["y_monstre"] = $this->monstre["y_monstre"] + $y_offset;
 			} else {
-				if ($this->tabValidationPalissadesCrevasses[$x_monstre][$y_monstre] == false) {
+				if ($this->tabValidation[$x_monstre][$y_monstre] == false) {
 					Bral_Util_Log::viemonstres()->debug(get_class($this)." - monstre ".$this->monstre["id_monstre"]."  pas de deplacement, cause palissade");
 				}
 			}
@@ -498,7 +505,7 @@ class Bral_Monstres_VieMonstre {
 				$rayonMin = 50;
 				$rayonMax = 100;
 			}
-				
+
 			$xCentreVille = $zone["x_min_zone_nid"] + ($zone["x_max_zone_nid"] - $zone["x_min_zone_nid"]) / 2;
 			$yCentreVille = $zone["y_min_zone_nid"] + ($zone["y_max_zone_nid"] - $zone["y_min_zone_nid"]) / 2;
 
