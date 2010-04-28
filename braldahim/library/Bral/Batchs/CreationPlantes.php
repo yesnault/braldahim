@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -11,28 +11,55 @@
  * $LastChangedBy$
  */
 class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
-	
+
 	public function calculBatchImpl() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - calculBatchImpl - enter -");
 		$retour = null;
-		
+
 		Zend_Loader::loadClass('CreationPlantes');
 		Zend_Loader::loadClass('Plante');
 		Zend_Loader::loadClass('TypePlante');
 		Zend_Loader::loadClass('Zone');
-		
+
 		$retour .= $this->calculCreation();
-		
+		$retour .= $this->suppressionSurEau();
+
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - calculBatchImpl - exit -");
 		return $retour;
 	}
-	
+
+	private function suppressionSurEau() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - suppressionSurEau - enter -");
+		$retour = "";
+
+		// Suppression des filons partout où il y a une eau
+		Zend_Loader::loadClass("Eau");
+		$eauTable = new Eau();
+		$eaux = $eauTable->fetchall();
+
+		$where = "";
+		foreach($eaux as $r) {
+			$or = "";
+			if ($where != "") {
+				$or = " OR ";
+			}
+
+			$where .= $or." (x_plante = ".$r["x_eau"]. " AND y_plante = ".$r["y_eau"].") ";
+		}
+
+		$planteTable = new Plante();
+		$planteTable->delete($where);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - suppressionSurEau - exit -");
+		return $retour;
+	}
+
 	private function calculCreation() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - calculCreation - enter -");
 		$retour = "";
-		
+
 		$zoneTable = new Zone();
-		
+
 		$creationPlantesTable = new CreationPlantes();
 		$creationPlantes = $creationPlantesTable->fetchAll(null, "id_fk_type_plante_creation_plantes");
 		$nbCreationPlantes = count($creationPlantes);
@@ -48,13 +75,13 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - nb environnement concernes=" .count($environnementIds));
 		$zones = $zoneTable->findByIdEnvironnementList($environnementIds, false);
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - nb zones concernees=" .count($zones));
-		
+
 		$planteTable = new Plante();
 		$tmp = "";
-		
+
 		$superficieZones = array();
 		$superficieTotale = array();
-		
+
 		foreach($creationPlantes as $c) {
 			// on recupere la supercifie totale de toutes les zones concernees par ce type
 			foreach($zones as $z) {
@@ -68,7 +95,7 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 				}
 			}
 		}
-		
+
 		foreach($creationPlantes as $c) {
 			$t = null;
 			foreach($typePlantes as $type) {
@@ -77,7 +104,7 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 					break;
 				}
 			}
-			
+				
 			if ($t != null) {
 				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - traitement du type plante ".$t["id_type_plante"]. " nbMaxMonde(".$t["nb_creation_type_plante"].") environnement(".$c["id_fk_environnement_creation_plantes"].") suptotal(". $superficieTotale[$c["id_fk_type_plante_creation_plantes"]].")");
 				foreach($zones as $z) {
@@ -85,13 +112,13 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 						$tmp = "";
 						$nbCreation = ceil($t["nb_creation_type_plante"] * ($superficieZones[$z["id_zone"]] / $superficieTotale[$c["id_fk_type_plante_creation_plantes"]]));
 						$nbActuel = $planteTable->countVue($z["x_min_zone"], $z["y_min_zone"], $z["x_max_zone"], $z["y_max_zone"], 0, $t["id_type_plante"]);
-						
+
 						$aCreer = $nbCreation - $nbActuel;
-						if ($aCreer <= 0) { 
+						if ($aCreer <= 0) {
 							$tmp = " deja pleine";
 						}
 						Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - zone(".$z["id_zone"].") nbActuel:".$nbActuel. " max:".$nbCreation.$tmp. " supzone(".$superficieZones[$z["id_zone"]].") suptotal(". $superficieTotale[$c["id_fk_type_plante_creation_plantes"]].")");
-						if ($aCreer > 0) { 
+						if ($aCreer > 0) {
 							$retour .= $this->insert($t, $z, $aCreer, $planteTable);
 						} else {
 							$retour .= "zone(".$z["id_zone"].") pleine de plante(".$t["id_type_plante"].") nbActuel(".$nbActuel.") max(".$nbCreation."). ";
@@ -100,12 +127,12 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 				}
 			}
 		}
-		
+
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - calculCreation - exit -");
-		
+
 		return $retour;
 	}
-	
+
 	private function getEnvironnementsConcernes($creationPlantes) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - getEnvironnementsConcernes - enter -");
 		$environnementIds = null;
@@ -115,14 +142,14 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - getEnvironnementsConcernes - exit -");
 		return $environnementIds;
 	}
-	
+
 	private function insert($typePlante, $zone, $aCreer, $planteTable) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - insert - enter - idtype(".$typePlante["id_type_plante"].") idzone(".$zone['id_zone'].") nbACreer(".$aCreer.")");
 		$retour = "plante(".$typePlante["id_type_plante"].") idzone(".$zone['id_zone'].") aCreer(".$aCreer."). ";
-		
+
 		$min = 5;
 		$max = 10;
-		
+
 		for ($i=1; $i<= $aCreer; $i++) {
 			$x = Bral_Util_De::get_de_specifique($zone["x_min_zone"], $zone["x_max_zone"]);
 			$y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
@@ -131,7 +158,7 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 			$partie_2 = null;
 			$partie_3 = null;
 			$partie_4 = null;
-			
+				
 			if ($typePlante["id_fk_partieplante2_type_plante"] != null) {
 				$partie_2 = Bral_Util_De::get_de_specifique($min, $max);
 			}
@@ -156,5 +183,5 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - insert - exit -");
 		return $retour;
 	}
-	
+
 }

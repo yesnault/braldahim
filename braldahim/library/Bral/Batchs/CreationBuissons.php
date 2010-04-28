@@ -23,8 +23,35 @@ class Bral_Batchs_CreationBuissons extends Bral_Batchs_Batch {
 		$retour = null;
 
 		$retour .= $this->calculCreation();
+		$retour .= $this->suppressionBuissonSurEau();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - calculBatchImpl - exit -");
+		return $retour;
+	}
+
+	private function suppressionBuissonSurEau() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - suppressionBuissonSurEau - enter -");
+		$retour = "";
+
+		// Suppression des buissons partout où il y a une eau
+		Zend_Loader::loadClass("Eau");
+		$eauTable = new Eau();
+		$eaux = $eauTable->fetchall();
+
+		$where = "";
+		foreach($eaux as $r) {
+			$or = "";
+			if ($where != "") {
+				$or = " OR ";
+			}
+
+			$where .= $or." (x_buisson = ".$r["x_eau"]. " AND y_buisson = ".$r["y_eau"].") ";
+		}
+
+		$buissonTable = new Buisson();
+		$buissonTable->delete($where);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - suppressionBuissonSurEau - exit -");
 		return $retour;
 	}
 
@@ -78,7 +105,7 @@ class Bral_Batchs_CreationBuissons extends Bral_Batchs_Batch {
 					break;
 				}
 			}
-				
+
 			if ($t != null) {
 				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - traitement du buisson ".$t["id_type_buisson"]. " nbMaxMonde(".$t["nb_creation_type_buisson"].") environnement(".$c["id_fk_environnement_creation_buissons"].") suptotal(". $superficieTotale[$c["id_fk_type_buisson_creation_buissons"]].")");
 				foreach($zones as $z) {
@@ -123,7 +150,7 @@ class Bral_Batchs_CreationBuissons extends Bral_Batchs_Batch {
 		for($i = 1; $i <= $aCreer; $i++) {
 			$x = Bral_Util_De::get_de_specifique($zone["x_min_zone"], $zone["x_max_zone"]);
 			$y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
-			
+				
 			usleep(Bral_Util_De::get_de_specifique(1, 1000000));
 			$this->insertDb($buissonTable, $idTypeBuisson, $x, $y, 0, 1);
 		}

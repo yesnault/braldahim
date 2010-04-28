@@ -24,6 +24,7 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 
 		$retour .= $this->calculCreation();
 		$retour .= $this->suppressionBosquetSurRouteVisible();
+		$retour .= $this->suppressionBosquetSurEau();
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBosquets - calculBatchImpl - exit -");
 		return $retour;
@@ -44,7 +45,7 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 			if ($where != "") {
 				$or = " OR ";
 			}
-				
+
 			$where .= $or." (x_bosquet = ".$r["x_route"]. " AND y_bosquet = ".$r["y_route"].") ";
 		}
 
@@ -52,6 +53,32 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 		$bosquetTable->delete($where);
 
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBosquets - suppressionBosquetSurRouteVisible - exit -");
+		return $retour;
+	}
+
+	private function suppressionBosquetSurEau() {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBosquets - suppressionBosquetSurEau - enter -");
+		$retour = "";
+
+		// Suppression des bosquets partout où il y a une eau
+		Zend_Loader::loadClass("Eau");
+		$eauTable = new Eau();
+		$eaux = $eauTable->fetchall();
+
+		$where = "";
+		foreach($eaux as $r) {
+			$or = "";
+			if ($where != "") {
+				$or = " OR ";
+			}
+
+			$where .= $or." (x_bosquet = ".$r["x_eau"]. " AND y_bosquet = ".$r["y_eau"].") ";
+		}
+
+		$bosquetTable = new Bosquet();
+		$bosquetTable->delete($where);
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBosquets - suppressionBosquetSurEau - exit -");
 		return $retour;
 	}
 
