@@ -1,11 +1,12 @@
  <input type='hidden' id='nb_valeurs' name='nb_valeurs' value='2'>
  <div class='comp_contenu'>
-	<? if ($this->armeTirPortee == true) :?>
+ 
+ 	<? if ($this->user->est_intangible_hobbit == 'oui') :?>
+			Vous êtes actuellement intangible, vous ne pouvez pas tirer.<br><br>
+	<? elseif ($this->armeTirPortee == true) :?>
 		<? if (!$this->munitionPortee == true) :?>
 			Vous n'avez pas de munition correspondant &agrave; votre arme de tir !<br>
 		<? endif; ?>
-	<? elseif ($this->user->est_intangible_hobbit == 'oui') :?>
-			Vous êtes actuellement intangible, vous ne pouvez pas tirer.<br><br>
 	<? else: ?>
 		Vous ne portez pas d'arme de tir ! <br>
 	<? endif; ?>
