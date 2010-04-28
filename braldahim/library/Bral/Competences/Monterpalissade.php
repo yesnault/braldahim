@@ -240,6 +240,9 @@ class Bral_Competences_Monterpalissade extends Bral_Competences_Competence {
 
 		$date_creation = date("Y-m-d H:00:00");
 		$nb_jours = Bral_Util_De::getLanceDe6($this->view->config->base_sagesse + $this->view->user->sagesse_base_hobbit) + $this->view->user->sagesse_bm_hobbit + $this->view->user->sagesse_bbdf_hobbit;
+		if ($nb_jours < 2) {
+			$nb_jours = 2;
+		}
 		$date_fin = Bral_Util_ConvertDate::get_date_add_day_to_date($date_creation, $nb_jours);
 
 		$data = array(
