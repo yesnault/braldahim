@@ -31,7 +31,7 @@ class AdministrationController extends Zend_Controller_Action {
 			$this->view->md5_source = $this->_request->get("md5_source");
 			$this->view->md5_value = md5($this->_request->get("md5_source"));
 		}
-//		$this->sqlAction();
+		//$this->sqlAction();
 		$this->render();
 	}
 
@@ -46,7 +46,7 @@ class AdministrationController extends Zend_Controller_Action {
 
 		Zend_Loader::loadClass("Route");
 		$routeTable = new Route();
-		
+
 		Zend_Loader::loadClass("Bosquet");
 		$bosquetTable = new Bosquet();
 
@@ -80,31 +80,33 @@ class AdministrationController extends Zend_Controller_Action {
 				} elseif ($couleursRVB["red"] == 255 && $couleursRVB["green"] == 255 && $couleursRVB["blue"] == 0) { // jaune, mer
 					printf("lac : x:%d, y:%d RVB: (%d, %d, %d)<br>".PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
 					$typeEau = "mer";
-				} elseif ($couleursRVB["red"] == 0 && $couleursRVB["green"] == 255 && $couleursRVB["blue"] == 255) { // gue
+				} elseif ($couleursRVB["red"] == 0 && $couleursRVB["green"] == 255 && $couleursRVB["blue"] == 255) { // peuprofonde
 					printf("lac : x:%d, y:%d RVB: (%d, %d, %d)<br>".PHP_EOL, $xEau, $yEau, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
-					$typeEau = "gue";
+					$typeEau = "peuprofonde";
 				} else {
 					//printf("x:%d, y:%d RVB: (%d, %d, %d)<br>".PHP_EOL, $x, $y, $couleursRVB["red"], $couleursRVB["green"],$couleursRVB["blue"]);
 				}
 
 				if ($typeEau != null) {
 					$route = $routeTable->findByCaseHorsBalise($xEau, $yEau, 0);
-					if ($route == null) {
-						$data = array(
+					if ($route != null) {
+						$where = "x_route=".$xEau." and y_route=".$yEau;
+						$routeTable->delete($where);
+					}
+					$data = array(
 						"x_eau" => $xEau, 	 	 	
 						"y_eau" => $yEau,
 						"z_eau" => 0,		 	 	 	 	 	 	
 						"type_eau" => $typeEau,	
-						);
-						$eauTable->insert($data);
-						
-						$this->deleteEltEau($xEau, $yEau, $routeTable, $bosquetTable, $buissonTable, $monstreTable, $planteTable, $filonTable);
-					}
+					);
+					$eauTable->insert($data);
+
+					$this->deleteEltEau($xEau, $yEau, $routeTable, $bosquetTable, $buissonTable, $monstreTable, $planteTable, $filonTable);
 				}
 			}
 		}
 
-		$where = "type_eau not like 'gue'";
+		$where = "type_eau not like 'peuprofonde'";
 		$eaux = $eauTable->fetchAll($where);
 
 		foreach($eaux as $e) {
@@ -115,10 +117,16 @@ class AdministrationController extends Zend_Controller_Action {
 					$yEau = $e["y_eau"] + $y;
 					$eau = $eauTable->findByCase($xEau, $yEau, 0);
 					$route = $routeTable->findByCaseHorsBalise($xEau, $yEau, 0);
-					if ($eau == null && $route == null && 
+
+					if ($route != null) {
+						$where = "x_route=".$xEau." and y_route=".$yEau;
+						$routeTable->delete($where);
+					}
+
+					if ($eau == null &&
 					$xEau > -800 && $xEau < 800 &&
-					$yEau > -500 && $yEau < 500 
-						) {
+					$yEau > -500 && $yEau < 500
+					) {
 						$data = array(
 							"x_eau" => $xEau,
 							"y_eau" => $yEau,
@@ -127,7 +135,7 @@ class AdministrationController extends Zend_Controller_Action {
 						);
 						$eauTable->insert($data);
 
-					//	$this->deleteEltEau($xEau, $yEau, $routeTable, $bosquetTable, $buissonTable, $monstreTable, $planteTable, $filonTable);
+						//	$this->deleteEltEau($xEau, $yEau, $routeTable, $bosquetTable, $buissonTable, $monstreTable, $planteTable, $filonTable);
 					}
 				}
 			}

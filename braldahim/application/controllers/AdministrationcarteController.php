@@ -121,7 +121,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		}
 		//$this->dessineFilons(&$image);
 		//$this->dessineBosquets(&$image);
-		$this->dessineVilles(&$image);
+		
 
 		if (intval($this->_request->get("hobbits")) == 1) {
 			$this->dessineHobbits(&$image);
@@ -146,6 +146,8 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		if (intval($this->_request->get("lieuxmythiques")) == 1) {
 			$this->dessineLieuxmythiques(&$image);
 		}
+		
+		$this->dessineVilles(&$image);
 
 		$this->view->image = $image;
 		$this->render();
@@ -350,7 +352,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			 ImageRectangle($image, $x_deb_map - $coefRayon*$palier/$this->coefTaille, $y_deb_map - $coefRayon*$palier/$this->coefTaille, $x_fin_map + $coefRayon*$palier/$this->coefTaille, $y_fin_map + $coefRayon*$palier/$this->coefTaille, $this->tab_rouge[5]);
 			 ImageString($image, 1, $x_deb_map - $coefRayon*$palier/$this->coefTaille , $y_deb_map - $coefRayon*$palier/$this->coefTaille, ($v["x_min_ville"]-$coefRayon*$palier)."/".($v["y_max_ville"]-$coefRayon*$palier), $this->tab_rouge[5]);
 			 */
-			ImageString($image, 2, $x_deb_map , $y_deb_map, $v["nom_ville"]. " ".($v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2)."/".($v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"]) / 2), $this->noir);
+			ImageString($image, 2, $x_deb_map + 10 , $y_deb_map + 10, $v["nom_ville"]. " ".($v["x_min_ville"] + ($v["x_max_ville"] - $v["x_min_ville"]) / 2)."/".($v["y_min_ville"] + ($v["y_max_ville"] - $v["y_min_ville"]) / 2), $this->noir);
 			$nbVilles++;
 		}
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 2, $nbVilles." Villes", $this->noir);
@@ -476,7 +478,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			} elseif ($h["type_eau"] == "mer") {
 				ImageFilledEllipse($image, $x, $y, 2, 2, $this->vert2);
 				$nbEauxMer++;
-			} elseif ($h["type_eau"] == "gue") {
+			} elseif ($h["type_eau"] == "peuprofonde") {
 				ImageFilledEllipse($image, $x, $y, 2, 2, $this->rouge_2);
 				$nbEauxGue++;
 			} elseif ($h["type_eau"] == "profonde") {
@@ -484,10 +486,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 				$nbEauxProfonde++;
 			}
 		}
-		ImageString($image, 1, $this->distanceD + 320, $this->distanceD + $this->tailleY + 10, $nbEauxGue." Gue", $this->rouge_2);
+		ImageString($image, 1, $this->distanceD + 320, $this->distanceD + $this->tailleY + 10, $nbEauxGue." peu profonde", $this->rouge_2);
 		ImageString($image, 1, $this->distanceD + 320, $this->distanceD + $this->tailleY + 20, $nbEauxProfonde." Profonde", $this->vert2);
 		ImageString($image, 1, $this->distanceD + 320, $this->distanceD + $this->tailleY + 30, $nbEauxLac." Lac", $this->vert2);
-		ImageString($image, 1, $this->distanceD + 320, $this->distanceD + $this->tailleY + 50, $nbEauxMer." Mer", $this->rouge_1);
+		ImageString($image, 1, $this->distanceD + 320, $this->distanceD + $this->tailleY + 40, $nbEauxMer." Mer", $this->rouge_1);
 	}
 
 	private function dessineNids(&$image) {
