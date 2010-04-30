@@ -42,10 +42,7 @@ class Bral_Monstres_Competences_Charger extends Bral_Monstres_Competences_Attaqu
 		//	return null; // pas de cible
 
 		$chargeNbCases = floor($this->monstre["vigueur_base_monstre"] / 3) + 1;
-		if ($chargeNbCases > 6) {
-			$this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"] = 6;
-		}
-
+		
 		// borne à la vue
 		if ($chargeNbCases > $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"]) {
 			$chargeNbCases = $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"];
