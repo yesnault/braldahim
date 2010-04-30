@@ -23,10 +23,10 @@ class Bral_Monstres_Competences_Charger extends Bral_Monstres_Competences_Attaqu
 		Bral_Util_Log::viemonstres()->debug(get_class($this)." - verificationCible - PA Monstre (".$this->monstre["id_monstre"].") avant action nb=".$this->monstre["pa_monstre"]);
 
 		// on regarde si la cible est dans la vue du monstre
-		if (($this->cible["x_hobbit"] > $this->monstre["x_monstre"] + $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])
-		|| ($this->cible["x_hobbit"] < $this->monstre["x_monstre"] - $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])
-		|| ($this->cible["y_hobbit"] > $this->monstre["y_monstre"] + $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])
-		|| ($this->cible["y_hobbit"] < $this->monstre["y_monstre"] - $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])) {
+		if (($this->cible["x_hobbit"] > $this->monstre["x_monstre"] + ($this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"]))
+		|| ($this->cible["x_hobbit"] < $this->monstre["x_monstre"] - ($this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"]))
+		|| ($this->cible["y_hobbit"] > $this->monstre["y_monstre"] + ($this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"]))
+		|| ($this->cible["y_hobbit"] < $this->monstre["y_monstre"] - ($this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"]))) {
 			// cible en dehors de la vue du monstre
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible en dehors de la vue hx=".$this->cible["x_hobbit"] ." hy=".$this->cible["y_hobbit"]. " mx=".$this->monstre["x_monstre"]. " my=".$this->monstre["y_monstre"]. " vue=". $this->monstre["vue_monstre"]."");
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - verificationCible -  monstre (".$this->monstre["id_monstre"].") attaqueCible - exit null");

@@ -21,10 +21,10 @@ class Bral_Monstres_Competences_Fuitecrevasse extends Bral_Monstres_Competences_
 			
 			Zend_Loader::loadClass("Crevasse");
 			$crevasseTable = new Crevasse();
-			$x_min = $this->monstre["x_monstre"] - $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"];
-			$x_max = $this->monstre["x_monstre"] + $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"];
-			$y_min = $this->monstre["y_monstre"] - $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"];
-			$y_max = $this->monstre["y_monstre"] + $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"];
+			$x_min = $this->monstre["x_monstre"] - ($this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"]);
+			$x_max = $this->monstre["x_monstre"] + ($this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"]);
+			$y_min = $this->monstre["y_monstre"] - ($this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"]);
+			$y_max = $this->monstre["y_monstre"] + ($this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"]);
 			$crevasses = $crevasseTable->selectVue($x_min, $y_min, $x_max, $y_max, $this->monstre["z_monstre"]);
 				
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - Fuite du monstre - recherche crevasse - (idm:".$this->monstre["id_monstre"].") : $x_min, $y_min, $x_max, $y_max");

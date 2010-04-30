@@ -47,10 +47,10 @@ abstract class Bral_Monstres_Competences_Attaque {
 		Bral_Util_Log::viemonstres()->debug(get_class($this)." - verificationCible - PA Monstre (".$this->monstre["id_monstre"].") avant action nb=".$this->monstre["pa_monstre"]);
 
 		// on regarde si la cible est dans la vue du monstre
-		if (($this->cible["x_hobbit"] > $this->monstre["x_monstre"] + $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])
-		|| ($this->cible["x_hobbit"] < $this->monstre["x_monstre"] - $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])
-		|| ($this->cible["y_hobbit"] > $this->monstre["y_monstre"] + $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])
-		|| ($this->cible["y_hobbit"] < $this->monstre["y_monstre"] - $this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"])) {
+		if (($this->cible["x_hobbit"] > $this->monstre["x_monstre"] + ($this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"]))
+		|| ($this->cible["x_hobbit"] < $this->monstre["x_monstre"] - ($this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"]))
+		|| ($this->cible["y_hobbit"] > $this->monstre["y_monstre"] + ($this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"]))
+		|| ($this->cible["y_hobbit"] < $this->monstre["y_monstre"] - ($this->monstre["vue_monstre"] + $this->monstre["vue_malus_monstre"]))) {
 			// cible en dehors de la vue du monstre
 			Bral_Util_Log::viemonstres()->debug(get_class($this)." - cible en dehors de la vue hx=".$this->cible["x_hobbit"] ." hy=".$this->cible["y_hobbit"]. " mx=".$this->monstre["x_monstre"]. " my=".$this->monstre["y_monstre"]. " vue=". $this->monstre["vue_monstre"]."");
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - verificationCible -  monstre (".$this->monstre["id_monstre"].") attaqueCible - exit null");
@@ -64,6 +64,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 			Bral_Util_Log::viemonstres()->trace(get_class($this)." - verificationCible -  monstre (".$this->monstre["id_monstre"].") attaqueCible - exit false");
 			return false; // cible non morte
 		} else {
+			Bral_Util_Log::viemonstres()->trace(get_class($this)." - verificationCible -  monstre (".$this->monstre["id_monstre"].") attaqueCible - exit true");
 			return true;
 		}
 	}
@@ -161,10 +162,10 @@ abstract class Bral_Monstres_Competences_Attaque {
 					$this->cible["bm_attaque_hobbit"] = $this->cible["bm_attaque_hobbit"] - Bral_Util_De::get_1d3();
 					$this->cible["bm_defense_hobbit"] = $this->cible["bm_defense_hobbit"] - Bral_Util_De::get_1d6();
 				}
-				
+
 				Zend_Loader::loadClass("Bral_Util_Equipement");
 				$pieceCibleAbimee = Bral_Util_Equipement::usureAttaquePiece($this->cible["id_hobbit"]);
-				
+
 				$this->cible["est_ko_hobbit"] = "non";
 				$id_type_evenement = self::$config->game->evenements->type->attaquer;
 				$details = "[m".$this->monstre["id_monstre"]."] a $verbe le hobbit [h".$this->cible["id_hobbit"]."]";
@@ -172,17 +173,17 @@ abstract class Bral_Monstres_Competences_Attaque {
 
 				// mise a jour de l'événement avant la riposte
 				Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_hobbit"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_hobbit"], $this->view, $this->cible["nb_dla_jouees_hobbit"], $this->monstre["nb_dla_jouees_monstre"], Bral_Util_Evenement::ATTAQUE_REUSSIE);
-				
+
 				$effetMotS = Bral_Util_Commun::getEffetMotS($this->cible["id_hobbit"]);
 				$this->updateCible();
 				if ($effetMotS != null) {
-						
+
 					$peutRiposter = Bral_Util_Attaque::verificationNbRiposte($this->cible["nb_dla_jouees_hobbit"], $this->cible["id_hobbit"]);
 					if ($peutRiposter == true) {
 						Bral_Util_Log::attaque()->trace("Bral_Util_Attaque - attaqueMonstre - ".$this->cible["id_hobbit"]." peut riposter");
 						$detailsBot .= PHP_EOL."Le hobbit ".$this->cible["prenom_hobbit"]." ".$this->cible["nom_hobbit"]." (".$this->cible["id_hobbit"] . ") a riposté.";
 						$detailsBot .= PHP_EOL."Consultez vos événements pour plus de détails.";
-						
+
 						Bral_Util_Log::viemonstres()->notice("Bral_Monstres_VieMonstre - attaqueCible (idm:".$this->monstre["id_monstre"].") - La cible (".$this->cible["id_hobbit"].") possede le mot S -> Riposte");
 						$hobbitTable = new Hobbit();
 						$hobbitRowset = $hobbitTable->find($this->cible["id_hobbit"]);
@@ -275,11 +276,11 @@ abstract class Bral_Monstres_Competences_Attaque {
 			}
 
 			$retour .= PHP_EOL."Au total, votre armure vous a protégé en réduisant les dégâts de ".$totalArmure.".";
-			
+				
 			if ($pieceCibleAbimee != null) {
 				$retour .= PHP_EOL."Une pièce d'équipement a été abimée par le coup : ".$pieceCibleAbimee.".";
 			}
-			
+				
 			$retour .= PHP_EOL."Vous avez perdu ".$pvPerdus. " PV ";
 			$retour .= PHP_EOL."Il vous reste ".$this->cible["pv_restant_hobbit"]." PV ";
 
