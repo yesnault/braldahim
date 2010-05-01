@@ -154,6 +154,7 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 			$y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
 
 			$quantite = Bral_Util_De::get_de_specifique(10, 20);
+			usleep(Bral_Util_De::get_de_specifique(1, 1000000));
 
 			$data = array(
 				'id_fk_type_minerai_filon' => $idTypeMinerai, 

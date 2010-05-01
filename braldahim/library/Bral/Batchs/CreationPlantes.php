@@ -155,6 +155,8 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 			$x = Bral_Util_De::get_de_specifique($zone["x_min_zone"], $zone["x_max_zone"]);
 			$y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
 
+			usleep(Bral_Util_De::get_de_specifique(1, 1000000));
+			
 			$partie_1 = Bral_Util_De::get_de_specifique($min, $max);
 			$partie_2 = null;
 			$partie_3 = null;
