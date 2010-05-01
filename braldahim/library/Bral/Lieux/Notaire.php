@@ -75,7 +75,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		$echoppesRowset = $echoppesTable->findByIdHobbit($this->view->user->id_hobbit);
 
 		$idRecu = $this->view->idTypeCourant."_".$this->idSelection;
-		
+
 		$tabEchoppes = null;
 		foreach ($echoppesRowset as $e) {
 			$echoppe = array (
@@ -106,7 +106,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 				$tabTypeAchat[] = array("id_type_action" => $idDeplacement, "texte" => "Déplacer l'échoppe ".$nom, "selected" => $selectedDeplacement);
 				$tabTypeAchat[] = array("id_type_action" => $idSuppression, "texte" => "Supprimer l'échoppe ".$nom, "selected" => $selectedSuppression);
 			}
-			
+				
 			$tabEchoppes[] = $echoppe;
 		}
 
@@ -229,7 +229,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		);
 		$champTable->insert($data);
 		$this->view->constructionChampOk = true;
-		
+
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		$this->majHobbit();
 	}
@@ -257,7 +257,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 
 		$this->idSelection = $idEchoppe;
 		$this->constructionRoute();
-		
+
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		$this->majHobbit();
 	}
@@ -305,9 +305,9 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		// Suppression d'une route s'il y en a une
 		$where = "x_route = ".$this->echoppeCourante["x_echoppe"]. " AND y_route=".$this->echoppeCourante["y_echoppe"];
 		$routeTable->delete($where);
-		
+
 		$this->constructionRoute();
-		
+
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		$this->majHobbit();
 	}
@@ -321,7 +321,7 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 
 		//Suppression route automatique (cascade)
 		$this->view->supprimerEchoppeOk = true;
-		
+
 		$this->view->user->castars_hobbit = $this->view->user->castars_hobbit - $this->view->coutCastars;
 		$this->majHobbit();
 	}
@@ -393,6 +393,17 @@ class Bral_Lieux_Notaire extends Bral_Lieux_Lieu {
 		$this->view->construireLieuRouteOk = true;
 		if (count($routes) > 0) {
 			$this->view->construireLieuRouteOk = false;
+			return false;
+		}
+
+		// on verifie que l'on est pas sur une eau
+		Zend_Loader::loadClass("Eau");
+		$eauTable = new Eau();
+		$eaux = $eauTable->countByCase($x, $y, $z);
+
+		$this->view->construireLieuEauOk = true;
+		if (count($eaux) > 0) {
+			$this->view->construireLieuEauOk = false;
 			return false;
 		}
 

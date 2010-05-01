@@ -38,6 +38,8 @@ class Bral_Batchs_CreationBuissons extends Bral_Batchs_Batch {
 		$eauTable = new Eau();
 		$eaux = $eauTable->fetchall();
 
+		$buissonTable = new Buisson();
+		$nb = 0;
 		$where = "";
 		foreach($eaux as $r) {
 			$or = "";
@@ -46,10 +48,16 @@ class Bral_Batchs_CreationBuissons extends Bral_Batchs_Batch {
 			}
 
 			$where .= $or." (x_buisson = ".$r["x_eau"]. " AND y_buisson = ".$r["y_eau"].") ";
+				
+			$nb++;
+			if ($nb == 1000) {
+				$buissonTable->delete($where);
+				$nb = 0;
+				$where = "";
+			}
 		}
 
 		if ($where != "") {
-			$buissonTable = new Buisson();
 			$buissonTable->delete($where);
 		}
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBuissons - suppressionBuissonSurEau - exit -");

@@ -37,6 +37,8 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 		$eauTable = new Eau();
 		$eaux = $eauTable->fetchall();
 
+		$planteTable = new Plante();
+		$nb = 0;
 		$where = "";
 		foreach($eaux as $r) {
 			$or = "";
@@ -45,10 +47,15 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 			}
 
 			$where .= $or." (x_plante = ".$r["x_eau"]. " AND y_plante = ".$r["y_eau"].") ";
+			$nb++;
+			if ($nb == 1000) {
+				$planteTable->delete($where);
+				$nb = 0;
+				$where = "";
+			}
 		}
 
 		if ($where != "") {
-			$planteTable = new Plante();
 			$planteTable->delete($where);
 		}
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - suppressionSurEau - exit -");
@@ -156,7 +163,7 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 			$y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
 
 			usleep(Bral_Util_De::get_de_specifique(1, 1000000));
-			
+				
 			$partie_1 = Bral_Util_De::get_de_specifique($min, $max);
 			$partie_2 = null;
 			$partie_3 = null;

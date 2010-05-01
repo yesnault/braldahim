@@ -38,6 +38,9 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 		$eauTable = new Eau();
 		$eaux = $eauTable->fetchall();
 
+		$filonTable = new Filon();
+
+		$nb = 0;
 		$where = "";
 		foreach($eaux as $r) {
 			$or = "";
@@ -46,10 +49,15 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 			}
 
 			$where .= $or." (x_filon = ".$r["x_eau"]. " AND y_filon = ".$r["y_eau"].") ";
+			$nb++;
+			if ($nb == 1000) {
+				$filonTable->delete($where);
+				$nb = 0;
+				$where = "";
+			}
 		}
 
 		if ($where != "") {
-			$filonTable = new Filon();
 			$filonTable->delete($where);
 		}
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - suppressionSurEau - exit -");

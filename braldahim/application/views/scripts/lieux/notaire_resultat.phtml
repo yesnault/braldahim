@@ -25,6 +25,10 @@
 	<? elseif ($this->construireLieuRouteOk == false) : ?>
 		Vous ne pouvez pas acheter de champ &agrave; cet endroit.
 		
+	<? elseif ($this->construireLieuEauOk == false) : ?>
+		De l'eau est présente en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas acheter de champ
+		&agrave; cet endroit.
+		
 	<? elseif ($this->construireRegionOk == false) : ?>
 		&Eacute;tant dans la <?=$this->regionCourante["nom_region"] ?>, vous ne pouvez pas 
 		acheter de champ dans une autre Comt&eacute;.
@@ -62,6 +66,10 @@
 	
 	<? elseif ($this->construireLieuRouteOk == false) : ?>
 		Vous ne pouvez pas acheter ou déplacer une échoppe &agrave; cet endroit.
+	
+	<? elseif ($this->construireLieuEauOk == false) : ?>
+		De l'eau est présente en x:<?=$this->x_construction ?>, y:<?=$this->y_construction ?>, vous ne pouvez pas acheter d'échoppe
+		&agrave; cet endroit.
 	
 	<? elseif ($this->construireRegionOk == false) : ?>
 		&Eacute;tant dans la <?=$this->regionCourante["nom_region"] ?>, vous ne pouvez pas 

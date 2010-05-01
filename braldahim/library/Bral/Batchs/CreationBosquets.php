@@ -66,7 +66,10 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 		$eauTable = new Eau();
 		$eaux = $eauTable->fetchall();
 
+		$bosquetTable = new Bosquet();
+
 		$where = "";
+		$nb = 0;
 		foreach($eaux as $r) {
 			$or = "";
 			if ($where != "") {
@@ -74,12 +77,19 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 			}
 
 			$where .= $or." (x_bosquet = ".$r["x_eau"]. " AND y_bosquet = ".$r["y_eau"].") ";
+
+			$nb++;
+			if ($nb == 1000) {
+				$bosquetTable->delete($where);
+				$nb = 0;
+				$where = "";
+			}
 		}
 
 		if ($where != "") {
-			$bosquetTable = new Bosquet();
 			$bosquetTable->delete($where);
 		}
+
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBosquets - suppressionBosquetSurEau - exit -");
 		return $retour;
 	}
