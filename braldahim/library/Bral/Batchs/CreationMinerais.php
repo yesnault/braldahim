@@ -48,9 +48,10 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 			$where .= $or." (x_filon = ".$r["x_eau"]. " AND y_filon = ".$r["y_eau"].") ";
 		}
 
-		$filonTable = new Filon();
-		$filonTable->delete($where);
-
+		if ($where != "") {
+			$filonTable = new Filon();
+			$filonTable->delete($where);
+		}
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - suppressionSurEau - exit -");
 		return $retour;
 	}
@@ -105,7 +106,7 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 					break;
 				}
 			}
-				
+
 			if ($t != null) {
 				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - traitement du minerai ".$t["id_type_minerai"]. " nbMaxMonde(".$t["nb_creation_type_minerai"].") environnement(".$c["id_fk_environnement_creation_minerais"].") suptotal(". $superficieTotale[$c["id_fk_type_minerai_creation_minerais"]].")");
 				foreach($zones as $z) {
@@ -151,9 +152,9 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 		for($i = 1; $i <= $aCreer; $i++) {
 			$x = Bral_Util_De::get_de_specifique($zone["x_min_zone"], $zone["x_max_zone"]);
 			$y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
-				
+
 			$quantite = Bral_Util_De::get_de_specifique(10, 20);
-				
+
 			$data = array(
 				'id_fk_type_minerai_filon' => $idTypeMinerai, 
 				'x_filon' => $x, 

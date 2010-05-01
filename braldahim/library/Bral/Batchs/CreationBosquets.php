@@ -49,9 +49,10 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 			$where .= $or." (x_bosquet = ".$r["x_route"]. " AND y_bosquet = ".$r["y_route"].") ";
 		}
 
-		$bosquetTable = new Bosquet();
-		$bosquetTable->delete($where);
-
+		if ($where != "") {
+			$bosquetTable = new Bosquet();
+			$bosquetTable->delete($where);
+		}
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBosquets - suppressionBosquetSurRouteVisible - exit -");
 		return $retour;
 	}
@@ -75,9 +76,10 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 			$where .= $or." (x_bosquet = ".$r["x_eau"]. " AND y_bosquet = ".$r["y_eau"].") ";
 		}
 
-		$bosquetTable = new Bosquet();
-		$bosquetTable->delete($where);
-
+		if ($where != "") {
+			$bosquetTable = new Bosquet();
+			$bosquetTable->delete($where);
+		}
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationBosquets - suppressionBosquetSurEau - exit -");
 		return $retour;
 	}

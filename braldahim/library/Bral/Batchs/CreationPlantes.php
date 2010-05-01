@@ -47,9 +47,10 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 			$where .= $or." (x_plante = ".$r["x_eau"]. " AND y_plante = ".$r["y_eau"].") ";
 		}
 
-		$planteTable = new Plante();
-		$planteTable->delete($where);
-
+		if ($where != "") {
+			$planteTable = new Plante();
+			$planteTable->delete($where);
+		}
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - suppressionSurEau - exit -");
 		return $retour;
 	}
@@ -104,7 +105,7 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 					break;
 				}
 			}
-				
+
 			if ($t != null) {
 				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - traitement du type plante ".$t["id_type_plante"]. " nbMaxMonde(".$t["nb_creation_type_plante"].") environnement(".$c["id_fk_environnement_creation_plantes"].") suptotal(". $superficieTotale[$c["id_fk_type_plante_creation_plantes"]].")");
 				foreach($zones as $z) {
@@ -158,7 +159,7 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 			$partie_2 = null;
 			$partie_3 = null;
 			$partie_4 = null;
-				
+
 			if ($typePlante["id_fk_partieplante2_type_plante"] != null) {
 				$partie_2 = Bral_Util_De::get_de_specifique($min, $max);
 			}
