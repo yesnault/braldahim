@@ -82,6 +82,14 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$parametres .= "&eaux=1";
 		}
 
+		if (intval($this->_request->get("filons")) == 1) {
+			$parametres .= "&filons=1";
+		}
+
+		if (intval($this->_request->get("bosquets")) == 1) {
+			$parametres .= "&bosquets=1";
+		}
+
 		if (intval($this->_request->get("lieuxmythiques")) == 1) {
 			$parametres .= "&lieuxmythiques=1";
 		}
@@ -121,7 +129,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		}
 		//$this->dessineFilons(&$image);
 		//$this->dessineBosquets(&$image);
-		
+
 
 		if (intval($this->_request->get("hobbits")) == 1) {
 			$this->dessineHobbits(&$image);
@@ -143,10 +151,18 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$this->dessineEaux(&$image);
 		}
 
+		if (intval($this->_request->get("filons")) == 1) {
+			$this->dessineFilons(&$image);
+		}
+
+		if (intval($this->_request->get("bosquets")) == 1) {
+			$this->dessineBosquets(&$image);
+		}
+
 		if (intval($this->_request->get("lieuxmythiques")) == 1) {
 			$this->dessineLieuxmythiques(&$image);
 		}
-		
+
 		$this->dessineVilles(&$image);
 
 		$this->view->image = $image;
@@ -157,9 +173,9 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		// Couleurs trouvées sur http://fr.wikipedia.org/wiki/Couleurs_du_Web
 		$couleurRouge = array("FFA07A", "DC143C", "FF0000", "B22222", "8B0000");
 
-		$red=array("EEE8AA", "F0E68C", "BDB76B", "FFD700", "FFFF00");
-		$blue=array("0033FF","336699","97058B","690261","3C0137");
-		$green=array("00DD00","00AA00", "009900", "006600", "003300");
+		$couleurRouge=array("FF0000", "DC143C", "FFA07A", "FA8072", "F08080");
+		$couleurBleue=array("00008B","0033FF","4169E1","1E90FF","87CEEB");
+		$couleurVert=array("00DD00","00AA00", "009900", "006600", "003300");
 		$couleurGrise=array("888888","999999", "AAAAAA", "B9B9B9", "D0D0D0");
 
 		$this->noir = ImageColorAllocate($image, 0, 0, 0);
@@ -222,6 +238,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		$this->bleu_4 = ImageColorAllocate($image, $red, $green, $blue);
 
 		$this->tab_rouge = array($this->rouge_0, $this->rouge_1, $this->rouge_2, $this->rouge_3 ,$this->rouge_4, $this->noir);
+		$this->tab_bleu=array($this->bleu_0,$this->bleu_1,$this->bleu_2,$this->bleu_3,$this->bleu_4);
 
 		/*$this->tab_bleu=array($this->bleu_0,$this->bleu_1,$this->bleu_2,$this->bleu_3,$this->bleu_4);
 		 $this->tab_jaune=array($this->jaune_0,$this->jaune_1,$this->jaune_2,$this->jaune_3,$this->jaune_4);
@@ -370,7 +387,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			ImageFilledEllipse($image, $x, $y, 2, 2, $this->gris2);
 			$nbFilons++;
 		}
-		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 20, $nbFilons." Filons", $this->gris2);
+		ImageString($image, 1, $this->distanceD + 620, $this->distanceD + $this->tailleY + 20, $nbFilons." Filons", $this->gris2);
 	}
 
 	private function dessineBosquets(&$image) {
@@ -385,7 +402,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			ImageFilledEllipse($image, $x, $y, 2, 2, $this->gris2);
 			$nbBosquets++;
 		}
-		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 20, $nbBosquets." Bosquets", $this->gris2);
+		ImageString($image, 1, $this->distanceD + 420, $this->distanceD + $this->tailleY + 20, $nbBosquets." Bosquets", $this->gris2);
 	}
 
 	private function dessineHobbits(&$image) {
@@ -414,10 +431,10 @@ class AdministrationcarteController extends Zend_Controller_Action {
 		foreach ($lieux as $h) {
 			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $h["x_lieu"]) / $this->coefTaille;
 			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $h["y_lieu"]) / $this->coefTaille;
-			ImageFilledEllipse($image, $x, $y, 5, 5, $this->tab_rouge[2]);
+			ImageFilledEllipse($image, $x, $y, 5, 5, $this->bleu_0);
 			$nbLieux++;
 		}
-		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 10, $nbLieux." Lieux Mythiques", $this->tab_rouge[2]);
+		ImageString($image, 1, $this->distanceD + 420, $this->distanceD + $this->tailleY + 10, $nbLieux." Lieux Mythiques", $this->bleu_0);
 	}
 
 	private function dessineRoutes(&$image) {
@@ -435,7 +452,7 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $h["y_route"]) / $this->coefTaille;
 			if ($h["type_route"] == "route") {
 				if ($h["est_visible_route"] == "oui") {
-					ImageFilledEllipse($image, $x, $y, 2, 2, $this->rouge_0);
+					ImageFilledEllipse($image, $x, $y, 2, 2, $this->rouge_4);
 					$nbRoutesVisible++;
 				} else {
 					ImageFilledEllipse($image, $x, $y, 2, 2, $this->rouge_3);
@@ -445,17 +462,17 @@ class AdministrationcarteController extends Zend_Controller_Action {
 				ImageFilledEllipse($image, $x, $y, 2, 2, $this->vert2);
 				$nbBalises++;
 			} elseif ($h["type_route"] == "ville") {
-				ImageFilledEllipse($image, $x, $y, 2, 2, $this->bleu_0);
+				ImageFilledEllipse($image, $x, $y, 2, 2, $this->rouge_0);
 				$nbRoutesVille++;
-			} elseif ($h["type_route"] == "route") {
+			} elseif ($h["type_route"] == "echoppe") {
 				ImageFilledEllipse($image, $x, $y, 2, 2, $this->rouge_1);
 				$nbRoutesEchoppe++;
 			}
 
 		}
-		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 10, $nbRoutesVille." Paves Ville", $this->bleu_0);
+		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 10, $nbRoutesVille." Paves Ville", $this->rouge_0);
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 20, $nbBalises." Balises", $this->vert2);
-		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 30, $nbRoutesVisible." Routes visible", $this->rouge_0);
+		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 30, $nbRoutesVisible." Routes visible", $this->rouge_4);
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 40, $nbRoutesNonVisible." Routes non visible", $this->rouge_3);
 		ImageString($image, 1, $this->distanceD + 120, $this->distanceD + $this->tailleY + 50, $nbRoutesEchoppe." Routes Echoppe", $this->rouge_1);
 	}
@@ -473,23 +490,23 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $h["x_eau"]) / $this->coefTaille;
 			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $h["y_eau"]) / $this->coefTaille;
 			if ($h["type_eau"] == "lac") {
-				ImageFilledEllipse($image, $x, $y, 2, 2, $this->vert2);
+				ImageFilledEllipse($image, $x, $y, 2, 2, $this->bleu_3);
 				$nbEauxLac++;
 			} elseif ($h["type_eau"] == "mer") {
-				ImageFilledEllipse($image, $x, $y, 2, 2, $this->vert2);
+				ImageFilledEllipse($image, $x, $y, 2, 2, $this->bleu_0);
 				$nbEauxMer++;
 			} elseif ($h["type_eau"] == "peuprofonde") {
-				ImageFilledEllipse($image, $x, $y, 2, 2, $this->rouge_2);
+				ImageFilledEllipse($image, $x, $y, 2, 2, $this->bleu_4);
 				$nbEauxGue++;
 			} elseif ($h["type_eau"] == "profonde") {
-				ImageFilledEllipse($image, $x, $y, 2, 2, $this->vert2);
+				ImageFilledEllipse($image, $x, $y, 2, 2, $this->bleu_2);
 				$nbEauxProfonde++;
 			}
 		}
-		ImageString($image, 1, $this->distanceD + 320, $this->distanceD + $this->tailleY + 10, $nbEauxGue." peu profonde", $this->rouge_2);
-		ImageString($image, 1, $this->distanceD + 320, $this->distanceD + $this->tailleY + 20, $nbEauxProfonde." Profonde", $this->vert2);
-		ImageString($image, 1, $this->distanceD + 320, $this->distanceD + $this->tailleY + 30, $nbEauxLac." Lac", $this->vert2);
-		ImageString($image, 1, $this->distanceD + 320, $this->distanceD + $this->tailleY + 40, $nbEauxMer." Mer", $this->rouge_1);
+		ImageString($image, 1, $this->distanceD + 320, $this->distanceD + $this->tailleY + 10, $nbEauxGue." peu profonde", $this->bleu_4);
+		ImageString($image, 1, $this->distanceD + 320, $this->distanceD + $this->tailleY + 20, $nbEauxProfonde." Profonde", $this->bleu_2);
+		ImageString($image, 1, $this->distanceD + 320, $this->distanceD + $this->tailleY + 30, $nbEauxLac." Lac", $this->bleu_3);
+		ImageString($image, 1, $this->distanceD + 320, $this->distanceD + $this->tailleY + 40, $nbEauxMer." Mer", $this->bleu_0);
 	}
 
 	private function dessineNids(&$image) {

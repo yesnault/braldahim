@@ -14,7 +14,7 @@ class Filon extends Zend_Db_Table {
 	protected $_name = 'filon';
 	protected $_primary = 'id_filon';
 
-	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z, $id_type = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('filon', '*')
@@ -25,6 +25,11 @@ class Filon extends Zend_Db_Table {
 		->where('y_filon <= ?',$y_max)
 		->where('z_filon = ?',$z)
 		->where('filon.id_fk_type_minerai_filon = type_minerai.id_type_minerai');
+
+		if ($id_type != null) {
+			$select->where('id_fk_type_minerai_filon = ?',$id_type);
+		}
+
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -79,7 +84,7 @@ class Filon extends Zend_Db_Table {
 		->order('distance ASC');
 
 		if ($idTypeMinerai != null) {
-			$select->where('id_fk_type_minerai_filon = ?', $idTypeMinerai);	
+			$select->where('id_fk_type_minerai_filon = ?', $idTypeMinerai);
 		}
 
 		$sql = $select->__toString();

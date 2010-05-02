@@ -114,10 +114,11 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 					break;
 				}
 			}
-
+				
 			if ($t != null) {
 				Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - traitement du minerai ".$t["id_type_minerai"]. " nbMaxMonde(".$t["nb_creation_type_minerai"].") environnement(".$c["id_fk_environnement_creation_minerais"].") suptotal(". $superficieTotale[$c["id_fk_type_minerai_creation_minerais"]].")");
 				foreach($zones as $z) {
+						
 					if ($z["id_fk_environnement_zone"] == $c["id_fk_environnement_creation_minerais"]) {
 						$tmp = "";
 						$nbCreation = ceil($t["nb_creation_type_minerai"] * ($superficieZones[$z["id_zone"]] / $superficieTotale[$c["id_fk_type_minerai_creation_minerais"]]));
@@ -132,6 +133,7 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 							$retour .= $this->insert($t["id_type_minerai"], $z, $aCreer, $filonTable);
 						} else {
 							$retour .= "zone(".$z["id_zone"].") pleine de minerai(".$t["id_type_minerai"].") nbActuel(".$nbActuel.") max(".$nbCreation."). ";
+							$retour .= $this->supprime($t["id_type_minerai"], $z, $nbActuel, 0 - $aCreer, $filonTable);
 						}
 					}
 				}
@@ -153,16 +155,58 @@ class Bral_Batchs_CreationMinerais extends Bral_Batchs_Batch {
 		return $environnementIds;
 	}
 
+	private function supprime($idTypeMinerai, $zone, $nbActuel, $aSupprimer, $filonTable) {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - supprime - enter - idtype(".$idTypeMinerai.") idzone(".$zone['id_zone'].") aSupprimer(".$aSupprimer.")");
+		$retour = "minerai(".$idTypeMinerai.") idzone(".$zone['id_zone'].") aSupprimer(".$aSupprimer."). ";
+
+		if ($aSupprimer <= 0) {
+			return $retour;
+		}
+
+		$filons = $filonTable->selectVue($zone["x_min_zone"], $zone["y_min_zone"], $zone["x_max_zone"], $zone["y_max_zone"], 0, $idTypeMinerai);
+
+		shuffle($filons);
+
+		$total = count($filons);
+		$nb = 0;
+		$where = "";
+		for($i = 1; $i <= $aSupprimer; $i++) {
+
+			$or = "";
+			if ($where != "") {
+				$or = " OR ";
+			}
+
+			$filon = array_pop($filons);
+				
+			$where .= $or."id_filon=".$filon["id_filon"];
+			$nb++;
+			if ($nb == 1000) {
+				$filonTable->delete($where);
+				$nb = 0;
+				$where = "";
+			}
+		}
+
+		if ($where != "") {
+			$filonTable->delete($where);
+		}
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - supprime - exit -");
+		return $retour;
+	}
+
 	private function insert($idTypeMinerai, $zone, $aCreer, $filonTable) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMinerais - insert - enter - idtype(".$idTypeMinerai.") idzone(".$zone['id_zone'].") nbACreer(".$aCreer.")");
 		$retour = "minerai(".$idTypeMinerai.") idzone(".$zone['id_zone'].") aCreer(".$aCreer."). ";
 
 		for($i = 1; $i <= $aCreer; $i++) {
+			usleep(Bral_Util_De::get_de_specifique(50, 10000));
 			$x = Bral_Util_De::get_de_specifique($zone["x_min_zone"], $zone["x_max_zone"]);
+			usleep(Bral_Util_De::get_de_specifique(100, 10000));
 			$y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
 
 			$quantite = Bral_Util_De::get_de_specifique(10, 20);
-			usleep(Bral_Util_De::get_de_specifique(1, 1000000));
 
 			$data = array(
 				'id_fk_type_minerai_filon' => $idTypeMinerai, 

@@ -130,6 +130,7 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 							$retour .= $this->insert($t, $z, $aCreer, $planteTable);
 						} else {
 							$retour .= "zone(".$z["id_zone"].") pleine de plante(".$t["id_type_plante"].") nbActuel(".$nbActuel.") max(".$nbCreation."). ";
+							$retour .= $this->supprime($t["id_type_plante"], $z, $nbActuel, 0 - $aCreer, $planteTable);
 						}
 					}
 				}
@@ -151,6 +152,47 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 		return $environnementIds;
 	}
 
+	private function supprime($idTypePlante, $zone, $nbActuel, $aSupprimer, $planteTable) {
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - supprime - enter - idtype(".$idTypePlante.") idzone(".$zone['id_zone'].") aSupprimer(".$aSupprimer.")");
+		$retour = "plante(".$idTypePlante.") idzone(".$zone['id_zone'].") aSupprimer(".$aSupprimer."). ";
+
+		if ($aSupprimer <= 0) {
+			return $retour;
+		}
+
+		$plantes = $planteTable->selectVue($zone["x_min_zone"], $zone["y_min_zone"], $zone["x_max_zone"], $zone["y_max_zone"], 0, $idTypePlante);
+
+		shuffle($plantes);
+
+		$total = count($plantes);
+		$nb = 0;
+		$where = "";
+		for($i = 1; $i <= $aSupprimer; $i++) {
+
+			$or = "";
+			if ($where != "") {
+				$or = " OR ";
+			}
+
+			$plante = array_pop($plantes);
+
+			$where .= $or."id_plante=".$plante["id_plante"];
+			$nb++;
+			if ($nb == 1000) {
+				$planteTable->delete($where);
+				$nb = 0;
+				$where = "";
+			}
+		}
+
+		if ($where != "") {
+			$planteTable->delete($where);
+		}
+
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - supprime - exit -");
+		return $retour;
+	}
+
 	private function insert($typePlante, $zone, $aCreer, $planteTable) {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationPlantes - insert - enter - idtype(".$typePlante["id_type_plante"].") idzone(".$zone['id_zone'].") nbACreer(".$aCreer.")");
 		$retour = "plante(".$typePlante["id_type_plante"].") idzone(".$zone['id_zone'].") aCreer(".$aCreer."). ";
@@ -159,11 +201,11 @@ class Bral_Batchs_CreationPlantes extends Bral_Batchs_Batch {
 		$max = 10;
 
 		for ($i=1; $i<= $aCreer; $i++) {
+			usleep(Bral_Util_De::get_de_specifique(50, 10000));
 			$x = Bral_Util_De::get_de_specifique($zone["x_min_zone"], $zone["x_max_zone"]);
+			usleep(Bral_Util_De::get_de_specifique(100, 10000));
 			$y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
 
-			usleep(Bral_Util_De::get_de_specifique(1, 1000000));
-				
 			$partie_1 = Bral_Util_De::get_de_specifique($min, $max);
 			$partie_2 = null;
 			$partie_3 = null;

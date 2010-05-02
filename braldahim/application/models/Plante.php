@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Braldahim, under Gnu Public Licence v3. 
+ * This file is part of Braldahim, under Gnu Public Licence v3.
  * See licence.txt or http://www.gnu.org/licenses/gpl-3.0.html
  *
  * $Id$
@@ -14,7 +14,7 @@ class Plante extends Zend_Db_Table {
 	protected $_name = 'plante';
 	protected $_primary = 'id_plante';
 
-	function selectVue($x_min, $y_min, $x_max, $y_max, $z) {
+	function selectVue($x_min, $y_min, $x_max, $y_max, $z, $id_type = null) {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('plante', '*')
@@ -25,6 +25,11 @@ class Plante extends Zend_Db_Table {
 		->where('y_plante <= ?',$y_max)
 		->where('z_plante = ?',$z)
 		->where('plante.id_fk_type_plante = type_plante.id_type_plante');
+
+		if ($id_type != null) {
+			$select->where('id_fk_type_plante = ?',$id_type);
+		}
+
 		$sql = $select->__toString();
 		return $db->fetchAll($sql);
 	}
@@ -38,11 +43,11 @@ class Plante extends Zend_Db_Table {
 		->where('y_plante >= ?',$y_min)
 		->where('y_plante <= ?',$y_max)
 		->where('z_plante <= ?',$z);
-		
+
 		if ($id_type != null) {
 			$select->where('id_fk_type_plante = ?',$id_type);
 		}
-		
+
 		$sql = $select->__toString();
 		$resultat = $db->fetchAll($sql);
 
@@ -76,20 +81,20 @@ class Plante extends Zend_Db_Table {
 		->where('z_plante = ?', $z)
 		->where('plante.id_fk_type_plante = type_plante.id_type_plante')
 		->order('distance ASC');
-		
+
 		if ($idTypePlante != null) {
 			$select->where('plante.id_fk_type_plante = ?', $idTypePlante);
 		}
-		
+
 		if ($idTypePartiePlante != null) {
 			$select->where("type_plante.id_fk_partieplante1_type_plante = ".(int)$idTypePartiePlante. " OR type_plante.id_fk_partieplante2_type_plante = ".(int)$idTypePartiePlante.
 			" OR type_plante.id_fk_partieplante3_type_plante = ".(int)$idTypePartiePlante." OR type_plante.id_fk_partieplante4_type_plante = ".(int)$idTypePartiePlante);
 		}
-		
+
 		$sql = $select->__toString();
 		return $db->fetchRow($sql);
 	}
-	
+
 	/**
 	 * Supprime les plantes qui sont en ville.
 	 */
@@ -97,10 +102,10 @@ class Plante extends Zend_Db_Table {
 		$db = $this->getAdapter();
 		$select = $db->select();
 		$select->from('ville', '*');
-		
+
 		$sql = $select->__toString();
 		$villes = $db->fetchAll($sql);
-		
+
 		foreach($villes as $v) {
 			$where = " x_plante >= ". $v["x_min_ville"];
 			$where .= " AND x_plante <= ". $v["x_max_ville"];
@@ -108,7 +113,7 @@ class Plante extends Zend_Db_Table {
 			$where .= " AND y_plante <= ". $v["y_max_ville"];
 			$this->delete($where);
 		}
-		
+
 	}
 }
 
