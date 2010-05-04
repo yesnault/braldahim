@@ -26,6 +26,38 @@ class ZoneNid extends Zend_Db_Table {
 		return $this->findZonesNids(null, $idDonjon);
 	}
 
+	public function findByIdList($listId){
+		return $this->findByList("id_zone_nid", $listId);
+	}
+
+	private function findByList($nomChamp, $listId) {
+		$liste = "";
+		if (count($listId) < 1) {
+			$liste = "";
+		} else {
+			foreach($listId as $id) {
+				if ((int) $id."" == $id."") {
+					if ($liste == "") {
+						$liste = $id;
+					} else {
+						$liste = $liste." OR ".$nomChamp."=".$id;
+					}
+				}
+			}
+		}
+
+		if ($liste != "") {
+			$db = $this->getAdapter();
+			$select = $db->select();
+			$select->from('zone_nid', '*')
+			->where($nomChamp .'='. $liste);
+			$sql = $select->__toString();
+			return $db->fetchAll($sql);
+		} else {
+			return null;
+		}
+	}
+
 	function findById($idZoneNid) {
 		$db = $this->getAdapter();
 		$select = $db->select();

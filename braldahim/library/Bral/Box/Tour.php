@@ -664,6 +664,7 @@ class Bral_Box_Tour extends Bral_Box_Box {
 
 		$this->view->user->x_hobbit = $this->hobbit->x_hobbit;
 		$this->view->user->y_hobbit  = $this->hobbit->y_hobbit;
+		$this->view->user->z_hobbit  = $this->hobbit->z_hobbit;
 
 		$this->view->user->date_debut_tour_hobbit = $this->hobbit->date_debut_tour_hobbit;
 		$this->view->user->date_fin_tour_hobbit = $this->hobbit->date_fin_tour_hobbit;

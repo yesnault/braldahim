@@ -32,7 +32,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 
 		$retour = null;
 
-		if ($idDonjon != null) { // si l'on provient de la creation du donjon
+		if ($idDonjon != null) { // si l'on provient de la creation ou de l'echec du donjon
 			$retour .= $this->calculCreation($idDonjon);
 		} else {
 			$retour .= $this->calculCreation();
@@ -65,6 +65,21 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		$niveauMoyen = null;
 		if ($idDonjon != null) {
 			$zones = $zoneNidTable->findZonesByIdDonjon($idDonjon);
+
+			// et l'on rajoute les zones d'echec
+			Zend_Loader::loadClass("DonjonNid");
+			$donjonNidTable = new DonjonNid();
+			$nids = $donjonNidTable->findByIdDonjonEchec($idDonjon);
+
+			foreach ($nids as $n) {
+				$tabZonesEchec[] = $n["id_fk_zone_nid_donjon_nid"];
+			}
+
+			if ($tabZonesEchec != null) {
+				$zonesEchec = $zoneNidTable->findByIdList($tabZonesEchec);
+				$zones = array_merge($zones, $zonesEchec);
+			}
+
 			// recuperation de donjonEquipe
 			Zend_Loader::loadClass("DonjonEquipe");
 			$donjonEquipeTable = new DonjonEquipe();
@@ -85,6 +100,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		foreach($zones as $z) {
 			// Récupération nids présents dans la zone
 			$nids = $nidTable->findByIdZoneNid($z['id_zone_nid']);
+			Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationMonstres - calculCreation - nbNids(".count($nids).") id_zone_nid(".$z['id_zone_nid'].")");
 
 			foreach($nids as $n) { // pour tous les nids dans la zone de nid
 				if ($idDonjon == null || ($idDonjon != null && $idDonjon == $n["id_fk_donjon_nid"])) {
@@ -244,7 +260,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 			$niveau_sagesse = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_sagesse_ref_monstre"], $referenceCourante["max_niveau_sagesse_ref_monstre"]);
 			$niveau_agilite = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_agilite_ref_monstre"], $referenceCourante["max_niveau_agilite_ref_monstre"]);
 			$niveau_vigueur = Bral_Util_De::get_de_specifique($referenceCourante["min_niveau_vigueur_ref_monstre"], $referenceCourante["max_niveau_vigueur_ref_monstre"]);
-				
+
 			$bm_force = $referenceCourante["bm_force_ref_monstre"];
 			$bm_sagesse = $referenceCourante["bm_sagesse_ref_monstre"];
 			$bm_agilite = $referenceCourante["bm_agilite_ref_monstre"];
@@ -313,7 +329,7 @@ class Bral_Batchs_CreationMonstres extends Bral_Batchs_Batch {
 		//ARMNAT
 		$aleaArmNat = Bral_Util_De::get_de_specifique($referenceCourante["min_alea_pourcentage_armure_naturelle_ref_monstre"], $referenceCourante["max_alea_pourcentage_armure_naturelle_ref_monstre"]);
 		$armure_naturelle_monstre = floor(($force_base_monstre + $vigueur_base_monstre) / 5) + $aleaArmNat;
-		
+
 		if ($id_fk_taille_monstre == TailleMonstre::ID_TAILLE_BOSS) {
 			$armure_naturelle_monstre = $armure_naturelle_monstre * 3;
 		}
