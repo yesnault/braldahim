@@ -51,7 +51,7 @@ class Bral_Validate_Inscription_EmailHobbit implements Zend_Validate_Interface {
 			Zend_Loader::loadClass("Jetable");
 			$jetableTable = new Jetable();
 			preg_match('@^[^.]+\@([^/]+)\.[^.]+$@i', $valeur, $matches);
-			$nomDomaine = '%'.$matches[1].'%';
+			$nomDomaine = $matches[1].'%';
 			$nb = $jetableTable->countByNom($nomDomaine);
 			if ($nb > 0) {
 				$this->_messages[] = "Cette adresse mail est invalide";
