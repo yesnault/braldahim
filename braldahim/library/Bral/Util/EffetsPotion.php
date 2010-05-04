@@ -213,9 +213,9 @@ class Bral_Util_EffetsPotion {
 				$effetPotionMonstreTable = new EffetPotionMonstre();
 				$data = array(
 				  'id_effet_potion_monstre' => $potion["id_potion"],
-				  'id_fk_monstre_cible_effet_potion_monstre' => $idMonstre,
-				  'id_fk_hobbit_lanceur_effet_potion_monstre' => $this->view->user->id_hobbit,
-				  'nb_tour_restant_effet_potion_monstre' => $nbTour,
+				  'id_fk_monstre_cible_effet_potion_monstre' => $monstre["id_monstre"],
+				  'id_fk_hobbit_lanceur_effet_potion_monstre' => $idHobbitSource,
+				  'nb_tour_restant_effet_potion_monstre' => $potion["nb_tour_restant"],
 				  'bm_effet_potion_monstre' => $potion["bm_effet_potion"],
 				);
 				$effetPotionMonstreTable->insert($data);
