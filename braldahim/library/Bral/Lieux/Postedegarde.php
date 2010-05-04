@@ -348,7 +348,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 
 		$data = array(
 			"etat_donjon_equipe" => "en_cours",
-			"date_fin_donjon_equipe" =>  Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d 00:00:00"), 41),
+			"date_fin_donjon_equipe" =>  Bral_Util_ConvertDate::get_date_add_day_to_date(date("Y-m-d 00:00:00"), 21),
 		);
 		$where = 'id_donjon_equipe='.$this->equipeCourante["id_donjon_equipe"];
 		$donjonEquipeTable->update($data, $where);
@@ -364,7 +364,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 			$message .= " (".$this->view->user->id_hobbit.") a ouvert la porte du Donjon.";
 			$message .= "Vous êtes entrés avec lui...".PHP_EOL;
 		}
-		$message .= "Vous avez maintenant deux lunes pour sortir victorieux ou sinon gare aux conséquences.".PHP_EOL.PHP_EOL;
+		$message .= "Vous avez maintenant une lune pour sortir victorieux ou sinon gare aux conséquences.".PHP_EOL.PHP_EOL;
 
 		Bral_Util_Donjon::messageSignature($message, $this->donjonCourant);
 		Bral_Util_Messagerie::envoiMessageAutomatique($this->donjonCourant["id_fk_pnj_donjon"], $idHobbit, $message, $this->view);
