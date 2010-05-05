@@ -1,12 +1,13 @@
 <div class="vue2d_case_num">
 <? if ($case["marcher"] != null && $case["marcher"]["case"] != null && $case["marcher"]["case"]["valid"] === true): 
-	$texte = "Environnement : ".addslashes($case["marcher"]["general"]["environnement"])."<br>";
+	$texte = "Cliquez sur <img src=\'/public/styles/braldahim_defaut/images/vue/pas2.png\'> pour Marcher<br><br>";
+	$texte .= "Environnement : ".addslashes($case["marcher"]["general"]["environnement"])."<br>";
 	$texte .= "Nombre PA nécessaire : ".$case["marcher"]["general"]["nb_pa"]."<br>";
 	if ($case["n_crevasses"] > 0) :
 		$texte .= "<br>Attention ! Il y a une crevasse découverte, quelqu\'un est tombé ici.<br>";
 	endif;
 ?>
-<img src='/public/styles/braldahim_defaut/images/vue/chaussures.png' <?=Bral_Helper_Tooltip::jsTip($texte, "Cliquez sur les chaussures pour Marcher", false, false) ?> alt='Cliquez pour Marcher' title='Cliquez pour Marcher'
+<img src='/public/styles/braldahim_defaut/images/vue/pas.png' <?=Bral_Helper_Tooltip::jsTip($texte, null, false, false) ?> alt='Cliquez pour Marcher' title='Cliquez pour Marcher'
 		onClick="Javascript:_get_('/competences/doaction?caction=do_competence_marcher&valeur_1=<?=$case["marcher"]["case"]["offset"]?>')" style="cursor:pointer;" />
 	<? endif; ?>
 </div>
