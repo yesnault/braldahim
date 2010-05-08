@@ -58,7 +58,7 @@ class Bral_Helper_Calendrier {
     		 $anneeTexte .= "<br>";
     	}
     	
-    	$anneeTexte .= "Année ".$annee." du Premier Âge";
+    	$anneeTexte .= "Année ".$annee." du Second Âge";
     	 
     	if ($numJour == 1 ||  $numJour == 365 || $numJour == 366) {
     		$retour .= "Yule";

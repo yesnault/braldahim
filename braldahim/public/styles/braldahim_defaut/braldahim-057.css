@@ -1255,6 +1255,7 @@ td.cases.actuelle {
 	position:absolute;
 	z-index: 999;
 	margin-top:-4px;
+	margin-left:10px;
 }
 
 #braldunjeu {
@@ -1268,7 +1269,7 @@ td.cases.actuelle {
 	text-indent:-999em;
 	width:190px;
 	position:absolute;
-	margin-top:25px;
+	margin-top:30px;
 	margin-left:-110px;
 }
 

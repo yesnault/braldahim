@@ -15,9 +15,7 @@
 	    <form action="/auth/login" method="post"> 
 	    
 	    <ul class="titre textalic textsized">
-		    <? if ($this->config->general->production == 1) :?>
-				Le jeu est actuellement en phase de beta-test Publique.
-			<? else: ?>
+		    <? if ($this->config->general->production != 1) :?>
 				<br>
 				Vous &ecirc;tes sur la version B&ecirc;ta Priv&eacute;e du jeu.
 			<? endif;?>
@@ -42,15 +40,11 @@
 		    <p><a href="/Perdu">Perdu ?</a> ou <a href="/inscription">Pas encore inscrit ?</a></p>
 		    <p><a href="http://regles.braldahim.com/wiki/Braldahim_sous_Internet_Explorer">Vous utilisez Internet Explorer ?</a></p>
 		    
-		    <? if ($this->config->general->production == 1) :?>
-			La fin de la phase de B&ecirc;ta-Test Publique n'est pas encore connue.<br>
-			Tous les comptes cr&eacute;&eacute;s seront supprimés &agrave; la fin de cette phase.<br>
-			<? endif;?>
 		   <br> 
 	    </form> 
 	    
 	    <? $s = ""; if ($this->nbConnecte > 1): $s = "s"; endif; ?>
-	    Il y a actuellement <?=$this->nbConnecte?> braldun<?=$s ?> connect&eacute;<?=$s?>
+	    Il y a actuellement <?=$this->nbConnecte?> Braldûn<?=$s ?> connect&eacute;<?=$s?>
 	</div>
 </div>
 </div>

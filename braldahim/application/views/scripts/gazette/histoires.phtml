@@ -27,7 +27,7 @@
 				<? endif;?>
 			</div>
 			
-			<? if ($info["lien_info_jeu"] != null) :?>
+			<? if ($info["lien_info_jeu"] != null && substr($info["lien_info_jeu"], 0, 26) == "http://forum.braldahim.com") :?>
 				<br>Les Braldûns en discutent
 				<a href="<?=$info["lien_info_jeu"]?>">sur le forum.</a>
 			<? endif;?>
