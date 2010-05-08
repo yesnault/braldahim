@@ -15,7 +15,7 @@ class Bral_Competences_Connaissancebralduns extends Bral_Competences_Competence 
 		Zend_Loader::loadClass("Bral_Util_Commun");
 		
 		/*
-		 * Si le braldun n'a pas de PA, on ne fait aucun traitement
+		 * Si le Braldûn n'a pas de PA, on ne fait aucun traitement
 		 */
 		$this->calculNbPa();
 		if ($this->view->assezDePa == false) {

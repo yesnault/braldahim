@@ -75,7 +75,7 @@ class GardiennageController extends Zend_Controller_Action {
 			Zend_Loader::loadClass('Zend_Filter_StripTags'); 
             $f = new Zend_Filter_StripTags(); 
             
-			// verification que le braldun peut garder ce braldun
+			// verification que le Braldûn peut garder ce braldun
 			$gardiennageTable = new Gardiennage();
 			$gardiennage = $gardiennageTable->findGardeEnCours($this->view->user->id_braldun);
 			$garde = false;

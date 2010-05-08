@@ -556,7 +556,7 @@ abstract class Bral_Competences_Competence {
 	}
 
 	protected function calculEchoppe($metier) {
-		// On regarde si le braldun est dans une de ses echopppes
+		// On regarde si le Braldûn est dans une de ses echopppes
 		$this->view->estSurEchoppe = false;
 		Zend_Loader::loadClass("Echoppe");
 		$echoppeTable = new Echoppe();
@@ -583,7 +583,7 @@ abstract class Bral_Competences_Competence {
 	}
 
 	protected function calculCharrette() {
-		// On regarde si le braldun possède une charrette
+		// On regarde si le Braldûn possède une charrette
 		$this->view->possedeCharrette = false;
 		Zend_Loader::loadClass("Charrette");
 		$charretteTable = new Charrette();

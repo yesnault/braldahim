@@ -16,7 +16,7 @@ class Bral_Competences_Connaissancemonstres extends Bral_Competences_Competence 
 		Zend_Loader::loadClass("Monstre");
 
 		/*
-		 * Si le braldun n'a pas de PA, on ne fait aucun traitement
+		 * Si le Braldûn n'a pas de PA, on ne fait aucun traitement
 		 */
 		$this->calculNbPa();
 		if ($this->view->assezDePa == false) {

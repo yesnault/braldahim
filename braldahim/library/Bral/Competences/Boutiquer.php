@@ -16,7 +16,7 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Echoppe");
 		Zend_Loader::loadClass("PetitEquipement");
 
-		// On regarde si le braldun est dans une de ses echopppes
+		// On regarde si le Braldûn est dans une de ses echopppes
 		$echoppeTable = new Echoppe();
 		$echoppes = $echoppeTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun);
 

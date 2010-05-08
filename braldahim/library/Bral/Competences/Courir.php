@@ -21,7 +21,7 @@ class Bral_Competences_Courir extends Bral_Competences_Competence {
 		$nombreCharrette = $charretteTable->countByIdBraldun($this->view->user->id_braldun);
 
 		/*
-		 * Si le braldun n'a pas de PA, on ne fait aucun traitement
+		 * Si le Braldûn n'a pas de PA, on ne fait aucun traitement
 		 */
 		$this->calculNbPa();
 		if ($this->view->assezDePa = false) {

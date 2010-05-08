@@ -302,7 +302,7 @@ class Bral_Lieux_Postedegarde extends Bral_Lieux_Lieu {
 	}
 
 	private function prepareDescente() {
-		// verification que tous les bralduns de l'équipe sont sur la case.
+		// verification que tous les Braldûns de l'équipe sont sur la case.
 		Zend_Loader::loadClass('DonjonBraldun');
 		$donjonBraldunTable = new DonjonBraldun();
 		$donjonBraldun = $donjonBraldunTable->findByIdEquipe($this->equipeCourante["id_donjon_equipe"]);

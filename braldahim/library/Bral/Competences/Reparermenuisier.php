@@ -72,7 +72,7 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 		$this->view->nom_systeme = $this->nom_systeme;
 	}
 
-	// Récupération des charrettes portées par les bralduns, sur la cases de l'échoppe.
+	// Récupération des charrettes portées par les Braldûns, sur la cases de l'échoppe.
 	private function prepareCharrettes() {
 		$tabCharrettes = null;
 

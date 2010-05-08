@@ -72,7 +72,7 @@ class Bral_Util_Marcher {
 		}
 
 		/*
-		 * Si le braldun n'a pas de PA, on ne fait aucun traitement
+		 * Si le Braldûn n'a pas de PA, on ne fait aucun traitement
 		 */
 		$assezDePa = $this->calculNbPa($braldun, $case["nom_systeme_environnement"], $retour["estSurRoute"], $construireRoute);
 		$retour["nb_cases"] = $this->nb_cases;
@@ -181,7 +181,7 @@ class Bral_Util_Marcher {
 	}
 
 	/* Pour marcher, le nombre de PA utilise est variable suivant l'environnement
-	 * sur lequel le braldun marche :
+	 * sur lequel le Braldûn marche :
 	 * Plaine : 1 PA jusqu'a 2 cases
 	 * Bosquet : 1 PA pour 1 case
 	 * Marais : 2 PA pour 1 case

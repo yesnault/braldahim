@@ -221,7 +221,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 
 		if ($this->view->typeAlimentCourant['type_bbdf_type_aliment'] == 'quintuple') {
 			$tabDestinations["case"]["possible"] = true;
-			$tabDestinations["case"]["nom"] = "Tous les bralduns sur votre case";
+			$tabDestinations["case"]["nom"] = "Tous les Braldûns sur votre case";
 			$tabDestinations["case"]["poids_apres_ingredient"] = 10000;
 			$tabDestinations["case"]["poids_restant"] = 10000;
 		} else {
@@ -643,7 +643,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		$this->view->idPotion = $potion["id_potion"];
 	}
 
-	// nourrit tous les bralduns sur la cases
+	// nourrit tous les Braldûns sur la cases
 	private function appliqueQuintuple() {
 		$braldunTable = new Braldun();
 		$bralduns = $braldunTable->findByCase($this->view->user->x_braldun, $this->view->user->y_braldun, $this->view->user->z_braldun, -1, false);
