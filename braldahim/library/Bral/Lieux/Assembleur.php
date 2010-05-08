@@ -261,7 +261,7 @@ class Bral_Lieux_Assembleur extends Bral_Lieux_Lieu {
 		$this->view->materielBase = $materielBase;
 		$this->view->materielAAssembler = $materielAAssembler;
 		
-		$details = "[h".$this->view->user->id_braldun."] a assemblé le matériel n°".$materielAAssembler["id_materiel"];
+		$details = "[b".$this->view->user->id_braldun."] a assemblé le matériel n°".$materielAAssembler["id_materiel"];
 		Zend_Loader::loadClass("Bral_Util_Materiel");
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_UTILISER_ID, $materielAAssembler["id_materiel"], $details);
 	}

@@ -101,7 +101,7 @@ abstract class Bral_Boutique_Boutique {
 	 */
 	private function majEvenementsBoutique($detailsBot) {
 		$this->idTypeEvenement = $this->view->config->game->evenements->type->boutique;
-		$this->detailEvenement = "[h".$this->view->user->id_braldun."] a utilisé les services d'une boutique";
+		$this->detailEvenement = "[b".$this->view->user->id_braldun."] a utilisé les services d'une boutique";
 		Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_braldun);
 	}
 

@@ -105,7 +105,7 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 			if ($i < 2) {
 				$texte .= ",";
 			}
-			$details = "[h".$this->view->user->id_braldun."] a échangé la rune n°".$this->view->labanRunes[$idTypeRune]["runes"][$i]["id_rune_laban_rune"]. " chez l'échangeur";
+			$details = "[b".$this->view->user->id_braldun."] a échangé la rune n°".$this->view->labanRunes[$idTypeRune]["runes"][$i]["id_rune_laban_rune"]. " chez l'échangeur";
 			Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_CREATION_ID, $this->view->labanRunes[$idTypeRune]["runes"][$i]["id_rune_laban_rune"], $details);
 		}
 
@@ -149,7 +149,7 @@ class Bral_Lieux_Echangeurrune extends Bral_Lieux_Lieu {
 
 		$this->view->texte = $texte;
 
-		$details = "L'échangeur de rune a donné la rune n°".$idRune. " à [h".$this->view->user->id_braldun."]";
+		$details = "L'échangeur de rune a donné la rune n°".$idRune. " à [b".$this->view->user->id_braldun."]";
 		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_CREATION_ID, $idRune, $details);
 	}
 

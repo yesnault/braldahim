@@ -109,7 +109,7 @@ abstract class Bral_Hotel_Hotel {
 	 */
 	private function majEvenementsHotel($detailsBot) {
 		$this->idTypeEvenement = $this->view->config->game->evenements->type->service;
-		$this->detailEvenement = "[h".$this->view->user->id_braldun."] a utilisé les services de l'Hôtel des Ventes";
+		$this->detailEvenement = "[b".$this->view->user->id_braldun."] a utilisé les services de l'Hôtel des Ventes";
 		Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, $this->idTypeEvenement, $this->detailEvenement, $detailsBot, $this->view->user->niveau_braldun);
 	}
 

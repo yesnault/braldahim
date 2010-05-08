@@ -143,9 +143,9 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$this->setEvenementQueSurOkJet1(false);
 
 		if ($destination == "porte") {
-			$details = "[h".$this->view->user->id_braldun."] a mis une pièce d'équipement";
+			$details = "[b".$this->view->user->id_braldun."] a mis une pièce d'équipement";
 		} else {
-			$details = "[h".$this->view->user->id_braldun."] a enlevé une pièce d'équipement";
+			$details = "[b".$this->view->user->id_braldun."] a enlevé une pièce d'équipement";
 		}
 		$this->setDetailsEvenement($details, $this->view->config->game->evenements->type->competence);
 
@@ -202,7 +202,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("Bral_Util_Quete");
 		$this->view->estQueteEvenement = Bral_Util_Quete::etapeEquiper($this->view->user, $equipement["id_type_emplacement"]);
 
-		$details = "[h".$this->view->user->id_braldun."] a mis une pièce d'équipement";
+		$details = "[b".$this->view->user->id_braldun."] a mis une pièce d'équipement";
 		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_EQUIPER_ID, $equipement["id_equipement"], $details);
 	}
 
@@ -220,7 +220,7 @@ class Bral_Competences_Sequiper extends Bral_Competences_Competence {
 		$where = "id_equipement_hequipement=".$equipement["id_equipement"];
 		$braldunEquipementTable->delete($where);
 
-		$details = "[h".$this->view->user->id_braldun."] a enlevé une pièce d'équipement";
+		$details = "[b".$this->view->user->id_braldun."] a enlevé une pièce d'équipement";
 		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_EQUIPER_ID, $equipement["id_equipement"], $details);
 	}
 

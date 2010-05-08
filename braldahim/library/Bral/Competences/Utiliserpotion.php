@@ -381,12 +381,12 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 
 		Zend_Loader::loadClass("Bral_Util_EffetsPotion");
 
-		$this->detailEvenement = "[h".$this->view->user->id_braldun."] a ";
+		$this->detailEvenement = "[b".$this->view->user->id_braldun."] a ";
 		if ($this->retourPotion['cible']["id_cible"] == $this->view->user->id_braldun && $utiliserPotionBraldun === true) {
 			$this->detailEvenement .= "bu une potion";
 		} else {
 			if ($this->idBraldunCible != -1) {
-				$this->detailEvenement .= "utilisé une potion sur le braldun [h".$this->retourPotion['cible']["id_cible"]."]";
+				$this->detailEvenement .= "utilisé une potion sur le braldun [b".$this->retourPotion['cible']["id_cible"]."]";
 			} else {
 				$this->detailEvenement .= "utilisé une potion sur le monstre [m".$this->retourPotion['cible']["id_cible"]."]";
 			}
@@ -437,15 +437,15 @@ class Bral_Competences_Utiliserpotion extends Bral_Competences_Competence {
 		Zend_Loader::loadClass("EquipementBonus");
 		if ($potion["type_potion"] == "vernis_enchanteur") {
 			$this->appliqueVernisEnchanteur($equipement, $potion);
-			$details = "[h".$this->view->user->id_braldun."] a verni la pièce d'équipement n°".$equipement["id_equipement"];
+			$details = "[b".$this->view->user->id_braldun."] a verni la pièce d'équipement n°".$equipement["id_equipement"];
 			Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_VERNIR_ID, $equipement["id_equipement"], $details);
-			$details = "[h".$this->view->user->id_braldun."] a utilisé le verni n°".$potion["id_potion"]." sur la pièce d'équipement n°".$equipement["id_equipement"];
+			$details = "[b".$this->view->user->id_braldun."] a utilisé le verni n°".$potion["id_potion"]." sur la pièce d'équipement n°".$equipement["id_equipement"];
 			Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_UTILISER_ID, $potion["id_potion"], $details);
 		} else { // reparateur
 			$this->appliqueVernisReparateur($potion, $equipement);
-			$details = "[h".$this->view->user->id_braldun."] a réparé la pièce d'équipement n°".$equipement["id_equipement"];
+			$details = "[b".$this->view->user->id_braldun."] a réparé la pièce d'équipement n°".$equipement["id_equipement"];
 			Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_REPARER_ID, $equipement["id_equipement"], $details);
-			$details = "[h".$this->view->user->id_braldun."] a utilisé le verni n°".$potion["id_potion"]." pour réparer la pièce d'équipement n°".$equipement["id_equipement"];
+			$details = "[b".$this->view->user->id_braldun."] a utilisé le verni n°".$potion["id_potion"]." pour réparer la pièce d'équipement n°".$equipement["id_equipement"];
 			Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_UTILISER_ID, $potion["id_potion"], $details);
 		}
 

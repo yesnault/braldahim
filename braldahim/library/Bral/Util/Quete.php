@@ -618,7 +618,7 @@ class Bral_Util_Quete {
 		);
 		$coffreRuneTable->insert($data);
 
-		$details = "[h".$braldun->id_braldun."] a reçu la rune n°".$idRune. " en récompense de quête";
+		$details = "[b".$braldun->id_braldun."] a reçu la rune n°".$idRune. " en récompense de quête";
 		Zend_Loader::loadClass("Bral_Util_Rune");
 		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_CREATION_ID, $idRune, $details);
 

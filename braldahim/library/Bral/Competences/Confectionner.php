@@ -390,7 +390,7 @@ class Bral_Competences_Confectionner extends Bral_Competences_Competence {
 			$statsFabricants->insertOrUpdate($dataFabricants);
 
 			if ($this->recetteEquipementACreer["nom_systeme_type_piece"] != "munition") {
-				$details = "[h".$this->view->user->id_braldun."] a confectionné la pièce d'équipement n°".$id_equipement;
+				$details = "[b".$this->view->user->id_braldun."] a confectionné la pièce d'équipement n°".$id_equipement;
 				Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_CREATION_ID, $id_equipement, $details);
 			}
 		} else {

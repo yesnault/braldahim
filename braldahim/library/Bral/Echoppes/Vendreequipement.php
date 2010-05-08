@@ -198,7 +198,7 @@ class Bral_Echoppes_Vendreequipement extends Bral_Echoppes_Echoppe {
 		$this->calculPrixMinerai($id_equipement, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
 		$this->calculPrixPartiePlante($id_equipement, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
 
-		$details = "[h".$this->view->user->id_braldun."] a mis en vente la pièce d'équipement n°".$id_equipement. " dans son échoppe";
+		$details = "[b".$this->view->user->id_braldun."] a mis en vente la pièce d'équipement n°".$id_equipement. " dans son échoppe";
 		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_VENDRE_ID, $id_equipement, $details);
 	}
 

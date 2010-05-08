@@ -168,7 +168,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 
 				$this->cible["est_ko_braldun"] = "non";
 				$id_type_evenement = self::$config->game->evenements->type->attaquer;
-				$details = "[m".$this->monstre["id_monstre"]."] a $verbe le braldun [h".$this->cible["id_braldun"]."]";
+				$details = "[m".$this->monstre["id_monstre"]."] a $verbe le braldun [b".$this->cible["id_braldun"]."]";
 				$detailsBot = $this->getDetailsBotAttaque($this->cible, $jetAttaquant, $jetCible, $jetDegat, $critique, $pvPerdus, false, $pieceCibleAbimee);
 
 				// mise a jour de l'événement avant la riposte
@@ -205,14 +205,14 @@ abstract class Bral_Monstres_Competences_Attaque {
 
 			$this->updateCible();
 			$id_type_evenement = self::$config->game->evenements->type->attaquer;
-			$details = "[m".$this->monstre["id_monstre"]."] a $verbe le braldun [h".$this->cible["id_braldun"]."] qui a esquivé l'attaque";
+			$details = "[m".$this->monstre["id_monstre"]."] a $verbe le braldun [b".$this->cible["id_braldun"]."] qui a esquivé l'attaque";
 			$detailsBot = $this->getDetailsBotAttaque($this->cible, $jetAttaquant, $jetCible);
 			Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_braldun"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_braldun"], $this->view, $this->cible["nb_dla_jouees_braldun"], $this->monstre["nb_dla_jouees_monstre"], Bral_Util_Evenement::ATTAQUE_ESQUIVEE);
 		} else {
 			// En cas d'esquive parfaite : Aucun malus appliqué.
 			Bral_Util_Attaque::calculStatutEngage(&$this->cible, true);
 			$id_type_evenement = self::$config->game->evenements->type->attaquer;
-			$details = "[m".$this->monstre["id_monstre"]."] a $verbe le braldun [h".$this->cible["id_braldun"]."] qui a esquivé l'attaque parfaitement";
+			$details = "[m".$this->monstre["id_monstre"]."] a $verbe le braldun [b".$this->cible["id_braldun"]."] qui a esquivé l'attaque parfaitement";
 			$detailsBot = $this->getDetailsBotAttaque($this->cible, $jetAttaquant, $jetCible);
 			Bral_Util_Evenement::majEvenementsFromVieMonstre($this->cible["id_braldun"], $this->monstre["id_monstre"], $id_type_evenement, $details, $detailsBot, $this->cible["niveau_braldun"], $this->view, $this->cible["nb_dla_jouees_braldun"], $this->monstre["nb_dla_jouees_monstre"], Bral_Util_Evenement::ATTAQUE_ESQUIVEE);
 		}
@@ -229,7 +229,7 @@ abstract class Bral_Monstres_Competences_Attaque {
 		$this->cible["est_ko_braldun"] = "oui";
 		$this->cible["date_fin_tour_braldun"] = date("Y-m-d H:i:s");
 		$id_type_evenement = self::$config->game->evenements->type->kobraldun;
-		$details = "[m".$this->monstre["id_monstre"]."] a mis KO le braldun [h".$this->cible["id_braldun"]."]";
+		$details = "[m".$this->monstre["id_monstre"]."] a mis KO le braldun [b".$this->cible["id_braldun"]."]";
 		Bral_Util_Evenement::majEvenementsFromVieMonstre(null, $this->monstre["id_monstre"], $id_type_evenement, $details, $this->monstre["niveau_monstre"], "", $this->view, $this->cible["nb_dla_jouees_braldun"], $this->monstre["nb_dla_jouees_monstre"], Bral_Util_Evenement::ATTAQUE_REUSSIE);
 
 		return $details;

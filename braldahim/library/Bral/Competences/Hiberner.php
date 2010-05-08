@@ -48,7 +48,7 @@ class Bral_Competences_Hiberner extends Bral_Competences_Competence {
 		$braldunTable->update($data, $where);
 		
 		$id_type = $this->view->config->game->evenements->type->special;
-		$details = "[h".$this->view->user->id_braldun."] rentre en hibernation demain";
+		$details = "[b".$this->view->user->id_braldun."] rentre en hibernation demain";
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setEvenementQueSurOkJet1(false);
 	}

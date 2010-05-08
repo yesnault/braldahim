@@ -193,7 +193,7 @@ class Bral_Competences_Reparermenuisier extends Bral_Competences_Competence {
 		if ($this->view->okJet1 === true) {
 			$this->calculReparer($charrette);
 			$id_type = $this->view->config->game->evenements->type->competence;
-			$details = "[h".$this->view->user->id_braldun."] a réparé un matériel";
+			$details = "[b".$this->view->user->id_braldun."] a réparé un matériel";
 			$this->setDetailsEvenement($details, $id_type);
 		}
 		$this->setEvenementQueSurOkJet1(false);

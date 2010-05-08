@@ -67,10 +67,10 @@ class Bral_Charrette_Lacher extends Bral_Charrette_Charrette {
 		$this->calculBalanceFaim();
 
 		$id_type = $this->view->config->game->evenements->type->deposer;
-		$details = "[h".$this->view->user->id_braldun."] a lâché sa charrette";
+		$details = "[b".$this->view->user->id_braldun."] a lâché sa charrette";
 		$this->setDetailsEvenement($details, $id_type);
 		
-		$details = "[h".$this->view->user->id_braldun."] a lâché la charrette n°".$this->view->idCharrette ;
+		$details = "[b".$this->view->user->id_braldun."] a lâché la charrette n°".$this->view->idCharrette ;
 		Zend_Loader::loadClass("Bral_Util_Materiel");
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_UTILISER_ID, $this->view->idCharrette , $details);
 	}

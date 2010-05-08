@@ -110,7 +110,7 @@ class Bral_Competences_Identifierrune extends Bral_Competences_Competence {
 		$where = 'id_rune = '.$rune["id_rune"];
 		$runeTable->update($data, $where);
 		
-		$details = "[h".$this->view->user->id_braldun."] a identifié la rune n°".$rune["id_rune"];
+		$details = "[b".$this->view->user->id_braldun."] a identifié la rune n°".$rune["id_rune"];
 		Zend_Loader::loadClass("Bral_Util_Rune");
 		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_IDENTIFIER_ID, $rune["id_rune"], $details);
 	}

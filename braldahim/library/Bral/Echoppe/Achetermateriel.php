@@ -471,7 +471,7 @@ class Bral_Echoppe_Achetermateriel extends Bral_Echoppe_Echoppe {
 			$this->view->detailPrix = mb_substr($this->view->detailPrix, 0, -2);
 		}
 
-		$details = "[h".$this->view->user->id_braldun."] a acheté le matériel n°".$this->idMateriel. " dans l'échoppe";
+		$details = "[b".$this->view->user->id_braldun."] a acheté le matériel n°".$this->idMateriel. " dans l'échoppe";
 		Zend_Loader::loadClass("Bral_Util_Materiel");
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_ACHETER_ID, $this->idMateriel, $details);
 	}

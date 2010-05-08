@@ -22,7 +22,7 @@ class Bral_Util_Lien {
 		create_function('$matches', self::getFunctionMonstre($avecJs)) , $texteOriginal);
 		
 		// Braldun
-		$texte = preg_replace_callback("/\[h(.*?)]/si", 
+		$texte = preg_replace_callback("/\[b(.*?)]/si", 
 		create_function('$matches', self::getFunctionBraldun($avecJs)), $texte);
 		
 		// Materiel
@@ -53,10 +53,10 @@ class Bral_Util_Lien {
 	}
 	
 	private static function getFunctionBraldun($avecJs = true) {
-		$retour = '$h = new Braldun();';
+		$retour = '$b = new Braldun();';
 		$retour .= '$nom = "";';
 		if ($avecJs) $retour .= '$nom = "<label class=\'alabel\' onclick=\"javascript:ouvrirWin(\'/voir/braldun/?braldun=".$matches[1]."\');\">";';
-		$retour .= '$nom .= $h->findNomById($matches[1]);';
+		$retour .= '$nom .= $b->findNomById($matches[1]);';
 		if ($avecJs) $retour .= '$nom .= "</label>";';
 		$retour .= 'return $nom;';
 		return $retour;

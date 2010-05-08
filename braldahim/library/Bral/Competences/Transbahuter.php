@@ -213,7 +213,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				Bral_Util_Poids::calculPoidsCharrette($this->view->user->id_braldun, true);
 	
 				$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
-				$details = "[h".$this->view->user->id_braldun."] a transbahuté des choses depuis la [t".$this->view->tabEndroit[$idDepart]["id_charrette"]. "] (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+				$details = "[b".$this->view->user->id_braldun."] a transbahuté des choses depuis la [t".$this->view->tabEndroit[$idDepart]["id_charrette"]. "] (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 				Zend_Loader::loadClass("Bral_Util_Materiel");
 				Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idDepart]["id_charrette"], $details);
 			}
@@ -222,7 +222,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 				Bral_Util_Poids::calculPoidsCharrette($this->view->tabEndroit[$idArrivee]["id_braldun_charrette"], true);
 	
 				$texte = $this->calculTexte($this->view->tabEndroit[$idDepart]["nom_systeme"], $this->view->tabEndroit[$idArrivee]["nom_systeme"]);
-				$details = "[h".$this->view->user->id_braldun."] a transbahuté des choses dans la [t".$this->view->tabEndroit[$idArrivee]["id_charrette"]. "] (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+				$details = "[b".$this->view->user->id_braldun."] a transbahuté des choses dans la [t".$this->view->tabEndroit[$idArrivee]["id_charrette"]. "] (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 				Zend_Loader::loadClass("Bral_Util_Materiel");
 				Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $this->view->tabEndroit[$idArrivee]["id_charrette"], $details);
 			}
@@ -231,11 +231,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 			$this->detailEvenement = "";
 			if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Element") {
 				$idEvenement = $this->view->config->game->evenements->type->ramasser;
-				$this->detailEvenement = "[h".$this->view->user->id_braldun."] a ramassé des éléments à terre ";
+				$this->detailEvenement = "[b".$this->view->user->id_braldun."] a ramassé des éléments à terre ";
 			}
 			if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Element") {
 				$idEvenement = $this->view->config->game->evenements->type->deposer;
-				$this->detailEvenement = "[h".$this->view->user->id_braldun."] a déposé des éléments à terre ";
+				$this->detailEvenement = "[b".$this->view->user->id_braldun."] a déposé des éléments à terre ";
 			}
 			if ($this->view->tabEndroit[$idDepart]["nom_systeme"] == "Coffre" || $this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Coffre" ) {
 				$idEvenement = $this->view->config->game->evenements->type->service;
@@ -247,11 +247,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					
 					$messageCible = $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre coffre : ".PHP_EOL;
 					$messageCible .= $this->view->elementsRetires;
-					$this->detailEvenement = "[h".$this->view->user->id_braldun."] a transbahuté des éléments dans le coffre de [h".$this->view->id_braldun_coffre."]";
+					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans le coffre de [b".$this->view->id_braldun_coffre."]";
 					$this->setDetailsEvenementCible($this->view->id_braldun_coffre, "braldun", 0, $messageCible);
 				}
 				else {
-					$this->detailEvenement = "[h".$this->view->user->id_braldun."] a utilisé les services de la banque ";
+					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a utilisé les services de la banque ";
 				}
 			}
 			if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Charrette" ) {
@@ -264,11 +264,11 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					
 					$messageCible = $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre charrette : ".PHP_EOL;
 					$messageCible .= $this->view->elementsRetires;
-					$this->detailEvenement = "[h".$this->view->user->id_braldun."] a transbahuté des éléments dans la charrette de [h".$this->view->tabEndroit[$idArrivee]["id_braldun_charrette"]."]";
+					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans la charrette de [b".$this->view->tabEndroit[$idArrivee]["id_braldun_charrette"]."]";
 					$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_braldun_charrette"], "braldun", 0, $messageCible);	
 				}
 				else {
-					$this->detailEvenement = "[h".$this->view->user->id_braldun."] a transbahuté des éléments dans sa charrette ";
+					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans sa charrette ";
 				}
 			}
 			if ($this->view->tabEndroit[$idArrivee]["nom_systeme"] == "Echoppe" ) {
@@ -281,16 +281,16 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 					
 					$messageCible = $this->view->user->prenom_braldun. " ". $this->view->user->nom_braldun. " a transbahuté ces éléments dans votre échoppe : ".PHP_EOL;
 					$messageCible .= $this->view->elementsRetires;
-					$this->detailEvenement = "[h".$this->view->user->id_braldun."] a transbahuté des éléments dans l'échoppe de [h".$this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"]."]";
+					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans l'échoppe de [b".$this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"]."]";
 					$this->setDetailsEvenementCible($this->view->tabEndroit[$idArrivee]["id_braldun_echoppe"], "braldun", 0, $messageCible);	
 				}
 				else {
-					$this->detailEvenement = "[h".$this->view->user->id_braldun."] a transbahuté des éléments dans son échoppe ";
+					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments dans son échoppe ";
 				}
 			}
 			if ($this->detailEvenement == "") {
 				$idEvenement = $this->view->config->game->evenements->type->transbahuter;
-				$this->detailEvenement = "[h".$this->view->user->id_braldun."] a transbahuté des éléments ";
+				$this->detailEvenement = "[b".$this->view->user->id_braldun."] a transbahuté des éléments ";
 			}
 			
 			$this->setDetailsEvenement($this->detailEvenement, $idEvenement);
@@ -567,7 +567,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$this->view->elementsRetires .= "Equipement n°".$equipement["id_equipement"]." : ".$equipement["nom"].", ";
 	
 							$texte = $this->calculTexte($depart, $arrivee);
-							$details = "[h".$this->view->user->id_braldun."] a transbahuté la pièce d'équipement n°".$equipement["id_equipement"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+							$details = "[b".$this->view->user->id_braldun."] a transbahuté la pièce d'équipement n°".$equipement["id_equipement"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 							Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_TRANSBAHUTER_ID, $equipement["id_equipement"], $details);
 						}
 					}
@@ -736,7 +736,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$this->view->elementsRetires .= "Rune n°".$rune["id_rune"]." : ".$nomRune.", ";
 	
 							$texte = $this->calculTexte($depart, $arrivee);
-							$details = "[h".$this->view->user->id_braldun."] a transbahuté la rune n°".$rune["id_rune"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+							$details = "[b".$this->view->user->id_braldun."] a transbahuté la rune n°".$rune["id_rune"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 							Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_TRANSBAHUTER_ID, $rune["id_rune"], $details);
 						}
 					}
@@ -910,7 +910,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$this->view->elementsRetires .= $potion["nom_type"]." ".$potion["nom"]. " n°".$potion["id_potion"].", ";
 	
 							$texte = $this->calculTexte($depart, $arrivee);
-							$details = "[h".$this->view->user->id_braldun."] a transbahuté ".$potion["nom_type"]." ".$potion["nom"]. " n°".$potion["id_potion"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+							$details = "[b".$this->view->user->id_braldun."] a transbahuté ".$potion["nom_type"]." ".$potion["nom"]. " n°".$potion["id_potion"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 							Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_TRANSBAHUTER_ID, $potion["id_potion"], $details);
 						}
 					}
@@ -2084,7 +2084,7 @@ class Bral_Competences_Transbahuter extends Bral_Competences_Competence {
 							$this->view->elementsRetires .= "Matériel n°".$materiel["id_materiel"]." : ".$materiel["nom"].", ";
 	
 							$texte = $this->calculTexte($depart, $arrivee);
-							$details = "[h".$this->view->user->id_braldun."] a transbahuté le matériel n°".$materiel["id_materiel"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
+							$details = "[b".$this->view->user->id_braldun."] a transbahuté le matériel n°".$materiel["id_materiel"]. " (".$texte["departTexte"]." vers ".$texte["arriveeTexte"].")";
 							Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_TRANSBAHUTER_ID, $materiel["id_materiel"], $details);
 						}
 					}

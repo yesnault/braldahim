@@ -165,7 +165,7 @@ class Bral_Util_Donjon {
 		Bral_Util_Donjon::messageSignature($detailsBot, $donjon);
 		$detailsBot = Bral_Util_Lien::remplaceBaliseParNomEtJs($detailsBot, false);
 
-		$details = "[h".$braldun["id_braldun"]."] a échoué au Donjon, face à [m".$equipe["id_fk_monstre_donjon_equipe"]."]";
+		$details = "[b".$braldun["id_braldun"]."] a échoué au Donjon, face à [m".$equipe["id_fk_monstre_donjon_equipe"]."]";
 
 		$config = Zend_Registry::get('config');
 		$idTypeEvenementCible = $config->game->evenements->type->ko;
@@ -440,7 +440,7 @@ class Bral_Util_Donjon {
 		Bral_Util_Donjon::messageSignature($detailsBot, $donjon);
 		$detailsBot = Bral_Util_Lien::remplaceBaliseParNomEtJs($detailsBot, false);
 
-		$details = "[h".$braldun["id_braldun"]."] sort victorieux du Donjon face à [m".$equipe["id_fk_monstre_donjon_equipe"]."]";
+		$details = "[b".$braldun["id_braldun"]."] sort victorieux du Donjon face à [m".$equipe["id_fk_monstre_donjon_equipe"]."]";
 
 		$config = Zend_Registry::get('config');
 		$idTypeEvenementCible = $config->game->evenements->type->special;

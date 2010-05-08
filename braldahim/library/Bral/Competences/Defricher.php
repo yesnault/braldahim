@@ -60,7 +60,7 @@ class Bral_Competences_Defricher extends Bral_Competences_Competence {
 			$this->view->routeTrouvee = true;
 
 			$idType = $this->view->config->game->evenements->type->competence;
-			$details = "[h".$this->view->user->id_braldun."] a défriché une route";
+			$details = "[b".$this->view->user->id_braldun."] a défriché une route";
 			$this->setDetailsEvenement($details, $idType);
 			$this->setEvenementQueSurOkJet1(false);
 			

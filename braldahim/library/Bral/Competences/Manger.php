@@ -111,7 +111,7 @@ class Bral_Competences_Manger extends Bral_Competences_Competence {
 		$this->calculManger($aliment, $boisson);
 
 		$idType = $this->view->config->game->evenements->type->competence;
-		$details = "[h".$this->view->user->id_braldun."] a mangé";
+		$details = "[b".$this->view->user->id_braldun."] a mangé";
 		$this->setDetailsEvenement($details, $idType);
 		$this->setEvenementQueSurOkJet1(false);
 

@@ -60,7 +60,7 @@ class Bral_Soule_Desinscription extends Bral_Soule_Soule {
 			$this->view->user->castars_braldun = 0;
 		}
 
-		$details = "[h".$this->view->user->id_braldun."] s'est désinscrit du match sur le ".$this->view->match["nom_soule_terrain"];
+		$details = "[b".$this->view->user->id_braldun."] s'est désinscrit du match sur le ".$this->view->match["nom_soule_terrain"];
 		$idType = $this->view->config->game->evenements->type->soule;
 		$this->setDetailsEvenement($details, $idType);
 

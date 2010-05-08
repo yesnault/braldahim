@@ -194,7 +194,7 @@ class Bral_Echoppes_Vendrealiment extends Bral_Echoppes_Echoppe {
 		$this->calculPrixMinerai($id_aliment, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
 		$this->calculPrixPartiePlante($id_aliment, $prix_1, $prix_2, $prix_3, $unite_1, $unite_2, $unite_3);
 
-		$details = "[h".$this->view->user->id_braldun."] a mis en vente le matériel n°".$id_aliment. " dans son échoppe";
+		$details = "[b".$this->view->user->id_braldun."] a mis en vente le matériel n°".$id_aliment. " dans son échoppe";
 //		Zend_Loader::loadClass("Bral_Util_Aliment");
 //		Bral_Util_Aliment::insertHistorique(Bral_Util_Aliment::HISTORIQUE_VENDRE_ID, $id_aliment, $details);
 	}

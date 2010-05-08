@@ -98,7 +98,7 @@ abstract class Bral_Lieux_Lieu {
 	private function majEvenements($detailsBot) {
 		Zend_Loader::loadClass("Bral_Util_Evenement");
 		$id_type = $this->view->config->game->evenements->type->service;
-		$details = "[h".$this->view->user->id_braldun."] a utilisé un service";
+		$details = "[b".$this->view->user->id_braldun."] a utilisé un service";
 		Bral_Util_Evenement::majEvenements($this->view->user->id_braldun, $id_type, $details, $detailsBot, $this->view->user->niveau_braldun);
 	}
 

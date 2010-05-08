@@ -444,7 +444,7 @@ class InscriptionController extends Zend_Controller_Action {
 				$dataParents["id_fk_pere_braldun"] = $pere["id_braldun"];
 				$dataParents["id_fk_mere_braldun"] = $mere["id_braldun"];
 
-				$detailEvenement =  "[h".$mere["id_braldun"]."] s'est mariée avec [h".$pere["id_braldun"]."]" ;
+				$detailEvenement =  "[b".$mere["id_braldun"]."] s'est mariée avec [b".$pere["id_braldun"]."]" ;
 				$detailsBot = "Mariage effectué à  ".Bral_Util_ConvertDate::get_datetime_mysql_datetime('H:i:s \l\e d/m/y',date("Y-m-d H:i:s")).".";
 				$detailsBot .= " Consultez votre onglet Famille pour plus de détails.";
 

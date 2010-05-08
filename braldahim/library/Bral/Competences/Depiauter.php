@@ -236,7 +236,7 @@ class Bral_Competences_Depiauter extends Bral_Competences_Competence {
 			$libelleMonstreGibier = "gibier";
 		}
 
-		$details = "[h".$this->view->user->id_braldun."] a dépiauté le ".$libelleMonstreGibier." [m".$id_monstre."]";
+		$details = "[b".$this->view->user->id_braldun."] a dépiauté le ".$libelleMonstreGibier." [m".$id_monstre."]";
 		$this->setDetailsEvenement($details, $idTypeEvenement);
 
 		Bral_Util_Evenement::majEvenements($id_monstre, $idTypeEvenement, $details, "", $monstre["niveau_monstre"], "monstre");

@@ -473,7 +473,7 @@ class Bral_Echoppe_Acheteraliment extends Bral_Echoppe_Echoppe {
 			$this->view->detailPrix = mb_substr($this->view->detailPrix, 0, -2);
 		}
 
-//		$details = "[h".$this->view->user->id_braldun."] a acheté le matériel n°".$this->idAliment. " dans l'échoppe";
+//		$details = "[b".$this->view->user->id_braldun."] a acheté le matériel n°".$this->idAliment. " dans l'échoppe";
 //		Zend_Loader::loadClass("Bral_Util_Aliment");
 //		Bral_Util_Aliment::insertHistorique(Bral_Util_Aliment::HISTORIQUE_ACHETER_ID, $this->idAliment, $details);
 	}

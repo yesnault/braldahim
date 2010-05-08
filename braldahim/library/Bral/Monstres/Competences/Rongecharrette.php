@@ -63,7 +63,7 @@ class Bral_Monstres_Competences_Rongecharrette extends Bral_Monstres_Competences
 		$details = "[m".$this->monstre["id_monstre"]."] ronge la [t".$idCharrette."]";
 		$detailsBot = "";
 		if ($idBraldun != null) {
-			$details .= " portée par [h".$idBraldun."]";
+			$details .= " portée par [b".$idBraldun."]";
 			$detailsBot = "Le Rat a rongé votre charrette, elle perd 1 point en durabilité."; 
 		}
 

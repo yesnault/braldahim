@@ -111,7 +111,7 @@ class Bral_Competences_Entretenir extends Bral_Competences_Competence {
 		$this->entretenir($x, $y);
 
 		$idType = $this->view->config->game->evenements->type->competence;
-		$details = "[h".$this->view->user->id_braldun."] a entretenu son champ";
+		$details = "[b".$this->view->user->id_braldun."] a entretenu son champ";
 		$this->setDetailsEvenement($details, $idType);
 		$this->setEvenementQueSurOkJet1(false);
 

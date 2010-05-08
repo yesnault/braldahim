@@ -248,7 +248,7 @@ class Bral_Soule_Inscription extends Bral_Soule_Soule {
 			$this->view->user->castars_braldun = 0;
 		}
 
-		$details = "[h".$this->view->user->id_braldun."] a pris un ticket pour aller jouer un match sur le ".$this->view->terrainCourant["nom_soule_terrain"];
+		$details = "[b".$this->view->user->id_braldun."] a pris un ticket pour aller jouer un match sur le ".$this->view->terrainCourant["nom_soule_terrain"];
 		$idType = $this->view->config->game->evenements->type->soule;
 		$this->setDetailsEvenement($details, $idType);
 	}

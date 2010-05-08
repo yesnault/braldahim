@@ -95,15 +95,15 @@ class Bral_Competences_Donnerballon extends Bral_Competences_Competence {
 		$braldunTable = new Braldun();
 		$braldunDestinataire = $braldunTable->findById($idBraldun);
 
-		$this->detailEvenement = "[h".$this->view->user->id_braldun."] a donné le ballon";
-		$this->detailEvenement .= " à [h".$braldunDestinataire->id_braldun."]";
+		$this->detailEvenement = "[b".$this->view->user->id_braldun."] a donné le ballon";
+		$this->detailEvenement .= " à [b".$braldunDestinataire->id_braldun."]";
 		$this->view->destinataire = $braldunDestinataire->prenom_braldun." ".$braldunDestinataire->nom_braldun." (".$braldunDestinataire->id_braldun.")";
 		$this->setDetailsEvenement($this->detailEvenement, $this->view->config->game->evenements->type->soule);
 		$this->idMatchSoule = $this->match["id_soule_match"];
 
 		// evenements du destinataire
 		$detailsBotDestinataire = "Vous avez reçu le ballon de soule !";
-		$detailEvenementDestinataire = "[h".$braldunDestinataire->id_braldun."] a reçu le ballon de la part de [h".$this->view->user->id_braldun."]";
+		$detailEvenementDestinataire = "[b".$braldunDestinataire->id_braldun."] a reçu le ballon de la part de [b".$this->view->user->id_braldun."]";
 		Bral_Util_Evenement::majEvenements($braldunDestinataire->id_braldun, $this->view->config->game->evenements->type->soule, $detailEvenementDestinataire, $detailsBotDestinataire, $braldunDestinataire->niveau_braldun, "braldun", true, $this->view);
 
 		$this->setEvenementQueSurOkJet1(false);

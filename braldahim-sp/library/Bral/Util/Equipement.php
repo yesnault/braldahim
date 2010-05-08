@@ -213,7 +213,7 @@ class Bral_Util_Equipement {
 				$texteDetruit .= " n&deg;".$e["id_equipement_hequipement"]." est détruit.<br>";
 				$retour["detruit"] = $texteDetruit;
 
-				$details = "[h".$idBraldun."] n'a pas réparé la pièce d'équipement n°".$e["id_equipement_hequipement"]. ". Elle est détruite.";
+				$details = "[b".$idBraldun."] n'a pas réparé la pièce d'équipement n°".$e["id_equipement_hequipement"]. ". Elle est détruite.";
 				self::insertHistorique(self::HISTORIQUE_DESTRUCTION_ID, $e["id_equipement_hequipement"], $details);
 			} else {
 				$data = array("etat_courant_equipement" => $etat);

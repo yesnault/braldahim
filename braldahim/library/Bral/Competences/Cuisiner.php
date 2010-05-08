@@ -401,12 +401,12 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		if ($this->view->typeAlimentCourant['type_bbdf_type_aliment'] == 'quintuple') {
 			$this->appliqueQuintuple();
 			$idType = $this->view->config->game->evenements->type->competence;
-			$details = "[h".$this->view->user->id_braldun."] cuisine un banquet pour tous ses confrères.";
+			$details = "[b".$this->view->user->id_braldun."] cuisine un banquet pour tous ses confrères.";
 			$this->setDetailsEvenement($details, $idType);
 		} else {
 			$this->creationAliment($idDestination, $idSource, $idPotion);
 			$idType = $this->view->config->game->evenements->type->competence;
-			$details = "[h".$this->view->user->id_braldun."] a cuisiné";
+			$details = "[b".$this->view->user->id_braldun."] a cuisiné";
 			$this->setDetailsEvenement($details, $idType);
 		}
 
@@ -653,7 +653,7 @@ class Bral_Competences_Cuisiner extends Bral_Competences_Competence {
 		foreach($bralduns as $h) {
 			$idTypeEvenement = $this->view->config->game->evenements->type->effet;
 			if ($this->view->user->id_braldun != $h["id_braldun"]) {
-				$details = "[h".$h["id_braldun"]."] s'empresse de manger une bonne assiette de pot au feu offert par [h".$this->view->user->id_braldun."]";
+				$details = "[b".$h["id_braldun"]."] s'empresse de manger une bonne assiette de pot au feu offert par [b".$this->view->user->id_braldun."]";
 				$detailsBot = "Balance de faim : +".$this->view->bbdfAliment." %";
 				Bral_Util_Evenement::majEvenements($h["id_braldun"], $idTypeEvenement, $details, $detailsBot, $h["niveau_braldun"]);
 			}

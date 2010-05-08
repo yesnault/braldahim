@@ -175,7 +175,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 		$this->view->suffixe = "";
 		$this->calculSertir($tabRunes);
 
-		$details = "[h".$this->view->user->id_braldun."] a serti la pièce d'équipement n°".$idEquipementLaban;
+		$details = "[b".$this->view->user->id_braldun."] a serti la pièce d'équipement n°".$idEquipementLaban;
 		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_SERTIR_ID, $idEquipementLaban, $details);
 
 		$this->view->nbRunes = $nb;
@@ -224,7 +224,7 @@ class Bral_Lieux_Joaillier extends Bral_Lieux_Lieu {
 			$where = "id_rune_laban_rune = ".$v["id_rune_laban_rune"];
 			$labanRunes = $labanRuneTable->delete($where);
 
-			$details = "[h".$this->view->user->id_braldun."] a serti la rune n°".$v["id_rune_laban_rune"];
+			$details = "[b".$this->view->user->id_braldun."] a serti la rune n°".$v["id_rune_laban_rune"];
 			Zend_Loader::loadClass("Bral_Util_Rune");
 			Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_SERTIR_ID, $v["id_rune_laban_rune"], $details);
 		}

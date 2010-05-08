@@ -303,7 +303,7 @@ class Bral_Echoppe_Acheterpotion extends Bral_Echoppe_Echoppe {
 			$this->view->detailPrix = mb_substr($this->view->detailPrix, 0, -2);
 		}
 
-		$details = "[h".$this->view->user->id_braldun."] a acheté ".$this->view->potion["nom_type"]." ".$this->view->potion["nom"]. " n°".$this->view->potion["id_potion"]. " dans l'échoppe";
+		$details = "[b".$this->view->user->id_braldun."] a acheté ".$this->view->potion["nom_type"]." ".$this->view->potion["nom"]. " n°".$this->view->potion["id_potion"]. " dans l'échoppe";
 		Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_ACHETER_ID, $this->view->potion["id_potion"], $details);
 
 	}

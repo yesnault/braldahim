@@ -1240,7 +1240,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$where = "id_vente=".$this->idVente;
 		$venteTable->delete($where);
 
-		$details = "[h".$this->view->user->id_braldun."] a acheté le matériel n°".$this->view->vente["objet"]["id_materiel"]. " à l'Hôtel des Ventes";
+		$details = "[b".$this->view->user->id_braldun."] a acheté le matériel n°".$this->view->vente["objet"]["id_materiel"]. " à l'Hôtel des Ventes";
 		Zend_Loader::loadClass("Bral_Util_Materiel");
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_ACHETER_ID, $this->view->vente["objet"]["id_materiel"], $details);
 	}
@@ -1278,7 +1278,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$where = "id_vente=".$this->idVente;
 		$venteTable->delete($where);
 
-		$details = "[h".$this->view->user->id_braldun."] a acheté la pièce d'équipement n°".$this->view->vente["objet"]["id_equipement"]. " à l'Hôtel des Ventes";
+		$details = "[b".$this->view->user->id_braldun."] a acheté la pièce d'équipement n°".$this->view->vente["objet"]["id_equipement"]. " à l'Hôtel des Ventes";
 		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_ACHETER_ID, $this->view->vente["objet"]["id_equipement"], $details);
 	}
 
@@ -1312,7 +1312,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$this->view->objetAchat = $this->view->vente["objet"]["nom"];
 
 		Zend_Loader::loadClass("Bral_Util_Potion");
-		$details = "[h".$this->view->user->id_braldun."] a acheté ".$this->view->vente["objet"]["nom"]. " à l'Hôtel des Ventes";
+		$details = "[b".$this->view->user->id_braldun."] a acheté ".$this->view->vente["objet"]["nom"]. " à l'Hôtel des Ventes";
 		Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_ACHETER_ID, $this->view->vente["objet"]["id_potion"], $details);
 
 		$venteTable = new Vente();
@@ -1352,7 +1352,7 @@ class Bral_Hotel_Acheter extends Bral_Hotel_Hotel {
 		$where = "id_vente=".$this->idVente;
 		$venteTable->delete($where);
 
-		$details = "[h".$this->view->user->id_braldun."] a acheté la rune n°".$this->view->vente["objet"]["id_rune"]. " à l'Hôtel des Ventes";
+		$details = "[b".$this->view->user->id_braldun."] a acheté la rune n°".$this->view->vente["objet"]["id_rune"]. " à l'Hôtel des Ventes";
 		Zend_Loader::loadClass("Bral_Util_Rune");
 		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_ACHETER_ID, $this->view->vente["objet"]["id_rune"], $details);
 	}

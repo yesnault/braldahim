@@ -135,7 +135,7 @@ class Bral_Competences_Attaquerpalissade extends Bral_Competences_Competence {
 		}
 
 		$idType = $this->view->config->game->evenements->type->attaquer;
-		$details = "[h".$this->view->user->id_braldun."] a attaqué une palissade";
+		$details = "[b".$this->view->user->id_braldun."] a attaqué une palissade";
 		$this->setDetailsEvenement($details, $idType);
 		$this->setEvenementQueSurOkJet1(false);
 		$this->calculAttaquerPalissade();

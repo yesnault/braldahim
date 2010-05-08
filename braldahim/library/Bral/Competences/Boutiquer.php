@@ -65,7 +65,7 @@ abstract class Bral_Competences_Boutiquer extends Bral_Competences_Competence {
 			throw new Zend_Exception(get_class($this)." Boutiquer interdit ");
 		}
 
-		$details = "[h".$this->view->user->id_braldun."] a boutiqué";
+		$details = "[b".$this->view->user->id_braldun."] a boutiqué";
 		$id_type = $this->view->config->game->evenements->type->competence;
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setEvenementQueSurOkJet1(false);

@@ -21,7 +21,7 @@ class Bral_Util_Lien {
 		create_function('$matches', self::getFunctionMonstre($avecJs)) , $texteOriginal);
 		
 		// Braldun
-		$texte = preg_replace_callback("/\[h(.*?)]/si", 
+		$texte = preg_replace_callback("/\[b(.*?)]/si", 
 		create_function('$matches', self::getFunctionBraldun($avecJs)), $texte);
 		
 		// Lieu

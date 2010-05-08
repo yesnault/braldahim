@@ -118,8 +118,8 @@ class Bral_Competences_Distribuerpx extends Bral_Competences_Competence {
 			$tabAffiche[] = $tab;
 
 			$id_type = $this->view->config->game->evenements->type->don;
-			$detailsD = "[h".$this->view->user->id_braldun."] a donné des PX à [h".$tab["id_braldun"]."]";
-			$detailsR = "[h".$tab["id_braldun"]."] a reçu des PX de la part de [h".$this->view->user->id_braldun."]";
+			$detailsD = "[b".$this->view->user->id_braldun."] a donné des PX à [b".$tab["id_braldun"]."]";
+			$detailsR = "[b".$tab["id_braldun"]."] a reçu des PX de la part de [b".$this->view->user->id_braldun."]";
 			
 			$detailDonneur = "Vous avez donné ".$tab["px_recu"]." PX à ".$tab["nom_braldun"]." (".$tab["id_braldun"].")";
 			$detailReceveur = "Vous avez reçu ".$tab["px_recu"]." PX de la part de ".$this->view->user->prenom_braldun ." ". $this->view->user->nom_braldun ." (".$this->view->user->id_braldun.")";

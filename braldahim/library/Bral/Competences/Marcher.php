@@ -77,7 +77,7 @@ class Bral_Competences_Marcher extends Bral_Competences_Competence {
 		$this->view->estCrevasseEvenement = Bral_Util_Crevasse::calculCrevasse($this->view->user);
 
 		$id_type = $this->view->config->game->evenements->type->deplacement;
-		$details = "[h".$this->view->user->id_braldun."] a marché";
+		$details = "[b".$this->view->user->id_braldun."] a marché";
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setEvenementQueSurOkJet1(false);
 

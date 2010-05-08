@@ -308,9 +308,9 @@ abstract class Bral_Competences_Competence {
 			}
 			if ($this->detailEvenement == null) {
 				if ($this->view->okJet1 == true) {
-					$this->detailEvenement = "[h".$this->view->user->id_braldun."] a réussi l'utilisation d'une compétence";
+					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a réussi l'utilisation d'une compétence";
 				} elseif ($this->view->okJet1 == false) {
-					$this->detailEvenement = "[h".$this->view->user->id_braldun."] a raté l'utilisation d'une compétence";
+					$this->detailEvenement = "[b".$this->view->user->id_braldun."] a raté l'utilisation d'une compétence";
 				}
 			}
 			if ($this->view->okJet1 === true || $this->evenementQueSurOkJet1 == false) {

@@ -78,7 +78,7 @@ class Bral_Util_Titre {
 		$config = Zend_Registry::get('config');
 
 		$idType = $config->game->evenements->type->special;
-		$details = "[h".$braldun->id_braldun."] a reçu un titre. ";
+		$details = "[b".$braldun->id_braldun."] a reçu un titre. ";
 
 		if ($braldun->sexe_braldun == "feminin") {
 			$details .= "Elle est maintenant ";

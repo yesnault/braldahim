@@ -186,7 +186,7 @@ class Bral_Batchs_Soule extends Bral_Batchs_Batch {
 		$souleEquipe->update($data, $where);
 
 		$idType = $this->config->game->evenements->type->soule;
-		$details = "La roulotte a pris [h".$joueur["id_braldun"]."] pour aller jouer un match sur le ".$match["nom_soule_terrain"];
+		$details = "La roulotte a pris [b".$joueur["id_braldun"]."] pour aller jouer un match sur le ".$match["nom_soule_terrain"];
 		$detailsBot = "Vous êtes arrivés sur le ".$match["nom_soule_terrain"] ." en ".$x.",".$y. PHP_EOL."Le nom de votre équipe est : ";
 		if ($joueur["camp_soule_equipe"] == "a") {
 			$detailsBot .= $match["nom_equipea_soule_match"];

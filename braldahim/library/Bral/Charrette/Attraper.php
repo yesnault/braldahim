@@ -138,10 +138,10 @@ class Bral_Charrette_Attraper extends Bral_Charrette_Charrette {
 		$this->calculBalanceFaim();
 
 		$id_type = $this->view->config->game->evenements->type->ramasser;
-		$details = "[h".$this->view->user->id_braldun."] a attrapé une charrette";
+		$details = "[b".$this->view->user->id_braldun."] a attrapé une charrette";
 		$this->setDetailsEvenement($details, $id_type);
 
-		$details = "[h".$this->view->user->id_braldun."] a attrapé la charrette n°".$charrette["id_charrette"];
+		$details = "[b".$this->view->user->id_braldun."] a attrapé la charrette n°".$charrette["id_charrette"];
 		Zend_Loader::loadClass("Bral_Util_Materiel");
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_UTILISER_ID, $charrette["id_charrette"], $details);
 	}

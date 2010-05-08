@@ -131,8 +131,8 @@ class Bral_Competences_Distribuercastars extends Bral_Competences_Competence {
 			$tabAffiche[] = $tab;
 
 			$id_type = $this->view->config->game->evenements->type->don;
-			$detailsD = "[h".$this->view->user->id_braldun."] a donné des castars à [h".$tab["id_braldun"]."]";
-			$detailsR = "[h".$tab["id_braldun"]."] a reçu des castars de la part de [h".$this->view->user->id_braldun."]";
+			$detailsD = "[b".$this->view->user->id_braldun."] a donné des castars à [b".$tab["id_braldun"]."]";
+			$detailsR = "[b".$tab["id_braldun"]."] a reçu des castars de la part de [b".$this->view->user->id_braldun."]";
 				
 			$s = "";
 			if ($tab["castars_recus"] > 1) $s = "s";

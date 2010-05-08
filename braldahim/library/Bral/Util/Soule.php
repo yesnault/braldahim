@@ -202,11 +202,11 @@ class Bral_Util_Soule {
 		$config = Zend_Registry::get('config');
 		$idType = $config->game->evenements->type->soule;
 
-		$details = "[h".$idBraldunFin."] a marqué";
+		$details = "[b".$idBraldunFin."] a marqué";
 		if ($idBraldunFin == $braldun["id_braldun"]) {
 			$details .=  " et ";
 		} else {
-			$details .= ", [h".$braldun["id_braldun"]."] ";
+			$details .= ", [b".$braldun["id_braldun"]."] ";
 		}
 		$details .= " a terminé au rang n°".$rang;
 			
@@ -217,7 +217,7 @@ class Bral_Util_Soule {
 		}
 
 		if ($idBraldunFin != $braldun["id_braldun"]) {
-			$detailsBot = Bral_Util_Lien::remplaceBaliseParNomEtJs("[h".$idBraldunFin."]", false);
+			$detailsBot = Bral_Util_Lien::remplaceBaliseParNomEtJs("[b".$idBraldunFin."]", false);
 			$detailsBot .= " a";
 		} else {
 			$detailsBot = " Vous avez";

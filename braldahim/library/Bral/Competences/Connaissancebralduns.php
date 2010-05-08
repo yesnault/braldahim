@@ -204,7 +204,7 @@ class Bral_Competences_Connaissancebralduns extends Bral_Competences_Competence 
 		$this->view->tabCDM = $tabCDM;
 		
 		$id_type = $this->view->config->game->evenements->type->competence;
-		$details = "[h".$this->view->user->id_braldun."] a réussi l'utilisation d'une compétence sur [h".$braldun["id_braldun"]."]";
+		$details = "[b".$this->view->user->id_braldun."] a réussi l'utilisation d'une compétence sur [b".$braldun["id_braldun"]."]";
 		$this->setDetailsEvenement($details, $id_type);
 		$this->setDetailsEvenementCible($braldun["id_braldun"], "braldun", $braldun["niveau_braldun"]);
 		

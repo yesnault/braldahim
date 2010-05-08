@@ -526,7 +526,7 @@ class Bral_Competences_Elaborer extends Bral_Competences_Competence {
 			} else {
 				$type = "le vernis";
 			}
-			$details = "[h".$this->view->user->id_braldun."] a élaboré ".$type. " n°".$dataPotionLaban['id_echoppe_potion'];
+			$details = "[b".$this->view->user->id_braldun."] a élaboré ".$type. " n°".$dataPotionLaban['id_echoppe_potion'];
 			Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_CREATION_ID, $dataPotionLaban['id_echoppe_potion'], $details);
 		}
 

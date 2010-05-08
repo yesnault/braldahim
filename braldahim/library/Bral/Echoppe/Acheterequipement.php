@@ -507,7 +507,7 @@ class Bral_Echoppe_Acheterequipement extends Bral_Echoppe_Echoppe {
 			$this->view->detailPrix = mb_substr($this->view->detailPrix, 0, -2);
 		}
 
-		$details = "[h".$this->view->user->id_braldun."] a acheté la pièce d'équipement n°".$this->view->equipement["id_equipement"]. " dans l'échoppe";
+		$details = "[b".$this->view->user->id_braldun."] a acheté la pièce d'équipement n°".$this->view->equipement["id_equipement"]. " dans l'échoppe";
 		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_ACHETER_ID, $this->view->equipement["id_equipement"], $details);
 	}
 

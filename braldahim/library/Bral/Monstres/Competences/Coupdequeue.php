@@ -67,7 +67,7 @@ class Bral_Monstres_Competences_Coupdequeue extends Bral_Monstres_Competences_At
 	private function majEvenement($braldun, $malus, $pvEnMoins, $jetMonstre, $jetBraldun) {
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - enter");
 		$idTypeEvenement = self::$config->game->evenements->type->attaquer;
-		$details = "[m".$this->monstre["id_monstre"]."] a donné un coup de queue sur le braldun [h".$braldun["id_braldun"]."]";
+		$details = "[m".$this->monstre["id_monstre"]."] a donné un coup de queue sur le Braldûn [b".$braldun["id_braldun"]."]";
 		$detailsBot = $this->getDetailsBot($malus, $pvEnMoins, $jetMonstre, $jetBraldun);
 		Bral_Util_Evenement::majEvenementsFromVieMonstre($braldun["id_braldun"], $this->monstre["id_monstre"], $idTypeEvenement, $details, $detailsBot, $braldun["niveau_braldun"], $this->view);
 		Bral_Util_Log::viemonstres()->trace(get_class($this)."  - majEvenement - exit");

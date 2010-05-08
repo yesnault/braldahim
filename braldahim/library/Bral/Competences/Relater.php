@@ -53,7 +53,7 @@ class Bral_Competences_Relater extends Bral_Competences_Competence {
 			$idVerbe = (int)$this->request->get("valeur_1");
 
 			if (array_key_exists($idVerbe, $verbes)) {
-				$this->view->texte_transforme = "[h".$this->view->user->id_braldun."] ".$verbes[$idVerbe]." : \"".$this->texte_original."\"";
+				$this->view->texte_transforme = "[b".$this->view->user->id_braldun."] ".$verbes[$idVerbe]." : \"".$this->texte_original."\"";
 			}
 		}
 		$this->view->idVerbe = $idVerbe;

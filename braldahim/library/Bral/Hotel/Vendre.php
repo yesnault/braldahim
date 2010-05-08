@@ -479,7 +479,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 
 		$this->view->objetVente = $equipement["nom"]. " n°".$equipement["id_equipement"]. " de qualité ".$equipement["qualite"];
 
-		$details = "[h".$this->view->user->id_braldun."] a mis en vente la pièce d'équipement n°".$equipement["id_equipement"]. " à l'Hôtel des Ventes";
+		$details = "[b".$this->view->user->id_braldun."] a mis en vente la pièce d'équipement n°".$equipement["id_equipement"]. " à l'Hôtel des Ventes";
 		Bral_Util_Equipement::insertHistorique(Bral_Util_Equipement::HISTORIQUE_VENDRE_ID, $equipement["id_equipement"], $details);
 
 	}
@@ -561,7 +561,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 		$this->view->objetVente = $potion["nom_type"]. " ".$potion["nom"]. " n°".$potion["id_potion"]. " de qualité ".$potion["qualite"];
 
 		Zend_Loader::loadClass("Bral_Util_Potion");
-		$details = "[h".$this->view->user->id_braldun."] a mis en vente ".$potion["nom_type"]. " ".$potion["nom"]. " n°".$potion["id_potion"]. " à l'Hôtel des Ventes";
+		$details = "[b".$this->view->user->id_braldun."] a mis en vente ".$potion["nom_type"]. " ".$potion["nom"]. " n°".$potion["id_potion"]. " à l'Hôtel des Ventes";
 		Bral_Util_Potion::insertHistorique(Bral_Util_Potion::HISTORIQUE_VENDRE_ID, $potion["id_potion"], $details);
 
 	}
@@ -631,7 +631,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 
 		$this->view->objetVente = " la rune n°".$rune["id_rune"];
 
-		$details = "[h".$this->view->user->id_braldun."] a mis en vente la rune n°".$rune["id_rune"]. " à l'Hôtel des Ventes";
+		$details = "[b".$this->view->user->id_braldun."] a mis en vente la rune n°".$rune["id_rune"]. " à l'Hôtel des Ventes";
 		Zend_Loader::loadClass("Bral_Util_Rune");
 		Bral_Util_Rune::insertHistorique(Bral_Util_Rune::HISTORIQUE_VENDRE_ID, $rune["id_rune"], $details);
 	}
@@ -1004,7 +1004,7 @@ class Bral_Hotel_Vendre extends Bral_Hotel_Hotel {
 
 		$this->view->objetVente = " le matériel n°".$materiel["id_materiel"]. " ".$materiel["nom"];
 
-		$details = "[h".$this->view->user->id_braldun."] a mis en vente le matériel n°".$materiel["id_materiel"]. " à l'Hôtel des Ventes";
+		$details = "[b".$this->view->user->id_braldun."] a mis en vente le matériel n°".$materiel["id_materiel"]. " à l'Hôtel des Ventes";
 		Zend_Loader::loadClass("Bral_Util_Materiel");
 		Bral_Util_Materiel::insertHistorique(Bral_Util_Materiel::HISTORIQUE_VENDRE_ID, $materiel["id_materiel"], $details);
 	}
