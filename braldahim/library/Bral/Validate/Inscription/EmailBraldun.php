@@ -50,7 +50,7 @@ class Bral_Validate_Inscription_EmailBraldun implements Zend_Validate_Interface 
 		if ($valid) {
 			Zend_Loader::loadClass("Jetable");
 			$jetableTable = new Jetable();
-			preg_match('@^[^.]+\@([^/]+)\.[^.]+$@i', $valeur, $matches);
+			preg_match('@^.*\@([^/]+)\..*$@i', $valeur, $matches);
 			$nomDomaine = $matches[1].'%';
 			$nb = $jetableTable->countByNom($nomDomaine);
 			if ($nb > 0) {
