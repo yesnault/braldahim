@@ -4,7 +4,7 @@
 <div class="inner">
 
 <? if ($this->connu == false) : ?>
-	<ul class="titre textalic textsizea">Braldun Inconnu</ul>
+	<ul class="titre textalic textsizea">Braldûn Inconnu</ul>
 <? else : ?>
     <ul class="titre textalic textsizea"><?=$this->braldun["prenom_braldun"] ?> <?=$this->braldun["nom_braldun"] ?><? 
     if ($this->ancien === false && $this->braldun["titre_courant_braldun"] != null) : ?>, 
@@ -12,12 +12,12 @@
     <? endif;?>
      </ul>
      <ul class="titre textalic textsized">
-      Braldun n&deg;<?=$this->braldun["id_braldun"] ?>
+      Braldûn n&deg;<?=$this->braldun["id_braldun"] ?>
      </ul>
      
     <? if ($this->ancien) : ?>
 	    <ul class="titre textalic textsized">
-	    Ce braldun a disparu, il n'est plus joué.
+	    Ce Braldûn a disparu, il n'est plus joué.
 	    </ul>
     <? endif;?>
 	&nbsp;
