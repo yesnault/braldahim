@@ -188,10 +188,10 @@ class Bral_Batchs_CreationBosquets extends Bral_Batchs_Batch {
 		$retour = "bosquet(".$idTypeBosquet.") idzone(".$zone['id_zone'].") aCreer(".$aCreer."). ";
 
 		for($i = 1; $i <= $aCreer; $i++) {
+			usleep(Bral_Util_De::get_de_specifique(50, 10000));
 			$x = Bral_Util_De::get_de_specifique($zone["x_min_zone"], $zone["x_max_zone"]);
+			usleep(Bral_Util_De::get_de_specifique(100, 10000));
 			$y = Bral_Util_De::get_de_specifique($zone["y_min_zone"], $zone["y_max_zone"]);
-
-			usleep(Bral_Util_De::get_de_specifique(1, 1000000));
 
 			$nbCasesAutour = Bral_Util_De::get_de_specifique(2, 9);
 			for($j=0; $j<=$nbCasesAutour; $j++) {

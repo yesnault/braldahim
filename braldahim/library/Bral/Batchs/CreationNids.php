@@ -16,7 +16,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 	const NB_MONSTRES_PAR_NID_MIN = 5;
 	const NB_MONSTRES_PAR_NID_MAX = 12;
 
-	const USLEEP_DELTA = 1000000;
+	const USLEEP_DELTA = 10000;
 
 	public function calculBatchImpl() {
 		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - calculBatchImpl - enter -");
@@ -186,7 +186,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 	}
 
 	private function creationNidsParTypeMonstre($zone, $idTypeMonstre, $nbMonstreACreer, $xMin, $xMax, $yMin, $yMax) {
-		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - creationNidsParTypeMonstre - enter - idz:".$zone["id_zone_nid"] . " idTypeMonstre:".$idTypeMonstre);
+		Bral_Util_Log::batchs()->trace("Bral_Batchs_CreationNids - creationNidsParTypeMonstre - enter - idz:".$zone["id_zone_nid"] . " idTypeMonstre:".$idTypeMonstre. "xmin:$xMin , xmax:$xMax , ymin:$yMin , ymax:$yMax ");
 		$retour = "";
 
 		$nidTable = new Nid();
@@ -203,10 +203,14 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 			$nbMonstres = Bral_Util_De::get_de_specifique(self::NB_MONSTRES_PAR_NID_MIN, self::NB_MONSTRES_PAR_NID_MAX);
 			$nbJours = Bral_Util_De::get_de_specifique(0, 4);
 
-			usleep(Bral_Util_De::get_de_specifique(1, self::USLEEP_DELTA));
+			usleep(Bral_Util_De::get_de_specifique(50, self::USLEEP_DELTA));
 			$x =  Bral_Util_De::get_de_specifique($xMin, $xMax);
+			
+			if ($x > $xMax || $x < $xMin) {
+				echo "ERREUR idz:".$zone["id_zone_nid"]." x:$x xmin:$xMin xmax:$xMax";
+			}
 
-			usleep(Bral_Util_De::get_de_specifique(1, self::USLEEP_DELTA));
+			usleep(Bral_Util_De::get_de_specifique(100, self::USLEEP_DELTA));
 			$y =  Bral_Util_De::get_de_specifique($yMin, $yMax);
 				
 			if ($x <= $config->game->x_min) {
@@ -396,6 +400,10 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 
 			$rayonMin = $niveauMaxMonstre * 3; // le nid, avec un niveau gigantesque à 5, sera généré au minimum à 15 cases du centre de la ville
 			$rayonMax = $rayonMin + 20; // et donc à 35 cases du centre de la ville au maximum
+			
+			if ($rayonMax > 100) {
+				$rayonMax = 99;
+			}
 
 			for($nbMonstres = self::NB_MONSTRES_PAR_NID_MOYENNE; $nbMonstres <= $nbMonstreACreer; $nbMonstres = $nbMonstres + self::NB_MONSTRES_PAR_NID_MOYENNE) {
 				$this->calculCreationNidsVilleZone($zone, $typeMonstreCreationNid["id_fk_type_monstre_creation_nid"], $xCentreVille, $yCentreVille, $rayonMin, $rayonMax, $niveauMaxMonstre, self::NB_MONSTRES_PAR_NID_MOYENNE);
@@ -423,7 +431,7 @@ class Bral_Batchs_CreationNids extends Bral_Batchs_Batch {
 			$xMin = $xMin + Bral_Util_De::get_de_specifique(1, 5);
 		}
 
-		if ($xMax > $zone["x_min_zone_nid"]) {
+		if ($xMax > $zone["x_max_zone_nid"]) {
 			$xMax = $xMax - Bral_Util_De::get_de_specifique(1, 5);
 		}
 

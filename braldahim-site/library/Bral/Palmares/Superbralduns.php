@@ -13,7 +13,7 @@
 class Bral_Palmares_Superbralduns extends Bral_Palmares_Box {
 
 	function getTitreOnglet() {
-		return "Super Bralduns";
+		return "Super Braldûns";
 	}
 	
 	function getNomInterne() {

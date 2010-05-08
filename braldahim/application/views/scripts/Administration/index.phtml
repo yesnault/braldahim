@@ -12,7 +12,7 @@
 	    <span class="titre textalia textsizec">Administration Carte</span>
 	    <br />
 	    <a href='/Administrationcarte/carte?zones=1'>Carte des zones</a> -  
-	    <a href='/Administrationcarte/carte?bralduns=1'>Carte des bralduns</a> -
+	    <a href='/Administrationcarte/carte?bralduns=1'>Carte des Braldûns</a> -
 	    <a href='/Administrationcarte/carte?eaux=1'>Carte des eaux</a> - 
 	    <a href='/Administrationcarte/carte?routes=1'>Carte des routes</a> - 
 	    <a href='/Administrationcarte/carte?lieuxmythiques=1'>Carte des lieux mythiques</a> -  
@@ -70,14 +70,14 @@
 	   
 	    <br /> <br /> 
 	    
-	    <span class="titre textalia textsizec">Administration Braldun</span>
+	    <span class="titre textalia textsizec">Administration Braldûn</span>
 	    <br />
 	    <input type="text" name="recherche_valeur_2_voir" size='40' id="recherche_valeur_2_voir" value="Recherche Braldun - Entrez un nom" onFocus='this.value=""; activerRechercheAdminBraldun("valeur_2_voir");' />
 		<input type="hidden" name="recherche_valeur_2_voir_actif" id="recherche_valeur_2_voir_actif" value="0" />
 		<div class="recherche" id="recherche_valeur_2_voir_update" ></div> <img src="/public/images/loupe.gif" />
 		<span id="indicateur_recherche_valeur_2_voir" style="display: none"><img src="/public/images/wait.gif" alt="Recherche..." /></span>
 		<br>
-	    Braldun Id <input type='text' name='id_braldun' id='id_braldun' value='' size='5'> 
+	    Braldûn Id <input type='text' name='id_braldun' id='id_braldun' value='' size='5'> 
 	    <input type='button' name='goFiche' value='Ouvrir Fiche' class='button1'  onClick='document.location.href="/Administrationbraldun/braldun/mode/simple/idbraldun/"+$("id_braldun").value;'> 
 	    <input type='button' name='goProfil' value='Ouvrir Profil Public' class='button1'  onclick='javascript:ouvrirWin("/voir/braldun/?braldun="+$("id_braldun").value);'> 
 	    

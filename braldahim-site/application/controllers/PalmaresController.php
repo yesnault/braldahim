@@ -179,7 +179,7 @@ class PalmaresController extends Bral_Controller_Box {
 		$selection[] = array("nom" => "KO", "url" => "ko");
 		$selection[] = array("nom" => "Expérience", "url" => "experience");
 		$selection[] = array("nom" => "Monstres", "url" => "monstres");
-		$selection[] = array("nom" => "Super Bralduns", "url" => "superbralduns");
+		$selection[] = array("nom" => "Super Braldûns", "url" => "superbralduns");
 		$this->view->selection = $selection;
 		
 		$selectionRecolteurs = null;

@@ -1244,15 +1244,17 @@ td.cases.actuelle {
 	position:relative;
 }
 #header h1 {
-	background:transparent url(/public/styles/braldahim_defaut/images/layout/logo.png) no-repeat scroll 0 0;
+	background:transparent url(/public/styles/braldahim_defaut/images/layout/braldahim1.png) no-repeat scroll 0 0;
 	font-size:1px;
 	font-weight:normal;
-	height:60px;
+	height:57px;
 	margin:0;
 	padding:0;
 	text-indent:-999em;
-	width:280px;
+	width:260px;
 	position:absolute;
+	z-index: 999;
+	margin-top:-4px;
 }
 
 #braldunjeu {

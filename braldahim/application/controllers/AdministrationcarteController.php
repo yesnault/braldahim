@@ -94,6 +94,14 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$parametres .= "&bosquets=1";
 		}
 
+		if (intval($this->_request->get("buissons")) == 1) {
+			$parametres .= "&buissons=1";
+		}
+
+		if (intval($this->_request->get("palissades")) == 1) {
+			$parametres .= "&palissades=1";
+		}
+
 		if (intval($this->_request->get("lieuxmythiques")) == 1) {
 			$parametres .= "&lieuxmythiques=1";
 		}
@@ -162,6 +170,14 @@ class AdministrationcarteController extends Zend_Controller_Action {
 
 		if (intval($this->_request->get("bosquets")) == 1) {
 			$this->dessineBosquets(&$image);
+		}
+
+		if (intval($this->_request->get("buissons")) == 1) {
+			$this->dessineBuissons(&$image);
+		}
+
+		if (intval($this->_request->get("palissades")) == 1) {
+			$this->dessinePalissades(&$image);
 		}
 
 		if (intval($this->_request->get("lieuxmythiques")) == 1) {
@@ -266,8 +282,28 @@ class AdministrationcarteController extends Zend_Controller_Action {
 
 			$texte = $this->getTexteEnvironnement($z["id_fk_environnement_zone"]);
 
-			ImageRectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->gris2);
-			ImageString($image, 1, $x_deb_map , $y_deb_map, $z["id_zone"]."Z".$z["id_zone"]. " ".$z["x_min_zone"]."/".$z["y_max_zone"]. " ".$texte, $this->gris2);
+			switch($z["id_fk_environnement_zone"]) {
+				case 1 : // plaine
+					imagefilledrectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->vert_2);
+					break;
+				case 3 : // marais
+					imagefilledrectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->bleu_2);
+					break;
+				case 4 : // montagne
+					imagefilledrectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->rouge_2);
+					break;
+				case 5 : // gazon
+					imagefilledrectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->vert_3);
+					break;
+				case 6 : // caverne
+					imagefilledrectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->gris2);
+					break;
+				default:
+					imagefilledrectangle($image, $x_deb_map, $y_deb_map, $x_fin_map, $y_fin_map, $this->rouge_0);
+					break;
+			}
+				
+			ImageString($image, 1, $x_deb_map , $y_deb_map, $z["id_zone"]."Z".$z["id_zone"]. " ".$z["x_min_zone"]."/".$z["y_max_zone"]. " ".$texte, $this->noir);
 		}
 	}
 
@@ -307,11 +343,11 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			case 4 : // montagne
 				$retour = "montagne";
 				break;
-			case 5 : // caverne
-				$retour = "caverne";
-				break;
-			case 6 : // gazon
+			case 5 : // gazon
 				$retour = "gazon";
+				break;
+			case 6 : // caverne
+				$retour = "caverne";
 				break;
 			default:
 				$retour = "erreur";
@@ -423,6 +459,36 @@ class AdministrationcarteController extends Zend_Controller_Action {
 			$nbBosquets++;
 		}
 		ImageString($image, 1, $this->distanceD + 420, $this->distanceD + $this->tailleY + 20, $nbBosquets." Bosquets", $this->gris2);
+	}
+
+	private function dessineBuissons(&$image) {
+		Zend_Loader::loadClass('Buisson');
+		$buissonsTable = new Buisson();
+		$buissons = $buissonsTable->fetchall();
+
+		$nbBuissons = 0;
+		foreach ($buissons as $f) {
+			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $f["x_buisson"]) / $this->coefTaille;
+			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $f["y_buisson"]) / $this->coefTaille;
+			ImageFilledEllipse($image, $x, $y, 2, 2, $this->gris2);
+			$nbBuissons++;
+		}
+		ImageString($image, 1, $this->distanceD + 420, $this->distanceD + $this->tailleY + 20, $nbBuissons." Buissons", $this->gris2);
+	}
+
+	private function dessinePalissades(&$image) {
+		Zend_Loader::loadClass('Palissade');
+		$palissadesTable = new Palissade();
+		$palissades = $palissadesTable->fetchall();
+
+		$nbPalissades = 0;
+		foreach ($palissades as $f) {
+			$x =  $this->distanceD + ($this->tailleX * $this->coefTaille / 2 + $f["x_palissade"]) / $this->coefTaille;
+			$y =  $this->distanceD + ($this->tailleY * $this->coefTaille / 2 - $f["y_palissade"]) / $this->coefTaille;
+			ImageFilledEllipse($image, $x, $y, 2, 2, $this->gris2);
+			$nbPalissades++;
+		}
+		ImageString($image, 1, $this->distanceD + 420, $this->distanceD + $this->tailleY + 20, $nbPalissades." Palissades", $this->gris2);
 	}
 
 	private function dessineBralduns(&$image) {
